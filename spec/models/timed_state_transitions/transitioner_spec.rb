@@ -23,17 +23,24 @@ module TimedTransitions
 
     describe '.candidate_claim_ids' do
       it 'returns a list of ids in the target states' do
-        draft_claim = create :advocate_claim
-        create :submitted_claim
-        create :allocated_claim
-        authorised_claim = create :authorised_claim
-        archived_claim = create :archived_pending_delete_claim
-        create :redetermination_claim
-        part_authorised_claim = create :part_authorised_claim
-        refused_claim = create :refused_claim
-        rejected_claim = create :rejected_claim
-        expected_ids = [ draft_claim.id, authorised_claim.id, archived_claim.id, part_authorised_claim.id, refused_claim.id, rejected_claim.id ].sort
+        draft_claim = authorised_claim = archived_claim = part_authorised_claim = refused_claim = rejected_claim = nil
 
+        Timecop.freeze(18.weeks.ago) do
+          draft_claim = create :advocate_claim
+          create :submitted_claim
+          create :allocated_claim
+          authorised_claim = create :authorised_claim
+          archived_claim = create :archived_pending_delete_claim
+          create :redetermination_claim
+          part_authorised_claim = create :part_authorised_claim
+          refused_claim = create :refused_claim
+          rejected_claim = create :rejected_claim
+        end
+
+        # This claim will not meet the time scope
+        create :advocate_claim
+
+        expected_ids = [ draft_claim.id, authorised_claim.id, archived_claim.id, part_authorised_claim.id, refused_claim.id, rejected_claim.id ].sort
         expect(Transitioner.candidate_claims_ids.sort).to eq expected_ids
       end
     end

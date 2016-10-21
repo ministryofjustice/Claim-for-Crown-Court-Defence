@@ -7,7 +7,7 @@ module API
         namespace :case_workers do
           params do
             optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the user'
-            optional :status, type: String, values: %w(allocated archived), default: 'allocated', desc: 'REQUIRED: Returns allocated claims or archived claims'
+            optional :status, type: String, values: %w(current allocated unallocated archived), default: 'current', desc: 'REQUIRED: Only returns claims in the specified status'
             use :searching
             use :sorting
             use :pagination
@@ -24,7 +24,7 @@ module API
               params.search.to_s.strip
             end
 
-            def allocated_claims
+            def current_claims
               current_user.claims.caseworker_dashboard_under_assessment.search(
                   search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options)
             end
@@ -34,8 +34,26 @@ module API
                   search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES, *search_options)
             end
 
+            def allocated_claims
+              ::Claim::BaseClaim.active.caseworker_dashboard_under_assessment.search(
+                  search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options)
+            end
+
+            def unallocated_claims
+              ::Claim::BaseClaim.active.submitted_or_redetermination_or_awaiting_written_reasons
+            end
+
             def claims_scope
-              params.status == 'allocated' ? allocated_claims : archived_claims
+              case params.status
+              when 'current'
+                current_claims
+              when 'allocated'
+                allocated_claims
+              when 'unallocated'
+                unallocated_claims
+              when 'archived'
+                archived_claims
+              end
             end
 
             def claims
@@ -43,8 +61,8 @@ module API
             end
           end
 
-          resource :claims, desc: 'Operations on allocated claims' do
-            desc 'Retrieve list of allocated or archived claims'
+          resource :claims do
+            desc 'Retrieve list of allocated, unallocated or archived claims'
             get do
               present claims, with: API::Entities::PaginatedCollection, user: current_user
             end

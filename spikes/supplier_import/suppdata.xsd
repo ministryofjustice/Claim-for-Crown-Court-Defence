@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  PLACEHOLDER ATTRIBUTES FOR NAMESPACE - CHANGE -->
+<xs:schema
+        elementFormDefault="qualified"
+        attributeFormDefault="qualified"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!--  ***************************** -->
+    <!--  ***    maat_reporders     *** -->
+    <!--  ***************************** -->
+    <xs:complexType name="cboSuppliers">
+        <xs:sequence>
+            <xs:element name="accCode" type="xs:string" nillable="false"/>
+            <xs:element name="accName" type="xs:string" nillable="false"/>
+            <xs:element name="dateCreated" type="xs:dateTime" nillable="false"/>
+            <xs:element name="userCreated" type="xs:string" nillable="false"/>
+            <xs:element name="dateModified" type="xs:dateTime" nillable="true"/>
+            <xs:element name="userModified" type="xs:string" nillable="true"/>
+            <xs:element name="regiRegion" type="xs:string" nillable="true"/>
+            <xs:element name="parent" type="xs:string" nillable="true"/>
+            <xs:element name="sutySuppType" type="xs:string" nillable="false"/>
+            <xs:element name="vatRegistered" type="xs:string" nillable="true"/>
+            <xs:element name="extAccRef" type="xs:string" nillable="true"/>
+            <xs:element name="address1" type="xs:string" nillable="true"/>
+            <xs:element name="address2" type="xs:string" nillable="true"/>
+            <xs:element name="address3" type="xs:string" nillable="true"/>
+            <xs:element name="address4" type="xs:string" nillable="true"/>
+            <xs:element name="county" type="xs:string" nillable="true"/>
+            <xs:element name="postCode" type="xs:string" nillable="true"/>
+            <xs:element name="country" type="xs:string" nillable="true"/>
+            <xs:element name="highRisk" type="xs:string" nillable="true"/>
+            <xs:element name="pstyHighLevel" type="xs:string" nillable="true"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!--  ********************* -->
+    <!--  ***   Fault       *** -->
+    <!--  ********************* -->
+
+    <!--  Soap fault - error message container -->
+    <xs:complexType name="cboSuppFaultException">
+        <xs:sequence>
+            <xs:element name="MessageCode" nillable="false" type="xs:string"/>
+            <xs:element name="MessageText" nillable="false" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

@@ -340,33 +340,6 @@ ActiveRecord::Schema.define(version: 20160930085910) do
   add_index "fees", ["claim_id"], name: "index_fees_on_claim_id", using: :btree
   add_index "fees", ["fee_type_id"], name: "index_fees_on_fee_type_id", using: :btree
 
-  create_table "laa_imported_suppliers", force: :cascade do |t|
-    t.string   "accCode",      null: false
-    t.string   "accName",      null: false
-    t.datetime "dateCreated"
-    t.string   "userCreated"
-    t.datetime "dateModified"
-    t.string   "userModified"
-    t.string   "regiRegion"
-    t.string   "parent"
-    t.string   "sutySuppType"
-    t.string   "vatReg"
-    t.string   "extAcRef"
-    t.string   "address1"
-    t.string   "address2"
-    t.string   "address3"
-    t.string   "address4"
-    t.string   "county"
-    t.string   "postCode"
-    t.string   "country"
-    t.string   "highRisk"
-    t.string   "pstyHigh"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "laa_imported_suppliers", ["accCode"], name: "index_laa_imported_suppliers_on_accCode", using: :btree
-
   create_table "locations", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"

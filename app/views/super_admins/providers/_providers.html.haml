@@ -2,7 +2,7 @@
   %p
     No providers found
 - else
-  %table.providers_table
+  %table.providers_table.report
     %thead
       %th
         = t('.provider_name')
@@ -17,13 +17,13 @@
     %tbody
       - providers.each do |provider|
         %tr{id: dom_id(provider) }
-          %td
+          %td{'aria-label' => t('.provider_name')}
             = link_to provider.name, super_admins_provider_path(provider)
-          %td
+          %td{'aria-label' => t('.provider_type')}
             = provider.provider_type.humanize
-          %td
+          %td{'aria-label' => t('.fee_schemes')}
             = provider.roles.map(&:upcase) * ', '
-          %td
+          %td{'aria-label' => t('.vat_registered')}
             = provider.vat_registered == true ? 'Yes' : 'No'
-          %td
+          %td{'aria-label' => 'Users'}
             = link_to "Manage users in provider", super_admins_provider_external_users_path(provider)

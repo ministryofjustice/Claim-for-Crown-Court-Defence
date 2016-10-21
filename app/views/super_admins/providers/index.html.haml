@@ -1,10 +1,6 @@
-.grid-row
-  .column-two-thirds
-    = render partial: 'layouts/header', locals: {page_heading: 'Manage providers'}
+= render partial: 'layouts/header', locals: {page_heading: 'Manage providers'}
 
-    %h2 #{pluralize(@providers.count, 'provider')}
-  .column-third
-    = link_to t('.add_a_provider'), new_super_admins_provider_path, class: 'button button-start', role:'button'
+%p
+  = link_to t('.add_a_provider'), new_super_admins_provider_path, class: 'button', role:'button'
 
-#provider-details
-  = render partial: 'providers', locals: { providers: @providers }
+= render partial: 'providers', locals: { providers: @providers }

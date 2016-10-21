@@ -1,6 +1,5 @@
-.grid-row.supplier-number-group
-  .column-one-half
-    %a{id: "supplier_number_#{@sn_index}_supplier_number"}
-    = f.text_field :supplier_number, class: 'form-control'
-    = validation_error_message(@provider, "supplier_number_#{@sn_index}")
-    = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group' }
+.form-group.supplier-number-group
+  = f.label :supplier_number, class: 'form-label'
+  = f.text_field :supplier_number, class: 'form-control'
+
+  = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group' }

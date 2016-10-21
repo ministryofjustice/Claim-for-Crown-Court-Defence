@@ -28,7 +28,7 @@ RSpec.describe Provider, type: :model do
 
   it { should validate_presence_of(:provider_type) }
   it { should validate_presence_of(:name) }
-  it { should validate_uniqueness_of(:name) }
+  it { should validate_uniqueness_of(:name).with_message(:not_unique) }
 
   it { should delegate_method(:advocates).to(:external_users) }
   it { should delegate_method(:admins).to(:external_users) }
@@ -47,7 +47,7 @@ RSpec.describe Provider, type: :model do
 
     it { should_not validate_presence_of(:firm_agfs_supplier_number) }
     it { should_not validate_uniqueness_of(:firm_agfs_supplier_number) }
-    it { should validate_absence_of(:firm_agfs_supplier_number) }
+    it { should validate_absence_of(:firm_agfs_supplier_number).with_message(:absent) }
   end
 
   context 'ROLES' do
@@ -221,7 +221,7 @@ RSpec.describe Provider, type: :model do
     it 'returns error if supplier numbers is blank' do
       allow(firm).to receive(:lgfs_supplier_numbers).and_return([])
       expect(firm).to_not be_valid
-      expect(firm.errors[:base]).to eq(["LGFS supplier numbers can't be blank"])
+      expect(firm.errors[:base]).to eq(["You must specify at least one LGFS supplier number"])
     end
   end
 end

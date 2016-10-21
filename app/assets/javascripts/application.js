@@ -11,15 +11,22 @@
 //= require modules/moj.cookie-message.js
 //= require jquery-accessible-accordion-aria.js
 //= require typeahead-aria.js
+//= require jquery.jq-element-revealer.js
 //= require_tree ./modules
 
-(function () {
+(function() {
   'use strict';
   delete moj.Modules.devs;
 
-  jQuery.fn.exists = function() { return this.length > 0; };
+  jQuery.fn.exists = function() {
+    return this.length > 0;
+  };
 
-  $('#fixed-fees, #misc-fees, #disbursements, #expenses, #documents').on('cocoon:after-insert', function (e, insertedItem) {
+  $.jqReveal({
+    // options go here
+  });
+
+  $('#fixed-fees, #misc-fees, #disbursements, #expenses, #documents').on('cocoon:after-insert', function(e, insertedItem) {
     var $insertedItem = $(insertedItem);
     var insertedSelect = $insertedItem.find('select.typeahead');
     var typeaheadWrapper = $insertedItem.find('.js-typeahead');

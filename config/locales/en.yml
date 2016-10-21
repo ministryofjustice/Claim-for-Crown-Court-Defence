@@ -125,13 +125,25 @@ en:
         supplier_number:
           attributes:
             supplier_number:
-              invalid: *invalid_supplier_number
+#              invalid: *invalid_supplier_number
+              invalid_format: "LGFS supplier number invalid format"
+              not_unique: "LGFS supplier number has already been taken"
         provider:
           attributes:
             base:
-              blank_supplier_numbers: "LGFS supplier numbers can't be blank"
+              blank_supplier_numbers: "You must specify at least one LGFS supplier number"
             supplier_number:
               invalid: *invalid_supplier_number
+            provider_type:
+              blank: "Provider type can't be blank"
+            name:
+              blank: "Provider name can't be blank"
+              not_unique: There is already a provider with this name
+            firm_agfs_supplier_number:
+              blank: "AGFS supplier number can't be blank"
+              absent: "AGFS supplier number must be absent"
+              invalid_format: "AGFS supplier number is invalid"
+
         external_user:
           attributes:
             roles:
@@ -915,7 +927,7 @@ en:
       add_supplier_number: "Add another supplier number"
       lgfs_supplier_numbers: "LGFS Supplier Numbers"
     supplier_number_fields:
-      remove: "Remove supplier number"
+      remove: "Remove this supplier number"
     claim_accordion:
       created_by: 'Created by:'
       h2_basic_info: Basic claim information

@@ -23,7 +23,7 @@ module ExternalUsers::ClaimsHelper
 
   def validation_message_from_errors_hash(resource, attribute)
     if resource[attribute]
-      content_tag :span, class: 'validation-error error' do
+      content_tag :span, class: 'error' do
         resource[attribute].join(", ")
       end
     else

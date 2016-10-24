@@ -7,6 +7,7 @@ VCR.configure do |c|
   c.default_cassette_options = {
     erb: true,
     exclusive: true,
+    allow_playback_repeats: true,
     match_requests_on: [:method, VCR.request_matchers.uri_without_param(:api_key)]
   }
 

@@ -1,4 +1,4 @@
-@javascript @vcr
+@javascript
 Feature: Case worker messages advocate and advocate responds
 
   Scenario: I message advocate and advocate responds
@@ -32,5 +32,3 @@ Feature: Case worker messages advocate and advocate responds
     When I open the claim
     And I expand messages
     Then the response and uploaded file should be visible
-
-    And I eject the VCR cassette

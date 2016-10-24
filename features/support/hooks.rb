@@ -37,15 +37,6 @@ Before do
   end
 end
 
-# Tag features that manually insert VCR cassettes so it raises an exception if the cassette was not ejected.
-# This is mainly useful when writing the scenarios to not forget about the ejection.
-#
-After('@vcr') do
-  if $!.blank? && (cassette = VCR.current_cassette)
-    raise 'The current cassette `%s` was not ejected. At the end of the scenario, any cassette in use must be ejected.' % cassette.name
-  end
-end
-
 AfterConfiguration do
   # Possible values are :truncation and :transaction
   # The :transaction strategy is faster, but might give you threading problems.

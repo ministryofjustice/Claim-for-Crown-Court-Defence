@@ -37,7 +37,7 @@
   .case-worker-reallocation.grid-row.form-group.js-typeahead
     .column-one-quarter.js-case-worker-list
       = f.label :case_worker_id
-      = f.collection_select :case_worker_id, CaseWorker.active, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
+      = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
     .column-half.margin-spacer-sm
       = f.submit 'Re-allocate', class: 'button'
 

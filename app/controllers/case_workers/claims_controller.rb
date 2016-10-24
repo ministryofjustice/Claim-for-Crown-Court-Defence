@@ -89,24 +89,12 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def set_claims
-    @claims = case tab
-              when 'current', 'archived'
-                Claims::CaseWorkerClaims.new(current_user: current_user, action: tab, criteria: criteria_params).claims
-              when 'allocated'
-                # TODO: to be moved to service object and implement remote API endpoint
-                Claim::BaseClaim.active.caseworker_dashboard_under_assessment
-              when 'unallocated'
-                # TODO: to be moved to service object and implement remote API endpoint
-                Claim::BaseClaim.active.submitted_or_redetermination_or_awaiting_written_reasons
-              end
+    @claims = Claims::CaseWorkerClaims.new(current_user: current_user, action: tab, criteria: criteria_params).claims
   end
 
+  # Only these 2 actions are handle in this controller. Rest of actions in the admin-namespaced controller.
   def tab
-    if current_user.persona.admin?
-      %w(allocated unallocated current archived).include?(params[:tab]) ? params[:tab] : 'allocated'
-    else
-      %w(current archived).include?(params[:tab]) ? params[:tab] : 'current'
-    end
+    %w(current archived).include?(params[:tab]) ? params[:tab] : 'current'
   end
 
   def set_claim

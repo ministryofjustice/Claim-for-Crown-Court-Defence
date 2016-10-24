@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=eae07151-cac2-4b38-9afc-f7ecf87e27ac&direction=asc&limit=10&page=0&search=Mya%20Keeling&sorting=last_submitted_at&status=allocated
+    uri: http://localhost:3001/api/case_workers/claims?api_key=eae07151-cac2-4b38-9afc-f7ecf87e27ac&direction=asc&limit=10&page=0&search=Mya%20Keeling&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''

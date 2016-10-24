@@ -11,13 +11,13 @@ module Claims
     def claims
       case action
       when 'current'
-        current_allocated_claims
+        current_claims
       when 'archived'
         archived_claims
       when 'allocated'
-        # TODO: to be implemented
+        allocated_claims
       when 'unallocated'
-        # TODO: to be implemented
+        unallocated_claims
       else
         raise ArgumentError, 'Unknown action: %s' % action
       end
@@ -29,9 +29,9 @@ module Claims
 
     private
 
-    def current_allocated_claims
+    def current_claims
       if remote?
-        Remote::Claim.allocated(current_user, criteria)
+        Remote::Claim.user_allocations(current_user, criteria)
       else
         current_user.claims.caseworker_dashboard_under_assessment
       end
@@ -42,6 +42,22 @@ module Claims
         Remote::Claim.archived(current_user, criteria)
       else
         Claim::BaseClaim.active.caseworker_dashboard_archived
+      end
+    end
+
+    def allocated_claims
+      if remote?
+        Remote::Claim.allocated(current_user, criteria)
+      else
+        Claim::BaseClaim.active.caseworker_dashboard_under_assessment
+      end
+    end
+
+    def unallocated_claims
+      if remote?
+        Remote::Claim.unallocated(current_user, criteria)
+      else
+        Claim::BaseClaim.active.submitted_or_redetermination_or_awaiting_written_reasons
       end
     end
   end

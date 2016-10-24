@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=77878d35-1cd8-4201-b63e-9d9156409bd8&direction=desc&limit=10&page=0&search=&sorting=case_type&status=allocated
+    uri: http://localhost:3001/api/case_workers/claims?api_key=77878d35-1cd8-4201-b63e-9d9156409bd8&direction=desc&limit=10&page=0&search=&sorting=case_type&status=current
     body:
       encoding: US-ASCII
       string: ''

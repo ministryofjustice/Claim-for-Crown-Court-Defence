@@ -23,8 +23,16 @@ module Remote
         'case_workers/claims'
       end
 
+      def user_allocations(user, query = {})
+        all_by_status('current', user: user, query: query)
+      end
+
       def allocated(user, query = {})
         all_by_status('allocated', user: user, query: query)
+      end
+
+      def unallocated(user, query = {})
+        all_by_status('unallocated', user: user, query: query)
       end
 
       def archived(user, query = {})

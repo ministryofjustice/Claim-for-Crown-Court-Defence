@@ -59,7 +59,7 @@ FactoryGirl.define do
     end
 
     offence do
-      build(:offence, description: 'Miscellaneous/other', offence_class: build(:offence_class, description: 'C: Lesser offences involving violence or damage and less serious drug offences'))
+      build(:offence, description: 'Miscellaneous/other', offence_class: build_or_reuse_offence_class)
     end
 
     case_type do
@@ -90,5 +90,18 @@ FactoryGirl.define do
     redeterminations do
       build_list(:redetermination, 1, fees: 25.0, expenses: 9.2, disbursements: 0)
     end
+  end
+end
+
+# ---------------------------------------
+
+def build_or_reuse_offence_class
+  class_letter = 'C'
+  description = 'Lesser offences involving violence or damage and less serious drug offences'
+
+  if (oc = OffenceClass.find_by(class_letter: class_letter))
+    oc.update_column(:description, description)
+  else
+    build(:offence_class, class_letter: class_letter, description: description)
   end
 end

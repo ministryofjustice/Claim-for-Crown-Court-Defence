@@ -1,7 +1,6 @@
 class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::ApplicationController
   include PaginationHelpers
 
-  before_action :set_case_workers, only: [:new, :create]
   before_action :set_claims, only: [:new, :create]
   before_action :set_summary_values, only: [:new], if: :summary_from_previous_request?
   before_action :process_claim_ids, only: [:create], if: :quantity_allocation?
@@ -9,10 +8,12 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   helper_method :allocation_filters_for_scheme
 
   def new
+    set_case_workers
     @allocation = Allocation.new
   end
 
   def create
+    set_case_workers
     @allocation = Allocation.new(allocation_params.merge(current_user: current_user))
     if @allocation.save
       render_new_with_feedback(@allocation)
@@ -49,7 +50,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_case_workers
-    @case_workers = CaseWorker.active.includes(:location, :user)
+    @case_workers = CaseWorkerService.new(current_user: current_user).active
   end
 
   def set_claims
@@ -57,7 +58,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     paginate_claims
     filter_by_allocation_state
     search_claims
-    filter_claims
+    filter_by_allocation_filters
     order_claims
     set_claim_carousel_info
   end
@@ -102,11 +103,6 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     @claims = tab == 'allocated' ? @claims.caseworker_dashboard_under_assessment : @claims.submitted_or_redetermination_or_awaiting_written_reasons
   end
 
-  def filter_claims
-    filter_by_allocation_filters
-    filter_by_value
-  end
-
   def default_scheme_inapplicable_filters
     unless allocation_filters_for_scheme(params[:scheme]).include?(params[:filter])
       params[:filter] = 'all'
@@ -122,14 +118,6 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
         @claims = @claims.send(filter)
       when *non_state_allocation_filters
         @claims = @claims.where.not(state: state_allocation_filters).send(filter)
-    end
-  end
-
-  def filter_by_value
-    if params[:claim_value].present? && params[:claim_value] == 'high'
-      @claims = @claims.total_greater_than_or_equal_to(Settings.high_value_claim_threshold)
-    elsif params[:claim_value].present? && params[:claim_value] == 'low'
-      @claims = @claims.total_lower_than(Settings.high_value_claim_threshold)
     end
   end
 

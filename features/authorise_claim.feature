@@ -1,4 +1,4 @@
-@javascript @vcr
+@javascript
 Feature: Case worker fully authorises claim
 
   Scenario: I fully authorise a claim
@@ -20,5 +20,3 @@ Feature: Case worker fully authorises claim
 
     When I click your claims
     Then the claim I've just updated is no longer in the list
-
-    And I eject the VCR cassette

@@ -18,7 +18,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
   let(:tab) { nil }   # default tab is 'unallocated' when tab not provided
 
-  describe 'GET #new' do
+  describe 'GET #new', vcr: {cassette_name: 'spec/case_workers/index'} do
 
     context 'basic rendering' do
       before(:each) { get :new, tab: tab }
@@ -28,7 +28,8 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       end
 
       it 'assigns @case_workers' do
-        expect(assigns(:case_workers)).to eq(CaseWorker.active)
+        expect(assigns(:case_workers)).not_to be_nil
+        expect(assigns(:case_workers).size).to eq(2)
       end
 
       it 'assigns @allocation' do
@@ -191,7 +192,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
   end
 
-  describe 'POST #create' do
+  describe 'POST #create', vcr: {cassette_name: 'spec/case_workers/index'} do
 
     before do
       @case_worker = create(:case_worker)

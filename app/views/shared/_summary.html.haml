@@ -28,7 +28,7 @@
           - present_collection(claim.fees.select(&:present?)).each do |fee|
             %tr
               %td
-                = fee.fee_type.fee_category_name
+                = fee.fee_type&.fee_category_name || 'n/a'
                 - if fee.dates_attended.any?
                   %br
                   = t('.dates_attended')
@@ -38,7 +38,7 @@
                   = t('.date')
                   = fee.date
               %td{scope: 'row'}
-                = fee.fee_type.description
+                = fee.fee_type&.description || 'n/a'
                 - if fee.sub_type.present?
                   %p
                     = "#{t('.fee_subtype')}: #{fee.sub_type.description}"

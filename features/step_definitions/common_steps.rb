@@ -114,10 +114,12 @@ And(/^I should see in the sidebar vat total '(.*?)'$/) do |total|
   end
 end
 
-And(/^I insert the VCR cassette '(.*?)'$/) do |name|
-  VCR.insert_cassette(name)
-end
-
-And(/^I eject the VCR cassette$/) do
-  VCR.eject_cassette
+# Record modes can be: all, none, new_episodes or once. Default is 'none'.
+# When creating new tests that calls new endpoints, you will need to record the cassette.
+# NOTE: Never commit code with VCR in record mode.
+#
+And(/^I insert the VCR cassette '(.*?)'(?: and record '(.*?)')?$/) do |name, record|
+  record_mode = (record || 'none').to_sym
+  VCR.eject_cassette if VCR.current_cassette
+  VCR.insert_cassette(name, record: record_mode)
 end

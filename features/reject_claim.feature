@@ -1,4 +1,4 @@
-@javascript @vcr
+@javascript
 Feature: Case worker rejects a claim, providing a reason
 
   Scenario: I reject a claim providing a reason
@@ -20,5 +20,3 @@ Feature: Case worker rejects a claim, providing a reason
 
     When I click your claims
     Then the claim I've just updated is no longer in the list
-
-    And I eject the VCR cassette

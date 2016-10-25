@@ -116,10 +116,8 @@ span.state {
   }
 }
 
-
-// Responsive tables code
-@media screen and (max-width: 1024px) {
-  table.report {
+ @include media($max-width: 1023px){
+    table.report {
     border: 0;
     tr {
       border-bottom: 3px solid #ddd;
@@ -177,3 +175,4 @@ span.state {
     }
   }
 }
+

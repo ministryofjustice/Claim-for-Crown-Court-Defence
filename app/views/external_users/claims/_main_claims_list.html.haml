@@ -77,7 +77,7 @@
               = claim.state.humanize
 
           %td.numeric{'aria-label' => t(".submission_date")}
-            = claim.submitted_at
+            = claim.submitted_at.blank? ? "-" : claim.submitted_at
 
           %td.messages{'aria-label' => t(".messages")}
             - if claim.messages.any?

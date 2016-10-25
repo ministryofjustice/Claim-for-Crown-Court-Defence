@@ -2,6 +2,7 @@ module API
   module Entities
     class BaseFeeType < BaseEntity
       expose :id
+      expose :type
       expose :description
       expose :code
       expose :max_amount

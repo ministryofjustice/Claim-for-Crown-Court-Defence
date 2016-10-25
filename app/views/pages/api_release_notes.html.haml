@@ -194,3 +194,15 @@
     Users of the api-sandbox were having difficulties because the ids of the static data records (expense types, fee types etc) were
     liable to change every time we regenerated the database.  Over the weekend of 8th-9th October, the database was recreated and the ids
     of these records fixed to match those on the live database.  These ids are now static and will not change in future.
+  %p
+  %li
+    An extra field "type" has been added to the result hash for fee types.  This will be one of the following values:
+    %ul.list-bullet
+      %li Fee::MiscFeeType
+      %li Fee::GraduatedFeeType
+      %li Fee::BasicFeeType
+      %li Fee::FixedFeeType
+      %li Fee::InterimFeeType
+      %li Fee::TransferFeeType
+      %li Fee::WarrantFeeType
+

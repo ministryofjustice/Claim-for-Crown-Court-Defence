@@ -27,7 +27,8 @@ namespace :data do
     desc 'softly delete Travel costs disbursement type'
     task :delete_travel_costs => :environment do
       dt = DisbursementType.where(name: 'Travel costs').first
-      dt.deleted_at = T
+      dt.deleted_at = Time.now
+      dt.save!
     end
 
     desc 'Add Unique Code to Fee Types table'

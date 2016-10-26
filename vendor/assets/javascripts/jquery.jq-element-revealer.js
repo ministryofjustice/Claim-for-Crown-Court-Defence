@@ -15,23 +15,6 @@
 }(function($, undefined) {
   'use strict';
 
-  /*! Tiny Pub/Sub - v0.7.0 - 2013-01-29
-   * https://github.com/cowboy/jquery-tiny-pubsub
-   * Copyright (c) 2013 "Cowboy" Ben Alman; Licensed MIT */
-  var o = $({});
-
-  $.subscribe = function() {
-    o.on.apply(o, arguments);
-  };
-
-  $.unsubscribe = function() {
-    o.off.apply(o, arguments);
-  };
-
-  $.publish = function() {
-    o.trigger.apply(o, arguments);
-  };
-
   var pluginName = 'jqReveal',
     defaults = {
       arraySeparator: '|',
@@ -133,6 +116,7 @@
       var eventValues = el.getAttribute(this.settings.subscriberEventValues);
       var isInArray;
       var $el = $(el);
+      var publishers;
 
       if (!eventValues) {
         $el.toggle();
@@ -144,6 +128,17 @@
       if (isInArray) {
         $el.show();
         return;
+      }
+
+      publishers = $el.find('.jqr-publisher');
+
+      if(publishers.length){
+        publishers.each(function(idx, el){
+          var $_el = $(el);
+          if($_el.is(':checked')){
+            $_el.trigger('click');
+          }
+        });
       }
       $el.hide();
     },

@@ -32,6 +32,12 @@ namespace :data do
       dt.save!
     end
 
+    desc 'Add Unique Code to Fee Types table'
+    task :fee_type_unique_code => :environment do
+      require File.join(Rails.root, 'lib', 'tasks', 'rake_helpers', 'fee_type_unique_code_adder')
+      RakeHelpers::FeeTypeUniqueCodeAdder.new.run
+    end
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {

@@ -13,6 +13,7 @@
 #  roles               :string
 #  parent_id           :integer
 #  quantity_is_decimal :boolean          default(FALSE)
+#  unique_code         :string
 #
 
 class Fee::GraduatedFeeType < Fee::BaseFeeType

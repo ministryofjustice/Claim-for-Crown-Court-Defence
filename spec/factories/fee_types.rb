@@ -13,6 +13,7 @@
 #  roles               :string
 #  parent_id           :integer
 #  quantity_is_decimal :boolean          default(FALSE)
+#  unique_code         :string
 #
 
 FactoryGirl.define do
@@ -22,6 +23,7 @@ FactoryGirl.define do
     calculated true
     roles ['agfs']
     quantity_is_decimal false
+    unique_code { generate_unique_code }
 
 
     trait :ppe do
@@ -163,4 +165,12 @@ end
 def random_safe_code
   # NOTE: use ZXX (zed plus 2 random chars) to ensure we never have a code that will cause inappropriate validations
   'Z' << ('A'..'Z').to_a.sample(2).join
+end
+
+def generate_unique_code
+  code = ('A'..'Z').to_a.sample(5).join
+  while Fee::BaseFeeType.where(unique_code: code).any?
+    code = ('A'..'Z').to_a.sample(5).join
+  end
+  code
 end

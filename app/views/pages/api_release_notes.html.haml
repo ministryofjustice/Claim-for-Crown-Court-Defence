@@ -206,3 +206,9 @@
       %li Fee::TransferFeeType
       %li Fee::WarrantFeeType
 
+  %p
+  %li
+    A new alpha-numeric field 'unique_code' has been added to the result hash for the fee_types endpoint.  This value
+    is unique to each record (the 'code' field is not unique; it is the code that was printed on the AF1 form and certain codes
+    are shared by several fee types).
+

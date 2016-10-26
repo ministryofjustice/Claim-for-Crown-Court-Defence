@@ -14,7 +14,6 @@ namespace :data do
       end
     end
 
-
     desc 'Set fee types quantities to decimal for SPF, WPF, RNF, CAV, WOA'
     task :set_quantity_is_decimal => :environment do
       %w{ SPF WPF RNF RNL CAV WOA }.each do |code|
@@ -28,8 +27,7 @@ namespace :data do
     desc 'softly delete Travel costs disbursement type'
     task :delete_travel_costs => :environment do
       dt = DisbursementType.where(name: 'Travel costs').first
-      dt.deleted_at = Time.now
-      dt.save!
+      dt.deleted_at = T
     end
 
     desc 'Add Unique Code to Fee Types table'

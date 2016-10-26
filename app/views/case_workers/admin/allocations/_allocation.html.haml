@@ -33,8 +33,8 @@
           %span.table-caption
             = 'Allocations'
           %span.claim-count
-            = "Showing claims: "
-            = page_entries_info @claims, entry_name: 'claim'
+            = "Number of claims: "
+            = @claims.total_count
         %thead
           %th{scope:'col'}
             = link_to 'Select all', '#', class: 'select-all', data: { 'all-checked' => 'false' }

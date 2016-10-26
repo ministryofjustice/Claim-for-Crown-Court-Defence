@@ -14,6 +14,7 @@ module Remote
     has_one :external_user
     has_one :case_type
     has_many :defendants
+    has_many :case_workers
 
     alias opened_for_redetermination? opened_for_redetermination
     alias written_reasons_outstanding? written_reasons_outstanding

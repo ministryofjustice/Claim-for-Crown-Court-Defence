@@ -8,6 +8,8 @@ module API
           params do
             optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the user'
             optional :status, type: String, values: %w(current allocated unallocated archived), default: 'current', desc: 'REQUIRED: Only returns claims in the specified status'
+            optional :scheme, type: String, values: %w(agfs lgfs), default: 'agfs', desc: 'OPTIONAL: This will be used to filter the list of allocated/unallocated claims'
+            optional :filter, type: String, values: %w(all redetermination awaiting_written_reasons fixed_fee cracked trial guilty_plea graduated_fees interim_fees warrants interim_disbursements risk_based_bills), default: 'all', desc: 'OPTIONAL: Filter unallocated claims. Some filters only apply to AGFS or LGFS schemas.'
             use :searching
             use :sorting
             use :pagination
@@ -24,6 +26,14 @@ module API
               params.search.to_s.strip
             end
 
+            def scheme
+              params.scheme
+            end
+
+            def filter
+              params.filter
+            end
+
             def current_claims
               current_user.claims.caseworker_dashboard_under_assessment.search(
                   search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options)
@@ -35,12 +45,12 @@ module API
             end
 
             def allocated_claims
-              ::Claim::BaseClaim.active.caseworker_dashboard_under_assessment.search(
+              ::Claim::BaseClaim.active.__send__(scheme).caseworker_dashboard_under_assessment.search(
                   search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options)
             end
 
             def unallocated_claims
-              ::Claim::BaseClaim.active.submitted_or_redetermination_or_awaiting_written_reasons
+              ::Claim::BaseClaim.active.__send__(scheme).submitted_or_redetermination_or_awaiting_written_reasons.filter(filter)
             end
 
             def claims_scope

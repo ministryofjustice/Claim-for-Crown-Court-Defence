@@ -1,0 +1,86 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers?api_key=d0ade0bd-5615-42d2-84fb-cb1849fc3de2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '396'
+      Etag:
+      - W/"95cedc873de08b734229561682e605ca"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - f9b06f09-e931-4394-8e70-90ef2f54a638
+      X-Runtime:
+      - '1.009501'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Wed, 26 Oct 2016 14:45:48 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '[{"id":1,"uuid":"170f0547-d1ee-4fac-be47-abec8dec5559","first_name":"Clara","last_name":"Stiedemann","email":"clara.stiedemann@laa.gov.uk"},{"id":2,"uuid":"368d4691-6baf-49be-b184-0dd597bf84b1","first_name":"Taryn","last_name":"Metz","email":"taryn.metz@laa.gov.uk"},{"id":3,"uuid":"f42a8c70-351d-4101-b91d-4f123b3e1c45","first_name":"Anahi","last_name":"Swift","email":"anahi.swift@laa.gov.uk"}]'
+    http_version: 
+  recorded_at: Wed, 26 Oct 2016 14:45:48 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=d0ade0bd-5615-42d2-84fb-cb1849fc3de2&direction=asc&filter=all&limit=25&page=0&scheme=lgfs&search=&sorting=last_submitted_at&status=allocated
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1254'
+      Etag:
+      - W/"24bd7a20fd013a3deaeee8fe209307df"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 238fd147-5ab5-4ed3-aac2-56ae2f338b12
+      X-Runtime:
+      - '0.189977'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Wed, 26 Oct 2016 14:45:49 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":2,"uuid":"a9ee0b64-8732-447e-aaa7-a07471f89280","case_number":"A22222222","state":"allocated","type":"Claim::LitigatorClaim","last_submitted_at":"2016-10-26T14:45:47Z","total":25.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":2,"uuid":"93d43a9d-6855-4d5f-a648-969371aca10e","first_name":"Heather","last_name":"Brown","email":"otilia_tremblay@goodwin.name"},"defendants":[{"id":2,"uuid":"94bca723-eab3-481a-bd39-49c1f50222d6","first_name":"Jedediah","last_name":"Carroll","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":3,"uuid":"50a157d7-8e07-457f-88b8-40cc3388b287","maat_reference":"3601343073","date":"2015-09-22T00:00:00Z"},{"id":4,"uuid":"f94ec39f-c801-4c84-bda2-c01e49bc32fa","maat_reference":"8470864068","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":15,"name":"Case
+        Type 2","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"case_workers":[]}]}'
+    http_version: 
+  recorded_at: Wed, 26 Oct 2016 14:45:49 GMT
+recorded_with: VCR 3.0.3

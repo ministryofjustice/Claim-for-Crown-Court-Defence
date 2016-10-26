@@ -184,6 +184,17 @@ module Claim
       [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].include?(self)
     end
 
+    def self.filter(filter)
+      case filter.to_s
+      when 'redetermination', 'awaiting_written_reasons', 'all'
+        send(filter)
+      when 'fixed_fee', 'cracked', 'trial', 'guilty_plea', 'graduated_fees', 'interim_fees', 'warrants', 'interim_disbursements', 'risk_based_bills'
+        where.not(state: %w(redetermination awaiting_written_reasons)).send(filter)
+      else
+        raise 'unknown filter: %s' % filter
+      end
+    end
+
     def pretty_type
       type.demodulize.sub('Claim', '').downcase
     end

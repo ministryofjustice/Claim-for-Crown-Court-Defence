@@ -2,7 +2,7 @@
 Feature: Caseworker can log in while active, but not once inactive
 
   Scenario: I log in as a case worker admin and I see the allocation page
-    Given I insert the VCR cassette 'features/case_workers/allocation'
+    Given I insert the VCR cassette 'features/case_workers/admin/allocation'
 
     And I am a signed in case worker admin
     Then I should be on the Allocation page

@@ -1,0 +1,86 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers?api_key=c82b7449-a0fe-45bc-b633-5b566246677f
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '261'
+      Etag:
+      - W/"e0676eed50830ef182ee2879a5b7af41"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 379a9ac7-7e22-4167-9ff1-9a6e2f713441
+      X-Runtime:
+      - '0.009656'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Wed, 26 Oct 2016 12:48:22 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '[{"id":1,"uuid":"eeb2232b-9d1d-44c4-a28e-a18524340f4b","first_name":"Nash","last_name":"Effertz","email":"nash.effertz@laa.gov.uk"},{"id":2,"uuid":"cf9e91ed-6b75-4829-8bda-987e0d1ac2b1","first_name":"Golda","last_name":"Stamm","email":"golda.stamm@laa.gov.uk"}]'
+    http_version: 
+  recorded_at: Wed, 26 Oct 2016 12:48:22 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=c82b7449-a0fe-45bc-b633-5b566246677f&direction=asc&filter=awaiting_written_reasons&limit=25&page=0&scheme=lgfs&search=&sorting=last_submitted_at&status=unallocated
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1249'
+      Etag:
+      - W/"423fb9b88eca969b59e755a9a88aebf4"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - d3e02665-8648-4496-a965-f68d3d449632
+      X-Runtime:
+      - '0.052730'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Wed, 26 Oct 2016 12:48:22 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":9,"uuid":"43c71837-1d56-4815-85af-214bad1608ed","case_number":"Z12345678","state":"awaiting_written_reasons","type":"Claim::LitigatorClaim","last_submitted_at":"2016-10-26T12:48:22Z","total":25.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":true,"messages_count":0,"unread_messages_count":0,"external_user":{"id":9,"uuid":"b0016779-0493-4197-aa0d-09733b50f7c8","first_name":"Madisen","last_name":"Swift","email":"jeanne.ullrich@spinkaconn.name"},"defendants":[{"id":9,"uuid":"d090254d-a028-410f-85f7-d5fa2630907c","first_name":"Edmund","last_name":"Batz","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":17,"uuid":"f189fd58-a577-4573-bba7-25a88a007268","maat_reference":"6331204225","date":"2015-09-22T00:00:00Z"},{"id":18,"uuid":"36ac8eea-44b8-4079-a1f2-e25909c9a50e","maat_reference":"6494952311","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":19,"name":"Case
+        Type 6","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
+    http_version: 
+  recorded_at: Wed, 26 Oct 2016 12:48:22 GMT
+recorded_with: VCR 3.0.3

@@ -1,0 +1,86 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers?api_key=43011966-0c86-4e70-b2c5-7478277fa162
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '269'
+      Etag:
+      - W/"5fc69adb457bb1970ede93c1035e1a08"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 9b274eab-a152-4265-a4da-7d7688448ec7
+      X-Runtime:
+      - '0.009490'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Wed, 26 Oct 2016 12:40:18 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '[{"id":1,"uuid":"7b8e930f-54a9-4dd8-a3c4-514ccac8ba47","first_name":"Jeremy","last_name":"Murazik","email":"jeremy.murazik@laa.gov.uk"},{"id":2,"uuid":"73f14bd0-52e7-410d-ad36-9d36b2b1e9f3","first_name":"Arjun","last_name":"Witting","email":"arjun.witting@laa.gov.uk"}]'
+    http_version: 
+  recorded_at: Wed, 26 Oct 2016 12:40:18 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=43011966-0c86-4e70-b2c5-7478277fa162&direction=asc&filter=cracked&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1239'
+      Etag:
+      - W/"44e3350658c507ef411b23252df062ba"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 0c9a1039-cd4d-4632-9210-b07809b29759
+      X-Runtime:
+      - '0.076268'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Wed, 26 Oct 2016 12:40:18 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":1,"uuid":"ab8f7e17-e608-461d-be22-5817641a3cae","case_number":"Z12345678","state":"submitted","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-26T12:40:17Z","total":25.0,"vat_amount":4.38,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"c471fee2-e260-4b38-9f79-ccece5a8721a","first_name":"Korbin","last_name":"Schmeler","email":"reese.schmidt@schusterdare.biz"},"defendants":[{"id":1,"uuid":"821c2d09-a5da-4d86-bfca-f97979ca598a","first_name":"Albin","last_name":"Kreiger","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":1,"uuid":"1857ab67-5f77-4e72-b5b8-8912a7f7945b","maat_reference":"1529736410","date":"2015-09-22T00:00:00Z"},{"id":2,"uuid":"bd96d661-7cf4-4a3a-b70f-26df09614639","maat_reference":"9944964121","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":6,"name":"Cracked
+        Trial","is_fixed_fee":false,"requires_cracked_dates":true,"requires_trial_dates":false,"allow_pcmh_fee_type":true,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":"GCRAK"}}]}'
+    http_version: 
+  recorded_at: Wed, 26 Oct 2016 12:40:18 GMT
+recorded_with: VCR 3.0.3

@@ -39,6 +39,7 @@ module Fee
 
     validates :description, presence: {message: 'Fee type description cannot be blank'}, uniqueness: { case_sensitive: false, scope: :type, message: 'Fee type description must be unique' }
     validates :code, presence: {message: 'Fee type code cannot be blank'}
+    validates :unique_code, presence: {message: 'Fee type unique code cannot be blank'}
 
     after_initialize :ensure_not_abstract_class
 

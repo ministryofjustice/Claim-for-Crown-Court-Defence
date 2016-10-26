@@ -5,6 +5,7 @@ module API
       expose :type
       expose :description
       expose :code
+      expose :unique_code
       expose :max_amount
       expose :calculated
       expose :roles

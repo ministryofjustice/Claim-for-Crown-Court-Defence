@@ -14,7 +14,6 @@ namespace :data do
       end
     end
 
-
     desc 'Set fee types quantities to decimal for SPF, WPF, RNF, CAV, WOA'
     task :set_quantity_is_decimal => :environment do
       %w{ SPF WPF RNF RNL CAV WOA }.each do |code|

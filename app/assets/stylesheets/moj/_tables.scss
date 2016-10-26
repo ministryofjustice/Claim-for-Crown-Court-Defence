@@ -116,6 +116,9 @@ span.state {
   }
 }
 
+tr.mobile-sort{
+  display:none;
+}
  @include media($max-width: 1023px){
     table.report {
     border: 0;
@@ -136,7 +139,21 @@ span.state {
         br{
           display: none;
         }
-        padding: 15px;
+        padding: $gutter/2;
+      }
+      &.mobile-sort{
+        display: inline-block;
+        vertical-align: inherit;
+        width: 100%;
+        @include clearfix();
+        td{
+          text-align: left;
+          background-color: white !important;
+          a{
+            display: inline-block !important;
+            margin: ($gutter/6) ($gutter/2 - 3);
+          }
+        }
       }
     }
 

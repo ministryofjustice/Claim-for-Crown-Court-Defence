@@ -318,8 +318,8 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
           expect(transition.subject_id).to eq(@case_worker.user.id)
         end
 
-        it 'renders the new template' do
-          expect(response).to render_template(:new)
+        it 'redirects back to the allocations page' do
+          expect(response).to redirect_to(case_workers_admin_allocations_path(tab: :unallocated, scheme: :agfs))
         end
       end
 
@@ -353,7 +353,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
       before(:each) do
         @claims = create_list(:allocated_claim, 1)
-        post :create, allocation: allocation_params, commit: 'Re-Allocate'
+        post :create, allocation: allocation_params, tab: 'allocated', commit: 'Re-Allocate'
       end
 
       it 're-allocates claims to case worker' do
@@ -366,8 +366,8 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         expect(transition.subject_id).to eq(@case_worker.user.id)
       end
 
-      it 'renders new allocation template' do
-        expect(response).to render_template :new
+      it 'redirects back to the re-allocations page' do
+        expect(response).to redirect_to(case_workers_admin_allocations_path(tab: :allocated, scheme: :agfs))
       end
 
       it 'tells the user how many claims were successfully re-allocated' do
@@ -377,10 +377,6 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       it 're-allocates already allocated claims to the case worker' do
         expect(assigns(:allocation).claims.count).to eql 1
         expect(@case_worker.claims.count).to eql 1
-      end
-
-      it 'renders the new template' do
-        expect(response).to render_template(:new)
       end
     end
 

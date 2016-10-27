@@ -26,6 +26,16 @@
         %th.message-placeholder{scope: 'col'}
           = t('.messages')
     %tbody
+      %tr.mobile-sort
+        %td{colspan: 10}
+          Sort by:
+          = sortable 'case_number', t('.case_number')
+          = sortable 'advocate', t('.advocate_litigator')
+          = sortable 'total_inc_vat', t('.total')
+          - if params[:action] == 'archived'
+            = sortable 'state', t('.status')
+          = sortable 'case_type', t('.case_type')
+          = sortable 'last_submitted_at', t('.submission_date')
       - present_collection(claims).each do |claim|
         %tr
           %td{'aria-label' => t(".case_number")}

@@ -42,6 +42,14 @@
       %th{scope:'col'}
         = t(".messages")
     %tbody
+      %tr.mobile-sort
+        %td{colspan: 10}
+          Sort by:
+          = sortable 'case_number', t(".case_number")
+          = sortable 'total_inc_vat', t(".total")
+          = sortable 'amount_assessed', t(".assessed")
+          = sortable 'state', t(".status")
+          = sortable 'last_submitted_at', t(".submission_date")
       - present_collection(claims).each do |claim|
         %tr{id: dom_id(claim),class: claim.state}
 

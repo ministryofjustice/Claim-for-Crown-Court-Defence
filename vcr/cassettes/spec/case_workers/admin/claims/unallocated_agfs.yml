@@ -1,0 +1,86 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers?api_key=94e2587e-c7db-418b-bfb5-86e28f36cb7b
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '279'
+      Etag:
+      - W/"80e689b4753830c1bd22180efd10c926"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 8e581f3b-6a97-49a3-8da0-3062a449ebf1
+      X-Runtime:
+      - '0.012769'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Wed, 26 Oct 2016 12:06:11 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '[{"id":1,"uuid":"0cfbdbea-70ae-4ff1-9cce-46581a330572","first_name":"Adelbert","last_name":"Grimes","email":"adelbert.grimes@laa.gov.uk"},{"id":2,"uuid":"e45689c8-017d-4d90-8636-735dd122e490","first_name":"Francesco","last_name":"Trantow","email":"francesco.trantow@laa.gov.uk"}]'
+    http_version: 
+  recorded_at: Wed, 26 Oct 2016 12:06:11 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=94e2587e-c7db-418b-bfb5-86e28f36cb7b&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1239'
+      Etag:
+      - W/"ee1de30fbf47556e969400dbda5fe859"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 0b5f4fdb-2d18-4f1c-bf6c-99444a8d4adb
+      X-Runtime:
+      - '0.077577'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Wed, 26 Oct 2016 12:06:11 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":1,"uuid":"f1e2fc62-c0b1-4014-9c17-6eaa7d74154e","case_number":"A11111111","state":"submitted","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-26T12:06:10Z","total":25.0,"vat_amount":4.38,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"de5b9add-2ffb-4b9a-a76d-ab55d984f9c8","first_name":"Kelly","last_name":"Steuber","email":"hadley_leuschke@huelskeeling.com"},"defendants":[{"id":1,"uuid":"48314b67-bbbc-42be-ab55-5fb8b17dc754","first_name":"Kaleigh","last_name":"Okuneva","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":1,"uuid":"b9cf9f90-4e16-4e52-9e6a-e8f5f6a87079","maat_reference":"5958186267","date":"2015-09-22T00:00:00Z"},{"id":2,"uuid":"98a80954-0565-40fb-b221-f26f3688437e","maat_reference":"1414797425","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":14,"name":"Case
+        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
+    http_version: 
+  recorded_at: Wed, 26 Oct 2016 12:06:11 GMT
+recorded_with: VCR 3.0.3

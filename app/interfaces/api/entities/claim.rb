@@ -21,6 +21,8 @@ module API
       expose :defendants, using: API::Entities::Defendant
       expose :case_type, using: API::Entities::CaseType
 
+      expose :case_workers, using: API::Entities::CaseWorker, if: lambda { |instance, _opts| instance.allocated? }
+
       private
 
       def messages_count

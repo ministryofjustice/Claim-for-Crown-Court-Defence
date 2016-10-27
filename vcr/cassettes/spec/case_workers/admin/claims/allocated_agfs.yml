@@ -1,0 +1,86 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers?api_key=fe3afa53-8067-4d11-8a06-bfffd0fbb6c9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '402'
+      Etag:
+      - W/"5bce8578752f799a3a091e92aaf5879e"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 047187ca-4307-4a9f-97c5-7ef741fa3d1d
+      X-Runtime:
+      - '0.017395'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Wed, 26 Oct 2016 14:46:12 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '[{"id":1,"uuid":"fb853056-c74f-4eee-8037-1699cb99b99c","first_name":"Abby","last_name":"Hoeger","email":"abby.hoeger@laa.gov.uk"},{"id":2,"uuid":"492d565e-8ae7-4b27-a77d-a6e67a580774","first_name":"Kariane","last_name":"Will","email":"kariane.will@laa.gov.uk"},{"id":3,"uuid":"e3736bd6-7430-4498-9519-844bb03c359c","first_name":"Alexandro","last_name":"Simonis","email":"alexandro.simonis@laa.gov.uk"}]'
+    http_version: 
+  recorded_at: Wed, 26 Oct 2016 14:46:12 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=fe3afa53-8067-4d11-8a06-bfffd0fbb6c9&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=allocated
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1382'
+      Etag:
+      - W/"2f7149ac4b292aca081446287c1d7f7d"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - ae20dbd3-f607-48a2-8ba4-17a4011a193b
+      X-Runtime:
+      - '0.069220'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Wed, 26 Oct 2016 14:46:12 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":1,"uuid":"1273a51c-eef6-4451-ba0f-5c7947d699d5","case_number":"A11111111","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-26T14:46:11Z","total":25.0,"vat_amount":4.38,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"922385fa-02a9-4b9d-a877-8699920bf102","first_name":"Garland","last_name":"Schimmel","email":"joy@schultz.biz"},"defendants":[{"id":1,"uuid":"739654d9-ed2b-45e8-b2d0-30132d94955f","first_name":"Jacinthe","last_name":"Kunde","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":1,"uuid":"40fa0d5c-1ba1-4ab2-9ab7-5bce37499d3f","maat_reference":"3233881787","date":"2015-09-22T00:00:00Z"},{"id":2,"uuid":"d73f43af-ad8d-4bca-ad67-248d22aba5e8","maat_reference":"5226387482","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":14,"name":"Case
+        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"case_workers":[{"id":3,"uuid":"e3736bd6-7430-4498-9519-844bb03c359c","first_name":"Alexandro","last_name":"Simonis","email":"alexandro.simonis@laa.gov.uk"}]}]}'
+    http_version: 
+  recorded_at: Wed, 26 Oct 2016 14:46:12 GMT
+recorded_with: VCR 3.0.3

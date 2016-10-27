@@ -49,7 +49,7 @@ module Claims
       if remote?
         Remote::Claim.allocated(current_user, criteria)
       else
-        Claim::BaseClaim.active.caseworker_dashboard_under_assessment
+        Claim::BaseClaim.active.__send__(scheme).caseworker_dashboard_under_assessment
       end
     end
 
@@ -57,8 +57,12 @@ module Claims
       if remote?
         Remote::Claim.unallocated(current_user, criteria)
       else
-        Claim::BaseClaim.active.submitted_or_redetermination_or_awaiting_written_reasons
+        Claim::BaseClaim.active.__send__(scheme).submitted_or_redetermination_or_awaiting_written_reasons
       end
+    end
+
+    def scheme
+      criteria[:scheme].to_sym
     end
   end
 end

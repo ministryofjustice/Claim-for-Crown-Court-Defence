@@ -1,6 +1,7 @@
 class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::ApplicationController
   include PaginationHelpers
 
+  before_action :set_case_workers, only: [:new, :create]
   before_action :set_claims, only: [:new, :create]
   before_action :set_summary_values, only: [:new], if: :summary_from_previous_request?
   before_action :process_claim_ids, only: [:create], if: :quantity_allocation?
@@ -8,12 +9,10 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   helper_method :allocation_filters_for_scheme
 
   def new
-    set_case_workers
     @allocation = Allocation.new
   end
 
   def create
-    set_case_workers
     @allocation = Allocation.new(allocation_params.merge(current_user: current_user))
     if @allocation.save
       render_new_with_feedback(@allocation)
@@ -54,12 +53,14 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_claims
-    filter_by_claim_type
-    paginate_claims
-    filter_by_allocation_state
-    search_claims
-    filter_by_allocation_filters
-    order_claims
+    @claims = Claims::CaseWorkerClaims.new(current_user: current_user, action: tab, criteria: criteria_params).claims
+
+    unless @claims.remote?
+      filter_claims
+      search_claims
+      sort_and_paginate
+    end
+
     set_claim_carousel_info
   end
 
@@ -71,58 +72,26 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     %w(allocated unallocated).include?(params[:tab]) ? params[:tab] : 'unallocated'
   end
 
+  def filter
+    params[:filter] || 'all'
+  end
+
+  def filter_claims
+    @claims = @claims.filter(filter)
+  end
+
+  def search_terms
+    params[:search]
+  end
+
   def search_claims(states=nil)
-    if params[:search].present?
-      @claims = @claims.search(params[:search], states, :case_worker_name_or_email)
+    if search_terms.present?
+      @claims = @claims.search(search_terms, states, :case_worker_name_or_email)
     end
   end
 
-  def load_claim_associations
-    @claims.includes(
-      :determinations,
-      :redeterminations,
-      :assessment,
-      :defendants,
-      :claim_state_transitions,
-      :case_type,
-      external_user: [:user, :provider],
-      creator: [:user, :provider]
-    )
-  end
-
-  def filter_by_claim_type
-    @claims = (scheme == 'lgfs' ? Claim::BaseClaim.active.where(type: [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]) : Claim::BaseClaim.active.where(type: Claim::AdvocateClaim))
-    load_claim_associations
-  end
-
-  def paginate_claims
-    @claims = @claims.page(current_page).per(page_size)
-  end
-
-  def filter_by_allocation_state
-    @claims = tab == 'allocated' ? @claims.caseworker_dashboard_under_assessment : @claims.submitted_or_redetermination_or_awaiting_written_reasons
-  end
-
-  def default_scheme_inapplicable_filters
-    unless allocation_filters_for_scheme(params[:scheme]).include?(params[:filter])
-      params[:filter] = 'all'
-    end
-  end
-
-  def filter_by_allocation_filters
-    default_scheme_inapplicable_filters
-    filter = params[:filter].to_sym
-
-    case params[:filter]
-      when *state_allocation_filters
-        @claims = @claims.send(filter)
-      when *non_state_allocation_filters
-        @claims = @claims.where.not(state: state_allocation_filters).send(filter)
-    end
-  end
-
-  def order_claims
-    @claims = @claims.order(last_submitted_at: :asc)
+  def sort_and_paginate
+    @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(page_size)
   end
 
   def allocation_params
@@ -146,14 +115,6 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     params[:commit] == 'Allocate'
   end
 
-  def state_allocation_filters
-    %w( redetermination awaiting_written_reasons )
-  end
-
-  def non_state_allocation_filters
-    (allocation_filters_for_scheme('agfs') + allocation_filters_for_scheme('lgfs')).uniq - (state_allocation_filters << 'all')
-  end
-
   def allocation_filters_for_scheme(scheme)
     if scheme == 'agfs'
       %w{ all fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons }
@@ -165,6 +126,18 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def default_page_size
-    50
+    25
+  end
+
+  def sort_column
+    'last_submitted_at'
+  end
+
+  def sort_direction
+    'asc'
+  end
+
+  def criteria_params
+    {sorting: sort_column, direction: sort_direction, scheme: scheme, filter: filter, page: current_page, limit: page_size, search: search_terms}
   end
 end

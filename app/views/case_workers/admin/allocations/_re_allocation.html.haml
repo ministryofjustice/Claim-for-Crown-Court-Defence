@@ -49,7 +49,7 @@
             = 'Re-allocation'
           %span.claim-count
             = "Number of claims: "
-            = page_entries_info @claims, entry_name: 'claim'
+            = @claims.total_count
         %thead
           %th{scope:'col'}
             = link_to 'Select all', '#', class: 'select-all', data: { 'all-checked' => 'false' }

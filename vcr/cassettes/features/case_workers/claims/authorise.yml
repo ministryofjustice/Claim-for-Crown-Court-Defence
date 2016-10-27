@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=ce635a1c-fd44-49cc-b56e-119bd19b0ff4&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=2855111f-5185-41dc-b6c0-a8ab5a8502a8&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -21,30 +21,30 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '900'
+      - '1495'
       Etag:
-      - W/"e43bcc5b4a74a3e1d09ac237341082df"
+      - W/"c73a8901175868861c51abe2ac7e4675"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - ac5583ee-bae0-4a57-8675-ceb14d47dc29
+      - 62d732d2-09ab-4cb4-8713-6cc128916574
       X-Runtime:
-      - '0.047622'
+      - '0.070788'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Thu, 06 Oct 2016 10:51:42 GMT
+      - Wed, 26 Oct 2016 15:53:44 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"b627cf1f-92c3-434a-94a7-1cd839b13f32","case_number":"A12345678","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-06T10:51:42.152Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"5f61dca6-ae15-460a-9bde-c63fa3c2e2f6","first_name":"Murphy","last_name":"Watsica"},"defendants":[{"id":1,"uuid":"0816be8f-2fd6-49cd-b5cf-a1cca00f884a","first_name":"Ali","last_name":"Bode"}],"case_type":{"id":1457,"name":"Case
-        Type 6","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"31e15966-4518-4a49-8a11-8b6b502e05cf","case_number":"A12345678","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-26T15:53:43Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"fa69bcf5-1e8d-482b-b75a-b6e9f30fdec7","first_name":"Colt","last_name":"Konopelski","email":"rigoberto@donnelly.org"},"defendants":[{"id":1,"uuid":"9ba460d4-3749-42be-bc8b-723c9bb014a5","first_name":"Wilford","last_name":"Rowe","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":1,"uuid":"0c7547ca-aeee-4f3b-bc8a-f10099a20445","maat_reference":"8959104772","date":"2015-09-22T00:00:00Z"},{"id":2,"uuid":"4247cb3a-43b1-4ab5-9f03-be5306120962","maat_reference":"0951258148","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":811,"name":"Case
+        Type 6","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"case_workers":[{"id":1,"uuid":"e7445a7c-05af-4619-835e-da1997283709","first_name":"Geo","last_name":"Lang","email":"geo.lang@laa.gov.uk"},{"id":2,"uuid":"16c06742-caac-4e18-aa69-6d749e059630","first_name":"Kiel","last_name":"Johns","email":"kiel.johns@laa.gov.uk"}]}]}'
     http_version: 
-  recorded_at: Thu, 06 Oct 2016 10:51:42 GMT
+  recorded_at: Wed, 26 Oct 2016 15:53:44 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=ce635a1c-fd44-49cc-b56e-119bd19b0ff4&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=2855111f-5185-41dc-b6c0-a8ab5a8502a8&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -69,18 +69,18 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 13270451-1571-41ea-b15a-1ed0bdc4feb3
+      - ed7eeaba-689b-4b1a-ac36-acec282cfd2c
       X-Runtime:
-      - '0.022462'
+      - '0.024022'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Thu, 06 Oct 2016 10:51:44 GMT
+      - Wed, 26 Oct 2016 15:53:45 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
       string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":10},"items":[]}'
     http_version: 
-  recorded_at: Thu, 06 Oct 2016 10:51:44 GMT
+  recorded_at: Wed, 26 Oct 2016 15:53:45 GMT
 recorded_with: VCR 3.0.3

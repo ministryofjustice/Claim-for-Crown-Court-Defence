@@ -15,7 +15,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   def create
     @allocation = Allocation.new(allocation_params.merge(current_user: current_user))
     if @allocation.save
-      render_new_with_feedback(@allocation)
+      redirect_with_feedback(@allocation)
     else
       render :new
     end
@@ -23,15 +23,16 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   private
 
-  def render_new_with_feedback(allocation)
-    flash.now[:notice] = notification(allocation)
-    render :new
+  def redirect_with_feedback(allocation)
+    flash[:notice] = notification(allocation)
+    redirect_to case_workers_admin_allocations_path(tab: tab, scheme: scheme)
   end
 
   def summary_from_previous_request?
     params[:claim_ids].present? && (params[:case_worker_id].present? || params[:deallocate])
   end
 
+  # TODO: these will also need to be remote API calls, eventually
   def set_summary_values
     @case_worker = CaseWorker.active.find(params[:case_worker_id]) rescue nil
     @allocated_claims = Claim::BaseClaim.active.find(params[:claim_ids].reject(&:blank?))
@@ -40,12 +41,15 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def quantity_allocation?
-    params[:quantity_to_allocate].present? && params[:quantity_to_allocate].to_i.is_a?(Integer)
+    quantity_to_allocate > 0
+  end
+
+  def quantity_to_allocate
+    params[:quantity_to_allocate].to_i
   end
 
   def process_claim_ids
-    quantity_to_allocate = params[:quantity_to_allocate].to_i
-    params[:allocation][:claim_ids] = @claims.page(current_page).per(page_size).limit(quantity_to_allocate).map(&:id).map(&:to_s)
+    params[:allocation][:claim_ids] = @claims.first(quantity_to_allocate).map(&:id).map(&:to_s)
   end
 
   def set_case_workers

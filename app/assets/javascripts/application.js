@@ -22,6 +22,45 @@
     return this.length > 0;
   };
 
+  /*! Tiny Pub/Sub - v0.7.0 - 2013-01-29
+   * https://github.com/cowboy/jquery-tiny-pubsub
+   * Copyright (c) 2013 "Cowboy" Ben Alman; Licensed MIT */
+  var o = $({});
+  $.subscribe = function() {
+    o.on.apply(o, arguments);
+  };
+
+  $.unsubscribe = function() {
+    o.off.apply(o, arguments);
+  };
+
+  $.publish = function() {
+    o.trigger.apply(o, arguments);
+  };
+
+  // AGFS supplier number has a further level of
+  // conditions when to show / hide
+  $.subscribe('/provider/type/', function(e, obj) {
+    var agfsIsChecked = $('#provider_roles_agfs').is(':checked');
+    var $agfsSupplierInput = $('#js-agfs-supplier-number');
+    if (agfsIsChecked) {
+      if (obj.eventValue === 'firm') {
+        $agfsSupplierInput.show();
+        return;
+      }
+      $agfsSupplierInput.hide();
+    }
+  });
+
+  $.subscribe('/scheme/type/agfs/', function() {
+    if ($('#provider_provider_type_chamber').is(':checked')) {
+      // the events conflict a little
+      setTimeout(function() {
+        $('#js-agfs-supplier-number').hide();
+      }, 0);
+    }
+  });
+
   $.jqReveal({
     // options go here
   });

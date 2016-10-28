@@ -73,6 +73,23 @@ describe API::V1::ExternalUsers::Fee do
         expect(fee.rate).to eq valid_params[:rate]
       end
 
+      context 'fee_type_unique_code' do
+        let(:unique_code) { misc_fee_type.unique_code }
+
+        it 'should create a new fee record with a fee type specified by unique code' do
+          valid_params.delete(:fee_type_id)
+          valid_params.merge!(fee_type_unique_code: unique_code)
+
+          post_to_create_endpoint
+          fee = Fee::BaseFee.last
+          expect(fee.claim_id).to eq claim.id
+          expect(fee.fee_type_id).to eq misc_fee_type.id
+          expect(fee.quantity).to eq valid_params[:quantity]
+          expect(fee.rate).to eq valid_params[:rate]
+          expect(fee.fee_type.unique_code).to eq(unique_code)
+        end
+      end
+
       context 'with fee amount provided' do
         it 'should ignore amount for all fee types that are calculated (all except PPE/NPW)' do
           valid_params.merge!(amount: 155.50)
@@ -263,6 +280,17 @@ describe API::V1::ExternalUsers::Fee do
           expect(last_response.status).to eq 400
           json = JSON.parse(last_response.body)
           expect(last_response.body).to eq json_error_response
+        end
+      end
+
+      context 'mutually exclusive params fee_type_id and fee_type_unique_code' do
+        it 'should return an error if both are provided' do
+          valid_params[:fee_type_unique_code] = 'XXX'
+          expect(valid_params.keys).to include(:fee_type_id, :fee_type_unique_code)
+
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect(last_response.body).to include('fee_type_id, fee_type_unique_code are mutually exclusive')
         end
       end
 

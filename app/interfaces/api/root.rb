@@ -12,7 +12,7 @@ module API
     error_formatter :json, API::Helpers::JsonErrorFormatter
 
     rescue_from Grape::Exceptions::ValidationErrors, ArgumentError, RuntimeError do |error|
-      error!(error.message.split(','), 400)
+      error!(error.message, 400)
     end
 
     rescue_from API::Helpers::Authorisation::AuthorisationError do |error|

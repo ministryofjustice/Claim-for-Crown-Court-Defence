@@ -105,21 +105,19 @@ describe API::V1::ExternalUsers::Claims::AdvocateClaim do
       valid_params[:retrial_concluded_at] = '01-01-2015'
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
-      json = JSON.parse(last_response.body)
+      body = last_response.body
       [
-          {"error"=>"first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
-          {"error"=>"trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
-          {"error"=>"trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
-          {"error"=>"trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
-          {"error"=>"trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
-          {"error"=>"retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
-          {"error"=>"retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"}
+        "first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
+        "trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
+        "trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
+        "trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
+        "trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
+        "retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
+        "retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"
       ].each do |error|
-        expect(json).to include error
+        expect(body).to include(error)
       end
-
     end
-
   end
 
   describe "POST #{ClaimApiEndpoints.for(:advocate).create}" do

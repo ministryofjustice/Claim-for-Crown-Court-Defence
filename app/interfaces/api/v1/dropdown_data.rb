@@ -84,7 +84,7 @@ module API
           params do
             use :role_filter
             optional :category, type: String, values: %w(all basic misc fixed graduated interim transfer warrant), default: 'all',
-                     desc: "[optional] category - #{%w(all basic misc fixed graduated interim transfer warrant).to_sentence}. Default: all"
+                     desc: "OPTIONAL: The fee category to filter the results. Can be: #{%w(all basic misc fixed graduated interim transfer warrant).to_sentence}. Default: all"
           end
 
           desc "Return all AGFS Fee Types (optional category filter)."

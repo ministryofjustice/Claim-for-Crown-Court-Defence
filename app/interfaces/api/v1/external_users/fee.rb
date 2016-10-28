@@ -7,7 +7,9 @@ module API
           # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
           optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the provider'
           optional :claim_id, type: String, desc: 'REQUIRED: The unique identifier for the corresponding claim.'
-          optional :fee_type_id, type: Integer, desc: 'REQUIRED: The unique identifier for the corresponding fee type'
+          optional :fee_type_id, type: Integer, desc: 'OPTIONAL: The unique numeric ID for the corresponding fee type if fee_type_unique_code is not specified.'
+          optional :fee_type_unique_code, type: String, desc: 'OPTIONAL: The unique alphanumeric CODE for the corresponding fee type if fee_type_id is not specified'
+          mutually_exclusive :fee_type_id, :fee_type_unique_code
           optional :quantity, type: Float, desc: 'REQUIRED/UNREQUIRED: The number of fees of this fee type that are being claimed (quantity x rate will equal amount). NB: Leave blank if not applicable'
           optional :rate, type: Float, desc: 'REQUIRED/UNREQUIRED: The currency value per unit/quantity of the fee (quantity x rate will equal amount). NB: Leave blank for PPE and NPW fee types'
           optional :amount, type: Float, desc: 'REQUIRED/UNREQUIRED: The total value of the fee. NB: Leave blank for fee types other than PPE/NPW or a Transfer Fee'

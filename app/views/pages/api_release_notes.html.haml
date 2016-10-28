@@ -1,74 +1,46 @@
 = render partial: 'layouts/header', locals: {page_heading: 'API release notes'}
 
 %section.api-documentation
-  %hr
-  %h2
-    July 2015
 
+  %h1 October 2016
   %ul.list-bullet
     %li
-      created
-
-  %hr
-  %h2
-    October 2015
-
-  %ul.list-bullet
+      Users of the api-sandbox were having difficulties because the ids of the static data records (expense types, fee types etc) were
+      liable to change every time we regenerated the database.  Over the weekend of 8th-9th October, the database was recreated and the ids
+      of these records fixed to match those on the live database.  These ids are now static and will not change in future.
+    %p
     %li
-      first significant release
-
-  %hr
-  %h2
-    February 2016
-
-  %ul.list-bullet
-    %li case number validation - restricted to A12345678
-    %li indictment removed from claim
-    %li expense quantities allow decimals
-    %li rate added to fees, amount removed except for PPE and NPW
-    %li api key not required by claim importer
-    %li creator does not have to be an admin
-    %li advocates endpoint names renamed to external_users
-    %li granting body removed from representation orders
-    %li PPE and NPW fee types require quantity and amount - rate must be blank
-    %li retrial fields added - required for Retrial case type claims
-    %li claim importer - reports specific errors for valid JSON files that contain model validation errors
-
-  %hr
-  %h2 June 2016
-
-  %ul.list-bullet
-    %li
-      Expense Types:  The list of valid expense types has changed completely, and now matches those that
-      you will see on the website.  A GET request to 'api/expense_types' will return a a JSON response
-      detailing all the expense types, including:
-
+      An extra field "type" has been added to the result hash for fee types.  This will be one of the following values:
       %ul.list-bullet
-        %li id: the expense_type_id to specify when creating an expense
-        %li role: whether this is a valid expense type for AGFS claims, LGFS claims or both
-        %li reason set: What valid reason_ids can be applied to expenses of this type
+        %li Fee::MiscFeeType
+        %li Fee::GraduatedFeeType
+        %li Fee::BasicFeeType
+        %li Fee::FixedFeeType
+        %li Fee::InterimFeeType
+        %li Fee::TransferFeeType
+        %li Fee::WarrantFeeType
 
+    %p
     %li
-      Expense: A number of new fields have been introduced, - see the API documentation for which ones
-      are necessary for which types of expense.
+      A new alpha-numeric field 'unique_code' has been added to the result hash for the fee_types endpoint.  This value
+      is unique to each record (the 'code' field is not unique; it is the code that was printed on the AF1 form and certain codes
+      are shared by several fee types).
 
+    %p
     %li
-      Fee quantities: Quantities on fees of the following types now accept decimal numbers; all others accept only integers
+      The Fees endpoint now accepts the above unique code as a parameter called 'fee_type_unique_code', which internally will be
+      translated to the corresponding 'fee_type_id'.
+      %br
+      fee_type_id and fee_type_unique_code are mutually exclusive so you can only provide one or the other.
 
-      %ul.list-bullet
-        %li SPF - Special Preparation Fee
-        %li WPF - Wasted Preparation Fee
-        %li RNF - Research of very unusual or novel factual issue
-        %li CAV - Conferences and views
-        %li WOA - Written / oral advice
+  %hr
+  %h1 August 2016
 
+  %ul.list-bullet
     %li
-      API to submit litigator claims: Work on this is starting now and expected to be available for beta testing
-    by the end of June. We will release documentation for litigator claims within the next two weeks.
-
-    %li
-      Submitted dates must conform to ISO 8601, being the time information and time zone offset optional.
-      Examples: 2016-12-31, 2016-12-31T11:45, 2016-12-31T11:45:30Z
+      Offence Ids on LGFS claims (Litigator Final Claim, Litigator Transfer Claim, Litigator Interim Claim) are no longer limited to those ids derived from the Offence Class.  Previously,
+      the only offence ids that were considered valid on an LGFS claim were those that were derived from the litigator_offence_id on the relevant Offence Class.  This is no longer that case,
+      any offence id may be used.
 
   %hr
   %h2 July 2016
@@ -108,8 +80,6 @@
         %tr
           %td Create litigator transfer claim
           %td POST /api/external_users/claims/transfer
-
-
 
     %li
       Disbursements can now be validated and added to a claim via the API via:
@@ -178,37 +148,71 @@
       be one of the lgfs_offence_ids returned in the offence_classes list. You should still use the offence ids returned from the /api/offences
       endpoint for advocate claims.
 
-%hr
-%h1 August 2016
+  %hr
+  %h2 June 2016
 
-%ul.list-bullet
-  %li
-    Offence Ids on LGFS claims (Litigator Final Claim, Litigator Transfer Claim, Litigator Interim Claim) are no longer limited to those ids derived from the Offence Class.  Previously,
-    the only offence ids that were considered valid on an LGFS claim were those that were derived from the litigator_offence_id on the relevant Offence Class.  This is no longer that case,
-    any offence id may be used.
+  %ul.list-bullet
+    %li
+      Expense Types:  The list of valid expense types has changed completely, and now matches those that
+      you will see on the website.  A GET request to 'api/expense_types' will return a a JSON response
+      detailing all the expense types, including:
 
-%hr
-%h1 October 2016
-%ul.list-bullet
-  %li
-    Users of the api-sandbox were having difficulties because the ids of the static data records (expense types, fee types etc) were
-    liable to change every time we regenerated the database.  Over the weekend of 8th-9th October, the database was recreated and the ids
-    of these records fixed to match those on the live database.  These ids are now static and will not change in future.
-  %p
-  %li
-    An extra field "type" has been added to the result hash for fee types.  This will be one of the following values:
-    %ul.list-bullet
-      %li Fee::MiscFeeType
-      %li Fee::GraduatedFeeType
-      %li Fee::BasicFeeType
-      %li Fee::FixedFeeType
-      %li Fee::InterimFeeType
-      %li Fee::TransferFeeType
-      %li Fee::WarrantFeeType
+      %ul.list-bullet
+        %li id: the expense_type_id to specify when creating an expense
+        %li role: whether this is a valid expense type for AGFS claims, LGFS claims or both
+        %li reason set: What valid reason_ids can be applied to expenses of this type
 
-  %p
-  %li
-    A new alpha-numeric field 'unique_code' has been added to the result hash for the fee_types endpoint.  This value
-    is unique to each record (the 'code' field is not unique; it is the code that was printed on the AF1 form and certain codes
-    are shared by several fee types).
+    %li
+      Expense: A number of new fields have been introduced, - see the API documentation for which ones
+      are necessary for which types of expense.
 
+    %li
+      Fee quantities: Quantities on fees of the following types now accept decimal numbers; all others accept only integers
+
+      %ul.list-bullet
+        %li SPF - Special Preparation Fee
+        %li WPF - Wasted Preparation Fee
+        %li RNF - Research of very unusual or novel factual issue
+        %li CAV - Conferences and views
+        %li WOA - Written / oral advice
+
+    %li
+      API to submit litigator claims: Work on this is starting now and expected to be available for beta testing
+    by the end of June. We will release documentation for litigator claims within the next two weeks.
+
+    %li
+      Submitted dates must conform to ISO 8601, being the time information and time zone offset optional.
+      Examples: 2016-12-31, 2016-12-31T11:45, 2016-12-31T11:45:30Z
+
+  %hr
+  %h2
+    February 2016
+
+  %ul.list-bullet
+    %li case number validation - restricted to A12345678
+    %li indictment removed from claim
+    %li expense quantities allow decimals
+    %li rate added to fees, amount removed except for PPE and NPW
+    %li api key not required by claim importer
+    %li creator does not have to be an admin
+    %li advocates endpoint names renamed to external_users
+    %li granting body removed from representation orders
+    %li PPE and NPW fee types require quantity and amount - rate must be blank
+    %li retrial fields added - required for Retrial case type claims
+    %li claim importer - reports specific errors for valid JSON files that contain model validation errors
+
+  %hr
+  %h2
+    October 2015
+
+  %ul.list-bullet
+    %li
+      first significant release
+
+  %hr
+  %h2
+    July 2015
+
+  %ul.list-bullet
+    %li
+      created

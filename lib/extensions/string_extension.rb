@@ -18,6 +18,10 @@ module StringExtension
     raise ArgumentError.new("invalid value for Boolean: \"#{self}\"")
   end
 
+  def alpha?
+    !!match(/^[[:alpha:]]+$/)
+  end
+
   def strftime(format)
     Time.zone.parse(self).strftime(format)
   end

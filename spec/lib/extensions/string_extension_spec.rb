@@ -54,4 +54,31 @@ describe String do
     end
   end
 
+  context 'alpha?' do
+    context 'for blank values' do
+      it 'should be false for empty string' do
+        expect(''.alpha?).to eq(false)
+      end
+
+      it 'should be false for only spaces string' do
+        expect(' '.alpha?).to eq(false)
+      end
+    end
+
+    context 'truthy values' do
+      %w(abc ABC).each do |value|
+        it "should be true for '#{value}'" do
+          expect(value.alpha?).to eq(true)
+        end
+      end
+    end
+
+    context 'falsey values' do
+      %w(123 a1b z1 0).each do |value|
+        it "should be false for '#{value}'" do
+          expect(value.alpha?).to eq(false)
+        end
+      end
+    end
+  end
 end

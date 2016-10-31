@@ -129,10 +129,6 @@ module Fee
       fee_type.description
     end
 
-    def category
-      fee_type.fee_category.abbreviation
-    end
-
     def clear
       self.quantity = nil
       self.rate = nil

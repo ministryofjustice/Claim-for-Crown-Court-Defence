@@ -154,12 +154,16 @@
           "uniqueItems": true,
           "items": {
             "type": "object",
-            "required": [
-              "fee_type_id"
+            "oneOf": [
+              { "required": [ "fee_type_id" ] },
+              { "required": [ "fee_type_unique_code" ] }
             ],
             "properties": {
               "fee_type_id": {
                 "type": "integer"
+              },
+              "fee_type_unique_code": {
+                "type": "string"
               },
               "quantity": {
                 "type": "number"

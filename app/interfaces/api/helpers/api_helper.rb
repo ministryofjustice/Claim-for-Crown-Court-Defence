@@ -64,9 +64,8 @@ module API
         private
 
         def get_fee_subclass(args)
-          fee_type = ::Fee::BaseFeeType.find_by(id: args.delete(:fee_type_id)) ||
-              ::Fee::BaseFeeType.find_by(unique_code: args.delete(:fee_type_unique_code)) || (raise 'Choose a type for the fee')
-
+          id_or_code = args.delete(:fee_type_id) || args.delete(:fee_type_unique_code)
+          fee_type = ::Fee::BaseFeeType.find_by_id_or_unique_code(id_or_code) || (raise 'Type of fee not found by ID or Unique Code')
           args[:fee_type_id] = fee_type.id
           fee_type.type.sub(/Type$/, '').constantize
         end

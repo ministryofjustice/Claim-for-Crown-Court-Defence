@@ -26,7 +26,7 @@ describe API::V1::ExternalUsers::Fee do
 
   let!(:claim)            { create(:claim, source: 'api').reload }
   let(:valid_params)      { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
-  let(:json_error_response) { [ {"error" => "Choose a type for the fee" } ].to_json }
+  let(:json_error_response) { [ {"error" => "Type of fee not found by ID or Unique Code" } ].to_json }
 
   context 'sending non-permitted verbs' do
     ALL_FEE_ENDPOINTS.each do |endpoint| # for each endpoint

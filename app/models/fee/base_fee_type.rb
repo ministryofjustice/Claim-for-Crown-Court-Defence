@@ -89,11 +89,12 @@ module Fee
       Fee::TransferFeeType.all
     end
 
-    def self.by_fee_category(category)
-      self.joins(:fee_category).where('fee_categories.abbreviation = ?', category.upcase).order(:description)
+    def self.find_by_id_or_unique_code(id_or_code)
+      if id_or_code.to_s.alpha?
+        find_by(unique_code: id_or_code)
+      else
+        find_by(id: id_or_code)
+      end
     end
-
-    private_class_method :by_fee_category
-
   end
 end

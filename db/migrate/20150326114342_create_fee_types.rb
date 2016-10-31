@@ -3,7 +3,6 @@ class CreateFeeTypes < ActiveRecord::Migration
     create_table :fee_types do |t|
       t.string :description
       t.string :code
-      t.references :fee_category, index: true
 
       t.timestamps
     end

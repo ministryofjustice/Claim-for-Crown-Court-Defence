@@ -213,9 +213,11 @@ ActiveRecord::Schema.define(version: 20161101093559) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.string   "unique_code"
   end
 
   add_index "disbursement_types", ["name"], name: "index_disbursement_types_on_name", using: :btree
+  add_index "disbursement_types", ["unique_code"], name: "index_disbursement_types_on_unique_code", unique: true, using: :btree
 
   create_table "disbursements", force: :cascade do |t|
     t.integer  "disbursement_type_id"

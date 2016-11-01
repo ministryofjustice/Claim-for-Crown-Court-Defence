@@ -22,6 +22,10 @@ module StringExtension
     !!match(/^[[:alpha:]]+$/)
   end
 
+  def digit?
+    !!match(/^[[:digit:]]+$/)
+  end
+
   def strftime(format)
     Time.zone.parse(self).strftime(format)
   end

@@ -16,9 +16,11 @@ class DocType
     DocType.new(4,  400,  'A copy of the indictment'),
     DocType.new(5,  100,  'Order in respect of judicial apportionment'),
     DocType.new(6,  800,  'Expenses invoices'),
-    DocType.new(7,  700,  'Hardship supporting evidence'),
-    DocType.new(8,  600,  'Details of previous fee advancements'),
+    DocType.new(7,  600,  'Hardship supporting evidence'),
+    DocType.new(8,  700,  'Details of previous fee advancements'),
     DocType.new(9, 1000,  'Justification for out of time claim'),
+    DocType.new(10, 1100,  'Special preparation form'),
+    DocType.new(11, 1200,  'Prior authority CRM4')
   ].sort{ |a, b| a.sequence <=> b.sequence }
 
   def self.all

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161025155737) do
+ActiveRecord::Schema.define(version: 20161101093559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -263,9 +263,11 @@ ActiveRecord::Schema.define(version: 20161025155737) do
     t.datetime "updated_at"
     t.string   "roles"
     t.string   "reason_set"
+    t.string   "unique_code"
   end
 
   add_index "expense_types", ["name"], name: "index_expense_types_on_name", using: :btree
+  add_index "expense_types", ["unique_code"], name: "index_expense_types_on_unique_code", unique: true, using: :btree
 
   create_table "expenses", force: :cascade do |t|
     t.integer  "expense_type_id"

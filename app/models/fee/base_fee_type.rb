@@ -90,10 +90,10 @@ module Fee
     end
 
     def self.find_by_id_or_unique_code(id_or_code)
-      if id_or_code.to_s.alpha?
-        find_by(unique_code: id_or_code)
-      else
+      if id_or_code.to_s.digit?
         find_by(id: id_or_code)
+      else
+        find_by(unique_code: id_or_code)
       end
     end
   end

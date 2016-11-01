@@ -37,6 +37,10 @@ namespace :data do
       RakeHelpers::FeeTypeUniqueCodeAdder.new.run
     end
 
+    desc 'Add Unique Code to Expense Types table'
+    task :expense_type_unique_code => :environment do
+      load File.join(Rails.root, 'db', 'seeds', 'expense_types.rb')
+    end
 
     desc 'Add Unique Code to Disbursement Types table'
     task :disbursement_types_unique_code => :environment do

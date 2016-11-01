@@ -54,11 +54,15 @@ module SeedHelper
   # NOTE: since expense type roles are serialized we cannot used standard find_or_create_by activerrecord helper
   def self.find_or_create_expense_type!(name, roles, reason_set, code)
     expense_type = ExpenseType.where('name ILIKE ?', name).first
+
     if expense_type.nil?
-      expense_type = ExpenseType.create!(name: name, roles: roles, reason_set: reason_set, unique_code: code)
-    elsif expense_type.unique_code.blank?
+      expense_type = ExpenseType.create!(name: name, roles: roles, reason_set: reason_set)
+    end
+
+    if expense_type.respond_to?(:unique_code) && expense_type.unique_code.blank?
       expense_type.update(unique_code: code)
     end
+
     expense_type
   end
 

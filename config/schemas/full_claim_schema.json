@@ -218,12 +218,14 @@
           "uniqueItems": true,
           "items": {
             "type": "object",
-            "required": [
-              "expense_type_id"
+            "oneOf": [
+              { "required": [ "expense_type_id" ] },
+              { "required": [ "expense_type_unique_code" ] }
             ],
             "properties": {
               "amount":           { "type": "number" },
               "expense_type_id":  { "type": "integer" },
+              "expense_type_unique_code": { "type": "string" },
               "location":         { "type": "string" },
               "date":             { "type": "string", "format": "date" },
               "distance":         { "type": "number" },

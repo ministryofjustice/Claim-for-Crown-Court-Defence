@@ -51,6 +51,7 @@ namespace :data do
     task :all => :environment do
       {
         'disbursement_types_unique_code' => 'Populate disbursement types table with unique codes',
+        'expense_type_unique_code' => 'Populate expense types table with unique codes'
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

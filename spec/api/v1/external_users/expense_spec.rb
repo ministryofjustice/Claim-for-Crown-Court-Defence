@@ -106,6 +106,26 @@ describe API::V1::ExternalUsers::Expense do
         end
       end
 
+      context 'expense_type_unique_code' do
+        let(:unique_code) { expense_type.unique_code }
+
+        it 'should create a new expense record with a expense type specified by unique code' do
+          params.delete(:expense_type_id)
+          params.merge!(expense_type_unique_code: unique_code)
+
+          post_to_create_endpoint
+          expect(last_response.status).to eq 201
+
+          new_expense = Expense.last
+          expect(new_expense.claim_id).to eq claim.id
+          expect(new_expense.expense_type_id).to eq expense_type.id
+          expect(new_expense.location).to eq params[:location]
+          expect(new_expense.amount).to eq params[:amount]
+          expect(new_expense.distance).to eq params[:distance]
+          expect(new_expense.expense_type.unique_code).to eq(unique_code)
+        end
+      end
+
       context 'when expense params are invalid' do
         context 'invalid API key' do
           let(:valid_params) { params }
@@ -120,6 +140,17 @@ describe API::V1::ExternalUsers::Expense do
               expect(last_response.status).to eq 400
               expect(parsed_body.first).to eq({"error" => expected_message})
             end
+          end
+        end
+
+        context 'mutually exclusive params expense_type_id and expense_type_unique_code' do
+          it 'should return an error if both are provided' do
+            params[:expense_type_unique_code] = 'XXX'
+            expect(params.keys).to include(:expense_type_id, :expense_type_unique_code)
+
+            post_to_create_endpoint
+            expect(last_response.status).to eq 400
+            expect(last_response.body).to include('expense_type_id, expense_type_unique_code are mutually exclusive')
           end
         end
 
@@ -151,6 +182,16 @@ describe API::V1::ExternalUsers::Expense do
           end
         end
 
+        context 'invalid expense_type_unique_code' do
+          it 'should return 400 and a JSON error if no expense type was found' do
+            params.delete(:expense_type_id)
+            params.merge!(expense_type_unique_code: 'XXXXX')
+
+            post_to_create_endpoint
+            expect(last_response.status).to eq 400
+            expect(last_response.body).to eq "[{\"error\":\"Couldn't find ExpenseType\"}]"
+          end
+        end
       end
 
     end

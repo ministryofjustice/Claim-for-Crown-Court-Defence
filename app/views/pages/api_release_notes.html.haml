@@ -2,6 +2,21 @@
 
 %section.api-documentation
 
+  %hr
+  %h1 November 2016
+  %ul.list-bullet
+    %li
+      A new alpha-numeric field 'unique_code' has been added to the result hash for the expense_types endpoint.  This value
+      is unique to each record.
+
+    %p
+    %li
+      The Expenses endpoint now accepts the above unique code as a parameter called 'expense_type_unique_code', which internally will be
+      translated to the corresponding 'expense_type_id'.
+      %br
+      expense_type_id and expense_type_unique_code are mutually exclusive so you can only provide one or the other.
+
+  %hr
   %h1 October 2016
   %ul.list-bullet
     %li

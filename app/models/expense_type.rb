@@ -34,6 +34,7 @@ class ExpenseType < ActiveRecord::Base
   has_many :expenses, dependent: :destroy
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :unique_code, presence: true, uniqueness: { case_sensitive: false }
   validates :reason_set, inclusion: { in:  %w{ A B } }
 
   def self.reason_sets

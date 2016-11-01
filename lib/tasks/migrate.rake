@@ -37,10 +37,16 @@ namespace :data do
       RakeHelpers::FeeTypeUniqueCodeAdder.new.run
     end
 
+
+    desc 'Add Unique Code to Disbursement Types table'
+    task :disbursement_types_unique_code => :environment do
+      load File.join(Rails.root, 'db', 'seeds', 'disbursement_types.rb')
+    end
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
-        'set_notify' => 'Set all external users with admin privileges to receive notification emails',
+        'disbursement_types_unique_code' => 'Populate disbursement types table with unique codes',
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

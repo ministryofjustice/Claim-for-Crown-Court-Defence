@@ -2,13 +2,12 @@
 #
 # Table name: expense_types
 #
-#  id          :integer          not null, primary key
-#  name        :string
-#  created_at  :datetime
-#  updated_at  :datetime
-#  roles       :string
-#  reason_set  :string
-#  unique_code :string
+#  id         :integer          not null, primary key
+#  name       :string
+#  created_at :datetime
+#  updated_at :datetime
+#  roles      :string
+#  reason_set :string
 #
 
 FactoryGirl.define do

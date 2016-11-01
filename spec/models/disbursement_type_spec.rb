@@ -2,11 +2,12 @@
 #
 # Table name: disbursement_types
 #
-#  id         :integer          not null, primary key
-#  name       :string
-#  created_at :datetime
-#  updated_at :datetime
-#  deleted_at :datetime
+#  id          :integer          not null, primary key
+#  name        :string
+#  created_at  :datetime
+#  updated_at  :datetime
+#  deleted_at  :datetime
+#  unique_code :string
 #
 
 require 'rails_helper'
@@ -17,6 +18,8 @@ RSpec.describe DisbursementType, type: :model do
 
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }
+  it { should validate_presence_of(:unique_code) }
+  it { should validate_uniqueness_of(:unique_code) }
 
   context 'scopes' do
 

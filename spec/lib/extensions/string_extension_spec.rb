@@ -81,4 +81,32 @@ describe String do
       end
     end
   end
+
+  context 'digit?' do
+    context 'for blank values' do
+      it 'should be false for empty string' do
+        expect(''.digit?).to eq(false)
+      end
+
+      it 'should be false for only spaces string' do
+        expect(' '.digit?).to eq(false)
+      end
+    end
+
+    context 'truthy values' do
+      %w(0 1 123).each do |value|
+        it "should be true for '#{value}'" do
+          expect(value.digit?).to eq(true)
+        end
+      end
+    end
+
+    context 'falsey values' do
+      %w(a a1b z1 1z 1.5).each do |value|
+        it "should be false for '#{value}'" do
+          expect(value.digit?).to eq(false)
+        end
+      end
+    end
+  end
 end

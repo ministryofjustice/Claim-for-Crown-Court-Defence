@@ -81,6 +81,8 @@ describe API::V1::ExternalUsers::Fee do
           valid_params.merge!(fee_type_unique_code: unique_code)
 
           post_to_create_endpoint
+          expect(last_response.status).to eq 201
+
           fee = Fee::BaseFee.last
           expect(fee.claim_id).to eq claim.id
           expect(fee.fee_type_id).to eq misc_fee_type.id

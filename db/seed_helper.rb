@@ -56,10 +56,10 @@ module SeedHelper
     expense_type = ExpenseType.where('name ILIKE ?', name).first
 
     if expense_type.nil?
-      expense_type = ExpenseType.create!(name: name, roles: roles, reason_set: reason_set)
+      expense_type = ExpenseType.create!(name: name, roles: roles, reason_set: reason_set, unique_code: code)
     end
 
-    if expense_type.respond_to?(:unique_code) && expense_type.unique_code.blank?
+    if expense_type.unique_code.blank?
       expense_type.update(unique_code: code)
     end
 

@@ -7,7 +7,9 @@ module API
           # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
           optional :api_key, type: String, desc: "REQUIRED: The API authentication key of the provider"
           optional :claim_id, type: String, desc: "REQUIRED: Unique identifier for the claim associated with this expense."
-          optional :expense_type_id, type: Integer, desc: "REQUIRED: The unique identifier for the corresponding expense type."
+          optional :expense_type_id, type: Integer, desc: 'OPTIONAL: The unique numeric ID for the corresponding expense type if expense_type_unique_code is not specified.'
+          optional :expense_type_unique_code, type: String, desc: 'OPTIONAL: The unique alphanumeric CODE for the corresponding expense type if expense_type_id is not specified'
+          mutually_exclusive :expense_type_id, :expense_type_unique_code
           optional :location, type: String, desc: "REQUIRED for all expense types other than Parking. Location or destination."
           optional :reason_id, type: Integer, desc: "REQUIRED: Unique identifier for the reason for this travel: must be one of the valid reason ids associated with the expense type."
           optional :reason_text, type: String, desc: "REQUIRED when reason is Other oitherwise must be absent."

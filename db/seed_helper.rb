@@ -51,7 +51,6 @@ module SeedHelper
     fee_type
   end
 
-  # NOTE: since expense type roles are serialized we cannot used standard find_or_create_by activerrecord helper
   def self.find_or_create_expense_type!(name, roles, reason_set, code)
     expense_type = ExpenseType.where('name ILIKE ?', name).first
 
@@ -64,6 +63,20 @@ module SeedHelper
     end
 
     expense_type
+  end
+
+  def self.find_or_create_disbursement_type!(name, code)
+    disbursement_type = DisbursementType.where('name ILIKE ?', name).first
+
+    if disbursement_type.nil?
+      disbursement_type = DisbursementType.create!(name: name, unique_code: code)
+    end
+
+    if disbursement_type.unique_code.blank?
+      disbursement_type.update(unique_code: code)
+    end
+
+    disbursement_type
   end
 
   def self.build_supplier_numbers(supplier_numbers)

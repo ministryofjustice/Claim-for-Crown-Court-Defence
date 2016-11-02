@@ -45,6 +45,6 @@ class Disbursement < ActiveRecord::Base
   end
 
   def disbursement_type_unique_code=(code)
-    self.disbursement_type = DisbrusementType.find_by!(unique_code: code)
+    self.disbursement_type = DisbursementType.find_by!(unique_code: code)
   end
 end

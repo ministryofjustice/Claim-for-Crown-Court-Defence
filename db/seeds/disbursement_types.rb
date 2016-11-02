@@ -1,3 +1,5 @@
+require Rails.root.join('db','seed_helper')
+
 [
   [1, 'ARP', 'Accident reconstruction report'],
   [2, 'ACC', 'Accounts'],
@@ -32,16 +34,6 @@
   [31, 'VET', 'Vet report'],
   [32, 'VOI', 'Voice recognition'],
 ].each do |row|
-  record_id, unique_code, name = row
-  record = DisbursementType.find_by(id: record_id)
-  if record.nil?
-    DisbursementType.create!(id: record_id, unique_code: unique_code, name: name)
-  else
-    raise "Unexpected name for DT #{record.id}: Expected #{name}, got #{record.name}" if record.name != name
-    record.unique_code = unique_code
-    record.save!
-  end
+  _record_id, unique_code, name = row
+  SeedHelper.find_or_create_disbursement_type!(name, unique_code)
 end
-
-DisbursementType.connection.execute("ALTER SEQUENCE disbursement_types_id_seq restart with 33")
-

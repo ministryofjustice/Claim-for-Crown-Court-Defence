@@ -12,8 +12,13 @@
 
 FactoryGirl.define do
   factory :disbursement_type do
-    sequence(:name) { |n| "Disbursment type, #{random_description} - #{n}" }
+    sequence(:name) { |n| "#{random_description} - #{n}" }
     sequence(:unique_code) { |n| "XX#{n}" }
+
+    trait :forensic do
+      name 'Forensic scientists'
+      unique_code 'FOR'
+    end
   end
 end
 

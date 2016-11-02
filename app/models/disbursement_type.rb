@@ -20,6 +20,5 @@ class DisbursementType < ActiveRecord::Base
   has_many :disbursements, dependent: :destroy
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
-  validates :unique_code, presence: true, uniqueness: true
-
+  validates :unique_code, presence: true, uniqueness: { case_sensitive: false }
 end

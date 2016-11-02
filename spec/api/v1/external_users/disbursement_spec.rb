@@ -18,7 +18,7 @@ describe API::V1::ExternalUsers::Disbursement do
 
   let!(:provider)           { create(:provider) }
   let!(:claim)              { create(:litigator_claim, source: 'api').reload }
-  let!(:disbursement_type)  { create(:disbursement_type) }
+  let!(:disbursement_type)  { create(:disbursement_type, :forensic) }
 
   let!(:params) do
     {
@@ -92,6 +92,23 @@ describe API::V1::ExternalUsers::Disbursement do
       end
     end
 
+    context 'disbursement_type_unique_code' do
+      let(:unique_code) { disbursement_type.unique_code }
+
+      it 'should create a new disbursement record with a disbursement type specified by unique code' do
+        params.delete(:disbursement_type_id)
+        params.merge!(disbursement_type_unique_code: unique_code)
+
+        post_to_create_endpoint
+        expect(last_response.status).to eq 201
+
+        new_disbursement = Disbursement.last
+        expect(new_disbursement.claim_id).to eq claim.id
+        expect(new_disbursement.disbursement_type_id).to eq disbursement_type.id
+        expect(new_disbursement.disbursement_type.unique_code).to eq(unique_code)
+      end
+    end
+
     context 'when disbursement params are invalid' do
       context 'invalid API key' do
         let(:valid_params) { params }
@@ -106,6 +123,17 @@ describe API::V1::ExternalUsers::Disbursement do
             expect(last_response.status).to eq 400
             expect(parsed_body.first).to eq({"error" => expected_message})
           end
+        end
+      end
+
+      context 'mutually exclusive params disbursement_type_id and disbursement_type_unique_code' do
+        it 'should return an error if both are provided' do
+          params[:disbursement_type_unique_code] = 'XXX'
+          expect(params.keys).to include(:disbursement_type_id, :disbursement_type_unique_code)
+
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect(last_response.body).to include('disbursement_type_id, disbursement_type_unique_code are mutually exclusive')
         end
       end
 
@@ -136,8 +164,18 @@ describe API::V1::ExternalUsers::Disbursement do
           expect(last_response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
         end
       end
-    end
 
+      context 'invalid disbursement_type_unique_code' do
+        it 'should return 400 and a JSON error if no disbursement type was found' do
+          params.delete(:disbursement_type_id)
+          params.merge!(disbursement_type_unique_code: 'XXXXX')
+
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect(last_response.body).to eq "[{\"error\":\"Couldn't find DisbursementType\"}]"
+        end
+      end
+    end
   end
 
   describe "POST #{VALIDATE_DISBURSEMENT_ENDPOINT}" do

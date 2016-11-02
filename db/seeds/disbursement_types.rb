@@ -1,4 +1,6 @@
-[
+require Rails.root.join('db','seed_helper')
+
+disbursement_types = [
   [1, 'ARP', 'Accident reconstruction report'],
   [2, 'ACC', 'Accounts'],
   [3, 'SWX', 'Computer experts'],
@@ -31,17 +33,14 @@
   [30, 'TRV', 'Travel costs'],
   [31, 'VET', 'Vet report'],
   [32, 'VOI', 'Voice recognition'],
-].each do |row|
+]
+
+max_id = 0
+disbursement_types.each do |row|
   record_id, unique_code, name = row
-  record = DisbursementType.find_by(id: record_id)
-  if record.nil?
-    DisbursementType.create!(id: record_id, unique_code: unique_code, name: name)
-  else
-    raise "Unexpected name for DT #{record.id}: Expected #{name}, got #{record.name}" if record.name != name
-    record.unique_code = unique_code
-    record.save!
-  end
+  max_id = [max_id, record_id].max
+  SeedHelper.find_or_create_disbursement_type!(record_id, unique_code, name)
 end
 
-DisbursementType.connection.execute("ALTER SEQUENCE disbursement_types_id_seq restart with 33")
-
+# This is to ensure API Sandbox and Gamma are in sync regarding the IDs
+DisbursementType.connection.execute("ALTER SEQUENCE disbursement_types_id_seq restart with #{max_id + 1}")

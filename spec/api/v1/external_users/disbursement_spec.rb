@@ -92,6 +92,10 @@ describe API::V1::ExternalUsers::Disbursement do
       end
     end
 
+    context 'when disbursement params are valid using unique code' do
+      it 'should create disbursement '
+    end
+
     context 'when disbursement params are invalid' do
       context 'invalid API key' do
         let(:valid_params) { params }

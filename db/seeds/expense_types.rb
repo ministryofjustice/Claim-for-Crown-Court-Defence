@@ -1,31 +1,22 @@
 require Rails.root.join('db','seed_helper')
 
-old_expense_types =
-[
-  ['Conference and view - car',               ['agfs'],         'A'],
-  ['Conference and view - hotel stay',        ['agfs'],         'A'],
-  ['Conference and view - train',             ['agfs'],         'A'],
-  ['Conference and view - travel time',       ['agfs'],         'A'],
-  ['Travel and hotel - car',                  ['agfs'],         'A'],
-  ['Travel and hotel - conference and view',  ['agfs'],         'A'],
-  ['Travel and hotel - hotel stay',           ['agfs'],         'A'],
-  ['Travel and hotel - train',                ['agfs'],         'A'],
+expense_types = [
+  [11, 'Car travel',              ['agfs', 'lgfs'], 'A', 'CAR'],
+  [12, 'Parking',                 ['agfs', 'lgfs'], 'A', 'PARK'],
+  [13, 'Hotel accommodation',     ['agfs', 'lgfs'], 'A', 'HOTEL'],
+  [14, 'Train/public transport',  ['agfs', 'lgfs'], 'A', 'TRAIN'],
+  [15, 'Travel time',             ['agfs'],         'B', 'TRAVL'],
+  [16, 'Road or tunnel tolls',    ['agfs', 'lgfs'], 'A', 'ROAD'],
+  [17, 'Cab fares',               ['agfs', 'lgfs'], 'A', 'CABF'],
+  [18, 'Subsistence',             ['agfs', 'lgfs'], 'A', 'SUBS'],
 ]
 
-new_expense_types = [
-  ['Car travel',                              ['agfs', 'lgfs'], 'A', 'CAR'],
-  ['Parking',                                 ['agfs', 'lgfs'], 'A', 'PARK'],
-  ['Hotel accommodation',                     ['agfs', 'lgfs'], 'A', 'HOTEL'],
-  ['Train/public transport',                  ['agfs', 'lgfs'], 'A', 'TRAIN'],
-  ['Travel time',                             ['agfs'],         'B', 'TRAVL'],
-  ['Road or tunnel tolls',                    ['agfs', 'lgfs'], 'A', 'ROAD'],
-  ['Cab fares',                               ['agfs', 'lgfs'], 'A', 'CABF'],
-  ['Subsistence',                             ['agfs', 'lgfs'], 'A', 'SUBS'],
-]
-
-expense_types = Settings.expense_schema_version == 1 ? old_expense_types : new_expense_types
-
+max_id = 0
 expense_types.each do |fields|
-  name, roles, reason_set, code = fields
-  SeedHelper.find_or_create_expense_type!(name, roles, reason_set, code)
+  record_id, name, roles, reason_set, code = fields
+  max_id = [max_id, record_id].max
+  SeedHelper.find_or_create_expense_type!(record_id, name, roles, reason_set, code)
 end
+
+# This is to ensure API Sandbox and Gamma are in sync regarding the IDs
+ExpenseType.connection.execute("ALTER SEQUENCE expense_types_id_seq restart with #{max_id + 1}")

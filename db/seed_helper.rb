@@ -51,11 +51,13 @@ module SeedHelper
     fee_type
   end
 
-  def self.find_or_create_expense_type!(name, roles, reason_set, code)
-    expense_type = ExpenseType.where('name ILIKE ?', name).first
+  def self.find_or_create_expense_type!(record_id, name, roles, reason_set, code)
+    expense_type = ExpenseType.find_by(id: record_id)
 
     if expense_type.nil?
-      expense_type = ExpenseType.create!(name: name, roles: roles, reason_set: reason_set, unique_code: code)
+      expense_type = ExpenseType.create!(id: record_id, name: name, roles: roles, reason_set: reason_set, unique_code: code)
+    elsif expense_type.name != name
+      raise "Unexpected name for ExpenseType #{expense_type.id}: Expected #{name}, got #{expense_type.name}"
     end
 
     if expense_type.unique_code.blank?
@@ -65,11 +67,13 @@ module SeedHelper
     expense_type
   end
 
-  def self.find_or_create_disbursement_type!(name, code)
-    disbursement_type = DisbursementType.where('name ILIKE ?', name).first
+  def self.find_or_create_disbursement_type!(record_id, unique_code, name)
+    disbursement_type = DisbursementType.find_by(id: record_id)
 
     if disbursement_type.nil?
-      disbursement_type = DisbursementType.create!(name: name, unique_code: code)
+      disbursement_type = DisbursementType.create!(id: record_id, unique_code: unique_code, name: name)
+    elsif disbursement_type.name != name
+      raise "Unexpected name for DisbursementType #{disbursement_type.id}: Expected #{name}, got #{disbursement_type.name}"
     end
 
     if disbursement_type.unique_code.blank?

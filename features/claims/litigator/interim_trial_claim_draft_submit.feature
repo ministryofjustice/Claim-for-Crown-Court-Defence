@@ -14,15 +14,15 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     When I select the supplier number '1A222Z'
     And I select the court 'Blackfriars Crown'
     And I select a case type of 'Trial'
-    And I enter a case number of 'A12345678'
+    And I enter a case number of 'A20161234'
 
     And I save as draft
     Then I should see 'Draft claim saved'
 
     Given I am later on the Your claims page
-    Then Claim 'A12345678' should be listed with a status of 'Draft'
+    Then Claim 'A20161234' should be listed with a status of 'Draft'
 
-    When I click the claim 'A12345678'
+    When I click the claim 'A20161234'
     And I edit this claim
 
     And I enter defendant, representation order and MAAT reference
@@ -54,4 +54,4 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A12345678' should be listed with a status of 'Submitted' and a claimed amount of '£464.12'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£464.12'

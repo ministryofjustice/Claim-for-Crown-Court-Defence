@@ -22,7 +22,7 @@ describe API::V1::ExternalUsers::Claims::InterimClaim do
     :user_email => litigator.user.email,
     :supplier_number => provider.lgfs_supplier_numbers.first.supplier_number,
     :case_type_id => FactoryGirl.create(:case_type, :trial).id,
-    :case_number => 'A12345678',
+    :case_number => 'A20161234',
     :offence_id => offence.id,
     :court_id => court.id,
   } }
@@ -144,7 +144,7 @@ describe API::V1::ExternalUsers::Claims::InterimClaim do
           valid_params[:case_number] = nil
           valid_params[:case_concluded_at] = 1.month.from_now.as_json
           post_to_create_endpoint
-          expect_error_response('Enter a case number for example A12345678')
+          expect_error_response('Enter a case number for example A20161234')
         end
       end
 

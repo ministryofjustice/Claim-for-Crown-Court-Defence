@@ -59,7 +59,7 @@
       .form-col
         = f.adp_text_field :case_number,
                             label: t('.case_number'),
-                            hint_text: 'for example A12345678',
+                            hint_text: 'for example A20161234',
                             errors: @error_presenter
 
     .form-row.js-typeahead
@@ -72,7 +72,7 @@
         = validation_error_message(@error_presenter, :transfer_court)
 
       .cssfix.form-col.form-col-two-thirds{class: error_class?(@error_presenter, :transfer_case_number)}
-        = f.adp_text_field :transfer_case_number, label: t('.transfer_case_number'), hint_text: 'for example A12345678', input_classes: 'medium-input',  errors: @error_presenter
+        = f.adp_text_field :transfer_case_number, label: t('.transfer_case_number'), hint_text: 'for example A20161234', input_classes: 'medium-input',  errors: @error_presenter
 
 
 - if @claim.agfs?

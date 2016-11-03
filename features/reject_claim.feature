@@ -5,7 +5,7 @@ Feature: Case worker rejects a claim, providing a reason
 
     Given a "case worker" user account exists
     And an "advocate" user account exists
-    And there is a claim allocated to the case worker with case number 'A12345678'
+    And there is a claim allocated to the case worker with case number 'A20161234'
 
     And I insert the VCR cassette 'features/case_workers/claims/reject'
 

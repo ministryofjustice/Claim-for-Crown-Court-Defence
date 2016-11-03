@@ -43,9 +43,9 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
     describe 'scheme filters' do
       context 'unallocated claims' do
         before(:all) do
-          @submitted_agfs_claim = create(:submitted_claim, case_number: 'A11111111')
-          @submitted_lgfs_claim = create(:litigator_claim, :submitted, case_number: 'A22222222')
-          @allocated_lgfs_claim = create(:litigator_claim, :allocated, case_number: 'A33333333')
+          @submitted_agfs_claim = create(:submitted_claim, case_number: 'A20161111')
+          @submitted_lgfs_claim = create(:litigator_claim, :submitted, case_number: 'A20162222')
+          @allocated_lgfs_claim = create(:litigator_claim, :allocated, case_number: 'A20163333')
         end
 
         before do
@@ -75,9 +75,9 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
       context 'allocated claims' do
         before(:all) do
-          @allocated_agfs_claim = create(:allocated_claim, case_number: 'A11111111')
-          @allocated_lgfs_claim = create(:litigator_claim, :allocated, case_number: 'A22222222')
-          @submitted_lgfs_claim = create(:litigator_claim, :submitted, case_number: 'A33333333')
+          @allocated_agfs_claim = create(:allocated_claim, case_number: 'A20161111')
+          @allocated_lgfs_claim = create(:litigator_claim, :allocated, case_number: 'A20162222')
+          @submitted_lgfs_claim = create(:litigator_claim, :submitted, case_number: 'A20163333')
         end
 
         before do
@@ -388,7 +388,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
     for_advocate = factory == :advocate_claim
     for_litigator = factory == :litigator_claim
 
-    attributes = {case_number: 'Z12345678'}
+    attributes = {case_number: 'T20161234'}
 
     case filter_type
       # AGFS and LGFS (note: explicit return to avoid continuing)

@@ -13,15 +13,15 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     When I select the supplier number '1A222Z'
     And I select the court 'Blackfriars Crown'
     And I select a case type of 'Contempt'
-    And I enter a case number of 'A12345678'
+    And I enter a case number of 'A20161234'
 
     And I save as draft
     Then I should see 'Draft claim saved'
 
     Given I am later on the Your claims page
-    Then Claim 'A12345678' should be listed with a status of 'Draft'
+    Then Claim 'A20161234' should be listed with a status of 'Draft'
 
-    When I click the claim 'A12345678'
+    When I click the claim 'A20161234'
     And I edit this claim
 
     And I enter the case concluded date
@@ -35,7 +35,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I fill '100.25' as the fixed fee total
     And I enter the fixed fee date
     And I add a miscellaneous fee 'Costs judge application'
-    And I add a Case uplift fee with case numbers 'A12345678, A12345588'
+    And I add a Case uplift fee with case numbers 'A20161234, A20165588'
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '30.5'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
     And I add an expense 'Parking'
@@ -54,4 +54,4 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A12345678' should be listed with a status of 'Submitted' and a claimed amount of '£620.49'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£620.49'

@@ -48,7 +48,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
             court_id: court,
             case_type_id: case_type.id,
             offence_id: offence,
-            case_number: 'A12345678',
+            case_number: 'A20161234',
             supplier_number: supplier_number,
             case_concluded_at_dd: 5.days.ago.day.to_s,
             case_concluded_at_mm: 5.days.ago.month.to_s,
@@ -113,7 +113,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
           let!(:transfer_fee_type)  { create(:transfer_fee_type) }
           let!(:misc_fee_type)      { create(:misc_fee_type, :lgfs) }
           let!(:expense_type)       { create(:expense_type, :lgfs, :car_travel) }
-          let(:case_number) { 'A88888888' }
+          let(:case_number) { 'A20168888' }
           let(:transfer_date) { 5.days.ago }
           let(:transfer_detail_params) {
             {

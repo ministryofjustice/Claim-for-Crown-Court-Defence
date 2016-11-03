@@ -38,6 +38,10 @@ module DemoData
 
   private
 
+    def random_case_number
+      [%w(A S T).sample, rand(1990..2016), rand(1000..9999)].join
+    end
+
     def add_claim_detail(claim)
       add_trial_dates(claim) if claim.requires_trial_dates?
       add_retrial_dates(claim) if claim.requires_retrial_dates?

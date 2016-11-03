@@ -122,21 +122,29 @@ describe Claim::BaseClaimValidator do
     end
 
     it 'should not error if valid' do
-      claim.case_number = 'X87654321'
+      claim.case_number = 'T20161234'
       expect(claim).to be_valid
+    end
+
+    it 'should error if invalid' do
+      claim.case_number = 'T87654321'
+      should_error_with(claim, :case_number, 'invalid')
     end
 
     it 'upcases the first letter and does not error' do
-      claim.case_number = 'z87654321'
+      claim.case_number = 't20161234'
       expect(claim).to be_valid
-      expect(claim.case_number).to eq 'Z87654321'
+      expect(claim.case_number).to eq 'T20161234'
     end
 
-    invalid_formats = ['A123456789','a 1234567','ab1234567','A_1234567','A-1234567']
-    invalid_formats.each do |invalid_format|
-      it "should error if invalid format #{invalid_format}" do
-        claim.case_number = invalid_format
-        should_error_with(claim, :case_number,"invalid")
+    it 'validates against the regex' do
+      %w(A S T).each do |letter|
+        (1990..2020).each do |year|
+          %w(0001 1111 9999).each do |number|
+            case_number = [letter, year, number].join
+            expect(case_number.match(BaseValidator::CASE_NUMBER_PATTERN)).to be_truthy
+          end
+        end
       end
     end
   end

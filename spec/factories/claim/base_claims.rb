@@ -140,9 +140,8 @@ def populate_required_fields(claim)
   end
 end
 
-# random capital letter followed by random 8 digits
 def random_case_number
-  ('A'..'Z').to_a.sample << rand(8**8).to_s.rjust(8,'0')
+  [%w(A S T).sample, rand(1990..2016), rand(1000..9999)].join
 end
 
 def set_amount_assessed(claim)

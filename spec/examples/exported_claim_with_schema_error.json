@@ -4,7 +4,7 @@
     "claim": {
       "creator_email": "advocateadmin@example.com",
       "advocate_email": "advocate@example.com",
-      "case_number": "A12345678",
+      "case_number": "A20161234",
       "case_type_id": 1,
       "first_day_of_trial": "2015-06-01",
       "estimated_trial_length": 3,

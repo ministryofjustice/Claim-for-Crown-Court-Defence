@@ -13,7 +13,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And I select an advocate
     And I select the court 'Blackfriars Crown'
     And I select a case type of 'Trial'
-    And I enter a case number of 'A12345678'
+    And I enter a case number of 'A20161234'
     And I select the offence category 'Activities relating to opium'
     And I enter defendant, representation order and MAAT reference
     And I enter trial start and end dates
@@ -43,4 +43,4 @@ Feature: Advocate admin submits a claim for a Trial case
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A12345678' should be listed with a status of 'Submitted' and a claimed amount of '£128.55'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£128.55'

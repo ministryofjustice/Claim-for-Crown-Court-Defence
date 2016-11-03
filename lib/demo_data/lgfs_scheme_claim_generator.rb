@@ -11,7 +11,7 @@ module DemoData
           external_user: litigator,
           advocate_category: nil,
           court: Court.all.sample,
-          case_number: ('A'..'Z').to_a.sample + rand(10000000..99999999).to_s,
+          case_number: random_case_number,
           providers_ref: (rand(1..4) % 4 == 0 ? nil : SecureRandom.uuid[3..15].upcase),
           offence: Offence.miscellaneous.sample,
           apply_vat: (rand(1..4) % 4 == 0 ? false : true),

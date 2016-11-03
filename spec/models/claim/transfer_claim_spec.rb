@@ -113,8 +113,8 @@ describe Claim::TransferClaim, type: :model do
     end
 
     it 'populates transfer detail with transfer detail attributes' do
-      claim = Claim::TransferClaim.new(case_number: 'A12345678', litigator_type: "new", elected_case: false, transfer_stage_id: 10, transfer_date: today, case_conclusion_id: 30)
-      expect(claim.case_number).to eq 'A12345678'
+      claim = Claim::TransferClaim.new(case_number: 'A20161234', litigator_type: "new", elected_case: false, transfer_stage_id: 10, transfer_date: today, case_conclusion_id: 30)
+      expect(claim.case_number).to eq 'A20161234'
       expect(claim.litigator_type).to eq 'new'
       expect(claim.elected_case).to be false
       expect(claim.transfer_stage_id).to eq 10

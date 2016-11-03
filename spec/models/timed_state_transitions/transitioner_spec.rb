@@ -78,7 +78,7 @@ module TimedTransitions
           context 'more than 16 weeks ago' do
             before(:each) do
               Timecop.freeze(17.weeks.ago) do
-                @claim = create :authorised_claim, case_number: 'Z88299822'
+                @claim = create :authorised_claim, case_number: 'A20164444'
               end
             end
 
@@ -130,7 +130,7 @@ module TimedTransitions
           context 'more than 16 weeks ago' do
             before(:each) do
               Timecop.freeze(17.weeks.ago) do
-                @claim = create :litigator_claim, :archived_pending_delete, case_number: 'Z88299822'
+                @claim = create :litigator_claim, :archived_pending_delete, case_number: 'A20164444'
               end
             end
 
@@ -229,7 +229,7 @@ module TimedTransitions
           context 'more than 16 weeks ago' do
             before(:each) do
               Timecop.freeze(17.weeks.ago) do
-                @claim = create :authorised_claim, case_number: 'Z88299822'
+                @claim = create :authorised_claim, case_number: 'A20164444'
               end
             end
 
@@ -272,7 +272,7 @@ module TimedTransitions
           context 'more than 16 weeks ago' do
             before(:each) do
               Timecop.freeze(17.weeks.ago) do
-                @claim = create :litigator_claim, :archived_pending_delete, case_number: 'Z88299822'
+                @claim = create :litigator_claim, :archived_pending_delete, case_number: 'A20164444'
               end
             end
 

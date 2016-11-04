@@ -131,7 +131,7 @@ describe API::V1::ExternalUsers::Fee do
 
       context 'misc fees of type case uplift' do
         let!(:misc_fee_xupl_type) { create(:misc_fee_type, code: 'XUPL') }
-        let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_xupl_type.id, quantity: 1, rate: 210.00, case_numbers: 'Q71948311' } }
+        let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_xupl_type.id, quantity: 1, rate: 210.00, case_numbers: 'T20161234' } }
 
         it 'should create the misc fee with the provided quantity, rate, amount and case numbers' do
           post_to_create_endpoint
@@ -142,7 +142,7 @@ describe API::V1::ExternalUsers::Fee do
           expect(fee.quantity).to eq 1
           expect(fee.rate).to eq 210.00
           expect(fee.amount).to eq 210.00
-          expect(fee.case_numbers).to eq 'Q71948311'
+          expect(fee.case_numbers).to eq 'T20161234'
         end
       end
     end

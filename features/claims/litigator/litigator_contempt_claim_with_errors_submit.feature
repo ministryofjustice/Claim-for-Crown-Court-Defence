@@ -13,7 +13,7 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     When I select the supplier number '1A222Z'
     And I select the court 'Blackfriars Crown'
     And I select a case type of 'Contempt'
-    And I enter a case number of 'A12345678'
+    And I enter a case number of 'A20161234'
     And I enter the case concluded date
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference

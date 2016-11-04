@@ -41,8 +41,8 @@ FactoryGirl.define do
     evidence_checklist_ids [1,2]
     apply_vat true
 
-    case_number 'Z12345678'
-    transfer_case_number 'X12345678'
+    case_number 'T20161234'
+    transfer_case_number 'A20161234'
 
     court do
       build(:court, code: 'ABC', name: 'Acme Court', court_type: 'crown')

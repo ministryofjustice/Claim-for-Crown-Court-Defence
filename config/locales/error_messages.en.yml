@@ -101,13 +101,13 @@ court:
 case_number:
   _seq: 50
   blank:
-    long: Enter a case number for example A12345678
+    long: Enter a case number for example A20161234
     short: Enter a case number
-    api: Enter a case number for example A12345678
+    api: Enter a case number for example A20161234
   invalid:
-    long: The case number must be in the format A12345678
+    long: The case number must be in the format A20161234
     short: Invalid case number
-    api: The case number must be in the format A12345678
+    api: The case number must be in the format A20161234
 
 transfer_court:
   _seq: 55
@@ -123,13 +123,13 @@ transfer_court:
 transfer_case_number:
   _seq: 60
   blank:
-    long: Enter a transfer case number for example A12345678
+    long: Enter a transfer case number for example A20161234
     short: Enter a transfer case number
-    api: Enter a transfer case number for example A12345678
+    api: Enter a transfer case number for example A20161234
   invalid:
-    long: The transfer case number must be in the format A12345678
+    long: The transfer case number must be in the format A20161234
     short: Invalid transfer case number
-    api: The transfer case number must be in the format A12345678
+    api: The transfer case number must be in the format A20161234
 
 first_day_of_trial:
   _seq: 70

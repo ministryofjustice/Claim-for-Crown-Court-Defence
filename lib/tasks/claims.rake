@@ -1,4 +1,13 @@
 namespace :claims do
+  desc 'Check all current claims case numbers against the regex'
+  task :check_case_numbers => :environment do
+    Claim::BaseClaim.active.where.not(case_number: nil, state: %w(draft archived_pending_delete)).order(id: :asc).pluck(:id, :case_number).each do |claim_id, case_number|
+      unless !!case_number.match(BaseValidator::CASE_NUMBER_PATTERN)
+        claim = Claim::BaseClaim.find(claim_id)
+        puts "ERROR: #{case_number} -- claim ID #{claim.id} -- #{claim.external_user.email} -- #{claim.state}"
+      end
+    end
+  end
 
   desc "ADP Task: Delete all dummy docs after dropping the DB"
   task :delete_docs do

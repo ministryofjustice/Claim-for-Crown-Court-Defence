@@ -72,7 +72,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
             court_id: court,
             case_type_id: case_type.id,
             offence_id: offence,
-            case_number: 'A12345678',
+            case_number: 'A20161234',
             advocate_category: 'QC',
             expenses_attributes:
               [
@@ -168,7 +168,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
         end
 
         context 'multi-step form submit to LAA' do
-          let(:case_number) { 'A88888888' }
+          let(:case_number) { 'A20168888' }
 
           let(:claim_params_step1) do
             {

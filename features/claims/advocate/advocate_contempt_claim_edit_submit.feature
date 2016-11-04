@@ -11,7 +11,7 @@ Feature: Advocate submits a claim for a Contempt case
     When I select an advocate category of 'Junior alone'
     And I select the court 'Blackfriars Crown'
     And I select a case type of 'Contempt'
-    And I enter a case number of 'A12345678'
+    And I enter a case number of 'A20161234'
     And I select the offence category 'Handling stolen goods'
     And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
     And I enter defendant, representation order and MAAT reference
@@ -40,4 +40,4 @@ Feature: Advocate submits a claim for a Contempt case
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A12345678' should be listed with a status of 'Submitted' and a claimed amount of '£97.75'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£97.75'

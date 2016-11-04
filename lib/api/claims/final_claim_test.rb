@@ -46,7 +46,7 @@ class FinalClaimTest < BaseClaimTest
       "api_key": api_key,
       "creator_email": "litigatoradmin@example.com",
       "user_email": "litigator@example.com",
-      "case_number": "P12345678",
+      "case_number": "A20161234",
       "providers_ref": SecureRandom.uuid[3..15].upcase,
       "supplier_number": supplier_number,
       "case_type_id": case_type_id,
@@ -79,7 +79,7 @@ class FinalClaimTest < BaseClaimTest
       "api_key": api_key,
       "claim_id": claim_uuid,
       "fee_type_id": fee_type_id,
-      "case_numbers": 'A12345678',
+      "case_numbers": 'A20161234',
       "amount": 200.45
     }
   end

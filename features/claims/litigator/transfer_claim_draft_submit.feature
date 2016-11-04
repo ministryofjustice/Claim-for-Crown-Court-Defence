@@ -14,15 +14,15 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     When I select the supplier number '1A222Z'
     And I select the court 'Blackfriars Crown'
     And I select a case type of 'Trial'
-    And I enter a case number of 'A12345678'
+    And I enter a case number of 'A20161234'
 
     And I save as draft
     Then I should see 'Draft claim saved'
 
     Given I am later on the Your claims page
-    Then Claim 'A12345678' should be listed with a status of 'Draft'
+    Then Claim 'A20161234' should be listed with a status of 'Draft'
 
-    When I click the claim 'A12345678'
+    When I click the claim 'A20161234'
     And I edit this claim
 
     And I enter the case concluded date
@@ -41,7 +41,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I select a case conclusion of 'Cracked'
 
     And I add a miscellaneous fee 'Costs judge application'
-    And I add a Case uplift fee with case numbers 'A12345678, A12345588'
+    And I add a Case uplift fee with case numbers 'A20161234, A20165588'
 
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '32.50'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
@@ -64,4 +64,4 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A12345678' should be listed with a status of 'Submitted' and a claimed amount of '£643.45'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£643.45'

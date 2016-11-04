@@ -38,7 +38,7 @@ http_interactions:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"2d28a1cc-8178-4061-97ec-4b01bd379e20","case_number":"A12345678","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-06T10:52:49.034Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"71160a43-8faa-42f8-af07-4c34d99734f9","first_name":"Sanford","last_name":"Gleason"},"defendants":[{"id":1,"uuid":"1360210d-ef9d-40b3-9d05-e994f8f98154","first_name":"Kayley","last_name":"Ziemann"}],"case_type":{"id":1459,"name":"Case
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"2d28a1cc-8178-4061-97ec-4b01bd379e20","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-06T10:52:49.034Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"71160a43-8faa-42f8-af07-4c34d99734f9","first_name":"Sanford","last_name":"Gleason"},"defendants":[{"id":1,"uuid":"1360210d-ef9d-40b3-9d05-e994f8f98154","first_name":"Kayley","last_name":"Ziemann"}],"case_type":{"id":1459,"name":"Case
         Type 8","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
     http_version: 
   recorded_at: Thu, 06 Oct 2016 10:52:49 GMT

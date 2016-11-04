@@ -35,7 +35,7 @@ shared_examples "common advocate litigator validations" do |external_user_type|
   end
 
   context 'transfer_court' do
-    before(:each) { claim.transfer_case_number = 'A12345678' }
+    before(:each) { claim.transfer_case_number = 'A20161234' }
 
     it 'should error if blank when a transfer case number is filled' do
       should_error_with(claim, :transfer_court, 'blank')

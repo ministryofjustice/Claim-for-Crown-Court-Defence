@@ -74,22 +74,22 @@ describe Fee::MiscFeeValidator do
         end
 
         it 'should be valid for a proper case number' do
-          fee.case_numbers = 'A12345678'
+          fee.case_numbers = 'A20161234'
           should_not_error(fee, :case_numbers)
         end
 
         it 'should be valid for several proper case number' do
-          fee.case_numbers = 'A12345678,A12345588'
+          fee.case_numbers = 'A20161234,A20158888'
           should_not_error(fee, :case_numbers)
         end
 
         it 'should be valid for several proper case number even with spaces between them' do
-          fee.case_numbers = 'A12345678 , A12345588'
+          fee.case_numbers = 'A20161234 , A20158888'
           should_not_error(fee, :case_numbers)
         end
 
         it 'should error if any case number is invalid' do
-          fee.case_numbers = 'A12345678,Z123,A12345588'
+          fee.case_numbers = 'A20161234,Z123,A20158888'
           should_error_with(fee, :case_numbers, 'invalid')
         end
       end

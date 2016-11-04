@@ -50,7 +50,7 @@ class AdvocateClaimTest < BaseClaimTest
       "api_key": api_key,
       "creator_email": "advocateadmin@example.com",
       "advocate_email": "advocate@example.com",
-      "case_number": "P12345678",
+      "case_number": "A20161234",
       "providers_ref": SecureRandom.uuid[3..15].upcase,
       "case_type_id": case_type_id,
       "first_day_of_trial": "2015-06-01",

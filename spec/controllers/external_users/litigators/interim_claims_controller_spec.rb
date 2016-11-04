@@ -48,7 +48,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
             court_id: court,
             case_type_id: case_type.id,
             offence_id: offence,
-            case_number: 'A12345678',
+            case_number: 'A20161234',
             supplier_number: supplier_number,
             defendants_attributes: [
               { first_name: 'John',
@@ -107,7 +107,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
         end
 
         context 'multi-step form submit to LAA' do
-          let(:case_number) { 'A88888888' }
+          let(:case_number) { 'A20168888' }
           let(:interim_fee_type)  { create(:interim_fee_type, :effective_pcmh) }
 
           let(:interim_fee_params) {

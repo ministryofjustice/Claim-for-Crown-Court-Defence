@@ -13,7 +13,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       @claims = []
       3.times do |n|
         Timecop.freeze(n.days.ago) do
-          claim = create(:draft_claim, case_number: "A" + "#{(n+1).to_s.rjust(8,"0")}")
+          claim = create(:draft_claim, case_number: "A2016#{(n+1).to_s.rjust(4,'0')}")
           create(:misc_fee, claim: claim, quantity: n*1, rate: n*1)
           claim.submit!
           claim.allocate!
@@ -22,7 +22,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       end
 
       # make the oldest/5th one be resubmitted for redetermination so we can test ordering by last_submitted_at
-      # i.e. A00000005 to A00000001 is oldest to most recently CREATED, but A00000005 was LAST_SUBMITTED most recently
+      # i.e. A20160005 to A20160001 is oldest to most recently CREATED, but A20160005 was LAST_SUBMITTED most recently
       oldest = @claims.last
       oldest.assessment.update(fees: random_amount, expenses: random_amount)
       oldest.authorise!; oldest.redetermine!

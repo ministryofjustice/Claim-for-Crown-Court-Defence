@@ -11,7 +11,7 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     When I select an advocate category of 'Junior alone'
     And I select the court 'Blackfriars Crown'
     And I select a case type of 'Trial'
-    And I enter a case number of 'A12345678'
+    And I enter a case number of 'A20161234'
     And I select the offence category 'Handling stolen goods'
     And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
     And I enter defendant, representation order and MAAT reference
@@ -19,9 +19,9 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     Then I should see 'Draft claim saved'
 
     Given I am later on the Your claims page
-    Then Claim 'A12345678' should be listed with a status of 'Draft'
+    Then Claim 'A20161234' should be listed with a status of 'Draft'
 
-    When I click the claim 'A12345678'
+    When I click the claim 'A20161234'
     And I edit this claim
     And I enter trial start and end dates
     And I add another defendant, representation order and MAAT reference
@@ -48,4 +48,4 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A12345678' should be listed with a status of 'Submitted' and a claimed amount of '£348.25'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£348.25'

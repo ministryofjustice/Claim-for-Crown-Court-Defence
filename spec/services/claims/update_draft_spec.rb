@@ -7,8 +7,8 @@ describe Claims::UpdateDraft do
   end
 
   context 'draft claim updates' do
-    let(:claim) { FactoryGirl.create :advocate_claim, case_number: 'A12345678' }
-    let(:claim_params) { { case_number: 'A55555555' } }
+    let(:claim) { FactoryGirl.create :advocate_claim, case_number: 'A20161234' }
+    let(:claim_params) { { case_number: 'A20165555' } }
     let(:validate) { true }
 
     subject { described_class.new(claim, params: claim_params, validate: validate) }
@@ -53,13 +53,13 @@ describe Claims::UpdateDraft do
       end
 
       it 'is successful' do
-        expect(subject.claim.case_number).to eq('A12345678')
+        expect(subject.claim.case_number).to eq('A20161234')
 
         subject.call
 
         expect(subject.result.success?).to be_truthy
         expect(subject.result.error_code).to be_nil
-        expect(subject.claim.case_number).to eq('A55555555')
+        expect(subject.claim.case_number).to eq('A20165555')
       end
     end
 

@@ -81,7 +81,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             court_id: court,
             case_type_id: case_type.id,
             offence_id: offence,
-            case_number: 'A12345678',
+            case_number: 'A20161234',
             supplier_number: supplier_number,
             case_concluded_at_dd: 5.days.ago.day.to_s,
             case_concluded_at_mm: 5.days.ago.month.to_s,
@@ -159,7 +159,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         end
 
         context 'multi-step form submit to LAA' do
-          let(:case_number) { 'A88888888' }
+          let(:case_number) { 'A20168888' }
 
           let(:claim_params_step1) do
             {
@@ -342,7 +342,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
              court_id: court,
              case_type_id: case_type.id,
              offence_id: offence,
-             case_number: '12345',
+             case_number: 'A20161234',
              evidence_checklist_ids:  ['2', '3', '']
           }
         end
@@ -471,7 +471,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
        "supplier_number" => supplier_number,
        "case_type_id" => case_type.id.to_s,
        "court_id" => court.id.to_s,
-       "case_number" => "A12345678",
+       "case_number" => "A20161234",
        "offence_class_id" => offence.offence_class.id.to_s,
        "offence_id" => offence.id.to_s,
        "first_day_of_trial_dd" => '13',

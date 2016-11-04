@@ -6,6 +6,16 @@
   %h1 November 2016
   %ul.list-bullet
     %li
+      The case number validation rules have been changed to match XYYYYNNNN, where:
+      %p
+        X is A, S, or T
+      %p
+        Y is 4-digit year number
+      %p
+        NNNN is numeric 0001 to 9999
+
+    %p
+    %li
       A new alpha-numeric field 'unique_code' has been added to the result hash for the disbursement_types endpoint. This value is
       unique to each record.
     %p

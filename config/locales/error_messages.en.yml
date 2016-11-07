@@ -21,6 +21,7 @@ dictionary:
     enter_valid_rate: &enter_valid_rate 'Enter a valid rate'
     item_max_amount: &item_max_amount 'Amount exceeds limit'
     claim_max_amount: &claim_max_amount 'Amount claimed exceeds limit'
+    max_length: &max_length 'Length exceeds limit'
 
 # applies to defendant, fee, expense
 claim:
@@ -549,6 +550,10 @@ defendant:
       long: "Enter a first name for the #{defendant}"
       short: Enter a first name
       api: "Enter a first name for the defendant"
+    max_length:
+      long: "First name for the #{defendant} is too long"
+      short: *max_length
+      api: "First name for the defendant is too long"
 
   last_name:
     _seq: 20
@@ -556,6 +561,10 @@ defendant:
       long: "Enter a last name for the #{defendant}"
       short: Enter a last name
       api: "Enter a last name for the defendant"
+    max_length:
+      long: "Last name for the #{defendant} is too long"
+      short: *max_length
+      api: "Last name for the defendant is too long"
 
   date_of_birth:
     _seq: 30

@@ -38,6 +38,13 @@ module ValidationHelpers
     with_expected_error_translation(field,message,options) if options[:translated_message]
   end
 
+  def should_error_if_exceeds_length(record, field, value, message, options={})
+    record.send("#{field}=", 'x' * (value+1))
+    expect(record.send(:valid?)).to be false
+    expect(record.errors[field]).to include( message )
+    with_expected_error_translation(field,message,options) if options[:translated_message]
+  end
+
   # checks the translation exists and has expected message
   def with_expected_error_translation(field, message, options)
     @translations ||= YAML.load_file("#{Rails.root}/config/locales/error_messages.en.yml") # lazy load translations

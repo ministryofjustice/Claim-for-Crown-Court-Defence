@@ -37,10 +37,12 @@ class DefendantValidator < BaseValidator
 
   def validate_first_name
     validate_presence(:first_name, 'blank')
+    validate_max_length(:first_name, 50, 'max_length')
   end
 
   def validate_last_name
     validate_presence(:last_name, 'blank')
+    validate_max_length(:last_name, 50, 'max_length')
   end
 
 

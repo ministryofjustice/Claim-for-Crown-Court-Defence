@@ -15,10 +15,12 @@ describe DefendantValidator do
 
   describe '#first_name' do
     it { should_error_if_not_present(defendant, :first_name, 'blank') }
+    it { should_error_if_exceeds_length(defendant, :first_name, 50, 'max_length') }
   end
 
   describe '#last_name' do
     it { should_error_if_not_present(defendant, :last_name, 'blank') }
+    it { should_error_if_exceeds_length(defendant, :last_name, 50, 'max_length') }
   end
 
   describe '#validate_date_of_birth' do

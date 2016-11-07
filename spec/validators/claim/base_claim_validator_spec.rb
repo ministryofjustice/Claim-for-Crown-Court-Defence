@@ -138,7 +138,7 @@ describe Claim::BaseClaimValidator do
     end
 
     it 'validates against the regex' do
-      %w(A S T).each do |letter|
+      %w(A S T U).each do |letter|
         (1990..2020).each do |year|
           %w(0001 1111 9999).each do |number|
             case_number = [letter, year, number].join

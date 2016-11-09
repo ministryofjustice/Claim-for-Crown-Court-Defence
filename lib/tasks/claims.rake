@@ -1,11 +1,24 @@
 namespace :claims do
   desc 'Check all current claims case numbers against the regex'
-  task :check_export => :environment do
-    Claim::BaseClaim.active.where.not(state: %w(draft archived_pending_delete)).order(id: :asc).find_each(batch_size: 100) do |claim|
-      result = 'OK'
-      Messaging::SOAPMessage.new(claim).to_xml rescue (result = 'FAIL')
-      puts "[#{result.ljust(4,' ')}] Claim ID #{claim.id.to_s.ljust(5,' ')} #{claim.state}"
+  task :check_export, [:start_id] => :environment do |_task, args|
+    total = 0
+    current_id = 0
+    start_id = args[:start_id] || 1
+    Claim::BaseClaim.active.where { id >= start_id }.where.not(state: %w(draft archived_pending_delete)).order(id: :asc).find_each(batch_size: 100) do |claim|
+      total += 1
+      current_id = claim.id
+      message = Messaging::SOAPMessage.new(claim)
+      unless message.valid?
+        puts "[FAIL] Claim ID #{claim.id.to_s.ljust(5, ' ')} #{claim.state}"
+        puts message.errors
+        puts
+        puts message.__send__(:request_message)
+        break
+      end
     end
+    puts
+    puts "Total claims processed: #{total}. Last claim ID processed: #{current_id}"
+    puts "You can continue from here with: rake claims:check_export[#{current_id}]"
   end
 
   desc 'Check all current claims case numbers against the regex'

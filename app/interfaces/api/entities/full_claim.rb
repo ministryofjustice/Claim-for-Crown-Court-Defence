@@ -30,7 +30,7 @@ module API
         end
 
         expose :offence do |instance, options|
-          API::Entities::Offence.represent instance.offence, options.merge(basic_format: true)
+          API::Entities::Offence.represent instance.offence, options.merge(export_format: true)
         end
 
         expose :trial_dates do
@@ -56,20 +56,20 @@ module API
           expose :trial_cracked_at_third, as: :date_cracked_at_third
         end
 
-        expose :object, as: :totals, using: API::Entities::Totals
+        #expose :object, as: :totals, using: API::Entities::Totals
       end
 
-      expose :defendants, using: API::Entities::Defendant
+      expose :defendants, using: API::Entities::Export::Defendant
 
       expose :fees, using: API::Entities::Fee
       expose :expenses, using: API::Entities::Expense
-      expose :disbursements, using: API::Entities::Disbursement
 
-      expose :documents, using: API::Entities::Document
-      expose :messages, using: API::Entities::Message
-
-      expose :assessment, using: API::Entities::Determination
-      expose :redeterminations, using: API::Entities::Determination
+      # TODO: not needed for now, CCR only needs the very basic
+      #expose :disbursements, using: API::Entities::Disbursement
+      #expose :documents, using: API::Entities::Document
+      #expose :messages, using: API::Entities::Message
+      #expose :assessment, using: API::Entities::Determination
+      #expose :redeterminations, using: API::Entities::Determination
 
       private
 
@@ -86,7 +86,7 @@ module API
       end
 
       def advocate_category
-        AdvocateCategoryAdapter.code_for(object.advocate_category)
+        AdvocateCategoryAdapter.code_for(object.advocate_category) if object.advocate_category.present?
       end
     end
   end

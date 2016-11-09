@@ -4,8 +4,8 @@ module API
       unexpose :created_at, :updated_at
 
       class << self
-        def basic_format?
-          lambda { |_instance, opts| opts.opts_hash.fetch(:basic_format, false) }
+        def export_format?
+          lambda { |_instance, opts| opts.opts_hash.fetch(:export_format, false) }
         end
       end
     end

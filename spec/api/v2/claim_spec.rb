@@ -64,7 +64,8 @@ describe API::V2::Claim do
       end
     end
 
-    it 'should return a JSON with the required information' do
+    # TODO: to be updated and enabled once the claim export structure is finalised.
+    xit 'should return a JSON with the required information' do
       claim = get_full_claim
       expect(claim.keys).to eq([:claim_uuid, :claim_details, :case_details, :defendants, :fees, :expenses, :disbursements, :documents, :messages, :assessment, :redeterminations])
     end

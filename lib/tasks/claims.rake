@@ -1,5 +1,14 @@
 namespace :claims do
   desc 'Check all current claims case numbers against the regex'
+  task :check_export => :environment do
+    Claim::BaseClaim.active.where.not(state: %w(draft archived_pending_delete)).order(id: :asc).find_each(batch_size: 100) do |claim|
+      result = 'OK'
+      Messaging::SOAPMessage.new(claim).to_xml rescue (result = 'FAIL')
+      puts "[#{result.ljust(4,' ')}] Claim ID #{claim.id.to_s.ljust(5,' ')} #{claim.state}"
+    end
+  end
+
+  desc 'Check all current claims case numbers against the regex'
   task :check_case_numbers => :environment do
     Claim::BaseClaim.active.where.not(case_number: nil, state: %w(draft archived_pending_delete)).order(id: :asc).pluck(:id, :case_number).each do |claim_id, case_number|
       unless !!case_number.match(BaseValidator::CASE_NUMBER_PATTERN)

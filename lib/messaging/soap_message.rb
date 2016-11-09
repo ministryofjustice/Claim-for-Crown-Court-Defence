@@ -44,7 +44,7 @@ module Messaging
     end
 
     def xml_options
-      {dasherize: false, skip_types: true, skip_instruct: true, root: 'cbo:ClaimRequest'}
+      {dasherize: false, skip_types: true, skip_instruct: true, skip_nils: true, root: 'cbo:claim_request'}
     end
   end
 end

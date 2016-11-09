@@ -29,3 +29,7 @@ end
 module Rails
   extend RailsModuleExtension
 end
+
+module ActiveSupport::XmlMini
+  extend XmlMiniExtension
+end

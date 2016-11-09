@@ -20,7 +20,7 @@ describe Messaging::SOAPMessage do
     expected_hash = Hash.from_xml(expected_xml)
 
     # We ignore on purpose the claim details to simplify this test
-    message_hash['Envelope']['Body']['ClaimRequest'] = nil
+    message_hash['Envelope']['Body']['claim_request'] = nil
 
     expect(message_hash).to eq(expected_hash)
   end
@@ -38,7 +38,7 @@ describe Messaging::SOAPMessage do
         <wsa:To soapenv:mustUnderstand="1">http://legalaid.gov.uk/infoX/gateway/ccr</wsa:To>
       </soapenv:Header>
       <soapenv:Body>
-        <cbo:ClaimRequest/>
+        <cbo:claim_request/>
       </soapenv:Body>
     </soapenv:Envelope>
     XML

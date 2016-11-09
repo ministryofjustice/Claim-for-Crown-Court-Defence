@@ -1,13 +1,14 @@
 module API
   module Entities
     class FullClaim < BaseEntity
+      expose :uuid, as: :claim_uuid
+
       expose :claim_details do
-        expose :uuid
-        expose :type
-        expose :supplier_number, as: :provider_code
+        expose :type, as: :claim_type
+        expose :supplier_number, as: :supplier_account_code
         expose :advocate_category
         expose :additional_information
-        expose :apply_vat
+        expose :apply_vat, format_with: :bool_char
         expose :state
         expose :last_submitted_at, as: :submitted_at, format_with: :utc
         expose :original_submission_date, as: :originally_submitted_at, format_with: :utc
@@ -19,13 +20,12 @@ module API
       expose :case_details do
         expose :case_type
         expose :case_number
-        expose :source
         expose :cms_number
         expose :providers_ref, as: :providers_reference
 
-        expose :court, using: API::Entities::Court
+        expose :court_code
         expose :transfer_court, if: lambda { |instance, _opts| instance.transfer_court.present? || instance.transfer_case_number.present? } do
-          expose :transfer_court, as: :court, using: API::Entities::Court
+          expose :transfer_court_code
           expose :transfer_case_number, as: :case_number
         end
 
@@ -56,12 +56,7 @@ module API
           expose :trial_cracked_at_third, as: :date_cracked_at_third
         end
 
-        expose :effective_pcmh_date, format_with: :utc
-        expose :legal_aid_transfer_date, format_with: :utc
-
         expose :object, as: :totals, using: API::Entities::Totals
-
-        expose :evidence_documents
       end
 
       expose :defendants, using: API::Entities::Defendant
@@ -82,8 +77,16 @@ module API
         object.case_type.name
       end
 
-      def evidence_documents
-        object.evidence_doc_types.map(&:name)
+      def court_code
+        object.court&.code
+      end
+
+      def transfer_court_code
+        object.transfer_court&.code
+      end
+
+      def advocate_category
+        AdvocateCategoryAdapter.code_for(object.advocate_category)
       end
     end
   end

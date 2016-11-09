@@ -19,7 +19,7 @@ module API::Helpers
       end
 
       def default_options
-        {dasherize: false, skip_types: true, root: 'resource'}
+        {dasherize: false, skip_types: true, skip_nils: true, root: 'resource'}
       end
     end
 

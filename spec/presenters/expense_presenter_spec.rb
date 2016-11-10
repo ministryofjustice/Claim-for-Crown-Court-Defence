@@ -59,9 +59,9 @@ RSpec.describe ExpensePresenter do
   end
 
   describe '#hours' do
-    it 'formats as decimal number, 1 decimal precision with rounding' do
-      expense.hours = 35.22
-      expect(presenter.hours).to eq '35.2'
+    it 'formats as decimal number, 2 decimals precision with rounding' do
+      expense.hours = 35.239
+      expect(presenter.hours).to eq '35.24'
     end
 
     it 'strips insignificant zeros' do

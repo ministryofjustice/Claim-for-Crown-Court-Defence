@@ -24,10 +24,10 @@ module API
         expose :providers_ref, as: :providers_reference
 
         expose :court_code
-        expose :transfer_court, if: lambda { |instance, _opts| instance.transfer_court.present? || instance.transfer_case_number.present? } do
-          expose :transfer_court_code
-          expose :transfer_case_number, as: :case_number
-        end
+        # expose :transfer_court, if: lambda { |instance, _opts| instance.transfer_court.present? || instance.transfer_case_number.present? } do
+        #   expose :transfer_court_code
+        #   expose :transfer_case_number, as: :case_number
+        # end
 
         expose :offence do |instance, options|
           API::Entities::Offence.represent instance.offence, options.merge(export_format: true)

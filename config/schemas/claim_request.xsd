@@ -157,7 +157,7 @@
             <xsd:element name="claim_type" minOccurs="1" maxOccurs="1" type="tns:claim_type_type" />
             <xsd:element name="supplier_account_code" minOccurs="1" maxOccurs="1" type="supplier_account_code_type" />
             <xsd:element name="advocate_category" minOccurs="0" maxOccurs="1" type="advocate_category_type" />
-            <xsd:element name="additional_information" minOccurs="0" maxOccurs="1" type="long_string_4k" />
+            <xsd:element name="additional_information" minOccurs="0" maxOccurs="1" type="long_string_8k" />
             <xsd:element name="apply_vat" minOccurs="1" maxOccurs="1" type="bool_y_n_type" />
             <xsd:element name="state" minOccurs="1" maxOccurs="1" type="claim_state_type" />
             <xsd:element name="submitted_at" minOccurs="0" maxOccurs="1" type="claim_date_type" />
@@ -184,7 +184,7 @@
             <xsd:element name="cms_number" minOccurs="0" maxOccurs="1" type="tns:optional_medium_string" />
             <xsd:element name="providers_reference" minOccurs="0" maxOccurs="1" type="tns:optional_medium_string" />
             <xsd:element name="court_code" minOccurs="1" maxOccurs="1" type="tns:court_code_type" />
-            <xsd:element name="offence" minOccurs="1" maxOccurs="1" type="tns:offence_type" />
+            <xsd:element name="offence" minOccurs="0" maxOccurs="1" type="tns:offence_type" />
             <xsd:element name="trial_dates" minOccurs="0" maxOccurs="1" type="tns:trial_dates_type" />
             <xsd:element name="retrial_dates" minOccurs="0" maxOccurs="1" type="tns:trial_dates_type" />
             <xsd:element name="cracked_dates" minOccurs="0" maxOccurs="1" type="tns:cracked_dates_type" />
@@ -199,7 +199,7 @@
 
     <xsd:complexType name="fee_collection_type">
         <xsd:sequence>
-            <xsd:element name="fee" minOccurs="1" maxOccurs="100" type="tns:fee_type" />
+            <xsd:element name="fee" minOccurs="0" maxOccurs="100" type="tns:fee_type" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -214,10 +214,15 @@
         <xsd:sequence>
             <xsd:element name="type" minOccurs="1" maxOccurs="1" type="tns:fee_type_type" />
             <xsd:element name="code" minOccurs="1" maxOccurs="1" type="tns:fee_code_type" />
+            <xsd:element name="case_numbers" minOccurs="0" maxOccurs="1" type="tns:medium_string" />
             <xsd:element name="date" minOccurs="0" maxOccurs="1" nillable="true" type="xsd:date" />
             <xsd:element name="quantity" minOccurs="1" maxOccurs="1" type="xsd:decimal" />
             <xsd:element name="amount" minOccurs="1" maxOccurs="1" type="xsd:decimal" />
             <xsd:element name="rate" minOccurs="1" maxOccurs="1" type="xsd:decimal" />
+            <xsd:element name="sub_type" minOccurs="0" maxOccurs="1" type="tns:long_string_8k" />
+            <xsd:element name="sub_type_code" minOccurs="0" maxOccurs="1" type="tns:medium_string" />
+            <xsd:element name="warrant_issued_date" minOccurs="0" maxOccurs="1" type="xsd:date" />
+            <xsd:element name="warrant_executed_date" minOccurs="0" maxOccurs="1" type="xsd:date" />
             <xsd:element name="dates_attended" minOccurs="0" maxOccurs="1" type="tns:dates_attended_collection" />
         </xsd:sequence>
     </xsd:complexType>
@@ -355,10 +360,10 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="long_string_4k">
+    <xsd:simpleType name="long_string_8k">
         <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1" />
-            <xsd:maxLength value="4096" />
+            <xsd:minLength value="0" />
+            <xsd:maxLength value="8196" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -487,7 +492,7 @@
 
     <xsd:simpleType name="case_number_type">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[AST](199|20\d)\d{5}" />
+            <xsd:pattern value="[ASTU](199|20\d)\d{5}" />
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -542,7 +547,7 @@
             <xsd:element name="date_fixed_notice" minOccurs="0" maxOccurs="1" type="xsd:date" />
             <xsd:element name="date_fixed" minOccurs="0" maxOccurs="1" type="xsd:date" />
             <xsd:element name="date_cracked" minOccurs="0" maxOccurs="1" type="xsd:date" />
-            <xsd:element name="date_cracked_at_third" minOccurs="0" maxOccurs="1" type="xsd:date" />
+            <xsd:element name="date_cracked_at_third" minOccurs="0" maxOccurs="1" type="xsd:string" />
 
         </xsd:sequence>
     </xsd:complexType>

@@ -1,21 +1,16 @@
 module Messaging
-  class Producer
-    cattr_accessor :client_class
+  class SNSProducer
     attr_accessor :client, :queue
 
-    def self.client_class
-      @@client_class ||= Messaging::MockClient
-    end
-
-    def initialize(queue:)
-      self.client = self.class.client_class.new(client_config)
+    def initialize(client_class:, queue:)
+      self.client = client_class.new
       self.queue = queue
       raise ArgumentError, "Queue `#{queue}` not found" unless queue_present?
     end
 
     def publish(payload)
-      Rails.logger.info "[Client: #{self.class.client_class.name}] [ARN: #{target_arn}] Publishing payload: #{payload}"
-      client.publish({target_arn: target_arn}.merge(payload))
+      Rails.logger.info "[Client: #{client.class.name}] [ARN: #{target_arn}] Publishing payload: #{payload}"
+      client.publish(target_arn: target_arn, subject: 'Claim', message: payload)
     end
 
     def queue_name

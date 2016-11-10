@@ -1,0 +1,23 @@
+# For the Proof of Concept we are not taking into consideration the different envs we have,
+# like dev, staging, api-sandbox, demo, etc. All of them will use the production URL.
+#
+default: &default
+  client_config:
+    timeout: 10
+    open_timeout: 5
+
+production:
+  <<: *default
+  endpoint: 'http://requestb.in/1c1jb081'
+
+development:
+  <<: *default
+  endpoint: 'http://requestb.in/1biv2bw1'
+
+devunicorn:
+  <<: *default
+  endpoint: ''
+
+test:
+  <<: *default
+  endpoint: ''

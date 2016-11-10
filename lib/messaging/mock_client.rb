@@ -1,14 +1,11 @@
 module Messaging
   class MockClient
-    attr_accessor :config
-
-    def initialize(config = {})
-      self.config = config
+    def initialize(*)
     end
 
-    def publish(payload)
-      self.class.queue.push(payload)
-      payload
+    def method_missing(method, *args)
+      self.class.queue.push(method => args)
+      self.class.queue.last
     end
 
     def self.queue

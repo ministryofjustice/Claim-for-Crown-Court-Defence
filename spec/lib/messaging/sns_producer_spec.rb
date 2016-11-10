@@ -1,9 +1,10 @@
 require 'rails_helper'
 
-describe Messaging::Producer do
-  subject { described_class.new(queue: 'cccd-claims') }
+describe Messaging::SNSProducer do
+  subject { described_class.new(client_class: client_class, queue: 'cccd-claims') }
 
-  let(:queue) { Messaging::MockClient.queue }
+  let(:client_class) { Messaging::MockClient }
+  let(:queue) { client_class.queue }
 
   before(:each) do
     queue.clear
@@ -21,10 +22,10 @@ describe Messaging::Producer do
     end
 
     it 'should publish a message' do
-      subject.publish(message: 'test message')
+      subject.publish('test message')
 
       expect(queue.size).to eq(1)
-      expect(queue.last).to eq(target_arn: 'arn:aws:sns:eu-west-1:016649511486:cccd-claims-test', message: 'test message')
+      expect(queue.last).to eq(publish: [target_arn: 'arn:aws:sns:eu-west-1:016649511486:cccd-claims-test', subject: 'Claim', message: 'test message'])
     end
   end
 end

@@ -18,7 +18,7 @@ class ExpensePresenter < BasePresenter
   end
 
   def hours
-    h.number_with_precision(expense.hours, precision: 1, strip_insignificant_zeros: true)
+    h.number_with_precision(expense.hours, precision: 2, strip_insignificant_zeros: true)
   end
 
   def name

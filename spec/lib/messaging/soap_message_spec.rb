@@ -20,7 +20,7 @@ describe Messaging::SOAPMessage do
     expected_hash = Hash.from_xml(expected_xml)
 
     # We ignore on purpose the claim details to simplify this test
-    message_hash['Envelope']['Body']['claim_request'] = nil
+    message_hash['Envelope']['Body']['claim_request'] = {'xmlns:cbo' => 'http://www.justice.gov.uk/2016/11/cbo'}
 
     expect(message_hash).to eq(expected_hash)
   end
@@ -28,7 +28,7 @@ describe Messaging::SOAPMessage do
   let(:expected_xml) do
     <<-XML
     <?xml version="1.0" encoding="UTF-8"?>
-    <soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:cbo="http://www.justice.gov.uk/2016/11/cbo">
+    <soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope">
       <soapenv:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
         <wsa:Action soapenv:mustUnderstand="1">newCBOClaim</wsa:Action>
         <wsa:From soapenv:mustUnderstand="1">
@@ -38,7 +38,7 @@ describe Messaging::SOAPMessage do
         <wsa:To soapenv:mustUnderstand="1">http://legalaid.gov.uk/infoX/gateway/ccr</wsa:To>
       </soapenv:Header>
       <soapenv:Body>
-        <cbo:claim_request/>
+        <cbo:claim_request xmlns:cbo="http://www.justice.gov.uk/2016/11/cbo"/>
       </soapenv:Body>
     </soapenv:Envelope>
     XML

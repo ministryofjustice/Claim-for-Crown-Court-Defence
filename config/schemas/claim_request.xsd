@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+
+<xsd:schema xmlns="http://www.justice.gov.uk/2016/11/cbo"
+            xmlns:tns="http://www.justice.gov.uk/2016/11/cbo"
+            targetNamespace="http://www.justice.gov.uk/2016/11/cbo"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" >
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  Operation: New Claim Request and Response                 =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+    <xsd:element name="claim_request">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="claim_uuid" minOccurs="1" maxOccurs="1" type="tns:uuid" />
+                <xsd:element name="claim_details" minOccurs="1" maxOccurs="1" type="tns:claim_details_type" />
+                <xsd:element name="case_details" minOccurs="1" maxOccurs="1" type="tns:case_details_type" />
+                <xsd:element name="defendants" minOccurs="1" maxOccurs="1" type="tns:defendants_collection_type" />
+                <xsd:element name="fees" minOccurs="1" maxOccurs="1" type="tns:fee_collection_type" />
+                <xsd:element name="expenses" minOccurs="1" maxOccurs="1" type="tns:expense_collection_type" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="ClaimResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+
+                <!-- the inbound CLaim request UIUID - correlation Id in event of async message adoption -->
+                <xsd:element name="ClaimUUID" minOccurs="1" maxOccurs="1">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:length value="36" />
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:element>
+
+                <!-- LAA generated UUID indicating safe receipt of the CCCD new claim -->
+                <xsd:element name="AckId" minOccurs="1" maxOccurs="1">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:length value="36" />
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:element>
+
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  Operation: Status Enquiry Request and Response            =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+    <xsd:element name="StatusRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+
+
+
+                <xsd:element name="ClaimUUIDs" minOccurs="1" maxOccurs="50">
+                    <xsd:annotation>
+                        <xsd:documentation>A list of CBO CCCD Claim UUIds</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:length value="36" />
+                        </xsd:restriction>
+                    </xsd:simpleType>
+
+                </xsd:element>
+
+
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+
+
+    <!-- Status Response -->
+    <xsd:element name="StatusResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+
+
+                <xsd:element name="StatusDetails" type="tns:StatusUpdateDetailsType"
+                             minOccurs="1" maxOccurs="50">
+                    <xsd:annotation>
+                        <xsd:documentation>Blocks of status update enquires, with a way to throttle
+                            what could be a very large list.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+
+
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  Operation: RepOrder Update Request and Response           =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+    <xsd:element name="RepOrderUpdateRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+
+                <xsd:element name="lastUpdated" type="xsd:date">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Date of last successful RepOrder update within CCCD.
+                            LAA system to supply RepOrders since this date.
+                            Must be set to a valid date in the yyyy-mm-dd format. I.e.
+                            &lt;year&gt;-&lt;month as two digit number&gt;-&lt;day of month
+                            as two digit number&gt;</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+
+
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="RepOrderUpdateResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+
+                <xsd:element name="reporders" type="tns:RepOrderType"
+                             minOccurs="0" maxOccurs="50">
+                    <xsd:annotation>
+                        <xsd:documentation>Blocks of repOrder details, a way to throttle
+                            what could be a very large list.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+
+
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  CLAIM DETAILS TYPE                                         =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+
+    <xsd:complexType name="claim_details_type">
+        <xsd:sequence>
+            <xsd:element name="claim_type" minOccurs="1" maxOccurs="1" type="tns:claim_type_type" />
+            <xsd:element name="supplier_account_code" minOccurs="1" maxOccurs="1" type="supplier_account_code_type" />
+            <xsd:element name="advocate_category" minOccurs="0" maxOccurs="1" type="advocate_category_type" />
+            <xsd:element name="additional_information" minOccurs="0" maxOccurs="1" type="long_string_8k" />
+            <xsd:element name="apply_vat" minOccurs="1" maxOccurs="1" type="bool_y_n_type" />
+            <xsd:element name="state" minOccurs="1" maxOccurs="1" type="claim_state_type" />
+            <xsd:element name="submitted_at" minOccurs="0" maxOccurs="1" type="claim_date_type" />
+            <xsd:element name="originally_submitted_at" minOccurs="0" maxOccurs="1" type="claim_date_type" />
+            <xsd:element name="authorised_at" minOccurs="0" maxOccurs="1" type="claim_date_type" />
+            <xsd:element name="created_by" minOccurs="1" maxOccurs="1" type="tns:person_type" />
+            <xsd:element name="external_user" minOccurs="1" maxOccurs="1" type="tns:person_type" />
+        </xsd:sequence>
+    </xsd:complexType>    <!-- claim details -->
+
+
+
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  CASE DETAILS TYPE                                         =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+
+    <xsd:complexType name="case_details_type">
+        <xsd:sequence>
+            <xsd:element name="case_type" minOccurs="1" maxOccurs="1" type="case_type_type" />
+            <xsd:element name="case_number" minOccurs="1" maxOccurs="1" type="tns:case_number_type" />
+            <xsd:element name="cms_number" minOccurs="0" maxOccurs="1" type="tns:optional_medium_string" />
+            <xsd:element name="providers_reference" minOccurs="0" maxOccurs="1" type="tns:optional_medium_string" />
+            <xsd:element name="court_code" minOccurs="1" maxOccurs="1" type="tns:court_code_type" />
+            <xsd:element name="offence" minOccurs="0" maxOccurs="1" type="tns:offence_type" />
+            <xsd:element name="trial_dates" minOccurs="0" maxOccurs="1" type="tns:trial_dates_type" />
+            <xsd:element name="retrial_dates" minOccurs="0" maxOccurs="1" type="tns:trial_dates_type" />
+            <xsd:element name="cracked_dates" minOccurs="0" maxOccurs="1" type="tns:cracked_dates_type" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  FEE COLLECTION TYPE                                       =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+
+    <xsd:complexType name="fee_collection_type">
+        <xsd:sequence>
+            <xsd:element name="fee" minOccurs="0" maxOccurs="100" type="tns:fee_type" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  FEE TYPE                                                  =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+
+    <xsd:complexType name="fee_type">
+        <xsd:sequence>
+            <xsd:element name="type" minOccurs="1" maxOccurs="1" type="tns:fee_type_type" />
+            <xsd:element name="code" minOccurs="1" maxOccurs="1" type="tns:fee_code_type" />
+            <xsd:element name="case_numbers" minOccurs="0" maxOccurs="1" type="tns:medium_string" />
+            <xsd:element name="date" minOccurs="0" maxOccurs="1" nillable="true" type="xsd:date" />
+            <xsd:element name="quantity" minOccurs="1" maxOccurs="1" type="xsd:decimal" />
+            <xsd:element name="amount" minOccurs="1" maxOccurs="1" type="xsd:decimal" />
+            <xsd:element name="rate" minOccurs="1" maxOccurs="1" type="xsd:decimal" />
+            <xsd:element name="sub_type" minOccurs="0" maxOccurs="1" type="tns:long_string_8k" />
+            <xsd:element name="sub_type_code" minOccurs="0" maxOccurs="1" type="tns:medium_string" />
+            <xsd:element name="warrant_issued_date" minOccurs="0" maxOccurs="1" type="xsd:date" />
+            <xsd:element name="warrant_executed_date" minOccurs="0" maxOccurs="1" type="xsd:date" />
+            <xsd:element name="dates_attended" minOccurs="0" maxOccurs="1" type="tns:dates_attended_collection" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  EXPENSES COLLECTION TYPE                                  =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+
+    <xsd:complexType name="expense_collection_type">
+        <xsd:sequence>
+            <xsd:element name="expense" minOccurs="0" maxOccurs="100" type="tns:expense_type" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  EXPENSES TYPE                                             =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+
+
+    <!--Expenses need more work - will need to be translated to CCR type expenses first-->
+    <!--Also, mileage rate needs attention-->
+
+    <xsd:complexType name="expense_type">
+        <xsd:sequence>
+            <xsd:element name="date" minOccurs="1" maxOccurs="1" type="xsd:date" />
+            <xsd:element name="type" minOccurs="1" maxOccurs="1" type="xsd:string" />
+            <xsd:element name="location" minOccurs="0" maxOccurs="1" type="xsd:string" />
+            <xsd:element name="mileage_rate" minOccurs="0" maxOccurs="1" type="xsd:string" />
+            <xsd:element name="reason" minOccurs="0" maxOccurs="1" type="xsd:string" />
+            <xsd:element name="distance" minOccurs="0" maxOccurs="1" type="xsd:decimal" />
+            <xsd:element name="hours" minOccurs="0" maxOccurs="1" type="xsd:decimal" />
+            <xsd:element name="quantity" minOccurs="0" maxOccurs="1" type="xsd:decimal" />
+            <xsd:element name="rate" minOccurs="0" maxOccurs="1" type="xsd:decimal" />
+            <xsd:element name="net_amount" minOccurs="1" maxOccurs="1" type="xsd:decimal" />
+            <xsd:element name="vat_amount" minOccurs="0" maxOccurs="1" type="xsd:decimal" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  DEFENDANTS COLLECTION TYPE                                     =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+    <xsd:complexType name="defendants_collection_type">
+        <xsd:sequence>
+            <xsd:element name="defendant"  minOccurs="1" maxOccurs="20" type="tns:defendant_type" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  DEFENDANT TYPE                                            =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+
+    <xsd:complexType name="defendant_type">
+        <xsd:sequence>
+            <xsd:element name="representation_orders"  minOccurs="1" maxOccurs="20" type="tns:representation_orders_collection_type" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  REPRESENTATION ORDER COLLECTION TYPE                      =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+
+    <xsd:complexType name="representation_orders_collection_type">
+        <xsd:sequence>
+            <xsd:element name="representation_order"  minOccurs="1" maxOccurs="20" type="tns:representation_order_type" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  REPRESENTATION ORDER  TYPE                                =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+
+    <!-- TO DO - NARROW DOWN VALIDATION ON MAAT REFERENCE -->
+
+    <xsd:complexType name="representation_order_type">
+        <xsd:sequence>
+            <xsd:element name="maat_reference"  minOccurs="0" maxOccurs="1" type="xsd:integer" />
+            <xsd:element name="date"  minOccurs="1" maxOccurs="1" type="xsd:date" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+
+    <!-- ============================================================================ -->
+    <!-- =====                                                            =========== -->
+    <!-- =====  OTHER TYPES                                               =========== -->
+    <!-- =====                                                            =========== -->
+    <!-- ============================================================================ -->
+
+    <xsd:simpleType name="claim_date_type">
+        <xsd:restriction base="xsd:dateTime">
+            <xsd:minInclusive value="2010-01-01T00:00:00" />
+            <xsd:maxInclusive value="2050-12-31T23:59:59" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="claim_state_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="25" />
+            <xsd:whiteSpace value="preserve" />
+            <xsd:enumeration value="draft" />
+            <xsd:enumeration value="rejected" />
+            <xsd:enumeration value="archived_pending_delete" />
+            <xsd:enumeration value="submitted" />
+            <xsd:enumeration value="redetermination" />
+            <xsd:enumeration value="allocated" />
+            <xsd:enumeration value="part_authorised" />
+            <xsd:enumeration value="authorised" />
+            <xsd:enumeration value="awaiting_written_reasons" />
+            <xsd:enumeration value="refused" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="bool_y_n_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="1" />
+            <xsd:whiteSpace value="preserve" />
+            <xsd:enumeration value="Y" />
+            <xsd:enumeration value="N" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="long_string_8k">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="0" />
+            <xsd:maxLength value="8196" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="supplier_account_code_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="5" />
+            <xsd:maxLength value="6" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:simpleType name="advocate_category_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="10" />
+            <xsd:whiteSpace value="preserve" />
+            <xsd:enumeration value="QC" />
+            <xsd:enumeration value="LEADJR" />
+            <xsd:enumeration value="LEDJR" />
+            <xsd:enumeration value="JRALONE" />
+            <xsd:enumeration value="SOLICITOR" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:complexType name="offence_type">
+        <xsd:sequence>
+            <xsd:element name="category" minOccurs="1" maxOccurs="1" type="xsd:string" />
+            <xsd:element name="class" minOccurs="1" maxOccurs="1" type="xsd:string" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:simpleType name="claim_type_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="22" />
+            <xsd:whiteSpace value="preserve" />
+            <xsd:enumeration value="Claim::AdvocateClaim" />
+            <xsd:enumeration value="Claim::LitigatorClaim" />
+            <xsd:enumeration value="Claim::InterimClaim" />
+            <xsd:enumeration value="Claim::TransferClaim" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:complexType name="dates_attended_collection">
+        <xsd:sequence>
+            <xsd:element name="date_attended" minOccurs="0" maxOccurs="50" type="tns:dates_attended_type" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="dates_attended_type">
+        <xsd:sequence>
+            <xsd:element name="from" minOccurs="1" maxOccurs="1" type="xsd:date" />
+            <xsd:element name="to" minOccurs="0" maxOccurs="1" nillable="true" type="xsd:date" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="fee_type_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="100" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="fee_code_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="5" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+
+    <xsd:simpleType name="uuid">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="36" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="medium_string">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="50" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="optional_medium_string">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="0" />
+            <xsd:maxLength value="50" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="person_type">
+        <xsd:sequence>
+            <xsd:element name="id" minOccurs="1" maxOccurs="1" type="xsd:integer" />
+            <xsd:element name="uuid" minOccurs="1" maxOccurs="1"  type="uuid" />
+            <xsd:element name="first_name" minOccurs="1" maxOccurs="1" type="tns:medium_string" />
+            <xsd:element name="last_name" minOccurs="1" maxOccurs="1" type="tns:medium_string" />
+            <xsd:element name="email" minOccurs="0" maxOccurs="1" type="tns:medium_string" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="case_type_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="50" />
+            <xsd:whiteSpace value="preserve" />
+            <xsd:enumeration value="Cracked Trial" />
+            <xsd:enumeration value="Cracked before retrial" />
+            <xsd:enumeration value="Discontinuance" />
+            <xsd:enumeration value="Guilty plea" />
+            <xsd:enumeration value="Appeal against conviction" />
+            <xsd:enumeration value="Appeal against sentence" />
+            <xsd:enumeration value="Breach of Crown Court order" />
+            <xsd:enumeration value="Committal for Sentence" />
+            <xsd:enumeration value="Contempt" />
+            <xsd:enumeration value="Elected cases not proceeded" />
+            <xsd:enumeration value="Hearing subsequent to sentence" />
+            <xsd:enumeration value="Retrial" />
+            <xsd:enumeration value="Trial" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="case_number_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[ASTU](199|20\d)\d{5}" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:simpleType name="court_code_type">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="401" />
+            <xsd:maxExclusive value="500" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="offence_class_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="1" />
+            <xsd:pattern value="[A-K]" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="offence_description_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="200" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="trial_dates_type">
+        <xsd:sequence>
+            <xsd:element name="date_started" minOccurs="0" maxOccurs="1" type="xsd:date" />
+            <xsd:element name="date_concluded" minOccurs="0" maxOccurs="1" type="xsd:date" />
+            <xsd:element name="estimated_length" minOccurs="0" maxOccurs="1" type="tns:estimated_trial_length_type" />
+            <xsd:element name="actual_length" minOccurs="0" maxOccurs="1" type="tns:actual_trial_length_type" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="estimated_trial_length_type">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="0" />
+            <xsd:maxExclusive value="61" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="actual_trial_length_type">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="0" />
+            <xsd:maxExclusive value="1000" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="cracked_dates_type">
+        <xsd:sequence>
+            <xsd:element name="date_fixed_notice" minOccurs="0" maxOccurs="1" type="xsd:date" />
+            <xsd:element name="date_fixed" minOccurs="0" maxOccurs="1" type="xsd:date" />
+            <xsd:element name="date_cracked" minOccurs="0" maxOccurs="1" type="xsd:date" />
+            <xsd:element name="date_cracked_at_third" minOccurs="0" maxOccurs="1" type="xsd:string" />
+
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="effective_pcmh_date_type">
+        <xsd:restriction base="xsd:date">
+            <xsd:minInclusive value="2006-01-01" />
+            <xsd:maxInclusive value="2050-12-31" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:complexType name="claim_totals_type">
+        <xsd:sequence>
+            <xsd:element name="fees" minOccurs="1" maxOccurs="1" type="xsd:decimal" />
+            <xsd:element name="expenses" minOccurs="1" maxOccurs="1" type="xsd:decimal" />
+            <xsd:element name="disbursements" minOccurs="1" maxOccurs="1" type="xsd:decimal" />
+            <xsd:element name="vat_amount" minOccurs="1" maxOccurs="1" type="xsd:decimal" />
+            <xsd:element name="total" minOccurs="1" maxOccurs="1" type="xsd:decimal" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="RepOrderType">
+        <xsd:sequence>
+
+            <xsd:element name="RepOrderId" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>The RepOrder ID.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:length value="10" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+
+            <xsd:element name="RepOrderStatusType" minOccurs="1"
+                         maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>The status of the Representation Order
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:minLength value="1" />
+                        <xsd:maxLength value="20" />
+                        <xsd:whiteSpace value="preserve" />
+                        <xsd:enumeration value="CURR" />
+                        <xsd:enumeration value="ERR" />
+                        <xsd:enumeration value="SUSP" />
+                        <xsd:enumeration value="FI" />
+                        <xsd:enumeration value="NOT SENT FOR TRIAL" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+
+            <xsd:element name="CreationDate">
+                <xsd:annotation>
+                    <xsd:documentation>The date that this repOrder detail was created
+                        within LAA Systems.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:dateTime">
+                        <xsd:minInclusive value="2010-01-01T00:00:00" />
+                        <xsd:maxInclusive value="2050-12-31T23:59:59" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+
+
+
+
+        </xsd:sequence>
+
+    </xsd:complexType>
+
+
+
+
+
+
+    <xsd:complexType name="DefendantSummaryType">
+        <xsd:sequence>
+
+            <xsd:element name="Forename" minOccurs="0" maxOccurs="1">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="40" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+
+            <xsd:element name="Surname" minOccurs="1" maxOccurs="1">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="40" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+
+            <xsd:element name="DOB">
+                <xsd:annotation>
+                    <xsd:documentation>The date that this repOrder detail was created
+                        within LAA Systems.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:date">
+                        <xsd:minInclusive value="1916-01-01" />
+                        <xsd:maxInclusive value="2216-12-31" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+
+            <!-- xsd:element name="NINO" minOccurs="0" maxOccurs="1" > <xsd:simpleType>
+                <xsd:restriction base="xsd:string"> <xsd:length value="9" /> </xsd:restriction>
+                </xsd:simpleType> </xsd:element -->
+
+
+        </xsd:sequence>
+
+    </xsd:complexType>
+
+
+
+
+
+    <xsd:complexType name="StatusUpdateDetailsType">
+        <xsd:sequence>
+            <xsd:element name="statusUpdateDetail" type="tns:StatUpdateDetailType"
+                         minOccurs="0" maxOccurs="50" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="StatUpdateDetailType">
+        <xsd:sequence>
+
+            <!-- correlation Id in the event this message is ever sent async. -->
+            <xsd:element name="ClaimUUID" minOccurs="1" maxOccurs="1">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:length value="36" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+
+
+            <xsd:element name="statusCode" type="tns:EnumStatus" />
+
+            <xsd:element name="messageList" type="tns:MessageListType" />
+
+
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+
+
+    <xsd:complexType name="MessageListType">
+        <xsd:sequence>
+            <xsd:element name="message" type="tns:MessageType"
+                         minOccurs="0" maxOccurs="50" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="MessageType">
+        <xsd:sequence>
+
+            <!-- "CCR100" -->
+            <xsd:element name="code">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="6" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+
+            <!-- e.g. "Invalid RepOrder" -->
+            <xsd:element name="message">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="100" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="EnumStatus">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="AWAITING" />		<!-- Acknowledge by CCR as available for validation and acceptance into CCR -->
+            <xsd:enumeration value="PROCESSING" />		<!-- Being Processed. a)Message content Validated, then Pocessed into into LAA Systems, not available for User Enquiry -->
+            <xsd:enumeration value="INVALID" />			<!-- Failed a)Message content Validation - not presented to CCR.  -->
+            <xsd:enumeration value="ACCEPTED" />		<!-- Passed a)Message content Validation, Accepted into  into LAA Systems. Available for User Enquiry -->
+            <xsd:enumeration value="REJECTED" />		<!-- Passed a)Message content Validation, But rejected by CCR - not available in CCR -->
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>

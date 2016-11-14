@@ -7,7 +7,7 @@
       = claim.fees_total
     %td
       %div.pound-wrapper
-        = f.text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: 'form-control js-fees', size: 10, maxlength: 8
+        = f.text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: 'form-control js-fees', size: 10, maxlength: 10
       = validation_error_message(f.object, :fees)
 
 - if claim.can_have_expenses?
@@ -18,7 +18,7 @@
       = claim.expenses_total
     %td
       %div.pound-wrapper
-        = f.text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: 'form-control js-expenses', size: 10, maxlength: 8
+        = f.text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: 'form-control js-expenses', size: 10, maxlength: 10
       = validation_error_message(f.object, :expenses)
 
 - if claim.can_have_disbursements?
@@ -29,7 +29,7 @@
       = claim.disbursements_total
     %td
       %div.pound-wrapper
-        = f.text_field :disbursements, value: number_with_precision(f.object.disbursements, precision: 2), class: 'form-control js-disbursements', size: 10, maxlength: 8
+        = f.text_field :disbursements, value: number_with_precision(f.object.disbursements, precision: 2), class: 'form-control js-disbursements', size: 10, maxlength: 10
       = validation_error_message(f.object, :disbursements)
 
 %tr.determination-form-fields

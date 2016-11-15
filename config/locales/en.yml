@@ -405,7 +405,7 @@ en:
           vat_registered: *vat_registered
           api_key: *api_key
           lgfs_supplier_numbers: "LGFS supplier numbers"
-          firm_agfs_supplier_number: "AGFS suppliper number"
+          firm_agfs_supplier_number: "AGFS supplier number"
         edit:
           error: 'error'
           prohibited_save: 'This provider has'

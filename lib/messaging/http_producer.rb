@@ -24,7 +24,7 @@ module Messaging
     end
 
     def config
-      @config ||= Rails.application.config_for(:claim_request).symbolize_keys!
+      @config ||= Rails.application.config_for(config_name).symbolize_keys!
     end
   end
 end

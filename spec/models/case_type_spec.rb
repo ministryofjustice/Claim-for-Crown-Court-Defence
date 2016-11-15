@@ -27,11 +27,11 @@ describe CaseType do
   end
 
   describe 'graduated_fee_type' do
-    let!(:grad_fee_type)     { create :graduated_fee_type, code: 'GRAD' }
+    let!(:grad_fee_type)     { create :graduated_fee_type, unique_code: 'GRAD' }
     let(:grad_case_type)    { build :case_type, fee_type_code: 'GRAD' }
     let(:grad_case_type_x)  { build :case_type, fee_type_code: 'XXXX' }
     let(:nil_case_type)      { build :case_type, fee_type_code: nil }
-    let!(:fixed_fee_type)     { create :fixed_fee_type, code: 'FIXED' }
+    let!(:fixed_fee_type)     { create :fixed_fee_type, unique_code: 'FIXED' }
     let(:fixed_case_type)    { build :case_type, fee_type_code: 'FIXED' }
 
     it 'returns nil if no fee_type_code' do
@@ -67,7 +67,7 @@ describe CaseType do
   end
 
   describe 'fixed_fee_type' do
-    let!(:fixed_fee_type)     { create :fixed_fee_type, code: 'FIXED' }
+    let!(:fixed_fee_type)     { create :fixed_fee_type, unique_code: 'FIXED' }
     let(:fixed_case_type)    { build :case_type, fee_type_code: 'FIXED' }
     let(:fixed_case_type_x)  { build :case_type, fee_type_code: 'XXXX' }
     let(:grad_case_type)   { build :case_type, fee_type_code: nil }

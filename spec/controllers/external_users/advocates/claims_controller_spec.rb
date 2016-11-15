@@ -315,7 +315,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
         context 'fixed fee case types' do
           context 'valid params' do
             it 'should create a claim with fixed fees ONLY' do
-              create :fixed_fee_type, code: 'ZXY'
+              create :fixed_fee_type, unique_code: 'ZXY'
               ct = create :case_type, :fixed_fee,  fee_type_code: 'ZXY'
               claim_params['case_type_id'] = ct.id
               response = post :create, claim: claim_params

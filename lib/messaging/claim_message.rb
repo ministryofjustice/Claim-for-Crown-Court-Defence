@@ -1,4 +1,6 @@
 module Messaging
+  class MessageValidationError < StandardError; end
+
   class ClaimMessage
     cattr_accessor :producer
     attr_accessor :claim
@@ -8,11 +10,27 @@ module Messaging
     end
 
     def publish
-      self.class.producer.publish(message)
+      raise MessageValidationError.new(message.errors) unless valid_message?
+      self.class.producer.publish(payload)
+      create_exported_claim
     end
 
+    def payload
+      message.to_xml
+    end
+
+    private
+
     def message
-      Messaging::SOAPMessage.new(claim).to_xml
+      @message ||= Messaging::ExportMessage.new(claim)
+    end
+
+    def valid_message?
+      message.valid?
+    end
+
+    def create_exported_claim
+      ExportedClaim.new(claim_id: claim.id, claim_uuid: claim.uuid).save
     end
   end
 end

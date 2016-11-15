@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Messaging::HttpProducer do
-  subject { described_class.new(client_class: client_class) }
+  subject { described_class.new(:claim_request, client_class: client_class) }
 
   let(:client_class) { Messaging::MockClient }
   let(:queue) { client_class.queue }

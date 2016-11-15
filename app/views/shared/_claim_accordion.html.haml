@@ -4,6 +4,15 @@
       %h3.heading-medium
         = t('.h2_messages')
 
+      -# BEGIN. This is just for the Proof of Concept.
+      %p
+        CCR status:
+        - if (ec = claim.exported_claim).present?
+          = 'status: %s; created_at: %s; last_request_at: %s; retries: %s' % [ec.status, ec.created_at, ec.last_request_at, ec.retries]
+        - else
+          = 'not submitted'
+      -# END. This is just for the Proof of Concept.
+
     .column-one-half
       - if current_user.persona.is_a?(CaseWorker)
         .other-claims

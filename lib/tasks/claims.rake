@@ -7,7 +7,7 @@ namespace :claims do
     Claim::BaseClaim.active.where { id >= start_id }.where.not(state: %w(draft archived_pending_delete)).order(id: :asc).find_each(batch_size: 100) do |claim|
       total += 1
       current_id = claim.id
-      message = Messaging::SOAPMessage.new(claim)
+      message = Messaging::ExportMessage.new(claim)
       unless message.valid?
         puts "[FAIL] Claim ID #{claim.id.to_s.ljust(5, ' ')} #{claim.state}"
         puts message.errors
@@ -19,6 +19,14 @@ namespace :claims do
     puts
     puts "Total claims processed: #{total}. Last claim ID processed: #{current_id}"
     puts "You can continue from here with: rake claims:check_export[#{current_id}]"
+  end
+
+  # TODO: this is just for the PoC. Eventually there will be a scheduled task.
+  desc 'Request exported claims status from CCR'
+  task :status_updater => :environment do
+    puts 'Running...'
+    Messaging::Status::StatusUpdater.new.run
+    puts 'Done.'
   end
 
   desc 'Check all current claims case numbers against the regex'

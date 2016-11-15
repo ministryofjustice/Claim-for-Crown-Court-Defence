@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Messaging::SOAPMessage do
+describe Messaging::ExportMessage do
   let(:claim) { create(:deterministic_claim, :redetermination) }
   let(:message_uuid) { '111-222-333' }
 

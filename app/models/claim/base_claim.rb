@@ -115,6 +115,7 @@ module Claim
     has_many :redeterminations, foreign_key: :claim_id
 
     has_one  :certification, foreign_key: :claim_id, dependent: :destroy
+    has_one  :exported_claim, foreign_key: :claim_id, dependent: :destroy
 
     has_paper_trail on: [:update], only: [:state]
 

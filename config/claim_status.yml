@@ -8,11 +8,11 @@ default: &default
 
 production:
   <<: *default
-  endpoint: 'http://requestb.in/xjm3zaxj'
+  endpoint: 'http://requestb.in/18f1i1j1'
 
 development:
   <<: *default
-  endpoint: 'http://requestb.in/y5ker6y5'
+  endpoint: 'http://requestb.in/x6x3lix6'
 
 devunicorn:
   <<: *default

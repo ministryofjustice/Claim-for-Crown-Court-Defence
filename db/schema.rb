@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161101093559) do
+ActiveRecord::Schema.define(version: 20161114093442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -293,6 +293,20 @@ ActiveRecord::Schema.define(version: 20161101093559) do
 
   add_index "expenses", ["claim_id"], name: "index_expenses_on_claim_id", using: :btree
   add_index "expenses", ["expense_type_id"], name: "index_expenses_on_expense_type_id", using: :btree
+
+  create_table "exported_claims", force: :cascade do |t|
+    t.integer  "claim_id",                    null: false
+    t.uuid     "claim_uuid",                  null: false
+    t.string   "status"
+    t.integer  "status_code"
+    t.integer  "retries",         default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "last_request_at"
+  end
+
+  add_index "exported_claims", ["claim_id"], name: "index_exported_claims_on_claim_id", using: :btree
+  add_index "exported_claims", ["claim_uuid"], name: "index_exported_claims_on_claim_uuid", using: :btree
 
   create_table "external_users", force: :cascade do |t|
     t.datetime "created_at"

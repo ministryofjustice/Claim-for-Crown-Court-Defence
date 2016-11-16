@@ -92,6 +92,10 @@ class ExternalUser < ActiveRecord::Base
     self.user.soft_delete
   end
 
+  def supplier_number
+    self[:supplier_number] || self.provider.firm_agfs_supplier_number
+  end
+
 
   private
 

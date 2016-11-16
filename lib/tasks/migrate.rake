@@ -47,11 +47,19 @@ namespace :data do
       load File.join(Rails.root, 'db', 'seeds', 'disbursement_types.rb')
     end
 
+    desc 'Change fee type codes on case types to unique codes'
+    task :case_type_codes => :environment do
+      CaseType.all.each do |case_type|
+        fee_type = Fee::BaseFeeType.where(code: case_type.fee_type_code).first
+        case_type.fee_type_code = fee_type.unique_code
+        case_type.save!
+      end
+    end
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
-        'disbursement_types_unique_code' => 'Populate disbursement types table with unique codes',
-        'expense_type_unique_code' => 'Populate expense types table with unique codes'
+        'case_type_codes' => 'Change the fee type codes on case types to use the unique code',
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

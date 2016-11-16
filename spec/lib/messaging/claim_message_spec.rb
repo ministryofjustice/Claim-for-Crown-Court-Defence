@@ -25,37 +25,54 @@ describe Messaging::ClaimMessage do
         allow(subject).to receive(:valid_message?).and_return(true)
       end
 
+      let(:error_response) { Messaging::ProducerResponse.new(code: 500, body: '', description: 'test error') }
+      let(:entry) { ExportedClaim.find_by(claim_uuid: claim.uuid) }
+
       context 'when using SNS producer' do
         before do
           Messaging::ClaimMessage.producer = Messaging::SNSProducer.new(client_class: Messaging::MockClient, queue: 'cccd-claims')
+          create(:exported_claim, :enqueued, claim: claim)
         end
 
-        it 'should publish' do
-          expect_any_instance_of(Messaging::SNSProducer).to receive(:publish)
+        it 'should update the claim export database entry' do
           subject.publish
+          expect(entry.status).to eq('published')
         end
 
-        it 'should create an export database entry' do
-          subject.publish
-          entry = ExportedClaim.find_by(claim_uuid: claim.uuid)
-          expect(entry).not_to be_nil
+        context 'when there is an error in the publishing' do
+          before(:each) do
+            allow_any_instance_of(Messaging::MockClient).to receive(:build_response).and_return(error_response)
+          end
+
+          it 'should update the claim export database entry with the error' do
+            subject.publish
+            expect(entry.status).to eq('publish_error')
+            expect(entry.status_msg).to eq('test error')
+          end
         end
       end
 
       context 'when using HTTP producer' do
         before do
           Messaging::ClaimMessage.producer = Messaging::HttpProducer.new(:claim_request, client_class: Messaging::MockClient)
+          create(:exported_claim, :enqueued, claim: claim)
         end
 
-        it 'should publish' do
-          expect_any_instance_of(Messaging::HttpProducer).to receive(:publish)
+        it 'should update the claim export database entry' do
           subject.publish
+          expect(entry.status).to eq('published')
         end
 
-        it 'should create an export database entry' do
-          subject.publish
-          entry = ExportedClaim.find_by(claim_uuid: claim.uuid)
-          expect(entry).not_to be_nil
+        context 'when there is an error in the publishing' do
+          before(:each) do
+            allow_any_instance_of(Messaging::MockClient).to receive(:build_response).and_return(error_response)
+          end
+
+          it 'should update the claim export database entry with the error' do
+            subject.publish
+            expect(entry.status).to eq('publish_error')
+            expect(entry.status_msg).to eq('test error')
+          end
         end
       end
     end

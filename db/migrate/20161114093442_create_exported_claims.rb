@@ -5,9 +5,11 @@ class CreateExportedClaims < ActiveRecord::Migration
       t.uuid :claim_uuid, index: true, null: false
       t.string :status
       t.integer :status_code
+      t.string :status_msg
       t.integer :retries, default: 0, null: false
-      t.timestamps
-      t.datetime :last_request_at
+      t.timestamps null: true
+      t.datetime :published_at
+      t.datetime :retried_at
     end
   end
 end

@@ -3,6 +3,3 @@
 #
 remote_api_key: 'not-provided'
 remote_api_url: 'http://localhost:3001/api'
-
-# Queue is mocked so this is safe to be true so tests are as realistic as possible
-claim_publishing_enabled?: true

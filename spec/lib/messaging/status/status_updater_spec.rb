@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe Messaging::Status::StatusUpdater do
   let(:uuid) { '08ce9459-b34b-4af5-a7f5-c178f7990b0c' }
-  let(:response) { success_response_xml }
+  let(:response_body) { success_response_xml }
+  let(:response) { Messaging::ProducerResponse.new(code: 200, body: response_body, description: '') }
 
   subject { described_class.new }
 
@@ -16,15 +17,15 @@ describe Messaging::Status::StatusUpdater do
   end
 
   describe 'updating the exported claim database record' do
-    let(:exported_claim) { create(:exported_claim, claim_uuid: uuid) }
+    let(:exported_claim) { create(:exported_claim, :published, claim_uuid: uuid) }
 
     before(:each) { ExportedClaim.delete_all }
 
     context 'for a successful response' do
-      let(:response) { success_response_xml }
+      let(:response_body) { success_response_xml }
 
       it 'should update the database record' do
-        expect(exported_claim.status).to be_nil
+        expect(exported_claim.status).to eq('published')
         subject.run
         exported_claim.reload
         expect(exported_claim.status).to eq('success')
@@ -32,10 +33,10 @@ describe Messaging::Status::StatusUpdater do
     end
 
     context 'for a failure response' do
-      let(:response) { error_response_xml }
+      let(:response_body) { error_response_xml }
 
       it 'should update the database record' do
-        expect(exported_claim.status).to be_nil
+        expect(exported_claim.status).to eq('published')
         subject.run
         exported_claim.reload
         expect(exported_claim.status).to eq('error')

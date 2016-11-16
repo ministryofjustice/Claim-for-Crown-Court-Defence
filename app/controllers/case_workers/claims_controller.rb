@@ -15,7 +15,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :filter_archived_claims,  only: [:archived]
   before_action :sort_claims,             only: [:index, :archived]
 
-  before_action :set_claim, only: [:show, :messages]
+  before_action :set_claim, only: [:show, :messages, :publish, :enquire]
   before_action :set_doctypes, only: [:show, :update]
 
   include ReadMessages
@@ -46,6 +46,18 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
       prepare_show_action
       render :show
     end
+  end
+
+  # TODO: temporary action for the Claim Injection PoC
+  def publish
+    Claims::ClaimInjection.new(@claim).execute
+    redirect_to case_workers_claim_path(@claim)
+  end
+
+  # TODO: temporary action for the Claim Injection PoC
+  def enquire
+    Messaging::Status::StatusUpdater.new(uuids: [@claim.uuid]).run
+    redirect_to case_workers_claim_path(@claim)
   end
 
   private

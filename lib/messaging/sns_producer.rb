@@ -10,7 +10,7 @@ module Messaging
 
     def publish(payload)
       Rails.logger.info "[Client: #{client.class.name}] [ARN: #{target_arn}] Publishing payload: #{payload}"
-      client.publish(target_arn: target_arn, subject: 'Claim', message: payload)
+      build_response client.publish(target_arn: target_arn, subject: 'Claim', message: payload)
     end
 
     def queue_name
@@ -22,6 +22,12 @@ module Messaging
     end
 
     private
+
+    # TODO: check what attributes SNS actually returns to retrieve the code and description, if any
+    # TODO: also, the producers could extract this and other common methods to a superclass, TBC.
+    def build_response(res)
+      Messaging::ProducerResponse.new(code: res.code, body: res, description: res.description)
+    end
 
     def host
       Rails.host.env || 'local'

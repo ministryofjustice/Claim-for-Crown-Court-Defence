@@ -295,14 +295,16 @@ ActiveRecord::Schema.define(version: 20161114093442) do
   add_index "expenses", ["expense_type_id"], name: "index_expenses_on_expense_type_id", using: :btree
 
   create_table "exported_claims", force: :cascade do |t|
-    t.integer  "claim_id",                    null: false
-    t.uuid     "claim_uuid",                  null: false
+    t.integer  "claim_id",                 null: false
+    t.uuid     "claim_uuid",               null: false
     t.string   "status"
     t.integer  "status_code"
-    t.integer  "retries",         default: 0, null: false
+    t.string   "status_msg"
+    t.integer  "retries",      default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "last_request_at"
+    t.datetime "published_at"
+    t.datetime "retried_at"
   end
 
   add_index "exported_claims", ["claim_id"], name: "index_exported_claims_on_claim_id", using: :btree

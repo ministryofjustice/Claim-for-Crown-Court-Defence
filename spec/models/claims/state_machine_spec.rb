@@ -318,45 +318,4 @@ RSpec.describe Claims::StateMachine, type: :model do
       expect(transition.reason_code).to eq(reason_code)
     end
   end
-
-  describe 'claim publishing' do
-    describe 'when authorised' do
-      subject { create(:allocated_claim) }
-
-      before(:each) do
-        subject.assessment.update(fees: 100.00, expenses: 23.45)
-      end
-
-      it 'should enqueue the claim to be published' do
-        expect(PublishClaimJob).to receive(:perform_later).with(subject)
-        subject.authorise!
-      end
-    end
-
-    describe 'when part-authorised' do
-      subject { create(:allocated_claim) }
-
-      before(:each) do
-        subject.assessment.update(fees: 100.00, expenses: 23.45)
-      end
-
-      it 'should enqueue the claim to be published' do
-        expect(PublishClaimJob).to receive(:perform_later).with(subject)
-        subject.authorise_part!
-      end
-    end
-
-    describe 'override the publishing for the transition' do
-      subject { create(:allocated_claim) }
-
-      before(:each) do
-        subject.assessment.update(fees: 100.00, expenses: 23.45)
-      end
-
-      it 'should not enqueue the claim to be published' do
-        expect(PublishClaimJob).not_to receive(:perform_later)
-        subject.authorise!(publish: false)
-      end
-    end
-  end
 end

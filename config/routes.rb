@@ -142,6 +142,8 @@ Rails.application.routes.draw do
       get 'show_message_controls', on: :member
       get 'messages', on: :member
       get 'archived', on: :collection
+      put 'publish', on: :member
+      put 'enquire', on: :member
     end
 
     namespace :admin do

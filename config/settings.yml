@@ -87,5 +87,6 @@ case_workers_remote_allocations?: true
 # contact email address
 laa_contact_email: crowncourtdefence@legalaid.gsi.gov.uk
 
-# Claim publishing to Amazon SNS queue. Not yet ready for production, only enabled in DEV.
+# Claim injecting PoC stuff that might be exposed to the user, we don't want that on DEV
+# Override this setting in your settings.local.yml to see the stuff on local
 claim_publishing_enabled?: <%= ENV['ENV'] == 'dev' %>

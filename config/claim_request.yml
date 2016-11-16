@@ -8,11 +8,11 @@ default: &default
 
 production:
   <<: *default
-  endpoint: 'http://requestb.in/xjm3zaxj'
+  endpoint: 'http://requestb.in/16hgh1d1' # These URLs only last 48h once created
 
 development:
   <<: *default
-  endpoint: 'http://requestb.in/y5ker6y5'
+  endpoint: 'http://requestb.in/olamvhol' # These URLs only last 48h once created
 
 devunicorn:
   <<: *default

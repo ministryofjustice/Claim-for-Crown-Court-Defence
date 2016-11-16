@@ -63,8 +63,8 @@ module Claims::StateMachine
             :deallocated
 
       after_transition on: :submit,                   do: [:set_last_submission_date!, :set_original_submission_date!]
-      after_transition on: :authorise,                do: [:set_authorised_date!, :publish_claim]
-      after_transition on: :authorise_part,           do: [:set_authorised_date!, :publish_claim]
+      after_transition on: :authorise,                do: [:set_authorised_date!]
+      after_transition on: :authorise_part,           do: [:set_authorised_date!]
       after_transition on: :redetermine,              do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :await_written_reasons,    do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
@@ -214,11 +214,5 @@ module Claims::StateMachine
 
   def remove_case_workers!
     self.case_workers.destroy_all
-  end
-
-  # Default is to publish claims but can be overridden, example: claim.authorise!(publish: false)
-  def publish_claim(transition)
-    publish = extract_transition_option!(transition, :publish, true)
-    PublishClaimJob.perform_later(self) if Settings.claim_publishing_enabled? && publish
   end
 end

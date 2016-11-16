@@ -11,8 +11,7 @@ module Messaging
 
     def publish
       raise MessageValidationError.new(message.errors) unless valid_message?
-      self.class.producer.publish(payload)
-      create_exported_claim
+      process_response(self.class.producer.publish(payload))
     end
 
     def payload
@@ -29,8 +28,15 @@ module Messaging
       message.valid?
     end
 
-    def create_exported_claim
-      ExportedClaim.new(claim_id: claim.id, claim_uuid: claim.uuid).save
+    def process_response(res)
+      attrs = if res.success?
+                # TODO: parse the response for possible errors and decide what to do
+                {status: 'published', status_code: nil, status_msg: nil, published_at: 'now()'}
+              else
+                # TODO: do we need to parse for errors here too?
+                {status: 'publish_error', status_code: res.code, status_msg: res.description, published_at: nil}
+              end
+      ExportedClaim.where(claim_id: claim.id).update_all(attrs)
     end
   end
 end

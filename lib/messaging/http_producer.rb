@@ -9,11 +9,23 @@ module Messaging
 
     def publish(payload)
       Rails.logger.info "[Client: #{client.class.name}] Posting payload: #{payload}"
-      client.post(payload, content_type: :xml)
+      build_response do_post(payload)
     end
     alias post publish
 
     private
+
+    # TODO: the producers could extract this and other common methods to a superclass, TBC.
+    def do_post(payload, format = :xml)
+      client.post(payload, content_type: format)
+    rescue RestClient::ExceptionWithResponse => ex
+      ex.response
+    end
+
+    # TODO: the producers could extract this and other common methods to a superclass, TBC.
+    def build_response(res)
+      Messaging::ProducerResponse.new(code: res.code, body: res, description: res.description)
+    end
 
     def endpoint
       config.fetch(:endpoint)

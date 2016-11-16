@@ -2,12 +2,13 @@ module Messaging
   module Status
     class StatusUpdater
       cattr_accessor :client_class
-      attr_accessor :batch_limit
+      attr_accessor :batch_limit, :uuids
 
       MAX_RETRIES = 3
 
-      def initialize(batch_limit: 1)
-        self.batch_limit = batch_limit
+      def initialize(options = {})
+        self.batch_limit = options.fetch(:batch_limit, 1)
+        self.uuids = options.fetch(:uuids, [])
       end
 
       def run
@@ -26,7 +27,13 @@ module Messaging
       private
 
       def pending_claims
-        @pending_claim ||= ExportedClaim.pending.where { retries < MAX_RETRIES }.limit(batch_limit).to_a
+        @pending_claim ||= begin
+          if uuids.any?
+            ExportedClaim.where(claim_uuid: uuids)
+          else
+            ExportedClaim.pending.where { retries < MAX_RETRIES }
+          end.limit(batch_limit).to_a
+        end
       end
 
       def pending_claim_uuids
@@ -37,14 +44,18 @@ module Messaging
       end
 
       def update_records!(ids)
-        ExportedClaim.where(id: ids).update_all(last_request_at: 'now()', updated_at: 'now()')
+        ExportedClaim.where(id: ids).update_all(retried_at: 'now()', updated_at: 'now()')
         ExportedClaim.update_counters(ids, retries: 1)
       end
 
       # TODO: decide what to store and when we assume not to query again for this same claim
-      def process_response(xml)
-        response = Messaging::Status::StatusResponse.new(xml)
-        ExportedClaim.find_by!(claim_uuid: response.claim_uuid).update_attributes(status: response.status)
+      def process_response(res)
+        if res.error?
+          Rails.logger.error "[StatusUpdater] Response code: #{res.code} - Response body: #{res.body}"
+        else
+          response = Messaging::Status::StatusResponse.new(res.body)
+          ExportedClaim.find_by!(claim_uuid: response.claim_uuid).update_attributes(status: response.status)
+        end
       end
 
       def client_class

@@ -60,11 +60,15 @@ class LaaExpenseAdapter
   }
 
 
+  LAA_BILL_TYPE = 'AGFS_EXPENSES'
 
 
 
-  def self.laa_bill_sub_type(expense)
-    TRANSLATION_TABLE[expense.expense_type.name][expense.reason_id]
+
+
+  def self.laa_bill_type_and_sub_type(expense)
+    subtype = TRANSLATION_TABLE[expense.expense_type.name][expense.reason_id]
+    subtype.nil? ? nil : [ LAA_BILL_TYPE, subtype ]
   end
 
 

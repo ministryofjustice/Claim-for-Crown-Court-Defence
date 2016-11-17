@@ -8,6 +8,10 @@ module Messaging
       self.description = description
     end
 
+    def self.no_response
+      new(code: 500, body: '', description: 'No server response')
+    end
+
     def success?
       (200..201).include?(code)
     end

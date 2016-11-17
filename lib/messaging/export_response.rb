@@ -16,7 +16,7 @@ module Messaging
 
     def status
       return 'published' if success?
-      error_code || 'unknown_error'
+      error_code || 'unknown_status'
     end
 
     def ack_id

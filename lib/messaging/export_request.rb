@@ -1,7 +1,7 @@
 require_relative 'soap_message'
 
 module Messaging
-  class ExportMessage < Messaging::SOAPMessage
+  class ExportRequest < Messaging::SOAPMessage
     attr_accessor :claim, :message_uuid
 
     def initialize(claim, _options = {})

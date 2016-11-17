@@ -22,4 +22,7 @@ class ExportedClaim < ActiveRecord::Base
   # TODO: we need to decide what a 'successful' (not pending) claim means
   scope :pending, -> { where(status: 'published') }
 
+  def published?
+    self.status == 'published'
+  end
 end

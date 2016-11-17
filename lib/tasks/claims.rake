@@ -7,7 +7,7 @@ namespace :claims do
     Claim::BaseClaim.active.where { id >= start_id }.where.not(state: %w(draft archived_pending_delete)).order(id: :asc).find_each(batch_size: 100) do |claim|
       total += 1
       current_id = claim.id
-      message = Messaging::ExportMessage.new(claim)
+      message = Messaging::ExportRequest.new(claim)
       unless message.valid?
         puts "[FAIL] Claim ID #{claim.id.to_s.ljust(5, ' ')} #{claim.state}"
         puts message.errors

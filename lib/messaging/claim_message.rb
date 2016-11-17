@@ -21,7 +21,7 @@ module Messaging
     private
 
     def message
-      @message ||= Messaging::ExportMessage.new(claim)
+      @message ||= Messaging::ExportRequest.new(claim)
     end
 
     def valid_message?
@@ -30,10 +30,10 @@ module Messaging
 
     def process_response(res)
       attrs = if res.success?
-                # TODO: parse the response for possible errors and decide what to do
-                {status: 'published', status_code: nil, status_msg: nil, published_at: 'now()'}
+                response = Messaging::ExportResponse.new(res.body)
+                {status: response.status, status_code: nil, status_msg: response.error_message, published_at: 'now()'}
               else
-                # TODO: do we need to parse for errors here too?
+                # TODO: do we receive a SOAP message with errors here too?
                 {status: 'publish_error', status_code: res.code, status_msg: res.description, published_at: nil}
               end
       ExportedClaim.where(claim_id: claim.id).update_all(attrs)

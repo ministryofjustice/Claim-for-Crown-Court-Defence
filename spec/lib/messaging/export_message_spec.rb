@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Messaging::ExportMessage do
+describe Messaging::ExportRequest do
   let(:claim) { create(:deterministic_claim, :redetermination) }
   let(:message_uuid) { '111-222-333' }
 

@@ -1,0 +1,38 @@
+<!-- Happy path response example -->
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
+    <wsa:To SOAP-ENV:mustUnderstand="1">http://www.w3.org/2005/08/addressing/anonymous</wsa:To>
+    <wsa:Action>cbonewclaimResponse</wsa:Action>
+    <wsa:MessageID>fdf9958e-e221-40cf-a9d9-818f4a04e37e</wsa:MessageID>
+    <wsa:RelatesTo>668747f7-4444-4294-8d41-ae66e3cd8f57</wsa:RelatesTo>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <ClaimResponse xmlns="http://www.justice.gov.uk/2016/11/cbo">
+      <ClaimUUID>0d9f6fcd-5fc0-4345-b2ea-38b339ba9f05</ClaimUUID>
+      <AckId>416d342e-d822-314b-e054-020820c4ba82</AckId>
+    </ClaimResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+<!-- Sad path response example -->
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
+    <wsa:To SOAP-ENV:mustUnderstand="1">http://www.w3.org/2005/08/addressing/anonymous</wsa:To>
+    <wsa:Action>cbonewclaimResponse</wsa:Action>
+    <wsa:MessageID>4fc522b6-1390-4314-941c-0ff67b9fec06</wsa:MessageID>
+    <wsa:RelatesTo>668747f7-4444-4291-8d40-ae66e3cd8f57</wsa:RelatesTo>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <SOAP-ENV:Fault>
+      <faultcode>SOAP-ENV:Server</faultcode>
+      <faultstring xml:lang="en">INFOX600,1479123019803,INFOX070,1479123019787,Could not get JDBC Connection; nested
+        exception is java.sql.SQLException: Listener refused the connection with the following error:ORA-12505,
+        TNS:listener does not currently know of SID given in connect descriptorThe Connection descriptor used by the
+        client was:ds01zd003.dev.laa.uk:1871:DEVCCR10
+      </faultstring>
+    </SOAP-ENV:Fault>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

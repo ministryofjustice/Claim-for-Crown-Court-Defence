@@ -25,7 +25,7 @@ module Messaging
     # TODO: the producers could extract this and other common methods to a superclass, TBC.
     def build_response(res)
       return Messaging::ProducerResponse.no_response if res.nil?
-      Messaging::ProducerResponse.new(code: res.code, body: res, description: res.description)
+      Messaging::ProducerResponse.new(code: res.code, body: res.body, description: res.description)
     end
 
     def endpoint

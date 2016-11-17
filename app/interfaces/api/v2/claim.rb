@@ -24,7 +24,7 @@ module API
           end
           get do
             if soap_format?
-              body Messaging::ExportMessage.new(claim).to_xml
+              body Messaging::ExportRequest.new(claim).to_xml
             else
               present claim, with: API::Entities::FullClaim, root: 'claim'
             end

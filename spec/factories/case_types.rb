@@ -78,7 +78,7 @@ FactoryGirl.define do
 
     trait :cbr do
       name 'Breach of Crown Court order'
-      fee_type_code 'CBR'
+      fee_type_code 'FXCBR'
       requires_maat_reference false
       roles %w(agfs lgfs)
     end

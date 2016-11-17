@@ -2,9 +2,16 @@ module Messaging
   class SOAPMessage
     attr_accessor :errors
 
+    ENV_SCHEMA = 'http://www.w3.org/2003/05/soap-envelope'.freeze
+    ADDRESSING = 'http://www.w3.org/2005/08/addressing'.freeze
+
     WSA_FROM = 'http://cob.gov.uk/cccd'.freeze
     WSA_TO = 'http://legalaid.gov.uk/infoX/gateway/ccr'.freeze
     CBO_NS = %w(cbo http://www.justice.gov.uk/2016/11/cbo).freeze
+
+    DEFAULT_FORMAT = Nokogiri::XML::Node::SaveOptions::FORMAT +
+        Nokogiri::XML::Node::SaveOptions::NO_DECLARATION +
+        Nokogiri::XML::Node::SaveOptions::NO_EMPTY_TAGS
 
     def payload_schema
       raise 'not implemented'
@@ -27,7 +34,7 @@ module Messaging
     end
 
     def to_xml
-      build_envelope { payload_message }.to_xml
+      build_envelope { payload_message }.to_xml(builder_xml_options)
     end
 
     def valid?
@@ -44,19 +51,19 @@ module Messaging
     private
 
     def must_understand
-      {'soapenv:mustUnderstand': '1'}.freeze
+      {'env:mustUnderstand': '1'}.freeze
     end
 
     def build_envelope
       Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |builder|
-        builder[:soapenv].Envelope('xmlns:soapenv': 'http://www.w3.org/2003/05/soap-envelope') {
-          builder[:soapenv].Header('xmlns:wsa': 'http://www.w3.org/2005/08/addressing') {
-            builder[:wsa].Action(must_understand, action)
-            builder[:wsa].From(must_understand) { builder[:wsa].Address(WSA_FROM) }
-            builder[:wsa].MessageID(must_understand, message_id)
+        builder[:env].Envelope('xmlns:env': ENV_SCHEMA) {
+          builder[:env].Header('xmlns:wsa': ADDRESSING) {
             builder[:wsa].To(must_understand, WSA_TO)
+            builder[:wsa].From(must_understand) { builder[:wsa].Address(WSA_FROM) }
+            builder[:wsa].Action(action)
+            builder[:wsa].MessageID(message_id)
           }
-          builder[:soapenv].Body {
+          builder[:env].Body {
             builder << yield
           }
         }
@@ -65,19 +72,23 @@ module Messaging
 
     def payload_message
       @payload_message ||= begin
-        doc = Nokogiri::XML(message_content.to_xml(xml_options))
+        doc = Nokogiri::XML(message_content.to_xml(payload_xml_options))
         doc.root.add_namespace_definition(*CBO_NS)
-        doc.root.to_xml
+        doc.to_xml(builder_xml_options)
       end
     end
 
     def request_message
       xml = Nokogiri::XML::Document.parse(to_xml)
-      Nokogiri::XML::Document.parse(xml.xpath('//soapenv:Body').children.to_xml)
+      Nokogiri::XML::Document.parse(xml.xpath('//env:Body').children.to_xml)
     end
 
-    def xml_options
+    def payload_xml_options
       {dasherize: false, skip_types: true, skip_instruct: true, skip_nils: true, root: root}.freeze
+    end
+
+    def builder_xml_options
+      {save_with: DEFAULT_FORMAT}
     end
   end
 end

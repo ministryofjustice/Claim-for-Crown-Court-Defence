@@ -404,6 +404,26 @@ RSpec.describe ExternalUser, type: :model do
     end
   end
 
+  describe 'supplier_number' do
+    context 'supplier number present' do
+      let(:external_user) { create :external_user, :advocate, supplier_number: 'ZZ114' }
+
+      it 'returns the supplier number from the external user record' do
+        expect(external_user.supplier_number).to eq 'ZZ114'
+      end
+    end
+
+    context 'supplier number not present but provider is a firm' do
+
+      let(:provider) { create :provider, :agfs_lgfs, firm_agfs_supplier_number: '999XX' }
+      let(:external_user) { create :external_user, :advocate, supplier_number: nil, provider: provider }
+
+      it 'returns the firm_agfs_supplier_number from the provider' do
+        expect(external_user.supplier_number).to eq '999XX'
+      end
+    end
+  end
+
   context 'email notification of messages preferences' do
     context 'settings on user record are nil' do
 

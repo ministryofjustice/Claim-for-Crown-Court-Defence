@@ -93,7 +93,7 @@ class ExternalUser < ActiveRecord::Base
   end
 
   def supplier_number
-    self[:supplier_number] || self.provider.firm_agfs_supplier_number
+    self[:supplier_number] || self.provider&.firm_agfs_supplier_number
   end
 
 

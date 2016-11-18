@@ -117,7 +117,7 @@ class LaaFeeAdapter
   }
 
 
-    def laa_bill_type_and_sub_type(fee)
+  def self.laa_bill_type_and_sub_type(fee)
     if fee.fee_type.unique_code  == 'BABAF'
       translate_basic_fee_type(fee)
     else
@@ -126,9 +126,8 @@ class LaaFeeAdapter
   end
 
 
-  private
 
-  def translate_basic_fee_type(fee)
+  def self.translate_basic_fee_type(fee)
     sub_type = BASIC_FEES_MAP[fee.claim.case_type.fee_type_code]
     if sub_type.nil?
       nil
@@ -138,8 +137,10 @@ class LaaFeeAdapter
   end
   
   
-  def translate_fee_type(fee)
+  def self.translate_fee_type(fee)
     FEES_MAP[fee.fee_type.unique_code]
   end
+
+  private_class_method :translate_basic_fee_type, :translate_fee_type
 
 end

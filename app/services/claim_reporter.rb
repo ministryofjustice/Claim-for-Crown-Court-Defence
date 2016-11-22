@@ -1,34 +1,24 @@
 class ClaimReporter
   include ActionView::Helpers::DateHelper
+  
+  # def intialize
+  #   puts ">>>>>>>>>>>>>>  #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
+  # end
 
   def authorised_in_full
-    claims = non_draft_claims.count
-    authorised_claims_this_month = non_draft_claims.where{ authorised_at >= Time.now.beginning_of_month }.authorised.count
-
-    {
-      count: authorised_claims_this_month,
-      percentage: claims_percentage(authorised_claims_this_month, claims)
-    }
+    decided_claims_percentage(:authorised)
   end
 
   def authorised_in_part
-    claims = non_draft_claims.count
-    part_authorised_claims_this_month = non_draft_claims.where{ authorised_at >= Time.now.beginning_of_month }.part_authorised.count
-
-    {
-      count: part_authorised_claims_this_month,
-      percentage: claims_percentage(part_authorised_claims_this_month, claims)
-    }
+    decided_claims_percentage(:part_authorised)
   end
 
   def rejected
-    claims = non_draft_claims.count
-    rejected_claims_this_month = ClaimStateTransition.where{ (to == 'rejected') & (created_at >= Time.now.beginning_of_month) }.count('DISTINCT claim_id')
+    decided_claims_percentage(:rejected)
+  end
 
-    {
-      count: rejected_claims_this_month,
-      percentage: claims_percentage(rejected_claims_this_month, claims)
-    }
+  def refused
+    decided_claims_percentage(:refused)
   end
 
   def completion_rate
@@ -40,6 +30,27 @@ class ClaimReporter
   end
 
   private
+
+  def calculate_claims_decided_this_month
+    if @decided_claims.nil?
+      @decided_claims = {}
+      total_claims = 0
+      [:authorised, :part_authorised, :rejected, :refused].each do |state|
+        @decided_claims[state] = claims_decided_this_month(state)
+        total_claims += @decided_claims[:state]
+      end
+     @decided_claims[:total] = total_claims
+    end
+    @decided_claims
+  end
+
+  def claims_decided_this_month(state)
+    ClaimStateTransition.where{ (to == state.to_s) & (created_at >= Time.now.beginning_of_month) }.count('DISTINCT claim_id')
+  end
+
+  def decided_claims_percentage(state)
+    calculate_claims_decided_this_month[state].to_f / calculate_claims_decided_this_month[:total].to_f
+  end
 
   def non_draft_claims
     Claim::BaseClaim.active.non_draft

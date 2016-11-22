@@ -16,15 +16,15 @@ module Stats
     def item
       [
         {
-          value: reporter.rejected[:percentage],
+          value: reporter.rejected,
           text: 'Rejected'
         },
         {
-          value: reporter.authorised_in_part[:percentage],
+          value: reporter.authorised_in_part,
           text: 'Part authorised'
         },
         {
-          value: reporter.authorised_in_full[:percentage],
+          value: reporter.authorised_in_full,
           text: 'Authorised'
         }
       ]

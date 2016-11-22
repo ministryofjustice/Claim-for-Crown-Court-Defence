@@ -20,8 +20,7 @@ module Stats
           [
             { value: 71.20418848167539, text: 'Authorised' },
             { value: 20.94240837696335, text: 'Part authorised' },
-            { value: 2.6178010471204187, text: 'Rejected' },
-            { value: 5.2356020942408374, text: 'Refused' }
+            { value: 7.853403141361256, text: 'Rejected/refused'}
           ]
         }
     end

@@ -23,36 +23,6 @@ RSpec.describe ClaimReporter do
 
   subject { ClaimReporter.new }
 
-  describe '#authorised_in_full' do
-    it 'returns the percentage of claims authorised in full this month' do
-      expect(subject.authorised_in_full[:percentage]).to eq(10)
-    end
-
-    it 'returns the count of claims authorised in full this month' do
-      expect(subject.authorised_in_full[:count]).to eq(1)
-    end
-  end
-
-  describe '#authorised_in_part' do
-    it 'returns the percentage of claims authorised in part this month' do
-      expect(subject.authorised_in_part[:percentage]).to eq(20)
-    end
-
-    it 'returns the count of claims authorised in part this month' do
-      expect(subject.authorised_in_part[:count]).to eq(2)
-    end
-  end
-
-  describe '#rejected' do
-    it 'returns the percentage of claims rejected this month' do
-      expect(subject.rejected[:percentage]).to eq(20)
-    end
-
-    it 'returns the count of claims rejected this month' do
-      expect(subject.rejected[:count]).to eq(2)
-    end
-  end
-
   describe '#completion_rate' do
     before do
       Timecop.freeze(5.weeks.ago) do

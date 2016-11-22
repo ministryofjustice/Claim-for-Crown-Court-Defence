@@ -38,6 +38,12 @@ module Stats
       [:authorised, :part_authorised, :rejected, :refused].each do |state|
         @decided_claims_by_state[state] = claims_decided_this_month(state)
       end
+      combine_rejected_and_refused
+    end
+
+    def combine_rejected_and_refused
+      rejected_refused = @decided_claims_by_state.delete(:rejected) + @decided_claims_by_state.delete(:refused)
+      @decided_claims_by_state['rejected/refused'] = rejected_refused
     end
 
     def claims_decided_this_month(state)

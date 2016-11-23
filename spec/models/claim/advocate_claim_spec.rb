@@ -1306,7 +1306,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
          "trial_cracked_at_yyyy" => "",
          "trial_cracked_at_third" => "",
          "court_id" => court.id,
-         "case_number" => "A20161234",
+         "case_number" => "B20161234",
          "advocate_category" => "QC",
          "external_user_id" => external_user.id,
          "offence_id" => offence.id,

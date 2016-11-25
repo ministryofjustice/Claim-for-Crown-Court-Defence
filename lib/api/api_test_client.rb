@@ -36,16 +36,34 @@ class ApiTestClient
     TransferClaimTest.new(client: self).test_creation!
   end
 
+  def run_debug_session
+    DebugFinalClaimTest.new(client: self).test_creation!
+  end
+
   def failure
     !@success
   end
 
-  def post_to_endpoint(resource, payload)
+  def post_to_endpoint(resource, payload, debug = false)
     endpoint = RestClient::Resource.new([api_root_url, EXTERNAL_USER_PREFIX, resource].join('/'))
+    if debug
+      puts ">>> POSTING TO #{endpoint} <<<<<"
+      puts payload
+    end
     endpoint.post(payload, {:content_type => :json, :accept => :json}) do |response, _request, _result|
+      if debug
+        puts "<<< RESPONSE #{response.code} <<<<<"
+        puts "<<< #{response.body} "
+        puts " \n"
+      end
       handle_response(response, resource)
       response
     end
+  end
+
+
+  def post_to_endpoint_with_debug(resource, payload)
+    post_to_endpoint(resource, payload, true)
   end
 
   #

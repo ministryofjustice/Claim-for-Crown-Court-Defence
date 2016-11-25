@@ -81,23 +81,42 @@ class BaseClaimTest
   end
 
   def defendant_data
-    {
-      "api_key": api_key,
-      "claim_id": claim_uuid,
-      "first_name": "case",
-      "last_name": "management",
-      "date_of_birth": "1979-12-10",
-      "order_for_judicial_apportionment": true,
-    }
+    [
+      {
+        "api_key": api_key,
+        "claim_id": claim_uuid,
+        "first_name": 'Shankura-x',
+        "last_name": 'Terhemen',
+        "date_of_birth": '1979-04-13',
+        "order_for_judicial_apportionment": false,
+      },
+      {
+        "api_key": api_key,
+        "claim_id": claim_uuid,
+        "first_name": 'Tim-x',
+        "last_name": 'Terhemen',
+        "date_of_birth": '1979-04-13',
+        "order_for_judicial_apportionment": false,
+      }
+    ]
+
   end
 
   def representation_order_data(defendant_uuid)
-    {
-      "api_key": api_key,
-      "defendant_id": defendant_uuid,
-      "maat_reference": "4546963741",
-      "representation_order_date": "2015-05-21"
-    }
+    [
+      {
+        "api_key": api_key,
+        "defendant_id": defendant_uuid,
+        "maat_reference": '1012345',
+        "representation_order_date": '2016-10-22'
+      },
+      {
+        "api_key": api_key,
+        "defendant_id": defendant_uuid,
+        "maat_reference": '1012345',
+        "representation_order_date": '2016-10-22'
+      }
+    ]
   end
 
   def date_attended_data(attended_item_uuid, attended_item_type)

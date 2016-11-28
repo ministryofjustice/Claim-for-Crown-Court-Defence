@@ -25,7 +25,7 @@ class ClaimReporter
   end
 
   def claims_decided_this_month(state)
-    ClaimStateTransition.where{ (to == state.to_s) & (created_at >= Time.now.beginning_of_month) }.count('DISTINCT claim_id')
+    ClaimStateTransition.decided_this_month
   end
 
   def decided_claims_percentage(state)

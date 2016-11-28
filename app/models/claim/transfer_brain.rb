@@ -7,14 +7,16 @@
 module Claim
   class TransferBrain
 
+    Struct.new('TransferStage', :id, :description, :requires_case_conclusion)
+
     TRANSFER_STAGES = {
-      10 => 'Up to and including PCMH transfer',
-      20 => 'Before trial transfer',
-      30 => 'During trial transfer',
-      40 => 'Transfer after trial and before sentence hearing',
-      50 => 'Transfer before retrial',
-      60 => 'Transfer during retrial',
-      70 => 'Transfer after retrial and before sentence hearing',
+      10 => Struct::TransferStage.new(10, 'Up to and including PCMH transfer', true),
+      20 => Struct::TransferStage.new(20, 'Before trial transfer', true),
+      30 => Struct::TransferStage.new(30, 'During trial transfer', true),
+      40 => Struct::TransferStage.new(40, 'Transfer after trial and before sentence hearing', false),
+      50 => Struct::TransferStage.new(50, 'Transfer before retrial', true),
+      60 => Struct::TransferStage.new(60, 'Transfer during retrial', true),
+      70 => Struct::TransferStage.new(70, 'Transfer after retrial and before sentence hearing', false)
     }
 
     CASE_CONCLUSIONS = {
@@ -31,10 +33,10 @@ module Claim
       name
     end
 
-    def self.transfer_stage_id(name)
-      id = TRANSFER_STAGES.key(name)
-      raise ArgumentError.new "No such transfer stage: '#{name}'" if id.nil?
-      id
+    def self.transfer_stage_id(description)
+      transfer_stage = TRANSFER_STAGES.values.detect{ |ts| ts.description == description }
+      raise ArgumentError.new "No such transfer stage: '#{description}'" if transfer_stage.nil?
+      transfer_stage.id
     end
 
     def self.transfer_stage_ids
@@ -80,7 +82,7 @@ module Claim
     def self.case_conclusion_required?(detail)
       detail.litigator_type == 'new' &&
         detail.elected_case == false && # treat nil as failure i.e. non-false
-        [10,20,30,50,60].include?(detail.transfer_stage_id)
+          TRANSFER_STAGES[detail.transfer_stage_id].requires_case_conclusion
     end
 
   end

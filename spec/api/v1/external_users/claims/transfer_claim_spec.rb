@@ -53,7 +53,8 @@ describe API::V1::ExternalUsers::Claims::TransferClaim do
     end
   end
 
-  describe "POST #{ClaimApiEndpoints.for(:transfer).validate}" do
+
+  describe 'POST /api/external_users/claims/transfer/valid' do
 
     def post_to_validate_endpoint
       post ClaimApiEndpoints.for(:transfer).validate, valid_params, format: :json
@@ -69,7 +70,7 @@ describe API::V1::ExternalUsers::Claims::TransferClaim do
 
     context 'invalid API key' do
 
-      include_examples "invalid API key validate endpoint"
+      include_examples 'invalid API key validate endpoint'
 
       it "should return 401 and JSON error array when it is an API key from another provider's admin" do
         valid_params[:api_key] = other_provider.api_key
@@ -98,7 +99,7 @@ describe API::V1::ExternalUsers::Claims::TransferClaim do
     end
   end
 
-  describe "POST #{ClaimApiEndpoints.for(:transfer).create}" do
+  describe "/api/external_users/claims/transfer" do
 
     def post_to_create_endpoint
       post ClaimApiEndpoints.for(:transfer).create, valid_params, format: :json

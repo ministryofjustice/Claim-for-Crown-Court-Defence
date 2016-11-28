@@ -3,6 +3,20 @@
 %section.api-documentation
 
   %hr
+  %h1 30 November 2016
+  %ul.list-bullet
+    %li
+      Transfer Stages result set updated
+
+      The result set returned from /api/transfer_stages now includes an additional field, 'requires_case_conclusion'
+      which will be either true or false.  If true, a Litigator Transfer Claim submitted with that transfer_stage_id
+      MUST also specify a case_conclusion_id.  If false, the case_conclusion_id MUST NOT be specified.
+
+      There is no change to the validation of transfer claims; the addition of this field is to make it clear to API
+      developers when a case conclusion id is or is not required.
+
+  %p
+  %hr
   %h1 November 2016
   %ul.list-bullet
     %li

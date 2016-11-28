@@ -5,7 +5,7 @@ module Claim
 
     describe '.transfer_stage_by_id' do
       it 'returns the name of the transfer_stage with that id' do
-        expect(TransferBrain.transfer_stage_by_id(50)).to eq 'Transfer before retrial'
+        expect(TransferBrain.transfer_stage_by_id(50).description).to eq 'Transfer before retrial'
       end
 
       it 'raises if invalid id given' do

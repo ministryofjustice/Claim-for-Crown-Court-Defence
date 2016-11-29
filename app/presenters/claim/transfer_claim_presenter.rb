@@ -25,7 +25,7 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def transfer_stage_description
-    Claim::TransferBrain.transfer_stage_by_id(claim.transfer_stage_id) || ''
+    Claim::TransferBrain.transfer_stage_by_id(claim.transfer_stage_id).description || ''
   end
 
   def transfer_date

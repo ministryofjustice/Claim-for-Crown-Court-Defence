@@ -2,7 +2,7 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
   layout 'statistics'
 
   def claims
-    respond_payload_from_reporter_class(Stats::ClaimsReporterGenerator)
+    respond_payload_from_class(Stats::ClaimPercentageAuthorisedGenerator)
   end
 
   def claim_completion
@@ -54,7 +54,8 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
   def respond_payload_from_class(klass)
     respond_to do |format|
       @payload = klass.new.run
-      format.json { render :json => @payload.to_json }
+      format.json {
+        render :json => @payload.to_json }
       format.html
     end
   end

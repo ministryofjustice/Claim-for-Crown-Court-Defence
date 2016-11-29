@@ -11,6 +11,16 @@ class Fee::FixedFeeValidator < Fee::BaseFeeValidator
 
   private
 
+  def validate_claim
+    super
+    if @record.claim
+      if @record.claim.final?
+        add_error(:claim, 'Graduated fee invalid on fixed fee case types') unless @record.claim.case_type.is_fixed_fee?
+      end
+    end
+  end
+
+
   def validate_quantity
     super if run_base_fee_validators?
   end

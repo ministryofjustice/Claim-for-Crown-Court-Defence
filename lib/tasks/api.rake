@@ -39,6 +39,24 @@ namespace :api do
 
   end
 
+
+
+  desc 'Run specific api test to reproduce reported bugs'
+  task :debug => :environment do
+    require "#{Rails.root.join('lib','api','api_test_client')}"
+    api_client = ApiTestClient.new
+    api_client.run_debug_session
+
+    if api_client.success
+      puts "[+] success"
+      puts api_client.messages.join("\n")
+    else
+      puts "[-] errors"
+      puts api_client.full_error_messages.join("\n")
+      raise "API Error: ADP RESTful API smoke test failure!"
+    end
+  end
+
   desc 'display useful api keys in dev'
   task :keys => :environment do
     if Rails.env.development?

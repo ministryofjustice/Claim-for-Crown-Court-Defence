@@ -652,6 +652,18 @@ fee:
       short: You cannot edit this claim
       api: You cannot edit a claim that is not in draft state
 
+  claim:
+    _seq: 05
+    blank:
+      long: You must specify a claim
+      short: Enter claim
+      api: You must specify a claim
+    graduated_fee_fixed_fee_case_type:
+      long: Invalid graduated fee for a Litigator Claim with a fixed-fee case type
+      short: Invalid fee type for this claim
+      api: Invalid graduated fee for a Litigator Claim with a fixed-fee case type
+
+
 #################################################################################
 #                                                                               #
 #   BASIC FEE                                                                   #

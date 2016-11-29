@@ -7,7 +7,7 @@ describe Fee::FixedFeeValidator do
   include ValidationHelpers
   include_context 'force-validation'
 
-  let(:fee) { FactoryGirl.build :fixed_fee, claim: claim }
+  let(:fee) { FactoryGirl.build :fixed_fee, claim: claim, date: Date.today }
   let(:fee_code) { fee.fee_type.code }
 
   # AGFS claims are validated as part of the base_fee_validator_spec
@@ -27,6 +27,42 @@ describe Fee::FixedFeeValidator do
     describe '#validate_fee_type' do
       it { should_error_if_not_present(fee, :fee_type, 'blank') }
     end
+
+    context 'validation of case_type on claim' do
+      let(:fixed_fee) { build :fixed_fee, :lgfs }
+      let(:grad_fee)  { build :graduated_fee }
+
+      context 'claim has a fixed fee case type' do
+        let(:claim) { build(:litigator_claim, case_type: build(:case_type, :fixed_fee)) }
+
+        it 'is valid when adding a fixed fee to a claim with a fixed fee case type' do
+          fixed_fee.claim = claim
+          expect(fixed_fee).to be_valid
+        end
+
+        it 'is invalid when adding a graduated fee to a claim with a fixed fee case type' do
+          grad_fee.claim = claim
+          expect(grad_fee).not_to be_valid
+          expect(grad_fee.errors[:claim]).to include('Fixed fee invalid on non-fixed fee case types')
+        end
+      end
+
+
+      context 'claim has a graduated fee case type' do
+        let(:claim) { build(:litigator_claim, case_type: build(:case_type, :graduated_fee)) }
+
+        it 'is valid when adding a fixed fee to a claim with a fixed fee case type' do
+          fixed_fee.claim = claim
+          expect(fixed_fee).not_to be_valid
+        end
+
+        it 'is invalid when adding a graduated fee to a claim with a fixed fee case type' do
+          grad_fee.claim = claim
+          expect(grad_fee).to be_valid
+        end
+      end
+    end
+
 
     context 'override validation of fields from the superclass validator' do
       let(:superclass) { described_class.superclass }
@@ -48,15 +84,19 @@ describe Fee::FixedFeeValidator do
     end
 
     describe '#validate_sub_type' do
+
+      let(:fixed_fee_claim)  { build :claim, case_type: build(:case_type, :fixed_fee) }
       let!(:non_parent) { create :fixed_fee_type }
       let!(:parent) { create :fixed_fee_type }
       let!(:child) { create :child_fee_type, :asbo, parent: parent }
       let!(:unrelated_child) { create :child_fee_type, :s74 }
-      let!(:fee) { build :fixed_fee, :lgfs, fee_type: parent, sub_type: child, claim: claim }
+      let!(:fee) { build :fixed_fee, :lgfs, fee_type: parent, sub_type: child, claim: fixed_fee_claim, date: nil }
+
+      before(:each) { fee.claim.force_validation = true }
 
       context 'should error if fee type has children but fee has no sub type' do
         it 'should be present' do
-         should_error_if_not_present(fee, :sub_type, 'blank')
+          should_error_if_not_present(fee, :sub_type, 'blank')
         end
 
         it 'should NOT error if it is a valid sub type' do

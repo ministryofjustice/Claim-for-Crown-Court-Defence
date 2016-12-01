@@ -27,7 +27,9 @@ RSpec.describe ClaimStateTransitionPresenter do
 
     context 'without an author user' do
       it 'returns a default string' do
-        expect(subject.audit_users).to eq('(System)')
+        claim = create :submitted_claim
+        presenter = ClaimStateTransitionPresenter.new(claim.last_state_transition, view)
+        expect(presenter.audit_users).to eq('(System)')
       end
     end
 

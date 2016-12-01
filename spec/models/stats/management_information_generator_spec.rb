@@ -6,14 +6,12 @@ module Stats
 
     let(:generator)  { ManagementInformationGenerator.new }
 
-    
     context 'data generation' do
       before(:all) do
         create :allocated_claim
         create :authorised_claim
         create :part_authorised_claim
         create :draft_claim
-        execution_time = Time.new(2016, 3, 10, 11, 44, 55) 
       end
 
       after(:all) do
@@ -25,7 +23,7 @@ module Stats
           generator.run
           expect(StatsReport.count).to eq 1
           report = StatsReport.first
-          expect(report.started_at).to eq Time.new(2016, 3, 10, 11, 44, 55) 
+          expect(report.started_at).to eq Time.new(2016, 3, 10, 11, 44, 55)
           expect(report.status).to eq 'completed'
           expect(report.report.split("\n").size).to eq 4
         end
@@ -43,4 +41,5 @@ module Stats
 
     end
   end
+
 end

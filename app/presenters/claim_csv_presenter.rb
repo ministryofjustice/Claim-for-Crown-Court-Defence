@@ -30,6 +30,16 @@ class ClaimCsvPresenter < BasePresenter
     journey
   end
 
+  def case_worker
+    if claim.allocated?
+      claim.case_workers.first.name
+    else
+      transition = claim.last_decision_transition
+      transition&.author_name
+    end
+
+  end
+
   def claim_state
     if state == 'archived_pending_delete'
       claim_state_transitions.sort.last.from

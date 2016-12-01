@@ -46,6 +46,7 @@ claim_csv_headers:
   - :completed_at
   - :current_or_end_state
   - :state_reason_code
+  - :case_worker
 
 expense_schema_version: 2
 

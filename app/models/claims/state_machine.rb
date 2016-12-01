@@ -136,6 +136,10 @@ module Claims::StateMachine
     klass.scope :caseworker_dashboard_archived,           -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
   end
 
+  def last_decision_transition
+    claim_state_transitions.detect{ |t| t.to.in?(CASEWORKER_DASHBOARD_COMPLETED_STATES) }
+  end
+
   def last_state_transition
     claim_state_transitions.first
   end

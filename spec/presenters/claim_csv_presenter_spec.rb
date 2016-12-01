@@ -77,6 +77,7 @@ RSpec.describe ClaimCsvPresenter do
             expect(presenter.case_worker).to be_nil
           end
         end
+
         context 'author_id on the decision transition is nil' do
           it 'returns nil' do
             transition = claim.last_decision_transition
@@ -85,11 +86,22 @@ RSpec.describe ClaimCsvPresenter do
             expect(presenter.case_worker).to be_nil
           end
         end
-        context 'valid author id' do
-          it 'returns name of assigned case worker' do
+
+        context 'a decided claim' do
+          it 'returns name of the caseworker that made the decision' do
             authorised_claim = create :authorised_claim
-            case_worker_name = authorised_claim.case_workers.first.name
+            transition = authorised_claim.last_decision_transition
+            case_worker_name = transition.author.name
             presenter = ClaimCsvPresenter.new(authorised_claim, view)
+            expect(presenter.case_worker).to eq case_worker_name
+          end
+        end
+
+        context 'an allocated claim' do
+          it 'returns the name of the caseworker allocated to the claim' do
+            allocated_claim = create :allocated_claim
+            case_worker_name = allocated_claim.case_workers.first.name
+            presenter = ClaimCsvPresenter.new(allocated_claim, view)
             expect(presenter.case_worker).to eq case_worker_name
           end
         end

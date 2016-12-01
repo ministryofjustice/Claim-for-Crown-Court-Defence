@@ -31,8 +31,13 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def case_worker
-    transition = claim.last_decision_transition
-    transition&.author_name
+    if claim.allocated?
+      claim.case_workers.first.name
+    else
+      transition = claim.last_decision_transition
+      transition&.author_name
+    end
+
   end
 
   def claim_state

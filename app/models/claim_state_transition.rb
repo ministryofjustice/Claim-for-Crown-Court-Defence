@@ -27,4 +27,13 @@ class ClaimStateTransition < ActiveRecord::Base
   def self.decided_this_month
     self.where{ (to == state.to_s) & (created_at >= Time.now.beginning_of_month) }.count('DISTINCT claim_id')
   end
+
+  def update_author_id(value)
+    self.author_id = value
+    self.save!
+  end
+
+  def author_name
+    author&.name
+  end
 end

@@ -1,3 +1,6 @@
+require_relative 'claim_factory_helpers'
+include ClaimFactoryHelpers
+
 
 FactoryGirl.define do
   factory :claim, aliases: [:advocate_claim], class: Claim::AdvocateClaim do
@@ -14,7 +17,6 @@ FactoryGirl.define do
     source { 'web' }
     apply_vat  false
     providers_ref { random_providers_ref }
-    # assessment    { Assessment.new }
 
     after(:build) do |claim|
       build(:certification, claim: claim)
@@ -91,7 +93,7 @@ FactoryGirl.define do
     # - alphabetical list
     #
     factory :allocated_claim do
-      after(:create) { |c| publicise_errors(c) {c.submit!}; c.case_workers << create(:case_worker); c.reload; }
+      after(:create) { |c| allocate_claim(c); c.reload }
     end
 
     factory :archived_pending_delete_claim do
@@ -106,8 +108,9 @@ FactoryGirl.define do
     end
 
     factory :authorised_claim do
-      after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise! }
+      after(:create) { |c| authorise_claim(c) }
     end
+
 
     factory :redetermination_claim do
       after(:create) do |c|
@@ -138,4 +141,7 @@ FactoryGirl.define do
       after(:create) { |c| publicise_errors(c) { c.submit! } }
     end
   end
+
 end
+
+

@@ -17,31 +17,16 @@ FactoryGirl.define do
     source { 'web' }
     apply_vat  false
     providers_ref { random_providers_ref }
-
-    after(:build) do |claim|
-      build(:certification, claim: claim)
-      claim.fees << build(:misc_fee, claim: claim)
-      claim.creator = claim.external_user
-      populate_required_fields(claim)
-    end
-
-    after(:create) do |claim|
-      defendant = create(:defendant, claim: claim)
-      create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)
-      claim.reload
-    end
-
     case_type { FactoryGirl.build  :case_type }
     offence
     advocate_category 'QC'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
 
+    after(:build) { |claim| post_build_actions_for_draft_claim(claim) }
+    after(:create) { |claim| add_defendant_and_reporder(claim) }
+
     trait :admin_creator do
-      after(:build) do |claim|
-        advocate_admin = claim.external_user.provider.external_users.where(role:'admin').sample
-        advocate_admin ||= create(:external_user, :admin, provider: claim.external_user.provider)
-        claim.creator = advocate_admin
-      end
+      after(:build) { |claim| make_claim_creator_advocate_admin(claim) }
     end
 
     trait :without_assessment do
@@ -49,10 +34,11 @@ FactoryGirl.define do
     end
 
     trait :without_fees do
-      after(:build) do |claim|
-        claim.fees.destroy_all
-      end
+      after(:build) { |claim| make_claim_creator_advocate_admin(claim) }
     end
+
+
+
 
     factory :unpersisted_claim do
       court         { FactoryGirl.build :court }
@@ -62,8 +48,10 @@ FactoryGirl.define do
         build(:certification, claim: claim)
         claim.defendants << build(:defendant, claim: claim)
         claim.fees << build(:fixed_fee, claim: claim)
-        claim.expenses << build(:expense, :with_date_attended, claim: claim, expense_type: FactoryGirl.build(:expense_type))
+        # claim.expenses << build(:expense, :with_date_attended, claim: claim, expense_type: FactoryGirl.build(:expense_type))
       end
+
+
     end
 
     factory :invalid_claim do

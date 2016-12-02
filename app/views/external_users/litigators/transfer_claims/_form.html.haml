@@ -8,6 +8,12 @@
 
       = render partial: 'external_users/claims/api_promo_banner', locals: { claim: @claim }
 
+      = render partial: 'external_users/claims/transfer_fee/detail_fields', locals: { f: f }
+
+      = render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: 'commit_stage_1' }
+
+    - if @claim.step?(2)
+
       = render partial: 'external_users/claims/supplier_number/fields', locals: { f: f }
 
       = render partial: 'external_users/claims/case_details/fields', locals: { f: f }
@@ -17,7 +23,7 @@
       = render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: 'commit_continue' }
 
 
-    - if @claim.step?(2)
+    - if @claim.step?(3)
 
       = render partial: 'external_users/claims/fees_shared_header'
 

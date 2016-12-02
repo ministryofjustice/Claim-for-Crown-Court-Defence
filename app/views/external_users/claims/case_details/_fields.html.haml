@@ -33,15 +33,17 @@
         .form-col
           = f.adp_text_field :providers_ref, label: t('common.external_user.providers_ref'), errors: @error_presenter
 
-    .form-row.js-typeahead
-      .form-col{class: error_class?(@error_presenter, :case_type)}
-        %a{:id => "case_type"}
-        %label{:for => "claim_case_type_id_input"}
-          = t('.case_type')
-        .form-hint.xsmall.zero-vert-margin
-          = "for example Trial"
-        = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
-        = validation_error_message(@error_presenter, :case_type)
+
+    - if @claim.requires_case_type?
+      .form-row.js-typeahead
+        .form-col{class: error_class?(@error_presenter, :case_type)}
+          %a{:id => "case_type"}
+          %label{:for => "claim_case_type_id_input"}
+            = t('.case_type')
+          .form-hint.xsmall.zero-vert-margin
+            = "for example Trial"
+          = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
+          = validation_error_message(@error_presenter, :case_type)
 
     .form-row.js-typeahead
       .form-col{class: error_class?(@error_presenter, :court)}

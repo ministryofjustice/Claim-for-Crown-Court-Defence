@@ -13,8 +13,9 @@ class Claim::TransferClaimSubModelValidator < Claim::BaseClaimSubModelValidator
 
   def has_many_association_names_for_steps
     [
+      [],
       [
-        :defendants
+        :defendants,
       ],
       [
         :misc_fees,
@@ -26,5 +27,4 @@ class Claim::TransferClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       ]
     ]
   end
-
 end

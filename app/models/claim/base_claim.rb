@@ -403,6 +403,10 @@ module Claim
       "#{self.case_number}/#{self.id}"
     end
 
+    def requires_case_type?
+      true
+    end
+
     private
 
     # called from state_machine before_transition on submit - override in subclass

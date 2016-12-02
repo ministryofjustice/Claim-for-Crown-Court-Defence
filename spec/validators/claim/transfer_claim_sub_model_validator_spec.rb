@@ -8,25 +8,27 @@ describe Claim::TransferClaimSubModelValidator do
 
   include_examples 'common partial association validations', {
       has_one: [
-          [ ],
-          [
-            :transfer_fee,
-            :assessment,
-            :certification
-          ]
-      ],
+                  [ ],
+                  [
+                    :transfer_fee,
+                    :assessment,
+                    :certification
+                  ]
+               ],
       has_many: [
-          [
-            :defendants
-          ],
-          [
-            :misc_fees,
-            :disbursements,
-            :expenses,
-            :messages,
-            :redeterminations,
-            :documents
-          ]
-      ]
+                  [],
+                  [
+                    :defendants,
+                  ],
+                  [
+                    :misc_fees,
+                    :disbursements,
+                    :expenses,
+                    :messages,
+                    :redeterminations,
+                    :documents
+                  ]
+                ]
+
   }
 end

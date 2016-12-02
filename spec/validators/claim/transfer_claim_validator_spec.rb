@@ -12,20 +12,7 @@ module Claim
     let(:claim) { build :transfer_claim }
     let(:transfer_detail) { build :transfer_detail, claim: claim }
 
-    include_examples "common advocate litigator validations", :litigator
-    include_examples "common litigator validations"
-
     include_examples 'common partial validations', [
-      [
-        :case_type,
-        :case_number,
-        :court,
-        :transfer_court,
-        :transfer_case_number,
-        :advocate_category,
-        :offence,
-        :case_concluded_at
-      ],
       [
         :litigator_type,
         :elected_case,
@@ -33,9 +20,26 @@ module Claim
         :transfer_date,
         :case_conclusion_id,
         :transfer_detail_combo,
-        :total
+      ],
+      [
+        :court,
+        :case_number,
+        :transfer_court,
+        :transfer_case_number,
+        :advocate_category,
+        :offence,
+        :case_concluded_at,
+        :supplier_number,
+        :amount_assessed,
+        :evidence_checklist_ids,
+      ],
+      [
+        :total,
       ]
   ]
+
+
+
 
     context 'litigator type' do
       it 'errors if not new or original' do

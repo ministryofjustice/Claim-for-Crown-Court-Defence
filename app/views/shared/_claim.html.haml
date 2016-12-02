@@ -82,11 +82,12 @@
           %td
             = claim.transfer_case_number
 
-      %tr
-        %th{scope: "col"}
-          = t('.case_type')
-        %td
-          = claim.case_type.try(:name)
+      - if claim.case_type.try(:name)
+        %tr
+          %th{scope: "col"}
+            = t('.case_type')
+          %td
+            = claim.case_type.try(:name)
 
       - if claim.agfs?
         %tr

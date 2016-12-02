@@ -173,6 +173,12 @@ describe Claim::TransferClaim, type: :model do
     end
   end
 
+  describe 'requires_case_type?' do
+    it 'returns false' do
+      expect(claim.requires_case_type?).to be false
+    end
+  end
+
   include_examples "common litigator claim attributes"
 
 end

@@ -10,7 +10,7 @@
   %tbody
     - unless claim.providers_ref.blank?
       %tr
-        %th{scope: "col"}
+        %th{scope: "col", class: "summary-headings"}
           = t('common.external_user.providers_ref')
         %td
           = claim.providers_ref
@@ -60,11 +60,12 @@
         %td
           = claim.transfer_case_number
 
-    %tr
-      %th{scope: 'row'}
-        = t("#{locale_path}.case_type")
-      %td
-        = claim.case_type.try(:name)
+    - if claim.case_type.try(:name)
+      %tr
+        %th{scope: 'row'}
+          = t("#{locale_path}.case_type")
+        %td
+          = claim.case_type.try(:name)
 
     - if claim.agfs?
       %tr

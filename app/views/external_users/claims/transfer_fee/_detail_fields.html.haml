@@ -1,39 +1,42 @@
 - present(f.object) do |claim|
 
-  = f.anchored_without_label 'transfer_detail'
-  %span.visuallyhidden
-    = validation_error_message(@error_presenter, :transfer_detail)
+  #transfer-fee
+    = f.anchored_without_label 'transfer_detail'
+    - if @error_presenter&.errors_for?(:transfer_detail)
+      .dropdown_field_with_errors
+        %span.error-message
+          = validation_error_message(@error_presenter, :transfer_detail)
 
-  .js-case-conclusion-effectors
-    .form-row{class: error_class?(@error_presenter, :litigator_type)}
-      %fieldset.inline
-        = f.anchored_label t('.litigator_type'), 'litigator_type'
-        = f.collection_radio_buttons(:litigator_type, ['original','new'], :to_s, :humanize) do |b|
-          - b.label(class: "block-label") { b.radio_button(class: 'js-litigator-type') + b.text }
-      = validation_error_message(@error_presenter, :litigator_type)
+    .js-case-conclusion-effectors
+      .form-row{class: error_class?(@error_presenter, :litigator_type)}
+        %fieldset.inline
+          = f.anchored_label t('.litigator_type'), 'litigator_type'
+          = f.collection_radio_buttons(:litigator_type, ['original','new'], :to_s, :humanize) do |b|
+            - b.label(class: "block-label") { b.radio_button(class: 'js-litigator-type') + b.text }
+        = validation_error_message(@error_presenter, :litigator_type)
 
-    .form-row{class: error_class?(@error_presenter, :elected_case)}
-      %fieldset.inline
-        = f.anchored_label t('.elected_case'), 'elected_case'
-        = f.collection_radio_buttons(:elected_case, [['Yes','true'],['No','false']], :last, :first ) do |b|
-          - b.label(class: "block-label") { b.radio_button(class: 'js-elected-case') + b.text }
-      = validation_error_message(@error_presenter, :elected_case)
+      .form-row{class: error_class?(@error_presenter, :elected_case)}
+        %fieldset.inline
+          = f.anchored_label t('.elected_case'), 'elected_case'
+          = f.collection_radio_buttons(:elected_case, [['Yes','true'],['No','false']], :last, :first ) do |b|
+            - b.label(class: "block-label") { b.radio_button(class: 'js-elected-case') + b.text }
+        = validation_error_message(@error_presenter, :elected_case)
 
-    .form-row.js-typeahead
-      .form-col.form-col-two-thirds
-        %fieldset
-          = f.anchored_label t('.transfer_stage_default_label_text'), 'transfer_stage_id', { label_attributes: { class: 'js-transfer-stage-label' } }
-          = f.collection_select :transfer_stage_id, Claim::TransferBrain::TRANSFER_STAGES.values, :id, :description, {include_blank: ''.html_safe }, { class: 'form-control typeahead js-transfer-stage-id'}
-          = validation_error_message(@error_presenter, 'transfer_stage_id')
+      .form-row.js-typeahead
+        .form-col.form-col-two-thirds{class: error_class?(@error_presenter, 'transfer_stage_id')}
+          %fieldset
+            = f.anchored_label t('.transfer_stage_default_label_text'), 'transfer_stage_id', { label_attributes: { class: 'js-transfer-stage-label' } }
+            = f.collection_select :transfer_stage_id, Claim::TransferBrain::TRANSFER_STAGES.values, :id, :description, {include_blank: ''.html_safe }, { class: 'form-control typeahead js-transfer-stage-id'}
+            = validation_error_message(@error_presenter, 'transfer_stage_id')
 
-    .form-row
-      .form-col.form-col-two-thirds
-        = f.gov_uk_date_field(:transfer_date, legend_text: t('.transfer_date_default_label_text'), legend_class: 'govuk-legend js-transfer-date-label', id: "transfer_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, 'transfer_date'))
+      .form-row
+        .form-col.form-col-two-thirds
+          = f.gov_uk_date_field(:transfer_date, legend_text: t('.transfer_date_default_label_text'), legend_class: 'govuk-legend js-transfer-date-label', id: "transfer_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, 'transfer_date'))
 
-  .js-case-conclusions-select
-    .form-row.js-typeahead
-      .form-col.form-col-one-half{class: error_class?(@error_presenter, 'case_conclusion_id')}
-        %fieldset
-          = f.anchored_label t('.case_conclusions'), 'case_conclusion_id'
-          = f.collection_select :case_conclusion_id, claim.case_conclusions, :first, :last,{ include_blank: ''.html_safe },{ class: 'form-control typeahead medium-input'}
-          = validation_error_message(@error_presenter, 'case_conclusion_id')
+    .js-case-conclusions-select
+      .form-row.js-typeahead
+        .form-col.form-col-one-half{class: error_class?(@error_presenter, 'case_conclusion_id')}
+          %fieldset
+            = f.anchored_label t('.case_conclusions'), 'case_conclusion_id'
+            = f.collection_select :case_conclusion_id, claim.case_conclusions, :first, :last,{ include_blank: ''.html_safe },{ class: 'form-control typeahead medium-input'}
+            = validation_error_message(@error_presenter, 'case_conclusion_id')

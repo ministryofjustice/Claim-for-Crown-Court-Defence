@@ -11,9 +11,17 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I select the fee scheme 'Litigator transfer fee'
     Then I should be on the litigator new transfer claim page
 
+    And I choose the litigator type option 'New'
+    And I choose the elected case option 'No'
+    And I select the transfer stage 'Before trial transfer'
+    And I enter the transfer date '2015-05-21'
+    And I select a case conclusion of 'Cracked'
+
+    And I click "Continue" in the claim form
+
+
     When I select the supplier number '1A222Z'
     And I select the court 'Blackfriars Crown'
-    And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
 
     And I save as draft
@@ -24,6 +32,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     When I click the claim 'A20161234'
     And I edit this claim
+    And I click "Continue" in the claim form
 
     And I enter the case concluded date
     And I enter defendant, representation order and MAAT reference
@@ -34,12 +43,6 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I click "Continue" in the claim form
 
     And I fill in '121.21' as the transfer fee total
-    And I choose the litigator type option 'New'
-    And I choose the elected case option 'No'
-    And I select the transfer stage 'Before trial transfer'
-    And I enter the transfer date '2015-05-21'
-    And I select a case conclusion of 'Cracked'
-
     And I add a miscellaneous fee 'Costs judge application'
     And I add a Case uplift fee with case numbers 'A20161234, A20165588'
 

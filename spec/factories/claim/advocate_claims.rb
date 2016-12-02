@@ -17,31 +17,16 @@ FactoryGirl.define do
     source { 'web' }
     apply_vat  false
     providers_ref { random_providers_ref }
-
-    after(:build) do |claim|
-      build(:certification, claim: claim)
-      claim.fees << build(:misc_fee, claim: claim)
-      claim.creator = claim.external_user
-      populate_required_fields(claim)
-    end
-
-    after(:create) do |claim|
-      defendant = create(:defendant, claim: claim)
-      create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)
-      claim.reload
-    end
-
     case_type { FactoryGirl.build  :case_type }
     offence
     advocate_category 'QC'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
 
+    after(:build) { |claim| post_build_actions_for_draft_claim(claim) }
+    after(:create) { |claim| add_defendant_and_reporder(claim) }
+
     trait :admin_creator do
-      after(:build) do |claim|
-        advocate_admin = claim.external_user.provider.external_users.where(role:'admin').sample
-        advocate_admin ||= create(:external_user, :admin, provider: claim.external_user.provider)
-        claim.creator = advocate_admin
-      end
+      after(:build) { |claim| make_claim_creator_advocate_admin(claim) }
     end
 
     trait :without_assessment do
@@ -49,26 +34,28 @@ FactoryGirl.define do
     end
 
     trait :without_fees do
-      after(:build) do |claim|
-        claim.fees.destroy_all
-      end
+      after(:build) { |claim| make_claim_creator_advocate_admin(claim) }
     end
+
 
     factory :unpersisted_claim do
       court         { FactoryGirl.build :court }
       external_user { FactoryGirl.build :external_user, provider: FactoryGirl.build(:provider) }
       offence       { FactoryGirl.build :offence, offence_class: FactoryGirl.build(:offence_class) }
       after(:build) do |claim|
-        build(:certification, claim: claim)
+        certify_claim(claim)
         claim.defendants << build(:defendant, claim: claim)
-        claim.fees << build(:fixed_fee, claim: claim)
-        claim.expenses << build(:expense, :with_date_attended, claim: claim, expense_type: FactoryGirl.build(:expense_type))
+        add_fee(:fixed_fee, claim)
       end
     end
+
+
 
     factory :invalid_claim do
       case_type     nil
     end
+
+
 
     factory :draft_claim do
       # do nothing as default state is draft
@@ -82,11 +69,11 @@ FactoryGirl.define do
       end
 
       trait :without_misc_fee do
-        after(:build) do |claim|
-          claim.misc_fees = []
-        end
+        after(:build) { |claim| claim.misc_fees = [] }
       end
     end
+
+
 
     #
     # states: initial/default state is draft
@@ -96,16 +83,13 @@ FactoryGirl.define do
       after(:create) { |c| allocate_claim(c); c.reload }
     end
 
+
+
     factory :archived_pending_delete_claim do
-      after(:create) do |c|
-        c.submit!
-        c.case_workers << create(:case_worker)
-        c.reload
-        set_amount_assessed(c)
-        c.authorise!
-        c.archive_pending_delete!
-      end
+      after(:create) { |c| advance_to_pending_delete(c) }
     end
+
+
 
     factory :authorised_claim do
       after(:create) { |c| authorise_claim(c) }

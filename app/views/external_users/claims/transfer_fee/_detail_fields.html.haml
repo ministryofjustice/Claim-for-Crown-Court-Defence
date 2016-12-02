@@ -23,7 +23,7 @@
       .form-col.form-col-two-thirds
         %fieldset
           = f.anchored_label t('.transfer_stage_default_label_text'), 'transfer_stage_id', { label_attributes: { class: 'js-transfer-stage-label' } }
-          = f.collection_select :transfer_stage_id, claim.transfer_stages, :first, :last,{}, { class: 'form-control typeahead js-transfer-stage-id'}
+          = f.collection_select :transfer_stage_id, Claim::TransferBrain::TRANSFER_STAGES.values, :id, :description, {include_blank: ''.html_safe }, { class: 'form-control typeahead js-transfer-stage-id'}
           = validation_error_message(@error_presenter, 'transfer_stage_id')
 
     .form-row

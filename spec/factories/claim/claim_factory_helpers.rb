@@ -23,13 +23,20 @@ module ClaimFactoryHelpers
     allocator.save
   end
 
-
   def authorise_claim(claim)
     allocate_claim(claim)
     claim.reload
     set_amount_assessed(claim)
     claim.authorise!
     claim.last_decision_transition.update_author_id(claim.case_workers.first.user.id)
+  end
+
+  def advance_to_pending_delete(c)
+    allocate_claim(c)
+    c.reload
+    set_amount_assessed(c)
+    c.authorise!
+    c.archive_pending_delete!
   end
 
   def make_claim_creator_advocate_admin(claim)
@@ -40,7 +47,7 @@ module ClaimFactoryHelpers
 
   def post_build_actions_for_draft_claim(claim)
     certify_claim(claim)
-    add_misc_fees(claim)
+    add_fee(:misc_fee, claim)
     set_creator(claim)
     populate_required_fields(claim)
   end
@@ -49,8 +56,12 @@ module ClaimFactoryHelpers
     build(:certification, claim: claim)
   end
 
-  def add_misc_fees(claim)
-    claim.fees << build(:misc_fee, claim: claim)
+  # usage:
+  # * add_fee(:misc_fee, claim)
+  # * add_fee(:fixed_fee, claim)
+  #
+  def add_fee(factory, claim)
+    claim.fees << build(factory, claim: claim)
   end
 
   def set_creator(claim)

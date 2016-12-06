@@ -11,7 +11,17 @@
     %h2.heading-medium
       = t('.what_happens_next')
 
-    = raw t('.what_happens_next_prompt')
+    %div.grid-row
+      = raw t('.what_happens_next_prompt1')
+
+    - if claim.disk_evidence?
+      %h2.heading-small
+        Please send evidance to the following address:
+      = render partial: 'external_users/claims/supporting_documents/laa_address', locals: { f: claim }
+
+    %div.grid-row
+      = raw t('.what_happens_next_prompt2')
+
 
     .button-holder
       = link_to t('link.file_another_claim'), types_external_users_claims_path, {class: 'button btn-spacer-20', role: 'button'}

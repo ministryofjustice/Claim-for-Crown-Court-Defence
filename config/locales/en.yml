@@ -582,10 +582,10 @@ en:
       confirmation:
         thanks: Thank you for submitting your claim
         what_happens_next: What happens next?
-        what_happens_next_prompt: |
+        what_happens_next_prompt1: |
           <p>If you have electronic evidence on disk that relates to this case, you
           must send it by courier.</p>
-
+        what_happens_next_prompt2: |
           <p>A case worker will assess your claim. You will not be notified by email
           when your claim has been processed, but you can check the status of your
           claim at any time in the "Your claims" view.</p>

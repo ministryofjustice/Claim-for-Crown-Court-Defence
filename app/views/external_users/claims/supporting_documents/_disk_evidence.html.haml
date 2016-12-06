@@ -1,0 +1,23 @@
+%h2.bold-medium
+  = "Evidence supplied on disk"
+
+.form-row{class: error_class?(@error_presenter, :disk_evidence)}
+  %fieldset.inline
+    = f.anchored_label 'Will you be sending disk evidence for this claim?', 'disk_evidence'
+    = f.collection_radio_buttons(:disk_evidence, [['Yes','true'],['No','false']], :last, :first ) do |b|
+      - b.label(class: "block-label") { b.radio_button + b.text }
+  = validation_error_message(@error_presenter, :disk_evidence)
+
+
+
+%details
+  %summary
+    %span.summary
+      Help with sending the evidence
+
+  .panel.panel-border-narrow
+    %p
+      If you are sending disk evidence relating to this claim, send it to the address below, ensuring that
+      you include the reference number. This information will be shown again once you have submitted your claim.
+
+    = render partial: 'external_users/claims/supporting_documents/laa_address', locals: { f: f }

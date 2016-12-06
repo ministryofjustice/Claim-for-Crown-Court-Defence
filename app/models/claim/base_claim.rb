@@ -399,6 +399,10 @@ module Claim
       reflect_on_all_associations.select{ |assoc| assoc.name =~ /^\S+_fees?$/ }.map(&:name)
     end
 
+    def disk_evidence_reference
+      "#{self.case_number}/#{self.id}"
+    end
+
     private
 
     # called from state_machine before_transition on submit - override in subclass

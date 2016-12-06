@@ -256,6 +256,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :transfer_stage_id,
       date_attributes_for(:transfer_date),
       :case_conclusion_id,
+      :disk_evidence,
       evidence_checklist_ids: [],
       defendants_attributes: [
        :id,

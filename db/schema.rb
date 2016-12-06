@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161114093442) do
+ActiveRecord::Schema.define(version: 20161206103052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,6 +146,7 @@ ActiveRecord::Schema.define(version: 20161114093442) do
     t.datetime "last_edited_at"
     t.datetime "deleted_at"
     t.string   "providers_ref"
+    t.boolean  "disk_evidence",            default: false
   end
 
   add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree

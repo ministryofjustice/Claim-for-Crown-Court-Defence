@@ -403,5 +403,5 @@ describe Fee::BaseFeeValidator do
     end
 
   end
-
+  
 end

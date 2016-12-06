@@ -24,8 +24,13 @@ describe DateAttendedValidator do
 
   context 'date' do
     it { should_error_if_not_present(date_attended, :date, 'blank') }
-    it { should_error_if_before_specified_date(date_attended, :date, earliest_reporder_date, 'not_before_earliest_representation_order_date') }
+    it { should_error_if_before_specified_date(date_attended, :date, earliest_reporder_date - 2.years - 1.day, 'too_long_before_earliest_reporder') }
     it { should_error_if_too_far_in_the_past(date_attended, :date, 'not_before_earliest_permitted_date') }
+    it 'should not error if less than two years before earliest rep order date' do
+      date_attended.date = earliest_reporder_date - 369.days
+      date_attended.date_to = nil
+      expect(date_attended).to be_valid
+    end
   end
 
   context 'date to' do

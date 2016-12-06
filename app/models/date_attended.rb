@@ -29,6 +29,10 @@ class DateAttended < ActiveRecord::Base
     claim.try(:perform_validation?)
   end
 
+  def earliest_date_before_reporder
+    attended_item.try(:claim).try(:earliest_representation_order).try(:representation_order_date)
+  end
+
   def to_s
     return '' if date.nil?
     unless date_to.nil?

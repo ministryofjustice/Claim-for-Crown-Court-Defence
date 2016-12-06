@@ -21,7 +21,7 @@ shared_examples 'common fee date validations' do
 
       fee.date = Date.today - 3.days
       expect(fee).not_to be_valid
-      expect(fee.errors[:date]).to include 'not_before_earliest_representation_order_date'
+      expect(fee.errors[:date]).to include 'too_long_before_earliest_reporder'
     end
   end
 end

@@ -189,10 +189,10 @@ describe API::V1::ExternalUsers::Claims::TransferClaim do
           valid_params.delete(:case_concluded_at)
           valid_params.delete(:elected_case)
           post_to_create_endpoint
-          expect_error_response("Choose a case type",0)
-          expect_error_response("Enter a case number",1)
-          expect_error_response("Enter a date for case concluded",2)
-          expect_error_response("Choose the elected case status",3)
+          expect_error_response("Choose the elected case status",0)
+          expect_error_response("Do not enter a case conclusion",1)
+          expect_error_response("Check the case conclusion in combination with other transfer details",2)
+          expect_error_response("Check combination of transfer details",3)
         end
       end
 

@@ -110,6 +110,10 @@ module Claim
       true
     end
 
+    def requires_case_type?
+      false
+    end
+
     private
 
     # called from state_machine before_submit

@@ -1,9 +1,16 @@
 class Claim::TransferClaimValidator < Claim::BaseClaimValidator
   include Claim::LitigatorCommonValidations
 
+  # This defines all the fields that have to be validated in all cases
+  def self.mandatory_fields
+    [
+      :external_user_id,
+      :creator,
+    ]
+  end
+
   def self.fields_for_steps
     [
-      [].unshift(first_step_common_validations),
       [
         :litigator_type,
         :elected_case,
@@ -11,9 +18,29 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
         :transfer_date,
         :case_conclusion_id,
         :transfer_detail_combo,
-        :total
+      ],
+      [
+        :court,
+        :case_number,
+        :transfer_court,
+        :transfer_case_number,
+        :advocate_category,
+        :offence,
+        :case_concluded_at,
+        :supplier_number,
+        :amount_assessed,
+        :evidence_checklist_ids,
+      ],
+      [
+        :total,
       ]
     ]
+  end
+
+
+
+  def validate(record)
+    super
   end
 
   private

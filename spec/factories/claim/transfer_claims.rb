@@ -60,6 +60,10 @@ FactoryGirl.define do
         claim.submit! # submission will set the allocation_type
       end
     end
+  end
 
+  factory :bare_bones_transfer_claim, class: Claim::TransferClaim do
+    creator             { build :external_user, :litigator }
+    external_user       { creator }
   end
 end

@@ -12,6 +12,10 @@ class ExternalUsers::Litigators::TransferClaimsController < ExternalUsers::Claim
     super
   end
 
+  def update
+    super
+  end
+
 private
 
   def build_nested_resources

@@ -85,6 +85,12 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     end
   end
 
+  describe 'requires_case_type?' do
+    it 'returns true' do
+      expect(claim.requires_case_type?).to be true
+    end
+  end
+
   context 'eligible misc and fixed fee types' do
     before(:all) do
       @bft1 = create :basic_fee_type

@@ -37,242 +37,245 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     end
   end
 
+
   describe 'POST #create' do
-    context 'when litigator signed in' do
-      context 'and the input is valid' do
 
-        let(:claim_params) do
-          {
-            external_user_id: litigator.id,
-            additional_information: 'foo',
-            court_id: court,
-            case_type_id: case_type.id,
-            offence_id: offence,
-            case_number: 'A20161234',
-            supplier_number: supplier_number,
-            case_concluded_at_dd: 5.days.ago.day.to_s,
-            case_concluded_at_mm: 5.days.ago.month.to_s,
-            case_concluded_at_yyyy: 5.days.ago.year.to_s,
-            defendants_attributes: [
-              { first_name: 'John',
-                last_name: 'Smith',
-                date_of_birth_dd: '4',
-                date_of_birth_mm: '10',
-                date_of_birth_yyyy: '1980',
-                representation_orders_attributes: [
-                  {
-                    representation_order_date_dd: Time.now.day.to_s,
-                    representation_order_date_mm: Time.now.month.to_s,
-                    representation_order_date_yyyy: Time.now.year.to_s,
-                    maat_reference: '4561237895'
-                  }
-                ]
-              }
-            ]
-          }
+    render_views
+
+    let(:params) do
+      {
+        'claim' => {
+          'form_step' => '1',
+          'form_id' => SecureRandom.uuid,
+          'litigator_type' => 'original',
+          'elected_case' => 'true',
+          'transfer_stage_id' => '20',
+          'transfer_date_dd' => '2',
+          'transfer_date_mm' => '5',
+          'transfer_date_yyyy' => '2016',
+          'case_conclusion_id' => ''
+        },
+        'commit_stage_1' => 'Continue'
+      }
+    end
+
+    context 'continue button pressed' do
+      context 'valid params' do
+
+        before(:each) { post :create, params }
+
+        it 'creates a claim' do
+          expect {
+            params['claim']['form_id'] = SecureRandom.uuid
+            post :create, params
+          }.to change(Claim::TransferClaim, :count).by(1)
         end
 
-        context 'create draft' do
-          it 'creates a claim' do
-            expect {
-              post :create, commit_save_draft: 'Save to drafts', claim: claim_params
-            }.to change(Claim::TransferClaim, :count).by(1)
-          end
-
-          it 'redirects to claims list' do
-            post :create, claim: claim_params, commit_save_draft: 'Save to drafts'
-            expect(response).to redirect_to(external_users_claims_path)
-          end
-
-          it 'sets the claim\'s state to "draft"' do
-            post :create, claim: claim_params, commit_save_draft: 'Save to drafts'
-            expect(Claim::TransferClaim.active.first).to be_draft
-          end
+        it 'saves claim as a draft' do
+          expect(Claim::TransferClaim.last.state).to eq 'draft'
         end
 
-        context 'submit to LAA' do
-          it 'creates a claim' do
-            expect {
-              post :create, commit_submit_claim: 'Submit to LAA', claim: claim_params
-            }.to change(Claim::TransferClaim, :count).by(1)
-          end
-
-          it 'redirects to claim summary if no validation errors present' do
-            post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
-            expect(response).to redirect_to(summary_external_users_claim_path(Claim::TransferClaim.active.first))
-          end
-
-          it 'leaves the claim\'s state in "draft"' do
-            post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
-            expect(response).to have_http_status(:redirect)
-            expect(Claim::TransferClaim.active.first).to be_draft
-          end
+        it 'returns success status' do
+          expect(response.status).to eq 200
         end
 
-        context 'multi-step form submit to LAA' do
-          let!(:transfer_fee_type)  { create(:transfer_fee_type) }
-          let!(:misc_fee_type)      { create(:misc_fee_type, :lgfs) }
-          let!(:expense_type)       { create(:expense_type, :lgfs, :car_travel) }
-          let(:case_number) { 'A20168888' }
-          let(:transfer_date) { 5.days.ago }
-          let(:transfer_detail_params) {
-            {
-              litigator_type: 'new',
-              elected_case: false,
-              transfer_stage_id: 10,
-              transfer_date_dd:   transfer_date.day,
-              transfer_date_mm:   transfer_date.month,
-              transfer_date_yyyy: transfer_date.year,
-              case_conclusion_id: 10
-            }
-          }
-          let(:transfer_fee_params) {
-            {
-                transfer_fee_attributes: {
-                  fee_type_id: transfer_fee_type.id,
-                  amount: 10.0
-                }
-            }
-          }
-          let(:misc_fees_params) {
-            {
-                misc_fees_attributes:
-                {
-                  "0": { fee_type_id: misc_fee_type.id, amount: 15.0 }
-                }
-            }
-          }
-          let(:expense_date) { 10.days.ago }
-          let(:expenses_params) {
-            {
-                expenses_attributes:
-                {
-                  "0": {
-                          expense_type_id: expense_type.id,
-                          location: "London",
-                          quantity: 1,
-                          rate: 40,
-                          reason_id: 1,
-                          distance: 20,
-                          mileage_rate_id: 1,
-                          amount: 1125.00,
-                          date_dd: expense_date.day,
-                          date_mm: expense_date.month,
-                          date_yyyy: expense_date.year
-                        }
-                }
-            }
-          }
-
-          let(:claim_params_step1) do
-            {
-                external_user_id: litigator.id,
-                supplier_number: supplier_number,
-                court_id: court,
-                case_type_id: case_type.id,
-                offence_id: offence,
-                case_number: case_number,
-                case_concluded_at_dd: 5.days.ago.day.to_s,
-                case_concluded_at_mm: 5.days.ago.month.to_s,
-                case_concluded_at_yyyy: 5.days.ago.year.to_s,
-                defendants_attributes: [
-                    { first_name: 'John',
-                      last_name: 'Smith',
-                      date_of_birth_dd: '4',
-                      date_of_birth_mm: '10',
-                      date_of_birth_yyyy: '1980',
-                      representation_orders_attributes: [
-                          {
-                              representation_order_date_dd: Time.now.day.to_s,
-                              representation_order_date_mm: Time.now.month.to_s,
-                              representation_order_date_yyyy: Time.now.year.to_s,
-                              maat_reference: '4561237895'
-                          }
-                      ]
-                    }
-                ]
-            }
-          end
-
-          let(:claim_params_step2) do
-            {
-                form_step: 2,
-                additional_information: 'foo'
-            }.
-            merge(transfer_detail_params).
-            merge(transfer_fee_params).
-            merge(misc_fees_params).
-            merge(expenses_params)
-          end
-
-          let(:claim) { Claim::TransferClaim.active.where(case_number: case_number).first }
-
-          context 'step 1 Continue' do
-            render_views
-            before { post :create, commit_continue: 'Continue', claim: claim_params_step1 }
-
-            it 'should leave claim in draft state'  do expect(claim.draft?).to be_truthy end
-            it 'should assign current_step to 2'    do expect(assigns(:claim).current_step).to eq(2) end
-            it { expect(response).to render_template('external_users/litigators/transfer_claims/new') }
-            it { expect(response).to render_template(partial: 'external_users/claims/disbursements/_fields') }
-
-          end
-
-          context 'step 2 Submit to LAA' do
-            before do
-              post :create, commit_continue: 'Continue', claim: claim_params_step1
-              put :update, id: claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2
-            end
-
-            it 'saves as draft' do
-              expect(claim.draft?).to be_truthy
-            end
-
-            # note: transfer detail attributes are delegated to claim
-            it 'updates the claim transfer details' do
-              expect(claim.litigator_type).to eql 'new'
-              expect(claim.elected_case).to eql false
-              expect(claim.transfer_stage_id).to eql 10
-              expect(claim.case_conclusion_id).to eql 10
-              expect(claim.transfer_date.to_s).to eql 5.days.ago.strftime('%d/%m/%Y 00:00')
-            end
-
-            it 'updates the transfer fee' do
-              expect(claim.transfer_fee).to_not be_nil
-              expect(claim.transfer_fee.amount).to eql 10.00
-            end
-
-            it 'adds the misc fee' do
-              expect(claim.misc_fees.count).to eq 1
-            end
-
-            it 'adds the expense' do
-              expect(claim.expenses.count).to eq 1
-            end
-
-            it 'moves to summary page' do
-              expect(response).to redirect_to(summary_external_users_claim_path(claim))
-            end
-
-          end
+        it 'displays page 2 of form' do
+          expect(response).to render_template('external_users/litigators/transfer_claims/new')
+          expect(response).to render_template(partial: 'external_users/claims/case_details/_fields')
         end
       end
 
-      context 'submit to LAA with incomplete/invalid params' do
-        let(:invalid_claim_params)      { { advocate_category: 'QC' } }
-        it 'does not create a claim' do
-          expect {
-            post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA'
-          }.to_not change(Claim::TransferClaim, :count)
+      context 'invalid params' do
+        before(:each) do
+          params['claim'].delete('litigator_type')
+          post :create, params
         end
 
-        it 'renders the new template' do
-          post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA'
-          expect(response).to render_template(:new)
+        it 'does not create a claim' do
+          expect {
+            params['claim']['form_id'] = SecureRandom.uuid
+            post :create, params
+          }.not_to change(Claim::TransferClaim, :count)
+        end
+
+        it 'returns success status' do
+          expect(response.status).to eq 200
+        end
+
+        it 're-displays page 1 of form' do
+          expect(response).to render_template('external_users/litigators/transfer_claims/new')
+          expect(response).to render_template(partial: 'external_users/claims/transfer_fee/_detail_fields')
+        end
+
+        it 'claim contains errors' do
+          expect(assigns(:claim).errors[:litigator_type]).to include('invalid')
+          expect(assigns(:claim).errors[:transfer_detail]).to include('invalid_combo')
+          expect(assigns(:claim).errors[:case_conclusion_id]).to include('invalid_combo')
         end
       end
     end
+
+
+    context 'save as draft button pressed' do
+
+      context 'valid_params' do
+        before(:each) do
+          params.delete('commit_stage_1')
+          params['commit'] = 'Continue'
+          post :create, params
+        end
+
+        it 'creates a claim' do
+          expect {
+            params['claim']['form_id'] = SecureRandom.uuid
+            post :create, params
+          }.to change(Claim::TransferClaim, :count).by(1)
+        end
+
+        it 'saves claim as a draft' do
+          expect(Claim::TransferClaim.last.state).to eq 'draft'
+        end
+
+        it 'returns redirect status' do
+          expect(response.status).to eq 302
+        end
+
+        it 'redirects to all claims page' do
+          expect(response).to redirect_to(external_users_claims_path)
+        end
+      end
+
+      context 'invalid params' do
+        before(:each) do
+          params.delete('commit_stage_1')
+          params['claim'].delete('litigator_type')
+          params['commit'] = 'Continue'
+          post :create, params
+        end
+
+        it 'creates a claim' do
+          expect {
+            params['claim']['form_id'] = SecureRandom.uuid
+            post :create, params
+          }.to change(Claim::TransferClaim, :count).by(1)
+        end
+
+        it 'saves claim as a draft' do
+          expect(Claim::TransferClaim.last.state).to eq 'draft'
+        end
+
+        it 'returns success status' do
+          expect(response.status).to eq 302
+        end
+
+        it 'redirects to all claims page' do
+          expect(response).to redirect_to(external_users_claims_path)
+        end
+
+      end
+    end
   end
+
+
+  describe 'PATCH #update' do
+    render_views
+
+    context 'update page 1' do
+      let(:claim) { create :bare_bones_transfer_claim, creator: litigator }
+
+      let(:page_1_params) do
+        {
+          'claim' => {
+            'form_id' => SecureRandom.uuid,
+            'form_step' => '1',
+            'litigator_type' => 'original',
+            'elected_case' => 'true',
+            'transfer_stage_id' => '10',
+            'transfer_date_dd' => '2',
+            'transfer_date_mm' => '6',
+            'transfer_date_yyyy' => '2016',
+            'case_conclusion_id' => ''
+          },
+          'commit_stage_1' => 'Continue',
+          'id' => claim.id.to_s
+        }
+      end
+
+      it 'returns success' do
+        put :update, page_1_params
+        expect(response.status).to eq 200
+      end
+
+      it 'displays page 2' do
+        put :update, page_1_params
+        expect(response).to render_template('external_users/litigators/transfer_claims/edit')
+        expect(response).to render_template(partial: 'external_users/claims/case_details/_fields')
+      end
+
+      it 'updates the claim details' do
+        put :update, page_1_params
+        expect(assigns(:claim).litigator_type).to eq 'original'
+        expect(assigns(:claim).elected_case).to be true
+        expect(assigns(:claim).transfer_stage_id).to eq 10
+        expect(assigns(:claim).transfer_date).to eq Date.new(2016, 6, 2)
+        expect(assigns(:claim).case_conclusion_id).to be_nil
+      end
+    end
+
+    context 'update page 2' do
+      let(:claim) { create :transfer_claim, creator: litigator }
+      let(:court) { create :court }
+      let(:offence) { create :offence }
+
+      let(:page_2_params) do
+        {
+          'claim' => {
+            'form_id' => claim.form_id,
+            'form_step' => '2',
+            'supplier_number' => claim.provider.lgfs_supplier_numbers.first.supplier_number,
+            'providers_ref' => 'PSR004',
+            'court_id' => court.id.to_s,
+            'case_number' => 'A20161234',
+            'transfer_court_id' => '',
+            'transfer_case_number' => '',
+            'offence_id' => offence.id.to_s,
+            'case_concluded_at_dd' => '2',
+            'case_concluded_at_mm' => '10',
+            'case_concluded_at_yyyy' => '2016',
+            'defendants_attributes' => {
+              '0' => {
+                'first_name' => 'Stuart',
+                'last_name' => 'HOLLANDS',
+                'date_of_birth_dd' => '3',
+                'date_of_birth_mm' => '7',
+                'date_of_birth_yyyy' => '1988',
+                'order_for_judicial_apportionment' => '0',
+                'representation_orders_attributes' => {
+                  '0' => {
+                    'representation_order_date_dd' => '2',
+                    'representation_order_date_mm' => '7',
+                    'representation_order_date_yyyy' => '2015',
+                    'maat_reference' => '1234567890',
+                    '_destroy' => 'false',
+                    'id' => '115'
+                  }
+                },
+                'id' => '100'
+              },
+
+            }
+          },
+          'offence_category' => {
+            'description' => 'Abandonment of children under two'
+          },
+          'commit_continue' => 'Continue',
+          'id' => '72'
+        }
+      end
+
+    end
+  end
+
 
   describe 'GET #edit' do
     before { get :edit, id: subject }
@@ -319,7 +322,21 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
       context 'and deleting a rep order' do
         before {
-          put :update, id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit_save_draft: 'Save to drafts'
+          put :update,
+              id: subject,
+              claim: {
+                defendants_attributes: {
+                  '1' => {
+                    id: subject.defendants.first,
+                    representation_orders_attributes: {
+                      '0' => {
+                        id: subject.defendants.first.representation_orders.first,
+                        _destroy: 1}
+                    }
+                  }
+                }
+              },
+            commit_save_draft: 'Save to drafts'
         }
         it 'reduces the number of associated rep orders by 1' do
           expect(subject.reload.defendants.first.representation_orders.count).to eq 1
@@ -381,7 +398,9 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
 
       it 'renders edit template' do
-        put :update, id: subject, claim: { additional_information: 'foo', court_id: nil }, commit_submit_claim: 'Submit to LAA'
+        put :update, id: subject, claim: { additional_information: 'foo', court_id: nil }, commit_continue: 'Submit to LAA'
+        puts response.status
+        puts response.body
         expect(response).to render_template(:edit)
       end
     end

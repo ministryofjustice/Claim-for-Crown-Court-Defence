@@ -57,6 +57,17 @@ class Determination < ActiveRecord::Base
     !blank?
   end
 
+  def to_s
+    "  id:            #{id}\n" +
+    "  type           #{type}\n" +
+    "  claim_id:      #{claim_id}\n" +
+    "  expenses:      #{expenses.to_s}\n" +
+    "  fees:          #{fees.to_s}\n" +
+    "  disbursements: #{disbursements.to_s}\n" +
+    "  vat_amount:    #{vat_amount.to_s}\n" +
+    "  total:         #{total}\n\n"
+  end
+
   private
 
   def fees_valid

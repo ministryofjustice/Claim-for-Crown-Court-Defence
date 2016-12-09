@@ -159,8 +159,11 @@ module Claim
 
     after_initialize :ensure_not_abstract_class,
                      :default_values,
-                     :instantiate_assessment,
                      :set_force_validation_to_false
+
+    before_create do
+      self.build_assessment if self.assessment.nil?
+    end
 
     after_save :find_and_associate_documents, :update_vat
 
@@ -194,6 +197,11 @@ module Claim
       else
         raise 'unknown filter: %s' % filter
       end
+    end
+
+    def set_amount_assessed(options)
+      self.build_assessment if self.assessment.nil?
+      self.assessment.update_values(options[:fees], options[:expenses], options[:disbursements])
     end
 
     def pretty_type
@@ -433,8 +441,5 @@ module Claim
       self.form_step ||= 1
     end
 
-    def instantiate_assessment
-      self.build_assessment if self.assessment.nil?
-    end
   end
 end

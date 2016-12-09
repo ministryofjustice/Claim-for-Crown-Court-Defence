@@ -53,9 +53,9 @@ class Assessment < Determination
   end
 
   def update_values!(fees, expenses, disbursements, time = Time.now)
-    self.fees = fees
-    self.expenses = expenses
-    self.disbursements = disbursements
+    self.fees = fees unless fees.nil?
+    self.expenses = expenses unless expenses.nil?
+    self.disbursements = disbursements unless disbursements.nil?
     self.created_at = time
     save!
   end

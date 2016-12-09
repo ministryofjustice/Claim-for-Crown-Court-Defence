@@ -1,14 +1,26 @@
-FactoryGirl.define do
-  factory :assessment do
-    claim         { FactoryGirl.create :claim, :without_assessment }
-    fees          250.33
-    expenses      845.89
-    disbursements 150.00
 
-    trait :blank do
-      fees 0
-      expenses 0
-      disbursements 0
+# creates a claim and associated assessment
+#
+FactoryGirl.define do
+
+  factory :assessment do
+    skip_create
+
+    initialize_with do
+      claim = create :submitted_claim
+      claim.assessment
+    end
+
+    trait :random_amounts do
+      expenses { rand(0.0..999.99).round(2) }
+      fees { rand(0.0..999.99).round(2) }
+      disbursements { rand(0.0..999.99).round(2) }
+    end
+
+    # saving makes sure we update the total
+    after(:create) do |assessment|
+      assessment.save!
     end
   end
+
 end

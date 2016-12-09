@@ -70,7 +70,8 @@ describe Assessment do
 
   context 'automatic calculation of total' do
     it 'should calculate the total on save' do
-      ass = FactoryGirl.create :assessment
+      ass = create :assessment, expenses: 102.33, fees: 44.86
+      ass = claim.assessment
       expect(ass.total).to eq(ass.fees + ass.expenses + ass.disbursements)
     end
   end
@@ -98,7 +99,7 @@ describe Assessment do
 
   context '#zeroize!' do
     it 'should zeroize values and save' do
-      assessment = FactoryGirl.create :assessment
+      assessment = FactoryGirl.create :assessment, :random_amounts
       expect(assessment.fees).not_to eq 0
       expect(assessment.expenses).not_to eq 0
       expect(assessment.disbursements).not_to eq 0
@@ -115,14 +116,14 @@ describe Assessment do
 
   describe '.update' do
     it 'should raise error if assessment not blank' do
-      assessment = create :assessment
+      assessment = create :assessment, expenses: 1, fees: 2, disbursements: 3
       expect {
         assessment.update_values(100.00, 200.22, 150.00, DateTime.new(2016, 1, 2, 3, 4, 5))
       }.to raise_error RuntimeError, "Cannot update a non-blank assessment"
     end
 
     it 'should update the fields' do
-      assessment = create :assessment, :blank
+      assessment = create :assessment
       assessment.update_values(888.88, 333.33, 150.00, DateTime.new(2016, 1, 2, 3, 4, 5))
       assessment.reload
       expect(assessment.fees).to eq 888.88

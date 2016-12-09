@@ -286,10 +286,10 @@ describe Claim::BaseClaimValidator do
   context 'amount_assessed' do
     before { claim.submit!; claim.allocate! }
 
-    let(:assessed_claim)  {
-     claim.assessment = FactoryGirl.build(:assessment, claim: claim)
-     claim
-    }
+    let(:assessed_claim)  do
+      claim.set_amount_assessed(fees: 101.22, expenses: 28.55, disbursements: 92.66)
+      claim
+    end
 
     it 'should NOT error if assessment provided prior to authorise! or part_authorise! transistions' do
       expect{ assessed_claim.authorise! }.to_not raise_error

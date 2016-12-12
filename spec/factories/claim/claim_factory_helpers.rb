@@ -40,7 +40,7 @@ module ClaimFactoryHelpers
   end
 
   def make_claim_creator_advocate_admin(claim)
-    advocate_admin = claim.external_user.provider.external_users.where(role:'admin').sample
+    advocate_admin = claim.external_user.provider.external_users.admins.sample
     advocate_admin ||= create(:external_user, :admin, provider: claim.external_user.provider)
     claim.creator = advocate_admin
   end

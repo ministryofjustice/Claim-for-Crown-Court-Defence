@@ -89,11 +89,9 @@ RSpec.describe Claim, type: :model do
     before { expenses; subject.reload }
 
     describe '#calculate_total' do
-      # TODO reinstate once fees, expenses and disbursement vat has been dealt with
       it 'calculates the fees and expenses total' do
         create(:expense, claim_id: subject.id, amount: 3.0)
-        ap subject.expenses.map(&:amount)
-        ap subject.fees.map(&:amount)
+        subject.reload
         expect(subject.calculate_total).to eq(174.5)
       end
     end
@@ -112,6 +110,48 @@ RSpec.describe Claim, type: :model do
         subject.reload
         expect(subject.total).to eq(143.00)
       end
+    end
+  end
+
+  context 'combined totals spec' do
+    context 'with VAT' do
+      it 'should add totals as and when submodels are added' do
+
+        claim = create :litigator_claim, :without_fees
+        allow(claim).to receive(:vat_registered?).and_return(true)
+        expect(claim.vat_registered?).to be true
+        expect_totals_to_be(claim, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+
+        # add misc fees for 31.5, and 6.25
+        claim.fees << create(:misc_fee, rate: 10.5, quantity: 3)
+        claim.fees << create(:misc_fee, rate: 6.25, quantity: 1)
+        claim.save!
+        expect_totals_to_be(claim, 0.0, 0.0, 37.75, 6.61, 0.0, 0.0)
+
+        # add expenses for 9.99
+        claim.expenses << create(:expense, amount: 9.99, vat_amount: 1.75)
+        expect_totals_to_be(claim, 9.99, 1.75, 37.75, 6.61, 0.0, 0.0)
+
+        # add disbursements for 55.33 & 100
+        claim.disbursements << create(:disbursement, claim: claim, net_amount: 55.33, vat_amount: 9.68)
+        claim.disbursements << create(:disbursement, claim: claim, net_amount: 100.0, vat_amount: 10.0)
+        expect_totals_to_be(claim, 9.99, 1.75, 37.75, 6.61, 155.33, 19.68)
+
+        # remove the fee for 31.5
+        claim.fees.detect{ |f| f.amount == 31.5 }.destroy
+        expect_totals_to_be(claim, 9.99, 1.75, 6.25, 1.09, 155.33, 19.68)
+      end
+    end
+
+    def expect_totals_to_be(claim, et, ev, ft, fv, dt, dv)
+      expect(claim.expenses_total).to eq et
+      expect(claim.expenses_vat).to eq ev
+      expect(claim.fees_total).to eq ft
+      expect(claim.fees_vat).to eq fv
+      expect(claim.disbursements_total).to eq dt
+      expect(claim.disbursements_vat).to eq dv
+      expect(claim.total).to eq BigDecimal.new(et + ft + dt, 8)
+      expect(claim.vat_amount).to eq BigDecimal.new(ev + fv + dv, 8)
     end
   end
 end

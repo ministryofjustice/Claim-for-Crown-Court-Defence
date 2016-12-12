@@ -90,9 +90,10 @@ RSpec.describe Claim, type: :model do
 
     describe '#calculate_total' do
       # TODO reinstate once fees, expenses and disbursement vat has been dealt with
-      xit it 'calculates the fees and expenses total' do
-        create(:expense, claim_id: subject.id, amount: 3)
-        ap subject.expenses
+      it 'calculates the fees and expenses total' do
+        create(:expense, claim_id: subject.id, amount: 3.0)
+        ap subject.expenses.map(&:amount)
+        ap subject.fees.map(&:amount)
         expect(subject.calculate_total).to eq(174.5)
       end
     end

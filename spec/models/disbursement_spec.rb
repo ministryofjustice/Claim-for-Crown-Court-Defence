@@ -57,10 +57,6 @@ RSpec.describe Disbursement, type: :model do
     end
 
     it 'calculates the claim vat amount' do
-      ap @claim
-      ap @claim.expenses
-      ap @claim.disbursements
-      ap @claim.fees
       expect(@claim.vat_amount).to eq 2.5
     end
   end

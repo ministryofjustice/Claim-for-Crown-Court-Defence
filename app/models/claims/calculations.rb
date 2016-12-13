@@ -15,9 +15,6 @@ module Claims::Calculations
   # * net_attribute: the name of the attribute holding the net amount to be summed
   # * vat_attribute: the name of the attribute holding the vat amount to be summed
   def totalize_for_claim(klass, claim_id, net_attribute, vat_attribute)
-    puts ">>>>>>>>>>>>>> TOTALIZE FOR CLAIM #{klass} #{claim_id} #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
-    ap Expense.all
-
     values = klass.where(claim_id: claim_id).where("#{net_attribute} IS NOT NULL").pluck(vat_attribute, net_attribute)
     { vat: values.map(&:first).sum, net: values.map(&:last).sum }
   end

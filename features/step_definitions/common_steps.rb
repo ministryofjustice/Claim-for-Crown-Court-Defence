@@ -90,14 +90,7 @@ Then(/^I should be on the your claims page$/) do
 end
 
 Then(/^Claim '(.*?)' should be listed with a status of '(.*?)'(?: and a claimed amount of '(.*?)')?$/) do |case_number, status, claimed|
-  puts ">>>>>>>>>>>>>> CLAIM #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
   claim = Claim::BaseClaim.last
-  ap claim
-  puts ">>>>>>>>>>>>>> expenses #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
-  ap claim.expenses
-  puts ">>>>>>>>>>>>>> vat registered #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
-  puts claim.vat_registered?
-
   my_claim = @external_user_home_page.claim_for(case_number)
   expect(my_claim).not_to be_nil
   expect(my_claim.state.text).to eq(status)

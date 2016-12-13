@@ -64,6 +64,10 @@ class Expense < ActiveRecord::Base
     self.amount = ((self.rate || 0) * (self.quantity || 0)).abs unless schema_version_2?
   end
 
+  before_save do
+    calculate_vat
+  end
+
   after_save do
     claim.update_expenses_total
     claim.update_total
@@ -131,5 +135,14 @@ class Expense < ActiveRecord::Base
 
   def expense_type_unique_code=(code)
     self.expense_type = ExpenseType.find_by!(unique_code: code)
+  end
+
+  private
+
+  # we only calculate VAT for AGFS claims for vatable providers.  On LGFS claims, the VAT amount is entered in the form.
+  def calculate_vat
+    if claim.agfs?
+      self.vat_amount = VatRate.vat_amount(self.amount, claim.vat_date, calculate: claim.vat_registered?)
+    end
   end
 end

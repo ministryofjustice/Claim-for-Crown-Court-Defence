@@ -39,7 +39,8 @@ class ExpenseV2Validator < BaseValidator
     if @record.claim.lgfs?
       validate_vat_numericality(:vat_amount, lower_than_field: :amount)
     else
-      validate_absence_or_zero(:vat_amount, 'invalid')
+      validate_absence_or_zero_or_numeric(:vat_amount, 'invalid')
+      validate_absence_or_zero_or_numeric(:vat_amount, 'invalid')
     end
   end
 

@@ -54,6 +54,10 @@
 #  last_edited_at           :datetime
 #  deleted_at               :datetime
 #  providers_ref            :string
+#  disk_evidence            :boolean          default(FALSE)
+#  fees_vat                 :decimal(, )      default(0.0)
+#  expenses_vat             :decimal(, )      default(0.0)
+#  disbursements_vat        :decimal(, )      default(0.0)
 #
 
 module Claim

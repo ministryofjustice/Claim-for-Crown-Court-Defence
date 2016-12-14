@@ -90,7 +90,6 @@ Then(/^I should be on the your claims page$/) do
 end
 
 Then(/^Claim '(.*?)' should be listed with a status of '(.*?)'(?: and a claimed amount of '(.*?)')?$/) do |case_number, status, claimed|
-  claim = Claim::BaseClaim.last
   my_claim = @external_user_home_page.claim_for(case_number)
   expect(my_claim).not_to be_nil
   expect(my_claim.state.text).to eq(status)

@@ -142,7 +142,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def update
-    puts ">>>>>>>>>>>>>> update #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
     result = if submitting_to_laa?
                Claims::UpdateClaim.call(@claim, params: claim_params)
              else

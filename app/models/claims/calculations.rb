@@ -20,16 +20,8 @@ module Claims::Calculations
   end
 
   def calculate_expenses_total
-    # #reload prevents cloning
     Expense.where(claim_id: self.id).where.not(amount: nil).pluck(:amount).sum
   end
-
-  # def calculate_disbursements_total
-  #   # #reload prevents cloning
-  #
-  #   disbursements = Disbursement.where(claim_id: self.id).where.not(net_amount: nil).pluck(:vat_amount, :net_amount)
-  #   { vat: disbursements.map(&:first).sum, net: disbursements.map(&:last).sum }
-  # end
 
   def calculate_total
     a = self.fees_total
@@ -59,26 +51,16 @@ module Claims::Calculations
     update_column(:total, calculate_total)
   end
 
-  # def calculate_expenses_vat
-  #   if lgfs?
-  #     Expense.where(claim_id: self.id).where.not(vat_amount: nil).pluck(:vat_amount).sum
-  #   else
-  #     VatRate.vat_amount(calculate_expenses_total, self.vat_date, calculate: self.apply_vat?)
-  #   end
-  # end
-
   def calculate_fees_vat
     VatRate.vat_amount(self.fees_total, self.vat_date, calculate: self.apply_vat?)
   end
 
   def calculate_disbursements_vat
-    # #reload prevents cloning
     Disbursement.where(claim_id: self.id).where.not(vat_amount: nil).pluck(:vat_amount).sum
   end
 
   def calculate_total_vat
     self.vat_amount = self.expenses_vat + self.fees_vat + self.disbursements_vat
-    # calculate_expenses_vat + calculate_fees_vat + calculate_disbursements_vat
   end
 
   def update_vat

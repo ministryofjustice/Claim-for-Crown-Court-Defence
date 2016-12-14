@@ -23,29 +23,6 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
     it { should_error_if_equal_to_value(expense, :amount, 200_001, 'item_max_amount') }
 
-    describe '#validate_vat_amount for AGFS claims' do
-      it 'is valid if absent' do
-        expense.vat_amount = nil
-        expect(expense).to be_valid
-      end
-
-      it 'is valid if blank' do
-        expense.vat_amount = ''
-        expect(expense).to be_valid
-      end
-
-      it 'is valid if zero' do
-        expense.vat_amount = 0
-        expect(expense).to be_valid
-      end
-
-      it 'is invalid if any other value' do
-        expense.vat_amount = 3
-        expect(expense).not_to be_valid
-        expect(expense.errors[:vat_amount]).to include('invalid')
-      end
-    end
-
     describe '#validate_vat_amount for LGFS claims' do
       let(:claim) { build :litigator_claim, force_validation: true }
 

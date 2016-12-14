@@ -1043,7 +1043,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       allow(VatRate).to receive(:vat_amount).and_return(10)
       claim = FactoryGirl.build :unpersisted_claim, total: 100
       claim.submit!
-      expect(claim.vat_amount).to eq 20
+      expect(claim.vat_amount).to eq 10
     end
 
     it 'should zeroise the vat amount if vat is not applied' do

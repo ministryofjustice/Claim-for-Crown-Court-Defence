@@ -399,8 +399,6 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
       it 'renders edit template' do
         put :update, id: subject, claim: { additional_information: 'foo', court_id: nil }, commit_continue: 'Submit to LAA'
-        puts response.status
-        puts response.body
         expect(response).to render_template(:edit)
       end
     end

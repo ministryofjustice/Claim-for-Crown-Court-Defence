@@ -220,6 +220,9 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
             put :update, id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2
             expect(subject_claim.draft?).to be_truthy
             expect(subject_claim.valid?).to be_truthy
+            puts ">>>>>>>>>>>>>>  #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
+            puts response.body
+            puts ">>>>>>>>>>>>>>  #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
             expect(response).to redirect_to(summary_external_users_claim_path(subject_claim))
           end
         end

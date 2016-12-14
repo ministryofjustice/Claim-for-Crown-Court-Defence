@@ -56,10 +56,27 @@ namespace :data do
       end
     end
 
+
+    desc 'Update the disbursement vat amount on all claims'
+    task :vat => :environment do
+      Claim::BaseClaim.connection.execute('UPDATE disbursements SET vat_amount = 0.0 WHERE vat_amount IS NULL')
+      Claim::BaseClaim.connection.execute('UPDATE expenses SET vat_amount = 0.0 WHERE vat_amount IS NULL')
+      claim_ids = Claim::BaseClaim.pluck(:id)
+      num_claims = claim_ids.size
+      claim_ids.each_with_index do |claim_id, i|
+        puts "Updating (#{i} of #{num_claims}" if i % 1000 == 0
+        claim = Claim::BaseClaim.find(claim_id)
+        claim.update_disbursements_total
+        claim.update_expenses_total
+        claim.update_fees_total
+        claim.save!
+      end
+    end
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
-        'case_type_codes' => 'Change the fee type codes on case types to use the unique code',
+        'vat' => 'Recacalculate VAT totals for all claims',
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

@@ -53,7 +53,7 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def case_type_name
-    case_type&.name || 'n/a'
+    case_type.name
   end
 
   def scheme

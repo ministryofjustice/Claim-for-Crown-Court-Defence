@@ -36,11 +36,7 @@ class ExpenseV2Validator < BaseValidator
   end
 
   def validate_vat_amount
-    if @record.claim.lgfs?
-      validate_vat_numericality(:vat_amount, lower_than_field: :amount)
-    else
-      validate_absence_or_zero(:vat_amount, 'invalid')
-    end
+    validate_vat_numericality(:vat_amount, lower_than_field: :amount)
   end
 
   def validate_location

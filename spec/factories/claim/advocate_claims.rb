@@ -34,7 +34,10 @@ FactoryGirl.define do
     end
 
     trait :without_fees do
-      after(:build) { |claim| make_claim_creator_advocate_admin(claim) }
+      after(:build) do |claim|
+        make_claim_creator_advocate_admin(claim)
+        claim.fees.clear
+      end
     end
 
 

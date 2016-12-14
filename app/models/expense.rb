@@ -62,6 +62,7 @@ class Expense < ActiveRecord::Base
     self.schema_version ||= 2
     round_quantity
     self.amount = ((self.rate || 0) * (self.quantity || 0)).abs unless schema_version_2?
+    calculate_vat
   end
 
   after_save do
@@ -131,5 +132,11 @@ class Expense < ActiveRecord::Base
 
   def expense_type_unique_code=(code)
     self.expense_type = ExpenseType.find_by!(unique_code: code)
+  end
+
+  def calculate_vat
+    unless claim.lgfs?
+      self.vat_amount = VatRate.vat_amount(self.amount, claim.vat_date, calculate: claim.apply_vat?)
+    end
   end
 end

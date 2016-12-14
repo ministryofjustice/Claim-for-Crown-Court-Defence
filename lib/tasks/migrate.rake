@@ -68,6 +68,8 @@ namespace :data do
         claim = Claim::BaseClaim.find(claim_id)
         claim.update_disbursements_total
         claim.update_expenses_total
+        claim.update_fees_total
+        claim.save!
       end
     end
 

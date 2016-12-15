@@ -169,6 +169,10 @@ module Claim
       self.build_assessment if self.assessment.nil?
     end
 
+    before_save do
+      self.value_band_id = Claims::ValueBands.band_id_for_claim(self)
+    end
+
     after_save :find_and_associate_documents, :update_vat
 
     def ensure_not_abstract_class

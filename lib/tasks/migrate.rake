@@ -56,6 +56,15 @@ namespace :data do
       end
     end
 
+    desc 'populate value bands on all claims'
+    task :value_bands  => :environment do
+      claim_ids = Claim::BaseClaim.pluck(:id)
+      claim_ids.each do |claim_id|
+        claim = Claim::BaseClaim.find(claim_id)
+        claim.update_attribute(:value_band_id, Claims::ValueBands.band_id_for_claim(claim))
+      end
+    end
+
 
     desc 'Update the disbursement vat amount on all claims'
     task :vat => :environment do

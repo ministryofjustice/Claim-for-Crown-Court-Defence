@@ -64,12 +64,16 @@ namespace :data do
       claim_ids = Claim::BaseClaim.pluck(:id)
       num_claims = claim_ids.size
       claim_ids.each_with_index do |claim_id, i|
-        puts "Updating (#{i} of #{num_claims}" if i % 1000 == 0
-        claim = Claim::BaseClaim.find(claim_id)
-        claim.update_disbursements_total
-        claim.update_expenses_total
-        claim.update_fees_total
-        claim.save!
+        begin
+          puts "Updated #{i} claims" if i % 1000 == 0
+          claim = Claim::BaseClaim.find(claim_id)
+          claim.update_disbursements_total
+          claim.update_expenses_total
+          claim.update_fees_total
+          claim.save!
+        rescue => err
+          puts ">>>> ERROR saving #{claim_id} >>>>> #{err.class} :: #{err.message} "
+        end
       end
     end
 

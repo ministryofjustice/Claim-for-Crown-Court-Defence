@@ -10,6 +10,7 @@ module DemoData
       @claim.elected_case = random_elected_case
       @claim.transfer_stage_id = valid_transfer_stage_id
       @claim.case_conclusion_id = valid_case_conclusion_id
+      @claim.transfer_date = rand(60..90).days.ago
       @claim.save!
       @claim.transfer_detail.save!
     end
@@ -29,7 +30,13 @@ module DemoData
     end
 
     def valid_case_conclusion_id
-      Claim::TransferBrainDataItemCollection.instance.valid_case_conclusion_ids(@claim.litigator_type, @claim.elected_case, @claim.transfer_stage_id).sample
+      transfer_stage = ::Claim::TransferBrain::TRANSFER_STAGES[@claim.transfer_stage_id]
+      if @claim.litigator_type == 'new' && @claim.elected_case == false && transfer_stage.requires_case_conclusion == true
+        Claim::TransferBrainDataItemCollection.instance.valid_case_conclusion_ids(@claim.litigator_type, @claim.elected_case, @claim.transfer_stage_id).sample
+      else
+        nil
+      end
+
     end
   end
 end

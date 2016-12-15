@@ -13,6 +13,7 @@ module DemoData
 
     def add_claim_detail(claim)
       DemoData::TransferDetailGenerator.new(claim).generate!
+
     end
 
     def add_fees_expenses_and_disbursements(claim)

@@ -13,6 +13,12 @@
       = select_tag :value_band_id, options_from_collection_for_select(Claims::ValueBands.collection_select, "id", "name", params[:value_band_id]), class: 'form-control'
 
   .form-col{ style: 'padding: 26px 0 0' }
-    = submit_tag 'Filter', class: 'button-secondary blue'
+    %fieldset.inline.allocation-filter-form.form-row
+      .form-col.form-group
+        %label{for: 'filter'}
+          Claim Values
+        = select_tag :value_band_id, options_from_collection_for_select(Claims::ValueBands.collection_select, "id", "name"), class: 'form-control'
+      .form-col{ style: 'padding: 26px 0 0' }
+        = submit_tag 'Select', class: 'button'
 
 

@@ -9,12 +9,14 @@ module Remote
                   :opened_for_redetermination,
                   :written_reasons_outstanding,
                   :messages_count,
-                  :unread_messages_count
+                  :unread_messages_count,
+                  :disk_evidence
 
     has_one :external_user
     has_one :case_type
     has_many :defendants
     has_many :case_workers
+    has_one :court
 
     alias opened_for_redetermination? opened_for_redetermination
     alias written_reasons_outstanding? written_reasons_outstanding

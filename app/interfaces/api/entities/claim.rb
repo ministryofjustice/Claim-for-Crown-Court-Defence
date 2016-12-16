@@ -11,6 +11,7 @@ module API
       expose :vat_amount, format_with: :decimal
       expose :opened_for_redetermination?, as: :opened_for_redetermination
       expose :written_reasons_outstanding?, as: :written_reasons_outstanding
+      expose :disk_evidence
 
       expose :messages_count
       expose :unread_messages_count do |_instance, options|
@@ -22,6 +23,8 @@ module API
       expose :case_type, using: API::Entities::CaseType
 
       expose :case_workers, using: API::Entities::CaseWorker, if: lambda { |instance, _opts| instance.allocated? }
+
+      expose :court, using: API::Entities::Court
 
       private
 

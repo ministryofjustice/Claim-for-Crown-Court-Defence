@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers?api_key=3fa1de93-b464-47c8-a61c-f195bb496f41
+    uri: http://localhost:3001/api/case_workers?api_key=1e72b467-5482-42cd-9d17-008040f4e54f
     body:
       encoding: US-ASCII
       string: ''
@@ -21,29 +21,29 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '275'
+      - '285'
       Etag:
-      - W/"e01c6ebd5eb8b050ad65ff8f59499667"
+      - W/"4ba7e2f6b935ef98707689bf962f49ae"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 581037ab-0189-4da1-8f13-c835072d4eef
+      - 76e67e18-6691-49d5-969f-87b7f2471bf7
       X-Runtime:
-      - '0.008759'
+      - '1.157460'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Wed, 26 Oct 2016 13:44:06 GMT
+      - Fri, 16 Dec 2016 15:14:08 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '[{"id":1,"uuid":"d12d1993-4d5c-4283-b542-e9b0850056ae","first_name":"Rhianna","last_name":"Parker","email":"rhianna.parker@laa.gov.uk"},{"id":2,"uuid":"228eed4b-4e60-47b9-ad2c-ccd164eb68d7","first_name":"Destinee","last_name":"Hegmann","email":"destinee.hegmann@laa.gov.uk"}]'
+      string: '[{"id":1,"uuid":"e730c385-598b-4369-ac59-058534cf2985","first_name":"Danial","last_name":"Schamberger","email":"danial.schamberger@laa.gov.uk"},{"id":2,"uuid":"4724533a-45b3-4dcd-9f1a-8360a76b0a7b","first_name":"Anastacio","last_name":"Kreiger","email":"anastacio.kreiger@laa.gov.uk"}]'
     http_version: 
-  recorded_at: Wed, 26 Oct 2016 13:44:06 GMT
+  recorded_at: Fri, 16 Dec 2016 15:14:08 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=3fa1de93-b464-47c8-a61c-f195bb496f41&direction=asc&filter=graduated_fees&limit=25&page=0&scheme=lgfs&search=&sorting=last_submitted_at&status=unallocated
+    uri: http://localhost:3001/api/case_workers/claims?api_key=1e72b467-5482-42cd-9d17-008040f4e54f&direction=asc&filter=graduated_fees&limit=25&page=0&scheme=lgfs&search=&sorting=last_submitted_at&status=unallocated&value_band_id=0
     body:
       encoding: US-ASCII
       string: ''
@@ -62,24 +62,24 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '1238'
+      - '93'
       Etag:
-      - W/"938e4e0f7e16a8bf68f63af7fcc71508"
+      - W/"f993720bcd4e13a7439a92f9e12e0898"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 596a4687-1b4f-424a-b540-3490244f8a66
+      - 9becb570-bd3b-4f99-abab-684278b198b0
       X-Runtime:
-      - '0.060266'
+      - '0.036370'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Wed, 26 Oct 2016 13:44:06 GMT
+      - Fri, 16 Dec 2016 15:14:08 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":1,"uuid":"f41caaab-928f-41a1-b011-e50952eb3120","case_number":"T20161234","state":"submitted","type":"Claim::LitigatorClaim","last_submitted_at":"2016-10-26T13:43:15Z","total":25.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"701eae7b-3638-4f73-b904-9a92136e1b6d","first_name":"Ethyl","last_name":"Ankunding","email":"christy.donnelly@beahan.biz"},"defendants":[{"id":1,"uuid":"5c94b87e-873e-40bc-976a-3288b5a9c862","first_name":"Melvina","last_name":"Kuhic","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":1,"uuid":"e7cfa6ec-22e6-48a3-9d07-208d9e84e68c","maat_reference":"9621830522","date":"2015-09-22T00:00:00Z"},{"id":2,"uuid":"bf815047-9a9e-4085-8f2e-0c04b0696e6f","maat_reference":"7153786313","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":12,"name":"Trial","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":true,"allow_pcmh_fee_type":true,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs","interim"],"fee_type_code":"GTRL"}}]}'
+      string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":25},"items":[]}'
     http_version: 
-  recorded_at: Wed, 26 Oct 2016 13:44:06 GMT
+  recorded_at: Fri, 16 Dec 2016 15:14:08 GMT
 recorded_with: VCR 3.0.3

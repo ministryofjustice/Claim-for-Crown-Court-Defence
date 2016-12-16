@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=7500337d-7cf5-4130-931d-968d3b2625cf&direction=desc&limit=10&page=0&search=&sorting=total_inc_vat&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=6dedb8b4-87aa-4cb9-b79a-ada452943af9&direction=desc&limit=10&page=0&search=&sorting=total_inc_vat&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -15,33 +15,30 @@ http_interactions:
       - Ruby
   response:
     status:
-      code: 200
-      message: 'OK '
+      code: 401
+      message: 'Unauthorized '
     headers:
       Content-Type:
       - application/json
       Content-Length:
-      - '2524'
-      Etag:
-      - W/"9a1de4ce55ee6cdaf3868e5592319e35"
+      - '26'
       Cache-Control:
-      - max-age=0, private, must-revalidate
+      - no-cache
+      X-Meta-Request-Version:
+      - 0.3.4
       X-Request-Id:
-      - f88240a0-0dc1-41a3-ab8d-9298c713d539
+      - 0d902b3c-7037-4c2f-906f-2ec71d694b7f
       X-Runtime:
-      - '0.109637'
+      - '0.017612'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Thu, 06 Oct 2016 17:01:25 GMT
+      - Fri, 16 Dec 2016 15:48:52 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":3,"limit_value":10},"items":[{"id":3,"uuid":"a6114b17-18a7-4b30-86dd-806c79b3942d","case_number":"A20160003","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-06T17:01:25.385Z","total":29.0,"vat_amount":5.08,"opened_for_redetermination":true,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":3,"uuid":"bb8e79bc-a251-4154-90c8-45c7b175ddf5","first_name":"Brianne","last_name":"Stehr"},"defendants":[{"id":3,"uuid":"b267ff15-483f-4c59-ba8e-2efc0fa29b8a","first_name":"Justina","last_name":"Marquardt"}],"case_type":{"id":3,"name":"Case
-        Type 3","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}},{"id":2,"uuid":"8b2ec406-f5c8-4ddc-8239-64b3e0bd3880","case_number":"A20160002","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-05T17:01:24.447Z","total":26.0,"vat_amount":4.55,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":2,"uuid":"d6042c32-c08b-4eae-a891-9409cdd20d97","first_name":"Lucile","last_name":"Wiegand"},"defendants":[{"id":2,"uuid":"2cc538c3-aabc-4ea6-ba53-a52ba159a3ea","first_name":"Frieda","last_name":"Champlin"}],"case_type":{"id":2,"name":"Case
-        Type 2","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}},{"id":1,"uuid":"99900136-1e83-4112-a79d-8c80e4d782c9","case_number":"A20160001","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-06T17:01:23.679Z","total":25.0,"vat_amount":4.38,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"0515db4b-584c-4224-972d-b42559a59737","first_name":"Layla","last_name":"Koss"},"defendants":[{"id":1,"uuid":"a2f633ed-2924-4bbf-a532-25281a45ec3f","first_name":"Jayda","last_name":"Stokes"}],"case_type":{"id":1,"name":"Case
-        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
+      string: '[{"error":"Unauthorised"}]'
     http_version: 
-  recorded_at: Thu, 06 Oct 2016 17:01:25 GMT
+  recorded_at: Fri, 16 Dec 2016 15:48:52 GMT
 recorded_with: VCR 3.0.3

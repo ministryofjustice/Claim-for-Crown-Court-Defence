@@ -42,12 +42,11 @@ describe API::V2::CaseWorkers::Claim do
     it 'should return a JSON with the required information' do
       response = do_request
       expect(response.status).to eq 200
-
       body = JSON.parse(response.body, symbolize_names: true)
       expect(body).to have_key(:pagination)
       expect(body).to have_key(:items)
     end
-
+    
     context 'pagination' do
       def pagination_details(response)
         JSON.parse(response.body, symbolize_names: true).fetch(:pagination)
@@ -69,5 +68,6 @@ describe API::V2::CaseWorkers::Claim do
         end
       end
     end
+
   end
 end

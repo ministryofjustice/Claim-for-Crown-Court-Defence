@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers?api_key=3ab0d19e-dfaf-42ab-82cc-a8951cfb4cb7
+    uri: http://localhost:3001/api/case_workers?api_key=b798bf9b-fb52-4894-89ee-8202e6c7fa9c
     body:
       encoding: US-ASCII
       string: ''
@@ -21,29 +21,29 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '269'
+      - '553'
       Etag:
-      - W/"d6263592e2b42c232a6fdcaac0f4e984"
+      - W/"994b2bb78f7681282baa1fdc1987bb71"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 53b4ffb7-f2f1-4833-85fa-441d09da1f0f
+      - 0993cf1d-d328-4615-b2dc-9f7061a66cd3
       X-Runtime:
-      - '1.064236'
+      - '0.012053'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Thu, 27 Oct 2016 12:18:47 GMT
+      - Fri, 16 Dec 2016 12:17:02 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '[{"id":1,"uuid":"6137102c-e52f-41bd-bdd2-cd5221fc4975","first_name":"Tremaine","last_name":"King","email":"tremaine.king@laa.gov.uk"},{"id":2,"uuid":"a50760d2-3fac-409c-9a43-754d6a3579f1","first_name":"Adell","last_name":"Schuster","email":"adell.schuster@laa.gov.uk"}]'
+      string: '[{"id":1,"uuid":"cbc3f1c3-8252-4335-ae66-bf3936c6f3ac","first_name":"Kaitlyn","last_name":"Powlowski","email":"kaitlyn.powlowski@laa.gov.uk"},{"id":2,"uuid":"41cb4f35-4f20-464b-aa49-3f17d590b0bf","first_name":"Andre","last_name":"Schmidt","email":"andre.schmidt@laa.gov.uk"},{"id":3,"uuid":"2df274ee-72f3-4591-a2e5-83d338df6da1","first_name":"Tristin","last_name":"Schaden","email":"tristin.schaden@laa.gov.uk"},{"id":4,"uuid":"b0d3f455-3a4f-4548-b61e-581479219a61","first_name":"Montana","last_name":"Marquardt","email":"montana.marquardt@laa.gov.uk"}]'
     http_version: 
-  recorded_at: Thu, 27 Oct 2016 12:18:47 GMT
+  recorded_at: Fri, 16 Dec 2016 12:17:02 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=3ab0d19e-dfaf-42ab-82cc-a8951cfb4cb7&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=allocated
+    uri: http://localhost:3001/api/case_workers/claims?api_key=b798bf9b-fb52-4894-89ee-8202e6c7fa9c&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=allocated&value_band_id=0
     body:
       encoding: US-ASCII
       string: ''
@@ -68,18 +68,18 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 77084171-2182-49ea-aab1-d197e05c26b9
+      - 7ad56d25-3d52-492e-8759-d84530134323
       X-Runtime:
-      - '0.054177'
+      - '0.029969'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Thu, 27 Oct 2016 12:18:47 GMT
+      - Fri, 16 Dec 2016 12:17:02 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
       string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":25},"items":[]}'
     http_version: 
-  recorded_at: Thu, 27 Oct 2016 12:18:47 GMT
+  recorded_at: Fri, 16 Dec 2016 12:17:02 GMT
 recorded_with: VCR 3.0.3

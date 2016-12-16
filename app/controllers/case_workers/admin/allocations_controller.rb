@@ -9,8 +9,6 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   helper_method :allocation_filters_for_scheme
 
   def new
-    puts ">>>>>>>>>>>>>> NEW #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
-    ap params
     @allocation = Allocation.new
   end
 

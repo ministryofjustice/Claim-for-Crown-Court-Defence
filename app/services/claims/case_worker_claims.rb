@@ -57,7 +57,9 @@ module Claims
       if remote?
         Remote::Claim.unallocated(current_user, criteria)
       else
-        Claim::BaseClaim.active.__send__(scheme).submitted_or_redetermination_or_awaiting_written_reasons
+        result_set = Claim::BaseClaim.active.__send__(scheme).submitted_or_redetermination_or_awaiting_written_reasons
+        puts ">>>>>>>>>>>>>> RESULT SET #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
+        ap result_set
       end
     end
 

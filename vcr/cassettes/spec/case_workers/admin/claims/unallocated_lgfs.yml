@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers?api_key=94e2587e-c7db-418b-bfb5-86e28f36cb7b
+    uri: http://localhost:3001/api/case_workers?api_key=b798bf9b-fb52-4894-89ee-8202e6c7fa9c
     body:
       encoding: US-ASCII
       string: ''
@@ -21,29 +21,29 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '279'
+      - '275'
       Etag:
-      - W/"80e689b4753830c1bd22180efd10c926"
+      - W/"12bef871c0c573baa213fc1fa92d4389"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 0be82491-bb6e-4a15-b6f1-1b6d3d4efe38
+      - 24af8a53-ec95-4387-9f58-a564a6933abe
       X-Runtime:
-      - '0.012099'
+      - '0.008836'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Wed, 26 Oct 2016 12:06:11 GMT
+      - Fri, 16 Dec 2016 12:16:59 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '[{"id":1,"uuid":"0cfbdbea-70ae-4ff1-9cce-46581a330572","first_name":"Adelbert","last_name":"Grimes","email":"adelbert.grimes@laa.gov.uk"},{"id":2,"uuid":"e45689c8-017d-4d90-8636-735dd122e490","first_name":"Francesco","last_name":"Trantow","email":"francesco.trantow@laa.gov.uk"}]'
+      string: '[{"id":1,"uuid":"cbc3f1c3-8252-4335-ae66-bf3936c6f3ac","first_name":"Kaitlyn","last_name":"Powlowski","email":"kaitlyn.powlowski@laa.gov.uk"},{"id":2,"uuid":"41cb4f35-4f20-464b-aa49-3f17d590b0bf","first_name":"Andre","last_name":"Schmidt","email":"andre.schmidt@laa.gov.uk"}]'
     http_version: 
-  recorded_at: Wed, 26 Oct 2016 12:06:11 GMT
+  recorded_at: Fri, 16 Dec 2016 12:16:59 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=94e2587e-c7db-418b-bfb5-86e28f36cb7b&direction=asc&filter=all&limit=25&page=0&scheme=lgfs&search=&sorting=last_submitted_at&status=unallocated
+    uri: http://localhost:3001/api/case_workers/claims?api_key=b798bf9b-fb52-4894-89ee-8202e6c7fa9c&direction=asc&filter=all&limit=25&page=0&scheme=lgfs&search=&sorting=last_submitted_at&status=unallocated&value_band_id=0
     body:
       encoding: US-ASCII
       string: ''
@@ -62,25 +62,25 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '1227'
+      - '1208'
       Etag:
-      - W/"acd1d25a3463c8b3763f62b8ca0092a6"
+      - W/"132f388f2358bcc67ae85220fc14f31d"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 3ac6dd85-5c23-4520-b13d-dcd3f30ea01b
+      - e8b286a5-2497-4d75-a784-e1382bbdce9c
       X-Runtime:
-      - '0.275901'
+      - '0.040627'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Wed, 26 Oct 2016 12:06:11 GMT
+      - Fri, 16 Dec 2016 12:16:59 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":2,"uuid":"c59b5e2d-b66a-4427-b40a-9f9df36a810c","case_number":"A20162222","state":"submitted","type":"Claim::LitigatorClaim","last_submitted_at":"2016-10-26T12:06:10Z","total":25.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":2,"uuid":"14a738c9-34ff-4018-a88c-8da67398e151","first_name":"Alanna","last_name":"Cole","email":"kian.feeney@schowalter.com"},"defendants":[{"id":2,"uuid":"e3b8703c-3f5a-4f6c-a5b2-51be8bb9bcbf","first_name":"Caden","last_name":"Johns","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":3,"uuid":"01850db9-29e0-4bf1-829c-48c16d7086e6","maat_reference":"4022436127","date":"2015-09-22T00:00:00Z"},{"id":4,"uuid":"0cc88d1c-12b7-4cf7-a493-7dad0f2e53ca","maat_reference":"1253362753","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":15,"name":"Case
-        Type 2","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":17,"uuid":"b5195826-57c0-408c-8dda-aee0d6bf8f59","case_number":"A20162222","state":"submitted","type":"Claim::LitigatorClaim","last_submitted_at":"2016-12-16T12:16:59Z","total":25.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":17,"uuid":"b4efeadd-f097-4f97-9872-c8878a10e337","first_name":"Jaeden","last_name":"Kautzer","email":"halie.turcotte@casper.biz"},"defendants":[{"id":17,"uuid":"0486a0b0-e75a-4e96-ba68-5a678e98054f","first_name":"Alfredo","last_name":"Herzog","date_of_birth":"1986-12-16","representation_orders":[{"id":33,"uuid":"25b22761-aab2-4d21-b043-5c0ba70e2b2a","maat_reference":"2457477453","date":"2015-11-12"},{"id":34,"uuid":"11c5ce63-d73f-446a-994b-1cad7c8102cb","maat_reference":"5447726076","date":"2015-12-02"}]}],"case_type":{"id":23,"name":"Case
+        Type 10","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
     http_version: 
-  recorded_at: Wed, 26 Oct 2016 12:06:11 GMT
+  recorded_at: Fri, 16 Dec 2016 12:16:59 GMT
 recorded_with: VCR 3.0.3

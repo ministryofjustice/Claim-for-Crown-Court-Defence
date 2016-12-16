@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=eae07151-cac2-4b38-9afc-f7ecf87e27ac&direction=asc&limit=10&page=0&search=Mya%20Keeling&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=6dedb8b4-87aa-4cb9-b79a-ada452943af9&direction=asc&limit=10&page=0&search=Mya%20Keeling&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -15,31 +15,30 @@ http_interactions:
       - Ruby
   response:
     status:
-      code: 200
-      message: 'OK '
+      code: 401
+      message: 'Unauthorized '
     headers:
       Content-Type:
       - application/json
       Content-Length:
-      - '897'
-      Etag:
-      - W/"fd52efbddf6cbbaa7ddc59d61966f9d3"
+      - '26'
       Cache-Control:
-      - max-age=0, private, must-revalidate
+      - no-cache
+      X-Meta-Request-Version:
+      - 0.3.4
       X-Request-Id:
-      - 4f6c20d0-04fe-4939-abaa-4bf0de3104ed
+      - 25a97af9-2837-4522-aad7-0028d3614fbf
       X-Runtime:
-      - '0.051738'
+      - '0.019516'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Fri, 07 Oct 2016 08:31:07 GMT
+      - Fri, 16 Dec 2016 15:48:52 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"e07abf06-0ab1-4501-856a-4fefb0179e17","case_number":"A20160001","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-07T08:31:05.579Z","total":25.0,"vat_amount":4.38,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"3b45dcd8-a6bf-4372-936a-4e075df059f6","first_name":"Belle","last_name":"Dare"},"defendants":[{"id":1,"uuid":"e109a556-2a2e-402a-b9c0-63c9e9e64515","first_name":"Mya","last_name":"Keeling"}],"case_type":{"id":1,"name":"Case
-        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
+      string: '[{"error":"Unauthorised"}]'
     http_version: 
-  recorded_at: Fri, 07 Oct 2016 08:31:07 GMT
+  recorded_at: Fri, 16 Dec 2016 15:48:52 GMT
 recorded_with: VCR 3.0.3

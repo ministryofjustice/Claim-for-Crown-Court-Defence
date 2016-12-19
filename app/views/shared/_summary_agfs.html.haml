@@ -1,0 +1,169 @@
+- present(@claim) do |claim|
+  %section#summary
+    %h3.heading-medium
+      = t('common.fees')
+    - if @claim.fees_total == 0
+      %p
+        = t('shared.summary.no_values.fees')
+    - else
+      / table does noe require summary
+      %table
+        %caption.visually-hidden
+          = t('.fees.caption')
+        %thead
+          %tr
+            %th{ scope: 'col' }
+              = t('.fee_category')
+            %th{ scope: 'col' }
+              = t('.fee_type')
+            - unless claim.interim?
+              %th.numeric{ scope: 'col' }
+                = t('.quantity')
+
+            %th.numeric{ scope: 'col' }
+              = t('.rate')
+            %th.numeric{ scope: 'col' }
+              = t('.amount')
+        %tbody
+          - present_collection(claim.fees.select(&:present?)).each do |fee|
+            %tr
+              %td
+                = fee.fee_type&.fee_category_name || 'n/a'
+                - if fee.dates_attended.any?
+                  %br
+                  = t('.dates_attended')
+                  = fee.dates_attended_delimited_string
+                - if fee.date?
+                  %br
+                  = t('.date')
+                  = fee.date
+              %td{scope: 'row'}
+                = fee.fee_type&.description || 'n/a'
+                - if fee.sub_type.present?
+                  %p
+                    = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
+
+              - unless claim.interim?
+                %td.numeric
+                  = fee.quantity
+              %td.numeric
+                = fee.rate
+              %td.numeric
+                = fee.amount
+      .totals
+        = t('.fees_total')
+        = claim.fees_total
+
+    - if claim.can_have_expenses?
+      %h3.heading-medium
+        = t('common.expenses')
+      - if claim.expenses.empty?
+        %p
+          = t('shared.summary.no_values.expenses')
+      - else
+        / table does noe require summary
+        %table
+          %caption.visually-hidden
+            = t('.expenses.caption')
+          %thead
+            %tr
+              %th{scope: 'col'}
+                = t('.date')
+              %th{scope: 'col'}
+                = t('.expense_type')
+              %th.numeric{scope: 'col'}
+                = t('.distance')
+              %th.numeric{scope: 'col'}
+                = t('.quantity_hours')
+              %th{scope: 'col'}
+                = t('.location')
+              %th.numeric{scope: 'col'}
+                = t('.amount')
+
+          %tbody
+            - present_collection(claim.expenses).each do |expense|
+              %tr.no-border
+                %td
+                  = expense.pretty_date
+                %td{scope:'row'}
+                  %span.bold-normal
+                    = expense.name
+                    %br/
+                    = "Reason: #{expense.reason}"
+                  - if expense.distance?
+                    %br/
+                    = "Distance: #{expense.distance}"
+                    %br/
+                    = "Mileage rate: #{expense.mileage_rate}"
+                %td.numeric
+                  = expense.distance
+
+                %td.numeric
+                  = expense.hours
+                %td
+                  = expense.location
+                %td.numeric
+                  = expense.amount
+
+              %tr
+                %td{colspan: '7'}
+                  .bold-normal
+                    = t('.reason')
+                  = expense.reason
+        .totals
+          = t('.expenses_total')
+          = claim.expenses_total
+
+    - if claim.can_have_disbursements?
+      %h3.heading-medium
+        = t('common.disbursements')
+      - if claim.disbursements.empty?
+        %p
+          = t('shared.summary.no_values.disbursements')
+      - else
+        / table does noe require summary
+        %table
+          %caption.visually-hidden
+            = t('.disbursements.caption')
+          %thead
+            %tr
+              %th{scope: 'col'}
+                = "Disbursement type"
+              %th.numeric{scope: 'col'}
+                = "Net amount"
+              %th.numeric{scope: 'col'}
+                = "VAT amount"
+              %th.numeric{scope: 'col'}
+                = "Total amount"
+          %tbody
+            - present_collection(claim.disbursements).each do |disbursement|
+              %tr
+                %td{scope:'row'}
+                  = disbursement.name
+                %td.numeric
+                  = disbursement.net_amount
+                %td.numeric
+                  = disbursement.vat_amount
+                %td.numeric
+                  = disbursement.total
+        .totals
+          = 'Disbursements total'
+          = claim.disbursements_total
+
+    .totals
+      = 'Claim total (net):'
+      = claim.total
+
+    .totals
+      = 'VAT:'
+      = claim.vat_amount
+
+    .totals
+      = 'Claim total (inc. VAT)'
+      = claim.total_inc_vat
+
+    - if claim.additional_information.present?
+      %h3.heading-medium
+        = t('.additional_information')
+      %p.indent-sides
+        = claim.additional_information

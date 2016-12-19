@@ -1,3 +1,7 @@
+- if claim.agfs?
+  = "AGFS"
+- else
+  = "LGFS"
 #claim-accordion
   .grid-row.panel-messages
     .column-one-half
@@ -37,4 +41,8 @@
     %h2.js-accordion__header
       = t('.h2_summary')
     %div.js-accordion__panel
-      = render partial: 'shared/summary'
+      - if claim.agfs?
+        = render partial: 'shared/summary_agfs', locals: { claim: claim }
+      - else
+        = render partial: 'shared/summary_lgfs', locals: { claim: claim }
+

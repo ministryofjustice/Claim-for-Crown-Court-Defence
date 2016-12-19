@@ -976,6 +976,7 @@ en:
         scheme_filters:
           scheme_types: 'Scheme types'
         allocation:
+          court: 'Court'
           select: 'Select'
           case_number: 'Case number'
           allocated_to: 'Allocated To'
@@ -988,6 +989,7 @@ en:
           no_of_claims: 'No. of claims'
         re_allocation:
           select: 'Select'
+          court: 'Court'
           type: 'Type'
           case_number: 'Case number'
           scheme: Scheme

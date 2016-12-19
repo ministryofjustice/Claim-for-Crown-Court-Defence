@@ -42,6 +42,7 @@ table {
   thead th {
     padding-top:$gutter-half;
     padding-bottom:$gutter-half;
+    vertical-align: bottom;
   }
   tbody {
     tr:nth-child(odd) {
@@ -119,7 +120,37 @@ span.state {
 tr.mobile-sort{
   display:none;
 }
- @include media($max-width: 1018px){
+
+table.report{
+  .select{
+    width: 25px;
+  }
+  .case-number{
+    width: 100px;
+  }
+  .court{
+    width: 125px;
+  }
+  .submit-date{
+    width: 80px;
+  }
+  .defendants{
+
+  }
+  .claim-total{
+    width:100px;
+  }
+  .type{
+    width: 200px;
+  }
+  .numeric{
+
+  }
+  .allocated{
+
+  }
+}
+@include media($max-width: 1018px){
     table.report {
     border: 0;
     tr {

@@ -20,15 +20,20 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
-  def case_type_name
+  def claim_state
     if claim.opened_for_redetermination?
-      claim.case_type.name + ' (redetermination)'
+      'Redetermination'
     elsif claim.written_reasons_outstanding?
-      claim.case_type.name + ' (awaiting written reasons)'
+      'Awaiting written reasons'
     else
-      claim.case_type.name
+      ''
     end
   end
+
+  def case_type_name
+    claim.case_type.name
+  end
+
 
   def defendant_names
     defendant_names = claim.defendants.sort_by(&:id).map(&:name)
@@ -48,6 +53,9 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.last_submitted_at.strftime(date_format(options)) unless claim.last_submitted_at.nil?
   end
 
+  def submitted_at_short()
+    claim.last_submitted_at.strftime('%d/%m/%y') unless claim.last_submitted_at.nil?
+  end
   def authorised_at (options={})
     claim.authorised_at.strftime(date_format(options)) unless claim.authorised_at.nil?
   end

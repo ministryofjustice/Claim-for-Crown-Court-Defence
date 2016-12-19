@@ -78,9 +78,6 @@ module API
           resource :claims do
             desc 'Retrieve list of allocated, unallocated or archived claims'
             get do
-              puts ">>>>>>>>>>>>>>  #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
-              ap params
-              puts ">>>>>>>>>>>>>>  #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
               present claims, with: API::Entities::PaginatedCollection, user: current_user
             end
           end

@@ -46,7 +46,7 @@ describe API::V2::CaseWorkers::Claim do
       expect(body).to have_key(:pagination)
       expect(body).to have_key(:items)
     end
-    
+
     context 'pagination' do
       def pagination_details(response)
         JSON.parse(response.body, symbolize_names: true).fetch(:pagination)
@@ -68,6 +68,5 @@ describe API::V2::CaseWorkers::Claim do
         end
       end
     end
-
   end
 end

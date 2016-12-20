@@ -207,6 +207,15 @@ module Claim
       end
     end
 
+
+    def self.value_band(value_band_id)
+      if value_band_id =='0'   # this means no selection on value bands
+        where.not(value_band_id: nil)
+      else
+        where(value_band_id: value_band_id)
+      end
+    end
+
     def set_amount_assessed(options)
       self.build_assessment if self.assessment.nil?
       self.assessment.update_values(options[:fees], options[:expenses], options[:disbursements])

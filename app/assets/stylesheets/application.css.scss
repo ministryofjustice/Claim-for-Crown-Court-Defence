@@ -116,3 +116,15 @@ form{
     display: inline;
   }
 }
+
+.button-secondary.blue {
+  margin: 0;
+  padding-left: $gutter;
+  padding-right: $gutter;
+  background-color: $link-hover-colour;
+  color: $page-colour;
+  box-shadow: 0 2px 0 $link-colour;
+  &:hover {
+    background-color: $link-colour;
+  }
+}

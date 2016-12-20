@@ -34,6 +34,10 @@ module API
               params.filter
             end
 
+            def value_band_id
+              params.value_band_id
+            end
+
             def current_claims
               current_user.claims.caseworker_dashboard_under_assessment.search(
                   search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options)
@@ -50,7 +54,7 @@ module API
             end
 
             def unallocated_claims
-              ::Claim::BaseClaim.active.__send__(scheme).submitted_or_redetermination_or_awaiting_written_reasons.filter(filter)
+              ::Claim::BaseClaim.active.__send__(scheme).submitted_or_redetermination_or_awaiting_written_reasons.filter(filter).value_band(value_band_id)
             end
 
             def claims_scope

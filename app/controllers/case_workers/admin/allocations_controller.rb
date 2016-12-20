@@ -80,6 +80,10 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     params[:filter] || 'all'
   end
 
+  def value_band_id
+    params[:value_band_id] || 0
+  end
+
   def filter_claims
     @claims = @claims.filter(filter)
   end
@@ -142,6 +146,6 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def criteria_params
-    {sorting: sort_column, direction: sort_direction, scheme: scheme, filter: filter, page: current_page, limit: page_size, search: search_terms}
+    {sorting: sort_column, direction: sort_direction, scheme: scheme, filter: filter, page: current_page, limit: page_size, search: search_terms, value_band_id: value_band_id}
   end
 end

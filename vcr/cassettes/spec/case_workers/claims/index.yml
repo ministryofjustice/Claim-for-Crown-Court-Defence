@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=821c90af-a0f4-4929-82fc-e8fff4283e05&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=6dedb8b4-87aa-4cb9-b79a-ada452943af9&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -15,33 +15,30 @@ http_interactions:
       - Ruby
   response:
     status:
-      code: 200
-      message: 'OK '
+      code: 401
+      message: 'Unauthorized '
     headers:
       Content-Type:
       - application/json
       Content-Length:
-      - '2528'
-      Etag:
-      - W/"f09401a711aff4839a9a231ae80ca3e4"
+      - '26'
       Cache-Control:
-      - max-age=0, private, must-revalidate
+      - no-cache
+      X-Meta-Request-Version:
+      - 0.3.4
       X-Request-Id:
-      - 359468a6-c264-440f-847b-bd16d04fa8d4
+      - 6df32800-6fd6-4549-a116-90c076d24c45
       X-Runtime:
-      - '0.090660'
+      - '0.994673'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Thu, 06 Oct 2016 16:12:57 GMT
+      - Fri, 16 Dec 2016 15:48:51 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":3,"limit_value":10},"items":[{"id":2,"uuid":"6b8911da-bdcc-4fc8-beb4-42fbef69aead","case_number":"A20160002","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-05T16:12:56.161Z","total":26.0,"vat_amount":4.55,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":2,"uuid":"0aac3175-cd54-4b25-9c3e-ad200ac8edb1","first_name":"Althea","last_name":"Considine"},"defendants":[{"id":2,"uuid":"d6a72951-5b7c-42e2-a82f-bb42b7b8be53","first_name":"Lindsay","last_name":"Smith"}],"case_type":{"id":2,"name":"Case
-        Type 2","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}},{"id":1,"uuid":"cb0dbc3c-6710-4f63-bd72-5903cc3a4832","case_number":"A20160001","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-06T16:12:55.442Z","total":25.0,"vat_amount":4.38,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"3407a6be-5940-4cde-9e47-68b079b88b4f","first_name":"Meagan","last_name":"Stoltenberg"},"defendants":[{"id":1,"uuid":"3e46edf6-bf5f-4590-b8e2-180095756bfb","first_name":"Abdiel","last_name":"Purdy"}],"case_type":{"id":1,"name":"Case
-        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}},{"id":3,"uuid":"36133d1d-e1da-49b9-be6c-645439e1a390","case_number":"A20160003","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-06T16:12:57.099Z","total":29.0,"vat_amount":5.08,"opened_for_redetermination":true,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":3,"uuid":"7fbefd25-1510-4d68-b376-c841aad65ed7","first_name":"Darrion","last_name":"Wolf"},"defendants":[{"id":3,"uuid":"06f01e0f-0cb9-4b42-9b8d-1ae63d133568","first_name":"Millie","last_name":"Watsica"}],"case_type":{"id":3,"name":"Case
-        Type 3","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
+      string: '[{"error":"Unauthorised"}]'
     http_version: 
-  recorded_at: Thu, 06 Oct 2016 16:12:57 GMT
+  recorded_at: Fri, 16 Dec 2016 15:48:51 GMT
 recorded_with: VCR 3.0.3

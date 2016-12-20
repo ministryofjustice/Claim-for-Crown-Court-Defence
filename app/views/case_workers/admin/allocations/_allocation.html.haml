@@ -13,6 +13,7 @@
   = hidden_field_tag :scheme, params[:scheme]
   = hidden_field_tag :filter, params[:filter] if params[:filter]
   = hidden_field_tag :page, params[:page]
+  = hidden_field_tag :value_band_id, params[:value_band_id] if params[:value_band_id]
 
   .grid-row.js-typeahead
     .form-row.form-group.js-typeahead

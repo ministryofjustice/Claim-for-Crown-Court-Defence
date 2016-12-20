@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers?api_key=fe3afa53-8067-4d11-8a06-bfffd0fbb6c9
+    uri: http://localhost:3001/api/case_workers?api_key=b798bf9b-fb52-4894-89ee-8202e6c7fa9c
     body:
       encoding: US-ASCII
       string: ''
@@ -21,29 +21,29 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '402'
+      - '553'
       Etag:
-      - W/"5bce8578752f799a3a091e92aaf5879e"
+      - W/"994b2bb78f7681282baa1fdc1987bb71"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 047187ca-4307-4a9f-97c5-7ef741fa3d1d
+      - abb16009-c056-44ad-a98c-3f1c70f0df24
       X-Runtime:
-      - '0.017395'
+      - '0.009381'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Wed, 26 Oct 2016 14:46:12 GMT
+      - Fri, 16 Dec 2016 12:17:00 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '[{"id":1,"uuid":"fb853056-c74f-4eee-8037-1699cb99b99c","first_name":"Abby","last_name":"Hoeger","email":"abby.hoeger@laa.gov.uk"},{"id":2,"uuid":"492d565e-8ae7-4b27-a77d-a6e67a580774","first_name":"Kariane","last_name":"Will","email":"kariane.will@laa.gov.uk"},{"id":3,"uuid":"e3736bd6-7430-4498-9519-844bb03c359c","first_name":"Alexandro","last_name":"Simonis","email":"alexandro.simonis@laa.gov.uk"}]'
+      string: '[{"id":1,"uuid":"cbc3f1c3-8252-4335-ae66-bf3936c6f3ac","first_name":"Kaitlyn","last_name":"Powlowski","email":"kaitlyn.powlowski@laa.gov.uk"},{"id":2,"uuid":"41cb4f35-4f20-464b-aa49-3f17d590b0bf","first_name":"Andre","last_name":"Schmidt","email":"andre.schmidt@laa.gov.uk"},{"id":3,"uuid":"2df274ee-72f3-4591-a2e5-83d338df6da1","first_name":"Tristin","last_name":"Schaden","email":"tristin.schaden@laa.gov.uk"},{"id":4,"uuid":"b0d3f455-3a4f-4548-b61e-581479219a61","first_name":"Montana","last_name":"Marquardt","email":"montana.marquardt@laa.gov.uk"}]'
     http_version: 
-  recorded_at: Wed, 26 Oct 2016 14:46:12 GMT
+  recorded_at: Fri, 16 Dec 2016 12:17:00 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=fe3afa53-8067-4d11-8a06-bfffd0fbb6c9&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=allocated
+    uri: http://localhost:3001/api/case_workers/claims?api_key=b798bf9b-fb52-4894-89ee-8202e6c7fa9c&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=allocated&value_band_id=0
     body:
       encoding: US-ASCII
       string: ''
@@ -62,25 +62,25 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '1382'
+      - '1359'
       Etag:
-      - W/"2f7149ac4b292aca081446287c1d7f7d"
+      - W/"d9a093d54fbd8ed7f7d436ec85dd82ed"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - ae20dbd3-f607-48a2-8ba4-17a4011a193b
+      - 6eb4ea80-14b7-41e6-a872-e1d5552038d6
       X-Runtime:
-      - '0.069220'
+      - '0.077862'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Wed, 26 Oct 2016 14:46:12 GMT
+      - Fri, 16 Dec 2016 12:17:01 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":1,"uuid":"1273a51c-eef6-4451-ba0f-5c7947d699d5","case_number":"A20161111","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-26T14:46:11Z","total":25.0,"vat_amount":4.38,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"922385fa-02a9-4b9d-a877-8699920bf102","first_name":"Garland","last_name":"Schimmel","email":"joy@schultz.biz"},"defendants":[{"id":1,"uuid":"739654d9-ed2b-45e8-b2d0-30132d94955f","first_name":"Jacinthe","last_name":"Kunde","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":1,"uuid":"40fa0d5c-1ba1-4ab2-9ab7-5bce37499d3f","maat_reference":"3233881787","date":"2015-09-22T00:00:00Z"},{"id":2,"uuid":"d73f43af-ad8d-4bca-ad67-248d22aba5e8","maat_reference":"5226387482","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":14,"name":"Case
-        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"case_workers":[{"id":3,"uuid":"e3736bd6-7430-4498-9519-844bb03c359c","first_name":"Alexandro","last_name":"Simonis","email":"alexandro.simonis@laa.gov.uk"}]}]}'
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":19,"uuid":"e684bc0c-e6c9-4167-b254-f5a2e7185f4b","case_number":"A20161111","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-12-16T12:17:00Z","total":25.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":19,"uuid":"c7048491-789c-43dc-9c8f-a91dc630ba6e","first_name":"Javier","last_name":"McClure","email":"franz@hahnpredovic.info"},"defendants":[{"id":19,"uuid":"b771a5d5-3613-49b3-9954-36dfeea14e64","first_name":"Alysson","last_name":"Becker","date_of_birth":"1986-12-16","representation_orders":[{"id":37,"uuid":"d10a766d-8af1-4e34-8411-62eaf7c8d508","maat_reference":"3774460816","date":"2015-11-12"},{"id":38,"uuid":"f9078046-208e-492d-9d40-a136e6995425","maat_reference":"1336072564","date":"2015-12-02"}]}],"case_type":{"id":25,"name":"Case
+        Type 12","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"case_workers":[{"id":3,"uuid":"2df274ee-72f3-4591-a2e5-83d338df6da1","first_name":"Tristin","last_name":"Schaden","email":"tristin.schaden@laa.gov.uk"}]}]}'
     http_version: 
-  recorded_at: Wed, 26 Oct 2016 14:46:12 GMT
+  recorded_at: Fri, 16 Dec 2016 12:17:01 GMT
 recorded_with: VCR 3.0.3

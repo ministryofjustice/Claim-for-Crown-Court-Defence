@@ -26,5 +26,13 @@ module Claims
       VALUE_BANDS.values
     end
 
+    def self.band_ids
+      VALUE_BANDS.keys
+    end
+
+    def self.collection_select
+      [ Struct::ValueBandDefinition.new(0, 'All Claims', nil, nil) ] + bands
+    end
+
   end
 end

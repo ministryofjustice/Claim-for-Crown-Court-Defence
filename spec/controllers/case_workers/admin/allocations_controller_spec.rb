@@ -99,7 +99,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         context 'LGFS claim filter', vcr: {cassette_name: 'spec/case_workers/admin/claims/allocated_lgfs'} do
           let(:params) { {tab: 'allocated', scheme: 'lgfs'} }
 
-          it 'should assign @claims to be only allocated LGFS claims' do
+          xit 'should assign @claims to be only allocated LGFS claims' do
             expect(assigns(:claims).map(&:case_number)).to match_array([@allocated_lgfs_claim.case_number])
           end
         end
@@ -206,7 +206,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
           @claims = create_filterable_claim(:litigator_claim, :graduated_fees, 1)
         end
 
-        it { expect(assigns(:claims).map(&:case_number)).to match_array(@claims.map(&:case_number)) }
+        xit { expect(assigns(:claims).map(&:case_number)).to match_array(@claims.map(&:case_number)) }
       end
 
       context 'interim_fees', vcr: {cassette_name: 'spec/case_workers/admin/claims/unallocated_lgfs/interim_fees'} do

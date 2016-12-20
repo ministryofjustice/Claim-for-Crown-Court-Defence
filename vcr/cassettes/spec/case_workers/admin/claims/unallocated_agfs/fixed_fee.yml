@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers?api_key=f4766219-5e5d-4723-b3af-85a0959a1eb0
+    uri: http://localhost:3001/api/case_workers?api_key=b798bf9b-fb52-4894-89ee-8202e6c7fa9c
     body:
       encoding: US-ASCII
       string: ''
@@ -21,29 +21,29 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '267'
+      - '275'
       Etag:
-      - W/"93d27421f609218fff1af7d65a80b407"
+      - W/"12bef871c0c573baa213fc1fa92d4389"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 3af22748-4d85-4ea5-9d35-a47ff2425e60
+      - ae071073-87f7-4c36-9b10-510e154657f7
       X-Runtime:
-      - '0.010985'
+      - '0.010000'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Wed, 26 Oct 2016 12:36:59 GMT
+      - Fri, 16 Dec 2016 12:16:51 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '[{"id":1,"uuid":"d2975938-76d9-4b4d-9151-cbe13cb4a675","first_name":"Emanuel","last_name":"Lang","email":"emanuel.lang@laa.gov.uk"},{"id":2,"uuid":"84a6a0d3-8749-4c06-b388-57a2eab12ebc","first_name":"Nichole","last_name":"Legros","email":"nichole.legros@laa.gov.uk"}]'
+      string: '[{"id":1,"uuid":"cbc3f1c3-8252-4335-ae66-bf3936c6f3ac","first_name":"Kaitlyn","last_name":"Powlowski","email":"kaitlyn.powlowski@laa.gov.uk"},{"id":2,"uuid":"41cb4f35-4f20-464b-aa49-3f17d590b0bf","first_name":"Andre","last_name":"Schmidt","email":"andre.schmidt@laa.gov.uk"}]'
     http_version: 
-  recorded_at: Wed, 26 Oct 2016 12:36:59 GMT
+  recorded_at: Fri, 16 Dec 2016 12:16:51 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=f4766219-5e5d-4723-b3af-85a0959a1eb0&direction=asc&filter=fixed_fee&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated
+    uri: http://localhost:3001/api/case_workers/claims?api_key=b798bf9b-fb52-4894-89ee-8202e6c7fa9c&direction=asc&filter=fixed_fee&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated&value_band_id=0
     body:
       encoding: US-ASCII
       string: ''
@@ -62,24 +62,24 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '1234'
+      - '1206'
       Etag:
-      - W/"1eaeaa8e35be8c10414d24f65575e43f"
+      - W/"49a300d35f2d44b6b2c270081fcc293c"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - cf6cc65b-0dab-4b02-bc02-dd39f961994b
+      - 8a978311-c38a-42c3-a5b8-360bb417f346
       X-Runtime:
-      - '0.075707'
+      - '0.160967'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Wed, 26 Oct 2016 12:36:59 GMT
+      - Fri, 16 Dec 2016 12:16:51 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":1,"uuid":"72148643-d10a-4cd6-8021-9eeeccebfe89","case_number":"T20161234","state":"submitted","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-26T12:36:59Z","total":25.0,"vat_amount":4.38,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"9c6e3dca-773d-4c90-b350-69070b7f44c9","first_name":"Macey","last_name":"Sanford","email":"ophelia.denesik@wolffoconner.biz"},"defendants":[{"id":1,"uuid":"ed9a2d6b-a987-4c2a-a763-d315735f1916","first_name":"Michael","last_name":"Yundt","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":1,"uuid":"8b5d82e7-a49a-4ede-a6dc-91172298d4b5","maat_reference":"8078639701","date":"2015-09-22T00:00:00Z"},{"id":2,"uuid":"fa64e2c9-a2e8-4c7f-839a-93b63344d926","maat_reference":"7555044504","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":5,"name":"Contempt","is_fixed_fee":true,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":"ZCON"}}]}'
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":1,"uuid":"72d148ec-fb5e-4ce0-86cb-55c30fbd28fe","case_number":"T20161234","state":"submitted","type":"Claim::AdvocateClaim","last_submitted_at":"2016-12-16T12:16:51Z","total":25.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"2b39d0a6-271c-45e8-951c-325aca6ca1e5","first_name":"Candice","last_name":"Sawayn","email":"vicenta_stehr@dooleymonahan.name"},"defendants":[{"id":1,"uuid":"a004b8bd-cc30-44a4-8d56-eacdf4018af0","first_name":"Tyrese","last_name":"Sanford","date_of_birth":"1986-12-16","representation_orders":[{"id":1,"uuid":"e427b634-4276-413c-b011-03063bb3b3dc","maat_reference":"5897902755","date":"2015-11-12"},{"id":2,"uuid":"06990581-8877-489f-8155-1713a32d8cf6","maat_reference":"1414421336","date":"2015-12-02"}]}],"case_type":{"id":5,"name":"Contempt","is_fixed_fee":true,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":"FXCON"}}]}'
     http_version: 
-  recorded_at: Wed, 26 Oct 2016 12:36:59 GMT
+  recorded_at: Fri, 16 Dec 2016 12:16:51 GMT
 recorded_with: VCR 3.0.3

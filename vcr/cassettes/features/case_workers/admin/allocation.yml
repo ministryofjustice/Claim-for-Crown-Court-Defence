@@ -43,7 +43,8 @@ http_interactions:
   recorded_at: Wed, 26 Oct 2016 15:53:39 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=72e21517-c7a4-4f33-97bc-eb4eb664e2b4&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated
+#    uri: http://localhost:3001/api/case_workers/claims?api_key=72e21517-c7a4-4f33-97bc-eb4eb664e2b4&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated
+    uri: http://localhost:3001/api/case_workers/claims?api_key=b189e0af-c9cf-4763-8756-327269fe5ba6&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated&value_band_id=0
     body:
       encoding: US-ASCII
       string: ''

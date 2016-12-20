@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers?api_key=c82b7449-a0fe-45bc-b633-5b566246677f
+    uri: http://localhost:3001/api/case_workers?api_key=b798bf9b-fb52-4894-89ee-8202e6c7fa9c
     body:
       encoding: US-ASCII
       string: ''
@@ -21,29 +21,29 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '261'
+      - '275'
       Etag:
-      - W/"e0676eed50830ef182ee2879a5b7af41"
+      - W/"12bef871c0c573baa213fc1fa92d4389"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - fe1df6bf-0bfc-42b2-bdb4-3d7e7e08c232
+      - fb323156-e53d-4aa1-9002-84f9e713d1ad
       X-Runtime:
-      - '0.008843'
+      - '0.012178'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Wed, 26 Oct 2016 12:48:21 GMT
+      - Fri, 16 Dec 2016 12:16:56 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '[{"id":1,"uuid":"eeb2232b-9d1d-44c4-a28e-a18524340f4b","first_name":"Nash","last_name":"Effertz","email":"nash.effertz@laa.gov.uk"},{"id":2,"uuid":"cf9e91ed-6b75-4829-8bda-987e0d1ac2b1","first_name":"Golda","last_name":"Stamm","email":"golda.stamm@laa.gov.uk"}]'
+      string: '[{"id":1,"uuid":"cbc3f1c3-8252-4335-ae66-bf3936c6f3ac","first_name":"Kaitlyn","last_name":"Powlowski","email":"kaitlyn.powlowski@laa.gov.uk"},{"id":2,"uuid":"41cb4f35-4f20-464b-aa49-3f17d590b0bf","first_name":"Andre","last_name":"Schmidt","email":"andre.schmidt@laa.gov.uk"}]'
     http_version: 
-  recorded_at: Wed, 26 Oct 2016 12:48:21 GMT
+  recorded_at: Fri, 16 Dec 2016 12:16:56 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=c82b7449-a0fe-45bc-b633-5b566246677f&direction=asc&filter=fixed_fee&limit=25&page=0&scheme=lgfs&search=&sorting=last_submitted_at&status=unallocated
+    uri: http://localhost:3001/api/case_workers/claims?api_key=b798bf9b-fb52-4894-89ee-8202e6c7fa9c&direction=asc&filter=fixed_fee&limit=25&page=0&scheme=lgfs&search=&sorting=last_submitted_at&status=unallocated&value_band_id=0
     body:
       encoding: US-ASCII
       string: ''
@@ -62,25 +62,25 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '1249'
+      - '1215'
       Etag:
-      - W/"237c5d166bd226edd5cf9f4e142695e0"
+      - W/"03b71724403bb8598db38da68ab9117e"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 33dbb3d2-9377-49d3-b239-77859e6de2b5
+      - bf46179e-a1b8-4881-a267-779d3a2ec49e
       X-Runtime:
-      - '0.055754'
+      - '0.062059'
       Server:
       - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
       Date:
-      - Wed, 26 Oct 2016 12:48:21 GMT
+      - Fri, 16 Dec 2016 12:16:56 GMT
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":6,"uuid":"4ad108be-60b3-4395-be2e-f813f469a42d","case_number":"T20161234","state":"submitted","type":"Claim::LitigatorClaim","last_submitted_at":"2016-10-26T12:48:20Z","total":25.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":6,"uuid":"abe3ad6e-9756-413e-b633-e2c8327d6ef4","first_name":"Davonte","last_name":"Labadie","email":"clement@okunevaoconner.name"},"defendants":[{"id":6,"uuid":"0a5346b6-6b21-47f0-9aae-929eb98443ef","first_name":"Dannie","last_name":"Corwin","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":11,"uuid":"5da908f3-e701-4eac-beef-4a54eee90fed","maat_reference":"2654867338","date":"2015-09-22T00:00:00Z"},{"id":12,"uuid":"f9cbaed9-b5d6-4937-8b1a-24f16c29b6a2","maat_reference":"5514178408","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":13,"name":"Hearing
-        subsequent to sentence","is_fixed_fee":true,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["lgfs"],"fee_type_code":"XH2S"}}]}'
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":12,"uuid":"c448f5da-b9ed-489d-9e0d-a858df73d3a9","case_number":"T20161234","state":"submitted","type":"Claim::LitigatorClaim","last_submitted_at":"2016-12-16T12:16:56Z","total":25.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":12,"uuid":"bf7ba466-95fc-472e-8734-f1b64c288ac5","first_name":"Stevie","last_name":"Feil","email":"nettie@pfannerstill.info"},"defendants":[{"id":12,"uuid":"ed4a4747-bac6-47f3-bab0-44a5b5d085b1","first_name":"Zachery","last_name":"Bins","date_of_birth":"1986-12-16","representation_orders":[{"id":23,"uuid":"4e984ce6-dcc5-4008-887a-83ecd77e9ee7","maat_reference":"1977544194","date":"2015-11-12"},{"id":24,"uuid":"6a42c483-5135-49ff-9ab6-4acdb8c514ba","maat_reference":"5582328761","date":"2015-12-02"}]}],"case_type":{"id":13,"name":"Hearing
+        subsequent to sentence","is_fixed_fee":true,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["lgfs"],"fee_type_code":"FXH2S"}}]}'
     http_version: 
-  recorded_at: Wed, 26 Oct 2016 12:48:21 GMT
+  recorded_at: Fri, 16 Dec 2016 12:16:56 GMT
 recorded_with: VCR 3.0.3

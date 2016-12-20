@@ -74,6 +74,20 @@ module Claims
       end
     end
 
+    describe '.band_ids' do
+      it 'returns a list of band ids' do
+        expect(ValueBands.band_ids).to eq( [ 10, 20, 30, 40 ] )
+      end
+    end
+
+    describe '.collection_select' do
+      it 'returns an array of Bands including a dummy on for all bands' do
+        bands = ValueBands.collection_select
+        expect(bands.size).to eq 5
+        expect(bands.map(&:id)).to eq( [ 0, 10, 20, 30, 40 ] )
+        expect(bands.first.name).to eq 'All Claims'
+      end
+    end
 
   end
 end

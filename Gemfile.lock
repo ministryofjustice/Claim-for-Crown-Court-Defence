@@ -325,6 +325,9 @@ GEM
     mustermann19 (0.4.4)
       enumerable-lazy
     nenv (0.3.0)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (3.2.0)
     netrc (0.11.0)
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
@@ -645,6 +648,8 @@ DEPENDENCIES
   logstasher (= 0.6.2)
   logstuff (= 0.0.2)
   meta_request (~> 0.3.4)
+  net-scp
+  net-ssh
   paper_trail (= 4.0.2)
   paperclip (~> 5.1.0)
   parallel_tests

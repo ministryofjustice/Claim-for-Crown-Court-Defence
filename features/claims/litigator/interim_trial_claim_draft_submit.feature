@@ -12,7 +12,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     Then I should be on the litigator new interim claim page
 
     When I select the supplier number '1A222Z'
-    And I select the court 'Blackfriars Crown'
+    And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
 

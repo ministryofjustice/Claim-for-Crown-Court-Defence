@@ -450,20 +450,37 @@ module Claim
       true
     end
 
-    def expenses_with_vat_total
+    def expenses_with_vat_net
       self.expenses.with_vat.sum(&:amount)
     end
 
-    def expenses_without_vat_total
+    def expenses_with_vat_gross
+      expenses_with_vat_net + self.expenses_vat
+    end
+
+    def expenses_without_vat_net
       self.expenses.without_vat.sum(&:amount)
     end
 
-    def disbursements_with_vat_total
+    def expenses_without_vat_gross
+      expenses_without_vat_net
+    end
+
+
+    def disbursements_with_vat_net
       self.disbursements.with_vat.sum(&:net_amount)
     end
 
-    def disbursements_without_vat_total
+    def disbursements_with_vat_gross
+      disbursements_with_vat_net + self.disbursements_vat
+    end
+
+    def disbursements_without_vat_net
       self.disbursements.without_vat.sum(&:net_amount)
+    end
+
+    def disbursements_without_vat_gross
+      disbursements_without_vat_net
     end
 
     private

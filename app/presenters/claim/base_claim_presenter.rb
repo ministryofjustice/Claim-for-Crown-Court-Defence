@@ -140,6 +140,22 @@ class Claim::BaseClaimPresenter < BasePresenter
     h.number_to_currency(claim.expenses_total + claim.expenses_vat)
   end
 
+  def expenses_with_vat_net
+    h.number_to_currency(claim.expenses_with_vat_net)
+  end
+
+  def expenses_without_vat_net
+    h.number_to_currency(claim.expenses_without_vat_net)
+  end
+
+  def expenses_without_vat_gross
+    h.number_to_currency(claim.expenses_without_vat_gross)
+  end
+
+  def expenses_with_vat_gross
+    h.number_to_currency(claim.expenses_with_vat_gross)
+  end
+
   def disbursements_total
     h.number_to_currency(claim.disbursements_total)
   end

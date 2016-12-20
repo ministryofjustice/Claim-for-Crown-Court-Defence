@@ -1,3 +1,4 @@
+
 - present(@claim) do |claim|
   %section#summary
     %h3.heading-medium
@@ -12,18 +13,15 @@
           = t('.fees.caption')
         %thead
           %tr
-            %th.col-fee-cat{ scope: 'col' }
+            %th{ scope: 'col' }
               = t('.fee_category')
             %th{ scope: 'col' }
               = t('.fee_type')
             - unless claim.interim?
               %th.numeric{ scope: 'col' }
                 = t('.quantity')
-
             %th.numeric{ scope: 'col' }
-              = t('.rate')
-            %th.numeric.col-gross{ scope: 'col' }
-              = "Net amount"
+              = t('.amount')
         %tbody
           - present_collection(claim.fees.select(&:present?)).each do |fee|
             %tr
@@ -47,58 +45,38 @@
                 %td.numeric
                   = fee.quantity
               %td.numeric
-                = fee.rate
-              %td.numeric
                 = fee.amount
 
-      %table.figures
-        %thead
-          %tr
-            %th
-              = "&nbsp;".html_safe
-            %th.col-net.numeric
-              = "Net amount"
-            %th.col-vat.numeric
-              = "VAT"
-            %th.col-gross.numeric
-              = "Gross amount"
-        %tfoot
-          %tr.totals
-            %td
-              = "Fees Totals:"
-            %td.numeric
-              = claim.fees_total
-            %td.numeric
-              = claim.fees_vat
-            %td.numeric
-              = claim.fees_gross
+      .totals
+        = t('.fees_total')
+        = claim.fees_total
 
     - if claim.can_have_expenses?
       - if claim.expenses.empty?
         %p
           = t('shared.summary.no_values.expenses')
       - else
+        / table does noe require summary
         - if claim.expenses.with_vat.any?
           %h3.heading-medium
-            = "Expenses with VAT AGFS"
+            = "Expenses with VAT LGFS"
           %table.figures
             %caption.visually-hidden
-              = "SSSS"
+              = t('.expenses.caption')
             %thead
               %tr
-                %th.col-date{scope: 'col'}
+                %th{scope: 'col'}
                   = t('.date')
-                %th.col-type{scope: 'col'}
+                %th{scope: 'col'}
                   = t('.expense_type')
-                %th.col-deails{scope: 'col'}
-                  = "Details"
-                %th.col-net.numeric{scope: 'col'}
+                %th{scope: 'col'}
+                  = t('.location')
+                %th.numeric{scope: 'col'}
                   = "Net amount"
-                %th.col-vat.numeric{scope: 'col'}
+                %th.numeric{scope: 'col'}
                   = "VAT"
-                %th.col-gross.numeric{scope: 'col'}
+                %th.numeric{scope: 'col'}
                   = "Gross amount"
-
             %tbody
               - present_collection(claim.expenses.with_vat).each do |expense|
                 %tr.no-border
@@ -121,6 +99,7 @@
                         %br/
                       - if expense.hours?
                         = "Hours: #{expense.hours}"
+
                   %td.numeric
                     = expense.amount
                   %td.numeric
@@ -142,25 +121,21 @@
         - if claim.expenses.without_vat.any?
           %h3.heading-medium
             = "Expenses without VAT"
-
           %table.figures
             %caption.visually-hidden
-              = "SSSS"
+              = t('.expenses.caption')
             %thead
               %tr
-                %th.col-date{scope: 'col'}
+                %th{scope: 'col'}
                   = t('.date')
-                %th.col-type{scope: 'col'}
+                %th{scope: 'col'}
                   = t('.expense_type')
-                %th.col-deails{scope: 'col'}
+                %th{scope: 'col'}
                   = "Details"
-                %th.col-net.numeric{scope: 'col'}
+                %th.numeric{scope: 'col'}
                   = "Net amount"
-                %th.col-vat.numeric{scope: 'col'}
-                  = ""
-                %th.col-gross.numeric{scope: 'col'}
+                %th.numeric{scope: 'col'}
                   = "Gross amount"
-
             %tbody
               - present_collection(claim.expenses.without_vat).each do |expense|
                 %tr.no-border
@@ -183,10 +158,9 @@
                         %br/
                       - if expense.hours?
                         = "Hours: #{expense.hours}"
+
                   %td.numeric
                     = expense.amount
-                  %td.numeric
-                    = ""
                   %td.numeric
                     = expense.gross_amount
 
@@ -196,14 +170,9 @@
                   = "Expenses without VAT total:"
                 %td.numeric
                   = claim.expenses_without_vat_net
-                %td
-                  = ""
                 %td.numeric
                   = claim.expenses_without_vat_gross
 
-          .totals
-            = t('.expenses_total')
-            = claim.expenses_total
 
     - if claim.can_have_disbursements?
       %h3.heading-medium

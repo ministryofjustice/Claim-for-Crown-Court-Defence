@@ -224,3 +224,42 @@ table.report{
   }
 }
 
+table.figures{
+  th, td{
+    vertical-align: top;
+    &.col-fee-cat{
+      width: 190px;
+    }
+    &.col-date{
+      width: 95px;
+    }
+    &.col-type{
+      width: 170px;
+    }
+    &.col-deails{
+      // width: auto;
+    }
+    &.col-net{
+      width: 110px;
+    }
+    &.col-vat{
+      width: 100px;
+    }
+    &.col-gross{
+      width: 110px;
+    }
+    .details{
+      padding-left: 10px;
+    }
+  }
+
+  tfoot{
+    .totals{
+      border: 2px solid $border-colour;
+      border-width: 2px 0;
+      td{
+        font-weight: 700;
+      }
+    }
+  }
+}

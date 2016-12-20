@@ -9,6 +9,10 @@ class ExpensePresenter < BasePresenter
     h.number_to_currency(expense.vat_amount.to_f)
   end
 
+  def gross_amount
+    h.number_to_currency(expense.vat_amount.to_f + expense.amount.to_f)
+  end
+
   def total
     h.number_to_currency(expense.amount.to_f + expense.vat_amount.to_f)
   end

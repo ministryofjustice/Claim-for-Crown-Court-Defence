@@ -21,7 +21,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
 
     When I select the supplier number '1A222Z'
-    And I select the court 'Blackfriars Crown'
+    And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
 
     And I save as draft

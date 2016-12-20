@@ -9,7 +9,7 @@ Feature: Advocate submits a claim for a Contempt case
     Then I should be on the new claim page
 
     When I select an advocate category of 'Junior alone'
-    And I select the court 'Blackfriars Crown'
+    And I select the court 'Blackfriars'
     And I select a case type of 'Contempt'
     And I enter a case number of 'A20161234'
     And I select the offence category 'Handling stolen goods'

@@ -1,18 +1,18 @@
-%fieldset.inline.allocation-filter-form.form-row
-  .form-col.form-group
-    %label{for: 'filter'}
-      = t('.case_types')
+.form-row
+  .form-col
 
-    = select_tag :filter, options_for_select(allocation_filters_for_scheme(params[:scheme] || 'agfs').collect{ |filter| [filter.humanize, filter] }, params[:filter]), class: 'form-control'
+    %fieldset.inline.allocation-filter-form
+      %label{for: 'filter'}
+        = t('.case_types')
+      = select_tag :filter, options_for_select(allocation_filters_for_scheme(params[:scheme] || 'agfs').collect{ |filter| [filter.humanize, filter] }, params[:filter]), class: 'form-control'
+
+  .form-col
+    %fieldset.inline.allocation-filter-form
+      %label{for: 'filter'}
+        Claim Values
+      = select_tag :value_band_id, options_from_collection_for_select(Claims::ValueBands.collection_select, "id", "name"), class: 'form-control'
+
   .form-col{ style: 'padding: 26px 0 0' }
-
-
-%fieldset.inline.allocation-filter-form.form-row
-  .form-col.form-group
-    %label{for: 'filter'}
-      Claim Values
-    = select_tag :value_band_id, options_from_collection_for_select(Claims::ValueBands.collection_select, "id", "name"), class: 'form-control'
-  .form-col{ style: 'padding: 26px 0 0' }
-    = submit_tag 'Select', class: 'button'
+    = submit_tag 'Filter', class: 'button-secondary blue'
 
 

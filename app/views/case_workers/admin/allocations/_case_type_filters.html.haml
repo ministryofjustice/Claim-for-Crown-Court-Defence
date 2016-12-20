@@ -8,9 +8,9 @@
 
   .form-col
     %fieldset.inline.allocation-filter-form
-      %label{for: 'filter'}
+      %label{for: 'value_band_id'}
         Claim Values
-      = select_tag :value_band_id, options_from_collection_for_select(Claims::ValueBands.collection_select, "id", "name"), class: 'form-control'
+      = select_tag :value_band_id, options_from_collection_for_select(Claims::ValueBands.collection_select, "id", "name", params[:value_band_id]), class: 'form-control'
 
   .form-col{ style: 'padding: 26px 0 0' }
     = submit_tag 'Filter', class: 'button-secondary blue'

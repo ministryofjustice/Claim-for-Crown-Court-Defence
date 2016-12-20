@@ -60,7 +60,7 @@ module Claims::Calculations
   end
 
   def calculate_total_vat
-    self.vat_amount = self.expenses_vat + self.fees_vat + self.disbursements_vat
+    self.vat_amount = (self.expenses_vat || 0.0) + (self.fees_vat || 0.0) + (self.disbursements_vat || 0.0)
   end
 
   def update_vat

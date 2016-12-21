@@ -42,9 +42,6 @@
       - else
         = render partial: 'shared/summary_lgfs', locals: { claim: claim }
 
-      = render partial: 'shared/summary_totals', locals: {claim: claim }
-
-
     - if claim.additional_information.present?
       %h3.heading-medium
         = t('.additional_information')

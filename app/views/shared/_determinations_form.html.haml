@@ -2,8 +2,6 @@
   = hidden_field_tag :messages, 'true'
 
   #claim-status.js-cw-claim-assessment
-    = render partial: 'shared/determination_claim_totals', locals: { claim: claim}
-
     %h3.heading-medium
       = 'Assessment summary'
     %table#determinations{data:{apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db), scheme: claim.agfs? ? 'agfs' : 'lgfs' }}

@@ -53,6 +53,8 @@
 
     - if claim.can_have_expenses?
       - if claim.expenses.empty?
+        %h3.heading-medium
+          = "Expenses"
         %p
           = t('shared.summary.no_values.expenses')
       - else
@@ -173,9 +175,10 @@
                 %td.numeric
                   = claim.expenses_without_vat_gross
 
-
     - if claim.can_have_disbursements?
       - if claim.disbursements.empty?
+        %h3.heading-medium
+          = "Disbursements"
         %p
           = t('shared.summary.no_values.disbursements')
       - else
@@ -233,7 +236,7 @@
                 %th.col-gross.numeric{scope: 'col'}
                   = "Gross amount"
             %tbody
-              - present_collection(claim.disbursements.without_vat).each do |disbursement|
+              - present_collection(claim.disbursements.with_vat).each do |disbursement|
                 %tr
                   %td{scope:'row'}
                     = disbursement.name
@@ -249,26 +252,3 @@
                   = claim.disbursements_without_vat_net
                 %td.numeric
                   = claim.disbursements_without_vat_gross
-
-
-        .totals
-          = 'Disbursements total'
-          = claim.disbursements_total
-
-    .totals
-      = 'Claim total (net):'
-      = claim.total
-
-    .totals
-      = 'VAT:'
-      = claim.vat_amount
-
-    .totals
-      = 'Claim total (inc. VAT)'
-      = claim.total_inc_vat
-
-    - if claim.additional_information.present?
-      %h3.heading-medium
-        = t('.additional_information')
-      %p.indent-sides
-        = claim.additional_information

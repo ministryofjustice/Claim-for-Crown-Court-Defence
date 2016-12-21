@@ -62,7 +62,8 @@
               = "VAT"
             %th.col-gross.numeric
               = "Gross amount"
-        %tfoot
+
+        %tbody
           %tr.totals
             %td
               = "Fees Totals:"
@@ -75,9 +76,12 @@
 
     - if claim.can_have_expenses?
       - if claim.expenses.empty?
+        %h3.heading-medium
+          = "Expenses"
         %p
           = t('shared.summary.no_values.expenses')
       - else
+
         - if claim.expenses.with_vat.any?
           %h3.heading-medium
             = "Expenses with VAT AGFS"
@@ -204,57 +208,3 @@
           .totals
             = t('.expenses_total')
             = claim.expenses_total
-
-    - if claim.can_have_disbursements?
-      %h3.heading-medium
-        = t('common.disbursements')
-      - if claim.disbursements.empty?
-        %p
-          = t('shared.summary.no_values.disbursements')
-      - else
-        / table does noe require summary
-        %table.figures
-          %caption.visually-hidden
-            = t('.disbursements.caption')
-          %thead
-            %tr
-              %th{scope: 'col'}
-                = "Disbursement type"
-              %th.numeric{scope: 'col'}
-                = "Net amount"
-              %th.numeric{scope: 'col'}
-                = "VAT amount"
-              %th.numeric{scope: 'col'}
-                = "Total amount"
-          %tbody
-            - present_collection(claim.disbursements).each do |disbursement|
-              %tr
-                %td{scope:'row'}
-                  = disbursement.name
-                %td.numeric
-                  = disbursement.net_amount
-                %td.numeric
-                  = disbursement.vat_amount
-                %td.numeric
-                  = disbursement.total
-        .totals
-          = 'Disbursements total'
-          = claim.disbursements_total
-
-    .totals
-      = 'Claim total (net):'
-      = claim.total
-
-    .totals
-      = 'VAT:'
-      = claim.vat_amount
-
-    .totals
-      = 'Claim total (inc. VAT)'
-      = claim.total_inc_vat
-
-    - if claim.additional_information.present?
-      %h3.heading-medium
-        = t('.additional_information')
-      %p.indent-sides
-        = claim.additional_information

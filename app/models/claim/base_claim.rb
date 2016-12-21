@@ -106,22 +106,22 @@ module Claim
     has_many :fee_types,                through: :fees, class_name: Fee::BaseFeeType
     has_many :expenses,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim do
       def with_vat
-        self.select{ |expense| expense.vat_amount != 0.0 }
+        self.select{ |expense| expense.vat_present? }
       end
 
       def without_vat
-        self.select{ |expense| expense.vat_amount == 0.0 }
+        self.select{ |expense| expense.vat_absent? }
       end
     end
 
 
     has_many :disbursements,            foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim do
       def with_vat
-        self.select{ |d| d.vat_amount != 0.0 }
+        self.select{ |d| d.vat_present? }
       end
 
       def without_vat
-        self.select{ |d| d.vat_amount == 0.0 }
+        self.select{ |d| d.vat_absent? }
       end
     end
     has_many :defendants,               foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim

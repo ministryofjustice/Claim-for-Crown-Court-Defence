@@ -168,6 +168,22 @@ class Claim::BaseClaimPresenter < BasePresenter
     h.number_to_currency(claim.disbursements_total + claim.disbursements_vat)
   end
 
+  def disbursements_with_vat_net
+    h.number_to_currency(claim.disbursements_with_vat_net)
+  end
+
+  def disbursements_without_vat_net
+    h.number_to_currency(claim.disbursements_without_vat_net)
+  end
+
+  def disbursements_without_vat_gross
+    h.number_to_currency(claim.disbursements_without_vat_gross)
+  end
+
+  def disbursements_with_vat_gross
+    h.number_to_currency(claim.disbursements_with_vat_gross)
+  end
+
   def status_image
     "#{claim.state.gsub('_','-')}.png"
   end

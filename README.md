@@ -54,17 +54,31 @@ Setup dummy users and data:
 rake db:drop db:create db:migrate db:seed claims:demo_data
 ```
 
-Run the application (claim import feature will not work in the default environment):
+Run the application (see note below on architecture for the reason why you need to run two servers).
 
 ```
 rails server
+rails server -p 3001 -P /tmp/rails3001.pid
 ```
 
-To use the Claim Import feature locally, the devunicorn environment must be used:
+To import JSON claims, or import via the API, you need to run a multi-threaded server like unicorn on port 3000.  This can 
+be done with the following line, but the BetterErrors page will not work correctly if you get an exceptions.
 
 ```
 rails server -e devunicorn
 ```
+
+
+## Architecture
+
+This app was originally written as a single monolithic application, with the ability to import claims 
+via a public API, or JSON uploads (AGFS claims only).  A decision was later taken to split the Caseworker 
+off into a separate application, using the API to communicate to the main app.  This has only partially been 
+done.  The CaseWorker allocation pages use the API to talk to the main application, rather than access the 
+database directly.  In the dev environment, it accesses another server running on port 3001, which is why you
+need to start up the second server.
+
+
 
 ## Developing Cucumber tests
 

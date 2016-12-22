@@ -6,15 +6,8 @@ class CaseWorkerService
     self.criteria = criteria
   end
 
-  def remote?
-    Settings.case_workers_remote_allocations?
-  end
 
   def active
-    if remote?
-      Remote::CaseWorker.all(current_user, criteria)
-    else
-      CaseWorker.active.includes(:user)
-    end
+    Remote::CaseWorker.all(current_user, criteria)
   end
 end

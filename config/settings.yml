@@ -82,9 +82,6 @@ timed_transition_soft_delete_weeks: 16
 remote_api_key: 'not-provided'
 remote_api_url: <%= (ENV['GRAPE_SWAGGER_ROOT_URL'] || 'http://localhost:3001') + '/api' %>
 
-# Use remote API calls to retrieve the list of allocated/archived claims for case workers
-case_workers_remote_allocations?: true
-
 # contact email address
 laa_contact_email: crowncourtdefence@legalaid.gsi.gov.uk
 

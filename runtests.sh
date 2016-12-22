@@ -4,7 +4,8 @@ set -ex
 # TRAVIS to fail
 if [ "$TRAVIS" = "true" ]; then
   echo "INFO: this is travis - not running smoke test"
-  bundle exec rake db:migrate
+#  bundle exec rake db:migrate
+  bundle exec rake db:schema:load
   bundle exec rake jasmine:ci
   bundle exec rake spec
   echo ">>>>>>>>>>  SLEEPING FOR ONE SECOND TO GIVE CPU TIME TO COOL DOWN AND PERHAPS NOT FAIL ON THE CUKE TASKS BECAUSE DROP DOWN LISTS AREN'T POPULATED FAST ENOUGH <<<<<<"

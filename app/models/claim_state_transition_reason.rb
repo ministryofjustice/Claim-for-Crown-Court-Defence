@@ -8,7 +8,8 @@ class ClaimStateTransitionReason
     rejected: {
       no_indictment: 'No indictment attached',
       no_rep_order: 'No rep order attached (granted before 1/8/2015)',
-      time_elapsed: 'More than 3 months has elapsed since case completion'
+      time_elapsed: 'More than 3 months has elapsed since case completion',
+      other: 'Other'
     },
     global: {
       timed_transition: "TimedTransition::Transitioner"

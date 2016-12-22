@@ -31,28 +31,27 @@ module Claims::Calculations
   end
 
   def update_fees_total
-    update_column(:fees_total, calculate_fees_total)
-    update_column(:fees_vat, calculate_fees_vat)
+    fees_total = calculate_fees_total
+    fees_vat = calculate_fees_vat(fees_total)
+    update_columns(fees_vat: fees_vat, fees_total: fees_total, value_band_id: Claims::ValueBands.band_id_for_value(fees_vat + fees_total))
   end
 
   def update_expenses_total
     totals = totalize_for_claim(Expense, self.id, :amount, :vat_amount)
-    update_column(:expenses_total, totals[:net])
-    update_column(:expenses_vat, totals[:vat])
+    update_columns(expenses_vat: totals[:vat], expenses_total: totals[:net], value_band_id: Claims::ValueBands.band_id_for_value(totals[:net] + totals[:vat]))
   end
 
   def update_disbursements_total
     totals = totalize_for_claim(Disbursement, self.id, :net_amount, :vat_amount)
-    update_column(:disbursements_vat, totals[:vat])
-    update_column(:disbursements_total, totals[:net])
+    update_columns(disbursements_vat: totals[:vat], disbursements_total: totals[:net], value_band_id: Claims::ValueBands.band_id_for_value(totals[:net] + totals[:vat]))
   end
 
   def update_total
     update_column(:total, calculate_total)
   end
 
-  def calculate_fees_vat
-    VatRate.vat_amount(self.fees_total, self.vat_date, calculate: self.apply_vat?)
+  def calculate_fees_vat(fees_total)
+    VatRate.vat_amount(fees_total, self.vat_date, calculate: self.apply_vat?)
   end
 
   def calculate_disbursements_vat

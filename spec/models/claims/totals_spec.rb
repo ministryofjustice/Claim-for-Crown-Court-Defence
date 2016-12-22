@@ -213,6 +213,50 @@ RSpec.describe Claim, type: :model do
       end
     end
 
+    describe 'updating value bands and totals' do
+
+      let(:claim) { create :litigator_claim }
+
+      it 'updates the value band id when an added disbursement takes it to the next band' do
+        expect(claim.total).to eq 25.0
+        expect(claim.vat_amount).to eq 0.0
+        expect(claim.value_band_id).to eq 10
+
+        create :disbursement, claim: claim, net_amount: 25_000.0, vat_amount: 5_000.0
+
+        claim.reload
+        expect(claim.total).to eq 25_025.0
+        expect(claim.vat_amount).to eq 5_000.0
+        expect(claim.value_band_id).to eq 20
+      end
+
+      it 'updates the value band id when added expenses takes it to the next band' do
+        expect(claim.total).to eq 25.0
+        expect(claim.vat_amount).to eq 0.0
+        expect(claim.value_band_id).to eq 10
+
+        create :expense, claim: claim, amount: 25_002.20, vat_amount: 5_000.20
+
+        claim.reload
+        expect(claim.total).to eq 25_027.2
+        expect(claim.vat_amount).to eq 5_000.20
+        expect(claim.value_band_id).to eq 20
+      end
+
+      it 'updates the value band id when added fees takes it to the next band' do
+        expect(claim.total).to eq 25.0
+        expect(claim.vat_amount).to eq 0.0
+        expect(claim.value_band_id).to eq 10
+
+        create :misc_fee, claim: claim, amount: 25_002.20
+
+        claim.reload
+        expect(claim.total).to eq 25_027.2
+        expect(claim.vat_amount).to eq 0.0
+        expect(claim.value_band_id).to eq 20
+      end
+    end
+
     def expect_totals_to_be(claim, et, ev, ft, fv, dt, dv)
       expect(claim.expenses_total).to eq et
       expect(claim.expenses_vat).to eq ev

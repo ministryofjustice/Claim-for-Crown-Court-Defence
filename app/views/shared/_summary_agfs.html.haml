@@ -1,0 +1,210 @@
+- present(@claim) do |claim|
+  %section#summary
+    %h3.heading-medium
+      = t('common.fees')
+    - if @claim.fees_total == 0
+      %p
+        = t('shared.summary.no_values.fees')
+    - else
+      / table does noe require summary
+      %table.figures
+        %caption.visually-hidden
+          = t('.fees.caption')
+        %thead
+          %tr
+            %th.col-fee-cat{ scope: 'col' }
+              = t('.fee_category')
+            %th{ scope: 'col' }
+              = t('.fee_type')
+            - unless claim.interim?
+              %th.numeric{ scope: 'col' }
+                = t('.quantity')
+
+            %th.numeric{ scope: 'col' }
+              = t('.rate')
+            %th.numeric.col-gross{ scope: 'col' }
+              = "Net amount"
+        %tbody
+          - present_collection(claim.fees.select(&:present?)).each do |fee|
+            %tr
+              %td
+                = fee.fee_type&.fee_category_name || 'n/a'
+                - if fee.dates_attended.any?
+                  %br
+                  = t('.dates_attended')
+                  = fee.dates_attended_delimited_string
+                - if fee.date?
+                  %br
+                  = t('.date')
+                  = fee.date
+              %td{scope: 'row'}
+                = fee.fee_type&.description || 'n/a'
+                - if fee.sub_type.present?
+                  %p
+                    = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
+
+              - unless claim.interim?
+                %td.numeric
+                  = fee.quantity
+              %td.numeric
+                = fee.rate
+              %td.numeric
+                = fee.amount
+
+      %table.figures
+        %thead
+          %tr
+            %th
+              = "&nbsp;".html_safe
+            %th.col-net.numeric
+              = "Net amount"
+            %th.col-vat.numeric
+              = "VAT"
+            %th.col-gross.numeric
+              = "Gross amount"
+
+        %tbody
+          %tr.totals
+            %td
+              = "Fees Totals:"
+            %td.numeric
+              = claim.fees_total
+            %td.numeric
+              = claim.fees_vat
+            %td.numeric
+              = claim.fees_gross
+
+    - if claim.can_have_expenses?
+      - if claim.expenses.empty?
+        %h3.heading-medium
+          = "Expenses"
+        %p
+          = t('shared.summary.no_values.expenses')
+      - else
+
+        - if claim.expenses.with_vat.any?
+          %h3.heading-medium
+            = "Expenses with VAT AGFS"
+          %table.figures
+            %caption.visually-hidden
+              = "SSSS"
+            %thead
+              %tr
+                %th.col-date{scope: 'col'}
+                  = t('.date')
+                %th.col-type{scope: 'col'}
+                  = t('.expense_type')
+                %th.col-deails{scope: 'col'}
+                  = "Details"
+                %th.col-net.numeric{scope: 'col'}
+                  = "Net amount"
+                %th.col-vat.numeric{scope: 'col'}
+                  = "VAT"
+                %th.col-gross.numeric{scope: 'col'}
+                  = "Gross amount"
+
+            %tbody
+              - present_collection(claim.expenses.with_vat).each do |expense|
+                %tr.no-border
+                  %td
+                    = expense.pretty_date
+                  %td{scope:'row'}
+                    %span.bold-normal
+                      = expense.name
+                  %td
+                    %span.bold-normal
+                      = "#{expense.reason}"
+                    %br/
+                    .details
+                      = expense.location
+                      %br/
+                      - if expense.distance?
+                        = "Dist: #{expense.distance} miles"
+                        %br/
+                        = "Cost: #{expense.mileage_rate}"
+                        %br/
+                      - if expense.hours?
+                        = "Hours: #{expense.hours}"
+                  %td.numeric
+                    = expense.amount
+                  %td.numeric
+                    = expense.vat_amount
+                  %td.numeric
+                    = expense.gross_amount
+
+            %tfoot
+              %tr.totals
+                %td{colspan: 3}
+                  = "Expenses with VAT total:"
+                %td.numeric
+                  = claim.expenses_with_vat_net
+                %td.numeric
+                  = claim.expenses_vat
+                %td.numeric
+                  = claim.expenses_with_vat_gross
+
+        - if claim.expenses.without_vat.any?
+          %h3.heading-medium
+            = "Expenses without VAT"
+
+          %table.figures
+            %caption.visually-hidden
+              = "SSSS"
+            %thead
+              %tr
+                %th.col-date{scope: 'col'}
+                  = t('.date')
+                %th.col-type{scope: 'col'}
+                  = t('.expense_type')
+                %th.col-deails{scope: 'col'}
+                  = "Details"
+                %th.col-net.numeric{scope: 'col'}
+                  = "Net amount"
+                %th.col-vat.numeric{scope: 'col'}
+                  = "-"
+                %th.col-gross.numeric{scope: 'col'}
+                  = "Gross amount"
+
+            %tbody
+              - present_collection(claim.expenses.without_vat).each do |expense|
+                %tr.no-border
+                  %td
+                    = expense.pretty_date
+                  %td{scope:'row'}
+                    %span.bold-normal
+                      = expense.name
+                  %td
+                    %span.bold-normal
+                      = "#{expense.reason}"
+                    %br/
+                    .details
+                      = expense.location
+                      %br/
+                      - if expense.distance?
+                        = "Dist: #{expense.distance} miles"
+                        %br/
+                        = "Cost: #{expense.mileage_rate}"
+                        %br/
+                      - if expense.hours?
+                        = "Hours: #{expense.hours}"
+                  %td.numeric
+                    = expense.amount
+                  %td.numeric
+                    = ""
+                  %td.numeric
+                    = expense.gross_amount
+
+            %tfoot
+              %tr.totals
+                %td{colspan: 3}
+                  = "Expenses without VAT total:"
+                %td.numeric
+                  = claim.expenses_without_vat_net
+                %td
+                  = ""
+                %td.numeric
+                  = claim.expenses_without_vat_gross
+
+          .totals
+            = t('.expenses_total')
+            = claim.expenses_total

@@ -9,6 +9,8 @@
           = "Reason provided: #{claim.last_state_transition_reason.description}"
 
 
+  = render partial: 'shared/summary_totals', locals: {claim: claim }
+
   %h3.heading-medium
     = "Assessment summary"
 

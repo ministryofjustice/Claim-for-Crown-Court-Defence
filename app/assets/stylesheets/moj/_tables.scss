@@ -42,6 +42,7 @@ table {
   thead th {
     padding-top:$gutter-half;
     padding-bottom:$gutter-half;
+    vertical-align: bottom;
   }
   tbody {
     tr:nth-child(odd) {
@@ -119,7 +120,37 @@ span.state {
 tr.mobile-sort{
   display:none;
 }
- @include media($max-width: 1018px){
+
+table.report{
+  .select{
+    width: 25px;
+  }
+  .case-number{
+    width: 100px;
+  }
+  .court{
+    width: 125px;
+  }
+  .submit-date{
+    width: 80px;
+  }
+  .defendants{
+
+  }
+  .claim-total{
+    width:100px;
+  }
+  .type{
+    width: 200px;
+  }
+  .numeric{
+
+  }
+  .allocated{
+
+  }
+}
+@include media($max-width: 1018px){
     table.report {
     border: 0;
     tr {
@@ -193,3 +224,42 @@ tr.mobile-sort{
   }
 }
 
+table.figures{
+  th, td{
+    vertical-align: top;
+    &.col-fee-cat{
+      width: 190px;
+    }
+    &.col-date{
+      width: 95px;
+    }
+    &.col-type{
+      width: 170px;
+    }
+    &.col-deails{
+      // width: auto;
+    }
+    &.col-net{
+      width: 110px;
+    }
+    &.col-vat{
+      width: 100px;
+    }
+    &.col-gross{
+      width: 110px;
+    }
+    .details{
+      padding-left: 10px;
+    }
+  }
+
+  tfoot{
+    .totals{
+      border: 2px solid $border-colour;
+      border-width: 2px 0;
+      td{
+        font-weight: 700;
+      }
+    }
+  }
+}

@@ -922,6 +922,102 @@ en:
         fees: "There are no fees for this claim"
         expenses: "There are no expenses for this claim"
         disbursements: "There are no disbursements for this claim"
+    summary_agfs:
+      mileage_rate: Mileage rate
+      expenses:
+        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+      fees:
+        caption: 'Fees: A detailed list by Category and Type including amounts'
+      amount: Amount
+      vat_amount: VAT amount
+      date: Date
+      distance: Distance
+      fee_category: Fee category
+      fee_type: Fee type
+      fee_subtype: Fee subtype
+      quantity: Quantity
+      dates_attended: Dates attended
+      fees_total: 'Fees total:'
+      expense_type: Expense type
+      location: Destination
+      quantity_hours: 'Hours'
+      rate: Rate
+      expenses_total: 'Expenses total:'
+      claim_total: 'Claim total:'
+      reason: 'Reason'
+      additional_information: Additional information
+      disbursements:
+        caption: 'Disbursements: A detailed list Type including amounts'
+        type: "Disbursement type"
+        net_amount: "Net amount"
+        vat_amount: "VAT amount"
+        total: "Total"
+      warrant_fee:
+        date_issued: "Warrant issued"
+        date_executed: "Warrant executed"
+        total: "Total"
+      total: "Total"
+      ppe_total: "PPE total at the time"
+      effective_pcmh_date: "Effective PCMH"
+      trial_start: "Trial start"
+      estimated_trial_length: "Trial estimated length"
+      retrial_start: "Re-trial start"
+      estimated_retrial_length: "Re-trial estimated length"
+      legal_aid_transfer_date: "Legal aid transfer"
+      trial_concluded_at: "First trial concluded"
+      no_values:
+        fees: "There are no fees for this claim"
+        expenses: "There are no expenses for this claim"
+        disbursements: "There are no disbursements for this claim"
+
+    summary_lgfs:
+      mileage_rate: Mileage rate
+      expenses:
+        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+      fees:
+        caption: 'Fees: A detailed list by Category and Type including amounts'
+      amount: Amount
+      vat_amount: VAT amount
+      date: Date
+      distance: Distance
+      fee_category: Fee category
+      fee_type: Fee type
+      fee_subtype: Fee subtype
+      quantity: Quantity
+      dates_attended: Dates attended
+      fees_total: 'Fees total:'
+      expense_type: Expense type
+      location: Destination
+      quantity_hours: 'Hours'
+      rate: Rate
+      expenses_total: 'Expenses total:'
+      claim_total: 'Claim total:'
+      reason: 'Reason'
+      additional_information: Additional information
+      disbursements:
+        caption: 'Disbursements: A detailed list Type including amounts'
+        type: "Disbursement type"
+        net_amount: "Net amount"
+        vat_amount: "VAT amount"
+        total: "Total"
+      warrant_fee:
+        date_issued: "Warrant issued"
+        date_executed: "Warrant executed"
+        total: "Total"
+      total: "Total"
+      ppe_total: "PPE total at the time"
+      effective_pcmh_date: "Effective PCMH"
+      trial_start: "Trial start"
+      estimated_trial_length: "Trial estimated length"
+      retrial_start: "Re-trial start"
+      estimated_retrial_length: "Re-trial estimated length"
+      legal_aid_transfer_date: "Legal aid transfer"
+      trial_concluded_at: "First trial concluded"
+      no_values:
+        fees: "There are no fees for this claim"
+        expenses: "There are no expenses for this claim"
+        disbursements: "There are no disbursements for this claim"
+
     supplier_numbers:
       supplier_numbers: "Supplier numbers"
       add_supplier_number: "Add another supplier number"
@@ -929,6 +1025,7 @@ en:
     supplier_number_fields:
       remove: "Remove this supplier number"
     claim_accordion:
+      additional_information: Additional information
       created_by: 'Created by:'
       h2_basic_info: Basic claim information
       h2_evidence: Evidence
@@ -976,6 +1073,7 @@ en:
         scheme_filters:
           scheme_types: 'Scheme types'
         allocation:
+          court: 'Court'
           select: 'Select'
           case_number: 'Case number'
           allocated_to: 'Allocated To'
@@ -988,6 +1086,7 @@ en:
           no_of_claims: 'No. of claims'
         re_allocation:
           select: 'Select'
+          court: 'Court'
           type: 'Type'
           case_number: 'Case number'
           scheme: Scheme

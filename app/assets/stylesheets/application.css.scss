@@ -117,6 +117,20 @@ form{
   }
 }
 
+.disk-evidence, .claim-state{
+  font-size: small;
+}
+
+.disk-evidence{
+  color: $error-colour;
+}
+
+.js-checkbox-table{
+  td{
+    vertical-align: top;
+  }
+}
+
 .button-secondary.blue {
   margin: 0;
   padding-left: $gutter;
@@ -126,5 +140,19 @@ form{
   box-shadow: 0 2px 0 $link-colour;
   &:hover {
     background-color: $link-colour;
+    }
+}
+
+.disk-evidence, .claim-state{
+  font-size: small;
+}
+
+.disk-evidence{
+  color: $error-colour;
+}
+
+.js-checkbox-table{
+  td{
+    vertical-align: top;
   }
 }

@@ -104,8 +104,26 @@ module Claim
     has_many :case_workers,             through: :case_worker_claims
     has_many :fees,                     foreign_key: :claim_id, class_name: 'Fee::BaseFee', dependent: :destroy,          inverse_of: :claim
     has_many :fee_types,                through: :fees, class_name: Fee::BaseFeeType
-    has_many :expenses,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
-    has_many :disbursements,            foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
+    has_many :expenses,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim do
+      def with_vat
+        self.select{ |expense| expense.vat_present? }
+      end
+
+      def without_vat
+        self.select{ |expense| expense.vat_absent? }
+      end
+    end
+
+
+    has_many :disbursements,            foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim do
+      def with_vat
+        self.select{ |d| d.vat_present? }
+      end
+
+      def without_vat
+        self.select{ |d| d.vat_absent? }
+      end
+    end
     has_many :defendants,               foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :documents, -> { where verified: true }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
     has_many :messages,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
@@ -430,6 +448,39 @@ module Claim
 
     def requires_case_type?
       true
+    end
+
+    def expenses_with_vat_net
+      self.expenses.with_vat.sum(&:amount)
+    end
+
+    def expenses_with_vat_gross
+      expenses_with_vat_net + self.expenses_vat
+    end
+
+    def expenses_without_vat_net
+      self.expenses.without_vat.sum(&:amount)
+    end
+
+    def expenses_without_vat_gross
+      expenses_without_vat_net
+    end
+
+
+    def disbursements_with_vat_net
+      self.disbursements.with_vat.sum(&:net_amount)
+    end
+
+    def disbursements_with_vat_gross
+      disbursements_with_vat_net + self.disbursements_vat
+    end
+
+    def disbursements_without_vat_net
+      self.disbursements.without_vat.sum(&:net_amount)
+    end
+
+    def disbursements_without_vat_gross
+      disbursements_without_vat_net
     end
 
     private

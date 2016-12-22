@@ -65,7 +65,9 @@ require 'rails_helper'
 module Claim
   class MockBaseClaim < BaseClaim; end
 
+
   describe BaseClaim do
+    include DatabaseHousekeeping
 
     let(:advocate)   { create :external_user, :advocate }
     let(:agfs_claim) { create(:advocate_claim) }
@@ -116,7 +118,84 @@ module Claim
         expect(claim.documents.map(&:id)).to match_array([verified_doc_1.id, verified_doc_2.id])
       end
     end
+    
+    context 'expenses' do
+      before(:all) do
+        @claim = create :litigator_claim
+        @ex1 = create :expense, claim: @claim, amount: 100.0, vat_amount: 20
+        @ex2 = create :expense, claim: @claim, amount: 100.0, vat_amount: 0.0
+        @ex3 = create :expense, claim: @claim, amount: 50.50, vat_amount: 10.10
+        @ex4 = create :expense, claim: @claim, amount: 25.0, vat_amount: 0.0
+        @claim.reload
+      end
+
+      after(:all) { clean_database }
+
+      describe '#expenses.with_vat' do
+        it 'returns an array of expenses with VAT' do
+          expect(@claim.expenses.with_vat).to match_array( [ @ex1, @ex3 ] )
+        end
+      end
+
+      describe '#expenses.without_vat' do
+        it 'returns an array of expenses without VAT' do
+          expect(@claim.expenses.without_vat).to match_array( [ @ex2, @ex4 ] )
+        end
+      end
+
+      describe '#expenses_with_vat_total' do
+        it 'return the sum of the amounts for the expenses with vat' do
+          expect(@claim.expenses_with_vat_net). to eq 150.50
+        end
+      end
+
+      describe '#expenses_without_vat_total' do
+        it 'return the sum of the amounts for the expenses without vat' do
+          expect(@claim.expenses_without_vat_net). to eq 125.0
+        end
+      end
+    end
+
+
+    context 'disbursements' do
+      before(:all) do
+        @claim = create :litigator_claim
+        @db1 = create :disbursement, claim: @claim, net_amount: 100.0, vat_amount: 20
+        @db2 = create :disbursement, claim: @claim, net_amount: 100.0, vat_amount: 0.0
+        @db3 = create :disbursement, claim: @claim, net_amount: 50.50, vat_amount: 10.10
+        @db4 = create :disbursement, claim: @claim, net_amount: 25.0, vat_amount: 0.0
+        @claim.reload
+      end
+
+      after(:all) { clean_database }
+
+      describe '#disbursements.with_vat' do
+        it 'returns an array of disbursements with VAT' do
+          expect(@claim.disbursements.with_vat).to match_array( [ @db1, @db3 ] )
+        end
+      end
+
+      describe '#disbursements.without_vat' do
+        it 'returns an array of disbursements without VAT' do
+          expect(@claim.disbursements.without_vat).to match_array( [ @db2, @db4 ] )
+        end
+      end
+
+      describe '#disbursements' do
+        it 'return the sum of the amounts for the disbursements with vat' do
+          expect(@claim.disbursements_with_vat_net). to eq 150.50
+        end
+      end
+
+      describe '#disbursements' do
+        it 'return the sum of the amounts for the disbursements without vat' do
+          expect(@claim.disbursements_without_vat_net). to eq 125.0
+        end
+      end
+
+    end
   end
+
 
   describe MockBaseClaim do
     context 'date formatting' do

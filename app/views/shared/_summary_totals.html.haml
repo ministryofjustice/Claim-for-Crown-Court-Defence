@@ -1,0 +1,77 @@
+%h3.heading-medium
+  = "Summary totals"
+%table.figures
+  %thead
+    %tr
+      %th
+        = "Description"
+      %th.col-net.numeric{scope: 'col'}
+        = "Net amount"
+      %th.col-vat.numeric{scope: 'col'}
+        = "VAT"
+      %th.col-gross.numeric{scope: 'col'}
+        = "Gross amount"
+  %tbody
+    %tr
+      %td
+        = "Fees"
+      %td.numeric
+        = claim.fees_total
+      %td.numeric
+        = claim.fees_vat
+      %td.numeric
+        = claim.fees_total
+
+    - if claim.expenses.with_vat.any?
+      %tr
+        %td
+          = "Expenses with VAT"
+        %td.numeric
+          = claim.expenses_with_vat_net
+        %td.numeric
+          = claim.expenses_vat
+        %td.numeric
+          = claim.expenses_with_vat_gross
+
+    - if claim.expenses.without_vat.any?
+      %tr
+        %td
+          = "Expenses without VAT"
+        %td.numeric
+          = claim.expenses_without_vat_net
+        %td.numeric
+          = ""
+        %td.numeric
+          = claim.expenses_without_vat_gross
+
+    - if claim.disbursements.with_vat.any?
+      %tr
+        %td
+          = "Disbursements with VAT"
+        %td.numeric
+          = claim.disbursements_with_vat_net
+        %td.numeric
+          = claim.disbursements_vat
+        %td.numeric
+          = claim.disbursements_with_vat_gross
+
+    - if claim.disbursements.without_vat.any?
+      %tr
+        %td
+          = "Disbursements without VAT"
+        %td.numeric
+          = claim.disbursements_without_vat_net
+        %td.numeric
+          = "-"
+        %td.numeric
+          = claim.disbursements_without_vat_gross
+  %tfoot
+    %tr.totals
+      %td
+        = "Claim Total"
+      %td.numeric
+        = claim.total
+      %td.numeric
+        = claim.vat_amount
+      %td.numeric
+        = claim.total_inc_vat

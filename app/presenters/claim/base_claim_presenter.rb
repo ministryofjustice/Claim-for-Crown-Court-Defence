@@ -20,15 +20,20 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
-  def case_type_name
+  def claim_state
     if claim.opened_for_redetermination?
-      claim.case_type.name + ' (redetermination)'
+      'Redetermination'
     elsif claim.written_reasons_outstanding?
-      claim.case_type.name + ' (awaiting written reasons)'
+      'Awaiting written reasons'
     else
-      claim.case_type.name
+      ''
     end
   end
+
+  def case_type_name
+    claim.case_type.name
+  end
+
 
   def defendant_names
     defendant_names = claim.defendants.sort_by(&:id).map(&:name)
@@ -48,6 +53,9 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.last_submitted_at.strftime(date_format(options)) unless claim.last_submitted_at.nil?
   end
 
+  def submitted_at_short()
+    claim.last_submitted_at.strftime('%d/%m/%y') unless claim.last_submitted_at.nil?
+  end
   def authorised_at (options={})
     claim.authorised_at.strftime(date_format(options)) unless claim.authorised_at.nil?
   end
@@ -112,12 +120,68 @@ class Claim::BaseClaimPresenter < BasePresenter
     h.number_to_currency(claim.fees_total)
   end
 
+  def fees_vat
+    h.number_to_currency(claim.fees_vat)
+  end
+
+  def fees_gross
+    h.number_to_currency(claim.fees_vat + claim.fees_total)
+  end
+
   def expenses_total
     h.number_to_currency(claim.expenses_total)
   end
 
+  def expenses_vat
+    h.number_to_currency(claim.expenses_vat)
+  end
+
+  def expenses_gross
+    h.number_to_currency(claim.expenses_total + claim.expenses_vat)
+  end
+
+  def expenses_with_vat_net
+    h.number_to_currency(claim.expenses_with_vat_net)
+  end
+
+  def expenses_without_vat_net
+    h.number_to_currency(claim.expenses_without_vat_net)
+  end
+
+  def expenses_without_vat_gross
+    h.number_to_currency(claim.expenses_without_vat_gross)
+  end
+
+  def expenses_with_vat_gross
+    h.number_to_currency(claim.expenses_with_vat_gross)
+  end
+
   def disbursements_total
     h.number_to_currency(claim.disbursements_total)
+  end
+
+  def disbursements_vat
+    h.number_to_currency(claim.disbursements_vat)
+  end
+
+  def disbursements_gross
+    h.number_to_currency(claim.disbursements_total + claim.disbursements_vat)
+  end
+
+  def disbursements_with_vat_net
+    h.number_to_currency(claim.disbursements_with_vat_net)
+  end
+
+  def disbursements_without_vat_net
+    h.number_to_currency(claim.disbursements_without_vat_net)
+  end
+
+  def disbursements_without_vat_gross
+    h.number_to_currency(claim.disbursements_without_vat_gross)
+  end
+
+  def disbursements_with_vat_gross
+    h.number_to_currency(claim.disbursements_with_vat_gross)
   end
 
   def status_image

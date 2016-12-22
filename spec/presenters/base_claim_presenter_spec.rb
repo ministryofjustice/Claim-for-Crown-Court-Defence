@@ -29,7 +29,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       it 'should display the case type name with a redetermination label' do
         %w( submit allocate refuse redetermine allocate ).each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:opened_for_redetermination?).and_return(true)
-        expect(subject.case_type_name).to eq(claim.case_type.name + ' (redetermination)')
+        expect(subject.case_type_name).to eq(claim.case_type.name)
       end
     end
 
@@ -37,7 +37,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       it 'should display the case type name with an awaiting written reasons label' do
         %w( submit allocate refuse await_written_reasons allocate ).each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:written_reasons_outstanding?).and_return(true)
-        expect(subject.case_type_name).to eq(claim.case_type.name + ' (awaiting written reasons)')
+        expect(subject.case_type_name).to eq(claim.case_type.name)
       end
     end
   end

@@ -47,4 +47,12 @@ class Disbursement < ActiveRecord::Base
   def disbursement_type_unique_code=(code)
     self.disbursement_type = DisbursementType.find_by!(unique_code: code)
   end
+
+  def vat_absent?
+    self.vat_amount.nil? || self.vat_amount == 0.0
+  end
+
+  def vat_present?
+    !vat_absent?
+  end
 end

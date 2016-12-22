@@ -134,6 +134,14 @@ class Expense < ActiveRecord::Base
     self.expense_type = ExpenseType.find_by!(unique_code: code)
   end
 
+  def vat_absent?
+    self.vat_amount.nil? || self.vat_amount == 0.0
+  end
+
+  def vat_present?
+    !vat_absent?
+  end
+
   private
 
   # we only calculate VAT for AGFS claims for vatable providers.  On LGFS claims, the VAT amount is entered in the form.

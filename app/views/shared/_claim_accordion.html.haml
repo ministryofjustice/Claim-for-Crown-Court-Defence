@@ -37,4 +37,13 @@
     %h2.js-accordion__header
       = t('.h2_summary')
     %div.js-accordion__panel
-      = render partial: 'shared/summary'
+      - if claim.agfs?
+        = render partial: 'shared/summary_agfs', locals: { claim: claim }
+      - else
+        = render partial: 'shared/summary_lgfs', locals: { claim: claim }
+
+    - if claim.additional_information.present?
+      %h3.heading-medium
+        = t('.additional_information')
+      %p.indent-sides
+        = claim.additional_information

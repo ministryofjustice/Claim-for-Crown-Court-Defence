@@ -11,8 +11,13 @@ module Claims
     }
 
     def self.band_id_for_claim(claim)
+      band_id_for_value(claim.total + claim.vat_amount)
+    end
+
+
+    def self.band_id_for_value(value)
       VALUE_BANDS.each do |band_id, band|
-        next if  claim.total + claim.vat_amount > band.max
+        next if  value > band.max
         return band_id
       end
       raise 'Maximum band value exceeded'

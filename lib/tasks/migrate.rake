@@ -15,6 +15,25 @@ namespace :data do
       puts "#{i} claims examined"
     end
 
+
+    desc 're-save all expenses in order to calculate VAT'
+    task :save_expenses => :environment do
+      ids = Claim::BaseClaim.where(state: ['draft', 'allocated', 'submitted', 'refused', 'redetermination', 'awaiting_written_reasons']).pluck(:id)
+      ids.each do |claim_id|
+        claim = Claim::BaseClaim.find claim_id
+        puts "Processing claim #{claim_id} in state #{claim.state}"
+        claim.expenses.each do |ex|
+          original_vat_amount = ex.vat_amount
+          ex.__send__(:calculate_vat)
+          if ex.vat_amount != original_vat_amount
+            puts "    Original vat amount: #{original_vat_amount}, newly calculated amount: #{ex.vat_amount}"
+            puts "    Saving expense"
+            ex.save!
+          end
+        end
+      end
+    end
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {

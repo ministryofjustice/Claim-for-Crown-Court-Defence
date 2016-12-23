@@ -29,4 +29,10 @@ module Fee
     
     it { should validate_presence_of(:fee_type).with_message('blank') }
   end
+
+  describe '#is_misc?' do
+    it 'returns true' do
+      expect(build(:misc_fee).is_misc?).to be true
+    end
+  end
 end

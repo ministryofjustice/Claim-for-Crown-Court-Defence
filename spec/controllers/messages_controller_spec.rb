@@ -63,8 +63,7 @@ RSpec.describe MessagesController, type: :controller do
           message_params.delete(:claim_id)
         end
 
-        it 'does not create a message' do
-          pending 'We must handle the fact that if the message cannot be created, there will not be ID to redirect to (redirect_to_url)'
+        xit 'does not create a message' do  # We must handle the fact that if the message cannot be created, there will not be ID to redirect to (redirect_to_url)
           expect {
             post :create, message: message_params
           }.to_not change(Message, :count)

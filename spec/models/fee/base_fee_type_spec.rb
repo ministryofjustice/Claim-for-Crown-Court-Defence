@@ -67,6 +67,17 @@ module Fee
       end
     end
 
+    describe  '#fee_category_name' do
+      it 'returns the humanised name' do
+        expect(build(:transfer_fee_type).fee_category_name).to eq 'Transfer Fee'
+        expect(build(:basic_fee_type).fee_category_name).to eq 'Basic Fees'
+        expect(build(:fixed_fee_type).fee_category_name).to eq 'Fixed Fees'
+        expect(build(:graduated_fee_type).fee_category_name).to eq 'Graduated Fees'
+        expect(build(:interim_fee_type).fee_category_name).to eq 'Interim Fees'
+        expect(build(:warrant_fee_type).fee_category_name).to eq 'Warrant Fee'
+      end
+    end
+
   end
 
 end

@@ -236,7 +236,7 @@
                 %th.col-gross.numeric{scope: 'col'}
                   = "Gross amount"
             %tbody
-              - present_collection(claim.disbursements.with_vat).each do |disbursement|
+              - present_collection(claim.disbursements.without_vat).each do |disbursement|
                 %tr
                   %td{scope:'row'}
                     = disbursement.name

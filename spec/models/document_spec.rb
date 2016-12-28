@@ -243,7 +243,6 @@ RSpec.describe Document, type: :model do
         expect(document.verified).to be false
         expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'verify_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
         expect(document.errors[:document]).to match_array(['my error message'])
-        ap document.errors
       end
     end
 

@@ -233,7 +233,17 @@ RSpec.describe Document, type: :model do
 
     context 'exception trying to verify' do
       it 'populates the error hash' do
+        allow(LogStuff).to receive(:error).exactly(1)
+        allow(document).to receive(:save).and_return(true)
+        expect(document).to receive(:reload_saved_file).and_raise(RuntimeError, 'my error message')
 
+        expect(document.save_and_verify).to be false
+        expect(document.verified_file_size).to eq nil
+        expect(document.file_path).to be_blank
+        expect(document.verified).to be false
+        expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'verify_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
+        expect(document.errors[:document]).to match_array(['my error message'])
+        ap document.errors
       end
     end
 

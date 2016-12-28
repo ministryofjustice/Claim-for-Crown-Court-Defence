@@ -99,6 +99,7 @@ class Document < ActiveRecord::Base
       self.verified = self.verified_file_size > 0
       self.save!
     rescue => err
+      puts err.class
       self.errors[:document] << err.message
       self.verified = false
     end

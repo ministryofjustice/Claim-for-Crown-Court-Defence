@@ -24,8 +24,8 @@ require 'rails_helper'
 
 module Fee
 
-class FeeDouble < Fee::BaseFee
-end
+  class FeeDouble < Fee::BaseFee
+  end
 
   RSpec.describe Fee::FeeDouble, type: :model do
 
@@ -169,5 +169,101 @@ end
       end
     end
 
+  end
+
+  context 'type logic' do
+    before(:all) do
+      @basic_fee = BasicFee.new
+      @misc_fee = MiscFee.new
+      @fixed_fee = FixedFee.new
+      @grad_fee = GraduatedFee.new
+      @warrant_fee = WarrantFee.new
+      @interim_fee = InterimFee.new
+      @transfer_fee = TransferFee.new
+    end
+
+    describe '#is_basic?' do
+      it 'returns true or false as expected' do
+        expect(@basic_fee.is_basic?).to be true
+        expect(@misc_fee.is_basic?).to be false
+        expect(@fixed_fee.is_basic?).to be false
+        expect(@grad_fee.is_basic?).to be false
+        expect(@warrant_fee.is_basic?).to be false
+        expect(@interim_fee.is_basic?).to be false
+        expect(@transfer_fee.is_basic?).to be false
+      end
+    end
+
+    describe '#is_misc?' do
+      it 'returns true or false as expected' do
+        expect(@basic_fee.is_misc?).to be false
+        expect(@misc_fee.is_misc?).to be true
+        expect(@fixed_fee.is_misc?).to be false
+        expect(@grad_fee.is_misc?).to be false
+        expect(@warrant_fee.is_misc?).to be false
+        expect(@interim_fee.is_misc?).to be false
+        expect(@transfer_fee.is_misc?).to be false
+      end
+    end
+
+    describe '#is_fixed?' do
+      it 'returns true or false as expected' do
+        expect(@basic_fee.is_fixed?).to be false
+        expect(@misc_fee.is_fixed?).to be false
+        expect(@fixed_fee.is_fixed?).to be true
+        expect(@grad_fee.is_fixed?).to be false
+        expect(@warrant_fee.is_fixed?).to be false
+        expect(@interim_fee.is_fixed?).to be false
+        expect(@transfer_fee.is_fixed?).to be false
+      end
+    end
+
+    describe '#is_graduated?' do
+      it 'returns true or false as expected' do
+        expect(@basic_fee.is_graduated?).to be false
+        expect(@misc_fee.is_graduated?).to be false
+        expect(@fixed_fee.is_graduated?).to be false
+        expect(@grad_fee.is_graduated?).to be true
+        expect(@warrant_fee.is_graduated?).to be false
+        expect(@interim_fee.is_graduated?).to be false
+        expect(@transfer_fee.is_graduated?).to be false
+      end
+    end
+
+    describe '#is_warrant?' do
+      it 'returns true or false as expected' do
+        expect(@basic_fee.is_warrant?).to be false
+        expect(@misc_fee.is_warrant?).to be false
+        expect(@fixed_fee.is_warrant?).to be false
+        expect(@grad_fee.is_warrant?).to be false
+        expect(@warrant_fee.is_warrant?).to be true
+        expect(@interim_fee.is_warrant?).to be false
+        expect(@transfer_fee.is_warrant?).to be false
+      end
+    end
+
+    describe '#is_interim?' do
+      it 'returns true or false as expected' do
+        expect(@basic_fee.is_interim?).to be false
+        expect(@misc_fee.is_interim?).to be false
+        expect(@fixed_fee.is_interim?).to be false
+        expect(@grad_fee.is_interim?).to be false
+        expect(@warrant_fee.is_interim?).to be false
+        expect(@interim_fee.is_interim?).to be true
+        expect(@transfer_fee.is_interim?).to be false
+      end
+    end
+
+    describe '#is_transfer?' do
+      it 'returns true or false as expected' do
+        expect(@basic_fee.is_transfer?).to be false
+        expect(@misc_fee.is_transfer?).to be false
+        expect(@fixed_fee.is_transfer?).to be false
+        expect(@grad_fee.is_transfer?).to be false
+        expect(@warrant_fee.is_transfer?).to be false
+        expect(@interim_fee.is_transfer?).to be false
+        expect(@transfer_fee.is_transfer?).to be true
+      end
+    end
   end
 end

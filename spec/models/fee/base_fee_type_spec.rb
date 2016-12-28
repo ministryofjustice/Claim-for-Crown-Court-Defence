@@ -80,4 +80,18 @@ module Fee
 
   end
 
+  context 'fee category name' do
+    describe '#fee_category_name' do
+      it 'returns the correct category name' do
+        expect(BasicFeeType.new.fee_category_name).to eq 'Basic Fees'
+        expect(MiscFeeType.new.fee_category_name).to eq 'Miscellaneous Fees'
+        expect(FixedFeeType.new.fee_category_name).to eq 'Fixed Fees'
+        expect(InterimFeeType.new.fee_category_name).to eq 'Interim Fees'
+        expect(TransferFeeType.new.fee_category_name).to eq 'Transfer Fee'
+        expect(GraduatedFeeType.new.fee_category_name).to eq 'Graduated Fees'
+        expect(WarrantFeeType.new.fee_category_name).to eq 'Warrant Fee'
+      end
+    end
+  end
+
 end

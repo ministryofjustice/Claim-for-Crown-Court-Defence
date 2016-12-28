@@ -35,6 +35,15 @@ module Claim
       end
     end
 
+    context 'invalid initialization array' do
+      it 'raises' do
+        expect_any_instance_of(IO).to receive(:puts).at_least(1)
+        expect {
+          TransferBrainDataItem.new(['xxx', 'xxx'])
+        }.to raise_error RuntimeError, 'Boom'
+      end
+    end
+
     describe '#to_h' do
       it 'returns hash' do
         expect(item.to_h).to eq expected_hash

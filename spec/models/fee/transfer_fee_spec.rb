@@ -29,6 +29,8 @@ module Fee
       it { should validate_absence_of(:sub_type_id) }
       it { should validate_absence_of(:case_numbers) }
     end
+
+
   end
 end
 

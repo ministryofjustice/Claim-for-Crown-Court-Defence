@@ -318,4 +318,11 @@ RSpec.describe Claims::StateMachine, type: :model do
       expect(transition.reason_code).to eq(reason_code)
     end
   end
+
+  describe '.set_allocation_type' do
+    it 'calls the class method' do
+      claim = build :transfer_claim
+      claim.__send__(:set_allocation_type)
+    end
+  end
 end

@@ -375,6 +375,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       expect(sql.downcase).to include(' "claims"."state" in (' << state_in_list_clause << ')')
     end
 
+    context 'invalid search options' do
+      it 'raises' do
+        expect{
+          Claim::AdvocateClaim.search('My search term', [], 'caseworker-name')
+        }.to raise_error RuntimeError, 'Invalid search option'
+      end
+    end
+
     context 'find by MAAT reference' do
 
       let(:search_options) { :maat_reference }

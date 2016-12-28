@@ -35,6 +35,13 @@ module GoogleAnalytics
           allow(RailsHost).to receive(:env).and_return('gamma')
           expect(described_class.enabled?).to be_falsey
         end
+
+        it 'raises if not adapter' do
+          allow(described_class).to receive(:enabled?).and_return(true)
+          expect{
+            described_class.track()
+          }.to raise_error ArgumentError, 'Uninitialized adapter'
+        end
       end
     end
   end

@@ -49,6 +49,14 @@ module Fee
     it { should respond_to(:code) }
     it { should respond_to(:description) }
 
+    describe '.new' do
+      it 'raises an error' do
+        expect {
+          BaseFeeType.new
+        }.to raise_error BaseFeeTypeAbstractClassError, 'Fee::BaseFeeType is an abstract class and cannot be instantiated'
+      end
+    end
+
     describe '#requires_dates_attended?' do
       it 'returns false' do
         expect(build(:fixed_fee_type).requires_dates_attended?).to be false

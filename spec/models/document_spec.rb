@@ -231,6 +231,12 @@ RSpec.describe Document, type: :model do
       end
     end
 
+    context 'exception trying to verify' do
+      it 'populates the error hash' do
+
+      end
+    end
+
     def make_empty_temp_file
       require 'fileutils'
       FileUtils.mkdir_p File.dirname(TEMPFILE_NAME)

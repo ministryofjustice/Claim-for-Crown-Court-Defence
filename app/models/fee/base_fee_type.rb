@@ -18,9 +18,9 @@
 
 module Fee
 
-  class FeeBaseFeeTypeAbstractClassError
+  class BaseFeeTypeAbstractClassError < RuntimeError
     def initialize(message = 'Fee::BaseFeeType is an abstract class and cannot be instantiated')
-      super(message)
+      super
     end
   end
 
@@ -44,7 +44,7 @@ module Fee
     after_initialize :ensure_not_abstract_class
 
     def ensure_not_abstract_class
-      raise FeeBaseFeeTypeAbstractClassError if self.class == BaseFeeType
+      raise BaseFeeTypeAbstractClassError.new if self.class == BaseFeeType
     end
 
     def requires_dates_attended?

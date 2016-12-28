@@ -212,10 +212,6 @@ module Claims::StateMachine
     self.assessment.zeroize! if self.state == 'allocated'
   end
 
-  def set_allocation_type
-    self.set_allocation_type
-  end
-
   def remove_case_workers!
     self.case_workers.destroy_all
   end

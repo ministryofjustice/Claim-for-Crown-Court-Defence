@@ -60,6 +60,39 @@ RSpec.describe Document, type: :model do
 
   it { should validate_attachment_size(:document).in(0.megabytes..20.megabytes) }
 
+  context 'validation' do
+    let(:claim) { create :claim }
+    let(:document) { create :document, claim: claim }
+
+    context 'total number of documents for this form_id' do
+
+      it 'validates that the total number of documents for this claim has not been exceeded' do
+        allow(Settings).to receive(:max_document_upload_count).and_return(2)
+        create :document, claim_id: claim.id, form_id: claim.form_id
+        create :document, claim_id: claim.id, form_id: claim.form_id
+
+        doc = build :document, claim_id: claim.id, form_id: claim.form_id
+        expect(doc).not_to be_valid
+        expect(doc.errors[:document]).to eq( [ 'Total documents exceed maximum of 2. This document has not been uploaded.'])
+      end
+    end
+
+    context 'cryptic error message is deciphered' do
+
+      it 'calls transform_cryptic_paperclip_error every time it is unable to save' do
+        expect(document).to receive(:save).and_return(false)
+        expect(document).to receive(:transform_cryptic_paperclip_error)
+        document.save_and_verify
+      end
+
+      it 'displays human-understandable error message' do
+        document.errors[:document] << 'has contents that are not what they are reported to be'
+        document.__send__(:transform_cryptic_paperclip_error)
+        expect(document.errors[:document]).to eq( [ 'The contents of the file do not match the file extension' ] )
+      end
+    end
+  end
+
   context 'storage' do
     context 'on S3' do
       subject { build(:document) }
@@ -228,6 +261,21 @@ RSpec.describe Document, type: :model do
         expect(document.file_path).to be_blank
         expect(document.verified).to be false
         expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'save_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
+      end
+    end
+
+    context 'exception trying to verify' do
+      it 'populates the error hash' do
+        allow(LogStuff).to receive(:error).exactly(1)
+        allow(document).to receive(:save).and_return(true)
+        expect(document).to receive(:reload_saved_file).and_raise(RuntimeError, 'my error message')
+
+        expect(document.save_and_verify).to be false
+        expect(document.verified_file_size).to eq nil
+        expect(document.file_path).to be_blank
+        expect(document.verified).to be false
+        expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'verify_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
+        expect(document.errors[:document]).to match_array(['my error message'])
       end
     end
 

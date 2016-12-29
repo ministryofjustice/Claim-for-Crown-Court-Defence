@@ -44,9 +44,7 @@ class Allocation
       deallocate_claims if claims_in_correct_state_for?(:deallocation)
     elsif reallocating?
       reallocate_claims if claims_in_correct_state_for?(:reallocation)
-    else
-      raise "Should never get here!"
-    end
+    end   # reallocating is true if not allocating and not deallocating
     errors.empty?
   end
 

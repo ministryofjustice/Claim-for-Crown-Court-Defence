@@ -148,6 +148,13 @@ describe JsonDocumentImporter do
         # API calls are stubbed to return errors so the only thing that matters here is that the subject is instantiated with a document describing two claims
         let(:subject) { JsonDocumentImporter.new(json_file: exported_claims, schema_validator: schema_validator, api_key: 'test_key') }
 
+        it 'handles malformed error response gracefully' do
+          allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_return(failed_claim_response)
+          expect(subject).to receive(:create_claim_and_associations).exactly(2).and_raise(ArgumentError, 'Malformed JSON')
+          subject.import!
+          expect(subject.errors.to_hash).to eq({A20161234: [%q{784: unexpected token at 'Malformed JSON'}], A987654321: [%q{784: unexpected token at 'Malformed JSON'}]})
+        end
+
         it 'one Claim model error from each of two claims' do
           allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_return(failed_claim_response)
           subject.import!

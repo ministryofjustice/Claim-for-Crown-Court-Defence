@@ -23,6 +23,14 @@ FactoryGirl.define do
       end
     end
 
+    trait :graduated_fee do
+      after(:build) do |claim|
+        fee_type = create :graduated_fee_type
+        case_type = create :case_type, :graduated_fee, fee_type_code: fee_type.unique_code
+        claim.case_type = case_type
+      end
+    end
+
   end
 end
 

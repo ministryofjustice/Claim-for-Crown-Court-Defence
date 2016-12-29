@@ -215,7 +215,6 @@ module Claim
     end
 
     def self.filter(filter)
-      puts ">>>>>>>>>>>>>> FILTERING WITH #{filter} #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
       case filter.to_s
       when 'redetermination', 'awaiting_written_reasons', 'all'
         send(filter)

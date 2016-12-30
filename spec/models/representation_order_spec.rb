@@ -108,6 +108,20 @@ describe RepresentationOrder do
     end
   end
 
+  describe '#reporders_for_same_defendant' do
+    it 'returns empty array if reporder not completely set up' do
+      expect(RepresentationOrder.new.reporders_for_same_defendant).to eq ( [] )
+    end
+
+    it 'returns an aray of all reporders including this for the same defendant' do
+      defendant = create :defendant, claim: Claim::AdvocateClaim.new
+      create :representation_order, defendant: defendant
+      reporder_2 = create :representation_order, defendant: defendant
+      defendant.reload
+      expect(reporder_2.reporders_for_same_defendant).to match_array( defendant.representation_orders )
+    end
+  end
+
   describe '#detail' do
     let(:rep_order) do
       create(:representation_order, maat_reference: '1234567', representation_order_date: Date.parse('20150925'))

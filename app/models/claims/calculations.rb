@@ -54,10 +54,6 @@ module Claims::Calculations
     VatRate.vat_amount(fees_total, self.vat_date, calculate: self.apply_vat?)
   end
 
-  def calculate_disbursements_vat
-    Disbursement.where(claim_id: self.id).where.not(vat_amount: nil).pluck(:vat_amount).sum
-  end
-
   def calculate_total_vat
     self.vat_amount = (self.expenses_vat || 0.0) + (self.fees_vat || 0.0) + (self.disbursements_vat || 0.0)
   end

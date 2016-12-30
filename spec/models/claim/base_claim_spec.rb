@@ -234,8 +234,14 @@ module Claim
         end
       end
     end
+  end
 
-
+  describe '#evidence_doc_types' do
+    it 'returns an array of DocType objects' do
+      claim = MockBaseClaim.new(evidence_checklist_ids: [1, 5, 10])
+      expect(claim.evidence_doc_types.map(&:class)).to eq( [ DocType, DocType, DocType ] )
+      expect(claim.evidence_doc_types.map(&:name)).to match_array( [ 'Representation order', 'Order in respect of judicial apportionment', 'Special preparation form'])
+    end
   end
 end
 

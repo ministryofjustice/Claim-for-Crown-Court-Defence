@@ -224,4 +224,23 @@ RSpec.describe Provider, type: :model do
       expect(firm.errors[:base]).to eq(["You must specify at least one LGFS supplier number"])
     end
   end
+
+  describe '#agfs_supplier_numbers' do
+    context 'agfs' do
+      it 'returns an array of supplier numbers' do
+        provider = create :provider, :agfs
+        provider.external_users << create(:external_user, :advocate, supplier_number: '888AA')
+        provider.external_users << create(:external_user, :advocate, supplier_number: '999BB')
+        expect(provider.agfs_supplier_numbers).to match_array %w{ 888AA 999BB }
+      end
+    end
+
+    context 'lgfs' do
+      it 'returns an empty array' do
+        provider = create :provider, :lgfs
+        expect(provider.agfs_supplier_numbers).to be_empty
+      end
+    end
+
+  end
 end

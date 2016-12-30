@@ -130,6 +130,18 @@ module Fee
 
     after(:all) { clean_database }
 
+    describe '#fee_class_name' do
+      it 'returns the name of the corresponding fee as a string' do
+        expect(@bf1.fee_class_name).to eq 'Fee::BasicFee'
+        expect(@mf1.fee_class_name).to eq 'Fee::MiscFee'
+        expect(@ff1.fee_class_name).to eq 'Fee::FixedFee'
+        expect(@wf1.fee_class_name).to eq 'Fee::WarrantFee'
+        expect(@gf1.fee_class_name).to eq 'Fee::GraduatedFee'
+        expect(@if1.fee_class_name).to eq 'Fee::InterimFee'
+        expect(@tf1.fee_class_name).to eq 'Fee::TransferFee'
+      end
+    end
+
     it 'returns all basic fee types' do
       expect(Fee::BaseFeeType.basic).to match_array( [ @bf1, @bf2 ] )
     end

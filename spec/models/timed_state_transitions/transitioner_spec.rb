@@ -82,6 +82,12 @@ module TimedTransitions
               end
             end
 
+            it 'records success' do
+              t = Transitioner.new(@claim)
+              t.run
+              expect(t.success?).to be true
+            end
+
             it 'should call archive if last state change more than 16 weeks ago' do
               Transitioner.new(@claim).run
               expect(@claim.reload.state).to eq 'archived_pending_delete'

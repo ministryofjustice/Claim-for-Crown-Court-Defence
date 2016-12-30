@@ -21,6 +21,7 @@ require 'rails_helper'
 module Fee
 
   RSpec.describe BaseFeeType, type: :model do
+    include DatabaseHousekeeping
 
     context '#new' do
       it 'should raise BaseFeeTypeAbstractClassError' do
@@ -100,6 +101,64 @@ module Fee
         expect(WarrantFeeType.new.fee_category_name).to eq 'Warrant Fee'
       end
     end
+  end
+
+  describe '#pretty_max_amount' do
+    it 'returns a prettified string of the max amount' do
+      ft = FeeTypeDouble.new(max_amount: 125_367.8)
+      expect(ft.pretty_max_amount).to eq '£125,368'
+    end
+  end
+
+  describe  'Specialized fee type methods' do
+    before(:all) do
+      @bf1 = create :basic_fee_type, description: 'basic fee type 1'
+      @bf2 = create :basic_fee_type, description: 'basic fee type 2'
+      @mf1 = create :misc_fee_type, description: 'misc fee type 1'
+      @mf2 = create :misc_fee_type, description: 'misc fee type 2'
+      @ff1 = create :fixed_fee_type, description: 'fixed fee type 1'
+      @ff2 = create :fixed_fee_type, description: 'fixed fee type 2'
+      @wf1 = create :warrant_fee_type, description: 'warrant fee type 1'
+      @wf2 = create :warrant_fee_type, description: 'warrant fee type 2'
+      @gf1 = create :graduated_fee_type, description: 'grad fee type 1'
+      @gf2 = create :graduated_fee_type, description: 'grad fee type 2'
+      @if1 = create :interim_fee_type, description: 'interim fee type 1'
+      @if2 = create :interim_fee_type, description: 'interim fee type 2'
+      @tf1 = create :transfer_fee_type, description: 'transfer fee type 1'
+      @tf2 = create :transfer_fee_type, description: 'transfer fee type 2'
+    end
+
+    after(:all) { clean_database }
+
+    it 'returns all basic fee types' do
+      expect(Fee::BaseFeeType.basic).to match_array( [ @bf1, @bf2 ] )
+    end
+
+    it 'returns all misc fee types' do
+      expect(Fee::BaseFeeType.misc).to match_array( [ @mf1, @mf2 ] )
+    end
+
+    it 'returns all fixed fee types' do
+      expect(Fee::BaseFeeType.fixed).to match_array( [ @ff1, @ff2 ] )
+    end
+
+    it 'returns all warrant fee types' do
+      expect(Fee::BaseFeeType.warrant).to match_array( [ @wf1, @wf2 ] )
+    end
+
+    it 'returns all graduated fee types' do
+      expect(Fee::BaseFeeType.graduated).to match_array( [ @gf1, @gf2 ] )
+    end
+
+    it 'returns all interim fee types' do
+      expect(Fee::BaseFeeType.interim).to match_array( [ @if1, @if2 ] )
+    end
+
+    it 'returns all transfer fee types' do
+      expect(Fee::BaseFeeType.transfer).to match_array( [ @tf1, @tf2 ] )
+    end
+
+
   end
 
 end

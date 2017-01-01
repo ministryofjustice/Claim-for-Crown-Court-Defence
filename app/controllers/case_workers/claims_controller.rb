@@ -48,18 +48,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     end
   end
 
-  # TODO: temporary action for the Claim Injection PoC
-  def publish
-    Claims::ClaimInjection.new(@claim).execute
-    redirect_to case_workers_claim_path(@claim)
-  end
-
-  # TODO: temporary action for the Claim Injection PoC
-  def enquire
-    Messaging::Status::StatusUpdater.new(uuids: [@claim.uuid]).run
-    redirect_to case_workers_claim_path(@claim)
-  end
-
   private
 
   def prepare_show_action
@@ -73,11 +61,12 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @claims = @claims.search(search_terms, states, *search_options) unless @claims.remote?
   end
 
-  def search_options
-    options = [:case_number, :maat_reference, :defendant_name]
-    options << :case_worker_name_or_email if current_user.persona.admin?
-    options
-  end
+  # no longer used because all claims are remote
+  # def search_options
+  #   options = [:case_number, :maat_reference, :defendant_name]
+  #   options << :case_worker_name_or_email if current_user.persona.admin?
+  #   options
+  # end
 
   def claim_params
     params.require(:claim).permit(

@@ -205,4 +205,26 @@ RSpec.describe User, type: :model do
       expect(user.email_with_name).to eq 'Winston Churchill <winnie@pm.example.com>'
     end
   end
+
+  context 'devise messages' do
+    let(:active_user) { build :user }
+    let(:inactive_user) { build :user, :softly_deleted }
+
+    describe '#inactive_message' do
+      it 'returns :inactive for active user' do
+        expect(active_user.inactive_message).to eq :inactive
+      end
+
+      it 'returns specialised message for softly deleted users' do
+        expect(inactive_user.inactive_message).to eq 'This account has been deleted.'
+      end
+    end
+
+    describe 'unauthenticated_message' do
+      it 'calls override paranoid setting' do
+        expect(active_user).to receive(:override_paranoid_setting).with(false)
+        active_user.unauthenticated_message
+      end
+    end
+  end
 end

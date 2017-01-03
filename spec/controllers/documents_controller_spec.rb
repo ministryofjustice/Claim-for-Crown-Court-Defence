@@ -121,6 +121,21 @@ RSpec.describe DocumentsController, type: :controller do
     end
   end
 
+  describe 'GET #download' do
+    it 'downloads the file' do
+      file = Tempfile.new('foo')
+      file.write('foo')
+      file.close
+      document = create :document, external_user: external_user
+      paperclip_adapters = double(Paperclip::AdapterRegistry)
+      paperclip_document = double(Paperclip::Attachment)
+      expect(paperclip_document).to receive(:path).at_least(1).and_return(file.path)
+      expect(paperclip_adapters).to receive(:for).at_least(1).with(instance_of(Paperclip::Attachment)).and_return(paperclip_document)
+      expect(Paperclip).to receive(:io_adapters).at_least(1).and_return(paperclip_adapters)
+      get :download, id: document.id
+    end
+  end
+
   describe 'DELETE #destroy' do
     let!(:document) { create(:document, external_user_id: external_user.id) }
 
@@ -128,6 +143,13 @@ RSpec.describe DocumentsController, type: :controller do
       expect {
         delete :destroy, id: document.id, format: :json
       }.to change(Document, :count).by(-1)
+    end
+
+    it 'responds with errors if unable to destroy the document' do
+      expect_any_instance_of(Document).to receive(:destroy).and_return(false)
+      expect {
+        delete :destroy, id: document.id, format: :json
+      }.not_to change(Document, :count)
     end
   end
 

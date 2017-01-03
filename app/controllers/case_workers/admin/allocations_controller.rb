@@ -33,12 +33,13 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   # TODO: these will also need to be remote API calls, eventually
-  def set_summary_values
-    @case_worker = CaseWorker.active.find(params[:case_worker_id]) rescue nil
-    @allocated_claims = Claim::BaseClaim.active.find(params[:claim_ids].reject(&:blank?))
-    params.delete(:case_worker_id)
-    params.delete(:claim_ids)
-  end
+  # I don't think this is needed any more.
+  # def set_summary_values
+  #   @case_worker = CaseWorker.active.find(params[:case_worker_id]) rescue nil
+  #   @allocated_claims = Claim::BaseClaim.active.find(params[:claim_ids].reject(&:blank?))
+  #   params.delete(:case_worker_id)
+  #   params.delete(:claim_ids)
+  # end
 
   def quantity_allocation?
     quantity_to_allocate > 0
@@ -58,13 +59,6 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def set_claims
     @claims = Claims::CaseWorkerClaims.new(current_user: current_user, action: tab, criteria: criteria_params).claims
-
-    unless @claims.remote?
-      filter_claims
-      search_claims
-      sort_and_paginate
-    end
-
     set_claim_carousel_info
   end
 

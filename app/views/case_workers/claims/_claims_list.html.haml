@@ -43,8 +43,12 @@
                       case_workers_claim_path(claim),
                       {:class => 'js-test-case-number-link',
                         'aria-label': "View #{claim.state.humanize} Claim, Case number: #{claim.case_number}"}
-            %div.unique-id-small
+            %span.unique-id-small
               = claim.unique_id
+            - if claim.disk_evidence == true
+              %span.disk-evidence
+                = "Disk evidence"
+
           %td{'aria-label' => t(".advocate_litigator")}
             = claim.external_user.name
           %td{'aria-label' => t(".defendants")}

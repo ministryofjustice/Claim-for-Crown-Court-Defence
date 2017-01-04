@@ -1,7 +1,7 @@
 .evidence-checklist-read-only.grid-row
   - if @claim.disk_evidence?
     %h3.heading-medium
-      Please send evidance to the following address:
+      Please send evidence to the following address:
     = render partial: 'external_users/claims/supporting_documents/laa_address', locals: { f: @claim }
 
   %h3.heading-medium

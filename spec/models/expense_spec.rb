@@ -45,6 +45,22 @@ RSpec.describe Expense, type: :model do
     end
   end
 
+  context 'zeroising nulls on save' do
+    it 'zerosise nulls on save' do
+      expense = build :expense, amount: nil, vat_amount: nil
+      expense.save!
+      expect(expense.amount).to eq 0.0
+      expect(expense.vat_amount).to eq 0.0
+    end
+
+    it 'does not zeroise the amount if not null' do
+      expense = build :expense, amount: 100.0, vat_amount: nil
+      expense.save!
+      expect(expense.amount).to eq 100.0
+      expect(expense.vat_amount).to eq 17.5
+    end
+  end
+
   context 'expense_reasons and expense reason text' do
     let(:ex_1) { build :expense, reason_id: 1 }
     let(:ex_nil) { build :expense, reason_id: nil }

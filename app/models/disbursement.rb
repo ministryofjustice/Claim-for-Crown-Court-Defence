@@ -28,6 +28,12 @@ class Disbursement < ActiveRecord::Base
     self.total = (self.net_amount || 0) + (self.vat_amount || 0)
   end
 
+  before_save do
+    self.net_amount = 0.0 if self.net_amount.nil?
+    self.vat_amount = 0.0 if self.vat_amount.nil?
+    self.total = 0.0 if self.total.nil?
+  end
+
   after_save do
     claim.update_disbursements_total
     claim.update_total

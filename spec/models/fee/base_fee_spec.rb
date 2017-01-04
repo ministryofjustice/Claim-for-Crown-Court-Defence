@@ -36,6 +36,20 @@ module Fee
 
     before(:each) { allow(subject).to receive(:quantity_is_decimal?).and_return(false) }
 
+    context 'zeroise nulls on save' do
+      it 'zeroises the amount if null' do
+        fee = create :fixed_fee, :lgfs, amount: nil, rate: nil, quantity: nil
+        fee.save!
+        expect(fee.amount).to eq 0.0
+      end
+
+      it 'does not zeroise the amount if not null' do
+        fee = create :fixed_fee, :lgfs, amount: nil, rate: 2, quantity: 150
+        fee.save!
+        expect(fee.amount).to eq 300.0
+      end
+    end
+
     describe 'blank quantity should be set to zero before validation' do
       it 'should replace blank quantities with zero before save' do
         subject.quantity = nil

@@ -264,7 +264,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def earliest_rep_order
-    @record.try(:earliest_representation_order).try(:representation_order_date)
+    @record.earliest_representation_order_date
   end
 
   def validate_trial_start_and_end(start_attribute, end_attribute, inverse=false)

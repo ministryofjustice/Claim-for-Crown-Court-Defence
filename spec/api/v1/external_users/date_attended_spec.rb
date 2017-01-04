@@ -17,7 +17,7 @@ describe API::V1::ExternalUsers::DateAttended do
   let!(:provider)     { create(:provider) }
   let!(:claim)        { create(:claim, source: 'api') }
   let!(:fee)          { create(:misc_fee, claim: claim) }
-  let!(:from_date)    { claim.earliest_representation_order.representation_order_date }
+  let!(:from_date)    { claim.earliest_representation_order_date }
   let!(:to_date)      { from_date + 2.days }
   let!(:valid_params) { { api_key: provider.api_key, attended_item_id: fee.reload.uuid, date: from_date.as_json, date_to: to_date.as_json} }
 

@@ -30,7 +30,7 @@ class DateAttended < ActiveRecord::Base
   end
 
   def earliest_date_before_reporder
-    attended_item.try(:claim).try(:earliest_representation_order).try(:representation_order_date)
+    attended_item.try(:claim).earliest_representation_order_date
   end
 
   def to_s

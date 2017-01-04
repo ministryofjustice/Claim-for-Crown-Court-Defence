@@ -243,5 +243,44 @@ module Claim
       expect(claim.evidence_doc_types.map(&:name)).to match_array( [ 'Representation order', 'Order in respect of judicial apportionment', 'Special preparation form'])
     end
   end
+
+  describe '#earliest_representation_order_date' do
+
+    let(:april_1) { Date.new(2016, 4, 1) }
+    let(:march_10) { Date.new(2016, 3, 10) }
+    let(:jun_30) { Date.new(2016, 6, 30) }
+    let(:claim) { create :claim }
+
+    before(:each) do
+      claim.defendants.clear
+      claim.save
+    end
+
+    it 'returns nil if there are no reporders' do
+      expect(claim.representation_orders).to be_empty
+      expect(claim.earliest_representation_order_date).to be nil
+    end
+
+    it 'returns the date of the only rep order' do
+      defendant = create :defendant, :without_reporder, claim: claim
+      create :representation_order, defendant: defendant, representation_order_date: april_1
+
+      claim.reload
+      expect(claim.representation_orders.size).to eq 1
+      expect(claim.earliest_representation_order_date).to eq april_1
+    end
+
+    it 'returns the date of the earliest reporder across multiple defendants' do
+      defendant_1 = create :defendant, :without_reporder, claim: claim
+      create :representation_order, defendant: defendant_1, representation_order_date: april_1
+      create :representation_order, defendant: defendant_1, representation_order_date: jun_30
+      defendant_2 = create :defendant, :without_reporder, claim: claim
+      create :representation_order, defendant: defendant_2, representation_order_date: march_10
+
+      claim.reload
+      expect(claim.representation_orders.size).to eq 3
+      expect(claim.earliest_representation_order_date).to eq march_10
+    end
+  end
 end
 

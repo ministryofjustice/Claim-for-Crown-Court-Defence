@@ -8,6 +8,13 @@ FactoryGirl.define do
       claim.fees << build(:misc_fee, :lgfs, claim: claim) # fees required for valid claims
     end
 
+    trait(:without_defendants) do
+      after(:create) do |claim|
+        claim.defendants.clear
+      end
+
+    end
+
     # Risk based bills are litigator claims of case type guilty plea, with offences of class E,F,H,I and a graduated fee PPE/quantity of 50 or less
     trait :risk_based_bill do
       offence { create(:offence, :miscellaneous, offence_class: create(:offence_class, :risk_based_bill_class)) }

@@ -25,10 +25,15 @@ namespace :data do
         claim.expenses.each do |ex|
           original_vat_amount = ex.vat_amount
           ex.__send__(:calculate_vat)
-          if ex.vat_amount != original_vat_amount
-            puts "    Original vat amount: #{original_vat_amount}, newly calculated amount: #{ex.vat_amount}"
-            puts "    Saving expense"
-            ex.save!
+          begin
+            if ex.vat_amount != original_vat_amount
+              puts "    Original vat amount: #{original_vat_amount}, newly calculated amount: #{ex.vat_amount}"
+              puts "    Saving expense"
+              ex.save!
+            end
+          rescue => err
+            puts "ERROR #{err}"
+            puts err.message
           end
         end
       end
@@ -37,7 +42,7 @@ namespace :data do
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
-        'value_bands' => 'Recacalculate value bands where wrong',
+        'value_bands' => 'Recalcalculate value bands where wrong',
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

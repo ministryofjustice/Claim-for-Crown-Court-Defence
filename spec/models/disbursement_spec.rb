@@ -22,6 +22,26 @@ RSpec.describe Disbursement, type: :model do
 
   it { should validate_presence_of(:claim).with_message('blank') }
 
+  context 'zeroise null totals' do
+    it 'zeroises fields if null' do
+      claim = build :litigator_claim
+      d = build :disbursement, claim: claim, net_amount: nil, vat_amount: nil, total: nil
+      d.save!
+      expect(d.net_amount).to eq 0.0
+      expect(d.vat_amount).to eq 0.0
+      expect(d.total).to eq 0.0
+    end
+
+    it 'does not zeroise the values if not null' do
+      claim = build :litigator_claim
+      d = build :disbursement, claim: claim, net_amount: 120, vat_amount: 25, total: 145
+      d.save!
+      expect(d.net_amount).to eq 120.0
+      expect(d.vat_amount).to eq 25.0
+      expect(d.total).to eq 145.0
+    end
+  end
+
   describe 'comma formatted inputs' do
     [:net_amount, :vat_amount].each do |attribute|
       it "converts input for #{attribute} by stripping commas out" do

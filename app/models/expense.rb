@@ -65,6 +65,11 @@ class Expense < ActiveRecord::Base
     calculate_vat
   end
 
+  before_save do
+    self.amount = 0.0 if self.amount.nil?
+    self.vat_amount = 0.0 if self.vat_amount.nil?
+  end
+
   after_save do
     claim.update_expenses_total
     claim.update_total

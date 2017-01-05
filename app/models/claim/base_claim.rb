@@ -285,6 +285,10 @@ module Claim
       end.first
     end
 
+    def earliest_representation_order_date
+      earliest_representation_order.try(:representation_order_date)
+    end
+
     def evidence_doc_types
       DocType.find_by_ids(evidence_checklist_ids)
     end
@@ -481,6 +485,10 @@ module Claim
 
     def disbursements_without_vat_gross
       disbursements_without_vat_net
+    end
+
+    def fee_scheme_version
+      FeeSchemeManager.version(self)
     end
 
     private

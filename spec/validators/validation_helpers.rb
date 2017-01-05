@@ -118,7 +118,7 @@ module ValidationHelpers
 
   def stub_earliest_rep_order(claim, date)
     repo = double RepresentationOrder
-    allow(claim).to receive_message_chain(:earliest_representation_order,:representation_order_date).and_return(date)
+    allow(claim).to receive(:earliest_representation_order_date).and_return(date)
   end
 
   def nulify_fields_on_record(record, *fields)

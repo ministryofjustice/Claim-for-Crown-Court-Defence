@@ -20,6 +20,10 @@ FactoryGirl.define do
     date_of_birth                     30.years.ago
     order_for_judicial_apportionment  false
     representation_orders             { [ FactoryGirl.create(:representation_order, representation_order_date: 400.days.ago) ] }
+
+    trait :without_reporder do
+      representation_orders           { [] }
+    end
   end
 
 end

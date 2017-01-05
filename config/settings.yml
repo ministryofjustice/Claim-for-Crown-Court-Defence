@@ -28,7 +28,7 @@ earliest_permitted_date_in_words: 10 years ago
 interim_earliest_permitted_repo_date: <%= Date.new(2014,10,2) %>
 
 max_document_upload_size_mb: 400
-max_document_upload_count: 20
+max_document_upload_count: 40
 
 max_item_amount: 200_000.00     # An item is each of the individual expenses, disbursements or fees
 max_claim_amount: 1_000_000.00  # The total sum of all the individual items in a claim

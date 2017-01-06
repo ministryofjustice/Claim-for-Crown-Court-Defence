@@ -36,6 +36,13 @@ namespace :data do
             puts err.message
           end
         end
+
+        original_fees_vat_amount = claim.fees_vat
+        claim.fees.each { |f| f.save }
+        claim.reload
+        if claim.fees_vat != original_fees_vat_amount
+          puts "    Original fees vat amount: #{original_fees_vat_amount}, newly calculated amount: #{claim.fees_vat}"
+        end
       end
     end
 

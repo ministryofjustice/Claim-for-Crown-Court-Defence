@@ -37,6 +37,7 @@ class SuperAdmins::ProvidersController < ApplicationController
   end
 
   def filtered_params
-    [:provider_type]
+    # [:provider_type]
+    []
   end
 end

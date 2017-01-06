@@ -491,6 +491,12 @@ module Claim
       FeeSchemeManager.version(self)
     end
 
+    def zeroise_nil_totals!
+      self.fees_vat = 0.0 if self.fees_vat.nil?
+      self.expenses_vat = 0.0 if self.expenses_vat.nil?
+      self.disbursements_vat = 0.0 if self.disbursements_vat.nil?
+    end
+
     private
 
     # called from state_machine before_transition on submit - override in subclass

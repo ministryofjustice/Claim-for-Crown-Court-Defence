@@ -16,4 +16,18 @@ namespace :audit do
     end
     puts str
   end
+
+  desc 'audits VAT on claims'
+  task vat: :environment do
+    failures = []
+    Claim::BaseClaim.find_each do |claim|
+      next if claim.archived_pending_delete?
+      next if claim.softly_deleted?
+      result = VatAuditor.new(claim).run
+      failures << claim.id unless result
+    end
+    puts ">>>>>>>>>>>>>> #{failures.size} claims are problematic #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
+    puts failures.inspect
+  end
 end
+

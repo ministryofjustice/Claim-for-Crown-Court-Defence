@@ -103,6 +103,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def unarchive
     if @claim.archived_pending_delete?
       @claim = @claim.previous_version
+      @claim.zeroise_nil_totals!
       @claim.save!
       redirect_to external_users_claims_url, notice: 'Claim unarchived'
     else

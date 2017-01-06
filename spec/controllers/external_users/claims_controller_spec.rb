@@ -626,6 +626,29 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       end
     end
 
+    context 'when archived claim has null vat totals' do
+      it 'sets the vat totals to zero' do
+        # given a claim with nils in vat totals before archiving
+        claim = create :authorised_claim, external_user: advocate
+        claim.fees_vat = nil
+        claim.expenses_vat = nil
+        claim.disbursements_vat = nil
+        claim.save!
+        claim.archive_pending_delete!
+        expect(claim.state).to eq 'archived_pending_delete'
+
+        # when I unarchive
+        patch :unarchive, id: claim
+
+        # it 'should set the state back to authorised and the totals to zero (not null)'
+        claim.reload
+        expect(claim.state).to eq 'authorised'
+        expect(claim.fees_vat).to eq 0.0
+        expect(claim.expenses_vat).to eq 0.0
+        expect(claim.disbursements_vat).to eq 0.0
+      end
+    end
+
     context 'when non-archived claim' do
       subject { create(:part_authorised_claim, external_user: advocate) }
 

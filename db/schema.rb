@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170106095435) do
+ActiveRecord::Schema.define(version: 20161215175055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,9 +147,9 @@ ActiveRecord::Schema.define(version: 20170106095435) do
     t.datetime "deleted_at"
     t.string   "providers_ref"
     t.boolean  "disk_evidence",            default: false
-    t.decimal  "fees_vat",                 default: 0.0,                  null: false
-    t.decimal  "expenses_vat",             default: 0.0,                  null: false
-    t.decimal  "disbursements_vat",        default: 0.0,                  null: false
+    t.decimal  "fees_vat",                 default: 0.0
+    t.decimal  "expenses_vat",             default: 0.0
+    t.decimal  "disbursements_vat",        default: 0.0
     t.integer  "value_band_id"
   end
 

@@ -17,9 +17,9 @@ RSpec.describe DisbursementType, type: :model do
   it { should have_many(:disbursements) }
 
   it { should validate_presence_of(:name) }
-  it { should validate_uniqueness_of(:name) }
+  it { should validate_uniqueness_of(:name).with_message('A disbursement type of this name already exists') }
   it { should validate_presence_of(:unique_code) }
-  it { should validate_uniqueness_of(:unique_code) }
+  it { should validate_uniqueness_of(:unique_code).with_message('A disbursement type with this unique code already exists') }
 
   context 'scopes' do
 

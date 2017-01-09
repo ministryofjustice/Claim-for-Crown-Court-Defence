@@ -19,6 +19,6 @@ class DisbursementType < ActiveRecord::Base
 
   has_many :disbursements, dependent: :destroy
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
-  validates :unique_code, presence: true, uniqueness: { case_sensitive: false }
+  validates :name, presence: true, uniqueness: { case_sensitive: false, message: 'A disbursement type of this name already exists' }
+  validates :unique_code, presence: true, uniqueness: { case_sensitive: false, message: 'A disbursement type with this unique code already exists' }
 end

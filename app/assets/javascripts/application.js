@@ -38,27 +38,33 @@
     o.trigger.apply(o, arguments);
   };
 
-  // AGFS supplier number has a further level of
-  // conditions when to show / hide
+  // Publish the agfs event when provider changes
+  // this will show / hide AGFS supplier number
   $.subscribe('/provider/type/', function(e, obj) {
-    var agfsIsChecked = $('#provider_roles_agfs').is(':checked');
-    var $agfsSupplierInput = $('#js-agfs-supplier-number');
-    if (agfsIsChecked) {
-      if (obj.eventValue === 'firm') {
-        $agfsSupplierInput.show();
-        return;
-      }
-      $agfsSupplierInput.hide();
-    }
+    $.publish('/scheme/type/agfs/', obj);
   });
 
-  $.subscribe('/scheme/type/agfs/', function() {
-    if ($('#provider_provider_type_chamber').is(':checked')) {
-      // the events conflict a little
-      setTimeout(function() {
-        $('#js-agfs-supplier-number').hide();
-      }, 0);
+
+  // Subscribe to the AGFS event and publish the full state
+  // via a proxy listener
+  $.subscribe('/scheme/type/agfs/', function(e, obj) {
+    var provider = $('#provider_provider_type_chamber').is(':checked') ? 'chamber' : 'firm';
+    var $agfs = $('#provider_roles_agfs').is(':checked');
+    $.publish('/scheme/type/agfs/proxy/', {
+      provider: provider,
+      agfs: $agfs
+    });
+  });
+
+  // Proxy listener to conditionally show / hide the supplier
+  // number for agfs
+  $.subscribe('/scheme/type/agfs/proxy/', function(event, obj) {
+    if(obj.provider === 'firm' && obj.agfs === true){
+      $.publish('/scheme/type/agfs/custom/', {eventValue: 'show-agfs-supplier'});
+      return;
     }
+    $('input#provider_firm_agfs_supplier_number').val('');
+    $.publish('/scheme/type/agfs/custom/', {eventValue: 'hide-agfs-supplier'});
   });
 
   $.jqReveal({

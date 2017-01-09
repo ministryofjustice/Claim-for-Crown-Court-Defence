@@ -3,7 +3,6 @@ module DateParamProcessor
 
   included do
     rescue_from ActiveRecord::MultiparameterAssignmentErrors do
-      puts ">>>>>>>>>>>>>>  #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
       process_date_params
       send(params[:action])
     end

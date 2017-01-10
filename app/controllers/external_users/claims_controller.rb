@@ -1,6 +1,5 @@
 class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   # This performs magic
-  include DateParamProcessor
   include PaginationHelpers
   include DocTypes
 

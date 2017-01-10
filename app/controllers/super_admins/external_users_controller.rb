@@ -17,6 +17,8 @@ class SuperAdmins::ExternalUsersController < ApplicationController
   end
 
   def create
+    # downcase email_confirmation - devise will downcase the email
+    params[:external_user][:user_attributes][:email_confirmation].downcase!
     @external_user = ExternalUser.new(params_with_temporary_password.merge(provider: @provider))
 
     if @external_user.save

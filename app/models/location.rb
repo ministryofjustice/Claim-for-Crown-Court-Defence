@@ -13,7 +13,7 @@ class Location < ActiveRecord::Base
 
   has_many :case_workers
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :name, presence: true, uniqueness: { case_sensitive: false, message: 'This location already exists' }
 
   def to_s
     name

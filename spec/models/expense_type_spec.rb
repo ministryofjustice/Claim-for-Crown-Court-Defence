@@ -19,7 +19,7 @@ RSpec.describe ExpenseType, type: :model do
   it { should have_many(:expenses) }
 
   it { should validate_presence_of(:name) }
-  it { should validate_uniqueness_of(:name) }
+  it { should validate_uniqueness_of(:name).with_message('An expense type with this name already exists') }
 
   context 'ROLES' do
     it 'should have "agfs" and "lgfs"' do

@@ -6,6 +6,13 @@ SimpleCov.start do
   add_filter 'config/'
   add_filter 'db/seeds'
 
+  # exclude individual files from test coverage stats
+  add_filter 'lib/demo_data/claim_state_advancer.rb'          # only used for generation of demo data
+  add_filter 'app/interfaces/api/helpers/xml_formatter.rb'    # only used for XML export proof of concept (LAA integration)
+  add_filter 'app/validators/expense_v1_validator.rb'         # no longer used - can be removed when all claims with v1 expenses deleted (see PT https://www.pivotaltracker.com/story/show/119351871 )
+  add_filter 'lib/caching/redis_store.rb'
+
+
   add_group "Models", "app/models"
   add_group "Controllers", "app/controllers"
   add_group "FormBuilders", 'app/form_builders'

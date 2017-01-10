@@ -41,7 +41,7 @@
           - b.label(class: 'block-label jqr-subscriber', "data-jqr-subscribe-events": "/provider/type/", "data-jqr-subscribe-values": jqr_subscribe_values) { b.check_box(class: "jqr-publisher",  "data-jqr-publish-events": jqr_publish_events) + b.value.upcase }
 
 
-    .form-group#js-agfs-supplier-number.jqr-subscriber{"data-jqr-subscribe-events": "/scheme/type/agfs/", class: @provider.errors[:firm_agfs_supplier_number].any? ? "error" : ""}
+    .form-group#js-agfs-supplier-number.jqr-subscriber{"data-jqr-subscribe-events": "/scheme/type/agfs/custom/", "data-jqr-subscribe-values": "show-agfs-supplier", class: @provider.errors[:firm_agfs_supplier_number].any? ? "error" : ""}
       = f.adp_text_field :firm_agfs_supplier_number, label: t('.agfs_supplier_number')
 
     .form-group#js-lgfs-supplier-numbers.jqr-subscriber{"data-jqr-subscribe-events": "/scheme/type/lgfs/", class: @provider.errors[:firm_lgfs_supplier_number].any? ? "error" : ""}

@@ -96,6 +96,10 @@ class Provider < ActiveRecord::Base
     advocates.map(&:supplier_number)
   end
 
+  def remove_lgfs_supplier_numbers_if_chamber
+    lgfs_supplier_numbers.clear if chamber?
+  end
+
   private
 
   def upcase_firm_agfs_supplier_number

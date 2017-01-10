@@ -58,5 +58,13 @@ FactoryGirl.define do
       firm_agfs_supplier_number nil
     end
 
+    trait :with_lgfs_supplier_numbers do
+      after(:build) do |provider|
+        3.times do
+          provider.lgfs_supplier_numbers << build(:supplier_number, provider: provider)
+        end
+      end
+    end
+
   end
 end

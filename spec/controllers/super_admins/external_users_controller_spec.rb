@@ -82,6 +82,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
       post :create,
             provider_id: provider,
             external_user: { user_attributes: {  email: 'foo@foobar.com',
+                                                 email_confirmation: 'foo@foobar.com',
                                             first_name: options[:valid]==false ? '' : 'john',
                                             last_name: 'Smith' },
                         roles: ['advocate'],

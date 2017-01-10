@@ -244,6 +244,15 @@ module Claim
     end
   end
 
+  context 'remote_extension_mixin' do
+    describe '#remote?' do
+      it 'returns false' do
+        claim = MockBaseClaim.new
+        expect(claim.remote?).to be false
+      end
+    end
+  end
+
   describe '#earliest_representation_order_date' do
 
     let(:april_1) { Date.new(2016, 4, 1) }

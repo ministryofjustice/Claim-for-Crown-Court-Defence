@@ -28,4 +28,30 @@ describe Fee::WarrantFeePresenter do
     end
   end
 
+  context '#warrant_issued_date' do
+    it 'returns formatted date' do
+      expect(warrant_fee).to receive(:warrant_issued_date).and_return(Date.new(2017, 1, 11))
+      expect(presenter.warrant_issued_date).to eq '11/01/2017'
+    end
+  end
+
+  context '#warrant_executed_date' do
+    it 'returns formatted date' do
+      expect(warrant_fee).to receive(:warrant_executed_date).and_return(Date.new(2016, 8, 3))
+      expect(presenter.warrant_executed_date).to eq '03/08/2016'
+    end
+  end
+
+  context '#warrant_executed?' do
+    it 'returns true if date present' do
+      expect(warrant_fee).to receive(:warrant_executed_date).and_return(Date.new(2016, 8, 3))
+      expect(presenter.warrant_executed?).to be true
+    end
+
+    it 'returns true if date present' do
+      expect(warrant_fee).to receive(:warrant_executed_date).and_return(nil)
+      expect(presenter.warrant_executed?).to be false
+    end
+  end
+
 end

@@ -1,7 +1,5 @@
 moj.Modules.Providers = {
   init: function() {
-    console.log('moj.Modules.Providers');
-
     // Publish the agfs event when provider changes
     // this will show / hide AGFS supplier number
     $.subscribe('/provider/type/', function(e, obj) {

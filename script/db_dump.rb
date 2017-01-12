@@ -7,6 +7,7 @@ ENVIRONMENTS = {
   'dev' => %w(dev adp_dev_new),
   'staging' => %w(staging adp_staging),
   'demo' => %w(demo adp_demo),
+  'sandbox' => %w(sandbox adp_sandbox),
   'gamma' => %w(gamma adp_gamma)
 }
 

@@ -19,7 +19,7 @@ module Remote
       client = double Remote::HttpClient
       expect(Remote::HttpClient).to receive(:current).and_return(client)
       expect(client).to receive(:get).with('case_workers', 'query_key' => 'query value', api_key: 'my_api_key').and_return(case_worker_collection)
-      expect(CaseWorker.all(user, query)).to eq('mapped_collection')
+      expect(::Remote::CaseWorker.all(user, query)).to eq('mapped_collection')
     end
   end
 end

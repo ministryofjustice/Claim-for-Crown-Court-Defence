@@ -61,6 +61,9 @@
                 = claim.state.humanize
           %td{'aria-label' => t(".case_type")}
             = claim.case_type_name
+            %br/
+            %span.claim-state
+              = claim.claim_state
           %td.numeric{'aria-label' => t(".submission_date")}
             = claim.submitted_at(include_time: false)
           %td.messages{'aria-label' => t(".messages")}

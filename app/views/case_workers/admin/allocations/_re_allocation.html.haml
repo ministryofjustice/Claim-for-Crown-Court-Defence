@@ -89,6 +89,9 @@
                   = claim.defendant_names
                 %td{'aria-label' => t(".type")}
                   = claim.case_type_name
+                  %br/
+                  %span.claim-state
+                    = claim.claim_state
                 %td.numeric{'aria-label' => t(".submitted_date")}
                   = claim.submitted_at_short
                 %td.numeric{'aria-label' => t(".claim_total")}

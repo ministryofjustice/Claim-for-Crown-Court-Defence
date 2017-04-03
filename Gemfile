@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.3.0'
-
+gem 'dotenv-rails', groups: [:development, :test]
 gem 'amoeba',                 '~> 3.0.0'
 gem 'auto_strip_attributes',  '~> 2.0'
 gem 'aws-sdk',                '~> 2'

@@ -4,17 +4,20 @@ module Stats
 
   class ManagementInformationGenerator
 
+    REPORT_NAME = 'management_information'
+
     def run
-      unless StatsReport.generation_in_progress?('management_information')
-        begin
-          report_record = Stats::StatsReport.record_start('management_information')
+      begin
+        StatsReport.clean_up(REPORT_NAME)
+        unless StatsReport.generation_in_progress?(REPORT_NAME)
+          report_record = Stats::StatsReport.record_start(REPORT_NAME)
           report_contents = generate_new_report
           report_record.write_report(report_contents)
-        rescue => err
-          report_contents = "#{err.class} - #{err.message} \n #{err.backtrace}"
-          report_record.write_error(report_contents)
-          raise err
         end
+      rescue => err
+        report_contents = "#{err.class} - #{err.message} \n #{err.backtrace}"
+        report_record.write_error(report_contents)
+        raise err
       end
     end
 

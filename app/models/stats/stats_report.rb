@@ -24,6 +24,11 @@ module Stats
 
     scope :management_information, -> { not_errored.where(report_name: 'management_information') }
 
+    def self.clean_up(report_name)
+      destroy_reports_older_than(report_name, 1.month.ago)
+      destroy_unfinished_reports_older_than(report_name, 2.hours.ago)
+    end
+
     def self.most_recent_management_information
       self.management_information.completed.first
     end
@@ -47,6 +52,14 @@ module Stats
 
     def download_filename
       "#{self.report_name}_#{self.started_at.strftime('%Y_%m_%d_%H_%M_%S')}.csv"
+    end
+
+    def self.destroy_reports_older_than(report_name, timestamp)
+      self.where(report_name: report_name, started_at: Time.at(0)..timestamp).destroy_all
+    end
+
+    def self.destroy_unfinished_reports_older_than(report_name, timestamp)
+      self.where(report_name: report_name, status: 'started', started_at: Time.at(0)..timestamp).destroy_all
     end
 
   end

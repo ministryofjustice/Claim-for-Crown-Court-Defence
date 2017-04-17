@@ -8,6 +8,7 @@ default: &default
 
 production:
   <<: *default
+  bucket: <%= ENV.fetch('adp_bucket_name') %>
 
 development:
   <<: *default

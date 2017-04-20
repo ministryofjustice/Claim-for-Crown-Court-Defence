@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get '/timed_retention', to: 'pages#timed_retention', as: :timed_retention_page
   get '/api/landing',   to: 'pages#api_landing',      as: :api_landing_page
   get '/api/release_notes',   to: 'pages#api_release_notes', as: :api_release_notes
+  get '/dwp',            to: 'pages#dwp'
 
   get 'vat'                 => "vat_rates#index"
 

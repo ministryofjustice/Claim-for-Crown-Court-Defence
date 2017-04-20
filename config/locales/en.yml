@@ -36,6 +36,22 @@ en:
           other: "<b>%{count}</b>"
       more_pages:
         display_entries: "<b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b>"
+    fieldset:
+      feedback:
+        rating: Overall, how satisfied were you with this service?
+    hint:
+      feedback:
+        comment: Don't include any personal or sensitive information
+        rating: Select from these options
+    label:
+      feedback:
+        comment: Tell us about your experience of using this service today
+        rating:
+          '1': Very dissatisfied
+          '2': Dissatisfied
+          '3': Neither satisfied nor dissatisfied
+          '4': Satisfied
+          '5': Very satisfied
   buttons:
     continue: Continue
     submit_to_laa: Submit to LAA
@@ -857,6 +873,7 @@ en:
     errors:
       error: 'error'
       form_error_hint: 'Check below for more detail'
+      generic_alert: There are errors
 
     message_controls:
       update_claim_status: Update your claim status

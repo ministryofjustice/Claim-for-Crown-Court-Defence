@@ -1,7 +1,8 @@
 - title 'Feedback'
 
-= render partial: 'errors/error_summary', locals:{ ep: @feedback, error_summary: 'This feedback has '}
 = render partial: 'layouts/header', locals: {page_heading: 'Help us improve this service'}
+
+= GovukElementsErrorsHelper.error_summary @feedback, t('shared.errors.generic_alert'), t('shared.errors.form_error_hint')
 
 .body-content
   .panel.panel-border-wide
@@ -9,24 +10,13 @@
       We will use your answers to the questions below to help us build a better service.
       = render partial: 'feedback/claim_edit_alert' if referrer_is_claim?(@feedback.referrer)
 
-  = form_for @feedback, url: feedback_index_path(email: params[:email]), html: { novalidate: 'novalidate', class: 'normal'} do |f|
+  = form_for @feedback, builder: GovukFormBuilder, url: feedback_index_path(email: params[:email]), html: { novalidate: 'novalidate', class: 'normal'} do |f|
     = f.hidden_field :type
     = f.hidden_field :referrer
-    - if params[:user_id].present?
-      = hidden_field_tag :user_id, params[:user_id]
+    = hidden_field_tag :user_id, params[:user_id] if params[:user_id].present?
 
-    .form-group
-      = f.label :comment, 'Tell us about your experience of using this service today.'
-      %p.form-hint
-        = 'Don\'t include any personal or sensitive information.'
-      = f.text_area :comment, rows: 5, class: "form-control"
-
-    %fieldset.inline
-      %legend
-        = 'Overall, how satisfied were you with this service?'
-
-      = f.collection_radio_buttons(:rating, Feedback::RATINGS.map {|k,v| [v,k]}, :last, :first) do |b|
-        - b.label(class: 'block-label') { b.radio_button + b.object.first  }
+    = f.text_area :comment, rows: 5
+    = f.radio_button_fieldset :rating, inline: true, choices: Feedback::RATINGS.keys
 
     .button-holder
       = f.submit 'Send', class: 'button button-primary', id: 'submit-button'

@@ -253,7 +253,7 @@ en:
   hint:
     search: for example case number, defendant name, advocate/litigator name
     search_caseworker: search for a first or last name
-    search_users: search for a irst or last name
+    search_users: search for a first or last name
   search:
     users: 'Search users'
     providers: 'Search providers'

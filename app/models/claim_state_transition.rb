@@ -24,7 +24,7 @@ class ClaimStateTransition < ActiveRecord::Base
     ClaimStateTransitionReason.get(reason_code)
   end
 
-  def self.decided_this_month
+  def self.decided_this_month(state)
     self.where{ (to == state.to_s) & (created_at >= Time.now.beginning_of_month) }.count('DISTINCT claim_id')
   end
 

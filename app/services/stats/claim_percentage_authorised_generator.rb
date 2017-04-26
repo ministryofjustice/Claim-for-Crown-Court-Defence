@@ -47,7 +47,7 @@ module Stats
     end
 
     def claims_decided_this_month(state)
-      ClaimStateTransition.decided_this_month
+      ClaimStateTransition.decided_this_month(state)
     end
   end
 end

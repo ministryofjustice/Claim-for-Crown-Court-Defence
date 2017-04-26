@@ -36,7 +36,7 @@ Install gems
 bundle install
 ```
 
-Put the following environment variables into your shell profile
+Put the following environment variables into your `.env.development` and `.env.test` files
 
 ```
 export SUPERADMIN_USERNAME='superadmin@example.com'

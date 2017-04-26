@@ -146,6 +146,10 @@ GEM
     docile (1.1.5)
     domain_name (0.5.20160310)
       unf (>= 0.0.5, < 1.0.0)
+    dotenv (2.2.0)
+    dotenv-rails (2.2.0)
+      dotenv (= 2.2.0)
+      railties (>= 3.2, < 5.1)
     dropzonejs-rails (0.7.3)
       rails (> 3.1)
     easy_translate (0.5.0)
@@ -619,6 +623,7 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner (~> 1.4.1)
   devise (~> 3.5.1)
+  dotenv-rails
   dropzonejs-rails (~> 0.7.1)
   factory_girl_rails (~> 4.7)
   faker (~> 1.4.3)
@@ -697,5 +702,8 @@ DEPENDENCIES
   webrick (~> 1.3)
   zendesk_api (= 1.12.1)
 
+RUBY VERSION
+   ruby 2.3.0p0
+
 BUNDLED WITH
-   1.13.1
+   1.14.6

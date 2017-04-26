@@ -1,7 +1,7 @@
 # Advocate Defence Payments
 ###a.k.a Claim for crown court defence
 
-[![Build Status](https://travis-ci.org/ministryofjustice/advocate-defence-payments.svg)](https://travis-ci.org/ministryofjustice/advocate-defence-payments)
+[![Build Status](https://travis-ci.org/ministryofjustice/Claim-for-Crown-Court-Defence.svg)](https://travis-ci.org/ministryofjustice/Claim-for-Crown-Court-Defence)
 [![Code Climate](https://codeclimate.com/github/ministryofjustice/advocate-defence-payments/badges/gpa.svg)](https://codeclimate.com/github/ministryofjustice/advocate-defence-payments)
 [![Test Coverage](https://codeclimate.com/github/ministryofjustice/advocate-defence-payments/badges/coverage.svg)](https://codeclimate.com/github/ministryofjustice/advocate-defence-payments/coverage)
 

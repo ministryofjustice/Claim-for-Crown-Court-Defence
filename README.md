@@ -39,13 +39,13 @@ bundle install
 Put the following environment variables into your `.env.development` and `.env.test` files
 
 ```
-export SUPERADMIN_USERNAME='superadmin@example.com'
-export SUPERADMIN_PASSWORD='whichever'
-export ADVOCATE_PASSWORD='whatever'
-export CASE_WORKER_PASSWORD='whatever'
-export ADMIN_PASSWORD='whatever'
-export TEST_CHAMBER_API_KEY='--create your own uuid--'
-export GRAPE_SWAGGER_ROOT_URL='http://localhost:3000'
+SUPERADMIN_USERNAME='superadmin@example.com'
+SUPERADMIN_PASSWORD='whichever'
+ADVOCATE_PASSWORD='whatever'
+CASE_WORKER_PASSWORD='whatever'
+ADMIN_PASSWORD='whatever'
+TEST_CHAMBER_API_KEY='--create your own uuid--'
+GRAPE_SWAGGER_ROOT_URL='http://localhost:3000'
 ```
 
 Setup dummy users and data:

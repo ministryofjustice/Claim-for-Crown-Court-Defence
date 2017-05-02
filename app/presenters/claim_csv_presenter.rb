@@ -11,7 +11,10 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def sorted_and_filtered_state_transitions
-    claim_state_transitions.sort.reject { |transition| (transition.to == 'draft' || transition.to == 'archived_pending_delete' || transition.created_at < Time.now - 6.months) }
+    claim_state_transitions.sort.reject do |transition|
+      %w(draft archived_pending_delete).include?(transition.to) ||
+        transition.created_at < Time.now - 6.months
+    end
   end
 
   def parsed_journeys

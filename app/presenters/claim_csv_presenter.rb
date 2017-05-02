@@ -40,7 +40,6 @@ class ClaimCsvPresenter < BasePresenter
       transition = claim.last_decision_transition
       transition&.author_name
     end
-
   end
 
   def claim_state

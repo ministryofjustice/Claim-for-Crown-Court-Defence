@@ -12,6 +12,7 @@ module Stats
         create :authorised_claim
         create :part_authorised_claim
         create :draft_claim
+        Timecop.freeze(Time.new(2015, 3, 10, 11, 44, 55)) { create :allocated_claim }
       end
 
       after(:all) do

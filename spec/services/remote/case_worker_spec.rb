@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 module Remote
-
-  describe CaseWorker do
+  describe Remote::CaseWorker do
     describe '.resource_path' do
       it 'returns case_wokers' do
-        expect(CaseWorker.resource_path).to eq 'case_workers'
+        expect(described_class.resource_path).to eq 'case_workers'
       end
     end
   end

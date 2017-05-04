@@ -32,7 +32,7 @@ gem 'logstuff',               '0.0.2'
 gem 'paperclip',              '~> 5.1.0'
 gem 'paper_trail',            '4.0.2' # version locked, https://github.com/airblade/paper_trail/issues/738
 gem 'pg',                     '~> 0.18.2'
-gem 'rails',                  '~> 4.2.7.1'
+gem 'rails',                  '~> 4.2.8'
 gem 'redis',                  '~> 3.3.1'
 gem 'config',                 '~> 1.2.1' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.2'

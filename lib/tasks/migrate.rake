@@ -51,10 +51,15 @@ namespace :data do
       puts "#{i} claims examined"
     end
 
+    desc 'Reseed expense types'
+    task :reseed_expense_types => :environment do
+      load File.join(Rails.root, 'db', 'seeds', 'expense_types.rb')
+    end
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
-        'value_bands' => 'Recacalculate value bands where wrong',
+        'reseed_expense_types' => 'Reseed the expense types as there are some new.'
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

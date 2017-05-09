@@ -24,10 +24,14 @@
 
 class Expense < ActiveRecord::Base
 
-  MILEAGE_RATES = {
-    1 => Struct.new(:id, :name, :description).new(1, '25p', '25p per mile'),
-    2 => Struct.new(:id, :name, :description).new(2, '45p', '45p per mile')
+  CAR_MILEAGE_RATES = {
+    1 => Struct.new(:id, :mileage_type, :name, :description).new(1, :car, '25p', '25p per mile'),
+    2 => Struct.new(:id, :mileage_type, :name, :description).new(2, :car, '45p', '45p per mile')
   }
+  BIKE_MILEAGE_RATES = {
+    3 => Struct.new(:id, :mileage_type, :name, :description).new(3, :bike, '20p', '20p per mile')
+  }
+  MILEAGE_RATES = CAR_MILEAGE_RATES.merge(BIKE_MILEAGE_RATES)
 
   auto_strip_attributes :location, squish: true, nullify: true
 
@@ -48,6 +52,7 @@ class Expense < ActiveRecord::Base
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
   delegate :car_travel?,
+           :bike_travel?,
            :parking?,
            :hotel_accommodation?,
            :train?,

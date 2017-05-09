@@ -10,6 +10,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
     let(:claim)                       { build :claim, force_validation: true }
     let(:expense)                     { build :expense, :train, claim: claim }
     let(:car_travel_expense)          { build(:expense, :car_travel, claim: claim ) }
+    let(:bike_travel_expense)         { build(:expense, :bike_travel, claim: claim ) }
     let(:parking_expense)             { build(:expense, :parking, claim: claim ) }
     let(:hotel_accommodation_expense) { build(:expense, :hotel_accommodation, claim: claim) }
     let(:train_expense)               { build(:expense, :train, claim: claim) }
@@ -134,7 +135,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
       end
 
       context 'not travel time' do
-        let(:expenses_to_test) { [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense, road_tolls_expense, cab_fares_expense, subsistence_expense] }
+        let(:expenses_to_test) { [car_travel_expense, bike_travel_expense, parking_expense, hotel_accommodation_expense, train_expense, road_tolls_expense, cab_fares_expense, subsistence_expense] }
 
         it 'is invalid if present' do
           expenses_to_test.each do |ex|
@@ -177,7 +178,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
     end
 
     describe '#validate_location' do
-      let(:expenses_to_test) { [car_travel_expense, hotel_accommodation_expense, train_expense, road_tolls_expense, cab_fares_expense, subsistence_expense] }
+      let(:expenses_to_test) { [car_travel_expense, bike_travel_expense, hotel_accommodation_expense, train_expense, road_tolls_expense, cab_fares_expense, subsistence_expense] }
 
       it 'should be mandatory for everything except parking and travel time ' do
         expenses_to_test.each do |ex|
@@ -304,6 +305,11 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
           expect(car_travel_expense).to be_valid
         end
 
+        it 'is valid when present for bike travel' do
+          bike_travel_expense.distance = 33
+          expect(bike_travel_expense).to be_valid
+        end
+
         it 'is valid when distance is decimal' do
           car_travel_expense.distance = 30.52
           expect(car_travel_expense).to be_valid
@@ -371,7 +377,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
     end
 
     describe 'validate_mileage_rate_id' do
-      context 'not car travel' do
+      context 'not car or bike travel' do
         let(:expenses_to_test) { [parking_expense, travel_time_expense, hotel_accommodation_expense, train_expense, road_tolls_expense, cab_fares_expense, subsistence_expense] }
 
         it 'is invalid if present' do
@@ -392,6 +398,12 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
       context 'car travel' do
         it 'is invalid if not a value in the settings' do
+          car_travel_expense.mileage_rate_id = 4
+          expect(car_travel_expense).not_to be_valid
+          expect(car_travel_expense.errors[:mileage_rate_id]).to include('invalid')
+        end
+
+        it 'is invalid if bike travel rate' do
           car_travel_expense.mileage_rate_id = 3
           expect(car_travel_expense).not_to be_valid
           expect(car_travel_expense.errors[:mileage_rate_id]).to include('invalid')
@@ -411,6 +423,31 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
         end
       end
 
+      context 'bike travel' do
+        it 'is invalid if not a value in the settings' do
+          bike_travel_expense.mileage_rate_id = 4
+          expect(bike_travel_expense).not_to be_valid
+          expect(bike_travel_expense.errors[:mileage_rate_id]).to include('invalid')
+        end
+
+        it 'is invalid if car travel rate' do
+          [1, 2].each do |i|
+            bike_travel_expense.mileage_rate_id = i
+            expect(bike_travel_expense).not_to be_valid
+          end
+        end
+
+        it 'is valid if the correct rate for bike travel' do
+          bike_travel_expense.mileage_rate_id = 3
+          expect(bike_travel_expense).to be_valid
+        end
+
+        it 'is invalid if absent' do
+          bike_travel_expense.mileage_rate_id = nil
+          expect(bike_travel_expense).not_to be_valid
+          expect(bike_travel_expense.errors[:mileage_rate_id]).to include('blank')
+        end
+      end
     end
   end
 

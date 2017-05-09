@@ -36,6 +36,11 @@ FactoryGirl.define do
       unique_code 'CAR'
     end
 
+    trait :bike_travel do
+      name 'Bike travel'
+      unique_code 'BIKE'
+    end
+
     trait :parking do
       name 'Parking'
       unique_code 'PARK'

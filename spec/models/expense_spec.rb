@@ -37,7 +37,7 @@ RSpec.describe Expense, type: :model do
 
     subject { build :expense, :car_travel }
 
-    [:car_travel?, :parking?, :hotel_accommodation?, :train?, :travel_time?, :road_tolls?, :cab_fares?, :subsistence?].each do |method|
+    [:car_travel?, :bike_travel?, :parking?, :hotel_accommodation?, :train?, :travel_time?, :road_tolls?, :cab_fares?, :subsistence?].each do |method|
       it "delegates #{method} to expense_type" do
         expect(expense_type).to receive(method)
         subject.send(method)

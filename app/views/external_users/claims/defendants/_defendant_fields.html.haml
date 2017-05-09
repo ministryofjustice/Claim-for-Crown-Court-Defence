@@ -15,15 +15,6 @@
       %a{:id => "defendant_#{@defendant_count+1}_date_of_birth"}
       = f.gov_uk_date_field(:date_of_birth, legend_text: t('.date_of_birth'), legend_class: 'govuk-legend', id: "defendant_#{@defendant_count+1}_date_of_birth_group", error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count+1}_date_of_birth"))
 
-  - unless @claim.interim?
-    .form-row
-      .form-col.form-col-two-thirds
-        %label.block-label.judicial-apportionment-notice
-          = f.check_box :order_for_judicial_apportionment
-          = raw t('.order_for_judicial_apportionment')
-          = validation_error_message(@error_presenter, :order_for_judicial_apportionment)
-
-
   .documents
     = f.fields_for :representation_orders do |repo_form|
       = render partial: 'external_users/claims/defendants/representation_order_fields', locals: { f: repo_form }

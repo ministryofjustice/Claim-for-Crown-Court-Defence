@@ -37,6 +37,12 @@ FactoryGirl.define do
       mileage_rate_id 2
     end
 
+    trait :bike_travel do
+      expense_type  { build :expense_type, :bike_travel }
+      distance 27
+      mileage_rate_id 3
+    end
+
     trait :parking do
       expense_type { build :expense_type, :parking }
       location nil

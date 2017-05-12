@@ -29,6 +29,7 @@ RSpec.describe ExpenseType, type: :model do
 
   context 'expense types helper methods' do
     let(:car_travel_expense)          { build(:expense_type, :car_travel) }
+    let(:bike_travel_expense)         { build(:expense_type, :bike_travel) }
     let(:parking_expense)             { build(:expense_type, :parking) }
     let(:hotel_accommodation_expense) { build(:expense_type, :hotel_accommodation) }
     let(:train_expense)               { build(:expense_type, :train) }
@@ -40,6 +41,9 @@ RSpec.describe ExpenseType, type: :model do
     it 'returns true for the type of expense it is' do
       expect(car_travel_expense.car_travel?).to be true
       expect(car_travel_expense.train?).to be false
+
+      expect(bike_travel_expense.bike_travel?).to be true
+      expect(bike_travel_expense.car_travel?).to be false
 
       expect(parking_expense.parking?).to be true
       expect(parking_expense.car_travel?).to be false

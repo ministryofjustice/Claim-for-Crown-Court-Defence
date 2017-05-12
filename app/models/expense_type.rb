@@ -57,6 +57,10 @@ class ExpenseType < ActiveRecord::Base
     name == 'Car travel'
   end
 
+  def bike_travel?
+    name == 'Bike travel'
+  end
+
   def parking?
     name == 'Parking'
   end

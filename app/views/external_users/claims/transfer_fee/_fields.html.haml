@@ -9,12 +9,21 @@
     .transfer-fee-group.nested-fields.mod-fees.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
       %fieldset
         .form-row
-          .column-three-quarters
+          .column-one-third
             = tf.label :fee_type, t('.fee_type')
             = tf.anchored_attribute 'fee_type'
             = @claim.transfer_fee.description
 
-          .column-quarter.fee-amount
+          .column-one-third.condensed.js-expense-location.fee-amount
+            .form-group.location_wrapper
+              = tf.adp_text_field :quantity,
+                        label: t('.ppe_total'),
+                        input_classes:'quantity',
+                        value: tf.object.quantity,
+                        error_key:'transfer_fee.quantity',
+                        errors: @error_presenter
+
+          .column-one-third.condensed.fee-total
             = tf.adp_text_field :amount,
                                 label: t('.total'),
                                 input_classes:'total',

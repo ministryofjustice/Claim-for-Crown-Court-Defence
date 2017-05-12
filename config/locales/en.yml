@@ -636,6 +636,7 @@ en:
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       transfer_fee:
         fields:
+          ppe_total: "PPE total"
           transfer_fee_section_header: Transfer fee
           transfer_fee_prompt_text_html: You must enter a total amount for the transfer fee. Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
           fee_type: Fee type

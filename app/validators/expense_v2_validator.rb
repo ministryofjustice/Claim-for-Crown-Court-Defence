@@ -66,7 +66,7 @@ class ExpenseV2Validator < BaseValidator
   end
 
   def validate_distance
-    if @record.car_travel?
+    if @record.car_travel? || @record.bike_travel?
       validate_presence_and_numericality(:distance, minimum: 0.1)
     else
       validate_absence(:distance, 'invalid')
@@ -74,10 +74,11 @@ class ExpenseV2Validator < BaseValidator
   end
 
   def validate_mileage_rate_id
-    if @record.car_travel?
+    if @record.car_travel? || @record.bike_travel?
       validate_presence(:mileage_rate_id, 'blank')
       unless @record.mileage_rate_id.nil?
-        add_error(:mileage_rate_id, 'invalid') unless @record.mileage_rate_id.in?(Expense::MILEAGE_RATES.keys)
+        add_error(:mileage_rate_id, 'invalid') if @record.car_travel? && !@record.mileage_rate_id.in?(Expense::CAR_MILEAGE_RATES.keys)
+        add_error(:mileage_rate_id, 'invalid') if @record.bike_travel? && !@record.mileage_rate_id.in?(Expense::BIKE_MILEAGE_RATES.keys)
       end
     else
       validate_absence(:mileage_rate_id, 'invalid')

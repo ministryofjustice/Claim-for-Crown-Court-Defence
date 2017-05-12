@@ -9,6 +9,7 @@ expense_types = [
   [16, 'Road or tunnel tolls',    ['agfs', 'lgfs'], 'A', 'ROAD'],
   [17, 'Cab fares',               ['agfs', 'lgfs'], 'A', 'CABF'],
   [18, 'Subsistence',             ['agfs', 'lgfs'], 'A', 'SUBS'],
+  [19, 'Bike travel',             ['agfs', 'lgfs'], 'A', 'BIKE']
 ]
 
 max_id = 0

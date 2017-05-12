@@ -1,20 +1,20 @@
 moj.Modules.NewClaim = {
-  $expenses : $('#expenses'),
-  $element : {},
-  $currentExpense : {},
-  dataAttribute : {},
-  $location : {},
-  $distance : {},
-  $mileage : {},
-  $hours : {},
-  $reason : {},
-  $amount : {},
-  $vat_amount : {},
-  $reasonText : {},
-  $date : {},
-  $ariaLiveRegion : {},
+  $expenses: $('#expenses'),
+  $element: {},
+  $currentExpense: {},
+  dataAttribute: {},
+  $location: {},
+  $distance: {},
+  $mileage: {},
+  $hours: {},
+  $reason: {},
+  $amount: {},
+  $vat_amount: {},
+  $reasonText: {},
+  $date: {},
+  $ariaLiveRegion: {},
 
-  init : function() {
+  init: function() {
 
     //Claim basic section
     this.initBasicClaim();
@@ -24,13 +24,15 @@ moj.Modules.NewClaim = {
     this.initSubmitValidation();
   },
 
-  initBasicClaim : function() {
+  initBasicClaim: function() {
     var self = this;
 
     self.$offenceCategorySelect = $('#claim_offence_category_description');
 
     self.$offenceCategorySelect.change(function() {
-      var param = $.param({description : $(this).find(':selected').text()});
+      var param = $.param({
+        description: $(this).find(':selected').text()
+      });
       $.getScript('/offences?' + param);
     });
 
@@ -41,12 +43,12 @@ moj.Modules.NewClaim = {
     self.attachToOffenceClassSelect();
   },
 
-  initSubmitValidation: function () {
+  initSubmitValidation: function() {
     //
     // Warn the user if 'A copy of the indictment' is not selected in the supporting evidence checklist.
     // Tests in /spec/javascripts/supporting-evidence_spec.js
     //
-    $('input[name="commit_submit_claim"]').on('click', function () {
+    $('input[name="commit_submit_claim"]').on('click', function() {
       if ($('#claim_evidence_checklist_ids_4').exists() && !$('#claim_evidence_checklist_ids_4').prop('checked')) {
         return confirm(
           "The evidence checklist suggests that no indictment has been attached.\n" +
@@ -57,7 +59,7 @@ moj.Modules.NewClaim = {
     });
   },
 
-  initExpense : function() {
+  initExpense: function() {
     var self = this;
     self.attachEventsForExpenseTypes();
     self.attachToExpenseReason();
@@ -66,12 +68,12 @@ moj.Modules.NewClaim = {
     self.setNumberOfExpenses();
 
     //Show/hide expense elements on page load
-    self.$expenses.find('select.js-expense-type').each(function (){
+    self.$expenses.find('select.js-expense-type').each(function() {
       self.showHideExpenseFields(this);
     });
   },
 
-  attachToOffenceClassSelect : function() {
+  attachToOffenceClassSelect: function() {
     $('#offence_class_description').on('change', function() {
       $('#claim_offence_id').val($(this).val());
 
@@ -82,20 +84,22 @@ moj.Modules.NewClaim = {
     });
   },
 
-  attachEventsForExpenseTypes : function() {
+  attachEventsForExpenseTypes: function() {
     var self = this;
     this.$expenses.on('change', 'select.js-expense-type', function() {
       self.showHideExpenseFields(this);
     });
   },
 
-  getCurrentExpenseSection : function(elem) {
+  getCurrentExpenseSection: function(elem) {
     this.$element = $(elem);
     this.$currentExpense = this.$element.closest('.expense-group');
     this.dataAttribute = this.$element.find('option:selected').data();
     this.$location = this.$currentExpense.find('.js-expense-location');
     this.$distance = this.$currentExpense.find('.js-expense-distance');
     this.$mileage = this.$currentExpense.find('.js-expense-mileage');
+    this.$mileage_car = this.$currentExpense.find('.js-expense-type-car');
+    this.$mileage_bike = this.$currentExpense.find('.js-expense-type-bike');
     this.$hours = this.$currentExpense.find('.js-expense-hours');
     this.$reason = this.$currentExpense.find('.js-expense-reason');
     this.$amount = this.$currentExpense.find('.js-expense-amount');
@@ -105,13 +109,13 @@ moj.Modules.NewClaim = {
     this.$ariaLiveRegion = this.$element.next();
   },
 
-  showHideExpenseFields : function(elem){
+  showHideExpenseFields: function(elem) {
     var self = this;
 
     self.getCurrentExpenseSection(elem);
 
     //hide all the fields by default
-    if(self.$element.find('option:selected').is(':first-child')){
+    if (self.$element.find('option:selected').is(':first-child')) {
       self.$location
         .add(self.$amount)
         .add(self.$vat_amount)
@@ -122,7 +126,7 @@ moj.Modules.NewClaim = {
         .add(self.$reasonText)
         .add(self.$date)
         .hide();
-    }else{
+    } else {
       self.showExpenseFields(elem);
     }
 
@@ -130,7 +134,7 @@ moj.Modules.NewClaim = {
     self.clearUnusedFields(self.$currentExpense);
   },
 
-  showExpenseFields : function (elem){
+  showExpenseFields: function(elem) {
     var self = this;
 
     self.$date.show();
@@ -149,6 +153,8 @@ moj.Modules.NewClaim = {
     //show/Hide mileage
     self.$mileage.toggle(self.dataAttribute.mileage);
 
+    self.toggleMileageRateFields();
+
     //show/Hide hours
     self.$hours.toggle(self.dataAttribute.hours);
 
@@ -162,11 +168,23 @@ moj.Modules.NewClaim = {
 
     self.$ariaLiveRegion.children().hide().end();
   },
-
-  attachToExpenseReason : function() {
+  toggleMileageRateFields: function () {
+    var self = this;
+    // toggle between bike / car mileage
+    if (self.dataAttribute.mileageType === 'bike') {
+      self.$mileage_car.toggle(false);
+      self.$mileage_bike.toggle(true);
+      $(self.$mileage_bike).find('input').prop('disabled', false).prop('checked', 'checked').trigger('click');
+    } else {
+      self.$mileage_car.toggle(true);
+      self.$mileage_bike.toggle(false);
+      $(self.$mileage_bike).find('input').prop('disabled', true).prop('checked', false);;
+    }
+  },
+  attachToExpenseReason: function() {
     var self = this;
 
-    self.$expenses.on('change', '.js-expense-reason select', function(){
+    self.$expenses.on('change', '.js-expense-reason select', function() {
       self.showHideExpenseReasonsText(this);
     });
   },
@@ -177,7 +195,7 @@ moj.Modules.NewClaim = {
     expenseGroup.find('input:hidden[type="radio"]').prop("checked", false);
   },
 
-  buildReasonSelectOptions : function(expenseType) {
+  buildReasonSelectOptions: function(expenseType) {
     var newReason = [];
     var expenseReason = {};
     var self = this;
@@ -187,12 +205,12 @@ moj.Modules.NewClaim = {
 
     expenseReason = MOJ.ExpenseReasons[self.dataAttribute.reasonSet];
 
-    for(var opt in expenseReason){
-      if(expenseReason.hasOwnProperty(opt)){
+    for (var opt in expenseReason) {
+      if (expenseReason.hasOwnProperty(opt)) {
         var currentOption = new Option(expenseReason[opt].reason, expenseReason[opt].id);
 
         currentOption.setAttribute('data-reason-text', expenseReason[opt].reason_text);
-        if(expenseReason[opt].id === selectedVAL){
+        if (expenseReason[opt].id === selectedVAL) {
           currentOption.setAttribute('selected', 'selected');
         }
 
@@ -202,7 +220,7 @@ moj.Modules.NewClaim = {
     self.$reason.find('select').children().remove().end().append(newReason);
   },
 
-  showHideExpenseReasonsText : function(elem){
+  showHideExpenseReasonsText: function(elem) {
     var $reason = $(elem);
     var $currentExpense = $reason.closest('.expense-group');
     var visible = $reason.find('option:selected').data('reason-text');
@@ -214,11 +232,11 @@ moj.Modules.NewClaim = {
 
   },
 
-  setNumberOfExpenses : function() {
+  setNumberOfExpenses: function() {
     var self = this;
 
-    self.$expenses.on('cocoon:after-insert cocoon:after-remove', function(e, insertedItem){
-      $(this).find('.js-expense-count').each(function(i){
+    self.$expenses.on('cocoon:after-insert cocoon:after-remove', function(e, insertedItem) {
+      $(this).find('.js-expense-count').each(function(i) {
         var $element = $(this);
         var $currentExpense = $element.closest('.expense-group');
 
@@ -228,7 +246,7 @@ moj.Modules.NewClaim = {
       });
 
       //if inserting show/hide the new expense fields and set focus
-      if (e.type === 'cocoon:after-insert'){
+      if (e.type === 'cocoon:after-insert') {
         self.showHideExpenseFields($(insertedItem).find('.js-expense-type'));
 
         $(insertedItem).find('input:first').focus();

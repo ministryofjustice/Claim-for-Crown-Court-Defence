@@ -19,6 +19,15 @@
           %td
             = defendant.date_of_birth.strftime('%d/%m/%Y') rescue ''
 
+      - unless claim.interim?
+        %tr
+          %th{scope:'row'}
+            %span.visuallyhidden
+              = "#{t('common.defendant')} #{index}"
+            = t('external_users.claims.defendants.defendant_fields.judical_apportionment')
+          %td
+            = defendant.order_for_judicial_apportionment == true ? 'Yes' : 'No'
+
       - defendant.representation_orders.each.with_index(1) do | representation_order, index|
         %tr
           %th{scope:'row'}

@@ -7,7 +7,7 @@ module Claims
     describe '.band_id_for_claim' do
       context 'with VAT' do
         it 'returns band 10' do
-          claim = double(Claim, total: 18_000.77, vat_amount: 6_999.23)
+          claim = double(Claim, total: 13_000.77, vat_amount: 6_999.23)
           expect(ValueBands.band_id_for_claim(claim)).to eq 10
         end
 
@@ -36,7 +36,7 @@ module Claims
 
       context 'without VAT' do
         it 'returns band 10' do
-          claim = double(Claim, total: 25_000.00, vat_amount: 0.0)
+          claim = double(Claim, total: 20_000.00, vat_amount: 0.0)
           expect(ValueBands.band_id_for_claim(claim)).to eq 10
         end
 
@@ -60,8 +60,8 @@ module Claims
     describe '.band_by_id' do
       it 'returns the ValueBandDefinition struct for the given id' do
         band = ValueBands.band_by_id(20)
-        expect(band.name).to eq '£25,000 - £100,000'
-        expect(band.min).to eq 25_000.01
+        expect(band.name).to eq '£20,001 - £100,000'
+        expect(band.min).to eq 20_000.01
         expect(band.max).to eq 100_000.0
       end
     end

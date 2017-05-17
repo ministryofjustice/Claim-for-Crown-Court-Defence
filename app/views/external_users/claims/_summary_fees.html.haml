@@ -24,10 +24,13 @@
           %td
             = fee.sub_type.description
 
-      - if fee.claim.agfs? || fee.is_graduated?
+      - if fee.claim.agfs? || fee.is_graduated? || fee.is_transfer?
         %tr
           %th{ scope: 'row'}
-            = t('shared.summary.quantity')
+            - if fee.is_transfer? || fee.is_graduated?
+              = "PPE"
+            - else
+              = t('shared.summary.quantity')
           %td
             = fee.quantity
 

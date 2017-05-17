@@ -19,7 +19,7 @@
               = tf.adp_text_field :quantity,
                         label: t('.ppe_total'),
                         input_classes:'quantity',
-                        value: tf.object.quantity,
+                        value: number_with_precision(tf.object.quantity, precision: 0),
                         error_key:'transfer_fee.quantity',
                         errors: @error_presenter
 

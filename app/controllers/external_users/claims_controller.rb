@@ -317,7 +317,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :id,
         :claim_id,
         :fee_type_id,
-        :amount
+        :amount,
+        :quantity
       ],
       warrant_fee_attributes: [
           :id,

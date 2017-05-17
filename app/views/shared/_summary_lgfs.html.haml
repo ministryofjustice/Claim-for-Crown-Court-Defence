@@ -1,4 +1,3 @@
-
 - present(@claim) do |claim|
   %section#summary
     %h3.heading-medium
@@ -17,9 +16,8 @@
               = t('.fee_category')
             %th{ scope: 'col' }
               = t('.fee_type')
-            - unless claim.interim?
-              %th.numeric{ scope: 'col' }
-                = t('.quantity')
+            %th.numeric{ scope: 'col' }
+              = "PPE"
             %th.numeric{ scope: 'col' }
               = t('.amount')
         %tbody
@@ -40,10 +38,8 @@
                 - if fee.sub_type.present?
                   %p
                     = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
-
-              - unless claim.interim?
-                %td.numeric
-                  = fee.quantity
+              %td.numeric
+                = fee.quantity
               %td.numeric
                 = fee.amount
 

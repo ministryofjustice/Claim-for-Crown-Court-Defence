@@ -12,11 +12,4 @@ describe Fee::TransferFeePresenter do
     end
   end
 
-  context '#quantity' do
-    it 'should call not_applicable' do
-      expect(presenter).to receive(:not_applicable)
-      presenter.quantity
-    end
-  end
-
 end

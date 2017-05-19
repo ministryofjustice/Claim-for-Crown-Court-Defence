@@ -227,7 +227,7 @@ RSpec.describe Claim, type: :model do
         claim.reload
         expect(claim.total).to eq 25_025.0
         expect(claim.vat_amount).to eq 5_000.0
-        expect(claim.value_band_id).to eq 20
+        expect(claim.value_band_id).to eq 15
       end
 
       it 'updates the value band id when added expenses takes it to the next band' do
@@ -240,7 +240,7 @@ RSpec.describe Claim, type: :model do
         claim.reload
         expect(claim.total).to eq 25_027.2
         expect(claim.vat_amount).to eq 5_000.20
-        expect(claim.value_band_id).to eq 20
+        expect(claim.value_band_id).to eq 15
       end
 
       it 'updates the value band id when added fees takes it to the next band' do
@@ -253,7 +253,7 @@ RSpec.describe Claim, type: :model do
         claim.reload
         expect(claim.total).to eq 25_027.2
         expect(claim.vat_amount).to eq 0.0
-        expect(claim.value_band_id).to eq 20
+        expect(claim.value_band_id).to eq 15
       end
     end
 

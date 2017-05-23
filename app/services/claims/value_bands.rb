@@ -4,9 +4,9 @@ module Claims
     Struct.new('ValueBandDefinition', :id, :name, :min, :max)
 
     VALUE_BANDS = {
-      10 => Struct::ValueBandDefinition.new(10, 'less than £20,000', 0.0, 20_000.0),
-      20 => Struct::ValueBandDefinition.new(20, '£20,001 - £100,000', 20_000.01, 100_000.0),
-      30 => Struct::ValueBandDefinition.new(30, '£100,001 - £150,000', 100_000.01, 150_000.0),
+      10 => Struct::ValueBandDefinition.new(10, 'less than £25,000', 0.0, 25_000.0),
+      20 => Struct::ValueBandDefinition.new(20, '£25,001 - £100,000', 25_000.01, 100_000.0),
+      30 => Struct::ValueBandDefinition.new(30, '£100,000 - £150,000', 100_000.01, 150_000.0),
       40 => Struct::ValueBandDefinition.new(40, 'more than £150,000', 150_000.01, 99_999_999.99),
     }
 

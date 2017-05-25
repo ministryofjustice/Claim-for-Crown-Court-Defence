@@ -19,11 +19,6 @@ module GoogleAnalytics
             expect(described_class.enabled?).to be_truthy
           end
         end
-
-        it 'returns false when host is demo' do
-          allow(RailsHost).to receive(:env).and_return('demo')
-          expect(described_class.enabled?).to be_falsey
-        end
       end
 
       context 'with no adapter set' do

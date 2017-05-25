@@ -51,5 +51,12 @@
 
 - content_for :body_end do
   = javascript_include_tag Rails.env.test? ? 'application.test' : 'application'
+  - if GoogleAnalytics::DataTracking.enabled?
+    :javascript
+      ga(function(tracker) {
+        var clientId = tracker.get('clientId');
+        $('.ga-client-id').val(clientId);
+      });
+
 
 = render template: 'layouts/govuk_template'

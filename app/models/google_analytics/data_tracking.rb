@@ -4,7 +4,7 @@ module GoogleAnalytics
 
     class << self
       def enabled?
-        adapter.present? && Rails.env.production? && (Rails.host.staging? || Rails.host.gamma?)
+        adapter.present? && Rails.env.production?
       end
 
       def track(*args)

@@ -71,7 +71,11 @@ module ApplicationHelper
   end
 
   def ga_outlet
-    (flash[:ga] || []).join("\n")
+    if flash[:ga].present?
+      flash[:ga].join("\n")
+    else
+      "ga('send', 'pageview');"
+    end
   end
 
   def sortable(column, title = nil)

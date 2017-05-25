@@ -6,15 +6,13 @@
 - content_for :head do
   %meta{:name =>"format-detection", :content => "telephone=no"}
   = stylesheet_link_tag "application", media: "all"
-
-- content_for :body_classes do
-  = "controller-" + controller.controller_name
-
-- content_for :body_start do
   - if GoogleAnalytics::DataTracking.enabled?
     = render partial: 'layouts/analytics', :formats => [:js], locals: { adapter: GoogleAnalytics::DataTracking.adapter_name }
     %script
       != ga_outlet
+
+- content_for :body_classes do
+  = "controller-" + controller.controller_name
 
 - content_for :header_class do
   = "with-proposition"

@@ -86,7 +86,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     params[:search]
   end
 
-  def search_claims(states=nil)
+  def search_claims(states = nil)
     if search_terms.present?
       @claims = @claims.search(search_terms, states, :case_worker_name_or_email)
     end
@@ -119,9 +119,9 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def allocation_filters_for_scheme(scheme)
     if scheme == 'agfs'
-      %w{ all fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons }
+      %w( all fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons )
     elsif scheme == 'lgfs'
-      %w{ all fixed_fee graduated_fees interim_fees warrants interim_disbursements risk_based_bills redetermination awaiting_written_reasons }
+      %w( all fixed_fee graduated_fees interim_fees warrants interim_disbursements risk_based_bills redetermination awaiting_written_reasons )
     else
       []
     end
@@ -140,6 +140,6 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def criteria_params
-    {sorting: sort_column, direction: sort_direction, scheme: scheme, filter: filter, page: current_page, limit: page_size, search: search_terms, value_band_id: value_band_id}
+    { sorting: sort_column, direction: sort_direction, scheme: scheme, filter: filter, page: current_page, limit: page_size, search: search_terms, value_band_id: value_band_id }
   end
 end

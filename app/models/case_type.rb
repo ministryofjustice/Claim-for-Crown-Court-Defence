@@ -17,7 +17,7 @@
 #
 
 class CaseType < ActiveRecord::Base
-  ROLES = %w{ lgfs agfs interim }
+  ROLES = %w( lgfs agfs interim ).freeze
   include Roles
 
   auto_strip_attributes :name, squish: true, nullify: true
@@ -25,7 +25,7 @@ class CaseType < ActiveRecord::Base
   default_scope -> { order(name: :asc) }
 
   scope :fixed_fee,               -> { where(is_fixed_fee: true) }
-  scope :graduated_fees,          -> { where(fee_type_code: Fee::GraduatedFeeType.pluck(:unique_code))}
+  scope :graduated_fees,          -> { where(fee_type_code: Fee::GraduatedFeeType.pluck(:unique_code)) }
   scope :requires_cracked_dates,  -> { where(requires_cracked_dates: true) }
   scope :requires_trial_dates,    -> { where(requires_trial_dates: true) }
   scope :requires_retrial_dates,  -> { where(requires_retrial_dates: true) }

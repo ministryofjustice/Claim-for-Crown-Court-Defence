@@ -8,7 +8,7 @@ class Ability
 
     if persona.is_a? SuperAdmin
       can [:show, :index, :new, :create, :edit, :update], Provider
-      can [:show, :index, :new, :create, :edit, :update, :change_password, :update_password ], ExternalUser
+      can [:show, :index, :new, :create, :edit, :update, :change_password, :update_password], ExternalUser
       can [:show, :edit, :update, :change_password, :update_password], SuperAdmin, id: persona.id
       can [:update_settings], User, id: user.id
       return
@@ -111,5 +111,4 @@ class Ability
   def can_manage_self(persona)
     can [:show, :edit, :update], persona.class, id: persona.id
   end
-
 end

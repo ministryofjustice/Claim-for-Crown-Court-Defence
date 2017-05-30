@@ -31,12 +31,12 @@ module Claims::Cloner
 
       set form_id: SecureRandom.uuid
 
-      customize(lambda { |original_claim, new_claim|
+      customize(lambda do |original_claim, new_claim|
         new_claim.clone_source_id = original_claim.id
         new_claim.documents.each do |d|
           d.form_id = new_claim.form_id
         end
-      })
+      end)
     end
 
     Fee::BaseFee.class_eval do |klass|
@@ -87,9 +87,9 @@ module Claims::Cloner
 
         exclude_association :document
 
-        customize(lambda { |original_doc, new_doc|
+        customize(lambda do |original_doc, new_doc|
           new_doc.copy_from(original_doc, verify: true)
-        })
+        end)
       end
     end
 

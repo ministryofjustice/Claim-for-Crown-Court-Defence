@@ -4,7 +4,7 @@ module API
       expose :created_at, format_with: :utc
       expose :sender_uuid
       expose :body
-      expose :attachment, as: :document, using: API::Entities::Document, if: lambda { |instance, _opts| instance.attachment.present? }
+      expose :attachment, as: :document, using: API::Entities::Document, if: ->(instance, _opts) { instance.attachment.present? }
 
       private
 

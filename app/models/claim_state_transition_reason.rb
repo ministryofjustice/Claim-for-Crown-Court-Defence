@@ -12,7 +12,7 @@ class ClaimStateTransitionReason
       other: 'Other'
     },
     global: {
-      timed_transition: "TimedTransition::Transitioner"
+      timed_transition: 'TimedTransition::Transitioner'
     }
   ).freeze
 
@@ -22,7 +22,7 @@ class ClaimStateTransitionReason
   end
 
   def ==(other)
-    (self.code == other.code) && (self.description == other.description)
+    (code == other.code) && (description == other.description)
   end
 
   class << self

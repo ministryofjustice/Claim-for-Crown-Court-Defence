@@ -1,5 +1,4 @@
 class AssessmentPresenter < BasePresenter
-
   presents :assessment
 
   def fees_total

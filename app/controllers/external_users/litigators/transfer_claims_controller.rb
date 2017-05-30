@@ -1,5 +1,4 @@
 class ExternalUsers::Litigators::TransferClaimsController < ExternalUsers::ClaimsController
-
   skip_load_and_authorize_resource
 
   def new
@@ -16,7 +15,7 @@ class ExternalUsers::Litigators::TransferClaimsController < ExternalUsers::Claim
     super
   end
 
-private
+  private
 
   def build_nested_resources
     @claim.build_transfer_detail if @claim.transfer_detail.nil?

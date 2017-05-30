@@ -1,6 +1,5 @@
 module Stats
   class ClaimCreationSourceDataGenerator < BaseDataGenerator
-
     private
 
     def report_types
@@ -10,6 +9,5 @@ module Stats
         'creations_source_json' => 'JSON'
       }
     end
-
   end
 end

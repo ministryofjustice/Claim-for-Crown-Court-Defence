@@ -52,12 +52,12 @@ class Feedback
   end
 
   def description
-    feedback_type_attributes.map { |t| "#{t}: #{self.send(t)}" }.join(' - ')
+    feedback_type_attributes.map { |t| "#{t}: #{send(t)}" }.join(' - ')
   end
 
   private
 
   def feedback_type_attributes
-    FEEDBACK_TYPES[self.type.to_sym]
+    FEEDBACK_TYPES[type.to_sym]
   end
 end

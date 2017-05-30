@@ -1,7 +1,6 @@
 module API
   module V1
     class Root < API::Helpers::GrapeApiHelper
-
       version 'v1', using: :accept_version_header, cascade: false
       format :json
       content_type :json, 'application/json'
@@ -27,7 +26,7 @@ module API
       end
 
       add_swagger_documentation(
-        info: {title: 'Claim for crown court defence API - v1'},
+        info: { title: 'Claim for crown court defence API - v1' },
         api_version: 'v1',
         doc_version: 'v1',
         hide_documentation_path: true,

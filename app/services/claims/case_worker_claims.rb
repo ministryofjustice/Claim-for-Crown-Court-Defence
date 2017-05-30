@@ -34,7 +34,7 @@ module Claims
     end
 
     def allocated_claims
-        Remote::Claim.allocated(current_user, criteria)
+      Remote::Claim.allocated(current_user, criteria)
     end
 
     def unallocated_claims

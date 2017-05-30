@@ -1,6 +1,5 @@
 module Stats
   class BaseDataGenerator
-
     NUM_DAYS_TO_SHOW = 21
 
     def initialize(date = Date.yesterday)
@@ -12,7 +11,7 @@ module Stats
       line_graph = Stats::GeckoWidgets::LineGraph.new
       report_types.each do |report_name, description|
         data_series = Statistic.report(report_name, 'Claim::BaseClaim', @start_date, @date).pluck(:value_1)
-        line_graph.add_dataset description, data_series.map{ |v| transform_data_value(v) }
+        line_graph.add_dataset description, data_series.map { |v| transform_data_value(v) }
       end
       line_graph
     end
@@ -25,7 +24,7 @@ module Stats
     end
 
     def report_types
-      #define in sub class if the run() method in this class is used.
+      # define in sub class if the run() method in this class is used.
     end
   end
 end

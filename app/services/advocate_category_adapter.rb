@@ -1,5 +1,4 @@
 class AdvocateCategoryAdapter
-
   TRANSLATION_TABLE = {
     'QC': 'QC',
     'Led junior': 'LEDJR',

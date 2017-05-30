@@ -38,11 +38,9 @@ class MessagesController < ApplicationController
 
     raise 'No attachment present on this message' if @message.attachment.blank?
 
-    send_file Paperclip.io_adapters.for(@message.attachment).path, {
-        type:        @message.attachment_content_type,
-        filename:    @message.attachment_file_name,
-        x_sendfile:  true
-      }
+    send_file Paperclip.io_adapters.for(@message.attachment).path, type:        @message.attachment_content_type,
+                                                                   filename:    @message.attachment_file_name,
+                                                                   x_sendfile:  true
   end
 
   private
@@ -57,7 +55,7 @@ class MessagesController < ApplicationController
 
   def redirect_to_url
     method = "#{current_user.persona.class.to_s.pluralize.underscore}_claim_path"
-    __send__(method, @message.claim, messages: true) +  '#claim-accordion'
+    __send__(method, @message.claim, messages: true) + '#claim-accordion'
   end
 
   def refresh_required?

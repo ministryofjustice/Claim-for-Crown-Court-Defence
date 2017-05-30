@@ -2,7 +2,6 @@
 # like :defendant_3_represntation_order_2_date_of_birth
 
 class ErrorMessageTranslator
-
   attr_reader :long_message, :short_message, :api_message
 
   def initialize(translations, fieldname, error)
@@ -23,7 +22,7 @@ class ErrorMessageTranslator
     if translation_found?
       @long_message  = substitute_submodel_numbers_and_names(@long_message)
       @short_message = substitute_submodel_numbers_and_names(@short_message)
-      @api_message    = substitute_submodel_numbers_and_names(@api_message)
+      @api_message = substitute_submodel_numbers_and_names(@api_message)
     end
   end
 
@@ -47,13 +46,13 @@ class ErrorMessageTranslator
 
   # needed for GovUkDateField error handling (at least)
   def format_error(error)
-    error.gsub(/\s+/,'_').downcase
+    error.gsub(/\s+/, '_').downcase
   end
 
   def get_messages(translations, key, error)
     error = format_error(error)
 
-    if key_refers_to_numbered_submodel?(key)  && submodel_key_exists?(translations, key)
+    if key_refers_to_numbered_submodel?(key) && submodel_key_exists?(translations, key)
       translation_subset, submodel_key = extract_last_submodel_attribute(translations, key)
       get_messages(translation_subset, submodel_key, error)
     elsif key_refers_to_submodel?(key)
@@ -69,7 +68,7 @@ class ErrorMessageTranslator
   end
 
   def submodel_key_exists?(translations, key)
-    parent_model, _ = last_parent_attribute(translations,key)
+    parent_model, = last_parent_attribute(translations, key)
     translations[parent_model].nil? ? false : true
   end
 
@@ -81,34 +80,35 @@ class ErrorMessageTranslator
     key =~ @submodel_regex
   end
 
-  def last_parent_attribute(translations, key)
+  def last_parent_attribute(_translations, key)
     attribute = self.class.association_key(key)
-    while attribute =~ @regex do
-      parent_model = $1
-      submodel_id  = $3
-      attribute = $4
+    while attribute =~ @regex
+      parent_model = Regexp.last_match(1)
+      submodel_id  = Regexp.last_match(3)
+      attribute = Regexp.last_match(4)
 
       # store each submodel instance number against parent model too
       @submodel_numbers[parent_model] = submodel_id
     end
-    return parent_model, attribute
+    [parent_model, attribute]
   end
 
   def extract_last_submodel_attribute(translations, key)
-    parent_model, attribute = last_parent_attribute(translations,key)
+    parent_model, attribute = last_parent_attribute(translations, key)
     translation_subset = translations.fetch(parent_model, {})
     [translation_subset, attribute]
   end
 
   def extract_submodel_attribute(translations, key)
     key =~ @submodel_regex
-    parent_model, attribute = $1, $2
+    parent_model = Regexp.last_match(1)
+    attribute = Regexp.last_match(2)
     translation_subset = translations.fetch(parent_model, {})
     [translation_subset, attribute]
   end
 
   def humanize_submodel_name(submodel_name)
-    submodel_name.humanize.downcase.gsub(/misc fee/,'miscellaneous fee')
+    submodel_name.humanize.downcase.gsub(/misc fee/, 'miscellaneous fee')
   end
 
   def substitute_submodel_numbers_and_names(message)
@@ -117,7 +117,7 @@ class ErrorMessageTranslator
       message = message.sub(substitution_key, to_ordinal(number) + ' ' + humanize_submodel_name(submodel_name))
     end
     # clean out unused message substitution keys
-    message = message.gsub(/#\{(\S+)\}/,'')
+    message = message.gsub(/#\{(\S+)\}/, '')
     message
   end
 
@@ -137,5 +137,4 @@ class ErrorMessageTranslator
   def to_ordinal_in_words(n)
     %W(#{} first second third fourth fifth sixth seventh eighth ninth tenth)[n] # rubocop:disable Lint/EmptyInterpolation
   end
-
 end

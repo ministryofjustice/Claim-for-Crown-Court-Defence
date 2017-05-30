@@ -1,5 +1,4 @@
 class DocumentRecloner
-
   def initialize(claim_id)
     @cloned_claim = Claim::BaseClaim.active.find claim_id
     @source_claim = Claim::BaseClaim.active.find @cloned_claim.clone_source_id
@@ -32,9 +31,6 @@ class DocumentRecloner
     @source_claim.documents.each { |doc| copy_document_to_clone(doc) }
   end
 
-
-
-
   def copy_document_to_clone(source_document)
     cloned_document = nil
     begin
@@ -47,7 +43,6 @@ class DocumentRecloner
     @message_text += "#{source_document.document_file_name} has been copied from source claim #{@source_claim.id} (#{@source_claim.case_number})\n"
   end
 
-
   def create_cloned_document(source_document)
     Document.new(
       claim: @cloned_claim,
@@ -56,10 +51,6 @@ class DocumentRecloner
       external_user: source_document.external_user
     )
   end
-
-
-
-
 
   def is_corrupted?(doc)
     begin
@@ -71,7 +62,4 @@ class DocumentRecloner
     File.stat(downloaded_file).size == 0
     # rubocop:enable ZeroLengthPredicate
   end
-
 end
-
-

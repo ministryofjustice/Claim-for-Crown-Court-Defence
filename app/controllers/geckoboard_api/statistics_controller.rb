@@ -1,5 +1,4 @@
 class GeckoboardApi::StatisticsController < ApplicationController
-
   skip_load_and_authorize_resource only: [:index]
 
   layout 'statistics'
@@ -18,4 +17,3 @@ class GeckoboardApi::StatisticsController < ApplicationController
     }
   end
 end
-

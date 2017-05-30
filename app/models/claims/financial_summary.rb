@@ -20,6 +20,6 @@ class Claims::FinancialSummary
   end
 
   def total_authorised_claim_value
-    authorised_claims.map { |c| c.amount_assessed }.sum
+    authorised_claims.map(&:amount_assessed).sum
   end
 end

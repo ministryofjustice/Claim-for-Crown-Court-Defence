@@ -20,7 +20,6 @@
 #
 
 module Fee
-
   class BaseFeeAbstractClassError < RuntimeError
     def initialize(message = 'Fee::BaseFee is an abstract class and cannot be instantiated')
       super(message)
@@ -55,9 +54,9 @@ module Fee
     end
 
     before_validation do
-      self.quantity   = 0 if self.quantity.blank?
-      self.rate       = 0 if self.rate.blank?
-      self.amount     = 0 if self.amount.blank?
+      self.quantity   = 0 if quantity.blank?
+      self.rate       = 0 if rate.blank?
+      self.amount     = 0 if amount.blank?
       calculate_amount
     end
 
@@ -79,19 +78,33 @@ module Fee
     end
 
     # default type logic
-    def is_basic?; false; end
+    def is_basic?
+      false
+    end
 
-    def is_misc?; false; end
+    def is_misc?
+      false
+    end
 
-    def is_fixed?; false; end
+    def is_fixed?
+      false
+    end
 
-    def is_graduated?; false; end
+    def is_graduated?
+      false
+    end
 
-    def is_warrant?; false; end
+    def is_warrant?
+      false
+    end
 
-    def is_interim?; false; end
+    def is_interim?
+      false
+    end
 
-    def is_transfer?; false; end
+    def is_transfer?
+      false
+    end
 
     # Prevent invalid fees from being created through the JSON importer,
     # because once created they cannot be amended on the web UI.
@@ -101,7 +114,9 @@ module Fee
     end
 
     def calculated?
-      fee_type.calculated? rescue true
+      fee_type.calculated?
+    rescue
+      true
     end
 
     def calculation_required?
@@ -114,11 +129,11 @@ module Fee
 
     def calculate_amount
       return unless calculation_required?
-      self.amount = self.quantity * self.rate
+      self.amount = quantity * rate
     end
 
     def blank?
-      [0, nil].include?(self.quantity) && [0, nil].include?(self.amount) && [0, nil].include?(self.rate)
+      [0, nil].include?(quantity) && [0, nil].include?(amount) && [0, nil].include?(rate)
     end
 
     def present?
@@ -134,8 +149,7 @@ module Fee
       self.rate = nil
       self.amount = nil
       # explicitly destroy child relations
-      self.dates_attended.destroy_all unless self.dates_attended.empty?
+      dates_attended.destroy_all unless dates_attended.empty?
     end
-
   end
 end

@@ -6,7 +6,6 @@ class CaseWorkerService
     self.criteria = criteria
   end
 
-
   def active
     Remote::CaseWorker.all(current_user, criteria)
   end

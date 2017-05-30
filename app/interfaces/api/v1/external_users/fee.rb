@@ -1,7 +1,6 @@
 module API
   module V1
     module ExternalUsers
-
       class Fee < Grape::API
         params do
           # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
@@ -40,7 +39,6 @@ module API
             api_response.body
           end
         end
-
       end
     end
   end

@@ -97,7 +97,6 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
     end
   end
 
-
   # helpers for common validation combos
   #
   def validate_presence_and_not_in_future(attribute)

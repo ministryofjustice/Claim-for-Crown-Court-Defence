@@ -1,5 +1,4 @@
 class FeeSchemeManager
-
   DEFAULT_LGFS_FEE_SCHEME = :lgfs_v6
   DEFAULT_AGFS_FEE_SCHEME = :agfs_v9
 
@@ -37,6 +36,4 @@ class FeeSchemeManager
       end
     end
   end
-
-
 end

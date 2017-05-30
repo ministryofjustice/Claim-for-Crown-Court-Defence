@@ -1,5 +1,4 @@
 class Claim::BaseClaimValidator < BaseValidator
-
   def self.mandatory_fields
     [
       :external_user_id,
@@ -19,7 +18,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_field(field)
-    self.__send__("validate_#{field}")
+    __send__("validate_#{field}")
   end
 
   def validate_external_user_id
@@ -31,7 +30,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_external_user_has_required_role
-    validate_has_role(@record.external_user, [@record.external_user_type, :admin], :external_user,  "must have #{@record.external_user_type} role")
+    validate_has_role(@record.external_user, [@record.external_user_type, :admin], :external_user, "must have #{@record.external_user_type} role")
   end
 
   def validate_creator_and_external_user_have_same_provider
@@ -49,25 +48,25 @@ class Claim::BaseClaimValidator < BaseValidator
 
   # ALWAYS required/mandatory
   def validate_creator
-    validate_presence(:creator, "blank") unless @record.errors.key?(:creator)
+    validate_presence(:creator, 'blank') unless @record.errors.key?(:creator)
   end
 
   # must be present
   def validate_case_type
-    validate_presence(:case_type, "blank")
+    validate_presence(:case_type, 'blank')
   end
 
   # must be present
   def validate_court
-    validate_presence(:court, "blank")
+    validate_presence(:court, 'blank')
   end
 
   # must be present
   # must have a format of capital letter followed by 8 digits
   def validate_case_number
     @record.case_number&.upcase!
-    validate_presence(:case_number, "blank")
-    validate_pattern(:case_number, CASE_NUMBER_PATTERN, "invalid")
+    validate_presence(:case_number, 'blank')
+    validate_pattern(:case_number, CASE_NUMBER_PATTERN, 'invalid')
   end
 
   def validate_transfer_court
@@ -102,29 +101,33 @@ class Claim::BaseClaimValidator < BaseValidator
   # must be final third if case type is cracked before retrial (cannot be first or second third)
   def validate_trial_cracked_at_third
     if cracked_case?
-      validate_presence(:trial_cracked_at_third, "blank")
+      validate_presence(:trial_cracked_at_third, 'blank')
       validate_inclusion(:trial_cracked_at_third, Settings.trial_cracked_at_third, 'invalid')
-      validate_pattern(:trial_cracked_at_third, /^final_third$/, 'invalid_case_type_third_combination' ) if (@record.case_type.name == 'Cracked before retrial' rescue false)
+      validate_pattern(:trial_cracked_at_third, /^final_third$/, 'invalid_case_type_third_combination') if begin
+                                                                                                               @record.case_type.name == 'Cracked before retrial'
+                                                                                                             rescue
+                                                                                                               false
+                                                                                                             end
     end
   end
 
   def validate_amount_assessed
     case @record.state
-      when 'authorised', 'part_authorised'
-        add_error(:amount_assessed, "Amount assessed cannot be zero for claims in state #{@record.state.humanize}") if @record.assessment.blank?
-      when 'draft', 'refused', 'rejected', 'submitted'
-        add_error(:amount_assessed, "Amount assessed must be zero for claims in state #{@record.state.humanize}") if @record.assessment.present?
+    when 'authorised', 'part_authorised'
+      add_error(:amount_assessed, "Amount assessed cannot be zero for claims in state #{@record.state.humanize}") if @record.assessment.blank?
+    when 'draft', 'refused', 'rejected', 'submitted'
+      add_error(:amount_assessed, "Amount assessed must be zero for claims in state #{@record.state.humanize}") if @record.assessment.present?
     end
   end
 
   def validate_evidence_checklist_ids
-    raise ActiveRecord::SerializationTypeMismatch.new("Attribute was supposed to be a Array, but was a #{@record.evidence_checklist_ids.class}.") unless @record.evidence_checklist_ids.is_a?(Array)
+    raise ActiveRecord::SerializationTypeMismatch, "Attribute was supposed to be a Array, but was a #{@record.evidence_checklist_ids.class}." unless @record.evidence_checklist_ids.is_a?(Array)
 
     # prevent non-numeric array elements
     # NOTE: non-numeric strings/chars will yield a value of 0 and this is checked for to add an error
     @record.evidence_checklist_ids = @record.evidence_checklist_ids.select(&:present?).map(&:to_i)
     if @record.evidence_checklist_ids.include?(0)
-      add_error(:evidence_checklist_ids, "Evidence checklist ids are of an invalid type or zero, please use valid Evidence checklist ids")
+      add_error(:evidence_checklist_ids, 'Evidence checklist ids are of an invalid type or zero, please use valid Evidence checklist ids')
       return
     end
 
@@ -143,9 +146,9 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be more than 5 years old
   def validate_trial_fixed_notice_at
     if @record.case_type && @record.requires_cracked_dates?
-      validate_presence(:trial_fixed_notice_at, "blank")
-      validate_not_after(Date.today, :trial_fixed_notice_at, "check_not_in_future")
-      validate_not_before(Settings.earliest_permitted_date, :trial_fixed_notice_at, "check_not_too_far_in_past")
+      validate_presence(:trial_fixed_notice_at, 'blank')
+      validate_not_after(Date.today, :trial_fixed_notice_at, 'check_not_in_future')
+      validate_not_before(Settings.earliest_permitted_date, :trial_fixed_notice_at, 'check_not_too_far_in_past')
     end
   end
 
@@ -156,9 +159,9 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be before trial_fixed_notice_at
   def validate_trial_fixed_at
     if @record.case_type && @record.requires_cracked_dates?
-      validate_presence(:trial_fixed_at, "blank")
-      validate_not_before(Settings.earliest_permitted_date, :trial_fixed_at, "check_not_too_far_in_past")
-      validate_not_before(@record.trial_fixed_notice_at, :trial_fixed_at, "check_not_earlier_than_trial_fixed_notice_at")
+      validate_presence(:trial_fixed_at, 'blank')
+      validate_not_before(Settings.earliest_permitted_date, :trial_fixed_at, 'check_not_too_far_in_past')
+      validate_not_before(@record.trial_fixed_notice_at, :trial_fixed_at, 'check_not_earlier_than_trial_fixed_notice_at')
     end
   end
 
@@ -169,10 +172,10 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be before the trial fixed/warned issued
   def validate_trial_cracked_at
     if @record.case_type && @record.requires_cracked_dates?
-      validate_presence(:trial_cracked_at, "blank")
-      validate_not_after(Date.today, :trial_cracked_at, "check_not_in_future")
-      validate_not_before(Settings.earliest_permitted_date, :trial_cracked_at, "check_not_too_far_in_past")
-      validate_not_before(@record.trial_fixed_notice_at, :trial_cracked_at, "check_not_earlier_than_trial_fixed_notice_at")
+      validate_presence(:trial_cracked_at, 'blank')
+      validate_not_after(Date.today, :trial_cracked_at, 'check_not_in_future')
+      validate_not_before(Settings.earliest_permitted_date, :trial_cracked_at, 'check_not_too_far_in_past')
+      validate_not_before(@record.trial_fixed_notice_at, :trial_cracked_at, 'check_not_earlier_than_trial_fixed_notice_at')
     end
   end
 
@@ -209,7 +212,11 @@ class Claim::BaseClaimValidator < BaseValidator
   # ---------------------------
   def method_missing(method, *args)
     if method.to_s =~ /^requires_(re){0,1}trial_dates\?/
-      @record.case_type.__send__(method) rescue false
+      begin
+        @record.case_type.__send__(method)
+      rescue
+        false
+      end
     else
       super
     end
@@ -217,15 +224,15 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def validate_trial_length(field)
     if requires_trial_dates?
-      validate_presence(field, "blank")
-      validate_numericality(field, 0, nil, "invalid") unless @record.__send__(field).nil?
+      validate_presence(field, 'blank')
+      validate_numericality(field, 0, nil, 'invalid') unless @record.__send__(field).nil?
     end
   end
 
   def validate_retrial_length(field)
     if requires_retrial_dates?
-      validate_presence(field, "blank") if @record.editable? # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
-      validate_numericality(field, 0, nil, "invalid") unless @record.__send__(field).nil?
+      validate_presence(field, 'blank') if @record.editable? # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
+      validate_numericality(field, 0, nil, 'invalid') unless @record.__send__(field).nil?
     end
   end
 
@@ -248,7 +255,9 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def cracked_case?
-    @record.case_type.name.match(/[Cc]racked/) rescue false
+    @record.case_type.name.match(/[Cc]racked/)
+  rescue
+    false
   end
 
   def has_fees_or_expenses_attributes?
@@ -256,35 +265,36 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def fixed_fee_case?
-    @record.case_type.is_fixed_fee? rescue false
+    @record.case_type.is_fixed_fee?
+  rescue
+    false
   end
 
   def snake_case_type
-    @record.case_type.name.downcase.gsub(' ', '_')
+    @record.case_type.name.downcase.tr(' ', '_')
   end
 
   def earliest_rep_order
     @record.earliest_representation_order_date
   end
 
-  def validate_trial_start_and_end(start_attribute, end_attribute, inverse=false)
+  def validate_trial_start_and_end(start_attribute, end_attribute, inverse = false)
     if @record.case_type && @record.case_type.requires_trial_dates?
       start_attribute, end_attribute = end_attribute, start_attribute if inverse
-      validate_presence(start_attribute, "blank")
-      method("validate_not_#{inverse ? 'before' : 'after' }".to_sym).call(@record.__send__(end_attribute), start_attribute, "check_other_date")
-      validate_not_before(earliest_rep_order, start_attribute, "check_not_earlier_than_rep_order") unless @record.case_type.requires_retrial_dates?
-      validate_not_before(Settings.earliest_permitted_date, start_attribute, "check_not_too_far_in_past")
+      validate_presence(start_attribute, 'blank')
+      method("validate_not_#{inverse ? 'before' : 'after'}".to_sym).call(@record.__send__(end_attribute), start_attribute, 'check_other_date')
+      validate_not_before(earliest_rep_order, start_attribute, 'check_not_earlier_than_rep_order') unless @record.case_type.requires_retrial_dates?
+      validate_not_before(Settings.earliest_permitted_date, start_attribute, 'check_not_too_far_in_past')
     end
   end
 
-  def validate_retrial_start_and_end(start_attribute, end_attribute, inverse=false)
+  def validate_retrial_start_and_end(start_attribute, end_attribute, inverse = false)
     if @record.case_type && @record.case_type.requires_retrial_dates?
       start_attribute, end_attribute = end_attribute, start_attribute if inverse
-      validate_presence(start_attribute, "blank") if @record.editable? # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
-      method("validate_not_#{inverse ? 'before' : 'after' }".to_sym).call(@record.__send__(end_attribute), start_attribute, "check_other_date")
-      validate_not_before(earliest_rep_order, start_attribute, "check_not_earlier_than_rep_order")
-      validate_not_before(Settings.earliest_permitted_date, start_attribute, "check_not_too_far_in_past")
+      validate_presence(start_attribute, 'blank') if @record.editable? # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
+      method("validate_not_#{inverse ? 'before' : 'after'}".to_sym).call(@record.__send__(end_attribute), start_attribute, 'check_other_date')
+      validate_not_before(earliest_rep_order, start_attribute, 'check_not_earlier_than_rep_order')
+      validate_not_before(Settings.earliest_permitted_date, start_attribute, 'check_not_too_far_in_past')
     end
   end
-
 end

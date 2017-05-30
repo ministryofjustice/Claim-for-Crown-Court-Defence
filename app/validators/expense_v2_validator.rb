@@ -1,5 +1,4 @@
 class ExpenseV2Validator < BaseValidator
-
   def self.fields
     [
       :expense_type,
@@ -99,7 +98,4 @@ class ExpenseV2Validator < BaseValidator
       validate_absence(:hours, 'invalid')
     end
   end
-
-
-
 end

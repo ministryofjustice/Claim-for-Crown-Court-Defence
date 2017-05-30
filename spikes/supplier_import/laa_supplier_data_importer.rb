@@ -1,17 +1,13 @@
 require 'xmlsimple'
 
-
 class LaaImportedSupplier < ActiveRecord::Base
-
 end
 
 class LaaSupplierDataImporter
-
   def initialize
     file_path = File.join(ENV['HOME'], 'Downloads', 'DtSuppData1.xml')
     @doc = XmlSimple.xml_in(file_path)
   end
-
 
   def run
     @doc['record'].each do |rec|
@@ -24,7 +20,6 @@ class LaaSupplierDataImporter
     end
   end
 end
-
 
 # load "#{Rails.root}/spikes/supplier_import/laa_supplier_data_importer.rb"
 # LaaSupplierDataImporter.new.run

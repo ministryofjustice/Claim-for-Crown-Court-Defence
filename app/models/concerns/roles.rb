@@ -14,7 +14,6 @@ module Roles
         is?(role)
       end
     end
-
   end
 
   module ClassMethods
@@ -29,7 +28,7 @@ module Roles
   end
 
   def is?(role)
-    self.roles.include?(role.to_s)
+    roles.include?(role.to_s)
   end
 
   def has_roles?(*arg_roles)
@@ -37,24 +36,24 @@ module Roles
     arg_roles.flatten!
     return false if arg_roles.empty?
     arg_roles.map!(&:to_s)
-    arg_roles & self.roles == arg_roles
+    arg_roles & roles == arg_roles
   end
 
   private
 
   def strip_empty_role
-    self.roles = self.roles.reject(&:empty?)
+    self.roles = roles.reject(&:empty?)
   end
 
   def roles_valid
-    if self.roles.empty?
+    if roles.empty?
       errors[:roles] << 'at least one role must be present'
-    elsif (self.roles - self.class::ROLES).any?
+    elsif (roles - self.class::ROLES).any?
       errors[:roles] << "must be one or more of: #{roles_string}"
     end
   end
 
-  def roles_string(delimiter=', ')
-    self.class::ROLES.map{ |r| r.humanize.downcase }.join(delimiter)
+  def roles_string(delimiter = ', ')
+    self.class::ROLES.map { |r| r.humanize.downcase }.join(delimiter)
   end
 end

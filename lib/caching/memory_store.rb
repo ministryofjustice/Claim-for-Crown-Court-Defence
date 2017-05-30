@@ -11,15 +11,15 @@ module Caching
     end
 
     def get(key)
-      self.store[key]
+      store[key]
     end
 
     def set(key, value)
-      self.store[key] = value
+      store[key] = value
     end
 
     def clear
-      self.store.clear
+      store.clear
     end
   end
 end

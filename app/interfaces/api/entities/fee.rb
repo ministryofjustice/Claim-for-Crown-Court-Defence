@@ -4,7 +4,7 @@ module API
       expose :type
       expose :code
       expose :date, format_with: :utc
-      expose :case_numbers, if: lambda { |instance, _opts| instance.case_numbers.present? }
+      expose :case_numbers, if: ->(instance, _opts) { instance.case_numbers.present? }
 
       with_options(format_with: :decimal) do
         expose :quantity
@@ -13,9 +13,9 @@ module API
       end
 
       expose :warrant_issued_date, :warrant_executed_date, format_with: :utc,
-             if: lambda { |instance, _opts| instance.is_warrant? }
+                                                           if: ->(instance, _opts) { instance.is_warrant? }
 
-      expose :sub_type, :sub_type_code, if: lambda { |instance, _opts| instance.sub_type.present? }
+      expose :sub_type, :sub_type_code, if: ->(instance, _opts) { instance.sub_type.present? }
 
       expose :dates_attended, using: API::Entities::DateAttended
 

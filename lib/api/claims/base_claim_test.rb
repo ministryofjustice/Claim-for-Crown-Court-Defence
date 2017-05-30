@@ -37,7 +37,6 @@ class BaseClaimTest
     false
   end
 
-
   protected
 
   def puts(message)
@@ -55,17 +54,27 @@ class BaseClaimTest
     @supplier_number ||= external_user.persona.provider.lgfs_supplier_numbers.first
   end
 
-  def json_value_at_index(json, key=nil, index=0)
+  def json_value_at_index(json, key = nil, index = 0)
     # ignore errors as handled elsewhere
     if key
-      JSON.parse(json).map { |e| e[key] }[index] rescue 0
+      begin
+        JSON.parse(json).map { |e| e[key] }[index]
+      rescue
+        0
+      end
     else
-      JSON.parse(json)[index] rescue 0
+      begin
+        JSON.parse(json)[index]
+      rescue
+        0
+      end
     end
   end
 
-  def id_from_json(json, key='id')
-    JSON.parse(json)[key] rescue 0
+  def id_from_json(json, key = 'id')
+    JSON.parse(json)[key]
+  rescue
+    0
   end
 
   def clean_up
@@ -79,14 +88,15 @@ class BaseClaimTest
       end
     end
     end
+
   def defendant_data
     {
       "api_key": api_key,
       "claim_id": claim_uuid,
-      "first_name": "case",
-      "last_name": "management",
-      "date_of_birth": "1979-12-10",
-      "order_for_judicial_apportionment": true,
+      "first_name": 'case',
+      "last_name": 'management',
+      "date_of_birth": '1979-12-10',
+      "order_for_judicial_apportionment": true
     }
   end
 
@@ -94,18 +104,18 @@ class BaseClaimTest
     {
       "api_key": api_key,
       "defendant_id": defendant_uuid,
-      "maat_reference": "4546963741",
-      "representation_order_date": "2015-05-21"
+      "maat_reference": '4546963741',
+      "representation_order_date": '2015-05-21'
     }
   end
-  
+
   def date_attended_data(attended_item_uuid, attended_item_type)
     {
       "api_key": api_key,
       "attended_item_id": attended_item_uuid,
       "attended_item_type": attended_item_type,
-      "date": "2015-06-01",
-      "date_to": "2015-06-01"
+      "date": '2015-06-01',
+      "date_to": '2015-06-01'
     }
   end
 
@@ -122,7 +132,7 @@ class BaseClaimTest
   end
 
   def warrant_fee_data
-    warrant_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, {category: 'warrant'}), 'id')
+    warrant_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'warrant'), 'id')
 
     {
       "api_key": api_key,
@@ -135,17 +145,17 @@ class BaseClaimTest
   end
 
   def expense_data(role:)
-    expense_type_id = json_value_at_index(client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, {role: role}), 'id')
+    expense_type_id = json_value_at_index(client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, role: role), 'id')
 
     {
       "api_key": api_key,
       "claim_id": claim_uuid,
       "expense_type_id": expense_type_id,
       "amount": 500.15,
-      "location": "London",
+      "location": 'London',
       "reason_id": 5,
-      "reason_text": "Foo",
-      "date": "2016-01-01",
+      "reason_text": 'Foo',
+      "date": '2016-01-01',
       "distance": 100.58,
       "mileage_rate_id": 1
     }

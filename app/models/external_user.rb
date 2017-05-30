@@ -18,7 +18,7 @@ class ExternalUser < ActiveRecord::Base
 
   auto_strip_attributes :supplier_number, squish: true, nullify: true
 
-  ROLES = %w{ admin advocate litigator }
+  ROLES = %w( admin advocate litigator ).freeze
   include Roles
   include SoftlyDeletable
 
@@ -76,30 +76,29 @@ class ExternalUser < ActiveRecord::Base
 
   def available_claim_types
     claim_types = []
-    self.roles.each do |role|
-      claim_types = [ Claim::AdvocateClaim, *litigator_claim_types ] if role == 'admin'
-      claim_types.concat [ Claim::AdvocateClaim ] if role == 'advocate'
+    roles.each do |role|
+      claim_types = [Claim::AdvocateClaim, *litigator_claim_types] if role == 'admin'
+      claim_types.concat [Claim::AdvocateClaim] if role == 'advocate'
       claim_types.concat litigator_claim_types if role == 'litigator'
     end
     claim_types.uniq
   end
 
   def name_and_number
-    "#{self.user.last_name}, #{self.user.first_name}: #{self.supplier_number}"
+    "#{user.last_name}, #{user.first_name}: #{supplier_number}"
   end
 
   def before_soft_delete
-    self.user.soft_delete
+    user.soft_delete
   end
 
   def supplier_number
-    self[:supplier_number] || self.provider&.firm_agfs_supplier_number
+    self[:supplier_number] || provider&.firm_agfs_supplier_number
   end
-
 
   private
 
   def validate_supplier_number?
-    self.provider && self.provider.chamber? && self.advocate?
+    provider && provider.chamber? && advocate?
   end
 end

@@ -1,6 +1,5 @@
 module Stats
   class TimeToCompletionDataGenerator < BaseDataGenerator
-
     private
 
     def report_types

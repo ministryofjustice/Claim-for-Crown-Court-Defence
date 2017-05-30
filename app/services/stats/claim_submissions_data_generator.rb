@@ -1,6 +1,5 @@
 module Stats
   class ClaimSubmissionsDataGenerator < BaseDataGenerator
-
     NUM_DAYS_TO_SHOW = 21
 
     CLAIM_TYPES = {

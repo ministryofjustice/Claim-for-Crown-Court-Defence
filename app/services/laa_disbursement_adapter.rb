@@ -1,5 +1,4 @@
 class LaaDisbursementAdapter
-
   TRANSLATION_TABLE = {
     'ARP' => 'ACCIDENT',
     'ACC' => 'ACCOUNTANTS',
@@ -33,12 +32,12 @@ class LaaDisbursementAdapter
     'TRV' => 'TRAVEL COSTS',
     'VET' => 'VET_REPORT',
     'VOI' => 'VOICE_RECOG'
-  }
+  }.freeze
 
-  LAA_BILL_TYPE = 'DISBURSEMENT'
+  LAA_BILL_TYPE = 'DISBURSEMENT'.freeze
 
   def self.laa_bill_type_and_sub_type(disbursement)
     sub_type = TRANSLATION_TABLE[disbursement.disbursement_type.unique_code]
-    sub_type.nil? ? nil : [ LAA_BILL_TYPE, sub_type ]
+    sub_type.nil? ? nil : [LAA_BILL_TYPE, sub_type]
   end
 end

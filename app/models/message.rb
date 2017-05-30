@@ -22,37 +22,36 @@ class Message < ActiveRecord::Base
   attr_accessor :claim_action, :written_reasons_submitted
 
   has_attached_file :attachment,
-    { s3_headers: {
-      'x-amz-meta-Cache-Control' => 'no-cache',
-      'Expires' => 3.months.from_now.httpdate
-    },
-    s3_permissions: :private,
-    s3_region: 'eu-west-1'}.merge(PAPERCLIP_STORAGE_OPTIONS)
+                    { s3_headers: {
+                      'x-amz-meta-Cache-Control' => 'no-cache',
+                      'Expires' => 3.months.from_now.httpdate
+                    },
+                      s3_permissions: :private,
+                      s3_region: 'eu-west-1' }.merge(PAPERCLIP_STORAGE_OPTIONS)
 
-    validates_attachment :attachment,
-      size: { in: 0.megabytes..20.megabytes },
-      content_type: {
-        content_type: ['application/pdf',
-                       'application/msword',
-                       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                       'application/vnd.oasis.opendocument.text',
-                       'text/rtf',
-                       'application/rtf',
-                       'image/jpeg',
-                       'image/png',
-                       'image/tiff',
-                       'image/bmp',
-                       'image/x-bitmap'
-                       ]}
+  validates_attachment :attachment,
+                       size: { in: 0.megabytes..20.megabytes },
+                       content_type: {
+                         content_type: ['application/pdf',
+                                        'application/msword',
+                                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                                        'application/vnd.oasis.opendocument.text',
+                                        'text/rtf',
+                                        'application/rtf',
+                                        'image/jpeg',
+                                        'image/png',
+                                        'image/tiff',
+                                        'image/bmp',
+                                        'image/x-bitmap']
+                       }
 
   validates :sender, presence: { message: 'Message sender cannot be blank' }
   validates :body, presence: { message: 'Message body cannot be blank' }
   validates :claim_id, presence: { message: 'Message claim_id cannot be blank' }
 
-
   scope :most_recent_first, -> { includes(:user_message_statuses).order(created_at: :desc) }
 
-  scope :most_recent_last, -> { includes(:user_message_statuses).order(created_at: :asc)}
+  scope :most_recent_last, -> { includes(:user_message_statuses).order(created_at: :asc) }
 
   after_create :generate_statuses, :process_claim_action, :process_written_reasons
 
@@ -72,18 +71,18 @@ class Message < ActiveRecord::Base
 
   def generate_statuses
     users_for_statuses.each do |user|
-      UserMessageStatus.create!(user_id: user.id, message_id: self.id, read: user == sender)
+      UserMessageStatus.create!(user_id: user.id, message_id: id, read: user == sender)
     end
   end
 
   def users_for_statuses
-    self.claim.provider.external_users.map(&:user) + self.claim.case_workers.map(&:user)
+    claim.provider.external_users.map(&:user) + claim.case_workers.map(&:user)
   end
 
   def process_claim_action
-    return unless Claims::StateMachine::VALID_STATES_FOR_REDETERMINATION.include?(self.claim.state)
+    return unless Claims::StateMachine::VALID_STATES_FOR_REDETERMINATION.include?(claim.state)
 
-    case self.claim_action
+    case claim_action
     when /Apply for redetermination/
       claim_updater.request_redetermination
     when /Request written reasons/
@@ -92,14 +91,14 @@ class Message < ActiveRecord::Base
   end
 
   def process_written_reasons
-    return unless self.claim.written_reasons_outstanding?
+    return unless claim.written_reasons_outstanding?
 
-    if self.written_reasons_submitted == '1'
-      self.claim.send("#{self.claim.filtered_state_transitions.second.event}!", author_id: sender_id)
+    if written_reasons_submitted == '1'
+      claim.send("#{claim.filtered_state_transitions.second.event}!", author_id: sender_id)
     end
   end
 
   def claim_updater
-    Claims::ExternalUserClaimUpdater.new(self.claim, current_user: sender)
+    Claims::ExternalUserClaimUpdater.new(claim, current_user: sender)
   end
 end

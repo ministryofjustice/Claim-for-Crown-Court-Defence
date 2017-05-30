@@ -56,7 +56,7 @@ module API
           expose :trial_cracked_at_third, as: :date_cracked_at_third
         end
 
-        #expose :object, as: :totals, using: API::Entities::Totals
+        # expose :object, as: :totals, using: API::Entities::Totals
       end
 
       expose :defendants, using: API::Entities::Export::Defendant
@@ -65,11 +65,11 @@ module API
       expose :expenses, using: API::Entities::Expense
 
       # TODO: not needed for now, CCR only needs the very basic
-      #expose :disbursements, using: API::Entities::Disbursement
-      #expose :documents, using: API::Entities::Document
-      #expose :messages, using: API::Entities::Message
-      #expose :assessment, using: API::Entities::Determination
-      #expose :redeterminations, using: API::Entities::Determination
+      # expose :disbursements, using: API::Entities::Disbursement
+      # expose :documents, using: API::Entities::Document
+      # expose :messages, using: API::Entities::Message
+      # expose :assessment, using: API::Entities::Determination
+      # expose :redeterminations, using: API::Entities::Determination
 
       private
 

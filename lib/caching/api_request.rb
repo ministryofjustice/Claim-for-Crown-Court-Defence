@@ -30,9 +30,17 @@ module Caching
       data
     end
 
-    def created_at; content_parts[0].to_i; end
-    def max_age; content_parts[1].to_i; end
-    def data; content_parts[2]; end
+    def created_at
+      content_parts[0].to_i
+    end
+
+    def max_age
+      content_parts[1].to_i
+    end
+
+    def data
+      content_parts[2]
+    end
 
     def stale?
       now > (created_at + max_age)
@@ -45,7 +53,6 @@ module Caching
     def default_ttl
       options[:ttl].to_i
     end
-
 
     private
 
@@ -78,7 +85,7 @@ module Caching
     end
 
     def processed_url(url)
-      uri = URI::parse(url.downcase)
+      uri = URI.parse(url.downcase)
       uri.query = filter_query(uri.query)
       uri.fragment = nil
       uri.to_s

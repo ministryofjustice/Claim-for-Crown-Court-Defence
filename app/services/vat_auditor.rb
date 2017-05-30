@@ -27,7 +27,6 @@ class VatAuditor
     @result
   end
 
-
   private
 
   def delayed_puts(string)
@@ -54,11 +53,10 @@ class VatAuditor
 
   def audit_no_vat_on_fees
     if @claim.fees_vat != 0.0
-      delayed_puts "    ERROR: VAT on fees for non-VAT regististered claim"
+      delayed_puts '    ERROR: VAT on fees for non-VAT regististered claim'
       @result = false
     end
   end
-
 
   def print_claim_totals
     delayed_puts "#{@claim.class}   #{@claim.id}  vat_registered: #{@claim.vat_registered?}  state: #{@claim.state}"
@@ -81,11 +79,11 @@ class VatAuditor
     claim_total =  @claim.__send__(claim_total_attr)
     assoc_totals = @claim.__send__(assoc_name).map(&assoc_attr)
     if claim_total != assoc_totals.sum
-      delayed_puts "ERROR"
+      delayed_puts 'ERROR'
       delayed_puts "  MISMATCH #{claim_total_attr} of #{claim_total} does not match sum of #{assoc_attr} on #{assoc_name}: #{assoc_totals.map(&:to_s).inspect}"
       @result = false
     else
-      delayed_puts "OK"
+      delayed_puts 'OK'
     end
   end
 end

@@ -14,7 +14,7 @@ class ExternalUsers::FinancialSummaryController < ExternalUsers::ApplicationCont
     @total_value = @financial_summary.total_authorised_claim_value
   end
 
-private
+  private
 
   def set_claims_context
     context = Claims::ContextMapper.new(current_user.persona)

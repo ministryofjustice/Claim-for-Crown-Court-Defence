@@ -17,17 +17,15 @@
 #
 
 class Fee::BasicFeeType < Fee::BaseFeeType
-
-  DATES_ATTENDED_APPLICABLE_FEES = %w( BAF DAF DAH DAJ PCM SAF )
+  DATES_ATTENDED_APPLICABLE_FEES = %w( BAF DAF DAH DAJ PCM SAF ).freeze
 
   default_scope { order(id: :asc) }
 
   def requires_dates_attended?
-    DATES_ATTENDED_APPLICABLE_FEES.include?(self.code)
+    DATES_ATTENDED_APPLICABLE_FEES.include?(code)
   end
 
   def fee_category_name
     'Basic Fees'
   end
-
 end

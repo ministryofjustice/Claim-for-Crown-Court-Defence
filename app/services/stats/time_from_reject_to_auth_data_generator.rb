@@ -1,6 +1,5 @@
 module Stats
   class TimeFromRejectToAuthDataGenerator < BaseDataGenerator
-
     private
 
     def report_types

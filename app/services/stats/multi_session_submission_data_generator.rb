@@ -1,6 +1,5 @@
 module Stats
   class MultiSessionSubmissionDataGenerator < BaseDataGenerator
-
     private
 
     def report_types
@@ -9,6 +8,5 @@ module Stats
         'single_session_submissions' => 'Single-session submissions'
       }
     end
-
   end
 end

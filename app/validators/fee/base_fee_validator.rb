@@ -1,5 +1,4 @@
 class Fee::BaseFeeValidator < BaseValidator
-
   def self.fields
     [
       :amount,
@@ -12,7 +11,7 @@ class Fee::BaseFeeValidator < BaseValidator
     [:claim, :fee_type]
   end
 
-private
+  private
 
   def validate_warrant_issued_date
     validate_absence(:warrant_issued_date, 'present')
@@ -38,16 +37,16 @@ private
     @actual_trial_length = trial_length
 
     case fee_code
-      when 'BAF'
-        validate_baf_quantity
-      when 'DAF'
-        validate_daily_attendance_3_40_quantity
-      when 'DAH'
-        validate_daily_attendance_41_50_quantity
-      when 'DAJ'
-        validate_daily_attendance_51_plus_quantity
-      when 'PCM'
-        validate_pcm_quantity
+    when 'BAF'
+      validate_baf_quantity
+    when 'DAF'
+      validate_daily_attendance_3_40_quantity
+    when 'DAH'
+      validate_daily_attendance_41_50_quantity
+    when 'DAJ'
+      validate_daily_attendance_51_plus_quantity
+    when 'PCM'
+      validate_pcm_quantity
     end
 
     validate_any_quantity
@@ -88,7 +87,7 @@ private
 
   def validate_any_quantity
     validate_integer_decimal
-    add_error(:quantity, 'invalid') if @record.quantity < 0 || @record.quantity > 99999
+    add_error(:quantity, 'invalid') if @record.quantity < 0 || @record.quantity > 99_999
   end
 
   def validate_integer_decimal
@@ -113,10 +112,10 @@ private
 
   def validate_calculated_fee(code)
     case code
-      when "BAF", "DAF", "DAH", "DAJ", "SAF", "PCM", "CAV", "NDR", "NOC"
-        validate_basic_fee_rate(code)
-      else
-        validate_calculated_quantity_rate_combination
+    when 'BAF', 'DAF', 'DAH', 'DAJ', 'SAF', 'PCM', 'CAV', 'NDR', 'NOC'
+      validate_basic_fee_rate(code)
+    else
+      validate_calculated_quantity_rate_combination
     end
   end
 
@@ -137,7 +136,7 @@ private
   # NOTE: we have specific error messages for basic fees
   def validate_basic_fee_rate(code)
     if @record.quantity > 0 && @record.rate <= 0
-      add_error(:rate, "invalid")
+      add_error(:rate, 'invalid')
     elsif @record.quantity <= 0 && @record.rate > 0
       add_error(:quantity, "#{code.downcase}_invalid")
     end
@@ -148,7 +147,7 @@ private
 
     add_error(:amount, "#{fee_code.downcase}_invalid") if @record.amount < 0 || @record.amount > Settings.max_item_amount
 
-    if !@record.calculated?
+    unless @record.calculated?
       if @record.quantity <= 0 && @record.amount > 0
         add_error(:quantity, "#{fee_code.downcase}_invalid")
       end
@@ -177,7 +176,7 @@ private
     end
   end
 
-  def daf_trial_length_combination_invalid(lower_bound, trial_length_modifier, max_quantity=nil)
+  def daf_trial_length_combination_invalid(lower_bound, trial_length_modifier, max_quantity = nil)
     raise ArgumentError if trial_length_modifier > 0
     return false if daf_retrial_combo_ignorable
 
@@ -187,7 +186,8 @@ private
 
   # This is required for retrial claims created prior to retrial fields being added.
   def daf_retrial_combo_ignorable
-    @record.claim.case_type.requires_retrial_dates? && !@record.claim.editable? rescue false
+    @record.claim.case_type.requires_retrial_dates? && !@record.claim.editable?
+  rescue
+    false
   end
-
 end

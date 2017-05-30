@@ -13,7 +13,7 @@ module Messaging
     end
 
     def success?
-      (200..201).include?(code)
+      (200..201).cover?(code)
     end
 
     def error?

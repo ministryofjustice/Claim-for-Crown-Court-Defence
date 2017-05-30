@@ -1,6 +1,5 @@
 class ExternalUsers::JsonDocumentImportersController < ApplicationController
-
-  skip_before_filter :verify_authenticity_token, :only => :create
+  skip_before_filter :verify_authenticity_token, only: :create
   skip_load_and_authorize_resource only: [:create]
 
   def create
@@ -25,7 +24,7 @@ class ExternalUsers::JsonDocumentImportersController < ApplicationController
       end
     else
       respond_to do |format|
-        format.js { render :format_error, locals: {errors: @json_document_importer.errors} }
+        format.js { render :format_error, locals: { errors: @json_document_importer.errors } }
       end
     end
   end

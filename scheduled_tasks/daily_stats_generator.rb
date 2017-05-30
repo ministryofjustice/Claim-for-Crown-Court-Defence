@@ -2,7 +2,6 @@ require 'chronic'
 
 # https://github.com/ssoroka/scheduler_daemon for help
 class DailyStatsGenerator < Scheduler::SchedulerTask
-
   every '1d', first_at: Chronic.parse('next 5 am')
 
   def run
@@ -36,7 +35,7 @@ class DailyStatsGenerator < Scheduler::SchedulerTask
       Stats::Collector::TimeToCompletionCollector,
       Stats::Collector::ClaimRedeterminationsCollector,
       Stats::Collector::MoneyToDateCollector,
-      Stats::Collector::MoneyClaimedPerMonthCollector,
+      Stats::Collector::MoneyClaimedPerMonthCollector
     ]
   end
 end

@@ -4,7 +4,6 @@
 # short messages by fieldname, and all the long messages with associated fieldnames
 #
 class ErrorDetailCollection
-
   def initialize
     @error_details = {}
   end
@@ -13,7 +12,7 @@ class ErrorDetailCollection
     if @error_details.key?(fieldname)
       @error_details[fieldname] << error_detail
     else
-      @error_details[fieldname] = [ error_detail ]
+      @error_details[fieldname] = [error_detail]
     end
   end
 
@@ -31,10 +30,9 @@ class ErrorDetailCollection
     error_detail_array.map(&:short_message).join(', ')
   end
 
-
   def header_errors
     result_array = []
-    @error_details.each do |key, value_array|
+    @error_details.each do |_key, value_array|
       value_array.each do |error_detail|
         result_array << error_detail
       end
@@ -42,9 +40,7 @@ class ErrorDetailCollection
     result_array.sort!
   end
 
-
   def size
     @error_details.values.map(&:size).sum
   end
-
 end

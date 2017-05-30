@@ -1,5 +1,5 @@
 class DocumentCleaner
   def clean!
-    Document.where(claim_id: nil).each { |d| d.destroy }
+    Document.where(claim_id: nil).each(&:destroy)
   end
 end

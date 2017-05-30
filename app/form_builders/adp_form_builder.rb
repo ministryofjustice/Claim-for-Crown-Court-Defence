@@ -7,12 +7,12 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def anchored_label(label, anchor_name = nil, options = {})
-    anchor_name ||= label.gsub(' ', '_').downcase
+    anchor_name ||= label.tr(' ', '_').downcase
     anchor_and_label_markup(anchor_name, label, options)
   end
 
   def anchored_without_label(label, anchor_name = nil, options = {})
-    anchor_name ||= label.gsub(' ', '_').downcase
+    anchor_name ||= label.tr(' ', '_').downcase
     anchor_and_label_markup(anchor_name, nil, options)
   end
 
@@ -21,7 +21,7 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
   #
   def anchored_attribute(attribute, options = {})
     resource = object.class.name.demodulize.underscore
-    anchor_name = [resource, attribute.gsub(' ', '_')].join('.').downcase
+    anchor_name = [resource, attribute.tr(' ', '_')].join('.').downcase
     anchor_and_label_markup(anchor_name, nil, options)
   end
 
@@ -39,11 +39,9 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
     [anchor_html, label_html].join.html_safe
   end
 
-  def full_anchor_name_for(object, anchor_name)
+  def full_anchor_name_for(_object, anchor_name)
     "#{make_object_name}_#{anchor_name}"
   end
-
-
 
   def make_object_name
     klass_name = object.class.to_s

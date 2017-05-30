@@ -2,10 +2,10 @@ class BasePresenter < SimpleDelegator
   include ActionView::Helpers::TextHelper
 
   def initialize(model, view)
-    @model, @view = model, view
+    @model = model
+    @view = view
     super(@model)
   end
-
 
   def self.presents(name)
     define_method(name) do
@@ -16,10 +16,12 @@ class BasePresenter < SimpleDelegator
   private_class_method :presents
 
   def format_date(date)
-    date.strftime(Settings.date_format) rescue nil
+    date.strftime(Settings.date_format)
+  rescue
+    nil
   end
 
-  def date_format(options={})
+  def date_format(options = {})
     options.assert_valid_keys(:include_time)
     options[:include_time] ? Settings.date_time_format : Settings.date_format
   end

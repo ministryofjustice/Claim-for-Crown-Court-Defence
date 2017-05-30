@@ -1,5 +1,4 @@
 class ErrorPresenter
-
   SUBMODEL_REGEX = /^(\S+?)(_(\d+)_)(\S+)$/
 
   def initialize(claim, message_file = nil)
@@ -39,19 +38,19 @@ class ErrorPresenter
       else
         long_message  = generate_standard_long_message(fieldname, error)
         short_message = generate_standard_short_message(fieldname, error)
-        api_message    = generate_standard_api_message(fieldname, error)
+        api_message = generate_standard_api_message(fieldname, error)
       end
       @error_details[fieldname] = ErrorDetail.new(fieldname, long_message, short_message, api_message, generate_sequence(fieldname))
     end
   end
 
-  def last_parent_attribute(translations, key)
+  def last_parent_attribute(_translations, key)
     attribute = ErrorMessageTranslator.association_key(key)
-    while attribute =~ SUBMODEL_REGEX do
-      parent_model = $1
-      attribute = $4
+    while attribute =~ SUBMODEL_REGEX
+      parent_model = Regexp.last_match(1)
+      attribute = Regexp.last_match(4)
     end
-    return parent_model, attribute
+    [parent_model, attribute]
   end
 
   def is_submodel_key?(key)
@@ -63,13 +62,17 @@ class ErrorPresenter
     parent_sequence = 0
     if is_submodel_key?(key)
       parent_model, attribute = last_parent_attribute(@translations, key)
-      parent_sequence = @translations[parent_model]['_seq'] rescue 0
+      parent_sequence = begin
+                          @translations[parent_model]['_seq']
+                        rescue
+                          0
+                        end
       translations_subset = @translations[parent_model][attribute]
     else
       translations_subset = @translations[key]
     end
 
-    return translations_subset, parent_sequence
+    [translations_subset, parent_sequence]
   end
 
   # NOTE:
@@ -77,23 +80,26 @@ class ErrorPresenter
   #
   def generate_sequence(key)
     translations_subset, parent_sequence = translations_sub_set_and_parent_sequence(key)
-    translations_subset['_seq'].present? ? translations_subset['_seq'] + parent_sequence : parent_sequence || 99999 rescue 99999
+    begin
+      translations_subset['_seq'].present? ? translations_subset['_seq'] + parent_sequence : parent_sequence || 99_999
+    rescue
+      99_999
+    end
   end
 
   def generate_link(fieldname)
-    "#" + fieldname
+    '#' + fieldname
   end
 
   def generate_standard_long_message(fieldname, error)
     "#{fieldname.to_s.humanize} #{error.humanize.downcase}"
   end
 
-  def generate_standard_short_message(fieldname, error)
+  def generate_standard_short_message(_fieldname, error)
     error.humanize
   end
 
   def generate_standard_api_message(fieldname, error)
     "#{fieldname.to_s.humanize} #{error.humanize.downcase}"
   end
-
 end

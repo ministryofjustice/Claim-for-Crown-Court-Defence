@@ -12,13 +12,11 @@
 
 module Stats
   class Statistic < ActiveRecord::Base
-
     self.table_name = 'statistics'
 
     def self.find_by_date_and_report_name(date, report_name)
       Statistic.where(date: date, report_name: report_name).order(:claim_type)
     end
-
 
     def self.report(report_name, claim_type, start_date, end_date)
       Statistic.where(report_name: report_name, claim_type: claim_type).where('date between ? and ?', start_date.to_date, end_date.to_date).order(:date)

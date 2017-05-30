@@ -6,7 +6,6 @@
 
 module Claim
   class TransferBrain
-
     Struct.new('TransferStage', :id, :description, :requires_case_conclusion)
 
     TRANSFER_STAGES = {
@@ -17,7 +16,7 @@ module Claim
       50 => Struct::TransferStage.new(50, 'Transfer before retrial', true),
       60 => Struct::TransferStage.new(60, 'Transfer during retrial', true),
       70 => Struct::TransferStage.new(70, 'Transfer after retrial and before sentence hearing', false)
-    }
+    }.freeze
 
     CASE_CONCLUSIONS = {
       10 => 'Trial',
@@ -25,17 +24,17 @@ module Claim
       30 => 'Cracked',
       40 => 'Cracked before retrial',
       50 => 'Guilty plea'
-    }
+    }.freeze
 
     def self.transfer_stage_by_id(id)
       name = TRANSFER_STAGES[id]
-      raise ArgumentError.new "No such transfer stage id: #{id}" if name.nil?
+      raise ArgumentError, "No such transfer stage id: #{id}" if name.nil?
       name
     end
 
     def self.transfer_stage_id(description)
-      transfer_stage = TRANSFER_STAGES.values.detect{ |ts| ts.description == description }
-      raise ArgumentError.new "No such transfer stage: '#{description}'" if transfer_stage.nil?
+      transfer_stage = TRANSFER_STAGES.values.detect { |ts| ts.description == description }
+      raise ArgumentError, "No such transfer stage: '#{description}'" if transfer_stage.nil?
       transfer_stage.id
     end
 
@@ -45,13 +44,13 @@ module Claim
 
     def self.case_conclusion_by_id(id)
       name = CASE_CONCLUSIONS[id]
-      raise ArgumentError.new "No such case conclusion id: #{id}" if name.nil?
+      raise ArgumentError, "No such case conclusion id: #{id}" if name.nil?
       name
     end
 
     def self.case_conclusion_id(name)
       id = CASE_CONCLUSIONS.key(name)
-      raise ArgumentError.new "No such case conclusion: '#{name}'" if id.nil?
+      raise ArgumentError, "No such case conclusion: '#{name}'" if id.nil?
       id
     end
 
@@ -85,9 +84,8 @@ module Claim
       else
         detail.litigator_type == 'new' &&
           detail.elected_case == false && # treat nil as failure i.e. non-false
-            TRANSFER_STAGES[detail.transfer_stage_id].requires_case_conclusion
+          TRANSFER_STAGES[detail.transfer_stage_id].requires_case_conclusion
       end
     end
-
   end
 end

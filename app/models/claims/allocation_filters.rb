@@ -6,14 +6,12 @@
 #  e.g. @claims.where(state: :submitted).risk_based_bills
 #
 module Claims::AllocationFilters
-
   def self.included(base)
     base.extend(ClassMethods)
     base.class_eval { add_scopes }
   end
 
   module ClassMethods
-
     def add_scopes
       agfs_lgfs_scopes
       agfs_scopes
@@ -47,18 +45,18 @@ module Claims::AllocationFilters
     end
 
     def all_risk_based_bills
-      where(type: 'Claim::LitigatorClaim').
-      where(offence_id: Offence.joins(:offence_class).where(offence_class: { class_letter: ['E','F','H','I'] })).
-      joins(:fees).
-      where('"fees"."fee_type_id" = ?', Fee::GraduatedFeeType.where(description: 'Guilty plea').pluck(:id).first).
-      where('"fees"."quantity" between 1 and 50')
+      where(type: 'Claim::LitigatorClaim')
+        .where(offence_id: Offence.joins(:offence_class).where(offence_class: { class_letter: %w(E F H I) }))
+        .joins(:fees)
+        .where('"fees"."fee_type_id" = ?', Fee::GraduatedFeeType.where(description: 'Guilty plea').pluck(:id).first)
+        .where('"fees"."quantity" between 1 and 50')
     end
 
     # An "interim fees" filter is for claims that are of type Claim::InterimClaim and have an interim fee that is of type Effective PCMH, Trial Start, Retrial New Solicitor or Retrial Start
     def all_interim_fees
-      where(type: 'Claim::InterimClaim').
-      joins(:fees).
-      where('"fees"."fee_type_id" IN (?)', Fee::InterimFeeType.where(description: [ 'Effective PCMH', 'Trial Start', 'Retrial New Solicitor', 'Retrial Start']).pluck(:id))
+      where(type: 'Claim::InterimClaim')
+        .joins(:fees)
+        .where('"fees"."fee_type_id" IN (?)', Fee::InterimFeeType.where(description: ['Effective PCMH', 'Trial Start', 'Retrial New Solicitor', 'Retrial Start']).pluck(:id))
     end
 
     # A "warrants" filter is for claims that are of Type Claim::InterimClaim and have a fee type of Warrant
@@ -72,13 +70,9 @@ module Claims::AllocationFilters
     end
 
     def all_interims_with_fee_type(fee_type_description)
-      where(type: 'Claim::InterimClaim').
-      joins(:fees).
-      where('"fees"."fee_type_id" = ?', Fee::InterimFeeType.where(description: fee_type_description).pluck(:id).first)
+      where(type: 'Claim::InterimClaim')
+        .joins(:fees)
+        .where('"fees"."fee_type_id" = ?', Fee::InterimFeeType.where(description: fee_type_description).pluck(:id).first)
     end
-
-
   end
-
-
 end

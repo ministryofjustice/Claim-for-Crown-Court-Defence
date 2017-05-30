@@ -1,7 +1,6 @@
 module API
   module Helpers
     module ApiHelper
-
       require Rails.root.join('app', 'interfaces', 'api', 'custom_validations', 'date_format.rb')
       require_relative '../api_response'
       require_relative '../error_response'
@@ -73,7 +72,11 @@ module API
         # prevent creation/basic-fee-update of sub(sub)models for claims not in a draft state
         def test_editability(model_instance)
           if (Fee::BaseFee.subclasses + [Expense, Disbursement, Defendant, RepresentationOrder, DateAttended]).include?(model_instance.class)
-            model_instance.errors.add(:base, 'uneditable_state') unless model_instance.claim.editable? rescue true
+            begin
+              model_instance.errors.add(:base, 'uneditable_state') unless model_instance.claim.editable?
+            rescue
+              true
+            end
           end
         end
 

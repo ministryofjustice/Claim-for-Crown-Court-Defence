@@ -1,14 +1,13 @@
 module API
   module V1
     module ExternalUsers
-
       class RepresentationOrder < Grape::API
         params do
           # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
-          optional :api_key, type: String, desc: "REQUIRED: The API authentication key of the provider"
+          optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the provider'
           optional :defendant_id, type: String, desc: 'REQUIRED: ID of the defendant'
-          optional :maat_reference, type: String, desc: "REQUIRED: The unique identifier for this representation order"
-          optional :representation_order_date, type: String, desc: "REQUIRED: The date on which this representation order was granted (YYYY-MM-DD)", standard_json_format: true
+          optional :maat_reference, type: String, desc: 'REQUIRED: The unique identifier for this representation order'
+          optional :representation_order_date, type: String, desc: 'REQUIRED: The date on which this representation order was granted (YYYY-MM-DD)', standard_json_format: true
         end
 
         resource :representation_orders, desc: 'Create or Validate' do
@@ -36,7 +35,6 @@ module API
             api_response.body
           end
         end
-
       end
     end
   end

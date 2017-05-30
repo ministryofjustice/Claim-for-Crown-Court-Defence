@@ -5,7 +5,7 @@ module API
 
       class << self
         def export_format?
-          lambda { |_instance, opts| opts.opts_hash.fetch(:export_format, false) }
+          ->(_instance, opts) { opts.opts_hash.fetch(:export_format, false) }
         end
       end
     end

@@ -16,13 +16,12 @@
 #
 
 class ExportedClaim < ActiveRecord::Base
-
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
 
   # TODO: we need to decide what a 'successful' (not pending) claim means
   scope :pending, -> { where(status: 'published') }
 
   def published?
-    self.status == 'published'
+    status == 'published'
   end
 end

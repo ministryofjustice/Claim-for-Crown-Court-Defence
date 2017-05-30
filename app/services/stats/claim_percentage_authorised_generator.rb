@@ -1,11 +1,9 @@
 
 module Stats
   class ClaimPercentageAuthorisedGenerator
-
     def initialize
       @decided_claims_by_state = {}
     end
-
 
     def run
       percentages = calculate_percentages
@@ -14,12 +12,11 @@ module Stats
 
     private
 
-
     def calculate_percentages
       calculate_claims_decided_this_month
       total_claims = @decided_claims_by_state.values.sum
       percentages = {}
-      @decided_claims_by_state.keys.sort_by {|k,v| k.to_s}.reverse.each do |state|
+      @decided_claims_by_state.keys.sort_by { |k, _v| k.to_s }.reverse.each do |state|
         percentages[state] = @decided_claims_by_state[state].to_f / total_claims.to_f * 100
       end
       percentages
@@ -32,7 +29,6 @@ module Stats
       end
       { item: result_array }
     end
-
 
     def calculate_claims_decided_this_month
       [:authorised, :part_authorised, :rejected, :refused].each do |state|

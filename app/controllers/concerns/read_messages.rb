@@ -2,7 +2,7 @@ module ReadMessages
   extend ActiveSupport::Concern
 
   included do
-    after_action  :mark_messages_read, only: [:show]
+    after_action :mark_messages_read, only: [:show]
   end
 
   private

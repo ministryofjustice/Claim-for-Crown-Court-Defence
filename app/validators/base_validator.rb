@@ -1,5 +1,4 @@
 class BaseValidator < ActiveModel::Validator
-
   CASE_NUMBER_PATTERN ||= /^[BASTU](199|20\d)\d{5}$/i
 
   # Override this method in the derived class
@@ -18,7 +17,7 @@ class BaseValidator < ActiveModel::Validator
     if self.class.respond_to?(fields_class_method)
       fields = self.class.__send__(fields_class_method)
       fields.each do |field|
-        self.__send__("validate_#{field}")
+        __send__("validate_#{field}")
       end
     end
   end
@@ -102,27 +101,27 @@ class BaseValidator < ActiveModel::Validator
     add_error(attribute, message) if exclusion_list.include?(@record.__send__(attribute))
   end
 
-  def bounds(lower=nil,upper=nil)
+  def bounds(lower = nil, upper = nil)
     lower_bound = lower.blank? ? -infinity : lower
     upper_bound = upper.blank? ? infinity : upper
-    return lower_bound, upper_bound
+    [lower_bound, upper_bound]
   end
 
   def infinity
-    1.0/0
+    1.0 / 0
   end
 
   #  TODO: refactor validate_numericality to accept options, for taking floating points
-  def validate_numericality(attribute, lower_bound=nil, upper_bound=nil, message)
+  def validate_numericality(attribute, lower_bound = nil, upper_bound = nil, message)
     return if attr_nil?(attribute)
     lower_bound, upper_bound = bounds(lower_bound, upper_bound)
-    add_error(attribute, message) unless (lower_bound..upper_bound).include?(@record.__send__(attribute).to_i)
+    add_error(attribute, message) unless (lower_bound..upper_bound).cover?(@record.__send__(attribute).to_i)
   end
 
-  def validate_float_numericality(attribute, lower_bound=nil, upper_bound=nil, message)
+  def validate_float_numericality(attribute, lower_bound = nil, upper_bound = nil, message)
     return if attr_nil?(attribute)
-    lower_bound, upper_bound = bounds(lower_bound,upper_bound)
-    add_error(attribute, message) unless (lower_bound..upper_bound).include?(@record.__send__(attribute).to_f)
+    lower_bound, upper_bound = bounds(lower_bound, upper_bound)
+    add_error(attribute, message) unless (lower_bound..upper_bound).cover?(@record.__send__(attribute).to_f)
   end
 
   def add_error(attribute, message)
@@ -135,7 +134,7 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_not_before(date, attribute, message)
-    return if attr_nil?(attribute)|| date.nil?
+    return if attr_nil?(attribute) || date.nil?
     add_error(attribute, message) if @record.__send__(attribute) < date.to_date
   end
 
@@ -180,8 +179,6 @@ class BaseValidator < ActiveModel::Validator
   def validate_two_decimals(field)
     value = @record.__send__(field)
     rounded = value.round(2)
-    unless value == rounded
-      add_error(field, 'decimal')
-    end
+    add_error(field, 'decimal') unless value == rounded
   end
 end

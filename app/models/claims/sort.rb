@@ -1,6 +1,5 @@
 module Claims::Sort
-
-  META_SORT_COLUMNS = %w( advocate amount_assessed case_type total_inc_vat )
+  META_SORT_COLUMNS = %w( advocate amount_assessed case_type total_inc_vat ).freeze
 
   def sortable_columns
     column_names + META_SORT_COLUMNS
@@ -11,23 +10,22 @@ module Claims::Sort
   end
 
   def sort(column, direction)
-
     raise 'Invalid column' unless sortable_by?(column)
     raise 'Invalid sort direction' unless %( asc desc ).include?(direction)
 
     case column
-      when 'last_submitted_at'
-        sort_submitted_at(direction)
-      when 'advocate'
-        sort_advocates(direction)
-      when 'case_type'
-        sort_case_type(direction)
-      when 'total_inc_vat'
-        sort_total_inc_vat(direction)
-      when 'amount_assessed'
-        sort_amount_assessed(direction)
-      else
-        order(column => direction)
+    when 'last_submitted_at'
+      sort_submitted_at(direction)
+    when 'advocate'
+      sort_advocates(direction)
+    when 'case_type'
+      sort_case_type(direction)
+    when 'total_inc_vat'
+      sort_total_inc_vat(direction)
+    when 'amount_assessed'
+      sort_amount_assessed(direction)
+    else
+      order(column => direction)
     end
   end
 
@@ -39,7 +37,7 @@ module Claims::Sort
   #
 
   def nulls_at_top_asc(direction)
-    'NULLS ' + (direction=='asc' ? 'FIRST' : 'LAST')
+    'NULLS ' + (direction == 'asc' ? 'FIRST' : 'LAST')
   end
 
   def sort_submitted_at(direction)
@@ -69,5 +67,4 @@ module Claims::Sort
       .where('determinations.created_at = (SELECT MAX(d.created_at) FROM "determinations" d WHERE d."claim_id" = "claims"."id")')
       .order("total_inc_vat #{direction}")
   end
-
 end

@@ -1,7 +1,6 @@
 require_relative 'base_claim_test'
 
 class FinalClaimTest < BaseClaimTest
-
   def test_creation!
     puts 'starting'
 
@@ -36,31 +35,30 @@ class FinalClaimTest < BaseClaimTest
     clean_up
   end
 
-
   def claim_data
-    case_type_id = json_value_at_index(client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, {role: 'lgfs'}), 'id', 12) # Trial
-    offence_id = json_value_at_index(client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key, {offence_description: 'Miscellaneous/other'}), 'id')
+    case_type_id = json_value_at_index(client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'lgfs'), 'id', 12) # Trial
+    offence_id = json_value_at_index(client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key, offence_description: 'Miscellaneous/other'), 'id')
     court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
 
     {
       "api_key": api_key,
-      "creator_email": "litigatoradmin@example.com",
-      "user_email": "litigator@example.com",
-      "case_number": "A20161234",
+      "creator_email": 'litigatoradmin@example.com',
+      "user_email": 'litigator@example.com',
+      "case_number": 'A20161234',
       "providers_ref": SecureRandom.uuid[3..15].upcase,
       "supplier_number": supplier_number,
       "case_type_id": case_type_id,
       "offence_id": offence_id,
       "court_id": court_id,
-      "cms_number": "12345678",
-      "additional_information": "string",
+      "cms_number": '12345678',
+      "additional_information": 'string',
       "case_concluded_at": 1.month.ago.as_json,
       "actual_trial_length": 10
     }
   end
 
   def graduated_fee_data
-    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, {category: 'graduated', role: 'lgfs'}), 'id', 5) # Trial
+    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'graduated', role: 'lgfs'), 'id', 5) # Trial
 
     {
       "api_key": api_key,
@@ -73,7 +71,7 @@ class FinalClaimTest < BaseClaimTest
   end
 
   def misc_fee_data
-    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, {category: 'misc', role: 'lgfs'}), 'id') # Case Uplift
+    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'lgfs'), 'id') # Case Uplift
 
     {
       "api_key": api_key,

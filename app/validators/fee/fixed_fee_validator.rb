@@ -1,5 +1,4 @@
 class Fee::FixedFeeValidator < Fee::BaseFeeValidator
-
   def self.fields
     [
       :quantity,
@@ -19,7 +18,6 @@ class Fee::FixedFeeValidator < Fee::BaseFeeValidator
       end
     end
   end
-
 
   def validate_quantity
     super if run_base_fee_validators?

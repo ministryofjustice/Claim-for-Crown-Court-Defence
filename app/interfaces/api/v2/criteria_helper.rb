@@ -25,7 +25,7 @@ module API::V2
     end
 
     def sorting
-      {sort_attribute => sort_direction.to_sym}
+      { sort_attribute => sort_direction.to_sym }
     end
   end
 end

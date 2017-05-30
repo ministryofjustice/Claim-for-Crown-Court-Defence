@@ -1,23 +1,16 @@
 class Claim::BaseClaimPresenter < BasePresenter
-
   presents :claim
 
   # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down
   #
-  def valid_transitions(options = {include_submitted: true} )
+  def valid_transitions(options = { include_submitted: true })
     states = claim.state_transitions.map(&:to_name) - [:archived_pending_delete, :deallocated]
-    if options[:include_submitted] == false
-      states = states - [:submitted]
-    end
-    states.map { |state| [ state, state.to_s.humanize ] }.to_h
+    states -= [:submitted] if options[:include_submitted] == false
+    states.map { |state| [state, state.to_s.humanize] }.to_h
   end
 
   def valid_transitions_for_detail_form
-    if claim.state == "allocated"
-      valid_transitions(include_submitted: false)
-    else
-      nil
-    end
+    valid_transitions(include_submitted: false) if claim.state == 'allocated'
   end
 
   def claim_state
@@ -34,7 +27,6 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.case_type.name
   end
 
-
   def defendant_names
     defendant_names = claim.defendants.sort_by(&:id).map(&:name)
 
@@ -43,25 +35,28 @@ class Claim::BaseClaimPresenter < BasePresenter
         h.concat(name)
         unless name == defendant_names.last
           h.concat(', ')
-          h.concat(h.tag :br)
+          h.concat(h.tag(:br))
         end
       end
     end
   end
 
-  def submitted_at(options={})
+  def submitted_at(options = {})
     claim.last_submitted_at.strftime(date_format(options)) unless claim.last_submitted_at.nil?
   end
 
-  def submitted_at_short()
+  def submitted_at_short
     claim.last_submitted_at.strftime('%d/%m/%y') unless claim.last_submitted_at.nil?
   end
-  def authorised_at (options={})
+
+  def authorised_at(options = {})
     claim.authorised_at.strftime(date_format(options)) unless claim.authorised_at.nil?
   end
 
   def retrial
-    claim.case_type.name.match(/retrial/i) ? 'Yes' : 'No' rescue ''
+    claim.case_type.name =~ /retrial/i ? 'Yes' : 'No'
+  rescue
+    ''
   end
 
   def any_judicial_apportionments
@@ -185,11 +180,11 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def status_image
-    "#{claim.state.gsub('_','-')}.png"
+    "#{claim.state.tr('_', '-')}.png"
   end
 
-  def status_image_tag (options={})
-    options.merge(alt: claim.state.humanize, title: claim.state.humanize) { |k,v1,v2| v1 }
+  def status_image_tag(options = {})
+    options.merge(alt: claim.state.humanize, title: claim.state.humanize) { |_k, v1, _v2| v1 }
     h.image_tag status_image, options
   end
 
@@ -211,17 +206,17 @@ class Claim::BaseClaimPresenter < BasePresenter
     h.capture do
       rep_order_details.each do |details|
         h.concat(details)
-        h.concat(h.tag :br) unless details == rep_order_details.last
+        h.concat(h.tag(:br)) unless details == rep_order_details.last
       end
     end
   end
 
   def external_user_description
     case claim
-      when Claim::AdvocateClaim
-        'advocate'
-      else
-        'litigator'
+    when Claim::AdvocateClaim
+      'advocate'
+    else
+      'litigator'
     end
   end
 
@@ -247,8 +242,13 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   # Override in subclasses if necessary
-  def can_have_expenses?; true; end
-  def can_have_disbursements?; true; end
+  def can_have_expenses?
+    true
+  end
+
+  def can_have_disbursements?
+    true
+  end
 
   def assessment_date
     claim.assessment.blank? ? 'not yet assessed' : assessment_or_determination_date.strftime(Settings.date_format)
@@ -284,5 +284,4 @@ class Claim::BaseClaimPresenter < BasePresenter
   def last_redetermination_date
     claim.determinations.order(created_at: :desc).first.created_at
   end
-
 end

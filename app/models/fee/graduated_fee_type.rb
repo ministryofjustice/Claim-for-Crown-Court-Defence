@@ -17,7 +17,6 @@
 #
 
 class Fee::GraduatedFeeType < Fee::BaseFeeType
-
   default_scope { order(description: :asc) }
 
   def fee_category_name
@@ -25,6 +24,6 @@ class Fee::GraduatedFeeType < Fee::BaseFeeType
   end
 
   def self.by_unique_code(code)
-    self.where(unique_code: code).first
+    where(unique_code: code).first
   end
 end

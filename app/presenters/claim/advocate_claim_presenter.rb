@@ -1,5 +1,4 @@
 class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
-
   def pretty_type
     'AGFS Final'
   end
@@ -7,5 +6,4 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
   def can_have_disbursements?
     false
   end
-
 end

@@ -7,9 +7,8 @@ module Stats
     end
 
     def to_hash
-      {item: item, min: min, max: max}
+      { item: item, min: min, max: max }
     end
-
 
     private
 
@@ -18,11 +17,11 @@ module Stats
     end
 
     def min
-      {value: 0}
+      { value: 0 }
     end
 
     def max
-      {value: 100}
+      { value: 100 }
     end
   end
 end

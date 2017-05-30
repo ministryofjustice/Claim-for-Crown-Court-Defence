@@ -1,6 +1,5 @@
 module API::Helpers
   module XMLFormatter
-
     class << self
       def call(object, _env)
         return xml_format(object) if object.respond_to?(:to_xml)
@@ -19,9 +18,8 @@ module API::Helpers
       end
 
       def default_options
-        {dasherize: false, skip_types: true, skip_nils: true, root: 'resource'}
+        { dasherize: false, skip_types: true, skip_nils: true, root: 'resource' }
       end
     end
-
   end
 end

@@ -1,15 +1,14 @@
 class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
-
   skip_load_and_authorize_resource
 
   before_action :init_claim_types
   before_action :set_claim_types_for_provider, only: [:selection]
 
   def selection
-    redirect_to external_users_claims_url, error: 'AGFS/LGFS claim type choice incomplete' and return if @claim_types.empty?
+    redirect_to(external_users_claims_url, error: 'AGFS/LGFS claim type choice incomplete') && return if @claim_types.empty?
 
     track_visit(url: 'external_user/claim_types', title: 'Choose claim type')
-    render and return if @claim_types.size > 1
+    render && return if @claim_types.size > 1
     redirect_for_claim_type
   end
 

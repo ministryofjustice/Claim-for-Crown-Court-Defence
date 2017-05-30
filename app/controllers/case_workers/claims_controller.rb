@@ -57,7 +57,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @message = @claim.messages.build
   end
 
-  def search(states=nil)
+  def search(states = nil)
     @claims = @claims.search(search_terms, states, *search_options) unless @claims.remote?
   end
 
@@ -72,14 +72,14 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     params.require(:claim).permit(
       :state,
       :additional_information,
-      :assessment_attributes => [
+      assessment_attributes: [
         :id,
         :fees,
         :expenses,
         :disbursements,
         :vat_amount
       ],
-      :redeterminations_attributes => [
+      redeterminations_attributes: [
         :id,
         :fees,
         :expenses,
@@ -133,6 +133,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def criteria_params
-    {sorting: sort_column, direction: sort_direction, page: current_page, limit: page_size, search: search_terms}
+    { sorting: sort_column, direction: sort_direction, page: current_page, limit: page_size, search: search_terms }
   end
 end

@@ -28,7 +28,6 @@
 #
 
 class UsersController < ApplicationController
-
   def update_settings
     @settings = settings_params
     @result = current_user.save_settings!(@settings)

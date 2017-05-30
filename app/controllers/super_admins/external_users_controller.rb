@@ -1,9 +1,8 @@
 class SuperAdmins::ExternalUsersController < ApplicationController
-
   include PasswordHelpers
 
   before_action :set_provider
-  before_action :set_external_user,  only: [:show, :edit, :update, :change_password, :update_password]
+  before_action :set_external_user, only: [:show, :edit, :update, :change_password, :update_password]
 
   def show; end
 
@@ -33,7 +32,7 @@ class SuperAdmins::ExternalUsersController < ApplicationController
 
   def update
     if @external_user.update(external_user_params)
-     redirect_to super_admins_provider_external_user_path(@provider, @external_user), notice: 'User successfully updated'
+      redirect_to super_admins_provider_external_user_path(@provider, @external_user), notice: 'User successfully updated'
     else
       render :edit
     end
@@ -58,19 +57,18 @@ class SuperAdmins::ExternalUsersController < ApplicationController
 
   def external_user_params
     params.require(:external_user).permit(
-     :vat_registered,
-     :supplier_number,
-     roles: [],
-     user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :first_name, :last_name]
+      :vat_registered,
+      :supplier_number,
+      roles: [],
+      user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :first_name, :last_name]
     )
   end
 
   def set_external_user
-    @external_user  = ExternalUser.active.find(params[:id])
+    @external_user = ExternalUser.active.find(params[:id])
   end
 
   def set_provider
     @provider = Provider.find(params[:provider_id])
   end
-
 end

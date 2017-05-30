@@ -21,7 +21,7 @@ module Messaging
 
       def errors
         @errors ||= errors_content.map do |error|
-          {code: error.at_xpath('code').content.to_i, detail: error.at_xpath('detail').content}
+          { code: error.at_xpath('code').content.to_i, detail: error.at_xpath('detail').content }
         end
       end
 
@@ -32,7 +32,9 @@ module Messaging
       private
 
       def errors_content
-        document.xpath('//processing_result/errors/*') rescue []
+        document.xpath('//processing_result/errors/*')
+      rescue
+        []
       end
 
       def document

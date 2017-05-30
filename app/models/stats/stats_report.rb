@@ -11,10 +11,8 @@
 #
 
 module Stats
-
   class StatsReport < ActiveRecord::Base
-
-    validates :status, inclusion: { in: %w{ started completed error } }
+    validates :status, inclusion: { in: %w( started completed error ) }
 
     default_scope { order('started_at DESC') }
 
@@ -30,17 +28,16 @@ module Stats
     end
 
     def self.most_recent_management_information
-      self.management_information.completed.first
+      management_information.completed.first
     end
 
     def self.generation_in_progress?(report_name)
-      self.where('report_name = ? and status = ?', report_name, 'started').any?
+      where('report_name = ? and status = ?', report_name, 'started').any?
     end
 
     def self.record_start(report_name)
-      self.create!(report_name: report_name, status: 'started', started_at: Time.now)
+      create!(report_name: report_name, status: 'started', started_at: Time.now)
     end
-
 
     def write_report(report_contents)
       update(report: report_contents, status: 'completed', completed_at: Time.now)
@@ -51,16 +48,15 @@ module Stats
     end
 
     def download_filename
-      "#{self.report_name}_#{self.started_at.strftime('%Y_%m_%d_%H_%M_%S')}.csv"
+      "#{report_name}_#{started_at.strftime('%Y_%m_%d_%H_%M_%S')}.csv"
     end
 
     def self.destroy_reports_older_than(report_name, timestamp)
-      self.where(report_name: report_name, started_at: Time.at(0)..timestamp).destroy_all
+      where(report_name: report_name, started_at: Time.at(0)..timestamp).destroy_all
     end
 
     def self.destroy_unfinished_reports_older_than(report_name, timestamp)
-      self.where(report_name: report_name, status: 'started', started_at: Time.at(0)..timestamp).destroy_all
+      where(report_name: report_name, status: 'started', started_at: Time.at(0)..timestamp).destroy_all
     end
-
   end
 end

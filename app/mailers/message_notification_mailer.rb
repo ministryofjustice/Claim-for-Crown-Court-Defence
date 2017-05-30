@@ -1,5 +1,4 @@
 class MessageNotificationMailer < ApplicationMailer
-
   layout 'email'
 
   def notify_message(claim)

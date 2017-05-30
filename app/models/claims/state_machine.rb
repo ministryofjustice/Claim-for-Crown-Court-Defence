@@ -35,14 +35,11 @@ module Claims::StateMachine
     const_defined?("#{method.to_s.chop.upcase}_STATES")
   end
 
-
   def self.is_in_state?(method, claim)
-    begin
-      konstant_name = "Claims::StateMachine::#{method.to_s.chop.upcase}_STATES".constantize
-      konstant_name.include?(claim.state)
-    rescue NameError
-      return false
-    end
+    konstant_name = "Claims::StateMachine::#{method.to_s.chop.upcase}_STATES".constantize
+    konstant_name.include?(claim.state)
+  rescue NameError
+    return false
   end
 
   def self.included(klass)
@@ -137,7 +134,7 @@ module Claims::StateMachine
   end
 
   def last_decision_transition
-    claim_state_transitions.detect{ |t| t.to.in?(CASEWORKER_DASHBOARD_COMPLETED_STATES) }
+    claim_state_transitions.detect { |t| t.to.in?(CASEWORKER_DASHBOARD_COMPLETED_STATES) }
   end
 
   def last_state_transition
@@ -188,7 +185,7 @@ module Claims::StateMachine
   end
 
   def state_at_last_submission
-    self.claim_state_transitions.find { |transition| CASEWORKER_DASHBOARD_UNALLOCATED_STATES.include?(transition.to) }.to
+    claim_state_transitions.find { |transition| CASEWORKER_DASHBOARD_UNALLOCATED_STATES.include?(transition.to) }.to
   end
 
   def set_original_submission_date!
@@ -209,10 +206,10 @@ module Claims::StateMachine
   end
 
   def set_amount_assessed_zero!
-    self.assessment.zeroize! if self.state == 'allocated'
+    assessment.zeroize! if state == 'allocated'
   end
 
   def remove_case_workers!
-    self.case_workers.destroy_all
+    case_workers.destroy_all
   end
 end

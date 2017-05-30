@@ -1,6 +1,5 @@
 module Claims
   class UpdateClaim < ClaimActionsService
-
     def initialize(claim, params:)
       self.claim = claim
       self.params = params

@@ -1,5 +1,4 @@
 class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
-
   def self.fields_for_steps
     [
       [
@@ -42,12 +41,12 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_advocate_category
-    validate_presence(:advocate_category, "blank")
-    validate_inclusion(:advocate_category, Settings.advocate_categories, "Advocate category must be one of those in the provided list") unless @record.advocate_category.blank?
+    validate_presence(:advocate_category, 'blank')
+    validate_inclusion(:advocate_category, Settings.advocate_categories, 'Advocate category must be one of those in the provided list') unless @record.advocate_category.blank?
   end
 
   def validate_offence
-    validate_presence(:offence, "blank") unless fixed_fee_case?
+    validate_presence(:offence, 'blank') unless fixed_fee_case?
   end
 
   def validate_case_concluded_at

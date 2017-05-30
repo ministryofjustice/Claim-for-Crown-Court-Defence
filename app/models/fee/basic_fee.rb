@@ -20,7 +20,6 @@
 #
 
 class Fee::BasicFee < Fee::BaseFee
-
   belongs_to :fee_type, class_name: Fee::BasicFeeType
 
   validates_with Fee::BasicFeeValidator
@@ -28,11 +27,10 @@ class Fee::BasicFee < Fee::BaseFee
   default_scope { order(claim_id: :asc, fee_type_id: :asc) }
 
   def self.new_blank(claim, fee_type)
-    self.new(claim: claim, fee_type: fee_type, quantity: 0, amount: 0)
+    new(claim: claim, fee_type: fee_type, quantity: 0, amount: 0)
   end
 
   def is_basic?
     true
   end
-
 end

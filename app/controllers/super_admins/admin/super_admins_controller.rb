@@ -1,5 +1,4 @@
 class SuperAdmins::Admin::SuperAdminsController < SuperAdmins::Admin::ApplicationController
-
   include PasswordHelpers
 
   before_action :set_super_admin, only: [:show, :edit, :update, :change_password, :update_password]
@@ -28,15 +27,14 @@ class SuperAdmins::Admin::SuperAdminsController < SuperAdmins::Admin::Applicatio
 
   def super_admin_params
     params.require(:super_admin).permit(
-     user_attributes: [:id,
-                      :email,
-                      :email_confirmation,
-                      :password,
-                      :password_confirmation,
-                      :current_password,
-                      :first_name,
-                      :last_name]
+      user_attributes: [:id,
+                        :email,
+                        :email_confirmation,
+                        :password,
+                        :password_confirmation,
+                        :current_password,
+                        :first_name,
+                        :last_name]
     )
   end
-
 end

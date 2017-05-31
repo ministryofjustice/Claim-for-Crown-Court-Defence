@@ -103,11 +103,7 @@ class Claim::BaseClaimValidator < BaseValidator
     if cracked_case?
       validate_presence(:trial_cracked_at_third, 'blank')
       validate_inclusion(:trial_cracked_at_third, Settings.trial_cracked_at_third, 'invalid')
-      validate_pattern(:trial_cracked_at_third, /^final_third$/, 'invalid_case_type_third_combination') if begin
-                                                                                                               @record.case_type.name == 'Cracked before retrial'
-                                                                                                             rescue
-                                                                                                               false
-                                                                                                             end
+      validate_pattern(:trial_cracked_at_third, /^final_third$/, 'invalid_case_type_third_combination') if @record&.case_type&.name == 'Cracked before retrial'
     end
   end
 

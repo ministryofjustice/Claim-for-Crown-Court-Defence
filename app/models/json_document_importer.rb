@@ -154,7 +154,7 @@ class JsonDocumentImporter
     obj_params = parse_hash(attributes_hash)
     response = rest_client_resource.post(obj_params.merge(api_key_params)) { |res, _request, _result| res }
 
-    raise ArgumentError, response.body unless response.code == 201 || response.code == 200
+    raise ArgumentError, response.body unless [200, 201].include?(response.code)
     @id_of_owner = JSON.parse(response.body)['id']
   end
 

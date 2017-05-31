@@ -1,5 +1,4 @@
 class BaseSubModelValidator < BaseValidator
-
   # Override this method in the derived class
   def has_many_association_names
     []
@@ -61,15 +60,13 @@ class BaseSubModelValidator < BaseValidator
 
   def remove_unnumbered_submodel_errors_from_base_record(base_record)
     base_record.errors.each do |key, _|
-      if is_unnumbered_submodel_error?(key)
-        base_record.errors.delete(key)
-      end
+      base_record.errors.delete(key) if is_unnumbered_submodel_error?(key)
     end
   end
 
   def is_unnumbered_submodel_error?(key)
     key_as_string = key.to_s
-    key_as_string =~ /^(.*)\./ && has_many_association_names_for_errors.include?($1.to_sym)
+    key_as_string =~ /^(.*)\./ && has_many_association_names_for_errors.include?(Regexp.last_match(1).to_sym)
   end
 
   def has_many_association_names_for_errors

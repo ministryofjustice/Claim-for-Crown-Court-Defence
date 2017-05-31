@@ -12,8 +12,8 @@ module TimedTransitions
     }
 
     def self.candidate_claims_ids
-      Claim::BaseClaim.where(state: candidate_states).
-          where('updated_at < ?', Settings.timed_transition_stale_weeks.weeks.ago).pluck(:id)
+      Claim::BaseClaim.where(state: candidate_states)
+                      .where('updated_at < ?', Settings.timed_transition_stale_weeks.weeks.ago).pluck(:id)
     end
 
     def self.softly_deleted_ids
@@ -66,18 +66,17 @@ module TimedTransitions
       self.success = true
     end
 
-
     def destroy_claim
       LogStuff.send(log_level, 'TimedTransitions::Transitioner',
-                      action: 'destroy',
-                      claim_id: @claim.id,
-                      claim_state: @claim.state,
-                      softly_deleted_on: @claim.deleted_at,
-                      dummy_run: @dummy) do
-                        'Destroying soft-deleted claim'
-                      end
+                    action: 'destroy',
+                    claim_id: @claim.id,
+                    claim_state: @claim.state,
+                    softly_deleted_on: @claim.deleted_at,
+                    dummy_run: @dummy) do
+        'Destroying soft-deleted claim'
+      end
       @claim.destroy unless is_dummy?
       self.success = true
-    end 
+    end
   end
 end

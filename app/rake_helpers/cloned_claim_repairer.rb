@@ -2,7 +2,6 @@
 # and update the clone_source_id coloumn with the id of the original claim.
 
 class ClonedClaimRepairer
-
   def initialize(claim_id)
     @claim_id = claim_id
     @claim = Claim::BaseClaim.find_by(id: claim_id)
@@ -27,14 +26,13 @@ class ClonedClaimRepairer
     candidates = candidates.select { |c| same_defendants?(c) }
     candidates = candidates.select { |c| was_rejected?(c) }
     if candidates.empty?
-      puts "   Unable to find candidate as clone source"
+      puts '   Unable to find candidate as clone source'
       return nil
     else
       puts "   Found #{candidates.size} candidates as clone source - picking the latest (claim id #{candidates.last.id}"
       return candidates.last
     end
   end
-
 
   def same_defendants?(candidate)
     return true if candidate.defendants.map(&:name) == @claim.defendants.map(&:name)

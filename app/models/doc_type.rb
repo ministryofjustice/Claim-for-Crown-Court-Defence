@@ -1,5 +1,4 @@
 class DocType
-
   attr_reader :id, :sequence, :name
 
   def initialize(id, sequence, name)
@@ -7,7 +6,6 @@ class DocType
     @sequence = sequence
     @name = name
   end
-
 
   DOCTYPES = [
     DocType.new(1,  500,  'Representation order'),
@@ -21,7 +19,7 @@ class DocType
     DocType.new(9, 1000,  'Justification for out of time claim'),
     DocType.new(10, 1100,  'Special preparation form'),
     DocType.new(11, 1200,  'Prior authority CRM4')
-  ].sort{ |a, b| a.sequence <=> b.sequence }
+  ].sort { |a, b| a.sequence <=> b.sequence }
 
   def self.all
     DOCTYPES
@@ -41,17 +39,14 @@ class DocType
 
   # returns a single DocType given its id
   def self.find(id)
-    doctype = DOCTYPES.detect{ |dt| dt.id == id }
-    raise ArgumentError.new("No DocType with id #{id}") if doctype.nil?
+    doctype = DOCTYPES.detect { |dt| dt.id == id }
+    raise ArgumentError, "No DocType with id #{id}" if doctype.nil?
     doctype
   end
-
 
   # returns a collection of DocTypes give a list or array of ids
   def self.find_by_ids(*ids)
     ids = ids.flatten
-    DOCTYPES.select{ |dt| ids.include?(dt.id) }
+    DOCTYPES.select { |dt| ids.include?(dt.id) }
   end
-
-
 end

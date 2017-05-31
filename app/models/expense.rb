@@ -23,14 +23,13 @@
 #
 
 class Expense < ActiveRecord::Base
-
   CAR_MILEAGE_RATES = {
     1 => Struct.new(:id, :mileage_type, :name, :description).new(1, :car, '25p', '25p per mile'),
     2 => Struct.new(:id, :mileage_type, :name, :description).new(2, :car, '45p', '45p per mile')
-  }
+  }.freeze
   BIKE_MILEAGE_RATES = {
     3 => Struct.new(:id, :mileage_type, :name, :description).new(3, :bike, '20p', '20p per mile')
-  }
+  }.freeze
   MILEAGE_RATES = CAR_MILEAGE_RATES.merge(BIKE_MILEAGE_RATES)
 
   auto_strip_attributes :location, squish: true, nullify: true
@@ -62,17 +61,16 @@ class Expense < ActiveRecord::Base
            :subsistence?,
            to: :expense_type, allow_nil: true
 
-
   before_validation do
     self.schema_version ||= 2
     round_quantity
-    self.amount = ((self.rate || 0) * (self.quantity || 0)).abs unless schema_version_2?
+    self.amount = ((rate || 0) * (quantity || 0)).abs unless schema_version_2?
     calculate_vat
   end
 
   before_save do
-    self.amount = 0.0 if self.amount.nil?
-    self.vat_amount = 0.0 if self.vat_amount.nil?
+    self.amount = 0.0 if amount.nil?
+    self.vat_amount = 0.0 if vat_amount.nil?
   end
 
   after_save do
@@ -104,17 +102,17 @@ class Expense < ActiveRecord::Base
   end
 
   def round_quantity
-    self.quantity = (self.quantity*4).round/4.0 if self.quantity
+    self.quantity = (quantity * 4).round / 4.0 if quantity
   end
 
   def mileage_rate
-    MILEAGE_RATES[self.mileage_rate_id]
+    MILEAGE_RATES[mileage_rate_id]
   end
 
   def expense_reason
-    return nil if self.reason_id.nil?
-    return nil if self.expense_type.nil?
-    expense_type.expense_reason_by_id(self.reason_id)
+    return nil if reason_id.nil?
+    return nil if expense_type.nil?
+    expense_type.expense_reason_by_id(reason_id)
   end
 
   def allow_reason_text?
@@ -127,7 +125,7 @@ class Expense < ActiveRecord::Base
   end
 
   def displayable_reason_text
-    return nil if self.reason_id.nil?
+    return nil if reason_id.nil?
     if allow_reason_text?
       read_attribute(:reason_text)
     else
@@ -136,7 +134,7 @@ class Expense < ActiveRecord::Base
   end
 
   def laa_bill_type_and_sub_type
-    raise "Not implemented for LGFS claims" if claim.lgfs?
+    raise 'Not implemented for LGFS claims' if claim.lgfs?
     LaaExpenseAdapter.laa_bill_type_and_sub_type(self)
   end
 
@@ -145,7 +143,7 @@ class Expense < ActiveRecord::Base
   end
 
   def vat_absent?
-    self.vat_amount.nil? || self.vat_amount == 0.0
+    vat_amount.nil? || vat_amount == 0.0
   end
 
   def vat_present?
@@ -156,8 +154,8 @@ class Expense < ActiveRecord::Base
 
   # we only calculate VAT for AGFS claims for vatable providers.  On LGFS claims, the VAT amount is entered in the form.
   def calculate_vat
-    if claim && claim.agfs? && self.amount
-      self.vat_amount = VatRate.vat_amount(self.amount, claim.vat_date, calculate: claim.vat_registered?)
+    if claim && claim.agfs? && amount
+      self.vat_amount = VatRate.vat_amount(amount, claim.vat_date, calculate: claim.vat_registered?)
     end
   end
 end

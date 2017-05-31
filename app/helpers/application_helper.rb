@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   def current_user_is_caseworker?
     current_user.persona.is_a?(CaseWorker)
   end
@@ -21,16 +20,16 @@ module ApplicationHelper
   # e.g. - present_collection(@claims)
   # e.g. - present_collection(@claims, ClaimPresenter)
   #
-  def present(model, presenter_class=nil)
+  def present(model, presenter_class = nil)
     presenter_class ||= presenter_for(model)
     presenter = presenter_class.new(model, self)
     yield(presenter) if block_given?
     presenter
   end
 
-  def present_collection(model_collection, presenter_class=nil)
+  def present_collection(model_collection, presenter_class = nil)
     presenter_collection = model_collection.each.map do |model_instance|
-      present(model_instance,presenter_class)
+      present(model_instance, presenter_class)
     end
     yield(presenter_collection) if block_given?
     presenter_collection
@@ -40,20 +39,20 @@ module ApplicationHelper
     model.respond_to?(:presenter) ? model.presenter : "#{model.class}Presenter".constantize
   end
 
-  #Returns a "current" css class if the path = current_page
+  # Returns a "current" css class if the path = current_page
   # TODO: this will not work on those routes that are also rooted to for the namespace or which have js that interferes
   def cp(path)
     tab = extract_uri_param(path, 'tab')
     if tab.present?
-      "current" if request.path == strip_params(path) && request.GET[:tab] == tab
+      'current' if request.path == strip_params(path) && request.GET[:tab] == tab
     else
-      "current" if request.path == strip_params(path)
+      'current' if request.path == strip_params(path)
     end
   end
 
   def number_with_precision_or_default(number, options = {})
     default = options.delete(:default) || ''
-    if options.has_key?(:precision)
+    if options.key?(:precision)
       number == 0 ? default : number_with_precision(number, options)
     else
       number == 0 ? default : number.to_s
@@ -62,9 +61,9 @@ module ApplicationHelper
 
   def casual_date(date)
     if Date.parse(date) == Date.today
-      "Today"
+      'Today'
     elsif Date.parse(date) == Date.yesterday
-      "Yesterday"
+      'Yesterday'
     else
       date
     end
@@ -85,8 +84,8 @@ module ApplicationHelper
     css_class = column == sort_column ? "current #{sort_direction}" : nil
     direction = column == sort_column && sort_direction == 'asc' ? 'desc' : 'asc'
 
-    query_params = params.except(:page).merge({sort: column, direction: direction, anchor: 'listanchor'})
-    html_options = {class: css_class, tabindex: 0}
+    query_params = params.except(:page).merge(sort: column, direction: direction, anchor: 'listanchor')
+    html_options = { class: css_class, tabindex: 0 }
 
     link_to [title].join(' ').html_safe, query_params, html_options
   end
@@ -99,12 +98,16 @@ module ApplicationHelper
     result
   end
 
-  def extract_uri_param(path,param)
-    CGI.parse(URI.parse(path).query)[param][0] rescue nil
+  def extract_uri_param(path, param)
+    CGI.parse(URI.parse(path).query)[param][0]
+  rescue
+    nil
   end
 
   def strip_params(path)
-    URI.parse(path).path rescue nil
+    URI.parse(path).path
+  rescue
+    nil
   end
 
   def your_claims_header

@@ -13,13 +13,12 @@
 
 module Claim
   class TransferDetail < ActiveRecord::Base
-
     belongs_to :claim, class_name: Claim::TransferClaim, foreign_key: :claim_id, inverse_of: :transfer_detail
 
     acts_as_gov_uk_date :transfer_date, error_clash_behaviour: :override_with_gov_uk_date_field_error
 
     def unpopulated?
-      self.litigator_type.nil? && self.elected_case.nil? && self.transfer_stage_id.nil? && self.transfer_date.nil? && self.case_conclusion_id.nil?
+      litigator_type.nil? && elected_case.nil? && transfer_stage_id.nil? && transfer_date.nil? && case_conclusion_id.nil?
     end
 
     def allocation_type

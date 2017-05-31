@@ -1,5 +1,4 @@
 class ExternalUsers::Advocates::ClaimsController < ExternalUsers::ClaimsController
-
   skip_load_and_authorize_resource
 
   def new
@@ -12,7 +11,7 @@ class ExternalUsers::Advocates::ClaimsController < ExternalUsers::ClaimsControll
     super
   end
 
-private
+  private
 
   def build_nested_resources
     @claim.fixed_fees.build if @claim.fixed_fees.none?

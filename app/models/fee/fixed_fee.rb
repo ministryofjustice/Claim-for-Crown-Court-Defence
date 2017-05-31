@@ -20,7 +20,6 @@
 #
 
 class Fee::FixedFee < Fee::BaseFee
-
   belongs_to :fee_type, class_name: Fee::FixedFeeType
 
   acts_as_gov_uk_date :date, validate_if: :perform_validation?
@@ -30,5 +29,4 @@ class Fee::FixedFee < Fee::BaseFee
   def is_fixed?
     true
   end
-
 end

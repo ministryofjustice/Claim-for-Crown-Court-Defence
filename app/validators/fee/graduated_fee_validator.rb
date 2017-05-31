@@ -1,5 +1,4 @@
 class Fee::GraduatedFeeValidator < Fee::BaseFeeValidator
-
   def self.fields
     [
       :quantity,
@@ -23,7 +22,7 @@ class Fee::GraduatedFeeValidator < Fee::BaseFeeValidator
   end
 
   def validate_quantity
-    validate_numericality(:quantity, 0, 99999, 'numericality')
+    validate_numericality(:quantity, 0, 99_999, 'numericality')
   end
 
   def validate_amount

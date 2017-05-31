@@ -11,15 +11,12 @@ require 'csv'
 # To get a reference to the object, call .instance rather than .new.
 #
 module Claim
-
   class InvalidTransferCombinationError < ArgumentError
+    DEFAULT_MSG = 'Invalid combination of transfer detail fields'.freeze
 
-    DEFAULT_MSG = 'Invalid combination of transfer detail fields'
-
-    def initialize(msg=DEFAULT_MSG)
+    def initialize(msg = DEFAULT_MSG)
       super(msg)
     end
-
   end
 
   class TransferBrainDataItemCollection
@@ -82,7 +79,7 @@ module Claim
 
     def valid_case_conclusion_ids(litigator_type, elected_case, transfer_stage_id)
       result = @collection_hash.fetch(litigator_type).fetch(elected_case).fetch(transfer_stage_id).keys
-      result = TransferBrain.case_conclusion_ids if result ==  ['*']
+      result = TransferBrain.case_conclusion_ids if result == ['*']
       result.sort
     end
 
@@ -91,7 +88,7 @@ module Claim
     def load_file
       filename = File.join(Rails.root, 'config', 'transfer_brain_data_items.csv')
       lines = CSV.read filename
-      lines.shift       # remove header line
+      lines.shift # remove header line
       lines
     end
 
@@ -102,6 +99,5 @@ module Claim
       end
       collection_hash
     end
-
   end
 end

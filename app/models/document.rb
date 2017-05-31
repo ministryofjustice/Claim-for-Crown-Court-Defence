@@ -32,21 +32,21 @@ class Document < ActiveRecord::Base
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
 
   validates_attachment :document,
-    presence: { message: 'Document must have an attachment' },
-    size: { in: 0.megabytes..20.megabytes },
-    content_type: {
-      content_type: ['application/pdf',
-                     'application/msword',
-                     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                     'application/vnd.oasis.opendocument.text',
-                     'text/rtf',
-                     'application/rtf',
-                     'image/jpeg',
-                     'image/png',
-                     'image/tiff',
-                     'image/bmp',
-                     'image/x-bitmap'
-                     ]}
+                       presence: { message: 'Document must have an attachment' },
+                       size: { in: 0.megabytes..20.megabytes },
+                       content_type: {
+                         content_type: ['application/pdf',
+                                        'application/msword',
+                                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                                        'application/vnd.oasis.opendocument.text',
+                                        'text/rtf',
+                                        'application/rtf',
+                                        'image/jpeg',
+                                        'image/png',
+                                        'image/tiff',
+                                        'image/bmp',
+                                        'image/x-bitmap']
+                       }
 
   alias attachment document # to have a consistent interface to both Document and Message
   delegate :provider_id, to: :external_user
@@ -73,20 +73,20 @@ class Document < ActiveRecord::Base
   end
 
   def verify_and_log
-    LogStuff.info(:paperclip, action: 'save', document_id: self.id, claim_id: self.claim_id, filename: self.document_file_name, form_id: self.form_id) { 'Document saved' }
+    LogStuff.info(:paperclip, action: 'save', document_id: id, claim_id: claim_id, filename: document_file_name, form_id: form_id) { 'Document saved' }
     if verify_file_exists
-      LogStuff.info(:paperclip, action: 'verify', document_id: self.id, claim_id: self.claim_id, filename: self.document_file_name, form_id: self.form_id) { 'Document verified' }
+      LogStuff.info(:paperclip, action: 'verify', document_id: id, claim_id: claim_id, filename: document_file_name, form_id: form_id) { 'Document verified' }
       result = true
     else
-      LogStuff.error(:paperclip, action: 'verify_fail', document_id: self.id, claim_id: self.claim_id, filename: self.document_file_name, form_id: self.form_id) { 'Unable to verify document' }
-      self.errors[:document] << "Unable to save the file - please retry" if self.verified_file_size == 0
+      LogStuff.error(:paperclip, action: 'verify_fail', document_id: id, claim_id: claim_id, filename: document_file_name, form_id: form_id) { 'Unable to verify document' }
+      errors[:document] << 'Unable to save the file - please retry' if verified_file_size == 0
       result = false
     end
     result
   end
 
   def log_save_error
-    LogStuff.error(:paperclip, action: 'save_fail', document_id: self.id, claim_id: self.claim_id, filename: self.document_file_name, form_id: self.form_id) { 'Unable to save document' }
+    LogStuff.error(:paperclip, action: 'save_fail', document_id: id, claim_id: claim_id, filename: document_file_name, form_id: form_id) { 'Unable to save document' }
   end
 
   private
@@ -95,33 +95,32 @@ class Document < ActiveRecord::Base
     begin
       reloaded_file = reload_saved_file
       self.verified_file_size = File.stat(reloaded_file).size
-      self.file_path = self.document.path
-      self.verified = self.verified_file_size > 0
-      self.save!
+      self.file_path = document.path
+      self.verified = verified_file_size > 0
+      save!
     rescue => err
-      self.errors[:document] << err.message
+      errors[:document] << err.message
       self.verified = false
     end
-    self.verified
+    verified
   end
 
   def reload_saved_file
-    Paperclip.io_adapters.for(self.document).path
+    Paperclip.io_adapters.for(document).path
   end
 
-
   def documents_count
-    return true if self.form_id.nil?
-    count = Document.where(form_id: self.form_id).count
+    return true if form_id.nil?
+    count = Document.where(form_id: form_id).count
     if count >= Settings.max_document_upload_count
       errors.add(:document, "Total documents exceed maximum of #{Settings.max_document_upload_count}. This document has not been uploaded.")
     end
   end
 
   def transform_cryptic_paperclip_error
-    if self.errors[:document].include?('has contents that are not what they are reported to be')
-      self.errors[:document].delete('has contents that are not what they are reported to be')
-      self.errors[:document] << 'The contents of the file do not match the file extension'
+    if errors[:document].include?('has contents that are not what they are reported to be')
+      errors[:document].delete('has contents that are not what they are reported to be')
+      errors[:document] << 'The contents of the file do not match the file extension'
     end
   end
 end

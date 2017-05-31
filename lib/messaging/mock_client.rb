@@ -9,7 +9,7 @@ module Messaging
     end
 
     def self.queue
-      @@queue ||= Array.new
+      @@queue ||= []
     end
 
     private

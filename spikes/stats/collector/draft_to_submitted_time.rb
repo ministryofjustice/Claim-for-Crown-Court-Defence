@@ -1,7 +1,6 @@
 module Stats
   module Collector
     class DraftToSubmittedTime
-
       SECONDS_IN_DAY = 60 * 60 * 24
 
       def initialize
@@ -19,8 +18,8 @@ module Stats
       private
 
       def first_submitted_at(claim)
-        transition_to_submitted = claim.claim_state_transitions.select{ |cst| cst.to == 'submitted' }
-        first_transmisison_to_submitted = transition_to_submitted.sort{ |a, b| a.created_at <=> b.created_at }.first
+        transition_to_submitted = claim.claim_state_transitions.select { |cst| cst.to == 'submitted' }
+        first_transmisison_to_submitted = transition_to_submitted.sort { |a, b| a.created_at <=> b.created_at }.first
         first_transmisison_to_submitted.created_at
       end
 
@@ -42,7 +41,7 @@ module Stats
       def print_results
         puts "Number of claims analysed: #{@num_claims}"
         puts "Average days between create and submit: #{(@total_days / @num_claims.to_f).round(2)}"
-        puts "Distribution:"
+        puts 'Distribution:'
         @count_by_days.keys.sort.each do |key|
           puts "  #{key} days:  #{@count_by_days[key]} claims"
         end

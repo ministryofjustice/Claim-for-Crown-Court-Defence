@@ -1,5 +1,4 @@
 class SuperAdmins::ApplicationController < ApplicationController
-
   before_action :authenticate_super_admin!
 
   private

@@ -3,7 +3,6 @@ require File.join(Rails.root, 'lib', 'working_day_calculator')
 module Stats
   module Collector
     class TimeToCompletionCollector < BaseCollector
-
       def collect
         total_num_days = 0
         transitions = todays_transitions.where(to: decision_states)
@@ -24,8 +23,8 @@ module Stats
       end
 
       def calculate_submission_to_decision_time(transition)
-        previous_transitions = ClaimStateTransition.where(claim_id: transition.claim_id).where{ id < transition.id }.order('created_at desc')
-        submitted_transition = previous_transitions.detect{ |t| t.to.in? ['submitted', 'redetermination'] }
+        previous_transitions = ClaimStateTransition.where(claim_id: transition.claim_id).where { id < transition.id }.order('created_at desc')
+        submitted_transition = previous_transitions.detect { |t| t.to.in? %w(submitted redetermination) }
         working_days(submitted_transition, transition)
       end
 
@@ -48,8 +47,6 @@ module Stats
       def working_days(submitted_transition, decided_transition)
         WorkingDayCalculator.new(submitted_transition.created_at.to_date, decided_transition.created_at.to_date).working_days
       end
-
     end
   end
 end
-

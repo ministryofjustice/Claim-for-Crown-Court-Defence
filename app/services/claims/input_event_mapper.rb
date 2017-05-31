@@ -6,7 +6,7 @@ module Claims
       'rejected'                 => :reject!,
       'refused'                  => :refuse!,
       'redetermination'          => :redetermine!
-    }
+    }.freeze
 
     def self.input_event(input)
       new(input).event

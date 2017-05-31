@@ -1,6 +1,5 @@
 module Claim
   module LitigatorCommonValidations
-
     def self.included(base)
       base.class_eval do
         def self.first_step_common_validations
@@ -26,11 +25,11 @@ module Claim
     end
 
     def validate_advocate_category
-      validate_absence(:advocate_category, "invalid")
+      validate_absence(:advocate_category, 'invalid')
     end
 
     def validate_offence
-      validate_presence(:offence, "blank_class")
+      validate_presence(:offence, 'blank_class')
     end
 
     def validate_case_concluded_at
@@ -48,17 +47,17 @@ module Claim
       validate_inclusion(:supplier_number, provider_supplier_numbers, 'unknown') unless @record.errors.key?(:supplier_number)
     end
 
-
     # local helpers
     # ---------------------------
-
 
     def supplier_number_regex
       SupplierNumber::SUPPLIER_NUMBER_REGEX
     end
 
     def provider_supplier_numbers
-      @record.provider.lgfs_supplier_numbers.pluck(:supplier_number) rescue []
+      @record.provider.lgfs_supplier_numbers.pluck(:supplier_number)
+    rescue
+      []
     end
   end
 end

@@ -2,12 +2,11 @@ module GoogleAnalytics
   class UnknownDataTemplate < ArgumentError; end
 
   class DataAdapter
-
     def initialize(template_id, template_data, interpolation_data = {})
       @template_id = template_id
       @template_data = template_data
       @interpolation_data = interpolation_data
-      raise UnknownDataTemplate.new("Unknown template '#{@template_id}'") if template.nil?
+      raise UnknownDataTemplate, "Unknown template '#{@template_id}'" if template.nil?
     end
 
     def to_s

@@ -7,11 +7,11 @@ module Caching
       raise 'not implemented'
     end
 
-    def get(key)
+    def get(_key)
       raise 'not implemented'
     end
 
-    def set(key, value)
+    def set(_key, _value)
       raise 'not implemented'
     end
 

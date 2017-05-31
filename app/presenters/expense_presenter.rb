@@ -27,7 +27,7 @@ class ExpensePresenter < BasePresenter
 
   def name
     if expense.expense_type.blank?
-      "Not selected"
+      'Not selected'
     else
       expense.expense_type.name
     end

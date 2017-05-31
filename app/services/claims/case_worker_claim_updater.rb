@@ -1,6 +1,5 @@
 module Claims
   class CaseWorkerClaimUpdater
-
     attr_reader :current_user, :claim, :result, :messages
 
     def initialize(claim_id, params)
@@ -57,7 +56,7 @@ module Claims
     end
 
     def validate_state_when_no_value_params
-      if @state.in?(%w{ authorised part_authorised })
+      if @state.in?(%w( authorised part_authorised ))
         set_error 'You must specify positive values if authorising or part authorising a claim'
       end
     end
@@ -65,7 +64,7 @@ module Claims
     def nil_or_empty_zero_or_negative?(determination_params)
       return true if determination_params.nil?
       result = true
-      %w{ fees expenses disbursements }.each do |field|
+      %w( fees expenses disbursements ).each do |field|
         next if determination_params[field].to_f <= 0.0
         result = false
         break
@@ -90,12 +89,12 @@ module Claims
     end
 
     def update_assessment
-      params_with_defaults = {'fees' => '0.00', 'expenses' => '0.00', 'disbursements' => '0.00'}.merge(@assessment_params)
+      params_with_defaults = { 'fees' => '0.00', 'expenses' => '0.00', 'disbursements' => '0.00' }.merge(@assessment_params)
       @claim.assessment.update(params_with_defaults)
     end
 
     def add_redetermination
-      params_with_defaults = {'fees' => '0.00', 'expenses' => '0.00', 'disbursements' => '0.00'}.merge(@redetermination_params)
+      params_with_defaults = { 'fees' => '0.00', 'expenses' => '0.00', 'disbursements' => '0.00' }.merge(@redetermination_params)
       @claim.redeterminations << Redetermination.new(params_with_defaults)
     end
 
@@ -105,7 +104,7 @@ module Claims
     end
 
     def audit_attributes
-      {author_id: current_user&.id}
+      { author_id: current_user&.id }
     end
   end
 end

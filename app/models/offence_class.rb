@@ -16,7 +16,7 @@ class OffenceClass < ActiveRecord::Base
 
   has_many :offences, dependent: :destroy
 
-  validates :class_letter, presence: true, uniqueness: { message: 'Offence class letter must be unique'}, inclusion: { in: CLASS_LETTERS }
+  validates :class_letter, presence: true, uniqueness: { message: 'Offence class letter must be unique' }, inclusion: { in: CLASS_LETTERS }
   validates :description, presence: true
 
   default_scope -> { order(class_letter: :asc) }
@@ -32,5 +32,4 @@ class OffenceClass < ActiveRecord::Base
   def lgfs_offence_id
     offences.miscellaneous.first.id
   end
-
 end

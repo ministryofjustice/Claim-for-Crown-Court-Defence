@@ -5,8 +5,13 @@ module Remote
 
     attr_accessor :id, :uuid, :created_at, :updated_at
 
-    def remote?; true; end
-    def persisted?; true; end
+    def remote?
+      true
+    end
+
+    def persisted?
+      true
+    end
 
     class << self
       def resource_path
@@ -29,7 +34,7 @@ module Remote
       end
 
       def parse_result(result)
-        result = {items: result} unless result.is_a?(Hash)
+        result = { items: result } unless result.is_a?(Hash)
         pagination = result.fetch(:pagination, {})
         collection = result.fetch(:items, result).map { |attrs| new(attrs) }
 

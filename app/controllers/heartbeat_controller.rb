@@ -1,4 +1,4 @@
-class HeartbeatController  < ApplicationController
+class HeartbeatController < ApplicationController
   require 'sidekiq/api'
 
   skip_load_and_authorize_resource only: [:ping, :healthcheck]
@@ -7,10 +7,10 @@ class HeartbeatController  < ApplicationController
 
   def ping
     json = {
-      'version_number'  => ENV['VERSION_NUMBER'] || "Not Available",
+      'version_number'  => ENV['VERSION_NUMBER'] || 'Not Available',
       'build_date'      => ENV['BUILD_DATE'] || 'Not Available',
       'commit_id'       => ENV['COMMIT_ID'] || 'Not Available',
-      'build_tag'       => ENV['BUILD_TAG'] || "Not Available",
+      'build_tag'       => ENV['BUILD_TAG'] || 'Not Available',
       'num_claims'      => Claim::BaseClaim.count
     }.to_json
 
@@ -22,7 +22,7 @@ class HeartbeatController  < ApplicationController
       database: database_alive?,
       redis: redis_alive?,
       sidekiq: sidekiq_alive?,
-      sidekiq_queue: sidekiq_queue_healthy?,
+      sidekiq_queue: sidekiq_queue_healthy?
     }
 
     status = :bad_gateway unless checks.values.all?
@@ -34,12 +34,10 @@ class HeartbeatController  < ApplicationController
   private
 
   def redis_alive?
-    begin
-      Sidekiq.redis { |conn| conn.info }
-      true
-    rescue => e
-      false
-    end
+    Sidekiq.redis(&:info)
+    true
+  rescue => e
+    false
   end
 
   def sidekiq_alive?
@@ -58,10 +56,8 @@ class HeartbeatController  < ApplicationController
   end
 
   def database_alive?
-    begin
-      ActiveRecord::Base.connection.active?
-    rescue PG::ConnectionBad
-      false
-    end
+    ActiveRecord::Base.connection.active?
+  rescue PG::ConnectionBad
+    false
   end
 end

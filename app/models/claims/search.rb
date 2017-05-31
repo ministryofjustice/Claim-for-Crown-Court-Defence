@@ -1,8 +1,7 @@
 module Claims::Search
-
   QUERY_MAPPINGS_FOR_SEARCH = {
     case_number: {
-      query: "claims.case_number ILIKE :term"
+      query: 'claims.case_number ILIKE :term'
     },
     defendant_name: {
       joins: :defendants,
@@ -13,15 +12,15 @@ module Claims::Search
       query: "lower(users.first_name || ' ' || users.last_name) ILIKE :term"
     },
     maat_reference: {
-      joins: {:defendants => :representation_orders}, query: "representation_orders.maat_reference ILIKE :term"
+      joins: { defendants: :representation_orders }, query: 'representation_orders.maat_reference ILIKE :term'
     },
     case_worker_name_or_email: {
       joins: { case_workers: :user },
       query: "lower(users.first_name || ' ' || users.last_name) ILIKE :term OR lower(users.email) ILIKE :term"
     }
-  }
+  }.freeze
 
-  def search(term, states=[], *options)
+  def search(term, states = [], *options)
     raise 'Invalid search option' if (options - QUERY_MAPPINGS_FOR_SEARCH.keys).any?
     sql = options.inject([]) { |r, o| r << "(#{QUERY_MAPPINGS_FOR_SEARCH[o][:query]})" }.join(' OR ')
     relation = options.inject(all) { |r, o| r = r.joins(QUERY_MAPPINGS_FOR_SEARCH[o][:joins]) }

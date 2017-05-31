@@ -25,13 +25,13 @@ class Disbursement < ActiveRecord::Base
   validates_with DisbursementValidator
 
   before_validation do
-    self.total = (self.net_amount || 0) + (self.vat_amount || 0)
+    self.total = (net_amount || 0) + (vat_amount || 0)
   end
 
   before_save do
-    self.net_amount = 0.0 if self.net_amount.nil?
-    self.vat_amount = 0.0 if self.vat_amount.nil?
-    self.total = 0.0 if self.total.nil?
+    self.net_amount = 0.0 if net_amount.nil?
+    self.vat_amount = 0.0 if vat_amount.nil?
+    self.total = 0.0 if total.nil?
   end
 
   after_save do
@@ -55,7 +55,7 @@ class Disbursement < ActiveRecord::Base
   end
 
   def vat_absent?
-    self.vat_amount.nil? || self.vat_amount == 0.0
+    vat_amount.nil? || vat_amount == 0.0
   end
 
   def vat_present?

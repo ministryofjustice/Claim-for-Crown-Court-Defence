@@ -1,5 +1,4 @@
 class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::ApplicationController
-
   include PasswordHelpers
 
   before_action :set_case_worker, only: [:show, :edit, :update, :destroy, :change_password, :update_password]
@@ -43,7 +42,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
 
   def destroy
     @case_worker.soft_delete
-    redirect_to case_workers_admin_case_workers_url, {notice: 'Case worker deleted'}
+    redirect_to case_workers_admin_case_workers_url, notice: 'Case worker deleted'
   end
 
   private
@@ -54,10 +53,10 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
 
   def case_worker_params
     params.require(:case_worker).permit(
-     :location_id,
-     user_attributes: [:id, :email, :email_confirmation, :current_password, :password, :password_confirmation, :first_name, :last_name],
-     claim_ids: [],
-     roles: []
+      :location_id,
+      user_attributes: [:id, :email, :email_confirmation, :current_password, :password, :password_confirmation, :first_name, :last_name],
+      claim_ids: [],
+      roles: []
     )
   end
 end

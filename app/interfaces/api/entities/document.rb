@@ -1,7 +1,7 @@
 module API
   module Entities
     class Document < BaseEntity
-      expose :uuid, if: lambda { |instance, _opts| instance.respond_to?(:uuid) }
+      expose :uuid, if: ->(instance, _opts) { instance.respond_to?(:uuid) }
       expose :url
       expose :file_name
       expose :size

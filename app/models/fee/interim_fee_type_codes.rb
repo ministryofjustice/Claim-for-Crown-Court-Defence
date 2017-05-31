@@ -1,6 +1,5 @@
 module Fee
   module InterimFeeTypeCodes
-
     def is_disbursement?
       code == 'IDISO'
     end
@@ -24,6 +23,5 @@ module Fee
     def is_retrial_new_solicitor?
       code == 'IRNS'
     end
-
   end
 end

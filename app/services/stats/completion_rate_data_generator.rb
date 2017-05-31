@@ -1,6 +1,5 @@
 module Stats
   class CompletionRateDataGenerator < BaseDataGenerator
-
     private
 
     def report_types
@@ -12,6 +11,5 @@ module Stats
     def transform_data_value(value)
       value / 100.0
     end
-
   end
 end

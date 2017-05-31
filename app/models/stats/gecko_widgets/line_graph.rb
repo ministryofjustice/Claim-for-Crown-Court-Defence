@@ -1,7 +1,6 @@
 module Stats
   module GeckoWidgets
     class LineGraph
-
       attr_reader :dataset_size
 
       attr_writer :x_axis_labels
@@ -17,7 +16,6 @@ module Stats
         @datasets[name] = dataset
         @dataset_size = dataset.size
       end
-
 
       # return a json structure in the format suitable for generating a Geckoboard Line graph widget
       def to_json
@@ -48,8 +46,6 @@ module Stats
         array
       end
 
-
-
       private
 
       def label_column(i)
@@ -59,7 +55,6 @@ module Stats
           @x_axis_labels[i]
         end
       end
-
 
       def generate_array_of_series
         @datasets.each do |name, dataset|
@@ -71,7 +66,6 @@ module Stats
         range = @dataset_size * -1..-1
         range.to_a.collect(&:to_s)
       end
-
     end
   end
 end

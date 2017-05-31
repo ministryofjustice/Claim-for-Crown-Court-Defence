@@ -9,9 +9,9 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
     if @claim.valid?
       build_certification
       track_visit({
-          url: 'external_user/%{type}/claim/%{action}/certification',
-          title: '%{action_t} %{type} claim certification'
-      }, claim_tracking_substitutions)
+                    url: 'external_user/%{type}/claim/%{action}/certification',
+                    title: '%{action_t} %{type} claim certification'
+                  }, claim_tracking_substitutions)
     else
       redirect_to edit_polymorphic_path(@claim), alert: 'Claim is not in a state to be submitted'
     end

@@ -1,10 +1,9 @@
 class Fee::InterimFeeValidator < Fee::BaseFeeValidator
-
   def self.fields
     [
       :quantity,
       :rate,
-      :disbursements,
+      :disbursements
     ] + super
   end
 
@@ -12,7 +11,7 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
     if @record.is_disbursement? || @record.is_interim_warrant?
       validate_absence_or_zero(:quantity, 'present')
     else
-      validate_numericality(:quantity, 0, 99999, 'numericality')
+      validate_numericality(:quantity, 0, 99_999, 'numericality')
     end
   end
 
@@ -48,5 +47,4 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
     validate_not_before(@record.warrant_issued_date, :warrant_executed_date, 'warrant_executed_before_issued')
     validate_not_after(Date.today, :warrant_executed_date, 'check_not_in_future')
   end
-
 end

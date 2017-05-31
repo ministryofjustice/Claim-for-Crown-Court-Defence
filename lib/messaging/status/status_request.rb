@@ -31,7 +31,7 @@ module Messaging
 
       # TODO: we need to confirm this
       def message_content
-        {'ClaimUUIDs': uuids}
+        { 'ClaimUUIDs': uuids }
       end
     end
   end

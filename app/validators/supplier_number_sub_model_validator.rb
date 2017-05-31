@@ -1,5 +1,4 @@
 class SupplierNumberSubModelValidator < BaseSubModelValidator
-
   def has_many_association_names
     [:lgfs_supplier_numbers]
   end

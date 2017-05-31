@@ -17,7 +17,6 @@
 #
 
 class Fee::WarrantFeeType < Fee::BaseFeeType
-
   default_scope { order(description: :asc) }
 
   def self.instance
@@ -27,5 +26,4 @@ class Fee::WarrantFeeType < Fee::BaseFeeType
   def fee_category_name
     'Warrant Fee'
   end
-
 end

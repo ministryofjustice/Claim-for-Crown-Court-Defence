@@ -1,7 +1,6 @@
 module Stats
   module Collector
     class ClaimRedeterminationsCollector < BaseCollector
-
       def initialize(date = Date.today)
         super
         @rolling_period = 7
@@ -13,7 +12,6 @@ module Stats
         Statistic.create_or_update(@date, 'redeterminations_average', Claim::BaseClaim, redeterminations_average)
         Statistic.create_or_update(@date, 'claim_submissions_average', Claim::BaseClaim, submissions_average)
       end
-
 
       private
 

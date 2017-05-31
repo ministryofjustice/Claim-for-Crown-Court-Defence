@@ -2,7 +2,6 @@ class Allocation
   include ActiveModel::Model
   include ActiveModel::Validations
 
-
   # we add 'allocated' into the list of valid states for allocation because
   # that can happen if another caseworker is allocating the claim at the same time.
   # We test for that in allocate_all_claims_or_none!() and fail with a specific
@@ -12,7 +11,7 @@ class Allocation
   VALID_STATES_FOR_TRANSITION = {
     allocation: Claims::StateMachine::VALID_STATES_FOR_ALLOCATION + ['allocated'],
     deallocation: Claims::StateMachine::VALID_STATES_FOR_DEALLOCATION,
-    reallocation: Claims::StateMachine::VALID_STATES_FOR_DEALLOCATION,
+    reallocation: Claims::StateMachine::VALID_STATES_FOR_DEALLOCATION
   }.freeze
 
   class << self
@@ -25,7 +24,6 @@ class Allocation
 
   validates :case_worker_id, presence: true, unless: :deallocating?
   validates :claim_ids, presence: true
-
 
   def initialize(attributes = {})
     @current_user = attributes[:current_user]
@@ -44,7 +42,7 @@ class Allocation
       deallocate_claims if claims_in_correct_state_for?(:deallocation)
     elsif reallocating?
       reallocate_claims if claims_in_correct_state_for?(:reallocation)
-    end   # reallocating is true if not allocating and not deallocating
+    end # reallocating is true if not allocating and not deallocating
     errors.empty?
   end
 
@@ -64,7 +62,10 @@ class Allocation
   end
 
   def case_worker
-    CaseWorker.active.find(@case_worker_id) rescue nil #deallocation will have a nil case worker id
+    CaseWorker.active.find(@case_worker_id)
+  rescue
+    nil
+    # deallocation will have a nil case worker id
   end
 
   def allocating?
@@ -79,9 +80,7 @@ class Allocation
         allocate_or_error_claim! claim
       end
 
-      if errors.any?
-        rollback_all_allocations!
-      end
+      rollback_all_allocations! if errors.any?
     end
   end
 
@@ -96,7 +95,7 @@ class Allocation
   end
 
   def rollback_all_allocations!
-    errors[:base].unshift("NO claims allocated because: ")
+    errors[:base].unshift('NO claims allocated because: ')
     @successful_claims = []
     raise ActiveRecord::Rollback
   end
@@ -110,7 +109,7 @@ class Allocation
   end
 
   def deallocate_claims
-    claims.each { |claim| deallocate_claim!(claim)}
+    claims.each { |claim| deallocate_claim!(claim) }
   end
 
   def deallocate_claim!(claim)
@@ -129,6 +128,6 @@ class Allocation
   def audit_attributes
     author_user = current_user
     subject_user = case_worker&.user
-    {author_id: author_user&.id, subject_id: subject_user&.id}
+    { author_id: author_user&.id, subject_id: subject_user&.id }
   end
 end

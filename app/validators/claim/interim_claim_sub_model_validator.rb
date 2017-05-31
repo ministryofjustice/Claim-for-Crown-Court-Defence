@@ -1,8 +1,7 @@
 class Claim::InterimClaimSubModelValidator < Claim::BaseClaimSubModelValidator
-
   def has_one_association_names_for_steps
     [
-      [ ],
+      [],
       [
         :interim_fee,
         :assessment,
@@ -24,5 +23,4 @@ class Claim::InterimClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       ]
     ]
   end
-
 end

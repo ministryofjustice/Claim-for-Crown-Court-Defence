@@ -1,5 +1,4 @@
 class WorkingDayCalculator
-
   def initialize(start_date, end_date)
     @start_date = start_date.to_date
     @end_date = end_date.to_date
@@ -28,9 +27,7 @@ class WorkingDayCalculator
   end
 
   def first_working_day_after(date)
-    while not_working_day?(date) do
-      date += 1.day
-    end
+    date += 1.day while not_working_day?(date)
     date
   end
 end

@@ -17,7 +17,6 @@
 #
 
 module Fee
-
   class BaseFeeTypeAbstractClassError < RuntimeError
     def initialize(message = 'Fee::BaseFeeType is an abstract class and cannot be instantiated')
       super
@@ -25,7 +24,7 @@ module Fee
   end
 
   class BaseFeeType < ActiveRecord::Base
-    ROLES = %w{ lgfs agfs }
+    ROLES = %w( lgfs agfs ).freeze
     include ActionView::Helpers::NumberHelper
     include Comparable
     include Roles
@@ -35,11 +34,11 @@ module Fee
     auto_strip_attributes :code, :description, squish: true, nullify: true
 
     has_many :fees, dependent: :destroy, class_name: Fee::BaseFee, foreign_key: :fee_type_id
-    has_many :claims, -> {active},  through: :fees
+    has_many :claims, -> { active }, through: :fees
 
-    validates :description, presence: {message: 'Fee type description cannot be blank'}, uniqueness: { case_sensitive: false, scope: :type, message: 'Fee type description must be unique' }
-    validates :code, presence: {message: 'Fee type code cannot be blank'}
-    validates :unique_code, presence: {message: 'Fee type unique code cannot be blank'}
+    validates :description, presence: { message: 'Fee type description cannot be blank' }, uniqueness: { case_sensitive: false, scope: :type, message: 'Fee type description must be unique' }
+    validates :code, presence: { message: 'Fee type code cannot be blank' }
+    validates :unique_code, presence: { message: 'Fee type unique code cannot be blank' }
 
     after_initialize :ensure_not_abstract_class
 
@@ -52,14 +51,14 @@ module Fee
     end
 
     def pretty_max_amount
-      number_to_currency(self.max_amount, precision: 0)
+      number_to_currency(max_amount, precision: 0)
     end
 
     def fee_class_name
-      self.type.sub(/Type$/, '')
+      type.sub(/Type$/, '')
     end
 
-    #utility methods for providing access to subclasses
+    # utility methods for providing access to subclasses
 
     def self.basic
       Fee::BasicFeeType.all

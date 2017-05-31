@@ -1,5 +1,4 @@
 class ExternalUsers::Litigators::InterimClaimsController < ExternalUsers::ClaimsController
-
   skip_load_and_authorize_resource
 
   def new
@@ -12,7 +11,7 @@ class ExternalUsers::Litigators::InterimClaimsController < ExternalUsers::Claims
     super
   end
 
-private
+  private
 
   def build_nested_resources
     @claim.build_interim_fee if @claim.interim_fee.nil?

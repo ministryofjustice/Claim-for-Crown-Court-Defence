@@ -1,5 +1,4 @@
 class ClaimCsvPresenter < BasePresenter
-
   presents :claim
 
   def present!
@@ -7,7 +6,7 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def journeys
-    sorted_and_filtered_state_transitions.slice_after {|transition| completed_states.include?(transition.to) }
+    sorted_and_filtered_state_transitions.slice_after { |transition| completed_states.include?(transition.to) }
   end
 
   def sorted_and_filtered_state_transitions

@@ -24,7 +24,7 @@ module ExternalUsers::ClaimsHelper
   def validation_message_from_errors_hash(resource, attribute)
     if resource[attribute]
       content_tag :span, class: 'error' do
-        resource[attribute].join(", ")
+        resource[attribute].join(', ')
       end
     else
       ''
@@ -37,12 +37,12 @@ module ExternalUsers::ClaimsHelper
 
   def gov_uk_date_field_error_messages(presenter, attribute)
     return if presenter.nil? || !presenter.is_a?(ErrorPresenter)
-    presenter.field_level_error_for(attribute.to_sym).split(',').each { |e| e.strip! }
+    presenter.field_level_error_for(attribute.to_sym).split(',').each(&:strip!)
   end
 
   def error_class?(presenter, *attributes)
     return if presenter.nil?
-    options = {name: 'dropdown_field_with_errors'}.merge(attributes.extract_options!)
+    options = { name: 'dropdown_field_with_errors' }.merge(attributes.extract_options!)
     options[:name] if attributes.detect { |att| presenter.field_level_error_for(att.to_sym).present? }
   end
 
@@ -54,7 +54,7 @@ module ExternalUsers::ClaimsHelper
     if current_user.persona.admin?
       "You can add more LGFS supplier numbers on the #{link_to 'Manage provider', edit_external_users_admin_provider_path(current_user.provider)} page".html_safe
     else
-      "Admin users can add more LGFS supplier numbers on the Manage provider page"
+      'Admin users can add more LGFS supplier numbers on the Manage provider page'
     end
   end
 end

@@ -1,6 +1,5 @@
 module Claims
   class ExternalUserClaimUpdater
-
     attr_accessor :claim, :current_user
 
     def initialize(claim, current_user:)
@@ -32,11 +31,10 @@ module Claims
       claim.submit(audit_attributes)
     end
 
-
     private
 
     def audit_attributes
-      {author_id: current_user&.id}
+      { author_id: current_user&.id }
     end
   end
 end

@@ -1,5 +1,4 @@
 class ExpenseV1Validator < BaseValidator
-
   def self.fields
     [
       :expense_type,
@@ -31,5 +30,4 @@ class ExpenseV1Validator < BaseValidator
     validate_presence(:rate, 'blank')
     validate_numericality(:rate, 0, nil, 'numericality')
   end
-
 end

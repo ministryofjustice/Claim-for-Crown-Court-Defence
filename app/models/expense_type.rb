@@ -12,7 +12,7 @@
 #
 
 class ExpenseType < ActiveRecord::Base
-  ROLES = %w( agfs lgfs )
+  ROLES = %w( agfs lgfs ).freeze
   include Roles
 
   REASON_SET_A = {
@@ -21,13 +21,13 @@ class ExpenseType < ActiveRecord::Base
     3 => ExpenseReason.new(3, 'Pre-trial conference defendant', false),
     4 => ExpenseReason.new(4, 'View of crime scene', false),
     5 => ExpenseReason.new(5, 'Other', true)
-  }
+  }.freeze
 
   REASON_SET_B = {
     2 => ExpenseReason.new(2, 'Pre-trial conference expert witnesses', false),
     3 => ExpenseReason.new(3, 'Pre-trial conference defendant', false),
-    4 => ExpenseReason.new(4, 'View of crime scene', false),
-  }
+    4 => ExpenseReason.new(4, 'View of crime scene', false)
+  }.freeze
 
   auto_strip_attributes :name, squish: true, nullify: true
 
@@ -35,14 +35,14 @@ class ExpenseType < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: { case_sensitive: false, message: 'An expense type with this name already exists' }
   validates :unique_code, presence: true, uniqueness: { case_sensitive: false, message: 'An expense type with this unique code already exists' }
-  validates :reason_set, inclusion: { in:  %w{ A B } }
+  validates :reason_set, inclusion: { in:  %w( A B ) }
 
   def self.reason_sets
     [{ 'A': REASON_SET_A.values }, { 'B': REASON_SET_B.values }]
   end
 
   def expense_reasons_hash
-    self.reason_set == 'A' ? REASON_SET_A : REASON_SET_B
+    reason_set == 'A' ? REASON_SET_A : REASON_SET_B
   end
 
   def expense_reasons
@@ -90,6 +90,6 @@ class ExpenseType < ActiveRecord::Base
   end
 
   def self.for_claim_type(claim)
-    (claim.lgfs? ? self.lgfs : self.agfs).order(:name)
+    (claim.lgfs? ? lgfs : agfs).order(:name)
   end
 end

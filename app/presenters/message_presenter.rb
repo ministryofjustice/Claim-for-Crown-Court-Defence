@@ -1,5 +1,4 @@
 class MessagePresenter < BasePresenter
-
   presents :message
 
   def sender_is_a?(klass)
@@ -9,14 +8,12 @@ class MessagePresenter < BasePresenter
   def body
     h.content_tag :div do
       h.concat(simple_format(message.body))
-      if message.attachment.present?
-        attachment_field
-      end
+      attachment_field if message.attachment.present?
     end
   end
 
   def attachment_field
-    h.concat("Attachment: ")
+    h.concat('Attachment: ')
     download_file_link
   end
 

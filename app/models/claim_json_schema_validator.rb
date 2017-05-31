@@ -1,5 +1,4 @@
 class ClaimJsonSchemaValidator
-
   FULL_SCHEMA_FILE = File.join(Rails.root, 'config', 'schemas', 'full_claim_schema.json').freeze
   BASIC_SCHEMA_FILE = File.join(Rails.root, 'config', 'schemas', 'basic_claim_schema.json').freeze
 
@@ -23,5 +22,4 @@ class ClaimJsonSchemaValidator
       JSON::Validator.validate!(basic_schema, data, list: data.is_a?(Array))
     end
   end
-
 end

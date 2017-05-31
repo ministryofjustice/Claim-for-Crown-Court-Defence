@@ -3,15 +3,15 @@ class Fee::InterimFeeTypePresenter < BasePresenter
 
   def data_attributes
     {
-        effective_pcmh:       fee_type.is_effective_pcmh?,
-        trial_dates:          fee_type.is_trial_start?,
-        legal_aid_transfer:   fee_type.is_retrial_new_solicitor?,
-        trial_concluded:      fee_type.is_retrial_new_solicitor?,
-        retrial_dates:        fee_type.is_retrial_start?,
-        ppe:                  is_not_disbursement_or_warrant?,
-        fee_total:            is_not_disbursement?,
-        warrant:              fee_type.is_interim_warrant?,
-        disbursements:        is_not_warrant?
+      effective_pcmh:       fee_type.is_effective_pcmh?,
+      trial_dates:          fee_type.is_trial_start?,
+      legal_aid_transfer:   fee_type.is_retrial_new_solicitor?,
+      trial_concluded:      fee_type.is_retrial_new_solicitor?,
+      retrial_dates:        fee_type.is_retrial_start?,
+      ppe:                  is_not_disbursement_or_warrant?,
+      fee_total:            is_not_disbursement?,
+      warrant:              fee_type.is_interim_warrant?,
+      disbursements:        is_not_warrant?
     }
   end
 

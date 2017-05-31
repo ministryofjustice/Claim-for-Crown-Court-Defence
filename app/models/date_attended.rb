@@ -22,7 +22,7 @@ class DateAttended < ActiveRecord::Base
   acts_as_gov_uk_date :date, :date_to, validate_if: :perform_validation?, error_clash_behaviour: :override_with_gov_uk_date_field_error
 
   def claim
-    self.attended_item.try(:claim)
+    attended_item.try(:claim)
   end
 
   def perform_validation?
@@ -35,11 +35,10 @@ class DateAttended < ActiveRecord::Base
 
   def to_s
     return '' if date.nil?
-    unless date_to.nil?
-      "#{date.strftime(Settings.date_format)} - #{date_to.strftime(Settings.date_format)}"
+    if date_to.nil?
+      date.strftime(Settings.date_format).to_s
     else
-      "#{date.strftime(Settings.date_format)}"
+      "#{date.strftime(Settings.date_format)} - #{date_to.strftime(Settings.date_format)}"
     end
   end
-
 end

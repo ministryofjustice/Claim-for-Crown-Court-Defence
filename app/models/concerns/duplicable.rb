@@ -3,7 +3,7 @@
 # associations if you use (Single Table) Inheritance.
 #
 # Just do something like:
-# 
+#
 # class SomeTable < ActiveRecord::Base
 #   has_many :somethings
 #
@@ -30,7 +30,7 @@ module Duplicable
 
     def duplicate_this(&block)
       self.amoeba_blocks ||= begin
-        blocks = [ Proc.new { enable } ]
+        blocks = [proc { enable }]
 
         superclass = nil
         loop do
@@ -47,7 +47,7 @@ module Duplicable
 
       blocks = self.amoeba_blocks
 
-      self.amoeba do |config|
+      amoeba do |config|
         blocks.each { |db| config.instance_eval(&db) }
       end
     end
@@ -60,6 +60,6 @@ module Duplicable
       blocks.each { |db| config.instance_eval(&db) }
     end
 
-    self.amoeba_dup
+    amoeba_dup
   end
 end

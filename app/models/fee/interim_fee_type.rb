@@ -28,6 +28,6 @@ class Fee::InterimFeeType < Fee::BaseFeeType
   end
 
   def self.by_unique_code(code)
-    self.where(unique_code: code).first
+    where(unique_code: code).first
   end
 end

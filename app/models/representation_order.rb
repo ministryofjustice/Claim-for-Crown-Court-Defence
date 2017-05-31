@@ -19,7 +19,11 @@ class RepresentationOrder < ActiveRecord::Base
   before_save :upcase_maat_ref
 
   before_validation do
-    case_type = defendant.claim.case_type rescue nil
+    case_type = begin
+                  defendant.claim.case_type
+                rescue
+                  nil
+                end
     if case_type && !case_type.requires_maat_reference?
       self.maat_reference = nil
     end
@@ -33,15 +37,15 @@ class RepresentationOrder < ActiveRecord::Base
   validates_with RepresentationOrderValidator
 
   def claim
-    self.defendant.try(:claim)
+    defendant.try(:claim)
   end
 
   def upcase_maat_ref
-    self.maat_reference.upcase! unless self.maat_reference.blank?
+    maat_reference.upcase! unless maat_reference.blank?
   end
 
   def detail
-    "#{self.representation_order_date.try(:strftime, Settings.date_format)} #{self.maat_reference}".squish
+    "#{representation_order_date.try(:strftime, Settings.date_format)} #{maat_reference}".squish
   end
 
   def perform_validation?
@@ -49,10 +53,10 @@ class RepresentationOrder < ActiveRecord::Base
   end
 
   def reporders_for_same_defendant
-    if self.defendant.nil?
+    if defendant.nil?
       []
     else
-      self.defendant.representation_orders
+      defendant.representation_orders
     end
   end
 
@@ -63,5 +67,4 @@ class RepresentationOrder < ActiveRecord::Base
   def is_first_reporder_for_same_defendant?
     self == first_reporder_for_same_defendant
   end
-
 end

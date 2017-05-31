@@ -1,7 +1,7 @@
 class ExternalUsers::ApplicationController < ApplicationController
   before_action :authenticate_external_user!
 
-private
+  private
 
   def authenticate_external_user!
     unless user_signed_in? && current_user.persona.is_a?(ExternalUser)

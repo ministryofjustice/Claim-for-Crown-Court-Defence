@@ -1,5 +1,4 @@
 module NestedAttributesExtension
-
   def self.included(base)
     base.extend(ClassMethods)
   end
@@ -9,5 +8,4 @@ module NestedAttributesExtension
       ->(attributes) { attributes.all? { |key, value| key == '_destroy' || (value.blank? || value.zero?) } }
     end
   end
-
 end

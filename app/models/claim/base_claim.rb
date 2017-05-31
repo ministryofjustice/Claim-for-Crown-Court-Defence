@@ -61,7 +61,6 @@
 #
 
 module Claim
-
   class BaseClaimAbstractClassError < RuntimeError
     def initialize(message = 'Claim::BaseClaim is an abstract class and cannot be instantiated')
       super(message)
@@ -102,31 +101,30 @@ module Claim
 
     has_many :case_worker_claims,       foreign_key: :claim_id, dependent: :destroy
     has_many :case_workers,             through: :case_worker_claims
-    has_many :fees,                     foreign_key: :claim_id, class_name: 'Fee::BaseFee', dependent: :destroy,          inverse_of: :claim
+    has_many :fees,                     foreign_key: :claim_id, class_name: 'Fee::BaseFee', dependent: :destroy, inverse_of: :claim
     has_many :fee_types,                through: :fees, class_name: Fee::BaseFeeType
-    has_many :expenses,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim do
+    has_many :expenses,                 foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim do
       def with_vat
-        self.select{ |expense| expense.vat_present? }
+        select(&:vat_present?)
       end
 
       def without_vat
-        self.select{ |expense| expense.vat_absent? }
+        select(&:vat_absent?)
       end
     end
 
-
-    has_many :disbursements,            foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim do
+    has_many :disbursements, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim do
       def with_vat
-        self.select{ |d| d.vat_present? }
+        select(&:vat_present?)
       end
 
       def without_vat
-        self.select{ |d| d.vat_absent? }
+        select(&:vat_absent?)
       end
     end
-    has_many :defendants,               foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
+    has_many :defendants,               foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
     has_many :documents, -> { where verified: true }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
-    has_many :messages,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
+    has_many :messages,                 foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
 
     has_many :claim_state_transitions, -> { order(created_at: :desc) }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
 
@@ -143,7 +141,7 @@ module Claim
 
     # external user relevant scopes
     scope :outstanding, -> { where(state: %w( submitted allocated )) }
-    scope :any_authorised,  -> { where(state: %w( part_authorised authorised )) }
+    scope :any_authorised, -> { where(state: %w( part_authorised authorised )) }
 
     scope :dashboard_displayable_states, -> { where(state: Claims::StateMachine.dashboard_displayable_states) }
 
@@ -160,7 +158,7 @@ module Claim
     accepts_nested_attributes_for :disbursements,     reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :defendants,        reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :assessment
-    accepts_nested_attributes_for :redeterminations,  reject_if: :all_blank
+    accepts_nested_attributes_for :redeterminations, reject_if: :all_blank
 
     acts_as_gov_uk_date :first_day_of_trial,
                         :trial_concluded_at,
@@ -176,7 +174,7 @@ module Claim
     before_validation do
       errors.clear
       destroy_all_invalid_fee_types
-      documents.each { |d| d.external_user_id = self.external_user_id }
+      documents.each { |d| d.external_user_id = external_user_id }
     end
 
     after_initialize :ensure_not_abstract_class,
@@ -184,7 +182,7 @@ module Claim
                      :set_force_validation_to_false
 
     before_create do
-      self.build_assessment if self.assessment.nil?
+      build_assessment if assessment.nil?
     end
 
     before_save do
@@ -198,13 +196,33 @@ module Claim
     end
 
     # Override the corresponding method in the subclass
-    def agfs?; false; end
-    def lgfs?; false; end
-    def interim?; false; end
-    def transfer?; false; end
-    def final?; false; end
-    def requires_cracked_dates?; false; end
-    def requires_case_concluded_date?; false; end
+    def agfs?
+      false
+    end
+
+    def lgfs?
+      false
+    end
+
+    def interim?
+      false
+    end
+
+    def transfer?
+      false
+    end
+
+    def final?
+      false
+    end
+
+    def requires_cracked_dates?
+      false
+    end
+
+    def requires_case_concluded_date?
+      false
+    end
 
     def self.agfs?
       [Claim::AdvocateClaim].include?(self)
@@ -225,9 +243,8 @@ module Claim
       end
     end
 
-
     def self.value_band(value_band_id)
-      if value_band_id =='0'   # this means no selection on value bands
+      if value_band_id == '0' # this means no selection on value bands
         where.not(value_band_id: nil)
       else
         where(value_band_id: value_band_id)
@@ -235,8 +252,8 @@ module Claim
     end
 
     def set_amount_assessed(options)
-      self.build_assessment if self.assessment.nil?
-      self.assessment.update_values(options[:fees], options[:expenses], options[:disbursements])
+      build_assessment if assessment.nil?
+      assessment.update_values(options[:fees], options[:expenses], options[:disbursements])
     end
 
     def pretty_type
@@ -251,9 +268,7 @@ module Claim
       @force_validation = false
     end
 
-    def force_validation=(bool)
-      @force_validation = bool
-    end
+    attr_writer :force_validation
 
     def force_validation?
       @force_validation
@@ -261,7 +276,7 @@ module Claim
 
     # if allocated, and the last state was redetermination and happened since the last redetermination record was created
     def requested_redetermination?
-      self.allocated? ? redetermination_since_allocation? : false
+      allocated? ? redetermination_since_allocation? : false
     end
 
     def redetermination_since_allocation?
@@ -303,11 +318,11 @@ module Claim
     end
 
     def is_allocated_to_case_worker?(cw)
-      self.case_workers.include?(cw)
+      case_workers.include?(cw)
     end
 
     def has_authorised_state?
-      Claims::StateMachine::AUTHORISED_STATES.include?(self.state)
+      Claims::StateMachine::AUTHORISED_STATES.include?(state)
     end
 
     def editable?
@@ -315,7 +330,7 @@ module Claim
     end
 
     def archivable?
-      VALID_STATES_FOR_ARCHIVAL.include?(self.state)
+      VALID_STATES_FOR_ARCHIVAL.include?(state)
     end
 
     def rejectable?
@@ -323,11 +338,11 @@ module Claim
     end
 
     def redeterminable?
-      VALID_STATES_FOR_REDETERMINATION.include?(self.state) && !interim?
+      VALID_STATES_FOR_REDETERMINATION.include?(state) && !interim?
     end
 
     def perform_validation?
-      self.force_validation? || self.validation_required?
+      force_validation? || validation_required?
     end
 
     # we must validate unless it is being created as draft from any source except API or is in state of archive_pending_delete or deleted
@@ -344,7 +359,7 @@ module Claim
     end
 
     def current_step
-      self.form_step.to_i
+      form_step.to_i
     end
 
     def current_step_index
@@ -376,11 +391,11 @@ module Claim
     end
 
     def vat_date
-      (self.original_submission_date || Date.today).to_date
+      (original_submission_date || Date.today).to_date
     end
 
     def pretty_vat_rate
-      VatRate.pretty_rate(self.vat_date)
+      VatRate.pretty_rate(vat_date)
     end
 
     def enable_assessment_input?
@@ -396,14 +411,14 @@ module Claim
     end
 
     def opened_for_redetermination?
-      return true if self.redetermination?
+      return true if redetermination?
 
       transition = filtered_last_state_transition
       transition && transition.to == 'redetermination'
     end
 
     def written_reasons_outstanding?
-      return true if self.awaiting_written_reasons?
+      return true if awaiting_written_reasons?
 
       transition = filtered_last_state_transition
       transition && transition.to == 'awaiting_written_reasons'
@@ -414,7 +429,7 @@ module Claim
     end
 
     def total_including_vat
-      self.total + self.vat_amount
+      total + vat_amount
     end
 
     def vat_registered?
@@ -430,24 +445,24 @@ module Claim
     end
 
     def update_claim_document_owners
-      documents.each { |d| d.update_column(:creator_id, self.creator_id) }
+      documents.each { |d| d.update_column(:creator_id, creator_id) }
     end
 
     # This will ensure proper route paths are generated
     # when using helpers like: edit_polymorphic_path(claim)
     def self.set_singular_route_key(name)
-      model_name.class_eval %Q{
+      model_name.class_eval %(
         def singular_route_key; '#{name}'; end
         def route_key; '#{name.pluralize}'; end
-      }
+      )
     end
 
     def self.fee_associations
-      reflect_on_all_associations.select{ |assoc| assoc.name =~ /^\S+_fees?$/ }.map(&:name)
+      reflect_on_all_associations.select { |assoc| assoc.name =~ /^\S+_fees?$/ }.map(&:name)
     end
 
     def disk_evidence_reference
-      "#{self.case_number}/#{self.id}"
+      "#{case_number}/#{id}"
     end
 
     def requires_case_type?
@@ -455,32 +470,31 @@ module Claim
     end
 
     def expenses_with_vat_net
-      self.expenses.with_vat.sum(&:amount)
+      expenses.with_vat.sum(&:amount)
     end
 
     def expenses_with_vat_gross
-      expenses_with_vat_net + self.expenses_vat
+      expenses_with_vat_net + expenses_vat
     end
 
     def expenses_without_vat_net
-      self.expenses.without_vat.sum(&:amount)
+      expenses.without_vat.sum(&:amount)
     end
 
     def expenses_without_vat_gross
       expenses_without_vat_net
     end
 
-
     def disbursements_with_vat_net
-      self.disbursements.with_vat.sum(&:net_amount)
+      disbursements.with_vat.sum(&:net_amount)
     end
 
     def disbursements_with_vat_gross
-      disbursements_with_vat_net + self.disbursements_vat
+      disbursements_with_vat_net + disbursements_vat
     end
 
     def disbursements_without_vat_net
-      self.disbursements.without_vat.sum(&:net_amount)
+      disbursements.without_vat.sum(&:net_amount)
     end
 
     def disbursements_without_vat_gross
@@ -492,9 +506,9 @@ module Claim
     end
 
     def zeroise_nil_totals!
-      self.fees_vat = 0.0 if self.fees_vat.nil?
-      self.expenses_vat = 0.0 if self.expenses_vat.nil?
-      self.disbursements_vat = 0.0 if self.disbursements_vat.nil?
+      self.fees_vat = 0.0 if fees_vat.nil?
+      self.expenses_vat = 0.0 if expenses_vat.nil?
+      self.disbursements_vat = 0.0 if disbursements_vat.nil?
     end
 
     private
@@ -506,11 +520,11 @@ module Claim
     def destroy_all_invalid_fee_types; end
 
     def find_and_associate_documents
-      return if self.form_id.nil?
+      return if form_id.nil?
 
-      Document.where(form_id: self.form_id).each do |document|
-        document.update_column(:claim_id, self.id)
-        document.update_column(:external_user_id, self.external_user_id)
+      Document.where(form_id: form_id).each do |document|
+        document.update_column(:claim_id, id)
+        document.update_column(:external_user_id, external_user_id)
       end
     end
 
@@ -522,6 +536,5 @@ module Claim
       self.source ||= 'web'
       self.form_step ||= 1
     end
-
   end
 end

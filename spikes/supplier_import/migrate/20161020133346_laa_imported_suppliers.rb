@@ -27,4 +27,3 @@ class LaaImportedSuppliers < ActiveRecord::Migration
     end
   end
 end
-

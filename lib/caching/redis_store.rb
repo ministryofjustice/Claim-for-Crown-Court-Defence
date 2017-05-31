@@ -11,11 +11,11 @@ module Caching
     end
 
     def get(key)
-      self.store.get(key)
+      store.get(key)
     end
 
     def set(key, value)
-      self.store.set(key, value)
+      store.set(key, value)
       value
     end
   end

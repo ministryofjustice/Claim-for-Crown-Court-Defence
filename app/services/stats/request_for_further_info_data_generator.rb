@@ -1,6 +1,5 @@
 module Stats
   class RequestForFurtherInfoDataGenerator < BaseDataGenerator
-
     private
 
     def report_types

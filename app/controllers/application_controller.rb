@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def after_sign_out_path_for(_resource, params={})
+  def after_sign_out_path_for(_resource, params = {})
     if Rails.env.development? || Rails.env.devunicorn? || RailsHost.demo? || RailsHost.dev?
       new_user_session_url
     else
@@ -91,7 +91,7 @@ class ApplicationController < ActionController::Base
 
   def method_missing(method, *args)
     if method.to_s =~ /after_sign_in_path_for_(.*)/
-      raise "Unrecognised user type #{$1}"
+      raise "Unrecognised user type #{Regexp.last_match(1)}"
     end
     super
   end

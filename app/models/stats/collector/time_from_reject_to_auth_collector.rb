@@ -1,17 +1,12 @@
 module Stats
   module Collector
-
-
-
     # class to work out the rolling average of time from reject to authorize
     class TimeFromRejectToAuthCollector < BaseCollector
-
       def initialize(date = Date.today)
         super
         @rolling_period_start = (@date - rolling_average_period).beginning_of_day
         @rolling_period_end = @date.end_of_day
       end
-
 
       def collect
         claim_ids = authorised_cloned_claims.pluck(:id)
@@ -44,25 +39,10 @@ module Stats
         cloned_claim.authorised_at - rejected_date_for(source_claim)
       end
 
-
       def rejected_date_for(claim)
-        reject_transition = claim.claim_state_transitions.detect{ |cst| cst.to == 'rejected' }
+        reject_transition = claim.claim_state_transitions.detect { |cst| cst.to == 'rejected' }
         reject_transition.created_at
       end
-
-
-
-
-
-
-
-
-
-
-
-
-
     end
-
   end
 end

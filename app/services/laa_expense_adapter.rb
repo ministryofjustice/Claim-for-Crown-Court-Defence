@@ -1,5 +1,4 @@
 class LaaExpenseAdapter
-
   TRANSLATION_TABLE = {
     'Car travel' => {
       1 => 'AGFS_THE_TRV_CR',
@@ -57,20 +56,12 @@ class LaaExpenseAdapter
       4 => 'AGFS_TCT_HOT_ST',
       5 => 'AGFS_TCT_HOT_ST'
     }
-  }
+  }.freeze
 
-
-  LAA_BILL_TYPE = 'AGFS_EXPENSES'
-
-
-
-
+  LAA_BILL_TYPE = 'AGFS_EXPENSES'.freeze
 
   def self.laa_bill_type_and_sub_type(expense)
     subtype = TRANSLATION_TABLE[expense.expense_type.name][expense.reason_id]
-    subtype.nil? ? nil : [ LAA_BILL_TYPE, subtype ]
+    subtype.nil? ? nil : [LAA_BILL_TYPE, subtype]
   end
-
-
-
 end

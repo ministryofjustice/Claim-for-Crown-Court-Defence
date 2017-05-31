@@ -1,6 +1,6 @@
 class ClaimReporter
   include ActionView::Helpers::DateHelper
-  
+
   def completion_rate
     intentions_form_id = ClaimIntention.where(created_at: 16.weeks.ago..3.weeks.ago).pluck(:form_id)
     completed = Claim::BaseClaim.active.where.not(state: 'draft').where(form_id: intentions_form_id).where.not(last_submitted_at: nil).size

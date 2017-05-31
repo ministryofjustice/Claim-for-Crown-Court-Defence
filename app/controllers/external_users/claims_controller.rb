@@ -57,32 +57,30 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @message = @claim.messages.build
 
     track_visit({
-        url: 'external_user/%{type}/claim/show',
-        title: 'Show %{type} claim details'
-    }, claim_tracking_substitutions)
+                  url: 'external_user/%{type}/claim/show',
+                  title: 'Show %{type} claim details'
+                }, claim_tracking_substitutions)
   end
 
   def summary
     track_visit({
-        url: 'external_user/%{type}/claim/%{action}/summary',
-        title: '%{action_t} %{type} claim summary'
-    }, claim_tracking_substitutions)
+                  url: 'external_user/%{type}/claim/%{action}/summary',
+                  title: '%{action_t} %{type} claim summary'
+                }, claim_tracking_substitutions)
   end
 
   def confirmation
     track_visit({
-        url: 'external_user/%{type}/claim/%{action}/confirmation',
-        title: '%{action_t} %{type} claim confirmation'
-    }, claim_tracking_substitutions)
+                  url: 'external_user/%{type}/claim/%{action}/confirmation',
+                  title: '%{action_t} %{type} claim confirmation'
+                }, claim_tracking_substitutions)
   end
 
   def clone_rejected
-    begin
-      draft = claim_updater.clone_rejected
-      redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
-    rescue
-      redirect_to external_users_claims_url, alert: 'Can only clone rejected claims'
-    end
+    draft = claim_updater.clone_rejected
+    redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
+  rescue
+    redirect_to external_users_claims_url, alert: 'Can only clone rejected claims'
   end
 
   def destroy
@@ -113,7 +111,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def new
     load_offences_and_case_types
     build_nested_resources
-    track_visit({url: 'external_user/%{type}/claim/new/page1', title: 'New %{type} claim page 1'}, claim_tracking_substitutions)
+    track_visit({ url: 'external_user/%{type}/claim/new/page1', title: 'New %{type} claim page 1' }, claim_tracking_substitutions)
   end
 
   def edit
@@ -128,7 +126,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
     @claim.touch(:last_edited_at)
 
-    track_visit({url: 'external_user/%{type}/claim/edit/page1', title: 'Edit %{type} claim page 1'}, claim_tracking_substitutions)
+    track_visit({ url: 'external_user/%{type}/claim/edit/page1', title: 'Edit %{type} claim page 1' }, claim_tracking_substitutions)
   end
 
   def create
@@ -182,7 +180,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @financial_summary = Claims::FinancialSummary.new(@claims_context)
   end
 
-  def search(states=nil)
+  def search(states = nil)
     @claims = @claims.search(params[:search], states, *search_options)
   end
 
@@ -192,10 +190,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     options
   end
 
-  def set_sort_defaults(defaults={})
+  def set_sort_defaults(defaults = {})
     @sort_defaults = {  column:     defaults.fetch(:column, 'last_submitted_at'),
                         direction:  defaults.fetch(:direction, 'asc'),
-                        pagination: defaults.fetch(:pagination, page_size)}
+                        pagination: defaults.fetch(:pagination, page_size) }
   end
 
   def sort_column
@@ -206,7 +204,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     %w(asc desc).include?(params[:direction]) ? params[:direction] : @sort_defaults[:direction]
   end
 
-  def sort_and_paginate(options={})
+  def sort_and_paginate(options = {})
     set_sort_defaults(options)
     @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(@sort_defaults[:pagination])
   end
@@ -259,31 +257,31 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :disk_evidence,
       evidence_checklist_ids: [],
       defendants_attributes: [
-       :id,
-       :claim_id,
-       :first_name,
-       :last_name,
-       date_attributes_for(:date_of_birth),
-       :order_for_judicial_apportionment,
-       :_destroy,
-       representation_orders_attributes: [
-         :id,
-         :document,
-         :maat_reference,
-         date_attributes_for(:representation_order_date),
-         :_destroy
+        :id,
+        :claim_id,
+        :first_name,
+        :last_name,
+        date_attributes_for(:date_of_birth),
+        :order_for_judicial_apportionment,
+        :_destroy,
+        representation_orders_attributes: [
+          :id,
+          :document,
+          :maat_reference,
+          date_attributes_for(:representation_order_date),
+          :_destroy
         ]
       ],
       basic_fees_attributes: [
-       :id,
-       :claim_id,
-       :fee_type_id,
-       :fee_id,
-       :quantity,
-       :rate,
-       :amount,
-       :_destroy,
-       common_dates_attended_attributes
+        :id,
+        :claim_id,
+        :fee_type_id,
+        :fee_id,
+        :quantity,
+        :rate,
+        :amount,
+        :_destroy,
+        common_dates_attended_attributes
       ],
       disbursements_attributes: [
         :id,
@@ -305,13 +303,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         date_attributes_for(:date)
       ],
       interim_fee_attributes: [
-          :id,
-          :claim_id,
-          :fee_type_id,
-          :quantity,
-          :amount,
-          date_attributes_for(:warrant_issued_date),
-          date_attributes_for(:warrant_executed_date)
+        :id,
+        :claim_id,
+        :fee_type_id,
+        :quantity,
+        :amount,
+        date_attributes_for(:warrant_issued_date),
+        date_attributes_for(:warrant_executed_date)
       ],
       transfer_fee_attributes: [
         :id,
@@ -321,30 +319,30 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :quantity
       ],
       warrant_fee_attributes: [
-          :id,
-          :claim_id,
-          :fee_type_id,
-          :amount,
-          date_attributes_for(:warrant_issued_date),
-          date_attributes_for(:warrant_executed_date)
+        :id,
+        :claim_id,
+        :fee_type_id,
+        :amount,
+        date_attributes_for(:warrant_issued_date),
+        date_attributes_for(:warrant_executed_date)
       ],
       expenses_attributes: [
-       :id,
-       :claim_id,
-       :expense_type_id,
-       :location,
-       :quantity,
-       :amount,
-       :vat_amount,
-       :rate,
-       :reason_id,
-       :reason_text,
-       :distance,
-       :mileage_rate_id,
-       :hours,
-       date_attributes_for(:date),
-       :_destroy,
-       common_dates_attended_attributes
+        :id,
+        :claim_id,
+        :expense_type_id,
+        :location,
+        :quantity,
+        :amount,
+        :vat_amount,
+        :rate,
+        :reason_id,
+        :reason_text,
+        :distance,
+        :mileage_rate_id,
+        :hours,
+        date_attributes_for(:date),
+        :_destroy,
+        common_dates_attended_attributes
       ]
     )
   end
@@ -373,7 +371,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def continue_claim?
-    params.key?(:commit_continue)  || params.key?(:commit_stage_1)
+    params.key?(:commit_continue) || params.key?(:commit_stage_1)
   end
 
   def render_action_with_resources(action)
@@ -382,9 +380,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     load_offences_and_case_types
 
     track_visit({
-        url: 'external_user/%{type}/claim/%{action}/page%{step}',
-        title: '%{action_t} %{type} claim page %{step}'
-    }, claim_tracking_substitutions)
+                  url: 'external_user/%{type}/claim/%{action}/page%{step}',
+                  title: '%{action_t} %{type} claim page %{step}'
+                }, claim_tracking_substitutions)
 
     render action: action
   end
@@ -407,12 +405,12 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def render_or_redirect_error(result)
     case result.error_code
-      when :already_submitted
-        redirect_to external_users_claims_path, alert: 'Claim already submitted'
-      when :already_saved
-        redirect_to external_users_claims_path, alert: 'Claim already saved - please edit existing claim'
-      else # rollback done, show errors
-        render_action_with_resources(result.action)
+    when :already_submitted
+      redirect_to external_users_claims_path, alert: 'Claim already submitted'
+    when :already_saved
+      redirect_to external_users_claims_path, alert: 'Claim already saved - please edit existing claim'
+    else # rollback done, show errors
+      render_action_with_resources(result.action)
     end
   end
 

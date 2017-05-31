@@ -20,7 +20,6 @@
 #
 
 class Fee::GraduatedFee < Fee::BaseFee
-
   belongs_to :fee_type, class_name: Fee::GraduatedFeeType
 
   acts_as_gov_uk_date :date, validate_if: :perform_validation?
@@ -31,5 +30,4 @@ class Fee::GraduatedFee < Fee::BaseFee
   def is_graduated?
     true
   end
-
 end

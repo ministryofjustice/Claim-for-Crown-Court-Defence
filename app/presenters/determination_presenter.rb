@@ -1,5 +1,4 @@
 class DeterminationPresenter < BasePresenter
-
   presents :version
 
   def event
@@ -31,16 +30,15 @@ class DeterminationPresenter < BasePresenter
     changes['vat_amount'].last + changes['total'].last
   end
 
-
   private
 
   def changes
     {
-        'fees' => [0.00, 0.00],
-        'expenses' => [0.00, 0.00],
-        'disbursements' => [0.00, 0.00],
-        'total' => [0.00, 0.00],
-        'vat_amount' => [0.00, 0.00]
+      'fees' => [0.00, 0.00],
+      'expenses' => [0.00, 0.00],
+      'disbursements' => [0.00, 0.00],
+      'total' => [0.00, 0.00],
+      'vat_amount' => [0.00, 0.00]
     }.merge(changeset) { |_key, _old, new_array| new_array.zeroize_nils }
   end
 end

@@ -22,13 +22,13 @@ class Fee::FixedFeeType < Fee::BaseFeeType
 
   default_scope -> { order(parent_id: :desc, description: :asc) }
 
-  scope :top_levels,              -> { where(parent_id: nil) }
+  scope :top_levels, -> { where(parent_id: nil) }
 
   def fee_category_name
     'Fixed Fees'
   end
 
   def self.by_unique_code(code)
-    self.where(unique_code: code).first
+    where(unique_code: code).first
   end
 end

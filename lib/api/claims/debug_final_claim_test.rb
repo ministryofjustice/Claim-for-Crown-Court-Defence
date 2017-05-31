@@ -1,7 +1,6 @@
 require_relative 'base_claim_test'
 
 class DebugFinalClaimTest < BaseClaimTest
-
   def test_creation!
     puts 'starting'
 
@@ -23,7 +22,6 @@ class DebugFinalClaimTest < BaseClaimTest
       client.post_to_endpoint_with_debug('representation_orders', representation_order_data(index, defendant_id))
     end
 
-
     # CREATE fees
     [
       {
@@ -35,13 +33,10 @@ class DebugFinalClaimTest < BaseClaimTest
       { fee_type_id: 27,
         amount: 1630.64,
         quantity: nil,
-        date: Date.new(2016, 10, 22)
-
-      }
+        date: Date.new(2016, 10, 22) }
     ].each do |fee_data|
       client.post_to_endpoint_with_debug('fees', fee_data.merge(api_key: api_key, claim_id: claim_uuid).to_json)
     end
-
 
     # add expense
     client.post_to_endpoint_with_debug('expenses', expense_data(role: 'lgfs'))
@@ -50,10 +45,9 @@ class DebugFinalClaimTest < BaseClaimTest
     client.post_to_endpoint_with_debug('disbursements', disbursement_data)
   end
 
-
   def claim_data
-    case_type_id = json_value_at_index(client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, {role: 'lgfs'}), 'id', 12) # Trial
-    offence_id = json_value_at_index(client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key, {offence_description: 'Solicitation for immoral purposes'}), 'id')
+    case_type_id = json_value_at_index(client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'lgfs'), 'id', 12) # Trial
+    offence_id = json_value_at_index(client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key, offence_description: 'Solicitation for immoral purposes'), 'id')
     court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
 
     {
@@ -68,7 +62,7 @@ class DebugFinalClaimTest < BaseClaimTest
       "court_id": court_id,
       "cms_number": 'LGFS API 7',
       "additional_information": 'This is the text case entered via rake api:specific',
-      "case_concluded_at":'2016-11-22',
+      "case_concluded_at": '2016-11-22',
       "actual_trial_length": 10
     }
   end
@@ -81,7 +75,7 @@ class DebugFinalClaimTest < BaseClaimTest
         "first_name": 'Shankura-x',
         "last_name": 'Terhemen',
         "date_of_birth": '1979-04-13',
-        "order_for_judicial_apportionment": false,
+        "order_for_judicial_apportionment": false
       },
       {
         "api_key": api_key,
@@ -89,10 +83,9 @@ class DebugFinalClaimTest < BaseClaimTest
         "first_name": 'Tim-x',
         "last_name": 'Terhemen',
         "date_of_birth": '1979-04-13',
-        "order_for_judicial_apportionment": false,
+        "order_for_judicial_apportionment": false
       }
     ]
-
   end
 
   def representation_order_data(index, defendant_uuid)
@@ -112,6 +105,4 @@ class DebugFinalClaimTest < BaseClaimTest
     ]
     raw_data[index]
   end
-
-
 end

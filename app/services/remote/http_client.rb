@@ -28,13 +28,13 @@ module Remote
     private
 
     def build_endpoint(path, query)
-      [self.class.base_url, path].join('/') + '?' + {api_key: self.api_key}.merge(query).to_query
+      [self.class.base_url, path].join('/') + '?' + { api_key: api_key }.merge(query).to_query
     end
 
     def execute_request(method, path, query)
       endpoint = build_endpoint(path, query)
       response = Caching::ApiRequest.cache(endpoint) do
-        RestClient::Request.execute(method: method, url: endpoint, timeout: self.timeout, open_timeout: self.open_timeout)
+        RestClient::Request.execute(method: method, url: endpoint, timeout: timeout, open_timeout: open_timeout)
       end
       JSON.parse(response, symbolize_names: true)
     end

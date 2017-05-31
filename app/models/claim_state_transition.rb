@@ -15,7 +15,6 @@
 #
 
 class ClaimStateTransition < ActiveRecord::Base
-
   belongs_to :claim, class_name: ::Claim::BaseClaim, foreign_key: :claim_id
   belongs_to :author, class_name: User, foreign_key: :author_id
   belongs_to :subject, class_name: User, foreign_key: :subject_id
@@ -25,12 +24,12 @@ class ClaimStateTransition < ActiveRecord::Base
   end
 
   def self.decided_this_month(state)
-    self.where{ (to == state.to_s) & (created_at >= Time.now.beginning_of_month) }.count('DISTINCT claim_id')
+    where { (to == state.to_s) & (created_at >= Time.now.beginning_of_month) }.count('DISTINCT claim_id')
   end
 
   def update_author_id(value)
     self.author_id = value
-    self.save!
+    save!
   end
 
   def author_name

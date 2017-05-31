@@ -1,13 +1,11 @@
 
 # class to create specialized text field wrapped in all the GDS gubbins
 class AdpTextField
-
   attr_reader :form, :method, :options
 
   include ExternalUsers::ClaimsHelper
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::SanitizeHelper
-
 
   # instantiate an AdpTextField object
   # * form: the instance of AdpFormBuilder that this is called from
@@ -29,7 +27,6 @@ class AdpTextField
     generate_ids
     extract_options
   end
-
 
   # the methods output_buffer= and output_buffer are required by the content_tag
   # methods, called from the validation_error_message in ExternalUsers::ClaimsHelper
@@ -102,8 +99,6 @@ class AdpTextField
     end
   end
 
-
-
   def generate_form_field_id_from_object_name
     # @form.object_name either returns:
     #  * a symbol for top level fields (e.g. :claim), or
@@ -150,26 +145,26 @@ class AdpTextField
   end
 
   def div_start
-    result = %|<div class="form-group #{@method}_wrapper|
-    result += %| field_with_errors| if has_errors?
-    result += %|">|
+    result = %(<div class="form-group #{@method}_wrapper)
+    result += %( field_with_errors) if has_errors?
+    result += %(">)
     result
   end
 
   def anchor
-    %|<a id="#{@anchor_id}"></a>|
+    %(<a id="#{@anchor_id}"></a>)
   end
 
   def currency
-    %|<span class="currency-indicator">&pound;</span>|
+    %(<span class="currency-indicator">&pound;</span>)
   end
 
   def label
-    %|<label class="form-label" for="#{@form_field_id}">#{@options[:label]}|
+    %(<label class="form-label" for="#{@form_field_id}">#{@options[:label]})
   end
 
   def label_close
-    %|</label>|
+    %(</label>)
   end
 
   def error_message
@@ -178,24 +173,24 @@ class AdpTextField
 
   def hint
     if @options[:hint_text]
-      %|<span class="form-hint">#{@options[:hint_text]}</span>|
+      %(<span class="form-hint">#{@options[:hint_text]}</span>)
     else
       ''
     end
   end
 
   def input_field
-    result = %||
+    result = %()
     if @input_is_currency
-      result += %|<span class="currency-indicator">&pound;</span>|
+      result += %(<span class="currency-indicator">&pound;</span>)
     end
-    result += %|<input class="form-control #{@input_classes}" type="#{@input_type_string}" name="#{@form_field_name}" id="#{@form_field_id}" |
-    result += %|value="#{strip_tags(@value)}" | unless @form.object.__send__(@method).nil?
+    result += %(<input class="form-control #{@input_classes}" type="#{@input_type_string}" name="#{@form_field_name}" id="#{@form_field_id}" )
+    result += %(value="#{strip_tags(@value)}" ) unless @form.object.__send__(@method).nil?
     if @input_is_number
-      result += %|min="#{@input_min}" |
-      result += %|max="#{@input_max}" |
+      result += %(min="#{@input_min}" )
+      result += %(max="#{@input_max}" )
     end
-    result += %|/>|
+    result += %(/>)
     result
   end
 

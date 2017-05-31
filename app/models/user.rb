@@ -28,7 +28,6 @@
 #
 
 class User < ActiveRecord::Base
-
   include SoftlyDeletable
 
   auto_strip_attributes :first_name, :last_name, :email, squish: true, nullify: true
@@ -60,7 +59,7 @@ class User < ActiveRecord::Base
   scope :external_users, -> { where(persona_type: 'ExternalUser') }
 
   def name
-    [first_name, last_name] * ' '
+    [first_name, last_name].join(' ')
   end
 
   def email_with_name
@@ -68,11 +67,13 @@ class User < ActiveRecord::Base
   end
 
   def sortable_name
-    [last_name, first_name] * ' '
+    [last_name, first_name].join(' ')
   end
 
   def settings
-    HashWithIndifferentAccess.new(JSON.parse(read_attribute(:settings))) rescue {}
+    HashWithIndifferentAccess.new(JSON.parse(read_attribute(:settings)))
+  rescue
+    {}
   end
 
   def setting?(name, default = nil)
@@ -112,7 +113,6 @@ class User < ActiveRecord::Base
   end
 
   def before_soft_delete
-    self.email = "#{self.email}.deleted.#{self.id}"
+    self.email = "#{email}.deleted.#{id}"
   end
-
 end

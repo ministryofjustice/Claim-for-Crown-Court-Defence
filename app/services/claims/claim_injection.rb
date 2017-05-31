@@ -18,7 +18,7 @@ module Claims
     end
 
     def default_attrs
-      {status: 'enqueued', status_code: nil, status_msg: nil, retries: 0, retried_at: nil, published_at: nil}
+      { status: 'enqueued', status_code: nil, status_msg: nil, retries: 0, retried_at: nil, published_at: nil }
     end
   end
 end

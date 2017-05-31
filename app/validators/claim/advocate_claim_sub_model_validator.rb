@@ -1,8 +1,7 @@
 class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
-
   def has_one_association_names_for_steps
     [
-      [ ],
+      [],
       [
         :assessment,
         :certification
@@ -26,5 +25,4 @@ class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       ]
     ]
   end
-
 end

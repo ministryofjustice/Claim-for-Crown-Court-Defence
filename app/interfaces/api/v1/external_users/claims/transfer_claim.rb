@@ -29,7 +29,6 @@ module API::V1::ExternalUsers
           api_response.body
         end
       end
-
     end
   end
 end

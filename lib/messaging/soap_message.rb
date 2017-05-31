@@ -10,8 +10,8 @@ module Messaging
     CBO_NS = %w(cbo http://www.justice.gov.uk/2016/11/cbo).freeze
 
     DEFAULT_FORMAT = Nokogiri::XML::Node::SaveOptions::FORMAT +
-        Nokogiri::XML::Node::SaveOptions::NO_DECLARATION +
-        Nokogiri::XML::Node::SaveOptions::NO_EMPTY_TAGS
+                     Nokogiri::XML::Node::SaveOptions::NO_DECLARATION +
+                     Nokogiri::XML::Node::SaveOptions::NO_EMPTY_TAGS
 
     def payload_schema
       raise 'not implemented'
@@ -51,22 +51,22 @@ module Messaging
     private
 
     def must_understand
-      {'env:mustUnderstand': '1'}.freeze
+      { 'env:mustUnderstand': '1' }.freeze
     end
 
     def build_envelope
       Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |builder|
-        builder[:env].Envelope('xmlns:env': ENV_SCHEMA) {
-          builder[:env].Header('xmlns:wsa': ADDRESSING) {
+        builder[:env].Envelope('xmlns:env': ENV_SCHEMA) do
+          builder[:env].Header('xmlns:wsa': ADDRESSING) do
             builder[:wsa].To(must_understand, WSA_TO)
             builder[:wsa].From(must_understand) { builder[:wsa].Address(WSA_FROM) }
             builder[:wsa].Action(action)
             builder[:wsa].MessageID(message_id)
-          }
-          builder[:env].Body {
+          end
+          builder[:env].Body do
             builder << yield
-          }
-        }
+          end
+        end
       end
     end
 
@@ -84,11 +84,11 @@ module Messaging
     end
 
     def payload_xml_options
-      {dasherize: false, skip_types: true, skip_instruct: true, skip_nils: true, root: root}.freeze
+      { dasherize: false, skip_types: true, skip_instruct: true, skip_nils: true, root: root }.freeze
     end
 
     def builder_xml_options
-      {save_with: DEFAULT_FORMAT}
+      { save_with: DEFAULT_FORMAT }
     end
   end
 end

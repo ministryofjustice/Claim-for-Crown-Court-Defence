@@ -1,5 +1,4 @@
 class Fee::MiscFeePresenter < Fee::BaseFeePresenter
-
   def quantity
     agfs? ? super : not_applicable
   end
@@ -8,10 +7,11 @@ class Fee::MiscFeePresenter < Fee::BaseFeePresenter
     agfs? ? super : not_applicable
   end
 
-private
+  private
 
   def agfs?
-    fee.claim.agfs? ? true : false rescue true
+    fee.claim.agfs? ? true : false
+  rescue
+    true
   end
-
 end

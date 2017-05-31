@@ -108,7 +108,7 @@ module Claim
     end
 
     def update_claim_document_owners
-      documents.each { |d| d.update_column(:external_user_id, self.external_user_id) }
+      documents.each { |d| d.update_column(:external_user_id, external_user_id) }
     end
 
     private
@@ -124,31 +124,29 @@ module Claim
     end
 
     def agfs_supplier_number
-      begin
-        if provider.firm?
-          provider.firm_agfs_supplier_number
-        else
-          external_user.supplier_number
-        end
-      rescue StandardError
-        nil
+      if provider.firm?
+        provider.firm_agfs_supplier_number
+      else
+        external_user.supplier_number
       end
+    rescue StandardError
+      nil
     end
 
     def set_supplier_number
       supplier_no = agfs_supplier_number
-      self.supplier_number = supplier_no if self.supplier_number != supplier_no
+      self.supplier_number = supplier_no if supplier_number != supplier_no
     end
 
     # create a blank fee for every basic fee type not passed to Claim::AdvocateClaim.new
     def instantiate_basic_fees
-      return unless self.new_record?
+      return unless new_record?
 
       existing_basic_fee_type_ids = basic_fees.map(&:fee_type_id)
       basic_fee_types = Fee::BasicFeeType.all
       basic_fee_types.each do |basic_fee_type|
         next if basic_fee_type.id.in?(existing_basic_fee_type_ids)
-        self.basic_fees << Fee::BasicFee.new_blank(self, basic_fee_type)
+        basic_fees << Fee::BasicFee.new_blank(self, basic_fee_type)
       end
     end
 
@@ -161,4 +159,3 @@ module Claim
     end
   end
 end
-

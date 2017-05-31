@@ -1,6 +1,5 @@
 module Remote
   class CaseType < Base
-
     attr_accessor :name,
                   :is_fixed_fee,
                   :requires_cracked_dates,

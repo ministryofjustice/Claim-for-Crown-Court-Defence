@@ -50,7 +50,7 @@ class ApiTestClient
       puts ">>> POSTING TO #{endpoint} <<<<<"
       puts payload
     end
-    endpoint.post(payload, {:content_type => :json, :accept => :json}) do |response, _request, _result|
+    endpoint.post(payload, content_type: :json, accept: :json) do |response, _request, _result|
       if debug
         puts "<<< RESPONSE #{response.code} <<<<<"
         puts "<<< #{response.body} "
@@ -60,7 +60,6 @@ class ApiTestClient
       response
     end
   end
-
 
   def post_to_endpoint_with_debug(resource, payload)
     post_to_endpoint(resource, payload, true)

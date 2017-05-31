@@ -6,7 +6,7 @@ class SuperAdmins::ProvidersController < ApplicationController
   def edit; end
 
   def index
-    @providers = Provider.order(name: :asc) 
+    @providers = Provider.order(name: :asc)
   end
 
   def new
@@ -16,7 +16,7 @@ class SuperAdmins::ProvidersController < ApplicationController
   def update
     if @provider.update(provider_params.except(*filtered_params))
       @provider.remove_lgfs_supplier_numbers_if_chamber
-     redirect_to super_admins_provider_path(@provider), notice: 'Provider successfully updated'
+      redirect_to super_admins_provider_path(@provider), notice: 'Provider successfully updated'
     else
       render :edit
     end

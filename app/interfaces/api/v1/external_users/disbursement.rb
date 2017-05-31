@@ -1,7 +1,6 @@
 module API
   module V1
     module ExternalUsers
-
       class Disbursement < Grape::API
         params do
           # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
@@ -35,7 +34,6 @@ module API
             status api_response.status
             api_response.body
           end
-
         end
       end
     end

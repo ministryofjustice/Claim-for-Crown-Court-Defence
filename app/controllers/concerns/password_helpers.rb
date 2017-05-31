@@ -29,19 +29,19 @@ module PasswordHelpers
   end
 
   def params_with_temporary_password
-      @resource_params['user_attributes']['password'] = @temporary_password
-      @resource_params['user_attributes']['password_confirmation'] = @temporary_password
-      return @resource_params
+    @resource_params['user_attributes']['password'] = @temporary_password
+    @resource_params['user_attributes']['password_confirmation'] = @temporary_password
+    @resource_params
   end
 
   def password_params
     [:email, :first_name, :last_name].each { |attribute| @user_params[:user_attributes].delete(attribute) }
-    return @user_params
+    @user_params
   end
 
   def get_resource_params
     resource = controller_name.singularize
-    @resource_params = self.send((resource + '_params').to_sym)
+    @resource_params = send((resource + '_params').to_sym)
   end
 
   def get_user_params
@@ -51,5 +51,4 @@ module PasswordHelpers
   def set_temporary_password
     @temporary_password = SecureRandom.uuid
   end
-
 end

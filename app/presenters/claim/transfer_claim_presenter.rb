@@ -1,5 +1,4 @@
 class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
-
   def pretty_type
     'Transfer'
   end
@@ -13,7 +12,9 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def transfer_detail_summary
-    Claim::TransferBrain.transfer_detail_summary(claim.transfer_detail) rescue ''
+    Claim::TransferBrain.transfer_detail_summary(claim.transfer_detail)
+  rescue
+    ''
   end
 
   def litigator_type_description
@@ -33,7 +34,8 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def case_conclusion_description
-    case_conclusions[claim.case_conclusion_id.to_s] rescue ''
+    case_conclusions[claim.case_conclusion_id.to_s]
+  rescue
+    ''
   end
-
 end

@@ -5,7 +5,7 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
   def self.mandatory_fields
     [
       :external_user_id,
-      :creator,
+      :creator
     ]
   end
 
@@ -17,7 +17,7 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
         :transfer_stage_id,
         :transfer_date,
         :case_conclusion_id,
-        :transfer_detail_combo,
+        :transfer_detail_combo
       ],
       [
         :court,
@@ -29,15 +29,13 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
         :case_concluded_at,
         :supplier_number,
         :amount_assessed,
-        :evidence_checklist_ids,
+        :evidence_checklist_ids
       ],
       [
-        :total,
+        :total
       ]
     ]
   end
-
-
 
   def validate(record)
     super
@@ -50,7 +48,7 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_litigator_type
-    unless @record.litigator_type.in? %w{ new original }
+    unless @record.litigator_type.in? %w( new original )
       add_error(:litigator_type, 'invalid')
     end
   end

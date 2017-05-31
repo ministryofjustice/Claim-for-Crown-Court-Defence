@@ -40,17 +40,20 @@ module API
 
             def current_claims
               current_user.claims.caseworker_dashboard_under_assessment.search(
-                  search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options)
+                search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options
+              )
             end
 
             def archived_claims
               ::Claim::BaseClaim.active.caseworker_dashboard_archived.search(
-                  search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES, *search_options)
+                search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES, *search_options
+              )
             end
 
             def allocated_claims
               ::Claim::BaseClaim.active.__send__(scheme).caseworker_dashboard_under_assessment.search(
-                  search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options)
+                search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options
+              )
             end
 
             def unallocated_claims

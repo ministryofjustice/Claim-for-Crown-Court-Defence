@@ -1,7 +1,6 @@
 require_relative 'base_claim_test'
 
 class AdvocateClaimTest < BaseClaimTest
-
   def agfs_schema?
     true
   end
@@ -38,9 +37,8 @@ class AdvocateClaimTest < BaseClaimTest
     clean_up
   end
 
-
   def claim_data
-    case_type_id = json_value_at_index(client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, {role: 'agfs'}), 'id', 11) # Trial
+    case_type_id = json_value_at_index(client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'agfs'), 'id', 11) # Trial
     advocate_category = json_value_at_index(client.get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT, api_key))
     offence_id = json_value_at_index(client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key), 'id')
     court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
@@ -48,30 +46,30 @@ class AdvocateClaimTest < BaseClaimTest
 
     {
       "api_key": api_key,
-      "creator_email": "advocateadmin@example.com",
-      "advocate_email": "advocate@example.com",
-      "case_number": "B20161234",
+      "creator_email": 'advocateadmin@example.com',
+      "advocate_email": 'advocate@example.com',
+      "case_number": 'B20161234',
       "providers_ref": SecureRandom.uuid[3..15].upcase,
       "case_type_id": case_type_id,
-      "first_day_of_trial": "2015-06-01",
+      "first_day_of_trial": '2015-06-01',
       "estimated_trial_length": 1,
       "actual_trial_length": 1,
-      "trial_concluded_at": "2015-06-02",
+      "trial_concluded_at": '2015-06-02',
       "advocate_category": advocate_category,
       "offence_id": offence_id,
       "court_id": court_id,
-      "cms_number": "12345678",
-      "additional_information": "string",
+      "cms_number": '12345678',
+      "additional_information": 'string',
       "apply_vat": true,
-      "trial_fixed_notice_at": "2015-06-01",
-      "trial_fixed_at": "2015-06-01",
-      "trial_cracked_at": "2015-06-01",
+      "trial_fixed_notice_at": '2015-06-01',
+      "trial_fixed_at": '2015-06-01',
+      "trial_cracked_at": '2015-06-01',
       "trial_cracked_at_third": trial_cracked_at_third
     }
   end
 
   def basic_fee_data
-    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, {category: 'basic', role: 'agfs'}), 'id')
+    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'basic', role: 'agfs'), 'id')
 
     {
       "api_key": api_key,
@@ -83,14 +81,14 @@ class AdvocateClaimTest < BaseClaimTest
   end
 
   def misc_fee_data
-    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, {category: 'misc', role: 'agfs'}), 'id')
+    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'agfs'), 'id')
 
     {
       "api_key": api_key,
       "claim_id": claim_uuid,
       "fee_type_id": fee_type_id,
       "quantity": 2,
-      "rate": 1.55,
+      "rate": 1.55
     }
   end
 end

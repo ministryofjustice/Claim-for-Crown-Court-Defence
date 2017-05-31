@@ -1,5 +1,4 @@
 class StandardJsonFormat < Grape::Validations::Base
-
   # ISO 8601 format
   #
   # Valid examples:
@@ -23,6 +22,6 @@ class StandardJsonFormat < Grape::Validations::Base
     Date.iso8601(date_str) # if date is not valid iso8601 it will raise an ArgumentError
 
   rescue ArgumentError
-    fail Grape::Exceptions::Validation, params: [@scope.full_name(attr_name)], message: 'is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
+    raise Grape::Exceptions::Validation, params: [@scope.full_name(attr_name)], message: 'is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
   end
 end

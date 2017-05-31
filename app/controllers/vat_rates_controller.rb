@@ -10,9 +10,7 @@
 #
 
 class VatRatesController < ApplicationController
-
   skip_load_and_authorize_resource only: [:index]
-
 
   # expects an net_amount(as a string whit two decimal places and a date)
   # returns a JSON struct as follws:
@@ -21,13 +19,11 @@ class VatRatesController < ApplicationController
 
   def index
     respond_with(
-      {
-        'net_amount'    => number_to_currency(net_amount),
-        'date'          => formatted_date,
-        'rate'          => rate,
-        'vat_amount'    => number_to_currency(vat_amount),
-        'total_inc_vat' => total
-      }
+      'net_amount' => number_to_currency(net_amount),
+      'date'          => formatted_date,
+      'rate'          => rate,
+      'vat_amount'    => number_to_currency(vat_amount),
+      'total_inc_vat' => total
     )
   end
 
@@ -88,5 +84,4 @@ class VatRatesController < ApplicationController
   def agfs?
     scheme == 'agfs'
   end
-
 end

@@ -19,5 +19,4 @@ class SuperAdmin < ActiveRecord::Base
   delegate :first_name, to: :user
   delegate :last_name, to: :user
   delegate :name, to: :user
-
 end

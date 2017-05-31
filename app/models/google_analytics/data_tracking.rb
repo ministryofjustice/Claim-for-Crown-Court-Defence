@@ -15,7 +15,8 @@ module GoogleAnalytics
       end
 
       def adapter=(name)
-        @@adapter_name, @@adapter = name, "GoogleAnalytics::#{name.upcase}DataAdapter".constantize
+        @@adapter_name = name
+        @@adapter = "GoogleAnalytics::#{name.upcase}DataAdapter".constantize
       end
     end
 

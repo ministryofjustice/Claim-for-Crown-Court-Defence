@@ -47,8 +47,8 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
       name: Faker::Company.name,
       firm_agfs_supplier_number: generate_unique_supplier_number,
       provider_type: 'firm',
-      roles: ['agfs', 'lgfs'],
-      lgfs_supplier_numbers: [ supplier_number ]
+      roles: %w(agfs lgfs),
+      lgfs_supplier_numbers: [supplier_number]
     )
     external_user = ExternalUser.new(
       provider: provider,
@@ -60,8 +60,8 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
   end
 
   def generate_unique_supplier_number
-    alpha_part = ""
-    2.times{alpha_part  << (65 + rand(25)).chr}
+    alpha_part = ''
+    2.times { alpha_part << (65 + rand(25)).chr }
     numeric_part = rand(999)
     "#{alpha_part}#{sprintf('%03d', numeric_part)}"
   end

@@ -1,5 +1,4 @@
 class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
-
   def requires_trial_dates?
     false
   end
@@ -19,5 +18,4 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
   def pretty_type
     'Interim'
   end
-
 end

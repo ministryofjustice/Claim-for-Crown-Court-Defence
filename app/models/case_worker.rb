@@ -14,7 +14,7 @@
 class CaseWorker < ActiveRecord::Base
   auto_strip_attributes squish: true, nullify: true
 
-  ROLES = %w{ admin case_worker }
+  ROLES = %w( admin case_worker ).freeze
 
   include Roles
   include SoftlyDeletable
@@ -24,12 +24,10 @@ class CaseWorker < ActiveRecord::Base
   has_many :case_worker_claims
   has_many :claims, -> { active }, class_name: Claim::BaseClaim, through: :case_worker_claims, after_remove: :unallocate!
 
-
-
   default_scope { includes(:user) }
 
-  validates :location, presence: {message: 'Location cannot be blank'}
-  validates :user, presence: {message: 'User cannot be blank'}
+  validates :location, presence: { message: 'Location cannot be blank' }
+  validates :user, presence: { message: 'User cannot be blank' }
 
   accepts_nested_attributes_for :user
 
@@ -39,7 +37,7 @@ class CaseWorker < ActiveRecord::Base
   delegate :name, to: :user
 
   def before_soft_delete
-    self.user.soft_delete
+    user.soft_delete
   end
 
   protected

@@ -48,9 +48,9 @@ class Fee::BaseFeePresenter < BasePresenter
     end
   end
 
-private
+  private
 
-  def t(scope, suffix=nil)
+  def t(scope, suffix = nil)
     I18n.t("#{scope}.#{fee.fee_type.code.downcase}#{suffix}")
   end
 
@@ -65,5 +65,4 @@ private
   def not_applicable
     hint_tag I18n.t('general.not_applicable')
   end
-
 end

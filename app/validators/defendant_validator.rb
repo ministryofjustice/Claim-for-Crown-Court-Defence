@@ -1,5 +1,4 @@
 class DefendantValidator < BaseValidator
-
   def self.fields
     [
       :date_of_birth,
@@ -22,17 +21,15 @@ class DefendantValidator < BaseValidator
   def validate_date_of_birth
     return unless requires_dob?
     validate_presence(:date_of_birth, 'blank')
-    validate_not_after(10.years.ago, :date_of_birth, "check")
-    validate_not_before(120.years.ago, :date_of_birth, "check")
+    validate_not_after(10.years.ago, :date_of_birth, 'check')
+    validate_not_before(120.years.ago, :date_of_birth, 'check')
   end
 
   def validate_representation_orders
     return if @record.claim.try(:api_draft?)
 
     # Will get validated by the sub-model validator RepresentationOrderValidator
-    if @record.representation_orders.none?
-      @record.representation_orders.build
-    end
+    @record.representation_orders.build if @record.representation_orders.none?
   end
 
   def validate_first_name
@@ -44,7 +41,6 @@ class DefendantValidator < BaseValidator
     validate_presence(:last_name, 'blank')
     validate_max_length(:last_name, 40, 'max_length')
   end
-
 
   # local helpers
   #

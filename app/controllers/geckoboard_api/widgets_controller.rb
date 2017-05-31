@@ -54,8 +54,9 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
   def respond_payload_from_class(klass)
     respond_to do |format|
       @payload = klass.new.run
-      format.json {
-        render :json => @payload.to_json }
+      format.json do
+        render json: @payload.to_json
+      end
       format.html
     end
   end
@@ -65,7 +66,7 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
     payload = klass.new(reporter)
 
     respond_to do |format|
-      format.json { render :json => payload }
+      format.json { render json: payload }
     end
   end
 end

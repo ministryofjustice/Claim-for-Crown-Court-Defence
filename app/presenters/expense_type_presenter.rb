@@ -13,7 +13,6 @@ class ExpenseTypePresenter < BasePresenter
     }
   end
 
-
   private
 
   def location_field?

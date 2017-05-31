@@ -1,6 +1,5 @@
 module Claims
   class ClaimActionsResult
-
     attr_accessor :service, :success, :error_code
     delegate :action, :draft?, to: :service
 
@@ -13,6 +12,5 @@ module Claims
     def success?
       success
     end
-
   end
 end

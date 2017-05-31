@@ -14,7 +14,6 @@
 #  roles                     :string
 #
 
-
 # Note on supplier numbers:
 #
 # Firms have 1 or more lgfs supplier numbers which are held as an association
@@ -25,9 +24,9 @@
 class Provider < ActiveRecord::Base
   auto_strip_attributes :name, :firm_agfs_supplier_number, squish: true, nullify: true
 
-  PROVIDER_TYPES = %w( chamber firm )
+  PROVIDER_TYPES = %w( chamber firm ).freeze
 
-  ROLES = %w( agfs lgfs )
+  ROLES = %w( agfs lgfs ).freeze
   include Roles
 
   PROVIDER_TYPES.each do |type|
@@ -40,7 +39,7 @@ class Provider < ActiveRecord::Base
 
   has_many :external_users, dependent: :destroy do
     def ordered_by_last_name
-      self.sort { |a, b| a.user.sortable_name <=> b.user.sortable_name }
+      sort { |a, b| a.user.sortable_name <=> b.user.sortable_name }
     end
   end
 
@@ -54,11 +53,11 @@ class Provider < ActiveRecord::Base
   before_validation :set_api_key, :upcase_firm_agfs_supplier_number
 
   validates :provider_type, presence: true
-  validates :name, presence: {message: :blank}, uniqueness: { case_sensitive: false, message: :not_unique }
+  validates :name, presence: { message: :blank }, uniqueness: { case_sensitive: false, message: :not_unique }
   validates :api_key, presence: true
 
-  validates :firm_agfs_supplier_number, presence: {message: :blank}, if: :agfs_firm?
-  validates :firm_agfs_supplier_number, absence: {message: :absent}, unless: :agfs_firm?
+  validates :firm_agfs_supplier_number, presence: { message: :blank }, if: :agfs_firm?
+  validates :firm_agfs_supplier_number, absence: { message: :absent }, unless: :agfs_firm?
   validates :firm_agfs_supplier_number, format: { with: ExternalUser::SUPPLIER_NUMBER_REGEX, allow_nil: true, message: :invalid_format }
   validates_with SupplierNumberSubModelValidator, if: :lgfs?
 
@@ -83,8 +82,8 @@ class Provider < ActiveRecord::Base
 
   def available_claim_types
     claim_types = []
-    claim_types << Claim::AdvocateClaim if self.agfs?
-    claim_types.concat [ Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim ] if self.lgfs?
+    claim_types << Claim::AdvocateClaim if agfs?
+    claim_types.concat [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim] if lgfs?
     claim_types
   end
 

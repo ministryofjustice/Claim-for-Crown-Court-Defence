@@ -46,6 +46,9 @@ FactoryGirl.define do
       end
     end
 
+    trait :forced_validation do |claim|
+      claim.force_validation true
+    end
   end
 end
 

@@ -3,7 +3,7 @@ class Claim::LitigatorSupplierNumberValidator < Claim::BaseClaimValidator
 
   def self.fields_for_steps
     [
-        [].unshift(first_step_common_validations)
+        [first_step_common_validations]
     ]
   end
 end

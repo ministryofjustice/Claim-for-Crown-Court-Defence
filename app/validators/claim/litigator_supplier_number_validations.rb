@@ -22,11 +22,6 @@ module Claim
       validate_inclusion(:supplier_number, provider_supplier_numbers, 'unknown') unless @record.errors.key?(:supplier_number)
     end
 
-
-    # local helpers
-    # ---------------------------
-
-
     def supplier_number_regex
       SupplierNumber::SUPPLIER_NUMBER_REGEX
     end

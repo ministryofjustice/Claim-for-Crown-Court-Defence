@@ -65,6 +65,7 @@ module Claim
     set_singular_route_key 'litigators_claim'
 
     validates_with ::Claim::LitigatorClaimValidator
+    validates_with ::Claim::LitigatorSupplierNumberValidator, on: :create
     validates_with ::Claim::LitigatorClaimSubModelValidator
 
     has_one :fixed_fee, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim

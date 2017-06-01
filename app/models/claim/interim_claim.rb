@@ -65,6 +65,7 @@ module Claim
     set_singular_route_key 'litigators_interim_claim'
 
     validates_with ::Claim::InterimClaimValidator
+    validates_with ::Claim::LitigatorSupplierNumberValidator
     validates_with ::Claim::InterimClaimSubModelValidator
 
     has_one :interim_fee, foreign_key: :claim_id, class_name: 'Fee::InterimFee', dependent: :destroy, inverse_of: :claim

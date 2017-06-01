@@ -159,6 +159,14 @@ RSpec.describe Claims::StateMachine, type: :model do
         end
       end
     end
+
+    describe 'when supplier number has been invalidated' do
+      let(:claim) { create :litigator_claim, :fixed_fee, force_validation: true }
+
+      before { SupplierNumber.find_by(supplier_number: claim.supplier_number).delete }
+
+      it { expect{ claim.submit! }.not_to raise_error }
+    end
   end # describe 'valid transitions'
 
   describe 'set triggers' do

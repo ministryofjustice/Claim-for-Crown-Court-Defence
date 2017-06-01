@@ -3,7 +3,6 @@ class Claim::BaseClaimValidator < BaseValidator
     [
       :external_user_id,
       :creator,
-      :supplier_number,
       :amount_assessed,
       :evidence_checklist_ids
     ]

@@ -147,6 +147,28 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     end
   end
 
+  describe 'when supplier number has been invalidated' do
+    subject { claim.valid? }
+
+    before { SupplierNumber.find_by(supplier_number: claim.supplier_number).delete }
+
+    describe 'on create' do
+      describe 'the claim is invalid' do
+        let(:claim) { build :litigator_claim, :fixed_fee, :forced_validation }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    describe 'on edit' do
+      describe 'the claim is valid' do
+        let(:claim) { create :litigator_claim, :fixed_fee, :forced_validation }
+
+        it { is_expected.to be true }
+      end
+    end
+  end
+
   include_examples "common litigator claim attributes"
 
 end

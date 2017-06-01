@@ -119,7 +119,8 @@ describe Claim::AdvocateClaimValidator do
           :trial_concluded_at,
           :retrial_started_at,
           :retrial_concluded_at,
-          :case_concluded_at
+          :case_concluded_at,
+          :supplier_number
       ],
       [
           :total

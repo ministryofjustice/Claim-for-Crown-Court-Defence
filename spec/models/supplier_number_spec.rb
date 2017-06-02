@@ -49,4 +49,30 @@ RSpec.describe SupplierNumber, type: :model do
       expect(subject).to be_valid
     end
   end
+
+  describe '#has_non_archived_claims?' do
+    let(:relation) { double(ActiveRecord::Relation) }
+    subject { described_class.new(supplier_number: '6X666X') }
+
+    before do
+      expect(Claim::BaseClaim).to receive(:non_archived_pending_delete).and_return(relation)
+      expect(relation).to receive(:where).with(supplier_number: '6X666X').and_return(claims)
+    end
+
+    context 'when there are claims' do
+      let(:claims) { [double('Claim')] }
+
+      it 'returns true' do
+        expect(subject.has_non_archived_claims?).to be true
+      end
+    end
+
+    context 'when there are no claims' do
+      let(:claims) { [] }
+
+      it 'returns false' do
+        expect(subject.has_non_archived_claims?).to be false
+      end
+    end
+  end
 end

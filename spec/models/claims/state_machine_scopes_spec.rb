@@ -33,5 +33,11 @@ RSpec.describe Claims::StateMachine, type: :model do
         expect(Claim::BaseClaim.active.submitted_or_redetermination_or_awaiting_written_reasons).to match_array([submitted_claim, redetermination_claim, awaiting_written_reasons_claim])
       end
     end
+
+    describe '.non_archived_pending_delete' do
+      it 'returns everything but archived_pending_delete cases' do
+        expect(Claim::BaseClaim.active.non_archived_pending_delete).to match_array([draft_claim, submitted_claim, allocated_claim, redetermination_claim, awaiting_written_reasons_claim])
+      end
+    end
   end
 end

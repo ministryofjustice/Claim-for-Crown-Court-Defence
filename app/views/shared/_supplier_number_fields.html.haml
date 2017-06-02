@@ -1,5 +1,15 @@
 .form-group.supplier-number-group
   = f.label :supplier_number, class: 'form-label'
-  = f.text_field :supplier_number, class: 'form-control'
 
-  = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group' }
+  - if f.object.supplier_number.blank? || !f.object.valid?
+    = f.text_field :supplier_number, class: 'form-control'
+    = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group' }
+  - else
+    = f.text_field :supplier_number, class: 'form-control', disabled: true
+    - if f.object.has_non_archived_claims?
+      %span.form-hint
+        Cannot remove supplier number while claims are still in progress
+    - else
+      = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group' }
+
+

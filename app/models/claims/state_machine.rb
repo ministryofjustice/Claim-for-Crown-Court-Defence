@@ -119,6 +119,7 @@ module Claims::StateMachine
       klass.scope s, -> { klass.where(state: s) }
     end
 
+    klass.scope :non_archived_pending_delete, -> { klass.where.not(state: :archived_pending_delete) }
     klass.scope :non_draft, -> { klass.where(state: NON_DRAFT_STATES) }
 
     klass.scope :submitted_or_redetermination_or_awaiting_written_reasons, -> { klass.where(state: CASEWORKER_DASHBOARD_UNALLOCATED_STATES) }

@@ -1,3 +1,5 @@
+require 'google_analytics/api'
+
 class FeedbackController < ApplicationController
   skip_load_and_authorize_resource only: [:new, :create]
   before_action :suppress_hotline_link
@@ -10,6 +12,7 @@ class FeedbackController < ApplicationController
   def create
     @feedback = Feedback.new(merged_feedback_params)
     if @feedback.save
+      GoogleAnalytics::Api.delay.event('satisfaction', merged_feedback_params[:rating], params[:ga_client_id])
       redirect_to after_create_url, notice: 'Feedback submitted'
     else
       render "feedback/#{@feedback.type}"

@@ -37,7 +37,7 @@ describe('Helpers.SideBar.js', function() {
         expect(instance.config).toEqual({
           type: '_Base',
           vatfactor: 0.2,
-          autoVAT: true
+          autoVAT: false
         });
       });
 
@@ -110,14 +110,14 @@ describe('Helpers.SideBar.js', function() {
         });
 
         describe('...applyVat', function() {
-          it('should apply 20% VAT by default', function() {
+          it('should not apply 20% VAT by default', function() {
             instance = new moj.Helpers.SideBar.Base();
             instance.totals = {
               vat: 0,
               total: 100
             };
             instance.applyVat();
-            expect(instance.totals.vat).toBe(20);
+            expect(instance.totals.vat).toBe(0);
           });
 
           it('should not apply VAT if `autoVAT` is false', function() {
@@ -134,7 +134,8 @@ describe('Helpers.SideBar.js', function() {
 
           it('should use a configurable `config.vatfactor`', function() {
             instance = new moj.Helpers.SideBar.Base({
-              vatfactor: 0.5
+              vatfactor: 0.5,
+              autoVAT: true
             });
             instance.totals = {
               vat: 0,
@@ -294,7 +295,7 @@ describe('Helpers.SideBar.js', function() {
               rate: 22.22,
               amount: 33.33,
               total: 44.44,
-              vat: 8.888,
+              vat: 0,
               typeTotal: 44.44
             });
           });

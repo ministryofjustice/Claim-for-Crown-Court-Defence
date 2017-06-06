@@ -2,6 +2,9 @@
   $('.offence-class-select').slideUp();
   $('#claim_offence_id').val('');
 <% else %>
+  if (typeof ga != "undefined") {
+    ga('set', 'dimension3', '<%= params[:description] %>');
+  };
   $('.offence-class-select').html('<%=j render partial: "external_users/claims/case_details/offence_select", locals: { offences: @offences } %>');
   $('.offence-class-select').slideDown();
   moj.Modules.NewClaim.attachToOffenceClassSelect();

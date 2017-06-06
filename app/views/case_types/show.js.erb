@@ -15,3 +15,9 @@
 <% else %>
   $('div.defendants').addClass('hide-dob');
 <% end %>
+
+
+if (typeof ga != "undefined") {
+  ga('set', 'dimension2', '<%= @case_type.name %>');
+
+};

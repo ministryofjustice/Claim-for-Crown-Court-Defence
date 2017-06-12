@@ -7,11 +7,13 @@ describe GoogleAnalytics::Api do
   let(:endpoint) { 'http://example.com' }
   let(:tracker_id) { 'GA123456' }
   let(:version) { '1' }
+  let(:fallback_client_id) { '555' }
 
   before do
     allow(Settings.google_analytics).to receive(:endpoint).and_return(endpoint)
     allow(Settings.google_analytics).to receive(:tracker_id).and_return(tracker_id)
     allow(Settings.google_analytics).to receive(:version).and_return(version)
+    allow(Settings.google_analytics).to receive(:fallback_client_id).and_return(fallback_client_id)
   end
 
   describe '.event' do
@@ -72,6 +74,20 @@ describe GoogleAnalytics::Api do
       let(:version) { nil }
 
       it { is_expected.to be nil }
+    end
+  end
+
+  describe '.fallback_client_id' do
+    subject(:api_fallback_client_id) { api.fallback_client_id }
+
+    describe 'when not set' do
+      it { is_expected.to eq '555' }
+    end
+
+    describe 'when explicitly set' do
+      let(:fallback_client_id) { '777' }
+
+      it { is_expected.to eq '777' }
     end
   end
 end

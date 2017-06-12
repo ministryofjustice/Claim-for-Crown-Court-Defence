@@ -2,7 +2,7 @@ require 'rest_client'
 
 module GoogleAnalytics
   class Api
-    def self.event(category, action, client_id = '555')
+    def self.event(category, action, client_id = fallback_client_id)
       return unless tracker_id.present?
       params = { v: version, tid: tracker_id, cid: client_id, t: 'event', ec: category, ea: action }
       begin
@@ -23,6 +23,10 @@ module GoogleAnalytics
 
     def self.endpoint
       Settings.google_analytics.endpoint
+    end
+
+    def self.fallback_client_id
+      Settings.google_analytics.fallback_client_id.to_s
     end
   end
 end

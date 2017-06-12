@@ -27,6 +27,11 @@ earliest_permitted_date_in_words: 10 years ago
 
 interim_earliest_permitted_repo_date: <%= Date.new(2014,10,2) %>
 
+google_analytics:
+  endpoint: "http://www.google-analytics.com/collect"
+  version: 1
+  tracker_id: <%= ENV['GA_TRACKER_ID'] %>
+  fallback_client_id: <%= ENV['FALLBACK_CLIENT_ID'] || '555' %>
 
 # This value is not used - the max value of 20.megabytes is hard coded into models/document.rb:36
 max_document_upload_size_mb: 400

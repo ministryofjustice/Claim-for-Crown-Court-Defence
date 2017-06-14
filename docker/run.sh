@@ -91,5 +91,14 @@ bundle exec scheduler_daemon start
 echo "starting sidekiq daemon"
 bundle exec sidekiq -d
 
-echo "launching unicorn"
-bundle exec unicorn -p 80 -c config/unicorn.rb
+ROLE="${1:-app}"
+case ${ROLE} in
+api)
+    echo "launching unicorn for API"
+    bundle exec unicorn -p 3001 -c config/unicorn.rb
+    ;;
+*)
+    echo "launching unicorn for app"
+    bundle exec unicorn -p 80 -c config/unicorn.rb
+    ;;
+esac

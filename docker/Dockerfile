@@ -22,9 +22,10 @@ WORKDIR /usr/src/app
 COPY Gemfile /usr/src/app/
 COPY Gemfile.lock /usr/src/app/
 
-# Hack to install private gems
+# Hack to install private gem
 #RUN socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork TCP4:$(ip route|awk '/default/ {print $3}'):$SSH_AUTH_PROXY_PORT & bundle install
 RUN bundle install
+ENV APP_HOME ./
 
 COPY . /usr/src/app
 RUN mkdir -p /usr/src/app/public/assets
@@ -32,11 +33,11 @@ RUN mkdir -p /usr/src/app/public/assets
 COPY ./docker/run.sh $APP_HOME/run.sh
 RUN chmod 777 $APP_HOME/run.sh
 
-WORKDIR $APPHOME
+WORKDIR $APP_HOME
 
 EXPOSE 80
 
 #SECRET_TOKEN set here because otherwise devise blows up during the precompile.
 RUN bundle exec rake assets:precompile RAILS_ENV=production SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here
 
-CMD "$APP_HOME/run.sh"
+ENTRYPOINT "$APP_HOME/run.sh"

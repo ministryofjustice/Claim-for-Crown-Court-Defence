@@ -251,10 +251,10 @@ GEM
       hashie (>= 3.0)
     highline (1.7.8)
     hitimes (1.2.3)
-    html2haml (2.0.0)
+    html2haml (2.2.0)
       erubis (~> 2.7.0)
-      haml (~> 4.0.0)
-      nokogiri (~> 1.6.0)
+      haml (>= 4.0, < 6)
+      nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
     htmlentities (4.3.4)
     http-cookie (1.0.2)
@@ -319,7 +319,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.99.3)
     mimemagic (0.3.2)
-    mini_portile2 (2.1.0)
+    mini_portile2 (2.2.0)
     minitest (5.10.1)
     multi_json (1.12.1)
     multi_test (0.1.2)
@@ -332,8 +332,8 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (3.2.0)
     netrc (0.11.0)
-    nokogiri (1.6.8.1)
-      mini_portile2 (~> 2.1.0)
+    nokogiri (1.8.0)
+      mini_portile2 (~> 2.2.0)
     notiffany (0.0.8)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -470,7 +470,7 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.8.1)
-    ruby_parser (3.8.1)
+    ruby_parser (3.9.0)
       sexp_processor (~> 4.1)
     rubyzip (1.2.0)
     rufus-scheduler (2.0.24)
@@ -493,7 +493,7 @@ GEM
       websocket (~> 1.0)
     sentry-raven (1.2.2)
       faraday (>= 0.7.6, < 0.10.x)
-    sexp_processor (4.7.0)
+    sexp_processor (4.9.0)
     shellany (0.0.1)
     shoulda-matchers (2.8.0)
       activesupport (>= 3.0.0)
@@ -652,6 +652,7 @@ DEPENDENCIES
   meta_request (~> 0.3.4)
   net-scp
   net-ssh
+  nokogiri (~> 1.7)
   paper_trail (= 4.0.2)
   paperclip (~> 5.1.0)
   parallel_tests
@@ -703,4 +704,4 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
-   1.14.6
+   1.15.1

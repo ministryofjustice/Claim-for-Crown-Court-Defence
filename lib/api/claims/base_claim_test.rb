@@ -80,14 +80,13 @@ class BaseClaimTest
   def clean_up
     puts 'cleaning up'
 
-    if (claim = Claim::BaseClaim.active.find_by(uuid: claim_uuid))
-      if claim.destroy
-        puts 'claim destroyed'
-      else
-        puts 'claim NOT found for destruction!'
-      end
+    return unless (claim = Claim::BaseClaim.active.find_by(uuid: claim_uuid))
+    if claim.destroy
+      puts 'claim destroyed'
+    else
+      puts 'claim NOT found for destruction!'
     end
-    end
+  end
 
   def defendant_data
     {

@@ -14,11 +14,10 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_fields(fields_class_method)
-    if self.class.respond_to?(fields_class_method)
-      fields = self.class.__send__(fields_class_method)
-      fields.each do |field|
-        __send__("validate_#{field}")
-      end
+    return unless self.class.respond_to?(fields_class_method)
+    fields = self.class.__send__(fields_class_method)
+    fields.each do |field|
+      __send__("validate_#{field}")
     end
   end
 
@@ -70,10 +69,9 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_absence(attribute, message)
-    if attr_present?(attribute)
-      clear_pre_existing_error(attribute) if is_gov_uk_date?(attribute)
-      add_error(attribute, message) unless attr_blank?(attribute)
-    end
+    return unless attr_present?(attribute)
+    clear_pre_existing_error(attribute) if is_gov_uk_date?(attribute)
+    add_error(attribute, message) unless attr_blank?(attribute)
   end
 
   def clear_pre_existing_error(attribute)
@@ -142,9 +140,8 @@ class BaseValidator < ActiveModel::Validator
     return if object.nil?
 
     roles = *role_or_roles
-    unless roles.any? { |role| object.is?(role) }
-      @record.errors[error_message_key] << error_message
-    end
+    return if roles.any? { |role| object.is?(role) }
+    @record.errors[error_message_key] << error_message
   end
 
   def validate_zero_or_negative(attribute, message)

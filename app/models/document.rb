@@ -112,15 +112,13 @@ class Document < ActiveRecord::Base
   def documents_count
     return true if form_id.nil?
     count = Document.where(form_id: form_id).count
-    if count >= Settings.max_document_upload_count
-      errors.add(:document, "Total documents exceed maximum of #{Settings.max_document_upload_count}. This document has not been uploaded.")
-    end
+    return unless count >= Settings.max_document_upload_count
+    errors.add(:document, "Total documents exceed maximum of #{Settings.max_document_upload_count}. This document has not been uploaded.")
   end
 
   def transform_cryptic_paperclip_error
-    if errors[:document].include?('has contents that are not what they are reported to be')
-      errors[:document].delete('has contents that are not what they are reported to be')
-      errors[:document] << 'The contents of the file do not match the file extension'
-    end
+    return unless errors[:document].include?('has contents that are not what they are reported to be')
+    errors[:document].delete('has contents that are not what they are reported to be')
+    errors[:document] << 'The contents of the file do not match the file extension'
   end
 end

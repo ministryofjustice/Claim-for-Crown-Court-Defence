@@ -4,9 +4,8 @@ class ExternalUsers::ApplicationController < ApplicationController
   private
 
   def authenticate_external_user!
-    unless user_signed_in? && current_user.persona.is_a?(ExternalUser)
-      redirect_to root_path_url_for_user, alert: t('requires_external_user_authorisation')
-    end
+    return if user_signed_in? && current_user.persona.is_a?(ExternalUser)
+    redirect_to root_path_url_for_user, alert: t('requires_external_user_authorisation')
   end
 
   def date_attributes_for(date_param)

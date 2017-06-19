@@ -49,9 +49,8 @@ module TimedTransitions
 
     def process_stale_claim
       specification = @@timed_transition_specifications[@claim.state.to_sym]
-      if @claim.last_state_transition_time.nil? || @claim.last_state_transition_time < specification.period_in_weeks.weeks.ago
-        send(specification.method)
-      end
+      return unless @claim.last_state_transition_time.nil? || @claim.last_state_transition_time < specification.period_in_weeks.weeks.ago
+      send(specification.method)
     end
 
     def archive

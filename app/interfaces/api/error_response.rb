@@ -83,13 +83,11 @@ module API
     end
 
     def build_error_response
-      if @model.errors.empty?
-        raise 'unable to build error response as no errors were found'
-      else
-        fetch_and_translate_error_messages
-        @body = error_messages
-        @status = 400
-      end
+      raise 'unable to build error response as no errors were found' if @model.errors.empty?
+
+      fetch_and_translate_error_messages
+      @body = error_messages
+      @status = 400
     end
   end
 end

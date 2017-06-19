@@ -83,12 +83,11 @@ class AdpTextField
     @input_is_currency = (@input_type == 'currency')
     @input_type_string = @input_type
 
-    if @input_type == 'currency' || @input_type == 'number'
-      @input_is_number = true
-      @input_type_string = 'number'
-      @input_min = options[:input_min] || '0'
-      @input_max = options[:input_max] || '99999'
-    end
+    return unless @input_type == 'currency' || @input_type == 'number'
+    @input_is_number = true
+    @input_type_string = 'number'
+    @input_min = options[:input_min] || '0'
+    @input_max = options[:input_max] || '99999'
   end
 
   def generate_form_field_id

@@ -23,9 +23,8 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_external_user_id
     validate_presence(:external_user, "blank_#{@record.external_user_type}")
     validate_external_user_has_required_role unless @record.external_user.nil?
-    unless @record.errors.key?(:external_user)
-      validate_creator_and_external_user_have_same_provider
-    end
+    return if @record.errors.key?(:external_user)
+    validate_creator_and_external_user_have_same_provider
   end
 
   def validate_external_user_has_required_role
@@ -33,9 +32,8 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_creator_and_external_user_have_same_provider
-    unless @record.creator_id == @record.external_user_id || @record.creator.try(:provider) == @record.external_user.try(:provider)
-      @record.errors[:external_user] << "Creator and #{@record.external_user_type} must belong to the same provider"
-    end
+    return if @record.creator_id == @record.external_user_id || @record.creator.try(:provider) == @record.external_user.try(:provider)
+    @record.errors[:external_user] << "Creator and #{@record.external_user_type} must belong to the same provider"
   end
 
   def validate_total
@@ -140,11 +138,10 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be before earliest rep order
   # cannot be more than 5 years old
   def validate_trial_fixed_notice_at
-    if @record.case_type && @record.requires_cracked_dates?
-      validate_presence(:trial_fixed_notice_at, 'blank')
-      validate_not_after(Date.today, :trial_fixed_notice_at, 'check_not_in_future')
-      validate_not_before(Settings.earliest_permitted_date, :trial_fixed_notice_at, 'check_not_too_far_in_past')
-    end
+    return unless @record.case_type && @record.requires_cracked_dates?
+    validate_presence(:trial_fixed_notice_at, 'blank')
+    validate_not_after(Date.today, :trial_fixed_notice_at, 'check_not_in_future')
+    validate_not_before(Settings.earliest_permitted_date, :trial_fixed_notice_at, 'check_not_too_far_in_past')
   end
 
   # required when case type is cracked, cracked before retrieal
@@ -218,35 +215,31 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_trial_length(field)
-    if requires_trial_dates?
-      validate_presence(field, 'blank')
-      validate_numericality(field, 'invalid', 0, nil) unless @record.__send__(field).nil?
-    end
+    return unless requires_trial_dates?
+    validate_presence(field, 'blank')
+    validate_numericality(field, 'invalid', 0, nil) unless @record.__send__(field).nil?
   end
 
   def validate_retrial_length(field)
-    if requires_retrial_dates?
-      validate_presence(field, 'blank') if @record.editable? # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
-      validate_numericality(field, 'invalid', 0, nil) unless @record.__send__(field).nil?
-    end
+    return unless requires_retrial_dates?
+    validate_presence(field, 'blank') if @record.editable? # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
+    validate_numericality(field, 'invalid', 0, nil) unless @record.__send__(field).nil?
   end
 
   def validate_trial_actual_length_consistency
     return unless requires_trial_dates? && @record.actual_trial_length.present? && @record.first_day_of_trial.present? && @record.trial_concluded_at.present?
 
     # As we are using Date objects without time information, we loose precision, so adding 1 day will workaround this.
-    if ((@record.trial_concluded_at - @record.first_day_of_trial).days + 1.day) < @record.actual_trial_length.days
-      add_error(:actual_trial_length, 'too_long')
-    end
+    return unless ((@record.trial_concluded_at - @record.first_day_of_trial).days + 1.day) < @record.actual_trial_length.days
+    add_error(:actual_trial_length, 'too_long')
   end
 
   def validate_retrial_actual_length_consistency
     return unless requires_retrial_dates? && @record.retrial_actual_length.present? && @record.retrial_started_at.present? && @record.retrial_concluded_at.present?
 
     # As we are using Date objects without time information, we loose precision, so adding 1 day will workaround this.
-    if ((@record.retrial_concluded_at - @record.retrial_started_at).days + 1.day) < @record.retrial_actual_length.days
-      add_error(:retrial_actual_length, 'too_long')
-    end
+    return unless ((@record.retrial_concluded_at - @record.retrial_started_at).days + 1.day) < @record.retrial_actual_length.days
+    add_error(:retrial_actual_length, 'too_long')
   end
 
   def cracked_case?

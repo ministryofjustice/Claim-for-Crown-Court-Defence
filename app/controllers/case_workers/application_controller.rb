@@ -10,8 +10,7 @@ class CaseWorkers::ApplicationController < ApplicationController
   private
 
   def authenticate_case_worker!
-    unless user_signed_in? && current_user.persona.is_a?(CaseWorker)
-      redirect_to root_path_url_for_user, alert: t('requires_case_worker_authorisation')
-    end
+    return if user_signed_in? && current_user.persona.is_a?(CaseWorker)
+    redirect_to root_path_url_for_user, alert: t('requires_case_worker_authorisation')
   end
 end

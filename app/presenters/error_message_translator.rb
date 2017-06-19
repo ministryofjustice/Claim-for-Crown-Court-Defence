@@ -19,11 +19,10 @@ class ErrorMessageTranslator
 
   def translate!
     get_messages(@translations, @key, @error)
-    if translation_found?
-      @long_message  = substitute_submodel_numbers_and_names(@long_message)
-      @short_message = substitute_submodel_numbers_and_names(@short_message)
-      @api_message = substitute_submodel_numbers_and_names(@api_message)
-    end
+    return unless translation_found?
+    @long_message  = substitute_submodel_numbers_and_names(@long_message)
+    @short_message = substitute_submodel_numbers_and_names(@short_message)
+    @api_message = substitute_submodel_numbers_and_names(@api_message)
   end
 
   def translation_found?

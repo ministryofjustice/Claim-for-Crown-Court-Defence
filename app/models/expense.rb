@@ -154,8 +154,7 @@ class Expense < ActiveRecord::Base
 
   # we only calculate VAT for AGFS claims for vatable providers.  On LGFS claims, the VAT amount is entered in the form.
   def calculate_vat
-    if claim && claim.agfs? && amount
-      self.vat_amount = VatRate.vat_amount(amount, claim.vat_date, calculate: claim.vat_registered?)
-    end
+    return unless claim && claim.agfs? && amount
+    self.vat_amount = VatRate.vat_amount(amount, claim.vat_date, calculate: claim.vat_registered?)
   end
 end

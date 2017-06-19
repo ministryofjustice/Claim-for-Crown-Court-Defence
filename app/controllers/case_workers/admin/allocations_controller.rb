@@ -87,9 +87,8 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def search_claims(states = nil)
-    if search_terms.present?
-      @claims = @claims.search(search_terms, states, :case_worker_name_or_email)
-    end
+    return unless search_terms.present?
+    @claims = @claims.search(search_terms, states, :case_worker_name_or_email)
   end
 
   def sort_and_paginate

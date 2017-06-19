@@ -56,9 +56,8 @@ module Claims
     end
 
     def validate_state_when_no_value_params
-      if @state.in?(%w( authorised part_authorised ))
-        set_error 'You must specify positive values if authorising or part authorising a claim'
-      end
+      return unless @state.in?(%w( authorised part_authorised ))
+      set_error 'You must specify positive values if authorising or part authorising a claim'
     end
 
     def nil_or_empty_zero_or_negative?(determination_params)

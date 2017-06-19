@@ -84,10 +84,9 @@ class ApiTestClient
   private
 
   def handle_response(response, resource)
-    unless response.code.to_s =~ /^2/
-      @success = false
-      @full_error_messages << "#{resource} Endpoint raised error - #{response}"
-    end
+    return if response.code.to_s =~ /^2/
+    @success = false
+    @full_error_messages << "#{resource} Endpoint raised error - #{response}"
   end
 
   def api_root_url

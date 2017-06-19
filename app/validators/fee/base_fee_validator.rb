@@ -53,7 +53,7 @@ class Fee::BaseFeeValidator < BaseValidator
   end
 
   def validate_baf_quantity
-    validate_numericality(:quantity, 0, 1, 'baf_qty_numericality')
+    validate_numericality(:quantity, 'baf_qty_numericality', 0, 1)
   end
 
   # cannot claim this fee if trial lasted less than 3 days

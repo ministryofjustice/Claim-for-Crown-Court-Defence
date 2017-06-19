@@ -112,13 +112,13 @@ class BaseValidator < ActiveModel::Validator
   end
 
   #  TODO: refactor validate_numericality to accept options, for taking floating points
-  def validate_numericality(attribute, lower_bound = nil, upper_bound = nil, message)
+  def validate_numericality(attribute, message, lower_bound = nil, upper_bound = nil)
     return if attr_nil?(attribute)
     lower_bound, upper_bound = bounds(lower_bound, upper_bound)
     add_error(attribute, message) unless (lower_bound..upper_bound).cover?(@record.__send__(attribute).to_i)
   end
 
-  def validate_float_numericality(attribute, lower_bound = nil, upper_bound = nil, message)
+  def validate_float_numericality(attribute, message, lower_bound = nil, upper_bound = nil)
     return if attr_nil?(attribute)
     lower_bound, upper_bound = bounds(lower_bound, upper_bound)
     add_error(attribute, message) unless (lower_bound..upper_bound).cover?(@record.__send__(attribute).to_f)
@@ -158,16 +158,16 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_amount_less_than_item_max(attribute, message = 'item_max_amount')
-    validate_float_numericality(attribute, nil, Settings.max_item_amount, message)
+    validate_float_numericality(attribute, message, nil, Settings.max_item_amount)
   end
 
   def validate_amount_less_than_claim_max(attribute, message = 'claim_max_amount')
-    validate_float_numericality(attribute, nil, Settings.max_claim_amount, message)
+    validate_float_numericality(attribute, message, nil, Settings.max_claim_amount)
   end
 
   def validate_presence_and_numericality(field, minimum: 0, allow_blank: false)
     validate_presence(field, 'blank') unless allow_blank
-    validate_float_numericality(field, minimum, nil, 'numericality')
+    validate_float_numericality(field, 'numericality', minimum, nil)
     validate_amount_less_than_item_max(field)
   end
 

@@ -41,7 +41,7 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_total
     return if @record.source == 'api'
 
-    validate_numericality(:total, 0.1, nil, 'numericality')
+    validate_numericality(:total, 'numericality', 0.1, nil)
     validate_amount_less_than_claim_max(:total)
   end
 
@@ -220,14 +220,14 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_trial_length(field)
     if requires_trial_dates?
       validate_presence(field, 'blank')
-      validate_numericality(field, 0, nil, 'invalid') unless @record.__send__(field).nil?
+      validate_numericality(field, 'invalid', 0, nil) unless @record.__send__(field).nil?
     end
   end
 
   def validate_retrial_length(field)
     if requires_retrial_dates?
       validate_presence(field, 'blank') if @record.editable? # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
-      validate_numericality(field, 0, nil, 'invalid') unless @record.__send__(field).nil?
+      validate_numericality(field, 'invalid', 0, nil) unless @record.__send__(field).nil?
     end
   end
 

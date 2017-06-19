@@ -22,7 +22,7 @@ class Fee::GraduatedFeeValidator < Fee::BaseFeeValidator
   end
 
   def validate_quantity
-    validate_numericality(:quantity, 0, 99_999, 'numericality')
+    validate_numericality(:quantity, 'numericality', 0, 99_999)
   end
 
   def validate_amount

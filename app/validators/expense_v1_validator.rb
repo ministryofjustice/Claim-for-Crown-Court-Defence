@@ -23,11 +23,11 @@ class ExpenseV1Validator < BaseValidator
 
   def validate_quantity
     validate_presence(:quantity, 'blank')
-    validate_numericality(:quantity, 0, nil, 'numericality')
+    validate_numericality(:quantity, 'numericality', 0, nil)
   end
 
   def validate_rate
     validate_presence(:rate, 'blank')
-    validate_numericality(:rate, 0, nil, 'numericality')
+    validate_numericality(:rate, 'numericality', 0, nil)
   end
 end

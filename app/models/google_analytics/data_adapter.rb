@@ -32,7 +32,10 @@ module GoogleAnalytics
     end
 
     def interpolate(template_hash, data)
-      template_hash.inject({}) { |h, (key, value)| h[key] = value % data; h }
+      template_hash.inject({}) do |h, (key, value)|
+        h[key] = value % data
+        h
+      end
     end
   end
 end

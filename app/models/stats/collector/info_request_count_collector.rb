@@ -51,7 +51,7 @@ module Stats
 
       def execute_query(sql)
         result_set = ActiveRecord::Base.connection.execute(sql)
-        result_set.reduce(0) { |sum, rs| sum + rs['count'].to_i }
+        result_set.reduce(0) { |a, e| a + e['count'].to_i }
       end
     end
   end

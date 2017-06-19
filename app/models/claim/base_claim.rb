@@ -291,7 +291,7 @@ module Claim
     # The relationship is not properly handled on partial claim validation
     #
     def representation_orders
-      defendants.reduce([]) { |col, d| col.concat(d.representation_orders) }
+      defendants.reduce([]) { |a, e| a.concat(e.representation_orders) }
     end
 
     def earliest_representation_order

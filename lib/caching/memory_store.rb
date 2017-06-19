@@ -3,7 +3,7 @@ require_relative 'abstract_store'
 module Caching
   class MemoryStore < AbstractStore
     def initialize
-      self.store = Hash.new
+      self.store = {}
     end
 
     def self.current

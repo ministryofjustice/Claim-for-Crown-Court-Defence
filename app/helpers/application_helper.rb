@@ -79,7 +79,7 @@ module ApplicationHelper
 
   def sortable(column, title = nil)
     title ||= column.titleize
-    title = column == sort_column ? ("#{title} " + (sort_direction == 'asc' ? "\u25B2" : "\u25BC")) : title
+    title = column == sort_column ? ("#{title} " + column_sort_icon) : title
 
     css_class = column == sort_column ? "current #{sort_direction}" : nil
     direction = column == sort_column && sort_direction == 'asc' ? 'desc' : 'asc'
@@ -88,6 +88,10 @@ module ApplicationHelper
     html_options = { class: css_class, tabindex: 0 }
 
     link_to [title].join(' ').html_safe, query_params, html_options
+  end
+
+  def column_sort_icon
+    sort_direction == 'asc' ? "\u25B2" : "\u25BC"
   end
 
   def dom_id(record, prefix = nil)

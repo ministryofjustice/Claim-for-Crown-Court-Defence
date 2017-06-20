@@ -25,7 +25,7 @@ module Stats
 
       def calculate_time_draft_to_submitted(claim_id)
         claim = Claim::BaseClaim.active.find claim_id
-        return unless claim.state != 'draft'
+        return if claim.draft?
         period_in_secs = first_submitted_at(claim) - claim.created_at
         period_in_days = (period_in_secs / SECONDS_IN_DAY).to_i
         update_totals(period_in_days)

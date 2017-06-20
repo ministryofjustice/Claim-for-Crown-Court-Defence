@@ -17,10 +17,11 @@ describe GoogleAnalytics::Api do
   end
 
   describe '.event' do
-    subject(:api_event) { api.event(category, event) }
+    subject(:api_event) { api.event(category, event, label) }
 
     let(:event) { '5' }
     let(:category) { 'satisfaction' }
+    let(:label) { nil }
 
     it 'submits a get request via RestClient' do
       params = { v: '1', tid: 'GA123456', cid: '555', t: 'event', ec: 'satisfaction', ea: '5' }
@@ -32,6 +33,18 @@ describe GoogleAnalytics::Api do
       let(:tracker_id) { nil }
 
       it { is_expected.to be nil }
+    end
+
+    describe 'and label' do
+      describe 'is included' do
+        let(:label) { 'satisfaction-satisfied' }
+
+        it 'is added to the params' do
+          params = { v: '1', tid: 'GA123456', cid: '555', t: 'event', ec: 'satisfaction', ea: '5', el: label }
+          expect(RestClient).to receive(:get).with('http://example.com', params: params, timeout: 4, open_timeout: 4)
+          subject
+        end
+      end
     end
   end
 

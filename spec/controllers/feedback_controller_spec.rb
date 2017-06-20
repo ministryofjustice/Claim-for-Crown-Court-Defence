@@ -61,6 +61,11 @@ RSpec.describe FeedbackController, type: :controller do
             expect(response).to redirect_to(new_user_session_url)
           end
         end
+
+        it 'calls the GoogleAnalytics::Api' do
+          expect(GoogleAnalytics::Api).to receive(:event).and_return(true)
+          post :create, feedback: params
+        end
       end
 
       context 'when invalid' do

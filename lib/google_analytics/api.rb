@@ -2,9 +2,10 @@ require 'rest_client'
 
 module GoogleAnalytics
   class Api
-    def self.event(category, action, client_id = fallback_client_id)
+    def self.event(category, action, label = nil, client_id = fallback_client_id)
       return unless tracker_id.present?
       params = { v: version, tid: tracker_id, cid: client_id, t: 'event', ec: category, ea: action }
+      params[:el] = label if label.present?
       begin
         RestClient.get(endpoint, params: params, timeout: 4, open_timeout: 4)
         return true

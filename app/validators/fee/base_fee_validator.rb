@@ -53,7 +53,7 @@ class Fee::BaseFeeValidator < BaseValidator
   end
 
   def validate_baf_quantity
-    validate_numericality(:quantity, 0, 1, 'baf_qty_numericality')
+    validate_numericality(:quantity, 'baf_qty_numericality', 0, 1)
   end
 
   # cannot claim this fee if trial lasted less than 3 days
@@ -91,10 +91,8 @@ class Fee::BaseFeeValidator < BaseValidator
   end
 
   def validate_integer_decimal
-    return if @record.fee_type.nil? || @record.quantity.nil?
-    unless @record.quantity_is_decimal?
-      add_error(:quantity, 'integer') unless @record.quantity.frac == 0.0
-    end
+    return if @record.fee_type.nil? || @record.quantity.nil? || @record.quantity_is_decimal?
+    add_error(:quantity, 'integer') unless @record.quantity.frac == 0.0
   end
 
   def validate_rate
@@ -147,11 +145,9 @@ class Fee::BaseFeeValidator < BaseValidator
 
     add_error(:amount, "#{fee_code.downcase}_invalid") if @record.amount < 0 || @record.amount > Settings.max_item_amount
 
-    unless @record.calculated?
-      if @record.quantity <= 0 && @record.amount > 0
-        add_error(:quantity, "#{fee_code.downcase}_invalid")
-      end
-    end
+    return if @record.calculated?
+    return unless @record.quantity <= 0 && @record.amount > 0
+    add_error(:quantity, "#{fee_code.downcase}_invalid")
   end
 
   def validate_single_attendance_date

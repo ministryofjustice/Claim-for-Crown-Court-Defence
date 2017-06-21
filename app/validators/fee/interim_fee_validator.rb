@@ -11,7 +11,7 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
     if @record.is_disbursement? || @record.is_interim_warrant?
       validate_absence_or_zero(:quantity, 'present')
     else
-      validate_numericality(:quantity, 0, 99_999, 'numericality')
+      validate_numericality(:quantity, 'numericality', 0, 99_999)
     end
   end
 

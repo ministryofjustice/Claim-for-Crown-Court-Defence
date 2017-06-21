@@ -8,10 +8,9 @@ module GoogleAnalytics
       end
 
       def track(*args)
-        if enabled?
-          raise ArgumentError, 'Uninitialized adapter' unless adapter
-          adapter.new(*args)
-        end
+        return unless enabled?
+        raise ArgumentError, 'Uninitialized adapter' unless adapter
+        adapter.new(*args)
       end
 
       def adapter=(name)

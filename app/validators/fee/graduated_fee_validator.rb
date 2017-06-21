@@ -10,11 +10,8 @@ class Fee::GraduatedFeeValidator < Fee::BaseFeeValidator
 
   def validate_claim
     super
-    if @record.claim
-      if @record.claim.final?
-        add_error(:claim, 'Fixed fee invalid on non-fixed fee case types') if @record.claim.case_type.is_fixed_fee?
-      end
-    end
+    return unless @record.claim&.final?
+    add_error(:claim, 'Fixed fee invalid on non-fixed fee case types') if @record.claim.case_type.is_fixed_fee?
   end
 
   def self.mandatory_fields
@@ -22,7 +19,7 @@ class Fee::GraduatedFeeValidator < Fee::BaseFeeValidator
   end
 
   def validate_quantity
-    validate_numericality(:quantity, 0, 99_999, 'numericality')
+    validate_numericality(:quantity, 'numericality', 0, 99_999)
   end
 
   def validate_amount

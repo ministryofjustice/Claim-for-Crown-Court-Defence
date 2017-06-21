@@ -1,6 +1,5 @@
 module Claim
   module LitigatorSupplierNumberValidations
-
     def self.included(base)
       base.class_eval do
         def self.first_step_common_validations
@@ -27,7 +26,9 @@ module Claim
     end
 
     def provider_supplier_numbers
-      @record.provider.lgfs_supplier_numbers.pluck(:supplier_number) rescue []
+      @record.provider.lgfs_supplier_numbers.pluck(:supplier_number)
+    rescue
+      []
     end
   end
 end

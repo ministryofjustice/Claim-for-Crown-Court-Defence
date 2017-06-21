@@ -18,22 +18,19 @@ class RepresentationOrderValidator < BaseValidator
     validate_not_after(Date.today, :representation_order_date, 'in_future')
     validate_not_before(earliest_permitted[:date], :representation_order_date, earliest_permitted[:error])
 
-    unless @record.is_first_reporder_for_same_defendant?
-      first_reporder_date = @record.first_reporder_for_same_defendant.try(:representation_order_date)
-      unless first_reporder_date.nil?
-        validate_not_before(first_reporder_date, :representation_order_date, 'check')
-      end
-    end
+    return if @record.is_first_reporder_for_same_defendant?
+    first_reporder_date = @record.first_reporder_for_same_defendant.try(:representation_order_date)
+    return if first_reporder_date.nil?
+    validate_not_before(first_reporder_date, :representation_order_date, 'check')
   end
 
   # mandatory where case type isn't breach of crown court order
   # must be exactly 7 - 10 numeric digits
   def validate_maat_reference
     case_type = claim.try(:case_type)
-    if case_type && case_type.requires_maat_reference?
-      validate_presence(:maat_reference, 'invalid')
-      validate_pattern(:maat_reference, /^[0-9]{7,10}$/, 'invalid')
-    end
+    return unless case_type && case_type.requires_maat_reference?
+    validate_presence(:maat_reference, 'invalid')
+    validate_pattern(:maat_reference, /^[0-9]{7,10}$/, 'invalid')
   end
 
   # helper methods

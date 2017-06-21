@@ -48,21 +48,18 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_litigator_type
-    unless @record.litigator_type.in? %w( new original )
-      add_error(:litigator_type, 'invalid')
-    end
+    return if @record.litigator_type.in? %w( new original )
+    add_error(:litigator_type, 'invalid')
   end
 
   def validate_elected_case
-    unless @record.elected_case.in?([true, false])
-      add_error(:elected_case, 'invalid')
-    end
+    return if @record.elected_case.in?([true, false])
+    add_error(:elected_case, 'invalid')
   end
 
   def validate_transfer_stage_id
-    unless @record.transfer_stage_id.in? Claim::TransferBrain.transfer_stage_ids
-      add_error(:transfer_stage_id, 'invalid')
-    end
+    return if @record.transfer_stage_id.in? Claim::TransferBrain.transfer_stage_ids
+    add_error(:transfer_stage_id, 'invalid')
   end
 
   def validate_transfer_date
@@ -81,9 +78,8 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_transfer_detail_combo
-    unless Claim::TransferBrain.details_combo_valid?(@record.transfer_detail)
-      add_error(:transfer_detail, 'invalid_combo') # section error
-      add_error(:case_conclusion_id, 'invalid_combo') # field helpful error
-    end
+    return if Claim::TransferBrain.details_combo_valid?(@record.transfer_detail)
+    add_error(:transfer_detail, 'invalid_combo') # section error
+    add_error(:case_conclusion_id, 'invalid_combo') # field helpful error
   end
 end

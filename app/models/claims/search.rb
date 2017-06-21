@@ -22,8 +22,8 @@ module Claims::Search
 
   def search(term, states = [], *options)
     raise 'Invalid search option' if (options - QUERY_MAPPINGS_FOR_SEARCH.keys).any?
-    sql = options.inject([]) { |r, o| r << "(#{QUERY_MAPPINGS_FOR_SEARCH[o][:query]})" }.join(' OR ')
-    relation = options.inject(all) { |r, o| r = r.joins(QUERY_MAPPINGS_FOR_SEARCH[o][:joins]) }
+    sql = options.inject([]) { |a, e| a << "(#{QUERY_MAPPINGS_FOR_SEARCH[e][:query]})" }.join(' OR ')
+    relation = options.inject(all) { |a, e| a = a.joins(QUERY_MAPPINGS_FOR_SEARCH[e][:joins]) }
 
     states ||= Claims::StateMachine.dashboard_displayable_states
     states = Array[states] unless states.is_a?(Array)

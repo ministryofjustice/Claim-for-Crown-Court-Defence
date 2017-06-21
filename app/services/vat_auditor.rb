@@ -52,10 +52,9 @@ class VatAuditor
   end
 
   def audit_no_vat_on_fees
-    if @claim.fees_vat != 0.0
-      delayed_puts '    ERROR: VAT on fees for non-VAT regististered claim'
-      @result = false
-    end
+    return unless @claim.fees_vat != 0.0
+    delayed_puts '    ERROR: VAT on fees for non-VAT regististered claim'
+    @result = false
   end
 
   def print_claim_totals

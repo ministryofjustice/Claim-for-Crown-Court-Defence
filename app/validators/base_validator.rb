@@ -14,11 +14,10 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_fields(fields_class_method)
-    if self.class.respond_to?(fields_class_method)
-      fields = self.class.__send__(fields_class_method)
-      fields.each do |field|
-        __send__("validate_#{field}")
-      end
+    return unless self.class.respond_to?(fields_class_method)
+    fields = self.class.__send__(fields_class_method)
+    fields.each do |field|
+      __send__("validate_#{field}")
     end
   end
 
@@ -70,10 +69,9 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_absence(attribute, message)
-    if attr_present?(attribute)
-      clear_pre_existing_error(attribute) if is_gov_uk_date?(attribute)
-      add_error(attribute, message) unless attr_blank?(attribute)
-    end
+    return unless attr_present?(attribute)
+    clear_pre_existing_error(attribute) if is_gov_uk_date?(attribute)
+    add_error(attribute, message) unless attr_blank?(attribute)
   end
 
   def clear_pre_existing_error(attribute)
@@ -112,13 +110,13 @@ class BaseValidator < ActiveModel::Validator
   end
 
   #  TODO: refactor validate_numericality to accept options, for taking floating points
-  def validate_numericality(attribute, lower_bound = nil, upper_bound = nil, message)
+  def validate_numericality(attribute, message, lower_bound = nil, upper_bound = nil)
     return if attr_nil?(attribute)
     lower_bound, upper_bound = bounds(lower_bound, upper_bound)
     add_error(attribute, message) unless (lower_bound..upper_bound).cover?(@record.__send__(attribute).to_i)
   end
 
-  def validate_float_numericality(attribute, lower_bound = nil, upper_bound = nil, message)
+  def validate_float_numericality(attribute, message, lower_bound = nil, upper_bound = nil)
     return if attr_nil?(attribute)
     lower_bound, upper_bound = bounds(lower_bound, upper_bound)
     add_error(attribute, message) unless (lower_bound..upper_bound).cover?(@record.__send__(attribute).to_f)
@@ -142,9 +140,8 @@ class BaseValidator < ActiveModel::Validator
     return if object.nil?
 
     roles = *role_or_roles
-    unless roles.any? { |role| object.is?(role) }
-      @record.errors[error_message_key] << error_message
-    end
+    return if roles.any? { |role| object.is?(role) }
+    @record.errors[error_message_key] << error_message
   end
 
   def validate_zero_or_negative(attribute, message)
@@ -158,16 +155,16 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_amount_less_than_item_max(attribute, message = 'item_max_amount')
-    validate_float_numericality(attribute, nil, Settings.max_item_amount, message)
+    validate_float_numericality(attribute, message, nil, Settings.max_item_amount)
   end
 
   def validate_amount_less_than_claim_max(attribute, message = 'claim_max_amount')
-    validate_float_numericality(attribute, nil, Settings.max_claim_amount, message)
+    validate_float_numericality(attribute, message, nil, Settings.max_claim_amount)
   end
 
   def validate_presence_and_numericality(field, minimum: 0, allow_blank: false)
     validate_presence(field, 'blank') unless allow_blank
-    validate_float_numericality(field, minimum, nil, 'numericality')
+    validate_float_numericality(field, 'numericality', minimum, nil)
     validate_amount_less_than_item_max(field)
   end
 

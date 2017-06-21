@@ -11,9 +11,8 @@ require 'csv'
 # To get a reference to the object, call .instance rather than .new.
 #
 module Claim
+  DEFAULT_MSG = 'Invalid combination of transfer detail fields'.freeze
   class InvalidTransferCombinationError < ArgumentError
-    DEFAULT_MSG = 'Invalid combination of transfer detail fields'.freeze
-
     def initialize(msg = DEFAULT_MSG)
       super(msg)
     end
@@ -50,12 +49,12 @@ module Claim
     end
 
     def transfer_fee_full_name(detail)
-      raise InvalidTransferCombinationError.new unless detail_valid?(detail)
+      raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
       data_item_for(detail)[:transfer_fee_full_name]
     end
 
     def allocation_type(detail)
-      raise InvalidTransferCombinationError.new unless detail_valid?(detail)
+      raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
       data_item_for(detail)[:allocation_type]
     end
 

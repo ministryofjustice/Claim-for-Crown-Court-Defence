@@ -46,11 +46,9 @@ class MessagesController < ApplicationController
   private
 
   def send_email_if_required
-    if current_user.persona.is_a?(CaseWorker)
-      if @message.claim.creator.send_email_notification_of_message?
-        MessageNotificationMailer.notify_message(@message.claim).deliver_later
-      end
-    end
+    return unless current_user.persona.is_a?(CaseWorker)
+    return unless @message.claim.creator.send_email_notification_of_message?
+    MessageNotificationMailer.notify_message(@message.claim).deliver_later
   end
 
   def redirect_to_url

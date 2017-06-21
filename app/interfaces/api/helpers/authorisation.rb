@@ -3,9 +3,8 @@ module API::Helpers
     class AuthorisationError < StandardError; end
 
     def authorise_claim!
-      if claim_creator.provider != current_provider || claim_user.provider != current_provider
-        authorisation_error('Creator and advocate/litigator must belong to the provider')
-      end
+      return unless claim_creator.provider != current_provider || claim_user.provider != current_provider
+      authorisation_error('Creator and advocate/litigator must belong to the provider')
     end
 
     def authenticate_provider_key!

@@ -113,30 +113,4 @@ RSpec.describe Expense, type: :model do
       end
     end
   end
-
-  describe 'laa_bill_sub_type' do
-
-    let(:expense) { Expense.new(claim: claim) }
-
-    context 'agfs claim' do
-
-      let(:claim) { Claim::AdvocateClaim.new }
-
-      it 'calls LaaExpenseAdapter to look up the bill sub type' do
-        expect(LaaExpenseAdapter).to receive(:laa_bill_type_and_sub_type).with(expense).and_return(['AGFS_EXPENSES', 'AGFS_TCT_TRV_CR'])
-        expect(expense.laa_bill_type_and_sub_type).to eq(['AGFS_EXPENSES', 'AGFS_TCT_TRV_CR'])
-      end
-    end
-
-    context 'lgfs claim' do
-
-      let(:claim) { Claim::LitigatorClaim.new }
-
-      it 'raises' do
-        expect{
-          expense.laa_bill_type_and_sub_type
-        }.to raise_error RuntimeError, 'Not implemented for LGFS claims'
-      end
-    end
-  end
 end

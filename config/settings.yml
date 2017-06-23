@@ -91,7 +91,3 @@ remote_api_url: <%= (ENV['GRAPE_SWAGGER_ROOT_URL'] || 'http://localhost:3001') +
 
 # contact email address
 laa_contact_email: crowncourtdefence@legalaid.gsi.gov.uk
-
-# Claim injecting PoC stuff that might be exposed to the user, we don't want that on DEV
-# Override this setting in your settings.local.yml to see the stuff on local
-claim_publishing_enabled?: <%= ENV['ENV'] == 'dev' %>

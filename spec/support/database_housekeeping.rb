@@ -29,8 +29,7 @@ module DatabaseHousekeeping
       Provider,
       Disbursement,
       DisbursementType,
-      Stats::Statistic,
-      ExportedClaim
+      Stats::Statistic
     ]
 
     models.each do |model|

@@ -133,11 +133,6 @@ class Expense < ActiveRecord::Base
     end
   end
 
-  def laa_bill_type_and_sub_type
-    raise 'Not implemented for LGFS claims' if claim.lgfs?
-    LaaExpenseAdapter.laa_bill_type_and_sub_type(self)
-  end
-
   def expense_type_unique_code=(code)
     self.expense_type = ExpenseType.find_by!(unique_code: code)
   end

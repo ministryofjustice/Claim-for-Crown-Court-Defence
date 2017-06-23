@@ -84,6 +84,22 @@ RSpec.describe Allocation, type: :model do
         end
       end
 
+      context 'when creator is a litigator' do
+        let!(:claim) { create :submitted_claim }
+        let(:allocator)  { Allocation.new(claim_ids: [claim.id], case_worker_id: case_worker.id, allocating: true, current_user: current_user) }
+
+        describe 'and then changes role to advocate' do
+          before do
+            claim.creator.roles = ['litigator']
+            claim.creator.save!
+          end
+
+          it 'allows the allocation of the claim' do
+            expect(allocator.save).to be true
+          end
+        end
+      end
+
       context 'when invalid because no caseworker id specified' do
         let(:claims) { create_list(:submitted_claim, 3) }
         let(:allocator)  { Allocation.new(claim_ids: claims.map(&:id), allocating: true) }

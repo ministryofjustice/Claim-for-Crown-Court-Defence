@@ -70,7 +70,7 @@ module Claim
     accepts_nested_attributes_for :basic_fees, reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :fixed_fees, reject_if: all_blank_or_zero, allow_destroy: true
 
-    validates_with ::Claim::AdvocateClaimValidator
+    validates_with ::Claim::AdvocateClaimValidator, unless: :disable_for_state_transition
     validates_with ::Claim::AdvocateClaimSubModelValidator
 
     delegate :requires_cracked_dates?, to: :case_type

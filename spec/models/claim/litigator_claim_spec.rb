@@ -70,6 +70,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
 
   it { should delegate_method(:requires_trial_dates?).to(:case_type) }
   it { should delegate_method(:requires_retrial_dates?).to(:case_type) }
+  it { is_expected.to respond_to :disable_for_state_transition }
 
   describe '#final?' do
     it 'should return true' do

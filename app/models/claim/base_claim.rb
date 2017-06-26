@@ -77,6 +77,7 @@ module Claim
     serialize :evidence_checklist_ids, Array
 
     attr_accessor :form_step
+    attr_accessor :disable_for_state_transition
 
     include ::Claims::StateMachine
     extend ::Claims::Search

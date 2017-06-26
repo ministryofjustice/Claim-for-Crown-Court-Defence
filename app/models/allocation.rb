@@ -119,7 +119,13 @@ class Allocation
 
   def allocate_claim!(claim)
     claim.deallocate!(audit_attributes) if claim.allocated?
+    claim.disable_for_state_transition = allocating?
+    # Disable the validation of the claim while allocating
+    # this allows caseworkers to allocate cases regardless
+    # of the state of linked objects, previously it would
+    # fail if the creator had changed their own status
     claim.allocate!(audit_attributes)
+    claim.disable_for_state_transition = nil
 
     claim.case_workers << case_worker
     successful_claims << claim

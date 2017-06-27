@@ -61,7 +61,13 @@ module TimedTransitions
                     dummy_run: @dummy) do
                       'Archiving claim'
                     end
+      @claim.disable_for_state_transition = true
+      # Disable the validation of the claim while archiving, this
+      # allows the timed_transitioner to archive cases regardless
+      # of the state of linked objects, previously it would fail
+      # if linked tables had changed in the months since creation
       @claim.archive_pending_delete!(reason_code: 'timed_transition') unless is_dummy?
+      @claim.disable_for_state_transition = nil
       self.success = true
     end
 

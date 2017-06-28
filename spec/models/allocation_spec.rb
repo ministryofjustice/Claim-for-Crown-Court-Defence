@@ -64,23 +64,19 @@ RSpec.describe Allocation, type: :model do
         end
       end
 
-      context 'when claim contains errors that forbids transitioning' do
-        let(:claims) { create_list(:submitted_claim, 1) }
+      context 'when creator is a litigator' do
+        let!(:claim) { create :submitted_claim }
+        let(:allocator)  { Allocation.new(claim_ids: [claim.id], case_worker_id: case_worker.id, allocating: true, current_user: current_user) }
 
-        before do
-          # Introduce an error in the claim
-          claims.each { |claim| claim.update_column(:case_number, 'case_number') }
-        end
+        describe 'and then changes role to advocate' do
+          before do
+            claim.creator.roles = ['litigator']
+            claim.creator.save!
+          end
 
-        it 'returns false' do
-          expect(allocator.save).to be false
-        end
-
-        it 'details the errors' do
-          allocator.save
-          expect(allocator.errors[:base].size).to eq 2
-          expect(allocator.errors[:base]).to include('NO claims allocated because: ')
-          expect(allocator.errors[:base][1]).to match(/^Claim CASE_NUMBER has errors/)
+          it 'allows the allocation of the claim' do
+            expect(allocator.save).to be true
+          end
         end
       end
 

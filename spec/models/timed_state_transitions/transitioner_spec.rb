@@ -108,6 +108,20 @@ module TimedTransitions
               last_transition = @claim.reload.claim_state_transitions.first
               expect(last_transition.reason_code).to eq('timed_transition')
             end
+
+
+            context 'when the claim has been invalidated' do
+              let(:litigator) { create(:external_user, :litigator) }
+              before do
+                Timecop.freeze(17.weeks.ago) { @claim = create :authorised_claim, case_number: 'A20164444' }
+                @claim.creator = litigator
+                Transitioner.new(@claim).run
+              end
+
+              it 'still transitions to archived_pending_delete' do
+                expect(@claim.reload.state).to eq 'archived_pending_delete'
+              end
+            end
           end
         end
 
@@ -371,5 +385,5 @@ module TimedTransitions
         end
       end
     end
-  end
+    end
 end

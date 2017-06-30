@@ -69,6 +69,13 @@ module Claims::StateMachine
       before_transition on: :submit,                  do: :set_allocation_type
       before_transition on: [:reject, :refuse],       do: :set_amount_assessed_zero!
 
+      around_transition any => NON_DRAFT_STATES.map(&:to_sym)  do | claim, transition, block|
+        validation_state = [:authorise, :part_authorise].include?(transition.event) ? :leave_amount : :all
+        claim.disable_for_state_transition = validation_state
+        block.call
+        claim.disable_for_state_transition = nil
+      end
+
       event :redetermine do
         transition VALID_STATES_FOR_REDETERMINATION.map(&:to_sym) => :redetermination
       end

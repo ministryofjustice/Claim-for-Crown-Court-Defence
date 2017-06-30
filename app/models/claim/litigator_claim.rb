@@ -64,13 +64,17 @@ module Claim
   class LitigatorClaim < BaseClaim
     set_singular_route_key 'litigators_claim'
 
-    validates_with ::Claim::LitigatorClaimValidator, unless: :disable_for_state_transition
+    validates_with ::Claim::LitigatorClaimValidator, unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::LitigatorSupplierNumberValidator, on: :create
     validates_with ::Claim::LitigatorClaimSubModelValidator
 
     has_one :fixed_fee, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
     has_one :warrant_fee, foreign_key: :claim_id, class_name: 'Fee::WarrantFee', dependent: :destroy, inverse_of: :claim
-    has_one :graduated_fee, foreign_key: :claim_id, class_name: 'Fee::GraduatedFee', dependent: :destroy, inverse_of: :claim
+    has_one :graduated_fee,
+            foreign_key: :claim_id,
+            class_name: 'Fee::GraduatedFee',
+            dependent: :destroy,
+            inverse_of: :claim
 
     accepts_nested_attributes_for :fixed_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false

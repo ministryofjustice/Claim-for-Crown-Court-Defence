@@ -21,6 +21,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_external_user_id
+    return if @record.disable_for_state_transition.eql?(:only_amount_assessed)
     validate_presence(:external_user, "blank_#{@record.external_user_type}")
     validate_external_user_has_required_role unless @record.external_user.nil?
     return if @record.errors.key?(:external_user)
@@ -45,6 +46,7 @@ class Claim::BaseClaimValidator < BaseValidator
 
   # ALWAYS required/mandatory
   def validate_creator
+    return if @record.disable_for_state_transition.eql?(:only_amount_assessed)
     validate_presence(:creator, 'blank') unless @record.errors.key?(:creator)
   end
 
@@ -114,6 +116,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_evidence_checklist_ids
+    return if @record.disable_for_state_transition.eql?(:only_amount_assessed)
     raise ActiveRecord::SerializationTypeMismatch, "Attribute was supposed to be a Array, but was a #{@record.evidence_checklist_ids.class}." unless @record.evidence_checklist_ids.is_a?(Array)
 
     # prevent non-numeric array elements

@@ -12,7 +12,7 @@ FactoryGirl.define do
     case_concluded_at   { 5.days.ago }
     supplier_number     { provider.lgfs_supplier_numbers.first.supplier_number }
     providers_ref       { random_providers_ref }
-
+    disable_for_state_transition nil
     after(:create) do |claim|
       defendant = create(:defendant, claim: claim)
       create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)

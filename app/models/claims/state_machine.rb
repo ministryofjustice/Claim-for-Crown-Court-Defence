@@ -65,9 +65,16 @@ module Claims::StateMachine
       after_transition on: :redetermine,              do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :await_written_reasons,    do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
-      after_transition  on: :deallocate,              do: [:remove_case_workers!, :reset_state]
+      after_transition on: :deallocate,               do: [:remove_case_workers!, :reset_state]
       before_transition on: :submit,                  do: :set_allocation_type
       before_transition on: [:reject, :refuse],       do: :set_amount_assessed_zero!
+
+      around_transition any => NON_DRAFT_STATES.map(&:to_sym)  do | claim, transition, block|
+        validation_state = [:authorise, :part_authorise].include?(transition.event) ? :leave_amount : :all
+        claim.disable_for_state_transition = validation_state
+        block.call
+        claim.disable_for_state_transition = nil
+      end
 
       event :redetermine do
         transition VALID_STATES_FOR_REDETERMINATION.map(&:to_sym) => :redetermination

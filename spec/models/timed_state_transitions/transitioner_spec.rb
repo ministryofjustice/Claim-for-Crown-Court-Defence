@@ -113,7 +113,6 @@ module TimedTransitions
             context 'when the claim has been invalidated' do
               let(:litigator) { create(:external_user, :litigator) }
               before do
-                Timecop.freeze(17.weeks.ago) { @claim = create :authorised_claim, case_number: 'A20164444' }
                 @claim.creator = litigator
                 Transitioner.new(@claim).run
               end

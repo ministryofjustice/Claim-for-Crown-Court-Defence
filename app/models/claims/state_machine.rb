@@ -65,7 +65,7 @@ module Claims::StateMachine
       after_transition on: :redetermine,              do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :await_written_reasons,    do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
-      after_transition  on: :deallocate,              do: [:remove_case_workers!, :reset_state]
+      after_transition on: :deallocate,               do: [:remove_case_workers!, :reset_state]
       before_transition on: :submit,                  do: :set_allocation_type
       before_transition on: [:reject, :refuse],       do: :set_amount_assessed_zero!
 

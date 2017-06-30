@@ -70,7 +70,11 @@ module Claim
 
     has_one :fixed_fee, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
     has_one :warrant_fee, foreign_key: :claim_id, class_name: 'Fee::WarrantFee', dependent: :destroy, inverse_of: :claim
-    has_one :graduated_fee, foreign_key: :claim_id, class_name: 'Fee::GraduatedFee', dependent: :destroy, inverse_of: :claim
+    has_one :graduated_fee,
+            foreign_key: :claim_id,
+            class_name: 'Fee::GraduatedFee',
+            dependent: :destroy,
+            inverse_of: :claim
 
     accepts_nested_attributes_for :fixed_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false

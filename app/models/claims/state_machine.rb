@@ -15,7 +15,8 @@ module Claims::StateMachine
   VALID_STATES_FOR_ARCHIVAL                       = %w( authorised part_authorised refused rejected ).freeze
   VALID_STATES_FOR_ALLOCATION                     = %w( submitted redetermination awaiting_written_reasons ).freeze
   VALID_STATES_FOR_DEALLOCATION                   = %w( allocated ).freeze
-  NON_DRAFT_STATES                                = %w( allocated authorised part_authorised refused rejected submitted awaiting_written_reasons redetermination archived_pending_delete).freeze
+  NON_DRAFT_STATES                                = %w( allocated authorised part_authorised refused rejected submitted awaiting_written_reasons redetermination archived_pending_delete ).freeze
+  NON_VALIDATION_STATES                           = %w( allocated archived_pending_delete authorised awaiting_written_reasons deallocated deleted part_authorised redetermination refused rejected ).freeze
   AUTHORISED_STATES                               = EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES + EXTERNAL_USER_DASHBOARD_COMPLETED_STATES
 
   def self.dashboard_displayable_states
@@ -69,7 +70,7 @@ module Claims::StateMachine
       before_transition on: :submit,                  do: :set_allocation_type
       before_transition on: [:reject, :refuse],       do: :set_amount_assessed_zero!
 
-      around_transition any => NON_DRAFT_STATES.map(&:to_sym)  do | claim, transition, block|
+      around_transition any => NON_VALIDATION_STATES.map(&:to_sym)  do | claim, transition, block|
         validation_state = [:authorise, :part_authorise].include?(transition.event) ? :leave_amount : :all
         claim.disable_for_state_transition = validation_state
         block.call

@@ -27,7 +27,7 @@ RSpec.describe Claims::StateMachine, type: :model do
   describe 'NON_VALIDATION_STATES' do
     subject { Claims::StateMachine::NON_VALIDATION_STATES }
 
-    let(:states) { Claim::BaseClaim.active.state_machine.states.map(&:name).sort}
+    let(:states) { Claim::BaseClaim.active.state_machine.states.map(&:name).sort }
     it { is_expected.to eql (states - [:draft, :submitted]).map(&:to_s) }
   end
 

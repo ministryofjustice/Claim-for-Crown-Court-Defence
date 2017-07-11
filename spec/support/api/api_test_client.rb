@@ -16,7 +16,7 @@
 #
 require 'caching/api_request'
 require 'rest-client'
-Dir[File.join(Rails.root, 'lib', 'api', 'claims', '*.rb')].each { |file| require file }
+Dir[File.join(Rails.root, 'spec', 'support', 'api', 'claims', '*.rb')].each { |file| require file }
 
 class ApiTestClient
   attr_reader :success, :full_error_messages, :messages

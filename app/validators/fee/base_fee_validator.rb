@@ -143,7 +143,7 @@ class Fee::BaseFeeValidator < BaseValidator
   def validate_amount
     return if fee_code.nil?
 
-    add_error(:amount, "#{fee_code.downcase}_invalid") if @record.amount < 0 || @record.amount > Settings.max_item_amount
+    add_error(:amount, "#{fee_code.downcase}_invalid") if amount_outside_allowed_range?
 
     return if @record.calculated?
     return unless @record.quantity <= 0 && @record.amount > 0
@@ -152,13 +152,19 @@ class Fee::BaseFeeValidator < BaseValidator
 
   def validate_single_attendance_date
     validate_presence(:date, 'blank')
-    validate_not_before(@record.claim.try(:earliest_representation_order_date), :date, 'too_long_before_earliest_reporder')
+    validate_not_before(@record.claim.try(:earliest_representation_order_date),
+                        :date,
+                        'too_long_before_earliest_reporder')
     validate_not_before(Settings.earliest_permitted_date, :date, 'check_not_too_far_in_past')
     validate_not_after(Date.today, :date, 'check_not_in_future')
   end
 
   # local helpers
   # ---------------------
+
+  def amount_outside_allowed_range?
+    @record.amount < 0 || @record.amount > Settings.max_item_amount
+  end
 
   def fee_code
     @record.fee_type.try(:code)
@@ -177,7 +183,8 @@ class Fee::BaseFeeValidator < BaseValidator
     return false if daf_retrial_combo_ignorable
 
     max_quantity = infinity if max_quantity.blank?
-    @actual_trial_length < lower_bound || @record.quantity > [max_quantity, @actual_trial_length + trial_length_modifier].min
+    upper_bound = [max_quantity, @actual_trial_length + trial_length_modifier].min
+    @actual_trial_length < lower_bound || @record.quantity > upper_bound
   end
 
   # This is required for retrial claims created prior to retrial fields being added.

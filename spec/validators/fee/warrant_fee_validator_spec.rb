@@ -1,6 +1,6 @@
 require 'rails_helper'
 require_relative '../validation_helpers'
-require_relative 'shared_examples_for_fee_validators_spec'
+require_relative 'shared_examples_for_fee_validators'
 
 module Fee
   describe WarrantFee do

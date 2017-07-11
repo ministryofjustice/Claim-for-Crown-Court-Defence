@@ -109,9 +109,9 @@ module Fee
     def validate_calculated_fee(code)
       case code
       when 'BAF', 'DAF', 'DAH', 'DAJ', 'SAF', 'PCM', 'CAV', 'NDR', 'NOC'
-        validate_basic_fee_rate(code)
+        validate_fee_rate(code)
       else
-        validate_basic_fee_rate
+        validate_fee_rate
       end
     end
 
@@ -121,7 +121,7 @@ module Fee
 
     # if one has a value and the other doesn't then we add error to the one that does NOT have a value
     # NOTE: we have specific error messages for basic fees
-    def validate_basic_fee_rate(code = nil)
+    def validate_fee_rate(code = nil)
       if @record.quantity > 0 && @record.rate <= 0
         add_error(:rate, 'invalid')
       elsif @record.quantity <= 0 && @record.rate > 0

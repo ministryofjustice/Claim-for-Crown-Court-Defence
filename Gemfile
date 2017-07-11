@@ -88,6 +88,7 @@ group :development, :devunicorn, :test do
   gem 'guard-rspec'
   gem 'net-ssh'
   gem 'net-scp'
+  gem 'rb-readline'
 end
 
 group :test do

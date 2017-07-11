@@ -16,7 +16,7 @@ namespace :api do
   task :smoke_test, [:io] => :environment do |task,args|
     Rake::Task['claims:sample_users'].invoke
 
-    require "#{Rails.root.join('lib','api','api_test_client')}"
+    require "#{Rails.root.join('spec', 'support', 'api', 'api_test_client')}"
 
     # optional argument to provide a different output stream
     begin

@@ -116,7 +116,7 @@ class Expense < ActiveRecord::Base
   end
 
   def allow_reason_text?
-    !!expense_reason&.allow_explanatory_text?
+    expense_reason.present? && expense_reason&.allow_explanatory_text?
   end
 
   def expense_reasons

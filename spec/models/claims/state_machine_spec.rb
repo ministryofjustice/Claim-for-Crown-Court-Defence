@@ -24,6 +24,13 @@ RSpec.describe Claims::StateMachine, type: :model do
     it('exist') { expect(Claim::BaseClaim.active.state_machine.states.map(&:name).sort).to eq(states.sort) }
   end
 
+  describe 'NON_VALIDATION_STATES' do
+    subject { Claims::StateMachine::NON_VALIDATION_STATES }
+
+    let(:states) { Claim::BaseClaim.active.state_machine.states.map(&:name).sort }
+    it { is_expected.to eql (states - [:draft, :submitted]).map(&:to_s) }
+  end
+
   describe 'valid transitions' do
     describe 'from redetermination' do
       before { subject.submit! }

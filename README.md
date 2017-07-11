@@ -44,14 +44,14 @@ SUPERADMIN_PASSWORD='whichever'
 ADVOCATE_PASSWORD='whatever'
 CASE_WORKER_PASSWORD='whatever'
 ADMIN_PASSWORD='whatever'
-TEST_CHAMBER_API_KEY='--create your own uuid--'
-GRAPE_SWAGGER_ROOT_URL='http://localhost:3000'
+TEST_CHAMBER_API_KEY='--create your own uuid e.g. SecureRandom.uuid--'
+GRAPE_SWAGGER_ROOT_URL='http://localhost:3001'
 ```
 
 Setup dummy users and data:
 
 ```
-rake db:drop db:create db:migrate db:seed claims:demo_data
+rake db:drop db:create db:reload
 ```
 
 Run the application (see note below on architecture for the reason why you need to run two servers).
@@ -61,8 +61,7 @@ rails server
 rails server -p 3001 -P /tmp/rails3001.pid
 ```
 
-To import JSON claims, or import via the API, you need to run a multi-threaded server like unicorn on port 3000.  This can 
-be done with the following line, but the BetterErrors page will not work correctly if you get an exceptions.
+To import JSON claims, or import via the API, you need to run a multi-threaded server like unicorn on port 3000.  This can be done with the following line, but the BetterErrors page will not work correctly if you get an exceptions.
 
 ```
 rails server -e devunicorn

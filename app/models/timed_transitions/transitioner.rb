@@ -34,7 +34,7 @@ module TimedTransitions
     end
 
     def success?
-      !!success
+      !success.nil?
     end
 
     private

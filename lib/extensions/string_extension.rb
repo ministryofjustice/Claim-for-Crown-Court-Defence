@@ -18,11 +18,11 @@ module StringExtension
   end
 
   def alpha?
-    !!match(/^[[:alpha:]]+$/)
+    !match(/^[[:alpha:]]+$/).nil?
   end
 
   def digit?
-    !!match(/^[[:digit:]]+$/)
+    !match(/^[[:digit:]]+$/).nil?
   end
 
   def strftime(format)

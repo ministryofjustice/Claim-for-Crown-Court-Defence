@@ -39,12 +39,8 @@ class Fee::BaseFeeValidator < BaseValidator
     case fee_code
     when 'BAF'
       validate_baf_quantity
-    when 'DAF'
-      validate_daily_attendance_3_40_quantity
-    when 'DAH'
-      validate_daily_attendance_41_50_quantity
-    when 'DAJ'
-      validate_daily_attendance_51_plus_quantity
+    when 'DAF', 'DAH', 'DAJ'
+      validate_daily_attendance(fee_code)
     when 'PCM'
       validate_pcm_quantity
     end
@@ -56,25 +52,26 @@ class Fee::BaseFeeValidator < BaseValidator
     validate_numericality(:quantity, 'baf_qty_numericality', 0, 1)
   end
 
-  # cannot claim this fee if trial lasted less than 3 days
-  # can only claim a maximum of 38 (or trial length after first 2 days deducted)
-  def validate_daily_attendance_3_40_quantity
+  def validate_daily_attendance(code)
     return if @record.quantity == 0
-    add_error(:quantity, 'daf_qty_mismatch') if daf_trial_length_combination_invalid(3, -2, 38)
+    case code
+    when 'DAF'
+      # cannot claim this fee if trial lasted less than 3 days
+      # can only claim a maximum of 38 (or trial length after first 2 days deducted)
+      check_for_daily_attendance_error(code, 3, -2, 38)
+    when 'DAH'
+      # cannot claim this fee if trial lasted less than 41 days
+      # can only claim a maximum of 10 (or trial length after first 40 days deducted)
+      check_for_daily_attendance_error(code, 41, -40, 10)
+    when 'DAJ'
+      # cannot claim this fee if trial lasted less than 51 days
+      # can only claim a maximum of trial length after first 50 days deducted
+      check_for_daily_attendance_error(code, 51, -50, nil)
+    end
   end
 
-  # cannot claim this fee if trial lasted less than 41 days
-  # can only claim a maximum of 10 (or trial length after first 40 days deducted)
-  def validate_daily_attendance_41_50_quantity
-    return if @record.quantity == 0
-    add_error(:quantity, 'dah_qty_mismatch') if daf_trial_length_combination_invalid(41, -40, 10)
-  end
-
-  # cannot claim this fee if trial lasted less than 51 days
-  # can only claim a maximum of trial length after first 50 days deducted
-  def validate_daily_attendance_51_plus_quantity
-    return if @record.quantity == 0
-    add_error(:quantity, 'daj_qty_mismatch') if daf_trial_length_combination_invalid(51, -50, nil)
+  def check_for_daily_attendance_error(code, min, mod, max)
+    add_error(:quantity, "#{code.downcase}_qty_mismatch") if daf_trial_length_combination_invalid(min, mod, max)
   end
 
   def validate_pcm_quantity

@@ -47,17 +47,17 @@ module Claims
 
     def validate_state_when_value_params_present
       if @state.blank?
-        set_error 'You must specify authorised or part authorised if you supply values'
+        add_error 'You must specify authorised or part authorised if you supply values'
       elsif @state == 'refused'
-        set_error 'You cannot specify values when refusing a claim'
+        add_error 'You cannot specify values when refusing a claim'
       elsif @state == 'rejected'
-        set_error 'You cannot specify values when rejecting a claim'
+        add_error 'You cannot specify values when rejecting a claim'
       end
     end
 
     def validate_state_when_no_value_params
       return unless @state.in?(%w( authorised part_authorised ))
-      set_error 'You must specify positive values if authorising or part authorising a claim'
+      add_error 'You must specify positive values if authorising or part authorising a claim'
     end
 
     def nil_or_empty_zero_or_negative?(determination_params)
@@ -81,7 +81,7 @@ module Claims
           add_redetermination if @redetermination_params_present
           @claim.send(event, audit_attributes.merge(reason_code: @transition_reason)) unless @state.blank? || @state == @claim.state
         rescue => ex
-          set_error ex.message
+          add_error ex.message
           raise ActiveRecord::Rollback
         end
       end
@@ -97,7 +97,7 @@ module Claims
       @claim.redeterminations << Redetermination.new(params_with_defaults)
     end
 
-    def set_error(message)
+    def add_error(message)
       @claim.errors[:determinations] << message
       @result = :error
     end

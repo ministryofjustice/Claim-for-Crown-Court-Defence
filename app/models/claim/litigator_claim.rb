@@ -62,7 +62,7 @@
 
 module Claim
   class LitigatorClaim < BaseClaim
-    set_singular_route_key 'litigators_claim'
+    route_key_name 'litigators_claim'
 
     validates_with ::Claim::LitigatorClaimValidator, unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::LitigatorSupplierNumberValidator, on: :create

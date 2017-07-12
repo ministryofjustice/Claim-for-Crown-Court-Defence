@@ -2,9 +2,9 @@ module PasswordHelpers
   extend ActiveSupport::Concern
 
   included do
-    before_action :get_resource_params, only: [:create, :update_password]
+    before_action :set_resource_params, only: [:create, :update_password]
     before_action :set_temporary_password, only: :create
-    before_action :get_user_params, only: :update_password
+    before_action :set_user_params, only: :update_password
   end
 
   def update_password
@@ -39,12 +39,12 @@ module PasswordHelpers
     @user_params
   end
 
-  def get_resource_params
+  def set_resource_params
     resource = controller_name.singularize
     @resource_params = send((resource + '_params').to_sym)
   end
 
-  def get_user_params
+  def set_user_params
     @user_params = @resource_params.slice(:user_attributes)
   end
 

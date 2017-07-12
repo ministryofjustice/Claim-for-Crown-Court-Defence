@@ -62,7 +62,7 @@
 
 module Claim
   class TransferClaim < BaseClaim
-    set_singular_route_key 'litigators_transfer_claim'
+    route_key_name 'litigators_transfer_claim'
 
     has_one :transfer_detail, foreign_key: :claim_id, class_name: Claim::TransferDetail, dependent: :destroy
     has_one :transfer_fee, foreign_key: :claim_id, class_name: Fee::TransferFee, dependent: :destroy, inverse_of: :claim

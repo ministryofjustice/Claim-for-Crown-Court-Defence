@@ -62,7 +62,7 @@
 
 module Claim
   class AdvocateClaim < BaseClaim
-    set_singular_route_key 'advocates_claim'
+    route_key_name 'advocates_claim'
 
     has_many :basic_fees, foreign_key: :claim_id, class_name: 'Fee::BasicFee', dependent: :destroy, inverse_of: :claim
     has_many :fixed_fees, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim

@@ -251,7 +251,7 @@ module Claim
       end
     end
 
-    def set_amount_assessed(options)
+    def update_amount_assessed(options)
       build_assessment if assessment.nil?
       assessment.update_values(options[:fees], options[:expenses], options[:disbursements])
     end
@@ -450,7 +450,7 @@ module Claim
 
     # This will ensure proper route paths are generated
     # when using helpers like: edit_polymorphic_path(claim)
-    def self.set_singular_route_key(name)
+    def self.route_key_name(name)
       model_name.class_eval %(
         def singular_route_key; '#{name}'; end
         def route_key; '#{name.pluralize}'; end

@@ -287,7 +287,7 @@ describe Claim::BaseClaimValidator do
     before { claim.submit!; claim.allocate! }
 
     let(:assessed_claim)  do
-      claim.set_amount_assessed(fees: 101.22, expenses: 28.55, disbursements: 92.66)
+      claim.update_amount_assessed(fees: 101.22, expenses: 28.55, disbursements: 92.66)
       claim
     end
 

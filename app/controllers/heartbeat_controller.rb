@@ -36,7 +36,7 @@ class HeartbeatController < ApplicationController
   def redis_alive?
     Sidekiq.redis(&:info)
     true
-  rescue => e
+  rescue
     false
   end
 

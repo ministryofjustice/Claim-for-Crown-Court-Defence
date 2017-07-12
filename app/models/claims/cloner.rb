@@ -6,8 +6,8 @@ module Claims::Cloner
     :basic_fees, :fixed_fees, :misc_fees, :fixed_fee, :warrant_fee, :graduated_fee, :interim_fee, :transfer_fee
   ].freeze
 
-  included do |klass|
-    klass.duplicate_this do
+  included do |object_klass|
+    object_klass.duplicate_this do
       enable
 
       nullify :last_submitted_at

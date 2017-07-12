@@ -31,10 +31,11 @@ module DocumentAttachment
     end
   end
 
-  def convert_and_assign_document # Libreconvert performs both action sin one call
+  def convert_and_assign_document # Libreconvert performs both actions in one call
     self.pdf_tmpfile = File.new("#{Dir.mktmpdir}/#{document_file_name}.pdf", 'wb+')
     Libreconv.convert(Paperclip.io_adapters.for(document).path, pdf_tmpfile) # Libreoffice exe must be in PATH
-  rescue IOError => e # raised if Libreoffice exe is not in PATH
+  rescue IOError => e
+    nil # raised if Libreoffice exe is not in PATH
   end
 
   def add_converted_preview_document

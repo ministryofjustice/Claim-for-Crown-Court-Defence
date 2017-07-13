@@ -1135,3 +1135,41 @@ en:
     passwords:
       edit:
         prohibited_save: This password change has
+  api:
+    v1:
+      external_users:
+        params:
+          api_key: 'REQUIRED: The API authentication key of the provider'
+          claim_id: 'REQUIRED: The unique identifier for the corresponding claim.'
+          fee_type_id: 'OPTIONAL: The unique numeric ID for the corresponding fee type if fee_type_unique_code is not specified.'
+          fee_type_unique_code: 'OPTIONAL: The unique alphanumeric CODE for the corresponding fee type if fee_type_id is not specified'
+          quantity: 'REQUIRED/UNREQUIRED: The number of fees of this fee type that are being claimed (quantity x rate will equal amount). NB: Leave blank if not applicable'
+          rate: 'REQUIRED/UNREQUIRED: The currency value per unit/quantity of the fee (quantity x rate will equal amount). NB: Leave blank for PPE and NPW fee types'
+          amount: 'REQUIRED/UNREQUIRED: The total value of the fee. NB: Leave blank for fee types other than PPE/NPW or a Transfer Fee'
+          case_numbers: 'REQUIRED/UNREQUIRED: Required for Miscellaneous Fee of type Case Uplift. Leave blank for other types'
+          date: 'REQUIRED/UNREQUIRED: Required for LGFS Fixed Fee or LGFS Graduated Fee, otherwise leave blank (YYYY-MM-DD)'
+          warrant_issued_date: 'REQUIRED/UNREQUIRED: Required for Interim fee of type Warrant, or a Warrant Fee, otherwise leave blank (YYYY-MM-DD)'
+          warrant_executed_date: 'OPTIONAL: For Interim fee of type Warrant, or a Warrant Fee, otherwise leave blank (YYYY-MM-DD)'
+      defendant:
+        params:
+          api_key: 'REQUIRED: The API authentication key of the provider'
+          claim_id: 'REQUIRED: Unique identifier for the claim associated with this defendant.'
+          first_name: 'REQUIRED: First name of the defedant.'
+          last_name: 'REQUIRED: Last name of the defendant.'
+          date_of_birth: "REQUIRED/UNREQUIRED: Defendant's date of birth (YYYY-MM-DD). Not required for Breach of Crown Court order case types."
+          order_for_judicial_apportionment: 'OPTIONAL: whether or not the defendant is impacted by an order for judicial apportionment (JSON Boolean data type: true or false)'
+      expense:
+        params:
+          api_key: 'REQUIRED: The API authentication key of the provider'
+          claim_id: 'REQUIRED: Unique identifier for the claim associated with this expense.'
+          expense_type_id: 'OPTIONAL: The unique numeric ID for the corresponding expense type if expense_type_unique_code is not specified.'
+          expense_type_unique_code: 'OPTIONAL: The unique alphanumeric CODE for the corresponding expense type if expense_type_id is not specified'
+          location: 'REQUIRED for all expense types other than Parking. Location or destination.'
+          reason_id: 'REQUIRED: Unique identifier for the reason for this travel: must be one of the valid reason ids associated with the expense type.'
+          reason_text: 'REQUIRED when reason is Other oitherwise must be absent.'
+          distance: 'REQUIRED for expense type Car Travel, otherwise must be absent. Distance in miles.'
+          mileage_rate_id: 'REQUIRED for expense type Car Travel, otherwise must be absent: Where applicable. Values should be 1 for 25p per mile, 2 for 45p per mile.'
+          hours: 'REQUIRED for expense type Travel Time, otherwise must be absent. Time in hours to a maximum of 2 decimal places.'
+          date: 'REQUIRED: The date applicable to this Expense (YYYY-MM-DD)'
+          amount: 'REQUIRED: The total amount of the expense.'
+          vat_amount: 'OPTIONAL: The VAT amount of the expense. For LGFS claims.'

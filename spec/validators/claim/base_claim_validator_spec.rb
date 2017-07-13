@@ -336,6 +336,28 @@ describe Claim::BaseClaimValidator do
         end
       end
     end
+
+    context 'when creator has been made invalid' do
+      before { assessed_claim.creator = create(:external_user, :litigator) }
+
+      context 'and validation has been overridden' do
+        before { assessed_claim.disable_for_state_transition = :all }
+
+        it { expect(assessed_claim.valid?).to be true }
+      end
+
+      context 'and validation has been overridden only for amount_assessed' do
+        before { assessed_claim.disable_for_state_transition = :only_amount_assessed }
+
+        it { expect(assessed_claim.valid?).to be false }
+      end
+
+      context 'and validation has not been overridden' do
+        before { assessed_claim.disable_for_state_transition = nil }
+
+        it { expect(assessed_claim.valid?).to be false }
+      end
+    end
   end
 
   context 'evidence_checklist_ids' do
@@ -380,6 +402,36 @@ describe Claim::BaseClaimValidator do
         claim.evidence_checklist_ids = '1, 45, 457'
         claim.save!
       }.to raise_error ActiveRecord::SerializationTypeMismatch, /Attribute was supposed to be a Array, but was a String. -- "1, 45, 457"/i
+    end
+
+    context 'when evidence_checklist_ids have been made invalid' do
+      before { claim.evidence_checklist_ids = [101,1001,200,32] }
+
+      context 'and validation has been overridden' do
+        before { claim.disable_for_state_transition = :all }
+
+        it { expect(claim.valid?).to be true }
+      end
+
+      describe 'and validation has been overridden for amount_assessed' do
+        context 'using the correct symbol' do
+          before { claim.disable_for_state_transition = :only_amount_assessed }
+
+          it { expect(claim.valid?).to be true }
+        end
+
+        context 'using the wrong symbol' do
+          before { claim.disable_for_state_transition = :leave_amount }
+
+          it { expect(claim.valid?).to be false }
+        end
+      end
+
+      context 'and validation has not been overridden' do
+        before { claim.disable_for_state_transition = nil }
+
+        it { expect(claim.valid?).to be false }
+      end
     end
   end
 

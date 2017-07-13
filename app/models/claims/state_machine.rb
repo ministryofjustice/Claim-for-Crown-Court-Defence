@@ -79,7 +79,7 @@ module Claims
         before_transition on: [:reject, :refuse],       do: :set_amount_assessed_zero!
 
         around_transition any => NON_VALIDATION_STATES.map(&:to_sym) do |claim, transition, block|
-          validation_state = [:authorise, :part_authorise].include?(transition.event) ? :leave_amount : :all
+          validation_state = [:authorise, :part_authorise].include?(transition.event) ? :only_amount_assessed : :all
           claim.disable_for_state_transition = validation_state
           block.call
           claim.disable_for_state_transition = nil

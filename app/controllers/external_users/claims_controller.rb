@@ -190,12 +190,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     options
   end
 
-  def set_sort_defaults(defaults = {})
-    @sort_defaults = {  column:     defaults.fetch(:column, 'last_submitted_at'),
-                        direction:  defaults.fetch(:direction, 'asc'),
-                        pagination: defaults.fetch(:pagination, page_size) }
-  end
-
   def sort_column
     @claims.sortable_by?(params[:sort]) ? params[:sort] : @sort_defaults[:column]
   end
@@ -204,8 +198,14 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     %w(asc desc).include?(params[:direction]) ? params[:direction] : @sort_defaults[:direction]
   end
 
+  def sort_defaults(defaults = {})
+    @sort_defaults = {  column:     defaults.fetch(:column, 'last_submitted_at'),
+                        direction:  defaults.fetch(:direction, 'asc'),
+                        pagination: defaults.fetch(:pagination, page_size) }
+  end
+
   def sort_and_paginate(options = {})
-    set_sort_defaults(options)
+    sort_defaults(options)
     @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(@sort_defaults[:pagination])
   end
 

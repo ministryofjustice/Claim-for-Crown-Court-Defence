@@ -129,7 +129,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def sort_claims
     sort_and_paginate
-    set_claim_carousel_info
+    add_claim_carousel_info
   end
 
   def criteria_params

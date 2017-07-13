@@ -62,7 +62,7 @@
 
 module Claim
   class InterimClaim < BaseClaim
-    set_singular_route_key 'litigators_interim_claim'
+    route_key_name 'litigators_interim_claim'
 
     validates_with ::Claim::InterimClaimValidator
     validates_with ::Claim::LitigatorSupplierNumberValidator

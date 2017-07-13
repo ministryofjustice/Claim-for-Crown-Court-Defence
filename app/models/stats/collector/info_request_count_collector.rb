@@ -1,20 +1,20 @@
 module Stats
   module Collector
-    # This class counts the number of claims authorised to day that where the caseworker requested extra information vs the number
-    # that were authorised without further info being needed.
+    # This class counts the number of claims authorised today where the caseworker requested
+    # extra information -vs- the number that were authorised without further info being needed.
     #
     class InfoRequestCountCollector < BaseCollector
       def collect
-        count = get_count_for_claims_authorised_without_further_info_requested
+        count = claims_authorised_without_further_info_requested_count
         Statistic.create_or_update(@date, 'claims_authorised_without_further_info', 'Claim::BaseClaim', count)
 
-        count = get_count_for_claims_authorised_after_further_info_requested
+        count = claims_authorised_after_further_info_requested_count
         Statistic.create_or_update(@date, 'claims_authorised_after_info_requested', 'Claim::BaseClaim', count)
       end
 
       private
 
-      def get_count_for_claims_authorised_without_further_info_requested
+      def claims_authorised_without_further_info_requested_count
         sql = "
           select
             date(c.authorised_at),
@@ -30,7 +30,7 @@ module Stats
         execute_query(sql)
       end
 
-      def get_count_for_claims_authorised_after_further_info_requested
+      def claims_authorised_after_further_info_requested_count
         sql = "
           select
             distinct(c.id),

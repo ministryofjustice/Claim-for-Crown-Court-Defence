@@ -48,9 +48,16 @@ describe Claim::AdvocateClaimValidator do
   end
 
   context 'creator' do
+    before { claim.creator = litigator }
+
     it 'should error when their provider does not have AGFS role' do
-      claim.creator = litigator
       should_error_with(claim, :creator, "must be from a provider with permission to submit AGFS claims")
+    end
+
+    context 'when validation has been overridden' do
+      before { claim.disable_for_state_transition = :all }
+
+      it { expect(claim.valid?).to be true }
     end
   end
 

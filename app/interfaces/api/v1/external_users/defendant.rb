@@ -3,12 +3,17 @@ module API
     module ExternalUsers
       class Defendant < Grape::API
         params do
-          optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the provider'
-          optional :claim_id, type: String, desc: 'REQUIRED: Unique identifier for the claim associated with this defendant.'
-          optional :first_name, type: String, desc: 'REQUIRED: First name of the defedant.'
-          optional :last_name, type: String, desc: 'REQUIRED: Last name of the defendant.'
-          optional :date_of_birth, type: String, desc: "REQUIRED/UNREQUIRED: Defendant's date of birth (YYYY-MM-DD). Not required for Breach of Crown Court order case types.", standard_json_format: true
-          optional :order_for_judicial_apportionment, type: Boolean, desc: 'OPTIONAL: whether or not the defendant is impacted by an order for judicial apportionment (JSON Boolean data type: true or false)'
+          optional :api_key, type: String, desc: I18n.t('api.v1.defendant.params.api_key')
+          optional :claim_id, type: String, desc: I18n.t('api.v1.defendant.params.claim_id')
+          optional :first_name, type: String, desc: I18n.t('api.v1.defendant.params.first_name')
+          optional :last_name, type: String, desc: I18n.t('api.v1.defendant.params.last_name')
+          optional :date_of_birth,
+                   type: String,
+                   desc: I18n.t('api.v1.defendant.params.date_of_birth'),
+                   standard_json_format: true
+          optional :order_for_judicial_apportionment,
+                   type: Boolean,
+                   desc: I18n.t('api.v1.defendant.params.order_for_judicial_apportionment')
         end
 
         resource :defendants, desc: 'Create or Validate' do

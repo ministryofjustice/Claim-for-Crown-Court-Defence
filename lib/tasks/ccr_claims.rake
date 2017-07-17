@@ -1,11 +1,10 @@
 namespace :ccr_claims do
   desc 'extract CCR structured JSON for CCCD claims'
-  task :sample_json, [:filename] => :environment do |_task, args|
+  task :sample_json, [:sample_size, :filename] => :environment do |_task, args|
+    @args = args
 
     api_key = admin_api_key
-
     redirect_output args[:filename] do
-
       claims_json = sample_claims.each_with_object([]) do |claim, memo|
         uri = "#{Settings.remote_api_url}/ccr/claims/#{claim.uuid}?api_key=#{api_key}"
         begin
@@ -15,9 +14,16 @@ namespace :ccr_claims do
           warn "Error: #{e} for claim #{claim.uuid}"
         end
       end
-
       puts JSON.pretty_generate(claims_json)
     end
+  end
+
+  def defaults
+    @defaults ||= @args.with_defaults(sample_size: 10, filename: nil)
+  end
+
+  def sample_size
+    @sample ||= defaults[:sample_size].to_i
   end
 
   def redirect_output base_filename
@@ -41,7 +47,7 @@ namespace :ccr_claims do
   end
 
   def sample_claims
-     Claim::BaseClaim.where(state: 'allocated').sample(10)
+     Claim::BaseClaim.where(state: 'allocated').sample(sample_size)
   end
 
   def admin_api_key

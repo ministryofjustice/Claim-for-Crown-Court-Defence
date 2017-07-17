@@ -5,13 +5,13 @@ namespace :ccr_claims do
     @args = args
 
     redirect_output args[:filename] do
-      claims_json = sample_claims.each_with_object([]) do |claim, memo|
-        uri = ccr_claim_api uuid: claim.uuid, api_key: api_key
+      claims_json = sample_claims('part_authorised', 'authorised').each_with_object([]) do |claim, memo|
+        uri = ccr_claim_api uuid: claim.uuid, api_key: admin_api_key
         begin
           response = RestClient.get(uri)
           memo << JSON.parse(response)
         rescue => e
-          warn "Error: #{e} for claim #{claim.uuid}"
+          warn "Error: #{e} for claim #{claim.uuid} on ap #{uri}"
         end
       end
       puts JSON.pretty_generate(claims_json)
@@ -50,11 +50,11 @@ namespace :ccr_claims do
     end
   end
 
-  def sample_claims
-     Claim::BaseClaim.where(state: 'allocated').sample(sample_size)
+  def sample_claims *states
+     Claim::AdvocateClaim.where(state: states).sample(sample_size)
   end
 
-  def api_key
+  def admin_api_key
     @api_key ||= CaseWorker.where("roles LIKE '%admin%case_worker%'").first.user.api_key
   end
 end

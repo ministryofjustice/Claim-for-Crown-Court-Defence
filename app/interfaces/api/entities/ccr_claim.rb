@@ -96,7 +96,7 @@ module API
       end
 
       def offence_class_code
-        object.offence.offence_class.class_letter
+        object.offence&.offence_class&.class_letter
       end
 
       def offence_code_id

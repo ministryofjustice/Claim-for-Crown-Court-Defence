@@ -1,12 +1,12 @@
 namespace :ccr_claims do
-  desc 'extract CCR structured JSON for CCCD claims'
+
+  desc 'extract CCR structured JSON for CCCD claims: args[sample_size: 10, filename: STDOUT]'
   task :sample_json, [:sample_size, :filename] => :environment do |_task, args|
     @args = args
 
-    api_key = admin_api_key
     redirect_output args[:filename] do
       claims_json = sample_claims.each_with_object([]) do |claim, memo|
-        uri = "#{Settings.remote_api_url}/ccr/claims/#{claim.uuid}?api_key=#{api_key}"
+        uri = ccr_claim_api uuid: claim.uuid, api_key: api_key
         begin
           response = RestClient.get(uri)
           memo << JSON.parse(response)
@@ -23,7 +23,11 @@ namespace :ccr_claims do
   end
 
   def sample_size
-    @sample ||= defaults[:sample_size].to_i
+    @sample_size ||= defaults[:sample_size].to_i
+  end
+
+  def ccr_claim_api uuid:, api_key:
+    "#{Settings.remote_api_url}/ccr/claims/#{uuid}?api_key=#{api_key}"
   end
 
   def redirect_output base_filename
@@ -50,7 +54,7 @@ namespace :ccr_claims do
      Claim::BaseClaim.where(state: 'allocated').sample(sample_size)
   end
 
-  def admin_api_key
-    CaseWorker.where("roles LIKE '%admin%case_worker%'").first.user.api_key
+  def api_key
+    @api_key ||= CaseWorker.where("roles LIKE '%admin%case_worker%'").first.user.api_key
   end
 end

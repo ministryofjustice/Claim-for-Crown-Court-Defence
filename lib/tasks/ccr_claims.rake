@@ -1,6 +1,7 @@
 namespace :ccr_claims do
 
-  desc 'extract CCR structured JSON for CCCD claims: args[sample_size: 10, filename: STDOUT]'
+  # retrieve claims for use as fixtures in CCR testing
+  desc 'extract CCR structured JSON for CCCD claims: args[sample_size: 10, filename: nil/STDOUT]'
   task :sample_json, [:sample_size, :filename] => :environment do |_task, args|
     @args = args
 
@@ -50,8 +51,19 @@ namespace :ccr_claims do
     end
   end
 
+  # The DEMO environment has an env var containing supplier numbers that should be used
+  # to retrieve claims with supplier numbers that CCR "knows"
+  #
   def sample_claims *states
-     Claim::AdvocateClaim.where(state: states).sample(sample_size)
+    if redcentric_supplier_numbers
+      Claim::AdvocateClaim.where(state: states).where(supplier_number: redcentric_supplier_numbers).sample(sample_size)
+    else
+      Claim::AdvocateClaim.where(state: states).sample(sample_size)
+    end
+  end
+
+  def redcentric_supplier_numbers
+    @redcentric_supplier_numbers ||= ENV['REDCENTRIC_CCR_SUPPLIER_NUMBERS']&.split(' ')
   end
 
   def admin_api_key

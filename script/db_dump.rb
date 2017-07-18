@@ -58,6 +58,6 @@ begin
 
   puts 'File %s downloaded' % gzip_file_name
 rescue Exception => e
-  puts 'Usage: ./db_dump username environment [IP]'
+  puts 'Usage: ./db_dump.rb username environment [IP]'
   puts e
 end

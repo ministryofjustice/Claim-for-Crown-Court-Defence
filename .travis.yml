@@ -10,7 +10,8 @@ before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
 # Please don't add extra test commands here unless they are Travis only -- Jenkins will run this script too
-script: bash ./runtests.sh
+script:
+  - bash ./runtests.sh
 # deploy:
 #   provider: heroku
 #   api_key:

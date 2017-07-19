@@ -61,7 +61,7 @@ namespace :db do
 
   desc 'Dumps an anonymised (gzip) backup of the database'
   task :dump_anonymised, [:file] => :environment do |_task, args|
-    excluded_tables = %w(providers defendants users) # make sure a db:dump task exists for each of these tables (i.e. db:dump:providers)
+    excluded_tables = %w(providers defendants users messages) # make sure a db:dump task exists for each of these tables (i.e. db:dump:providers)
 
     exclusions = excluded_tables.map { |table| "--exclude-table-data #{table}" }.join(' ')
     filename = args.file || "#{Time.now.strftime('%Y%m%d%H%M%S')}_dump.psql"
@@ -166,10 +166,29 @@ namespace :db do
         end
       end
     end
+
+    desc 'Export anonymised messages data'
+    task :messages, [:file] => :environment do |_task, args|
+      write_to_file(args.file) do |writer|
+        Message.find_each(batch_size: 50) do |message|
+          message.body = Faker::Lorem.sentence(6, false, 10)
+          if message.attachment_file_name.present?
+            message.attachment_file_name = fake_attachment_file_name(message.attachment_file_name)
+          end
+          writer.call(message)
+        end
+      end
+    end
+
   end
 
-
   private
+
+  def fake_attachment_file_name original_file_name
+    file_parts = Faker::File.file_name.gsub(/\//,'_').split('.')
+    file_parts.pop
+    file_parts.join + '.' + original_file_name.split('.').last
+  end
 
   def production_protected
     raise 'This operation was aborted because the result might destroy production data' if ActiveRecord::Base.connection_config[:database] =~ /gamma/

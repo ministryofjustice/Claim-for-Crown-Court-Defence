@@ -61,7 +61,7 @@ namespace :db do
 
   desc 'Dumps an anonymised (gzip) backup of the database'
   task :dump_anonymised, [:file] => :environment do |_task, args|
-    excluded_tables = %w(providers defendants users messages) # make sure a db:dump task exists for each of these tables (i.e. db:dump:providers)
+    excluded_tables = %w(providers defendants users messages documents) # make sure a db:dump task exists for each of these tables (i.e. db:dump:providers)
 
     exclusions = excluded_tables.map { |table| "--exclude-table-data #{table}" }.join(' ')
     filename = args.file || "#{Time.now.strftime('%Y%m%d%H%M%S')}_dump.psql"
@@ -125,7 +125,6 @@ namespace :db do
     end)
   end
 
-
   namespace :dump do
     desc 'Export anonymised providers data'
     task :providers, [:file] => :environment do |_task, args|
@@ -180,15 +179,22 @@ namespace :db do
       end
     end
 
+    desc 'Export anonymised document data'
+    task :documents, [:file] => :environment do |_task, args|
+      write_to_file(args.file) do |writer|
+        Document.find_each(batch_size: 100) do |document|
+          with_file_name(fake_attachment_file_name(document.document_file_name)) do |file_name, ext|
+            document.document_file_name = "#{file_name}.#{ext}"
+            document.converted_preview_document_file_name = "#{file_name}#{ '.' + ext unless ext == 'pdf' }.pdf"
+          end
+          writer.call(document)
+        end
+      end
+    end
+
   end
 
   private
-
-  def fake_attachment_file_name original_file_name
-    file_parts = Faker::File.file_name.gsub(/\//,'_').split('.')
-    file_parts.pop
-    file_parts.join + '.' + original_file_name.split('.').last
-  end
 
   def production_protected
     raise 'This operation was aborted because the result might destroy production data' if ActiveRecord::Base.connection_config[:database] =~ /gamma/
@@ -233,4 +239,15 @@ namespace :db do
   def static_tables
     '-t courts -t case_types -t disbursement_types -t expense_types -t fee_types -t offence_classes -t offences'
   end
+
+  def fake_attachment_file_name original_file_name
+    *file_parts, _last = Faker::File.file_name.gsub(/\//,'_').split('.')
+    file_parts.join + '.' + original_file_name.split('.').last
+  end
+
+  def with_file_name file_name, &block
+    *file_name, ext = file_name.split('.')
+    yield file_name.join, ext if block_given?
+  end
+
 end

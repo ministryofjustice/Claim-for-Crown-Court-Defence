@@ -49,7 +49,6 @@ begin
   puts 'Running task db:dump_anonymised...'
   puts ssh.exec!("sudo docker exec advocatedefencepayments rake db:dump_anonymised[#{dump_file_name}]")
   puts ssh.exec!("sudo docker cp advocatedefencepayments:/usr/src/app/#{gzip_file_name} ~/")
-  ssh.close
 
   puts 'Downloading dump file'
   Net::SCP.download!(ssh_address, ssh_user, "/home/#{ssh_user}/#{gzip_file_name}", '.') do |_channel, _name, sent, total|
@@ -57,7 +56,13 @@ begin
   end
 
   puts 'File %s downloaded' % gzip_file_name
+
+  puts 'Deleting remote compressed dump file... '
+  puts ssh.exec!("sudo docker exec advocatedefencepayments rm #{gzip_file_name}")
+
 rescue Exception => e
   puts 'Usage: ./db_dump.rb username environment [IP]'
   puts e
+ensure
+  ssh.close
 end

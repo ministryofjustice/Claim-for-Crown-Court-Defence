@@ -43,5 +43,3 @@ UPDATE claims
 SET additional_information = translate(additional_information, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZC', :translation)
 WHERE additional_information IS NOT NULL
   AND length(regexp_replace(additional_information, '[\s\t\n]+','','g')) > 0;
-
-Claim::BaseClaim.where("additional_information IS NOT NULL AND length(regexp_replace(additional_information, '[\\s\\t\\n]+','','g')) > 0").count

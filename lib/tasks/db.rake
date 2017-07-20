@@ -208,9 +208,8 @@ namespace :db do
           Document.find_each(batch_size: 100) do |document|
             with_file_name(fake_attachment_file_name(document.document_file_name)) do |file_name, ext|
               document.document_file_name = "#{file_name}.#{ext}"
-              converted_file_name = "#{file_name}#{ '.' + ext unless ext == 'pdf' }.pdf"
-              document.converted_preview_document_file_name = converted_file_name
-              document.file_path = "/s3/path/to/#{converted_file_name}"
+              document.converted_preview_document_file_name = "#{file_name}#{ '.' + ext unless ext == 'pdf' }.pdf"
+              document.file_path = "/s3/path/to/#{file_name}.#{ext}"
             end
             writer.call(document)
           end
@@ -273,13 +272,13 @@ namespace :db do
 
   def compress_file(filename)
     shell_working "compressing file #{filename}" do
-      system "gzip #{filename}"
+      system "gzip -f #{filename}"
     end
   end
 
   def decompress_file(filename)
     shell_working "decompressing file #{filename}" do
-      system "gzip -d #{filename}"
+      system "gunzip -f #{filename}"
     end
   end
 

@@ -144,7 +144,7 @@ namespace :db do
     task :providers, [:file] => :environment do |task, args|
       shell_working "exporting anonymised #{task.name.split(':').last} data" do
         write_to_file(args.file) do |writer|
-          Provider.find_each(batch_size: 50) do |provider|
+          Provider.find_each(batch_size: batch_size) do |provider|
             provider.name = [Faker::Company.name, provider.id].join(' ')
             writer.call(provider)
           end
@@ -156,7 +156,7 @@ namespace :db do
     task :defendants, [:file] => :environment do |task, args|
       shell_working "exporting anonymised #{task.name.split(':').last} data" do
         write_to_file(args.file) do |writer|
-          Defendant.find_each(batch_size: 50) do |defendant|
+          Defendant.find_each(batch_size: batch_size) do |defendant|
             defendant.first_name = Faker::Name.first_name
             defendant.last_name  = Faker::Name.last_name
             writer.call(defendant)
@@ -171,13 +171,12 @@ namespace :db do
         whitelist_domains = %w(example.com agfslgfs.com)
 
         write_to_file(args.file) do |writer|
-          User.find_each(batch_size: 50) do |user|
+          User.find_each(batch_size: batch_size) do |user|
             user.encrypted_password = '$2a$10$r4CicQylcCuq34E1fysqEuRlWRN4tiTPUOHwksecXT.hbkukPN5F2'
-
             unless whitelist_domains.detect { |domain| user.email.end_with?(domain) }
               user.first_name = Faker::Name.first_name
               user.last_name  = Faker::Name.last_name
-              user.email = [user.id, '@', 'example.com'].join
+              user.email = "#{user.id}@anonymous.com"
             end
 
             writer.call(user)
@@ -190,7 +189,7 @@ namespace :db do
     task :messages, [:file] => :environment do |task, args|
       shell_working "exporting anonymised #{task.name.split(':').last} data" do
         write_to_file(args.file) do |writer|
-          Message.find_each(batch_size: 50) do |message|
+          Message.find_each(batch_size: batch_size) do |message|
             message.body = Faker::Lorem.sentence(6, false, 10)
             if message.attachment_file_name.present?
               message.attachment_file_name = fake_attachment_file_name(message.attachment_file_name)
@@ -205,7 +204,7 @@ namespace :db do
     task :documents, [:file] => :environment do |task, args|
       shell_working "exporting anonymised #{task.name.split(':').last} data" do
         write_to_file(args.file) do |writer|
-          Document.find_each(batch_size: 100) do |document|
+          Document.find_each(batch_size: batch_size) do |document|
             with_file_name(fake_attachment_file_name(document.document_file_name)) do |file_name, ext|
               document.document_file_name = "#{file_name}.#{ext}"
               document.converted_preview_document_file_name = "#{file_name}#{ '.' + ext unless ext == 'pdf' }.pdf"
@@ -221,7 +220,7 @@ namespace :db do
     task :claims, [:file] => :environment do |task, args|
       shell_working "exporting anonymised #{task.name.split(':').last} data" do
         write_to_file(args.file) do |writer|
-          Claim::BaseClaim.find_each(batch_size: 100) do |claim|
+          Claim::BaseClaim.find_each(batch_size: batch_size) do |claim|
             if claim.additional_information.present?
               claim.additional_information = Faker::Lorem.paragraphs(4).pop(rand(1..4)).join('\n')
             end
@@ -234,6 +233,11 @@ namespace :db do
   end
 
   private
+
+  # optimum determined from benchmarking
+  def batch_size
+    @batch_size ||= 200
+  end
 
   def shell_working message = 'working', &block
     ShellSpinner message do
@@ -262,7 +266,6 @@ namespace :db do
 
   def write_to_file(name)
     file_name = name || 'anonymised_data.sql'
-
     open(file_name, 'a') do |file|
       yield ->(model) do
         file.puts model.class.arel_table.create_insert.tap { |im| im.insert(model.send(:arel_attributes_with_values_for_create, model.attribute_names)) }.to_sql.gsub('"', '') + ';'
@@ -272,13 +275,13 @@ namespace :db do
 
   def compress_file(filename)
     shell_working "compressing file #{filename}" do
-      system "gzip -f #{filename}"
+      system "gzip -3 -f #{filename}"
     end
   end
 
   def decompress_file(filename)
     shell_working "decompressing file #{filename}" do
-      system "gunzip -f #{filename}"
+      system "gunzip -3 -f #{filename}"
     end
   end
 

@@ -36,4 +36,12 @@ SET document_file_name = translate(
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZC',
     :translation
     )
-    || substr(converted_preview_document_file_name,char_length(converted_preview_document_file_name) - position('.' in reverse(converted_preview_document_file_name)) + 1)
+    || substr(converted_preview_document_file_name,char_length(converted_preview_document_file_name) - position('.' in reverse(converted_preview_document_file_name)) + 1);
+
+-- additional information can contain sensitive data
+UPDATE claims
+SET additional_information = translate(additional_information, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZC', :translation)
+WHERE additional_information IS NOT NULL
+  AND length(regexp_replace(additional_information, '[\s\t\n]+','','g')) > 0;
+
+Claim::BaseClaim.where("additional_information IS NOT NULL AND length(regexp_replace(additional_information, '[\\s\\t\\n]+','','g')) > 0").count

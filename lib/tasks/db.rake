@@ -67,7 +67,7 @@ namespace :db do
 
   desc 'Dumps an anonymised (gzip) backup of the database'
   task :dump_anonymised, [:file] => :environment do |_task, args|
-    excluded_tables = %w(providers defendants users messages documents) # make sure a db:dump task exists for each of these tables (i.e. db:dump:providers)
+    excluded_tables = %w(providers users claims defendants messages documents) # make sure a db:dump task exists for each of these tables (i.e. db:dump:providers)
 
     exclusions = excluded_tables.map { |table| "--exclude-table-data #{table}" }.join(' ')
     filename = args.file || "#{Time.now.strftime('%Y%m%d%H%M%S')}_dump.psql"
@@ -215,6 +215,21 @@ namespace :db do
         end
       end
     end
+
+    desc 'Export anonymised claims data'
+    task :claims, [:file] => :environment do |task, args|
+      shell_working "exporting anonymised #{task.name.split(':').last} data" do
+        write_to_file(args.file) do |writer|
+          Claim::BaseClaim.find_each(batch_size: 100) do |claim|
+            if claim.additional_information.present?
+              claim.additional_information = Faker::Lorem.paragraphs(4).pop(rand(1..4)).join('\n')
+            end
+            writer.call(claim)
+          end
+        end
+      end
+    end
+
   end
 
   private

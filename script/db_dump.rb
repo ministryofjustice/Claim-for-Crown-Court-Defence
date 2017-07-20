@@ -2,6 +2,7 @@
 
 require 'net/ssh' # gem install net-ssh
 require 'net/scp' # gem install net-scp
+require 'colorize'
 
 ENVIRONMENTS = {
   'dev' => %w(dev adp_dev_new),
@@ -52,17 +53,18 @@ begin
 
   puts 'Downloading dump file'
   Net::SCP.download!(ssh_address, ssh_user, "/home/#{ssh_user}/#{gzip_file_name}", '.') do |_channel, _name, sent, total|
-    puts "...downloading... #{sent}/#{total}" if sent % 512_000 == 0
+    puts "...downloading... #{sent}/#{total}... #{'done'.green}" if sent % 512_000 == 0
   end
 
   puts 'File %s downloaded' % gzip_file_name
-
-  puts 'Deleting remote compressed dump file... '
-  puts ssh.exec!("sudo docker exec advocatedefencepayments rm #{gzip_file_name}")
 
 rescue Exception => e
   puts 'Usage: ./db_dump.rb username environment [IP]'
   puts e
 ensure
-  ssh.close
+  if !ssh.closed?
+    puts 'Deleting remote compressed dump file... '
+    puts ssh.exec!("sudo docker exec advocatedefencepayments rm #{gzip_file_name}")
+    ssh.close
+  end
 end

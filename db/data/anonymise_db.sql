@@ -32,9 +32,15 @@ SET document_file_name = translate(
     :chars_to_translate,
     :translation
     )
-    || substr(document_file_name,char_length(document_file_name) - position('.' in reverse(document_file_name)) + 1),
-    converted_preview_document_file_name = translate(
+    || substr(document_file_name,char_length(document_file_name) - position('.' in reverse(document_file_name)) + 1)
+  , converted_preview_document_file_name = translate(
       substr(converted_preview_document_file_name, 1, char_length(converted_preview_document_file_name) - position('.' in reverse(document_file_name))),
+    :chars_to_translate,
+    :translation
+    )
+    || substr(converted_preview_document_file_name, char_length(converted_preview_document_file_name) - position('.' in reverse(converted_preview_document_file_name)) + 1)
+  , file_path = translate(
+      substr(file_path, 1, char_length(file_path) - position('.' in reverse(file_path))),
     :chars_to_translate,
     :translation
     )

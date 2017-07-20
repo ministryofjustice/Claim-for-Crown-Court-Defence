@@ -55,8 +55,7 @@ gem 'premailer-rails',         '~> 1.9'
 gem 'sidekiq',                 '4.1.2' # version locked, as 4.1.3 forces Sinatra dependency
 gem 'utf8-cleaner',            '~> 0.2'
 gem 'colorize'
-
-
+gem 'shell-spinner', '~> 1.0', '>= 1.0.4'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'

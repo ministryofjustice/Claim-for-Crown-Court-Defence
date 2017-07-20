@@ -4,14 +4,18 @@ namespace :db do
     desc 'Dumps all static data tables to db/static.sql'
     task :dump => :environment do
       raise 'Can only run in development mode' unless Rails.env.development?
-      cmd = "pg_dump #{connection_opts} --clean #{static_tables} > #{Rails.root}/db/static.sql"
-      system cmd
+      dump_file = "#{Rails.root}/db/static.sql"
+      cmd = "pg_dump #{connection_opts} --clean #{static_tables} > #{dump_file}"
+      shell_working "exporting static data to #{dump_file}" do
+        system cmd
+      end
     end
 
     desc 'restores static data tables on api-sandbox'
-    task :static_data_restore do
+    task :restore, [:file] => :environment do |_task, args|
       production_protected
 
+      args.with_defaults(file: "#{Rails.root}/db/static.sql")
       dump_file = args.file
 
       unless dump_file.present?
@@ -25,9 +29,11 @@ namespace :db do
         exit(1)
       end
 
-      sh (with_config do |_db_name, connection_opts|
-        "PGPASSWORD=$DB_PASSWORD psql -q #{connection_opts} -f #{dump_file}"
-      end)
+      shell_working "importing static data dump file #{dump_file}" do
+        system (with_config do |_db_name, connection_opts|
+          "PGPASSWORD=$DB_PASSWORD psql -q -P pager=off #{connection_opts} -f #{dump_file} >/dev/null"
+        end)
+      end
     end
   end
 
@@ -54,7 +60,7 @@ namespace :db do
 
   desc 'Dumps a backup of the database'
   task :dump => :environment do
-    sh (with_config do |db_name, connection_opts|
+    system (with_config do |db_name, connection_opts|
       "PGPASSWORD=$DB_PASSWORD pg_dump -v -O -x -w #{connection_opts} -f #{Time.now.strftime('%Y%m%d%H%M%S')}_#{db_name}.psql"
     end)
   end
@@ -66,15 +72,15 @@ namespace :db do
     exclusions = excluded_tables.map { |table| "--exclude-table-data #{table}" }.join(' ')
     filename = args.file || "#{Time.now.strftime('%Y%m%d%H%M%S')}_dump.psql"
 
-    sh (with_config do |_db_name, connection_opts|
-      "PGPASSWORD=$DB_PASSWORD pg_dump -O -x -w #{exclusions} #{connection_opts} -f #{filename}"
-    end)
+    shell_working 'exporting unanonymised database data' do
+      system (with_config do |_db_name, connection_opts|
+        "PGPASSWORD=$DB_PASSWORD pg_dump -O -x -w #{exclusions} #{connection_opts} -f #{filename}"
+      end)
+    end
 
     # The following will export the previously excluded tables data, in an anonymised way
     excluded_tables.each do |table|
       task_name = "db:dump:#{table}"
-      puts "Executing task #{task_name}"
-
       Rake::Task[task_name].invoke(filename)
     end
 
@@ -87,9 +93,11 @@ namespace :db do
 
     translation = [('a'..'z'), ('A'..'Z')].map(&:to_a).map(&:shuffle).join
 
-    sh (with_config do |_db_name, connection_opts|
-      "PGPASSWORD=$DB_PASSWORD psql -v translation=\\'#{translation}\\' #{connection_opts} -f #{Rails.root}/db/data/anonymise_db.sql"
-    end)
+    shell_working "anonymising data in place" do
+      system (with_config do |_db_name, connection_opts|
+        "PGPASSWORD=$DB_PASSWORD psql -v translation=\\'#{translation}\\' #{connection_opts} -f #{Rails.root}/db/data/anonymise_db.sql"
+      end)
+    end
   end
 
   desc 'Restores the database from a backup'
@@ -114,87 +122,108 @@ namespace :db do
       dump_file = dump_file[0..-4]
     end
 
-    sh (with_config do |_db_name, connection_opts|
-      "PGPASSWORD=$DB_PASSWORD psql #{connection_opts} -c \"drop schema public cascade\""
-    end)
-    sh (with_config do |_db_name, connection_opts|
-      "PGPASSWORD=$DB_PASSWORD psql #{connection_opts} -c \"create schema public\""
-    end)
-    sh (with_config do |_db_name, connection_opts|
-      "PGPASSWORD=$DB_PASSWORD psql -q #{connection_opts} -f #{dump_file}"
-    end)
+    shell_working 'recreating schema' do
+      system (with_config do |_db_name, connection_opts|
+          "PGPASSWORD=$DB_PASSWORD psql -q -P pager=off #{connection_opts} -c \"drop schema public cascade\""
+        end)
+      system (with_config do |_db_name, connection_opts|
+        "PGPASSWORD=$DB_PASSWORD psql -q -P pager=off #{connection_opts} -c \"create schema public\""
+      end)
+    end
+
+    shell_working "importing dump file #{dump_file}" do
+      system (with_config do |_db_name, connection_opts|
+        "PGPASSWORD=$DB_PASSWORD psql -q -P pager=off #{connection_opts} -f #{dump_file} > /dev/null"
+      end)
+    end
+
   end
 
   namespace :dump do
     desc 'Export anonymised providers data'
-    task :providers, [:file] => :environment do |_task, args|
-      write_to_file(args.file) do |writer|
-        Provider.find_each(batch_size: 50) do |provider|
-          provider.name = [Faker::Company.name, provider.id].join(' ')
-          writer.call(provider)
+    task :providers, [:file] => :environment do |task, args|
+      shell_working "exporting anonymised #{task.name.split(':').last} data" do
+        write_to_file(args.file) do |writer|
+          Provider.find_each(batch_size: 50) do |provider|
+            provider.name = [Faker::Company.name, provider.id].join(' ')
+            writer.call(provider)
+          end
         end
       end
     end
 
     desc 'Export anonymised defendants data'
-    task :defendants, [:file] => :environment do |_task, args|
-      write_to_file(args.file) do |writer|
-        Defendant.find_each(batch_size: 50) do |defendant|
-          defendant.first_name = Faker::Name.first_name
-          defendant.last_name  = Faker::Name.last_name
-          writer.call(defendant)
+    task :defendants, [:file] => :environment do |task, args|
+      shell_working "exporting anonymised #{task.name.split(':').last} data" do
+        write_to_file(args.file) do |writer|
+          Defendant.find_each(batch_size: 50) do |defendant|
+            defendant.first_name = Faker::Name.first_name
+            defendant.last_name  = Faker::Name.last_name
+            writer.call(defendant)
+          end
         end
       end
     end
 
     desc 'Export anonymised users data'
-    task :users, [:file] => :environment do |_task, args|
-      whitelist_domains = %w(example.com agfslgfs.com)
+    task :users, [:file] => :environment do |task, args|
+      shell_working "exporting anonymised #{task.name.split(':').last} data" do
+        whitelist_domains = %w(example.com agfslgfs.com)
 
-      write_to_file(args.file) do |writer|
-        User.find_each(batch_size: 50) do |user|
-          user.encrypted_password = '$2a$10$r4CicQylcCuq34E1fysqEuRlWRN4tiTPUOHwksecXT.hbkukPN5F2'
+        write_to_file(args.file) do |writer|
+          User.find_each(batch_size: 50) do |user|
+            user.encrypted_password = '$2a$10$r4CicQylcCuq34E1fysqEuRlWRN4tiTPUOHwksecXT.hbkukPN5F2'
 
-          unless whitelist_domains.detect { |domain| user.email.end_with?(domain) }
-            user.first_name = Faker::Name.first_name
-            user.last_name  = Faker::Name.last_name
-            user.email = [user.id, '@', 'example.com'].join
+            unless whitelist_domains.detect { |domain| user.email.end_with?(domain) }
+              user.first_name = Faker::Name.first_name
+              user.last_name  = Faker::Name.last_name
+              user.email = [user.id, '@', 'example.com'].join
+            end
+
+            writer.call(user)
           end
-
-          writer.call(user)
         end
       end
     end
 
     desc 'Export anonymised messages data'
-    task :messages, [:file] => :environment do |_task, args|
-      write_to_file(args.file) do |writer|
-        Message.find_each(batch_size: 50) do |message|
-          message.body = Faker::Lorem.sentence(6, false, 10)
-          if message.attachment_file_name.present?
-            message.attachment_file_name = fake_attachment_file_name(message.attachment_file_name)
+    task :messages, [:file] => :environment do |task, args|
+      shell_working "exporting anonymised #{task.name.split(':').last} data" do
+        write_to_file(args.file) do |writer|
+          Message.find_each(batch_size: 50) do |message|
+            message.body = Faker::Lorem.sentence(6, false, 10)
+            if message.attachment_file_name.present?
+              message.attachment_file_name = fake_attachment_file_name(message.attachment_file_name)
+            end
+            writer.call(message)
           end
-          writer.call(message)
         end
       end
     end
 
     desc 'Export anonymised document data'
-    task :documents, [:file] => :environment do |_task, args|
-      write_to_file(args.file) do |writer|
-        Document.find_each(batch_size: 100) do |document|
-          with_file_name(fake_attachment_file_name(document.document_file_name)) do |file_name, ext|
-            document.document_file_name = "#{file_name}.#{ext}"
-            document.converted_preview_document_file_name = "#{file_name}#{ '.' + ext unless ext == 'pdf' }.pdf"
+    task :documents, [:file] => :environment do |task, args|
+      shell_working "exporting anonymised #{task.name.split(':').last} data" do
+        write_to_file(args.file) do |writer|
+          Document.find_each(batch_size: 100) do |document|
+            with_file_name(fake_attachment_file_name(document.document_file_name)) do |file_name, ext|
+              document.document_file_name = "#{file_name}.#{ext}"
+              document.converted_preview_document_file_name = "#{file_name}#{ '.' + ext unless ext == 'pdf' }.pdf"
+            end
+            writer.call(document)
           end
-          writer.call(document)
         end
       end
     end
-
   end
 
   private
+
+  def shell_working message = 'working', &block
+    ShellSpinner message do
+      yield
+    end
+  end
 
   def production_protected
     raise 'This operation was aborted because the result might destroy production data' if ActiveRecord::Base.connection_config[:database] =~ /gamma/
@@ -217,7 +246,6 @@ namespace :db do
 
   def write_to_file(name)
     file_name = name || 'anonymised_data.sql'
-    puts 'Writing anonymised data to %s' % file_name
 
     open(file_name, 'a') do |file|
       yield ->(model) do
@@ -227,13 +255,15 @@ namespace :db do
   end
 
   def compress_file(filename)
-    puts 'Compressing file...'
-    sh "gzip #{filename}"
+    shell_working "compressing file #{filename}" do
+      system "gzip #{filename}"
+    end
   end
 
   def decompress_file(filename)
-    puts 'Decompressing file...'
-    sh "gzip -d #{filename}"
+    shell_working "decompressing file #{filename}" do
+      system "gzip -d #{filename}"
+    end
   end
 
   def static_tables

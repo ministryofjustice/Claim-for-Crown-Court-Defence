@@ -91,8 +91,6 @@ namespace :db do
   task :anonymise => :environment do
     production_protected
 
-    translation = [('a'..'z'), ('A'..'Z')].map(&:to_a).map(&:shuffle).join
-
     shell_working "anonymising data in place" do
       system (with_config do |_db_name, connection_opts|
         "PGPASSWORD=$DB_PASSWORD psql -v translation=\\'#{translation}\\' #{connection_opts} -f #{Rails.root}/db/data/anonymise_db.sql"
@@ -192,7 +190,7 @@ namespace :db do
           Message.find_each(batch_size: batch_size) do |message|
             message.body = Faker::Lorem.sentence(6, false, 10)
             if message.attachment_file_name.present?
-              message.attachment_file_name = fake_attachment_file_name(message.attachment_file_name)
+              message.attachment_file_name = fake_file_name(message.attachment_file_name)
             end
             writer.call(message)
           end
@@ -205,7 +203,7 @@ namespace :db do
       shell_working "exporting anonymised #{task.name.split(':').last} data" do
         write_to_file(args.file) do |writer|
           Document.find_each(batch_size: batch_size) do |document|
-            with_file_name(fake_attachment_file_name(document.document_file_name)) do |file_name, ext|
+            with_file_name(fake_file_name(document.document_file_name)) do |file_name, ext|
               document.document_file_name = "#{file_name}.#{ext}"
               document.converted_preview_document_file_name = "#{file_name}#{ '.' + ext unless ext == 'pdf' }.pdf"
               document.file_path = "/s3/path/to/#{file_name}.#{ext}"
@@ -221,9 +219,8 @@ namespace :db do
       shell_working "exporting anonymised #{task.name.split(':').last} data" do
         write_to_file(args.file) do |writer|
           Claim::BaseClaim.find_each(batch_size: batch_size) do |claim|
-            if claim.additional_information.present?
-              claim.additional_information = Faker::Lorem.paragraphs(4).pop(rand(1..4)).join('\n')
-            end
+            claim.additional_information = fake_paragraphs if claim.additional_information.present?
+            claim.providers_ref = claim.providers_ref.tr('a-zA-Z', translation) if claim.providers_ref.present?
             writer.call(claim)
           end
         end
@@ -243,6 +240,10 @@ namespace :db do
     ShellSpinner message do
       yield
     end
+  end
+
+  def translation
+    [('a'..'z'), ('A'..'Z')].map(&:to_a).map(&:shuffle).join
   end
 
   def production_protected
@@ -289,7 +290,7 @@ namespace :db do
     '-t courts -t case_types -t disbursement_types -t expense_types -t fee_types -t offence_classes -t offences'
   end
 
-  def fake_attachment_file_name original_file_name
+  def fake_file_name original_file_name
     *file_parts, _last = Faker::File.file_name.gsub(/\//,'_').split('.')
     file_parts.join + '.' + original_file_name.split('.').last
   end
@@ -297,6 +298,10 @@ namespace :db do
   def with_file_name file_name, &block
     *file_name, ext = file_name.split('.')
     yield file_name.join, ext if block_given?
+  end
+
+  def fake_paragraphs max_paragraph_count=4
+    Faker::Lorem.paragraphs(max_paragraph_count).pop(rand(1..max_paragraph_count)).join('\n')
   end
 
 end

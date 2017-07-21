@@ -57,7 +57,8 @@ begin
 
   puts 'Downloading dump file %s from host %s' % [gzip_file_name, ssh_address]
   success = ssh.scp.download!("/home/#{ssh_user}/#{gzip_file_name}", '.') do |_channel, _name, sent, total|
-    puts "...downloading... #{sent}/#{total}... #{'done'.green}" if sent % 512_000 == 0
+    print "...downloading... #{sent.to_s.green}/#{total} \r" if sent % 8192 == 0
+    STDOUT.flush
   end
 
   puts 'File %{file} download... %{success}' % { file: gzip_file_name, success: success ? 'done'.green : 'fail'.red }

@@ -49,8 +49,9 @@ begin
   puts 'done'.green
 
   puts 'Uploading dump file %s to host %s' % [dump_file_name, ssh_address]
-  ssh.scp.upload!(dump_file_name, "/home/#{ssh_user}/#{dump_file_name}") do |_channel, _name, sent, total|
-    puts "...uploading... #{sent}/#{total}... #{'done'.green}" if sent % 512_000 == 0
+  ssh.scp.upload!(dump_file_name, "/home/#{ssh_user}/#{dump_file_name}" ) do |_channel, _name, sent, total|
+    print "...uploading... #{sent.to_s.green}/#{total} \r" if sent % 8192 == 0
+    STDOUT.flush
   end
 
   # Note: Docker 1.8 supports cp command to copy a file from the host to the container, but we are using a lower version

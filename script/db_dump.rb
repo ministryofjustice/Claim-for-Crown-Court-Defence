@@ -3,6 +3,7 @@
 require 'net/ssh' # gem install net-ssh
 require 'net/scp' # gem install net-scp
 require 'colorize'
+require 'shell-spinner'
 
 ENVIRONMENTS = {
   'dev' => %w(dev adp_dev_new),
@@ -41,30 +42,36 @@ def install_postgres(ssh)
 end
 
 begin
-  puts 'Connecting to host %s' % ssh_address
-  ssh = Net::SSH.start ssh_address, ssh_user
+  ShellSpinner 'Connecting to host %s' % ssh_address do
+    ssh = Net::SSH.start ssh_address, ssh_user
+  end
 
-  puts 'Installing postgresql in container...'
-  install_postgres ssh
+  ShellSpinner 'Installing postgresql in container' do
+    install_postgres ssh
+  end
 
-  puts 'Running task db:dump_anonymised...'
-  puts ssh.exec!("sudo docker exec advocatedefencepayments rake db:dump_anonymised[#{dump_file_name}]")
-  puts ssh.exec!("sudo docker cp advocatedefencepayments:/usr/src/app/#{gzip_file_name} ~/")
+  ShellSpinner 'Dumping database...' do
+    puts ssh.exec!("sudo docker exec advocatedefencepayments rake db:dump_anonymised[#{dump_file_name}]")
+    puts ssh.exec!("sudo docker cp advocatedefencepayments:/usr/src/app/#{gzip_file_name} ~/")
+  end
 
   puts 'Downloading dump file'
-  Net::SCP.download!(ssh_address, ssh_user, "/home/#{ssh_user}/#{gzip_file_name}", '.') do |_channel, _name, sent, total|
+  success = ssh.scp.download!("/home/#{ssh_user}/#{gzip_file_name}", '.') do |_channel, _name, sent, total|
     puts "...downloading... #{sent}/#{total}... #{'done'.green}" if sent % 512_000 == 0
   end
 
-  puts 'File %s downloaded' % gzip_file_name
+  puts 'File %{file} download %{success}' % { file: gzip_file_name, success: success ? 'success'.green : 'failure'.red }
 
 rescue Exception => e
   puts 'Usage: ./db_dump.rb username environment [IP]'
   puts e
 ensure
   if !ssh.closed?
-    puts 'Deleting remote compressed dump file... '
-    puts ssh.exec!("sudo docker exec advocatedefencepayments rm #{gzip_file_name}")
-    ssh.close
+    ShellSpinner 'Deleting remote compressed dump file' do
+      ssh.exec!("sudo docker exec advocatedefencepayments rm #{gzip_file_name}")
+    end
+    ShellSpinner 'Closing connection' do
+      ssh.close
+    end
   end
 end

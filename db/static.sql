@@ -2,11 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.0
--- Dumped by pg_dump version 9.5.0
+-- Dumped from database version 9.6.1
+-- Dumped by pg_dump version 9.6.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -18,9 +19,12 @@ SET search_path = public, pg_catalog;
 DROP INDEX public.index_offences_on_offence_class_id;
 DROP INDEX public.index_offence_classes_on_description;
 DROP INDEX public.index_offence_classes_on_class_letter;
+DROP INDEX public.index_fee_types_on_unique_code;
 DROP INDEX public.index_fee_types_on_description;
 DROP INDEX public.index_fee_types_on_code;
+DROP INDEX public.index_expense_types_on_unique_code;
 DROP INDEX public.index_expense_types_on_name;
+DROP INDEX public.index_disbursement_types_on_unique_code;
 DROP INDEX public.index_disbursement_types_on_name;
 DROP INDEX public.index_courts_on_name;
 DROP INDEX public.index_courts_on_court_type;
@@ -60,7 +64,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: case_types; Type: TABLE; Schema: public; Owner: stephenrichards
+-- Name: case_types; Type: TABLE; Schema: public; Owner: jsugarman
 --
 
 CREATE TABLE case_types (
@@ -79,10 +83,10 @@ CREATE TABLE case_types (
 );
 
 
-ALTER TABLE case_types OWNER TO stephenrichards;
+ALTER TABLE case_types OWNER TO jsugarman;
 
 --
--- Name: case_types_id_seq; Type: SEQUENCE; Schema: public; Owner: stephenrichards
+-- Name: case_types_id_seq; Type: SEQUENCE; Schema: public; Owner: jsugarman
 --
 
 CREATE SEQUENCE case_types_id_seq
@@ -93,17 +97,17 @@ CREATE SEQUENCE case_types_id_seq
     CACHE 1;
 
 
-ALTER TABLE case_types_id_seq OWNER TO stephenrichards;
+ALTER TABLE case_types_id_seq OWNER TO jsugarman;
 
 --
--- Name: case_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stephenrichards
+-- Name: case_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jsugarman
 --
 
 ALTER SEQUENCE case_types_id_seq OWNED BY case_types.id;
 
 
 --
--- Name: courts; Type: TABLE; Schema: public; Owner: stephenrichards
+-- Name: courts; Type: TABLE; Schema: public; Owner: jsugarman
 --
 
 CREATE TABLE courts (
@@ -116,10 +120,10 @@ CREATE TABLE courts (
 );
 
 
-ALTER TABLE courts OWNER TO stephenrichards;
+ALTER TABLE courts OWNER TO jsugarman;
 
 --
--- Name: courts_id_seq; Type: SEQUENCE; Schema: public; Owner: stephenrichards
+-- Name: courts_id_seq; Type: SEQUENCE; Schema: public; Owner: jsugarman
 --
 
 CREATE SEQUENCE courts_id_seq
@@ -130,17 +134,17 @@ CREATE SEQUENCE courts_id_seq
     CACHE 1;
 
 
-ALTER TABLE courts_id_seq OWNER TO stephenrichards;
+ALTER TABLE courts_id_seq OWNER TO jsugarman;
 
 --
--- Name: courts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stephenrichards
+-- Name: courts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jsugarman
 --
 
 ALTER SEQUENCE courts_id_seq OWNED BY courts.id;
 
 
 --
--- Name: disbursement_types; Type: TABLE; Schema: public; Owner: stephenrichards
+-- Name: disbursement_types; Type: TABLE; Schema: public; Owner: jsugarman
 --
 
 CREATE TABLE disbursement_types (
@@ -148,14 +152,15 @@ CREATE TABLE disbursement_types (
     name character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    unique_code character varying
 );
 
 
-ALTER TABLE disbursement_types OWNER TO stephenrichards;
+ALTER TABLE disbursement_types OWNER TO jsugarman;
 
 --
--- Name: disbursement_types_id_seq; Type: SEQUENCE; Schema: public; Owner: stephenrichards
+-- Name: disbursement_types_id_seq; Type: SEQUENCE; Schema: public; Owner: jsugarman
 --
 
 CREATE SEQUENCE disbursement_types_id_seq
@@ -166,17 +171,17 @@ CREATE SEQUENCE disbursement_types_id_seq
     CACHE 1;
 
 
-ALTER TABLE disbursement_types_id_seq OWNER TO stephenrichards;
+ALTER TABLE disbursement_types_id_seq OWNER TO jsugarman;
 
 --
--- Name: disbursement_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stephenrichards
+-- Name: disbursement_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jsugarman
 --
 
 ALTER SEQUENCE disbursement_types_id_seq OWNED BY disbursement_types.id;
 
 
 --
--- Name: expense_types; Type: TABLE; Schema: public; Owner: stephenrichards
+-- Name: expense_types; Type: TABLE; Schema: public; Owner: jsugarman
 --
 
 CREATE TABLE expense_types (
@@ -185,14 +190,15 @@ CREATE TABLE expense_types (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     roles character varying,
-    reason_set character varying
+    reason_set character varying,
+    unique_code character varying
 );
 
 
-ALTER TABLE expense_types OWNER TO stephenrichards;
+ALTER TABLE expense_types OWNER TO jsugarman;
 
 --
--- Name: expense_types_id_seq; Type: SEQUENCE; Schema: public; Owner: stephenrichards
+-- Name: expense_types_id_seq; Type: SEQUENCE; Schema: public; Owner: jsugarman
 --
 
 CREATE SEQUENCE expense_types_id_seq
@@ -203,17 +209,17 @@ CREATE SEQUENCE expense_types_id_seq
     CACHE 1;
 
 
-ALTER TABLE expense_types_id_seq OWNER TO stephenrichards;
+ALTER TABLE expense_types_id_seq OWNER TO jsugarman;
 
 --
--- Name: expense_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stephenrichards
+-- Name: expense_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jsugarman
 --
 
 ALTER SEQUENCE expense_types_id_seq OWNED BY expense_types.id;
 
 
 --
--- Name: fee_types; Type: TABLE; Schema: public; Owner: stephenrichards
+-- Name: fee_types; Type: TABLE; Schema: public; Owner: jsugarman
 --
 
 CREATE TABLE fee_types (
@@ -227,14 +233,15 @@ CREATE TABLE fee_types (
     type character varying,
     roles character varying,
     parent_id integer,
-    quantity_is_decimal boolean DEFAULT false
+    quantity_is_decimal boolean DEFAULT false,
+    unique_code character varying
 );
 
 
-ALTER TABLE fee_types OWNER TO stephenrichards;
+ALTER TABLE fee_types OWNER TO jsugarman;
 
 --
--- Name: fee_types_id_seq; Type: SEQUENCE; Schema: public; Owner: stephenrichards
+-- Name: fee_types_id_seq; Type: SEQUENCE; Schema: public; Owner: jsugarman
 --
 
 CREATE SEQUENCE fee_types_id_seq
@@ -245,17 +252,17 @@ CREATE SEQUENCE fee_types_id_seq
     CACHE 1;
 
 
-ALTER TABLE fee_types_id_seq OWNER TO stephenrichards;
+ALTER TABLE fee_types_id_seq OWNER TO jsugarman;
 
 --
--- Name: fee_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stephenrichards
+-- Name: fee_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jsugarman
 --
 
 ALTER SEQUENCE fee_types_id_seq OWNED BY fee_types.id;
 
 
 --
--- Name: offence_classes; Type: TABLE; Schema: public; Owner: stephenrichards
+-- Name: offence_classes; Type: TABLE; Schema: public; Owner: jsugarman
 --
 
 CREATE TABLE offence_classes (
@@ -267,10 +274,10 @@ CREATE TABLE offence_classes (
 );
 
 
-ALTER TABLE offence_classes OWNER TO stephenrichards;
+ALTER TABLE offence_classes OWNER TO jsugarman;
 
 --
--- Name: offence_classes_id_seq; Type: SEQUENCE; Schema: public; Owner: stephenrichards
+-- Name: offence_classes_id_seq; Type: SEQUENCE; Schema: public; Owner: jsugarman
 --
 
 CREATE SEQUENCE offence_classes_id_seq
@@ -281,17 +288,17 @@ CREATE SEQUENCE offence_classes_id_seq
     CACHE 1;
 
 
-ALTER TABLE offence_classes_id_seq OWNER TO stephenrichards;
+ALTER TABLE offence_classes_id_seq OWNER TO jsugarman;
 
 --
--- Name: offence_classes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stephenrichards
+-- Name: offence_classes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jsugarman
 --
 
 ALTER SEQUENCE offence_classes_id_seq OWNED BY offence_classes.id;
 
 
 --
--- Name: offences; Type: TABLE; Schema: public; Owner: stephenrichards
+-- Name: offences; Type: TABLE; Schema: public; Owner: jsugarman
 --
 
 CREATE TABLE offences (
@@ -303,10 +310,10 @@ CREATE TABLE offences (
 );
 
 
-ALTER TABLE offences OWNER TO stephenrichards;
+ALTER TABLE offences OWNER TO jsugarman;
 
 --
--- Name: offences_id_seq; Type: SEQUENCE; Schema: public; Owner: stephenrichards
+-- Name: offences_id_seq; Type: SEQUENCE; Schema: public; Owner: jsugarman
 --
 
 CREATE SEQUENCE offences_id_seq
@@ -317,370 +324,372 @@ CREATE SEQUENCE offences_id_seq
     CACHE 1;
 
 
-ALTER TABLE offences_id_seq OWNER TO stephenrichards;
+ALTER TABLE offences_id_seq OWNER TO jsugarman;
 
 --
--- Name: offences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: stephenrichards
+-- Name: offences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jsugarman
 --
 
 ALTER SEQUENCE offences_id_seq OWNED BY offences.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stephenrichards
+-- Name: case_types id; Type: DEFAULT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY case_types ALTER COLUMN id SET DEFAULT nextval('case_types_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stephenrichards
+-- Name: courts id; Type: DEFAULT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY courts ALTER COLUMN id SET DEFAULT nextval('courts_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stephenrichards
+-- Name: disbursement_types id; Type: DEFAULT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY disbursement_types ALTER COLUMN id SET DEFAULT nextval('disbursement_types_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stephenrichards
+-- Name: expense_types id; Type: DEFAULT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY expense_types ALTER COLUMN id SET DEFAULT nextval('expense_types_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stephenrichards
+-- Name: fee_types id; Type: DEFAULT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY fee_types ALTER COLUMN id SET DEFAULT nextval('fee_types_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stephenrichards
+-- Name: offence_classes id; Type: DEFAULT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY offence_classes ALTER COLUMN id SET DEFAULT nextval('offence_classes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: stephenrichards
+-- Name: offences id; Type: DEFAULT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY offences ALTER COLUMN id SET DEFAULT nextval('offences_id_seq'::regclass);
 
 
 --
--- Data for Name: case_types; Type: TABLE DATA; Schema: public; Owner: stephenrichards
+-- Data for Name: case_types; Type: TABLE DATA; Schema: public; Owner: jsugarman
 --
 
 COPY case_types (id, name, is_fixed_fee, created_at, updated_at, requires_cracked_dates, requires_trial_dates, allow_pcmh_fee_type, requires_maat_reference, requires_retrial_dates, roles, fee_type_code) FROM stdin;
-6	Cracked Trial	f	2015-11-05 17:08:47.235611	2016-04-11 18:04:55.666598	t	f	t	t	f	---\n- agfs\n- lgfs\n	GCRAK
-7	Cracked before retrial	f	2015-11-05 17:08:47.244617	2016-04-11 18:04:55.674958	t	f	t	t	f	---\n- agfs\n- lgfs\n	GCBR
-8	Discontinuance	f	2015-11-05 17:08:47.250605	2016-04-11 18:04:55.681784	f	f	t	t	f	---\n- agfs\n- lgfs\n	GDIS
-10	Guilty plea	f	2015-11-05 17:08:47.261211	2016-04-11 18:04:55.693964	f	f	t	t	f	---\n- agfs\n- lgfs\n	GGLTY
-1	Appeal against conviction	t	2015-11-05 17:08:47.199514	2016-04-13 09:00:27.652868	f	f	f	t	f	---\n- agfs\n- lgfs\n	ACV
-2	Appeal against sentence	t	2015-11-05 17:08:47.210504	2016-04-13 09:00:27.785237	f	f	f	t	f	---\n- agfs\n- lgfs\n	ASE
-3	Breach of Crown Court order	t	2015-11-05 17:08:47.219069	2016-04-13 09:00:27.899525	f	f	f	f	f	---\n- agfs\n- lgfs\n	CBR
-4	Committal for Sentence	t	2015-11-05 17:08:47.224707	2016-04-13 09:00:27.924834	f	f	f	t	f	---\n- agfs\n- lgfs\n	CSE
-5	Contempt	t	2015-11-05 17:08:47.23016	2016-04-13 09:00:27.963218	f	f	f	t	f	---\n- agfs\n- lgfs\n	ZCON
-9	Elected cases not proceeded	t	2015-11-05 17:08:47.255779	2016-04-13 09:00:27.983597	f	f	f	t	f	---\n- agfs\n- lgfs\n	ENP
-13	Hearing subsequent to sentence	t	2016-03-07 14:14:11.272429	2016-04-13 09:00:28.003402	f	f	f	t	f	---\n- lgfs\n	XH2S
-11	Retrial	f	2015-11-05 17:08:47.266609	2016-04-15 16:14:22.944989	f	t	t	t	t	---\n- agfs\n- lgfs\n- interim\n	GRTR
-12	Trial	f	2015-11-05 17:08:47.271658	2016-04-15 16:14:22.954153	f	t	t	t	f	---\n- agfs\n- lgfs\n- interim\n	GTRL
+1	Appeal against conviction	t	2015-11-05 17:08:47.199514	2016-11-16 21:08:57.879283	f	f	f	t	f	---\n- agfs\n- lgfs\n	FXACV
+2	Appeal against sentence	t	2015-11-05 17:08:47.210504	2016-11-16 21:08:57.887074	f	f	f	t	f	---\n- agfs\n- lgfs\n	FXASE
+3	Breach of Crown Court order	t	2015-11-05 17:08:47.219069	2016-11-16 21:08:57.892635	f	f	f	f	f	---\n- agfs\n- lgfs\n	FXCBR
+4	Committal for Sentence	t	2015-11-05 17:08:47.224707	2016-11-16 21:08:57.898122	f	f	f	t	f	---\n- agfs\n- lgfs\n	FXCSE
+5	Contempt	t	2015-11-05 17:08:47.23016	2016-11-16 21:08:57.903938	f	f	f	t	f	---\n- agfs\n- lgfs\n	FXCON
+7	Cracked before retrial	f	2015-11-05 17:08:47.244617	2016-11-16 21:08:57.913832	t	f	t	t	f	---\n- agfs\n- lgfs\n	GRCBR
+6	Cracked Trial	f	2015-11-05 17:08:47.235611	2016-11-16 21:08:57.923151	t	f	t	t	f	---\n- agfs\n- lgfs\n	GRRAK
+8	Discontinuance	f	2015-11-05 17:08:47.250605	2016-11-16 21:08:57.929683	f	f	t	t	f	---\n- agfs\n- lgfs\n	GRDIS
+9	Elected cases not proceeded	t	2015-11-05 17:08:47.255779	2016-11-16 21:08:57.93977	f	f	f	t	f	---\n- agfs\n- lgfs\n	FXENP
+10	Guilty plea	f	2015-11-05 17:08:47.261211	2016-11-16 21:08:57.946892	f	f	t	t	f	---\n- agfs\n- lgfs\n	GRGLT
+13	Hearing subsequent to sentence	t	2016-03-07 14:14:11.272429	2016-11-16 21:08:57.952213	f	f	f	t	f	---\n- lgfs\n	FXH2S
+11	Retrial	f	2015-11-05 17:08:47.266609	2016-11-16 21:08:57.95757	f	t	t	t	t	---\n- agfs\n- lgfs\n- interim\n	GRRTR
+12	Trial	f	2015-11-05 17:08:47.271658	2016-11-16 21:08:57.966196	f	t	t	t	f	---\n- agfs\n- lgfs\n- interim\n	GRTRL
 \.
 
 
 --
--- Name: case_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: stephenrichards
+-- Name: case_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jsugarman
 --
 
 SELECT pg_catalog.setval('case_types_id_seq', 18, true);
 
 
 --
--- Data for Name: courts; Type: TABLE DATA; Schema: public; Owner: stephenrichards
+-- Data for Name: courts; Type: TABLE DATA; Schema: public; Owner: jsugarman
 --
 
 COPY courts (id, code, name, court_type, created_at, updated_at) FROM stdin;
-1	401	Aylesbury Crown	crown	2015-11-05 17:08:58.325451	2015-11-05 17:08:58.325451
-2	461	Basildon Crown	crown	2015-11-05 17:08:58.334104	2015-11-05 17:08:58.334104
-3	404	Birmingham Crown	crown	2015-11-05 17:08:58.343619	2015-11-05 17:08:58.343619
-4	428	Blackfriars Crown	crown	2015-11-05 17:08:58.351145	2015-11-05 17:08:58.351145
-5	470	Bolton Crown	crown	2015-11-05 17:08:58.357962	2015-11-05 17:08:58.357962
-6	406	Bournemouth Crown	crown	2015-11-05 17:08:58.365284	2015-11-05 17:08:58.365284
-7	402	Bradford Crown	crown	2015-11-05 17:08:58.372473	2015-11-05 17:08:58.372473
-8	408	Bristol Crown	crown	2015-11-05 17:08:58.379317	2015-11-05 17:08:58.379317
-9	409	Burnley Crown	crown	2015-11-05 17:08:58.38619	2015-11-05 17:08:58.38619
-10	410	Cambridge Crown	crown	2015-11-05 17:08:58.393143	2015-11-05 17:08:58.393143
-11	479	Canterbury Crown	crown	2015-11-05 17:08:58.39991	2015-11-05 17:08:58.39991
-12	411	Cardiff Crown	crown	2015-11-05 17:08:58.406873	2015-11-05 17:08:58.406873
-13	412	Carlisle Crown	crown	2015-11-05 17:08:58.413741	2015-11-05 17:08:58.413741
 14	413	Central Criminal Court	crown	2015-11-05 17:08:58.42062	2015-11-05 17:08:58.42062
-15	414	Chelmsford Crown	crown	2015-11-05 17:08:58.427502	2015-11-05 17:08:58.427502
-16	415	Chester Crown	crown	2015-11-05 17:08:58.438436	2015-11-05 17:08:58.438436
-17	416	Chichester Crown	crown	2015-11-05 17:08:58.446535	2015-11-05 17:08:58.446535
-18	417	Coventry Crown	crown	2015-11-05 17:08:58.453322	2015-11-05 17:08:58.453322
-19	418	Croydon Crown	crown	2015-11-05 17:08:58.464903	2015-11-05 17:08:58.464903
-20	419	Derby Crown	crown	2015-11-05 17:08:58.477206	2015-11-05 17:08:58.477206
-21	420	Doncaster Crown	crown	2015-11-05 17:08:58.484357	2015-11-05 17:08:58.484357
-22	422	Durham Crown	crown	2015-11-05 17:08:58.491233	2015-11-05 17:08:58.491233
-23	423	Exeter Crown	crown	2015-11-05 17:08:58.498042	2015-11-05 17:08:58.498042
-24	424	Gloucester Crown	crown	2015-11-05 17:08:58.504933	2015-11-05 17:08:58.504933
-25	425	Grimsby Crown	crown	2015-11-05 17:08:58.511864	2015-11-05 17:08:58.511864
-26	474	Guildford Crown	crown	2015-11-05 17:08:58.51866	2015-11-05 17:08:58.51866
-27	468	Harrow Crown	crown	2015-11-05 17:08:58.525484	2015-11-05 17:08:58.525484
-28	403	Hull Crown	crown	2015-11-05 17:08:58.532306	2015-11-05 17:08:58.532306
-29	440	Inner London Crown	crown	2015-11-05 17:08:58.539214	2015-11-05 17:08:58.539214
-30	426	Ipswich Crown	crown	2015-11-05 17:08:58.54696	2015-11-05 17:08:58.54696
-31	475	Isleworth Crown	crown	2015-11-05 17:08:58.553975	2015-11-05 17:08:58.553975
-32	427	Kingston Upon Thames Crown	crown	2015-11-05 17:08:58.561611	2015-11-05 17:08:58.561611
-33	429	Leeds Crown	crown	2015-11-05 17:08:58.568658	2015-11-05 17:08:58.568658
-34	430	Leicester Crown	crown	2015-11-05 17:08:58.575427	2015-11-05 17:08:58.575427
-35	431	Lewes Crown	crown	2015-11-05 17:08:58.582482	2015-11-05 17:08:58.582482
-36	432	Lincoln Crown	crown	2015-11-05 17:08:58.589428	2015-11-05 17:08:58.589428
-37	433	Liverpool Crown	crown	2015-11-05 17:08:58.596454	2015-11-05 17:08:58.596454
-38	476	Luton Crown	crown	2015-11-05 17:08:58.603284	2015-11-05 17:08:58.603284
-39	434	Maidstone Crown	crown	2015-11-05 17:08:58.610526	2015-11-05 17:08:58.610526
 40	435	Manchester (Crown Sq)	crown	2015-11-05 17:08:58.626881	2015-11-05 17:08:58.626881
 41	436	Manchester (Minshull St)	crown	2015-11-05 17:08:58.634163	2015-11-05 17:08:58.634163
-42	437	Merthyr Tydfil Crown	crown	2015-11-05 17:08:58.641164	2015-11-05 17:08:58.641164
-43	464	Middx Guildhall Crown	crown	2015-11-05 17:08:58.648919	2015-11-05 17:08:58.648919
-44	438	Mold Crown	crown	2015-11-05 17:08:58.656825	2015-11-05 17:08:58.656825
-45	439	Newcastle Crown	crown	2015-11-05 17:08:58.663693	2015-11-05 17:08:58.663693
-46	478	Newport (IOW) Crown	crown	2015-11-05 17:08:58.670794	2015-11-05 17:08:58.670794
-47	441	Newport Crown	crown	2015-11-05 17:08:58.677755	2015-11-05 17:08:58.677755
-48	442	Northampton Crown	crown	2015-11-05 17:08:58.684533	2015-11-05 17:08:58.684533
-49	443	Norwich Crown	crown	2015-11-05 17:08:58.691748	2015-11-05 17:08:58.691748
-50	444	Nottingham Crown	crown	2015-11-05 17:08:58.698722	2015-11-05 17:08:58.698722
-51	445	Oxford Crown	crown	2015-11-05 17:08:58.705442	2015-11-05 17:08:58.705442
-52	473	Peterborough Crown	crown	2015-11-05 17:08:58.712197	2015-11-05 17:08:58.712197
-53	446	Plymouth Crown	crown	2015-11-05 17:08:58.718861	2015-11-05 17:08:58.718861
-54	447	Portsmouth Crown	crown	2015-11-05 17:08:58.725814	2015-11-05 17:08:58.725814
-55	448	Preston Crown	crown	2015-11-05 17:08:58.732472	2015-11-05 17:08:58.732472
-56	449	Reading Crown	crown	2015-11-05 17:08:58.739178	2015-11-05 17:08:58.739178
-57	480	Salisbury Crown	crown	2015-11-05 17:08:58.745889	2015-11-05 17:08:58.745889
-58	451	Sheffield Crown	crown	2015-11-05 17:08:58.753564	2015-11-05 17:08:58.753564
-59	452	Shrewsbury Crown	crown	2015-11-05 17:08:58.760491	2015-11-05 17:08:58.760491
-60	453	Snaresbrook Crown	crown	2015-11-05 17:08:58.767362	2015-11-05 17:08:58.767362
-61	454	Southampton Crown	crown	2015-11-05 17:08:58.774262	2015-11-05 17:08:58.774262
-62	471	Southwark Crown	crown	2015-11-05 17:08:58.781267	2015-11-05 17:08:58.781267
-63	450	St Albans Crown	crown	2015-11-05 17:08:58.788172	2015-11-05 17:08:58.788172
-64	455	Stafford Crown	crown	2015-11-05 17:08:58.795058	2015-11-05 17:08:58.795058
-65	456	Stoke on Trent Crown	crown	2015-11-05 17:08:58.802197	2015-11-05 17:08:58.802197
-66	457	Swansea Crown	crown	2015-11-05 17:08:58.809083	2015-11-05 17:08:58.809083
-67	458	Swindon Crown	crown	2015-11-05 17:08:58.815912	2015-11-05 17:08:58.815912
-68	459	Taunton Crown	crown	2015-11-05 17:08:58.82268	2015-11-05 17:08:58.82268
-70	477	Truro Crown	crown	2015-11-05 17:08:58.836661	2015-11-05 17:08:58.836661
-71	462	Warrington Crown	crown	2015-11-05 17:08:58.843749	2015-11-05 17:08:58.843749
-72	463	Warwick Crown	crown	2015-11-05 17:08:58.852016	2015-11-05 17:08:58.852016
-73	407	Weymouth and Dorcester Crown	crown	2015-11-05 17:08:58.858979	2015-11-05 17:08:58.858979
-74	465	Winchester Crown	crown	2015-11-05 17:08:58.866048	2015-11-05 17:08:58.866048
-75	421	Wolverhampton Crown	crown	2015-11-05 17:08:58.873088	2015-11-05 17:08:58.873088
-76	469	Wood Green Crown	crown	2015-11-05 17:08:58.88056	2015-11-05 17:08:58.88056
-77	472	Woolwich Crown	crown	2015-11-05 17:08:58.887601	2015-11-05 17:08:58.887601
-78	466	Worcester Crown	crown	2015-11-05 17:08:58.894692	2015-11-05 17:08:58.894692
-79	467	York Crown	crown	2015-11-05 17:08:58.901684	2015-11-05 17:08:58.901684
-69	460	Teesside Crown	crown	2015-11-05 17:08:58.829451	2015-11-05 17:08:58.829451
+1	401	Aylesbury	crown	2015-11-05 17:08:58.325451	2016-12-19 10:57:51.849036
+2	461	Basildon	crown	2015-11-05 17:08:58.334104	2016-12-19 10:57:51.857701
+3	404	Birmingham	crown	2015-11-05 17:08:58.343619	2016-12-19 10:57:51.862842
+4	428	Blackfriars	crown	2015-11-05 17:08:58.351145	2016-12-19 10:57:51.867737
+5	470	Bolton	crown	2015-11-05 17:08:58.357962	2016-12-19 10:57:51.872579
+6	406	Bournemouth	crown	2015-11-05 17:08:58.365284	2016-12-19 10:57:51.877698
+7	402	Bradford	crown	2015-11-05 17:08:58.372473	2016-12-19 10:57:51.883357
+8	408	Bristol	crown	2015-11-05 17:08:58.379317	2016-12-19 10:57:51.8887
+9	409	Burnley	crown	2015-11-05 17:08:58.38619	2016-12-19 10:57:51.893893
+10	410	Cambridge	crown	2015-11-05 17:08:58.393143	2016-12-19 10:57:51.898747
+11	479	Canterbury	crown	2015-11-05 17:08:58.39991	2016-12-19 10:57:51.903713
+12	411	Cardiff	crown	2015-11-05 17:08:58.406873	2016-12-19 10:57:51.908588
+13	412	Carlisle	crown	2015-11-05 17:08:58.413741	2016-12-19 10:57:51.916106
+15	414	Chelmsford	crown	2015-11-05 17:08:58.427502	2016-12-19 10:57:51.92443
+16	415	Chester	crown	2015-11-05 17:08:58.438436	2016-12-19 10:57:51.929454
+17	416	Chichester	crown	2015-11-05 17:08:58.446535	2016-12-19 10:57:51.934399
+18	417	Coventry	crown	2015-11-05 17:08:58.453322	2016-12-19 10:57:51.939758
+19	418	Croydon	crown	2015-11-05 17:08:58.464903	2016-12-19 10:57:51.945613
+20	419	Derby	crown	2015-11-05 17:08:58.477206	2016-12-19 10:57:51.951313
+21	420	Doncaster	crown	2015-11-05 17:08:58.484357	2016-12-19 10:57:51.956329
+22	422	Durham	crown	2015-11-05 17:08:58.491233	2016-12-19 10:57:51.961588
+23	423	Exeter	crown	2015-11-05 17:08:58.498042	2016-12-19 10:57:51.967128
+24	424	Gloucester	crown	2015-11-05 17:08:58.504933	2016-12-19 10:57:51.972437
+25	425	Grimsby	crown	2015-11-05 17:08:58.511864	2016-12-19 10:57:51.977749
+26	474	Guildford	crown	2015-11-05 17:08:58.51866	2016-12-19 10:57:51.982836
+27	468	Harrow	crown	2015-11-05 17:08:58.525484	2016-12-19 10:57:51.988098
+28	403	Hull	crown	2015-11-05 17:08:58.532306	2016-12-19 10:57:51.993419
+29	440	Inner London	crown	2015-11-05 17:08:58.539214	2016-12-19 10:57:51.998473
+30	426	Ipswich	crown	2015-11-05 17:08:58.54696	2016-12-19 10:57:52.003434
+31	475	Isleworth	crown	2015-11-05 17:08:58.553975	2016-12-19 10:57:52.008916
+32	427	Kingston Upon Thames	crown	2015-11-05 17:08:58.561611	2016-12-19 10:57:52.014078
+33	429	Leeds	crown	2015-11-05 17:08:58.568658	2016-12-19 10:57:52.023191
+34	430	Leicester	crown	2015-11-05 17:08:58.575427	2016-12-19 10:57:52.028206
+35	431	Lewes	crown	2015-11-05 17:08:58.582482	2016-12-19 10:57:52.033462
+36	432	Lincoln	crown	2015-11-05 17:08:58.589428	2016-12-19 10:57:52.038442
+37	433	Liverpool	crown	2015-11-05 17:08:58.596454	2016-12-19 10:57:52.043924
+38	476	Luton	crown	2015-11-05 17:08:58.603284	2016-12-19 10:57:52.048826
+39	434	Maidstone	crown	2015-11-05 17:08:58.610526	2016-12-19 10:57:52.053594
+42	437	Merthyr Tydfil	crown	2015-11-05 17:08:58.641164	2016-12-19 10:57:52.065512
+43	464	Middx Guildhall	crown	2015-11-05 17:08:58.648919	2016-12-19 10:57:52.070793
+44	438	Mold	crown	2015-11-05 17:08:58.656825	2016-12-19 10:57:52.075893
+45	439	Newcastle	crown	2015-11-05 17:08:58.663693	2016-12-19 10:57:52.080842
+46	478	Newport (IOW)	crown	2015-11-05 17:08:58.670794	2016-12-19 10:57:52.085844
+47	441	Newport	crown	2015-11-05 17:08:58.677755	2016-12-19 10:57:52.091326
+48	442	Northampton	crown	2015-11-05 17:08:58.684533	2016-12-19 10:57:52.097032
+49	443	Norwich	crown	2015-11-05 17:08:58.691748	2016-12-19 10:57:52.102008
+50	444	Nottingham	crown	2015-11-05 17:08:58.698722	2016-12-19 10:57:52.11545
+51	445	Oxford	crown	2015-11-05 17:08:58.705442	2016-12-19 10:57:52.120679
+52	473	Peterborough	crown	2015-11-05 17:08:58.712197	2016-12-19 10:57:52.128756
+53	446	Plymouth	crown	2015-11-05 17:08:58.718861	2016-12-19 10:57:52.133756
+54	447	Portsmouth	crown	2015-11-05 17:08:58.725814	2016-12-19 10:57:52.138866
+55	448	Preston	crown	2015-11-05 17:08:58.732472	2016-12-19 10:57:52.145176
+56	449	Reading	crown	2015-11-05 17:08:58.739178	2016-12-19 10:57:52.150304
+57	480	Salisbury	crown	2015-11-05 17:08:58.745889	2016-12-19 10:57:52.155221
+58	451	Sheffield	crown	2015-11-05 17:08:58.753564	2016-12-19 10:57:52.1606
+59	452	Shrewsbury	crown	2015-11-05 17:08:58.760491	2016-12-19 10:57:52.166072
+60	453	Snaresbrook	crown	2015-11-05 17:08:58.767362	2016-12-19 10:57:52.171458
+61	454	Southampton	crown	2015-11-05 17:08:58.774262	2016-12-19 10:57:52.176508
+62	471	Southwark	crown	2015-11-05 17:08:58.781267	2016-12-19 10:57:52.181504
+63	450	St Albans	crown	2015-11-05 17:08:58.788172	2016-12-19 10:57:52.186732
+64	455	Stafford	crown	2015-11-05 17:08:58.795058	2016-12-19 10:57:52.192303
+65	456	Stoke on Trent	crown	2015-11-05 17:08:58.802197	2016-12-19 10:57:52.197538
+66	457	Swansea	crown	2015-11-05 17:08:58.809083	2016-12-19 10:57:52.208003
+67	458	Swindon	crown	2015-11-05 17:08:58.815912	2016-12-19 10:57:52.213726
+68	459	Taunton	crown	2015-11-05 17:08:58.82268	2016-12-19 10:57:52.218847
+70	477	Truro	crown	2015-11-05 17:08:58.836661	2016-12-19 10:57:52.224575
+71	462	Warrington	crown	2015-11-05 17:08:58.843749	2016-12-19 10:57:52.236736
+72	463	Warwick	crown	2015-11-05 17:08:58.852016	2016-12-19 10:57:52.242078
+73	407	Weymouth and Dorcester	crown	2015-11-05 17:08:58.858979	2016-12-19 10:57:52.24733
+74	465	Winchester	crown	2015-11-05 17:08:58.866048	2016-12-19 10:57:52.253268
+75	421	Wolverhampton	crown	2015-11-05 17:08:58.873088	2016-12-19 10:57:52.259214
+76	469	Wood Green	crown	2015-11-05 17:08:58.88056	2016-12-19 10:57:52.264494
+77	472	Woolwich	crown	2015-11-05 17:08:58.887601	2016-12-19 10:57:52.274567
+78	466	Worcester	crown	2015-11-05 17:08:58.894692	2016-12-19 10:57:52.281246
+79	467	York	crown	2015-11-05 17:08:58.901684	2016-12-19 10:57:52.286182
+69	460	Teesside	crown	2015-11-05 17:08:58.829451	2016-12-19 10:57:52.291859
+80	999	Caernarfon	crown	2016-12-15 13:23:16.951538	2016-12-19 10:57:52.297239
 \.
 
 
 --
--- Name: courts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: stephenrichards
+-- Name: courts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jsugarman
 --
 
-SELECT pg_catalog.setval('courts_id_seq', 79, true);
+SELECT pg_catalog.setval('courts_id_seq', 80, true);
 
 
 --
--- Data for Name: disbursement_types; Type: TABLE DATA; Schema: public; Owner: stephenrichards
+-- Data for Name: disbursement_types; Type: TABLE DATA; Schema: public; Owner: jsugarman
 --
 
-COPY disbursement_types (id, name, created_at, updated_at, deleted_at) FROM stdin;
-1	Accident reconstruction report	2016-03-16 09:30:02.646119	2016-03-16 09:30:02.646119	\N
-2	Accounts	2016-03-16 09:30:02.651804	2016-03-16 09:30:02.651804	\N
-3	Computer experts	2016-03-16 09:30:02.656331	2016-03-16 09:30:02.656331	\N
-4	Consultant medical reports	2016-03-16 09:30:02.660853	2016-03-16 09:30:02.660853	\N
-5	Costs judge application fee	2016-03-16 09:30:02.665244	2016-03-16 09:30:02.665244	\N
-6	Costs judge preparation award	2016-03-16 09:30:02.669719	2016-03-16 09:30:02.669719	\N
-7	DNA testing	2016-03-16 09:30:02.673857	2016-03-16 09:30:02.673857	\N
-8	Engineer	2016-03-16 09:30:02.677682	2016-03-16 09:30:02.677682	\N
-9	Enquiry agents	2016-03-16 09:30:02.681346	2016-03-16 09:30:02.681346	\N
-10	Facial mapping expert	2016-03-16 09:30:02.688145	2016-03-16 09:30:02.688145	\N
-11	Financial expert	2016-03-16 09:30:02.692315	2016-03-16 09:30:02.692315	\N
-12	Fingerprint expert	2016-03-16 09:30:02.696363	2016-03-16 09:30:02.696363	\N
-13	Fire assessor/explosives expert	2016-03-16 09:30:02.69994	2016-03-16 09:30:02.69994	\N
-14	Forensic scientists	2016-03-16 09:30:02.703962	2016-03-16 09:30:02.703962	\N
-15	Handwriting expert	2016-03-16 09:30:02.708454	2016-03-16 09:30:02.708454	\N
-16	Interpreter	2016-03-16 09:30:02.71283	2016-03-16 09:30:02.71283	\N
-17	Lip readers	2016-03-16 09:30:02.716825	2016-03-16 09:30:02.716825	\N
-18	Medical expert	2016-03-16 09:30:02.737727	2016-03-16 09:30:02.737727	\N
-19	Memorandum of conviction fee	2016-03-16 09:30:02.741218	2016-03-16 09:30:02.741218	\N
-20	Meteorologist	2016-03-16 09:30:02.74449	2016-03-16 09:30:02.74449	\N
-21	Other	2016-03-16 09:30:02.747826	2016-03-16 09:30:02.747826	\N
-22	Overnight expenses	2016-03-16 09:30:02.751148	2016-03-16 09:30:02.751148	\N
-23	Pathologist	2016-03-16 09:30:02.754407	2016-03-16 09:30:02.754407	\N
-24	Photocopying	2016-03-16 09:30:02.757795	2016-03-16 09:30:02.757795	\N
-25	Psychiatric reports	2016-03-16 09:30:02.761206	2016-03-16 09:30:02.761206	\N
-26	Psychological report	2016-03-16 09:30:02.764477	2016-03-16 09:30:02.764477	\N
-27	Surveyor/architect	2016-03-16 09:30:02.767773	2016-03-16 09:30:02.767773	\N
-28	Transcripts	2016-03-16 09:30:02.771108	2016-03-16 09:30:02.771108	\N
-29	Translator	2016-03-16 09:30:02.774428	2016-03-16 09:30:02.774428	\N
-31	Vet report	2016-03-16 09:30:02.781076	2016-03-16 09:30:02.781076	\N
-32	Voice recognition	2016-03-16 09:30:02.78526	2016-03-16 09:30:02.78526	\N
-30	Travel costs	2016-03-16 09:30:02.777728	2016-09-02 15:29:01.331336	2016-09-02 15:29:01.322485
+COPY disbursement_types (id, name, created_at, updated_at, deleted_at, unique_code) FROM stdin;
+1	Accident reconstruction report	2016-03-16 09:30:02.646119	2016-11-05 10:39:46.37627	\N	ARP
+2	Accounts	2016-03-16 09:30:02.651804	2016-11-05 10:39:46.386862	\N	ACC
+3	Computer experts	2016-03-16 09:30:02.656331	2016-11-05 10:39:46.394191	\N	SWX
+4	Consultant medical reports	2016-03-16 09:30:02.660853	2016-11-05 10:39:46.401736	\N	CMR
+5	Costs judge application fee	2016-03-16 09:30:02.665244	2016-11-05 10:39:46.409785	\N	CJA
+6	Costs judge preparation award	2016-03-16 09:30:02.669719	2016-11-05 10:39:46.417614	\N	CJP
+7	DNA testing	2016-03-16 09:30:02.673857	2016-11-05 10:39:46.424704	\N	DNA
+8	Engineer	2016-03-16 09:30:02.677682	2016-11-05 10:39:46.431911	\N	ENG
+9	Enquiry agents	2016-03-16 09:30:02.681346	2016-11-05 10:39:46.441151	\N	ENQ
+10	Facial mapping expert	2016-03-16 09:30:02.688145	2016-11-05 10:39:46.448199	\N	FMX
+11	Financial expert	2016-03-16 09:30:02.692315	2016-11-05 10:39:46.455317	\N	FIN
+12	Fingerprint expert	2016-03-16 09:30:02.696363	2016-11-05 10:39:46.462173	\N	DIG
+13	Fire assessor/explosives expert	2016-03-16 09:30:02.69994	2016-11-05 10:39:46.469276	\N	EXP
+14	Forensic scientists	2016-03-16 09:30:02.703962	2016-11-05 10:39:46.476141	\N	FOR
+15	Handwriting expert	2016-03-16 09:30:02.708454	2016-11-05 10:39:46.483361	\N	HWX
+16	Interpreter	2016-03-16 09:30:02.71283	2016-11-05 10:39:46.490601	\N	INT
+17	Lip readers	2016-03-16 09:30:02.716825	2016-11-05 10:39:46.49754	\N	LIP
+18	Medical expert	2016-03-16 09:30:02.737727	2016-11-05 10:39:46.504493	\N	MED
+19	Memorandum of conviction fee	2016-03-16 09:30:02.741218	2016-11-05 10:39:46.511825	\N	MCF
+20	Meteorologist	2016-03-16 09:30:02.74449	2016-11-05 10:39:46.519109	\N	MET
+21	Other	2016-03-16 09:30:02.747826	2016-11-05 10:39:46.526299	\N	XXX
+22	Overnight expenses	2016-03-16 09:30:02.751148	2016-11-05 10:39:46.534129	\N	ONX
+23	Pathologist	2016-03-16 09:30:02.754407	2016-11-05 10:39:46.546654	\N	PTH
+24	Photocopying	2016-03-16 09:30:02.757795	2016-11-05 10:39:46.554139	\N	COP
+25	Psychiatric reports	2016-03-16 09:30:02.761206	2016-11-05 10:39:46.561515	\N	PSY
+26	Psychological report	2016-03-16 09:30:02.764477	2016-11-05 10:39:46.568704	\N	PLR
+27	Surveyor/architect	2016-03-16 09:30:02.767773	2016-11-05 10:39:46.575825	\N	ARC
+28	Transcripts	2016-03-16 09:30:02.771108	2016-11-05 10:39:46.583181	\N	SCR
+29	Translator	2016-03-16 09:30:02.774428	2016-11-05 10:39:46.590332	\N	TRA
+30	Travel costs	2016-03-16 09:30:02.777728	2016-11-05 10:39:46.597184	2016-09-02 15:29:01.322485	TRV
+31	Vet report	2016-03-16 09:30:02.781076	2016-11-05 10:39:46.604341	\N	VET
+32	Voice recognition	2016-03-16 09:30:02.78526	2016-11-05 10:39:46.611479	\N	VOI
 \.
 
 
 --
--- Name: disbursement_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: stephenrichards
+-- Name: disbursement_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jsugarman
 --
 
-SELECT pg_catalog.setval('disbursement_types_id_seq', 32, true);
+SELECT pg_catalog.setval('disbursement_types_id_seq', 33, false);
 
 
 --
--- Data for Name: expense_types; Type: TABLE DATA; Schema: public; Owner: stephenrichards
+-- Data for Name: expense_types; Type: TABLE DATA; Schema: public; Owner: jsugarman
 --
 
-COPY expense_types (id, name, created_at, updated_at, roles, reason_set) FROM stdin;
-11	Car travel	2016-04-11 18:04:06.926717	2016-04-11 18:04:06.926717	---\n- agfs\n- lgfs\n	A
-12	Parking	2016-04-11 18:04:06.939741	2016-04-11 18:04:06.939741	---\n- agfs\n- lgfs\n	A
-13	Hotel accommodation	2016-04-11 18:04:06.948919	2016-04-11 18:04:06.948919	---\n- agfs\n- lgfs\n	A
-14	Train/public transport	2016-04-11 18:04:06.957808	2016-04-11 18:04:06.957808	---\n- agfs\n- lgfs\n	A
-15	Travel time	2016-04-11 18:04:06.966307	2016-04-11 18:04:06.966307	---\n- agfs\n	B
-16	Road or tunnel tolls	2016-07-21 15:31:26.604649	2016-07-21 15:31:26.604649	---\n- agfs\n- lgfs\n	A
-17	Cab fares	2016-07-21 15:31:26.615092	2016-07-21 15:31:26.615092	---\n- agfs\n- lgfs\n	A
-18	Subsistence	2016-07-21 15:31:26.623053	2016-07-21 15:31:26.623053	---\n- agfs\n- lgfs\n	A
+COPY expense_types (id, name, created_at, updated_at, roles, reason_set, unique_code) FROM stdin;
+11	Car travel	2016-04-11 18:04:06.926717	2016-11-05 10:39:46.635817	---\n- agfs\n- lgfs\n	A	CAR
+12	Parking	2016-04-11 18:04:06.939741	2016-11-05 10:39:46.645462	---\n- agfs\n- lgfs\n	A	PARK
+13	Hotel accommodation	2016-04-11 18:04:06.948919	2016-11-05 10:39:46.653314	---\n- agfs\n- lgfs\n	A	HOTEL
+14	Train/public transport	2016-04-11 18:04:06.957808	2016-11-05 10:39:46.661084	---\n- agfs\n- lgfs\n	A	TRAIN
+15	Travel time	2016-04-11 18:04:06.966307	2016-11-05 10:39:46.668581	---\n- agfs\n	B	TRAVL
+16	Road or tunnel tolls	2016-07-21 15:31:26.604649	2016-11-05 10:39:46.676016	---\n- agfs\n- lgfs\n	A	ROAD
+17	Cab fares	2016-07-21 15:31:26.615092	2016-11-05 10:39:46.683774	---\n- agfs\n- lgfs\n	A	CABF
+18	Subsistence	2016-07-21 15:31:26.623053	2016-11-05 10:39:46.691285	---\n- agfs\n- lgfs\n	A	SUBS
+19	Bike travel	2017-05-24 13:51:13.421544	2017-05-24 13:51:13.421544	---\n- agfs\n- lgfs\n	A	BIKE
 \.
 
 
 --
--- Name: expense_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: stephenrichards
+-- Name: expense_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jsugarman
 --
 
-SELECT pg_catalog.setval('expense_types_id_seq', 18, true);
+SELECT pg_catalog.setval('expense_types_id_seq', 20, false);
 
 
 --
--- Data for Name: fee_types; Type: TABLE DATA; Schema: public; Owner: stephenrichards
+-- Data for Name: fee_types; Type: TABLE DATA; Schema: public; Owner: jsugarman
 --
 
-COPY fee_types (id, description, code, created_at, updated_at, max_amount, calculated, type, roles, parent_id, quantity_is_decimal) FROM stdin;
-2	Daily attendance fee (3 to 40)	DAF	2015-11-05 17:08:50.454499	2016-03-02 11:22:59.013954	999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f
-3	Daily attendance fee (41 to 50)	DAH	2015-11-05 17:08:50.46179	2016-03-02 11:22:59.020472	9999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f
-4	Daily attendance fee (51+)	DAJ	2015-11-05 17:08:50.468666	2016-03-02 11:22:59.027251	999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f
-5	Standard appearance fee	SAF	2015-11-05 17:08:50.477797	2016-03-02 11:22:59.033866	999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f
-6	Plea and case management hearing	PCM	2015-11-05 17:08:50.48446	2016-03-02 11:22:59.040247	999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f
-8	Number of defendants uplift	NDR	2015-11-05 17:08:50.499198	2016-03-02 11:22:59.053453	\N	t	Fee::BasicFeeType	---\n- agfs\n	\N	f
-9	Number of cases uplift	NOC	2015-11-05 17:08:50.50612	2016-03-02 11:22:59.059755	\N	t	Fee::BasicFeeType	---\n- agfs\n	\N	f
-13	Appeals to the crown court against conviction uplift	ACU	2015-11-05 17:08:50.53303	2016-03-02 11:22:59.073116	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f
-15	Appeals to the crown court against sentence uplift	ASU	2015-11-05 17:08:50.545992	2016-03-02 11:22:59.08594	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f
-17	Breach of a crown court order uplift	CBU	2015-11-05 17:08:50.559367	2016-03-02 11:22:59.098392	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f
-21	Committal for sentence hearings uplift	CSU	2015-11-05 17:08:50.585474	2016-03-02 11:22:59.111525	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f
-23	Cracked case discontinued uplift	CDU	2015-11-05 17:08:50.606017	2016-03-02 11:22:59.117869	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f
-28	Standard appearance fee	SAF	2015-11-05 17:08:50.641206	2016-03-02 11:22:59.136387	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f
-29	Abuse of process hearings (half day)	APH	2015-11-05 17:08:50.648618	2016-03-02 11:22:59.143826	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-30	Abuse of process hearings (whole day)	APW	2015-11-05 17:08:50.655636	2016-03-02 11:22:59.150177	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-31	Abuse of process hearings (half day uplift)	AHU	2015-11-05 17:08:50.66233	2016-03-02 11:22:59.156611	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-32	Abuse of process hearings (whole day uplift)	AWU	2015-11-05 17:08:50.668767	2016-03-02 11:22:59.163033	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-38	Confiscation hearings (half day)	DTH	2015-11-05 17:08:50.710717	2016-03-02 11:22:59.169552	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-39	Confiscation hearings (whole day)	DTW	2015-11-05 17:08:50.717469	2016-03-02 11:22:59.17672	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-40	Confiscation hearings (half day uplift)	DHU	2015-11-05 17:08:50.725006	2016-03-02 11:22:59.182928	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-41	Confiscation hearings (whole day uplift)	DWU	2015-11-05 17:08:50.731916	2016-03-02 11:22:59.189807	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-42	Deferred sentence hearings	DSE	2015-11-05 17:08:50.738632	2016-03-02 11:22:59.196561	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-43	Deferred sentence hearings uplift	DSU	2015-11-05 17:08:50.745506	2016-03-02 11:22:59.202534	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-44	Hearings relating to admissibility of evidence (half day)	AEH	2015-11-05 17:08:50.752113	2016-03-02 11:22:59.210293	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-46	Hearings relating to admissibility of evidence (half day uplift)	EHU	2015-11-05 17:08:50.774428	2016-03-02 11:22:59.216487	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-47	Hearings relating to admissibility of evidence (whole day uplift)	EWU	2015-11-05 17:08:50.780985	2016-03-02 11:22:59.222505	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-48	Hearings relating to disclosure (half day)	HDH	2015-11-05 17:08:50.79681	2016-03-02 11:22:59.228658	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-49	Hearings relating to disclosure (whole day)	HDW	2015-11-05 17:08:50.803381	2016-03-02 11:22:59.235139	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-50	Hearings relating to disclosure (half day uplift)	HHU	2015-11-05 17:08:50.810209	2016-03-02 11:22:59.242186	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-51	Hearings relating to disclosure (whole day uplift)	HWU	2015-11-05 17:08:50.817105	2016-03-02 11:22:59.248219	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-52	Noting brief fee	NBR	2015-11-05 17:08:50.826925	2016-03-02 11:22:59.270054	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-53	Paper plea & case management	PPC	2015-11-05 17:08:50.836919	2016-03-02 11:22:59.275536	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-54	Paper plea & case management uplift	PCU	2015-11-05 17:08:50.843645	2016-03-02 11:22:59.280816	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-55	Proceeds of crime hearings (half day)	PCH	2015-11-05 17:08:50.849995	2016-03-02 11:22:59.286062	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-56	Proceeds of crime hearings (whole day)	PCW	2015-11-05 17:08:50.856887	2016-03-02 11:22:59.291337	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-57	Proceeds of crime hearings (half day uplift)	CHU	2015-11-05 17:08:50.863538	2016-03-02 11:22:59.296915	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-58	Proceeds of crime hearings (whole day uplift)	CHW	2015-11-05 17:08:50.870007	2016-03-02 11:22:59.302447	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-59	Public interest immunity hearings (half day)	PAH	2015-11-05 17:08:50.876828	2016-03-02 11:22:59.307803	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-60	Public interest immunity hearings (whole day)	PAW	2015-11-05 17:08:50.883378	2016-03-02 11:22:59.313817	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-61	Public interest immunity hearings (half day uplift)	PHU	2015-11-05 17:08:50.89044	2016-03-02 11:22:59.319033	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-62	Public interest immunity hearings (whole day uplift)	PWU	2015-11-05 17:08:50.897163	2016-03-02 11:22:59.324258	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-12	Appeals to the crown court against conviction	ACV	2015-11-05 17:08:50.52629	2016-04-11 18:04:55.059837	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f
-14	Appeals to the crown court against sentence	ASE	2015-11-05 17:08:50.53948	2016-04-11 18:04:55.077043	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f
-16	Breach of a crown court order	CBR	2015-11-05 17:08:50.55261	2016-04-11 18:04:55.092415	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f
-20	Committal for sentence hearings	CSE	2015-11-05 17:08:50.579051	2016-04-11 18:04:55.119927	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f
-26	Number of cases uplift	NOC	2015-11-05 17:08:50.628228	2016-04-11 18:04:55.166927	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f
-27	Number of defendants uplift	NDR	2015-11-05 17:08:50.634833	2016-04-11 18:04:55.175733	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f
-83	Hearing subsequent to sentence	XH2S	2016-04-11 18:04:55.19807	2016-04-11 18:04:55.19807	\N	f	Fee::FixedFeeType	---\n- lgfs\n	\N	f
-77	Trial	GTRL	2016-04-11 18:04:54.600111	2016-04-11 18:04:54.600111	9999.0	f	Fee::GraduatedFeeType	---\n- lgfs\n	\N	f
-78	Retrial	GRTR	2016-04-11 18:04:54.656395	2016-04-11 18:04:54.656395	9999.0	f	Fee::GraduatedFeeType	---\n- lgfs\n	\N	f
-25	Elected case not proceeded uplift	ENU	2015-11-05 17:08:50.621292	2016-03-02 11:22:58.98711	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f
-33	Adjourned appeals	SAF	2015-11-05 17:08:50.676743	2016-03-02 11:22:58.993692	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-36	Application to dismiss a charge (half day uplift)	PHU	2015-11-05 17:08:50.697175	2016-03-02 11:22:59.000447	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-1	Basic fee	BAF	2015-11-05 17:08:50.446583	2016-03-02 11:22:59.007076	9999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f
-22	Cracked case discontinued	CCD	2015-11-05 17:08:50.59171	2016-04-11 18:04:55.136406	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f
-24	Elected case not proceeded	ENP	2015-11-05 17:08:50.614599	2016-04-11 18:04:55.151662	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f
-87	Evidence provision fee	XEVI	2016-04-11 18:04:55.577483	2016-04-11 18:04:55.577483	\N	f	Fee::MiscFeeType	---\n- lgfs\n	\N	f
-88	Costs judge application	XCJA	2016-04-11 18:04:55.587708	2016-04-11 18:04:55.587708	\N	f	Fee::MiscFeeType	---\n- lgfs\n	\N	f
-89	Costs judge preparation	XCJP	2016-04-11 18:04:55.597252	2016-04-11 18:04:55.597252	\N	f	Fee::MiscFeeType	---\n- lgfs\n	\N	f
-90	Case uplift	XUPL	2016-04-11 18:04:55.606936	2016-04-11 18:04:55.606936	\N	f	Fee::MiscFeeType	---\n- lgfs\n	\N	f
-91	Warrant Fee	XWAR	2016-04-11 18:04:55.620925	2016-04-11 18:04:55.620925	\N	f	Fee::WarrantFeeType	---\n- lgfs\n	\N	f
-85	Alteration of Crown Court sentence s155 Powers of Criminal Courts (Sentencing Act 2000)	XALT	2016-04-11 18:04:55.218611	2016-04-12 11:58:03.403172	\N	f	Fee::FixedFeeType	---\n- lgfs\n	83	f
-86	Assistance by defendant: review of sentence s74 Serious Organised Crime and Police Act 2005	XASS	2016-04-11 18:04:55.228721	2016-04-12 11:58:03.41288	\N	f	Fee::FixedFeeType	---\n- lgfs\n	83	f
-92	Contempt	ZCON	2016-04-13 09:00:27.072656	2016-04-13 09:00:27.072656	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f
-93	Effective PCMH	IPCMH	2016-05-26 17:00:57.585021	2016-05-26 17:00:57.585021	\N	f	Fee::InterimFeeType	---\n- lgfs\n	\N	f
-94	Trial start	ITST	2016-05-26 17:00:57.615188	2016-05-26 17:00:57.615188	\N	f	Fee::InterimFeeType	---\n- lgfs\n	\N	f
-95	Retrial New solicitor	IRNS	2016-05-26 17:00:57.82732	2016-05-26 17:00:57.82732	\N	f	Fee::InterimFeeType	---\n- lgfs\n	\N	f
-96	Retrial start	IRST	2016-05-26 17:00:58.044427	2016-05-26 17:00:58.044427	\N	f	Fee::InterimFeeType	---\n- lgfs\n	\N	f
-97	Disbursement only	IDISO	2016-05-26 17:00:58.831136	2016-05-26 17:00:58.831136	\N	f	Fee::InterimFeeType	---\n- lgfs\n	\N	f
-98	Warrant	IWARR	2016-05-26 17:00:58.841716	2016-05-26 17:00:58.841716	\N	f	Fee::InterimFeeType	---\n- lgfs\n	\N	f
-99	Transfer	TRANS	2016-05-26 17:00:58.860368	2016-05-26 17:00:58.860368	\N	f	Fee::TransferFeeType	---\n- lgfs\n	\N	f
-65	Standard appearance fee uplift	SAU	2015-11-05 17:08:50.917115	2016-03-02 11:22:59.340092	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-66	Sentence hearings	SHR	2015-11-05 17:08:50.923742	2016-03-02 11:22:59.345583	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-67	Sentence hearings uplift	SHU	2015-11-05 17:08:50.930435	2016-03-02 11:22:59.350816	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-69	Trial not proceed	TNP	2015-11-05 17:08:50.943357	2016-03-02 11:22:59.361782	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-70	Trial not proceed uplift	TNU	2015-11-05 17:08:50.949997	2016-03-02 11:22:59.366994	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-71	Unsuccessful application to vacate a guilty plea (half day)	PAH	2015-11-05 17:08:50.956624	2016-03-02 11:22:59.372286	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-34	Application to dismiss a charge (half day)	PAH	2015-11-05 17:08:50.683454	2016-03-02 11:22:59.3778	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-10	Number of prosecution witnesses	NPW	2015-11-05 17:08:50.512796	2016-03-02 11:22:59.383344	\N	f	Fee::BasicFeeType	---\n- agfs\n	\N	f
-35	Application to dismiss a charge (whole day)	PAW	2015-11-05 17:08:50.690406	2016-03-02 11:22:59.388964	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-37	Application to dismiss a charge (whole day uplift)	PWU	2015-11-05 17:08:50.704168	2016-03-02 11:22:59.394673	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-45	Hearings relating to admissibility of evidence (whole day)	AEW	2015-11-05 17:08:50.76717	2016-03-02 11:22:59.400251	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-72	Unsuccessful application to vacate a guilty plea (whole day)	PAW	2015-11-05 17:08:50.963125	2016-03-02 11:22:59.405825	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-73	Unsuccessful application to vacate a guilty plea (half day uplift)	PHU	2015-11-05 17:08:50.96979	2016-03-02 11:22:59.411962	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-74	Unsuccessful application to vacate a guilty plea (whole day uplift)	PWU	2015-11-05 17:08:50.977122	2016-03-02 11:22:59.417385	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f
-11	Pages of prosecution evidence	PPE	2015-11-05 17:08:50.51934	2016-03-02 11:22:59.433561	\N	f	Fee::BasicFeeType	---\n- agfs\n	\N	f
-84	Vary/discharge an ASBO s1c Crime and Disorder Act 1998	XASB	2016-04-11 18:04:55.208555	2016-04-12 11:58:03.385793	\N	f	Fee::FixedFeeType	---\n- lgfs\n	83	f
-79	Guilty plea	GGLTY	2016-04-11 18:04:54.692124	2016-04-11 18:04:54.692124	9999.0	f	Fee::GraduatedFeeType	---\n- lgfs\n	\N	f
-80	Discontinuance	GDIS	2016-04-11 18:04:54.728143	2016-04-11 18:04:54.728143	9999.0	f	Fee::GraduatedFeeType	---\n- lgfs\n	\N	f
-81	Cracked trial	GCRAK	2016-04-11 18:04:54.764484	2016-04-11 18:04:54.764484	9999.0	f	Fee::GraduatedFeeType	---\n- lgfs\n	\N	f
-82	Cracked before retrial	GCBR	2016-04-11 18:04:54.808147	2016-04-11 18:04:54.808147	9999.0	f	Fee::GraduatedFeeType	---\n- lgfs\n	\N	f
-68	Special preparation fee	SPF	2015-11-05 17:08:50.936752	2016-06-03 11:19:00.401444	\N	t	Fee::MiscFeeType	---\n- agfs\n- lgfs\n	\N	t
-76	Wasted preparation fee	WPF	2015-11-05 17:08:50.998017	2016-06-03 11:19:00.40774	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	t
-63	Research of very unusual or novel factual issue	RNF	2015-11-05 17:08:50.903838	2016-06-03 11:19:00.412831	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	t
-7	Conferences and views	CAV	2015-11-05 17:08:50.491885	2016-06-03 11:19:00.422214	\N	t	Fee::BasicFeeType	---\n- agfs\n	\N	t
-75	Written / oral advice	WOA	2015-11-05 17:08:50.991085	2016-06-03 11:19:00.427563	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	t
-64	Research of very unusual or novel point of law	RNL	2015-11-05 17:08:50.910546	2016-06-09 14:16:51.650438	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	t
+COPY fee_types (id, description, code, created_at, updated_at, max_amount, calculated, type, roles, parent_id, quantity_is_decimal, unique_code) FROM stdin;
+2	Daily attendance fee (3 to 40)	DAF	2015-11-05 17:08:50.454499	2016-10-26 19:59:45.802684	999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f	BADAF
+4	Daily attendance fee (51+)	DAJ	2015-11-05 17:08:50.468666	2016-10-26 19:59:45.821341	999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f	BADAJ
+5	Standard appearance fee	SAF	2015-11-05 17:08:50.477797	2016-10-26 19:59:45.829691	999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f	BASAF
+6	Plea and case management hearing	PCM	2015-11-05 17:08:50.48446	2016-10-26 19:59:45.838268	999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f	BAPCM
+8	Number of defendants uplift	NDR	2015-11-05 17:08:50.499198	2016-10-26 19:59:45.854675	\N	t	Fee::BasicFeeType	---\n- agfs\n	\N	f	BANDR
+9	Number of cases uplift	NOC	2015-11-05 17:08:50.50612	2016-10-26 19:59:45.864133	\N	t	Fee::BasicFeeType	---\n- agfs\n	\N	f	BANOC
+12	Appeals to the crown court against conviction	ACV	2015-11-05 17:08:50.52629	2016-10-26 19:59:45.897649	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f	FXACV
+13	Appeals to the crown court against conviction uplift	ACU	2015-11-05 17:08:50.53303	2016-10-26 19:59:45.90821	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f	FXACU
+14	Appeals to the crown court against sentence	ASE	2015-11-05 17:08:50.53948	2016-10-26 19:59:45.9173	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f	FXASE
+15	Appeals to the crown court against sentence uplift	ASU	2015-11-05 17:08:50.545992	2016-10-26 19:59:45.926531	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f	FXASU
+16	Breach of a crown court order	CBR	2015-11-05 17:08:50.55261	2016-10-26 19:59:45.934892	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f	FXCBR
+20	Committal for sentence hearings	CSE	2015-11-05 17:08:50.579051	2016-10-26 19:59:45.952964	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f	FXCSE
+21	Committal for sentence hearings uplift	CSU	2015-11-05 17:08:50.585474	2016-10-26 19:59:45.960887	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f	FXCSU
+22	Cracked case discontinued	CCD	2015-11-05 17:08:50.59171	2016-10-26 19:59:45.970041	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f	FXCCD
+23	Cracked case discontinued uplift	CDU	2015-11-05 17:08:50.606017	2016-10-26 19:59:45.979646	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f	FXCDU
+24	Elected case not proceeded	ENP	2015-11-05 17:08:50.614599	2016-10-26 19:59:45.987548	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f	FXENP
+25	Elected case not proceeded uplift	ENU	2015-11-05 17:08:50.621292	2016-10-26 19:59:45.995677	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f	FXENU
+26	Number of cases uplift	NOC	2015-11-05 17:08:50.628228	2016-10-26 19:59:46.123653	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f	FXNOC
+27	Number of defendants uplift	NDR	2015-11-05 17:08:50.634833	2016-10-26 19:59:46.140685	\N	t	Fee::FixedFeeType	---\n- agfs\n- lgfs\n	\N	f	FXNDR
+28	Standard appearance fee	SAF	2015-11-05 17:08:50.641206	2016-10-26 19:59:46.153762	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f	FXSAF
+29	Abuse of process hearings (half day)	APH	2015-11-05 17:08:50.648618	2016-10-26 19:59:46.1695	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIAPH
+30	Abuse of process hearings (whole day)	APW	2015-11-05 17:08:50.655636	2016-10-26 19:59:46.179988	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIAPW
+32	Abuse of process hearings (whole day uplift)	AWU	2015-11-05 17:08:50.668767	2016-10-26 19:59:46.199728	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIAWU
+33	Adjourned appeals	SAF	2015-11-05 17:08:50.676743	2016-10-26 19:59:46.207887	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MISAF
+36	Application to dismiss a charge (half day uplift)	PHU	2015-11-05 17:08:50.697175	2016-10-26 19:59:46.23089	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIADC3
+38	Confiscation hearings (half day)	DTH	2015-11-05 17:08:50.710717	2016-10-26 19:59:46.246925	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIDTH
+39	Confiscation hearings (whole day)	DTW	2015-11-05 17:08:50.717469	2016-10-26 19:59:46.255711	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIDTW
+40	Confiscation hearings (half day uplift)	DHU	2015-11-05 17:08:50.725006	2016-10-26 19:59:46.263587	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIDHU
+41	Confiscation hearings (whole day uplift)	DWU	2015-11-05 17:08:50.731916	2016-10-26 19:59:46.271657	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIDWU
+42	Deferred sentence hearings	DSE	2015-11-05 17:08:50.738632	2016-10-26 19:59:46.280902	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIDSE
+43	Deferred sentence hearings uplift	DSU	2015-11-05 17:08:50.745506	2016-10-26 19:59:46.289419	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIDSU
+46	Hearings relating to admissibility of evidence (half day uplift)	EHU	2015-11-05 17:08:50.774428	2016-10-26 19:59:46.315441	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIEHU
+47	Hearings relating to admissibility of evidence (whole day uplift)	EWU	2015-11-05 17:08:50.780985	2016-10-26 19:59:46.324148	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIEWU
+48	Hearings relating to disclosure (half day)	HDH	2015-11-05 17:08:50.79681	2016-10-26 19:59:46.33222	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIHDH
+49	Hearings relating to disclosure (whole day)	HDW	2015-11-05 17:08:50.803381	2016-10-26 19:59:46.34155	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIHDW
+50	Hearings relating to disclosure (half day uplift)	HHU	2015-11-05 17:08:50.810209	2016-10-26 19:59:46.349995	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIHHU
+51	Hearings relating to disclosure (whole day uplift)	HWU	2015-11-05 17:08:50.817105	2016-10-26 19:59:46.358341	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIHWU
+52	Noting brief fee	NBR	2015-11-05 17:08:50.826925	2016-10-26 19:59:46.366714	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MINBR
+53	Paper plea & case management	PPC	2015-11-05 17:08:50.836919	2016-10-26 19:59:46.374739	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIPPC
+54	Paper plea & case management uplift	PCU	2015-11-05 17:08:50.843645	2016-10-26 19:59:46.382889	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIPCU
+55	Proceeds of crime hearings (half day)	PCH	2015-11-05 17:08:50.849995	2016-10-26 19:59:46.391024	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIPCH
+56	Proceeds of crime hearings (whole day)	PCW	2015-11-05 17:08:50.856887	2016-10-26 19:59:46.402837	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIPCW
+57	Proceeds of crime hearings (half day uplift)	CHU	2015-11-05 17:08:50.863538	2016-10-26 19:59:46.410929	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MICHU
+58	Proceeds of crime hearings (whole day uplift)	CHW	2015-11-05 17:08:50.870007	2016-10-26 19:59:46.419206	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MICHW
+59	Public interest immunity hearings (half day)	PAH	2015-11-05 17:08:50.876828	2016-10-26 19:59:46.427218	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIPIH1
+61	Public interest immunity hearings (half day uplift)	PHU	2015-11-05 17:08:50.89044	2016-10-26 19:59:46.443452	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIPIU3
+62	Public interest immunity hearings (whole day uplift)	PWU	2015-11-05 17:08:50.897163	2016-10-26 19:59:46.451673	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIPIH4
+77	Trial	GTRL	2016-04-11 18:04:54.600111	2016-10-26 19:59:46.587443	9999.0	f	Fee::GraduatedFeeType	---\n- lgfs\n	\N	f	GRTRL
+78	Retrial	GRTR	2016-04-11 18:04:54.656395	2016-10-26 19:59:46.597834	9999.0	f	Fee::GraduatedFeeType	---\n- lgfs\n	\N	f	GRRTR
+83	Hearing subsequent to sentence	XH2S	2016-04-11 18:04:55.19807	2016-10-26 19:59:46.648525	\N	f	Fee::FixedFeeType	---\n- lgfs\n	\N	f	FXH2S
+87	Evidence provision fee	XEVI	2016-04-11 18:04:55.577483	2016-10-26 19:59:46.684919	\N	f	Fee::MiscFeeType	---\n- lgfs\n	\N	f	MIEVI
+88	Costs judge application	XCJA	2016-04-11 18:04:55.587708	2016-10-26 19:59:46.692956	\N	f	Fee::MiscFeeType	---\n- lgfs\n	\N	f	MICJA
+89	Costs judge preparation	XCJP	2016-04-11 18:04:55.597252	2016-10-26 19:59:46.701265	\N	f	Fee::MiscFeeType	---\n- lgfs\n	\N	f	MICJP
+90	Case uplift	XUPL	2016-04-11 18:04:55.606936	2016-10-26 19:59:46.710336	\N	f	Fee::MiscFeeType	---\n- lgfs\n	\N	f	MIUPL
+91	Warrant Fee	XWAR	2016-04-11 18:04:55.620925	2016-10-26 19:59:46.726819	\N	f	Fee::WarrantFeeType	---\n- lgfs\n	\N	f	WARR
+1	Basic fee	BAF	2015-11-05 17:08:50.446583	2016-10-26 19:59:45.789211	9999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f	BABAF
+3	Daily attendance fee (41 to 50)	DAH	2015-11-05 17:08:50.46179	2016-10-26 19:59:45.811226	9999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f	BADAH
+7	Conferences and views	CAV	2015-11-05 17:08:50.491885	2016-10-26 19:59:45.846851	\N	t	Fee::BasicFeeType	---\n- agfs\n	\N	t	BACAV
+10	Number of prosecution witnesses	NPW	2015-11-05 17:08:50.512796	2016-10-26 19:59:45.873987	\N	f	Fee::BasicFeeType	---\n- agfs\n	\N	f	BANPW
+11	Pages of prosecution evidence	PPE	2015-11-05 17:08:50.51934	2016-10-26 19:59:45.883401	\N	f	Fee::BasicFeeType	---\n- agfs\n	\N	f	BAPPE
+17	Breach of a crown court order uplift	CBU	2015-11-05 17:08:50.559367	2016-10-26 19:59:45.944552	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f	FXCBU
+31	Abuse of process hearings (half day uplift)	AHU	2015-11-05 17:08:50.66233	2016-10-26 19:59:46.192038	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIAHU
+34	Application to dismiss a charge (half day)	PAH	2015-11-05 17:08:50.683454	2016-10-26 19:59:46.216667	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIADC1
+35	Application to dismiss a charge (whole day)	PAW	2015-11-05 17:08:50.690406	2016-10-26 19:59:46.223722	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIADC2
+37	Application to dismiss a charge (whole day uplift)	PWU	2015-11-05 17:08:50.704168	2016-10-26 19:59:46.239662	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIADC4
+44	Hearings relating to admissibility of evidence (half day)	AEH	2015-11-05 17:08:50.752113	2016-10-26 19:59:46.297894	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIAEH
+45	Hearings relating to admissibility of evidence (whole day)	AEW	2015-11-05 17:08:50.76717	2016-10-26 19:59:46.306744	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIAEW
+60	Public interest immunity hearings (whole day)	PAW	2015-11-05 17:08:50.883378	2016-10-26 19:59:46.435154	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIPIH2
+63	Research of very unusual or novel factual issue	RNF	2015-11-05 17:08:50.903838	2016-10-26 19:59:46.462789	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	t	MIRNF
+64	Research of very unusual or novel point of law	RNL	2015-11-05 17:08:50.910546	2016-10-26 19:59:46.470327	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	t	MIRNL
+65	Standard appearance fee uplift	SAU	2015-11-05 17:08:50.917115	2016-10-26 19:59:46.478269	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MISAU
+66	Sentence hearings	SHR	2015-11-05 17:08:50.923742	2016-10-26 19:59:46.48569	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MISHR
+67	Sentence hearings uplift	SHU	2015-11-05 17:08:50.930435	2016-10-26 19:59:46.492915	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MISHU
+68	Special preparation fee	SPF	2015-11-05 17:08:50.936752	2016-10-26 19:59:46.50632	\N	t	Fee::MiscFeeType	---\n- agfs\n- lgfs\n	\N	t	MISPF
+69	Trial not proceed	TNP	2015-11-05 17:08:50.943357	2016-10-26 19:59:46.513767	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MITNP
+70	Trial not proceed uplift	TNU	2015-11-05 17:08:50.949997	2016-10-26 19:59:46.521918	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MITNU
+71	Unsuccessful application to vacate a guilty plea (half day)	PAH	2015-11-05 17:08:50.956624	2016-10-26 19:59:46.529424	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIUAV1
+72	Unsuccessful application to vacate a guilty plea (whole day)	PAW	2015-11-05 17:08:50.963125	2016-10-26 19:59:46.539447	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIUAV2
+73	Unsuccessful application to vacate a guilty plea (half day uplift)	PHU	2015-11-05 17:08:50.96979	2016-10-26 19:59:46.550374	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIUAV3
+74	Unsuccessful application to vacate a guilty plea (whole day uplift)	PWU	2015-11-05 17:08:50.977122	2016-10-26 19:59:46.557389	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIUAV4
+75	Written / oral advice	WOA	2015-11-05 17:08:50.991085	2016-10-26 19:59:46.564659	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	t	MIWOA
+76	Wasted preparation fee	WPF	2015-11-05 17:08:50.998017	2016-10-26 19:59:46.574197	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	t	MIWPF
+79	Guilty plea	GGLTY	2016-04-11 18:04:54.692124	2016-10-26 19:59:46.611827	9999.0	f	Fee::GraduatedFeeType	---\n- lgfs\n	\N	f	GRGLT
+80	Discontinuance	GDIS	2016-04-11 18:04:54.728143	2016-10-26 19:59:46.619332	9999.0	f	Fee::GraduatedFeeType	---\n- lgfs\n	\N	f	GRDIS
+81	Cracked trial	GCRAK	2016-04-11 18:04:54.764484	2016-10-26 19:59:46.627484	9999.0	f	Fee::GraduatedFeeType	---\n- lgfs\n	\N	f	GRRAK
+82	Cracked before retrial	GCBR	2016-04-11 18:04:54.808147	2016-10-26 19:59:46.639005	9999.0	f	Fee::GraduatedFeeType	---\n- lgfs\n	\N	f	GRCBR
+84	Vary/discharge an ASBO s1c Crime and Disorder Act 1998	XASB	2016-04-11 18:04:55.208555	2016-10-26 19:59:46.661069	\N	f	Fee::FixedFeeType	---\n- lgfs\n	83	f	FXASB
+85	Alteration of Crown Court sentence s155 Powers of Criminal Courts (Sentencing Act 2000)	XALT	2016-04-11 18:04:55.218611	2016-10-26 19:59:46.66878	\N	f	Fee::FixedFeeType	---\n- lgfs\n	83	f	FXALT
+86	Assistance by defendant: review of sentence s74 Serious Organised Crime and Police Act 2005	XASS	2016-04-11 18:04:55.228721	2016-10-26 19:59:46.676666	\N	f	Fee::FixedFeeType	---\n- lgfs\n	83	f	FXASS
+92	Contempt	ZCON	2016-04-13 09:00:27.072656	2016-10-26 19:59:46.735302	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f	FXCON
+93	Effective PCMH	IPCMH	2016-05-26 17:00:57.585021	2016-10-26 19:59:46.747554	\N	f	Fee::InterimFeeType	---\n- lgfs\n	\N	f	INPCM
+94	Trial start	ITST	2016-05-26 17:00:57.615188	2016-10-26 19:59:46.754644	\N	f	Fee::InterimFeeType	---\n- lgfs\n	\N	f	INTDT
+95	Retrial New solicitor	IRNS	2016-05-26 17:00:57.82732	2016-10-26 19:59:46.761873	\N	f	Fee::InterimFeeType	---\n- lgfs\n	\N	f	INRNS
+96	Retrial start	IRST	2016-05-26 17:00:58.044427	2016-10-26 19:59:46.769858	\N	f	Fee::InterimFeeType	---\n- lgfs\n	\N	f	INRST
+97	Disbursement only	IDISO	2016-05-26 17:00:58.831136	2016-10-26 19:59:46.777966	\N	f	Fee::InterimFeeType	---\n- lgfs\n	\N	f	INDIS
+98	Warrant	IWARR	2016-05-26 17:00:58.841716	2016-10-26 19:59:46.785544	\N	f	Fee::InterimFeeType	---\n- lgfs\n	\N	f	INWAR
+99	Transfer	TRANS	2016-05-26 17:00:58.860368	2016-10-26 19:59:46.797687	\N	f	Fee::TransferFeeType	---\n- lgfs\n	\N	f	TRANS
 \.
 
 
 --
--- Name: fee_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: stephenrichards
+-- Name: fee_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jsugarman
 --
 
 SELECT pg_catalog.setval('fee_types_id_seq', 99, true);
 
 
 --
--- Data for Name: offence_classes; Type: TABLE DATA; Schema: public; Owner: stephenrichards
+-- Data for Name: offence_classes; Type: TABLE DATA; Schema: public; Owner: jsugarman
 --
 
 COPY offence_classes (id, class_letter, description, created_at, updated_at) FROM stdin;
@@ -699,14 +708,14 @@ COPY offence_classes (id, class_letter, description, created_at, updated_at) FRO
 
 
 --
--- Name: offence_classes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: stephenrichards
+-- Name: offence_classes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jsugarman
 --
 
 SELECT pg_catalog.setval('offence_classes_id_seq', 11, true);
 
 
 --
--- Data for Name: offences; Type: TABLE DATA; Schema: public; Owner: stephenrichards
+-- Data for Name: offences; Type: TABLE DATA; Schema: public; Owner: jsugarman
 --
 
 COPY offences (id, description, offence_class_id, created_at, updated_at) FROM stdin;
@@ -1131,14 +1140,14 @@ COPY offences (id, description, offence_class_id, created_at, updated_at) FROM s
 
 
 --
--- Name: offences_id_seq; Type: SEQUENCE SET; Schema: public; Owner: stephenrichards
+-- Name: offences_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jsugarman
 --
 
 SELECT pg_catalog.setval('offences_id_seq', 417, true);
 
 
 --
--- Name: case_types_pkey; Type: CONSTRAINT; Schema: public; Owner: stephenrichards
+-- Name: case_types case_types_pkey; Type: CONSTRAINT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY case_types
@@ -1146,7 +1155,7 @@ ALTER TABLE ONLY case_types
 
 
 --
--- Name: courts_pkey; Type: CONSTRAINT; Schema: public; Owner: stephenrichards
+-- Name: courts courts_pkey; Type: CONSTRAINT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY courts
@@ -1154,7 +1163,7 @@ ALTER TABLE ONLY courts
 
 
 --
--- Name: disbursement_types_pkey; Type: CONSTRAINT; Schema: public; Owner: stephenrichards
+-- Name: disbursement_types disbursement_types_pkey; Type: CONSTRAINT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY disbursement_types
@@ -1162,7 +1171,7 @@ ALTER TABLE ONLY disbursement_types
 
 
 --
--- Name: expense_types_pkey; Type: CONSTRAINT; Schema: public; Owner: stephenrichards
+-- Name: expense_types expense_types_pkey; Type: CONSTRAINT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY expense_types
@@ -1170,7 +1179,7 @@ ALTER TABLE ONLY expense_types
 
 
 --
--- Name: fee_types_pkey; Type: CONSTRAINT; Schema: public; Owner: stephenrichards
+-- Name: fee_types fee_types_pkey; Type: CONSTRAINT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY fee_types
@@ -1178,7 +1187,7 @@ ALTER TABLE ONLY fee_types
 
 
 --
--- Name: offence_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: stephenrichards
+-- Name: offence_classes offence_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY offence_classes
@@ -1186,7 +1195,7 @@ ALTER TABLE ONLY offence_classes
 
 
 --
--- Name: offences_pkey; Type: CONSTRAINT; Schema: public; Owner: stephenrichards
+-- Name: offences offences_pkey; Type: CONSTRAINT; Schema: public; Owner: jsugarman
 --
 
 ALTER TABLE ONLY offences
@@ -1194,70 +1203,91 @@ ALTER TABLE ONLY offences
 
 
 --
--- Name: index_courts_on_code; Type: INDEX; Schema: public; Owner: stephenrichards
+-- Name: index_courts_on_code; Type: INDEX; Schema: public; Owner: jsugarman
 --
 
 CREATE INDEX index_courts_on_code ON courts USING btree (code);
 
 
 --
--- Name: index_courts_on_court_type; Type: INDEX; Schema: public; Owner: stephenrichards
+-- Name: index_courts_on_court_type; Type: INDEX; Schema: public; Owner: jsugarman
 --
 
 CREATE INDEX index_courts_on_court_type ON courts USING btree (court_type);
 
 
 --
--- Name: index_courts_on_name; Type: INDEX; Schema: public; Owner: stephenrichards
+-- Name: index_courts_on_name; Type: INDEX; Schema: public; Owner: jsugarman
 --
 
 CREATE INDEX index_courts_on_name ON courts USING btree (name);
 
 
 --
--- Name: index_disbursement_types_on_name; Type: INDEX; Schema: public; Owner: stephenrichards
+-- Name: index_disbursement_types_on_name; Type: INDEX; Schema: public; Owner: jsugarman
 --
 
 CREATE INDEX index_disbursement_types_on_name ON disbursement_types USING btree (name);
 
 
 --
--- Name: index_expense_types_on_name; Type: INDEX; Schema: public; Owner: stephenrichards
+-- Name: index_disbursement_types_on_unique_code; Type: INDEX; Schema: public; Owner: jsugarman
+--
+
+CREATE UNIQUE INDEX index_disbursement_types_on_unique_code ON disbursement_types USING btree (unique_code);
+
+
+--
+-- Name: index_expense_types_on_name; Type: INDEX; Schema: public; Owner: jsugarman
 --
 
 CREATE INDEX index_expense_types_on_name ON expense_types USING btree (name);
 
 
 --
--- Name: index_fee_types_on_code; Type: INDEX; Schema: public; Owner: stephenrichards
+-- Name: index_expense_types_on_unique_code; Type: INDEX; Schema: public; Owner: jsugarman
+--
+
+CREATE UNIQUE INDEX index_expense_types_on_unique_code ON expense_types USING btree (unique_code);
+
+
+--
+-- Name: index_fee_types_on_code; Type: INDEX; Schema: public; Owner: jsugarman
 --
 
 CREATE INDEX index_fee_types_on_code ON fee_types USING btree (code);
 
 
 --
--- Name: index_fee_types_on_description; Type: INDEX; Schema: public; Owner: stephenrichards
+-- Name: index_fee_types_on_description; Type: INDEX; Schema: public; Owner: jsugarman
 --
 
 CREATE INDEX index_fee_types_on_description ON fee_types USING btree (description);
 
 
 --
--- Name: index_offence_classes_on_class_letter; Type: INDEX; Schema: public; Owner: stephenrichards
+-- Name: index_fee_types_on_unique_code; Type: INDEX; Schema: public; Owner: jsugarman
+--
+
+CREATE UNIQUE INDEX index_fee_types_on_unique_code ON fee_types USING btree (unique_code);
+
+
+--
+-- Name: index_offence_classes_on_class_letter; Type: INDEX; Schema: public; Owner: jsugarman
 --
 
 CREATE INDEX index_offence_classes_on_class_letter ON offence_classes USING btree (class_letter);
 
 
 --
--- Name: index_offence_classes_on_description; Type: INDEX; Schema: public; Owner: stephenrichards
+-- Name: index_offence_classes_on_description; Type: INDEX; Schema: public; Owner: jsugarman
 --
 
 CREATE INDEX index_offence_classes_on_description ON offence_classes USING btree (description);
 
 
 --
--- Name: index_offences_on_offence_class_id; Type: INDEX; Schema: public; Owner: stephenrichards
+-- Name: index_offences_on_offence_class_id; Type: INDEX; Schema: public; Owner: jsugarman
 --
 
 CREATE INDEX index_offences_on_offence_class_id ON offences USING btree (offence_class_id);

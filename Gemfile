@@ -10,7 +10,7 @@ gem 'cocoon',                 '~> 1.2.6'
 gem 'devise',                 '~> 3.5.1'
 gem 'dropzonejs-rails',       '~> 0.7.1'
 gem 'factory_girl_rails',     '~> 4.7'
-gem 'faker',                  '~> 1.4.3'
+gem 'faker',                  '~> 1.8.4'
 gem 'gov_uk_date_fields',     '= 1.2.3'
 gem 'govuk_template',         '~> 0.18.0'
 gem 'govuk_frontend_toolkit', '>= 4.6.1'
@@ -55,8 +55,7 @@ gem 'premailer-rails',         '~> 1.9'
 gem 'sidekiq',                 '4.1.2' # version locked, as 4.1.3 forces Sinatra dependency
 gem 'utf8-cleaner',            '~> 0.2'
 gem 'colorize'
-
-
+gem 'shell-spinner', '~> 1.0', '>= 1.0.4'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'

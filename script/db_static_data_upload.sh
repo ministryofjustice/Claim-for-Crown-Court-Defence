@@ -60,7 +60,7 @@ begin
   install_postgres ssh
 
   puts 'Running task db:restore (this will take several minutes)...'
-  puts ssh.exec!("sudo docker exec advocatedefencepayments rake db:static_data_restore[#{dump_file_name}]")
+  puts ssh.exec!("sudo docker exec advocatedefencepayments rake db:static:restore[#{dump_file_name}]")
 
   puts 'Dump %s was successfully restored' % dump_file_name
   ssh.close

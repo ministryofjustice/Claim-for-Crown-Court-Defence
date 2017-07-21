@@ -67,6 +67,6 @@ namespace :ccr_claims do
   end
 
   def admin_api_key
-    @api_key ||= CaseWorker.where("roles LIKE '%admin%case_worker%'").first.user.api_key
+    @api_key ||= CaseWorker.where("roles LIKE '%case_worker%'").first.user.api_key
   end
 end

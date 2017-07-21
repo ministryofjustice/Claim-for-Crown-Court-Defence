@@ -301,7 +301,7 @@ namespace :db do
   end
 
   def fake_paragraphs max_paragraph_count=4
-    Faker::Lorem.paragraphs(max_paragraph_count).pop(rand(1..max_paragraph_count)).join('\n')
+    Faker::Lorem.paragraphs(max_paragraph_count).pop(rand(1..max_paragraph_count)).join("\n")
   end
 
 end

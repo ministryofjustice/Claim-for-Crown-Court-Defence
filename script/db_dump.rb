@@ -55,7 +55,7 @@ begin
     puts ssh.exec!("sudo docker cp advocatedefencepayments:/usr/src/app/#{gzip_file_name} ~/")
   end
 
-  puts 'Downloading dump file'
+  puts 'Downloading dump file %s from host %s' % [gzip_file_name, ssh_address]
   success = ssh.scp.download!("/home/#{ssh_user}/#{gzip_file_name}", '.') do |_channel, _name, sent, total|
     puts "...downloading... #{sent}/#{total}... #{'done'.green}" if sent % 512_000 == 0
   end

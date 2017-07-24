@@ -12,7 +12,38 @@
 //= require jquery-accessible-accordion-aria.js
 //= require typeahead-aria.js
 //= require jquery.jq-element-revealer.js
+//= require jquery.datatables.min.js
 //= require_tree ./modules
+//
+
+/* jQuery Tiny Pub/Sub - v0.7 - 10/27/2011
+ * http://benalman.com/
+ * Copyright (c) 2011 "Cowboy" Ben Alman; Licensed MIT, GPL */
+
+(function($) {
+
+  var o = $({});
+
+  $.subscribe = function() {
+    // console.log('sub', arguments);
+    o.on.apply(o, arguments);
+  };
+
+  $.unsubscribe = function() {
+    o.off.apply(o, arguments);
+  };
+
+  $.publish = function() {
+    console.log('pub', arguments);
+    o.trigger.apply(o, arguments);
+  };
+
+}(jQuery));
+
+
+String.prototype.trunc = String.prototype.trunc || function(n) {
+  return (this.length > n) ? this.substr(0, n - 1) + '&hellip;' : this;
+};
 
 (function() {
   'use strict';
@@ -22,7 +53,9 @@
     return this.length > 0;
   };
 
-
+  moj.Helpers.token = (function(name) {
+    return $('form input[name=' + name + '_token]').val();
+  }('authenticity'));
 
   $('#fixed-fees, #misc-fees, #disbursements, #expenses, #documents').on('cocoon:after-insert', function(e, insertedItem) {
     var $insertedItem = $(insertedItem);

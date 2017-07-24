@@ -2,6 +2,8 @@
 
 require 'net/ssh' # gem install net-ssh
 require 'net/scp' # gem install net-scp
+require 'colorize'
+require 'shell-spinner'
 
 ENVIRONMENTS = {
   'dev' => 'dev',
@@ -41,28 +43,38 @@ def install_postgres(ssh)
 end
 
 begin
+
+  print 'Connecting to host %s as %s... ' % [ssh_address, ssh_user]
+  ssh = Net::SSH.start ssh_address, ssh_user
+  puts 'done'.green
+
   puts 'Uploading dump file %s to host %s' % [dump_file_name, ssh_address]
-  Net::SCP.upload!(ssh_address, ssh_user, dump_file_name, "/home/#{ssh_user}/#{dump_file_name}.uploading") do |_channel, _name, sent, total|
-    puts "...uploading... #{sent}/#{total}" if sent % 512_000 == 0
+  ssh.scp.upload!(dump_file_name, "/home/#{ssh_user}/#{dump_file_name}" ) do |_channel, _name, sent, total|
+    print "...uploading... #{sent.to_s.green}/#{total} \r" if sent % 8192 == 0
+    STDOUT.flush
   end
 
-  ssh = Net::SSH.start ssh_address, ssh_user
-  puts ssh.exec!("mv /home/#{ssh_user}/#{dump_file_name}.uploading /home/#{ssh_user}/#{dump_file_name}")
-
   # Note: Docker 1.8 supports cp command to copy a file from the host to the container, but we are using a lower version
-  puts 'Copying dump file into container...'
-  puts ssh.exec!("cat #{dump_file_name} | sudo docker exec -i advocatedefencepayments sh -c 'cat > /usr/src/app/#{dump_file_name}'")
-  puts ssh.exec!("rm -f /home/#{ssh_user}/#{dump_file_name}")
+  ShellSpinner 'Copying dump file into container' do
+    puts ssh.exec!("sudo docker cp ~/#{dump_file_name} advocatedefencepayments:/usr/src/app/#{dump_file_name}")
+    puts ssh.exec!("rm -f ~/#{dump_file_name}")
+  end
 
-  puts 'Installing postgresql in container...'
-  install_postgres ssh
+  ShellSpinner 'Installing postgresql in container' do
+    install_postgres ssh
+  end
 
-  puts 'Running task db:restore (this will take several minutes)...'
-  puts ssh.exec!("sudo docker exec advocatedefencepayments rake db:restore[#{dump_file_name}]")
+  # NOTE: Errors encountered below related to COMMENTs and can be safely ignored
+  #  ERROR: must be owner of extension plpgsql
+  #  ERROR: must be owner of extension uuid-ossp
+  # see https://www.ca.com/us/services-support/ca-support/ca-support-online/knowledge-base-articles.TEC1634878.html
+  ShellSpinner "Restoring database using #{dump_file_name}" do
+    puts ssh.exec!("sudo docker exec advocatedefencepayments rake db:restore[#{dump_file_name}]")
+  end
 
-  puts 'Dump %s was successfully restored' % dump_file_name
-  ssh.close
 rescue Exception => e
   puts 'Usage: ./db_upload username environment [IP] filename'
   puts e
+ensure
+  ssh.close if !ssh.closed?
 end

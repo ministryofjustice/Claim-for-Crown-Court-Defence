@@ -1,5 +1,5 @@
 describe("Modules.AllocationFilters.js", function() {
-  var mod = moj.Modules.AllocationFilters;
+  var mod = moj.Modules.AllocationScheme;
   var filtersFixtureDOM = $('<div id="allocation-filters"/>');
 
   beforeEach(function() {
@@ -12,7 +12,7 @@ describe("Modules.AllocationFilters.js", function() {
 
 
   it('...should exist', function() {
-    expect(moj.Modules.AllocationFilters).toBeDefined();
+    expect(moj.Modules.AllocationScheme).toBeDefined();
   });
 
   it('...should have a `this.el` defined', function() {

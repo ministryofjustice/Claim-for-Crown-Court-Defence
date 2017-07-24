@@ -427,6 +427,9 @@ label.form-date-spacing {
     &.form-col-one-half {
       @include span(6 of 12);
     }
+    &.form-col-one-third {
+      @include span((4 of 12));
+    }
     &:nth-child(1), &.first-col {
       @include first;
     }

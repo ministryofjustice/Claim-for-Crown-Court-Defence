@@ -1,4 +1,4 @@
-moj.Modules.AllocationFilters = {
+moj.Modules.AllocationScheme = {
   el: '#allocation-filters',
   $el: null,
   init: function() {
@@ -14,3 +14,4 @@ moj.Modules.AllocationFilters = {
     });
   }
 }
+

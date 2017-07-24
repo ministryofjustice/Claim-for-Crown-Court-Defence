@@ -1,7 +1,7 @@
 moj.Modules.AllocationDataTable = {
   options: {
     // dom: '<"top1"f><"top2"li>rt<"bottom"ip>', // tdd
-    dom: 'flirtip', // tdd
+    dom: 'fitrlp', // tdd
     language: {
       loadingRecords: "Please wait - loading..."
     },

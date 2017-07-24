@@ -20,19 +20,35 @@
     = hidden_field_tag :page, params[:page]
     = hidden_field_tag :value_band_id, params[:value_band_id] if params[:value_band_id]
 
-    -# -# ALLOCATION FORM
-    -# .grid-row.js-typeahead
-    -#   .form-row.form-group.js-typeahead
-    -#     .form-col
-    -#       = label_tag :quantity_to_allocate, t('.no_of_claims')
-    -#       = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}
-    -#     .form-col
-    -#       = f.label :case_worker_id, t('dictionary.models.case_worker'), {for: "allocation_case_worker_id_autocomplete"}
-    -#       = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
+    -# ALLOCATION FORM
+    .grid-row.js-typeahead
+      %h2.heading-medium
+        = "Allocate claims"
+      .form-row.form-group.js-typeahead
+        .form-col
+          = label_tag :quantity_to_allocate, t('.no_of_claims')
+          = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}
+        .form-col
+          = f.label :case_worker_id, t('dictionary.models.case_worker'), {for: "allocation_case_worker_id_autocomplete"}
+          = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
 
-    -#     .form-col{ style: 'padding: 26px 0 0' }
-    -#       = f.submit 'Allocate', class: 'button'
+        .form-col{ style: 'padding: 26px 0 0' }
+          = f.submit 'Allocate', class: 'button'
 
+    %h2.heading-medium
+      = "Filter claims"
+    .form-row
+      .form-col.form-col-one-third.ui-filter
+        = render partial: 'filter_tasks'
+
+      .form-col.form-col-one-third.ui-filter
+        = render partial: 'filter_value_bands'
+
+      .form-col.form-col-one-third.ui-filter
+        = render partial: 'filter_status'
+
+    %h2.heading-medium
+      = "Allocation queue"
     %table#dtAllocation
       %thead
         %tr

@@ -24,11 +24,12 @@
 @import "moj/messages";
 @import "moj/related";
 @import "moj/print";
+@import "moj/gds_radios";
+@import "moj/dataTables";
 
 // /////////////////////////////// TODO: KILL THIS ASAP
 @import "moj/HOTFIX_KILLME";
 // ///////////////////////////////
-
 // Phase banner
 .phase-banner {
   @include phase-banner(beta);

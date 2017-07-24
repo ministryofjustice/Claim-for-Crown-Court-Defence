@@ -1,14 +1,14 @@
 
 @import "datatables.min.css";
 .scheme-filters{
-  margin-top: $gutter;
+  margin-top: $gutter/2;
 }
 
 // Rows per page control
 .dataTables_length select{
   font-size: 19px;
   line-height: 1.31579;
-  width: 50%;
+  width: 25%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;

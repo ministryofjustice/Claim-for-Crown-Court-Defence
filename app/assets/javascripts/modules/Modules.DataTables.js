@@ -2,7 +2,7 @@ moj.Modules.DataTables = {
   // These options will override the defaults
   _defaultOptions: {
     dom: '<"wrapper"flipt>',
-    pagingType: "full_numbers",
+    pagingType: "simple_numbers",
     pageLength: 10,
     order: [
       [0, 'asc']
@@ -17,3 +17,8 @@ moj.Modules.DataTables = {
     return moj.Helpers.DataTables.init(__options, el);
   }
 }
+
+
+$(function() {
+  $('.dtFilter').dtFilter();
+});

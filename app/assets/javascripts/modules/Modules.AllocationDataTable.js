@@ -1,7 +1,23 @@
 moj.Modules.AllocationDataTable = {
+  filterConfig: {
+    tasks: {
+      all: {
+        col: 0,
+        val: ''
+      },
+      fixed_fee: {
+
+      },
+      cracked: {},
+      trial: {},
+      guilty_plea: {},
+      redetermination: {},
+      awaiting_written_reasons: {}
+    }
+  },
   options: {
     // dom: '<"top1"f><"top2"li>rt<"bottom"ip>', // tdd
-    dom: 'fitrlp', // tdd
+    dom: '<"grid-row"<"column-one-half"f><"column-one-half"i>>t<"grid-row"<"column-one-half"l><"column-one-half"p>>', // tdd
     language: {
       loadingRecords: "Please wait - loading..."
     },
@@ -64,6 +80,8 @@ moj.Modules.AllocationDataTable = {
   init: function() {
     this.dataTable = moj.Modules.DataTables.init(this.options, '#dtAllocation');
     this.$el = $('#dtAllocation');
+
+    $('#dtAllocation_length').find('select').addClass('form-control');
     this.bindEvents();
   },
   bindEvents: function() {
@@ -79,8 +97,37 @@ moj.Modules.AllocationDataTable = {
     $.subscribe('/scheme/change/', function(e, data) {
       self.reloadScheme(data.scheme);
     });
+
+    $.subscribe('/filter/change/', function(e, data) {
+      self.search(e, data);
+    });
+
+    $.subscribe('/filter/clearAll', function(e, data) {
+      self.clearFilter(e, data)
+    });
+
+    $.subscribe('/filter/tasks/', function(e, data){
+      console.log('LISTEN', e, data);
+    });
+
+  },
+  search: function(e, data) {
+    var val = $.fn.dataTable.util.escapeRegex(data.val);
+
+    this.dataTable
+      .columns(data.col)
+      .search(data.val, true, false)
+      .draw('page');
+
   },
 
+  clearFilter: function(e, data) {
+    this.dataTable
+      .search('')
+      .columns()
+      .search('')
+      .draw();
+  },
   // Reload the data
   reloadScheme: function(scheme) {
     return this.dataTable.ajax.url('/api/search/unallocated?api_key=bbef1c5f-0ded-43d2-8d53-5a6358659dac&scheme=' + scheme + '&limit=50').load();

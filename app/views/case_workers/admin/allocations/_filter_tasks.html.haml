@@ -1,4 +1,10 @@
-.form-group#filter-tasks
-  %label.form-label{:for => "select-box"} Task:
-  %select.form-control{:name => "filter_tasks"}
-    %option{"data-value" => "", :value => "all"} All
+.form-group#filter-tasks.dtFilter
+  %label.form-label{:for => "tasks"} Task:
+  %select.form-control{:name => "tasks"}
+    %option{:value => ""} All
+    %option{:value => "fixed_fee"} Fixed fee
+    %option{:value => "cracked"} Cracked
+    %option{:value => "trial"} Trial
+    %option{:value => "guilty_plea"} Guilty plea
+    %option{:value => "redetermination"} Redetermination
+    %option{:value => "awaiting_written_reasons"} Awaiting written reasons

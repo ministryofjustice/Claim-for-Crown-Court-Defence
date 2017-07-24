@@ -17,7 +17,6 @@ describe API::Entities::SearchResult do
     context 'when passed a litigator case with a risk based bill' do
       let(:claim) {OpenStruct.new('id'=>'113336', 'uuid'=>'446fd8db-4441-4726-857c-3e80e440f5a2', 'scheme'=>'lgfs', 'scheme_type'=>'Final', 'case_number'=>'T20170329', 'state'=>'submitted', 'court_name'=>'Chester', 'case_type'=>'Guilty plea', 'total'=>'556.11', 'disk_evidence'=>'f', 'external_user'=>'Ozella Adams', 'maat_references'=>'5782148', 'defendants'=>'Vallie King', 'fees'=>'30.0~Guilty plea~Fee::GraduatedFeeType', 'last_submitted_at'=>'2017-07-18 09:19:42.860977', 'class_letter'=>'H', 'is_fixed_fee'=>'f', 'fee_type_code'=>'GRGLT', 'graduated_fee_types'=>'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR') }
       let(:result) { {'disk_evidence'=>false, 'redetermination'=>false, 'fixed_fee'=>false, 'awaiting_written_reasons'=>false, 'cracked'=>false, 'trial'=>false, 'guilty_plea'=>true, 'graduated_fees'=>true, 'interim_fees'=>false, 'warrants'=>false, 'interim_disbursements'=>false, 'risk_based_bills'=>true} }
-
       it { is_expected.to eql result }
     end
   end

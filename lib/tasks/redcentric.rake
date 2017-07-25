@@ -102,7 +102,8 @@ namespace :redcentric do
         joins(defendants: :representation_orders).
         where(state: states).
         where(supplier_number: redcentric_supplier_numbers).
-        where(representation_orders: { maat_reference: redcentric_maat_references })
+        where(representation_orders: { maat_reference: redcentric_maat_references }).
+        sample(sample_size)
     else
       Claim::AdvocateClaim.where(state: states).sample(sample_size)
     end

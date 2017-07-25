@@ -111,7 +111,7 @@ module API
 
       def graduated_fees
         object.allocation_type.eql?('Grad') ||
-          object.case_type.fee_type_code.in?(::Fee::GraduatedFeeType.pluck(:unique_code))
+          object&.case_type&.fee_type_code.in?(::Fee::GraduatedFeeType.pluck(:unique_code))
       end
 
       def interim_fees

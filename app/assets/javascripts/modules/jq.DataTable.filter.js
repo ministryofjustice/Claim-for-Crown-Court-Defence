@@ -51,7 +51,6 @@
       this.bindEvents();
     },
     bindEvents: function() {
-      console.log();
       $(this.element).on('change', 'select', function(e) {
 
         $.publish('/filter/'+ $(e.target).attr('name') +'/', {

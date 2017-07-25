@@ -1,28 +1,26 @@
 moj.Modules.AllocationDataTable = {
-  filterConfig: {
-    tasks: {
-      all: {
-        col: 0,
-        val: ''
-      },
-      fixed_fee: {
-
-      },
-      cracked: {},
-      trial: {},
-      guilty_plea: {},
-      redetermination: {},
-      awaiting_written_reasons: {}
+  searchConfig: {
+    key: null,
+    defaultLimit: 150,
+    scheme: 'agfs',
+    task: null,
+    valueBands: {
+      min: null,
+      max: null
     }
   },
   options: {
     // dom: '<"top1"f><"top2"li>rt<"bottom"ip>', // tdd
+    order: [
+      [5, 'asc']
+    ],
+    processing: true,
     dom: '<"grid-row"<"column-one-half"f><"column-one-half"i>>t<"grid-row"<"column-one-half"l><"column-one-half"p>>', // tdd
     language: {
       loadingRecords: "Please wait - loading..."
     },
     ajax: {
-      url: '/api/search/unallocated?api_key=bbef1c5f-0ded-43d2-8d53-5a6358659dac&scheme=agfs&limit=50',
+      url: null,
       dataSrc: ""
     },
     columnDefs: [{
@@ -37,7 +35,7 @@ moj.Modules.AllocationDataTable = {
       targets: 1,
       data: null,
       render: function(data, type, full) {
-        return "<a href='#noop'>" + data.case_number + "</a>";
+        return data.disk_evidence ? '<a href="#noop">' + data.case_number + '</a><br/><span class="disk-evidence">Disk evidence</span>' : '<a href="#noop">' + data.case_number + '</a>';
       }
     }, {
       targets: 2,
@@ -78,11 +76,55 @@ moj.Modules.AllocationDataTable = {
     }]
   },
   init: function() {
-    this.dataTable = moj.Modules.DataTables.init(this.options, '#dtAllocation');
     this.$el = $('#dtAllocation');
 
+    this.searchConfig.key = $('#api-key').data('api-key');
+    this.options.ajax.url = '/api/search/unallocated?api_key={0}&scheme={1}&limit={2}'.supplant([this.searchConfig.key, this.searchConfig.scheme, this.searchConfig.defaultLimit]);
+
+    this.dataTable = moj.Modules.DataTables.init(this.options, '#dtAllocation');
+
+    // :(
     $('#dtAllocation_length').find('select').addClass('form-control');
+
     this.bindEvents();
+    this.registerCustomSearch();
+
+  },
+  registerCustomSearch: function() {
+    var self = this;
+
+    // TASK FILTERS
+    $.fn.dataTable.ext.search.push(function(settings, searchData, index, rowData, counter) {
+      // Return true if task is undefined.
+      if (!self.searchConfig.task) {
+        return true;
+      }
+
+      // Apply the task filter
+      if (rowData.filter[self.searchConfig.task]) {
+        return true;
+      }
+
+      // Return false if fall through
+      return false;
+    });
+
+
+    // VALUE BAND FILTER
+    $.fn.dataTable.ext.search.push(function(settings, searchData, index, rowData, counter) {
+      var min = parseInt(self.searchConfig.valueBands.min, 10);
+      var max = parseInt(self.searchConfig.valueBands.max, 10);
+      var claimAmount = parseFloat(rowData.total) || 0; // use data for the claimAmount column
+
+      if ((isNaN(min) && isNaN(max)) ||
+        (isNaN(min) && claimAmount <= max) ||
+        (min <= claimAmount && isNaN(max)) ||
+        (min <= claimAmount && claimAmount <= max)) {
+        return true;
+      }
+      return false;
+    });
+
   },
   bindEvents: function() {
     var self = this;
@@ -95,32 +137,35 @@ moj.Modules.AllocationDataTable = {
     // Subscribe to the schene change
     // event and reload the data
     $.subscribe('/scheme/change/', function(e, data) {
-      self.reloadScheme(data.scheme);
+      self.searchConfig.scheme = data.scheme;
+      self.reloadScheme();
     });
 
-    $.subscribe('/filter/change/', function(e, data) {
-      self.search(e, data);
-    });
-
+    // EVENT: Clear all filters & reset table
     $.subscribe('/filter/clearAll', function(e, data) {
       self.clearFilter(e, data)
     });
 
-    $.subscribe('/filter/tasks/', function(e, data){
-      console.log('LISTEN', e, data);
+    // EVENT: Task filter
+    $.subscribe('/filter/tasks/', function(e, data) {
+      self.searchConfig.task = data.data;
+      self.tableDraw();
+    });
+
+    $.subscribe('/filter/filter_value_bands/', function(e, data) {
+      var valueSelected = data.data.split('|');
+      self.searchConfig.valueBands = {};
+      valueSelected.forEach(function(data) {
+        self.searchConfig.valueBands[data.split(':')[0]] = data.split(':')[1];
+      });
+      self.tableDraw();
     });
 
   },
-  search: function(e, data) {
-    var val = $.fn.dataTable.util.escapeRegex(data.val);
-
+  tableDraw: function(data) {
     this.dataTable
-      .columns(data.col)
-      .search(data.val, true, false)
-      .draw('page');
-
+      .draw();
   },
-
   clearFilter: function(e, data) {
     this.dataTable
       .search('')
@@ -129,7 +174,7 @@ moj.Modules.AllocationDataTable = {
       .draw();
   },
   // Reload the data
-  reloadScheme: function(scheme) {
-    return this.dataTable.ajax.url('/api/search/unallocated?api_key=bbef1c5f-0ded-43d2-8d53-5a6358659dac&scheme=' + scheme + '&limit=50').load();
+  reloadScheme: function() {
+    return this.dataTable.ajax.url('/api/search/unallocated?api_key={0}&scheme={1}&limit={2}'.supplant([this.searchConfig.key, this.searchConfig.scheme, this.searchConfig.defaultLimit])).load();
   }
 }

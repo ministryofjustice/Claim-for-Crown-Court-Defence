@@ -22,7 +22,7 @@ describe("Modules.DataTables.js", function() {
     //                    plus page numbers
     //
     // https://datatables.net/reference/option/pagingType
-    expect(defaults.pagingType).toEqual('full_numbers');
+    expect(defaults.pagingType).toEqual('simple_numbers');
 
     // pageLength:
     // Set the initial page length, current: 10

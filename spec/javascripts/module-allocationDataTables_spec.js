@@ -18,10 +18,7 @@ describe("Modules.AllocationDataTable.js", function() {
     // The ajax obj is passed to jQuery.ajax()
     // https://datatables.net/reference/option/ajax
     // http://api.jquery.com/jQuery.ajax/
-    expect(defaults.ajax).toEqual({
-      url: '/api/search/unallocated?api_key=bbef1c5f-0ded-43d2-8d53-5a6358659dac&scheme=agfs&limit=50',
-      dataSrc: ""
-    })
+    expect(defaults.ajax).toEqual({ url: '/api/search/unallocated?api_key={0}&scheme=agfs&limit=150', dataSrc: '' })
 
     // columnDefs:
     // https://datatables.net/reference/option/columnDefs

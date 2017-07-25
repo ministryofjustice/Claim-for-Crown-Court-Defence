@@ -4,7 +4,6 @@ moj.Modules.AllocationScheme = {
   init: function() {
     this.$el = $(this.el);
     this.bindEvents();
-    console.log('init: Modules.AllocationFilters', this);
   },
   bindEvents: function() {
     this.$el.on('change', 'input', function(e) {

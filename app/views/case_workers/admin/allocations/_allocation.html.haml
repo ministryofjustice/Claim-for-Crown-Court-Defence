@@ -3,7 +3,7 @@
 
 
 
-.grid-row
+.grid-row#api-key{:data => {api_key: current_user.api_key}}
   .column-two-thirds
     = render partial: 'layouts/header', locals: {page_heading: 'Allocation'}
   .column-one-third.scheme-filters
@@ -44,8 +44,8 @@
       .form-col.form-col-one-third.ui-filter
         = render partial: 'filter_value_bands'
 
-      .form-col.form-col-one-third.ui-filter
-        = render partial: 'filter_status'
+      -# .form-col.form-col-one-third.ui-filter
+      -#   = render partial: 'filter_status'
 
     %h2.heading-medium
       = "Allocation queue"

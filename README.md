@@ -174,18 +174,8 @@ If true, VAT at the prevailing rate is automatically added to fees and expenses;
 ## LGFS
 
 The claim's provider has an attribute 'vat_registered' which governs whether or not VAT is applied.  In this case, VAT is automatically applied to fees.
- 
-For both VAT registered and unregistered LGFS providers, a VAT amoutn field is provided for manual input of VAT 
 
- 
- 
-
-
-
-
-
-
-
+For both VAT registered and unregistered LGFS providers, a VAT amoutn field is provided for manual input of VAT
 
 ## Contributing
 

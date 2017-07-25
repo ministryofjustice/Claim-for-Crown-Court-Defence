@@ -25,7 +25,6 @@
   var o = $({});
 
   $.subscribe = function() {
-    // console.log('sub', arguments);
     o.on.apply(o, arguments);
   };
 
@@ -34,7 +33,6 @@
   };
 
   $.publish = function() {
-    console.log('pub', arguments);
     o.trigger.apply(o, arguments);
   };
 
@@ -44,6 +42,19 @@
 String.prototype.trunc = String.prototype.trunc || function(n) {
   return (this.length > n) ? this.substr(0, n - 1) + '&hellip;' : this;
 };
+
+// Simple string interpolation
+if (!String.prototype.supplant) {
+  String.prototype.supplant = function(o) {
+    return this.replace(
+      /\{([^{}]*)\}/g,
+      function(a, b) {
+        var r = o[b];
+        return typeof r === 'string' || typeof r === 'number' ? r : a;
+      }
+    );
+  };
+}
 
 (function() {
   'use strict';

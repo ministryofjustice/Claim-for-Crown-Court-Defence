@@ -8,6 +8,7 @@ require 'shell-spinner'
 ENVIRONMENTS = {
   'dev' => %w(dev adp_dev_new),
   'staging' => %w(staging adp_staging),
+  'api-sandbox' => %w(api-sandbox adp_api-sandbox),
   'demo' => %w(demo adp_demo),
   'gamma' => %w(gamma adp_gamma)
 }

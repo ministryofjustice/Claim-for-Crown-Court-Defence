@@ -14,6 +14,7 @@ module API
           mount API::V2::CaseWorker
           mount API::V2::CaseWorkers::Claim
           mount API::V2::Claim
+          mount API::V2::Search
 
           namespace :ccr, desc: 'CCR injection specific claim format' do
             mount API::V2::CCRClaim

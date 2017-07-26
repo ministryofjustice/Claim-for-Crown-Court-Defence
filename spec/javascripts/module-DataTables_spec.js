@@ -30,21 +30,37 @@ describe("Modules.DataTables.js", function() {
     // https://datatables.net/reference/option/pageLength
     expect(defaults.pageLength).toEqual(10);
 
-    // columnDefs:
-    // https://datatables.net/reference/option/columnDefs
-    // expect(defaults.columnDefs).toBeDefined();
+    // lengthMenu:
+    // Page length option for dropdown
+    //
+    // https://datatables.net/reference/option/lengthMenu
+    expect(defaults.lengthMenu).toEqual([
+      [10, 25, 50, -1],
+      [10, 25, 50, "All"]
+    ]);
+  });
 
-    // columns:
-    // https://datatables.net/reference/option/columns
-    // For the JSON structure the API returns, the `columnDefs`
-    // config is better suited.
-    expect(defaults.columns).not.toBeDefined();
-  })
+  describe('...init', function() {
+    it('...should merge options with defaults and call `moj.Helpers.DataTables.init`', function() {
+      // Spy on the final call
+      spyOn(moj.Helpers.DataTables, 'init');
 
-  describe('...defaults.columnDefs', function() {
-    var columnDefs = defaults.columnDefs;
+      // Setup some simple defaults
+      moj.Modules.DataTables._defaultOptions = {
+        foo: 'bar'
+      };
+
+      // Call the init passinf in options
+      moj.Modules.DataTables.init({
+        bar: 'foo'
+      }, 'element');
 
 
+      expect(moj.Helpers.DataTables.init).toHaveBeenCalledWith({
+        foo: 'bar',
+        bar: 'foo'
+      }, 'element');
 
+    });
   });
 });

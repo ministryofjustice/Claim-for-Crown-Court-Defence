@@ -1,3 +1,13 @@
+# current endpoint: GET /api/ccr/claims{uuid}
+# target endpoint: GET api/claims{uuid}
+#
+# This API endpoint is intended to be replaced by the GET api/claims{uuid} endpoint
+# however the following fields are CCR specific:
+#
+#   - feeStructureId
+#   - scenario
+#
+
 module API
   module Entities
     class CCRClaim < BaseEntity
@@ -78,7 +88,8 @@ module API
       end
 
       def scenario
-        'AS000004' # Hardcoded for "trial" case type
+        object.case_type.bill_scenario
+        # 'AS000004' # Hardcoded for "trial" case type
       end
 
       def estimated_trial_length_or_one

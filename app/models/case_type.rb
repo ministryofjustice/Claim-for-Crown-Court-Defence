@@ -57,4 +57,14 @@ class CaseType < ActiveRecord::Base
   def requires_defendant_dob?
     fee_type_code != 'FXCBR'
   end
+
+  # CCR stores billing scenarios that map to
+  # to CCCD case types, except "Hearing subsequent to sentence".
+  # Passed to CCR via API for calculation of fees.
+  #
+  def bill_scenario
+    @bill_scenario ||= Settings.ccr_bill_scenario_mappings.to_h.select do |k,v|
+      v.downcase == name.downcase
+    end.keys.first
+  end
 end

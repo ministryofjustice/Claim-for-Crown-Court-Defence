@@ -91,3 +91,17 @@ remote_api_url: <%= (ENV['GRAPE_SWAGGER_ROOT_URL'] || 'http://localhost:3001') +
 
 # contact email address
 laa_contact_email: crowncourtdefence@legalaid.gsi.gov.uk
+
+ccr_bill_scenario_mappings:
+  AS000005: Appeal against Conviction
+  AS000006: Appeal against Sentence
+  AS000009: Breach of Crown Court Order
+  AS000007: Committal for Sentence
+  AS000008: Contempt
+  AS000003: Cracked Trial
+  AS000010: Cracked before retrial
+  AS000001: Discontinuance
+  AS000014: Elected cases not proceeded
+  AS000002: Guilty Plea
+  AS000011: Retrial
+  AS000004: Trial

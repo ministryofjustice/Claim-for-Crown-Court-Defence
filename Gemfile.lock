@@ -174,6 +174,9 @@ GEM
       multipart-post (>= 1.2, < 3)
     ffi (1.9.10)
     formatador (0.2.5)
+    fuubar (2.2.0)
+      rspec-core (~> 3.0)
+      ruby-progressbar (~> 1.4)
     gherkin (3.2.0)
     git-version-bump (0.15.1)
     globalid (0.4.0)
@@ -626,6 +629,7 @@ DEPENDENCIES
   dropzonejs-rails (~> 0.7.1)
   factory_girl_rails (~> 4.7)
   faker (~> 1.8.4)
+  fuubar
   gov_uk_date_fields (= 1.2.3)
   govuk_elements_rails (>= 1.1.2)
   govuk_frontend_toolkit (>= 4.6.1)

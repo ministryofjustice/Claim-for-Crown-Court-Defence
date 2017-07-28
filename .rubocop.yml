@@ -19,5 +19,7 @@ Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-Metrics/LineLength:
-  Max: 120
+#Metrics/LineLength:
+#  Max: 120
+
+inherit_from: .rubocop_todo.yml

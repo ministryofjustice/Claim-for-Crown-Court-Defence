@@ -674,6 +674,7 @@ DEPENDENCIES
   rspec-mocks (~> 3.2.1)
   rspec-rails (~> 3.0)
   rubocop (= 0.40.0)
+  ruby-progressbar
   sass-rails (~> 5.0.6)
   scheduler_daemon!
   sdoc (~> 0.4.0)

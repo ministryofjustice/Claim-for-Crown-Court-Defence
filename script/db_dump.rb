@@ -4,6 +4,7 @@ require 'net/ssh' # gem install net-ssh
 require 'net/scp' # gem install net-scp
 require 'colorize'
 require 'shell-spinner'
+require 'ruby-progressbar'
 
 ENVIRONMENTS = {
   'dev' => %w(dev adp_dev_new),
@@ -42,6 +43,16 @@ def install_postgres(ssh)
   ssh.exec! 'sudo docker exec advocatedefencepayments apt-get -y install postgresql-9.4'
 end
 
+def progress_bar
+  ProgressBar.create(
+    :title => 'Downloaded',
+    :format         => "%a %b\u{15E7}%i %p%% %t",
+    :progress_mark  => '#'.green,
+    :remainder_mark => "\u{FF65}".yellow,
+    :starting_at    => 0
+  )
+end
+
 begin
   print 'Connecting to host %s... ' % ssh_address
   ssh = Net::SSH.start(ssh_address, ssh_user)
@@ -57,9 +68,10 @@ begin
   end
 
   puts 'Downloading dump file %s from host %s' % [gzip_file_name, ssh_address]
+
+  bar = progress_bar
   success = ssh.scp.download!("/home/#{ssh_user}/#{gzip_file_name}", '.') do |_channel, _name, sent, total|
-    print "...downloading... #{sent.to_s.green}/#{total} \r" if sent % 8192 == 0
-    STDOUT.flush
+    bar.progress = ((sent/total.to_f) * 100).round unless bar.progress >= 100
   end
 
   puts 'File %{file} download... %{success}' % { file: gzip_file_name, success: success ? 'done'.green : 'fail'.red }
@@ -68,7 +80,7 @@ rescue Exception => e
   puts 'Usage: ./db_dump.rb username environment [IP]'
   puts e
 ensure
-  if !ssh.closed?
+  if ssh
     ShellSpinner 'Deleting remote compressed dump file' do
       ssh.exec!("sudo docker exec advocatedefencepayments rm #{gzip_file_name}")
     end

@@ -1,43 +1,47 @@
 module SearchResultHelpers
   private
 
+  def fees
+    object.fees&.split(',')&.map { |fee| fee.split('~') }
+  end
+
+  def graduated_fee_codes
+    object.graduated_fee_types&.split(',')
+  end
+
   def fee_is_interim_type
-    object.fees.map do |fee|
+    fees.map do |fee|
       [
-        fee.fee_type.is_a?(::Fee::InterimFeeType),
-        fee.fee_type.description.in?(['Effective PCMH', 'Trial Start', 'Retrial New Solicitor', 'Retrial Start'])
+        fee[2].eql?('Fee::InterimFeeType'),
+        fee[1].downcase.in?(['effective pcmh', 'trial start', 'retrial new solicitor', 'retrial start'])
+      ].all?
+    end.any?
+  end
+
+  def contains_risk_based_fee
+    fees&.map do |fee|
+      [
+        fee[0].to_i.between?(1, 50),
+        fee[1].eql?('Guilty plea'),
+        fee[2].eql?('Fee::GraduatedFeeType')
+      ]&.all?
+    end&.any?
+  end
+
+  def contains_fee_of_type(fee_type_description)
+    fees&.map do |fee|
+      [
+        fee[2].eql?('Fee::InterimFeeType'),
+        fee[1].eql?(fee_type_description)
       ].all?
     end.any?
   end
 
   def risk_based_class_letter
-    if object.offence.present?
-      %w(E F H I).include?(object.offence.offence_class.class_letter)
-    else
-      false
-    end
-  end
-
-  def contains_risk_based_fee
-    object.fees.map do |fee|
-      [
-        fee.quantity.between?(1, 50),
-        fee.fee_type.description == 'Guilty plea',
-        fee.fee_type.is_a?(::Fee::GraduatedFeeType)
-      ].all?
-    end.any?
+    object.class_letter&.in?(%w(E F H I))
   end
 
   def interim_claim?
-    object.is_a?(::Claim::InterimClaim)
-  end
-
-  def contains_fee_of_type(fee_type_description)
-    object.fees.map do |fee|
-      [
-        fee.fee_type.is_a?(::Fee::InterimFeeType),
-        fee.fee_type.description.eql?(fee_type_description)
-      ].all?
-    end.any?
+    object.scheme_type.eql?('Interim')
   end
 end

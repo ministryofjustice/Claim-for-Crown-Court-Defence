@@ -2,7 +2,6 @@ module API
   module Entities
     class SearchResult < BaseEntity
       include SearchResultHelpers
-
       expose :id
       expose :uuid
       expose :scheme
@@ -14,14 +13,13 @@ module API
       expose :case_type
       expose :total, format_with: :decimal
       expose :total_display
-      expose :opened_for_redetermination?, as: :redetermination
-      expose :disk_evidence
       expose :external_user
       expose :last_submitted_at
       expose :last_submitted_at_display
       expose :defendants
       expose :maat_references
       expose :filter do
+        expose :disk_evidence
         expose :redetermination
         expose :fixed_fee
         expose :awaiting_written_reasons
@@ -37,81 +35,48 @@ module API
 
       private
 
-      def scheme
-        object.type.gsub(/Claim|::/, '')
-      end
-
-      def scheme_type
-        scheme.eql?('Litigator') ? 'Final' : scheme
-      end
-
       def state_display
         object.state.humanize
-      end
-
-      def court_name
-        object.court&.name
-      end
-
-      def case_type
-        object.case_type&.name
       end
 
       def total_display
         ActiveSupport::NumberHelper.number_to_currency(object.total, precision: 2, delimiter: ',')
       end
 
-      def disk_evidence
-        object.disk_evidence.present? && object.disk_evidence
-      end
-
-      def external_user
-        "#{object&.external_user.first_name} #{object&.external_user.last_name}"
-      end
-
-      def last_submitted_at
-        object.last_submitted_at.to_i
-      end
-
       def last_submitted_at_display
         object.last_submitted_at.strftime('%d/%m/%Y')
       end
 
-      def defendants
-        object&.defendants.map { |defendant| [defendant.first_name, defendant.last_name].join(' ') }.join(', ')
-      end
-
-      def maat_references
-        object&.representation_orders.map(&:maat_reference).join(', ')
+      def disk_evidence
+        object.disk_evidence.eql?(true)
       end
 
       def redetermination
-        object.redetermination?
+        object.state.eql?('redetermination')
       end
 
       def fixed_fee
-        object&.case_type&.is_fixed_fee
+        object.is_fixed_fee.eql?(true)
       end
 
       def awaiting_written_reasons
-        object.awaiting_written_reasons?
+        object.state.eql?('awaiting_written_reasons')
       end
 
       def cracked
-        object&.case_type&.name.eql?('Cracked Trial')
+        object.case_type.eql?('Cracked Trial')
       end
 
       def trial
-        object&.case_type&.name.eql?('Trial')
+        object.case_type.eql?('Trial')
       end
 
       def guilty_plea
-        object&.case_type&.name.eql?('Guilty plea')
+        object.case_type.eql?('Guilty plea')
       end
 
       def graduated_fees
-        object.allocation_type.eql?('Grad') ||
-          object&.case_type&.fee_type_code.in?(::Fee::GraduatedFeeType.pluck(:unique_code))
+        object.fee_type_code&.in?(graduated_fee_codes).eql?(true)
       end
 
       def interim_fees
@@ -127,7 +92,7 @@ module API
       end
 
       def risk_based_bills
-        risk_based_class_letter && contains_risk_based_fee
+        (risk_based_class_letter && contains_risk_based_fee).eql?(true)
       end
     end
   end

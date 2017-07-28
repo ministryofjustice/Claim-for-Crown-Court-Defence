@@ -14,8 +14,13 @@ guard :jasmine do
   end
 end
 
-guard :rspec, cmd: "bundle exec rspec -fd" do
+guard :rspec, cmd: "bundle exec rspec --format Fuubar --color" do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^app/(.+)\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
   watch(%r{^app/interfaces/api/(.+)\.rb$}) { |m| "spec/api/#{m[1]}_spec.rb" }
+end
+
+guard :rubocop do
+  watch(%r{.+\.rb$})
+  watch(%r{(?:.+/)?\.(rubocop|rubocop_todo)\.yml$}) { |m| File.dirname(m[0]) }
 end

@@ -73,6 +73,7 @@ group :development, :devunicorn, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'byebug'
+  gem 'fuubar'
   gem 'guard-livereload',   '>= 2.5.2'
   gem 'listen',             '~> 2.10.0'
   gem 'pry-byebug'

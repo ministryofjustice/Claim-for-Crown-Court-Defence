@@ -4,6 +4,7 @@ require 'net/ssh' # gem install net-ssh
 require 'net/scp' # gem install net-scp
 require 'colorize'
 require 'shell-spinner'
+require 'ruby-progressbar'
 
 ENVIRONMENTS = {
   'dev' => 'dev',
@@ -42,6 +43,16 @@ def install_postgres(ssh)
   ssh.exec! 'sudo docker exec advocatedefencepayments apt-get -y install postgresql-9.4'
 end
 
+def progress_bar
+  ProgressBar.create(
+    :title => 'Uploaded',
+    :format         => "%a %b\u{15E7}%i %p%% %t",
+    :progress_mark  => '#'.green,
+    :remainder_mark => "\u{FF65}".yellow,
+    :starting_at    => 0
+  )
+end
+
 begin
 
   print 'Connecting to host %s as %s... ' % [ssh_address, ssh_user]
@@ -49,9 +60,9 @@ begin
   puts 'done'.green
 
   puts 'Uploading dump file %s to host %s' % [dump_file_name, ssh_address]
+  bar = progress_bar
   ssh.scp.upload!(dump_file_name, "/home/#{ssh_user}/#{dump_file_name}" ) do |_channel, _name, sent, total|
-    print "...uploading... #{sent.to_s.green}/#{total} \r" if sent % 8192 == 0
-    STDOUT.flush
+    bar.progress = ((sent/total.to_f) * 100).round unless bar.progress >= 100
   end
 
   # Note: Docker 1.8 supports cp command to copy a file from the host to the container, but we are using a lower version
@@ -76,5 +87,7 @@ rescue Exception => e
   puts 'Usage: ./db_upload username environment [IP] filename'
   puts e
 ensure
-  ssh.close if !ssh.closed?
+  ShellSpinner 'Closing connection' do
+    ssh.close if ssh
+  end
 end

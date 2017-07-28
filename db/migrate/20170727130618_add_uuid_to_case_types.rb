@@ -13,6 +13,7 @@ class AddUuidToCaseTypes < ActiveRecord::Migration
     b342a476-887d-46b3-b2dc-32da2dd138ec
     c6197718-08c5-4943-a2e1-2c5bf71bcfa8
     f96b265a-f972-4872-a598-e78de4fcab83
+    5e1d62c4-b119-4b48-9811-3c92c93dee9e
   ).freeze
 
   def up

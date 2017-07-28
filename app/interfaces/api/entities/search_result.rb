@@ -1,7 +1,7 @@
 module API
   module Entities
     class SearchResult < BaseEntity
-
+      include SearchResultHelpers
       expose :id
       expose :uuid
       expose :scheme
@@ -35,104 +35,48 @@ module API
 
       private
 
-      def id
-        object['id']
-      end
-
-      def uuid
-        object['uuid']
-      end
-
-      def scheme
-        object['scheme']
-      end
-
-      def scheme_type
-        object['scheme_type']
-      end
-
-      def state
-        object['state']
-      end
-
-      def court_name
-        object['court_name']
-      end
-
-      def case_type
-        object['case_type']
-      end
-
-      def total
-        object['total']
-      end
-
-      def external_user
-        object['external_user']
-      end
-
-      def last_submitted_at
-        object['last_submitted_at']
-      end
-
-      def defendants
-        object['defendants']
-      end
-
-      def maat_references
-        object['maat_references']
-      end
-
       def state_display
-        state.humanize
+        object.state.humanize
       end
 
       def total_display
-        ActiveSupport::NumberHelper.number_to_currency(total, precision: 2, delimiter: ',')
-      end
-
-      def disk_evidence
-        object['disk_evidence'].eql?(true)
+        ActiveSupport::NumberHelper.number_to_currency(object.total, precision: 2, delimiter: ',')
       end
 
       def last_submitted_at_display
-        last_submitted_at.strftime('%d/%m/%Y')
+        object.last_submitted_at.strftime('%d/%m/%Y')
+      end
+
+      def disk_evidence
+        object.disk_evidence.eql?(true)
       end
 
       def redetermination
-        state.eql?('redetermination')
-      end
-
-      def fees
-        object['fees']&.split(',')&.map { |fee| fee.split('~') }
-      end
-
-      def awaiting_written_reasons
-        state.eql?('awaiting_written_reasons')
-      end
-
-      def cracked
-        case_type.eql?('Cracked Trial')
-      end
-
-      def trial
-        case_type.eql?('Trial')
-      end
-
-      def guilty_plea
-        case_type.eql?('Guilty plea')
+        object.state.eql?('redetermination')
       end
 
       def fixed_fee
-        object['is_fixed_fee'].eql?(true)
+        object.is_fixed_fee.eql?(true)
+      end
+
+      def awaiting_written_reasons
+        object.state.eql?('awaiting_written_reasons')
+      end
+
+      def cracked
+        object.case_type.eql?('Cracked Trial')
+      end
+
+      def trial
+        object.case_type.eql?('Trial')
+      end
+
+      def guilty_plea
+        object.case_type.eql?('Guilty plea')
       end
 
       def graduated_fees
-        object['fee_type_code']&.in?(graduated_fee_codes).eql?(true)
-      end
-
-      def graduated_fee_codes
-        object['graduated_fee_types']&.split(',')
+        object.fee_type_code&.in?(graduated_fee_codes).eql?(true)
       end
 
       def interim_fees
@@ -149,42 +93,6 @@ module API
 
       def risk_based_bills
         (risk_based_class_letter && contains_risk_based_fee).eql?(true)
-      end
-
-      def fee_is_interim_type
-        fees.map do |fee|
-          [
-              fee[2].eql?('Fee::InterimFeeType'),
-              fee[1].downcase.in?(['effective pcmh', 'trial start', 'retrial new solicitor', 'retrial start'])
-          ].all?
-        end.any?
-      end
-
-      def risk_based_class_letter
-        object['class_letter']&.in?(%w(E F H I))
-      end
-
-      def contains_risk_based_fee
-        fees&.map do |fee|
-          [
-              fee[0].to_i.between?(1, 50),
-              fee[1].eql?('Guilty plea'),
-              fee[2].eql?('Fee::GraduatedFeeType')
-          ]&.all?
-        end&.any?
-      end
-
-      def interim_claim?
-        scheme_type.eql?('Interim')
-      end
-
-      def contains_fee_of_type(fee_type_description)
-        fees.map do |fee|
-          [
-              fee[2].eql?('Fee::InterimFeeType'),
-              fee[1].eql?(fee_type_description)
-          ].all?
-        end.any?
       end
     end
   end

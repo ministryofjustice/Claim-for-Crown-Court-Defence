@@ -2,3 +2,4 @@
 --tty
 --require spec_helper
 --order rand
+--format Fuubar --color

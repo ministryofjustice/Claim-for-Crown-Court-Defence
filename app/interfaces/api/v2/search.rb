@@ -2,6 +2,9 @@ module API
   module V2
     class Search < Grape::API
       helpers API::V2::CriteriaHelper
+      before_validation do
+        authenticate_user_is?('CaseWorker')
+      end
 
       resource :search, desc: 'Search for claims' do
         params do

@@ -15,6 +15,10 @@ module API::Helpers
       authorisation_error if current_user.nil?
     end
 
+    def authenticate_user_is?(persona)
+      authorisation_error unless current_user.persona_type.eql?(persona)
+    end
+
     private
 
     def authorisation_error(message = 'Unauthorised')

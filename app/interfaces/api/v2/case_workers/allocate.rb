@@ -28,7 +28,8 @@ module API
               @allocation = Allocation.new(allocation_params)
               {
                 result: @allocation.save,
-                allocated_claims: @allocation.successful_claims.map(&:id)
+                allocated_claims: @allocation.successful_claims.map(&:id),
+                errors: @allocation.errors[:base]
               }
             end
           end

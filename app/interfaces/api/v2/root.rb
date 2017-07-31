@@ -13,6 +13,7 @@ module API
         namespace :api, desc: 'Retrieval, creation and validation operations' do
           mount API::V2::CaseWorker
           mount API::V2::CaseWorkers::Claim
+          mount API::V2::CaseWorkers::Allocate
           mount API::V2::Claim
           mount API::V2::Search
 

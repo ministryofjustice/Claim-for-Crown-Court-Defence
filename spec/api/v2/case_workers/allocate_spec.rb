@@ -41,30 +41,18 @@ describe API::V2::CaseWorkers::Allocate do
   describe 'POST allocate' do
     let(:allocation) { double Allocation }
 
-    context 'new test' do
-      let(:params) { valid_array_params }
-
-      before do
-        expect(Allocation).to receive(:new).and_return(allocation)
-        expect(allocation).to receive(:save).and_return(true)
-        expect(allocation).to receive(:successful_claims).and_return(build_list(:allocated_claim, 3).to_a)
-        do_request
-      end
-
-      it 'should succeed' do
-        expect(last_response.status).to eq 201
-      end
-    end
-
     context 'with valid array params' do
       let(:params) { valid_array_params }
 
       context 'when accessed by a CaseWorker' do
         let(:claims) { create_list(:allocated_claim, 3) }
+        let(:error_return) { { base: [] } }
+
         before do
           allow(Allocation).to receive(:new).and_return(allocation)
           allow(allocation).to receive(:save).and_return(true)
           allow(allocation).to receive(:successful_claims).and_return(claims.to_a)
+          allow(allocation).to receive(:errors).and_return(error_return)
           do_request
         end
 
@@ -75,7 +63,7 @@ describe API::V2::CaseWorkers::Allocate do
         it 'should return a JSON with the required information' do
           body = JSON.parse(last_response.body, symbolize_names: true)
           claim_ids = claims.map(&:id).to_a
-          expected = { result: true, allocated_claims: claim_ids } # TODO: Update this, what should be returned
+          expected = { result: true, allocated_claims: claim_ids, errors: [] } # TODO: Update this, what should be returned
 
           expect(body).to eq(expected)
         end
@@ -89,6 +77,36 @@ describe API::V2::CaseWorkers::Allocate do
           expect(last_response.status).to eq 401
           expect(last_response.body).to include('Unauthorised')
         end
+      end
+
+      context 'when allocating cases where one is already allocated' do
+        let(:claims) do
+          claims = create_list(:submitted_claim, 1)
+          claims << create(:allocated_claim)
+        end
+        let(:errors) do
+          { base:
+              [
+                "NO claims allocated because: ",
+                "Claim T20167325 has already been allocated to Bill Smith"
+              ]
+          }
+        end
+
+        before do
+          allow(Allocation).to receive(:new).and_return(allocation)
+          allow(allocation).to receive(:save).and_return(true)
+          allow(allocation).to receive(:successful_claims).and_return(claims.to_a)
+          allow(allocation).to receive(:errors).and_return(errors)
+          do_request
+        end
+
+        it 'should return a JSON with error messages' do
+          body = JSON.parse(last_response.body, symbolize_names: true)
+
+          expect(body[:errors][1]).to match /Claim .* has already been allocated/
+        end
+
       end
     end
 

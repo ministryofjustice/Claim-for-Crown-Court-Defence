@@ -31,6 +31,9 @@
 // /////////////////////////////// TODO: KILL THIS ASAP
 @import "moj/HOTFIX_KILLME";
 // ///////////////////////////////
+//
+
+@import "datatables.min";
 // Phase banner
 .phase-banner {
   @include phase-banner(beta);

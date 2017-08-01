@@ -40,7 +40,7 @@ module API
       expose :actual_trial_length_or_one, as: :actualTrialLength
       expose :first_day_of_trial, as: :trialStartDate
 
-      expose :zero, as: :noOfWitnesses
+      expose :number_of_witnesses, as: :noOfWitnesses
 
       expose :personType do
         expose :advocate_category, as: :personType
@@ -112,6 +112,10 @@ module API
       def offence_code_id
         # Using CCR Legacy Offence codes 501-511 for now (which map 1-to-1 onto offence classes)
         ('A'..'K').zip(501..511).to_h[offence_class_code]
+      end
+
+      def number_of_witnesses
+        object.fees.find_by(fee_type_id: 10)&.quantity&.to_i || 0
       end
 
       # CCR bill type maps to the class/type of a BaseFeeType

@@ -52,7 +52,7 @@ module API
       end
 
       def disk_evidence
-        object.disk_evidence.eql?(true)
+        object.disk_evidence.eql?('t')
       end
 
       def redetermination
@@ -60,7 +60,7 @@ module API
       end
 
       def fixed_fee
-        object.is_fixed_fee.eql?(true)
+        object.is_fixed_fee.eql?('t')
       end
 
       def awaiting_written_reasons
@@ -80,7 +80,7 @@ module API
       end
 
       def graduated_fees
-        object.fee_type_code&.in?(graduated_fee_codes).eql?(true)
+        object.fee_type_code&.in?(graduated_fee_codes).eql?('t')
       end
 
       def interim_fees
@@ -96,7 +96,7 @@ module API
       end
 
       def risk_based_bills
-        (risk_based_class_letter && contains_risk_based_fee).eql?(true)
+        (risk_based_class_letter && contains_risk_based_fee).eql?('t')
       end
     end
   end

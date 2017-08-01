@@ -18,7 +18,8 @@ module API
       end
 
       expose :case_details do
-        expose :case_type
+        expose :case_type_name, as: :case_type
+        expose :case_type_uuid
         expose :case_number
         expose :cms_number
         expose :providers_ref, as: :providers_reference
@@ -73,10 +74,13 @@ module API
 
       private
 
-      def case_type
+      def case_type_name
         object.case_type.name
       end
 
+      def case_type_uuid
+        object.case_type.uuid
+      end
       def court_code
         object.court&.code
       end

@@ -24,6 +24,7 @@ FactoryGirl.define do
     requires_trial_dates        false
     requires_maat_reference     true
     roles                       %w{ agfs lgfs }
+    uuid SecureRandom.uuid
 
     trait :fixed_fee do
       name            'Fixed fee'

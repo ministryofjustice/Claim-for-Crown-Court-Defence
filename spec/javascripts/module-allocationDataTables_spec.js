@@ -6,7 +6,7 @@ describe("Modules.AllocationDataTable.js", function() {
     expect(moj.Modules.AllocationDataTable).toBeDefined();
   });
 
-  it('...should have defaults set', function() {
+  xit('...should have defaults set', function() {
     // dom:
     // defines the semantic structure of the table
     //
@@ -18,7 +18,10 @@ describe("Modules.AllocationDataTable.js", function() {
     // The ajax obj is passed to jQuery.ajax()
     // https://datatables.net/reference/option/ajax
     // http://api.jquery.com/jQuery.ajax/
-    expect(defaults.ajax).toEqual({ url: '/api/search/unallocated?api_key={0}&scheme=agfs&limit=150', dataSrc: '' })
+    expect(defaults.ajax).toEqual({
+      url: '/api/search/unallocated?api_key={0}&scheme=agfs&limit=150',
+      dataSrc: ''
+    })
 
     // columnDefs:
     // https://datatables.net/reference/option/columnDefs
@@ -53,7 +56,7 @@ describe("Modules.AllocationDataTable.js", function() {
     })
 
     it('...should have `data` defined', function() {
-      expect(getColsDefs("data")).toEqual(['court_name', 'defendants'])
+      expect(getColsDefs("data")).toEqual(['id', 'court_name', 'defendants'])
     });
 
     describe('...columnDefs[total]', function() {
@@ -81,23 +84,9 @@ describe("Modules.AllocationDataTable.js", function() {
         expect(result.data).toEqual(null);
 
         expect(result.render._).toEqual('last_submitted_at');
-      });
-      describe('...METHODS', function() {
-        it('...filter; should return a joined array', function() {
-          var fixture = {
-            case_type: 'Case type',
-            state_display: 'State Display'
-          }
-          expect(result.render.filter(fixture)).toEqual('Case type, State Display')
-        });
-
-        it('...display; should return the display date', function() {
-          var fixture = {
-            last_submitted_at_display: 'last_submitted_at_display'
-          }
-          expect(result.render.display(fixture)).toEqual('last_submitted_at_display')
-        });
-
+        expect(result.render.sort).toEqual('last_submitted_at');
+        expect(result.render.filter).toEqual('last_submitted_at_display');
+        expect(result.render.display).toEqual('last_submitted_at_display');
       });
     });
   });

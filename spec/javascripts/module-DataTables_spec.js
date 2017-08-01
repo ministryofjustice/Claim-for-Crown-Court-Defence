@@ -51,7 +51,7 @@ describe("Modules.DataTables.js", function() {
       };
 
       // Call the init passinf in options
-      moj.Modules.DataTables.init({
+      moj.Modules.DataTables._init({
         bar: 'foo'
       }, 'element');
 

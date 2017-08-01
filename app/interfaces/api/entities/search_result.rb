@@ -43,6 +43,10 @@ module API
         ActiveSupport::NumberHelper.number_to_currency(object.total, precision: 2, delimiter: ',')
       end
 
+      def last_submitted_at
+        object.last_submitted_at.to_datetime.to_i
+      end
+
       def last_submitted_at_display
         object.last_submitted_at.strftime('%d/%m/%Y')
       end

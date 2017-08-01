@@ -89,7 +89,6 @@ module API
 
       def scenario
         object.case_type.bill_scenario
-        # 'AS000004' # Hardcoded for "trial" case type
       end
 
       def estimated_trial_length_or_one
@@ -115,16 +114,40 @@ module API
         ('A'..'K').zip(501..511).to_h[offence_class_code]
       end
 
+      # CCR bill type maps to the type of a BaseFeeType
+      # e.g. AGFS_FEE bill_type is the BasicFeeType
+      def bill_type
+        'AGFS_FEE'
+      end
+
+      # CCR bill sub types map to individual
+      # e.g. AGFS_FEE subtype is the BasicFeeType's Basic fee (i.e. BAF)
+      def bill_subtype
+        'AGFS_FEE'
+      end
+
+      # every claim is based on one case (i.e. see case number) but may involve others
+      def number_of_cases
+        n = object.fees.find_by(fee_type_id: 9)&.quantity&.to_i || 0
+        n + 1
+      end
+
+      def pages_of_prosecution_evidence
+        object.fees.find_by(fee_type_id: 11)&.quantity&.to_i
+      end
+
+      # This "bill" currently represents information that is required
+      # for the BasicFeeTypes as they map to an Advocate Fee in CCR
       def wrapped_bill
         [{
           billType: {
-            billType: 'AGFS_FEE'
+            billType: bill_type
           },
           billSubType: {
-            billSubType: 'AGFS_FEE'
+            billSubType: bill_subtype
           },
           userCreatedRole: 'CCRGradeB1',
-          ppe: object.fees.where(fee_type_id: 11)&.first&.quantity&.to_i,
+          ppe: pages_of_prosecution_evidence,
           quantity: 1.0,
           rate: 0.0,
           dateNotice1stFixedWarn: nil,
@@ -133,7 +156,7 @@ module API
           thirdCracked: nil,
           forceThirdCracked: nil,
           dateIncurred: object.last_submitted_at.strftime('%Y-%m-%d %H:%M:%S'),
-          noOfCases: 1,
+          noOfCases: number_of_cases,
           calculatedFee: {
             basicCaseFee: 0.0,
             date: object.last_submitted_at.strftime('%Y-%m-%d %H:%M:%S'),

@@ -92,6 +92,9 @@ remote_api_url: <%= (ENV['GRAPE_SWAGGER_ROOT_URL'] || 'http://localhost:3001') +
 # contact email address
 laa_contact_email: crowncourtdefence@legalaid.gsi.gov.uk
 
+# mappings of case types to CCR Bill scenario keys/ids
+# INJECTION: may be replaced CCR-side by case-type-uuid mappings to bill scenarios
+# TODO: may be removed
 ccr_bill_scenario_mappings:
   AS000005: Appeal against Conviction
   AS000006: Appeal against Sentence

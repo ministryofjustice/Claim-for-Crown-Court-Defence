@@ -114,13 +114,13 @@ module API
         ('A'..'K').zip(501..511).to_h[offence_class_code]
       end
 
-      # CCR bill type maps to the type of a BaseFeeType
+      # CCR bill type maps to the class/type of a BaseFeeType
       # e.g. AGFS_FEE bill_type is the BasicFeeType
       def bill_type
         'AGFS_FEE'
       end
 
-      # CCR bill sub types map to individual
+      # CCR bill sub types map to individual/unique fee types
       # e.g. AGFS_FEE subtype is the BasicFeeType's Basic fee (i.e. BAF)
       def bill_subtype
         'AGFS_FEE'
@@ -136,10 +136,11 @@ module API
         object.fees.find_by(fee_type_id: 11)&.quantity&.to_i
       end
 
-      # This "bill" currently represents information that is required
-      # for the BasicFeeTypes as they map to an Advocate Fee in CCR
-      def wrapped_bill
-        [{
+      # The "Advocate Fee" is the CCR equivalent of all the
+      # BasicFeeType fees in CCCD.
+      # The Advocate Fee is of type AGFS_FEE and subtype AGFS_FEE
+      def advocate_fee
+        {
           billType: {
             billType: bill_type
           },
@@ -174,8 +175,15 @@ module API
           firstFixedWarnedDateOrig: nil,
           caseUpliftAmount: 0.0,
           defendantUpliftAmount: 0.0
-        }]
+        }
       end
+
+      def wrapped_bill
+        [
+          advocate_fee
+        ]
+      end
+
     end
   end
 end

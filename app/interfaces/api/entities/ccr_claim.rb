@@ -63,12 +63,21 @@ module API
 
       private
 
+      # fee type ids
+      CASES_UPLIFT = 9
+      WITNESSES = 10
+      PPE = 11
+
       def empty
         []
       end
 
       def zero
         0
+      end
+
+      def fee_quantity_for(fee_type_id)
+        object.fees.find_by(fee_type_id: fee_type_id)&.quantity&.to_i || 0
       end
 
       def court_code
@@ -115,7 +124,7 @@ module API
       end
 
       def number_of_witnesses
-        object.fees.find_by(fee_type_id: 10)&.quantity&.to_i || 0
+        fee_quantity_for(WITNESSES)
       end
 
       # CCR bill type maps to the class/type of a BaseFeeType
@@ -132,12 +141,11 @@ module API
 
       # every claim is based on one case (i.e. see case number) but may involve others
       def number_of_cases
-        n = object.fees.find_by(fee_type_id: 9)&.quantity&.to_i || 0
-        n + 1
+        fee_quantity_for(CASES_UPLIFT) + 1
       end
 
       def pages_of_prosecution_evidence
-        object.fees.find_by(fee_type_id: 11)&.quantity&.to_i
+        fee_quantity_for(PPE)
       end
 
       # The "Advocate Fee" is the CCR equivalent of all the
@@ -187,7 +195,6 @@ module API
           advocate_fee
         ]
       end
-
     end
   end
 end

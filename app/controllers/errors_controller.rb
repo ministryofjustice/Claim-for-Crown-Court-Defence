@@ -3,6 +3,7 @@ class ErrorsController < ApplicationController
   protect_from_forgery except: [:not_endpoint, :not_found, :internal_server_error]
 
   def not_endpoint
+    logger.debug("Data POSTed to root with API key: #{not_endpoint_params[:api_key]}") if params.present?
     render status: 422, text: 'Not a valid api endpoint'
   end
 
@@ -22,5 +23,11 @@ class ErrorsController < ApplicationController
 
   def dummy_exception
     raise ArgumentError, "This exception has been raised as a test by going to the 'dummy_exception' endpoint."
+  end
+
+  private
+
+  def not_endpoint_params
+    params.permit(:api_key)
   end
 end

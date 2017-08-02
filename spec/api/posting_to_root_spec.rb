@@ -8,6 +8,6 @@ describe 'POSTING to root' do
   before { post '/', payload, format: :json }
 
   it 'returns an error' do
-    expect(response.status).to eq(422)
+    expect(response.status).to eq(403)
   end
 end

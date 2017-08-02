@@ -4,7 +4,7 @@ class ErrorsController < ApplicationController
 
   def not_endpoint
     logger.debug("Data POSTed to root with API key: #{not_endpoint_params[:api_key]}") if params.present?
-    render status: 422, text: 'Not a valid api endpoint'
+    render status: 403, text: 'Not a valid api endpoint'
   end
 
   def not_found

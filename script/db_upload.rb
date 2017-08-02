@@ -65,10 +65,9 @@ begin
     bar.progress = ((sent/total.to_f) * 100).round unless bar.progress >= 100
   end
 
-  # Note: Docker 1.8 supports cp command to copy a file from the host to the container, but we are using a lower version
-  ShellSpinner 'Copying dump file into container' do
+  ShellSpinner 'Moving dump file into container' do
     puts ssh.exec!("sudo docker cp ~/#{dump_file_name} advocatedefencepayments:/usr/src/app/#{dump_file_name}")
-    puts ssh.exec!("rm -f ~/#{dump_file_name}")
+    puts ssh.exec!("sudo rm -f ~/#{dump_file_name}")
   end
 
   ShellSpinner 'Installing postgresql in container' do
@@ -87,6 +86,9 @@ rescue Exception => e
   puts 'Usage: ./db_upload username environment [IP] filename'
   puts e
 ensure
+  ShellSpinner "Deleting dump file" do
+    puts ssh.exec!("sudo docker exec advocatedefencepayments rm /usr/src/app/#{dump_file_name.gsub('.gz','')}")
+  end
   ShellSpinner 'Closing connection' do
     ssh.close if ssh
   end

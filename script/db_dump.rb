@@ -43,6 +43,15 @@ def install_postgres(ssh)
   ssh.exec! 'sudo docker exec advocatedefencepayments apt-get -y install postgresql-9.4'
 end
 
+def delete_file_question
+  print 'Do you want to delete the remote dump file (yes/no)? '
+  @delete_file = STDIN.gets.chomp
+end
+
+def delete_file?
+  ['y', 'yes', 'true'].include? @delete_file.downcase
+end
+
 def progress_bar
   ProgressBar.create(
     :title => 'Downloaded',
@@ -54,6 +63,8 @@ def progress_bar
 end
 
 begin
+  delete_file_question
+
   print 'Connecting to host %s... ' % ssh_address
   ssh = Net::SSH.start(ssh_address, ssh_user)
   puts 'done'.green
@@ -65,6 +76,7 @@ begin
   ShellSpinner 'Dumping database' do
     puts ssh.exec!("sudo docker exec advocatedefencepayments rake db:dump_anonymised[#{dump_file_name}]")
     puts ssh.exec!("sudo docker cp advocatedefencepayments:/usr/src/app/#{gzip_file_name} ~/")
+    puts ssh.exec!("sudo docker exec advocatedefencepayments rm /usr/src/app/#{gzip_file_name}") if delete_file?
   end
 
   puts 'Downloading dump file %s from host %s' % [gzip_file_name, ssh_address]
@@ -82,8 +94,9 @@ rescue Exception => e
 ensure
   if ssh
     ShellSpinner 'Deleting remote compressed dump file' do
-      ssh.exec!("sudo docker exec advocatedefencepayments rm #{gzip_file_name}")
-    end
+      ssh.exec!("sudo rm /home/#{ssh_user}/#{gzip_file_name}")
+    end if delete_file?
+
     ShellSpinner 'Closing connection' do
       ssh.close
     end

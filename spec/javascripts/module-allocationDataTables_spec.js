@@ -1,41 +1,51 @@
 describe("Modules.AllocationDataTable.js", function() {
   // tooooo long to type
-  var defaults = moj.Modules.AllocationDataTable.options;
+  var tableOptions = moj.Modules.AllocationDataTable.options;
+  var module = moj.Modules.AllocationDataTable;
 
   it('...should exist', function() {
     expect(moj.Modules.AllocationDataTable).toBeDefined();
   });
 
-  xit('...should have defaults set', function() {
+  it('...should have tableOptions set', function() {
     // dom:
     // defines the semantic structure of the table
     //
     // https://datatables.net/reference/option/dom
-    // expect(defaults.dom).toEqual('<"top1"f><"top2"li>rt<"bottom"ip>');
-    console.log('skipped');
+    // expect(tableOptions.dom).toEqual('<"top1"f><"top2"li>rt<"bottom"ip>');
+
+
 
     // ajax
     // The ajax obj is passed to jQuery.ajax()
     // https://datatables.net/reference/option/ajax
     // http://api.jquery.com/jQuery.ajax/
-    expect(defaults.ajax).toEqual({
-      url: '/api/search/unallocated?api_key={0}&scheme=agfs&limit=150',
-      dataSrc: ''
-    })
+    // expect(tableOptions.ajax).toEqual({
+    //   url: '/api/search/unallocated?api_key={0}&scheme=agfs&limit=150',
+    //   dataSrc: ''
+    // })
 
     // columnDefs:
     // https://datatables.net/reference/option/columnDefs
-    // expect(defaults.columnDefs).toBeDefined();
+    // expect(tableOptions.columnDefs).toBeDefined();
 
     // columns:
     // https://datatables.net/reference/option/columns
     // For the JSON structure the API returns, the `columnDefs`
     // config is better suited.
-    expect(defaults.columns).not.toBeDefined();
-  })
+    expect(tableOptions.columns).not.toBeDefined();
+  });
 
-  describe('...defaults.columnDefs', function() {
-    var columnDefs = defaults.columnDefs;
+  it('...should have a `defaultAllocationLimit` set', function() {
+    expect(module.defaultAllocationLimit).toEqual(25);
+  });
+
+  it('...should have a `defaultScheme` set', function() {
+    expect(module.defaultScheme).toEqual('agfs');
+  });
+
+  describe('...tableOptions.columnDefs', function() {
+    var columnDefs = tableOptions.columnDefs;
     var getColsDefs = function(prop) {
       prop = prop || "";
       return $.map(columnDefs, function(item) {
@@ -68,7 +78,8 @@ describe("Modules.AllocationDataTable.js", function() {
           data: null,
           render: {
             _: 'total',
-            filter: 'total',
+            sort: 'total',
+            filter: 'total_display',
             display: 'total_display'
           }
         })
@@ -90,4 +101,75 @@ describe("Modules.AllocationDataTable.js", function() {
       });
     });
   });
+
+  describe('...Methods', function() {
+    xdescribe('...init', function() {
+
+    });
+
+    describe('...setAjaxURL', function() {
+      beforeAll(function() {
+        // mocking the API key on the page
+        $('<div/>', {
+          id: 'api-key',
+          'data-api-key': '1234567890'
+        }).appendTo('body');
+      });
+
+      afterAll(function() {
+        $('#api-key').remove();
+      });
+
+      it('...should have access to String.prototype.supplant', function() {
+        expect(String.prototype.supplant).toBeDefined();
+      });
+
+      it('...should exist', function() {
+        expect(module.setAjaxURL).toBeDefined();
+      });
+
+      it('...should use `defaultScheme` as a fallback', function() {
+
+
+        // call init again
+        module.init();
+
+        expect(module.options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=agfs');
+
+        module.setAjaxURL('abcd')
+
+        expect(module.options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=abcd');
+
+        module.setAjaxURL()
+
+        expect(module.options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=agfs');
+      });
+
+      it('...should set the scheme as passed in', function() {
+
+        module.setAjaxURL('abcd');
+
+        expect(module.options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=abcd');
+      });
+
+      it('...should return a string', function() {
+        expect(typeof module.setAjaxURL()).toBe('string');
+      });
+
+    });
+
+    xdescribe('...itemsSelected', function() {
+
+    });
+
+    xdescribe('...registerCustomSearch', function() {
+
+    });
+
+    xdescribe('...bindEvents', function() {
+
+    });
+
+  });
+
 });

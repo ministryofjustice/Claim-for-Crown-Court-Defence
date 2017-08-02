@@ -36,14 +36,14 @@
 
     %h2.heading-medium
       = "Filter claims"
-    .form-row
-      .form-col.form-col-one-third.ui-filter
+    .form-row.form-group
+      .form-col.ui-filter
         = render partial: 'filter_tasks'
 
-      .form-col.form-col-one-third.ui-filter
+      .form-col.ui-filter
         = render partial: 'filter_value_bands'
 
-      .form-col.form-col-one-third{ style: 'padding: 26px 0 0' }
+      .form-col{ style: 'padding: 21px 0 0' }
         %button.clear-filters.button.button-secondary{:type => 'button'}
           Clear filters
 
@@ -55,14 +55,14 @@
           %th
 
           %th
-            = "Case number"
+            = "Case #"
           %th
             = "Court"
           %th
             = "Defendents"
           %th
-            = "Case type"
+            = "Type"
           %th
-            = "Date submitted"
+            = "Submitted"
           %th
-            = "Claim total"
+            = "Total"

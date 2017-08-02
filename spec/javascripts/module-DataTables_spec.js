@@ -35,8 +35,8 @@ describe("Modules.DataTables.js", function() {
     //
     // https://datatables.net/reference/option/lengthMenu
     expect(defaults.lengthMenu).toEqual([
-      [10, 25, 50, -1],
-      [10, 25, 50, "All"]
+      [10, 25, 50],
+      [10, 25, 50]
     ]);
   });
 

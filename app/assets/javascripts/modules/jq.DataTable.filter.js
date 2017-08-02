@@ -1,4 +1,5 @@
-;(function($, window, document, undefined) {
+;
+(function($, window, document, undefined) {
   var pluginName = "dtFilter",
     defaults = {};
 
@@ -17,14 +18,23 @@
     init: function() {
       this.bindEvents();
     },
+    resetSelectIndex: function() {
+      $(this.element).find('select').prop('selectedIndex', 0);
+    },
     bindEvents: function() {
       var self = this;
 
       // Listen for clear event
       $.subscribe('/general/clear-filters/', function() {
-        $(self.element).find('select').prop('selectedIndex', 0);
+        self.resetSelectIndex();
       });
 
+      // Listen for scheme change and clear index
+      $.subscribe('/scheme/change/', function() {
+        self.resetSelectIndex();
+      });
+
+      // publish the events with filter specific data
       $(this.element).on('change', 'select', function(e) {
         var filter = $(e.target).attr('name');
         $.publish('/general/change/', filter);
@@ -32,7 +42,23 @@
           e: e,
           data: $(e.target).val()
         })
-      })
+      });
+
+      // Listen for scheme change:
+      //  - clear selected indexes
+      //  - show / hide
+      $.subscribe('/scheme/change/', function(e, data) {
+        self.resetSelectIndex();
+
+        var $el = $(self.element);
+        var schemeAttr = $el.data('scheme');
+        if (!schemeAttr) {
+          return;
+        }
+
+        // The element will show / hide itself
+        schemeAttr === data.scheme ? $el.show() : $el.hide();
+      });
     }
   };
 

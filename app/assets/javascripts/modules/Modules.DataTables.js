@@ -8,8 +8,8 @@ moj.Modules.DataTables = {
       [0, 'asc']
     ],
     lengthMenu: [
-      [10, 25, 50, -1],
-      [10, 25, 50, "All"]
+      [10, 25, 50],
+      [10, 25, 50]
     ]
   },
   _init: function(options, el) {

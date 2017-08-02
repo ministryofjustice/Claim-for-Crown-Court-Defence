@@ -27,6 +27,10 @@ module API
         expose :court_code, as: :code
       end
 
+      # INJECTION: should be replaced API::Entities::Export::Defendant via the full claim endpoint
+      expose :defendants, using: API::Entities::CCR::Defendant
+
+      # INJECTION: to be removed once CCR can iterate over defendants representation orders JSON provided by API::Entities::CCR::Defendant
       expose :first_defendant_maat_number, as: :representationOrderNumber
       expose :first_defendant_rep_order_date, as: :representationOrderDate, format_with: :utc
 

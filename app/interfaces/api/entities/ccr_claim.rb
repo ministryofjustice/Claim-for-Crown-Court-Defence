@@ -1,3 +1,13 @@
+# current endpoint: GET /api/ccr/claims{uuid}
+# target endpoint: GET api/claims{uuid}
+#
+# This API endpoint is intended to be replaced by the GET api/claims{uuid} endpoint
+# however the following fields are CCR specific:
+#
+#   - feeStructureId
+#   - scenario
+#
+
 module API
   module Entities
     class CCRClaim < BaseEntity
@@ -30,7 +40,7 @@ module API
       expose :actual_trial_length_or_one, as: :actualTrialLength
       expose :first_day_of_trial, as: :trialStartDate
 
-      expose :zero, as: :noOfWitnesses
+      expose :number_of_witnesses, as: :noOfWitnesses
 
       expose :personType do
         expose :advocate_category, as: :personType
@@ -53,12 +63,21 @@ module API
 
       private
 
+      # fee type ids
+      CASES_UPLIFT = 9
+      WITNESSES = 10
+      PPE = 11
+
       def empty
         []
       end
 
       def zero
         0
+      end
+
+      def fee_quantity_for(fee_type_id)
+        object.fees.find_by(fee_type_id: fee_type_id)&.quantity&.to_i || 0
       end
 
       def court_code
@@ -78,7 +97,7 @@ module API
       end
 
       def scenario
-        'AS000004' # Hardcoded for "trial" case type
+        object.case_type.bill_scenario
       end
 
       def estimated_trial_length_or_one
@@ -104,16 +123,44 @@ module API
         ('A'..'K').zip(501..511).to_h[offence_class_code]
       end
 
-      def wrapped_bill
-        [{
+      def number_of_witnesses
+        fee_quantity_for(WITNESSES)
+      end
+
+      # CCR bill type maps to the class/type of a BaseFeeType
+      # e.g. AGFS_FEE bill_type is the BasicFeeType
+      def bill_type
+        'AGFS_FEE'
+      end
+
+      # CCR bill sub types map to individual/unique fee types
+      # e.g. AGFS_FEE subtype is the BasicFeeType's Basic fee (i.e. BAF)
+      def bill_subtype
+        'AGFS_FEE'
+      end
+
+      # every claim is based on one case (i.e. see case number) but may involve others
+      def number_of_cases
+        fee_quantity_for(CASES_UPLIFT) + 1
+      end
+
+      def pages_of_prosecution_evidence
+        fee_quantity_for(PPE)
+      end
+
+      # The "Advocate Fee" is the CCR equivalent of all the
+      # BasicFeeType fees in CCCD.
+      # The Advocate Fee is of type AGFS_FEE and subtype AGFS_FEE
+      def advocate_fee
+        {
           billType: {
-            billType: 'AGFS_FEE'
+            billType: bill_type
           },
           billSubType: {
-            billSubType: 'AGFS_FEE'
+            billSubType: bill_subtype
           },
           userCreatedRole: 'CCRGradeB1',
-          ppe: object.fees.where(fee_type_id: 11)&.first&.quantity&.to_i,
+          ppe: pages_of_prosecution_evidence,
           quantity: 1.0,
           rate: 0.0,
           dateNotice1stFixedWarn: nil,
@@ -122,7 +169,7 @@ module API
           thirdCracked: nil,
           forceThirdCracked: nil,
           dateIncurred: object.last_submitted_at.strftime('%Y-%m-%d %H:%M:%S'),
-          noOfCases: 1,
+          noOfCases: number_of_cases,
           calculatedFee: {
             basicCaseFee: 0.0,
             date: object.last_submitted_at.strftime('%Y-%m-%d %H:%M:%S'),
@@ -140,7 +187,13 @@ module API
           firstFixedWarnedDateOrig: nil,
           caseUpliftAmount: 0.0,
           defendantUpliftAmount: 0.0
-        }]
+        }
+      end
+
+      def wrapped_bill
+        [
+          advocate_fee
+        ]
       end
     end
   end

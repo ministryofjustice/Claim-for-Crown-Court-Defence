@@ -81,6 +81,7 @@ module API
       def case_type_uuid
         object.case_type.uuid
       end
+
       def court_code
         object.court&.code
       end

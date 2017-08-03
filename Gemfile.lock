@@ -662,7 +662,7 @@ DEPENDENCIES
   meta_request (~> 0.3.4)
   net-scp
   net-ssh
-  nokogiri (~> 1.7)
+  nokogiri (~> 1.8)
   paper_trail (= 4.0.2)
   paperclip (~> 5.1.0)
   parallel_tests
@@ -716,4 +716,4 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
-   1.15.2
+   1.15.3

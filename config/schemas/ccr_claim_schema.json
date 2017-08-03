@@ -1,0 +1,304 @@
+//
+// Generated using https://jsonschema.net
+// TODO: should be published once it represents a state
+//       consumable by both CCR and third party apps.
+//
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "id": "https://claim-crown-court-defence.service.gov.uk/schemas/ccr_claim",
+  "properties": {
+    "_cccd": {
+      "id": "/properties/_cccd",
+      "properties": {
+        "id": {
+          "id": "/properties/_cccd/properties/id",
+          "type": "integer"
+        },
+        "uuid": {
+          "id": "/properties/_cccd/properties/uuid",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "actualTrialLength": {
+      "id": "/properties/actualTrialLength",
+      "type": "integer"
+    },
+    "associatedCases": {
+      "id": "/properties/associatedCases",
+      "items": {},
+      "type": "array"
+    },
+    "bills": {
+      "id": "/properties/bills",
+      "items": {
+        "id": "/properties/bills/items",
+        "properties": {
+          "billSubType": {
+            "id": "/properties/bills/items/properties/billSubType",
+            "properties": {
+              "billSubType": {
+                "id": "/properties/bills/items/properties/billSubType/properties/billSubType",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "billType": {
+            "id": "/properties/bills/items/properties/billType",
+            "properties": {
+              "billType": {
+                "id": "/properties/bills/items/properties/billType/properties/billType",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "calculatedFee": {
+            "id": "/properties/bills/items/properties/calculatedFee",
+            "properties": {
+              "basicCaseFee": {
+                "id": "/properties/bills/items/properties/calculatedFee/properties/basicCaseFee",
+                "type": "integer"
+              },
+              "date": {
+                "id": "/properties/bills/items/properties/calculatedFee/properties/date",
+                "type": "string"
+              },
+              "defendantUplift": {
+                "id": "/properties/bills/items/properties/calculatedFee/properties/defendantUplift",
+                "type": "integer"
+              },
+              "exVat": {
+                "id": "/properties/bills/items/properties/calculatedFee/properties/exVat",
+                "type": "integer"
+              },
+              "incVat": {
+                "id": "/properties/bills/items/properties/calculatedFee/properties/incVat",
+                "type": "integer"
+              },
+              "ppeUplift": {
+                "id": "/properties/bills/items/properties/calculatedFee/properties/ppeUplift",
+                "type": "integer"
+              },
+              "trialLengthUplift": {
+                "id": "/properties/bills/items/properties/calculatedFee/properties/trialLengthUplift",
+                "type": "integer"
+              },
+              "vat": {
+                "id": "/properties/bills/items/properties/calculatedFee/properties/vat",
+                "type": "integer"
+              },
+              "vatIncluded": {
+                "id": "/properties/bills/items/properties/calculatedFee/properties/vatIncluded",
+                "type": "boolean"
+              },
+              "vatRate": {
+                "id": "/properties/bills/items/properties/calculatedFee/properties/vatRate",
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "caseUpliftAmount": {
+            "id": "/properties/bills/items/properties/caseUpliftAmount",
+            "type": "integer"
+          },
+          "dateIncurred": {
+            "id": "/properties/bills/items/properties/dateIncurred",
+            "type": "string"
+          },
+          "dateNotice1stFixedWarn": {
+            "id": "/properties/bills/items/properties/dateNotice1stFixedWarn",
+            "type": "null"
+          },
+          "dateOfCrack": {
+            "id": "/properties/bills/items/properties/dateOfCrack",
+            "type": "null"
+          },
+          "defendantUpliftAmount": {
+            "id": "/properties/bills/items/properties/defendantUpliftAmount",
+            "type": "integer"
+          },
+          "firstFixedWarnedDate": {
+            "id": "/properties/bills/items/properties/firstFixedWarnedDate",
+            "type": "null"
+          },
+          "firstFixedWarnedDateOrig": {
+            "id": "/properties/bills/items/properties/firstFixedWarnedDateOrig",
+            "type": "null"
+          },
+          "forceThirdCracked": {
+            "id": "/properties/bills/items/properties/forceThirdCracked",
+            "type": "null"
+          },
+          "noOfCases": {
+            "id": "/properties/bills/items/properties/noOfCases",
+            "type": "integer"
+          },
+          "occurDate": {
+            "id": "/properties/bills/items/properties/occurDate",
+            "type": "null"
+          },
+          "ppe": {
+            "id": "/properties/bills/items/properties/ppe",
+            "type": "integer"
+          },
+          "quantity": {
+            "id": "/properties/bills/items/properties/quantity",
+            "type": "integer"
+          },
+          "rate": {
+            "id": "/properties/bills/items/properties/rate",
+            "type": "integer"
+          },
+          "refno": {
+            "id": "/properties/bills/items/properties/refno",
+            "type": "integer"
+          },
+          "thirdCracked": {
+            "id": "/properties/bills/items/properties/thirdCracked",
+            "type": "null"
+          },
+          "userCreatedRole": {
+            "id": "/properties/bills/items/properties/userCreatedRole",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "caseNumber": {
+      "id": "/properties/caseNumber",
+      "type": "string"
+    },
+    "court": {
+      "id": "/properties/court",
+      "properties": {
+        "code": {
+          "id": "/properties/court/properties/code",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "defendants": {
+      "id": "/properties/defendants",
+      "items": {
+        "id": "/properties/defendants/items",
+        "properties": {
+          "main_defendant": {
+            "id": "/properties/defendants/items/properties/main_defendant",
+            "type": "boolean"
+          },
+          "representation_orders": {
+            "id": "/properties/defendants/items/properties/representation_orders",
+            "items": {
+              "id": "/properties/defendants/items/properties/representation_orders/items",
+              "properties": {
+                "maat_reference": {
+                  "id": "/properties/defendants/items/properties/representation_orders/items/properties/maat_reference",
+                  "type": "string"
+                },
+                "representation_order_date": {
+                  "id": "/properties/defendants/items/properties/representation_orders/items/properties/representation_order_date",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "estimatedTrialLength": {
+      "id": "/properties/estimatedTrialLength",
+      "type": "integer"
+    },
+    "feeStructureId": {
+      "id": "/properties/feeStructureId",
+      "type": "integer"
+    },
+    "noOfWitnesses": {
+      "id": "/properties/noOfWitnesses",
+      "type": "integer"
+    },
+    "offenceClass": {
+      "id": "/properties/offenceClass",
+      "properties": {
+        "code": {
+          "id": "/properties/offenceClass/properties/code",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "offenceCode": {
+      "id": "/properties/offenceCode",
+      "properties": {
+        "id": {
+          "id": "/properties/offenceCode/properties/id",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "origCaseNumber": {
+      "id": "/properties/origCaseNumber",
+      "type": "string"
+    },
+    "personType": {
+      "id": "/properties/personType",
+      "properties": {
+        "personType": {
+          "id": "/properties/personType/properties/personType",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "representationOrderDate": {
+      "id": "/properties/representationOrderDate",
+      "type": "string"
+    },
+    "representationOrderNumber": {
+      "id": "/properties/representationOrderNumber",
+      "type": "string"
+    },
+    "scenario": {
+      "id": "/properties/scenario",
+      "properties": {
+        "feeStructureId": {
+          "id": "/properties/scenario/properties/feeStructureId",
+          "type": "integer"
+        },
+        "scenario": {
+          "id": "/properties/scenario/properties/scenario",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "supplier": {
+      "id": "/properties/supplier",
+      "properties": {
+        "accountNumber": {
+          "id": "/properties/supplier/properties/accountNumber",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "trialStartDate": {
+      "id": "/properties/trialStartDate",
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

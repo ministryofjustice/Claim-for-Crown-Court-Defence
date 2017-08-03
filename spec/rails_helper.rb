@@ -25,8 +25,11 @@ SimpleCov.start do
   # add_filter "\/factories\/"
 end
 
-require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start
+if ENV['CODECLIMATE_REPO_TOKEN']
+  require 'simplecov'
+  SimpleCov.start
+  # allow Code Climate Test coverage reports to be sent
+end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'

@@ -1,8 +1,3 @@
-//
-// Generated using https://jsonschema.net
-// TODO: should be published once it represents a state
-//       consumable by both CCR and third party apps.
-//
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {},
@@ -61,7 +56,7 @@
             "properties": {
               "basicCaseFee": {
                 "id": "/properties/bills/items/properties/calculatedFee/properties/basicCaseFee",
-                "type": "integer"
+                "type": "number"
               },
               "date": {
                 "id": "/properties/bills/items/properties/calculatedFee/properties/date",
@@ -69,27 +64,27 @@
               },
               "defendantUplift": {
                 "id": "/properties/bills/items/properties/calculatedFee/properties/defendantUplift",
-                "type": "integer"
+                "type": "number"
               },
               "exVat": {
                 "id": "/properties/bills/items/properties/calculatedFee/properties/exVat",
-                "type": "integer"
+                "type": "number"
               },
               "incVat": {
                 "id": "/properties/bills/items/properties/calculatedFee/properties/incVat",
-                "type": "integer"
+                "type": "number"
               },
               "ppeUplift": {
                 "id": "/properties/bills/items/properties/calculatedFee/properties/ppeUplift",
-                "type": "integer"
+                "type": "number"
               },
               "trialLengthUplift": {
                 "id": "/properties/bills/items/properties/calculatedFee/properties/trialLengthUplift",
-                "type": "integer"
+                "type": "number"
               },
               "vat": {
                 "id": "/properties/bills/items/properties/calculatedFee/properties/vat",
-                "type": "integer"
+                "type": "number"
               },
               "vatIncluded": {
                 "id": "/properties/bills/items/properties/calculatedFee/properties/vatIncluded",
@@ -97,14 +92,14 @@
               },
               "vatRate": {
                 "id": "/properties/bills/items/properties/calculatedFee/properties/vatRate",
-                "type": "integer"
+                "type": "number"
               }
             },
             "type": "object"
           },
           "caseUpliftAmount": {
             "id": "/properties/bills/items/properties/caseUpliftAmount",
-            "type": "integer"
+            "type": "number"
           },
           "dateIncurred": {
             "id": "/properties/bills/items/properties/dateIncurred",
@@ -112,27 +107,23 @@
           },
           "dateNotice1stFixedWarn": {
             "id": "/properties/bills/items/properties/dateNotice1stFixedWarn",
-            "type": "null"
+            "type": "string"
           },
           "dateOfCrack": {
             "id": "/properties/bills/items/properties/dateOfCrack",
-            "type": "null"
+            "type": "string"
           },
           "defendantUpliftAmount": {
             "id": "/properties/bills/items/properties/defendantUpliftAmount",
-            "type": "integer"
+            "type": "number"
           },
           "firstFixedWarnedDate": {
             "id": "/properties/bills/items/properties/firstFixedWarnedDate",
-            "type": "null"
+            "type": "string"
           },
           "firstFixedWarnedDateOrig": {
             "id": "/properties/bills/items/properties/firstFixedWarnedDateOrig",
-            "type": "null"
-          },
-          "forceThirdCracked": {
-            "id": "/properties/bills/items/properties/forceThirdCracked",
-            "type": "null"
+            "type": "string"
           },
           "noOfCases": {
             "id": "/properties/bills/items/properties/noOfCases",
@@ -140,7 +131,7 @@
           },
           "occurDate": {
             "id": "/properties/bills/items/properties/occurDate",
-            "type": "null"
+            "type": "string"
           },
           "ppe": {
             "id": "/properties/bills/items/properties/ppe",
@@ -148,11 +139,11 @@
           },
           "quantity": {
             "id": "/properties/bills/items/properties/quantity",
-            "type": "integer"
+            "type": "intgeger"
           },
           "rate": {
             "id": "/properties/bills/items/properties/rate",
-            "type": "integer"
+            "type": "number"
           },
           "refno": {
             "id": "/properties/bills/items/properties/refno",
@@ -160,7 +151,7 @@
           },
           "thirdCracked": {
             "id": "/properties/bills/items/properties/thirdCracked",
-            "type": "null"
+            "type": "string"
           },
           "userCreatedRole": {
             "id": "/properties/bills/items/properties/userCreatedRole",
@@ -297,7 +288,7 @@
     },
     "trialStartDate": {
       "id": "/properties/trialStartDate",
-      "type": "string"
+      "type": "null"
     }
   },
   "type": "object"

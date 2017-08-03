@@ -45,7 +45,7 @@ module Fee
 
     it { should validate_presence_of(:description).with_message('Fee type description cannot be blank') }
     it { should validate_presence_of(:code).with_message('Fee type code cannot be blank') }
-    it { should validate_uniqueness_of(:description).with_message('Fee type description must be unique') }
+    it { should validate_uniqueness_of(:description).ignoring_case_sensitivity.with_message('Fee type description must be unique').scoped_to(:type) }
 
     it { should respond_to(:code) }
     it { should respond_to(:description) }

@@ -134,6 +134,6 @@ class ErrorMessageTranslator
   end
 
   def to_ordinal_in_words(n)
-    %W(#{} first second third fourth fifth sixth seventh eighth ninth tenth)[n] # rubocop:disable Lint/EmptyInterpolation
+    %W[#{} first second third fourth fifth sixth seventh eighth ninth tenth][n] # rubocop:disable Lint/EmptyInterpolation
   end
 end

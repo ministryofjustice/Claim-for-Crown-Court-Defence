@@ -1,8 +1,8 @@
 class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::ApplicationController
   include PaginationHelpers
 
-  before_action :set_case_workers, only: [:new, :create]
-  before_action :set_claims, only: [:new, :create]
+  before_action :set_case_workers, only: %i[new create]
+  before_action :set_claims, only: %i[new create]
   before_action :set_summary_values, only: [:new], if: :summary_from_previous_request?
   before_action :process_claim_ids, only: [:create], if: :quantity_allocation?
 
@@ -63,11 +63,11 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def scheme
-    %w(agfs lgfs).include?(params[:scheme]) ? params[:scheme] : 'agfs'
+    %w[agfs lgfs].include?(params[:scheme]) ? params[:scheme] : 'agfs'
   end
 
   def tab
-    %w(allocated unallocated).include?(params[:tab]) ? params[:tab] : 'unallocated'
+    %w[allocated unallocated].include?(params[:tab]) ? params[:tab] : 'unallocated'
   end
 
   def filter
@@ -118,9 +118,9 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def allocation_filters_for_scheme(scheme)
     if scheme == 'agfs'
-      %w( all fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons )
+      %w[all fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons]
     elsif scheme == 'lgfs'
-      %w( all fixed_fee graduated_fees interim_fees warrants interim_disbursements risk_based_bills redetermination awaiting_written_reasons )
+      %w[all fixed_fee graduated_fees interim_fees warrants interim_disbursements risk_based_bills redetermination awaiting_written_reasons]
     else
       []
     end

@@ -3,15 +3,15 @@ module Claim
     def self.included(base)
       base.class_eval do
         def self.first_step_common_validations
-          [
-            :case_type,
-            :court,
-            :case_number,
-            :transfer_court,
-            :transfer_case_number,
-            :advocate_category,
-            :offence,
-            :case_concluded_at
+          %i[
+            case_type
+            court
+            case_number
+            transfer_court
+            transfer_case_number
+            advocate_category
+            offence
+            case_concluded_at
           ]
         end
       end

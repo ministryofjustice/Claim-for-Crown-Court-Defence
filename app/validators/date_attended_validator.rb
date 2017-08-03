@@ -1,8 +1,8 @@
 class DateAttendedValidator < BaseValidator
   def self.fields
-    [
-      :date,
-      :date_to
+    %i[
+      date
+      date_to
     ]
   end
 

@@ -1,9 +1,9 @@
 class ExpenseV1Validator < BaseValidator
   def self.fields
-    [
-      :expense_type,
-      :quantity,
-      :rate
+    %i[
+      expense_type
+      quantity
+      rate
     ]
   end
 

@@ -2,7 +2,7 @@ class SuperAdmins::ExternalUsersController < ApplicationController
   include PasswordHelpers
 
   before_action :set_provider
-  before_action :set_external_user, only: [:show, :edit, :update, :change_password, :update_password]
+  before_action :set_external_user, only: %i[show edit update change_password update_password]
 
   def show; end
 
@@ -60,7 +60,7 @@ class SuperAdmins::ExternalUsersController < ApplicationController
       :vat_registered,
       :supplier_number,
       roles: [],
-      user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :first_name, :last_name]
+      user_attributes: %i[id email email_confirmation password password_confirmation first_name last_name]
     )
   end
 

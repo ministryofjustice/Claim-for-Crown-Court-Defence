@@ -17,7 +17,7 @@
 class Redetermination < Determination
   self.table_name = 'determinations'
 
-  has_paper_trail on: [:create, :update], only: [:fees, :expenses, :disbursements, :vat_amount, :total]
+  has_paper_trail on: %i[create update], only: %i[fees expenses disbursements vat_amount total]
   before_save :set_paper_trail_event!
 
   default_scope { order(:created_at) }

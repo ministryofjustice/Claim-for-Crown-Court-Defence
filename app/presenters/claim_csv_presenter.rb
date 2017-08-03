@@ -11,7 +11,7 @@ class ClaimCsvPresenter < BasePresenter
 
   def sorted_and_filtered_state_transitions
     claim_state_transitions.sort.reject do |transition|
-      %w(draft archived_pending_delete).include?(transition.to) ||
+      %w[draft archived_pending_delete].include?(transition.to) ||
         transition.created_at < Time.now - 6.months
     end
   end
@@ -60,7 +60,7 @@ class ClaimCsvPresenter < BasePresenter
   def scheme
     if type == 'Claim::AdvocateClaim'
       'AGFS'
-    elsif %w( Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim ).include? type
+    elsif %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim].include? type
       'LGFS'
     else
       'Unknown'
@@ -100,10 +100,10 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def submitted_states
-    %w(submitted redetermination awaiting_written_reasons)
+    %w[submitted redetermination awaiting_written_reasons]
   end
 
   def completed_states
-    %w(rejected refused authorised part_authorised)
+    %w[rejected refused authorised part_authorised]
   end
 end

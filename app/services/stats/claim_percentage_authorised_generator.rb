@@ -31,7 +31,7 @@ module Stats
     end
 
     def calculate_claims_decided_this_month
-      [:authorised, :part_authorised, :rejected, :refused].each do |state|
+      %i[authorised part_authorised rejected refused].each do |state|
         @decided_claims_by_state[state] = claims_decided_this_month(state)
       end
       combine_rejected_and_refused

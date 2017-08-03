@@ -9,7 +9,7 @@ module API::V2
 
     params :sorting do
       optional :sorting, type: String, default: 'id', desc: 'OPTIONAL: Sort results by this attribute.'
-      optional :direction, type: String, values: %w(asc desc), default: 'asc', desc: 'OPTIONAL: Direction of the sorting: asc or desc.'
+      optional :direction, type: String, values: %w[asc desc], default: 'asc', desc: 'OPTIONAL: Direction of the sorting: asc or desc.'
     end
 
     params :searching do

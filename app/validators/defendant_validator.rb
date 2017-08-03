@@ -1,10 +1,10 @@
 class DefendantValidator < BaseValidator
   def self.fields
-    [
-      :date_of_birth,
-      :representation_orders,
-      :first_name,
-      :last_name
+    %i[
+      date_of_birth
+      representation_orders
+      first_name
+      last_name
     ]
   end
 

@@ -25,7 +25,7 @@
 
 class DocumentsController < ApplicationController
   respond_to :html
-  before_action :set_document, only: [:show, :download, :destroy]
+  before_action :set_document, only: %i[show download destroy]
 
   def index
     return render json: [] if params[:form_id].blank?

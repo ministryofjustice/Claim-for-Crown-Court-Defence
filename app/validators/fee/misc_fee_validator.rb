@@ -1,9 +1,9 @@
 class Fee::MiscFeeValidator < Fee::BaseFeeValidator
   def self.fields
-    [
-      :quantity,
-      :rate,
-      :case_numbers
+    %i[
+      quantity
+      rate
+      case_numbers
     ] + super
   end
 

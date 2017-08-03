@@ -7,7 +7,7 @@ module API
 
       helpers do
         params :role_filter do
-          optional :role, type: String, desc: 'OPTIONAL: The role to filter the results. If not provided, all results are returned.', values: %w(agfs lgfs)
+          optional :role, type: String, desc: 'OPTIONAL: The role to filter the results. If not provided, all results are returned.', values: %w[agfs lgfs]
         end
 
         def role
@@ -83,8 +83,8 @@ module API
 
           params do
             use :role_filter
-            optional :category, type: String, values: %w(all basic misc fixed graduated interim transfer warrant), default: 'all',
-                                desc: "OPTIONAL: The fee category to filter the results. Can be: #{%w(all basic misc fixed graduated interim transfer warrant).to_sentence}. Default: all"
+            optional :category, type: String, values: %w[all basic misc fixed graduated interim transfer warrant], default: 'all',
+                                desc: "OPTIONAL: The fee category to filter the results. Can be: #{%w[all basic misc fixed graduated interim transfer warrant].to_sentence}. Default: all"
           end
 
           desc 'Return all AGFS Fee Types (optional category filter).'

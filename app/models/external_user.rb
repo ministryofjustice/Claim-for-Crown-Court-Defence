@@ -18,7 +18,7 @@ class ExternalUser < ActiveRecord::Base
 
   auto_strip_attributes :supplier_number, squish: true, nullify: true
 
-  ROLES = %w( admin advocate litigator ).freeze
+  ROLES = %w[admin advocate litigator].freeze
   include Roles
   include SoftlyDeletable
 
@@ -57,14 +57,14 @@ class ExternalUser < ActiveRecord::Base
   end
 
   def available_roles
-    return %w( admin ) if provider.nil?
+    return %w[admin] if provider.nil?
 
     if provider.agfs? && provider.lgfs?
-      %w( admin advocate litigator )
+      %w[admin advocate litigator]
     elsif provider.agfs?
-      %w( admin advocate )
+      %w[admin advocate]
     elsif provider.lgfs?
-      %w( admin litigator )
+      %w[admin litigator]
     else
       raise "Provider has no valid roles available: #{Provider::ROLES.join(', ')}"
     end

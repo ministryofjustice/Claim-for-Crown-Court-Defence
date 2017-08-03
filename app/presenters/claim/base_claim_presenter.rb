@@ -4,7 +4,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down
   #
   def valid_transitions(options = { include_submitted: true })
-    states = claim.state_transitions.map(&:to_name) - [:archived_pending_delete, :deallocated]
+    states = claim.state_transitions.map(&:to_name) - %i[archived_pending_delete deallocated]
     states -= [:submitted] if options[:include_submitted] == false
     states.map { |state| [state, state.to_s.humanize] }.to_h
   end
@@ -42,15 +42,15 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def submitted_at(options = {})
-    claim.last_submitted_at.strftime(date_format(options)) unless claim.last_submitted_at.nil?
+    claim.last_submitted_at&.strftime(date_format(options))
   end
 
   def submitted_at_short
-    claim.last_submitted_at.strftime('%d/%m/%y') unless claim.last_submitted_at.nil?
+    claim.last_submitted_at&.strftime('%d/%m/%y')
   end
 
   def authorised_at(options = {})
-    claim.authorised_at.strftime(date_format(options)) unless claim.authorised_at.nil?
+    claim.authorised_at&.strftime(date_format(options))
   end
 
   def retrial

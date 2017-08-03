@@ -1,15 +1,15 @@
 module Fee
   class BaseFeeValidator < BaseValidator
     def self.fields
-      [
-        :amount,
-        :warrant_issued_date,
-        :warrant_executed_date
+      %i[
+        amount
+        warrant_issued_date
+        warrant_executed_date
       ]
     end
 
     def self.mandatory_fields
-      [:claim, :fee_type]
+      %i[claim fee_type]
     end
 
     private

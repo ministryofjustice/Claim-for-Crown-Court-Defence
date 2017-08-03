@@ -55,7 +55,7 @@ class Fee::BaseFeePresenter < BasePresenter
   end
 
   def uncalculated_fee_type_code?
-    %w(PPE NPW).include?(fee.fee_type.code.upcase)
+    %w[PPE NPW].include?(fee.fee_type.code.upcase)
   end
 
   def hint_tag(text)

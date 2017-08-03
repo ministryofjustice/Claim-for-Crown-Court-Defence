@@ -1,5 +1,5 @@
 module Claims::Sort
-  META_SORT_COLUMNS = %w( advocate amount_assessed case_type total_inc_vat ).freeze
+  META_SORT_COLUMNS = %w[advocate amount_assessed case_type total_inc_vat].freeze
 
   def sortable_columns
     column_names + META_SORT_COLUMNS

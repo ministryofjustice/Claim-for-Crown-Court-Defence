@@ -3,33 +3,33 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
 
   # This defines all the fields that have to be validated in all cases
   def self.mandatory_fields
-    [
-      :external_user_id,
-      :creator
+    %i[
+      external_user_id
+      creator
     ]
   end
 
   def self.fields_for_steps
     [
-      [
-        :litigator_type,
-        :elected_case,
-        :transfer_stage_id,
-        :transfer_date,
-        :case_conclusion_id,
-        :transfer_detail_combo
+      %i[
+        litigator_type
+        elected_case
+        transfer_stage_id
+        transfer_date
+        case_conclusion_id
+        transfer_detail_combo
       ],
-      [
-        :court,
-        :case_number,
-        :transfer_court,
-        :transfer_case_number,
-        :advocate_category,
-        :offence,
-        :case_concluded_at,
-        :supplier_number,
-        :amount_assessed,
-        :evidence_checklist_ids
+      %i[
+        court
+        case_number
+        transfer_court
+        transfer_case_number
+        advocate_category
+        offence
+        case_concluded_at
+        supplier_number
+        amount_assessed
+        evidence_checklist_ids
       ],
       [
         :total
@@ -48,7 +48,7 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_litigator_type
-    return if @record.litigator_type.in? %w( new original )
+    return if @record.litigator_type.in? %w[new original]
     add_error(:litigator_type, 'invalid')
   end
 

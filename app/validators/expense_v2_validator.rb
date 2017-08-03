@@ -1,16 +1,16 @@
 class ExpenseV2Validator < BaseValidator
   def self.fields
-    [
-      :expense_type,
-      :distance,
-      :hours,
-      :location,
-      :date,
-      :reason_id,
-      :reason_text,
-      :mileage_rate_id,
-      :amount,
-      :vat_amount
+    %i[
+      expense_type
+      distance
+      hours
+      location
+      date
+      reason_id
+      reason_text
+      mileage_rate_id
+      amount
+      vat_amount
     ]
   end
 

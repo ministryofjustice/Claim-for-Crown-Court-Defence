@@ -24,7 +24,7 @@ module Stats
 
       def calculate_submission_to_decision_time(transition)
         previous_transitions = ClaimStateTransition.where(claim_id: transition.claim_id).where { id < transition.id }.order('created_at desc')
-        submitted_transition = previous_transitions.detect { |t| t.to.in? %w(submitted redetermination) }
+        submitted_transition = previous_transitions.detect { |t| t.to.in? %w[submitted redetermination] }
         working_days(submitted_transition, transition)
       end
 

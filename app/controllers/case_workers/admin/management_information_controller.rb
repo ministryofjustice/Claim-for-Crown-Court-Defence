@@ -1,8 +1,8 @@
 require 'csv'
 
 class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::ApplicationController
-  skip_load_and_authorize_resource only: [:index, :download, :generate]
-  before_action -> { authorize! :view, :management_information }, only: [:index, :download, :generate]
+  skip_load_and_authorize_resource only: %i[index download generate]
+  before_action -> { authorize! :view, :management_information }, only: %i[index download generate]
 
   def index
     mi_report = Stats::StatsReport.most_recent_management_information

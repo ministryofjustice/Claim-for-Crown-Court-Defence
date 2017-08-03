@@ -3,26 +3,26 @@ module Claims
     ARCHIVE_VALIDITY  = 180.days
     STANDARD_VALIDITY = 21.days
 
-    EXTERNAL_USER_DASHBOARD_DRAFT_STATES            = %w( draft ).freeze
-    EXTERNAL_USER_DASHBOARD_REJECTED_STATES         = %w( rejected ).freeze
-    EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES        = %w( allocated submitted ).freeze
-    EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES  = %w( part_authorised ).freeze
-    EXTERNAL_USER_DASHBOARD_COMPLETED_STATES        = %w( refused authorised ).freeze
-    CASEWORKER_DASHBOARD_COMPLETED_STATES           = %w( authorised part_authorised rejected refused ).freeze
-    CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES    = %w( allocated ).freeze
-    CASEWORKER_DASHBOARD_UNALLOCATED_STATES         = %w( submitted redetermination awaiting_written_reasons ).freeze
-    CASEWORKER_DASHBOARD_ARCHIVED_STATES            = %w( authorised part_authorised rejected
-                                                          refused archived_pending_delete).freeze
-    VALID_STATES_FOR_REDETERMINATION                = %w( authorised part_authorised refused ).freeze
-    VALID_STATES_FOR_ARCHIVAL                       = %w( authorised part_authorised refused rejected ).freeze
-    VALID_STATES_FOR_ALLOCATION                     = %w( submitted redetermination awaiting_written_reasons ).freeze
-    VALID_STATES_FOR_DEALLOCATION                   = %w( allocated ).freeze
-    NON_DRAFT_STATES                                = %w( allocated authorised part_authorised refused rejected
+    EXTERNAL_USER_DASHBOARD_DRAFT_STATES            = %w[draft].freeze
+    EXTERNAL_USER_DASHBOARD_REJECTED_STATES         = %w[rejected].freeze
+    EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES        = %w[allocated submitted].freeze
+    EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES  = %w[part_authorised].freeze
+    EXTERNAL_USER_DASHBOARD_COMPLETED_STATES        = %w[refused authorised].freeze
+    CASEWORKER_DASHBOARD_COMPLETED_STATES           = %w[authorised part_authorised rejected refused].freeze
+    CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES    = %w[allocated].freeze
+    CASEWORKER_DASHBOARD_UNALLOCATED_STATES         = %w[submitted redetermination awaiting_written_reasons].freeze
+    CASEWORKER_DASHBOARD_ARCHIVED_STATES            = %w[ authorised part_authorised rejected
+                                                          refused archived_pending_delete].freeze
+    VALID_STATES_FOR_REDETERMINATION                = %w[authorised part_authorised refused].freeze
+    VALID_STATES_FOR_ARCHIVAL                       = %w[authorised part_authorised refused rejected].freeze
+    VALID_STATES_FOR_ALLOCATION                     = %w[submitted redetermination awaiting_written_reasons].freeze
+    VALID_STATES_FOR_DEALLOCATION                   = %w[allocated].freeze
+    NON_DRAFT_STATES                                = %w[ allocated authorised part_authorised refused rejected
                                                           submitted awaiting_written_reasons redetermination
-                                                          archived_pending_delete ).freeze
-    NON_VALIDATION_STATES                           = %w( allocated archived_pending_delete
+                                                          archived_pending_delete ].freeze
+    NON_VALIDATION_STATES                           = %w[ allocated archived_pending_delete
                                                           authorised awaiting_written_reasons deallocated deleted
-                                                          part_authorised redetermination refused rejected ).freeze
+                                                          part_authorised redetermination refused rejected ].freeze
     AUTHORISED_STATES                               = EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES +
                                                       EXTERNAL_USER_DASHBOARD_COMPLETED_STATES
 
@@ -53,7 +53,7 @@ module Claims
 
     def self.included(klass)
       klass.state_machine :state, initial: :draft do
-        audit_trail class: ClaimStateTransition, context: [:reason_code, :author_id, :subject_id]
+        audit_trail class: ClaimStateTransition, context: %i[reason_code author_id subject_id]
 
         state :allocated,
               :archived_pending_delete,
@@ -68,18 +68,18 @@ module Claims
               :submitted,
               :deallocated
 
-        after_transition on: :submit,                   do: [:set_last_submission_date!, :set_original_submission_date!]
+        after_transition on: :submit,                   do: %i[set_last_submission_date! set_original_submission_date!]
         after_transition on: :authorise,                do: [:set_authorised_date!]
         after_transition on: :authorise_part,           do: [:set_authorised_date!]
-        after_transition on: :redetermine,              do: [:remove_case_workers!, :set_last_submission_date!]
-        after_transition on: :await_written_reasons,    do: [:remove_case_workers!, :set_last_submission_date!]
+        after_transition on: :redetermine,              do: %i[remove_case_workers! set_last_submission_date!]
+        after_transition on: :await_written_reasons,    do: %i[remove_case_workers! set_last_submission_date!]
         after_transition on: :archive_pending_delete,   do: :set_valid_until!
-        after_transition on: :deallocate,               do: [:remove_case_workers!, :reset_state]
+        after_transition on: :deallocate,               do: %i[remove_case_workers! reset_state]
         before_transition on: :submit,                  do: :set_allocation_type
-        before_transition on: [:reject, :refuse],       do: :set_amount_assessed_zero!
+        before_transition on: %i[reject refuse], do: :set_amount_assessed_zero!
 
         around_transition any => NON_VALIDATION_STATES.map(&:to_sym) do |claim, transition, block|
-          validation_state = [:authorise, :part_authorise].include?(transition.event) ? :only_amount_assessed : :all
+          validation_state = %i[authorise part_authorise].include?(transition.event) ? :only_amount_assessed : :all
           claim.disable_for_state_transition = validation_state
           block.call
           claim.disable_for_state_transition = nil
@@ -107,23 +107,23 @@ module Claims
         end
 
         event :authorise_part do
-          transition [:allocated, :awaiting_written_reasons] => :part_authorised
+          transition %i[allocated awaiting_written_reasons] => :part_authorised
         end
 
         event :authorise do
-          transition [:allocated, :awaiting_written_reasons] => :authorised
+          transition %i[allocated awaiting_written_reasons] => :authorised
         end
 
         event :refuse do
-          transition [:allocated, :awaiting_written_reasons] => :refused
+          transition %i[allocated awaiting_written_reasons] => :refused
         end
 
         event :reject do
-          transition [:allocated, :awaiting_written_reasons] => :rejected, :if => :rejectable?
+          transition %i[allocated awaiting_written_reasons] => :rejected, :if => :rejectable?
         end
 
         event :submit do
-          transition [:draft, :allocated] => :submitted
+          transition %i[draft allocated] => :submitted
         end
 
         event :transition_clone_to_draft do
@@ -179,7 +179,7 @@ module Claims
     end
 
     def filtered_state_transitions
-      claim_state_transitions.where.not(to: %w(allocated deallocated))
+      claim_state_transitions.where.not(to: %w[allocated deallocated])
     end
 
     def filtered_last_state_transition
@@ -226,7 +226,7 @@ module Claims
     end
 
     def set_valid_until!(transition)
-      validity = (transition.to == 'archived_pending_delete') ? ARCHIVE_VALIDITY : STANDARD_VALIDITY
+      validity = transition.to == 'archived_pending_delete' ? ARCHIVE_VALIDITY : STANDARD_VALIDITY
       update_column(:valid_until, Time.now + validity)
     end
 

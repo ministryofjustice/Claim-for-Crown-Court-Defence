@@ -19,7 +19,7 @@ class DocType
     DocType.new(9, 1000,  'Justification for out of time claim'),
     DocType.new(10, 1100,  'Special preparation form'),
     DocType.new(11, 1200,  'Prior authority CRM4')
-  ].sort { |a, b| a.sequence <=> b.sequence }
+  ].sort_by(&:sequence)
 
   def self.all
     DOCTYPES

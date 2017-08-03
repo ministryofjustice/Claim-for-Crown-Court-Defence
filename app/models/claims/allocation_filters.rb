@@ -46,7 +46,7 @@ module Claims::AllocationFilters
 
     def all_risk_based_bills
       where(type: 'Claim::LitigatorClaim')
-        .where(offence_id: Offence.joins(:offence_class).where(offence_class: { class_letter: %w(E F H I) }))
+        .where(offence_id: Offence.joins(:offence_class).where(offence_class: { class_letter: %w[E F H I] }))
         .joins(:fees)
         .where('"fees"."fee_type_id" = ?', Fee::GraduatedFeeType.where(description: 'Guilty plea').pluck(:id).first)
         .where('"fees"."quantity" between 1 and 50')

@@ -11,7 +11,7 @@ module API
           optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the user'
           optional :scheme,
                    type: String,
-                   values: %w(agfs lgfs),
+                   values: %w[agfs lgfs],
                    default: 'agfs',
                    desc: 'OPTIONAL: This will be used to filter the list of unallocated claims'
         end

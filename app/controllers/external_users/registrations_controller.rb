@@ -1,5 +1,5 @@
 class ExternalUsers::RegistrationsController < Devise::RegistrationsController
-  skip_load_and_authorize_resource only: [:new, :create]
+  skip_load_and_authorize_resource only: %i[new create]
   before_action :check_environment
   before_action :configure_permitted_parameters, only: [:create]
 
@@ -47,7 +47,7 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
       name: Faker::Company.name,
       firm_agfs_supplier_number: generate_unique_supplier_number,
       provider_type: 'firm',
-      roles: %w(agfs lgfs),
+      roles: %w[agfs lgfs],
       lgfs_supplier_numbers: [supplier_number]
     )
     external_user = ExternalUser.new(

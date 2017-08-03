@@ -1,7 +1,7 @@
 module CaseWorkers::Admin::AllocationsHelper
   def allocation_scheme_filters
-    %w(agfs
-       lgfs)
+    %w[agfs
+       lgfs]
   end
 
   def owner_column_header

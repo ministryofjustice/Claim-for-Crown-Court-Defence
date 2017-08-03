@@ -1,6 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe ErrorsController, type: :controller do
+  describe "GET #not_endpoint" do
+    before { get :not_endpoint }
+
+    it 'has a status of 403' do
+      expect(response.status).to eq(403)
+    end
+
+    it 'renders the appropriate json' do
+      json = 'Not a valid api endpoint'
+      expect(response.body).to eq json
+    end
+  end
+
   describe "GET #not_found" do
     before { get :not_found }
 

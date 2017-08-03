@@ -183,7 +183,7 @@ Rails.application.routes.draw do
 
   get 'statistics', to: 'geckoboard_api/statistics#index'
 
-
+  post '/', to: 'errors#not_endpoint'
   # catch-all route
   unless Rails.env.development? || Rails.env.devunicorn?
     match '*path', to: 'errors#not_found', via: :all

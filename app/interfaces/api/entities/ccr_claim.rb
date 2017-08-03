@@ -27,6 +27,10 @@ module API
         expose :court_code, as: :code
       end
 
+      # INJECTION: should be replaced API::Entities::Export::Defendant via the full claim endpoint
+      expose :defendants, using: API::Entities::CCR::Defendant
+
+      # INJECTION: to be removed once CCR can iterate over defendants representation orders JSON provided by API::Entities::CCR::Defendant
       expose :first_defendant_maat_number, as: :representationOrderNumber
       expose :first_defendant_rep_order_date, as: :representationOrderDate, format_with: :utc
 
@@ -163,11 +167,10 @@ module API
           ppe: pages_of_prosecution_evidence,
           quantity: 1.0,
           rate: 0.0,
-          dateNotice1stFixedWarn: nil,
-          firstFixedWarnedDate: nil,
-          dateOfCrack: nil,
-          thirdCracked: nil,
-          forceThirdCracked: nil,
+          dateNotice1stFixedWarn: '',
+          firstFixedWarnedDate: '',
+          dateOfCrack: '',
+          thirdCracked: '',
           dateIncurred: object.last_submitted_at.strftime('%Y-%m-%d %H:%M:%S'),
           noOfCases: number_of_cases,
           calculatedFee: {
@@ -183,8 +186,8 @@ module API
             vatRate: 20.0
           },
           refno: 0,
-          occurDate: nil,
-          firstFixedWarnedDateOrig: nil,
+          occurDate: '',
+          firstFixedWarnedDateOrig: '',
           caseUpliftAmount: 0.0,
           defendantUpliftAmount: 0.0
         }

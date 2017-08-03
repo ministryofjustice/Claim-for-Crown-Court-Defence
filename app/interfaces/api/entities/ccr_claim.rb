@@ -27,12 +27,12 @@ module API
         expose :court_code, as: :code
       end
 
-      # INJECTION: should be replaced API::Entities::Export::Defendant via the full claim endpoint
+      # INJECTION: should eventual be replaced or replace API::Entities::Export::Defendant as used by the full claim endpoint
       expose :defendants, using: API::Entities::CCR::Defendant
 
       # INJECTION: to be removed once CCR can iterate over defendants representation orders JSON provided by API::Entities::CCR::Defendant
-      expose :first_defendant_maat_number, as: :representationOrderNumber
-      expose :first_defendant_rep_order_date, as: :representationOrderDate, format_with: :utc
+      # expose :first_defendant_maat_number, as: :representationOrderNumber
+      # expose :first_defendant_rep_order_date, as: :representationOrderDate, format_with: :utc
 
       expose :wrapped_bill, as: :bills
 
@@ -88,13 +88,15 @@ module API
         object.court&.code
       end
 
-      def first_defendant_maat_number
-        object.defendants.first.representation_orders.first.maat_reference
-      end
+      # INJECTION: to be removed once CCR can iterate over defendants representation orders JSON provided by API::Entities::CCR::Defendant
+      # def first_defendant_maat_number
+      #   object.defendants.first.representation_orders.first.maat_reference
+      # end
 
-      def first_defendant_rep_order_date
-        object.defendants.first.representation_orders.first.representation_order_date
-      end
+      # INJECTION: to be removed once CCR can iterate over defendants representation orders JSON provided by API::Entities::CCR::Defendant
+      # def first_defendant_rep_order_date
+      #   object.defendants.first.representation_orders.first.representation_order_date
+      # end
 
       def fee_structure_id
         AGFS_FEE_SCHEME_9_CCR_FEE_STRUCTURE_ID

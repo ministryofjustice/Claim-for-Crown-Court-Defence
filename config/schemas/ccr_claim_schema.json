@@ -1,6 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
   "definitions": {},
+  "description": "A claim from the CCCD service",
   "id": "https://claim-crown-court-defence.service.gov.uk/schemas/ccr_claim",
   "properties": {
     "_cccd": {
@@ -180,12 +182,14 @@
       "id": "/properties/defendants",
       "items": {
         "id": "/properties/defendants/items",
+        "additionalProperties": false,
         "properties": {
           "main_defendant": {
             "id": "/properties/defendants/items/properties/main_defendant",
             "type": "boolean"
           },
           "representation_orders": {
+            "additionalProperties": false,
             "id": "/properties/defendants/items/properties/representation_orders",
             "items": {
               "id": "/properties/defendants/items/properties/representation_orders/items",
@@ -253,14 +257,6 @@
         }
       },
       "type": "object"
-    },
-    "representationOrderDate": {
-      "id": "/properties/representationOrderDate",
-      "type": "string"
-    },
-    "representationOrderNumber": {
-      "id": "/properties/representationOrderNumber",
-      "type": "string"
     },
     "scenario": {
       "id": "/properties/scenario",

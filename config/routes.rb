@@ -12,8 +12,8 @@ Rails.application.routes.draw do
 
   get 'vat'                 => "vat_rates#index"
 
-  get '/json_schema' => 'json_template#index'
-  get '/json_schemas/:id', to: 'json_template#show', as: :json_schemas
+  get 'json_schema' => 'json_template#index'
+  get 'json_schemas/:schema', to: 'json_template#show', as: :json_schemas
 
   get '/404', to: 'errors#not_found', as: :error_404
   get '/500', to: 'errors#internal_server_error', as: :error_500

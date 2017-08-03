@@ -14,11 +14,10 @@ class JsonTemplateController < ApplicationController
   private
 
   def set_schema
-    @schema = ClaimJsonSchemaValidator.send(schema_params[:id].to_sym)
+    @schema = ClaimJsonSchemaValidator.send(schema_params[:schema].to_sym)
   end
 
   def schema_params
-    params.permit(:id)
+    params.permit(:schema)
   end
-
 end

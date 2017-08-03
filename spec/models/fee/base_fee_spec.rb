@@ -138,7 +138,7 @@ module Fee
 
     context '#new' do
       it 'should raise BaseFeeAbstractClassError' do
-        expect { BaseFee.new }.to raise_error
+        expect { BaseFee.new }.to raise_error(Fee::BaseFeeAbstractClassError)
       end
     end
 

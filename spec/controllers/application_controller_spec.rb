@@ -52,7 +52,7 @@ RSpec.describe ApplicationController, type: :controller do
       before { user = build(:user); sign_in user }
 
       it 'raises error' do
-        expect { subject.after_sign_in_path_for(user) }.to raise_error
+        expect { subject.after_sign_in_path_for(user) }.to raise_error(NameError)
       end
     end
   end
@@ -130,7 +130,7 @@ RSpec.describe ApplicationController, type: :controller do
       before { user = build(:user); sign_in user }
 
       it 'raises error' do
-        expect { subject.signed_in_user_profile_path }.to raise_error
+        expect { subject.signed_in_user_profile_path }.to raise_error(NameError)
       end
     end
 

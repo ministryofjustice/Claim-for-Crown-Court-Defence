@@ -313,7 +313,7 @@ RSpec.describe ExternalUser, type: :model do
     context 'when an invalid fee scheme is used' do
       it 'raises an error' do
         advocate.provider.roles = %w( invalid_role )
-        expect { advocate.available_roles }.to raise_error
+        expect { advocate.available_roles }.to raise_error(RuntimeError)
       end
     end
   end

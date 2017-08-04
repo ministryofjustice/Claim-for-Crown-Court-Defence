@@ -1,8 +1,8 @@
 class RepresentationOrderValidator < BaseValidator
   def self.fields
-    [
-      :representation_order_date,
-      :maat_reference
+    %i[
+      representation_order_date
+      maat_reference
     ]
   end
 

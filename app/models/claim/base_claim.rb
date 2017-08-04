@@ -140,13 +140,13 @@ module Claim
     has_paper_trail on: [:update], only: [:state]
 
     # external user relevant scopes
-    scope :outstanding, -> { where(state: %w( submitted allocated )) }
-    scope :any_authorised, -> { where(state: %w( part_authorised authorised )) }
+    scope :outstanding, -> { where(state: %w[submitted allocated]) }
+    scope :any_authorised, -> { where(state: %w[part_authorised authorised]) }
 
     scope :dashboard_displayable_states, -> { where(state: Claims::StateMachine.dashboard_displayable_states) }
 
-    scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
-    scope :total_lower_than, -> (value) { where { total < value } }
+    scope :total_greater_than_or_equal_to, ->(value) { where { total >= value } }
+    scope :total_lower_than, ->(value) { where { total < value } }
 
     scope :cloned, -> { where.not(clone_source_id: nil) }
 
@@ -237,7 +237,7 @@ module Claim
       when 'redetermination', 'awaiting_written_reasons', 'all'
         send(filter)
       when 'fixed_fee', 'cracked', 'trial', 'guilty_plea', 'graduated_fees', 'interim_fees', 'warrants', 'interim_disbursements', 'risk_based_bills'
-        where.not(state: %w(redetermination awaiting_written_reasons)).send(filter)
+        where.not(state: %w[redetermination awaiting_written_reasons]).send(filter)
       else
         raise 'unknown filter: %s' % filter
       end

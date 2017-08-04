@@ -1,13 +1,13 @@
 class Fee::GraduatedFeeValidator < Fee::BaseFeeValidator
   def self.fields
-    [
-      :quantity,
-      :date
+    %i[
+      quantity
+      date
     ] + super
   end
 
   def self.mandatory_fields
-    [:claim, :fee_type]
+    %i[claim fee_type]
   end
 
   private

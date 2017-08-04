@@ -4,9 +4,9 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
   def self.fields_for_steps
     [
       [].unshift(first_step_common_validations),
-      [
-        :actual_trial_length,
-        :total
+      %i[
+        actual_trial_length
+        total
       ]
     ]
   end

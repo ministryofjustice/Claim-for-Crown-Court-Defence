@@ -10,13 +10,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   respond_to :html
 
   before_action :set_user_and_provider
-  before_action :set_claims_context, only: [:index, :archived, :outstanding, :authorised]
-  before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
+  before_action :set_claims_context, only: %i[index archived outstanding authorised]
+  before_action :set_financial_summary, only: %i[index outstanding authorised]
   before_action :initialize_json_document_importer, only: [:index]
 
-  before_action :set_and_authorize_claim, only: [:show, :edit, :update, :unarchive, :clone_rejected, :destroy, :summary, :confirmation, :show_message_controls, :messages]
+  before_action :set_and_authorize_claim, only: %i[show edit update unarchive clone_rejected destroy summary confirmation show_message_controls messages]
   before_action :set_doctypes, only: [:show]
-  before_action :generate_form_id, only: [:new, :edit]
+  before_action :generate_form_id, only: %i[new edit]
   before_action :initialize_submodel_counts
 
   include ReadMessages
@@ -185,7 +185,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def search_options
-    options = [:case_number, :defendant_name]
+    options = %i[case_number defendant_name]
     options << :advocate_name if @external_user.admin?
     options
   end
@@ -195,7 +195,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def sort_direction
-    %w(asc desc).include?(params[:direction]) ? params[:direction] : @sort_defaults[:direction]
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : @sort_defaults[:direction]
   end
 
   def sort_defaults(defaults = {})
@@ -210,7 +210,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def scheme
-    %w(agfs lgfs).include?(params[:scheme]) ? params[:scheme].to_sym : :all
+    %w[agfs lgfs].include?(params[:scheme]) ? params[:scheme].to_sym : :all
   end
 
   def set_and_authorize_claim
@@ -283,13 +283,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :_destroy,
         common_dates_attended_attributes
       ],
-      disbursements_attributes: [
-        :id,
-        :claim_id,
-        :disbursement_type_id,
-        :net_amount,
-        :vat_amount,
-        :_destroy
+      disbursements_attributes: %i[
+        id
+        claim_id
+        disbursement_type_id
+        net_amount
+        vat_amount
+        _destroy
       ],
       fixed_fees_attributes: common_fees_attributes,  # agfs has_many
       fixed_fee_attributes: common_fees_attributes,   # lgfs has_one
@@ -311,12 +311,12 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         date_attributes_for(:warrant_issued_date),
         date_attributes_for(:warrant_executed_date)
       ],
-      transfer_fee_attributes: [
-        :id,
-        :claim_id,
-        :fee_type_id,
-        :amount,
-        :quantity
+      transfer_fee_attributes: %i[
+        id
+        claim_id
+        fee_type_id
+        amount
+        quantity
       ],
       warrant_fee_attributes: [
         :id,
@@ -355,7 +355,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def build_nested_resources
-    [:defendants, :documents].each do |association|
+    %i[defendants documents].each do |association|
       build_nested_resource(@claim, association)
     end
 

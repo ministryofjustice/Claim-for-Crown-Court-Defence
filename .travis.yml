@@ -12,14 +12,5 @@ before_script:
 # Please don't add extra test commands here unless they are Travis only -- Jenkins will run this script too
 script:
   - bash ./runtests.sh
-# deploy:
-#   provider: heroku
-#   api_key:
-#     secure: XLE9lmmig5XRSZPIxQF7lVuDYyDeC5sabWWUkr0rQihOK5UHumURuw444eaaaHYbr8cGK+SxptOlTaO94pSvQtbvYrAzEgzSKOwRQ2sah6VePTHiww0nKVOHSIVplrJ64fJBu3I/OPaSLkkoRMWDSKU8beWJKVZvDco37YZcRmI=
-#   app: crime-billing-online-dev
-#   on:
-#     repo: ministryofjustice/advocate-defence-payments
-#     branch: develop
-#   run:
-#     - "rake db:clear"
-#     - "rake db:migrate"
+after_success:
+  - bundle exec codeclimate-test-reporter

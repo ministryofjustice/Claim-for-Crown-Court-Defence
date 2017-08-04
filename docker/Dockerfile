@@ -1,4 +1,4 @@
-FROM ministryofjustice/ruby:2.3.0
+FROM ministryofjustice/ruby:2.4.0
 
 # add official nodejs repo
 RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \

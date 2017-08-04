@@ -17,7 +17,7 @@
 #
 
 class CaseType < ActiveRecord::Base
-  ROLES = %w( lgfs agfs interim ).freeze
+  ROLES = %w[lgfs agfs interim].freeze
   include Roles
 
   auto_strip_attributes :name, squish: true, nullify: true

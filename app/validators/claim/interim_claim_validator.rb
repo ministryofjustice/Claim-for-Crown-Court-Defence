@@ -4,15 +4,15 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   def self.fields_for_steps
     [
       [].unshift(first_step_common_validations),
-      [
-        :first_day_of_trial,
-        :estimated_trial_length,
-        :trial_concluded_at,
-        :retrial_started_at,
-        :retrial_estimated_length,
-        :effective_pcmh_date,
-        :legal_aid_transfer_date,
-        :total
+      %i[
+        first_day_of_trial
+        estimated_trial_length
+        trial_concluded_at
+        retrial_started_at
+        retrial_estimated_length
+        effective_pcmh_date
+        legal_aid_transfer_date
+        total
       ]
     ]
   end

@@ -38,7 +38,7 @@ module SearchResultHelpers
   end
 
   def risk_based_class_letter
-    object.class_letter&.in?(%w(E F H I))
+    object.class_letter&.in?(%w[E F H I])
   end
 
   def interim_claim?

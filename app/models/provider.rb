@@ -24,9 +24,9 @@
 class Provider < ActiveRecord::Base
   auto_strip_attributes :name, :firm_agfs_supplier_number, squish: true, nullify: true
 
-  PROVIDER_TYPES = %w( chamber firm ).freeze
+  PROVIDER_TYPES = %w[chamber firm].freeze
 
-  ROLES = %w( agfs lgfs ).freeze
+  ROLES = %w[agfs lgfs].freeze
   include Roles
 
   PROVIDER_TYPES.each do |type|

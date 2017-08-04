@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # Excluding some endpoints due to ELB only talking HTTP on port 80 and not following redirects to https.
-  force_ssl except: [:ping, :healthcheck], if: :ssl_enabled?
+  force_ssl except: %i[ping healthcheck], if: :ssl_enabled?
 
   helper_method :current_user_messages_count
   helper_method :signed_in_user_profile_path

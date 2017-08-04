@@ -65,7 +65,7 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.authorise!
       }.to change{ subject.state }.to('authorised') }
 
-      it { expect{ subject.archive_pending_delete! }.to raise_error }
+      it { expect{ subject.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
 
       it 'should be able to deallocate' do
         expect{
@@ -81,7 +81,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
     describe 'from draft' do
       it { expect{ subject.submit! }.to change{ subject.state }.to('submitted') }
-      it { expect{ subject.archive_pending_delete! }.to raise_error }
+      it { expect{ subject.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
     end
 
     describe 'from authorised' do
@@ -133,7 +133,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
       it { expect{ subject.allocate! }.to change{ subject.state }.to('allocated') }
 
-      it { expect{ subject.archive_pending_delete! }.to raise_error }
+      it { expect{ subject.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
     end
 
     describe "Allocated claim" do

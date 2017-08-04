@@ -32,7 +32,7 @@ module Stats
 
       it 'creates an errored report if exception occurs' do
         expect(Settings).to receive(:claim_csv_headers).and_raise ArgumentError.new('XXXXXXXX')
-        expect { generator.run }.to raise_exception
+        expect { generator.run }.to raise_exception(ArgumentError)
 
         expect(StatsReport.count).to eq 1
         report = StatsReport.first

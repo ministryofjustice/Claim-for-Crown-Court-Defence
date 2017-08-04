@@ -1,10 +1,10 @@
 class Fee::FixedFeeValidator < Fee::BaseFeeValidator
   def self.fields
-    [
-      :quantity,
-      :rate,
-      :sub_type,
-      :date
+    %i[
+      quantity
+      rate
+      sub_type
+      date
     ] + super
   end
 

@@ -10,8 +10,7 @@ module Claims
       false
     end
 
-    def action
-    end
+    def action; end
 
     def result
       @result ||= ClaimActionsResult.new(self)

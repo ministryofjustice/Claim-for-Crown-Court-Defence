@@ -47,7 +47,7 @@ RSpec.describe Claims::Cloner, type: :model do
         allow(non_rejected_claim).to receive(:rejected?).and_return(false)
         expect{
           non_rejected_claim.clone_rejected_to_new_draft
-        }.to raise_error
+        }.to raise_error(ArgumentError)
       end
     end
 

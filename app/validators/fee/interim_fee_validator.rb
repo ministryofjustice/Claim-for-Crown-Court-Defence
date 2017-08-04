@@ -1,9 +1,9 @@
 class Fee::InterimFeeValidator < Fee::BaseFeeValidator
   def self.fields
-    [
-      :quantity,
-      :rate,
-      :disbursements
+    %i[
+      quantity
+      rate
+      disbursements
     ] + super
   end
 

@@ -1,5 +1,5 @@
 class SessionsController < Devise::SessionsController
-  skip_load_and_authorize_resource only: [:new, :create, :destroy]
+  skip_load_and_authorize_resource only: %i[new create destroy]
   before_action :set_user_id, only: [:destroy]
 
   private

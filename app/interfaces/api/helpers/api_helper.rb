@@ -55,7 +55,6 @@ module API
           end
 
           model_instance
-
         rescue StandardError => ex
           pop_error_response(ex, api_response)
         end

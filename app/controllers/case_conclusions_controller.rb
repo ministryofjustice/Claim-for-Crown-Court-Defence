@@ -18,7 +18,7 @@ class CaseConclusionsController < ApplicationController
 
   def elected_case?
     # default to true to hide in most cases
-    elected_case = %w(true false).include?(params[:elected_case]) ? params[:elected_case] : 'true'
+    elected_case = %w[true false].include?(params[:elected_case]) ? params[:elected_case] : 'true'
     elected_case
   end
 

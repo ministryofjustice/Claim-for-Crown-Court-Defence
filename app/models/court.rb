@@ -13,7 +13,7 @@
 class Court < ActiveRecord::Base
   auto_strip_attributes :code, :name, squish: true, nullify: true
 
-  COURT_TYPES = %w( crown magistrate ).freeze
+  COURT_TYPES = %w[crown magistrate].freeze
 
   has_many :claims, -> { active }, class_name: Claim::BaseClaim, dependent: :nullify
 

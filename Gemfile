@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.3.0'
+ruby '2.4.0'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'amoeba',                 '~> 3.0.0'
 gem 'auto_strip_attributes',  '~> 2.0'
@@ -16,7 +16,7 @@ gem 'govuk_template',         '~> 0.18.0'
 gem 'govuk_frontend_toolkit', '>= 4.6.1'
 gem 'govuk_elements_rails',   '>= 1.1.2'
 gem 'govuk_notify_rails',     '~> 1.0.0'
-gem 'grape',                  '0.17.0'
+gem 'grape',                  '0.19.2'
 gem 'grape-entity',           '~> 0.5.1'
 gem 'grape-papertrail',       '~> 0.1.1'
 gem 'grape-swagger',          '~> 0.23.0'
@@ -25,7 +25,7 @@ gem 'haml-rails',             '~> 0.9.0'
 gem 'hashie-forbidden_attributes', '>= 0.1.1'
 gem 'jquery-rails',           '~> 4.1.1'
 gem 'json-schema',            '~> 2.6.2'
-gem 'nokogiri',               '~> 1.7'
+gem 'nokogiri',               '~> 1.8'
 gem 'kaminari',               '~> 0.16.2'
 gem 'libreconv',              '~> 0.9.0'
 gem 'logstasher',             '0.6.2'
@@ -65,7 +65,7 @@ end
 
 group :development, :devunicorn do
   gem 'meta_request', '~> 0.3.4'
-  gem 'rubocop',      '0.40.0'
+  gem 'rubocop',      '~>0.49'
 end
 
 group :development, :devunicorn, :test do
@@ -80,7 +80,7 @@ group :development, :devunicorn, :test do
   gem 'pry-rails'
   gem 'quiet_assets'
   gem 'rack-livereload',    '~> 0.3.16'
-  gem 'rspec-rails',        '~> 3.0'
+  gem 'rspec-rails',        '~> 3.4'
   gem 'rspec-collection_matchers'
   gem 'webrick',            '~> 1.3'
   gem 'parallel_tests'
@@ -100,8 +100,8 @@ group :test do
   gem 'kaminari-rspec',             '~> 0.16.1'
   gem 'launchy',                    '~> 2.4.3'
   gem 'poltergeist',                '~> 1.9.0'
-  gem 'rspec-mocks',                '~> 3.2.1'
-  gem 'shoulda-matchers',           '~> 2.8.0', require: false
+  gem 'rspec-mocks',                '~> 3.4'
+  gem 'shoulda-matchers',           '~> 3.1', require: false
   gem 'selenium-webdriver'
   gem 'simplecov',                  require: false
   gem 'simplecov-csv',              require: false
@@ -109,7 +109,7 @@ group :test do
   gem 'i18n-tasks',                 '~> 0.8.7'
   gem 'timecop',                    '~> 0.7.4'
   gem 'vcr',                        '~> 3.0.3'
-  gem 'webmock',                    '~> 2.1.0'
+  gem 'webmock',                    '~> 3.0'
 end
 
 group :doc do

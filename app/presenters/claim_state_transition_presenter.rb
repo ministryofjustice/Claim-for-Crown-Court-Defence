@@ -12,7 +12,7 @@ class ClaimStateTransitionPresenter < BasePresenter
   def audit_users
     return '(System)' if transition.author.nil? || hide_author?
     sentence = allocation? ? '%{author} to %{subject}' : '%{author}'
-    sentence % { author: transition.author.name, subject: transition.subject&.name }
+    format(sentence, author: transition.author.name, subject: transition.subject&.name)
   end
 
   private

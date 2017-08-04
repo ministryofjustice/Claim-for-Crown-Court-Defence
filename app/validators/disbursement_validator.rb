@@ -1,9 +1,9 @@
 class DisbursementValidator < BaseValidator
   def self.fields
-    [
-      :disbursement_type,
-      :net_amount,
-      :vat_amount
+    %i[
+      disbursement_type
+      net_amount
+      vat_amount
     ]
   end
 

@@ -11,8 +11,8 @@ class Feedback
   }.freeze
 
   FEEDBACK_TYPES = {
-    feedback: [:rating, :comment, :email],
-    bug_report: [:case_number, :event, :outcome, :email]
+    feedback: %i[rating comment email],
+    bug_report: %i[case_number event outcome email]
   }.freeze
 
   attr_accessor :email, :referrer, :user_agent, :type

@@ -2,7 +2,7 @@ module PasswordHelpers
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_resource_params, only: [:create, :update_password]
+    before_action :set_resource_params, only: %i[create update_password]
     before_action :set_temporary_password, only: :create
     before_action :set_user_params, only: :update_password
   end
@@ -35,7 +35,7 @@ module PasswordHelpers
   end
 
   def password_params
-    [:email, :first_name, :last_name].each { |attribute| @user_params[:user_attributes].delete(attribute) }
+    %i[email first_name last_name].each { |attribute| @user_params[:user_attributes].delete(attribute) }
     @user_params
   end
 

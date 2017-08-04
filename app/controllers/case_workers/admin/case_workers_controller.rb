@@ -1,7 +1,7 @@
 class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::ApplicationController
   include PasswordHelpers
 
-  before_action :set_case_worker, only: [:show, :edit, :update, :destroy, :change_password, :update_password]
+  before_action :set_case_worker, only: %i[show edit update destroy change_password update_password]
 
   def index
     @case_workers = CaseWorker.includes(:location).joins(:user)
@@ -54,7 +54,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   def case_worker_params
     params.require(:case_worker).permit(
       :location_id,
-      user_attributes: [:id, :email, :email_confirmation, :current_password, :password, :password_confirmation, :first_name, :last_name],
+      user_attributes: %i[id email email_confirmation current_password password password_confirmation first_name last_name],
       claim_ids: [],
       roles: []
     )

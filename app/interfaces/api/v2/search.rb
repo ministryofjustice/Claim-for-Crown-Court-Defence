@@ -41,7 +41,7 @@ module API
                 c.state,
                 court.name AS court_name,
                 ct.name as case_type,
-                c.total,
+                SUM(c.total + c.vat_amount) as total,
                 c.disk_evidence,
                 u.first_name || ' ' || u.last_name AS external_user,
                 string_agg(ro.maat_reference, ', ') AS maat_references,
@@ -84,7 +84,7 @@ module API
               GROUP BY
                 c.id, c.uuid, c.allocation_type, court.name,
                 ct.name, ct.is_fixed_fee, ct.fee_type_code, c.disk_evidence,
-                u.first_name, u.last_name, oc.class_letter, d.last_name, d.first_name
+                u.first_name, u.last_name, oc.class_letter
               ;
             SQL
           end

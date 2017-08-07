@@ -8,7 +8,7 @@ module API
         private
 
         def main_defendant
-          object.claim&.defendants&.order(created_at: :asc).first == object || false
+          object.claim&.defendants&.order(created_at: :asc)&.first == object || false
         end
       end
     end

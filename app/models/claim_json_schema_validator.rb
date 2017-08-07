@@ -27,5 +27,4 @@ class ClaimJsonSchemaValidator
       JSON::Validator.validate!(basic_schema, data, list: data.is_a?(Array))
     end
   end
-
 end

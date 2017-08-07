@@ -40,6 +40,10 @@ class CaseWorker < ActiveRecord::Base
     user.soft_delete
   end
 
+  def message_claim_path
+    'case_workers_claim_path'
+  end
+
   protected
 
   def unallocate!(record)

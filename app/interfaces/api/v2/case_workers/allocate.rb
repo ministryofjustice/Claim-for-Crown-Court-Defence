@@ -22,12 +22,15 @@ module API
                 params.except(:api_key).merge(current_user: current_user, allocating: true)
               end
             end
-
             desc 'Allocate claims to case workers'
             post do
               @allocation = Allocation.new(allocation_params)
+
+              result = @allocation.save
+              status 422 if result.eql?(false)
+
               {
-                result: @allocation.save,
+                result: result,
                 allocated_claims: @allocation.successful_claims.map(&:id),
                 errors: @allocation.errors[:base]
               }

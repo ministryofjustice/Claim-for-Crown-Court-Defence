@@ -43,12 +43,16 @@ module API
         ActiveSupport::NumberHelper.number_to_currency(object.total, precision: 2, delimiter: ',')
       end
 
+      def last_submitted_at
+        object.last_submitted_at.to_datetime.to_i
+      end
+
       def last_submitted_at_display
         object.last_submitted_at.strftime('%d/%m/%Y')
       end
 
       def disk_evidence
-        object.disk_evidence.eql?(true)
+        object.disk_evidence.eql?('t')
       end
 
       def redetermination
@@ -56,7 +60,7 @@ module API
       end
 
       def fixed_fee
-        object.is_fixed_fee.eql?(true)
+        object.is_fixed_fee.eql?('t')
       end
 
       def awaiting_written_reasons

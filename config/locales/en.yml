@@ -1085,6 +1085,22 @@ en:
           claim_total: 'Claim total'
           defendants: Defendants
           no_of_claims: 'No. of claims'
+        orig_allocation:
+          court: 'Court'
+          select: 'Select'
+          case_number: 'Case number'
+          allocated_to: 'Allocated To'
+          type: 'Type'
+          scheme: Scheme
+          advocate: Advocate
+          submitted_date: 'Date submitted'
+          claim_total: 'Claim total'
+          defendants: Defendants
+          no_of_claims: 'No. of claims'
+        orig_case_type_filters:
+          case_types: 'Case types'
+        orig_scheme_filters:
+          scheme_types: 'Scheme types'
         re_allocation:
           select: 'Select'
           court: 'Court'

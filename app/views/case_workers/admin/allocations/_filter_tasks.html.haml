@@ -1,0 +1,30 @@
+.form-group#filter-tasks.dtFilter.dtFilterAGFS{:data => {scheme: 'agfs'}}
+  %fieldset.inline
+    %label{:for => "filterAGFS"}
+      %span.translation_missing{:title => "Case Types"} Case Types
+    %select#filterAGFS.form-control{:name => "tasks"}
+      %option{:value => ""} All
+      %option{:value => "fixed_fee"} Fixed fee
+      %option{:value => "cracked"} Cracked
+      %option{:value => "trial"} Trial
+      %option{:value => "guilty_plea"} Guilty plea
+      %option{:value => "redetermination"} Redetermination
+      %option{:value => "awaiting_written_reasons"} Awaiting written reasons
+      %option{:value => "disk_evidence"} Disk evidence
+
+
+.form-group#filter-tasks.dtFilter.dtFilterLGFS{data: {scheme: 'lgfs'}, style: 'display: none;'}
+  %fieldset.inline
+    %label{:for => "filterLGFS"}
+      %span.translation_missing{:title => "Case Types"} Case Types
+    %select#filterLGFS.form-control{:name => "tasks"}
+      %option{:value => ""} All
+      %option{:value => "fixed_fee"} Fixed fee
+      %option{:value => "graduated_fees"} Graduated fees
+      %option{:value => "interim_fees"} Interim fees
+      %option{:value => "warrants"} Warrants
+      %option{:value => "interim_disbursements"} Interim disbursements
+      %option{:value => "risk_based_bills"} Risk based bills
+      %option{:value => "redetermination"} Redetermination
+      %option{:value => "awaiting_written_reasons"} Awaiting written reasons
+      %option{:value => "disk_evidence"} Disk evidence

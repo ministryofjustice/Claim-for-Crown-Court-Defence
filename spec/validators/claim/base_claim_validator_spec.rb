@@ -296,8 +296,8 @@ describe Claim::BaseClaimValidator do
     end
 
     it 'should error if NO assessment present and state is transitioned to authorised or part_authorised' do
-      expect{ claim.authorise! }.to raise_error
-      expect{ claim.part_authorise! }.to raise_error
+      expect{ claim.authorise! }.to raise_error(StateMachines::InvalidTransition)
+      expect{ claim.part_authorise! }.to raise_error(NoMethodError)
     end
 
     it 'should error if authorised claim has assessment zeroized' do

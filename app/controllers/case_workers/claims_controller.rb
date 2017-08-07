@@ -10,22 +10,20 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   respond_to :html
 
   # callback order is important (must set claims before filtering and sorting)
-  before_action :set_claims,              only: [:index, :archived]
+  before_action :set_claims,              only: %i[index archived]
   before_action :filter_current_claims,   only: [:index]
   before_action :filter_archived_claims,  only: [:archived]
-  before_action :sort_claims,             only: [:index, :archived]
+  before_action :sort_claims,             only: %i[index archived]
 
-  before_action :set_claim, only: [:show, :messages, :publish, :enquire]
-  before_action :set_doctypes, only: [:show, :update]
+  before_action :set_claim, only: %i[show messages publish enquire]
+  before_action :set_doctypes, only: %i[show update]
 
   include ReadMessages
   include MessageControlsDisplay
 
-  def index
-  end
+  def index; end
 
-  def archived
-  end
+  def archived; end
 
   def show
     prepare_show_action
@@ -72,19 +70,19 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     params.require(:claim).permit(
       :state,
       :additional_information,
-      assessment_attributes: [
-        :id,
-        :fees,
-        :expenses,
-        :disbursements,
-        :vat_amount
+      assessment_attributes: %i[
+        id
+        fees
+        expenses
+        disbursements
+        vat_amount
       ],
-      redeterminations_attributes: [
-        :id,
-        :fees,
-        :expenses,
-        :disbursements,
-        :vat_amount
+      redeterminations_attributes: %i[
+        id
+        fees
+        expenses
+        disbursements
+        vat_amount
       ]
     ).merge(params.permit(:state_reason))
   end
@@ -95,7 +93,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   # Only these 2 actions are handle in this controller. Rest of actions in the admin-namespaced controller.
   def tab
-    %w(current archived).include?(params[:tab]) ? params[:tab] : 'current'
+    %w[current archived].include?(params[:tab]) ? params[:tab] : 'current'
   end
 
   def set_claim
@@ -115,7 +113,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def sort_direction
-    %w(asc desc).include?(params[:direction]) ? params[:direction] : 'asc'
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
 
   def search_terms

@@ -2,8 +2,8 @@ module Claims::Cloner
   extend ActiveSupport::Concern
   include Duplicable
 
-  EXCLUDED_FEE_ASSOCIATIONS = [
-    :basic_fees, :fixed_fees, :misc_fees, :fixed_fee, :warrant_fee, :graduated_fee, :interim_fee, :transfer_fee
+  EXCLUDED_FEE_ASSOCIATIONS = %i[
+    basic_fees fixed_fees misc_fees fixed_fee warrant_fee graduated_fee interim_fee transfer_fee
   ].freeze
 
   included do |object_klass|
@@ -27,7 +27,7 @@ module Claims::Cloner
 
       EXCLUDED_FEE_ASSOCIATIONS.each { |assoc| exclude_association assoc }
 
-      clone [:fees, :documents, :defendants, :expenses, :disbursements]
+      clone %i[fees documents defendants expenses disbursements]
 
       set form_id: SecureRandom.uuid
 

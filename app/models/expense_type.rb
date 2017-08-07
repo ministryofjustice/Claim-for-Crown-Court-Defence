@@ -12,7 +12,7 @@
 #
 
 class ExpenseType < ActiveRecord::Base
-  ROLES = %w( agfs lgfs ).freeze
+  ROLES = %w[agfs lgfs].freeze
   include Roles
 
   REASON_SET_A = {
@@ -35,7 +35,7 @@ class ExpenseType < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: { case_sensitive: false, message: 'An expense type with this name already exists' }
   validates :unique_code, presence: true, uniqueness: { case_sensitive: false, message: 'An expense type with this unique code already exists' }
-  validates :reason_set, inclusion: { in:  %w( A B ) }
+  validates :reason_set, inclusion: { in: %w[A B] }
 
   def self.reason_sets
     [{ 'A': REASON_SET_A.values }, { 'B': REASON_SET_B.values }]

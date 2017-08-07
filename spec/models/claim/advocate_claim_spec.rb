@@ -1043,7 +1043,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
       context '#vat_registered?' do
         it 'raises an exception' do
-          expect { claim.vat_registered? }.to raise_error
+          expect { claim.vat_registered? }.to raise_error(RuntimeError)
         end
       end
     end

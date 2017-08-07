@@ -10,7 +10,7 @@ class ExternalUsers::ApplicationController < ApplicationController
 
   def date_attributes_for(date_param)
     date_params = []
-    %w(dd mm yyyy).each do |part|
+    %w[dd mm yyyy].each do |part|
       date_params.push("#{date_param}_#{part}".to_sym)
     end
     date_params

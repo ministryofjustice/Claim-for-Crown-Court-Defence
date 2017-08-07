@@ -1,7 +1,7 @@
 require 'google_analytics/api'
 
 class FeedbackController < ApplicationController
-  skip_load_and_authorize_resource only: [:new, :create]
+  skip_load_and_authorize_resource only: %i[new create]
   before_action :suppress_hotline_link
 
   def new
@@ -28,7 +28,7 @@ class FeedbackController < ApplicationController
   end
 
   def type
-    %w( feedback bug_report ).include?(params[:type]) ? params[:type] : 'feedback'
+    %w[feedback bug_report].include?(params[:type]) ? params[:type] : 'feedback'
   end
 
   def referrer_path

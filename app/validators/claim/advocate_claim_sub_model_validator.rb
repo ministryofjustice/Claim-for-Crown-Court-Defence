@@ -2,9 +2,9 @@ class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
   def has_one_association_names_for_steps
     [
       [],
-      [
-        :assessment,
-        :certification
+      %i[
+        assessment
+        certification
       ]
     ]
   end
@@ -14,14 +14,14 @@ class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       [
         :defendants
       ],
-      [
-        :basic_fees,
-        :misc_fees,
-        :fixed_fees,
-        :expenses,
-        :messages,
-        :redeterminations,
-        :documents
+      %i[
+        basic_fees
+        misc_fees
+        fixed_fees
+        expenses
+        messages
+        redeterminations
+        documents
       ]
     ]
   end

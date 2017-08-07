@@ -1,7 +1,7 @@
 class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::ApplicationController
   include PasswordHelpers
 
-  before_action :set_external_user, only: [:show, :edit, :update, :destroy, :change_password, :update_password]
+  before_action :set_external_user, only: %i[show edit update destroy change_password update_password]
 
   def index
     @external_users = current_provider.external_users.joins(:user)
@@ -65,7 +65,7 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
       :vat_registered,
       :supplier_number,
       roles: [],
-      user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :current_password, :first_name, :last_name, :email_notification_of_message]
+      user_attributes: %i[id email email_confirmation password password_confirmation current_password first_name last_name email_notification_of_message]
     )
   end
 
@@ -73,7 +73,7 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
     params.require(:external_user).permit(
       :vat_registered,
       :supplier_number,
-      user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :current_password, :first_name, :last_name, :email_notification_of_message]
+      user_attributes: %i[id email email_confirmation password password_confirmation current_password first_name last_name email_notification_of_message]
     )
   end
 end

@@ -17,7 +17,7 @@
 #
 
 class Fee::BasicFeeType < Fee::BaseFeeType
-  DATES_ATTENDED_APPLICABLE_FEES = %w( BAF DAF DAH DAJ PCM SAF ).freeze
+  DATES_ATTENDED_APPLICABLE_FEES = %w[BAF DAF DAH DAJ PCM SAF].freeze
 
   default_scope { order(id: :asc) }
 

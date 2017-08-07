@@ -21,7 +21,7 @@ class ExternalUsers::Litigators::TransferClaimsController < ExternalUsers::Claim
     @claim.build_transfer_detail if @claim.transfer_detail.nil?
     @claim.build_transfer_fee    if @claim.transfer_fee.nil?
 
-    [:misc_fees, :disbursements, :expenses].each do |association|
+    %i[misc_fees disbursements expenses].each do |association|
       build_nested_resource(@claim, association)
     end
 

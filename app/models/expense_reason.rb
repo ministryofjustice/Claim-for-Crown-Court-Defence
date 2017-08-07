@@ -3,7 +3,7 @@ class ExpenseReason
 
   def initialize(id, reason, allow_explanatory_text)
     raise ArgumentError, 'Allow explanatory text must be boolean' unless allow_explanatory_text.is_a?(TrueClass) || allow_explanatory_text.is_a?(FalseClass)
-    raise ArgumentError, 'Id must be numeric' unless id.is_a?(Fixnum)
+    raise ArgumentError, 'Id must be numeric' unless id.is_a?(Integer)
     @id = id
     @reason = reason
     @allow_explanatory_text = allow_explanatory_text

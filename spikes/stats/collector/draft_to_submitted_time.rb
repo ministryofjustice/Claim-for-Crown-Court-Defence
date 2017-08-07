@@ -19,7 +19,7 @@ module Stats
 
       def first_submitted_at(claim)
         transition_to_submitted = claim.claim_state_transitions.select { |cst| cst.to == 'submitted' }
-        first_transmisison_to_submitted = transition_to_submitted.sort { |a, b| a.created_at <=> b.created_at }.first
+        first_transmisison_to_submitted = transition_to_submitted.sort_by(&:created_at).first
         first_transmisison_to_submitted.created_at
       end
 

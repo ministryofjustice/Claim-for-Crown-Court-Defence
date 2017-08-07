@@ -1,7 +1,7 @@
 class HeartbeatController < ApplicationController
   require 'sidekiq/api'
 
-  skip_load_and_authorize_resource only: [:ping, :healthcheck]
+  skip_load_and_authorize_resource only: %i[ping healthcheck]
 
   respond_to :json
 

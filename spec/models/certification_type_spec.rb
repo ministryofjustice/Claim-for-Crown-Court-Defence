@@ -18,5 +18,5 @@ RSpec.describe CertificationType, type: :model do
   it { should have_many(:certifications) }
 
   it { should validate_presence_of(:name) }
-  it { should validate_uniqueness_of(:name).with_message('Certification type name has already been taken')  }
+  it { should validate_uniqueness_of(:name).ignoring_case_sensitivity.with_message('Certification type name has already been taken')  }
 end

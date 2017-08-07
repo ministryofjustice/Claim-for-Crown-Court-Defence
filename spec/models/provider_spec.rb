@@ -28,7 +28,7 @@ RSpec.describe Provider, type: :model do
 
   it { should validate_presence_of(:provider_type) }
   it { should validate_presence_of(:name) }
-  it { should validate_uniqueness_of(:name).with_message(:not_unique) }
+  it { should validate_uniqueness_of(:name).ignoring_case_sensitivity.with_message(:not_unique) }
 
   it { should delegate_method(:advocates).to(:external_users) }
   it { should delegate_method(:admins).to(:external_users) }

@@ -2,7 +2,7 @@ class ExternalUsers::FinancialSummaryController < ExternalUsers::ApplicationCont
   respond_to :html
 
   before_action :set_claims_context
-  before_action :set_financial_summary, only: [:outstanding, :authorised]
+  before_action :set_financial_summary, only: %i[outstanding authorised]
 
   def outstanding
     @claims = @financial_summary.outstanding_claims

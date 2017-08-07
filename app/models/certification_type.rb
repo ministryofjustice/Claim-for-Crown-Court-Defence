@@ -11,7 +11,7 @@
 #
 
 class CertificationType < ActiveRecord::Base
-  ROLES = %w( agfs lgfs ).freeze
+  ROLES = %w[agfs lgfs].freeze
   include Roles
 
   has_many :certifications

@@ -14,7 +14,7 @@
 class CaseWorker < ActiveRecord::Base
   auto_strip_attributes squish: true, nullify: true
 
-  ROLES = %w( admin case_worker ).freeze
+  ROLES = %w[admin case_worker].freeze
 
   include Roles
   include SoftlyDeletable

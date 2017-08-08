@@ -25,7 +25,7 @@
 
 class DocumentsController < ApplicationController
   respond_to :html
-  before_action :set_document, only: %i[show download destroy]
+  before_action :document, only: %i[show download destroy]
 
   def index
     return render json: [] if params[:form_id].blank?
@@ -33,11 +33,11 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    send_file Paperclip.io_adapters.for(@document.converted_preview_document).path, view_file_options
+    send_file Paperclip.io_adapters.for(document.converted_preview_document).path, view_file_options
   end
 
   def download
-    send_file Paperclip.io_adapters.for(@document.document).path, download_file_options
+    send_file Paperclip.io_adapters.for(document.document).path, download_file_options
   end
 
   def create
@@ -53,20 +53,24 @@ class DocumentsController < ApplicationController
   end
 
   def destroy
-    if @document.destroy
+    if document.destroy
       respond_to do |format|
-        format.json { render json: { message: 'Document removed', document: @document } }
+        format.json { render json: { message: 'Document removed', document: document } }
         format.js
       end
     else
       respond_to do |format|
-        format.json { render json: { message: @document.errors.full_messages.join(', '), document: @document } }
+        format.json { render json: { message: document.errors.full_messages.join(', '), document: document } }
         format.js
       end
     end
   end
 
   private
+
+  def document
+    @document ||= Document.find(params[:id])
+  end
 
   def view_file_options
     {
@@ -82,10 +86,6 @@ class DocumentsController < ApplicationController
       filename:    @document.document_file_name,
       x_sendfile:  true
     }
-  end
-
-  def set_document
-    @document = Document.find(params[:id])
   end
 
   def document_params

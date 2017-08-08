@@ -276,6 +276,9 @@ moj.Modules.AllocationDataTable = {
 
     $('.allocation-submit').on('click', function(e) {
 
+      self.ui.$msgFail.find('span').html();
+      self.ui.$msgSuccess.hide();
+
       self.ui.$msgSuccess.find('span').html('Allocating.. please wait a moment..');
       self.ui.$msgSuccess.show();
 
@@ -313,7 +316,6 @@ moj.Modules.AllocationDataTable = {
         return obj.id;
       }).join(',');
 
-
       $.ajax({
         url: '/api/case_workers/allocate',
         method: 'POST',
@@ -325,20 +327,15 @@ moj.Modules.AllocationDataTable = {
       }).success(function(data) {
         self.ui.$msgFail.hide();
         self.ui.$msgSuccess.find('span').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id_input').val());
-
         self.ui.$msgSuccess.show();
-
         self.reloadScheme({
           scheme: self.searchConfig.scheme
         });
       }).error(function(data) {
         self.ui.$msgSuccess.hide();
-        self.ui.$msgFail.find('span').html(data.errors.join(''));
+        self.ui.$msgFail.find('span').html(data.responseJSON.errors.join(''));
         self.ui.$msgFail.show();
-
-
-
-      }).complete(function() {
+      }).always(function() {
         self.ui.$submit.prop('disabled', false);
       });
     });

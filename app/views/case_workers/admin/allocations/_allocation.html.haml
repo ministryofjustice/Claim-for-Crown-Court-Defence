@@ -1,90 +1,71 @@
 = render partial: 'errors/error_summary', locals:{ ep: @allocation, error_summary: 'This claim allocation has '}
 
-= render partial: 'layouts/header', locals: {page_heading: 'Allocation'}
+
+.notice-summary{role: "group", "aria-labelledby": "notice-summary-heading", tabindex:"-1", style: "display: none;"}
+  %h1.heading-medium.notice-summary-heading{id: "notice-summary-heading"}
+    %span.msg
+
+.grid-row#api-key{:data => {api_key: current_user.api_key}}
+  .column-two-thirds
+    = render partial: 'layouts/header', locals: {page_heading: 'Allocation'}
+  .column-one-third.scheme-filters
+    -# FORM
+    -# AGFS / LGFS Radios
+    = render partial: 'scheme_filters'
 
 = form_tag case_workers_admin_allocations_path, method: :get do
   = hidden_field_tag :tab, params[:tab]
-  .grid-row
-    = render partial: 'scheme_filters'
-    = render partial: 'case_type_filters'
+  = form_for [:case_workers, :admin, @allocation] do |f|
+    = hidden_field_tag :tab, params[:tab]
+    = hidden_field_tag :scheme, params[:scheme]
+    = hidden_field_tag :filter, params[:filter] if params[:filter]
+    = hidden_field_tag :page, params[:page]
+    = hidden_field_tag :value_band_id, params[:value_band_id] if params[:value_band_id]
+    -# ALLOCATION FORM
+    .grid-row.js-typeahead
+      %h2.heading-medium
+        = "Allocate claims"
+      .form-row.form-group.js-typeahead
+        .form-col
+          = label_tag :quantity_to_allocate, t('.no_of_claims')
+          = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}
+        .form-col
+          = f.label :case_worker_id, t('dictionary.models.case_worker'), {for: "allocation_case_worker_id_autocomplete"}
+          = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
 
-= form_for [:case_workers, :admin, @allocation] do |f|
-  = hidden_field_tag :tab, params[:tab]
-  = hidden_field_tag :scheme, params[:scheme]
-  = hidden_field_tag :filter, params[:filter] if params[:filter]
-  = hidden_field_tag :page, params[:page]
-  = hidden_field_tag :value_band_id, params[:value_band_id] if params[:value_band_id]
+        .form-col{ style: 'padding: 26px 0 0' }
+          = f.submit 'Allocate', class: 'button allocation-submit'
 
-  .grid-row.js-typeahead
-    .form-row.form-group.js-typeahead
-      .form-col
-        = label_tag :quantity_to_allocate, t('.no_of_claims')
-        = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}
-      .form-col
-        = f.label :case_worker_id, t('dictionary.models.case_worker'), {for: "allocation_case_worker_id_autocomplete"}
-        = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
 
-      .form-col{ style: 'padding: 26px 0 0' }
-        = f.submit 'Allocate', class: 'button'
-  - if @claims.any?
+    %h2.heading-medium
+      = "Filter claims"
+    .form-row.form-group
+      .form-col.ui-filter
+        = render partial: 'filter_tasks'
 
-    .container.table-container
-      %table.report.js-checkbox-table
-        %caption
-          %span.table-caption
-            = 'Allocations'
-          %span.claim-count
-            = "Number of claims: "
-            = @claims.total_count
-        %thead
-          %th.select{scope:'col'}
-            = link_to 'All', '#', class: 'select-all', data: { 'all-checked' => 'false' }
-          %th.case-number{scope:'col'}
-            = t('.case_number')
-          %th.court{scope:'col'}
-            = t('.court')
-          %th.defendants{scope:'col'}
-            = t('.defendants')
-          %th.type{scope:'col'}
-            Type
-          %th.numeric.submit-date{scope:'col'}
-            = t('.submitted_date')
-          %th.numeric.claim-total{scope:'col'}
-            = t('.claim_total')
-          - if params[:tab] == 'allocated'
-            %th.allocated{scope:'col'}
-              Allocated to
-        %tbody
-          = f.collection_check_boxes :claim_ids, @claims, :id, :case_number do |b|
-            - present(b.object) do |claim|
-              %tr{id: dom_id(claim)}
-                %td{'aria-label' => t(".select")}
-                  = b.label(class:'visuallyhidden'){"Choose #{claim.case_number}"}
-                  = b.check_box
-                %td{'aria-label' => t(".case_number")}
-                  %span.js-test-case-number
-                    = link_to claim.case_number , case_workers_claim_path(claim)
-                    %span.unique-id-small
-                      = claim.unique_id
-                    - if claim.disk_evidence == true
-                      %span.disk-evidence
-                        = "Disk evidence"
-                %td{'aria-label' => t('.court')}
-                  = claim.court.name
-                %td{'aria-label' => t(".defendants")}
-                  = claim.defendant_names
-                %td{'aria-label' => t(".type")}
-                  = claim.case_type_name
-                  %br/
-                  %span.claim-state
-                    = claim.claim_state
-                %td.numeric{'aria-label' => t(".submitted_date")}
-                  = claim.submitted_at_short
-                %td.numeric{'aria-label' => t(".claim_total")}
-                  = claim.total_inc_vat
-                - if params[:tab] == 'allocated'
-                  %td{'aria-label' => t(".allocated_to")}
-                    = claim.case_workers.map(&:name).join(', ')
+      .form-col.ui-filter
+        = render partial: 'filter_value_bands'
 
-  - else
-    = "No claims need to be allocated."
+      .form-col{ style: 'padding: 21px 0 0' }
+        %button.clear-filters.button.button-secondary{:type => 'button'}
+          Clear filters
+
+    %h2.heading-medium
+      = "Allocation queue"
+    %table#dtAllocation
+      %thead
+        %tr
+          %th
+
+          %th
+            = "Case #"
+          %th
+            = "Court"
+          %th
+            = "Defendents"
+          %th
+            = "Type"
+          %th
+            = "Submitted"
+          %th
+            = "Total"

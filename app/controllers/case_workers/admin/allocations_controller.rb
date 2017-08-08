@@ -118,9 +118,9 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def allocation_filters_for_scheme(scheme)
     if scheme == 'agfs'
-      %w[all fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons]
+      %w[all fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons disk_evidence]
     elsif scheme == 'lgfs'
-      %w[all fixed_fee graduated_fees interim_fees warrants interim_disbursements risk_based_bills redetermination awaiting_written_reasons]
+      %w[all fixed_fee graduated_fees interim_fees warrants interim_disbursements risk_based_bills redetermination awaiting_written_reasons disk_evidence]
     else
       []
     end

@@ -24,11 +24,16 @@
 @import "moj/messages";
 @import "moj/related";
 @import "moj/print";
+@import "moj/gds_radios";
+@import "moj/filters";
+@import "moj/spinner";
 
 // /////////////////////////////// TODO: KILL THIS ASAP
 @import "moj/HOTFIX_KILLME";
 // ///////////////////////////////
+//
 
+@import "datatables.min";
 // Phase banner
 .phase-banner {
   @include phase-banner(beta);
@@ -117,13 +122,8 @@ form{
   }
 }
 
-.disk-evidence, .claim-state{
-  font-size: small;
-}
 
-.disk-evidence{
-  color: $error-colour;
-}
+
 
 .js-checkbox-table, .report{
   td{
@@ -143,16 +143,7 @@ form{
     }
 }
 
-.disk-evidence, .claim-state{
-  font-size: small;
-}
-
 .disk-evidence{
   color: $error-colour;
 }
 
-.js-checkbox-table{
-  td{
-    vertical-align: top;
-  }
-}

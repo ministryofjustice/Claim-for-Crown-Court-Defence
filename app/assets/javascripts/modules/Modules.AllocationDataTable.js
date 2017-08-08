@@ -15,9 +15,9 @@ moj.Modules.AllocationDataTable = {
 
   // short cuts to UI elements
   ui: {
-    $submit: $('.allocation-submit'),
-    $msgSuccess: $('.notice-summary'),
-    $msgFail: $('.error-summary')
+    $submit: null,
+    $msgSuccess: null,
+    $msgFail: null
   },
 
   // Filter / Search data object
@@ -73,9 +73,10 @@ moj.Modules.AllocationDataTable = {
       processing: "Table loading, please wait a moment."
     },
     // $.ajax config object
+    // https://datatables.net/reference/option/ajax
     // The url is set during the init procedures
     ajax: {
-      url: '/assets/agfs.data.json',
+      url: '',
 
       // important to change this vlaue  accordingly
       // if the data structure changes
@@ -84,7 +85,7 @@ moj.Modules.AllocationDataTable = {
 
     // Select multiple rows
     select: {
-      style: 'multi'
+       style: 'multi'
     },
 
     // A definition to discribe each column in the table
@@ -141,6 +142,9 @@ moj.Modules.AllocationDataTable = {
 
   init: function() {
     this.$el = $('#dtAllocation');
+    this.ui.$submit = $('.allocation-submit');
+    this.ui.$msgSuccess = $('.notice-summary');
+    this.ui.$msgFail = $('.error-summary');
 
     this.searchConfig.key = $('#api-key').data('api-key');
 
@@ -243,6 +247,7 @@ moj.Modules.AllocationDataTable = {
     // Subscribe to the schene change
     // event and reload the data
     $.subscribe('/scheme/change/', function(e, data) {
+      // update the scheme
       self.searchConfig.scheme = data.scheme;
       self.clearFilter();
       self.reloadScheme(data);
@@ -260,6 +265,7 @@ moj.Modules.AllocationDataTable = {
       self.tableDraw();
     });
 
+    // EVENT: Value band Filter
     $.subscribe('/filter/filter_value_bands/', function(e, data) {
       var valueSelected = data.data.split('|');
       self.searchConfig.valueBands = {};
@@ -270,10 +276,12 @@ moj.Modules.AllocationDataTable = {
       self.tableDraw();
     });
 
+    // EVENT: General clear filter
     $.subscribe('/general/clear-filters/', function() {
       self.clearFilter();
     });
 
+    // EVENT: Allocate claims
     $('.allocation-submit').on('click', function(e) {
 
       self.ui.$msgFail.find('span').html();
@@ -316,6 +324,8 @@ moj.Modules.AllocationDataTable = {
         return obj.id;
       }).join(',');
 
+
+
       $.ajax({
         url: '/api/case_workers/allocate',
         method: 'POST',
@@ -340,6 +350,7 @@ moj.Modules.AllocationDataTable = {
       });
     });
 
+    // EVENT: Clear selected checkboxes on search
     self.dataTable.on('search.dt', function() {
       if ($('#dtAllocation thead input').prop('checked')) {
         self.clearCheckboxes();

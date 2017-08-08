@@ -1085,6 +1085,22 @@ en:
           claim_total: 'Claim total'
           defendants: Defendants
           no_of_claims: 'No. of claims'
+        orig_allocation:
+          court: 'Court'
+          select: 'Select'
+          case_number: 'Case number'
+          allocated_to: 'Allocated To'
+          type: 'Type'
+          scheme: Scheme
+          advocate: Advocate
+          submitted_date: 'Date submitted'
+          claim_total: 'Claim total'
+          defendants: Defendants
+          no_of_claims: 'No. of claims'
+        orig_case_type_filters:
+          case_types: 'Case types'
+        orig_scheme_filters:
+          scheme_types: 'Scheme types'
         re_allocation:
           select: 'Select'
           court: 'Court'
@@ -1173,3 +1189,13 @@ en:
           date: 'REQUIRED: The date applicable to this Expense (YYYY-MM-DD)'
           amount: 'REQUIRED: The total amount of the expense.'
           vat_amount: 'OPTIONAL: The VAT amount of the expense. For LGFS claims.'
+    v2:
+      generic:
+        params:
+          api_key: 'REQUIRED: The API authentication key of the case worker'
+      allocate:
+        params:
+          case_worker_id: 'REQUIRED: The id of the caseworker'
+          amount: 'OPTIONAL: The number of claims to allocate'
+          claim_ids: 'OPTIONAL: The specific claim ids to be allocated'
+          filters: 'OPTIONAL: The filters to be applied if allocating by number'

@@ -1,11 +1,15 @@
-%fieldset.inline.allocation-filter-form
-  .column-half.form-group
-    %legend
-      = t('.scheme_types')
-    - allocation_scheme_filters.each do | filter_scheme |
-      = label_tag "scheme_#{filter_scheme}", nil, class: "block-label" do
-        = radio_button_tag :scheme, filter_scheme, params[:scheme].blank? ? filter_scheme == 'agfs' : params[:scheme] == filter_scheme
-        = filter_scheme.upcase
+#allocation-filters.form-group
+  %fieldset.inline
+    %legend.visuallyhidden
+      Choose your Scheme
+
+    .multiple-choice
+      %input#scheme_agfs{:name => "scheme", :type => "radio", :value => "agfs", :checked => "checked"}/
+      %label{:for => "scheme_agfs"} AGFS
+    .multiple-choice
+      %input#scheme_lgfs{:name => "scheme", :type => "radio", :value => "lgfs"}/
+      %label{:for => "scheme_lgfs"} LGFS
+
     %noscript
-      = submit_tag 'Filter'
+      = submit_tag "Submit"
 

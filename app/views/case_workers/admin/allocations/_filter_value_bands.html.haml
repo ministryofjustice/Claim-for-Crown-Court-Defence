@@ -1,0 +1,13 @@
+.form-group#filter-value-bands.dtFilter
+  %label.form-label{:for => "select-box"} Value:
+  %select.form-control{:name => "filter_value_bands"}
+    %option{:value => ""}
+      All
+    %option{:value => "max:25000"}
+      \less than £25,000
+    %option{:value => "min:25000.01|max:100000"}
+      \£25,000 - £100,000
+    %option{:value => "min:100000.01|max:150000"}
+      \£100,000 - £150,000
+    %option{:value => "min:150000.01|max:999999.99"}
+      \more than £150,000

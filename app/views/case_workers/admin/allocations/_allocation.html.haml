@@ -5,6 +5,10 @@
   %h1.heading-medium.notice-summary-heading{id: "notice-summary-heading"}
     %span.msg
 
+.error-summary{role: "group", "aria-labelledby": "error-summary-heading", tabindex: "-1", style: "display: none;"}
+  %h1#error-summary-heading.heading-medium.error-summary-heading
+    %span.msg
+
 .grid-row#api-key{:data => {api_key: current_user.api_key}}
   .column-two-thirds
     = render partial: 'layouts/header', locals: {page_heading: 'Allocation'}

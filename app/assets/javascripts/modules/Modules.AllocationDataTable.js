@@ -16,7 +16,8 @@ moj.Modules.AllocationDataTable = {
   // short cuts to UI elements
   ui: {
     $submit: $('.allocation-submit'),
-    $msg: $('.notice-summary')
+    $msgSuccess: $('.notice-summary'),
+    $msgFail: $('.error-summary')
   },
 
   // Filter / Search data object
@@ -275,8 +276,8 @@ moj.Modules.AllocationDataTable = {
 
     $('.allocation-submit').on('click', function(e) {
 
-      self.ui.$msg.find('span').html('Allocating.. please wait a moment..');
-      self.ui.$msg.show();
+      self.ui.$msgSuccess.find('span').html('Allocating.. please wait a moment..');
+      self.ui.$msgSuccess.show();
 
       e.preventDefault();
       self.ui.$submit.prop('disabled', true);
@@ -322,18 +323,20 @@ moj.Modules.AllocationDataTable = {
           claim_ids: data
         }
       }).success(function(data) {
+        self.ui.$msgFail.hide();
+        self.ui.$msgSuccess.find('span').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id_input').val());
 
-        self.ui.$msg.find('span').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id_input').val());
-
-        self.ui.$msg.show();
+        self.ui.$msgSuccess.show();
 
         self.reloadScheme({
           scheme: self.searchConfig.scheme
         });
       }).error(function(data) {
+        self.ui.$msgSuccess.hide();
+        self.ui.$msgFail.find('span').html(data.errors.join(''));
+        self.ui.$msgFail.show();
 
-        self.ui.$msg.find('span').html(data.errors.join(''));
-        self.ui.$msg.show();
+
 
       }).complete(function() {
         self.ui.$submit.prop('disabled', false);

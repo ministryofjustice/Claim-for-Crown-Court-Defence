@@ -36,20 +36,20 @@ module Claims::Sort
   # we need to explcitly select values being ordered by to avoid Invalid SQL
   #
 
-  def nulls_at_top_asc(direction)
-    direction == 'asc' ? 'FIRST' : 'LAST'
+  def sort_nulls_by(direction)
+    "NULLS #{direction == 'asc' ? 'FIRST' : 'LAST'}"
   end
 
   def sort_field_by(field, direction)
     "#{field} #{direction.upcase}"
   end
 
-  def sort_field_by_with_nulls(field, direction)
-    sort_field_by(field, direction) + " NULLS #{nulls_at_top_asc(direction)}, id desc"
+  def sort_field_with_nulls(field, direction)
+    "#{sort_field_by(field, direction)} #{sort_nulls_by(direction)}, id desc"
   end
 
   def sort_submitted_at(direction)
-    order(sort_field_by_with_nulls('last_submitted_at', direction))
+    order(sort_field_with_nulls('last_submitted_at', direction))
   end
 
   def sort_advocates(direction)

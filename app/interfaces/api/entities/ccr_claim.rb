@@ -167,10 +167,10 @@ module API
           ppe: pages_of_prosecution_evidence,
           quantity: 1.0,
           rate: 0.0,
-          dateNotice1stFixedWarn: '',
-          firstFixedWarnedDate: '',
-          dateOfCrack: '',
-          thirdCracked: '',
+          dateNotice1stFixedWarn: nil,
+          firstFixedWarnedDate: nil,
+          dateOfCrack: nil,
+          thirdCracked: nil,
           dateIncurred: object.last_submitted_at.strftime('%Y-%m-%d %H:%M:%S'),
           noOfCases: number_of_cases,
           calculatedFee: {
@@ -186,8 +186,8 @@ module API
             vatRate: 20.0
           },
           refno: 0,
-          occurDate: '',
-          firstFixedWarnedDateOrig: '',
+          occurDate: nil,
+          firstFixedWarnedDateOrig: nil,
           caseUpliftAmount: 0.0,
           defendantUpliftAmount: 0.0
         }

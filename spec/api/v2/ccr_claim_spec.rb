@@ -58,7 +58,7 @@ describe API::V2::CCRClaim do
       end
     end
 
-    context 'should return the expected details' do
+    context 'should return CCR compatible JSON' do
       subject(:response) { do_request }
 
       before do

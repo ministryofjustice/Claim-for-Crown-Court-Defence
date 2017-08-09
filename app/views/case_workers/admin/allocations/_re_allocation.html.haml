@@ -4,7 +4,7 @@
 
 = form_tag case_workers_admin_allocations_path, method: :get do
   = hidden_field_tag :tab, params[:tab]
-  = render partial: 'scheme_filters'
+  = render partial: 'orig_scheme_filters'
   %noscript
     = submit_tag 'Filter'
 

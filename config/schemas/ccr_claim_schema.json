@@ -103,15 +103,15 @@
           },
           "dateIncurred": {
             "id": "/properties/bills/items/properties/dateIncurred",
-            "type": "string"
+            "type": ["string","null"]
           },
           "dateNotice1stFixedWarn": {
             "id": "/properties/bills/items/properties/dateNotice1stFixedWarn",
-            "type": "string"
+            "type": ["string","null"]
           },
           "dateOfCrack": {
             "id": "/properties/bills/items/properties/dateOfCrack",
-            "type": "string"
+            "type": ["string","null"]
           },
           "defendantUpliftAmount": {
             "id": "/properties/bills/items/properties/defendantUpliftAmount",
@@ -119,11 +119,11 @@
           },
           "firstFixedWarnedDate": {
             "id": "/properties/bills/items/properties/firstFixedWarnedDate",
-            "type": "string"
+            "type": ["string","null"]
           },
           "firstFixedWarnedDateOrig": {
             "id": "/properties/bills/items/properties/firstFixedWarnedDateOrig",
-            "type": "string"
+            "type": ["string","null"]
           },
           "noOfCases": {
             "id": "/properties/bills/items/properties/noOfCases",
@@ -131,7 +131,7 @@
           },
           "occurDate": {
             "id": "/properties/bills/items/properties/occurDate",
-            "type": "string"
+            "type": ["string","null"]
           },
           "ppe": {
             "id": "/properties/bills/items/properties/ppe",
@@ -151,7 +151,7 @@
           },
           "thirdCracked": {
             "id": "/properties/bills/items/properties/thirdCracked",
-            "type": "string"
+            "type": ["string","null"]
           },
           "userCreatedRole": {
             "id": "/properties/bills/items/properties/userCreatedRole",
@@ -288,7 +288,7 @@
     },
     "trialStartDate": {
       "id": "/properties/trialStartDate",
-      "type": "null"
+      "type": ["string","null"]
     }
   },
   "type": "object"

@@ -13,4 +13,4 @@
         %td
           = user_message_status.message.created_at.strftime(Settings.date_time_format)
         %td
-          = link_to 'View claim', __send__("#{current_user.persona.class.to_s.pluralize.underscore}_claim_path", user_message_status.message.claim) + "#messages"
+          = link_to 'View claim', __send__(current_user.persona.message_claim_path, user_message_status.message.claim, anchor: 'messages')

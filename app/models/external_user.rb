@@ -96,6 +96,10 @@ class ExternalUser < ActiveRecord::Base
     self[:supplier_number] || provider&.firm_agfs_supplier_number
   end
 
+  def message_claim_path
+    'external_users_claim_path'
+  end
+
   private
 
   def validate_supplier_number?

@@ -27,6 +27,7 @@ label {
   }
   &.form-label {
     @include clearfix;
+    font-weight: 700;
   }
   .form-hint {
     margin-top:0;
@@ -566,4 +567,9 @@ label.form-date-spacing {
 
 .fee-dates .field_with_errors{
   display: inline-block;
+}
+
+
+.forced-width{
+  width:52% !important;
 }

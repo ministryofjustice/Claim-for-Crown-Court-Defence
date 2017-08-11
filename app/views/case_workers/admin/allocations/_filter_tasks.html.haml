@@ -1,6 +1,6 @@
 .form-group#filter-tasks.dtFilter.dtFilterAGFS{:data => {scheme: 'agfs'}}
   %fieldset.inline
-    %label{:for => "filterAGFS"}
+    %label.form-label{:for => "filterAGFS"}
       %span.translation_missing{:title => "Case Types"} Case Types
     %select#filterAGFS.form-control{:name => "tasks"}
       %option{:value => ""} All
@@ -15,7 +15,7 @@
 
 .form-group#filter-tasks.dtFilter.dtFilterLGFS{data: {scheme: 'lgfs'}, style: 'display: none;'}
   %fieldset.inline
-    %label{:for => "filterLGFS"}
+    %label.form-label{:for => "filterLGFS"}
       %span.translation_missing{:title => "Case Types"} Case Types
     %select#filterLGFS.form-control{:name => "tasks"}
       %option{:value => ""} All

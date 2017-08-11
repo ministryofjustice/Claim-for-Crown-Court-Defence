@@ -38,9 +38,23 @@ describe("Modules.DataTables.js", function() {
       [10, 25, 50],
       [10, 25, 50]
     ]);
+
+    // order:
+    // 2D array structure. [[col idx, direction]]
+    //
+    // https://datatables.net/reference/option/order
+    expect(defaults.order).toEqual([
+      [0, 'asc']
+    ]);
   });
 
-  describe('...init', function() {
+  describe('..._init', function() {
+    // an init method on these namespaced modules, is called
+    // by the parent moj wrapper
+    it('...should not have a `init` method', function(){
+      expect(moj.Modules.DataTables.init).not.toBeDefined();
+    });
+
     it('...should merge options with defaults and call `moj.Helpers.DataTables.init`', function() {
       // Spy on the final call
       spyOn(moj.Helpers.DataTables, 'init');
@@ -60,6 +74,21 @@ describe("Modules.DataTables.js", function() {
         foo: 'bar',
         bar: 'foo'
       }, 'element');
+
+    });
+  });
+
+  describe('...bindPublishers', function() {
+    it('...should bind a `click` listener to `.clear-filters`', function(){
+      $('body').append('<div class="clear-filters" />');
+
+      moj.Modules.DataTables.bindPublishers();
+
+      spyOn($, 'publish')
+
+      $('.clear-filters').click();
+
+      expect($.publish).toHaveBeenCalledWith('/general/clear-filters/');
 
     });
   });

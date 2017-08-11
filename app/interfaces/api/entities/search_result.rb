@@ -96,7 +96,7 @@ module API
       end
 
       def risk_based_bills
-        (risk_based_class_letter && contains_risk_based_fee).eql?(true)
+        (risk_based_class_letter && contains_risk_based_fee).eql?(true) && is_submitted?
       end
     end
   end

@@ -60,7 +60,7 @@ module API
       end
 
       def fixed_fee
-        object.is_fixed_fee.eql?('t')
+        object.is_fixed_fee.eql?('t') && is_submitted?
       end
 
       def awaiting_written_reasons
@@ -68,23 +68,23 @@ module API
       end
 
       def cracked
-        object.case_type.eql?('Cracked Trial')
+        ['Cracked before retrial', 'Cracked Trial'].include?(object.case_type) && is_submitted?
       end
 
       def trial
-        object.case_type.eql?('Trial')
+        %w[Trial Retrial].include?(object.case_type) && is_submitted?
       end
 
       def guilty_plea
-        object.case_type.eql?('Guilty plea')
+        ['Discontinuance', 'Guilty plea'].include?(object.case_type) && is_submitted?
       end
 
       def graduated_fees
-        object.fee_type_code&.in?(graduated_fee_codes).eql?(true)
+        (object.fee_type_code&.in?(graduated_fee_codes).eql?(true) || allocation_type_is_grad?) && is_submitted?
       end
 
       def interim_fees
-        interim_claim? && fee_is_interim_type
+        interim_claim? && fee_is_interim_type && is_submitted?
       end
 
       def warrants
@@ -96,7 +96,7 @@ module API
       end
 
       def risk_based_bills
-        (risk_based_class_letter && contains_risk_based_fee).eql?(true)
+        (risk_based_class_letter && contains_risk_based_fee).eql?(true) && is_submitted?
       end
     end
   end

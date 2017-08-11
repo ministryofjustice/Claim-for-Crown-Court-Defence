@@ -40,8 +40,8 @@ module API
                 c.case_number,
                 c.state,
                 court.name AS court_name,
-                ct.name as case_type,
-                SUM(c.total + c.vat_amount) as total,
+                CASE WHEN ct.name IS NULL THEN 'Transfer' ELSE ct.name END as case_type,
+                SUM(c.total + c.vat_amount)/COUNT(c.id) as total,
                 c.disk_evidence,
                 u.first_name || ' ' || u.last_name AS external_user,
                 string_agg(ro.maat_reference, ', ') AS maat_references,
@@ -59,7 +59,8 @@ module API
                   SELECT string_agg(unique_code, ',')
                   FROM fee_types
                   WHERE type IN ('Fee::GraduatedFeeType')
-                ) AS graduated_fee_types
+                ) AS graduated_fee_types,
+                c.allocation_type
               FROM claims AS c
                 LEFT OUTER JOIN defendants AS d
                   ON c.id = d.claim_id

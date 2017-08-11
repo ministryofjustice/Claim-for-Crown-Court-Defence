@@ -20,7 +20,6 @@ module API
 
       expose :supplier_number
       expose :case_number
-      expose :court_id
       expose  :first_day_of_trial,
               :trial_fixed_notice_at,
               :trial_fixed_at,
@@ -30,6 +29,7 @@ module API
       expose :trial_cracked_at_third
 
       expose :case_type, using: API::Entities::CCR::CaseType
+      expose :court, using: API::Entities::CCR::Court
       expose :offence, using: API::Entities::CCR::Offence
       expose :defendants, using: API::Entities::CCR::Defendant
 

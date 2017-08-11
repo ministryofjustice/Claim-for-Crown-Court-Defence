@@ -145,9 +145,16 @@
       "id": "/properties/case_number",
       "type": "string"
     },
-    "court_id": {
-      "id": "/properties/court_id",
-      "type": "integer"
+    "court": {
+      "id": "/properties/court",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "id": "/properties/court/properties/code",
+          "type": "string"
+        }
+      },
+      "type": "object"
     },
     "defendants": {
       "id": "/properties/defendants",

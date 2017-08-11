@@ -1,4 +1,4 @@
-describe("Modules.AllocationFilters.js", function() {
+describe("Modules.AllocationScheme.js", function() {
   var mod = moj.Modules.AllocationScheme;
   var filtersFixtureDOM = $('<div id="allocation-filters"/>');
 

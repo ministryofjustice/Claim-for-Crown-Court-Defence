@@ -1,4 +1,5 @@
-describe("Autocomplete", function() {
+describe("Modules.Autocomplete", function() {
+
   var module = moj.Modules.Autocomplete;
   beforeEach(function() {});
 

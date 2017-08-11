@@ -44,4 +44,12 @@ module SearchResultHelpers
   def interim_claim?
     object.scheme_type.eql?('Interim')
   end
+
+  def is_submitted?
+    object.state.eql?('submitted')
+  end
+
+  def allocation_type_is_grad?
+    object.allocation_type.eql?('Grad')
+  end
 end

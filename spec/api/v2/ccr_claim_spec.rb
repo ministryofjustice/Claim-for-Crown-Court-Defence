@@ -10,7 +10,7 @@ RSpec::Matchers.define :be_valid_ccr_claim_json do
   end
 
   description do
-    "be valid ccr claim json"
+    "JSON is valid against the CCR claim JSON schema"
   end
 
   failure_message do |response|
@@ -35,7 +35,7 @@ describe API::V2::CCRClaim do
     get "/api/ccr/claims/#{claim_uuid}", {api_key: api_key}, {format: :json}
   end
 
-  describe 'GET /ccr/claim/:uuid' do
+  describe 'GET /ccr/claim/:uuid?api_key=:api_key' do
     it 'should return 406 Not Acceptable if requested API version via header is not supported' do
       header 'Accept-Version', 'v1'
 
@@ -65,10 +65,96 @@ describe API::V2::CCRClaim do
         allow_any_instance_of(CaseType).to receive(:bill_scenario).and_return 'AS000004'
       end
 
-      it 'returned JSON should be valid against JSON schema' do
+      it 'should be valid against CCR claim JSON schema' do
         expect(response).to be_valid_ccr_claim_json
       end
+    end
 
+    context 'pages of prosecution evidence' do
+      subject(:response) do
+        do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+      end
+
+      let(:claim) { create(:authorised_claim) }
+
+      before do
+        create(:basic_fee, :ppe_fee, claim: claim, quantity: 1024)
+      end
+
+      it 'includes ppe' do
+        expect(response).to have_json_path("bills/0/ppe")
+        expect(response).to have_json_type(Integer).at_path "bills/0/ppe"
+      end
+
+      it 'determines the Total number of pages of prosecution evidence from the Pages of proesecution evidence Fee quantity' do
+        expect(response).to be_json_eql("1024").at_path "bills/0/ppe"
+      end
+    end
+
+    context 'number of cases' do
+      subject(:response) do
+        do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+      end
+
+      let(:claim) { create(:authorised_claim) }
+
+      before do
+        create(:basic_fee, :noc_fee, claim: claim, quantity: 2)
+      end
+
+      it 'includes number of cases' do
+        expect(response).to have_json_path("bills/0/number_of_cases")
+        expect(response).to have_json_type(Integer).at_path "bills/0/number_of_cases"
+      end
+
+      it 'calculates Total number of cases from Number of Cases uplift Fee quantity plus 1, for the "main" case' do
+        expect(response).to be_json_eql("3").at_path "bills/0/number_of_cases"
+      end
+    end
+
+    context 'number of proseution witnesses' do
+      subject(:response) do
+        do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+      end
+
+      let(:claim) { create(:authorised_claim) }
+
+      before do
+        create(:basic_fee, :npw_fee, claim: claim, quantity: 3)
+      end
+
+      it 'includes number of witnesses' do
+        expect(response).to have_json_path("bills/0/number_of_witnesses")
+        expect(response).to have_json_type(Integer).at_path "bills/0/number_of_witnesses"
+      end
+
+      it 'determines number of witnesses from Number of Proseution Witnesses Fee quantity' do
+        expect(response).to be_json_eql("3").at_path "bills/0/number_of_witnesses"
+      end
+    end
+
+    context 'daily attendances' do
+      subject(:response) do
+        do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+      end
+
+      let(:claim) { create(:authorised_claim) }
+
+      before do
+        claim.actual_trial_length = 51
+        create(:basic_fee, :daf_fee, claim: claim, quantity: 38, rate: 1.0)
+        create(:basic_fee, :dah_fee, claim: claim, quantity: 10, rate: 1.0)
+        create(:basic_fee, :daj_fee, claim: claim, quantity: 1, rate: 1.0)
+      end
+
+      it 'includes daily attendances' do
+        expect(response).to have_json_path("bills/0/daily_attendances")
+        expect(response).to have_json_type(Integer).at_path "bills/0/daily_attendances"
+      end
+
+      it 'calculates Total daily attendances from Daily Attendanance Fee quantities plus 2, included by default' do
+        expect(response).to be_json_eql("51").at_path "bills/0/daily_attendances"
+      end
     end
   end
 end

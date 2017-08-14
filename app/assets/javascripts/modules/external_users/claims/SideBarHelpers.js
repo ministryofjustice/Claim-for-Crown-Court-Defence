@@ -3,7 +3,7 @@ moj.Helpers.SideBar = {
     var _options = {
       type: '_Base',
       vatfactor: 0.2,
-      autoVAT: true
+      autoVAT: false
     };
     this.config = $.extend({}, _options, options);
     this.$el = this.config.$el;
@@ -99,7 +99,7 @@ moj.Helpers.SideBar = {
     this.init = function() {
       this.config.fn = 'FeeBlockCalculator';
       this.bindRender();
-      this.setTotals();
+      this.reload();
     };
 
     this.setTotals = function() {

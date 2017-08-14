@@ -97,6 +97,7 @@ group :test do
   gem 'codeclimate-test-reporter',  require: false
   gem 'cucumber-rails',             require: false
   gem 'database_cleaner',           '~> 1.4.1'
+  gem 'json_spec', '~> 1.1', '>= 1.1.5'
   gem 'kaminari-rspec',             '~> 0.16.1'
   gem 'launchy',                    '~> 2.4.3'
   gem 'poltergeist',                '~> 1.9.0'

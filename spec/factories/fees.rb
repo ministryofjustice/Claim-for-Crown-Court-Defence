@@ -109,15 +109,15 @@ FactoryGirl.define do
     end
 
     trait :daf_fee do
-      fee_type {build  :basic_fee_type, description: 'Daily Attendance Fee (3 to 40)', code: 'DAF' }
+      fee_type {build  :basic_fee_type, description: 'Daily Attendance Fee (3 to 40)', code: 'DAF', unique_code: 'BADAF' }
     end
 
     trait :dah_fee do
-      fee_type { build :basic_fee_type, description: 'Daily Attendance Fee (41 to 50)', code: 'DAH' }
+      fee_type { build :basic_fee_type, description: 'Daily Attendance Fee (41 to 50)', code: 'DAH', unique_code: 'BADAH' }
     end
 
     trait :daj_fee do
-      fee_type { build :basic_fee_type, description: 'Daily Attendance Fee (50+)', code: 'DAJ' }
+      fee_type { build :basic_fee_type, description: 'Daily Attendance Fee (50+)', code: 'DAJ', unique_code: 'BADAJ' }
     end
 
     trait :pcm_fee do
@@ -127,13 +127,17 @@ FactoryGirl.define do
     trait :ppe_fee do
       rate 0
       amount 25
-      fee_type { build :basic_fee_type, description: 'Pages of prosecution evidence', code: 'PPE', calculated: false }
+      fee_type { build :basic_fee_type, description: 'Pages of prosecution evidence', code: 'PPE', unique_code: 'BAPPE', calculated: false }
+    end
+
+    trait :noc_fee do
+      fee_type { build :basic_fee_type, description: 'Number of cases uplift', code: 'NOC', unique_code: 'BANOC', calculated: true }
     end
 
     trait :npw_fee do
       rate 0
       amount 25
-      fee_type { build :basic_fee_type, description: 'Number of prosecution witnesses', code: 'NPW', calculated: false }
+      fee_type { build :basic_fee_type, description: 'Number of prosecution witnesses', code: 'NPW', unique_code: 'BANPW', calculated: false }
     end
   end
 

@@ -52,11 +52,6 @@ module API
 
       private
 
-      # fee type ids
-      CASES_UPLIFT = 9
-      WITNESSES = 10
-      PPE = 11
-
       # INJECTION: fee_structure_id this eventually needs to be determined on
       # the CCR side. CCR stores fee schemes against start and end dates. CCR should
       # use the earliest rep order date of the main defendant to determine which
@@ -78,21 +73,21 @@ module API
         AdvocateCategoryAdapter.code_for(object.advocate_category) if object.advocate_category.present?
       end
 
-      def fee_quantity_for(fee_type_id)
-        object.fees.find_by(fee_type_id: fee_type_id)&.quantity.to_i
+      def fee_quantity_for(fee_type_unique_code)
+        object.fees.find_by(fee_type_id: ::Fee::BaseFeeType.find_by_id_or_unique_code(fee_type_unique_code))&.quantity.to_i
       end
 
       def pages_of_prosecution_evidence
-        fee_quantity_for(PPE)
+        fee_quantity_for('BAPPE')
       end
 
       def number_of_witnesses
-        fee_quantity_for(WITNESSES)
+        fee_quantity_for('BANPW')
       end
 
       # every claim is based on one case (i.e. see case number) but may involve others
       def number_of_cases
-        fee_quantity_for(CASES_UPLIFT) + 1
+        fee_quantity_for('BANOC') + 1
       end
 
       def daily_attendance_fee_types

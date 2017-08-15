@@ -22,7 +22,6 @@ end
 
 describe API::V2::CCRClaim do
   include Rack::Test::Methods
-  include ActiveSupport::Testing::TimeHelpers
   include ApiSpecHelper
 
   after(:all) { clean_database }

@@ -74,6 +74,7 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :view
   config.include KaminariRspec::TestHelpers, type: :controller
   config.include ActionView::TestCase::Behavior, file_path: %r{spec/presenters}
+  config.include ActiveSupport::Testing::TimeHelpers
   config.include JsonSpec::Helpers
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

@@ -57,6 +57,7 @@ gem 'utf8-cleaner',            '~> 0.2'
 gem 'colorize'
 gem 'shell-spinner', '~> 1.0', '>= 1.0.4'
 gem 'ruby-progressbar'
+gem 'geckoboard-ruby'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'

@@ -11,7 +11,6 @@
 module API
   module Entities
     class CCRClaim < BaseEntity
-      AGFS_FEE_SCHEME_9_CCR_FEE_STRUCTURE_ID = 10
 
       expose :_cccd do
         expose :id
@@ -31,12 +30,7 @@ module API
       expose :case_type, using: API::Entities::CCR::CaseType
       expose :court, using: API::Entities::CCR::Court
       expose :offence, using: API::Entities::CCR::Offence
-      expose :defendants, using: API::Entities::CCR::Defendant
-
-      # CCR fields with no equivalent in CCCD
-      # INJECTION: to be removed once CCR can derive this from earliest repo order date
-      expose :fee_structure_id
-      # ----------------------------------------------
+      expose :defendants_with_main_first, using: API::Entities::CCR::Defendant, as: :defendants
 
       # CCR fields that can be derived from CCCD data
       expose :estimated_trial_length_or_one, as: :estimated_trial_length
@@ -52,13 +46,8 @@ module API
 
       private
 
-      # INJECTION: fee_structure_id this eventually needs to be determined on
-      # the CCR side. CCR stores fee schemes against start and end dates. CCR should
-      # use the earliest rep order date of the main defendant to determine which
-      # fee scheme version(0 to 9, 1 to 10) to apply. CCCD should send the rep
-      # orders in asc date order to assist.
-      def fee_structure_id
-        AGFS_FEE_SCHEME_9_CCR_FEE_STRUCTURE_ID
+      def defendants_with_main_first
+        object.defendants.order(created_at: :asc)
       end
 
       def estimated_trial_length_or_one

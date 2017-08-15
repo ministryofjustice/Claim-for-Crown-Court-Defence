@@ -209,10 +209,6 @@
       "id": "/properties/estimated_trial_length",
       "type": "integer"
     },
-    "feeStructureId": {
-      "id": "/properties/feeStructureId",
-      "type": "integer"
-    },
     "offence": {
       "additionalProperties": false,
       "id": "/properties/offence",
@@ -238,10 +234,6 @@
     "advocate_category": {
       "id": "/properties/advocate_category",
       "type": "string"
-    },
-    "fee_structure_id": {
-      "id": "/properties/scenario/properties/fee_structure_id",
-      "type": "integer"
     },
     "supplier_number": {
       "id": "/properties/supplier_number",

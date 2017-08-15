@@ -70,90 +70,126 @@ describe API::V2::CCRClaim do
       end
     end
 
-    context 'pages of prosecution evidence' do
+    context 'defendants' do
       subject(:response) do
-        do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+        do_request(claim_uuid: @claim.uuid, api_key: @case_worker.user.api_key).body
       end
-
-      let(:claim) { create(:authorised_claim) }
 
       before do
-        create(:basic_fee, :ppe_fee, claim: claim, quantity: 1024)
+        @claim = create(:authorised_claim)
+
+        travel_to 2.day.from_now do
+          create(:defendant, claim: @claim)
+        end
       end
 
-      it 'includes ppe' do
-        expect(response).to have_json_path("bills/0/ppe")
-        expect(response).to have_json_type(Integer).at_path "bills/0/ppe"
+      it 'returns multiple defendants' do
+        expect(response).to have_json_size(2).at_path('defendants')
       end
 
-      it 'determines the Total number of pages of prosecution evidence from the Pages of proesecution evidence Fee quantity' do
-        expect(response).to be_json_eql("1024").at_path "bills/0/ppe"
+      it 'returns defendants in order created marking earliest created as the "main" defendant' do
+        expect(response).to be_json_eql('true').at_path('defendants/0/main_defendant')
+      end
+
+      context 'representation orders' do
+        it 'returns multiple representation orders' do
+          expect(response).to have_json_size(2).at_path('defendants/0/representation_orders')
+        end
+
+        # NOTE: use of factory defaults results in two rep orders for the first
+        # defendant with dates 400 and 380 days before claim created
+        it 'returns earliest rep order first (per defendant)' do
+          expect(response).to be_json_eql(@claim.earliest_representation_order_date.to_json).at_path('defendants/0/representation_orders/0/representation_order_date')
+        end
       end
     end
 
-    context 'number of cases' do
-      subject(:response) do
-        do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+    context 'bills' do
+      context 'pages of prosecution evidence' do
+        subject(:response) do
+          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+        end
+
+        let(:claim) { create(:authorised_claim) }
+
+        before do
+          create(:basic_fee, :ppe_fee, claim: claim, quantity: 1024)
+        end
+
+        it 'includes ppe' do
+          expect(response).to have_json_path("bills/0/ppe")
+          expect(response).to have_json_type(Integer).at_path "bills/0/ppe"
+        end
+
+        it 'determines the Total number of pages of prosecution evidence from the Pages of proesecution evidence Fee quantity' do
+          expect(response).to be_json_eql("1024").at_path "bills/0/ppe"
+        end
       end
 
-      let(:claim) { create(:authorised_claim) }
+      context 'number of cases' do
+        subject(:response) do
+          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+        end
 
-      before do
-        create(:basic_fee, :noc_fee, claim: claim, quantity: 2)
+        let(:claim) { create(:authorised_claim) }
+
+        before do
+          create(:basic_fee, :noc_fee, claim: claim, quantity: 2)
+        end
+
+        it 'includes number of cases' do
+          expect(response).to have_json_path("bills/0/number_of_cases")
+          expect(response).to have_json_type(Integer).at_path "bills/0/number_of_cases"
+        end
+
+        it 'calculates Total number of cases from Number of Cases uplift Fee quantity plus 1, for the "main" case' do
+          expect(response).to be_json_eql("3").at_path "bills/0/number_of_cases"
+        end
       end
 
-      it 'includes number of cases' do
-        expect(response).to have_json_path("bills/0/number_of_cases")
-        expect(response).to have_json_type(Integer).at_path "bills/0/number_of_cases"
+      context 'number of proseution witnesses' do
+        subject(:response) do
+          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+        end
+
+        let(:claim) { create(:authorised_claim) }
+
+        before do
+          create(:basic_fee, :npw_fee, claim: claim, quantity: 3)
+        end
+
+        it 'includes number of witnesses' do
+          expect(response).to have_json_path("bills/0/number_of_witnesses")
+          expect(response).to have_json_type(Integer).at_path "bills/0/number_of_witnesses"
+        end
+
+        it 'determines number of witnesses from Number of Proseution Witnesses Fee quantity' do
+          expect(response).to be_json_eql("3").at_path "bills/0/number_of_witnesses"
+        end
       end
 
-      it 'calculates Total number of cases from Number of Cases uplift Fee quantity plus 1, for the "main" case' do
-        expect(response).to be_json_eql("3").at_path "bills/0/number_of_cases"
-      end
-    end
+      context 'daily attendances' do
+        subject(:response) do
+          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+        end
 
-    context 'number of proseution witnesses' do
-      subject(:response) do
-        do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-      end
+        let(:claim) { create(:authorised_claim) }
 
-      let(:claim) { create(:authorised_claim) }
+        before do
+          claim.actual_trial_length = 51
+          create(:basic_fee, :daf_fee, claim: claim, quantity: 38, rate: 1.0)
+          create(:basic_fee, :dah_fee, claim: claim, quantity: 10, rate: 1.0)
+          create(:basic_fee, :daj_fee, claim: claim, quantity: 1, rate: 1.0)
+        end
 
-      before do
-        create(:basic_fee, :npw_fee, claim: claim, quantity: 3)
-      end
+        it 'includes daily attendances' do
+          expect(response).to have_json_path("bills/0/daily_attendances")
+          expect(response).to have_json_type(Integer).at_path "bills/0/daily_attendances"
+        end
 
-      it 'includes number of witnesses' do
-        expect(response).to have_json_path("bills/0/number_of_witnesses")
-        expect(response).to have_json_type(Integer).at_path "bills/0/number_of_witnesses"
-      end
-
-      it 'determines number of witnesses from Number of Proseution Witnesses Fee quantity' do
-        expect(response).to be_json_eql("3").at_path "bills/0/number_of_witnesses"
-      end
-    end
-
-    context 'daily attendances' do
-      subject(:response) do
-        do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-      end
-
-      let(:claim) { create(:authorised_claim) }
-
-      before do
-        claim.actual_trial_length = 51
-        create(:basic_fee, :daf_fee, claim: claim, quantity: 38, rate: 1.0)
-        create(:basic_fee, :dah_fee, claim: claim, quantity: 10, rate: 1.0)
-        create(:basic_fee, :daj_fee, claim: claim, quantity: 1, rate: 1.0)
-      end
-
-      it 'includes daily attendances' do
-        expect(response).to have_json_path("bills/0/daily_attendances")
-        expect(response).to have_json_type(Integer).at_path "bills/0/daily_attendances"
-      end
-
-      it 'calculates Total daily attendances from Daily Attendanance Fee quantities plus 2, included by default' do
-        expect(response).to be_json_eql("51").at_path "bills/0/daily_attendances"
+        it 'calculates Total daily attendances from Daily Attendanance Fee quantities plus 2, included by default' do
+          expect(response).to be_json_eql("51").at_path "bills/0/daily_attendances"
+        end
       end
     end
   end

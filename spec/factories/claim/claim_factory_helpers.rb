@@ -6,8 +6,6 @@ module ClaimFactoryHelpers
     claim.reload
   end
 
-
-
   def allocate_claim(claim)
     publicise_errors(claim) { claim.submit! }
     case_worker = create :case_worker

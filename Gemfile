@@ -37,7 +37,7 @@ gem 'rails',                  '~> 4.2.8'
 gem 'redis',                  '~> 3.3.1'
 gem 'config',                 '~> 1.2.1' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.2'
-gem 'rest-client',            '~> 1.8' # needed for scheduled smoke testing plus others
+gem 'rest-client',            '~> 2.0' # needed for scheduled smoke testing plus others
 gem 'sass-rails',             '~> 5.0.6'
 gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.git'
 gem 'susy',	                  '~> 2.2.12'

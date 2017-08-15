@@ -44,7 +44,7 @@ def install_postgres(ssh)
 end
 
 def delete_file_question
-  print 'Do you want to delete the remote dump file (yes/no)? '
+  print 'Do you want to delete the remote dump file after it has been downloaded (yes/no)? '
   @delete_file = STDIN.gets.chomp
 end
 

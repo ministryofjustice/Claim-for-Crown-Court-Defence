@@ -31,7 +31,7 @@ module API
       expose :case_type, using: API::Entities::CCR::CaseType
       expose :court, using: API::Entities::CCR::Court
       expose :offence, using: API::Entities::CCR::Offence
-      expose :defendants, using: API::Entities::CCR::Defendant
+      expose :defendants_with_main_first, using: API::Entities::CCR::Defendant, as: :defendants
 
       # CCR fields with no equivalent in CCCD
       # INJECTION: to be removed once CCR can derive this from earliest repo order date
@@ -59,6 +59,10 @@ module API
       # orders in asc date order to assist.
       def fee_structure_id
         AGFS_FEE_SCHEME_9_CCR_FEE_STRUCTURE_ID
+      end
+
+      def defendants_with_main_first
+        object.defendants.order(created_at: :asc)
       end
 
       def estimated_trial_length_or_one

@@ -77,24 +77,32 @@ describe API::V2::CCRClaim do
       end
 
       before do
-        travel_to 2.days.ago do
-          @claim = create(:authorised_claim)
-        end
-        travel_to 1.day.ago do
+        @claim = create(:authorised_claim)
+
+        travel_to 2.day.from_now do
           create(:defendant, claim: @claim)
         end
-
-        create(:defendant, claim: @claim)
       end
 
       it 'returns multiple defendants' do
-        expect(response).to have_json_size(3).at_path('defendants')
+        expect(response).to have_json_size(2).at_path('defendants')
       end
 
       it 'returns defendants in order created marking earliest created as the "main" defendant' do
         expect(response).to be_json_eql('true').at_path('defendants/0/main_defendant')
       end
 
+      context 'representation orders' do
+        it 'returns multiple representation orders' do
+          expect(response).to have_json_size(2).at_path('defendants/0/representation_orders')
+        end
+
+        # NOTE: use of factory defaults results in two rep orders for the first
+        # defendant with dates 400 and 380 days before claim created
+        it 'returns earliest rep order first (per defendant)' do
+          expect(response).to be_json_eql(@claim.earliest_representation_order_date.to_json).at_path('defendants/0/representation_orders/0/representation_order_date')
+        end
+      end
     end
 
     context 'bills' do

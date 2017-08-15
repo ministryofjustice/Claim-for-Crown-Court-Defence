@@ -218,7 +218,8 @@ en:
         advocate: Advocate account number
         litigator: Litigator account number
       claim_creator: Claim creator
-      providers_ref: Provider reference number
+      providers_ref: Reference number
+      providers_ref_hint: Your internal reference number for this claim
     court: Court
     crown_court: Crown court
     transfer_court: Transfer court

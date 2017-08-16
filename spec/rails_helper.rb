@@ -91,6 +91,15 @@ RSpec.configure do |config|
       with.library :rails
     end
   end
+
+  WebMock.disable_net_connect!(allow_localhost: true)
+
+  config.before :each, geckoboard: true do
+    stub_request(:get, "https://api.geckoboard.com/").
+        with(headers: { 'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=> /Geckoboard-Ruby\/0\.[\d]+(\.[\d])*/ }).
+        to_return(status: 200, body: "", headers: {})
+  end
+
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.

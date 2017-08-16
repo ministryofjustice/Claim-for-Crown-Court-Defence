@@ -4,20 +4,9 @@
   "id": "https://claim-crown-court-defence.service.gov.uk/json_schemas/ccr_schema",
   "additionalProperties": false,
   "properties": {
-    "_cccd": {
-      "id": "/properties/_cccd",
-      "additionalProperties": false,
-      "properties": {
-        "id": {
-          "id": "/properties/_cccd/properties/id",
-          "type": "integer"
-        },
-        "uuid": {
-          "id": "/properties/_cccd/properties/uuid",
-          "type": "string"
-        }
-      },
-      "type": "object"
+    "uuid": {
+      "id": "/properties/uuid",
+      "type": "string"
     },
     "actual_trial_Length": {
       "id": "/properties/actual_trial_length",

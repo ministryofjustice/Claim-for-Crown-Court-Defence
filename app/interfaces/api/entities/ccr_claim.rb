@@ -1,22 +1,12 @@
-# current endpoint: GET /api/ccr/claims{uuid}
-# target endpoint: GET api/claims{uuid}
+# This is a work in progress, aiming to provide all
+# data possible to enable successful injection
+# of a claim into CCR.
 #
-# This API endpoint is intended to be replaced by the GET api/claims{uuid} endpoint
-# however the following fields are CCR specific:
-#
-#   - feeStructureId
-#   - scenario
-#
-
 module API
   module Entities
     class CCRClaim < BaseEntity
 
-      expose :_cccd do
-        expose :id
-        expose :uuid
-      end
-
+      expose :uuid
       expose :supplier_number
       expose :case_number
       expose  :first_day_of_trial,
@@ -79,6 +69,8 @@ module API
         fee_quantity_for('BANOC') + 1
       end
 
+
+      # TODO: refactor alll daily attendance stuff to DailyAttendanceAdaptor or some such
       def daily_attendance_fee_types
         ::Fee::BasicFeeType.where(unique_code: %w[BADAF BADAH BADAJ])
       end

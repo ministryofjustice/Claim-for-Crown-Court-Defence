@@ -19,7 +19,7 @@ module GeckoboardPublisher
     def items
       items = []
       (@start_date..@end_date).each do |date|
-        data = Provider.unscoped.where(created_at: date.midnight..date.end_of_day).group(:provider_type).count
+        data = Provider.unscoped.where(created_at: date.beginning_of_day..date.end_of_day).group(:provider_type).count
         record = { date: 0, firms_added: 0, chambers_added: 0, total_added: 0, overall_count: 0 }
         record[:date] = date.to_date.iso8601
         if data.present?

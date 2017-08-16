@@ -71,7 +71,7 @@ RSpec.describe GeckoboardPublisher::ProvidersReport, geckoboard: true do
         expect(subject.size).to eql 1
       end
 
-      it {is_expected.to include expected_items.last }
+      it { is_expected.to include expected_items.last }
     end
 
     context 'when run with parameters' do

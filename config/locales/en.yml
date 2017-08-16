@@ -1117,6 +1117,21 @@ en:
           allocated_to: 'Allocated To'
           hint:
             search: case worker name or email
+        orig_re_allocation:
+          select: 'Select'
+          court: 'Court'
+          type: 'Type'
+          case_number: 'Case number'
+          scheme: Scheme
+          advocate: Advocate
+          submitted_date: 'Date submitted'
+          claim_total: 'Claim total'
+          defendants: Defendants
+          no_of_claims: 'No. of claims'
+          case_types: 'Case types'
+          allocated_to: 'Allocated To'
+          hint:
+            search: case worker name or email
       management_information:
         index:
           h1_managment_info: Management information

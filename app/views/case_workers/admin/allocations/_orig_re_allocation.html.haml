@@ -1,0 +1,104 @@
+= render partial: 'errors/error_summary', locals:{ ep: @allocation, error_summary: 'This claim re-allocation has '}
+
+= render partial: 'layouts/header', locals: {page_heading: 'Re-allocation'}
+
+= form_tag case_workers_admin_allocations_path, method: :get do
+  = hidden_field_tag :tab, params[:tab]
+  = render partial: 'orig_scheme_filters'
+  %noscript
+    = submit_tag 'Filter'
+
+  .search-wrapper
+    = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_allocations_path(anchor: 'listanchor'), hint_text: t('hint.search'), button_text: t('search.claims') }
+
+= form_for [:case_workers, :admin, @allocation] do |f|
+  = hidden_field_tag :tab, params[:tab]
+  = hidden_field_tag :scheme, params[:scheme]
+  = hidden_field_tag :page, params[:page]
+
+  %fieldset.inline
+    %legend.normal
+      = "Allocate to"
+    .form-group
+      .form-hint
+        To de-allocate claims, choose "Allocation pool".
+        %br
+        To re-allocate claims to another case worker, choose "Case worker" and then select their name from the dropdown that appears below.
+
+      .js-re-allocation-options
+        = f.label :deallocate, value: true, class: 'block-label' do
+          Allocation pool
+          = f.radio_button :deallocate, true, checked: false, value: true
+
+        = f.label :deallocate, value: false, class: 'block-label' do
+          Case worker
+          = f.radio_button :deallocate, false, checked: true, value: false
+
+  .case-worker-reallocation.grid-row.form-group.js-typeahead
+    .column-one-quarter.js-case-worker-list
+      = f.label :case_worker_id
+      = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
+    .column-half.margin-spacer-sm
+      = f.submit 'Re-allocate', class: 'button'
+
+  - if @claims.any?
+    .container.table-container
+      %table.report.js-checkbox-table.js-reallocation-report
+        %caption
+          %span.table-caption
+            = 'Re-allocation'
+          %span.claim-count
+            = "Number of claims: "
+            = @claims.total_count
+        %thead
+          %th.select{scope:'col'}
+            = link_to 'All', '#', class: 'select-all', data: { 'all-checked' => 'false' }
+          %th.case-number{scope:'col'}
+            = t('.case_number')
+          %th.court{scope:'col'}
+            = t('.court')
+          %th{scope:'col'}
+            = t('.defendants')
+          %th.type{scope:'col'}
+            Type
+          %th.numeric.submit-date{scope:'col'}
+            = t('.submitted_date')
+          %th.numeric.claim-total{scope:'col'}
+            = t('.claim_total')
+          - if params[:tab] == 'allocated'
+            %th{scope:'col'}
+              Allocated to
+        %tbody
+          = collection_check_boxes :allocation, :claim_ids, @claims, :id, :case_number do |b|
+            - present(b.object) do |claim|
+              %tr{id: dom_id(claim)}
+                %td{'aria-label' => t(".select")}
+                  = b.label(class:'visuallyhidden'){"Choose #{claim.case_number}"}
+                  = b.check_box
+                %td{'aria-label' => t(".case_number")}
+                  %span.js-test-case-number
+                    = link_to claim.case_number , case_workers_claim_path(claim)
+                    %span.unique-id-small
+                      = claim.unique_id
+                    - if claim.disk_evidence == true
+                      %span.disk-evidence
+                        = "Disk evidence"
+                %td{'aria-label' => t('.court')}
+                  = claim.court.name
+                %td{'aria-label' => t(".defendants")}
+                  = claim.defendant_names
+                %td{'aria-label' => t(".type")}
+                  = claim.case_type_name
+                  %br/
+                  %span.claim-state
+                    = claim.claim_state
+                %td.numeric{'aria-label' => t(".submitted_date")}
+                  = claim.submitted_at_short
+                %td.numeric{'aria-label' => t(".claim_total")}
+                  = claim.total_inc_vat
+                - if params[:tab] == 'allocated'
+                  %td{'aria-label' => t(".allocated_to")}
+                    = claim.case_workers.map(&:name).join(', ')
+
+  - else
+    = "No claims need to be allocated."

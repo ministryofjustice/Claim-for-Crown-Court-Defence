@@ -2,12 +2,17 @@
   -if params[:style]=='new'
     .js-allocation-page
       = render partial: 'allocation'
+      // pagination done by JS
   -else
     .js-allocation-page
       = render partial: 'orig_allocation'
     = paginate @claims
 - else
-  .js-re-allocation-page
-    = render partial: 're_allocation'
-
-  = paginate @claims
+  -if params[:style]=='new'
+    .js-allocation-page
+      = render partial: 're_allocation'
+      // pagination done by JS
+  -else
+    .js-allocation-page
+      = render partial: 'orig_re_allocation'
+    = paginate @claims

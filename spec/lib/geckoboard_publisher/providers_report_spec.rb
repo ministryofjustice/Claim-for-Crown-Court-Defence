@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe GeckoboardPublisher::ProvidersReport, geckoboard: true do
   it_behaves_like 'geckoboard publishable report'
 
+  # calls to api.geckoboard.com are stubbed in rails_helper in case future reports are generated
+
   describe '#fields' do
     subject { described_class.new.fields.map { |field| [field.class, field.id, field.name] } }
 

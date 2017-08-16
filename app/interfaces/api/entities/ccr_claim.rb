@@ -83,9 +83,22 @@ module API
         ::Fee::BasicFeeType.where(unique_code: %w[BADAF BADAH BADAJ])
       end
 
+      def daily_attendance_uplifts
+        @attendance_uplifts ||= object.fees.where(fee_type_id: daily_attendance_fee_types).sum(:quantity).to_i
+      end
+
+      def daily_attendance_uplifts?
+        daily_attendance_uplifts > 0
+      end
+
       # The first 2 daily attendances are included in the Basic Fee (BAF)
+      DAILY_ATTENDANCES_IN_BASIC = 2.freeze
       def daily_attendances
-        object.fees.where(fee_type_id: daily_attendance_fee_types).sum(:quantity).to_i + 2
+        if daily_attendance_uplifts?
+          daily_attendance_uplifts + DAILY_ATTENDANCES_IN_BASIC
+        else
+          [object.actual_trial_length, DAILY_ATTENDANCES_IN_BASIC].compact.min
+        end
       end
 
       # The "Advocate Fee" is the CCR equivalent of all most but not

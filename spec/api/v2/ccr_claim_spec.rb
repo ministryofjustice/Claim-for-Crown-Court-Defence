@@ -175,20 +175,32 @@ describe API::V2::CCRClaim do
 
         let(:claim) { create(:authorised_claim) }
 
-        before do
-          claim.actual_trial_length = 51
-          create(:basic_fee, :daf_fee, claim: claim, quantity: 38, rate: 1.0)
-          create(:basic_fee, :dah_fee, claim: claim, quantity: 10, rate: 1.0)
-          create(:basic_fee, :daj_fee, claim: claim, quantity: 1, rate: 1.0)
-        end
-
         it 'includes daily attendances' do
           expect(response).to have_json_path("bills/0/daily_attendances")
           expect(response).to have_json_type(Integer).at_path "bills/0/daily_attendances"
         end
 
-        it 'calculates Total daily attendances from Daily Attendanance Fee quantities plus 2, included by default' do
-          expect(response).to be_json_eql("51").at_path "bills/0/daily_attendances"
+        context 'upper bounds' do
+          before do
+            claim.actual_trial_length = 51
+            create(:basic_fee, :daf_fee, claim: claim, quantity: 38, rate: 1.0)
+            create(:basic_fee, :dah_fee, claim: claim, quantity: 10, rate: 1.0)
+            create(:basic_fee, :daj_fee, claim: claim, quantity: 1, rate: 1.0)
+          end
+
+          it 'calculates Total daily attendances from Daily Attendanance Fee quantities if they exist' do
+            expect(response).to be_json_eql("51").at_path "bills/0/daily_attendances"
+          end
+        end
+
+        context 'lower bounds' do
+          before do
+            claim.update(actual_trial_length: 1)
+          end
+
+          it 'calculates Total daily attendances from acutal trial length if no daily attendance fees' do
+            expect(response).to be_json_eql("1").at_path "bills/0/daily_attendances"
+          end
         end
       end
     end

@@ -4,7 +4,9 @@
 # the total of quantities claimed for the 3 DAF/H/J
 # basic fees + 2 (included in the basic fee). If there
 # are none claimed then the attendance can be said to be
-# the actual trial length
+# the least of actual trial length or 2 (included in the
+# basic fee) - CCR will ignore this value
+# if it is not approrpiate e.g. for guilty pleas
 module CCR
   class DailyAttendanceAdapter
     attr_reader :claim
@@ -30,7 +32,7 @@ module CCR
 
     private
 
-    # The first 2 daily attendances are included in the Basic Fee (BAF)
+    # The first 2 daily attendances are included in the Basic Fee (BABAF)
     DAILY_ATTENDANCES_IN_BASIC = 2.freeze
 
     def daily_attendance_fee_types

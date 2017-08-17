@@ -80,6 +80,7 @@ end
 
 When(/^I click Allocate$/) do
   @allocation_page.allocate.click
+  wait_for_ajax
 end
 
 When(/^I enter (\d+) in the quantity text field$/) do |quantity|

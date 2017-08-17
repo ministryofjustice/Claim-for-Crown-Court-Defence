@@ -11,12 +11,12 @@ module CCR
   class DailyAttendanceAdapter
     attr_reader :claim
 
-    def initialize claim
+    def initialize(claim)
       @claim = claim
     end
 
     class << self
-      def attendances_for claim
+      def attendances_for(claim)
         adapter = new(claim)
         adapter.attendances
       end
@@ -33,7 +33,7 @@ module CCR
     private
 
     # The first 2 daily attendances are included in the Basic Fee (BABAF)
-    DAILY_ATTENDANCES_IN_BASIC = 2.freeze
+    DAILY_ATTENDANCES_IN_BASIC = 2
 
     def daily_attendance_fee_types
       ::Fee::BasicFeeType.where(unique_code: %w[BADAF BADAH BADAJ])
@@ -44,7 +44,7 @@ module CCR
     end
 
     def daily_attendance_uplifts?
-      daily_attendance_uplifts > 0
+      daily_attendance_uplifts.positive?
     end
   end
 end

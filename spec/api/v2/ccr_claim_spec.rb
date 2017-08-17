@@ -194,12 +194,8 @@ describe API::V2::CCRClaim do
         end
 
         context 'lower bounds' do
-          before do
-            claim.update(actual_trial_length: 1)
-          end
-
           it 'calculates Total daily attendances from acutal trial length if no daily attendance fees' do
-            expect(response).to be_json_eql("1").at_path "bills/0/daily_attendances"
+            expect(response).to be_json_eql("0").at_path "bills/0/daily_attendances"
           end
         end
       end

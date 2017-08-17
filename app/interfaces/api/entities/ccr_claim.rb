@@ -49,7 +49,7 @@ module API
       end
 
       def adapted_advocate_category
-        AdvocateCategoryAdapter.code_for(object.advocate_category) if object.advocate_category.present?
+        ::CCR::AdvocateCategoryAdapter.code_for(object.advocate_category) if object.advocate_category.present?
       end
 
       def fee_quantity_for(fee_type_unique_code)
@@ -69,28 +69,8 @@ module API
         fee_quantity_for('BANOC') + 1
       end
 
-
-      # TODO: refactor alll daily attendance stuff to DailyAttendanceAdaptor or some such
-      def daily_attendance_fee_types
-        ::Fee::BasicFeeType.where(unique_code: %w[BADAF BADAH BADAJ])
-      end
-
-      def daily_attendance_uplifts
-        @attendance_uplifts ||= object.fees.where(fee_type_id: daily_attendance_fee_types).sum(:quantity).to_i
-      end
-
-      def daily_attendance_uplifts?
-        daily_attendance_uplifts > 0
-      end
-
-      # The first 2 daily attendances are included in the Basic Fee (BAF)
-      DAILY_ATTENDANCES_IN_BASIC = 2.freeze
       def daily_attendances
-        if daily_attendance_uplifts?
-          daily_attendance_uplifts + DAILY_ATTENDANCES_IN_BASIC
-        else
-          [object.actual_trial_length, DAILY_ATTENDANCES_IN_BASIC].compact.min
-        end
+        ::CCR::DailyAttendanceAdapter.attendances_for(object)
       end
 
       # The "Advocate Fee" is the CCR equivalent of all most but not

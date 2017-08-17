@@ -13,10 +13,10 @@ Feature: Case worker admin allocates claims
     And I select case worker "John Smith"
     And I click Allocate
     Then claims "T20160001, T20160002" should be allocated to case worker "John Smith"
-    #And claims "T20160001, T20160002" should no longer be displayed -- TODO: pending until remote allocations are implemented
+    And claims "T20160001, T20160002" should no longer be displayed
     And I should see '2 claims have been allocated to John Smith'
     And I sign out
 
     When I sign in as John Smith
     Then I should be on the 'Your claims' page
-    #And claims "T20160001, T20160002" should appear on the page -- TODO: pending until remote allocations are implemented
+    And claims "T20160001, T20160002" should appear on the page

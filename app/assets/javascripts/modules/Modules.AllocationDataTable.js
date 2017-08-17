@@ -72,6 +72,13 @@ moj.Modules.AllocationDataTable = {
       infoFiltered: "",
       processing: "Table loading, please wait a moment."
     },
+    initComplete: function(settings, json) {
+      // block the row highlight from happening
+      // when a link is clicked
+      $('#dtAllocation tbody tr').on('click', 'a', function(e){
+        e.stopImmediatePropagation();
+      });
+    },
     // $.ajax config object
     // https://datatables.net/reference/option/ajax
     // The url is set during the init procedures
@@ -146,14 +153,11 @@ moj.Modules.AllocationDataTable = {
 
     this.searchConfig.key = $('#api-key').data('api-key');
 
-    // http://localhost:3001/api/search/unallocated?api_key=bbef1c5f-0ded-43d2-8d53-5a6358659dac&scheme=agfs
-
     this.setAjaxURL();
     this.dataTable = moj.Modules.DataTables._init(this.options, '#dtAllocation');
 
     // :(
     $('#dtAllocation_filter').find('input').addClass('form-control');
-
 
     this.bindEvents();
     this.registerCustomSearch();

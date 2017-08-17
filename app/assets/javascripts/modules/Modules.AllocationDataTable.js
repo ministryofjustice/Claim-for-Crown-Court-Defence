@@ -153,7 +153,6 @@ moj.Modules.AllocationDataTable = {
 
     this.searchConfig.key = $('#api-key').data('api-key');
     this.setAjaxURL();
-
     this.dataTable = moj.Modules.DataTables._init(this.options, '#dtAllocation');
 
     // :(

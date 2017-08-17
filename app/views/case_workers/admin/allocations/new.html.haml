@@ -1,12 +1,10 @@
 - unless params[:tab] == 'allocated'
-  -if params[:style]=='new'
-    .js-allocation-page
-      = render partial: 'allocation'
-      // pagination done by JS
-  -else
     .js-allocation-page
       = render partial: 'orig_allocation'
     = paginate @claims
+  -else
+    .js-allocation-page
+      = render partial: 'allocation'
 - else
   -if params[:style]=='new'
     .js-allocation-page

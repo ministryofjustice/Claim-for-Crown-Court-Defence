@@ -91,7 +91,7 @@ module API
       end
 
       def advocate_category
-        AdvocateCategoryAdapter.code_for(object.advocate_category) if object.advocate_category.present?
+        ::CCR::AdvocateCategoryAdapter.code_for(object.advocate_category) if object.advocate_category.present?
       end
     end
   end

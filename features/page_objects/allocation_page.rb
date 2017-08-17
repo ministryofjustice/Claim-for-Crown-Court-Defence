@@ -17,8 +17,8 @@ class AllocationPage < SitePrism::Page
   end
 
   def select_claims(case_numbers)
-    wait_until_allocate_visible # This ensures form is fully loaded
-    list_to_array(case_numbers).each { |case_number| check(case_number) }
+    wait_for_ajax
+    list_to_array(case_numbers).each { |case_number| find(:xpath, "//td/a[contains(., '#{case_number}')]/../../td/input").click() }
   end
 
   def includes_any_cases?(comma_list)

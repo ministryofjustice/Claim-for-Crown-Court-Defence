@@ -89,7 +89,6 @@ div.dataTables_wrapper span.select-item {
   #dtAllocation{}
 }
 
-
 .scheme-filters{
   margin-top: $gutter/2;
 }
@@ -111,6 +110,7 @@ div.dataTables_wrapper span.select-item {
   padding: 5px 4px 4px;
   border: 2px solid #0b0c0c;
 }
+
 .dataTables_wrapper{
   .dataTables_filter{
     float: left;
@@ -122,12 +122,9 @@ div.dataTables_wrapper span.select-item {
   }
 }
 
-
 .dataTables_processing {
     z-index: 3000 !important;
 }
-
-
 
 .dataTables_wrapper .dataTables_processing {
   position: absolute;
@@ -143,7 +140,6 @@ div.dataTables_wrapper span.select-item {
   background: white !important;
 }
 
-
 table.dataTable tbody tr:nth-child(odd) {
   background-color: #f8f8f8;
 }
@@ -152,8 +148,11 @@ table.dataTable tbody tr.selected:nth-child(odd) {
   background-color: #B0BED9;
 }
 
-
 table.dataTable th.dt-center, table.dataTable td.dt-center, table.dataTable td.dataTables_empty {
   height: 45px;
   vertical-align: middle;
+}
+
+table.dataTable td {
+  vertical-align: top;
 }

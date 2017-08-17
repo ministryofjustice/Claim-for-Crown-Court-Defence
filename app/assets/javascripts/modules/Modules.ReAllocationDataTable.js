@@ -2,12 +2,12 @@
  * Allocation Controller
  * @type {Object}
  */
-moj.Modules.AllocationDataTable = {
+moj.Modules.ReAllocationDataTable = {
   // quick allocate
   defaultAllocationLimit: 25,
 
   // default scheme loaded via AJAX
-  defaultScheme: 'agfs',
+  defaultScheme: 'lgfs',
 
   // rarely used - a fallback to stop
   // accidental bulk allocation
@@ -31,7 +31,7 @@ moj.Modules.AllocationDataTable = {
   searchConfig: {
     key: null,
     defaultLimit: 150,
-    scheme: 'agfs',
+    scheme: 'lgfs',
     task: null,
     valueBands: {
       min: null,
@@ -72,13 +72,6 @@ moj.Modules.AllocationDataTable = {
       infoFiltered: "",
       processing: "Table loading, please wait a moment."
     },
-    initComplete: function(settings, json) {
-      // block the row highlight from happening
-      // when a link is clicked
-      $('#dtAllocation tbody tr').on('click', 'a', function(e){
-        e.stopImmediatePropagation();
-      });
-    },
     // $.ajax config object
     // https://datatables.net/reference/option/ajax
     // The url is set during the init procedures
@@ -109,7 +102,9 @@ moj.Modules.AllocationDataTable = {
       targets: 1,
       data: null,
       render: function(data, type, full) {
-        return data.filter.disk_evidence ? '<a href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a><br/><span class="disk-evidence">Disk evidence</span>' : '<a href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a>';
+        // No link string
+        return data.filter.disk_evidence ? data.case_number + '<br/><span class="disk-evidence">Disk evidence</span>' : data.case_number;
+        //return data.filter.disk_evidence ? '<a href="#noop">' + data.case_number + '</a><br/><span class="disk-evidence">Disk evidence</span>' : '<a href="#noop">' + data.case_number + '</a>';
       }
 
     }, {
@@ -117,7 +112,10 @@ moj.Modules.AllocationDataTable = {
       data: 'court_name'
     }, {
       targets: 3,
-      data: 'defendants'
+      data: 'defendants',
+      render: function(data, type, full){
+        return data.replace(/[ ]*,[ ]*/g, ',<br/>');
+      }
     }, {
       targets: 4,
       data: null,
@@ -142,21 +140,31 @@ moj.Modules.AllocationDataTable = {
         filter: 'total_display',
         display: 'total_display'
       }
+    }, {
+      targets: 7,
+      render: function(data, type, full) {
+        var num = Math.floor(Math.random() * (Math.floor(5) - Math.ceil(0))) + Math.ceil(0);
+        var name = ['Jack &#934;', 'Jill', 'Simon &#934;', 'Alice C', 'Joel S']
+        return name[num];
+      }
     }]
   },
-
   init: function() {
-    this.$el = $('#dtAllocation');
+    this.$el = $('#dtReAllocation');
     this.ui.$submit = $('.allocation-submit');
     this.ui.$msgSuccess = $('.notice-summary');
     this.ui.$msgFail = $('.error-summary');
 
     this.searchConfig.key = $('#api-key').data('api-key');
+
+    // http://localhost:3001/api/search/unallocated?api_key=bbef1c5f-0ded-43d2-8d53-5a6358659dac&scheme=agfs
+
     this.setAjaxURL();
-    this.dataTable = moj.Modules.DataTables._init(this.options, '#dtAllocation');
+    this.dataTable = moj.Modules.DataTables._init(this.options, '#dtReAllocation');
 
     // :(
-    $('#dtAllocation_filter').find('input').addClass('form-control');
+    $('#dtReAllocation_filter').find('input').addClass('form-control');
+
 
     this.bindEvents();
     this.registerCustomSearch();
@@ -353,7 +361,7 @@ moj.Modules.AllocationDataTable = {
 
     // EVENT: Clear selected checkboxes on search
     self.dataTable.on('search.dt', function() {
-      if ($('#dtAllocation thead input').prop('checked')) {
+      if ($('#dtReAllocation thead input').prop('checked')) {
         self.clearCheckboxes();
       }
     });

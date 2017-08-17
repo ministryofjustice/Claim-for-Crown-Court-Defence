@@ -5,8 +5,7 @@ class AllocationPage < SitePrism::Page
 
   element :notice, "#notice-summary-heading"
 
-  element :allocate,
-    "#new_allocation > div.grid-row > div > div:nth-of-type(3) > input"
+  element :allocate, "input.button.allocation-submit"
 
   sections :allocations, "table.report > tbody > tr" do
     element :case_number, "td:nth-of-type(2) span.js-test-case-number"

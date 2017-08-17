@@ -6,6 +6,7 @@ if [ "$TRAVIS" = "true" ]; then
   printf '\e[32mInfo: Loading Schema\e[0m'
   bundle exec rake db:schema:load
   bundle exec rake jasmine:ci
+  bundle exec rubocop
   bundle exec rake spec
   printf "\e[33mInfo: Sleeping for two seconds to give CPU time to cool down and perhaps not fail on the cuke tasks because drop down lists aren't populated fast enough\e[0m"
   sleep 2

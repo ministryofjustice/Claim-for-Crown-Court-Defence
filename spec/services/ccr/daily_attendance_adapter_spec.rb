@@ -37,7 +37,7 @@ module CCR
       subject { described_class.attendances_for(claim) }
       let(:adapter) { instance_double 'DailyAttendanceAdapter' }
 
-      it 'it calls #attendances' do
+      it 'calls #attendances' do
         expect(described_class).to receive(:new).with(claim).and_return adapter
         expect(adapter).to receive(:attendances)
         subject

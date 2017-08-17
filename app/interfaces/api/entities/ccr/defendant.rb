@@ -8,7 +8,7 @@ module API
         private
 
         def main_defendant
-          object.claim&.defendants&.unscope(:order).order(created_at: :asc)&.first == object || false
+          object.claim.defendants.unscope(:order).order(created_at: :asc)&.first == object || false
         end
 
         def representation_orders_with_earliest_first

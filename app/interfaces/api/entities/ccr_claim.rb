@@ -5,7 +5,6 @@
 module API
   module Entities
     class CCRClaim < BaseEntity
-
       expose :uuid
       expose :supplier_number
       expose :case_number

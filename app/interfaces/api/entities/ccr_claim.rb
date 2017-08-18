@@ -84,9 +84,10 @@ module API
       # BABAF,BACAV,BADAF,BADAH,BADAJ,BANOC,BANDR,BANPW,BAPPE
       # fee types, but not BASAF or BAPCM
       def advocate_fee
+        fee_adaptor = ::CCR::FeeAdapter.new(object)
         {
-          bill_type: 'AGFS_FEE',
-          bill_subtype: 'AGFS_FEE',
+          bill_type: fee_adaptor.bill_type,
+          bill_subtype: fee_adaptor.bill_subtype,
           quantity: 1.0,
           rate: 0.0,
           ppe: pages_of_prosecution_evidence,

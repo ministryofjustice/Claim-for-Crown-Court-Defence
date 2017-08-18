@@ -18,20 +18,7 @@ module API
       expose :last_submitted_at_display
       expose :defendants
       expose :maat_references
-      expose :filter do
-        expose :disk_evidence
-        expose :redetermination
-        expose :fixed_fee
-        expose :awaiting_written_reasons
-        expose :cracked
-        expose :trial
-        expose :guilty_plea
-        expose :graduated_fees
-        expose :interim_fees
-        expose :warrants
-        expose :interim_disbursements
-        expose :risk_based_bills
-      end
+      expose :filters
 
       private
 
@@ -49,6 +36,23 @@ module API
 
       def last_submitted_at_display
         object.last_submitted_at.strftime('%d/%m/%Y')
+      end
+
+      def filters
+        [
+          disk_evidence,
+          redetermination,
+          fixed_fee,
+          awaiting_written_reasons,
+          cracked,
+          trial,
+          guilty_plea,
+          graduated_fees,
+          interim_fees,
+          warrants,
+          interim_disbursements,
+          risk_based_bills
+        ].join
       end
 
       def disk_evidence

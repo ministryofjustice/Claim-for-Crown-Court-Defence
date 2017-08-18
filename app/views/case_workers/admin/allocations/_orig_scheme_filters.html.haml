@@ -7,4 +7,5 @@
         = radio_button_tag :scheme, filter_scheme, params[:scheme].blank? ? filter_scheme == 'agfs' : params[:scheme] == filter_scheme
         = filter_scheme.upcase
     %noscript
+      = hidden_field_tag 'style', 'old'
       = submit_tag 'Filter'

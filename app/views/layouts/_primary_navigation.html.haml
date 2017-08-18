@@ -33,7 +33,7 @@
           %li
             = link_to 'Archive', archived_case_workers_claims_path({ tab: :archived }), class: cp(archived_case_workers_claims_path)
           %li
-            = link_to "Allocation", case_workers_admin_allocations_path({ tab: :unallocated }), class: cp(case_workers_admin_allocations_path({ tab: :unallocated }))
+            = link_to "Allocation", case_workers_admin_allocations_path, class: cp(case_workers_admin_allocations_path({ tab: :unallocated }))
           %li
             = link_to "Re-allocation", case_workers_admin_allocations_path({ tab: :allocated }), class: cp(case_workers_admin_allocations_path({ tab: :allocated }))
           %li

@@ -67,10 +67,6 @@ describe API::V2::CCRClaim do
     context 'should return CCR compatible JSON' do
       subject(:response) { do_request }
 
-      before do
-        allow_any_instance_of(CaseType).to receive(:bill_scenario).and_return 'AS000004'
-      end
-
       it 'should be valid against CCR claim JSON schema' do
         expect(response).to be_valid_ccr_claim_json
       end

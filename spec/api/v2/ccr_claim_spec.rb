@@ -31,6 +31,12 @@ describe API::V2::CCRClaim do
     @claim = create(:authorised_claim)
   end
 
+  # mock a Trial case type's fee_type_code as factories
+  # do NOT create real/mappable fee type codes
+  before do
+    allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'GRTRL'
+  end
+
   def do_request(claim_uuid: @claim.uuid, api_key: @case_worker.user.api_key)
     get "/api/ccr/claims/#{claim_uuid}", {api_key: api_key}, {format: :json}
   end
@@ -105,6 +111,51 @@ describe API::V2::CCRClaim do
     end
 
     context 'bills' do
+
+      context 'bill type' do
+        subject(:response) do
+          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+        end
+
+        let(:claim) { create(:authorised_claim) }
+
+        it 'includes bill type' do
+          expect(response).to have_json_path("bills/0/bill_type")
+          expect(response).to have_json_type(String).at_path "bills/0/bill_type"
+        end
+
+        it 'returns advocate fee CCR bill type' do
+          expect(response).to be_json_eql("AGFS_FEE".to_json).at_path "bills/0/bill_type"
+        end
+      end
+
+      context 'bill sub type' do
+        subject(:response) do
+          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+        end
+
+        let(:claim) { create(:authorised_claim) }
+
+        it 'includes bill subtype' do
+          expect(response).to have_json_path("bills/0/bill_subtype")
+          expect(response).to have_json_type(String).at_path "bills/0/bill_subtype"
+        end
+
+        it 'returns CCR bill sub type' do
+          expect(response).to be_json_eql("AGFS_FEE".to_json).at_path "bills/0/bill_subtype"
+        end
+
+        context 'mapping' do
+          before do
+            allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
+          end
+
+          it 'maps bill sub type based on the claims case type' do
+            expect(response).to be_json_eql("AGFS_APPEAL_CON".to_json).at_path "bills/0/bill_subtype"
+          end
+        end
+      end
+
       context 'pages of prosecution evidence' do
         subject(:response) do
           do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body

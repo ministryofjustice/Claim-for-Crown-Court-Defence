@@ -1,12 +1,21 @@
 require 'rails_helper'
+require 'spec_helper'
 
 module CCR
   describe FeeAdapter do
-    subject { described_class.new(claim) }
-    let(:claim) { create(:authorised_claim) }
+    let(:claim) { instance_double('claim') }
+    let(:case_type) { instance_double('case_type') }
+
+    before do
+      allow(claim).to receive(:case_type).and_return case_type
+    end
 
     describe '#bill_type' do
       subject { described_class.new(claim).bill_type }
+
+      before do
+        allow(case_type).to receive(:fee_type_code).and_return 'GRTRL'
+      end
 
       it 'returns CCR Advocate Fee bill type' do
         is_expected.to eql 'AGFS_FEE'
@@ -16,7 +25,7 @@ module CCR
     describe '#bill_subtype' do
       subject { described_class.new(claim).bill_subtype }
 
-      MAPPINGS = {
+      SUBTYPE_MAPPINGS = {
         FXACV: 'AGFS_APPEAL_CON', # Appeal against conviction
         FXASE: 'AGFS_APPEAL_SEN', # Appeal against sentence
         FXCBR: 'AGFS_ORDER_BRCH', # Breach of Crown Court order
@@ -33,10 +42,10 @@ module CCR
       }.freeze
 
       context 'mappings' do
-        MAPPINGS.each do |code, bill_subtype|
+        SUBTYPE_MAPPINGS.each do |code, bill_subtype|
           context "maps #{code} to #{bill_subtype}" do
             before do
-              allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return code
+              allow(case_type).to receive(:fee_type_code).and_return code
             end
 
             it "returns #{bill_subtype}" do

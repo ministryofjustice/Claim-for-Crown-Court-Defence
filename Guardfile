@@ -15,7 +15,7 @@ guard :jasmine do
 end
 
 guard :rspec, cmd: "bundle exec rspec --format Fuubar --color" do
-  watch(%r{^spec/.+_spec\.rb$})
+  watch(%r{^spec/(.+)_spec\.rb$})
   watch(%r{^app/(.+)\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
   watch(%r{^app/interfaces/api/(.+)\.rb$}) { |m| "spec/api/#{m[1]}_spec.rb" }
 end

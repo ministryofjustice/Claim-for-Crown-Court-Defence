@@ -14,7 +14,7 @@ module Claims
       save_claim!(validate?)
 
       begin
-        MessageQueue::SendMessage.new(MessageQueue::Hashes.claim_created(claim.type, claim.uuid), Settings.aws.queue).send!
+        MessageQueue::AwsClient.new(MessageQueue::MessageTemplate.claim_created(claim.type, claim.uuid), Settings.aws.queue).send_message!
       rescue => err
         Rails.logger.warn "Error: '#{err.message}' while sending message about claim##{claim.id}(#{claim.uuid})"
       end

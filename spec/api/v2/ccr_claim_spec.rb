@@ -107,14 +107,20 @@ describe API::V2::CCRClaim do
     end
 
     context 'bills' do
+      subject(:response) do
+        do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+      end
+
+      let(:claim) { create(:authorised_claim) }
+
+      context 'advocate fees' do
+        it 'returns nil when case type does not permit advocate fees' do
+          allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCON' # mock a contempt case type
+          expect(response).to be_json_eql(nil.to_json).at_path("bills/0")
+        end
+      end
 
       context 'bill type' do
-        subject(:response) do
-          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-        end
-
-        let(:claim) { create(:authorised_claim) }
-
         it 'includes bill type' do
           expect(response).to have_json_path("bills/0/bill_type")
           expect(response).to have_json_type(String).at_path "bills/0/bill_type"
@@ -126,12 +132,6 @@ describe API::V2::CCRClaim do
       end
 
       context 'bill sub type' do
-        subject(:response) do
-          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-        end
-
-        let(:claim) { create(:authorised_claim) }
-
         it 'includes bill subtype' do
           expect(response).to have_json_path("bills/0/bill_subtype")
           expect(response).to have_json_type(String).at_path "bills/0/bill_subtype"

@@ -29,14 +29,14 @@ module CCR
         FXACV: 'AGFS_APPEAL_CON', # Appeal against conviction
         FXASE: 'AGFS_APPEAL_SEN', # Appeal against sentence
         FXCBR: 'AGFS_ORDER_BRCH', # Breach of Crown Court order
-        FXCSE: 'AGFS_COMMITAL', # Committal for Sentence
-        FXCON: 'NOT_ALLOWED', # Contempt
+        FXCSE: 'AGFS_COMMITTAL', # Committal for Sentence
+        FXCON: nil, # Contempt
         GRRAK: 'AGFS_FEE', # Cracked Trial
         GRCBR: 'AGFS_FEE', # Cracked before retrial
-        GRDIS: 'NOT_ALLOWED', # Discontinuance
-        FXENP: 'NOT_ALLOWED', # Elected cases not proceeded
+        GRDIS: nil, # Discontinuance
+        FXENP: nil, # Elected cases not proceeded
         GRGLT: 'AGFS_FEE', # Guilty plea
-        FXH2S: 'NOT_APPLICABLE', # Hearing subsequent to sentence??? LGFS only
+        FXH2S: nil, # Hearing subsequent to sentence??? LGFS only
         GRRTR: 'AGFS_FEE', # Retrial
         GRTRL: 'AGFS_FEE', # Trial
       }.freeze

@@ -24,7 +24,7 @@ module GeckoboardPublisher
     def publish!(force = false)
       @force = force
       create_dataset!
-      replace_dataset!.tap do |result|
+      add_to_dataset!.tap do |result|
         cron_logger.info "publishing #{self.class.name} has #{result.to_string_boolean}"
       end
     rescue Geckoboard::ConflictError => e
@@ -76,13 +76,9 @@ module GeckoboardPublisher
       @dataset = client.datasets.find_or_create(id, fields: fields, unique_by: unique_by)
     end
 
-    def replace_dataset!
-      items.each_slice(ITEMS_CHUNK_SIZE).with_index do |chunk, idx|
-        @published = if idx.zero?
-                       dataset.put(chunk)
-                     else
-                       dataset.post(chunk)
-                     end
+    def add_to_dataset!
+      items.each_slice(ITEMS_CHUNK_SIZE).with_index do |chunk, _idx|
+        @published = dataset.post(chunk)
         break unless published?
       end
       published?

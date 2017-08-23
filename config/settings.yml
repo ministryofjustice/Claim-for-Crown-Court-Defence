@@ -91,3 +91,8 @@ remote_api_url: <%= (ENV['GRAPE_SWAGGER_ROOT_URL'] || 'http://localhost:3001') +
 
 # contact email address
 laa_contact_email: crowncourtdefence@legalaid.gsi.gov.uk
+
+aws:
+  access: <%= ENV['AWS_ACCESS_KEY'] %>
+  secret: <%= ENV['SECRET_ACCESS_KEY'] %>
+  queue: <%= ENV['AWS_QUEUE_NAME'] %>

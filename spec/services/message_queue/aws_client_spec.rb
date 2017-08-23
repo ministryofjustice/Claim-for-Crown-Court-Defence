@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 module MessageQueue
-  describe SendMessage do
-    subject(:send_message) { described_class.new(message, aws_queue_name) }
+  describe AwsClient do
+    subject(:aws_client) { described_class.new(message, aws_queue_name) }
 
     let(:client) do
       Aws::SQS::Client.new(
@@ -36,12 +36,12 @@ module MessageQueue
       let(:stub_queue_response) { stub_response_failure }
 
       it 'raises an appropriate error' do
-        expect{send_message}.to raise_error(StandardError, 'Non existing queue: no_such_queue.')
+        expect{aws_client}.to raise_error(StandardError, 'Non existing queue: no_such_queue.')
       end
     end
 
-    describe '#send!' do
-      subject(:send!) { send_message.send! }
+    describe '#send_message!' do
+      subject(:send_message!) { aws_client.send_message! }
 
       context 'when values are good' do
         it { is_expected.to eql true }
@@ -56,7 +56,7 @@ module MessageQueue
       context 'when an error occurs (simulate someone deleting the queue mid-submission?!)' do
         let(:stub_send_response) { stub_response_failure }
 
-        it { expect{ send! }.to raise_error(stub_response_failure) }
+        it { expect{ send_message! }.to raise_error(stub_response_failure) }
       end
     end
   end

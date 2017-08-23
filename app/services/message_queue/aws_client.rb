@@ -1,5 +1,5 @@
 module MessageQueue
-  class SendMessage
+  class AwsClient
     def initialize(message, to_queue)
       @sqs = Aws::SQS::Client.new(access_key_id: Settings.aws.access, secret_access_key: Settings.aws.secret)
       @message = message
@@ -10,7 +10,7 @@ module MessageQueue
       end
     end
 
-    def send!
+    def send_message!
       @sqs.send_message(
         queue_url: @queue_url,
         message_body: @message[:body],
@@ -20,7 +20,7 @@ module MessageQueue
     end
   end
 
-  class Hashes
+  class MessageTemplate
     def self.claim_created(type, uuid)
       {
         body: 'Claim added',

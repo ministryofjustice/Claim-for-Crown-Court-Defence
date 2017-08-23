@@ -111,9 +111,9 @@ module API
       end
 
       def bills
-        [
-          (advocate_fee if fee_adaptor.bill_type)
-        ]
+        @bills ||= [].tap do |arr|
+          arr << advocate_fee if fee_adaptor.bill_type
+        end
       end
 
       def fee_adaptor

@@ -113,10 +113,10 @@ describe API::V2::CCRClaim do
 
       let(:claim) { create(:authorised_claim) }
 
-      context 'advocate fees' do
-        it 'returns nil when case type does not permit advocate fees' do
+      context 'advocate fee' do
+        it 'is not added to array when case type does not permit advocate fees' do
           allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCON' # mock a contempt case type
-          expect(response).to be_json_eql(nil.to_json).at_path("bills/0")
+          expect(response).to have_json_size(0).at_path("bills")
         end
       end
 

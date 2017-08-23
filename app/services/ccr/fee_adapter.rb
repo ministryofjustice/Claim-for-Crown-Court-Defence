@@ -23,7 +23,7 @@ module CCR
 
     # The CCR "Advocate fee" bill can have different sub types
     # based on the type of case, which map as follows.
-    # Those case types marked as not allowed cannot claim an "Advocate fee" at all
+    # Those case types with nil values cannot claim an "Advocate fee" at all
     #
     KEYS = %i[bill_type bill_subtype].freeze
     def self.zip(bill_types = [])

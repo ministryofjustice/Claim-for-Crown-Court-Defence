@@ -60,7 +60,7 @@ shared_examples 'geckoboard publishable report' do
     it 'creates (or finds) geckoboard dataset and replaces its data' do
       mock_expectations
       expect(subject).to receive(:create_dataset!)
-      expect(subject).to receive(:replace_dataset!).and_return true
+      expect(subject).to receive(:add_to_dataset!).and_return true
       expect(subject.publish!).to eql true
     end
 

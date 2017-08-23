@@ -34,14 +34,14 @@ module CCR
       FXACV: zip(%w[AGFS_FEE AGFS_APPEAL_CON]), # Appeal against conviction
       FXASE: zip(%w[AGFS_FEE AGFS_APPEAL_SEN]), # Appeal against sentence
       FXCBR: zip(%w[AGFS_FEE AGFS_ORDER_BRCH]), # Breach of Crown Court order
-      FXCSE: zip(%w[AGFS_FEE AGFS_COMMITAL]), # Committal for Sentence
-      FXCON: zip(%w[NOT_ALLOWED NOT_ALLOWED]), # Contempt
+      FXCSE: zip(%w[AGFS_FEE AGFS_COMMITTAL]), # Committal for Sentence
+      FXCON: zip([nil, nil]), # Contempt
       GRRAK: zip(%w[AGFS_FEE AGFS_FEE]), # Cracked Trial
       GRCBR: zip(%w[AGFS_FEE AGFS_FEE]), # Cracked before retrial
-      GRDIS: zip(%w[NOT_ALLOWED NOT_ALLOWED]), # Discontinuance
-      FXENP: zip(%w[NOT_ALLOWED NOT_ALLOWED]), # Elected cases not proceeded
+      GRDIS: zip([nil, nil]), # Discontinuance
+      FXENP: zip([nil, nil]), # Elected cases not proceeded
       GRGLT: zip(%w[AGFS_FEE AGFS_FEE]), # Guilty plea
-      FXH2S: zip(%w[NOT_APPLICABLE NOT_APPLICABLE NOT_APPLICABLE]), # Hearing subsequent to sentence??? LGFS only
+      FXH2S: zip([nil, nil]), # Hearing subsequent to sentence??? LGFS only
       GRRTR: zip(%w[AGFS_FEE AGFS_FEE]), # Retrial
       GRTRL: zip(%w[AGFS_FEE AGFS_FEE]) # Trial
     }.freeze

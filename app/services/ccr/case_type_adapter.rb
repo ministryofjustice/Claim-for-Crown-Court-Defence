@@ -13,7 +13,7 @@ module CCR
       GRDIS: 'AS000001', # Discontinuance
       FXENP: 'AS000014', # Elected cases not proceeded
       GRGLT: 'AS000002', # Guilty plea
-      FXH2S: 'NOT_APPLICABLE', # Hearing subsequent to sentence??? LGFS only
+      FXH2S: nil, # Hearing subsequent to sentence??? LGFS only
       GRRTR: 'AS000011', # Retrial
       GRTRL: 'AS000004', # Trial
     }.freeze

@@ -84,7 +84,6 @@ module API
       # BABAF,BACAV,BADAF,BADAH,BADAJ,BANOC,BANDR,BANPW,BAPPE
       # fee types, but not BASAF or BAPCM
       def advocate_fee
-        fee_adaptor = ::CCR::FeeAdapter.new(object)
         {
           bill_type: fee_adaptor.bill_type,
           bill_subtype: fee_adaptor.bill_subtype,
@@ -113,8 +112,12 @@ module API
 
       def bills
         [
-          advocate_fee
+          (advocate_fee if fee_adaptor.bill_type)
         ]
+      end
+
+      def fee_adaptor
+        @fee_adaptor ||= ::CCR::FeeAdapter.new(object)
       end
     end
   end

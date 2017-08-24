@@ -1,4 +1,34 @@
 module DataMigrator
+
+  class OffenceCodeSeeder
+    attr_reader :description, :class_letter
+
+    def initialize(description, class_letter)
+      @description = description
+      @class_letter = class_letter
+    end
+
+    def unique_code
+      modifier = 0
+      unique_code = code
+      unique_code = code(modifier += 1) while exists?(unique_code)
+      unique_code
+    end
+
+    private
+
+    def code(modifier = nil)
+      code = description.abbreviate +
+        modifier.to_s +
+        '_' +
+        class_letter
+    end
+
+    def exists?(code)
+      Offence.find_by(unique_code: code).present?
+    end
+  end
+
   class OffenceCodeGenerator
     attr_reader :offence
 
@@ -50,10 +80,9 @@ module DataMigrator
 
     def unique_code(offence)
       generator = OffenceCodeGenerator.new(offence)
+      modifier = 0
       code = generator.code
-
-      modifier = nil
-      code = generator.code(modifier.to_i + 1) while @offence_set.key?(code)
+      code = generator.code(modifier += 1) while @offence_set.key?(code)
       code
     end
   end

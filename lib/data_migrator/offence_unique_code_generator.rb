@@ -23,10 +23,10 @@ module DataMigrator
     end
 
     def migrate!
+      puts '-- updating offences.unique_code data'
       @offence_set.each do |code, details|
         sql = "UPDATE offences SET unique_code = \'#{code}\' WHERE id = #{details[:id]}"
-        ap "executing #{sql} \# for #{details[:description]}"
-        Offence.connection.execute sql
+        @offences.connection.execute sql
       end
     end
 

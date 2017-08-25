@@ -54,9 +54,16 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
 
   describe 'POST create' do
     let(:claim) { create(:claim) }
+    let(:aws_client) do
+      Aws::SQS::Client.new(
+          region: 'eu_west_1',
+          stub_responses: true
+      )
+    end
 
     context 'valid certification params for submission' do
       let(:frozen_time) { Time.new(2015, 8, 20, 13, 54, 22) }
+      before { allow(Aws::SQS::Client).to receive(:new).and_return aws_client }
 
       it 'should be a redirect to confirmation' do
         post :create, valid_certification_params(claim, certification_type)
@@ -75,6 +82,14 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
 
         expect(claim.reload.last_submitted_at).to eq(frozen_time)
       end
+
+      context 'when SQS fails' do
+        it 'logs an error message' do
+          expect(Rails.logger).to receive(:warn).with(/Error: .* while sending message about submission of claim#/)
+          post :create, valid_certification_params(claim, certification_type)
+        end
+      end
+
     end
 
     context 'invalid certification' do

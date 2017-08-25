@@ -20,6 +20,12 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
   def create
     @claim.build_certification(certification_params)
     if @claim.certification.save && claim_updater.submit
+      begin
+        MessageQueue::AwsClient.new(MessageQueue::MessageTemplate.claim_created(@claim.type, @claim.uuid), Settings.aws.queue).send_message!
+        Rails.logger.warn "Successfully sent message about submission of claim##{@claim.id}(#{@claim.uuid})"
+      rescue => err
+        Rails.logger.warn "Error: '#{err.message}' while sending message about submission of claim##{@claim.id}(#{@claim.uuid})"
+      end
       redirect_to confirmation_external_users_claim_path(@claim)
     else
       @certification = @claim.certification

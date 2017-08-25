@@ -23,7 +23,7 @@ module MessageQueue
   class MessageTemplate
     def self.claim_created(type, uuid)
       {
-        body: 'Claim added',
+        body: 'Claim submitted',
         attributes:
           {
             'type':

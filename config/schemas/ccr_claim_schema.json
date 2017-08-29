@@ -206,6 +206,10 @@
           "id": "/properties/offence/properties/id",
           "type": "integer"
         },
+        "unique_code": {
+          "id": "/properties/offence/properties/unique_code",
+          "type": "string"
+        },
         "offence_class": {
           "additionalProperties": false,
           "id": "/properties/offence/properties/offence_class",
@@ -215,10 +219,12 @@
               "type": "string"
             }
           },
-          "type": "object"
+          "type": "object",
+          "required": ["class_letter"]
         }
       },
-      "type": "object"
+      "type": "object",
+      "required": ["offence_class","unique_code"]
     },
     "advocate_category": {
       "id": "/properties/advocate_category",

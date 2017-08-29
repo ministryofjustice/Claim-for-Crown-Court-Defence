@@ -68,7 +68,7 @@ namespace :data do
 
     desc 'Migrate offence data to have unique code based on description'
     task :offence_unique_code => :environment do
-        require Rails.root.join('lib','data_migrator','offence_unique_code_generator').to_s
+        require Rails.root.join('lib','data_migrator','offence_unique_code_migrator').to_s
         migrator = DataMigrator::OffenceUniqueCodeMigrator.new
         migrator.migrate!
     end

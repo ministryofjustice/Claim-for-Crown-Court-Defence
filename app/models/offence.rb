@@ -17,6 +17,7 @@ class Offence < ActiveRecord::Base
 
   validates :offence_class, presence: true
   validates :description, presence: true
+  validates :unique_code, presence: true, uniqueness: true
 
   default_scope { includes(:offence_class).order(:description, :offence_class_id) }
 

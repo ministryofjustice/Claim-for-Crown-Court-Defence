@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170727130618) do
+ActiveRecord::Schema.define(version: 20170824203630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -390,9 +390,11 @@ ActiveRecord::Schema.define(version: 20170727130618) do
     t.integer  "offence_class_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "unique_code",      default: "anyoldrubbish", null: false
   end
 
   add_index "offences", ["offence_class_id"], name: "index_offences_on_offence_class_id", using: :btree
+  add_index "offences", ["unique_code"], name: "index_offences_on_unique_code", unique: true, using: :btree
 
   create_table "providers", force: :cascade do |t|
     t.string   "name"

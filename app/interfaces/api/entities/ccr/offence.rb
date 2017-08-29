@@ -3,6 +3,7 @@ module API
     module CCR
       class Offence < API::Entities::CCR::BaseEntity
         expose :faked_legacy_id, as: :id
+        expose :unique_code
         expose :offence_class, using: API::Entities::CCR::OffenceClass
 
         private

@@ -23,6 +23,8 @@
     end
 
     def exists?(code)
-      Offence.find_by(unique_code: code).present?
+      Offence.where(unique_code: code).
+        where.not(description: description).
+        present?
     end
   end

@@ -65,7 +65,8 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
           }
       )
     end
-    let(:stub_send_response) {}
+    let(:stub_send_response) { stub_response_success }
+    let(:stub_response_success) { }
     let(:stub_response_failure)  { Aws::SQS::Errors::NonExistentQueue.new(
                                      double('request'),
                                      double('response', :status => 400, :body => '<foo/>')
@@ -95,6 +96,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
       end
 
       it 'logs a successful message on the queue' do
+        allow(Settings.aws).to receive(:queue).and_return('valid_queue_name')
         expect(Rails.logger).to receive(:info).with(/Successfully sent message about submission of claim#/)
         post :create, valid_certification_params(claim, certification_type)
       end

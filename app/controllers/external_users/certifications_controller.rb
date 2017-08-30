@@ -22,7 +22,7 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
     if @claim.certification.save && claim_updater.submit
       begin
         MessageQueue::AwsClient.new(MessageQueue::MessageTemplate.claim_created(@claim.type, @claim.uuid), Settings.aws.queue).send_message!
-        Rails.logger.warn "Successfully sent message about submission of claim##{@claim.id}(#{@claim.uuid})"
+        Rails.logger.info "Successfully sent message about submission of claim##{@claim.id}(#{@claim.uuid})"
       rescue => err
         Rails.logger.warn "Error: '#{err.message}' while sending message about submission of claim##{@claim.id}(#{@claim.uuid})"
       end

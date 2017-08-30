@@ -70,6 +70,7 @@ When(/^I check “I attended the main hearing”$/) do
 end
 
 When(/^I click Certify and submit claim$/) do
+  allow(Aws::SQS::Client).to receive(:new).and_return Aws::SQS::Client.new(region: 'eu_west_1', stub_responses: true)
   @certification_page.certify_and_submit_claim.trigger "click"
 end
 

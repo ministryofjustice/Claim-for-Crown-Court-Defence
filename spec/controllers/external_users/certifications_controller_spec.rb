@@ -83,6 +83,10 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
         expect(claim.reload.last_submitted_at).to eq(frozen_time)
       end
 
+      it 'logs a successful message on the queue' do
+        expect(Rails.logger).to receive(:info).with(/Successfully sent message about submission of claim#/)
+      end
+
       context 'when SQS fails' do
         it 'logs an error message' do
           expect(Rails.logger).to receive(:warn).with(/Error: .* while sending message about submission of claim#/)

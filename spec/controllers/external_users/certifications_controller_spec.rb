@@ -56,10 +56,21 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
     let(:claim) { create(:claim) }
     let(:aws_client) do
       Aws::SQS::Client.new(
-          region: 'eu_west_1',
-          stub_responses: true
+        region: 'eu_west_1',
+        stub_responses:
+          {
+            list_queues: { queue_urls:['valid_queue_name'] },
+            get_queue_url: { queue_url: 'http://aws_url' },
+            send_message: stub_send_response
+          }
       )
     end
+    let(:stub_send_response) {}
+    let(:stub_response_failure)  { Aws::SQS::Errors::NonExistentQueue.new(
+                                     double('request'),
+                                     double('response', :status => 400, :body => '<foo/>')
+                                   )
+    }
 
     context 'valid certification params for submission' do
       let(:frozen_time) { Time.new(2015, 8, 20, 13, 54, 22) }
@@ -85,9 +96,12 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
 
       it 'logs a successful message on the queue' do
         expect(Rails.logger).to receive(:info).with(/Successfully sent message about submission of claim#/)
+        post :create, valid_certification_params(claim, certification_type)
       end
 
       context 'when SQS fails' do
+        let(:stub_send_response) { stub_response_failure }
+
         it 'logs an error message' do
           expect(Rails.logger).to receive(:warn).with(/Error: .* while sending message about submission of claim#/)
           post :create, valid_certification_params(claim, certification_type)

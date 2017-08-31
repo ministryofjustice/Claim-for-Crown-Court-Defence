@@ -124,6 +124,7 @@ When(/^I click "Continue" in the claim form$/) do
 end
 
 When(/^I click Submit to LAA$/) do
+  allow(Aws::SQS::Client).to receive(:new).and_return Aws::SQS::Client.new(region: 'eu_west_1', stub_responses: true)
   @claim_form_page.submit_to_laa.trigger "click"
 end
 

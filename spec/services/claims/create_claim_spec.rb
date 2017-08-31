@@ -21,16 +21,8 @@ describe Claims::CreateClaim do
   end
 
   describe '#call' do
-    let(:aws_client) do
-      Aws::SQS::Client.new(
-          region: 'eu_west_1',
-          stub_responses: true
-      )
-    end
-    before do
-      expect(subject.claim.persisted?).to be_falsey
-      allow(Aws::SQS::Client).to receive(:new).and_return aws_client
-    end
+
+    before { expect(subject.claim.persisted?).to be_falsey }
 
     context 'with a valid Claim' do
       before { expect(subject.claim).to receive(:update_claim_document_owners) }
@@ -64,13 +56,6 @@ describe Claims::CreateClaim do
       end
 
       after { expect(subject.claim.persisted?).to be_falsey }
-    end
-
-    context 'when SQS fails' do
-      it 'logs an error message' do
-        expect(Rails.logger).to receive(:warn).with(/Error: .* while sending message about claim#/)
-        subject.call
-      end
     end
 
     context 'with an already submitted Claim' do

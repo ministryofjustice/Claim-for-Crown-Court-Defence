@@ -8,6 +8,8 @@
         = claims.total_count
     %thead
       %tr
+        %th{scope:'col'}
+          = sortable 'type', t('.type')
         %th{scope: 'col'}
           = sortable 'case_number', t('.case_number')
         %th{scope: 'col'}
@@ -38,6 +40,9 @@
           = sortable 'last_submitted_at', t('.submission_date')
       - present_collection(claims).each do |claim|
         %tr
+          %td{'aria-label' => t(".type")}
+            = claim.pretty_type
+
           %td{'aria-label' => t(".case_number")}
             = link_to claim.case_number ,
                       case_workers_claim_path(claim),

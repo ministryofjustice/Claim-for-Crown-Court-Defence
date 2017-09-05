@@ -16,6 +16,6 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def pretty_type
-    'Interim'
+    'LGFS Interim'
   end
 end

@@ -1127,6 +1127,7 @@ en:
       index:
         your_claims: Your claims
       claims_list:
+        type: Type
         advocate_litigator: *advocate_litigator
         case_number: Case number
         advocate: Advocate

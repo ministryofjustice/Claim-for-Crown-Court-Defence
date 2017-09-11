@@ -3,7 +3,7 @@ ruby '2.4.0'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'amoeba',                 '~> 3.0.0'
 gem 'auto_strip_attributes',  '~> 2.0'
-gem 'aws-sdk',                '~> 2'
+gem 'aws-sdk-sqs',            '~> 1'
 gem 'awesome_print'
 gem 'cancancan',              '~> 1.15'
 gem 'cocoon',                 '~> 1.2.6'

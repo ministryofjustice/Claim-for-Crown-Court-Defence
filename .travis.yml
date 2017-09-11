@@ -3,7 +3,7 @@ cache: bundler
 addons:
   postgresql: '9.3'
   code_climate:
-    repo_token: ea73ad64ca2238324113fed1718cd5004854ddab2a3055778d7067ba7ecd09a6
+    repo_token: c94f8c6df526a441d103d0c6d54623174af5eb6ccbfe5f3e7c7dbce734ebfa98
 before_install:
 - export TZ=Europe/London
 before_script:

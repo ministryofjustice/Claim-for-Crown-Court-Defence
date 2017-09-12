@@ -56,6 +56,10 @@ class BaseValidator < ActiveModel::Validator
     add_error(attribute, message) if @record.__send__(attribute).to_s.size > length
   end
 
+  def attr_or_date_nil(attribute, date)
+    attr_nil?(attribute) || date.nil?
+  end
+
   def already_errored_date?(attribute)
     is_gov_uk_date?(attribute) && already_errored?(attribute)
   end
@@ -110,30 +114,43 @@ class BaseValidator < ActiveModel::Validator
   end
 
   #  TODO: refactor validate_numericality to accept options, for taking floating points
-  def validate_numericality(attribute, message, lower_bound = nil, upper_bound = nil)
+  def base_validate_numericality(attribute, lower_bound, message, upper_bound, to)
     return if attr_nil?(attribute)
     lower_bound, upper_bound = bounds(lower_bound, upper_bound)
-    add_error(attribute, message) unless (lower_bound..upper_bound).cover?(@record.__send__(attribute).to_i)
+    add_error(attribute, message) unless (lower_bound..upper_bound).cover?(@record.__send__(attribute).public_send(to))
+  end
+
+  def validate_numericality(attribute, message, lower_bound = nil, upper_bound = nil)
+    base_validate_numericality(attribute, lower_bound, message, upper_bound, 'to_i')
   end
 
   def validate_float_numericality(attribute, message, lower_bound = nil, upper_bound = nil)
-    return if attr_nil?(attribute)
-    lower_bound, upper_bound = bounds(lower_bound, upper_bound)
-    add_error(attribute, message) unless (lower_bound..upper_bound).cover?(@record.__send__(attribute).to_f)
+    base_validate_numericality(attribute, lower_bound, message, upper_bound, 'to_f')
   end
 
   def add_error(attribute, message)
     @record.errors.add(attribute, message)
   end
 
+  def compare_date_with_attribute(date, attribute, message, comparison_operator)
+    return if attr_or_date_nil(attribute, date)
+    add_error(attribute, message) if @record.__send__(attribute).public_send(comparison_operator, date.to_date)
+  end
+
   def validate_not_after(date, attribute, message)
-    return if attr_nil?(attribute) || date.nil?
-    add_error(attribute, message) if @record.__send__(attribute) > date.to_date
+    compare_date_with_attribute(date, attribute, message, '>')
   end
 
   def validate_not_before(date, attribute, message)
-    return if attr_nil?(attribute) || date.nil?
-    add_error(attribute, message) if @record.__send__(attribute) < date.to_date
+    compare_date_with_attribute(date, attribute, message, '<')
+  end
+
+  def validate_before(date, attribute, message)
+    compare_date_with_attribute(date, attribute, message, '>=')
+  end
+
+  def validate_on_or_before(date, attribute, message)
+    compare_date_with_attribute(date, attribute, message, '>')
   end
 
   def validate_has_role(object, role_or_roles, error_message_key, error_message)

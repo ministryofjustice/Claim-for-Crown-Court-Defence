@@ -29,3 +29,11 @@ end
 module ActiveSupport::XmlMini
   extend XmlMiniExtension
 end
+
+class TrueClass
+  include BooleanExtension::True
+end
+
+class FalseClass
+  include BooleanExtension::False
+end

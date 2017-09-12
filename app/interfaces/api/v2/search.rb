@@ -94,7 +94,7 @@ module API
         resource :unallocated do
           desc 'Retrieve list of unallocated claims'
           get do
-            present claims, with: API::Entities::SearchResult, user: current_user
+            present claims, with: API::Entities::SearchResult, user: current_user, content_encoding: 'gzip'
           end
         end
       end

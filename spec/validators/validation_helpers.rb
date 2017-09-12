@@ -90,8 +90,22 @@ module ValidationHelpers
     expect(record.errors[field]).to include(message)
   end
 
+  def should_error_if_field_dates_match(record, field, specified_field, message)
+    record.send("#{specified_field}=", 3.days.ago)
+    record.send("#{field}=", 3.days.ago)
+    expect(record.send(:valid?)).to be false
+    expect(record.errors[field]).to include(message)
+  end
+
   def should_error_if_after_specified_date(record, field, specified_date, message)
     record.send("#{field}=", specified_date + 1.day)
+    expect(record.send(:valid?)).to be false
+    expect(record.errors[field]).to include(message)
+  end
+
+  def should_error_if_after_specified_field(record, field, specified_field, message)
+    record.send("#{specified_field}=", 3.days.ago)
+    record.send("#{field}=", 2.days.ago)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
   end

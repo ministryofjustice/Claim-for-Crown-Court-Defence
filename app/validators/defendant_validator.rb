@@ -21,7 +21,7 @@ class DefendantValidator < BaseValidator
   def validate_date_of_birth
     return unless requires_dob?
     validate_presence(:date_of_birth, 'blank')
-    validate_not_after(10.years.ago, :date_of_birth, 'check')
+    validate_on_or_before(10.years.ago, :date_of_birth, 'check')
     validate_not_before(120.years.ago, :date_of_birth, 'check')
   end
 

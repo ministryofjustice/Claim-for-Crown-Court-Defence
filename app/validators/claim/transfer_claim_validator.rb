@@ -64,7 +64,7 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
 
   def validate_transfer_date
     validate_presence(:transfer_date, 'blank')
-    validate_not_after(Date.today, :transfer_date, 'check_not_in_future')
+    validate_on_or_before(Date.today, :transfer_date, 'check_not_in_future')
     validate_not_before(Settings.earliest_permitted_date, :transfer_date, 'check_not_too_far_in_past')
   end
 

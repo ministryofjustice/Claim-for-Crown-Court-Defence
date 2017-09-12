@@ -15,7 +15,7 @@ class RepresentationOrderValidator < BaseValidator
   # must not be earlier than the earliest permitted date
   def validate_representation_order_date
     validate_presence(:representation_order_date, 'blank')
-    validate_not_after(Date.today, :representation_order_date, 'in_future')
+    validate_on_or_before(Date.today, :representation_order_date, 'in_future')
     validate_not_before(earliest_permitted[:date], :representation_order_date, earliest_permitted[:error])
 
     return if @record.is_first_reporder_for_same_defendant?

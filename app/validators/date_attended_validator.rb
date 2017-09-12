@@ -23,6 +23,6 @@ class DateAttendedValidator < BaseValidator
   # must not be in the future
   def validate_date_to
     validate_not_before(@record.date, :date_to, 'not_before_date_from')
-    validate_not_after(Date.today, :date_to, 'not_after_today')
+    validate_on_or_before(Date.today, :date_to, 'not_after_today')
   end
 end

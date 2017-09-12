@@ -137,7 +137,7 @@ class BaseValidator < ActiveModel::Validator
     add_error(attribute, message) if @record.__send__(attribute).public_send(comparison_operator, date.to_date)
   end
 
-  def validate_not_after(date, attribute, message)
+  def validate_on_or_before(date, attribute, message)
     compare_date_with_attribute(date, attribute, message, '>')
   end
 
@@ -147,10 +147,6 @@ class BaseValidator < ActiveModel::Validator
 
   def validate_before(date, attribute, message)
     compare_date_with_attribute(date, attribute, message, '>=')
-  end
-
-  def validate_on_or_before(date, attribute, message)
-    compare_date_with_attribute(date, attribute, message, '>')
   end
 
   def validate_has_role(object, role_or_roles, error_message_key, error_message)

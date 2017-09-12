@@ -121,11 +121,11 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_numericality(attribute, message, lower_bound = nil, upper_bound = nil)
-    base_validate_numericality(attribute, lower_bound, message, upper_bound, 'to_i')
+    base_validate_numericality(attribute, lower_bound, message, upper_bound, :to_i)
   end
 
   def validate_float_numericality(attribute, message, lower_bound = nil, upper_bound = nil)
-    base_validate_numericality(attribute, lower_bound, message, upper_bound, 'to_f')
+    base_validate_numericality(attribute, lower_bound, message, upper_bound, :to_f)
   end
 
   def add_error(attribute, message)
@@ -138,15 +138,15 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_on_or_before(date, attribute, message)
-    compare_date_with_attribute(date, attribute, message, '>')
+    compare_date_with_attribute(date, attribute, message, :>)
   end
 
   def validate_not_before(date, attribute, message)
-    compare_date_with_attribute(date, attribute, message, '<')
+    compare_date_with_attribute(date, attribute, message, :<)
   end
 
   def validate_before(date, attribute, message)
-    compare_date_with_attribute(date, attribute, message, '>=')
+    compare_date_with_attribute(date, attribute, message, :>=)
   end
 
   def validate_has_role(object, role_or_roles, error_message_key, error_message)

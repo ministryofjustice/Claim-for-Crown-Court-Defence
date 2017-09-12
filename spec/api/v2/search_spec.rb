@@ -54,7 +54,7 @@ describe API::V2::Search do
         body = JSON.parse(response.body, symbolize_names: true)
         cw = body.first
 
-        expect(cw.keys).to eq([:id, :uuid, :scheme, :scheme_type, :case_number, :state, :state_display, :court_name, :case_type, :total, :total_display, :external_user, :last_submitted_at, :last_submitted_at_display, :defendants, :maat_references, :filter])
+        expect(cw.keys).to eq([:id, :uuid, :scheme, :scheme_type, :case_number, :state, :state_display, :court_name, :case_type, :total, :total_display, :external_user, :last_submitted_at, :last_submitted_at_display, :defendants, :maat_references, :filters])
       end
     end
     context 'when accessed by a ExternalUser' do

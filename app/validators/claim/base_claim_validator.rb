@@ -164,8 +164,10 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_trial_fixed_notice_at
     return unless @record.case_type && @record.requires_cracked_dates?
     validate_presence(:trial_fixed_notice_at, 'blank')
-    validate_not_after(Date.today, :trial_fixed_notice_at, 'check_not_in_future')
+    validate_on_or_before(Date.today, :trial_fixed_notice_at, 'check_not_in_future')
     validate_too_far_in_past(:trial_fixed_notice_at)
+    validate_before(@record.trial_fixed_at, :trial_fixed_notice_at, 'check_before_trial_fixed_at')
+    validate_before(@record.trial_cracked_at, :trial_fixed_notice_at, 'check_before_trial_cracked_at')
   end
 
   # required when case type is cracked, cracked before retrieal
@@ -177,8 +179,8 @@ class Claim::BaseClaimValidator < BaseValidator
     if @record.case_type && @record.requires_cracked_dates?
       validate_presence(:trial_fixed_at, 'blank')
       validate_too_far_in_past(:trial_fixed_at)
-      validate_not_before(@record.trial_fixed_notice_at, :trial_fixed_at,
-                          'check_not_earlier_than_trial_fixed_notice_at')
+      validate_on_or_after(@record.trial_fixed_notice_at, :trial_fixed_at,
+                           'check_not_earlier_than_trial_fixed_notice_at')
     end
   end
 
@@ -190,10 +192,11 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_trial_cracked_at
     if @record.case_type && @record.requires_cracked_dates?
       validate_presence(:trial_cracked_at, 'blank')
-      validate_not_after(Date.today, :trial_cracked_at, 'check_not_in_future')
+      validate_on_or_before(Date.today, :trial_cracked_at, 'check_not_in_future')
       validate_too_far_in_past(:trial_cracked_at)
-      validate_not_before(@record.trial_fixed_notice_at, :trial_cracked_at,
-                          'check_not_earlier_than_trial_fixed_notice_at')
+      validate_on_or_after(@record.trial_fixed_notice_at, :trial_cracked_at,
+                           'check_not_earlier_than_trial_fixed_notice_at')
+      validate_on_or_before(@record.trial_fixed_at, :trial_cracked_at, 'check_before_trial_fixed_at')
     end
   end
 
@@ -314,11 +317,11 @@ class Claim::BaseClaimValidator < BaseValidator
     if @record.case_type && @record.case_type.requires_trial_dates?
       start_attribute, end_attribute = end_attribute, start_attribute if inverse
       validate_presence(start_attribute, 'blank')
-      method("validate_not_#{inverse ? 'before' : 'after'}".to_sym)
+      method("validate_on_or_#{inverse ? 'after' : 'before'}".to_sym)
         .call(@record.__send__(end_attribute), start_attribute, 'check_other_date')
 
       unless @record.case_type.requires_retrial_dates?
-        validate_not_before(earliest_rep_order, start_attribute, 'check_not_earlier_than_rep_order')
+        validate_on_or_after(earliest_rep_order, start_attribute, 'check_not_earlier_than_rep_order')
       end
       validate_too_far_in_past(start_attribute)
     end
@@ -329,15 +332,15 @@ class Claim::BaseClaimValidator < BaseValidator
       start_attribute, end_attribute = end_attribute, start_attribute if inverse
       # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
       validate_presence(start_attribute, 'blank') if @record.editable?
-      method("validate_not_#{inverse ? 'before' : 'after'}".to_sym)
+      method("validate_on_or_#{inverse ? 'after' : 'before'}".to_sym)
         .call(@record.__send__(end_attribute), start_attribute, 'check_other_date')
 
-      validate_not_before(earliest_rep_order, start_attribute, 'check_not_earlier_than_rep_order')
+      validate_on_or_after(earliest_rep_order, start_attribute, 'check_not_earlier_than_rep_order')
       validate_too_far_in_past(start_attribute)
     end
   end
 
   def validate_too_far_in_past(start_attribute)
-    validate_not_before(Settings.earliest_permitted_date, start_attribute, 'check_not_too_far_in_past')
+    validate_on_or_after(Settings.earliest_permitted_date, start_attribute, 'check_not_too_far_in_past')
   end
 end

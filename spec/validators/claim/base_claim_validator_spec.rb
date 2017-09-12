@@ -457,12 +457,20 @@ describe Claim::BaseClaimValidator do
         it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_notice_at, 'blank', translated_message: 'Enter a date') }
         it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_in_future', translated_message: 'Can\'t be in the future')}
         it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
+        it { should_error_if_after_specified_field(cracked_trial_claim, :trial_fixed_notice_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
+        it { should_error_if_after_specified_field(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
+        it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
+        it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
       end
 
       context 'cracked_before_retrial claim' do
         it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_notice_at, 'blank') }
         it { should_error_if_in_future(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check_not_in_future', translated_message: 'Can\'t be in the future') }
         it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
+        it { should_error_if_after_specified_field(cracked_trial_claim, :trial_fixed_notice_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
+        it { should_error_if_after_specified_field(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
+        it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
+        it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
       end
     end
 
@@ -486,6 +494,7 @@ describe Claim::BaseClaimValidator do
         it { should_error_if_in_future(cracked_trial_claim, :trial_cracked_at, 'check_not_in_future', translated_message: 'Can\'t be in the future') }
         it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_cracked_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
         it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'check_not_earlier_than_trial_fixed_notice_at', translated_message: 'Can\'t be before the "Notice of 1st fixed/warned issued"') }
+        it { should_error_if_after_specified_field(cracked_trial_claim, :trial_cracked_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
       end
 
       context 'cracked before retrial' do
@@ -493,6 +502,7 @@ describe Claim::BaseClaimValidator do
         it { should_error_if_in_future(cracked_before_retrial_claim, :trial_cracked_at, 'check_not_in_future', translated_message: 'Can\'t be in the future') }
         it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_cracked_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
         it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'check_not_earlier_than_trial_fixed_notice_at', translated_message: 'Can\'t be before the "Notice of 1st fixed/warned issued"') }
+        it { should_error_if_after_specified_field(cracked_trial_claim, :trial_cracked_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
       end
     end
   end

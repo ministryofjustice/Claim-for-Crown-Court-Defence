@@ -118,8 +118,8 @@ def populate_required_fields(claim)
   if claim.case_type
     if claim.case_type.requires_cracked_dates?
       claim.trial_fixed_notice_at ||= 3.months.ago
-      claim.trial_fixed_at ||= 2.months.ago
-      claim.trial_cracked_at ||= 1.months.ago
+      claim.trial_cracked_at ||= 2.months.ago
+      claim.trial_fixed_at ||= 1.months.ago
       claim.trial_cracked_at_third ||= 'final_third'
     end
 

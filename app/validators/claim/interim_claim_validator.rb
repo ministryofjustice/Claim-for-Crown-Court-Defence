@@ -101,7 +101,7 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   #
   def validate_presence_and_not_in_future(attribute)
     validate_presence(attribute, 'blank')
-    validate_not_after(Date.today, attribute, 'check_not_in_future')
+    validate_on_or_before(Date.today, attribute, 'check_not_in_future')
   end
 
   def validate_presence_and_length(attribute)

@@ -166,6 +166,8 @@ class Claim::BaseClaimValidator < BaseValidator
     validate_presence(:trial_fixed_notice_at, 'blank')
     validate_not_after(Date.today, :trial_fixed_notice_at, 'check_not_in_future')
     validate_too_far_in_past(:trial_fixed_notice_at)
+    validate_before(@record.trial_fixed_at, :trial_fixed_notice_at, 'check_before_trial_fixed_at')
+    validate_before(@record.trial_cracked_at, :trial_fixed_notice_at, 'check_before_trial_cracked_at')
   end
 
   # required when case type is cracked, cracked before retrieal
@@ -194,6 +196,7 @@ class Claim::BaseClaimValidator < BaseValidator
       validate_too_far_in_past(:trial_cracked_at)
       validate_not_before(@record.trial_fixed_notice_at, :trial_cracked_at,
                           'check_not_earlier_than_trial_fixed_notice_at')
+      validate_on_or_before(@record.trial_fixed_at, :trial_cracked_at, 'check_before_trial_fixed_at')
     end
   end
 

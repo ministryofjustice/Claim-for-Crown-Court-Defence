@@ -318,6 +318,14 @@ trial_fixed_notice_at:
     long: 'Check the date for "Notice of 1st fixed/warned issued"'
     short: *too_far_in_past
     api: 'Check the date for "Notice of 1st fixed/warned issued"'
+  check_before_trial_fixed_at:
+    long: 'Check the date for "Notice of 1st fixed/warned issued"'
+    short: 'Must be before the "1st fixed/warned trial date"'
+    api: '"Notice of 1st fixed/warned issued" must be on or before "1st fixed/warned trial date"'
+  check_before_trial_cracked_at:
+    long: 'Check the date for "Notice of 1st fixed/warned issued"'
+    short: 'Must be before the "Case cracked"'
+    api: '"Notice of 1st fixed/warned issued" must be before "Case cracked"'
   invalid_date:
     long: 'Enter a valid date for the "Notice of 1st fixed/warned issued"'
     short: *enter_valid_date
@@ -360,6 +368,10 @@ trial_cracked_at:
     long: 'Check the date for "Case cracked"'
     short: Can't be before the "Notice of 1st fixed/warned issued"
     api: 'Check the date for "Case cracked"'
+  check_before_trial_fixed_at:
+    long: 'Check the date for "Case cracked"'
+    short: 'Must be on or before the "1st fixed/warned trial date"'
+    api: '"Case cracked" must be on or before "1st fixed/warned trial date"'
   invalid_date:
     long: 'Enter a valid date for "Case cracked"'
     short: *enter_valid_date

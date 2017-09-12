@@ -87,7 +87,7 @@ class ExpenseV2Validator < BaseValidator
   def validate_date
     validate_presence(:date, 'blank')
     validate_on_or_before(Date.today, :date, 'future')
-    validate_not_before(Settings.earliest_permitted_date, :date, 'check_not_too_far_in_past')
+    validate_on_or_after(Settings.earliest_permitted_date, :date, 'check_not_too_far_in_past')
   end
 
   def validate_hours

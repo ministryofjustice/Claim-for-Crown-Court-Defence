@@ -16,12 +16,12 @@ class RepresentationOrderValidator < BaseValidator
   def validate_representation_order_date
     validate_presence(:representation_order_date, 'blank')
     validate_on_or_before(Date.today, :representation_order_date, 'in_future')
-    validate_not_before(earliest_permitted[:date], :representation_order_date, earliest_permitted[:error])
+    validate_on_or_after(earliest_permitted[:date], :representation_order_date, earliest_permitted[:error])
 
     return if @record.is_first_reporder_for_same_defendant?
     first_reporder_date = @record.first_reporder_for_same_defendant.try(:representation_order_date)
     return if first_reporder_date.nil?
-    validate_not_before(first_reporder_date, :representation_order_date, 'check')
+    validate_on_or_after(first_reporder_date, :representation_order_date, 'check')
   end
 
   # mandatory where case type isn't breach of crown court order

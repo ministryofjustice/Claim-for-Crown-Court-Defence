@@ -141,7 +141,7 @@ class BaseValidator < ActiveModel::Validator
     compare_date_with_attribute(date, attribute, message, :>)
   end
 
-  def validate_not_before(date, attribute, message)
+  def validate_on_or_after(date, attribute, message)
     compare_date_with_attribute(date, attribute, message, :<)
   end
 

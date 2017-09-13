@@ -162,6 +162,7 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be before earliest rep order
   # cannot be more than 5 years old
   def validate_trial_fixed_notice_at
+    return if @record.disable_for_state_transition.eql?(:only_amount_assessed)
     return unless @record.case_type && @record.requires_cracked_dates?
     validate_presence(:trial_fixed_notice_at, 'blank')
     validate_on_or_before(Date.today, :trial_fixed_notice_at, 'check_not_in_future')
@@ -176,6 +177,7 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be more than 5 years old
   # cannot be before trial_fixed_notice_at
   def validate_trial_fixed_at
+    return if @record.disable_for_state_transition.eql?(:only_amount_assessed)
     if @record.case_type && @record.requires_cracked_dates?
       validate_presence(:trial_fixed_at, 'blank')
       validate_too_far_in_past(:trial_fixed_at)
@@ -190,6 +192,7 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be more than 5 years in the past
   # cannot be before the trial fixed/warned issued
   def validate_trial_cracked_at
+    return if @record.disable_for_state_transition.eql?(:only_amount_assessed)
     if @record.case_type && @record.requires_cracked_dates?
       validate_presence(:trial_cracked_at, 'blank')
       validate_on_or_before(Date.today, :trial_cracked_at, 'check_not_in_future')

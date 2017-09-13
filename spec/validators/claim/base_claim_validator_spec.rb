@@ -505,6 +505,22 @@ describe Claim::BaseClaimValidator do
         it { should_error_if_after_specified_field(cracked_trial_claim, :trial_cracked_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
       end
     end
+
+    # after validation changes had been implemented, there where claims to be assessed that violated the new validation records
+    context 'and validation has been overridden only for amount_assessed' do
+      let(:claim) do
+        create :claim, case_type: cracked_trial,
+                       trial_fixed_notice_at: 2.weeks.ago,
+                       trial_fixed_at: 1.week.ago,
+                       trial_cracked_at: 2.days.ago,
+                       disable_for_state_transition: :only_amount_assessed
+      end
+      
+      before { claim.valid? }
+
+      it { expect(claim.errors['trial_cracked_at']).to be_empty }
+    end
+
   end
 
   context 'for claims requiring trial details' do

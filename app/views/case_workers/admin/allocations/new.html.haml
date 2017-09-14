@@ -1,11 +1,6 @@
 - unless params[:tab] == 'allocated'
-  -if params[:style]=='old'
-    .js-allocation-page
-      = render partial: 'orig_allocation'
-    = paginate @claims
-  -else
-    .js-allocation-page
-      = render partial: 'allocation'
+  .js-allocation-page
+    = render partial: 'allocation'
 - else
   .js-re-allocation-page
     = render partial: 're_allocation'

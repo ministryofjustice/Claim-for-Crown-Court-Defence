@@ -262,14 +262,6 @@ class Claim::BaseClaimValidator < BaseValidator
     add_error(:actual_trial_length, 'too_long')
   end
 
-  def actual_length_consistency_for_trial
-    requires_trial_dates? &&
-      @record.actual_trial_length.present? &&
-      @record.first_day_of_trial.present? &&
-      @record.trial_concluded_at.present? &&
-      trial_length_valid?(@record.trial_concluded_at, @record.first_day_of_trial, @record.actual_trial_length)
-  end
-
   def validate_retrial_actual_length_consistency
     return unless actual_length_consistency_for(requires_retrial_dates?, @record.retrial_actual_length, @record.retrial_started_at, @record.retrial_concluded_at)
     add_error(:retrial_actual_length, 'too_long')

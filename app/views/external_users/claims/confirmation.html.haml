@@ -12,16 +12,10 @@
       = t('.what_happens_next')
 
     %div.grid-row
-      = raw t('.what_happens_next_prompt1')
+      = raw t('.what_happens_next_prompt')
 
-    - if claim.disk_evidence?
-      %h2.heading-small
-        Please send evidence to the following address:
-      = render partial: 'external_users/claims/supporting_documents/laa_address', locals: { f: claim }
-
-    %div.grid-row
-      = raw t('.what_happens_next_prompt2')
-
+      - if claim.disk_evidence?
+        = render partial: 'shared/disk_evidence_info', locals: { f: claim }
 
     .button-holder
       = link_to t('link.file_another_claim'), types_external_users_claims_path, {class: 'button btn-spacer-20', role: 'button'}

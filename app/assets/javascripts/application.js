@@ -68,6 +68,12 @@ if (!String.prototype.supplant) {
     return this.length > 0;
   };
 
+
+  // Where .multiple-choice uses the data-target attribute
+  // to toggle hidden content
+  var showHideContent = new GOVUK.ShowHideContent()
+  showHideContent.init()
+
   /**
    * Cocoon call back to init features once they have been
    * interted into the DOM

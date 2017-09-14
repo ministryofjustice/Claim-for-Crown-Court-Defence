@@ -258,7 +258,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_trial_actual_length_consistency
-    return unless actual_length_consistency_for_trial
+    return unless actual_length_consistency_for(requires_trial_dates?, @record.actual_trial_length, @record.first_day_of_trial, @record.trial_concluded_at)
     add_error(:actual_trial_length, 'too_long')
   end
 
@@ -271,8 +271,16 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_retrial_actual_length_consistency
-    return unless actual_length_consistency_for_retrial
+    return unless actual_length_consistency_for(requires_retrial_dates?, @record.retrial_actual_length, @record.retrial_started_at, @record.retrial_concluded_at)
     add_error(:retrial_actual_length, 'too_long')
+  end
+
+  def actual_length_consistency_for(requires_dates, actual_length, start_date, end_date)
+    requires_dates &&
+      actual_length.present? &&
+      start_date.present? &&
+      end_date.present? &&
+      trial_length_valid?(end_date, start_date, actual_length)
   end
 
   def trial_length_valid?(concluded, started, actual_length)
@@ -284,14 +292,6 @@ class Claim::BaseClaimValidator < BaseValidator
     @record.case_type.name.match(/[Cc]racked/)
   rescue
     false
-  end
-
-  def actual_length_consistency_for_retrial
-    requires_retrial_dates? &&
-      @record.retrial_actual_length.present? &&
-      @record.retrial_started_at.present? &&
-      @record.retrial_concluded_at.present? &&
-      trial_length_valid?(@record.retrial_concluded_at, @record.retrial_started_at, @record.retrial_actual_length)
   end
 
   def has_fees_or_expenses_attributes?

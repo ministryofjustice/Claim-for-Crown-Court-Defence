@@ -175,7 +175,7 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be more than 5 years old
   # cannot be before trial_fixed_notice_at
   def validate_trial_fixed_at
-    return if ignore_validation_for_trial_dates
+    return if ignore_validation_for_cracked_trials?
     validate_presence(:trial_fixed_at, 'blank')
     validate_too_far_in_past(:trial_fixed_at)
     validate_on_or_after(@record.trial_fixed_notice_at, :trial_fixed_at,
@@ -188,7 +188,7 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be more than 5 years in the past
   # cannot be before the trial fixed/warned issued
   def validate_trial_cracked_at
-    return if ignore_validation_for_trial_dates
+    return if ignore_validation_for_cracked_trials?
     validate_presence(:trial_cracked_at, 'blank')
     validate_on_or_before(Date.today, :trial_cracked_at, 'check_not_in_future')
     validate_too_far_in_past(:trial_cracked_at)
@@ -196,7 +196,7 @@ class Claim::BaseClaimValidator < BaseValidator
                          'check_not_earlier_than_trial_fixed_notice_at')
   end
 
-  def ignore_validation_for_trial_dates
+  def ignore_validation_for_cracked_trials?
     @record.disable_for_state_transition.eql?(:only_amount_assessed) ||
       (@record.case_type && !@record.requires_cracked_dates?)
   end
@@ -258,16 +258,16 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_trial_actual_length_consistency
-    return unless actual_length_consistency_for(requires_trial_dates?, @record.actual_trial_length, @record.first_day_of_trial, @record.trial_concluded_at)
+    return unless actual_length_consistent?(requires_trial_dates?, @record.actual_trial_length, @record.first_day_of_trial, @record.trial_concluded_at)
     add_error(:actual_trial_length, 'too_long')
   end
 
   def validate_retrial_actual_length_consistency
-    return unless actual_length_consistency_for(requires_retrial_dates?, @record.retrial_actual_length, @record.retrial_started_at, @record.retrial_concluded_at)
+    return unless actual_length_consistent?(requires_retrial_dates?, @record.retrial_actual_length, @record.retrial_started_at, @record.retrial_concluded_at)
     add_error(:retrial_actual_length, 'too_long')
   end
 
-  def actual_length_consistency_for(requires_dates, actual_length, start_date, end_date)
+  def actual_length_consistent?(requires_dates, actual_length, start_date, end_date)
     requires_dates &&
       actual_length.present? &&
       start_date.present? &&

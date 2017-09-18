@@ -72,7 +72,6 @@ describe 'new validation rules around cracked trials' do
 
     describe 'validate trial_cracked_at' do
       # trial_cracked_at > trial_fixed_notice_at
-      # trial_cracked_at < trial_fixed_at
 
       context '> trial_fixed_notice_at' do
         it { is_expected.to be true }
@@ -81,23 +80,6 @@ describe 'new validation rules around cracked trials' do
       context '< trial_fixed_notice_at' do
         let(:trial_cracked_at) { 91.days.ago }
 
-        it { is_expected.to be false }
-      end
-
-      context '< trial_fixed_at' do
-        let(:trial_cracked_at) { 29.days.ago }
-
-        it { is_expected.to be true }
-      end
-
-      context '= trial_fixed_at' do
-        let(:trial_cracked_at) { 28.days.ago }
-
-        it { is_expected.to be true }
-      end
-
-      context '> trial_fixed_at' do
-        let(:trial_cracked_at) { 27.days.ago }
         it { is_expected.to be false }
       end
     end

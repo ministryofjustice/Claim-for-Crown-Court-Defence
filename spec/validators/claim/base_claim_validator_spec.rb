@@ -494,7 +494,6 @@ describe Claim::BaseClaimValidator do
         it { should_error_if_in_future(cracked_trial_claim, :trial_cracked_at, 'check_not_in_future', translated_message: 'Can\'t be in the future') }
         it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_cracked_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
         it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'check_not_earlier_than_trial_fixed_notice_at', translated_message: 'Can\'t be before the "Notice of 1st fixed/warned issued"') }
-        it { should_error_if_after_specified_field(cracked_trial_claim, :trial_cracked_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
       end
 
       context 'cracked before retrial' do
@@ -502,25 +501,8 @@ describe Claim::BaseClaimValidator do
         it { should_error_if_in_future(cracked_before_retrial_claim, :trial_cracked_at, 'check_not_in_future', translated_message: 'Can\'t be in the future') }
         it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_cracked_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
         it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'check_not_earlier_than_trial_fixed_notice_at', translated_message: 'Can\'t be before the "Notice of 1st fixed/warned issued"') }
-        it { should_error_if_after_specified_field(cracked_trial_claim, :trial_cracked_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
       end
     end
-
-    # after validation changes had been implemented, there where claims to be assessed that violated the new validation records
-    context 'and validation has been overridden only for amount_assessed' do
-      let(:claim) do
-        create :claim, case_type: cracked_trial,
-                       trial_fixed_notice_at: 2.weeks.ago,
-                       trial_fixed_at: 1.week.ago,
-                       trial_cracked_at: 2.days.ago,
-                       disable_for_state_transition: :only_amount_assessed
-      end
-      
-      before { claim.valid? }
-
-      it { expect(claim.errors['trial_cracked_at']).to be_empty }
-    end
-
   end
 
   context 'for claims requiring trial details' do

@@ -103,12 +103,11 @@ class Claim::BaseClaimValidator < BaseValidator
   # must be one of the list of values
   # must be final third if case type is cracked before retrial (cannot be first or second third)
   def validate_trial_cracked_at_third
-    if cracked_case?
-      validate_presence(:trial_cracked_at_third, 'blank')
-      validate_inclusion(:trial_cracked_at_third, Settings.trial_cracked_at_third, 'invalid')
-      if @record&.case_type&.name == 'Cracked before retrial'
-        validate_pattern(:trial_cracked_at_third, /^final_third$/, 'invalid_case_type_third_combination')
-      end
+    return unless cracked_case?
+    validate_presence(:trial_cracked_at_third, 'blank')
+    validate_inclusion(:trial_cracked_at_third, Settings.trial_cracked_at_third, 'invalid')
+    if @record&.case_type&.name == 'Cracked before retrial'
+      validate_pattern(:trial_cracked_at_third, /^final_third$/, 'invalid_case_type_third_combination')
     end
   end
 
@@ -151,10 +150,9 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def check_for_and_raise_array_error
-    unless @record.evidence_checklist_ids.is_a?(Array)
-      raise ActiveRecord::SerializationTypeMismatch,
-            "Attribute was supposed to be a Array, but was a #{@record.evidence_checklist_ids.class}."
-    end
+    return if @record.evidence_checklist_ids.is_a?(Array)
+    raise ActiveRecord::SerializationTypeMismatch,
+          "Attribute was supposed to be a Array, but was a #{@record.evidence_checklist_ids.class}."
   end
 
   # required when case type is cracked, cracked before retrial
@@ -165,6 +163,7 @@ class Claim::BaseClaimValidator < BaseValidator
     return unless @record.case_type && @record.requires_cracked_dates?
     validate_presence(:trial_fixed_notice_at, 'blank')
     validate_on_or_before(Date.today, :trial_fixed_notice_at, 'check_not_in_future')
+    validate_presence(:trial_fixed_notice_at, 'blank')
     validate_too_far_in_past(:trial_fixed_notice_at)
     validate_before(@record.trial_fixed_at, :trial_fixed_notice_at, 'check_before_trial_fixed_at')
     validate_before(@record.trial_cracked_at, :trial_fixed_notice_at, 'check_before_trial_cracked_at')
@@ -176,7 +175,7 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be more than 5 years old
   # cannot be before trial_fixed_notice_at
   def validate_trial_fixed_at
-    return unless @record.case_type && @record.requires_cracked_dates?
+    return if ignore_validation_for_cracked_trials?
     validate_presence(:trial_fixed_at, 'blank')
     validate_too_far_in_past(:trial_fixed_at)
     validate_on_or_after(@record.trial_fixed_notice_at, :trial_fixed_at,
@@ -189,12 +188,17 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be more than 5 years in the past
   # cannot be before the trial fixed/warned issued
   def validate_trial_cracked_at
-    return unless @record.case_type && @record.requires_cracked_dates?
+    return if ignore_validation_for_cracked_trials?
     validate_presence(:trial_cracked_at, 'blank')
     validate_on_or_before(Date.today, :trial_cracked_at, 'check_not_in_future')
     validate_too_far_in_past(:trial_cracked_at)
     validate_on_or_after(@record.trial_fixed_notice_at, :trial_cracked_at,
                          'check_not_earlier_than_trial_fixed_notice_at')
+  end
+
+  def ignore_validation_for_cracked_trials?
+    @record.disable_for_state_transition.eql?(:only_amount_assessed) ||
+      (@record.case_type && !@record.requires_cracked_dates?)
   end
 
   # must be less than or equal to last day of trial
@@ -254,41 +258,32 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_trial_actual_length_consistency
-    return unless actual_length_consistency_for_trial
-
-    # As we are using Date objects without time information, we loose precision, so adding 1 day will workaround this.
-    return unless ((@record.trial_concluded_at - @record.first_day_of_trial).days + 1.day) <
-                  @record.actual_trial_length.days
+    return unless actual_length_consistent?(requires_trial_dates?, @record.actual_trial_length, @record.first_day_of_trial, @record.trial_concluded_at)
     add_error(:actual_trial_length, 'too_long')
   end
 
-  def actual_length_consistency_for_trial
-    requires_trial_dates? &&
-      @record.actual_trial_length.present? &&
-      @record.first_day_of_trial.present? &&
-      @record.trial_concluded_at.present?
+  def validate_retrial_actual_length_consistency
+    return unless actual_length_consistent?(requires_retrial_dates?, @record.retrial_actual_length, @record.retrial_started_at, @record.retrial_concluded_at)
+    add_error(:retrial_actual_length, 'too_long')
   end
 
-  def validate_retrial_actual_length_consistency
-    return unless actual_length_consistency_for_retrial
+  def actual_length_consistent?(requires_dates, actual_length, start_date, end_date)
+    requires_dates &&
+      actual_length.present? &&
+      start_date.present? &&
+      end_date.present? &&
+      trial_length_valid?(end_date, start_date, actual_length)
+  end
 
+  def trial_length_valid?(concluded, started, actual_length)
     # As we are using Date objects without time information, we loose precision, so adding 1 day will workaround this.
-    return unless ((@record.retrial_concluded_at - @record.retrial_started_at).days + 1.day) <
-                  @record.retrial_actual_length.days
-    add_error(:retrial_actual_length, 'too_long')
+    ((concluded - started).days + 1.day) < actual_length.days
   end
 
   def cracked_case?
     @record.case_type.name.match(/[Cc]racked/)
   rescue
     false
-  end
-
-  def actual_length_consistency_for_retrial
-    requires_retrial_dates? &&
-      @record.retrial_actual_length.present? &&
-      @record.retrial_started_at.present? &&
-      @record.retrial_concluded_at.present?
   end
 
   def has_fees_or_expenses_attributes?
@@ -311,30 +306,28 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_trial_start_and_end(start_attribute, end_attribute, inverse = false)
-    if @record.case_type && @record.case_type.requires_trial_dates?
-      start_attribute, end_attribute = end_attribute, start_attribute if inverse
-      validate_presence(start_attribute, 'blank')
-      method("validate_on_or_#{inverse ? 'after' : 'before'}".to_sym)
-        .call(@record.__send__(end_attribute), start_attribute, 'check_other_date')
+    return unless @record.case_type && @record.case_type.requires_trial_dates?
+    start_attribute, end_attribute = end_attribute, start_attribute if inverse
+    validate_presence(start_attribute, 'blank')
+    method("validate_on_or_#{inverse ? 'after' : 'before'}".to_sym)
+      .call(@record.__send__(end_attribute), start_attribute, 'check_other_date')
 
-      unless @record.case_type.requires_retrial_dates?
-        validate_on_or_after(earliest_rep_order, start_attribute, 'check_not_earlier_than_rep_order')
-      end
-      validate_too_far_in_past(start_attribute)
+    unless @record.case_type.requires_retrial_dates?
+      validate_on_or_after(earliest_rep_order, start_attribute, 'check_not_earlier_than_rep_order')
     end
+    validate_too_far_in_past(start_attribute)
   end
 
   def validate_retrial_start_and_end(start_attribute, end_attribute, inverse = false)
-    if @record.case_type && @record.case_type.requires_retrial_dates?
-      start_attribute, end_attribute = end_attribute, start_attribute if inverse
-      # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
-      validate_presence(start_attribute, 'blank') if @record.editable?
-      method("validate_on_or_#{inverse ? 'after' : 'before'}".to_sym)
-        .call(@record.__send__(end_attribute), start_attribute, 'check_other_date')
+    return unless @record.case_type && @record.case_type.requires_retrial_dates?
+    start_attribute, end_attribute = end_attribute, start_attribute if inverse
+    # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
+    validate_presence(start_attribute, 'blank') if @record.editable?
+    method("validate_on_or_#{inverse ? 'after' : 'before'}".to_sym)
+      .call(@record.__send__(end_attribute), start_attribute, 'check_other_date')
 
-      validate_on_or_after(earliest_rep_order, start_attribute, 'check_not_earlier_than_rep_order')
-      validate_too_far_in_past(start_attribute)
-    end
+    validate_on_or_after(earliest_rep_order, start_attribute, 'check_not_earlier_than_rep_order')
+    validate_too_far_in_past(start_attribute)
   end
 
   def validate_too_far_in_past(start_attribute)

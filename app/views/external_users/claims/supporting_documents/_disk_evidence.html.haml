@@ -11,22 +11,3 @@
           = render partial: 'shared/disk_evidence_info', locals: { f: f }
 
   = validation_error_message(@error_presenter, :disk_evidence)
-
--#%h2.bold-medium
--#  = "Evidence supplied on disk"
--#  = @claim.disk_evidence
--#.form-row{class: error_class?(@error_presenter, :disk_evidence)}
--#  %fieldset
--#    %legend.visuallyhidden Will you be sending disk evidence for this claim?
--#    %a#disk_evidence
--#    %label{:for => "claim_disk_evidence"}
--#      Will you be sending disk evidence for this claim?
--#    %label.block-label{:for => "claim_disk_evidence_true", "data-target" => "evidence-info"}
--#      %input#claim_disk_evidence_true{ :name => "claim[disk_evidence]", :type => "radio", :value => "true" }>/
--#      Yes
--#    #evidence-info.panel.panel-border-narrow.js-hidden
--#      = render partial: 'shared/disk_evidence_info', locals: { f: f }
--#    %label.block-label{:for => "claim_disk_evidence_false"}
--#      %input#claim_disk_evidence_false{ :name => "claim[disk_evidence]", :type => "radio", :value => "false" }>/
--#      No
--#  = validation_error_message(@error_presenter, :disk_evidence)

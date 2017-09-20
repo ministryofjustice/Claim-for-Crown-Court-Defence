@@ -1,0 +1,13 @@
+%h3.heading-small
+  = "Help with sending the evidence"
+
+%p
+  You have electronic evidence on disk that relates to this claim. It is recommended that you send it by recorded delivery.
+
+%p
+  Please fill the
+  %a{:href => "/CCD-Electronic-Evidence-coversheet.pdf", :rel => "external", :target => "_blank"}
+    electronic evidence coversheet
+  and include it with your disk(s).
+
+= render partial: 'external_users/claims/supporting_documents/laa_address', locals: { f: f }

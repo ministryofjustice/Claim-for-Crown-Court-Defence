@@ -583,13 +583,10 @@ en:
       confirmation:
         thanks: Thank you for submitting your claim
         what_happens_next: What happens next?
-        what_happens_next_prompt1: |
-          <p>If you have electronic evidence on disk that relates to this case, you
-          must send it by courier.</p>
-        what_happens_next_prompt2: |
-          <p>A case worker will assess your claim. You will not be notified by email
-          when your claim has been processed, but you can check the status of your
-          claim at any time in the "Your claims" view.</p>
+        what_happens_next_prompt_html: |
+          <p>Your claim will be assessed by one of our caseworkers. You will be notified
+          by email when your claim has been processed. You can check the status of your claim
+          at any time in the <a href="%{external_users_root_url}">Your claims</a> view.</p>
         will_be_processed: Your claim will be processed shortly
       date_attended_fields:
         date_from: 'Date attended (from)'
@@ -742,7 +739,6 @@ en:
           choose_file: 'Choose a file'
           file_name: "File name"
           supporting_evidence_docs: 'Upload supporting evidence'
-          supporting_evidence_warning: If you have electronic evidence on disk that relates to this case, you must send it by courier.
       supporting_evidence_checklist:
         summary:
           caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'

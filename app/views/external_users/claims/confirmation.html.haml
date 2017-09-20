@@ -12,7 +12,7 @@
       = t('.what_happens_next')
 
     %div.grid-row
-      = raw t('.what_happens_next_prompt')
+      = raw t('.what_happens_next_prompt_html', external_users_root_url: external_users_root_url)
 
       - if claim.disk_evidence?
         = render partial: 'shared/disk_evidence_info', locals: { f: claim }

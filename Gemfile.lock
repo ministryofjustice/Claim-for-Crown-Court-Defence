@@ -222,6 +222,10 @@ GEM
       shellany (~> 0.0)
       thor (>= 0.18.1)
     guard-compat (1.2.1)
+    guard-cucumber (2.1.2)
+      cucumber (~> 2.0)
+      guard-compat (~> 1.0)
+      nenv (~> 0.1)
     guard-jasmine (2.1.0)
       childprocess (~> 0.5)
       guard (~> 2.14)
@@ -650,6 +654,7 @@ DEPENDENCIES
   grape-papertrail (~> 0.1.1)
   grape-swagger (~> 0.23.0)
   grape-swagger-rails (~> 0.2.2)
+  guard-cucumber
   guard-jasmine (~> 2.0)
   guard-livereload (>= 2.5.2)
   guard-rspec

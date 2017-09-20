@@ -89,6 +89,7 @@ group :development, :devunicorn, :test do
   gem 'guard-jasmine',      '~> 2.0'
   gem 'guard-rspec'
   gem 'guard-rubocop'
+  gem 'guard-cucumber'
   gem 'net-ssh'
   gem 'net-scp'
 end

@@ -96,3 +96,13 @@ aws:
   access: <%= ENV['AWS_ACCESS_KEY'] %>
   secret: <%= ENV['SECRET_ACCESS_KEY'] %>
   queue: <%= ENV['AWS_QUEUE_NAME'] %>
+
+govuk_notify:
+  api_key: 'never-put-real-api-key-here-use-env-vars'
+  templates:
+    message_added_email: 'message_added_email_template_uuid'
+    password_reset: 'password_reset_template_uuid'
+    new_user: 'new_user_template_uuid'
+    new_external_advocate_admin: 'new_external_advocate_admin_template_uuid'
+    new_external_litigator_admin: 'new_external_litigator_admin_template_uuid'
+    unlock_instructions: 'unlock_instructions_template_uuid'

@@ -1,8 +1,8 @@
 class NotifyMailerPreview < ActionMailer::Preview
 
-  def new_message_test_email
+  def message_added_email
     claim = Claim::BaseClaim.active.last
-    NotifyMailer.new_message_test_email(claim)
+    NotifyMailer.message_added_email(claim)
   end
 
 end

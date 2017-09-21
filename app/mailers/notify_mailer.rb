@@ -3,15 +3,16 @@ class NotifyMailer < GovukNotifyRails::Mailer
   # Then just use mail() as with any other ActionMailer, with the recipient email.
   # This is just an example:
   #
-  def new_message_test_email(claim)
+  def message_added_email(claim)
     user = claim.external_user.user
 
-    set_template('9661d08a-486d-4c67-865e-ad976f17871d')
+    set_template(Settings.govuk_notify.templates.message_added_email)
     set_personalisation(
-      full_name: user.name,
-      messages_url: external_users_claim_url(claim, messages: true)
+      user_name: user.name,
+      claim_case_number: claim.case_number,
+      claim_url: external_users_claim_url(claim, messages: true),
+      edit_user_url: edit_external_users_admin_external_user_url(user)
     )
-
     mail(to: user.email)
   end
 end

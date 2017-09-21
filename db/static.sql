@@ -1108,34 +1108,8 @@ COPY offences (id, description, offence_class_id, created_at, updated_at) FROM s
 252	Obtaining services by dishonesty	6	2015-11-05 17:08:49.310585	2015-11-05 17:08:49.310585
 253	Obtaining services by dishonesty	7	2015-11-05 17:08:49.318179	2015-11-05 17:08:49.318179
 254	Obtaining services by dishonesty	11	2015-11-05 17:08:49.324632	2015-11-05 17:08:49.324632
-390	Counterfeiting notes and coins	6	2016-07-04 12:59:07.072452	2016-07-04 12:59:07.072452
-391	Counterfeiting notes and coins	11	2016-07-04 12:59:07.085427	2016-07-04 12:59:07.085427
-392	Destruction of registers of births etc.	7	2016-07-04 12:59:07.160752	2016-07-04 12:59:07.160752
-393	Destruction of registers of births etc.	11	2016-07-04 12:59:07.169343	2016-07-04 12:59:07.169343
-394	Fraudulent evasion: counterfeit notes or coins	6	2016-07-04 12:59:07.440866	2016-07-04 12:59:07.440866
-395	Fraudulent evasion: counterfeit notes or coins	11	2016-07-04 12:59:07.453046	2016-07-04 12:59:07.453046
-396	Illegal importation: counterfeit notes or coins	6	2016-07-04 12:59:07.538516	2016-07-04 12:59:07.538516
-397	Illegal importation: counterfeit notes or coins	11	2016-07-04 12:59:07.55083	2016-07-04 12:59:07.55083
-398	Making false entries in copies of registers sent to register	7	2016-07-04 12:59:07.675211	2016-07-04 12:59:07.675211
-399	Making false entries in copies of registers sent to register	11	2016-07-04 12:59:07.683445	2016-07-04 12:59:07.683445
-400	Making, custody or control of counterfeiting materials etc.	6	2016-07-04 12:59:07.740112	2016-07-04 12:59:07.740112
-401	Making, custody or control of counterfeiting materials etc.	11	2016-07-04 12:59:07.752856	2016-07-04 12:59:07.752856
-402	Offences involving custody or control of counterfeit notes and coins	6	2016-07-04 12:59:07.904465	2016-07-04 12:59:07.904465
-403	Offences involving custody or control of counterfeit notes and coins	11	2016-07-04 12:59:07.91789	2016-07-04 12:59:07.91789
-404	Passing counterfeit notes and coins	6	2016-07-04 12:59:07.961912	2016-07-04 12:59:07.961912
-405	Passing counterfeit notes and coins	11	2016-07-04 12:59:07.973789	2016-07-04 12:59:07.973789
-406	Possession (with intention) of apparatus or material for making false identity documents	7	2016-07-04 12:59:08.034922	2016-07-04 12:59:08.034922
-407	Possession (with intention) of apparatus or material for making false identity documents	11	2016-07-04 12:59:08.042305	2016-07-04 12:59:08.042305
-408	Possession (with intention) of false identity documents	7	2016-07-04 12:59:08.053989	2016-07-04 12:59:08.053989
-409	Possession (with intention) of false identity documents	11	2016-07-04 12:59:08.062125	2016-07-04 12:59:08.062125
-410	Possession of false identity documents	7	2016-07-04 12:59:08.073896	2016-07-04 12:59:08.073896
-411	Possession of false identity documents	11	2016-07-04 12:59:08.08105	2016-07-04 12:59:08.08105
-412	Possession (without reasonable excuse) of false identity documents or apparatus or material for making false identity documents	7	2016-07-04 12:59:08.092829	2016-07-04 12:59:08.092829
-413	Possession (without reasonable excuse) of false identity documents or apparatus or material for making false identity documents	11	2016-07-04 12:59:08.100047	2016-07-04 12:59:08.100047
 414	Removal of articles from places open to the public	6	2016-07-04 12:59:08.263313	2016-07-04 12:59:08.263313
 415	Removal of articles from places open to the public	11	2016-07-04 12:59:08.274802	2016-07-04 12:59:08.274802
-416	Undischarged bankrupt being concerned in a company	6	2016-07-04 12:59:08.52003	2016-07-04 12:59:08.52003
-417	Undischarged bankrupt being concerned in a company	11	2016-07-04 12:59:08.547465	2016-07-04 12:59:08.547465
 \.
 
 

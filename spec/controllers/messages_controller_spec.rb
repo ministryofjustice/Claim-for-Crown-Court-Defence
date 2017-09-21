@@ -63,7 +63,8 @@ RSpec.describe MessagesController, type: :controller do
           message_params.delete(:claim_id)
         end
 
-        xit 'does not create a message' do  # We must handle the fact that if the message cannot be created, there will not be ID to redirect to (redirect_to_url)
+        #TODO: We must handle the fact that if the message cannot be created, there will not be ID to redirect to (redirect_to_url)
+        xit 'does not create a message' do
           expect {
             post :create, message: message_params
           }.to_not change(Message, :count)
@@ -106,7 +107,7 @@ RSpec.describe MessagesController, type: :controller do
         it 'does not attempt to send an email' do
           sender.email_notification_of_message = 'true'
           sign_in sender.user
-          expect(MessageNotificationMailer).not_to receive(:notify_message)
+          expect(NotifyMailer).not_to receive(:message_added_email)
           post :create, message: message_params
         end
       end
@@ -115,7 +116,7 @@ RSpec.describe MessagesController, type: :controller do
         it 'does not attempt to send an email' do
           sender.email_notification_of_message = 'false'
           sign_in sender.user
-          expect(MessageNotificationMailer).not_to receive(:notify_message)
+          expect(NotifyMailer).not_to receive(:message_added_email)
           post :create, message: message_params
         end
       end
@@ -130,7 +131,7 @@ RSpec.describe MessagesController, type: :controller do
           claim.creator.email_notification_of_message = 'true'
           sign_in sender.user
           mock_mail = double 'Mail message'
-          expect(MessageNotificationMailer).to receive(:notify_message).and_return(mock_mail)
+          expect(NotifyMailer).to receive(:message_added_email).and_return(mock_mail)
           expect(mock_mail).to receive(:deliver_later)
           post :create, message: message_params
         end
@@ -139,7 +140,7 @@ RSpec.describe MessagesController, type: :controller do
         it 'does not send an email' do
           claim.creator.email_notification_of_message = 'false'
           sign_in sender.user
-          expect(MessageNotificationMailer).not_to receive(:notify_message)
+          expect(NotifyMailer).not_to receive(:message_added_email)
           post :create, message: message_params
         end
       end

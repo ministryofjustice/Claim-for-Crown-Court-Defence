@@ -218,10 +218,6 @@
       "additionalProperties": false,
       "id": "/properties/offence",
       "properties": {
-        "id": {
-          "id": "/properties/offence/properties/id",
-          "type": "integer"
-        },
         "unique_code": {
           "id": "/properties/offence/properties/unique_code",
           "type": "string"

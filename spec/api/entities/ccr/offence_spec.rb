@@ -8,6 +8,6 @@ describe API::Entities::CCR::Offence do
   let(:offence) { build(:offence, unique_code: 'ABOCUT_C', offence_class_id: offence_class.id) }
 
   it 'has expected json key-value pairs' do
-    expect(response).to include(id: 503, unique_code: 'ABOCUT_C', offence_class: { class_letter: 'C' })
+    expect(response).to include(unique_code: 'ABOCUT_C', offence_class: { class_letter: 'C' })
   end
 end

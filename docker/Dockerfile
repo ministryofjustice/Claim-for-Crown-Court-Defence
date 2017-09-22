@@ -1,4 +1,4 @@
-FROM registry.service.dsd.io/ruby:2.4.0
+FROM registry.service.dsd.io/ruby:2.4.2
 
 # add official nodejs repo
 RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \

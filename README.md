@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/ministryofjustice/Claim-for-Crown-Court-Defence.svg)](https://travis-ci.org/ministryofjustice/Claim-for-Crown-Court-Defence)
 [![Code Climate](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence/badges/gpa.svg)](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence)
 [![Test Coverage](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence/badges/coverage.svg)](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence/coverage)
+[![Dependency Status](https://gemnasium.com/badges/github.com/ministryofjustice/Claim-for-Crown-Court-Defence.svg)](https://gemnasium.com/github.com/ministryofjustice/Claim-for-Crown-Court-Defence)
 
 ## Staging
 [staging-adp.dsd.io](https://staging-adp.dsd.io)

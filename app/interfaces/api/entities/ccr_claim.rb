@@ -112,8 +112,13 @@ module API
 
       def bills
         @bills ||= [].tap do |arr|
-          arr << advocate_fee if fee_adaptor.bill_type
+          arr << advocate_fee if advocate_fee_claimed?
         end
+      end
+
+      def advocate_fee_claimed?
+        fee_adaptor.bill_type &&
+          object.basic_fees.any? { |f| f.amount.positive? || f.quantity.positive? || f.rate.positive? }
       end
 
       def fee_adaptor

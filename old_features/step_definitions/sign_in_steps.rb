@@ -88,7 +88,7 @@ end
 
 Then(/^I should see the advocates Start a claim link and it should work$/) do
   find('.primary-nav-bar').click_link('Start a claim')
-  expect(find('h1')).to have_content('Claim for advocate graduated fees')
+  expect(find('h1')).to have_content('Claim for advocate fees')
 end
 
 Then(/^I should see the admin advocates Manage advocates link and it should work$/) do

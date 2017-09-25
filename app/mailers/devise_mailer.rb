@@ -17,6 +17,15 @@ class DeviseMailer < GovukNotifyRails::Mailer
     mail(to: user.email)
   end
 
+  def unlock_instructions(record, token, _opts = {})
+    set_template(Settings.govuk_notify.templates.unlock_instructions)
+    set_personalisation(
+      user_full_name: record.name,
+      unlock_url: unlock_url(record, unlock_token: token)
+    )
+    mail(to: record.email)
+  end
+
   private
 
   def get_template_for(user)

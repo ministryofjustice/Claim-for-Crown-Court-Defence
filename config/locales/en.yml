@@ -418,8 +418,8 @@ en:
           form_error_hint: 'Check below for more detail'
     all_claims: All claims
     your_claims: Your claims
-    start_agfs_claim_heading: Claim for advocate graduated fees
-    start_lgfs_final_claim_heading: Claim for litigator graduated fees
+    start_agfs_claim_heading: Claim for advocate fees
+    start_lgfs_final_claim_heading: Claim for litigator fees
     start_lgfs_interim_claim_heading: Claim for litigator interim fees
     start_lgfs_transfer_claim_heading: Claim for litigator transfer fees
     certifications:

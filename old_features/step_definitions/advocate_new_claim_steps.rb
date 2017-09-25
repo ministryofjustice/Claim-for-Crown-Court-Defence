@@ -246,7 +246,7 @@ Then(/^I should be redirected to the claim certification page$/) do
 end
 
 Then(/^I should be redirected back to the claim form with error$/) do
-  expect(page).to have_content('Claim for advocate graduated fees')
+  expect(page).to have_content('Claim for advocate fees')
   expect(page).to have_content(/This claim has \d+ errors?/)
   expect(page).to have_content("Choose an advocate")
 end

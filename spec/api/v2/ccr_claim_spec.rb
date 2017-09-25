@@ -113,136 +113,145 @@ describe API::V2::CCRClaim do
 
       let(:claim) { create(:authorised_claim) }
 
+      before do
+        create(:basic_fee, :ppe_fee, claim: claim, quantity: 1024)
+      end
+
       context 'advocate fee' do
-        it 'is not added to array when case type does not permit advocate fees' do
+        it 'is not added to bills array when no basic fees are being claimed' do
+          allow_any_instance_of(Fee::BasicFee).to receive_messages(rate: 0, quantity: 0, amount: 0)
+          expect(response).to have_json_size(0).at_path("bills")
+        end
+
+        it 'is not added to bills array when case type does not permit advocate fees' do
           allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCON' # mock a contempt case type
           expect(response).to have_json_size(0).at_path("bills")
         end
-      end
 
-      context 'bill type' do
-        it 'includes bill type' do
-          expect(response).to have_json_path("bills/0/bill_type")
-          expect(response).to have_json_type(String).at_path "bills/0/bill_type"
+        context 'bill type' do
+          it 'includes bill type' do
+            expect(response).to have_json_path("bills/0/bill_type")
+            expect(response).to have_json_type(String).at_path "bills/0/bill_type"
+          end
+
+          it 'returns advocate fee CCR bill type' do
+            expect(response).to be_json_eql("AGFS_FEE".to_json).at_path "bills/0/bill_type"
+          end
         end
 
-        it 'returns advocate fee CCR bill type' do
-          expect(response).to be_json_eql("AGFS_FEE".to_json).at_path "bills/0/bill_type"
-        end
-      end
+        context 'bill sub type' do
+          it 'includes bill subtype' do
+            expect(response).to have_json_path("bills/0/bill_subtype")
+            expect(response).to have_json_type(String).at_path "bills/0/bill_subtype"
+          end
 
-      context 'bill sub type' do
-        it 'includes bill subtype' do
-          expect(response).to have_json_path("bills/0/bill_subtype")
-          expect(response).to have_json_type(String).at_path "bills/0/bill_subtype"
+          it 'returns CCR bill sub type' do
+            expect(response).to be_json_eql("AGFS_FEE".to_json).at_path "bills/0/bill_subtype"
+          end
+
+          context 'mapping' do
+            before do
+              allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
+            end
+
+            it 'maps bill sub type based on the claims case type' do
+              expect(response).to be_json_eql("AGFS_APPEAL_CON".to_json).at_path "bills/0/bill_subtype"
+            end
+          end
         end
 
-        it 'returns CCR bill sub type' do
-          expect(response).to be_json_eql("AGFS_FEE".to_json).at_path "bills/0/bill_subtype"
-        end
+        context 'pages of prosecution evidence' do
+          subject(:response) do
+            do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+          end
 
-        context 'mapping' do
+          let(:claim) { create(:authorised_claim) }
+
           before do
-            allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
+            create(:basic_fee, :ppe_fee, claim: claim, quantity: 1024)
           end
 
-          it 'maps bill sub type based on the claims case type' do
-            expect(response).to be_json_eql("AGFS_APPEAL_CON".to_json).at_path "bills/0/bill_subtype"
+          it 'includes ppe' do
+            expect(response).to have_json_path("bills/0/ppe")
+            expect(response).to have_json_type(Integer).at_path "bills/0/ppe"
+          end
+
+          it 'determines the Total number of pages of prosecution evidence from the Pages of proesecution evidence Fee quantity' do
+            expect(response).to be_json_eql("1024").at_path "bills/0/ppe"
           end
         end
-      end
 
-      context 'pages of prosecution evidence' do
-        subject(:response) do
-          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-        end
+        context 'number of cases' do
+          subject(:response) do
+            do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+          end
 
-        let(:claim) { create(:authorised_claim) }
+          let(:claim) { create(:authorised_claim) }
 
-        before do
-          create(:basic_fee, :ppe_fee, claim: claim, quantity: 1024)
-        end
-
-        it 'includes ppe' do
-          expect(response).to have_json_path("bills/0/ppe")
-          expect(response).to have_json_type(Integer).at_path "bills/0/ppe"
-        end
-
-        it 'determines the Total number of pages of prosecution evidence from the Pages of proesecution evidence Fee quantity' do
-          expect(response).to be_json_eql("1024").at_path "bills/0/ppe"
-        end
-      end
-
-      context 'number of cases' do
-        subject(:response) do
-          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-        end
-
-        let(:claim) { create(:authorised_claim) }
-
-        before do
-          create(:basic_fee, :noc_fee, claim: claim, quantity: 2)
-        end
-
-        it 'includes number of cases' do
-          expect(response).to have_json_path("bills/0/number_of_cases")
-          expect(response).to have_json_type(Integer).at_path "bills/0/number_of_cases"
-        end
-
-        it 'calculates Total number of cases from Number of Cases uplift Fee quantity plus 1, for the "main" case' do
-          expect(response).to be_json_eql("3").at_path "bills/0/number_of_cases"
-        end
-      end
-
-      context 'number of proseution witnesses' do
-        subject(:response) do
-          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-        end
-
-        let(:claim) { create(:authorised_claim) }
-
-        before do
-          create(:basic_fee, :npw_fee, claim: claim, quantity: 3)
-        end
-
-        it 'includes number of witnesses' do
-          expect(response).to have_json_path("bills/0/number_of_witnesses")
-          expect(response).to have_json_type(Integer).at_path "bills/0/number_of_witnesses"
-        end
-
-        it 'determines number of witnesses from Number of Proseution Witnesses Fee quantity' do
-          expect(response).to be_json_eql("3").at_path "bills/0/number_of_witnesses"
-        end
-      end
-
-      context 'daily attendances' do
-        subject(:response) do
-          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-        end
-
-        let(:claim) { create(:authorised_claim) }
-
-        it 'includes daily attendances' do
-          expect(response).to have_json_path("bills/0/daily_attendances")
-          expect(response).to have_json_type(Integer).at_path "bills/0/daily_attendances"
-        end
-
-        context 'upper bounds' do
           before do
-            claim.actual_trial_length = 51
-            create(:basic_fee, :daf_fee, claim: claim, quantity: 38, rate: 1.0)
-            create(:basic_fee, :dah_fee, claim: claim, quantity: 10, rate: 1.0)
-            create(:basic_fee, :daj_fee, claim: claim, quantity: 1, rate: 1.0)
+            create(:basic_fee, :noc_fee, claim: claim, quantity: 2)
           end
 
-          it 'calculates Total daily attendances from Daily Attendanance Fee quantities if they exist' do
-            expect(response).to be_json_eql("51").at_path "bills/0/daily_attendances"
+          it 'includes number of cases' do
+            expect(response).to have_json_path("bills/0/number_of_cases")
+            expect(response).to have_json_type(Integer).at_path "bills/0/number_of_cases"
+          end
+
+          it 'calculates Total number of cases from Number of Cases uplift Fee quantity plus 1, for the "main" case' do
+            expect(response).to be_json_eql("3").at_path "bills/0/number_of_cases"
           end
         end
 
-        context 'lower bounds' do
-          it 'calculates Total daily attendances from acutal trial length if no daily attendance fees' do
-            expect(response).to be_json_eql("0").at_path "bills/0/daily_attendances"
+        context 'number of proseution witnesses' do
+          subject(:response) do
+            do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+          end
+
+          let(:claim) { create(:authorised_claim) }
+
+          before do
+            create(:basic_fee, :npw_fee, claim: claim, quantity: 3)
+          end
+
+          it 'includes number of witnesses' do
+            expect(response).to have_json_path("bills/0/number_of_witnesses")
+            expect(response).to have_json_type(Integer).at_path "bills/0/number_of_witnesses"
+          end
+
+          it 'determines number of witnesses from Number of Proseution Witnesses Fee quantity' do
+            expect(response).to be_json_eql("3").at_path "bills/0/number_of_witnesses"
+          end
+        end
+
+        context 'daily attendances' do
+          subject(:response) do
+            do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+          end
+
+          let(:claim) { create(:authorised_claim) }
+
+          it 'includes daily attendances' do
+            expect(response).to have_json_path("bills/0/daily_attendances")
+            expect(response).to have_json_type(Integer).at_path "bills/0/daily_attendances"
+          end
+
+          context 'upper bounds' do
+            before do
+              claim.actual_trial_length = 51
+              create(:basic_fee, :daf_fee, claim: claim, quantity: 38, rate: 1.0)
+              create(:basic_fee, :dah_fee, claim: claim, quantity: 10, rate: 1.0)
+              create(:basic_fee, :daj_fee, claim: claim, quantity: 1, rate: 1.0)
+            end
+
+            it 'calculates Total daily attendances from Daily Attendanance Fee quantities if they exist' do
+              expect(response).to be_json_eql("51").at_path "bills/0/daily_attendances"
+            end
+          end
+
+          context 'lower bounds' do
+            it 'calculates Total daily attendances from acutal trial length if no daily attendance fees' do
+              expect(response).to be_json_eql("0").at_path "bills/0/daily_attendances"
+            end
           end
         end
       end

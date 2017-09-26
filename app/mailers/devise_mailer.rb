@@ -32,7 +32,7 @@ class DeviseMailer < GovukNotifyRails::Mailer
     if existing_user?(user)
       Settings.govuk_notify.templates.password_reset
     elsif external_admin?(user)
-      Settings.govuk_notify.templates.send("new_external_#{external_type(user)}_admin")
+      Settings.govuk_notify.templates.send("new_external_#{external_type(user)}admin")
     else
       Settings.govuk_notify.templates.new_user
     end
@@ -47,6 +47,10 @@ class DeviseMailer < GovukNotifyRails::Mailer
   end
 
   def external_type(user)
-    user.persona.advocate? ? 'advocate' : 'litigator'
+    if user.persona.advocate?
+      'advocate_'
+    elsif user.persona.litigator?
+      'litigator_'
+    end
   end
 end

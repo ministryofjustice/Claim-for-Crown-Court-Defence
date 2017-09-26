@@ -68,4 +68,22 @@ RSpec.describe DeviseMailer, type: :mailer do
       end
     end
   end
+
+  describe 'unlock_instructions' do
+    subject(:mail) { described_class.unlock_instructions(external_user.user, 'fake_token') }
+
+    let(:external_user) { create(:external_user, supplier_number: 'XX878', user: create(:user, last_name: 'Smith', first_name: 'John', email:'test@example.com')) }
+
+    it 'is a govuk_notify delivery' do
+      expect(mail.delivery_method).to be_a(GovukNotifyRails::Delivery)
+    end
+
+    it 'sets the recipient' do
+      expect(mail.to).to eq(['test@example.com'])
+    end
+
+    it 'sets the personalisation' do
+      expect(mail.govuk_notify_personalisation.keys.sort).to eq([:unlock_url,:user_full_name])
+    end
+  end
 end

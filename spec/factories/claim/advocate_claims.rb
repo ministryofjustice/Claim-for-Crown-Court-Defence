@@ -30,7 +30,7 @@ FactoryGirl.define do
     end
 
     trait :without_assessment do
-      assessment  nil
+      assessment nil
     end
 
     trait :without_fees do
@@ -39,7 +39,6 @@ FactoryGirl.define do
         claim.fees.clear
       end
     end
-
 
     factory :unpersisted_claim do
       court         { FactoryGirl.build :court }

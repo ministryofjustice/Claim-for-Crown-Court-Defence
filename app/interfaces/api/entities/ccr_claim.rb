@@ -80,7 +80,7 @@ module API
         ::CCR::DailyAttendanceAdapter.attendances_for(object)
       end
 
-      # The "Advocate Fee" is the CCR equivalent of all most but not
+      # The "Advocate Fee" is the CCR equivalent of most but not
       # all the BasicFeeType fees in CCCD. The Advocate Fee is of type
       # AGFS_FEE and subtype AGFS_FEE
       #
@@ -93,8 +93,8 @@ module API
       # fee types, but not BASAF or BAPCM
       def advocate_fee
         {
-          bill_type: fee_adaptor.bill_type,
-          bill_subtype: fee_adaptor.bill_subtype,
+          bill_type: advocate_fee_adapter.bill_type,
+          bill_subtype: advocate_fee_adapter.bill_subtype,
           quantity: 1.0,
           rate: 0.0,
           ppe: pages_of_prosecution_evidence,
@@ -119,20 +119,61 @@ module API
         }
       end
 
+      def misc_fee_adapter
+        @misc_fee_adapter ||= ::CCR::Fee::MiscFeeAdapter.new
+      end
+
+      def miscellaneous_fee(fee)
+        misc_fee_adapter.call(fee)
+        return unless misc_fee_adapter.bill_type && (fee.amount.positive? || fee.quantity.positive? || fee.rate.positive?)
+        {
+          bill_type: misc_fee_adapter.bill_type,
+          bill_subtype: misc_fee_adapter.bill_subtype,
+          # ref_no: '', # ???
+          # occurence_date: '', # ??? attendance dates??
+          quantity: fee.quantity.to_f,
+          rate: fee.rate.to_f,
+          amount: fee.amount.to_f,
+          case_numbers: fee.case_numbers
+        }
+      end
+
+      # CCR miscellaneous fees cover CCCD basic, fixed and miscellaneous fees
+      #
+      def miscellaneous_fees
+        object.misc_fees + object.basic_fees + object.fixed_fees
+      end
+
       def bills
         @bills ||= [].tap do |arr|
           arr << advocate_fee if advocate_fee_claimed?
+          miscellaneous_fees.each do |misc_fee|
+            arr << miscellaneous_fee(misc_fee)
+          end
+        end
+
+        @bills.compact
+      end
+
+      def advocate_fee_types
+        %w[BABAF BADAF BADAH BADAJ BANOC BANDR BANPW BAPPE]
+      end
+
+      def advocate_fees?
+        object.basic_fees.any? do |f|
+          advocate_fee_types.include?(f.fee_type.unique_code) &&
+            (f.amount.positive? || f.quantity.positive? || f.rate.positive?)
         end
       end
 
       def advocate_fee_claimed?
-        fee_adaptor.bill_type &&
-          object.basic_fees.any? { |f| f.amount.positive? || f.quantity.positive? || f.rate.positive? }
+        advocate_fee_adapter.bill_type && advocate_fees?
       end
 
-      def fee_adaptor
-        @fee_adaptor ||= ::CCR::FeeAdapter.new(object)
+      def advocate_fee_adapter
+        @advocate_fee_adapter ||= ::CCR::Fee::AdvocateFeeAdapter.new.call(object)
       end
+
     end
   end
 end

@@ -128,6 +128,10 @@
           "rate": {
             "id": "/properties/bills/items/properties/rate",
             "type": "number"
+          },
+          "amount": {
+            "id": "/properties/bills/items/properties/amount",
+            "type": "number"
           }
         },
         "type": "object"

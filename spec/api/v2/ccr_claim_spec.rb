@@ -28,7 +28,10 @@ describe API::V2::CCRClaim do
 
   before(:all) do
     @case_worker = create(:case_worker, :admin)
-    @claim = create(:authorised_claim)
+    @claim = create(:authorised_claim, :without_fees).tap do |claim|
+      # NOTE: this will also create the BABAF basic fee type
+      create(:basic_fee, :baf_fee, claim: claim, quantity: 1)
+    end
   end
 
   # mock a Trial case type's fee_type_code as factories
@@ -50,7 +53,7 @@ describe API::V2::CCRClaim do
       expect(last_response.body).to include('The requested version is not supported.')
     end
 
-    it 'should require an API key' do
+    it 'requires an API key' do
       do_request(api_key: nil)
       expect(last_response.status).to eq 401
       expect(last_response.body).to include('Unauthorised')
@@ -78,8 +81,6 @@ describe API::V2::CCRClaim do
       end
 
       before do
-        @claim = create(:authorised_claim)
-
         travel_to 2.day.from_now do
           create(:defendant, claim: @claim)
         end
@@ -111,41 +112,53 @@ describe API::V2::CCRClaim do
         do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
       end
 
-      let(:claim) { create(:authorised_claim) }
-
-      before do
-        create(:basic_fee, :ppe_fee, claim: claim, quantity: 1024)
+      let(:claim) do
+        create(:authorised_claim, :without_fees)
       end
 
       context 'advocate fee' do
-        it 'is not added to bills array when no basic fees are being claimed' do
+        it 'not added to bills array when no basic fees are being claimed' do
           allow_any_instance_of(Fee::BasicFee).to receive_messages(rate: 0, quantity: 0, amount: 0)
           expect(response).to have_json_size(0).at_path("bills")
         end
 
-        it 'is not added to bills array when case type does not permit advocate fees' do
+        it 'not added to bills array when only inapplicable basic fees claimed' do
+          allow_any_instance_of(Fee::BasicFeeType).to receive(:unique_code).and_return 'BAPCM'
+          allow_any_instance_of(Fee::BasicFee).to receive_messages(rate: 1, quantity: 2, amount: 2)
+          expect(response).to_not be_json_eql("AGFS_FEE".to_json).at_path "bills/0/bill_type"
+        end
+
+        it 'not added to bills array when case type does not permit advocate fees' do
           allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCON' # mock a contempt case type
           expect(response).to have_json_size(0).at_path("bills")
         end
 
         context 'bill type' do
-          it 'includes bill type' do
+          before do
+            claim.basic_fees.find_by(fee_type_id: Fee::BasicFeeType.find_by(unique_code: 'BABAF')).update(quantity: 1)
+          end
+
+          it 'property included' do
             expect(response).to have_json_path("bills/0/bill_type")
             expect(response).to have_json_type(String).at_path "bills/0/bill_type"
           end
 
-          it 'returns advocate fee CCR bill type' do
+          it 'valid value included' do
             expect(response).to be_json_eql("AGFS_FEE".to_json).at_path "bills/0/bill_type"
           end
         end
 
         context 'bill sub type' do
-          it 'includes bill subtype' do
+          before do
+            claim.basic_fees.find_by(fee_type_id: Fee::BasicFeeType.find_by(unique_code: 'BABAF')).update(quantity: 1)
+          end
+
+          it 'property included' do
             expect(response).to have_json_path("bills/0/bill_subtype")
             expect(response).to have_json_type(String).at_path "bills/0/bill_subtype"
           end
 
-          it 'returns CCR bill sub type' do
+          it 'valid value included' do
             expect(response).to be_json_eql("AGFS_FEE".to_json).at_path "bills/0/bill_subtype"
           end
 
@@ -165,18 +178,16 @@ describe API::V2::CCRClaim do
             do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
           end
 
-          let(:claim) { create(:authorised_claim) }
-
           before do
             create(:basic_fee, :ppe_fee, claim: claim, quantity: 1024)
           end
 
-          it 'includes ppe' do
+          it 'property included' do
             expect(response).to have_json_path("bills/0/ppe")
             expect(response).to have_json_type(Integer).at_path "bills/0/ppe"
           end
 
-          it 'determines the Total number of pages of prosecution evidence from the Pages of proesecution evidence Fee quantity' do
+          it 'value taken from the Pages of prosecution evidence Fee quantity' do
             expect(response).to be_json_eql("1024").at_path "bills/0/ppe"
           end
         end
@@ -186,18 +197,16 @@ describe API::V2::CCRClaim do
             do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
           end
 
-          let(:claim) { create(:authorised_claim) }
-
           before do
             create(:basic_fee, :noc_fee, claim: claim, quantity: 2)
           end
 
-          it 'includes number of cases' do
+          it 'property included' do
             expect(response).to have_json_path("bills/0/number_of_cases")
             expect(response).to have_json_type(Integer).at_path "bills/0/number_of_cases"
           end
 
-          it 'calculates Total number of cases from Number of Cases uplift Fee quantity plus 1, for the "main" case' do
+          it 'calculated from Number of Cases uplift Fee quantity plus 1, for the "main" case' do
             expect(response).to be_json_eql("3").at_path "bills/0/number_of_cases"
           end
         end
@@ -207,19 +216,16 @@ describe API::V2::CCRClaim do
             do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
           end
 
-          let(:claim) { create(:authorised_claim) }
-
           before do
             create(:basic_fee, :noc_fee, claim: claim, quantity: 2, case_numbers: 'T20172765, T20172766')
           end
 
-          it 'includes number of cases' do
+          it 'property included' do
             expect(response).to have_json_path("bills/0/case_numbers")
             expect(response).to have_json_type(String).at_path "bills/0/case_numbers"
           end
 
-          it 'taken from the basic fee - number of case uplifts\' case_numbers attribute' do
-            # binding.pry
+          it 'value taken from the basic fee - number of case uplifts\' case_numbers attribute' do
             expect(response).to be_json_eql("T20172765, T20172766".to_json).at_path "bills/0/case_numbers"
           end
         end
@@ -229,18 +235,16 @@ describe API::V2::CCRClaim do
             do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
           end
 
-          let(:claim) { create(:authorised_claim) }
-
           before do
             create(:basic_fee, :npw_fee, claim: claim, quantity: 3)
           end
 
-          it 'includes number of witnesses' do
+          it 'property included' do
             expect(response).to have_json_path("bills/0/number_of_witnesses")
             expect(response).to have_json_type(Integer).at_path "bills/0/number_of_witnesses"
           end
 
-          it 'determines number of witnesses from Number of Proseution Witnesses Fee quantity' do
+          it 'value determined from Number of Prosecution Witnesses Fee quantity' do
             expect(response).to be_json_eql("3").at_path "bills/0/number_of_witnesses"
           end
         end
@@ -250,30 +254,99 @@ describe API::V2::CCRClaim do
             do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
           end
 
-          let(:claim) { create(:authorised_claim) }
+          before do
+            # NOTE: you must be claiming at least on basic fee for an advocate fee to be submitted
+            claim.basic_fees.find_by(fee_type_id: Fee::BasicFeeType.find_by(unique_code: 'BABAF')).update(quantity: 1)
+          end
 
-          it 'includes daily attendances' do
+          it 'includes property' do
             expect(response).to have_json_path("bills/0/daily_attendances")
             expect(response).to have_json_type(Integer).at_path "bills/0/daily_attendances"
           end
 
-          context 'upper bounds' do
+          context 'upper bound value' do
             before do
-              claim.actual_trial_length = 51
+              claim.actual_trial_length = 53
               create(:basic_fee, :daf_fee, claim: claim, quantity: 38, rate: 1.0)
               create(:basic_fee, :dah_fee, claim: claim, quantity: 10, rate: 1.0)
               create(:basic_fee, :daj_fee, claim: claim, quantity: 1, rate: 1.0)
             end
 
-            it 'calculates Total daily attendances from Daily Attendanance Fee quantities if they exist' do
+            it 'calculated from Daily Attendanance Fee quantities if they exist' do
               expect(response).to be_json_eql("51").at_path "bills/0/daily_attendances"
             end
           end
 
-          context 'lower bounds' do
-            it 'calculates Total daily attendances from acutal trial length if no daily attendance fees' do
-              expect(response).to be_json_eql("0").at_path "bills/0/daily_attendances"
+          context 'lower bound value' do
+            before do
+              claim.update(actual_trial_length: 2)
             end
+
+            it 'calculated from acutal trial length if no daily attendance fees' do
+              expect(response).to be_json_eql("2").at_path "bills/0/daily_attendances"
+            end
+          end
+        end
+      end
+
+      context 'miscellaneous fees' do
+        subject(:response) do
+          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+        end
+
+        before do
+          create(:misc_fee, claim: claim)
+          allow_any_instance_of(Fee::MiscFeeType).to receive(:unique_code).and_return 'MIAPH'
+        end
+
+        it 'added to bills if is a CCCD miscellaneous fee' do
+          expect(response).to have_json_size(1).at_path("bills")
+        end
+
+         it 'not added to bills if it is not a miscellaneous fee' do
+          claim.misc_fees.delete_all
+          allow_any_instance_of(Fee::BasicFeeType).to receive(:unique_code).and_return 'BABAF'
+          allow_any_instance_of(Fee::BasicFee).to receive_messages(rate: 1.0, quantity: 2.0)
+          expect(response).to have_json_size(1).at_path("bills")
+          expect(response).to be_json_eql("AGFS_FEE".to_json).at_path "bills/0/bill_type"
+        end
+
+        context 'when fee maps to a CCR misc fee' do
+          before do
+            claim.misc_fees.delete_all
+            allow_any_instance_of(Fee::BasicFeeType).to receive(:unique_code).and_return 'BAPCM'
+          end
+
+          it 'added to bills if it has a value' do
+            allow_any_instance_of(Fee::BasicFee).to receive_messages(rate: 1, quantity: 2)
+            expect(response).to have_json_size(1).at_path("bills")
+            expect(response).to be_json_eql("AGFS_MISC_FEES".to_json).at_path "bills/0/bill_type"
+          end
+
+          it 'not added to bills if it maps to CCR miscellanoeus fee but has no value' do
+            expect(response).to have_json_size(0).at_path("bills")
+          end
+        end
+
+        context 'bill type' do
+          it 'property included' do
+            expect(response).to have_json_path("bills/0/bill_type")
+            expect(response).to have_json_type(String).at_path "bills/0/bill_type"
+          end
+
+          it 'valid value included' do
+            expect(response).to be_json_eql("AGFS_MISC_FEES".to_json).at_path "bills/0/bill_type"
+          end
+        end
+
+        context 'bill sub type' do
+          it 'property included' do
+            expect(response).to have_json_path("bills/0/bill_subtype")
+            expect(response).to have_json_type(String).at_path "bills/0/bill_subtype"
+          end
+
+          it 'valid value included' do
+            expect(response).to be_json_eql("AGFS_ABS_PRC_HF".to_json).at_path "bills/0/bill_subtype"
           end
         end
       end

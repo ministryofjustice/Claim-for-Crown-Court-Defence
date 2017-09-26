@@ -109,7 +109,7 @@ FactoryGirl.define do
     rate 25
 
     trait :baf_fee do
-      fee_type { build :basic_fee_type, code: 'BAF', description: 'Basic Fee' }
+      fee_type { build :basic_fee_type, description: 'Basic Fee', code: 'BAF', unique_code: 'BABAF' }
     end
 
     trait :daf_fee do

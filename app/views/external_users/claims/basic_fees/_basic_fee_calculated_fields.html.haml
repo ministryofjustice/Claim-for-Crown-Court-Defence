@@ -27,7 +27,18 @@
                         errors: @error_presenter,
                         value: number_with_precision(f.object.rate, precision: 2)
 .grid-row
+  - if f.object.fee_type.case_uplift?
+    .column-one-third
+      = f.adp_text_field :case_numbers,
+                          label: t('.case_numbers'),
+                          input_classes:'js-basic-fee-case-numbers',
+                          hint_text:'Separate by commas',
+                          errors: @error_presenter
+
   .column-one-third.fee-total
+    - if f.object.fee_type.case_uplift?
+      %br/
+      %br/
     %label.form-label Total
     %span.total{data: {'total': fee.fee.amount ||= 0}}
       = number_to_currency(fee.fee.amount ||= 0)

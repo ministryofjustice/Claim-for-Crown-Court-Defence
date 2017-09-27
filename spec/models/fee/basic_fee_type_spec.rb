@@ -45,6 +45,19 @@ module Fee
       end
     end
 
+    describe '#case_uplift?' do
+      subject { fee_type.case_uplift? }
+      it 'returns true for Number of cases uplift' do
+        allow(fee_type).to receive(:code).and_return 'NOC'
+        is_expected.to be_truthy
+      end
+
+      it 'returns false for basic fees not related to case uplifts' do
+        allow(fee_type).to receive(:code).and_return 'PPE'
+        is_expected.to be_falsey
+      end
+    end
+
     describe 'default scope' do
       it 'should order by id' do
         expect(Fee::BasicFeeType.all.to_sql).to include("ORDER BY \"fee_types\".\"id\" ASC")

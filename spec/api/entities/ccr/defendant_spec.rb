@@ -19,8 +19,8 @@ describe API::Entities::CCR::Defendant do
     )
   end
 
-  it 'has expected keys' do
-    expect(response.keys).to include(:main_defendant, :representation_orders)
+  it 'has expected json key-value pairs' do
+    expect(response).to include(main_defendant: false, first_name: 'Kaia', last_name: 'Casper', date_of_birth: '1995-06-20')
   end
 
   it 'returns main defendant true for the defendant created first' do

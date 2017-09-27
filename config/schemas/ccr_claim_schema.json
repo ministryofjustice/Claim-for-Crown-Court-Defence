@@ -155,6 +155,18 @@
             "id": "/properties/defendants/items/properties/main_defendant",
             "type": "boolean"
           },
+          "first_name": {
+            "id": "/properties/defendants/items/properties/first_name",
+            "type": "string"
+          },
+          "last_name": {
+            "id": "/properties/defendants/items/properties/last_name",
+            "type": "string"
+          },
+          "date_of_birth": {
+            "id": "/properties/defendants/items/properties/date_of_birth",
+            "type": "string"
+          },
           "representation_orders": {
             "id": "/properties/defendants/items/properties/representation_orders",
             "items": {

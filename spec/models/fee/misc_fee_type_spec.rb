@@ -24,7 +24,7 @@ module Fee
     let(:fee_type)  { build :misc_fee_type }
 
     describe '#fee_category_name' do
-      it 'should return the category name' do
+      it 'returns the category name' do
           expect(fee_type.fee_category_name).to eq 'Miscellaneous Fees'
       end
     end
@@ -36,18 +36,18 @@ module Fee
         create(:misc_fee_type, description: 'Sssss')
       end
 
-      it 'should order by description ascending' do
+      it 'orders by description ascending' do
         expect(Fee::MiscFeeType.all.map(&:description)).to eq ['Ppppp','Sssss','Xxxxx']
       end
     end
 
     describe '#case_uplift?' do
-      it 'should return true when fee_type is Case Uplift' do
+      it 'returns true when fee_type is Case Uplift' do
         fee_type.code = 'XUPL'
         expect(fee_type.case_uplift?).to be_truthy
       end
 
-      it 'should return false when fee_type is not Case Uplift' do
+      it 'returns false when fee_type is not Case Uplift' do
         fee_type.code = 'XXX'
         expect(fee_type.case_uplift?).to be_falsey
       end

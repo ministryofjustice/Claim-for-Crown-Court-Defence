@@ -838,6 +838,17 @@ basic_fee:
       short: *enter_valid_amount
       api: Enter a valid amount for pages of prosecution evidence fees
 
+  case_numbers:
+    _seq: 40
+    invalid:
+      long: Enter valid case numbers for the Number of cases uplift
+      short: Enter valid case numbers
+      api: Enter valid case numbers for the Number of cases uplift
+    noc_qty_mismatch:
+      long: The number of case uplifts does not match the additional case numbers
+      short: Enter case numbers for each uplift
+      api: The number of case uplifts does not match the additional case numbers
+
 #################################################################################
 #                                                                               #
 #   MISCELLANEOUS FEE                                                           #

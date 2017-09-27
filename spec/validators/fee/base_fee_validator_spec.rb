@@ -11,6 +11,7 @@ describe Fee::BaseFeeValidator do
   let(:daf_fee)    { FactoryGirl.build :basic_fee, :daf_fee, claim: claim }
   let(:dah_fee)    { FactoryGirl.build :basic_fee, :dah_fee, claim: claim }
   let(:daj_fee)    { FactoryGirl.build :basic_fee, :daj_fee, claim: claim }
+  let(:noc_fee)    { FactoryGirl.build :basic_fee, :noc_fee, claim: claim }
   let(:pcm_fee)    { FactoryGirl.build :basic_fee, :pcm_fee, claim: claim }
   let(:ppe_fee)    { FactoryGirl.build :basic_fee, :ppe_fee, claim: claim }
   let(:npw_fee)    { FactoryGirl.build :basic_fee, :npw_fee, claim: claim }
@@ -190,7 +191,6 @@ describe Fee::BaseFeeValidator do
     end
 
     context 'basic fee (BAF)' do
-
       context 'when rate present' do
         it 'should be valid with quantity of one' do
           should_be_valid_if_equal_to_value(baf_fee, :quantity, 1)
@@ -222,7 +222,6 @@ describe Fee::BaseFeeValidator do
           expect(baf_fee.errors[:rate]).to include('invalid')
         end
       end
-
     end
 
     context 'daily_attendance_3_40 (DAF)' do
@@ -258,7 +257,6 @@ describe Fee::BaseFeeValidator do
           should_be_valid_if_equal_to_value(daf_fee, :quantity, 18)
           should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
       end
-
     end
 
     context 'daily_attendance_41_50 (DAH)' do
@@ -324,7 +322,7 @@ describe Fee::BaseFeeValidator do
       end
     end
 
-    context 'plea and case management hearing' do
+    context 'plea and case management hearing (PCM)' do
       context 'permitted case type' do
         before(:each) do
           claim.case_type = FactoryGirl.build :case_type, :allow_pcmh_fee_type
@@ -342,7 +340,53 @@ describe Fee::BaseFeeValidator do
         it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_not_applicable') }
         it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'pcm_not_applicable') }
       end
+    end
 
+    context 'number of cases uplift (NOC)' do
+      # TODO: require presence once impact on API consumers can be mitigated by comms with vendors
+      it 'should NOT error if case_numbers is blank (for now)' do
+        should_not_error(noc_fee, :case_numbers)
+      end
+
+      it 'should error if single case number is invalid' do
+        should_error_if_equal_to_value(noc_fee, :case_numbers, '123', 'invalid')
+      end
+
+      it 'should be valid for a single valid format of case number' do
+        noc_fee.case_numbers = 'A20161234'
+        should_not_error(noc_fee, :case_numbers)
+      end
+
+      it 'should error if any case number is invalid' do
+        noc_fee.case_numbers = 'A20161234,Z123,A20158888'
+        should_error_with(noc_fee, :case_numbers, 'invalid')
+      end
+
+      it 'should error if quantity and number of additional cases do not match' do
+        noc_fee.case_numbers = 'A20161234 , A20158888'
+        should_error_with(noc_fee, :case_numbers, 'noc_qty_mismatch')
+      end
+
+      context 'with more than one case uplift' do
+        before do
+          noc_fee.quantity = 2
+        end
+
+        it 'should be valid for several case numbers' do
+          noc_fee.case_numbers = 'A20161234,A20158888'
+          should_not_error(noc_fee, :case_numbers)
+        end
+
+        it 'should be valid for several case numbers with spaces between them' do
+          noc_fee.case_numbers = 'A20161234 , A20158888'
+          should_not_error(noc_fee, :case_numbers)
+        end
+
+        it 'should error if number of cases provided does not match the quantity claimed' do
+          noc_fee.case_numbers = 'A20161234'
+          should_error_with(noc_fee, :case_numbers, 'noc_qty_mismatch')
+        end
+      end
     end
 
     context 'any other fee' do
@@ -350,7 +394,7 @@ describe Fee::BaseFeeValidator do
 
       it { should_error_if_equal_to_value(fee, :quantity, -1, 'invalid') }
       it { should_be_valid_if_equal_to_value(fee, :quantity, 99999) }
-      it { should_error_if_equal_to_value(fee, :quantity, 100000,    'invalid') }
+      it { should_error_if_equal_to_value(fee, :quantity, 100000, 'invalid') }
 
       it 'should not allow zero if amount is not zero' do
         should_error_if_equal_to_value(fee, :quantity, 0, 'invalid')
@@ -366,7 +410,6 @@ describe Fee::BaseFeeValidator do
   end
 
   describe '#validate_amount' do
-
     context 'uncalculated fee validate amount against quantity' do
       it 'should be valid if quantity greater than zero and amount is nil, zero or greater than zero' do
         should_be_valid_if_equal_to_value(ppe_fee, :amount, nil)
@@ -401,7 +444,6 @@ describe Fee::BaseFeeValidator do
         should_be_valid_if_equal_to_value(baf_fee, :amount, 350.00)
       end
     end
-
   end
-  
+
 end

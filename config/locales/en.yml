@@ -76,7 +76,9 @@ en:
         password_confirmation: &password_confirmation 'Password confirmation'
         first_name: &first_name 'First name'
         middle_name: &middle_name 'Middle name'
-        lasst_name: &last_name 'Last name'
+        last_name: &last_name 'Last name'
+      fees:
+        case_numbers: &case_numbers 'Additional case numbers'
     not_provided: &not_provided 'Not provided'
     not_applicable: &not_applicable 'n/a'
 
@@ -461,6 +463,7 @@ en:
           fee_type: Fee type
           quantity: Quantity
           rate: Rate
+          case_numbers: *case_numbers
           saf_prompt_text: Include any additional PCMH fees under SAF
         basic_fee_uncalculated_fields:
           quantity: Quantity
@@ -695,7 +698,7 @@ en:
           misc_fee_fields:
             miscellaneous_fee: 'Miscellaneous Fee'
             fee_type: "Fee type"
-            case_numbers: "Additional case numbers"
+            case_numbers: *case_numbers
             amount: "Total"
             remove: "Remove miscellaneous fee"
       financial_summary:

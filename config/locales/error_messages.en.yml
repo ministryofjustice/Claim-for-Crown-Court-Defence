@@ -951,7 +951,6 @@ fixed_fee:
       short: Whole number
       api: You must specify a whole number for this type of fee
 
-
   sub_type:
     _seq: 40
     blank:
@@ -996,6 +995,17 @@ fixed_fee:
       long: The fixed fee date must be no earlier than two years before the earliest representation order date
       short: *enter_valid_date
       api: The fixed fee date must be no earlier than two years before the earliest representation order date
+
+  case_numbers:
+      _seq: 70
+      invalid:
+        long: Enter valid case numbers for the Number of cases uplift
+        short: Enter valid case numbers
+        api: Enter valid case numbers for the Number of cases uplift
+      noc_qty_mismatch:
+        long: The number of case uplifts does not match the additional case numbers
+        short: Enter case numbers for each uplift
+        api: The number of case uplifts does not match the additional case numbers
 
 #################################################################################
 #                                                                               #

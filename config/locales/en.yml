@@ -667,6 +667,7 @@ en:
           fixed_fee: "Fixed fee"
           quantity: 'Quantity'
           rate: 'Rate'
+          case_numbers: *case_numbers
           no_dates: 'No dates currently selected.'
           fee_type: 'Type of fee'
           add_date_attended: 'Add dates'
@@ -1149,7 +1150,7 @@ en:
           quantity: 'REQUIRED/UNREQUIRED: The number of fees of this fee type that are being claimed (quantity x rate will equal amount). NB: Leave blank if not applicable'
           rate: 'REQUIRED/UNREQUIRED: The currency value per unit/quantity of the fee (quantity x rate will equal amount). NB: Leave blank for PPE and NPW fee types'
           amount: 'REQUIRED/UNREQUIRED: The total value of the fee. NB: Leave blank for fee types other than PPE/NPW or a Transfer Fee'
-          case_numbers: 'REQUIRED/UNREQUIRED: Required for Miscellaneous Fee of type Case Uplift. Leave blank for other types'
+          case_numbers: 'REQUIRED/UNREQUIRED: Required for Miscellaneous Fee of type Case Uplift (MIXUPL), Basic fee of type Number of cases uplift (BANOC) and Fixed fee of type Number of cases uplift (FXNOC). Leave blank for other types (Comma separated case numbers)'
           date: 'REQUIRED/UNREQUIRED: Required for LGFS Fixed Fee or LGFS Graduated Fee, otherwise leave blank (YYYY-MM-DD)'
           warrant_issued_date: 'REQUIRED/UNREQUIRED: Required for Interim fee of type Warrant, or a Warrant Fee, otherwise leave blank (YYYY-MM-DD)'
           warrant_executed_date: 'OPTIONAL: For Interim fee of type Warrant, or a Warrant Fee, otherwise leave blank (YYYY-MM-DD)'

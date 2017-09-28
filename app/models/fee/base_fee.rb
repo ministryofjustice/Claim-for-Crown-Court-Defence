@@ -39,6 +39,8 @@ module Fee
     belongs_to :fee_type, class_name: Fee::BaseFeeType
     belongs_to :sub_type, class_name: Fee::BaseFeeType
 
+    delegate :description, :case_uplift?, to: :fee_type
+
     has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 
     default_scope { includes(:fee_type) }
@@ -138,10 +140,6 @@ module Fee
 
     def present?
       !blank?
-    end
-
-    def description
-      fee_type.description
     end
 
     def clear

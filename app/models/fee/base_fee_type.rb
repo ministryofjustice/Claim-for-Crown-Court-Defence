@@ -59,6 +59,10 @@ module Fee
       type.sub(/Type$/, '')
     end
 
+    def case_uplift?
+      code.in?(%w[NOC XUPL])
+    end
+
     # utility methods for providing access to subclasses
 
     def self.basic

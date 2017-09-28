@@ -1,5 +1,6 @@
 require 'rails_helper'
 require_relative '../validation_helpers'
+require_relative 'shared_examples_for_fee_validators'
 
 describe Fee::BaseFeeValidator do
 
@@ -11,7 +12,6 @@ describe Fee::BaseFeeValidator do
   let(:daf_fee)    { FactoryGirl.build :basic_fee, :daf_fee, claim: claim }
   let(:dah_fee)    { FactoryGirl.build :basic_fee, :dah_fee, claim: claim }
   let(:daj_fee)    { FactoryGirl.build :basic_fee, :daj_fee, claim: claim }
-  let(:noc_fee)    { FactoryGirl.build :basic_fee, :noc_fee, claim: claim }
   let(:pcm_fee)    { FactoryGirl.build :basic_fee, :pcm_fee, claim: claim }
   let(:ppe_fee)    { FactoryGirl.build :basic_fee, :ppe_fee, claim: claim }
   let(:npw_fee)    { FactoryGirl.build :basic_fee, :npw_fee, claim: claim }
@@ -190,202 +190,169 @@ describe Fee::BaseFeeValidator do
       end
     end
 
-    context 'basic fee (BAF)' do
-      context 'when rate present' do
-        it 'should be valid with quantity of one' do
-          should_be_valid_if_equal_to_value(baf_fee, :quantity, 1)
-        end
+    context 'Basic fee types' do
+      context 'basic fee (BAF)' do
+        context 'when rate present' do
+          it 'should be valid with quantity of one' do
+            should_be_valid_if_equal_to_value(baf_fee, :quantity, 1)
+          end
 
-        it 'should raise numericality error when quantity not in range 0 to 1' do
-          [-1,2].each do |q|
-            should_error_if_equal_to_value(baf_fee, :quantity, q, 'baf_qty_numericality')
+          it 'should raise numericality error when quantity not in range 0 to 1' do
+            [-1,2].each do |q|
+              should_error_if_equal_to_value(baf_fee, :quantity, q, 'baf_qty_numericality')
+            end
+          end
+
+          it 'should raise invalid error when quantity is nil or 0' do
+            [nil,0].each do |q|
+              should_error_if_equal_to_value(baf_fee, :quantity, q, 'baf_invalid')
+            end
           end
         end
 
-        it 'should raise invalid error when quantity is nil or 0' do
-          [nil,0].each do |q|
-            should_error_if_equal_to_value(baf_fee, :quantity, q, 'baf_invalid')
+        context 'when rate NOT present' do
+          before(:each) { baf_fee.rate = 0 }
+
+          it 'should be valid when quantity is zero' do
+            should_be_valid_if_equal_to_value(baf_fee, :quantity, 0)
+          end
+
+          it 'should raise invalid RATE error when quantity is one' do
+            baf_fee.quantity = 1
+            expect(baf_fee.valid?).to be false
+            expect(baf_fee.errors[:rate]).to include('invalid')
           end
         end
       end
 
-      context 'when rate NOT present' do
-        before(:each) { baf_fee.rate = 0 }
-
-        it 'should be valid when quantity is zero' do
-          should_be_valid_if_equal_to_value(baf_fee, :quantity, 0)
+      context 'daily_attendance_3_40 (DAF)' do
+        context 'trial length less than three days' do
+          it 'should error if trial length is less than three days' do
+            daf_fee.claim.actual_trial_length = 2
+            should_error_if_equal_to_value(daf_fee, :quantity, 1, 'daf_qty_mismatch')
+          end
         end
 
-        it 'should raise invalid RATE error when quantity is one' do
-          baf_fee.quantity = 1
-          expect(baf_fee.valid?).to be false
-          expect(baf_fee.errors[:rate]).to include('invalid')
+        context 'trial length greater than three days' do
+          it 'should error if quantity greater than 38 regardless of actual trial length' do
+            daf_fee.claim.actual_trial_length = 45
+            should_error_if_equal_to_value(daf_fee, :quantity, 39, 'daf_qty_mismatch')
+          end
+
+          it 'should error if quantity greater than actual trial length less 2 days' do
+            daf_fee.claim.actual_trial_length = 20
+            should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
+          end
+
+          it 'should not error if quantity is valid' do
+            daf_fee.claim.actual_trial_length = 20
+            should_be_valid_if_equal_to_value(daf_fee, :quantity, 17)
+            should_be_valid_if_equal_to_value(daf_fee, :quantity, 10)
+          end
         end
+
+        it 'should validate based on retrial length for retrials' do
+            daf_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
+            daf_fee.claim.actual_trial_length = 2
+            daf_fee.claim.retrial_actual_length = 20
+            should_be_valid_if_equal_to_value(daf_fee, :quantity, 18)
+            should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
+        end
+      end
+
+      context 'daily_attendance_41_50 (DAH)' do
+        it 'should error if trial length is less than 40 days' do
+            dah_fee.claim.actual_trial_length = 35
+            should_error_if_equal_to_value(dah_fee, :quantity, 2, 'dah_qty_mismatch')
+        end
+
+        context 'trial length greater than 40 days' do
+          it 'should error if greater than trial length less 40 days' do
+            dah_fee.claim.actual_trial_length = 45
+            should_error_if_equal_to_value(dah_fee, :quantity, 6, 'dah_qty_mismatch')
+          end
+
+          it 'should error if greater than 10 days regardless of actual trial length' do
+            dah_fee.claim.actual_trial_length = 70
+            should_error_if_equal_to_value(dah_fee, :quantity, 12, 'dah_qty_mismatch')
+          end
+
+          it 'should not error if valid' do
+            dah_fee.claim.actual_trial_length = 55
+            should_be_valid_if_equal_to_value(dah_fee, :quantity, 1)
+            should_be_valid_if_equal_to_value(dah_fee, :quantity, 10)
+          end
+        end
+
+        it 'should validate based on retrial length for retrials' do
+            dah_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
+            dah_fee.claim.actual_trial_length = 2
+            dah_fee.claim.retrial_actual_length = 45
+            should_be_valid_if_equal_to_value(dah_fee, :quantity, 5)
+            should_error_if_equal_to_value(dah_fee, :quantity, 6, 'dah_qty_mismatch')
+        end
+      end
+
+      context 'daily attendance 51 plus (DAJ)' do
+        context 'trial length less than 51 days' do
+          it 'should error if trial length is less than 51 days' do
+            daj_fee.claim.actual_trial_length = 50
+            should_error_if_equal_to_value(daj_fee, :quantity, 2, 'daj_qty_mismatch')
+          end
+        end
+
+        context 'trial length greater than 50 days' do
+          it 'should error if greater than trial length less 50 days' do
+            daj_fee.claim.actual_trial_length = 55
+            should_error_if_equal_to_value(daj_fee, :quantity, 6, 'daj_qty_mismatch')
+          end
+
+          it 'should not error if valid' do
+            daj_fee.claim.actual_trial_length = 60
+            should_be_valid_if_equal_to_value(daj_fee, :quantity, 1)
+            should_be_valid_if_equal_to_value(daj_fee, :quantity, 10)
+          end
+        end
+
+        it 'should validate based on retrial length for retrials' do
+            daj_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
+            daj_fee.claim.actual_trial_length = 2
+            daj_fee.claim.retrial_actual_length = 70
+            should_be_valid_if_equal_to_value(daj_fee, :quantity, 20)
+            should_error_if_equal_to_value(daj_fee, :quantity, 21, 'daj_qty_mismatch')
+        end
+      end
+
+      context 'plea and case management hearing (PCM)' do
+        context 'permitted case type' do
+          before(:each) do
+            claim.case_type = FactoryGirl.build :case_type, :allow_pcmh_fee_type
+          end
+          it { should_error_if_equal_to_value(pcm_fee, :quantity, 0, 'pcm_invalid') }
+          it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'pcm_numericality') }
+          it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 3) }
+          it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }
+        end
+
+        context 'unpermitted case type' do
+          before(:each) do
+            claim.case_type = FactoryGirl.build :case_type
+          end
+          it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_not_applicable') }
+          it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'pcm_not_applicable') }
+        end
+      end
+
+      context 'number of cases uplift (BANOC)' do
+        let(:noc_fee) { build :basic_fee, :noc_fee, claim: claim }
+        include_examples 'common AGFS number of cases uplift validations'
       end
     end
 
-    context 'daily_attendance_3_40 (DAF)' do
-      context 'trial length less than three days' do
-        it 'should error if trial length is less than three days' do
-          daf_fee.claim.actual_trial_length = 2
-          should_error_if_equal_to_value(daf_fee, :quantity, 1, 'daf_qty_mismatch')
-        end
-      end
-
-      context 'trial length greater than three days' do
-        it 'should error if quantity greater than 38 regardless of actual trial length' do
-          daf_fee.claim.actual_trial_length = 45
-          should_error_if_equal_to_value(daf_fee, :quantity, 39, 'daf_qty_mismatch')
-        end
-
-        it 'should error if quantity greater than actual trial length less 2 days' do
-          daf_fee.claim.actual_trial_length = 20
-          should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
-        end
-
-        it 'should not error if quantity is valid' do
-          daf_fee.claim.actual_trial_length = 20
-          should_be_valid_if_equal_to_value(daf_fee, :quantity, 17)
-          should_be_valid_if_equal_to_value(daf_fee, :quantity, 10)
-        end
-      end
-
-      it 'should validate based on retrial length for retrials' do
-          daf_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
-          daf_fee.claim.actual_trial_length = 2
-          daf_fee.claim.retrial_actual_length = 20
-          should_be_valid_if_equal_to_value(daf_fee, :quantity, 18)
-          should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
-      end
-    end
-
-    context 'daily_attendance_41_50 (DAH)' do
-      it 'should error if trial length is less than 40 days' do
-          dah_fee.claim.actual_trial_length = 35
-          should_error_if_equal_to_value(dah_fee, :quantity, 2, 'dah_qty_mismatch')
-      end
-
-      context 'trial length greater than 40 days' do
-        it 'should error if greater than trial length less 40 days' do
-          dah_fee.claim.actual_trial_length = 45
-          should_error_if_equal_to_value(dah_fee, :quantity, 6, 'dah_qty_mismatch')
-        end
-
-        it 'should error if greater than 10 days regardless of actual trial length' do
-          dah_fee.claim.actual_trial_length = 70
-          should_error_if_equal_to_value(dah_fee, :quantity, 12, 'dah_qty_mismatch')
-        end
-
-        it 'should not error if valid' do
-          dah_fee.claim.actual_trial_length = 55
-          should_be_valid_if_equal_to_value(dah_fee, :quantity, 1)
-          should_be_valid_if_equal_to_value(dah_fee, :quantity, 10)
-        end
-      end
-
-      it 'should validate based on retrial length for retrials' do
-          dah_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
-          dah_fee.claim.actual_trial_length = 2
-          dah_fee.claim.retrial_actual_length = 45
-          should_be_valid_if_equal_to_value(dah_fee, :quantity, 5)
-          should_error_if_equal_to_value(dah_fee, :quantity, 6, 'dah_qty_mismatch')
-      end
-    end
-
-    context 'daily attendance 51 plus (DAJ)' do
-      context 'trial length less than 51 days' do
-        it 'should error if trial length is less than 51 days' do
-          daj_fee.claim.actual_trial_length = 50
-          should_error_if_equal_to_value(daj_fee, :quantity, 2, 'daj_qty_mismatch')
-        end
-      end
-
-      context 'trial length greater than 50 days' do
-        it 'should error if greater than trial length less 50 days' do
-          daj_fee.claim.actual_trial_length = 55
-          should_error_if_equal_to_value(daj_fee, :quantity, 6, 'daj_qty_mismatch')
-        end
-
-        it 'should not error if valid' do
-          daj_fee.claim.actual_trial_length = 60
-          should_be_valid_if_equal_to_value(daj_fee, :quantity, 1)
-          should_be_valid_if_equal_to_value(daj_fee, :quantity, 10)
-        end
-      end
-
-      it 'should validate based on retrial length for retrials' do
-          daj_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
-          daj_fee.claim.actual_trial_length = 2
-          daj_fee.claim.retrial_actual_length = 70
-          should_be_valid_if_equal_to_value(daj_fee, :quantity, 20)
-          should_error_if_equal_to_value(daj_fee, :quantity, 21, 'daj_qty_mismatch')
-      end
-    end
-
-    context 'plea and case management hearing (PCM)' do
-      context 'permitted case type' do
-        before(:each) do
-          claim.case_type = FactoryGirl.build :case_type, :allow_pcmh_fee_type
-        end
-        it { should_error_if_equal_to_value(pcm_fee, :quantity, 0, 'pcm_invalid') }
-        it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'pcm_numericality') }
-        it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 3) }
-        it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }
-      end
-
-      context 'unpermitted case type' do
-        before(:each) do
-          claim.case_type = FactoryGirl.build :case_type
-        end
-        it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_not_applicable') }
-        it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'pcm_not_applicable') }
-      end
-    end
-
-    context 'number of cases uplift (NOC)' do
-      # TODO: require presence once impact on API consumers can be mitigated by comms with vendors
-      it 'should NOT error if case_numbers is blank (for now)' do
-        should_not_error(noc_fee, :case_numbers)
-      end
-
-      it 'should error if single case number is invalid' do
-        should_error_if_equal_to_value(noc_fee, :case_numbers, '123', 'invalid')
-      end
-
-      it 'should be valid for a single valid format of case number' do
-        noc_fee.case_numbers = 'A20161234'
-        should_not_error(noc_fee, :case_numbers)
-      end
-
-      it 'should error if any case number is invalid' do
-        noc_fee.case_numbers = 'A20161234,Z123,A20158888'
-        should_error_with(noc_fee, :case_numbers, 'invalid')
-      end
-
-      it 'should error if quantity and number of additional cases do not match' do
-        noc_fee.case_numbers = 'A20161234 , A20158888'
-        should_error_with(noc_fee, :case_numbers, 'noc_qty_mismatch')
-      end
-
-      context 'with more than one case uplift' do
-        before do
-          noc_fee.quantity = 2
-        end
-
-        it 'should be valid for several case numbers' do
-          noc_fee.case_numbers = 'A20161234,A20158888'
-          should_not_error(noc_fee, :case_numbers)
-        end
-
-        it 'should be valid for several case numbers with spaces between them' do
-          noc_fee.case_numbers = 'A20161234 , A20158888'
-          should_not_error(noc_fee, :case_numbers)
-        end
-
-        it 'should error if number of cases provided does not match the quantity claimed' do
-          noc_fee.case_numbers = 'A20161234'
-          should_error_with(noc_fee, :case_numbers, 'noc_qty_mismatch')
-        end
+    context 'Fixed fee types' do
+      context 'number of cases uplift (FXNOC)' do
+        let(:noc_fee) { build :fixed_fee, :noc_fee, claim: claim }
+        include_examples 'common AGFS number of cases uplift validations'
       end
     end
 

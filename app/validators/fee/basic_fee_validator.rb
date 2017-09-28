@@ -1,6 +1,6 @@
 module Fee
   class BasicFeeValidator < Fee::BaseFeeValidator
-    include Concerns::Agfs::CaseNumbersValidator
+    include Concerns::CaseNumbersValidator
 
     def self.fields
       %i[

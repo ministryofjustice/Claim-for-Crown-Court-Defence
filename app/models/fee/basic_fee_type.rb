@@ -28,8 +28,4 @@ class Fee::BasicFeeType < Fee::BaseFeeType
   def fee_category_name
     'Basic Fees'
   end
-
-  def case_uplift?
-    code == 'NOC'
-  end
 end

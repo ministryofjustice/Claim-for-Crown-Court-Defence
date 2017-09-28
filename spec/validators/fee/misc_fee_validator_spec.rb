@@ -62,7 +62,7 @@ describe Fee::MiscFeeValidator do
 
       context 'for a Case Uplift fee type' do
         before(:each) do
-          allow(fee.fee_type).to receive(:case_uplift?).and_return(true)
+          allow(fee.fee_type).to receive(:code).and_return 'XUPL'
         end
 
         it 'should error if case_numbers is blank' do

@@ -47,7 +47,6 @@ describe Fee::FixedFeeValidator do
         end
       end
 
-
       context 'claim has a graduated fee case type' do
         let(:claim) { build(:litigator_claim, case_type: build(:case_type, :graduated_fee)) }
 
@@ -62,7 +61,6 @@ describe Fee::FixedFeeValidator do
         end
       end
     end
-
 
     context 'override validation of fields from the superclass validator' do
       let(:superclass) { described_class.superclass }

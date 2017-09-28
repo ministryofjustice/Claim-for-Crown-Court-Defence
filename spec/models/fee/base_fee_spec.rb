@@ -27,9 +27,12 @@ module Fee
   class FeeDouble < Fee::BaseFee
   end
 
+  class FeeTypeDouble < Fee::BaseFeeType
+  end
+
   RSpec.describe Fee::FeeDouble, type: :model do
 
-    let(:subject)   { FeeDouble.new }
+    let(:subject) { FeeDouble.new }
 
     it { should belong_to(:claim) }
     it { should have_many(:dates_attended) }
@@ -47,6 +50,28 @@ module Fee
         fee = create :fixed_fee, :lgfs, amount: nil, rate: 2, quantity: 150
         fee.save!
         expect(fee.amount).to eq 300.0
+      end
+    end
+
+    context 'delegations' do
+      let(:fee_type) { FeeTypeDouble.new }
+
+      before do
+        allow(subject).to receive(:fee_type).and_return fee_type
+      end
+
+      describe '#description' do
+        it 'is delegated to fee type' do
+          expect(fee_type).to receive(:description)
+          subject.description
+        end
+      end
+
+      describe '#case_uplift?' do
+        it 'is delegated to fee type' do
+          expect(fee_type).to receive(:case_uplift?)
+          subject.case_uplift?
+        end
       end
     end
 
@@ -141,6 +166,8 @@ module Fee
         expect { BaseFee.new }.to raise_error(Fee::BaseFeeAbstractClassError)
       end
     end
+
+
 
     describe '#calculate_amount' do
       context 'agfs claims' do

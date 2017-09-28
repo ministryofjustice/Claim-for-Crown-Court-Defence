@@ -34,6 +34,10 @@ FactoryGirl.define do
       amount 25
       date 3.days.ago
     end
+
+    trait :noc_fee do
+      fee_type { build :fixed_fee_type, description: 'Number of cases uplift', code: 'NOC', unique_code: 'FXNOC', calculated: true }
+    end
   end
 
   factory :misc_fee, class: Fee::MiscFee do

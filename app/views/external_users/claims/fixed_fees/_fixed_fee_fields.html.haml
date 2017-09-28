@@ -8,7 +8,13 @@
         %label.form-label
           = t('.fee_type')
         %a{id: "fixed_fee_#{@fixed_fee_count}_fee_type"}
-        = f.collection_select :fee_type_id, @claim.eligible_fixed_fee_types, :id, :description, { include_blank: ''.html_safe }, {class: 'form-control typeahead', style: 'width:400px'}
+
+        - fixed_fee_types_collection = present_collection(@claim.eligible_fixed_fee_types)
+        = f.select :fee_type_id,
+            fixed_fee_types_collection.map { |fee| [fee.description, fee.id, { data: fee.data_attributes }]},
+            { include_blank: ''.html_safe },
+            {class: 'form-control typeahead js-misc-fee-type', style: 'width:100%'}
+
         = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")
 
       .column-one-quarter.fee-quantity
@@ -28,12 +34,22 @@
                             value: number_with_precision(f.object.rate, precision: 2)
 
     .grid-row
+      .column-one-third
+        = f.adp_text_field :case_numbers,
+                    label: t('.case_numbers'),
+                    input_classes:'js-basic-fee-case-numbers',
+                    hint_text:'Separate by commas',
+                    errors: @error_presenter
+
       .column-one-third.fee-total
-        %label.form-label Total
+        %br/
+        %br/
+        %label.form-label
+          = "Total"
         %span.total{data: {'total': fee.amount ||= 0}}
           = fee.amount ||= 0
 
-    .grid-row.fee-dates-row
+    .grid-row
 
       %label.form-label Dates
 

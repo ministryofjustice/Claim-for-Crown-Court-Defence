@@ -110,8 +110,6 @@ GEM
     connection_pool (2.2.1)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    css_parser (1.5.0)
-      addressable
     cucumber (2.4.0)
       builder (>= 2.1.2)
       cucumber-core (~> 1.5.0)
@@ -265,7 +263,6 @@ GEM
       haml (>= 4.0, < 6)
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
-    htmlentities (4.3.4)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     http_parser.rb (0.6.0)
@@ -380,13 +377,6 @@ GEM
     polyamorous (1.1.0)
       activerecord (>= 3.0)
     powerpack (0.1.1)
-    premailer (1.10.4)
-      addressable
-      css_parser (>= 1.4.10)
-      htmlentities (>= 4.0.0)
-    premailer-rails (1.9.7)
-      actionmailer (>= 3, < 6)
-      premailer (~> 1.7, >= 1.7.9)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -681,7 +671,6 @@ DEPENDENCIES
   parallel_tests
   pg (~> 0.18.2)
   poltergeist (~> 1.9.0)
-  premailer-rails (~> 1.9)
   pry-byebug
   pry-rails
   quiet_assets

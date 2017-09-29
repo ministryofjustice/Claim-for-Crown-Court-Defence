@@ -134,6 +134,24 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
         post :create, case_worker_params
         expect(response).to redirect_to(case_workers_admin_case_workers_url)
       end
+
+      it 'attempts to deliver an email' do
+        expect(DeviseMailer).to receive(:reset_password_instructions)
+        post :create, case_worker_params
+      end
+
+      describe 'if there is an issue with delivering the email' do
+        let(:mailer) { double DeviseMailer }
+
+        before do
+          allow(DeviseMailer).to receive(:reset_password_instructions).and_raise(NoMethodError)
+        end
+
+        it 'raises an error' do
+          expect(Rails.logger).to receive(:error).with(/DEVISE MAILER ERROR: 'NoMethodError' while sending reset password mail/)
+          post :create, case_worker_params
+        end
+      end
     end
 
     context 'when invalid' do

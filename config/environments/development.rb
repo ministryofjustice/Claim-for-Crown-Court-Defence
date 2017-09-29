@@ -73,8 +73,8 @@ Rails.application.configure do
 
 
   # normal dev mail configuration
-  config.action_mailer.perform_deliveries = false
-  config.action_mailer.delivery_method = :file
+  config.action_mailer.perform_deliveries = Settings.govuk_notify.api_key.present?
+  config.action_mailer.raise_delivery_errors = true
 
   # config for sending mails from dev
   # config.action_mailer.perform_deliveries = true

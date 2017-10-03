@@ -4,7 +4,7 @@ class NotifyMailer < GovukNotifyRails::Mailer
   # This is just an example:
   #
   def message_added_email(claim)
-    user = claim.external_user.user
+    user = claim.creator.user
 
     set_template(Settings.govuk_notify.templates.message_added_email)
     set_personalisation(

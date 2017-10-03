@@ -81,6 +81,14 @@ When(/^I add a basic fee with dates attended$/) do
   # @claim_form_page.initial_fees.basic_fee_dates.to.set_date "2016-01-03"
 end
 
+When(/^I add a number of cases uplift fee with additional case numbers$/) do
+  using_wait_time 6 do
+    @claim_form_page.initial_fees.number_of_cases_uplift.quantity.set "1"
+    @claim_form_page.initial_fees.number_of_cases_uplift.rate.set "200.00"
+    @claim_form_page.initial_fees.number_of_cases_uplift.case_numbers.set "A20170001"
+  end
+end
+
 When(/^I add a daily attendance fee with dates attended$/) do
   @claim_form_page.initial_fees.daily_attendance_fee_3_to_40.quantity.set "4"
   @claim_form_page.initial_fees.daily_attendance_fee_3_to_40.rate.set "45.77"
@@ -100,9 +108,18 @@ When(/^I add a miscellaneous fee '(.*?)' with dates attended$/) do |name|
 end
 
 When(/^I add a fixed fee '(.*?)'$/) do |name|
+  @claim_form_page.add_fixed_fee_if_required
   @claim_form_page.fixed_fees.last.select_fee_type name
   @claim_form_page.fixed_fees.last.quantity.set 1
   @claim_form_page.fixed_fees.last.rate.set "12.34"
+end
+
+Then(/^I add a fixed fee '(.*?)' with case numbers$/) do |name|
+  @claim_form_page.add_fixed_fee_if_required
+  @claim_form_page.fixed_fees.last.select_fee_type name
+  @claim_form_page.fixed_fees.last.quantity.set 1
+  @claim_form_page.fixed_fees.last.rate.set "10.00"
+  @claim_form_page.fixed_fees.last.case_numbers.set "T20170001"
 end
 
 When(/^I upload (\d+) documents?$/) do |count|

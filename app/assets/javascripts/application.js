@@ -83,10 +83,10 @@ if (!String.prototype.supplant) {
     var insertedSelect = $insertedItem.find('select.typeahead');
     var typeaheadWrapper = $insertedItem.find('.js-typeahead');
 
+
     moj.Modules.Autocomplete.typeaheadKickoff(insertedSelect);
     moj.Modules.Autocomplete.typeaheadBindEvents(typeaheadWrapper);
-    moj.Modules.MiscFeeFieldsDisplay.addMiscFeeChangeEvent(typeaheadWrapper);
-    moj.Modules.FixedFeeFieldsDisplay.addFixedFeeChangeEvent(typeaheadWrapper);
+    moj.Modules.FeeFieldsDisplay.addFeeChangeEvent($insertedItem.find('.fx-fee-group'))
   });
 
   //Stops the form from submitting when the user presses 'Enter' key

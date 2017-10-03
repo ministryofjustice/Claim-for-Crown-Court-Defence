@@ -31,7 +31,7 @@
     - if f.object.fee_type.case_uplift?
       = f.adp_text_field :case_numbers,
                         label: t('.case_numbers'),
-                        input_classes:'js-basic-fee-case-numbers',
+                        input_classes:'js-basic-fee-case-numbers fx-fee-case-numbers',
                         hint_text:'Separate by commas',
                         errors: @error_presenter
 

@@ -2,7 +2,7 @@
 %fieldset
   %legend.visuallyhidden
     = t('.fixed_fee')
-  .form-group.fixed-fee-group.nested-fields.js-block{data:{type:"fees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
+  .form-group.fixed-fee-group.nested-fields.js-block.fx-fee-group{data:{type:"fees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
     .grid-row.js-typeahead
       .column-one-half.fee-type{class: error_class?(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")}
         %label.form-label
@@ -13,7 +13,7 @@
         = f.select :fee_type_id,
             fixed_fee_types_collection.map { |fee| [fee.description, fee.id, { data: fee.data_attributes }]},
             { include_blank: ''.html_safe },
-            {class: 'form-control typeahead js-fixed-fee-type', style: 'width:100%'}
+            {class: 'form-control typeahead js-fixed-fee-type js-fee-type', style: 'width:100%'}
 
         = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")
 
@@ -37,7 +37,7 @@
       .column-one-third
         = f.adp_text_field :case_numbers,
                     label: t('.case_numbers'),
-                    input_classes:'js-fixed-fee-case-numbers',
+                    input_classes:'js-fixed-fee-case-numbers fx-fee-case-numbers',
                     hint_text:'Separate by commas',
                     errors: @error_presenter
 

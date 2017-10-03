@@ -27,12 +27,15 @@ exclude_paths: # customize
 - app/assets/images/
 - app/assets/javascripts/vendor/
 - app/assets/stylesheets/vendor/
+- "**/vendor/"
 - bin/rails
 - bin/rake
 - doc/
 - files/
 - public/
 - spec/
+- features/
+- old_features/
 - tmp/
 - app/interfaces/api/entities/*
 - app/interfaces/api/v1/*

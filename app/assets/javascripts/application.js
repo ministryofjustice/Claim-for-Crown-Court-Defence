@@ -86,6 +86,7 @@ if (!String.prototype.supplant) {
     moj.Modules.Autocomplete.typeaheadKickoff(insertedSelect);
     moj.Modules.Autocomplete.typeaheadBindEvents(typeaheadWrapper);
     moj.Modules.MiscFeeFieldsDisplay.addMiscFeeChangeEvent(typeaheadWrapper);
+    moj.Modules.FixedFeeFieldsDisplay.addFixedFeeChangeEvent(typeaheadWrapper);
   });
 
   //Stops the form from submitting when the user presses 'Enter' key

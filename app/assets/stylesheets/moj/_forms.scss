@@ -235,6 +235,9 @@ select.form-control {
   .form-control.js-basic-fee-case-numbers{
     width:100%;
   }
+  .form-control.js-fixed-fee-case-numbers{
+    width:100%;
+  }
   @include clearfix;
   .fee-dates-row{
     margin-top: -65px;

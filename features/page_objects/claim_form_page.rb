@@ -1,4 +1,5 @@
 require_relative 'sections/common_date_section'
+require_relative 'sections/fee_case_numbers_section'
 require_relative 'sections/fee_dates_section'
 require_relative 'sections/fee_section'
 require_relative 'sections/typed_fee_section'
@@ -54,7 +55,7 @@ class ClaimFormPage < SitePrism::Page
     section :plea_and_case_management_hearing, FeeSection, ".basic-fee-group.plea-and-case-management-hearing"
     section :conferences_and_views, FeeSection, ".basic-fee-group.conferences-and-views"
     section :number_of_defendants_uplift, FeeSection, ".basic-fee-group.number-of-defendants-uplift"
-    section :number_of_cases_uplift, FeeSection, ".basic-fee-group.number-of-cases-uplift"
+    section :number_of_cases_uplift, FeeCaseNumbersSection, ".basic-fee-group.number-of-cases-uplift"
   end
 
   sections :miscellaneous_fees, TypedFeeSection, "div#misc-fees .misc-fee-group"
@@ -97,6 +98,12 @@ class ClaimFormPage < SitePrism::Page
 
   def select_offence_class(name)
     select name, from: "offence_class_description", autocomplete: false
+  end
+
+  def add_fixed_fee_if_required
+    if fixed_fees.last.populated?
+      add_another_fixed_fee.trigger "click"
+    end
   end
 
   def add_misc_fee_if_required

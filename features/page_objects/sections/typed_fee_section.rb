@@ -5,7 +5,7 @@ class TypedFeeSection < SitePrism::Section
   element :quantity, "input.quantity"
   element :rate, "input.rate"
   element :amount, nil
-  element :case_numbers, "input.js-misc-fee-case-numbers"
+  element :case_numbers, "input.fx-fee-case-numbers"
   element :add_dates, ".fee-dates-row > a"
   section :dates, FeeDatesSection, ".fee-dates"
 

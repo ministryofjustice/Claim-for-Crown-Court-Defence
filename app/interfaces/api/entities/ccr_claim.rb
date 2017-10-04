@@ -106,7 +106,7 @@ module API
           conferences_and_views_at: nil, # CCR required only - CAV record/instance date, not available in CCCD. could be removed if CCR can default
           calculatedFee: {
             basicCaseFee: 0.0,
-            date: object.last_submitted_at.strftime('%Y-%m-%d %H:%M:%S'),
+            date: object.last_submitted_at&.strftime('%Y-%m-%d %H:%M:%S'),
             defendantUplift: 0.0,
             exVat: 0.0,
             incVat: 0.0,

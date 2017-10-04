@@ -143,6 +143,7 @@ Rails.application.routes.draw do
       get 'show_message_controls', on: :member
       get 'messages', on: :member
       get 'archived', on: :collection
+      get 'download_zip', on: :member
     end
 
     namespace :admin do

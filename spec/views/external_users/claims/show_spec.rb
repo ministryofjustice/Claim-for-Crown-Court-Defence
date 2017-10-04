@@ -31,6 +31,10 @@ describe 'external_users/claims/show.html.haml', type: :view do
         expect(rendered).to have_selector('li', text: 'Representation order')
         expect(rendered).to have_selector('li', text: 'Justification for out of time claim')
       end
+
+      it 'does not display a `download all` link' do
+        expect(rendered).to_not have_link('Download all')
+      end
     end
 
     describe 'basic claim information' do

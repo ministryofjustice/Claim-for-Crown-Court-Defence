@@ -46,7 +46,7 @@ describe API::V2::CCRClaim do
   end
 
   describe 'GET /ccr/claim/:uuid?api_key=:api_key' do
-    it 'should return 406 Not Acceptable if requested API version via header is not supported' do
+    it 'returns 406, Not Acceptable, if requested API version (via header) is not supported' do
       header 'Accept-Version', 'v1'
 
       do_request
@@ -61,17 +61,17 @@ describe API::V2::CCRClaim do
     end
 
     context 'claim not found' do
-      it 'should respond not found when claim is not found' do
+      it 'respond not found when claim is not found' do
         do_request(claim_uuid: '123-456-789')
         expect(last_response.status).to eq 404
         expect(last_response.body).to include('Claim not found')
       end
     end
 
-    context 'should return CCR compatible JSON' do
+    context 'JSON response' do
       subject(:response) { do_request }
 
-      it 'should be valid against CCR claim JSON schema' do
+      it 'valid against CCR claim JSON schema' do
         expect(response).to be_valid_ccr_claim_json
       end
     end
@@ -207,13 +207,13 @@ describe API::V2::CCRClaim do
           end
         end
 
-        context 'number of cases' do
+        context 'number of cases uplifts' do
           subject(:response) do
             do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
           end
 
           before do
-            create(:basic_fee, :noc_fee, claim: claim, quantity: 2)
+            create(:basic_fee, :noc_fee, claim: claim, quantity: 2, case_numbers: 'T20170001,T20170002')
           end
 
           it 'property included' do

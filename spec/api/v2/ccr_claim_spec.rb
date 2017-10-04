@@ -202,7 +202,29 @@ describe API::V2::CCRClaim do
           end
         end
 
-        context 'number of proseution witnesses' do
+       context 'case numbers' do
+          subject(:response) do
+            do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+          end
+
+          let(:claim) { create(:authorised_claim) }
+
+          before do
+            create(:basic_fee, :noc_fee, claim: claim, quantity: 2, case_numbers: 'T20172765, T20172766')
+          end
+
+          it 'includes number of cases' do
+            expect(response).to have_json_path("bills/0/case_numbers")
+            expect(response).to have_json_type(String).at_path "bills/0/case_numbers"
+          end
+
+          it 'taken from the basic fee - number of case uplifts\' case_numbers attribute' do
+            # binding.pry
+            expect(response).to be_json_eql("T20172765, T20172766".to_json).at_path "bills/0/case_numbers"
+          end
+        end
+
+        context 'number of prosecution witnesses' do
           subject(:response) do
             do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
           end

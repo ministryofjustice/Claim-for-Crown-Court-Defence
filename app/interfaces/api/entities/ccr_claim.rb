@@ -51,8 +51,12 @@ module API
         ::CCR::AdvocateCategoryAdapter.code_for(object.advocate_category) if object.advocate_category.present?
       end
 
+      def fee_for(fee_type_unique_code)
+        object.fees.find_by(fee_type_id: ::Fee::BaseFeeType.find_by_id_or_unique_code(fee_type_unique_code))
+      end
+
       def fee_quantity_for(fee_type_unique_code)
-        object.fees.find_by(fee_type_id: ::Fee::BaseFeeType.find_by_id_or_unique_code(fee_type_unique_code))&.quantity.to_i
+        fee_for(fee_type_unique_code)&.quantity.to_i
       end
 
       def pages_of_prosecution_evidence
@@ -66,6 +70,10 @@ module API
       # every claim is based on one case (i.e. see case number) but may involve others
       def number_of_cases
         fee_quantity_for('BANOC') + 1
+      end
+
+      def additional_case_numbers
+        fee_for('BANOC')&.case_numbers
       end
 
       def daily_attendances
@@ -91,6 +99,7 @@ module API
           rate: 0.0,
           ppe: pages_of_prosecution_evidence,
           number_of_cases: number_of_cases,
+          case_numbers: additional_case_numbers,
           number_of_witnesses: number_of_witnesses,
           daily_attendances: daily_attendances,
           conferences_and_views_refno: 0, # CCR required only - CAV record/instance number/occurence - could be removed if CCR defaults to 0

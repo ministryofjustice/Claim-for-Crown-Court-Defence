@@ -21,14 +21,14 @@ module Fee
       # but this SHOULD change for CCR compatability.
       #
 
-      delegate :case_uplift?, :case_numbers, :quantity, :fee_type, to: :@record
+      delegate :case_uplift?, :case_numbers, :quantity, :fee_type, :claim, to: :@record
 
       def validate_case_numbers
         return if fee_type&.unique_code.nil?
 
         if case_uplift?
-          validate_presence(:case_numbers, 'blank') if fee_type.lgfs?
-          validate_quantity_case_number_mismatch if fee_type.agfs?
+          validate_presence(:case_numbers, 'blank') if quantity.to_i.positive?
+          validate_case_numbers_quantity_mismatch if fee_type.agfs?
 
           # TODO: extract logic to simplify
           # validate_case_numbers_presence
@@ -41,13 +41,13 @@ module Fee
       end
 
       # def validate_case_numbers_presence
-      #   validate_presence(:case_numbers, 'blank') if fee_code == 'XUPL' || quantity.to_i.positive?
+      #   validate_presence(:case_numbers, 'blank') if quantity.to_i.positive?
       # end
 
-      # def validate_case_numbers_quantity_mismatch
-      #   return if case_numbers.blank? || fee_code != 'NOC'
-      #   add_error(:case_numbers, 'noc_qty_mismatch') if case_numbers.split(',').size != quantity
-      # end
+      def validate_case_numbers_quantity_mismatch
+        return if case_numbers.blank?
+        add_error(:case_numbers, 'noc_qty_mismatch') if case_numbers.split(',').size != quantity
+      end
 
       def validate_each_case_number
         return if case_numbers.blank?

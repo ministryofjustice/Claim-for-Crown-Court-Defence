@@ -167,8 +167,6 @@ module Fee
       end
     end
 
-
-
     describe '#calculate_amount' do
       context 'agfs claims' do
         let(:claim) { build :advocate_claim }

@@ -25,7 +25,6 @@ FactoryGirl.define do
     quantity_is_decimal false
     unique_code { generate_unique_code }
 
-
     trait :ppe do
       description 'Pages of prosecution evidence'
       code 'PPE'
@@ -36,6 +35,11 @@ FactoryGirl.define do
       description 'Number of prosecution witnesses'
       code 'NPW'
       calculated false
+    end
+
+    trait :noc do
+      description 'Number of cases uplift'
+      code 'NOC'
     end
 
     trait :lgfs do

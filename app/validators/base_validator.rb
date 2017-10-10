@@ -90,7 +90,7 @@ class BaseValidator < ActiveModel::Validator
 
   def validate_pattern(attribute, pattern, message)
     return if attr_blank?(attribute)
-    add_error(attribute, message) unless @record.__send__(attribute).match(pattern)
+    add_error(attribute, message) unless @record.__send__(attribute).match?(pattern)
   end
 
   def validate_inclusion(attribute, inclusion_list, message)

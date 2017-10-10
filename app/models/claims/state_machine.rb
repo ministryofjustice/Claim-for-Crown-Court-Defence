@@ -40,7 +40,7 @@ module Claims
     # will return true if there is a constant defined in this class with the same name
     # in upper case as method with the trailing question mark removed
     def self.has_state?(method)
-      return false unless method =~ /\?$/
+      return false unless method.match?(/\?$/)
       const_defined?("#{method.to_s.chop.upcase}_STATES")
     end
 

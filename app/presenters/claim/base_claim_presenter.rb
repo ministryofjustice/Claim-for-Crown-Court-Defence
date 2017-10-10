@@ -54,7 +54,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def retrial
-    claim.case_type.name =~ /retrial/i ? 'Yes' : 'No'
+    claim.case_type.name.match?(/retrial/i) ? 'Yes' : 'No'
   rescue
     ''
   end

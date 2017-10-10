@@ -58,6 +58,6 @@ module StringExtension
   end
 
   def first_char_or_number(word)
-    word =~ /\A\d+\z/ ? word : word.gsub(/\W+/, '').chr
+    word.match?(/\A\d+\z/) ? word : word.gsub(/\W+/, '').chr
   end
 end

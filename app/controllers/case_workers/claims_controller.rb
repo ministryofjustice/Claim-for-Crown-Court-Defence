@@ -33,12 +33,10 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     zipper = S3ZipDownloader.new(@claim)
     zip_file = zipper.generate!
 
-    send_data zip_file,
-              filename: "#{@claim.case_number}_documents.zip",
+    send_file zip_file,
+              filename: "#{@claim.case_number}-documents.zip",
               type: 'application/zip',
-              disposition: 'inline',
-              stream: 'true',
-              buffer_size: '4096'
+              disposition: 'attachment'
   end
 
   def messages

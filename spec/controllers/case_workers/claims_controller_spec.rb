@@ -50,6 +50,23 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     end
   end
 
+  describe 'GET download_zip' do
+    let(:claim) { create :claim }
+
+    before(:each) { get :download_zip, id: claim }
+
+    it 'responds with an http success' do
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'returns a zip file' do
+      expect(response.headers['Content-Type']).to eq 'application/zip'
+    end
+
+    it 'returns a correctly named file' do
+      expect(response.headers['Content-Disposition']).to eq "attachment; filename=\"#{claim.case_number}-documents.zip\""
+    end
+  end
 
   describe  'GET show' do
     let(:claim) { create :claim }

@@ -37,6 +37,7 @@ exclude_paths: # customize
 - features/
 - old_features/
 - tmp/
+- spikes/
 - app/interfaces/api/entities/*
 - app/interfaces/api/v1/*
 - lib/demo_data/*

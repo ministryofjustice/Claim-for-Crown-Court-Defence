@@ -30,15 +30,19 @@ module CCR
         FXCBR: zip(%w[AGFS_FEE AGFS_ORDER_BRCH]), # Breach of Crown Court order
         FXCSE: zip(%w[AGFS_FEE AGFS_COMMITTAL]), # Committal for Sentence
         FXCON: zip([nil, nil]), # Contempt
-        GRRAK: zip(%w[AGFS_FEE AGFS_FEE]), # Cracked Trial
-        GRCBR: zip(%w[AGFS_FEE AGFS_FEE]), # Cracked before retrial
+        GRRAK: zip(%w[AGFS_FEE AGFS_FEE]), # Cracked Trial - LGFS only
+        GRCBR: zip(%w[AGFS_FEE AGFS_FEE]), # Cracked before retrial - lgfs only
         GRDIS: zip([nil, nil]), # Discontinuance
         FXENP: zip([nil, nil]), # Elected cases not proceeded
         GRGLT: zip(%w[AGFS_FEE AGFS_FEE]), # Guilty plea
-        FXH2S: zip([nil, nil]), # Hearing subsequent to sentence??? LGFS only
+        FXH2S: zip([nil, nil]), # Hearing subsequent to sentence - LGFS only
         GRRTR: zip(%w[AGFS_FEE AGFS_FEE]), # Retrial
         GRTRL: zip(%w[AGFS_FEE AGFS_FEE]) # Trial
       }.freeze
+
+      def claimed?
+        bill_type && charges?
+      end
 
       private
 
@@ -48,6 +52,22 @@ module CCR
 
       def bill_key
         object.case_type.fee_type_code.to_sym
+      end
+
+      def fee_types
+        %w[BABAF BADAF BADAH BADAJ BANOC BANDR BANPW BAPPE]
+      end
+
+      def fees
+        object.basic_fees.select do |f|
+          fee_types.include?(f.fee_type.unique_code)
+        end
+      end
+
+      def charges?
+        fees.any? do |f|
+          f.amount.positive? || f.quantity.positive? || f.rate.positive?
+        end
       end
     end
   end

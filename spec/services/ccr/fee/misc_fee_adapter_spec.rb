@@ -18,8 +18,9 @@ module CCR
 
       MAPPINGS = {
         BAPCM:  %w[AGFS_MISC_FEES AGFS_PLEA], # Plea & Case management hearing
-        BASAF:  %w[AGFS_MISC_FEES AGFS_STD_APPRNC], # Standard appearance fee (basic fee)
-        FXSAF:  %w[AGFS_MISC_FEES TBC], # Standard Appearance fee (fixed fee)
+        BASAF:  %w[AGFS_MISC_FEES AGFS_STD_APPRNC], # Standard appearance fee (basic fee) - *** CCR/Regulations apply same fee to any SAF***
+        FXSAF:  %w[AGFS_MISC_FEES AGFS_STD_APPRNC], # Standard Appearance fee (fixed fee) - *** CCR/Regulations apply same fee to any SAF***
+        BACAV:  %w[AGFS_MISC_FEES AGFS_CONFERENCE], # Conferences and views (basic fee)
         MIAHU:  %w[AGFS_MISC_FEES TBC], # Abuse of process hearings (half day uplift)
         MIAPH:  %w[AGFS_MISC_FEES AGFS_ABS_PRC_HF], # Abuse of process hearings (half day)
         MIAWU:  %w[AGFS_MISC_FEES TBC], # Abuse of process hearings (whole day uplift)
@@ -113,6 +114,20 @@ module CCR
               end
             end
           end
+        end
+      end
+
+      describe '#claimed?' do
+        subject { described_class.new.call(fee).claimed? }
+
+        it 'returns true when the misc fee is being claimed' do
+          allow(fee).to receive_messages(quantity: 1, rate: 1, amount: 1)
+          is_expected.to be true
+        end
+
+        it 'returns false when the misc is not being claimed'do
+          allow(fee).to receive_messages(quantity: 0, rate: 0, amount: 0)
+          is_expected.to be false
         end
       end
     end

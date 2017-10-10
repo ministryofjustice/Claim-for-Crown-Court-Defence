@@ -1,9 +1,11 @@
 shared_examples_for 'a fee adapter' do
 
   describe '#call' do
-    it { is_expected.to be_instance_of OpenStruct }
+    it { is_expected.to be_instance_of described_class }
     it { is_expected.to respond_to :bill_type }
     it { is_expected.to respond_to :bill_subtype }
+    it { is_expected.to respond_to :object }
+    it { is_expected.to respond_to :mappings }
   end
 
   describe '#mappings' do
@@ -19,5 +21,4 @@ shared_examples_for 'a fee adapter' do
       expect(subject.values.first.keys).to include(:bill_type, :bill_subtype)
     end
   end
-
 end

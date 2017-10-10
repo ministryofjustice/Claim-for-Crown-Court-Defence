@@ -124,11 +124,11 @@ module API
       end
 
       def miscellaneous_fee(fee)
-        misc_fee_adapter.call(fee)
-        return unless misc_fee_adapter.bill_type && (fee.amount.positive? || fee.quantity.positive? || fee.rate.positive?)
+        fee = misc_fee_adapter.call(fee)
+        return unless fee.claimed?
         {
-          bill_type: misc_fee_adapter.bill_type,
-          bill_subtype: misc_fee_adapter.bill_subtype,
+          bill_type: fee.bill_type,
+          bill_subtype: fee.bill_subtype,
           # ref_no: '', # ???
           # occurence_date: '', # ??? attendance dates??
           quantity: fee.quantity.to_f,
@@ -146,7 +146,7 @@ module API
 
       def bills
         @bills ||= [].tap do |arr|
-          arr << advocate_fee if advocate_fee_claimed?
+          arr << advocate_fee if advocate_fee_adapter.claimed?
           miscellaneous_fees.each do |misc_fee|
             arr << miscellaneous_fee(misc_fee)
           end
@@ -155,25 +155,9 @@ module API
         @bills.compact
       end
 
-      def advocate_fee_types
-        %w[BABAF BADAF BADAH BADAJ BANOC BANDR BANPW BAPPE]
-      end
-
-      def advocate_fees?
-        object.basic_fees.any? do |f|
-          advocate_fee_types.include?(f.fee_type.unique_code) &&
-            (f.amount.positive? || f.quantity.positive? || f.rate.positive?)
-        end
-      end
-
-      def advocate_fee_claimed?
-        advocate_fee_adapter.bill_type && advocate_fees?
-      end
-
       def advocate_fee_adapter
         @advocate_fee_adapter ||= ::CCR::Fee::AdvocateFeeAdapter.new.call(object)
       end
-
     end
   end
 end

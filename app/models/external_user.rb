@@ -103,6 +103,6 @@ class ExternalUser < ActiveRecord::Base
   private
 
   def validate_supplier_number?
-    provider && provider.chamber? && advocate?
+    provider&.chamber? && advocate?
   end
 end

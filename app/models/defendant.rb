@@ -36,7 +36,7 @@ class Defendant < ActiveRecord::Base
   end
 
   def perform_validation?
-    claim && claim.perform_validation?
+    claim&.perform_validation?
   end
 
   def representation_order_details

@@ -126,7 +126,7 @@ module Fee
       #   - agfs fixed fees and misc fees are calculated, except for old claims (non-draft) that can have nil/0 rate
       #   - agfs basic fees are calculated based on fee type, except for old claims (non-draft) that can have nil/0 rate
       #   - no lgfs fees are calculated, regardless
-      claim && claim.editable? && claim.agfs? && calculated?
+      claim&.editable? && claim.agfs? && calculated?
     end
 
     def calculate_amount

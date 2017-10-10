@@ -233,7 +233,7 @@ class Claim::BaseClaimValidator < BaseValidator
   # local helpers
   # ---------------------------
   def method_missing(method, *args)
-    if method.to_s =~ /^requires_(re){0,1}trial_dates\?/
+    if method.to_s.match?(/^requires_(re){0,1}trial_dates\?/)
       begin
         @record.case_type.__send__(method)
       rescue
@@ -306,7 +306,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_trial_start_and_end(start_attribute, end_attribute, inverse = false)
-    return unless @record.case_type && @record.case_type.requires_trial_dates?
+    return unless @record.case_type&.requires_trial_dates?
     start_attribute, end_attribute = end_attribute, start_attribute if inverse
     validate_presence(start_attribute, 'blank')
     method("validate_on_or_#{inverse ? 'after' : 'before'}".to_sym)
@@ -319,7 +319,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_retrial_start_and_end(start_attribute, end_attribute, inverse = false)
-    return unless @record.case_type && @record.case_type.requires_retrial_dates?
+    return unless @record.case_type&.requires_retrial_dates?
     start_attribute, end_attribute = end_attribute, start_attribute if inverse
     # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
     validate_presence(start_attribute, 'blank') if @record.editable?

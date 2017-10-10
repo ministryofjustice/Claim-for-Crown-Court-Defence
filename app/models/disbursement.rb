@@ -47,7 +47,7 @@ class Disbursement < ActiveRecord::Base
   end
 
   def perform_validation?
-    claim && claim.perform_validation?
+    claim&.perform_validation?
   end
 
   def disbursement_type_unique_code=(code)

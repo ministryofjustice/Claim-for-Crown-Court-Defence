@@ -414,14 +414,14 @@ module Claim
       return true if redetermination?
 
       transition = filtered_last_state_transition
-      transition && transition.to == 'redetermination'
+      transition&.to == 'redetermination'
     end
 
     def written_reasons_outstanding?
       return true if awaiting_written_reasons?
 
       transition = filtered_last_state_transition
-      transition && transition.to == 'awaiting_written_reasons'
+      transition&.to == 'awaiting_written_reasons'
     end
 
     def amount_assessed

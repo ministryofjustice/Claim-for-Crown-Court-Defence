@@ -9,6 +9,8 @@ RSpec.describe S3ZipDownloader do
   describe 'generate!' do
     subject(:generate!) { s3_zip_downloader.generate! }
 
-    it { is_expected.to be_a Zip::File }
+    it { is_expected.to be_a String }
+
+    it { expect(File.exists?(subject)).to be true }
   end
 end

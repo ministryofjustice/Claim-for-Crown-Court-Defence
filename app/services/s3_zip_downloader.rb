@@ -6,21 +6,20 @@ class S3ZipDownloader
     @folder = Dir.mktmpdir("#{@claim.case_number}-", './tmp')
     move_files
     @files_to_zip = Dir.entries(@folder) - %w[. ..]
-    @zip_file = Tempfile.new([@claim.case_number, '.zip'], './tmp')
+    @zip_file = "./tmp/#{@claim.case_number}-#{SecureRandom.uuid}-documents.zip"
   end
 
   def generate!
-    return_zip = zip_files
+    zip_files
     FileUtils.rm_rf(@folder)
-    return_zip
+    @zip_file
   end
 
   private
 
   def zip_files
-    Zip::File.new(@zip_file, Zip::File::CREATE) do |zip_file|
+    Zip::File.open(@zip_file, Zip::File::CREATE) do |zip_file|
       @files_to_zip.each do |filename|
-        puts "adding '#{File.join(@folder, filename)}' to '#{@zip_file.path}'"
         zip_file.add(filename, File.join(@folder, filename))
       end
     end

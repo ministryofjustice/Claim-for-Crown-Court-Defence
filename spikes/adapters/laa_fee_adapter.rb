@@ -16,8 +16,8 @@ class LaaFeeAdapter
   }.freeze
 
   FEES_MAP = {
-    'BABAF' => nil,    # special processing
-    'BACAV' => nil,    # needs investigation
+    'BABAF' => nil, # special processing
+    'BACAV' => %w[AGFS_MISC_FEES AGFS_CONFERENCE],
     'BADAF' => nil,
     'BADAH' => nil,
     'BADAJ' => nil,

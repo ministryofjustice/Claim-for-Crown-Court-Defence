@@ -56,6 +56,36 @@ module CCR
           end
         end
       end
+
+      describe '#claimed?' do
+        subject { described_class.new.call(claim).claimed? }
+
+        let(:basic_fee_type) { instance_double('basic_fee_type', unique_code: 'BABAF') }
+        let(:basic_fee) do
+          instance_double(
+            'basic_fee',
+            fee_type: basic_fee_type,
+            quantity: 0,
+            rate: 0,
+            amount: 0,
+            )
+        end
+        let(:basic_fees) { [basic_fee] }
+
+        before do
+          allow(claim).to receive(:basic_fees).and_return basic_fees
+        end
+
+        it 'returns true when the basic fee has a positive value' do
+          allow(basic_fee).to receive_messages(quantity: 1)
+          is_expected.to be true
+        end
+
+        it 'returns false when the basic fee has 0 value'do
+          allow(basic_fee).to receive_messages(quantity: 0)
+          is_expected.to be false
+        end
+      end
     end
   end
 end

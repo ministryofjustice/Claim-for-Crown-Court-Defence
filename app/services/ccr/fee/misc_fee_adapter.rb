@@ -4,7 +4,8 @@ module CCR
       MISC_FEE_BILL_MAPPINGS = {
         BAPCM: zip(%w[AGFS_MISC_FEES AGFS_PLEA]), # Plea & Case management hearing
         BASAF: zip(%w[AGFS_MISC_FEES AGFS_STD_APPRNC]), # Standard appearance fee (basic fee)
-        FXSAF: zip(%w[AGFS_MISC_FEES TBC]), # Standard Appearance fee (fixed fee)
+        BACAV: zip(%w[AGFS_MISC_FEES AGFS_CONFERENCE]), # Conferences and views (basic fee)
+        FXSAF: zip(%w[AGFS_MISC_FEES AGFS_STD_APPRNC]), # Standard Appearance fee (fixed fee)
         MIAHU: zip(%w[AGFS_MISC_FEES TBC]), # Abuse of process hearings (half day uplift)
         MIAPH: zip(%w[AGFS_MISC_FEES AGFS_ABS_PRC_HF]), # Abuse of process hearings (half day)
         MIAWU: zip(%w[AGFS_MISC_FEES TBC]), # Abuse of process hearings (whole day uplift)
@@ -60,6 +61,10 @@ module CCR
         MIWOA: zip(%w[AGFS_MISC_FEES AGFS_WRTN_ORAL]), # Written / oral advice
       }.freeze
 
+      def claimed?
+        bill_type && charges?
+      end
+
       private
 
       def bill_mappings
@@ -68,6 +73,10 @@ module CCR
 
       def bill_key
         object.fee_type.unique_code.to_sym
+      end
+
+      def charges?
+        object.amount.positive? || object.quantity.positive? || object.rate.positive?
       end
     end
   end

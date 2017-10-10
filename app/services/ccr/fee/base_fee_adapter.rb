@@ -19,6 +19,7 @@ module CCR
       def call(object)
         @object = object
         @bill_types = OpenStruct.new(mappings[bill_key])
+        self
       end
 
       private
@@ -29,6 +30,19 @@ module CCR
 
       def bill_key
         raise 'Implement in sub-class'
+      end
+
+      # delegate missing methods to object if it can respond
+      def method_missing(method, *args, &block)
+        if object.respond_to?(method)
+          object.send(method, *args, &block)
+        else
+          super
+        end
+      end
+
+      def respond_to_missing?(method, include_private = false)
+        object.respond_to?(method) || super
       end
     end
   end

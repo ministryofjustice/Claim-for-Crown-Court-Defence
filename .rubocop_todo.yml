@@ -55,7 +55,7 @@ Metrics/PerceivedComplexity:
   Max: 13
 
 # Offense count: 3
-Style/AccessorMethodName:
+Naming/AccessorMethodName:
   Exclude:
     - 'app/models/claims/state_machine.rb'
     - 'app/models/json_document_importer.rb'
@@ -150,12 +150,12 @@ Style/NumericPredicate:
 # NamePrefix: is_, has_, have_
 # NamePrefixBlacklist: is_, has_, have_
 # NameWhitelist: is_a?
-Style/PredicateName:
+Naming/PredicateName:
   Enabled: false
 
 # Offense count: 1
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: snake_case, normalcase, non_integer
-Style/VariableNumber:
+Naming/VariableNumber:
   Exclude:
     - 'app/models/stats/statistic.rb'

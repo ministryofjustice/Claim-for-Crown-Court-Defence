@@ -38,7 +38,7 @@ class VatRatesController < ApplicationController
   end
 
   def apply_vat
-    params['apply_vat'] == 'true' ? true : false
+    params['apply_vat'] == 'true'
   end
 
   def date

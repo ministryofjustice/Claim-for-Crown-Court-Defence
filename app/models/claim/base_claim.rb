@@ -239,7 +239,7 @@ module Claim
       when 'fixed_fee', 'cracked', 'trial', 'guilty_plea', 'graduated_fees', 'interim_fees', 'warrants', 'interim_disbursements', 'risk_based_bills'
         where.not(state: %w[redetermination awaiting_written_reasons]).send(filter)
       else
-        raise 'unknown filter: %s' % filter
+        raise format('unknown filter: %s', filter)
       end
     end
 

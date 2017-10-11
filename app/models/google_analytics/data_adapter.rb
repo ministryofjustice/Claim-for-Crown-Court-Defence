@@ -32,9 +32,8 @@ module GoogleAnalytics
     end
 
     def interpolate(template_hash, data)
-      template_hash.inject({}) do |h, (key, value)|
+      template_hash.each_with_object({}) do |(key, value), h|
         h[key] = value % data
-        h
       end
     end
   end

@@ -11,11 +11,6 @@ Lint/AmbiguousBlockAssociation:
   Exclude:
     - 'app/services/stats/base_data_generator.rb'
 
-# Offense count: 1
-Lint/EmptyExpression:
-  Exclude:
-    - 'app/presenters/error_message_translator.rb'
-
 # Offense count: 45
 Lint/RescueWithoutErrorClass:
   Exclude:

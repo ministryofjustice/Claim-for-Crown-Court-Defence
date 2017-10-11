@@ -108,13 +108,6 @@ Naming/AccessorMethodName:
 Naming/PredicateName:
   Enabled: false
 
-# Offense count: 1
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: snake_case, normalcase, non_integer
-Naming/VariableNumber:
-  Exclude:
-    - 'app/models/stats/statistic.rb'
-
 # Offense count: 96
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: nested, compact

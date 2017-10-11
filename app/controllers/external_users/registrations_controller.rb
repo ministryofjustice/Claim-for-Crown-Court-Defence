@@ -42,7 +42,7 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
 
   def create_external_user
     highest_sup_no = SupplierNumber.last&.id || 1
-    supplier_number = SupplierNumber.new(supplier_number: sprintf('9X%03dX', highest_sup_no))
+    supplier_number = SupplierNumber.new(supplier_number: format('9X%03dX', highest_sup_no))
     provider = Provider.create!(
       name: Faker::Company.name,
       firm_agfs_supplier_number: generate_unique_supplier_number,
@@ -63,6 +63,6 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
     alpha_part = ''
     2.times { alpha_part << (65 + rand(25)).chr }
     numeric_part = rand(999)
-    "#{alpha_part}#{sprintf('%03d', numeric_part)}"
+    "#{alpha_part}#{format('%03d', numeric_part)}"
   end
 end

@@ -53,9 +53,9 @@ module ApplicationHelper
   def number_with_precision_or_default(number, options = {})
     default = options.delete(:default) || ''
     if options.key?(:precision)
-      number == 0 ? default : number_with_precision(number, options)
+      number.zero? ? default : number_with_precision(number, options)
     else
-      number == 0 ? default : number.to_s
+      number.zero? ? default : number.to_s
     end
   end
 

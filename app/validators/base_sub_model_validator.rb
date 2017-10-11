@@ -58,7 +58,7 @@ class BaseSubModelValidator < BaseValidator
   end
 
   def remove_unnumbered_submodel_errors_from_base_record(base_record)
-    base_record.errors.each do |key, _|
+    base_record.errors.each do |(key, _)|
       base_record.errors.delete(key) if is_unnumbered_submodel_error?(key)
     end
   end

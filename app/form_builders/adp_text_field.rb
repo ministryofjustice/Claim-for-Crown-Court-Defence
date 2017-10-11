@@ -134,7 +134,7 @@ class AdpTextField
     parts = anchor.split('_')
     incremented_anchor_parts = []
     parts.each do |part|
-      incremented_anchor_parts << if part =~ /^[0-9]{1,2}$/
+      incremented_anchor_parts << if part.match?(/^[0-9]{1,2}$/)
                                     (part.to_i + 1).to_s
                                   else
                                     part

@@ -239,7 +239,7 @@ module Claim
       when 'fixed_fee', 'cracked', 'trial', 'guilty_plea', 'graduated_fees', 'interim_fees', 'warrants', 'interim_disbursements', 'risk_based_bills'
         where.not(state: %w[redetermination awaiting_written_reasons]).send(filter)
       else
-        raise 'unknown filter: %s' % filter
+        raise format('unknown filter: %s', filter)
       end
     end
 
@@ -414,14 +414,14 @@ module Claim
       return true if redetermination?
 
       transition = filtered_last_state_transition
-      transition && transition.to == 'redetermination'
+      transition&.to == 'redetermination'
     end
 
     def written_reasons_outstanding?
       return true if awaiting_written_reasons?
 
       transition = filtered_last_state_transition
-      transition && transition.to == 'awaiting_written_reasons'
+      transition&.to == 'awaiting_written_reasons'
     end
 
     def amount_assessed

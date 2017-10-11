@@ -45,7 +45,7 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
 
   def make_object_name
     klass_name = object.class.to_s
-    klass_name = 'Claim' if klass_name =~ /^Claim::/
+    klass_name = 'Claim' if klass_name.match?(/^Claim::/)
     klass_name.camelize.downcase
   end
 end

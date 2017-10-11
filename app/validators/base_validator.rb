@@ -40,7 +40,7 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def attr_zero?(attribute)
-    @record.__send__(attribute) == 0
+    @record.__send__(attribute).zero?
   end
 
   def attr_blank?(attribute)
@@ -90,7 +90,7 @@ class BaseValidator < ActiveModel::Validator
 
   def validate_pattern(attribute, pattern, message)
     return if attr_blank?(attribute)
-    add_error(attribute, message) unless @record.__send__(attribute).match(pattern)
+    add_error(attribute, message) unless @record.__send__(attribute).match?(pattern)
   end
 
   def validate_inclusion(attribute, inclusion_list, message)
@@ -159,7 +159,7 @@ class BaseValidator < ActiveModel::Validator
 
   def validate_zero_or_negative(attribute, message)
     return if attr_nil?(attribute)
-    add_error(attribute, message) unless @record.__send__(attribute) > 0
+    add_error(attribute, message) unless @record.__send__(attribute).positive?
   end
 
   def validate_amount_greater_than(attribute, another_attribute, message)

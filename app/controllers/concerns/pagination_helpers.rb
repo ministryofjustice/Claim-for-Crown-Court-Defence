@@ -10,7 +10,7 @@ module PaginationHelpers
 
   def page_size
     limit = params[:limit].to_i
-    limit > 0 ? limit : default_page_size
+    limit.positive? ? limit : default_page_size
   end
 
   def current_page

@@ -29,7 +29,7 @@ module Stats
       end
 
       def average_in_days(total_seconds, count)
-        if count == 0
+        if count.zero?
           calculate_average
         else
           float = (total_seconds / count.to_f)

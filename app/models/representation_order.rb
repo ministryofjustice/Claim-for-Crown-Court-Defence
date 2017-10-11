@@ -24,9 +24,8 @@ class RepresentationOrder < ActiveRecord::Base
                 rescue
                   nil
                 end
-    if case_type && !case_type.requires_maat_reference?
-      self.maat_reference = nil
-    end
+
+    self.maat_reference = nil if case_type&.requires_maat_reference?.eql?(false)
   end
 
   acts_as_gov_uk_date :representation_order_date, validate_if: :perform_validation?, error_clash_behaviour: :override_with_gov_uk_date_field_error

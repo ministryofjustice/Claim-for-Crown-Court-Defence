@@ -94,7 +94,7 @@ class Expense < ActiveRecord::Base
   end
 
   def expense_reason_other?
-    expense_reason && expense_reason.reason == 'Other'
+    expense_reason&.reason == 'Other'
   end
 
   def perform_validation?
@@ -149,7 +149,7 @@ class Expense < ActiveRecord::Base
 
   # we only calculate VAT for AGFS claims for vatable providers.  On LGFS claims, the VAT amount is entered in the form.
   def calculate_vat
-    return unless claim && claim.agfs? && amount
+    return unless claim&.agfs? && amount
     self.vat_amount = VatRate.vat_amount(amount, claim.vat_date, calculate: claim.vat_registered?)
   end
 end

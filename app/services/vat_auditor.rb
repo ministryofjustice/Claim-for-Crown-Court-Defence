@@ -59,10 +59,10 @@ class VatAuditor
 
   def print_claim_totals
     delayed_puts "#{@claim.class}   #{@claim.id}  vat_registered: #{@claim.vat_registered?}  state: #{@claim.state}"
-    delayed_puts sprintf('  total:        %9.2f   VAT: %9.2f', @claim.total, @claim.vat_amount)
-    delayed_puts sprintf('  fees:         %9.2f   VAT: %9.2f', @claim.fees_total, @claim.fees_vat)
-    delayed_puts sprintf('  expenses:     %9.2f   VAT: %9.2f', @claim.expenses_total, @claim.expenses_vat)
-    delayed_puts sprintf('  disbrsements: %9.2f   VAT: %9.2f', @claim.disbursements_total, @claim.disbursements_vat)
+    delayed_puts format('  total:        %9.2f   VAT: %9.2f', @claim.total, @claim.vat_amount)
+    delayed_puts format('  fees:         %9.2f   VAT: %9.2f', @claim.fees_total, @claim.fees_vat)
+    delayed_puts format('  expenses:     %9.2f   VAT: %9.2f', @claim.expenses_total, @claim.expenses_vat)
+    delayed_puts format('  disbrsements: %9.2f   VAT: %9.2f', @claim.disbursements_total, @claim.disbursements_vat)
   end
 
   def audit_totals

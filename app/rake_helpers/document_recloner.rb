@@ -58,8 +58,6 @@ class DocumentRecloner
     rescue
       return true
     end
-    # rubocop:disable ZeroLengthPredicate
-    File.stat(downloaded_file).size == 0
-    # rubocop:enable ZeroLengthPredicate
+    File.stat(downloaded_file).size.zero?
   end
 end

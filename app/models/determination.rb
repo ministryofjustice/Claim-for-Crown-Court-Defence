@@ -82,10 +82,10 @@ class Determination < ActiveRecord::Base
   end
 
   def zero_or_nil?(value)
-    value.nil? || value == 0
+    value.nil? || value.zero?
   end
 
   def negative_or_nil?(value)
-    value.nil? || value < 0
+    value.nil? || value.negative?
   end
 end

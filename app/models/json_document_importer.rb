@@ -29,7 +29,7 @@ class JsonDocumentImporter
   def process_claim_hashes
     @data = [json_data].flatten
     @data.each do |claim_hash|
-      claim_hash.each do |_claim, attributes_hash|
+      claim_hash.each_value do |attributes_hash|
         delete_nils(attributes_hash)
       end
     end

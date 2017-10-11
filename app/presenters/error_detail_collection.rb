@@ -32,7 +32,7 @@ class ErrorDetailCollection
 
   def header_errors
     result_array = []
-    @error_details.each do |_key, value_array|
+    @error_details.each_value do |value_array|
       value_array.each do |error_detail|
         result_array << error_detail
       end

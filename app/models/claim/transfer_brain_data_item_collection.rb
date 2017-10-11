@@ -69,7 +69,7 @@ module Claim
       transfer_stages = @collection_hash.fetch(litigator_type).fetch(elected_case)
       ids = []
       transfer_stages.each do |transfer_stage_id, result_hash|
-        result_hash.each do |_case_conclusion_id, result|
+        result_hash.each_value do |result|
           ids << transfer_stage_id if result[:validity] == true
         end
       end

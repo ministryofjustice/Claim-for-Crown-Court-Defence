@@ -134,12 +134,6 @@ Style/ClassVars:
 Style/FormatStringToken:
   EnforcedStyle: template
 
-# Offense count: 1
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'app/validators/claim/base_claim_validator.rb'
-
 # Offense count: 4
 Style/IfInsideElse:
   Exclude:

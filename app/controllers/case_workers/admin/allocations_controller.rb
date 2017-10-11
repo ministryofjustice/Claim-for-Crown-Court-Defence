@@ -42,7 +42,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   # end
 
   def quantity_allocation?
-    quantity_to_allocate > 0
+    quantity_to_allocate.positive?
   end
 
   def quantity_to_allocate

@@ -226,7 +226,7 @@ class Claim::BaseClaimPresenter < BasePresenter
 
   def other_defendant_summary
     num_others = claim.defendants.size - 1
-    if num_others > 0
+    if num_others.positive?
       "+ #{@view.pluralize(num_others, 'other')}"
     else
       ''
@@ -235,7 +235,7 @@ class Claim::BaseClaimPresenter < BasePresenter
 
   def has_messages?
     if claim.remote?
-      claim.messages_count.to_i > 0
+      claim.messages_count.to_i.positive?
     else
       messages.any?
     end

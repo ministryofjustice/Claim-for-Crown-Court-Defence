@@ -471,9 +471,9 @@ When(/^I fill in actual (re)?trial length with (\d+)$/) do |trial_prefix,trial_L
 end
 
 Then(/^The daily attendance fields should have quantities (\d+), (\d+), (\d+)$/) do |daf_quantity, dah_quantity, daj_quantity|
-  daf_quantity = '' if daf_quantity.nil? || daf_quantity.to_i == 0
-  dah_quantity = '' if dah_quantity.nil? || dah_quantity.to_i == 0
-  daj_quantity = '' if daj_quantity.nil? || daj_quantity.to_i == 0
+  daf_quantity = '' if daf_quantity.nil? || daf_quantity.to_i.zero?
+  dah_quantity = '' if dah_quantity.nil? || dah_quantity.to_i.zero?
+  daj_quantity = '' if daj_quantity.nil? || daj_quantity.to_i.zero?
   expect(page).to have_field("claim_basic_fees_attributes_1_quantity", with: "#{daf_quantity}")
   expect(page).to have_field("claim_basic_fees_attributes_2_quantity", with: "#{dah_quantity}")
   expect(page).to have_field("claim_basic_fees_attributes_3_quantity", with: "#{daj_quantity}")

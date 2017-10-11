@@ -54,7 +54,7 @@ module Fee
     end
 
     def validate_daily_attendance(code)
-      return if @record.quantity == 0
+      return if @record.quantity.zero?
       case code
       when 'DAF'
         # cannot claim this fee if trial lasted less than 3 days
@@ -79,13 +79,13 @@ module Fee
       if @record.claim.case_type.try(:allow_pcmh_fee_type?)
         add_error(:quantity, 'pcm_numericality') if @record.quantity > 3
       else
-        add_error(:quantity, 'pcm_not_applicable') unless @record.quantity == 0 || @record.quantity.blank?
+        add_error(:quantity, 'pcm_not_applicable') unless @record.quantity.zero? || @record.quantity.blank?
       end
     end
 
     def validate_any_quantity
       validate_integer_decimal
-      add_error(:quantity, 'invalid') if @record.quantity < 0 || @record.quantity > 99_999
+      add_error(:quantity, 'invalid') if @record.quantity.negative? || @record.quantity > 99_999
     end
 
     def validate_integer_decimal
@@ -116,15 +116,15 @@ module Fee
     end
 
     def validate_uncalculated_fee(code)
-      add_error(:rate, "#{code.downcase}_must_be_blank") if @record.rate > 0
+      add_error(:rate, "#{code.downcase}_must_be_blank") if @record.rate.positive?
     end
 
     # if one has a value and the other doesn't then we add error to the one that does NOT have a value
     # NOTE: we have specific error messages for basic fees
     def validate_fee_rate(code = nil)
-      if @record.quantity > 0 && @record.rate <= 0
+      if @record.quantity.positive? && @record.rate <= 0
         add_error(:rate, 'invalid')
-      elsif @record.quantity <= 0 && @record.rate > 0
+      elsif @record.quantity <= 0 && @record.rate.positive?
         add_error(:quantity, code ? "#{code.downcase}_invalid" : 'invalid')
       end
     end
@@ -135,7 +135,7 @@ module Fee
       add_error(:amount, "#{fee_code.downcase}_invalid") if amount_outside_allowed_range?
 
       return if @record.calculated?
-      return unless @record.quantity <= 0 && @record.amount > 0
+      return unless @record.quantity <= 0 && @record.amount.positive?
       add_error(:quantity, "#{fee_code.downcase}_invalid")
     end
 
@@ -152,7 +152,7 @@ module Fee
     # ---------------------
 
     def amount_outside_allowed_range?
-      @record.amount < 0 || @record.amount > Settings.max_item_amount
+      @record.amount.negative? || @record.amount > Settings.max_item_amount
     end
 
     def fee_code
@@ -168,7 +168,7 @@ module Fee
     end
 
     def daf_trial_length_combination_invalid(lower_bound, trial_length_modifier, max_quantity = nil)
-      raise ArgumentError if trial_length_modifier > 0
+      raise ArgumentError if trial_length_modifier.positive?
       return false if daf_retrial_combo_ignorable
 
       max_quantity = infinity if max_quantity.blank?

@@ -79,7 +79,7 @@ class Document < ActiveRecord::Base
       result = true
     else
       LogStuff.error(:paperclip, action: 'verify_fail', document_id: id, claim_id: claim_id, filename: document_file_name, form_id: form_id) { 'Unable to verify document' }
-      errors[:document] << 'Unable to save the file - please retry' if verified_file_size == 0
+      errors[:document] << 'Unable to save the file - please retry' if verified_file_size&.zero?
       result = false
     end
     result
@@ -96,7 +96,7 @@ class Document < ActiveRecord::Base
       reloaded_file = reload_saved_file
       self.verified_file_size = File.stat(reloaded_file).size
       self.file_path = document.path
-      self.verified = verified_file_size > 0
+      self.verified = verified_file_size.positive?
       save!
     rescue => err
       errors[:document] << err.message

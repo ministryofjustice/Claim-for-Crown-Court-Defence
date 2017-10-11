@@ -34,7 +34,7 @@ class VatRate < ActiveRecord::Base
       rate = rate_for_date(date) / 100.0
 
       # transform to integer if whole number to supress printing of .0
-      rate = rate.to_i if rate - rate.to_i == 0
+      rate = rate.to_i if (rate - rate.to_i).zero?
       format('%s%%', rate.to_s)
     end
 

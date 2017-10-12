@@ -1,21 +1,31 @@
 # CCR bill types are logically similar to CCCD fee types,
 # however the "advocate fee" is a combination
 # of some of the basic fee types' values.
+
+# The "Advocate Fee" has five sub types in CCR
+#  1. The "advocate fee" (yes, same name) - AGFS_FEE, AGFS_FEE --> various basic fees in CCCD
+#  2. "Appeal against conviciton" - AGFS_FEE AGFS_APPEAL_CON --> a fixed fee in CCCD
+#  3. "Appeal against sentence"- AGFS_FEE AGFS_APPEAL_SEN --> a fixed fee in CCCD
+#  4. "Breach of crown court order"- AGFS_FEE AGFS_ORDER_BRCH --> a fixed fee in CCCD
+#  5. "Commital for sentence"- AGFS_FEE AGFS_FEE AGFS_COMMITTAL --> a fixed fee in CCCD
 #
-# * Its bill type "key" is AGFS_FEE
-# * Its bill sub type "key" is derived from the case type
-# * some case types are not allowed to claim an "advocate fee" at all
+# A. The "Advocate Fee, advocate fee" is the CCR equivalent of most but not
+#  all the BasicFeeType fees in CCCD. It is of type
+#  AGFS_FEE and subtype AGFS_FEE in CCR.
+#
+#   * This fee can be derived from CCCD fees of the following types:
+#     BABAF BADAF BADAH BADAJ BANOC BANDR BANPW BAPPE
+#
+#  * In addition the BANDR (defendant uplifts) is
+#    being mappd based on the actual number of defendants
+#    at time of writing (and ignoring the quantity of this fee??!)
+#
+#  * The BASAF, BAPCM and BACAV fees are handled
+#    as miscellaneous fees in CCR (i.e. AGFS_MISC_FEES).
 #
 # INJECTION: eventually the bill type and sub type (for advocate fee)
 # should be derivable by CCR from the bill scenario alone, since this
 # maps the case type in any event.
-# i.e.
-# case type -> bill scenario
-# case type -> bill type/subtype
-# =
-# bill scenario -> bill type/subtype
-# AND eventually no mappings will be necessary on CCCD side as..
-# case type uuid -> bill scenario/type/subtype
 #
 module CCR
   module Fee
@@ -41,7 +51,7 @@ module CCR
       }.freeze
 
       def claimed?
-        bill_type && charges?
+        maps? && charges?
       end
 
       private

@@ -15,7 +15,6 @@ module CCR
         MIADC1: zip(%w[AGFS_MISC_FEES AGFS_DMS_DY2_HF]), # Application to dismiss a charge (half day)
         MIADC4: zip(%w[AGFS_MISC_FEES TBC]), # Application to dismiss a charge (whole day uplift)
         MIADC2: zip(%w[AGFS_MISC_FEES AGFS_DMS_DY2_WL]), # Application to dismiss a charge (whole day)
-        EXISTS_IN_CCR: zip(%w[AGFS_MISC_FEES AGFS_CONFERENCE]), # Conferences and views (Hours)
         MIUPL: zip(%w[TBC TBC]), # Case uplift ***CCLF-applicable-only***
         MIDHU: zip(%w[AGFS_MISC_FEES TBC]), # Confiscation hearings (half day uplift)
         MIDTH: zip(%w[AGFS_MISC_FEES AGFS_CONFISC_HF]), # Confiscation hearings (half day)
@@ -62,7 +61,7 @@ module CCR
       }.freeze
 
       def claimed?
-        bill_type && charges?
+        maps? && charges?
       end
 
       private

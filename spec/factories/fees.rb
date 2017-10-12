@@ -57,6 +57,9 @@ FactoryGirl.define do
       fee_type { build :misc_fee_type, :spf }
     end
 
+    trait :mispf_fee do
+      fee_type { build :misc_fee_type, :mispf }
+    end
   end
 
   factory :warrant_fee, class: Fee::WarrantFee do

@@ -22,6 +22,10 @@ module CCR
         self
       end
 
+      def maps?
+        bill_type.present?
+      end
+
       private
 
       def bill_mappings

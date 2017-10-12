@@ -68,6 +68,13 @@ FactoryGirl.define do
         code 'SPF'
         quantity_is_decimal true
       end
+
+      trait :mispf do
+        description 'Special preparation fee'
+        code 'SPF'
+        unique_code 'MISPF'
+        quantity_is_decimal true
+      end
     end
 
     factory :fixed_fee_type, class: Fee::FixedFeeType do

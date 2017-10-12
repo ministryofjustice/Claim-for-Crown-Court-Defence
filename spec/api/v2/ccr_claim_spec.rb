@@ -29,7 +29,7 @@ describe API::V2::CCRClaim do
   before(:all) do
     @case_worker = create(:case_worker, :admin)
     @claim = create(:authorised_claim, :without_fees).tap do |claim|
-      # NOTE: this will also create the BABAF basic fee type
+      # NOTE: this will also create the BABAF basic fee TYPE
       create(:basic_fee, :baf_fee, claim: claim, quantity: 1)
     end
   end
@@ -125,7 +125,7 @@ describe API::V2::CCRClaim do
         it 'not added to bills array when only inapplicable basic fees claimed' do
           allow_any_instance_of(Fee::BasicFeeType).to receive(:unique_code).and_return 'BAPCM'
           allow_any_instance_of(Fee::BasicFee).to receive_messages(rate: 1, quantity: 2, amount: 2)
-          expect(response).to_not be_json_eql("AGFS_FEE".to_json).at_path "bills/0/bill_type"
+          expect(response).to_not include("\"bill_type\":\"AGFS_FEE\"")
         end
 
         it 'not added to bills array when case type does not permit advocate fees' do
@@ -140,6 +140,9 @@ describe API::V2::CCRClaim do
 
           it 'property included' do
             expect(response).to have_json_path("bills/0/bill_type")
+          end
+
+          it 'property type valid' do
             expect(response).to have_json_type(String).at_path "bills/0/bill_type"
           end
 
@@ -155,6 +158,9 @@ describe API::V2::CCRClaim do
 
           it 'property included' do
             expect(response).to have_json_path("bills/0/bill_subtype")
+          end
+
+          it 'property type valid' do
             expect(response).to have_json_type(String).at_path "bills/0/bill_subtype"
           end
 
@@ -184,6 +190,9 @@ describe API::V2::CCRClaim do
 
           it 'property included' do
             expect(response).to have_json_path("bills/0/ppe")
+          end
+
+          it 'property type valid' do
             expect(response).to have_json_type(Integer).at_path "bills/0/ppe"
           end
 
@@ -203,6 +212,9 @@ describe API::V2::CCRClaim do
 
           it 'property included' do
             expect(response).to have_json_path("bills/0/number_of_cases")
+          end
+
+          it 'property type valid' do
             expect(response).to have_json_type(Integer).at_path "bills/0/number_of_cases"
           end
 
@@ -222,6 +234,9 @@ describe API::V2::CCRClaim do
 
           it 'property included' do
             expect(response).to have_json_path("bills/0/case_numbers")
+          end
+
+          it 'property type valid' do
             expect(response).to have_json_type(String).at_path "bills/0/case_numbers"
           end
 
@@ -241,10 +256,13 @@ describe API::V2::CCRClaim do
 
           it 'property included' do
             expect(response).to have_json_path("bills/0/number_of_witnesses")
+          end
+
+          it 'property type valid' do
             expect(response).to have_json_type(Integer).at_path "bills/0/number_of_witnesses"
           end
 
-          it 'value determined from Number of Prosecution Witnesses Fee quantity' do
+          it 'property value determined from Number of Prosecution Witnesses Fee quantity' do
             expect(response).to be_json_eql("3").at_path "bills/0/number_of_witnesses"
           end
         end
@@ -299,19 +317,23 @@ describe API::V2::CCRClaim do
           allow_any_instance_of(Fee::MiscFeeType).to receive(:unique_code).and_return 'MIAPH'
         end
 
-        it 'added to bills if is a CCCD miscellaneous fee' do
-          expect(response).to have_json_size(1).at_path("bills")
+        context 'when relevant CCCD fees exist' do
+          it 'added to bills' do
+            expect(response).to have_json_size(1).at_path("bills")
+          end
         end
 
-         it 'not added to bills if it is not a miscellaneous fee' do
-          claim.misc_fees.delete_all
-          allow_any_instance_of(Fee::BasicFeeType).to receive(:unique_code).and_return 'BABAF'
-          allow_any_instance_of(Fee::BasicFee).to receive_messages(rate: 1.0, quantity: 2.0)
-          expect(response).to have_json_size(1).at_path("bills")
-          expect(response).to be_json_eql("AGFS_FEE".to_json).at_path "bills/0/bill_type"
+        context 'when no relevant cccd fee exists' do
+          before do
+            claim.misc_fees.delete_all
+          end
+
+          it 'not added to bills if it is not a miscellaneous fee' do
+            expect(response).to have_json_size(0).at_path("bills")
+          end
         end
 
-        context 'when fee maps to a CCR misc fee' do
+        context 'when CCCD fee maps to a CCR misc fee' do
           before do
             claim.misc_fees.delete_all
             allow_any_instance_of(Fee::BasicFeeType).to receive(:unique_code).and_return 'BAPCM'
@@ -323,7 +345,7 @@ describe API::V2::CCRClaim do
             expect(response).to be_json_eql("AGFS_MISC_FEES".to_json).at_path "bills/0/bill_type"
           end
 
-          it 'not added to bills if it maps to CCR miscellanoeus fee but has no value' do
+          it 'not added to bills if it has no value' do
             expect(response).to have_json_size(0).at_path("bills")
           end
         end
@@ -331,10 +353,13 @@ describe API::V2::CCRClaim do
         context 'bill type' do
           it 'property included' do
             expect(response).to have_json_path("bills/0/bill_type")
+          end
+
+          it 'property type valid' do
             expect(response).to have_json_type(String).at_path "bills/0/bill_type"
           end
 
-          it 'valid value included' do
+          it 'property value valid' do
             expect(response).to be_json_eql("AGFS_MISC_FEES".to_json).at_path "bills/0/bill_type"
           end
         end

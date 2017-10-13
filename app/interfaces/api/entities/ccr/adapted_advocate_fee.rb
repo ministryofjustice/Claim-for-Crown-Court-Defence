@@ -3,12 +3,6 @@ module API
     module CCR
       class AdaptedAdvocateFee < API::Entities::CCR::AdaptedBaseFee
         with_options(format_with: :string) do
-          # irrelevant exposures for this consolidated "fee-of-fees"
-          # but required by CCR (quantity) or to overide superclass
-          expose :quantity
-          expose :rate
-          expose :amount
-
           # derived/transformed data exposures
           expose :ppe
           expose :number_of_witnesses
@@ -22,18 +16,6 @@ module API
         # expose :calculated_fee, as: :calculatedFee
 
         private
-
-        def quantity
-          1.0
-        end
-
-        def rate
-          0.0
-        end
-
-        def amount
-          0.0
-        end
 
         def fee_for(fee_type_unique_code)
           object.fees.find_by(fee_type_id: ::Fee::BaseFeeType.find_by_id_or_unique_code(fee_type_unique_code))

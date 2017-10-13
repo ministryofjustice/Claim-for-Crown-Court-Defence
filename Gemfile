@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
 ruby '2.4.2'
 gem 'dotenv-rails', groups: [:development, :test]
-gem 'amoeba',                 '~> 3.0.0'
-gem 'auto_strip_attributes',  '~> 2.0'
+gem 'amoeba',                 '~> 3.1'
+gem 'auto_strip_attributes',  '~> 2'
 gem 'aws-sdk',                '~> 2'
 gem 'awesome_print'
 gem 'cancancan',              '~> 1.15'
 gem 'cocoon',                 '~> 1.2.6'
 gem 'devise',                 '~> 3.5.1'
-gem 'dropzonejs-rails',       '~> 0.7.1'
+gem 'dropzonejs-rails',       '~> 0.7'
 gem 'factory_girl_rails',     '~> 4.7'
 gem 'faker',                  '~> 1.8.4'
 gem 'gov_uk_date_fields',     '= 1.2.3'
@@ -33,9 +33,9 @@ gem 'logstuff',               '0.0.2'
 gem 'paperclip',              '~> 5.1.0'
 gem 'paper_trail',            '4.0.2' # version locked, https://github.com/airblade/paper_trail/issues/738
 gem 'pg',                     '~> 0.18.2'
-gem 'rails',                  '~> 4.2.8'
+gem 'rails',                  '~> 4.2'
 gem 'redis',                  '~> 3.3.1'
-gem 'config',                 '~> 1.2.1' # this gem provides our Settings.xxx mechanism
+gem 'config',                 '~> 1.2' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.2'
 gem 'rest-client',            '~> 2.0' # needed for scheduled smoke testing plus others
 gem 'sass-rails',             '~> 5.0.6'

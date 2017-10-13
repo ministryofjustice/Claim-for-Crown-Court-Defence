@@ -95,7 +95,7 @@
           },
           "number_of_cases": {
             "id": "/properties/bills/items/properties/number_of_cases",
-            "type": "integer"
+            "type": "string"
           },
            "case_numbers": {
             "id": "/properties/bills/items/properties/case_numbers",
@@ -103,36 +103,48 @@
           },
           "number_of_witnesses": {
             "id": "/properties/bills/items/properties/number_of_witnesses",
-            "type": "integer"
+            "type": "string"
           },
           "daily_attendances": {
             "id": "/properties/bills/items/properties/daily_attendances",
-            "type": "integer"
-          },
-          "conferences_and_views_refno": {
-            "id": "/properties/bills/items/properties/conferences_and_views_refno",
-            "type": "integer"
-          },
-          "conferences_and_views_at": {
-            "id": "/properties/bills/items/properties/conferences_and_views_at",
-            "type": ["string","null"]
+            "type": "string"
           },
           "ppe": {
             "id": "/properties/bills/items/properties/ppe",
-            "type": "integer"
+            "type": "string"
           },
           "quantity": {
             "id": "/properties/bills/items/properties/quantity",
-            "type": "number"
+            "type": ["string","null"]
           },
           "rate": {
             "id": "/properties/bills/items/properties/rate",
-            "type": "number"
+            "type": ["string","null"]
           },
           "amount": {
             "id": "/properties/bills/items/properties/amount",
-            "type": "number"
-          }
+            "type": "string"
+          },
+          "dates_attended": {
+            "id": "/properties/bills/items/properties/dates_attended",
+            "items": {
+              "id": "/properties/bills/items/properties/dates_attended/items",
+              "additionalProperties": false,
+              "properties": {
+                "from": {
+                  "id": "/properties/bills/items/properties/dates_attended/items/properties/from",
+                  "type": ["string","null"]
+                },
+                "to": {
+                  "id": "/properties/bills/items/properties/dates_attended/items/properties/to",
+                  "type": ["string","null"]
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "type": "array"
         },
         "type": "object"
       },

@@ -2,18 +2,21 @@ module API
   module Entities
     module CCR
       class AdaptedAdvocateFee < API::Entities::CCR::AdaptedBaseFee
-        # irrelevant exposures for this consolidated "fee-of-fees"
-        # but required by CCR (quantity) or to overide superclass
-        expose :quantity
-        expose :rate
-        expose :amount
+        with_options(format_with: :string) do
+          # irrelevant exposures for this consolidated "fee-of-fees"
+          # but required by CCR (quantity) or to overide superclass
+          expose :quantity
+          expose :rate
+          expose :amount
 
-        # derived/transformed data exposures
-        expose :ppe
-        expose :number_of_witnesses
-        expose :number_of_cases
+          # derived/transformed data exposures
+          expose :ppe
+          expose :number_of_witnesses
+          expose :number_of_cases
+          expose :daily_attendances
+        end
+
         expose :case_numbers
-        expose :daily_attendances
 
         # NOTE: for possible use in comparisons between CCCD and CCR calculation comparision
         # expose :calculated_fee, as: :calculatedFee

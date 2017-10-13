@@ -29,8 +29,9 @@ describe API::V2::CCRClaim do
   before(:all) do
     @case_worker = create(:case_worker, :admin)
     @claim = create(:authorised_claim, :without_fees).tap do |claim|
-      # NOTE: this will also create the BABAF basic fee TYPE
+      # NOTE: this will also create the BABAF basic fee TYPE and MISPF misc fee TYPE
       create(:basic_fee, :baf_fee, claim: claim, quantity: 1)
+      create(:misc_fee, :mispf_fee, :with_date_attended, claim: claim)
     end
   end
 
@@ -193,11 +194,11 @@ describe API::V2::CCRClaim do
           end
 
           it 'property type valid' do
-            expect(response).to have_json_type(Integer).at_path "bills/0/ppe"
+            expect(response).to have_json_type(String).at_path "bills/0/ppe"
           end
 
           it 'value taken from the Pages of prosecution evidence Fee quantity' do
-            expect(response).to be_json_eql("1024").at_path "bills/0/ppe"
+            expect(response).to be_json_eql("1024".to_json).at_path "bills/0/ppe"
           end
         end
 
@@ -215,11 +216,11 @@ describe API::V2::CCRClaim do
           end
 
           it 'property type valid' do
-            expect(response).to have_json_type(Integer).at_path "bills/0/number_of_cases"
+            expect(response).to have_json_type(String).at_path "bills/0/number_of_cases"
           end
 
           it 'calculated from Number of Cases uplift Fee quantity plus 1, for the "main" case' do
-            expect(response).to be_json_eql("3").at_path "bills/0/number_of_cases"
+            expect(response).to be_json_eql("3".to_json).at_path "bills/0/number_of_cases"
           end
         end
 
@@ -259,11 +260,11 @@ describe API::V2::CCRClaim do
           end
 
           it 'property type valid' do
-            expect(response).to have_json_type(Integer).at_path "bills/0/number_of_witnesses"
+            expect(response).to have_json_type(String).at_path "bills/0/number_of_witnesses"
           end
 
           it 'property value determined from Number of Prosecution Witnesses Fee quantity' do
-            expect(response).to be_json_eql("3").at_path "bills/0/number_of_witnesses"
+            expect(response).to be_json_eql("3".to_json).at_path "bills/0/number_of_witnesses"
           end
         end
 
@@ -279,7 +280,7 @@ describe API::V2::CCRClaim do
 
           it 'includes property' do
             expect(response).to have_json_path("bills/0/daily_attendances")
-            expect(response).to have_json_type(Integer).at_path "bills/0/daily_attendances"
+            expect(response).to have_json_type(String).at_path "bills/0/daily_attendances"
           end
 
           context 'upper bound value' do
@@ -291,7 +292,7 @@ describe API::V2::CCRClaim do
             end
 
             it 'calculated from Daily Attendanance Fee quantities if they exist' do
-              expect(response).to be_json_eql("51").at_path "bills/0/daily_attendances"
+              expect(response).to be_json_eql("51".to_json).at_path "bills/0/daily_attendances"
             end
           end
 
@@ -301,7 +302,7 @@ describe API::V2::CCRClaim do
             end
 
             it 'calculated from acutal trial length if no daily attendance fees' do
-              expect(response).to be_json_eql("2").at_path "bills/0/daily_attendances"
+              expect(response).to be_json_eql("2".to_json).at_path "bills/0/daily_attendances"
             end
           end
         end

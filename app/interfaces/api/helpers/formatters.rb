@@ -8,6 +8,8 @@ module API::Helpers
       end
     end
 
+    Grape::Entity.format_with(:string, &:to_s)
+
     Grape::Entity.format_with :decimal do |number|
       number.to_f.round(2)
     end

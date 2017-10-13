@@ -64,7 +64,7 @@ group :production, :devunicorn do
 end
 
 group :development, :devunicorn do
-  gem 'meta_request', '~> 0.3.4'
+  gem 'meta_request'
   gem 'rubocop',      '~>0.50'
 end
 
@@ -97,7 +97,7 @@ group :test do
   gem 'capybara',                   '~> 2.6.2'
   gem 'codeclimate-test-reporter',  require: false
   gem 'cucumber-rails',             require: false
-  gem 'database_cleaner',           '~> 1.4.1'
+  gem 'database_cleaner'
   gem 'json_spec', '~> 1.1', '>= 1.1.5'
   gem 'kaminari-rspec',             '~> 0.16.1'
   gem 'launchy',                    '~> 2.4.3'
@@ -108,8 +108,8 @@ group :test do
   gem 'simplecov',                  require: false
   gem 'simplecov-csv',              require: false
   gem 'simplecov-multi',            require: false
-  gem 'i18n-tasks',                 '~> 0.8.7'
-  gem 'timecop',                    '~> 0.7.4'
+  gem 'i18n-tasks'
+  gem 'timecop'
   gem 'vcr',                        '~> 3.0.3'
   gem 'webmock',                    '~> 3.0'
 end

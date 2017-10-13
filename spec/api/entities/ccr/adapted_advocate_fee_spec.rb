@@ -12,18 +12,19 @@ describe API::Entities::CCR::AdaptedAdvocateFee do
     allow(claim).to receive(:case_type).and_return case_type
   end
 
-  it 'has expected json key-value pairs' do
+  it 'exposes expected json key-value pairs' do
     expect(response).to include(
       bill_type: 'AGFS_FEE',
       bill_subtype: 'AGFS_FEE',
-      quantity: '1.0',
-      rate: '0.0',
-      amount: '0.0',
       ppe: '0',
       number_of_witnesses: '0',
       number_of_cases: '1',
       daily_attendances: '0',
       case_numbers: nil
     )
+  end
+
+  it 'does not expose unneccesary fee attributes' do
+    expect(response.keys).not_to include(:quantity, :rate, :amount)
   end
 end

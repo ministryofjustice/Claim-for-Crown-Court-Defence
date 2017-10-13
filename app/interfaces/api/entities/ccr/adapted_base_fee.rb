@@ -7,9 +7,6 @@ module API
       class AdaptedBaseFee < API::Entities::CCR::BaseEntity
         expose :bill_type
         expose :bill_subtype
-        expose :quantity
-        expose :rate
-        expose :amount
         expose :case_numbers
       end
     end

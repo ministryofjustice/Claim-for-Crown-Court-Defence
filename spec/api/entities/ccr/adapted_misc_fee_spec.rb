@@ -14,7 +14,7 @@ describe API::Entities::CCR::AdaptedMiscFee do
   end
   let(:adapted_misc_fee) { ::CCR::Fee::MiscFeeAdapter.new.call(misc_fee) }
 
-  it 'has expected json key-value pairs' do
+  it 'exposes expected json key-value pairs' do
     expect(response).to include(
       bill_type: 'AGFS_MISC_FEES',
       bill_subtype: 'AGFS_SPCL_PREP',
@@ -25,7 +25,7 @@ describe API::Entities::CCR::AdaptedMiscFee do
     )
   end
 
-  it 'returns dates attended' do
+  it 'exposes dates attended in JSON compatible format' do
     from = misc_fee.dates_attended.first.date&.iso8601
     to = misc_fee.dates_attended.first.date_to&.iso8601
     expect(response[:dates_attended].first).to include(from: from, to: to)

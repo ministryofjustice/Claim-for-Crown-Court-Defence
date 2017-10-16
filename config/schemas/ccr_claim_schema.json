@@ -10,7 +10,7 @@
     },
     "actual_trial_Length": {
       "id": "/properties/actual_trial_length",
-      "type": "integer"
+      "type": "string"
     },
     "trial_fixed_notice_at": {
       "id": "/properties/trial_fixed_notice_at",
@@ -228,7 +228,7 @@
     },
     "estimated_trial_length": {
       "id": "/properties/estimated_trial_length",
-      "type": "integer"
+      "type": "string"
     },
     "offence": {
       "additionalProperties": false,

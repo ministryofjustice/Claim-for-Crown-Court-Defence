@@ -24,7 +24,7 @@ module Fee
     it { should belong_to(:parent) }
     it { should have_many(:children) }
 
-    let(:fee_type)  { build :fixed_fee_type }
+    let(:fee_type) { build :fixed_fee_type }
 
     describe '.top_levels' do
       before(:all) do
@@ -51,14 +51,25 @@ module Fee
 
     describe '#case_uplift?' do
       subject { fee_type.case_uplift? }
-      it 'returns true for Number of cases uplift' do
-        allow(fee_type).to receive(:code).and_return 'NOC'
-        is_expected.to be_truthy
+
+      context 'for fixed fees that require additional case numbers' do
+        %w[FXACU FXASU FXCBU FXCSU FXCDU FXENU FXNOC].each do |unique_code|
+          before { allow(fee_type).to receive(:unique_code).and_return unique_code }
+
+          it "#{unique_code} should return true" do
+            is_expected.to be_truthy
+          end
+        end
       end
 
-      it 'returns false for basic fees not related to case uplifts' do
-        allow(fee_type).to receive(:code).and_return 'PPE'
-        is_expected.to be_falsey
+      context 'for fixed fees that do not require additional case numbers' do
+        %w[FXACV FXASE FXCBR FXCSE FXCON FXCCD FXENP FXH2S FXSAF FXALT FXASS FXASB].each do |unique_code|
+          before { allow(fee_type).to receive(:code).and_return unique_code }
+
+          it "#{unique_code} should return false" do
+            is_expected.to be_falsey
+          end
+        end
       end
     end
 
@@ -70,7 +81,7 @@ module Fee
       end
 
       it 'should order by description ascending' do
-        expect(Fee::FixedFeeType.all.map(&:description)).to eq ['Ppppp','Sssss','Xxxxx']
+        expect(Fee::FixedFeeType.all.pluck(:description)).to eq ['Ppppp','Sssss','Xxxxx']
       end
     end
   end

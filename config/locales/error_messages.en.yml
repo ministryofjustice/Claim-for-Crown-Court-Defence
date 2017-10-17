@@ -898,7 +898,7 @@ misc_fee:
     present:
       long: 'Case numbers for the #{misc_fee} are not allowed'
       short: Case numbers are not allowed
-      api: Case numbers for the miscellaneous are not allowed
+      api: Case numbers for the miscellaneous fee are not allowed
     invalid:
       long: 'Enter valid case numbers for the #{misc_fee}'
       short: Enter valid case numbers

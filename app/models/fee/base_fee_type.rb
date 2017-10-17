@@ -60,7 +60,10 @@ module Fee
     end
 
     def case_uplift?
-      code.in?(%w[NOC XUPL])
+      # Certain basic and fixed fee types (and one lgfs only miscellaneous fee)
+      # relate to additional cases and therefore require those additional
+      # case numbers to be supplied
+      unique_code.in?(%w[BANOC FXNOC FXACU FXASU FXCBU FXCSU FXCDU FXENU FXNOC MIUPL])
     end
 
     # utility methods for providing access to subclasses

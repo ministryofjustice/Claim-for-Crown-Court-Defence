@@ -21,14 +21,14 @@ module Fee
       # but this SHOULD change for CCR compatability
       #
 
-      delegate :case_uplift?, :case_numbers, :quantity, to: :@record
+      delegate :case_uplift?, :case_numbers, :quantity, :fee_type, to: :@record
 
       def validate_case_numbers
         return if fee_code.nil?
 
         if case_uplift?
-          validate_presence(:case_numbers, 'blank') if fee_code == 'XUPL'
-          validate_quantity_case_number_mismatch if fee_code == 'NOC'
+          validate_presence(:case_numbers, 'blank') if fee_type&.unique_code == 'MIUPL'
+          validate_quantity_case_number_mismatch if fee_type&.unique_code.in?(%w[BANOC FXNOC FXACU FXASU FXCBU FXCSU FXCDU FXENU FXNOC ])
           validate_each_case_number
         else
           validate_absence(:case_numbers, 'present')

@@ -12,7 +12,7 @@ RSpec.describe Fee::MiscFeeTypePresenter do
       end
 
       it 'returns true when is Case uplift' do
-        fee_type.code = 'XUPL'
+        fee_type.unique_code = 'MIUPL'
         expect(presenter.data_attributes[:case_numbers]).to be_truthy
       end
     end

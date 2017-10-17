@@ -130,7 +130,7 @@ describe API::V1::ExternalUsers::Fee do
       end
 
       context 'misc fees of type case uplift' do
-        let!(:misc_fee_xupl_type) { create(:misc_fee_type, code: 'XUPL') }
+        let!(:misc_fee_xupl_type) { create(:misc_fee_type, unique_code: 'MIUPL') }
         let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_xupl_type.id, quantity: 1, rate: 210.00, case_numbers: 'T20161234' } }
 
         it 'should create the misc fee with the provided quantity, rate, amount and case numbers' do
@@ -171,7 +171,7 @@ describe API::V1::ExternalUsers::Fee do
       end
 
       it 'should raise error if case numbers are not provided for miscellaneous fee of type Case Uplift' do
-        misc_fee_type.update(code: 'XUPL')
+        misc_fee_type.update(unique_code: 'MIUPL')
         post_to_create_endpoint
         expect(last_response.status).to eq 400
         expect_error_response("Enter at least one case number for the miscellaneous fee",0)

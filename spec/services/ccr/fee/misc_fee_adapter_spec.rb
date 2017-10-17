@@ -63,7 +63,8 @@ module CCR
         MIRNL:  %w[AGFS_MISC_FEES AGFS_NOVEL_LAW], # Research of very unusual or novel point of law
         MISHR:  %w[AGFS_MISC_FEES AGFS_SENTENCE], # Sentence hearings
         MISHU:  %w[AGFS_MISC_FEES TBC], # Sentence hearings uplift
-        MISPF:  %w[AGFS_MISC_FEES SPECIAL_PREP], # Special preparation fee
+        MISPF: %w[AGFS_MISC_FEES AGFS_SPCL_PREP], # Special preparation fee - AGFS only version
+        # MISPF: %w[FEE_SUPPLEMENT SPECIAL_PREP]), # TODO: Special preparation fee - LGFS only version - need to apply fee type role logic
         MISAU:  %w[AGFS_MISC_FEES TBC], # Standard appearance fee uplift
         MITNP:  %w[AGFS_MISC_FEES AGFS_NOT_PRCD], # Trial not proceed
         MITNU:  %w[AGFS_MISC_FEES TBC], # Trial not proceed uplift

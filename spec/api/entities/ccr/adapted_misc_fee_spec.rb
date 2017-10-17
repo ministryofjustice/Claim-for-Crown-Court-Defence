@@ -17,7 +17,7 @@ describe API::Entities::CCR::AdaptedMiscFee do
   it 'has expected json key-value pairs' do
     expect(response).to include(
       bill_type: 'AGFS_MISC_FEES',
-      bill_subtype: 'SPECIAL_PREP',
+      bill_subtype: 'AGFS_SPCL_PREP',
       quantity: '1.1',
       rate: '25.0',
       amount: '27.5',

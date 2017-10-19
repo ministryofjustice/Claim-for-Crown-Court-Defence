@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
 ruby '2.4.2'
 gem 'dotenv-rails', groups: [:development, :test]
-gem 'amoeba',                 '~> 3.0.0'
-gem 'auto_strip_attributes',  '~> 2.0'
+gem 'amoeba',                 '~> 3.1'
+gem 'auto_strip_attributes',  '~> 2'
 gem 'aws-sdk',                '~> 2'
 gem 'awesome_print'
 gem 'cancancan',              '~> 1.15'
 gem 'cocoon',                 '~> 1.2.6'
 gem 'devise',                 '~> 3.5.1'
-gem 'dropzonejs-rails',       '~> 0.7.1'
+gem 'dropzonejs-rails',       '~> 0.7'
 gem 'factory_girl_rails',     '~> 4.7'
 gem 'faker',                  '~> 1.8.4'
 gem 'gov_uk_date_fields',     '= 1.2.3'
@@ -33,9 +33,9 @@ gem 'logstuff',               '0.0.2'
 gem 'paperclip',              '~> 5.1.0'
 gem 'paper_trail',            '4.0.2' # version locked, https://github.com/airblade/paper_trail/issues/738
 gem 'pg',                     '~> 0.18.2'
-gem 'rails',                  '~> 4.2.8'
+gem 'rails',                  '~> 4.2'
 gem 'redis',                  '~> 3.3.1'
-gem 'config',                 '~> 1.2.1' # this gem provides our Settings.xxx mechanism
+gem 'config',                 '~> 1.2' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.2'
 gem 'rest-client',            '~> 2.0' # needed for scheduled smoke testing plus others
 gem 'sass-rails',             '~> 5.0.6'
@@ -64,7 +64,7 @@ group :production, :devunicorn do
 end
 
 group :development, :devunicorn do
-  gem 'meta_request', '~> 0.3.4'
+  gem 'meta_request'
   gem 'rubocop',      '~>0.50'
 end
 
@@ -97,7 +97,7 @@ group :test do
   gem 'capybara',                   '~> 2.6.2'
   gem 'codeclimate-test-reporter',  require: false
   gem 'cucumber-rails',             require: false
-  gem 'database_cleaner',           '~> 1.4.1'
+  gem 'database_cleaner'
   gem 'json_spec', '~> 1.1', '>= 1.1.5'
   gem 'kaminari-rspec',             '~> 0.16.1'
   gem 'launchy',                    '~> 2.4.3'
@@ -108,8 +108,8 @@ group :test do
   gem 'simplecov',                  require: false
   gem 'simplecov-csv',              require: false
   gem 'simplecov-multi',            require: false
-  gem 'i18n-tasks',                 '~> 0.8.7'
-  gem 'timecop',                    '~> 0.7.4'
+  gem 'i18n-tasks'
+  gem 'timecop'
   gem 'vcr',                        '~> 3.0.3'
   gem 'webmock',                    '~> 3.0'
 end

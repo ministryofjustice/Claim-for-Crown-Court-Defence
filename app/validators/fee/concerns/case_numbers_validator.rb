@@ -12,23 +12,23 @@ module Fee
 
       private
 
-      # NOTE: LGFS fee of MIXUPL implements similar logic
+      # NOTE: LGFS fee of MIUPL/XUPL implements similar logic
       # but does not require a quantity and therefore
       # cannot implement the quantity mismatch validation.
       #
-      # TODO: At time of writing the AGFS NOC fee types are not
-      # requiring case numbers due to impact on to API
-      # but this SHOULD change for CCR compatability
+      # TODO: At time of writing the AGFS case uplift fee types are
+      # not requiring case numbers due to impact on the API
+      # but this SHOULD change for CCR compatability.
       #
 
       delegate :case_uplift?, :case_numbers, :quantity, :fee_type, to: :@record
 
       def validate_case_numbers
-        return if fee_code.nil?
+        return if fee_type&.unique_code.nil?
 
         if case_uplift?
-          validate_presence(:case_numbers, 'blank') if fee_type&.unique_code == 'MIUPL'
-          validate_quantity_case_number_mismatch if fee_type&.unique_code.in?(%w[BANOC FXNOC FXACU FXASU FXCBU FXCSU FXCDU FXENU FXNOC ])
+          validate_presence(:case_numbers, 'blank') if fee_type.lgfs?
+          validate_quantity_case_number_mismatch if fee_type.agfs?
           validate_each_case_number
         else
           validate_absence(:case_numbers, 'present')

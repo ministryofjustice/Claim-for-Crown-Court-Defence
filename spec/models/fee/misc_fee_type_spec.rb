@@ -21,7 +21,7 @@ require 'rails_helper'
 module Fee
   describe MiscFeeType do
 
-    let(:fee_type)  { build :misc_fee_type }
+    let(:fee_type) { build :misc_fee_type }
 
     describe '#fee_category_name' do
       it 'returns the category name' do
@@ -43,7 +43,7 @@ module Fee
 
     describe '#case_uplift?' do
       it 'returns true when fee_type is Case Uplift' do
-        fee_type.code = 'XUPL'
+        fee_type.unique_code = 'MIUPL'
         expect(fee_type.case_uplift?).to be_truthy
       end
 

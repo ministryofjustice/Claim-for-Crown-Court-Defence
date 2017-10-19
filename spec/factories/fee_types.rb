@@ -73,8 +73,17 @@ FactoryGirl.define do
         description 'Special preparation fee'
         code 'SPF'
         unique_code 'MISPF'
+        quantity_is_decimal false
+      end
+
+      trait :miupl do
+        lgfs
+        description 'Case uplift'
+        code 'XUPL'
+        unique_code 'MIUPL'
         quantity_is_decimal true
       end
+
     end
 
     factory :fixed_fee_type, class: Fee::FixedFeeType do

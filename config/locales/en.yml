@@ -890,6 +890,7 @@ en:
       fee_category: Fee category
       fee_type: Fee type
       fee_subtype: Fee subtype
+      case_numbers: *case_numbers
       quantity: Quantity
       dates_attended: Dates attended
       fees_total: 'Fees total:'
@@ -937,6 +938,7 @@ en:
       fee_category: Fee category
       fee_type: Fee type
       fee_subtype: Fee subtype
+      case_numbers: *case_numbers
       quantity: Quantity
       dates_attended: Dates attended
       fees_total: 'Fees total:'
@@ -985,6 +987,7 @@ en:
       fee_category: Fee category
       fee_type: Fee type
       fee_subtype: Fee subtype
+      case_numbers: *case_numbers
       quantity: Quantity
       dates_attended: Dates attended
       fees_total: 'Fees total:'

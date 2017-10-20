@@ -38,6 +38,9 @@
                 - if fee.sub_type.present?
                   %p
                     = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
+                - if fee.case_numbers.present?
+                  %br
+                  = "(#{t('.case_numbers')}: #{fee.case_numbers})"
               %td.numeric
                 = fee.quantity
               %td.numeric

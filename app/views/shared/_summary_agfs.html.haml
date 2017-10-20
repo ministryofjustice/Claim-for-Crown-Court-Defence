@@ -6,7 +6,7 @@
       %p
         = t('shared.summary.no_values.fees')
     - else
-      / table does noe require summary
+      / table does not require summary
       %table.figures
         %caption.visually-hidden
           = t('.fees.caption')
@@ -42,7 +42,9 @@
                 - if fee.sub_type.present?
                   %p
                     = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
-
+                - if fee.case_numbers.present?
+                  %br
+                  = "#{t('.case_numbers')}: #{fee.case_numbers}"
               - unless claim.interim?
                 %td.numeric
                   = fee.quantity

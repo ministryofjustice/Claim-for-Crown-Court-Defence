@@ -109,12 +109,17 @@ describe API::V2::CCRClaim do
     end
 
     context 'bills' do
-      subject(:response) do
-        do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-      end
+      subject(:response) { do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body }
+      subject(:bills) { JSON.parse(response)['bills'] }
 
       let(:claim) do
         create(:authorised_claim, :without_fees)
+      end
+
+      it 'returns empty array if no bills found' do
+        expect(response).to have_json_size(0).at_path("bills")
+        expect(bills).to be_an Array
+        expect(bills).to be_empty
       end
 
       context 'advocate fee' do

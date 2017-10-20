@@ -24,17 +24,12 @@ module API
       # CCR fields that can be derived from CCCD data
       expose :estimated_trial_length_or_one, as: :estimated_trial_length, format_with: :string
       expose :actual_trial_length_or_one, as: :actual_trial_Length, format_with: :string
-      # ----------------------------------------------
 
       # CCR fields whose values can, and are, mapped to a CCCD field's values
       expose :adapted_advocate_category, as: :advocate_category
-      # ----------------------------------------------
 
-      # wrapper for the mapping of CCCD fees to CCR bills
-      expose :bills do
-        expose :advocate_fees, merge: true, using: API::Entities::CCR::AdaptedAdvocateFee
-        expose :miscellaneous_fees, merge: true, using: API::Entities::CCR::AdaptedMiscFee
-      end
+      # CCR fee to bill mappings
+      expose :bills
 
       private
 
@@ -48,6 +43,13 @@ module API
 
       def actual_trial_length_or_one
         [object.actual_trial_length, 1].compact.max
+      end
+
+      def bills
+        data = []
+        data.push API::Entities::CCR::AdaptedAdvocateFee.represent(advocate_fees)
+        data.push API::Entities::CCR::AdaptedMiscFee.represent(miscellaneous_fees)
+        data.flatten.as_json
       end
 
       def adapted_advocate_category

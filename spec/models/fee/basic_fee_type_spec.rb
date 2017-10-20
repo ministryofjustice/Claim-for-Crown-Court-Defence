@@ -47,14 +47,22 @@ module Fee
 
     describe '#case_uplift?' do
       subject { fee_type.case_uplift? }
-      it 'returns true for Number of cases uplift' do
-        allow(fee_type).to receive(:code).and_return 'NOC'
-        is_expected.to be_truthy
+      context 'for basic fees related to case uplifts' do
+        before { allow(fee_type).to receive(:unique_code).and_return 'BANOC' }
+
+        it "BANOC should return true" do
+          is_expected.to be_truthy
+        end
       end
 
-      it 'returns false for basic fees not related to case uplifts' do
-        allow(fee_type).to receive(:code).and_return 'PPE'
-        is_expected.to be_falsey
+      context 'for basic fees not related to case uplifts' do
+        %w[BABAF BADAF BADAH BADAJ BASAF BAPCM BACAV BANDR BANPW BAPPE].each do |unique_code|
+          before { allow(fee_type).to receive(:unique_code).and_return unique_code }
+
+          it "#{unique_code} should return false" do
+            is_expected.to be_falsey
+          end
+        end
       end
     end
 

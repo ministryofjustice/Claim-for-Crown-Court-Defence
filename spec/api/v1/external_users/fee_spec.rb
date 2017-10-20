@@ -19,6 +19,7 @@ describe API::V1::ExternalUsers::Fee do
 
   let!(:basic_fee_type)     { create(:basic_fee_type) }
   let!(:misc_fee_type)      { create(:misc_fee_type) }
+  let!(:misc_fee_xupl_type) { create(:misc_fee_type, :miupl) }
   let!(:fixed_fee_type)     { create(:fixed_fee_type) }
   let!(:interim_fee_type)   { create(:interim_fee_type) }
   let!(:graduated_fee_type) { create(:graduated_fee_type) }
@@ -130,25 +131,27 @@ describe API::V1::ExternalUsers::Fee do
       end
 
       context 'misc fees of type case uplift' do
-        let!(:misc_fee_xupl_type) { create(:misc_fee_type, code: 'XUPL') }
-        let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_xupl_type.id, quantity: 1, rate: 210.00, case_numbers: 'T20161234' } }
+        context "LGFS fees" do
+          let(:claim) { create(:litigator_claim, source: 'api') }
+          let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_xupl_type.id, amount: 210, case_numbers: 'T20161234' } }
 
-        it 'should create the misc fee with the provided quantity, rate, amount and case numbers' do
-          post_to_create_endpoint
-          json = JSON.parse(last_response.body)
-          fee = Fee::BaseFee.find_by(uuid: json['id'])
-          expect(fee.claim_id).to eq claim.id
-          expect(fee.fee_type_id).to eq misc_fee_xupl_type.id
-          expect(fee.quantity).to eq 1
-          expect(fee.rate).to eq 210.00
-          expect(fee.amount).to eq 210.00
-          expect(fee.case_numbers).to eq 'T20161234'
+          it 'should create the misc fee with the provided amount and case numbers' do
+            post_to_create_endpoint
+            json = JSON.parse(last_response.body)
+            fee = Fee::BaseFee.find_by(uuid: json['id'])
+            expect(fee.claim_id).to eq claim.id
+            expect(fee.fee_type_id).to eq misc_fee_xupl_type.id
+            expect(fee.amount).to eq 210.00
+            expect(fee.case_numbers).to eq 'T20161234'
+          end
         end
       end
     end
 
     context "fee type specific errors" do
-      let!(:valid_params)       { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
+      let!(:valid_params) do
+        { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 }
+      end
 
       it 'THE basic fee should raise basic fee (code BAF) errors' do
         valid_params.delete(:rate)
@@ -170,11 +173,17 @@ describe API::V1::ExternalUsers::Fee do
         expect_error_response("Pages of prosecution evidence fees must not have a rate",0)
       end
 
-      it 'should raise error if case numbers are not provided for miscellaneous fee of type Case Uplift' do
-        misc_fee_type.update(code: 'XUPL')
-        post_to_create_endpoint
-        expect(last_response.status).to eq 400
-        expect_error_response("Enter at least one case number for the miscellaneous fee",0)
+      context "LGFS fee" do
+        let(:claim) { create(:litigator_claim, source: 'api') }
+        let!(:valid_params) do
+          { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_xupl_type.id, amount: 210.0 }
+        end
+
+        it 'should raise error if case numbers are not provided for miscellaneous fee of type Case Uplift' do
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect_error_response("Enter at least one case number for the miscellaneous fee",0)
+        end
       end
 
       context 'quantity is forbidden' do

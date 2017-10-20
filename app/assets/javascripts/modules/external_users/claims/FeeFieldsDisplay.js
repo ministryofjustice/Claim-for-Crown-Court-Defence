@@ -26,10 +26,12 @@ moj.Modules.FeeFieldsDisplay = {
       var showCaseNumbers = currentElement.find('option:selected').data('case-numbers');
 
       if (showCaseNumbers) {
-        caseNumbersInput.prop('disabled', false);
+        caseNumbersInput.prop('readonly', false);
+        caseNumbersInput.prop('tabindex', 0);
       } else {
         caseNumbersInput.val('');
-        caseNumbersInput.prop('disabled', true);
+        caseNumbersInput.prop('readonly', true);
+        caseNumbersInput.prop('tabindex', -1);
       }
     }
   }

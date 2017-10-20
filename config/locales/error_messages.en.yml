@@ -898,7 +898,7 @@ misc_fee:
     present:
       long: 'Case numbers for the #{misc_fee} are not allowed'
       short: Case numbers are not allowed
-      api: Case numbers for the miscellaneous are not allowed
+      api: Case numbers for the miscellaneous fee are not allowed
     invalid:
       long: 'Enter valid case numbers for the #{misc_fee}'
       short: Enter valid case numbers
@@ -1002,6 +1002,10 @@ fixed_fee:
         long: Enter valid case numbers for the Number of cases uplift
         short: Enter valid case numbers
         api: Enter valid case numbers for the Number of cases uplift
+      present:
+        long: Case numbers for the fixed fee are not allowed
+        short: Case numbers are not allowed
+        api: Case numbers for the fixed fee are not allowed
       noc_qty_mismatch:
         long: The number of case uplifts does not match the additional case numbers
         short: Enter case numbers for each uplift

@@ -1,6 +1,5 @@
 require 'rails_helper'
 require_relative '../validation_helpers'
-require_relative 'shared_examples_for_fee_validators'
 
 describe Fee::BaseFeeValidator do
 

@@ -108,6 +108,11 @@ button.search {
   cursor: not-allowed;
 }
 
+// Required when you need to clear values and disable field but still submit values
+.form-control:read-only {
+  @extend .form-control:disabled;
+}
+
 .currency-indicator{
     display: inline-block;
     padding: 4px 12px;

@@ -1,6 +1,5 @@
 require 'rails_helper'
 require_relative '../validation_helpers'
-require_relative 'shared_examples_for_fee_validators'
 
 describe Fee::MiscFeeValidator do
 
@@ -61,8 +60,12 @@ describe Fee::MiscFeeValidator do
       end
 
       context 'for a Case Uplift fee type' do
+        let(:fee_type) do
+          instance_double('fee_type', unique_code: 'MIUPL', case_uplift?: true, lgfs?: true, agfs?: false)
+        end
+
         before(:each) do
-          allow(fee.fee_type).to receive(:code).and_return 'XUPL'
+          allow(fee).to receive(:fee_type).and_return fee_type
         end
 
         it 'should error if case_numbers is blank' do

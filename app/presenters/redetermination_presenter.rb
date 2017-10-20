@@ -22,6 +22,6 @@ class RedeterminationPresenter < BasePresenter
   end
 
   def total_inc_vat
-    h.number_to_currency(redetermination.total + redetermination.vat_amount)
+    h.number_to_currency(redetermination.total + (redetermination.vat_amount || 0))
   end
 end

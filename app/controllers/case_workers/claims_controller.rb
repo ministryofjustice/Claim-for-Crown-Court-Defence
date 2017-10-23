@@ -15,7 +15,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :filter_archived_claims,  only: [:archived]
   before_action :sort_claims,             only: %i[index archived]
 
-  before_action :set_claim, only: %i[show messages publish enquire]
+  before_action :set_claim, only: %i[show messages publish enquire download_zip]
   before_action :set_doctypes, only: %i[show update]
 
   include ReadMessages
@@ -27,6 +27,16 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def show
     prepare_show_action
+  end
+
+  def download_zip
+    zipper = S3ZipDownloader.new(@claim)
+    zip_file = zipper.generate!
+
+    send_file zip_file,
+              filename: "#{@claim.case_number}-documents.zip",
+              type: 'application/zip',
+              disposition: 'attachment'
   end
 
   def messages

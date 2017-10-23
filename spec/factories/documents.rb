@@ -50,7 +50,7 @@ FactoryGirl.define do
 
     trait :verified do
       verified_file_size 2663
-      file_path 'public/tmp/longer_lorem.pdf'
+      file_path Rails.root + 'features/examples/longer_lorem.pdf'
       verified true
     end
 

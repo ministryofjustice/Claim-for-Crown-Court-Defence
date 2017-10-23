@@ -35,6 +35,7 @@ gem 'paper_trail',            '4.0.2' # version locked, https://github.com/airbl
 gem 'pg',                     '~> 0.18.2'
 gem 'rails',                  '~> 4.2'
 gem 'redis',                  '~> 3.3.1'
+gem 'rubyzip'
 gem 'config',                 '~> 1.2' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.2'
 gem 'rest-client',            '~> 2.0' # needed for scheduled smoke testing plus others

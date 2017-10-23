@@ -50,6 +50,20 @@ describe 'case_workers/claims/show.html.haml', type: :view do
       expect(rendered).to have_content('First day of retrial')
     end
 
+    describe 'document checklist' do
+      let!(:claim_with_doc) { create :claim }
+      let!(:document) { create :document, :verified, claim: claim_with_doc }
+
+      before do
+        allow(view).to receive(:current_user_persona_is?).with(CaseWorker).and_return(true)
+        assign(:claim, claim_with_doc)
+        render
+      end
+
+      it 'displays a `download all` link' do
+        expect(rendered).to have_link('Download all')
+      end
+    end
   end
 
 
@@ -67,8 +81,9 @@ describe 'case_workers/claims/show.html.haml', type: :view do
   end
 
   def trial_claim(trial_prefix = nil)
-    @claim = create(:submitted_claim, case_type: FactoryGirl.create(:case_type, "#{trial_prefix}trial".to_sym))
+    @claim = create(:submitted_claim, case_type: FactoryGirl.create(:case_type, "#{trial_prefix}trial".to_sym), evidence_checklist_ids: [1, 9])
     @case_worker.claims << @claim
+    @document = create(:document, claim_id: @claim.id, form_id: @claim.form_id)
     @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
   end

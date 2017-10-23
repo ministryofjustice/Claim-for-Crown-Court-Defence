@@ -21,7 +21,7 @@ module Fee
       # but this SHOULD change for CCR compatability.
       #
 
-      delegate :case_uplift?, :case_numbers, :quantity, :fee_type, to: :@record
+      delegate :case_uplift?, :case_numbers, :quantity, :fee_type, :claim, to: :@record
 
       def validate_case_numbers
         return if fee_type&.unique_code.nil?
@@ -36,8 +36,13 @@ module Fee
       end
 
       def validate_case_numbers_presence
-        # lgfs case uplift (MIUPL) fee does not require a quantity
-        validate_presence(:case_numbers, 'blank') if fee_type.lgfs? || quantity.to_i.positive?
+        if fee_type.lgfs?
+          validate_presence(:case_numbers, 'blank')
+        else
+          unless claim&.api_draft?
+            validate_presence(:case_numbers, 'blank') if quantity.to_i.positive?
+          end
+        end
       end
 
       def validate_case_numbers_quantity_mismatch

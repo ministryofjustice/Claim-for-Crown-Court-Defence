@@ -95,6 +95,13 @@ FactoryGirl.define do
       code { random_safe_code }
       calculated true
       roles ['agfs']
+
+      trait :fxnoc do
+        description 'Number of cases uplift'
+        code 'NOC'
+        unique_code 'FXNOC'
+        quantity_is_decimal false
+      end
     end
 
     factory :graduated_fee_type, class: Fee::GraduatedFeeType do

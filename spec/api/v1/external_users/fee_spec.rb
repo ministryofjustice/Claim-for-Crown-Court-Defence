@@ -138,7 +138,7 @@ describe API::V1::ExternalUsers::Fee do
           it 'updates the basic fee with the provided quantity, rate, case_numbers and calculated amount' do
             post_to_create_endpoint
             json = JSON.parse(last_response.body)
-            fee = Fee::BaseFee.find_by(uuid: json['id'])
+            fee = Fee::BasicFee.find_by(uuid: json['id'])
             expect(fee.claim_id).to eq claim.id
             expect(fee.quantity).to eq 2
             expect(fee.rate).to eq 201.01
@@ -146,27 +146,22 @@ describe API::V1::ExternalUsers::Fee do
             expect(fee.case_numbers).to eq 'T20170001,T20170002'
           end
         end
+      end
 
-        context 'when invalid' do
-          it 'returns error when no additional case numbers provided' do
-            valid_params[:case_numbers] = nil
+      context 'fixed fees of type case uplift' do
+        let!(:fixed_fee_noc_type) { create(:fixed_fee_type, :fxnoc) }
+        let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: fixed_fee_noc_type.id, quantity: 1, rate: 201.01, case_numbers: 'T20170001' } }
+
+        context 'when valid' do
+          it 'creates the fixed fee with the provided quantity, rate, case_numbers and calculated amount' do
             post_to_create_endpoint
             json = JSON.parse(last_response.body)
-            expect(json).to include('error' => 'Enter case numbers for the Number of cases uplift')
-          end
-
-          it 'returns error when additional case numbers are of invalid format' do
-            valid_params[:case_numbers] = 'T00140001,X20170001'
-            post_to_create_endpoint
-            json = JSON.parse(last_response.body)
-            expect(json).to include('error' => 'Enter valid case numbers for the Number of cases uplift')
-          end
-
-          it 'returns error when mismatch between quantity and additional case numbers' do
-            valid_params[:case_numbers] = 'T20140001'
-            post_to_create_endpoint
-            json = JSON.parse(last_response.body)
-            expect(json).to include('error' => 'The number of case uplifts does not match the additional case numbers')
+            fee = Fee::FixedFee.find_by(uuid: json['id'])
+            expect(fee.claim_id).to eq claim.id
+            expect(fee.quantity).to eq 1
+            expect(fee.rate).to eq 201.01
+            expect(fee.amount).to eq 201.01
+            expect(fee.case_numbers).to eq 'T20170001'
           end
         end
       end
@@ -176,10 +171,10 @@ describe API::V1::ExternalUsers::Fee do
           let(:claim) { create(:litigator_claim, source: 'api') }
           let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_xupl_type.id, amount: 210, case_numbers: 'T20161234' } }
 
-          it 'should create the misc fee with the provided amount and case numbers' do
+          it 'creates the misc fee with the provided amount and case numbers' do
             post_to_create_endpoint
             json = JSON.parse(last_response.body)
-            fee = Fee::BaseFee.find_by(uuid: json['id'])
+            fee = Fee::MiscFee.find_by(uuid: json['id'])
             expect(fee.claim_id).to eq claim.id
             expect(fee.fee_type_id).to eq misc_fee_xupl_type.id
             expect(fee.amount).to eq 210.00

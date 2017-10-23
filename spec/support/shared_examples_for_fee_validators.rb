@@ -53,6 +53,17 @@ shared_examples 'common AGFS number of cases uplift validations' do
       should_not_error(noc_fee, :case_numbers)
     end
 
+    context 'when submitted by API' do
+      before do
+        noc_fee.claim.source = 'api'
+      end
+
+      it 'when case_numbers is blank and quantity is not zero' do
+        noc_fee.quantity = 1
+        should_not_error(noc_fee, :case_numbers)
+      end
+    end
+
     it 'when single valid format of case number entered' do
       noc_fee.case_numbers = 'A20161234'
       should_not_error(noc_fee, :case_numbers)

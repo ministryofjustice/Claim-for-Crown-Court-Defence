@@ -23,6 +23,12 @@
             = t('shared.summary.fee_subtype')
           %td
             = fee.sub_type.description
+      - if fee.case_uplift?
+        %tr
+          %th{scope: 'row'}
+            = t('shared.summary.case_numbers')
+          %td
+            = fee.case_numbers
 
       - if fee.claim.agfs? || fee.is_graduated? || fee.is_transfer?
         %tr

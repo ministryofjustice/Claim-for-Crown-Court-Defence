@@ -26,7 +26,7 @@ describe ClaimsHelper do
 
   end
 
-	describe "#includes_state?" do
+	describe '#includes_state?' do
 
 		let(:only_allocated_claims) { create_list(:allocated_claim, 5) }
 

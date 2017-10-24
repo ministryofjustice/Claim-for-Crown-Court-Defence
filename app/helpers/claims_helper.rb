@@ -22,8 +22,9 @@ module ClaimsHelper
   end
 
   def show_message_controls?(claim)
-    (current_user_is_caseworker? || current_user_is_external_user?) &&
-      %w[draft rejected archived_pending_delete].exclude?(claim.state)
+    return %w[submitted allocated part_authorised rejected].include?(claim.state) if current_user_is_external_user?
+    return claim.state != 'draft' if current_user_is_caseworker?
+    false
   end
 
   def messaging_permitted?(message)

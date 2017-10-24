@@ -86,4 +86,67 @@ describe ClaimsHelper do
       end
     end
   end
+
+  describe '#show_message_controls?' do
+    subject(:subj_show_message_controls?) { show_message_controls?(claim) }
+    require 'application_helper'
+    let(:claim) { build :claim, state: state }
+
+    RSpec.configure do |c|
+      c.include ApplicationHelper
+    end
+
+    helper do
+      def current_user
+        instance_double(User, persona: persona)
+      end
+    end
+
+    context 'for case_worker' do
+      let(:persona) { create :case_worker }
+
+      %w[submitted allocated authorised part_authorised rejected refused redetermination awaiting_written_reasons].each do |state|
+        context "when claim state is #{state}" do
+          let(:state) { state }
+
+          it { is_expected.to be_truthy }
+        end
+      end
+
+      %w[draft].each do |state|
+        context "when claim state is #{state}" do
+          let(:state) { state }
+
+          it { is_expected.to be_falsey }
+        end
+      end
+    end
+
+    context 'for external_user' do
+      let(:persona) { create :external_user }
+
+      %w[submitted allocated part_authorised rejected].each do |state|
+        context "when claim state is #{state}" do
+          let(:state) { state }
+
+          it { is_expected.to be_truthy }
+        end
+      end
+
+      %w[draft authorised refused redetermination awaiting_written_reasons].each do |state|
+        context "when claim state is #{state}" do
+          let(:state) { state }
+
+          it { is_expected.to be_falsey }
+        end
+      end
+    end
+
+    context 'for user with invalid persona' do
+      let(:persona) { nil }
+      let(:state) { 'submitted' }
+
+      it { is_expected. to be_falsey }
+    end
+  end
 end

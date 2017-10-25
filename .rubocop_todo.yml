@@ -9,8 +9,8 @@
 # Offense count: 45
 Lint/RescueWithoutErrorClass:
   Exclude:
-    - 'app/validators/fee/base_fee_validator.rb'
-    - 'app/validators/disbursement_validator.rb'
+    # - 'app/validators/fee/base_fee_validator.rb'
+    # - 'app/validators/disbursement_validator.rb'
     - 'app/validators/claim/litigator_supplier_number_validations.rb'
     - 'app/validators/claim/litigator_common_validations.rb'
     - 'app/validators/claim/base_claim_validator.rb'

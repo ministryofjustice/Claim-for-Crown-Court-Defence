@@ -50,6 +50,7 @@ class MessagesController < ApplicationController
   def send_email_if_required
     return unless current_user.persona.is_a?(CaseWorker)
     return unless @message.claim.creator.send_email_notification_of_message?
+    return if @message.claim.creator.softly_deleted?
     NotifyMailer.message_added_email(@message.claim).deliver_later
   end
 

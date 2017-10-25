@@ -9,10 +9,6 @@
 # Offense count: 45
 Lint/RescueWithoutErrorClass:
   Exclude:
-    - 'scheduled_tasks/management_information_generation_task.rb'
-    - 'scheduled_tasks/geckoboard_provider_task.rb'
-    - 'scheduled_tasks/document_cleaner_task.rb'
-    - 'scheduled_tasks/daily_stats_generator.rb'
     - 'app/validators/fee/base_fee_validator.rb'
     - 'app/validators/disbursement_validator.rb'
     - 'app/validators/claim/litigator_supplier_number_validations.rb'

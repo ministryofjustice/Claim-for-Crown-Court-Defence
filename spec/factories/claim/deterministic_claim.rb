@@ -54,6 +54,7 @@ FactoryGirl.define do
     external_user do
       build(:external_user, supplier_number: 'XY666', user: build(:user, first_name: 'John', last_name: 'Smith', email: 'john.smith@example.com'))
     end
+
     creator do
       external_user
     end

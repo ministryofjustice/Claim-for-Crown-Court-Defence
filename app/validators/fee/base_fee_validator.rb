@@ -179,7 +179,7 @@ module Fee
     # This is required for retrial claims created prior to retrial fields being added.
     def daf_retrial_combo_ignorable
       @record.claim.case_type.requires_retrial_dates? && !@record.claim.editable?
-    rescue
+    rescue StandardError
       false
     end
   end

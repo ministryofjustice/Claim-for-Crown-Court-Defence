@@ -235,7 +235,7 @@ class Claim::BaseClaimValidator < BaseValidator
     if method.to_s.match?(/^requires_(re){0,1}trial_dates\?/)
       begin
         @record.case_type.__send__(method)
-      rescue
+      rescue NoMethodError
         false
       end
     else
@@ -280,9 +280,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def cracked_case?
-    @record.case_type.name.match(/[Cc]racked/)
-  rescue
-    false
+    @record&.case_type&.name&.match?(/[Cc]racked/)
   end
 
   def has_fees_or_expenses_attributes?
@@ -291,9 +289,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def fixed_fee_case?
-    @record.case_type.is_fixed_fee?
-  rescue
-    false
+    @record&.case_type&.is_fixed_fee?
   end
 
   def snake_case_type

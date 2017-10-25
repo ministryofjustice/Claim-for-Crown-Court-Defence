@@ -36,17 +36,21 @@ class FeedbackController < ApplicationController
   end
 
   def merged_feedback_params
-    feedback_params.merge(email: (begin
-                current_user.email
-              rescue
-                (email_from_user_id || 'anonymous')
-              end),
+    feedback_params.merge(email: user_email_or_anonymous,
                           user_agent: request.user_agent)
   end
 
+  def user_email_or_anonymous
+    if current_user
+      current_user.email
+    else
+      email_from_user_id || 'anonymous'
+    end
+  end
+
   def email_from_user_id
-    User.active.find(params[:user_id]).try(:email)
-  rescue
+    User.active.find(params[:user_id])&.email
+  rescue ActiveRecord::RecordNotFound
     nil
   end
 

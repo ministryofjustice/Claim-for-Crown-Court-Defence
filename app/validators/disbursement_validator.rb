@@ -15,11 +15,7 @@ class DisbursementValidator < BaseValidator
 
   def validate_claim
     validate_presence(:claim, 'blank')
-    add_error(:claim, 'invalid_fee_scheme') if begin
-                                                  @record.claim.agfs?
-                                                rescue
-                                                  false
-                                                end
+    add_error(:claim, 'invalid_fee_scheme') if @record&.claim&.agfs?
   end
 
   def validate_disbursement_type

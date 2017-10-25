@@ -60,7 +60,7 @@ class JsonDocumentImporter
   def json_data
     @json_data ||= begin
                      JSON.parse(File.read(@file.tempfile))
-                   rescue
+                   rescue StandardError
                      nil
                    end
   end

@@ -13,7 +13,7 @@ module Claims
     CASEWORKER_DASHBOARD_UNALLOCATED_STATES         = %w[submitted redetermination awaiting_written_reasons].freeze
     CASEWORKER_DASHBOARD_ARCHIVED_STATES            = %w[ authorised part_authorised rejected
                                                           refused archived_pending_delete].freeze
-    VALID_STATES_FOR_REDETERMINATION                = %w[authorised part_authorised refused].freeze
+    VALID_STATES_FOR_REDETERMINATION                = %w[authorised part_authorised refused rejected].freeze
     VALID_STATES_FOR_ARCHIVAL                       = %w[authorised part_authorised refused rejected].freeze
     VALID_STATES_FOR_ALLOCATION                     = %w[submitted redetermination awaiting_written_reasons].freeze
     VALID_STATES_FOR_DEALLOCATION                   = %w[allocated].freeze

@@ -125,7 +125,7 @@ describe ClaimsHelper do
     context 'for external_user' do
       let(:persona) { create :external_user }
 
-      %w[submitted allocated part_authorised rejected].each do |state|
+      %w[submitted allocated part_authorised refused rejected].each do |state|
         context "when claim state is #{state}" do
           let(:state) { state }
 
@@ -133,7 +133,7 @@ describe ClaimsHelper do
         end
       end
 
-      %w[draft authorised refused redetermination awaiting_written_reasons].each do |state|
+      %w[draft authorised redetermination awaiting_written_reasons].each do |state|
         context "when claim state is #{state}" do
           let(:state) { state }
 

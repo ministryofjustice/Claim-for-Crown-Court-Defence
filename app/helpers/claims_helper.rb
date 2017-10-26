@@ -22,7 +22,7 @@ module ClaimsHelper
   end
 
   def show_message_controls?(claim)
-    return %w[submitted allocated part_authorised rejected].include?(claim.state) if current_user_is_external_user?
+    return %w[submitted allocated part_authorised rejected refused].include?(claim.state) if current_user_is_external_user?
     return claim.state != 'draft' if current_user_is_caseworker?
     false
   end

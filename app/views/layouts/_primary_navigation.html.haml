@@ -7,6 +7,8 @@
         %li
           = link_to 'Add a provider', new_super_admins_provider_path, class: cp(new_super_admins_provider_path)
         %li
+          = link_to 'Manage user by email', super_admins_external_users_find_path, class: cp(new_super_admins_provider_path)
+        %li
           = link_to 'Sidekiq console', sidekiq_web_path
       - elsif current_user.persona.is_a?(ExternalUser)
         %li

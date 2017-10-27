@@ -76,8 +76,7 @@ class ExpenseV2Validator < BaseValidator
     if @record.car_travel? || @record.bike_travel?
       validate_presence(:mileage_rate_id, 'blank')
       unless @record.mileage_rate_id.nil?
-        add_error(:mileage_rate_id, 'invalid') if @record.car_travel? && !@record.mileage_rate_id.in?(Expense::CAR_MILEAGE_RATES.keys)
-        add_error(:mileage_rate_id, 'invalid') if @record.bike_travel? && !@record.mileage_rate_id.in?(Expense::BIKE_MILEAGE_RATES.keys)
+        add_error(:mileage_rate_id, 'invalid') if car_travel_missing_milage_rates || bike_travel_missing_milage_rates
       end
     else
       validate_absence(:mileage_rate_id, 'invalid')
@@ -97,5 +96,13 @@ class ExpenseV2Validator < BaseValidator
     else
       validate_absence(:hours, 'invalid')
     end
+  end
+
+  def car_travel_missing_milage_rates
+    @record.car_travel? && !@record.mileage_rate_id.in?(Expense::CAR_MILEAGE_RATES.keys)
+  end
+
+  def bike_travel_missing_milage_rates
+    @record.bike_travel? && !@record.mileage_rate_id.in?(Expense::BIKE_MILEAGE_RATES.keys)
   end
 end

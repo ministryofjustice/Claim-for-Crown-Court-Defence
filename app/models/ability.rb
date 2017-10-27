@@ -19,44 +19,50 @@ class Ability
     can %i[index update], UserMessageStatus
     can [:update_settings], User, id: user.id
 
-    if persona.is_a? ExternalUser
-      if persona.admin?
-        can_administer_any_claim_in_provider(persona)
-        can_administer_provider(persona)
-      else
-        # NOTE: privleges on AGFS and LGFS claims are cumulative since you can have privs for both
-        if persona.advocate?
-          can_manage_own_claims_of_class(persona, Claim::AdvocateClaim)
-        end
-
-        if persona.litigator?
-          can_manage_own_claims_of_class(persona, [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
-        end
-
-        can_manage_own_password(persona)
-        can_manage_self(persona)
-      end
-
-    elsif persona.is_a? CaseWorker
-      if persona.admin?
-        can %i[index show update archived], Claim::BaseClaim
-        can %i[show download], Document
-        can %i[index new create], CaseWorker
-        can %i[show show_message_controls edit change_password update_password update destroy], CaseWorker
-        can %i[new create], Allocation
-        can :view, :management_information
-      else
-        can %i[index show show_message_controls archived], Claim::BaseClaim
-        can [:update], Claim::BaseClaim do |claim|
-          claim.case_workers.include?(persona)
-        end
-        can %i[show download], Document
-        can_manage_own_password(persona)
-      end
-    end
+    send(persona_type(persona), persona)
   end
 
   private
+
+  def external_user_admin(persona)
+    can_administer_any_claim_in_provider(persona)
+    can_administer_provider(persona)
+  end
+
+  def external_user(persona)
+    # NOTE: privleges on AGFS and LGFS claims are cumulative since you can have privs for both
+    can_manage_advocate_claims(persona) if persona.advocate?
+    can_manage_litigator_claims(persona) if persona.litigator?
+    can_manage_own_password(persona)
+    can_manage_self(persona)
+  end
+
+  def case_worker_admin(_persona)
+    can %i[index show update archived], Claim::BaseClaim
+    can %i[show download], Document
+    can %i[index new create], CaseWorker
+    can %i[show show_message_controls edit change_password update_password update destroy], CaseWorker
+    can %i[new create], Allocation
+    can :view, :management_information
+  end
+
+  def case_worker(persona)
+    can %i[index show show_message_controls archived], Claim::BaseClaim
+    can [:update], Claim::BaseClaim do |claim|
+      claim.case_workers.include?(persona)
+    end
+    can %i[show download], Document
+    can_manage_own_password(persona)
+  end
+
+  def persona_type(persona)
+    persona_suffix = persona.admin? ? '_admin' : ''
+    if persona.is_a?(ExternalUser)
+      "external_user#{persona_suffix}"
+    elsif persona.is_a?(CaseWorker)
+      "case_worker#{persona_suffix}"
+    end
+  end
 
   def can_administer_any_claim_in_provider(persona)
     can [:create], ClaimIntention
@@ -83,6 +89,14 @@ class Ability
     can %i[show edit update regenerate_api_key], Provider, id: persona.provider_id
     can %i[index new create], ExternalUser
     can %i[show change_password update_password edit update destroy], ExternalUser, provider_id: persona.provider_id
+  end
+
+  def can_manage_litigator_claims(persona)
+    can_manage_own_claims_of_class(persona, [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+  end
+
+  def can_manage_advocate_claims(persona)
+    can_manage_own_claims_of_class(persona, Claim::AdvocateClaim)
   end
 
   def can_manage_own_claims_of_class(persona, claim_klass)

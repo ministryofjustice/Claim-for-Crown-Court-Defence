@@ -1,5 +1,5 @@
 module Claims::Sort
-  META_SORT_COLUMNS = %w[advocate amount_assessed case_type total_inc_vat].freeze
+  META_SORT_COLUMNS = %w[advocate amount_assessed case_type total_inc_vat last_submitted_at].freeze
 
   def sortable_columns
     column_names + META_SORT_COLUMNS
@@ -13,17 +13,8 @@ module Claims::Sort
     raise 'Invalid column' unless sortable_by?(column)
     raise 'Invalid sort direction' unless %( asc desc ).include?(direction)
 
-    case column
-    when 'last_submitted_at'
-      sort_submitted_at(direction)
-    when 'advocate'
-      sort_advocates(direction)
-    when 'case_type'
-      sort_case_type(direction)
-    when 'total_inc_vat'
-      sort_total_inc_vat(direction)
-    when 'amount_assessed'
-      sort_amount_assessed(direction)
+    if META_SORT_COLUMNS.include?(column)
+      send("sort_#{column}", direction)
     else
       order(column => direction)
     end
@@ -48,11 +39,11 @@ module Claims::Sort
     "#{sort_field_by(field, direction)} #{sort_nulls_by(direction)}, id desc"
   end
 
-  def sort_submitted_at(direction)
+  def sort_last_submitted_at(direction)
     order(sort_field_with_nulls('last_submitted_at', direction))
   end
 
-  def sort_advocates(direction)
+  def sort_advocate(direction)
     select('claims.*, ("users"."last_name" || \', \' || "users"."first_name") AS user_name')
       .joins(external_user: :user)
       .order(sort_field_by('user_name', direction))

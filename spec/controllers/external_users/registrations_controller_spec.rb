@@ -58,6 +58,28 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
           end
         end
 
+        context 'when the created user is not active_for_authentication?' do
+          before do
+            resource = double(User)
+            allow(resource).to receive(:inactive_message).and_return(:locked)
+            allow(resource).to receive(:save).and_return(true)
+            allow(resource).to receive(:persisted?).and_return(true)
+            allow(resource).to receive(:active_for_authentication?).and_return(false)
+            allow(controller).to receive(:resource).and_return(resource)
+            allow(controller).to receive(:create_external_user).and_return(resource)
+            allow(controller).to receive(:after_inactive_sign_up_path_for).with(resource).and_return('/')
+            post :create, user: sign_up_attributes, terms_and_conditions_acceptance: '1'
+          end
+
+          it 'redirects to the inactive sign up path' do
+            expect(flash[:notice]).to eq I18n.t('devise.registrations.signed_up_but_locked')
+          end
+
+          it 'redirects to the inactive sign up path' do
+            expect(response).to redirect_to('/')
+          end
+        end
+
         context 'and terms and conditions are not accepted' do
           before { post :create, user: sign_up_attributes }
 

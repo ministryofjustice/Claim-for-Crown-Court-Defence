@@ -343,6 +343,9 @@ en:
         apply_vat: "VAT registered"
         roles: *roles
         submit: 'Create user'
+      find:
+        email: *email
+        submit: 'Search'
       change_password:
         error: 'error'
         prohibited_save: 'This user password change has'

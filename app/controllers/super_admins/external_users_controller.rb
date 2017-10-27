@@ -1,8 +1,9 @@
 class SuperAdmins::ExternalUsersController < ApplicationController
   include PasswordHelpers
 
-  before_action :set_provider
+  before_action :set_provider, except: %i[find search]
   before_action :set_external_user, only: %i[show edit update change_password update_password]
+  before_action :external_user_by_email, only: %i[search]
 
   def show; end
 
@@ -29,6 +30,16 @@ class SuperAdmins::ExternalUsersController < ApplicationController
   end
 
   def edit; end
+
+  def find; end
+
+  def search
+    if @external_user&.is_a?(ExternalUser)
+      redirect_to super_admins_provider_external_user_path(@external_user.provider, @external_user)
+    else
+      redirect_to super_admins_external_users_find_path, alert: 'No provider found with that email'
+    end
+  end
 
   def update
     if @external_user.update(external_user_params)
@@ -66,6 +77,10 @@ class SuperAdmins::ExternalUsersController < ApplicationController
 
   def set_external_user
     @external_user = ExternalUser.active.find(params[:id])
+  end
+
+  def external_user_by_email
+    @external_user = User.active.find_by(email: params[:external_user][:email])&.persona
   end
 
   def set_provider

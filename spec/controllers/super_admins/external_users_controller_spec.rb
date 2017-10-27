@@ -42,7 +42,38 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     it 'assigns @external_users' do
       expect(assigns(:external_users)).to include(external_user)
     end
+  end
 
+  describe 'GET #find' do
+    before { get :find }
+
+    it 'returns http success' do
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe 'POST #search' do
+    subject { response }
+
+    before { post :search, external_user: { email: email } }
+
+    context 'when the email is for a provider' do
+      let(:email) { external_user.email }
+
+      it { is_expected.to redirect_to(super_admins_provider_external_user_path(external_user.provider, external_user)) }
+    end
+
+    context 'when the email is for a non-provider' do
+      let(:email) { super_admin.email }
+
+      it { is_expected.to redirect_to(super_admins_external_users_find_path) }
+    end
+
+    context 'when the email does not exist' do
+      let(:email) { 'vail.email@does.not.exist.com' }
+
+      it { is_expected.to redirect_to(super_admins_external_users_find_path) }
+    end
   end
 
   describe "GET #new" do

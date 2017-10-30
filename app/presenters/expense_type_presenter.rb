@@ -20,13 +20,17 @@ class ExpenseTypePresenter < BasePresenter
   end
 
   def location_label
-    if car_travel? || bike_travel? || train? || travel_time? || road_tolls? || cab_fares?
+    if destination_field?
       'Destination'
     elsif hotel_accommodation? || subsistence?
       'Location'
     else
       ''
     end
+  end
+
+  def destination_field?
+    car_travel? || bike_travel? || train? || travel_time? || road_tolls? || cab_fares?
   end
 
   def distance_field?

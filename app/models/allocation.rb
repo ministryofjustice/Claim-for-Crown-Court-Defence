@@ -36,12 +36,12 @@ class Allocation
 
   def save
     return false unless valid?
-    if allocating?
-      allocate_all_claims_or_none! if claims_in_correct_state_for?(:allocation)
-    elsif deallocating?
-      deallocate_claims if claims_in_correct_state_for?(:deallocation)
-    elsif reallocating?
-      reallocate_claims if claims_in_correct_state_for?(:reallocation)
+    if can_allocate_claims?
+      allocate_all_claims_or_none!
+    elsif can_deallocate_claims?
+      deallocate_claims
+    elsif can_reallocate_claims?
+      reallocate_claims
     end # reallocating is true if not allocating and not deallocating
     errors.empty?
   end
@@ -68,11 +68,19 @@ class Allocation
     # deallocation will have a nil case worker id
   end
 
-  def allocating?
-    @allocating
+  private
+
+  def can_reallocate_claims?
+    reallocating? && claims_in_correct_state_for?(:reallocation)
   end
 
-  private
+  def can_deallocate_claims?
+    deallocating? && claims_in_correct_state_for?(:deallocation)
+  end
+
+  def can_allocate_claims?
+    allocating? && claims_in_correct_state_for?(:allocation)
+  end
 
   def allocate_all_claims_or_none!
     ActiveRecord::Base.transaction do
@@ -98,6 +106,10 @@ class Allocation
     errors[:base].unshift('NO claims allocated because: ')
     @successful_claims = []
     raise ActiveRecord::Rollback
+  end
+
+  def allocating?
+    @allocating
   end
 
   def deallocating?

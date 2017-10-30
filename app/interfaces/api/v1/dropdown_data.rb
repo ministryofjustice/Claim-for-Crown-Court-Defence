@@ -22,40 +22,28 @@ module API
       group do
         resource :case_types do
           desc 'Return all Case Types'
-          params do
-            use :role_filter
-          end
-          get do
-            present CaseType.__send__(role), with: API::Entities::CaseType
-          end
+          params { use :role_filter }
+          get { present CaseType.__send__(role), with: API::Entities::CaseType }
         end
 
         resource :courts do
           desc 'Return all Courts'
-          get do
-            present Court.all, with: API::Entities::Court
-          end
+          get { present Court.all, with: API::Entities::Court }
         end
 
         resource :advocate_categories do
           desc 'Return all Advocate Categories'
-          get do
-            Settings.advocate_categories
-          end
+          get { Settings.advocate_categories }
         end
 
         resource :trial_cracked_at_thirds do
           desc 'Return all Trial Cracked at Third values (i.e. first, second, final)'
-          get do
-            Settings.trial_cracked_at_third
-          end
+          get { Settings.trial_cracked_at_third }
         end
 
         resource :offence_classes do
           desc 'Return all Offence Class Types, with the matching offence_id for LGFS claims.'
-          get do
-            present OffenceClass.all, with: API::Entities::OffenceClass
-          end
+          get { present OffenceClass.all, with: API::Entities::OffenceClass }
         end
 
         resource :offences do
@@ -83,8 +71,11 @@ module API
 
           params do
             use :role_filter
-            optional :category, type: String, values: %w[all basic misc fixed graduated interim transfer warrant], default: 'all',
-                                desc: "OPTIONAL: The fee category to filter the results. Can be: #{%w[all basic misc fixed graduated interim transfer warrant].to_sentence}. Default: all"
+            optional  :category,
+                      type: String,
+                      default: 'all',
+                      values: %w[all basic misc fixed graduated interim transfer warrant],
+                      desc: "OPTIONAL: The fee category to filter the results. Can be: #{%w[all basic misc fixed graduated interim transfer warrant].to_sentence}. Default: all"
           end
 
           desc 'Return all AGFS Fee Types (optional category filter).'
@@ -101,40 +92,28 @@ module API
 
         resource :expense_types do
           desc 'Return all Expense Types.'
-          params do
-            use :role_filter
-          end
-          get do
-            present ExpenseType.__send__(role), with: API::Entities::ExpenseType
-          end
+          params { use :role_filter }
+          get { present ExpenseType.__send__(role), with: API::Entities::ExpenseType }
         end
 
         resource :expense_reasons do
           desc 'Return all Expense Reasons by reason set.'
-          get do
-            present ExpenseType.reason_sets, with: API::Entities::ExpenseReasonSet
-          end
+          get { present ExpenseType.reason_sets, with: API::Entities::ExpenseReasonSet }
         end
 
         resource :disbursement_types do
           desc 'Return all Disbursement Types.'
-          get do
-            present DisbursementType.active, with: API::Entities::DisbursementType
-          end
+          get { present DisbursementType.active, with: API::Entities::DisbursementType }
         end
 
         resource :transfer_stages do
           desc 'Return all Transfer Stages'
-          get do
-            present ::Claim::TransferBrain::TRANSFER_STAGES.to_a, with: API::Entities::SimpleKeyValueList
-          end
+          get { present ::Claim::TransferBrain::TRANSFER_STAGES.to_a, with: API::Entities::SimpleKeyValueList }
         end
 
         resource :transfer_case_conclusions do
           desc 'Return all Transfer Case Conclusions'
-          get do
-            present ::Claim::TransferBrain::CASE_CONCLUSIONS.to_a, with: API::Entities::SimpleKeyValueList
-          end
+          get { present ::Claim::TransferBrain::CASE_CONCLUSIONS.to_a, with: API::Entities::SimpleKeyValueList }
         end
       end
     end

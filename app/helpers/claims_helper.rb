@@ -1,4 +1,14 @@
 module ClaimsHelper
+  EXTERNAL_USER_MESSAGING_ALLOWED = %w[
+    submitted
+    allocated
+    part_authorised
+    rejected refused
+    authorised
+    redetermination
+    awaiting_written_reasons
+  ].freeze
+
   def includes_state?(claims, states)
     states.gsub(/\s+/, '').split(',').to_a unless states.is_a?(Array)
     claims.map(&:state).uniq.any? { |s| states.include?(s) }
@@ -22,7 +32,7 @@ module ClaimsHelper
   end
 
   def show_message_controls?(claim)
-    return %w[submitted allocated part_authorised rejected refused].include?(claim.state) if current_user_is_external_user?
+    return EXTERNAL_USER_MESSAGING_ALLOWED.include?(claim.state) if current_user_is_external_user?
     return claim.state != 'draft' if current_user_is_caseworker?
     false
   end

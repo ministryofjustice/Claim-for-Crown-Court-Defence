@@ -80,8 +80,8 @@ module Claims
           update_assessment if @assessment_params_present
           add_redetermination if @redetermination_params_present
           @claim.send(event, audit_attributes.merge(reason_code: @transition_reason)) unless @state.blank? || @state == @claim.state
-        rescue StandardError
-          add_error ex.message
+        rescue StandardError => err
+          add_error err.message
           raise ActiveRecord::Rollback
         end
       end

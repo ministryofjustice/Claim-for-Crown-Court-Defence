@@ -65,7 +65,7 @@ class ErrorPresenter
       parent_sequence = @translations.dig(parent_model, '_seq') || 0
       translations_subset = @translations.dig(parent_model, attribute)
     else
-      translations_subset = @translations.fetch(key)
+      translations_subset = @translations[key]
     end
 
     [translations_subset, parent_sequence]

@@ -116,7 +116,7 @@ module Fee
     end
 
     def calculated?
-      fee_type&.calculated? || true
+      fee_type&.calculated?.nil? ? true : fee_type&.calculated?
     end
 
     def calculation_required?

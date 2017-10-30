@@ -37,10 +37,9 @@ module Claim
 
     context 'invalid initialization array' do
       it 'raises' do
-        expect_any_instance_of(IO).to receive(:puts).at_least(1)
         expect {
           TransferBrainDataItem.new(['xxx', 'xxx'])
-        }.to raise_error RuntimeError, 'Boom'
+        }.to raise_error ArgumentError
       end
     end
 

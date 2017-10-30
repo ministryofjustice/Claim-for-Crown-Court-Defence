@@ -28,7 +28,7 @@ module Fee
 
         if case_uplift?
           validate_case_numbers_presence
-          validate_case_numbers_quantity_mismatch if fee_type.agfs?
+          validate_case_numbers_quantity_mismatch if claim.agfs?
           validate_each_case_number
         else
           validate_absence(:case_numbers, 'present')
@@ -36,13 +36,8 @@ module Fee
       end
 
       def validate_case_numbers_presence
-        if fee_type.lgfs?
-          validate_presence(:case_numbers, 'blank')
-        else
-          unless claim&.api_draft?
-            validate_presence(:case_numbers, 'blank') if quantity.to_i.positive?
-          end
-        end
+        validate_presence(:case_numbers, 'blank') if claim.lgfs?
+        validate_presence(:case_numbers, 'blank') if [claim.agfs?, quantity.to_i.positive?, !claim&.api_draft?].all?
       end
 
       def validate_case_numbers_quantity_mismatch

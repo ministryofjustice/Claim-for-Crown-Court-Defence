@@ -4,6 +4,10 @@
   = @external_user.email
 
 %p
+  Provider:
+  = link_to @external_user.provider.name, super_admins_provider_path(@provider)
+
+%p
   Name:
   = @external_user.name
 

@@ -8,7 +8,7 @@ class Ability
 
     if persona.is_a? SuperAdmin
       can %i[show index new create edit update], Provider
-      can %i[show index new create edit update change_password update_password], ExternalUser
+      can %i[show index new create edit update change_password update_password find search], ExternalUser
       can %i[show edit update change_password update_password], SuperAdmin, id: persona.id
       can [:update_settings], User, id: user.id
       return

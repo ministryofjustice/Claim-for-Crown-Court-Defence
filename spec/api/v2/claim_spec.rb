@@ -7,9 +7,7 @@ describe API::V2::Claim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  after(:all) { clean_database }
-
-  before(:all) do
+  before do
     @claim = create(:deterministic_claim, :redetermination)
   end
 

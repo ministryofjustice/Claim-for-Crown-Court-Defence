@@ -7,7 +7,7 @@ class DocumentCleanerTask < Scheduler::SchedulerTask
   def run
     log('Document Cleaner started')
     DocumentCleaner.new.clean!
-  rescue => ex
+  rescue StandardError => ex
     log('There was an error: ' + ex.message)
   ensure
     log('Document Cleaner finished')

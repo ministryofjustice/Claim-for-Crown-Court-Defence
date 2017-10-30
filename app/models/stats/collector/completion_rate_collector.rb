@@ -14,7 +14,7 @@ module Stats
         num_completed = Claim::BaseClaim.active.where(form_id: form_ids_created_at_period_start).where.not(last_submitted_at: nil).count
         percentage_completed_e2 = num_started.zero? ? 1000 : ((num_completed.to_f / num_started) * 10_000).to_i # 0.2546, i.e. 25.46% is stored as 2546
         Statistic.create_or_update(@date, 'completion_percentage', 'Claim::BaseClaim', percentage_completed_e2, num_completed)
-      rescue => err
+      rescue StandardError => err
         puts "Error processing for date #{@date}"
         puts err.class
         puts err.message

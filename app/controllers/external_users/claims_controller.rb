@@ -79,7 +79,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def clone_rejected
     draft = claim_updater.clone_rejected
     redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
-  rescue
+  rescue StandardError
     redirect_to external_users_claims_url, alert: 'Can only clone rejected claims'
   end
 

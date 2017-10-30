@@ -36,14 +36,14 @@ class HeartbeatController < ApplicationController
   def redis_alive?
     Sidekiq.redis(&:info)
     true
-  rescue
+  rescue StandardError
     false
   end
 
   def sidekiq_alive?
     ps = Sidekiq::ProcessSet.new
     !ps.size.zero?
-  rescue
+  rescue StandardError
     false
   end
 
@@ -51,7 +51,7 @@ class HeartbeatController < ApplicationController
     dead = Sidekiq::DeadSet.new
     retries = Sidekiq::RetrySet.new
     dead.size.zero? && retries.size.zero?
-  rescue
+  rescue StandardError
     false
   end
 

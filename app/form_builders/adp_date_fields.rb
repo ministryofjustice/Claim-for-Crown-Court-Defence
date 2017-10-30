@@ -13,21 +13,9 @@ class AdpDateFields
   end
 
   def output
-    day_value = begin
-                  @object.send(@attribute).strftime('%d')
-                rescue
-                  nil
-                end
-    month_value = begin
-                    @object.send(@attribute).strftime('%m')
-                  rescue
-                    nil
-                  end
-    year_value = begin
-                   @object.send(@attribute).strftime('%Y')
-                 rescue
-                   nil
-                 end
+    day_value = @object.send(@attribute)&.strftime('%d')
+    month_value = @object.send(@attribute)&.strftime('%m')
+    year_value = @object.send(@attribute)&.strftime('%Y')
 
     %(
       #{@form.text_field(@attribute, field_options(day_value, html_id(:day), html_name(:day), 'DD', 2))}

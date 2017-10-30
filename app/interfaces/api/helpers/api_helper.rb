@@ -72,7 +72,7 @@ module API
         def test_editability(model_instance)
           return unless (Fee::BaseFee.subclasses + [Expense, Disbursement, Defendant, RepresentationOrder, DateAttended]).include?(model_instance.class)
           model_instance.errors.add(:base, 'uneditable_state') unless model_instance.claim.editable?
-        rescue
+        rescue StandardError
           true
         end
 

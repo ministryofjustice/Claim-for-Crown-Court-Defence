@@ -98,7 +98,7 @@ class Document < ActiveRecord::Base
       self.file_path = document.path
       self.verified = verified_file_size.positive?
       save!
-    rescue => err
+    rescue StandardError => err
       errors[:document] << err.message
       self.verified = false
     end

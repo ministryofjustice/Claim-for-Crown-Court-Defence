@@ -13,7 +13,7 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
 
   def transfer_detail_summary
     Claim::TransferBrain.transfer_detail_summary(claim.transfer_detail)
-  rescue
+  rescue StandardError
     ''
   end
 
@@ -35,7 +35,7 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
 
   def case_conclusion_description
     case_conclusions[claim.case_conclusion_id.to_s]
-  rescue
+  rescue StandardError
     ''
   end
 end

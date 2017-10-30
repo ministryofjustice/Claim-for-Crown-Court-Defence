@@ -90,10 +90,14 @@ class ApplicationController < ActionController::Base
   end
 
   def method_missing(method, *args)
-    if method.to_s =~ /after_sign_in_path_for_(.*)/
-      raise "Unrecognised user type #{Regexp.last_match(1)}"
-    end
+    # rubocop:disable Performance/RegexpMatch
+    raise "Unrecognised user type #{Regexp.last_match(1)}" if method.to_s =~ /^after_sign_in_path_for_(.*)/
+    # rubocop:enable Performance/RegexpMatch
     super
+  end
+
+  def respond_to_missing?(method, include_private = false)
+    method.to_s.match?(/^after_sign_in_path_for_(.*)/) ? false : super
   end
 
   def track_visit(*args)

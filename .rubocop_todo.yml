@@ -124,8 +124,8 @@ Style/IfInsideElse:
 # Offense count: 5
 Style/MethodMissing:
   Exclude:
-    - 'app/controllers/application_controller.rb'
-    - 'app/models/claim/base_claim.rb'
-    - 'app/validators/claim/base_claim_validator.rb'
-    - 'lib/caching/caching.rb'
-    - 'lib/rails_host.rb'
+    # - 'app/controllers/application_controller.rb'
+    # - 'app/models/claim/base_claim.rb'
+    # - 'app/validators/claim/base_claim_validator.rb'
+    # - 'lib/caching/caching.rb'
+    # - 'lib/rails_host.rb'

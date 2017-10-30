@@ -47,3 +47,4 @@ exclude_paths: # customize
 - features/support/*
 - script/*
 - Gemfile*
+- scheduled_tasks/*_task.rb

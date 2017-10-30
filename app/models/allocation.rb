@@ -36,11 +36,11 @@ class Allocation
 
   def save
     return false unless valid?
-    if should_allocate_claims
+    if can_allocate_claims?
       allocate_all_claims_or_none!
-    elsif should_deallocate_claims
+    elsif can_deallocate_claims?
       deallocate_claims
-    elsif should_reallocate_claims
+    elsif can_reallocate_claims?
       reallocate_claims
     end # reallocating is true if not allocating and not deallocating
     errors.empty?
@@ -70,15 +70,15 @@ class Allocation
 
   private
 
-  def should_reallocate_claims
+  def can_reallocate_claims?
     reallocating? && claims_in_correct_state_for?(:reallocation)
   end
 
-  def should_deallocate_claims
+  def can_deallocate_claims?
     deallocating? && claims_in_correct_state_for?(:deallocation)
   end
 
-  def should_allocate_claims
+  def can_allocate_claims?
     allocating? && claims_in_correct_state_for?(:allocation)
   end
 

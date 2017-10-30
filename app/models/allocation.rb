@@ -63,7 +63,7 @@ class Allocation
 
   def case_worker
     CaseWorker.active.find(@case_worker_id)
-  rescue
+  rescue ActiveRecord::ActiveRecordError
     nil
     # deallocation will have a nil case worker id
   end
@@ -90,8 +90,8 @@ class Allocation
     else
       allocate_claim! claim
     end
-  rescue => ex
-    errors.add(:base, "Claim #{claim.case_number} has errors: #{ex.message}")
+  rescue StandardError => err
+    errors.add(:base, "Claim #{claim.case_number} has errors: #{err.message}")
   end
 
   def rollback_all_allocations!

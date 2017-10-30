@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
 
   def settings
     HashWithIndifferentAccess.new(JSON.parse(read_attribute(:settings)))
-  rescue
+  rescue StandardError
     {}
   end
 

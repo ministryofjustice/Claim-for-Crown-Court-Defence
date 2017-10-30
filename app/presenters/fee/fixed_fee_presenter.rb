@@ -14,8 +14,6 @@ class Fee::FixedFeePresenter < Fee::BaseFeePresenter
   private
 
   def agfs?
-    fee.claim.agfs? ? true : false
-  rescue
-    true
+    fee&.claim&.agfs? ? true : false
   end
 end

@@ -62,14 +62,10 @@ class ErrorPresenter
     parent_sequence = 0
     if is_submodel_key?(key)
       parent_model, attribute = last_parent_attribute(@translations, key)
-      parent_sequence = begin
-                          @translations[parent_model]['_seq']
-                        rescue
-                          0
-                        end
-      translations_subset = @translations[parent_model][attribute]
+      parent_sequence = @translations.dig(parent_model, '_seq') || 0
+      translations_subset = @translations.dig(parent_model, attribute)
     else
-      translations_subset = @translations[key]
+      translations_subset = @translations.fetch(key)
     end
 
     [translations_subset, parent_sequence]
@@ -82,7 +78,7 @@ class ErrorPresenter
     translations_subset, parent_sequence = translations_sub_set_and_parent_sequence(key)
     begin
       translations_subset['_seq'].present? ? translations_subset['_seq'] + parent_sequence : parent_sequence || 99_999
-    rescue
+    rescue StandardError
       99_999
     end
   end

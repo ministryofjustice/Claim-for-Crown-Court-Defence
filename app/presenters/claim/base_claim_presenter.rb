@@ -55,7 +55,7 @@ class Claim::BaseClaimPresenter < BasePresenter
 
   def retrial
     claim.case_type.name.match?(/retrial/i) ? 'Yes' : 'No'
-  rescue
+  rescue NoMethodError
     ''
   end
 

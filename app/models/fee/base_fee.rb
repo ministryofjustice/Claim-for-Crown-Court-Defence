@@ -116,9 +116,7 @@ module Fee
     end
 
     def calculated?
-      fee_type.calculated?
-    rescue
-      true
+      fee_type&.calculated? || true
     end
 
     def calculation_required?

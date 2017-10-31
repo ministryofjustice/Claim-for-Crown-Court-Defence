@@ -19,7 +19,6 @@ class DefendantValidator < BaseValidator
   end
 
   def validate_date_of_birth
-    return unless requires_dob?
     validate_presence(:date_of_birth, 'blank')
     validate_on_or_before(10.years.ago, :date_of_birth, 'check')
     validate_on_or_after(120.years.ago, :date_of_birth, 'check')
@@ -40,11 +39,5 @@ class DefendantValidator < BaseValidator
   def validate_last_name
     validate_presence(:last_name, 'blank')
     validate_max_length(:last_name, 40, 'max_length')
-  end
-
-  # local helpers
-  #
-  def requires_dob?
-    @record.claim&.case_type&.requires_defendant_dob?
   end
 end

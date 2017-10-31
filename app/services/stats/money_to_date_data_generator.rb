@@ -5,7 +5,7 @@ module Stats
       @data = {
         'item' => [
           {
-            'value' => (stat.value_1 / 1_000_000.to_f).round(2),
+            'value' => stat.value_1,
             'prefix' => '£'
           }
         ]

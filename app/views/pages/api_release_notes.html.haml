@@ -3,7 +3,7 @@
 %section.api-documentation
 
   %hr
-  %h1 25 October 2017
+  %h1 01 November 2017
   %ul.list-bullet
     %li
       The Fee type GET endpoint
@@ -26,7 +26,7 @@
       The posting of data to the
       %code.code
         \/api/external_users/fee
-      endpoint should include by a matching number of comma delimited case numbers for certain fee types.
+      endpoint should include a matching number of comma delimited case numbers for certain fee types.
       %br/
       %br/
       For example, if the
@@ -147,13 +147,22 @@
           %tr
             %td{ colspan: 4}
               %em
-                * For the time being, such fees will not enforce the presence of case numbers if created via the API. This is to give vendors time to amend and release their respective client applications.
+                * For the time being, such fees will not enforce the presence of case numbers if created via the API. This is to give vendors time to amend and release their respective client applications. The requirement will be fully enforced on or after 1st April 2018.
                 %br/
                 %br/
-                ** You can determine these fee types from the '/api/fee_types'
-                endpoint using the "case_numbers_required" boolean attribute
+                ** You can determine these fee types from the
+                %code.code
+                  api/fee_types
+                endpoint using the
+                %code.code
+                  case_numbers_required
+                boolean attribute
       %p
-        This is required as part of work to inject claim data from CCCD into the Case workers internal application (Crown court remuneration - CCR), to reduce rekeying and speed up claim processing.
+        This is required as part of work to inject claim data from CCCD into the Case workers internal application (Crown Court Remuneration - CCR), to reduce rekeying and speed up claim processing.
+
+      %p
+        %em
+          Note: The API will implement the validation fully on or after 1st April 2018.
 
   %hr
   %h1 30 November 2016

@@ -35,6 +35,7 @@ module Fee
         end
       end
 
+      # TODO: on or after 1st April 2018 the API should also enforce presence
       def validate_case_numbers_presence
         validate_presence(:case_numbers, 'blank') if claim.lgfs?
         validate_presence(:case_numbers, 'blank') if [claim.agfs?, quantity.to_i.positive?, !claim&.api_draft?].all?

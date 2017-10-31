@@ -46,19 +46,42 @@ shared_examples 'common amount validations' do
 end
 
 shared_examples 'common AGFS number of cases uplift validations' do
-  # TODO: require presence once impact on API consumers can be mitigated by comms with vendors
-
   context 'case numbers list valid' do
-    it 'when case_numbers is blank (for now)' do
+    it 'when case_numbers is blank and quantity is zero' do
+      noc_fee.quantity = 0
+      noc_fee.rate = 0
       should_not_error(noc_fee, :case_numbers)
     end
+
+    context 'when submitted by API' do
+      before do
+        noc_fee.claim.source = 'api'
+      end
+
+      it 'when case_numbers is blank and quantity is not zero' do
+        noc_fee.quantity = 1
+        should_not_error(noc_fee, :case_numbers)
+      end
+    end
+
     it 'when single valid format of case number entered' do
       noc_fee.case_numbers = 'A20161234'
+      should_not_error(noc_fee, :case_numbers)
+    end
+
+    it 'when quantity and number of additional cases match' do
+      noc_fee.quantity = 2
+      noc_fee.case_numbers = 'A20161234,T20171234'
       should_not_error(noc_fee, :case_numbers)
     end
   end
 
   context 'case numbers list invalid' do
+    it 'when case_numbers is blank and quantity is not zero' do
+      noc_fee.quantity = 1
+      should_error_with(noc_fee, :case_numbers, 'blank')
+    end
+
     it 'when a single invalid format of case number entered' do
       should_error_if_equal_to_value(noc_fee, :case_numbers, '123', 'invalid')
     end
@@ -66,6 +89,12 @@ shared_examples 'common AGFS number of cases uplift validations' do
     it 'when any case number is of invalid format' do
       noc_fee.case_numbers = 'A20161234,Z123,A20158888'
       should_error_with(noc_fee, :case_numbers, 'invalid')
+    end
+
+    it 'when case_numbers is not blank and quantity is 0' do
+      noc_fee.quantity = 0
+      noc_fee.case_numbers = 'A20161234'
+      should_error_with(noc_fee, :case_numbers, 'noc_qty_mismatch')
     end
 
     it 'when quantity and number of additional cases do not match' do

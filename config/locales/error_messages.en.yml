@@ -840,6 +840,10 @@ basic_fee:
 
   case_numbers:
     _seq: 40
+    blank:
+      long: Enter case numbers for the Number of cases uplift
+      short: Enter case numbers
+      api: Enter case numbers for the Number of cases uplift
     invalid:
       long: Enter valid case numbers for the Number of cases uplift
       short: Enter valid case numbers
@@ -998,6 +1002,10 @@ fixed_fee:
 
   case_numbers:
       _seq: 70
+      blank:
+        long: Enter case numbers for the Number of cases uplift
+        short: Enter case numbers
+        api: Enter case numbers for the Number of cases uplift
       invalid:
         long: Enter valid case numbers for the Number of cases uplift
         short: Enter valid case numbers

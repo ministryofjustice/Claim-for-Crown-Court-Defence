@@ -10,6 +10,13 @@ module API
       expose :calculated
       expose :roles
       expose :quantity_is_decimal
+      expose :case_numbers_required
+
+      private
+
+      def case_numbers_required
+        object.case_uplift?
+      end
     end
   end
 end

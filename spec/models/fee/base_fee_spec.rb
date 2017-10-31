@@ -131,23 +131,27 @@ module Fee
       before(:each) do
         subject.quantity = 10
         subject.amount = 10
+        subject.rate = 2
+        subject.case_numbers = 'T20170001,T20170002'
         subject.dates_attended << FactoryGirl.build(:date_attended)
       end
 
-      it 'should set fee amount and quantity to nil' do
+      it 'sets fee amount, quantity, rate and case_numbers to nil' do
         subject.clear
         expect(subject.quantity).to eql nil
         expect(subject.amount).to eql nil
+        expect(subject.rate).to eql nil
+        expect(subject.case_numbers).to eql nil
       end
 
-      it 'should destroy any child relations (dates attended)' do
+      it 'destroys any child relations (dates attended)' do
         expect(subject.dates_attended.size).to eql 1
         subject.clear
         expect(subject.dates_attended.size).to eql 0
       end
     end
 
-    describe 'comma formatted inputs' do
+    describe '#numeric_attributes' do
       [:quantity, :amount].each do |attribute|
         it "converts input for #{attribute} by stripping commas out" do
           subject.send("#{attribute}=", '12,321,111')
@@ -155,8 +159,6 @@ module Fee
         end
       end
     end
-
-
   end
 
   RSpec.describe Fee::BaseFee, type: :model do
@@ -166,8 +168,6 @@ module Fee
         expect { BaseFee.new }.to raise_error(Fee::BaseFeeAbstractClassError)
       end
     end
-
-
 
     describe '#calculate_amount' do
       context 'agfs claims' do

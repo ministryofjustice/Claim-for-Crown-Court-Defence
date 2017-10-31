@@ -25,7 +25,6 @@ FactoryGirl.define do
     quantity_is_decimal false
     unique_code { generate_unique_code }
 
-
     trait :ppe do
       description 'Pages of prosecution evidence'
       code 'PPE'
@@ -36,6 +35,11 @@ FactoryGirl.define do
       description 'Number of prosecution witnesses'
       code 'NPW'
       calculated false
+    end
+
+    trait :noc do
+      description 'Number of cases uplift'
+      code 'NOC'
     end
 
     trait :lgfs do
@@ -91,6 +95,13 @@ FactoryGirl.define do
       code { random_safe_code }
       calculated true
       roles ['agfs']
+
+      trait :fxnoc do
+        description 'Number of cases uplift'
+        code 'NOC'
+        unique_code 'FXNOC'
+        quantity_is_decimal false
+      end
     end
 
     factory :graduated_fee_type, class: Fee::GraduatedFeeType do

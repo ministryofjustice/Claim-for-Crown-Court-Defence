@@ -3,6 +3,168 @@
 %section.api-documentation
 
   %hr
+  %h1 01 November 2017
+  %ul.list-bullet
+    %li
+      The Fee type GET endpoint
+      %code.code
+        \/api/fee_types
+      will return an additional boolean attribute
+      %br/
+      %br/
+      %code.code
+        "case_numbers_required": [true|false]
+      %br/
+      %br
+      This denotes whether fees of that type require additional case numbers to be provided. This validation is enforced for claims submitted in the web application but not currently when POSTed via the API. See below for more.
+      %br/
+      %br/
+    %li
+      Case uplift fees require additional case numbers.
+      %br/
+      %br/
+      The posting of data to the
+      %code.code
+        \/api/external_users/fee
+      endpoint should include a matching number of comma delimited case numbers for certain fee types.
+      %br/
+      %br/
+      For example, if the
+      %code.code
+        fee_type_unique_code
+      is set to
+      %code.code
+        BANOC
+      and the quantity to 2 then the
+      %code.code
+        case_numbers
+      value should contain two valid case numbers, such as
+      %code.code
+        T20170001,T20170002
+      \.
+      %br/
+      %br/
+      %p
+        The following fees will be invalid when
+        %em
+          submitting a claim in the web application
+        unless their quantity value is matched by an equal number of comma separated, valid format of case numbers.
+      %br/
+      %table
+        %thead
+          %tr
+            %th
+              Fee Type
+            %th
+              Description
+            %th
+              Unique code
+            %th
+              Scheme
+        %tbody
+          %tr
+            %td
+              Basic
+            %td
+              Number of cases uplift
+            %td
+              BANOC
+            %td
+              AGFS
+          %tr
+            %td
+              Fixed
+            %td
+              Number of cases uplift
+            %td
+              FXNOC
+            %td
+              AGFS
+          %tr
+            %td
+              Fixed
+            %td
+              Appeals to the crown court against conviction uplift
+            %td
+              FXACU
+            %td
+              AGFS
+          %tr
+            %td
+              Fixed
+            %td
+              Appeals to the crown court against sentence uplift
+            %td
+              FXASU
+            %td
+              AGFS
+          %tr
+            %td
+              Fixed
+            %td
+              Committal for sentence hearings uplift
+            %td
+              FXCSU
+            %td
+              AGFS
+          %tr
+            %td
+              Fixed
+            %td
+              Cracked case discontinued uplift
+            %td
+              FXCDU
+            %td
+              AGFS
+          %tr
+            %td
+              Fixed
+            %td
+              Elected case not proceeded uplift
+            %td
+              FXENU
+            %td
+              AGFS
+          %tr
+            %td
+              Fixed
+            %td
+              Breach of a crown court order uplift
+            %td
+              FXCBU
+            %td
+              AGFS
+          %tr
+            %td
+              Miscellaneous
+            %td
+              Case uplift
+            %td
+              MIUPL
+            %td
+              LGFS
+        %tfoot
+          %tr
+            %td{ colspan: 4}
+              %em
+                * For the time being, such fees will not enforce the presence of case numbers if created via the API. This is to give vendors time to amend and release their respective client applications. The requirement will be fully enforced on or after 1st April 2018.
+                %br/
+                %br/
+                ** You can determine these fee types from the
+                %code.code
+                  api/fee_types
+                endpoint using the
+                %code.code
+                  case_numbers_required
+                boolean attribute
+      %p
+        This is required as part of work to inject claim data from CCCD into the Case workers internal application (Crown Court Remuneration - CCR), to reduce rekeying and speed up claim processing.
+
+      %p
+        %em
+          Note: The API will implement the validation fully on or after 1st April 2018.
+
+  %hr
   %h1 30 November 2016
   %ul.list-bullet
     %li
@@ -41,7 +203,7 @@
 
     %p
     %li
-      A new alpha-numeric field 'unique_code' has been added to the result hash for the expense_types endpoint.  This value
+      A new alpha-numeric field 'unique_code' has been added to the result hash for the expense_types endpoint. This value
       is unique to each record.
     %p
     %li
@@ -49,8 +211,6 @@
       translated to the corresponding 'expense_type_id'.
       %p
       expense_type_id and expense_type_unique_code are mutually exclusive.
-
-
 
   %hr
   %h1 October 2016

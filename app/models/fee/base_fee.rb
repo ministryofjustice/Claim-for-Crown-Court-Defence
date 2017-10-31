@@ -146,6 +146,7 @@ module Fee
       self.quantity = nil
       self.rate = nil
       self.amount = nil
+      self.case_numbers = nil
       # explicitly destroy child relations
       dates_attended.destroy_all unless dates_attended.empty?
     end

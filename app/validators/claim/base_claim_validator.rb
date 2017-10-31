@@ -243,6 +243,10 @@ class Claim::BaseClaimValidator < BaseValidator
     end
   end
 
+  def respond_to_missing?(method, include_private = false)
+    method.to_s.match?(/^requires_(re){0,1}trial_dates\?/) || super
+  end
+
   def validate_trial_length(field)
     return unless requires_trial_dates?
     validate_presence(field, 'blank')

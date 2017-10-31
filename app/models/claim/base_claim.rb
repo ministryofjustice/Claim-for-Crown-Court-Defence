@@ -317,6 +317,10 @@ module Claim
       end
     end
 
+    def respond_to_missing?(method, include_private = false)
+      Claims::StateMachine.has_state?(method) || super
+    end
+
     def is_allocated_to_case_worker?(cw)
       case_workers.include?(cw)
     end

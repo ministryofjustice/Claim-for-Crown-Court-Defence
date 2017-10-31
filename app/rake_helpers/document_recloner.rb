@@ -55,7 +55,7 @@ class DocumentRecloner
   def is_corrupted?(doc)
     begin
       downloaded_file = Paperclip.io_adapters.for(doc.document).path
-    rescue
+    rescue StandardError
       return true
     end
     File.stat(downloaded_file).size.zero?

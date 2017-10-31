@@ -56,7 +56,7 @@ module Claim
 
     def provider_supplier_numbers
       @record.provider.lgfs_supplier_numbers.pluck(:supplier_number)
-    rescue
+    rescue StandardError
       []
     end
   end

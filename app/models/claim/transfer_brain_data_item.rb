@@ -4,20 +4,13 @@ module Claim
                 :allocation_type, :validity, :transfer_fee_full_name
 
     def initialize(arry)
-      copy_array = arry
-      begin
-        @litigator_type           = arry.shift.downcase
-        @elected_case             = arry.shift.to_bool
-        @transfer_stage_id        = TransferBrain.transfer_stage_id(arry.shift)
-        @case_conclusion_id       = get_case_conclusion_id(arry.shift)
-        @validity                 = arry.shift.to_bool
-        @transfer_fee_full_name   = arry.shift
-        @allocation_type          = arry.shift
-      rescue => err
-        puts "#{err.class}: #{err.message}"
-        ap copy_array
-        raise 'Boom'
-      end
+      @litigator_type           = arry.shift.downcase
+      @elected_case             = arry.shift.to_bool
+      @transfer_stage_id        = TransferBrain.transfer_stage_id(arry.shift)
+      @case_conclusion_id       = get_case_conclusion_id(arry.shift)
+      @validity                 = arry.shift.to_bool
+      @transfer_fee_full_name   = arry.shift
+      @allocation_type          = arry.shift
     end
 
     def match_detail?(detail)

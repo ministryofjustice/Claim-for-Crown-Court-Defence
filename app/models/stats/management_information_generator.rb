@@ -11,7 +11,7 @@ module Stats
         report_contents = generate_new_report
         report_record.write_report(report_contents)
       end
-    rescue => err
+    rescue StandardError => err
       report_contents = "#{err.class} - #{err.message} \n #{err.backtrace}"
       report_record.write_error(report_contents)
       raise err

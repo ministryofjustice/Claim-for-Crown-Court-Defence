@@ -16,9 +16,7 @@ class BasePresenter < SimpleDelegator
   private_class_method :presents
 
   def format_date(date)
-    date.strftime(Settings.date_format)
-  rescue
-    nil
+    date&.strftime(Settings.date_format)
   end
 
   def date_format(options = {})

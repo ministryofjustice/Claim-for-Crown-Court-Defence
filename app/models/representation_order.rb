@@ -19,12 +19,7 @@ class RepresentationOrder < ActiveRecord::Base
   before_save :upcase_maat_ref
 
   before_validation do
-    case_type = begin
-                  defendant.claim.case_type
-                rescue
-                  nil
-                end
-
+    case_type = defendant&.claim&.case_type
     self.maat_reference = nil if case_type&.requires_maat_reference?.eql?(false)
   end
 

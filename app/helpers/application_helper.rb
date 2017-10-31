@@ -104,13 +104,13 @@ module ApplicationHelper
 
   def extract_uri_param(path, param)
     CGI.parse(URI.parse(path).query)[param][0]
-  rescue
+  rescue NoMethodError
     nil
   end
 
   def strip_params(path)
     URI.parse(path).path
-  rescue
+  rescue URI::Error
     nil
   end
 

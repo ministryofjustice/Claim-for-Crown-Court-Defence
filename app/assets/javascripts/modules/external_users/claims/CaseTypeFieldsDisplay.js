@@ -26,7 +26,6 @@ moj.Modules.CaseTypeFieldsDisplay = {
     } else {
       this.$trialFieldSet.hide();
       this.$retrialFieldSet.hide();
-      this.$defendantFieldSet.removeClass('hide-dob');
     }
   }
 };

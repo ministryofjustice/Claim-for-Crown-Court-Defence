@@ -7,7 +7,6 @@ describe DefendantValidator do
 
   let(:claim)     { FactoryGirl.build(:claim, force_validation: true) }
   let(:defendant) { FactoryGirl.build :defendant, claim: claim }
-  let(:case_type) { FactoryGirl.build(:case_type, :cbr) }
 
   describe '#validate_claim' do
     it { should_error_if_not_present(defendant, :claim, 'blank') }
@@ -24,20 +23,9 @@ describe DefendantValidator do
   end
 
   describe '#validate_date_of_birth' do
-    context 'for case type requiring DOB' do
-      it { should_error_if_not_present(defendant, :date_of_birth, 'blank') }
-      it { should_error_if_before_specified_date(defendant, :date_of_birth, 120.years.ago, 'check') }
-      it { should_error_if_after_specified_date(defendant, :date_of_birth, 10.years.ago, 'check') }
-    end
-
-    context 'for case type not requiring DOB' do
-      before do
-        allow(claim).to receive(:case_type).and_return(case_type)
-        defendant.date_of_birth = nil
-      end
-
-      it { should_not_error(defendant, :date_of_birth) }
-    end
+    it { should_error_if_not_present(defendant, :date_of_birth, 'blank') }
+    it { should_error_if_before_specified_date(defendant, :date_of_birth, 120.years.ago, 'check') }
+    it { should_error_if_after_specified_date(defendant, :date_of_birth, 10.years.ago, 'check') }
   end
 
   describe '#validate_representation_orders' do

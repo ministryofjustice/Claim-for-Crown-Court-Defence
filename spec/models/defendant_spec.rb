@@ -53,7 +53,6 @@ RSpec.describe Defendant, type: :model do
       expect(defendant).to receive(:perform_validation?).and_return(true)
     end
 
-    
     it 'should return false if there is no associated claim' do
       defendant.claim = nil
       expect(defendant.validate_date?).to be_falsey
@@ -64,13 +63,7 @@ RSpec.describe Defendant, type: :model do
       expect(defendant.validate_date?).to be_falsey
     end
 
-    it 'should return false if there is a claim with a case type that does not require a date of birth' do
-      expect(defendant.claim.case_type).to receive(:requires_defendant_dob?).and_return false
-      expect(defendant.validate_date?).to be_falsey
-    end
-
-    it 'should return true if there is a claim with a case type that requires a date of birth' do
-      expect(defendant.claim.case_type).to receive(:requires_defendant_dob?).and_return true
+    it 'should return true if there is a claim with any case type' do
       expect(defendant.validate_date?).to be true
     end
   end

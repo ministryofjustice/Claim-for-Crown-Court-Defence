@@ -9,9 +9,3 @@
 <% else %>
   $('#retrial-details').hide();
 <% end %>
-
-<% if @case_type.requires_defendant_dob? %>
-  $('div.defendants').removeClass('hide-dob');
-<% else %>
-  $('div.defendants').addClass('hide-dob');
-<% end %>

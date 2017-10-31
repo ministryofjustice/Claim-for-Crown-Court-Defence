@@ -44,10 +44,6 @@ class Defendant < ActiveRecord::Base
   end
 
   def validate_date?
-    perform_validation? && case_type_requires_date?
-  end
-
-  def case_type_requires_date?
-    claim&.case_type&.requires_defendant_dob?
+    perform_validation? && claim&.case_type.present?
   end
 end

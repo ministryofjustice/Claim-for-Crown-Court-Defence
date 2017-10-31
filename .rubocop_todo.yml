@@ -52,7 +52,12 @@ Metrics/AbcSize:
 # Offense count: 9
 # Configuration parameters: CountComments, ExcludedMethods.
 Metrics/BlockLength:
-  Max: 80
+  Max: 30
+  Exclude:
+    - app/interfaces/api/v2/case_workers/claim.rb
+    - app/models/claims/cloner.rb
+    - app/interfaces/api/v1/dropdown_data.rb
+    - app/models/claims/state_machine.rb
 
 # Offense count: 14
 # Configuration parameters: CountComments.

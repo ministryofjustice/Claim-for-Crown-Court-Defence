@@ -123,60 +123,28 @@ class Claim::BaseClaimPresenter < BasePresenter
     h.number_to_currency(claim.fees_vat + claim.fees_total)
   end
 
-  def expenses_total
-    h.number_to_currency(claim.expenses_total)
-  end
-
-  def expenses_vat
-    h.number_to_currency(claim.expenses_vat)
+  # Dynamically define simple methods to reduce class length.
+  # pattern:
+  #
+  # def [association]_[calc_method_name]
+  #   h.number_to_currency(claim.[association]_[calc_method_name])
+  # end
+  #
+  %w[expenses disbursements].each do |object_name|
+    %w[total vat with_vat_net with_vat_gross without_vat_net without_vat_gross].each do |method|
+      method_name = "#{object_name}_#{method}"
+      define_method method_name do
+        h.number_to_currency(claim.send(method_name.to_sym))
+      end
+    end
   end
 
   def expenses_gross
     h.number_to_currency(claim.expenses_total + claim.expenses_vat)
   end
 
-  def expenses_with_vat_net
-    h.number_to_currency(claim.expenses_with_vat_net)
-  end
-
-  def expenses_without_vat_net
-    h.number_to_currency(claim.expenses_without_vat_net)
-  end
-
-  def expenses_without_vat_gross
-    h.number_to_currency(claim.expenses_without_vat_gross)
-  end
-
-  def expenses_with_vat_gross
-    h.number_to_currency(claim.expenses_with_vat_gross)
-  end
-
-  def disbursements_total
-    h.number_to_currency(claim.disbursements_total)
-  end
-
-  def disbursements_vat
-    h.number_to_currency(claim.disbursements_vat)
-  end
-
   def disbursements_gross
     h.number_to_currency(claim.disbursements_total + claim.disbursements_vat)
-  end
-
-  def disbursements_with_vat_net
-    h.number_to_currency(claim.disbursements_with_vat_net)
-  end
-
-  def disbursements_without_vat_net
-    h.number_to_currency(claim.disbursements_without_vat_net)
-  end
-
-  def disbursements_without_vat_gross
-    h.number_to_currency(claim.disbursements_without_vat_gross)
-  end
-
-  def disbursements_with_vat_gross
-    h.number_to_currency(claim.disbursements_with_vat_gross)
   end
 
   def status_image

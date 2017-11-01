@@ -23,7 +23,11 @@ Metrics/BlockLength:
 # Offense count: 14
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 383
+  Max: 200
+  Exclude:
+    - app/models/claim/base_claim.rb
+    - app/controllers/external_users/claims_controller.rb
+    - app/validators/claim/base_claim_validator.rb
 
 # Offense count: 1005
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.

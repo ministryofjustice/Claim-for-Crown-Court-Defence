@@ -46,7 +46,7 @@
           %div.action-wrapper
             - if claim.rejected?
               = button_to 'Redraft this claim', clone_rejected_external_users_claim_path(claim), method: 'patch', class: 'button resubmit-claim', form: { style: 'display: inline-block;' }
-            = link_to 'Archive', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'archive-claim'
+            = link_to 'Archive', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button'
         - if claim.archived_pending_delete?
           = "Actions:"
           %div.action-wrapper

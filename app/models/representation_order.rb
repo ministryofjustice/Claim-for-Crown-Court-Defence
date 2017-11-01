@@ -18,11 +18,6 @@ class RepresentationOrder < ActiveRecord::Base
 
   before_save :upcase_maat_ref
 
-  before_validation do
-    case_type = defendant&.claim&.case_type
-    self.maat_reference = nil if case_type&.requires_maat_reference?.eql?(false)
-  end
-
   acts_as_gov_uk_date :representation_order_date, validate_if: :perform_validation?, error_clash_behaviour: :override_with_gov_uk_date_field_error
 
   default_scope { order('id ASC') }

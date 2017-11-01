@@ -80,6 +80,7 @@ describe API::V1::ExternalUsers::RepresentationOrder do
           before { claim.case_type.update_column(:requires_maat_reference, false) }
 
           it 'creates a new representation_order record with all provided attributes' do
+            valid_params.delete(:maat_reference)
             post_to_create_endpoint
             new_representation_order = RepresentationOrder.last
             expect(new_representation_order.defendant_id).to eq defendant.id

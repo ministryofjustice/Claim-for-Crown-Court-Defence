@@ -28,9 +28,8 @@ class RepresentationOrderValidator < BaseValidator
   # must be exactly 7 - 10 numeric digits
   def validate_maat_reference
     case_type = claim.try(:case_type)
-    return unless case_type&.requires_maat_reference?
-    validate_presence(:maat_reference, 'invalid')
-    validate_pattern(:maat_reference, /^[0-9]{7,10}$/, 'invalid')
+    validate_presence(:maat_reference, 'invalid') if case_type&.requires_maat_reference?
+    validate_pattern(:maat_reference, /^[0-9]{7,10}$/, 'invalid') if @record.maat_reference.present?
   end
 
   # helper methods

@@ -6,12 +6,12 @@ describe DateAttendedValidator do
   include ValidationHelpers
 
   let(:claim) do
-    claim = FactoryGirl.create :claim,
+    claim = FactoryBot.create :claim,
                       total: 10,
                       force_validation: true,
                       first_day_of_trial: 5.weeks.ago,
-                      fees: [ FactoryGirl.build(:basic_fee, dates_attended: [ FactoryGirl.build(:date_attended) ]) ],
-                      defendants: [ FactoryGirl.build(:defendant) ]
+                      fees: [ FactoryBot.build(:basic_fee, dates_attended: [ FactoryBot.build(:date_attended) ]) ],
+                      defendants: [ FactoryBot.build(:defendant) ]
     fee = claim.fees.first
     fee.claim = claim
     date_attended = fee.dates_attended.first

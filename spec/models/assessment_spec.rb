@@ -19,14 +19,14 @@ require 'rails_helper'
 
 describe Assessment do
 
-  let(:claim)         { FactoryGirl.create :claim }
+  let(:claim)         { FactoryBot.create :claim }
 
   context 'validations' do
 
     context 'fees' do
       it 'should not accept negative values'  do
         expect {
-          # FactoryGirl.create :assessment, claim: claim, fees: -33.55
+          # FactoryBot.create :assessment, claim: claim, fees: -33.55
           claim.assessment.update!(fees: -33.35)
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed fees must be greater than or equal to zero'
       end
@@ -79,7 +79,7 @@ describe Assessment do
   context '#calculate_vat' do
     context 'advocate claims' do
       it 'should automatically calculate the vat amount based on the total assessed and the claim vat_date' do
-        claim = FactoryGirl.create :advocate_claim, apply_vat: true
+        claim = FactoryBot.create :advocate_claim, apply_vat: true
         ass = claim.assessment
         ass.update_values(100.0, 250.0, 0)
         expect(ass.vat_amount).to eq((ass.total * 0.175).round(2))
@@ -88,7 +88,7 @@ describe Assessment do
 
     context 'litigator claims' do
       it 'should not automatically calculate the VAT amount, instead using manually input vat_amount' do
-        claim = FactoryGirl.create :litigator_claim, apply_vat: true
+        claim = FactoryBot.create :litigator_claim, apply_vat: true
         ass = claim.assessment
         ass.vat_amount = 0.33
         ass.update_values(100.0, 250.0, 150.0)
@@ -99,7 +99,7 @@ describe Assessment do
 
   context '#zeroize!' do
     it 'should zeroize values and save' do
-      assessment = FactoryGirl.create :assessment, :random_amounts
+      assessment = FactoryBot.create :assessment, :random_amounts
       expect(assessment.fees).not_to eq 0
       expect(assessment.expenses).not_to eq 0
       expect(assessment.disbursements).not_to eq 0

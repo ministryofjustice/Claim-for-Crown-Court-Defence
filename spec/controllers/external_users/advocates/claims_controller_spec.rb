@@ -241,13 +241,13 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
 
       context 'basic and non-basic fees' do
 
-        let!(:basic_fee_type_1)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 1' }
-        let!(:basic_fee_type_2)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 2' }
-        let!(:basic_fee_type_3)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 3' }
-        let!(:basic_fee_type_4)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 4' }
-        let!(:misc_fee_type_1)          { FactoryGirl.create :misc_fee_type, description: 'Miscellaneous Fee Type 1' }
-        let!(:misc_fee_type_2)          { FactoryGirl.create :misc_fee_type, description: 'Miscellaneous Fee Type 2' }
-        let!(:fixed_fee_type_1)         { FactoryGirl.create :fixed_fee_type, description: 'Fixed Fee Type 1' }
+        let!(:basic_fee_type_1)         { FactoryBot.create :basic_fee_type, description: 'Basic Fee Type 1' }
+        let!(:basic_fee_type_2)         { FactoryBot.create :basic_fee_type, description: 'Basic Fee Type 2' }
+        let!(:basic_fee_type_3)         { FactoryBot.create :basic_fee_type, description: 'Basic Fee Type 3' }
+        let!(:basic_fee_type_4)         { FactoryBot.create :basic_fee_type, description: 'Basic Fee Type 4' }
+        let!(:misc_fee_type_1)          { FactoryBot.create :misc_fee_type, description: 'Miscellaneous Fee Type 1' }
+        let!(:misc_fee_type_2)          { FactoryBot.create :misc_fee_type, description: 'Miscellaneous Fee Type 2' }
+        let!(:fixed_fee_type_1)         { FactoryBot.create :fixed_fee_type, description: 'Fixed Fee Type 1' }
 
         let(:court)                     { create(:court) }
         let(:offence)                   { create(:offence) }
@@ -514,7 +514,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
   end
 
   def valid_claim_fee_params
-  case_type = FactoryGirl.create :case_type
+  case_type = FactoryBot.create :case_type
   HashWithIndifferentAccess.new(
     {
      "source" => 'web',

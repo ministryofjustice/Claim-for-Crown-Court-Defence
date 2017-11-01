@@ -6,14 +6,14 @@ describe Claim::BaseClaimValidator do
 
   include ValidationHelpers
 
-  let(:claim)                       { FactoryGirl.create :claim }
+  let(:claim)                       { FactoryBot.create :claim }
 
-  let(:guilty_plea)                 { FactoryGirl.build :case_type, :fixed_fee, name: 'Guilty plea'}
-  let(:contempt)                    { FactoryGirl.build :case_type, :requires_trial_dates, name: 'Contempt' }
-  let(:retrial)                     { FactoryGirl.build :case_type, :retrial }
-  let(:breach_of_crown_court_order) { FactoryGirl.build :case_type, name: 'Breach of Crown Court order'}
-  let(:cracked_trial)               { FactoryGirl.build :case_type, :requires_cracked_dates, name: "Cracked trial" }
-  let(:cracked_before_retrial)      { FactoryGirl.build :case_type, :requires_cracked_dates, name: 'Cracked before retrial'}
+  let(:guilty_plea)                 { FactoryBot.build :case_type, :fixed_fee, name: 'Guilty plea'}
+  let(:contempt)                    { FactoryBot.build :case_type, :requires_trial_dates, name: 'Contempt' }
+  let(:retrial)                     { FactoryBot.build :case_type, :retrial }
+  let(:breach_of_crown_court_order) { FactoryBot.build :case_type, name: 'Breach of Crown Court order'}
+  let(:cracked_trial)               { FactoryBot.build :case_type, :requires_cracked_dates, name: "Cracked trial" }
+  let(:cracked_before_retrial)      { FactoryBot.build :case_type, :requires_cracked_dates, name: 'Cracked before retrial'}
 
   before do
     claim.force_validation = true
@@ -318,7 +318,7 @@ describe Claim::BaseClaimValidator do
         %w{ draft allocated refused rejected submitted }.each do |state|
           it "for claims in state #{state}" do
             factory_name = "#{state}_claim".to_sym
-            claim = FactoryGirl.create factory_name
+            claim = FactoryBot.create factory_name
             expect(claim.assessment.total).to eq 0
             expect(claim).to be_valid
           end
@@ -329,7 +329,7 @@ describe Claim::BaseClaimValidator do
       %w{ draft refused rejected submitted }.each do |state|
         it "should error if amount assessed is not zero for #{state}" do
           factory_name = "#{state}_claim".to_sym
-          claim = FactoryGirl.create factory_name
+          claim = FactoryBot.create factory_name
           claim.assessment.fees = 35.22
           expect(claim).to_not be_valid
           expect(claim.errors[:amount_assessed]).to eq( ["Amount assessed must be zero for claims in state #{state.humanize}"] )
@@ -438,12 +438,12 @@ describe Claim::BaseClaimValidator do
   context 'cracked (re)trials' do
 
     let(:cracked_trial_claim) do
-      claim = FactoryGirl.create :claim, case_type: cracked_trial
+      claim = FactoryBot.create :claim, case_type: cracked_trial
       nulify_fields_on_record(claim, :trial_fixed_notice_at, :trial_fixed_at, :trial_cracked_at)
     end
 
     let(:cracked_before_retrial_claim) do
-      claim = FactoryGirl.create :claim, case_type: cracked_before_retrial
+      claim = FactoryBot.create :claim, case_type: cracked_before_retrial
       nulify_fields_on_record(claim, :trial_fixed_notice_at, :trial_fixed_at, :trial_cracked_at)
     end
 
@@ -507,7 +507,7 @@ describe Claim::BaseClaimValidator do
 
   context 'for claims requiring trial details' do
     context 'first day of trial' do
-      let(:contempt_claim_with_nil_first_day) { nulify_fields_on_record(FactoryGirl.create(:claim, case_type: contempt), :first_day_of_trial) }
+      let(:contempt_claim_with_nil_first_day) { nulify_fields_on_record(FactoryBot.create(:claim, case_type: contempt), :first_day_of_trial) }
       before { contempt_claim_with_nil_first_day.force_validation = true }
       it { should_error_if_not_present(contempt_claim_with_nil_first_day, :first_day_of_trial, "blank", translated_message: 'Enter a date') }
       it { should_errror_if_later_than_other_date(contempt_claim_with_nil_first_day, :first_day_of_trial, :trial_concluded_at, 'check_other_date', translated_message: 'Can\'t be after the date "Trial concluded"') }
@@ -516,7 +516,7 @@ describe Claim::BaseClaimValidator do
     end
 
     context 'trial_concluded_at' do
-      let(:contempt_claim_with_nil_concluded_at) { nulify_fields_on_record(FactoryGirl.create(:claim, case_type: contempt), :trial_concluded_at) }
+      let(:contempt_claim_with_nil_concluded_at) { nulify_fields_on_record(FactoryBot.create(:claim, case_type: contempt), :trial_concluded_at) }
       before { contempt_claim_with_nil_concluded_at.force_validation = true }
       it { should_error_if_not_present(contempt_claim_with_nil_concluded_at, :trial_concluded_at, "blank", translated_message: 'Enter a date') }
       it { should_error_if_earlier_than_other_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, :first_day_of_trial, 'check_other_date', translated_message: 'Can\'t be before the "First day of trial"') }
@@ -526,7 +526,7 @@ describe Claim::BaseClaimValidator do
   end
 
   context 'for claims requiring retrial details' do
-    let(:claim) { FactoryGirl.create(:claim, case_type: retrial) }
+    let(:claim) { FactoryBot.create(:claim, case_type: retrial) }
 
     context 'retrial_started_at' do
       it { should_error_if_not_present(claim, :retrial_started_at, "blank", translated_message: 'Enter a date') }

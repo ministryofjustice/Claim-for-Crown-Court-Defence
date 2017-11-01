@@ -11,7 +11,7 @@
 #  unique_code :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :expense_type do
     sequence(:name) { |n| "#{Faker::Lorem.word}-#{n}" }
     unique_code { ('A'..'Z').to_a.sample(5).join }

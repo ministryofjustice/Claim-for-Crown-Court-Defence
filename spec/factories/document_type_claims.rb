@@ -9,7 +9,7 @@
 #  updated_at       :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :document_type_claim do
     claim
     document_type

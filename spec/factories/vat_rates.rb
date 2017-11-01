@@ -9,7 +9,7 @@
 #  updated_at       :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :vat_rate, class: VatRate do
     rate_base_points                 1750
     effective_date                   Date.new(2001, 1, 4)

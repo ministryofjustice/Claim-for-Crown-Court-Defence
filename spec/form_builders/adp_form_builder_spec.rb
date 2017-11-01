@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe AdpFormBuilder do
 
-  let(:resource)  { FactoryGirl.create :claim }
+  let(:resource)  { FactoryBot.create :claim }
   let(:builder)   { AdpFormBuilder.new(:claim, resource, self, {} ) }
 
   describe 'anchored_label' do

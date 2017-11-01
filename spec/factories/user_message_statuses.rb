@@ -10,7 +10,7 @@
 #  updated_at :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user_message_status do
     user
     message
@@ -21,8 +21,8 @@ FactoryGirl.define do
     end
 
     trait :unpersisted do
-      user            { FactoryGirl.build :user }
-      message         { FactoryGirl.build :unpersisted_message }
+      user            { FactoryBot.build :user }
+      message         { FactoryBot.build :unpersisted_message }
     end
   end
 end

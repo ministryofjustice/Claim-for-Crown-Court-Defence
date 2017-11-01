@@ -5,9 +5,9 @@ describe RepresentationOrderValidator do
 
   include ValidationHelpers
 
-  let(:claim)         { FactoryGirl.build :claim, force_validation: true }
-  let(:defendant)     { FactoryGirl.build :defendant, claim: claim }
-  let(:reporder)      { FactoryGirl.build :representation_order, defendant: defendant }
+  let(:claim)         { FactoryBot.build :claim, force_validation: true }
+  let(:defendant)     { FactoryBot.build :defendant, claim: claim }
+  let(:reporder)      { FactoryBot.build :representation_order, defendant: defendant }
 
   context 'representation_order_date' do
     it { should_error_if_not_present(reporder, :representation_order_date, "blank") }
@@ -16,7 +16,7 @@ describe RepresentationOrderValidator do
   end
 
   context 'for an interim claim' do
-    let(:claim) { FactoryGirl.build :interim_claim, force_validation: true }
+    let(:claim) { FactoryBot.build :interim_claim, force_validation: true }
 
     context 'representation_order_date' do
       let(:earliest_permitted_date) { Date.new(2014,10,2) }
@@ -26,14 +26,14 @@ describe RepresentationOrderValidator do
 
   context 'stand-alone rep order' do
     it 'should always be valid if not attached to a defendant or claim' do
-      reporder = FactoryGirl.build :representation_order, defendant: nil, representation_order_date: nil
+      reporder = FactoryBot.build :representation_order, defendant: nil, representation_order_date: nil
       expect(reporder).to be_valid
     end
   end
 
   context 'multiple representation orders' do
 
-    let(:claim)       { FactoryGirl.create :claim }
+    let(:claim)       { FactoryBot.create :claim }
     let(:ro1)         { claim.defendants.first.representation_orders.first }
     let(:ro2)         { claim.defendants.first.representation_orders.last }
 

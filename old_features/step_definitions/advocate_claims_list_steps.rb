@@ -1,13 +1,13 @@
 Given(/^I have claims$/) do
-  FactoryGirl.create :vat_rate
+  FactoryBot.create :vat_rate
   @claims = create_list(:submitted_claim, 5, external_user: @advocate)
   @claims.each do |claim|
     claim.documents << create(:document, external_user: @advocate)
   end
   @other_claims = create_list(:submitted_claim, 3)
   @claims.each_with_index { |claim, index| claim.update(total: index + 1, fees_total: index + 1, expenses_total: 0) }
-  create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '0123456789') ]
-  create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '2078352232') ]
+  create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryBot.create(:representation_order, maat_reference: '0123456789') ]
+  create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryBot.create(:representation_order, maat_reference: '2078352232') ]
 end
 
 When(/^I visit the advocates dashboard$/) do

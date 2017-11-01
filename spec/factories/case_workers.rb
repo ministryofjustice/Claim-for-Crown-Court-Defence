@@ -11,7 +11,7 @@
 #  uuid        :uuid
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :case_worker do
     after(:build) do |case_worker|
       case_worker.user ||= build(:user, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, password: 'password', password_confirmation: 'password')

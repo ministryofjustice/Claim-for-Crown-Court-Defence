@@ -22,7 +22,7 @@
 #  vat_amount      :decimal(, )      default(0.0)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :expense do
     expense_type
     claim

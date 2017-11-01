@@ -678,7 +678,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 end
 
 def build_claim_in_state(state)
-  claim = FactoryGirl.build :unpersisted_claim
+  claim = FactoryBot.build :unpersisted_claim
   allow(claim).to receive(:state).and_return(state.to_s)
   claim
 end

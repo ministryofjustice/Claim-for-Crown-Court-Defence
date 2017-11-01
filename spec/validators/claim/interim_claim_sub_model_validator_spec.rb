@@ -4,7 +4,7 @@ require_relative 'shared_examples_for_step_validators'
 
 describe Claim::InterimClaimSubModelValidator do
 
-  let(:claim) { FactoryGirl.create :interim_claim }
+  let(:claim) { FactoryBot.create :interim_claim }
 
   include_examples 'common partial association validations', {
       has_one: [

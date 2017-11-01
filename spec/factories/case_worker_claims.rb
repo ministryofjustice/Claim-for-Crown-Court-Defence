@@ -9,7 +9,7 @@
 #  updated_at     :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :case_worker_claim do
     case_worker
     claim

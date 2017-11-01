@@ -16,7 +16,7 @@
 #  unique_code         :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :basic_fee_type, class: Fee::BasicFeeType do
     sequence(:description) { |n| "AGFS, Basic fee type, basic fee -#{n}" }
     code { random_safe_code }
@@ -181,7 +181,7 @@ FactoryGirl.define do
       after(:build) do |fee_type|
         unless fee_type.parent
           parent = Fee::FixedFeeType.where(description: 'Hearing subsequent to sentence').first
-          parent = FactoryGirl.build(:fixed_fee_type, :hsts, roles: ['lgfs']) if parent.nil?
+          parent = FactoryBot.build(:fixed_fee_type, :hsts, roles: ['lgfs']) if parent.nil?
           fee_type.parent = parent
         end
       end

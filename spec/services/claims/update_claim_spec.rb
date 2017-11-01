@@ -7,7 +7,7 @@ describe Claims::UpdateClaim do
   end
 
   context 'claim updating' do
-    let(:claim) { FactoryGirl.create :advocate_claim, case_number: 'A20161234' }
+    let(:claim) { FactoryBot.create :advocate_claim, case_number: 'A20161234' }
     let(:claim_params) { { case_number: 'A20165555' } }
 
     subject { described_class.new(claim, params: claim_params) }

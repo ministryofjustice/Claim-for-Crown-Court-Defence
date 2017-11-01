@@ -155,14 +155,14 @@ When(/^I click "Continue"$/) do
 end
 
 Given(/^There are other advocates in my provider$/) do
-  FactoryGirl.create(:external_user,
+  FactoryBot.create(:external_user,
                      :advocate,
                      provider: @advocate.provider,
-                     user: FactoryGirl.create(:user, first_name: 'John', last_name: 'Doe'),
+                     user: FactoryBot.create(:user, first_name: 'John', last_name: 'Doe'),
                      supplier_number: 'AC135')
-  FactoryGirl.create(:external_user,
+  FactoryBot.create(:external_user,
                      :advocate,
                      provider: @advocate.provider,
-                     user: FactoryGirl.create(:user, first_name: 'Joe', last_name: 'Blow'),
+                     user: FactoryBot.create(:user, first_name: 'Joe', last_name: 'Blow'),
                      supplier_number: 'XY455')
 end

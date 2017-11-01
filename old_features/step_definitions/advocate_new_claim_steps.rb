@@ -8,15 +8,15 @@ Given(/^certification types are seeded$/) do
 end
 
 Given(/^There are other advocates in my provider$/) do
-  FactoryGirl.create(:external_user,
+  FactoryBot.create(:external_user,
         :advocate,
         provider: @advocate.provider,
-        user: FactoryGirl.create(:user, first_name: 'John', last_name: 'Doe'),
+        user: FactoryBot.create(:user, first_name: 'John', last_name: 'Doe'),
         supplier_number: 'AC135')
-  FactoryGirl.create(:external_user,
+  FactoryBot.create(:external_user,
         :advocate,
         provider: @advocate.provider,
-        user: FactoryGirl.create(:user, first_name: 'Joe', last_name: 'Blow'),
+        user: FactoryBot.create(:user, first_name: 'Joe', last_name: 'Blow'),
         supplier_number: 'XY455')
 end
 
@@ -40,7 +40,7 @@ end
 
 Given(/^There are case types in place$/) do
   load "#{Rails.root}/db/seeds/case_types.rb"
-  FactoryGirl.create :case_type, :fixed_fee
+  FactoryBot.create :case_type, :fixed_fee
 end
 
 When(/^I click Add another defendant$/) do
@@ -101,12 +101,12 @@ end
 When(/^I have one fee of type "(.*?)"$/) do |fee_type|
   @claim.fees.destroy_all
   type_of_fee_to_create = "#{fee_type}_fee".to_sym
-  FactoryGirl.create(type_of_fee_to_create, claim: @claim)
+  FactoryBot.create(type_of_fee_to_create, claim: @claim)
 end
 
 When(/^I have (\d+) dates attended for my one fee$/) do |number|
   number.to_i.times do |i|
-    FactoryGirl.create(:date_attended, attended_item: @claim.fees.first, date: 12.days.ago, date_to: 2.days.ago)
+    FactoryBot.create(:date_attended, attended_item: @claim.fees.first, date: 12.days.ago, date_to: 2.days.ago)
   end
 end
 

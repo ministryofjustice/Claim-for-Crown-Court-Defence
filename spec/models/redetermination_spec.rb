@@ -19,12 +19,12 @@ require 'rails_helper'
 
 describe Redetermination do
 
-  let(:claim)         { FactoryGirl.create :claim }
+  let(:claim)         { FactoryBot.create :claim }
 
  
   context 'automatic calculation of total' do
     it 'should calculate the total on save' do
-      rd = FactoryGirl.create :redetermination
+      rd = FactoryBot.create :redetermination
       expect(rd.total).to eq(rd.fees + rd.expenses + rd.disbursements)
     end
   end
@@ -38,7 +38,7 @@ describe Redetermination do
       # Given a number of redeterminations written at various times
       [date_3, date_1, date_2].each do |date|
         Timecop.freeze(date) do
-          FactoryGirl.create :redetermination, claim: claim
+          FactoryBot.create :redetermination, claim: claim
         end
       end
       # when I call claim.redeterminations
@@ -52,7 +52,7 @@ describe Redetermination do
 
   describe '#to_s' do
     it 'outputs the totals' do
-      rd = FactoryGirl.create :redetermination, fees: 123.22, expenses: 301.55, disbursements: 44.33
+      rd = FactoryBot.create :redetermination, fees: 123.22, expenses: 301.55, disbursements: 44.33
       expected  = "  id:            #{rd.id}\n" +
                   "  type           Redetermination\n" +
                   "  claim_id:      #{rd.claim.id}\n" +

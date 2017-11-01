@@ -48,7 +48,7 @@ shared_examples "common advocate litigator validations" do |external_user_type|
   end
 
   context 'transfer_case_number' do
-    before(:each) { claim.transfer_court = FactoryGirl.build(:court) }
+    before(:each) { claim.transfer_court = FactoryBot.build(:court) }
 
     it 'should NOT error if blank' do
       expect(claim.transfer_case_number).to be_blank

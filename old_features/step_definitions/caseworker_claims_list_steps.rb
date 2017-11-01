@@ -3,30 +3,30 @@ Given(/^claims have been assigned to me$/) do
   @claims = create_list(:allocated_claim, 5)
   @other_claims = create_list(:allocated_claim, 3)
   @claims.each { |claim| claim.case_workers << @case_worker }
-  create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '7418529635') ]
-  create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '9516249873') ]
+  create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryBot.create(:representation_order, maat_reference: '7418529635') ]
+  create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryBot.create(:representation_order, maat_reference: '9516249873') ]
 end
 
 Given(/^there are allocated claims$/) do
-  @claims = FactoryGirl.create_list(:allocated_claim, 3)
+  @claims = FactoryBot.create_list(:allocated_claim, 3)
 end
 
 Given(/^there are unallocated claims$/) do
-  @claims = FactoryGirl.create_list(:submitted_claim, 4)
+  @claims = FactoryBot.create_list(:submitted_claim, 4)
 end
 
 Given(/^there are archived claims$/) do
   @claims =  []
-  @claims << FactoryGirl.create(:authorised_claim)
-  @claims << FactoryGirl.create(:part_authorised_claim)
-  @claims << FactoryGirl.create(:rejected_claim)
-  @claims << FactoryGirl.create(:refused_claim)
+  @claims << FactoryBot.create(:authorised_claim)
+  @claims << FactoryBot.create(:part_authorised_claim)
+  @claims << FactoryBot.create(:rejected_claim)
+  @claims << FactoryBot.create(:refused_claim)
 
   @other_claims = []
-  @other_claims << FactoryGirl.create(:authorised_claim)
-  @other_claims << FactoryGirl.create(:part_authorised_claim)
-  @other_claims << FactoryGirl.create(:rejected_claim)
-  @other_claims << FactoryGirl.create(:refused_claim)
+  @other_claims << FactoryBot.create(:authorised_claim)
+  @other_claims << FactoryBot.create(:part_authorised_claim)
+  @other_claims << FactoryBot.create(:rejected_claim)
+  @other_claims << FactoryBot.create(:refused_claim)
 end
 
 Given(/^I have archived claims$/) do

@@ -1,6 +1,6 @@
 # require 'awesome_print'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :transfer_claim, class: Claim::TransferClaim do
     litigator_base_setup
     claim_state_common_traits

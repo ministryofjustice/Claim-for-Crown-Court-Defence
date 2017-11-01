@@ -1,8 +1,8 @@
 Given(/^a certified claim has been assigned to me$/) do
   @claim = create(:allocated_claim)
   @claim.certification.destroy unless @claim.certification.nil?
-  certification_type = FactoryGirl.create(:certification_type, name: 'which ever reason i please')
-  FactoryGirl.create(:certification, claim: @claim, certified_by: 'Bobby Legrand', certification_type: certification_type)
+  certification_type = FactoryBot.create(:certification_type, name: 'which ever reason i please')
+  FactoryBot.create(:certification, claim: @claim, certified_by: 'Bobby Legrand', certification_type: certification_type)
   @case_worker.claims << @claim
   @claim.reload
 end
@@ -24,7 +24,7 @@ Then(/^I should see the reason for certification$/) do
 end
 
 Given(/^a (re)?trial claim has been assigned to me$/) do |trial_prefix|
-  @claim = create(:submitted_claim, case_type: FactoryGirl.create(:case_type, "#{trial_prefix}trial".to_sym))
+  @claim = create(:submitted_claim, case_type: FactoryBot.create(:case_type, "#{trial_prefix}trial".to_sym))
   @case_worker.claims << @claim
 end
 

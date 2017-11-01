@@ -5,19 +5,19 @@ describe Fee::BaseFeeValidator do
 
   include ValidationHelpers
 
-  let(:claim)      { FactoryGirl.build :advocate_claim, force_validation: true }
-  let(:fee)        { FactoryGirl.build :fixed_fee, claim: claim }
-  let(:baf_fee)    { FactoryGirl.build :basic_fee, :baf_fee, claim: claim }
-  let(:daf_fee)    { FactoryGirl.build :basic_fee, :daf_fee, claim: claim }
-  let(:dah_fee)    { FactoryGirl.build :basic_fee, :dah_fee, claim: claim }
-  let(:daj_fee)    { FactoryGirl.build :basic_fee, :daj_fee, claim: claim }
-  let(:pcm_fee)    { FactoryGirl.build :basic_fee, :pcm_fee, claim: claim }
-  let(:ppe_fee)    { FactoryGirl.build :basic_fee, :ppe_fee, claim: claim }
-  let(:npw_fee)    { FactoryGirl.build :basic_fee, :npw_fee, claim: claim }
-  let(:spf_fee)    { FactoryGirl.build :misc_fee, :spf_fee, claim: claim }
+  let(:claim)      { FactoryBot.build :advocate_claim, force_validation: true }
+  let(:fee)        { FactoryBot.build :fixed_fee, claim: claim }
+  let(:baf_fee)    { FactoryBot.build :basic_fee, :baf_fee, claim: claim }
+  let(:daf_fee)    { FactoryBot.build :basic_fee, :daf_fee, claim: claim }
+  let(:dah_fee)    { FactoryBot.build :basic_fee, :dah_fee, claim: claim }
+  let(:daj_fee)    { FactoryBot.build :basic_fee, :daj_fee, claim: claim }
+  let(:pcm_fee)    { FactoryBot.build :basic_fee, :pcm_fee, claim: claim }
+  let(:ppe_fee)    { FactoryBot.build :basic_fee, :ppe_fee, claim: claim }
+  let(:npw_fee)    { FactoryBot.build :basic_fee, :npw_fee, claim: claim }
+  let(:spf_fee)    { FactoryBot.build :misc_fee, :spf_fee, claim: claim }
 
   context 'for a JSON imported claim (and no forced validation)' do
-    let(:claim) { FactoryGirl.build :advocate_claim, source: 'json_import' }
+    let(:claim) { FactoryBot.build :advocate_claim, source: 'json_import' }
 
     it 'should not perform claim validation' do
       expect(claim.perform_validation?).to be_falsey
@@ -251,7 +251,7 @@ describe Fee::BaseFeeValidator do
         end
 
         it 'should validate based on retrial length for retrials' do
-            daf_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
+            daf_fee.claim.case_type = FactoryBot.create(:case_type, :retrial)
             daf_fee.claim.actual_trial_length = 2
             daf_fee.claim.retrial_actual_length = 20
             should_be_valid_if_equal_to_value(daf_fee, :quantity, 18)
@@ -284,7 +284,7 @@ describe Fee::BaseFeeValidator do
         end
 
         it 'should validate based on retrial length for retrials' do
-            dah_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
+            dah_fee.claim.case_type = FactoryBot.create(:case_type, :retrial)
             dah_fee.claim.actual_trial_length = 2
             dah_fee.claim.retrial_actual_length = 45
             should_be_valid_if_equal_to_value(dah_fee, :quantity, 5)
@@ -314,7 +314,7 @@ describe Fee::BaseFeeValidator do
         end
 
         it 'should validate based on retrial length for retrials' do
-            daj_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
+            daj_fee.claim.case_type = FactoryBot.create(:case_type, :retrial)
             daj_fee.claim.actual_trial_length = 2
             daj_fee.claim.retrial_actual_length = 70
             should_be_valid_if_equal_to_value(daj_fee, :quantity, 20)
@@ -325,7 +325,7 @@ describe Fee::BaseFeeValidator do
       context 'plea and case management hearing (PCM)' do
         context 'permitted case type' do
           before(:each) do
-            claim.case_type = FactoryGirl.build :case_type, :allow_pcmh_fee_type
+            claim.case_type = FactoryBot.build :case_type, :allow_pcmh_fee_type
           end
           it { should_error_if_equal_to_value(pcm_fee, :quantity, 0, 'pcm_invalid') }
           it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'pcm_numericality') }
@@ -335,7 +335,7 @@ describe Fee::BaseFeeValidator do
 
         context 'unpermitted case type' do
           before(:each) do
-            claim.case_type = FactoryGirl.build :case_type
+            claim.case_type = FactoryBot.build :case_type
           end
           it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_not_applicable') }
           it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'pcm_not_applicable') }

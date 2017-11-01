@@ -84,7 +84,7 @@ module DemoData
     end
 
     def add_defendants(claim)
-      rand(1..3).times { FactoryGirl.create(:defendant, claim: claim) }
+      rand(1..3).times { FactoryBot.create(:defendant, claim: claim) }
       claim.save!
       claim.reload
     end
@@ -139,7 +139,7 @@ module DemoData
       num_external_users_existing = ExternalUser.active.__send__(@external_user_persona.to_s.pluralize.to_sym).count
       num_external_users_required = @num_external_users - num_external_users_existing
       num_external_users_required.times do
-        FactoryGirl.create(:external_user, @external_user_persona)
+        FactoryBot.create(:external_user, @external_user_persona)
       end
     end
 

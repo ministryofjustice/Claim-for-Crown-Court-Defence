@@ -3,7 +3,7 @@ require_relative '../validation_helpers'
 
 describe Claim::BaseClaimSubModelValidator do
 
-  let(:claim)               { FactoryGirl.create :claim }
+  let(:claim)               { FactoryBot.create :claim }
   let(:defendant)           { claim.defendants.first }
 
   before(:each)              { claim.force_validation = true }
@@ -22,9 +22,9 @@ describe Claim::BaseClaimSubModelValidator do
 
   context 'fees' do
     before(:each) do
-      @basic_fee = FactoryGirl.create :basic_fee, :with_date_attended, claim: claim
-      @misc_fee = FactoryGirl.create :misc_fee,:with_date_attended, claim: claim
-      FactoryGirl.create :date_attended, attended_item: @misc_fee
+      @basic_fee = FactoryBot.create :basic_fee, :with_date_attended, claim: claim
+      @misc_fee = FactoryBot.create :misc_fee,:with_date_attended, claim: claim
+      FactoryBot.create :date_attended, attended_item: @misc_fee
       claim.fees.map(&:dates_attended).flatten      # iterate through the fees and dates attended so that the examples below know they have been created
       claim.form_step = 2
     end
@@ -38,8 +38,8 @@ describe Claim::BaseClaimSubModelValidator do
 
   context 'expenses' do
     before(:each) do
-      @expense = FactoryGirl.create :expense, :with_date_attended, claim: claim
-      FactoryGirl.create :date_attended, attended_item: @expense
+      @expense = FactoryBot.create :expense, :with_date_attended, claim: claim
+      FactoryBot.create :date_attended, attended_item: @expense
       claim.expenses.map(&:dates_attended).flatten       # iterate through the expenses and dates attended so that the examples below know they have been created
       claim.force_validation = true
       claim.form_step = 2

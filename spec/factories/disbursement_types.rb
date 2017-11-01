@@ -10,7 +10,7 @@
 #  unique_code :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :disbursement_type do
     sequence(:name) { |n| "#{random_description} - #{n}" }
     sequence(:unique_code) { |n| "XX#{n}" }

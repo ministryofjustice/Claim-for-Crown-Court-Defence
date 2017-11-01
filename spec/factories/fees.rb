@@ -19,7 +19,7 @@
 #  date                  :date
 #
 
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :fixed_fee, class: Fee::FixedFee do
     claim
@@ -187,6 +187,6 @@ FactoryGirl.define do
   end
 
   trait :from_api do
-    claim         { FactoryGirl.create :claim, source: 'api' }
+    claim         { FactoryBot.create :claim, source: 'api' }
   end
 end

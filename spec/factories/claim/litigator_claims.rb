@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :litigator_claim, class: Claim::LitigatorClaim do
 
     litigator_base_setup

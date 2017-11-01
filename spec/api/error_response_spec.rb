@@ -5,7 +5,7 @@ describe API::ErrorResponse do
     VALID_MODEL_KLASSES = [::Fee, ::Expense, ::Disbursement, ::Claim, ::Defendant, ::DateAttended, ::RepresentationOrder]
     EXCEPTION_KLASSES = [RuntimeError, ArgumentError]
 
-    let(:claim) { FactoryGirl.build :claim, case_number: 'A123456' }
+    let(:claim) { FactoryBot.build :claim, case_number: 'A123456' }
     let(:er) { described_class.new(claim)}
 
     before(:each) do
@@ -15,7 +15,7 @@ describe API::ErrorResponse do
 
     context 'accepts specific model objects' do
       VALID_MODEL_KLASSES.each do |model_klass|
-        let(:model_instance) { FactoryGirl.build(model_klass.name.underscore.to_sym) }
+        let(:model_instance) { FactoryBot.build(model_klass.name.underscore.to_sym) }
         it "accepts #{model_klass.name}" do
           expect { er = described_class.new(model_instance) }.to raise_error(RuntimeError ,'unable to build error response as no errors were found')
         end

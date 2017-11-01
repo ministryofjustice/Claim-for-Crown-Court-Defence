@@ -46,8 +46,8 @@ end
 
 # lets set up some VAT rates that will apply to all cukes
 Before do
-  FactoryGirl.create :vat_rate, effective_date: Date.new(1970, 1, 1)
-  FactoryGirl.create :vat_rate, effective_date: Date.new(1990, 4, 5)
+  FactoryBot.create :vat_rate, effective_date: Date.new(1970, 1, 1)
+  FactoryBot.create :vat_rate, effective_date: Date.new(1990, 4, 5)
 end
 
 

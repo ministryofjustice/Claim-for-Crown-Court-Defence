@@ -14,7 +14,7 @@
 #  attachment_updated_at   :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :message do
     body { Faker::Lorem.paragraph }
     claim
@@ -26,8 +26,8 @@ FactoryGirl.define do
 
   factory :unpersisted_message, class: Message do
     body            { Faker::Lorem.paragraph }
-    claim           { FactoryGirl.build :unpersisted_claim }
-    sender          { FactoryGirl.build :user }
+    claim           { FactoryBot.build :unpersisted_claim }
+    sender          { FactoryBot.build :user }
   end
 
   trait :with_attachment do

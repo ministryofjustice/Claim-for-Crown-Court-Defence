@@ -69,7 +69,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include Paperclip::Shoulda::Matchers
   config.include Devise::TestHelpers, type: :controller
   config.include Devise::TestHelpers, type: :view
@@ -118,7 +118,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    FactoryGirl.create :vat_rate, effective_date: Date.new(1960, 1, 1), rate_base_points: 1750
+    FactoryBot.create :vat_rate, effective_date: Date.new(1960, 1, 1), rate_base_points: 1750
   end
 
   config.after(:suite) do

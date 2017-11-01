@@ -1,11 +1,11 @@
 module Stats
   class MoneyToDateDataGenerator
     def run
-      stat = Statistic.where(report_name: 'money_to_date').order('date desc').first
+      stat = Statistic.where(report_name: 'money_claimed_per_month').sum(:value_1)
       @data = {
         'item' => [
           {
-            'value' => stat.value_1,
+            'value' => stat,
             'prefix' => '£'
           }
         ]

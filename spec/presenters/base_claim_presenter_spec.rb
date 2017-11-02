@@ -198,39 +198,69 @@ RSpec.describe Claim::BaseClaimPresenter do
     expect(subject.assessment_total).to eql("£152.48")
   end
 
-  it '#fees_total' do
-    claim.fees_total = 100
-    expect(subject.fees_total).to eql("£100.00")
+  context 'dynamically defined methods' do
+    %w[expenses disbursements].each do |object_name|
+      %w[total vat with_vat_net with_vat_gross without_vat_net without_vat_gross].each do |method|
+        method_name = "#{object_name}_#{method}".to_sym
+        it { is_expected.to respond_to(method_name) }
+
+        describe "##{method_name}" do
+          it 'returns currency format' do
+            allow(claim).to receive(method_name).and_return 100
+            expect(subject.send(method_name)).to match(/£\d+\.\d+/)
+          end
+        end
+      end
+    end
   end
 
-  it '#expenses_total' do
-    claim.expenses_total = 100
-    expect(subject.expenses_total).to eql("£100.00")
+  describe '#expenses_gross' do
+    it 'returns total expenses and total of expense vat in currency format' do
+      claim.expenses_total = 100
+      claim.expenses_vat = 25
+      expect(subject.expenses_gross).to eql("£125.00")
+    end
   end
 
-  it '#disbursements_total' do
-    claim.disbursements_total = 100
-    expect(subject.disbursements_total).to eql("£100.00")
+  describe '#disbursements_gross' do
+    it 'returns total disbursements and total disbursment vat in currency format' do
+      claim.disbursements_total = 100
+      claim.disbursements_vat = 25
+      expect(subject.disbursements_gross).to eql("£125.00")
+    end
   end
 
-  it "#total_inc_vat" do
-    claim.total = 60
-    claim.vat_amount = 40
-    expect(subject.total_inc_vat).to eql("£100.00")
+  describe '#fees_total' do
+    it 'returns total of all fees in currency format' do
+      claim.fees_total = 100
+      expect(subject.fees_total).to eql("£100.00")
+    end
   end
 
-  it '#case_worker_email_addresses' do
-    cw1 = build(:case_worker)
-    cw2 = build(:case_worker)
-    cw1.user.email = 'john@bigblackhole.com'
-    cw2.user.email = 'bob@bigblackhole.com'
-    claim.case_workers << cw1
-    claim.case_workers << cw2
-    expect(subject.case_worker_email_addresses).to eql('bob@bigblackhole.com, john@bigblackhole.com')
+  describe "#total_inc_vat" do
+    it 'returns total of all fees and total of all fee vat in currency format' do
+      claim.total = 60
+      claim.vat_amount = 40
+      expect(subject.total_inc_vat).to eql("£100.00")
+    end
   end
 
-  it '#caseworker_claim_id' do
-    expect(subject.caseworker_claim_id).to eql("claim_ids_#{claim.id}")
+  describe '#case_worker_email_addresses' do
+    it 'returns comma separated string of case worker email address' do
+      cw1 = build(:case_worker)
+      cw2 = build(:case_worker)
+      cw1.user.email = 'john@bigblackhole.com'
+      cw2.user.email = 'bob@bigblackhole.com'
+      claim.case_workers << cw1
+      claim.case_workers << cw2
+      expect(subject.case_worker_email_addresses).to eql('bob@bigblackhole.com, john@bigblackhole.com')
+    end
+  end
+
+  describe '#caseworker_claim_id' do
+    it 'returns claim id formatted for use in html label' do
+      expect(subject.caseworker_claim_id).to eql("claim_ids_#{claim.id}")
+    end
   end
 
   describe '#representation_order_details' do
@@ -283,7 +313,6 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
-
   context 'defendant_summary' do
     let(:my_claim)  { Claim::AdvocateClaim.new }
     let(:presenter) { Claim::BaseClaimPresenter.new(my_claim, view)}
@@ -321,6 +350,4 @@ RSpec.describe Claim::BaseClaimPresenter do
       end
     end
   end
-
-
 end

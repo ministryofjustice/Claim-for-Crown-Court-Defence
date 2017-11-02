@@ -4,5 +4,8 @@
       = f.anchored_label(t('.lgfs_supplier_number'), 'supplier_number', { label_attributes: {class: 'form-label'} })
       %div.form-hint
         =supplier_number_hint
-      = f.collection_select :supplier_number, current_user.persona.provider.lgfs_supplier_numbers, :supplier_number, :supplier_number, {prompt: true}, {class: 'form-control'}
+      %fieldset.inline
+        .form-group
+          = f.collection_radio_buttons(:supplier_number, current_user.persona.provider.lgfs_supplier_numbers, :supplier_number, :supplier_number) do |b|
+            - b.label(class: "block-label") { b.radio_button + b.object.supplier_number }
       = validation_error_message(@error_presenter, :supplier_number)

@@ -10,12 +10,21 @@
 
       = render partial: 'external_users/claims/case_details/fields', locals: { f: f }
 
+      = render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: 'commit_continue' }
+
+    - if @claim.step?(2)
+
       = render partial: 'external_users/claims/defendants/fields', locals: { f: f }
 
       = render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: 'commit_continue' }
 
+    - if @claim.step?(3)
 
-    - if @claim.step?(2)
+      = render partial: 'external_users/claims/offence_details/fields', locals: { f: f }
+
+      = render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: 'commit_continue' }
+
+    - if @claim.step?(4)
 
       = render partial: 'external_users/claims/fees_shared_header'
 

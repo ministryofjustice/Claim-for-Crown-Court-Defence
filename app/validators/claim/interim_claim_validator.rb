@@ -12,6 +12,13 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
         retrial_estimated_length
         effective_pcmh_date
         legal_aid_transfer_date
+      ],
+      %i[
+      ],
+      %i[
+        offence
+      ],
+      %i[
         total
       ]
     ]

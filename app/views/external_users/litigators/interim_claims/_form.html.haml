@@ -6,27 +6,36 @@
 
     - if @claim.step?(1)
 
-      = render partial: 'external_users/claims/api_promo_banner', locals: { claim: @claim }
+      = render 'external_users/claims/api_promo_banner', claim: @claim
 
-      = render partial: 'external_users/claims/supplier_number/fields', locals: { f: f }
+      = render 'external_users/claims/supplier_number/fields', f: f
 
-      = render partial: 'external_users/claims/case_details/fields', locals: { f: f }
+      = render 'external_users/claims/case_details/fields', f: f
 
-      = render partial: 'external_users/claims/defendants/fields', locals: { f: f }
-
-      = render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: 'commit_continue' }
-
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
     - if @claim.step?(2)
 
-      = render partial: 'external_users/claims/fees_shared_header'
+      = render 'external_users/claims/defendants/fields', f: f
 
-      = render partial: 'external_users/claims/interim_fee/fields', locals: { f: f }
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
-      = render partial: 'external_users/claims/supporting_documents/fields', locals: { f: f }
+    - if @claim.step?(3)
 
-      = render partial: 'external_users/claims/supporting_evidence_checklist/fields', locals: { f: f }
+      = render 'external_users/claims/offence_details/fields', f: f
 
-      = render partial: 'external_users/claims/additional_information/fields', locals: { f: f }
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
-      = render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: 'commit_submit_claim' }
+    - if @claim.step?(4)
+
+      = render 'external_users/claims/fees_shared_header'
+
+      = render 'external_users/claims/interim_fee/fields', f: f
+
+      = render 'external_users/claims/supporting_documents/fields', f: f
+
+      = render 'external_users/claims/supporting_evidence_checklist/fields', f: f
+
+      = render 'external_users/claims/additional_information/fields', f: f
+
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_submit_claim'

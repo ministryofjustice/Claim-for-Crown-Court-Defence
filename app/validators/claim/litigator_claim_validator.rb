@@ -5,6 +5,11 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
     [
       [].unshift(first_step_common_validations),
       %i[
+      ],
+      %i[
+        offence
+      ],
+      %i[
         actual_trial_length
         total
       ]

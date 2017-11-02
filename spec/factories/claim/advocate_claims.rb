@@ -2,7 +2,7 @@ require_relative 'claim_factory_helpers'
 include ClaimFactoryHelpers
 
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :claim, aliases: [:advocate_claim], class: Claim::AdvocateClaim do
 
     # Alias for :claim factory that should be used since we now have a litigator claim factory
@@ -17,7 +17,7 @@ FactoryGirl.define do
     source { 'web' }
     apply_vat  false
     providers_ref { random_providers_ref }
-    case_type { FactoryGirl.build  :case_type }
+    case_type { FactoryBot.build  :case_type }
     offence
     advocate_category 'QC'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
@@ -41,9 +41,9 @@ FactoryGirl.define do
     end
 
     factory :unpersisted_claim do
-      court         { FactoryGirl.build :court }
-      external_user { FactoryGirl.build :external_user, provider: FactoryGirl.build(:provider) }
-      offence       { FactoryGirl.build :offence, offence_class: FactoryGirl.build(:offence_class) }
+      court         { FactoryBot.build :court }
+      external_user { FactoryBot.build :external_user, provider: FactoryBot.build(:provider) }
+      offence       { FactoryBot.build :offence, offence_class: FactoryBot.build(:offence_class) }
       after(:build) do |claim|
         certify_claim(claim)
         claim.defendants << build(:defendant, claim: claim)

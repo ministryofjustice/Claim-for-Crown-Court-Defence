@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ErrorPresenter do
 
-  let(:claim)           { FactoryGirl.build :claim }
+  let(:claim)           { FactoryBot.build :claim }
 
   let(:filename)        { File.dirname(__FILE__) + '/data/error_messages.en.yml' }
   let(:presenter)       { ErrorPresenter.new(claim, filename) }

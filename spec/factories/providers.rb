@@ -14,7 +14,7 @@
 #  roles                     :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :provider do
     provider_type 'chamber'
 

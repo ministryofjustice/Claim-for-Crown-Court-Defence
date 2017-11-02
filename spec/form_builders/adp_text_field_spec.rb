@@ -6,7 +6,7 @@ describe AdpTextField do
 
   context 'top level text fields' do
     let(:helper) { TestHelper.new }
-    let(:resource)  { FactoryGirl.create :claim, case_number: nil }
+    let(:resource)  { FactoryBot.create :claim, case_number: nil }
     let(:error_presenter) { ErrorPresenter.new(resource) }
     let(:builder)   { AdpFormBuilder.new(:claim, resource, helper, {} ) }
 

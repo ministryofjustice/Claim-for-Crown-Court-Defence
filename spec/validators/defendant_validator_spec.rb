@@ -5,8 +5,8 @@ describe DefendantValidator do
 
   include ValidationHelpers
 
-  let(:claim)     { FactoryGirl.build(:claim, force_validation: true) }
-  let(:defendant) { FactoryGirl.build :defendant, claim: claim }
+  let(:claim)     { FactoryBot.build(:claim, force_validation: true) }
+  let(:defendant) { FactoryBot.build :defendant, claim: claim }
 
   describe '#validate_claim' do
     it { should_error_if_not_present(defendant, :claim, 'blank') }
@@ -34,7 +34,7 @@ describe DefendantValidator do
     end
 
     context 'from api' do
-      let(:claim) { FactoryGirl.build(:claim, source: 'api') }
+      let(:claim) { FactoryBot.build(:claim, source: 'api') }
 
       it 'should not validate for presence of a rep order' do
         expect(defendant).to be_valid
@@ -42,7 +42,7 @@ describe DefendantValidator do
     end
 
     context 'not from api' do
-      let(:claim) { FactoryGirl.create(:submitted_claim, source: 'web') }
+      let(:claim) { FactoryBot.create(:submitted_claim, source: 'web') }
 
       it 'should validate for presence of a rep order' do
         expect(defendant).to_not be_valid

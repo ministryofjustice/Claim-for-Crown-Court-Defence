@@ -13,7 +13,7 @@
 #  deleted_at      :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :external_user do
     after(:build) do |a|
       a.user ||= build(:user, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: 'password', password_confirmation: 'password')

@@ -9,7 +9,7 @@ end
 
 
 Given(/^There is a Management Information report in the database$/) do
-  FactoryGirl.create :stats_report
+  FactoryBot.create :stats_report
 end
 
 

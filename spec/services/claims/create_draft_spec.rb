@@ -7,7 +7,7 @@ describe Claims::CreateDraft do
   end
 
   context 'draft claim creation' do
-    let(:claim) { FactoryGirl.build :advocate_claim }
+    let(:claim) { FactoryBot.build :advocate_claim }
     let(:validate) { true }
 
     subject { described_class.new(claim, validate: validate) }

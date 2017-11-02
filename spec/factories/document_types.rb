@@ -8,7 +8,7 @@
 #  updated_at  :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :document_type do
     sequence(:description) { |n| "#{Faker::Lorem.sentence}-#{n}" }
 

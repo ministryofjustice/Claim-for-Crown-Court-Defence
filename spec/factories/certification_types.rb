@@ -21,7 +21,7 @@
 #  updated_at   :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :certification_type do
     name { Faker::Lorem.sentence }
     pre_may_2015 false

@@ -43,7 +43,7 @@ module DemoData
     private
 
     def add_certification(claim)
-      FactoryGirl.create(:certification, claim: claim, certified_by: claim.creator.name, certification_type: CertificationType.all.sample)
+      FactoryBot.create(:certification, claim: claim, certified_by: claim.creator.name, certification_type: CertificationType.all.sample)
       claim.save!
     end
 

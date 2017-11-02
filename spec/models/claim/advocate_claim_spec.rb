@@ -186,7 +186,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   context 'State Machine meta states magic methods' do
-    let(:claim)       { FactoryGirl.build :claim }
+    let(:claim)       { FactoryBot.build :claim }
     let(:all_states)  { [  'allocated', 'archived_pending_delete',
                            'draft', 'authorised', 'part_authorised', 'refused', 'rejected', 'submitted' ] }
 
@@ -287,15 +287,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   subject { create(:claim) }
 
   describe '.earliest_representation_order' do
-    let(:claim)         { FactoryGirl.build :unpersisted_claim }
+    let(:claim)         { FactoryBot.build :unpersisted_claim }
     let(:early_date)    { 2.years.ago.to_date }
 
     before(:each) do
       # add a second defendant
-      claim.defendants << FactoryGirl.create(:defendant, claim: claim)
+      claim.defendants << FactoryBot.create(:defendant, claim: claim)
 
       # add a second rep order to the first defendant
-      claim.defendants.first.representation_orders << FactoryGirl.create(:representation_order, representation_order_date: early_date)
+      claim.defendants.first.representation_orders << FactoryBot.create(:representation_order, representation_order_date: early_date)
     end
 
     it 'should pick the earliest reporder' do
@@ -312,8 +312,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '.is_allocated_to_case_worker' do
-    let(:case_worker_1)        { FactoryGirl.create :case_worker }
-    let(:case_worker_2)        { FactoryGirl.create :case_worker }
+    let(:case_worker_1)        { FactoryBot.create :case_worker }
+    let(:case_worker_2)        { FactoryBot.create :case_worker }
 
     it 'should return true if allocated to the specified case_worker' do
       subject.case_workers << case_worker_1
@@ -329,17 +329,17 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   context 'basic fees' do
     before(:each) do
-      @bft1 = FactoryGirl.create :basic_fee_type,  description: 'ZZZZ', id: 1
-      @mft1 = FactoryGirl.create :misc_fee_type,   description: 'CCCC', id: 2
-      @fft1 = FactoryGirl.create :fixed_fee_type,  description: 'DDDD', id: 3
-      @bft2 = FactoryGirl.create :basic_fee_type,  description: 'AAAA', id: 4
-      @mft2 = FactoryGirl.create :misc_fee_type,   description: 'EEEE', id: 5
-      @bft3 = FactoryGirl.create :basic_fee_type,  description: 'BBBB', id: 6
+      @bft1 = FactoryBot.create :basic_fee_type,  description: 'ZZZZ', id: 1
+      @mft1 = FactoryBot.create :misc_fee_type,   description: 'CCCC', id: 2
+      @fft1 = FactoryBot.create :fixed_fee_type,  description: 'DDDD', id: 3
+      @bft2 = FactoryBot.create :basic_fee_type,  description: 'AAAA', id: 4
+      @mft2 = FactoryBot.create :misc_fee_type,   description: 'EEEE', id: 5
+      @bft3 = FactoryBot.create :basic_fee_type,  description: 'BBBB', id: 6
     end
 
     describe '.instantiate_basic_fees (after_initialize callback)' do
       it 'should create an unpersisted basic fee record for every basic fee type, in fee_type_id order' do
-        claim = FactoryGirl.build :claim
+        claim = FactoryBot.build :claim
         expect(claim.basic_fees.size).to eq 3
         claim.basic_fees.each { |fee| expect(fee).to be_blank }
         expect(claim.basic_fees.map(&:fee_type_id).sort).to eq( [1, 4, 6])
@@ -359,7 +359,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '.basic_fees' do
       it 'should return a fee for every basic fee sorted in order of fee type id (i.e. seeded data order)' do
-        claim = FactoryGirl.build :claim
+        claim = FactoryBot.build :claim
         expect(claim.basic_fees.map(&:fee_type_id).sort).to eq( [1, 4, 6])
       end
     end
@@ -388,9 +388,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       let(:search_options) { :maat_reference }
 
       before do
-        create :defendant, claim: subject, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '111111') ]
-        create :defendant, claim: subject, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '222222') ]
-        create :defendant, claim: other_claim, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '333333') ]
+        create :defendant, claim: subject, representation_orders: [ FactoryBot.create(:representation_order, maat_reference: '111111') ]
+        create :defendant, claim: subject, representation_orders: [ FactoryBot.create(:representation_order, maat_reference: '222222') ]
+        create :defendant, claim: other_claim, representation_orders: [ FactoryBot.create(:representation_order, maat_reference: '333333') ]
         subject.reload
         other_claim.reload
       end
@@ -748,7 +748,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   describe '#validation_required?' do
 
-    let(:claim) { FactoryGirl.create(:claim, source: 'web') }
+    let(:claim) { FactoryBot.create(:claim, source: 'web') }
 
     context 'should return false for' do
       it 'draft claims submited by web app' do
@@ -888,16 +888,16 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#fixed_fees' do
-    let(:ct_fixed_1)          { FactoryGirl.create :case_type, :fixed_fee }
-    let(:ct_fixed_2)          { FactoryGirl.create :case_type, :fixed_fee }
-    let(:ct_basic_1)          { FactoryGirl.create :case_type }
-    let(:ct_basic_2)          { FactoryGirl.create :case_type }
+    let(:ct_fixed_1)          { FactoryBot.create :case_type, :fixed_fee }
+    let(:ct_fixed_2)          { FactoryBot.create :case_type, :fixed_fee }
+    let(:ct_basic_1)          { FactoryBot.create :case_type }
+    let(:ct_basic_2)          { FactoryBot.create :case_type }
 
     it 'should only return claims with fixed fee case types' do
-      claim_1 = FactoryGirl.create :claim, case_type_id: ct_fixed_1.id
-      claim_2 = FactoryGirl.create :claim, case_type_id: ct_fixed_2.id
-      claim_3 = FactoryGirl.create :claim, case_type_id: ct_basic_1.id
-      claim_4 = FactoryGirl.create :claim, case_type_id: ct_basic_2.id
+      claim_1 = FactoryBot.create :claim, case_type_id: ct_fixed_1.id
+      claim_2 = FactoryBot.create :claim, case_type_id: ct_fixed_2.id
+      claim_3 = FactoryBot.create :claim, case_type_id: ct_basic_1.id
+      claim_4 = FactoryBot.create :claim, case_type_id: ct_basic_2.id
       expect(Claim::AdvocateClaim.fixed_fee.count).to eq 2
       expect(Claim::AdvocateClaim.fixed_fee).to include claim_1
       expect(Claim::AdvocateClaim.fixed_fee).to include claim_2
@@ -936,11 +936,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   describe '.destroy_all_invalid_fee_types' do
 
     let(:claim_with_all_fee_types) do
-      claim = FactoryGirl.create :draft_claim
-      FactoryGirl.create(:basic_fee, :with_date_attended, claim: claim, rate: 9.99)
-      FactoryGirl.create(:fixed_fee, :with_date_attended, claim: claim, rate: 9.99)
+      claim = FactoryBot.create :draft_claim
+      FactoryBot.create(:basic_fee, :with_date_attended, claim: claim, rate: 9.99)
+      FactoryBot.create(:fixed_fee, :with_date_attended, claim: claim, rate: 9.99)
       claim.misc_fees.first.update(rate: 9.99)
-      # FactoryGirl.create(:misc_fee, claim: claim, rate: 9.99)
+      # FactoryBot.create(:misc_fee, claim: claim, rate: 9.99)
       claim
     end
 
@@ -953,7 +953,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     it 'clears basic fees and but does NOT destroy miscellaneous fees for Fixed Fee case types' do
       allow_any_instance_of(CaseType).to receive(:is_fixed_fee?).and_return(true)
-      claim_with_all_fee_types.case_type = FactoryGirl.create :case_type, :fixed_fee
+      claim_with_all_fee_types.case_type = FactoryBot.create :case_type, :fixed_fee
       claim_with_all_fee_types.save
 
       expect(claim_with_all_fee_types.basic_fees.size).to eql 1
@@ -965,7 +965,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'destroys basic fee child relations explicitly (dates attended)' do
       allow_any_instance_of(CaseType).to receive(:is_fixed_fee?).and_return(true)
       expect(claim_with_all_fee_types.basic_fees.first.dates_attended.size).to eql 1
-      claim_with_all_fee_types.case_type = FactoryGirl.create :case_type, :fixed_fee
+      claim_with_all_fee_types.case_type = FactoryBot.create :case_type, :fixed_fee
       claim_with_all_fee_types.save
       expect(claim_with_all_fee_types.basic_fees.first.dates_attended.size).to eql 0
     end
@@ -973,7 +973,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'sets the source field before saving a claim' do
-    let(:claim)       { FactoryGirl.build :claim }
+    let(:claim)       { FactoryBot.build :claim }
 
     it 'sets the source to web by default if unset' do
       expect(claim.save).to eq(true)
@@ -1008,7 +1008,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'provider type dependant methods' do
-    let(:claim) { FactoryGirl.build :unpersisted_claim }
+    let(:claim) { FactoryBot.build :unpersisted_claim }
 
     describe 'for a chamber provider' do
       before :each do
@@ -1053,13 +1053,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     it 'should calaculate vat on submission if vat is applied' do
       allow(VatRate).to receive(:vat_amount).and_return(10)
-      claim = FactoryGirl.build :unpersisted_claim, total: 100
+      claim = FactoryBot.build :unpersisted_claim, total: 100
       claim.submit!
       expect(claim.vat_amount).to eq 10
     end
 
     it 'should zeroise the vat amount if vat is not applied' do
-      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, vat_amount: 20, total: 100
+      claim = FactoryBot.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, vat_amount: 20, total: 100
       claim.external_user.vat_registered = false
       claim.submit!
       expect(claim.vat_amount).to eq 0.0
@@ -1212,7 +1212,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     context 'allocated state from redetermination' do
 
       before(:each) do
-        @claim = FactoryGirl.create :redetermination_claim
+        @claim = FactoryBot.create :redetermination_claim
         @claim.allocate!
       end
 
@@ -1252,14 +1252,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'allocated state where the previous state was not redetermination' do
       it 'should be false' do
-        claim = FactoryGirl.create :allocated_claim
+        claim = FactoryBot.create :allocated_claim
         expect(claim.requested_redetermination?).to be false
       end
     end
 
     context 'not allocated state' do
       it 'should be false' do
-        claim = FactoryGirl.create :redetermination_claim
+        claim = FactoryBot.create :redetermination_claim
         expect(claim.requested_redetermination?).to be false
       end
     end
@@ -1304,12 +1304,12 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   describe 'not saving the expenses model' do
     it 'should save the expenses model' do
-      external_user = FactoryGirl.create :external_user
-      expense_type = FactoryGirl.create :expense_type, :car_travel
-      fee_type = FactoryGirl.create :basic_fee_type
-      case_type = FactoryGirl.create :case_type
-      court = FactoryGirl.create :court
-      offence = FactoryGirl.create :offence
+      external_user = FactoryBot.create :external_user
+      expense_type = FactoryBot.create :expense_type, :car_travel
+      fee_type = FactoryBot.create :basic_fee_type
+      case_type = FactoryBot.create :case_type
+      court = FactoryBot.create :court
+      offence = FactoryBot.create :offence
 
       params = {"claim"=>
         {"case_type_id" => case_type.id,
@@ -1391,7 +1391,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 # local helpers
 # ---------------------
   def valid_params
-    external_user = FactoryGirl.create :external_user
+    external_user = FactoryBot.create :external_user
     {"claim"=>
         {"external_user_id" => external_user.id,
         "creator_id" => external_user.id,

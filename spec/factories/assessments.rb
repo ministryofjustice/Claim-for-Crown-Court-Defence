@@ -1,7 +1,7 @@
 
 # creates a claim and associated assessment
 #
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :assessment do
     skip_create

@@ -5,7 +5,7 @@ describe Claims::CreateClaim do
     clean_database
   end
 
-  let(:claim) { FactoryGirl.build :advocate_claim, uuid: SecureRandom.uuid }
+  let(:claim) { FactoryBot.build :advocate_claim, uuid: SecureRandom.uuid }
   subject { described_class.new(claim) }
 
   describe '#action' do

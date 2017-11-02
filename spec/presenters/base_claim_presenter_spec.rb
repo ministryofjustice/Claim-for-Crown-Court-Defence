@@ -167,12 +167,12 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#retrial' do
 
     it 'returns yes for case types like retrial' do
-      claim.case_type = FactoryGirl.create :case_type, :retrial
+      claim.case_type = FactoryBot.create :case_type, :retrial
       expect(subject.retrial).to eql 'Yes'
     end
 
     it 'returns no for case types NOT like retrial' do
-      claim.case_type = FactoryGirl.create :case_type, :contempt
+      claim.case_type = FactoryBot.create :case_type, :contempt
       expect(subject.retrial).to eql 'No'
     end
 
@@ -265,21 +265,21 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#representation_order_details' do
 
-    claim = FactoryGirl.build :unpersisted_claim
+    claim = FactoryBot.build :unpersisted_claim
     subject { Claim::BaseClaimPresenter.new(claim, view) }
 
     it 'should return an html safe string of all the dates' do
 
-      defendant_1 = FactoryGirl.build :defendant
-      defendant_2 = FactoryGirl.build :defendant
+      defendant_1 = FactoryBot.build :defendant
+      defendant_2 = FactoryBot.build :defendant
       Timecop.freeze 5.days.ago do
         defendant_1.representation_orders = [
-          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '1234abc'),
-          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,8,13), maat_reference: 'abc1234'),
+          FactoryBot.build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '1234abc'),
+          FactoryBot.build(:representation_order, representation_order_date: Date.new(2015,8,13), maat_reference: 'abc1234'),
         ]
       end
       Timecop.freeze 2.days.ago do
-        defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: 'xyz4321') ]
+        defendant_2.representation_orders =[ FactoryBot.build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: 'xyz4321') ]
       end
       claim.defendants = [ defendant_1, defendant_2 ]
       expect(subject.representation_order_details).to eq( "01/03/2015 1234abc<br />13/08/2015 abc1234<br />01/03/2015 xyz4321" )
@@ -287,8 +287,8 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   it '#case_worker_names' do
-    claim.case_workers << FactoryGirl.build(:case_worker, user: FactoryGirl.build(:user, first_name: "Alexander", last_name: 'Bell'))
-    claim.case_workers << FactoryGirl.build(:case_worker, user: FactoryGirl.build(:user, first_name: "Louis", last_name: 'Pasteur'))
+    claim.case_workers << FactoryBot.build(:case_worker, user: FactoryBot.build(:user, first_name: "Alexander", last_name: 'Bell'))
+    claim.case_workers << FactoryBot.build(:case_worker, user: FactoryBot.build(:user, first_name: "Louis", last_name: 'Pasteur'))
     expect(subject.case_worker_names).to eq('Alexander Bell, Louis Pasteur')
   end
 

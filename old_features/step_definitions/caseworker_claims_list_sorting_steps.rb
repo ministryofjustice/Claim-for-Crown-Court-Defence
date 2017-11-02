@@ -4,7 +4,7 @@ Given(/^(\d+) sortable claims have been assigned to me$/) do |count|
       Timecop.freeze(n.days.ago) do
         n = n+1
         chr = (n+64).chr
-        claim = create(:allocated_claim, case_number: "A#{(n).to_s.rjust(8,"0")}", case_type: FactoryGirl.build(:case_type, name: "Case Type #{chr}") )
+        claim = create(:allocated_claim, case_number: "A#{(n).to_s.rjust(8,"0")}", case_type: FactoryBot.build(:case_type, name: "Case Type #{chr}") )
         claim.external_user.user.update(last_name: "Smith-#{chr}", first_name: 'Billy')
         claim.fees.destroy_all
         claim.expenses.destroy_all

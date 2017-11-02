@@ -6,13 +6,13 @@ describe Fee::MiscFeeValidator do
   include ValidationHelpers
   include_context 'force-validation'
 
-  let(:fee) { FactoryGirl.build :misc_fee, claim: claim }
+  let(:fee) { FactoryBot.build :misc_fee, claim: claim }
   let(:fee_code) { fee.fee_type.code }
 
   # AGFS claims are validated as part of the base_fee_validator_spec
   #
   context 'LGFS claim' do
-    let(:claim) { FactoryGirl.build :litigator_claim }
+    let(:claim) { FactoryBot.build :litigator_claim }
 
     before(:each) do
       fee.clear   # reset some attributes set by the factory

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :deterministic_claim, class: Claim::AdvocateClaim do
 
     before(:create) do

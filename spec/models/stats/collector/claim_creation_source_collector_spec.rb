@@ -54,7 +54,7 @@ module Stats
 
       def create_claim(state, date, attributes = {})
         Timecop.freeze(date) do
-          FactoryGirl.create(factory_name(state), attributes)
+          FactoryBot.create(factory_name(state), attributes)
         end
       end
 

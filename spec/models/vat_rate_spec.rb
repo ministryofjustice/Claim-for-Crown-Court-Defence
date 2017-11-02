@@ -14,9 +14,9 @@ require 'rails_helper'
 describe VatRate do
 
   before(:all) do
-    @vr1 = FactoryGirl.create :vat_rate, effective_date: 1.year.ago, rate_base_points: 2225
-    @vr2 = FactoryGirl.create :vat_rate, effective_date: 3.years.ago, rate_base_points: 800
-    @vr3 = FactoryGirl.create :vat_rate, effective_date: 10.years.ago, rate_base_points: 1750
+    @vr1 = FactoryBot.create :vat_rate, effective_date: 1.year.ago, rate_base_points: 2225
+    @vr2 = FactoryBot.create :vat_rate, effective_date: 3.years.ago, rate_base_points: 800
+    @vr3 = FactoryBot.create :vat_rate, effective_date: 10.years.ago, rate_base_points: 1750
   end
 
   after(:all) do

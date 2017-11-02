@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
 
   trait :litigator_base_setup do
     court

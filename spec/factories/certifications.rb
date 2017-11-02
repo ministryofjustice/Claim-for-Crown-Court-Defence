@@ -11,7 +11,7 @@
 #  certification_type_id :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :certification do
     certification_type
     certified_by        'Stepriponikas Bonstart'

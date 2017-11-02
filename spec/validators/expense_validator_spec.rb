@@ -453,8 +453,8 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
   context 'schema_version 1' do
 
-    let(:claim)      { FactoryGirl.build :claim, force_validation: true }
-    let(:expense)    { FactoryGirl.build :expense, claim: claim, expense_type: build(:expense_type) }
+    let(:claim)      { FactoryBot.build :claim, force_validation: true }
+    let(:expense)    { FactoryBot.build :expense, claim: claim, expense_type: build(:expense_type) }
 
     before(:each) { allow(Settings).to receive(:expense_schema_version).and_return(1) }
 

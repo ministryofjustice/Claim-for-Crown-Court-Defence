@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AssessmentPresenter do
   
-  let(:claim)       { FactoryGirl.create :claim, apply_vat: true }
+  let(:claim)       { FactoryBot.create :claim, apply_vat: true }
   
   context 'currency fields' do
     it 'should format currency amount' do

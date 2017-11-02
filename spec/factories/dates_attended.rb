@@ -12,7 +12,7 @@
 #  attended_item_type :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :date_attended do
     attended_item { create(:basic_fee) }

@@ -9,7 +9,7 @@
 #  updated_at   :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :offence_class do
     sequence(:class_letter)   { generate_random_unused_class_letter }
     description { Faker::Lorem.sentence }

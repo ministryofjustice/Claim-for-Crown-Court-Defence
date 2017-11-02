@@ -13,7 +13,7 @@
 #  uuid                 :uuid
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :disbursement do
     disbursement_type
     claim

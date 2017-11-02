@@ -16,7 +16,7 @@
 #  fee_type_code           :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :case_type do
     sequence(:name)             { |n| "Case Type #{n}" }
     is_fixed_fee                false

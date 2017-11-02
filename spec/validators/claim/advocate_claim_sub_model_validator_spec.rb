@@ -4,7 +4,7 @@ require_relative 'shared_examples_for_step_validators'
 
 describe Claim::AdvocateClaimSubModelValidator do
 
-  let(:claim) { FactoryGirl.create :claim }
+  let(:claim) { FactoryBot.create :claim }
 
   include_examples 'common partial association validations', {
       has_one: [

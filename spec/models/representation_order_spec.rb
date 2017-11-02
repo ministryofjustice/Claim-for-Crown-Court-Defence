@@ -14,9 +14,9 @@
 require 'rails_helper'
 
 describe RepresentationOrder do
-  let(:claim)                       { FactoryGirl.build :unpersisted_claim }
-  let(:defendant)                   { FactoryGirl.build :defendant }
-  let(:representation_order)        { FactoryGirl.build :representation_order }
+  let(:claim)                       { FactoryBot.build :unpersisted_claim }
+  let(:defendant)                   { FactoryBot.build :defendant }
+  let(:representation_order)        { FactoryBot.build :representation_order }
 
   before(:each) do
     representation_order.defendant = defendant
@@ -27,7 +27,7 @@ describe RepresentationOrder do
   context 'maat_reference' do
 
     context 'case type requires maat reference' do
-      before(:each)       { representation_order.defendant.claim.case_type = FactoryGirl.build(:case_type, :requires_maat_reference) }
+      before(:each)       { representation_order.defendant.claim.case_type = FactoryBot.build(:case_type, :requires_maat_reference) }
       it 'should error if blank' do
         representation_order.maat_reference = nil
         expect(representation_order).not_to be_valid
@@ -59,7 +59,7 @@ describe RepresentationOrder do
     end
 
     context 'case type does not require maat refrence' do
-      before(:each)       { representation_order.defendant.claim.case_type = FactoryGirl.build(:case_type, requires_maat_reference: false) }
+      before(:each)       { representation_order.defendant.claim.case_type = FactoryBot.build(:case_type, requires_maat_reference: false) }
       it 'should not error if present' do
         representation_order.maat_reference = '2078352232'
         expect(representation_order).to be_valid
@@ -76,7 +76,7 @@ describe RepresentationOrder do
 
   context 'reporders for same defendant methods' do
 
-    let(:claim)         { FactoryGirl.create :claim }
+    let(:claim)         { FactoryBot.create :claim }
     let(:ro1)            { claim.defendants.first.representation_orders.first }
     let(:ro2)            { claim.defendants.first.representation_orders.last }
 

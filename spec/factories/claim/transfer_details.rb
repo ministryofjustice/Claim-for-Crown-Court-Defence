@@ -1,5 +1,5 @@
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :transfer_detail, class: Claim::TransferDetail do
 
     litigator_type      'original'

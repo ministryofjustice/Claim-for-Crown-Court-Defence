@@ -9,7 +9,7 @@
 #  user_id    :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :claim_intention do
     form_id SecureRandom.uuid
   end

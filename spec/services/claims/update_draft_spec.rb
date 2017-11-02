@@ -7,7 +7,7 @@ describe Claims::UpdateDraft do
   end
 
   context 'draft claim updates' do
-    let(:claim) { FactoryGirl.create :advocate_claim, case_number: 'A20161234' }
+    let(:claim) { FactoryBot.create :advocate_claim, case_number: 'A20161234' }
     let(:claim_params) { { case_number: 'A20165555' } }
     let(:validate) { true }
 

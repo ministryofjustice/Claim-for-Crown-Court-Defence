@@ -31,6 +31,62 @@ RSpec.describe Claims::StateMachine, type: :model do
     it { is_expected.to eql (states - [:draft, :submitted]).map(&:to_s) }
   end
 
+
+  describe '#around_transition' do
+    let(:claim) { create(:submitted_claim) }
+    let(:case_type) { create(:case_type, :cbr) }
+
+    context 'sets flag to disable all validations' do
+      # TODO: enable dynamic transitioning so we can test full list
+      # i.e.
+      # %i[allocate! archive_pending_delete! await_written_reasons! deallocate! delete! redetermine! refuse! reject!].each do |transition|
+      #
+      %i[allocate!].each do |transition|
+        it "when transitioning via ##{transition}" do
+          expect(claim).to receive(:disable_for_state_transition=).with(:all).exactly(1).times
+          expect(claim).to receive(:disable_for_state_transition=).with(nil).exactly(1).times
+          claim.send(transition)
+        end
+      end
+    end
+
+    context 'sets flag to enable only assessment validations' do
+      before do
+        claim.allocate!
+        claim.update_amount_assessed(fees: 100.00)
+      end
+
+      %i[authorise! authorise_part!].each do |transition|
+        it "when transitioning via ##{transition}" do
+          expect(claim).to receive(:disable_for_state_transition=).with(:only_amount_assessed).exactly(1).times
+          expect(claim).to receive(:disable_for_state_transition=).with(nil).exactly(1).times
+          claim.send(transition)
+        end
+      end
+    end
+
+     context 'prevents validation of all claim components' do
+      before do
+        # make claim invalid too mock situation where a new validation
+        # renders already submitted/valid claim invalid
+        #
+        claim.update_attribute(:case_type_id, case_type.id)
+        claim.update_attribute(:case_number, nil)
+        claim.defendants.first.update_attribute(:date_of_birth, nil)
+        claim.defendants.first.update_attribute(:first_name, nil)
+      end
+
+      # TODO: enable dynamic transitioning so we can test full list
+      # i.e.
+      # %i[allocate! archive_pending_delete! await_written_reasons! deallocate! delete! redetermine! refuse! reject!].each do |transition|
+      %i[allocate!].each do |transition|
+        it "when transitioning via #{transition}" do
+          expect{ claim.send(transition) }.to_not raise_error
+        end
+      end
+    end
+  end
+
   describe 'valid transitions' do
     describe 'from redetermination' do
       before { subject.submit! }

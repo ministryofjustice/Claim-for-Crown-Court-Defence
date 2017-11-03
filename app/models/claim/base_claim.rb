@@ -349,9 +349,24 @@ module Claim
       force_validation? || validation_required?
     end
 
-    # we must validate unless it is being created as draft from any source except API or is in state of archive_pending_delete or deleted
+    # we must validate
+    # being created from api (as draft)
+    # or is in state of archived_pending_delete or draft (not from api)
+    # or is in a state deleted (old statement????)
+    # or is transitioning via certain events
+    #
     def validation_required?
-      from_api? || !(draft? || archived_pending_delete?)
+      return true if from_api?
+      return false if draft? || archived_pending_delete?
+      return false if disabled_for_transition?
+      true
+
+      # from_api? ||
+      # !(draft? || archived_pending_delete?)
+    end
+
+    def disabled_for_transition?
+      disable_for_state_transition.eql?(:all)
     end
 
     def step?(num)

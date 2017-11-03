@@ -14,18 +14,11 @@ class DefendantValidator < BaseValidator
 
   private
 
-  delegate :claim, to: :@record
-
   def validate_claim
     validate_presence(:claim, 'blank')
   end
 
   def validate_date_of_birth
-    # FIXME: hotfix to prevent breach claims with no dob from being allocated etc
-    # rubocop:disable Layout/MultilineOperationIndentation
-    return if !claim&.case_type&.requires_maat_reference? &&
-      (claim.created_at.present? ? claim.created_at <= Date.parse('03-11-2017') : false)
-    # rubocop:enable Layout/MultilineOperationIndentation
     validate_presence(:date_of_birth, 'blank')
     validate_on_or_before(10.years.ago, :date_of_birth, 'check')
     validate_on_or_after(120.years.ago, :date_of_birth, 'check')

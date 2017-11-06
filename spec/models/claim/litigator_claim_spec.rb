@@ -61,7 +61,6 @@
 #
 
 require 'rails_helper'
-require 'custom_matchers'
 require_relative 'shared_examples_for_lgfs_claim'
 
 RSpec.describe Claim::LitigatorClaim, type: :model do

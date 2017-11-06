@@ -1,5 +1,4 @@
 require 'rspec/expectations'
-require 'byebug'
 
 RSpec::Matchers.define :have_constant do |expected|
   expected.assert_valid_keys :name, :value

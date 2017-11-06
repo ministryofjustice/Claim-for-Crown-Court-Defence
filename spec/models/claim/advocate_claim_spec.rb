@@ -62,7 +62,6 @@
 #
 
 require 'rails_helper'
-require 'custom_matchers'
 
 RSpec.describe Claim::AdvocateClaim, type: :model do
 

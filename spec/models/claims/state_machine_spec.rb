@@ -31,6 +31,53 @@ RSpec.describe Claims::StateMachine, type: :model do
     it { is_expected.to eql (states - [:draft, :submitted]).map(&:to_s) }
   end
 
+  describe '#around_transition' do
+    let(:claim) { create(:submitted_claim) }
+    let(:case_type) { create(:case_type, :cbr) }
+
+    context 'sets flag to disable all validations' do
+      TRANSITION_EVENT_CHAINS = {
+        allocate: %i[allocate!],
+        archive_pending_delete: %i[allocate! refuse! archive_pending_delete!],
+        await_written_reasons: %i[allocate! refuse! await_written_reasons!],
+        deallocate: %i[allocate! deallocate!],
+        redetermine: %i[allocate! reject! redetermine!],
+        refuse: %i[allocate! refuse!],
+        reject: %i[allocate! reject!]
+      }
+
+      TRANSITION_EVENT_CHAINS.each do |transition, events|
+        context "when transitioning via event chain #{events}" do
+          before do
+            *precursor_events, _event = events
+            precursor_events.each { |event| claim.send(event) }
+          end
+
+          it "##{events.last}" do
+            expect(claim).to receive(:disable_for_state_transition=).with(:all).exactly(1).times
+            expect(claim).to receive(:disable_for_state_transition=).with(nil).exactly(1).times
+            claim.send(events.last)
+          end
+        end
+      end
+    end
+
+    context 'sets flag to enable only assessment validations' do
+      before do
+        claim.allocate!
+        claim.update_amount_assessed(fees: 100.00)
+      end
+
+      %i[authorise! authorise_part!].each do |transition|
+        it "when transitioning via ##{transition}" do
+          expect(claim).to receive(:disable_for_state_transition=).with(:only_amount_assessed).exactly(1).times
+          expect(claim).to receive(:disable_for_state_transition=).with(nil).exactly(1).times
+          claim.send(transition)
+        end
+      end
+    end
+  end
+
   describe 'valid transitions' do
     describe 'from redetermination' do
       before { subject.submit! }

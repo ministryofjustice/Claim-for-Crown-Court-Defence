@@ -43,7 +43,7 @@ class RepresentationOrder < ActiveRecord::Base
   end
 
   def perform_validation?
-    claim.try(:perform_validation?)
+    claim&.perform_validation?
   end
 
   def reporders_for_same_defendant

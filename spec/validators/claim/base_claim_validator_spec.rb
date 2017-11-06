@@ -25,69 +25,165 @@ describe Claim::BaseClaimValidator do
     expect(claim.valid?).to be true
   end
 
-  context '#perform_validation?' do
-    let(:claim_with_nil_values) do
-      nulify_fields_on_record(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
-      claim.defendants.destroy_all
+  context 'transition state dependant validation' do
+    let(:invalid_claim) do
+      nulify_fields_on_record(claim, :court)
       claim.fees.destroy_all
       claim.expenses.destroy_all
       claim
     end
 
-    context 'when claim is draft' do
-      context 'and validation is forced' do
+    context 'when claim is in draft state' do
+      context 'during submission' do
+        before do
+          invalid_claim.defendants.first.update_attribute(:first_name, nil)
+          invalid_claim.defendants.first.representation_orders.first.update_attribute(:maat_reference, nil)
+        end
 
-        before { claim_with_nil_values.force_validation=true }
+        it 'validation is performed on claim' do
+          expect { invalid_claim.submit! }.to raise_error StateMachines::InvalidTransition, /reason.*court/i
+        end
 
-        it 'should validate presence of case_type, court, case_number, advocate_category, offence' do
-          expect(claim_with_nil_values).to_not be_valid
+        it 'validation is performed on defendants sub model' do
+          expect { invalid_claim.submit! }.to raise_error StateMachines::InvalidTransition, /reason.*defendant.*first name.*/i
+        end
+
+        it 'validation is performed on representation_orders sub-sub-model' do
+          expect { invalid_claim.submit! }.to raise_error StateMachines::InvalidTransition, /reason.*representation order.*maat reference.*/i
         end
       end
 
-      context 'and validation is NOT forced' do
+      context 'when saving as draft' do
+        context '...and validation is forced' do
+          before { invalid_claim.force_validation = true }
 
-        before { claim_with_nil_values.force_validation=false }
-
-        context 'and it is coming from the api' do
-          before { claim_with_nil_values.source = 'api' }
-          it 'should validate presence of case_type, court, case_number, advocate_category, offence' do
-            expect(claim_with_nil_values).to_not be_valid
+          it 'validation is performed' do
+            expect(invalid_claim).to_not be_valid
           end
         end
 
-        context 'and it is coming from the web app' do
-          before { claim_with_nil_values.source = 'web' }
-          it 'should NOT validate presence of case_type, court, case_number, advocate_category, offence' do
-            expect(claim_with_nil_values).to be_valid
+        context '...and validation is NOT forced' do
+          before { invalid_claim.force_validation = false }
+
+          context '...and it is coming from the api' do
+            before { invalid_claim.source = 'api' }
+
+            it 'validation is performed' do
+              expect(invalid_claim).to_not be_valid
+            end
+          end
+
+          context '...and it is coming from the web app' do
+            before { invalid_claim.source = 'web' }
+
+            it 'validation is NOT performed' do
+              expect(invalid_claim).to be_valid
+            end
           end
         end
-
       end
     end
 
-    context 'when claim is NOT draft' do
+    context 'when claim is in archived_pending_delete state' do
+      let(:claim) { create(:archived_pending_delete_claim) }
 
-      before(:each) do
-        claim.force_validation=false
+      before do
+        nulify_fields_on_record(claim, :case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
+        claim.force_validation = false
       end
 
-      context 'a submitted claim' do
-        before { claim.submit! }
+      it 'validation is NOT performed' do
+        expect(claim).to be_valid
+      end
+    end
 
-        it 'should error on any state-conditional validations (non-exhaustive test)' do
-          nulify_fields_on_record(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
-          expect(claim).to_not be_valid
+    context 'when claim is in submitted state' do
+      before do
+        claim.submit!
+        claim.force_validation = false
+        nulify_fields_on_record(claim, :case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
+        claim.defendants.destroy_all
+        claim.fees.destroy_all
+        claim.expenses.destroy_all
+      end
+
+      it 'validation is performed' do
+        expect(claim).to_not be_valid
+      end
+
+      context 'during allocation' do
+        it 'validation is NOT performed' do
+          expect { claim.allocate! }.to_not raise_error
         end
       end
 
-      context 'an archived_pending_delete claim' do
-        let(:claim) { create(:archived_pending_delete_claim) }
+      context 'during authorisation' do
+        before { claim.allocate! }
 
-        it 'should NOT validate presence of case_type, court, case_number, advocate_category, offence' do
-          nulify_fields_on_record(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
-          expect(claim).to be_valid
+        context 'when assessment included' do
+          it 'raises no errors' do
+            claim.update_amount_assessed(fees: 100.00)
+            expect { claim.authorise! }.to_not raise_only_amount_assessed_error
+          end
         end
 
+        context 'when assessment NOT included' do
+          it 'raises only amount assessed errors' do
+            expect { claim.authorise! }.to raise_only_amount_assessed_error
+          end
+        end
+      end
+
+      context 'during part authorisation' do
+        before { claim.allocate! }
+
+        context 'when assessment included' do
+          it 'raises no errors' do
+            claim.update_amount_assessed(fees: 100.00)
+            expect { claim.authorise_part! }.to_not raise_only_amount_assessed_error
+          end
+        end
+
+        context 'when assessment NOT included' do
+          it 'raises only amount assessed errors' do
+            expect { claim.authorise_part! }.to raise_only_amount_assessed_error
+          end
+        end
+      end
+
+      context 'during redetermination' do
+        before { claim.allocate!; claim.reject! }
+        it 'validation is NOT performed' do
+          expect { claim.redetermine! }.to_not raise_error
+        end
+      end
+
+      context 'during awaiting_written_reasons' do
+        before { claim.allocate!; claim.reject! }
+        it 'validation is NOT performed' do
+          expect { claim.await_written_reasons! }.to_not raise_error
+        end
+      end
+
+      context 'during refusal' do
+        before { claim.allocate! }
+        it 'validation is NOT performed' do
+          expect { claim.refuse! }.to_not raise_error
+        end
+      end
+
+      context 'during rejection' do
+        before { claim.allocate! }
+        it 'validation is NOT performed' do
+          expect { claim.reject! }.to_not raise_error
+        end
+      end
+
+      context 'during deallocation' do
+        before { claim.allocate! }
+        it 'validation is NOT performed' do
+          expect { claim.deallocate! }.to_not raise_error
+        end
       end
     end
   end
@@ -297,7 +393,7 @@ describe Claim::BaseClaimValidator do
 
     it 'should error if NO assessment present and state is transitioned to authorised or part_authorised' do
       expect{ claim.authorise! }.to raise_error(StateMachines::InvalidTransition)
-      expect{ claim.part_authorise! }.to raise_error(NoMethodError)
+      expect{ claim.authorise_part! }.to raise_error(StateMachines::InvalidTransition)
     end
 
     it 'should error if authorised claim has assessment zeroized' do

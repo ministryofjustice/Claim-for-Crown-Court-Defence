@@ -26,7 +26,7 @@ class DateAttended < ActiveRecord::Base
   end
 
   def perform_validation?
-    claim.try(:perform_validation?)
+    claim&.perform_validation?
   end
 
   def earliest_date_before_reporder

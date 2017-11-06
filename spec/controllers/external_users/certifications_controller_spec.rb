@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'custom_matchers'
 
 RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus: true do
   let(:certification_type) { create(:certification_type) }

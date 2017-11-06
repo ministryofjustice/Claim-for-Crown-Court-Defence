@@ -61,7 +61,6 @@
 #
 
 require "rails_helper"
-require "custom_matchers"
 require_relative 'shared_examples_for_lgfs_claim'
 
 describe Claim::TransferClaim, type: :model do

@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'custom_matchers'
 
 RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, focus: true do
 

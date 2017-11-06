@@ -357,8 +357,7 @@ module Claim
     #
     def validation_required?
       return true if from_api?
-      return false if draft? || archived_pending_delete?
-      return false if disabled_for_transition?
+      return false if draft? || archived_pending_delete? || disabled_for_transition?
       true
     end
 

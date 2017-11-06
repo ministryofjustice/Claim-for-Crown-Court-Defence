@@ -1,7 +1,7 @@
 class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   def self.fields_for_steps
-    [
-      %i[
+    {
+      case_details: %i[
         case_type
         court
         case_number
@@ -23,18 +23,27 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
         case_concluded_at
         supplier_number
       ],
-      %i[
-      ],
-      %i[
+      defendants: [],
+      offence: %i[
         offence
       ],
-      %i[
+      fees: %i[
         total
-      ] #fees
-    ]
+      ]
+    }.with_indifferent_access
   end
 
   private
+
+  delegate :current_step, to: :@record
+
+  # TODO: overide base claim validator method for now
+  # but this needs to be promoted eventually
+  def validate_step_fields
+    self.class.fields_for_steps[current_step].flatten.each do |field|
+      validate_field(field)
+    end
+  end
 
   def supplier_number_regex
     ExternalUser::SUPPLIER_NUMBER_REGEX

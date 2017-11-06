@@ -4,7 +4,7 @@
     = f.hidden_field :form_id, value: @form_id || params[:claim][:form_id]
     = f.hidden_field :form_step, value: @claim.form_step
 
-    - if @claim.step?(1)
+    - if @claim.step?('case_details')
 
       = render 'external_users/claims/api_promo_banner', claim: @claim
 
@@ -12,19 +12,19 @@
 
       = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
-    - if @claim.step?(2)
+    - if @claim.step?('defendants')
 
       = render 'external_users/claims/defendants/fields', f: f
 
       = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
-    - if @claim.step?(3)
+    - if @claim.step?('offence')
 
       = render 'external_users/claims/offence_details/fields', f: f
 
       = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
-    - if @claim.step?(4)
+    - if @claim.step?('fees')
 
       = render 'external_users/claims/fees_shared_header'
 

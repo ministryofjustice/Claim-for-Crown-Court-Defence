@@ -111,6 +111,33 @@ module Claim
       documents.each { |d| d.update_column(:external_user_id, external_user_id) }
     end
 
+    def steps
+      %w[case_details defendants offence fees]
+    end
+
+    def step?(step)
+      current_step == step
+    end
+
+    def next_step
+      steps[current_step_index + 1]
+
+    end
+
+    def next_step!
+      self.form_step = self.current_step = next_step
+    end
+
+    attr_writer :current_step
+
+    def current_step
+      @current_step || steps.first
+    end
+
+    def current_step_index
+      steps.index(current_step)
+    end
+
     private
 
     def provider_delegator
@@ -156,6 +183,11 @@ module Claim
       else
         fixed_fees.destroy_all unless fixed_fees.empty?
       end
+    end
+
+    def default_values
+      self.source ||= 'web'
+      self.form_step ||= current_step
     end
   end
 end

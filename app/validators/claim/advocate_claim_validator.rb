@@ -28,9 +28,9 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
       %i[
         offence
       ],
-      [
-        :total
-      ]
+      %i[
+        total
+      ] #fees
     ]
   end
 

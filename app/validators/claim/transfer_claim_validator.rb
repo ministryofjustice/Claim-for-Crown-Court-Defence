@@ -18,7 +18,7 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
         transfer_date
         case_conclusion_id
         transfer_detail_combo
-      ],
+      ], #tranfers details (additional step)
       %i[
         court
         case_number
@@ -29,15 +29,14 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
         supplier_number
         amount_assessed
         evidence_checklist_ids
-      ],
-      %i[
-      ],
+      ], #case details
+      %i[], #defendants
       %i[
         offence
-      ],
+      ], #offence details
       %i[
         total
-      ]
+      ] #fees
     ]
   end
 

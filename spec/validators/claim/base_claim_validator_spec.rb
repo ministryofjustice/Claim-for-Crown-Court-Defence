@@ -44,19 +44,12 @@ describe Claim::BaseClaimValidator do
           expect { invalid_claim.submit! }.to raise_error StateMachines::InvalidTransition, /reason.*court/i
         end
 
-        it 'validation is performed on sub models' do
+        it 'validation is performed on defendants sub model' do
           expect { invalid_claim.submit! }.to raise_error StateMachines::InvalidTransition, /reason.*defendant.*first name.*/i
         end
 
-        it 'validation is performed on sub-sub-models' do
+        it 'validation is performed on representation_orders sub-sub-model' do
           expect { invalid_claim.submit! }.to raise_error StateMachines::InvalidTransition, /reason.*representation order.*maat reference.*/i
-        end
-
-        # TODO: not working
-        xit 'validation is performed on aggregated values' do
-          # allow(invalid_claim).to receive(:total).and_return(0.0)
-          invalid_claim.update_attribute(:total, 0.0)
-          expect { invalid_claim.submit! }.to raise_error StateMachines::InvalidTransition, /reason.*total.*/i
         end
       end
 

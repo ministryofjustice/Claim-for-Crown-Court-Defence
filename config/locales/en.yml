@@ -509,6 +509,7 @@ en:
           litigator: *litigator
           offence_class: 'Offence class'
           offence_category: 'Offence category'
+          offence_category_hint: 'If the offence category is not listed, choose "Miscellaneous/other"'
           select_category: 'Please select'
           transfer_court: 'Transfer court (optional)'
         offence_select:

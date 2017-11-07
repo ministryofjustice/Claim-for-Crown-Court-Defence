@@ -1,10 +1,13 @@
 %fieldset
   #offence
+    - i18n_scope = %i[external_users claims case_details fields]
     .form-row.js-typeahead
-      .form-col.form-col-one-half{class: error_class?(@error_presenter, :offence)}
-        = f.anchored_label t('.offence_category'), 'offence_category_description_input', { label_attributes: { class: 'form-label' } }
+      .form-col.form-col-two-thirds{class: error_class?(@error_presenter, :offence)}
+        = f.anchored_label t(:offence_category, scope: i18n_scope),
+          'offence_category_description_input',
+          { label_attributes: { class: 'form-label' } }
         .form-hint.xsmall.zero-vert-margin
-          = "If the offence category is not listed, choose \"Miscellaneous/other\""
+          = t(:offence_category_hint, scope: i18n_scope)
         - if @claim.new_record?
           - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
         - else
@@ -18,7 +21,8 @@
                               { class: 'form-control typeahead', id: 'claim_offence_category_description' }
         = validation_error_message(@error_presenter, :offence)
 
-      .form-col
+    .form-row
+      .form-col.form-col-two-thirds{class: error_class?(@error_presenter, :offence_class)}
         .offence-class-select
-          = render partial: 'external_users/claims/case_details/offence_select', locals: { offences: @offences }
+          = render 'external_users/claims/case_details/offence_select', offences: @offences
         = f.hidden_field :offence_id

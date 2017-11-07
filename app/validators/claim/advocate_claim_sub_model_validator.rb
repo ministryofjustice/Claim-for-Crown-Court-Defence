@@ -40,11 +40,6 @@ class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
 
   # TODO: override superclass for now but should eventually be promoted
   def validate_has_one_association_step_fields(record)
-      # ap "File: #{File.basename(__FILE__)}, Method: #{__method__}, Line: #{__LINE__}"
-      # ap "reco.class: #{record.class}"
-      # ap "current_step: #{record.current_step}"
-      # ap "has_one_associations for step: #{has_one_association_names_for_steps[record.current_step]&.flatten}"
-      # # binding.pry
     has_one_association_names_for_steps[record.current_step]&.flatten&.each do |association_name|
       validate_association_for(record, association_name)
     end

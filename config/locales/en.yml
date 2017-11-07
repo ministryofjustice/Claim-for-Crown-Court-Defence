@@ -81,10 +81,12 @@ en:
         case_numbers: &case_numbers 'Additional case numbers'
     not_provided: &not_provided 'Not provided'
     not_applicable: &not_applicable 'n/a'
+    radio_button_hint: &radio_button_hint 'Please select relevant option'
 
   general:
     not_provided: *not_provided
     not_applicable: *not_applicable
+    radio_button_hint: *radio_button_hint
 
   activerecord:
     models:
@@ -496,8 +498,9 @@ en:
           trial_fixed_at: '1st fixed/warned trial'
         fields:
           advocate: *advocate
+          advocate_hint: The instructed advocate for the case
           advocate_category: 'Advocate category'
-          case_offence: 'Case & offence'
+          case_details: 'Case details'
           case_number: 'Case number'
           transfer_case_number: 'Transfer case number (optional)'
           case_type: 'Case type'

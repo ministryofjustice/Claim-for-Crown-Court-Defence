@@ -1,12 +1,15 @@
 %h2.bold-medium
-  = t('.case_offence')
+  = t('.case_details')
 
 - if @claim.agfs?
   %fieldset
     %span
       = f.anchored_without_label t('.advocate_category')
-      = t('.advocate_category')
-    .form-group.inline{class: error_class?(@error_presenter, :advocate_category)}
+      %label.form-label{:for => "claim_advocate_category"}
+        = t('.advocate_category')
+      .form-hint
+        = t('general.radio_button_hint')
+    .form-group{class: error_class?(@error_presenter, :advocate_category)}
       = f.collection_radio_buttons(:advocate_category, Settings.advocate_categories.sort, :to_s, :to_s) do |b|
         - b.label(class: "block-label") { b.radio_button + b.value.to_s }
       = validation_error_message(@error_presenter, :advocate_category)
@@ -18,10 +21,12 @@
   .form-group
     - if @claim.agfs? && @external_user.admin?
       .form-row.js-typeahead
-        .form-col{class: error_class?(@error_presenter, :external_user)}
+        .form-col.forced-width{class: error_class?(@error_presenter, :external_user)}
           %a{:id => :external_user}
           %label.form-label{:for => "claim_external_user_id_input"}
             = t('.advocate')
+          .form-hint
+            = t('.advocate_hint')
           = f.collection_select :external_user_id, @provider.advocates, :id, :name_and_number, { include_blank: ''.html_safe }, {class: 'form-control typeahead'}
           = validation_error_message(@error_presenter, :external_user)
 
@@ -38,7 +43,7 @@
           %label.form-label{:for => "claim_case_type_id_input"}
             = t('.case_type')
           .form-hint.xsmall.zero-vert-margin
-            = "for example Trial"
+            = "For example Trial"
           = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
           = validation_error_message(@error_presenter, :case_type)
 
@@ -49,7 +54,7 @@
           = t('.court')
 
         .form-hint.xsmall.zero-vert-margin
-          = "for example Cardiff"
+          = "For example Cardiff"
         = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
 
         %div.clean
@@ -58,7 +63,7 @@
       .form-col
         = f.adp_text_field :case_number,
                             label: t('.case_number'),
-                            hint_text: 'for example A20161234',
+                            hint_text: 'For example A20161234',
                             errors: @error_presenter
 
     .form-row.js-typeahead
@@ -66,12 +71,12 @@
         %span#transfer_court.visually-hidden
         = f.anchored_label t('.transfer_court'), 'transfer_court_id_input', { label_attributes: { class: 'form-label' } }
         .form-hint.xsmall.zero-vert-margin
-          = "for example Cardiff"
+          = "For example Cardiff"
         = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
         = validation_error_message(@error_presenter, :transfer_court)
 
       .cssfix.form-col.form-col-two-thirds{class: error_class?(@error_presenter, :transfer_case_number)}
-        = f.adp_text_field :transfer_case_number, label: t('.transfer_case_number'), hint_text: 'for example A20161234', input_classes: 'medium-input',  errors: @error_presenter
+        = f.adp_text_field :transfer_case_number, label: t('.transfer_case_number'), hint_text: 'For example A20161234', input_classes: 'medium-input',  errors: @error_presenter
 
 
 - if @claim.agfs?

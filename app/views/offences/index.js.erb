@@ -1,9 +1,10 @@
 <% if params[:description].blank? %>
-  $('.offence-class-select').slideUp();
+  $('#offence_class_description').val('').trigger('change');
+  $('#offence_class_description').prop('disabled', true);
   $('#claim_offence_id').val('');
 <% else %>
   $('.offence-class-select').html('<%=j render partial: "external_users/claims/case_details/offence_select", locals: { offences: @offences } %>');
-  $('.offence-class-select').slideDown();
+  $('#offence_class_description').prop('disabled', false);
   moj.Modules.NewClaim.attachToOffenceClassSelect();
-  $('#offence_class_description').change();
+  $('#offence_class_description').trigger('change');
 <% end %>

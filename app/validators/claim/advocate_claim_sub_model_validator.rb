@@ -6,17 +6,44 @@ class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
         defendants
       ],
       offence: [],
-      fees: %i[
+      basic_or_fixed_fees: %i[
         basic_fees
-        misc_fees
         fixed_fees
+      ],
+      misc_fees: %i[
+        misc_fees
+      ],
+      expenses: %i[
         expenses
-        messages
-        redeterminations
+      ],
+      supporting_evidence: %i[
         documents
+      ],
+      additional_information: [],
+      other: %[
+        redeterminations
+        messages
       ]
     }.with_indifferent_access
   end
+
+   # fees: %i[
+      #   basic_fees
+      #   misc_fees
+      #   fixed_fees
+      #   expenses
+      #   messages
+      #   redeterminations
+      #   documents
+      # ]
+    # case_details
+    #     defendants
+    #     offence
+    #     basic_or_fixed_fees
+    #     misc_fees
+    #     expenses
+    #     supporting_evidence
+    #     additional_information
 
   def has_one_association_names_for_steps
     {

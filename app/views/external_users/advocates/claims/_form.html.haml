@@ -24,21 +24,45 @@
 
       = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
-    - if @claim.step?('fees')
+    - if @claim.step?('basic_or_fixed_fees')
 
       = render 'external_users/claims/fees_shared_header'
 
-      = render 'external_users/claims/basic_fees/fields', f: f
+      - fee_type = @claim.allows_fixed_fees? ? 'fixed' : 'basic'
 
-      = render 'external_users/claims/fixed_fees/fields', f: f
+      = render "external_users/claims/#{fee_type}_fees/fields", f: f
+
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    - if @claim.step?('misc_fees')
+
+      = render 'external_users/claims/fees_shared_header'
 
       = render 'external_users/claims/misc_fees/fields', f: f
 
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    - if @claim.step?('expenses')
+
+      = render 'external_users/claims/fees_shared_header'
+
       = render 'external_users/claims/expenses/fields', f: f
+
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    - if @claim.step?('supporting_evidence')
+
+      = render 'external_users/claims/fees_shared_header'
 
       = render 'external_users/claims/supporting_documents/fields', f: f
 
       = render 'external_users/claims/supporting_evidence_checklist/fields', f: f
+
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    - if @claim.step?('additional_information')
+
+      = render 'external_users/claims/fees_shared_header'
 
       = render 'external_users/claims/additional_information/fields', f: f
 

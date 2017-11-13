@@ -112,7 +112,16 @@ module Claim
     end
 
     def steps
-      %w[case_details defendants offence fees]
+      %w[
+        case_details
+        defendants
+        offence
+        basic_or_fixed_fees
+        misc_fees
+        expenses
+        supporting_evidence
+        additional_information
+      ]
     end
 
     def step?(step)

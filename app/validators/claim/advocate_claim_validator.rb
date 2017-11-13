@@ -27,9 +27,14 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
       offence: %i[
         offence
       ],
-      fees: %i[
+      basic_or_fixed_fees: [],
+      misc_fees: [],
+      expenses: %i[
         total
-      ]
+      ],
+      supporting_evidence:[],
+      additional_information: [],
+      other: []
     }.with_indifferent_access
   end
 

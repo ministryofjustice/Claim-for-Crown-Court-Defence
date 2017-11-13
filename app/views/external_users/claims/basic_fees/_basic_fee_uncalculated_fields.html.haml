@@ -1,18 +1,18 @@
 .grid-row
-  %h2.bold-medium
+  .heading-medium
     = fee.section_header('external_users.claims.basic_fees.basic_fee_uncalculated_fields')
-  .column-one-half.fee-type
+  .heading-small.fee-type
     = fee.section_hint('external_users.claims.basic_fees.basic_fee_uncalculated_fields')
 
-  .column-one-quarter.fee-quantity
+.grid-row
+  .column-one-quarter.fee-quantity{ style: 'text-align: left;'}
     = f.adp_text_field :quantity,
-                        label: t('.quantity'),
                         input_classes:'quantity',
                         input_type: 'number',
                         value: fee.quantity,
                         errors: @error_presenter
-
-  .column-one-quarter.fee-rate
+.grid-row
+  .column-one-quarter.fee-rate{ style: 'text-align: left;'}
     = f.adp_text_field :amount,
                         label: t('.total'),
                         input_classes:'total',

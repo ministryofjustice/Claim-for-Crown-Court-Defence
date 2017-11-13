@@ -1,9 +1,7 @@
 .grid-row
   .column-one-half.fee-type
     %label.form-label
-      = t('.fee_type')
-
-    = f.object.description
+      = f.object.description
     - if fee.fee_type.code == 'BAF'
       .form-hint
         = raw t('.basic_fee_prompt_text')

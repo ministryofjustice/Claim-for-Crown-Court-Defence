@@ -1,9 +1,14 @@
 - if @claim.allows_fixed_fees?
 
   #fixed-fees.mod-fees
-    %h2.bold-medium
+    %h2.heading-large
       = t('.fixed_fees')
+    .small
+      = t(:fee_excl_vat_hint, scope: [:dictionary])
+    %br/
 
+    = render 'external_users/claims/case_type_disabled', f: f
+    
     .fixed-fee-group-wrapper
       = f.fields_for :fixed_fees do |fixed_fee_fields|
         - @fixed_fee_count += 1

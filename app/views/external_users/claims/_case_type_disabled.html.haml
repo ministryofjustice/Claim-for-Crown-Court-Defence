@@ -1,0 +1,5 @@
+.form-row
+  %label.form-label
+    Case type
+  .form-col
+  = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: ''.html_safe }, { class: 'form-control', disabled: true }

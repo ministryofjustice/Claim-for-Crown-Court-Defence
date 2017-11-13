@@ -1,10 +1,16 @@
 - unless @claim.allows_fixed_fees?
 
   #basic-fees.mod-fees
-    %h2.bold-medium
-      = t('.basic_fees')
+    %h2.heading-large
+      = t('.basic_fees_title')
+    .small
+      = t(:fee_excl_vat_hint, scope: [:dictionary])
+    .heading-medium
+      = t('.basic_fees_sub_title')
     %p
       = raw t('.fee_prompt_text')
+
+    = render 'external_users/claims/case_type_disabled', f: f
 
     = f.fields_for :basic_fees do |basic_fee_fields|
       - @basic_fee_count += 1

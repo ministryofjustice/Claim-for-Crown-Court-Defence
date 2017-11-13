@@ -82,6 +82,7 @@ en:
     not_provided: &not_provided 'Not provided'
     not_applicable: &not_applicable 'n/a'
     radio_button_hint: &radio_button_hint 'Please select relevant option'
+    fee_excl_vat_hint: &fee_excl_vat_hint 'All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users'
 
   general:
     not_provided: *not_provided
@@ -477,10 +478,11 @@ en:
           ppe_section_hint: Total number of pages of prosecution evidence
           npw_section_header: Witnesses
           npw_section_hint: Total number of prosecution witnesses
-          total: Total
+          total: Net amount
         fields:
           amount: 'Amount'
-          basic_fees: 'Initial fees'
+          basic_fees_title: 'Graduated fees'
+          basic_fees_sub_title: 'Initial fees'
           fee_prompt_text: |
             You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
             for help.
@@ -795,7 +797,7 @@ en:
           transfer_fees: Missing Translation
       fees_shared_header:
         fees: Fees
-        fees_header_prompt_text_html: All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users.
+        fees_header_prompt_text_html: *fee_excl_vat_hint
       summary_claims_sidebar:
         button_label: 'Continue to certification'
         continue: 'Continue'

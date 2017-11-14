@@ -10,16 +10,16 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
   end
 
   def self.fields_for_steps
-    [
-      %i[
+    {
+      transfer_details: %i[
         litigator_type
         elected_case
         transfer_stage_id
         transfer_date
         case_conclusion_id
         transfer_detail_combo
-      ], # tranfers details (additional step)
-      %i[
+      ],
+      case_details: %i[
         court
         case_number
         transfer_court
@@ -29,15 +29,21 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
         supplier_number
         amount_assessed
         evidence_checklist_ids
-      ], # case details
-      %i[], # defendants
-      %i[
+      ],
+      defendants: [],
+      offence: %i[
         offence
-      ], # offence details
-      %i[
+      ],
+      transfer_fee: [],
+      misc_fees: [],
+      disbursements: [],
+      expenses: %i[
         total
-      ] # fees
-    ]
+      ],
+      supporting_evidence: [],
+      additional_information: [],
+      other: []
+    }.with_indifferent_access
   end
 
   def validate(record)
@@ -45,6 +51,16 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
   end
 
   private
+
+  delegate :current_step, to: :@record
+
+  # TODO: overide base claim validator method for now
+  # but this needs to be promoted eventually
+  def validate_step_fields
+    self.class.fields_for_steps[current_step].flatten.each do |field|
+      validate_field(field)
+    end
+  end
 
   def validate_transfer_fee
     add_error(:transfer_fee, 'blank') if @record.transfer_fee.nil?

@@ -368,7 +368,7 @@ module Claim
     attr_writer :current_step
 
     def current_step
-      form_step.to_i
+      form_step.to_i || 1
     end
 
     def current_step_index
@@ -551,7 +551,7 @@ module Claim
 
     def default_values
       self.source ||= 'web'
-      self.form_step ||= 1
+      self.form_step ||= current_step
     end
   end
 end

@@ -172,10 +172,5 @@ module Claim
         fixed_fees.destroy_all unless fixed_fees.empty?
       end
     end
-
-    def default_values
-      self.source ||= 'web'
-      self.form_step ||= current_step
-    end
   end
 end

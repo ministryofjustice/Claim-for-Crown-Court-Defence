@@ -32,8 +32,9 @@ class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       case_details: [],
       defendants: [],
       offence: [],
-      fees: %i[
+      other: %i[
         assessment
+        certifcation
       ]
     }.with_indifferent_access
   end

@@ -4,14 +4,19 @@
     Miscellaneous fee
   .form-group.misc-fee-group.nested-fields.js-block.fx-fee-group{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
     .grid-row.js-typeahead
-      .column-one-half.fee-type{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
+      .column-two-thirds.fee-type{style: 'padding-bottom: 30px;', class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
         %label.form-label
           = t('.fee_type')
+        .form-hint
+          = t('.choose_fee_type')
         %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
-        = f.collection_select :fee_type_id, @claim.eligible_misc_fee_types, :id, :description, {include_blank: ''.html_safe }, {class: 'typeahead js-misc-fee-type js-fee-type', style: 'width:350px'}
+        = f.collection_select :fee_type_id, @claim.eligible_misc_fee_types, :id, :description, {include_blank: ''.html_safe }, {class: 'typeahead js-misc-fee-type js-fee-type ', style: 'width:350px'}
         = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
+      .column-one-third
+        = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }
 
-      .column-one-quarter.fee-quantity
+    .grid-row.js-typeahead
+      .column-two-thirds.fee-quantity{ style: 'text-align: left; float: left;'}
         = f.adp_text_field :quantity,
                             label: t('.quantity'),
                             input_classes:'quantity',
@@ -19,7 +24,8 @@
                             value: fee.quantity,
                             errors: @error_presenter
 
-      .column-one-quarter.fee-rate
+    .grid-row.js-typeahead
+      .column-two-thirds.fee-rate{ style: 'text-align: left; float: left;'}
         = f.adp_text_field :rate,
                             label: t('.rate'),
                             input_classes:'rate',
@@ -28,13 +34,15 @@
                             value: number_with_precision(f.object.rate, precision: 2)
 
     .grid-row
-      .column-one-third.fee-total
-        %label.form-label Total
+      .column-two-thirds.fee-total{ style: 'text-align: left; float: left;'}
+        %label.form-label
+          = t('.total')
         %span.total{data: {'total': f.object.amount ||= 0}}
           = number_to_currency(f.object.amount ||= 0)
 
-    .grid-row.fee-dates-row
-      %label.form-label Dates
+    .grid-row
+      %label.form-label
+        Dates
       %span.no-dates.form-hint
         = t('.no_dates')
       = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', data: {'association-insertion-method' => 'prepend','association-insertion-traversal' => 'next', 'association-insertion-node' => 'div'}
@@ -42,5 +50,4 @@
       .grid-row.dates-wrapper
         = f.fields_for :dates_attended do |date_attended|
           = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
-
-    = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }
+    %hr

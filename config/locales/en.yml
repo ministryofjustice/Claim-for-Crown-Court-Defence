@@ -62,6 +62,8 @@ en:
       save: &save 'Save'
     labels:
       advocate_litigator: &advocate_litigator 'Advocate / Litigator'
+      net_amount: &net_amount 'Net amount'
+      add_another_fee: &add_another_fee 'Add another fee'
     models:
       super_admin: &super_admin 'Super administrator'
       external_user: &advocate 'Advocate'
@@ -82,6 +84,7 @@ en:
     not_provided: &not_provided 'Not provided'
     not_applicable: &not_applicable 'n/a'
     radio_button_hint: &radio_button_hint 'Please select relevant option'
+    fee_type_select_hint: &fee_type_select_hint 'Choose a fee type'
     fee_excl_vat_hint: &fee_excl_vat_hint 'All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users'
 
   general:
@@ -266,8 +269,8 @@ en:
     claims: 'Search claims'
     caseworkers: 'Search case workers'
   prep_forms:
-    advocates_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
-    litigators_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/513208/litigator-fee-special-preparation-claim-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
+    advocates_html: Complete the <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special preparation form</a> and attach to this claim
+    litigators_html: Complete the <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/513208/litigator-fee-special-preparation-claim-form.pdf" target="_blank" rel="external" title="Special Prep Form">special preparation form</a> and attach to this claim
 
 
 # en.super_admins
@@ -478,7 +481,7 @@ en:
           ppe_section_hint: Total number of pages of prosecution evidence
           npw_section_header: Witnesses
           npw_section_hint: Total number of prosecution witnesses
-          total: Net amount
+          total: *net_amount
         fields:
           amount: 'Amount'
           basic_fees_title: 'Graduated fees'
@@ -613,7 +616,7 @@ en:
           disbursements: "Disbursements"
           add_disbursement: "Add another disbursement"
         disbursement_fields:
-          net_amount: "Net amount"
+          net_amount: *net_amount
           vat_amount: "VAT amount"
           total: "Total"
           disbursement_type: "Disbursement type"
@@ -677,6 +680,7 @@ en:
           case_numbers: *case_numbers
           no_dates: 'No dates currently selected.'
           fee_type: 'Type of fee'
+          choose_fee_type: *fee_type_select_hint
           add_date_attended: 'Add dates'
           remove: 'Remove this fixed fee'
         litigators:
@@ -689,15 +693,17 @@ en:
             date: "Date"
       misc_fees:
         fields:
-          add_misc_fee: 'Add another miscellaneous fee'
+          add_misc_fee: *add_another_fee
           amount: 'Amount'
           misc_fees: 'Miscellaneous fees'
         misc_fee_fields:
           rate: 'Rate'
           quantity: 'Quantity'
-          fee_type: 'Type of fee'
+          fee_type: 'Fee type'
+          choose_fee_type: *fee_type_select_hint
           add_date_attended: 'Add dates'
-          remove: 'Remove this miscellaneous fee'
+          total: *net_amount
+          remove: 'Remove this'
           no_dates: 'No dates currently selected.'
         litigators:
           fields:
@@ -912,7 +918,7 @@ en:
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
         type: "Disbursement type"
-        net_amount: "Net amount"
+        net_amount: *net_amount
         vat_amount: "VAT amount"
         total: "Total"
       warrant_fee:
@@ -960,7 +966,7 @@ en:
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
         type: "Disbursement type"
-        net_amount: "Net amount"
+        net_amount: *net_amount
         vat_amount: "VAT amount"
         total: "Total"
       warrant_fee:
@@ -1009,7 +1015,7 @@ en:
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
         type: "Disbursement type"
-        net_amount: "Net amount"
+        net_amount: *net_amount
         vat_amount: "VAT amount"
         total: "Total"
       warrant_fee:

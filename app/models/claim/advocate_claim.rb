@@ -62,6 +62,8 @@
 
 module Claim
   class AdvocateClaim < BaseClaim
+    include NamedSteppable
+
     route_key_name 'advocates_claim'
 
     has_many :basic_fees, foreign_key: :claim_id, class_name: 'Fee::BasicFee', dependent: :destroy, inverse_of: :claim
@@ -122,28 +124,6 @@ module Claim
         supporting_evidence
         additional_information
       ]
-    end
-
-    def step?(step)
-      current_step == step
-    end
-
-    def next_step
-      steps[current_step_index + 1]
-    end
-
-    def next_step!
-      self.form_step = self.current_step = next_step
-    end
-
-    attr_writer :current_step
-
-    def current_step
-      @current_step || steps.first
-    end
-
-    def current_step_index
-      steps.index(current_step)
     end
 
     private

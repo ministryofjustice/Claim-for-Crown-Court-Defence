@@ -365,13 +365,7 @@ module Claim
       disable_for_state_transition.present?
     end
 
-    def step?(num)
-      current_step == num
-    end
-
-    def next_step!
-      self.form_step = current_step + 1
-    end
+    attr_writer :current_step
 
     def current_step
       form_step.to_i
@@ -379,6 +373,18 @@ module Claim
 
     def current_step_index
       current_step - 1
+    end
+
+    def step?(step)
+      current_step == step
+    end
+
+    def next_step
+      current_step + 1
+    end
+
+    def next_step!
+      self.form_step = next_step
     end
 
     def from_api?

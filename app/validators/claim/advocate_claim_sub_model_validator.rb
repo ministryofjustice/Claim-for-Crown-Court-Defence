@@ -20,30 +20,12 @@ class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
         documents
       ],
       additional_information: [],
-      other: %[
+      other: %i[
         redeterminations
         messages
       ]
     }.with_indifferent_access
   end
-
-   # fees: %i[
-      #   basic_fees
-      #   misc_fees
-      #   fixed_fees
-      #   expenses
-      #   messages
-      #   redeterminations
-      #   documents
-      # ]
-    # case_details
-    #     defendants
-    #     offence
-    #     basic_or_fixed_fees
-    #     misc_fees
-    #     expenses
-    #     supporting_evidence
-    #     additional_information
 
   def has_one_association_names_for_steps
     {
@@ -74,6 +56,6 @@ class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
 
   # TODO: override superclass for now but should eventually be promoted
   def has_many_association_names_for_errors
-    has_many_association_names_for_steps.each_with_object([]) {|(k,v),m| m << v }.flatten
+    has_many_association_names_for_steps.each_with_object([]) { |(_k, v), m| m << v }.flatten
   end
 end

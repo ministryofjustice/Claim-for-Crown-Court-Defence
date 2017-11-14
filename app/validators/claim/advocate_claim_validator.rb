@@ -32,7 +32,7 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
       expenses: %i[
         total
       ],
-      supporting_evidence:[],
+      supporting_evidence: [],
       additional_information: [],
       other: []
     }.with_indifferent_access

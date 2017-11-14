@@ -130,7 +130,6 @@ module Claim
 
     def next_step
       steps[current_step_index + 1]
-
     end
 
     def next_step!

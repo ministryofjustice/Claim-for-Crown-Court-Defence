@@ -757,6 +757,7 @@ en:
           choose_file: 'Choose a file'
           file_name: "File name"
           supporting_evidence_docs: 'Upload supporting evidence'
+          supporting_evidence_docs_hint: 'If you have electronic evidence on disk that relates to this claims, it s recommended that you send it by recorded delivery.'
       supporting_evidence_checklist:
         summary:
           caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'

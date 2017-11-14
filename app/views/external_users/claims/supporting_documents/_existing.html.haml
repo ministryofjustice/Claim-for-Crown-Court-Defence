@@ -1,6 +1,8 @@
 - if @claim.documents.count > 0
-  %h3.bold-medium
+  %h2.bold-medium
     = t('.previously_uploaded_docs')
+    .form-hint
+    = t('.supporting_evidence_docs_hint')
 
   %table.previously-uploaded
     %thead

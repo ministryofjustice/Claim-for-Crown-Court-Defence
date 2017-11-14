@@ -452,7 +452,7 @@ en:
       additional_information:
         fields:
           additional_information: 'Additional information'
-          additional_information_prompt_text: 'for example any other information that will help us process your claim'
+          additional_information_prompt_text: 'For example, any other information that will help us process your claim'
       archived:
         archived_claims: 'Archived claims'
         archived_claim: 'archived claim'

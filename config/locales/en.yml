@@ -37,10 +37,10 @@ en:
       more_pages:
         display_entries: "<b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b>"
   buttons:
-    continue: Continue
+    continue: Save and continue
     submit_to_laa: Submit to LAA
     save_to_drafts: Save to drafts
-    save_a_draft: Save a draft
+    save_a_draft: Save as draft
     clear_form: 'Clear form'
   date:
     formats:

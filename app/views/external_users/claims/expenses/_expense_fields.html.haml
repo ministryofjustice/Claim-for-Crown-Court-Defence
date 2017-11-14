@@ -2,30 +2,49 @@
 .expense-group.nested-fields.js-block{data:{"type":"expenses", autovat: @claim.agfs? && @claim.apply_vat? ? "true" : "false"}}
   %fieldset
     %legend
-      = "Expense"
+      = "Item #{@expense_count}"
 
     .grid-row
       .column-one-third{class: error_class?(@error_presenter, "expense_#{@expense_count}_expense_type")}
         %a{id: "expense_#{@expense_count}_expense_type"}
-        = f.label :expense_type_id, 'Expense type'
+        = f.label :expense_type_id, 'Expense type', class: 'form-label'
         - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
         = f.select :expense_type_id, expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}, {include_blank: 'Please select'}, {class: 'form-control js-expense-type'}
         %span{role: 'status', aria: {live: 'assertive', relevant: 'additions' }, class:'visually-hidden'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
+      .column-one-third.remove-expense{style: 'text-align: right; float: right;'}
+        = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' }
 
+    .grid-row
+      .column-one-third.js-expense-reason{class: error_class?(@error_presenter, "expense_#{@expense_count}_reason_id"), style: 'padding-top: 0px; margin-top: 0px;'}
+        %a{id: "expense_#{@expense_count}_reason_id"}
+        = f.label :reason_id, 'Reason for travel', class: 'form-label'
+        / (hardcoded for now, dependent on chosen Expense Type):
+        = f.collection_select :reason_id, ExpenseType::REASON_SET_A.values, :id, :reason, {prompt: true}, { disabled: false , class: 'form-control'}
+        = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
+
+      - present(f.object) do |expense|
+        .column-one-third.js-expense-reason-text{style: "display: #{expense.display_reason_text_css} padding-top: 0px; margin-top: 0px;" }
+          %a{id: "expense_#{@expense_count}_reason_text"}
+          = f.label :reason_text, 'Reason text', class: 'form-label'
+          / (only show when selected Reason is Other):
+          = f.text_field :reason_text, {class: 'form-control'}
+          = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")
+
+    .grid-row
       .column-one-third{class: "js-expense-location"}
         = f.adp_text_field :location,
                             label: t('.destination'),
                             errors: @error_presenter
 
-      .column-one-third.condensed{class: "js-expense-distance expense-distance"}
+      .column-one-third.condensed{class: "js-expense-distance expense-distance", style: 'text-align: left; float: left;' }
         = f.adp_text_field :distance,
                             label: t('.distance'),
                             input_type: 'number',
                             value: number_with_precision(f.object.distance, precision: 2),
                             errors: @error_presenter
 
-      .column-one-third.condensed{class: "js-expense-hours expense-hours"}
+      .column-one-third.condensed{class: "js-expense-hours expense-hours", style: 'text-align: left; float: left;' }
         = f.adp_text_field :hours,
                             label: t('.hours'),
                             input_classes:'short-input',
@@ -36,24 +55,8 @@
       .column-one-third{class: "js-expense-date expense_#{@expense_count}_date"}
         = f.gov_uk_date_field :date,
                                 legend_text: 'Date of expenses',
-                                legend_class: 'govuk-legend',
                                 id: "expense_#{@expense_count}_date",
                                 error_messages: gov_uk_date_field_error_messages(@error_presenter, "expense_#{@expense_count}_date")
-
-      .column-one-third.js-expense-reason{class: error_class?(@error_presenter, "expense_#{@expense_count}_reason_id")}
-        %a{id: "expense_#{@expense_count}_reason_id"}
-        = f.label :reason_id, 'Reason for travel'
-        -# (hardcoded for now, dependent on chosen Expense Type):
-        = f.collection_select :reason_id, ExpenseType::REASON_SET_A.values, :id, :reason, {prompt: true}, { disabled: false , class: 'form-control'}
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
-
-        - present(f.object) do |expense|
-          %div{class: "js-expense-reason-text", style: "display: #{expense.display_reason_text_css}" }
-            %a{id: "expense_#{@expense_count}_reason_text"}
-            = f.label :reason_text, 'Reason text'
-            -#  (only will show when selected Reason is Other):
-            = f.text_field :reason_text, {class: 'form-control'}
-            = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")
 
       .column-one-third.condensed{class: "js-expense-amount fee-total"}
         = f.adp_text_field :amount,
@@ -69,8 +72,8 @@
         .js-expense-mileage.expense-cost{class: error_class?(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")}
           %a{id: "expense_#{@expense_count}_mileage_rate_id"}
           %fieldset{class: "inline"}
-            %legend
-              ='Cost'
+            %legend{ style: "font-weight: 700" }
+              = 'Cost'
             %div.js-expense-type-car
               = f.hidden_field :mileage_rate_id, value: ''
               = f.collection_radio_buttons(:mileage_rate_id, Expense::CAR_MILEAGE_RATES.values, :id, :description) do |b|
@@ -82,8 +85,6 @@
                 - b.label(class: "block-label") { b.radio_button + b.object.description }
               = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
 
-
-
       .column-one-third.condensed
         - if @claim.lgfs?
           .js-expense-vat-amount
@@ -93,6 +94,6 @@
                           input_type: 'currency',
                           errors: @error_presenter,
                           value: number_with_precision(f.object.vat_amount, precision: 2)
-    .remove-expense
-      = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' }
+
+  %hr
 

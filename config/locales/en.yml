@@ -625,17 +625,17 @@ en:
       expenses:
         expense_fields:
           add_date_attended: 'Add dates'
-          remove: Remove Expense <span class="js-expense-remove-count"></span>
+          remove: Remove this <span class="js-expense-remove-count"></span>
           vat: VAT
           destination: Destination
           distance: Distance
           hours: Hours
-          total: Total
+          total: *net_amount
         fields:
           add_another_expense: 'Add another expense'
           amount: 'Amount'
           vat_amount: 'VAT amount'
-          expenses: 'Travel Expenses'
+          expenses: 'Travel expenses'
           expenses_prompt_text: Please enter each expense (for example train ticket, hotel stay) separately
           expense_type: 'Type of expense'
           hours_help_text: Hours should be in decimal format (for example 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter hour (so 1.40 becomes 1.50)

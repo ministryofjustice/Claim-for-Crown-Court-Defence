@@ -4,10 +4,10 @@
   .js-cocoon-expenses
     %h2.bold-medium
       = t('.expenses')
-    %p.form-hint
+    .form-hint
       = t('.expenses_prompt_text')
 
     = f.fields_for :expenses do |expense|
       = render 'external_users/claims/expenses/expense_fields', f: expense
 
-  = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'div'}
+  = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'div'}, class: 'button-gray-3 left'

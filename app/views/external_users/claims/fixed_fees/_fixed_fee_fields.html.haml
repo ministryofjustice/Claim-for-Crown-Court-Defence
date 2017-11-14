@@ -17,7 +17,7 @@
             { include_blank: ''.html_safe },
             {class: 'form-control typeahead js-fixed-fee-type js-fee-type', style: 'width:100%'}
         = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")
-      .column-one-{style: 'text-align: right; float: right;'}
+      .column-one-third{style: 'text-align: right; float: right;'}
         = link_to_remove_association t('.remove'), f, { wrapper_class: 'fixed-fee-group' }
 
     .grid-row.js-typeahead

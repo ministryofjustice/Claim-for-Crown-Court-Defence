@@ -14,4 +14,4 @@
         - @fixed_fee_count += 1
         = render 'external_users/claims/fixed_fees/fixed_fee_fields', f: fixed_fee_fields
 
-    = link_to_add_association t('.add_fixed_fee'), f, :fixed_fees, partial: 'external_users/claims/fixed_fees/fixed_fee_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'div'}
+    = link_to_add_association t('.add_fixed_fee'), f, :fixed_fees, partial: 'external_users/claims/fixed_fees/fixed_fee_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'div'}, class: 'button-gray-3 left'

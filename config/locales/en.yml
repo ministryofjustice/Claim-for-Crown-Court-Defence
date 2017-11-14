@@ -670,7 +670,7 @@ en:
         remove: *remove
       fixed_fees:
         fields:
-          add_fixed_fee: 'Add another fixed fee'
+          add_fixed_fee: *add_another_fee
           amount: 'Amount'
           fixed_fees: 'Fixed fees'
         fixed_fee_fields:
@@ -679,10 +679,11 @@ en:
           rate: 'Rate'
           case_numbers: *case_numbers
           no_dates: 'No dates currently selected.'
-          fee_type: 'Type of fee'
+          fee_type: 'Fee type'
           choose_fee_type: *fee_type_select_hint
           add_date_attended: 'Add dates'
-          remove: 'Remove this fixed fee'
+          total: *net_amount
+          remove: 'Remove this'
         litigators:
           fields:
             fixed_fees: "Fixed fees"

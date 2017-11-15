@@ -98,6 +98,12 @@ aws:
   submitted_queue: <%= ENV['AWS_QUEUE_NAME'] %>
   response_queue: <%= ENV['AWS_RESPONSE_QUEUE_NAME'] %>
 
+slack:
+  bot_url: 'slack_bot_url'
+  channel: '#channel_name'
+  bot_name: 'bot_name'
+  icon: ':icon:'
+
 govuk_notify:
   api_key: 'never-put-real-api-key-here-use-env-vars'
   templates:

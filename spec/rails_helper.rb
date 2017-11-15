@@ -101,6 +101,13 @@ RSpec.configure do |config|
         to_return(status: 200, body: "", headers: {})
   end
 
+  config.before :each, slack_bot: true do
+    allow(Settings.slack).to receive(:bot_url).and_return('https://hooks.slack.com/services/fake/endpoint')
+    allow(Settings.slack).to receive(:channel).and_return('#monitoring')
+    allow(Settings.slack).to receive(:bot_name).and_return('monitor_bot')
+    allow(Settings.slack).to receive(:icon).and_return(':robot')
+    stub_request(:post, 'https://hooks.slack.com/services/fake/endpoint').to_return(status: 200, body: '', headers: {})
+  end
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.

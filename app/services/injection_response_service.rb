@@ -7,7 +7,7 @@ class InjectionResponseService
   def run!
     claim = Claim::BaseClaim.find_by(uuid: @response['uuid'])
     if claim.nil?
-      failure_message = "Failed to inject '#{@response['uuid']}' because no claim found"
+      failure_message = 'Failed to inject because no claim found'
       LogStuff.send(:info, 'InjectionResponseService::NonExistentClaim',
                     action: 'run!',
                     uuid: @response['uuid']) { failure_message }
@@ -33,7 +33,7 @@ class InjectionResponseService
     payload = {
       channel: Settings.slack.channel,
       username: Settings.slack.bot_name,
-      text: message,
+      text: "#{message} {#{@response['uuid']}}",
       icon_emoji: Settings.slack.icon
     }.to_json
     RestClient.post(Settings.slack.bot_url, payload, content_type: :json)

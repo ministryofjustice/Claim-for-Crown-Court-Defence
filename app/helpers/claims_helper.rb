@@ -3,7 +3,6 @@ module ClaimsHelper
     submitted
     allocated
     part_authorised
-    rejected
     refused
     authorised
     redetermination

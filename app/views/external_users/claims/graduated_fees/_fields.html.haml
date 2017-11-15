@@ -1,3 +1,10 @@
+/ TODO: replace this by skipping this step entirely if no appicable
+- unless @claim.allows_graduated_fees?
+  %h2.bold-medium
+    Graduated fees are not applicable for this claim
+  .form-hint
+    Graduated fees are not applicable for this claim, please continue
+
 - if @claim.allows_graduated_fees?
 
   #graduated-fees.mod-graduated-fees

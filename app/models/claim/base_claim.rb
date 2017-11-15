@@ -368,7 +368,8 @@ module Claim
     attr_writer :current_step
 
     def current_step
-      form_step.to_i || 1
+      step = form_step.to_i
+      step.positive? ? step : 1
     end
 
     def current_step_index

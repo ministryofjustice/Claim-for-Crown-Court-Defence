@@ -4,7 +4,7 @@
     = f.hidden_field :form_id, value: @form_id || params[:claim][:form_id]
     = f.hidden_field :form_step, value: @claim.form_step
 
-    - if @claim.step?(1)
+    - if @claim.step?('case_details')
 
       = render 'external_users/claims/api_promo_banner', claim: @claim
 
@@ -14,37 +14,71 @@
 
       = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
-    - if @claim.step?(2)
+    - if @claim.step?('defendants')
 
       = render 'external_users/claims/defendants/fields', f: f
 
       = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
-    - if @claim.step?(3)
+    - if @claim.step?('offence')
 
       = render 'external_users/claims/offence_details/fields', f: f
 
       = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
-    - if @claim.step?(4)
+    / TODO: this step is conditional based on @claim.allows_fixed_fees?
+    - if @claim.step?('fixed_fees')
 
       = render 'external_users/claims/fees_shared_header'
 
       = render 'external_users/claims/fixed_fees/litigators/fields', f: f
 
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    / TODO: this step is conditional based on @claim.allows_graduated_fees?
+    - if @claim.step?('graduated_fees')
+
+      = render 'external_users/claims/fees_shared_header'
+
       = render 'external_users/claims/graduated_fees/fields', f: f
+
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    - if @claim.step?('misc_fees')
+
+      = render 'external_users/claims/fees_shared_header'
 
       = render 'external_users/claims/misc_fees/litigators/fields', f: f
 
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    - if @claim.step?('disbursements')
+
       = render 'external_users/claims/disbursements/fields', f: f
+
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    - if @claim.step?('warrant_fee')
+
+      = render 'external_users/claims/warrant_fee/fields', f: f
+
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    - if @claim.step?('expenses')
 
       = render 'external_users/claims/expenses/fields', f: f
 
-      = render 'external_users/claims/warrant_fee/fields', f: f
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    - if @claim.step?('supporting_evidence')
 
       = render 'external_users/claims/supporting_documents/fields', f: f
 
       = render 'external_users/claims/supporting_evidence_checklist/fields', f: f
+
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    - if @claim.step?('additional_information')
 
       = render 'external_users/claims/additional_information/fields', f: f
 

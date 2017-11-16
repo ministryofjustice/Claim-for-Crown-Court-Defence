@@ -52,16 +52,6 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
 
   private
 
-  delegate :current_step, to: :@record
-
-  # TODO: overide base claim validator method for now
-  # but this needs to be promoted eventually
-  def validate_step_fields
-    self.class.fields_for_steps[current_step]&.flatten&.each do |field|
-      validate_field(field)
-    end
-  end
-
   def validate_transfer_fee
     add_error(:transfer_fee, 'blank') if @record.transfer_fee.nil?
   end

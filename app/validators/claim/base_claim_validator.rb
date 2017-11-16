@@ -11,7 +11,7 @@ class Claim::BaseClaimValidator < BaseValidator
   private
 
   def validate_step_fields
-    self.class.fields_for_steps[steps_range(@record)].flatten.each do |field|
+    self.class.fields_for_steps[@record.current_step]&.flatten&.each do |field|
       validate_field(field)
     end
   end

@@ -1,7 +1,7 @@
 class InjectionResponseService
   def initialize(json)
     @response = json.stringify_keys
-    raise ParseError, 'Invalid JSON string' unless @response.keys.eql?(%w[errors uuid messages])
+    raise ParseError, 'Invalid JSON string' unless @response.keys.sort.eql?(%w[errors messages uuid])
   end
 
   def run!

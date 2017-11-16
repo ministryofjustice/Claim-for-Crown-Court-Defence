@@ -3,7 +3,7 @@ class Claim::LitigatorSupplierNumberValidator < Claim::BaseClaimValidator
 
   def self.fields_for_steps
     {
-      case_details: first_step_common_validations,
+      case_details: first_step_common_validations
     }.with_indifferent_access
   end
 

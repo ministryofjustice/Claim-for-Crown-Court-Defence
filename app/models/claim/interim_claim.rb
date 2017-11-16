@@ -114,6 +114,11 @@ module Claim
     end
 
     def destroy_all_invalid_fee_types
+      # FIXME: the loading of the interim fee causes its validations to fire and
+      # this raises errors on all form steps. need to prevent validation firing.
+      # NOTE: alternative is change relation to validate: false
+      #
+      return unless current_step.in?(['interim_fee', nil])
       return unless interim_fee
 
       if interim_fee.is_interim_warrant?

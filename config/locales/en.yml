@@ -37,10 +37,10 @@ en:
       more_pages:
         display_entries: "<b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b>"
   buttons:
-    continue: Continue
+    continue: Save and continue
     submit_to_laa: Submit to LAA
     save_to_drafts: Save to drafts
-    save_a_draft: Save a draft
+    save_a_draft: Save as draft
     clear_form: 'Clear form'
   date:
     formats:
@@ -62,6 +62,8 @@ en:
       save: &save 'Save'
     labels:
       advocate_litigator: &advocate_litigator 'Advocate / Litigator'
+      net_amount: &net_amount 'Net amount'
+      add_another_fee: &add_another_fee 'Add another fee'
     models:
       super_admin: &super_admin 'Super administrator'
       external_user: &advocate 'Advocate'
@@ -81,10 +83,14 @@ en:
         case_numbers: &case_numbers 'Additional case numbers'
     not_provided: &not_provided 'Not provided'
     not_applicable: &not_applicable 'n/a'
+    radio_button_hint: &radio_button_hint 'Please select relevant option'
+    fee_type_select_hint: &fee_type_select_hint 'Choose a fee type'
+    fee_excl_vat_hint: &fee_excl_vat_hint 'All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users'
 
   general:
     not_provided: *not_provided
     not_applicable: *not_applicable
+    radio_button_hint: *radio_button_hint
 
   activerecord:
     models:
@@ -263,8 +269,8 @@ en:
     claims: 'Search claims'
     caseworkers: 'Search case workers'
   prep_forms:
-    advocates_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
-    litigators_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/513208/litigator-fee-special-preparation-claim-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
+    advocates_html: Complete the <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special preparation form</a> and attach to this claim
+    litigators_html: Complete the <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/513208/litigator-fee-special-preparation-claim-form.pdf" target="_blank" rel="external" title="Special Prep Form">special preparation form</a> and attach to this claim
 
 
 # en.super_admins
@@ -446,7 +452,7 @@ en:
       additional_information:
         fields:
           additional_information: 'Additional information'
-          additional_information_prompt_text: 'for example any other information that will help us process your claim'
+          additional_information_prompt_text: 'For example, any other information that will help us process your claim'
       archived:
         archived_claims: 'Archived claims'
         archived_claim: 'archived claim'
@@ -475,10 +481,11 @@ en:
           ppe_section_hint: Total number of pages of prosecution evidence
           npw_section_header: Witnesses
           npw_section_hint: Total number of prosecution witnesses
-          total: Total
+          total: *net_amount
         fields:
           amount: 'Amount'
-          basic_fees: 'Initial fees'
+          basic_fees_title: 'Graduated fees'
+          basic_fees_sub_title: 'Initial fees'
           fee_prompt_text: |
             You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
             for help.
@@ -496,8 +503,9 @@ en:
           trial_fixed_at: '1st fixed/warned trial'
         fields:
           advocate: *advocate
+          advocate_hint: The instructed advocate for the case
           advocate_category: 'Advocate category'
-          case_offence: 'Case & offence'
+          case_details: 'Case details'
           case_number: 'Case number'
           transfer_case_number: 'Transfer case number (optional)'
           case_type: 'Case type'
@@ -506,6 +514,7 @@ en:
           litigator: *litigator
           offence_class: 'Offence class'
           offence_category: 'Offence category'
+          offence_category_hint: 'If the offence category is not listed, choose "Miscellaneous/other"'
           select_category: 'Please select'
           transfer_court: 'Transfer court (optional)'
         offence_select:
@@ -549,9 +558,7 @@ en:
           full_name: Full name
           date_of_birth: 'Date of birth'
           judical_apportionment: Judicial apportionment
-          order_for_judicial_apportionment:  |
-            Order for judicial apportionment
-            (You must upload the order for judicial apportionment in the "Upload supporting evidence" section below.)
+          order_for_judicial_apportionment: Order for judicial apportionment
           add_another_rep_order: 'Add another representation order'
           remove_defendant: 'Remove defendant'
           defendant: 'Defendant'
@@ -559,9 +566,9 @@ en:
           defendants: 'Defendants'
           add_another_defendant: 'Add another defendant'
         representation_order_fields:
-          representation_order: Representation order
+          representation_order: Representation order details
           maat_reference_number: MAAT reference
-          maat_reference_number_eg: 'for example 1234567890'
+          maat_reference_number_eg: 'For example 1234567890'
         summary:
           caption: 'Defendants: This section contains details about each defendant.'
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
@@ -609,7 +616,7 @@ en:
           disbursements: "Disbursements"
           add_disbursement: "Add another disbursement"
         disbursement_fields:
-          net_amount: "Net amount"
+          net_amount: *net_amount
           vat_amount: "VAT amount"
           total: "Total"
           disbursement_type: "Disbursement type"
@@ -618,17 +625,17 @@ en:
       expenses:
         expense_fields:
           add_date_attended: 'Add dates'
-          remove: Remove Expense <span class="js-expense-remove-count"></span>
+          remove: Remove this <span class="js-expense-remove-count"></span>
           vat: VAT
           destination: Destination
           distance: Distance
           hours: Hours
-          total: Total
+          total: *net_amount
         fields:
           add_another_expense: 'Add another expense'
           amount: 'Amount'
           vat_amount: 'VAT amount'
-          expenses: 'Travel Expenses'
+          expenses: 'Travel expenses'
           expenses_prompt_text: Please enter each expense (for example train ticket, hotel stay) separately
           expense_type: 'Type of expense'
           hours_help_text: Hours should be in decimal format (for example 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter hour (so 1.40 becomes 1.50)
@@ -663,7 +670,7 @@ en:
         remove: *remove
       fixed_fees:
         fields:
-          add_fixed_fee: 'Add another fixed fee'
+          add_fixed_fee: *add_another_fee
           amount: 'Amount'
           fixed_fees: 'Fixed fees'
         fixed_fee_fields:
@@ -672,9 +679,11 @@ en:
           rate: 'Rate'
           case_numbers: *case_numbers
           no_dates: 'No dates currently selected.'
-          fee_type: 'Type of fee'
+          fee_type: 'Fee type'
+          choose_fee_type: *fee_type_select_hint
           add_date_attended: 'Add dates'
-          remove: 'Remove this fixed fee'
+          total: *net_amount
+          remove: 'Remove this'
         litigators:
           fields:
             fixed_fees: "Fixed fees"
@@ -685,15 +694,17 @@ en:
             date: "Date"
       misc_fees:
         fields:
-          add_misc_fee: 'Add another miscellaneous fee'
+          add_misc_fee: *add_another_fee
           amount: 'Amount'
           misc_fees: 'Miscellaneous fees'
         misc_fee_fields:
           rate: 'Rate'
           quantity: 'Quantity'
-          fee_type: 'Type of fee'
+          fee_type: 'Fee type'
+          choose_fee_type: *fee_type_select_hint
           add_date_attended: 'Add dates'
-          remove: 'Remove this miscellaneous fee'
+          total: *net_amount
+          remove: 'Remove this'
           no_dates: 'No dates currently selected.'
         litigators:
           fields:
@@ -746,6 +757,7 @@ en:
           choose_file: 'Choose a file'
           file_name: "File name"
           supporting_evidence_docs: 'Upload supporting evidence'
+          supporting_evidence_docs_hint: 'If you have electronic evidence on disk that relates to this claims, it s recommended that you send it by recorded delivery.'
       supporting_evidence_checklist:
         summary:
           caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'
@@ -793,7 +805,7 @@ en:
           transfer_fees: Missing Translation
       fees_shared_header:
         fees: Fees
-        fees_header_prompt_text_html: All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users.
+        fees_header_prompt_text_html: *fee_excl_vat_hint
       summary_claims_sidebar:
         button_label: 'Continue to certification'
         continue: 'Continue'
@@ -908,7 +920,7 @@ en:
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
         type: "Disbursement type"
-        net_amount: "Net amount"
+        net_amount: *net_amount
         vat_amount: "VAT amount"
         total: "Total"
       warrant_fee:
@@ -956,7 +968,7 @@ en:
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
         type: "Disbursement type"
-        net_amount: "Net amount"
+        net_amount: *net_amount
         vat_amount: "VAT amount"
         total: "Total"
       warrant_fee:
@@ -1005,7 +1017,7 @@ en:
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
         type: "Disbursement type"
-        net_amount: "Net amount"
+        net_amount: *net_amount
         vat_amount: "VAT amount"
         total: "Total"
       warrant_fee:

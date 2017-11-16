@@ -10,7 +10,6 @@ module Claim
             transfer_court
             transfer_case_number
             advocate_category
-            offence
             case_concluded_at
           ]
         end

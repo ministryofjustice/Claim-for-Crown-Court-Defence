@@ -62,17 +62,19 @@
 
 module Claim
   class InterimClaim < BaseClaim
-    route_key_name 'litigators_interim_claim'
+    include NamedSteppable
 
-    validates_with ::Claim::InterimClaimValidator
-    validates_with ::Claim::LitigatorSupplierNumberValidator
-    validates_with ::Claim::InterimClaimSubModelValidator
+    route_key_name 'litigators_interim_claim'
 
     has_one :interim_fee, foreign_key: :claim_id, class_name: 'Fee::InterimFee', dependent: :destroy, inverse_of: :claim
     has_one :warrant_fee, foreign_key: :claim_id, class_name: 'Fee::WarrantFee', dependent: :destroy, inverse_of: :claim
 
     accepts_nested_attributes_for :interim_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
+
+    validates_with ::Claim::InterimClaimValidator
+    validates_with ::Claim::LitigatorSupplierNumberValidator
+    validates_with ::Claim::InterimClaimSubModelValidator
 
     def lgfs?
       self.class.lgfs?
@@ -94,6 +96,17 @@ module Claim
       :litigator
     end
 
+    def steps
+      %w[
+        case_details
+        defendants
+        offence
+        interim_fee
+        supporting_evidence
+        additional_information
+      ]
+    end
+
     private
 
     def provider_delegator
@@ -101,6 +114,11 @@ module Claim
     end
 
     def destroy_all_invalid_fee_types
+      # FIXME: the loading of the interim fee causes its validations to fire and
+      # this raises errors on all form steps. need to prevent validation firing.
+      # NOTE: alternative is change relation to validate: false
+      #
+      return unless current_step.in?(['interim_fee', nil])
       return unless interim_fee
 
       if interim_fee.is_interim_warrant?

@@ -1,12 +1,9 @@
 .nested-fields.indent-fieldset.js-test-rep-order
   - @representation_order_count += 1
   %a{id: "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count}_representation_order_date"}
-  %h3.bold-normal
+  %h2.bold-medium
     = t('.representation_order')
-  .form-hint.xsmall.zero-vert-margin
-    &nbsp;
   .form-row
-
     .form-col.form-col-two-thirds.ro-date
       = f.gov_uk_date_field(:representation_order_date,
                             legend_text: 'Representation order date',

@@ -4,33 +4,56 @@
     = f.hidden_field :form_id, value: @form_id || params[:claim][:form_id]
     = f.hidden_field :form_step, value: @claim.form_step
 
-    - if @claim.step?(1)
+    - if @claim.step?('case_details')
 
-      = render partial: 'external_users/claims/api_promo_banner', locals: { claim: @claim }
+      = render 'external_users/claims/api_promo_banner', claim: @claim
 
-      = render partial: 'external_users/claims/case_details/fields', locals: { f: f }
+      = render 'external_users/claims/case_details/fields', f: f
 
-      = render partial: 'external_users/claims/defendants/fields', locals: { f: f }
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
-      = render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: 'commit_continue' }
+    - if @claim.step?('defendants')
 
+      = render 'external_users/claims/defendants/fields', f: f
 
-    - if @claim.step?(2)
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
-      = render partial: 'external_users/claims/fees_shared_header'
+    - if @claim.step?('offence')
 
-      = render partial: 'external_users/claims/basic_fees/fields', locals: { f: f }
+      = render 'external_users/claims/offence_details/fields', f: f
 
-      = render partial: 'external_users/claims/fixed_fees/fields', locals: { f: f }
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
-      = render partial: 'external_users/claims/misc_fees/fields', locals: { f: f }
+    - if @claim.step?('basic_or_fixed_fees')
 
-      = render partial: 'external_users/claims/expenses/fields', locals: { f: f }
+      - fee_type = @claim.allows_fixed_fees? ? 'fixed' : 'basic'
 
-      = render partial: 'external_users/claims/supporting_documents/fields', locals: { f: f }
+      = render "external_users/claims/#{fee_type}_fees/fields", f: f
 
-      = render partial: 'external_users/claims/supporting_evidence_checklist/fields', locals: { f: f }
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
 
-      = render partial: 'external_users/claims/additional_information/fields', locals: { f: f }
+    - if @claim.step?('misc_fees')
 
-      = render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: 'commit_submit_claim' }
+      = render 'external_users/claims/misc_fees/fields', f: f
+
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    - if @claim.step?('expenses')
+
+      = render 'external_users/claims/expenses/fields', f: f
+
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    - if @claim.step?('supporting_evidence')
+
+      = render 'external_users/claims/supporting_documents/fields', f: f
+
+      = render 'external_users/claims/supporting_evidence_checklist/fields', f: f
+
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_continue'
+
+    - if @claim.step?('additional_information')
+
+      = render 'external_users/claims/additional_information/fields', f: f
+
+      = render 'external_users/claims/buttons/continue', f: f, commit: 'commit_submit_claim'

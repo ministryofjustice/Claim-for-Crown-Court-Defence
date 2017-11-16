@@ -62,6 +62,8 @@
 
 module Claim
   class LitigatorClaim < BaseClaim
+    include NamedSteppable
+
     route_key_name 'litigators_claim'
 
     validates_with ::Claim::LitigatorClaimValidator, unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
@@ -115,6 +117,22 @@ module Claim
 
     def requires_case_concluded_date?
       true
+    end
+
+    def steps
+      %w[
+        case_details
+        defendants
+        offence
+        fixed_fees
+        graduated_fees
+        misc_fees
+        disbursements
+        warrant_fee
+        expenses
+        supporting_evidence
+        additional_information
+      ]
     end
 
     private

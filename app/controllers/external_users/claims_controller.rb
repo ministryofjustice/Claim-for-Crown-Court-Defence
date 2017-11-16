@@ -130,6 +130,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def create
+    @claim.current_step = claim_params[:form_step]
     result = if submitting_to_laa?
                Claims::CreateClaim.call(@claim)
              else
@@ -140,6 +141,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def update
+    @claim.current_step = claim_params[:form_step]
     result = if submitting_to_laa?
                Claims::UpdateClaim.call(@claim, params: claim_params)
              else

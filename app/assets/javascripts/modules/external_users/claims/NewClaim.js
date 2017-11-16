@@ -28,16 +28,22 @@ moj.Modules.NewClaim = {
     var self = this;
 
     self.$offenceCategorySelect = $('#claim_offence_category_description');
+    self.$offenceClassSelect = $('#offence_class_description');
 
-    self.$offenceCategorySelect.change(function() {
+    self.$offenceCategorySelect.on('change', function() {
       var param = $.param({
         description: $(this).find(':selected').text()
       });
       $.getScript('/offences?' + param);
     });
 
-    if (!$('#claim_offence_id').val()) {
-      $('.offence-class-select').hide();
+    if (!$('#claim_offence_id').val() || !self.$offenceCategorySelect.val() ) {
+      self.$offenceClassSelect.val('').trigger('change');
+
+      if (self.$offenceClassSelect.size() <= 1) {
+        self.$offenceClassSelect.prop('disabled', true);
+      }
+
     }
 
     self.attachToOffenceClassSelect();
@@ -75,11 +81,10 @@ moj.Modules.NewClaim = {
 
   attachToOffenceClassSelect: function() {
     $('#offence_class_description').on('change', function() {
+      // sync hidden field value and disable select if one or less
       $('#claim_offence_id').val($(this).val());
-
-      if (!$(this).val()) {
-        $('.offence-class-select').hide();
-        $('#claim_offence_id').val('');
+      if (!$(this).val() || $(this).children('option').size() <= 1) {
+        $(this).prop('disabled', true);
       }
     });
   },

@@ -20,18 +20,19 @@ class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
   private
 
   def validate_has_many_associations_step_fields(record)
-    has_many_association_names_for_steps[steps_range(record)].flatten.each do |association_name|
+    has_many_association_names_for_steps[record.current_step]&.flatten&.each do |association_name|
       validate_collection_for(record, association_name)
     end
   end
 
   def validate_has_one_association_step_fields(record)
-    has_one_association_names_for_steps[steps_range(record)].flatten.each do |association_name|
+    has_one_association_names_for_steps[record.current_step]&.flatten&.each do |association_name|
       validate_association_for(record, association_name)
     end
   end
 
   def has_many_association_names_for_errors
-    has_many_association_names_for_steps.flatten
+    has_many_association_names_for_steps.each_with_object([]) { |(_k, v), m| m << v }.flatten
   end
+
 end

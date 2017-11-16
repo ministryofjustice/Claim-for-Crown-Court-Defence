@@ -1,14 +1,13 @@
 class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   def self.fields_for_steps
-    [
-      %i[
+    {
+      case_details: %i[
         case_type
         court
         case_number
         transfer_court
         transfer_case_number
         advocate_category
-        offence
         estimated_trial_length
         actual_trial_length
         retrial_estimated_length
@@ -24,10 +23,19 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
         case_concluded_at
         supplier_number
       ],
-      [
-        :total
-      ]
-    ]
+      defendants: [],
+      offence: %i[
+        offence
+      ],
+      basic_or_fixed_fees: [],
+      misc_fees: [],
+      expenses: %i[
+        total
+      ],
+      supporting_evidence: [],
+      additional_information: [],
+      other: []
+    }.with_indifferent_access
   end
 
   private

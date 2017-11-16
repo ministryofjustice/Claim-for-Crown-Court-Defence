@@ -2,9 +2,13 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   include Claim::LitigatorCommonValidations
 
   def self.fields_for_steps
-    [
-      [].unshift(first_step_common_validations),
-      %i[
+    {
+      case_details: [].unshift(first_step_common_validations),
+      defendants: [],
+      offence: %i[
+        offence
+      ],
+      interim_fee: %i[
         first_day_of_trial
         estimated_trial_length
         trial_concluded_at
@@ -13,8 +17,11 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
         effective_pcmh_date
         legal_aid_transfer_date
         total
-      ]
-    ]
+      ],
+      supporting_evidence: [],
+      additional_information: [],
+      other: []
+    }.with_indifferent_access
   end
 
   private

@@ -10,8 +10,8 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
   end
 
   def self.fields_for_steps
-    [
-      %i[
+    {
+      transfer_details: %i[
         litigator_type
         elected_case
         transfer_stage_id
@@ -19,22 +19,31 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
         case_conclusion_id
         transfer_detail_combo
       ],
-      %i[
+      case_details: %i[
         court
         case_number
         transfer_court
         transfer_case_number
         advocate_category
-        offence
         case_concluded_at
         supplier_number
         amount_assessed
         evidence_checklist_ids
       ],
-      [
-        :total
-      ]
-    ]
+      defendants: [],
+      offence: %i[
+        offence
+      ],
+      transfer_fee: [],
+      misc_fees: [],
+      disbursements: [],
+      expenses: %i[
+        total
+      ],
+      supporting_evidence: [],
+      additional_information: [],
+      other: []
+    }.with_indifferent_access
   end
 
   def validate(record)

@@ -1,9 +1,6 @@
 %fieldset.checklist
-  %h3
+  %h2.bold-medium
     = t('.supporting_evidence_checklist')
   .grid-row
-    .column-half
-      = render partial: 'external_users/claims/supporting_evidence_checklist/evidence_checklist', locals: { f: f, collection: DocType.all_first_half }
-
-    .column-half
-      = render partial: 'external_users/claims/supporting_evidence_checklist/evidence_checklist', locals: { f: f, collection: DocType.all_second_half }
+    .column-two-thirds
+      = render partial: 'external_users/claims/supporting_evidence_checklist/evidence_checklist', locals: { f: f, collection: DocType.all }

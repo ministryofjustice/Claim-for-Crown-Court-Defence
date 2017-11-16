@@ -62,6 +62,8 @@
 
 module Claim
   class AdvocateClaim < BaseClaim
+    include NamedSteppable
+
     route_key_name 'advocates_claim'
 
     has_many :basic_fees, foreign_key: :claim_id, class_name: 'Fee::BasicFee', dependent: :destroy, inverse_of: :claim
@@ -109,6 +111,19 @@ module Claim
 
     def update_claim_document_owners
       documents.each { |d| d.update_column(:external_user_id, external_user_id) }
+    end
+
+    def steps
+      %w[
+        case_details
+        defendants
+        offence
+        basic_or_fixed_fees
+        misc_fees
+        expenses
+        supporting_evidence
+        additional_information
+      ]
     end
 
     private

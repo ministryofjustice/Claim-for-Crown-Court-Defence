@@ -62,6 +62,8 @@
 
 module Claim
   class TransferClaim < BaseClaim
+    include NamedSteppable
+
     route_key_name 'litigators_transfer_claim'
 
     has_one :transfer_detail, foreign_key: :claim_id, class_name: Claim::TransferDetail, dependent: :destroy
@@ -127,6 +129,21 @@ module Claim
 
     def requires_case_type?
       false
+    end
+
+    def steps
+      %w[
+        transfer_details
+        case_details
+        defendants
+        offence
+        transfer_fee
+        misc_fees
+        disbursements
+        expenses
+        supporting_evidence
+        additional_information
+      ]
     end
 
     private

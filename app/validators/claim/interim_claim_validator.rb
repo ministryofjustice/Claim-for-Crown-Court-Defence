@@ -2,9 +2,13 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   include Claim::LitigatorCommonValidations
 
   def self.fields_for_steps
-    [
-      [].unshift(first_step_common_validations), # case details
-      %i[
+    {
+      case_details: [].unshift(first_step_common_validations),
+      defendants: [],
+      offence: %i[
+        offence
+      ],
+      interim_fee: %i[
         first_day_of_trial
         estimated_trial_length
         trial_concluded_at
@@ -12,18 +16,25 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
         retrial_estimated_length
         effective_pcmh_date
         legal_aid_transfer_date
-      ],
-      %i[], # defendants
-      %i[
-        offence
-      ], # offence details
-      %i[
         total
-      ] # fees
-    ]
+      ],
+      supporting_evidence: [],
+      additional_information: [],
+      other: []
+    }.with_indifferent_access
   end
 
   private
+
+  delegate :current_step, to: :@record
+
+  # TODO: overide base claim validator method for now
+  # but this needs to be promoted eventually
+  def validate_step_fields
+    self.class.fields_for_steps[current_step]&.flatten&.each do |field|
+      validate_field(field)
+    end
+  end
 
   def interim_fee_absent?
     @record.interim_fee.nil?

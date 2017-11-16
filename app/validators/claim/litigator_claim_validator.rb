@@ -29,7 +29,7 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
   # TODO: overide base claim validator method for now
   # but this needs to be promoted eventually
   def validate_step_fields
-    self.class.fields_for_steps[current_step].flatten.each do |field|
+    self.class.fields_for_steps[current_step]&.flatten&.each do |field|
       validate_field(field)
     end
   end

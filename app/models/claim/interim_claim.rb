@@ -62,17 +62,19 @@
 
 module Claim
   class InterimClaim < BaseClaim
-    route_key_name 'litigators_interim_claim'
+    include NamedSteppable
 
-    validates_with ::Claim::InterimClaimValidator
-    validates_with ::Claim::LitigatorSupplierNumberValidator
-    validates_with ::Claim::InterimClaimSubModelValidator
+    route_key_name 'litigators_interim_claim'
 
     has_one :interim_fee, foreign_key: :claim_id, class_name: 'Fee::InterimFee', dependent: :destroy, inverse_of: :claim
     has_one :warrant_fee, foreign_key: :claim_id, class_name: 'Fee::WarrantFee', dependent: :destroy, inverse_of: :claim
 
     accepts_nested_attributes_for :interim_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
+
+    validates_with ::Claim::InterimClaimValidator
+    validates_with ::Claim::LitigatorSupplierNumberValidator
+    validates_with ::Claim::InterimClaimSubModelValidator
 
     def lgfs?
       self.class.lgfs?
@@ -92,6 +94,17 @@ module Claim
 
     def external_user_type
       :litigator
+    end
+
+    def steps
+      %w[
+        case_details
+        defendants
+        offence
+        interim_fee
+        supporting_evidence
+        additional_information
+      ]
     end
 
     private

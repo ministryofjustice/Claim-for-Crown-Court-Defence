@@ -40,7 +40,7 @@ RUN chmod 777 $APP_HOME/run.sh
 
 RUN ls -la $APPHOME
 RUN ls -la $APP_HOME
-WORKDIR $APPHOME
+WORKDIR /usr/src/app
 
 EXPOSE 80
 

@@ -28,11 +28,19 @@ RUN bundle install
 
 COPY . /usr/src/app
 RUN mkdir -p /usr/src/app/public/assets
+RUN ls -la /usr/src/app
 
+ENV APPHOME /user/src/app
+ENV APP_HOME /user/src/app/app
+RUN echo "APP_HOME = ${APP_HOME}"
+RUN echo "APPHOME = ${APPHOME}"
+RUN env
 COPY ./docker/run.sh $APP_HOME/run.sh
 RUN chmod 777 $APP_HOME/run.sh
 
-WORKDIR $APPHOME
+RUN ls -la $APPHOME
+RUN ls -la $APP_HOME
+WORKDIR /usr/src/app
 
 EXPOSE 80
 

@@ -32,7 +32,9 @@ RUN mkdir -p /usr/src/app/public/assets
 COPY ./docker/run.sh $APP_HOME/run.sh
 RUN chmod 777 $APP_HOME/run.sh
 
-WORKDIR $APPHOME
+RUN pwd
+WORKDIR /usr/src/app
+RUN pwd
 
 EXPOSE 80
 

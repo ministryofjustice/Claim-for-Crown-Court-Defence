@@ -36,6 +36,7 @@ RUN env
 COPY ./docker/run.sh $APP_HOME/run.sh
 RUN chmod 777 $APP_HOME/run.sh
 
+RUN ls -la $APPHOME
 WORKDIR $APPHOME
 
 EXPOSE 80

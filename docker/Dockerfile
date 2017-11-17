@@ -32,8 +32,6 @@ RUN mkdir -p /usr/src/app/public/assets
 COPY ./docker/run.sh $APP_HOME/run.sh
 RUN chmod 777 $APP_HOME/run.sh
 
-WORKDIR $APPHOME
-
 EXPOSE 80
 
 #SECRET_TOKEN set here because otherwise devise blows up during the precompile.

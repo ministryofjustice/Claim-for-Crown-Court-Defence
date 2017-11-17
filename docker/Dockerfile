@@ -29,6 +29,11 @@ RUN bundle install
 COPY . /usr/src/app
 RUN mkdir -p /usr/src/app/public/assets
 
+RUN echo "DB_NAME = ${DB_NAME}"
+RUN echo "$DB_NAME"
+RUN echo "APP_HOME = ${APP_HOME}"
+RUN echo "APPHOME = ${APPHOME}"
+RUN env
 COPY ./docker/run.sh $APP_HOME/run.sh
 RUN chmod 777 $APP_HOME/run.sh
 

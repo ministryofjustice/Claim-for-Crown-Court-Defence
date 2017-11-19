@@ -2,54 +2,55 @@ class InjectionResponseService
   def initialize(json)
     @response = json.stringify_keys
     raise ParseError, 'Invalid JSON string' unless @response.keys.sort.eql?(%w[errors messages uuid])
+    @claim = Claim::BaseClaim.find_by(uuid: @response['uuid'])
   end
 
   def run!
-    @claim = Claim::BaseClaim.find_by(uuid: @response['uuid'])
     if @claim.nil?
-      failure_message = 'Failed to inject because no claim found'
       LogStuff.send(:info, 'InjectionResponseService::NonExistentClaim',
                     action: 'run!',
-                    uuid: @response['uuid']) { failure_message }
-      update_slack(failure_message)
+                    uuid: @response['uuid']) { generate_message }
+      update_slack
       return false
     end
     ia = InjectionAttempt.create(claim: @claim, succeeded: ccr_injected?, error_message: error_message)
-    update_slack(generate_message)
+    update_slack
     ia.save
   end
 
   private
 
   def generate_message
-    if ccr_injected?
+    if @claim.nil?
+      'Failed to inject because no claim found'
+    elsif ccr_injected?
       "Claim #{@claim.case_number} successfully injected"
     else
       "Claim #{@claim.case_number} could not be injected"
     end
   end
 
-  def update_slack(message)
+  def update_slack
     payload = {
       channel: Settings.slack.channel,
       username: Settings.slack.bot_name,
-      icon_emoji: Settings.slack.icon,
+      icon_emoji: ccr_injected? ? Settings.slack.success_icon : Settings.slack.fail_icon,
       attachments: [
         {
-          'fallback': "#{message} {#{@response['uuid']}}",
+          'fallback': "#{generate_message} {#{@response['uuid']}}",
           'color': ccr_injected? ? '#36a64f' : '#c41f1f',
-          'title': 'UUID',
+          'title': "Injection #{ccr_injected? ? 'succeeded' : 'failed'}",
           'text': @response['uuid'],
-          'fields': fields(message)
+          'fields': fields
         }
       ]
     }.to_json
     RestClient.post(Settings.slack.bot_url, payload, content_type: :json)
   end
 
-  def fields(message)
+  def fields
     fields = [
-      { 'title': "Injection #{ccr_injected? ? 'succeeded' : 'failed'}", 'value': message, 'short': true },
+      { 'title': 'Claim number', 'value': @claim&.case_number, 'short': true },
       { 'title': 'environment', 'value': ENV['ENV'], 'short': true }
     ]
     errors = has_no_errors? ? [] : error_fields

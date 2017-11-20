@@ -47,7 +47,9 @@ module API
 
       def bills
         data = []
-        data.push API::Entities::CCR::AdaptedAdvocateFee.represent(advocate_fees)
+        data.push API::Entities::CCR::AdaptedBasicFee.represent(basic_fees)
+        # TODO: fixed fees
+        # data.push API::Entities::CCR::AdaptedFixedFee.represent(advocate_fees)
         data.push API::Entities::CCR::AdaptedMiscFee.represent(miscellaneous_fees)
         data.flatten.as_json
       end
@@ -56,12 +58,12 @@ module API
         ::CCR::AdvocateCategoryAdapter.code_for(object.advocate_category) if object.advocate_category.present?
       end
 
-      def advocate_fee_adapter
-        ::CCR::Fee::AdvocateFeeAdapter.new
+      def basic_fee_adapter
+        ::CCR::Fee::BasicFeeAdapter.new
       end
 
-      def advocate_fees
-        fee = advocate_fee_adapter.call(object)
+      def basic_fees
+        fee = basic_fee_adapter.call(object)
         [].tap do |arr|
           arr << fee if fee.claimed?
         end

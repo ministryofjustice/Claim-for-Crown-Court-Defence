@@ -173,16 +173,6 @@ describe API::V2::CCRClaim do
           it 'valid value included' do
             expect(response).to be_json_eql("AGFS_FEE".to_json).at_path "bills/0/bill_subtype"
           end
-
-          context 'mapping' do
-            before do
-              allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
-            end
-
-            it 'maps bill sub type based on the claims case type' do
-              expect(response).to be_json_eql("AGFS_APPEAL_CON".to_json).at_path "bills/0/bill_subtype"
-            end
-          end
         end
 
         context 'pages of prosecution evidence' do

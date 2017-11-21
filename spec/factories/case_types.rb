@@ -82,6 +82,7 @@ FactoryBot.define do
       fee_type_code 'FXCBR'
       requires_maat_reference false
       roles %w(agfs lgfs)
+      is_fixed_fee  true
     end
   end
 end

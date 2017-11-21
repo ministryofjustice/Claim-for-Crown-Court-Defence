@@ -97,7 +97,7 @@
             "id": "/properties/bills/items/properties/number_of_cases",
             "type": "string"
           },
-           "case_numbers": {
+          "case_numbers": {
             "id": "/properties/bills/items/properties/case_numbers",
             "type": ["string","null"]
           },

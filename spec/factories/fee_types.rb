@@ -96,6 +96,22 @@ FactoryBot.define do
       calculated true
       roles ['agfs']
 
+      trait :fxcbr do
+        description 'Breach of a crown court order'
+        code 'CBR'
+        unique_code 'FXCBR'
+        roles ['agfs','lgfs']
+        quantity_is_decimal false
+      end
+
+      trait :fxcbu do
+        description 'Breach of a crown court order uplift'
+        code 'CBU'
+        unique_code 'FXCBU'
+        roles ['agfs']
+        quantity_is_decimal false
+      end
+
       trait :fxnoc do
         description 'Number of cases uplift'
         code 'NOC'

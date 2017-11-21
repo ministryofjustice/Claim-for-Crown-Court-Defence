@@ -303,6 +303,101 @@ describe API::V2::CCRClaim do
         end
       end
 
+      context 'fixed fees' do
+        subject(:response) do
+          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+        end
+
+        let(:fxcbr) { create(:fixed_fee_type, :fxcbr) }
+        let(:fxcbu) { create(:fixed_fee_type, :fxcbu) }
+
+        before do
+          allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCBR'
+        end
+
+        context 'when relevant CCCD fees exist' do
+          before do
+            create(:fixed_fee, fee_type: fxcbr, claim: claim)
+          end
+
+          it 'added to bills' do
+            expect(response).to have_json_size(1).at_path("bills")
+          end
+        end
+
+        context 'when no relevant cccd fee exists' do
+          it 'not added to bills if it is not a fixed fee' do
+            expect(response).to have_json_size(0).at_path("bills")
+          end
+        end
+
+        context 'daily attendances' do
+          before do
+            create(:fixed_fee, fee_type: fxcbr, claim: claim, quantity: 3)
+            create(:fixed_fee, fee_type: fxcbr, claim: claim, quantity: 2)
+          end
+
+          it 'includes property' do
+            expect(response).to have_json_path("bills/0/daily_attendances")
+            expect(response).to have_json_type(String).at_path "bills/0/daily_attendances"
+          end
+
+          it 'calculated from sum of all applicable fixed fee quantities' do
+            expect(response).to be_json_eql("5".to_json).at_path "bills/0/daily_attendances"
+          end
+        end
+
+        context 'case uplift details' do
+          before do
+            create(:fixed_fee, fee_type: fxcbr, claim: claim, quantity: 1)
+            create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: ' S20170001 , S20170002 ')
+            create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: ' S20170003 , S20170001 ')
+          end
+
+          context 'number_of_cases' do
+            it 'includes property' do
+              expect(response).to have_json_path("bills/0/number_of_cases")
+              expect(response).to have_json_type(String).at_path "bills/0/number_of_cases"
+            end
+
+            it 'calculated from the count of UNIQUE additional case numbers for all uplift fees of the applicable variety' do
+              expect(response).to be_json_eql("4".to_json).at_path "bills/0/number_of_cases"
+            end
+          end
+
+          context 'case_numbers' do
+            it 'includes property' do
+              expect(response).to have_json_path("bills/0/case_numbers")
+              expect(response).to have_json_type(String).at_path "bills/0/case_numbers"
+            end
+
+            it 'consolidated list of UNIQUE additional case numbers for all uplift fees of the applicable variety' do
+              %w{S20170001 S20170002 S20170003}.each do |case_number|
+                expect(response).to include_json("#{case_number}".to_json).at_path "bills/0/case_numbers"
+              end
+            end
+          end
+        end
+
+        # FIXME: currently have to use actual defendant count but
+        # really this value should be specifiable by the claimant (new field?)
+        context 'number_of_defendants' do
+          before do
+            create(:defendant, claim: claim)
+            create(:fixed_fee, fee_type: fxcbr, claim: claim, quantity: 1)
+          end
+
+          it 'includes property' do
+            expect(response).to have_json_path("bills/0/number_of_defendants")
+            expect(response).to have_json_type(String).at_path "bills/0/number_of_defendants"
+          end
+
+          it 'calculated, FOR NOW, from count of defendants on claim' do
+            expect(response).to be_json_eql("2".to_json).at_path "bills/0/number_of_defendants"
+          end
+        end
+      end
+
       context 'miscellaneous fees' do
         subject(:response) do
           do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body

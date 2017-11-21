@@ -58,6 +58,7 @@ gem 'colorize'
 gem 'shell-spinner', '~> 1.0', '>= 1.0.4'
 gem 'ruby-progressbar'
 gem 'geckoboard-ruby'
+gem 'posix-spawn', '~> 0.3.13'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'

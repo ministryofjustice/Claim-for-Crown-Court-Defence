@@ -102,7 +102,8 @@ slack:
   bot_url: 'slack_bot_url'
   channel: '#channel_name'
   bot_name: 'bot_name'
-  icon: ':icon:'
+  success_icon: ':icon:'
+  fail_icon: ':icon:'
 
 govuk_notify:
   api_key: 'never-put-real-api-key-here-use-env-vars'

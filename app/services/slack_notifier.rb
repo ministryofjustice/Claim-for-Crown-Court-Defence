@@ -18,11 +18,11 @@ class SlackNotifier
     @response = response.stringify_keys
     @claim = Claim::BaseClaim.find_by(uuid: @response['uuid'])
     @payload.merge(
-      icon_emoji: ccr_injected? ? Settings.slack.success_icon : Settings.slack.fail_icon,
+      icon_emoji: message_icon,
       attachments: [
         {
           'fallback': "#{generate_message} {#{@response['uuid']}}",
-          'color': ccr_injected? ? '#36a64f' : '#c41f1f',
+          'color': message_colour,
           'title': "Injection #{ccr_injected? ? 'succeeded' : 'failed'}",
           'text': @response['uuid'],
           'fields': fields
@@ -46,6 +46,14 @@ class SlackNotifier
 
   def error_message
     @response['errors'].join(' ')
+  end
+
+  def message_colour
+    ccr_injected? ? '#36a64f' : '#c41f1f'
+  end
+
+  def message_icon
+    ccr_injected? ? Settings.slack.success_icon : Settings.slack.fail_icon
   end
 
   def fields

@@ -95,7 +95,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
       end
 
       it 'logs a successful message on the queue' do
-        allow(Settings.aws).to receive(:queue).and_return('valid_queue_name')
+        allow(Settings.aws).to receive(:submitted_queue).and_return('valid_queue_name')
         expect(Rails.logger).to receive(:info).with(/Successfully sent message about submission of claim#/)
         post :create, valid_certification_params(claim, certification_type)
       end

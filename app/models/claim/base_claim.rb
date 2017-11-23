@@ -134,6 +134,7 @@ module Claim
     has_many :determinations, foreign_key: :claim_id, dependent: :destroy
     has_one  :assessment, foreign_key: :claim_id
     has_many :redeterminations, foreign_key: :claim_id
+    has_many :injection_attempts, foreign_key: :claim_id
 
     has_one  :certification, foreign_key: :claim_id, dependent: :destroy
 

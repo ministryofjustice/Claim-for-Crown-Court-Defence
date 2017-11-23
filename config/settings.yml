@@ -95,7 +95,15 @@ laa_contact_email: crowncourtdefence@legalaid.gsi.gov.uk
 aws:
   access: <%= ENV['AWS_ACCESS_KEY'] %>
   secret: <%= ENV['SECRET_ACCESS_KEY'] %>
-  queue: <%= ENV['AWS_QUEUE_NAME'] %>
+  submitted_queue: <%= ENV['AWS_QUEUE_NAME'] %>
+  response_queue: <%= ENV['AWS_RESPONSE_QUEUE_NAME'] %>
+
+slack:
+  bot_url: 'slack_bot_url'
+  channel: '#channel_name'
+  bot_name: 'bot_name'
+  success_icon: ':icon:'
+  fail_icon: ':icon:'
 
 govuk_notify:
   api_key: 'never-put-real-api-key-here-use-env-vars'

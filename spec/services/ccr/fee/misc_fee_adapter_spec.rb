@@ -17,10 +17,11 @@ module CCR
       it_behaves_like 'a fee adapter'
 
       MAPPINGS = {
+        BACAV:  %w[AGFS_MISC_FEES AGFS_CONFERENCE], # Conferences and views (basic fee)
         BAPCM:  %w[AGFS_MISC_FEES AGFS_PLEA], # Plea & Case management hearing
         BASAF:  %w[AGFS_MISC_FEES AGFS_STD_APPRNC], # Standard appearance fee (basic fee) - *** CCR/Regulations apply same fee to any SAF***
         FXSAF:  %w[AGFS_MISC_FEES AGFS_STD_APPRNC], # Standard Appearance fee (fixed fee) - *** CCR/Regulations apply same fee to any SAF***
-        BACAV:  %w[AGFS_MISC_FEES AGFS_CONFERENCE], # Conferences and views (basic fee)
+        FXCON:  %w[AGFS_MISC_FEES AGFS_CONTEMPT], # Contempt (fixed fee)
         MIAHU:  %w[AGFS_MISC_FEES TBC], # Abuse of process hearings (half day uplift)
         MIAPH:  %w[AGFS_MISC_FEES AGFS_ABS_PRC_HF], # Abuse of process hearings (half day)
         MIAWU:  %w[AGFS_MISC_FEES TBC], # Abuse of process hearings (whole day uplift)

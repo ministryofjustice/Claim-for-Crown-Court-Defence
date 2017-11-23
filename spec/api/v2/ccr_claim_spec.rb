@@ -318,6 +318,7 @@ describe API::V2::CCRClaim do
 
         let(:fxcbr) { create(:fixed_fee_type, :fxcbr) }
         let(:fxcbu) { create(:fixed_fee_type, :fxcbu) }
+        let(:fxndr) { create(:fixed_fee_type, :fxndr) }
 
         before do
           allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCBR'
@@ -389,15 +390,13 @@ describe API::V2::CCRClaim do
           end
         end
 
-        # FIXME: currently have to use actual defendant count but
-        # really this value should be specifiable by the claimant (new field?)
         context 'number_of_defendants' do
-          before do
-            create(:defendant, claim: claim)
+          before do |example|
             create(:fixed_fee, fee_type: fxcbr, claim: claim, quantity: 1)
+            create(:fixed_fee, fee_type: fxndr, claim: claim, quantity: 2) unless example.metadata[:skip_uplifts]
           end
 
-          it 'includes property' do
+          it 'includes property', :skip_uplifts do
             expect(response).to have_json_path("bills/0/number_of_defendants")
             expect(response).to have_json_type(String).at_path "bills/0/number_of_defendants"
           end

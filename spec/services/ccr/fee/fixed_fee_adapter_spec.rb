@@ -66,7 +66,7 @@ module CCR
         let(:fixed_fees) { [fixed_fee] }
 
         before do
-          allow(claim).to receive(:fixed_fees).and_return fixed_fees
+          expect(claim).to receive(:fees).and_return fixed_fees
         end
 
         it 'returns true when the fixed fee has a positive value' do

@@ -9,23 +9,23 @@
 #  4. "Breach of crown court order"- AGFS_FEE AGFS_ORDER_BRCH --> a fixed fee in CCCD
 #  5. "Commital for sentence"- AGFS_FEE AGFS_FEE AGFS_COMMITTAL --> a fixed fee in CCCD
 #
-# A. The "Advocate Fee, advocate fee" is the CCR equivalent of most but not
+# The "Advocate Fee, advocate fee" is the CCR equivalent of most but not
 #  all the BasicFeeType fees in CCCD. It is of type
 #  AGFS_FEE and subtype AGFS_FEE in CCR.
+#
+#  NOTE: see fixed fee adapter for more on the "Advocate Fee, advocate fee" mappings
+#        relating to fixed fees.
 #
 #   * This fee can be derived from CCCD fees of the following types:
 #     BABAF BADAF BADAH BADAJ BANOC BANDR BANPW BAPPE
 #
+# TODO: map defendants based on BANDR fee
 #  * In addition the BANDR (defendant uplifts) is
-#    being mappd based on the actual number of defendants
+#    being mapped based on the actual number of defendants
 #    at time of writing (and ignoring the quantity of this fee??!)
 #
 #  * The BASAF, BAPCM and BACAV fees are handled
 #    as miscellaneous fees in CCR (i.e. AGFS_MISC_FEES).
-#
-# INJECTION: eventually the bill type and sub type (for advocate fee)
-# should be derivable by CCR from the bill scenario alone, since this
-# maps the case type in any event.
 #
 module CCR
   module Fee
@@ -62,7 +62,7 @@ module CCR
       end
 
       def fees
-        object.basic_fees.select do |f|
+        object.fees.select do |f|
           fee_types.include?(f.fee_type.unique_code)
         end
       end

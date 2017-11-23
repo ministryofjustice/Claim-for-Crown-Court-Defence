@@ -8,13 +8,16 @@ describe API::Entities::CCR::AdaptedFixedFee do
   let(:fxcbr) { create(:fixed_fee_type, :fxcbr) }
   let(:fxcbu) { create(:fixed_fee_type, :fxcbu) }
   let(:fxndr) { create(:fixed_fee_type, :fxndr) }
+  let(:fxnoc) { create(:fixed_fee_type, :fxnoc) }
   let(:case_type) { instance_double('case_type', fee_type_code: 'FXCBR', requires_maat_reference?: false )}
   let(:adapted_fixed_fees) { ::CCR::Fee::FixedFeeAdapter.new.call(claim) }
 
-  before do
+  before do |example|
     allow(claim).to receive(:case_type).and_return case_type
     create(:fixed_fee, fee_type: fxcbr, claim: claim, quantity: 13)
-    create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: 'T20170001,T20170002')
+    unless example.metadata[:skip_uplifts]
+      create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: 'T20170001,T20170002')
+    end
   end
 
   it 'exposes expected json key-value pairs' do
@@ -32,26 +35,45 @@ describe API::Entities::CCR::AdaptedFixedFee do
     expect(response.keys).not_to include(:quantity, :rate, :amount)
   end
 
-  context 'case numbers' do
+  context '#case_numbers (and #number_of_cases)' do
     subject { response[:case_numbers].split(',') }
+    let(:number_of_cases) { response[:number_of_cases] }
 
-    it 'includes additional case numbers for all uplift versions of the fixed fee type' do
-      create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: 'T20170003,T20170004')
-      is_expected.to match_array %w(T20170001 T20170002 T20170003 T20170004)
+    context 'when no case uplifts exist', :skip_uplifts do
+      it 'returns 1 for number_of_cases' do
+        is_expected.to be_blank
+        expect(number_of_cases).to eql '1'
+      end
     end
 
-    it 'strips whitespace' do
-      create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: ' T20170003, T20170004 ')
-      is_expected.to match_array %w(T20170001 T20170002 T20170003 T20170004)
-    end
+    context 'when one or more case uplifts exist' do
+      it 'includes additional case numbers for all uplift versions of the fixed fee type' do
+        create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: 'T20170003,T20170004')
+        is_expected.to match_array %w(T20170001 T20170002 T20170003 T20170004)
+        expect(number_of_cases).to eq '5'
+      end
 
-    it 'removes repetitions' do
-      create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: 'T20170001,T20170002 ')
-      is_expected.to contain_exactly('T20170001','T20170002')
+      it 'includes additional case numbers for Number of cases uplift fixed fees' do
+        create(:fixed_fee, fee_type: fxnoc, claim: claim, quantity: 2, case_numbers: 'T20170005,T20170006')
+        is_expected.to match_array %w(T20170001 T20170002 T20170005 T20170006)
+        expect(number_of_cases).to eq '5'
+      end
+
+      it 'strips whitespace' do
+        create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: ' T20170003, T20170004 ')
+        is_expected.to match_array %w(T20170001 T20170002 T20170003 T20170004)
+        expect(number_of_cases).to eq '5'
+      end
+
+      it 'excludes repeated additional case numbers' do
+        create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: 'T20170001,T20170003')
+        is_expected.to contain_exactly('T20170001','T20170002','T20170003')
+        expect(number_of_cases).to eq '4'
+      end
     end
   end
 
-  context 'daily_attendances' do
+  context '#daily_attendances' do
     subject { response[:daily_attendances] }
 
     context 'when one fixed fee matching the case type exists' do
@@ -68,7 +90,7 @@ describe API::Entities::CCR::AdaptedFixedFee do
     end
   end
 
-  context 'number_of_defendants' do
+  context '#number_of_defendants' do
     subject { response[:number_of_defendants] }
 
     context 'when "Number of defendant uplifts" NOT claimed' do

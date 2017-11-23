@@ -2,9 +2,10 @@ module CCR
   module Fee
     class MiscFeeAdapter < BaseFeeAdapter
       MISC_FEE_BILL_MAPPINGS = {
-        BAPCM: zip(%w[AGFS_MISC_FEES AGFS_PLEA]), # Plea & Case management hearing
+        BAPCM: zip(%w[AGFS_MISC_FEES AGFS_PLEA]), # Plea & Case management hearing (basic fee)
         BASAF: zip(%w[AGFS_MISC_FEES AGFS_STD_APPRNC]), # Standard appearance fee (basic fee)
         BACAV: zip(%w[AGFS_MISC_FEES AGFS_CONFERENCE]), # Conferences and views (basic fee)
+        FXCON: zip(%w[AGFS_MISC_FEES AGFS_CONTEMPT]), # Contempt (fixed fee)
         FXSAF: zip(%w[AGFS_MISC_FEES AGFS_STD_APPRNC]), # Standard Appearance fee (fixed fee)
         MIAHU: zip(%w[AGFS_MISC_FEES TBC]), # Abuse of process hearings (half day uplift)
         MIAPH: zip(%w[AGFS_MISC_FEES AGFS_ABS_PRC_HF]), # Abuse of process hearings (half day)
@@ -58,7 +59,7 @@ module CCR
         MIUAV4: zip(%w[AGFS_MISC_FEES TBC]), # Unsuccessful application to vacate a guilty plea (whole day uplift)
         MIUAV2: zip(%w[AGFS_MISC_FEES AGFS_UN_VAC_WL]), # Unsuccessful application to vacate a guilty plea (whole day)
         MIWPF: zip(%w[AGFS_MISC_FEES AGFS_WSTD_PREP]), # Wasted preparation fee
-        MIWOA: zip(%w[AGFS_MISC_FEES AGFS_WRTN_ORAL]), # Written / oral advice
+        MIWOA: zip(%w[AGFS_MISC_FEES AGFS_WRTN_ORAL]) # Written / oral advice
       }.freeze
 
       def claimed?

@@ -1,31 +1,38 @@
 # CCR bill types are logically similar to CCCD fee types,
-# however the "advocate fee" is a combination
-# of some of the basic fee types' values.
+# however the "advocate fee" maps to both
+# CCCD basic fees and CCCD fixed fees, based on its subtype
+# AND/OR bill scenario.
+#
 
 # The "Advocate Fee" has five sub types in CCR
-#  1. The "advocate fee" (yes, same name) - AGFS_FEE, AGFS_FEE --> various basic fees in CCCD
+#  1. The "advocate fee" (yes, same name) - AGFS_FEE, AGFS_FEE
+#      --> either various basic fees in CCCD or various fixed fees for "Elected case not proceeded"
 #  2. "Appeal against conviciton" - AGFS_FEE AGFS_APPEAL_CON --> a fixed fee in CCCD
 #  3. "Appeal against sentence"- AGFS_FEE AGFS_APPEAL_SEN --> a fixed fee in CCCD
 #  4. "Breach of crown court order"- AGFS_FEE AGFS_ORDER_BRCH --> a fixed fee in CCCD
 #  5. "Commital for sentence"- AGFS_FEE AGFS_FEE AGFS_COMMITTAL --> a fixed fee in CCCD
 #
-# A. The "Advocate Fee, advocate fee" is the CCR equivalent of most but not
-#  all the BasicFeeType fees in CCCD. It is of type
-#  AGFS_FEE and subtype AGFS_FEE in CCR.
+# A. For CCCD fixed fees the "Advocate Fee, advocate fee" is the CCR equivalent of, at least,
+#     the "Elected case not proceeded" fees. It is of type AGFS_FEE and subtype AGFS_FEE in CCR.
 #
-#   * This fee can be derived from CCCD fees of the following types:
-#     BABAF BADAF BADAH BADAJ BANOC BANDR BANPW BAPPE
+#  NOTE: see basic fee adapter for more on the "Advocate Fee, advocate fee" mappings
+#        relating to basic fees.
 #
-#  * In addition the BANDR (defendant uplifts) is
-#    being mappd based on the actual number of defendants
-#    at time of writing (and ignoring the quantity of this fee??!)
+# B. For other CCCD fixed fees the bill sub type is based on the case_type/bill_scenario
 #
-#  * The BASAF, BAPCM and BACAV fees are handled
-#    as miscellaneous fees in CCR (i.e. AGFS_MISC_FEES).
+#   * The fee's attributes can be derived from CCCD fees equivalent to the
+#     case_type/bill_scenario plus uplift versions and generix fixed
+#     case/defendant uplift fees. see adapted fixed fee entity for specifics.
+#     e.g.  FXACV FXASE FXCBR FXCSE FXENP
+#             plus their uplifts...
+#           FXACU FXASU FXCBU FXCSU FXENU
+#             plus general fixed case uplifts...
+#           FXNOC
+#             plus general fixed defendant uplifts...
+#           FXNDR
 #
-# INJECTION: eventually the bill type and sub type (for advocate fee)
-# should be derivable by CCR from the bill scenario alone, since this
-# maps the case type in any event.
+# C. Yet other CCCD fixed fees actually map to miscellaneous fees in CCR
+#     i.e. FXCON, FXSAF (contempt and standard appearance fee respectively)
 #
 module CCR
   module Fee
@@ -40,7 +47,7 @@ module CCR
         FXCBR: zip(%w[AGFS_FEE AGFS_ORDER_BRCH]), # Breach of Crown Court order
         FXCSE: zip(%w[AGFS_FEE AGFS_COMMITTAL]), # Committal for Sentence
         FXENP: zip(%w[AGFS_FEE AGFS_FEE]), # Elected cases not proceeded
-        FXH2S: zip([nil, nil]), # Hearing subsequent to sentence - LGFS only
+        FXH2S: zip([nil, nil]), # TODO: Hearing subsequent to sentence - LGFS only
       }.freeze
 
       def claimed?
@@ -57,8 +64,18 @@ module CCR
         object.case_type.fee_type_code.to_sym
       end
 
+      def fee_types
+        bill_mappings.keys.map(&:to_s)
+      end
+
+      def fees
+        object.fees.select do |f|
+          fee_types.include?(f.fee_type.unique_code)
+        end
+      end
+
       def charges?
-        object.fixed_fees.any? do |f|
+        fees.any? do |f|
           f.amount.positive? || f.quantity.positive? || f.rate.positive?
         end
       end

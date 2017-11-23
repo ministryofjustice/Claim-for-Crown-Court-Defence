@@ -68,7 +68,7 @@ module CCR
         let(:basic_fees) { [basic_fee] }
 
         before do
-          expect(claim).to receive(:basic_fees).and_return basic_fees
+          expect(claim).to receive(:fees).and_return basic_fees
         end
 
         it 'returns true when the basic fee has a positive value' do

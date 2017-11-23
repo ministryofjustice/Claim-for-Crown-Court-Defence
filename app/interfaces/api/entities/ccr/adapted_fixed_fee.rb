@@ -33,7 +33,7 @@ module API
         }.with_indifferent_access.freeze
 
         def fees_for(fee_type_unique_code)
-          claim.fees.where(fee_type_id: ::Fee::BaseFeeType.find_by_id_or_unique_code(fee_type_unique_code))
+          claim.fees.where(fee_type_id: ::Fee::BaseFeeType.where(unique_code: fee_type_unique_code))
         end
 
         # CCR requires total number of cases (claim's + additional's for the fee)
@@ -79,7 +79,7 @@ module API
         end
 
         def matching_case_uplift_fees
-          fees_for(case_uplift_fee_code)
+          fees_for([case_uplift_fee_code, 'FXNOC'])
         end
       end
     end

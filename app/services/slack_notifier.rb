@@ -17,19 +17,16 @@ class SlackNotifier
   def build_injection_payload(response)
     @response = response.stringify_keys
     @claim = Claim::BaseClaim.find_by(uuid: @response['uuid'])
-    specific_payload = {
-      icon_emoji: message_icon,
-      attachments: [
-        {
-          'fallback': "#{generate_message} {#{@response['uuid']}}",
-          'color': message_colour,
-          'title': "Injection #{ccr_injected? ? 'succeeded' : 'failed'}",
-          'text': @response['uuid'],
-          'fields': fields
-        }
-      ]
-    }
-    @payload.merge!(specific_payload)
+    @payload[:icon_emoji] = message_icon
+    @payload[:attachments] = [
+      {
+        'fallback': "#{generate_message} {#{@response['uuid']}}",
+        'color': message_colour,
+        'title': "Injection #{ccr_injected? ? 'succeeded' : 'failed'}",
+        'text': @response['uuid'],
+        'fields': fields
+      }
+    ]
     @ready_to_send = true
   rescue StandardError
     @ready_to_send = false

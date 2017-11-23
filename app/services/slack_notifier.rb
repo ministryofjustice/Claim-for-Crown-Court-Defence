@@ -17,7 +17,7 @@ class SlackNotifier
   def build_injection_payload(response)
     @response = response.stringify_keys
     @claim = Claim::BaseClaim.find_by(uuid: @response['uuid'])
-    @payload.merge(
+    specific_payload = {
       icon_emoji: message_icon,
       attachments: [
         {
@@ -28,7 +28,8 @@ class SlackNotifier
           'fields': fields
         }
       ]
-    )
+    }
+    @payload.merge!(specific_payload)
     @ready_to_send = true
   rescue StandardError
     @ready_to_send = false

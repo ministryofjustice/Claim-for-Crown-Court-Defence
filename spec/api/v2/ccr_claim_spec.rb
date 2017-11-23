@@ -5,12 +5,12 @@ require 'api_spec_helper'
 RSpec::Matchers.define :be_valid_ccr_claim_json do
   match do |response|
     schema_path = ClaimJsonSchemaValidator::CCR_SCHEMA_FILE
-    @errors = JSON::Validator.fully_validate(schema_path, response.body)
+    @errors = JSON::Validator.fully_validate(schema_path, response.respond_to?(:body) ? response.body : response)
     @errors.empty?
   end
 
   description do
-    "JSON is valid against the CCR claim JSON schema"
+    "be valid against the CCR claim JSON schema"
   end
 
   failure_message do |response|
@@ -23,6 +23,10 @@ end
 describe API::V2::CCRClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
+
+  def is_valid_ccr_json(response)
+    expect(response).to be_valid_ccr_claim_json
+  end
 
   after(:all) { clean_database }
 
@@ -71,9 +75,11 @@ describe API::V2::CCRClaim do
     context 'JSON response' do
       subject(:response) { do_request }
 
-      it 'valid against CCR claim JSON schema' do
-        expect(response).to be_valid_ccr_claim_json
-      end
+      it { is_valid_ccr_json(response) }
+      # include_examples('returns valid CCR JSON', do_request)
+      # it 'valid against CCR claim JSON schema' do
+      #   expect(response).to be_valid_ccr_claim_json
+      # end
     end
 
     context 'defendants' do
@@ -123,6 +129,8 @@ describe API::V2::CCRClaim do
       end
 
       context 'advocate fee' do
+        it { is_valid_ccr_json(response) }
+
         it 'not added to bills array when no basic fees are being claimed' do
           allow_any_instance_of(Fee::BasicFee).to receive_messages(rate: 0, quantity: 0, amount: 0)
           expect(response).to have_json_size(0).at_path("bills")
@@ -320,6 +328,8 @@ describe API::V2::CCRClaim do
             create(:fixed_fee, fee_type: fxcbr, claim: claim)
           end
 
+          it { is_valid_ccr_json(response) }
+
           it 'added to bills' do
             expect(response).to have_json_size(1).at_path("bills")
           end
@@ -409,6 +419,8 @@ describe API::V2::CCRClaim do
         end
 
         context 'when relevant CCCD fees exist' do
+          it { is_valid_ccr_json(response) }
+
           it 'added to bills' do
             expect(response).to have_json_size(1).at_path("bills")
           end

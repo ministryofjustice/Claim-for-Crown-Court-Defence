@@ -105,6 +105,10 @@
             "id": "/properties/bills/items/properties/number_of_witnesses",
             "type": "string"
           },
+          "number_of_defendants": {
+            "id": "/properties/bills/items/properties/number_of_defendants",
+            "type": "string"
+          },
           "daily_attendances": {
             "id": "/properties/bills/items/properties/daily_attendances",
             "type": "string"

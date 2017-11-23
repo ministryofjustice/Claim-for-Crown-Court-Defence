@@ -32,7 +32,7 @@ module CCR
           GRDIS: nil, # Discontinuance # TODO: handle discontinuance advocate fee sub types
           GRGLT: 'AGFS_FEE', # Guilty plea
           GRRTR: 'AGFS_FEE', # Retrial
-          GRTRL: 'AGFS_FEE', # Trial
+          GRTRL: 'AGFS_FEE' # Trial
         }.freeze
 
         context 'mappings' do
@@ -54,6 +54,7 @@ module CCR
         subject { described_class.new.call(claim).claimed? }
 
         let(:basic_fee_type) { instance_double('basic_fee_type', unique_code: 'BABAF') }
+
         let(:basic_fee) do
           instance_double(
             'basic_fee',
@@ -63,10 +64,11 @@ module CCR
             amount: 0,
             )
         end
+
         let(:basic_fees) { [basic_fee] }
 
         before do
-          allow(claim).to receive(:basic_fees).and_return basic_fees
+          expect(claim).to receive(:basic_fees).and_return basic_fees
         end
 
         it 'returns true when the basic fee has a positive value' do

@@ -31,7 +31,7 @@ module CCR
           FXASE: 'AGFS_APPEAL_SEN', # Appeal against sentence
           FXCBR: 'AGFS_ORDER_BRCH', # Breach of Crown Court order
           FXCSE: 'AGFS_COMMITTAL', # Committal for Sentence
-          FXENP: nil, # Elected cases not proceeded
+          FXENP: 'AGFS_FEE', # Elected cases not proceeded
           FXH2S: nil, # Hearing subsequent to sentence??? LGFS only
         }.freeze
 

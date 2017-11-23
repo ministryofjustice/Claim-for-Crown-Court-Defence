@@ -16,7 +16,7 @@ module API
         with_options(format_with: :string) do
           # derived/transformed data exposures
           expose :daily_attendances
-          expose :number_of_defendants
+          expose :number_of_defendants_or_one, as: :number_of_defendants
           expose :number_of_cases
         end
 
@@ -24,15 +24,16 @@ module API
 
         private
 
-        UPLIFT_MAPPINGS = {
+        CASE_UPLIFT_MAPPINGS = {
           FXACV: 'FXACU',
           FXASE: 'FXASU',
           FXCBR: 'FXCBU',
-          FXCSE: 'FXCSU'
+          FXCSE: 'FXCSU',
+          FXENP: 'FXENU'
         }.with_indifferent_access.freeze
 
         def fees_for(fee_type_unique_code)
-          object.fees.where(fee_type_id: ::Fee::BaseFeeType.find_by_id_or_unique_code(fee_type_unique_code))
+          claim.fees.where(fee_type_id: ::Fee::BaseFeeType.find_by_id_or_unique_code(fee_type_unique_code))
         end
 
         # CCR requires total number of cases (claim's + additional's for the fee)
@@ -49,15 +50,12 @@ module API
           @case_numbers = @case_numbers.map(&:strip).uniq.join(',')
         end
 
-        # determine daily attendances from what? quantity of "main" fixed fee? check
         def daily_attendances
           matching_fixed_fees.map(&:quantity).inject(:+).to_i
         end
 
-        # FIXME: currently have to use actual defendant count but
-        # really this value should be specifiable by the claimant (new field?)
-        def number_of_defendants
-          claim.defendants.count
+        def number_of_defendants_or_one
+          [defendant_uplift_fees.map(&:quantity).inject(:+).to_i, 1].max
         end
 
         def claim
@@ -68,16 +66,20 @@ module API
           claim.case_type.fee_type_code
         end
 
-        def uplift_fee_code
-          UPLIFT_MAPPINGS[fee_code]
+        def case_uplift_fee_code
+          CASE_UPLIFT_MAPPINGS[fee_code]
+        end
+
+        def defendant_uplift_fees
+          fees_for('FXNDR')
         end
 
         def matching_fixed_fees
-          claim.fixed_fees.where(fee_type_id: ::Fee::BaseFeeType.find_by_id_or_unique_code(fee_code))
+          fees_for(fee_code)
         end
 
         def matching_case_uplift_fees
-          claim.fixed_fees.where(fee_type_id: ::Fee::BaseFeeType.find_by_id_or_unique_code(uplift_fee_code))
+          fees_for(case_uplift_fee_code)
         end
       end
     end

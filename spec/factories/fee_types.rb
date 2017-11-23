@@ -118,6 +118,13 @@ FactoryBot.define do
         unique_code 'FXNOC'
         quantity_is_decimal false
       end
+
+      trait :fxndr do
+        description 'Number of defendants uplift'
+        code 'NDR'
+        unique_code 'FXNDR'
+        quantity_is_decimal false
+      end
     end
 
     factory :graduated_fee_type, class: Fee::GraduatedFeeType do

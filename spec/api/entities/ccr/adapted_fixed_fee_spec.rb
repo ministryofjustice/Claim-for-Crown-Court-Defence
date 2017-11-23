@@ -7,6 +7,7 @@ describe API::Entities::CCR::AdaptedFixedFee do
   let(:claim) { create(:authorised_claim, case_number: 'T20160001') }
   let(:fxcbr) { create(:fixed_fee_type, :fxcbr) }
   let(:fxcbu) { create(:fixed_fee_type, :fxcbu) }
+  let(:fxndr) { create(:fixed_fee_type, :fxndr) }
   let(:case_type) { instance_double('case_type', fee_type_code: 'FXCBR', requires_maat_reference?: false )}
   let(:adapted_fixed_fees) { ::CCR::Fee::FixedFeeAdapter.new.call(claim) }
 
@@ -70,11 +71,20 @@ describe API::Entities::CCR::AdaptedFixedFee do
   context 'number_of_defendants' do
     subject { response[:number_of_defendants] }
 
-    # TODO: this exposure should be a user specifiable field as we should not
-    # be providing defendant uplifts that have not been explicitly requested.
-    it 'returns total number of defendants on claim - see TODO:' do
-      create(:defendant, claim: claim)
-      is_expected.to eql '2'
+    context 'when "Number of defendant uplifts" NOT claimed' do
+      it 'returns 1' do
+        is_expected.to eq "1"
+      end
+    end
+
+    context 'when "Number of defendant uplifts" claimed' do
+      before do
+        create_list(:fixed_fee, 2, fee_type: fxndr, claim: claim, quantity: 2)
+      end
+
+      it 'returns sum of all Number of defendants uplift quanitities' do
+        is_expected.to eq "4"
+      end
     end
   end
 end

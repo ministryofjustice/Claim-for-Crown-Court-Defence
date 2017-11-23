@@ -39,7 +39,7 @@ module CCR
         FXASE: zip(%w[AGFS_FEE AGFS_APPEAL_SEN]), # Appeal against sentence
         FXCBR: zip(%w[AGFS_FEE AGFS_ORDER_BRCH]), # Breach of Crown Court order
         FXCSE: zip(%w[AGFS_FEE AGFS_COMMITTAL]), # Committal for Sentence
-        FXENP: zip([nil, nil]), # Elected cases not proceeded - this is a bill scenario in CCR
+        FXENP: zip(%w[AGFS_FEE AGFS_FEE]), # Elected cases not proceeded
         FXH2S: zip([nil, nil]), # Hearing subsequent to sentence - LGFS only
       }.freeze
 

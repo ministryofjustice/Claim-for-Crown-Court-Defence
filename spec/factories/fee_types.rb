@@ -125,6 +125,13 @@ FactoryBot.define do
         unique_code 'FXNDR'
         quantity_is_decimal false
       end
+
+      trait :fxacv do
+        description 'Appeals to the crown court against conviction'
+        code 'ACV'
+        unique_code 'FXACV'
+        quantity_is_decimal false
+      end
     end
 
     factory :graduated_fee_type, class: Fee::GraduatedFeeType do

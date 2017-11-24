@@ -37,7 +37,7 @@ module CCR
       BASIC_FEE_BILL_MAPPINGS = {
         GRRAK: zip(%w[AGFS_FEE AGFS_FEE]), # Cracked Trial - LGFS only
         GRCBR: zip(%w[AGFS_FEE AGFS_FEE]), # Cracked before retrial - LGFS only
-        GRDIS: zip([nil, nil]), # Discontinuance
+        GRDIS: zip([nil, nil]), # TODO: Discontinuance
         GRGLT: zip(%w[AGFS_FEE AGFS_FEE]), # Guilty plea
         GRRTR: zip(%w[AGFS_FEE AGFS_FEE]), # Retrial
         GRTRL: zip(%w[AGFS_FEE AGFS_FEE]) # Trial

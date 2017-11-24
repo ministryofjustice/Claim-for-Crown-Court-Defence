@@ -68,16 +68,11 @@ module CCR
         bill_mappings.keys.map(&:to_s)
       end
 
-      def fees
-        object.fees.select do |f|
-          fee_types.include?(f.fee_type.unique_code)
-        end
-      end
-
+      # if the claim maps as a fixed fee (based on case type) then we can assume
+      # they are claiming the matching fixed fee, regardless.
+      # NOTE: this logic is to be applied in the app too eventually
       def charges?
-        fees.any? do |f|
-          f.amount.positive? || f.quantity.positive? || f.rate.positive?
-        end
+        true
       end
     end
   end

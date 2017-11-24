@@ -76,10 +76,6 @@ describe API::V2::CCRClaim do
       subject(:response) { do_request }
 
       it { is_valid_ccr_json(response) }
-      # include_examples('returns valid CCR JSON', do_request)
-      # it 'valid against CCR claim JSON schema' do
-      #   expect(response).to be_valid_ccr_claim_json
-      # end
     end
 
     context 'defendants' do
@@ -319,12 +315,13 @@ describe API::V2::CCRClaim do
         let(:fxcbr) { create(:fixed_fee_type, :fxcbr) }
         let(:fxcbu) { create(:fixed_fee_type, :fxcbu) }
         let(:fxndr) { create(:fixed_fee_type, :fxndr) }
+        let(:fxacv) { create(:fixed_fee_type, :fxacv) }
 
         before do
           allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCBR'
         end
 
-        context 'when relevant CCCD fees exist' do
+        context 'when applicable fixed fee claimed' do
           before do
             create(:fixed_fee, fee_type: fxcbr, claim: claim)
           end
@@ -336,9 +333,24 @@ describe API::V2::CCRClaim do
           end
         end
 
-        context 'when no relevant cccd fee exists' do
-          it 'not added to bills if it is not a fixed fee' do
-            expect(response).to have_json_size(0).at_path("bills")
+        context 'when no applicable fixed fee claimed' do
+          before do
+            create(:fixed_fee, fee_type: fxacv, claim: claim, quantity: 13)
+          end
+
+          it 'fee does not impact the bill' do
+            expect(response).to have_json_size(1).at_path("bills")
+            expect(response).to_not be_json_eql("13".to_json).at_path "bills/0/daily_attendances"
+          end
+        end
+
+        context 'when no fixed fee exists' do
+          it 'fixed fee matching the case type, with defaults, is added to bills' do
+            expect(response).to have_json_size(1).at_path("bills")
+            expect(response).to be_json_eql("AGFS_ORDER_BRCH".to_json).at_path "bills/0/bill_subtype"
+            expect(response).to be_json_eql("1".to_json).at_path "bills/0/daily_attendances"
+            expect(response).to be_json_eql("1".to_json).at_path "bills/0/number_of_cases"
+            expect(response).to be_json_eql("1".to_json).at_path "bills/0/number_of_defendants"
           end
         end
 

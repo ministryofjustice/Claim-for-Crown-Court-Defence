@@ -53,30 +53,18 @@ module CCR
       describe '#claimed?' do
         subject { described_class.new.call(claim).claimed? }
 
-        let(:fixed_fee_type) { instance_double('fixed_fee_type', unique_code: 'FXASE') }
-        let(:fixed_fee) do
-          instance_double(
-            'fixed_fee',
-            fee_type: fixed_fee_type,
-            quantity: 0,
-            rate: 0,
-            amount: 0,
-            )
-        end
-        let(:fixed_fees) { [fixed_fee] }
-
-        before do
-          expect(claim).to receive(:fees).and_return fixed_fees
+        context 'when claim is of a fixed fee variety' do
+          it 'returns true' do
+            is_expected.to eql true
+          end
         end
 
-        it 'returns true when the fixed fee has a positive value' do
-          allow(fixed_fee).to receive_messages(quantity: 1)
-          is_expected.to be true
-        end
+        context 'when claim is not of a fixed fee variety' do
+          let(:case_type) { instance_double('case_type', fee_type_code: 'GRTRL') }
 
-        it 'returns false when the basic fee has 0 value'do
-          allow(fixed_fee).to receive_messages(quantity: 0)
-          is_expected.to be false
+          it 'returns false' do
+            is_expected.to eql false
+          end
         end
       end
     end

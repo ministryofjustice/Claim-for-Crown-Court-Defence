@@ -1,4 +1,4 @@
-moj.Modules.AddEditAdvocate = {
+moj.Modules.EvidenceChecklist = {
   el: '.fx-lac-1',
   init : function () {
     $(this.el).is(function(idx, el){

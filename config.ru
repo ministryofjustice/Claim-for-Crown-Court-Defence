@@ -1,6 +1,5 @@
 # This file is used by Rack-based servers to start the application.
-
-if ENV["RAILS_ENV"] == 'production'
+if ENV["RAILS_ENV"].in?(['production','devunicorn'])
   # Unicorn self-process killer
   require 'unicorn/worker_killer'
 

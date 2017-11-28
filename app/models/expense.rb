@@ -24,11 +24,11 @@
 
 class Expense < ActiveRecord::Base
   CAR_MILEAGE_RATES = {
-    1 => Struct.new(:id, :mileage_type, :name, :description).new(1, :car, '25p', '25p per mile'),
-    2 => Struct.new(:id, :mileage_type, :name, :description).new(2, :car, '45p', '45p per mile')
+    1 => Struct.new(:id, :mileage_type, :name, :description, :rate).new(1, :car, '25p', '25p per mile', 0.25),
+    2 => Struct.new(:id, :mileage_type, :name, :description, :rate).new(2, :car, '45p', '45p per mile', 0.45)
   }.freeze
   BIKE_MILEAGE_RATES = {
-    3 => Struct.new(:id, :mileage_type, :name, :description).new(3, :bike, '20p', '20p per mile')
+    3 => Struct.new(:id, :mileage_type, :name, :description, :rate).new(3, :bike, '20p', '20p per mile', 0.20)
   }.freeze
   MILEAGE_RATES = CAR_MILEAGE_RATES.merge(BIKE_MILEAGE_RATES)
 

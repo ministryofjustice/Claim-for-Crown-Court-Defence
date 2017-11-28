@@ -62,12 +62,13 @@ gem 'posix-spawn', '~> 0.3.13'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'
-  gem 'unicorn-rails',  '2.2.0'
+  gem 'unicorn-rails', '2.2.0'
+  gem 'unicorn-worker-killer', '~> 0.4.4'
 end
 
 group :development, :devunicorn do
   gem 'meta_request'
-  gem 'rubocop',      '~>0.50'
+  gem 'rubocop', '~> 0.50'
 end
 
 group :development, :devunicorn, :test do

@@ -101,6 +101,14 @@
             "id": "/properties/bills/items/properties/case_numbers",
             "type": ["string","null"]
           },
+          "description": {
+            "id": "/properties/bills/items/properties/description",
+            "type": ["string", "null"]
+          },
+          "date_incurred": {
+            "id": "/properties/bills/items/properties/date_incurred",
+            "type": ["string", "null"]
+          },
           "number_of_witnesses": {
             "id": "/properties/bills/items/properties/number_of_witnesses",
             "type": "string"

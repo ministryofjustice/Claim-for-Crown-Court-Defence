@@ -100,7 +100,7 @@ describe API::Entities::CCR::AdaptedFixedFee do
       subject { response[:number_of_defendants] }
 
       context 'when "Number of defendant uplifts" NOT claimed' do
-        it 'returns 1' do
+        it 'returns 1 for the main defendant' do
           is_expected.to eq "1"
         end
       end
@@ -110,8 +110,8 @@ describe API::Entities::CCR::AdaptedFixedFee do
           create_list(:fixed_fee, 2, fee_type: fxndr, claim: claim, quantity: 2)
         end
 
-        it 'returns sum of all Number of defendants uplift quanitities' do
-          is_expected.to eq "4"
+        it 'returns sum of all Number of defendants uplift quantities plus one for the main defendant' do
+          is_expected.to eq "5"
         end
       end
     end

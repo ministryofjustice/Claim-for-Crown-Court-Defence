@@ -14,9 +14,9 @@ module API
     module CCR
       class AdaptedFixedFee < API::Entities::CCR::AdaptedBaseFee
         with_options(format_with: :string) do
-          expose :daily_attendances_or_one, as: :daily_attendances
-          expose :number_of_defendants_plus_one, as: :number_of_defendants
-          expose :number_of_cases_plus_one, as: :number_of_cases
+          expose :daily_attendances
+          expose :number_of_defendants
+          expose :number_of_cases
         end
 
         expose :case_numbers
@@ -36,7 +36,7 @@ module API
         end
 
         # CCR requires total number of cases (claim's + additional's for the fee)
-        def number_of_cases_plus_one
+        def number_of_cases
           case_numbers.split(',').size + 1
         end
 
@@ -49,11 +49,11 @@ module API
           @case_numbers = @case_numbers.map(&:strip).uniq.join(',')
         end
 
-        def daily_attendances_or_one
+        def daily_attendances
           [matching_fixed_fees.map(&:quantity).inject(:+).to_i, 1].max
         end
 
-        def number_of_defendants_plus_one
+        def number_of_defendants
           defendant_uplift_fees.map(&:quantity).inject(:+).to_i + 1
         end
 

@@ -40,7 +40,7 @@ module API
         end
 
         def number_of_defendants
-          fee_quantity_for('BANDR') +1
+          fee_quantity_for('BANDR') + 1
         end
 
         def case_numbers

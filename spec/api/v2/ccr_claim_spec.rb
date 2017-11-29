@@ -405,7 +405,7 @@ describe API::V2::CCRClaim do
         context 'number_of_defendants' do
           before do |example|
             create(:fixed_fee, fee_type: fxcbr, claim: claim, quantity: 1)
-            create(:fixed_fee, fee_type: fxndr, claim: claim, quantity: 2) unless example.metadata[:skip_uplifts]
+            create(:fixed_fee, fee_type: fxndr, claim: claim, quantity: 1) unless example.metadata[:skip_uplifts]
           end
 
           it 'includes property', :skip_uplifts do
@@ -413,7 +413,7 @@ describe API::V2::CCRClaim do
             expect(response).to have_json_type(String).at_path "bills/0/number_of_defendants"
           end
 
-          it 'calculated, FOR NOW, from count of defendants on claim' do
+          it 'calculated from sum of "number of defendants uplift" fee quanitities on claim plus one' do
             expect(response).to be_json_eql("2".to_json).at_path "bills/0/number_of_defendants"
           end
         end

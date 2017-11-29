@@ -15,7 +15,7 @@ module API
       class AdaptedFixedFee < API::Entities::CCR::AdaptedBaseFee
         with_options(format_with: :string) do
           expose :daily_attendances_or_one, as: :daily_attendances
-          expose :number_of_defendants_or_one, as: :number_of_defendants
+          expose :number_of_defendants_plus_one, as: :number_of_defendants
           expose :number_of_cases_plus_one, as: :number_of_cases
         end
 
@@ -49,14 +49,12 @@ module API
           @case_numbers = @case_numbers.map(&:strip).uniq.join(',')
         end
 
-        # Assume one is claimed regardless
-        # TODO: eventually app should add default matching fixed fee for the case type
         def daily_attendances_or_one
           [matching_fixed_fees.map(&:quantity).inject(:+).to_i, 1].max
         end
 
-        def number_of_defendants_or_one
-          [defendant_uplift_fees.map(&:quantity).inject(:+).to_i, 1].max
+        def number_of_defendants_plus_one
+          defendant_uplift_fees.map(&:quantity).inject(:+).to_i + 1
         end
 
         def claim

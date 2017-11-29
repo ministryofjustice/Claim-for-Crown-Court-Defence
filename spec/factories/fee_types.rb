@@ -29,17 +29,26 @@ FactoryBot.define do
       description 'Pages of prosecution evidence'
       code 'PPE'
       calculated false
+      unique_code 'BAPPE'
     end
 
     trait :npw do
       description 'Number of prosecution witnesses'
       code 'NPW'
       calculated false
+      unique_code 'BANPW'
     end
 
     trait :noc do
       description 'Number of cases uplift'
       code 'NOC'
+      unique_code 'BANOC'
+    end
+
+    trait :ndr do
+      description 'Number of cases uplift'
+      code 'NOC'
+      unique_code 'BANDR'
     end
 
     trait :lgfs do

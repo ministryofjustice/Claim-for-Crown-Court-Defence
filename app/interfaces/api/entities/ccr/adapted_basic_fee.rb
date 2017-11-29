@@ -7,6 +7,7 @@ module API
           expose :ppe
           expose :number_of_witnesses
           expose :number_of_cases
+          expose :number_of_defendants
           expose :daily_attendances
         end
 
@@ -38,27 +39,16 @@ module API
           fee_quantity_for('BANOC') + 1
         end
 
+        def number_of_defendants
+          fee_quantity_for('BANDR') +1
+        end
+
         def case_numbers
           fee_for('BANOC')&.case_numbers
         end
 
         def daily_attendances
           ::CCR::DailyAttendanceAdapter.attendances_for(object)
-        end
-
-        def calculated_fee
-          {
-            basicCaseFee: 0.0,
-            date: object.last_submitted_at&.strftime('%Y-%m-%d %H:%M:%S'),
-            defendantUplift: 0.0,
-            exVat: 0.0,
-            incVat: 0.0,
-            ppeUplift: 0.0,
-            trialLengthUplift: 0.0,
-            vat: 0.0,
-            vatIncluded: true,
-            vatRate: 20.0
-          }
         end
       end
     end

@@ -19,11 +19,6 @@
 #   * This fee can be derived from CCCD fees of the following types:
 #     BABAF BADAF BADAH BADAJ BANOC BANDR BANPW BAPPE
 #
-# TODO: map defendants based on BANDR fee
-#  * In addition the BANDR (defendant uplifts) is
-#    being mapped based on the actual number of defendants
-#    at time of writing (and ignoring the quantity of this fee??!)
-#
 #  * The BASAF, BAPCM and BACAV fees are handled
 #    as miscellaneous fees in CCR (i.e. AGFS_MISC_FEES).
 #

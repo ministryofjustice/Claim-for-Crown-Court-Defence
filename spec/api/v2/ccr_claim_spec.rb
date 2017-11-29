@@ -245,6 +245,35 @@ describe API::V2::CCRClaim do
           end
         end
 
+        context 'number_of_defendants' do
+          subject(:response) do
+            do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+          end
+
+          let(:bandr) { create(:basic_fee_type, :ndr) }
+
+          before do
+            claim.basic_fees.find_by(fee_type_id: Fee::BasicFeeType.find_by(unique_code: 'BABAF')).update(quantity: 1)
+          end
+
+          it 'property included' do
+            expect(response).to have_json_path("bills/0/number_of_defendants")
+          end
+
+          it 'property type valid' do
+            expect(response).to have_json_type(String).at_path "bills/0/number_of_defendants"
+          end
+
+          it 'defaults to 1 if no defendant uplifts claimed' do
+            expect(response).to be_json_eql("1".to_json).at_path "bills/0/number_of_defendants"
+          end
+
+          it 'calculated from sum of Number of defendant uplift fee quantities plus one for main defendant' do
+            create(:basic_fee, fee_type: bandr, claim: claim, quantity: 2)
+            expect(response).to be_json_eql("3".to_json).at_path "bills/0/number_of_defendants"
+          end
+        end
+
         context 'number of prosecution witnesses' do
           subject(:response) do
             do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body

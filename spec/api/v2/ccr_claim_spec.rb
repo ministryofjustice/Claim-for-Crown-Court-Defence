@@ -518,6 +518,22 @@ describe API::V2::CCRClaim do
           end
         end
       end
+
+      context 'expenses' do
+        subject(:response) do
+          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+        end
+
+        context 'when an expense is claimed' do
+          before { create(:expense, :car_travel, claim: claim) }
+
+          it { is_valid_ccr_json(response) }
+
+          it 'added to bills' do
+            expect(response).to have_json_size(1).at_path('bills')
+          end
+        end
+      end
     end
   end
 end

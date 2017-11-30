@@ -50,6 +50,7 @@ module API
         data.push API::Entities::CCR::AdaptedBasicFee.represent(basic_fees)
         data.push API::Entities::CCR::AdaptedFixedFee.represent(fixed_fees)
         data.push API::Entities::CCR::AdaptedMiscFee.represent(miscellaneous_fees)
+        data.push API::Entities::CCR::AdaptedExpense.represent(object.expenses)
         data.flatten.as_json
       end
 

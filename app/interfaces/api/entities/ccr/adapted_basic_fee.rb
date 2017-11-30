@@ -3,7 +3,6 @@ module API
     module CCR
       class AdaptedBasicFee < API::Entities::CCR::AdaptedBaseFee
         with_options(format_with: :string) do
-          # derived/transformed data exposures
           expose :ppe
           expose :number_of_witnesses
           expose :number_of_cases

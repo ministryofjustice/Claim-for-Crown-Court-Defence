@@ -89,6 +89,22 @@ FactoryBot.define do
         quantity_is_decimal false
       end
 
+      trait :miaph do
+        description 'Abuse of process hearings (half day)'
+        code 'APH'
+        unique_code 'MIAPH'
+        calculated false
+        quantity_is_decimal false
+      end
+
+      trait :miahu do
+        description 'Abuse of process hearings (half day uplift)'
+        code 'AHU'
+        unique_code 'MIAHU'
+        calculated true
+        quantity_is_decimal false
+      end
+
       trait :miupl do
         lgfs
         description 'Case uplift'

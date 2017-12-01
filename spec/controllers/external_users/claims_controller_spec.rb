@@ -556,16 +556,28 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     context 'from non-rejected claim' do
       subject { create(:submitted_claim, external_user: advocate) }
 
-      before do
+      it 'logs the actual error message' do
+        expect(LogStuff).to receive(:error).once
         patch :clone_rejected, id: subject
       end
 
-      it 'redirects to advocates dashboard' do
-        expect(response).to redirect_to(external_users_claims_url)
-      end
+      describe 'the response' do
+        before do
+          # allow(log_stuff).to receive(:error)
+          patch :clone_rejected, id: subject
+        end
 
-      it 'does not create a draft claim' do
-        expect(Claim::BaseClaim.active.last).to_not be_draft
+        it 'redirects to advocates dashboard' do
+          expect(response).to redirect_to(external_users_claims_url)
+        end
+
+        it 'does not create a draft claim' do
+          expect(Claim::BaseClaim.active.last).to_not be_draft
+        end
+
+        it'displays a flash error' do
+          expect(flash[:alert]).to eq 'Can only clone rejected claims'
+        end
       end
     end
   end

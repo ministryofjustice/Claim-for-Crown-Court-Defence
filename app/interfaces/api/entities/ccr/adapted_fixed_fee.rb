@@ -58,7 +58,7 @@ module API
         end
 
         def claim
-          object.instance_variable_get :@object
+          object.object
         end
 
         def fee_code

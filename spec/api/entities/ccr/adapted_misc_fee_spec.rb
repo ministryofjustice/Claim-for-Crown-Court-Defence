@@ -50,13 +50,23 @@ describe API::Entities::CCR::AdaptedMiscFee do
       end
     end
 
-    context 'when matching misc fee uplift claimed' do
+    context 'when 1 matching misc fee (defendant) uplift claimed' do
       before do
         create(:misc_fee, fee_type: miahu, claim: claim, quantity: 2, amount: 21.01)
       end
 
-      it 'returns sum of all Number of defendants uplift quantities plus one for the main defendant' do
+      it 'returns sum of (defendant) uplift quantity plus one for the main defendant' do
         is_expected.to eq "3"
+      end
+    end
+
+    context 'when more than 1 matching misc fee (defendant) uplift claimed' do
+      before do
+        create_list(:misc_fee, 2, fee_type: miahu, claim: claim, quantity: 2, amount: 21.01)
+      end
+
+      it 'returns sum of all (defendant) uplift quantities plus one for the main defendant' do
+        is_expected.to eq "5"
       end
     end
   end

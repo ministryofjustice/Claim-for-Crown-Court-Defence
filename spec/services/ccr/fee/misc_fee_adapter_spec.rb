@@ -27,7 +27,7 @@ module CCR
         MISAF:  %w[AGFS_MISC_FEES AGFS_ADJOURNED], # Adjourned appeals
         MIADC1: %w[AGFS_MISC_FEES AGFS_DMS_DY2_HF], # Application to dismiss a charge (half day)
         MIADC2: %w[AGFS_MISC_FEES AGFS_DMS_DY2_WL], # Application to dismiss a charge (whole day)
-        MIUPL:  %w[TBC TBC], # Case uplift
+        MIUPL:  %w[TBC TBC], # Case uplift - **LGFS only**
         MIDTH:  %w[AGFS_MISC_FEES AGFS_CONFISC_HF], # Confiscation hearings (half day)
         MIDTW:  %w[AGFS_MISC_FEES AGFS_CONFISC_WL], # Confiscation hearings (whole day)
         MICJA:  %w[OTHER COST_JUDGE_FEE], # Costs judge application

@@ -109,6 +109,5 @@ describe API::Entities::CCR::AdaptedMiscFee do
         end
       end
     end
-
   end
 end

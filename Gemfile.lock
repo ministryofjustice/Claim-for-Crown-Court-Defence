@@ -402,6 +402,9 @@ GEM
       parallel
     parser (2.4.0.0)
       ast (~> 2.2)
+    pdf-forms (1.1.1)
+      cliver (~> 0.3.2)
+      safe_shell (>= 1.0.3, < 2.0)
     pg (0.18.4)
     phantomjs (2.1.1.0)
     poltergeist (1.9.0)
@@ -518,6 +521,7 @@ GEM
     rubyzip (1.2.1)
     rufus-scheduler (2.0.24)
       tzinfo (>= 0.3.22)
+    safe_shell (1.1.0)
     safe_yaml (1.0.4)
     sass (3.4.25)
     sass-rails (5.0.6)
@@ -705,6 +709,7 @@ DEPENDENCIES
   paper_trail (= 4.0.2)
   paperclip (~> 5.1.0)
   parallel_tests
+  pdf-forms
   pg (~> 0.18.2)
   poltergeist (~> 1.9.0)
   posix-spawn (~> 0.3.13)

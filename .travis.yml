@@ -4,8 +4,12 @@ addons:
   postgresql: '9.3'
   code_climate:
     repo_token: c94f8c6df526a441d103d0c6d54623174af5eb6ccbfe5f3e7c7dbce734ebfa98
+env:
+  -PDFTK_PATH=/usr/bin/pdftk
 before_install:
-- export TZ=Europe/London
+  - export TZ=Europe/London
+  - sudo apt-get -qq update
+  - sudo apt-get install -y pdftk
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml

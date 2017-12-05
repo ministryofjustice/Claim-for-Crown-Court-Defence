@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 describe RailsHost do
+  describe '.env' do
+    subject { described_class.env}
+
+    before do
+      expect(ENV).to receive(:[]).with('ENV').and_return 'staging'
+    end
+
+    it 'returns value of environment variable ENV' do
+      is_expected.to eql 'staging'
+    end
+  end
 
   context 'api_sandbox' do
     before do
@@ -9,9 +20,9 @@ describe RailsHost do
     end
 
     after do
-      ENV['ENV'] = @initial_env 
+      ENV['ENV'] = @initial_env
     end
-  
+
     it 'should return the rails host envirobment name' do
       expect(Rails.host.env).to eq 'api-sandbox'
     end
@@ -32,16 +43,14 @@ describe RailsHost do
     end
   end
 
-
   context 'staging' do
-    
     before do
       @initial_env = ENV['ENV']
       ENV['ENV'] = 'staging'
     end
 
     after do
-      ENV['ENV'] = @initial_env 
+      ENV['ENV'] = @initial_env
     end
 
     it 'should return the rails environement host name' do
@@ -55,11 +64,5 @@ describe RailsHost do
     it 'should return false for demo' do
       expect(Rails.host.demo?).to be false
     end
-
-
-
   end
-
-
-
 end

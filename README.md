@@ -68,6 +68,16 @@ To import JSON claims, or import via the API, you need to run a multi-threaded s
 rails server -e devunicorn
 ```
 
+### Download and install pdftk
+
+Note: this is the version to install for OSX Sierra, and above, as of 5 Dec 2017, otherwise check the www.pdflabs.com website
+```bash
+curl -o ~/Downloads/pdftk_download.pkg https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg
+```
+After running the package it will, by default, install to `/usr/local/bin/pdftk`, where the server will look for it. If you install to another location add another key to your `.env` files 
+```
+PDFTK_PATH='/you/pdftk/location/here'
+```
 
 ## Architecture
 

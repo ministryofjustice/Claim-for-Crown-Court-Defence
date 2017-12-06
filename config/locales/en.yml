@@ -549,9 +549,8 @@ en:
           full_name: Full name
           date_of_birth: 'Date of birth'
           judical_apportionment: Judicial apportionment
-          order_for_judicial_apportionment:  |
-            Order for judicial apportionment
-            (You must upload the order for judicial apportionment in the "Upload supporting evidence" section below.)
+          order_for_judicial_apportionment:  Order for judicial apportionment
+          order_for_judicial_apportionment_help: Judicial apportionment is when the defendant has applied for and received an order confirming they are not required to pay the full amount of their defence costs. If applicable, please ensure you upload a copy of the order to your claim.
           add_another_rep_order: 'Add another representation order'
           remove_defendant: 'Remove defendant'
           defendant: 'Defendant'

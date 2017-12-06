@@ -22,7 +22,12 @@
           = f.check_box :order_for_judicial_apportionment
           = raw t('.order_for_judicial_apportionment')
           = validation_error_message(@error_presenter, :order_for_judicial_apportionment)
-
+        %details
+          %summary
+            %span.summary Help with judicial apportionment
+          .panel.panel-border-narrow
+            %p
+              = t('.order_for_judicial_apportionment_help')
 
   .documents
     = f.fields_for :representation_orders do |repo_form|

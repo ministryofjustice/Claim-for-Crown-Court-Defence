@@ -21,12 +21,10 @@ module API
       expose :offence, using: API::Entities::CCR::Offence
       expose :defendants_with_main_first, using: API::Entities::CCR::Defendant, as: :defendants
 
-      # CCR fields that can be derived from CCCD data
       expose :estimated_trial_length_or_one, as: :estimated_trial_length, format_with: :string
       expose :actual_trial_length_or_one, as: :actual_trial_Length, format_with: :string
-
-      # CCR fields whose values can, and are, mapped to a CCCD field's values
       expose :adapted_advocate_category, as: :advocate_category
+      expose :additional_information
 
       # CCR fee to bill mappings
       expose :bills

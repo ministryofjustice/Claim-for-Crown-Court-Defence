@@ -32,6 +32,10 @@
       "id": "/properties/last_submitted_at",
       "type": ["string","null"]
     },
+    "additional_information": {
+      "id": "/properties/additional_information",
+      "type": ["string","null"]
+    },
     "bills": {
       "id": "/properties/bills",
       "items": {

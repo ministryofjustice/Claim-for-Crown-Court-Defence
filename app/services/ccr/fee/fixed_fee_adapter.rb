@@ -21,7 +21,7 @@
 # B. For other CCCD fixed fees the bill sub type is based on the case_type/bill_scenario
 #
 #   * The fee's attributes can be derived from CCCD fees equivalent to the
-#     case_type/bill_scenario plus uplift versions and generix fixed
+#     case_type/bill_scenario plus uplift versions and generic fixed
 #     case/defendant uplift fees. see adapted fixed fee entity for specifics.
 #     e.g.  FXACV FXASE FXCBR FXCSE FXENP
 #             plus their uplifts...
@@ -37,10 +37,6 @@
 module CCR
   module Fee
     class FixedFeeAdapter < BaseFeeAdapter
-      # The CCR "Advocate fee" bill can have different sub types
-      # based on the type of case, which map as follows.
-      # Those case types with nil values cannot claim an "Advocate fee" at all
-      #
       FIXED_FEE_BILL_MAPPINGS = {
         FXACV: zip(%w[AGFS_FEE AGFS_APPEAL_CON]), # Appeal against conviction
         FXASE: zip(%w[AGFS_FEE AGFS_APPEAL_SEN]), # Appeal against sentence

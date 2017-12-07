@@ -29,7 +29,7 @@ module CCR
         SUBTYPE_MAPPINGS = {
           GRRAK: 'AGFS_FEE', # Cracked Trial
           GRCBR: 'AGFS_FEE', # Cracked before retrial
-          GRDIS: nil, # Discontinuance # TODO: handle discontinuance advocate fee sub types
+          GRDIS: 'AGFS_FEE', # Discontinuance
           GRGLT: 'AGFS_FEE', # Guilty plea
           GRRTR: 'AGFS_FEE', # Retrial
           GRTRL: 'AGFS_FEE' # Trial

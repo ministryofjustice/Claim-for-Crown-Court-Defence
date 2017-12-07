@@ -81,7 +81,7 @@ module CCR
       when 'CAR', 'BIKE'
         expense.distance
       when 'TRAVL'
-        expense.hours
+        ((expense.hours * 4).ceil / 4.0)
       else
         1
       end

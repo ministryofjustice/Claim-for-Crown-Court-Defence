@@ -44,9 +44,9 @@ module CCR
 
     def for_travel_time
       [
-          { source_expense: { location: 'Prison - HMP Forest Bank', quantity: nil, rate: nil, amount: 37.33, reason_id: 2, reason_text: nil, schema_version: 2, distance: nil, mileage_rate_id: nil, date: '2017-03-02', hours: 0.8, vat_amount: 7.47 }, expected_return: { "bill_type": "AGFS_EXPENSES", "bill_subtype": "AGFS_TCT_CNF_VW", "date_incurred": "2017-03-02", "description": "Prison - HMP Forest Bank", "quantity": "0.8", "rate": "0" } },
+          { source_expense: { location: 'Prison - HMP Forest Bank', quantity: nil, rate: nil, amount: 37.33, reason_id: 2, reason_text: nil, schema_version: 2, distance: nil, mileage_rate_id: nil, date: '2017-03-02', hours: 0.8, vat_amount: 7.47 }, expected_return: { "bill_type": "AGFS_EXPENSES", "bill_subtype": "AGFS_TCT_CNF_VW", "date_incurred": "2017-03-02", "description": "Prison - HMP Forest Bank", "quantity": "1", "rate": "0" } },
           { source_expense: { location: 'HMP Walton', quantity: nil, rate: nil, amount: 39, reason_id: 3, reason_text: nil, schema_version: 2, distance: nil, mileage_rate_id: nil, date: '2016-01-29', hours: 1, vat_amount: 7.8 }, expected_return: { "bill_type": "AGFS_EXPENSES", "bill_subtype": "AGFS_TCT_CNF_VW", "date_incurred": "2016-01-29", "description": "HMP Walton", "quantity": "1", "rate": "0" } },
-          { source_expense: { location: 'Site Visit, Lincoln', quantity: nil, rate: nil, amount: 195, reason_id: 4, reason_text: nil, schema_version: 2, distance: nil, mileage_rate_id: nil, date: '2016-07-29', hours: 5, vat_amount: 39 }, expected_return: { "bill_type": "AGFS_EXPENSES", "bill_subtype": "AGFS_TCT_CNF_VW", "date_incurred": "2016-07-29", "description": "Site Visit, Lincoln", "quantity": "5", "rate": "0" } },
+          { source_expense: { location: 'Site Visit, Lincoln', quantity: nil, rate: nil, amount: 195, reason_id: 4, reason_text: nil, schema_version: 2, distance: nil, mileage_rate_id: nil, date: '2016-07-29', hours: 5.3, vat_amount: 39 }, expected_return: { "bill_type": "AGFS_EXPENSES", "bill_subtype": "AGFS_TCT_CNF_VW", "date_incurred": "2016-07-29", "description": "Site Visit, Lincoln", "quantity": "5.5", "rate": "0" } },
       ]
     end
 

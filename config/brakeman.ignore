@@ -19,8 +19,28 @@
       "user_input": "Claim::BaseClaim.active.find(params[:id])",
       "confidence": "Weak",
       "note": "Caseworkers need to identify the downloads correspond to the cases they are processing"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "c3fd2006caf5192011639586399ac3331dc9153aad24e8cda822f1c56c911a49",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/external_users/claims_controller.rb",
+      "line": 155,
+      "link": "http://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(DiscEvidenceCoversheetBuilder.new(Claim::BaseClaim.active.find(params[:id])).export, :filename => \"disc_evidence_coversheet.pdf\", :disposition => \"inline\", :type => \"application/pdf\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ExternalUsers::ClaimsController",
+        "method": "disc_evidence"
+      },
+      "user_input": "Claim::BaseClaim.active.find(params[:id])",
+      "confidence": "Weak",
+      "note": "This is a false positive because the service called matches the model name"
     }
   ],
-  "updated": "2017-10-19 11:24:18 +0100",
+  "updated": "2017-12-04 15:17:12 +0000",
   "brakeman_version": "4.0.1"
 }

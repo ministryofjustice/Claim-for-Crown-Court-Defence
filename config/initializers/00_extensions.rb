@@ -37,3 +37,7 @@ end
 class FalseClass
   include BooleanExtension::False
 end
+
+class Integer
+  include IntegerExtension
+end

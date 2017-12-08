@@ -52,28 +52,24 @@ module API
         object.defendants.order(created_at: :asc)
       end
 
-      def length_or_one(length)
-        [length, 1].compact.max
-      end
-
-      def estimated_trial_length_or_one
-        length_or_one(object.estimated_trial_length)
-      end
-
-      def actual_trial_length_or_one
-        length_or_one(object.actual_trial_length)
-      end
-
       def dummy_retrial_reduction
         'true'
       end
 
+      def estimated_trial_length_or_one
+        object.estimated_trial_length.or_one
+      end
+
+      def actual_trial_length_or_one
+        object.actual_trial_length.or_one
+      end
+
       def retrial_actual_length_or_one
-        length_or_one(object.retrial_actual_length)
+        object.retrial_actual_length.or_one
       end
 
       def retrial_estimated_length_or_one
-        length_or_one(object.retrial_actual_length)
+        object.retrial_actual_length.or_one
       end
 
       def bills

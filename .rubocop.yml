@@ -20,6 +20,9 @@ Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/FormatStringToken:
+  EnforcedStyle: template
+
 #Metrics/LineLength:
 #  Max: 120
 

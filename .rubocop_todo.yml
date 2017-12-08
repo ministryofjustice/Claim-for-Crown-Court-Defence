@@ -82,12 +82,6 @@ Style/ClassVars:
     - 'app/models/timed_transitions/transitioner.rb'
     - 'app/services/remote/http_client.rb'
 
-# Offense count: 31
-# Configuration parameters: SupportedStyles.
-# SupportedStyles: annotated, template
-Style/FormatStringToken:
-  EnforcedStyle: template
-
 # Offense count: 4
 Style/IfInsideElse:
   Exclude:

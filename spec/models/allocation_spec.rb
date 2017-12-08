@@ -48,6 +48,23 @@ RSpec.describe Allocation, type: :model do
         end
       end
 
+      context 'when valid, but allocation bug occurs' do
+        subject { allocator.save }
+        let(:claims) { create_list(:submitted_claim, 1) }
+        let(:case_worker_dbl) { double(Array, empty?: true, exists?: false) }
+        before do
+          allow(case_worker_dbl).to receive(:<<)
+          allow_any_instance_of(Claim::BaseClaim).to receive(:case_workers).and_return(case_worker_dbl)
+        end
+
+        it 'logs the error' do
+          expect(LogStuff).to receive(:error).once
+          subject
+        end
+
+        it { is_expected.to be false }
+      end
+
       context 'when in an invalid state' do
         let(:claims) { create_list(:allocated_claim, 2) }
 

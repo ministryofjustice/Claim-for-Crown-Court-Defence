@@ -39,8 +39,10 @@ Metrics/ClassLength:
 # URISchemes: http, https
 Metrics/LineLength:
   Exclude:
-    - 'app/controllers/external_users/claim_types_controller.rb'
+    - 'app/services/ccr/fee/misc_fee_adapter.rb'
     - 'app/interfaces/api/entities/full_claim.rb'
+    # @jsugarman to check ^^
+    - 'app/controllers/external_users/claim_types_controller.rb'
     - 'app/interfaces/api/entities/message.rb'
     - 'app/interfaces/api/helpers/resource_helper.rb'
     - 'app/interfaces/api/v1/external_users/claims/interim_claim.rb'
@@ -55,7 +57,6 @@ Metrics/LineLength:
     - 'app/models/stats/collector/multi_session_submission_collector.rb'
     - 'app/models/vat_rate.rb'
     - 'app/presenters/claim/base_claim_presenter.rb'
-    - 'app/services/ccr/fee/misc_fee_adapter.rb'
     - 'app/services/stats/claim_submissions_data_generator.rb'
     - 'app/validators/claim/litigator_supplier_number_validations.rb'
     - 'app/validators/fee/warrant_fee_validator.rb'

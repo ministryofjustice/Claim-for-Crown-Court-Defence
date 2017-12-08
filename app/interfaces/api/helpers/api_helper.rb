@@ -63,17 +63,22 @@ module API
 
         def get_fee_subclass(args)
           id_or_code = args.delete(:fee_type_id) || args.delete(:fee_type_unique_code)
-          fee_type = ::Fee::BaseFeeType.find_by_id_or_unique_code(id_or_code) || (raise 'Type of fee not found by ID or Unique Code')
+          err_msg = 'Type of fee not found by ID or Unique Code'
+          fee_type = ::Fee::BaseFeeType.find_by_id_or_unique_code(id_or_code) || (raise err_msg)
           args[:fee_type_id] = fee_type.id
           fee_type.type.sub(/Type$/, '').constantize
         end
 
         # prevent creation/basic-fee-update of sub(sub)models for claims not in a draft state
         def test_editability(model_instance)
-          return unless (Fee::BaseFee.subclasses + [Expense, Disbursement, Defendant, RepresentationOrder, DateAttended]).include?(model_instance.class)
+          return unless fee_classes.include?(model_instance.class)
           model_instance.errors.add(:base, 'uneditable_state') unless model_instance.claim.editable?
         rescue StandardError
           true
+        end
+
+        def fee_classes
+          (Fee::BaseFee.subclasses + [Expense, Disbursement, Defendant, RepresentationOrder, DateAttended])
         end
 
         def pop_error_response(error_or_model_instance, api_response)

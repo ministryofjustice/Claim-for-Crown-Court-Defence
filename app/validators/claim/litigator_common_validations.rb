@@ -21,7 +21,10 @@ module Claim
 
     def validate_creator
       super if defined?(super)
-      validate_has_role(@record.creator.try(:provider), :lgfs, :creator, 'must be from a provider with permission to submit LGFS claims')
+      validate_has_role(@record.creator.try(:provider),
+                        :lgfs,
+                        :creator,
+                        'must be from a provider with permission to submit LGFS claims')
     end
 
     def validate_advocate_category
@@ -44,7 +47,8 @@ module Claim
       return unless @record.supplier_number.present?
 
       validate_pattern(:supplier_number, supplier_number_regex, 'invalid')
-      validate_inclusion(:supplier_number, provider_supplier_numbers, 'unknown') unless @record.errors.key?(:supplier_number)
+      return if @record.errors.key?(:supplier_number)
+      validate_inclusion(:supplier_number, provider_supplier_numbers, 'unknown')
     end
 
     # local helpers

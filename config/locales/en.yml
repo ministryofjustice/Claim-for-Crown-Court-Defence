@@ -840,6 +840,7 @@ en:
       certification_reason: Reason
       certification_caption: Certification details
       instructed_heading: Instructed advocate
+      alert: 'Cannot certify a claim in submitted state'
     claim:
       advocate_category: Advocate category
       litigator_category: 'Litigator category'
@@ -1112,6 +1113,7 @@ en:
         index:
           h1_managment_info: Management information
           all_claims_report: 'All claims report'
+        alert: 'A background job has been scheduled to regenerate the Management Information report.  Please refresh this page in a few minutes.'
     claims:
       archived:
         archived_claims: Archived claims
@@ -1144,12 +1146,26 @@ en:
     passwords:
       edit:
         prohibited_save: This password change has
+  validators:
+    advocate:
+      category: 'Advocate category must be one of those in the provided list'
+  sql:
+    query:
+      name: "lower(users.first_name || ' ' || users.last_name) ILIKE :term"
   api:
     v1:
+      common_params:
+        creator_email: 'REQUIRED: The ADP administrator account email address that uniquely identifies the creator of the claim.'
+        user_email: 'REQUIRED: The ADP account email address that uniquely identifies the litigator to whom this claim belongs.'
+      dropdown_data:
+        params:
+          role_filter: 'OPTIONAL: The role to filter the results. If not provided, all results are returned.'
       external_users:
         params:
           api_key: 'REQUIRED: The API authentication key of the provider'
-          claim_id: 'REQUIRED: The unique identifier for the corresponding claim.'
+          claim_id: 'REQUIRED: Unique identifier for the claim associated with this disbursement.'
+          disbursement_type_id: 'OPTIONAL: The unique numeric ID for the corresponding disbursement type if disbursement_type_unique_code is not specified.'
+          disbursement_type_unique_code: 'OPTIONAL: The unique alphanumeric CODE for the corresponding disbursement type if disbursement_type_id is not specified'
           fee_type_id: 'OPTIONAL: The unique numeric ID for the corresponding fee type if fee_type_unique_code is not specified.'
           fee_type_unique_code: 'OPTIONAL: The unique alphanumeric CODE for the corresponding fee type if fee_type_id is not specified'
           quantity: 'REQUIRED/UNREQUIRED: The number of fees of this fee type that are being claimed (quantity x rate will equal amount). NB: Leave blank if not applicable'
@@ -1159,6 +1175,13 @@ en:
           date: 'REQUIRED/UNREQUIRED: Required for LGFS Fixed Fee or LGFS Graduated Fee, otherwise leave blank (YYYY-MM-DD)'
           warrant_issued_date: 'REQUIRED/UNREQUIRED: Required for Interim fee of type Warrant, or a Warrant Fee, otherwise leave blank (YYYY-MM-DD)'
           warrant_executed_date: 'OPTIONAL: For Interim fee of type Warrant, or a Warrant Fee, otherwise leave blank (YYYY-MM-DD)'
+        claims:
+          advocate_claim:
+            params:
+              user_email: 'REQUIRED: The ADP account email address that uniquely identifies the advocate to whom this claim belongs.'
+          transfer_claim:
+            params:
+              case_conclusion_id: 'REQUIRED/UNREQUIRED: Only required for new litigators that transferred onto unelected cases at specific stages.'
       defendant:
         params:
           api_key: 'REQUIRED: The API authentication key of the provider'
@@ -1183,6 +1206,9 @@ en:
           amount: 'REQUIRED: The total amount of the expense.'
           vat_amount: 'OPTIONAL: The VAT amount of the expense. For LGFS claims.'
     v2:
+      criteria_helper:
+        params:
+          search: 'OPTIONAL: Search terms, for example case number, MAAT reference, defendant name, case worker name or email.'
       generic:
         params:
           api_key: 'REQUIRED: The API authentication key of the case worker'

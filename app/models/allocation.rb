@@ -52,7 +52,8 @@ class Allocation
 
   def claims_in_correct_state_for?(new_state)
     claims.each do |claim|
-      errors[:base] << "Claim #{claim.id} cannot be transitioned to #{new_state} from #{claim.state}" unless claim.state.in?(VALID_STATES_FOR_TRANSITION[new_state])
+      next if claim.state.in?(VALID_STATES_FOR_TRANSITION[new_state])
+      errors[:base] << "Claim #{claim.id} cannot be transitioned to #{new_state} from #{claim.state}"
     end
     errors[:base].empty?
   end

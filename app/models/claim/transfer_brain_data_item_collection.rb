@@ -28,7 +28,8 @@ module Claim
       @collection_hash = construct_collection_hash
     end
 
-    # Returns a hierarchical hash of the collection with the keys litigator_type -> elected_case -> transfer_stage_id -> case_conclusion_id.
+    # Returns a hierarchical hash of the collection with the keys
+    #   litigator_type -> elected_case -> transfer_stage_id -> case_conclusion_id.
     # In the resulting hash, '*' in the case_conclusion_id key means any case conclusion id
     def to_h
       @collection_hash
@@ -40,8 +41,15 @@ module Claim
 
     def data_item_for(detail)
       begin
-        result = @collection_hash.fetch(detail.litigator_type).fetch(detail.elected_case).fetch(detail.transfer_stage_id)[detail.case_conclusion_id]
-        result = @collection_hash.fetch(detail.litigator_type).fetch(detail.elected_case).fetch(detail.transfer_stage_id).fetch('*') if result.nil?
+        result = @collection_hash.fetch(detail.litigator_type)
+                                 .fetch(detail.elected_case)
+                                 .fetch(detail.transfer_stage_id)[detail.case_conclusion_id]
+        if result.nil?
+          result = @collection_hash.fetch(detail.litigator_type)
+                                   .fetch(detail.elected_case)
+                                   .fetch(detail.transfer_stage_id)
+                                   .fetch('*')
+        end
       rescue KeyError
         result = nil
       end

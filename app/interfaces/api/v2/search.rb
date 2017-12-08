@@ -11,7 +11,11 @@ module API
       resource :search, desc: 'Search for claims' do
         params do
           optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the user'
-          optional :scheme, type: String, default: 'agfs', values: %w[agfs lgfs], desc: 'OPTIONAL: This will be used to filter the list of unallocated claims'
+          optional :scheme,
+                   type: String,
+                   default: 'agfs',
+                   values: %w[agfs lgfs],
+                   desc: 'OPTIONAL: This will be used to filter the list of unallocated claims'
         end
 
         helpers do

@@ -9,7 +9,10 @@ module Stats
         transitions.each do |transition|
           total_num_days += calculate_submission_to_decision_time(transition)
         end
-        Statistic.create_or_update(@date, 'completion_time', 'Claim::BaseClaim', average_in_days(total_num_days, transitions.size), transitions.size)
+        Statistic.create_or_update(@date,
+                                   'completion_time',
+                                   'Claim::BaseClaim',
+                                   average_in_days(total_num_days, transitions.size), transitions.size)
       end
 
       private
@@ -23,7 +26,9 @@ module Stats
       end
 
       def calculate_submission_to_decision_time(transition)
-        previous_transitions = ClaimStateTransition.where(claim_id: transition.claim_id).where { id < transition.id }.order('created_at desc')
+        previous_transitions = ClaimStateTransition
+                               .where(claim_id: transition.claim_id).where { id < transition.id }
+                               .order('created_at desc')
         submitted_transition = previous_transitions.detect { |t| t.to.in? %w[submitted redetermination] }
         working_days(submitted_transition, transition)
       end
@@ -40,12 +45,17 @@ module Stats
       # if there were no claims authorised/part authorised/rejected/refused today,
       # use the average of the previous seven days
       def calculate_average
-        values = Statistic.where(report_name: 'completion_time').where(date: @date - 8.days..@date - 1.day).pluck(:value_1)
+        values = Statistic
+                 .where(report_name: 'completion_time')
+                 .where(date: @date - 8.days..@date - 1.day)
+                 .pluck(:value_1)
         values.average
       end
 
       def working_days(submitted_transition, decided_transition)
-        WorkingDayCalculator.new(submitted_transition.created_at.to_date, decided_transition.created_at.to_date).working_days
+        WorkingDayCalculator.new(submitted_transition
+                                 .created_at.to_date,
+                                 decided_transition.created_at.to_date).working_days
       end
     end
   end

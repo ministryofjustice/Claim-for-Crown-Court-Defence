@@ -6,7 +6,7 @@ module API::V1
     #
     params :common_params do
       optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the provider'
-      optional :creator_email, type: String, desc: 'REQUIRED: The ADP administrator account email address that uniquely identifies the creator of the claim.'
+      optional :creator_email, type: String, desc: I18n.t('api.v1.common_params.creator_email')
       optional :court_id, type: Integer, desc: 'REQUIRED: The unique identifier for this court'
       optional :case_type_id, type: Integer, desc: 'REQUIRED: The unique identifier of the case type'
       optional :offence_id, type: Integer, desc: 'REQUIRED: The unique identifier for this offence.'
@@ -20,13 +20,18 @@ module API::V1
     params :common_trial_params do
       optional :first_day_of_trial, type: String, desc: 'REQUIRED for trials: YYYY-MM-DD', standard_json_format: true
       optional :estimated_trial_length, type: Integer, desc: 'REQUIRED for trials: The estimated trial length in days'
-      optional :trial_concluded_at, type: String, desc: 'REQUIRED for trials: The date the trial concluded (YYYY-MM-DD)', standard_json_format: true
+      optional :trial_concluded_at,
+               type: String,
+               desc: 'REQUIRED for trials: The date the trial concluded (YYYY-MM-DD)',
+               standard_json_format: true
       optional :retrial_started_at, type: String, desc: 'REQUIRED for retrials: YYYY-MM-DD', standard_json_format: true
-      optional :retrial_estimated_length, type: Integer, desc: 'REQUIRED for retrials: The estimated retrial length in days'
+      optional :retrial_estimated_length,
+               type: Integer,
+               desc: 'REQUIRED for retrials: The estimated retrial length in days'
     end
 
     params :common_lgfs_params do
-      optional :user_email, type: String, desc: 'REQUIRED: The ADP account email address that uniquely identifies the litigator to whom this claim belongs.'
+      optional :user_email, type: String, desc: I18n.t('api.v1.common_params.user_email')
       optional :supplier_number, type: String, desc: 'REQUIRED. The supplier number.'
       optional :transfer_court_id, type: Integer, desc: 'OPTIONAL: The unique identifier for the transfer court.'
       optional :transfer_case_number, type: String, desc: 'OPTIONAL: The case number for the transfer court.'

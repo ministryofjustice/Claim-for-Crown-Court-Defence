@@ -23,7 +23,8 @@ class SuperAdmins::ExternalUsersController < ApplicationController
 
     if @external_user.save
       deliver_reset_password_instructions(@external_user.user)
-      redirect_to super_admins_provider_external_user_path(@provider, @external_user), notice: 'User successfully created'
+      redirect_to super_admins_provider_external_user_path(@provider, @external_user),
+                  notice: 'User successfully created'
     else
       render :new
     end
@@ -43,7 +44,8 @@ class SuperAdmins::ExternalUsersController < ApplicationController
 
   def update
     if @external_user.update(external_user_params)
-      redirect_to super_admins_provider_external_user_path(@provider, @external_user), notice: 'User successfully updated'
+      redirect_to super_admins_provider_external_user_path(@provider, @external_user),
+                  notice: 'User successfully updated'
     else
       render :edit
     end
@@ -58,7 +60,8 @@ class SuperAdmins::ExternalUsersController < ApplicationController
     user = @external_user.user
 
     if user.update(password_params[:user_attributes])
-      redirect_to super_admins_provider_external_user_path(@provider, @external_user), notice: 'User password successfully updated'
+      redirect_to super_admins_provider_external_user_path(@provider, @external_user),
+                  notice: 'User password successfully updated'
     else
       render :change_password
     end

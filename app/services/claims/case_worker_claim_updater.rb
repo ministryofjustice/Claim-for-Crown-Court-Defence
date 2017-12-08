@@ -79,7 +79,7 @@ module Claims
           @claim.update(@params)
           update_assessment if @assessment_params_present
           add_redetermination if @redetermination_params_present
-          @claim.send(event, audit_attributes.merge(reason_code: @transition_reason)) unless @state.blank? || @state == @claim.state
+          @claim.send(event, audit_attributes.merge(reason_code: @transition_reason)) unless state_not_updateable?
         rescue StandardError => err
           add_error err.message
           raise ActiveRecord::Rollback
@@ -87,13 +87,25 @@ module Claims
       end
     end
 
+    def state_not_updateable?
+      @state.blank? || @state == @claim.state
+    end
+
     def update_assessment
-      params_with_defaults = { 'fees' => '0.00', 'expenses' => '0.00', 'disbursements' => '0.00' }.merge(@assessment_params)
+      params_with_defaults = {
+        'fees' => '0.00',
+        'expenses' => '0.00',
+        'disbursements' => '0.00'
+      }.merge(@assessment_params)
       @claim.assessment.update(params_with_defaults)
     end
 
     def add_redetermination
-      params_with_defaults = { 'fees' => '0.00', 'expenses' => '0.00', 'disbursements' => '0.00' }.merge(@redetermination_params)
+      params_with_defaults = {
+        'fees' => '0.00',
+        'expenses' => '0.00',
+        'disbursements' => '0.00'
+      }.merge(@redetermination_params)
       @claim.redeterminations << Redetermination.new(params_with_defaults)
     end
 

@@ -7,13 +7,17 @@ module API
           optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the provider'
           optional :defendant_id, type: String, desc: 'REQUIRED: ID of the defendant'
           optional :maat_reference, type: String, desc: 'REQUIRED: The unique identifier for this representation order'
-          optional :representation_order_date, type: String, desc: 'REQUIRED: The date on which this representation order was granted (YYYY-MM-DD)', standard_json_format: true
+          optional :representation_order_date,
+                   type: String,
+                   desc: 'REQUIRED: The date on which this representation order was granted (YYYY-MM-DD)',
+                   standard_json_format: true
         end
 
         resource :representation_orders, desc: 'Create or Validate' do
           helpers do
             def defendant_id
-              ::Defendant.find_by(uuid: params[:defendant_id]).try(:id) || (raise ArgumentError, 'Defendant cannot be blank')
+              err_message = 'Defendant cannot be blank'
+              ::Defendant.find_by(uuid: params[:defendant_id]).try(:id) || (raise ArgumentError, err_message)
             end
 
             def build_arguments

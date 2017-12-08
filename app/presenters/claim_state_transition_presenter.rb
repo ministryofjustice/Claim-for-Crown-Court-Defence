@@ -19,16 +19,24 @@ class ClaimStateTransitionPresenter < BasePresenter
 
   def transition_messages
     {
-      'redetermination'               => { 'CaseWorker' => 'Redetermination requested',     'ExternalUser' => 'You requested redetermination' },
-      'awaiting_written_reasons'      => { 'CaseWorker' => 'Written reasons requested',     'ExternalUser' => 'You requested written reasons' },
-      'submitted'                     => { 'CaseWorker' => 'Claim submitted',               'ExternalUser' => 'Your claim has been submitted' },
-      'allocated'                     => { 'CaseWorker' => 'Claim allocated',               'ExternalUser' => 'Your claim has been allocated' },
-      'deallocated'                   => { 'CaseWorker' => 'Claim de-allocated',            'ExternalUser' => 'Your claim has been de-allocated' },
-      'authorised'                    => { 'CaseWorker' => 'Claim authorised',              'ExternalUser' => 'Your claim has been authorised' },
-      'part_authorised'               => { 'CaseWorker' => 'Claim part authorised',         'ExternalUser' => 'Your claim has been part-authorised' },
-      'rejected'                      => { 'CaseWorker' => 'Claim rejected',                'ExternalUser' => 'Your claim has been rejected' },
-      'refused'                       => { 'CaseWorker' => 'Claim refused',                 'ExternalUser' => 'Your claim has been refused' },
-      'archived_pending_delete'       => { 'CaseWorker' => 'Claim archived',                'ExternalUser' => 'Your claim has been archived' }
+      'redetermination' => {
+        'CaseWorker' => 'Redetermination requested', 'ExternalUser' => 'You requested redetermination'
+      },
+      'awaiting_written_reasons' => {
+        'CaseWorker' => 'Written reasons requested', 'ExternalUser' => 'You requested written reasons'
+      },
+      'submitted' => { 'CaseWorker' => 'Claim submitted', 'ExternalUser' => 'Your claim has been submitted' },
+      'allocated' => { 'CaseWorker' => 'Claim allocated', 'ExternalUser' => 'Your claim has been allocated' },
+      'deallocated' => { 'CaseWorker' => 'Claim de-allocated', 'ExternalUser' => 'Your claim has been de-allocated' },
+      'authorised' => { 'CaseWorker' => 'Claim authorised', 'ExternalUser' => 'Your claim has been authorised' },
+      'part_authorised' => {
+        'CaseWorker' => 'Claim part authorised', 'ExternalUser' => 'Your claim has been part-authorised'
+      },
+      'rejected' => { 'CaseWorker' => 'Claim rejected', 'ExternalUser' => 'Your claim has been rejected' },
+      'refused' => { 'CaseWorker' => 'Claim refused', 'ExternalUser' => 'Your claim has been refused' },
+      'archived_pending_delete' => {
+        'CaseWorker' => 'Claim archived', 'ExternalUser' => 'Your claim has been archived'
+      }
     }
   end
 

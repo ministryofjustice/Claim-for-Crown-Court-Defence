@@ -16,7 +16,8 @@ class CertificationType < ActiveRecord::Base
 
   has_many :certifications
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false, message: 'Certification type name has already been taken' }
+  validates :name, presence: true, uniqueness: { case_sensitive: false,
+                                                 message: 'Certification type name has already been taken' }
 
   scope :pre_may_2015,              -> { where(pre_may_2015: true) }
   scope :post_may_2015,             -> { where(pre_may_2015: false) }

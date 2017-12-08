@@ -5,7 +5,8 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
 
   def index
     @case_workers = CaseWorker.includes(:location).joins(:user)
-    @case_workers = @case_workers.where("lower(users.first_name || ' ' || users.last_name) ILIKE :term", term: "%#{params[:search]}%") if params[:search].present?
+    query = t('sql.query.name')
+    @case_workers = @case_workers.where(query, term: "%#{params[:search]}%") if params[:search].present?
     @case_workers = @case_workers.order('users.last_name', 'users.first_name')
   end
 
@@ -52,9 +53,10 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   end
 
   def case_worker_params
+    attributes = %i[id email email_confirmation current_password password password_confirmation first_name last_name]
     params.require(:case_worker).permit(
       :location_id,
-      user_attributes: %i[id email email_confirmation current_password password password_confirmation first_name last_name],
+      user_attributes: attributes,
       claim_ids: [],
       roles: []
     )

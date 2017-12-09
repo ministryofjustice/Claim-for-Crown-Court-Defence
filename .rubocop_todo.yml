@@ -43,23 +43,6 @@ Metrics/LineLength:
     - 'app/interfaces/api/entities/full_claim.rb'
     # @jsugarman to check ^^
     - 'app/controllers/external_users/claim_types_controller.rb'
-    - 'app/interfaces/api/entities/message.rb'
-    - 'app/interfaces/api/helpers/resource_helper.rb'
-    - 'app/interfaces/api/v1/external_users/claims/interim_claim.rb'
-    - 'app/models/assessment.rb'
-    - 'app/models/case_worker.rb'
-    - 'app/models/claim/transfer_detail.rb'
-    - 'app/models/claims/search.rb'
-    - 'app/models/claims/sort.rb'
-    - 'app/models/defendant.rb'
-    - 'app/models/expense.rb'
-    - 'app/models/stats/collector/base_collector.rb'
-    - 'app/models/stats/collector/multi_session_submission_collector.rb'
-    - 'app/models/vat_rate.rb'
-    - 'app/presenters/claim/base_claim_presenter.rb'
-    - 'app/services/stats/claim_submissions_data_generator.rb'
-    - 'app/validators/claim/litigator_supplier_number_validations.rb'
-    - 'app/validators/fee/warrant_fee_validator.rb'
 
 # Offense count: 54
 # Configuration parameters: CountComments.

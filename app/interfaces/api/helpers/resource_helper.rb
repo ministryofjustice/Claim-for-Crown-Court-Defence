@@ -11,7 +11,8 @@ module API::Helpers
     end
 
     def claim_id
-      ::Claim::BaseClaim.active.find_by(uuid: params.claim_id).try(:id) || (raise ArgumentError, 'Claim cannot be blank')
+      err_msg = 'Claim cannot be blank'
+      ::Claim::BaseClaim.active.find_by(uuid: params.claim_id).try(:id) || (raise ArgumentError, err_msg)
     end
 
     def claim_creator
@@ -47,7 +48,8 @@ module API::Helpers
     end
 
     def find_user_by_email(email:, relation:)
-      User.active.external_users.find_by(email: email).try(:persona) || (raise ArgumentError, "#{relation} email is invalid")
+      err_msg = "#{relation} email is invalid"
+      User.active.external_users.find_by(email: email).try(:persona) || (raise ArgumentError, err_msg)
     end
 
     def lgfs_schema?

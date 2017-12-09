@@ -52,7 +52,8 @@ class VatRate < ActiveRecord::Base
           break
         end
       end
-      raise VatRate::MissingVatRateError, "There is no VAT rate for date #{date.strftime(Settings.date_format)}" if result.nil?
+      err_msg = "There is no VAT rate for date #{date.strftime(Settings.date_format)}"
+      raise VatRate::MissingVatRateError, err_msg if result.nil?
       result.rate_base_points
     end
   end

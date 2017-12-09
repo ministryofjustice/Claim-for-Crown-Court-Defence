@@ -18,7 +18,8 @@ module Claim
       return unless @record.supplier_number.present?
 
       validate_pattern(:supplier_number, supplier_number_regex, 'invalid')
-      validate_inclusion(:supplier_number, provider_supplier_numbers, 'unknown') unless @record.errors.key?(:supplier_number)
+      return if @record.errors.key?(:supplier_number)
+      validate_inclusion(:supplier_number, provider_supplier_numbers, 'unknown')
     end
 
     def supplier_number_regex

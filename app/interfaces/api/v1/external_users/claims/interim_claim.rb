@@ -7,8 +7,14 @@ module API::V1::ExternalUsers
         use :common_params
         use :common_lgfs_params
         use :common_trial_params
-        optional :effective_pcmh_date, type: String, desc: 'REQUIRED/UNREQUIRED: YYYY-MM-DD', standard_json_format: true
-        optional :legal_aid_transfer_date, type: String, desc: 'REQUIRED/UNREQUIRED: YYYY-MM-DD', standard_json_format: true
+        optional :effective_pcmh_date,
+                 type: String,
+                 desc: 'REQUIRED/UNREQUIRED: YYYY-MM-DD',
+                 standard_json_format: true
+        optional :legal_aid_transfer_date,
+                 type: String,
+                 desc: 'REQUIRED/UNREQUIRED: YYYY-MM-DD',
+                 standard_json_format: true
       end
 
       namespace :interim do

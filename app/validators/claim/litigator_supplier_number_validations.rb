@@ -1,5 +1,7 @@
 module Claim
   module LitigatorSupplierNumberValidations
+    include ValidateLitigatorSupplierNumber
+
     def self.included(base)
       base.class_eval do
         def self.first_step_common_validations
@@ -12,15 +14,7 @@ module Claim
 
     private
 
-    def validate_supplier_number
-      validate_presence(:supplier_number, 'blank')
-
-      return unless @record.supplier_number.present?
-
-      validate_pattern(:supplier_number, supplier_number_regex, 'invalid')
-      return if @record.errors.key?(:supplier_number)
-      validate_inclusion(:supplier_number, provider_supplier_numbers, 'unknown')
-    end
+    # validate_supplier_number called from ValidateLitigatorSupplierNumber
 
     def supplier_number_regex
       SupplierNumber::SUPPLIER_NUMBER_REGEX

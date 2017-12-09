@@ -44,10 +44,60 @@ Metrics/LineLength:
     # @jsugarman to check ^^
     - 'app/controllers/external_users/claim_types_controller.rb'
 
-# Offense count: 54
+# Offense count: 56
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
-  Max: 127
+  Exclude:
+    - 'app/controllers/case_workers/claims_controller.rb'
+    - 'app/controllers/concerns/provider_admin_concern.rb'
+    - 'app/controllers/documents_controller.rb'
+    - 'app/controllers/external_users/application_controller.rb'
+    - 'app/controllers/external_users/certifications_controller.rb'
+    - 'app/controllers/external_users/claim_types_controller.rb'
+    - 'app/controllers/external_users/claims_controller.rb'
+    - 'app/controllers/external_users/json_document_importers_controller.rb'
+    - 'app/controllers/external_users/registrations_controller.rb'
+    - 'app/controllers/geckoboard_api/statistics_controller.rb'
+    - 'app/controllers/messages_controller.rb'
+    - 'app/form_builders/adp_text_field.rb'
+    - 'app/interfaces/api/helpers/api_helper.rb'
+    - 'app/models/ability.rb'
+    - 'app/models/claim/transfer_brain_data_item.rb'
+    - 'app/models/claim/transfer_brain_data_item_collection.rb'
+    - 'app/models/claims/state_machine.rb'
+    - 'app/models/concerns/duplicable.rb'
+    - 'app/models/document.rb'
+    - 'app/models/json_document_importer.rb'
+    - 'app/models/stats/collector/completion_rate_collector.rb'
+    - 'app/models/stats/collector/info_request_count_collector.rb'
+    - 'app/models/stats/management_information_generator.rb'
+    - 'app/models/stats/statistic.rb'
+    - 'app/presenters/claim_state_transition_presenter.rb'
+    - 'app/presenters/error_message_translator.rb'
+    - 'app/presenters/error_presenter.rb'
+    - 'app/presenters/fee/interim_fee_type_presenter.rb'
+    - 'app/rake_helpers/cloned_claim_repairer.rb'
+    - 'app/services/claims/case_worker_claim_updater.rb'
+    - 'app/services/claims/case_worker_claims.rb'
+    - 'app/services/disc_evidence_coversheet_builder.rb'
+    - 'app/services/injection_response_service.rb'
+    - 'app/services/message_queue/aws_client.rb'
+    - 'app/services/message_queue/message_template.rb'
+    - 'app/services/slack_notifier.rb'
+    - 'app/services/vat_auditor.rb'
+    - 'app/services/zendesk_sender.rb'
+    - 'app/validators/claim/advocate_claim_sub_model_validator.rb'
+    - 'app/validators/claim/advocate_claim_validator.rb'
+    - 'app/validators/claim/interim_claim_sub_model_validator.rb'
+    - 'app/validators/claim/interim_claim_validator.rb'
+    - 'app/validators/claim/litigator_claim_sub_model_validator.rb'
+    - 'app/validators/claim/litigator_common_validations.rb'
+    - 'app/validators/claim/transfer_claim_sub_model_validator.rb'
+    - 'app/validators/claim/transfer_claim_validator.rb'
+    - 'app/validators/expense_v2_validator.rb'
+    - 'lib/geckoboard_publisher/providers_report.rb'
+    - 'scheduled_tasks/daily_stats_generator.rb'
+    - 'spikes/supplier_import/migrate/20161020133346_laa_imported_suppliers.rb'
 
 # Offense count: 2
 # Configuration parameters: CountComments.

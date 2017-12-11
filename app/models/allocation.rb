@@ -134,7 +134,22 @@ class Allocation
     claim.allocate!(audit_attributes)
 
     claim.case_workers << case_worker
-    successful_claims << claim
+    if claim.case_workers.empty?
+      LogStuff.send(:error, 'Allocation',
+                    action: 'allocating',
+                    claim_id: claim.id,
+                    allocating_user_id: @current_user.id,
+                    allocating_to_user_id: @case_worker_id,
+                    claim_ids: @claim_ids,
+                    allocating: @allocating,
+                    deallocate: @deallocate) do
+        "Allocating claim #{claim.id} failed"
+      end
+
+      errors.add(:base, "Allocating Claim #{claim.case_number} to #{case_worker&.name} was unsuccessful")
+    else
+      successful_claims << claim
+    end
   end
 
   def audit_attributes

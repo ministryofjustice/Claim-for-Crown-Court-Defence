@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171111113526) do
+ActiveRecord::Schema.define(version: 20171211120149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(version: 20171111113526) do
     t.decimal  "expenses_vat",             default: 0.0
     t.decimal  "disbursements_vat",        default: 0.0
     t.integer  "value_band_id"
+    t.boolean  "retrial_reduction",        default: false
   end
 
   add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree

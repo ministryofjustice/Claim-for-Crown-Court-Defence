@@ -12,10 +12,12 @@ module API
               :trial_fixed_notice_at,
               :trial_fixed_at,
               :trial_cracked_at,
+              :retrial_started_at,
               :last_submitted_at,
               format_with: :utc
       expose :trial_cracked_at_third
 
+      expose :adapted_advocate_category, as: :advocate_category
       expose :case_type, using: API::Entities::CCR::CaseType
       expose :court, using: API::Entities::CCR::Court
       expose :offence, using: API::Entities::CCR::Offence
@@ -23,27 +25,17 @@ module API
 
       # TODO: need a new field for retrial reductions
       expose :dummy_retrial_reduction, as: :retrial_reduction
-      expose :retrial_started_at, :retrial_concluded_at, format_with: :utc
+
       with_options(format_with: :string) do
+        expose :actual_trial_length_or_one, as: :actual_trial_Length
+        expose :estimated_trial_length_or_one, as: :estimated_trial_length
         expose :retrial_actual_length_or_one, as: :retrial_actual_length
         expose :retrial_estimated_length_or_one, as: :retrial_estimated_length
       end
 
-      # TODO: Retrial, original trial details
-      # NOTE: CCR requires original trial case number but defaults this
-      # to the retrials case number as they are usually the same. Similarly
-      # with court. Ideally CCR should infer this information until such time
-      # as new fields are added to CCCD.
-      #
-      # expose :case_number, as: :retrial_original_case_number
-      # expose :court, using: API::Entities::CCR::Court, as: :retrial_original_court
-
-      expose :estimated_trial_length_or_one, as: :estimated_trial_length, format_with: :string
-      expose :actual_trial_length_or_one, as: :actual_trial_Length, format_with: :string
-      expose :adapted_advocate_category, as: :advocate_category
       expose :additional_information
 
-      # CCR fee to bill mappings
+      # CCR fees and expenses to bill mappings
       expose :bills
 
       private
@@ -53,7 +45,7 @@ module API
       end
 
       def dummy_retrial_reduction
-        'true'
+        true
       end
 
       def estimated_trial_length_or_one

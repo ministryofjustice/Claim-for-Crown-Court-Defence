@@ -30,18 +30,10 @@
     },
     "retrial_reduction": {
       "id": "/properties/retrial_reduction",
-      "type": ["string","null"]
+      "type": "boolean"
     },
     "retrial_started_at": {
       "id": "/properties/retrial_started_at",
-      "type": ["string","null"]
-    },
-    "retrial_concluded_at": {
-      "id": "/properties/retrial_concluded_at",
-      "type": ["string","null"]
-    },
-    "retrial_actual_length": {
-      "id": "/properties/retrial_actual_length",
       "type": ["string","null"]
     },
     "retrial_actual_length": {

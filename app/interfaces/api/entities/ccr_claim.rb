@@ -23,8 +23,7 @@ module API
       expose :offence, using: API::Entities::CCR::Offence
       expose :defendants_with_main_first, using: API::Entities::CCR::Defendant, as: :defendants
 
-      # TODO: need a new field for retrial reductions
-      expose :dummy_retrial_reduction, as: :retrial_reduction
+      expose :retrial_reduction
 
       with_options(format_with: :string) do
         expose :actual_trial_length_or_one, as: :actual_trial_Length
@@ -42,10 +41,6 @@ module API
 
       def defendants_with_main_first
         object.defendants.order(created_at: :asc)
-      end
-
-      def dummy_retrial_reduction
-        true
       end
 
       def estimated_trial_length_or_one

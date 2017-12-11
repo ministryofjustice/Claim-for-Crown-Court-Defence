@@ -4,6 +4,7 @@ module DatabaseHousekeeping
       CaseType,
       Expense,
       ClaimStateTransition,
+      InjectionAttempt,
       Claim::BaseClaim,
       DateAttended,
       Defendant,

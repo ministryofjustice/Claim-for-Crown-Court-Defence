@@ -62,6 +62,7 @@ Metrics/MethodLength:
     - 'app/form_builders/adp_text_field.rb'
     - 'app/interfaces/api/helpers/api_helper.rb'
     - 'app/models/ability.rb'
+    - 'app/models/allocation.rb'
     - 'app/models/claim/transfer_brain_data_item.rb'
     - 'app/models/claim/transfer_brain_data_item_collection.rb'
     - 'app/models/claims/state_machine.rb'

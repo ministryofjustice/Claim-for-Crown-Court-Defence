@@ -1,8 +1,8 @@
 class Ability
   include CanCan::Ability
 
-  CLAIM_METHODS = %i[show show_message_controls messages edit update summary
-                     unarchive confirmation clone_rejected destroy disc_evidence].freeze
+  MANAGE_CLAIM_METHODS = %i[show show_message_controls messages edit update summary
+                            unarchive confirmation clone_rejected destroy disc_evidence].freeze
 
   def initialize(user)
     return if user.nil? || user.persona.nil?
@@ -70,7 +70,7 @@ class Ability
   def can_administer_any_claim_in_provider(persona)
     can [:create], ClaimIntention
     can %i[index outstanding authorised archived new create], Claim::BaseClaim
-    can CLAIM_METHODS, Claim::BaseClaim, provider_id: persona.provider_id
+    can MANAGE_CLAIM_METHODS, Claim::BaseClaim, provider_id: persona.provider_id
     can %i[show create update], Certification
     can_administer_documents_in_provider(persona)
   end
@@ -105,7 +105,7 @@ class Ability
   def can_manage_own_claims_of_class(persona, claim_klass)
     can [:create], ClaimIntention
     can %i[index outstanding authorised archived new create], claim_klass
-    can CLAIM_METHODS, claim_klass, external_user_id: persona.id
+    can MANAGE_CLAIM_METHODS, claim_klass, external_user_id: persona.id
     can %i[show create update], Certification
     can_manage_own_documents(persona)
   end

@@ -27,4 +27,4 @@
   %th{scope: "col"}
     = t('retrial_reduction', scope: retrial_i18n_scope)
   %td
-    = claim&.retrial_reduction
+    = claim&.retrial_reduction? ? 'Yes' : 'No'

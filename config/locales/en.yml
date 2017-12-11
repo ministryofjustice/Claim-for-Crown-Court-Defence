@@ -527,7 +527,7 @@ en:
           retrial_estimated_length_hint: 'Number of days'
           retrial_started_at: 'First day of retrial'
           retrial_concluded_at: 'Retrial concluded on'
-          retrial_reduction: 'Are you applying for a reduction?'
+          retrial_reduction: 'Apply reduced rate to retrial?'
           days: "Days"
         offence_id_select:
           offence_class: "Offence class"

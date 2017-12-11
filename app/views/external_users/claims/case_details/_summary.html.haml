@@ -1,7 +1,7 @@
-- locale_path = "external_users.claims.case_details.fields"
-- cracked_trial_detail_translations = 'external_users.claims.case_details.cracked_trial_fields'
-- trial_detail_translations = 'external_users.claims.case_details.trial_detail_fields'
-- retrial_detail_translations = 'external_users.claims.case_details.retrial_detail_fields'
+- claim_fields = %i[external_users claims case_details fields]
+- cracked_trial_fields = %i[external_users claims case_details cracked_trial_fields]
+- trial_detail_fields = %i[external_users claims case_details trial_detail_fields]
+- retrial_detail_fields = %i[external_users claims case_details retrial_detail_fields]
 
 %table{class:'table-summary', summary: t('.summary')}
   %caption
@@ -42,7 +42,7 @@
 
     %tr
       %th{scope: 'row'}
-        = t("#{locale_path}.case_number")
+        = t("case_number", scope: claim_fields)
       %td
         = claim.case_number
 
@@ -63,20 +63,20 @@
     - if claim.case_type.try(:name)
       %tr
         %th{scope: 'row'}
-          = t("#{locale_path}.case_type")
+          = t("case_type", scope: claim_fields)
         %td
           = claim.case_type.try(:name)
 
     - if claim.agfs?
       %tr
         %th{scope: 'row'}
-          = t("#{locale_path}.offence_category")
+          = t("offence_category", scope: claim_fields)
         %td
           = claim.offence ? claim.offence.description : t("general.not_provided")
 
     %tr
       %th{scope: 'row'}
-        = t("#{locale_path}.offence_class")
+        = t("offence_class", scope: claim_fields)
       %td
         = claim.offence ? claim.offence.offence_class : t("general.not_provided")
 
@@ -87,69 +87,74 @@
         %td
           = claim.case_concluded_at
 
-    - if claim.case_type && claim.requires_cracked_dates?
+    - if claim&.case_type && claim.requires_cracked_dates?
       %tr
         %th{scope: 'row'}
-          = t("#{cracked_trial_detail_translations}.trial_fixed_notice_at")
+          = t("trial_fixed_notice_at", scope: cracked_trial_fields)
         %td
-          = claim.trial_fixed_notice_at.strftime(Settings.date_format) rescue ''
+          = claim&.trial_fixed_notice_at&.strftime(Settings.date_format)
       %tr
         %th{scope: 'row'}
-          = t("#{cracked_trial_detail_translations}.trial_fixed_at")
+          = t("trial_fixed_at", scope: cracked_trial_fields)
         %td
-          = claim.trial_fixed_at.strftime(Settings.date_format) rescue ''
+          = claim&.trial_fixed_at&.strftime(Settings.date_format)
       %tr
         %th{scope: 'row'}
-          = t("#{cracked_trial_detail_translations}.trial_cracked_at")
+          = t("trial_cracked_at", scope: cracked_trial_fields)
         %td
-          = claim.trial_cracked_at.strftime(Settings.date_format) rescue ''
+          = claim&.trial_cracked_at&.strftime(Settings.date_format)
       %tr
         %th{scope: 'row'}
-          = t("#{cracked_trial_detail_translations}.trial_cracked_at_third")
+          = t("trial_cracked_at_third", scope: cracked_trial_fields)
         %td
-          = claim.trial_cracked_at_third.humanize rescue ''
+          = claim&.trial_cracked_at_third&.humanize
 
     - unless claim.interim?
-      - if claim.case_type && claim.requires_trial_dates?
+      - if claim&.case_type && claim.requires_trial_dates?
         %tr
           %th{scope: 'row'}
-            = t("#{trial_detail_translations}.first_day_of_trial")
+            = t("first_day_of_trial", scope: trial_detail_fields)
           %td
-            = claim.first_day_of_trial.strftime(Settings.date_format) rescue ''
+            = claim&.first_day_of_trial.strftime(Settings.date_format)
         %tr
           %th{scope: 'row'}
-            = t("#{trial_detail_translations}.estimated_trial_length")
+            = t("estimated_trial_length", scope: trial_detail_fields)
           %td
-            = claim.estimated_trial_length rescue ''
+            = claim&.estimated_trial_length
         %tr
           %th{scope: 'row'}
-            = t("#{trial_detail_translations}.actual_trial_length")
+            = t("actual_trial_length", scope: trial_detail_fields)
           %td
-            = claim.actual_trial_length rescue ''
+            = claim&.actual_trial_length
         %tr
           %th{scope: 'row'}
-            = t("#{trial_detail_translations}.trial_concluded_at")
+            = t("trial_concluded_at", scope: trial_detail_fields)
           %td
-            = claim.trial_concluded_at.strftime(Settings.date_format) rescue ''
+            = claim&.trial_concluded_at&.strftime(Settings.date_format)
 
-      - if claim.case_type && claim.requires_retrial_dates?
+      - if claim&.case_type && claim.requires_retrial_dates?
         %tr
           %th{scope: 'row'}
-            = t("#{retrial_detail_translations}.retrial_started_at")
+            = t("retrial_started_at", scope: retrial_detail_fields)
           %td
-            = claim.retrial_started_at.strftime(Settings.date_format) rescue ''
+            = claim&.retrial_started_at.strftime(Settings.date_format)
         %tr
           %th{scope: 'row'}
-            = t("#{retrial_detail_translations}.retrial_estimated_length")
+            = t("retrial_estimated_length", scope: retrial_detail_fields)
           %td
-            = claim.retrial_estimated_length rescue ''
+            = claim&.retrial_estimated_length
         %tr
           %th{scope: 'row'}
-            = t("#{retrial_detail_translations}.retrial_actual_length")
+            = t("retrial_actual_length", scope: retrial_detail_fields)
           %td
-            = claim.retrial_actual_length rescue ''
+            = claim&.retrial_actual_length
         %tr
           %th{scope: 'row'}
-            = t("#{retrial_detail_translations}.retrial_concluded_at")
+            = t("retrial_concluded_at", scope: retrial_detail_fields)
           %td
-            = claim.retrial_concluded_at.strftime(Settings.date_format) rescue ''
+            = claim&.retrial_concluded_at&.strftime(Settings.date_format)
+        %tr
+          %th{scope: 'row'}
+            = t("retrial_reduction", scope: retrial_detail_fields)
+          %td
+            = claim&.retrial_reduction? ? 'Yes' : 'No'

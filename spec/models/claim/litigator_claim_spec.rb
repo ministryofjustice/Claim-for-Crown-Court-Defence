@@ -58,6 +58,8 @@
 #  fees_vat                 :decimal(, )      default(0.0)
 #  expenses_vat             :decimal(, )      default(0.0)
 #  disbursements_vat        :decimal(, )      default(0.0)
+#  value_band_id            :integer
+#  retrial_reduction        :boolean          default(FALSE)
 #
 
 require 'rails_helper'

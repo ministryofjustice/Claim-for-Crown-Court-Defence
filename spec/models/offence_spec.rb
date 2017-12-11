@@ -7,6 +7,7 @@
 #  offence_class_id :integer
 #  created_at       :datetime
 #  updated_at       :datetime
+#  unique_code      :string           default("anyoldrubbish"), not null
 #
 
 require 'rails_helper'

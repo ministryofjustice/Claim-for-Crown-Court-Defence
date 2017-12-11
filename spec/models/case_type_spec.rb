@@ -14,6 +14,7 @@
 #  requires_retrial_dates  :boolean          default(FALSE)
 #  roles                   :string
 #  fee_type_code           :string
+#  uuid                    :uuid
 #
 
 require 'rails_helper'

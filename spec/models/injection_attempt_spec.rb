@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: injection_attempts
+#
+#  id            :integer          not null, primary key
+#  claim_id      :integer
+#  succeeded     :boolean
+#  error_message :string
+#  created_at    :datetime
+#  updated_at    :datetime
+#
+
 require 'rails_helper'
 
 RSpec.describe InjectionAttempt, type: :model do

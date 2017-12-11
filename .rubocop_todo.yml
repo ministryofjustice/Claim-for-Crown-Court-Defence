@@ -38,12 +38,67 @@ Metrics/ClassLength:
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:
-  Max: 200
+  Exclude:
+    - 'app/services/ccr/fee/misc_fee_adapter.rb'
+    - 'app/interfaces/api/entities/full_claim.rb'
+    # @jsugarman to check ^^
+    - 'app/controllers/external_users/claim_types_controller.rb'
 
-# Offense count: 54
+# Offense count: 56
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
-  Max: 127
+  Exclude:
+    - 'app/controllers/case_workers/claims_controller.rb'
+    - 'app/controllers/concerns/provider_admin_concern.rb'
+    - 'app/controllers/documents_controller.rb'
+    - 'app/controllers/external_users/application_controller.rb'
+    - 'app/controllers/external_users/certifications_controller.rb'
+    - 'app/controllers/external_users/claim_types_controller.rb'
+    - 'app/controllers/external_users/claims_controller.rb'
+    - 'app/controllers/external_users/json_document_importers_controller.rb'
+    - 'app/controllers/external_users/registrations_controller.rb'
+    - 'app/controllers/geckoboard_api/statistics_controller.rb'
+    - 'app/controllers/messages_controller.rb'
+    - 'app/form_builders/adp_text_field.rb'
+    - 'app/interfaces/api/helpers/api_helper.rb'
+    - 'app/models/ability.rb'
+    - 'app/models/allocation.rb'
+    - 'app/models/claim/transfer_brain_data_item.rb'
+    - 'app/models/claim/transfer_brain_data_item_collection.rb'
+    - 'app/models/claims/state_machine.rb'
+    - 'app/models/concerns/duplicable.rb'
+    - 'app/models/document.rb'
+    - 'app/models/json_document_importer.rb'
+    - 'app/models/stats/collector/completion_rate_collector.rb'
+    - 'app/models/stats/collector/info_request_count_collector.rb'
+    - 'app/models/stats/management_information_generator.rb'
+    - 'app/models/stats/statistic.rb'
+    - 'app/presenters/claim_state_transition_presenter.rb'
+    - 'app/presenters/error_message_translator.rb'
+    - 'app/presenters/error_presenter.rb'
+    - 'app/presenters/fee/interim_fee_type_presenter.rb'
+    - 'app/rake_helpers/cloned_claim_repairer.rb'
+    - 'app/services/claims/case_worker_claim_updater.rb'
+    - 'app/services/claims/case_worker_claims.rb'
+    - 'app/services/disc_evidence_coversheet_builder.rb'
+    - 'app/services/injection_response_service.rb'
+    - 'app/services/message_queue/aws_client.rb'
+    - 'app/services/message_queue/message_template.rb'
+    - 'app/services/slack_notifier.rb'
+    - 'app/services/vat_auditor.rb'
+    - 'app/services/zendesk_sender.rb'
+    - 'app/validators/claim/advocate_claim_sub_model_validator.rb'
+    - 'app/validators/claim/advocate_claim_validator.rb'
+    - 'app/validators/claim/interim_claim_sub_model_validator.rb'
+    - 'app/validators/claim/interim_claim_validator.rb'
+    - 'app/validators/claim/litigator_claim_sub_model_validator.rb'
+    - 'app/validators/claim/litigator_common_validations.rb'
+    - 'app/validators/claim/transfer_claim_sub_model_validator.rb'
+    - 'app/validators/claim/transfer_claim_validator.rb'
+    - 'app/validators/expense_v2_validator.rb'
+    - 'lib/geckoboard_publisher/providers_report.rb'
+    - 'scheduled_tasks/daily_stats_generator.rb'
+    - 'spikes/supplier_import/migrate/20161020133346_laa_imported_suppliers.rb'
 
 # Offense count: 2
 # Configuration parameters: CountComments.
@@ -67,7 +122,46 @@ Naming/AccessorMethodName:
 # NamePrefixBlacklist: is_, has_, have_
 # NameWhitelist: is_a?
 Naming/PredicateName:
-  Enabled: false
+  Exclude:
+    - 'app/controllers/case_workers/admin/allocations_controller.rb'
+    - 'app/form_builders/adp_text_field.rb'
+    - 'app/interfaces/api/helpers/api_helper.rb'
+    - 'app/interfaces/api/helpers/search_result_helpers.rb'
+    - 'app/models/case_type.rb'
+    - 'app/models/claim/base_claim.rb'
+    - 'app/models/claims/state_machine.rb'
+    - 'app/models/claims/user_messages.rb'
+    - 'app/models/concerns/roles.rb'
+    - 'app/models/fee/base_fee.rb'
+    - 'app/models/fee/basic_fee.rb'
+    - 'app/models/fee/fixed_fee.rb'
+    - 'app/models/fee/graduated_fee.rb'
+    - 'app/models/fee/interim_fee.rb'
+    - 'app/models/fee/interim_fee_type_codes.rb'
+    - 'app/models/fee/misc_fee.rb'
+    - 'app/models/fee/transfer_fee.rb'
+    - 'app/models/fee/warrant_fee.rb'
+    - 'app/models/representation_order.rb'
+    - 'app/models/supplier_number.rb'
+    - 'app/models/timed_transitions/transitioner.rb'
+    - 'app/presenters/claim/base_claim_presenter.rb'
+    - 'app/presenters/error_presenter.rb'
+    - 'app/presenters/fee/interim_fee_type_presenter.rb'
+    - 'app/presenters/fee/interim_fee_type_presenter.rb'
+    - 'app/rake_helpers/document_recloner.rb'
+    - 'app/services/remote/simple_associations.rb'
+    - 'app/services/slack_notifier.rb'
+    - 'app/validators/base_sub_model_validator.rb'
+    - 'app/validators/base_validator.rb'
+    - 'app/validators/claim/advocate_claim_sub_model_validator.rb'
+    - 'app/validators/claim/base_claim_sub_model_validator.rb'
+    - 'app/validators/claim/base_claim_validator.rb'
+    - 'app/validators/claim/interim_claim_sub_model_validator.rb'
+    - 'app/validators/claim/litigator_claim_sub_model_validator.rb'
+    - 'app/validators/claim/transfer_claim_sub_model_validator.rb'
+    - 'app/validators/defendant_sub_model_validator.rb'
+    - 'app/validators/fee_sub_model_validator.rb'
+    - 'app/validators/supplier_number_sub_model_validator.rb'
 
 # Offense count: 96
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -81,12 +175,6 @@ Style/ClassVars:
     - 'app/models/google_analytics/data_tracking.rb'
     - 'app/models/timed_transitions/transitioner.rb'
     - 'app/services/remote/http_client.rb'
-
-# Offense count: 31
-# Configuration parameters: SupportedStyles.
-# SupportedStyles: annotated, template
-Style/FormatStringToken:
-  EnforcedStyle: template
 
 # Offense count: 4
 Style/IfInsideElse:

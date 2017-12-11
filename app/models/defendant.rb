@@ -23,7 +23,9 @@ class Defendant < ActiveRecord::Base
   validates_with DefendantValidator
   validates_with DefendantSubModelValidator
 
-  acts_as_gov_uk_date :date_of_birth, validate_if: :validate_date?, error_clash_behaviour: :override_with_gov_uk_date_field_error
+  acts_as_gov_uk_date :date_of_birth,
+                      validate_if: :validate_date?,
+                      error_clash_behaviour: :override_with_gov_uk_date_field_error
 
   accepts_nested_attributes_for :representation_orders, reject_if: :all_blank, allow_destroy: true
 

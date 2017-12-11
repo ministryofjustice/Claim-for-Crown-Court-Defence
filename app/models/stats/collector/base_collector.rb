@@ -1,7 +1,7 @@
 module Stats
   module Collector
-    # This class counts the number of claims authorised to day that where the caseworker requested extra information vs the number
-    # that were authorised without further info being needed.
+    # This class counts the number of claims authorised to day that where the caseworker requested
+    # extra information vs the number that were authorised without further info being needed.
     #
     class BaseCollector
       STRFTIME_MASK = '%Y-%m-%d %H:%M:%S.%6N'.freeze

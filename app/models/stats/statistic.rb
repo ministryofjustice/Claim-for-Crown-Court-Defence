@@ -19,7 +19,9 @@ module Stats
     end
 
     def self.report(report_name, claim_type, start_date, end_date)
-      Statistic.where(report_name: report_name, claim_type: claim_type).where('date between ? and ?', start_date.to_date, end_date.to_date).order(:date)
+      Statistic.where(report_name: report_name, claim_type: claim_type)
+               .where('date between ? and ?', start_date.to_date, end_date.to_date)
+               .order(:date)
     end
 
     def self.create_or_update(date, report_name, claim_type, value1, value2 = 0)

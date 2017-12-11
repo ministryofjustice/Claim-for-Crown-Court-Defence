@@ -15,7 +15,10 @@ module Claims::Calculations
   # * net_attribute: the name of the attribute holding the net amount to be summed
   # * vat_attribute: the name of the attribute holding the vat amount to be summed
   def totalize_for_claim(klass, claim_id, net_attribute, vat_attribute)
-    values = klass.where(claim_id: claim_id).where(attribute_is_null_to_s(net_attribute)).pluck(vat_attribute, net_attribute)
+    values = klass
+             .where(claim_id: claim_id)
+             .where(attribute_is_null_to_s(net_attribute))
+             .pluck(vat_attribute, net_attribute)
     { vat: values.map { |v| v.first || BigDecimal.new(0.0, 8) }.sum, net: values.map(&:last).sum }
   end
 
@@ -37,17 +40,23 @@ module Claims::Calculations
   def update_fees_total
     fees_total = calculate_fees_total
     fees_vat = calculate_fees_vat(fees_total)
-    update_columns(fees_vat: fees_vat, fees_total: fees_total, value_band_id: Claims::ValueBands.band_id_for_value(fees_vat + fees_total))
+    update_columns(fees_vat: fees_vat,
+                   fees_total: fees_total,
+                   value_band_id: Claims::ValueBands.band_id_for_value(fees_vat + fees_total))
   end
 
   def update_expenses_total
     totals = totalize_for_claim(Expense, id, :amount, :vat_amount)
-    update_columns(expenses_vat: totals[:vat], expenses_total: totals[:net], value_band_id: Claims::ValueBands.band_id_for_value(totals[:net] + totals[:vat]))
+    update_columns(expenses_vat: totals[:vat],
+                   expenses_total: totals[:net],
+                   value_band_id: Claims::ValueBands.band_id_for_value(totals[:net] + totals[:vat]))
   end
 
   def update_disbursements_total
     totals = totalize_for_claim(Disbursement, id, :net_amount, :vat_amount)
-    update_columns(disbursements_vat: totals[:vat], disbursements_total: totals[:net], value_band_id: Claims::ValueBands.band_id_for_value(totals[:net] + totals[:vat]))
+    update_columns(disbursements_vat: totals[:vat],
+                   disbursements_total: totals[:net],
+                   value_band_id: Claims::ValueBands.band_id_for_value(totals[:net] + totals[:vat]))
   end
 
   def update_total

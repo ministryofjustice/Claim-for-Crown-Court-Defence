@@ -14,7 +14,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :set_financial_summary, only: %i[index outstanding authorised]
   before_action :initialize_json_document_importer, only: [:index]
 
-  before_action :set_and_authorize_claim, only: %i[show edit update unarchive clone_rejected destroy summary confirmation show_message_controls messages disc_evidence]
+  before_action :set_and_authorize_claim, only: %i[show edit update unarchive clone_rejected destroy summary
+                                                   confirmation show_message_controls messages disc_evidence]
   before_action :set_doctypes, only: [:show]
   before_action :generate_form_id, only: %i[new edit]
   before_action :initialize_submodel_counts
@@ -112,7 +113,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def new
     load_offences_and_case_types
     build_nested_resources
-    track_visit({ url: 'external_user/%{type}/claim/new/page1', title: 'New %{type} claim page 1' }, claim_tracking_substitutions)
+    track_visit({ url: 'external_user/%{type}/claim/new/page1', title: 'New %{type} claim page 1' },
+                claim_tracking_substitutions)
   end
 
   def edit
@@ -127,7 +129,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
     @claim.touch(:last_edited_at)
 
-    track_visit({ url: 'external_user/%{type}/claim/edit/page1', title: 'Edit %{type} claim page 1' }, claim_tracking_substitutions)
+    track_visit({ url: 'external_user/%{type}/claim/edit/page1', title: 'Edit %{type} claim page 1' },
+                claim_tracking_substitutions)
   end
 
   def create

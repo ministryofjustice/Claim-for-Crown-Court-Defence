@@ -18,7 +18,8 @@
 #
 # Firms have 1 or more lgfs supplier numbers which are held as an association
 # Chambers have an agfs_supplier number for each advocate
-# Firms that do AGFS work as well as LGFS work have an additional firm agfs supplier number, instead of an agfs supplier number for each advocate
+# Firms that do AGFS work as well as LGFS work have an additional firm agfs supplier number,
+# instead of an agfs supplier number for each advocate
 #
 
 class Provider < ActiveRecord::Base
@@ -58,7 +59,9 @@ class Provider < ActiveRecord::Base
 
   validates :firm_agfs_supplier_number, presence: { message: :blank }, if: :agfs_firm?
   validates :firm_agfs_supplier_number, absence: { message: :absent }, unless: :agfs_firm?
-  validates :firm_agfs_supplier_number, format: { with: ExternalUser::SUPPLIER_NUMBER_REGEX, allow_nil: true, message: :invalid_format }
+  validates :firm_agfs_supplier_number, format: { with: ExternalUser::SUPPLIER_NUMBER_REGEX,
+                                                  allow_nil: true,
+                                                  message: :invalid_format }
   validates_with SupplierNumberSubModelValidator, if: :lgfs?
 
   before_validation :force_lgfs_flag_for_firms

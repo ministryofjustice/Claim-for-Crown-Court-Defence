@@ -9,11 +9,17 @@ module API::V2
 
     params :sorting do
       optional :sorting, type: String, default: 'id', desc: 'OPTIONAL: Sort results by this attribute.'
-      optional :direction, type: String, values: %w[asc desc], default: 'asc', desc: 'OPTIONAL: Direction of the sorting: asc or desc.'
+      optional :direction,
+               type: String,
+               values: %w[asc desc],
+               default: 'asc',
+               desc: 'OPTIONAL: Direction of the sorting: asc or desc.'
     end
 
     params :searching do
-      optional :search, type: String, desc: 'OPTIONAL: Search terms, for example case number, MAAT reference, defendant name, case worker name or email.'
+      optional :search,
+               type: String,
+               desc: I18n.t('api.v2.criteria_helper.params.search')
     end
 
     def sort_attribute

@@ -6,14 +6,21 @@ module API
           # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
           optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the provider'
           optional :attended_item_id, type: String, desc: 'REQUIRED: The UUID of the corresponding Fee.'
-          optional :date, type: String, desc: 'REQUIRED: The date, or first date in the date-range, applicable to this Fee (YYYY-MM-DD)', standard_json_format: true
-          optional :date_to, type: String, desc: 'OPTIONAL: The last date in the date-range (YYYY-MM-DD)', standard_json_format: true
+          optional :date,
+                   type: String,
+                   desc: 'REQUIRED: The date, or first date in the date-range, applicable to this Fee (YYYY-MM-DD)',
+                   standard_json_format: true
+          optional :date_to,
+                   type: String,
+                   desc: 'OPTIONAL: The last date in the date-range (YYYY-MM-DD)',
+                   standard_json_format: true
         end
 
         resource :dates_attended, desc: 'Create or Validate' do
           helpers do
             def attended_item_id
-              ::Fee::BaseFee.find_by(uuid: params[:attended_item_id]).try(:id) || (raise ArgumentError, 'Attended item cannot be blank')
+              error_msg = 'Attended item cannot be blank'
+              ::Fee::BaseFee.find_by(uuid: params[:attended_item_id]).try(:id) || (raise ArgumentError, error_msg)
             end
 
             def build_arguments

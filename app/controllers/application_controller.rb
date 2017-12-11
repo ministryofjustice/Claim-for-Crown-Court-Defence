@@ -41,7 +41,8 @@ class ApplicationController < ActionController::Base
   end
 
   def signed_in_user_profile_path
-    path_helper_method = "#{current_user.persona.class.to_s.underscore.pluralize}_admin_#{current_user.persona.class.to_s.underscore}_path"
+    current_user_persona_class = current_user.persona.class.to_s.underscore
+    path_helper_method = "#{current_user_persona_class.pluralize}_admin_#{current_user_persona_class}_path"
     send path_helper_method, current_user.persona_id
   end
 

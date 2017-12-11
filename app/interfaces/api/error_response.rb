@@ -36,7 +36,8 @@ module API
         build_error_response
       else
         @status = object.try(:message) == 'Unauthorised' ? 401 : 400
-        @body = error_messages.push(error: object.try(:message).nil? ? "No message provided by object #{object.class.name}" : object.message)
+        error_msg = object.try(:message).nil? ? "No message provided by object #{object.class.name}" : object.message
+        @body = error_messages.push(error: error_msg)
       end
     end
 

@@ -6,7 +6,9 @@ module API
         expose :first_name
         expose :last_name
         expose :date_of_birth
-        expose :representation_orders_with_earliest_first, using: API::Entities::CCR::RepresentationOrder, as: :representation_orders
+        expose :representation_orders_with_earliest_first,
+               using: API::Entities::CCR::RepresentationOrder,
+               as: :representation_orders
 
         private
 

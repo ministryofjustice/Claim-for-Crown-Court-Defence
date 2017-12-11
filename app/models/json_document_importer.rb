@@ -110,7 +110,8 @@ class JsonDocumentImporter
   end
 
   def destroy_claim_if_any
-    claim = Claim::BaseClaim.active.find_by(uuid: @claim_id) # if an exception is raised the claim is destroyed along with all its dependent objects
+    # if an exception is raised the claim is destroyed along with all its dependent objects
+    claim = Claim::BaseClaim.active.find_by(uuid: @claim_id)
     claim.destroy if claim.present?
   end
 

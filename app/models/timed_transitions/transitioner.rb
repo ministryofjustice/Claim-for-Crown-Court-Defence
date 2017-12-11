@@ -8,7 +8,9 @@ module TimedTransitions
       part_authorised:          Specification.new(:part_authorised, Settings.timed_transition_stale_weeks, :archive),
       refused:                  Specification.new(:refused, Settings.timed_transition_stale_weeks, :archive),
       rejected:                 Specification.new(:rejected, Settings.timed_transition_stale_weeks, :archive),
-      archived_pending_delete:  Specification.new(:archived_pending_delete, Settings.timed_transition_pending_weeks, :destroy_claim)
+      archived_pending_delete:  Specification.new(:archived_pending_delete,
+                                                  Settings.timed_transition_pending_weeks,
+                                                  :destroy_claim)
     }
 
     def self.candidate_claims_ids
@@ -49,7 +51,8 @@ module TimedTransitions
 
     def process_stale_claim
       specification = @@timed_transition_specifications[@claim.state.to_sym]
-      return unless @claim.last_state_transition_time.nil? || @claim.last_state_transition_time < specification.period_in_weeks.weeks.ago
+      last_transition = @claim.last_state_transition_time
+      return unless last_transition.nil? || last_transition < specification.period_in_weeks.weeks.ago
       send(specification.method)
     end
 

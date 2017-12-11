@@ -40,7 +40,8 @@ class DocumentRecloner
       cloned_document = create_cloned_document(source_document)
     end
     cloned_document.save_and_verify
-    @message_text += "#{source_document.document_file_name} has been copied from source claim #{@source_claim.id} (#{@source_claim.case_number})\n"
+    source_claim = "#{@source_claim.id} (#{@source_claim.case_number}"
+    @message_text += "#{source_document.document_file_name} has been copied from source claim #{source_claim})\n"
   end
 
   def create_cloned_document(source_document)

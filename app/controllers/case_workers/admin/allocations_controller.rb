@@ -120,7 +120,8 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     if scheme == 'agfs'
       %w[all fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons disk_evidence]
     elsif scheme == 'lgfs'
-      %w[all fixed_fee graduated_fees interim_fees warrants interim_disbursements risk_based_bills redetermination awaiting_written_reasons disk_evidence]
+      %w[all fixed_fee graduated_fees interim_fees warrants interim_disbursements
+         risk_based_bills redetermination awaiting_written_reasons disk_evidence]
     else
       []
     end
@@ -140,6 +141,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def criteria_params
     limit = quantity_allocation? ? quantity_to_allocate : page_size
-    { sorting: sort_column, direction: sort_direction, scheme: scheme, filter: filter, page: current_page, limit: limit, search: search_terms, value_band_id: value_band_id }
+    { sorting: sort_column, direction: sort_direction, scheme: scheme, filter: filter,
+      page: current_page, limit: limit, search: search_terms, value_band_id: value_band_id }
   end
 end

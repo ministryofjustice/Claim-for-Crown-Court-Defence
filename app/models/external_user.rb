@@ -26,7 +26,8 @@ class ExternalUser < ActiveRecord::Base
 
   has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy
   has_many :claims, -> { active }, dependent: :destroy, class_name: 'Claim::BaseClaim'
-  has_many :claims_created, -> { active }, dependent: :nullify, class_name: 'Claim::BaseClaim', foreign_key: 'creator_id', inverse_of: :creator
+  has_many :claims_created, -> { active }, dependent: :nullify, class_name: 'Claim::BaseClaim',
+                                           foreign_key: 'creator_id', inverse_of: :creator
   has_many :documents # Do not destroy - ultimately belong to chambers.
 
   default_scope { includes(:user, :provider) }

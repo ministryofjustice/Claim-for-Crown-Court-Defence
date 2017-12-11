@@ -100,11 +100,11 @@ module Claim
     delegate :provider_id, :provider, to: :creator
     delegate :requires_trial_dates?, :requires_retrial_dates?, to: :case_type
 
-    has_many :case_worker_claims,       foreign_key: :claim_id, dependent: :destroy
-    has_many :case_workers,             through: :case_worker_claims
-    has_many :fees,                     foreign_key: :claim_id, class_name: 'Fee::BaseFee', dependent: :destroy, inverse_of: :claim
-    has_many :fee_types,                through: :fees, class_name: Fee::BaseFeeType
-    has_many :expenses,                 foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim do
+    has_many :case_worker_claims, foreign_key: :claim_id, dependent: :destroy
+    has_many :case_workers, through: :case_worker_claims
+    has_many :fees,         foreign_key: :claim_id, class_name: 'Fee::BaseFee', dependent: :destroy, inverse_of: :claim
+    has_many :fee_types,    through: :fees, class_name: Fee::BaseFeeType
+    has_many :expenses,     foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim do
       def with_vat
         select(&:vat_present?)
       end
@@ -127,7 +127,10 @@ module Claim
     has_many :documents, -> { where verified: true }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
     has_many :messages,                 foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
 
-    has_many :claim_state_transitions, -> { order(created_at: :desc) }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
+    has_many :claim_state_transitions, -> { order(created_at: :desc) },
+             foreign_key: :claim_id,
+             dependent: :destroy,
+             inverse_of: :claim
 
     has_many :misc_fees, foreign_key: :claim_id, class_name: 'Fee::MiscFee', dependent: :destroy, inverse_of: :claim
 
@@ -170,7 +173,9 @@ module Claim
                         :retrial_concluded_at,
                         :case_concluded_at,
                         :effective_pcmh_date,
-                        :legal_aid_transfer_date, validate_if: :perform_validation?, error_clash_behaviour: :override_with_gov_uk_date_field_error
+                        :legal_aid_transfer_date,
+                        validate_if: :perform_validation?,
+                        error_clash_behaviour: :override_with_gov_uk_date_field_error
 
     before_validation do
       errors.clear
@@ -237,7 +242,8 @@ module Claim
       case filter.to_s
       when 'redetermination', 'awaiting_written_reasons', 'all'
         send(filter)
-      when 'fixed_fee', 'cracked', 'trial', 'guilty_plea', 'graduated_fees', 'interim_fees', 'warrants', 'interim_disbursements', 'risk_based_bills'
+      when 'fixed_fee', 'cracked', 'trial', 'guilty_plea', 'graduated_fees',
+           'interim_fees', 'warrants', 'interim_disbursements', 'risk_based_bills'
         where.not(state: %w[redetermination awaiting_written_reasons]).send(filter)
       else
         raise format('unknown filter: %s', filter)
@@ -275,7 +281,8 @@ module Claim
       @force_validation
     end
 
-    # if allocated, and the last state was redetermination and happened since the last redetermination record was created
+    # if allocated, and the last state was redetermination
+    # and happened since the last redetermination record was created
     def requested_redetermination?
       allocated? ? redetermination_since_allocation? : false
     end
@@ -309,7 +316,8 @@ module Claim
       DocType.find_by_ids(evidence_checklist_ids)
     end
 
-    # responds to methods like claim.external_user_dashboard_submitted? which correspond to the constant EXTERNAL_USER_DASHBOARD_REJECTED_STATES in Claims::StateMachine
+    # responds to methods like claim.external_user_dashboard_submitted? which correspond to the
+    # constant EXTERNAL_USER_DASHBOARD_REJECTED_STATES in Claims::StateMachine
     def method_missing(method, *args)
       if Claims::StateMachine.has_state?(method)
         Claims::StateMachine.is_in_state?(method, self)

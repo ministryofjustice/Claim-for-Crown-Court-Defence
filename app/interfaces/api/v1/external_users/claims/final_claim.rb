@@ -6,8 +6,12 @@ module API::V1::ExternalUsers
       params do
         use :common_params
         use :common_lgfs_params
-        optional :case_concluded_at, type: String, desc: 'REQUIRED: The date the case concluded (YYYY-MM-DD)', standard_json_format: true
-        optional :actual_trial_length, type: Integer, desc: 'REQUIRED/UNREQUIRED: The actual trial length in days, required for graduated fees.'
+        optional :case_concluded_at,
+                 type: String,
+                 desc: 'REQUIRED: The date the case concluded (YYYY-MM-DD)', standard_json_format: true
+        optional :actual_trial_length,
+                 type: Integer,
+                 desc: 'REQUIRED/UNREQUIRED: The actual trial length in days, required for graduated fees.'
       end
 
       namespace :final do

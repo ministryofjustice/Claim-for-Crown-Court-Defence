@@ -47,12 +47,15 @@ module ExternalUsers::ClaimsHelper
   end
 
   def show_timed_retention_banner_to_user?
-    Settings.timed_retention_banner_enabled? && current_user_is_external_user? && current_user.setting?(:timed_retention_banner_seen).nil?
+    Settings.timed_retention_banner_enabled? &&
+      current_user_is_external_user? &&
+      current_user.setting?(:timed_retention_banner_seen).nil?
   end
 
   def supplier_number_hint
     if current_user.persona.admin?
-      "You can add more LGFS supplier numbers on the #{link_to 'Manage provider', edit_external_users_admin_provider_path(current_user.provider)} page".html_safe
+      path = edit_external_users_admin_provider_path(current_user.provider)
+      "You can add more LGFS supplier numbers on the #{link_to 'Manage provider', path} page".html_safe
     else
       'Admin users can add more LGFS supplier numbers on the Manage provider page'
     end

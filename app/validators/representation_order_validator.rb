@@ -40,7 +40,10 @@ class RepresentationOrderValidator < BaseValidator
   end
 
   def earliest_permitted
-    return { date: Settings.interim_earliest_permitted_repo_date, error: 'not_before_interim_earliest_permitted_date' } if claim.try(:interim?)
-    { date: Settings.earliest_permitted_date, error: 'not_before_earliest_permitted_date' }
+    if claim.try(:interim?)
+      { date: Settings.interim_earliest_permitted_repo_date, error: 'not_before_interim_earliest_permitted_date' }
+    else
+      { date: Settings.earliest_permitted_date, error: 'not_before_earliest_permitted_date' }
+    end
   end
 end

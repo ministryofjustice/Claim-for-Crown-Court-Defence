@@ -1,5 +1,7 @@
 module Claim
   module LitigatorCommonValidations
+    include ValidateLitigatorSupplierNumber
+
     def self.included(base)
       base.class_eval do
         def self.first_step_common_validations
@@ -21,7 +23,10 @@ module Claim
 
     def validate_creator
       super if defined?(super)
-      validate_has_role(@record.creator.try(:provider), :lgfs, :creator, 'must be from a provider with permission to submit LGFS claims')
+      validate_has_role(@record.creator.try(:provider),
+                        :lgfs,
+                        :creator,
+                        'must be from a provider with permission to submit LGFS claims')
     end
 
     def validate_advocate_category
@@ -38,14 +43,7 @@ module Claim
       validate_on_or_before(Date.today, :case_concluded_at, 'check_not_in_future')
     end
 
-    def validate_supplier_number
-      validate_presence(:supplier_number, 'blank')
-
-      return unless @record.supplier_number.present?
-
-      validate_pattern(:supplier_number, supplier_number_regex, 'invalid')
-      validate_inclusion(:supplier_number, provider_supplier_numbers, 'unknown') unless @record.errors.key?(:supplier_number)
-    end
+    # validate_supplier_number called from ValidateLitigatorSupplierNumber
 
     # local helpers
     # ---------------------------

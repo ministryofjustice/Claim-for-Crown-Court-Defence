@@ -239,12 +239,17 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def assessment_value(assessment_attr)
-    claim.assessment.new_record? ? h.number_to_currency(0) : h.number_to_currency(claim.assessment.__send__(assessment_attr))
+    if claim.assessment.new_record?
+      h.number_to_currency(0)
+    else
+      h.number_to_currency(claim.assessment.__send__(assessment_attr))
+    end
   end
 
   private
 
-  # a blank assessment is created when the claim is created, so the assessment date is the updated_at date, not created_at
+  # a blank assessment is created when the claim is created,
+  # so the assessment date is the updated_at date, not created_at
   def assessment_or_determination_date
     claim.redeterminations.any? ? last_redetermination_date : claim.assessment.updated_at
   end

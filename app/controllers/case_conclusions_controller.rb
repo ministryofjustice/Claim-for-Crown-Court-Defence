@@ -23,15 +23,15 @@ class CaseConclusionsController < ApplicationController
   end
 
   def transfer_stage_label_text
-    replace_start_stop_label('external_users.claims.transfer_fee.detail_fields.transfer_stage_default_label_text', replace: 'stop/start', with: { start: 'start', stop: 'stop' })
+    replace_start_stop_label('transfer_stage', replace: 'stop/start', with: { start: 'start', stop: 'stop' })
   end
 
   def transfer_date_label_text
-    replace_start_stop_label('external_users.claims.transfer_fee.detail_fields.transfer_date_default_label_text', replace: 'stopped/started', with: { start: 'started', stop: 'stopped' })
+    replace_start_stop_label('transfer_date', replace: 'stopped/started', with: { start: 'started', stop: 'stopped' })
   end
 
   def replace_start_stop_label(translation, options = { replace: 'stop/start', with: { start: 'start', stop: 'stop' } })
-    label_text = I18n.t(translation)
+    label_text = I18n.t("external_users.claims.transfer_fee.detail_fields.#{translation}_default_label_text")
     case params[:litigator_type]
     when 'new'
       label_text.gsub!(options[:replace], options[:with][:start])

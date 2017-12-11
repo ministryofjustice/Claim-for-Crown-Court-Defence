@@ -35,9 +35,11 @@ class ClonedClaimRepairer
   end
 
   def same_defendants?(candidate)
-    return true if candidate.defendants.map(&:name) == @claim.defendants.map(&:name)
+    candidate_map = candidate.defendants.map(&:name)
+    defendants_map = @claim.defendants.map(&:name)
+    return true if candidate_map == defendants_map
     puts "   Claim #{candidate.id} not considered as candidate for claim #{@claim.id}: defendants don't match"
-    puts "      Claim #{candidate.id}: #{candidate.defendants.map(&:name).inspect} vs claim #{@claim.id}: #{@claim.defendants.map(&:name).inspect}"
+    puts "      Claim #{candidate.id}: #{candidate_map.inspect} vs claim #{@claim.id}: #{defendants_map.inspect}"
     false
   end
 

@@ -18,7 +18,7 @@ module Claim
     acts_as_gov_uk_date :transfer_date, error_clash_behaviour: :override_with_gov_uk_date_field_error
 
     def unpopulated?
-      litigator_type.nil? && elected_case.nil? && transfer_stage_id.nil? && transfer_date.nil? && case_conclusion_id.nil?
+      [litigator_type, elected_case, transfer_stage_id, transfer_date, case_conclusion_id].all?(&:nil?)
     end
 
     def allocation_type

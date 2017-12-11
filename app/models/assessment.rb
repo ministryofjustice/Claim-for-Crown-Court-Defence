@@ -14,13 +14,13 @@
 #  disbursements :decimal(, )      default(0.0)
 #
 
-# The Assessment class represents the first assessment the case workers make on a claim. Any subsequent assessments are called
-# determinations. There can be many determinations per claim, but only one assessment.  An assessment with zero values
-# (blank? returns true) is created automatically when the claim is created.
+# The Assessment class represents the first assessment the case workers make on a claim. Any subsequent assessments are
+# called determinations. There can be many determinations per claim, but only one assessment.  An assessment with zero
+# values (blank? returns true) is created automatically when the claim is created.
 #
-# The correct way to create a non-blank assessment for a claim is to call #update_values on the blank Assessment that is created
-# when the claim is created.  This will raise an error if the assessment is not blank.  The #update_values! (note the bang) can
-# be used in testing and will not raise if the assessment already has values.
+# The correct way to create a non-blank assessment for a claim is to call #update_values on the blank Assessment that
+# is created when the claim is created.  This will raise an error if the assessment is not blank.
+# The #update_values! (note the bang) can be used in testing and will not raise if the assessment already has values.
 #
 class Assessment < Determination
   self.table_name = 'determinations'

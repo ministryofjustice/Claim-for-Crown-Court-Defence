@@ -11,7 +11,10 @@ class SessionsController < Devise::SessionsController
   def respond_to_on_destroy
     respond_to do |format|
       format.all { head :no_content }
-      format.any(*navigational_formats) { redirect_to after_sign_out_path_for(resource_name, user_id: @current_user_id), notice: 'You have signed out' }
+      format.any(*navigational_formats) do
+        redirect_to after_sign_out_path_for(resource_name, user_id: @current_user_id),
+                    notice: 'You have signed out'
+      end
     end
   end
 end

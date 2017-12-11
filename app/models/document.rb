@@ -73,12 +73,12 @@ class Document < ActiveRecord::Base
   end
 
   def verify_and_log
-    LogStuff.info(:paperclip, action: 'save', document_id: id, claim_id: claim_id, filename: document_file_name, form_id: form_id) { 'Document saved' }
+    generate_log_stuff(:info, 'save', 'Document saved')
     if verify_file_exists
-      LogStuff.info(:paperclip, action: 'verify', document_id: id, claim_id: claim_id, filename: document_file_name, form_id: form_id) { 'Document verified' }
+      generate_log_stuff(:info, 'verify', 'Document verified')
       result = true
     else
-      LogStuff.error(:paperclip, action: 'verify_fail', document_id: id, claim_id: claim_id, filename: document_file_name, form_id: form_id) { 'Unable to verify document' }
+      generate_log_stuff(:error, 'verify_fail', 'Unable to verify document')
       errors[:document] << 'Unable to save the file - please retry' if verified_file_size&.zero?
       result = false
     end
@@ -86,10 +86,19 @@ class Document < ActiveRecord::Base
   end
 
   def log_save_error
-    LogStuff.error(:paperclip, action: 'save_fail', document_id: id, claim_id: claim_id, filename: document_file_name, form_id: form_id) { 'Unable to save document' }
+    generate_log_stuff(:error, 'save_fail', 'Unable to save document')
   end
 
   private
+
+  def generate_log_stuff(type, action, message)
+    LogStuff.send(type,
+                  :paperclip,
+                  action: action,
+                  document_id: id,
+                  claim_id: claim_id,
+                  filename: document_file_name, form_id: form_id) { message }
+  end
 
   def verify_file_exists
     begin
@@ -112,8 +121,9 @@ class Document < ActiveRecord::Base
   def documents_count
     return true if form_id.nil?
     count = Document.where(form_id: form_id).count
-    return unless count >= Settings.max_document_upload_count
-    errors.add(:document, "Total documents exceed maximum of #{Settings.max_document_upload_count}. This document has not been uploaded.")
+    max_doc_count = Settings.max_document_upload_count
+    return unless count >= max_doc_count
+    errors.add(:document, "Total documents exceed maximum of #{max_doc_count}. This document has not been uploaded.")
   end
 
   def transform_cryptic_paperclip_error

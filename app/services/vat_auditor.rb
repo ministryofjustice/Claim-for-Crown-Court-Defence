@@ -79,7 +79,9 @@ class VatAuditor
     assoc_totals = @claim.__send__(assoc_name).map(&assoc_attr)
     if claim_total != assoc_totals.sum
       delayed_puts 'ERROR'
-      delayed_puts "  MISMATCH #{claim_total_attr} of #{claim_total} does not match sum of #{assoc_attr} on #{assoc_name}: #{assoc_totals.map(&:to_s).inspect}"
+      association = "#{assoc_attr} on #{assoc_name}"
+      totals = assoc_totals.map(&:to_s).inspect
+      delayed_puts "  MISMATCH #{claim_total_attr} of #{claim_total} does not match sum of #{association}: #{totals}"
       @result = false
     else
       delayed_puts 'OK'

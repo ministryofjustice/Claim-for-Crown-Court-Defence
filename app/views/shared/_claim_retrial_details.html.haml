@@ -1,24 +1,30 @@
-- retrial_detail_translations = 'external_users.claims.case_details.retrial_detail_fields'
+- retrial_i18n_scope = %i[external_users claims case_details retrial_detail_fields]
 %tr
   %th{scope: "col"}
-    = t("#{retrial_detail_translations}.retrial_started_at")
+    = t('retrial_started_at', scope: retrial_i18n_scope)
   %td
-    = claim.retrial_started_at.strftime(Settings.date_format) rescue ''
+    = claim&.retrial_started_at&.strftime(Settings.date_format)
 
 %tr
   %th{scope: "col"}
-    = t("#{retrial_detail_translations}.retrial_estimated_length")
+    = t('retrial_estimated_length', scope: retrial_i18n_scope)
   %td
-    = claim.retrial_estimated_length rescue ''
+    = claim&.retrial_estimated_length
 
 %tr
   %th{scope: "col"}
-    = t("#{retrial_detail_translations}.retrial_actual_length")
+    = t('retrial_actual_length', scope: retrial_i18n_scope)
   %td
-    = claim.retrial_actual_length rescue ''
+    = claim&.retrial_actual_length
 
 %tr
   %th{scope: "col"}
-    = t("#{retrial_detail_translations}.retrial_concluded_at")
+    = t('retrial_concluded_at', scope: retrial_i18n_scope)
   %td
-    = claim.retrial_concluded_at.strftime(Settings.date_format) rescue ''
+    = claim&.retrial_concluded_at&.strftime(Settings.date_format)
+
+%tr
+  %th{scope: "col"}
+    = t('retrial_reduction', scope: retrial_i18n_scope)
+  %td
+    = claim&.retrial_reduction

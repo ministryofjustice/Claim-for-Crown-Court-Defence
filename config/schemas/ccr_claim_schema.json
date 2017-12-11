@@ -28,6 +28,22 @@
       "id": "/properties/trial_cracked_at_third",
       "type": ["string","null"]
     },
+    "retrial_reduction": {
+      "id": "/properties/retrial_reduction",
+      "type": "boolean"
+    },
+    "retrial_started_at": {
+      "id": "/properties/retrial_started_at",
+      "type": ["string","null"]
+    },
+    "retrial_actual_length": {
+      "id": "/properties/retrial_actual_length",
+      "type": ["string","null"]
+    },
+    "retrial_estimated_length": {
+      "id": "/properties/retrial_estimated_length",
+      "type": ["string","null"]
+    },
     "last_submitted_at": {
       "id": "/properties/last_submitted_at",
       "type": ["string","null"]

@@ -5,7 +5,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
 
   def index
     @case_workers = CaseWorker.includes(:location).joins(:user)
-    query = t('sql.query.name')
+    query = "lower(users.first_name || ' ' || users.last_name) ILIKE :term"
     @case_workers = @case_workers.where(query, term: "%#{params[:search]}%") if params[:search].present?
     @case_workers = @case_workers.order('users.last_name', 'users.first_name')
   end

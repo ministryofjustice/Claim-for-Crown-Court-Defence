@@ -1149,9 +1149,6 @@ en:
   validators:
     advocate:
       category: 'Advocate category must be one of those in the provided list'
-  sql:
-    query:
-      name: "lower(users.first_name || ' ' || users.last_name) ILIKE :term"
   api:
     v1:
       common_params:

@@ -7,7 +7,7 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
 
   def index
     @external_users = current_provider.external_users.joins(:user)
-    query = t('sql.query.name')
+    query = "lower(users.first_name || ' ' || users.last_name) ILIKE :term"
     @external_users = @external_users.where(query, term: "%#{params[:search]}%") if params[:search].present?
     @external_users = @external_users.ordered_by_last_name
   end

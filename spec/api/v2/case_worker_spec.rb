@@ -8,12 +8,14 @@ describe API::V2::CaseWorker do
 
   let(:get_case_workers_endpoint) { '/api/case_workers' }
   let(:case_workers) { create_list(:case_worker, 3) }
+  let(:external_user) { create(:external_user) }
   let(:sorting) { {} }
   let(:params) do
     {
-      api_key: case_workers.first.user.api_key
+      api_key: api_key
     }.merge(sorting)
   end
+  let(:api_key) { case_workers.first.user.api_key }
 
   def do_request
     get get_case_workers_endpoint, params, format: :json
@@ -34,6 +36,16 @@ describe API::V2::CaseWorker do
       do_request
       expect(last_response.status).to eq 401
       expect(last_response.body).to include('Unauthorised')
+    end
+
+    context 'when accessed by a ExternalUser' do
+      let(:api_key) { external_user.user.api_key }
+
+      it 'returns unauthorised' do
+        do_request
+        expect(last_response.status).to eq 401
+        expect(last_response.body).to include('Unauthorised')
+      end
     end
 
     it 'should return a JSON with the required information' do

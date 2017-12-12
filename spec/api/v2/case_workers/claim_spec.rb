@@ -12,6 +12,7 @@ describe API::V2::CaseWorkers::Claim do
 
   let(:get_claims_endpoint) { '/api/case_workers/claims' }
   let(:case_worker) { create(:case_worker) }
+  let(:external_user) { create(:external_user) }
   let(:pagination) { {} }
   let(:params) do
     {
@@ -46,6 +47,15 @@ describe API::V2::CaseWorkers::Claim do
       body = JSON.parse(response.body, symbolize_names: true)
       expect(body).to have_key(:pagination)
       expect(body).to have_key(:items)
+    end
+
+    context 'when accessed by a ExternalUser' do
+      before { do_request(api_key: external_user.user.api_key )}
+
+      it 'returns unauthorised' do
+        expect(last_response.status).to eq 401
+        expect(last_response.body).to include('Unauthorised')
+      end
     end
 
     context 'filtering the correct dataset' do

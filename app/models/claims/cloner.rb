@@ -24,6 +24,7 @@ module Claims::Cloner
       exclude_association :assessment
       exclude_association :redeterminations
       exclude_association :certification
+      exclude_association :injection_attempts
 
       EXCLUDED_FEE_ASSOCIATIONS.each { |assoc| exclude_association assoc }
 

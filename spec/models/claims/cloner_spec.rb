@@ -165,6 +165,11 @@ RSpec.describe Claims::Cloner, type: :model do
         expect(@cloned_claim.certification).to be_nil
       end
 
+      it 'does not clone the injection attempts' do
+        expect(@original_claim.injection_attempts.count).to eq(1)
+        expect(@cloned_claim.injection_attempts.count).to eq(0)
+      end
+
       it 'creates the first state transition for the cloned claim' do
         expect(@cloned_claim.claim_state_transitions.count).to eq(1)
 
@@ -219,6 +224,7 @@ RSpec.describe Claims::Cloner, type: :model do
     create(:disbursement, claim: claim)
     create(:redetermination, claim: claim)
 
+    claim.injection_attempts << create(:injection_attempt)
     claim.documents << create(:document, :verified)
 
     claim.allocate!

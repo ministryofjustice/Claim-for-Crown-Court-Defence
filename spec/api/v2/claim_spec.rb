@@ -8,12 +8,12 @@ describe API::V2::Claim do
   include ApiSpecHelper
 
   after(:all) { clean_database }
-
+  let(:case_worker) { create :case_worker }
   before(:all) do
     @claim = create(:deterministic_claim, :redetermination)
   end
 
-  def do_request(claim_uuid: @claim.uuid, api_key: @claim.external_user.user.api_key)
+  def do_request(claim_uuid: @claim.uuid, api_key: case_worker.user.api_key)
     get "/api/claims/#{claim_uuid}", {api_key: api_key}, {format: :json}
   end
 
@@ -64,6 +64,14 @@ describe API::V2::Claim do
       end
     end
 
+    context 'when accessed by a ExternalUser' do
+      before { do_request(api_key: @claim.external_user.user.api_key )}
+
+      it 'returns unauthorised' do
+        expect(last_response.status).to eq 401
+        expect(last_response.body).to include('Unauthorised')
+      end
+    end
 
     # TODO: to be updated and enabled once the claim export structure is finalised.
     # it 'should return a JSON with the required information' do

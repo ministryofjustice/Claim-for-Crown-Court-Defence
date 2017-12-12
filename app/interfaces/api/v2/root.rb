@@ -7,7 +7,7 @@ module API
 
       group do
         before_validation do
-          authenticate_key!
+          authenticate_user_is?('CaseWorker')
         end
 
         namespace :api, desc: 'Retrieval, creation and validation operations' do

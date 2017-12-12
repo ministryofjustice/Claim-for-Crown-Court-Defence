@@ -64,6 +64,15 @@ describe API::V2::CCRClaim do
       expect(last_response.body).to include('Unauthorised')
     end
 
+    context 'when accessed by a ExternalUser' do
+      before { do_request(api_key: @claim.external_user.user.api_key )}
+
+      it 'returns unauthorised' do
+        expect(last_response.status).to eq 401
+        expect(last_response.body).to include('Unauthorised')
+      end
+    end
+
     context 'claim not found' do
       it 'respond not found when claim is not found' do
         do_request(claim_uuid: '123-456-789')

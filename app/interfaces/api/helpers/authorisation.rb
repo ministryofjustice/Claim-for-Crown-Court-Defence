@@ -16,7 +16,7 @@ module API::Helpers
     end
 
     def authenticate_user_is?(persona)
-      authorisation_error unless current_user.persona_type.eql?(persona)
+      authorisation_error unless current_user&.persona_type.eql?(persona)
     end
 
     private

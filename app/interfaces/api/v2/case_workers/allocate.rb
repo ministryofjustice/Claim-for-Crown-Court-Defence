@@ -2,10 +2,6 @@ module API
   module V2
     module CaseWorkers
       class Allocate < Grape::API
-        before_validation do
-          authenticate_user_is?('CaseWorker')
-        end
-
         namespace :case_workers do
           params do
             optional :api_key, type: String, desc: I18n.t('api.v2.generic.params.api_key')

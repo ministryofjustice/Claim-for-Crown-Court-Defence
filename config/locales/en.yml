@@ -528,6 +528,13 @@ en:
           retrial_started_at: 'First day of retrial'
           retrial_concluded_at: 'Retrial concluded on'
           retrial_reduction: 'Apply reduced rate to retrial?'
+          retrial_reduction_help_link: 'Help with claiming a reduced rate'
+          retrial_reduction_help_html: |
+              A reduced rate can be requested if: <br/>
+              <ul class="list list-bullet">
+                <li>you represented the defendant(s) at the original trial</li>
+                <li>you don’t want the reduced rate to be applied to the original trial</li>
+              </ul>
           days: "Days"
         offence_id_select:
           offence_class: "Offence class"

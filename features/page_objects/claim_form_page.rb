@@ -1,4 +1,5 @@
 require_relative 'sections/common_date_section'
+require_relative 'sections/retrial_section'
 require_relative 'sections/fee_case_numbers_section'
 require_relative 'sections/fee_dates_section'
 require_relative 'sections/fee_section'
@@ -21,6 +22,8 @@ class ClaimFormPage < SitePrism::Page
     section :trial_concluded_on, CommonDateSection, '#trial_concluded_at'
     element :actual_trial_length, "#claim_actual_trial_length"
   end
+
+  section :retrial_details, RetrialSection, "#retrial-details"
 
   sections :defendants, "div.defendants > div.js-test-defendant" do
     element :first_name, "div.first-name input"

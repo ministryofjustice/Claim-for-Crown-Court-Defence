@@ -12,6 +12,8 @@ Feature: Advocate admin submits a claim for a Trial case
     When I select an advocate category of 'Junior alone'
     And I select an advocate
     And I select the court 'Blackfriars'
+    And I select a case type of 'Retrial'
+    Then I should see retrial fields
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
     And I select the offence category 'Activities relating to opium'

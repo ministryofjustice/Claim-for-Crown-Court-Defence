@@ -4,10 +4,6 @@ module API
       helpers API::V2::CriteriaHelper
       helpers API::V2::QueryHelper
 
-      before_validation do
-        authenticate_user_is?('CaseWorker')
-      end
-
       resource :search, desc: 'Search for claims' do
         params do
           optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the user'

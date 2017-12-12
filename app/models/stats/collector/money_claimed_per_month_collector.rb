@@ -1,7 +1,7 @@
 module Stats
   module Collector
     class MoneyClaimedPerMonthCollector < BaseCollector
-      def initialize(date = Date.today)
+      def initialize(date = Date.yesterday)
         super
         @date = @date.end_of_month
         @period_start = @date.beginning_of_month.beginning_of_day

@@ -24,8 +24,9 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
         case_concluded_at
         supplier_number
       ],
-      [
-        :total
+      %i[
+        total
+        defendant_uplifts
       ]
     ]
   end
@@ -60,5 +61,9 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
 
   def validate_supplier_number
     validate_pattern(:supplier_number, supplier_number_regex, 'invalid')
+  end
+
+  def validate_defendant_uplifts
+    return if @record.source == 'api'
   end
 end

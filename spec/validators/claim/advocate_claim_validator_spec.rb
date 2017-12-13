@@ -91,7 +91,6 @@ describe Claim::AdvocateClaimValidator do
   end
 
   context 'offence' do
-
     before { claim.offence = nil }
 
     it 'should error if not present for non-fixed fee case types' do
@@ -105,32 +104,140 @@ describe Claim::AdvocateClaimValidator do
     end
   end
 
+  context 'defendant uplift fees aggregation validation' do
+    let(:miaph) { create(:misc_fee_type, :miaph) }
+    let(:miahu) { create(:misc_fee_type, :miahu) }
+    let(:midtw) { create(:misc_fee_type, :midtw) }
+    let(:midwu) { create(:misc_fee_type, :midwu) }
+    let(:misc_fee) { claim.misc_fees.find_by(fee_type_id: miaph.id) }
+
+    before do
+      claim.misc_fees.delete_all
+      create(:misc_fee, fee_type: miaph, claim: claim, quantity: 1, rate: 25.1)
+      claim.reload
+    end
+
+    it 'test setup' do
+      expect(claim.defendants.size).to eql 1
+      expect(claim.misc_fees.size).to eql 1
+      expect(claim.misc_fees.first.fee_type).to have_attributes(unique_code: 'MIAPH')
+    end
+
+    context 'when defendant count matches defendant uplifts claimed' do
+      before do
+        create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
+      end
+
+      it 'should not error' do
+        should_not_error(claim, :defendant_uplifts)
+      end
+    end
+
+    context 'where defendant count does not match defendant uplifts claimed' do
+      context 'when more defendants than uplifts' do
+        before do
+          create(:defendant, claim: claim)
+          expect(claim.defendants.size).to eql 2
+        end
+
+        it 'should not error' do
+          should_not_error(claim, :base)
+        end
+      end
+
+      context 'when more uplifts than defendants' do
+        before do
+          create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
+          create(:misc_fee, fee_type: miahu, claim: claim, quantity: 2, amount: 21.01)
+        end
+
+        it 'should error' do
+          should_error_with(claim, :base, 'defendant_uplift_mismatch')
+        end
+      end
+
+      context 'when multiple defendant uplift varieties' do
+        before do
+          create(:defendant, claim: claim)
+          create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
+          create(:misc_fee, fee_type: midtw, claim: claim, quantity: 1, amount: 21.01)
+          create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
+        end
+
+        context 'without mismatches' do
+          it 'should not error' do
+            should_not_error(claim, :base)
+          end
+        end
+
+        context 'with mismatches' do
+          before do
+            create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
+            create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
+          end
+
+          it 'should add one error' do
+            expect(claim.defendants.size).to eql 2
+            expect(claim.errors[:base].size).to eql 1
+          end
+
+          it 'should consolidate error messages' do
+            expect(claim.errors[:base]).to include 'consolidated error message to be written'
+          end
+        end
+      end
+
+      xit 'should ignore misc fee defendant uplifts marked for destruction' do
+        claim.update_attributes!(
+            :misc_fees_attributes => {
+              '0' => {
+                'id' => claim.defendants.first.id,
+                '_destroy' => '1'
+              }
+            }
+          )
+      end
+
+      it 'should ignore defendants marked for destruction ' do
+        claim.update_attributes!(
+          :defendants_attributes => {
+            '0' => {
+              'id' => claim.defendants.first.id,
+              '_destroy' => '1'
+            }
+          }
+        )
+      end
+    end
+  end
+
   include_examples 'common partial validations', [
-      [
-          :case_type,
-          :court,
-          :case_number,
-          :transfer_court,
-          :transfer_case_number,
-          :advocate_category,
-          :offence,
-          :estimated_trial_length,
-          :actual_trial_length,
-          :retrial_estimated_length,
-          :retrial_actual_length,
-          :trial_cracked_at_third,
-          :trial_fixed_notice_at,
-          :trial_fixed_at,
-          :trial_cracked_at,
-          :first_day_of_trial,
-          :trial_concluded_at,
-          :retrial_started_at,
-          :retrial_concluded_at,
-          :case_concluded_at,
-          :supplier_number
+      %i[
+          case_type
+          court
+          case_number
+          transfer_court
+          transfer_case_number
+          advocate_category
+          offence
+          estimated_trial_length
+          actual_trial_length
+          retrial_estimated_length
+          retrial_actual_length
+          trial_cracked_at_third
+          trial_fixed_notice_at
+          trial_fixed_at
+          trial_cracked_at
+          first_day_of_trial
+          trial_concluded_at
+          retrial_started_at
+          retrial_concluded_at
+          case_concluded_at
+          supplier_number
       ],
-      [
-          :total
+      %i[
+        total
+        defendant_uplifts
       ]
   ]
 end

@@ -10,12 +10,12 @@ module SearchResultHelpers
   end
 
   def fee_is_interim_type
-    fees.map do |fee|
+    fees&.map do |fee|
       [
         fee[2].eql?('Fee::InterimFeeType'),
         fee[1].downcase.in?(['effective pcmh', 'trial start', 'retrial new solicitor', 'retrial start'])
       ].all?
-    end.any?
+    end&.any?
   end
 
   def contains_risk_based_fee
@@ -34,7 +34,7 @@ module SearchResultHelpers
         fee[2].eql?('Fee::InterimFeeType'),
         fee[1].eql?(fee_type_description)
       ].all?
-    end.any?
+    end&.any?
   end
 
   def risk_based_class_letter

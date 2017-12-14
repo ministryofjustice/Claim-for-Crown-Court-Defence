@@ -442,7 +442,8 @@ en:
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee
     claims:
-
+      redraft:
+        error_html: 'An error is preventing this claim from being redrafted.  The problem has been logged and is being investigated. To continue please start a new claim.'
       additional_information:
         fields:
           additional_information: 'Additional information'

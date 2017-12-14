@@ -78,6 +78,22 @@ module Claims
         draft = subject.clone_rejected
         expect(draft.last_state_transition.author_id).to eq(current_user.id)
       end
+
+      context 'when the claim is not rejected' do
+        let(:claim) { create :submitted_claim }
+
+        it 'raises an appropriate error' do
+          expect { subject.clone_rejected }.to raise_error('Claims::ExternalUserClaimUpdater.clone_rejected with Claims::Cloner.clone_rejected_to_new_draft failed with error \'Can only clone claims in state "rejected"\'')
+        end
+      end
+
+      context 'when another error is raised' do
+        before { allow(claim).to receive(:clone_rejected_to_new_draft).and_raise(ArgumentError.new('unknowable error')) }
+
+        it 'is passed upwards' do
+          expect { subject.clone_rejected }.to raise_error('Claims::ExternalUserClaimUpdater.clone_rejected with unknowable error')
+        end
+      end
     end
   end
 end

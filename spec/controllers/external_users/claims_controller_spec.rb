@@ -577,7 +577,6 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
       describe 'the response' do
         before do
-          # allow(log_stuff).to receive(:error)
           patch :clone_rejected, id: subject
         end
 
@@ -590,7 +589,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         it'displays a flash error' do
-          expect(flash[:alert]).to eq 'Can only clone rejected claims'
+          expect(flash[:alert]).to eq 'An error is preventing this claim from being redrafted.  The problem has been logged and is being investigated. To continue please start a new claim.'
         end
       end
     end

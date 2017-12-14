@@ -81,7 +81,11 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     draft = claim_updater.clone_rejected
     redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
   rescue StandardError => error
-    LogStuff.send(:error, 'Cloning failed', claim_id: @claim.id, error: error.message) { 'Failed to clone' }
+    LogStuff.send(:error, 'ExternalUsers::ClaimsController',
+                  claim_id: @claim.id,
+                  error: error.message) do
+      'Failed to clone'
+    end
     redirect_to external_users_claims_url, alert: 'Can only clone rejected claims'
   end
 

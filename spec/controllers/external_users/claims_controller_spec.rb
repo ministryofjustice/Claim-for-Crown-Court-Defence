@@ -577,7 +577,6 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
       describe 'the response' do
         before do
-          # allow(log_stuff).to receive(:error)
           patch :clone_rejected, id: subject
         end
 

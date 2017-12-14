@@ -19,7 +19,6 @@
 require 'rails_helper'
 
 module Fee
-
   RSpec.describe BaseFeeType, type: :model do
     include DatabaseHousekeeping
 
@@ -40,7 +39,6 @@ module Fee
   end
 
   RSpec.describe FeeTypeDouble, type: :model do
-    
     it { should have_many(:fees) }
 
     it { should validate_presence_of(:description).with_message('Fee type description cannot be blank') }
@@ -76,7 +74,7 @@ module Fee
       end
     end
 
-    describe  '#fee_category_name' do
+    describe '#fee_category_name' do
       it 'returns the humanised name' do
         expect(build(:transfer_fee_type).fee_category_name).to eq 'Transfer Fee'
         expect(build(:basic_fee_type).fee_category_name).to eq 'Basic Fees'
@@ -89,17 +87,15 @@ module Fee
 
   end
 
-  context 'fee category name' do
-    describe '#fee_category_name' do
-      it 'returns the correct category name' do
-        expect(BasicFeeType.new.fee_category_name).to eq 'Basic Fees'
-        expect(MiscFeeType.new.fee_category_name).to eq 'Miscellaneous Fees'
-        expect(FixedFeeType.new.fee_category_name).to eq 'Fixed Fees'
-        expect(InterimFeeType.new.fee_category_name).to eq 'Interim Fees'
-        expect(TransferFeeType.new.fee_category_name).to eq 'Transfer Fee'
-        expect(GraduatedFeeType.new.fee_category_name).to eq 'Graduated Fees'
-        expect(WarrantFeeType.new.fee_category_name).to eq 'Warrant Fee'
-      end
+  describe '#fee_category_name' do
+    it 'returns the correct category name' do
+      expect(BasicFeeType.new.fee_category_name).to eq 'Basic Fees'
+      expect(MiscFeeType.new.fee_category_name).to eq 'Miscellaneous Fees'
+      expect(FixedFeeType.new.fee_category_name).to eq 'Fixed Fees'
+      expect(InterimFeeType.new.fee_category_name).to eq 'Interim Fees'
+      expect(TransferFeeType.new.fee_category_name).to eq 'Transfer Fee'
+      expect(GraduatedFeeType.new.fee_category_name).to eq 'Graduated Fees'
+      expect(WarrantFeeType.new.fee_category_name).to eq 'Warrant Fee'
     end
   end
 
@@ -110,7 +106,7 @@ module Fee
     end
   end
 
-  describe  'Specialized fee type methods' do
+  describe 'Specialized fee type methods' do
     before(:all) do
       @bf1 = create :basic_fee_type, description: 'basic fee type 1'
       @bf2 = create :basic_fee_type, description: 'basic fee type 2'
@@ -169,8 +165,5 @@ module Fee
     it 'returns all transfer fee types' do
       expect(Fee::BaseFeeType.transfer).to match_array( [ @tf1, @tf2 ] )
     end
-
-
   end
-
 end

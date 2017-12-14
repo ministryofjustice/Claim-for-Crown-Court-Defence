@@ -15,13 +15,13 @@
 #  quantity_is_decimal :boolean          default(FALSE)
 #  unique_code         :string
 #
-
 require 'rails_helper'
+require_relative 'shared_examples_for_defendant_uplifts'
 
 module Fee
   describe MiscFeeType do
-
     let(:fee_type) { build :misc_fee_type }
+    include_examples 'defendant uplifts'
 
     describe '#fee_category_name' do
       it 'returns the category name' do
@@ -42,14 +42,16 @@ module Fee
     end
 
     describe '#case_uplift?' do
+      subject { fee_type.case_uplift? }
+
       it 'returns true when fee_type is Case Uplift' do
         fee_type.unique_code = 'MIUPL'
-        expect(fee_type.case_uplift?).to be_truthy
+        is_expected.to be_truthy
       end
 
       it 'returns false when fee_type is not Case Uplift' do
         fee_type.code = 'XXX'
-        expect(fee_type.case_uplift?).to be_falsey
+        is_expected.to be_falsey
       end
     end
   end

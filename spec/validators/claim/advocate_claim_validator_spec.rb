@@ -4,7 +4,6 @@ require_relative 'shared_examples_for_advocate_litigator'
 require_relative 'shared_examples_for_step_validators'
 
 describe Claim::AdvocateClaimValidator do
-
   include ValidationHelpers
   include_context "force-validation"
 
@@ -78,7 +77,7 @@ describe Claim::AdvocateClaimValidator do
 
     it 'should error if not in the available list' do
       claim.advocate_category = 'not-a-QC'
-      should_error_with(claim, :advocate_category,"Advocate category must be one of those in the provided list")
+      should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
     end
 
     valid_entries = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
@@ -105,6 +104,8 @@ describe Claim::AdvocateClaimValidator do
   end
 
   context 'defendant uplift fees aggregation validation' do
+    include_context 'step-index', 1
+
     let(:miaph) { create(:misc_fee_type, :miaph) }
     let(:miahu) { create(:misc_fee_type, :miahu) }
     let(:midtw) { create(:misc_fee_type, :midtw) }
@@ -124,20 +125,16 @@ describe Claim::AdvocateClaimValidator do
     end
 
     context 'when defendant count matches defendant uplifts claimed' do
-      before do
-        create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
-      end
-
       it 'should not error' do
         should_not_error(claim, :defendant_uplifts)
       end
     end
 
-    context 'where defendant count does not match defendant uplifts claimed' do
-      context 'when more defendants than uplifts' do
-        before do
-          create(:defendant, claim: claim)
-          expect(claim.defendants.size).to eql 2
+    context 'where defendant uplifts count does not match defendant uplifts claimed' do
+      context 'when 1 defendant and 0 uplifts' do
+        it 'test setup' do
+          expect(claim.defendants.size).to eql 1
+          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }).to eql(%w[MIAPH])
         end
 
         it 'should not error' do
@@ -145,68 +142,124 @@ describe Claim::AdvocateClaimValidator do
         end
       end
 
-      context 'when more uplifts than defendants' do
+      context 'when 1 defendant and 1 uplift' do
         before do
           create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
-          create(:misc_fee, fee_type: miahu, claim: claim, quantity: 2, amount: 21.01)
+        end
+
+        it 'test setup' do
+          expect(claim.defendants.size).to eql 1
+          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIAHU MIAPH])
         end
 
         it 'should error' do
-          should_error_with(claim, :base, 'defendant_uplift_mismatch')
-        end
-      end
-
-      context 'when multiple defendant uplift varieties' do
-        before do
-          create(:defendant, claim: claim)
-          create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
-          create(:misc_fee, fee_type: midtw, claim: claim, quantity: 1, amount: 21.01)
-          create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
+          expect(claim).to be_invalid
+          expect(claim.errors[:base].size).to eql 1
         end
 
-        context 'without mismatches' do
+        it 'should error with message' do
+          should_error_with(claim, :base, 'Too many defendant uplifts claimed')
+        end
+
+        context 'when from api' do
+          before do
+            allow(claim).to receive(:from_api?).and_return true
+          end
+
           it 'should not error' do
             should_not_error(claim, :base)
           end
         end
+      end
 
-        context 'with mismatches' do
+      context 'when multiple defendants and uplift varieties' do
+        before do
+          create(:defendant, claim: claim)
+          create(:misc_fee, fee_type: midtw, claim: claim, quantity: 1, amount: 21.01)
+        end
+
+        context 'when sums of uplift quantities per fee type do not exceed the number of defendants' do
           before do
             create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
             create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
           end
 
-          it 'should add one error' do
+          it 'test setup' do
             expect(claim.defendants.size).to eql 2
-            expect(claim.errors[:base].size).to eql 1
+            expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIAHU MIAPH MIDTW MIDWU])
           end
 
-          it 'should consolidate error messages' do
-            expect(claim.errors[:base]).to include 'consolidated error message to be written'
+          it 'should not error' do
+            should_not_error(claim, :base)
+          end
+        end
+
+        context 'when sums of any uplift quantities per fee type exceed the number of defendants' do
+          before do
+            create(:misc_fee, fee_type: miahu, claim: claim, quantity: 2, amount: 21.01)
+            create(:misc_fee, fee_type: midwu, claim: claim, quantity: 2, amount: 21.01)
+          end
+
+          it 'test setup' do
+            expect(claim.defendants.size).to eql 2
+            expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIAHU MIAPH MIDTW MIDWU])
+          end
+
+          it 'should add one error only' do
+            expect(claim).to be_invalid
+            expect(claim.errors[:base].size).to eql 1
           end
         end
       end
 
-      xit 'should ignore misc fee defendant uplifts marked for destruction' do
-        claim.update_attributes!(
+      context 'defendant uplifts marked for destruction' do
+        before do
+          create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
+        end
+
+        it 'test setup' do
+          expect(claim.defendants.size).to eql 1
+          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIAHU MIAPH])
+          expect(claim).to be_invalid
+        end
+
+        it 'are ignored' do
+          miahu_fee = claim.misc_fees.joins(:fee_type).where(fee_type: { unique_code: 'MIAHU' }).first
+          claim.update_attributes(
             :misc_fees_attributes => {
+              '0' => {
+                'id' => miahu_fee.id,
+                '_destroy' => '1'
+              }
+            }
+          )
+          expect(claim).to be_valid
+        end
+      end
+
+      context 'defendants marked for destruction' do
+        before do
+          create(:defendant, claim: claim)
+          create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
+        end
+
+        it 'test setup' do
+          expect(claim.defendants.size).to eql 2
+          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIAHU MIAPH])
+          expect(claim).to be_valid
+        end
+
+        it 'are ignored' do
+          claim.update_attributes(
+            :defendants_attributes => {
               '0' => {
                 'id' => claim.defendants.first.id,
                 '_destroy' => '1'
               }
             }
           )
-      end
-
-      it 'should ignore defendants marked for destruction ' do
-        claim.update_attributes!(
-          :defendants_attributes => {
-            '0' => {
-              'id' => claim.defendants.first.id,
-              '_destroy' => '1'
-            }
-          }
-        )
+          expect(claim).to be_invalid
+        end
       end
     end
   end

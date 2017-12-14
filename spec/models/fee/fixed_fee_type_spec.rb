@@ -84,5 +84,29 @@ module Fee
         expect(Fee::FixedFeeType.all.pluck(:description)).to eq ['Ppppp','Sssss','Xxxxx']
       end
     end
+
+    describe '::CASE_UPLIFT_MAPPINGS' do
+      subject { described_class::CASE_UPLIFT_MAPPINGS[code] }
+
+      EXPECTED_MAPPINGS = {
+        FXACV: 'FXACU',
+        FXASE: 'FXASU',
+        FXCBR: 'FXCBU',
+        FXCSE: 'FXCSU',
+        FXENP: 'FXENU'
+      }.with_indifferent_access.freeze
+
+      context 'mappings' do
+        EXPECTED_MAPPINGS.each do |code, uplift_code|
+          context "code #{code}" do
+            let(:code) { code }
+
+            it "returns #{uplift_code}" do
+              is_expected.to eql uplift_code
+            end
+          end
+        end
+      end
+    end
   end
 end

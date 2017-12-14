@@ -20,19 +20,22 @@
 #
 
 require 'rails_helper'
+require_relative 'shared_examples_for_defendant_uplifts'
 
 module Fee
   describe MiscFee do
     it { should belong_to(:fee_type) }
-
     it { should validate_presence_of(:claim).with_message('blank') }
-    
     it { should validate_presence_of(:fee_type).with_message('blank') }
-  end
 
-  describe '#is_misc?' do
-    it 'returns true' do
-      expect(build(:misc_fee).is_misc?).to be true
+    let(:fee_type) { instance_double('fee_type') }
+
+    include_examples '#defendant_uplift?'
+
+    describe '#is_misc?' do
+      it 'returns true' do
+        expect(build(:misc_fee).is_misc?).to be true
+      end
     end
   end
 end

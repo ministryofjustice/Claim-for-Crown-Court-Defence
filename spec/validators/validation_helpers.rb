@@ -6,6 +6,12 @@ module ValidationHelpers
     end
   end
 
+  shared_context "step-index" do |step|
+    before do
+      allow(claim).to receive(:current_step_index).and_return(step || 0)
+    end
+  end
+
   # needed to work around Total validation on claim
   def create_and_submit_claim(claim)
     claim.force_validation = false

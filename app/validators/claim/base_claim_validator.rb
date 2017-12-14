@@ -42,7 +42,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_total
-    return if @record.source == 'api'
+    return if @record.from_api?
 
     validate_numericality(:total, 'numericality', 0.1, nil)
     validate_amount_less_than_claim_max(:total)

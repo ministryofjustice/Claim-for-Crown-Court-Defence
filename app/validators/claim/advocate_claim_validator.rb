@@ -64,6 +64,25 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_defendant_uplifts
-    return if @record.source == 'api'
+    return if @record.from_api?
+    no_of_defendants = @record.defendants.reject(&:marked_for_destruction?).size
+    add_error(:base, 'Too many defendant uplifts claimed') if defendant_uplifts_greater_than?(no_of_defendants)
+  end
+
+  # we add one because uplift quantities reflect the number of "additional" defendants
+  def defendant_uplifts_greater_than?(no_of_defendants)
+    defendant_uplifts.values.map(&:to_i).any? { |sum| sum + 1 > no_of_defendants }
+  end
+
+  def defendant_uplifts
+    # TODO: move to scope on MiscFee OR BaseFee
+    @record
+      .misc_fees
+      .joins(:fee_type)
+      .merge(Fee::MiscFeeType.defendant_uplifts)
+      .unscope(:order)
+      .where.not(id: @record.misc_fees.select(&:marked_for_destruction?).map(&:id))
+      .group('fee_types.unique_code')
+      .sum('quantity')
   end
 end

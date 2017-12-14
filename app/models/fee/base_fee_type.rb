@@ -29,6 +29,7 @@ module Fee
     include ActionView::Helpers::NumberHelper
     include Comparable
     include Roles
+    include DefendantUpliftable
 
     self.table_name = 'fee_types'
 

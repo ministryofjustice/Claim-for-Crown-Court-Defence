@@ -23,14 +23,6 @@ module API
 
         private
 
-        CASE_UPLIFT_MAPPINGS = {
-          FXACV: 'FXACU',
-          FXASE: 'FXASU',
-          FXCBR: 'FXCBU',
-          FXCSE: 'FXCSU',
-          FXENP: 'FXENU'
-        }.with_indifferent_access.freeze
-
         def fees_for(fee_type_unique_code)
           claim.fees.where(fee_type_id: ::Fee::BaseFeeType.where(unique_code: fee_type_unique_code))
         end
@@ -66,7 +58,7 @@ module API
         end
 
         def case_uplift_fee_code
-          CASE_UPLIFT_MAPPINGS[fee_code]
+          ::Fee::FixedFeeType::CASE_UPLIFT_MAPPINGS[fee_code]
         end
 
         def defendant_uplift_fees

@@ -86,7 +86,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
                   error: error.message) do
       'Failed to clone'
     end
-    redirect_to external_users_claims_url, alert: 'Can only clone rejected claims'
+    redirect_to external_users_claims_url, alert: t('external_users.claims.redraft.error_html').html_safe
   end
 
   def destroy

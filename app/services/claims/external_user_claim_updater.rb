@@ -17,8 +17,6 @@ module Claims
 
     def clone_rejected
       claim.clone_rejected_to_new_draft(audit_attributes)
-    rescue StandardError => error
-      raise "Claims::ExternalUserClaimUpdater.clone_rejected with #{error.message}"
     end
 
     def request_redetermination

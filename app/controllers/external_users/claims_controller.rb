@@ -82,6 +82,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
   rescue StandardError => error
     LogStuff.send(:error, 'ExternalUsers::ClaimsController',
+                  action: 'clone',
                   claim_id: @claim.id,
                   error: error.message) do
       'Failed to clone'

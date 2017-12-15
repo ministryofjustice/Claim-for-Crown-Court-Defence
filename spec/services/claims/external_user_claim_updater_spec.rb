@@ -83,15 +83,7 @@ module Claims
         let(:claim) { create :submitted_claim }
 
         it 'raises an appropriate error' do
-          expect { subject.clone_rejected }.to raise_error('Claims::ExternalUserClaimUpdater.clone_rejected with Claims::Cloner.clone_rejected_to_new_draft failed with error \'Can only clone claims in state "rejected"\'')
-        end
-      end
-
-      context 'when another error is raised' do
-        before { allow(claim).to receive(:clone_rejected_to_new_draft).and_raise(ArgumentError.new('unknowable error')) }
-
-        it 'is passed upwards' do
-          expect { subject.clone_rejected }.to raise_error('Claims::ExternalUserClaimUpdater.clone_rejected with unknowable error')
+          expect { subject.clone_rejected }.to raise_error('Claims::Cloner.clone_rejected_to_new_draft failed with error \'Can only clone claims in state "rejected"\'')
         end
       end
     end

@@ -52,4 +52,8 @@ module SearchResultHelpers
   def allocation_type_is_grad?
     object.allocation_type.eql?('Grad')
   end
+
+  def allocation_type_is_fixed?
+    object.allocation_type.eql?('Fixed')
+  end
 end

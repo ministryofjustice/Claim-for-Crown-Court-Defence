@@ -56,5 +56,17 @@ describe API::Entities::SearchResult do
       let(:result) { {'disk_evidence'=>0, 'redetermination'=>0, 'fixed_fee'=>0, 'awaiting_written_reasons'=>0, 'cracked'=>0, 'trial'=>1, 'guilty_plea'=>0, 'graduated_fees'=>1, 'interim_fees'=>1, 'warrants'=>0, 'interim_disbursements'=>0, 'risk_based_bills'=>0} }
       it { is_expected.to eql result }
     end
+
+    context 'when passed a litigator Transfer fixed fee' do
+      let(:claim) {OpenStruct.new('id' => '179658',	'uuid' => '7464a789-16a2-482b-a37e-4ffb957be5a4',	'scheme' => 'lgfs',	'scheme_type' => 'Transfer',	'case_number' => 'T20170186',	'state' => 'submitted',	'court_name' => 'Bristol',	'case_type' => 'Transfer',	'total' => '257.81',	'disk_evidence' => 'f',	'external_user' => 'Stacey Bosco',	'maat_references' => '5696689',	'defendants' => 'Liam Huels',	'fees' => '44.0~Transfer~Fee::TransferFeeType',	'last_submitted_at' => '11/12/2017  10:37:06',	'class_letter' => 'D',	'is_fixed_fee' => 'f',	'fee_type_code' => '',	'graduated_fee_types' => 'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR',	'allocation_type' => 'Fixed') }
+      let(:result) { {'disk_evidence'=>0, 'redetermination'=>0, 'fixed_fee'=>1, 'awaiting_written_reasons'=>0, 'cracked'=>0, 'trial'=>0, 'guilty_plea'=>0, 'graduated_fees'=>0, 'interim_fees'=>0, 'warrants'=>0, 'interim_disbursements'=>0, 'risk_based_bills'=>0} }
+      it { is_expected.to eql result }
+    end
+
+    context 'when passed a litigator Transfer grad fee' do
+      let(:claim) {OpenStruct.new('id' => '179730',	'uuid' => '43016337-ca7a-4ac5-82a2-e32bd8174305',	'scheme' => 'lgfs',	'scheme_type' => 'Transfer',	'case_number' => 'T20177304',	'state' => 'submitted',	'court_name' => 'Croydon',	'case_type' => 'Transfer',	'total' => '333.67',	'disk_evidence' => 'f',	'external_user' => 'Emmanuelle Olson',	'maat_references' => '5864761',	'defendants' => 'Sadie Keeling',	'fees' => '0.0~Transfer~Fee::TransferFeeType',	'last_submitted_at' => '11/12/2017 10:37:06',	'class_letter' => 'B',	'is_fixed_fee' => 'f',	'fee_type_code' => '',	'graduated_fee_types' => 'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR',	'allocation_type' => 'Grad') }
+      let(:result) { {'disk_evidence'=>0, 'redetermination'=>0, 'fixed_fee'=>0, 'awaiting_written_reasons'=>0, 'cracked'=>0, 'trial'=>0, 'guilty_plea'=>0, 'graduated_fees'=>1, 'interim_fees'=>0, 'warrants'=>0, 'interim_disbursements'=>0, 'risk_based_bills'=>0} }
+      it { is_expected.to eql result }
+    end
   end
 end

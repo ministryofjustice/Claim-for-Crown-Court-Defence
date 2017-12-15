@@ -60,7 +60,7 @@ module API
       end
 
       def fixed_fee
-        (object.is_fixed_fee.eql?('t') && is_submitted?).to_i
+        ((object.is_fixed_fee.eql?('t') || allocation_type_is_fixed?) && is_submitted?).to_i
       end
 
       def awaiting_written_reasons

@@ -15,16 +15,16 @@
 #  quantity_is_decimal :boolean          default(FALSE)
 #  unique_code         :string
 #
-
 require 'rails_helper'
+require_relative 'shared_examples_for_case_uplifts'
 
 module Fee
   describe FixedFeeType do
+    let(:fee_type) { build :fixed_fee_type }
+    it_behaves_like 'case upliftable'
 
     it { should belong_to(:parent) }
     it { should have_many(:children) }
-
-    let(:fee_type) { build :fixed_fee_type }
 
     describe '.top_levels' do
       before(:all) do
@@ -40,6 +40,18 @@ module Fee
 
       it 'only returns top level parent fixed fees' do
         expect(Fee::FixedFeeType.top_levels).to match_array([@parent_1, @parent_2])
+      end
+    end
+
+    describe 'default scope' do
+      before do
+        create(:fixed_fee_type, description: 'Ppppp')
+        create(:fixed_fee_type, description: 'Xxxxx')
+        create(:fixed_fee_type, description: 'Sssss')
+      end
+
+      it 'should order by description ascending' do
+        expect(Fee::FixedFeeType.all.pluck(:description)).to eq ['Ppppp','Sssss','Xxxxx']
       end
     end
 
@@ -68,42 +80,6 @@ module Fee
 
           it "#{unique_code} should return false" do
             is_expected.to be_falsey
-          end
-        end
-      end
-    end
-
-    describe 'default scope' do
-      before do
-        create(:fixed_fee_type, description: 'Ppppp')
-        create(:fixed_fee_type, description: 'Xxxxx')
-        create(:fixed_fee_type, description: 'Sssss')
-      end
-
-      it 'should order by description ascending' do
-        expect(Fee::FixedFeeType.all.pluck(:description)).to eq ['Ppppp','Sssss','Xxxxx']
-      end
-    end
-
-    describe '::CASE_UPLIFT_MAPPINGS' do
-      subject { described_class::CASE_UPLIFT_MAPPINGS[code] }
-
-      EXPECTED_MAPPINGS = {
-        FXACV: 'FXACU',
-        FXASE: 'FXASU',
-        FXCBR: 'FXCBU',
-        FXCSE: 'FXCSU',
-        FXENP: 'FXENU'
-      }.with_indifferent_access.freeze
-
-      context 'mappings' do
-        EXPECTED_MAPPINGS.each do |code, uplift_code|
-          context "code #{code}" do
-            let(:code) { code }
-
-            it "returns #{uplift_code}" do
-              is_expected.to eql uplift_code
-            end
           end
         end
       end

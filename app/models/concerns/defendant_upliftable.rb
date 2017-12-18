@@ -1,6 +1,6 @@
 #
 # extends fee types by adding methods providing
-# information and data on those that are considered
+# information and data on those fees types are considered
 # to be "defendant uplifts"
 #
 # "defendant uplifts" are fees of a type

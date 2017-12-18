@@ -11,7 +11,23 @@ shared_examples '#defendant_uplift?' do
   end
 end
 
-shared_examples 'defendant uplifts fee types' do
+shared_examples '.defendant_uplift_sums' do
+  describe '.defendant_uplift_sums' do
+    subject { described_class.defendant_uplift_sums }
+    let(:claim) { create(:claim) }
+    let(:miahu) { create(:misc_fee_type, :miahu) }
+
+    before do
+      create(:misc_fee, fee_type: miahu, claim: claim, quantity: 3, amount: 21.01)
+    end
+
+    it 'returns hash of sums grouped by fee\'s unique_code' do
+      is_expected.to eql({ "MIAHU" => 3 })
+    end
+  end
+end
+
+shared_examples 'defendant upliftable' do
  describe '#defendant_uplift?' do
     subject { fee_type.defendant_uplift? }
 

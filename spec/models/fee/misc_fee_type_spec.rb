@@ -21,7 +21,7 @@ require_relative 'shared_examples_for_defendant_uplifts'
 module Fee
   describe MiscFeeType do
     let(:fee_type) { build :misc_fee_type }
-    include_examples 'defendant uplifts'
+    it_behaves_like 'defendant upliftable'
 
     describe '#fee_category_name' do
       it 'returns the category name' do

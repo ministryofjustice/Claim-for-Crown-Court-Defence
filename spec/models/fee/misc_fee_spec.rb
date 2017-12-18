@@ -31,6 +31,7 @@ module Fee
     let(:fee_type) { instance_double('fee_type') }
 
     include_examples '#defendant_uplift?'
+    include_examples '.defendant_uplift_sums'
 
     describe '#is_misc?' do
       it 'returns true' do

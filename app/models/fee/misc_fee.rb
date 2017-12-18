@@ -23,6 +23,15 @@ class Fee::MiscFee < Fee::BaseFee
 
   validates_with Fee::MiscFeeValidator
 
+  scope :defendant_uplift_sums, lambda {
+    joins(:fee_type)
+      .merge(Fee::BaseFeeType.defendant_uplifts)
+      .unscope(:order)
+      .where.not(id: select(&:marked_for_destruction?).map(&:id))
+      .group('fee_types.unique_code')
+      .sum('quantity')
+  }
+
   def is_misc?
     true
   end

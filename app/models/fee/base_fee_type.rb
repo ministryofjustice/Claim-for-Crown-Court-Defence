@@ -29,6 +29,7 @@ module Fee
     include ActionView::Helpers::NumberHelper
     include Comparable
     include Roles
+    include CaseUpliftable
     include DefendantUpliftable
 
     self.table_name = 'fee_types'
@@ -60,13 +61,6 @@ module Fee
 
     def fee_class_name
       type.sub(/Type$/, '')
-    end
-
-    def case_uplift?
-      # Certain basic and fixed fee types (and one lgfs only miscellaneous fee)
-      # relate to additional cases and therefore require those additional
-      # case numbers to be supplied
-      unique_code.in?(%w[BANOC FXNOC FXACU FXASU FXCBU FXCSU FXCDU FXENU FXNOC MIUPL])
     end
 
     # utility methods for providing access to subclasses

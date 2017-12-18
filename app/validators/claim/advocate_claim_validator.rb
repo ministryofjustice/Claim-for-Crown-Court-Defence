@@ -71,18 +71,10 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
 
   # we add one because uplift quantities reflect the number of "additional" defendants
   def defendant_uplifts_greater_than?(no_of_defendants)
-    defendant_uplifts.values.map(&:to_i).any? { |sum| sum + 1 > no_of_defendants }
-  end
-
-  def defendant_uplifts
-    # TODO: move to scope on MiscFee OR BaseFee
     @record
       .misc_fees
-      .joins(:fee_type)
-      .merge(Fee::MiscFeeType.defendant_uplifts)
-      .unscope(:order)
-      .where.not(id: @record.misc_fees.select(&:marked_for_destruction?).map(&:id))
-      .group('fee_types.unique_code')
-      .sum('quantity')
+      .defendant_uplift_sums
+      .values
+      .map(&:to_i).any? { |sum| sum + 1 > no_of_defendants }
   end
 end

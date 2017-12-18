@@ -1,11 +1,11 @@
-# Certain basic and fixed fee types (and one LGFS only miscellaneous fee)
-# relate to additional cases and therefore require those additional
-# case numbers to be supplied
-
-# In addition, of those fixed fees that are case uplifts
-# there is a relationship between the uplift and its "parent"
-# fee that is important when it comes to consolidating data for
-# injection into CCR.
+# Extends fee type, adding a mapping of certain fixed
+# fees to their case uplift equivalent - which is
+# important for consolidating records for injection
+# into CCR.
+#
+# In addition, specific basic and fixed fee types (and one LGFS only
+# miscellaneous fee) that require additional cases are flagged
+# here for use in validation and presentation layers
 #
 module CaseUpliftable
   extend ActiveSupport::Concern

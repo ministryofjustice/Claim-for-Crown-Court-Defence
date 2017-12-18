@@ -27,7 +27,6 @@ class Fee::MiscFee < Fee::BaseFee
     joins(:fee_type)
       .merge(Fee::BaseFeeType.defendant_uplifts)
       .unscope(:order)
-      .where.not(id: select(&:marked_for_destruction?).map(&:id))
       .group('fee_types.unique_code')
       .sum('quantity')
   }

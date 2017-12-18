@@ -124,14 +124,8 @@ describe Claim::AdvocateClaimValidator do
       expect(claim.misc_fees.first.fee_type).to have_attributes(unique_code: 'MIAPH')
     end
 
-    context 'when defendant count matches defendant uplifts claimed' do
-      it 'should not error' do
-        should_not_error(claim, :defendant_uplifts)
-      end
-    end
-
-    context 'where defendant uplifts count does not match defendant uplifts claimed' do
-      context 'when 1 defendant and 0 uplifts' do
+    context 'with 1 defendant' do
+      context 'when there are 0 uplifts' do
         it 'test setup' do
           expect(claim.defendants.size).to eql 1
           expect(claim.misc_fees.map { |f| f.fee_type.unique_code }).to eql(%w[MIAPH])
@@ -142,7 +136,7 @@ describe Claim::AdvocateClaimValidator do
         end
       end
 
-      context 'when 1 defendant and 1 uplift' do
+      context 'when there is 1 uplift' do
         before do
           create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
         end
@@ -158,7 +152,7 @@ describe Claim::AdvocateClaimValidator do
         end
 
         it 'should error with message' do
-          should_error_with(claim, :base, 'Too many defendant uplifts claimed')
+          should_error_with(claim, :base, 'defendant_uplifts_mismatch')
         end
 
         context 'when from api' do
@@ -172,13 +166,13 @@ describe Claim::AdvocateClaimValidator do
         end
       end
 
-      context 'when multiple defendants and uplift varieties' do
+      context 'with 2 defendants' do
         before do
           create(:defendant, claim: claim)
           create(:misc_fee, fee_type: midtw, claim: claim, quantity: 1, amount: 21.01)
         end
 
-        context 'when sums of uplift quantities per fee type do not exceed the number of defendants' do
+        context 'when there are multiple uplifts of 1 per fee type' do
           before do
             create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
             create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
@@ -194,7 +188,7 @@ describe Claim::AdvocateClaimValidator do
           end
         end
 
-        context 'when sums of any uplift quantities per fee type exceed the number of defendants' do
+        context 'when there are multiple uplifts of 2 (or more) per fee type' do
           before do
             create(:misc_fee, fee_type: miahu, claim: claim, quantity: 2, amount: 21.01)
             create(:misc_fee, fee_type: midwu, claim: claim, quantity: 2, amount: 21.01)

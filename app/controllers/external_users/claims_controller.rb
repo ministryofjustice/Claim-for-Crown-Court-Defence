@@ -78,7 +78,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def clone_rejected
-    draft = claim_updater.clone_rejected
+    draft = nil
+    Timeout.timeout(15) do
+      draft = claim_updater.clone_rejected
+    end
     redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
   rescue StandardError => error
     LogStuff.send(:error, 'ExternalUsers::ClaimsController',

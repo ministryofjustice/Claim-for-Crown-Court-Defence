@@ -87,6 +87,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     LogStuff.send(:error, 'ExternalUsers::ClaimsController',
                   action: 'clone',
                   claim_id: @claim.id,
+                  documents: @claim.documents.count,
+                  total_size: @claim.documents.sum(:document_file_size),
                   error: error.message) do
       'Failed to clone'
     end

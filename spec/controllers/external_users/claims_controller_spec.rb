@@ -574,6 +574,8 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         expect(LogStuff).to receive(:error).with('ExternalUsers::ClaimsController',
                                                  action: 'clone',
                                                  claim_id: subject.id,
+                                                 documents: 0,
+                                                 total_size: 0,
                                                  error: 'Claims::Cloner.clone_rejected_to_new_draft failed with error \'Can only clone claims in state "rejected"\'')
         patch :clone_rejected, id: subject
       end

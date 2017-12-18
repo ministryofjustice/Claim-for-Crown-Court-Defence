@@ -26,7 +26,7 @@ module CCR
       if daily_attendance_uplifts?
         daily_attendance_uplifts + DAILY_ATTENDANCES_IN_BASIC
       else
-        [claim.actual_trial_length, DAILY_ATTENDANCES_IN_BASIC].compact.min
+        [trial_length, DAILY_ATTENDANCES_IN_BASIC].compact.min
       end
     end
 
@@ -34,6 +34,10 @@ module CCR
 
     # The first 2 daily attendances are included in the Basic Fee (BABAF)
     DAILY_ATTENDANCES_IN_BASIC = 2
+
+    def trial_length
+      claim&.case_type&.requires_retrial_dates? ? claim&.retrial_actual_length : claim&.actual_trial_length
+    end
 
     def daily_attendance_fee_types
       ::Fee::BasicFeeType.where(unique_code: %w[BADAF BADAH BADAJ])

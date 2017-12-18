@@ -78,14 +78,27 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def clone_rejected
-    draft = claim_updater.clone_rejected
+    draft = nil
+    Timeout.timeout(15) do
+      draft = claim_updater.clone_rejected
+    end
+    LogStuff.send(:info, 'ExternalUsers::ClaimsController',
+                  action: 'clone',
+                  claim_id: @claim.id,
+                  documents: @claim.documents.count,
+                  total_size: @claim.documents.sum(:document_file_size)) do
+      'Redraft succeeded'
+    end
+
     redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
   rescue StandardError => error
     LogStuff.send(:error, 'ExternalUsers::ClaimsController',
                   action: 'clone',
                   claim_id: @claim.id,
+                  documents: @claim.documents.count,
+                  total_size: @claim.documents.sum(:document_file_size),
                   error: error.message) do
-      'Failed to clone'
+      'Redraft failed'
     end
     redirect_to external_users_claims_url, alert: t('external_users.claims.redraft.error_html').html_safe
   end

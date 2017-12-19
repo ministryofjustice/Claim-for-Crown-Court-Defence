@@ -334,12 +334,27 @@ describe API::V2::CCRClaim do
           end
 
           context 'lower bound value' do
-            before do
-              claim.update(actual_trial_length: 2)
+            context 'for trials' do
+              before do
+                claim.update(actual_trial_length: 2)
+              end
+
+              it 'calculated from acutal trial length if no daily attendance fees' do
+                expect(response).to be_json_eql("2".to_json).at_path "bills/0/daily_attendances"
+              end
             end
 
-            it 'calculated from acutal trial length if no daily attendance fees' do
-              expect(response).to be_json_eql("2".to_json).at_path "bills/0/daily_attendances"
+            context 'for retrials' do
+              let(:retrial) { instance_double('case_type', name: 'Retrial', requires_retrial_dates: true) }
+
+              before do
+                allow(claim).to receive(:case_type).and_return retrial
+                claim.update(retrial_actual_length: 4)
+              end
+
+              it 'calculated from acutal retrial length if no daily attendance fees' do
+                expect(response).to be_json_eql("4".to_json).at_path "bills/0/daily_attendances"
+              end
             end
           end
         end

@@ -45,6 +45,14 @@ module Fee
 
     default_scope { includes(:fee_type) }
 
+    scope :defendant_uplift_sums, lambda {
+      joins(:fee_type)
+        .merge(Fee::BaseFeeType.defendant_uplifts)
+        .unscope(:order)
+        .group('fee_types.unique_code')
+        .sum('quantity')
+    }
+
     validates_with FeeSubModelValidator
 
     accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true

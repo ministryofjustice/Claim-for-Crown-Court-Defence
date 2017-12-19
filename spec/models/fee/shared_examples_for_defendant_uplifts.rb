@@ -42,6 +42,21 @@ shared_examples 'defendant upliftable' do
     end
   end
 
+  describe '.defendant_uplifts' do
+    it 'calls .defendant_uplift_unique_codes' do
+      expect(described_class).to receive(:defendant_uplift_unique_codes)
+      described_class.defendant_uplifts
+    end
+  end
+
+  describe '.defendant_uplift_unique_codes' do
+    subject { described_class.defendant_uplift_unique_codes }
+
+    it 'includes orphan defendant uplift unique codes' do
+      is_expected.to include(*%w[BANDR FXNDR])
+    end
+  end
+
   describe '::DEFENDANT_UPLIFT_MAPPINGS' do
     subject { described_class::DEFENDANT_UPLIFT_MAPPINGS[code] }
 

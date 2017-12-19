@@ -35,14 +35,20 @@ module DefendantUpliftable
       MIUAV2: 'MIUAV4', # Unsuccessful application to vacate a guilty plea (whole day uplift)
     }.with_indifferent_access.freeze
 
+    ORPHAN_DEFENDANT_UPLIFTS = %w[BANDR FXNDR].freeze
+
     def defendant_uplifts
-      where(unique_code: DEFENDANT_UPLIFT_MAPPINGS.values)
+      where(unique_code: defendant_uplift_unique_codes)
+    end
+
+    def defendant_uplift_unique_codes
+      DEFENDANT_UPLIFT_MAPPINGS.values + ORPHAN_DEFENDANT_UPLIFTS
     end
   end
 
   included do
     def defendant_uplift?
-      unique_code.in?(DEFENDANT_UPLIFT_MAPPINGS.values)
+      unique_code.in?(self.class.defendant_uplift_unique_codes)
     end
   end
 end

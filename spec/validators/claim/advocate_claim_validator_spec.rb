@@ -136,7 +136,7 @@ describe Claim::AdvocateClaimValidator do
         end
       end
 
-      context 'when there is 1 uplift' do
+      context 'when there is 1 miscellanoues fee uplift' do
         before do
           create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
         end
@@ -147,11 +147,6 @@ describe Claim::AdvocateClaimValidator do
         end
 
         it 'should error' do
-          expect(claim).to be_invalid
-          expect(claim.errors[:base].size).to eql 1
-        end
-
-        it 'should error with message' do
           should_error_with(claim, :base, 'defendant_uplifts_mismatch')
         end
 
@@ -165,6 +160,22 @@ describe Claim::AdvocateClaimValidator do
           end
         end
       end
+
+      context 'when there is 1 basic fee uplift' do
+        before do
+          create(:basic_fee, :ndr_fee, claim: claim, quantity: 1, amount: 21.01)
+        end
+
+        it 'test setup' do
+          expect(claim.defendants.size).to eql 1
+          expect(claim.basic_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[BANDR])
+        end
+
+        it 'should error' do
+          should_error_with(claim, :base, 'defendant_uplifts_mismatch')
+        end
+      end
+
 
       context 'with 2 defendants' do
         before do
@@ -200,13 +211,13 @@ describe Claim::AdvocateClaimValidator do
           end
 
           it 'should add one error only' do
-            expect(claim).to be_invalid
+            should_error_with(claim, :base, 'defendant_uplifts_mismatch')
             expect(claim.errors[:base].size).to eql 1
           end
         end
       end
 
-      context 'defendant uplifts marked for destruction' do
+      context 'defendant uplifts fee marked for destruction' do
         before do
           create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
         end
@@ -218,7 +229,7 @@ describe Claim::AdvocateClaimValidator do
         end
 
         it 'are ignored' do
-          miahu_fee = claim.misc_fees.joins(:fee_type).where(fee_type: { unique_code: 'MIAHU' }).first
+          miahu_fee = claim.fees.joins(:fee_type).where(fee_type: { unique_code: 'MIAHU' }).first
           claim.update_attributes(
             :misc_fees_attributes => {
               '0' => {

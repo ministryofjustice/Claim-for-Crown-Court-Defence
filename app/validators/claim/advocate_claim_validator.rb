@@ -72,8 +72,8 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   # we add one because uplift quantities reflect the number of "additional" defendants
   def defendant_uplifts_greater_than?(no_of_defendants)
     @record
-      .misc_fees
-      .where(id: @record.misc_fees.reject(&:marked_for_destruction?).map(&:id))
+      .fees
+      .where.not(id: @record.misc_fees.select(&:marked_for_destruction?).map(&:id))
       .defendant_uplift_sums
       .values
       .map(&:to_i).any? { |sum| sum + 1 > no_of_defendants }

@@ -5,7 +5,7 @@ describe API::Entities::CCR::AdaptedBasicFee do
   subject(:response) { JSON.parse(described_class.represent(adapted_basic_fees).to_json).deep_symbolize_keys }
 
   let(:claim) { create(:authorised_claim) }
-  let(:case_type) { instance_double('case_type', fee_type_code: 'GRTRL')}
+  let(:case_type) { instance_double('case_type', fee_type_code: 'GRTRL', requires_retrial_dates?: false) }
   let(:adapted_basic_fees) { ::CCR::Fee::BasicFeeAdapter.new.call(claim) }
 
   before do

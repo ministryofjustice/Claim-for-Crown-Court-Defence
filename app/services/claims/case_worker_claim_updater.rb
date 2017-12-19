@@ -42,6 +42,7 @@ module Claims
         validate_state_when_value_params_present
       else
         validate_state_when_no_value_params
+        validate_reason_presence
       end
     end
 
@@ -58,6 +59,10 @@ module Claims
     def validate_state_when_no_value_params
       return unless @state.in?(%w[authorised part_authorised])
       add_error 'You must specify positive values if authorising or part authorising a claim'
+    end
+
+    def validate_reason_presence
+      add_error 'You must specify a reason when rejecting' if @state == 'rejected' && @transition_reason.nil?
     end
 
     def nil_or_empty_zero_or_negative?(determination_params)

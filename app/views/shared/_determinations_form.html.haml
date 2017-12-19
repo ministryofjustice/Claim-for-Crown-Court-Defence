@@ -54,6 +54,12 @@
               %a#expense_reject_reason_text
               = f.label :reason_text, 'Reason text'
               = f.text_field :reason_text, {class: 'form-control'}
+      .js-cw-claim-refuse-reasons{style: 'display:none'}
+        %fieldset.form-group.nested-fields.indent-fieldset.spacer
+          %legend.bold-normal.form-label
+            = "Choose reason for refusal"
+          = collection_radio_buttons(nil, :state_reason, ClaimStateTransitionReason.reasons(:refused), :code, :description) do |b|
+            - b.label(class: "block-label") { b.radio_button + b.text }
 
       %p
         = f.submit 'Update', class: 'button', id: 'button'

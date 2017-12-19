@@ -18,6 +18,10 @@ class ClaimStateTransitionReason
       no_prior_authority: 'No prior authority provided',
       no_invoice: 'No invoice provided'
     },
+    refused: {
+        wrong_ia: 'Wrong IA',
+        other: 'Other'
+    },
     global: {
       timed_transition: 'TimedTransition::Transitioner'
     }

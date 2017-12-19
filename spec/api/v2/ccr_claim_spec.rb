@@ -335,25 +335,48 @@ describe API::V2::CCRClaim do
 
           context 'lower bound value' do
             context 'for trials' do
+              let(:trial) { create(:case_type, :trial) }
+
               before do
-                claim.update(actual_trial_length: 2)
+                claim.update_attributes!(
+                  case_type: trial,
+                  first_day_of_trial: 10.days.ago,
+                  trial_concluded_at: 8.days.ago,
+                  estimated_trial_length: 1,
+                  actual_trial_length: 1
+                )
               end
 
-              it 'calculated from acutal trial length if no daily attendance fees' do
+              it 'calculated as actual trial length if no daily attendance fees and trial length is less than 2' do
+                claim.update_attributes!(actual_trial_length: 1)
+                expect(response).to be_json_eql("1".to_json).at_path "bills/0/daily_attendances"
+              end
+
+              it 'calculated as 2 for trial lengths over 2' do
+                claim.update_attributes!(actual_trial_length: 4, trial_concluded_at: 6.days.ago,)
                 expect(response).to be_json_eql("2".to_json).at_path "bills/0/daily_attendances"
               end
             end
 
             context 'for retrials' do
-              let(:retrial) { instance_double('case_type', name: 'Retrial', requires_retrial_dates: true) }
+              let(:retrial) { create(:case_type, :retrial) }
 
               before do
-                allow(claim).to receive(:case_type).and_return retrial
-                claim.update(retrial_actual_length: 4)
+                claim.update_attributes!(
+                  case_type: retrial,
+                  first_day_of_trial: 10.days.ago,
+                  trial_concluded_at: 8.days.ago,
+                  estimated_trial_length: 2,
+                  actual_trial_length: 2,
+                  retrial_started_at: 5.days.ago,
+                  retrial_estimated_length: 1,
+                  retrial_actual_length: 1,
+                  retrial_concluded_at: 0.days.ago
+                )
               end
 
-              it 'calculated from acutal retrial length if no daily attendance fees' do
-                expect(response).to be_json_eql("4".to_json).at_path "bills/0/daily_attendances"
+              it 'calculated from actual retrial length if no daily attendance fees and retrial length is less than 2' do
+                expect(response).to be_json_eql("1".to_json).at_path "bills/0/daily_attendances"
               end
             end
           end

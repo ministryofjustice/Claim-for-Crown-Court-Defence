@@ -62,7 +62,7 @@ module Claims
     end
 
     def validate_reason_presence
-      add_error 'You must specify a reason when rejecting' if @state == 'rejected' && @transition_reason.nil?
+      add_error 'requires a reason when rejecting' if @state == 'rejected' && @transition_reason.nil?
     end
 
     def nil_or_empty_zero_or_negative?(determination_params)

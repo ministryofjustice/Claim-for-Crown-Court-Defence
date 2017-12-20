@@ -100,7 +100,7 @@ module Claims
           params = {'state' => 'rejected', 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
-          expect(updater.claim.errors[:determinations]).to eq(['You must specify a reason when rejecting'])
+          expect(updater.claim.errors[:determinations]).to eq(['requires a reason when rejecting'])
           expect(updater.claim.state).to eq 'allocated'
           expect(updater.claim.assessment.fees.to_f).to eq 0.0
           expect(updater.claim.assessment.expenses).to eq 0.0
@@ -193,7 +193,7 @@ module Claims
           params = {'state' => 'rejected', 'redeterminations_attributes' => {'0' => {'fees' => '', 'expenses' => '0'}}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
-          expect(updater.claim.errors[:determinations]).to eq(['You must specify a reason when rejecting'])
+          expect(updater.claim.errors[:determinations]).to eq(['requires a reason when rejecting'])
           expect(updater.claim.state).to eq 'allocated'
           expect(updater.claim.redeterminations).to be_empty
         end

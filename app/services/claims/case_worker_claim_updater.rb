@@ -23,6 +23,7 @@ module Claims
     def extract_transition_params
       @state = @params.delete('state')
       @transition_reason = @params.delete('state_reason')
+      @transition_reason_text = @params.delete('reason_text')
       @current_user = @params.delete(:current_user)
     end
 
@@ -62,7 +63,13 @@ module Claims
     end
 
     def validate_reason_presence
-      add_error 'requires a reason when rejecting' if @state == 'rejected' && @transition_reason.nil?
+      return unless @state == 'rejected'
+      add_error 'requires a reason when rejecting' if @transition_reason.nil?
+      add_error 'requires details when rejecting with other' if transition_reason_text_missing?
+    end
+
+    def transition_reason_text_missing?
+      @transition_reason == 'other' && @transition_reason_text.nil?
     end
 
     def nil_or_empty_zero_or_negative?(determination_params)
@@ -84,7 +91,7 @@ module Claims
           @claim.update(@params)
           update_assessment if @assessment_params_present
           add_redetermination if @redetermination_params_present
-          @claim.send(event, audit_attributes.merge(reason_code: @transition_reason)) unless state_not_updateable?
+          @claim.send(event, audit_attributes) unless state_not_updateable?
         rescue StandardError => err
           add_error err.message
           raise ActiveRecord::Rollback
@@ -120,7 +127,11 @@ module Claims
     end
 
     def audit_attributes
-      { author_id: current_user&.id }
+      {
+        author_id: current_user&.id,
+        reason_code: @transition_reason,
+        reason_text: @transition_reason_text
+      }
     end
   end
 end

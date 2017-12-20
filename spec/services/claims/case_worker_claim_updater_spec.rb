@@ -47,6 +47,23 @@ module Claims
             updater = CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)).update!
             expect(updater.claim.last_state_transition.author_id).to eq(current_user.id)
           end
+
+          context 'other rejection with reason' do
+            let(:params) { {'state' => 'rejected', 'state_reason' => 'other', 'reason_text' => 'a reason', 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
+
+            it 'advances the claim to rejected with reason supplied' do
+              updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
+              expect(updater.result).to eq :ok
+              expect(updater.claim.state).to eq 'rejected'
+              expect(updater.claim.last_state_transition.reason_code).to eq 'other'
+              expect(updater.claim.last_state_transition.reason_text).to eq 'a reason'
+            end
+
+            it 'saves audit attributes' do
+              updater = CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)).update!
+              expect(updater.claim.last_state_transition.author_id).to eq(current_user.id)
+            end
+          end
         end
 
         it 'advances the claim to refused when no values are supplied' do
@@ -101,6 +118,17 @@ module Claims
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['requires a reason when rejecting'])
+          expect(updater.claim.state).to eq 'allocated'
+          expect(updater.claim.assessment.fees.to_f).to eq 0.0
+          expect(updater.claim.assessment.expenses).to eq 0.0
+          expect(updater.claim.assessment.disbursements).to eq 0.0
+        end
+
+        it 'if state_reason is other, but no text is supplied' do
+          params = {'state' => 'rejected', 'state_reason' => 'other', 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
+          updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
+          expect(updater.result).to eq :error
+          expect(updater.claim.errors[:determinations]).to eq(['requires details when rejecting with other'])
           expect(updater.claim.state).to eq 'allocated'
           expect(updater.claim.assessment.fees.to_f).to eq 0.0
           expect(updater.claim.assessment.expenses).to eq 0.0
@@ -194,6 +222,15 @@ module Claims
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['requires a reason when rejecting'])
+          expect(updater.claim.state).to eq 'allocated'
+          expect(updater.claim.redeterminations).to be_empty
+        end
+
+        it 'if state_reason is other, but no text is supplied' do
+          params = {'state' => 'rejected', 'state_reason' => 'other', 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
+          updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
+          expect(updater.result).to eq :error
+          expect(updater.claim.errors[:determinations]).to eq(['requires details when rejecting with other'])
           expect(updater.claim.state).to eq 'allocated'
           expect(updater.claim.redeterminations).to be_empty
         end

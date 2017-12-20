@@ -272,6 +272,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :retrial_estimated_length,
       :retrial_actual_length,
       date_attributes_for(:retrial_concluded_at),
+      :retrial_reduction,
       date_attributes_for(:trial_fixed_notice_at),
       date_attributes_for(:trial_fixed_at),
       date_attributes_for(:trial_cracked_at),

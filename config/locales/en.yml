@@ -521,12 +521,20 @@ en:
           trial_concluded_at: 'Trial concluded on'
           days: "Days"
         retrial_detail_fields:
-          actual_retrial_length: 'Actual retrial length'
-          actual_retrial_length_hint: 'Number of days'
-          estimated_retrial_length: 'Estimated retrial length'
-          estimated_retrial_length_hint: 'Number of days'
+          retrial_actual_length: 'Actual retrial length'
+          retrial_actual_length_hint: 'Number of days'
+          retrial_estimated_length: 'Estimated retrial length'
+          retrial_estimated_length_hint: 'Number of days'
           retrial_started_at: 'First day of retrial'
           retrial_concluded_at: 'Retrial concluded on'
+          retrial_reduction: 'Apply reduced rate to retrial?'
+          retrial_reduction_help_link: 'Help with claiming a reduced rate'
+          retrial_reduction_help_html: |
+              A reduced rate can be requested if: <br/>
+              <ul class="list list-bullet">
+                <li>you represented the defendant(s) at the original trial</li>
+                <li>you don’t want the reduced rate to be applied to the original trial</li>
+              </ul>
           days: "Days"
         offence_id_select:
           offence_class: "Offence class"
@@ -1176,7 +1184,18 @@ en:
         claims:
           advocate_claim:
             params:
+              advocate_email: 'DEPRECATED: Use instead user_email'
+              advocate_category: 'REQUIRED: The category of the advocate'
               user_email: 'REQUIRED: The ADP account email address that uniquely identifies the advocate to whom this claim belongs.'
+              actual_trial_length: 'REQUIRED/UNREQUIRED: The actual trial length in days'
+              retrial_actual_length: 'REQUIRED for retrials: The actual retrial length in days'
+              retrial_concluded_at: 'REQUIRED for retrials: YYYY-MM-DD'
+              trial_fixed_notice_at: 'OPTIONAL: YYYY-MM-DD'
+              trial_fixed_at: 'OPTIONAL: YYYY-MM-DD'
+              trial_cracked_at: 'OPTIONAL: YYYY-MM-DD'
+              trial_cracked_at_third: 'OPTIONAL: The third in which this case was cracked.'
+              retrial_reduction: 'OPTIONAL: Whether to request a reduced rate on the retrial'
+              actual_trial_length: 'REQUIRED/UNREQUIRED: The actual trial length in days'
           transfer_claim:
             params:
               case_conclusion_id: 'REQUIRED/UNREQUIRED: Only required for new litigators that transferred onto unelected cases at specific stages.'

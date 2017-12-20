@@ -166,3 +166,9 @@ Given(/^There are other advocates in my provider$/) do
                      user: FactoryBot.create(:user, first_name: 'Joe', last_name: 'Blow'),
                      supplier_number: 'XY455')
 end
+
+Then(/^I should see retrial fields$/) do
+  expect(@claim_form_page).to have_retrial_details
+  expect(@claim_form_page.retrial_details).to be_visible
+  expect(@claim_form_page.retrial_details).to be_all_there
+end

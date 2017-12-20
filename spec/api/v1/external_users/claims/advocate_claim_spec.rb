@@ -5,7 +5,6 @@ require 'support/claim_api_endpoints'
 require_relative '../shared_examples_for_all'
 
 describe API::V1::ExternalUsers::Claims::AdvocateClaim do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -20,12 +19,17 @@ describe API::V1::ExternalUsers::Claims::AdvocateClaim do
       :api_key => provider.api_key,
       :creator_email => vendor.user.email,
       :advocate_email => advocate.user.email,
-      :case_type_id => FactoryBot.create(:case_type, :trial).id,
+      :case_type_id => FactoryBot.create(:case_type, :retrial).id,
       :case_number => 'A20161234',
       :first_day_of_trial => "2015-01-01",
       :estimated_trial_length => 10,
       :actual_trial_length => 9,
       :trial_concluded_at => "2015-01-09",
+      :retrial_started_at => "2015-02-01",
+      :retrial_concluded_at => "2015-02-05",
+      :retrial_actual_length => "4",
+      :retrial_estimated_length => "5",
+      :retrial_reduction => "true",
       :advocate_category => 'Led junior',
       :offence_id => offence.id,
       :court_id => court.id } }
@@ -52,7 +56,6 @@ describe API::V1::ExternalUsers::Claims::AdvocateClaim do
   end
 
   describe "POST #{ClaimApiEndpoints.for(:advocate).validate}" do
-
     def post_to_validate_endpoint
       post ClaimApiEndpoints.for(:advocate).validate, valid_params, format: :json
     end
@@ -66,7 +69,6 @@ describe API::V1::ExternalUsers::Claims::AdvocateClaim do
     end
 
     context 'invalid API key' do
-
       include_examples "invalid API key validate endpoint"
 
       it "should return 401 and JSON error array when it is an API key from another provider's admin" do
@@ -121,13 +123,11 @@ describe API::V1::ExternalUsers::Claims::AdvocateClaim do
   end
 
   describe "POST #{ClaimApiEndpoints.for(:advocate).create}" do
-
     def post_to_create_endpoint
       post ClaimApiEndpoints.for(:advocate).create, valid_params, format: :json
     end
 
     context "when claim params are valid" do
-
       it "should create claim, return 201 and claim JSON output including UUID, but not API key" do
         post_to_create_endpoint
         expect(last_response.status).to eq(201)
@@ -150,32 +150,28 @@ describe API::V1::ExternalUsers::Claims::AdvocateClaim do
       end
 
       context "the new claim should" do
+        let(:claim) { Claim::AdvocateClaim.active.last }
 
         before(:each) {
           post_to_create_endpoint
-          @new_claim = Claim::AdvocateClaim.active.last
         }
 
         it "have the same attributes as described in params" do
           valid_params.each do |attribute, value|
             next if [:api_key, :creator_email, :advocate_email].include?(attribute) # because the saved claim record does not have these attribute
-            if @new_claim.send(attribute).class == Date
-              valid_params[attribute] = value.to_date # because the sved claim record has Date objects but the param has date strings
-            end
-            expect(@new_claim.send(attribute).to_s).to eq valid_params[attribute].to_s # some strings are converted to ints on save
+            valid_params[attribute] = value.to_date if claim.send(attribute).class.eql?(Date) # because the saved claim record has Date objects but the param has date strings
+            expect(claim.send(attribute).to_s).to eq valid_params[attribute].to_s # some strings are converted to ints on save
           end
         end
 
         it "belong to the advocate whose email was specified in params" do
           expected_owner = User.find_by(email: valid_params[:advocate_email])
-          expect(@new_claim.external_user).to eq expected_owner.persona
+          expect(claim.external_user).to eq expected_owner.persona
         end
       end
-
     end
 
     context "when claim params are invalid" do
-
       context 'invalid API key' do
         include_examples "invalid API key create endpoint"
 
@@ -236,9 +232,6 @@ describe API::V1::ExternalUsers::Claims::AdvocateClaim do
           expect_error_response("out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer")
         end
       end
-
     end
-
   end
-
 end

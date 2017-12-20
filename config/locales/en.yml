@@ -1184,7 +1184,18 @@ en:
         claims:
           advocate_claim:
             params:
+              advocate_email: 'DEPRECATED: Use instead user_email'
+              advocate_category: 'REQUIRED: The category of the advocate'
               user_email: 'REQUIRED: The ADP account email address that uniquely identifies the advocate to whom this claim belongs.'
+              actual_trial_length: 'REQUIRED/UNREQUIRED: The actual trial length in days'
+              retrial_actual_length: 'REQUIRED for retrials: The actual retrial length in days'
+              retrial_concluded_at: 'REQUIRED for retrials: YYYY-MM-DD'
+              trial_fixed_notice_at: 'OPTIONAL: YYYY-MM-DD'
+              trial_fixed_at: 'OPTIONAL: YYYY-MM-DD'
+              trial_cracked_at: 'OPTIONAL: YYYY-MM-DD'
+              trial_cracked_at_third: 'OPTIONAL: The third in which this case was cracked.'
+              retrial_reduction: 'OPTIONAL: Whether to request a reduced rate on the retrial'
+              actual_trial_length: 'REQUIRED/UNREQUIRED: The actual trial length in days'
           transfer_claim:
             params:
               case_conclusion_id: 'REQUIRED/UNREQUIRED: Only required for new litigators that transferred onto unelected cases at specific stages.'

@@ -94,7 +94,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
         disbursements
         vat_amount
       ]
-    ).merge(params.permit(:state_reason))
+    ).merge(params.permit(:state_reason, :reason_text))
   end
 
   def set_claims

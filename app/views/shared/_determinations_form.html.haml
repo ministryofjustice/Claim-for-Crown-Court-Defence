@@ -49,6 +49,11 @@
           = "Choose reason for rejection"
         = collection_radio_buttons(nil, :state_reason, ClaimStateTransitionReason.reasons(:rejected), :code, :description) do |b|
           - b.label(class: "block-label") { b.radio_button + b.text }
+        %fieldset.form-group.nested-fields.fieldset.spacer
+          %div.js-reject-reason-text
+            %a#expense_reject_reason_text
+            = f.label :reason_text, 'Reason text'
+            = f.text_field :reason_text, {class: 'form-control'}
 
     %p
       = f.submit 'Update', class: 'button', id: 'button'

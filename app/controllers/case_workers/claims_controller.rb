@@ -79,6 +79,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def claim_params
     params.require(:claim).permit(
       :state,
+      :reason_text,
       :additional_information,
       assessment_attributes: %i[
         id
@@ -94,7 +95,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
         disbursements
         vat_amount
       ]
-    ).merge(params.permit(:state_reason, :reason_text))
+    ).merge(params.permit(:state_reason))
   end
 
   def set_claims

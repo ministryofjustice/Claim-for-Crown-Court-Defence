@@ -26,4 +26,13 @@ Style/FormatStringToken:
 Metrics/LineLength:
   Max: 120
 
+Metrics/BlockLength:
+  ExcludedMethods:
+    - included
+    - namespace
+    - expose
+    - helpers
+    - group
+    - state_machine
+
 inherit_from: .rubocop_todo.yml

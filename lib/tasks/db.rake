@@ -101,6 +101,7 @@ namespace :db do
   desc 'Restores the database from a backup'
   task :restore, [:file] => :environment do |_task, args|
     production_protected
+    include IdSequenceResettable
 
     dump_file = args.file
 
@@ -120,6 +121,8 @@ namespace :db do
       dump_file = dump_file[0..-4]
     end
 
+    append_sequence_resets(dump_file)
+
     shell_working 'recreating schema' do
       system (with_config do |_db_name, connection_opts|
           "PGPASSWORD=$DB_PASSWORD psql -q -P pager=off #{connection_opts} -c \"drop schema public cascade\""
@@ -134,7 +137,6 @@ namespace :db do
         "PGPASSWORD=$DB_PASSWORD psql -q -P pager=off #{connection_opts} -f #{dump_file} > /dev/null"
       end)
     end
-
   end
 
   namespace :dump do
@@ -303,5 +305,4 @@ namespace :db do
   def fake_paragraphs max_paragraph_count=4
     Faker::Lorem.paragraphs(max_paragraph_count).pop(rand(1..max_paragraph_count)).join("\n")
   end
-
 end

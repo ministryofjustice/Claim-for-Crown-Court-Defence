@@ -115,7 +115,7 @@
           %th{scope: 'row'}
             = t("first_day_of_trial", scope: trial_detail_fields)
           %td
-            = claim&.first_day_of_trial.strftime(Settings.date_format)
+            = claim&.first_day_of_trial&.strftime(Settings.date_format)
         %tr
           %th{scope: 'row'}
             = t("estimated_trial_length", scope: trial_detail_fields)
@@ -137,7 +137,7 @@
           %th{scope: 'row'}
             = t("retrial_started_at", scope: retrial_detail_fields)
           %td
-            = claim&.retrial_started_at.strftime(Settings.date_format)
+            = claim&.retrial_started_at&.strftime(Settings.date_format)
         %tr
           %th{scope: 'row'}
             = t("retrial_estimated_length", scope: retrial_detail_fields)

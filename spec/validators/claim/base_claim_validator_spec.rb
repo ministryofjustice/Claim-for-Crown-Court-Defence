@@ -1,9 +1,7 @@
 require 'rails_helper'
 require_relative '../validation_helpers'
 
-
 describe Claim::BaseClaimValidator do
-
   include ValidationHelpers
 
   let(:claim)                       { FactoryBot.create :claim }
@@ -532,7 +530,6 @@ describe Claim::BaseClaimValidator do
   end
 
   context 'cracked (re)trials' do
-
     let(:cracked_trial_claim) do
       claim = FactoryBot.create :claim, case_type: cracked_trial
       nulify_fields_on_record(claim, :trial_fixed_notice_at, :trial_fixed_at, :trial_cracked_at)

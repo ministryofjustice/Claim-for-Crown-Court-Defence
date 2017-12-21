@@ -12,7 +12,7 @@ module CCR
         MISAF: zip(%w[AGFS_MISC_FEES AGFS_ADJOURNED]), # Adjourned appeals
         MIADC1: zip(%w[AGFS_MISC_FEES AGFS_DMS_DY2_HF]), # Application to dismiss a charge (half day)
         MIADC2: zip(%w[AGFS_MISC_FEES AGFS_DMS_DY2_WL]), # Application to dismiss a charge (whole day)
-        MIUPL: zip(%w[TBC TBC]), # Case uplift ***CCLF-applicable-only***
+        MIUPL: zip(%w[TBC TBC]), # TODO: Case uplift ***CCLF-applicable-only***
         MIDTH: zip(%w[AGFS_MISC_FEES AGFS_CONFISC_HF]), # Confiscation hearings (half day)
         MIDTW: zip(%w[AGFS_MISC_FEES AGFS_CONFISC_WL]), # Confiscation hearings (whole day)
         MICJA: zip(%w[OTHER COST_JUDGE_FEE]), # Costs judge application ***CCLF-applicable-only***

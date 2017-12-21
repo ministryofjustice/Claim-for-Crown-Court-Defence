@@ -18,7 +18,6 @@
 #  case_numbers          :string
 #  date                  :date
 #
-
 class Fee::MiscFee < Fee::BaseFee
   belongs_to :fee_type, class_name: Fee::MiscFeeType
 

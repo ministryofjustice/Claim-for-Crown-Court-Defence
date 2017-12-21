@@ -41,6 +41,19 @@ defendant:
 
 #################################################################################
 #                                                                               #
+#   CLAIM BASE AGGREGATE ERRORS                                                 #
+#                                                                               #
+#################################################################################
+
+base:
+  _seq: 5
+  defendant_uplifts_mismatch:
+    long: The quantity of defendant uplifts exceeds the number of defendants
+    short: Too many defendant uplifts
+    api: Defendant uplift sums must match number of defendants
+
+#################################################################################
+#                                                                               #
 #   CLAIM                                                                       #
 #                                                                               #
 #################################################################################

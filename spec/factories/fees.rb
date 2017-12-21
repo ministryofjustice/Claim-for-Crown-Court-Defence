@@ -145,6 +145,10 @@ FactoryBot.define do
       fee_type { build :basic_fee_type, description: 'Pages of prosecution evidence', code: 'PPE', unique_code: 'BAPPE', calculated: false }
     end
 
+    trait :ndr_fee do
+      fee_type { build :basic_fee_type, description: 'Number of defendants uplift', code: 'NDR', unique_code: 'BANDR', calculated: true }
+    end
+
     trait :noc_fee do
       fee_type { build :basic_fee_type, description: 'Number of cases uplift', code: 'NOC', unique_code: 'BANOC', calculated: true }
     end

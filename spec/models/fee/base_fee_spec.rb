@@ -21,9 +21,7 @@
 
 require 'rails_helper'
 
-
 module Fee
-
   class FeeDouble < Fee::BaseFee
   end
 
@@ -162,7 +160,6 @@ module Fee
   end
 
   RSpec.describe Fee::BaseFee, type: :model do
-
     context '#new' do
       it 'should raise BaseFeeAbstractClassError' do
         expect { BaseFee.new }.to raise_error(Fee::BaseFeeAbstractClassError)

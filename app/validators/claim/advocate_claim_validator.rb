@@ -24,8 +24,9 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
         case_concluded_at
         supplier_number
       ],
-      [
-        :total
+      %i[
+        total
+        defendant_uplifts
       ]
     ]
   end
@@ -60,5 +61,21 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
 
   def validate_supplier_number
     validate_pattern(:supplier_number, supplier_number_regex, 'invalid')
+  end
+
+  def validate_defendant_uplifts
+    return if @record.from_api?
+    no_of_defendants = @record.defendants.reject(&:marked_for_destruction?).size
+    add_error(:base, 'defendant_uplifts_mismatch') if defendant_uplifts_greater_than?(no_of_defendants)
+  end
+
+  # we add one because uplift quantities reflect the number of "additional" defendants
+  def defendant_uplifts_greater_than?(no_of_defendants)
+    @record
+      .fees
+      .where.not(id: @record.misc_fees.select(&:marked_for_destruction?).map(&:id))
+      .defendant_uplift_sums
+      .values
+      .map(&:to_i).any? { |sum| sum + 1 > no_of_defendants }
   end
 end

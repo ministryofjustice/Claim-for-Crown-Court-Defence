@@ -29,6 +29,7 @@ Metrics/LineLength:
 Metrics/BlockLength:
   ExcludedMethods:
     - included
+    - class_methods
     - namespace
     - expose
     - helpers

@@ -86,14 +86,15 @@ FactoryBot.define do
         description 'Special preparation fee'
         code 'SPF'
         unique_code 'MISPF'
-        quantity_is_decimal false
+        calculated true
+        quantity_is_decimal true
       end
 
       trait :miaph do
         description 'Abuse of process hearings (half day)'
         code 'APH'
         unique_code 'MIAPH'
-        calculated false
+        calculated true
         quantity_is_decimal false
       end
 
@@ -105,6 +106,22 @@ FactoryBot.define do
         quantity_is_decimal false
       end
 
+      trait :midtw do
+        description 'Confiscation hearings (whole day)'
+        code 'DTW'
+        unique_code 'MIDTW'
+        calculated true
+        quantity_is_decimal false
+      end
+
+      trait :midwu do
+        description 'Confiscation hearings (whole day uplift)'
+        code 'DWU'
+        unique_code 'MIDWU'
+        calculated true
+        quantity_is_decimal false
+      end
+
       trait :miupl do
         lgfs
         description 'Case uplift'
@@ -112,7 +129,6 @@ FactoryBot.define do
         unique_code 'MIUPL'
         quantity_is_decimal true
       end
-
     end
 
     factory :fixed_fee_type, class: Fee::FixedFeeType do

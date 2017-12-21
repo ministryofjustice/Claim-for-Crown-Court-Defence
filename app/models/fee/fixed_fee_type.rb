@@ -21,7 +21,6 @@ class Fee::FixedFeeType < Fee::BaseFeeType
   belongs_to :parent, class_name: Fee::FixedFeeType, foreign_key: :parent_id
 
   default_scope -> { order(parent_id: :desc, description: :asc) }
-
   scope :top_levels, -> { where(parent_id: nil) }
 
   def fee_category_name

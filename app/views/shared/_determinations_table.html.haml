@@ -7,6 +7,8 @@
             = "Warning"
         %strong.bold-small
           = "Reason provided: #{claim.last_state_transition_reason.description}"
+          %br/
+          = "NEED: #{claim.claim_state_transitions.last.reason_text}"
 
 
   = render partial: 'shared/summary_totals', locals: {claim: claim }

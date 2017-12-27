@@ -48,6 +48,7 @@ describe("Modules.AmountAssessedBlock.js", function() {
         actions: '.js-cw-claim-action',
         reasons: '.js-cw-claim-rejection-reasons',
         otherinput: '.js-reject-reason-text',
+        otherCheckbox: '#_state_reason_other',
         action: 'toggle'
       });
     });
@@ -61,7 +62,7 @@ describe("Modules.AmountAssessedBlock.js", function() {
         },
         refused: {
           form: false,
-          reasons: true
+          reasons: false
         },
         authorised: {
           form: true,

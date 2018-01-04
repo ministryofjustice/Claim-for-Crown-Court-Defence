@@ -34,13 +34,13 @@ module Claims
         end
 
         context 'rejections' do
-          let(:params) { {'state' => 'rejected', 'state_reason' => 'no_indictment', 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
+          let(:params) { {'state' => 'rejected', 'state_reason' => ['no_indictment'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
 
           it 'advances the claim to rejected with reason supplied' do
             updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
             expect(updater.result).to eq :ok
             expect(updater.claim.state).to eq 'rejected'
-            expect(updater.claim.last_state_transition.reason_code).to eq 'no_indictment'
+            expect(updater.claim.last_state_transition.reason_code).to eq ['no_indictment']
           end
 
           it 'saves audit attributes' do
@@ -49,13 +49,13 @@ module Claims
           end
 
           context 'other rejection with reason' do
-            let(:params) { {'state' => 'rejected', 'state_reason' => 'other', 'reason_text' => 'a reason', 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
+            let(:params) { {'state' => 'rejected', 'state_reason' => ['other'], 'reason_text' => 'a reason', 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
 
             it 'advances the claim to rejected with reason supplied' do
               updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
               expect(updater.result).to eq :ok
               expect(updater.claim.state).to eq 'rejected'
-              expect(updater.claim.last_state_transition.reason_code).to eq 'other'
+              expect(updater.claim.last_state_transition.reason_code).to eq ['other']
               expect(updater.claim.last_state_transition.reason_text).to eq 'a reason'
             end
 
@@ -114,7 +114,7 @@ module Claims
         end
 
         it 'if no state_reason are supplied' do
-          params = {'state' => 'rejected', 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
+          params = {'state' => 'rejected', 'state_reason' => [''], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['requires a reason when rejecting'])
@@ -125,7 +125,7 @@ module Claims
         end
 
         it 'if state_reason is other, but no text is supplied' do
-          params = {'state' => 'rejected', 'state_reason' => 'other', 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
+          params = {'state' => 'rejected', 'state_reason' => ['other'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['requires details when rejecting with other'])
@@ -218,7 +218,7 @@ module Claims
         end
 
         it 'if no state_reason are supplied' do
-          params = {'state' => 'rejected', 'redeterminations_attributes' => {'0' => {'fees' => '', 'expenses' => '0'}}}
+          params = {'state' => 'rejected', 'state_reason' => [''], 'redeterminations_attributes' => {'0' => {'fees' => '', 'expenses' => '0'}}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['requires a reason when rejecting'])
@@ -227,7 +227,7 @@ module Claims
         end
 
         it 'if state_reason is other, but no text is supplied' do
-          params = {'state' => 'rejected', 'state_reason' => 'other', 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
+          params = {'state' => 'rejected', 'state_reason' => ['other'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['requires details when rejecting with other'])

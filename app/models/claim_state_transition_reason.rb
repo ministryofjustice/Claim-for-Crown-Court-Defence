@@ -7,7 +7,7 @@ class ClaimStateTransitionReason
   TRANSITION_REASONS = HashWithIndifferentAccess.new(
     rejected: {
       no_indictment: 'No indictment attached',
-      no_rep_order: 'No magistrates’ representation order attached (granted before 1/8/2015)',
+      no_rep_order: 'No Magistrates’ representation order attached (granted before 1/8/2015)',
       time_elapsed: 'Claim significantly out of time with no explanation.',
       no_amend_rep_order: 'No amending representation order',
       case_still_live: 'Case still live',

@@ -14,6 +14,10 @@ class ClaimStateTransitionReason
       wrong_case_no: 'Incorrect case number',
       other: 'Other'
     },
+    disbursement: {
+      no_prior_authority: 'No prior authority provided',
+      no_invoice: 'No invoice provided'
+    },
     global: {
       timed_transition: 'TimedTransition::Transitioner'
     }
@@ -35,6 +39,12 @@ class ClaimStateTransitionReason
 
     def reasons(state)
       reasons_for(state)
+    end
+
+    def reject_reasons_for(claim)
+      reasons = reasons_for('rejected')
+      reasons.insert(6, reasons_for(:disbursement)) if claim.fees.first.fee_type.code.eql?('IDISO')
+      reasons.flatten
     end
 
     private

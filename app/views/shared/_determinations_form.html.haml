@@ -47,8 +47,8 @@
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
           %legend.bold-normal.form-label
             = "Choose reason for rejection"
-          = collection_radio_buttons(nil, :state_reason, ClaimStateTransitionReason.reasons(:rejected), :code, :description) do |b|
-            - b.label(class: "block-label") { b.radio_button + b.text }
+          = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.reject_reasons_for(@claim), :code, :description) do |b|
+            - b.label(class: "block-label") { b.check_box + b.text }
           %fieldset.form-group.nested-fields.fieldset.spacer.js-reject-reason-text{style: 'display:none'}
             %div
               %a#expense_reject_reason_text

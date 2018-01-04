@@ -6,9 +6,12 @@
           %span.visuallyhidden
             = "Warning"
         %strong.bold-small
-          = "Reason provided: #{claim.last_state_transition_reason.description}"
-          %br/
-          = "NEED: #{claim.claim_state_transitions.last.reason_text}"
+          = "#{"Reason".pluralize(claim.last_state_transition_reason.count)} provided:"
+          %ul.timed-retention-states
+            -claim.last_state_transition_reason.each do |reason|
+              %li
+                =reason.description
+                = "(#{claim.last_state_transition.reason_text})" if reason.description.eql?('Other') && claim.last_state_transition.reason_text.present?
 
 
   = render partial: 'shared/summary_totals', locals: {claim: claim }

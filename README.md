@@ -79,6 +79,15 @@ After running the package it will, by default, install to `/usr/local/bin/pdftk`
 PDFTK_PATH='/you/pdftk/location/here'
 ```
 
+### Install Libreoffice
+
+Libreoffice is used to convert files uploaded in CCCD to PDFs for generating performant, viewable documents of any document type, accessed via a view link. You will need to install this locally.
+
+```bash
+# for mac osx
+brew update && brew cask install libreoffice
+```
+
 ## Architecture
 
 This app was originally written as a single monolithic application, with the ability to import claims 

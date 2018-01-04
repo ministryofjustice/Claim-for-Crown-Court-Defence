@@ -64,12 +64,12 @@ module Claims
 
     def validate_reason_presence
       return unless @state == 'rejected'
-      add_error 'requires a reason when rejecting' if @transition_reason.nil?
+      add_error 'requires a reason when rejecting' if @transition_reason&.reject(&:empty?)&.empty?
       add_error 'requires details when rejecting with other' if transition_reason_text_missing?
     end
 
     def transition_reason_text_missing?
-      @transition_reason == 'other' && @transition_reason_text.nil?
+      @transition_reason&.include?('other') && @transition_reason_text.blank?
     end
 
     def nil_or_empty_zero_or_negative?(determination_params)

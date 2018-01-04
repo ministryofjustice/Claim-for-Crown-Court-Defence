@@ -194,10 +194,45 @@ module Claim
           expect(@claim.disbursements_without_vat_net). to eq 125.0
         end
       end
+    end
 
+    describe 'assessment' do
+      subject { claim.assessment }
+
+      context 'when claim built' do
+        let(:claim) { build(:advocate_claim) }
+
+        it 'builds a zeroized assessment' do
+          expect(claim).to_not be_persisted
+          is_expected.to_not be_nil
+          is_expected.to_not be_persisted
+          is_expected.to have_attributes(fees: 0.0, expenses: 0.0, disbursements: 0.0)
+        end
+      end
+
+      context 'when claim created' do
+        let(:claim) { create(:advocate_claim) }
+
+        it 'creates an zeroized assessment' do
+          expect(claim).to be_persisted
+          is_expected.to_not be_nil
+          is_expected.to be_persisted
+          is_expected.to have_attributes(fees: 0.0, expenses: 0.0, disbursements: 0.0)
+        end
+      end
+
+      describe '#update_amount_assessed' do
+        subject { claim.assessment }
+        let(:claim) { create(:advocate_claim) }
+
+        before { claim.update_amount_assessed(fees: 100.0, expenses: 200.0) }
+
+        it 'updates the specified assessment attributes' do
+          is_expected.to have_attributes(fees: 100.0, expenses: 200.0, disbursements: 0.0)
+        end
+      end
     end
   end
-
 
   describe MockBaseClaim do
     context 'date formatting' do

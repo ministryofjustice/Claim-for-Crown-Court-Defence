@@ -138,6 +138,11 @@ module Claim
 
     has_many :determinations, foreign_key: :claim_id, dependent: :destroy
     has_one  :assessment, foreign_key: :claim_id
+
+    def assessment
+      super || build_assessment
+    end
+
     has_many :redeterminations, foreign_key: :claim_id
     has_many :injection_attempts, foreign_key: :claim_id
 
@@ -190,7 +195,7 @@ module Claim
                      :set_force_validation_to_false
 
     before_create do
-      build_assessment if assessment.nil?
+      build_associations
     end
 
     before_save do
@@ -261,7 +266,6 @@ module Claim
     end
 
     def update_amount_assessed(options)
-      build_assessment if assessment.nil?
       assessment.update_values(options[:fees], options[:expenses], options[:disbursements])
     end
 
@@ -552,6 +556,10 @@ module Claim
 
     def last_state_transition_later_than_redetermination?(last_state_transition)
       last_redetermination.nil? ? true : last_redetermination.created_at < last_state_transition.created_at
+    end
+
+    def build_associations
+      assessment || true
     end
 
     def default_values

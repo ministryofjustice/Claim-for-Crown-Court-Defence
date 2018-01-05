@@ -179,6 +179,10 @@ FactoryBot.define do
     trait :guilty_plea_fee do
       fee_type { build(:graduated_fee_type, description: 'Guilty plea', code: 'GGLTY') }
     end
+
+    trait :trial_fee do
+      fee_type { build(:graduated_fee_type, :grtrl) }
+    end
   end
 
   trait :with_date_attended do

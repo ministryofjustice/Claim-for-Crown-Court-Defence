@@ -22,7 +22,7 @@ module Claims
 
     def extract_transition_params
       @state = @params.delete('state')
-      @transition_reason = @params.delete('state_reason')
+      @transition_reason = @params.delete('state_reason')&.reject(&:empty?)
       @transition_reason_text = @params.delete('reason_text')
       @current_user = @params.delete(:current_user)
     end
@@ -64,7 +64,7 @@ module Claims
 
     def validate_reason_presence
       return unless @state == 'rejected'
-      add_error 'requires a reason when rejecting' if @transition_reason&.reject(&:empty?)&.empty?
+      add_error 'requires a reason when rejecting' if @transition_reason&.empty?
       add_error 'requires details when rejecting with other' if transition_reason_text_missing?
     end
 

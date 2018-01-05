@@ -64,7 +64,7 @@ module TimedTransitions
                     dummy_run: @dummy) do
                       'Archiving claim'
                     end
-      @claim.archive_pending_delete!(reason_code: 'timed_transition') unless is_dummy?
+      @claim.archive_pending_delete!(reason_code: ['timed_transition']) unless is_dummy?
       self.success = true
     end
 

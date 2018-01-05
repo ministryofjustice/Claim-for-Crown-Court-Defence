@@ -13,6 +13,10 @@ class Claim::BaseClaimPresenter < BasePresenter
     valid_transitions(include_submitted: false) if claim.state == 'allocated'
   end
 
+  def reason_text
+    claim.claim_state_transitions.last.reason_text
+  end
+
   def claim_state
     if claim.opened_for_redetermination?
       'Redetermination'

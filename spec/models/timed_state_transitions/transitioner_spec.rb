@@ -106,7 +106,7 @@ module TimedTransitions
             it 'records the transition in claim state transitions' do
               Transitioner.new(@claim).run
               last_transition = @claim.reload.claim_state_transitions.first
-              expect(last_transition.reason_code).to eq('timed_transition')
+              expect(last_transition.reason_code).to eq(['timed_transition'])
             end
 
 

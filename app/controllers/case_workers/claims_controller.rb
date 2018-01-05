@@ -79,6 +79,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def claim_params
     params.require(:claim).permit(
       :state,
+      :reason_text,
       :additional_information,
       assessment_attributes: %i[
         id
@@ -94,7 +95,11 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
         disbursements
         vat_amount
       ]
-    ).merge(params.permit(:state_reason))
+    ).merge(params.permit(state_reason: []))
+    # the state_reason needs to be merged because the collection_check_boxes control on the view requires
+    # a claim object to render.  Because state_reason does not belong to claim, it refuses to render and
+    # therefore nil is passed to the object.  This then comes back outside of the claim namespace and has
+    # to be manually merged.
   end
 
   def set_claims

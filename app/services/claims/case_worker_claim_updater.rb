@@ -22,7 +22,8 @@ module Claims
 
     def extract_transition_params
       @state = @params.delete('state')
-      @transition_reason = @params.delete('state_reason')
+      @transition_reason = @params.delete('state_reason')&.reject(&:empty?)
+      @transition_reason_text = @params.delete('reason_text')
       @current_user = @params.delete(:current_user)
     end
 
@@ -42,6 +43,7 @@ module Claims
         validate_state_when_value_params_present
       else
         validate_state_when_no_value_params
+        validate_reason_presence
       end
     end
 
@@ -58,6 +60,16 @@ module Claims
     def validate_state_when_no_value_params
       return unless @state.in?(%w[authorised part_authorised])
       add_error 'You must specify positive values if authorising or part authorising a claim'
+    end
+
+    def validate_reason_presence
+      return unless @state == 'rejected'
+      add_error 'requires a reason when rejecting' if @transition_reason&.empty?
+      add_error 'requires details when rejecting with other' if transition_reason_text_missing?
+    end
+
+    def transition_reason_text_missing?
+      @transition_reason&.include?('other') && @transition_reason_text.blank?
     end
 
     def nil_or_empty_zero_or_negative?(determination_params)
@@ -79,7 +91,7 @@ module Claims
           @claim.update(@params)
           update_assessment if @assessment_params_present
           add_redetermination if @redetermination_params_present
-          @claim.send(event, audit_attributes.merge(reason_code: @transition_reason)) unless state_not_updateable?
+          @claim.send(event, audit_attributes) unless state_not_updateable?
         rescue StandardError => err
           add_error err.message
           raise ActiveRecord::Rollback
@@ -115,7 +127,11 @@ module Claims
     end
 
     def audit_attributes
-      { author_id: current_user&.id }
+      {
+        author_id: current_user&.id,
+        reason_code: @transition_reason,
+        reason_text: @transition_reason_text
+      }
     end
   end
 end

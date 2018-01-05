@@ -90,10 +90,13 @@ Metrics/MethodLength:
     - 'scheduled_tasks/daily_stats_generator.rb'
     - 'spikes/supplier_import/migrate/20161020133346_laa_imported_suppliers.rb'
 
-# Offense count: 2
+# Offense count: 3
 # Configuration parameters: CountComments.
 Metrics/ModuleLength:
-  Max: 193
+  Exclude:
+    - 'app/helpers/application_helper.rb'
+    - 'app/models/claims/cloner.rb'
+    - 'app/models/claims/state_machine.rb'
 
 # Offense count: 7
 Metrics/PerceivedComplexity:

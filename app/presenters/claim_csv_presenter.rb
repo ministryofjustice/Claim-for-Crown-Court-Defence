@@ -96,7 +96,11 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def state_reason_code
-    @journey.last.reason_code
+    @journey.last.reason_code.flatten.join(', ')
+  end
+
+  def rejection_reason
+    @journey.last.reason_text
   end
 
   def submitted_states

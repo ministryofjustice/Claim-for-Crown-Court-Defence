@@ -1,4 +1,10 @@
-engines:
+version: "2"
+checks:
+  method-lines:
+    enabled: true
+    config:
+      threshold: 100
+plugins:
   rubocop:
     enabled: true
     channel: rubocop-0-50
@@ -17,11 +23,7 @@ engines:
     enabled: true
   bundler-audit:
     enabled: true
-ratings: # customize
-  paths:
-  - app/**/*
-  - lib/**/*
-exclude_paths: # customize
+exclude_patterns: # customize
 - .bundle/
 - app/assets/fonts/
 - app/assets/images/

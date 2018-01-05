@@ -53,7 +53,7 @@ module Claims
 
     def self.included(klass)
       klass.state_machine :state, initial: :draft do
-        audit_trail class: ClaimStateTransition, context: %i[reason_code author_id subject_id]
+        audit_trail class: ClaimStateTransition, context: %i[reason_code reason_text author_id subject_id]
 
         state :allocated,
               :archived_pending_delete,
@@ -190,6 +190,10 @@ module Claims
 
     def reason_code(transition)
       extract_transition_option!(transition, :reason_code)
+    end
+
+    def reason_text(transition)
+      extract_transition_option!(transition, :reason_text)
     end
 
     def author_id(transition)

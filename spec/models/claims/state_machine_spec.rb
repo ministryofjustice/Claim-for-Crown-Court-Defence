@@ -331,7 +331,7 @@ RSpec.describe Claims::StateMachine, type: :model do
         event: 'submit',
         from: 'draft',
         to: 'submitted',
-        reason_code: nil
+        reason_code: []
       }
     end
 
@@ -360,7 +360,7 @@ RSpec.describe Claims::StateMachine, type: :model do
   describe 'reject! supports a reason code' do
     before { subject.submit!; subject.allocate!; subject.reject!(reason_code: reason_code) }
 
-    let(:reason_code) { 'reason' }
+    let(:reason_code) { ['reason'] }
 
     it 'updates the transition reason code' do
       transition = subject.claim_state_transitions.first
@@ -372,7 +372,7 @@ RSpec.describe Claims::StateMachine, type: :model do
   describe 'refuse! supports a reason code' do
     before { subject.submit!; subject.allocate!; subject.refuse!(reason_code: reason_code) }
 
-    let(:reason_code) { 'reason' }
+    let(:reason_code) { ['reason'] }
 
     it 'updates the transition reason code' do
       transition = subject.claim_state_transitions.first

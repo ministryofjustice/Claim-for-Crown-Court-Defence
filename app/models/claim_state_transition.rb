@@ -19,8 +19,23 @@ class ClaimStateTransition < ActiveRecord::Base
   belongs_to :author, class_name: User, foreign_key: :author_id
   belongs_to :subject, class_name: User, foreign_key: :subject_id
 
+  serialize :reason_code, Array
+
   def reason
-    ClaimStateTransitionReason.get(reason_code)
+    if reason_code.is_a?(Array)
+      reasons
+    else
+      [] << ClaimStateTransitionReason.get(reason_code)
+    end
+  end
+
+  def reasons
+    reasons = reason_code.reject(&:empty?)
+    result = []
+    reasons.each do |reason_code|
+      result << ClaimStateTransitionReason.get(reason_code)
+    end
+    result
   end
 
   def self.decided_this_month(state)

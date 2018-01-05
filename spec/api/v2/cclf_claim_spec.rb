@@ -48,7 +48,7 @@ describe API::V2::CCLFClaim do
   end
 
   describe 'GET /ccr/claim/:uuid?api_key=:api_key' do
-    xit 'returns 406, Not Acceptable, if requested API version (via header) is not supported' do
+    it 'returns 406, Not Acceptable, if requested API version (via header) is not supported' do
       header 'Accept-Version', 'v1'
 
       do_request
@@ -72,7 +72,7 @@ describe API::V2::CCLFClaim do
     end
 
     context 'claim not found' do
-      xit 'respond not found when claim is not found' do
+      it 'respond not found when claim is not found' do
         do_request(claim_uuid: '123-456-789')
         expect(last_response.status).to eq 404
         expect(last_response.body).to include('Claim not found')
@@ -96,22 +96,22 @@ describe API::V2::CCLFClaim do
         end
       end
 
-      xit 'returns multiple defendants' do
+      it 'returns multiple defendants' do
         expect(response).to have_json_size(2).at_path('defendants')
       end
 
-      xit 'returns defendants in order created marking earliest created as the "main" defendant' do
+      it 'returns defendants in order created marking earliest created as the "main" defendant' do
         expect(response).to be_json_eql('true').at_path('defendants/0/main_defendant')
       end
 
       context 'representation orders' do
-        xit 'returns multiple representation orders' do
+        it 'returns multiple representation orders' do
           expect(response).to have_json_size(2).at_path('defendants/0/representation_orders')
         end
 
         # NOTE: use of factory defaults results in two rep orders for the first
         # defendant with dates 400 and 380 days before claim created
-        xit 'returns earliest rep order first (per defendant)' do
+        it 'returns earliest rep order first (per defendant)' do
           expect(response).to be_json_eql(@claim.earliest_representation_order_date.to_json).at_path('defendants/0/representation_orders/0/representation_order_date')
         end
       end

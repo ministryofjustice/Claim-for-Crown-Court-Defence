@@ -1,6 +1,6 @@
 # This is a work in progress, aiming to provide all
 # data possible to enable successful injection
-# of a claim into CCR.
+# of a claim into CCLF.
 #
 module API
   module Entities
@@ -13,10 +13,14 @@ module API
               :last_submitted_at,
               format_with: :utc
 
-      # adapted case type to bill_scenario for lgfs
+      # TODO: adapted case type to bill_scenario for lgfs
       # expose :case_type, using: API::Entities::CCR::CaseType
+
+      # CCLF specific incarnations of claim sub model entities
+      expose :offence, using: API::Entities::CCLF::Offence
+
+      # reuse CCR entities where they are identical
       expose :court, using: API::Entities::CCR::Court
-      expose :offence, using: API::Entities::CCR::Offence
       expose :defendants_with_main_first, using: API::Entities::CCR::Defendant, as: :defendants
 
       # CCR fees and expenses to bill mappings

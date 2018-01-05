@@ -3,7 +3,7 @@ module API
     class CCLFClaim < Grape::API
       helpers do
         def claim
-          # TODO need to check InterimClaim and TransferClaim too
+          # TODO: need to check InterimClaim and TransferClaim too
           ::Claim::LitigatorClaim.find_by(uuid: params.uuid) || error!('Claim not found', 404)
         end
       end

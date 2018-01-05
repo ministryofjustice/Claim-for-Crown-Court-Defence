@@ -118,10 +118,7 @@ module Claims::Cloner
   def clone_details_to_draft(other_claim)
     raise ArgumentError, 'Can only clone details to claims in state "draft"' unless other_claim.draft?
 
-    other_claim.attributes = {
-      court_id: court_id,
-      defendants: defendants.map(&:duplicate)
-    }
+    other_claim.attributes = { court_id: court_id, defendants: defendants.map(&:duplicate) }
 
     other_claim.save(validate: false)
     other_claim

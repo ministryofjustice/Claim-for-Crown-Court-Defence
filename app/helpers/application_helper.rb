@@ -115,11 +115,7 @@ module ApplicationHelper
   end
 
   def your_claims_header
-    if current_user.persona.admin?
-      t('external_users.all_claims')
-    else
-      t('external_users.your_claims')
-    end
+    current_user.persona.admin? ? t('external_users.all_claims') : t('external_users.your_claims')
   end
 
   def user_requires_scheme_column?

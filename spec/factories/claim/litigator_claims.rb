@@ -12,7 +12,6 @@ FactoryBot.define do
       after(:create) do |claim|
         claim.defendants.clear
       end
-
     end
 
     # Risk based bills are litigator claims of case type guilty plea, with offences of class E,F,H,I and a graduated fee PPE/quantity of 50 or less
@@ -48,6 +47,10 @@ FactoryBot.define do
 
     trait :forced_validation do |claim|
       claim.force_validation true
+    end
+
+    trait :submitted do
+      after(:create) { |c| c.submit! }
     end
   end
 end

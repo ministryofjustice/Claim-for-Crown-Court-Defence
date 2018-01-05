@@ -29,5 +29,4 @@ FactoryBot.define do
   trait :submitted do
     after(:create) { |c| c.submit! }
   end
-
 end

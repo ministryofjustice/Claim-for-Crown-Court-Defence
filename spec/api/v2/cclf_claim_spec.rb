@@ -20,6 +20,18 @@ RSpec::Matchers.define :be_valid_cclf_claim_json do
   end
 end
 
+RSpec.shared_examples 'returns LGFS claim type' do |type|
+  subject do
+    last_response.status
+  end
+
+  it "returns #{type.to_s.humanize}s" do
+    claim = create(type, :submitted)
+    do_request(claim_uuid: claim.uuid)
+    is_expected.to eq 200
+  end
+end
+
 describe API::V2::CCLFClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
@@ -48,9 +60,12 @@ describe API::V2::CCLFClaim do
   end
 
   describe 'GET /ccr/claim/:uuid?api_key=:api_key' do
+    include_examples 'returns LGFS claim type', :litigator_claim
+    include_examples 'returns LGFS claim type', :interim_claim
+    include_examples 'returns LGFS claim type', :transfer_claim
+
     it 'returns 406, Not Acceptable, if requested API version (via header) is not supported' do
       header 'Accept-Version', 'v1'
-
       do_request
       expect(last_response.status).to eq 406
       expect(last_response.body).to include('The requested version is not supported.')
@@ -72,9 +87,16 @@ describe API::V2::CCLFClaim do
     end
 
     context 'claim not found' do
-      it 'respond not found when claim is not found' do
+      it 'returns not found response when claim uuid does not exist' do
         do_request(claim_uuid: '123-456-789')
         expect(last_response.status).to eq 404
+        expect(last_response.body).to include('Claim not found')
+      end
+
+      it 'returns not found response when claim is not an LGFS claim' do
+        claim = create(:advocate_claim, :submitted)
+        do_request(claim_uuid: claim.uuid)
+        is_expected.to eq 404
         expect(last_response.body).to include('Claim not found')
       end
     end

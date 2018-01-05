@@ -60,6 +60,10 @@ FactoryBot.define do
         claim.submit! # submission will set the allocation_type
       end
     end
+
+    trait :submitted do
+      after(:create) { |c| c.submit! }
+    end
   end
 
   factory :bare_bones_transfer_claim, class: Claim::TransferClaim do

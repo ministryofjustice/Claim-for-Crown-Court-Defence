@@ -58,8 +58,8 @@
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
           %legend.bold-normal.form-label
             = "Choose reason for refusal"
-          = collection_radio_buttons(nil, :state_reason, ClaimStateTransitionReason.reasons(:refused), :code, :description) do |b|
-            - b.label(class: "block-label") { b.radio_button + b.text }
+          = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.reasons(:refused), :code, :description) do |b|
+            - b.label(class: "block-label") { b.check_box + b.text }
 
       %p
         = f.submit 'Update', class: 'button', id: 'button'

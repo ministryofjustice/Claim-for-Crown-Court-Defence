@@ -55,6 +55,28 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
     end
   end
 
+  describe '.refuse_reasons_for' do
+    subject(:refuse_reasons_for) { described_class.refuse_reasons_for(claim) }
+
+    context 'for a Litigator claim' do
+      let(:claim) { create(:transfer_claim, state: 'refused') }
+
+      it { expect(subject.count).to eq 2 }
+    end
+
+    context 'for a Litigator interim claim' do
+      let(:claim) { create(:interim_claim, state: 'refused') }
+
+      it { expect(subject.count).to eq 4 }
+    end
+
+    context 'for an advocate claim' do
+      let(:claim) { create(:advocate_claim, state: 'refused') }
+
+      it { expect(subject.count).to eq 3 }
+    end
+  end
+
   describe '.get' do
     let(:code) { 'code' }
     let(:reason) { described_class.get(code) }

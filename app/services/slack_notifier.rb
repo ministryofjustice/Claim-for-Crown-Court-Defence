@@ -1,9 +1,9 @@
 class SlackNotifier
-  def initialize
+  def initialize(channel = Settings.slack.channel)
     @slack_url = Settings.slack.bot_url
     @ready_to_send = false
     @payload = {
-      channel: Settings.slack.channel,
+      channel: channel,
       username: Settings.slack.bot_name
     }
   end
@@ -12,6 +12,21 @@ class SlackNotifier
     raise 'Unable to send without payload' unless @ready_to_send
 
     RestClient.post(@slack_url, @payload.to_json, content_type: :json)
+  end
+
+  def build_generic_payload(message_icon, title, message, pass_fail)
+    @payload[:icon_emoji] = message_icon
+    @payload[:attachments] = [
+      {
+        'fallback': message,
+        'color': pass_fail_colour(pass_fail),
+        'title': title,
+        'text': message
+      }
+    ]
+    @ready_to_send = true
+  rescue StandardError
+    @ready_to_send = false
   end
 
   def build_injection_payload(response)
@@ -46,8 +61,12 @@ class SlackNotifier
     @response['errors'].join(' ')
   end
 
+  def pass_fail_colour(boolean)
+    boolean ? '#36a64f' : '#c41f1f'
+  end
+
   def message_colour
-    ccr_injected? ? '#36a64f' : '#c41f1f'
+    pass_fail_colour(ccr_injected?)
   end
 
   def message_icon

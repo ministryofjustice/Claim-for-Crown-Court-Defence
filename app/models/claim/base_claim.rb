@@ -484,7 +484,7 @@ module Claim
       model_name.class_eval %(
         def singular_route_key; '#{name}'; end
         def route_key; '#{name.pluralize}'; end
-      )
+      ), __FILE__, __LINE__ - 3
     end
 
     def self.fee_associations

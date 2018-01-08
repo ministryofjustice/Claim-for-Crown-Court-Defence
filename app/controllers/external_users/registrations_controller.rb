@@ -65,7 +65,7 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
 
   def generate_unique_supplier_number
     alpha_part = ''
-    2.times { alpha_part << (65 + rand(25)).chr }
+    2.times { alpha_part << rand(65..89).chr }
     numeric_part = rand(999)
     "#{alpha_part}#{format('%03d', numeric_part)}"
   end

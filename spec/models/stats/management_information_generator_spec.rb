@@ -2,7 +2,7 @@ require 'rails_helper'
 
 module Stats
 
-  describe ManagementInformationGenerator do
+  describe ManagementInformationGenerator, slack_bot: true do
 
     let(:generator)  { ManagementInformationGenerator.new }
 

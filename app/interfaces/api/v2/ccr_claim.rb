@@ -10,14 +10,11 @@ module API
       end
 
       resource :claims, desc: 'Operations on claims' do
-        route_param :uuid do
-          desc 'Retrieve a claim by UUID for CCR injection'
+        desc 'Retrieve a claim by UUID for CCR injection'
+        params { use :common_injection_params }
 
-          params { use :common_injection_params }
-
-          get do
-            present claim, with: API::Entities::CCRClaim
-          end
+        get ':uuid' do
+          present claim, with: entity_class
         end
       end
     end

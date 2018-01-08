@@ -174,6 +174,19 @@ RSpec.describe ClaimCsvPresenter do
       context 'state transitions reasons' do
         let(:claim) { create(:allocated_claim) }
 
+        context 'rejected with a single reason as a string ' do
+          before do
+            claim.reject!(reason_code: ['no_rep_order'])
+          end
+
+          it 'the rejection reason code should be reflected in the MI' do
+            allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('no_rep_order')
+            ClaimCsvPresenter.new(claim, view).present! do |csv|
+              expect(csv[0][11]).to eq('no_rep_order')
+            end
+          end
+        end
+
         context 'rejected with a single reason' do
           before do
             claim.reject!(reason_code: ['no_rep_order'])

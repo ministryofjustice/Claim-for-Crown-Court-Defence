@@ -96,7 +96,9 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def state_reason_code
-    @journey.last.reason_code.flatten.join(', ')
+    reason_code = @journey.last.reason_code
+    reason_code = reason_code.flatten.join(', ') if reason_code.is_a?(Array)
+    reason_code
   end
 
   def rejection_reason

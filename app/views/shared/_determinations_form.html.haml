@@ -58,7 +58,7 @@
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
           %legend.bold-normal.form-label
             = "Choose reason for refusal"
-          = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.reasons(:refused), :code, :description) do |b|
+          = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.refuse_reasons_for(@claim), :code, :description) do |b|
             - b.label(class: "block-label") { b.check_box + b.text }
 
       %p

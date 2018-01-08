@@ -253,7 +253,7 @@ module Claim
            'interim_fees', 'warrants', 'interim_disbursements', 'risk_based_bills'
         where.not(state: %w[redetermination awaiting_written_reasons]).send(filter)
       else
-        raise format('unknown filter: %s', filter)
+        raise format('unknown filter: %{filter}', filter: filter)
       end
     end
 

@@ -42,7 +42,8 @@ class Allocation
       deallocate_claims
     elsif can_reallocate_claims?
       reallocate_claims
-    end # reallocating is true if not allocating and not deallocating
+    end
+    # reallocating is true if not allocating and not deallocating
     errors.empty?
   end
 

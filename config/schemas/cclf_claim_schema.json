@@ -20,6 +20,10 @@
       "id": "/properties/first_day_of_trial",
       "type": ["string","null"]
     },
+    "retrial_started_at": {
+      "id": "/properties/retrial_started_at",
+      "type": ["string","null"]
+    },
     "case_concluded_at": {
       "id": "/properties/case_concluded_at",
       "type": ["string","null"]

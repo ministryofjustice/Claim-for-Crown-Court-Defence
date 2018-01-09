@@ -21,21 +21,21 @@ class ClaimStateTransitionReason
     refused_advocate_claims: {
       wrong_ia: 'Wrong Instructed Advocate',
       duplicate_claim: 'Duplicate claim',
-      other: 'Other'
+      other_refuse: 'Other'
     },
     refused_final_claims: {
       duplicate_claim: 'Duplicate claim',
-      other: 'Other'
+      other_refuse: 'Other'
     },
     refused_transfer_claims: {
       duplicate_claim: 'Duplicate claim',
-      other: 'Other'
+      other_refuse: 'Other'
     },
     refused_interim_claims: {
       duplicate_claim: 'Duplicate claim',
       no_effective: 'No effective PCMH/start of trial has taken place',
       short_trial: 'The trial estimate was less than 10 days',
-      other: 'Other'
+      other_refuse: 'Other'
     },
     global: {
       timed_transition: 'TimedTransition::Transitioner'

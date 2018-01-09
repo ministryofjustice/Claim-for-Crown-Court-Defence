@@ -19,7 +19,7 @@ module Claims
       when 'unallocated'
         unallocated_claims
       else
-        raise ArgumentError, format('Unknown action: %s', action)
+        raise ArgumentError, format('Unknown action: %{s}', s: action)
       end
     end
 

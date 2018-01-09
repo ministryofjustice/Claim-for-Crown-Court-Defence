@@ -180,9 +180,7 @@ class AdpTextField
 
   def input_field
     result = %()
-    if @input_is_currency
-      result += %(<span class="currency-indicator">&pound;</span>)
-    end
+    result += %(<span class="currency-indicator">&pound;</span>) if @input_is_currency
     input_part1 = "class=\"form-control #{@input_classes}\" type=\"#{@input_type_string}\""
     result += %(<input #{input_part1} name="#{@form_field_name}" id="#{@form_field_id}" )
     result += %(value="#{strip_tags(@value)}" ) unless @form.object.__send__(@method).nil?

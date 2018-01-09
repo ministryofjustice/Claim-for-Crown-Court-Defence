@@ -151,7 +151,8 @@ class JsonDocumentImporter
     end
   end
 
-  def create(attributes_hash, rest_client_resource) # used to create defendants, fees and expenses
+  # used to create defendants, fees and expenses
+  def create(attributes_hash, rest_client_resource)
     obj_params = parse_hash(attributes_hash)
     response = rest_client_resource.post(obj_params.merge(api_key_params)) { |res, _request, _result| res }
 

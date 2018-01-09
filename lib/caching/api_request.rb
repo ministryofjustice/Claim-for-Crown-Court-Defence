@@ -24,9 +24,7 @@ module Caching
     end
 
     def cache
-      if (content.nil? || stale?) && block_given?
-        save! Caching::Response.new(yield)
-      end
+      save! Caching::Response.new(yield) if (content.nil? || stale?) && block_given?
       data
     end
 

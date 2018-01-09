@@ -5,6 +5,7 @@ module API
       content_type :xml, 'application/xml'
       formatter :xml, API::Helpers::XMLFormatter
 
+      helpers ClaimParamsHelper
       helpers do
         def claim
           ::Claim::BaseClaim.find_by(uuid: params.uuid) || error!('Claim not found', 404)
@@ -16,18 +17,14 @@ module API
       end
 
       resource :claims, desc: 'Operations on claims' do
-        route_param :uuid do
-          desc 'Retrieve a claim by UUID'
-          params do
-            optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the user'
-            requires :uuid, type: String, desc: 'REQUIRED: Claim UUID'
-          end
-          get do
-            if soap_format?
-              body Messaging::ExportRequest.new(claim).to_xml
-            else
-              present claim, with: API::Entities::FullClaim, root: 'claim'
-            end
+        desc 'Retrieve a full claim by UUID'
+        params { use :common_injection_params }
+
+        get ':uuid' do
+          if soap_format?
+            body Messaging::ExportRequest.new(claim).to_xml
+          else
+            present claim, with: API::Entities::FullClaim, root: 'claim'
           end
         end
       end

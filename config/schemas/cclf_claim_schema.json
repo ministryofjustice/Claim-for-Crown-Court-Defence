@@ -1,0 +1,157 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "id": "https://claim-crown-court-defence.service.gov.uk/json_schemas/cclf_schema",
+  "additionalProperties": false,
+  "properties": {
+    "uuid": {
+      "id": "/properties/uuid",
+      "type": "string"
+    },
+    "supplier_number": {
+      "id": "/properties/supplier_number",
+      "type": "string"
+    },
+    "case_number": {
+      "id": "/properties/case_number",
+      "type": "string"
+    },
+    "first_day_of_trial": {
+      "id": "/properties/first_day_of_trial",
+      "type": ["string","null"]
+    },
+    "case_concluded_at": {
+      "id": "/properties/case_concluded_at",
+      "type": ["string","null"]
+    },
+    "last_submitted_at": {
+      "id": "/properties/last_submitted_at",
+      "type": ["string","null"]
+    },
+    "amount": {
+      "id": "/properties/amount",
+      "type": ["string","null"]
+    },
+    "court": {
+      "id": "/properties/court",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "id": "/properties/court/properties/code",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "offence": {
+      "additionalProperties": false,
+      "id": "/properties/offence",
+      "properties": {
+        "offence_class": {
+          "additionalProperties": false,
+          "id": "/properties/offence/properties/offence_class",
+          "properties": {
+            "class_letter": {
+              "id": "/properties/offence/properties/offence_class/properties/class_letter",
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "required": ["class_letter"]
+        }
+      },
+      "type": "object",
+      "required": ["offence_class"]
+    },
+    "bills": {
+      "id": "/properties/bills",
+      "items": {
+        "id": "/properties/bills/items",
+        "additionalProperties": false,
+        "properties": {
+          "bill_type": {
+            "id": "/properties/bills/items/properties/bill_type",
+            "type": "string"
+          },
+          "bill_subtype": {
+            "id": "/properties/bills/items/properties/bill_subtype",
+            "type": "string"
+          },
+          "ppe": {
+            "id": "/properties/bills/items/properties/ppe",
+            "type": "string"
+          },
+          "amount": {
+            "id": "/properties/bills/items/properties/amount",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "defendants": {
+      "id": "/properties/defendants",
+      "items": {
+        "id": "/properties/defendants/items",
+        "additionalProperties": false,
+        "properties": {
+          "main_defendant": {
+            "id": "/properties/defendants/items/properties/main_defendant",
+            "type": "boolean"
+          },
+          "first_name": {
+            "id": "/properties/defendants/items/properties/first_name",
+            "type": "string"
+          },
+          "last_name": {
+            "id": "/properties/defendants/items/properties/last_name",
+            "type": "string"
+          },
+          "date_of_birth": {
+            "id": "/properties/defendants/items/properties/date_of_birth",
+            "type": "string"
+          },
+          "representation_orders": {
+            "id": "/properties/defendants/items/properties/representation_orders",
+            "items": {
+              "id": "/properties/defendants/items/properties/representation_orders/items",
+              "additionalProperties": false,
+              "properties": {
+                "maat_reference": {
+                  "id": "/properties/defendants/items/properties/representation_orders/items/properties/maat_reference",
+                  "type": "string"
+                },
+                "representation_order_date": {
+                  "id": "/properties/defendants/items/properties/representation_orders/items/properties/representation_order_date",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "case_type": {
+      "id": "/properties/case_type",
+      "additionalProperties": false,
+      "properties": {
+        "uuid": {
+          "id": "/properties/case_type/properties/uuid",
+          "type": "string"
+        },
+        "bill_scenario": {
+          "id": "/properties/case_type/properties/bill_scenario",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "type": "object"
+}

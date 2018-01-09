@@ -20,6 +20,10 @@ module API
           namespace :ccr, desc: 'CCR injection specific claim format' do
             mount API::V2::CCRClaim
           end
+
+          namespace :cclf, desc: 'CCLF injection specific claim format' do
+            mount API::V2::CCLFClaim
+          end
         end
       end
 

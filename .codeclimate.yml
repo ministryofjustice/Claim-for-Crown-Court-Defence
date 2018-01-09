@@ -4,21 +4,27 @@ checks:
     enabled: true
     config:
       threshold: 100
-plugins:
+  similar-code:
+    enabled: true
+    config:
+      threshold: 25
+  identical-code:
+    enabled: true
+    config:
+      threshold: 18
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        ruby:
+          filters:
+            - "(call _ expose ___)" # exlude expose methods
   rubocop:
     enabled: true
     channel: rubocop-0-50
     config:
       file: .rubocop.yml
-  duplication:
-    enabled: true
-    config:
-      languages:
-        JavaScript: false
-        PHP: true
-        Python: true
-        ruby:
-          mass_threshold: 18
   brakeman:
     enabled: true
   bundler-audit:
@@ -27,8 +33,6 @@ exclude_patterns: # customize
 - .bundle/
 - app/assets/fonts/
 - app/assets/images/
-- app/assets/javascripts/vendor/
-- app/assets/stylesheets/vendor/
 - "**/vendor/"
 - bin/rails
 - bin/rake
@@ -40,7 +44,6 @@ exclude_patterns: # customize
 - old_features/
 - tmp/
 - spikes/
-- app/interfaces/api/entities/*
 - app/interfaces/api/v1/*
 - lib/demo_data/*
 - db/*

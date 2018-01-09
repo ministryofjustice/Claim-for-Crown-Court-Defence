@@ -180,6 +180,14 @@ FactoryBot.define do
       code 'GTRL'
       calculated false
       roles ['lgfs']
+
+      trait :grtrl do
+        description 'Trial'
+        unique_code 'GRTRL'
+        code 'GTRL'
+        calculated false
+        quantity_is_decimal false
+      end
     end
 
     factory :interim_fee_type, class: Fee::InterimFeeType do

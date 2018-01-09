@@ -66,6 +66,39 @@ module Claims
           end
         end
 
+        context 'refusals' do
+          let(:params) { {'state' => 'refused', 'state_reason' => ['no_indictment'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
+
+          it 'advances the claim to rejected with reason supplied' do
+            updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
+            expect(updater.result).to eq :ok
+            expect(updater.claim.state).to eq 'refused'
+            expect(updater.claim.last_state_transition.reason_code).to eq ['no_indictment']
+          end
+
+          it 'saves audit attributes' do
+            updater = CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)).update!
+            expect(updater.claim.last_state_transition.author_id).to eq(current_user.id)
+          end
+
+          context 'other rejection with reason' do
+            let(:params) { {'state' => 'refused', 'state_reason' => ['other'], 'reason_text' => 'a reason', 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
+
+            it 'advances the claim to rejected with reason supplied' do
+              updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
+              expect(updater.result).to eq :ok
+              expect(updater.claim.state).to eq 'refused'
+              expect(updater.claim.last_state_transition.reason_code).to eq ['other']
+              expect(updater.claim.last_state_transition.reason_text).to eq 'a reason'
+            end
+
+            it 'saves audit attributes' do
+              updater = CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)).update!
+              expect(updater.claim.last_state_transition.author_id).to eq(current_user.id)
+            end
+          end
+        end
+
         it 'advances the claim to refused when no values are supplied' do
           params = {'state' => 'refused', 'assessment_attributes' => {'expenses' => ''}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!

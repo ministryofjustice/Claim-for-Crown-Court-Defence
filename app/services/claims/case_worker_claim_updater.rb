@@ -63,9 +63,10 @@ module Claims
     end
 
     def validate_reason_presence
-      return unless @state == 'rejected'
-      add_error 'requires a reason when rejecting' if @transition_reason&.empty?
-      add_error 'requires details when rejecting with other' if transition_reason_text_missing?
+      return unless %w[rejected refused].include?(@state)
+      verb = @state.eql?('refused') ? 'refusing' : 'rejecting'
+      add_error "requires a reason when #{verb}" if @transition_reason&.empty?
+      add_error "requires details when #{verb} with other" if transition_reason_text_missing?
     end
 
     def transition_reason_text_missing?

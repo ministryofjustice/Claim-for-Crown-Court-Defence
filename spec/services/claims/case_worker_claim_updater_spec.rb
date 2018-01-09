@@ -135,6 +135,28 @@ module Claims
           expect(updater.claim.assessment.disbursements).to eq 0.0
         end
 
+        it 'if refused and no state_reason are supplied' do
+          params = {'state' => 'refused', 'state_reason' => [''], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
+          updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
+          expect(updater.result).to eq :error
+          expect(updater.claim.errors[:determinations]).to eq(['requires a reason when refusing'])
+          expect(updater.claim.state).to eq 'allocated'
+          expect(updater.claim.assessment.fees.to_f).to eq 0.0
+          expect(updater.claim.assessment.expenses).to eq 0.0
+          expect(updater.claim.assessment.disbursements).to eq 0.0
+        end
+
+        it 'if refused, state_reason is other and no text is supplied' do
+          params = {'state' => 'refused', 'state_reason' => ['other'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
+          updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
+          expect(updater.result).to eq :error
+          expect(updater.claim.errors[:determinations]).to eq(['requires details when refusing with other'])
+          expect(updater.claim.state).to eq 'allocated'
+          expect(updater.claim.assessment.fees.to_f).to eq 0.0
+          expect(updater.claim.assessment.expenses).to eq 0.0
+          expect(updater.claim.assessment.disbursements).to eq 0.0
+        end
+
         it 'rollbacks the transaction if transition fails' do
           expect(submitted_claim.assessment.fees.to_f).to eq 0.0
 

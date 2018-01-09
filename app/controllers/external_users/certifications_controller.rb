@@ -20,13 +20,7 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
   def create
     @claim.build_certification(certification_params)
     if @claim.certification.save && claim_updater.submit
-      begin
-        message = MessageQueue::MessageTemplate.claim_created(@claim.type, @claim.uuid)
-        MessageQueue::AwsClient.new(Settings.aws.submitted_queue).send!(message)
-        Rails.logger.info "Successfully sent #{log_suffix}"
-      rescue StandardError => err
-        Rails.logger.warn "Error: '#{err.message}' while sending #{log_suffix}"
-      end
+      sqs_enqueue(queue: Settings.aws.submitted_queue)
       redirect_to confirmation_external_users_claim_path(@claim)
     else
       @certification = @claim.certification
@@ -42,6 +36,14 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
 
   def redirect_already_certified
     redirect_to external_users_claim_path(@claim), alert: t('shared.certification.alert') if @claim.submitted?
+  end
+
+  def sqs_enqueue(queue:)
+    message = MessageQueue::MessageTemplate.claim_created(@claim.type, @claim.uuid)
+    MessageQueue::AwsClient.new(queue).send!(message)
+    Rails.logger.info "Successfully sent #{log_suffix}"
+  rescue StandardError => err
+    Rails.logger.warn "Error: '#{err.message}' while sending #{log_suffix}"
   end
 
   def log_suffix

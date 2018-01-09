@@ -13,5 +13,7 @@
 class InjectionAttempt < ActiveRecord::Base
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
 
+  scope :errored, -> { where.not(succeeded: true).order(created_at: :asc) }
+
   validates :claim, presence: true
 end

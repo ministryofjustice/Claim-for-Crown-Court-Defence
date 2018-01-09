@@ -265,6 +265,10 @@ module Claim
       end
     end
 
+    def injection_error
+      injection_attempts.last&.succeeded ? nil : injection_attempts.last
+    end
+
     def update_amount_assessed(options)
       assessment.update_values(options[:fees], options[:expenses], options[:disbursements])
     end

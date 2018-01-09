@@ -111,6 +111,24 @@ describe 'case_workers/claims/show.html.haml', type: :view do
         end
       end
     end
+
+    context 'injection errors' do
+      before { certified_claim }
+
+      before do
+        create(:injection_attempt, :errored, claim: @claim)
+        assign(:claim, @claim)
+        render
+      end
+
+      it 'displays summary error' do
+        expect(rendered).to have_selector('div.error-summary')
+      end
+
+      it 'displays the full error text' do
+        expect(rendered).to have_selector('ul.error-summary-list > li > a', text: 'Injection failed for one reason or another')
+      end
+    end
   end
 
 
@@ -124,7 +142,6 @@ describe 'case_workers/claims/show.html.haml', type: :view do
     @claim.reload
     @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
-
   end
 
   def trial_claim(trial_prefix = nil)

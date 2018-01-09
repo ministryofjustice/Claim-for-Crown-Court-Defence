@@ -51,13 +51,9 @@ FactoryBot.define do
       end
     end
 
-
-
     factory :invalid_claim do
       case_type     nil
     end
-
-
 
     factory :draft_claim do
       # do nothing as default state is draft
@@ -125,6 +121,18 @@ FactoryBot.define do
 
     factory :submitted_claim do
       after(:create) { |c| publicise_errors(c) { c.submit! } }
+
+      trait :with_injection do
+        after(:create) do |claim|
+          create(:injection_attempt, claim: claim)
+        end
+      end
+
+      trait :with_injection_error do
+        after(:create) do |claim|
+          create(:injection_attempt, :errored, claim: claim)
+        end
+      end
     end
   end
 

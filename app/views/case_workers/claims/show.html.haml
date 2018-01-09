@@ -3,5 +3,8 @@
   - if @claim.errors.any?
     = render partial: 'errors/error_summary', locals:{ ep: @claim, error_summary: 'This claim has '}
 
-  = render partial: 'shared/claim_header', locals: {  claim: claim }
+  - if @claim.injection_attempts.errored.any?
+    = render partial: 'errors/error_injection_summary', locals:{ ep: @claim, error_summary: 'Data injection error'}
+
+  = render partial: 'shared/claim_header', locals: { claim: claim }
   = render partial: 'shared/claim_accordion', locals: { claim: claim, status_disabled: false }

@@ -196,7 +196,7 @@ module Claim
       end
     end
 
-    describe 'assessment' do
+    describe '#assessment' do
       subject { claim.assessment }
 
       context 'when claim built' do
@@ -229,6 +229,48 @@ module Claim
 
         it 'updates the specified assessment attributes' do
           is_expected.to have_attributes(fees: 100.0, expenses: 200.0, disbursements: 0.0)
+        end
+      end
+    end
+
+    describe '#injection_error' do
+      subject { claim.injection_error }
+      let(:claim) { create(:submitted_claim) }
+
+      it 'returns nil when no injection attempts exist' do
+        expect(claim.injection_attempts).to be_empty
+        is_expected.to be_nil
+      end
+
+      context 'when one injection attempt' do
+        it'returns nil if injection attempt succeeded' do
+          create(:injection_attempt, claim: claim)
+          expect(claim.injection_attempts.count).to eql 1
+          is_expected.to be_nil
+        end
+
+        it 'returns injection attempt if errored' do
+          create(:injection_attempt, :errored, claim: claim, error_message: 'my injection error message')
+          is_expected.to be_a InjectionAttempt
+          is_expected.to have_attributes(succeeded: false, error_message: 'my injection error message')
+        end
+      end
+
+      context 'when more than one injection attempt' do
+        it 'returns nil if last injection did not error' do
+          travel_to 1.minute.ago do
+            create(:injection_attempt, :errored, claim: claim, error_message: 'my injection error message')
+          end
+          create(:injection_attempt, claim: claim)
+          is_expected.to be_nil
+        end
+
+        it 'returns last injection attempt if errored' do
+          travel_to 1.minute.ago do
+            create(:injection_attempt, :errored, claim: claim, error_message: 'my earlier injection error message')
+          end
+          create(:injection_attempt, :errored, claim: claim, error_message: 'my latest injection error message')
+          is_expected.to have_attributes(error_message: 'my latest injection error message')
         end
       end
     end

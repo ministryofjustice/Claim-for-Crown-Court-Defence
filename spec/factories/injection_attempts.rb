@@ -15,6 +15,11 @@ FactoryBot.define do
     claim
     succeeded true
     error_message nil
+
+    trait :errored do
+      succeeded false
+      error_message 'Injection failed for one reason or another'
+    end
   end
 end
 

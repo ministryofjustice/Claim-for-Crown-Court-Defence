@@ -13,19 +13,32 @@
 require 'rails_helper'
 
 RSpec.describe InjectionAttempt, type: :model do
-  subject(:injection_attempt) { build(:injection_attempt, params) }
+  subject(:injection_attempt) { build(:injection_attempt, attributes) }
 
-  let(:params) { { succeeded: true, error_message: nil } }
+  let(:attributes) { { succeeded: true, error_message: nil } }
 
-  describe 'validations' do
-    subject { injection_attempt.valid? }
+  context 'scopes' do
+    describe '.errored' do
+      subject { claim.injection_attempts.errored }
+      let(:claim) { create(:submitted_claim, :with_injection_error) }
 
-    it { is_expected.to be true }
+      it 'returns injection attempts that failed' do
+        expect(claim.injection_attempts.errored.count).to eql 1
+      end
+    end
+  end
+
+  context 'validations' do
+    subject { injection_attempt }
+
+    context 'when claim is present' do
+      it { is_expected.to be_valid }
+    end
 
     context 'when claim is missing' do
-      let(:params) { { claim: nil } }
+      let(:attributes) { { claim: nil } }
 
-      it { is_expected.to be false }
+      it { is_expected.to be_invalid }
     end
   end
 end

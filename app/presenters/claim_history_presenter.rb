@@ -7,7 +7,7 @@ class ClaimHistoryPresenter < BasePresenter
             select_by_date_string(state_transitions, date_string) +
             select_by_date_string(assessments, date_string) +
             select_by_date_string(redetermination_versions, date_string)
-      hash[date_string] = arr.flatten.sort_by(&:created_at) if arr.any?
+      hash[date_string] = arr.flatten.compact.sort_by(&:created_at) if arr.any?
     end
   end
 
@@ -46,7 +46,7 @@ class ClaimHistoryPresenter < BasePresenter
   end
 
   def assessments
-    claim.assessment.versions.order(created_at: :asc)
+    claim.assessment&.versions&.order(created_at: :asc)
   end
 
   def redetermination_versions
@@ -58,6 +58,6 @@ class ClaimHistoryPresenter < BasePresenter
   end
 
   def select_by_date_string(collection, date_string)
-    collection.select { |e| e.created_at.strftime(Settings.date_format) == date_string }
+    collection&.select { |e| e.created_at.strftime(Settings.date_format) == date_string }
   end
 end

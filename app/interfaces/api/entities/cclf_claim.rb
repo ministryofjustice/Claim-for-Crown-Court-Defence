@@ -9,6 +9,7 @@ module API
       expose :supplier_number
       expose :case_number
       expose  :first_day_of_trial,
+              :retrial_started_at,
               :case_concluded_at,
               :last_submitted_at,
               format_with: :utc
@@ -37,7 +38,7 @@ module API
         # TODO
         # data.push API::Entities::CCLF::AdaptedGraduatedFee.represent(graudated_fees)
         # data.push API::Entities::CCLF::AdaptedFixedFee.represent(fixed_fees)
-        # data.push API::Entities::CCLF::AdaptedDisbursments.represent(miscellaneous_fees)
+        # data.push API::Entities::CCLF::AdaptedMiscFee.represent(miscellaneous_fees)
         # data.push API::Entities::CCLF::AdaptedDisbursments.represent(disbursements)
         # data.push API::Entities::CCLF::AdaptedExpense.represent(object.expenses)
         data.flatten.as_json

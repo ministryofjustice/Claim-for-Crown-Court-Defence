@@ -113,7 +113,7 @@ module Claims
           expect(updater.claim.assessment.disbursements).to eq 0.0
         end
 
-        it 'if no state_reason are supplied' do
+        it 'if rejected and no state_reason are supplied' do
           params = {'state' => 'rejected', 'state_reason' => [''], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
@@ -124,7 +124,7 @@ module Claims
           expect(updater.claim.assessment.disbursements).to eq 0.0
         end
 
-        it 'if state_reason is other, but no text is supplied' do
+        it 'if rejected, state_reason is other and no text is supplied' do
           params = {'state' => 'rejected', 'state_reason' => ['other'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error

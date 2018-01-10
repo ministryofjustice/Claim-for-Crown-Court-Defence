@@ -1,35 +1,27 @@
 require 'rails_helper'
 
 describe 'case_workers/claims/show.html.haml', type: :view do
-
   include ViewSpecHelper
 
-  before(:all) do
-    @case_worker = create :case_worker
-    @doc_types = DocType.all
-  end
-
-  after(:all) do
-    clean_database
-  end
-
-  before(:each) do
+  before do
+    @case_worker = create(:case_worker)
     initialize_view_helpers(view)
     sign_in :user, @case_worker.user
     allow(view).to receive(:current_user_persona_is?).and_return(false)
-    assign(:claim, @claim)
   end
 
   context 'certified claims' do
-    before(:all) { certified_claim }
+    before do
+      certified_claim
+      assign(:claim, @claim)
+      render
+    end
 
     it 'displays the name of the external user' do
-      render
       expect(rendered).to include('Stepriponikas Bonstart')
     end
 
     it 'shows the reason for certification' do
-      render
       expect(rendered).to include('which ever reason i please')
     end
   end
@@ -69,6 +61,7 @@ describe 'case_workers/claims/show.html.haml', type: :view do
       let(:claim) { create(:allocated_claim) }
       let(:reason_code) { ['no_amend_rep_order'] }
       let(:old_style) { false }
+
       before do
         claim.reject!(reason_code: reason_code)
         @messages = claim.messages.most_recent_last
@@ -113,42 +106,40 @@ describe 'case_workers/claims/show.html.haml', type: :view do
     end
 
     context 'injection errors' do
-      before { certified_claim }
-
       before do
-        create(:injection_attempt, :errored, claim: @claim)
+        certified_claim
+        create(:injection_attempt, :with_errors, claim: @claim)
         assign(:claim, @claim)
         render
       end
 
-      it 'displays summary error' do
+      it 'displays summary errors' do
         expect(rendered).to have_selector('div.error-summary')
       end
 
-      it 'displays the full error text' do
-        expect(rendered).to have_selector('ul.error-summary-list > li > a', text: 'Injection failed for one reason or another')
+      it 'displays each error message' do
+        expect(rendered).to have_selector('ul.error-summary-list > li > a', text: /injection error/, count: 2)
       end
     end
   end
 
-
   def certified_claim
-    @eu = create :external_user, :advocate, user: create(:user, first_name: 'Stepriponikas', last_name: 'Bonstart')
-    @claim = create(:allocated_claim, external_user: @eu)
+    eu = create(:external_user, :advocate, user: create(:user, first_name: 'Stepriponikas', last_name: 'Bonstart'))
+    @claim = create(:allocated_claim, external_user: eu)
     @claim.certification.destroy unless @claim.certification.nil?
     certification_type = FactoryBot.create(:certification_type, name: 'which ever reason i please')
     FactoryBot.create(:certification, claim: @claim, certified_by: 'Bobby Legrand', certification_type: certification_type)
     @case_worker.claims << @claim
     @claim.reload
-    @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
+    @claim
   end
 
   def trial_claim(trial_prefix = nil)
     @claim = create(:submitted_claim, case_type: FactoryBot.create(:case_type, "#{trial_prefix}trial".to_sym), evidence_checklist_ids: [1, 9])
     @case_worker.claims << @claim
-    @document = create(:document, claim_id: @claim.id, form_id: @claim.form_id)
-    @messages = @claim.messages.most_recent_last
+    create(:document, claim_id: @claim.id, form_id: @claim.form_id)
     @message = @claim.messages.build
+    @claim
   end
 end

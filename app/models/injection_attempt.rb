@@ -11,9 +11,23 @@
 #
 
 class InjectionAttempt < ActiveRecord::Base
+  include ActiveModel::AttributeMethods
+
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
 
-  scope :errored, -> { where.not(succeeded: true).order(created_at: :asc) }
-
   validates :claim, presence: true
+
+  def failed?
+    !succeeded
+  end
+
+  def real_error_messages
+    read_attribute(:error_messages)&.with_indifferent_access
+  end
+
+  def error_messages
+    data = real_error_messages
+    messages = data&.fetch(:errors)&.map { |child| child[:error] }
+    messages || []
+  end
 end

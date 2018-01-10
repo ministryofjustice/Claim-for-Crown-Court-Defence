@@ -72,6 +72,13 @@ namespace :data do
         migrator = DataMigrator::OffenceUniqueCodeMigrator.new
         migrator.migrate!
     end
+
+    desc 'Migrate injection attempts error_message:string to error_messages:json'
+    task :injection_errors => :environment do
+        require Rails.root.join('lib','data_migrator','injection_error_migrator').to_s
+        migrator = DataMigrator::InjectionErrorMigrator.new
+        migrator.migrate!
+    end
   end
 end
 

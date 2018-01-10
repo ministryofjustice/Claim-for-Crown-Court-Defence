@@ -130,7 +130,7 @@ FactoryBot.define do
 
       trait :with_injection_error do
         after(:create) do |claim|
-          create(:injection_attempt, :errored, claim: claim)
+          create(:injection_attempt, :with_errors, claim: claim)
         end
       end
     end

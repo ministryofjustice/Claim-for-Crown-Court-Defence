@@ -6,7 +6,6 @@ class InjectionResponseService
   end
 
   def run!
-    slack = SlackNotifier.new
     slack.build_injection_payload(@response)
     if @claim.nil?
       LogStuff.send(:info, 'InjectionResponseService::NonExistentClaim',
@@ -15,18 +14,34 @@ class InjectionResponseService
       slack.send_message!
       return false
     end
-    ia = InjectionAttempt.create(claim: @claim, succeeded: ccr_injected?, error_message: error_message)
+    # FIXME: simplify - does the slack message need to be sent after, before or during injection attempt record creation
+    ia = create_injection_attempt
     slack.send_message!
-    ia.save
+    ia.persisted?
   end
 
   private
 
-  def ccr_injected?
+  def slack
+    @slack ||= SlackNotifier.new
+  end
+
+  def injected?
     @response['errors'].empty? && @claim.present?
   end
 
   def error_message
     @response['errors'].join(' ')
+  end
+
+  def error_messages
+    @response.slice('errors')
+  end
+
+  def create_injection_attempt
+    InjectionAttempt.create(claim: @claim,
+                            succeeded: injected?,
+                            error_message: error_message,
+                            error_messages: error_messages)
   end
 end

@@ -70,21 +70,21 @@ moj.Modules.AmountAssessedBlock = function(selector) {
   this.bindEvents = function() {
     var self = this;
 
-    this.$actions.on('change load', function(e) {
+    this.$actions.on('change', function(e) {
       var state = $(e.target).val();
       $.publish('claim.status.change', {
         state: state
       })
     });
 
-    this.$reasons.on('change load', function(e) {
+    this.$reasons.on('change', function(e) {
       var reason = self.$otherCheckbox.is(':checked');
       $.publish('claim.reasons.change', {
         reason: reason
       });
     });
 
-    this.$refuseReasons.on('change load', function(e) {
+    this.$refuseReasons.on('change', function(e) {
       var reason = self.$otherRefuseCheckbox.is(':checked');
       $.publish('claim.refuseReasons.change', {
         reason: reason

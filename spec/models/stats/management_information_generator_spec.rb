@@ -48,12 +48,11 @@ module Stats
           before do
             allow(Settings).to receive(:claim_csv_headers).and_raise ArgumentError.new('XXXXXXXX')
           end
-
           it 'creates an errored report' do
-            ENV['ENV'] = 'gamma'
-            expect { generator.run }.to raise_exception(ArgumentError)
-            expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).to have_been_made
-            ENV['ENV'] = nil
+            ClimateControl.modify ENV: 'gamma' do
+              expect { generator.run }.to raise_exception(ArgumentError)
+              expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).to have_been_made
+            end
           end
         end
       end

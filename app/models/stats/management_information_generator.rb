@@ -14,14 +14,7 @@ module Stats
     rescue StandardError => err
       report_contents = "#{err.class} - #{err.message} \n #{err.backtrace}"
       report_record.write_error(report_contents)
-      if ENV['ENV'].eql?('gamma')
-        slack = SlackNotifier.new('cccd_development')
-        slack.build_generic_payload(':robot_face:',
-                                    "MI Generation failed on #{ENV['ENV']}",
-                                    "#{report_contents} \n Stats::StatsReport.id: #{report_record.id}",
-                                    false)
-        slack.send_message!
-      end
+      send_slack_message(report_record) if ENV['ENV'].eql?('gamma')
       raise err
     end
 
@@ -39,6 +32,15 @@ module Stats
         end
       end
       csv_string
+    end
+
+    def send_slack_message(report_record)
+      slack = SlackNotifier.new('cccd_development')
+      slack.build_generic_payload(':robot_face:',
+                                  "MI Generation failed on #{ENV['ENV']}",
+                                  "#{report_record.report} \n Stats::StatsReport.id: #{report_record.id}",
+                                  false)
+      slack.send_message!
     end
   end
 end

@@ -11,11 +11,16 @@ class ClaimShowPage < SitePrism::Page
   element :expenses, "#claim_assessment_attributes_expenses"
   element :authorised, "#claim_state_authorised"
   element :update, "input#button.button"
+  element :refused, "#claim_state_refused"
   element :rejected, "#claim_state_rejected"
 
   section :rejection_reasons, 'div.js-cw-claim-rejection-reasons' do
-      element :first_reason, 'label:nth-of-type(1) input:nth-of-type(1)'
-    end
+    element :first_reason, 'label:nth-of-type(1) input:nth-of-type(1)'
+  end
+
+  section :refusal_reasons, 'div.js-cw-claim-refuse-reasons' do
+    element :first_reason, 'label:nth-of-type(1) input:nth-of-type(1)'
+  end
 
   section :messages_panel, "#claim-accordion .messages-container" do
     element :enter_your_message, "textarea#message_body"

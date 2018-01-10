@@ -31,6 +31,14 @@ And(/^I select the first rejection reason$/) do
   @case_worker_claim_show_page.rejection_reasons.first_reason.click
 end
 
+When(/^I click the refused radio button$/) do
+  @case_worker_claim_show_page.refused.click
+end
+
+And(/^I select the first refusal reason$/) do
+  @case_worker_claim_show_page.refusal_reasons.first_reason.click
+end
+
 When(/^I click update$/) do
   @case_worker_claim_show_page.update.click
 end

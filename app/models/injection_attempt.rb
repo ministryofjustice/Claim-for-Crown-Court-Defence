@@ -2,17 +2,15 @@
 #
 # Table name: injection_attempts
 #
-#  id            :integer          not null, primary key
-#  claim_id      :integer
-#  succeeded     :boolean
-#  error_message :string
-#  created_at    :datetime
-#  updated_at    :datetime
+#  id             :integer          not null, primary key
+#  claim_id       :integer
+#  succeeded      :boolean
+#  created_at     :datetime
+#  updated_at     :datetime
+#  error_messages :json
 #
 
 class InjectionAttempt < ActiveRecord::Base
-  include ActiveModel::AttributeMethods
-
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
 
   validates :claim, presence: true

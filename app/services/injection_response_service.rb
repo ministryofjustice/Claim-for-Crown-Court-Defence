@@ -7,17 +7,11 @@ class InjectionResponseService
 
   def run!
     slack.build_injection_payload(@response)
-    if @claim.nil?
-      LogStuff.send(:info, 'InjectionResponseService::NonExistentClaim',
-                    action: 'run!',
-                    uuid: @response['uuid']) { 'Failed to inject because no claim found' }
-      slack.send_message!
-      return false
-    end
-    # FIXME: simplify - does the slack message need to be sent after, before or during injection attempt record creation
-    ia = create_injection_attempt
+    return failure(action: 'run!', uuid: @response['uuid']) unless @claim
+
+    create_injection_attempt
     slack.send_message!
-    ia.persisted?
+    true
   end
 
   private
@@ -26,12 +20,14 @@ class InjectionResponseService
     @slack ||= SlackNotifier.new
   end
 
-  def injected?
-    @response['errors'].empty? && @claim.present?
+  def failure(options = {})
+    LogStuff.info('InjectionResponseService::NonExistentClaim', options) { 'Failed to inject because no claim found' }
+    slack.send_message!
+    false
   end
 
-  def error_message
-    @response['errors'].join(' ')
+  def injected?
+    @response['errors'].empty? && @claim.present?
   end
 
   def error_messages
@@ -41,7 +37,6 @@ class InjectionResponseService
   def create_injection_attempt
     InjectionAttempt.create(claim: @claim,
                             succeeded: injected?,
-                            error_message: error_message,
                             error_messages: error_messages)
   end
 end

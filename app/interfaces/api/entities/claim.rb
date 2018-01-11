@@ -21,6 +21,7 @@ module API
       expose :external_user, using: API::Entities::ExternalUser
       expose :defendants, using: API::Entities::Defendant
       expose :case_type, using: API::Entities::CaseType
+      expose :injection_attempts, using: API::Entities::InjectionAttempt
 
       expose :case_workers, using: API::Entities::CaseWorker, if: ->(instance, _opts) { instance.allocated? }
 

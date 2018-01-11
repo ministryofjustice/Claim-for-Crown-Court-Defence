@@ -27,6 +27,16 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
+  def last_injection_failed?
+    claim.injection_attempts.last&.failed?
+  end
+
+  def injection_errors
+    # TODO translations
+    messages = claim.injection_attempts.last&.error_messages
+    error_message = "Data injection error: #{messages.first}#{ messages.size > 1 ? '...' : nil}"
+  end
+
   def case_type_name
     claim.case_type.name
   end

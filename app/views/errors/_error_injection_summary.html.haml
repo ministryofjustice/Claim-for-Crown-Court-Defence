@@ -1,12 +1,13 @@
-.error-summary{role: "group", 'aria-labelledby': "error-summary-heading", tabindex:'-1'}
-  %h1.heading-medium.error-summary-heading{id: 'error-summary-heading'}
-    = t('shared.injection_errors.error')
+- if ep.injection_attempts.last&.failed?
+  .error-summary{role: "group", 'aria-labelledby': "error-summary-heading", tabindex:'-1'}
+    %h1.heading-medium.error-summary-heading{id: 'error-summary-heading'}
+      = t('shared.injection_errors.error')
 
-  %span.form-hint
-    = t('shared.injection_errors.form_error_hint')
+    %span.form-hint
+      = t('shared.injection_errors.form_error_hint')
 
-  %ul.error-summary-list
-    - ep.injection_attempts.last&.error_messages.each do |message|
-      %li
-        = link_to '#injection_error' do
-          = message
+    %ul.error-summary-list
+      - ep.injection_attempts.last&.error_messages.each do |message|
+        %li
+          = link_to '#injection_error' do
+            = message

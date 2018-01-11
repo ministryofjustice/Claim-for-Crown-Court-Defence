@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180110144517) do
+ActiveRecord::Schema.define(version: 20180111161855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -357,7 +357,6 @@ ActiveRecord::Schema.define(version: 20180110144517) do
   create_table "injection_attempts", force: :cascade do |t|
     t.integer  "claim_id"
     t.boolean  "succeeded"
-    t.string   "error_message"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.json     "error_messages"

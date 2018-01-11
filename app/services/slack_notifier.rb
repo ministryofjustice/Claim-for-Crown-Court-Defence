@@ -35,9 +35,9 @@ class SlackNotifier
     @payload[:icon_emoji] = message_icon
     @payload[:attachments] = [
       {
-        'fallback': "#{generate_message} {#{@response['uuid']}}",
+        'fallback': injection_fallback,
         'color': message_colour,
-        'title': "Injection #{ccr_injected? ? 'succeeded' : 'failed'}",
+        'title': injection_title,
         'text': @response['uuid'],
         'fields': fields
       }
@@ -49,8 +49,21 @@ class SlackNotifier
 
   private
 
-  def ccr_injected?
+  def injected?
     has_no_errors? && @claim.present?
+  end
+
+  def injection_fallback
+    "#{generate_message} {#{@response['uuid']}}"
+  end
+
+  def injection_title
+    "Injection into #{app_name} #{injected? ? 'succeeded' : 'failed'}"
+  end
+
+  def app_name
+    return 'indeterminable system' if @claim.nil?
+    @claim.agfs? ? 'CCR' : 'CCLF'
   end
 
   def has_no_errors?
@@ -66,11 +79,11 @@ class SlackNotifier
   end
 
   def message_colour
-    pass_fail_colour(ccr_injected?)
+    pass_fail_colour(injected?)
   end
 
   def message_icon
-    ccr_injected? ? Settings.slack.success_icon : Settings.slack.fail_icon
+    injected? ? Settings.slack.success_icon : Settings.slack.fail_icon
   end
 
   def fields
@@ -92,7 +105,7 @@ class SlackNotifier
   def generate_message
     if @claim.nil?
       'Failed to inject because no claim found'
-    elsif ccr_injected?
+    elsif injected?
       "Claim #{@claim.case_number} successfully injected"
     else
       "Claim #{@claim.case_number} could not be injected"

@@ -249,7 +249,7 @@ RSpec.describe ClaimCsvPresenter do
           end
         end
 
-        context 'refused with a multiple reasons' do
+        context 'refused with multiple reasons' do
           before do
             claim.refuse!(reason_code: ['no_rep_order', 'wrong_case_no'])
           end

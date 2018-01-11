@@ -56,7 +56,7 @@ module API
       end
 
       def retrial_estimated_length_or_one
-        object.retrial_actual_length.or_one
+        object.retrial_estimated_length.or_one
       end
 
       def bills

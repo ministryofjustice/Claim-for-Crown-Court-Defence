@@ -27,14 +27,13 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
-  def last_injection_failed?
-    claim.injection_attempts.last&.failed?
-  end
-
-  def injection_errors
-    # TODO translations
-    messages = claim.injection_attempts.last&.error_messages
-    error_message = "Data injection error: #{messages.first}#{ messages.size > 1 ? '...' : nil}"
+  def injection_error
+    messages = claim.injection_attempts&.last&.error_messages
+    return unless messages.present?
+    prefix = I18n.t(:error, scope: %i[shared injection_errors])
+    message = "#{prefix}: #{messages.first}#{messages.size > 1 ? '...' : nil}"
+    yield(message) if block_given?
+    message
   end
 
   def case_type_name

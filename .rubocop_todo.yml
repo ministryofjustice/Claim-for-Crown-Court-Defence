@@ -23,6 +23,7 @@ Metrics/ClassLength:
     - app/models/claim/base_claim.rb
     - app/controllers/external_users/claims_controller.rb
     - app/validators/claim/base_claim_validator.rb
+    - app/presenters/claim/base_claim_presenter.rb
 
 # Offense count: 1005
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.

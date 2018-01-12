@@ -30,10 +30,14 @@ class Claim::BaseClaimPresenter < BasePresenter
   def injection_error
     messages = claim.injection_attempts&.last&.error_messages
     return unless messages.present?
-    prefix = I18n.t(:error, scope: %i[shared injection_errors])
-    message = "#{prefix}: #{messages.first}#{messages.size > 1 ? '...' : nil}"
+    message = injection_message(messages)
     yield(message) if block_given?
     message
+  end
+
+  def injection_message(messages)
+    prefix = I18n.t(:error, scope: %i[shared injection_errors])
+    "#{messages.size} #{prefix.pluralize(messages.size)}"
   end
 
   def case_type_name

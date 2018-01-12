@@ -47,8 +47,11 @@ describe("Modules.AmountAssessedBlock.js", function() {
         form: '.js-cw-claim-assessment',
         actions: '.js-cw-claim-action',
         reasons: '.js-cw-claim-rejection-reasons',
+        refuseReasons: '.js-cw-claim-refuse-reasons',
         otherinput: '.js-reject-reason-text',
+        otherRefuseInput: '.js-refuse-reason-text',
         otherCheckbox: '#_state_reason_other',
+        otherRefuseCheckbox: '#_state_reason_other_refuse',
         action: 'toggle'
       });
     });
@@ -58,19 +61,23 @@ describe("Modules.AmountAssessedBlock.js", function() {
       expect(block.states).toEqual({
         rejected: {
           form: false,
-          reasons: true
+          reasons: true,
+          refuseReasons: false
         },
         refused: {
           form: false,
-          reasons: false
+          reasons: false,
+          refuseReasons: true
         },
         authorised: {
           form: true,
-          reasons: false
+          reasons: false,
+          refuseReasons: false
         },
         part_authorised: {
           form: true,
-          reasons: false
+          reasons: false,
+          refuseReasons: false
         }
       })
     });

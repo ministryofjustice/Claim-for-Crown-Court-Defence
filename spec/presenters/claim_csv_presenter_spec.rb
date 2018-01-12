@@ -223,6 +223,56 @@ RSpec.describe ClaimCsvPresenter do
             end
           end
         end
+
+        context 'refused with a single reason as a string ' do
+          before do
+            claim.refuse!(reason_code: ['no_rep_order'])
+          end
+
+          it 'the refusal reason code should be reflected in the MI' do
+            allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('no_rep_order')
+            ClaimCsvPresenter.new(claim, view).present! do |csv|
+              expect(csv[0][11]).to eq('no_rep_order')
+            end
+          end
+        end
+
+        context 'refused with a single reason' do
+          before do
+            claim.refuse!(reason_code: ['no_rep_order'])
+          end
+
+          it 'the refusal reason code should be reflected in the MI' do
+            ClaimCsvPresenter.new(claim, view).present! do |csv|
+              expect(csv[0][11]).to eq('no_rep_order')
+            end
+          end
+        end
+
+        context 'refused with multiple reasons' do
+          before do
+            claim.refuse!(reason_code: ['no_rep_order', 'wrong_case_no'])
+          end
+
+          it 'the refusal reason code should be reflected in the MI' do
+            ClaimCsvPresenter.new(claim, view).present! do |csv|
+              expect(csv[0][11]).to eq('no_rep_order, wrong_case_no')
+            end
+          end
+        end
+
+        context 'rejected with other' do
+          before do
+            claim.reject!(reason_code: ['other'], reason_text: 'Rejection reason')
+          end
+
+          it 'the rejection reason code should be reflected in the MI' do
+            ClaimCsvPresenter.new(claim, view).present! do |csv|
+              expect(csv[0][11]).to eq('other')
+              expect(csv[0][12]).to eq('Rejection reason')
+            end
+          end
+        end
       end
     end
   end

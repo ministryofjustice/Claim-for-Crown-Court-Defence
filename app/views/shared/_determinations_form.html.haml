@@ -40,8 +40,8 @@
         %fieldset.form-group.inline.spacer
           %legend.bold-normal.form-label
             = "Update the claim status"
-          = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last) do |b|
-            - b.label(class: "block-label") { b.radio_button + b.text }
+          = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last, { checked: 'claim_state_rejected' } ) do |b|
+            - b.label(class: "block-label") { b.radio_button(checked: b.text.eql?(params[:state])) + b.text }
 
       .js-cw-claim-rejection-reasons{style: 'display:none'}
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
@@ -53,7 +53,20 @@
             %div
               %a#expense_reject_reason_text
               = f.label :reason_text, 'Reason text'
-              = f.text_field :reason_text, {class: 'form-control'}
+              .form-hint.xsmall These reasons will be displayed to providers
+              = f.text_field :reason_text, {class: 'form-control', name:'claim[reason_text]', id: 'claim_reject_reason_text'}
+      .js-cw-claim-refuse-reasons{style: 'display:none'}
+        %fieldset.form-group.nested-fields.indent-fieldset.spacer
+          %legend.bold-normal.form-label
+            = "Choose reason for refusal"
+          = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.refuse_reasons_for(@claim), :code, :description) do |b|
+            - b.label(class: "block-label") { b.check_box + b.text }
+          %fieldset.form-group.nested-fields.fieldset.spacer.js-refuse-reason-text{style: 'display:none'}
+            %div
+              %a#expense_refuse_reason_text
+              = f.label :reason_text, 'Reason text'
+              .form-hint.xsmall These reasons will be displayed to providers
+              = f.text_field :reason_text, {class: 'form-control', name:'claim[reason_text]', id: 'claim_refuse_reason_text'}
 
       %p
         = f.submit 'Update', class: 'button', id: 'button'

@@ -18,6 +18,25 @@ class ClaimStateTransitionReason
       no_prior_authority: 'No prior authority provided',
       no_invoice: 'No invoice provided'
     },
+    refused_advocate_claims: {
+      wrong_ia: 'Wrong Instructed Advocate',
+      duplicate_claim: 'Duplicate claim',
+      other_refuse: 'Other'
+    },
+    refused_final_claims: {
+      duplicate_claim: 'Duplicate claim',
+      other_refuse: 'Other'
+    },
+    refused_transfer_claims: {
+      duplicate_claim: 'Duplicate claim',
+      other_refuse: 'Other'
+    },
+    refused_interim_claims: {
+      duplicate_claim: 'Duplicate claim',
+      no_effective: 'No effective PCMH/start of trial has taken place',
+      short_trial: 'The trial estimate was less than 10 days',
+      other_refuse: 'Other'
+    },
     global: {
       timed_transition: 'TimedTransition::Transitioner'
     }
@@ -45,6 +64,10 @@ class ClaimStateTransitionReason
       reasons = reasons_for('rejected')
       reasons.insert(6, reasons_for(:disbursement)) if claim.fees.first.fee_type.code.eql?('IDISO')
       reasons.flatten
+    end
+
+    def refuse_reasons_for(claim)
+      reasons_for("refused_#{claim.class.to_s.demodulize.tableize}")
     end
 
     private

@@ -14,27 +14,34 @@ moj.Modules.AmountAssessedBlock = function(selector) {
     form: '.js-cw-claim-assessment',
     actions: '.js-cw-claim-action',
     reasons: '.js-cw-claim-rejection-reasons',
+    refuseReasons: '.js-cw-claim-refuse-reasons',
     otherinput: '.js-reject-reason-text',
+    otherRefuseInput: '.js-refuse-reason-text',
     otherCheckbox: '#_state_reason_other',
+    otherRefuseCheckbox: '#_state_reason_other_refuse',
     action: 'toggle'
   };
 
   this.states = {
     rejected: {
       form: false,
-      reasons: true
+      reasons: true,
+      refuseReasons: false
     },
     refused: {
       form: false,
-      reasons: false
+      reasons: false,
+      refuseReasons: true
     },
     authorised: {
       form: true,
-      reasons: false
+      reasons: false,
+      refuseReasons: false
     },
     part_authorised: {
       form: true,
-      reasons: false
+      reasons: false,
+      refuseReasons: false
     }
   };
 
@@ -45,8 +52,11 @@ moj.Modules.AmountAssessedBlock = function(selector) {
     this.$form = $(this.config.form);
     this.$actions = $(this.config.actions);
     this.$reasons = $(this.config.reasons);
+    this.$refuseReasons = $(this.config.refuseReasons);
     this.$otherinput = $(this.config.otherinput);
+    this.$otherRefuseInput = $(this.config.otherRefuseInput);
     this.$otherCheckbox = $(this.config.otherCheckbox);
+    this.$otherRefuseCheckbox = $(this.config.otherRefuseCheckbox);
     this.bindEvents();
   };
 
@@ -71,6 +81,13 @@ moj.Modules.AmountAssessedBlock = function(selector) {
       var reason = self.$otherCheckbox.is(':checked');
       $.publish('claim.reasons.change', {
         reason: reason
+      });
+    });
+
+    this.$refuseReasons.on('change', function(e) {
+      var reason = self.$otherRefuseCheckbox.is(':checked');
+      $.publish('claim.refuseReasons.change', {
+        reason: reason
       })
     });
 
@@ -78,15 +95,22 @@ moj.Modules.AmountAssessedBlock = function(selector) {
       data.reason ? self.slider(true, self.$otherinput) : self.slider(false, self.$otherinput)
     });
 
+    $.subscribe('claim.refuseReasons.change', function(e, data) {
+      data.reason ? self.slider(true, self.$otherRefuseInput) : self.slider(false, self.$otherRefuseInput)
+    });
+
     $.subscribe('claim.status.change', function(e, data) {
       var state = self.states[data.state]
-
       self.$form.is(function(idx, el) {
         self.slider(state.form, el)
       });
 
       self.$reasons.is(function(idx, el) {
         self.slider(state.reasons, el)
+      });
+
+      self.$refuseReasons.is(function(idx, el) {
+        self.slider(state.refuseReasons, el)
       });
     });
 

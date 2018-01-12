@@ -30,17 +30,32 @@ module Stats
         end
       end
 
-      it 'creates an errored report if exception occurs' do
-        expect(Settings).to receive(:claim_csv_headers).and_raise ArgumentError.new('XXXXXXXX')
-        expect { generator.run }.to raise_exception(ArgumentError)
+      context 'when an error occurs' do
+        context 'on a non-live server' do
+          it 'creates an errored report' do
+            expect(Settings).to receive(:claim_csv_headers).and_raise ArgumentError.new('XXXXXXXX')
+            expect { generator.run }.to raise_exception(ArgumentError)
 
-        expect(StatsReport.count).to eq 1
-        report = StatsReport.first
-        expect(report.status).to eq 'error'
-        expect(report.report).to match /^ArgumentError - XXXXXX/
+            expect(StatsReport.count).to eq 1
+            report = StatsReport.first
+            expect(report.status).to eq 'error'
+            expect(report.report).to match /^ArgumentError - XXXXXX/
+            expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).not_to have_been_made
+          end
+        end
+
+        context 'on gamma' do
+          before do
+            allow(Settings).to receive(:claim_csv_headers).and_raise ArgumentError.new('XXXXXXXX')
+          end
+          it 'creates an errored report' do
+            ClimateControl.modify ENV: 'gamma' do
+              expect { generator.run }.to raise_exception(ArgumentError)
+              expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).to have_been_made
+            end
+          end
+        end
       end
-
     end
   end
-
 end

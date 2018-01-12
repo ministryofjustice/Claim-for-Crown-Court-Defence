@@ -663,6 +663,7 @@ DEPENDENCIES
   byebug
   cancancan (~> 1.15)
   capybara (~> 2.6.2)
+  climate_control
   cocoon (~> 1.2.6)
   codeclimate-test-reporter
   colorize

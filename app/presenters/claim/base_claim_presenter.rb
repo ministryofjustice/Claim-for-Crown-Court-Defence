@@ -1,6 +1,8 @@
 class Claim::BaseClaimPresenter < BasePresenter
   presents :claim
 
+  include InjectionAttemptErrorable
+
   # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down
   #
   def valid_transitions(options = { include_submitted: true })
@@ -25,19 +27,6 @@ class Claim::BaseClaimPresenter < BasePresenter
     else
       ''
     end
-  end
-
-  def injection_error
-    messages = claim.injection_attempts&.last&.error_messages
-    return unless messages.present?
-    message = injection_message(messages)
-    yield(message) if block_given?
-    message
-  end
-
-  def injection_message(messages)
-    prefix = I18n.t(:error, scope: %i[shared injection_errors])
-    "#{messages.size} #{prefix.pluralize(messages.size)}"
   end
 
   def case_type_name

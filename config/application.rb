@@ -48,6 +48,7 @@ module AdvocateDefencePayments
     # config.autoload_paths += Dir[Rails.root.join('app', 'interfaces', '*')]
     # config.autoload_paths += Dir[Rails.root.join('app', 'services', 'stats', '*')]
     config.autoload_paths << Rails.root.join('lib')
+    config.autoload_paths << Rails.root.join('app','presenters','concerns')
 
     config.exceptions_app = self.routes
 

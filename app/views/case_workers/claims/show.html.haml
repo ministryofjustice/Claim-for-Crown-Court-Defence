@@ -1,6 +1,6 @@
 - present(@claim) do |claim|
   = render 'errors/error_summary', ep: @claim, error_summary: 'This claim has '
-  = render 'errors/error_injection_summary', ep: @claim, error_summary: 'Data injection error'
+  = render 'errors/injection_error_summary', ep: claim
 
   = render partial: 'shared/claim_header', locals: { claim: claim }
   = render partial: 'shared/claim_accordion', locals: { claim: claim, status_disabled: false }

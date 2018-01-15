@@ -59,7 +59,7 @@ module MessageQueue
       end
     end
 
-    describe '#send_message!' do
+    describe '#send!' do
       subject(:send!) { aws_client.send!(message) }
 
       let(:message) { { body: 'Claim added', attributes: { 'uuid': { data_type: 'String', string_value: SecureRandom.uuid } } } }

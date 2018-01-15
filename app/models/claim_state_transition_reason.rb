@@ -23,7 +23,7 @@ class ClaimStateTransitionReason
       duplicate_claim: 'Duplicate claim',
       other_refuse: 'Other'
     },
-    refused_final_claims: {
+    refused_litigator_claims: {
       duplicate_claim: 'Duplicate claim',
       other_refuse: 'Other'
     },

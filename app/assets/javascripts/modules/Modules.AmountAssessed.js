@@ -72,6 +72,7 @@ moj.Modules.AmountAssessedBlock = function(selector) {
 
     this.$actions.on('change', function(e) {
       var state = $(e.target).val();
+      console.log('status change to ' + state);
       $.publish('claim.status.change', {
         state: state
       })

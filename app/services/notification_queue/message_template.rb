@@ -6,7 +6,7 @@ module NotificationQueue
         message: 'Claim created',
         message_structure: 'messageStructure',
         message_attributes: {
-          'Type' => { data_type: 'String', string_value: claim.type },
+          'claim_type' => { data_type: 'String', string_value: claim.type },
           'uuid' => { data_type: 'String', string_value: claim.uuid }
         }
       }

@@ -71,10 +71,14 @@
         %tbody
           = collection_check_boxes :allocation, :claim_ids, @claims, :id, :case_number do |b|
             - present(b.object) do |claim|
-              %tr{id: dom_id(claim)}
+              %tr{id: dom_id(claim), class: claim.injection_error ? 'error' : nil }
                 %td{'aria-label' => t(".select")}
-                  = b.label(class:'visuallyhidden'){"Choose #{claim.case_number}"}
-                  = b.check_box
+                  .error-message-container
+                    = b.label(class:'visuallyhidden'){"Choose #{claim.case_number}"}
+                    = b.check_box
+                    - claim.injection_error do |message|
+                      .error-message
+                        = message
                 %td{'aria-label' => t(".case_number")}
                   %span.js-test-case-number
                     = link_to claim.case_number , case_workers_claim_path(claim)

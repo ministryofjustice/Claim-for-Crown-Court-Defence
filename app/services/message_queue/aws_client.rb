@@ -19,17 +19,24 @@ module MessageQueue
     end
 
     def poll!
-      resp = @sqs.receive_message(
+      messages.each do |m|
+        irs = InjectionResponseService.new(JSON.parse(m.body))
+        delete_message(m.receipt_handle) if irs.run!
+      end
+    end
+
+    private
+
+    def messages
+      @sqs.receive_message(
         queue_url: @queue_url,
         max_number_of_messages: Settings.aws.poll_message_count,
         wait_time_seconds: Settings.aws.poll_message_wait_time
-      )
-      resp.messages.each do |m|
-        irs = InjectionResponseService.new(JSON.parse(m.body))
-        if irs.run! && %w[demo production].include?(ENV['ENV'])
-          @sqs.delete_message(queue_url: @queue_url, receipt_handle: m.receipt_handle)
-        end
-      end
+      ).messages
+    end
+
+    def delete_message(receipt_handle)
+      @sqs.delete_message(queue_url: @queue_url, receipt_handle: receipt_handle)
     end
   end
 end

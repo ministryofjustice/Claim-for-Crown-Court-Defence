@@ -1,7 +1,6 @@
 - present(@claim) do |claim|
+  = render 'errors/error_summary', ep: @claim, error_summary: 'This claim has '
+  = render 'errors/injection_error_summary', ep: claim
 
-  - if @claim.errors.any?
-    = render partial: 'errors/error_summary', locals:{ ep: @claim, error_summary: 'This claim has '}
-
-  = render partial: 'shared/claim_header', locals: {  claim: claim }
+  = render partial: 'shared/claim_header', locals: { claim: claim }
   = render partial: 'shared/claim_accordion', locals: { claim: claim, status_disabled: false }

@@ -12,6 +12,7 @@
 #  reason_code :string
 #  author_id   :integer
 #  subject_id  :integer
+#  reason_text :string
 #
 
 class ClaimStateTransition < ActiveRecord::Base

@@ -7,7 +7,7 @@ Feature: Case worker rejects a claim, providing a reason
     And an "advocate" user account exists
     And there is a claim allocated to the case worker with case number 'A20161234'
 
-    And I insert the VCR cassette 'features/case_workers/claims/reject'
+    And I insert the VCR cassette 'features/case_workers/claims/refuse'
 
     When I am signed in as the case worker
     And I select the claim
@@ -20,3 +20,5 @@ Feature: Case worker rejects a claim, providing a reason
 
     When I click your claims
     Then the claim I've just updated is no longer in the list
+
+    And I eject the VCR cassette

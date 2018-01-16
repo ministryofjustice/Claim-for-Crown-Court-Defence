@@ -32,3 +32,5 @@ Feature: Case worker messages advocate and advocate responds
     When I open the claim
     And I expand messages
     Then the response and uploaded file should be visible
+
+    And I eject the VCR cassette

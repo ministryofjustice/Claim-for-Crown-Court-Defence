@@ -20,3 +20,5 @@ Feature: Case worker rejects a claim, providing a reason
 
     When I click your claims
     Then the claim I've just updated is no longer in the list
+
+    And I eject the VCR cassette

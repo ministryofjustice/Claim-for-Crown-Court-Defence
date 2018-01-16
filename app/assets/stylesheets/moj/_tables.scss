@@ -32,6 +32,24 @@ table {
         border: none;
       }
     }
+    &.error {
+      border-left: 5px solid $error-colour;
+      td {
+        padding-top: 30px !important;
+        .error-message-container {
+          position: relative;
+        }
+        .error-message {
+          position: absolute;
+          top: -30px;
+          color: $error-colour;
+          width: 320px;
+          @media (max-width: 1018px) {
+            width: auto;
+          }
+        }
+      }
+    }
   }
   th,
   td {

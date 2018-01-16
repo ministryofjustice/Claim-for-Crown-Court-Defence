@@ -17,6 +17,7 @@ module Remote
     has_many :defendants
     has_many :case_workers
     has_one :court
+    has_many :injection_attempts
 
     alias opened_for_redetermination? opened_for_redetermination
     alias written_reasons_outstanding? written_reasons_outstanding

@@ -1,5 +1,5 @@
 @javascript
-Feature: Case worker admin allocates claims 
+Feature: Case worker admin allocates claims
 
   Scenario: I allocate claims, case worker sees them
     Given case worker "John Smith" exists
@@ -20,3 +20,5 @@ Feature: Case worker admin allocates claims
     When I sign in as John Smith
     Then I should be on the 'Your claims' page
     And claims "T20160001, T20160002" should appear on the page
+
+    And I eject the VCR cassette

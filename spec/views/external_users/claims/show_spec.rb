@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe 'external_users/claims/show.html.haml', type: :view do
-
   include ViewSpecHelper
 
   before(:all) do

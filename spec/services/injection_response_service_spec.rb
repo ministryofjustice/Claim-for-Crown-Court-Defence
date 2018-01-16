@@ -4,10 +4,22 @@ RSpec.describe InjectionResponseService, slack_bot: true do
   subject(:irs) { described_class.new(json) }
 
   let(:claim) { create :claim }
+  let(:injection_attempt) { claim.injection_attempts.last }
+
   let(:invalid_json) { { "errors": [], 'claim_id': '1234567', "messages":[] } }
   let(:valid_json_with_invalid_uuid) { { "errors":[], "uuid":'b08cfd61-9999-8888-7777-651477183efb', "messages":[{'message':'Claim injected successfully.'}]} }
   let(:valid_json_on_success) { { "errors":[], "uuid":claim.uuid, "messages":[{'message':'Claim injected successfully.'}]} }
-  let(:valid_json_on_failure) { { "errors":[ {'error':"No defendant found for Rep Order Number: '123456432'."} ],"uuid":claim.uuid,"messages":[] } }
+  let(:valid_json_on_failure) { { "errors":[ {'error':"No defendant found for Rep Order Number: '123456432'."}, {'error':"Another injection error."} ],"uuid":claim.uuid,"messages":[] } }
+
+shared_examples "creates injection attempts" do
+  it 'returns true' do
+    is_expected.to be true
+  end
+
+  it 'creates an injection attempt' do
+    expect{ run! }.to change(InjectionAttempt, :count).by(1)
+  end
+end
 
   context 'when initialized with' do
     describe 'valid json' do
@@ -24,29 +36,45 @@ RSpec.describe InjectionResponseService, slack_bot: true do
   end
 
   describe '#run!' do
-    subject(:irs_run!) { irs.run! }
+    subject(:run!) { irs.run! }
 
     context 'when injection succeeded' do
       let(:json) { valid_json_on_success }
+      include_examples 'creates injection attempts'
 
-      it { is_expected.to be true }
+      it 'marks injection as succeeded' do
+        run!
+        expect(injection_attempt.succeeded).to be_truthy
+      end
     end
 
     context 'when injection failed' do
       let(:json) { valid_json_on_failure }
+      include_examples 'creates injection attempts'
 
-      it { is_expected.to be true }
+      it 'marks injection as failed' do
+        run!
+        expect(injection_attempt.succeeded).to be_falsey
+      end
+
+      it 'adds error messages from the response' do
+        run!
+        expect(injection_attempt.error_messages).to be_present
+        expect(injection_attempt.error_messages).to be_an Array
+        expect(injection_attempt.error_messages).to include("No defendant found for Rep Order Number: '123456432'.","Another injection error.")
+      end
     end
 
     context 'when claim uuid cannot be matched' do
       let(:json) { valid_json_with_invalid_uuid }
 
       it { is_expected.to be false }
+
       it 'logs an error' do
         expect(LogStuff).to receive(:info).with('InjectionResponseService::NonExistentClaim',
                                                 action: 'run!',
                                                 uuid: 'b08cfd61-9999-8888-7777-651477183efb')
-        irs_run!
+        run!
       end
     end
   end

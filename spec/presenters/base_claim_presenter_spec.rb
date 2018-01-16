@@ -5,6 +5,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   let(:claim) { create :claim }
   subject { Claim::BaseClaimPresenter.new(claim, view) }
+  let(:presenter) { Claim::BaseClaimPresenter.new(claim, view) }
 
   before do
     Timecop.freeze(Time.current)
@@ -348,6 +349,50 @@ RSpec.describe Claim::BaseClaimPresenter do
         expect(presenter.defendant_name_and_initial).to be_nil
         expect(presenter.other_defendant_summary).to eq ''
       end
+    end
+  end
+
+  it { is_expected.to respond_to :injection_error }
+  it { is_expected.to respond_to :injection_error_summary }
+  it { is_expected.to respond_to :injection_errors }
+
+  describe '#injection_error' do
+    subject { presenter.injection_error }
+    before { create(:injection_attempt, :with_errors, claim: claim) }
+
+    it 'returns nil for inactive injection errors' do
+      claim.injection_attempts.last.soft_delete
+      is_expected.to be_nil
+    end
+
+    it 'returns summary of injection errors' do
+      is_expected.to eql '2 Data injection errors'
+    end
+
+    it 'yields a block passing the message as an argument' do
+      expect { |b| presenter.injection_error(&b) }.to yield_control.exactly(1).times
+      expect { |b| presenter.injection_error(&b) }.to yield_with_args('2 Data injection errors')
+    end
+  end
+
+  describe '#injection_errors' do
+    subject { presenter.injection_errors }
+    before do
+      create(:injection_attempt, :with_errors, claim: claim)
+    end
+
+    it 'calls last error messages attribute of model' do
+      injection_attempts = instance_double('injection_attempts')
+      injection_attempt = instance_double('injection_attempt')
+      expect(claim).to receive(:injection_attempts).and_return(injection_attempts)
+      expect(injection_attempts).to receive(:last).and_return(injection_attempt)
+      expect(injection_attempt).to receive(:active?).and_return true
+      expect(injection_attempt).to receive(:error_messages)
+      subject
+    end
+
+    it 'returns the last error messages array' do
+      is_expected.to match_array(['injection error 1', 'injection error 2'])
     end
   end
 end

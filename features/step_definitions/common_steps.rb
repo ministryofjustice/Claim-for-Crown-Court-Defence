@@ -2,8 +2,12 @@ Given(/^I visit "(.*?)"$/) do |path|
   visit path
 end
 
-When(/^show me the page$/) do
+When(/^I save and open page$/) do
   save_and_open_page
+end
+
+When(/^I save and open screenshot$/) do
+  save_and_open_screenshot
 end
 
 When(/^I start a claim/) do
@@ -117,10 +121,16 @@ end
 
 # Record modes can be: all, none, new_episodes or once. Default is 'none'.
 # When creating new tests that calls new endpoints, you will need to record the cassette.
+# NOTE: see the README section 'Recording new VCR cassettes' for assistance
 # NOTE: Never commit code with VCR in record mode.
 #
 And(/^I insert the VCR cassette '(.*?)'(?: and record '(.*?)')?$/) do |name, record|
-  record_mode = (record || 'none').to_sym
+  # Caching.clear if record
+  record_mode = (record || 'once').to_sym
   VCR.eject_cassette if VCR.current_cassette
   VCR.insert_cassette(name, record: record_mode)
+end
+
+And(/^I eject the VCR cassette$/) do
+  VCR.eject_cassette
 end

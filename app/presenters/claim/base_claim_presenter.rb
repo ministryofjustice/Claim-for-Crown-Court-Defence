@@ -1,6 +1,8 @@
 class Claim::BaseClaimPresenter < BasePresenter
   presents :claim
 
+  include InjectionAttemptErrorable
+
   # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down
   #
   def valid_transitions(options = { include_submitted: true })

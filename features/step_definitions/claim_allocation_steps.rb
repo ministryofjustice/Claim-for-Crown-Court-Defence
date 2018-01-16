@@ -16,7 +16,7 @@ Then(/^I should be on the 'Your claims' page$/) do
 end
 
 Then(/^claims "([^"]*)" should appear on the page$/) do |case_numbers|
-  @external_user_home_page.includes_all_claims?(case_numbers)
+  expect(@external_user_home_page.includes_all_claims?(case_numbers)).to be true
 end
 
 When(/^I select claims "(.*?)"$/) do |case_numbers|

@@ -196,7 +196,7 @@ module Claim
       end
     end
 
-    describe 'assessment' do
+    describe '#assessment' do
       subject { claim.assessment }
 
       context 'when claim built' do

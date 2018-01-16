@@ -1,5 +1,9 @@
 # These values will be used by VCR to make requests and record cassettes. DO NOT change them.
-# If you need to re-record a cassette, start a server in this host/port.
+# If you need to re-record a cassette, start a server in this host/port with RAILS_ENV set to test.
 #
+# example:
+# ```bash
+# RAILS_ENV=test rails s -p 3001 -P /tmp/rails3001.pid
+# ```
 remote_api_key: 'not-provided'
 remote_api_url: 'http://localhost:3001/api'

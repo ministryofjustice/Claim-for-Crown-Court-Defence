@@ -91,7 +91,7 @@ module Claims
       end
 
       context 'errors' do
-        it 'errors if no and and no values submitted' do
+        it 'errors if no state and and no values submitted' do
           params = {'assessment_attributes'=>{'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3'}, 'state'=>''}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
@@ -140,7 +140,7 @@ module Claims
           params = {'state' => 'rejected', 'state_reason' => [''], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
-          expect(updater.claim.errors[:determinations]).to eq(['requires a reason when rejecting'])
+          expect(updater.claim.errors[:rejected_reason]).to eq(['requires a reason when rejecting'])
           expect(updater.claim.state).to eq 'allocated'
           expect(updater.claim.assessment.fees.to_f).to eq 0.0
           expect(updater.claim.assessment.expenses).to eq 0.0
@@ -162,7 +162,7 @@ module Claims
           params = {'state' => 'refused', 'state_reason' => [''], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
-          expect(updater.claim.errors[:determinations]).to eq(['requires a reason when refusing'])
+          expect(updater.claim.errors[:refused_reason]).to eq(['requires a reason when refusing'])
           expect(updater.claim.state).to eq 'allocated'
           expect(updater.claim.assessment.fees.to_f).to eq 0.0
           expect(updater.claim.assessment.expenses).to eq 0.0
@@ -253,11 +253,11 @@ module Claims
         end
 
         context 'if no state_reason are supplied' do
-          it_behaves_like 'a failing assessment', 'rejected', ['requires a reason when rejecting'], 'redeterminations', [''], '', 0
+          it_behaves_like 'a failing assessment', 'rejected', ['requires a reason when rejecting'], 'redeterminations', [''], '', 0, :rejected_reason
         end
 
         context 'if state_reason is other, but no text is supplied' do
-          it_behaves_like 'a failing assessment', 'rejected', ['requires details when rejecting with other'], 'assessment', ['other'], 0, 0, :rejected_reason_other
+          it_behaves_like 'a failing assessment', 'rejected', ['requires details when rejecting with other'], 'redeterminations', ['other'], 0, 0, :rejected_reason_other
         end
       end
     end

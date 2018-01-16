@@ -72,14 +72,11 @@ module Claims
         end
 
         context 'rejections' do
-          let(:params) { {'state' => 'rejected', 'state_reason' => ['no_indictment'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
           it_behaves_like 'a successful non-authorised claim with a single reason', 'rejected'
           it_behaves_like 'a successful non-authorised claim with other as reason', 'rejected'
         end
 
         context 'refusals' do
-          let(:params) { {'state' => 'refused', 'state_reason' => ['no_indictment'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
-
           it_behaves_like 'a successful non-authorised claim with a single reason', 'refused'
           it_behaves_like 'a successful non-authorised claim with other as reason', 'refused', ['other_refuse']
         end
@@ -94,6 +91,14 @@ module Claims
       end
 
       context 'errors' do
+        it 'errors if no and and no values submitted' do
+          params = {'assessment_attributes'=>{'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3'}, 'state'=>''}
+          updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
+          expect(updater.result).to eq :error
+          expect(updater.claim.assessment).to be_zero
+          expect(updater.claim.errors[:determinations]).to eq(['You should select a status'])
+        end
+
         it 'errors if part auth selected and no values' do
           params = {'assessment_attributes'=>{'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3'}, 'state'=>'part_authorised'}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!

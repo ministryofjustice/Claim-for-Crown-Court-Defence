@@ -41,6 +41,8 @@ module Claims
     def validate_params
       if @assessment_params_present || @redetermination_params_present
         validate_state_when_value_params_present
+      elsif @state.blank?
+        add_error 'You should select a status'
       else
         validate_state_when_no_value_params
         validate_reason_presence

@@ -151,7 +151,7 @@ module Claims
           params = {'state' => 'rejected', 'state_reason' => ['other'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
-          expect(updater.claim.errors[:rejected_reason_other]).to eq(['requires details when rejecting with other'])
+          expect(updater.claim.errors[:rejected_reason_other]).to eq(['needs a description'])
           expect(updater.claim.state).to eq 'allocated'
           expect(updater.claim.assessment.fees.to_f).to eq 0.0
           expect(updater.claim.assessment.expenses).to eq 0.0
@@ -173,7 +173,7 @@ module Claims
           params = {'state' => 'refused', 'state_reason' => ['other'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
-          expect(updater.claim.errors[:refused_reason_other]).to eq(['requires details when refusing with other'])
+          expect(updater.claim.errors[:refused_reason_other]).to eq(['needs a description'])
           expect(updater.claim.state).to eq 'allocated'
           expect(updater.claim.assessment.fees.to_f).to eq 0.0
           expect(updater.claim.assessment.expenses).to eq 0.0
@@ -257,7 +257,7 @@ module Claims
         end
 
         context 'if state_reason is other, but no text is supplied' do
-          it_behaves_like 'a failing assessment', 'rejected', ['requires details when rejecting with other'], 'redeterminations', ['other'], 0, 0, :rejected_reason_other
+          it_behaves_like 'a failing assessment', 'rejected', ['needs a description'], 'redeterminations', ['other'], 0, 0, :rejected_reason_other
         end
       end
     end

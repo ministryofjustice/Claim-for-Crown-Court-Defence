@@ -47,6 +47,7 @@ class Ability
     can %i[show show_message_controls edit change_password update_password update destroy], CaseWorker
     can %i[new create], Allocation
     can :view, :management_information
+    can %i[dismiss], InjectionAttempt
   end
 
   def case_worker(persona)
@@ -56,6 +57,7 @@ class Ability
     end
     can %i[show download], Document
     can_manage_own_password(persona)
+    can %i[dismiss], InjectionAttempt
   end
 
   def persona_type(persona)

@@ -12,11 +12,12 @@ Feature: Case worker viewing and dismissing a data injection error
 
     When I am signed in as the case worker
     And I select the claim
-    Then The injection error summary is visible
-    # And I click the dismiss injection error button
+    Then the injection error summary is visible
+    # When I click the dismiss injection error button
+    # When I click the link 'Do not show this message again'
     # Then the injection error disappears
 
     # When I click your claims
-    # Then the claim I've just updated no longer has an error in the list
+    # Then claim "A200161234" does not have an injection error visible
 
     And I eject the VCR cassette

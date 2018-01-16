@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=b7efa83c-687d-4c26-b8d6-fe1c714ca857&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=e68914c5-51d5-4219-9e14-a2ef8d62ba2c&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -27,19 +27,19 @@ http_interactions:
       Content-Encoding:
       - gzip
       Etag:
-      - W/"94e6cd1167b130f30871792875a40753"
+      - W/"3bbdb7d0da6b75054dfc54edb408c9b5"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 7dc11ba9-fa7e-4893-ba22-48ed67e6104c
+      - b0478a03-771c-4d86-84f3-40ebddc48aec
       X-Runtime:
-      - '0.369166'
+      - '0.388430'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        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
+        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
     http_version: 
-  recorded_at: Mon, 15 Jan 2018 22:19:59 GMT
+  recorded_at: Wed, 17 Jan 2018 10:24:47 GMT
 recorded_with: VCR 3.0.3

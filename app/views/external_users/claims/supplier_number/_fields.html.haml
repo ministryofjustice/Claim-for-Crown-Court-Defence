@@ -3,6 +3,18 @@
     .form-col.form-col-one-half.has-select{class: error_class?(@error_presenter, :supplier_number)}
       = f.anchored_label(t('.lgfs_supplier_number'), 'supplier_number', { label_attributes: {class: 'form-label'} })
       %div.form-hint
-        =supplier_number_hint
-      = f.collection_select :supplier_number, current_user.persona.provider.lgfs_supplier_numbers, :supplier_number, :supplier_number, {prompt: true}, {class: 'form-control'}
+        = supplier_number_hint
+
+      - if current_user.persona.provider.lgfs_supplier_numbers.length >= 6
+        -# Select element
+        = f.collection_select :supplier_number, current_user.persona.provider.lgfs_supplier_numbers, :supplier_number, :supplier_number, {prompt: true}, {class: 'form-control'}
+
+      - else
+        -# Radio element
+        = f.collection_radio_buttons(:supplier_number, current_user.persona.provider.lgfs_supplier_numbers, :supplier_number, :supplier_number) do |b|
+          - if(current_user.persona.provider.lgfs_supplier_numbers.length == 1)
+            - b.label(class: "block-label selected") { b.radio_button(checked: true) + b.text }
+          - else
+            - b.label(class: "block-label") { b.radio_button + b.text }
+
       = validation_error_message(@error_presenter, :supplier_number)

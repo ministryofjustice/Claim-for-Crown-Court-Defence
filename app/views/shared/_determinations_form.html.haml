@@ -50,7 +50,7 @@
             = "Update the claim status"
           = validation_error_message(@error_presenter, :determinations)
           = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last ) do |b|
-            - b.label(class: "block-label") { b.radio_button(checked: params[:claim].present? && b.value.eql?(params[:claim][:state].to_sym)) + b.text }
+            - b.label(class: "block-label") { b.radio_button(checked: params[:claim].present? && params[:claim][:state].present? && b.value.eql?(params[:claim][:state].to_sym)) + b.text }
 
       .js-cw-claim-rejection-reasons{style: 'display:none'}
         %fieldset.form-group.nested-fields.indent-fieldset.spacer

@@ -73,7 +73,7 @@ module Claims
     end
 
     def transition_reason_text_missing?
-      %w[other other_refuse].include?(@transition_reason&.first) && @transition_reason_text.blank?
+      @transition_reason&.any? { |reason| %w[other other_refuse].include?(reason) } && @transition_reason_text.blank?
     end
 
     def nil_or_empty_zero_or_negative?(determination_params)

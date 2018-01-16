@@ -7,8 +7,8 @@ module Claims
       it_behaves_like 'base_test', state, ['no_indictment']
     end
 
-    RSpec.shared_examples 'a successful non-authorised claim with other as reason' do |state|
-      it_behaves_like 'base_test', state, ['other'], 'a reason'
+    RSpec.shared_examples 'a successful non-authorised claim with other as reason' do |state, state_reason=['other']|
+      it_behaves_like 'base_test', state, state_reason, 'a reason'
     end
 
     RSpec.shared_examples 'base_test' do |state, state_reason, reason_text=nil|
@@ -81,7 +81,7 @@ module Claims
           let(:params) { {'state' => 'refused', 'state_reason' => ['no_indictment'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
 
           it_behaves_like 'a successful non-authorised claim with a single reason', 'refused'
-          it_behaves_like 'a successful non-authorised claim with other as reason', 'refused'
+          it_behaves_like 'a successful non-authorised claim with other as reason', 'refused', ['other_refuse']
         end
 
         it 'advances the claim to refused when no values are supplied' do

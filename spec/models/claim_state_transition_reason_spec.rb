@@ -67,7 +67,7 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
     context 'for a Litigator interim claim' do
       let(:claim) { create(:interim_claim, state: 'refused') }
 
-      it { expect(subject.count).to eq 4 }
+      it { expect(subject.count).to eq 5 }
     end
 
     context 'for an advocate claim' do

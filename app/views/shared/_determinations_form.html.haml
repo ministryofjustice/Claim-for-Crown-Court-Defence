@@ -50,26 +50,28 @@
             = "Update the claim status"
           = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last ) do |b|
             - b.label(class: "block-label") { b.radio_button(checked: params[:claim].present? && b.text.downcase.eql?(params[:claim][:state])) + b.text }
-        = validation_error_message(@error_presenter, :determinations)
+          = validation_error_message(@error_presenter, :determinations)
 
       .js-cw-claim-rejection-reasons{style: 'display:none'}
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
           %legend.bold-normal.form-label
             = "Choose reason for rejection"
           = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.reject_reasons_for(@claim), :code, :description) do |b|
-            - b.label(class: "block-label") { b.check_box(checked: b.text.downcase.eql?(params[:claim].present? && params[:claim][:state_reason])) + b.text }
+            - b.label(class: "block-label") { b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value)) + b.text }
           %fieldset.form-group.nested-fields.fieldset.spacer.js-reject-reason-text{style: 'display:none'}
             %div
-              %a#expense_reject_reason_text
+              %a#rejected_reason_other
               = f.label :reason_text, 'Reason text'
               .form-hint.xsmall These reasons will be displayed to providers
               = f.text_field :reason_text, {class: 'form-control', name:'claim[reason_text]', id: 'claim_reject_reason_text'}
+              %div
+                = validation_error_message(@error_presenter, :rejected_reason_other)
       .js-cw-claim-refuse-reasons{style: 'display:none'}
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
           %legend.bold-normal.form-label
             = "Choose reason for refusal"
           = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.refuse_reasons_for(@claim), :code, :description) do |b|
-            - b.label(class: "block-label") { b.check_box + b.text }
+            - b.label(class: "block-label") { b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value)) + b.text }
           %fieldset.form-group.nested-fields.fieldset.spacer.js-refuse-reason-text{style: 'display:none'}
             %div
               %a#expense_refuse_reason_text

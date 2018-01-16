@@ -101,7 +101,52 @@ need to start up the second server.
 
 ## Developing Cucumber tests
 
-A detailed guide can be found [here](https://github.com/ministryofjustice/advocate-defence-payments/tree/plan-cukes-structure/features#cucumber-test-structure) which sets out the directory structure and expectations on future developed cucumber tests.
+Some cucumber feature test use VCR to record/store mock results. This is currently required
+because of internal API calls (calling our own API) for certain endpoints (case worker claims
+in particular). To create a new feature/scenario that relies on such endpoints you will therefore
+need to record a new "cassette", as below.
+
+#### Create new VCR cassette 
+##### (for cucumber features that call the internal API or a microservice)
+
+Run this in a new console:
+
+```bash
+RAILS_ENV=test rails s -p 3001 -P /tmp/rails3001.pid
+```
+
+In your `.feature` file add this step before any calls relying on the internal API - i.e. which will be mocked by the cassette produced:
+
+```ruby
+# default recording mode has been set to `:once` so it will create a new cassette of the given name if there is not one.
+And I insert the VCR cassette 'features/case_workers/claims/injection_error'
+```
+
+...and add this step at the point you want to stop recording and write the output to the cassette file:
+
+```ruby
+# eject the previously inserted cassette (optional if there already is one but needs to be done if a new is being created in order to output the file
+And I eject the VCR cassette
+```
+
+Run the feature:
+```bash
+# note: the 0000.feature is run first to clear the db - not sure if still/always needed
+cucumber features/000.feature features/injection_errors.feature
+```
+
+After you have run it once you must amend the cassette inserting step as below if you added `and record ‘all'` to prevent it creating new cassettes on each run:
+
+```ruby
+And I insert the VCR cassette 'features/case_workers/claims/injection_error'
+```
+
+You are done. To test terminate/prevent the api service that the test relies on from running - in our example Crtl+c on the console running the rails server on port 3001 - and run the
+feature again. It should no longer require the api endpoints.
+
+You should now commit the cassette to the repo to ensure it is not unneccessarily created by upstream test suite runs on the CI solution.
+
+***When you change a feature test such that you need to re-record its cassette you should delete the existing cassette in the `vcr` folder and proceed as if creating a new cassette, above.***
 
 
 ## Javascript Unit Testing

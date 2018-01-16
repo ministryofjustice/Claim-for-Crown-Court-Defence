@@ -1,9 +1,9 @@
 module Remote
   class InjectionAttempt < Base
-    attr_accessor :succeeded, :error_messages
+    attr_accessor :succeeded, :error_messages, :deleted_at
 
-    def failed?
-      !succeeded
+    def active?
+      deleted_at.nil?
     end
   end
 end

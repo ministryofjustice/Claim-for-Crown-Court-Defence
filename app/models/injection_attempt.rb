@@ -8,16 +8,15 @@
 #  created_at     :datetime
 #  updated_at     :datetime
 #  error_messages :json
+#  deleted_at     :datetime
 #
 
 class InjectionAttempt < ActiveRecord::Base
+  include SoftlyDeletable
+
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
 
   validates :claim, presence: true
-
-  def failed?
-    !succeeded
-  end
 
   def real_error_messages
     read_attribute(:error_messages)&.with_indifferent_access

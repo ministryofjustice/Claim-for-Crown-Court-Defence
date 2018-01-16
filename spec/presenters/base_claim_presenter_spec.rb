@@ -360,6 +360,11 @@ RSpec.describe Claim::BaseClaimPresenter do
     subject { presenter.injection_error }
     before { create(:injection_attempt, :with_errors, claim: claim) }
 
+    it 'returns nil for inactive injection errors' do
+      claim.injection_attempts.last.soft_delete
+      is_expected.to be_nil
+    end
+
     it 'returns summary of injection errors' do
       is_expected.to eql '2 Data injection errors'
     end
@@ -372,10 +377,17 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#injection_errors' do
     subject { presenter.injection_errors }
-    before { create(:injection_attempt, :with_errors, claim: claim) }
+    before do
+      create(:injection_attempt, :with_errors, claim: claim)
+    end
 
     it 'calls last error messages attribute of model' do
-      expect(claim).to receive_message_chain(:injection_attempts, :last, :error_messages)
+      injection_attempts = instance_double('injection_attempts')
+      injection_attempt = instance_double('injection_attempt')
+      expect(claim).to receive(:injection_attempts).and_return(injection_attempts)
+      expect(injection_attempts).to receive(:last).and_return(injection_attempt)
+      expect(injection_attempt).to receive(:active?).and_return true
+      expect(injection_attempt).to receive(:error_messages)
       subject
     end
 

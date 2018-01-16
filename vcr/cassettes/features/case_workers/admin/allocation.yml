@@ -2,620 +2,212 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers?api_key=72e21517-c7a4-4f33-97bc-eb4eb664e2b4
+    uri: http://localhost:3001/api/case_workers?api_key=a5b81bcc-82e3-41c8-b807-8b2c6477974f
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
-      - "*/*; q=0.5, application/xml"
+      - "*/*"
       Accept-Encoding:
       - gzip, deflate
       User-Agent:
-      - Ruby
+      - rest-client/2.0.2 (darwin15.6.0 x86_64) ruby/2.4.2p198
+      Host:
+      - localhost:3001
   response:
     status:
       code: 200
-      message: 'OK '
+      message: OK
     headers:
       Content-Type:
       - application/json
-      Content-Length:
-      - '257'
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
       Etag:
-      - W/"b1879365ac0f94cee5870a4f74f20002"
+      - W/"165775bd42afa37023d94d67da46a11f"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 7ed43f78-aaff-41d7-ab74-76a85a4254c4
+      - b1588f36-de97-42d7-99cd-54725fa13aa9
       X-Runtime:
-      - '0.009299'
-      Server:
-      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
-      Date:
-      - Wed, 26 Oct 2016 15:53:39 GMT
-      Connection:
-      - Keep-Alive
+      - '0.176078'
+      Transfer-Encoding:
+      - chunked
     body:
-      encoding: UTF-8
-      string: '[
-                {
-                  "id":1,
-                  "uuid":"dac44b10-7606-4b15-91c7-4696b858e101",
-                  "first_name":"John",
-                  "last_name":"Smith",
-                  "email":"john.smith@laa.gov.uk"
-                },
-                {
-                  "id":2,
-                  "uuid":"ebf60136-15b9-433c-a015-3817de0847a3",
-                  "first_name":"Colten",
-                  "last_name":"Koss",
-                  "email":"colten.koss@laa.gov.uk"
-                }
-              ]'
-    http_version:
-  recorded_at: Wed, 26 Oct 2016 15:53:39 GMT
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAJ4yXVoAA1yOuQ7CMBBE/8V1bNnJxompKKgQHSVCaOODGJxEykGD+HcckDjS7T7N6M3hTrwhK5GQaZoPgiqVmdaKYqoUBQBHleCOmlLkuYLcSpQkIc73w3hqsbGxs+3qNrKAX7Rv/FhHZhv0If6XGGHDDNcBkZ27G5uu5JG89elHry2oVEBGDceCglOalpW2lEuBzkCBnFdL/Qb7bunfWdPa/meAmUMsvPDfhOMTAAD//wMAMRa1CwMBAAA=
+    http_version: 
+  recorded_at: Mon, 15 Jan 2018 23:00:46 GMT
 - request:
     method: get
-#    uri: http://localhost:3001/api/case_workers/claims?api_key=72e21517-c7a4-4f33-97bc-eb4eb664e2b4&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated
-    uri: http://localhost:3001/api/case_workers/claims?api_key=b189e0af-c9cf-4763-8756-327269fe5ba6&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated&value_band_id=0
+    uri: http://localhost:3001/api/case_workers/claims?api_key=a5b81bcc-82e3-41c8-b807-8b2c6477974f&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated&value_band_id=0
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
-      - "*/*; q=0.5, application/xml"
+      - "*/*"
       Accept-Encoding:
       - gzip, deflate
       User-Agent:
-      - Ruby
+      - rest-client/2.0.2 (darwin15.6.0 x86_64) ruby/2.4.2p198
+      Host:
+      - localhost:3001
   response:
     status:
       code: 200
-      message: 'OK '
+      message: OK
     headers:
       Content-Type:
       - application/json
-      Content-Length:
-      - '5785'
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
       Etag:
-      - W/"11cee463e0d047c4f01f21c6004ae447"
+      - W/"f763942b6c22e350f1e38d51a2214137"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - c747ef1d-f1f7-48f7-b3ff-afdc860211d8
+      - 4d3f7913-5c73-4c21-ba84-2a288ec124c1
       X-Runtime:
-      - '0.145184'
-      Server:
-      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
-      Date:
-      - Wed, 26 Oct 2016 15:53:40 GMT
-      Connection:
-      - Keep-Alive
+      - '0.318446'
+      Transfer-Encoding:
+      - chunked
     body:
-      encoding: UTF-8
-      string: '{
-                   "items": [
-                       {
-                           "case_number": "T20160001",
-                           "court": { "name": "My Court" },
-                           "case_type": {
-                               "allow_pcmh_fee_type": false,
-                               "fee_type_code": null,
-                               "id": 806,
-                               "is_fixed_fee": false,
-                               "name": "CaseType 1",
-                               "requires_cracked_dates": false,
-                               "requires_maat_reference": true,
-                               "requires_retrial_dates": false,
-                               "requires_trial_dates": false,
-                               "roles": [
-                                   "agfs",
-                                   "lgfs"
-                               ]
-                           },
-                           "defendants": [
-                               {
-                                   "date_of_birth": "1986-10-26T00:00:00Z",
-                                   "first_name": "Vivien",
-                                   "id": 1,
-                                   "last_name": "White",
-                                   "representation_orders": [
-                                       {
-                                           "date": "2015-09-22T00:00:00Z",
-                                           "id": 1,
-                                           "maat_reference": "2333063534",
-                                           "uuid": "4d4fe078-522e-4563-8e3d-2ae5bf8c1c1c"
-                                       },
-                                       {
-                                           "date": "2015-10-12T00:00:00Z",
-                                           "id": 2,
-                                           "maat_reference": "5521848294",
-                                           "uuid": "39a51829-4891-4d95-bfd9-4a48863e9709"
-                                       }
-                                   ],
-                                   "uuid": "ac4e771e-7182-46f6-9153-29a45e88764b"
-                               }
-                           ],
-                           "external_user": {
-                               "email": "dominique@oconnermills.net",
-                               "first_name": "Alessandro",
-                               "id": 1,
-                               "last_name": "Prosacco",
-                               "uuid": "f2fb7dde-bc57-4396-9dd8-a53b66898b7f"
-                           },
-                           "id": 1,
-                           "last_submitted_at": "2016-10-26T15:53:34Z",
-                           "messages_count": 0,
-                           "opened_for_redetermination": false,
-                           "state": "submitted",
-                           "total": 25.0,
-                           "type": "Claim::AdvocateClaim",
-                           "unread_messages_count": 0,
-                           "uuid": "3281e727-df54-4dcb-afe3-6f8d1b0e4c33",
-                           "vat_amount": 5.0,
-                           "written_reasons_outstanding": false
-                       },
-                       {
-                           "case_number": "T20160002",
-                           "court": { "name": "My Court" },
-                           "case_type": {
-                               "allow_pcmh_fee_type": false,
-                               "fee_type_code": null,
-                               "id": 807,
-                               "is_fixed_fee": false,
-                               "name": "CasType 2",
-                               "requires_cracked_dates": false,
-                               "requires_maat_reference": true,
-                               "requires_retrial_dates": false,
-                               "requires_trial_dates": false,
-                               "roles": [
-                                   "agfs",
-                                   "lgfs"
-                               ]
-                           },
-                           "defendants": [
-                               {
-                                   "date_of_birth": "1986-10-26T00:00:00Z",
-                                   "first_name": "Dallas",
-                                   "id": 2,
-                                   "last_name": "Renner",
-                                   "representation_orders": [
-                                       {
-                                           "date": "2015-09-22T00:00:00Z",
-                                           "id": 3,
-                                           "maat_reference": "9100970188",
-                                           "uuid": "7e9dc72f-a8c4-41bf-997e-26d79425bd16"
-                                       },
-                                       {
-                                           "date": "2015-10-12T00:00:00Z",
-                                           "id": 4,
-                                           "maat_reference": "6762255263",
-                                           "uuid": "21583318-bbe8-46cd-ad7b-f9a0ccfd9c9a"
-                                       }
-                                   ],
-                                   "uuid": "8aa772e6-f40b-4a6c-8ea3-bc7483675001"
-                               }
-                           ],
-                           "external_user": {
-                               "email": "misael.bednar@halvorson.org",
-                               "first_name": "Cortez",
-                               "id": 2,
-                               "last_name": "Hudson",
-                               "uuid": "6add1ef9-a3bc-411b-af08-abd64ae52f2d"
-                           },
-                           "id": 2,
-                           "last_submitted_at": "2016-10-26T15:53:35Z",
-                           "messages_count": 0,
-                           "opened_for_redetermination": false,
-                           "state": "submitted",
-                           "total": 25.0,
-                           "type": "Claim::AdvocateClaim",
-                           "unread_messages_count": 0,
-                           "uuid": "1601c4a1-8dd8-47e4-8652-e6e8c552c0c9",
-                           "vat_amount": 5.0,
-                           "written_reasons_outstanding": false
-                       },
-                       {
-                           "case_number": "T20160003",
-                           "court": { "name": "My Court" },
-                           "case_type": {
-                               "allow_pcmh_fee_type": false,
-                               "fee_type_code": null,
-                               "id": 808,
-                               "is_fixed_fee": false,
-                               "name": "CaseType 3",
-                               "requires_cracked_dates": false,
-                               "requires_maat_reference": true,
-                               "requires_retrial_dates": false,
-                               "requires_trial_dates": false,
-                               "roles": [
-                                   "agfs",
-                                   "lgfs"
-                               ]
-                           },
-                           "defendants": [
-                               {
-                                   "date_of_birth": "1986-10-26T00:00:00Z",
-                                   "first_name": "Russell",
-                                   "id": 3,
-                                   "last_name": "Kerluke",
-                                   "representation_orders": [
-                                       {
-                                           "date": "2015-09-22T00:00:00Z",
-                                           "id": 5,
-                                           "maat_reference": "1406172356",
-                                           "uuid": "b6f12fd0-1db1-4d6b-b086-d1084bd6fc15"
-                                       },
-                                       {
-                                           "date": "2015-10-12T00:00:00Z",
-                                           "id": 6,
-                                           "maat_reference": "8951154160",
-                                           "uuid": "4864035e-192f-40ae-b217-313a2541d24f"
-                                       }
-                                   ],
-                                   "uuid": "0136ef49-d422-46c5-84a3-6147f1998a5a"
-                               }
-                           ],
-                           "external_user": {
-                               "email": "fatima@gibson.org",
-                               "first_name": "Karianne",
-                               "id": 3,
-                               "last_name": "Koelpin",
-                               "uuid": "f785c6a0-8d82-4b08-a838-661e889d6619"
-                           },
-                           "id": 3,
-                           "last_submitted_at": "2016-10-26T15:53:36Z",
-                           "messages_count": 0,
-                           "opened_for_redetermination": false,
-                           "state": "submitted",
-                           "total": 25.0,
-                           "type": "Claim::AdvocateClaim",
-                           "unread_messages_count": 0,
-                           "uuid": "87e53f2e-ba57-46a8-84f9-a0aea494c032",
-                           "vat_amount": 5.0,
-                           "written_reasons_outstanding": false
-                       },
-                       {
-                           "case_number": "T20160004",
-                           "court": { "name": "My Court" },
-                           "case_type": {
-                               "allow_pcmh_fee_type": false,
-                               "fee_type_code": null,
-                               "id": 809,
-                               "is_fixed_fee": false,
-                               "name": "CaseType 4",
-                               "requires_cracked_dates": false,
-                               "requires_maat_reference": true,
-                               "requires_retrial_dates": false,
-                               "requires_trial_dates": false,
-                               "roles": [
-                                   "agfs",
-                                   "lgfs"
-                               ]
-                           },
-                           "defendants": [
-                               {
-                                   "date_of_birth": "1986-10-26T00:00:00Z",
-                                   "first_name": "Tevin",
-                                   "id": 4,
-                                   "last_name": "Braun",
-                                   "representation_orders": [
-                                       {
-                                           "date": "2015-09-22T00:00:00Z",
-                                           "id": 7,
-                                           "maat_reference": "2300181642",
-                                           "uuid": "1830aa53-0599-471f-8bd9-b6da69e475a9"
-                                       },
-                                       {
-                                           "date": "2015-10-12T00:00:00Z",
-                                           "id": 8,
-                                           "maat_reference": "2262930762",
-                                           "uuid": "7e47d740-096b-4284-a2a9-9ad968966a36"
-                                       }
-                                   ],
-                                   "uuid": "f1557de1-178f-4071-bb77-446dc917fa47"
-                               }
-                           ],
-                           "external_user": {
-                               "email": "emery_dubuque@nicolas.com",
-                               "first_name": "Elliot",
-                               "id": 4,
-                               "last_name": "Kulas",
-                               "uuid": "674a9005-4c7f-41f9-83ba-b64f6bf3b936"
-                           },
-                           "id": 4,
-                           "last_submitted_at": "2016-10-26T15:53:37Z",
-                           "messages_count": 0,
-                           "opened_for_redetermination": false,
-                           "state": "submitted",
-                           "total": 25.0,
-                           "type": "Claim::AdvocateClaim",
-                           "unread_messages_count": 0,
-                           "uuid": "47effbc4-90a2-403d-bfb3-15875e80a82c",
-                           "vat_amount": 5.0,
-                           "written_reasons_outstanding": false
-                       },
-                       {
-                           "case_number": "T20160005",
-                           "court": { "name": "My Court" },
-                           "case_type": {
-                               "allow_pcmh_fee_type": false,
-                               "fee_type_code": null,
-                               "id": 810,
-                               "is_fixed_fee": false,
-                               "name": "CaseType 5",
-                               "requires_cracked_dates": false,
-                               "requires_maat_reference": true,
-                               "requires_retrial_dates": false,
-                               "requires_trial_dates": false,
-                               "roles": [
-                                   "agfs",
-                                   "lgfs"
-                               ]
-                           },
-                           "defendants": [
-                               {
-                                   "date_of_birth": "1986-10-26T00:00:00Z",
-                                   "first_name": "Hope",
-                                   "id": 5,
-                                   "last_name": "Pacocha",
-                                   "representation_orders": [
-                                       {
-                                           "date": "2015-09-22T00:00:00Z",
-                                           "id": 9,
-                                           "maat_reference": "4426734189",
-                                           "uuid": "c1b09046-9522-4c6b-ba5a-9f0852af16b0"
-                                       },
-                                       {
-                                           "date": "2015-10-12T00:00:00Z",
-                                           "id": 10,
-                                           "maat_reference": "4545463238",
-                                           "uuid": "62561012-3355-4682-adb2-a53dfe1fd98f"
-                                       }
-                                   ],
-                                   "uuid": "ba99ff64-6ef5-463e-a36b-3112bd7a231c"
-                               }
-                           ],
-                           "external_user": {
-                               "email": "ivory.dach@gulgowski.info",
-                               "first_name": "Danial",
-                               "id": 5,
-                               "last_name": "Ziemann",
-                               "uuid": "5feeca31-ed73-47cc-9a3d-8dc8ecc702b8"
-                           },
-                           "id": 5,
-                           "last_submitted_at": "2016-10-26T15:53:38Z",
-                           "messages_count": 0,
-                           "opened_for_redetermination": false,
-                           "state": "submitted",
-                           "total": 25.0,
-                           "type": "Claim::AdvocateClaim",
-                           "unread_messages_count": 0,
-                           "uuid": "7872239f-85e9-4feb-ae65-e6a48f9f4073",
-                           "vat_amount": 5.0,
-                           "written_reasons_outstanding": false
-                       }
-                   ],
-                   "pagination": {
-                       "current_page": 1,
-                       "limit_value": 25,
-                       "total_count": 5,
-                       "total_pages": 1
-                   }
-               }'
-    http_version:
-  recorded_at: Wed, 26 Oct 2016 15:53:40 GMT
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version: 
+  recorded_at: Mon, 15 Jan 2018 23:00:47 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers?api_key=72e21517-c7a4-4f33-97bc-eb4eb664e2b4
+    uri: http://localhost:3001/api/case_workers?api_key=a5b81bcc-82e3-41c8-b807-8b2c6477974f
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
-      - "*/*; q=0.5, application/xml"
+      - "*/*"
       Accept-Encoding:
       - gzip, deflate
       User-Agent:
-      - Ruby
+      - rest-client/2.0.2 (darwin15.6.0 x86_64) ruby/2.4.2p198
+      Host:
+      - localhost:3001
   response:
     status:
       code: 200
-      message: 'OK '
+      message: OK
     headers:
       Content-Type:
       - application/json
-      Content-Length:
-      - '257'
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
       Etag:
-      - W/"b1879365ac0f94cee5870a4f74f20002"
+      - W/"d52fc3e85a9e8fc8a007be640a072cd8"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - addd53e4-3643-4970-b452-2977947d2e5e
+      - 471f32a3-af2b-47ce-9a44-61c5fc8a1f75
       X-Runtime:
-      - '0.008335'
-      Server:
-      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
-      Date:
-      - Wed, 26 Oct 2016 15:53:40 GMT
-      Connection:
-      - Keep-Alive
+      - '0.010372'
+      Transfer-Encoding:
+      - chunked
     body:
-      encoding: UTF-8
-      string: '[{"id":1,"uuid":"dac44b10-7606-4b15-91c7-4696b858e101","first_name":"John","last_name":"Smith","email":"john.smith@laa.gov.uk"},{"id":2,"uuid":"ebf60136-15b9-433c-a015-3817de0847a3","first_name":"Colten","last_name":"Koss","email":"colten.koss@laa.gov.uk"}]'
-    http_version:
-  recorded_at: Wed, 26 Oct 2016 15:53:40 GMT
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAJ8yXVoAA1yOuQ7CMBBE/8V1bNnJxompKKgQHSVCaOODGJxEykGD+HcckDjS7T7N6M3hTrwhK5GQaZoPgiqVmdaKYqoUBQBHleCOmlLkuYLcSpQkIc73w3hqsbGxs+3qNrKAX7Rv/FhHZhv0If6XGGHDDNcBkZ27G5uu5JG89elHry2oVEBGDceCglOalpW2lEuBzkCBnFdL/Qb7bunfWdPa/meAmUMsvPDfhOMTAAD//wMAMRa1CwMBAAA=
+    http_version: 
+  recorded_at: Mon, 15 Jan 2018 23:00:47 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=72e21517-c7a4-4f33-97bc-eb4eb664e2b4&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated
+    uri: http://localhost:3001/api/case_workers/claims?api_key=a5b81bcc-82e3-41c8-b807-8b2c6477974f&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated&value_band_id=0
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
-      - "*/*; q=0.5, application/xml"
+      - "*/*"
       Accept-Encoding:
       - gzip, deflate
       User-Agent:
-      - Ruby
+      - rest-client/2.0.2 (darwin15.6.0 x86_64) ruby/2.4.2p198
+      Host:
+      - localhost:3001
   response:
     status:
       code: 200
-      message: 'OK '
+      message: OK
     headers:
       Content-Type:
       - application/json
-      Content-Length:
-      - '5785'
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
       Etag:
-      - W/"11cee463e0d047c4f01f21c6004ae447"
+      - W/"f763942b6c22e350f1e38d51a2214137"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 512e8d65-bb69-4b7c-a3d1-e615e76da50b
+      - 814e1252-5e66-455c-b982-002c6a17d4d6
       X-Runtime:
-      - '0.146734'
-      Server:
-      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
-      Date:
-      - Wed, 26 Oct 2016 15:53:40 GMT
-      Connection:
-      - Keep-Alive
+      - '0.167497'
+      Transfer-Encoding:
+      - chunked
     body:
-      encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":5,"limit_value":25},"items":[{"id":1,"uuid":"3281e727-df54-4dcb-afe3-6f8d1b0e4c33","case_number":"T20160001","state":"submitted","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-26T15:53:34Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"f2fb7dde-bc57-4396-9dd8-a53b66898b7f","first_name":"Alessandro","last_name":"Prosacco","email":"dominique@oconnermills.net"},"defendants":[{"id":1,"uuid":"ac4e771e-7182-46f6-9153-29a45e88764b","first_name":"Vivien","last_name":"White","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":1,"uuid":"4d4fe078-522e-4563-8e3d-2ae5bf8c1c1c","maat_reference":"2333063534","date":"2015-09-22T00:00:00Z"},{"id":2,"uuid":"39a51829-4891-4d95-bfd9-4a48863e9709","maat_reference":"5521848294","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":806,"name":"Case
-        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}},{"id":2,"uuid":"1601c4a1-8dd8-47e4-8652-e6e8c552c0c9","case_number":"T20160002","state":"submitted","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-26T15:53:35Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":2,"uuid":"6add1ef9-a3bc-411b-af08-abd64ae52f2d","first_name":"Cortez","last_name":"Hudson","email":"misael.bednar@halvorson.org"},"defendants":[{"id":2,"uuid":"8aa772e6-f40b-4a6c-8ea3-bc7483675001","first_name":"Dallas","last_name":"Renner","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":3,"uuid":"7e9dc72f-a8c4-41bf-997e-26d79425bd16","maat_reference":"9100970188","date":"2015-09-22T00:00:00Z"},{"id":4,"uuid":"21583318-bbe8-46cd-ad7b-f9a0ccfd9c9a","maat_reference":"6762255263","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":807,"name":"Case
-        Type 2","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}},{"id":3,"uuid":"87e53f2e-ba57-46a8-84f9-a0aea494c032","case_number":"T20160003","state":"submitted","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-26T15:53:36Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":3,"uuid":"f785c6a0-8d82-4b08-a838-661e889d6619","first_name":"Karianne","last_name":"Koelpin","email":"fatima@gibson.org"},"defendants":[{"id":3,"uuid":"0136ef49-d422-46c5-84a3-6147f1998a5a","first_name":"Russell","last_name":"Kerluke","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":5,"uuid":"b6f12fd0-1db1-4d6b-b086-d1084bd6fc15","maat_reference":"1406172356","date":"2015-09-22T00:00:00Z"},{"id":6,"uuid":"4864035e-192f-40ae-b217-313a2541d24f","maat_reference":"8951154160","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":808,"name":"Case
-        Type 3","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}},{"id":4,"uuid":"47effbc4-90a2-403d-bfb3-15875e80a82c","case_number":"T20160004","state":"submitted","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-26T15:53:37Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":4,"uuid":"674a9005-4c7f-41f9-83ba-b64f6bf3b936","first_name":"Elliot","last_name":"Kulas","email":"emery_dubuque@nicolas.com"},"defendants":[{"id":4,"uuid":"f1557de1-178f-4071-bb77-446dc917fa47","first_name":"Tevin","last_name":"Braun","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":7,"uuid":"1830aa53-0599-471f-8bd9-b6da69e475a9","maat_reference":"2300181642","date":"2015-09-22T00:00:00Z"},{"id":8,"uuid":"7e47d740-096b-4284-a2a9-9ad968966a36","maat_reference":"2262930762","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":809,"name":"Case
-        Type 4","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}},{"id":5,"uuid":"7872239f-85e9-4feb-ae65-e6a48f9f4073","case_number":"T20160005","state":"submitted","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-26T15:53:38Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":5,"uuid":"5feeca31-ed73-47cc-9a3d-8dc8ecc702b8","first_name":"Danial","last_name":"Ziemann","email":"ivory.dach@gulgowski.info"},"defendants":[{"id":5,"uuid":"ba99ff64-6ef5-463e-a36b-3112bd7a231c","first_name":"Hope","last_name":"Pacocha","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":9,"uuid":"c1b09046-9522-4c6b-ba5a-9f0852af16b0","maat_reference":"4426734189","date":"2015-09-22T00:00:00Z"},{"id":10,"uuid":"62561012-3355-4682-adb2-a53dfe1fd98f","maat_reference":"4545463238","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":810,"name":"Case
-        Type 5","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
-    http_version:
-  recorded_at: Wed, 26 Oct 2016 15:53:40 GMT
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version: 
+  recorded_at: Mon, 15 Jan 2018 23:00:47 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers?api_key=bcf426f1-05b7-4af4-b604-b42577f8c4f0
+    uri: http://localhost:3001/api/case_workers/claims?api_key=7476bfdd-919d-4674-8eb0-047d7b9ed090&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
-      - "*/*; q=0.5, application/xml"
+      - "*/*"
       Accept-Encoding:
       - gzip, deflate
       User-Agent:
-      - Ruby
+      - rest-client/2.0.2 (darwin15.6.0 x86_64) ruby/2.4.2p198
+      Host:
+      - localhost:3001
   response:
     status:
       code: 200
-      message: 'OK '
+      message: OK
     headers:
       Content-Type:
       - application/json
-      Content-Length:
-      - '132'
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
       Etag:
-      - W/"da599a2bc6364daca3564b63d944ab67"
+      - W/"ed1f404126ee97131744f47cde9c142d"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 1b90152c-4a13-4b77-b030-ccdc4c744a00
+      - 996ba54e-acb4-4e2b-b714-167e4b8926a2
       X-Runtime:
-      - '0.009199'
-      Server:
-      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
-      Date:
-      - Wed, 26 Oct 2016 15:53:41 GMT
-      Connection:
-      - Keep-Alive
+      - '0.098271'
+      Transfer-Encoding:
+      - chunked
     body:
-      encoding: UTF-8
-      string: '[{"id":1,"uuid":"8582c07f-5cfc-4db5-8f1b-4e3876533724","first_name":"Lauren","last_name":"Stark","email":"lauren.stark@laa.gov.uk"}]'
-    http_version:
-  recorded_at: Wed, 26 Oct 2016 15:53:41 GMT
-- request:
-    method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=bcf426f1-05b7-4af4-b604-b42577f8c4f0&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - "*/*; q=0.5, application/xml"
-      Accept-Encoding:
-      - gzip, deflate
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: 'OK '
-    headers:
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '93'
-      Etag:
-      - W/"f993720bcd4e13a7439a92f9e12e0898"
-      Cache-Control:
-      - max-age=0, private, must-revalidate
-      X-Request-Id:
-      - 2de43b28-cc02-450b-a694-101a1396796b
-      X-Runtime:
-      - '0.012890'
-      Server:
-      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
-      Date:
-      - Wed, 26 Oct 2016 15:53:41 GMT
-      Connection:
-      - Keep-Alive
-    body:
-      encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":25},"items":[]}'
-    http_version:
-  recorded_at: Wed, 26 Oct 2016 15:53:41 GMT
-- request:
-    method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=2855111f-5185-41dc-b6c0-a8ab5a8502a8&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - "*/*; q=0.5, application/xml"
-      Accept-Encoding:
-      - gzip, deflate
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: 'OK '
-    headers:
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '1495'
-      Etag:
-      - W/"c73a8901175868861c51abe2ac7e4675"
-      Cache-Control:
-      - max-age=0, private, must-revalidate
-      X-Request-Id:
-      - 62d732d2-09ab-4cb4-8713-6cc128916574
-      X-Runtime:
-      - '0.070788'
-      Server:
-      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
-      Date:
-      - Wed, 26 Oct 2016 15:53:44 GMT
-      Connection:
-      - Keep-Alive
-    body:
-      encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"31e15966-4518-4a49-8a11-8b6b502e05cf","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-26T15:53:43Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"fa69bcf5-1e8d-482b-b75a-b6e9f30fdec7","first_name":"Colt","last_name":"Konopelski","email":"rigoberto@donnelly.org"},"defendants":[{"id":1,"uuid":"9ba460d4-3749-42be-bc8b-723c9bb014a5","first_name":"Wilford","last_name":"Rowe","date_of_birth":"1986-10-26T00:00:00Z","representation_orders":[{"id":1,"uuid":"0c7547ca-aeee-4f3b-bc8a-f10099a20445","maat_reference":"8959104772","date":"2015-09-22T00:00:00Z"},{"id":2,"uuid":"4247cb3a-43b1-4ab5-9f03-be5306120962","maat_reference":"0951258148","date":"2015-10-12T00:00:00Z"}]}],"case_type":{"id":811,"name":"Case
-        Type 6","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"case_workers":[{"id":1,"uuid":"e7445a7c-05af-4619-835e-da1997283709","first_name":"Geo","last_name":"Lang","email":"geo.lang@laa.gov.uk"},{"id":2,"uuid":"16c06742-caac-4e18-aa69-6d749e059630","first_name":"Kiel","last_name":"Johns","email":"kiel.johns@laa.gov.uk"}]}]}'
-    http_version:
-  recorded_at: Wed, 26 Oct 2016 15:53:44 GMT
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAKAyXVoAA+xVyY7cNhD9FYPnZoObJKpPTiY7DOQQIwhiGEJxm5ZboiYUNWPHmH9PUdOzuKdtIMglB59arCJrefXq9UdyBZd9hNxPkew+Eruk5GPu0OrJjm9InjIM63F+crbTEjPZiQ0Z+rHP3TUMS7nPbjekz37Eu28+kt6tT5alfBAebKu90xSsrqkKNlDTKqCtCJZVlQrOGrIhFmbfxWU0PuGj14LxmjHG0TNnyJiEwDBMFj8d2vKHq2K6GKAfd7tv3PXqWY/oHWDO3bwYLBGvd4AlEwyoKeOUV6+F3DG2U+pPcuwLO6q2bEOuIXcw3vW4GqYrHzFAmFKXvPPZp/EBtADD7DfkJpUkEf0wT3HupiVjwdH18fLhjuvnQ+eve+ej9Q/W0c9zwfceVcy3RAzjujMe/x6TRxzBMheATkH2ykDwHGhTVQiylZwa6xQVwnkhG8O0lNht6BMiE2Es4H3nY+zne7iOxt+y3ye0+RF6xIWEBPHQ++1s9/0w+PTSAM4I7B4NaUJM0jb6THD+zgcfHcR8jgRCi9ap1lIjZaBKa6SDxCK9U0waqKta16f1/TrfwOCmkwJ/WOIBTQ7H3U2hM33K+8KyVh/Hi87kr5Kfkc/rqLopYZnnqpKqbqDhgkonGqpcbakOGqlpuFG2FrISBbURkBcJ20t38yOyZbzlQrT8WMkdv2qKoThHMO4SiYdELShmPBM0WC6xfSEpCORjXVvOa+MarptziRTjomZcKvY8kcREb2/fHjfnbiGODbKm2ZAjXhfoffEavS9Ksf3chf59obR/JGLyfy19KnRLYA/oLJnm5+6ceiTgp86ylDfdlR33JeSxjNOHp33ltDx1J38ucpqGcnpD4DKsLC0/2O59GlwOh7HiMgxFfeI7b9dpA67jeLWy8B6cmykdzjMAWlFLa1scR9tSpVSgLWeBOs2rqlWVr+EZL3+Z9vF0a1Bp9k+25h1e2c7F+HIA2F5O19vlQNZhTUvK94Oq2loXU+mD/P7qgpYRHUN+P44+9XZPL9IUYfWsb48QE5umm0hun3ON6UZZZutCauSarFBvGQQqkUeggpR1oz+rt+Kr3n5Bb58stAaD+48Ca7RD5cAvLYOhFWuk0UbYylXPeAMjtv4pcV55iHGKT6hTlGvwH15OhyniAtj91k7jZ/T1sR4FVoCqGBXMahy69VRbaKgoFOONqQ1jp/X85HPu/UlBPy75MN3Mh/6/aax8qEyj8stWOWpdCGXDDO4abhhvqwYcqqI9L32iaRTKs1LVFzVWPSZSTWNM+c/zusK/wJZRzcDTyrSIARgdZHsuka64RuQqWf9LjdVnNFZ81dj/n8a2Dxp78eoPKh419lvIf7/4OdrVdlZd397+IwAAAAD//wMA3jmE2yoLAAA=
+    http_version: 
+  recorded_at: Mon, 15 Jan 2018 23:00:48 GMT
 recorded_with: VCR 3.0.3

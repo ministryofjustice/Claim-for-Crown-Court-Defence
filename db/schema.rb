@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180111161855) do
+ActiveRecord::Schema.define(version: 20180115161809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -360,6 +360,7 @@ ActiveRecord::Schema.define(version: 20180111161855) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.json     "error_messages"
+    t.datetime "deleted_at"
   end
 
   add_index "injection_attempts", ["claim_id"], name: "index_injection_attempts_on_claim_id", using: :btree

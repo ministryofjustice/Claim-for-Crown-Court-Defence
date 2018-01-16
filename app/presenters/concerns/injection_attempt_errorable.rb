@@ -12,7 +12,8 @@ module InjectionAttemptErrorable
     alias_method :injection_error_summary, :injection_error
 
     def injection_errors
-      claim.injection_attempts&.last&.error_messages
+      last_attempt = claim.injection_attempts&.last
+      last_attempt&.error_messages if last_attempt&.active?
     end
 
     def injection_error_header(messages)

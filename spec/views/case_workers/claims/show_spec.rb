@@ -27,7 +27,6 @@ describe 'case_workers/claims/show.html.haml', type: :view do
   end
 
   context 'trial and retrial claims' do
-
     it 'shows trial details' do
       trial_claim
       assign(:claim, @claim)

@@ -10,3 +10,5 @@ Feature: Caseworker can log in while active, but not once inactive
     And The caseworker is marked as deleted
     And I attempt to sign in again as the deleted caseworker
     Then I should get a page telling me my account has been deleted
+
+    And I eject the VCR cassette

@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=b7efa83c-687d-4c26-b8d6-fe1c714ca857&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin15.6.0 x86_64) ruby/2.4.2p198
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Etag:
+      - W/"94e6cd1167b130f30871792875a40753"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 7dc11ba9-fa7e-4893-ba22-48ed67e6104c
+      X-Runtime:
+      - '0.369166'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAA8pXVoAA2xUTY/bOAz9KwOdo8CS5a+cWrSHBbpAF7M9bVEYtEQnbmwpleykg8H896UcJ53J5GSLj+LH46Oe2QG2nYWxc5ZtnpmevEc71mRFthErNroR+vkYXp21m+w4n/tu6Mb6CP0U/ZOXFetGHMj3+zPrzOwyTfGHARgtVV5wCabkSqSaQ0VHjUonAFnT6oatmIaAtZ2GBj1d+igTkQuZKkLCCCPGQH3vNP0aso1Ph2j61EM3bDYfzXFG5iOhPYSxDlNDJZJ7DVQyo4AlTwQX2TcpN6LaZOV/bOmLbWS2TlbsCGMNw7nH2eAOaClA63zt0eCIfriS1kIfcMVOPiaxhENwNtRuGqlgazq7vfqYLuxrPHYGrcardcAQIr8XVinfZCmMqe8g+JuSWxrBFCJBtyRLnRZVVRRc5brhSqLmZQIl16kpq6wRIkegbtvOEzMWhkje41OP3XZ34Wux/jUZ6oOMOEBHzLAd+MHZeoDttnMfwuhd6OyeRrF3a+e3jEZvsEVrwI735t+YtsSiRC5SyLnSSvBS5oqnSVJqlRohhbkt7TMc8aauL1NUiaEp166tm86PO7KKqlymSqDHg8dAMp4nVDtv0N9VZGlUVaQVT9PEcFWanIMAxbXIIBNaYJmVFG4AkoOn1vx5bCyThZRpkVXFUslZVjkXkgtBRJwTyWuiPEtEVmSKK2g0tS6p9VK1vFVJXqg2KaqmuJeoKBKZilzJ6n2ilBL9ePmxLMx5D855S1Ws2MLWJwIfvhH4IChEF+q2+x2FjH/k5/HX1PkoMg96T2BMFN7Do+9Idm/BuIqn+qCHXQy5VHF78bat0U+vYY/3InvXx9N3Bts2RAnED3V7SUMrYSiWnfo+vjn2J+p52EBLOBwWAYZJa6R9Ndew6D3t8GWvYvzr1YcZO/N0Y5PsD9Mn5/f35VSINjWVkryVuuIqy5BXOkk4ZnmRgZEyK/Jbgf9DDPT4dKPxR7eD16t3OHutfbR/6AHWW3dcT/s7UsNMVEZXOW8SQa9Amyje5AlV0lYkuwra1lTvtgxP8GRvF+1fygVv6zBnx3VYoDelRILc5MeLDFWZF9EUx8T+fvzMI7NL7K/e8i/z0zFb53uLepj27mTZC4n7fwAAAP//AwB7pLepnQYAAA==
+    http_version: 
+  recorded_at: Mon, 15 Jan 2018 22:19:59 GMT
+recorded_with: VCR 3.0.3

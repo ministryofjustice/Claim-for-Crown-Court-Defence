@@ -8,6 +8,7 @@
 #  created_at     :datetime
 #  updated_at     :datetime
 #  error_messages :json
+#  deleted_at     :datetime
 #
 
 FactoryBot.define do

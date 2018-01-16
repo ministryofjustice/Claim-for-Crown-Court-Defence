@@ -8,6 +8,7 @@
 #  created_at     :datetime
 #  updated_at     :datetime
 #  error_messages :json
+#  deleted_at     :datetime
 #
 
 require 'rails_helper'
@@ -29,7 +30,10 @@ RSpec.describe InjectionAttempt, type: :model do
     end
   end
 
-  it { is_expected.to respond_to :failed? }
+  it { is_expected.to respond_to :soft_delete }
+  it { is_expected.to respond_to :active? }
+  it { is_expected.to respond_to :softly_deleted? }
+
   it { is_expected.to respond_to :error_messages }
   it { is_expected.to respond_to :real_error_messages }
 

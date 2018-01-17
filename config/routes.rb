@@ -185,18 +185,19 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :injection_attempts, only: [:dismiss] do
+    patch 'dismiss', format: :js, on: :member
+    put 'dismiss', format: :js, on: :member
+  end
 
   get 'statistics', to: 'geckoboard_api/statistics#index'
 
   post '/', to: 'errors#not_endpoint'
+
   # catch-all route
+  # -------------------------------------------------
+  # WARNING: do not put routes below this point
   unless Rails.env.development? || Rails.env.devunicorn?
     match '*path', to: 'errors#not_found', via: :all
-  end
-
-  # match 'injection_attempts/dismiss/:id', to: 'injection_attempts#dismiss', via: [:patch, :put], format: :js
-  resources :injection_attempts, only: [:dismiss] do
-    patch 'dismiss', format: :js, on: :member
-    put 'dismiss', format: :js, on: :member
   end
 end

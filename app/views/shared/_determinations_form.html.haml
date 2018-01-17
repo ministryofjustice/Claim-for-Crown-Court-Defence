@@ -52,9 +52,9 @@
           %fieldset.form-group.nested-fields.fieldset.spacer.js-reject-reason-text{style: 'display:none'}
             %div
               %a#expense_reject_reason_text
-              = f.label :reason_text, 'Reason text'
+              = f.label :reject_reason_text, 'Reason text'
               .form-hint.xsmall These reasons will be displayed to providers
-              = f.text_field :reason_text, {class: 'form-control', name:'claim[reason_text]', id: 'claim_reject_reason_text'}
+              = f.text_field :reject_reason_text, {class: 'form-control'}
       .js-cw-claim-refuse-reasons{style: 'display:none'}
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
           %legend.bold-normal.form-label
@@ -64,9 +64,9 @@
           %fieldset.form-group.nested-fields.fieldset.spacer.js-refuse-reason-text{style: 'display:none'}
             %div
               %a#expense_refuse_reason_text
-              = f.label :reason_text, 'Reason text'
+              = f.label :refuse_reason_text, 'Reason text'
               .form-hint.xsmall These reasons will be displayed to providers
-              = f.text_field :reason_text, {class: 'form-control', name:'claim[reason_text]', id: 'claim_refuse_reason_text'}
+              = f.text_field :refuse_reason_text, {class: 'form-control'}
 
       %p
         = f.submit 'Update', class: 'button', id: 'button'

@@ -60,7 +60,9 @@
             = "Choose reason for rejection"
           = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.reject_reasons_for(@claim), :code, :description) do |b|
             - b.label(class: "block-label") { b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value)) + b.text }
-          %fieldset.form-group.nested-fields.fieldset.spacer.js-reject-reason-text{style: 'display:none'}
+
+
+          %fieldset.form-group.nested-fields.fieldset.spacer.js-reject-reason-text{style: 'display:none', class: error_class?(@error_presenter, :rejected_reason_other)}
             %div
               %a#rejected_reason_other
               = f.label :reason_text, 'Reason text'
@@ -68,6 +70,7 @@
               = f.text_field :reason_text, {class: 'form-control', name:'claim[reason_text]', id: 'claim_reject_reason_text'}
               %div
                 = validation_error_message(@error_presenter, :rejected_reason_other)
+
       .js-cw-claim-refuse-reasons{style: 'display:none'}
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
           %div
@@ -76,7 +79,7 @@
             = "Choose reason for refusal"
           = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.refuse_reasons_for(@claim), :code, :description) do |b|
             - b.label(class: "block-label") { b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value)) + b.text }
-          %fieldset.form-group.nested-fields.fieldset.spacer.js-refuse-reason-text{style: 'display:none'}
+          %fieldset.form-group.nested-fields.fieldset.spacer.js-refuse-reason-text{style: 'display:none', class: error_class?(@error_presenter, :refused_reason_other)}
             %div
               %a#expense_refuse_reason_text
               = f.label :reason_text, 'Reason text'

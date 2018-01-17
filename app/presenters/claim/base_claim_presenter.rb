@@ -19,6 +19,14 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.claim_state_transitions.last.reason_text
   end
 
+  def reject_reason_text
+    claim.claim_state_transitions.last.reason_text
+  end
+
+  def refuse_reason_text
+    claim.claim_state_transitions.last.reason_text
+  end
+
   def claim_state
     if claim.opened_for_redetermination?
       'Redetermination'

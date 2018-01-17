@@ -81,7 +81,7 @@
             - b.label(class: "block-label") { b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value)) + b.text }
           %fieldset.form-group.nested-fields.fieldset.spacer.js-refuse-reason-text{style: 'display:none', class: error_class?(@error_presenter, :refused_reason_other)}
             %div
-              %a#expense_refuse_reason_text
+              %a#refused_reason_other
               = f.label :refuse_reason_text, 'Reason text'
               .form-hint.xsmall These reasons will be displayed to providers
               = f.text_field :refuse_reason_text, {class: 'form-control'}

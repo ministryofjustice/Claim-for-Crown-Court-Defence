@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=e68914c5-51d5-4219-9e14-a2ef8d62ba2c&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=9555a12c-3155-492e-aac5-7819f45429d1&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -27,19 +27,103 @@ http_interactions:
       Content-Encoding:
       - gzip
       Etag:
-      - W/"3bbdb7d0da6b75054dfc54edb408c9b5"
+      - W/"6ddfaa8cd50d8aa33b3649afebb6296f"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - b0478a03-771c-4d86-84f3-40ebddc48aec
+      - e211326e-55ad-488a-a849-8774ae11a891
       X-Runtime:
-      - '0.388430'
+      - '0.053861'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        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
+        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
     http_version: 
-  recorded_at: Wed, 17 Jan 2018 10:24:47 GMT
+  recorded_at: Wed, 17 Jan 2018 21:18:08 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=9555a12c-3155-492e-aac5-7819f45429d1&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin15.6.0 x86_64) ruby/2.4.2p198
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Etag:
+      - W/"cae4b5d0ebc2d8930bc8ef73165ae427"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 6a95e266-c845-4cfa-a7b7-cc022ecfc742
+      X-Runtime:
+      - '0.048600'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAJG9X1oAA2xUTY/bOAz9KwOdR4HlD1nOqcUctuhigQW22MMWhUFLdKLGllLJznR2MP99KceZzmRzskVSfOTjo57ZEXbWwWS9Y9tnpucQ0E0tWZFtxT2b/ATDcoxvztrPblrOgx3t1J5gmFN89nLP7IQjxX59ZtYsIfOcfline4G5LjnKruFlUygOohBcNV1R9kbndd+we6YhYuvmscNAlz7mmZAiL0ryxAkmAmEwDF7TryHb9HRMpocB7LjdfjSnxbMcyTtAnNo4d1QihbdAJTNKqHgmuKi/5GIr1DZT/7C1L7bNq012z04wtTCee1wM/oiOEvQ+tAENThjGV9J6GCLes8eQQBz5IXoXWz9PVLAz1u1eY4yNhxZP1qDT+GodMcbE74VVwpsdpTHtDQ/+JHBHI5hjIuia5KYXvQDTc9Eow0sJBW90V3KRNRJQ5p0xOXXb20DMOBhX8mYqEy+ErebfBn8iCIIcwRI1pJT4Y4YBPxws7t3GekbTNtijM+CmWyM3us9kpjLe1VnOS9U3XJV1xbtO1FL3huYqr6v5/WlAu9tfFfNpNsQqGQ2Nt/V929kw7clBfa7jJGfAY8BI+l1G0/pgMNyqS/RUikbkZZlTXVUpOOgGOFRCl1WFQkigdCOQDgI1GM7zYkUm67KQslRrJWc9SS5yLgqi4wyU/9J8ZjJocskrpTpeFn3GoatyLqUUaDqoUKtbQEoJ1ciyqOU7oDp1muXs5dvLt3VTzguwNliVBH2ZKnnvvpD3TlAOG9ve/kwSxl/CC/hjtiHJK4A+kDMhxf+7p2BJcO+daQkf26Me9ynlWsb1xeu+pjC/dQe8lTn4IZ2+Mtj1MckgfajdCwwtg6Fcbh6G9Nq476iXaQOt33hcdRhnTfM19EZc0mIItL2XjUr5X6/eLb4zT1e2PCEbHPDyfiywF/IffTjcVliRk1KkVlwbKUhhkHNV0J8yZd3UtRK1gGvl/0kgV7J/mEd6aHbx7RZS1Eav9g8DwGbnT5v5cEN9mBUgK+jpxa2Al11HCteF5KA6nZkaKyX0dRGf/ZO+ruIPnP59U8H3FLIZyfgOPpHi5zBd1KiqukqmNCz29+dPPPG7ZvxL74On8QT+4IfBurg4l+urlJgO/tGxF5L6fwAAAP//AwAjj3wSpAYAAA==
+    http_version: 
+  recorded_at: Wed, 17 Jan 2018 21:18:09 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=9555a12c-3155-492e-aac5-7819f45429d1&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin15.6.0 x86_64) ruby/2.4.2p198
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Etag:
+      - W/"bf9333aa56008609f714c067037e8e65"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - b846a7c3-7de6-4965-9107-37eada273ad8
+      X-Runtime:
+      - '0.049485'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAJK9X1oAA3xUTY/bNhD9KwteaxqkPijKpwR7SJCgQIEGPTQIhBE5spmVKIeSvNku9r93KMvOrmr0JHHecN58vOEzO8LeeRhd79numZkpBPRjRVZkO7lhYz9COx+HV2fTT36cz63r3FidoJ2iv3jZMDdiR75fn5mzs8s0xR9Wm0ZiYjKOqi55Vqaag0wl12WdZo01SdGUbMMMDFj5qasx0KX3iZBKJmlGyDDCSCQM2rY39GvJNj4do+m+Bdftdu/taUbmI6EtDGM1TDWlSO4VUMqMAmouJJfFl0TupN4J/Tdb6mK7JN+KDTvBWEF3rnE29Ef0FKDpQxXQ4oihuzatgXbADXsMkcQTDkPvh6qfRkrYW+f3Vx/rhocKT86iN3i1djgMsb+XrhLf5CmMrW4g+JPIPY1gGmKD1k0uG9lIsA2XpbY8U5Dy0tQZl6JUgCqprU2o2sYF6oyHbmneRGnipWGL+UPbn4iCKDtw1BpSyvBjghbfPTg8+K3rGU3bYoPegh9vjdyaRiihBa8LkfBMNyXXWZHzupaFMo2luap1Np+fWnT7wyqZj5OlrpLR0nirvqlqF8YDAVTnMk4CAx4DDqTfeTRVHyyGW3nJhlIxiDzLEsorzyQHUwKHXJosz1FKBRSuA9JBoALDeV4sFarIUqUyvWRy1pPiMuEypXaciZJfmhdWQJkonmtd8yxtBIc6T7hSSqKtIUejbxFpLXWpsrRQb4iKWKlI2Mu3l2/LppwXYCkwz4j6MlVC774Qeicphhuqxv2MEsZfwgv4Y3IhyiuAeSAwMg3/hcfgSHBvwbiEj9XRdIcYckljfXFd1xim13DAW5FD38bTVwb7ZogyiB8q90JDy2Aplp/aNr42/juaedpA69cdFx0Ok6H5WnojLmExBNrey0bF+NerdzN27tPKlkRmiy3+z/tR/ibETgh2ncljHx5uCy9NSEDKaG6skiQ8SLhO6U/brCiLQstCwnoh/iDu1TbcTx29P/vh9XKS19Ys9nctwHbfn7bTww1RokhB5dDQQ5wDz+qahG9SxUHXRtgCcy3NOolP/ZNZZ/E7jv+8yuB7dNl2ZHxDH5vST2G8iFTnRR5NcYbsr08feWz7EvFPcwg9TS3w+75tnR9mcL6+KIyZ0D969kIb8C8AAAD//wMAcQK+j7sGAAA=
+    http_version: 
+  recorded_at: Wed, 17 Jan 2018 21:18:10 GMT
 recorded_with: VCR 3.0.3

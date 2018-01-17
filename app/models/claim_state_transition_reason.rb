@@ -33,7 +33,8 @@ class ClaimStateTransitionReason
     },
     refused_interim_claims: {
       duplicate_claim: 'Duplicate claim',
-      no_effective: 'No effective PCMH/start of trial has taken place',
+      no_effective_pcmh: 'No effective PCMH has taken place',
+      no_effective_trial: 'No effective trial start has taken place',
       short_trial: 'The trial estimate was less than 10 days',
       other_refuse: 'Other'
     },

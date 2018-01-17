@@ -79,7 +79,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def claim_params
     params.require(:claim).permit(
       :state,
-      :reason_text,
+      :refuse_reason_text,
+      :reject_reason_text,
       :additional_information,
       assessment_attributes: %i[
         id

@@ -82,9 +82,9 @@
           %fieldset.form-group.nested-fields.fieldset.spacer.js-refuse-reason-text{style: 'display:none', class: error_class?(@error_presenter, :refused_reason_other)}
             %div
               %a#expense_refuse_reason_text
-              = f.label :reason_text, 'Reason text'
+              = f.label :refuse_reason_text, 'Reason text'
               .form-hint.xsmall These reasons will be displayed to providers
-              = f.text_field :reason_text, {class: 'form-control', name:'claim[reason_text]', id: 'claim_refuse_reason_text'}
+              = f.text_field :refuse_reason_text, {class: 'form-control'}
               %div
                 = validation_error_message(@error_presenter, :refused_reason_other)
 

@@ -7,15 +7,15 @@ module Claims
       it_behaves_like 'base_test', state, ['no_indictment']
     end
 
-    RSpec.shared_examples 'a successful non-authorised claim with other as reason' do |state|
-      it_behaves_like 'base_test', state, ['other'], 'a reason'
+    RSpec.shared_examples 'a successful non-authorised claim with other as reason' do |state, state_reason=['other']|
+      it_behaves_like 'base_test', state, state_reason, 'a reason'
     end
 
     RSpec.shared_examples 'base_test' do |state, state_reason, reason_text=nil|
       subject(:updater) { CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)).update! }
       let(:claim) { create :allocated_claim }
       let(:current_user) { double(User, id: 12345) }
-      let(:params) { {'state' => state, 'state_reason' => state_reason, 'reason_text' => reason_text, 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
+      let(:params) { {'state' => state, 'state_reason' => state_reason, "#{state.eql?('rejected') ? 'reject' : 'refuse'}_reason_text" => reason_text, 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
 
       it 'updates the state to `other` and returns OK' do
         expect(updater.result).to eq :ok
@@ -78,7 +78,7 @@ module Claims
 
         context 'refusals' do
           it_behaves_like 'a successful non-authorised claim with a single reason', 'refused'
-          it_behaves_like 'a successful non-authorised claim with other as reason', 'refused'
+          it_behaves_like 'a successful non-authorised claim with other as reason', 'refused', ['other_refuse']
         end
 
         it 'advances the claim to refused when no values are supplied' do

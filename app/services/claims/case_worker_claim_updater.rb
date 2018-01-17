@@ -23,8 +23,16 @@ module Claims
     def extract_transition_params
       @state = @params.delete('state')
       @transition_reason = @params.delete('state_reason')&.reject(&:empty?)
-      @transition_reason_text = @params.delete('reason_text')
+      @transition_reason_text = extract_reason_text
       @current_user = @params.delete(:current_user)
+    end
+
+    def extract_reason_text
+      reasons = {
+        rejected: @params.delete('reject_reason_text'),
+        refused: @params.delete('refuse_reason_text')
+      }
+      reasons[@state.to_sym]
     end
 
     def extract_assessment_params

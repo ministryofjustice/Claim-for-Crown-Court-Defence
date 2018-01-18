@@ -37,12 +37,13 @@
     // CASE WORKER ACTIONS
     - if current_user_is_caseworker?
       .js-cw-claim-action
-        %fieldset.form-group.inline.spacer
+        %fieldset.form-group.inline.spacer{class: error_class?(@error_presenter, :determinations)}
           %legend.bold-normal.form-label
             = "Update the claim status"
-          = validation_error_message(@error_presenter, :determinations)
           = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last ) do |b|
-            - b.label(class: "block-label") { b.radio_button(checked: params[:claim].present? && b.value.eql?(params[:claim][:state].to_sym)) + b.text }
+            - b.label(class: "block-label") { b.radio_button(checked: params[:claim].present? && b.value.eql?(params[:claim][:state]&.to_sym)) + b.text }
+          %div
+            = validation_error_message(@error_presenter, :determinations)
 
       .js-cw-claim-rejection-reasons{style: 'display:none', class: error_class?(@error_presenter, :rejected_reason)}
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
@@ -56,9 +57,9 @@
           %fieldset.form-group.nested-fields.fieldset.spacer.js-reject-reason-text{style: 'display:none', class: error_class?(@error_presenter, :rejected_reason_other)}
             %div
               %a#rejected_reason_other
-              = f.label :reason_text, 'Reason text'
+              = f.label :reject_reason_text, 'Reason text'
               .form-hint.xsmall These reasons will be displayed to providers
-              = f.text_field :reason_text, {class: 'form-control', name:'claim[reason_text]', id: 'claim_reject_reason_text'}
+              = f.text_field :reject_reason_text, {class: 'form-control'}
               %div
                 = validation_error_message(@error_presenter, :rejected_reason_other)
 

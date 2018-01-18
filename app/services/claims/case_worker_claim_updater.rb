@@ -32,7 +32,7 @@ module Claims
         rejected: @params.delete('reject_reason_text'),
         refused: @params.delete('refuse_reason_text')
       }
-      reasons[@state.to_sym]
+      reasons[@state.to_sym] if @state.present?
     end
 
     def extract_assessment_params

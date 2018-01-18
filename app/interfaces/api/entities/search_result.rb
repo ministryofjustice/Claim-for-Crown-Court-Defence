@@ -18,6 +18,7 @@ module API
       expose :last_submitted_at_display
       expose :defendants
       expose :maat_references
+
       expose :filter do
         expose :disk_evidence
         expose :redetermination
@@ -31,9 +32,19 @@ module API
         expose :warrants
         expose :interim_disbursements
         expose :risk_based_bills
+        expose :injection_errors
       end
 
       private
+
+      def injection_error
+        I18n.t(:error, scope: %i[shared injection_errors]) if object.injection_attempts&.last&.active?
+      end
+
+      def injection_errors
+        puts 'INJECTION ERROR' if object&.injection_attempts&.last&.active?
+        object&.injection_attempts&.last&.active?.to_i
+      end
 
       def state_display
         object.state.humanize

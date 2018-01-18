@@ -872,8 +872,9 @@ en:
       error: 'error'
       form_error_hint: 'Check below for more detail'
     injection_errors:
-      form_error_hint: 'Check below for more detail'
-      error: Data injection error
+      form_error_hint: data injection error
+      error: Claim not injected
+      dismiss: Dismiss this message
 
     message_controls:
       update_claim_status: Update your claim status

@@ -366,13 +366,13 @@ RSpec.describe Claim::BaseClaimPresenter do
       is_expected.to be_nil
     end
 
-    it 'returns summary of injection errors' do
-      is_expected.to eql '2 Data injection errors'
+    it 'returns single header message for active injection errors' do
+      is_expected.to eql 'Claim not injected'
     end
 
-    it 'yields a block passing the message as an argument' do
+    it 'yields a block passing the header message as an argument' do
       expect { |b| presenter.injection_error(&b) }.to yield_control.exactly(1).times
-      expect { |b| presenter.injection_error(&b) }.to yield_with_args('2 Data injection errors')
+      expect { |b| presenter.injection_error(&b) }.to yield_with_args('Claim not injected')
     end
   end
 

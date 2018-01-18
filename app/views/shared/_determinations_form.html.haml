@@ -37,10 +37,6 @@
     // CASE WORKER ACTIONS
     - if current_user_is_caseworker?
       .js-cw-claim-action
-        -if params[:claim].present? && params[:claim][:state].eql?('rejected')
-          ='hi, developer here'
-          =" the param for state is currently set to: #{params[:claim][:state]}"
-          =' is it pre-ticked? I bet it isn`t!'
         %fieldset.form-group.inline.spacer
           %legend.bold-normal.form-label
             = "Update the claim status"

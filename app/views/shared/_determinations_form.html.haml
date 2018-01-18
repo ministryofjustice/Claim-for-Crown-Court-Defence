@@ -52,10 +52,11 @@
           = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last ) do |b|
             - b.label(class: "block-label") { b.radio_button(checked: params[:claim].present? && b.value.eql?(params[:claim][:state].to_sym)) + b.text }
 
-      .js-cw-claim-rejection-reasons{style: 'display:none'}
+      .js-cw-claim-rejection-reasons{style: 'display:none', class: error_class?(@error_presenter, :rejected_reason)}
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
           %div
             = validation_error_message(@error_presenter, :rejected_reason)
+          %a#rejected_reason
           %legend.bold-normal.form-label
             = "Choose reason for rejection"
           = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.reject_reasons_for(@claim), :code, :description) do |b|
@@ -69,10 +70,11 @@
               %div
                 = validation_error_message(@error_presenter, :rejected_reason_other)
 
-      .js-cw-claim-refuse-reasons{style: 'display:none'}
+      .js-cw-claim-refuse-reasons{style: 'display:none', class: error_class?(@error_presenter, :refused_reason)}
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
           %div
             = validation_error_message(@error_presenter, :refused_reason)
+          %a#refused_reason
           %legend.bold-normal.form-label
             = "Choose reason for refusal"
           = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.refuse_reasons_for(@claim), :code, :description) do |b|

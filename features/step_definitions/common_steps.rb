@@ -113,6 +113,7 @@ And(/^I should see in the sidebar total '(.*?)'$/) do |total|
   end
 end
 
+
 And(/^I should see in the sidebar vat total '(.*?)'$/) do |total|
   within('div.totals-summary') do
     expect(page.find('span.total-vat')).to have_content(total)
@@ -122,7 +123,8 @@ end
 # Record modes can be: all, none, new_episodes or once. Default is 'none'.
 # When creating new tests that calls new endpoints, you will need to record the cassette.
 # NOTE: see the README section 'Recording new VCR cassettes' for assistance
-# NOTE: Never commit code with VCR in record mode.
+# NOTE: Never commit code that would result in VCR attempting to record a cassette
+#       i.e. either cassette must exist, or you explicitly call "and record 'none'"
 #
 And(/^I insert the VCR cassette '(.*?)'(?: and record '(.*?)')?$/) do |name, record|
   # Caching.clear if record

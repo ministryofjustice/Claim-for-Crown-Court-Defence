@@ -47,10 +47,6 @@ Then(/^the status at top of page should be (.*)$/) do |text|
   expect(@case_worker_claim_show_page.status.text).to eq(text)
 end
 
-When(/^I click your claims$/) do
-  @case_worker_claim_show_page.nav.your_claims.click
-end
-
 Then(/^the claim I've just updated is no longer in the list$/) do
   expect(@case_worker_home_page).not_to have_content(@claim.case_number)
 end

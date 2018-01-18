@@ -7,6 +7,7 @@ class UserHomePage < SitePrism::Page
     element :state, "span.state"
     element :claimed, "td.claimed-amount"
     element :view_messages, "td.messages > a"
+    element :error_message, '.error-message'
   end
 
   def claim_for(case_number)
@@ -17,7 +18,6 @@ class UserHomePage < SitePrism::Page
     list_to_array(comma_list).each do |case_number|
       return false unless case_numbers.include?(case_number)
     end
-
     true
   end
 
@@ -27,5 +27,9 @@ class UserHomePage < SitePrism::Page
 
   def list_to_array(comma_separated_list)
     comma_separated_list.split(',').map(&:strip)
+  end
+
+  def error_messages
+    claims.map { |claim | claim.error_message.text }
   end
 end

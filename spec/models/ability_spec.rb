@@ -405,6 +405,10 @@ describe Ability do
         it { should_not be_able_to(action, Allocation.new) }
       end
     end
+
+    context 'can dismiss injection attempt errors' do
+      it { should be_able_to(:dismiss, InjectionAttempt.new) }
+    end
   end
 
   context 'case worker admin' do
@@ -437,6 +441,10 @@ describe Ability do
       [:view].each do |action|
         it { should be_able_to(action, :management_information) }
       end
+    end
+
+    context 'can dismiss injection attempt errors' do
+      it { should be_able_to(:dismiss, InjectionAttempt.new) }
     end
   end
 

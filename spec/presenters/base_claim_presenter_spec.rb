@@ -355,6 +355,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   it { is_expected.to respond_to :injection_error }
   it { is_expected.to respond_to :injection_error_summary }
   it { is_expected.to respond_to :injection_errors }
+  it { is_expected.to respond_to :last_injection_attempt }
 
   describe '#injection_error' do
     subject { presenter.injection_error }
@@ -384,10 +385,10 @@ RSpec.describe Claim::BaseClaimPresenter do
     it 'calls last error messages attribute of model' do
       injection_attempts = instance_double('injection_attempts')
       injection_attempt = instance_double('injection_attempt')
-      expect(claim).to receive(:injection_attempts).and_return(injection_attempts)
-      expect(injection_attempts).to receive(:last).and_return(injection_attempt)
-      expect(injection_attempt).to receive(:active?).and_return true
-      expect(injection_attempt).to receive(:error_messages)
+      expect(claim).to receive(:injection_attempts).at_least(:once).and_return(injection_attempts)
+      expect(injection_attempts).to receive(:last).at_least(:once).and_return(injection_attempt)
+      expect(injection_attempt).to receive(:active?).at_least(:once).and_return true
+      expect(injection_attempt).to receive(:error_messages).at_least(:once)
       subject
     end
 

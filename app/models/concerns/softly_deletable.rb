@@ -13,8 +13,9 @@ module SoftlyDeletable
     def soft_delete
       transaction do
         before_soft_delete if respond_to?(:before_soft_delete)
-        update(deleted_at: Time.zone.now)
+        result = update(deleted_at: Time.zone.now)
         after_soft_delete if respond_to?(:after_soft_delete)
+        result
       end
     end
 

@@ -4,6 +4,10 @@
     #claim-status.js-cw-claim-assessment
       %h3.heading-medium
         = 'Assessment summary'
+      ='*****'
+      =params
+      ='*****'
+
       %table#determinations{data:{apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db), scheme: claim.agfs? ? 'agfs' : 'lgfs' }}
         %thead
           %tr{:style => "vertical-align: top;"}
@@ -37,12 +41,16 @@
     // CASE WORKER ACTIONS
     - if current_user_is_caseworker?
       .js-cw-claim-action
+        -if params[:claim].present? && params[:claim][:state].eql?('rejected')
+          ='hi, developer here'
+          =" the param for state is currently set to: #{params[:claim][:state]}"
+          =' is it pre-ticked? I bet it isn`t!'
         %fieldset.form-group.inline.spacer
           %legend.bold-normal.form-label
             = "Update the claim status"
           = validation_error_message(@error_presenter, :determinations)
           = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last ) do |b|
-            - b.label(class: "block-label") { b.radio_button(checked: params[:claim].present? && params[:claim][:state].present? && b.value.eql?(params[:claim][:state].to_sym)) + b.text }
+            - b.label(class: "block-label") { b.radio_button(checked: params[:claim].present? && b.value.eql?(params[:claim][:state].to_sym)) + b.text }
 
       .js-cw-claim-rejection-reasons{style: 'display:none'}
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
@@ -52,7 +60,7 @@
             = "Choose reason for rejection"
           = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.reject_reasons_for(@claim), :code, :description) do |b|
             - b.label(class: "block-label") { b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value)) + b.text }
-          %fieldset.form-group.nested-fields.fieldset.spacer.js-reject-reason-text{style: 'display:none'}
+          %fieldset.form-group.nested-fields.fieldset.spacer.js-reject-reason-text{style: 'display:none', class: error_class?(@error_presenter, :rejected_reason_other)}
             %div
               %a#rejected_reason_other
               = f.label :reason_text, 'Reason text'
@@ -60,6 +68,7 @@
               = f.text_field :reason_text, {class: 'form-control', name:'claim[reason_text]', id: 'claim_reject_reason_text'}
               %div
                 = validation_error_message(@error_presenter, :rejected_reason_other)
+
       .js-cw-claim-refuse-reasons{style: 'display:none'}
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
           %div
@@ -68,12 +77,12 @@
             = "Choose reason for refusal"
           = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.refuse_reasons_for(@claim), :code, :description) do |b|
             - b.label(class: "block-label") { b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value)) + b.text }
-          %fieldset.form-group.nested-fields.fieldset.spacer.js-refuse-reason-text{style: 'display:none'}
+          %fieldset.form-group.nested-fields.fieldset.spacer.js-refuse-reason-text{style: 'display:none', class: error_class?(@error_presenter, :refused_reason_other)}
             %div
-              %a#expense_refuse_reason_text
-              = f.label :reason_text, 'Reason text'
+              %a#refused_reason_other
+              = f.label :refuse_reason_text, 'Reason text'
               .form-hint.xsmall These reasons will be displayed to providers
-              = f.text_field :reason_text, {class: 'form-control', name:'claim[reason_text]', id: 'claim_refuse_reason_text'}
+              = f.text_field :refuse_reason_text, {class: 'form-control'}
               %div
                 = validation_error_message(@error_presenter, :refused_reason_other)
 

@@ -15,7 +15,7 @@ module Claims
       subject(:updater) { CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)).update! }
       let(:claim) { create :allocated_claim }
       let(:current_user) { double(User, id: 12345) }
-      let(:params) { {'state' => state, 'state_reason' => state_reason, 'reason_text' => reason_text, 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
+      let(:params) { {'state' => state, 'state_reason' => state_reason, "#{state.eql?('rejected') ? 'reject' : 'refuse'}_reason_text" => reason_text, 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
 
       it 'updates the state to `other` and returns OK' do
         expect(updater.result).to eq :ok

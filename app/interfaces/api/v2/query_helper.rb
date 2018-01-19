@@ -35,7 +35,19 @@ module API::V2
             FROM fee_types
             WHERE type IN ('Fee::GraduatedFeeType')
           ) AS graduated_fee_types,
-          c.allocation_type
+          c.allocation_type,
+          (
+            SELECT error_messages
+            FROM
+            (
+              SELECT *
+              FROM injection_attempts last_ia
+              WHERE last_ia.claim_id = c.id
+              ORDER BY last_ia.created_at
+              LIMIT 1
+            ) AS last_injection_attempt
+            WHERE last_injection_attempt.deleted_at is NULL
+          ) AS injection_errors
         FROM claims AS c
           LEFT OUTER JOIN defendants AS d
             ON c.id = d.claim_id

@@ -37,7 +37,7 @@ module API::V2
           ) AS graduated_fee_types,
           c.allocation_type,
           (
-            SELECT 'Claim not injection'
+            SELECT error_messages
             FROM
             (
               SELECT *
@@ -47,7 +47,7 @@ module API::V2
               LIMIT 1
             ) AS last_injection_attempt
             WHERE last_injection_attempt.deleted_at is NULL
-          ) AS injection_error
+          ) AS injection_errors
         FROM claims AS c
           LEFT OUTER JOIN defendants AS d
             ON c.id = d.claim_id

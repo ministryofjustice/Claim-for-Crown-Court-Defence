@@ -9,7 +9,9 @@ describe API::V2::Search do
   include DatabaseHousekeeping
 
   before(:all) do
-    create(:deterministic_claim, :redetermination)
+    create(:deterministic_claim, :redetermination) do |claim|
+      create(:injection_attempt, :with_errors, claim: claim)
+    end
   end
 
   after(:all) { clean_database }
@@ -37,7 +39,7 @@ describe API::V2::Search do
                           last_submitted_at_display
                           defendants
                           maat_references
-                          injection_error
+                          injection_errors
                           filter
                           disk_evidence
                           redetermination
@@ -87,6 +89,11 @@ describe API::V2::Search do
       it 'returns JSON with the required search result keys' do
         search_result_keys = JSON.parse(last_response.body, symbolize_names: true).first.all_keys
         expect(search_result_keys).to eq(search_keys)
+      end
+
+      it 'returns JSON expected values' do
+        search_result = JSON.parse(last_response.body, symbolize_names: true).first
+        expect(search_result[:injection_errors]).to eql 'Claim not injected'
       end
     end
 

@@ -18,7 +18,7 @@ module API
       expose :last_submitted_at_display
       expose :defendants
       expose :maat_references
-      expose :injection_error
+      expose :injection_errors
 
       expose :filter do
         expose :disk_evidence
@@ -38,14 +38,6 @@ module API
 
       private
 
-      def injection_error
-        I18n.t(:error, scope: %i[shared injection_errors]) if object.injection_error.present?
-      end
-
-      def injection_errored
-        object.injection_error.blank? ? 0 : 1
-      end
-
       def state_display
         object.state.humanize
       end
@@ -60,6 +52,11 @@ module API
 
       def last_submitted_at_display
         object.last_submitted_at.strftime('%d/%m/%Y')
+      end
+
+      # for display purposes we only want to use the injection error header
+      def injection_errors
+        I18n.t(:error, scope: %i[shared injection_errors]) if object.injection_errors.present?
       end
 
       def disk_evidence
@@ -108,6 +105,10 @@ module API
 
       def risk_based_bills
         ((risk_based_class_letter && contains_risk_based_fee).eql?(true) && is_submitted?).to_i
+      end
+
+      def injection_errored
+        object.injection_errors.blank? ? 0 : 1
       end
     end
   end

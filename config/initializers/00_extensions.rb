@@ -5,6 +5,10 @@ class Array
   include RemoteExtension
 end
 
+class Hash
+  include HashExtension
+end
+
 class String
   include StringExtension
 end

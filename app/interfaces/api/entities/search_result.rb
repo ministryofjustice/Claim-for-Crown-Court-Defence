@@ -108,7 +108,7 @@ module API
       end
 
       def injection_errored
-        object.injection_errors.blank? ? 0 : 1
+        object.injection_errors.present?.to_i
       end
     end
   end

@@ -91,7 +91,7 @@ describe API::V2::Search do
         expect(search_result_keys).to eq(search_keys)
       end
 
-      it 'returns JSON expected values' do
+      it 'returns JSON with expected injection error message' do
         search_result = JSON.parse(last_response.body, symbolize_names: true).first
         expect(search_result[:injection_errors]).to eql 'Claim not injected'
       end

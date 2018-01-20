@@ -22,7 +22,7 @@ engines:
             - "(call _ expose ___)" # exlude expose methods
   rubocop:
     enabled: true
-    channel: rubocop-0-50
+    channel: rubocop-0-52
     config:
       file: .rubocop.yml
   brakeman:

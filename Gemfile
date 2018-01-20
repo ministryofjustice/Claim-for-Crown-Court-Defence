@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.4.2'
+ruby '2.5.0'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'amoeba',                 '~> 3.1'
 gem 'auto_strip_attributes',  '~> 2'

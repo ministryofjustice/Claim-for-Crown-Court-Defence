@@ -13,7 +13,7 @@ describe 'external_users/claims/show.html.haml', type: :view do
 
   before(:each) do
     initialize_view_helpers(view)
-    sign_in :user, @external_user.user
+    sign_in(@external_user.user, scope: :user)
     allow(view).to receive(:current_user_persona_is?).and_return(false)
     render
   end

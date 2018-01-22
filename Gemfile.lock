@@ -668,7 +668,7 @@ DEPENDENCIES
   config (~> 1.2)
   cucumber-rails
   database_cleaner
-  devise (~> 4)
+  devise (~> 4.4)
   dotenv-rails
   dropzonejs-rails (~> 0.7)
   factory_bot_rails (~> 4.7)

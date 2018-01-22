@@ -22,15 +22,6 @@ RSpec.describe CCR::Fee::FixedFeeAdapter, type: :adapter do
   describe '#bill_subtype' do
     subject { described_class.new.call(claim).bill_subtype }
 
-    FIXED_FEE_SUBTYPES = {
-      FXACV: 'AGFS_APPEAL_CON', # Appeal against conviction
-      FXASE: 'AGFS_APPEAL_SEN', # Appeal against sentence
-      FXCBR: 'AGFS_ORDER_BRCH', # Breach of Crown Court order
-      FXCSE: 'AGFS_COMMITTAL', # Committal for Sentence
-      FXENP: 'AGFS_FEE', # Elected cases not proceeded
-      FXH2S: nil, # Hearing subsequent to sentence??? LGFS only
-    }.freeze
-
     context 'mappings' do
       FIXED_FEE_SUBTYPES.each do |code, bill_subtype|
         context "maps #{code} to #{bill_subtype || 'nil'}" do

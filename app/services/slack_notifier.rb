@@ -62,8 +62,7 @@ class SlackNotifier
   end
 
   def app_name
-    return 'indeterminable system' if @claim.nil?
-    @claim.agfs? ? 'CCR' : 'CCLF'
+    @response['from'] || 'indeterminable system'
   end
 
   def has_no_errors?

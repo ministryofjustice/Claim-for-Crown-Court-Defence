@@ -1,7 +1,7 @@
 class InjectionResponseService
   def initialize(json)
     @response = json.stringify_keys
-    raise ParseError, 'Invalid JSON string' unless @response.keys.sort.eql?(%w[errors messages uuid])
+    raise ParseError, 'Invalid JSON string' unless @response.keys.sort.eql?(%w[errors from messages uuid])
     @claim = Claim::BaseClaim.find_by(uuid: @response['uuid'])
   end
 

@@ -49,6 +49,15 @@ moj.Modules.AllocationDataTable = {
     order: [
       [5, 'asc']
     ],
+    // row callback to add injection errors
+    createdRow: function(row, data, index) {
+      if(data.filter.injection_errored){
+        $(row).addClass('error');
+        $('td', row).eq(0).wrapInner( "<div class='error-message-container'></div>");
+        $('td .error-message-container', row).eq(0).append( "<div class='error-message'>"+ data.injection_errors +"</div>");
+      }
+      return row;
+    },
 
     // processing indicator
     // =>/option/processing
@@ -75,7 +84,7 @@ moj.Modules.AllocationDataTable = {
     initComplete: function(settings, json) {
       // block the row highlight from happening
       // when a link is clicked
-      $('#dtAllocation tbody tr').on('click', 'a', function(e){
+      $('#dtAllocation tbody tr').on('click', 'a', function(e) {
         e.stopImmediatePropagation();
       });
     },
@@ -92,7 +101,7 @@ moj.Modules.AllocationDataTable = {
 
     // Select multiple rows
     select: {
-       style: 'multi'
+      style: 'multi'
     },
 
     // A definition to discribe each column in the table
@@ -109,7 +118,7 @@ moj.Modules.AllocationDataTable = {
       targets: 1,
       data: null,
       render: function(data, type, full) {
-        return data.filter.disk_evidence ? '<a href="/case_workers/claims/'+ data.id +'">' + data.case_number + '</a><br/><span class="disk-evidence">Disk evidence</span>' : '<a href="/case_workers/claims/'+ data.id +'">' + data.case_number + '</a>';
+        return data.filter.disk_evidence ? '<a href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a><br/><span class="disk-evidence">Disk evidence</span>' : '<a href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a>';
       }
 
     }, {

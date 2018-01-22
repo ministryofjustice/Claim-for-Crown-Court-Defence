@@ -60,6 +60,19 @@ describe("Modules.AllocationDataTable.js", function() {
       ]);
     });
 
+    it('...should have a `createdRow` callback defined', function() {
+      expect(options.createdRow).toBeDefined();
+      var row = $('<tr><td></td></tr>');
+      var data = {
+        "injection_errors": "I am an error",
+        "filter": {
+          "injection_errored": 1
+        }
+      }
+      var output = options.createdRow(row, data)
+      expect(output[0].outerHTML).toEqual('<tr class="error"><td><div class="error-message-container"><div class="error-message">I am an error</div></div></td></tr>')
+    });
+
     it('...should have `processing`', function() {
       expect(options.processing).toEqual(true);
     });

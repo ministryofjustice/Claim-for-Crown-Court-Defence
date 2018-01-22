@@ -65,7 +65,7 @@ moj.Modules.AmountAssessedBlock = function(selector) {
     // open and close slider
     // true: open
     // false: close
-    return state ? $(el).slideDown() : $(el).slideUp();
+    return state ? $(el).slideDown(0) : $(el).slideUp(0);
   };
 
   this.bindEvents = function() {

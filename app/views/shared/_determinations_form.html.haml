@@ -1,10 +1,21 @@
 = form_for(claim, url: case_workers_claim_path(claim), as: :claim) do |f|
   = hidden_field_tag :messages, 'true'
   .fx-assesment-hook
-    #claim-status.js-cw-claim-assessment
+    #claim-status
       %h3.heading-medium
         = 'Assessment summary'
-      %table#determinations{data:{apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db), scheme: claim.agfs? ? 'agfs' : 'lgfs' }}
+
+      - if current_user_is_caseworker?
+        .js-cw-claim-action
+          %fieldset.form-group.inline.spacer{class: error_class?(@error_presenter, :determinations)}
+            %legend.bold-normal.form-label
+              = "Update the claim status"
+            = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last ) do |b|
+              - b.label(class: "block-label") { b.radio_button(checked: params[:claim].present? && b.value.eql?(params[:claim][:state]&.to_sym)) + b.text }
+            %div
+              = validation_error_message(@error_presenter, :determinations)
+
+      %table#determinations.js-cw-claim-assessment{data:{apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db), scheme: claim.agfs? ? 'agfs' : 'lgfs' }}
         %thead
           %tr{:style => "vertical-align: top;"}
             %th &nbsp;
@@ -36,15 +47,6 @@
 
     // CASE WORKER ACTIONS
     - if current_user_is_caseworker?
-      .js-cw-claim-action
-        %fieldset.form-group.inline.spacer{class: error_class?(@error_presenter, :determinations)}
-          %legend.bold-normal.form-label
-            = "Update the claim status"
-          = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last ) do |b|
-            - b.label(class: "block-label") { b.radio_button(checked: params[:claim].present? && b.value.eql?(params[:claim][:state]&.to_sym)) + b.text }
-          %div
-            = validation_error_message(@error_presenter, :determinations)
-
       .js-cw-claim-rejection-reasons{style: 'display:none', class: error_class?(@error_presenter, :rejected_reason)}
         %fieldset.form-group.nested-fields.indent-fieldset.spacer
           %div

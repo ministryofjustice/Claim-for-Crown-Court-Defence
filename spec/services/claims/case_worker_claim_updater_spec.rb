@@ -42,7 +42,7 @@ module Claims
       end
     end
 
-    RSpec.shared_examples 'a failing assessment' do |state, expected_error, update_type='redeterminations', state_reason=nil, fees='128.33', expenses='42.40'|
+    RSpec.shared_examples 'a failing assessment' do |state, expected_error, update_type='redeterminations', state_reason=nil, fees='128.33', expenses='42.40', error_field=:determinations|
       subject(:updater) { CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)).update! }
       let(:claim) { create :allocated_claim }
       let(:current_user) { double(User, id: 12345) }
@@ -50,7 +50,7 @@ module Claims
 
       it 'sets the result to error' do
         expect(updater.result).to eq :error
-        expect(updater.claim.errors[:determinations]).to eq(expected_error)
+        expect(updater.claim.errors[error_field]).to eq(expected_error)
         expect(updater.claim.state).to eq 'allocated'
         expect(updater.claim.redeterminations).to be_empty
       end
@@ -72,14 +72,11 @@ module Claims
         end
 
         context 'rejections' do
-          let(:params) { {'state' => 'rejected', 'state_reason' => ['no_indictment'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
           it_behaves_like 'a successful non-authorised claim with a single reason', 'rejected'
           it_behaves_like 'a successful non-authorised claim with other as reason', 'rejected'
         end
 
         context 'refusals' do
-          let(:params) { {'state' => 'refused', 'state_reason' => ['no_indictment'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
-
           it_behaves_like 'a successful non-authorised claim with a single reason', 'refused'
           it_behaves_like 'a successful non-authorised claim with other as reason', 'refused', ['other_refuse']
         end
@@ -94,6 +91,14 @@ module Claims
       end
 
       context 'errors' do
+        it 'errors if no state and and no values submitted' do
+          params = {'assessment_attributes'=>{'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3'}, 'state'=>''}
+          updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
+          expect(updater.result).to eq :error
+          expect(updater.claim.assessment).to be_zero
+          expect(updater.claim.errors[:determinations]).to eq(['You should select a status'])
+        end
+
         it 'errors if part auth selected and no values' do
           params = {'assessment_attributes'=>{'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3'}, 'state'=>'part_authorised'}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
@@ -135,7 +140,7 @@ module Claims
           params = {'state' => 'rejected', 'state_reason' => [''], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
-          expect(updater.claim.errors[:determinations]).to eq(['requires a reason when rejecting'])
+          expect(updater.claim.errors[:rejected_reason]).to eq(['requires a reason when rejecting'])
           expect(updater.claim.state).to eq 'allocated'
           expect(updater.claim.assessment.fees.to_f).to eq 0.0
           expect(updater.claim.assessment.expenses).to eq 0.0
@@ -146,7 +151,7 @@ module Claims
           params = {'state' => 'rejected', 'state_reason' => ['other'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
-          expect(updater.claim.errors[:determinations]).to eq(['requires details when rejecting with other'])
+          expect(updater.claim.errors[:rejected_reason_other]).to eq(['needs a description'])
           expect(updater.claim.state).to eq 'allocated'
           expect(updater.claim.assessment.fees.to_f).to eq 0.0
           expect(updater.claim.assessment.expenses).to eq 0.0
@@ -157,7 +162,7 @@ module Claims
           params = {'state' => 'refused', 'state_reason' => [''], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
-          expect(updater.claim.errors[:determinations]).to eq(['requires a reason when refusing'])
+          expect(updater.claim.errors[:refused_reason]).to eq(['requires a reason when refusing'])
           expect(updater.claim.state).to eq 'allocated'
           expect(updater.claim.assessment.fees.to_f).to eq 0.0
           expect(updater.claim.assessment.expenses).to eq 0.0
@@ -168,7 +173,7 @@ module Claims
           params = {'state' => 'refused', 'state_reason' => ['other'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
-          expect(updater.claim.errors[:determinations]).to eq(['requires details when refusing with other'])
+          expect(updater.claim.errors[:refused_reason_other]).to eq(['needs a description'])
           expect(updater.claim.state).to eq 'allocated'
           expect(updater.claim.assessment.fees.to_f).to eq 0.0
           expect(updater.claim.assessment.expenses).to eq 0.0
@@ -248,11 +253,11 @@ module Claims
         end
 
         context 'if no state_reason are supplied' do
-          it_behaves_like 'a failing assessment', 'rejected', ['requires a reason when rejecting'], 'redeterminations', [''], '', 0
+          it_behaves_like 'a failing assessment', 'rejected', ['requires a reason when rejecting'], 'redeterminations', [''], '', 0, :rejected_reason
         end
 
         context 'if state_reason is other, but no text is supplied' do
-          it_behaves_like 'a failing assessment', 'rejected', ['requires details when rejecting with other'], 'assessment', ['other'], 0, 0
+          it_behaves_like 'a failing assessment', 'rejected', ['needs a description'], 'redeterminations', ['other'], 0, 0, :rejected_reason_other
         end
       end
     end

@@ -534,6 +534,10 @@ label.form-date-spacing {
   input, select, textarea{
     border: 2px solid $error-colour;
   }
+
+  fieldset.indent-fieldset {
+    border-left: 5px solid $error-colour;
+  }
 }
 
 .form-row .cssfix.field_with_errors{

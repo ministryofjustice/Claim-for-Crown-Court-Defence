@@ -32,7 +32,7 @@ module Claims
         rejected: @params.delete('reject_reason_text'),
         refused: @params.delete('refuse_reason_text')
       }
-      reasons[@state.to_sym]
+      reasons[@state.to_sym] if @state.present?
     end
 
     def extract_assessment_params
@@ -49,6 +49,8 @@ module Claims
     def validate_params
       if @assessment_params_present || @redetermination_params_present
         validate_state_when_value_params_present
+      elsif @state.blank?
+        add_error 'You should select a status'
       else
         validate_state_when_no_value_params
         validate_reason_presence
@@ -72,12 +74,16 @@ module Claims
 
     def validate_reason_presence
       return unless %w[rejected refused].include?(@state)
-      add_error "requires a reason when #{state_verb}" if @transition_reason&.empty?
-      add_error "requires details when #{state_verb} with other" if transition_reason_text_missing?
+      add_error("requires a reason when #{state_verb}", state_symbol(false)) if @transition_reason&.empty?
+      add_error('needs a description', state_symbol) if transition_reason_text_missing?
     end
 
     def state_verb
       @state_verb ||= @state.eql?('refused') ? 'refusing' : 'rejecting'
+    end
+
+    def state_symbol(other_suffix = true)
+      @state_noun ||= "#{@state}_reason#{'_other' if other_suffix}".to_sym
     end
 
     def transition_reason_text_missing?
@@ -133,8 +139,8 @@ module Claims
       @claim.redeterminations << Redetermination.new(params_with_defaults)
     end
 
-    def add_error(message)
-      @claim.errors[:determinations] << message
+    def add_error(message, attribute = :determinations)
+      @claim.errors[attribute] << message
       @result = :error
     end
 

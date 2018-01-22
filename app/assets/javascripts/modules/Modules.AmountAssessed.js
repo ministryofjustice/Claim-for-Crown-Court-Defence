@@ -58,13 +58,14 @@ moj.Modules.AmountAssessedBlock = function(selector) {
     this.$otherCheckbox = $(this.config.otherCheckbox);
     this.$otherRefuseCheckbox = $(this.config.otherRefuseCheckbox);
     this.bindEvents();
+    this.setInitState();
   };
 
   this.slider = function(state, el) {
     // open and close slider
     // true: open
     // false: close
-    return state ? $(el).slideDown() : $(el).slideUp();
+    return state ? $(el).slideDown(0) : $(el).slideUp(0);
   };
 
   this.bindEvents = function() {
@@ -113,8 +114,13 @@ moj.Modules.AmountAssessedBlock = function(selector) {
         self.slider(state.refuseReasons, el)
       });
     });
-
   };
+
+  this.setInitState = function(){
+    this.$actions.find('input:checked').trigger('change');
+    this.$reasons.find('input:checked').trigger('change');
+    this.$refuseReasons.find('input:checked').trigger('change');
+  }
 
   this.init();
   return this;

@@ -1,5 +1,7 @@
 moj.Modules.HideErrorOnChange = {
+
   railsErrorClassName: 'field_with_errors',
+
   config: [{
     delegate: '.form-group.field_with_errors',
     wrapperClassName: 'field_with_errors',
@@ -22,22 +24,27 @@ moj.Modules.HideErrorOnChange = {
   init: function() {
     this.bindListeners();
   },
+
   removeNestedErrorWrappers: function($el) {
     var wrappers = $el.find('.' + this.railsErrorClassName);
     if (wrappers.length) {
       wrappers.removeClass(this.railsErrorClassName);
     }
   },
+
   removeClassName: function($el, className) {
     this.removeNestedErrorWrappers($el);
     return $el.removeClass(className);
   },
+
   removeBySelector: function($el, selector) {
     return $el.find(selector).remove();
   },
+
   bindListeners: function() {
     var self = this;
     var context;
+
     this.config.forEach(function(opt) {
 
       context = opt.eventSelector || 'input';
@@ -46,6 +53,8 @@ moj.Modules.HideErrorOnChange = {
         var $el = $(e.delegateTarget);
         self.removeClassName($el, opt.wrapperClassName);
         self.removeBySelector($el, opt.messageSelector);
+
+        return false;
       });
 
       // mainly for FF

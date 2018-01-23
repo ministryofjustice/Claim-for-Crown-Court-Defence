@@ -14,7 +14,9 @@ module API
         params { use :common_injection_params }
 
         get ':uuid' do
-          present claim, with: entity_class
+          present claim, with: API::Entities::CCLF::FinalClaim if claim.final?
+          present claim, with: API::Entities::CCLF::InterimClaim if claim.interim?
+          present claim, with: API::Entities::CCLF::TransferClaim if claim.transfer?
         end
       end
     end

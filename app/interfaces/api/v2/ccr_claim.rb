@@ -14,7 +14,7 @@ module API
         params { use :common_injection_params }
 
         get ':uuid' do
-          present claim, with: entity_class
+          present claim, with: API::Entities::CCR::AdvocateClaim
         end
       end
     end

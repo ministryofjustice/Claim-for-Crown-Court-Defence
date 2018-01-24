@@ -31,31 +31,36 @@ The bucket name will default to `moj_cbo_documents_#{Rails.env}` if
 
 ## Setting up development environment
 
-Install gems
+### Dependencies
+
+* Postgresql
+* Redis
 
 ```
-bundle install
+# for mac osx
+brew bundle
 ```
 
-Put the following environment variables into your `.env.development` and `.env.test` files
+### Setup
+
+Install gems, set environment files and setup database
 
 ```
-SUPERADMIN_USERNAME='superadmin@example.com'
-SUPERADMIN_PASSWORD='whichever'
-ADVOCATE_PASSWORD='whatever'
-CASE_WORKER_PASSWORD='whatever'
-ADMIN_PASSWORD='whatever'
-TEST_CHAMBER_API_KEY='--create your own uuid e.g. SecureRandom.uuid--'
-GRAPE_SWAGGER_ROOT_URL='http://localhost:3001'
+# From the root of the project
+bin/setup
 ```
 
-Setup dummy users and data:
+**NOTE:** You can change the [default values](.env.sample) for the environment variables as necessary in each of the environment files (e.g. `.env.development` and `.env.test`)
+
+### Setup dummy users and data
 
 ```
 rake db:drop db:create db:reload
 ```
 
-Run the application (see note below on architecture for the reason why you need to run two servers).
+### Run the application server
+
+See note below on architecture for the reason why you need to run two servers.
 
 ```
 rails server
@@ -70,11 +75,12 @@ rails server -e devunicorn
 
 ### Download and install pdftk
 
-Note: this is the version to install for OSX Sierra, and above, as of 5 Dec 2017, otherwise check the www.pdflabs.com website
+**Note:** this is the version to install for OSX Sierra, and above, as of 5 Dec 2017, otherwise check the www.pdflabs.com website
+
 ```bash
 curl -o ~/Downloads/pdftk_download.pkg https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg
 ```
-After running the package it will, by default, install to `/usr/local/bin/pdftk`, where the server will look for it. If you install to another location add another key to your `.env` files 
+After running the package it will, by default, install to `/usr/local/bin/pdftk`, where the server will look for it. If you install to another location add another key to your `.env` files
 ```
 PDFTK_PATH='/you/pdftk/location/here'
 ```
@@ -85,15 +91,15 @@ Libreoffice is used to convert files uploaded in CCCD to PDFs for generating per
 
 ```bash
 # for mac osx
-brew update && brew cask install libreoffice
+brew bundle
 ```
 
 ## Architecture
 
-This app was originally written as a single monolithic application, with the ability to import claims 
-via a public API, or JSON uploads (AGFS claims only).  A decision was later taken to split the Caseworker 
-off into a separate application, using the API to communicate to the main app.  This has only partially been 
-done.  The CaseWorker allocation pages use the API to talk to the main application, rather than access the 
+This app was originally written as a single monolithic application, with the ability to import claims
+via a public API, or JSON uploads (AGFS claims only).  A decision was later taken to split the Caseworker
+off into a separate application, using the API to communicate to the main app.  This has only partially been
+done.  The CaseWorker allocation pages use the API to talk to the main application, rather than access the
 database directly.  In the dev environment, it accesses another server running on port 3001, which is why you
 need to start up the second server.
 
@@ -106,7 +112,7 @@ because of internal API calls (calling our own API) for certain endpoints (case 
 in particular). To create a new feature/scenario that relies on such endpoints you will therefore
 need to record a new "cassette", as below.
 
-#### Create new VCR cassette 
+#### Create new VCR cassette
 ##### (for cucumber features that call the internal API or a microservice)
 
 Run this in a new console:
@@ -240,7 +246,7 @@ If true, VAT at the prevailing rate is automatically added to fees and expenses;
 
 The claim's provider has an attribute 'vat_registered' which governs whether or not VAT is applied.  In this case, VAT is automatically applied to fees.
 
-For both VAT registered and unregistered LGFS providers, a VAT amoutn field is provided for manual input of VAT
+For both VAT registered and unregistered LGFS providers, a VAT amount field is provided for manual input of VAT
 
 ## Contributing
 

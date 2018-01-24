@@ -11,6 +11,8 @@ module API
                 :last_submitted_at,
                 format_with: :utc
 
+        expose :actual_trial_length_or_one, as: :actual_trial_Length, format_with: :string
+
         # TODO: adapted case type to bill_scenario for lgfs
         # expose :case_type, using: API::Entities::CCR::CaseType
 
@@ -26,19 +28,16 @@ module API
 
         private
 
+        def actual_trial_length_or_one
+          object.actual_trial_length.or_one
+        end
+
         def defendants_with_main_first
           object.defendants.order(created_at: :asc)
         end
 
         def bills
-          data = []
-          # TODO
-          # data.push API::Entities::CCLF::AdaptedGraduatedFee.represent(graudated_fees)
-          # data.push API::Entities::CCLF::AdaptedFixedFee.represent(fixed_fees)
-          # data.push API::Entities::CCLF::AdaptedMiscFee.represent(miscellaneous_fees)
-          # data.push API::Entities::CCLF::AdaptedDisbursments.represent(disbursements)
-          # data.push API::Entities::CCLF::AdaptedExpense.represent(object.expenses)
-          data.flatten.as_json
+          raise 'Implement in sub-class'
         end
       end
     end

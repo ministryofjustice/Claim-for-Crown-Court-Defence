@@ -77,7 +77,7 @@ describe API::V2::CCLFClaim do
       expect(last_response.body).to include('Unauthorised')
     end
 
-    context 'when accessed by a ExternalUser' do
+    context 'when accessed by an ExternalUser' do
       before { do_request(api_key: @claim.external_user.user.api_key )}
 
       it 'returns unauthorised' do

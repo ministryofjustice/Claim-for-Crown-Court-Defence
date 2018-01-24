@@ -1,7 +1,7 @@
 module API
   module Entities
     module CCR
-      class AdaptedExpense < API::Entities::CCR::BaseEntity
+      class AdaptedExpense < API::Entities::BaseEntity
         with_options(format_with: :string) do
           expose :bill_type
           expose :bill_subtype

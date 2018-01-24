@@ -30,7 +30,7 @@ gem 'kaminari',               '~> 0.16.2'
 gem 'libreconv',              '~> 0.9.0'
 gem 'logstasher',             '0.6.2'
 gem 'logstuff',               '0.0.2'
-gem 'paperclip',              '~> 5.1.0'
+gem 'paperclip',              '~> 5.2.0'
 gem 'paper_trail',            '4.0.2' # version locked, https://github.com/airblade/paper_trail/issues/738
 gem 'pdf-forms'
 gem 'pg',                     '~> 0.18.2'

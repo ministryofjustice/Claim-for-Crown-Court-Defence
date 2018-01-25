@@ -36,6 +36,10 @@
       "id": "/properties/last_submitted_at",
       "type": ["string","null"]
     },
+    "additional_information": {
+      "id": "/properties/additional_information",
+      "type": ["string","null"]
+    },
     "court": {
       "id": "/properties/court",
       "additionalProperties": false,
@@ -83,6 +87,10 @@
           },
           "bill_scenario": {
             "id": "/properties/bills/properties/bill_scenario",
+            "type": "string"
+          },
+          "quantity": {
+            "id": "/properties/bills/items/properties/quantity",
             "type": "string"
           },
           "amount": {

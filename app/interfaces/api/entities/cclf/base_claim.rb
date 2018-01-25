@@ -23,6 +23,8 @@ module API
         expose :court, using: API::Entities::CCR::Court
         expose :defendants_with_main_first, using: API::Entities::CCR::Defendant, as: :defendants
 
+        expose :additional_information
+
         # CCR fees and expenses to bill mappings
         expose :bills
 

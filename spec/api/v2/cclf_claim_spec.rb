@@ -44,16 +44,15 @@ describe API::V2::CCLFClaim do
 
   before(:all) do
     @case_worker = create(:case_worker, :admin)
-    @claim = create(:litigator_claim, :submitted).tap do |claim|
-      create(:graduated_fee, :trial_fee, claim: claim, quantity: 1)
-    end
+    @claim = create(:litigator_claim, :submitted)
+    # create(:graduated_fee, fee_type: grtrl, claim: @claim, quantity: 9999)
   end
 
   # mock a Trial case type's fee_type_code as factories
   # do NOT create real/mappable fee type codes
-  before do
-    allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'GRTRL'
-  end
+  # before do
+  #   allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'GRTRL'
+  # end
 
   def do_request(claim_uuid: @claim.uuid, api_key: @case_worker.user.api_key)
     get "/api/cclf/claims/#{claim_uuid}", {api_key: api_key}, {format: :json}
@@ -151,6 +150,49 @@ describe API::V2::CCLFClaim do
         expect(response).to have_json_size(0).at_path("bills")
         expect(bills).to be_an Array
         expect(bills).to be_empty
+      end
+
+      context 'final claims' do
+        let(:grtrl){ create(:graduated_fee_type, :grtrl) }
+        let(:fxcbr) { create(:fixed_fee_type, :fxcbr) }
+
+        context 'litigator fee' do
+          context 'when graduated fee exists' do
+            let(:claim) do
+              create(:litigator_claim, :submitted).tap do |claim|
+                create(:graduated_fee, fee_type: grtrl, claim: claim)
+              end
+            end
+
+            before do
+              allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'GRTRL'
+            end
+
+            it { is_valid_cclf_json(response) }
+
+            it 'returns array containing a litigator fee bill' do
+              expect(response).to have_json_size(1).at_path("bills")
+            end
+          end
+
+          context 'when fixed fee exists' do
+            let(:claim) do
+              create(:litigator_claim, :fixed_fee, :submitted).tap do |claim|
+                create(:fixed_fee, :lgfs, fee_type: fxcbr, claim: claim)
+              end
+            end
+
+            before do
+              allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCBR'
+            end
+
+            it { is_valid_cclf_json(response) }
+
+            it 'returns array containing a litigator fee bill' do
+              expect(response).to have_json_size(1).at_path("bills")
+            end
+          end
+        end
       end
     end
   end

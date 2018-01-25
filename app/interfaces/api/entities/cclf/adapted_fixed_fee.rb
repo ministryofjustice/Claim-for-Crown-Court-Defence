@@ -3,7 +3,6 @@ module API
     module CCLF
       class AdaptedFixedFee < AdaptedBaseFee
         expose :bill_scenario
-        expose :amount, format_with: :string
 
         private
 

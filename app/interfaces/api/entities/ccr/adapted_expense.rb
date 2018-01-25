@@ -13,32 +13,14 @@ module API
 
         private
 
+        delegate :bill_type, :bill_subtype, :description, :quantity, :rate, to: :adapter
+
         def adapter
           @adapter ||= ::CCR::ExpensesAdapter.new(object)
         end
 
-        def bill_type
-          adapter.bill_type
-        end
-
-        def bill_subtype
-          adapter.bill_sub_type
-        end
-
         def date_incurred
           object.date
-        end
-
-        def description
-          adapter.description
-        end
-
-        def quantity
-          adapter.quantity
-        end
-
-        def rate
-          adapter.rate
         end
       end
     end

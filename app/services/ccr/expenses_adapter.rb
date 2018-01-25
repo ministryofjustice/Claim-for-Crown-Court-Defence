@@ -102,7 +102,7 @@ module CCR
       'AGFS_EXPENSES'
     end
 
-    def bill_sub_type
+    def bill_subtype
       TRANSLATION_TABLE[expense.expense_type.name][expense.reason_id] || nil
     end
   end

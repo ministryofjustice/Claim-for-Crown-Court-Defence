@@ -12,9 +12,6 @@ module API
 
         expose :case_numbers
 
-        # NOTE: for possible use in comparisons between CCCD and CCR calculation comparision
-        # expose :calculated_fee, as: :calculatedFee
-
         private
 
         def fee_for(fee_type_unique_code)

@@ -66,53 +66,6 @@
             "id": "/properties/bills/items/properties/bill_subtype",
             "type": "string"
           },
-          "calculatedFee": {
-            "id": "/properties/bills/items/properties/calculatedFee",
-            "additionalProperties": false,
-            "properties": {
-              "basicCaseFee": {
-                "id": "/properties/bills/items/properties/calculatedFee/properties/basicCaseFee",
-                "type": "number"
-              },
-              "date": {
-                "id": "/properties/bills/items/properties/calculatedFee/properties/date",
-                "type": "string"
-              },
-              "defendantUplift": {
-                "id": "/properties/bills/items/properties/calculatedFee/properties/defendantUplift",
-                "type": "number"
-              },
-              "exVat": {
-                "id": "/properties/bills/items/properties/calculatedFee/properties/exVat",
-                "type": "number"
-              },
-              "incVat": {
-                "id": "/properties/bills/items/properties/calculatedFee/properties/incVat",
-                "type": "number"
-              },
-              "ppeUplift": {
-                "id": "/properties/bills/items/properties/calculatedFee/properties/ppeUplift",
-                "type": "number"
-              },
-              "trialLengthUplift": {
-                "id": "/properties/bills/items/properties/calculatedFee/properties/trialLengthUplift",
-                "type": "number"
-              },
-              "vat": {
-                "id": "/properties/bills/items/properties/calculatedFee/properties/vat",
-                "type": "number"
-              },
-              "vatIncluded": {
-                "id": "/properties/bills/items/properties/calculatedFee/properties/vatIncluded",
-                "type": "boolean"
-              },
-              "vatRate": {
-                "id": "/properties/bills/items/properties/calculatedFee/properties/vatRate",
-                "type": "number"
-              }
-            },
-            "type": "object"
-          },
           "number_of_cases": {
             "id": "/properties/bills/items/properties/number_of_cases",
             "type": "string"

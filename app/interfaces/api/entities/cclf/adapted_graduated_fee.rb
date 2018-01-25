@@ -9,7 +9,6 @@ module API
         delegate :bill_type, :bill_subtype, :bill_scenario, to: :adapter
 
         def adapter
-
           @adapter ||= ::CCLF::Fee::GraduatedFeeAdapter.new(object)
         end
       end

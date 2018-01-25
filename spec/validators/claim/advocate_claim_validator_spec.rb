@@ -104,7 +104,7 @@ describe Claim::AdvocateClaimValidator do
   end
 
   context 'defendant uplift fees aggregation validation' do
-    include_context 'step-index', 1
+    include_context 'step-index', 2
 
     let(:miaph) { create(:misc_fee_type, :miaph) }
     let(:miahu) { create(:misc_fee_type, :miahu) }
@@ -293,6 +293,7 @@ describe Claim::AdvocateClaimValidator do
           case_concluded_at
           supplier_number
       ],
+      [],
       %i[
         total
         defendant_uplifts

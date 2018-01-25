@@ -24,6 +24,7 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
         case_concluded_at
         supplier_number
       ],
+      [],
       %i[
         total
         defendant_uplifts

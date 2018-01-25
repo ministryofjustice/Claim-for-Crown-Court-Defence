@@ -189,7 +189,7 @@ describe Claim::BaseClaimValidator do
   context 'total' do
     before do
       allow(claim).to receive(:total).and_return(total)
-      claim.form_step = 2
+      claim.form_step = 3
     end
 
     context 'when total is not greater than 0' do

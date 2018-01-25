@@ -58,10 +58,10 @@ module API
 
         def bills
           data = []
-          data.push API::Entities::CCR::AdaptedBasicFee.represent(basic_fees)
-          data.push API::Entities::CCR::AdaptedFixedFee.represent(fixed_fees)
-          data.push API::Entities::CCR::AdaptedMiscFee.represent(miscellaneous_fees)
-          data.push API::Entities::CCR::AdaptedExpense.represent(object.expenses)
+          data.push AdaptedBasicFee.represent(basic_fees)
+          data.push AdaptedFixedFee.represent(fixed_fees)
+          data.push AdaptedMiscFee.represent(miscellaneous_fees)
+          data.push AdaptedExpense.represent(object.expenses)
           data.flatten.as_json
         end
 

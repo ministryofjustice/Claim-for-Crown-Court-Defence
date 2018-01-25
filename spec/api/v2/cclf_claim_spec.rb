@@ -138,5 +138,20 @@ describe API::V2::CCLFClaim do
         end
       end
     end
+
+    context 'bills' do
+      subject(:response) { do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body }
+      subject(:bills) { JSON.parse(response)['bills'] }
+
+      let(:claim) do
+        create(:litigator_claim, :submitted, :without_fees)
+      end
+
+      it 'returns empty array if no bills found' do
+        expect(response).to have_json_size(0).at_path("bills")
+        expect(bills).to be_an Array
+        expect(bills).to be_empty
+      end
+    end
   end
 end

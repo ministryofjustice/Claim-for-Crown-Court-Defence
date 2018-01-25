@@ -85,10 +85,6 @@
             "id": "/properties/bills/properties/bill_scenario",
             "type": "string"
           },
-          "ppe": {
-            "id": "/properties/bills/items/properties/ppe",
-            "type": ["string","null"]
-          },
           "amount": {
             "id": "/properties/bills/items/properties/amount",
             "type": "string"

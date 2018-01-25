@@ -3,13 +3,14 @@ module API
     module CCLF
       class AdaptedFixedFee < AdaptedBaseFee
         expose :bill_scenario
-        expose :ppe, format_with: :string
+        expose :amount, format_with: :string
 
         private
 
-        # TODO: amount from fee??
-        def ppe
-          # object.amount
+        delegate :bill_type, :bill_subtype, :bill_scenario, to: :adapter
+
+        def adapter
+          @adapter ||= ::CCLF::Fee::FixedFeeAdapter.new(object)
         end
       end
     end

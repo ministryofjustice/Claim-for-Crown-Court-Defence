@@ -15,7 +15,7 @@ module CCLF
       #   - there are many other scenarios covering interim and transfer claim varieties
 
       def claimed?
-        maps?
+        maps? && charges?
       end
 
       private
@@ -25,7 +25,11 @@ module CCLF
       end
 
       def bill_key
-        object.case_type.fee_type_code.to_sym
+        object.fee_type.unique_code.to_sym
+      end
+
+      def charges?
+        object.amount.positive?
       end
     end
   end

@@ -10,7 +10,8 @@ module CCLF
         FXENP: zip(%w[LIT_FEE LIT_FEE ST4TS0T1]), # Elected cases not proceeded *
         FXH2S: zip(%w[LIT_FEE LIT_FEE ST1TS0TC]), # Hearing subsequent to sentence
       }.freeze
-      # TODO: "final" claim elected case not proceeded only to ST4TS0T2 to 7 are transfer claims new and orginal
+      # * "final" claim "elected case not proceeded" only
+      # TODO: ST4TS0T2 to 7 are transfer claims "elected case not proceeded" for new and orginal
 
       def claimed?
         maps?
@@ -23,7 +24,7 @@ module CCLF
       end
 
       def bill_key
-        object.case_type.fee_type_code.to_sym
+        object.fee_type.unique_code.to_sym
       end
     end
   end

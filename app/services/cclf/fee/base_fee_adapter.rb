@@ -12,14 +12,10 @@ module CCLF
         Hash[KEYS.zip(bill_types)]
       end
 
-      def initialize
-        @mappings = bill_mappings
-      end
-
-      def call(object)
+      def initialize(object)
         @object = object
+        @mappings = bill_mappings
         @bill_types = OpenStruct.new(mappings[bill_key])
-        self
       end
 
       def maps?

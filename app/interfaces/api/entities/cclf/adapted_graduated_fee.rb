@@ -3,6 +3,8 @@ module API
     module CCLF
       class AdaptedGraduatedFee < AdaptedBaseFee
         expose :bill_scenario
+        expose :quantity, format_with: :string
+        expose :amount, format_with: :string
 
         private
 

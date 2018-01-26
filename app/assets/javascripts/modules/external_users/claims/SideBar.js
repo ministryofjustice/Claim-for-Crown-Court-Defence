@@ -75,7 +75,14 @@ moj.Modules.SideBar = {
 
     $('#claim-form').on('cocoon:after-insert', function(e) {
       self.loadBlocks();
+      self.recalculate();
     });
+
+    $('#claim-form').on('cocoon:after-remove', function(e) {
+      self.loadBlocks();
+      self.recalculate();
+    });
+
   },
 
   sanitzeFeeToFloat: function() {

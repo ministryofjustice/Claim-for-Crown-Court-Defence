@@ -274,7 +274,7 @@ describe("Modules.SideBar.js", function() {
         moj.Modules.SideBar.loadBlocks.calls.reset();
 
         $('#claim-form').trigger('cocoon:after-insert');
-        expect(moj.Modules.SideBar.recalculate).not.toHaveBeenCalled();
+        expect(moj.Modules.SideBar.recalculate).toHaveBeenCalled();
         expect(moj.Modules.SideBar.loadBlocks).toHaveBeenCalled();
       });
     });

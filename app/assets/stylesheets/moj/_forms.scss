@@ -15,7 +15,22 @@ form {
   }
 }
 
+.expense-group {
+  fieldset{
+    legend{
+      width:100%;
+      .fx-remove-link{
+        float: right;
+        font-weight: normal;
+      }
+    }
+  }
+}
 
+.fx-duplicate-expense{
+  display: inline-block;
+  padding: 5px 15px;
+}
 
 .dz-error-message{
   color: $error-colour;

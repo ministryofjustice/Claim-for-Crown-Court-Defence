@@ -8,12 +8,6 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def current_step
-    steps[super - 1]
-  end
-
-  private
-
-  def steps
-    %i[case_details defendants fees]
+    submission_stages[super - 1]
   end
 end

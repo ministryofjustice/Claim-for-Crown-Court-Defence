@@ -85,6 +85,10 @@ module Claim
       set_supplier_number
     end
 
+    def submission_stages
+      %i[case_details defendants fees]
+    end
+
     def eligible_case_types
       CaseType.agfs
     end

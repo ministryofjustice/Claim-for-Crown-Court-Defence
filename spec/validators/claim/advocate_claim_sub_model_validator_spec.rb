@@ -9,9 +9,11 @@ describe Claim::AdvocateClaimSubModelValidator do
   include_examples 'common partial association validations', {
       has_one: [
           [],
+          [],
           [:assessment, :certification]
       ],
       has_many: [
+          [],
           [:defendants],
           [:basic_fees, :misc_fees, :fixed_fees, :expenses, :messages, :redeterminations, :documents]
       ]

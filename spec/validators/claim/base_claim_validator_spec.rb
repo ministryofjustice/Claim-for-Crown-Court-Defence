@@ -36,6 +36,7 @@ describe Claim::BaseClaimValidator do
         before do
           invalid_claim.defendants.first.update_attribute(:first_name, nil)
           invalid_claim.defendants.first.representation_orders.first.update_attribute(:maat_reference, nil)
+          invalid_claim.form_step = 2
         end
 
         it 'validation is performed on claim' do

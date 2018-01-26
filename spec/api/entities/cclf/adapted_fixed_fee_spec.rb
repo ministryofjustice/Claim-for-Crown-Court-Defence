@@ -20,7 +20,7 @@ describe API::Entities::CCLF::AdaptedFixedFee do
     )
   end
 
-  it 'delegates attributes to FixedFeeAdapter' do
+  it 'delegates bill mappings to FixedFeeAdapter' do
     adapter = instance_double(::CCLF::Fee::FixedFeeAdapter)
     expect(::CCLF::Fee::FixedFeeAdapter).to receive(:new).with(fixed_fee).and_return(adapter)
     expect(adapter).to receive(:bill_type)

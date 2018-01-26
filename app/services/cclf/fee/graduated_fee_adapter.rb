@@ -29,7 +29,7 @@ module CCLF
       end
 
       def charges?
-        object.amount.positive?
+        object.amount&.positive?
       end
     end
   end

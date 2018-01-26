@@ -43,7 +43,7 @@ module CCR
         FXCBR: zip(%w[AGFS_FEE AGFS_ORDER_BRCH]), # Breach of Crown Court order
         FXCSE: zip(%w[AGFS_FEE AGFS_COMMITTAL]), # Committal for Sentence
         FXENP: zip(%w[AGFS_FEE AGFS_FEE]), # Elected cases not proceeded
-        FXH2S: zip([nil, nil]), # TODO: Hearing subsequent to sentence - LGFS only
+        FXH2S: zip([nil, nil]), # Hearing subsequent to sentence - LGFS only
       }.freeze
 
       def claimed?

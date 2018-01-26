@@ -14,7 +14,7 @@ module CCLF
       # TODO: ST4TS0T2 to 7 are transfer claims "elected case not proceeded" for new and orginal
 
       def claimed?
-        maps?
+        maps? & charges?
       end
 
       private
@@ -25,6 +25,10 @@ module CCLF
 
       def bill_key
         object.fee_type.unique_code.to_sym
+      end
+
+      def charges?
+        object.amount&.positive?
       end
     end
   end

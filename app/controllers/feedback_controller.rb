@@ -44,7 +44,7 @@ class FeedbackController < ApplicationController
     if current_user
       current_user.email
     else
-      email_from_user_id || 'anonymous'
+      email_from_user_id || params[:feedback][:email] || 'anonymous'
     end
   end
 
@@ -70,7 +70,8 @@ class FeedbackController < ApplicationController
       :event,
       :outcome,
       :case_number,
-      :referrer
+      :referrer,
+      :email
     )
   end
 end

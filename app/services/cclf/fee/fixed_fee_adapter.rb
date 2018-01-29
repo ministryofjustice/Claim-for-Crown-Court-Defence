@@ -1,17 +1,16 @@
 module CCLF
   module Fee
     class FixedFeeAdapter < BaseFeeAdapter
+      # TODO: unneeded as are all the same
       FIXED_FEE_BILL_MAPPINGS = {
-        FXACV: zip(%w[LIT_FEE LIT_FEE ST1TS0T5]), # Appeal against conviction
-        FXASE: zip(%w[LIT_FEE LIT_FEE ST1TS0T6]), # Appeal against sentence
-        FXCBR: zip(%w[LIT_FEE LIT_FEE ST3TS3TB]), # Breach of Crown Court order
-        FXCSE: zip(%w[LIT_FEE LIT_FEE ST1TS0T7]), # Committal for Sentence
-        FXCON: zip(%w[LIT_FEE LIT_FEE ST1TS0T8]), # Contempt
-        FXENP: zip(%w[LIT_FEE LIT_FEE ST4TS0T1]), # Elected cases not proceeded *
-        FXH2S: zip(%w[LIT_FEE LIT_FEE ST1TS0TC]), # Hearing subsequent to sentence
+        FXACV: zip(%w[LIT_FEE LIT_FEE]), # Appeal against conviction
+        FXASE: zip(%w[LIT_FEE LIT_FEE]), # Appeal against sentence
+        FXCBR: zip(%w[LIT_FEE LIT_FEE]), # Breach of Crown Court order
+        FXCSE: zip(%w[LIT_FEE LIT_FEE]), # Committal for Sentence
+        FXCON: zip(%w[LIT_FEE LIT_FEE]), # Contempt
+        FXENP: zip(%w[LIT_FEE LIT_FEE]), # Elected cases not proceeded *
+        FXH2S: zip(%w[LIT_FEE LIT_FEE]), # Hearing subsequent to sentence
       }.freeze
-      # * "final" claim "elected case not proceeded" only
-      # TODO: ST4TS0T2 to 7 are transfer claims "elected case not proceeded" for new and orginal
 
       def claimed?
         maps? & charges?

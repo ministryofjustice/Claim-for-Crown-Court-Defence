@@ -21,12 +21,12 @@ RSpec::Matchers.define :be_valid_cclf_claim_json do
 end
 
 RSpec.shared_examples 'returns LGFS claim type' do |type|
-  subject do
-    last_response.status
-  end
+  subject { last_response.status }
+  let(:case_type_grtrl) { create(:case_type, :grtrl) }
 
   it "returns #{type.to_s.humanize}s" do
     claim = create(type, :submitted)
+    claim.update!(case_type: case_type_grtrl)
     do_request(claim_uuid: claim.uuid)
     is_expected.to eq 200
   end
@@ -44,7 +44,7 @@ describe API::V2::CCLFClaim do
 
   before(:all) do
     @case_worker = create(:case_worker, :admin)
-    @claim = create(:litigator_claim, :submitted)
+    @claim = create(:litigator_claim, :without_fees, :submitted)
   end
 
   def do_request(claim_uuid: @claim.uuid, api_key: @case_worker.user.api_key)
@@ -146,43 +146,72 @@ describe API::V2::CCLFClaim do
       end
 
       context 'final claims' do
-        let(:grtrl){ create(:graduated_fee_type, :grtrl) }
-        let(:fxcbr) { create(:fixed_fee_type, :fxcbr) }
-
         context 'litigator fee' do
           context 'when graduated fee exists' do
+            let(:grtrl){ create(:graduated_fee_type, :grtrl) }
+            let(:case_type_grtrl) { create(:case_type, :grtrl) }
             let(:claim) do
-              create(:litigator_claim, :submitted).tap do |claim|
+              create(:litigator_claim, :without_fees, :submitted).tap do |claim|
+                claim.update!(case_type: case_type_grtrl)
                 create(:graduated_fee, fee_type: grtrl, claim: claim)
               end
             end
 
-            before do
-              allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'GRTRL'
-            end
-
             it { is_valid_cclf_json(response) }
 
             it 'returns array containing a litigator fee bill' do
               expect(response).to have_json_size(1).at_path("bills")
+            end
+
+            it 'returns a litigator fee bill' do
+              expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
+              expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
             end
           end
 
           context 'when fixed fee exists' do
+            let(:fxcbr) { create(:fixed_fee_type, :fxcbr) }
+            let(:case_type_fxcbr) { create(:case_type, :cbr) }
             let(:claim) do
-              create(:litigator_claim, :fixed_fee, :submitted).tap do |claim|
+              create(:litigator_claim, :without_fees, :submitted).tap do |claim|
+                claim.update!(case_type: case_type_fxcbr)
                 create(:fixed_fee, :lgfs, fee_type: fxcbr, claim: claim)
               end
             end
 
+            it { is_valid_cclf_json(response) }
+
+            it 'returns array containing the bill' do
+              expect(response).to have_json_size(1).at_path("bills")
+            end
+
+            it 'returns a litigator fee bill' do
+              expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
+              expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
+            end
+          end
+
+          context 'when miscellaneous fees exists' do
+            let(:mispf) { create(:misc_fee_type, :lgfs, :mispf) }
+            let(:claim) do
+              create(:litigator_claim, :submitted, :without_fees).tap do |claim|
+                create(:misc_fee, :lgfs, fee_type: mispf, claim: claim)
+              end
+            end
+
             before do
-              allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCBR'
+              allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
             end
 
             it { is_valid_cclf_json(response) }
 
-            it 'returns array containing a litigator fee bill' do
+            it 'returns array containing fee bill' do
               expect(response).to have_json_size(1).at_path("bills")
+            end
+
+            it 'returns array containing a special prep fee bill' do
+              expect(response).to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path("bills/0/bill_type")
+              expect(response).to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/0/bill_subtype")
             end
           end
         end

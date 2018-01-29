@@ -1,11 +1,13 @@
 require 'rails_helper'
 require 'spec_helper'
 
-describe API::Entities::CCLF::AdaptedFixedFee do
+RSpec.describe API::Entities::CCLF::AdaptedFixedFee, type: :adapter do
   subject(:response) { JSON.parse(described_class.represent(fixed_fee).to_json, symbolize_names: true) }
 
-  let(:fxcbr) { create(:fixed_fee_type, :fxcbr) }
-  let(:fixed_fee) { instance_double('fixed_fee', claim: nil, fee_type: fxcbr, quantity: 0, amount: 225.50) }
+  let(:fee_type) { instance_double('fee_type', unique_code: 'FXCBR') }
+  let(:case_type) { instance_double('case_type', fee_type_code: 'FXCBR') }
+  let(:claim) { instance_double('claim', case_type: case_type) }
+  let(:fixed_fee) { instance_double('fixed_fee', claim: claim, fee_type: fee_type, quantity: 0, amount: 225.50) }
 
   it 'exposes the required keys' do
     expect(response.keys).to match_array(%i[bill_type bill_subtype bill_scenario amount])

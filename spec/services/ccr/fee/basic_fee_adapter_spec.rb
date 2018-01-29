@@ -26,7 +26,7 @@ module CCR
       describe '#bill_subtype' do
         subject { described_class.new.call(claim).bill_subtype }
 
-        SUBTYPE_MAPPINGS = {
+        BASIC_FEE_SUBTYPES = {
           GRRAK: 'AGFS_FEE', # Cracked Trial
           GRCBR: 'AGFS_FEE', # Cracked before retrial
           GRDIS: 'AGFS_FEE', # Discontinuance
@@ -36,7 +36,7 @@ module CCR
         }.freeze
 
         context 'mappings' do
-          SUBTYPE_MAPPINGS.each do |code, bill_subtype|
+          BASIC_FEE_SUBTYPES.each do |code, bill_subtype|
             context "maps #{code} to #{bill_subtype || 'nil'}" do
               before do
                 allow(case_type).to receive(:fee_type_code).and_return code

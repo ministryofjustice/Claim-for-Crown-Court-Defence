@@ -133,7 +133,7 @@
               "properties": {
                 "maat_reference": {
                   "id": "/properties/defendants/items/properties/representation_orders/items/properties/maat_reference",
-                  "type": "string"
+                  "type": ["string","null"]
                 },
                 "representation_order_date": {
                   "id": "/properties/defendants/items/properties/representation_orders/items/properties/representation_order_date",

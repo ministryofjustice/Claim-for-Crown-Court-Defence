@@ -18,7 +18,7 @@ shared_examples 'case upliftable' do
   describe '::CASE_UPLIFT_MAPPINGS' do
     subject { described_class::CASE_UPLIFT_MAPPINGS[code] }
 
-    EXPECTED_MAPPINGS = {
+    CASE_UPLIFT_MAPPINGS = {
       FXACV: 'FXACU',
       FXASE: 'FXASU',
       FXCBR: 'FXCBU',
@@ -27,7 +27,7 @@ shared_examples 'case upliftable' do
     }.with_indifferent_access.freeze
 
     context 'mappings' do
-      EXPECTED_MAPPINGS.each do |code, uplift_code|
+      CASE_UPLIFT_MAPPINGS.each do |code, uplift_code|
         context "code #{code}" do
           let(:code) { code }
 

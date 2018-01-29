@@ -1,16 +1,19 @@
 shared_examples 'returns CCLF Litigator Fee bill type' do |code|
   before { allow(fee_type).to receive(:unique_code).and_return code }
-  it 'rreturns CCLF Litigator Fee bill type' do
+  it 'returns CCLF Litigator Fee bill type' do
     is_expected.to eql 'LIT_FEE'
   end
 end
 
 shared_examples 'CCLF Litigator Fee entity' do |bill_scenario_mappings|
-  let(:claim) { instance_double('claim') }
   let(:fee) { instance_double('fee') }
+  let(:claim) { instance_double('claim', case_type: case_type) }
+  let(:case_type) { instance_double('case_type') }
+  let(:fee_type) { instance_double('fee_type') }
 
   before do
     allow(fee).to receive(:fee_type).and_return fee_type
+    allow(fee).to receive(:claim).and_return claim
   end
 
   describe '#bill_type' do
@@ -36,7 +39,10 @@ shared_examples 'CCLF Litigator Fee entity' do |bill_scenario_mappings|
       context "for #{code} fee type" do
         subject { described_class.new(fee).bill_scenario }
 
-        before { allow(fee_type).to receive(:unique_code).and_return code }
+        before do
+          allow(fee_type).to receive(:unique_code).and_return code
+          allow(case_type).to receive(:fee_type_code).and_return code
+        end
 
         it "returns CCLF Litigator Fee scenario #{scenario}" do
           is_expected.to eql scenario
@@ -47,6 +53,12 @@ shared_examples 'CCLF Litigator Fee entity' do |bill_scenario_mappings|
 
   describe '#claimed?' do
     subject { described_class.new(fee).claimed? }
+    let(:fee_type) { instance_double('fee_type')}
+
+    before do
+      allow(fee).to receive(:fee_type).and_return fee_type
+      allow(fee_type).to receive(:unique_code).and_return bill_scenario_mappings.keys.first
+    end
 
     context 'when fee amount is positive' do
       let(:fee) { instance_double('fee', amount: 0.01) }

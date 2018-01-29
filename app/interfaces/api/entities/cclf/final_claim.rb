@@ -7,7 +7,7 @@ module API
           data = []
           data.push AdaptedFixedFee.represent(object.fixed_fee) if object.fixed_fee.present?
           data.push AdaptedGraduatedFee.represent(object.graduated_fee) if object.graduated_fee.present?
-          # data.push API::Entities::CCLF::AdaptedMiscFee.represent(miscellaneous_fees)
+          data.push AdaptedMiscFee.represent(object.misc_fees)
           # data.push API::Entities::CCLF::AdaptedDisbursments.represent(disbursements)
           # data.push API::Entities::CCLF::AdaptedExpense.represent(object.expenses)
           data.flatten.as_json

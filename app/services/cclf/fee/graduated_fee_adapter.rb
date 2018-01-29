@@ -1,13 +1,14 @@
 module CCLF
   module Fee
     class GraduatedFeeAdapter < BaseFeeAdapter
+      # TODO: unneeded as are all the same
       GRADUATED_FEE_BILL_MAPPINGS = {
-        GRDIS: zip(%w[LIT_FEE LIT_FEE ST1TS0T1]), # Discontinuance CCLFscenario "guilty plea, discontinuance (pre PCMH)"
-        GRGLT: zip(%w[LIT_FEE LIT_FEE ST1TS0T2]), # Guilty plea. CCLF scenario "guilty plea, guilty plea"
-        GRTRL: zip(%w[LIT_FEE LIT_FEE ST1TS0T4]), # Trial **
-        GRRTR: zip(%w[LIT_FEE LIT_FEE ST1TS0TA]), # Retrial **
-        GRRAK: zip(%w[LIT_FEE LIT_FEE ST1TS0T3]), # Cracked trial **
-        GRCBR: zip(%w[LIT_FEE LIT_FEE ST1TS0T9]), # Cracked before retrial **
+        GRDIS: zip(%w[LIT_FEE LIT_FEE]), # Discontinuance CCLFscenario "guilty plea, discontinuance (pre PCMH)"
+        GRGLT: zip(%w[LIT_FEE LIT_FEE]), # Guilty plea. CCLF scenario "guilty plea, guilty plea"
+        GRTRL: zip(%w[LIT_FEE LIT_FEE]), # Trial **
+        GRRTR: zip(%w[LIT_FEE LIT_FEE]), # Retrial **
+        GRRAK: zip(%w[LIT_FEE LIT_FEE]), # Cracked trial **
+        GRCBR: zip(%w[LIT_FEE LIT_FEE]), # Cracked before retrial **
       }.freeze
 
       # **
@@ -15,7 +16,7 @@ module CCLF
       #   - there are many other scenarios covering interim and transfer claim varieties
 
       def claimed?
-        maps? && charges?
+        maps? & charges?
       end
 
       private

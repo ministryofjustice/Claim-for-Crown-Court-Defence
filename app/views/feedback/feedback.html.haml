@@ -17,17 +17,22 @@
       = hidden_field_tag :user_id, params[:user_id]
 
     .form-group
-      = f.label :comment, 'Tell us about your experience of using this service today.'
-      %p.form-hint
-        = 'Don\'t include any personal or sensitive information.'
-      = f.text_area :comment, rows: 5, class: "form-control"
+      %fieldset.inline
+        %legend
+          = f.label :comment, 'Tell us about your experience of using this service today.'
+        %p.form-hint
+          = 'Don\'t include any personal or sensitive information.'
+        = f.text_area :comment, rows: 5, class: "form-control"
 
-    %fieldset.inline
-      %legend
-        = 'Overall, how satisfied were you with this service?'
+    = render partial: 'feedback/anonymous_email_prompt', locals: { f: f } if cannot_identify_user?
 
-      = f.collection_radio_buttons(:rating, Feedback::RATINGS.map {|k,v| [v,k]}, :last, :first) do |b|
-        - b.label(class: 'block-label') { b.radio_button + b.object.first  }
+    .form-group
+      %fieldset.inline
+        %legend
+          = 'Overall, how satisfied were you with this service?'
+
+        = f.collection_radio_buttons(:rating, Feedback::RATINGS.map {|k,v| [v,k]}, :last, :first) do |b|
+          - b.label(class: 'block-label') { b.radio_button + b.object.first  }
 
     .button-holder
       = f.submit 'Send', class: 'button button-primary', id: 'submit-button'

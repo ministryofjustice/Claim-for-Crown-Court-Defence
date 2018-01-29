@@ -3,6 +3,7 @@ class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
     [
       [],
       [],
+      [],
       %i[
         assessment
         certification
@@ -16,6 +17,7 @@ class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       [
         :defendants
       ],
+      [],
       %i[
         basic_fees
         misc_fees

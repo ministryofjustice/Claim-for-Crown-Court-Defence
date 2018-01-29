@@ -88,6 +88,8 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   end
 
   context 'offence' do
+    include_context 'step-index', 3
+
     before { claim.offence = nil }
 
     it 'should error if not present for non-fixed fee case types' do
@@ -102,7 +104,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   end
 
   context 'defendant uplift fees aggregation validation' do
-    include_context 'step-index', 2
+    include_context 'step-index', 4
 
     let(:miaph) { create(:misc_fee_type, :miaph) }
     let(:miahu) { create(:misc_fee_type, :miahu) }
@@ -275,7 +277,6 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
           transfer_court
           transfer_case_number
           advocate_category
-          offence
           estimated_trial_length
           actual_trial_length
           retrial_estimated_length
@@ -292,6 +293,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
           supplier_number
       ],
       [],
+      %i[offence],
       %i[
         total
         defendant_uplifts

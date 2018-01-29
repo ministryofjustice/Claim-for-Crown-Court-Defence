@@ -86,7 +86,7 @@ module Claim
     end
 
     def submission_stages
-      %i[case_details defendants fees]
+      %i[case_details defendants offence_details fees]
     end
 
     def eligible_case_types

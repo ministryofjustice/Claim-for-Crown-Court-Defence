@@ -43,6 +43,7 @@ When(/I enter trial start and end dates$/) do
 end
 
 When(/^I enter defendant, representation order and MAAT reference$/) do
+  @claim_form_page.wait_for_defendants
   @claim_form_page.defendants.first.first_name.set "Bob"
   @claim_form_page.defendants.first.last_name.set "Billiards"
   @claim_form_page.defendants.first.dob.set_date "1955-01-01"
@@ -168,6 +169,7 @@ Given(/^There are other advocates in my provider$/) do
 end
 
 Then(/^I should see retrial fields$/) do
+  @claim_form_page.wait_for_retrial_details
   expect(@claim_form_page).to have_retrial_details
   expect(@claim_form_page.retrial_details).to be_visible
   expect(@claim_form_page.retrial_details).to be_all_there

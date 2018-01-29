@@ -12,13 +12,16 @@ Feature: Advocate submits a claim for a Contempt case
     And I select the court 'Blackfriars'
     And I select a case type of 'Contempt'
     And I enter a case number of 'A20161234'
-    And I select the offence category 'Handling stolen goods'
-    And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
     Then I click "Continue" in the claim form
 
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
+
+    Then I click "Continue" in the claim form
+
+    And I select the offence category 'Handling stolen goods'
+    And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
     Then I click "Continue" in the claim form
 

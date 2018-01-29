@@ -12,8 +12,6 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
-    And I select the offence category 'Handling stolen goods'
-    And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
     And I save as draft
     Then I should see 'Draft claim saved'
 
@@ -27,6 +25,11 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     Then I click "Continue" in the claim form
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
+
+    Then I click "Continue" in the claim form
+
+    And I select the offence category 'Handling stolen goods'
+    And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
     Then I click "Continue" in the claim form
 

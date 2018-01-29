@@ -49,7 +49,7 @@ shared_examples 'common partial validations' do |steps|
       end
 
       it 'should validate all the attributes for all the steps' do
-        (step1_attributes + step2_attributes + step3_attributes).each do |attrib|
+        steps.flatten.each do |attrib|
           expect_any_instance_of(described_class).to receive(:validate_field).with(attrib)
         end
 

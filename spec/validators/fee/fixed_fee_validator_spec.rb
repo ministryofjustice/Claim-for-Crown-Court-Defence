@@ -1,9 +1,6 @@
 require 'rails_helper'
-require_relative '../validation_helpers'
 
-describe Fee::FixedFeeValidator do
-
-  include ValidationHelpers
+RSpec.describe Fee::FixedFeeValidator, type: :validator do
   include_context 'force-validation'
 
   let(:fee) { FactoryBot.build :fixed_fee, claim: claim, date: Date.today }

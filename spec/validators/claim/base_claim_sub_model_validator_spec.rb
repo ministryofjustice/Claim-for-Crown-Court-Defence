@@ -1,8 +1,6 @@
 require 'rails_helper'
-require_relative '../validation_helpers'
 
-describe Claim::BaseClaimSubModelValidator do
-
+RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
   let(:claim) { FactoryBot.create :claim }
   let(:defendant) { claim.defendants.first }
 

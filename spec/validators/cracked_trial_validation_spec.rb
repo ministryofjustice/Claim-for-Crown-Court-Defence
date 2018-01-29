@@ -1,8 +1,6 @@
 require 'rails_helper'
-require_relative './validation_helpers'
 
-describe 'new validation rules around cracked trials' do
-  include ValidationHelpers
+RSpec.describe 'new validation rules around cracked trials', type: :validator do
 
   context 'cracked (re)trials' do
     subject { cracked_trial_claim.valid? }

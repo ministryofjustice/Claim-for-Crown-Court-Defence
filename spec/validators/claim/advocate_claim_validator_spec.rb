@@ -1,10 +1,8 @@
 require 'rails_helper'
-require_relative '../validation_helpers'
 require_relative 'shared_examples_for_advocate_litigator'
 require_relative 'shared_examples_for_step_validators'
 
-describe Claim::AdvocateClaimValidator do
-  include ValidationHelpers
+RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   include_context "force-validation"
 
   let(:litigator)     { create(:external_user, :litigator) }

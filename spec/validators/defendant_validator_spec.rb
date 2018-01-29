@@ -1,10 +1,6 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/validation_helpers'
 
-describe DefendantValidator do
-
-  include ValidationHelpers
-
+RSpec.describe DefendantValidator, type: :validator do
   let(:claim)     { FactoryBot.build(:claim, force_validation: true) }
   let(:defendant) { FactoryBot.build :defendant, claim: claim }
 

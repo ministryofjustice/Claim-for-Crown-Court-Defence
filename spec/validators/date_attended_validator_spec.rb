@@ -1,10 +1,6 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/validation_helpers'
 
-describe DateAttendedValidator do
-
-  include ValidationHelpers
-
+RSpec.describe DateAttendedValidator, type: :validator do
   let(:claim) do
     claim = FactoryBot.create :claim,
                       total: 10,

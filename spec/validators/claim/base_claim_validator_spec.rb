@@ -1,11 +1,7 @@
 require 'rails_helper'
-require_relative '../validation_helpers'
 
-describe Claim::BaseClaimValidator do
-  include ValidationHelpers
-
+RSpec.describe Claim::BaseClaimValidator, type: :validator do
   let(:claim)                       { FactoryBot.create :claim }
-
   let(:guilty_plea)                 { FactoryBot.build :case_type, :fixed_fee, name: 'Guilty plea'}
   let(:contempt)                    { FactoryBot.build :case_type, :requires_trial_dates, name: 'Contempt' }
   let(:retrial)                     { FactoryBot.build :case_type, :retrial }
@@ -641,7 +637,7 @@ describe Claim::BaseClaimValidator do
       it { should_error_if_earlier_than_other_date(claim, :retrial_concluded_at, :retrial_started_at, 'check_other_date', translated_message: 'Can\'t be before the "First day of retrial"') }
       it { should_error_if_earlier_than_earliest_repo_date(claim, :retrial_concluded_at, 'check_not_earlier_than_rep_order', translated_message: 'Can\'t be before the earliest rep. order') }
       it { should_error_if_too_far_in_the_past(claim, :retrial_concluded_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
-      
+
       it 'shoud NOT error if first day of trial is before the claims earliest rep order' do
         stub_earliest_rep_order(claim, 1.month.ago)
         claim.first_day_of_trial = 2.months.ago

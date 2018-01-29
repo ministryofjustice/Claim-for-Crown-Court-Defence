@@ -11,7 +11,7 @@ shared_examples_for 'an adapted expense' do
   it 'generates the expected bill_type' do
     expect(subject.bill_type).to match test[:expected_return][:bill_type]
   end
-  it 'generates the expected bill_sub_type' do
-    expect(subject.bill_sub_type).to match test[:expected_return][:bill_subtype]
+  it 'generates the expected bill_subtype' do
+    expect(subject.bill_subtype).to match test[:expected_return][:bill_subtype]
   end
 end

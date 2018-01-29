@@ -1,7 +1,7 @@
 module API
   module Entities
     module CCR
-      class Defendant < API::Entities::CCR::BaseEntity
+      class Defendant < API::Entities::BaseEntity
         expose :main_defendant
         expose :first_name
         expose :last_name

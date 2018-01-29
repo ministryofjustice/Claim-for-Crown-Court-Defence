@@ -24,6 +24,10 @@
       "id": "/properties/retrial_started_at",
       "type": ["string","null"]
     },
+    "actual_trial_Length": {
+      "id": "/properties/actual_trial_length",
+      "type": ["string","null"]
+    },
     "case_concluded_at": {
       "id": "/properties/case_concluded_at",
       "type": ["string","null"]
@@ -32,8 +36,8 @@
       "id": "/properties/last_submitted_at",
       "type": ["string","null"]
     },
-    "amount": {
-      "id": "/properties/amount",
+    "additional_information": {
+      "id": "/properties/additional_information",
       "type": ["string","null"]
     },
     "court": {
@@ -81,8 +85,12 @@
             "id": "/properties/bills/items/properties/bill_subtype",
             "type": "string"
           },
-          "ppe": {
-            "id": "/properties/bills/items/properties/ppe",
+          "bill_scenario": {
+            "id": "/properties/bills/properties/bill_scenario",
+            "type": "string"
+          },
+          "quantity": {
+            "id": "/properties/bills/items/properties/quantity",
             "type": "string"
           },
           "amount": {
@@ -140,21 +148,6 @@
         "type": "object"
       },
       "type": "array"
-    },
-    "case_type": {
-      "id": "/properties/case_type",
-      "additionalProperties": false,
-      "properties": {
-        "uuid": {
-          "id": "/properties/case_type/properties/uuid",
-          "type": "string"
-        },
-        "bill_scenario": {
-          "id": "/properties/case_type/properties/bill_scenario",
-          "type": "string"
-        }
-      },
-      "type": "object"
     }
   },
   "type": "object"

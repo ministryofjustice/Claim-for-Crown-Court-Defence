@@ -19,7 +19,7 @@ class LaaDisbursementAdapter
     'LIP' => 'LIP_READERS',
     'MED' => 'MED EXPERT',
     'MCF' => nil,
-    'MET' => 	'METEOROLOGIST',
+    'MET' => 'METEOROLOGIST',
     'XXX' => 'OTHER',
     'ONX' => 'OVERNIGHT_EXP',
     'PTH' => 'PATHOLOGISTS',

@@ -1,0 +1,8 @@
+.form-group
+  %fieldset.inline
+    %legend
+      = f.label :email, 'What is your email address? (Optional)'
+    %p.form-hint
+      = 'We will need your email address to be able to respond to your message.'
+
+    = f.text_field :email, class: 'form-control'

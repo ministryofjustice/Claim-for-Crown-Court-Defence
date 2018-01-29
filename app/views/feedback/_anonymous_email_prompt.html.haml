@@ -1,8 +1,8 @@
 .form-group
   %fieldset.inline
     %legend
-      = f.label :email, 'What is your email address? (Optional)'
+      = f.label :email
     %p.form-hint
-      = 'We will need your email address to be able to respond to your message.'
+      = t('activemodel.attributes.feedback.email_hint')
 
     = f.text_field :email, class: 'form-control'

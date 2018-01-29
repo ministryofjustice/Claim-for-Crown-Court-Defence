@@ -86,6 +86,16 @@ en:
     not_provided: *not_provided
     not_applicable: *not_applicable
 
+  activemodel:
+    attributes:
+      feedback:
+        heading: 'Help us improve this service'
+        callout: 'We will use your answers to the questions below to help us build a better service.'
+        rating: 'Overall, how satisfied were you with this service?'
+        comment: 'Tell us about your experience of using this service today.'
+        comment_hint: "Don't include any personal or sensitive information."
+        email: 'What is your email address? (Optional)'
+        email_hint: 'We will need your email address to be able to respond to your message.'
   activerecord:
     models:
       super_admin: *super_admin

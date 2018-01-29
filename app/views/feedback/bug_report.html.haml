@@ -14,19 +14,28 @@
     = f.hidden_field :referrer
 
     .form-group
-      = f.anchored_label 'Case number / Unique ID', :case_number
-      .form-hint.xsmall.zero-vert-margin
-        = 'If your issue is related to a particular claim, provide the case number along with the unique ID you will find next to it (starts with #)'
-      = f.text_field :case_number, class: 'form-control'
+      %fieldset.inline
+        %legend
+          = f.anchored_label 'Case number / Unique ID', :case_number
+        .form-hint.xsmall.zero-vert-margin
+          = 'If your issue is related to a particular claim, provide the case number along with the unique ID you will find next to it (starts with #)'
+        = f.text_field :case_number, class: 'form-control'
     .form-group
-      = f.anchored_label 'What you were doing', :event
-      .form-hint.xsmall.zero-vert-margin
-        = 'Include as much information as possible, including the fee scheme (Advocate, Litigator final, Litigator interim or Litigator transfer) and case type'
-      = f.text_area :event, rows: 6, class: 'form-control'
+      %fieldset.inline
+        %legend
+          = f.anchored_label 'What you were doing when the fault occurred?', :event
+        .form-hint.xsmall.zero-vert-margin
+          = 'Include as much information as possible, including the fee scheme (Advocate, Litigator final, Litigator interim or Litigator transfer) and case type'
+        = f.text_area :event, rows: 6, class: 'form-control'
     .form-group
-      = f.anchored_label 'What went wrong', :outcome
-      .form-hint.xsmall.zero-vert-margin
-        = ''
-      = f.text_area :outcome, rows: 6, class: 'form-control'
+      %fieldset.inline
+        %legend
+          = f.anchored_label 'What went wrong?', :outcome
+        .form-hint.xsmall.zero-vert-margin
+          = ''
+        = f.text_area :outcome, rows: 6, class: 'form-control'
+
+    = render partial: 'feedback/anonymous_email_prompt', locals: { f: f } if cannot_identify_user?
+
     .button-holder
       = f.submit 'Send', class: 'button button-primary', id: 'submit-button'

@@ -31,7 +31,6 @@ module API
 
         expose :additional_information
 
-        # CCR fees and expenses to bill mappings
         expose :bills
 
         private

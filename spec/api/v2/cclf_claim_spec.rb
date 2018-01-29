@@ -45,14 +45,7 @@ describe API::V2::CCLFClaim do
   before(:all) do
     @case_worker = create(:case_worker, :admin)
     @claim = create(:litigator_claim, :submitted)
-    # create(:graduated_fee, fee_type: grtrl, claim: @claim, quantity: 9999)
   end
-
-  # mock a Trial case type's fee_type_code as factories
-  # do NOT create real/mappable fee type codes
-  # before do
-  #   allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'GRTRL'
-  # end
 
   def do_request(claim_uuid: @claim.uuid, api_key: @case_worker.user.api_key)
     get "/api/cclf/claims/#{claim_uuid}", {api_key: api_key}, {format: :json}

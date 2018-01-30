@@ -1,12 +1,15 @@
 class ClaimCsvPresenter < BasePresenter
   presents :claim
 
+  COMPLETED_STATES = %w[rejected refused authorised part_authorised].freeze
+  SUBMITTED_STATES = %w[submitted redetermination awaiting_written_reasons].freeze
+
   def present!
     yield parsed_journeys
   end
 
   def journeys
-    sorted_and_filtered_state_transitions.slice_after { |transition| completed_states.include?(transition.to) }
+    sorted_and_filtered_state_transitions.slice_after { |transition| COMPLETED_STATES.include?(transition.to) }
   end
 
   def sorted_and_filtered_state_transitions
@@ -80,7 +83,7 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def submitted_at
-    submission_steps = @journey.select { |step| submitted_states.include?(step.to) }
+    submission_steps = @journey.select { |step| SUBMITTED_STATES.include?(step.to) }
     submission_steps.present? ? submission_steps.first.created_at.strftime('%d/%m/%Y') : 'n/a'
   end
 
@@ -90,13 +93,13 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def completed_at
-    completion_steps = @journey.select { |step| completed_states.include?(step.to) }
+    completion_steps = @journey.select { |step| COMPLETED_STATES.include?(step.to) }
     completion_steps.present? ? completion_steps.first.created_at.strftime('%d/%m/%Y') : 'n/a'
   end
 
   def current_or_end_state
     state = @journey.last.to
-    submitted_states.include?(state) ? 'submitted' : state
+    SUBMITTED_STATES.include?(state) ? 'submitted' : state
   end
 
   def state_reason_code
@@ -107,13 +110,5 @@ class ClaimCsvPresenter < BasePresenter
 
   def rejection_reason
     @journey.last.reason_text
-  end
-
-  def submitted_states
-    %w[submitted redetermination awaiting_written_reasons]
-  end
-
-  def completed_states
-    %w[rejected refused authorised part_authorised]
   end
 end

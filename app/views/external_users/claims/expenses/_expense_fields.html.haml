@@ -3,9 +3,12 @@
   %fieldset
     %legend
       = "Expense"
+      %span.fx-remove-link
+        = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' }
 
     .grid-row
       .column-one-third{class: error_class?(@error_presenter, "expense_#{@expense_count}_expense_type")}
+
         %a{id: "expense_#{@expense_count}_expense_type"}
         = f.label :expense_type_id, 'Expense type'
         - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
@@ -93,6 +96,4 @@
                           input_type: 'currency',
                           errors: @error_presenter,
                           value: number_with_precision(f.object.vat_amount, precision: 2)
-    .remove-expense
-      = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' }
 

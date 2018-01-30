@@ -1,5 +1,5 @@
 describe('Helpers.SideBar.js', function() {
-  it('should exist with expected constructures', function() {
+  it('should exist with expected constructors', function() {
     expect(moj.Helpers.SideBar).toBeDefined();
     expect(moj.Helpers.SideBar.Base).toBeDefined();
     expect(moj.Helpers.SideBar.FeeBlock).toBeDefined();

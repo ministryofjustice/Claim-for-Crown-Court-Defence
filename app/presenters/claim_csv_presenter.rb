@@ -67,6 +67,10 @@ class ClaimCsvPresenter < BasePresenter
     end
   end
 
+  def disk_evidence_case
+    disk_evidence.to_yesno
+  end
+
   def claim_total
     total_including_vat.to_s
   end

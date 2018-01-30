@@ -39,11 +39,8 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
   end
 
   def notify_legacy_importers
-    if @claim.agfs?
-      sqs_enqueue(queue: Settings.aws.submitted_queue)
-    else
-      publish_via_sns
-    end
+    sqs_enqueue(queue: Settings.aws.submitted_queue) if @claim.agfs?
+    publish_via_sns
     Rails.logger.info "Successfully sent #{log_suffix}"
   rescue StandardError => err
     Rails.logger.warn "Error: '#{err.message}' while sending #{log_suffix}"

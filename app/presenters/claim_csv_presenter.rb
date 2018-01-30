@@ -71,7 +71,7 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def disk_evidence_case
-    disk_evidence.to_yesno
+    disk_evidence ? 'Yes' : 'No'
   end
 
   def claim_total

@@ -68,8 +68,8 @@ RSpec.describe ClaimCsvPresenter do
 
         it 'disc evidence' do
           subject.present! do |claim_journeys|
-            expect(claim_journeys.first).to include(claim.disk_evidence.to_yesno)
-            expect(claim_journeys.second).to include(claim.disk_evidence.to_yesno)
+            expect(claim_journeys.first).to include('No')
+            expect(claim_journeys.second).to include('No')
           end
         end
       end

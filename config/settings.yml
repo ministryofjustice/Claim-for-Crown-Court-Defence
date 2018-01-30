@@ -55,6 +55,7 @@ claim_csv_headers:
   - :state_reason_code
   - :rejection_reason
   - :case_worker
+  - :disk_evidence_case
 
 expense_schema_version: 2
 

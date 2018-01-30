@@ -73,9 +73,24 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
                                      )
       }
 
+      let(:sns_client) do
+        Aws::SNS::Client.new(
+            region: 'eu_west_1',
+            stub_responses:
+                {
+                    publish: {}
+                }
+        )
+      end
+
+      before do
+        allow(Aws::SQS::Client).to receive(:new).and_return sqs_client
+        allow(Aws::SNS::Client).to receive(:new).and_return sns_client
+        allow(sns_client).to receive(:publish)
+      end
+
       context 'valid certification params for submission' do
         let(:frozen_time) { Time.new(2015, 8, 20, 13, 54, 22) }
-        before { allow(Aws::SQS::Client).to receive(:new).and_return sqs_client }
 
         it 'should be a redirect to confirmation' do
           post :create, valid_certification_params(claim, certification_type)
@@ -99,6 +114,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
           allow(Settings.aws).to receive(:submitted_queue).and_return('valid_queue_name')
           expect(Rails.logger).to receive(:info).with(/Successfully sent message about submission of claim#/)
           post :create, valid_certification_params(claim, certification_type)
+          expect(sns_client).to have_received(:publish).once
         end
 
         context 'when SQS fails' do
@@ -111,6 +127,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
         end
       end
     end
+
     context 'LGFS' do
       let(:claim) { create(:litigator_claim) }
 

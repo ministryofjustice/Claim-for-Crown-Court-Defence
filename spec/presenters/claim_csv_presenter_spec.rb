@@ -66,9 +66,31 @@ RSpec.describe ClaimCsvPresenter do
           end
         end
 
+        it 'disc evidence' do
+          subject.present! do |claim_journeys|
+            expect(claim_journeys.first).to include('No')
+            expect(claim_journeys.second).to include('No')
+          end
+        end
       end
 
-      describe  'caseworker name' do
+      describe 'disc evidence' do
+        subject { ClaimCsvPresenter.new(claim, view).disk_evidence_case }
+
+        context 'when the applicant has checked disc_evidence' do
+          let(:claim) { create :advocate_claim, disk_evidence: true }
+
+          it { is_expected.to eq 'Yes' }
+        end
+
+        context 'when the applicant has not checked disc_evidence' do
+          let(:claim) { create :advocate_claim }
+
+          it { is_expected.to eq 'No' }
+        end
+      end
+
+      describe 'caseworker name' do
         context 'decision transition doesnt exist' do
           it 'returns nil' do
             draft_claim = create :advocate_claim

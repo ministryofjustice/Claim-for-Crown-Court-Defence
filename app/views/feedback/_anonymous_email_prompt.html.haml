@@ -1,0 +1,8 @@
+.form-group
+  %fieldset.inline
+    %legend
+      = f.label :email
+    %p.form-hint
+      = t('activemodel.attributes.feedback.email_hint')
+
+    = f.text_field :email, class: 'form-control'

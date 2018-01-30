@@ -20,11 +20,6 @@ Feature: Advocate submits a claim for a Contempt case
 
     Then I click "Continue" in the claim form
 
-    And I select the offence category 'Handling stolen goods'
-    And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
-
-    Then I click "Continue" in the claim form
-
     And I add a miscellaneous fee 'Adjourned appeals' with dates attended
     And I add a fixed fee 'Contempt'
     And I add a fixed fee 'Number of cases uplift' with case numbers
@@ -35,8 +30,6 @@ Feature: Advocate submits a claim for a Contempt case
 
     Then I click Submit to LAA
     And I should be on the check your claim page
-    And I should see 'Handling stolen goods'
-    And I should see 'G: Other offences of dishonesty between £30,001 and £100,000'
 
     When I click "Continue"
     Then I should be on the certification page

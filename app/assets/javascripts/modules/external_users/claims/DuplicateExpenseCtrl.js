@@ -60,6 +60,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     this.setInputValue($el, '.js-expense-amount input', data.amount);
     this.setRadioValue($el, '.js-expense-type-car input', data.mileage_rate_id)
     this.setInputValue($el, '.js-expense-vat-amount input', data.vat_amount);
+    this.setInputValue($el, '.js-expense-hours input', data.hours);
 
     // trigger the side bar to recalculate all totals
     $('#claim-form').trigger('recalculate');

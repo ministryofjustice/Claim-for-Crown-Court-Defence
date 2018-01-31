@@ -82,6 +82,10 @@ module Claim
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :graduated_fee, reject_if: :all_blank, allow_destroy: false
 
+    def submission_stages
+      %i[case_details defendants offence_details fees]
+    end
+
     def lgfs?
       self.class.lgfs?
     end
@@ -117,6 +121,13 @@ module Claim
 
     def requires_case_concluded_date?
       true
+    end
+
+    def current_step_required?
+      # NOTE: offence details step is only required when the
+      # case type does not have a fixed fee
+      return super unless current_step == 3
+      !fixed_fee_case?
     end
 
     private

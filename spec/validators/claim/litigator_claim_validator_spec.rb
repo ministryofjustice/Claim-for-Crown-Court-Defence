@@ -12,19 +12,20 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
   include_examples "common litigator validations"
 
   include_examples 'common partial validations', [
-      [
-          :case_type,
-          :court,
-          :case_number,
-          :transfer_court,
-          :transfer_case_number,
-          :advocate_category,
-          :offence,
-          :case_concluded_at
-      ],
-      [
-          :actual_trial_length,
-          :total
-      ]
+    [
+      :case_type,
+      :court,
+      :case_number,
+      :transfer_court,
+      :transfer_case_number,
+      :advocate_category,
+      :case_concluded_at
+    ],
+    [],
+    %i[offence],
+    [
+      :actual_trial_length,
+      :total
+    ]
   ]
 end

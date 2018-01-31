@@ -38,4 +38,8 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   rescue StandardError
     ''
   end
+
+  def current_step
+    submission_stages[super - 1]
+  end
 end

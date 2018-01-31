@@ -8,4 +8,8 @@ class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
   def pretty_type
     'LGFS Final'
   end
+
+  def current_step
+    submission_stages[super - 1]
+  end
 end

@@ -146,7 +146,7 @@ shared_examples 'common partial association validations' do |steps|
       end
 
       it 'should validate all the has_many associations for all the steps' do
-        (step1_has_many + step2_has_many + step3_has_many).each do |association|
+        steps[:has_many].flatten.each do |association|
           expect_any_instance_of(described_class).to receive(:validate_collection_for).with(claim, association)
         end
 

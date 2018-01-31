@@ -15,10 +15,12 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     And I select a case type of 'Contempt'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date
+
+    Then I click "Continue" in the claim form
+
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
-    And I select the offence category 'Activities relating to opium'
-    And I sleep for '1' second
+
     Then I click "Continue" in the claim form
 
     And I fill '100.75' as the fixed fee total

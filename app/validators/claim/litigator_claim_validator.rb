@@ -3,7 +3,17 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
 
   def self.fields_for_steps
     [
-      [].unshift(first_step_common_validations),
+      %i[
+        case_type
+        court
+        case_number
+        transfer_court
+        transfer_case_number
+        advocate_category
+        case_concluded_at
+      ],
+      [],
+      %i[offence],
       %i[
         actual_trial_length
         total

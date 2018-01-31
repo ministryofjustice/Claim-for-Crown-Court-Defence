@@ -18,4 +18,8 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
   def pretty_type
     'LGFS Interim'
   end
+
+  def current_step
+    submission_stages[super - 1]
+  end
 end

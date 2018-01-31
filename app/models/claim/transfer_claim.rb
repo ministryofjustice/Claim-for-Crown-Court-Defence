@@ -93,6 +93,10 @@ module Claim
       end
     end
 
+    def submission_stages
+      %i[transfer_fee_details case_details defendants offence_details fees]
+    end
+
     def lgfs?
       self.class.lgfs?
     end
@@ -131,6 +135,13 @@ module Claim
 
     def requires_case_type?
       false
+    end
+
+    def current_step_required?
+      # NOTE: offence details step is only required when the
+      # case type does not have a fixed fee
+      return super unless current_step == 4
+      !fixed_fee_case?
     end
 
     private

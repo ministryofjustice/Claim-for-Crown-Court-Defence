@@ -23,12 +23,13 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
       :transfer_court,
       :transfer_case_number,
       :advocate_category,
-      :offence,
       :case_concluded_at,
       :supplier_number,
       :amount_assessed,
       :evidence_checklist_ids,
     ],
+    [],
+    [ :offence ],
     [
       :total,
     ]

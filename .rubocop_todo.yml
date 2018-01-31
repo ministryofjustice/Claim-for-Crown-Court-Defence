@@ -82,6 +82,7 @@ Metrics/MethodLength:
     - 'app/validators/claim/advocate_claim_validator.rb'
     - 'app/validators/claim/interim_claim_sub_model_validator.rb'
     - 'app/validators/claim/interim_claim_validator.rb'
+    - 'app/validators/claim/litigator_claim_validator.rb'
     - 'app/validators/claim/litigator_claim_sub_model_validator.rb'
     - 'app/validators/claim/litigator_common_validations.rb'
     - 'app/validators/claim/transfer_claim_sub_model_validator.rb'

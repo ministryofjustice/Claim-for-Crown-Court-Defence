@@ -19,9 +19,10 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
       :transfer_court,
       :transfer_case_number,
       :advocate_category,
-      :offence,
       :case_concluded_at
     ],
+    [],
+    [ :offence ],
     [
       :first_day_of_trial,
       :estimated_trial_length,
@@ -38,7 +39,7 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
     before do
       allow(claim).to receive(:interim_fee).and_return(interim_fee)
       claim.source = 'web'
-      claim.form_step = 2
+      claim.form_step = 4
     end
 
     context 'estimated_trial_length' do

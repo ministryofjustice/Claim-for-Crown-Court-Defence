@@ -97,6 +97,14 @@
             "id": "/properties/bills/items/properties/amount",
             "type": "string"
           },
+          "warrant_issued_date": {
+            "id": "/properties/bills/items/properties/warrant_issued_date",
+            "type": ["string","null"]
+          },
+          "warrant_executed_date": {
+            "id": "/properties/bills/items/properties/warrant_executed_date",
+            "type": ["string","null"]
+          },
           "type": "array"
         },
         "type": "object"

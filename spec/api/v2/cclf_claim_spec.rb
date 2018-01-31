@@ -188,6 +188,10 @@ describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
             end
 
+            it 'returns a bill scenario based on case type' do
+              expect(response).to be_json_eql('ST1TS0T4'.to_json).at_path("bills/0/bill_scenario")
+            end
+
             it 'returns a litigator fee bill for any graduated fee' do
               allow_any_instance_of(::Fee::GraduatedFeeType).to receive(:unique_code).and_return 'XXXXX'
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
@@ -215,6 +219,10 @@ describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
             end
+
+            it 'returns a bill scenario based on case type' do
+              expect(response).to be_json_eql('ST3TS3TB'.to_json).at_path("bills/0/bill_scenario")
+            end
           end
 
           context 'when miscellaneous fees exists' do
@@ -238,6 +246,36 @@ describe API::V2::CCLFClaim do
             it 'returns array containing a special prep fee bill' do
               expect(response).to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/0/bill_subtype")
+            end
+
+            it 'returns a bill scenario based on case type' do
+              expect(response).to be_json_eql('ST1TS0T5'.to_json).at_path("bills/0/bill_scenario")
+            end
+          end
+
+          context 'when warrant fee exists' do
+            let(:warr) { create(:warrant_fee_type, :warr) }
+            let(:case_type_fxcbr) { create(:case_type, :cbr) }
+            let(:claim) do
+              create(:litigator_claim, :without_fees, :submitted).tap do |claim|
+                claim.update!(case_type: case_type_fxcbr)
+                create(:warrant_fee, fee_type: warr, claim: claim)
+              end
+            end
+
+            it { is_valid_cclf_json(response) }
+
+            it 'returns array containing the bill' do
+              expect(response).to have_json_size(1).at_path("bills")
+            end
+
+            it 'returns a warrant fee bill' do
+              expect(response).to be_json_eql('FEE_ADVANCE'.to_json).at_path("bills/0/bill_type")
+              expect(response).to be_json_eql('WARRANT'.to_json).at_path("bills/0/bill_subtype")
+            end
+
+            it 'returns a bill scenario based on case type' do
+              expect(response).to be_json_eql('ST3TS3TB'.to_json).at_path("bills/0/bill_scenario")
             end
           end
         end

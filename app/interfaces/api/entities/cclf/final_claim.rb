@@ -10,7 +10,7 @@ module API
           data.push AdaptedMiscFee.represent(object.misc_fees)
           # data.push API::Entities::CCLF::AdaptedDisbursments.represent(object.disbursements)
           # data.push API::Entities::CCLF::AdaptedExpense.represent(object.expenses)
-          # data.push API::Entities::CCLF::AdaptedWarrant.represent(object.warrant_fee) if object.warrant_fee.present?
+          data.push AdaptedWarrantFee.represent(object.warrant_fee) if object.warrant_fee.present?
           data.flatten.as_json
         end
       end

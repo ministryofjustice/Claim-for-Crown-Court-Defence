@@ -1,12 +1,13 @@
 require 'rails_helper'
-require_relative '../validation_helpers'
 
-describe Claim::BaseClaimSubModelValidator do
+RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
+  let(:claim) { FactoryBot.create :claim }
+  let(:defendant) { claim.defendants.first }
 
-  let(:claim)               { FactoryBot.create :claim }
-  let(:defendant)           { claim.defendants.first }
-
-  before(:each)              { claim.force_validation = true }
+  before(:each) do
+    claim.force_validation = true
+    claim.form_step = 2
+  end
 
   it 'should call the validators on all the defendants' do
     expect(claim.defendants).to have(1).members
@@ -26,7 +27,7 @@ describe Claim::BaseClaimSubModelValidator do
       @misc_fee = FactoryBot.create :misc_fee,:with_date_attended, claim: claim
       FactoryBot.create :date_attended, attended_item: @misc_fee
       claim.fees.map(&:dates_attended).flatten      # iterate through the fees and dates attended so that the examples below know they have been created
-      claim.form_step = 2
+      claim.form_step = 4
     end
 
     it 'should call the validator on all the attended dates for all the fees' do
@@ -42,7 +43,7 @@ describe Claim::BaseClaimSubModelValidator do
       FactoryBot.create :date_attended, attended_item: @expense
       claim.expenses.map(&:dates_attended).flatten       # iterate through the expenses and dates attended so that the examples below know they have been created
       claim.force_validation = true
-      claim.form_step = 2
+      claim.form_step = 3
     end
 
   end

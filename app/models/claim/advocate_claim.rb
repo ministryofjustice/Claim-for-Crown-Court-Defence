@@ -85,6 +85,10 @@ module Claim
       set_supplier_number
     end
 
+    def submission_stages
+      %i[case_details defendants offence_details fees]
+    end
+
     def eligible_case_types
       CaseType.agfs
     end
@@ -111,6 +115,13 @@ module Claim
 
     def update_claim_document_owners
       documents.each { |d| d.update_column(:external_user_id, external_user_id) }
+    end
+
+    def current_step_required?
+      # NOTE: offence details step is only required when the
+      # case type does not have a fixed fee
+      return super unless current_step == 3
+      !fixed_fee_case?
     end
 
     private

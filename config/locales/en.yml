@@ -508,6 +508,7 @@ en:
         fields:
           advocate: *advocate
           advocate_category: 'Advocate category'
+          case_details: 'Case details'
           case_offence: 'Case & offence'
           case_number: 'Case number'
           transfer_case_number: 'Transfer case number (optional)'
@@ -561,6 +562,18 @@ en:
         summary:
           caption: 'Case Details: This section contains information about the case.'
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+      offence_details:
+        fields:
+          offence_class: 'Offence class'
+          offence_category: 'Offence category'
+          offence_details: 'Offence details'
+        offence_select:
+          offence_class: 'Offence class'
+          select_offence_class: 'Please select'
+        offence_id_select:
+          offence_class: "Offence class"
+          offence_class_hint: "for example Burglary"
+          select_offence_class: "Please select"
       defendants:
         defendant_fields:
           first_name: *first_name

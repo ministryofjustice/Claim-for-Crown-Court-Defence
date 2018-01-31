@@ -1,10 +1,6 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/validation_helpers'
 
-describe RepresentationOrderValidator do
-
-  include ValidationHelpers
-
+RSpec.describe RepresentationOrderValidator, type: :validator do
   let(:claim)         { FactoryBot.build :claim, force_validation: true }
   let(:defendant)     { FactoryBot.build :defendant, claim: claim }
   let(:reporder)      { FactoryBot.build :representation_order, defendant: defendant }

@@ -1,0 +1,28 @@
+%h2.bold-medium
+  = t('.offence_details')
+
+%fieldset
+  #offence
+    .form-row.js-typeahead
+      .form-col.form-col-one-half{class: error_class?(@error_presenter, :offence)}
+        = f.anchored_label t('.offence_category'), 'offence_category_description_input', { label_attributes: { class: 'form-label' } }
+        .form-hint.xsmall.zero-vert-margin
+          = "If the offence category is not listed, choose \"Miscellaneous/other\""
+        - if @claim.new_record?
+          - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
+        - else
+          - selected_offence_category = @claim.offence.description rescue nil
+
+        = collection_select :offence_category,
+                              :description,
+                              @offence_descriptions,
+                              :description, :description,
+                              { include_blank: ''.html_safe, selected: selected_offence_category },
+                              { class: 'form-control typeahead', id: 'claim_offence_category_description' }
+        = validation_error_message(@error_presenter, :offence)
+
+    .form-row
+      .form-col.form-col-one-half
+        .offence-class-select
+          = render partial: 'external_users/claims/offence_details/offence_select', locals: { offences: @offences }
+        = f.hidden_field :offence_id

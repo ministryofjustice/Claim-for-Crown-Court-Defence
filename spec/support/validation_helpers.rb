@@ -20,7 +20,7 @@ module ValidationHelpers
     claim.submit!
   end
 
-   def should_error_with(record, field, message)
+  def should_error_with(record, field, message)
     expect(record.valid?).to be false
     expect(record.errors[field]).to include( message )
   end

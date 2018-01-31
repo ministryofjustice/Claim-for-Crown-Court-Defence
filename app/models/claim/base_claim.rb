@@ -386,6 +386,8 @@ module Claim
 
     def next_step!
       self.form_step = current_step + 1
+      self.form_step = current_step + 1 until current_step_required?
+      form_step
     end
 
     def current_step
@@ -394,6 +396,10 @@ module Claim
 
     def current_step_index
       current_step - 1
+    end
+
+    def current_step_required?
+      true
     end
 
     def from_api?
@@ -471,8 +477,9 @@ module Claim
     end
 
     def allows_fixed_fees?
-      case_type.is_fixed_fee?
+      case_type&.is_fixed_fee?
     end
+    alias fixed_fee_case? allows_fixed_fees?
 
     def update_claim_document_owners
       documents.each { |d| d.update_column(:creator_id, creator_id) }

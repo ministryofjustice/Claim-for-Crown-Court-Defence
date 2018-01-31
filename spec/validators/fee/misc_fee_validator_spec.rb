@@ -1,9 +1,6 @@
 require 'rails_helper'
-require_relative '../validation_helpers'
 
-describe Fee::MiscFeeValidator do
-
-  include ValidationHelpers
+RSpec.describe Fee::MiscFeeValidator, type: :validator do
   include_context 'force-validation'
 
   let(:fee) { FactoryBot.build :misc_fee, claim: claim }

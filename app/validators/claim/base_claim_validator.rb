@@ -299,7 +299,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def fixed_fee_case?
-    @record&.case_type&.is_fixed_fee?
+    @record&.fixed_fee_case?
   end
 
   def snake_case_type

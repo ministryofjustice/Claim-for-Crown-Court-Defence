@@ -1,10 +1,8 @@
 require 'rails_helper'
-require_relative '../validation_helpers'
 require_relative 'shared_examples_for_advocate_litigator'
 require_relative 'shared_examples_for_step_validators'
 
-describe Claim::AdvocateClaimValidator do
-  include ValidationHelpers
+RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   include_context "force-validation"
 
   let(:litigator)     { create(:external_user, :litigator) }
@@ -90,6 +88,8 @@ describe Claim::AdvocateClaimValidator do
   end
 
   context 'offence' do
+    include_context 'step-index', 3
+
     before { claim.offence = nil }
 
     it 'should error if not present for non-fixed fee case types' do
@@ -104,7 +104,7 @@ describe Claim::AdvocateClaimValidator do
   end
 
   context 'defendant uplift fees aggregation validation' do
-    include_context 'step-index', 1
+    include_context 'step-index', 4
 
     let(:miaph) { create(:misc_fee_type, :miaph) }
     let(:miahu) { create(:misc_fee_type, :miahu) }
@@ -277,7 +277,6 @@ describe Claim::AdvocateClaimValidator do
           transfer_court
           transfer_case_number
           advocate_category
-          offence
           estimated_trial_length
           actual_trial_length
           retrial_estimated_length
@@ -293,6 +292,8 @@ describe Claim::AdvocateClaimValidator do
           case_concluded_at
           supplier_number
       ],
+      [],
+      %i[offence],
       %i[
         total
         defendant_uplifts

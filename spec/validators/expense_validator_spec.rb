@@ -1,9 +1,6 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/validation_helpers'
 
-describe 'ExpenseV1Validator and ExpenseV2Validator' do
-
-  include ValidationHelpers
+RSpec.describe 'ExpenseV1Validator and ExpenseV2Validator', type: :validator do
 
   context 'schema_version 2' do
 

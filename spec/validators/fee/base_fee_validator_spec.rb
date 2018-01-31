@@ -1,10 +1,6 @@
 require 'rails_helper'
-require_relative '../validation_helpers'
 
-describe Fee::BaseFeeValidator do
-
-  include ValidationHelpers
-
+RSpec.describe Fee::BaseFeeValidator, type: :validator do
   let(:claim)      { FactoryBot.build :advocate_claim, force_validation: true }
   let(:fee)        { FactoryBot.build :fixed_fee, claim: claim }
   let(:baf_fee)    { FactoryBot.build :basic_fee, :baf_fee, claim: claim }

@@ -1,17 +1,13 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/validation_helpers'
 
-describe DisbursementValidator do
-
-  include ValidationHelpers
-
+RSpec.describe DisbursementValidator, type: :validator do
   let(:claim)         { FactoryBot.build :litigator_claim, force_validation: true }
   let(:disbursement)  { FactoryBot.build :disbursement, claim: claim }
 
   describe '#validate_claim' do
 
     it { should_error_if_not_present(disbursement, :claim, 'blank') }
-    
+
     context "AGFS claims" do
       before { allow(claim).to receive(:agfs?).and_return true }
       it 'should raise invalid fee scheme error' do

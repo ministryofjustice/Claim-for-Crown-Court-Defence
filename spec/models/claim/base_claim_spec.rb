@@ -67,7 +67,6 @@ require 'rails_helper'
 module Claim
   class MockBaseClaim < BaseClaim; end
 
-
   describe BaseClaim do
     include DatabaseHousekeeping
 
@@ -120,7 +119,7 @@ module Claim
         expect(claim.documents.map(&:id)).to match_array([verified_doc_1.id, verified_doc_2.id])
       end
     end
-    
+
     context 'expenses' do
       before(:all) do
         @claim = create :litigator_claim
@@ -231,6 +230,63 @@ module Claim
           is_expected.to have_attributes(fees: 100.0, expenses: 200.0, disbursements: 0.0)
         end
       end
+    end
+
+    describe '#fixed_fee_case?' do
+      subject { claim.fixed_fee_case? }
+
+      context 'when the case type does not exist' do
+        let(:claim) { MockBaseClaim.new }
+
+        specify { is_expected.to be_nil }
+      end
+
+      context 'when the case type is set' do
+        let(:case_type) { build(:case_type) }
+        let(:claim) { MockBaseClaim.new(case_type: case_type) }
+
+        context 'and does not have a fixed fee' do
+          let(:case_type) { build(:case_type, is_fixed_fee: false) }
+
+          specify { is_expected.to eq(false) }
+        end
+
+        context 'and has a fixed fee' do
+          let(:case_type) { build(:case_type, is_fixed_fee: true) }
+
+          specify { is_expected.to eq(true) }
+        end
+      end
+    end
+
+    describe '#next_step!' do
+      let(:claim) { MockBaseClaim.new }
+
+      it 'returns the immediate next step by default' do
+        expect(claim.next_step!).to eq(2)
+        expect(claim.next_step!).to eq(3)
+      end
+
+      context 'when the immediate next step is not required' do
+        class MockNextStepClaim < BaseClaim
+          def current_step_required?
+            current_step % 5 == 0
+          end
+        end
+
+        let(:claim) { MockNextStepClaim.new }
+
+        it 'returns the next step after that which is required' do
+          expect(claim.next_step!).to eq(5)
+          expect(claim.next_step!).to eq(10)
+        end
+      end
+    end
+
+    describe '#current_step_required?' do
+      let(:claim) { MockBaseClaim.new }
+      subject { claim.current_step_required? }
+      specify { is_expected.to eq(true) }
     end
   end
 

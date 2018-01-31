@@ -15,11 +15,17 @@ Feature: Advocate admin submits a claim for a Trial case
     And I select a case type of 'Retrial'
     Then I should see retrial fields
     And I select a case type of 'Trial'
-    And I enter a case number of 'A20161234'
-    And I select the offence category 'Activities relating to opium'
-    And I enter defendant, representation order and MAAT reference
     And I enter trial start and end dates
+    And I enter a case number of 'A20161234'
+
+    Then I click "Continue" in the claim form
+
+    And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
+
+    Then I click "Continue" in the claim form
+
+    And I select the offence category 'Activities relating to opium'
 
     Then I click "Continue" in the claim form
 

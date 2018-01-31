@@ -1388,6 +1388,34 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
+  describe '#current_step_required?' do
+    let(:claim) { build(:advocate_claim) }
+    subject { claim.current_step_required? }
+
+    specify { is_expected.to eq(true) }
+
+    context 'when current step is offence details (3)' do
+      before do
+        claim.form_step = 3
+      end
+
+      context 'and the case type does not have a fixed fee' do
+        before do
+          allow(claim).to receive(:fixed_fee_case?).and_return(false)
+        end
+
+        specify { is_expected.to eq(true) }
+      end
+
+      context 'and the case type has a fixed fee' do
+        before do
+          allow(claim).to receive(:fixed_fee_case?).and_return(true)
+        end
+
+        specify { is_expected.to eq(false) }
+      end
+    end
+  end
 
 # local helpers
 # ---------------------

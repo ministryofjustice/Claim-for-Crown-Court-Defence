@@ -2,6 +2,7 @@ module CCLF
   class CaseTypeAdapter
     attr_reader :case_type
 
+    # TODO: these are for final claim bill scenarios, interim and tranfer claims equivalent
     SCENARIO_MAPPINGS = {
       FXACV: 'ST1TS0T5', # Appeal against conviction
       FXASE: 'ST1TS0T6', # Appeal against sentence

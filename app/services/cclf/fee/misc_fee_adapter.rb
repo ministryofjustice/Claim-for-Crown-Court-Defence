@@ -1,6 +1,6 @@
 module CCLF
   module Fee
-    class MiscFeeAdapter < BaseFeeAdapter
+    class MiscFeeAdapter < MappingFeeAdapter
       MISC_FEE_BILL_MAPPINGS = {
         MIUPL: zip([nil, nil]), # Case uplift - no equivalent in LGFS - to be removed from app too?!
         MICJA: zip(%w[OTHER COST_JUDGE_FEE]), # Costs judge application

@@ -1,21 +1,6 @@
 require 'rails_helper'
 require 'spec_helper'
 
-RSpec::Matchers.define :expose do |expected|
-  match do |actual|
-    @hashed = JSON.parse(actual.to_json, symbolize_names: true).with_indifferent_access
-    @hashed.key?(expected)
-  end
-
-  description do
-    "expose the \"#{expected}\" attribute"
-  end
-
-  failure_message do |actual|
-    "expected JSON attributes #{@hashed.keys} to include \"#{expected}\""
-  end
-end
-
 describe API::Entities::SearchResult do
   subject(:search_result) { described_class.represent(claim) }
 
@@ -59,20 +44,6 @@ describe API::Entities::SearchResult do
           injection_errored: 0
         }
       end
-
-      # it { is_expected.to expose :disk_evidence }
-      # it { is_expected.to expose :redetermination }
-      # it { is_expected.to expose :fixed_fee }
-      # it { is_expected.to expose :awaiting_written_reasons }
-      # it { is_expected.to expose :cracked }
-      # it { is_expected.to expose :trial }
-      # it { is_expected.to expose :guilty_plea }
-      # it { is_expected.to expose :graduated_fees }
-      # it { is_expected.to expose :interim_fees }
-      # it { is_expected.to expose :warrants }
-      # it { is_expected.to expose :interim_disbursements }
-      # it { is_expected.to expose :risk_based_bills }
-      # it { is_expected.to expose :injection_errored }
 
       shared_examples 'returns expected JSON filter values' do
         it 'returns expected JSON filterable values' do

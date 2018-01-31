@@ -1,6 +1,6 @@
 module CCLF
   module Fee
-    class BaseFeeAdapter
+    class MappingFeeAdapter
       KEYS = %i[bill_type bill_subtype].freeze
 
       attr_reader :object

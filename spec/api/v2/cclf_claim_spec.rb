@@ -99,6 +99,24 @@ describe API::V2::CCLFClaim do
       it { is_valid_cclf_json(response) }
     end
 
+    context 'final claim' do
+      subject(:response) { do_request.body }
+
+      it { is_expected.to expose :uuid }
+      it { is_expected.to expose :supplier_number }
+      it { is_expected.to expose :case_number }
+      it { is_expected.to expose :first_day_of_trial }
+      it { is_expected.to expose :retrial_started_at }
+      it { is_expected.to expose :case_concluded_at }
+      it { is_expected.to expose :last_submitted_at }
+      it { is_expected.to expose :actual_trial_Length }
+      it { is_expected.to expose :offence }
+      it { is_expected.to expose :court }
+      it { is_expected.to expose :defendants }
+      it { is_expected.to expose :additional_information }
+      it { is_expected.to expose :bills }
+    end
+
     context 'defendants' do
       subject(:response) do
         do_request(claim_uuid: @claim.uuid, api_key: @case_worker.user.api_key).body
@@ -139,6 +157,8 @@ describe API::V2::CCLFClaim do
         create(:litigator_claim, :submitted, :without_fees)
       end
 
+      let(:case_type_grtrl) { create(:case_type, :grtrl) }
+
       it 'returns empty array if no bills found' do
         expect(response).to have_json_size(0).at_path("bills")
         expect(bills).to be_an Array
@@ -164,6 +184,12 @@ describe API::V2::CCLFClaim do
             end
 
             it 'returns a litigator fee bill' do
+              expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
+              expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
+            end
+
+            it 'returns a litigator fee bill for any graduated fee' do
+              allow_any_instance_of(::Fee::GraduatedFeeType).to receive(:unique_code).and_return 'XXXXX'
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
             end

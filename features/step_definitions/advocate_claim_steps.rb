@@ -137,6 +137,7 @@ When(/^I add some additional information$/) do
 end
 
 When(/^I click "Continue" in the claim form$/) do
+  sleep 3
   @claim_form_page.continue.click
   wait_for_ajax
 end

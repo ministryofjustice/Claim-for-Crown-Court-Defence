@@ -9,3 +9,5 @@ module WaitForAjax
     page.evaluate_script('jQuery.active').zero?
   end
 end
+
+World(WaitForAjax)

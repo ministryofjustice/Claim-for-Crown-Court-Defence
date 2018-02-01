@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'spec_helper'
 
 RSpec.describe CCLF::Fee::WarrantFeeAdapter, type: :adapter do
-  # TODO: § - final claims only, other scenarios exists for transfer claims
+  # TODO: § - final claims only, other scenarios exist for transfer claims
   WARRANT_FEE_BILL_SCENARIOS = {
     FXACV: 'ST1TS0T5', # Appeal against conviction
     FXASE: 'ST1TS0T6', # Appeal against sentence

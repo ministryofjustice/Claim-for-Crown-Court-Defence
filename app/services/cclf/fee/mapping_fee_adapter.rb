@@ -37,10 +37,9 @@ module CCLF
       end
 
       def case_type_adapter
-        ::CCLF::CaseTypeAdapter.new(object.claim.case_type)
+        @adapter ||= ::CCLF::CaseTypeAdapter.new(object.claim.case_type)
       end
 
-      # delegate missing methods to object if it can respond
       def method_missing(method, *args, &block)
         if object.respond_to?(method)
           object.send(method, *args, &block)

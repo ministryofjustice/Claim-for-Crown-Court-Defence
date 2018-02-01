@@ -10,4 +10,8 @@ module ArrayExtension
   def average(total = size)
     any? ? sum.to_f / total : 0
   end
+
+  def flat_select(&block)
+    flatten.compact.select(&block)
+  end
 end

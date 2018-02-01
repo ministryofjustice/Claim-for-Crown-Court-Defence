@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'spec_helper'
 
 RSpec.describe CCLF::Fee::MiscFeeAdapter, type: :adapter do
-  let(:fee) { instance_double('fee') }
+  let(:fee) { instance_double(::Fee::MiscFee) }
 
   # For a fee type the misc fee maps to a given CCLF bill type and sub type
   # however the bill scenario and "formula"* will depend on the
@@ -38,9 +38,9 @@ RSpec.describe CCLF::Fee::MiscFeeAdapter, type: :adapter do
       BILL_SCENARIO_MAPPINGS.each do |fee_type_code, scenario|
         context "when a misc fee of type #{unique_code} is attached to a claim with case of type #{fee_type_code}" do
           subject(:instance) { described_class.new(fee) }
-          let(:claim) { instance_double('claim', case_type: case_type) }
-          let(:case_type) { instance_double('case_type', fee_type_code: fee_type_code) }
-          let(:fee_type) { instance_double('fee_type', unique_code: unique_code) }
+          let(:claim) { instance_double(::Claim::LitigatorClaim, case_type: case_type) }
+          let(:case_type) { instance_double(::CaseType, fee_type_code: fee_type_code) }
+          let(:fee_type) { instance_double(::Fee::MiscFeeType, unique_code: unique_code) }
 
           before do
             allow(fee).to receive(:claim).and_return claim

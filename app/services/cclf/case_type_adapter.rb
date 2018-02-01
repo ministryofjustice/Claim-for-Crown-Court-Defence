@@ -2,7 +2,7 @@ module CCLF
   class CaseTypeAdapter
     attr_reader :case_type
 
-    # TODO: these are for final claim bill scenarios, interim and tranfer claims equivalent
+    # TODO: these are for final claim bill scenarios. Interim and tranfer claims have others
     SCENARIO_MAPPINGS = {
       FXACV: 'ST1TS0T5', # Appeal against conviction
       FXASE: 'ST1TS0T6', # Appeal against sentence
@@ -21,13 +21,6 @@ module CCLF
 
     def initialize(case_type)
       @case_type = case_type
-    end
-
-    class << self
-      def bill_scenario(case_type)
-        adapter = new(case_type)
-        adapter.bill_scenario
-      end
     end
 
     def bill_scenario

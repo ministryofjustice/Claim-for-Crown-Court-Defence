@@ -22,7 +22,7 @@ module CCLF
       private
 
       def case_type_adapter
-        ::CCLF::CaseTypeAdapter.new(object.claim.case_type)
+        @adapter ||= ::CCLF::CaseTypeAdapter.new(object.claim.case_type)
       end
 
       # delegate missing methods to object if it can respond

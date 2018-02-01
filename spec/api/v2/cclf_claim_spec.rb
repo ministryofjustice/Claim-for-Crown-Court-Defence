@@ -165,11 +165,17 @@ describe API::V2::CCLFClaim do
         expect(bills).to be_empty
       end
 
+      it 'returns no bill for bills without a bill type' do
+        claim.update!(case_type: case_type_grtrl)
+        fee_type = create(:misc_fee_type, unique_code: 'XXXXX')
+        create(:misc_fee, claim: claim, fee_type: fee_type, amount: 51.01)
+        expect(bills).to be_empty
+      end
+
       context 'final claims' do
         context 'litigator fee' do
           context 'when graduated fee exists' do
-            let(:grtrl){ create(:graduated_fee_type, :grtrl) }
-            let(:case_type_grtrl) { create(:case_type, :grtrl) }
+            let(:grtrl) { create(:graduated_fee_type, :grtrl) }
             let(:claim) do
               create(:litigator_claim, :without_fees, :submitted).tap do |claim|
                 claim.update!(case_type: case_type_grtrl)

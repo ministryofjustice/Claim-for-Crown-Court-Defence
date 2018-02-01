@@ -2,7 +2,6 @@
 Feature: Advocate admin submits a claim for a Trial case
 
   Scenario: I create a trial claim, then submit it
-
     Given I am a signed in advocate admin
     And There are other advocates in my provider
     And I am on the 'Your claims' page

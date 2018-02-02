@@ -284,6 +284,34 @@ describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('ST3TS3TB'.to_json).at_path("bills/0/bill_scenario")
             end
           end
+
+          context 'when disbursements exist' do
+            let(:forensic) { create(:disbursement_type, :forensic) }
+            let(:claim) do
+              create(:litigator_claim, :submitted, :without_fees).tap do |claim|
+                create(:disbursement, disbursement_type: forensic, claim: claim)
+              end
+            end
+
+            before do
+              allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
+            end
+
+            it { is_valid_cclf_json(response) }
+
+            it 'returns array containing fee bill' do
+              expect(response).to have_json_size(1).at_path("bills")
+            end
+
+            it 'returns array containing a special prep fee bill' do
+              expect(response).to be_json_eql('DISBURSEMENT'.to_json).at_path("bills/0/bill_type")
+              expect(response).to be_json_eql('FORENSICS'.to_json).at_path("bills/0/bill_subtype")
+            end
+
+            it 'returns a bill scenario based on case type' do
+              expect(response).to be_json_eql('ST1TS0T5'.to_json).at_path("bills/0/bill_scenario")
+            end
+          end
         end
       end
     end

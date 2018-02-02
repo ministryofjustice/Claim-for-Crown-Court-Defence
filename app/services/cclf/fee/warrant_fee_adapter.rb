@@ -1,6 +1,6 @@
 module CCLF
   module Fee
-    class WarrantFeeAdapter < SimpleFeeAdapter
+    class WarrantFeeAdapter < SimpleBillAdapter
       def bill_type
         'FEE_ADVANCE'
       end

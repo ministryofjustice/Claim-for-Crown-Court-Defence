@@ -1,6 +1,6 @@
 require 'rails_helper'
 require 'spec_helper'
-require_relative 'shared_examples_for_cclf_fee_entities'
+require_relative 'shared_examples_for_cclf_fee_adapters'
 
 RSpec.describe CCLF::Fee::GraduatedFeeAdapter, type: :adapter do
   GRADUATED_FEE_BILL_SCENARIOS = {

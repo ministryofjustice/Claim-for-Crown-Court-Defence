@@ -35,6 +35,11 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
     ]
   ]
 
+  before do
+    claim.form_step = :case_details
+    claim.force_validation = true
+  end
+
   context 'litigator type' do
     it 'errors if not new or original' do
       expect_invalid_attribute_with_message(claim, :litigator_type, 'xxx', 'invalid')
@@ -112,12 +117,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
 
   context 'case_conclusion' do
 
-    let(:claim) do
-      claim = Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id:30, case_conclusion_id: 10)
-      claim.form_step = 2
-      claim.force_validation = true
-      claim
-    end
+    let(:claim) { Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id:30, case_conclusion_id: 10) }
 
     it 'is valid if a valid case conclusion id' do
       expect_valid_attribute claim, :case_conclusion_id, 20
@@ -128,12 +128,8 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
     end
 
     context 'presence and absence' do
-      let(:claim) do
-        claim = Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id: 50, case_conclusion_id: 10)
-        claim.form_step = 2
-        claim.force_validation = true
-        claim
-      end
+      let(:claim) { Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id: 50, case_conclusion_id: 10) }
+
       it 'should error if absent but required' do
         claim.transfer_stage_id = 30
         expect_invalid_attribute_with_message(claim, :case_conclusion_id, nil, 'blank')
@@ -147,12 +143,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
 
   context 'transfer_details combination' do
 
-    let(:claim) do
-      claim = Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id: 50, case_conclusion_id: 10)
-      claim.form_step = 2
-      claim.force_validation = true
-      claim
-    end
+    let(:claim) { Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id: 50, case_conclusion_id: 10) }
 
     it 'adds a transfer detail combination error for invalid combinations' do
       expect(claim).not_to be_valid

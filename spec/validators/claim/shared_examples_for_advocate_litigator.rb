@@ -152,7 +152,7 @@ RSpec.shared_examples "common litigator validations" do
 
   context 'offence' do
     before do
-      claim.form_step = 3
+      claim.form_step = :offence_details
       claim.offence = nil
     end
 

@@ -1,4 +1,4 @@
-shared_examples 'common partial validations' do |steps|
+RSpec.shared_examples 'common partial validations' do |steps|
 
   context 'partial validation' do
     let(:step1_attributes) { steps[0] }
@@ -10,9 +10,9 @@ shared_examples 'common partial validations' do |steps|
         claim.source = 'web'
       end
 
-      context 'step 1' do
+      context 'first step' do
         before do
-          claim.form_step = 1
+          claim.form_step = claim.submission_stages.first
         end
 
         it 'should validate only attributes for this step' do
@@ -28,9 +28,9 @@ shared_examples 'common partial validations' do |steps|
         end
       end
 
-      context 'step 2' do
+      context 'second step' do
         before do
-          claim.form_step = 2
+          claim.form_step = claim.submission_stages.second
         end
 
         it 'should validate attributes for this step and previous steps' do
@@ -59,7 +59,7 @@ shared_examples 'common partial validations' do |steps|
   end
 end
 
-shared_examples 'common partial association validations' do |steps|
+RSpec.shared_examples 'common partial association validations' do |steps|
 
   context 'partial validation' do
     let(:step1_has_one) { steps[:has_one][0] }
@@ -79,9 +79,9 @@ shared_examples 'common partial association validations' do |steps|
         claim.source = 'web'
       end
 
-      context 'step 1' do
+      context 'first step' do
         before do
-          claim.form_step = 1
+          claim.form_step = claim.submission_stages.first
         end
 
         it 'should validate has_one associations for this step' do
@@ -109,9 +109,9 @@ shared_examples 'common partial association validations' do |steps|
         end
       end
 
-      context 'step 2' do
+      context 'second step' do
         before do
-          claim.form_step = 2
+          claim.form_step = claim.submission_stages.second
         end
 
         it 'should validate has_one associations for this step and previous steps' do

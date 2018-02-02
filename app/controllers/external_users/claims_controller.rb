@@ -131,7 +131,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def new
     load_offences_and_case_types
     build_nested_resources
-    track_visit({ url: 'external_user/%{type}/claim/new/page1', title: 'New %{type} claim page 1' },
+    track_visit({ url: 'external_user/%{type}/claim/new/%{step}', title: 'New %{type} claim %{step}' },
                 claim_tracking_substitutions)
   end
 
@@ -147,7 +147,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
     @claim.touch(:last_edited_at)
 
-    track_visit({ url: 'external_user/%{type}/claim/edit/page1', title: 'Edit %{type} claim page 1' },
+    track_visit({ url: 'external_user/%{type}/claim/edit/%{step}', title: 'Edit %{type} claim %{step}' },
                 claim_tracking_substitutions)
   end
 
@@ -413,7 +413,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     load_offences_and_case_types
 
     track_visit({
-                  url: 'external_user/%{type}/claim/%{action}/page%{step}',
+                  url: 'external_user/%{type}/claim/%{action}/%{step}',
                   title: '%{action_t} %{type} claim page %{step}'
                 }, claim_tracking_substitutions)
 

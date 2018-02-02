@@ -44,7 +44,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     let(:params) do
       {
         'claim' => {
-          'form_step' => '1',
+          'form_step' => 'transfer_fee_details',
           'form_id' => SecureRandom.uuid,
           'litigator_type' => 'original',
           'elected_case' => 'true',
@@ -186,7 +186,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         {
           'claim' => {
             'form_id' => SecureRandom.uuid,
-            'form_step' => '1',
+            'form_step' => 'transfer_fee_details',
             'litigator_type' => 'original',
             'elected_case' => 'true',
             'transfer_stage_id' => '10',
@@ -230,7 +230,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         {
           'claim' => {
             'form_id' => claim.form_id,
-            'form_step' => '2',
+            'form_step' => 'case_details',
             'supplier_number' => claim.provider.lgfs_supplier_numbers.first.supplier_number,
             'providers_ref' => 'PSR004',
             'court_id' => court.id.to_s,

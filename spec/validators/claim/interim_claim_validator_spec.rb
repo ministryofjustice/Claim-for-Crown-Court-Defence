@@ -39,7 +39,7 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
     before do
       allow(claim).to receive(:interim_fee).and_return(interim_fee)
       claim.source = 'web'
-      claim.form_step = 4
+      claim.form_step = :fees
     end
 
     context 'estimated_trial_length' do

@@ -6,7 +6,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
 
   before(:each) do
     claim.force_validation = true
-    claim.form_step = 2
+    claim.form_step = :defendants
   end
 
   it 'should call the validators on all the defendants' do
@@ -27,7 +27,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
       @misc_fee = FactoryBot.create :misc_fee,:with_date_attended, claim: claim
       FactoryBot.create :date_attended, attended_item: @misc_fee
       claim.fees.map(&:dates_attended).flatten      # iterate through the fees and dates attended so that the examples below know they have been created
-      claim.form_step = 4
+      claim.form_step = :fees
     end
 
     it 'should call the validator on all the attended dates for all the fees' do
@@ -43,7 +43,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
       FactoryBot.create :date_attended, attended_item: @expense
       claim.expenses.map(&:dates_attended).flatten       # iterate through the expenses and dates attended so that the examples below know they have been created
       claim.force_validation = true
-      claim.form_step = 3
+      claim.form_step = :offence_details
     end
 
   end

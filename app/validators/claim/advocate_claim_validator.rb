@@ -1,7 +1,7 @@
 class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   def self.fields_for_steps
-    [
-      %i[
+    {
+      case_details: %i[
         case_type
         court
         case_number
@@ -23,13 +23,13 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
         case_concluded_at
         supplier_number
       ],
-      [],
-      %i[offence],
-      %i[
+      defendants: [],
+      offence_details: %i[offence],
+      fees: %i[
         total
         defendant_uplifts
       ]
-    ]
+    }
   end
 
   private

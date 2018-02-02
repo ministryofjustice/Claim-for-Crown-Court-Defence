@@ -30,8 +30,6 @@ module TestHelpers
   def set_value(record, attribute, value)
     setter_method = "#{attribute}=".to_sym
     record.__send__(setter_method, value)
-    record.form_step = 2
-    record.force_validation = true
   end
 
   def no_error_for(record, attribute)

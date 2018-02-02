@@ -137,13 +137,6 @@ module Claim
       false
     end
 
-    def current_step_required?
-      # NOTE: offence details step is only required when the
-      # case type does not have a fixed fee
-      return super unless current_step == 4
-      !fixed_fee_case?
-    end
-
     private
 
     # called from state_machine before_submit

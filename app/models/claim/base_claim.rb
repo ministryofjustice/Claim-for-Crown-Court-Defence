@@ -78,7 +78,8 @@ module Claim
 
     serialize :evidence_checklist_ids, Array
 
-    attr_accessor :form_step
+    attr_reader :form_step
+    alias current_step form_step
     attr_accessor :disable_for_state_transition
 
     include ::Claims::StateMachine
@@ -206,6 +207,10 @@ module Claim
 
     def ensure_not_abstract_class
       raise BaseClaimAbstractClassError if self.class == BaseClaim
+    end
+
+    def form_step=(step)
+      @form_step = step.nil? ? nil : step.to_sym
     end
 
     # Override the corresponding method in the subclass
@@ -380,26 +385,25 @@ module Claim
       disable_for_state_transition.present?
     end
 
-    def step?(num)
-      current_step == num
-    end
-
     def next_step!
-      self.form_step = current_step + 1
-      self.form_step = current_step + 1 until current_step_required?
+      self.form_step = submission_stages[current_step_index + 1]
+      until current_step_required?
+        break unless form_step
+        self.form_step = submission_stages[current_step_index + 1]
+      end
       form_step
     end
 
-    def current_step
-      form_step.to_i
-    end
-
     def current_step_index
-      current_step - 1
+      submission_stages.index(current_step)
     end
 
     def current_step_required?
-      true
+      # NOTE: offence details step is only required when the
+      # case type does not have a fixed fee
+      # TODO: move this logic to a workflow management
+      return true unless current_step == :offence_details
+      !fixed_fee_case?
     end
 
     def from_api?
@@ -571,7 +575,7 @@ module Claim
 
     def default_values
       self.source ||= 'web'
-      self.form_step ||= 1
+      self.form_step ||= submission_stages.first
     end
   end
 end

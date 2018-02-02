@@ -2,8 +2,8 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
   include Claim::LitigatorCommonValidations
 
   def self.fields_for_steps
-    [
-      %i[
+    {
+      case_details: %i[
         case_type
         court
         case_number
@@ -12,12 +12,12 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
         advocate_category
         case_concluded_at
       ],
-      [],
-      %i[offence],
-      %i[
+      defendants: [],
+      offence_details: %i[offence],
+      fees: %i[
         actual_trial_length
         total
       ]
-    ]
+    }
   end
 end

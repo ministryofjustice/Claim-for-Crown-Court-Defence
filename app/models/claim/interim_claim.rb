@@ -100,13 +100,6 @@ module Claim
       :litigator
     end
 
-    def current_step_required?
-      # NOTE: offence details step is only required when the
-      # case type does not have a fixed fee
-      return super unless current_step == 3
-      !fixed_fee_case?
-    end
-
     private
 
     def provider_delegator

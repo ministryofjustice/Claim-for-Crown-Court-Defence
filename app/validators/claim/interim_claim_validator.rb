@@ -2,8 +2,8 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   include Claim::LitigatorCommonValidations
 
   def self.fields_for_steps
-    [
-      %i[
+    {
+      case_details: %i[
         case_type
         court
         case_number
@@ -12,9 +12,9 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
         advocate_category
         case_concluded_at
       ],
-      [],
-      %i[offence],
-      %i[
+      defendants: [],
+      offence_details: %i[offence],
+      fees: %i[
         first_day_of_trial
         estimated_trial_length
         trial_concluded_at
@@ -24,7 +24,7 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
         legal_aid_transfer_date
         total
       ]
-    ]
+    }
   end
 
   private

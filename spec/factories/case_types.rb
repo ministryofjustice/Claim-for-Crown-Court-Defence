@@ -28,8 +28,8 @@ FactoryBot.define do
     uuid SecureRandom.uuid
 
     trait :fixed_fee do
-      name            'Fixed fee'
-      is_fixed_fee    true
+      name 'Fixed fee'
+      is_fixed_fee true
     end
 
     trait :graduated_fee do
@@ -56,6 +56,9 @@ FactoryBot.define do
 
     trait :trial do
       name 'Trial'
+      fee_type_code 'GRTRL'
+      roles %w[agfs lgfs interim]
+      allow_pcmh_fee_type true
       requires_trial_dates true
     end
 
@@ -82,8 +85,16 @@ FactoryBot.define do
       name 'Breach of Crown Court order'
       fee_type_code 'FXCBR'
       requires_maat_reference false
-      roles %w(agfs lgfs)
+      roles %w[agfs lgfs]
       is_fixed_fee  true
+    end
+
+    trait :grtrl do
+      name 'Trial'
+      fee_type_code 'GRTRL'
+      allow_pcmh_fee_type true
+      requires_trial_dates true
+      roles %w[agfs lgfs interim]
     end
   end
 end

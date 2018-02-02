@@ -97,6 +97,14 @@
             "id": "/properties/bills/items/properties/amount",
             "type": "string"
           },
+          "warrant_issued_date": {
+            "id": "/properties/bills/items/properties/warrant_issued_date",
+            "type": ["string","null"]
+          },
+          "warrant_executed_date": {
+            "id": "/properties/bills/items/properties/warrant_executed_date",
+            "type": ["string","null"]
+          },
           "type": "array"
         },
         "type": "object"
@@ -133,7 +141,7 @@
               "properties": {
                 "maat_reference": {
                   "id": "/properties/defendants/items/properties/representation_orders/items/properties/maat_reference",
-                  "type": "string"
+                  "type": ["string","null"]
                 },
                 "representation_order_date": {
                   "id": "/properties/defendants/items/properties/representation_orders/items/properties/representation_order_date",

@@ -239,6 +239,10 @@ FactoryBot.define do
       code 'XWAR'
       calculated false
       roles [ 'lgfs' ]
+
+      trait :warr do
+        unique_code 'WARR'
+      end
     end
 
     factory :child_fee_type, class: Fee::FixedFeeType do

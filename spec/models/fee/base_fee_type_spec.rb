@@ -32,7 +32,6 @@ module Fee
       # using MiscFeeType becasue the shared exmaples use a factory, which rules out the use of a class double
       it_behaves_like 'roles', MiscFeeType, MiscFeeType::ROLES
     end
-    
   end
 
   class FeeTypeDouble < BaseFeeType
@@ -84,7 +83,6 @@ module Fee
         expect(build(:warrant_fee_type).fee_category_name).to eq 'Warrant Fee'
       end
     end
-
   end
 
   describe '#fee_category_name' do

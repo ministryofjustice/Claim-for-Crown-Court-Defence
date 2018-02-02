@@ -21,6 +21,7 @@ class ClaimFormPage < SitePrism::Page
     section :first_day_of_trial, CommonDateSection, '#first_day_of_trial'
     section :trial_concluded_on, CommonDateSection, '#trial_concluded_at'
     element :actual_trial_length, "#claim_actual_trial_length"
+    element :estimated_trial_length, '#claim_estimated_trial_length'
   end
 
   section :retrial_details, RetrialSection, "#retrial-details"

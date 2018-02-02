@@ -10,3 +10,5 @@ module DateHelper
     self.day.set '1'
   end
 end
+
+World(DateHelper)

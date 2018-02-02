@@ -38,17 +38,20 @@ When(/I enter trial start and end dates$/) do
   using_wait_time 3 do
     @claim_form_page.trial_details.first_day_of_trial.set_date 9.days.ago.to_s
     @claim_form_page.trial_details.trial_concluded_on.set_date 2.days.ago.to_s
+    @claim_form_page.trial_details.estimated_trial_length.set 5
     @claim_form_page.trial_details.actual_trial_length.set 8
   end
 end
 
 When(/^I enter defendant, representation order and MAAT reference$/) do
-  @claim_form_page.wait_for_defendants
-  @claim_form_page.defendants.first.first_name.set "Bob"
-  @claim_form_page.defendants.first.last_name.set "Billiards"
-  @claim_form_page.defendants.first.dob.set_date "1955-01-01"
-  @claim_form_page.defendants.last.representation_orders.first.date.set_date "2016-01-01"
-  @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
+    using_wait_time(6) do
+      @claim_form_page.wait_for_defendants
+      @claim_form_page.defendants.first.first_name.set "Bob"
+      @claim_form_page.defendants.first.last_name.set "Billiards"
+      @claim_form_page.defendants.first.dob.set_date "1955-01-01"
+      @claim_form_page.defendants.last.representation_orders.first.date.set_date "2016-01-01"
+      @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
+    end
 end
 
 When(/^I save as draft$/) do
@@ -137,7 +140,8 @@ When(/^I add some additional information$/) do
 end
 
 When(/^I click "Continue" in the claim form$/) do
-  @claim_form_page.continue.click
+  sleep 3
+  @claim_form_page.continue_button.click
   wait_for_ajax
 end
 

@@ -2,7 +2,6 @@
 Feature: Advocate admin submits a claim for a Trial case
 
   Scenario: I create a trial claim, then submit it
-
     Given I am a signed in advocate admin
     And There are other advocates in my provider
     And I am on the 'Your claims' page
@@ -19,16 +18,13 @@ Feature: Advocate admin submits a claim for a Trial case
     And I enter a case number of 'A20161234'
 
     Then I click "Continue" in the claim form
-
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
 
     Then I click "Continue" in the claim form
-
     And I select the offence category 'Activities relating to opium'
 
     Then I click "Continue" in the claim form
-
     And I add a basic fee with dates attended
     And I add a number of cases uplift fee with additional case numbers
     And I add a miscellaneous fee 'Adjourned appeals' with dates attended

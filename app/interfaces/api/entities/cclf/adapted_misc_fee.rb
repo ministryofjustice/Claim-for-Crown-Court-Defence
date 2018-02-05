@@ -1,7 +1,7 @@
 module API
   module Entities
     module CCLF
-      class AdaptedMiscFee < AdaptedBaseFee
+      class AdaptedMiscFee < AdaptedBaseBill
         expose :bill_scenario
         expose :amount, format_with: :string
 

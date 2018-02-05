@@ -1,7 +1,7 @@
 module API
   module Entities
     module CCLF
-      class AdaptedGraduatedFee < AdaptedBaseFee
+      class AdaptedGraduatedFee < AdaptedBaseBill
         expose :bill_scenario
         expose :quantity, format_with: :string
         expose :amount, format_with: :string

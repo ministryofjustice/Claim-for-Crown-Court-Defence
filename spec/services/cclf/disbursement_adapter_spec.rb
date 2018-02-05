@@ -2,6 +2,7 @@ require 'rails_helper'
 require 'spec_helper'
 
 RSpec.describe CCLF::Fee::DisbursementAdapter, type: :adapter do
+  let(:disbursement) { instance_double(::Disbursement) }
 
   # For a given disbursement type the disbursement maps to a given CCLF bill type and sub type
   # however the bill scenario and "formula"* depend on the
@@ -62,15 +63,15 @@ RSpec.describe CCLF::Fee::DisbursementAdapter, type: :adapter do
 context 'bill mappings' do
     DISBURSEMENT_BILL_TYPES.each do |unique_code, bill_types|
       DISBURSEMENT_BILL_SCENARIOS.each do |fee_type_code, scenario|
-        context "when a misc fee of type #{unique_code} is attached to a claim with case of type #{fee_type_code}" do
-          subject(:instance) { described_class.new(fee) }
+        context "when a disbursement of type #{unique_code} is attached to a claim with case of type #{fee_type_code}" do
+          subject(:instance) { described_class.new(disbursement) }
           let(:claim) { instance_double(::Claim::LitigatorClaim, case_type: case_type) }
           let(:case_type) { instance_double(::CaseType, fee_type_code: fee_type_code) }
-          let(:fee_type) { instance_double(::Fee::MiscFeeType, unique_code: unique_code) }
+          let(:disbursement_type) { instance_double(::DisbursementType, unique_code: unique_code) }
 
           before do
-            allow(fee).to receive(:claim).and_return claim
-            allow(fee).to receive(:fee_type).and_return fee_type
+            allow(disbursement).to receive(:claim).and_return claim
+            allow(disbursement).to receive(:disbursement_type).and_return disbursement_type
           end
 
           describe '#bill_type' do

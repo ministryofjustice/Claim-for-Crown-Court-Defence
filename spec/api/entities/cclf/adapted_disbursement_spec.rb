@@ -7,10 +7,10 @@ RSpec.describe API::Entities::CCLF::AdaptedDisbursement, type: :adapter do
   let(:disbursement_type) { instance_double(::DisbursementType, unique_code: 'FOR') }
   let(:case_type) { instance_double(::CaseType, fee_type_code: 'FXACV') }
   let(:claim) { instance_double(::Claim::BaseClaim, case_type: case_type) }
-  let(:disbursement) { instance_double(::Disbursement, claim: claim, disbursement_type: disbursement_type, net_amount: 9.99, vat_amount: 1.99) }
+  let(:disbursement) { instance_double(::Disbursement, claim: claim, disbursement_type: disbursement_type, net_amount: 9.99, vat_amount: 1.99, total: 11.98) }
 
   it 'exposes the required keys' do
-    expect(response.keys).to match_array(%i[bill_type bill_subtype bill_scenario amount])
+    expect(response.keys).to match_array(%i[bill_type bill_subtype bill_scenario net_amount vat_amount total])
   end
 
   it 'exposes expected json key-value pairs' do
@@ -20,6 +20,7 @@ RSpec.describe API::Entities::CCLF::AdaptedDisbursement, type: :adapter do
       bill_scenario: 'ST1TS0T5',
       net_amount: '9.99',
       vat_amount: '1.99',
+      total: '11.98'
     )
   end
 

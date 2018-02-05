@@ -33,7 +33,6 @@ module CCR
         MIRNL: zip(%w[AGFS_MISC_FEES AGFS_NOVEL_LAW]), # Research of very unusual or novel point of law
         MISHR: zip(%w[AGFS_MISC_FEES AGFS_SENTENCE]), # Sentence hearings
         MISPF: zip(%w[AGFS_MISC_FEES AGFS_SPCL_PREP]), # Special preparation fee - AGFS only version
-        # MISPF: zip(%w[FEE_SUPPLEMENT SPECIAL_PREP]), # TODO: Special preparation fee - LGFS only version - need to apply fee type role logic
         MITNP: zip(%w[AGFS_MISC_FEES AGFS_NOT_PRCD]), # Trial not proceed
         MIUAV1: zip(%w[AGFS_MISC_FEES AGFS_UN_VAC_HF]), # Unsuccessful application to vacate a guilty plea (half day)
         MIUAV2: zip(%w[AGFS_MISC_FEES AGFS_UN_VAC_WL]), # Unsuccessful application to vacate a guilty plea (whole day)

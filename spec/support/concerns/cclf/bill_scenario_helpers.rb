@@ -26,7 +26,7 @@ module CCLF
         GRADUATED_FEE_BILL_SCENARIOS
       end
 
-      def graduated_fee_bill_scenarios
+      def fixed_fee_bill_scenarios
         FIXED_FEE_BILL_SCENARIOS
       end
 

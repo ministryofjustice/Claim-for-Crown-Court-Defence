@@ -314,15 +314,14 @@ describe API::V2::CCLFClaim do
           end
 
           context 'when expenses exist' do
-            let(:bike_travel) { create(:expense_type, :bike_travel) }
             let(:claim) do
               create(:litigator_claim, :submitted, :without_fees).tap do |claim|
-                create(:expense, expense_type: bike_travel, claim: claim)
+                create(:expense, :bike_travel, claim: claim)
               end
             end
 
             before do
-              allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
+              allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCBR'
             end
 
             it { is_valid_cclf_json(response) }
@@ -337,7 +336,7 @@ describe API::V2::CCLFClaim do
             end
 
             it 'returns a bill scenario based on case type' do
-              expect(response).to be_json_eql('ST1TS0T5'.to_json).at_path("bills/0/bill_scenario")
+              expect(response).to be_json_eql('ST3TS3TB'.to_json).at_path("bills/0/bill_scenario")
             end
           end
         end

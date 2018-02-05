@@ -54,25 +54,6 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
   describe 'POST create' do
     context 'AGFS' do
       let(:claim) { create(:claim) }
-      let(:sqs_client) do
-        Aws::SQS::Client.new(
-          region: 'eu_west_1',
-          stub_responses:
-            {
-              list_queues: { queue_urls:['valid_queue_name'] },
-              get_queue_url: { queue_url: 'http://aws_url' },
-              send_message: stub_send_response
-            }
-        )
-      end
-      let(:stub_send_response) { stub_response_success }
-      let(:stub_response_success) { }
-      let(:stub_response_failure)  { Aws::SQS::Errors::NonExistentQueue.new(
-                                       double('request'),
-                                       double('response', :status => 400, :body => '<foo/>')
-                                     )
-      }
-
       let(:sns_client) do
         Aws::SNS::Client.new(
             region: 'eu_west_1',
@@ -84,7 +65,6 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
       end
 
       before do
-        allow(Aws::SQS::Client).to receive(:new).and_return sqs_client
         allow(Aws::SNS::Client).to receive(:new).and_return sns_client
         allow(sns_client).to receive(:publish)
       end
@@ -111,19 +91,9 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
         end
 
         it 'logs a successful message on the queue' do
-          allow(Settings.aws).to receive(:submitted_queue).and_return('valid_queue_name')
           expect(Rails.logger).to receive(:info).with(/Successfully sent message about submission of claim#/)
           post :create, valid_certification_params(claim, certification_type)
           expect(sns_client).to have_received(:publish).once
-        end
-
-        context 'when SQS fails' do
-          let(:stub_send_response) { stub_response_failure }
-
-          it 'logs an error message' do
-            expect(Rails.logger).to receive(:warn).with(/Error: .* while sending message about submission of claim#/)
-            post :create, valid_certification_params(claim, certification_type)
-          end
         end
       end
     end

@@ -39,20 +39,10 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
   end
 
   def notify_legacy_importers
-    sqs_enqueue(queue: Settings.aws.submitted_queue) if @claim.agfs?
-    publish_via_sns
+    NotificationQueue::AwsClient.new.send!(@claim)
     Rails.logger.info "Successfully sent #{log_suffix}"
   rescue StandardError => err
     Rails.logger.warn "Error: '#{err.message}' while sending #{log_suffix}"
-  end
-
-  def publish_via_sns
-    NotificationQueue::AwsClient.new.send!(@claim)
-  end
-
-  def sqs_enqueue(queue:)
-    message = MessageQueue::MessageTemplate.claim_created(@claim.type, @claim.uuid)
-    MessageQueue::AwsClient.new(queue).send!(message)
   end
 
   def log_suffix

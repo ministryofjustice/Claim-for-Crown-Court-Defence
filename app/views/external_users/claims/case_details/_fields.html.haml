@@ -20,7 +20,7 @@
           %label.form-label{:for => "claim_external_user_id_input"}
             = t('.advocate')
           .form-hint.xsmall.zero-vert-margin
-            = "The instructed advocate for the case"
+            = t(".advocate_hint")
           = f.collection_select :external_user_id, @provider.advocates.sort_by(&:name_and_number), :id, :name_and_number, { include_blank: ''.html_safe }, {class: 'form-control typeahead'}
           = validation_error_message(@error_presenter, :external_user)
 

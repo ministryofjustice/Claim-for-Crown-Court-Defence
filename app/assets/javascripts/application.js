@@ -89,6 +89,14 @@ if (!String.prototype.supplant) {
     moj.Modules.FeeFieldsDisplay.addFeeChangeEvent($insertedItem.find('.fx-fee-group'))
   });
 
+
+  $('.defendants').on('cocoon:after-insert', function(e, el){
+    var $el = $(el);
+    if($el.hasClass('js-test-defendant')){
+      $el.find('a.add_fields').click();
+    }
+  });
+
   //Stops the form from submitting when the user presses 'Enter' key
   $('#claim-form, #claim-status').on('keypress', function(e) {
     if (e.keyCode === 13 && (e.target.type !== 'textarea' && e.target.type !== 'submit')) {

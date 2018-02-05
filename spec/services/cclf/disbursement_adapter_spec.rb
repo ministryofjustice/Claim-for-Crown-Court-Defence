@@ -39,30 +39,14 @@ RSpec.describe CCLF::Fee::DisbursementAdapter, type: :adapter do
     ARC: ['DISBURSEMENT', 'SURVEYOR'], # Surveyor/architect
     SCR: ['DISBURSEMENT', 'TRANSCRIPTS'], # Transcripts
     TRA: ['DISBURSEMENT', 'TRANSLATOR'], # Translator
-    TRV: ['DISBURSEMENT', 'TRAVEL COSTS'], # Travel costs
+  # TRV: ['DISBURSEMENT', 'TRAVEL COSTS'], # Travel costs - # TODO: disable for Litigator Claims, could be removed from app
     VET: ['DISBURSEMENT', 'VET_REPORT'], # Vet report
     VOI: ['DISBURSEMENT', 'VOICE_RECOG'], # Voice recognition
   }.freeze
 
-  DISBURSEMENT_BILL_SCENARIOS = {
-    FXACV: 'ST1TS0T5', # Appeal against conviction
-    FXASE: 'ST1TS0T6', # Appeal against sentence
-    FXCBR: 'ST3TS3TB', # Breach of Crown Court order
-    FXCSE: 'ST1TS0T7', # Committal for Sentence
-    FXCON: 'ST1TS0T8', # Contempt
-    FXENP: 'ST4TS0T1', # Elected cases not proceeded
-    FXH2S: 'ST1TS0TC', # Hearing subsequent to sentence
-    GRDIS: 'ST1TS0T1', # Discontinuance
-    GRGLT: 'ST1TS0T2', # Guilty plea
-    GRTRL: 'ST1TS0T4', # Trial
-    GRRTR: 'ST1TS0TA', # Retrial
-    GRRAK: 'ST1TS0T3', # Cracked trial
-    GRCBR: 'ST1TS0T9', # Cracked before retrial
-  }.freeze
-
 context 'bill mappings' do
     DISBURSEMENT_BILL_TYPES.each do |unique_code, bill_types|
-      DISBURSEMENT_BILL_SCENARIOS.each do |fee_type_code, scenario|
+      final_claim_bill_scenarios.each do |fee_type_code, scenario|
         context "when a disbursement of type #{unique_code} is attached to a claim with case of type #{fee_type_code}" do
           subject(:instance) { described_class.new(disbursement) }
           let(:claim) { instance_double(::Claim::LitigatorClaim, case_type: case_type) }

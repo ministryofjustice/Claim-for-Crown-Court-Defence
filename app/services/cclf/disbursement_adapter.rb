@@ -30,7 +30,7 @@ module CCLF
       ARC: zip(%w[DISBURSEMENT SURVEYOR]), # Surveyor/architect
       SCR: zip(%w[DISBURSEMENT TRANSCRIPTS]), # Transcripts
       TRA: zip(%w[DISBURSEMENT TRANSLATOR]), # Translator
-      TRV: zip(['DISBURSEMENT', 'TRAVEL COSTS']), # Travel costs
+      # TRV: zip(['DISBURSEMENT', 'TRAVEL COSTS']), # Travel costs # TODO: disabled for Litigator Claims, could be removed from app
       VET: zip(%w[DISBURSEMENT VET_REPORT]), # Vet report
       VOI: zip(%w[DISBURSEMENT VOICE_RECOG]) # Voice recognition
     }.freeze

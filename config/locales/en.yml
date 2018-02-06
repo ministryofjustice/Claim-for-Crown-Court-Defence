@@ -507,6 +507,7 @@ en:
           trial_fixed_at: '1st fixed/warned trial'
         fields:
           advocate: *advocate
+          advocate_hint: 'The instructed advocate for the case'
           advocate_category: 'Advocate category'
           case_details: 'Case details'
           case_offence: 'Case & offence'

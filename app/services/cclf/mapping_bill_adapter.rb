@@ -1,5 +1,5 @@
 module CCLF
-  class MappingBillAdapter
+  class MappingBillAdapter < SimpleDelegator
     KEYS = %i[bill_type bill_subtype].freeze
 
     attr_reader :object
@@ -37,18 +37,6 @@ module CCLF
 
     def case_type_adapter
       @adapter ||= ::CCLF::CaseTypeAdapter.new(object.claim.case_type)
-    end
-
-    def method_missing(method, *args, &block)
-      if object.respond_to?(method)
-        object.send(method, *args, &block)
-      else
-        super
-      end
-    end
-
-    def respond_to_missing?(method, include_private = false)
-      object.respond_to?(method) || super
     end
   end
 end

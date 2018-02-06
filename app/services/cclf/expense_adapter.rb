@@ -1,11 +1,5 @@
 module CCLF
   class ExpenseAdapter < SimpleBillAdapter
-    def bill_type
-      'DISBURSEMENT'
-    end
-
-    def bill_subtype
-      'TRAVEL COSTS'
-    end
+    acts_as_simple_bill bill_type: 'DISBURSEMENT', bill_subtype: 'TRAVEL COSTS'
   end
 end

@@ -192,12 +192,12 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
           let(:claim_params_step2) do
             {
-                form_step: 2,
-                additional_information: 'foo',
-                expenses_attributes:
-                    [
-                        expense_params
-                    ]
+              form_step: :defendants,
+              additional_information: 'foo',
+              expenses_attributes:
+              [
+                expense_params
+              ]
             }
           end
 
@@ -207,7 +207,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             post :create, commit_continue: 'Continue', claim: claim_params_step1
             expect(subject_claim.draft?).to be_truthy
             expect(subject_claim.valid?).to be_truthy
-            expect(assigns(:claim).current_step).to eq(2)
+            expect(assigns(:claim).current_step).to eq(:defendants)
             expect(response).to render_template('external_users/litigators/claims/new')
 
             put :update, id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2

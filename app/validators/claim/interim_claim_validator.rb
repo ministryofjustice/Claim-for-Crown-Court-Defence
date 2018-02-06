@@ -2,9 +2,19 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   include Claim::LitigatorCommonValidations
 
   def self.fields_for_steps
-    [
-      [].unshift(first_step_common_validations),
-      %i[
+    {
+      case_details: %i[
+        case_type
+        court
+        case_number
+        transfer_court
+        transfer_case_number
+        advocate_category
+        case_concluded_at
+      ],
+      defendants: [],
+      offence_details: %i[offence],
+      fees: %i[
         first_day_of_trial
         estimated_trial_length
         trial_concluded_at
@@ -14,7 +24,7 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
         legal_aid_transfer_date
         total
       ]
-    ]
+    }
   end
 
   private

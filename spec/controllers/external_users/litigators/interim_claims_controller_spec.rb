@@ -151,8 +151,8 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
           let(:claim_params_step2) do
             {
-                form_step: 2,
-                additional_information: 'foo'
+              form_step: 'defendants',
+              additional_information: 'foo'
             }.merge(interim_fee_params)
           end
 
@@ -163,9 +163,15 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
             before do
               post :create, commit_continue: 'Continue', claim: claim_params_step1
             end
-            
-            it 'should leave claim in draft state'  do expect(subject_claim.draft?).to be_truthy end
-            it 'should assign current_step to 2'    do expect(assigns(:claim).current_step).to eq(2) end
+
+            it 'should leave claim in draft state' do
+              expect(subject_claim.draft?).to be_truthy
+            end
+
+            it 'should assign current_step to 2' do
+              expect(assigns(:claim).current_step).to eq(:defendants)
+            end
+
             it { expect(response).to render_template('external_users/litigators/interim_claims/new') }
           end
 
@@ -178,7 +184,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
             it 'saves as draft' do
               expect(subject_claim.draft?).to be_truthy
             end
-            
+
             it 'redirects to summary page' do
               expect(response).to redirect_to(summary_external_users_claim_path(subject_claim))
             end

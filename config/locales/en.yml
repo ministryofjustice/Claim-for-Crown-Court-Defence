@@ -112,6 +112,8 @@ en:
         supplier_number: 'Supplier number'
       case_worker:
         roles: *roles
+      certification:
+        certified_by: 'Name of person certifying'
       user:
         email: *email
         password: *password

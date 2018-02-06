@@ -1,4 +1,4 @@
-shared_examples "common advocate litigator validations" do |external_user_type|
+RSpec.shared_examples "common advocate litigator validations" do |external_user_type|
 
   context 'external_user' do
     it 'should error if not present, regardless' do
@@ -62,8 +62,7 @@ shared_examples "common advocate litigator validations" do |external_user_type|
   end
 end
 
-
-shared_examples "common litigator validations" do
+RSpec.shared_examples "common litigator validations" do
 
   let(:advocate)      { build(:external_user, :advocate) }
   let(:offence)       { build(:offence) }
@@ -152,13 +151,16 @@ shared_examples "common litigator validations" do
   end
 
   context 'offence' do
-    before { claim.offence = nil }
+    before do
+      claim.form_step = :offence_details
+      claim.offence = nil
+    end
 
-    it 'should error if NOT present for any case type' do
+    it 'should error if NOT present for case type without fixed fees' do
       claim.case_type.is_fixed_fee = false
       should_error_with(claim, :offence, 'blank_class')
       claim.case_type.is_fixed_fee = true
-      should_error_with(claim, :offence, 'blank_class')
+      should_not_error(claim, :offence)
     end
 
     it 'should NOT error if a Miscellaneous/other offence' do

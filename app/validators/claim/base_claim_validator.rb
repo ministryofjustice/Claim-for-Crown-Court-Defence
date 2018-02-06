@@ -1,17 +1,18 @@
 class Claim::BaseClaimValidator < BaseValidator
   def self.mandatory_fields
-    %i[
-      external_user_id
-      creator
-      amount_assessed
-      evidence_checklist_ids
-    ]
+    %i[external_user_id creator amount_assessed evidence_checklist_ids]
   end
 
   private
 
+  def step_fields_for_validation
+    self.class.fields_for_steps.select do |k, _v|
+      @record.submission_stages[steps_range(@record)].include?(k)
+    end.values.flatten
+  end
+
   def validate_step_fields
-    self.class.fields_for_steps[steps_range(@record)].flatten.each do |field|
+    step_fields_for_validation.each do |field|
       validate_field(field)
     end
   end

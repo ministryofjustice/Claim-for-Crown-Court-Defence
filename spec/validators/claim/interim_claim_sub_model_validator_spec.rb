@@ -7,10 +7,14 @@ RSpec.describe Claim::InterimClaimSubModelValidator, type: :validator do
   include_examples 'common partial association validations', {
       has_one: [
           [],
+          [],
+          [],
           [:interim_fee, :assessment, :certification]
       ],
       has_many: [
+          [],
           [:defendants],
+          [],
           [:disbursements, :messages, :redeterminations, :documents]
       ]
   }

@@ -508,7 +508,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     end
 
-
     context 'find by advocate and defendant' do
 
       let!(:current_external_user) { create(:external_user) }
@@ -784,7 +783,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
-
   describe 'allocate claim when assigning to case worker' do
     subject { create(:submitted_claim) }
     let(:case_worker) { create(:case_worker) }
@@ -905,7 +903,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
-
   describe '.total_greater_than_or_equal_to' do
     let(:not_greater_than_400) do
       claims = []
@@ -974,7 +971,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'sets the source field before saving a claim' do
-    let(:claim)       { FactoryBot.build :claim }
+    let(:claim) { FactoryBot.build :claim }
 
     it 'sets the source to web by default if unset' do
       expect(claim.save).to eq(true)
@@ -1239,7 +1236,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         end
       end
 
-
       context 'latest redetermination created after transition to redetermination' do
         it 'should be false' do
           Timecop.freeze(Time.now + 10.minutes) do
@@ -1385,35 +1381,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       result = claim.valid?
       expect(claim.expenses).to have(1).member
       expect(claim.expenses_total).to eq 40.0
-    end
-  end
-
-  describe '#current_step_required?' do
-    let(:claim) { build(:advocate_claim) }
-    subject { claim.current_step_required? }
-
-    specify { is_expected.to eq(true) }
-
-    context 'when current step is offence details (3)' do
-      before do
-        claim.form_step = 3
-      end
-
-      context 'and the case type does not have a fixed fee' do
-        before do
-          allow(claim).to receive(:fixed_fee_case?).and_return(false)
-        end
-
-        specify { is_expected.to eq(true) }
-      end
-
-      context 'and the case type has a fixed fee' do
-        before do
-          allow(claim).to receive(:fixed_fee_case?).and_return(true)
-        end
-
-        specify { is_expected.to eq(false) }
-      end
     end
   end
 

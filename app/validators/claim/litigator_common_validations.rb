@@ -34,7 +34,7 @@ module Claim
     end
 
     def validate_offence
-      validate_presence(:offence, 'blank_class')
+      validate_presence(:offence, 'blank_class') unless fixed_fee_case?
     end
 
     def validate_case_concluded_at

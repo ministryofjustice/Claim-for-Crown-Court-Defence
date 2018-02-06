@@ -1,12 +1,12 @@
 class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
   # Override this method in the derived class
   def has_many_association_names_for_steps
-    []
+    {}
   end
 
   # Override this method in the derived class
   def has_one_association_names_for_steps
-    []
+    {}
   end
 
   def validate(record)
@@ -19,19 +19,31 @@ class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
 
   private
 
+  def associations_for_has_many_validations(record)
+    has_many_association_names_for_steps.select do |k, _v|
+      record.submission_stages[steps_range(record)].include?(k)
+    end.values.flatten
+  end
+
   def validate_has_many_associations_step_fields(record)
-    has_many_association_names_for_steps[steps_range(record)].flatten.each do |association_name|
+    associations_for_has_many_validations(record).each do |association_name|
       validate_collection_for(record, association_name)
     end
   end
 
+  def associations_for_has_one_validations(record)
+    has_one_association_names_for_steps.select do |k, _v|
+      record.submission_stages[steps_range(record)].include?(k)
+    end.values.flatten
+  end
+
   def validate_has_one_association_step_fields(record)
-    has_one_association_names_for_steps[steps_range(record)].flatten.each do |association_name|
+    associations_for_has_one_validations(record).each do |association_name|
       validate_association_for(record, association_name)
     end
   end
 
   def has_many_association_names_for_errors
-    has_many_association_names_for_steps.flatten
+    has_many_association_names_for_steps.values.flatten
   end
 end

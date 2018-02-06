@@ -93,6 +93,10 @@ module Claim
       end
     end
 
+    def submission_stages
+      %i[transfer_fee_details case_details defendants offence_details fees]
+    end
+
     def lgfs?
       self.class.lgfs?
     end

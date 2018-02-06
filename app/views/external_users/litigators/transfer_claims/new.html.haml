@@ -5,7 +5,7 @@
 - present(@claim) do |claim|
   .grid-row.grid-sidebar
     .column-two-thirds.first
-      = render 'form'
+      = render partial: 'form', locals: { claim: claim }
 
     .column-one-third.first
       = render partial: 'external_users/claims/summary_claims_sidebar', locals: { claim: claim, display_buttons: false }

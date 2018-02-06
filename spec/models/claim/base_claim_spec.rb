@@ -65,7 +65,11 @@
 require 'rails_helper'
 
 module Claim
-  class MockBaseClaim < BaseClaim; end
+  class MockBaseClaim < BaseClaim
+    def submission_stages
+      %i[foo bar]
+    end
+  end
 
   describe BaseClaim do
     include DatabaseHousekeeping
@@ -263,22 +267,26 @@ module Claim
       let(:claim) { MockBaseClaim.new }
 
       it 'returns the immediate next step by default' do
-        expect(claim.next_step!).to eq(2)
-        expect(claim.next_step!).to eq(3)
+        expect(claim.next_step!).to eq(:bar)
+        expect(claim.next_step!).to eq(nil)
       end
 
       context 'when the immediate next step is not required' do
         class MockNextStepClaim < BaseClaim
+          def submission_stages
+            %i[foo bar long_enough]
+          end
+
           def current_step_required?
-            current_step % 5 == 0
+            current_step && current_step.to_s.size >= 5
           end
         end
 
         let(:claim) { MockNextStepClaim.new }
 
         it 'returns the next step after that which is required' do
-          expect(claim.next_step!).to eq(5)
-          expect(claim.next_step!).to eq(10)
+          expect(claim.next_step!).to eq(:long_enough)
+          expect(claim.next_step!).to eq(nil)
         end
       end
     end
@@ -286,7 +294,30 @@ module Claim
     describe '#current_step_required?' do
       let(:claim) { MockBaseClaim.new }
       subject { claim.current_step_required? }
+
       specify { is_expected.to eq(true) }
+
+      context 'when current step is offence details (3)' do
+        before do
+          claim.form_step = 'offence_details'
+        end
+
+        context 'and the case type does not have a fixed fee' do
+          before do
+            allow(claim).to receive(:fixed_fee_case?).and_return(false)
+          end
+
+          specify { is_expected.to eq(true) }
+        end
+
+        context 'and the case type has a fixed fee' do
+          before do
+            allow(claim).to receive(:fixed_fee_case?).and_return(true)
+          end
+
+          specify { is_expected.to eq(false) }
+        end
+      end
     end
   end
 

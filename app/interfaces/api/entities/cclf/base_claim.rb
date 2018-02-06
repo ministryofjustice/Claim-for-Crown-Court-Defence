@@ -14,6 +14,7 @@ module API
         expose :actual_trial_length_or_one, as: :actual_trial_Length, format_with: :string
 
         # CCLF specific incarnations of claim sub model entities
+        expose :case_type, using: API::Entities::CCLF::CaseType
         expose :offence, using: API::Entities::CCLF::Offence
 
         # reuse CCR entities where they are identical

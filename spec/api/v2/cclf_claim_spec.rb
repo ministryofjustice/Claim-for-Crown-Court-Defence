@@ -32,7 +32,7 @@ RSpec.shared_examples 'returns LGFS claim type' do |type|
   end
 end
 
-describe API::V2::CCLFClaim do
+RSpec.describe API::V2::CCLFClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -45,6 +45,10 @@ describe API::V2::CCLFClaim do
   before(:all) do
     @case_worker = create(:case_worker, :admin)
     @claim = create(:litigator_claim, :without_fees, :submitted)
+  end
+
+  before do
+    allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'GRTRL'
   end
 
   def do_request(claim_uuid: @claim.uuid, api_key: @case_worker.user.api_key)
@@ -110,11 +114,24 @@ describe API::V2::CCLFClaim do
       it { is_expected.to expose :case_concluded_at }
       it { is_expected.to expose :last_submitted_at }
       it { is_expected.to expose :actual_trial_Length }
+      it { is_expected.to expose :case_type }
       it { is_expected.to expose :offence }
       it { is_expected.to expose :court }
       it { is_expected.to expose :defendants }
       it { is_expected.to expose :additional_information }
       it { is_expected.to expose :bills }
+    end
+
+    context 'case_type' do
+      subject(:response) { do_request.body }
+
+      before do
+        allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCON'
+      end
+
+      it 'returns a bill scenario based on case type' do
+        expect(response).to be_json_eql('ST1TS0T8'.to_json).at_path("case_type/bill_scenario")
+      end
     end
 
     context 'defendants' do
@@ -194,10 +211,6 @@ describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
             end
 
-            it 'returns a bill scenario based on case type' do
-              expect(response).to be_json_eql('ST1TS0T4'.to_json).at_path("bills/0/bill_scenario")
-            end
-
             it 'returns a litigator fee bill for any graduated fee' do
               allow_any_instance_of(::Fee::GraduatedFeeType).to receive(:unique_code).and_return 'XXXXX'
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
@@ -225,10 +238,6 @@ describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
             end
-
-            it 'returns a bill scenario based on case type' do
-              expect(response).to be_json_eql('ST3TS3TB'.to_json).at_path("bills/0/bill_scenario")
-            end
           end
 
           context 'when miscellaneous fees exists' do
@@ -253,10 +262,6 @@ describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/0/bill_subtype")
             end
-
-            it 'returns a bill scenario based on case type' do
-              expect(response).to be_json_eql('ST1TS0T5'.to_json).at_path("bills/0/bill_scenario")
-            end
           end
 
           context 'when warrant fee exists' do
@@ -279,9 +284,52 @@ describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('FEE_ADVANCE'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('WARRANT'.to_json).at_path("bills/0/bill_subtype")
             end
+          end
 
-            it 'returns a bill scenario based on case type' do
-              expect(response).to be_json_eql('ST3TS3TB'.to_json).at_path("bills/0/bill_scenario")
+          context 'when disbursements exist' do
+            let(:forensic) { create(:disbursement_type, :forensic) }
+            let(:claim) do
+              create(:litigator_claim, :submitted, :without_fees).tap do |claim|
+                create(:disbursement, disbursement_type: forensic, claim: claim)
+              end
+            end
+
+            before do
+              allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
+            end
+
+            it { is_valid_cclf_json(response) }
+
+            it 'returns array containing fee bill' do
+              expect(response).to have_json_size(1).at_path("bills")
+            end
+
+            it 'returns array containing a special prep fee bill' do
+              expect(response).to be_json_eql('DISBURSEMENT'.to_json).at_path("bills/0/bill_type")
+              expect(response).to be_json_eql('FORENSICS'.to_json).at_path("bills/0/bill_subtype")
+            end
+          end
+
+          context 'when expenses exist' do
+            let(:claim) do
+              create(:litigator_claim, :submitted, :without_fees).tap do |claim|
+                create(:expense, :bike_travel, claim: claim)
+              end
+            end
+
+            before do
+              allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCBR'
+            end
+
+            it { is_valid_cclf_json(response) }
+
+            it 'returns array containing fee bill' do
+              expect(response).to have_json_size(1).at_path("bills")
+            end
+
+            it 'returns array containing a special prep fee bill' do
+              expect(response).to be_json_eql('DISBURSEMENT'.to_json).at_path("bills/0/bill_type")
+              expect(response).to be_json_eql('TRAVEL COSTS'.to_json).at_path("bills/0/bill_subtype")
             end
           end
         end

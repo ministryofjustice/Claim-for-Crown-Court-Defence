@@ -1,13 +1,7 @@
 module CCLF
   module Fee
-    class LitigatorFeeAdapter < SimpleFeeAdapter
-      def bill_type
-        'LIT_FEE'
-      end
-
-      def bill_subtype
-        'LIT_FEE'
-      end
+    class LitigatorFeeAdapter < SimpleBillAdapter
+      acts_as_simple_bill bill_type: 'LIT_FEE', bill_subtype: 'LIT_FEE'
     end
   end
 end

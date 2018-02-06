@@ -1,13 +1,12 @@
 module API
   module Entities
     module CCLF
-      class AdaptedFixedFee < AdaptedBaseFee
-        expose :bill_scenario
+      class AdaptedFixedFee < AdaptedBaseBill
         expose :amount, format_with: :string
 
         private
 
-        delegate :bill_type, :bill_subtype, :bill_scenario, to: :adapter
+        delegate :bill_type, :bill_subtype, to: :adapter
 
         def adapter
           @adapter ||= ::CCLF::Fee::FixedFeeAdapter.new(object)

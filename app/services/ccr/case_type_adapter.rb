@@ -2,7 +2,7 @@ module CCR
   class CaseTypeAdapter
     attr_reader :case_type
 
-    SCENARIO_MAPPINGS = {
+    BILL_SCENARIOS = {
       FXACV: 'AS000005', # Appeal against conviction
       FXASE: 'AS000006', # Appeal against sentence
       FXCBR: 'AS000009', # Breach of Crown Court order
@@ -13,7 +13,6 @@ module CCR
       GRDIS: 'AS000001', # Discontinuance
       FXENP: 'AS000014', # Elected cases not proceeded
       GRGLT: 'AS000002', # Guilty plea
-      FXH2S: nil, # Hearing subsequent to sentence??? LGFS only
       GRRTR: 'AS000011', # Retrial
       GRTRL: 'AS000004', # Trial
     }.freeze
@@ -30,7 +29,7 @@ module CCR
     end
 
     def bill_scenario
-      SCENARIO_MAPPINGS[case_type.fee_type_code.to_sym]
+      BILL_SCENARIOS[case_type.fee_type_code.to_sym]
     end
   end
 end

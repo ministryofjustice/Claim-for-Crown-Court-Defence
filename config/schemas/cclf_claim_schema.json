@@ -51,6 +51,17 @@
       },
       "type": "object"
     },
+    "case_type": {
+      "id": "/properties/case_type",
+      "additionalProperties": false,
+      "properties": {
+        "bill_scenario": {
+          "id": "/properties/case_type/properties/bill_scenario",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "offence": {
       "additionalProperties": false,
       "id": "/properties/offence",
@@ -85,12 +96,20 @@
             "id": "/properties/bills/items/properties/bill_subtype",
             "type": "string"
           },
-          "bill_scenario": {
-            "id": "/properties/bills/properties/bill_scenario",
-            "type": "string"
-          },
           "quantity": {
             "id": "/properties/bills/items/properties/quantity",
+            "type": "string"
+          },
+          "net_amount": {
+            "id": "/properties/bills/items/properties/net_amount",
+            "type": "string"
+          },
+          "vat_amount": {
+            "id": "/properties/bills/items/properties/vat_amount",
+            "type": "string"
+          },
+          "total": {
+            "id": "/properties/bills/items/properties/total",
             "type": "string"
           },
           "amount": {

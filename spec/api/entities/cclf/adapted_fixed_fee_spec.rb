@@ -10,14 +10,13 @@ RSpec.describe API::Entities::CCLF::AdaptedFixedFee, type: :adapter do
   let(:fixed_fee) { instance_double('fixed_fee', claim: claim, fee_type: fee_type, quantity: 0, amount: 225.50) }
 
   it 'exposes the required keys' do
-    expect(response.keys).to match_array(%i[bill_type bill_subtype bill_scenario amount])
+    expect(response.keys).to match_array(%i[bill_type bill_subtype amount])
   end
 
   it 'exposes expected json key-value pairs' do
     expect(response).to include(
       bill_type: 'LIT_FEE',
       bill_subtype: 'LIT_FEE',
-      bill_scenario: 'ST3TS3TB',
       amount: '225.5',
     )
   end
@@ -27,7 +26,6 @@ RSpec.describe API::Entities::CCLF::AdaptedFixedFee, type: :adapter do
     expect(::CCLF::Fee::FixedFeeAdapter).to receive(:new).with(fixed_fee).and_return(adapter)
     expect(adapter).to receive(:bill_type)
     expect(adapter).to receive(:bill_subtype)
-    expect(adapter).to receive(:bill_scenario)
     subject
   end
 end

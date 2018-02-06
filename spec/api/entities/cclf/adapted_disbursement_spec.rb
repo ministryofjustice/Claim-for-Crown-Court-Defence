@@ -10,14 +10,13 @@ RSpec.describe API::Entities::CCLF::AdaptedDisbursement, type: :adapter do
   let(:disbursement) { instance_double(::Disbursement, claim: claim, disbursement_type: disbursement_type, net_amount: 9.99, vat_amount: 1.99, total: 11.98) }
 
   it 'exposes the required keys' do
-    expect(response.keys).to match_array(%i[bill_type bill_subtype bill_scenario net_amount vat_amount total])
+    expect(response.keys).to match_array(%i[bill_type bill_subtype net_amount vat_amount total])
   end
 
   it 'exposes expected json key-value pairs' do
     expect(response).to include(
       bill_type: 'DISBURSEMENT',
       bill_subtype: 'FORENSICS',
-      bill_scenario: 'ST1TS0T5',
       net_amount: '9.99',
       vat_amount: '1.99',
       total: '11.98'
@@ -29,7 +28,6 @@ RSpec.describe API::Entities::CCLF::AdaptedDisbursement, type: :adapter do
     expect(::CCLF::DisbursementAdapter).to receive(:new).with(disbursement).and_return(adapter)
     expect(adapter).to receive(:bill_type)
     expect(adapter).to receive(:bill_subtype)
-    expect(adapter).to receive(:bill_scenario)
     subject
   end
 end

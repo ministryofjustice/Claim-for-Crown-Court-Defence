@@ -33,21 +33,4 @@ shared_examples 'Litigator Fee Adapter' do |bill_scenario_mappings|
       end
     end
   end
-
-  describe '#bill_scenario' do
-    bill_scenario_mappings.each do |code, scenario|
-      context "for #{code} fee type" do
-        subject { described_class.new(fee).bill_scenario }
-
-        before do
-          allow(fee_type).to receive(:unique_code).and_return code
-          allow(case_type).to receive(:fee_type_code).and_return code
-        end
-
-        it "returns CCLF Litigator Fee scenario #{scenario}" do
-          is_expected.to eql scenario
-        end
-      end
-    end
-  end
 end

@@ -69,12 +69,6 @@ context 'bill mappings' do
               expect(instance.bill_subtype).to eql bill_types.second
             end
           end
-
-          describe '#bill_scenario' do
-            it "returns #{scenario}" do
-              expect(instance.bill_scenario).to eql scenario
-            end
-          end
         end
       end
     end

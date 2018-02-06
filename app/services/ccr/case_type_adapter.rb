@@ -2,7 +2,7 @@ module CCR
   class CaseTypeAdapter
     attr_reader :case_type
 
-    SCENARIO_MAPPINGS = {
+    BILL_SCENARIOS = {
       FXACV: 'AS000005', # Appeal against conviction
       FXASE: 'AS000006', # Appeal against sentence
       FXCBR: 'AS000009', # Breach of Crown Court order
@@ -29,7 +29,7 @@ module CCR
     end
 
     def bill_scenario
-      SCENARIO_MAPPINGS[case_type.fee_type_code.to_sym]
+      BILL_SCENARIOS[case_type.fee_type_code.to_sym]
     end
   end
 end

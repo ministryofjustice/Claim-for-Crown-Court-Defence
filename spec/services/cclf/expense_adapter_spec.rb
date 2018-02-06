@@ -33,12 +33,6 @@ RSpec.describe CCLF::ExpenseAdapter, type: :adapter do
               expect(instance.bill_subtype).to eql 'TRAVEL COSTS'
             end
           end
-
-          describe '#bill_scenario' do
-            it "returns #{scenario}" do
-              expect(instance.bill_scenario).to eql scenario
-            end
-          end
         end
       end
     end

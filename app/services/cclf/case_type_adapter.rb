@@ -3,7 +3,7 @@ module CCLF
     attr_reader :case_type
 
     # TODO: these are for final claim bill scenarios. Interim and tranfer claims have others
-    SCENARIO_MAPPINGS = {
+    BILL_SCENARIOS = {
       FXACV: 'ST1TS0T5', # Appeal against conviction
       FXASE: 'ST1TS0T6', # Appeal against sentence
       FXCBR: 'ST3TS3TB', # Breach of Crown Court order
@@ -24,7 +24,7 @@ module CCLF
     end
 
     def bill_scenario
-      SCENARIO_MAPPINGS[case_type.fee_type_code.to_sym]
+      BILL_SCENARIOS[case_type.fee_type_code.to_sym]
     end
   end
 end

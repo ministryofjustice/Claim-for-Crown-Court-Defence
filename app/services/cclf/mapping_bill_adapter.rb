@@ -21,10 +21,6 @@ module CCLF
       bill_type.present?
     end
 
-    def bill_scenario
-      case_type_adapter.bill_scenario
-    end
-
     private
 
     def bill_mappings
@@ -33,10 +29,6 @@ module CCLF
 
     def bill_key
       raise 'Implement in sub-class'
-    end
-
-    def case_type_adapter
-      @adapter ||= ::CCLF::CaseTypeAdapter.new(object.claim.case_type)
     end
   end
 end

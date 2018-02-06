@@ -51,6 +51,17 @@
       },
       "type": "object"
     },
+    "case_type": {
+      "id": "/properties/case_type",
+      "additionalProperties": false,
+      "properties": {
+        "bill_scenario": {
+          "id": "/properties/case_type/properties/bill_scenario",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "offence": {
       "additionalProperties": false,
       "id": "/properties/offence",
@@ -83,10 +94,6 @@
           },
           "bill_subtype": {
             "id": "/properties/bills/items/properties/bill_subtype",
-            "type": "string"
-          },
-          "bill_scenario": {
-            "id": "/properties/bills/properties/bill_scenario",
             "type": "string"
           },
           "quantity": {

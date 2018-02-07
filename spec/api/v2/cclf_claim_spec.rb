@@ -313,7 +313,7 @@ RSpec.describe API::V2::CCLFClaim do
           context 'when expenses exist' do
             let(:claim) do
               create(:litigator_claim, :submitted, :without_fees).tap do |claim|
-                create(:expense, :bike_travel, claim: claim)
+                create(:expense, :bike_travel, claim: claim, amount: 9.99, vat_amount: 1.99)
               end
             end
 
@@ -330,6 +330,11 @@ RSpec.describe API::V2::CCLFClaim do
             it 'returns array containing a special prep fee bill' do
               expect(response).to be_json_eql('DISBURSEMENT'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('TRAVEL COSTS'.to_json).at_path("bills/0/bill_subtype")
+            end
+
+            it 'returns a total including vat and flag to indicate that avat is included' do
+              expect(response).to be_json_eql('11.98'.to_json).at_path("bills/0/total")
+              expect(response).to be_json_eql(true.to_json).at_path("bills/0/vat_included")
             end
           end
         end

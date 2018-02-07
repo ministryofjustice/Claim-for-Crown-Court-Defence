@@ -37,4 +37,22 @@ RSpec.describe CCLF::ExpenseAdapter, type: :adapter do
       end
     end
   end
+
+  describe '#total' do
+    subject { described_class.new(expense).total }
+    let(:expense) { instance_double(::Expense, amount: 1000.0, vat_amount: 55.5) }
+
+    it 'returns the total of amount and vat_amount' do
+      is_expected.to eql 1055.5
+    end
+  end
+
+  describe '#vat_included' do
+    subject { described_class.new(expense).vat_included }
+    let(:expense) { instance_double(::Expense) }
+
+    it 'returns the total of amount and vat_amount' do
+      is_expected.to eql true
+    end
+  end
 end

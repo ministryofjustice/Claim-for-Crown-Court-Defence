@@ -2,12 +2,12 @@ module API
   module Entities
     module CCLF
       class AdaptedExpense < AdaptedBaseBill
-        expose :amount, format_with: :string
-        expose :vat_amount, format_with: :string
+        expose :total, format_with: :string
+        expose :vat_included
 
         private
 
-        delegate :bill_type, :bill_subtype, to: :adapter
+        delegate :bill_type, :bill_subtype, :total, :vat_included, to: :adapter
 
         def adapter
           @adapter ||= ::CCLF::ExpenseAdapter.new(object)

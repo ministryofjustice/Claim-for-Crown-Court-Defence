@@ -4,8 +4,8 @@ class LaaDisbursementAdapter
     'ACC' => 'ACCOUNTANTS',
     'SWX' => 'COMPUTER_EXPERT',
     'CMR' => 'CONSULTANT_REP',
-    'CJA' => nil,
-    'CJP' => nil,
+    # 'CJA' => nil, **
+    # 'CJP' => nil, **
     'DNA' => 'DNA_TESTING',
     'ENG' => 'ENGINEER',
     'ENQ' => 'ENQUIRY_AGENTS',
@@ -29,10 +29,12 @@ class LaaDisbursementAdapter
     'ARC' => 'SURVEYOR',
     'SCR' => 'TRANSCRIPTS',
     'TRA' => 'TRANSLATOR',
-    'TRV' => 'TRAVEL COSTS',
+    # 'TRV' => 'TRAVEL COSTS', *
     'VET' => 'VET_REPORT',
     'VOI' => 'VOICE_RECOG'
   }.freeze
+
+  # softley deleted as not needed, handled by expenses (*) or misc fees (**)
 
   LAA_BILL_TYPE = 'DISBURSEMENT'.freeze
 

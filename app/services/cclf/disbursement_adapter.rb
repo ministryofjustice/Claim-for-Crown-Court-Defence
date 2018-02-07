@@ -1,12 +1,13 @@
 module CCLF
   class DisbursementAdapter < MappingBillAdapter
+    # NOTE: TRV, CJA, CJP disabled/softly-deleted as handled as
+    # expenses (TRV) and Misc Fees (CJA/CJP)
+    #
     DISBURSEMENT_BILL_MAPPINGS = {
       ARP: zip(%w[DISBURSEMENT ACCIDENT]), # Accident reconstruction report
       ACC: zip(%w[DISBURSEMENT ACCOUNTANTS]), # Accounts
       SWX: zip(%w[DISBURSEMENT COMPUTER_EXPERT]), # Computer experts
       CMR: zip(%w[DISBURSEMENT CONSULTANT_REP]), # Consultant medical reports
-      CJA: zip(%w[DISBURSEMENT TBC]), # TODO: "Costs judge application fee" - this is a miscelleneous fee too
-      CJP: zip(%w[DISBURSEMENT TBC]), # TODO: "Costs judge preparation award" - this is a miscelleneous fee too
       DNA: zip(%w[DISBURSEMENT DNA_TESTING]), # DNA testing
       ENG: zip(%w[DISBURSEMENT ENGINEER]), # Engineer
       ENQ: zip(%w[DISBURSEMENT ENQUIRY_AGENTS]), # Enquiry agents
@@ -30,12 +31,9 @@ module CCLF
       ARC: zip(%w[DISBURSEMENT SURVEYOR]), # Surveyor/architect
       SCR: zip(%w[DISBURSEMENT TRANSCRIPTS]), # Transcripts
       TRA: zip(%w[DISBURSEMENT TRANSLATOR]), # Translator
-      # TRV: zip(['DISBURSEMENT', 'TRAVEL COSTS']), # Travel costs **
       VET: zip(%w[DISBURSEMENT VET_REPORT]), # Vet report
       VOI: zip(%w[DISBURSEMENT VOICE_RECOG]) # Voice recognition
     }.freeze
-
-    # TODO: ** disabled for Litigator Claims, could be removed from app
 
     private
 

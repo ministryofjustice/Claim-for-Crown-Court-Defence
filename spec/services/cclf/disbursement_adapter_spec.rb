@@ -8,14 +8,13 @@ RSpec.describe CCLF::Fee::DisbursementAdapter, type: :adapter do
   # however the bill scenario and "formula"* depend on the
   # case type and litigator claim type.
   # *nb: formula is used CCLF-side only and maps to whether to use quantity or amount???
+  # NOTE: Costs judge prep, Cost judge application and travel costs have been softly deleted
   #
   DISBURSEMENT_BILL_TYPES = {
     ARP: ['DISBURSEMENT', 'ACCIDENT'], # Accident reconstruction report
     ACC: ['DISBURSEMENT', 'ACCOUNTANTS'], # Accounts
     SWX: ['DISBURSEMENT', 'COMPUTER_EXPERT'], # Computer experts
     CMR: ['DISBURSEMENT', 'CONSULTANT_REP'], # Consultant medical reports
-    CJA: ['DISBURSEMENT', 'TBC'], # TODO: "Costs judge application fee" - this is a miscelleneous fee too
-    CJP: ['DISBURSEMENT', 'TBC'], # TODO: "Costs judge preparation award" - this is a miscelleneous fee too
     DNA: ['DISBURSEMENT', 'DNA_TESTING'], # DNA testing
     ENG: ['DISBURSEMENT', 'ENGINEER'], # Engineer
     ENQ: ['DISBURSEMENT', 'ENQUIRY_AGENTS'], # Enquiry agents
@@ -39,7 +38,6 @@ RSpec.describe CCLF::Fee::DisbursementAdapter, type: :adapter do
     ARC: ['DISBURSEMENT', 'SURVEYOR'], # Surveyor/architect
     SCR: ['DISBURSEMENT', 'TRANSCRIPTS'], # Transcripts
     TRA: ['DISBURSEMENT', 'TRANSLATOR'], # Translator
-  # TRV: ['DISBURSEMENT', 'TRAVEL COSTS'], # Travel costs - # TODO: disable for Litigator Claims, could be removed from app
     VET: ['DISBURSEMENT', 'VET_REPORT'], # Vet report
     VOI: ['DISBURSEMENT', 'VOICE_RECOG'], # Voice recognition
   }.freeze

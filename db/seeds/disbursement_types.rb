@@ -5,8 +5,8 @@ disbursement_types = [
   [2, 'ACC', 'Accounts'],
   [3, 'SWX', 'Computer experts'],
   [4, 'CMR', 'Consultant medical reports'],
-  [5, 'CJA', 'Costs judge application fee'],
-  [6, 'CJP', 'Costs judge preparation award'],
+  [5, 'CJA', 'Costs judge application fee'], # softly deleted as handled by misc fees
+  [6, 'CJP', 'Costs judge preparation award'], # softly deleted as handled misc fees
   [7, 'DNA', 'DNA testing'],
   [8, 'ENG', 'Engineer'],
   [9, 'ENQ', 'Enquiry agents'],
@@ -30,7 +30,7 @@ disbursement_types = [
   [27, 'ARC', 'Surveyor/architect'],
   [28, 'SCR', 'Transcripts'],
   [29, 'TRA', 'Translator'],
-  [30, 'TRV', 'Travel costs'],
+  [30, 'TRV', 'Travel costs'], # softly deleted as handled by travel expenses
   [31, 'VET', 'Vet report'],
   [32, 'VOI', 'Voice recognition'],
 ]

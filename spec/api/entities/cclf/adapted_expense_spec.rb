@@ -22,13 +22,13 @@ RSpec.describe API::Entities::CCLF::AdaptedExpense, type: :adapter do
     )
   end
 
-  it 'delegates bill mappings to DisbursementAdapter' do
+  it 'delegates fundamental bill attributes to ExpenseAdapter' do
     adapter = instance_double(::CCLF::ExpenseAdapter)
     expect(::CCLF::ExpenseAdapter).to receive(:new).with(expense).and_return(adapter)
     expect(adapter).to receive(:bill_type)
     expect(adapter).to receive(:bill_subtype)
-    expect(adapter).to receive(:total)
     expect(adapter).to receive(:vat_included)
+    expect(adapter).to receive(:total)
     subject
   end
 end

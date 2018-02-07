@@ -23,7 +23,7 @@ RSpec.describe API::Entities::CCLF::AdaptedMiscFee, type: :adapter do
     )
   end
 
-  it 'delegates bill mappings to GraduatedFeeAdapter' do
+  it 'delegates fundamental bill attributes to MiscFeeAdapter' do
     expect(::CCLF::Fee::MiscFeeAdapter).to receive(:new).with(misc_fee).and_return(adapter)
     expect(adapter).to receive(:bill_type)
     expect(adapter).to receive(:bill_subtype)

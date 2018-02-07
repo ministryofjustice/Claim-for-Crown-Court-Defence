@@ -4,7 +4,6 @@ module API
       class AdaptedWarrantFee < AdaptedBaseBill
         expose :warrant_issued_date, :warrant_executed_date, format_with: :utc
         expose :amount, format_with: :string
-        expose :vat_included
 
         private
 

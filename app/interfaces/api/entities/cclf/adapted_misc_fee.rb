@@ -3,7 +3,6 @@ module API
     module CCLF
       class AdaptedMiscFee < AdaptedBaseBill
         expose :amount, format_with: :string
-        expose :vat_included
 
         private
 

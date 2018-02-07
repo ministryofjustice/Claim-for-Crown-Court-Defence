@@ -4,7 +4,6 @@ module API
       class AdaptedGraduatedFee < AdaptedBaseBill
         expose :quantity, format_with: :string
         expose :amount, format_with: :string
-        expose :vat_included
 
         private
 

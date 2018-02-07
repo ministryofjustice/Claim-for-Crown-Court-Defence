@@ -3,7 +3,6 @@ module API
     module CCLF
       class AdaptedExpense < AdaptedBaseBill
         expose :total, format_with: :string
-        expose :vat_included
 
         private
 

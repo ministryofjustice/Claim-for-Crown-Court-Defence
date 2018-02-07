@@ -3,10 +3,11 @@ module API
     module CCLF
       class AdaptedFixedFee < AdaptedBaseBill
         expose :amount, format_with: :string
+        expose :vat_included
 
         private
 
-        delegate :bill_type, :bill_subtype, to: :adapter
+        delegate :bill_type, :bill_subtype, :vat_included, to: :adapter
 
         def adapter
           @adapter ||= ::CCLF::Fee::FixedFeeAdapter.new(object)

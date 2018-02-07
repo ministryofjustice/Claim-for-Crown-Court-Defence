@@ -8,24 +8,26 @@ RSpec.describe API::Entities::CCLF::AdaptedMiscFee, type: :adapter do
   let(:case_type) { instance_double('case_type', fee_type_code: 'GRTRL') }
   let(:claim) { instance_double('claim', case_type: case_type) }
   let(:misc_fee) { instance_double('misc_fee', claim: claim, fee_type: fee_type, amount: 199.50) }
+  let(:adapter) { instance_double(::CCLF::Fee::MiscFeeAdapter) }
 
   it 'exposes the required keys' do
-    expect(response.keys).to match_array(%i[bill_type bill_subtype amount])
+    expect(response.keys).to match_array(%i[bill_type bill_subtype amount vat_included])
   end
 
   it 'exposes expected json key-value pairs' do
     expect(response).to include(
       bill_type: 'FEE_SUPPLEMENT',
       bill_subtype: 'SPECIAL_PREP',
-      amount: '199.5'
+      amount: '199.5',
+      vat_included: false
     )
   end
 
   it 'delegates bill mappings to GraduatedFeeAdapter' do
-    adapter = instance_double(::CCLF::Fee::MiscFeeAdapter)
     expect(::CCLF::Fee::MiscFeeAdapter).to receive(:new).with(misc_fee).and_return(adapter)
     expect(adapter).to receive(:bill_type)
     expect(adapter).to receive(:bill_subtype)
+    expect(adapter).to receive(:vat_included)
     subject
   end
 end

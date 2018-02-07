@@ -4,10 +4,11 @@ module API
       class AdaptedGraduatedFee < AdaptedBaseBill
         expose :quantity, format_with: :string
         expose :amount, format_with: :string
+        expose :vat_included
 
         private
 
-        delegate :bill_type, :bill_subtype, to: :adapter
+        delegate :bill_type, :bill_subtype, :vat_included, to: :adapter
 
         def adapter
           @adapter ||= ::CCLF::Fee::GraduatedFeeAdapter.new(object)

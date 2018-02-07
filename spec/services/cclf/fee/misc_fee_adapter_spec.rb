@@ -32,15 +32,22 @@ RSpec.describe CCLF::Fee::MiscFeeAdapter, type: :adapter do
           end
 
           describe '#bill_type' do
+            subject { instance.bill_type }
             it "returns #{bill_types.first}" do
-              expect(instance.bill_type).to eql bill_types.first
+              is_expected.to eql bill_types.first
             end
           end
 
           describe '#bill_subtype' do
+            subject { instance.bill_subtype }
             it "returns #{bill_types.second}" do
-              expect(instance.bill_subtype).to eql bill_types.second
+              is_expected.to eql bill_types.second
             end
+          end
+
+          describe '#vat_included' do
+            subject { instance.vat_included }
+            it { is_expected.to be_falsey }
           end
         end
       end

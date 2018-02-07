@@ -2,22 +2,6 @@ require 'rails_helper'
 require 'spec_helper'
 
 RSpec.describe CCLF::Fee::WarrantFeeAdapter, type: :adapter do
-  # TODO: final claims only, other scenarios exist for transfer claims
-
-  shared_examples 'returns CCLF Warrant Fee bill type' do |code|
-    before { allow(fee_type).to receive(:unique_code).and_return code }
-    it 'returns CCLF Warrant Fee bill type - FEE_ADVANCE' do
-      is_expected.to eql 'FEE_ADVANCE'
-    end
-  end
-
-  shared_examples 'returns CCLF Warrant Fee bill subtype' do |code|
-    before { allow(fee_type).to receive(:unique_code).and_return code }
-    it 'returns CCLF Warrant Fee bill type - WARRANT' do
-      is_expected.to eql 'WARRANT'
-    end
-  end
-
   let(:fee) { instance_double('fee') }
   let(:claim) { instance_double('claim', case_type: case_type) }
   let(:case_type) { instance_double('case_type') }
@@ -29,20 +13,21 @@ RSpec.describe CCLF::Fee::WarrantFeeAdapter, type: :adapter do
   end
 
   describe '#bill_type' do
-    final_claim_bill_scenarios.keys.each do |code|
-      context "for #{code} fee type" do
-        subject { described_class.new(fee).bill_type }
-        include_examples 'returns CCLF Warrant Fee bill type', code
-      end
+    subject { described_class.new(fee).bill_type }
+    it 'returns CCLF Warrant Fee bill type - FEE_ADVANCE' do
+      is_expected.to eql 'FEE_ADVANCE'
     end
   end
 
   describe '#bill_subtype' do
-    final_claim_bill_scenarios.keys.each do |code|
-      context "for #{code} fee type" do
-        subject { described_class.new(fee).bill_subtype }
-        include_examples 'returns CCLF Warrant Fee bill subtype', code
-      end
+    subject { described_class.new(fee).bill_subtype }
+    it 'returns CCLF Warrant Fee bill subtype - WARRANT' do
+      is_expected.to eql 'WARRANT'
     end
+  end
+
+   describe '#vat_included' do
+    subject { described_class.new(fee).vat_included }
+    it { is_expected.to be_falsey }
   end
 end

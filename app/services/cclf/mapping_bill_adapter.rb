@@ -21,6 +21,10 @@ module CCLF
       bill_type.present?
     end
 
+    def vat_included
+      false
+    end
+
     private
 
     def bill_mappings

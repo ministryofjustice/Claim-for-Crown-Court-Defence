@@ -32,6 +32,12 @@ RSpec.shared_examples 'returns LGFS claim type' do |type|
   end
 end
 
+RSpec.shared_examples 'vat_included flag' do
+  it 'returns vat included flag set to false' do
+    expect(response).to be_json_eql(false.to_json).at_path("bills/0/vat_included")
+  end
+end
+
 RSpec.describe API::V2::CCLFClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
@@ -216,6 +222,10 @@ RSpec.describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
             end
+
+            it 'returns vat included flag set to false' do
+              expect(response).to be_json_eql(false.to_json).at_path("bills/0/vat_included")
+            end
           end
 
           context 'when fixed fee exists' do
@@ -238,6 +248,8 @@ RSpec.describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
             end
+
+            include_examples 'vat_included flag'
           end
 
           context 'when miscellaneous fees exists' do
@@ -262,6 +274,8 @@ RSpec.describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/0/bill_subtype")
             end
+
+            include_examples 'vat_included flag'
           end
 
           context 'when warrant fee exists' do
@@ -284,6 +298,8 @@ RSpec.describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('FEE_ADVANCE'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('WARRANT'.to_json).at_path("bills/0/bill_subtype")
             end
+
+            include_examples 'vat_included flag'
           end
 
           context 'when disbursements exist' do

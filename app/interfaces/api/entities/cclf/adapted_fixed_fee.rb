@@ -2,7 +2,7 @@ module API
   module Entities
     module CCLF
       class AdaptedFixedFee < AdaptedBaseBill
-        expose :amount, format_with: :string
+        expose :quantity, format_with: :integer_string
 
         private
 

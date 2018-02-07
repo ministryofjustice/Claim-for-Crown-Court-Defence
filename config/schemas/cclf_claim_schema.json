@@ -100,20 +100,16 @@
             "id": "/properties/bills/items/properties/quantity",
             "type": "string"
           },
+          "amount": {
+            "id": "/properties/bills/items/properties/amount",
+            "type": "string"
+          },
           "net_amount": {
             "id": "/properties/bills/items/properties/net_amount",
             "type": "string"
           },
           "vat_amount": {
             "id": "/properties/bills/items/properties/vat_amount",
-            "type": "string"
-          },
-          "total": {
-            "id": "/properties/bills/items/properties/total",
-            "type": "string"
-          },
-          "amount": {
-            "id": "/properties/bills/items/properties/amount",
             "type": "string"
           },
           "warrant_issued_date": {

@@ -2,8 +2,10 @@ module API
   module Entities
     module CCLF
       class AdaptedExpense < AdaptedBaseBill
-        expose :amount, format_with: :string
-        expose :vat_amount, format_with: :string
+        with_options(format_with: :string) do
+          expose :amount, as: :net_amount
+          expose :vat_amount
+        end
 
         private
 

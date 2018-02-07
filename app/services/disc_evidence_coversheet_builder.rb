@@ -26,7 +26,7 @@ class DiscEvidenceCoversheetBuilder
     fill :date_claim_submitted_year, @claim&.last_submitted_at&.year.to_s
     fill :defendant_name, @claim&.defendants&.first&.name || nil
     fill :maat_reference_number, @claim&.defendants&.first&.representation_orders&.first&.maat_reference || nil
-    fill :provider_account_number, @claim.external_user&.supplier_number
+    fill :provider_account_number, @claim.supplier_number
   end
 
   def fill(key, value)

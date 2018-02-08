@@ -8,7 +8,7 @@ module Claims
       if claim.applicable_for_written_reasons?
         Settings.claim_actions
       else
-        [] << Settings.claim_actions[1]
+        [] << Settings.claim_actions[0]
       end
     end
   end

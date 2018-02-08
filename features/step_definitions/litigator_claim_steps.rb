@@ -1,5 +1,5 @@
 And(/^My provider has supplier numbers$/) do
-  %w(1A222Z 2B333Z 2N932G 2N931F 2N930E 2N929D 2N928C 2N927B).each do |number|
+  %w(1A222Z 2B333Z).each do |number|
     @litigator.provider.lgfs_supplier_numbers << SupplierNumber.new(supplier_number: number)
   end
 end
@@ -15,6 +15,14 @@ end
 
 When(/^I select the supplier number '(.*)'$/) do |number|
   @litigator_claim_form_page.select_supplier_number(number)
+end
+
+Then(/^I should see (\d+) radio labels$/) do |number|
+  expect(@litigator_claim_form_page.lgfs_supplier_numbers).to have_supplier_numbers(count: number)
+end
+
+When(/^I choose the supplier number '(.*)'$/) do |number|
+  @litigator_claim_form_page.lgfs_supplier_numbers.choose(number)
 end
 
 And(/^I select the litigator offence class '(.*)'$/) do |name|

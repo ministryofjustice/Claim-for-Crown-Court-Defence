@@ -366,7 +366,7 @@ module Claim
     end
 
     def applicable_for_written_reasons?
-      redeterminations.count.positive?
+      claim_state_transitions.any? { |x| x.to == 'redetermination' }
     end
 
     def perform_validation?

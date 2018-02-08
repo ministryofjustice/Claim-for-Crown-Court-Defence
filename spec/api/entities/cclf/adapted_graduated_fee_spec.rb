@@ -7,10 +7,11 @@ RSpec.describe API::Entities::CCLF::AdaptedGraduatedFee, type: :adapter do
   let(:fee_type) { instance_double('fee_type', unique_code: 'GRTRL') }
   let(:case_type) { instance_double('case_type', fee_type_code: 'GRTRL') }
   let(:claim) { instance_double('claim', case_type: case_type) }
-  let(:graduated_fee) { instance_double('graduated_fee', claim: claim, fee_type: fee_type, quantity: 999, amount: 1001.50) }
+  let(:graduated_fee) { instance_double('graduated_fee', claim: claim, fee_type: fee_type, quantity: 999.0) }
+  let(:adapter) { instance_double(::CCLF::Fee::GraduatedFeeAdapter) }
 
   it 'exposes the required keys' do
-    expect(response.keys).to match_array(%i[bill_type bill_subtype quantity amount])
+    expect(response.keys).to match_array(%i[bill_type bill_subtype quantity])
   end
 
   it 'exposes expected json key-value pairs' do
@@ -18,12 +19,10 @@ RSpec.describe API::Entities::CCLF::AdaptedGraduatedFee, type: :adapter do
       bill_type: 'LIT_FEE',
       bill_subtype: 'LIT_FEE',
       quantity: '999',
-      amount: '1001.5'
     )
   end
 
   it 'delegates bill mappings to GraduatedFeeAdapter' do
-    adapter = instance_double(::CCLF::Fee::GraduatedFeeAdapter)
     expect(::CCLF::Fee::GraduatedFeeAdapter).to receive(:new).with(graduated_fee).and_return(adapter)
     expect(adapter).to receive(:bill_type)
     expect(adapter).to receive(:bill_subtype)

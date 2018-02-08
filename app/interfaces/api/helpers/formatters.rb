@@ -14,6 +14,10 @@ module API::Helpers
       number.to_f.round(2)
     end
 
+    Grape::Entity.format_with :integer_string do |number|
+      number.to_i.to_s
+    end
+
     Grape::Entity.format_with :bool_char do |boolean|
       boolean.to_s.true? ? 'Y' : 'N'
     end

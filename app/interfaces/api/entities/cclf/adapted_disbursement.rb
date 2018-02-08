@@ -2,10 +2,7 @@ module API
   module Entities
     module CCLF
       class AdaptedDisbursement < AdaptedBaseBill
-        # NOTE: CCLF only requires the net amount and calculates vat based on rep order date
-        expose :net_amount, format_with: :string
-        expose :vat_amount, format_with: :string
-        expose :total, format_with: :string
+        expose :net_amount, :vat_amount, format_with: :string
 
         private
 

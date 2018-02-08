@@ -8,6 +8,7 @@ RSpec.describe API::Entities::CCLF::AdaptedWarrantFee, type: :adapter do
   let(:case_type) { instance_double('case_type', fee_type_code: 'FXCBR') }
   let(:claim) { instance_double('claim', case_type: case_type) }
   let(:warrant_fee) { instance_double('warrant_fee', claim: claim, fee_type: fee_type, amount: 111.01, warrant_issued_date: '01-Jun-2017'.to_date, warrant_executed_date: '01-Aug-2017'.to_date) }
+  let(:adapter) { instance_double(::CCLF::Fee::WarrantFeeAdapter) }
 
   it 'exposes the required keys' do
     expect(response.keys).to match_array(%i[bill_type bill_subtype amount warrant_issued_date warrant_executed_date])
@@ -23,8 +24,7 @@ RSpec.describe API::Entities::CCLF::AdaptedWarrantFee, type: :adapter do
     )
   end
 
-  it 'delegates bill mappings to FixedFeeAdapter' do
-    adapter = instance_double(::CCLF::Fee::WarrantFeeAdapter)
+  it 'delegates bill types to FixedFeeAdapter' do
     expect(::CCLF::Fee::WarrantFeeAdapter).to receive(:new).with(warrant_fee).and_return(adapter)
     expect(adapter).to receive(:bill_type)
     expect(adapter).to receive(:bill_subtype)

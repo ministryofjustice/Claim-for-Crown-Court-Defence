@@ -10,19 +10,19 @@ RSpec.describe API::Entities::CCLF::AdaptedExpense, type: :adapter do
   let(:expense) { instance_double(::Expense, claim: claim, expense_type: expense_type, amount: 9.99, vat_amount: 1.99) }
 
   it 'exposes the required keys' do
-    expect(response.keys).to match_array(%i[bill_type bill_subtype amount vat_amount])
+    expect(response.keys).to match_array(%i[bill_type bill_subtype net_amount vat_amount])
   end
 
   it 'exposes expected json key-value pairs' do
     expect(response).to include(
       bill_type: 'DISBURSEMENT',
       bill_subtype: 'TRAVEL COSTS',
-      amount: '9.99',
+      net_amount: '9.99',
       vat_amount: '1.99'
     )
   end
 
-  it 'delegates bill mappings to DisbursementAdapter' do
+  it 'delegates bill type attributes to ExpenseAdapter' do
     adapter = instance_double(::CCLF::ExpenseAdapter)
     expect(::CCLF::ExpenseAdapter).to receive(:new).with(expense).and_return(adapter)
     expect(adapter).to receive(:bill_type)

@@ -33,6 +33,10 @@ RSpec.shared_examples 'returns LGFS claim type' do |type|
 end
 
 RSpec.shared_examples 'CCLF disbursement' do |type|
+  it 'returns a disbursement bill type' do
+    expect(response).to be_json_eql('DISBURSEMENT'.to_json).at_path("bills/0/bill_type")
+  end
+
   it 'exposes a net and vat amount' do
     expect(response).to have_json_path("bills/0/net_amount")
     expect(response).to have_json_path("bills/0/vat_amount")
@@ -203,7 +207,7 @@ RSpec.describe API::V2::CCLFClaim do
             let(:claim) do
               create(:litigator_claim, :without_fees, :submitted).tap do |claim|
                 claim.update!(case_type: case_type_grtrl)
-                create(:graduated_fee, fee_type: grtrl, claim: claim)
+                create(:graduated_fee, fee_type: grtrl, claim: claim, quantity: 1000)
               end
             end
 
@@ -222,6 +226,10 @@ RSpec.describe API::V2::CCLFClaim do
               allow_any_instance_of(::Fee::GraduatedFeeType).to receive(:unique_code).and_return 'XXXXX'
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
+            end
+
+            it 'returns quantity of ppe' do
+              expect(response).to be_json_eql('1000'.to_json).at_path("bills/0/quantity")
             end
           end
 
@@ -244,6 +252,10 @@ RSpec.describe API::V2::CCLFClaim do
             it 'returns a litigator fee bill' do
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
+            end
+
+            it 'returns 0 for quantity of ppe' do
+              expect(response).to be_json_eql('0'.to_json).at_path("bills/0/quantity")
             end
           end
 
@@ -311,8 +323,7 @@ RSpec.describe API::V2::CCLFClaim do
               expect(response).to have_json_size(1).at_path("bills")
             end
 
-            it 'returns array containing a special prep fee bill' do
-              expect(response).to be_json_eql('DISBURSEMENT'.to_json).at_path("bills/0/bill_type")
+            it 'returns array containing a disbursement bill subtype' do
               expect(response).to be_json_eql('FORENSICS'.to_json).at_path("bills/0/bill_subtype")
             end
 
@@ -336,8 +347,7 @@ RSpec.describe API::V2::CCLFClaim do
               expect(response).to have_json_size(1).at_path("bills")
             end
 
-            it 'returns array containing a special prep fee bill' do
-              expect(response).to be_json_eql('DISBURSEMENT'.to_json).at_path("bills/0/bill_type")
+            it 'returns array containing a travel costs disbursement bill sub type' do
               expect(response).to be_json_eql('TRAVEL COSTS'.to_json).at_path("bills/0/bill_subtype")
             end
 

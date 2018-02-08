@@ -22,7 +22,7 @@ RSpec.describe API::Entities::CCLF::AdaptedDisbursement, type: :adapter do
     )
   end
 
-  it 'delegates fundamental bill attributes to DisbursementAdapter' do
+  it 'delegates bill type attributes to DisbursementAdapter' do
     adapter = instance_double(::CCLF::DisbursementAdapter)
     expect(::CCLF::DisbursementAdapter).to receive(:new).with(disbursement).and_return(adapter)
     expect(adapter).to receive(:bill_type)

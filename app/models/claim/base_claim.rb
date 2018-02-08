@@ -365,6 +365,10 @@ module Claim
       VALID_STATES_FOR_REDETERMINATION.include?(state) && !interim?
     end
 
+    def applicable_for_written_reasons?
+      claim_state_transitions.any? { |x| x.to == 'redetermination' }
+    end
+
     def perform_validation?
       force_validation? || validation_required?
     end

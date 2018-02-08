@@ -69,11 +69,6 @@ context 'bill mappings' do
               is_expected.to eql bill_types.second
             end
           end
-
-          describe '#vat_included' do
-            subject { instance.vat_included }
-            it { is_expected.to eql true }
-          end
         end
       end
     end

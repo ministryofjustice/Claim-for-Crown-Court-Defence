@@ -7,7 +7,7 @@ module API
 
         private
 
-        delegate :bill_type, :bill_subtype, :vat_included, to: :adapter
+        delegate :bill_type, :bill_subtype, to: :adapter
 
         def adapter
           @adapter ||= ::CCLF::Fee::WarrantFeeAdapter.new(object)

@@ -32,9 +32,10 @@ RSpec.shared_examples 'returns LGFS claim type' do |type|
   end
 end
 
-RSpec.shared_examples 'vat_included flag' do |bool|
-  it 'returns vat included flag set to false' do
-    expect(response).to be_json_eql(bool.to_json).at_path("bills/0/vat_included")
+RSpec.shared_examples 'CCLF disbursement' do |type|
+  it 'exposes a net and vat amount' do
+    expect(response).to have_json_path("bills/0/net_amount")
+    expect(response).to have_json_path("bills/0/vat_amount")
   end
 end
 
@@ -222,12 +223,6 @@ RSpec.describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
             end
-
-            it 'returns vat included flag set to false' do
-              expect(response).to be_json_eql(false.to_json).at_path("bills/0/vat_included")
-            end
-
-            include_examples 'vat_included flag', false
           end
 
           context 'when fixed fee exists' do
@@ -250,8 +245,6 @@ RSpec.describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
             end
-
-            include_examples 'vat_included flag', false
           end
 
           context 'when miscellaneous fees exists' do
@@ -276,8 +269,6 @@ RSpec.describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/0/bill_subtype")
             end
-
-            include_examples 'vat_included flag', false
           end
 
           context 'when warrant fee exists' do
@@ -300,8 +291,6 @@ RSpec.describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('FEE_ADVANCE'.to_json).at_path("bills/0/bill_type")
               expect(response).to be_json_eql('WARRANT'.to_json).at_path("bills/0/bill_subtype")
             end
-
-            include_examples 'vat_included flag', false
           end
 
           context 'when disbursements exist' do
@@ -327,7 +316,7 @@ RSpec.describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('FORENSICS'.to_json).at_path("bills/0/bill_subtype")
             end
 
-            include_examples 'vat_included flag', true
+            it_behaves_like 'CCLF disbursement'
           end
 
           context 'when expenses exist' do
@@ -352,12 +341,7 @@ RSpec.describe API::V2::CCLFClaim do
               expect(response).to be_json_eql('TRAVEL COSTS'.to_json).at_path("bills/0/bill_subtype")
             end
 
-            it 'returns a total including vat and flag to indicate that avat is included' do
-              expect(response).to be_json_eql('11.98'.to_json).at_path("bills/0/total")
-              expect(response).to be_json_eql(true.to_json).at_path("bills/0/vat_included")
-            end
-
-            include_examples 'vat_included flag', true
+            it_behaves_like 'CCLF disbursement'
           end
         end
       end

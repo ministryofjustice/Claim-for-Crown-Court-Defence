@@ -33,13 +33,4 @@ shared_examples 'Litigator Fee Adapter' do |bill_scenario_mappings|
       end
     end
   end
-
-  describe '#vat_included' do
-    bill_scenario_mappings.keys.each do |code|
-      context "for #{code} fee type" do
-        subject { described_class.new(fee).vat_included }
-        it { is_expected.to be_falsey }
-      end
-    end
-  end
 end

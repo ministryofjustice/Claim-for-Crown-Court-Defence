@@ -13,10 +13,6 @@ module CCLF
       # NOTE: in CCLF these scenarios are for a "final" trial/retrial/cracked trial/cracked before retrial
       #   - there are many other scenarios covering interim and transfer claim varieties
 
-      def vat_included
-        false
-      end
-
       private
 
       def bill_mappings

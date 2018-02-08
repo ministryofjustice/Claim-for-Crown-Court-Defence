@@ -35,10 +35,6 @@ module CCLF
       VOI: zip(%w[DISBURSEMENT VOICE_RECOG]) # Voice recognition
     }.freeze
 
-    def vat_included
-      true
-    end
-
     private
 
     def bill_mappings

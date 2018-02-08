@@ -11,7 +11,7 @@ RSpec.describe API::Entities::CCLF::AdaptedWarrantFee, type: :adapter do
   let(:adapter) { instance_double(::CCLF::Fee::WarrantFeeAdapter) }
 
   it 'exposes the required keys' do
-    expect(response.keys).to match_array(%i[bill_type bill_subtype amount vat_included warrant_issued_date warrant_executed_date])
+    expect(response.keys).to match_array(%i[bill_type bill_subtype amount warrant_issued_date warrant_executed_date])
   end
 
   it 'exposes expected json key-value pairs' do
@@ -19,17 +19,15 @@ RSpec.describe API::Entities::CCLF::AdaptedWarrantFee, type: :adapter do
       bill_type: 'FEE_ADVANCE',
       bill_subtype: 'WARRANT',
       amount: '111.01',
-      vat_included: false,
       warrant_issued_date: "2017-06-01",
       warrant_executed_date: "2017-08-01"
     )
   end
 
-  it 'delegates bill types and vat_included to FixedFeeAdapter' do
+  it 'delegates bill types to FixedFeeAdapter' do
     expect(::CCLF::Fee::WarrantFeeAdapter).to receive(:new).with(warrant_fee).and_return(adapter)
     expect(adapter).to receive(:bill_type)
     expect(adapter).to receive(:bill_subtype)
-    expect(adapter).to receive(:vat_included)
     subject
   end
 end

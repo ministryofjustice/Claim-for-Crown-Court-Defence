@@ -11,7 +11,7 @@ RSpec.describe API::Entities::CCLF::AdaptedGraduatedFee, type: :adapter do
   let(:adapter) { instance_double(::CCLF::Fee::GraduatedFeeAdapter) }
 
   it 'exposes the required keys' do
-    expect(response.keys).to match_array(%i[bill_type bill_subtype quantity amount vat_included])
+    expect(response.keys).to match_array(%i[bill_type bill_subtype quantity amount])
   end
 
   it 'exposes expected json key-value pairs' do
@@ -19,8 +19,7 @@ RSpec.describe API::Entities::CCLF::AdaptedGraduatedFee, type: :adapter do
       bill_type: 'LIT_FEE',
       bill_subtype: 'LIT_FEE',
       quantity: '999',
-      amount: '1001.5',
-      vat_included: false
+      amount: '1001.5'
     )
   end
 
@@ -28,7 +27,6 @@ RSpec.describe API::Entities::CCLF::AdaptedGraduatedFee, type: :adapter do
     expect(::CCLF::Fee::GraduatedFeeAdapter).to receive(:new).with(graduated_fee).and_return(adapter)
     expect(adapter).to receive(:bill_type)
     expect(adapter).to receive(:bill_subtype)
-    expect(adapter).to receive(:vat_included)
     subject
   end
 end

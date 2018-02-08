@@ -112,14 +112,6 @@
             "id": "/properties/bills/items/properties/vat_amount",
             "type": "string"
           },
-          "total": {
-            "id": "/properties/bills/items/properties/total",
-            "type": "string"
-          },
-          "vat_included": {
-            "id": "/properties/bills/items/properties/vat_included",
-            "type": "boolean"
-          },
           "warrant_issued_date": {
             "id": "/properties/bills/items/properties/warrant_issued_date",
             "type": ["string","null"]

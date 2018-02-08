@@ -44,11 +44,6 @@ RSpec.describe CCLF::Fee::MiscFeeAdapter, type: :adapter do
               is_expected.to eql bill_types.second
             end
           end
-
-          describe '#vat_included' do
-            subject { instance.vat_included }
-            it { is_expected.to be_falsey }
-          end
         end
       end
     end

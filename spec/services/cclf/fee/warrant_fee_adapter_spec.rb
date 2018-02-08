@@ -25,9 +25,4 @@ RSpec.describe CCLF::Fee::WarrantFeeAdapter, type: :adapter do
       is_expected.to eql 'WARRANT'
     end
   end
-
-   describe '#vat_included' do
-    subject { described_class.new(fee).vat_included }
-    it { is_expected.to be_falsey }
-  end
 end

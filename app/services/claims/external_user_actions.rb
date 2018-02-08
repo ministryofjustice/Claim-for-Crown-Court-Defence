@@ -5,7 +5,11 @@ module Claims
     end
 
     def self.available_for(claim)
-      [] << Settings.claim_actions[claim.applicable_for_written_reasons? ? 1 : 0]
+      if claim.applicable_for_written_reasons?
+        Settings.claim_actions
+      else
+        [] << Settings.claim_actions[1]
+      end
     end
   end
 end

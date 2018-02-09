@@ -22,8 +22,8 @@ module API
         expose :defendants_with_main_first, using: API::Entities::CCR::Defendant, as: :defendants
 
         expose :additional_information
+        expose :apply_vat
 
-        # CCR fees and expenses to bill mappings
         expose :bills
 
         private

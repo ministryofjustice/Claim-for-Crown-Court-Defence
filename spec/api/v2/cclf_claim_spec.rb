@@ -130,7 +130,22 @@ RSpec.describe API::V2::CCLFClaim do
       it { is_expected.to expose :court }
       it { is_expected.to expose :defendants }
       it { is_expected.to expose :additional_information }
+      it { is_expected.to expose :apply_vat }
       it { is_expected.to expose :bills }
+    end
+
+    context 'apply_vat' do
+      subject(:response) { do_request.body }
+
+      context 'when claim does not apply VAT' do
+        before { @claim.update(apply_vat: false) }
+        it { is_expected.to be_json_eql('false').at_path('apply_vat') }
+      end
+
+      context 'when claim does apply VAT' do
+        before { @claim.update(apply_vat: true) }
+        it { is_expected.to be_json_eql('true').at_path('apply_vat') }
+      end
     end
 
     context 'case_type' do
@@ -141,7 +156,7 @@ RSpec.describe API::V2::CCLFClaim do
       end
 
       it 'returns a bill scenario based on case type' do
-        expect(response).to be_json_eql('ST1TS0T8'.to_json).at_path("case_type/bill_scenario")
+        is_expected.to be_json_eql('ST1TS0T8'.to_json).at_path("case_type/bill_scenario")
       end
     end
 
@@ -157,29 +172,29 @@ RSpec.describe API::V2::CCLFClaim do
       end
 
       it 'returns multiple defendants' do
-        expect(response).to have_json_size(2).at_path('defendants')
+        is_expected.to have_json_size(2).at_path('defendants')
       end
 
       it 'returns defendants in order created marking earliest created as the "main" defendant' do
-        expect(response).to be_json_eql('true').at_path('defendants/0/main_defendant')
+        is_expected.to be_json_eql('true').at_path('defendants/0/main_defendant')
       end
 
       context 'representation orders' do
         it 'returns multiple representation orders' do
-          expect(response).to have_json_size(2).at_path('defendants/0/representation_orders')
+          is_expected.to have_json_size(2).at_path('defendants/0/representation_orders')
         end
 
         # NOTE: use of factory defaults results in two rep orders for the first
         # defendant with dates 400 and 380 days before claim created
         it 'returns earliest rep order first (per defendant)' do
-          expect(response).to be_json_eql(@claim.earliest_representation_order_date.to_json).at_path('defendants/0/representation_orders/0/representation_order_date')
+          is_expected.to be_json_eql(@claim.earliest_representation_order_date.to_json).at_path('defendants/0/representation_orders/0/representation_order_date')
         end
       end
     end
 
     context 'bills' do
       subject(:response) { do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body }
-      subject(:bills) { JSON.parse(response)['bills'] }
+      let(:bills) { JSON.parse(response)['bills'] }
 
       let(:claim) do
         create(:litigator_claim, :submitted, :without_fees)
@@ -188,7 +203,7 @@ RSpec.describe API::V2::CCLFClaim do
       let(:case_type_grtrl) { create(:case_type, :grtrl) }
 
       it 'returns empty array if no bills found' do
-        expect(response).to have_json_size(0).at_path("bills")
+        is_expected.to have_json_size(0).at_path("bills")
         expect(bills).to be_an Array
         expect(bills).to be_empty
       end
@@ -214,22 +229,22 @@ RSpec.describe API::V2::CCLFClaim do
             it { is_valid_cclf_json(response) }
 
             it 'returns array containing a litigator fee bill' do
-              expect(response).to have_json_size(1).at_path("bills")
+              is_expected.to have_json_size(1).at_path("bills")
             end
 
             it 'returns a litigator fee bill' do
-              expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
-              expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
+              is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
+              is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
             end
 
             it 'returns a litigator fee bill for any graduated fee' do
               allow_any_instance_of(::Fee::GraduatedFeeType).to receive(:unique_code).and_return 'XXXXX'
-              expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
-              expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
+              is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
+              is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
             end
 
             it 'returns quantity of ppe' do
-              expect(response).to be_json_eql('1000'.to_json).at_path("bills/0/quantity")
+              is_expected.to be_json_eql('1000'.to_json).at_path("bills/0/quantity")
             end
           end
 
@@ -246,16 +261,16 @@ RSpec.describe API::V2::CCLFClaim do
             it { is_valid_cclf_json(response) }
 
             it 'returns array containing the bill' do
-              expect(response).to have_json_size(1).at_path("bills")
+              is_expected.to have_json_size(1).at_path("bills")
             end
 
             it 'returns a litigator fee bill' do
-              expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
-              expect(response).to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
+              is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
+              is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
             end
 
             it 'returns 0 for quantity of ppe' do
-              expect(response).to be_json_eql('0'.to_json).at_path("bills/0/quantity")
+              is_expected.to be_json_eql('0'.to_json).at_path("bills/0/quantity")
             end
           end
 
@@ -274,12 +289,12 @@ RSpec.describe API::V2::CCLFClaim do
             it { is_valid_cclf_json(response) }
 
             it 'returns array containing fee bill' do
-              expect(response).to have_json_size(1).at_path("bills")
+              is_expected.to have_json_size(1).at_path("bills")
             end
 
             it 'returns array containing a special prep fee bill' do
-              expect(response).to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path("bills/0/bill_type")
-              expect(response).to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/0/bill_subtype")
+              is_expected.to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path("bills/0/bill_type")
+              is_expected.to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/0/bill_subtype")
             end
           end
 
@@ -296,12 +311,12 @@ RSpec.describe API::V2::CCLFClaim do
             it { is_valid_cclf_json(response) }
 
             it 'returns array containing the bill' do
-              expect(response).to have_json_size(1).at_path("bills")
+              is_expected.to have_json_size(1).at_path("bills")
             end
 
             it 'returns a warrant fee bill' do
-              expect(response).to be_json_eql('FEE_ADVANCE'.to_json).at_path("bills/0/bill_type")
-              expect(response).to be_json_eql('WARRANT'.to_json).at_path("bills/0/bill_subtype")
+              is_expected.to be_json_eql('FEE_ADVANCE'.to_json).at_path("bills/0/bill_type")
+              is_expected.to be_json_eql('WARRANT'.to_json).at_path("bills/0/bill_subtype")
             end
           end
 
@@ -320,11 +335,11 @@ RSpec.describe API::V2::CCLFClaim do
             it { is_valid_cclf_json(response) }
 
             it 'returns array containing fee bill' do
-              expect(response).to have_json_size(1).at_path("bills")
+              is_expected.to have_json_size(1).at_path("bills")
             end
 
             it 'returns array containing a disbursement bill subtype' do
-              expect(response).to be_json_eql('FORENSICS'.to_json).at_path("bills/0/bill_subtype")
+              is_expected.to be_json_eql('FORENSICS'.to_json).at_path("bills/0/bill_subtype")
             end
 
             it_behaves_like 'CCLF disbursement'
@@ -344,11 +359,11 @@ RSpec.describe API::V2::CCLFClaim do
             it { is_valid_cclf_json(response) }
 
             it 'returns array containing fee bill' do
-              expect(response).to have_json_size(1).at_path("bills")
+              is_expected.to have_json_size(1).at_path("bills")
             end
 
             it 'returns array containing a travel costs disbursement bill sub type' do
-              expect(response).to be_json_eql('TRAVEL COSTS'.to_json).at_path("bills/0/bill_subtype")
+              is_expected.to be_json_eql('TRAVEL COSTS'.to_json).at_path("bills/0/bill_subtype")
             end
 
             it_behaves_like 'CCLF disbursement'

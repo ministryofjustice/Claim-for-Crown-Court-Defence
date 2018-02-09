@@ -1,4 +1,5 @@
 require_relative 'sections/common_date_section'
+require_relative 'sections/supplier_numbers_section'
 require_relative 'sections/retrial_section'
 require_relative 'sections/fee_case_numbers_section'
 require_relative 'sections/fee_dates_section'
@@ -83,6 +84,9 @@ class ClaimFormPage < SitePrism::Page
   sections :errors, "div.error-summary > ul > li" do
     element :message, "a"
   end
+
+  section :lgfs_supplier_number_radios, SupplierNumberRadioSection, '.lgfs-supplier-numbers'
+  element :lgfs_supplier_number_select, 'select#claim_supplier_number'
 
   def select_advocate(name)
     select name, from: "claim_external_user_id"

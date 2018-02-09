@@ -11,30 +11,8 @@ And('6+ supplier numbers exist for my provider')do
   end
 end
 
-Then(/^I should see a supplier number select list$/) do
-  expect(@litigator_claim_form_page).to have_lgfs_supplier_number_select
-end
-
 Then(/^I should be on the litigator new claim page$/) do
   expect(@litigator_claim_form_page).to be_displayed
-end
-
-Then(/^I should be on the litigator new interim claim page$/) do
-  expect(@interim_claim_form_page).to be_displayed
-  @interim_claim_form_page.wait_until_continue_button_visible
-end
-
-When(/^I select the supplier number '(.*)'$/) do |number|
-  @litigator_claim_form_page.select_supplier_number(number)
-end
-
-Then(/^I should see (\d+) supplier number radios$/) do |number|
-  expect(@litigator_claim_form_page.lgfs_supplier_number_radios).to be_visible
-  expect(@litigator_claim_form_page.lgfs_supplier_number_radios).to have_supplier_numbers(count: number)
-end
-
-When(/^I choose the supplier number '(.*)'$/) do |number|
-  @litigator_claim_form_page.lgfs_supplier_number_radios.choose(number)
 end
 
 And(/^I select the litigator offence class '(.*)'$/) do |name|

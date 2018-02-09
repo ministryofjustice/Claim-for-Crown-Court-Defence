@@ -10,9 +10,9 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select the fee scheme 'Litigator final fee'
     Then I should be on the litigator new claim page
 
-    Then I should see 3 supplier number radios
-    When I choose the supplier number '1A222Z'
+    And I should see 3 supplier number radios
 
+    When I choose the supplier number '1A222Z'
     And I select the court 'Blackfriars'
     And I select a case type of 'Contempt'
     And I enter a case number of 'A20161234'

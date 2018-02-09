@@ -19,7 +19,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     And I click "Continue" in the claim form
 
-    When I select the supplier number '1A222Z'
+    When I choose the supplier number '1A222Z'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
 

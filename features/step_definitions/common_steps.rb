@@ -40,6 +40,23 @@ Then(/^I should (see|not see) '(.*)'$/) do |visibility, text|
   end
 end
 
+Then(/^I should see a supplier number select list$/) do
+  expect(@claim_form_page).to have_lgfs_supplier_number_select
+end
+
+Then(/^I should see (\d+) supplier number radios$/) do |number|
+  expect(@claim_form_page.lgfs_supplier_number_radios).to be_visible
+  expect(@claim_form_page.lgfs_supplier_number_radios).to have_supplier_numbers(count: number)
+end
+
+When(/^I choose the supplier number '(.*)'$/) do |number|
+  @claim_form_page.lgfs_supplier_number_radios.choose(number)
+end
+
+When(/^I select the supplier number '(.*)'$/) do |number|
+  @claim_form_page.select_supplier_number(number)
+end
+
 When(/^I select the offence category '(.*?)'$/) do |offence_cat|
   @claim_form_page.select_offence_category offence_cat
 end

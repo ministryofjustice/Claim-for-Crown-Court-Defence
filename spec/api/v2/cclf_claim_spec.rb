@@ -130,7 +130,22 @@ RSpec.describe API::V2::CCLFClaim do
       it { is_expected.to expose :court }
       it { is_expected.to expose :defendants }
       it { is_expected.to expose :additional_information }
+      it { is_expected.to expose :apply_vat }
       it { is_expected.to expose :bills }
+    end
+
+    context 'apply_vat' do
+      subject(:response) { do_request.body }
+
+      context 'when claim does not apply VAT' do
+        before { @claim.update(apply_vat: false) }
+        it { is_expected.to be_json_eql('false').at_path('apply_vat') }
+      end
+
+      context 'when claim does apply VAT' do
+        before { @claim.update(apply_vat: true) }
+        it { is_expected.to be_json_eql('true').at_path('apply_vat') }
+      end
     end
 
     context 'case_type' do

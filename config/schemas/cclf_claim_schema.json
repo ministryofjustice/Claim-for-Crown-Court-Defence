@@ -40,6 +40,10 @@
       "id": "/properties/additional_information",
       "type": ["string","null"]
     },
+    "apply_vat": {
+      "id": "/properties/apply_vat",
+      "type": "boolean"
+    },
     "court": {
       "id": "/properties/court",
       "additionalProperties": false,

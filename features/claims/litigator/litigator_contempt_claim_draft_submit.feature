@@ -10,12 +10,9 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select the fee scheme 'Litigator final fee'
     Then I should be on the litigator new claim page
 
-    Then I should see 3 radio labels
+    Then I should see 3 supplier number radios
     When I choose the supplier number '1A222Z'
-    # And more suppliers are added
-    # And I refresh the page
 
-    # When I select the supplier number '1A222Z'
     And I select the court 'Blackfriars'
     And I select a case type of 'Contempt'
     And I enter a case number of 'A20161234'
@@ -24,11 +21,13 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Then I should see 'Draft claim saved'
 
     Given I am later on the Your claims page
+    And 6+ supplier numbers exist for my provider
     Then Claim 'A20161234' should be listed with a status of 'Draft'
 
     When I click the claim 'A20161234'
     And I edit this claim
 
+    Then I should see a supplier number select list
     And I enter the case concluded date
 
     Then I click "Continue" in the claim form

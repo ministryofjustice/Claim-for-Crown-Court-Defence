@@ -18,7 +18,8 @@ class LitigatorClaimFormPage < ClaimFormPage
   element :fixed_fee_total, "#claim_fixed_fee_attributes_amount"
   section :fixed_fee_date, CommonDateSection, "div.fixed-fee-group"
 
-  section :lgfs_supplier_numbers, SupplierNumbersSection, '.lgfs-supplier-numbers'
+  section :lgfs_supplier_number_radios, SupplierNumberRadioSection, '.lgfs-supplier-numbers'
+  element :lgfs_supplier_number_select, 'select#claim_supplier_number'
 
   def select_supplier_number(number)
     select number, from: "claim_supplier_number", autocomplete: false

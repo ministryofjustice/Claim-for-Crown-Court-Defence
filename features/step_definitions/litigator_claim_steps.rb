@@ -4,6 +4,17 @@ And(/^My provider has supplier numbers$/) do
   end
 end
 
+And('6+ supplier numbers exist for my provider')do
+  number_to_add = 6 - @litigator.provider.lgfs_supplier_numbers.size
+  number_to_add.times do |index|
+    @litigator.provider.lgfs_supplier_numbers << SupplierNumber.new(supplier_number: additional_supplier_numbers[index])
+  end
+end
+
+Then(/^I should see a supplier number select list$/) do
+  expect(@litigator_claim_form_page).to have_lgfs_supplier_number_select
+end
+
 Then(/^I should be on the litigator new claim page$/) do
   expect(@litigator_claim_form_page).to be_displayed
 end
@@ -17,12 +28,13 @@ When(/^I select the supplier number '(.*)'$/) do |number|
   @litigator_claim_form_page.select_supplier_number(number)
 end
 
-Then(/^I should see (\d+) radio labels$/) do |number|
-  expect(@litigator_claim_form_page.lgfs_supplier_numbers).to have_supplier_numbers(count: number)
+Then(/^I should see (\d+) supplier number radios$/) do |number|
+  expect(@litigator_claim_form_page.lgfs_supplier_number_radios).to be_visible
+  expect(@litigator_claim_form_page.lgfs_supplier_number_radios).to have_supplier_numbers(count: number)
 end
 
 When(/^I choose the supplier number '(.*)'$/) do |number|
-  @litigator_claim_form_page.lgfs_supplier_numbers.choose(number)
+  @litigator_claim_form_page.lgfs_supplier_number_radios.choose(number)
 end
 
 And(/^I select the litigator offence class '(.*)'$/) do |name|
@@ -79,5 +91,9 @@ end
 
 And(/^I enter the date for the (\w+) expense '(.*?)'$/) do |ordinal, date|
   @claim_form_page.expenses.send(ordinal.to_sym).expense_date.set_date date
+end
+
+def additional_supplier_numbers
+  %w[1A833H 1A832G 1A831F 1A830E 1A829D 1A828C 1A827B 1A826A 1A825Z 1A824Y 1A823X 1A822W 1A821V 1A820U]
 end
 

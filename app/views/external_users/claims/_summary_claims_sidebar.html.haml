@@ -1,6 +1,24 @@
 .new-claim-hgroup.js-stick-at-top-when-scrolling.totals-summary
   %h2
     Summary total
+<<<<<<< HEAD
+=======
+  %h3
+    = 'Pre-calculated total fee'
+    %span.numeric.total-precal-fees
+      - if @precalculated_fee
+        = @precalculated_fee
+      - else
+        = 'No pre-calculated fee'
+  %h3
+    = t('.fees_total')
+    %span.numeric.total-fees{data:{'total-fees': claim.fees_total ||= 0}}
+      - if @claim.fees_total == 0
+        = t('.no_fees')
+        /No fees for this claim
+      - else
+        = claim.fees_total
+>>>>>>> WIP: LAA fee calculator integration spike
 
   = render partial: "external_users/claims/#{claim.type_identifier}_claim_sidebar", locals: { claim: claim, display_buttons: display_buttons }
 

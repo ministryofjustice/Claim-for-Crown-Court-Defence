@@ -683,7 +683,7 @@ DEPENDENCIES
   govuk_frontend_toolkit (~> 4.6.1)
   govuk_notify_rails
   govuk_template (~> 0.18.0)
-  grape (~> 0.19)
+  grape (= 0.19.2)
   grape-entity (~> 0.5.1)
   grape-papertrail (~> 0.1.1)
   grape-swagger (~> 0.23.0)

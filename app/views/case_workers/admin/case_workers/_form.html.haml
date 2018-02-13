@@ -1,7 +1,7 @@
 = form_for [:case_workers, :admin, @case_worker], builder: AdpFormBuilder do |f|
   = f.fields_for :user do |user_fields|
     %fieldset
-      %legend
+      %legend.heading-medium
         = 'Case worker details'
 
       = user_fields.adp_text_field :first_name, label: t('.first_name')
@@ -18,13 +18,17 @@
           = 'Location'
         .form-group
           = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
-            - b.label(class: "block-label") { b.radio_button + b.object.name }
+            .multiple-choice
+              = b.radio_button
+              = b.label { b.object.name }
 
       %fieldset.inline
         %legend
           = 'Roles'
         .form-group
           = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
-            - b.label(class: "block-label") { b.check_box + b.value.humanize }
+            .multiple-choice
+              = b.check_box
+              = b.label { b.value.humanize }
 
     = f.submit 'Save', class: "button"

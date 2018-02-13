@@ -5,8 +5,10 @@
   %fieldset
     = f.anchored_label 'Will you be sending disk evidence for this claim?', 'disk_evidence'
     = f.collection_radio_buttons(:disk_evidence, [['Yes','true'],['No','false']], :last, :first ) do |b|
-      = b.label(class: "block-label", "data-target" => b.text == 'Yes' ? 'evidence-info' : nil) { b.radio_button + b.text }
-      -if (b.text == 'Yes')
+      .multiple-choice{"data-target" => b.text == 'Yes' ? 'evidence-info' : nil}
+        = b.radio_button
+        = b.label { b.text }
+      - if (b.text == 'Yes')
         #evidence-info.panel.panel-border-narrow.js-hidden
           = render partial: 'shared/disk_evidence_info', locals: { f: f }
 

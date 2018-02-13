@@ -12,9 +12,11 @@
       - else
         -# Radio element
         = f.collection_radio_buttons(:supplier_number, current_user.persona.provider.lgfs_supplier_numbers, :supplier_number, :supplier_number) do |b|
-          - if(current_user.persona.provider.lgfs_supplier_numbers.length == 1)
-            - b.label(class: "block-label selected") { b.radio_button(checked: true) + b.text }
-          - else
-            - b.label(class: "block-label") { b.radio_button + b.text }
+          .multiple-choice
+            = b.radio_button
+            - if(current_user.persona.provider.lgfs_supplier_numbers.length == 1)
+              = b.label(class: "selected") { b.text }
+            - else
+              = b.label { b.text }
 
       = validation_error_message(@error_presenter, :supplier_number)

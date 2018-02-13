@@ -130,7 +130,7 @@ button.search {
 
 .currency-indicator{
     display: inline-block;
-    padding: 4px 12px;
+    padding: 5px 12px 4px 12px;
     border-right: 0;
     background-color: $panel-colour;
     border-left: 2px solid $border-colour;
@@ -382,7 +382,7 @@ select.form-control {
     border-bottom: 1px solid $border-colour;
     content: "\00a3";
     font-size: 19px;
-    height: 34px;
+    height: 35px;
     left: 0;
     line-height: 34px;
     padding: 1px 8px 0 8px;

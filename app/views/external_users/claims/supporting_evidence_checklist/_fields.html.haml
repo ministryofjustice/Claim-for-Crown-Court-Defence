@@ -1,9 +1,6 @@
-%fieldset.checklist
-  %h3
-    = t('.supporting_evidence_checklist')
-  .grid-row
-    .column-half
-      = render partial: 'external_users/claims/supporting_evidence_checklist/evidence_checklist', locals: { f: f, collection: DocType.all_first_half }
+%fieldset
+  %legend
+    %h3.heading-medium
+      = t('.supporting_evidence_checklist')
 
-    .column-half
-      = render partial: 'external_users/claims/supporting_evidence_checklist/evidence_checklist', locals: { f: f, collection: DocType.all_second_half }
+  = render partial: 'external_users/claims/supporting_evidence_checklist/evidence_checklist', locals: { f: f, collection: DocType.all }

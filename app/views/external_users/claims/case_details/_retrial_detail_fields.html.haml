@@ -44,7 +44,10 @@
 
         .form-group.inline
           = f.collection_radio_buttons(:retrial_reduction, [['Yes','true'],['No','false']], :last, :first ) do |b|
-            - b.label(class: "block-label") { b.radio_button + b.text }
+            .multiple-choice
+              = b.radio_button
+              = b.label { b.text }
+
         %details
           %summary
             %span.summary

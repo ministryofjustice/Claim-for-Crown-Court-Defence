@@ -18,10 +18,12 @@
   - unless @claim.interim?
     .form-row
       .form-col.form-col-two-thirds
-        %label.block-label.judicial-apportionment-notice
-          = f.check_box :order_for_judicial_apportionment
-          = raw t('.order_for_judicial_apportionment')
-          = validation_error_message(@error_presenter, :order_for_judicial_apportionment)
+        .form-group
+          .multiple-choice
+            = f.check_box :order_for_judicial_apportionment
+            = f.label :order_for_judicial_apportionment, t('.order_for_judicial_apportionment'), class: 'judicial-apportionment-notice'
+            = validation_error_message(@error_presenter, :order_for_judicial_apportionment)
+
         %details
           %summary
             %span.summary Help with judicial apportionment

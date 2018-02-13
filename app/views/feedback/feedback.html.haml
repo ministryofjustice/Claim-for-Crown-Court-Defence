@@ -27,12 +27,14 @@
     = render partial: 'feedback/anonymous_email_prompt', locals: { f: f } if cannot_identify_user?
 
     .form-group
-      %fieldset.inline
+      %fieldset
         %legend
           = f.label :rating
 
         = f.collection_radio_buttons(:rating, Feedback::RATINGS.map {|k,v| [v,k]}, :last, :first) do |b|
-          - b.label(class: 'block-label') { b.radio_button + b.object.first  }
+          .multiple-choice
+            = b.radio_button
+            = b.label { b.object.first }
 
     .button-holder
       = f.submit 'Send', class: 'button button-primary', id: 'submit-button'

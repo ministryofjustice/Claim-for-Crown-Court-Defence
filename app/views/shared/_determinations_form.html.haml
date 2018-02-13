@@ -11,7 +11,9 @@
             %legend.bold-normal.form-label
               = "Update the claim status"
             = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last ) do |b|
-              - b.label(class: "block-label") { b.radio_button(checked: params[:claim].present? && b.value.eql?(params[:claim][:state]&.to_sym)) + b.text }
+              .multiple-choice
+                = b.radio_button(checked: params[:claim].present? && b.value.eql?(params[:claim][:state]&.to_sym))
+                = b.label { b.text }
             %div
               = validation_error_message(@error_presenter, :determinations)
 
@@ -55,8 +57,11 @@
           %legend.bold-normal.form-label
             = "Choose reason for rejection"
           = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.reject_reasons_for(@claim), :code, :description) do |b|
-            - b.label(class: "block-label") { b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value)) + b.text }
-          %fieldset.form-group.nested-fields.fieldset.spacer.js-reject-reason-text{style: 'display:none', class: error_class?(@error_presenter, :rejected_reason_other)}
+            .multiple-choice
+              = b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value))
+              = b.label { b.text }
+
+          %fieldset.form-group.nested-fields.fieldset.spacer.js-reject-reason-text{style: 'display:none; padding-top:10px;', class: error_class?(@error_presenter, :rejected_reason_other)}
             %div
               %a#rejected_reason_other
               = f.label :reject_reason_text, 'Reason text'
@@ -72,9 +77,13 @@
           %a#refused_reason
           %legend.bold-normal.form-label
             = "Choose reason for refusal"
+
           = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.refuse_reasons_for(@claim), :code, :description) do |b|
-            - b.label(class: "block-label") { b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value)) + b.text }
-          %fieldset.form-group.nested-fields.fieldset.spacer.js-refuse-reason-text{style: 'display:none', class: error_class?(@error_presenter, :refused_reason_other)}
+            .multiple-choice
+              = b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value))
+              = b.label { b.text }
+
+          %fieldset.form-group.nested-fields.fieldset.spacer.js-refuse-reason-text{style: 'display:none; padding-top:10px;', class: error_class?(@error_presenter, :refused_reason_other)}
             %div
               %a#refused_reason_other
               = f.label :refuse_reason_text, 'Reason text'

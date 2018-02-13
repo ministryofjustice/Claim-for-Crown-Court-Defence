@@ -1,7 +1,7 @@
 class SupplierNumberSection < SitePrism::Section
-  element :radio, 'input'
+  element :radio, 'label'
 end
 
 class SupplierNumberRadioSection < SitePrism::Section
-  sections :supplier_numbers, SupplierNumberSection, '.block-label'
+  sections :supplier_numbers, SupplierNumberSection, '.multiple-choice'
 end

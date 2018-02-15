@@ -49,11 +49,11 @@ moj.Modules.SideBar = {
     var self = this;
 
     this.totals = {
-      fees: 0,
+      fees: self.strAmountToFloat($('.total-fees').data('total-fees')),
       disbursements: 0,
-      expenses: 0,
-      vat: 0,
-      grandTotal: 0
+      expenses: self.strAmountToFloat($('.total-expenses').data('total-expenses')),
+      vat: self.strAmountToFloat($('.total-vat').data('total-vat')),
+      grandTotal: self.strAmountToFloat($('.total-grandTotal').data('total-grandtotal'))
     };
 
     self.blocks.forEach(function(block) {
@@ -89,8 +89,13 @@ moj.Modules.SideBar = {
     var self = this;
     $.each(this.totals, function(key, val) {
       if ($.type(self.totals[key]) === 'string') {
-        self.totals[key] = parseFloat(self.totals[key].replace(',', '').replace(/£/g, ''));
+        self.totals[key] = self.strAmountToFloat(self.totals[key]);
       }
     });
+  },
+
+  strAmountToFloat: function(str) {
+    return parseFloat(str.replace(',', '').replace(/£/g, ''));
   }
+
 };

@@ -37,6 +37,18 @@ module Claims::Calculations
     a + b + c
   end
 
+  def assign_fees_total(categories = [])
+    fees_total = categories.inject(0) do |sum, category|
+      sum + calculate_fees_total(category)
+    end
+    fees_vat = calculate_fees_vat(fees_total)
+    assign_attributes(
+      fees_total: fees_total,
+      fees_vat: fees_vat,
+      value_band_id: Claims::ValueBands.band_id_for_value(fees_vat + fees_total)
+    )
+  end
+
   def update_fees_total
     fees_total = calculate_fees_total
     fees_vat = calculate_fees_vat(fees_total)
@@ -59,6 +71,10 @@ module Claims::Calculations
                    value_band_id: Claims::ValueBands.band_id_for_value(totals[:net] + totals[:vat]))
   end
 
+  def assign_total
+    assign_attributes(total: calculate_total)
+  end
+
   def update_total
     update_column(:total, calculate_total)
   end
@@ -74,5 +90,10 @@ module Claims::Calculations
   def update_vat
     update_column(:apply_vat, vat_registered?) if vat_registered?
     update_column(:vat_amount, calculate_total_vat)
+  end
+
+  def assign_vat
+    assign_attributes(apply_vat: vat_registered?) if vat_registered?
+    assign_attributes(vat_amount: calculate_total_vat)
   end
 end

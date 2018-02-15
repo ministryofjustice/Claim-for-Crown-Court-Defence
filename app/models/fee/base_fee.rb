@@ -57,18 +57,23 @@ module Fee
 
     accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
-    after_initialize :ensure_not_abstract_class
+    after_initialize do
+      ensure_not_abstract_class
+      set_defaults
+    end
 
     def ensure_not_abstract_class
       raise BaseFeeAbstractClassError if self.class == BaseFee
     end
 
-    before_validation do
+    def set_defaults
       self.quantity   = 0 if quantity.blank?
       self.rate       = 0 if rate.blank?
       self.amount     = 0 if amount.blank?
       calculate_amount
     end
+
+    before_validation :set_defaults
 
     after_save do
       claim.update_fees_total

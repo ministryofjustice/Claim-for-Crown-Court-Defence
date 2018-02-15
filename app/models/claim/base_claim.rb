@@ -227,6 +227,10 @@ module Claim
       previous_step.present?
     end
 
+    def misc_fees_changed?
+      misc_fees.any?(&:changed?)
+    end
+
     # Override the corresponding method in the subclass
     def agfs?
       false

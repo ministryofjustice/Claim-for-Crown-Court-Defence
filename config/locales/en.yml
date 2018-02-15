@@ -473,6 +473,8 @@ en:
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee
     claims:
+      hints:
+        fees_header_prompt_text_html: All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users.
       redraft:
         error_html: 'An error is preventing this claim from being redrafted.  The problem has been logged and is being investigated. To continue please start a new claim.'
       additional_information:
@@ -797,6 +799,8 @@ en:
         heading: Outstanding claims
         claims_value: claims with a total value of
       supporting_documents:
+        disk_evidence:
+          disk_evidence_title: 'Evidence supplied on disk'
         summary:
           caption: 'Supporting Documents: This section contains a list of all the files that you have uploaded as supporting evidence.'
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'

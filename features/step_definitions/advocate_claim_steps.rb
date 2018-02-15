@@ -10,7 +10,7 @@ Then(/^I should be on the new claim page$/) do
 end
 
 When(/^I select an advocate category of '(.*?)'$/) do |name|
-  @claim_form_page.claim_advocate_category_junior_alone.click
+  @claim_form_page.find('label', text: name).click
 end
 
 When(/^I select an advocate$/) do

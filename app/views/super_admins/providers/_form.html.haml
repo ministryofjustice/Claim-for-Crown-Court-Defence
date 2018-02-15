@@ -24,7 +24,9 @@
             = t('.provider_type')
 
         = f.collection_radio_buttons(:provider_type, Provider::PROVIDER_TYPES, :to_s, :to_s) do |b|
-          - b.label(class: 'block-label') { b.radio_button(class: "jqr-publisher",  "data-jqr-publish-events": "/provider/type/") + b.value.capitalize }
+          %div.multiple-choice
+            = b.radio_button(class: "jqr-publisher",  "data-jqr-publish-events": "/provider/type/")
+            = b.label { b.value.capitalize }
 
     .form-group#js-fee-schemes.jqr-delegate-hook.jqr-subscriber{"data-jqr-subscribe-events": "/provider/type/", "data-jqr-subscribe-values": "chamber|firm", class: @provider.errors[:roles].any? ? "error" : ""}
       %fieldset.inline#provider_roles
@@ -32,13 +34,14 @@
           %span.form-label-bold
             = t('.fee_schemes')
 
-
         = f.collection_check_boxes(:roles, Provider::ROLES, :to_s, :to_s) do |b|
           -# conditionally apply the correct subscribe and publish strings
           - jqr_subscribe_values = b.value.upcase == "AGFS" ? "chamber|firm" : "firm"
           - jqr_publish_events = "/scheme/type/" + b.value + "/"
 
-          - b.label(class: 'block-label jqr-subscriber', "data-jqr-subscribe-events": "/provider/type/", "data-jqr-subscribe-values": jqr_subscribe_values) { b.check_box(class: "jqr-publisher",  "data-jqr-publish-events": jqr_publish_events) + b.value.upcase }
+          %div.multiple-choice
+            = b.check_box(class: "jqr-publisher",  "data-jqr-publish-events": jqr_publish_events)
+            = b.label(class: 'block-label jqr-subscriber', "data-jqr-subscribe-events": "/provider/type/", "data-jqr-subscribe-values": jqr_subscribe_values){ b.value.upcase }
 
 
     .form-group#js-agfs-supplier-number.jqr-subscriber{"data-jqr-subscribe-events": "/scheme/type/agfs/custom/", "data-jqr-subscribe-values": "show-agfs-supplier", class: @provider.errors[:firm_agfs_supplier_number].any? ? "error" : ""}
@@ -54,7 +57,9 @@
             = t('.vat_registered')
 
         = f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
-          - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
+          %div.multiple-choice
+            = b.radio_button
+            = b.label { (b.value.to_s == 'true' ? 'Yes' : 'No') }
 
     .form-group
       = f.submit 'Save', class: "button"

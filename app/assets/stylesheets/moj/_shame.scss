@@ -241,13 +241,6 @@ form {
   padding-bottom: 0;
 }
 
-.controller-claims {
-  .judicial-apportionment-notice{
-    margin-top: $gutter-half;
-    margin-bottom: $gutter-half;
-  }
-}
-
 .inline-form {
   display: inline;
 }
@@ -373,11 +366,7 @@ form {
 // certification.SCSS
 // ================================================================//
 .certification {
-  .form-group{
-    &.certified_by_wrapper{
-      margin-bottom:0;
-    }
-  }
+
   ul, ol {
     list-style-type: initial;
 
@@ -391,13 +380,6 @@ form {
     }
   }
 
-  legend {
-    font-weight: normal;
-  }
-  fieldset {
-    border-bottom: 0;
-    margin-bottom: 0;
-  }
   strong {
     font-weight: bold;
   }
@@ -693,3 +675,10 @@ Styling for Claims Messaging
   font-weight: normal;
   font-size: 16px;
 }
+
+
+  .form-date{
+    p{
+      margin-bottom: 0;
+    }
+  }

@@ -3,29 +3,35 @@
 = render partial: 'layouts/header', locals: {page_heading: 'What would you like to do?'}
 
 = form_tag(types_external_users_claims_path, method: "post") do
-  .form-group.inline
-    %legend.xsmall
-      = t('.choose_fee_scheme_prompt_text')
-    .form-group.inline
+  .form-group
+    %fieldset
+      %legend
+        %h2.heading-medium
+          = t('.choose_fee_scheme_prompt_text')
+
       - if @claim_types.include?(Claim::AdvocateClaim)
-        = label_tag :scheme_chosen_agfs, nil, class: "block-label" do
+        .multiple-choice
           = radio_button_tag :scheme_chosen, "agfs", true
-          = t('.agfs_rb')
+          = label_tag :scheme_chosen_agfs, nil do
+            = t('.agfs_rb')
 
       - if @claim_types.include?(Claim::LitigatorClaim)
-        = label_tag :scheme_chosen_lgfs_final, nil, class: "block-label" do
+        .multiple-choice
           = radio_button_tag :scheme_chosen, "lgfs_final", !@claim_types.include?(Claim::AdvocateClaim)
-          = t('.lgfs_final_rb')
+          = label_tag :scheme_chosen_lgfs_final, nil do
+            = t('.lgfs_final_rb')
 
       - if @claim_types.include?(Claim::InterimClaim)
-        = label_tag :scheme_chosen_lgfs_interim, nil, class: "block-label" do
+        .multiple-choice
           = radio_button_tag :scheme_chosen, "lgfs_interim", false
-          = t('.lgfs_interim_rb')
+          = label_tag :scheme_chosen_lgfs_interim, nil do
+            = t('.lgfs_interim_rb')
 
       - if @claim_types.include?(Claim::TransferClaim)
-        = label_tag :scheme_chosen_lgfs_transfer, nil, class: "block-label" do
+        .multiple-choice
           = radio_button_tag :scheme_chosen, "lgfs_transfer", false
-          = t('.lgfs_transfer_rb')
+          = label_tag :scheme_chosen_lgfs_transfer, nil do
+            = t('.lgfs_transfer_rb')
 
   .form-group
     = submit_tag "Continue", class: "button"

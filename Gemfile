@@ -11,10 +11,10 @@ gem 'devise',                 '~> 3.5.1'
 gem 'dropzonejs-rails',       '~> 0.7'
 gem 'factory_bot_rails',     '~> 4.7'
 gem 'faker',                  '~> 1.8.4'
-gem 'gov_uk_date_fields',     '= 1.2.3'
-gem 'govuk_template',         '~> 0.18.0'
-gem 'govuk_frontend_toolkit', '~> 4.6.1'
-gem 'govuk_elements_rails',   '~> 1.1.2'
+gem 'gov_uk_date_fields',     '= 1.2.3'     # '= 1.2.3'     // 2.0.3
+gem 'govuk_template',         '~> 0.23.0'   # '~> 0.18.0'   // 0.23.0
+gem 'govuk_frontend_toolkit', '~> 7.1.0'    # '~> 4.6.1'    // 7.1.0
+gem 'govuk_elements_rails',   '~> 3.1.2'    # '~> 1.1.2'    // 3.1.2
 gem 'govuk_notify_rails'
 gem 'grape',                  '0.19.2'
 gem 'grape-entity',           '~> 0.5.1'
@@ -44,9 +44,9 @@ gem 'sass-rails',             '~> 5.0.6'
 gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.git'
 gem 'susy',	                  '~> 2.2.12'
 gem 'sentry-raven',           '~> 1.2.2'
-gem 'simple_form',            '~> 3.1.0'
+gem 'simple_form',            '~> 3.5.0'
 gem 'sinatra',                '~> 1.4.7', require: false
-gem 'sprockets-rails',        '~> 2.3.3'
+gem 'sprockets-rails',        '~> 3.2'
 gem 'squeel',                 '~> 1.2.3'
 gem 'state_machine',          '~> 1.2.0'
 gem 'state_machines-activerecord'

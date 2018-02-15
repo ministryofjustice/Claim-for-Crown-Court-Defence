@@ -6,7 +6,9 @@
       = f.label t('.update_claim_status'), class: "form-label bold-normal"
       .form-group.inline.js-test-claim-action
         = f.collection_radio_buttons(:claim_action, Claims::ExternalUserActions.available_for(@claim), :to_s, :to_s) do |b|
-          - b.label(class: "block-label") { b.radio_button + b.value.humanize }
+          .multiple-choice
+            = b.radio_button
+            = b.label { b.value.humanize }
 
   - if messaging_permitted?(message) || current_user_is_caseworker?
     .grid-row.js-test-send-buttons

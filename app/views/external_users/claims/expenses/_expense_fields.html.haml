@@ -77,12 +77,16 @@
             %div.js-expense-type-car
               = f.hidden_field :mileage_rate_id, value: ''
               = f.collection_radio_buttons(:mileage_rate_id, Expense::CAR_MILEAGE_RATES.values, :id, :description) do |b|
-                - b.label(class: "block-label") { b.radio_button + b.object.description }
+                .multiple-choice
+                  = b.radio_button
+                  = b.label { b.object.description }
               = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
 
             %div.js-expense-type-bike
               = f.collection_radio_buttons(:mileage_rate_id, Expense::BIKE_MILEAGE_RATES.values, :id, :description) do |b|
-                - b.label(class: "block-label") { b.radio_button + b.object.description }
+                .multiple-choice
+                  = b.radio_button
+                  = b.label { b.object.description }
               = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
 
 

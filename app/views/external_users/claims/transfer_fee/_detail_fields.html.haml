@@ -12,14 +12,20 @@
         %fieldset.inline
           = f.anchored_label t('.litigator_type'), 'litigator_type', { label_attributes: { class: 'form-label' } }
           = f.collection_radio_buttons(:litigator_type, ['original','new'], :to_s, :humanize) do |b|
-            - b.label(class: "block-label") { b.radio_button(class: 'js-litigator-type') + b.text }
+            .multiple-choice
+              = b.radio_button(class: 'js-litigator-type')
+              = b.label { b.text }
+
         = validation_error_message(@error_presenter, :litigator_type)
 
       .form-row{class: error_class?(@error_presenter, :elected_case)}
         %fieldset.inline
           = f.anchored_label t('.elected_case'), 'elected_case', { label_attributes: { class: 'form-label' } }
           = f.collection_radio_buttons(:elected_case, [['Yes','true'],['No','false']], :last, :first ) do |b|
-            - b.label(class: "block-label") { b.radio_button(class: 'js-elected-case') + b.text }
+            .multiple-choice
+              = b.radio_button(class: 'js-elected-case')
+              = b.label { b.text }
+
         = validation_error_message(@error_presenter, :elected_case)
 
       .form-row.js-typeahead

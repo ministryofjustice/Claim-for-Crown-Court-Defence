@@ -29,16 +29,21 @@
       = f.label :roles, class: "form-label"
       .form-group.inline.js-advocate-roles
         = f.collection_check_boxes(:roles, @external_user.available_roles, :to_s, :to_s) do |b|
-          - b.label(class: "block-label") { b.check_box + b.value.humanize }
+          .multiple-choice
+            = b.check_box
+            = b.label { b.value.humanize }
 
     - if @provider.chamber?
       .js-chamber-advocates-only
         = f.label(:vat_registered, t('.apply_vat'), class: "form-label")
         .form-group.inline
-          =f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
-            - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
+          = f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
+            .multiple-choice
+              = b.radio_button
+              = b.label { (b.value.to_s == 'true' ? 'Yes' : 'No') }
 
-        = f.label t(".supplier_number"), class: "form-label"
-        = f.text_field :supplier_number, class: "form-control"
+        .form-group
+          = f.label t(".supplier_number"), class: "form-label"
+          = f.text_field :supplier_number, class: "form-control"
 
-  = f.submit t('.submit'), class: "button"
+    = f.submit t('.submit'), class: "button"

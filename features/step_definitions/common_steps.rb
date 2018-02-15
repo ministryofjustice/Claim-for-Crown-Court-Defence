@@ -49,8 +49,8 @@ Then(/^I should see (\d+) supplier number radios$/) do |number|
   expect(@claim_form_page.lgfs_supplier_number_radios).to have_supplier_numbers(count: number)
 end
 
-When(/^I choose the supplier number '(.*)'$/) do |number|
-  @claim_form_page.lgfs_supplier_number_radios.choose(number)
+When(/^I choose the supplier number '(.*)'$/) do |text|
+  @claim_form_page.find('label', text: text).click
 end
 
 When(/^I select the supplier number '(.*)'$/) do |number|

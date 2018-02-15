@@ -4,7 +4,6 @@
 //= require cocoon
 //= require dropzone
 //= require vendor/polyfills/bind
-//= require govuk/selection-buttons
 //= require govuk/stick-at-top-when-scrolling
 //= require govuk/stop-scrolling-at-footer
 //= require moj
@@ -103,9 +102,6 @@ if (!String.prototype.supplant) {
       return false;
     }
   });
-
-  // This should not be required but attepmts at removing it has failed.
-  var selectionButtons = new GOVUK.SelectionButtons("label input[type='radio'], label input[type='checkbox']");
 
   GOVUK.stickAtTopWhenScrolling.init();
 

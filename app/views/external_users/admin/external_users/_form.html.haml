@@ -21,26 +21,36 @@
         = user_fields.email_field :email_confirmation, class: "form-control"
 
     - if Settings.email_notification_enabled?
-      %fieldset.inline
-        %legend
-          = 'Get email notifications of caseworker messages on claims you created?'
-        = user_fields.collection_radio_buttons(:email_notification_of_message, [true, false], :to_s, :to_s) do |b|
-          - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
+      .form-section
+        %fieldset.inline
+          %legend
+            = 'Get email notifications of caseworker messages on claims you created?'
+          = user_fields.collection_radio_buttons(:email_notification_of_message, [true, false], :to_s, :to_s) do |b|
+            .multiple-choice
+              = b.radio_button
+              = b.label { (b.value.to_s == 'true' ? 'Yes' : 'No') }
 
     - if current_user.persona.admin?
-      %fieldset.inline.js-advocate-roles
-        %legend
-          = 'Roles'
-        = f.collection_check_boxes(:roles, @external_user.available_roles, :to_s, :to_s) do |b|
-          - b.label(class: "block-label") { b.check_box + b.value.humanize }
+      .form-section
+        %fieldset.inline.js-advocate-roles.form-section
+          %legend.heading-medium
+            = 'Roles'
+
+          = f.collection_check_boxes(:roles, @external_user.available_roles, :to_s, :to_s) do |b|
+            .multiple-choice
+              = b.check_box
+              = b.label { b.value.humanize }
 
         - if current_user.persona.provider.chamber?
           .js-chamber-advocates-only
-            %fieldset
-              = f.label :vat_registered, class: "form-label"
-              .form-group.inline
-                =f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
-                  - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
+            %fieldset.inline.form-section
+              %legend.heading-medium
+                = "Vat registered"
+
+              = f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
+                .multiple-choice
+                  = b.radio_button
+                  = b.label { (b.value.to_s == 'true' ? 'Yes' : 'No') }
 
             = f.label :supplier_number, t(".supplier_number"), class: "form-label"
             = f.text_field :supplier_number, class: "form-control"

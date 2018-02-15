@@ -8,7 +8,10 @@
       = t('.advocate_category')
     .form-group{class: error_class?(@error_presenter, :advocate_category)}
       = f.collection_radio_buttons(:advocate_category, Settings.advocate_categories.sort, :to_s, :to_s) do |b|
-        - b.label(class: "block-label") { b.radio_button + b.value.to_s }
+        .multiple-choice
+          = b.radio_button
+          = b.label { b.value.to_s }
+
       = validation_error_message(@error_presenter, :advocate_category)
 
 %fieldset

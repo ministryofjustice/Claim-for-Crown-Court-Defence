@@ -19,11 +19,14 @@
         = f.gov_uk_date_field(:trial_cracked_at, legend_text: t('.trial_cracked_at'), legend_class: 'govuk-legend', id: "trial_cracked_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_cracked_at))
 
 
-    %div.form-group.inline
+    %div.form-group
       %fieldset
         %legend.govuk-legend
           = t('.trial_cracked_at_third')
 
         = f.collection_radio_buttons(:trial_cracked_at_third, Settings.trial_cracked_at_third, :to_s, :humanize) do |b|
-          - b.label(class: "block-label") { b.radio_button + b.text }
+          .multiple-choice
+            = b.radio_button
+            = b.label { b.text }
+
     = validation_error_message(@error_presenter, :trial_cracked_at_third)

@@ -1,10 +1,16 @@
 = render partial: 'errors/error_summary', locals:{ ep: @allocation, error_summary: 'This claim re-allocation has '}
 
-= render partial: 'layouts/header', locals: {page_heading: 'Re-allocation'}
-
 = form_tag case_workers_admin_allocations_path, method: :get do
   = hidden_field_tag :tab, params[:tab]
-  = render partial: 'orig_scheme_filters'
+
+  .grid-row
+    .column-two-thirds
+      = render partial: 'layouts/header', locals: {page_heading: 'Re-allocation'}
+    .column-one-third.scheme-filters
+      -# FORM
+      -# AGFS / LGFS Radios
+      = render partial: 'orig_scheme_filters'
+
   %noscript
     = submit_tag 'Filter'
 

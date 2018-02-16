@@ -96,10 +96,15 @@ module Claim
       # left it here mostly to ensure the new changes do
       # not impact anything API related
       return if from_api?
-      return unless fees_changed?
-      assign_fees_total(%i[basic fixed misc])
+      assign_fees_total(%i[basic fixed misc]) if fees_changed?
+      assign_expenses_total if expenses_changed?
+      return unless total_changes_required?
       assign_total
       assign_vat
+    end
+
+    def total_changes_required?
+      fees_changed? || expenses_changed?
     end
 
     def fees_changed?
@@ -111,7 +116,11 @@ module Claim
     end
 
     def fixed_fees_changed?
-      basic_fees.any?(&:changed?)
+      fixed_fees.any?(&:changed?)
+    end
+
+    def expenses_changed?
+      expenses.any?(&:changed?)
     end
 
     def eligible_case_types

@@ -95,6 +95,9 @@ moj.Modules.SideBar = {
   },
 
   strAmountToFloat: function(str) {
+    if(typeof str == 'undefined'){
+     return 0;
+    }
     return parseFloat(str.replace(',', '').replace(/£/g, ''));
   }
 

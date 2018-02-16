@@ -26,13 +26,13 @@
         To re-allocate claims to another case worker, choose "Case worker" and then select their name from the dropdown that appears below.
 
       .js-re-allocation-options
-        = f.label :deallocate, value: true, class: 'block-label' do
-          Allocation pool
+        .multiple-choice
           = f.radio_button :deallocate, true, checked: false, value: true
+          = f.label(:deallocate, value: true ){"Allocation pool"}
 
-        = f.label :deallocate, value: false, class: 'block-label' do
-          Case worker
+        .multiple-choice
           = f.radio_button :deallocate, false, checked: true, value: false
+          = f.label(:deallocate, value: false){"Case worker"}
 
   .case-worker-reallocation.grid-row.form-group.js-typeahead
     .column-one-quarter.js-case-worker-list
@@ -52,7 +52,7 @@
             = @claims.total_count
         %thead
           %th.select{scope:'col'}
-            = link_to 'All', '#', class: 'select-all', data: { 'all-checked' => 'false' }
+            = link_to 'Select all', '#', class: 'select-all', data: { 'all-checked' => 'false' }
           %th.case-number{scope:'col'}
             = t('.case_number')
           %th.court{scope:'col'}

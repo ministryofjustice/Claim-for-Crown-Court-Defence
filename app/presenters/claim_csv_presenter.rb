@@ -5,7 +5,7 @@ class ClaimCsvPresenter < BasePresenter
   SUBMITTED_STATES = %w[submitted redetermination awaiting_written_reasons].freeze
 
   def present!
-    yield parsed_journeys
+    yield parsed_journeys if block_given?
   end
 
   def journeys
@@ -22,7 +22,7 @@ class ClaimCsvPresenter < BasePresenter
   def parsed_journeys
     journeys.map do |journey|
       @journey = clean_deallocations(journey)
-      Settings.claim_csv_headers.map { |method_call| send(method_call) }
+      Settings.claim_csv_headers.map { |method_call| send(method_call) } if @journey.any?
     end
   end
 

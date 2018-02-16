@@ -3,9 +3,10 @@
     %legend
       = t('.scheme_types')
     - allocation_scheme_filters.each do | filter_scheme |
-      = label_tag "scheme_#{filter_scheme}", nil, class: "block-label" do
+      .multiple-choice
         = radio_button_tag :scheme, filter_scheme, params[:scheme].blank? ? filter_scheme == 'agfs' : params[:scheme] == filter_scheme
-        = filter_scheme.upcase
+        = label_tag "scheme_#{filter_scheme}", nil, class: "block-label" do
+          = filter_scheme.upcase
     %noscript
       = hidden_field_tag 'style', 'old'
       = submit_tag 'Filter'

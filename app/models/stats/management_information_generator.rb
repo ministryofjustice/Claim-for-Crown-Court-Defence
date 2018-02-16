@@ -24,8 +24,10 @@ module Stats
         csv << Settings.claim_csv_headers.map { |header| header.to_s.humanize }
         Claim::BaseClaim.active.non_draft.find_each do |claim|
           ClaimCsvPresenter.new(claim, 'view').present! do |claim_journeys|
-            claim_journeys.each do |claim_journey|
-              csv << claim_journey
+            if claim_journeys.any?
+              claim_journeys.each do |claim_journey|
+                csv << claim_journey
+              end
             end
           end
         end

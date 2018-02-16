@@ -1,7 +1,6 @@
 require_relative 'claim_factory_helpers'
 include ClaimFactoryHelpers
 
-
 FactoryBot.define do
   factory :claim, aliases: [:advocate_claim], class: Claim::AdvocateClaim do
 
@@ -17,7 +16,7 @@ FactoryBot.define do
     source { 'web' }
     apply_vat  false
     providers_ref { random_providers_ref }
-    case_type { FactoryBot.build  :case_type }
+    case_type { FactoryBot.build :case_type }
     offence
     advocate_category 'QC'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
@@ -71,8 +70,6 @@ FactoryBot.define do
       end
     end
 
-
-
     #
     # states: initial/default state is draft
     # - alphabetical list
@@ -81,18 +78,13 @@ FactoryBot.define do
       after(:create) { |c| allocate_claim(c); c.reload }
     end
 
-
-
     factory :archived_pending_delete_claim do
       after(:create) { |c| advance_to_pending_delete(c) }
     end
 
-
-
     factory :authorised_claim do
       after(:create) { |c| authorise_claim(c) }
     end
-
 
     factory :redetermination_claim do
       after(:create) do |c|
@@ -135,7 +127,4 @@ FactoryBot.define do
       end
     end
   end
-
 end
-
-

@@ -65,7 +65,4 @@ module ClaimFactoryHelpers
   def set_creator(claim)
     claim.creator = claim.external_user
   end
-
 end
-
-

@@ -2,9 +2,15 @@ module Claims::Calculations
   def calculate_fees_total(category = nil)
     fees.reload
     if category.blank?
-      fees.map(&:amount).compact.sum
+      fees.map do |fee|
+        fee.calculate_amount
+        fee.amount
+      end.compact.sum
     else
-      __send__("#{category.downcase}_fees").map(&:amount).compact.sum
+      __send__("#{category.downcase}_fees").map do |fee|
+        fee.calculate_amount
+        fee.amount
+      end.compact.sum
     end
   end
 
@@ -55,6 +61,13 @@ module Claims::Calculations
     update_columns(fees_vat: fees_vat,
                    fees_total: fees_total,
                    value_band_id: Claims::ValueBands.band_id_for_value(fees_vat + fees_total))
+  end
+
+  def assign_expenses_total
+    totals = totalize_for_claim(Expense, id, :amount, :vat_amount)
+    assign_attributes(expenses_vat: totals[:vat],
+                      expenses_total: totals[:net],
+                      value_band_id: Claims::ValueBands.band_id_for_value(totals[:net] + totals[:vat]))
   end
 
   def update_expenses_total

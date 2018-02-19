@@ -6,6 +6,13 @@ FactoryBot.define do
     case_concluded_at nil
   end
 
+  trait :interim_trial_start_fee do
+    after(:build) do |claim|
+      claim.fees << build(:interim_fee, :trial_start, claim: claim)
+      claim.estimated_trial_length = 2
+    end
+  end
+
   trait :interim_effective_pcmh_fee do
     after(:build) do |claim|
       claim.fees << build(:interim_fee, :effective_pcmh, claim: claim)

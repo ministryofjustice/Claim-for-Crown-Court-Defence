@@ -1,7 +1,5 @@
 module CCR
-
   module TestExpenses
-
     module_function
 
     def for_car_travel

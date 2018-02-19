@@ -43,6 +43,20 @@ RSpec.shared_examples 'CCLF disbursement' do |type|
   end
 end
 
+RSpec.shared_examples 'bill scenarios are based on case type' do
+  context 'bill scenarios are based on case type' do
+    it 'for trials' do
+      allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'GRRTR'
+      is_expected.to be_json_eql('ST1TS0TA'.to_json).at_path("case_type/bill_scenario")
+    end
+
+    it 'for retrials' do
+      allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'GRTRL'
+      is_expected.to be_json_eql('ST1TS0T4'.to_json).at_path("case_type/bill_scenario")
+    end
+  end
+end
+
 RSpec.describe API::V2::CCLFClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
@@ -114,7 +128,7 @@ RSpec.describe API::V2::CCLFClaim do
       it { is_valid_cclf_json(response) }
     end
 
-    context 'final claim' do
+    context 'claim' do
       subject(:response) { do_request.body }
 
       it { is_expected.to expose :uuid }
@@ -161,9 +175,7 @@ RSpec.describe API::V2::CCLFClaim do
     end
 
     context 'defendants' do
-      subject(:response) do
-        do_request(claim_uuid: @claim.uuid, api_key: @case_worker.user.api_key).body
-      end
+      subject(:response) { do_request(claim_uuid: @claim.uuid, api_key: @case_worker.user.api_key).body }
 
       before do
         travel_to 2.day.from_now do
@@ -368,6 +380,78 @@ RSpec.describe API::V2::CCLFClaim do
 
             it_behaves_like 'CCLF disbursement'
           end
+        end
+      end
+
+      context 'interim claims' do
+        let(:case_type_grrtr) { create(:case_type, :retrial) }
+
+        context 'claim' do
+          let(:claim) { create(:interim_claim, :interim_trial_start_fee, :submitted) }
+
+          it { is_expected.to expose :estimated_trial_length }
+          it { is_expected.to expose :retrial_estimated_length }
+        end
+
+        context 'when interim fee exists, other than interim warrant or disbursement only' do
+          let(:claim) { create(:interim_claim, :interim_effective_pcmh_fee, :submitted) }
+
+          it { is_valid_cclf_json(response) }
+
+          it 'returns array containing a litigator fee bill' do
+            is_expected.to have_json_size(1).at_path("bills")
+          end
+
+          it 'returns a litigator fee bill' do
+            is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
+            is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
+          end
+
+          it 'returns a bill scenario based on the interim fee type' do
+            is_expected.to be_json_eql('ST1TS0T0'.to_json).at_path("case_type/bill_scenario")
+          end
+        end
+
+        context 'when disbursements exist' do
+          subject(:response) { do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body }
+
+          let(:forensic) { create(:disbursement_type, :forensic) }
+          let(:claim) do
+            create(:interim_claim, :disbursement_only_fee, :submitted).tap do |claim|
+              claim.disbursements.delete_all
+              create(:disbursement, disbursement_type: forensic, claim: claim)
+            end
+          end
+
+          it { is_valid_cclf_json(response) }
+
+          it 'returns array containing fee bill' do
+            is_expected.to have_json_size(1).at_path("bills")
+          end
+
+          it 'returns array containing a disbursement bill subtype' do
+            is_expected.to be_json_eql('FORENSICS'.to_json).at_path("bills/0/bill_subtype")
+          end
+
+          it_behaves_like 'CCLF disbursement'
+          include_examples 'bill scenarios are based on case type'
+        end
+
+        context 'when interim warrant fee exists' do
+          let(:claim) { create(:interim_claim, :interim_warrant_fee, :submitted) }
+
+          it { is_valid_cclf_json(response) }
+
+          it 'returns array containing the bill' do
+            is_expected.to have_json_size(1).at_path("bills")
+          end
+
+          it 'returns a warrant fee bill' do
+            is_expected.to be_json_eql('FEE_ADVANCE'.to_json).at_path("bills/0/bill_type")
+            is_expected.to be_json_eql('WARRANT'.to_json).at_path("bills/0/bill_subtype")
+          end
+
+          include_examples 'bill scenarios are based on case type'
         end
       end
     end

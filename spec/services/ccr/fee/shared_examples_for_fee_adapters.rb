@@ -1,5 +1,4 @@
 shared_examples_for 'a fee adapter' do
-
   describe '#call' do
     it { is_expected.to be_instance_of described_class }
     it { is_expected.to respond_to :bill_type }

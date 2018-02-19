@@ -12,13 +12,9 @@ module CCR
         MISAF: zip(%w[AGFS_MISC_FEES AGFS_ADJOURNED]), # Adjourned appeals
         MIADC1: zip(%w[AGFS_MISC_FEES AGFS_DMS_DY2_HF]), # Application to dismiss a charge (half day)
         MIADC2: zip(%w[AGFS_MISC_FEES AGFS_DMS_DY2_WL]), # Application to dismiss a charge (whole day)
-        MIUPL: zip(%w[TBC TBC]), # TODO: Case uplift ***CCLF-applicable-only***
         MIDTH: zip(%w[AGFS_MISC_FEES AGFS_CONFISC_HF]), # Confiscation hearings (half day)
         MIDTW: zip(%w[AGFS_MISC_FEES AGFS_CONFISC_WL]), # Confiscation hearings (whole day)
-        MICJA: zip(%w[OTHER COST_JUDGE_FEE]), # Costs judge application ***CCLF-applicable-only***
-        MICJP: zip(%w[OTHER COST_JUD_EXP]), # Costs judge preparation ***CCLF-applicable-only***
         MIDSE: zip(%w[AGFS_MISC_FEES AGFS_DEF_SEN_HR]), # Deferred sentence hearings
-        MIEVI: zip(%w[EVID_PROV_FEE EVID_PROV_FEE]), # Evidence provision fee ***CCLF-applicable-only***
         MIAEH: zip(%w[AGFS_MISC_FEES AGFS_ADM_EVD_HF]), # Hearings relating to admissibility of evidence (half day)
         MIAEW: zip(%w[AGFS_MISC_FEES AGFS_ADM_EVD_WL]), # Hearings relating to admissibility of evidence (whole day)
         MIHDH: zip(%w[AGFS_MISC_FEES AGFS_DISC_HALF]), # Hearings relating to disclosure (half day)

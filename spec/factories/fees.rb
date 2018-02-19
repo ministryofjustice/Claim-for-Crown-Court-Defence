@@ -111,6 +111,12 @@ FactoryBot.define do
       fee_type { build :interim_fee_type, :effective_pcmh }
       quantity 1
     end
+
+    trait :trial_start do
+      fee_type { build :interim_fee_type, :trial_start }
+      quantity 1
+      amount 21.21
+    end
   end
 
   factory :basic_fee, class: Fee::BasicFee do

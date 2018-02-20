@@ -8,7 +8,7 @@
 
     = f.fields_for :graduated_fee do |grad_fee_form|
       - grad_fee = present(grad_fee_form.object)
-      .expense-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
+      .graduated-fee-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
         .grid-row
 
           .column-one-third

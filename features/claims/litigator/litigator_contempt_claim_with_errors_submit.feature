@@ -28,6 +28,15 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     Then I should see in the sidebar total '£100.75'
     Then I should see in the sidebar vat total '£0.00'
 
+    Then I click "Continue" in the claim form
+
+    And I should be in the 'Miscellaneous fees' form page
+    Then I click "Continue" in the claim form
+
+    And I should be in the 'Disbursements' form page
+    Then I click "Continue" in the claim form
+
+    And I should be in the 'Travel Expenses' form page
     And I add an expense 'Parking' with total '99.25' and VAT '15.50' with invalid date
     Then I should see in the sidebar total '£215.50'
     Then I should see in the sidebar vat total '£15.50'
@@ -35,10 +44,16 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     Then I click "Continue" in the claim form
 
     Then I should see the error 'Expense 1 date invalid date'
-    And I should see in the sidebar total '£215.50'
-    Then I should see in the sidebar vat total '£15.50'
+    And I should see in the sidebar total '£100.75'
+    Then I should see in the sidebar vat total '£0.00'
 
     And I enter the date for the first expense '2016-01-02'
+    Then I click "Continue" in the claim form
+
+    And I should be in the 'Evidence supplied on disk' form page
+    Then I click "Continue" in the claim form
+
+    And I should be in the 'Additional information' form page
     Then I click "Continue" in the claim form
 
     And I should be on the check your claim page

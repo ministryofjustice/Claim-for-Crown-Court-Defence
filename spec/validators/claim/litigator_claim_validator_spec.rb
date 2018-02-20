@@ -24,9 +24,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
     ],
     [],
     %i[offence],
-    [
-      :actual_trial_length,
-      :total
-    ]
+    %i[actual_trial_length],
+    %i[total]
   ]
 end

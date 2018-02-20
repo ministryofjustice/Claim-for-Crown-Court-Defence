@@ -1,5 +1,8 @@
 module Claims::Calculations
   def calculate_fees_total(category = nil)
+    # TODO: revisit this method to understand if it is
+    # possible to remove the cumbersome
+    # calculate_amount followed by amount.
     fees.reload
     if category.blank?
       fees.map do |fee|

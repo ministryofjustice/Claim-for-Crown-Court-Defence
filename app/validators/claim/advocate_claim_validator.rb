@@ -25,7 +25,7 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
       ],
       defendants: [],
       offence_details: %i[offence],
-      fixed_fees: FEE_VALIDATION_FIELDS + %i[advocate_category defendant_uplifts],
+      basic_and_fixed_fees: FEE_VALIDATION_FIELDS + %i[advocate_category defendant_uplifts],
       miscellaneous_fees: FEE_VALIDATION_FIELDS,
       travel_expenses: FEE_VALIDATION_FIELDS,
       supporting_evidence: [],

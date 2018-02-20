@@ -87,7 +87,7 @@ module Claim
     end
 
     def submission_stages
-      %i[case_details defendants offence_details fixed_fees miscellaneous_fees
+      %i[case_details defendants offence_details basic_and_fixed_fees miscellaneous_fees
          travel_expenses supporting_evidence additional_information]
     end
 

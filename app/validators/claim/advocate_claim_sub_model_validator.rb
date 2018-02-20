@@ -17,7 +17,7 @@ class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       case_details: [],
       defendants: %i[defendants],
       offence_details: [],
-      fixed_fees: %i[basic_fees fixed_fees],
+      basic_and_fixed_fees: %i[basic_fees fixed_fees],
       miscellaneous_fees: %i[misc_fees],
       travel_expenses: %i[expenses],
       supporting_evidence: %i[documents],

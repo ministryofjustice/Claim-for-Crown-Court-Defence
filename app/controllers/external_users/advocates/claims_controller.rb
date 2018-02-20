@@ -17,7 +17,7 @@ class ExternalUsers::Advocates::ClaimsController < ExternalUsers::ClaimsControll
   def set_form_step
     # TODO: refactor so it manages step based on it being valid
     # redirecting to the summary page or the claims page if isn't
-    params[:claim][:form_step] = :fixed_fees if params.dig(:claim, :form_step) == 'fees'
+    params[:claim][:form_step] = :basic_and_fixed_fees if params.dig(:claim, :form_step) == 'fees'
   end
 
   def build_nested_resources

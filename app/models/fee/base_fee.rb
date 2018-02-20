@@ -59,7 +59,6 @@ module Fee
 
     after_initialize do
       ensure_not_abstract_class
-      # set_defaults
     end
 
     def ensure_not_abstract_class

@@ -14,7 +14,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     When I choose the supplier number '1A222Z'
     And I select the court 'Blackfriars'
-    And I select a case type of 'Contempt'
+    And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
 
     And I save as draft
@@ -37,8 +37,13 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     Then I click "Continue" in the claim form
 
-    And I fill '100.25' as the fixed fee total
-    And I enter the fixed fee date
+    And I select the offence category 'Handling stolen goods'
+    And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
+
+    Then I click "Continue" in the claim form
+
+    And I fill '100.25' as the graduated fee total
+    And I fill '2016-01-01' as the graduated fee date
 
     Then I click "Continue" in the claim form
 
@@ -49,6 +54,11 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '30.5'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
+
+    Then I click "Continue" in the claim form
+
+    And I fill '45.50' as the warrant fee total
+    And I fill '2016-01-01' as the warrant fee issued date
 
     Then I click "Continue" in the claim form
 
@@ -73,4 +83,4 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£620.49'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£665.99'

@@ -4,6 +4,7 @@ form {
       border-left-width: 3px;
       .form-control{
         border-width: 2px;
+        border-color: $error-colour;
       }
     }
     label {
@@ -124,7 +125,7 @@ button.search {
 }
 
 // Required when you need to clear values and disable field but still submit values
-.form-control:read-only {
+input.form-control:read-only {
   @extend .form-control:disabled;
 }
 

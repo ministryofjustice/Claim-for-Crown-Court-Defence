@@ -1,4 +1,4 @@
-class AdpDateFields
+class IsAdpDateFieldsUnused
   DATE_SEGMENTS = {
     day: '3i',
     month: '2i',

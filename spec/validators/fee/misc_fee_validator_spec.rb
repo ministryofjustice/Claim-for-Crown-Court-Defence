@@ -46,30 +46,32 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
     end
 
     context 'when misc fee is an evidence provision fee' do
-      subject { fee.valid? }
-
       let(:fee_type) { build :misc_fee_type, :mievi }
 
       before { allow(fee).to receive(:fee_type).and_return(fee_type) }
 
-      %w[45 90].each do |value|
-        context "when the amount is #{value}" do
-          before { allow(fee).to receive(:amount).and_return(value) }
+      context 'when the amount is set to' do
+        before { allow(fee).to receive(:amount).and_return(amount) }
 
-          it { is_expected.to be true }
+        %w[45 90].each do |value|
+          context "£#{value}" do
+            let(:amount) { value }
+
+            it { expect(fee).to be_valid }
+          end
         end
-      end
 
-      context 'when the amount is a decimal' do
-        before { allow(fee).to receive(:amount).and_return('45.10') }
+        context 'a decimal' do
+          let(:amount) { '45.10' }
 
-        it { is_expected.to be false }
-      end
+          it { should_error_if_equal_to_value(fee, :amount, amount, 'incorrect_epf') }
+        end
 
-      context 'when the amount is a zero' do
-        before { allow(fee).to receive(:amount).and_return('0') }
+        context 'zero' do
+          let(:amount) { '0' }
 
-        it { is_expected.to be false }
+          it { should_error_if_equal_to_value(fee, :amount, amount, 'incorrect_epf') }
+        end
       end
     end
 

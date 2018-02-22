@@ -17,12 +17,14 @@ class Certification < ActiveRecord::Base
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
   belongs_to :certification_type
 
-  validates :certification_date, presence: true
-  validates :certified_by, presence: true
-
+  validates_with CertificationValidator
   validate :at_least_one_boolean_selected
 
   acts_as_gov_uk_date :certification_date, error_clash_behaviour: :override_with_gov_uk_date_field_error
+
+  def perform_validation?
+    true
+  end
 
   private
 

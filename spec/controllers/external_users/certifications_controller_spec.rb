@@ -12,7 +12,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
 
     context 'claim is valid for submission' do
       before(:each) do
-        get :new, {claim_id: claim.id}
+        get :new, { claim_id: claim.id }
       end
 
       it 'should return success' do
@@ -143,18 +143,18 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
   end
 end
 
-
 def valid_certification_params(claim, certification_type)
+  certification_date = claim.created_at
   {
     'claim_id'      => claim.id,
     'commit'        => "Certify and Submit Claim",
     'certification' => {
-      'certification_type_id'            => certification_type.id,
-      'certified_by'                     => 'David Cameron',
-      'main_hearing'                     => 'true',
-      'certification_date_dd'            => '20',
-      'certification_date_mm'            => '08',
-      'certification_date_yyyy'          => '2015'
+      'certification_type_id'   => certification_type.id,
+      'certified_by'            => 'David Cameron',
+      'main_hearing'            => 'true',
+      'certification_date_dd'   => certification_date.day,
+      'certification_date_mm'   => certification_date.month,
+      'certification_date_yyyy' => certification_date.year
     }
   }
 end

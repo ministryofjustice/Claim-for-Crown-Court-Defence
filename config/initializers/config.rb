@@ -13,4 +13,12 @@ Config.setup do |config|
   # Parse numeric values as integers instead of strings.
   #
   # config.env_parse_values = false
+
+  # This removes the wrapper `div.fields_with_errors` around
+  # elements where validations fail
+  # This wrapper breaks the new style Radio / Check boxes
+  ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
+    html_tag
+  end
+
 end

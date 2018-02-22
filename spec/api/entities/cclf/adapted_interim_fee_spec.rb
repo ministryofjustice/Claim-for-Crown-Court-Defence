@@ -5,7 +5,7 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
 
   let(:claim) { instance_double(::Claim::InterimClaim) }
   let(:fee_type) { instance_double(::Fee::InterimFeeType, unique_code: 'INTDT') }
-  let(:interim_fee) { instance_double(::Fee::InterimFee, claim: claim, fee_type: fee_type, quantity: 0.0, amount: 0.0, warrant_issued_date: nil, warrant_executed_date: nil) }
+  let(:interim_fee) { instance_double(::Fee::InterimFee, claim: claim, fee_type: fee_type, quantity: 0.0, amount: 0.0, warrant_issued_date: nil, warrant_executed_date: nil, is_interim_warrant?: false) }
   let(:adapter) { instance_double(::CCLF::Fee::InterimFeeAdapter) }
 
   it 'formats amount as string' do
@@ -25,7 +25,18 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
 
   context 'interim warrants' do
     let(:fee_type) { instance_double(::Fee::InterimFeeType, unique_code: 'INWAR') }
-    let(:interim_fee) { instance_double(::Fee::InterimFee, claim: claim, fee_type: fee_type, quantity: 0.0, amount: 101.01, warrant_issued_date: '01-Jun-2017'.to_date, warrant_executed_date: '01-Aug-2017'.to_date) }
+    let(:interim_fee) do
+      instance_double(
+        ::Fee::InterimFee,
+        claim: claim,
+        fee_type: fee_type,
+        quantity: 0.0,
+        amount: 101.01,
+        warrant_issued_date: '01-Jun-2017'.to_date,
+        warrant_executed_date: '01-Aug-2017'.to_date,
+        is_interim_warrant?: true
+      )
+    end
 
     it 'exposes expected json key-value pairs' do
       expect(response).to include(
@@ -41,17 +52,19 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
 
   context 'effective pcmh' do
     let(:fee_type) { instance_double(::Fee::InterimFeeType, unique_code: 'INPCM') }
-    let(:interim_fee) { instance_double(::Fee::InterimFee, claim: claim, fee_type: fee_type, quantity: 999.0, amount: 202.02, warrant_issued_date: nil, warrant_executed_date: nil) }
+    let(:interim_fee) { instance_double(::Fee::InterimFee, claim: claim, fee_type: fee_type, quantity: 999.0, amount: 202.02, warrant_issued_date: nil, warrant_executed_date: nil, is_interim_warrant?: false) }
 
     it 'exposes expected json key-value pairs' do
       expect(response).to include(
         bill_type: 'LIT_FEE',
         bill_subtype: 'LIT_FEE',
         quantity: '999',
-        amount: '202.02',
-        warrant_issued_date: nil,
-        warrant_executed_date: nil
+        amount: '202.02'
       )
+    end
+
+    it 'does not expose warrant attributes' do
+       expect(response.keys).not_to include(:warrant_issued_date, :warrant_executed_date)
     end
   end
 end

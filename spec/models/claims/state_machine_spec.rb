@@ -124,6 +124,25 @@ RSpec.describe Claims::StateMachine, type: :model do
         expect(subject.case_workers).to receive(:destroy_all)
         subject.deallocate!
       end
+
+      context 'when a claim exists with a, legacy, now non-valid evidence provision fee' do
+        let(:claim) { create :litigator_claim, force_validation: true }
+        let(:fee) { build :misc_fee, claim: claim, amount: '123', fee_type: fee_type }
+        let(:fee_type) { build :misc_fee_type, :mievi }
+
+        describe 'de-allocation' do
+          it { expect{ subject.deallocate! }.not_to raise_error }
+        end
+
+        describe 'part-authorising' do
+          it {
+            expect{
+              subject.assessment.update(fees: 100.00, expenses: 23.45)
+              subject.authorise_part!
+            }.to change{ subject.state }.to('part_authorised')
+          }
+        end
+      end
     end
 
     describe 'from draft' do
@@ -181,6 +200,14 @@ RSpec.describe Claims::StateMachine, type: :model do
       it { expect{ subject.allocate! }.to change{ subject.state }.to('allocated') }
 
       it { expect{ subject.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
+
+      describe 'when a claim exists with a, legacy, now non-valid evidence provision fee' do
+        let(:claim) { create :litigator_claim, force_validation: true }
+        let(:fee) { build :misc_fee, claim: claim, amount: '123', fee_type: fee_type }
+        let(:fee_type) { build :misc_fee_type, :mievi }
+
+        it { expect{ subject.allocate! }.not_to raise_error }
+      end
     end
 
     describe "Allocated claim" do

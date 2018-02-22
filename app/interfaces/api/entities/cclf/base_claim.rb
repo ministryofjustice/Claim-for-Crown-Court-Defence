@@ -32,6 +32,11 @@ module API
           object.actual_trial_length.or_one
         end
 
+        # case type adapter requires access to claim object
+        def case_type
+          object
+        end
+
         def defendants_with_main_first
           object.defendants.order(created_at: :asc)
         end

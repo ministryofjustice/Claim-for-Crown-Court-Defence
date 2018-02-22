@@ -2,15 +2,13 @@ module API
   module Entities
     module CCLF
       class InterimClaim < BaseClaim
-        # TODO: WIP - all bills must be addeded
+        expose :retrial_estimated_length, :estimated_trial_length, format_with: :string
+
         def bills
           data = []
-          # data.push API::Entities::CCLF::AdaptedFixedFee.represent(fixed_fees)
-          # data.push API::Entities::CCLF::AdaptedGraduatedFee.represent(graduated_fees)
-          # data.push API::Entities::CCLF::AdaptedMiscFee.represent(miscellaneous_fees)
-          # data.push API::Entities::CCLF::AdaptedDisbursments.represent(disbursements)
-          # data.push API::Entities::CCLF::AdaptedExpense.represent(object.expenses)
-          data.flatten.as_json
+          data.push AdaptedInterimFee.represent(object.interim_fee)
+          data.push AdaptedDisbursement.represent(object.disbursements)
+          data.as_json.flat_select { |bill| bill[:bill_type].present? }
         end
       end
     end

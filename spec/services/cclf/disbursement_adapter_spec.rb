@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 RSpec.describe CCLF::Fee::DisbursementAdapter, type: :adapter do
   let(:disbursement) { instance_double(::Disbursement) }

@@ -1,7 +1,6 @@
 require 'rails_helper'
-require 'spec_helper'
 
-describe API::Entities::CCR::AdaptedFixedFee do
+describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
   subject(:response) { JSON.parse(described_class.represent(adapted_fixed_fees).to_json).deep_symbolize_keys }
 
   let(:claim) { create(:authorised_claim, case_number: 'T20160001') }

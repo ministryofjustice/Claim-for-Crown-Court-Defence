@@ -21,6 +21,13 @@ module CCLF
       FXH2S: 'ST1TS0TC', # Hearing subsequent to sentence
     }.freeze
 
+    INTERIM_FEE_BILL_SCENARIOS = {
+      INPCM: 'ST1TS0T0', # Effective PCMH
+      INRNS: 'ST1TS2T0', # Retrial New solicitor
+      INRST: 'ST1TS3T0', # Retrial start
+      INTDT: 'ST1TS1T0', # Trial start
+    }.freeze
+
     class_methods do
       def graduated_fee_bill_scenarios
         GRADUATED_FEE_BILL_SCENARIOS
@@ -32,6 +39,10 @@ module CCLF
 
       def final_claim_bill_scenarios
         GRADUATED_FEE_BILL_SCENARIOS.merge(FIXED_FEE_BILL_SCENARIOS)
+      end
+
+      def interim_fee_bill_scenarios
+        INTERIM_FEE_BILL_SCENARIOS
       end
     end
   end

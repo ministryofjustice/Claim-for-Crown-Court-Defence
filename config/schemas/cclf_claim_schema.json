@@ -28,6 +28,14 @@
       "id": "/properties/actual_trial_length",
       "type": ["string","null"]
     },
+    "retrial_estimated_length": {
+      "id": "/properties/retrial_estimated_length",
+      "type": ["string","null"]
+    },
+    "estimated_trial_length": {
+      "id": "/properties/estimated_trial_length",
+      "type": ["string","null"]
+    },
     "case_concluded_at": {
       "id": "/properties/case_concluded_at",
       "type": ["string","null"]

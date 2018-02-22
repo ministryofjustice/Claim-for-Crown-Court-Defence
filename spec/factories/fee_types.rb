@@ -198,31 +198,37 @@ FactoryBot.define do
 
       trait :disbursement do
         code 'IDISO'
+        unique_code 'INDIS'
         description 'Disbursement only'
       end
 
       trait :warrant do
         code 'IWARR'
+        unique_code 'INWAR'
         description 'Warrant'
       end
 
       trait :effective_pcmh do
         code 'IPCMH'
+        unique_code 'INPCM'
         description 'Effective PCMH'
       end
 
       trait :trial_start do
         code 'ITST'
+        unique_code 'INTDT'
         description 'Trial start'
       end
 
       trait :retrial_start do
         code 'IRST'
+        unique_code 'INRST'
         description 'Retrial start'
       end
 
       trait :retrial_new_solicitor do
         code 'IRNS'
+        unique_code 'INRNS'
         description 'Retrial New solicitor'
       end
     end

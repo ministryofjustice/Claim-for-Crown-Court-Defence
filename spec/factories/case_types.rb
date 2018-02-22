@@ -64,6 +64,9 @@ FactoryBot.define do
 
     trait :retrial do
       name 'Retrial'
+      fee_type_code 'GRRTR'
+      roles %w[agfs lgfs interim]
+      allow_pcmh_fee_type true
       requires_trial_dates true
       requires_retrial_dates true
     end

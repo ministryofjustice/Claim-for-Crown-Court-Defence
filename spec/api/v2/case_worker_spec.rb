@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 describe API::V2::CaseWorker do
   include Rack::Test::Methods

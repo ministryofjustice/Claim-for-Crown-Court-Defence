@@ -1,8 +1,12 @@
 module CCLF
   class CaseTypeAdapter
-    attr_reader :case_type
-
-    # TODO: final claims only, other scenarios exist for transfer claims
+    # TODO: transfer claims only
+    #
+    # NOTE: on the missing interim fee types:
+    # - Interim "Warrant" (INWAR) fees are handled as "final" warrant fees, using the case_type.fee_type_code.
+    # - Interim "Disbursement only" (INDIS) fee is merely a flag to indicate only disbursements are
+    #   required, so is not mapped.
+    #
     BILL_SCENARIOS = {
       FXACV: 'ST1TS0T5', # Appeal against conviction
       FXASE: 'ST1TS0T6', # Appeal against sentence
@@ -17,14 +21,36 @@ module CCLF
       GRRTR: 'ST1TS0TA', # Retrial
       GRRAK: 'ST1TS0T3', # Cracked trial
       GRCBR: 'ST1TS0T9', # Cracked before retrial
+      INPCM: 'ST1TS0T0', # Interim Claim - Effective PCMH - Trial only
+      INTDT: 'ST1TS1T0', # Interim Claim - Trial start - Trial only
+      INRNS: 'ST1TS2T0', # Interim Claim - Retrial New solicitor - Retrial only
+      INRST: 'ST1TS3T0', # Interim Claim - Retrial start - Retrial only
     }.freeze
 
-    def initialize(case_type)
-      @case_type = case_type
+    def initialize(claim)
+      @claim = claim
     end
 
+    attr_reader :claim
+
     def bill_scenario
-      BILL_SCENARIOS[case_type.fee_type_code.to_sym]
+      return interim_bill_scenario if interim_scenario_applicable?
+      final_bill_scenario
+    end
+
+    private
+
+    def interim_scenario_applicable?
+      claim.interim? &&
+        interim_bill_scenario
+    end
+
+    def interim_bill_scenario
+      BILL_SCENARIOS[claim.interim_fee&.fee_type&.unique_code&.to_sym]
+    end
+
+    def final_bill_scenario
+      BILL_SCENARIOS[claim.case_type.fee_type_code.to_sym]
     end
   end
 end

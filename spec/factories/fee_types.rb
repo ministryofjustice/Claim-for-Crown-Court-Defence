@@ -129,6 +129,14 @@ FactoryBot.define do
         unique_code 'MIUPL'
         quantity_is_decimal true
       end
+
+      trait :mievi do
+        lgfs
+        description 'Evidence provision fee'
+        code 'XEVI'
+        unique_code 'MIEVI'
+        quantity_is_decimal true
+      end
     end
 
     factory :fixed_fee_type, class: Fee::FixedFeeType do

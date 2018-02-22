@@ -28,7 +28,9 @@ module CCR
       acts_as_simple_bill bill_type: 'AGFS_FEE', bill_subtype: 'AGFS_FEE'
 
       def claimed?
-        charges?
+        filtered_fees.any? do |f|
+          f.amount.positive? || f.quantity.positive? || f.rate.positive?
+        end
       end
 
       private
@@ -37,15 +39,9 @@ module CCR
         %w[BABAF BADAF BADAH BADAJ BANOC BANDR BANPW BAPPE]
       end
 
-      def _fees
+      def filtered_fees
         fees.select do |f|
           fee_types.include?(f.fee_type.unique_code)
-        end
-      end
-
-      def charges?
-        _fees.any? do |f|
-          f.amount.positive? || f.quantity.positive? || f.rate.positive?
         end
       end
     end

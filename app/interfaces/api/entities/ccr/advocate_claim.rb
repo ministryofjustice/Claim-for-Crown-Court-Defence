@@ -69,21 +69,19 @@ module API
         end
 
         def adapted_basic_fee
-          ::CCR::Fee::BasicFeeAdapter.new(object)
+          @adapted_basic_fee ||= ::CCR::Fee::BasicFeeAdapter.new(object)
         end
 
         def basic_fees
-          fee = adapted_basic_fee
-          [].tap { |arr| arr << fee if fee.claimed? }
+          adapted_basic_fee.claimed? ? [adapted_basic_fee] : []
         end
 
         def adapted_fixed_fee
-          ::CCR::Fee::FixedFeeAdapter.new.call(object)
+          @adapted_fixed_fee ||= ::CCR::Fee::FixedFeeAdapter.new.call(object)
         end
 
         def fixed_fees
-          fee = adapted_fixed_fee
-          [].tap { |arr| arr << fee if fee.claimed? }
+          adapted_fixed_fee.claimed? ? [adapted_fixed_fee] : []
         end
 
         def misc_fee_adapter

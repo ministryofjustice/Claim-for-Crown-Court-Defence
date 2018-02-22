@@ -14,7 +14,7 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
       ],
       defendants: [],
       offence_details: %i[offence],
-      fees: %i[
+      interim_fees: %i[
         first_day_of_trial
         estimated_trial_length
         trial_concluded_at
@@ -22,12 +22,18 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
         retrial_estimated_length
         effective_pcmh_date
         legal_aid_transfer_date
-        total
-      ]
+      ],
+      additional_information: %i[total]
     }
   end
 
   private
+
+  def step_fields_for_validation
+    self.class.fields_for_steps.select do |k, _v|
+      @record.submission_current_flow.map(&:to_sym).include?(k)
+    end.values.flatten
+  end
 
   def interim_fee_absent?
     @record.interim_fee.nil?

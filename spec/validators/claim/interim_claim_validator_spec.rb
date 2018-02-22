@@ -12,38 +12,40 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
   include_examples "common litigator validations"
 
   include_examples 'common partial validations', [
-    [
-      :case_type,
-      :court,
-      :case_number,
-      :transfer_court,
-      :transfer_case_number,
-      :advocate_category,
-      :case_concluded_at
+    %i[
+      case_type
+      court
+      case_number
+      transfer_court
+      transfer_case_number
+      advocate_category
+      case_concluded_at
     ],
     [],
-    [ :offence ],
-    [
-      :first_day_of_trial,
-      :estimated_trial_length,
-      :trial_concluded_at,
-      :retrial_started_at,
-      :retrial_estimated_length,
-      :effective_pcmh_date,
-      :legal_aid_transfer_date,
-      :total
-    ]
+    %i[offence],
+    %i[
+      first_day_of_trial
+      estimated_trial_length
+      trial_concluded_at
+      retrial_started_at
+      retrial_estimated_length
+      effective_pcmh_date
+      legal_aid_transfer_date
+    ],
+    %i[total]
   ]
 
   describe 'estimated trial length and estimated retrial length fields should not accept values of less than 10 days' do
+    let(:claim) { create(:interim_claim, interim_fee: interim_fee) }
+
     before do
-      allow(claim).to receive(:interim_fee).and_return(interim_fee)
       claim.source = 'web'
-      claim.form_step = :fees
+      claim.form_step = :interim_fees
     end
 
     context 'estimated_trial_length' do
-      let(:interim_fee) { build :interim_fee_type, :trial_start }
+      let(:interim_fee_type) { build :interim_fee_type, :trial_start }
+      let(:interim_fee) { build(:interim_fee, fee_type: interim_fee_type) }
 
       it 'should error if not present and interim fee type requires it' do
         claim.estimated_trial_length = nil
@@ -57,7 +59,8 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
     end
 
     context 'retrial_estimated_length' do
-      let(:interim_fee) { build :interim_fee_type, :retrial_start }
+      let(:interim_fee_type) { build :interim_fee_type, :retrial_start }
+      let(:interim_fee) { build(:interim_fee, fee_type: interim_fee_type) }
 
       it 'should error if not present and interim fee type requires it' do
         claim.retrial_estimated_length = nil

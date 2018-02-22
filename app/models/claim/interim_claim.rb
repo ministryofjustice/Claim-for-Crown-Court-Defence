@@ -76,8 +76,65 @@ module Claim
     accepts_nested_attributes_for :interim_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
 
+    SUBMISSION_STAGES = [
+      {
+        name: :case_details,
+        transitions: [
+          { to_stage: :defendants }
+        ]
+      },
+      {
+        name: :defendants,
+        transitions: [
+          { to_stage: :offence_details }
+        ]
+      },
+      {
+        name: :offence_details,
+        transitions: [
+          { to_stage: :interim_fees }
+        ]
+      },
+      {
+        name: :interim_fees,
+        transitions: [
+          {
+            to_stage: :travel_expenses,
+            condition: ->(claim) { claim.interim_fee&.is_interim_warrant? }
+          },
+          {
+            to_stage: :supporting_evidence,
+            condition: ->(claim) { !claim.interim_fee&.is_interim_warrant? }
+          }
+        ]
+      },
+      {
+        name: :travel_expenses,
+        transitions: [
+          { to_stage: :supporting_evidence }
+        ]
+      },
+      {
+        name: :supporting_evidence,
+        transitions: [
+          { to_stage: :additional_information }
+        ]
+      },
+      { name: :additional_information }
+    ].freeze
+
     def submission_stages
-      %i[case_details defendants offence_details fees]
+      @submission_stages ||= StageCollection.new(SUBMISSION_STAGES, self)
+    end
+
+    def submission_current_flow
+      return submission_stages if from_api?
+      submission_stages.path_until(form_step)
+    end
+
+    def next_step!
+      return unless form_step
+      self.form_step = submission_stages.next_stage(form_step)
     end
 
     def lgfs?

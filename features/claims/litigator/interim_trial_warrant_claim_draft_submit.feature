@@ -35,16 +35,15 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I select the offence category 'Handling stolen goods'
     And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
-    When I click "Continue" in the claim form
+    Then I click "Continue" in the claim form
 
-    Then I should see interim fee types applicable to a 'Trial'
-    And I select an interim fee type of 'Effective PCMH'
-    And I enter 10 in the PPE total field
+    And I select an interim fee type of 'Warrant'
+    And I fill '2016-01-01' as the warrant fee issued date
     And I enter 250 in the interim fee total field
-    And I enter the effective PCMH date
 
-    And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
-    And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
+    Then I click "Continue" in the claim form
+
+    And I add an expense 'Parking'
 
     Then I click "Continue" in the claim form
 
@@ -65,4 +64,4 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£458.70'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£284.56'

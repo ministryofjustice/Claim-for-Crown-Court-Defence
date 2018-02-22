@@ -20,7 +20,7 @@ RSpec::Matchers.define :be_valid_ccr_claim_json do
   end
 end
 
-describe API::V2::CCRClaim do
+RSpec.describe API::V2::CCRClaim, feature: :injection do
   include Rack::Test::Methods
   include ApiSpecHelper
 

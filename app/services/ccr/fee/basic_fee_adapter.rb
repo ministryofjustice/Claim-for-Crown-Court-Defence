@@ -24,42 +24,27 @@
 #
 module CCR
   module Fee
-    class BasicFeeAdapter < BaseFeeAdapter
-      BASIC_FEE_BILL_MAPPINGS = {
-        GRRAK: zip(%w[AGFS_FEE AGFS_FEE]), # Cracked Trial - LGFS only
-        GRCBR: zip(%w[AGFS_FEE AGFS_FEE]), # Cracked before retrial - LGFS only
-        GRDIS: zip(%w[AGFS_FEE AGFS_FEE]), # Discontinuance
-        GRGLT: zip(%w[AGFS_FEE AGFS_FEE]), # Guilty plea
-        GRRTR: zip(%w[AGFS_FEE AGFS_FEE]), # Retrial
-        GRTRL: zip(%w[AGFS_FEE AGFS_FEE]) # Trial
-      }.freeze
+    class BasicFeeAdapter < SimpleBillAdapter
+      acts_as_simple_bill bill_type: 'AGFS_FEE', bill_subtype: 'AGFS_FEE'
 
       def claimed?
-        maps? && charges?
+        charges?
       end
 
       private
-
-      def bill_mappings
-        BASIC_FEE_BILL_MAPPINGS
-      end
-
-      def bill_key
-        object.case_type.fee_type_code.to_sym
-      end
 
       def fee_types
         %w[BABAF BADAF BADAH BADAJ BANOC BANDR BANPW BAPPE]
       end
 
-      def fees
-        object.fees.select do |f|
+      def _fees
+        fees.select do |f|
           fee_types.include?(f.fee_type.unique_code)
         end
       end
 
       def charges?
-        fees.any? do |f|
+        _fees.any? do |f|
           f.amount.positive? || f.quantity.positive? || f.rate.positive?
         end
       end

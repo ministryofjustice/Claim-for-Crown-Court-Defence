@@ -1,9 +1,8 @@
 require 'rails_helper'
 require 'spec_helper'
-require_relative 'shared_examples_for_fee_adapters'
 
 RSpec.describe CCR::Fee::BasicFeeAdapter, type: :adapter do
-  subject { described_class.new.call(claim) }
+  subject { described_class.new(claim) }
   let(:claim) { instance_double('claim') }
   let(:case_type) { instance_double('case_type', fee_type_code: 'GRTRL') }
 
@@ -11,10 +10,10 @@ RSpec.describe CCR::Fee::BasicFeeAdapter, type: :adapter do
     allow(claim).to receive(:case_type).and_return case_type
   end
 
-  it_behaves_like 'a fee adapter'
+  it_behaves_like 'a simple bill adapter'
 
   describe '#bill_type' do
-    subject { described_class.new.call(claim).bill_type }
+    subject { described_class.new(claim).bill_type }
 
     it 'returns CCR Advocate Fee bill type' do
       is_expected.to eql 'AGFS_FEE'
@@ -22,40 +21,21 @@ RSpec.describe CCR::Fee::BasicFeeAdapter, type: :adapter do
   end
 
   describe '#bill_subtype' do
-    subject { described_class.new.call(claim).bill_subtype }
+    subject { described_class.new(claim).bill_subtype }
 
-    BASIC_FEE_SUBTYPES = {
-      GRRAK: 'AGFS_FEE', # Cracked Trial
-      GRCBR: 'AGFS_FEE', # Cracked before retrial
-      GRDIS: 'AGFS_FEE', # Discontinuance
-      GRGLT: 'AGFS_FEE', # Guilty plea
-      GRRTR: 'AGFS_FEE', # Retrial
-      GRTRL: 'AGFS_FEE' # Trial
-    }.freeze
-
-    context 'mappings' do
-      BASIC_FEE_SUBTYPES.each do |code, bill_subtype|
-        context "maps #{code} to #{bill_subtype || 'nil'}" do
-          before do
-            allow(case_type).to receive(:fee_type_code).and_return code
-          end
-
-          it "returns #{bill_subtype || 'nil'}" do
-            is_expected.to eql bill_subtype
-          end
-        end
-      end
+    it 'returns CCR Advocate Fee bill subtype' do
+      is_expected.to eql 'AGFS_FEE'
     end
   end
 
   describe '#claimed?' do
-    subject { described_class.new.call(claim).claimed? }
+    subject { described_class.new(claim).claimed? }
 
-    let(:basic_fee_type) { instance_double('basic_fee_type', unique_code: 'BABAF') }
-
+    let(:basic_fee_type) { instance_double(::Fee::BasicFeeType, unique_code: 'BABAF') }
+    let(:basic_fees) { [basic_fee] }
     let(:basic_fee) do
       instance_double(
-        'basic_fee',
+        ::Fee::BasicFee,
         fee_type: basic_fee_type,
         quantity: 0,
         rate: 0,
@@ -63,19 +43,32 @@ RSpec.describe CCR::Fee::BasicFeeAdapter, type: :adapter do
         )
     end
 
-    let(:basic_fees) { [basic_fee] }
-
     before do
-      expect(claim).to receive(:fees).and_return basic_fees
+      expect(claim).to receive(:fees).at_least(:once).and_return basic_fees
     end
 
-    it 'returns true when the basic fee has a positive value' do
+    it 'returns true when the basic fee has a positive qauntity' do
       allow(basic_fee).to receive_messages(quantity: 1)
       is_expected.to be true
     end
 
-    it 'returns false when the basic fee has 0 value'do
-      allow(basic_fee).to receive_messages(quantity: 0)
+    it 'returns true when the basic fee has a positive amount' do
+      allow(basic_fee).to receive_messages(amount: 1.0)
+      is_expected.to be true
+    end
+
+    it 'returns true when the basic fee has a positive rate' do
+      allow(basic_fee).to receive_messages(rate: 1.0)
+      is_expected.to be true
+    end
+
+    it 'returns false when the basic fee has 0 values for quantity, rate and amount'do
+      allow(basic_fee).to receive_messages(quantity: 0, rate: 0, amount: 0)
+      is_expected.to be false
+    end
+
+    it 'returns false when the basic fee is not part of the CCR advocate fee' do
+      allow(basic_fee_type).to receive(:unique_code).and_return 'BAPCM'
       is_expected.to be false
     end
   end

@@ -1,6 +1,5 @@
 require 'rails_helper'
 require 'spec_helper'
-require_relative 'shared_examples_for_fee_adapters'
 
 RSpec.describe CCR::Fee::FixedFeeAdapter, type: :adapter do
   subject { described_class.new.call(claim) }
@@ -11,7 +10,7 @@ RSpec.describe CCR::Fee::FixedFeeAdapter, type: :adapter do
     allow(claim).to receive(:case_type).and_return case_type
   end
 
-  it_behaves_like 'a fee adapter'
+  it_behaves_like 'a mapping fee adapter'
 
   describe '#bill_type' do
     subject { described_class.new.call(claim).bill_type }

@@ -6,7 +6,7 @@ describe API::Entities::CCR::AdaptedBasicFee, type: :adapter do
 
   let(:claim) { create(:authorised_claim) }
   let(:case_type) { instance_double('case_type', fee_type_code: 'GRTRL', requires_retrial_dates?: false) }
-  let(:adapted_basic_fees) { ::CCR::Fee::BasicFeeAdapter.new.call(claim) }
+  let(:adapted_basic_fees) { ::CCR::Fee::BasicFeeAdapter.new(claim) }
 
   before do
     allow(claim).to receive(:case_type).and_return case_type

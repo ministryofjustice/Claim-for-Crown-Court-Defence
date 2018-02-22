@@ -57,7 +57,7 @@ RSpec.shared_examples 'bill scenarios are based on case type' do
   end
 end
 
-RSpec.describe API::V2::CCLFClaim do
+RSpec.describe API::V2::CCLFClaim, feature: :injection do
   include Rack::Test::Methods
   include ApiSpecHelper
 

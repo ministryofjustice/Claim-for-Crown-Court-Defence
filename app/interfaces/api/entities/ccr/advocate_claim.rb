@@ -68,26 +68,22 @@ module API
           ::CCR::AdvocateCategoryAdapter.code_for(object.advocate_category) if object.advocate_category.present?
         end
 
-        def basic_fee_adapter
-          ::CCR::Fee::BasicFeeAdapter.new
+        def adapted_basic_fee
+          ::CCR::Fee::BasicFeeAdapter.new(object)
         end
 
         def basic_fees
-          fee = basic_fee_adapter.call(object)
-          [].tap do |arr|
-            arr << fee if fee.claimed?
-          end
+          fee = adapted_basic_fee
+          [].tap { |arr| arr << fee if fee.claimed? }
         end
 
-        def fixed_fee_adapter
-          ::CCR::Fee::FixedFeeAdapter.new
+        def adapted_fixed_fee
+          ::CCR::Fee::FixedFeeAdapter.new.call(object)
         end
 
         def fixed_fees
-          fee = fixed_fee_adapter.call(object)
-          [].tap do |arr|
-            arr << fee if fee.claimed?
-          end
+          fee = adapted_fixed_fee
+          [].tap { |arr| arr << fee if fee.claimed? }
         end
 
         def misc_fee_adapter

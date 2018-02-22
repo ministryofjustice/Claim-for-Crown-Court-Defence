@@ -1,6 +1,5 @@
 require 'rails_helper'
 require 'spec_helper'
-require_relative 'shared_examples_for_fee_adapters'
 
 RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
   subject { described_class.new.call(fee) }
@@ -12,7 +11,7 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
     allow(fee).to receive(:fee_type).and_return fee_type
   end
 
-  it_behaves_like 'a fee adapter'
+  it_behaves_like 'a mapping fee adapter'
 
   MAPPINGS = {
     BACAV: %w[AGFS_MISC_FEES AGFS_CONFERENCE], # Conferences and views (basic fee)

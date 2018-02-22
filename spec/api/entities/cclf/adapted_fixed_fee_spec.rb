@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 RSpec.describe API::Entities::CCLF::AdaptedFixedFee, type: :adapter do
   subject(:response) { JSON.parse(described_class.represent(fixed_fee).to_json, symbolize_names: true) }

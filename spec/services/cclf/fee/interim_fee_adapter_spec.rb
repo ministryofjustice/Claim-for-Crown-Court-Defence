@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 RSpec.describe CCLF::Fee::InterimFeeAdapter, type: :adapter do
    INTERIM_FEE_BILL_TYPES = {

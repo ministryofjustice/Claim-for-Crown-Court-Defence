@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 describe API::V2::Root do
   include Rack::Test::Methods

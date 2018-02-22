@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 describe API::Entities::CCR::AdaptedExpense, type: :adapter do
   subject(:response) { JSON.parse(described_class.represent(expense).to_json) }

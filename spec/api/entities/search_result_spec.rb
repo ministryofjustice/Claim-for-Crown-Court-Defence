@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 describe API::Entities::SearchResult do
   subject(:search_result) { described_class.represent(claim) }

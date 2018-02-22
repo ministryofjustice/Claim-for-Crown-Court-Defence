@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 describe API::Entities::CCR::CaseType do
   subject(:response) { JSON.parse(described_class.represent(case_type).to_json).deep_symbolize_keys }

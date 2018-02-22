@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 describe API::Entities::InjectionAttempt do
   let(:injection_attempt) { build(:injection_attempt, :with_errors) }

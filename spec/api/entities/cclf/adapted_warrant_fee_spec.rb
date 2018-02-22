@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 RSpec.describe API::Entities::CCLF::AdaptedWarrantFee, type: :adapter do
   subject(:response) { JSON.parse(described_class.represent(warrant_fee).to_json, symbolize_names: true) }

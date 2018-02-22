@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
   subject { described_class.new.call(fee) }

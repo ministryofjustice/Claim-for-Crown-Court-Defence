@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 require 'api_spec_helper'
 
 RSpec::Matchers.define :be_valid_ccr_claim_json do

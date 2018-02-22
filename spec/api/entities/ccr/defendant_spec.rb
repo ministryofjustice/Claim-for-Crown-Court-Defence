@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 describe API::Entities::CCR::Defendant do
   subject(:response) { JSON.parse(described_class.represent(defendant).to_json).deep_symbolize_keys }

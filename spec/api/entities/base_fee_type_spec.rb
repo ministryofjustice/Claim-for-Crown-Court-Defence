@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 describe API::Entities::BaseFeeType do
   subject(:response) { JSON.parse(described_class.represent(fee_type).to_json).deep_symbolize_keys }

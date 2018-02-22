@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 require 'api_spec_helper'
 
 describe API::V1::DropdownData do

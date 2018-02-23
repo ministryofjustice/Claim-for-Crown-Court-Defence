@@ -50,28 +50,18 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
 
       before { allow(fee).to receive(:fee_type).and_return(fee_type) }
 
-      context 'when the amount is set to' do
-        before { allow(fee).to receive(:amount).and_return(amount) }
-
-        %w[45 90].each do |value|
-          context "£#{value}" do
-            let(:amount) { value }
-
-            it { expect(fee).to be_valid }
-          end
+      %w[45 90].each do |value|
+        it "will be valid if amount is £#{value}" do
+          should_be_valid_if_equal_to_value(fee, :amount, value)
         end
+      end
 
-        context 'a decimal' do
-          let(:amount) { '45.10' }
+      it 'will error if passed a decimal amount' do
+        should_error_if_equal_to_value(fee, :amount, '45.10', 'incorrect_epf')
+      end
 
-          it { should_error_if_equal_to_value(fee, :amount, amount, 'incorrect_epf') }
-        end
-
-        context 'zero' do
-          let(:amount) { '0' }
-
-          it { should_error_if_equal_to_value(fee, :amount, amount, 'incorrect_epf') }
-        end
+      it 'will error is passed a zero amount' do
+        should_error_if_equal_to_value(fee, :amount, '0', 'incorrect_epf')
       end
     end
 

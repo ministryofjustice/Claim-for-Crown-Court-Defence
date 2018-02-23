@@ -1,11 +1,11 @@
-shared_examples 'returns CCLF Litigator Fee bill (sub)type' do |code|
+RSpec.shared_examples 'returns CCLF Litigator Fee bill (sub)type' do |code|
   before { allow(fee_type).to receive(:unique_code).and_return code }
   it 'returns CCLF Litigator Fee bill (sub)type - LIT_FEE' do
     is_expected.to eql 'LIT_FEE'
   end
 end
 
-shared_examples 'Litigator Fee Adapter' do |bill_scenario_mappings|
+RSpec.shared_examples 'Litigator Fee Adapter' do |bill_scenario_mappings|
   let(:fee) { instance_double('fee') }
   let(:claim) { instance_double('claim', case_type: case_type) }
   let(:case_type) { instance_double(::CaseType) }

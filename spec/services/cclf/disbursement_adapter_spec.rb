@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CCLF::Fee::DisbursementAdapter, type: :adapter do
+RSpec.describe CCLF::DisbursementAdapter, type: :adapter do
   let(:disbursement) { instance_double(::Disbursement) }
 
   # For a given disbursement type the disbursement maps to a given CCLF bill type and sub type

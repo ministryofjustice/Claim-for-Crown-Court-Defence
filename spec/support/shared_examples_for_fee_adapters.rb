@@ -1,4 +1,4 @@
-shared_examples_for 'a mapping fee adapter' do
+RSpec.shared_examples_for 'a mapping fee adapter' do
   describe '#call' do
     it { is_expected.to be_instance_of described_class }
     it { is_expected.to respond_to :bill_type }
@@ -22,7 +22,7 @@ shared_examples_for 'a mapping fee adapter' do
   end
 end
 
-shared_examples_for 'a simple bill adapter' do
+RSpec.shared_examples_for 'a simple bill adapter' do
   subject { described_class.new(instance_double('fee')) }
 
   it { is_expected.to respond_to(:bill_type) }
@@ -30,5 +30,16 @@ shared_examples_for 'a simple bill adapter' do
 
   it 'should respond to .acts_as_simple_bill' do
     expect(described_class).to respond_to :acts_as_simple_bill
+  end
+end
+
+RSpec.shared_examples 'a bill types delegator' do |adapter_klass|
+  let(:adapter) { instance_double(adapter_klass) }
+
+  it "delegates bill types to #{adapter_klass} " do
+    expect(adapter_klass).to receive(:new).with(bill).and_return(adapter)
+    expect(adapter).to receive(:bill_type)
+    expect(adapter).to receive(:bill_subtype)
+    subject
   end
 end

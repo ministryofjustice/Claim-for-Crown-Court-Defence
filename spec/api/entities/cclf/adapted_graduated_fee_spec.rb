@@ -7,7 +7,10 @@ RSpec.describe API::Entities::CCLF::AdaptedGraduatedFee, type: :adapter do
   let(:case_type) { instance_double('case_type', fee_type_code: 'GRTRL') }
   let(:claim) { instance_double('claim', case_type: case_type) }
   let(:graduated_fee) { instance_double('graduated_fee', claim: claim, fee_type: fee_type, quantity: 999.0) }
-  let(:adapter) { instance_double(::CCLF::Fee::GraduatedFeeAdapter) }
+
+  it_behaves_like 'a bill types delegator', ::CCLF::Fee::GraduatedFeeAdapter do
+    let(:bill) { graduated_fee }
+  end
 
   it 'exposes the required keys' do
     expect(response.keys).to match_array(%i[bill_type bill_subtype quantity])
@@ -19,12 +22,5 @@ RSpec.describe API::Entities::CCLF::AdaptedGraduatedFee, type: :adapter do
       bill_subtype: 'LIT_FEE',
       quantity: '999',
     )
-  end
-
-  it 'delegates bill mappings to GraduatedFeeAdapter' do
-    expect(::CCLF::Fee::GraduatedFeeAdapter).to receive(:new).with(graduated_fee).and_return(adapter)
-    expect(adapter).to receive(:bill_type)
-    expect(adapter).to receive(:bill_subtype)
-    subject
   end
 end

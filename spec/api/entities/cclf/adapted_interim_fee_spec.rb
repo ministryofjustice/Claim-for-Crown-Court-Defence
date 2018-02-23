@@ -3,21 +3,24 @@ require 'rails_helper'
 RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
   subject(:response) { JSON.parse(described_class.represent(interim_fee).to_json, symbolize_names: true) }
 
-  let(:adapter) { instance_double(::CCLF::Fee::InterimFeeAdapter) }
   let(:claim) { instance_double(::Claim::InterimClaim) }
   let(:fee_type) { instance_double(::Fee::InterimFeeType, unique_code: 'INTDT') }
   let(:interim_fee) do
-      instance_double(
-        ::Fee::InterimFee,
-        claim: claim,
-        fee_type: fee_type,
-        quantity: 0.0,
-        amount: 0.0,
-        warrant_issued_date: nil,
-        warrant_executed_date: nil,
-        is_interim_warrant?: false
-      )
-    end
+    instance_double(
+      ::Fee::InterimFee,
+      claim: claim,
+      fee_type: fee_type,
+      quantity: 0.0,
+      amount: 0.0,
+      warrant_issued_date: nil,
+      warrant_executed_date: nil,
+      is_interim_warrant?: false
+    )
+  end
+
+  it_behaves_like 'a bill types delegator', ::CCLF::Fee::InterimFeeAdapter do
+    let(:bill) { interim_fee }
+  end
 
   it 'formats amount as string' do
     expect(response).to include(amount: '0.0')
@@ -25,13 +28,6 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
 
   it 'formats quantity as string integer' do
     expect(response).to include(quantity: '0')
-  end
-
-  it 'delegates bill types to InterimFeeAdapter' do
-    expect(::CCLF::Fee::InterimFeeAdapter).to receive(:new).with(interim_fee).and_return(adapter)
-    expect(adapter).to receive(:bill_type)
-    expect(adapter).to receive(:bill_subtype)
-    response
   end
 
   context 'interim warrants' do

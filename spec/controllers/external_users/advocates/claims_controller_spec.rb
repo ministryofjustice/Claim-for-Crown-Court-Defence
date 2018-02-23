@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, focus: true do
-
-  let!(:advocate)       { create(:external_user, :advocate) }
+  let!(:advocate) { create(:external_user, :advocate) }
   before { sign_in advocate.user }
 
   describe "GET #new" do
@@ -214,7 +213,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
             expect(subject_claim.draft?).to be_truthy
             expect(subject_claim.valid?).to be_truthy
             expect(assigns(:claim).current_step).to eq(:defendants)
-            expect(response).to render_template('external_users/advocates/claims/new')
+            expect(response).to redirect_to(edit_advocates_claim_path(subject_claim, step: :defendants))
 
             put :update, id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2
             expect(subject_claim.draft?).to be_truthy

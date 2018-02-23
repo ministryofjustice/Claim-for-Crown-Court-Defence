@@ -135,7 +135,7 @@ FactoryBot.define do
         description 'Evidence provision fee'
         code 'XEVI'
         unique_code 'MIEVI'
-        quantity_is_decimal true
+        quantity_is_decimal false
       end
     end
 

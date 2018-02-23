@@ -21,7 +21,7 @@ class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
 
   def associations_for_has_many_validations(record)
     has_many_association_names_for_steps.select do |k, _v|
-      record.submission_stages[steps_range(record)].include?(k)
+      record.submission_current_flow.map(&:to_sym).include?(k)
     end.values.flatten
   end
 
@@ -33,7 +33,7 @@ class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
 
   def associations_for_has_one_validations(record)
     has_one_association_names_for_steps.select do |k, _v|
-      record.submission_stages[steps_range(record)].include?(k)
+      record.submission_current_flow.map(&:to_sym).include?(k)
     end.values.flatten
   end
 

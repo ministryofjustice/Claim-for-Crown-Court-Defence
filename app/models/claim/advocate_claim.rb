@@ -86,10 +86,58 @@ module Claim
       assign_total_attrs
     end
 
-    def submission_stages
-      %i[case_details defendants offence_details basic_and_fixed_fees miscellaneous_fees
-         travel_expenses supporting_evidence additional_information]
-    end
+    SUBMISSION_STAGES = [
+      {
+        name: :case_details,
+        transitions: [
+          { to_stage: :defendants }
+        ]
+      },
+      {
+        name: :defendants,
+        transitions: [
+          {
+            to_stage: :offence_details,
+            condition: ->(claim) { !claim.fixed_fee_case? }
+          },
+          {
+            to_stage: :basic_and_fixed_fees,
+            condition: ->(claim) { claim.fixed_fee_case? }
+          }
+        ]
+      },
+      {
+        name: :offence_details,
+        transitions: [
+          { to_stage: :basic_and_fixed_fees }
+        ]
+      },
+      {
+        name: :basic_and_fixed_fees,
+        transitions: [
+          { to_stage: :miscellaneous_fees }
+        ]
+      },
+      {
+        name: :miscellaneous_fees,
+        transitions: [
+          { to_stage: :travel_expenses }
+        ]
+      },
+      {
+        name: :travel_expenses,
+        transitions: [
+          { to_stage: :supporting_evidence }
+        ]
+      },
+      {
+        name: :supporting_evidence,
+        transitions: [
+          { to_stage: :additional_information }
+        ]
+      },
+      { name: :additional_information }
+    ].freeze
 
     def assign_total_attrs
       # TODO: understand if this check is really needed

@@ -17,6 +17,12 @@ class StageCollection
     end
   end
 
+  def previous_stage(stage)
+    path = path_until(stage)
+    return if path.length <= 1
+    path[path.length - 2]
+  end
+
   def next_stage(stage)
     find_stage(stage)&.first_valid_transition
   end

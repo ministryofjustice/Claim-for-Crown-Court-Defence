@@ -66,9 +66,15 @@ require 'rails_helper'
 
 module Claim
   class MockBaseClaim < BaseClaim
-    def submission_stages
-      %i[foo bar]
-    end
+    SUBMISSION_STAGES = [
+      {
+        name: :step_1,
+        transitions: [
+          { to_stage: :step_2 }
+        ]
+      },
+      { name: :step_2 }
+    ].freeze
   end
 
   describe BaseClaim do
@@ -271,101 +277,106 @@ module Claim
       end
     end
 
+    class MockSteppableClaim < BaseClaim
+      SUBMISSION_STAGES = [
+        {
+          name: :step_1,
+          transitions: [
+            { to_stage: :step_2 }
+          ]
+        },
+        {
+          name: :step_2,
+          transitions: [
+            {
+              to_stage: :step_3A,
+              condition: ->(claim) { claim.fixed_fee_case? }
+            },
+            {
+              to_stage: :step_3B,
+              condition: ->(claim) { !claim.fixed_fee_case? }
+            }
+          ]
+        },
+        { name: :step_3A },
+        { name: :step_3B }
+      ].freeze
+    end
+
     describe '#next_step!' do
-      let(:claim) { MockBaseClaim.new }
+      let(:claim) { MockSteppableClaim.new }
 
-      it 'returns the immediate next step by default' do
-        expect(claim.next_step!).to eq(:bar)
-        expect(claim.next_step!).to eq(nil)
-      end
-
-      context 'when the immediate next step is not required' do
-        class MockNextStepClaim < BaseClaim
-          def submission_stages
-            %i[foo bar long_enough]
-          end
-
-          def current_step_required?
-            current_step && current_step.to_s.size >= 5
-          end
+      context 'when condition 3A is met' do
+        before do
+          allow(claim).to receive(:fixed_fee_case?).and_return(true)
         end
 
-        let(:claim) { MockNextStepClaim.new }
+        it 'follows the steps path 1 -> 2 -> 3A' do
+          expect(claim.next_step!).to eq(:step_2)
+          expect(claim.next_step!).to eq(:step_3A)
+          expect(claim.next_step!).to eq(nil)
+        end
+      end
 
-        it 'returns the next step after that which is required' do
-          expect(claim.next_step!).to eq(:long_enough)
+      context 'when condition 3B is met' do
+        before do
+          allow(claim).to receive(:fixed_fee_case?).and_return(false)
+        end
+
+        it 'follows the steps path 1 -> 2 -> 3B' do
+          expect(claim.next_step!).to eq(:step_2)
+          expect(claim.next_step!).to eq(:step_3B)
           expect(claim.next_step!).to eq(nil)
         end
       end
     end
 
     describe '#previous_step' do
-      let(:claim) { MockBaseClaim.new }
-      let(:step) { :bar }
+      let(:claim) { MockSteppableClaim.new }
 
-      before do
-        claim.form_step = step
-      end
+      context 'when condition 3A was met' do
+        let(:step) { :step_3A }
 
-      it 'does not change the current step' do
-        expect { claim.previous_step }
-          .not_to change { claim.current_step }
-          .from(step)
-      end
-
-      it 'returns the immediate previous step by default' do
-        expect(claim.previous_step).to eq(:foo)
-        claim.form_step = :foo
-        expect(claim.previous_step).to eq(nil)
-      end
-
-      context 'when the immediate next step is not required' do
-        class MockPreviousStepClaim < BaseClaim
-          def submission_stages
-            %i[foo long_enough bar zzz]
-          end
-
-          def step_required?(step)
-            step && step.to_s.size >= 5
-          end
+        before do
+          allow(claim).to receive(:fixed_fee_case?).and_return(true)
+          claim.form_step = step
         end
 
-        let(:step) { :zzz }
-        let(:claim) { MockPreviousStepClaim.new }
+        it 'does not change the current step' do
+          expect { claim.previous_step }
+            .not_to change { claim.current_step }
+            .from(step)
+        end
 
-        it 'returns the previous step after that which is required' do
-          expect(claim.previous_step).to eq(:long_enough)
-          claim.form_step = :long_enough
+        it 'follows the steps path 3A -> 2 -> 1' do
+          expect(claim.previous_step).to eq(:step_2)
+          claim.form_step = claim.previous_step
+          expect(claim.previous_step).to eq(:step_1)
+          claim.form_step = claim.previous_step
           expect(claim.previous_step).to eq(nil)
         end
       end
-    end
 
-    describe '#current_step_required?' do
-      let(:claim) { MockBaseClaim.new }
-      subject { claim.current_step_required? }
+      context 'when condition 3B was met' do
+        let(:step) { :step_3B }
 
-      specify { is_expected.to eq(true) }
-
-      context 'when current step is offence details (3)' do
         before do
-          claim.form_step = 'offence_details'
+          allow(claim).to receive(:fixed_fee_case?).and_return(false)
+          claim.form_step = step
         end
 
-        context 'and the case type does not have a fixed fee' do
-          before do
-            allow(claim).to receive(:fixed_fee_case?).and_return(false)
-          end
-
-          specify { is_expected.to eq(true) }
+        it 'does not change the current step' do
+          expect { claim.previous_step }
+            .not_to change { claim.current_step }
+            .from(step)
         end
 
-        context 'and the case type has a fixed fee' do
-          before do
-            allow(claim).to receive(:fixed_fee_case?).and_return(true)
-          end
-
-          specify { is_expected.to eq(false) }
+        it 'follows the steps path 3B -> 2 -> 1' do
+          expect(claim.previous_step).to eq(:step_2)
+          claim.form_step = claim.previous_step
+          expect(claim.previous_step).to eq(:step_1)
+          claim.form_step = claim.previous_step
+          expect(claim.previous_step).to eq(nil)
         end
       end
     end

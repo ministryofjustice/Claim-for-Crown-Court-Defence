@@ -43,12 +43,6 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
 
   private
 
-  def step_fields_for_validation
-    self.class.fields_for_steps.select do |k, _v|
-      @record.submission_current_flow.map(&:to_sym).include?(k)
-    end.values.flatten
-  end
-
   def validate_transfer_fee
     return if @record.from_api?
     add_error(:transfer_fee, 'blank') if @record.transfer_fee.nil?

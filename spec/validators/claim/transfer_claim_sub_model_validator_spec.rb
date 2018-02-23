@@ -9,27 +9,17 @@ RSpec.describe Claim::TransferClaimSubModelValidator, type: :validator do
       [],
       [],
       [],
-      [
-        :transfer_fee,
-        :assessment,
-        :certification
-      ]
+      %i[transfer_fee]
     ],
     has_many: [
       [],
       [],
-      [
-        :defendants,
-      ],
+      %i[defendants],
       [],
-      [
-        :misc_fees,
-        :disbursements,
-        :expenses,
-        :messages,
-        :redeterminations,
-        :documents
-      ]
+      %i[misc_fees],
+      %i[disbursements],
+      %i[expenses],
+      %i[documents]
     ]
   }
 end

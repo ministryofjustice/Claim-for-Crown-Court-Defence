@@ -93,8 +93,76 @@ module Claim
       end
     end
 
+    SUBMISSION_STAGES = [
+      {
+        name: :transfer_fee_details,
+        transitions: [
+          { to_stage: :case_details }
+        ]
+      },
+      {
+        name: :case_details,
+        transitions: [
+          { to_stage: :defendants }
+        ]
+      },
+      {
+        name: :defendants,
+        transitions: [
+          { to_stage: :offence_details }
+        ]
+      },
+      {
+        name: :offence_details,
+        transitions: [
+          { to_stage: :transfer_fees }
+        ]
+      },
+      {
+        name: :transfer_fees,
+        transitions: [
+          { to_stage: :miscellaneous_fees }
+        ]
+      },
+      {
+        name: :miscellaneous_fees,
+        transitions: [
+          { to_stage: :disbursements }
+        ]
+      },
+      {
+        name: :disbursements,
+        transitions: [
+          { to_stage: :travel_expenses }
+        ]
+      },
+      {
+        name: :travel_expenses,
+        transitions: [
+          { to_stage: :supporting_evidence }
+        ]
+      },
+      {
+        name: :supporting_evidence,
+        transitions: [
+          { to_stage: :additional_information }
+        ]
+      },
+      { name: :additional_information }
+    ].freeze
+
     def submission_stages
-      %i[transfer_fee_details case_details defendants offence_details fees]
+      @submission_stages ||= StageCollection.new(SUBMISSION_STAGES, self)
+    end
+
+    def submission_current_flow
+      return submission_stages if from_api?
+      submission_stages.path_until(form_step)
+    end
+
+    def next_step!
+      return unless form_step
+      self.form_step = submission_stages.next_stage(form_step)
     end
 
     def lgfs?

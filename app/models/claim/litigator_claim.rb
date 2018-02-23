@@ -160,20 +160,6 @@ module Claim
       { name: :additional_information }
     ].freeze
 
-    def submission_stages
-      @submission_stages ||= StageCollection.new(SUBMISSION_STAGES, self)
-    end
-
-    def submission_current_flow
-      return submission_stages if from_api?
-      submission_stages.path_until(form_step)
-    end
-
-    def next_step!
-      return unless form_step
-      self.form_step = submission_stages.next_stage(form_step)
-    end
-
     def lgfs?
       self.class.lgfs?
     end

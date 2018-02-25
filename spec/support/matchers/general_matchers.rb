@@ -9,9 +9,9 @@ RSpec::Matchers.define :have_constant do |expected|
   end
 
   description do
-    string = "have constant named #{expected[:name]}"
-    string += " with a value of #{expected[:value]}." if expected.key? :value
-    string
+    msg = "have a constant named #{expected[:name]}"
+    msg += " with a value of #{expected[:value]}." if expected.key? :value
+    msg
   end
 
   failure_message do |owner|
@@ -21,8 +21,8 @@ RSpec::Matchers.define :have_constant do |expected|
   end
 
   failure_message_when_negated do |owner|
-    msg = "expected #{owner} not to have a constant named #{expected[:name]} defined "
-    msg += "with a value of #{expected[:value]}." if expected.key? :value
+    msg = "expected #{owner} not to have a constant named #{expected[:name]} defined"
+    msg += " with a value of #{expected[:value]}." if expected.key? :value
     msg
   end
 end

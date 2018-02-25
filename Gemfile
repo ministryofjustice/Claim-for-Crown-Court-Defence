@@ -117,6 +117,7 @@ group :test do
   gem 'timecop'
   gem 'vcr',                        '~> 3.0.3'
   gem 'webmock',                    '~> 3.0'
+  gem 'hashdiff'
 end
 
 group :doc do

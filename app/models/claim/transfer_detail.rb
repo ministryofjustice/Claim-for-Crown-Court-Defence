@@ -25,6 +25,14 @@ module Claim
       TransferBrain.allocation_type(self)
     end
 
+    def bill_scenario
+      TransferBrain.bill_scenario(self)
+    end
+
+    def transfer_stage
+      TransferBrain.transfer_stage(self)
+    end
+
     # returns true if there are any errors on the claim relating to transfer detail fields
     def errors?
       return false if claim.nil?

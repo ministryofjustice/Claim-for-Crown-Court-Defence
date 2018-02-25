@@ -22,9 +22,7 @@ module Claim
     include Singleton
 
     def initialize
-      lines = load_file
-      @collection = []
-      lines.each { |line| @collection << TransferBrainDataItem.new(line) }
+      load_data_items
       @collection_hash = construct_collection_hash
     end
 
@@ -66,6 +64,11 @@ module Claim
       data_item_for(detail)[:allocation_type]
     end
 
+    def bill_scenario(detail)
+      raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
+      data_item_for(detail)[:bill_scenario]
+    end
+
     def detail_valid?(detail)
       return false if detail.unpopulated?
       data_item = data_item_for(detail)
@@ -92,16 +95,33 @@ module Claim
 
     private
 
-    def load_file
-      filename = File.join(Rails.root, 'config', 'transfer_brain_data_items.csv')
-      lines = CSV.read filename
-      lines.shift # remove header line
-      lines
+    def read_csv
+      file = File.join(Rails.root, 'config', 'transfer_brain_data_items.csv')
+      csv_content = File.read(file)
+      CSV.parse(csv_content, headers: true)
+    end
+
+    def parse_data_items(data_items)
+      data_items.each_with_object([]) do |data_item, arr|
+        arr << TransferBrainDataItem.new(data_item)
+      end
+    end
+
+    def load_data_items
+      csv = read_csv
+      attributes = csv.headers.map(&:to_sym)
+      klass = Struct.new('DataItem', *attributes)
+
+      data_items = csv.each_with_object([]) do |row, arr|
+        arr << klass.new(*row.to_hash.values)
+      end
+
+      @data_items = parse_data_items(data_items)
     end
 
     def construct_collection_hash
       collection_hash = {}
-      @collection.each do |item|
+      @data_items.each do |item|
         collection_hash.deep_merge!(item.to_h)
       end
       collection_hash

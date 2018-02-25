@@ -42,6 +42,10 @@ module Claim
       TRANSFER_STAGES.keys
     end
 
+    def self.transfer_stage(detail)
+      TRANSFER_STAGES[detail.transfer_stage_id]
+    end
+
     def self.case_conclusion_by_id(id)
       name = CASE_CONCLUSIONS[id]
       raise ArgumentError, "No such case conclusion id: #{id}" if name.nil?
@@ -72,6 +76,10 @@ module Claim
 
     def self.transfer_detail_summary(detail)
       TransferBrainDataItemCollection.instance.transfer_fee_full_name(detail)
+    end
+
+    def self.bill_scenario(detail)
+      TransferBrainDataItemCollection.instance.bill_scenario(detail)
     end
 
     #

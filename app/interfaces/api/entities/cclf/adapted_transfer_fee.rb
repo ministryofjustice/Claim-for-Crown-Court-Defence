@@ -3,7 +3,7 @@ module API
     module CCLF
       class AdaptedTransferFee < AdaptedBaseBill
         expose :quantity, format_with: :integer_string
-        expose :amount, format_with: :string # TODO check if needed
+        expose :amount, format_with: :string # TODO: check if needed
 
         private
 

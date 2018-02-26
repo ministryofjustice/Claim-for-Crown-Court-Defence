@@ -30,7 +30,7 @@ class StageCollection
       loop_stage = next_stage(loop_stage)
       path << loop_stage if loop_stage
     end
-    path
+    path.include?(stage) ? path : []
   end
 
   private

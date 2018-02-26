@@ -2,7 +2,7 @@ class StageTransition
   attr_reader :to_stage, :condition
 
   def initialize(to_stage:, condition: nil, object:)
-    @to_stage = to_stage
+    @to_stage = to_stage.to_sym
     @condition = condition
     @object = object
   end

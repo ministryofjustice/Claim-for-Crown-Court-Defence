@@ -36,14 +36,18 @@ module Claims
     end
 
     def extract_assessment_params
-      @assessment_params = @params.delete('assessment_attributes')
-      @assessment_params_present = nil_or_empty_zero_or_negative?(@assessment_params) ? false : true
+      @assessment_params = extract_present_params(@params.delete('assessment_attributes'))
+      @assessment_params_present = params_present?(@assessment_params)
     end
 
     def extract_redetermination_params
       @redetermination_params = @params.delete('redeterminations_attributes')
-      @redetermination_params = @redetermination_params['0'] unless @redetermination_params.nil?
-      @redetermination_params_present = nil_or_empty_zero_or_negative?(@redetermination_params) ? false : true
+      @redetermination_params = extract_present_params(@redetermination_params['0']) unless @redetermination_params.nil?
+      @redetermination_params_present = params_present?(@redetermination_params)
+    end
+
+    def extract_present_params(params)
+      (params || {}).reject { |_k, v| v.nil? || v.is_a?(String) && v.blank? }
     end
 
     def validate_params
@@ -91,7 +95,7 @@ module Claims
     end
 
     def nil_or_empty_zero_or_negative?(determination_params)
-      return true if determination_params.nil?
+      return true unless determination_params.present?
       result = true
       %w[fees expenses disbursements].each do |field|
         next if determination_params[field].to_f <= 0.0
@@ -99,6 +103,10 @@ module Claims
         break
       end
       result
+    end
+
+    def params_present?(params)
+      !nil_or_empty_zero_or_negative?(params)
     end
 
     def update_and_transition_state

@@ -12,10 +12,6 @@ RSpec.describe API::Entities::CCLF::AdaptedGraduatedFee, type: :adapter do
     let(:bill) { graduated_fee }
   end
 
-  it 'exposes the required keys' do
-    expect(response.keys).to match_array(%i[bill_type bill_subtype quantity])
-  end
-
   it 'exposes expected json key-value pairs' do
     expect(response).to include(
       bill_type: 'LIT_FEE',

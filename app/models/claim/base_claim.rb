@@ -213,6 +213,10 @@ module Claim
       @form_step = step.nil? ? nil : step.to_sym
     end
 
+    def misc_fees_changed?
+      misc_fees.any?(&:changed?)
+    end
+
     # Override the corresponding method in the subclass
     def agfs?
       false

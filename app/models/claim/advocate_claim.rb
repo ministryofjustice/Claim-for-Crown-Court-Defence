@@ -83,10 +83,44 @@ module Claim
 
     before_validation do
       set_supplier_number
+      assign_total_attrs
     end
 
     def submission_stages
-      %i[case_details defendants offence_details fees]
+      %i[case_details defendants offence_details basic_and_fixed_fees miscellaneous_fees
+         travel_expenses supporting_evidence additional_information]
+    end
+
+    def assign_total_attrs
+      # TODO: understand if this check is really needed
+      # left it here mostly to ensure the new changes do
+      # not impact anything API related
+      return if from_api?
+      assign_fees_total(%i[basic fixed misc]) if fees_changed?
+      assign_expenses_total if expenses_changed?
+      return unless total_changes_required?
+      assign_total
+      assign_vat
+    end
+
+    def total_changes_required?
+      fees_changed? || expenses_changed?
+    end
+
+    def fees_changed?
+      %i[basic fixed misc].any? { |fee_type| public_send("#{fee_type}_fees_changed?") }
+    end
+
+    def basic_fees_changed?
+      basic_fees.any?(&:changed?)
+    end
+
+    def fixed_fees_changed?
+      fixed_fees.any?(&:changed?)
+    end
+
+    def expenses_changed?
+      expenses.any?(&:changed?)
     end
 
     def eligible_case_types

@@ -294,9 +294,10 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
       ],
       [],
       %i[offence],
-      %i[
-        total
-        defendant_uplifts
-      ]
+      %i[total defendant_uplifts],
+      %i[total],
+      %i[total],
+      [],
+      []
   ]
 end

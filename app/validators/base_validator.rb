@@ -28,7 +28,7 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def steps_range(record)
-    record.from_api? ? (0..9) : (0..record.current_step_index)
+    record.from_api? ? (0..9) : (0..(record.current_step_index || 9))
   end
 
   def attr_nil?(attribute)

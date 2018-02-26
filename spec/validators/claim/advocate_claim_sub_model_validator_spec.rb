@@ -12,8 +12,12 @@ RSpec.describe Claim::AdvocateClaimSubModelValidator, type: :validator do
       ],
       has_many: [
           [],
-          [:defendants],
-          [:basic_fees, :misc_fees, :fixed_fees, :expenses, :messages, :redeterminations, :documents]
+          %i[defendants],
+          %i[basic_fees fixed_fees],
+          %i[misc_fees],
+          %i[expenses],
+          %i[documents],
+          []
       ]
   }
 end

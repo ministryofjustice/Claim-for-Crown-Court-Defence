@@ -121,7 +121,7 @@ class ClaimFormPage < SitePrism::Page
   end
 
   def attach_evidence(count = 1)
-    available_docs = Dir.glob "spec/fixtures/files/*.pdf"
+    available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/*.pdf"
 
     available_docs[0...count].each do |path|
       # puts "      Attaching #{path}"

@@ -35,6 +35,7 @@ class BaseSubModelValidator < BaseValidator
   def validate_collection_for(record, association_name)
     collection = record.__send__(association_name)
     collection.each_with_index do |associated_record, i|
+      next if associated_record.marked_for_destruction?
       unless associated_record.valid?
         @result = false
         copy_errors_to_base_record(record, association_name, associated_record, i)

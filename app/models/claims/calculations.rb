@@ -1,10 +1,19 @@
 module Claims::Calculations
   def calculate_fees_total(category = nil)
+    # TODO: revisit this method to understand if it is
+    # possible to remove the cumbersome
+    # calculate_amount followed by amount.
     fees.reload
     if category.blank?
-      fees.map(&:amount).compact.sum
+      fees.map do |fee|
+        fee.calculate_amount
+        fee.amount
+      end.compact.sum
     else
-      __send__("#{category.downcase}_fees").map(&:amount).compact.sum
+      __send__("#{category.downcase}_fees").map do |fee|
+        fee.calculate_amount
+        fee.amount
+      end.compact.sum
     end
   end
 
@@ -37,12 +46,31 @@ module Claims::Calculations
     a + b + c
   end
 
+  def assign_fees_total(categories = [])
+    fees_total = categories.inject(0) do |sum, category|
+      sum + calculate_fees_total(category)
+    end
+    fees_vat = calculate_fees_vat(fees_total)
+    assign_attributes(
+      fees_total: fees_total,
+      fees_vat: fees_vat,
+      value_band_id: Claims::ValueBands.band_id_for_value(fees_vat + fees_total)
+    )
+  end
+
   def update_fees_total
     fees_total = calculate_fees_total
     fees_vat = calculate_fees_vat(fees_total)
     update_columns(fees_vat: fees_vat,
                    fees_total: fees_total,
                    value_band_id: Claims::ValueBands.band_id_for_value(fees_vat + fees_total))
+  end
+
+  def assign_expenses_total
+    totals = totalize_for_claim(Expense, id, :amount, :vat_amount)
+    assign_attributes(expenses_vat: totals[:vat],
+                      expenses_total: totals[:net],
+                      value_band_id: Claims::ValueBands.band_id_for_value(totals[:net] + totals[:vat]))
   end
 
   def update_expenses_total
@@ -57,6 +85,10 @@ module Claims::Calculations
     update_columns(disbursements_vat: totals[:vat],
                    disbursements_total: totals[:net],
                    value_band_id: Claims::ValueBands.band_id_for_value(totals[:net] + totals[:vat]))
+  end
+
+  def assign_total
+    assign_attributes(total: calculate_total)
   end
 
   def update_total
@@ -74,5 +106,10 @@ module Claims::Calculations
   def update_vat
     update_column(:apply_vat, vat_registered?) if vat_registered?
     update_column(:vat_amount, calculate_total_vat)
+  end
+
+  def assign_vat
+    assign_attributes(apply_vat: vat_registered?) if vat_registered?
+    assign_attributes(vat_amount: calculate_total_vat)
   end
 end

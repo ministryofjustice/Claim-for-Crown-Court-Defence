@@ -218,33 +218,33 @@ describe("Modules.SideBar.js", function() {
             });
 
             expect(moj.Modules.SideBar.totals).toEqual({
-              fees: 26,
+              fees: 27.11,
               disbursements: 0,
-              expenses: 0,
-              vat: 5.2,
-              grandTotal: 31.2
+              expenses: 1.33,
+              vat: 6.640000000000001,
+              grandTotal: 32.75
             });
 
             block.config.type = 'expenses';
             moj.Modules.SideBar.recalculate();
 
             expect(moj.Modules.SideBar.totals).toEqual({
-              fees: 0,
+              fees: 1.11,
               disbursements: 0,
-              expenses: 26,
-              vat: 5.2,
-              grandTotal: 31.2
+              expenses: 27.33,
+              vat: 6.640000000000001,
+              grandTotal: 32.75
             });
 
             block.config.type = 'fees';
             moj.Modules.SideBar.recalculate();
 
             expect(moj.Modules.SideBar.totals).toEqual({
-              fees: 26,
+              fees: 27.11,
               disbursements: 0,
-              expenses: 0,
-              vat: 5.2,
-              grandTotal: 31.2
+              expenses: 1.33,
+              vat: 6.640000000000001,
+              grandTotal: 32.75
             });
 
             jsBlockViewCalculated.remove();

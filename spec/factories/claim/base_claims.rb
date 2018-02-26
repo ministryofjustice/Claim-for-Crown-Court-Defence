@@ -136,7 +136,6 @@ def populate_required_fields(claim)
       claim.retrial_actual_length ||= 2
       claim.retrial_concluded_at ||= 3.days.ago
     end
-
   end
 end
 

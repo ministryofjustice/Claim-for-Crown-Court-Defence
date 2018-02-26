@@ -23,6 +23,14 @@ And(/^I fill '(.*)' as the fixed fee total$/) do |total|
   @litigator_claim_form_page.fixed_fee_total.set total
 end
 
+And(/^I fill '(.*)' as the graduated fee total$/) do |total|
+  @litigator_claim_form_page.graduated_fee_total.set total
+end
+
+And(/^I fill '(.*)' as the warrant fee total$/) do |total|
+  @litigator_claim_form_page.warrant_fee_total.set total
+end
+
 And(/^I enter the case concluded date$/) do
   @litigator_claim_form_page.case_concluded_date.set_date "2016-01-01"
 end
@@ -47,6 +55,18 @@ end
 
 And(/^I enter the fixed fee date$/) do
   @litigator_claim_form_page.fixed_fee_date.set_date "2016-01-01"
+end
+
+And(/^I fill '(.*)' as the graduated fee date$/) do |date|
+  @litigator_claim_form_page.graduated_fee_date.set_date date
+end
+
+And(/^I fill '(.*)' as the warrant fee issued date$/) do |date|
+  @litigator_claim_form_page.warrant_fee_issued_date.set_date date
+end
+
+And(/^I fill '(.*)' as the warrant fee executed date$/) do |date|
+  @litigator_claim_form_page.warrant_fee_executed_date.set_date date
 end
 
 When(/^I add an expense '(.*?)'(?: with total '(.*?)')?(?: and VAT '(.*?)')?( with invalid date)?$/) do |name, total, vat, invalid_date|

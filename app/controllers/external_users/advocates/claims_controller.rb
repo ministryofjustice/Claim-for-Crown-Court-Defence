@@ -22,4 +22,8 @@ class ExternalUsers::Advocates::ClaimsController < ExternalUsers::ClaimsControll
 
     super
   end
+
+  def claim_action_path(options)
+    edit_advocates_claim_path(@claim, step: options[:step])
+  end
 end

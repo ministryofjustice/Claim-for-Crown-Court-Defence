@@ -5,11 +5,7 @@ class Claim::TransferClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       case_details: [],
       defendants: [],
       offence_details: [],
-      fees: %i[
-        transfer_fee
-        assessment
-        certification
-      ]
+      transfer_fees: %i[transfer_fee]
     }
   end
 
@@ -19,14 +15,10 @@ class Claim::TransferClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       case_details: [],
       defendants: %i[defendants],
       offence_details: [],
-      fees: %i[
-        misc_fees
-        disbursements
-        expenses
-        messages
-        redeterminations
-        documents
-      ]
+      miscellaneous_fees: %i[misc_fees],
+      disbursements: %i[disbursements],
+      travel_expenses: %i[expenses],
+      supporting_evidence: %i[documents]
     }
   end
 end

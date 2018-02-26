@@ -17,10 +17,14 @@ class ExternalUsers::Litigators::InterimClaimsController < ExternalUsers::Claims
     @claim.build_interim_fee if @claim.interim_fee.nil?
     @claim.build_warrant_fee if @claim.warrant_fee.nil?
 
-    [:disbursements].each do |association|
+    %i[disbursements expenses].each do |association|
       build_nested_resource(@claim, association)
     end
 
     super
+  end
+
+  def claim_action_path(options)
+    edit_litigators_interim_claim_path(@claim, step: options[:step])
   end
 end

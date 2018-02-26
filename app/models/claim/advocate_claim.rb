@@ -83,10 +83,92 @@ module Claim
 
     before_validation do
       set_supplier_number
+      assign_total_attrs
     end
 
-    def submission_stages
-      %i[case_details defendants offence_details fees]
+    SUBMISSION_STAGES = [
+      {
+        name: :case_details,
+        transitions: [
+          { to_stage: :defendants }
+        ]
+      },
+      {
+        name: :defendants,
+        transitions: [
+          {
+            to_stage: :offence_details,
+            condition: ->(claim) { !claim.fixed_fee_case? }
+          },
+          {
+            to_stage: :basic_and_fixed_fees,
+            condition: ->(claim) { claim.fixed_fee_case? }
+          }
+        ]
+      },
+      {
+        name: :offence_details,
+        transitions: [
+          { to_stage: :basic_and_fixed_fees }
+        ]
+      },
+      {
+        name: :basic_and_fixed_fees,
+        transitions: [
+          { to_stage: :miscellaneous_fees }
+        ]
+      },
+      {
+        name: :miscellaneous_fees,
+        transitions: [
+          { to_stage: :travel_expenses }
+        ]
+      },
+      {
+        name: :travel_expenses,
+        transitions: [
+          { to_stage: :supporting_evidence }
+        ]
+      },
+      {
+        name: :supporting_evidence,
+        transitions: [
+          { to_stage: :additional_information }
+        ]
+      },
+      { name: :additional_information }
+    ].freeze
+
+    def assign_total_attrs
+      # TODO: understand if this check is really needed
+      # left it here mostly to ensure the new changes do
+      # not impact anything API related
+      return if from_api?
+      assign_fees_total(%i[basic fixed misc]) if fees_changed?
+      assign_expenses_total if expenses_changed?
+      return unless total_changes_required?
+      assign_total
+      assign_vat
+    end
+
+    def total_changes_required?
+      fees_changed? || expenses_changed?
+    end
+
+    def fees_changed?
+      %i[basic fixed misc].any? { |fee_type| public_send("#{fee_type}_fees_changed?") }
+    end
+
+    def basic_fees_changed?
+      basic_fees.any?(&:changed?)
+    end
+
+    def fixed_fees_changed?
+      fixed_fees.any?(&:changed?)
+    end
+
+    def expenses_changed?
+      expenses.any?(&:changed?)
     end
 
     def eligible_case_types

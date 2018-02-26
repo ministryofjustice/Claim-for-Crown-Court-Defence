@@ -1,6 +1,9 @@
+- claims_scope = 'external_users.claims'
 #misc-fees.mod-fees
   %h2.bold-medium
     = t('.misc_fees')
+  .form-hint.xsmall
+    = t('hints.fees_header_prompt_text_html', scope: claims_scope)
   .form-hint.xsmall
     = t('prep_forms.advocates_html')
 

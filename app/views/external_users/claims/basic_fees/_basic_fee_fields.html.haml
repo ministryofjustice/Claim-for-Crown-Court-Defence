@@ -1,5 +1,5 @@
 %fieldset
-  .form-group.basic-fee-group.nested-fields.fee-details.js-block{class: to_slug(f.object.description), data:{type:'fees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": f.object.calculated? ? "FeeBlockCalculator" : "FeeBlock"}}
+  .form-group.basic-fee-group.nested-fields.fee-details.js-block{class: to_slug(f.object.description), data:{type:'fees', typeC:'basicFeeTotal', autovat: @claim.apply_vat? ? "true" : "false", "block-type": f.object.calculated? ? "FeeBlockCalculator" : "FeeBlock"}}
     = f.hidden_field :fee_type_id, value: f.object.fee_type_id
 
     - if f.object.calculated?

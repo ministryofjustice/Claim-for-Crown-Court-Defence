@@ -16,6 +16,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   before_action :set_and_authorize_claim, only: %i[show edit update unarchive clone_rejected destroy summary
                                                    confirmation show_message_controls messages disc_evidence]
+  before_action :set_form_step, only: %i[edit]
   before_action :set_doctypes, only: [:show]
   before_action :generate_form_id, only: %i[new edit]
   before_action :initialize_submodel_counts
@@ -249,6 +250,12 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     authorize! params[:action].to_sym, @claim
   end
 
+  def set_form_step
+    return unless @claim
+    return unless params[:step].present?
+    @claim.form_step = params[:step]
+  end
+
   def claim_params
     params.require(:claim).permit(
       :form_id,
@@ -420,6 +427,15 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     render action: action
   end
 
+  def redirect_to_next_step
+    track_visit({
+                  url: 'external_user/%{type}/claim/%{action}/%{step}',
+                  title: '%{action_t} %{type} claim page %{step}'
+                }, claim_tracking_substitutions)
+
+    redirect_to claim_action_path(step: @claim.next_step!)
+  end
+
   def render_or_redirect(result)
     return render_or_redirect_error(result) unless result.success?
     render_or_redirect_success(result)
@@ -427,8 +443,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def render_or_redirect_success(result)
     if continue_claim?
-      @claim.next_step!
-      render_action_with_resources(result.action)
+      redirect_to_next_step
     elsif result.draft?
       redirect_to external_users_claims_path, notice: 'Draft claim saved'
     else

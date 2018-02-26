@@ -39,14 +39,28 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     And I fill '100.25' as the fixed fee total
     And I enter the fixed fee date
+
+    Then I click "Continue" in the claim form
+
     And I add a miscellaneous fee 'Costs judge application'
     And I add a Case uplift fee with case numbers 'A20161234, A20165588'
+
+    Then I click "Continue" in the claim form
+
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '30.5'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
+
+    Then I click "Continue" in the claim form
+
     And I add an expense 'Parking'
+
+    Then I click "Continue" in the claim form
 
     And I upload 1 document
     And I check the boxes for the uploaded documents
+
+    Then I click "Continue" in the claim form
+
     And I add some additional information
     And I click Submit to LAA
     Then I should be on the check your claim page

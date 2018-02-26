@@ -2,35 +2,33 @@
   %h2
     Summary total
   %h3
-    = t('.fees_total')
+    = "Fees"
     %span.numeric.total-fees{data:{'total-fees': claim.fees_total ||= 0}}
-      - if @claim.fees_total == 0
-        = t('.no_fees')
-        /No fees for this claim
-      - else
-        = claim.fees_total
-
-  - if @claim.lgfs? || @claim.interim?
-    %h3
-      = t('.disbursements_total')
-      /Disbursements total
-      %span.numeric.total-disbursements{data:{'total-disbursements': claim.disbursements_total ||= 0}}
-        - if @claim.disbursements.empty?
-          = t('.no_disbursements')
-          /No disbursements for this claim
-        - else
-          = claim.disbursements_total
-
-  - unless @claim.expenses.empty?
-    %h3
-      = t('.expenses_total')
-      %span.numeric.total-expenses{data:{'total-expenses': claim.expenses_total ||= 0}}
-        = claim.expenses_total
+      = claim.fees_total
 
   %h3
-    VAT total
+    = "Misc Fees"
+    %span.numeric.total-miscfees{data:{'total-miscfees': claim.fees_total ||= 0}}
+      = claim.fees_total
+
+  -# - if @claim.lgfs? || @claim.interim?
+  %h3
+    = "Disbursements"
+    /Disbursements total
+    %span.numeric.total-disbursements{data:{'total-disbursements': claim.disbursements_total ||= 0}}
+      = claim.disbursements_total
+
+  -# - unless @claim.expenses.empty?
+  %h3
+    = "Expenses"
+    %span.numeric.total-expenses{data:{'total-expenses': claim.expenses_total ||= 0}}
+      = claim.expenses_total
+
+  %h3
+    = "VAT"
     %span.numeric.total-vat{data:{'total-vat': claim.vat_amount ||= 0}}
       = claim.vat_amount
+
   %h3.total
     = t('.total')
     %span.numeric.total-grandTotal{data:{'total-grandTotal': claim.total_inc_vat ||= 0}}
@@ -40,3 +38,120 @@
     = link_to t('.continue'), new_external_users_claim_certification_path(claim), {class: 'button', role: 'button', 'aria-label': t('.button_label')}
     = link_to t('.edit_claim'), edit_polymorphic_path(claim), { role: 'button' }
     /Edit this claim
+
+  %p
+  - if claim.lgfs?
+    %ul
+      %li
+        = "LGFS"
+        = claim.fixed_fee_case?
+
+      %li
+        %h1
+          = "FEES"
+        = "==================="
+      %li.fx-seed{"data-fixed-fee-display": claim.raw_fixed_fee_combined_total}
+        = "Fee display total"
+        = claim.raw_fixed_fee_combined_total
+
+      %li.fx-seed{"data-fixed-fee-total": claim.raw_fixed_fee_total}
+        = "Fixed fee"
+        = claim.raw_fixed_fee_total
+
+      %li.fx-seed{"data-grad-fee-total": claim.raw_grad_fee_total}
+        = "Graduated fee"
+        = claim.raw_grad_fee_total
+
+      %li.fx-seed{"data-warrant-fee-total": claim.raw_warrant_fee_total}
+        = "Warrant fee"
+        = claim.raw_warrant_fee_total
+
+      %li.fx-seed{"data-misc-fee-total": claim.raw_misc_fee_total}
+        = "Misc"
+        = claim.raw_misc_fee_total
+
+      %li
+        %br/
+        %h1
+          = "OTHER"
+        = "==================="
+      %li.fx-seed{"data-disbursement-total": claim.raw_disbursements_total}
+        = "Disbursements"
+        = claim.raw_disbursements_total
+
+      %li.fx-seed{"data-expenses-total": claim.raw_expenses_total}
+        = "Expenses"
+        = claim.raw_expenses_total
+
+      %li
+        %br/
+        %h1
+          = "TOTALS"
+        = "==================="
+      %li.fx-seed{"data-vat-total": claim.raw_vat_amount}
+        = "VAT"
+        = claim.raw_vat_amount
+
+      %li.fx-seed{"data-total-excl": claim.raw_total_excl}
+        = "Total excl"
+        = claim.raw_total_excl
+
+      %li.fx-seed{"data-total-inc": claim.raw_total_inc}
+        = "Total incl"
+        = claim.raw_total_inc
+
+  - if claim.agfs?
+    %ul
+      %li
+        = "AGFS (fixed)"
+        = claim.fixed_fee_case?
+      %li
+        %h1
+          = "FEES"
+        = "==================="
+      %li.fx-seed{"data-fixed-fee-display": claim.raw_fixed_fees_combined_total}
+        = "Fee display total"
+        = claim.raw_fixed_fees_combined_total
+
+      %li.fx-seed{"data-fixed-fee-total": claim.raw_fixed_fees_total}
+        = "Fixed fee"
+        = claim.raw_fixed_fees_total
+
+      %li.fx-seed{"data-grad-fee-total": claim.raw_basic_fees_total}
+        = "Graduated fee"
+        = claim.raw_basic_fees_total
+
+      %li.fx-seed{"data-misc-fee-total": claim.raw_misc_fees_total}
+        = "Misc"
+        = claim.raw_misc_fees_total
+
+      %li
+        %br/
+        %h1
+          = "OTHER"
+        = "==================="
+      %li.fx-seed{"data-disbursement-total": claim.raw_disbursements_total}
+        = "Disbursements"
+        = claim.raw_disbursements_total
+
+      %li.fx-seed{"data-expenses-total": claim.raw_expenses_total}
+        = "Expenses"
+        = claim.raw_expenses_total
+
+
+      %li
+        %br/
+        %h1
+          = "TOTALS"
+        = "==================="
+      %li.fx-seed{"data-vat-total": claim.raw_vat_amount}
+        = "VAT"
+        = claim.raw_vat_amount
+
+      %li.fx-seed{"data-total-excl": claim.raw_total_excl}
+        = "Total excl"
+        = claim.raw_total_excl
+
+      %li.fx-seed{"data-total-inc": claim.raw_total_inc}
+        = "Total incl"
+        = claim.raw_total_inc

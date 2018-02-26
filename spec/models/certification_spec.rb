@@ -23,13 +23,41 @@ RSpec.describe Certification, type: :model do
   let!(:certification_type) { create(:certification_type) }
   let(:claim) { build(:claim) }
 
-  subject { build(:certification, certification_type: certification_type, claim: claim) }
+  subject(:certification) { build(:certification, certification_type: certification_type, claim: claim) }
 
   context 'validations' do
     it 'should be invalid without certification type' do
       subject.certification_type_id = nil
       expect(subject).not_to be_valid
       expect(subject.errors.full_messages).to eq( ['You must select one option on this form'] )
+    end
+
+    context 'certification date' do
+      context 'when is before the claim creation date' do
+        let(:claim) { build(:claim, created_at: 2.days.ago) }
+
+        before do
+          certification.certification_date = 3.days.ago
+        end
+
+        it 'should be invalid' do
+          expect(certification).not_to be_valid
+          error_message = 'Certification date must be same day or after claim submission day'
+          expect(certification.errors.full_messages).to eq( [error_message] )
+        end
+      end
+
+      context 'when is in the future' do
+        before do
+          certification.certification_date = 10.days.from_now
+        end
+
+        it 'should be invalid' do
+          expect(certification).not_to be_valid
+          error_message = "Certification date can't be in the future"
+          expect(certification.errors.full_messages).to eq( [error_message] )
+        end
+      end
     end
   end
 end

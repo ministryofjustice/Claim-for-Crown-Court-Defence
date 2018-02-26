@@ -32,7 +32,7 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
       ],
       defendants: [],
       offence_details: %i[offence],
-      fees: %i[total]
+      additional_information: %i[total]
     }
   end
 

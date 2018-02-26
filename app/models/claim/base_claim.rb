@@ -213,6 +213,10 @@ module Claim
       @form_step = step.nil? ? nil : step.to_sym
     end
 
+    def misc_fees_changed?
+      misc_fees.any?(&:changed?)
+    end
+
     # Override the corresponding method in the subclass
     def agfs?
       false
@@ -389,25 +393,18 @@ module Claim
       disable_for_state_transition.present?
     end
 
+    def submission_stages
+      @submission_stages ||= StageCollection.new(self.class::SUBMISSION_STAGES, self)
+    end
+
+    def submission_current_flow
+      return submission_stages if from_api?
+      submission_stages.path_until(form_step)
+    end
+
     def next_step!
-      self.form_step = submission_stages[current_step_index + 1]
-      until current_step_required?
-        break unless form_step
-        self.form_step = submission_stages[current_step_index + 1]
-      end
-      form_step
-    end
-
-    def current_step_index
-      submission_stages.index(current_step)
-    end
-
-    def current_step_required?
-      # NOTE: offence details step is only required when the
-      # case type does not have a fixed fee
-      # TODO: move this logic to a workflow management
-      return true unless current_step == :offence_details
-      !fixed_fee_case?
+      return unless form_step
+      self.form_step = submission_stages.next_stage(form_step)
     end
 
     def from_api?

@@ -25,12 +25,15 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
       ],
       defendants: [],
       offence_details: %i[offence],
-      fees: %i[
-        total
-        defendant_uplifts
-      ]
+      basic_and_fixed_fees: FEE_VALIDATION_FIELDS + %i[defendant_uplifts],
+      miscellaneous_fees: FEE_VALIDATION_FIELDS,
+      travel_expenses: FEE_VALIDATION_FIELDS,
+      supporting_evidence: [],
+      additional_information: []
     }
   end
+
+  FEE_VALIDATION_FIELDS = %i[total].freeze
 
   private
 
@@ -72,11 +75,21 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
 
   # we add one because uplift quantities reflect the number of "additional" defendants
   def defendant_uplifts_greater_than?(no_of_defendants)
-    @record
-      .fees
-      .where.not(id: @record.misc_fees.select(&:marked_for_destruction?).map(&:id))
-      .defendant_uplift_sums
-      .values
-      .map(&:to_i).any? { |sum| sum + 1 > no_of_defendants }
+    defendant_uplifts_counts.map(&:to_i).any? { |sum| sum + 1 > no_of_defendants }
+  end
+
+  def defendant_uplifts
+    (@record.basic_fees + @record.fixed_fees + @record.misc_fees).select do |fee|
+      !fee.marked_for_destruction? &&
+        fee.fee_type &&
+        Fee::BaseFeeType.defendant_uplift_unique_codes.include?(fee.fee_type.unique_code)
+    end
+  end
+
+  def defendant_uplifts_counts
+    defendant_uplifts.each_with_object({}) do |fee, res|
+      res[fee.fee_type.unique_code] ||= []
+      res[fee.fee_type.unique_code] << fee.quantity
+    end.values.map(&:sum)
   end
 end

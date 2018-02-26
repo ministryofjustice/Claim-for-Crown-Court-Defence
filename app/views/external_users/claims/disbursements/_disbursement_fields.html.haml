@@ -1,7 +1,7 @@
 %fieldset
   %legend.visuallyhidden
     = t('.disbursement')
-  .form-group.disbursement-group.nested-fields.js-block{data:{"block-type": "FeeBlockManualAmounts", type:"disbursements", autovat: "false"}}
+  .form-group.disbursement-group.nested-fields.js-block{data:{type:"disbursements", typeC:'disbursementTotal', "block-type": "FeeBlockManualAmounts", autovat: "false"}}
     .grid-row.js-typeahead
       .column-half.disbursement-type{class: error_class?(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")}
         %label.form-label

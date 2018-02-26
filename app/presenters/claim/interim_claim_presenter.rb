@@ -18,4 +18,12 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
   def pretty_type
     'LGFS Interim'
   end
+
+  def raw_fixed_fee_total
+    claim.fixed_fee&.amount || 0
+  end
+
+  def raw_fixed_fee_combined_total
+    raw_fixed_fee_total + raw_warrant_fee_total + raw_grad_fee_total + raw_misc_fee_total
+  end
 end

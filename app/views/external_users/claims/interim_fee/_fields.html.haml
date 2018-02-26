@@ -7,7 +7,7 @@
 
   = f.fields_for :interim_fee do |inf|
     - fee = present(inf.object)
-    .interim-fee-group.nested-fields.mod-fees.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
+    .interim-fee-group.nested-fields.mod-fees.js-block{data:{"type":"fees", typeC:'interimFeeTotal', autovat: @claim.apply_vat? ? "true" : "false"}}
       %fieldset
         .form-row
           .column-half{class: error_class?(@error_presenter, "interim_fee.fee_type")}
@@ -71,11 +71,11 @@
               = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_concluded_at))
 
           .column-first-child.column-three-quarters.js-interim-warrant.visually-hidden
-            .column-half
+            .warrant-fee-issued-date-group.column-half
               = inf.anchored_attribute 'warrant_issued_date'
               = inf.gov_uk_date_field :warrant_issued_date, legend_text: t('.warrant_issued'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_fee.warrant_issued_date')
 
-            .column-half
+            .warrant-fee-executed-date-group.column-half
               = inf.anchored_attribute 'warrant_executed_date'
               = inf.gov_uk_date_field :warrant_executed_date, legend_text: t('.warrant_executed'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_fee.warrant_executed_date')
 

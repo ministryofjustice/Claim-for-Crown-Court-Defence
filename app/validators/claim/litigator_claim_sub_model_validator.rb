@@ -4,13 +4,9 @@ class Claim::LitigatorClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       case_details: [],
       defendants: [],
       offence_details: [],
-      fees: %i[
-        graduated_fee
-        fixed_fee
-        warrant_fee
-        assessment
-        certification
-      ]
+      fixed_fees: %i[fixed_fee],
+      graduated_fees: %i[graduated_fee],
+      warrant_fees: %i[warrant_fee]
     }
   end
 
@@ -19,14 +15,10 @@ class Claim::LitigatorClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       case_details: [],
       defendants: %i[defendants],
       offence_details: [],
-      fees: %i[
-        misc_fees
-        disbursements
-        expenses
-        messages
-        redeterminations
-        documents
-      ]
+      miscellaneous_fees: %i[misc_fees],
+      disbursements: %i[disbursements],
+      travel_expenses: %i[expenses],
+      supporting_evidence: %i[documents]
     }
   end
 end

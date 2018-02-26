@@ -3,14 +3,12 @@
   #fixed-fees.mod-fees{"data-mute-indictment": @claim.allows_fixed_fees? ? "true" : "false"}
     %h2.bold-medium
       = t('.fixed_fees')
-    .form-hint.xsmall
-      = t('.prompt_text_html')
 
     = f.fields_for :fixed_fee do |ff|
       %fieldset
         %legend.visuallyhidden
           = t('.fixed_fees')
-        .fixed-fee-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
+        .fixed-fee-group.nested-fields.js-block{data:{"type":"fees", typeC:'fixedFeeTotal', autovat: @claim.apply_vat? ? "true" : "false"}}
           .grid-row
             %div
               %label.form-label

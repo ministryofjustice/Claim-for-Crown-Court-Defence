@@ -7,7 +7,7 @@
 
   = f.fields_for :interim_fee do |inf|
     - fee = present(inf.object)
-    .interim-fee-group.nested-fields.mod-fees.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
+    .interim-fee-group.nested-fields.mod-fees.js-block{data:{"type":"fees", typeC:'interimFeeTotal', autovat: @claim.apply_vat? ? "true" : "false"}}
       %fieldset
         .form-row
           .column-half{class: error_class?(@error_presenter, "interim_fee.fee_type")}

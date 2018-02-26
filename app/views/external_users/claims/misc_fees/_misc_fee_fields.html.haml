@@ -2,7 +2,7 @@
 %fieldset
   %legend.visuallyhidden
     Miscellaneous fee
-  .form-group.misc-fee-group.nested-fields.js-block.fx-fee-group{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
+  .form-group.misc-fee-group.nested-fields.js-block.fx-fee-group{data:{"type":"miscfees", typeC:'miscFeeTotal', autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
     .grid-row.js-typeahead
       .column-one-half.fee-type{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
         %label.form-label

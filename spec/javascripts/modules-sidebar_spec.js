@@ -5,11 +5,12 @@ describe("Modules.SideBar.js", function() {
 
   var sideBarView = ['<div class="new-claim-hgroup js-stick-at-top-when-scrolling totals-summary">',
     '  <h2>Summary total</h2>',
-    '  <h3>Fees total <span class="numeric total-fees" data-total-fees="£1.11">£1.11</span></h3>',
-    '  <h3>Disbursements total <span class="numeric total-disbursements" data-total-disbursements="£1.22">£1.22</span></h3>',
-    '  <h3>Expenses total <span class="numeric total-expenses" data-total-expenses="£1.33">£1.33</span></h3>',
-    '  <h3>VAT total <span class="numeric total-vat" data-total-vat="£1.44">£1.44</span></h3>',
-    '  <h3 class="total">Total<span class="numeric total-grandTotal" data-total-grandTotal="£1.55">£1.55</span></h3>',
+    '  <h3>Fees total <span class="numeric total-fees" data-total-fees="£10.10">£10.10</span></h3>',
+    '  <h3>Misc Fees total <span class="numeric total-miscfees" data-total-miscfees="£20.20">£20.20</span></h3>',
+    '  <h3>Disbursements total <span class="numeric total-disbursements" data-total-disbursements="£30.30">£30.30</span></h3>',
+    '  <h3>Expenses total <span class="numeric total-expenses" data-total-expenses="£40.40">£40.40</span></h3>',
+    '  <h3>VAT total <span class="numeric total-vat" data-total-vat="£50.50">£50.50</span></h3>',
+    '  <h3 class="total">Total<span class="numeric total-grandTotal" data-total-grandTotal="£60.60">£60.60</span></h3>',
     '</div>'
   ].join(' ');
 
@@ -62,6 +63,7 @@ describe("Modules.SideBar.js", function() {
     it('should have a `totals` property defined', function() {
       expect(moj.Modules.SideBar.totals).toEqual({
         fees: 0,
+        miscfees: 0,
         disbursements: 0,
         expenses: 0,
         vat: 0,
@@ -96,6 +98,7 @@ describe("Modules.SideBar.js", function() {
         moj.Modules.SideBar.blocks = [{}, {}];
 
         jsBlockFixtureDOM.append([jsBlockViewNonCalculated.clone(), jsBlockViewNonCalculated.clone(), jsBlockViewNonCalculated.clone()]);
+
         $('body').append(jsBlockFixtureDOM);
 
         moj.Modules.SideBar.loadBlocks();
@@ -116,7 +119,7 @@ describe("Modules.SideBar.js", function() {
         spyOn(moj.Helpers.SideBar, 'FeeBlock');
         moj.Modules.SideBar.loadBlocks();
 
-        expect(moj.Helpers.SideBar.FeeBlock).toHaveBeenCalled();
+        expect(moj.Helpers.SideBar.FeeBlock.calls.count()).toEqual(3);
 
         jsBlockFixtureDOM.empty();
       });
@@ -129,6 +132,7 @@ describe("Modules.SideBar.js", function() {
 
         moj.Modules.SideBar.totals = {
           fees: 54321.34,
+          miscfees: 9383384.93,
           disbursements: 654321.34,
           expenses: 7654321.56,
           vat: 123456.99,
@@ -138,6 +142,7 @@ describe("Modules.SideBar.js", function() {
         moj.Modules.SideBar.render();
 
         expect($el.find('.total-fees')[0].innerHTML).toBe('£54,321.34');
+        expect($el.find('.total-miscfees')[0].innerHTML).toBe('£9,383,384.93');
         expect($el.find('.total-disbursements')[0].innerHTML).toBe('£654,321.34');
         expect($el.find('.total-expenses')[0].innerHTML).toBe('£7,654,321.56');
         expect($el.find('.total-vat')[0].innerHTML).toBe('£123,456.99');
@@ -217,34 +222,40 @@ describe("Modules.SideBar.js", function() {
               typeTotal: 26
             });
 
+            console.log(moj.Modules.SideBar.totals);
+            block.config.type = 'fees';
             expect(moj.Modules.SideBar.totals).toEqual({
-              fees: 27.11,
+              fees: 26.00,
+              miscfees: 0,
               disbursements: 0,
-              expenses: 1.33,
-              vat: 6.640000000000001,
-              grandTotal: 32.75
+              expenses: 0,
+              vat: 5.2,
+              grandTotal: 31.20
             });
+
 
             block.config.type = 'expenses';
             moj.Modules.SideBar.recalculate();
 
             expect(moj.Modules.SideBar.totals).toEqual({
-              fees: 1.11,
+              fees: 0,
+              miscfees: 0,
               disbursements: 0,
-              expenses: 27.33,
-              vat: 6.640000000000001,
-              grandTotal: 32.75
+              expenses: 26,
+              vat: 5.2,
+              grandTotal: 31.20
             });
 
-            block.config.type = 'fees';
+            block.config.type = 'miscfees';
             moj.Modules.SideBar.recalculate();
 
             expect(moj.Modules.SideBar.totals).toEqual({
-              fees: 27.11,
+              fees: 0,
+              miscfees: 26,
               disbursements: 0,
-              expenses: 1.33,
-              vat: 6.640000000000001,
-              grandTotal: 32.75
+              expenses: 0,
+              vat: 5.2,
+              grandTotal: 31.2
             });
 
             jsBlockViewCalculated.remove();

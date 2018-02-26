@@ -8,9 +8,9 @@
 
     = f.fields_for :graduated_fee do |grad_fee_form|
       - grad_fee = present(grad_fee_form.object)
-      .graduated-fee-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
-        .grid-row
 
+      .graduated-fee-group.nested-fields.js-block{data:{"type":"fees", typeC:'gradFeeTotal', autovat: @claim.apply_vat? ? "true" : "false"}}
+        .grid-row
           .column-one-third
             %label.form-label
               = t('.fee_type')

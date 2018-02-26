@@ -19,6 +19,26 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.claim_state_transitions.last.reason_text
   end
 
+  def raw_misc_fees_total
+    claim.calculate_fees_total(:misc)
+  end
+
+  def raw_expenses_total
+    claim.expenses_total
+  end
+
+  def raw_total_excl
+    claim.total
+  end
+
+  def raw_total_inc
+    claim.total + claim.vat_amount
+  end
+
+  def raw_vat_amount
+    claim.vat_amount
+  end
+
   def reject_reason_text
     claim.claim_state_transitions.last.reason_text
   end

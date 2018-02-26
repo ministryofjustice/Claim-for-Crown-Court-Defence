@@ -39,6 +39,8 @@
           = "Actions:"
           %div.action-wrapper
             = link_to 'Edit this claim', edit_polymorphic_path(claim), class: 'button edit-claim'
+            -if claim.from_api?
+              = link_to 'Continue and certify',  summary_external_users_claim_path(claim), class: 'button-secondary blue certify-claim'
             = link_to 'Delete draft', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete-draft'
 
         - if claim.archivable?

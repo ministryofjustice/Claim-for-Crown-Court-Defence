@@ -31,9 +31,9 @@ p.file-upload-name {
 .certify-claim {
   display: block;
   width: 8.8em;
-  margin: 10px 0 !important;
+  margin: 10px 0;
 }
 
-.delete-draft {
-  color: $red !important;
+a.delete-draft {
+  color: $red;
 }

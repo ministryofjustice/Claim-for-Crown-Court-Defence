@@ -42,8 +42,7 @@ module CCLF
     private
 
     def interim_scenario_applicable?
-      claim.interim? &&
-        interim_bill_scenario
+      claim.interim? && interim_bill_scenario
     end
 
     def interim_bill_scenario
@@ -51,8 +50,7 @@ module CCLF
     end
 
     def transfer_scenario_applicable?
-      claim.transfer? &&
-        transfer_bill_scenario
+      claim.transfer? && transfer_bill_scenario
     end
 
     # TODO: transfer claim bill scenarios - not all mapped in transfer_brain_data_items.csv

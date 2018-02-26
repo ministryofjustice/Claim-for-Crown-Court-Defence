@@ -7,14 +7,9 @@ module HashExtension
   end
 
   def all_values_for(key)
-    result = []
-    result << fetch(key, nil)
-    each_value do |hash_value|
-      hash_values = [hash_value] unless hash_value.is_a? Array
-      hash_values.each do |value|
-        result += value.all_values_for(key) if value.is_a? Hash
-      end
+    each_with_object([]) do |(k, v), result|
+      result << v if k.eql?(key)
+      result.concat(v.all_values_for(key)) if v.is_a? Hash
     end
-    result.compact
   end
 end

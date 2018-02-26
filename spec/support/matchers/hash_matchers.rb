@@ -22,8 +22,6 @@ RSpec::Matchers.define :match_hash do |expected|
     "expected hashes not to match"
   end
 
-  # TODO: colorize the 3rd element as success/green to indicate this is what was received
-  # (could also colorize 1st and 2nd elements as magenta for info)
   def format_diff(diff)
     spacer = "-\s"
     diff_sep = "--------------------"

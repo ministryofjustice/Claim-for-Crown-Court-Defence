@@ -7,10 +7,10 @@ module TransferBrainHelpers
   #     - transfer stage id (int)
   #       - case conclusion id (int) - * means any
   #         - attributes:
-  #              - validity: whether combination is valid - use in validators
-  #              - transfer fee full name: the description to display to Case workers (only) on the claim details page (show action)
-  #              - allocation type: what allocation filter "queue" this combination should fall into - use in scopes for allocation filters
-  #              - bill scenario: what CCLF application bill scenario should be exposed in CCLF JSON API for injection into that application
+  #              - validity (boolean): whether combination is valid - use in validators
+  #              - transfer fee full name (string): the description to display to Case workers (only) on the claim details page (show action)
+  #              - allocation type (string): what allocation filter "queue" this combination should fall into - use in scopes for allocation filters
+  #              - bill scenario (string): what CCLF application bill scenario should be exposed in CCLF JSON API for injection into that application
   #
   def data_item_collection_hash
     {"new"=>

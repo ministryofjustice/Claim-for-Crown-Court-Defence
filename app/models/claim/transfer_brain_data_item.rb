@@ -15,13 +15,6 @@ module Claim
       @bill_scenario          = data_item.bill_scenario
     end
 
-    # def match_detail?(detail)
-    #   @litigator_type == detail.litigator_type &&
-    #     @elected_case == detail.elected_case &&
-    #     @transfer_stage_id == detail.transfer_stage_id &&
-    #     @case_conclusion_id == detail.case_conclusion_id
-    # end
-
     def to_h
       {
         @litigator_type => {

@@ -45,6 +45,26 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
       end
     end
 
+    context 'when misc fee is an evidence provision fee' do
+      let(:fee_type) { build :misc_fee_type, :mievi }
+
+      before { allow(fee).to receive(:fee_type).and_return(fee_type) }
+
+      %w[45 90].each do |value|
+        it "will be valid if amount is £#{value}" do
+          should_be_valid_if_equal_to_value(fee, :amount, value)
+        end
+      end
+
+      it 'will error if passed a decimal amount' do
+        should_error_if_equal_to_value(fee, :amount, '45.10', 'incorrect_epf')
+      end
+
+      it 'will error is passed a zero amount' do
+        should_error_if_equal_to_value(fee, :amount, '0', 'incorrect_epf')
+      end
+    end
+
     describe '#validate_case_numbers' do
       context 'for a non Case Uplift fee type' do
         before(:each) do

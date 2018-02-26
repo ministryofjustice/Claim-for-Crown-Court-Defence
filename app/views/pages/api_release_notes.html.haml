@@ -3,6 +3,46 @@
 %section.api-documentation
 
   %hr
+  %h2 24 February 2018
+  %ul.list-bullet
+    %li
+      The Evidence provision fee is now locked to two values, £45 and £90 as described in the
+      = link_to 'guidance', 'https://www.gov.uk/guidance/claim-the-evidence-provision-fee#lower-and-upper-tiers'
+      ='.'
+      %br/
+      %br/
+      These values have always been the only valid values but, prior to this release, the validation had not been enforced.
+      %br/
+      %br/
+      From now on submitting data to the
+      %code.code
+        \/api/external_users/fee
+      endpoint with either of the following states will result in a
+      %code.code
+        Evidence provision fee can only be £45 or £90
+      error.
+      %br/
+      %br/
+      %table
+        %thead
+          %tr
+            %th
+              Field
+            %th
+              Value
+        %tbody
+          %tr
+            %td
+              fee_type_id
+            %td
+              87
+          %tr
+            %td
+              fee_type_unique_code
+            %td
+              MIEVI
+
+  %hr
   %h1 01 November 2017
   %ul.list-bullet
     %li

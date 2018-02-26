@@ -4,11 +4,7 @@ class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       case_details: [],
       defendants: [],
       offence_details: [],
-      additional_information: [],
-      other: %i[
-        assessment
-        certification
-      ]
+      additional_information: []
     }
   end
 
@@ -21,8 +17,7 @@ class Claim::AdvocateClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       miscellaneous_fees: %i[misc_fees],
       travel_expenses: %i[expenses],
       supporting_evidence: %i[documents],
-      additional_information: [],
-      other: %i[messages redeterminations]
+      additional_information: []
     }
   end
 end

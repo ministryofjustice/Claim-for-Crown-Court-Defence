@@ -5,11 +5,6 @@ class Claim::InterimClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       defendants: [],
       offence_details: [],
       interim_fees: %i[interim_fee]
-      # fees: %i[
-      #   interim_fee
-      #   assessment
-      #   certification
-      # ]
     }
   end
 
@@ -21,12 +16,6 @@ class Claim::InterimClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       interim_fees: %i[disbursements],
       travel_expenses: %i[expenses],
       supporting_evidence: %i[documents]
-      # fees: %i[
-      #   disbursements
-      #   messages
-      #   redeterminations
-      #   documents
-      # ]
     }
   end
 end

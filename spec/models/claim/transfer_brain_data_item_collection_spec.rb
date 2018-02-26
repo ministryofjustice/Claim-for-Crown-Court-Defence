@@ -8,9 +8,18 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
   # specific mapping: where there is a case conclusion id specific mapping (case conclusion is relevant)
   # wildcard mapping: where there is mapping for any case conclusion id, using "*" key (i.e. case conclusion is irrelevant)
   # invalid: where the combination of details is not possible
-  let(:with_wildcard_mapping) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: 20) }
-  let(:with_specific_mapping) { build(:transfer_detail, litigator_type: 'new', elected_case: false, transfer_stage_id: 10, case_conclusion_id: 50) }
-  let(:with_invalid_combo) { build(:transfer_detail, litigator_type: 'new', elected_case: false, transfer_stage_id: 30, case_conclusion_id: 50) }
+  let(:with_wildcard_mapping) { build(:transfer_detail, :with_wildcard_mapping) }
+  let(:with_specific_mapping) { build(:transfer_detail, :with_specific_mapping) }
+  let(:with_invalid_combo) { build(:transfer_detail, :with_invalid_combo) }
+
+  shared_examples 'invalid combination error raiser' do
+    let(:call) { subject }
+    let(:detail) { with_invalid_combo }
+
+    it 'raises error if given an invalid combination' do
+      expect{ call }.to raise_error Claim::InvalidTransferCombinationError, 'Invalid combination of transfer detail fields'
+    end
+  end
 
   describe '.new' do
     context '@data_items' do
@@ -33,16 +42,16 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
     context '@collection_hash' do
       subject(:collection_hash) { collection.instance_variable_get(:@collection_hash) }
 
-      it 'assigns a deeply nested hash' do
+      it 'assigns a hash' do
         is_expected.to be_a Hash
         is_expected.to_not be_empty
       end
 
-      it 'deep nests a hash with expected keys' do
+      it 'assigns a deep nested hash with expected keys' do
         expect(collection_hash.dig("new", true, 10, "*").keys).to include(:validity, :transfer_fee_full_name, :allocation_type, :bill_scenario)
       end
 
-      it 'adds one nested hash for each data item', skip: "# missing deep nested hash - extra 'valid: false' value in csv?? not sure if this is an error" do
+      it 'adds one nested hash for each data item', skip: "# missing deep nested hash?? - extra 'valid: false' value in csv?? not sure if this is an error" do
         # using validity key to count the deeply nested hashes
         expect(collection_hash.all_values_for(:validity).size).to eq 34
       end
@@ -99,13 +108,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       end
     end
 
-    context 'when given and invalid combination of details' do
-      let(:detail) { with_invalid_combo }
-
-      it 'raises error if given an invalid combination' do
-        expect{ call }.to raise_error Claim::InvalidTransferCombinationError, 'Invalid combination of transfer detail fields'
-      end
-    end
+    it_behaves_like 'invalid combination error raiser'
   end
 
   describe '#allocation_type' do
@@ -127,13 +130,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       end
     end
 
-    context 'when given and invalid combination of details' do
-      let(:detail) { with_invalid_combo }
-
-      it 'raises error if given an invalid combination' do
-        expect{ call }.to raise_error Claim::InvalidTransferCombinationError, 'Invalid combination of transfer detail fields'
-      end
-    end
+    it_behaves_like 'invalid combination error raiser'
   end
 
   describe '#bill_scenario' do
@@ -155,13 +152,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       end
     end
 
-    context 'when given and invalid combination of details' do
-      let(:detail) { with_invalid_combo }
-
-      it 'raises error if given an invalid combination' do
-        expect{ call }.to raise_error Claim::InvalidTransferCombinationError, 'Invalid combination of transfer detail fields'
-      end
-    end
+    it_behaves_like 'invalid combination error raiser'
   end
 
   describe '#detail_valid?' do

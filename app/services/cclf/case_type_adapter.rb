@@ -35,6 +35,7 @@ module CCLF
 
     def bill_scenario
       return interim_bill_scenario if interim_scenario_applicable?
+      return transfer_bill_scenario if transfer_scenario_applicable?
       final_bill_scenario
     end
 
@@ -47,6 +48,16 @@ module CCLF
 
     def interim_bill_scenario
       BILL_SCENARIOS[claim.interim_fee&.fee_type&.unique_code&.to_sym]
+    end
+
+    def transfer_scenario_applicable?
+      claim.transfer? &&
+        transfer_bill_scenario
+    end
+
+    # TODO: transfer claim bill scenarios - not all mapped in transfer_brain_data_items.csv
+    def transfer_bill_scenario
+      claim.transfer_detail&.bill_scenario
     end
 
     def final_bill_scenario

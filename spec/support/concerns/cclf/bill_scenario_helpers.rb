@@ -28,6 +28,12 @@ module CCLF
       INTDT: 'ST1TS1T0', # Trial start
     }.freeze
 
+    # transfer fee bill scenarios are based on transfer detail combinations,
+    # not case type or fee type.
+     TRANSFER_FEE_BILL_SCENARIOS = {
+      TRANS: ''
+    }.freeze
+
     class_methods do
       def graduated_fee_bill_scenarios
         GRADUATED_FEE_BILL_SCENARIOS
@@ -43,6 +49,10 @@ module CCLF
 
       def interim_fee_bill_scenarios
         INTERIM_FEE_BILL_SCENARIOS
+      end
+
+      def transfer_fee_bill_scenarios
+        TRANSFER_FEE_BILL_SCENARIOS
       end
     end
   end

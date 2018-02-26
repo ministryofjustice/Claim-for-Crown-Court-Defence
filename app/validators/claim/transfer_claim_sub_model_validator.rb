@@ -6,11 +6,6 @@ class Claim::TransferClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       defendants: [],
       offence_details: [],
       transfer_fees: %i[transfer_fee]
-      # fees: %i[
-      #   transfer_fee
-      #   assessment
-      #   certification
-      # ]
     }
   end
 
@@ -24,14 +19,6 @@ class Claim::TransferClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       disbursements: %i[disbursements],
       travel_expenses: %i[expenses],
       supporting_evidence: %i[documents]
-      # fees: %i[
-      #   misc_fees
-      #   disbursements
-      #   expenses
-      #   messages
-      #   redeterminations
-      #   documents
-      # ]
     }
   end
 end

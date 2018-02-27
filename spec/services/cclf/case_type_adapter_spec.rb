@@ -73,7 +73,7 @@ RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
       let(:claim) { instance_double(::Claim::TransferClaim) }
       let(:transfer_detail) { instance_double(::Claim::TransferDetail, bill_scenario: bill_scenario) }
 
-      bill_scenarios.each do |scenario|
+      transfer_fee_bill_scenarios.each do |scenario|
         context "having transfer detail with scenario #{scenario}" do
           let(:bill_scenario) { scenario }
 

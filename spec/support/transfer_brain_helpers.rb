@@ -94,7 +94,7 @@ module TransferBrainHelpers
       DATA_ITEM_COLLECTION_HASH
     end
 
-    def bill_scenarios
+    def transfer_fee_bill_scenarios
       data_item_collection_hash.
         all_values_for(:bill_scenario).
         reject { |scenario| scenario.nil? }

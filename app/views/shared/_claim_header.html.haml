@@ -39,8 +39,8 @@
           = "Actions:"
           %div.action-wrapper
             = link_to 'Edit this claim', edit_polymorphic_path(claim), class: 'button edit-claim'
-            -if claim.from_api?
-              = form_for @claim, as: :claim, url:polymorphic_path(claim, anchor: 'disk_evidence'), builder: AdpFormBuilder, multipart: true, authenticity_token: true do |f|
+            -if claim.from_api? || claim.api_web_edited?
+              = form_for @claim, as: :claim, url:polymorphic_path(claim, anchor: 'evidence_upload'), builder: AdpFormBuilder, multipart: true, authenticity_token: true do |f|
                 = f.hidden_field :form_step, value: 'offence_details'
                 = f.hidden_field :form_id, value: @claim.form_id
                 = f.submit t('buttons.add_evidence'), name: 'commit_continue', class: 'button left btn-spacer-20 button-secondary blue certify-claim'

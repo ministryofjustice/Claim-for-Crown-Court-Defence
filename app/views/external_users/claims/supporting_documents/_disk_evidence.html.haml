@@ -1,7 +1,7 @@
-%h2.bold-medium
-  = "Evidence supplied on disk"
-
 .form-row{class: error_class?(@error_presenter, :disk_evidence)}
+  %h2.bold-medium
+    = f.anchored_label "Evidence supplied on disk", 'evidence_upload'
+
   %fieldset
     = f.anchored_label 'Will you be sending disk evidence for this claim?', 'disk_evidence'
     = f.collection_radio_buttons(:disk_evidence, [['Yes','true'],['No','false']], :last, :first ) do |b|

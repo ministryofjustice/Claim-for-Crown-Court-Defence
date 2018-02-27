@@ -6,6 +6,37 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
   before { sign_in agfs_lgfs_admin.user }
 
   describe 'GET #selection' do
+    context 'when provider has no available claim types' do
+      let(:context_mapper) { instance_double(Claims::ContextMapper) }
+
+      before do
+        allow(Claims::ContextMapper).to receive(:new).and_return(context_mapper)
+        allow(context_mapper).to receive(:available_claim_types).and_return([])
+      end
+
+      it 'redirects the user to the claims page with an error' do
+        get :selection
+        expect(response).to redirect_to(external_users_claims_url)
+        expect(flash[:alert]).to eq 'AGFS/LGFS claim type choice incomplete'
+      end
+    end
+
+    context 'when the only claim type available cannot be managed by the user' do
+      let(:context_mapper) { instance_double(Claims::ContextMapper) }
+      let(:claim_class) { Claim::BaseClaim }
+
+      before do
+        allow(Claims::ContextMapper).to receive(:new).and_return(context_mapper)
+        allow(context_mapper).to receive(:available_claim_types).and_return([claim_class])
+      end
+
+      it 'redirects the user to the claims page with an error' do
+        get :selection
+        expect(response).to redirect_to(external_users_claims_url)
+        expect(flash[:alert]).to eq 'Invalid claim types made available to current user'
+      end
+    end
+
     context 'admin of AGFS and LGFS provider' do
       before { get :selection }
 
@@ -59,40 +90,36 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
         expect(response).to render_template(:selection)
       end
     end
-
   end
 
   describe 'POST #chosen' do
+    context 'when an invalid scheme is provided' do
+      before { post :chosen, scheme_chosen: 'invalid'}
+
+      it "redirects the user to the claims page with an error" do
+        expect(response).to redirect_to(external_users_claims_url)
+        expect(flash[:alert]).to eq 'Invalid claim types made available to current user'
+      end
+    end
+
     context "AGFS claim" do
       before { post :chosen, scheme_chosen: 'agfs'}
 
-      it 'should assign claim_types from params' do
-        expect(assigns(:claim_types).first).to eql Claim::AdvocateClaim
-      end
-
       it "should redirect to the new advocate claim form page" do
-          expect(response).to redirect_to(new_advocates_claim_path)
+        expect(response).to redirect_to(new_advocates_claim_path)
       end
     end
 
     context "LGFS final claim" do
       before { post :chosen, scheme_chosen: 'lgfs_final'}
 
-      it 'should assign claim_types to be a litigator final claim' do
-        expect(assigns(:claim_types).first).to eql Claim::LitigatorClaim
-      end
-
       it "should redirect to the new litigator final claim form page" do
-          expect(response).to redirect_to(new_litigators_claim_path)
+        expect(response).to redirect_to(new_litigators_claim_path)
       end
     end
 
     context "LGFS interim claim" do
       before { post :chosen, scheme_chosen: 'lgfs_interim'}
-
-      it 'should assign claim_types to be an litigator interim claim' do
-        expect(assigns(:claim_types).first).to eql Claim::InterimClaim
-      end
 
       it "should redirect to the new litigator interim claim form page" do
         expect(response).to redirect_to(new_litigators_interim_claim_path)
@@ -101,10 +128,6 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
     context "LGFS transfer claim" do
       before { post :chosen, scheme_chosen: 'lgfs_transfer'}
-
-      it 'should assign claim_types to be an litigator transfer claim' do
-        expect(assigns(:claim_types).first).to eql Claim::TransferClaim
-      end
 
       it "should redirect to the new litigator transfer claim form page" do
         expect(response).to redirect_to(new_litigators_transfer_claim_path)

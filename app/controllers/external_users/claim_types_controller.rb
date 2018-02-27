@@ -2,43 +2,39 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
   skip_load_and_authorize_resource
 
   before_action :init_claim_types
-  before_action :set_claim_types_for_provider, only: [:selection]
+  before_action :set_claim_types_for_provider, only: %i[selection]
 
   def selection
-    redirect_to(external_users_claims_url, error: 'AGFS/LGFS claim type choice incomplete') && return if @claim_types.empty?
+    if @claim_types.empty?
+      redirect_to(
+        external_users_claims_url,
+        alert: error_message(:claim_type_choice_incomplete)
+      ) && return
+    end
 
     track_visit(url: 'external_user/claim_types', title: 'Choose claim type')
-    render && return if @claim_types.size > 1
-    redirect_for_claim_type
+    @claim_types.size > 1 ? render : redirect_for_claim_type(@claim_types.first)
   end
 
   def chosen
-    @claim_types << case params['scheme_chosen'].downcase
-                    when 'agfs'
-                      Claim::AdvocateClaim
-                    when 'lgfs_final'
-                      Claim::LitigatorClaim
-                    when 'lgfs_interim'
-                      Claim::InterimClaim
-                    when 'lgfs_transfer'
-                      Claim::TransferClaim
-                    end
-    redirect_for_claim_type
+    redirect_for_claim_type(claim_type_for_scheme(params['scheme_chosen']))
   end
 
   private
 
-  def redirect_for_claim_type
-    if @claim_types.first == Claim::AdvocateClaim
-      redirect_to new_advocates_claim_url
-    elsif @claim_types.first == Claim::LitigatorClaim
-      redirect_to new_litigators_claim_url
-    elsif @claim_types.first == Claim::InterimClaim
-      redirect_to new_litigators_interim_claim_url
-    elsif @claim_types.first == Claim::TransferClaim
-      redirect_to new_litigators_transfer_claim_url
+  SCHEME_TO_CLAIM_TYPE_MAPPING = {
+    'agfs' => Claim::AdvocateClaim,
+    'lgfs_final' => Claim::LitigatorClaim,
+    'lgfs_interim' => Claim::InterimClaim,
+    'lgfs_transfer' => Claim::TransferClaim
+  }.freeze
+
+  def redirect_for_claim_type(claim_type)
+    redirect_url = claim_type_redirect_url(claim_type)
+    if redirect_url
+      redirect_to redirect_url
     else
-      redirect_to external_users_claims_url, error: 'Invalid claim types made available to current user'
+      redirect_to external_users_claims_url, alert: error_message(:invalid_claim_types)
     end
   end
 
@@ -49,5 +45,22 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
 
   def init_claim_types
     @claim_types = []
+  end
+
+  def claim_type_redirect_url(claim_type)
+    {
+      'Claim::AdvocateClaim'  => new_advocates_claim_url,
+      'Claim::LitigatorClaim' => new_litigators_claim_url,
+      'Claim::InterimClaim'   => new_litigators_interim_claim_url,
+      'Claim::TransferClaim'  => new_litigators_transfer_claim_url
+    }[claim_type.to_s]
+  end
+
+  def claim_type_for_scheme(scheme)
+    SCHEME_TO_CLAIM_TYPE_MAPPING[scheme&.downcase]
+  end
+
+  def error_message(error_code)
+    t(".errors.#{error_code}")
   end
 end

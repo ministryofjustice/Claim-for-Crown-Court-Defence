@@ -452,9 +452,16 @@ en:
         certification_date: 'Date'
         date: 'Date'
     claim_types:
+      chosen:
+        errors:
+          claim_type_choice_incomplete: 'AGFS/LGFS claim type choice incomplete'
+          invalid_claim_types: 'Invalid claim types made available to current user'
       selection:
-        choose_fee_scheme_prompt_text: Choose your fee scheme
         agfs_rb: Advocate fees
+        choose_fee_scheme_prompt_text: Choose your fee scheme
+        errors:
+          claim_type_choice_incomplete: 'AGFS/LGFS claim type choice incomplete'
+          invalid_claim_types: 'Invalid claim types made available to current user'
         lgfs_final_rb: Litigator final fee
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee

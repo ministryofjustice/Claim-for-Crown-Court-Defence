@@ -33,7 +33,6 @@ Metrics/LineLength:
     - 'app/services/ccr/fee/misc_fee_adapter.rb'
     - 'app/interfaces/api/entities/full_claim.rb'
     # @jsugarman to check ^^
-    - 'app/controllers/external_users/claim_types_controller.rb'
 
 # Offense count: 56
 # Configuration parameters: CountComments.

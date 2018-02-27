@@ -244,12 +244,13 @@ FactoryBot.define do
     factory :transfer_fee_type, class: Fee::TransferFeeType do
       calculated false
       code 'TRANS'
+      unique_code 'TRANS'
       description 'Transfer'
       roles [ 'lgfs' ]
     end
 
     factory :warrant_fee_type, class: Fee::WarrantFeeType do
-      description  'Warrant Fee'
+      description 'Warrant Fee'
       code 'XWAR'
       calculated false
       roles [ 'lgfs' ]

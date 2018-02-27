@@ -31,8 +31,7 @@ class StageCollection
     return [] unless stage
     loop_stage = stages.first
     path = [loop_stage]
-    loop do
-      break if loop_stage.nil? || loop_stage == stage
+    until loop_stage.nil? || loop_stage == stage
       loop_stage = next_stage(loop_stage)
       path << loop_stage if loop_stage
     end

@@ -198,11 +198,10 @@ module Claims
     end
 
     context 'redeterminations' do
-
-      let(:claim)  {
-        klaim = create :allocated_claim
-        klaim.assessment.update(fees: 200.15, expenses: 77.66)
-        klaim
+      let(:claim) {
+        create(:allocated_claim).tap do |c|
+          c.assessment.update(fees: 200.15, expenses: 77.66)
+        end
       }
 
       context 'successful transitions' do

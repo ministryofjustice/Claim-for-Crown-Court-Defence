@@ -94,19 +94,9 @@ module Claims
       @transition_reason&.any? { |reason| %w[other other_refuse].include?(reason) } && @transition_reason_text.blank?
     end
 
-    def nil_or_empty_zero_or_negative?(determination_params)
-      return true unless determination_params.present?
-      result = true
-      %w[fees expenses disbursements].each do |field|
-        next if determination_params[field].to_f <= 0.0
-        result = false
-        break
-      end
-      result
-    end
-
     def params_present?(params)
-      !nil_or_empty_zero_or_negative?(params)
+      return false unless params.present?
+      %w[fees expenses disbursements].any? { |field| params[field].to_f > 0.0 }
     end
 
     def update_and_transition_state

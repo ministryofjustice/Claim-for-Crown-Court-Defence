@@ -148,7 +148,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       let(:detail) { with_wildcard_mapping }
 
       it 'returns bill scenario for matching detail' do
-        is_expected.to eq 'ST4TS0T2'
+        is_expected.to eq 'ST4TS0T3'
       end
     end
 

@@ -1,12 +1,15 @@
 - if show_claim_list_scheme_filters?(available_schemes)
-
-  %fieldset.inline.js-claim-scheme-filter
-    .column-half.form-group
+  .column-half.form-group
+    %fieldset.inline.js-claim-scheme-filter
       %legend
         = t('.scheme_filter')
       .form-hint.xsmall.zero-vert-margin
         = t('.scheme_filter_hint')
       - [:all].concat(available_schemes).each do |filter_scheme|
-        = label_tag "scheme_#{filter_scheme}", nil, class: "block-label" do
+        .multiple-choice
           = radio_button_tag :scheme, filter_scheme, scheme.blank? ? filter_scheme == :all : scheme == filter_scheme
-          = filter_scheme == :all ? t('.scheme_filter_all') : filter_scheme.upcase
+          = label_tag "scheme_#{filter_scheme}", nil, class: "block-label" do
+            = filter_scheme == :all ? t('.scheme_filter_all') : filter_scheme.upcase
+
+
+

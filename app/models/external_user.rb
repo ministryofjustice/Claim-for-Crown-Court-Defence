@@ -71,18 +71,18 @@ class ExternalUser < ActiveRecord::Base
     end
   end
 
+  def advocate_claim_types
+    [Claim::AdvocateClaim].tap { |array| array << Claim::AdvocateInterimClaim if FeatureFlag.active?(:agfs_fee_reform) }
+  end
+
   def litigator_claim_types
     [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
   end
 
   def available_claim_types
-    claim_types = []
-    roles.each do |role|
-      claim_types = [Claim::AdvocateClaim, *litigator_claim_types] if role == 'admin'
-      claim_types.concat [Claim::AdvocateClaim] if role == 'advocate'
-      claim_types.concat litigator_claim_types if role == 'litigator'
+    roles.inject([]) do |claim_types, role|
+      claim_types | claim_types_for(role)
     end
-    claim_types.uniq
   end
 
   def name_and_number
@@ -105,5 +105,13 @@ class ExternalUser < ActiveRecord::Base
 
   def validate_supplier_number?
     provider&.chamber? && advocate?
+  end
+
+  def claim_types_for(role)
+    {
+      'admin'     => advocate_claim_types | litigator_claim_types,
+      'advocate'  => advocate_claim_types,
+      'litigator' => litigator_claim_types
+    }[role.to_s] || []
   end
 end

@@ -1,9 +1,9 @@
 .form-row{class: error_class?(@error_presenter, :disk_evidence)}
   %h2.bold-medium
-    = f.anchored_label "Evidence supplied on disk", 'evidence_upload'
+    = f.anchored_label t('disk_evidence.header'), 'evidence_upload'
 
   %fieldset
-    = f.anchored_label 'Will you be sending disk evidence for this claim?', 'disk_evidence'
+    = f.anchored_label t('disk_evidence.question'), 'disk_evidence'
     = f.collection_radio_buttons(:disk_evidence, [['Yes','true'],['No','false']], :last, :first ) do |b|
       .multiple-choice{"data-target" => b.text == 'Yes' ? 'evidence-info' : nil}
         = b.radio_button

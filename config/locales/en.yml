@@ -42,6 +42,9 @@ en:
     save_to_drafts: Save to drafts
     save_a_draft: Save a draft
     clear_form: 'Clear form'
+    add_evidence: 'Upload evidence'
+    edit_draft: 'Edit this claim'
+    delete_draft: 'Delete draft'
   date:
     formats:
       default: "%d/%m/%Y"
@@ -81,7 +84,6 @@ en:
         case_numbers: &case_numbers 'Additional case numbers'
     not_provided: &not_provided 'Not provided'
     not_applicable: &not_applicable 'n/a'
-
   general:
     not_provided: *not_provided
     not_applicable: *not_applicable
@@ -277,6 +279,9 @@ en:
   prep_forms:
     advocates_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
     litigators_html: Complete <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
+  disk_evidence:
+    header: 'Evidence supplied on disk'
+    question: 'Will you be sending disk evidence for this claim?'
 
 
 # en.super_admins

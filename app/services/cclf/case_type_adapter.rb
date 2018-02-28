@@ -53,7 +53,6 @@ module CCLF
       claim.transfer? && transfer_bill_scenario
     end
 
-    # TODO: transfer claim bill scenarios - not all mapped in transfer_brain_data_items.csv
     def transfer_bill_scenario
       claim.transfer_detail&.bill_scenario
     end

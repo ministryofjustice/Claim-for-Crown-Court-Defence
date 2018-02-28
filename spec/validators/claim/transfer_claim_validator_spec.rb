@@ -92,7 +92,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
 
   context 'trial dates validation' do
     context 'case type: trial' do
-      let(:claim) { build :transfer_claim, :trial }
+      let(:claim) { build :transfer_claim, :with_transfer_detail }
 
       it 'factory builds claim without trial dates' do
         expect(claim.first_day_of_trial).to be_nil
@@ -103,7 +103,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
       end
     end
     context 'case type: retrial' do
-      let(:claim) { build :transfer_claim, :retrial }
+      let(:claim) { build :transfer_claim, :with_transfer_detail }
 
       it 'factory builds claim without trial dates' do
         expect(claim.retrial_started_at).to be_nil
@@ -113,6 +113,18 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
         expect(claim).to be_valid
       end
     end
+  end
+
+  context 'case type validation' do
+     let(:claim) { build :transfer_claim, :with_transfer_detail }
+
+      it 'factory builds claim without case type' do
+        expect(claim.case_type).to be_nil
+      end
+
+      it 'should not require case type' do
+        expect(claim).to be_valid
+      end
   end
 
   context 'case_conclusion' do

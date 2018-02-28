@@ -12,7 +12,7 @@ describe API::Entities::CCLF::CaseType do
     it "delegates bill_scenario to adapter" do
       expect(adapter_klass).to receive(:new).with(claim).and_return(adapter)
       expect(adapter).to receive(:bill_scenario)
-      subject
+      response
     end
   end
 

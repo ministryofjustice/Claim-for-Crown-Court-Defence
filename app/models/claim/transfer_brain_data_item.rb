@@ -1,9 +1,5 @@
 module Claim
   class TransferBrainDataItem
-    # FIXME: does not look like these are used anywhere
-    # attr_reader :litigator_type, :elected_case, :transfer_stage_id, :case_conclusion_id,
-    # :allocation_type, :validity, :transfer_fee_full_name, :bill_scenario
-
     def initialize(data_item)
       @litigator_type         = data_item.litigator_type.downcase
       @elected_case           = data_item.elected_case.to_bool

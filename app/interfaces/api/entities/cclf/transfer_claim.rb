@@ -2,7 +2,6 @@ module API
   module Entities
     module CCLF
       class TransferClaim < BaseClaim
-        # TODO: WIP - all bills must be addeded
         def bills
           data = []
           data.push AdaptedTransferFee.represent(object.transfer_fee)

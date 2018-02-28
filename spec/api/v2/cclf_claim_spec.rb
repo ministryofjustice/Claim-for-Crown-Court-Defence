@@ -64,12 +64,11 @@ RSpec.shared_examples 'bill scenarios are based on case type' do
 end
 
 RSpec.shared_examples 'litigator fee bill' do
-  it 'returns array containing a litigator fee bill' do
+  it 'returns array containing 1 bill' do
     is_expected.to have_json_size(1).at_path("bills")
   end
 
   it 'returns a litigator fee bill' do
-    is_expected.to have_json_size(1).at_path("bills")
     is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
     is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
   end

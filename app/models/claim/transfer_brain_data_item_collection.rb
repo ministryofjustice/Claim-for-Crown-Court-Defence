@@ -22,9 +22,7 @@ module Claim
     include Singleton
 
     def initialize
-      lines = load_file
-      @collection = []
-      lines.each { |line| @collection << TransferBrainDataItem.new(line) }
+      load_data_items
       @collection_hash = construct_collection_hash
     end
 
@@ -39,23 +37,6 @@ module Claim
       @collection_hash.to_json
     end
 
-    def data_item_for(detail)
-      begin
-        result = @collection_hash.fetch(detail.litigator_type)
-                                 .fetch(detail.elected_case)
-                                 .fetch(detail.transfer_stage_id)[detail.case_conclusion_id]
-        if result.nil?
-          result = @collection_hash.fetch(detail.litigator_type)
-                                   .fetch(detail.elected_case)
-                                   .fetch(detail.transfer_stage_id)
-                                   .fetch('*')
-        end
-      rescue KeyError
-        result = nil
-      end
-      result
-    end
-
     def transfer_fee_full_name(detail)
       raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
       data_item_for(detail)[:transfer_fee_full_name]
@@ -64,6 +45,11 @@ module Claim
     def allocation_type(detail)
       raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
       data_item_for(detail)[:allocation_type]
+    end
+
+    def bill_scenario(detail)
+      raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
+      data_item_for(detail)[:bill_scenario]
     end
 
     def detail_valid?(detail)
@@ -90,21 +76,58 @@ module Claim
       result.sort
     end
 
+    def data_item_for(detail)
+      specific_mapping_for(detail) || wildcard_mapping_for(detail)
+    end
+
     private
 
-    def load_file
-      filename = File.join(Rails.root, 'config', 'transfer_brain_data_items.csv')
-      lines = CSV.read filename
-      lines.shift # remove header line
-      lines
+    def specific_mapping_for(detail)
+      @collection_hash.dig(
+        detail.litigator_type,
+        detail.elected_case,
+        detail.transfer_stage_id,
+        detail.case_conclusion_id
+      )
+    end
+
+    def wildcard_mapping_for(detail)
+      @collection_hash.dig(
+        detail.litigator_type,
+        detail.elected_case,
+        detail.transfer_stage_id,
+        '*'
+      )
+    end
+
+    def read_csv
+      file = File.join(Rails.root, 'config', 'transfer_brain_data_items.csv')
+      csv_content = File.read(file)
+      CSV.parse(csv_content, headers: true)
+    end
+
+    def parse_data_items(data_items)
+      data_items.each_with_object([]) do |data_item, arr|
+        arr << TransferBrainDataItem.new(data_item)
+      end
+    end
+
+    def load_data_items
+      csv = read_csv
+      attributes = csv.headers.map(&:to_sym)
+      klass = Struct.new('DataItem', *attributes)
+
+      data_items = csv.each_with_object([]) do |row, arr|
+        arr << klass.new(*row.to_hash.values)
+      end
+
+      @data_items = parse_data_items(data_items)
     end
 
     def construct_collection_hash
-      collection_hash = {}
-      @collection.each do |item|
+      @data_items.each_with_object({}) do |item, collection_hash|
         collection_hash.deep_merge!(item.to_h)
       end
-      collection_hash
     end
   end
 end

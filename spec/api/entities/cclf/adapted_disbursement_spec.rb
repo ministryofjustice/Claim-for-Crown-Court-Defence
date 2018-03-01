@@ -12,10 +12,6 @@ RSpec.describe API::Entities::CCLF::AdaptedDisbursement, type: :adapter do
     let(:bill) { disbursement }
   end
 
-  it 'exposes the required keys' do
-    expect(response.keys).to match_array(%i[bill_type bill_subtype net_amount vat_amount])
-  end
-
   it 'exposes expected json key-value pairs' do
     expect(response).to include(
       bill_type: 'DISBURSEMENT',

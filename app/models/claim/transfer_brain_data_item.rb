@@ -1,23 +1,14 @@
 module Claim
   class TransferBrainDataItem
-    attr_reader :litigator_type, :elected_case, :transfer_stage_id, :case_conclusion_id,
-                :allocation_type, :validity, :transfer_fee_full_name
-
-    def initialize(arry)
-      @litigator_type           = arry.shift.downcase
-      @elected_case             = arry.shift.to_bool
-      @transfer_stage_id        = TransferBrain.transfer_stage_id(arry.shift)
-      @case_conclusion_id       = get_case_conclusion_id(arry.shift)
-      @validity                 = arry.shift.to_bool
-      @transfer_fee_full_name   = arry.shift
-      @allocation_type          = arry.shift
-    end
-
-    def match_detail?(detail)
-      @litigator_type == detail.litigator_type &&
-        @elected_case == detail.elected_case &&
-        @transfer_stage_id == detail.transfer_stage_id &&
-        @case_conclusion_id == detail.case_conclusion_id
+    def initialize(data_item)
+      @litigator_type         = data_item.litigator_type.downcase
+      @elected_case           = data_item.elected_case.to_bool
+      @transfer_stage_id      = TransferBrain.transfer_stage_id(data_item.transfer_stage)
+      @case_conclusion_id     = get_case_conclusion_id(data_item.conclusion)
+      @validity               = data_item.valid.to_bool
+      @transfer_fee_full_name = data_item.transfer_fee_full_name
+      @allocation_type        = data_item.allocation_type
+      @bill_scenario          = data_item.bill_scenario
     end
 
     def to_h
@@ -28,7 +19,8 @@ module Claim
               @case_conclusion_id => {
                 validity: @validity,
                 transfer_fee_full_name: @transfer_fee_full_name,
-                allocation_type: @allocation_type
+                allocation_type: @allocation_type,
+                bill_scenario: @bill_scenario
               }
             }
           }

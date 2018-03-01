@@ -1,35 +1,34 @@
-litigator_type,elected_case,transfer_stage,conclusion,valid,allocation_case_type
-NEW,TRUE,Up to and including PCMH transfer,,TRUE,elected case - up to and including PCMH transfer (new),Fixed
-NEW,TRUE,Before trial transfer,,TRUE,elected case - before trial transfer (new),Fixed
+litigator_type,elected_case,transfer_stage,conclusion,valid,transfer_fee_full_name,allocation_type,bill_scenario
+NEW,TRUE,Up to and including PCMH transfer,,TRUE,elected case - up to and including PCMH transfer (new),Fixed,ST4TS0T3
+NEW,TRUE,Before trial transfer,,TRUE,elected case - before trial transfer (new),Fixed,ST4TS0T5
 NEW,TRUE,During trial transfer,,FALSE,,,
 NEW,TRUE,Transfer after trial and before sentence hearing,,FALSE,,,
-NEW,TRUE,Transfer before retrial,,TRUE,elected case - transfer before retrial (new),Fixed
+NEW,TRUE,Transfer before retrial,,TRUE,elected case - transfer before retrial (new),Fixed,ST4TS0T7
 NEW,TRUE,Transfer during retrial,,FALSE,,,
 NEW,TRUE,Transfer after retrial and before sentence hearing,,FALSE,,,
-NEW,FALSE,Up to and including PCMH transfer,Cracked,TRUE,up to and including PCMH transfer (new) - cracked,Grad
-NEW,FALSE,Up to and including PCMH transfer,Guilty plea,TRUE,up to and including PCMH transfer (new) - guilty plea,Grad
-NEW,FALSE,Up to and including PCMH transfer,Trial,TRUE,up to and including PCMH transfer (new) - trial ,Grad
-NEW,FALSE,Before trial transfer,Cracked,TRUE,before trial transfer (new) - cracked,Grad
-NEW,FALSE,Before trial transfer,Trial,TRUE,before trial transfer (new) - trial,Grad
-NEW,FALSE,During trial transfer,Retrial,TRUE,during trial transfer (new) - retrial,Grad
-NEW,FALSE,During trial transfer,Trial,TRUE,during trial transfer (new) - trial,Grad
-NEW,FALSE,Transfer after trial and before sentence hearing,,TRUE,transfer after trial and before sentence hearing (new),Grad
-NEW,FALSE,Transfer before retrial,Cracked before retrial,TRUE,transfer before retrial (new) - cracked retrial,Grad
-NEW,FALSE,Transfer before retrial,Retrial,TRUE,transfer before retrial (new) - retrial,Grad
-NEW,FALSE,Transfer during retrial,Retrial,TRUE,transfer during retrial (new) - retrial,Grad
-NEW,FALSE,Transfer after retrial and before sentence hearing,,TRUE,transfer after retrial and before sentence hearing (new),Grad
-ORIGINAL,TRUE,Up to and including PCMH transfer,,TRUE,elected case - up to and including PCMH transfer (org),Fixed
-ORIGINAL,TRUE,Before trial transfer,,TRUE,elected case - before trial transfer (org),Fixed
+NEW,FALSE,Up to and including PCMH transfer,Cracked,TRUE,up to and including PCMH transfer (new) - cracked,Grad,ST3TS1T3
+NEW,FALSE,Up to and including PCMH transfer,Guilty plea,TRUE,up to and including PCMH transfer (new) - guilty plea,Grad,ST3TS1T2
+NEW,FALSE,Up to and including PCMH transfer,Trial,TRUE,up to and including PCMH transfer (new) - trial,Grad,ST3TS1T4
+NEW,FALSE,Before trial transfer,Cracked,TRUE,before trial transfer (new) - cracked,Grad,ST3TS2T3
+NEW,FALSE,Before trial transfer,Trial,TRUE,before trial transfer (new) - trial,Grad,ST3TS2T4
+NEW,FALSE,During trial transfer,Retrial,TRUE,during trial transfer (new) - retrial,Grad,ST3TS3TA
+NEW,FALSE,During trial transfer,Trial,TRUE,during trial transfer (new) - trial,Grad,ST3TS3T4
+NEW,FALSE,Transfer after trial and before sentence hearing,,TRUE,transfer after trial and before sentence hearing (new),Grad,ST3TS7T4
+NEW,FALSE,Transfer before retrial,Cracked before retrial,TRUE,transfer before retrial (new) - cracked retrial,Grad,ST3TS4T9
+NEW,FALSE,Transfer before retrial,Retrial,TRUE,transfer before retrial (new) - retrial,Grad,ST3TS4TA
+NEW,FALSE,Transfer during retrial,Retrial,TRUE,transfer during retrial (new) - retrial,Grad,ST3TS5TA
+NEW,FALSE,Transfer after retrial and before sentence hearing,,TRUE,transfer after retrial and before sentence hearing (new),Grad,ST3TS6TA
+ORIGINAL,TRUE,Up to and including PCMH transfer,,TRUE,elected case - up to and including PCMH transfer (org),Fixed,ST4TS0T2
+ORIGINAL,TRUE,Before trial transfer,,TRUE,elected case - before trial transfer (org),Fixed,ST4TS0T4
 ORIGINAL,TRUE,During trial transfer,,FALSE,,,
 ORIGINAL,TRUE,Transfer after trial and before sentence hearing,,FALSE,,,
-ORIGINAL,TRUE,Transfer after trial and before sentence hearing,,FALSE,,,
-ORIGINAL,TRUE,Transfer before retrial,,TRUE,elected case - transfer before retrial (org),Fixed
-ORIGINAL,TRUE,Transfer during retrial,,FALSE,,
-ORIGINAL,TRUE,Transfer after retrial and before sentence hearing,,FALSE,,
-ORIGINAL,FALSE,Up to and including PCMH transfer,,TRUE,up to and including PCMH transfer (org),Grad
-ORIGINAL,FALSE,Before trial transfer,,TRUE,before trial transfer (org),Grad
-ORIGINAL,FALSE,During trial transfer,,TRUE,during trial transfer (org) - trial,Grad
-ORIGINAL,FALSE,Transfer after trial and before sentence hearing,,TRUE,transfer after trial and before sentence hearing (org),Grad
-ORIGINAL,FALSE,Transfer before retrial,,TRUE,transfer before retrial (org) - retrial,Grad
-ORIGINAL,FALSE,Transfer during retrial,,TRUE,transfer during retrial (org) - retrial,Grad
-ORIGINAL,FALSE,Transfer after retrial and before sentence hearing,,TRUE,transfer after retrial and before sentence hearing (org),Grad
+ORIGINAL,TRUE,Transfer before retrial,,TRUE,elected case - transfer before retrial (org),Fixed,ST4TS0T6
+ORIGINAL,TRUE,Transfer during retrial,,FALSE,,,
+ORIGINAL,TRUE,Transfer after retrial and before sentence hearing,,FALSE,,,
+ORIGINAL,FALSE,Up to and including PCMH transfer,,TRUE,up to and including PCMH transfer (org),Grad,ST2TS1T0
+ORIGINAL,FALSE,Before trial transfer,,TRUE,before trial transfer (org),Grad,ST2TS2T0
+ORIGINAL,FALSE,During trial transfer,,TRUE,during trial transfer (org) - trial,Grad,ST2TS3T0
+ORIGINAL,FALSE,Transfer after trial and before sentence hearing,,TRUE,transfer after trial and before sentence hearing (org),Grad,ST2TS7T4
+ORIGINAL,FALSE,Transfer before retrial,,TRUE,transfer before retrial (org) - retrial,Grad,ST2TS4T0
+ORIGINAL,FALSE,Transfer during retrial,,TRUE,transfer during retrial (org) - retrial,Grad,ST2TS5T0
+ORIGINAL,FALSE,Transfer after retrial and before sentence hearing,,TRUE,transfer after retrial and before sentence hearing (org),Grad,ST2TS6TA

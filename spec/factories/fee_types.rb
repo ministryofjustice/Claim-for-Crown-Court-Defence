@@ -249,7 +249,7 @@ FactoryBot.define do
     end
 
     factory :warrant_fee_type, class: Fee::WarrantFeeType do
-      description  'Warrant Fee'
+      description 'Warrant Fee'
       code 'XWAR'
       calculated false
       roles [ 'lgfs' ]

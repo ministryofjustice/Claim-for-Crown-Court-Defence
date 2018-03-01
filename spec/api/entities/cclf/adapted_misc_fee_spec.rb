@@ -12,10 +12,6 @@ RSpec.describe API::Entities::CCLF::AdaptedMiscFee, type: :adapter do
     let(:bill) { misc_fee }
   end
 
-  it 'exposes the required keys' do
-    expect(response.keys).to match_array(%i[bill_type bill_subtype amount])
-  end
-
   it 'exposes expected json key-value pairs' do
     expect(response).to include(
       bill_type: 'FEE_SUPPLEMENT',

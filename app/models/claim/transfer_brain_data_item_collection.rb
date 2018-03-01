@@ -37,23 +37,6 @@ module Claim
       @collection_hash.to_json
     end
 
-    def data_item_for(detail)
-      begin
-        result = @collection_hash.fetch(detail.litigator_type)
-                                 .fetch(detail.elected_case)
-                                 .fetch(detail.transfer_stage_id)[detail.case_conclusion_id]
-        if result.nil?
-          result = @collection_hash.fetch(detail.litigator_type)
-                                   .fetch(detail.elected_case)
-                                   .fetch(detail.transfer_stage_id)
-                                   .fetch('*')
-        end
-      rescue KeyError
-        result = nil
-      end
-      result
-    end
-
     def transfer_fee_full_name(detail)
       raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
       data_item_for(detail)[:transfer_fee_full_name]
@@ -93,7 +76,29 @@ module Claim
       result.sort
     end
 
+    def data_item_for(detail)
+      specific_mapping_for(detail) || wildcard_mapping_for(detail)
+    end
+
     private
+
+    def specific_mapping_for(detail)
+      @collection_hash.dig(
+        detail.litigator_type,
+        detail.elected_case,
+        detail.transfer_stage_id,
+        detail.case_conclusion_id
+      )
+    end
+
+    def wildcard_mapping_for(detail)
+      @collection_hash.dig(
+        detail.litigator_type,
+        detail.elected_case,
+        detail.transfer_stage_id,
+        '*'
+      )
+    end
 
     def read_csv
       file = File.join(Rails.root, 'config', 'transfer_brain_data_items.csv')
@@ -120,11 +125,9 @@ module Claim
     end
 
     def construct_collection_hash
-      collection_hash = {}
-      @data_items.each do |item|
+      @data_items.each_with_object({}) do |item, collection_hash|
         collection_hash.deep_merge!(item.to_h)
       end
-      collection_hash
     end
   end
 end

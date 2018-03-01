@@ -244,7 +244,6 @@ FactoryBot.define do
     factory :transfer_fee_type, class: Fee::TransferFeeType do
       calculated false
       code 'TRANS'
-      # unique_code 'TRANS' # TODO - add and fix broken specs
       description 'Transfer'
       roles [ 'lgfs' ]
     end

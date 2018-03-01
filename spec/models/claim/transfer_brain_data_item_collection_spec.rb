@@ -31,7 +31,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       end
 
       it 'adds one data item for each record in csv file' do
-        expect(data_items.size).to eq 34
+        expect(data_items.size).to eq 33
       end
 
       it 'each data_item is a TransferBrainDataItem' do
@@ -47,13 +47,12 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
         is_expected.to_not be_empty
       end
 
-      it 'assigns a deep nested hash with expected keys' do
+      it 'assigns deep nested hash with expected keys' do
         expect(collection_hash.dig("new", true, 10, "*").keys).to include(:validity, :transfer_fee_full_name, :allocation_type, :bill_scenario)
       end
 
-      it 'adds one nested hash for each data item', skip: "# missing deep nested hash?? - extra 'valid: false' value in csv?? not sure if this is an error" do
-        # using validity key to count the deeply nested hashes
-        expect(collection_hash.all_values_for(:validity).size).to eq 34
+      it 'adds one nested hash for each data item' do
+        expect(collection_hash.all_values_for(:validity).size).to eq 33
       end
     end
   end

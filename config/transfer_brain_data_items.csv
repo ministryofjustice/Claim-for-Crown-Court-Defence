@@ -22,7 +22,6 @@ ORIGINAL,TRUE,Up to and including PCMH transfer,,TRUE,elected case - up to and i
 ORIGINAL,TRUE,Before trial transfer,,TRUE,elected case - before trial transfer (org),Fixed,ST4TS0T4
 ORIGINAL,TRUE,During trial transfer,,FALSE,,,
 ORIGINAL,TRUE,Transfer after trial and before sentence hearing,,FALSE,,,
-ORIGINAL,TRUE,Transfer after trial and before sentence hearing,,FALSE,,,
 ORIGINAL,TRUE,Transfer before retrial,,TRUE,elected case - transfer before retrial (org),Fixed,ST4TS0T6
 ORIGINAL,TRUE,Transfer during retrial,,FALSE,,,
 ORIGINAL,TRUE,Transfer after retrial and before sentence hearing,,FALSE,,,

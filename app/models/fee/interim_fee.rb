@@ -35,4 +35,17 @@ class Fee::InterimFee < Fee::BaseFee
   def code
     fee_type.try(:code)
   end
+
+  def perform_validation?
+    (claim&.perform_validation? && validation_required?) || claim&.from_json_import?
+  end
+
+  def validation_required?
+    # TODO: all these validations processes should be much simpler
+    # than they are now.
+    # - The validations for the API should be isolated instead of having
+    # ternaries all around the code to deal with it :S
+    return true if claim&.from_api?
+    claim&.step_in_steps_range?(:fees)
+  end
 end

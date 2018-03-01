@@ -1,4 +1,11 @@
-class FeeScheme
+class FeeScheme < ActiveRecord::Base
+  validates :start_date, :number, :name, presence: true
+
+  scope :agfs, -> { where(name: 'AGFS') }
+  scope :lgfs, -> { where(name: 'LGFS') }
+  scope :current, lambda {
+    where('(:now BETWEEN start_date AND end_date) OR (start_date < :now AND end_date IS NULL)', now: Time.zone.now)
+  }
   def self.for_claim(claim)
     # TODO: Align this with Fee reform SPIKE
     return 'default' if claim.lgfs? || !FeatureFlag.active?(:agfs_fee_reform)

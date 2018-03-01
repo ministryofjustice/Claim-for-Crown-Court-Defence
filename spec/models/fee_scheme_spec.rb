@@ -4,6 +4,10 @@ RSpec.describe FeeScheme do
   describe '.for_claim' do
     subject(:fee_scheme) { described_class.for_claim(claim) }
 
+    it { should validate_presence_of(:start_date) }
+    it { should validate_presence_of(:number) }
+    it { should validate_presence_of(:name) }
+
     context 'for a LGFS claim' do
       let(:claim) { build(:litigator_claim) }
 

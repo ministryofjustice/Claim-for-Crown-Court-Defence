@@ -433,6 +433,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           end
 
           it_behaves_like 'CCLF disbursement'
+
           include_examples 'bill scenarios are based on case type'
         end
 
@@ -451,6 +452,28 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           end
 
           include_examples 'bill scenarios are based on case type'
+
+          context 'with expense' do
+            before do
+              create(:expense, :bike_travel, claim: claim, amount: 9.99, vat_amount: 1.99)
+            end
+
+            it { is_valid_cclf_json(response) }
+
+            it 'returns array containing fee bill' do
+              is_expected.to have_json_size(2).at_path("bills")
+            end
+
+            # TODO - replace with..
+            # it_behaves_like 'CCLF disbursement', bill_subtype: 'TRAVEL COSTS', bill_index: 1
+            # ... once transfer claims PR merged
+            it 'returns array containing a travel costs disbursement bill sub type' do
+              is_expected.to be_json_eql('DISBURSEMENT'.to_json).at_path("bills/1/bill_type")
+              is_expected.to be_json_eql('TRAVEL COSTS'.to_json).at_path("bills/1/bill_subtype")
+              is_expected.to have_json_path("bills/1/net_amount")
+              is_expected.to have_json_path("bills/1/vat_amount")
+            end
+          end
         end
       end
     end

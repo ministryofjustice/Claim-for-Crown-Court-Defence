@@ -1,0 +1,20 @@
+%p
+  For any queries about your claim, contact the following:
+
+%ul.contact-us-details
+  %li
+    Advocates’ graduated fee scheme
+  %li
+    Email: #{mail_to Settings.advocates_email, Settings.advocates_email}
+  %li.last-element
+    Phone:
+    %a{ href: "tel:#{Settings.phone_contact}" }
+      = format_phone_number(Settings.phone_contact)
+  %li
+    Litigators’ graduated fee scheme
+  %li
+    Email: #{mail_to Settings.litigators_email, Settings.litigators_email}
+  %li
+    Phone:
+    %a{ href: "tel:#{Settings.phone_contact}" }
+      = format_phone_number(Settings.phone_contact)

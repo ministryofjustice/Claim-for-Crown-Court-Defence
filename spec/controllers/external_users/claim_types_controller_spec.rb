@@ -2,8 +2,11 @@ require 'rails_helper'
 
 RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: true do
 
-  let(:agfs_lgfs_admin) { create(:external_user, :agfs_lgfs_admin) }
-  before { sign_in agfs_lgfs_admin.user }
+  let(:external_user) { create(:external_user, :agfs_lgfs_admin) }
+
+  before do
+    sign_in(external_user.user)
+  end
 
   describe 'GET #selection' do
     context 'when provider has no available claim types' do
@@ -11,7 +14,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       before do
         allow(Claims::ContextMapper).to receive(:new).and_return(context_mapper)
-        allow(context_mapper).to receive(:available_claim_types).and_return([])
+        allow(context_mapper).to receive(:available_compreensive_schemes).and_return([])
       end
 
       it 'redirects the user to the claims page with an error' do
@@ -27,66 +30,100 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       before do
         allow(Claims::ContextMapper).to receive(:new).and_return(context_mapper)
-        allow(context_mapper).to receive(:available_claim_types).and_return([claim_class])
+        allow(context_mapper).to receive(:available_compreensive_schemes).and_return(%w[invalid_bill_type])
       end
 
       it 'redirects the user to the claims page with an error' do
         get :selection
         expect(response).to redirect_to(external_users_claims_url)
-        expect(flash[:alert]).to eq 'Invalid claim types made available to current user'
+        expect(flash[:alert]).to eq 'Invalid bill type selected'
       end
     end
 
     context 'admin of AGFS and LGFS provider' do
-      before { get :selection }
+      let(:external_user) { create(:external_user, :agfs_lgfs_admin) }
 
-      it "should assign claim_types based on provider roles" do
-        expect(assigns(:claim_types)).to match_array [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
+      it "assigns bill types based on provider roles" do
+        get :selection
+        expect(assigns(:available_fee_schemes)).to match_array(%w(agfs lgfs_final lgfs_interim lgfs_transfer))
       end
 
-      it "should render claim type options page" do
+      it "renders claim type options page" do
+        get :selection
         expect(response).to render_template(:selection)
+      end
+
+      context 'when AGFS fee reform feature flag is active' do
+        before do
+          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(true)
+        end
+
+        it "assigns bill types based on provider roles" do
+          get :selection
+          expect(assigns(:available_fee_schemes)).to match_array(%w(agfs agfs_interim lgfs_final lgfs_interim lgfs_transfer))
+        end
+
+        it "renders the bill type options page" do
+          get :selection
+          expect(response).to render_template(:selection)
+        end
       end
     end
 
     context 'admin of AGFS provider' do
-      let!(:agfs_admin) { create(:external_user, :admin, provider: create(:provider, :agfs)) }
-      before { sign_in agfs_admin.user }
-      before { get :selection }
+      let(:external_user) { create(:external_user, :admin, provider: create(:provider, :agfs)) }
 
-      it "should assign claim_types based on provider roles" do
-        expect(assigns(:claim_types)).to eql [Claim::AdvocateClaim]
+      it "assigns bill types based on provider roles" do
+        get :selection
+        expect(assigns(:available_fee_schemes)).to match_array(%w(agfs))
       end
 
-      it "should redirect to the new advocate claim form page" do
+      it "redirects to the new advocate claim form page" do
+        get :selection
         expect(response).to redirect_to(new_advocates_claim_path)
+      end
+
+      context 'when AGFS fee reform feature flag is active' do
+        before do
+          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(true)
+        end
+
+        it "assigns bill types based on provider roles" do
+          get :selection
+          expect(assigns(:available_fee_schemes)).to match_array(%w(agfs agfs_interim))
+        end
+
+        it "renders the bill type options page" do
+          get :selection
+          expect(response).to render_template(:selection)
+        end
       end
     end
 
     context 'admin of LGFS provider' do
-      let!(:lgfs_admin) { create(:external_user, :admin, provider: create(:provider, :lgfs)) }
-      before { sign_in lgfs_admin.user }
-      before { get :selection }
+      let(:external_user) { create(:external_user, :admin, provider: create(:provider, :lgfs)) }
 
-      it "should assign claim_types based on provider roles" do
-        expect(assigns(:claim_types)).to match_array [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
+      it "assigns bill types based on provider roles" do
+        get :selection
+        expect(assigns(:available_fee_schemes)).to match_array(%w(lgfs_final lgfs_interim lgfs_transfer))
       end
 
-      it "should render claim type options page" do
+      it "renders bill type selection page" do
+        get :selection
         expect(response).to render_template(:selection)
       end
     end
 
     context 'litigator' do
-      let!(:litigator) { create(:external_user, :litigator) }
-      before { sign_in litigator.user }
-      before { get :selection }
+      let(:external_user) { create(:external_user, :litigator) }
 
-      it "should assign claim_types based on external_user roles" do
-        expect(assigns(:claim_types)).to match_array [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
+      it "assigns bill types based on external_user roles" do
+        get :selection
+        expect(assigns(:available_fee_schemes)).to match_array(%w(lgfs_final lgfs_interim lgfs_transfer))
       end
 
-      it 'should render claim type options' do
+      it 'renders the bill type selection page' do
+        get :selection
         expect(response).to render_template(:selection)
       end
     end
@@ -98,7 +135,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       it "redirects the user to the claims page with an error" do
         expect(response).to redirect_to(external_users_claims_url)
-        expect(flash[:alert]).to eq 'Invalid claim types made available to current user'
+        expect(flash[:alert]).to eq 'Invalid bill type selected'
       end
     end
 

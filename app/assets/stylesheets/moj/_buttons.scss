@@ -37,3 +37,9 @@ p.file-upload-name {
 a.delete-draft {
   color: $red;
 }
+
+a.link-secondary, a.fix {
+  position: relative;
+  padding: .526315em 0em .263157em;
+  border: none;
+}

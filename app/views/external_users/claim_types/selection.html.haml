@@ -1,37 +1,31 @@
-- title 'Fee scheme selection'
+= link_to 'Home', external_users_root_path, class: 'link-back'
 
-= render partial: 'layouts/header', locals: {page_heading: 'What would you like to do?'}
+= render partial: 'layouts/header', locals: { page_heading: bill_type_prompt_heading_for(current_user) }
 
-= form_tag(types_external_users_claims_path, method: "post") do
-  .form-group
-    %fieldset
-      %legend
-        %h2.heading-medium
-          = t('.choose_fee_scheme_prompt_text')
+.grid-row.grid-row-fix
+  .column-one-half
+    %h2.heading-large
+      = t('.bill_type_prompt_section_heading')
 
-      - if @claim_types.include?(Claim::AdvocateClaim)
-        .multiple-choice
-          = radio_button_tag :scheme_chosen, "agfs", true
-          = label_tag :scheme_chosen_agfs, nil do
-            = t('.agfs_rb')
+    = form_tag(types_external_users_claims_path, method: "post") do
+      .form-section
+        .form-group
+          %fieldset
+            %legend
+              %h2.heading-medium
+                = t('.choose_bill_type_prompt_text')
 
-      - if @claim_types.include?(Claim::LitigatorClaim)
-        .multiple-choice
-          = radio_button_tag :scheme_chosen, "lgfs_final", !@claim_types.include?(Claim::AdvocateClaim)
-          = label_tag :scheme_chosen_lgfs_final, nil do
-            = t('.lgfs_final_rb')
+            - @available_fee_schemes.each_with_index do |fee_scheme, index|
+              .multiple-choice
+                = radio_button_tag :scheme_chosen, fee_scheme, index.zero?
+                = label_tag "scheme_chosen_#{fee_scheme}", nil do
+                  = t(".#{fee_scheme}_rb")
+                  - fee_scheme_hint = t(".#{fee_scheme}_hint", default: '')
+                  - if fee_scheme_hint.present?
+                    %span.form-hint
+                      = fee_scheme_hint
 
-      - if @claim_types.include?(Claim::InterimClaim)
-        .multiple-choice
-          = radio_button_tag :scheme_chosen, "lgfs_interim", false
-          = label_tag :scheme_chosen_lgfs_interim, nil do
-            = t('.lgfs_interim_rb')
-
-      - if @claim_types.include?(Claim::TransferClaim)
-        .multiple-choice
-          = radio_button_tag :scheme_chosen, "lgfs_transfer", false
-          = label_tag :scheme_chosen_lgfs_transfer, nil do
-            = t('.lgfs_transfer_rb')
-
-  .form-group
-    = submit_tag "Continue", class: "button"
+      .form-section
+        .form-group.form-buttons
+          = submit_tag "Continue", class: "button"
+          = link_to 'Cancel', external_users_root_path, class: 'link-secondary'

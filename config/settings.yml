@@ -76,6 +76,10 @@ scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
 # on their claim
 email_notification_enabled?: true
 
+feature_flags_enabled?: <%= !%w(test gamma).include?(ENV['ENV']) %>
+active_features:
+  - :agfs_fee_reform
+
 # number of weeks in one state before automatic transition to archived pending delete
 timed_transition_stale_weeks: 16
 
@@ -93,6 +97,9 @@ remote_api_url: <%= (ENV['GRAPE_SWAGGER_ROOT_URL'] || 'http://localhost:3001') +
 
 # contact email address
 laa_contact_email: crowncourtdefence@legalaid.gsi.gov.uk
+advocates_email: advocates-fee@legalaid.gsi.gov.uk
+litigators_email: litigators-fee@legalaid.gsi.gov.uk
+phone_contact: '01158526000'
 
 aws:
   access: <%= ENV['AWS_ACCESS_KEY'] %>

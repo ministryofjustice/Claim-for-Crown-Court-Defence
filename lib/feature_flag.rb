@@ -1,23 +1,15 @@
 class FeatureFlag
   class << self
     def active?(feature)
-      enabled? && list.include?(feature.to_sym)
+      enabled? && active_features.include?(feature.to_sym)
     end
 
     def enabled?
-      ENV['FEATURE_FLAGS_ENABLED'].to_s.casecmp('true').zero?
+      Settings.feature_flags_enabled?
     end
 
-    def config
-      @config ||= OpenStruct.new
-    end
-
-    def configure(&_block)
-      config.tap { yield(config) }
-    end
-
-    def list
-      config.features || []
+    def active_features
+      Settings.active_features || []
     end
   end
 end

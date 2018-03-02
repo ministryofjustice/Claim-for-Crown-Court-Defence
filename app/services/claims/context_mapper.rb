@@ -22,9 +22,25 @@ module Claims
       end
     end
 
+    def available_compreensive_schemes
+      available_claim_types.map { |claim_type| compreensive_scheme_for(claim_type) }.compact
+    end
+
     def available_claims
       claims = @external_user.admin? ? @provider.claims : @external_user.claims
       claims.send(@scheme_filter)
+    end
+
+    private
+
+    def compreensive_scheme_for(claim_type)
+      {
+        'Claim::AdvocateClaim'        => 'agfs',
+        'Claim::AdvocateInterimClaim' => 'agfs_interim',
+        'Claim::LitigatorClaim'       => 'lgfs_final',
+        'Claim::InterimClaim'         => 'lgfs_interim',
+        'Claim::TransferClaim'        => 'lgfs_transfer'
+      }[claim_type.to_s]
     end
   end
 end

@@ -16,9 +16,11 @@
   @include clearfix;
 }
 .grid-row {
-  @include container;
-  margin-top:$gutter-half;
-  margin-bottom:$gutter-half;
+  &:not(.grid-row-fix) {
+    @include container;
+    margin-top:$gutter-half;
+    margin-bottom:$gutter-half;
+  }
 }
 .column-half{
   @include span(6 of 12);
@@ -102,7 +104,6 @@ td {
     }
   }
 }
-
 
 .unique-id-small{
   display: block;

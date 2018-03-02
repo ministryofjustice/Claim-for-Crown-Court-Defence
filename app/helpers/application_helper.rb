@@ -133,4 +133,15 @@ module ApplicationHelper
   def show_contact_us_link?
     current_user_persona_is?(ExternalUser) && !defined?(@suppress_contact_us_message)
   end
+
+  def format_phone_number(number)
+    # NOTE: right now this is the simpliest formatting possible
+    # Not meant to support any fancy functionality until required
+    number = number.to_s
+    [number[0..3], number[4..6], number[7..10]].join(' ')
+  end
+
+  def display_primary_navigation?
+    @primary_navigation_disabled != true
+  end
 end

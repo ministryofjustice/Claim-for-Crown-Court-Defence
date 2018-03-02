@@ -4,7 +4,8 @@ class Fee::MiscFeeTypePresenter < BasePresenter
 
   def data_attributes
     {
-      case_numbers: case_numbers_field?
+      case_numbers: case_numbers_field?,
+      epf: epf?
     }
   end
 
@@ -12,5 +13,9 @@ class Fee::MiscFeeTypePresenter < BasePresenter
 
   def case_numbers_field?
     case_uplift?
+  end
+
+  def epf?
+    unique_code == 'MIEVI'
   end
 end

@@ -63,7 +63,7 @@ RSpec.describe Feedback, type: :model do
 
     describe '#subject' do
       it 'returns the subject heading' do
-        expect(subject.subject).to eq('Feedback ()')
+        expect(subject.subject).to eq('Feedback (test)')
       end
     end
 
@@ -160,7 +160,7 @@ RSpec.describe Feedback, type: :model do
 
     describe '#subject' do
       it 'returns the subject heading' do
-        expect(subject.subject).to eq('Bug report ()')
+        expect(subject.subject).to eq('Bug report (test)')
       end
     end
 

@@ -214,13 +214,8 @@ module Claim
       @form_step = step.nil? ? nil : step.to_sym
     end
 
-    def steps_range
-      from_api? ? (0..9) : (0..current_step_index)
-    end
-
     def step_in_steps_range?(step)
-      step_index = submission_stages.index(step)
-      steps_range.include?(step_index)
+      submission_current_flow.map(&:to_sym).include?(step)
     end
 
     def step_back?

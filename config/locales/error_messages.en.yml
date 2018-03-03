@@ -946,7 +946,7 @@ misc_fee:
       api: Enter a valid amount for the miscellaneous fee
     incorrect_epf:
       long: 'Evidence provision fee can only be £45 or £90'
-      short: 'Enter £45 or £90'
+      short: 'Choose £45 or £90'
       api: 'Evidence provision fee can only be £45 or £90'
 
 #################################################################################

@@ -23,12 +23,7 @@ moj.Modules.FeeFieldsDisplay = {
     var self = this;
     var currentElement = $(el);
     var caseNumbersInput = currentElement.find('input.fx-fee-case-numbers');
-    var epfAmountDiv = currentElement.find('.fx-fee-amount-radios-div');
-    var epfAmountRadio = currentElement.find('.fx-fee-amount-radio');
-    var feeAmountDiv = currentElement.find('.fx-fee-amount-div');
-    var feeAmountNumber = currentElement.find('.fx-fee-amount');
-
-    // debugger;
+    var epfAmountRadios = currentElement.find('.fx-fee-amount-radio-section');
 
     // enable/disable case numbers field
     if (caseNumbersInput.exists()) {
@@ -45,20 +40,29 @@ moj.Modules.FeeFieldsDisplay = {
     }
 
     // show/hide Evidence provision fee amount-limiting radios
-    if (epfAmountDiv.exists()) {
-      var showmEpfRadios = currentElement.find('option:selected').data('epf');
+    if (epfAmountRadios.exists()) {
+      self.toggleEpfRadios(el);
+    }
+  },
 
-      if (showmEpfRadios) {
-        epfAmountDiv.show();
-        epfAmountRadio.prop('disabled', false);
-        feeAmountNumber.prop('disabled', true);
-        feeAmountDiv.hide();
-      } else {
-        epfAmountRadio.prop('disabled', true);
-        epfAmountDiv.hide();
-        feeAmountDiv.show();
-        feeAmountNumber.prop('disabled', false);
-      }
+  toggleEpfRadios: function(el) {
+    var currentElement = $(el);
+    var evidenceProvisionFee = currentElement.find('option:selected').data('epf');
+    var epfAmountRadios = currentElement.find('.fx-fee-amount-radio-section');
+    var epfAmountRadio = currentElement.find('.fx-fee-amount-radio');
+    var feeAmount = currentElement.find('.fx-fee-amount-section');
+    var feeAmountInput = currentElement.find('.fx-fee-amount');
+
+    if (evidenceProvisionFee) {
+      epfAmountRadios.show();
+      epfAmountRadio.prop('disabled', false);
+      feeAmountInput.prop('disabled', true);
+      feeAmount.hide();
+    } else {
+      epfAmountRadio.prop('disabled', true);
+      epfAmountRadios.hide();
+      feeAmount.show();
+      feeAmountInput.prop('disabled', false);
     }
   },
 

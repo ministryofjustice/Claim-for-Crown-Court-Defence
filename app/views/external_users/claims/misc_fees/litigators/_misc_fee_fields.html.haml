@@ -14,7 +14,7 @@
         = f.select :fee_type_id, misc_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, { include_blank: ''.html_safe }, {class: 'form-control typeahead js-misc-fee-type js-fee-type', style: 'width:100%'}
         = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 
-      .column-one-third.fee-rate.margin-spacer-sm.fx-fee-amount-div
+      .column-one-third.fee-rate.margin-spacer-sm.fx-fee-amount-section
         = f.adp_text_field :amount,
                             label: t('.amount'),
                             input_classes:'total fx-fee-amount',
@@ -22,7 +22,7 @@
                             value: number_with_precision(f.object.amount, precision: 2),
                             errors: @error_presenter
 
-    .column-one-quater.margin-spacer-sm.fx-fee-amount-radios-div
+    .column-one-quater.margin-spacer-sm.fx-fee-amount-radio-section
       %fieldset{class: "inline"}
         %legend
           = "Total"

@@ -19,10 +19,9 @@
 class Fee::MiscFeeType < Fee::BaseFeeType
   EpfAmount = Struct.new(:description, :amount)
 
-  EPF_AMOUNTS =
-  {
+  EPF_AMOUNTS = {
     1 => EpfAmount.new('£45', 45.00),
-    2 => EpfAmount.new('£90', 90.00),
+    2 => EpfAmount.new('£90', 90.00)
   }.freeze
 
   default_scope { order(description: :asc) }

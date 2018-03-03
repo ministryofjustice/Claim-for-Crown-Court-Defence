@@ -93,7 +93,6 @@ module Fee
       Fee::TransferFeeType.all
     end
 
-
     def self.find_by_id_or_unique_code(id_or_code)
       if id_or_code.to_s.digit?
         find_by(id: id_or_code)

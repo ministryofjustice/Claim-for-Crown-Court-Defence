@@ -36,9 +36,8 @@
 
   %main#content
     = render partial: 'shared/phase_banner'
-    - if user_signed_in?
+    - if user_signed_in? && display_primary_navigation?
       = render partial: 'layouts/primary_navigation'
-
 
     = render partial: 'layouts/flashes' unless flash.empty?
     = yield

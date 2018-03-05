@@ -440,6 +440,9 @@ en:
           form_error_hint: 'Check below for more detail'
     all_claims: All claims
     your_claims: Your claims
+    claim_heading: Claim for Crown Court fees
+    agfs_claim_heading: Claim for advocate fees
+    lgfs_claim_heading: Claim for litigator fees
     start_agfs_claim_heading: Claim for advocate fees
     start_lgfs_final_claim_heading: Claim for litigator fees
     start_lgfs_interim_claim_heading: Claim for litigator interim fees
@@ -452,9 +455,19 @@ en:
         certification_date: 'Date'
         date: 'Date'
     claim_types:
+      chosen:
+        errors:
+          claim_type_choice_incomplete: 'AGFS/LGFS claim type choice incomplete'
+          invalid_claim_types: 'Invalid bill type selected'
       selection:
-        choose_fee_scheme_prompt_text: Choose your fee scheme
         agfs_rb: Advocate fees
+        agfs_interim_hint: For claims with the earliest representation order dated on or after 1 April 2018
+        agfs_interim_rb: Advocate interim fee
+        claim_type_prompt_section_heading: 'What would you like to do?'
+        choose_claim_type_prompt_text: Choose your bill type
+        errors:
+          claim_type_choice_incomplete: 'AGFS/LGFS claim type choice incomplete'
+          invalid_claim_types: 'Invalid bill type selected'
         lgfs_final_rb: Litigator final fee
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee
@@ -873,6 +886,7 @@ en:
       summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       claimed_by: 'Claimed by %{type}'
       laa_heading: 'Total authorised by LAA'
+    help_summary_heading: Help with completing this form
     no_claims_found: 'No claims found'
     certification:
       certification_box_title: Certification

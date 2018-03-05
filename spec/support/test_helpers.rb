@@ -37,4 +37,12 @@ module TestHelpers
     return true if record.errors[attribute].empty?
     return false
   end
+
+  def with_env(env)
+    @original_env = ENV['ENV']
+    ENV['ENV'] = env
+    yield
+  ensure
+    ENV['ENV'] = @original_env
+  end
 end

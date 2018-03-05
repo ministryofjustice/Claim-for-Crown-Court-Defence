@@ -39,5 +39,6 @@ Metrics/BlockLength:
 Metrics/ModuleLength:
   Exclude:
     - 'app/models/claims/state_machine.rb'
+    - 'app/helpers/application_helper.rb'
 
 inherit_from: .rubocop_todo.yml

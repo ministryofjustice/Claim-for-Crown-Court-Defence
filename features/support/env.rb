@@ -4,6 +4,8 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
+ENV["ENV"] ||= 'test'
+
 require 'capybara'
 require 'capybara/cucumber'
 require 'capybara/poltergeist'

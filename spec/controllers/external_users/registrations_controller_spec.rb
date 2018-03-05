@@ -38,8 +38,9 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
     end
 
     context 'when env api-sandbox' do
-      before { ENV['ENV'] = 'api-sandbox' }
-      after  { ENV['ENV'] = '' }
+      around do |example|
+        with_env('api-sandbox') { example.run }
+      end
 
       context 'when valid' do
         context 'and terms and conditions are accepted' do

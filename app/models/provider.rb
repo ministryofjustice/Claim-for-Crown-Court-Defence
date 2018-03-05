@@ -84,10 +84,9 @@ class Provider < ActiveRecord::Base
   end
 
   def available_claim_types
-    claim_types = []
-    claim_types << Claim::AdvocateClaim if agfs?
-    claim_types.concat [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim] if lgfs?
-    claim_types
+    roles.inject([]) do |claim_types, role|
+      claim_types | claim_types_for(role)
+    end
   end
 
   def perform_validation?
@@ -110,5 +109,20 @@ class Provider < ActiveRecord::Base
 
   def set_api_key
     self.api_key ||= SecureRandom.uuid
+  end
+
+  def agfs_claim_types
+    [Claim::AdvocateClaim].tap { |array| array << Claim::AdvocateInterimClaim if FeatureFlag.active?(:agfs_fee_reform) }
+  end
+
+  def lgfs_claim_types
+    [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
+  end
+
+  def claim_types_for(role)
+    {
+      'agfs' => agfs_claim_types,
+      'lgfs' => lgfs_claim_types
+    }[role.to_s] || []
   end
 end

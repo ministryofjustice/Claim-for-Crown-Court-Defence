@@ -8,8 +8,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And I click 'Start a claim'
     Then I should be on the new claim page
 
-    When I select an advocate category of 'Junior alone'
-    And I select an advocate
+    When I select an advocate
     And I select the court 'Blackfriars'
     And I select a case type of 'Retrial'
     Then I should see retrial fields
@@ -25,6 +24,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And I select the offence category 'Activities relating to opium'
 
     Then I click "Continue" in the claim form
+    And I select an advocate category of 'Junior alone'
     And I add a basic fee with dates attended
     And I add a number of cases uplift fee with additional case numbers
     And I add a miscellaneous fee 'Adjourned appeals' with dates attended

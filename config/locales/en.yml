@@ -37,10 +37,10 @@ en:
       more_pages:
         display_entries: "<b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b>"
   buttons:
-    continue: Continue
+    continue: Save and continue
     submit_to_laa: Submit to LAA
     save_to_drafts: Save to drafts
-    save_a_draft: Save a draft
+    save_a_draft: Save as draft
     clear_form: 'Clear form'
     add_evidence: 'Upload evidence'
     edit_draft: 'Edit this claim'
@@ -526,24 +526,31 @@ en:
           trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
           trial_fixed_at: '1st fixed/warned trial'
         fields:
-          advocate: *advocate
+          advocate: Instructed advocate
           advocate_hint: 'The instructed advocate for the case'
           advocate_category: 'Advocate category'
           case_details: 'Case details'
           case_offence: 'Case & offence'
           case_number: 'Case number'
-          transfer_case_number: 'Transfer case number (optional)'
+          case_number_hint: For example T20170101
           case_type: 'Case type'
+          case_type_hint: For example Trial
           court: 'Court'
+          court_hint: For example Cardiff
           cracked_trial_detail: 'Cracked trial detail'
           litigator: *litigator
           offence_class: 'Offence class'
           offence_category: 'Offence category'
           select_category: 'Please select'
-          transfer_court: 'Transfer court (optional)'
+          case_transferred_from_another_court: 'Was this case transferred from another court?'
         offence_select:
           offence_class: 'Offence class'
           select_offence_class: 'Please select'
+        transfer_court_fields:
+          transfer_case_number: Case number
+          transfer_case_number_hint: For example T20170101
+          transfer_court: Court
+          transfer_court_hint: For example Cardiff
         trial_detail_fields:
           actual_trial_length: 'Actual trial length'
           actual_trial_length_hint: 'Number of days'

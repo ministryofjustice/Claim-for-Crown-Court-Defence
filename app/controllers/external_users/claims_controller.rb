@@ -259,6 +259,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :external_user_id,
       :supplier_number,
       :court_id,
+      :case_transferred_from_another_court,
       :transfer_court_id,
       :transfer_case_number,
       :case_number,

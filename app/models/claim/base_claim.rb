@@ -188,6 +188,7 @@ module Claim
     before_validation do
       errors.clear
       destroy_all_invalid_fee_types
+      reset_transfer_details unless case_transferred_from_another_court
       documents.each { |d| d.external_user_id = external_user_id }
     end
 
@@ -249,6 +250,23 @@ module Claim
 
     def requires_case_concluded_date?
       false
+    end
+
+    def case_transferred_from_another_court=(value)
+      attribute_will_change!('case_transferred_from_another_court') if @case_transferred_from_another_court != value
+      @case_transferred_from_another_court = value.to_s.casecmp('true').zero?
+    end
+
+    def case_transferred_from_another_court
+      return @case_transferred_from_another_court if case_transferred_from_another_court_changed?
+      unless @case_transferred_from_another_court.nil? || transfer_details_changed?
+        return @case_transferred_from_another_court
+      end
+      @case_transferred_from_another_court ||= default_case_transferred_from_another_court
+    end
+
+    def case_transferred_from_another_court_changed?
+      changed.include?('case_transferred_from_another_court')
     end
 
     def self.agfs?
@@ -569,6 +587,11 @@ module Claim
 
     def destroy_all_invalid_fee_types; end
 
+    def reset_transfer_details
+      self.transfer_court = nil
+      self.transfer_case_number = nil
+    end
+
     def find_and_associate_documents
       return if form_id.nil?
 
@@ -589,6 +612,14 @@ module Claim
     def default_values
       self.source ||= 'web'
       self.form_step ||= submission_stages.first
+    end
+
+    def default_case_transferred_from_another_court
+      transfer_court.present? || !transfer_case_number.blank?
+    end
+
+    def transfer_details_changed?
+      transfer_court_id_changed? || transfer_case_number_changed?
     end
   end
 end

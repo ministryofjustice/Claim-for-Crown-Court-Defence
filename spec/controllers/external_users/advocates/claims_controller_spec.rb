@@ -286,7 +286,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
               post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA'
               expect(response.status).to eq 200
               expect(response).to render_template(:new)
-              expect(response.body).to have_content("Choose an advocate category")
+              expect(response.body).to have_content('Case details')
               claim = assigns(:claim)
               expect(claim.basic_fees.size).to eq 4
               expect(claim.fixed_fees.size).to eq 1

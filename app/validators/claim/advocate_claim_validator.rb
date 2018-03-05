@@ -5,9 +5,9 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
         case_type
         court
         case_number
+        case_transferred_from_another_court
         transfer_court
         transfer_case_number
-        advocate_category
         estimated_trial_length
         actual_trial_length
         retrial_estimated_length
@@ -26,6 +26,7 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
       defendants: [],
       offence_details: %i[offence],
       fees: %i[
+        advocate_category
         total
         defendant_uplifts
       ]

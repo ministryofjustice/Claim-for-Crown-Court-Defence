@@ -8,7 +8,6 @@ Feature: Advocate submits a claim for a Contempt case
     And I click 'Start a claim'
     Then I should be on the new claim page
 
-    When I select an advocate category of 'Junior alone'
     And I select the court 'Blackfriars'
     And I select a case type of 'Contempt'
     And I enter a case number of 'A20161234'
@@ -20,6 +19,7 @@ Feature: Advocate submits a claim for a Contempt case
 
     Then I click "Continue" in the claim form
 
+    And I select an advocate category of 'Junior alone'
     And I add a miscellaneous fee 'Adjourned appeals' with dates attended
     And I add a fixed fee 'Contempt'
     And I add a fixed fee 'Number of cases uplift' with case numbers

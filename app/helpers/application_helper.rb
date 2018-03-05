@@ -144,4 +144,8 @@ module ApplicationHelper
   def display_primary_navigation?
     @primary_navigation_disabled != true
   end
+
+  def yes_no_options
+    [%w[Yes true], %w[No false]]
+  end
 end

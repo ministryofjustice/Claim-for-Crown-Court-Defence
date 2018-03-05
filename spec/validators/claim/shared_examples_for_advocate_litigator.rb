@@ -45,6 +45,33 @@ RSpec.shared_examples "common advocate litigator validations" do |external_user_
       claim.transfer_court = claim.court
       should_error_with(claim, :transfer_court, 'same')
     end
+
+    context 'when case was transferred from another court' do
+      before do
+        claim.case_transferred_from_another_court = true
+      end
+
+      context 'and transfer court is not set' do
+        before do
+          claim.transfer_court = nil
+        end
+
+        it 'should error' do
+          should_error_with(claim, :transfer_court, 'blank')
+        end
+      end
+
+      context 'and transfer court is set' do
+        let(:court) { build(:court) }
+
+        before do
+          claim.transfer_court = court
+        end
+
+        specify { expect(claim).to be_valid }
+      end
+
+    end
   end
 
   context 'transfer_case_number' do
@@ -58,6 +85,40 @@ RSpec.shared_examples "common advocate litigator validations" do |external_user_
     it 'should error if wrong format' do
       claim.transfer_case_number = 'ABC'
       should_error_with(claim, :transfer_case_number, 'invalid')
+    end
+
+    context 'when case was transferred from another court' do
+      before do
+        claim.case_transferred_from_another_court = true
+      end
+
+      context 'and transfer court is not set' do
+        before do
+          claim.transfer_court = nil
+        end
+
+        context 'and transfer case number is blank' do
+          before do
+            claim.transfer_case_number = ''
+          end
+
+          it 'does not contain errors on transfer case number' do
+            expect(claim.transfer_case_number).to be_blank
+            expect(claim).not_to be_valid
+            expect(claim.errors[:transfer_case_number]).to be_empty
+          end
+        end
+
+        context 'and transfer case number has an invalid format' do
+          before do
+            claim.transfer_case_number = 'ABC'
+          end
+
+          it 'contains an invalid error on transfer case number' do
+            should_error_with(claim, :transfer_case_number, 'invalid')
+          end
+        end
+      end
     end
   end
 end

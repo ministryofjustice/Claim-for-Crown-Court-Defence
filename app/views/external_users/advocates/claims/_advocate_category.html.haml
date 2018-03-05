@@ -1,0 +1,11 @@
+%fieldset
+	%span
+		= f.anchored_without_label t('shared.claim.advocate_category')
+		= t('shared.claim.advocate_category')
+	.form-group{class: error_class?(@error_presenter, :advocate_category)}
+		= f.collection_radio_buttons(:advocate_category, Settings.advocate_categories.sort, :to_s, :to_s) do |b|
+			.multiple-choice
+				= b.radio_button
+				= b.label { b.value.to_s }
+
+		= validation_error_message(@error_presenter, :advocate_category)

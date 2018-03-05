@@ -163,7 +163,7 @@ class Allocation
                     allocating_user_id: @current_user&.id,
                     allocating_to_user_id: @case_worker_id,
                     claim_id: claim.id,
-                    case_workers: claim.case_workers.pluck(:id)) do
+                    case_workers: claim&.case_workers&.pluck(:id)) do
         "Allocating #{claim.id} failed"
       end
 
@@ -174,7 +174,7 @@ class Allocation
                     allocating_user_id: @current_user&.id,
                     allocating_to_user_id: @case_worker_id,
                     claim_id: claim.id,
-                    case_workers: claim.case_workers.pluck(:id)) do
+                    case_workers: claim&.case_workers&.pluck(:id)) do
         "Allocated #{claim.id}"
       end
       successful_claims << claim

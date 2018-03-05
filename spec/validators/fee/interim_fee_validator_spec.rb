@@ -72,10 +72,10 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
       it 'numericality, must be between 0 and 999999' do
         # note: before validation hook sets nil to zero
         fee.quantity = nil
-        expect(fee).to be_valid
+        expect(fee).to be_invalid
 
         fee.quantity = 0
-        expect(fee).to be_valid
+        expect(fee).to be_invalid
 
         fee.quantity = 1
         expect(fee).to be_valid

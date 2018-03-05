@@ -26,11 +26,9 @@ module DataMigrator
     def migrate!
       puts '-- updating injection_attempts.error_messages from injection_attempts.error_message'
       injection_errors.each do |injection_error|
-        begin
-          injection_error.update(error_messages: injection_error.error_message.to_error_messages)
-        rescue Psych::SyntaxError
-          puts "Could not convert error_message:string for #{injection_error.id}"
-        end
+        injection_error.update(error_messages: injection_error.error_message.to_error_messages)
+      rescue Psych::SyntaxError
+        puts "Could not convert error_message:string for #{injection_error.id}"
       end
     end
 

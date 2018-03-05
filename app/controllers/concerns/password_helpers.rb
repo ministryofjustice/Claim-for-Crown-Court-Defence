@@ -11,7 +11,7 @@ module PasswordHelpers
     user = user_for_controller_action
 
     if user.update_with_password(password_params[:user_attributes])
-      sign_in(user, bypass: true)
+      bypass_sign_in(user)
       redirect_to signed_in_user_profile_path, notice: 'Password successfully updated'
     else
       render :change_password

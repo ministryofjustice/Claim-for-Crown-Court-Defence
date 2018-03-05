@@ -438,11 +438,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds claim involving other specified defendant' do
-        expect(Claim::AdvocateClaim.search('Hart',states, search_options)).to eq([other_claim])
+        expect(Claim::AdvocateClaim.search('Hart', states, search_options)).to eq([other_claim])
       end
 
       it 'does not find claims involving non-existent defendant"' do
-        expect(Claim::AdvocateClaim.search('Foo Bar',states, search_options)).to be_empty
+        expect(Claim::AdvocateClaim.search('Foo Bar', states, search_options)).to be_empty
       end
     end
 

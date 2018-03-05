@@ -6,7 +6,7 @@ describe 'case_workers/claims/show.html.haml', type: :view do
   before do
     @case_worker = create(:case_worker)
     initialize_view_helpers(view)
-    sign_in :user, @case_worker.user
+    sign_in(@case_worker.user, scope: :user)
     allow(view).to receive(:current_user_persona_is?).and_return(false)
   end
 

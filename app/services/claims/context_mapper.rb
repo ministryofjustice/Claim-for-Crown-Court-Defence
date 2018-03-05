@@ -22,8 +22,8 @@ module Claims
       end
     end
 
-    def available_compreensive_schemes
-      available_claim_types.map { |claim_type| compreensive_scheme_for(claim_type) }.compact
+    def available_compreensive_claim_types
+      available_claim_types.map { |claim_type| compreensive_claim_type_for(claim_type) }.compact
     end
 
     def available_claims
@@ -33,7 +33,7 @@ module Claims
 
     private
 
-    def compreensive_scheme_for(claim_type)
+    def compreensive_claim_type_for(claim_type)
       {
         'Claim::AdvocateClaim'        => 'agfs',
         'Claim::AdvocateInterimClaim' => 'agfs_interim',

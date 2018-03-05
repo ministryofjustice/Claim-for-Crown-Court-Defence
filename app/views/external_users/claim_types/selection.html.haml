@@ -1,11 +1,11 @@
 = link_to 'Home', external_users_root_path, class: 'link-back'
 
-= render partial: 'layouts/header', locals: { page_heading: bill_type_prompt_heading_for(current_user) }
+= render partial: 'layouts/header', locals: { page_heading: claim_type_prompt_heading_for(current_user) }
 
 .grid-row.grid-row-fix
   .column-one-half
     %h2.heading-large
-      = t('.bill_type_prompt_section_heading')
+      = t('.claim_type_prompt_section_heading')
 
     = form_tag(types_external_users_claims_path, method: "post") do
       .form-section
@@ -13,17 +13,17 @@
           %fieldset
             %legend
               %h2.heading-medium
-                = t('.choose_bill_type_prompt_text')
+                = t('.choose_claim_type_prompt_text')
 
-            - @available_fee_schemes.each_with_index do |fee_scheme, index|
+            - @available_claim_types.each_with_index do |claim_type, index|
               .multiple-choice
-                = radio_button_tag :scheme_chosen, fee_scheme, index.zero?
-                = label_tag "scheme_chosen_#{fee_scheme}", nil do
-                  = t(".#{fee_scheme}_rb")
-                  - fee_scheme_hint = t(".#{fee_scheme}_hint", default: '')
-                  - if fee_scheme_hint.present?
+                = radio_button_tag :claim_type, claim_type, index.zero?
+                = label_tag "claim_type_#{claim_type}", nil do
+                  = t(".#{claim_type}_rb")
+                  - claim_type_hint = t(".#{claim_type}_hint", default: '')
+                  - if claim_type_hint.present?
                     %span.form-hint
-                      = fee_scheme_hint
+                      = claim_type_hint
 
       .form-section
         .form-group.form-buttons

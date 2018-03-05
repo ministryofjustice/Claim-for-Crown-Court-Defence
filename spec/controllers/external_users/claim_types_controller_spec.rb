@@ -14,7 +14,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       before do
         allow(Claims::ContextMapper).to receive(:new).and_return(context_mapper)
-        allow(context_mapper).to receive(:available_compreensive_schemes).and_return([])
+        allow(context_mapper).to receive(:available_compreensive_claim_types).and_return([])
       end
 
       it 'redirects the user to the claims page with an error' do
@@ -30,7 +30,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       before do
         allow(Claims::ContextMapper).to receive(:new).and_return(context_mapper)
-        allow(context_mapper).to receive(:available_compreensive_schemes).and_return(%w[invalid_bill_type])
+        allow(context_mapper).to receive(:available_compreensive_claim_types).and_return(%w[invalid_bill_type])
       end
 
       it 'redirects the user to the claims page with an error' do
@@ -45,7 +45,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       it "assigns bill types based on provider roles" do
         get :selection
-        expect(assigns(:available_fee_schemes)).to match_array(%w(agfs lgfs_final lgfs_interim lgfs_transfer))
+        expect(assigns(:available_claim_types)).to match_array(%w(agfs lgfs_final lgfs_interim lgfs_transfer))
       end
 
       it "renders claim type options page" do
@@ -60,7 +60,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
         it "assigns bill types based on provider roles" do
           get :selection
-          expect(assigns(:available_fee_schemes)).to match_array(%w(agfs agfs_interim lgfs_final lgfs_interim lgfs_transfer))
+          expect(assigns(:available_claim_types)).to match_array(%w(agfs agfs_interim lgfs_final lgfs_interim lgfs_transfer))
         end
 
         it "renders the bill type options page" do
@@ -75,7 +75,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       it "assigns bill types based on provider roles" do
         get :selection
-        expect(assigns(:available_fee_schemes)).to match_array(%w(agfs))
+        expect(assigns(:available_claim_types)).to match_array(%w(agfs))
       end
 
       it "redirects to the new advocate claim form page" do
@@ -90,7 +90,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
         it "assigns bill types based on provider roles" do
           get :selection
-          expect(assigns(:available_fee_schemes)).to match_array(%w(agfs agfs_interim))
+          expect(assigns(:available_claim_types)).to match_array(%w(agfs agfs_interim))
         end
 
         it "renders the bill type options page" do
@@ -105,7 +105,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       it "assigns bill types based on provider roles" do
         get :selection
-        expect(assigns(:available_fee_schemes)).to match_array(%w(lgfs_final lgfs_interim lgfs_transfer))
+        expect(assigns(:available_claim_types)).to match_array(%w(lgfs_final lgfs_interim lgfs_transfer))
       end
 
       it "renders bill type selection page" do
@@ -119,7 +119,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       it "assigns bill types based on external_user roles" do
         get :selection
-        expect(assigns(:available_fee_schemes)).to match_array(%w(lgfs_final lgfs_interim lgfs_transfer))
+        expect(assigns(:available_claim_types)).to match_array(%w(lgfs_final lgfs_interim lgfs_transfer))
       end
 
       it 'renders the bill type selection page' do
@@ -131,7 +131,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
   describe 'POST #chosen' do
     context 'when an invalid scheme is provided' do
-      before { post :chosen, scheme_chosen: 'invalid'}
+      before { post :chosen, claim_type: 'invalid'}
 
       it "redirects the user to the claims page with an error" do
         expect(response).to redirect_to(external_users_claims_url)
@@ -140,7 +140,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
     end
 
     context "AGFS claim" do
-      before { post :chosen, scheme_chosen: 'agfs'}
+      before { post :chosen, claim_type: 'agfs'}
 
       it "should redirect to the new advocate claim form page" do
         expect(response).to redirect_to(new_advocates_claim_path)
@@ -148,7 +148,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
     end
 
     context "LGFS final claim" do
-      before { post :chosen, scheme_chosen: 'lgfs_final'}
+      before { post :chosen, claim_type: 'lgfs_final'}
 
       it "should redirect to the new litigator final claim form page" do
         expect(response).to redirect_to(new_litigators_claim_path)
@@ -156,7 +156,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
     end
 
     context "LGFS interim claim" do
-      before { post :chosen, scheme_chosen: 'lgfs_interim'}
+      before { post :chosen, claim_type: 'lgfs_interim'}
 
       it "should redirect to the new litigator interim claim form page" do
         expect(response).to redirect_to(new_litigators_interim_claim_path)
@@ -164,7 +164,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
     end
 
     context "LGFS transfer claim" do
-      before { post :chosen, scheme_chosen: 'lgfs_transfer'}
+      before { post :chosen, claim_type: 'lgfs_transfer'}
 
       it "should redirect to the new litigator transfer claim form page" do
         expect(response).to redirect_to(new_litigators_transfer_claim_path)

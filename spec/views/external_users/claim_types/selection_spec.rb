@@ -14,7 +14,7 @@ RSpec.describe 'external_users/claim_types/selection.html.haml', type: :view do
 
       before do
         sign_in(external_user.user)
-        assign(:available_fee_schemes, %w(agfs lgfs_final lgfs_interim lgfs_transfer))
+        assign(:available_claim_types, %w(agfs lgfs_final lgfs_interim lgfs_transfer))
         render
       end
 
@@ -26,7 +26,7 @@ RSpec.describe 'external_users/claim_types/selection.html.haml', type: :view do
       end
 
       it "should default to selecting Advocate fees" do
-        expect(response.body).to have_checked_field(:scheme_chosen_agfs)
+        expect(response.body).to have_checked_field(:claim_type_agfs)
       end
     end
 
@@ -35,7 +35,7 @@ RSpec.describe 'external_users/claim_types/selection.html.haml', type: :view do
 
       before do
         sign_in(external_user.user)
-        assign(:available_fee_schemes, %w(lgfs_final lgfs_interim lgfs_transfer))
+        assign(:available_claim_types, %w(lgfs_final lgfs_interim lgfs_transfer))
         render
       end
 
@@ -47,7 +47,7 @@ RSpec.describe 'external_users/claim_types/selection.html.haml', type: :view do
       end
 
       it "should default to selecting Litigator final fee" do
-        expect(response.body).to have_checked_field(:scheme_chosen_lgfs_final)
+        expect(response.body).to have_checked_field(:claim_type_lgfs_final)
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe 'external_users/claim_types/selection.html.haml', type: :view do
 
       before do
         sign_in(external_user.user)
-        assign(:available_fee_schemes, %w(agfs))
+        assign(:available_claim_types, %w(agfs))
         render
       end
 

@@ -1,6 +1,6 @@
 module ExternalUsers
   module ClaimTypesHelper
-    def bill_type_prompt_heading_for(user)
+    def claim_type_prompt_heading_for(user)
       if user.persona.has_roles?('admin')
         t('external_users.claim_heading')
       elsif user.persona.has_roles?('advocate')

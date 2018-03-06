@@ -31,6 +31,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
     [],
     [ :offence ],
     [
+      :transfer_fee,
       :total,
     ]
   ]

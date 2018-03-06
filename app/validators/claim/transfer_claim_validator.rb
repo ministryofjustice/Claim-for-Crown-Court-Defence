@@ -32,7 +32,10 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
       ],
       defendants: [],
       offence_details: %i[offence],
-      fees: %i[total]
+      fees: %i[
+        transfer_fee
+        total
+      ]
     }
   end
 
@@ -43,6 +46,7 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
   private
 
   def validate_transfer_fee
+    return if @record.from_api?
     add_error(:transfer_fee, 'blank') if @record.transfer_fee.nil?
   end
 

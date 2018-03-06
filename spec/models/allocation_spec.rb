@@ -54,6 +54,7 @@ RSpec.describe Allocation, type: :model do
         let(:case_worker_dbl) { double(Array, empty?: true, exists?: false) }
         before do
           allow(case_worker_dbl).to receive(:<<)
+          allow(case_worker_dbl).to receive(:pluck).and_return(['1'])
           allow_any_instance_of(Claim::BaseClaim).to receive(:case_workers).and_return(case_worker_dbl)
         end
 

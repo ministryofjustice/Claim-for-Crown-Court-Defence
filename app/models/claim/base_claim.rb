@@ -223,6 +223,10 @@ module Claim
       steps_range.include?(step_index)
     end
 
+    def step_back?
+      previous_step.present?
+    end
+
     # Override the corresponding method in the subclass
     def agfs?
       false
@@ -425,15 +429,31 @@ module Claim
       form_step
     end
 
+    def previous_step
+      return if current_step_index.zero?
+      step = submission_stages[current_step_index - 1]
+      until step_required?(step)
+        break unless step
+        previous_step_index = submission_stages.index(step) - 1
+        return nil if previous_step_index.negative?
+        step = submission_stages[previous_step_index]
+      end
+      step
+    end
+
     def current_step_index
       submission_stages.index(current_step)
     end
 
     def current_step_required?
+      step_required?(form_step)
+    end
+
+    def step_required?(step)
       # NOTE: offence details step is only required when the
       # case type does not have a fixed fee
       # TODO: move this logic to a workflow management
-      return true unless current_step == :offence_details
+      return true unless step.to_s == 'offence_details'
       !fixed_fee_case?
     end
 

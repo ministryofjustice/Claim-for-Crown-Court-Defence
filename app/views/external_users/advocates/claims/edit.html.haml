@@ -1,6 +1,6 @@
-= render partial: 'error_summary', locals: { ep: @error_presenter }
+= render partial: 'external_users/claims/error_summary', locals: { ep: @error_presenter }
 
-= render partial: 'layouts/header', locals: {page_heading: t('page_headings.edit_agfs_claim')}
+= render partial: 'layouts/header', locals: { page_heading: t('page_headings.edit_agfs_claim') }
 
 - present(@claim) do |claim|
   .grid-row.grid-sidebar

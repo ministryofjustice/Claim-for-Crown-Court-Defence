@@ -363,10 +363,12 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
   end
 
   describe "GET #edit" do
-    before { get :edit, id: subject }
+    let(:edit_request) { -> { get :edit, id: claim } }
+
+    before { edit_request.call }
 
     context 'editable claim' do
-      subject { create(:advocate_claim, external_user: advocate) }
+      let(:claim) { create(:advocate_claim, external_user: advocate) }
 
       it "returns http success" do
         expect(response).to have_http_status(:success)
@@ -377,7 +379,20 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
       end
 
       it 'assigns @claim' do
-        expect(assigns(:claim)).to eq(subject)
+        expect(assigns(:claim)).to eq(claim)
+      end
+
+      it 'claim is in the first submission step by default' do
+        expect(assigns(:claim).form_step).to eq(claim.submission_stages.first)
+      end
+
+      context 'when a step is provided' do
+        let(:step) { :defendants }
+        let(:edit_request) { -> { get :edit, id: claim, step: step } }
+
+        it 'claim is submitted submission step' do
+          expect(assigns(:claim).form_step).to eq(:defendants)
+        end
       end
 
       it 'renders the template' do
@@ -386,9 +401,9 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
     end
 
     context 'uneditable claim' do
-      subject { create(:allocated_claim, external_user: advocate) }
+      let(:claim) { create(:allocated_claim, external_user: advocate) }
 
-      it 'doesn\'t update the last_edited_at field' do
+      it 'does not update the last_edited_at field' do
         expect(assigns(:claim).last_edited_at).to be_nil
       end
 

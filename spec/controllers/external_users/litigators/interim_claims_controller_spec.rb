@@ -216,21 +216,36 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
   end
 
   describe 'GET #edit' do
-    before { get :edit, id: subject }
+    let(:edit_request) { -> { get :edit, id: claim } }
+
+    before { edit_request.call }
 
     context 'editable claim' do
-      subject { create(:interim_claim, creator: litigator) }
+      let(:claim) { create(:interim_claim, creator: litigator) }
 
       it 'returns http success' do
         expect(response).to have_http_status(:success)
       end
 
       it 'assigns @claim' do
-        expect(assigns(:claim)).to eq(subject)
+        expect(assigns(:claim)).to eq(claim)
+      end
+
+      it 'claim is in the first submission step by default' do
+        expect(assigns(:claim).form_step).to eq(claim.submission_stages.first)
+      end
+
+      context 'when a step is provided' do
+        let(:step) { :defendants }
+        let(:edit_request) { -> { get :edit, id: claim, step: step } }
+
+        it 'claim is submitted submission step' do
+          expect(assigns(:claim).form_step).to eq(:defendants)
+        end
       end
 
       it 'routes to litigators edit path' do
-        expect(request.path).to eq edit_litigators_interim_claim_path(subject)
+        expect(request.path).to eq edit_litigators_interim_claim_path(claim)
       end
 
       it 'renders the template' do
@@ -239,7 +254,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
     end
 
     context 'uneditable claim' do
-      subject { create(:interim_claim, :allocated, creator: litigator) }
+      let(:claim) { create(:interim_claim, :allocated, creator: litigator) }
 
       it 'redirects to the claims index' do
         expect(response).to redirect_to(external_users_claims_path)

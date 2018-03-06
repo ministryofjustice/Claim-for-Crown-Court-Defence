@@ -88,8 +88,8 @@ FactoryBot.define do
   factory :interim_fee, class: Fee::InterimFee do
     claim { build :interim_claim }
     fee_type { build :interim_fee_type }
-    quantity  2
-    amount  245.56
+    quantity 2
+    amount 245.56
     uuid SecureRandom.uuid
     rate nil
 
@@ -109,13 +109,22 @@ FactoryBot.define do
 
     trait :effective_pcmh do
       fee_type { build :interim_fee_type, :effective_pcmh }
-      quantity 1
+      quantity nil
     end
 
     trait :trial_start do
       fee_type { build :interim_fee_type, :trial_start }
       quantity 1
-      amount 21.21
+    end
+
+    trait :retrial_start do
+      fee_type { build :interim_fee_type, :retrial_start }
+      quantity 1
+    end
+
+    trait :retrial_new_solicitor do
+      fee_type { build :interim_fee_type, :retrial_new_solicitor }
+      quantity nil
     end
   end
 

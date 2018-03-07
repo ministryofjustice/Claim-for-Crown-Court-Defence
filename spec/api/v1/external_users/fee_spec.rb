@@ -229,7 +229,7 @@ describe API::V1::ExternalUsers::Fee do
           it 'should raise error if quantity is provided' do
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response("Do not enter a quantity for the interim fee",0)
+            expect_error_response("Do not enter a PPE quantity for the interim fee",0)
           end
         end
 
@@ -240,7 +240,7 @@ describe API::V1::ExternalUsers::Fee do
           it 'should raise error if quantity is provided' do
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response("Do not enter a quantity for the interim fee",0)
+            expect_error_response("Do not enter a PPE quantity for the interim fee",0)
           end
         end
       end

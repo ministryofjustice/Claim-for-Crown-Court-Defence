@@ -1,6 +1,9 @@
 class FeeScheme < ActiveRecord::Base
   validates :start_date, :number, :name, presence: true
 
+  has_many :offence_fee_schemes
+  has_many :offences, through: :offence_fee_schemes
+
   scope :agfs, -> { where(name: 'AGFS') }
   scope :lgfs, -> { where(name: 'LGFS') }
   scope :current, lambda {

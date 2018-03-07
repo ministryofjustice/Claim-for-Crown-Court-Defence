@@ -15,6 +15,8 @@ class Offence < ActiveRecord::Base
 
   belongs_to :offence_class
   has_many :claims, -> { active }, class_name: Claim::BaseClaim, foreign_key: :offence_id, dependent: :nullify
+  has_many :offence_fee_schemes
+  has_many :fee_schemes, through: :offence_fee_schemes
 
   validates :offence_class, presence: true
   validates :description, presence: true

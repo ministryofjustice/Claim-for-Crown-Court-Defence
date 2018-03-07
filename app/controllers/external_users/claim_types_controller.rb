@@ -2,7 +2,7 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
   skip_load_and_authorize_resource
 
   before_action :set_available_claim_types_for_provider, only: %i[selection]
-  before_action :disable_primary_navigation, only: %i[selection]
+  layout 'claim_forms', only: %i[selection]
 
   def selection
     if @available_claim_types.empty?

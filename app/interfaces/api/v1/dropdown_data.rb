@@ -50,13 +50,15 @@ module API
           desc 'Return all Offence-ids to be used in advocate claims (see OffenceClasses for Litigator claims).'
           params do
             optional :offence_description, type: String, desc: 'Offences matching description'
+            optional :rep_order_date,
+                     type: String,
+                     desc: 'OPTIONAL: Date of representation order in YYYY-MM-DD',
+                     standard_json_format: true
           end
           get do
-            offences = if params[:offence_description].present?
-                         Offence.where(description: params[:offence_description])
-                       else
-                         Offence.all
-                       end
+            scheme_date = params[:rep_order_date] || '2018-01-01'
+            offences = FeeScheme.agfs.for(scheme_date).first.offences
+            offences.where(description: params[:offence_description]) if params[:offence_description].present?
 
             present offences, with: API::Entities::Offence
           end

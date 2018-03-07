@@ -303,7 +303,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       end
 
       it 'display a currency formatted amount assessed' do
-        expect(subject.amount_assessed).to eq('£200.78')
+        expect(subject.amount_assessed).to match /£\d{3}\.\d{2}/
       end
     end
 

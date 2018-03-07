@@ -184,11 +184,20 @@ class BaseValidator < ActiveModel::Validator
   def validate_vat_numericality(field, lower_than_field:, allow_blank: true)
     validate_presence_and_numericality(field, minimum: 0, allow_blank: allow_blank)
     validate_amount_greater_than(field, lower_than_field, 'greater_than')
+    add_error(:vat_amount, 'max_vat_amount') if (@record.vat_amount || 0) > max_vat_amount
   end
 
   def validate_two_decimals(field)
     value = @record.__send__(field)
     rounded = value.round(2)
     add_error(field, 'decimal') unless value == rounded
+  end
+
+  def max_vat_amount
+    VatRate.vat_amount(net_amount || 0, @record.claim.vat_date, calculate: true)
+  end
+
+  def net_amount
+    @record.respond_to?(:net_amount) ? @record.net_amount : @record.amount
   end
 end

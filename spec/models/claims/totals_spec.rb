@@ -1,114 +1,118 @@
 require 'rails_helper'
 
 RSpec.describe Claim, type: :model do
-  subject { create(:claim) }
-  let(:expenses) { [3.5, 1.0, 142.0].each { |amount| create(:expense, claim_id: subject.id, amount: amount) } }
+  subject(:claim) { create(:claim) }
+  let(:expenses) { [3.5, 1.0, 142.0].each { |amount| create(:expense, claim_id: claim.id, amount: amount) } }
   let(:fee_type) { create(:fixed_fee_type) }
 
   context 'fees total' do
-
     describe '#calculate_fees_total' do
       it 'calculates the fees total' do
-        expect(subject.calculate_fees_total).to eq(25.0)
+        expect(claim.calculate_fees_total).to eq(25.0)
       end
     end
 
     describe '#update_fees_total' do
       it 'stores the fees total' do
-        expect(subject.fees_total).to eq(25.0)
+        expect(claim.fees_total).to eq(25.0)
       end
 
       it 'updates the fees total' do
-        create(:fixed_fee, fee_type: fee_type, claim_id: subject.id, rate: 2.00)
-        subject.reload
-        expect(subject.fees_total).to eq(27.0)
+        create(:fixed_fee, fee_type: fee_type, claim_id: claim.id, rate: 2.00)
+        claim.reload
+        expect(claim.fees_total).to eq(27.0)
       end
 
       it 'updates total when claim fee destroyed' do
-        create(:fixed_fee, fee_type: fee_type, claim_id: subject.id, rate: 2.00)
-        subject.fees.first.destroy
-        subject.reload
-        expect(subject.fees_total).to eq(2.0)
+        create(:fixed_fee, fee_type: fee_type, claim_id: claim.id, rate: 2.00)
+        claim.fees.first.destroy
+        claim.reload
+        expect(claim.fees_total).to eq(2.0)
       end
     end
   end
 
   context 'expenses total' do
-    before { expenses; subject.reload }
+    before { expenses; claim.reload }
 
     describe '#calculate_expenses_total' do
       it 'calculates expenses total' do
-        expect(subject.calculate_expenses_total).to eq(146.5)
+        expect(claim.calculate_expenses_total).to eq(146.5)
       end
     end
 
     describe '#update_expenses_total' do
       it 'stores the expenses total' do
-        expect(subject.expenses_total).to eq(146.5)
+        expect(claim.expenses_total).to eq(146.5)
       end
 
       it 'updates the expenses total' do
-        create(:expense, claim_id: subject.id, amount: 3)
-        subject.reload
-        expect(subject.expenses_total).to eq(149.5)
+        create(:expense, claim_id: claim.id, amount: 3)
+        claim.reload
+        expect(claim.expenses_total).to eq(149.5)
       end
 
       it 'updates expenses total when expense destroyed' do
-        subject.expenses.first.destroy
-        subject.reload
-        expect(subject.expenses_total).to eq(143.0)
+        claim.expenses.first.destroy
+        claim.reload
+        expect(claim.expenses_total).to eq(143.0)
       end
     end
   end
 
   context 'expenses vat' do
-    let!(:expenses) { [3.5, 1.0, 142.0].each { |amount| create(:expense, claim_id: subject.id, amount: amount, vat_amount: 2) } }
+    before do
+      VatRate.delete_all
+      create(:vat_rate, :for_2011_onward)
+      [3.5, 1.0, 142.0].each do |amount|
+        create(:expense, claim_id: claim.id, amount: amount, vat_amount: 2)
+      end
+      claim.reload
+    end
 
-    before { subject.reload }
+    # before { claim.reload }
 
     context 'AGFS claim' do
-      subject { create(:claim) }
+      subject(:claim) { create(:claim) }
 
       it 'calculates the claim expenses VAT' do
-        # rate 17.5, see rails_helper
-        expect(subject.expenses_vat).to eq(25.64)
+        expect(claim.expenses_vat).to eq(29.3)
       end
     end
 
     context 'LGFS claim' do
-      subject { create(:litigator_claim, apply_vat: true) }
-      let!(:expenses) { [3.5, 1.0, 142.0].each { |amount| create(:expense, claim_id: subject.id, amount: amount, vat_amount: 2) } }
+      subject(:claim) { create(:litigator_claim, apply_vat: true) }
 
       it 'calculates the claim expenses VAT' do
-        expect(subject.expenses_vat).to eq(6.0)
+        expect(claim.expenses_vat).to eq(6.0)
       end
     end
   end
 
   context 'total' do
-    before { expenses; subject.reload }
+    before { expenses; claim.reload }
 
     describe '#calculate_total' do
       it 'calculates the fees and expenses total' do
-        create(:expense, claim_id: subject.id, amount: 3.0)
-        subject.reload
-        expect(subject.calculate_total).to eq(174.5)
+        create(:expense, claim_id: claim.id, amount: 3.0)
+        claim.reload
+        expect(claim.calculate_total).to eq(174.5)
       end
     end
 
     describe '#update_total' do
       it 'updates the total' do
-        create(:expense, claim_id: subject.id, amount: 3)
-        create(:fixed_fee, fee_type: fee_type, claim_id: subject.id, rate: 4.00)
-        subject.reload
-        expect(subject.total).to eq(178.5)
+        create(:expense, claim_id: claim.id, amount: 3)
+        create(:fixed_fee, fee_type: fee_type, claim_id: claim.id, rate: 4.00)
+        claim.reload
+        expect(claim.total).to eq(178.5)
       end
 
       it 'updates total when expense/fee destroyed' do
-        subject.expenses.first.destroy # 3.5
-        subject.fees.first.destroy # 250.0
-        subject.reload
-        expect(subject.total).to eq(143.00)
+        claim.expenses.first.destroy # 3.5
+        claim.fees.first.destroy # 250.0
+        claim.reload
+        expect(claim.total).to eq(143.00)
       end
     end
   end
@@ -127,27 +131,27 @@ RSpec.describe Claim, type: :model do
           claim.fees << create(:misc_fee, rate: 10.5, quantity: 3)
           claim.fees << create(:misc_fee, rate: 6.25, quantity: 1)
           claim.save!
-          expect_totals_to_be(claim, 0.0, 0.0, 37.75, 6.61, 0.0, 0.0)  # VAT £6.61 calculated using the test VAT rate of 17.5%
+          expect_totals_to_be(claim, 0.0, 0.0, 37.75, 7.55, 0.0, 0.0) # VAT £6.61 calculated using the test VAT rate of 20.0%
 
           # add expenses for 9.99
           claim.expenses << create(:expense, amount: 9.99, vat_amount: 1.75)
-          expect_totals_to_be(claim, 9.99, 1.75, 37.75, 6.61, 0.0, 0.0)
+          expect_totals_to_be(claim, 9.99, 2.0, 37.75, 7.55, 0.0, 0.0)
 
           # add disbursements for 55.33 & 100
           claim.disbursements << create(:disbursement, claim: claim, net_amount: 55.33, vat_amount: 9.68)
           claim.disbursements << create(:disbursement, claim: claim, net_amount: 100.0, vat_amount: 10.0)
-          expect_totals_to_be(claim, 9.99, 1.75, 37.75, 6.61, 155.33, 19.68)
+          expect_totals_to_be(claim, 9.99, 2.0, 37.75, 7.55, 155.33, 19.68)
 
           # remove the fee for 31.5
           claim.fees.detect{ |f| f.amount == 31.5 }.destroy
-          expect_totals_to_be(claim, 9.99, 1.75, 6.25, 1.09, 155.33, 19.68)
+          expect_totals_to_be(claim, 9.99, 2.0, 6.25, 1.25, 155.33, 19.68)
 
           # remove the disbursement for 100
           claim.disbursements.detect{ |d| d.net_amount == 100.0 }.destroy
-          expect_totals_to_be(claim, 9.99, 1.75, 6.25, 1.09, 55.33, 9.68)
+          expect_totals_to_be(claim, 9.99, 2.0, 6.25, 1.25, 55.33, 9.68)
 
           claim.expenses.first.destroy
-          expect_totals_to_be(claim, 0.0, 0.0, 6.25, 1.09, 55.33, 9.68)
+          expect_totals_to_be(claim, 0.0, 0.0, 6.25, 1.25, 55.33, 9.68)
         end
       end
 
@@ -186,11 +190,11 @@ RSpec.describe Claim, type: :model do
 
           # add basic fee and VAT should be calculated and added in
           claim.basic_fees << create(:basic_fee, claim: claim, quantity: 1, rate: 200)
-          expect_totals_to_be(claim, 0.0, 0.0, 200.0, 35.0, 0.0, 0.0)   # VAT £35.00 calculated using the test VAT rate of 17.5%
+          expect_totals_to_be(claim, 0.0, 0.0, 200.0, 40.0, 0.0, 0.0) # VAT £35.00 calculated using the test VAT rate of 20.0%
 
           # add expense and VAT should be calculated and added in
           claim.expenses << create(:expense, claim: claim, amount: 9.99)
-          expect_totals_to_be(claim, 9.99, 1.75, 200.0, 35.0, 0.0, 0.0)
+          expect_totals_to_be(claim, 9.99, 2.0, 200.0, 40.0, 0.0, 0.0)
         end
       end
 
@@ -214,7 +218,6 @@ RSpec.describe Claim, type: :model do
     end
 
     describe 'updating value bands and totals' do
-
       let(:claim) { create :litigator_claim }
 
       it 'updates the value band id when an added disbursement takes it to the next band' do

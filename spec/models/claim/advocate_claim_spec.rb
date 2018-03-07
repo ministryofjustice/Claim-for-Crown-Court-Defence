@@ -1268,7 +1268,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let!(:claim) { create(:claim, state: 'draft', external_user: external_user) }
 
     context 'when VAT applied' do
-      # VAT rate 17.5%
+      # VAT rate 20.0%
 
       before do
         claim.external_user.vat_registered = true
@@ -1279,7 +1279,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'should return the amount assessed from the last determination' do
-        expect(claim.amount_assessed).to eq(6.77)
+        expect(claim.amount_assessed).to eq(6.91)
       end
     end
 

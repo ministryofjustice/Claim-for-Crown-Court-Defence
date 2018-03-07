@@ -43,15 +43,28 @@ RSpec.describe 'ExpenseV1Validator and ExpenseV2Validator', type: :validator do
 
       it 'is valid if less than the total amount' do
         expense.amount = 11
-        expense.vat_amount = 10.5
+        expense.vat_amount = 2
         expect(expense).to be_valid
       end
 
       it 'is invalid if greater than the total amount' do
-        expense.amount = 11
-        expense.vat_amount = 11.5
+        expense.amount = 100
+        expense.vat_amount = 100.01
         expect(expense).not_to be_valid
         expect(expense.errors[:vat_amount]).to include('greater_than')
+      end
+
+      it 'is valid if less than VAT% of total amount' do
+        expense.amount = 100
+        expense.vat_amount = 20.00
+        expect(expense).to be_valid
+      end
+
+      it 'is invalid if greater than current VAT% of the total amount' do
+        expense.amount = 100
+        expense.vat_amount = 20.01
+        expect(expense).not_to be_valid
+        expect(expense.errors[:vat_amount]).to include('max_vat_amount')
       end
 
       it 'is invalid if negative' do

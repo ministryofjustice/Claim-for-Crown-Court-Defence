@@ -1,17 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe DisbursementValidator, type: :validator do
-  let(:claim)         { FactoryBot.build :litigator_claim, force_validation: true }
-  let(:disbursement)  { FactoryBot.build :disbursement, claim: claim }
+  let(:claim) { FactoryBot.build :litigator_claim, force_validation: true }
+  let(:disbursement) { FactoryBot.build(:disbursement, claim: claim, net_amount: 100, vat_amount: 20) }
 
   describe '#validate_claim' do
-
     it { should_error_if_not_present(disbursement, :claim, 'blank') }
 
     context "AGFS claims" do
       before { allow(claim).to receive(:agfs?).and_return true }
       it 'should raise invalid fee scheme error' do
-        expect(disbursement).to_not be_valid
+        expect(disbursement).to be_invalid
         expect(disbursement.errors[:claim]).to include 'invalid_fee_scheme'
       end
     end
@@ -41,13 +40,28 @@ RSpec.describe DisbursementValidator, type: :validator do
     it { should_error_if_equal_to_value(disbursement, :vat_amount, nil, 'blank') }
     it { should_error_if_equal_to_value(disbursement, :vat_amount, 200_001, 'item_max_amount') }
 
-    context 'vat greater than net amount' do
-      before do
-        disbursement.net_amount = 5
+    it 'invalid when vat greater than net amount' do
+      disbursement.net_amount = 5
+      should_error_if_equal_to_value(disbursement, :vat_amount, 10, 'greater_than')
+    end
+
+    context 'vat greater than vat% of net amount' do
+      around do |example|
+        travel_to(Time.zone.local(2018, 01, 01)) do
+          example.run
+        end
       end
-      it { should_error_if_equal_to_value(disbursement, :vat_amount, 10, 'greater_than') }
+
+      # let(:disbursement) { FactoryBot.build(:disbursement, claim: claim, net_amount: 100, vat_amount: 20) }
+
+      it 'valid when VAT amount is less than or equal to VAT% of NET ' do
+        should_be_valid_if_equal_to_value(disbursement, :vat_amount, 20.00)
+      end
+
+      it 'invalid when VAT amount greater than VAT% of NET' do
+        should_error_if_equal_to_value(disbursement, :vat_amount, 20.01, 'max_vat_amount')
+      end
     end
   end
-
 end
 

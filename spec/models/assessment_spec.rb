@@ -82,7 +82,7 @@ describe Assessment do
         claim = FactoryBot.create :advocate_claim, apply_vat: true
         ass = claim.assessment
         ass.update_values(100.0, 250.0, 0)
-        expect(ass.vat_amount).to eq((ass.total * 0.175).round(2))
+        expect(ass.vat_amount).to eq((ass.total * 0.2).round(2))
       end
     end
 

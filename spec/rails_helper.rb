@@ -128,7 +128,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    FactoryBot.create :vat_rate, effective_date: Date.new(1960, 1, 1), rate_base_points: 1750
+    FactoryBot.create(:vat_rate, :for_2011_onward)
   end
 
   config.after(:suite) do

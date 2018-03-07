@@ -615,12 +615,12 @@ en:
           order_for_judicial_apportionment_help: Judicial apportionment is when the defendant has applied for and received an order confirming they are not required to pay the full amount of their defence costs. If applicable, please ensure you upload a copy of the order to your claim.
           add_another_rep_order: 'Add another representation order'
           remove_defendant: 'Remove defendant'
-          defendant: 'Defendant'
+          defendant: Defendant details
         fields:
           defendants: 'Defendants'
           add_another_defendant: 'Add another defendant'
         representation_order_fields:
-          representation_order: Representation order
+          representation_order: Representation order details
           maat_reference_number: MAAT reference
           maat_reference_number_eg: 'for example 1234567890'
         summary:

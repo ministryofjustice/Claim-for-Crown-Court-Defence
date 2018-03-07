@@ -27,13 +27,13 @@ class ClaimFormPage < SitePrism::Page
 
   section :retrial_details, RetrialSection, "#retrial-details"
 
-  sections :defendants, "div.defendants > div.js-test-defendant" do
+  sections :defendants, ".defendant-details" do
     element :first_name, "div.first-name input"
     element :last_name, "div.last-name input"
 
     section :dob, CommonDateSection, 'div.dob'
 
-    sections :representation_orders, "div.js-test-rep-order" do
+    sections :representation_orders, ".ro-details" do
       section :date, CommonDateSection, 'div.ro-date'
       element :maat_reference, "div.maat input"
     end
@@ -41,7 +41,7 @@ class ClaimFormPage < SitePrism::Page
     element :add_another_representation_order, "div.links > a"
   end
 
-  element :add_another_defendant, "div.defendants > div:nth-of-type(2) > a.add_fields"
+  element :add_another_defendant, ".defendants-actions a.add_fields"
 
   element :continue_button, 'div.button-holder > input.button.left'
 

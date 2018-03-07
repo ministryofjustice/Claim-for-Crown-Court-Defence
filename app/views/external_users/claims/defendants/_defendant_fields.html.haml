@@ -1,35 +1,32 @@
-.nested-fields.js-test-defendant
-  %h2.bold-medium
+.nested-fields.defendant-details
+  %h2.heading-large
     = t('.defendant')
-  .form-row
-    .form-col.first-name
-      - @representation_order_count = 0
-      = f.adp_text_field :first_name, label: t('.first_name'), errors: @error_presenter
+  .form-group.first-name
+    - @representation_order_count = 0
+    = f.adp_text_field :first_name, label: t('.first_name'), errors: @error_presenter
 
-  .form-row
-    .form-col.last-name
-      = f.adp_text_field :last_name, label: t('.last_name'), errors: @error_presenter
+  .form-group.last-name
+    = f.adp_text_field :last_name, label: t('.last_name'), errors: @error_presenter
 
-  .form-row
-    .form-col.form-col-two-thirds.dob
-      %a{:id => "defendant_#{@defendant_count+1}_date_of_birth"}
-      = f.gov_uk_date_field(:date_of_birth, legend_text: t('.date_of_birth'), legend_class: 'govuk-legend', id: "defendant_#{@defendant_count+1}_date_of_birth_group", error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count+1}_date_of_birth"))
+  .form-group.dob
+    %a{:id => "defendant_#{@defendant_count+1}_date_of_birth"}
+    = f.gov_uk_date_field(:date_of_birth, legend_text: t('.date_of_birth'), legend_class: 'govuk-legend', id: "defendant_#{@defendant_count+1}_date_of_birth_group", error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count+1}_date_of_birth"))
 
   - unless @claim.interim?
-    .form-row
-      .form-col.form-col-two-thirds
-        .form-group
-          .multiple-choice
-            = f.check_box :order_for_judicial_apportionment
-            = f.label :order_for_judicial_apportionment, t('.order_for_judicial_apportionment'), class: 'judicial-apportionment-notice'
-            = validation_error_message(@error_presenter, :order_for_judicial_apportionment)
+    .form-group
+      %fieldset
+        .multiple-choice
+          = f.check_box :order_for_judicial_apportionment
+          = f.label :order_for_judicial_apportionment, t('.order_for_judicial_apportionment'), class: 'judicial-apportionment-notice'
+          = validation_error_message(@error_presenter, :order_for_judicial_apportionment)
 
-        %details
-          %summary
-            %span.summary Help with judicial apportionment
-          .panel.panel-border-narrow
-            %p
-              = t('.order_for_judicial_apportionment_help')
+    .form-group
+      %details
+        %summary
+          %span.summary Help with judicial apportionment
+        .panel.panel-border-narrow
+          %p
+            = t('.order_for_judicial_apportionment_help')
 
   .documents
     = f.fields_for :representation_orders do |repo_form|

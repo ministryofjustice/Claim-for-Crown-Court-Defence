@@ -366,9 +366,9 @@ RSpec.describe ExternalUser, type: :model do
   end
 
   describe '#name_and_number' do
-    it 'should print last name, first name and supplier number' do
+    it 'returns last name, first name and supplier number' do
       a = create(:external_user, supplier_number: 'XX878', user: create(:user, last_name: 'Smith', first_name: 'John'))
-      expect(a.name_and_number).to eq "Smith, John: XX878"
+      expect(a.name_and_number).to eq 'Smith, John (XX878)'
     end
   end
 

@@ -86,7 +86,7 @@ class ExternalUser < ActiveRecord::Base
   end
 
   def name_and_number
-    "#{user.last_name}, #{user.first_name}: #{supplier_number}"
+    "#{user.last_name}, #{user.first_name} (#{supplier_number})"
   end
 
   def before_soft_delete

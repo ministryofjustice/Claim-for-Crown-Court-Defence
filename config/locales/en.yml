@@ -517,6 +517,10 @@ en:
           quantity: 'Quantity'
           rate: 'Rate'
       case_details:
+        advocate_fields:
+          advocate: Instructed advocate
+          advocate_hint: The instructed advocate for the case
+          help_missing_advocates_summary_heading: Help with missing instructed advocates
         case_concluded_date:
           case_concluded_at: 'Date case concluded'
         cracked_trial_fields:
@@ -526,8 +530,6 @@ en:
           trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
           trial_fixed_at: '1st fixed/warned trial'
         fields:
-          advocate: Instructed advocate
-          advocate_hint: 'The instructed advocate for the case'
           advocate_category: 'Advocate category'
           case_details: 'Case details'
           case_offence: 'Case & offence'

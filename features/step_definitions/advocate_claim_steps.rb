@@ -13,8 +13,12 @@ When(/^I select an advocate category of '(.*?)'$/) do |name|
   @claim_form_page.find('label', text: name).click
 end
 
-When(/^I select an advocate$/) do
-  @claim_form_page.select_advocate "Doe, John: AC135"
+When(/^I select '(.*)' as the instructed advocate$/) do |text|
+  @claim_form_page.select_advocate(text)
+end
+
+When(/^I choose '(.*)' as the instructed advocate$/) do |text|
+  @claim_form_page.find('label', text: text).click
 end
 
 When(/^I select the court '(.*?)'$/) do |name|
@@ -170,6 +174,13 @@ Given(/^There are other advocates in my provider$/) do
                      provider: @advocate.provider,
                      user: FactoryBot.create(:user, first_name: 'Joe', last_name: 'Blow'),
                      supplier_number: 'XY455')
+end
+
+Given(/^6\+ advocates exist for my provider$/) do
+  number_to_add = 6 - @advocate.provider.advocates.size
+  number_to_add.times do |index|
+    @advocate.provider.advocates << FactoryBot.create(:external_user, :advocate, provider: @advocate.provider)
+  end
 end
 
 Then(/^I should see retrial fields$/) do

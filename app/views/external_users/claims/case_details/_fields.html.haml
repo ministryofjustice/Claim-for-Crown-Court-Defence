@@ -4,15 +4,7 @@
 %fieldset
   .form-group
     - if @claim.agfs? && @external_user.admin?
-      .form-row.js-typeahead
-        .form-col.forced-width{class: error_class?(@error_presenter, :external_user)}
-          %a{:id => :external_user}
-          %label.form-label{:for => "claim_external_user_id_input"}
-            = t('.advocate')
-          .form-hint.xsmall.zero-vert-margin
-            = t(".advocate_hint")
-          = f.collection_select :external_user_id, @provider.advocates.sort_by(&:name_and_number), :id, :name_and_number, { include_blank: ''.html_safe }, {class: 'form-control typeahead'}
-          = validation_error_message(@error_presenter, :external_user)
+      = render partial: 'external_users/claims/case_details/advocate_fields', locals: { f: f }
 
     .form-row
       .form-col.forced-width

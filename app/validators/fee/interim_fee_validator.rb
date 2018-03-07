@@ -8,9 +8,11 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
   end
 
   def validate_quantity
-    if @record.is_disbursement? || @record.is_interim_warrant?
+    if quantity_must_be_zero?
       validate_absence_or_zero(:quantity, 'present')
-    else
+    elsif quantity_required?
+      validate_numericality(:quantity, 'numericality', 1, 99_999)
+    elsif quantity_optional?
       validate_numericality(:quantity, 'numericality', 0, 99_999)
     end
   end
@@ -46,5 +48,19 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
     return unless @record.is_interim_warrant?
     validate_on_or_after(@record.warrant_issued_date, :warrant_executed_date, 'warrant_executed_before_issued')
     validate_on_or_before(Date.today, :warrant_executed_date, 'check_not_in_future')
+  end
+
+  private
+
+  def quantity_optional?
+    @record.is_effective_pcmh? || @record.is_retrial_new_solicitor?
+  end
+
+  def quantity_required?
+    @record.is_trial_start? || @record.is_retrial_start?
+  end
+
+  def quantity_must_be_zero?
+    @record.is_disbursement? || @record.is_interim_warrant?
   end
 end

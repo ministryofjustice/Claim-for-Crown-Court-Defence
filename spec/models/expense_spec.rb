@@ -25,7 +25,6 @@
 require 'rails_helper'
 
 RSpec.describe Expense, type: :model do
-
   it { should belong_to(:expense_type) }
   it { should belong_to(:claim) }
   it { should have_many(:dates_attended) }
@@ -57,7 +56,7 @@ RSpec.describe Expense, type: :model do
       expense = build :expense, amount: 100.0, vat_amount: nil
       expense.save!
       expect(expense.amount).to eq 100.0
-      expect(expense.vat_amount).to eq 17.5
+      expect(expense.vat_amount).to eq 20.0
     end
   end
 

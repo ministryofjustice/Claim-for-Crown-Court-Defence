@@ -3,7 +3,6 @@ require 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
 describe API::V1::ExternalUsers::Disbursement do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -213,11 +212,11 @@ describe API::V1::ExternalUsers::Disbursement do
     end
 
     context 'AGFS claims' do
-      let(:claim)              { create(:advocate_claim, source: 'api').reload }
+      let(:claim) { create(:advocate_claim, source: 'api').reload }
       it 'should return 400 and JSON error array' do
         post_to_validate_endpoint
         expect(last_response.status).to eq 400
-        expect(last_response.body).to eq "[{\"error\":\"Claim is of an inappropriate fee scheme type for the disbursement\"}]"
+        expect(last_response.body).to include "{\"error\":\"Claim is of an inappropriate fee scheme type for the disbursement\"}"
       end
     end
   end

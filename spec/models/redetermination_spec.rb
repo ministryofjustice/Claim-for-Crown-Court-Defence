@@ -59,7 +59,7 @@ describe Redetermination do
                   "  expenses:      301.55\n" +
                   "  fees:          123.22\n" +
                   "  disbursements: 44.33\n" +
-                  "  vat_amount:    82.09\n" +
+                  "  vat_amount:    93.82\n" +
                   "  total:         469.1\n\n"
        expect(rd.to_s).to eq expected
     end

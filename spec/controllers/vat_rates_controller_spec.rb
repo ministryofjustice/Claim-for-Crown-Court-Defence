@@ -13,13 +13,10 @@ require 'rails_helper'
 
 RSpec.describe VatRatesController, type: :controller do
 
-  before(:all) do
-    @vr1 = FactoryBot.create :vat_rate, effective_date: Date.new(2000, 1, 1),  rate_base_points: 1750
-    @vr2 = FactoryBot.create :vat_rate, effective_date: Date.new(2011, 4, 1),  rate_base_points: 2000
-  end
-
-  after(:all) do
-    VatRate.destroy( [ @vr1.id, @vr2.id ] )
+  before do
+    VatRate.delete_all
+    create(:vat_rate, effective_date: Date.new(2000, 1, 1), rate_base_points: 1750)
+    create(:vat_rate, effective_date: Date.new(2011, 4, 1), rate_base_points: 2000)
   end
 
   describe 'GET vat' do

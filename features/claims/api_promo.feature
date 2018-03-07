@@ -13,6 +13,6 @@ Feature: An API promotion banner will appear on the create claim page, until the
     When I click the link 'Do not show this message again'
     Then The API promo banner is not visible
 
-    When I click 'Your claims' link
+    When I click the link 'Home'
     And I click 'Start a claim'
     Then The API promo banner is not visible

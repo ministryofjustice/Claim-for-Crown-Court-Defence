@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180301113027) do
+ActiveRecord::Schema.define(version: 20180307100513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -406,6 +406,14 @@ ActiveRecord::Schema.define(version: 20180301113027) do
 
   add_index "offence_classes", ["class_letter"], name: "index_offence_classes_on_class_letter", using: :btree
   add_index "offence_classes", ["description"], name: "index_offence_classes_on_description", using: :btree
+
+  create_table "offence_fee_schemes", force: :cascade do |t|
+    t.integer "offence_id"
+    t.integer "fee_scheme_id"
+  end
+
+  add_index "offence_fee_schemes", ["fee_scheme_id"], name: "index_offence_fee_schemes_on_fee_scheme_id", using: :btree
+  add_index "offence_fee_schemes", ["offence_id"], name: "index_offence_fee_schemes_on_offence_id", using: :btree
 
   create_table "offences", force: :cascade do |t|
     t.string   "description"

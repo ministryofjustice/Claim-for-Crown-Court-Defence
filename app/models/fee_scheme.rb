@@ -9,6 +9,9 @@ class FeeScheme < ActiveRecord::Base
   scope :current, lambda {
     where('(:now BETWEEN start_date AND end_date) OR (start_date < :now AND end_date IS NULL)', now: Time.zone.now)
   }
+  scope :for, lambda { |check_date|
+    where('(:date BETWEEN start_date AND end_date) OR (start_date < :date AND end_date IS NULL)', date: check_date)
+  }
   def self.for_claim(claim)
     # TODO: Align this with Fee reform SPIKE
     return 'default' if claim.lgfs? || !FeatureFlag.active?(:agfs_fee_reform)

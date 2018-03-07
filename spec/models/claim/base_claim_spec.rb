@@ -291,6 +291,48 @@ module Claim
       end
     end
 
+    describe '#previous_step' do
+      let(:claim) { MockBaseClaim.new }
+      let(:step) { :bar }
+
+      before do
+        claim.form_step = step
+      end
+
+      it 'does not change the current step' do
+        expect { claim.previous_step }
+          .not_to change { claim.current_step }
+          .from(step)
+      end
+
+      it 'returns the immediate previous step by default' do
+        expect(claim.previous_step).to eq(:foo)
+        claim.form_step = :foo
+        expect(claim.previous_step).to eq(nil)
+      end
+
+      context 'when the immediate next step is not required' do
+        class MockPreviousStepClaim < BaseClaim
+          def submission_stages
+            %i[foo long_enough bar zzz]
+          end
+
+          def step_required?(step)
+            step && step.to_s.size >= 5
+          end
+        end
+
+        let(:step) { :zzz }
+        let(:claim) { MockPreviousStepClaim.new }
+
+        it 'returns the previous step after that which is required' do
+          expect(claim.previous_step).to eq(:long_enough)
+          claim.form_step = :long_enough
+          expect(claim.previous_step).to eq(nil)
+        end
+      end
+    end
+
     describe '#current_step_required?' do
       let(:claim) { MockBaseClaim.new }
       subject { claim.current_step_required? }

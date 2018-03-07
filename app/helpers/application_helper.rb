@@ -141,7 +141,7 @@ module ApplicationHelper
     [number[0..3], number[4..6], number[7..10]].join(' ')
   end
 
-  def display_primary_navigation?
-    @primary_navigation_disabled != true
+  def yes_no_options
+    [%w[Yes true], %w[No false]]
   end
 end

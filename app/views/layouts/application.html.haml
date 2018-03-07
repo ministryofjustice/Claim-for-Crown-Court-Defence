@@ -31,13 +31,17 @@
         - unless current_user.nil?
           = render partial: 'layouts/user'
 
+- content_for(:default_navigation) do
+  = render partial: 'layouts/primary_navigation'
+
 = content_for :content do
   = csrf_meta_tags
 
   %main#content
     = render partial: 'shared/phase_banner'
-    - if user_signed_in? && display_primary_navigation?
-      = render partial: 'layouts/primary_navigation'
+
+    - if user_signed_in?
+      = content_for?(:navigation) ? yield(:navigation) : yield(:default_navigation)
 
     = render partial: 'layouts/flashes' unless flash.empty?
     = yield

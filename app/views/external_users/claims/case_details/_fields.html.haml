@@ -1,38 +1,14 @@
 %h2.bold-medium
   = t('.case_details')
 
-- if @claim.agfs?
-  %fieldset
-    %span
-      = f.anchored_without_label t('.advocate_category')
-      = t('.advocate_category')
-    .form-group{class: error_class?(@error_presenter, :advocate_category)}
-      = f.collection_radio_buttons(:advocate_category, Settings.advocate_categories.sort, :to_s, :to_s) do |b|
-        .multiple-choice
-          = b.radio_button
-          = b.label { b.value.to_s }
-
-      = validation_error_message(@error_presenter, :advocate_category)
-
 %fieldset
   .form-group
     - if @claim.agfs? && @external_user.admin?
-      .form-row.js-typeahead
-        .form-col.forced-width{class: error_class?(@error_presenter, :external_user)}
-          %a{:id => :external_user}
-          %label.form-label{:for => "claim_external_user_id_input"}
-            = t('.advocate')
-          .form-hint.xsmall.zero-vert-margin
-            = t(".advocate_hint")
-          = f.collection_select :external_user_id, @provider.advocates.sort_by(&:name_and_number), :id, :name_and_number, { include_blank: ''.html_safe }, {class: 'form-control typeahead'}
-          = validation_error_message(@error_presenter, :external_user)
-
+      = render partial: 'external_users/claims/case_details/advocate_fields', locals: { f: f }
 
     .form-row
       .form-col.forced-width
         = f.adp_text_field :providers_ref, label: t('common.external_user.providers_ref'), errors: @error_presenter, hint_text: t('common.external_user.providers_ref_hint')
-
-
 
     - if @claim.requires_case_type?
       .form-row.js-typeahead
@@ -41,41 +17,41 @@
           %label.form-label{:for => "claim_case_type_id_input"}
             = t('.case_type')
           .form-hint.xsmall.zero-vert-margin
-            = "for example Trial"
+            = t('.case_type_hint')
           = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
           = validation_error_message(@error_presenter, :case_type)
 
     .form-row.js-typeahead
-      .form-col{class: error_class?(@error_presenter, :court)}
+      .form-col.forced-width{class: error_class?(@error_presenter, :court)}
         %a{:id => "court"}
         %label.form-label{:for => "claim_court_id_input"}
           = t('.court')
 
         .form-hint.xsmall.zero-vert-margin
-          = "for example Cardiff"
+          = t('.court_hint')
         = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
 
         %div.clean
           = validation_error_message(@error_presenter, :court)
 
+    .form-row.js-typeahead
       .form-col
         = f.adp_text_field :case_number,
                             label: t('.case_number'),
-                            hint_text: 'for example A20161234',
+                            hint_text: t('.case_number_hint'),
                             errors: @error_presenter
 
-    .form-row.js-typeahead
-      .form-col{class: error_class?(@error_presenter, :transfer_court)}
-        %span#transfer_court.visually-hidden
-        = f.anchored_label t('.transfer_court'), 'transfer_court_id_input', { label_attributes: { class: 'form-label' } }
-        .form-hint.xsmall.zero-vert-margin
-          = "for example Cardiff"
-        = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
-        = validation_error_message(@error_presenter, :transfer_court)
+    .form-row
+      %fieldset
+        = f.anchored_label t('.case_transferred_from_another_court'), 'case_transferred_from_another_court', label_attributes: { class: 'form-label' }
+        = f.collection_radio_buttons(:case_transferred_from_another_court, yes_no_options.reverse, :last, :first ) do |b|
+          .multiple-choice{ 'data-target' => b.value.to_bool ? 'transfer-court-details' : nil }
+            = b.radio_button
+            = b.label { b.text }
 
-      .cssfix.form-col.form-col-two-thirds{class: error_class?(@error_presenter, :transfer_case_number)}
-        = f.adp_text_field :transfer_case_number, label: t('.transfer_case_number'), hint_text: 'for example A20161234', input_classes: 'medium-input',  errors: @error_presenter
-
+          - if b.value.to_bool
+            #transfer-court-details.panel.panel-border-narrow.js-hidden
+              = render partial: 'external_users/claims/case_details/transfer_court_fields', locals: { f: f }
 
 - if @claim.agfs?
   = render partial: 'external_users/claims/case_details/cracked_trial_fields', locals: { f: f }

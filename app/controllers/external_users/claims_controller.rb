@@ -16,12 +16,15 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   before_action :set_and_authorize_claim, only: %i[show edit update unarchive clone_rejected destroy summary
                                                    confirmation show_message_controls messages disc_evidence]
+  before_action :set_form_step, only: %i[edit]
   before_action :set_doctypes, only: [:show]
   before_action :generate_form_id, only: %i[new edit]
   before_action :initialize_submodel_counts
 
   include ReadMessages
   include MessageControlsDisplay
+
+  layout 'claim_forms', only: %i[new create edit update]
 
   def index
     track_visit(url: 'external_user/claims', title: 'Your claims')
@@ -249,6 +252,12 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     authorize! params[:action].to_sym, @claim
   end
 
+  def set_form_step
+    return unless @claim
+    return unless params[:step].present?
+    @claim.form_step = params[:step]
+  end
+
   def claim_params
     params.require(:claim).permit(
       :form_id,
@@ -259,6 +268,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :external_user_id,
       :supplier_number,
       :court_id,
+      :case_transferred_from_another_court,
       :transfer_court_id,
       :transfer_case_number,
       :case_number,

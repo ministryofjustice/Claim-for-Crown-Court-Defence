@@ -8,14 +8,24 @@ Feature: Advocate admin submits a claim for a Trial case
     And I click 'Start a claim'
     Then I should be on the new claim page
 
-    When I select an advocate category of 'Junior alone'
-    And I select an advocate
+    When I choose 'Doe, John (AC135)' as the instructed advocate
+    And I enter a case number of 'A20161234'
+    And I save as draft
+    Then I should see 'Draft claim saved'
+
+    Given I am later on the Your claims page
+    And 6+ advocates exist for my provider
+    Then Claim 'A20161234' should be listed with a status of 'Draft'
+
+    When I click the claim 'A20161234'
+    And I edit this claim
+
+    When I select 'Doe, John (AC135)' as the instructed advocate
     And I select the court 'Blackfriars'
     And I select a case type of 'Retrial'
     Then I should see retrial fields
     And I select a case type of 'Trial'
     And I enter trial start and end dates
-    And I enter a case number of 'A20161234'
 
     Then I click "Continue" in the claim form
     And I enter defendant, representation order and MAAT reference
@@ -25,6 +35,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And I select the offence category 'Activities relating to opium'
 
     Then I click "Continue" in the claim form
+    And I select an advocate category of 'Junior alone'
     And I add a basic fee with dates attended
     And I add a number of cases uplift fee with additional case numbers
     And I add a miscellaneous fee 'Adjourned appeals' with dates attended

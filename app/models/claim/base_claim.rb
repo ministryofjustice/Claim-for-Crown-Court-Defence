@@ -188,6 +188,7 @@ module Claim
     before_validation do
       errors.clear
       destroy_all_invalid_fee_types
+      reset_transfer_court_details unless case_transferred_from_another_court
       documents.each { |d| d.external_user_id = external_user_id }
     end
 
@@ -222,6 +223,10 @@ module Claim
       steps_range.include?(step_index)
     end
 
+    def step_back?
+      previous_step.present?
+    end
+
     # Override the corresponding method in the subclass
     def agfs?
       false
@@ -249,6 +254,23 @@ module Claim
 
     def requires_case_concluded_date?
       false
+    end
+
+    def case_transferred_from_another_court=(value)
+      attribute_will_change!('case_transferred_from_another_court') if @case_transferred_from_another_court != value
+      @case_transferred_from_another_court = value.to_s.casecmp('true').zero?
+    end
+
+    def case_transferred_from_another_court
+      return @case_transferred_from_another_court if case_transferred_from_another_court_changed?
+      unless @case_transferred_from_another_court.nil? || transfer_details_changed?
+        return @case_transferred_from_another_court
+      end
+      @case_transferred_from_another_court ||= default_case_transferred_from_another_court
+    end
+
+    def case_transferred_from_another_court_changed?
+      changed.include?('case_transferred_from_another_court')
     end
 
     def self.agfs?
@@ -407,15 +429,31 @@ module Claim
       form_step
     end
 
+    def previous_step
+      return if current_step_index.zero?
+      step = submission_stages[current_step_index - 1]
+      until step_required?(step)
+        break unless step
+        previous_step_index = submission_stages.index(step) - 1
+        return nil if previous_step_index.negative?
+        step = submission_stages[previous_step_index]
+      end
+      step
+    end
+
     def current_step_index
       submission_stages.index(current_step)
     end
 
     def current_step_required?
+      step_required?(form_step)
+    end
+
+    def step_required?(step)
       # NOTE: offence details step is only required when the
       # case type does not have a fixed fee
       # TODO: move this logic to a workflow management
-      return true unless current_step == :offence_details
+      return true unless step.to_s == 'offence_details'
       !fixed_fee_case?
     end
 
@@ -569,6 +607,11 @@ module Claim
 
     def destroy_all_invalid_fee_types; end
 
+    def reset_transfer_court_details
+      self.transfer_court = nil
+      self.transfer_case_number = nil
+    end
+
     def find_and_associate_documents
       return if form_id.nil?
 
@@ -589,6 +632,14 @@ module Claim
     def default_values
       self.source ||= 'web'
       self.form_step ||= submission_stages.first
+    end
+
+    def default_case_transferred_from_another_court
+      transfer_court.present? || !transfer_case_number.blank?
+    end
+
+    def transfer_details_changed?
+      transfer_court_id_changed? || transfer_case_number_changed?
     end
   end
 end

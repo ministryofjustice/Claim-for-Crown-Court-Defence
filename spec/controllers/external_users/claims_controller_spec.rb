@@ -1,12 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true do
+  let!(:advocate) { create(:external_user, :advocate) }
 
-  let!(:advocate)       { create(:external_user, :advocate) }
   before { sign_in advocate.user }
 
   context "list views" do
-
     let!(:advocate_admin) { create(:external_user, :admin, provider: advocate.provider) }
     let!(:other_advocate) { create(:external_user, :advocate, provider: advocate.provider) }
 
@@ -78,9 +77,8 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           end
 
           it 'should assign claims to dashboard displayable state claims for all members of the provder' do
-            expected_claims = [ @draft_claim ]
             get :index
-            expect(assigns(:claims)).to eq( [ @draft_claim] )
+            expect(assigns(:claims)).to eq( [@draft_claim] )
           end
         end
 

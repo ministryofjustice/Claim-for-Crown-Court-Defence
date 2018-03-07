@@ -108,8 +108,4 @@ class ApplicationController < ActionController::Base
   def suppress_hotline_link
     @suppress_contact_us_message = true
   end
-
-  def disable_primary_navigation
-    @primary_navigation_disabled = true
-  end
 end

@@ -5,13 +5,13 @@ require_relative 'shared_examples_for_step_validators'
 RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   include_context "force-validation"
 
-  let(:litigator)     { create(:external_user, :litigator) }
-  let(:claim)         { create :advocate_claim }
+  let(:litigator) { create(:external_user, :litigator) }
+  let(:claim)     { create(:advocate_claim) }
 
   include_examples "common advocate litigator validations", :advocate
 
   context 'case concluded at date' do
-    let(:claim)    { build :claim }
+    let(:claim) { build(:claim) }
 
     it 'is valid when absent' do
       expect(claim.case_concluded_at).to be_nil
@@ -68,6 +68,10 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   end
 
   context 'advocate_category' do
+    before do
+      claim.form_step = 'fees'
+    end
+
     it 'should error if not present' do
       claim.advocate_category = nil
       should_error_with(claim, :advocate_category,"blank")
@@ -274,9 +278,9 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
           case_type
           court
           case_number
+          case_transferred_from_another_court
           transfer_court
           transfer_case_number
-          advocate_category
           estimated_trial_length
           actual_trial_length
           retrial_estimated_length
@@ -295,6 +299,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
       [],
       %i[offence],
       %i[
+        advocate_category
         total
         defendant_uplifts
       ]

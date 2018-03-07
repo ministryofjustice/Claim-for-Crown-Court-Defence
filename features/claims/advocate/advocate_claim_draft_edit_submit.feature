@@ -8,7 +8,6 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     And I click 'Start a claim'
     Then I should be on the new claim page
 
-    When I select an advocate category of 'Junior alone'
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
@@ -33,6 +32,7 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     Then I click "Continue" in the claim form
 
+    And I select an advocate category of 'Junior alone'
     And I add a basic fee with dates attended
     And I add a daily attendance fee with dates attended
     And I add a miscellaneous fee 'Adjourned appeals' with dates attended

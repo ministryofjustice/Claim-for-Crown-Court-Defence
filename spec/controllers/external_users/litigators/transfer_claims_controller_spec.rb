@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :controller, focus: true do
+  let!(:litigator) { create(:external_user, :litigator) }
 
-  let!(:litigator)      { create(:external_user, :litigator) }
   before { sign_in litigator.user }
 
   let(:court)         { create(:court) }
@@ -277,21 +277,36 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
 
   describe 'GET #edit' do
-    before { get :edit, id: subject }
+    let(:edit_request) { -> { get :edit, id: claim } }
+
+    before { edit_request.call }
 
     context 'editable claim' do
-      subject { create(:transfer_claim, creator: litigator) }
+      let(:claim) { create(:transfer_claim, creator: litigator) }
 
       it 'returns http success' do
         expect(response).to have_http_status(:success)
       end
 
       it 'assigns @claim' do
-        expect(assigns(:claim)).to eq(subject)
+        expect(assigns(:claim)).to eq(claim)
+      end
+
+      it 'claim is in the first submission step by default' do
+        expect(assigns(:claim).form_step).to eq(claim.submission_stages.first)
+      end
+
+      context 'when a step is provided' do
+        let(:step) { :defendants }
+        let(:edit_request) { -> { get :edit, id: claim, step: step } }
+
+        it 'claim is submitted submission step' do
+          expect(assigns(:claim).form_step).to eq(:defendants)
+        end
       end
 
       it 'routes to litigators edit path' do
-        expect(request.path).to eq edit_litigators_transfer_claim_path(subject)
+        expect(request.path).to eq edit_litigators_transfer_claim_path(claim)
       end
 
       it 'renders the template' do
@@ -300,7 +315,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     end
 
     context 'uneditable claim' do
-      subject do
+      let(:claim) do
         claim = create(:transfer_claim, creator: litigator)
         create(:transfer_detail, claim: claim)
         claim.submit!

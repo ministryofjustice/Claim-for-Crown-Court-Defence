@@ -2,7 +2,7 @@
   %legend.visuallyhidden
     = t('.miscellaneous_fee')
 
-  .form-group.misc-fee-group.js-block.nested-fields.fx-fee-group{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
+  .form-group.misc-fee-group.js-block.nested-fields.fx-fee-group{data:{"type": "miscFees", autovat: @claim.apply_vat? ? "true" : "false"}}
     .grid-row.js-typeahead
       .column-three-quarters
         .column-half{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}

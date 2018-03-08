@@ -6,7 +6,7 @@
     = t('.transfer_fee_prompt_text_html')
 
   = f.fields_for :transfer_fee do |tf|
-    .transfer-fee-group.nested-fields.mod-fees.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
+    .transfer-fee-group.nested-fields.mod-fees.js-block{data:{"type": "transterFees", autovat: @claim.apply_vat? ? "true" : "false"}}
       %fieldset
         .form-row
           .column-one-third

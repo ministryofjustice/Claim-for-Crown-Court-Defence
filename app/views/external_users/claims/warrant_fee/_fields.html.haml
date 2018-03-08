@@ -6,7 +6,7 @@
     %fieldset
       %legend.visuallyhidden
         = t('.warrant_fee')
-      .form-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
+      .form-group.nested-fields.js-block{data:{"type": "warrantFees", autovat: @claim.apply_vat? ? "true" : "false"}}
         .grid-row
           .warrant-fee-issued-date-group.column-one-half
             = wf.gov_uk_date_field :warrant_issued_date,

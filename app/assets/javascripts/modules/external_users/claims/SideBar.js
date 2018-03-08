@@ -3,8 +3,11 @@ moj.Modules.SideBar = {
   claimForm: '#claim-form',
   vatfactor: 0.2,
   blocks: [],
+  phantomBlockList: ['fixedFees', 'gradFees', 'miscFees', 'disbursements', 'expenses'],
   totals: {
-    fees: 0,
+    fixedFees: 0,
+    gradFees: 0,
+    miscFees: 0,
     disbursements: 0,
     expenses: 0,
     vat: 0,
@@ -14,6 +17,7 @@ moj.Modules.SideBar = {
   init: function() {
     this.bindListeners();
     this.loadBlocks();
+    this.loadStaticBlocks();
   },
 
   loadBlocks: function() {
@@ -30,9 +34,31 @@ moj.Modules.SideBar = {
         $el: $el
       };
       self.blocks.push(new moj.Helpers.SideBar[options.fn](options));
+      self.removePhantomKey($el.data('type'));
+    });
+
+  },
+  removePhantomKey: function(val) {
+    var idx = this.phantomBlockList.indexOf(val);
+    if (idx !== -1) {
+      this.phantomBlockList.splice(idx, 1);
+    }
+  },
+  loadStaticBlocks: function() {
+    var self = this;
+    this.phantomBlockList.forEach(function(val, idx) {
+      if ($('.fx-seed-' + val).length) {
+        var options = {
+          fn: 'PhantomBlock',
+          type: val,
+          autoVAT: true,
+          $el: $('.fx-seed-' + val)
+        }
+        self.blocks.push(new moj.Helpers.SideBar[options.fn](options));
+      }
+
     });
   },
-
   render: function() {
     var self = this;
     var selector;
@@ -42,6 +68,9 @@ moj.Modules.SideBar = {
       selector = '.total-' + key;
       value = '&pound;' + moj.Helpers.SideBar.addCommas(val.toFixed(2));
       $(self.el).find(selector).html(value);
+
+      // console.log(selector, value);
+
     });
   },
 
@@ -49,16 +78,19 @@ moj.Modules.SideBar = {
     var self = this;
 
     this.totals = {
-      fees: self.strAmountToFloat($('.total-fees').data('total-fees')),
+      fixedFees: 0,
+      gradFees: 0,
+      miscFees: 0,
       disbursements: 0,
-      expenses: self.strAmountToFloat($('.total-expenses').data('total-expenses')),
-      vat: self.strAmountToFloat($('.total-vat').data('total-vat')),
-      grandTotal: self.strAmountToFloat($('.total-grandTotal').data('total-grandtotal'))
+      expenses: 0,
+      vat: 0,
+      grandTotal: 0
     };
 
     self.blocks.forEach(function(block) {
       if (block.isVisible()) {
         block.reload();
+        console.log(block.getConfig('type'), block.totals);
         self.totals[block.getConfig('type')] += block.totals.typeTotal;
         self.totals.vat += block.totals.vat;
         self.totals.grandTotal += block.totals.typeTotal + block.totals.vat;
@@ -75,11 +107,13 @@ moj.Modules.SideBar = {
 
     $('#claim-form').on('cocoon:after-insert', function(e) {
       self.loadBlocks();
+      self.loadStaticBlocks();
       self.recalculate();
     });
 
     $('#claim-form').on('cocoon:after-remove', function(e) {
       self.loadBlocks();
+      self.loadStaticBlocks();
       self.recalculate();
     });
 
@@ -95,8 +129,8 @@ moj.Modules.SideBar = {
   },
 
   strAmountToFloat: function(str) {
-    if(typeof str == 'undefined'){
-     return 0;
+    if (typeof str == 'undefined') {
+      return 0;
     }
     return parseFloat(str.replace(',', '').replace(/£/g, ''));
   }

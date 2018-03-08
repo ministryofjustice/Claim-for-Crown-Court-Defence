@@ -14,6 +14,7 @@ moj.Helpers.SideBar = {
     };
 
     this.updateTotals = function() {
+      console.log('please over ride');
       return 'This method needs an override';
     };
 
@@ -155,7 +156,37 @@ moj.Helpers.SideBar = {
 
     this.init();
   },
+  PhantomBlock: function() {
+    var self = this;
+    // copy methods over
+    moj.Helpers.SideBar.Base.apply(this, arguments);
+    this.totals = {
+      quantity: 0,
+      rate: 0,
+      amount: 0,
+      total: 0,
+      vat: 0
+    };
 
+    this.isVisible = function() {
+      return true;
+    };
+
+    this.reload = function() {
+      this.totals.total =  parseFloat(this.$el.data('seed'));
+      this.totals.typeTotal = this.totals.total;
+      if(this.config.autoVAT){
+        this.totals.vat = this.totals.total * 0.2
+      }
+      return this;
+    };
+
+    this.init = function(){
+      this.reload();
+    }
+
+    this.init();
+  },
   addCommas: function(nStr) {
     nStr += '';
     x = nStr.split('.');

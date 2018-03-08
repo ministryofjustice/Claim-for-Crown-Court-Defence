@@ -41,7 +41,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I enter the fixed fee date
     And I add a miscellaneous fee 'Costs judge application'
     And I add a Case uplift fee with case numbers 'A20161234, A20165588'
-    And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '30.5'
+    And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
     And I add an expense 'Parking'
 
@@ -59,4 +59,4 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£620.49'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£615.07'

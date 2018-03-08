@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'ExpenseV1Validator and ExpenseV2Validator', type: :validator do
-
   context 'schema_version 2' do
-
     let(:claim)                       { build :claim, force_validation: true }
     let(:expense)                     { build :expense, :train, claim: claim }
     let(:car_travel_expense)          { build(:expense, :car_travel, claim: claim ) }
@@ -23,6 +21,7 @@ RSpec.describe 'ExpenseV1Validator and ExpenseV2Validator', type: :validator do
 
     describe '#validate_vat_amount for LGFS claims' do
       let(:claim) { build :litigator_claim, force_validation: true }
+      before { expense.amount = 100 }
 
       it { should_error_if_equal_to_value(expense, :vat_amount, 200_001, 'item_max_amount') }
 
@@ -42,28 +41,35 @@ RSpec.describe 'ExpenseV1Validator and ExpenseV2Validator', type: :validator do
       end
 
       it 'is valid if less than the total amount' do
-        expense.amount = 11
-        expense.vat_amount = 2
+        expense.vat_amount = 10
         expect(expense).to be_valid
       end
 
       it 'is invalid if greater than the total amount' do
-        expense.amount = 100
         expense.vat_amount = 100.01
-        expect(expense).not_to be_valid
+        expect(expense).to be_invalid
         expect(expense.errors[:vat_amount]).to include('greater_than')
       end
 
       it 'is valid if less than VAT% of total amount' do
-        expense.amount = 100
-        expense.vat_amount = 20.00
+        expense.vat_amount = 20.001
+        expect(expense).to be_valid
+      end
+
+      it 'is valid if rounded value is less than VAT% of total amount' do
+        expense.vat_amount = 20.001
         expect(expense).to be_valid
       end
 
       it 'is invalid if greater than current VAT% of the total amount' do
-        expense.amount = 100
         expense.vat_amount = 20.01
-        expect(expense).not_to be_valid
+        expect(expense).to be_invalid
+        expect(expense.errors[:vat_amount]).to include('max_vat_amount')
+      end
+
+      it 'is invalid if rounded value greater than current VAT% of the total amount' do
+        expense.vat_amount = 20.009
+        expect(expense).to be_invalid
         expect(expense.errors[:vat_amount]).to include('max_vat_amount')
       end
 
@@ -140,8 +146,6 @@ RSpec.describe 'ExpenseV1Validator and ExpenseV2Validator', type: :validator do
           travel_time_expense.hours = 7
           expect(travel_time_expense).to be_valid
         end
-
-
       end
 
       context 'not travel time' do

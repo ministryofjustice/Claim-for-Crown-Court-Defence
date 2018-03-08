@@ -56,7 +56,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I add a miscellaneous fee 'Costs judge application'
     And I add a Case uplift fee with case numbers 'A20161234, A20165588'
 
-    And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '32.50'
+    And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
 
     And I add an expense 'Parking'
@@ -66,6 +66,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I add some additional information
 
     Then I click Submit to LAA
+    And I save and open screenshot
     And I should be on the check your claim page
     And I should see 'G: Other offences of dishonesty between £30,001 and £100,000'
 
@@ -77,4 +78,4 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£643.45'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£636.03'

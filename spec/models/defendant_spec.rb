@@ -34,8 +34,8 @@ RSpec.describe Defendant, type: :model do
     end
 
     context 'draft claim from api' do
-      before { 
-        subject.claim = create(:draft_claim) 
+      before {
+        subject.claim = create(:draft_claim)
         subject.claim.source = 'api'
       }
 
@@ -123,7 +123,40 @@ RSpec.describe Defendant, type: :model do
         expect(defendant.name_and_initial).to eq ''
       end
     end
+  end
 
+  describe '#earliest_representation_order' do
+    subject(:defendant) { described_class.new }
 
+    context 'when there are no representation orders' do
+      subject(:defendant) { build(:defendant, representation_orders: []) }
+
+      specify { expect(defendant.earliest_representation_order).to be_nil }
+    end
+
+    context 'when there are representation orders' do
+      let(:base_date) { 3.months.ago.to_date }
+      let(:expected_representation_order) {
+        build(:representation_order, representation_order_date: base_date - 2.days)
+      }
+      let(:later_representation_order) {
+        build(:representation_order, representation_order_date: base_date + 3.days)
+      }
+      let(:representation_orders) {
+        [
+          build(:representation_order, representation_order_date: nil),
+          later_representation_order,
+          build(:representation_order, representation_order_date: nil),
+          expected_representation_order,
+          build(:representation_order, representation_order_date: nil)
+        ]
+      }
+
+      subject(:defendant) { build(:defendant, representation_orders: representation_orders) }
+
+      it 'returns the earliest representation order' do
+        expect(defendant.earliest_representation_order).to eq(expected_representation_order)
+      end
+    end
   end
 end

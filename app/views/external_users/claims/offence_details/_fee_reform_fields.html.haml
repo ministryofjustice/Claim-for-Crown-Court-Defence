@@ -1,0 +1,42 @@
+- locale_scope = 'external_users.claims.offence_details.fields'
+
+.error-summary
+  %h1.heading-medium.error-summary-heading Warning: This is just a place holder for new offences page
+
+.form-section
+  #search-field.form-group
+    = f.anchored_label t('search_offence', scope: locale_scope), 'search_offence', { label_attributes: { class: 'form-label-bold' } }
+    %input{ type: :text, class: 'form-control form-control-2-3' }
+
+  %details
+    %summary
+      %span Help with the offence classification
+    .panel.panel-border-narrow
+      %p
+        For more information on offence classification for the
+        %br
+        Advocates' Graduated Fee Scheme (
+        %abbr{ title: "Advocates' Graduated Fee Scheme" } AGFS
+        ),
+        %br
+        please visit the
+        %a{ href: "https://www.gov.uk/government/publications/crown-court-fee-guidance", target: '_blank' } Crown Court fee guidance
+        page on GOV.UK.
+
+.grid-row
+  #offence-list.column-full
+    .grid-row.offence-item
+      .column-two-thirds
+        %a{ href: "#", class: 'font-xsmall link-grey' } Offence category placeholder
+        %span.font-xsmall.font-grey &gt;
+        %a{ href: "#", class: 'font-xsmall link-grey' } Offence band placeholder
+        %br
+        %span Offence placeholder
+        %br
+        %a{ href: "#", class: 'font-xsmall link-grey' } Act placeholder
+
+
+      .column-one-third.align-right
+        %br
+        %a{ href: "#", class: 'button offence-item-button' } Select and continue
+

@@ -457,5 +457,73 @@ module Claim
       expect(claim.earliest_representation_order_date).to eq march_10
     end
   end
-end
 
+  describe '#fee_scheme' do
+    let(:claim) { MockBaseClaim.new }
+    let(:mock_fee_scheme) { double(:fee_scheme) }
+
+    specify {
+      expect(FeeScheme).to receive(:for_claim).with(claim).and_return(mock_fee_scheme)
+      expect(claim.fee_scheme).to eq(mock_fee_scheme)
+    }
+  end
+
+  describe '#earliest_representation_order' do
+    let(:claim) { MockBaseClaim.new }
+
+    subject(:earliest_representation_order) { claim.earliest_representation_order }
+
+    context 'but there are no associated defendants' do
+      before do
+        claim.defendants = []
+      end
+
+      specify { expect(earliest_representation_order).to be_nil }
+    end
+
+    context 'but there are no earliest representation orders for the associated defendants' do
+      let(:defendants) { build_list(:defendant, 2) }
+
+      before do
+        claim.defendants = defendants
+      end
+
+      specify {
+        defendants.each do |defendant|
+          expect(defendant).to receive(:earliest_representation_order).and_return(nil)
+        end
+        expect(earliest_representation_order).to be_nil }
+    end
+
+    context 'and some of the defendants have an earliest representation order set' do
+      let(:base_date) { 3.months.ago.to_date }
+      let(:expected_representation_order) {
+        build(:representation_order, representation_order_date: base_date - 2.days)
+      }
+      let(:later_representation_order) {
+        build(:representation_order, representation_order_date: base_date + 3.days)
+      }
+      let(:defendant_with_earliest_representation_date) { build(:defendant) }
+      let(:defendant_with_later_representation_date) { build(:defendant) }
+      let(:defendant_with_no_earliest_representation_date) { build(:defendant) }
+      let(:defendants) {
+        [
+          defendant_with_later_representation_date,
+          defendant_with_earliest_representation_date,
+          defendant_with_no_earliest_representation_date
+        ]
+      }
+
+      before do
+        expect(defendant_with_no_earliest_representation_date).to receive(:earliest_representation_order).and_return(nil)
+        expect(defendant_with_later_representation_date).to receive(:earliest_representation_order).and_return(later_representation_order)
+        expect(defendant_with_earliest_representation_date).to receive(:earliest_representation_order).and_return(expected_representation_order)
+        claim.defendants = defendants
+      end
+
+      it 'returns the earliest representation order out of all the defendants' do
+        expect(earliest_representation_order).to eq(expected_representation_order)
+      end
+    end
+  end
+end

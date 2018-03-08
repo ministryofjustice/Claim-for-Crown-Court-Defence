@@ -190,12 +190,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def load_offences_and_case_types
+    @offences = Claims::FetchEligibleOffences.for(@claim)
     @offence_descriptions = Offence.unique_name
-    @offences = if @claim.offence
-                  Offence.where(description: @claim.offence.description)
-                else
-                  Offence.all
-                end
     @case_types = @claim.eligible_case_types
   end
 

@@ -5,5 +5,7 @@ class TypedFeeAmountSection < TypedFeeSection
 
   def populated?
     amount.value.size > 0
+  rescue Capybara::ElementNotFound
+    false
   end
 end

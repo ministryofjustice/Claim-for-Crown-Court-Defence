@@ -47,7 +47,7 @@ moj.Modules.FeeFieldsDisplay = {
 
   toggleEpfRadios: function(el) {
     var currentElement = $(el);
-    var evidenceProvisionFee = currentElement.find('option:selected').data('epf');
+    var evidenceProvisionFee = currentElement.find('option:selected').data('evidence-provision-fee');
     var epfAmountRadios = currentElement.find('.fx-fee-amount-radio-section');
     var epfAmountRadio = currentElement.find('.fx-fee-amount-radio');
     var feeAmount = currentElement.find('.fx-fee-amount-section');
@@ -65,5 +65,4 @@ moj.Modules.FeeFieldsDisplay = {
       feeAmountInput.prop('disabled', false);
     }
   },
-
 }

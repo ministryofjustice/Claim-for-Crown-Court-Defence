@@ -70,8 +70,6 @@ RSpec.describe Claim, type: :model do
       claim.reload
     end
 
-    # before { claim.reload }
-
     context 'AGFS claim' do
       subject(:claim) { create(:claim) }
 

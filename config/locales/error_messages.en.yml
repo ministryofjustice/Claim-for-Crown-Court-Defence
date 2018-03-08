@@ -20,7 +20,7 @@ dictionary:
     enter_valid_quantity: &enter_valid_quantity 'Enter a valid quantity'
     enter_valid_rate: &enter_valid_rate 'Enter a valid rate'
     item_max_amount: &item_max_amount 'Amount exceeds limit'
-    vat_max_amount: &vat_max_amount 'Amount exceeds VAT rate'
+    max_vat_amount: &max_vat_amount 'Enter a valid amount'
     claim_max_amount: &claim_max_amount 'Amount claimed exceeds limit'
     max_length: &max_length 'Length exceeds limit'
 
@@ -1225,9 +1225,9 @@ expense:
       long: 'VAT amount for the #{expense} exceeds the limit'
       short: *item_max_amount
       api: VAT amount for the expense exceeds the limit
-    vat_max_amount:
+    max_vat_amount:
       long: 'VAT amount for the #{expense} exceeds current VAT rate'
-      short: *vat_max_amount
+      short: *max_vat_amount
       api: VAT amount for the expense exceeds current VAT rate
 
 
@@ -1420,9 +1420,9 @@ disbursement:
       long: 'VAT amount for the #{disbursement} exceeds the limit'
       short: *item_max_amount
       api: VAT amount for the disbursement exceeds the limit
-    vat_max_amount:
+    max_vat_amount:
       long: 'VAT amount for the #{disbursement} exceeds current VAT rate'
-      short: *vat_max_amount
+      short: *max_vat_amount
       api: VAT amount for the expense exceeds current VAT rate
 
 #################################################################################

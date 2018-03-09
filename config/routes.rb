@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get '/api/landing',   to: 'pages#api_landing',      as: :api_landing_page
   get '/api/release_notes',   to: 'pages#api_release_notes', as: :api_release_notes
 
-  get 'vat'                 => "vat_rates#index"
+  get 'vat' => "vat_rates#index"
 
   get 'json_schema' => 'json_template#index'
   get 'json_schemas/:schema', to: 'json_template#show', as: :json_schemas
@@ -93,12 +93,13 @@ Rails.application.routes.draw do
 
   scope module: 'external_users' do
     namespace :advocates do
-      resources :claims, only: [:new, :create, :edit, :update]
+      resources :claims, only: %i[new create edit update]
+      resources :interim_claims, only: %i[new create edit update]
     end
     namespace :litigators do
-      resources :claims, only: [:new, :create, :edit, :update]
-      resources :interim_claims, only: [:new, :create, :edit, :update]
-      resources :transfer_claims, only: [:new, :create, :edit, :update]
+      resources :claims, only: %i[new create edit update]
+      resources :interim_claims, only: %i[new create edit update]
+      resources :transfer_claims, only: %i[new create edit update]
     end
   end
 

@@ -273,12 +273,20 @@ module Claim
       changed.include?('case_transferred_from_another_court')
     end
 
+    def self.agfs_claim_types
+      [Claim::AdvocateClaim, Claim::AdvocateInterimClaim]
+    end
+
+    def self.lgfs_claim_types
+      [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
+    end
+
     def self.agfs?
-      [Claim::AdvocateClaim].include?(self)
+      agfs_claim_types.include?(self)
     end
 
     def self.lgfs?
-      [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].include?(self)
+      lgfs_claim_types.include?(self)
     end
 
     def self.filter(filter)

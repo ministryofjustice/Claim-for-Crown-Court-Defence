@@ -1,0 +1,11 @@
+= render partial: 'external_users/claims/error_summary', locals: { ep: @error_presenter }
+
+= render partial: 'layouts/header', locals: { page_heading: t('external_users.agfs_interim_claim_heading') }
+
+- present(@claim) do |claim|
+  .grid-row.grid-sidebar
+    .column-two-thirds.first
+      = render partial: 'form', locals: { claim: claim }
+
+    .column-one-third.first
+      = render partial: 'external_users/claims/summary_claims_sidebar', locals: { claim: claim, display_buttons: false }

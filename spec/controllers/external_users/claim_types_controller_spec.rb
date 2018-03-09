@@ -14,7 +14,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       before do
         allow(Claims::ContextMapper).to receive(:new).and_return(context_mapper)
-        allow(context_mapper).to receive(:available_compreensive_claim_types).and_return([])
+        allow(context_mapper).to receive(:available_comprehensive_claim_types).and_return([])
       end
 
       it 'redirects the user to the claims page with an error' do
@@ -30,7 +30,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       before do
         allow(Claims::ContextMapper).to receive(:new).and_return(context_mapper)
-        allow(context_mapper).to receive(:available_compreensive_claim_types).and_return(%w[invalid_bill_type])
+        allow(context_mapper).to receive(:available_comprehensive_claim_types).and_return(%w[invalid_bill_type])
       end
 
       it 'redirects the user to the claims page with an error' do

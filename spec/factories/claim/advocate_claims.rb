@@ -1,7 +1,6 @@
 require_relative 'claim_factory_helpers'
 include ClaimFactoryHelpers
 
-
 FactoryBot.define do
   factory :claim, aliases: [:advocate_claim], class: Claim::AdvocateClaim do
 

@@ -3,6 +3,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   include PaginationHelpers
   include DocTypes
 
+  class ResourceClassNotDefined < StandardError; end
+
   skip_load_and_authorize_resource
 
   helper_method :sort_column, :sort_direction, :scheme
@@ -16,6 +18,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   before_action :set_and_authorize_claim, only: %i[show edit update unarchive clone_rejected destroy summary
                                                    confirmation show_message_controls messages disc_evidence]
+  before_action :redirect_unless_editable, only: %i[edit update]
   before_action :set_form_step, only: %i[edit]
   before_action :set_doctypes, only: [:show]
   before_action :generate_form_id, only: %i[new edit]
@@ -132,6 +135,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def new
+    @claim = resource_klass.new
+    authorize! :new, @claim
     load_offences_and_case_types
     build_nested_resources
     track_visit({ url: 'external_user/%{type}/claim/new/%{step}', title: 'New %{type} claim %{step}' },
@@ -139,11 +144,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def edit
-    unless @claim.editable?
-      redirect_to external_users_claims_url, notice: 'Can only edit "draft" claims'
-      return
-    end
-
     build_nested_resources
     load_offences_and_case_types
     @disable_assessment_input = true
@@ -155,6 +155,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def create
+    @claim = resource_klass.new(params_with_external_user_and_creator)
+    authorize! :create, @claim
     result = if submitting_to_laa?
                Claims::CreateClaim.call(@claim)
              else
@@ -183,6 +185,22 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     )
   end
 
+  class << self
+    def resource_klass(klass)
+      @resource_klass ||= klass
+    end
+
+    def defined_resource_class
+      @resource_klass || raise(ResourceClassNotDefined)
+    end
+  end
+
+  protected
+
+  def resource_klass
+    self.class.defined_resource_class
+  end
+
   private
 
   def generate_form_id
@@ -192,7 +210,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def load_offences_and_case_types
     @offences = Claims::FetchEligibleOffences.for(@claim)
     @offence_descriptions = Offence.unique_name
-    @case_types = @claim.eligible_case_types
+    @case_types = @claim.respond_to?(:eligible_case_types) ? @claim&.eligible_case_types : []
   end
 
   def set_user_and_provider
@@ -479,5 +497,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       action: @claim.edition_state,
       action_t: @claim.edition_state.titleize
     }
+  end
+
+  def redirect_unless_editable
+    return if @claim.editable?
+    redirect_to external_users_claims_url, notice: 'Can only edit "draft" claims'
   end
 end

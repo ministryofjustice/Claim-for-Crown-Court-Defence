@@ -3,11 +3,12 @@ moj.Modules.SideBar = {
   claimForm: '#claim-form',
   vatfactor: 0.2,
   blocks: [],
-  phantomBlockList: ['fixedFees', 'gradFees', 'miscFees', 'disbursements', 'expenses'],
+  phantomBlockList: ['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'disbursements', 'expenses'],
   totals: {
     fixedFees: 0,
     gradFees: 0,
     miscFees: 0,
+    warrantFees: 0,
     disbursements: 0,
     expenses: 0,
     vat: 0,
@@ -46,14 +47,21 @@ moj.Modules.SideBar = {
   },
   loadStaticBlocks: function() {
     var self = this;
+    var $el;
     this.phantomBlockList.forEach(function(val, idx) {
       if ($('.fx-seed-' + val).length) {
+        $el = $('.fx-seed-' + val);
         var options = {
           fn: 'PhantomBlock',
           type: val,
           autoVAT: true,
           $el: $('.fx-seed-' + val)
         }
+
+        if ($el.data('autovat') === false) {
+          options.autoVAT = false;
+        }
+
         self.blocks.push(new moj.Helpers.SideBar[options.fn](options));
       }
 
@@ -81,6 +89,7 @@ moj.Modules.SideBar = {
       fixedFees: 0,
       gradFees: 0,
       miscFees: 0,
+      warrantFees: 0,
       disbursements: 0,
       expenses: 0,
       vat: 0,

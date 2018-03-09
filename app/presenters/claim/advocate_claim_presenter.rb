@@ -56,5 +56,4 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
     "agfs_final"
   end
 
-
 end

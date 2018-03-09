@@ -8,7 +8,7 @@
       %fieldset
         %legend.visuallyhidden
           = t('.fixed_fees')
-        .fixed-fee-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
+        .fixed-fee-group.nested-fields.js-block{data:{"type": "fixedFees", autovat: @claim.apply_vat? ? "true" : "false"}}
           .grid-row
             %div
               %label.form-label

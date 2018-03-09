@@ -156,6 +156,7 @@ moj.Helpers.SideBar = {
 
     this.init();
   },
+
   PhantomBlock: function() {
     var self = this;
     // copy methods over
@@ -175,8 +176,11 @@ moj.Helpers.SideBar = {
     this.reload = function() {
       this.totals.total =  parseFloat(this.$el.data('seed'));
       this.totals.typeTotal = this.totals.total;
+
       if(this.config.autoVAT){
-        this.totals.vat = this.totals.total * 0.2
+        this.totals.vat = this.totals.total * 0.2;
+      } else{
+        this.totals.vat = parseFloat(this.$el.data('seed-vat'));
       }
       return this;
     };

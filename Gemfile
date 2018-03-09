@@ -45,7 +45,6 @@ gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.
 gem 'susy',	                  '~> 2.2.12'
 gem 'sentry-raven',           '~> 1.2.2'
 gem 'simple_form',            '~> 3.5.0'
-gem 'sinatra',                '~> 1.4.7', require: false
 gem 'sprockets-rails',        '~> 3.2'
 gem 'squeel',                 '~> 1.2.3'
 gem 'state_machine',          '~> 1.2.0'
@@ -53,7 +52,7 @@ gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'
 gem 'uglifier',                '>= 1.3.0'
 gem 'zendesk_api'  ,           '1.12.1'
-gem 'sidekiq',                 '4.1.2' # version locked, as 4.1.3 forces Sinatra dependency
+gem 'sidekiq',                 '~> 4.2.9'
 gem 'utf8-cleaner',            '~> 0.2'
 gem 'colorize'
 gem 'shell-spinner', '~> 1.0', '>= 1.0.4'

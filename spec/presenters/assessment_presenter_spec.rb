@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AssessmentPresenter do
-  let(:claim) { FactoryBot.create :claim, apply_vat: true }
-  let(:presenter) { AssessmentPresenter.new(claim.assessment, view) }
+  let(:claim) { create(:claim, apply_vat: true) }
+  let(:presenter) { described_class.new(claim.assessment, view) }
 
   context 'currency fields' do
     let(:currency_pattern) { /£\d,\d{3}\.\d{2}/ }

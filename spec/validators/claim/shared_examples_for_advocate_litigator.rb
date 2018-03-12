@@ -128,7 +128,7 @@ RSpec.shared_examples "common litigator validations" do
   let(:advocate)      { build(:external_user, :advocate) }
   let(:offence)       { build(:offence) }
   let(:offence_class) { build(:offence_class, class_letter: 'X', description: 'Offences of dishonesty in Class F where the value in is in excess of £100,000') }
-  let(:misc_offence)  { create(:offence, description: 'Miscellaneous/other', offence_class: offence_class) }
+  let(:misc_offence)  { build(:offence, description: 'Miscellaneous/other', offence_class: offence_class) }
 
   describe 'validate creator provider is in LGFS fee scheme' do
     it 'rejects creators whose provider is only agfs' do

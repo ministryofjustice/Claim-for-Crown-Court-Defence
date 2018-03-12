@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180308095317) do
+ActiveRecord::Schema.define(version: 20180312102328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -438,8 +438,10 @@ ActiveRecord::Schema.define(version: 20180308095317) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "unique_code",      default: "anyoldrubbish", null: false
+    t.integer  "fee_band_id"
   end
 
+  add_index "offences", ["fee_band_id"], name: "index_offences_on_fee_band_id", using: :btree
   add_index "offences", ["offence_class_id"], name: "index_offences_on_offence_class_id", using: :btree
   add_index "offences", ["unique_code"], name: "index_offences_on_unique_code", unique: true, using: :btree
 
@@ -567,4 +569,5 @@ ActiveRecord::Schema.define(version: 20180308095317) do
 
   add_foreign_key "fee_bands", "fee_categories"
   add_foreign_key "injection_attempts", "claims"
+  add_foreign_key "offences", "fee_bands"
 end

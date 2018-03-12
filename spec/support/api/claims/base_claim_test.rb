@@ -126,7 +126,7 @@ class BaseClaimTest
       "claim_id": claim_uuid,
       "disbursement_type_id": disbursement_type_id,
       "net_amount": 100.25,
-      "vat_amount": 20.10
+      "vat_amount": 20.05
     }
   end
 

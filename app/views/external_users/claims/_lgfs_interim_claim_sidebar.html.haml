@@ -1,0 +1,65 @@
+%ul
+  %li
+    %h1
+      = "LGFS Interim Fees"
+      = claim.fixed_fee_case?
+    = "==================="
+
+  %li.fx-seed-interimFees{"data-seed": claim.raw_interim_fees_total}
+    = "Interim fee"
+    %span.total-interimFees
+      = claim.raw_interim_fees_total
+
+  %li.fx-seed-warrantFees{"data-seed": claim.raw_warrant_fees_total}
+    = "Warrant"
+    %span.total-warrantFees
+      = claim.raw_warrant_fees_total
+
+
+  %li.fx-seed-miscFees{"data-seed": claim.raw_misc_fees_total}
+    = "Misc"
+    %span.total-miscFees
+      = claim.raw_misc_fees_total
+
+  %li
+    %br/
+    %h1
+      = "OTHER"
+    = "==================="
+  %li.fx-seed-disbursements{"data-seed": claim.raw_disbursements_total, "data-autovat": "false", "data-seed-vat": claim.raw_disbursements_vat}
+    = "Disbursements"
+    %span.total-disbursements
+      = claim.raw_disbursements_total
+
+  %li.fx-seed{"data-disbursements-vat": claim.raw_disbursements_vat}
+    = "Disbursements VAT"
+    = claim.raw_disbursements_vat
+
+  %li.fx-seed-expenses{"data-seed": claim.raw_expenses_total, "data-autovat": "false", "data-seed-vat": claim.raw_expenses_vat}
+    = "Expenses"
+    %span.total-expenses
+      = claim.raw_expenses_total
+
+  %li.fx-seed{"data-expenses-vat": claim.raw_expenses_vat}
+    = "Expenses VAT"
+    = claim.raw_expenses_vat
+
+
+  %li
+    %br/
+    %h1
+      = "TOTALS"
+    = "==================="
+  %li.fx-seed{"data-vat-total": claim.raw_vat_amount}
+    = "VAT"
+    %span.total-vat
+      = claim.raw_vat_amount
+
+  %li.fx-seed{"data-total-excl": claim.raw_total_excl}
+    = "Total excl"
+    = claim.raw_total_excl
+
+  %li.fx-seed{"data-total-inc": claim.raw_total_inc}
+    = "Total incl"
+    %span.total-grandTotal
+      = claim.raw_total_inc

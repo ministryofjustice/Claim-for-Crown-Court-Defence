@@ -31,7 +31,7 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
     claim.interim_fee&.amount || 0
   end
 
-   def raw_misc_fees_total
+  def raw_misc_fees_total
     claim.calculate_fees_total(:misc) || 0
   end
 

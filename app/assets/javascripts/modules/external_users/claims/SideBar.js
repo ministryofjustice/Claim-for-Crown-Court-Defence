@@ -3,13 +3,14 @@ moj.Modules.SideBar = {
   claimForm: '#claim-form',
   vatfactor: 0.2,
   blocks: [],
-  phantomBlockList: ['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'interimFees', 'disbursements', 'expenses'],
+  phantomBlockList: ['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'interimFees', 'transferFees', 'disbursements', 'expenses'],
   totals: {
     fixedFees: 0,
     gradFees: 0,
     miscFees: 0,
     warrantFees: 0,
     interimFees: 0,
+    transferFees: 0,
     disbursements: 0,
     expenses: 0,
     vat: 0,
@@ -79,7 +80,7 @@ moj.Modules.SideBar = {
       value = '&pound;' + moj.Helpers.SideBar.addCommas(val.toFixed(2));
       $(self.el).find(selector).html(value);
 
-      // console.log(selector, value);
+      console.log(selector, value);
 
     });
   },
@@ -93,6 +94,7 @@ moj.Modules.SideBar = {
       miscFees: 0,
       warrantFees: 0,
       interimFees: 0,
+      transferFees: 0,
       disbursements: 0,
       expenses: 0,
       vat: 0,

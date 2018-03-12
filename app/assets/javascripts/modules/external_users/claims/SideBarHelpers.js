@@ -14,7 +14,6 @@ moj.Helpers.SideBar = {
     };
 
     this.updateTotals = function() {
-      console.log('please over ride');
       return 'This method needs an override';
     };
 

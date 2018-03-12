@@ -37,7 +37,6 @@ moj.Modules.SideBar = {
         $el: $el
       };
       self.blocks.push(new moj.Helpers.SideBar[options.fn](options));
-      console.log($el.data('type'));
       self.removePhantomKey($el.data('type'));
     });
 
@@ -104,7 +103,6 @@ moj.Modules.SideBar = {
     self.blocks.forEach(function(block) {
       if (block.isVisible()) {
         block.reload();
-        console.log(block.getConfig('type'), block.totals);
         self.totals[block.getConfig('type')] += block.totals.typeTotal;
         self.totals.vat += block.totals.vat;
         self.totals.grandTotal += block.totals.typeTotal + block.totals.vat;

@@ -1,5 +1,29 @@
 require 'rails_helper'
 
+RSpec::Matchers.define :have_totals do |expected|
+  match do |actual|
+    @errors = {}
+    expected.keys.each do |key|
+      @errors[key] = [expected[key], actual.send(key)] if !actual.send(key).eql?(expected[key])
+    end
+    expected_total = BigDecimal.new(expected[:fees_total] + expected[:disbursements_total] + expected[:expenses_total], 8)
+    expected_vat_amount = BigDecimal.new(expected[:fees_vat] + expected[:disbursements_vat] + expected[:expenses_vat], 8)
+    @errors[:total] = [expected_total, actual.total] if !actual.total.eql?(expected_total)
+    @errors[:vat_amount] = [expected_vat_amount, actual.vat_amount] if !actual.vat_amount.eql?(expected_vat_amount)
+    @errors.empty?
+  end
+
+  description do
+    "have valid totals"
+  end
+
+  failure_message do |actual|
+    @errors.each_with_object("Invalid totals:") do |(k, v), msg|
+      msg << "\n- #{k}: expected #{v[0]}, got #{v[1]}"
+    end
+  end
+end
+
 RSpec.describe Claim, type: :model do
   subject(:claim) { create(:claim) }
   let(:expenses) { [3.5, 1.0, 142.0].each { |amount| create(:expense, claim_id: claim.id, amount: amount) } }
@@ -125,6 +149,7 @@ RSpec.describe Claim, type: :model do
           expect(claim.vat_registered?).to be true
           expect_totals_to_be(claim, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 
+
           # add misc fees for 31.5, and 6.25 - VAT should be added in
           claim.fees << create(:misc_fee, rate: 10.5, quantity: 3)
           claim.fees << create(:misc_fee, rate: 6.25, quantity: 1)
@@ -179,38 +204,45 @@ RSpec.describe Claim, type: :model do
     end
 
     context 'AGFS' do
+      subject(:claim) { create(:advocate_claim, :without_fees) }
+
       context 'with VAT' do
+        before do
+          allow(claim).to receive_messages(vat_registered?: true, apply_vat?: true)
+        end
+
         it 'should automatically add VAT' do
-          claim = create :advocate_claim, :without_fees
-          allow(claim).to receive(:vat_registered?).and_return(true)
-          claim.apply_vat = true
-          expect_totals_to_be(claim, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+          is_expected.to have_totals({ fees_total: 0.0, fees_vat: 0.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 0.0, expenses_vat: 0.0 })
 
-          # add basic fee and VAT should be calculated and added in
           claim.basic_fees << create(:basic_fee, claim: claim, quantity: 1, rate: 200)
-          expect_totals_to_be(claim, 0.0, 0.0, 200.0, 40.0, 0.0, 0.0) # VAT £35.00 calculated using the test VAT rate of 20.0%
+          is_expected.to have_totals({ fees_total: 200.0, fees_vat: 40.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 0.0, expenses_vat: 0.0 })
 
-          # add expense and VAT should be calculated and added in
           claim.expenses << create(:expense, claim: claim, amount: 9.99)
-          expect_totals_to_be(claim, 9.99, 2.0, 200.0, 40.0, 0.0, 0.0)
+          is_expected.to have_totals({ fees_total: 200.0, fees_vat: 40.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 9.99, expenses_vat: 2.0 })
         end
       end
 
       context 'without VAT' do
-        it 'should not add VAT' do
-          claim = create :advocate_claim, :without_fees
-          claim.apply_vat = false
-          allow(claim).to receive(:vat_registered?).and_return(false)
+        before do
+          allow(claim).to receive_messages(vat_registered?: false, apply_vat?: false)
+        end
 
-          expect_totals_to_be(claim, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+        context 'with no fees, expenses or disbursements' do
+          it 'applies no VAT' do
+            expect(claim).to have_totals({ fees_total: 0.0, fees_vat: 0.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 0.0, expenses_vat: 0.0 })
+          end
+        end
 
-          # add basic fee and VAT should be calculated and added in
-          claim.basic_fees << create(:basic_fee, claim: claim, quantity: 1, rate: 200)
-          expect_totals_to_be(claim, 0.0, 0.0, 200.0, 0.0, 0.0, 0.0)
+        context 'with fees and expenses' do
+          before do
+            create(:basic_fee, claim: claim, quantity: 1, rate: 200)
+            create(:misc_fee, claim: claim, quantity: 2, rate: 50)
+            create(:expense, claim: claim, amount: 9.99)
+          end
 
-          # add expense and VAT should be calculated and added in
-          claim.expenses << create(:expense, claim: claim, amount: 9.99)
-          expect_totals_to_be(claim, 9.99, 0.0, 200.0, 0.0, 0.0, 0.0)
+          it 'applies no VAT' do
+            expect(claim).to have_totals({ fees_total: 300.00, fees_vat: 0.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 9.99, expenses_vat: 0.0 })
+          end
         end
       end
     end

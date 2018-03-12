@@ -169,3 +169,7 @@ Style/IfInsideElse:
     - 'app/presenters/error_message_translator.rb'
     - 'app/services/vat_auditor.rb'
     - 'app/validators/claim/interim_claim_validator.rb'
+
+Lint/DuplicateMethods:
+  Exclude:
+    - 'app/models/claim/base_claim.rb'

@@ -599,6 +599,18 @@ module Claim
       self.disbursements_vat = 0.0 if disbursements_vat.nil?
     end
 
+    def fee_scheme
+      @fee_scheme ||= FeeScheme.for_claim(self)
+    end
+
+    def earliest_representation_order
+      return if defendants.empty?
+      defendants
+        .map(&:earliest_representation_order)
+        .compact
+        .sort_by(&:representation_order_date).first
+    end
+
     private
 
     # called from state_machine before_transition on submit - override in subclass

@@ -48,4 +48,11 @@ class Defendant < ActiveRecord::Base
   def validate_date?
     perform_validation? && claim&.case_type.present?
   end
+
+  def earliest_representation_order
+    return if representation_orders.empty?
+    representation_orders.select do |ro|
+      ro.representation_order_date.present?
+    end.sort_by(&:representation_order_date).first
+  end
 end

@@ -91,7 +91,7 @@ if (!String.prototype.supplant) {
 
   $('.defendants').on('cocoon:after-insert', function(e, el){
     var $el = $(el);
-    if($el.hasClass('js-test-defendant')){
+    if($el.hasClass('defendant-details')){
       $el.find('a.add_fields').click();
     }
   });

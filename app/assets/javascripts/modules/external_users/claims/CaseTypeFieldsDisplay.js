@@ -7,7 +7,6 @@ moj.Modules.CaseTypeFieldsDisplay = {
     this.$caseTypeSelect = $('#claim_case_type_id');
     this.$trialFieldSet = $('#trial-details');
     this.$retrialFieldSet = $('#retrial-details');
-    this.$defendantFieldSet = $('div.defendants');
 
     if (!this.$caseTypeSelect.exists()) {
       return;

@@ -1,16 +1,17 @@
 require 'rails_helper'
 
-RSpec.describe FeeScheme do
+RSpec.describe FeeScheme, type: :model do
+
+  it { should validate_presence_of(:start_date) }
+  it { should validate_presence_of(:number) }
+  it { should validate_presence_of(:name) }
+
   describe '.for_claim' do
     subject(:fee_scheme) { described_class.for_claim(claim) }
 
-    it { should validate_presence_of(:start_date) }
-    it { should validate_presence_of(:number) }
-    it { should validate_presence_of(:name) }
+    let(:claim) { build(:litigator_claim) }
 
     context 'for a LGFS claim' do
-      let(:claim) { build(:litigator_claim) }
-
       it 'returns the default scheme' do
         expect(fee_scheme).to eq('default')
       end
@@ -95,3 +96,4 @@ RSpec.describe FeeScheme do
     end
   end
 end
+

@@ -78,9 +78,17 @@ module Claim
     let(:agfs_claim) { create(:advocate_claim) }
     let(:lgfs_claim) { create(:litigator_claim) }
 
+    describe '.agfs_claim_types' do
+      specify { expect(BaseClaim.agfs_claim_types).to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim]) }
+    end
+
+    describe '.lgfs_claim_types' do
+      specify { expect(BaseClaim.lgfs_claim_types).to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]) }
+    end
+
     it 'raises if I try to instantiate a base claim' do
       expect {
-        claim = BaseClaim.new(external_user: advocate, creator: advocate)
+        BaseClaim.new(external_user: advocate, creator: advocate)
       }.to raise_error ::Claim::BaseClaimAbstractClassError, 'Claim::BaseClaim is an abstract class and cannot be instantiated'
     end
 

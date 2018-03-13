@@ -93,7 +93,14 @@ module Claim
     end
 
     def eligible_interim_fee_types
-      Fee::InterimFeeType.top_levels
+      case case_type&.fee_type_code
+      when 'GRTRL'
+        Fee::InterimFeeType.for_trials
+      when 'GRRTR'
+        Fee::InterimFeeType.for_retrials
+      else
+        Fee::InterimFeeType.all
+      end
     end
 
     def external_user_type

@@ -91,6 +91,40 @@ RSpec.describe Claim::InterimClaim, type: :model do
     end
   end
 
+  describe '#eligible_interim_fee_types' do
+    subject { claim.eligible_interim_fee_types }
+
+    before { allow(claim).to receive(:case_type).and_return(case_type) }
+
+
+    let!(:trial_start_fee_type) { create(:interim_fee_type, :trial_start) }
+    let!(:retrial_start_fee_type) { create(:interim_fee_type, :retrial_start) }
+
+    context 'for trials' do
+      let(:case_type) { instance_double(CaseType, fee_type_code: 'GRTRL') }
+
+      it 'returns only fee types applicable for trials' do
+        is_expected.to match_array [trial_start_fee_type]
+      end
+    end
+
+    context 'for retrials' do
+      let(:case_type) { instance_double(CaseType, fee_type_code: 'GRRTR') }
+
+      it 'returns only fee type applicable for retrials' do
+        is_expected.to match_array [retrial_start_fee_type]
+      end
+    end
+
+    context 'for nil' do
+      let(:case_type) { nil }
+
+      it 'returns all interim fee type' do
+        is_expected.to match_array [trial_start_fee_type, retrial_start_fee_type]
+      end
+    end
+  end
+
   describe 'requires_case_type?' do
     it 'returns true' do
       expect(claim.requires_case_type?).to be true

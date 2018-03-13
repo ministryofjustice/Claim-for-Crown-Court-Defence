@@ -29,7 +29,6 @@ module Fee
 
         expect(InterimFeeType.by_unique_code('IFT2')).to eq ift_2
       end
-
     end
   end
 end

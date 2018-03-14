@@ -223,7 +223,7 @@ describe API::V1::ExternalUsers::Fee do
 
       context 'quantity is forbidden' do
         context 'for interim fee disbursement only' do
-          let!(:interim_fee_type) { create(:interim_fee_type, :disbursement) }
+          let!(:interim_fee_type) { create(:interim_fee_type, :disbursement_only) }
           let!(:valid_params) { {api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: interim_fee_type.id, quantity: 3, rate: 50.00} }
 
           it 'should raise error if quantity is provided' do

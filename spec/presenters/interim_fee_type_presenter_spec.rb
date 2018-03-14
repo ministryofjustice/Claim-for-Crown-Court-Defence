@@ -7,7 +7,7 @@ describe Fee::InterimFeeTypePresenter do
     let(:presenter)     { Fee::InterimFeeTypePresenter.new(fee_type, view) }
 
     context 'disbursement only' do
-      let(:fee_type) { build :interim_fee_type, :disbursement }
+      let(:fee_type) { build :interim_fee_type, :disbursement_only }
       it 'produces expected data attributes' do
         expect(presenter.data_attributes).to eq expected_data(false, false, false, false, false, false, false, false, true)
       end

@@ -1,7 +1,7 @@
 module Fee
   module InterimFeeTypeCodes
-    TRIAL_APPLICABLE = ['INPCM','INTDT'].freeze
-    RETRIAL_APPLICABLE = ['INRST','INRNS'].freeze
+    TRIAL_APPLICABLE = %w[INPCM INTDT].freeze
+    RETRIAL_APPLICABLE = %w[INRST INRNS].freeze
 
     def is_disbursement?
       code == 'IDISO'
@@ -27,12 +27,13 @@ module Fee
       code == 'IRNS'
     end
 
-    def is_trial_applicable?
-      !unique_code.in? self.class::RETRIAL_APPLICABLE
-    end
+    # TODO: remove unless need to use
+    # def is_trial_applicable?
+    #   !unique_code.in? self.class::RETRIAL_APPLICABLE
+    # end
 
-    def is_retrial_applicable?
-      !unique_code.in? self.class::TRIAL_APPLICABLE
-    end
+    # def is_retrial_applicable?
+    #   !unique_code.in? self.class::TRIAL_APPLICABLE
+    # end
   end
 end

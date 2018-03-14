@@ -20,7 +20,6 @@ require 'rails_helper'
 
 module Fee
   describe InterimFeeType do
-
     describe '.by_unique_code' do
       it 'returns the record with the matching unique code' do
         create :interim_fee_type, unique_code: 'IFT1'

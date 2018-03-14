@@ -96,7 +96,6 @@ RSpec.describe Claim::InterimClaim, type: :model do
 
     before { allow(claim).to receive(:case_type).and_return(case_type) }
 
-
     let!(:trial_start_fee_type) { create(:interim_fee_type, :trial_start) }
     let!(:retrial_start_fee_type) { create(:interim_fee_type, :retrial_start) }
 
@@ -132,5 +131,4 @@ RSpec.describe Claim::InterimClaim, type: :model do
   end
 
   include_examples "common litigator claim attributes"
-
 end

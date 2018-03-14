@@ -26,14 +26,5 @@ module Fee
     def is_retrial_new_solicitor?
       code == 'IRNS'
     end
-
-    # TODO: remove unless need to use
-    # def is_trial_applicable?
-    #   !unique_code.in? self.class::RETRIAL_APPLICABLE
-    # end
-
-    # def is_retrial_applicable?
-    #   !unique_code.in? self.class::TRIAL_APPLICABLE
-    # end
   end
 end

@@ -21,8 +21,6 @@ class Fee::InterimFeeType < Fee::BaseFeeType
 
   default_scope -> { order(parent_id: :desc, description: :asc) }
 
-  # FIXME: all interim fee types have nil parent_ids - remove if not needed
-  # scope :top_levels, -> { where(parent_id: nil) }
   scope :for_trials, -> { where.not(unique_code: RETRIAL_APPLICABLE) }
   scope :for_retrials, -> { where.not(unique_code: TRIAL_APPLICABLE) }
 
@@ -32,5 +30,16 @@ class Fee::InterimFeeType < Fee::BaseFeeType
 
   def self.by_unique_code(code)
     where(unique_code: code).first
+  end
+
+  def self.by_case_type(case_type)
+    case case_type&.fee_type_code
+    when 'GRTRL'
+      for_trials
+    when 'GRRTR'
+      for_retrials
+    else
+      all
+    end
   end
 end

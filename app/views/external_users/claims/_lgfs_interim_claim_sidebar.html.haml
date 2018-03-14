@@ -1,29 +1,29 @@
 %ul
-  %li.fx-seed-interimFees{"data-seed": claim.raw_interim_fees_total}
+  %li.fx-seed-interimFees{"data-seed": claim.raw_interim_fees_total, "data-autovat": @claim.apply_vat? ? "true" : "false"}
     %h3
       = "Interim fees"
     %span.total-interimFees
       = claim.interim_fees_total
 
-  %li.fx-seed-warrantFees{"data-seed": claim.raw_warrant_fees_total}
+  %li.fx-seed-warrantFees{"data-seed": claim.raw_warrant_fees_total, "data-autovat": @claim.apply_vat? ? "true" : "false"}
     %h3
       = "Warrant fees"
     %span.total-warrantFees
       = claim.warrant_fees_total
 
-  %li.fx-seed-miscFees{"data-seed": claim.raw_misc_fees_total}
+  %li.fx-seed-miscFees{"data-seed": claim.raw_misc_fees_total, "data-autovat": @claim.apply_vat? ? "true" : "false"}
     %h3
       = "Miscellaneous fees"
     %span.total-miscFees
       = claim.misc_fees_total
 
-  %li.fx-seed-disbursements{"data-seed": claim.raw_disbursements_total, "data-autovat": "false", "data-seed-vat": claim.raw_disbursements_vat}
+  %li.fx-seed-disbursements{"data-seed": claim.raw_disbursements_total, "data-autovat": @claim.apply_vat? ? "true" : "false", "data-seed-vat": claim.raw_disbursements_vat}
     %h3
       = "Disbursements"
     %span.total-disbursements
       = claim.disbursements_total
 
-  %li.fx-seed-expenses{"data-seed": claim.raw_expenses_total, "data-autovat": "false", "data-seed-vat": claim.raw_expenses_vat}
+  %li.fx-seed-expenses{"data-seed": claim.raw_expenses_total, "data-autovat": @claim.apply_vat? ? "true" : "false", "data-seed-vat": claim.raw_expenses_vat}
     %h3
       = "Expenses"
     %span.total-expenses

@@ -53,18 +53,19 @@ moj.Modules.SideBar = {
     var $el;
     this.phantomBlockList.forEach(function(val, idx) {
       if ($('.fx-seed-' + val).length) {
+
         $el = $('.fx-seed-' + val);
         var options = {
           fn: 'PhantomBlock',
           type: val,
-          autoVAT: true,
+          autoVAT: $el.data('autovat'),
           $el: $('.fx-seed-' + val)
         }
 
         if ($el.data('autovat') === false) {
           options.autoVAT = false;
         }
-
+        console.log(options);
         self.blocks.push(new moj.Helpers.SideBar[options.fn](options));
       }
 

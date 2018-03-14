@@ -65,7 +65,6 @@ moj.Modules.SideBar = {
         if ($el.data('autovat') === false) {
           options.autoVAT = false;
         }
-        console.log(options);
         self.blocks.push(new moj.Helpers.SideBar[options.fn](options));
       }
 

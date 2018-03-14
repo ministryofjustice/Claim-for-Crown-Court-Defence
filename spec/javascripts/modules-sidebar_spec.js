@@ -82,8 +82,6 @@ describe("Modules.SideBar.js", function() {
     };
     sidebarFixtureDOM.empty();
     jsBlockFixtureDOM.empty();
-
-    console.log('reset');
   });
 
   describe('Defaults', function() {

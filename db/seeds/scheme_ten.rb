@@ -1,5 +1,5 @@
 require 'csv'
-require_relative '../offence_code_seeder.rb'
+require_relative '../offence_code_seeder_scheme_ten.rb'
 
 # create offence categories
 FeeCategory.find_or_create_by(number: 1, description: 'Murder/Manslaughter')
@@ -40,13 +40,18 @@ csv = CSV.parse(csv_file, headers: true)
 
 csv.each do |row|
   # row desc : Category,Band,Offence,Contrary to,Year and Chapter
-  description = row[0].strip
+  description = row[2].strip
   fee_category = FeeCategory.find_by(number: row[0])
-  fee_band = FeeBand.find_by(fee_category: fee_category, number: row[1])
+  fee_band = FeeBand.find_by(fee_category: fee_category, description: row[1])
+  unique_code = OffenceCodeSeederSchemeTen.new(description, fee_band.number.to_s.each_byte.to_a.join(''), row[3]).unique_code
   offence = Offence.find_or_create_by!(
     fee_band: fee_band,
     description: description,
-    unique_code: OffenceCodeSeeder.new(description, 'a').unique_code
+    unique_code: unique_code,
+    contrary: row[3],
+    year_chapter: row[4]
   )
   OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: agfs_fee_scheme_ten)
+rescue => e
+  binding.pry
 end

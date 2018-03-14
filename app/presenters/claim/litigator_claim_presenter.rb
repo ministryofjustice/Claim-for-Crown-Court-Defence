@@ -1,6 +1,7 @@
 class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
   # TODO: Any differences in baseclaimpresenters for litigators and advocates to be handled here
-  present_with_currency :fixed_fees_total, :misc_fees_total, :warrant_fees_total, :grad_fees_total, :total_inc, :disbursements_total
+  present_with_currency :fixed_fees_total, :misc_fees_total, :warrant_fees_total,
+                        :grad_fees_total, :total_inc, :disbursements_total
 
   def disbursements_total
     h.number_to_currency(claim.disbursements_total)

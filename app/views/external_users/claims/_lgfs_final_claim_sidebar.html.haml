@@ -1,0 +1,49 @@
+%ul
+  - if claim.fixed_fee_case?
+    %li.fx-seed-fixedFees{"data-seed": claim.raw_fixed_fees_total}
+      %h3
+        = "Fixed fees"
+      %span.total-fixedFees
+        = claim.fixed_fees_total
+  - else
+    %li.fx-seed-gradFees{"data-seed": claim.raw_grad_fees_total}
+      %h3
+        = "Graduated fees"
+      %span.total-gradFees
+        = claim.grad_fees_total
+
+  %li.fx-seed-warrantFees{"data-seed": claim.raw_warrant_fees_total}
+    %h3
+      = "Warrant fees"
+    %span.total-warrantFees
+      = claim.warrant_fees_total
+
+  %li.fx-seed-miscFees{"data-seed": claim.raw_misc_fees_total}
+    %h3
+      = "Miscellaneous"
+    %span.total-miscFees
+      = claim.misc_fees_total
+
+  %li.fx-seed-disbursements{"data-seed": claim.raw_disbursements_total, "data-autovat": "false", "data-seed-vat": claim.raw_disbursements_vat}
+    %h3
+      = "Disbursements"
+    %span.total-disbursements
+      = claim.disbursements_total
+
+  %li.fx-seed-expenses{"data-seed": claim.raw_expenses_total, "data-autovat": "false", "data-seed-vat": claim.raw_expenses_vat}
+    %h3
+      = "Expenses"
+    %span.total-expenses
+      = claim.expenses_total
+
+  %li.fx-seed{"data-vat-total": claim.raw_vat_amount}
+    %h3
+      = "VAT"
+    %span.total-vat
+      = claim.vat_amount
+
+  %li.fx-seed{"data-total-inc": claim.raw_total_inc}
+    %h3
+      = "Total"
+    %span.total-grandTotal
+      = claim.total_inc

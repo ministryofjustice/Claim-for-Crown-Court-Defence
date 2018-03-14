@@ -1,13 +1,18 @@
 class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
+  present_with_currency :basic_fees_total, :fixed_fees_total, :misc_fees_total, :total_inc
+
   def pretty_type
     'AGFS Final'
+  end
+
+  def type_identifier
+    'agfs_final'
   end
 
   def can_have_disbursements?
     false
   end
 
-  # 0.00 / £0.00
   def raw_fixed_fees_total
     claim.calculate_fees_total(:fixed)
   end
@@ -51,9 +56,4 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
   def raw_vat_amount
     claim.vat_amount
   end
-
-  def type_identifier
-    "agfs_final"
-  end
-
 end

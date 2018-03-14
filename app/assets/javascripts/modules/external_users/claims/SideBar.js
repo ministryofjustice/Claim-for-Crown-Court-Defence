@@ -39,14 +39,15 @@ moj.Modules.SideBar = {
       self.blocks.push(new moj.Helpers.SideBar[options.fn](options));
       self.removePhantomKey($el.data('type'));
     });
-
   },
+
   removePhantomKey: function(val) {
     var idx = this.phantomBlockList.indexOf(val);
     if (idx !== -1) {
       this.phantomBlockList.splice(idx, 1);
     }
   },
+
   loadStaticBlocks: function() {
     var self = this;
     var $el;
@@ -69,6 +70,7 @@ moj.Modules.SideBar = {
 
     });
   },
+
   render: function() {
     var self = this;
     var selector;
@@ -78,9 +80,6 @@ moj.Modules.SideBar = {
       selector = '.total-' + key;
       value = '&pound;' + moj.Helpers.SideBar.addCommas(val.toFixed(2));
       $(self.el).find(selector).html(value);
-
-      console.log(selector, value);
-
     });
   },
 
@@ -128,7 +127,6 @@ moj.Modules.SideBar = {
       self.loadStaticBlocks();
       self.recalculate();
     });
-
   },
 
   sanitzeFeeToFloat: function() {

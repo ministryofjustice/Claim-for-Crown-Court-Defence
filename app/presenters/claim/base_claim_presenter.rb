@@ -3,6 +3,16 @@ class Claim::BaseClaimPresenter < BasePresenter
 
   include InjectionAttemptErrorable
 
+  def self.present_with_currency(*fields)
+    fields.each do |field|
+      instance_eval do
+        define_method(field) do
+          h.number_to_currency(send("raw_#{field}"))
+        end
+      end
+    end
+  end
+
   # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down
   #
   def valid_transitions(options = { include_submitted: true })

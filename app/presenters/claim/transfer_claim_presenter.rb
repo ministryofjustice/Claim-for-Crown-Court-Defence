@@ -1,4 +1,6 @@
 class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
+  present_with_currency :transfer_fees_total, :misc_fees_total, :total_inc
+
   def pretty_type
     'LGFS Transfer'
   end

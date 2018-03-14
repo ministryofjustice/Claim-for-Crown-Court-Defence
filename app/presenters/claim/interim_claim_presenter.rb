@@ -1,4 +1,5 @@
 class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
+  present_with_currency :interim_fees_total, :warrant_fees_total, :misc_fees_total, :total_inc
   def requires_trial_dates?
     false
   end

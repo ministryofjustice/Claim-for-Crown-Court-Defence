@@ -48,7 +48,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       end
 
       it 'assigns deep nested hash with expected keys' do
-        expect(collection_hash.dig("new", true, 10, "*").keys).to include(:validity, :transfer_fee_full_name, :allocation_type, :bill_scenario)
+        expect(collection_hash.dig("new", true, 10, "*").keys).to include(:validity, :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required)
       end
 
       it 'adds one nested hash for each data item' do
@@ -148,6 +148,28 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
 
       it 'returns bill scenario for matching detail' do
         is_expected.to eq 'ST4TS0T3'
+      end
+    end
+
+    it_behaves_like 'invalid combination error raiser'
+  end
+
+  describe '#ppe_required' do
+    subject(:call) { collection.ppe_required(detail) }
+
+    context 'when given valid details with a mappable case conclusion id' do
+      let(:detail) { with_specific_mapping }
+
+      it 'returns for matching detail' do
+        is_expected.to be_in([true,false])
+      end
+    end
+
+    context 'when given valid details with a wildcard case conclusion id' do
+      let(:detail) { with_wildcard_mapping }
+
+      it 'returns bill scenario for matching detail' do
+        is_expected.to be_in([true,false])
       end
     end
 

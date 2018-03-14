@@ -35,8 +35,9 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I select the offence category 'Handling stolen goods'
     And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
-    Then I click "Continue" in the claim form
+    When I click "Continue" in the claim form
 
+    Then I should see interim fee types applicable to a 'Trial'
     And I select an interim fee type of 'Effective PCMH'
     And I enter 10 in the PPE total field
     And I enter 250 in the interim fee total field

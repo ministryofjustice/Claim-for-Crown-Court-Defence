@@ -25,7 +25,7 @@ module Fee
   describe InterimFee do
 
     let(:fee)               { build :interim_fee }
-    let(:disbursement_fee)  { build :interim_fee, fee_type: build(:interim_fee_type, :disbursement) }
+    let(:disbursement_fee)  { build :interim_fee, fee_type: build(:interim_fee_type, :disbursement_only) }
     let(:warrant_fee)       { build :interim_fee, fee_type: build(:interim_fee_type, :warrant) }
     let(:pcmh_fee)          { build :interim_fee, fee_type: build(:interim_fee_type, :effective_pcmh) }
     let(:trial_start_fee)   { build :interim_fee, fee_type: build(:interim_fee_type, :trial_start) }

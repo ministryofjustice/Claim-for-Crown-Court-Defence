@@ -95,7 +95,7 @@ FactoryBot.define do
 
     trait :disbursement do
       claim { build :interim_claim, disbursements: build_list(:disbursement, 1) }
-      fee_type { build :interim_fee_type, :disbursement }
+      fee_type { build :interim_fee_type, :disbursement_only }
       amount nil
       quantity nil
     end

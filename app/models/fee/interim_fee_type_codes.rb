@@ -1,5 +1,8 @@
 module Fee
   module InterimFeeTypeCodes
+    TRIAL_APPLICABLE = %w[INPCM INTDT].freeze
+    RETRIAL_APPLICABLE = %w[INRST INRNS].freeze
+
     def is_disbursement?
       code == 'IDISO'
     end

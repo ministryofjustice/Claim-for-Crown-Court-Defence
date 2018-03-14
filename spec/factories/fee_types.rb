@@ -204,7 +204,7 @@ FactoryBot.define do
       calculated false
       roles ['lgfs']
 
-      trait :disbursement do
+      trait :disbursement_only do
         code 'IDISO'
         unique_code 'INDIS'
         description 'Disbursement only'

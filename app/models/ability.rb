@@ -97,11 +97,11 @@ class Ability
   end
 
   def can_manage_litigator_claims(persona)
-    can_manage_own_claims_of_class(persona, [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+    can_manage_own_claims_of_class(persona, Claim::BaseClaim.lgfs_claim_types)
   end
 
   def can_manage_advocate_claims(persona)
-    can_manage_own_claims_of_class(persona, Claim::AdvocateClaim)
+    can_manage_own_claims_of_class(persona, Claim::BaseClaim.agfs_claim_types)
   end
 
   def can_manage_own_claims_of_class(persona, claim_klass)

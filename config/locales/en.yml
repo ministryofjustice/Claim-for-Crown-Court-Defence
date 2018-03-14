@@ -442,6 +442,7 @@ en:
     your_claims: Your claims
     claim_heading: Claim for Crown Court fees
     agfs_claim_heading: Claim for advocate fees
+    agfs_interim_claim_heading: Claim for advocate interim fees
     lgfs_claim_heading: Claim for litigator fees
     start_agfs_claim_heading: Claim for advocate fees
     start_lgfs_final_claim_heading: Claim for litigator fees

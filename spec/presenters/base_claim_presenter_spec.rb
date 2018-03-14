@@ -2,10 +2,8 @@ require 'rails_helper'
 require 'cgi'
 
 RSpec.describe Claim::BaseClaimPresenter do
-
-  let(:claim) { create :claim }
-  subject { Claim::BaseClaimPresenter.new(claim, view) }
-  let(:presenter) { Claim::BaseClaimPresenter.new(claim, view) }
+  let(:claim) { create(:claim) }
+  subject(:presenter) { Claim::BaseClaimPresenter.new(claim, view) }
 
   before do
     Timecop.freeze(Time.current)

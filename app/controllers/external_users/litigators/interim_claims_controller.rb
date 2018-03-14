@@ -1,15 +1,7 @@
 class ExternalUsers::Litigators::InterimClaimsController < ExternalUsers::ClaimsController
   skip_load_and_authorize_resource
 
-  def new
-    @claim = Claim::InterimClaim.new
-    super
-  end
-
-  def create
-    @claim = Claim::InterimClaim.new(params_with_external_user_and_creator)
-    super
-  end
+  resource_klass Claim::InterimClaim
 
   private
 

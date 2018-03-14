@@ -52,6 +52,10 @@ base:
     long: The quantity of defendant uplifts exceeds the number of defendants
     short: Too many defendant uplifts
     api: Defendant uplift sums must match number of defendants
+  unclaimable:
+    long: You cannot submit an interim bill for claims with the earliest representation order before 1 April 2018
+    short: Earliest representation order before 1 April 2018
+    api: Earliest representation order before 1 April 2018
 
 #################################################################################
 #                                                                               #

@@ -33,12 +33,13 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
 
   def set_available_claim_types_for_provider
     context = Claims::ContextMapper.new(current_user.persona)
-    @available_claim_types = context.available_compreensive_claim_types
+    @available_claim_types = context.available_comprehensive_claim_types
   end
 
   def claim_type_redirect_url_for(claim_type)
     {
       'agfs'          => new_advocates_claim_url,
+      'agfs_interim'  => new_advocates_interim_claim_url,
       'lgfs_final'    => new_litigators_claim_url,
       'lgfs_interim'  => new_litigators_interim_claim_url,
       'lgfs_transfer' => new_litigators_transfer_claim_url

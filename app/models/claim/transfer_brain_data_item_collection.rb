@@ -37,6 +37,7 @@ module Claim
       @collection_hash.to_json
     end
 
+    # TODO: wrap all these up somehow
     def transfer_fee_full_name(detail)
       raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
       data_item_for(detail)[:transfer_fee_full_name]
@@ -50,6 +51,11 @@ module Claim
     def bill_scenario(detail)
       raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
       data_item_for(detail)[:bill_scenario]
+    end
+
+    def ppe_required(detail)
+      raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
+      data_item_for(detail)[:ppe_required]== 'TRUE' ? true : false
     end
 
     def detail_valid?(detail)

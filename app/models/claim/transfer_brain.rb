@@ -82,6 +82,10 @@ module Claim
       TransferBrainDataItemCollection.instance.bill_scenario(detail)
     end
 
+    def self.ppe_required(detail)
+      TransferBrainDataItemCollection.instance.ppe_required(detail)
+    end
+
     #
     # only new litigators that transfered onto unelected cases at specific stages
     # are required to specify case conclusions.

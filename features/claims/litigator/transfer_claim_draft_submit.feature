@@ -49,7 +49,6 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     When I click Submit to LAA
     Then I should see the error 'Add a transfer fee'
-    And I should see the error 'Total value claimed must be greater than £0.00'
 
     Then I fill in '121.21' as the transfer fee total
 

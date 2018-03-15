@@ -19,7 +19,6 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
       case_transferred_from_another_court
       transfer_court
       transfer_case_number
-      advocate_category
       case_concluded_at
     ],
     [],

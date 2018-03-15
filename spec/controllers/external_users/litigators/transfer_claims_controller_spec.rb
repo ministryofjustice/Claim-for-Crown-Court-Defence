@@ -285,7 +285,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
 
       it 'claim is in the first submission step by default' do
-        expect(assigns(:claim).form_step).to eq(claim.submission_stages.first)
+        expect(assigns(:claim).form_step).to eq(claim.submission_stages.first.to_sym)
       end
 
       context 'when a step is provided' do

@@ -9,32 +9,29 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
   let(:transfer_detail) { build :transfer_detail, claim: claim }
 
   include_examples 'common partial validations', [
-    [
-      :litigator_type,
-      :elected_case,
-      :transfer_stage_id,
-      :transfer_date,
-      :case_conclusion_id,
-      :transfer_detail_combo,
+    %i[
+      litigator_type
+      elected_case
+      transfer_stage_id
+      transfer_date
+      case_conclusion_id
+      transfer_detail_combo
     ],
-    [
-      :court,
-      :case_number,
-      :case_transferred_from_another_court,
-      :transfer_court,
-      :transfer_case_number,
-      :advocate_category,
-      :case_concluded_at,
-      :supplier_number,
-      :amount_assessed,
-      :evidence_checklist_ids,
+    %i[
+      court
+      case_number
+      case_transferred_from_another_court
+      transfer_court
+      transfer_case_number
+      case_concluded_at
+      supplier_number
+      amount_assessed
+      evidence_checklist_ids
     ],
     [],
-    [ :offence ],
-    [
-      :transfer_fee,
-      :total,
-    ]
+    %i[offence],
+    %i[transfer_fee],
+    %i[total]
   ]
 
   before do

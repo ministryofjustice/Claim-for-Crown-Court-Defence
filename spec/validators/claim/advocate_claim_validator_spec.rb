@@ -69,12 +69,12 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
 
   context 'advocate_category' do
     before do
-      claim.form_step = 'fees'
+      claim.form_step = 'basic_and_fixed_fees'
     end
 
     it 'should error if not present' do
       claim.advocate_category = nil
-      should_error_with(claim, :advocate_category,"blank")
+      should_error_with(claim, :advocate_category, 'blank')
     end
 
     it 'should error if not in the available list' do

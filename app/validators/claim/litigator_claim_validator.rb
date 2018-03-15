@@ -10,7 +10,6 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
         case_transferred_from_another_court
         transfer_court
         transfer_case_number
-        advocate_category
         case_concluded_at
       ],
       defendants: [],

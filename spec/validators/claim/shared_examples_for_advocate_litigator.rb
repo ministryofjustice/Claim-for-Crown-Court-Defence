@@ -202,15 +202,6 @@ RSpec.shared_examples "common litigator validations" do
     end
   end
 
-  context 'advocate_category' do
-    it 'should be absent' do
-      claim.advocate_category = 'QC'
-      should_error_with(claim, :advocate_category, "invalid")
-      claim.advocate_category = nil
-      expect(claim).to be_valid
-    end
-  end
-
   context 'offence' do
     before do
       claim.form_step = :offence_details

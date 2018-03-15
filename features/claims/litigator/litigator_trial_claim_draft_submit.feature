@@ -52,7 +52,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     Then I click "Continue" in the claim form
 
-    And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '30.5'
+    And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
 
     Then I click "Continue" in the claim form
@@ -83,4 +83,4 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£665.99'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£660.57'

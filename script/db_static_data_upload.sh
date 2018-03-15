@@ -39,7 +39,7 @@ end
 
 def install_postgres(ssh)
   ssh.exec! 'sudo docker exec advocatedefencepayments apt-get update'
-  ssh.exec! 'sudo docker exec advocatedefencepayments apt-get -y install postgresql-9.4'
+  ssh.exec! 'sudo docker exec advocatedefencepayments apt-get -y install postgresql-9.6'
 end
 
 begin

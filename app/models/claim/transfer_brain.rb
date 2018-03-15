@@ -6,6 +6,8 @@
 
 module Claim
   class TransferBrain
+    include TransferBrainDataItemCollectionDelegatable
+
     Struct.new('TransferStage', :id, :description, :requires_case_conclusion)
 
     TRANSFER_STAGES = {
@@ -25,6 +27,12 @@ module Claim
       40 => 'Cracked before retrial',
       50 => 'Guilty plea'
     }.freeze
+
+    data_item_collection_delegate :allocation_type, :bill_scenario, :ppe_required
+
+    def self.transfer_detail_summary(detail)
+      TransferBrainDataItemCollection.instance.transfer_fee_full_name(detail)
+    end
 
     def self.transfer_stage_by_id(id)
       name = TRANSFER_STAGES[id]
@@ -68,22 +76,6 @@ module Claim
 
     def self.data_attributes
       TransferBrainDataItemCollection.instance.to_json.chomp
-    end
-
-    def self.allocation_type(detail)
-      TransferBrainDataItemCollection.instance.allocation_type(detail)
-    end
-
-    def self.transfer_detail_summary(detail)
-      TransferBrainDataItemCollection.instance.transfer_fee_full_name(detail)
-    end
-
-    def self.bill_scenario(detail)
-      TransferBrainDataItemCollection.instance.bill_scenario(detail)
-    end
-
-    def self.ppe_required(detail)
-      TransferBrainDataItemCollection.instance.ppe_required(detail)
     end
 
     #

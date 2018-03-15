@@ -2,7 +2,7 @@ require 'csv'
 
 # This class holds a collection of rules relating to TransferClaims which govern
 # the fee name, the validity of the data, and the
-# case allocation type.  The rules are read in from a CSV file, instantiated into
+# case allocation type. The rules are read in from a CSV file, instantiated into
 # TransferDataItem objects and then added to this collection.
 #
 # Because reading the CSV file is a relatively expensive operation, and the data is
@@ -11,51 +11,23 @@ require 'csv'
 # To get a reference to the object, call .instance rather than .new.
 #
 module Claim
-  DEFAULT_MSG = 'Invalid combination of transfer detail fields'.freeze
-  class InvalidTransferCombinationError < ArgumentError
-    def initialize(msg = DEFAULT_MSG)
-      super(msg)
-    end
-  end
-
   class TransferBrainDataItemCollection
     include Singleton
+    include TransferDataItemDelegatable
 
     def initialize
       load_data_items
       @collection_hash = construct_collection_hash
     end
 
-    # Returns a hierarchical hash of the collection with the keys
-    #   litigator_type -> elected_case -> transfer_stage_id -> case_conclusion_id.
-    # In the resulting hash, '*' in the case_conclusion_id key means any case conclusion id
+    data_item_delegate :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required
+
     def to_h
       @collection_hash
     end
 
     def to_json
       @collection_hash.to_json
-    end
-
-    # TODO: wrap all these up somehow
-    def transfer_fee_full_name(detail)
-      raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
-      data_item_for(detail)[:transfer_fee_full_name]
-    end
-
-    def allocation_type(detail)
-      raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
-      data_item_for(detail)[:allocation_type]
-    end
-
-    def bill_scenario(detail)
-      raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
-      data_item_for(detail)[:bill_scenario]
-    end
-
-    def ppe_required(detail)
-      raise InvalidTransferCombinationError, DEFAULT_MSG unless detail_valid?(detail)
-      data_item_for(detail)[:ppe_required]== 'TRUE' ? true : false
     end
 
     def detail_valid?(detail)

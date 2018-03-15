@@ -13,24 +13,14 @@
 
 module Claim
   class TransferDetail < ActiveRecord::Base
-    belongs_to :claim, class_name: Claim::TransferClaim, foreign_key: :claim_id, inverse_of: :transfer_detail
+    include TransferBrainDelegatable
 
+    belongs_to :claim, class_name: Claim::TransferClaim, foreign_key: :claim_id, inverse_of: :transfer_detail
     acts_as_gov_uk_date :transfer_date, error_clash_behaviour: :override_with_gov_uk_date_field_error
+    transfer_brain_delegate :allocation_type, :bill_scenario, :ppe_required, :transfer_stage
 
     def unpopulated?
       [litigator_type, elected_case, transfer_stage_id, transfer_date, case_conclusion_id].all?(&:nil?)
-    end
-
-    def allocation_type
-      TransferBrain.allocation_type(self)
-    end
-
-    def bill_scenario
-      TransferBrain.bill_scenario(self)
-    end
-
-    def transfer_stage
-      TransferBrain.transfer_stage(self)
     end
 
     # returns true if there are any errors on the claim relating to transfer detail fields

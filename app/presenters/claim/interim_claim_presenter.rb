@@ -1,5 +1,6 @@
 class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
-  present_with_currency :interim_fees_total, :warrant_fees_total, :misc_fees_total, :total_inc
+  present_with_currency :interim_fees_total, :warrant_fees_total
+
   def requires_trial_dates?
     false
   end
@@ -32,39 +33,7 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
     claim.interim_fee&.amount || 0
   end
 
-  def raw_misc_fees_total
-    claim.calculate_fees_total(:misc) || 0
-  end
-
   def raw_warrant_fees_total
     claim.warrant_fee&.amount || 0
-  end
-
-  def raw_disbursements_total
-    claim.disbursements_total || 0
-  end
-
-  def raw_disbursements_vat
-    claim.disbursements_vat || 0
-  end
-
-  def raw_expenses_total
-    claim.expenses_total
-  end
-
-  def raw_expenses_vat
-    claim.expenses_vat
-  end
-
-  def raw_vat_amount
-    claim.vat_amount
-  end
-
-  def raw_total_excl
-    claim.total
-  end
-
-  def raw_total_inc
-    claim.total + claim.vat_amount
   end
 end

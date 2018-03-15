@@ -13,6 +13,8 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
+  present_with_currency :misc_fees_total, :disbursements_total, :total_inc
+
   # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down
   #
   def valid_transitions(options = { include_submitted: true })
@@ -268,6 +270,38 @@ class Claim::BaseClaimPresenter < BasePresenter
     else
       h.number_to_currency(claim.assessment.__send__(assessment_attr))
     end
+  end
+
+  def raw_misc_fees_total
+    claim.calculate_fees_total(:misc) || 0
+  end
+
+  def raw_expenses_total
+    claim.expenses_total
+  end
+
+  def raw_expenses_vat
+    claim.expenses_vat
+  end
+
+  def raw_disbursements_total
+    claim.disbursements_total || 0
+  end
+
+  def raw_disbursements_vat
+    claim.disbursements_vat || 0
+  end
+
+  def raw_vat_amount
+    claim.vat_amount
+  end
+
+  def raw_total_inc
+    claim.total + claim.vat_amount
+  end
+
+  def raw_total_excl
+    claim.total
   end
 
   private

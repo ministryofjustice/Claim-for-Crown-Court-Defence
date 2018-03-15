@@ -17,7 +17,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
     let(:detail) { with_invalid_combo }
 
     it 'raises error if given an invalid combination' do
-      expect{ call }.to raise_error Claim::InvalidTransferCombinationError, 'Invalid combination of transfer detail fields'
+      expect{ call }.to raise_error described_class::InvalidCombinationError, 'Invalid combination of transfer detail fields'
     end
   end
 
@@ -161,7 +161,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       let(:detail) { with_specific_mapping }
 
       it 'returns for matching detail' do
-        is_expected.to be_in([true,false])
+        is_expected.to be_in(%w[TRUE FALSE])
       end
     end
 
@@ -169,7 +169,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       let(:detail) { with_wildcard_mapping }
 
       it 'returns bill scenario for matching detail' do
-        is_expected.to be_in([true,false])
+        is_expected.to be_in(%w[TRUE FALSE])
       end
     end
 

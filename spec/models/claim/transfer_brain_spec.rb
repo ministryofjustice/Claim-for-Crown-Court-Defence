@@ -85,6 +85,20 @@ RSpec.describe Claim::TransferBrain do
     end
   end
 
+  describe '.bill_scenario' do
+    it 'returns a bill scenario for use in CCLF data injection' do
+      td = transfer_detail('new', true, 10)
+      expect(described_class.bill_scenario(td)).to eq "ST4TS0T3"
+    end
+  end
+
+  describe '.ppe_required' do
+    it 'returns a boolean string denoting wether PPE quantity is required for the transfer fee' do
+      td = transfer_detail('new', true, 10)
+      expect(described_class.ppe_required(td)).to eq "FALSE"
+    end
+  end
+
   describe '.transfer_detail_summary' do
     it 'returns a string describing the transfer details' do
       td = transfer_detail('new', true, 10)
@@ -96,7 +110,7 @@ RSpec.describe Claim::TransferBrain do
   #  i.e. new, false, [10,20,30,50,60]
   describe '.case_conclusion_required?' do
     [10,20,30,50,60].each do |ts|
-      it "should be visibile for new, unelected cases that were transfered at stage #{ts}" do
+      it "should be visible for new, unelected cases that were transfered at stage #{ts}" do
         td = td = transfer_detail('new', false, ts)
         expect(described_class.case_conclusion_required?(td)).to eq true
       end

@@ -121,6 +121,7 @@ describe API::V1::DropdownData do
 
     before do
       create :offence_fee_scheme, offence: offence, fee_scheme: fee_scheme
+      create :offence_fee_scheme, offence: other_offence, fee_scheme: fee_scheme
       create :offence_fee_scheme, offence: offence_with_same_description, fee_scheme: fee_scheme
     end
 

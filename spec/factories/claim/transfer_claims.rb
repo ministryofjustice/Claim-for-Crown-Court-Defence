@@ -56,6 +56,20 @@ FactoryBot.define do
       end
     end
 
+    trait :requiring_ppe do
+      litigator_type 'new'
+      elected_case false
+      transfer_stage_id 30
+      case_conclusion_id 10
+    end
+
+    trait :not_requiring_ppe do
+      litigator_type 'new'
+      elected_case false
+      transfer_stage_id 50
+      case_conclusion_id 40
+    end
+
     trait :submitted do
       after(:create) { |c| c.submit! }
     end

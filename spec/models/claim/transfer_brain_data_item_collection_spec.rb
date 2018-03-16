@@ -12,15 +12,6 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
   let(:with_specific_mapping) { build(:transfer_detail, :with_specific_mapping) }
   let(:with_invalid_combo) { build(:transfer_detail, :with_invalid_combo) }
 
-  shared_examples 'invalid combination error raiser' do
-    let(:call) { subject }
-    let(:detail) { with_invalid_combo }
-
-    it 'raises error if given an invalid combination' do
-      expect{ call }.to raise_error described_class::InvalidCombinationError, 'Invalid combination of transfer detail fields'
-    end
-  end
-
   describe '.new' do
     context '@data_items' do
       subject(:data_items) { collection.instance_variable_get(:@data_items) }
@@ -106,8 +97,6 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
         is_expected.to eq 'elected case - up to and including PCMH transfer (new)'
       end
     end
-
-    it_behaves_like 'invalid combination error raiser'
   end
 
   describe '#allocation_type' do
@@ -128,8 +117,6 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
         is_expected.to eq 'Fixed'
       end
     end
-
-    it_behaves_like 'invalid combination error raiser'
   end
 
   describe '#bill_scenario' do
@@ -150,8 +137,6 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
         is_expected.to eq 'ST4TS0T3'
       end
     end
-
-    it_behaves_like 'invalid combination error raiser'
   end
 
   describe '#ppe_required' do
@@ -172,8 +157,6 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
         is_expected.to be_in(%w[TRUE FALSE])
       end
     end
-
-    it_behaves_like 'invalid combination error raiser'
   end
 
   describe '#detail_valid?' do

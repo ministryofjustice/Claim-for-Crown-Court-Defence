@@ -57,7 +57,7 @@ RSpec.describe Claim::TransferClaimPresenter do
     context 'for incomplete transfer details' do
       let(:claim) { create :transfer_claim, litigator_type: nil, elected_case: nil, transfer_stage_id: nil, case_conclusion_id: nil }
       it 'should return blank string' do
-        expect(presenter.transfer_detail_summary).to eql ''
+        expect(presenter.transfer_detail_summary).to be_blank
       end
     end
   end

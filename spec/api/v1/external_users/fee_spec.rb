@@ -270,46 +270,60 @@ describe API::V1::ExternalUsers::Fee do
       context 'Fee Category' do
         before (:each) { valid_params.delete(:rate) }
 
-        it 'basic fees should raise basic fee errors from translations' do
-          valid_params[:fee_type_id] = basic_fee_type.id
-          post_to_create_endpoint
-          expect(last_response.status).to eq 400
-          expect_error_response("Enter a valid rate for the basic fee",0)
+        context 'advocate claim' do
+          it 'basic fees should raise basic fee errors from translations' do
+            valid_params[:fee_type_id] = basic_fee_type.id
+            post_to_create_endpoint
+            expect(last_response.status).to eq 400
+            expect_error_response("Enter a valid rate for the basic fee",0)
+          end
+
+          it 'misc fees should raise misc fee errors from translations' do
+            valid_params[:fee_type_id] = misc_fee_type.id
+            post_to_create_endpoint
+            expect(last_response.status).to eq 400
+            expect_error_response("Enter a rate for the miscellaneous fee",0)
+          end
+
+          it 'fixed fees should raise misc fee errors from translations' do
+            valid_params[:fee_type_id] = fixed_fee_type.id
+            post_to_create_endpoint
+            expect(last_response.status).to eq 400
+            expect_error_response("Enter a rate for the fixed fee",0)
+          end
         end
 
-        it 'misc fees should raise misc fee errors from translations' do
-          valid_params[:fee_type_id] = misc_fee_type.id
-          post_to_create_endpoint
-          expect(last_response.status).to eq 400
-          expect_error_response("Enter a rate for the miscellaneous fee",0)
+        context 'litigator (interim) claim' do
+          let!(:claim) { create(:interim_claim, source: 'api').reload }
+
+          it 'interim fees should raise interim fee errors from translations' do
+            valid_params[:fee_type_id] = interim_fee_type.id
+            post_to_create_endpoint
+            expect(last_response.status).to eq 400
+            expect_error_response("Enter a valid amount for the interim fee",0)
+          end
         end
 
-        it 'fixed fees should raise misc fee errors from translations' do
-          valid_params[:fee_type_id] = fixed_fee_type.id
-          post_to_create_endpoint
-          expect(last_response.status).to eq 400
-          expect_error_response("Enter a rate for the fixed fee",0)
+        context 'litigator (final) claim' do
+          let!(:claim) { create(:litigator_claim, source: 'api').reload }
+
+          it 'graduates fees should raise graduated fee errors from translations' do
+            valid_params[:fee_type_id] = graduated_fee_type.id
+            post_to_create_endpoint
+            expect(last_response.status).to eq 400
+            expect_error_response("Enter the graduated fee date",0)
+          end
         end
 
-        it 'interim fees should raise interim fee errors from translations' do
-          valid_params[:fee_type_id] = interim_fee_type.id
-          post_to_create_endpoint
-          expect(last_response.status).to eq 400
-          expect_error_response("Enter a valid amount for the interim fee",0)
-        end
+        context 'litigator (transfer) claim' do
+          let!(:claim) { create(:transfer_claim, source: 'api').reload }
 
-        it 'graduates fees should raise graduated fee errors from translations' do
-          valid_params[:fee_type_id] = graduated_fee_type.id
-          post_to_create_endpoint
-          expect(last_response.status).to eq 400
-          expect_error_response("Enter the graduated fee date",0)
-        end
-
-        it 'transfer fees should raise transfer fee errors from translations' do
-          valid_params[:fee_type_id] = transfer_fee_type.id
-          post_to_create_endpoint
-          expect(last_response.status).to eq 400
-          expect_error_response("Enter a valid amount for the transfer fee",0)
+          it 'transfer fees should raise transfer fee errors from translations' do
+            valid_params[:fee_type_id] = transfer_fee_type.id
+            post_to_create_endpoint
+            expect(last_response.status).to eq 400
+            expect_error_response("Enter a valid amount for the transfer fee",0)
+          end
         end
       end
     end

@@ -10,20 +10,21 @@
       %fieldset
         .form-row
           .column-one-third
-            = tf.label :fee_type, t('.fee_type')
+            = tf.label :fee_type, t('.fee_type'), class: "form-label"
             = tf.anchored_attribute 'fee_type'
             = @claim.transfer_fee.description
 
-          .column-one-third.condensed.js-expense-location.fee-amount
-            .form-group.location_wrapper
-              = tf.adp_text_field :quantity,
-                        label: t('.ppe_total'),
-                        input_classes:'quantity',
-                        value: number_with_precision(tf.object.quantity, precision: 0),
-                        error_key:'transfer_fee.quantity',
-                        errors: @error_presenter
+          .column-one-third.fee-quantity
+            = tf.anchored_attribute 'quantity'
+            = tf.adp_text_field :quantity,
+                      label: t('.ppe_total'),
+                      input_classes:'quantity',
+                      value: number_with_precision(tf.object.quantity, precision: 0),
+                      errors: @error_presenter,
+                      error_key:'transfer_fee.quantity'
 
           .column-one-third.condensed.fee-total
+            = tf.anchored_attribute 'amount'
             = tf.adp_text_field :amount,
                                 label: t('.total'),
                                 input_classes:'total',

@@ -23,6 +23,10 @@ module Claim
       [litigator_type, elected_case, transfer_stage_id, transfer_date, case_conclusion_id].all?(&:nil?)
     end
 
+    def ppe_required?
+      ppe_required.eql?('TRUE')
+    end
+
     # returns true if there are any errors on the claim relating to transfer detail fields
     def errors?
       return false if claim.nil?

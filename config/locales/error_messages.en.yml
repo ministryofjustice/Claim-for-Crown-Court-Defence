@@ -1148,8 +1148,18 @@ transfer_fee:
     short: *enter_amount
     api: Add a transfer fee
 
-  amount:
+  quantity:
     _seq: 10
+    blank:
+      long: Enter a PPE quantity for the transfer fee
+      short: *enter_quantity
+      api: Enter a PPE quantity for the transfer fee
+    numericality:
+      long: Enter a valid PPE quantity for the transfer fee
+      short: *enter_valid_quantity
+      api: Enter a valid PPE quantity for the transfer fee
+  amount:
+    _seq: 20
     blank:
       long: Enter an amount for the transfer
       short: *enter_amount

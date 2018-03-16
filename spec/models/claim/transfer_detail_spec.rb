@@ -23,8 +23,6 @@ RSpec.shared_examples 'transfer brain delegator' do |method_name, expected|
 
   if expected.present?
     context 'for a specific transfer detail' do
-      let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil) }
-
       it "returns #{method_name}" do
         is_expected.to eq expected
       end
@@ -33,7 +31,7 @@ RSpec.shared_examples 'transfer brain delegator' do |method_name, expected|
 end
 
 RSpec.describe Claim::TransferDetail do
-  let(:detail) { build(:transfer_detail) }
+  subject(:detail) { build(:transfer_detail) }
 
   describe '#unpopulated?' do
     it 'returns true for an empty object' do
@@ -59,7 +57,7 @@ RSpec.describe Claim::TransferDetail do
       expect(detail.errors?).to be true
     end
 
-    it 'reteurns false if claim is nil' do
+    it 'returns false if claim is nil' do
       detail.claim = nil
       expect(detail.errors?).to be false
     end
@@ -78,8 +76,29 @@ RSpec.describe Claim::TransferDetail do
   end
 
   describe '#ppe_required' do
+    it_behaves_like 'transfer brain delegator', :ppe_required, 'TRUE' do
+      let(:detail) { build(:transfer_detail, :with_ppe_required) }
+    end
+
     it_behaves_like 'transfer brain delegator', :ppe_required, 'FALSE' do
-      let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil) }
+      let(:detail) { build(:transfer_detail, :with_ppe_not_required) }
+    end
+  end
+
+  describe '#ppe_required?' do
+    context 'when transfer details require PPE' do
+      subject(:detail) { build(:transfer_detail, :with_ppe_required) }
+      it { is_expected.to be_ppe_required }
+    end
+
+    context 'when transfer details do not require PPE' do
+      subject(:detail) { build(:transfer_detail, :with_ppe_not_required) }
+      it { is_expected.to_not be_ppe_required }
+    end
+
+    context 'when transfer details combination are invalid' do
+      subject(:detail) { build(:transfer_detail, :with_invalid_combo) }
+      it { is_expected.to_not be_ppe_required }
     end
   end
 

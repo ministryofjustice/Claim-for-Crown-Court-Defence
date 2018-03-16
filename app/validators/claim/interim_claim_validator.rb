@@ -10,12 +10,11 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
         case_transferred_from_another_court
         transfer_court
         transfer_case_number
-        advocate_category
         case_concluded_at
       ],
       defendants: [],
       offence_details: %i[offence],
-      fees: %i[
+      interim_fees: %i[
         first_day_of_trial
         estimated_trial_length
         trial_concluded_at
@@ -23,8 +22,8 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
         retrial_estimated_length
         effective_pcmh_date
         legal_aid_transfer_date
-        total
-      ]
+      ],
+      additional_information: %i[total]
     }
   end
 

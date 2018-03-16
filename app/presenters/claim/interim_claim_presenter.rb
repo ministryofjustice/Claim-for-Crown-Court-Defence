@@ -1,4 +1,6 @@
 class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
+  present_with_currency :interim_fees_total, :warrant_fees_total
+
   def requires_trial_dates?
     false
   end
@@ -17,5 +19,21 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
 
   def pretty_type
     'LGFS Interim'
+  end
+
+  def type_identifier
+    'lgfs_interim'
+  end
+
+  def raw_fixed_fees_total
+    claim.fixed_fee&.amount || 0
+  end
+
+  def raw_interim_fees_total
+    claim.interim_fee&.amount || 0
+  end
+
+  def raw_warrant_fees_total
+    claim.warrant_fee&.amount || 0
   end
 end

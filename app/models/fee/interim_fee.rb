@@ -46,6 +46,6 @@ class Fee::InterimFee < Fee::BaseFee
     # - The validations for the API should be isolated instead of having
     # ternaries all around the code to deal with it :S
     return true if claim&.from_api?
-    claim&.step_in_steps_range?(:fees)
+    claim&.step_in_steps_range?(:interim_fees)
   end
 end

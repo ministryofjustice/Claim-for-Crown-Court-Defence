@@ -203,10 +203,9 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
           expect(assigns(:claim)).to be_instance_of(resource_klass)
         end
 
-        it 'returns HTTP success and renders the template' do
+        it 'redirects the user to the next step of the claim edit form page' do
           create_request
-          expect(response).to have_http_status(:success)
-          expect(response).to render_template(:new)
+          expect(response).to redirect_to(edit_advocates_interim_claim_path(assigns(:claim), step: :defendants))
         end
 
         it 'creates a new claim record with the submitted data' do
@@ -491,10 +490,9 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
           expect(assigns(:claim)).to be_instance_of(resource_klass)
         end
 
-        it 'returns HTTP success and renders the template' do
+        it 'redirects the user to the next step of the edit claim form page' do
           update_request
-          expect(response).to have_http_status(:success)
-          expect(response).to render_template(:edit)
+          expect(response).to redirect_to(edit_advocates_interim_claim_path(assigns(:claim), step: :defendants))
         end
 
         it 'updates the existent claim record with the submitted data' do

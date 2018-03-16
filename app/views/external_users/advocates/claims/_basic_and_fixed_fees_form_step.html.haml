@@ -1,0 +1,9 @@
+= render partial: 'external_users/claims/fees_shared_header'
+
+= render partial: 'external_users/advocates/claims/advocate_category', locals: { f: f }
+
+= render partial: 'external_users/claims/basic_fees/fields', locals: { f: f }
+
+= render partial: 'external_users/claims/fixed_fees/fields', locals: { f: f }
+
+= render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: 'commit_continue' }

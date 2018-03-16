@@ -7,7 +7,7 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def step_fields_for_validation
     self.class.fields_for_steps.select do |k, _v|
-      @record.submission_stages[steps_range(@record)].include?(k)
+      @record.submission_current_flow.map(&:to_sym).include?(k)
     end.values.flatten
   end
 

@@ -1,4 +1,6 @@
 class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
+  present_with_currency :transfer_fees_total
+
   def pretty_type
     'LGFS Transfer'
   end
@@ -37,5 +39,13 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
     case_conclusions[claim.case_conclusion_id.to_s]
   rescue StandardError
     ''
+  end
+
+  def type_identifier
+    'lgfs_transfer'
+  end
+
+  def raw_transfer_fees_total
+    claim.transfer_fee&.amount || 0
   end
 end

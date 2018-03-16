@@ -1,10 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :controller, focus: true do
-
-  let!(:litigator)      { create(:external_user, :litigator) }
   before { sign_in litigator.user }
 
+  let!(:litigator)    { create(:external_user, :litigator) }
   let(:court)         { create(:court) }
   let(:offence)       { create(:offence, :miscellaneous) }
   let(:case_type)     { create(:case_type, :hsts) }
@@ -172,7 +171,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
               expect(assigns(:claim).current_step).to eq(:defendants)
             end
 
-            it { expect(response).to render_template('external_users/litigators/interim_claims/new') }
+            it { expect(response).to redirect_to edit_litigators_interim_claim_path(subject_claim, step: :defendants) }
           end
 
           context 'step 2 submit to LAA' do
@@ -232,7 +231,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
       end
 
       it 'claim is in the first submission step by default' do
-        expect(assigns(:claim).form_step).to eq(claim.submission_stages.first)
+        expect(assigns(:claim).form_step).to eq(claim.submission_stages.first.to_sym)
       end
 
       context 'when a step is provided' do

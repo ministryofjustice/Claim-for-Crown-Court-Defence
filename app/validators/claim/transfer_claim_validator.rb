@@ -25,7 +25,6 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
         case_transferred_from_another_court
         transfer_court
         transfer_case_number
-        advocate_category
         case_concluded_at
         supplier_number
         amount_assessed
@@ -33,10 +32,8 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
       ],
       defendants: [],
       offence_details: %i[offence],
-      fees: %i[
-        transfer_fee
-        total
-      ]
+      transfer_fees: %i[transfer_fee],
+      additional_information: %i[total]
     }
   end
 

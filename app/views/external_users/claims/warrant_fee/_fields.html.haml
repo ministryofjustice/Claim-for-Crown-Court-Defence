@@ -6,16 +6,16 @@
     %fieldset
       %legend.visuallyhidden
         = t('.warrant_fee')
-      .form-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
+      .form-group.nested-fields.js-block{data:{"type": "warrantFees", autovat: @claim.apply_vat? ? "true" : "false"}}
         .grid-row
-          .column-one-half
+          .warrant-fee-issued-date-group.column-one-half
             = wf.gov_uk_date_field :warrant_issued_date,
                                     legend_text: t('.date_issued'),
                                     legend_class: 'govuk-legend',
                                     id: 'warrant_fee.warrant_issued_date',
                                     error_messages: gov_uk_date_field_error_messages(@error_presenter, 'warrant_fee.warrant_issued_date')
 
-          .column-one-half
+          .warrant-fee-executed-date-group.column-one-half
             = wf.gov_uk_date_field :warrant_executed_date,
                                     legend_text: t('.date_executed'),
                                     legend_class: 'govuk-legend',

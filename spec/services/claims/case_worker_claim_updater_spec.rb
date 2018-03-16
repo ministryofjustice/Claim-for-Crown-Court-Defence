@@ -1,17 +1,17 @@
 require 'rails_helper'
 
 module Claims
-  describe CaseWorkerClaimUpdater do
+  RSpec.describe CaseWorkerClaimUpdater do
 
-    RSpec.shared_examples 'a successful non-authorised claim with a single reason' do |state|
+    shared_examples 'a successful non-authorised claim with a single reason' do |state|
       it_behaves_like 'base_test', state, ['no_indictment']
     end
 
-    RSpec.shared_examples 'a successful non-authorised claim with other as reason' do |state, state_reason=['other']|
+    shared_examples 'a successful non-authorised claim with other as reason' do |state, state_reason=['other']|
       it_behaves_like 'base_test', state, state_reason, 'a reason'
     end
 
-    RSpec.shared_examples 'base_test' do |state, state_reason, reason_text=nil|
+    shared_examples 'base_test' do |state, state_reason, reason_text=nil|
       subject(:updater) { CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)).update! }
       let(:claim) { create :allocated_claim }
       let(:current_user) { double(User, id: 12345) }
@@ -26,7 +26,7 @@ module Claims
       end
     end
 
-    RSpec.shared_examples 'a successful assessment' do |state, fees='128.33', expenses='42.40'|
+    shared_examples 'a successful assessment' do |state, fees='128.33', expenses='42.40'|
       subject(:updater) { CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)).update! }
       let(:claim) { create :allocated_claim }
       let(:current_user) { double(User, id: 12345) }
@@ -42,7 +42,7 @@ module Claims
       end
     end
 
-    RSpec.shared_examples 'a failing assessment' do |state, expected_error, update_type='redeterminations', state_reason=nil, fees='128.33', expenses='42.40', error_field=:determinations|
+    shared_examples 'a failing assessment' do |state, expected_error, update_type='redeterminations', state_reason=nil, fees='128.33', expenses='42.40', error_field=:determinations|
       subject(:updater) { CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)).update! }
       let(:claim) { create :allocated_claim }
       let(:current_user) { double(User, id: 12345) }
@@ -57,7 +57,6 @@ module Claims
     end
 
     context 'assessments' do
-
       let(:claim) { create :allocated_claim }
       let(:submitted_claim) { create :claim, :submitted }
       let(:current_user) { double(User, id: 12345) }
@@ -199,11 +198,10 @@ module Claims
     end
 
     context 'redeterminations' do
-
-      let(:claim)  {
-        klaim = create :allocated_claim
-        klaim.assessment.update(fees: 200.15, expenses: 77.66)
-        klaim
+      let(:claim) {
+        create(:allocated_claim).tap do |c|
+          c.assessment.update(fees: 200.15, expenses: 77.66)
+        end
       }
 
       context 'successful transitions' do

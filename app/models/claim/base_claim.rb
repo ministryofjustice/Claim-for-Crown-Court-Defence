@@ -214,17 +214,16 @@ module Claim
       @form_step = step.nil? ? nil : step.to_sym
     end
 
-    def steps_range
-      from_api? ? (0..9) : (0..current_step_index)
-    end
-
     def step_in_steps_range?(step)
-      step_index = submission_stages.index(step)
-      steps_range.include?(step_index)
+      submission_current_flow.map(&:to_sym).include?(step)
     end
 
     def step_back?
       previous_step.present?
+    end
+
+    def misc_fees_changed?
+      misc_fees.any?(&:changed?)
     end
 
     # Override the corresponding method in the subclass
@@ -428,41 +427,23 @@ module Claim
       disable_for_state_transition.present?
     end
 
-    def next_step!
-      self.form_step = submission_stages[current_step_index + 1]
-      until current_step_required?
-        break unless form_step
-        self.form_step = submission_stages[current_step_index + 1]
-      end
-      form_step
+    def submission_stages
+      @submission_stages ||= StageCollection.new(self.class::SUBMISSION_STAGES, self)
+    end
+
+    def submission_current_flow
+      return submission_stages if from_api?
+      submission_stages.path_until(form_step)
     end
 
     def previous_step
-      return if current_step_index.zero?
-      step = submission_stages[current_step_index - 1]
-      until step_required?(step)
-        break unless step
-        previous_step_index = submission_stages.index(step) - 1
-        return nil if previous_step_index.negative?
-        step = submission_stages[previous_step_index]
-      end
-      step
+      return unless form_step
+      submission_stages.previous_stage(form_step)
     end
 
-    def current_step_index
-      submission_stages.index(current_step)
-    end
-
-    def current_step_required?
-      step_required?(form_step)
-    end
-
-    def step_required?(step)
-      # NOTE: offence details step is only required when the
-      # case type does not have a fixed fee
-      # TODO: move this logic to a workflow management
-      return true unless step.to_s == 'offence_details'
-      !fixed_fee_case?
+    def next_step!
+      return unless form_step
+      self.form_step = submission_stages.next_stage(form_step)
     end
 
     def from_api?

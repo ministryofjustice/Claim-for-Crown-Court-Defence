@@ -2,7 +2,7 @@
 %fieldset
   %legend.visuallyhidden
     = t('.fixed_fee')
-  .form-group.fixed-fee-group.nested-fields.js-block.fx-fee-group{data:{type:"fees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
+  .form-group.fixed-fee-group.nested-fields.js-block.fx-fee-group{data:{type:"fixedFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
     .grid-row.js-typeahead
       .column-one-half.fee-type{class: error_class?(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")}
         %label.form-label

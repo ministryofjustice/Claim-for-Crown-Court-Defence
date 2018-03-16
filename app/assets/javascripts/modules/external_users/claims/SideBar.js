@@ -3,8 +3,14 @@ moj.Modules.SideBar = {
   claimForm: '#claim-form',
   vatfactor: 0.2,
   blocks: [],
+  phantomBlockList: ['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'interimFees', 'transferFees', 'disbursements', 'expenses'],
   totals: {
-    fees: 0,
+    fixedFees: 0,
+    gradFees: 0,
+    miscFees: 0,
+    warrantFees: 0,
+    interimFees: 0,
+    transferFees: 0,
     disbursements: 0,
     expenses: 0,
     vat: 0,
@@ -14,6 +20,7 @@ moj.Modules.SideBar = {
   init: function() {
     this.bindListeners();
     this.loadBlocks();
+    this.loadStaticBlocks();
   },
 
   loadBlocks: function() {
@@ -30,6 +37,37 @@ moj.Modules.SideBar = {
         $el: $el
       };
       self.blocks.push(new moj.Helpers.SideBar[options.fn](options));
+      self.removePhantomKey($el.data('type'));
+    });
+  },
+
+  removePhantomKey: function(val) {
+    var idx = this.phantomBlockList.indexOf(val);
+    if (idx !== -1) {
+      this.phantomBlockList.splice(idx, 1);
+    }
+  },
+
+  loadStaticBlocks: function() {
+    var self = this;
+    var $el;
+    this.phantomBlockList.forEach(function(val, idx) {
+      if ($('.fx-seed-' + val).length) {
+
+        $el = $('.fx-seed-' + val);
+        var options = {
+          fn: 'PhantomBlock',
+          type: val,
+          autoVAT: $el.data('autovat'),
+          $el: $('.fx-seed-' + val)
+        }
+
+        if ($el.data('autovat') === false) {
+          options.autoVAT = false;
+        }
+        self.blocks.push(new moj.Helpers.SideBar[options.fn](options));
+      }
+
     });
   },
 
@@ -49,7 +87,12 @@ moj.Modules.SideBar = {
     var self = this;
 
     this.totals = {
-      fees: 0,
+      fixedFees: 0,
+      gradFees: 0,
+      miscFees: 0,
+      warrantFees: 0,
+      interimFees: 0,
+      transferFees: 0,
       disbursements: 0,
       expenses: 0,
       vat: 0,
@@ -75,22 +118,31 @@ moj.Modules.SideBar = {
 
     $('#claim-form').on('cocoon:after-insert', function(e) {
       self.loadBlocks();
+      self.loadStaticBlocks();
       self.recalculate();
     });
 
     $('#claim-form').on('cocoon:after-remove', function(e) {
       self.loadBlocks();
+      self.loadStaticBlocks();
       self.recalculate();
     });
-
   },
 
   sanitzeFeeToFloat: function() {
     var self = this;
     $.each(this.totals, function(key, val) {
       if ($.type(self.totals[key]) === 'string') {
-        self.totals[key] = parseFloat(self.totals[key].replace(',', '').replace(/£/g, ''));
+        self.totals[key] = self.strAmountToFloat(self.totals[key]);
       }
     });
+  },
+
+  strAmountToFloat: function(str) {
+    if (typeof str == 'undefined') {
+      return 0;
+    }
+    return parseFloat(str.replace(',', '').replace(/£/g, ''));
   }
+
 };

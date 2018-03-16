@@ -10,9 +10,52 @@ module Claim
       set_supplier_number
     end
 
-    def submission_stages
-      %i[case_details defendants offence_details fees]
-    end
+    SUBMISSION_STAGES = [
+      {
+        name: :case_details,
+        transitions: [
+          { to_stage: :defendants }
+        ]
+      },
+      {
+        name: :defendants,
+        transitions: [
+          {
+            to_stage: :offence_details,
+            condition: ->(claim) { !claim.fixed_fee_case? }
+          },
+          {
+            to_stage: :basic_and_fixed_fees,
+            condition: ->(claim) { claim.fixed_fee_case? }
+          }
+        ]
+      },
+      {
+        name: :offence_details,
+        transitions: [
+          { to_stage: :interim_fees }
+        ]
+      },
+      {
+        name: :interim_fees,
+        transitions: [
+          { to_stage: :travel_expenses }
+        ]
+      },
+      {
+        name: :travel_expenses,
+        transitions: [
+          { to_stage: :supporting_evidence }
+        ]
+      },
+      {
+        name: :supporting_evidence,
+        transitions: [
+          { to_stage: :additional_information }
+        ]
+      },
+      { name: :additional_information }
+    ].freeze
 
     def external_user_type
       :advocate

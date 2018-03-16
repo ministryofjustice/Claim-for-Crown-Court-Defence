@@ -1,0 +1,36 @@
+%ul
+  %li.fx-seed-transferFees{"data-seed": claim.raw_transfer_fees_total, "data-autovat": @claim.apply_vat? ? "true" : "false"}
+    %h3
+      = "Transfer fees"
+    %span.total-transferFees
+      = claim.transfer_fees_total
+
+  %li.fx-seed-miscFees{"data-seed": claim.raw_misc_fees_total, "data-autovat": @claim.apply_vat? ? "true" : "false"}
+    %h3
+      = "Miscellaneous fees"
+    %span.total-miscFees
+      = claim.misc_fees_total
+
+  %li.fx-seed-disbursements{"data-seed": claim.raw_disbursements_total, "data-autovat": @claim.apply_vat? ? "true" : "false", "data-seed-vat": claim.raw_disbursements_vat}
+    %h3
+      = "Disbursements"
+    %span.total-disbursements
+      = claim.disbursements_total
+
+  %li.fx-seed-expenses{"data-seed": claim.raw_expenses_total, "data-autovat": @claim.apply_vat? ? "true" : "false", "data-seed-vat": claim.raw_expenses_vat}
+    %h3
+      = "Travel expenses"
+    %span.total-expenses
+      = claim.expenses_total
+
+  %li.fx-seed{"data-vat-total": claim.raw_vat_amount}
+    %h3
+      = "VAT"
+    %span.total-vat
+      = claim.vat_amount
+
+  %li.fx-seed{"data-total-inc": claim.raw_total_inc}
+    %h3
+      = "Total"
+    %span.total-grandTotal
+      = claim.total_inc

@@ -69,12 +69,12 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
 
   context 'advocate_category' do
     before do
-      claim.form_step = 'fees'
+      claim.form_step = 'basic_and_fixed_fees'
     end
 
     it 'should error if not present' do
       claim.advocate_category = nil
-      should_error_with(claim, :advocate_category,"blank")
+      should_error_with(claim, :advocate_category, 'blank')
     end
 
     it 'should error if not in the available list' do
@@ -92,9 +92,10 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   end
 
   context 'offence' do
-    include_context 'step-index', 3
-
-    before { claim.offence = nil }
+    before do
+      claim.form_step = :offence_details
+      claim.offence = nil
+    end
 
     it 'should error if not present for non-fixed fee case types' do
       allow(claim.case_type).to receive(:is_fixed_fee?).and_return(false)
@@ -108,8 +109,6 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   end
 
   context 'defendant uplift fees aggregation validation' do
-    include_context 'step-index', 4
-
     let(:miaph) { create(:misc_fee_type, :miaph) }
     let(:miahu) { create(:misc_fee_type, :miahu) }
     let(:midtw) { create(:misc_fee_type, :midtw) }
@@ -120,6 +119,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
       claim.misc_fees.delete_all
       create(:misc_fee, fee_type: miaph, claim: claim, quantity: 1, rate: 25.1)
       claim.reload
+      claim.form_step = :miscellaneous_fees
     end
 
     it 'test setup' do
@@ -179,7 +179,6 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
           should_error_with(claim, :base, 'defendant_uplifts_mismatch')
         end
       end
-
 
       context 'with 2 defendants' do
         before do
@@ -298,10 +297,10 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
       ],
       [],
       %i[offence],
-      %i[
-        advocate_category
-        total
-        defendant_uplifts
-      ]
+      %i[total advocate_category defendant_uplifts],
+      %i[total],
+      %i[total],
+      [],
+      []
   ]
 end

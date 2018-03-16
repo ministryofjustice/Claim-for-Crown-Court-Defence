@@ -49,20 +49,30 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     When I click Submit to LAA
     Then I should see the error 'Add a transfer fee'
-    And I should see the error 'Total value claimed must be greater than £0.00'
 
     Then I fill in '121.21' as the transfer fee total
+
+    Then I click "Continue" in the claim form
 
     And I add a miscellaneous fee 'Costs judge application'
     And I add a Case uplift fee with case numbers 'A20161234, A20165588'
 
+    Then I click "Continue" in the claim form
+
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
 
+    Then I click "Continue" in the claim form
+
     And I add an expense 'Parking'
+
+    Then I click "Continue" in the claim form
 
     And I upload 1 document
     And I check the boxes for the uploaded documents
+
+    Then I click "Continue" in the claim form
+
     And I add some additional information
 
     Then I click Submit to LAA

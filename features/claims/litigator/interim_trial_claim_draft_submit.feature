@@ -46,8 +46,13 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
 
+    Then I click "Continue" in the claim form
+
     And I upload 1 document
     And I check the boxes for the uploaded documents
+
+    Then I click "Continue" in the claim form
+
     And I add some additional information
     And I click Submit to LAA
     Then I should be on the check your claim page

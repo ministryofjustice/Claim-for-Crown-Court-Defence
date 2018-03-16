@@ -11,7 +11,6 @@ module Claim
             case_number
             transfer_court
             transfer_case_number
-            advocate_category
             offence
             case_concluded_at
           ]
@@ -27,10 +26,6 @@ module Claim
                         :lgfs,
                         :creator,
                         'must be from a provider with permission to submit LGFS claims')
-    end
-
-    def validate_advocate_category
-      validate_absence(:advocate_category, 'invalid')
     end
 
     def validate_offence

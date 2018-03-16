@@ -444,6 +444,15 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     render action: action
   end
 
+  def redirect_to_next_step
+    track_visit({
+                  url: 'external_user/%{type}/claim/%{action}/%{step}',
+                  title: '%{action_t} %{type} claim page %{step}'
+                }, claim_tracking_substitutions)
+
+    redirect_to edit_polymorphic_path(@claim, step: @claim.next_step!)
+  end
+
   def render_or_redirect(result)
     return render_or_redirect_error(result) unless result.success?
     render_or_redirect_success(result)
@@ -451,8 +460,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def render_or_redirect_success(result)
     if continue_claim?
-      @claim.next_step!
-      render_action_with_resources(result.action)
+      redirect_to_next_step
     elsif result.draft?
       redirect_to external_users_claims_path, notice: 'Draft claim saved'
     else

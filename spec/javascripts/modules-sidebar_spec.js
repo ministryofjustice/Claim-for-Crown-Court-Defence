@@ -13,29 +13,49 @@ describe("Modules.SideBar.js", function() {
     '</div>'
   ].join(' ');
 
+  var jsBlockViewNonCalculated = function(options) {
+    var defaults = {
+      type: 'fixedFees',
+      autovat: true,
+      blockType: 'FeeBlock'
+    }
 
-  var jsBlockViewNonCalculated = $([
-    '<div class="js-block nested-fields" ',
-    '  data-autovat="true" ',
-    '  data-type="fees">',
-    '   <h1>JS BLOCK</h1>',
-    '  <input value="" class="form-control quantity" min="0" max="99999" maxlength="5" size="5" type="number" name="claim[basic_fees_attributes][0][quantity]" id="claim_basic_fees_attributes_0_quantity">',
-    '  <input value="0.00" class="form-control rate" size="10" maxlength="8" type="text">',
-    '  <span class="total" data-total="0.0">£0.00</span>',
-    '</div>'
-  ].join(' '));
+    options = $.extend({}, defaults, options);
 
-  var jsBlockViewCalculated = $([
-    '<div class="js-block nested-fields" ',
-    '  data-autovat="true" ',
-    '  data-block-type="FeeBlockCalculator" ',
-    '  data-type="fees">',
-    '   <h1>JS BLOCK</h1>',
-    '  <input value="5" class="form-control quantity" min="0" max="99999" maxlength="5" size="5" type="number" name="claim[basic_fees_attributes][0][quantity]" id="claim_basic_fees_attributes_0_quantity">',
-    '  <input value="5.20" class="form-control rate" size="10" maxlength="8" type="text">',
-    '  <span class="total" data-total="31.20">£31.20</span>',
-    '</div>'
-  ].join(' '));
+    return $([
+      '<div class="js-block nested-fields" ',
+      '  data-block-type="' + options.blockType + '" ',
+      '  data-autovat="' + options.autovat + '" ',
+      '  data-type="' + options.type + '">',
+      '   <h1>JS BLOCK</h1>',
+      '  <input value="" class="form-control quantity" min="0" max="99999" maxlength="5" size="5" type="number" name="claim[basic_fees_attributes][0][quantity]" id="claim_basic_fees_attributes_0_quantity">',
+      '  <input value="0.00" class="form-control rate" size="10" maxlength="8" type="text">',
+      '  <span class="total" data-total="0.0">£0.00</span>',
+      '</div>'
+    ].join(' '));
+  }
+
+  var jsBlockViewCalculated = function(options) {
+    var defaults = {
+      type: 'fixedFees',
+      autovat: true,
+      blockType: 'FeeBlockCalculator'
+    }
+
+    options = $.extend({}, defaults, options);
+
+    return $([
+      '<div class="js-block nested-fields" ',
+      '  data-block-type="' + options.blockType + '" ',
+      '  data-autovat="' + options.autovat + '" ',
+      '  data-type="' + options.type + '">',
+      '   <h1>JS BLOCK</h1>',
+      '  <input value="5" class="form-control quantity" min="0" max="99999" maxlength="5" size="5" type="number" name="claim[basic_fees_attributes][0][quantity]" id="claim_basic_fees_attributes_0_quantity">',
+      '  <input value="5.20" class="form-control rate" size="10" maxlength="8" type="text">',
+      '  <span class="total" data-total="31.20">£31.20</span>',
+      '</div>'
+    ].join(' '))
+  };
 
   beforeEach(function() {
     sidebarFixtureDOM.append(sideBarView);
@@ -46,28 +66,56 @@ describe("Modules.SideBar.js", function() {
   });
 
   afterEach(function() {
+    moj.Modules.SideBar.phantomBlockList = ['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'interimFees', 'transferFees', 'disbursements', 'expenses'];
+    moj.Modules.SideBar.blocks = [];
+    moj.Modules.SideBar.totals = {
+      fixedFees: 0,
+      gradFees: 0,
+      miscFees: 0,
+      warrantFees: 0,
+      interimFees: 0,
+      transferFees: 0,
+      disbursements: 0,
+      expenses: 0,
+      vat: 0,
+      grandTotal: 0
+    };
     sidebarFixtureDOM.empty();
+    jsBlockFixtureDOM.empty();
   });
 
   describe('Defaults', function() {
     it('should have an `el` property defined', function() {
       expect(moj.Modules.SideBar.el).toEqual('.totals-summary');
     });
+
     it('should have a `claimForm` property defined', function() {
       expect(moj.Modules.SideBar.claimForm).toEqual('#claim-form');
     });
+
     it('should have a `vatfactor` property defined', function() {
       expect(moj.Modules.SideBar.vatfactor).toEqual(0.2);
     });
+
     it('should have a `totals` property defined', function() {
       expect(moj.Modules.SideBar.totals).toEqual({
-        fees: 0,
+        fixedFees: 0,
+        gradFees: 0,
+        miscFees: 0,
+        warrantFees: 0,
+        interimFees: 0,
+        transferFees: 0,
         disbursements: 0,
         expenses: 0,
         vat: 0,
         grandTotal: 0
       });
     });
+
+    it('should have a `phantomBlockList` property defined', function() {
+      expect(moj.Modules.SideBar.phantomBlockList).toEqual(['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'interimFees', 'transferFees', 'disbursements', 'expenses']);
+    });
+
     it('should have a `blocks` property defined', function() {
       expect(moj.Modules.SideBar.blocks).toEqual([]);
     });
@@ -79,15 +127,22 @@ describe("Modules.SideBar.js", function() {
       beforeEach(function() {
         spyOn(moj.Modules.SideBar, 'bindListeners');
         spyOn(moj.Modules.SideBar, 'loadBlocks');
+        spyOn(moj.Modules.SideBar, 'loadStaticBlocks');
       });
+
       it('should bind the listners', function() {
         moj.Modules.SideBar.init();
         expect(moj.Modules.SideBar.bindListeners).toHaveBeenCalled();
       });
 
-      it('should prime the sidebar cache if the DOM element exists', function() {
+      it('should call for current page blocks to be loaded', function() {
         moj.Modules.SideBar.init();
         expect(moj.Modules.SideBar.loadBlocks).toHaveBeenCalled();
+      });
+
+      it('should call for static blocks to be loaded', function() {
+        moj.Modules.SideBar.init();
+        expect(moj.Modules.SideBar.loadStaticBlocks).toHaveBeenCalled();
       });
     });
 
@@ -95,7 +150,7 @@ describe("Modules.SideBar.js", function() {
       it('should clear the existing cache', function() {
         moj.Modules.SideBar.blocks = [{}, {}];
 
-        jsBlockFixtureDOM.append([jsBlockViewNonCalculated.clone(), jsBlockViewNonCalculated.clone(), jsBlockViewNonCalculated.clone()]);
+        jsBlockFixtureDOM.append([jsBlockViewNonCalculated().clone(), jsBlockViewNonCalculated().clone(), jsBlockViewNonCalculated().clone()]);
         $('body').append(jsBlockFixtureDOM);
 
         moj.Modules.SideBar.loadBlocks();
@@ -104,11 +159,12 @@ describe("Modules.SideBar.js", function() {
 
         jsBlockFixtureDOM.empty();
       });
+
       it('should cache an instance of `FeeBlock` for every `.js-block` el', function() {
         var fixture = [
-          jsBlockViewNonCalculated.clone(),
-          jsBlockViewNonCalculated.clone(),
-          jsBlockViewNonCalculated.clone()
+          jsBlockViewNonCalculated().clone(),
+          jsBlockViewNonCalculated().clone(),
+          jsBlockViewNonCalculated().clone()
         ];
         jsBlockFixtureDOM.append(fixture);
         $('body').append(jsBlockFixtureDOM);
@@ -120,7 +176,49 @@ describe("Modules.SideBar.js", function() {
 
         jsBlockFixtureDOM.empty();
       });
+
+      it('should update the `phantomBlockList` by removing types', function() {
+        var fixture = [
+          jsBlockViewNonCalculated().clone(),
+          jsBlockViewNonCalculated({
+            type: 'miscFees'
+          }).clone(),
+          jsBlockViewNonCalculated().clone()
+        ];
+
+        jsBlockFixtureDOM.append(fixture);
+
+        $('body').append(jsBlockFixtureDOM);
+
+        spyOn(moj.Helpers.SideBar, 'FeeBlock');
+        spyOn(moj.Modules.SideBar, 'removePhantomKey').and.callThrough();
+
+        moj.Modules.SideBar.loadBlocks();
+
+        expect(moj.Modules.SideBar.removePhantomKey).toHaveBeenCalled();
+        expect(moj.Modules.SideBar.phantomBlockList.length).toEqual(6);
+
+
+        jsBlockFixtureDOM.empty();
+      });
     });
+
+    describe('...removePhantomKey', function() {
+      it('should remove items from the array', function() {
+        var module = moj.Modules.SideBar;
+        module.removePhantomKey('Hellos')
+        expect(module.phantomBlockList.length).toEqual(8)
+        module.removePhantomKey('fixedFees')
+        expect(module.phantomBlockList.length).toEqual(7)
+      });
+    });
+
+    // describe('...loadStaticBlocks', function() {
+    //   it('should test something', function() {
+    //     console.log('no test');
+    //   });
+    // });
+
 
     describe('...render', function() {
       it('should update the view correctly', function() {
@@ -158,9 +256,9 @@ describe("Modules.SideBar.js", function() {
           spyOn(moj.Modules.SideBar, 'render');
           called = {};
           moj.Modules.SideBar.blocks = [{
-            type: 'fees',
+            type: 'miscFees',
             totals: {
-              total: 10,
+              grandTotal: 10,
               vat: 2
             },
             isVisible: function() {
@@ -200,7 +298,7 @@ describe("Modules.SideBar.js", function() {
 
         describe('...calculations', function() {
           it('should add to the correct `this.type` property', function() {
-            $('body').append(jsBlockViewCalculated);
+            $('#claim-form').append(jsBlockViewCalculated());
 
             moj.Modules.SideBar.init();
 
@@ -216,38 +314,52 @@ describe("Modules.SideBar.js", function() {
               vat: 5.2,
               typeTotal: 26
             });
-
             expect(moj.Modules.SideBar.totals).toEqual({
-              fees: 26,
               disbursements: 0,
               expenses: 0,
+              fixedFees: 26,
+              gradFees: 0,
+              grandTotal: 31.2,
+              interimFees: 0,
+              miscFees: 0,
+              transferFees: 0,
               vat: 5.2,
-              grandTotal: 31.2
+              warrantFees: 0
             });
 
             block.config.type = 'expenses';
             moj.Modules.SideBar.recalculate();
 
             expect(moj.Modules.SideBar.totals).toEqual({
-              fees: 0,
               disbursements: 0,
               expenses: 26,
+              fixedFees: 0,
+              gradFees: 0,
+              grandTotal: 31.2,
+              interimFees: 0,
+              miscFees: 0,
+              transferFees: 0,
               vat: 5.2,
-              grandTotal: 31.2
+              warrantFees: 0
             });
 
-            block.config.type = 'fees';
+            block.config.type = 'gradFees';
             moj.Modules.SideBar.recalculate();
 
             expect(moj.Modules.SideBar.totals).toEqual({
-              fees: 26,
               disbursements: 0,
               expenses: 0,
+              fixedFees: 0,
+              gradFees: 26,
+              grandTotal: 31.2,
+              interimFees: 0,
+              miscFees: 0,
+              transferFees: 0,
               vat: 5.2,
-              grandTotal: 31.2
+              warrantFees: 0
             });
 
-            jsBlockViewCalculated.remove();
+            jsBlockViewCalculated().remove();
           });
         });
       });
@@ -263,19 +375,23 @@ describe("Modules.SideBar.js", function() {
       it('should call the correct callback for events', function() {
         spyOn(moj.Modules.SideBar, 'recalculate');
         spyOn(moj.Modules.SideBar, 'loadBlocks');
+        spyOn(moj.Modules.SideBar, 'loadStaticBlocks');
 
         moj.Modules.SideBar.bindListeners();
 
         $('#claim-form').trigger('recalculate');
         expect(moj.Modules.SideBar.recalculate).toHaveBeenCalled();
         expect(moj.Modules.SideBar.loadBlocks).not.toHaveBeenCalled();
+        expect(moj.Modules.SideBar.loadStaticBlocks).not.toHaveBeenCalled();
 
         moj.Modules.SideBar.recalculate.calls.reset();
         moj.Modules.SideBar.loadBlocks.calls.reset();
+        moj.Modules.SideBar.loadStaticBlocks.calls.reset();
 
         $('#claim-form').trigger('cocoon:after-insert');
         expect(moj.Modules.SideBar.recalculate).toHaveBeenCalled();
         expect(moj.Modules.SideBar.loadBlocks).toHaveBeenCalled();
+        expect(moj.Modules.SideBar.loadStaticBlocks).toHaveBeenCalled();
       });
     });
 

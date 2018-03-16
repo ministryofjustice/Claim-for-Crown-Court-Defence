@@ -119,7 +119,7 @@ RSpec.describe Claims::UpdateDraft do
       context 'when current form step requires the invalid record to be validated' do
         let(:claim_params) {
           {
-            "form_step" => "fees",
+            "form_step" => "interim_fees",
             "case_number" => 'A20165555'
           }
         }

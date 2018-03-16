@@ -38,11 +38,23 @@ Feature: Advocate admin submits a claim for a Trial case
     And I select an advocate category of 'Junior alone'
     And I add a basic fee with dates attended
     And I add a number of cases uplift fee with additional case numbers
+
+    Then I click "Continue" in the claim form
+
     And I add a miscellaneous fee 'Adjourned appeals' with dates attended
     And I add a miscellaneous fee 'Noting brief fee' with dates attended
+
+    Then I click "Continue" in the claim form
+
     And I add an expense 'Hotel accommodation'
+
+    Then I click "Continue" in the claim form
+
     And I upload 3 documents
     And I check the boxes for the uploaded documents
+
+    Then I click "Continue" in the claim form
+
     And I add some additional information
 
     Then I click Submit to LAA

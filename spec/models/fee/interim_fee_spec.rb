@@ -144,7 +144,7 @@ module Fee
 
     describe '#validation_required?' do
       let(:claim) { fee.claim }
-      let(:step) { :fees }
+      let(:step) { :interim_fees }
 
       subject { fee.validation_required? }
 

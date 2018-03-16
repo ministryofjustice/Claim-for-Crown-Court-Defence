@@ -3,6 +3,10 @@ class Claim::AdvocateInterimClaimPresenter < Claim::BaseClaimPresenter
     'AGFS Interim'
   end
 
+  def type_identifier
+    'agfs_interim'
+  end
+
   def can_have_disbursements?
     false
   end

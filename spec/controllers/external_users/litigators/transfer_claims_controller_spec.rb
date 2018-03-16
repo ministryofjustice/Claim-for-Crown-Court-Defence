@@ -1,10 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :controller, focus: true do
-  let!(:litigator) { create(:external_user, :litigator) }
-
   before { sign_in litigator.user }
 
+  let!(:litigator)    { create(:external_user, :litigator) }
   let(:court)         { create(:court) }
   let(:offence)       { create(:offence, :miscellaneous) }
   let(:case_type)     { create(:case_type, :hsts) }
@@ -74,13 +73,10 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
           expect(Claim::TransferClaim.last.state).to eq 'draft'
         end
 
-        it 'returns success status' do
-          expect(response.status).to eq 200
-        end
-
-        it 'displays page 2 of form' do
-          expect(response).to render_template('external_users/litigators/transfer_claims/new')
-          expect(response).to render_template(partial: 'external_users/claims/case_details/_fields')
+        it 'redirects user to the next step' do
+          claim = Claim::TransferClaim.last
+          expect(response.status).to eq 302
+          expect(response).to redirect_to edit_litigators_transfer_claim_path(claim, step: :case_details)
         end
       end
 
@@ -200,15 +196,11 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         }
       end
 
-      it 'returns success' do
+      it 'redirects user to next step' do
         put :update, page_1_params
-        expect(response.status).to eq 200
-      end
-
-      it 'displays page 2' do
-        put :update, page_1_params
-        expect(response).to render_template('external_users/litigators/transfer_claims/edit')
-        expect(response).to render_template(partial: 'external_users/claims/case_details/_fields')
+        claim = Claim::TransferClaim.last
+        expect(response.status).to eq 302
+        expect(response).to redirect_to edit_litigators_transfer_claim_path(claim, step: :case_details)
       end
 
       it 'updates the claim details' do
@@ -293,7 +285,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
 
       it 'claim is in the first submission step by default' do
-        expect(assigns(:claim).form_step).to eq(claim.submission_stages.first)
+        expect(assigns(:claim).form_step).to eq(claim.submission_stages.first.to_sym)
       end
 
       context 'when a step is provided' do
@@ -406,13 +398,13 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
     context 'when submitted to LAA and invalid ' do
       it 'does not set claim to submitted' do
-        put :update, id: subject, claim: { court_id: nil }, commit_submit_claim: 'Submit to LAA'
+        put :update, id: subject, claim: { form_step: 'case_details', court_id: nil }, commit_submit_claim: 'Submit to LAA'
         subject.reload
         expect(subject).to_not be_submitted
       end
 
       it 'renders edit template' do
-        put :update, id: subject, claim: { additional_information: 'foo', court_id: nil }, commit_continue: 'Submit to LAA'
+        put :update, id: subject, claim: { form_step: 'case_details', court_id: nil }, commit_submit_claim: 'Submit to LAA'
         expect(response).to render_template(:edit)
       end
     end

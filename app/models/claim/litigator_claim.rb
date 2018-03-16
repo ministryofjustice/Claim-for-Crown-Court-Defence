@@ -129,19 +129,6 @@ module Claim
       {
         name: :disbursements,
         transitions: [
-          {
-            to_stage: :travel_expenses,
-            condition: ->(claim) { claim.fixed_fee_case? }
-          },
-          {
-            to_stage: :warrant_fees,
-            condition: ->(claim) { !claim.fixed_fee_case? }
-          }
-        ]
-      },
-      {
-        name: :warrant_fees,
-        transitions: [
           { to_stage: :travel_expenses }
         ]
       },

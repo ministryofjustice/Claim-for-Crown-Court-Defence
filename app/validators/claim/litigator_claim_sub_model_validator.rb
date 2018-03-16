@@ -5,8 +5,7 @@ class Claim::LitigatorClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       defendants: [],
       offence_details: [],
       fixed_fees: %i[fixed_fee],
-      graduated_fees: %i[graduated_fee],
-      warrant_fees: %i[warrant_fee]
+      graduated_fees: %i[graduated_fee]
     }
   end
 

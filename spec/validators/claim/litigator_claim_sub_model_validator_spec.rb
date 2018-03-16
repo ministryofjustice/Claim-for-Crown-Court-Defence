@@ -10,9 +10,7 @@ RSpec.describe Claim::LitigatorClaimSubModelValidator, type: :validator do
       [],
       [],
       %i[fixed_fee],
-      %i[graduated_fee],
-      %i[warrant_fee]
-      # [:graduated_fee, :fixed_fee, :warrant_fee, :assessment, :certification]
+      %i[graduated_fee]
     ],
     has_many: [
       [],
@@ -22,7 +20,6 @@ RSpec.describe Claim::LitigatorClaimSubModelValidator, type: :validator do
       %i[disbursements],
       %i[expenses],
       %i[documents]
-      # [:misc_fees, :disbursements, :expenses, :messages, :redeterminations, :documents]
     ]
   }
 end

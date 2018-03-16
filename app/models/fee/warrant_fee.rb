@@ -32,6 +32,11 @@ class Fee::WarrantFee < Fee::BaseFee
     true
   end
 
+  def requires_executed_date?
+    return false if claim&.agfs? && claim&.interim?
+    true
+  end
+
   def self.instance
     Fee::WarrantFee.first
   end

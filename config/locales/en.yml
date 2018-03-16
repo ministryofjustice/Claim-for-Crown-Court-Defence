@@ -832,7 +832,7 @@ en:
           warrant_fee: "Warrant fee"
           date_issued: "Warrant issued"
           date_executed: "Warrant executed (if applicable)"
-          total: "Total"
+          total: "Net amount"
       supplier_number:
         fields:
           lgfs_supplier_number: "LGFS supplier number"
@@ -853,6 +853,10 @@ en:
           number_days_hint: "Number of days"
           warrant_issued: "Warrant issued"
           warrant_executed: "Warrant executed"
+        header_prompt_text_html: |
+          All fees should be entered exclusive of
+          <abbr title="Value Added Tax">VAT</abbr>.
+        heading: Interim fees
         summary:
           caption: 'Interim Fees: This section contains details of any interim fees that have been claimed.'
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'

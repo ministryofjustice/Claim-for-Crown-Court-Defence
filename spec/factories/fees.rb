@@ -73,7 +73,7 @@ FactoryBot.define do
   factory :warrant_fee, class: Fee::WarrantFee do
     claim
     fee_type { build :warrant_fee_type }
-    warrant_issued_date    1.month.ago
+    warrant_issued_date Fee::WarrantFeeValidator::MINIMUM_PERIOD_SINCE_ISSUED.ago
     amount 25.01
 
     trait :warrant_executed do

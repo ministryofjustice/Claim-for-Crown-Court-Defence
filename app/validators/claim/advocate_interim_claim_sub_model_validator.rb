@@ -3,7 +3,8 @@ class Claim::AdvocateInterimClaimSubModelValidator < Claim::BaseClaimSubModelVal
     {
       case_details: [],
       defendants: [],
-      offence_details: []
+      offence_details: [],
+      interim_fees: %i[warrant_fee]
     }
   end
 

@@ -1,0 +1,11 @@
+#fees-header
+  %h2#section-heading.heading-large
+    = t('external_users.claims.interim_fee.heading')
+  %p
+    = t('external_users.claims.interim_fee.header_prompt_text_html')
+
+= render partial: 'external_users/advocates/claims/advocate_category', locals: { f: f }
+
+= render partial: 'external_users/claims/warrant_fee/fields', locals: { f: f }
+
+= render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: 'commit_continue' }

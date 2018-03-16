@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Advocate interim claim WEB validations' do
+  # TODO: this let! is necessary because the fee types are not seeded
+  # by default (IMO they should as they're a basic part of the app)
+  let!(:warrant_fee_type) { create(:warrant_fee_type, :warr) }
   let(:external_user) { create(:external_user, :advocate) }
   let(:court) { create(:court, name: 'Court Name') }
   let(:attributes) { valid_attributes }
@@ -384,6 +387,199 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       specify {
         is_expected.to be_invalid
         expect(claim.errors[:base]).to match_array(['unclaimable'])
+      }
+    end
+  end
+
+  context 'when submission step is interim fees details' do
+    before do
+      allow(Settings).to receive(:agfs_fee_reform_release_date).and_return(release_date)
+    end
+
+    let(:form_step) { 'interim_fees' }
+    let(:release_date) { 4.months.ago.to_date }
+    let(:earliest_representation_order_date) { release_date + 1.day }
+    let(:offence_details_attributes) {
+      {
+        court_id: court.id,
+        case_number: 'T20170101',
+        external_user_id: external_user.id,
+        creator_id: external_user.id,
+        case_transferred_from_another_court: false,
+        defendants_attributes: {
+          '0' => {
+            first_name: 'John',
+            last_name: 'Doe',
+            date_of_birth_dd: '03',
+            date_of_birth_mm: '11',
+            date_of_birth_yyyy: '1967',
+            order_for_judicial_apportionment: '0',
+            representation_orders_attributes: {
+              '0' => {
+                representation_order_date_dd: earliest_representation_order_date.day.to_s,
+                representation_order_date_mm: earliest_representation_order_date.month.to_s,
+                representation_order_date_yyyy: earliest_representation_order_date.year.to_s
+              },
+              '1' => {
+                representation_order_date_dd: (release_date + 2.day).day.to_s,
+                representation_order_date_mm: (release_date + 2.day).month.to_s,
+                representation_order_date_yyyy: (release_date + 2.day).year.to_s
+              }
+            }
+          },
+          '1' => {
+            first_name: 'Jane',
+            last_name: 'Doe',
+            date_of_birth_dd: '26',
+            date_of_birth_mm: '07',
+            date_of_birth_yyyy: '1959',
+            order_for_judicial_apportionment: '0',
+            representation_orders_attributes: {
+              '0' => {
+                representation_order_date_dd: (release_date + 3.day).day.to_s,
+                representation_order_date_mm: (release_date + 3.day).month.to_s,
+                representation_order_date_yyyy: (release_date + 3.day).year.to_s
+              }
+            }
+          }
+        }
+      }
+    }
+    let(:warrant_issued_date) { 3.months.ago }
+    let(:valid_warrant_fee_attributes) {
+      {
+        warrant_issued_date_dd: warrant_issued_date.day.to_s,
+        warrant_issued_date_mm: warrant_issued_date.month.to_s,
+        warrant_issued_date_yyyy: warrant_issued_date.year.to_s,
+        amount: 20
+      }
+    }
+    let(:warrant_fee_attributes) { valid_warrant_fee_attributes }
+    let(:valid_attributes) {
+      {
+        advocate_category: 'QC',
+        warrant_fee_attributes: warrant_fee_attributes
+      }
+    }
+
+    subject(:claim) {
+      Claim::AdvocateInterimClaim.create(offence_details_attributes).tap do |record|
+        record.assign_attributes(params)
+      end
+    }
+
+    context 'with valid attributes' do
+      let(:attributes) { valid_attributes }
+
+      specify { is_expected.to be_valid }
+    end
+
+    context 'when an advocate category is not set' do
+      let(:attributes) { valid_attributes.except(:advocate_category) }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:advocate_category]).to match_array(['blank'])
+      }
+    end
+
+    context 'when an invalid advocate category is set' do
+      let(:attributes) { valid_attributes.merge(advocate_category: 'invalid-ac') }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:advocate_category]).to match_array(['Advocate category must be one of those in the provided list'])
+      }
+    end
+
+    context 'when a warrant fee issued date is not set' do
+      let(:warrant_fee_attributes) {
+        valid_warrant_fee_attributes.except(:warrant_issued_date_dd,
+                                            :warrant_issued_date_mm,
+                                            :warrant_issued_date_yyyy)
+      }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:"warrant_fee.warrant_issued_date"]).to match_array(['blank'])
+      }
+    end
+
+    context 'when a warrant fee issued date is set before the earliest permitted date' do
+      let(:old_warrant_issued_date) { 15.years.ago }
+      let(:warrant_fee_attributes) {
+        valid_warrant_fee_attributes.merge(
+          warrant_issued_date_dd: old_warrant_issued_date.day.to_s,
+          warrant_issued_date_mm: old_warrant_issued_date.month.to_s,
+          warrant_issued_date_yyyy: old_warrant_issued_date.year.to_s)
+      }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:"warrant_fee.warrant_issued_date"]).to match_array(['check_not_too_far_in_past', 'check_on_or_after_earliest_representation_order'])
+      }
+    end
+
+    context 'when a warrant fee issued date is set in the future' do
+      let(:future_warrant_issued_date) { 6.days.from_now }
+      let(:warrant_fee_attributes) {
+        valid_warrant_fee_attributes.merge(
+          warrant_issued_date_dd: future_warrant_issued_date.day.to_s,
+          warrant_issued_date_mm: future_warrant_issued_date.month.to_s,
+          warrant_issued_date_yyyy: future_warrant_issued_date.year.to_s)
+      }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:"warrant_fee.warrant_issued_date"]).to match_array(['check_not_in_future', 'on_or_before'])
+      }
+    end
+
+    context 'when a warrant fee has been issued less than 3 months ago' do
+      let(:new_warrant_issued_date) { 2.months.ago }
+      let(:warrant_fee_attributes) {
+        valid_warrant_fee_attributes.merge(
+          warrant_issued_date_dd: new_warrant_issued_date.day.to_s,
+          warrant_issued_date_mm: new_warrant_issued_date.month.to_s,
+          warrant_issued_date_yyyy: new_warrant_issued_date.year.to_s)
+      }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:"warrant_fee.warrant_issued_date"]).to match_array(['on_or_before'])
+      }
+    end
+
+    context 'when a warrant issued date has been set before the earliest representation order date' do
+      let(:new_warrant_issued_date) { earliest_representation_order_date - 1.day }
+      let(:warrant_fee_attributes) {
+        valid_warrant_fee_attributes.merge(
+          warrant_issued_date_dd: new_warrant_issued_date.day.to_s,
+          warrant_issued_date_mm: new_warrant_issued_date.month.to_s,
+          warrant_issued_date_yyyy: new_warrant_issued_date.year.to_s)
+      }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:"warrant_fee.warrant_issued_date"]).to match_array(['check_on_or_after_earliest_representation_order'])
+      }
+    end
+
+    context 'when a warrant fee amount was not set' do
+      let(:warrant_fee_attributes) { valid_warrant_fee_attributes.except(:amount) }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:"warrant_fee.amount"]).to match_array(['numericality'])
+      }
+    end
+
+    context 'when the warrant fee amount is zero' do
+      let(:warrant_fee_attributes) { valid_warrant_fee_attributes.merge(amount: '0.00') }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:"warrant_fee.amount"]).to match_array(['numericality'])
       }
     end
   end

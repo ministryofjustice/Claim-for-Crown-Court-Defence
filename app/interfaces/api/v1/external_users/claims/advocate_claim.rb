@@ -13,6 +13,8 @@ module API::V1::ExternalUsers
         use :common_params
         optional :advocate_email, type: String, desc: local_t(:advocate_email)
         optional :user_email, type: String, desc: local_t(:user_email)
+        # TODO: this might need to be changed given there's a different list
+        # of advocate categories depending on the fee scheme in use
         optional :advocate_category,
                  type: String,
                  desc: local_t(:advocate_category),

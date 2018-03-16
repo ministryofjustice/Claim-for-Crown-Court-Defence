@@ -32,6 +32,8 @@ module API
         end
 
         resource :advocate_categories do
+          # TODO: this might need to be changed given there's a different list
+          # of advocate categories depending on the fee scheme in use
           desc 'Return all Advocate Categories'
           get { Settings.advocate_categories }
         end

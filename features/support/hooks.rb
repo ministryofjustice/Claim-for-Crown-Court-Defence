@@ -1,5 +1,6 @@
 NON_TRUNCATED_TABLES ||= %w(
   vat_rates courts offence_classes offences case_types fee_types certification_types expense_types disbursement_types
+  fee_bands fee_categories offence_fee_schemes fee_schemes
 )
 
 Before('~@no-site-prism') do

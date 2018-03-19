@@ -58,7 +58,7 @@ module API
           get do
             scheme_date = params[:rep_order_date] || '2018-01-01'
             description = params[:offence_description]
-            offences = FeeScheme.agfs.for(scheme_date).first.offences
+            offences = FeeScheme.agfs.for(scheme_date).last.offences
             offences = offences.where(description: description) if description.present?
 
             present offences, with: API::Entities::Offence

@@ -1,17 +1,19 @@
-Category,Band ,Offence,Contrary to,Year and Chapter
+Category,Band,Offence,Contrary to,Year and Chapter
 1,1.1,Murder,Common Law,
 1,1.1,Manslaughter,"Common Law, Offences against the Person Act 1861, s.5",1861 c. 100
-1,1.1,Corporate Manslaughter,"Corporate Manslaughter and Corporate Homicide Act 2007, s.1",2007 c. 19
 1,1.1,Conspiracy to commit murder,"Criminal Law Act 1977, s.1",1977 c. 45
+1,1.1,Corporate Manslaughter,"Corporate Manslaughter and Corporate Homicide Act 2007, s.1",2007 c. 19
 1,1.1,Child destruction,"Infant Life (Preservation) Act 1929, s.1",1929 c. 34
 1,1.1,Infanticide,"Infanticide Act 1938, s.1",1938 c. 36
 1,1.2,Murder,Common Law,
 1,1.2,Manslaughter,"Common Law, Offences against the Person Act 1861, s.5",1861 c. 100
 1,1.2,Conspiracy to commit murder,"Criminal Law Act 1977, s.1",1977 c. 45
 1,1.3,Murder,Common Law,
+1,1.3,Manslaughter,"Common Law, Offences against the Person Act 1861, s.5",1861 c. 100
 1,1.3,Conspiracy to commit murder,"Criminal Law Act 1977, s.1",1977 c. 45
 1,1.3,Soliciting to commit murder,"Offences against the Person Act 1861, s.4   ",1861 c. 100
-1,1.4,Manslaughter,"Common Law, Offences against the Person Act 1861, s.5",1861 c. 100
+2,2.1,Causing explosion likely to endanger life or property,"Explosive Substances Act 1883, s.2",1883 c. 3
+2,2.1,Attendance at a place used for terrorist training,"Terrorism Act 2006, s.8",2006 c. 11
 2,2.1,Use etc. of nuclear weapons,"Anti-terrorism, Crime and Security Act 2001, s.47",2001 c. 24
 2,2.1,Hijacking,"Aviation Security Act 1982, s.1",1982 c. 36
 2,2.1,"Hijacking, destroying or damaging Channel Tunnel train or system ","Channel Tunnel (Security) Order 1994, Part II",1994 No. 570
@@ -19,7 +21,6 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 2,2.1,Premises or equipment for producing chemical weapons,"Chemical Weapons Act 1996, s.11",1996 c. 6
 2,2.1,Conspiracy to commit offences outside the United Kingdom,"Criminal Justice (Terrorism & Conspiracy) Act 1998, s.5 ",1998 c. 40
 2,2.1,Torture,"Criminal Justice Act 1988, s.134",1988 c. 33
-2,2.1,Causing explosion likely to endanger life or property,"Explosive Substances Act 1883, s.2",1883 c. 3
 2,2.1,"Attempt to cause explosion, or making or keeping explosive with intent to endanger life or property","Explosive Substances Act 1883, s.3",1883 c. 3
 2,2.1,Punishment for making or possession of explosive under suspicious circumstances,"Explosive Substances Act 1883, s.4",1883 c. 3
 2,2.1,"Placing gunpowder near a building, with intent to do bodily injury to any person","Offences Against the Person Act 1861, s.30",1861 c. 100
@@ -29,11 +30,11 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 2,2.1,Dissemination of terrorist publications,"Terrorism Act 2006, s.2",2006 c. 11
 2,2.1,Preparation of terrorist acts,Terrorism Act 2006 s.5,2006 c. 11
 2,2.1,Training for terrorism,"Terrorism Act 2006, s.6",2006 c. 11
-2,2.1,Attendance at a place used for terrorist training,"Terrorism Act 2006, s.8",2006 c. 11
 2,2.1,Making and possession of devices and materials,"Terrorism Act 2006, s.9",2006 c. 11
 2,2.1,Misuse of devices or material and misuse and damage of facilities,"Terrorism Act 2006, s.10",2006 c. 11
 2,2.1,Terrorist make threat to use radioactive device/material,"Terrorism Act 2006, s.11",2006 c. 11
 2,2.1,"Terrorist threats relating to devices, materials or facilities","Terrorism Act 2006, s.11",2006 c. 11
+2,2.2,Knowingly or recklessly make false or misleading statements for purpose of obtaining or opposing the variation or withdrawal of authorisation for the purposes of Section 47 and 50,"Anti-terrorism, Crime & Security Act 2001, s.54",2001 c. 24
 2,2.2,Contravene prohibition on disclosure on information. ,"Al-Qaida and Taliban (UN Measures) Order 2006, s.6",2006 No. 2952
 2,2.2,Contravene prohibition on dealing with funds/economic resources.,"Al-Qaida and Taliban (UN Measures) Order 2006, s.7",2006 No. 2952
 2,2.2,Contravene prohibition on making available funds/economic resources.,"Al-Qaida and Taliban (UN Measures) Order 2006, s.8",2006 No. 2952
@@ -43,7 +44,6 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 2,2.2,"With intent to evade provisions of Schedule 1, destroy/mutilate/deface/conceal /remove any document.","Al-Qaida and Taliban (UN Measures) Order 2006, Schedule 1, 4(d)",2006 No. 2952
 2,2.2,Person discloses any information in contravention of direction made under Section 18,"Anti-terrorism, Crime & Security Act 2001, s.18",2001 c. 24
 2,2.2,Assisting or inducing certain weapons-related acts overseas,"Anti-Terrorism, Crime and Security Act 2001, s.50",2001 c. 24
-2,2.2,Knowingly or recklessly make false or misleading statements for purpose of obtaining or opposing the variation or withdrawal of authorisation for the purposes of Section 47 and 50,"Anti-terrorism, Crime & Security Act 2001, s.54",2001 c. 24
 2,2.2,Occupier fails to comply with any duty or direction imposed on him by or under Part 7; person knowingly or recklessly makes a statement which is false or misleading,"Anti-terrorism, Crime & Security Act 2001. s.67",2001 c. 24
 2,2.2,Prohibition of disclosures relating to nuclear security,"Anti-terrorism, Crime and Security Act 2001, s.79  ",2001 c. 24
 2,2.2,Prohibition of disclosures of uranium enrichment technology,"Anti-terrorism, Crime and Security Act 2001, s.80",2001 c. 24
@@ -76,10 +76,10 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 3,3.2,Attempted murder,Common Law and Criminal Attempts Act 1981,1981 c. 47
 3,3.2,"Maliciously administering poison, etc, so as to endanger life or inflict grevous bodily harm","Offences against the Person Act 1861, s.23",1861 c. 100
 3,3.3,"Maliciously administering poison, etc, so as to endanger life or inflict grevous bodily harm","Offences against the Person Act 1861, s.23",1861 c. 100
-3,3.3,Wounding with intent to do grievous bodily harm,"Offences against the Person Act 1861, s.18",1861 c. 100
 3,3.3,Racially or Religiously Aggravated wounding or grievous bodily harm,"Crime and Disorder Act 1998, s.29(1)(a)",1998 c. 37
 3,3.3,Offences relating to female genital mutilation,"Female Genital Mutilation Act 2003, s.1(1), s.2, s.3, s.5",2003 c. 31
 3,3.3,"Causing explosions, sending explosive substance or throwing corrosive fluids with intent to do grievous bodily harm",Offences against the Person Act 1861 s.29,1861 c. 100
+3,3.3,Wounding with intent to do grievous bodily harm,"Offences against the Person Act 1861, s.18",1861 c. 100
 3,3.4,Cruelty to and neglect of children,"Children and Young Persons Act 1933, s.1",1933 c. 12
 3,3.4,Exposing child to risk of burning,"Children and Young Persons Act 1933, s.11",1933 c. 12
 3,3.4,Racially or Religiously Aggravated Stalking with fear of violence,"Crime and Disorder Act 1998, s.32(1)(b)",1998 c. 37
@@ -100,7 +100,6 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 3,3.5,Threats to Kill,"Offences against the Person Act 1861, s.16",1861 c. 100
 3,3.5,"Inflicting bodily injury, with or without a weapon","Offences against the Person Act 1861, s.20",1861 c. 100
 3,3.5,Assault occasioning actual bodily harm,"Offences against the Person Act 1861, s.47",1861 c. 100
-4,4.1,Rape,"Sexual Offences Act 1956, s.1",1956 c. 69
 4,4.1,Intercourse with a girl under thirteen,"Sexual Offences Act 1956, s.5",1956 c. 69
 4,4.1,Intercourse with a girl between thirteen and sixteen,"Sexual Offences Act 1956, s.6",1956 c. 69
 4,4.1,Intercourse with a defective,"Sexual Offences Act 1956, s.7",1956 c. 69
@@ -108,8 +107,6 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 4,4.1,Assault with intent to commit buggery,"Sexual Offences Act 1956, s.16",1956 c. 69
 4,4.1,Rape,"Sexual Offences Act 2003, s.1",2003 c. 42
 4,4.1,Assault by penetration,"Sexual Offences Act 2003, s.2",2003 c. 42
-4,4.1,Rape of a child under 13,"Sexual Offences Act 2003, s.5",2003 c. 42
-4,4.1,Assault of a child under 13 by penetration,"Sexual Offences Act 2003, s.6",2003 c. 42
 4,4.1,Causing or inciting a child under 13 to engage in sexual activity,"Sexual Offences Act 2003, s.8(2)",2003 c. 42
 4,4.1,Sexual activity with a child,"Sexual Offences Act 2003, s.9(2)",2003 c. 42
 4,4.1,Causing or inciting a child to engage in sexual activity,"Sexual Offences Act 2003, s.10(2)",2003 c. 42
@@ -119,9 +116,12 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 4,4.1,"Causing or inciting a person, with a mental disorder impeding choice, to engage in sexual activity","Sexual Offences Act 2003, s.31(3)",2003 c. 42
 4,4.1,"Inducement, threat or deception to procure sexual activity with a person with a mental disorder","Sexual Offences Act 2003, s.34(2)",2003 c. 42
 4,4.1,"Causing a person with a mental disorder to engage in sexual activity by inducement, threat or deception","Sexual Offences Act 2003, s.35(2)",2003 c. 42
+4,4.1,Paying for the sexual services of a child,"Sexual Offences Act 2003, s.47(6)",2003 c. 42
+4,4.1,Rape of a child under 13,"Sexual Offences Act 2003, s.5",2003 c. 42
+4,4.1,Assault of a child under 13 by penetration,"Sexual Offences Act 2003, s.6",2003 c. 42
 4,4.1,Care workers : Sexual activity with a person with a mental disorder,"Sexual Offences Act 2003, s.38(3)",2003 c. 42
 4,4.1,Care workers : Causing or inciting sexual activity,"Sexual Offences Act 2003, s.39(3)",2003 c. 42
-4,4.1,Paying for the sexual services of a child,"Sexual Offences Act 2003, s.47(6)",2003 c. 42
+4,4.2,Arranging or facilitating [sexual exploitation of a child] ,"Sexual Offences Act 2003, s.50",2003 c. 42
 4,4.2,Sexual assault of a child under 13,"Sexual Offences Act 2003, s.7",2003 c. 42
 4,4.2,Causing or inciting a child under 13 to engage in sexual activity,"Sexual Offences Act 2003, s.8(1)",2003 c. 42
 4,4.2,Sexual activity with a child,"Sexual Offences Act 2003, s.9(1)",2003 c. 42
@@ -140,10 +140,6 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 4,4.2,Paying for the sexual services of a child,"Sexual Offences Act 2003, s.47(1)",2003 c. 42
 4,4.2,Causing or inciting [sexual exploitation of a child],"Sexual Offences Act 2003, s.48",2003 c. 42
 4,4.2,Controlling a child [in relation to sexual exploitation],"Sexual Offences Act 2003, s.49",2003 c. 42
-4,4.2,Arranging or facilitating [sexual exploitation of a child] ,"Sexual Offences Act 2003, s.50",2003 c. 42
-4,4.3,Possession of prohibited images of children,"Coroners and Justice Act 2009, s.62",2009 c. 25
-4,4.3,Possession of indecent photograph of child,"Criminal Justice Act 1988, s.160",1988 c. 33
-4,4.3,Indecent photographs of children,"Protection of Children Act 1978, s.1",1978 c. 37
 4,4.3,Procurement of a defective,"Sexual Offences Act 1956, s.9",1956 c. 69
 4,4.3,Incest by a man,"Sexual Offences Act 1956, s.10",1956 c. 69
 4,4.3,Incest by a woman,"Sexual Offences Act 1956, s.11",1956 c. 69
@@ -155,6 +151,9 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 4,4.3,Permitting defective to use premises for intercourse,"Sexual Offences Act 1956, s.27",1956 c. 69
 4,4.3,"Causing or encouraging prostitution of, intercourse with, or indecent assault on, girl under sixteen","Sexual Offences Act 1956, s.28",1956 c. 69
 4,4.3,Causing or encouraging prostitution of defective,"Sexual Offences Act 1956, s.29",1956 c. 69
+4,4.3,Possession of prohibited images of children,"Coroners and Justice Act 2009, s.62",2009 c. 25
+4,4.3,Possession of indecent photograph of child,"Criminal Justice Act 1988, s.160",1988 c. 33
+4,4.3,Indecent photographs of children,"Protection of Children Act 1978, s.1",1978 c. 37
 4,4.3,Engaging in sexual activity in the presence of a child,"Sexual Offences Act 2003, s.11",2003 c. 42
 4,4.3,Causing a child to watch a sexual act,"Sexual Offences Act 2003, s.12",2003 c. 42
 4,4.3,Child sex offences committed by children or young persons,"Sexual Offences Act 2003, s.13",2003 c. 42
@@ -167,22 +166,18 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 4,4.3,"Causing a person with a mental disorder to watch a sexual act by inducement, threat or deception","Sexual Offences Act 2003, s.37",2003 c. 42
 4,4.3,Care workers : Sexual activity in the presence of a person with a mental disorder ,"Sexual Offences Act 2003, s.40",2003 c. 42
 4,4.3,Care workers : Causing a person with a mental disorder to watch a sexual act,"Sexual Offences Act 2003, s.41",2003 c. 42
-5,5.1,Rape,"Sexual Offences Act 1956, s.1",1956 c. 69
 5,5.1,Buggery,"Sexual Offences Act 1956, s.12",1956 c. 69
 5,5.1,Assault with intent to commit buggery,"Sexual Offences Act 1956, s.16",1956 c. 69
 5,5.1,Rape,"Sexual Offences Act 2003, s.1",2003 c. 42
 5,5.1,Assault by penetration,"Sexual Offences Act 2003, s.2",2003 c. 42
+5,5.1,"Causing a person to engage in sexual activity without consent: Sexual Offences Act 2003, s.4(4)","Sexual Offences Act 2003, s.4(4)",2003 c. 42
 5,5.2,Sexual assault,"Sexual Offences Act 2003, s.3",2003 c. 42
-5,5.2,Causing a person to engage in sexual activity without consent,"Sexual Offences Act 2003, s.4(4)",2003 c. 42
 5,5.2,Administering drugs to obtain or facilitate intercourse,"Sexual Offences Act 1956, s.4",1956 c. 69
 5,5.2,Indecent assault on a woman,"Sexual Offences Act 1956, s.14",1956 c. 69
 5,5.2,Indecent assault on a man,"Sexual Offences Act 1956, s.15",1956 c. 69
 5,5.2,Causing a person to engage in sexual activity without consent,"Sexual Offences Act 2003, s.4(1)",2003 c. 42
 5,5.2,Administering a substance with intent,"Sexual Offences Act 2003, s.61",2003 c. 42
-5,5.3,Possession of extreme pornographic images,"Criminal Justice and Immigration Act 2008, s.63",2008 c. 4
 5,5.3,Conspiracy to commit certain sexual acts outside the United Kingdom,"Sexual Offences (Conspiracy and Incitement) Act 1996, s.2",1996 c. 29
-5,5.3,"To have protected material, or copy of it, in his possession otherwise than while inspecting it","Sexual Offences (Protected Material) Act 1997, s.8(1)(a) ",1997 c. 39
-5,5.3,"Give that material or any copy of it, or otherwise reveal its contents, to any other person","Sexual Offences (Protected Material) Act 1997, s.8(1)(b)",1997 c. 39
 5,5.3,Procurement of woman by false pretences,"Sexual Offences Act 1956, s.2",1956 c. 69
 5,5.3,Incest by a man,"Sexual Offences Act 1956, s.10",1956 c. 69
 5,5.3,Incest by a woman,"Sexual Offences Act 1956, s.11",1956 c. 69
@@ -191,6 +186,9 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 5,5.3,Causing prostitution of a woman,"Sexual Offences Act 1956, s.22",1956 c. 69
 5,5.3,Procuration of girl under twenty-one,"Sexual Offences Act 1956, s.23",1956 c. 69
 5,5.3,Detention of woman in brothel or other premises,"Sexual Offences Act 1956, s.24",1956 c. 69
+5,5.3,Possession of extreme pornographic images,"Criminal Justice and Immigration Act 2008, s.63",2008 c. 4
+5,5.3,"To have protected material, or copy of it, in his possession otherwise than while inspecting it","Sexual Offences (Protected Material) Act 1997, s.8(1)(a) ",1997 c. 39
+5,5.3,Give to another person disclosed protected material in connection with sexual offence proceedings.,"Sexual Offences (Protected Material) Act 1997, s.8(1)(b)",1997 c. 39
 5,5.3,Man living on earnings of prostitution,"Sexual Offences Act 1956, s.30",1956 c. 69
 5,5.3,Woman exercising control over prostitute,"Sexual Offences Act 1956, s.32",1956 c. 69
 5,5.3,Keeping a brothel,"Sexual Offences Act 1956, s.33",1956 c. 69
@@ -265,7 +263,7 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 6,6.1,Providing false or misleading information for allowance claims,"Parliamentary Standads Act 2009, s.10",2009 c. 13
 6,6.1,Concealing etc. criminal property,"Proceeds of Crime Act 2002, s.327",2002 c. 29
 6,6.1,"Arrangements - concerned in arrangement, knows or suspects, facilitates acquisition, retention, use or control of criminal property by, or on behalf of another person","Proceeds of Crime Act 2002, s.328",2002 c. 29
-6,6.1,"Acquisition, use & possession","Proceeds of Crime Act 2002, s.329",2002 c. 29
+6,6.1,"Acquisition, use, and possession of criminal property.","Proceeds of Crime Act 2002, s.329",2002 c. 29
 6,6.1,Nominated officer; must not give consent to the doing of a prohibited act,"Proceeds of Crime Act 2002, s.336(5)",2002 c. 29
 6,6.1,Dishonest representation for obtaining benefit etc.,"Social Security Administration Act 1992, s.111A",1992 c. 5
 6,6.1,"Fraudulently printing, mutilating or re-issuing stamps etc.","Stamp Duties Management Act 1891, s.13 ",1891 c. 38
@@ -333,7 +331,7 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 6,6.2,Providing false or misleading information for allowance claims,"Parliamentary Standads Act 2009, s.10",2009 c. 13
 6,6.2,Concealing etc. criminal property,"Proceeds of Crime Act 2002, s.327",2002 c. 29
 6,6.2,"Arrangements - concerned in arrangement, knows or suspects, facilitates acquisition, retention, use or control of criminal property by, or on behalf of another person","Proceeds of Crime Act 2002, s.328",2002 c. 29
-6,6.2,"Acquisition, use & possession","Proceeds of Crime Act 2002, s.329",2002 c. 29
+6,6.2,"Acquisition, use, and possession of criminal property.","Proceeds of Crime Act 2002, s.329",2002 c. 29
 6,6.2,Nominated officer; must not give consent to the doing of a prohibited act,"Proceeds of Crime Act 2002, s.336(5)",2002 c. 29
 6,6.2,Dishonest representation for obtaining benefit etc.,"Social Security Administration Act 1992, s.111A",1992 c. 5
 6,6.2,"Fraudulently printing, mutilating or re-issuing stamps etc.","Stamp Duties Management Act 1891, s.13 ",1891 c. 38
@@ -401,7 +399,7 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 6,6.3,Providing false or misleading information for allowance claims,"Parliamentary Standads Act 2009, s.10",2009 c. 13
 6,6.3,Concealing etc. criminal property,"Proceeds of Crime Act 2002, s.327",2002 c. 29
 6,6.3,"Arrangements - concerned in arrangement, knows or suspects, facilitates acquisition, retention, use or control of criminal property by, or on behalf of another person","Proceeds of Crime Act 2002, s.328",2002 c. 29
-6,6.3,"Acquisition, use & possession","Proceeds of Crime Act 2002, s.329",2002 c. 29
+6,6.3,"Acquisition, use, and possession of criminal property.","Proceeds of Crime Act 2002, s.329",2002 c. 29
 6,6.3,Nominated officer; must not give consent to the doing of a prohibited act,"Proceeds of Crime Act 2002, s.336(5)",2002 c. 29
 6,6.3,Dishonest representation for obtaining benefit etc.,"Social Security Administration Act 1992, s.111A",1992 c. 5
 6,6.3,"Fraudulently printing, mutilating or re-issuing stamps etc.","Stamp Duties Management Act 1891, s.13 ",1891 c. 38
@@ -469,7 +467,7 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 6,6.4,Providing false or misleading information for allowance claims,"Parliamentary Standads Act 2009, s.10",2009 c. 13
 6,6.4,Concealing etc. criminal property,"Proceeds of Crime Act 2002, s.327",2002 c. 29
 6,6.4,"Arrangements - concerned in arrangement, knows or suspects, facilitates acquisition, retention, use or control of criminal property by, or on behalf of another person","Proceeds of Crime Act 2002, s.328",2002 c. 29
-6,6.4,"Acquisition, use & possession","Proceeds of Crime Act 2002, s.329",2002 c. 29
+6,6.4,"Acquisition, use, and possession of criminal property.","Proceeds of Crime Act 2002, s.329",2002 c. 29
 6,6.4,Nominated officer; must not give consent to the doing of a prohibited act,"Proceeds of Crime Act 2002, s.336(5)",2002 c. 29
 6,6.4,Dishonest representation for obtaining benefit etc.,"Social Security Administration Act 1992, s.111A",1992 c. 5
 6,6.4,"Fraudulently printing, mutilating or re-issuing stamps etc.","Stamp Duties Management Act 1891, s.13 ",1891 c. 38
@@ -537,7 +535,7 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 6,6.5,Providing false or misleading information for allowance claims,"Parliamentary Standads Act 2009, s.10",2009 c. 13
 6,6.5,Concealing etc. criminal property,"Proceeds of Crime Act 2002, s.327",2002 c. 29
 6,6.5,"Arrangements - concerned in arrangement, knows or suspects, facilitates acquisition, retention, use or control of criminal property by, or on behalf of another person","Proceeds of Crime Act 2002, s.328",2002 c. 29
-6,6.5,"Acquisition, use & possession","Proceeds of Crime Act 2002, s.329",2002 c. 29
+6,6.5,"Acquisition, use, and possession of criminal property.","Proceeds of Crime Act 2002, s.329",2002 c. 29
 6,6.5,Nominated officer; must not give consent to the doing of a prohibited act,"Proceeds of Crime Act 2002, s.336(5)",2002 c. 29
 6,6.5,Dishonest representation for obtaining benefit etc.,"Social Security Administration Act 1992, s.111A",1992 c. 5
 6,6.5,"Fraudulently printing, mutilating or re-issuing stamps etc.","Stamp Duties Management Act 1891, s.13 ",1891 c. 38
@@ -549,12 +547,12 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 6,6.5,Subject of debt relief order fraudulently dispose of property,"Tribunals, Courts and Enforcement Act 2007, Schedule 17, Part 7A, Paragraph 251Q",2007 c. 15
 6,6.5,Subject of debt relief order dispose of property not paid for by them or obtain property in respect of which money is owed.,"Tribunals, Courts and Enforcement Act 2007, Schedule 17, Part 7A, Paragraph 251R.",2007 c. 15
 6,6.5,VAT Offences,"Value Added Tax Act 1994, s.72",1994 c. 23
+7,7.1,Aggravated criminal damage,"Criminal Damage Act 1971, s.1(2)",1971 c. 48
 7,7.1,Acts endangering or likely to endanger safe navigation,"Aviation and Maritime Security Act 1990, s.12",1990 c. 31
 7,7.1,"Destroying, damaging etc. a Channel Tunnel train or the Tunnel system or committing acts of violence likely to endanger safety of operation ","Channel Tunnel (Security) Order 1994, Article 6",1994 No. 570
 7,7.1,Arson intending or being reckless as to endanger life,"Criminal Damage Act 1971, s.1(2),(3)",1971 c. 48
-7,7.1,Aggravated criminal damage,"Criminal Damage Act 1971, s.1(2)",1971 c. 48
-7,7.2,Arson,"Criminal Damage Act 1971, s.1(1),(3)",1971 c. 48
 7,7.2,Aggravated criminal damage,"Criminal Damage Act 1971, s.1(2)",1971 c. 48
+7,7.2,Arson,"Criminal Damage Act 1971, s.1(1),(3)",1971 c. 48
 7,7.2,Criminal damage,"Criminal Damage Act 1971, s.1(1) ",1971 c. 48
 7,7.2,Criminal damage to ancient monuments,"Ancient Monuments and Archaeological Areas Act 1979, s.28(1)",1979 c. 46
 7,7.2,Racially or Religiously Aggravated Criminal Damage (not endangering life),"Crime & Disorder Act 1998, s.30",1998 c. 37
@@ -608,9 +606,7 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 8,8.1,Prohibition of presentation of obscene performances of plays,"Theatres Act 1968, s.2",1968 c. 54
 8,8.1,Attempting to injure or alarm the sovereign etc,"Treason Act 1842, s.2",1842 c. 51
 8,8.1,Declared felonies against the Crown,"Treason Felony Act 1848, s.3",1848 c. 12
-9,9.1,Carrying or concealing on a ship a controlled drug for import or export - Class A,"Criminal Justice (International Co-operation) Act 1990, s.19 ",1990 c. 5
 9,9.1,Improper importation of goods and evasion of duty - Class A,"Customs and Excise Management Act 1979, s.50, s.170",1979 c. 2
-9,9.1,Exportation of prohibited or restricted goods - Class A,"Customs and Excise Management Act 1979, s.68, s.170 ",1979 c. 2
 9,9.1,Restriction of importation or exportation of controlled drugs - Class A,"Misuse of Drugs Act 1971, s.3",1971 c. 38
 9,9.1,"Production, supply or offer to supply, or being concerned in the production - Class A","Misuse of Drugs Act 1971, s.4",1971 c. 38
 9,9.1,Possession of a controlled drug with intent to supply - Class A,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
@@ -619,29 +615,29 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 9,9.1,Incite another to supply a controlled drug ,"Misue of Drugs Act 1971, s.19",1971 c. 38
 9,9.1,Offences against Misuse of Drugs Regulations etc,"Misuse of Drugs Act 1971, s.18",1971 c. 38
 9,9.1,Assisting in or inducing commission of drug offence outside United Kingdom,"Misuse of Drugs Act 1971, s.20 ",1971 c. 38
-9,9.2,Carrying or concealing on a ship a controlled drug for import or export - Class B,"Criminal Justice (International Co-operation) Act 1990, s.19 ",1990 c. 5
-9,9.2,Improper importation of goods and evasion of duty - Class B,"Customs and Excise Management Act 1979, s.50, s.170",1979 c. 2
-9,9.2,Exportation of prohibited or restricted goods - Class B,"Customs and Excise Management Act 1979, s.68, s.170 ",1979 c. 2
-9,9.2,Restriction of importation or exportation of controlled drugs - Class B,"Misuse of Drugs Act 1971, s.3",1971 c. 38
-9,9.2,"Production, supply or offer to supply, or being concerned in the production - Class B","Misuse of Drugs Act 1971, s.4",1971 c. 38
-9,9.2,Possession of a controlled drug with intent to supply - Class B,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
-9,9.2,Restrictions of cultivation of cannabis plant,"Misuse of Drugs Act 1971, s.6 ",1971 c. 38
-9,9.2,Supply Psychoactive Substances,"Psychoactive Substances Act 2016, s.7",2016 c. 2
+9,9.1,Carrying or concealing on a ship a controlled drug for import or export - Class A,"Criminal Justice (International Co-operation) Act 1990, s.19 ",1990 c. 5
+9,9.1,Exportation of prohibited or restricted goods - Class A,"Customs and Excise Management Act 1979, s.68, s.170 ",1979 c. 2
 9,9.2,Supply etc. of articles for administering or preparing controlled drugs ,"Misuse of Drugs Act 1971, s.9A ",1971 c. 38
 9,9.2,Incite another to supply a controlled drug ,"Misue of Drugs Act 1971, s.19",1971 c. 38
 9,9.2,Offences against Misuse of Drugs Regulations etc,"Misuse of Drugs Act 1971, s.18",1971 c. 38
 9,9.2,Assisting in or inducing commission of drug offence outside United Kingdom,"Misuse of Drugs Act 1971, s.20 ",1971 c. 38
+9,9.2,"Production, supply or offer to supply, or being concerned in the production - Class B","Misuse of Drugs Act 1971, s.4",1971 c. 38
+9,9.2,Possession of a controlled drug with intent to supply - Class B,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
+9,9.2,Restrictions of cultivation of cannabis plant,"Misuse of Drugs Act 1971, s.6 ",1971 c. 38
+9,9.2,Carrying or concealing on a ship a controlled drug for import or export - Class B,"Criminal Justice (International Co-operation) Act 1990, s.19 ",1990 c. 5
+9,9.2,Improper importation of goods and evasion of duty - Class B,"Customs and Excise Management Act 1979, s.50, s.170",1979 c. 2
+9,9.2,Exportation of prohibited or restricted goods - Class B,"Customs and Excise Management Act 1979, s.68, s.170 ",1979 c. 2
+9,9.2,Restriction of importation or exportation of controlled drugs - Class B,"Misuse of Drugs Act 1971, s.3",1971 c. 38
 9,9.3,Carrying or concealing on a ship a controlled drug for import or export - Class C,"Criminal Justice (International Co-operation) Act 1990, s.19 ",1990 c. 5
 9,9.3,Improper importation of goods and evasion of duty - Class C,"Customs and Excise Management Act 1979, s.50, s.170",1979 c. 2
 9,9.3,Exportation of prohibited or restricted goods - Class C,"Customs and Excise Management Act 1979, s.68, s.170 ",1979 c. 2
 9,9.3,Restriction of importation or exportation of controlled drugs - Class C,"Misuse of Drugs Act 1971, s.3",1971 c. 38
-9,9.3,"Production, supply or offer to supply, or being concerned in the production - Class C","Misuse of Drugs Act 1971, s.4",1971 c. 38
-9,9.3,Possession of a controlled drug with intent to supply - Class C,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
 9,9.3,Supply etc. of articles for administering or preparing controlled drugs ,"Misuse of Drugs Act 1971, s.9A ",1971 c. 38
 9,9.3,Incite another to supply a controlled drug ,"Misue of Drugs Act 1971, s.19",1971 c. 38
 9,9.3,Offences against Misuse of Drugs Regulations etc,"Misuse of Drugs Act 1971, s.18",1971 c. 38
 9,9.3,Assisting in or inducing commission of drug offence outside United Kingdom,"Misuse of Drugs Act 1971, s.20 ",1971 c. 38
-9,9.3,Supply Psychoactive Substances,"Psychoactive Substances Act 2016, s.7",2016 c. 2
+9,9.3,"Production, supply or offer to supply, or being concerned in the production - Class C","Misuse of Drugs Act 1971, s.4",1971 c. 38
+9,9.3,Possession of a controlled drug with intent to supply - Class C,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
 9,9.4,"Production, supply or offer to supply, or being concerned in the production - Class A","Misuse of Drugs Act 1971, s.4",1971 c. 38
 9,9.4,Possession of a controlled drug with intent to supply - Class A,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
 9,9.4,Offences relating to opium,"Misuse of Drugs Act 1971, s.9 ",1971 c. 38
@@ -656,13 +652,13 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 9,9.5,"Production, supply or offer to supply, or being concerned in the production - Class B","Misuse of Drugs Act 1971, s.4",1971 c. 38
 9,9.5,Possession of a controlled drug with intent to supply - Class B,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
 9,9.5,Restrictions of cultivation of cannabis plant,"Misuse of Drugs Act 1971, s.6 ",1971 c. 38
-9,9.5,Supply Psychoactive Substances,"Psychoactive Substances Act 2016, s.7",2016 c. 2
 9,9.6,Supply etc. of articles for administering or preparing controlled drugs ,"Misuse of Drugs Act 1971, s.9A ",1971 c. 38
 9,9.6,Incite another to supply a controlled drug ,"Misue of Drugs Act 1971, s.19",1971 c. 38
 9,9.6,Offences against Misuse of Drugs Regulations etc,"Misuse of Drugs Act 1971, s.18",1971 c. 38
 9,9.6,Assisting in or inducing commission of drug offence outside United Kingdom,"Misuse of Drugs Act 1971, s.20 ",1971 c. 38
-9,9.6,Supply Psychoactive Substances,"Psychoactive Substances Act 2016, s.7",2016 c. 2
-9,9.1,"Production, supply or offer to supply, or being concerned in the production - Class A","Misuse of Drugs Act 1971, s.4",1971 c. 38
+9,9.6,"Production, supply or offer to supply, or being concerned in the production - Class C","Misuse of Drugs Act 1971, s.4",1971 c. 38
+9,9.6,Possession of a controlled drug with intent to supply - Class C,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
+9,9.7,"Production, supply or offer to supply, or being concerned in the production - Class A","Misuse of Drugs Act 1971, s.4",1971 c. 38
 9,9.7,Possession of a controlled drug with intent to supply - Class A,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
 9,9.7,Offences relating to opium,"Misuse of Drugs Act 1971, s.9 ",1971 c. 38
 9,9.7,Supply etc. of articles for administering or preparing controlled drugs ,"Misuse of Drugs Act 1971, s.9A ",1971 c. 38
@@ -673,6 +669,8 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 9,9.7,Possession of a controlled drug with intent to supply - Class B,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
 9,9.7,Restrictions of cultivation of cannabis plant,"Misuse of Drugs Act 1971, s.6 ",1971 c. 38
 9,9.7,Supply Psychoactive Substances,"Psychoactive Substances Act 2016, s.7",2016 c. 2
+9,9.7,"Production, supply or offer to supply, or being concerned in the production - Class C","Misuse of Drugs Act 1971, s.4",1971 c. 38
+9,9.7,Possession of a controlled drug with intent to supply - Class C,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
 9,9.7,Permitting premises to be used for unlawful purposes,"Misuse of Drugs Act 1971, s.8",1971 c. 38
 10,10.1,Causing injury by wanton or furious driving or racing,"Offences against the Person Act 1861, s.35",1861 c. 100
 10,10.1,Causing death by dangerous driving ,"Road Traffic Act 1988, s.1",1988 c. 52
@@ -685,9 +683,9 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 11,11.1,Burglary with intent to inflict grevious bodily harm,"Theft Act 1968, s.9",1968 c. 60
 11,11.1,Aggravated burglary,"Theft Act 1968, s.10",1968 c. 60
 11,11.2,Robbery (other than armed robbery),"Theft Act 1968, s.8(1)",1968 c. 60
-11,11.2,Assault with intent to rob,"Theft Act 1968, s.8(2)",1968 c. 60
 11,11.2,Burglary (domestic),"Theft Act 1968, s.9(3)(a)",1968 c. 60
 11,11.2,Burglary (non-domestic),"Theft Act 1968, s.9(3)(b)",1968 c. 60
+11,11.2,Assault with intent to rob,"Theft Act 1968, s.8(2)",1968 c. 60
 12,12.1,"Offence in connection with a prohibition or restriction on the importation of any weapon or ammunition of a kind mentioned in section 5(1)(a), (ab), (aba), (ac), (ad), (ae), (af) or (c) or (1A)(a) of the Firearms Act 1968","Customs and Excise Management Act 1979, s.50(1), s.50(2), s.50(3), s.50(4), s.50(5A)",1979 c. 2
 12,12.1,"Offence in connection with a prohibition or restriction on the exportation of any weapon or ammunition of a kind mentioned in section 5(1)(a), (ab), (aba), (ac), (ad), (ae), (af) or (c) or (1A)(a) of the Firearms Act 1968","Customs and Excise Management Act 1979, s.68(2), s.68(3), s.68(4A)",1979 c. 2
 12,12.1,"Firing upon a vessel, aircraft or vehicle while it is engaged in the prevention of smuggling","Customs & Excise Management Act 1979, s.85(2)",1979 c. 2
@@ -699,13 +697,13 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 12,12.1,Possessing firearm or imitation firearm while committing or being arrested for specified offence,"Firearms Act 1968, s.17(2)",1968 c. 27
 12,12.1,Carrying firearm with criminal intent,"Firearms Act 1968, s.18(1)",1968 c. 27
 12,12.1,Supplying firearms or ammunition to person prohibited from possession,"Firearms Act 1968, s.21(5)",1968 c. 27
+12,12.2,Using someone to mind a weapon,"Violent Crime Reduction Act 2006, s.28",2006 c. 38
 12,12.2,Shortening the barrel of a shot gun,"Firearms Act 1968, s.4(1)",1968 c. 27
 12,12.2,Possessing or acquiring prohibited weapons or ammunition,"Firearms Act 1968, s.5(1)",1968 c. 27
 12,12.2,Possessing or acquiring firearm disguised as another object; or other prohibited weapons,"Firearms Act 1968, s.5(1A)",1968 c. 27
 12,12.2,"Possessing, manufacturing or distributing prohibited weapons","Firearms Act 1968, s.5(2A)",1968 c. 27
 12,12.2,Trespassing with firearm or imitation firearm in a building  ,Firearms Act 1968 s.20(1),1968 c. 27
 12,12.2,Possession of firearms by persons previously convicted of crime,"Firearms Act 1968, s.21(4)",1968 c. 27
-12,12.2,Using someone to mind a weapon,"Violent Crime Reduction Act 2006, s.28",2006 c. 38
 12,12.3,"Producing a false certificate or making a false statement with a view to acquisition, testing or repair of firearm or ammunition","Firearms Act 1968, s.3(5)",1968 c. 27
 12,12.3,"Carrying firearm, imitation firearm or air weapon in a public place","Firearms Act 1968, s.19",1968 c. 27
 13,13.1,"Abduction of a child by parent, etc","Child Abduction Act 1984, s.1",1984 c. 37
@@ -727,14 +725,15 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 14,14.1,Trafficking out of the UK for sexual exploitation,"Sexual Offences Act 2003, s.59",2003 c. 42
 15,15.1,Prison mutiny,"Prison Security Act 1992, s.1",1992 c. 25
 15,15.1,Riot,"Public Order Act 1986, s.1",1986 c. 64
-15,15.1,"Interfering or failing to comply with requirements, directions, notices or restrictions in connection with the Channel Tunnel","Channel Tunnel (Security) Order 1994, s.11(6), s.13(8), s.14(8), s.15(8), s.16(7), s.23(1), s.28(6), s.32(1)",1994 No. 570
-15,15.1,Violent disorder,"Public Order Act 1986, s.2",1986 c. 64
-15,15.1,"Threaten or claim contamination of or interference with goods with intention of causing public alarm or anxiety, etc","Public Order Act 1986, s.38(2)",1986 c. 64
-15,15.1,Affray,"Public Order Act 1986, s.3",1986 c. 64
+15,15.2,"Interfering or failing to comply with requirements, directions, notices or restrictions in connection with the Channel Tunnel","Channel Tunnel (Security) Order 1994, s.11(6), s.13(8), s.14(8), s.15(8), s.16(7), s.23(1), s.28(6), s.32(1)",1994 No. 570
+15,15.2,Violent disorder,"Public Order Act 1986, s.2",1986 c. 64
+15,15.2,"Threaten or claim contamination of or interference with goods with intention of causing public alarm or anxiety, etc","Public Order Act 1986, s.38(2)",1986 c. 64
+15,15.3,Affray,"Public Order Act 1986, s.3",1986 c. 64
 16,16.1,Contravening health and safety requirements or failing to comply with regulations,"Health and Safety at Work etc. Act 1974, s.33",1974 c. 37
 16,16.2,Contravening health and safety requirements or failing to comply with regulations,"Health and Safety at Work etc. Act 1974, s.33",1974 c. 37
 16,16.2,Discharge of oil from ships into certain UK waters,"Merchant Shipping Act 1995, s.131",1995 c. 21
 16,16.2,Discharge of certain oils from pipe-lines or as the result of exploration etc. in designated areas,"Prevention of Oil Pollution Act 1971, s.3",1971 c. 60
+16,16.3,"Provision of false or misleading information, disclosing confidential information","Financial Services & Markets Act 2000, s.346, s.352, s.398",2000 c. 8
 16,16.3,Contravening health and safety requirements or failing to comply with regulations,"Health and Safety at Work etc. Act 1974, s.33",1974 c. 37
 16,16.3,TEW offences,"Adoption & Children Act 2002, s.59, s.93, s.124",2002 c. 38
 16,16.3,Importation of animals and carcasses,"Animal Health Act 1981, s.10(1)",1981 c. 22
@@ -752,7 +751,6 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 16,16.3,Failing to comply with requirements imposed in connection with suspension of a licence otherwise than in relation to special waste,"Environmental Protection Act 1990, s.38(10)",1990 c. 43
 16,16.3,Failing to comply with requirements imposed in connection with suspension of a licence in relation to special waste,Environmental Protection Act 1990 Sec 38(11),1990 c. 43
 16,16.3,Contravening s.6(1) of the Environmental Protection Act 1990,"Environmental Protection Act 1990, s.23(1)(a)",1990 c. 43
-16,16.3,"Provision of false or misleading information, disclosing confidential information","Financial Services & Markets Act 2000, s.346, s.352, s.398",2000 c. 8
 16,16.3,Prohibition of commercial dealings in human material for transplantation,"Human Tissue Act 2004, s.32",2004 c. 30
 16,16.3,Prohibition of activities without consent etc.,"Human Tissue Act 2004, s.5",2004 c. 30
 16,16.3,Use or store donated material not for a qualifying purpose,"Human Tissue Act 2004, s.8",2004 c. 30
@@ -769,6 +767,14 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 16,16.3,"Obstructing, interfering or failing to comply with request in connection to rights of access, search etc by Agency inspectors","Nuclear Safeguards Act 2000, s.3, s.5, s.8, s.9",2000 c. 5
 16,16.3,Being unfit for duty,"Railways and Transport Safety Act 2003, s.92",2003 c. 20
 16,16.3,Making false statement,"Statistics of Trade Act 1947, s.4(3)",1947 c. 39
+17,17.1,"Intimidation of witnesses, jurors and others","Criminal Justice and Public Order Act 1994, s.51(1)",1994 c. 33
+17,17.1,Causing bomb hoaxes,"Criminal Law Act 1977, s.51",1977 c.45
+17,17.1,Failing to conduct risk assessments or comply with notification requirements in connection with genetically modified organisms ,"Environmental Protection Act 1990, s.118(1)(a)(b)",1990 c. 43
+17,17.1,Failing to comply with consent requirements in connection with genetically modified organisms,"Environmental Protection Act 1990, s.118(1)(c)",1990 c. 43
+17,17.1, Contravening byelaws or orders under the Act,"Marine and Coastal Access Act 2009, s.139, s.163, s.190",2009 c. 23
+17,17.1,Obstructing or assaulting an enforcement officer in the performance of the officer's functions ,"Marine and Coastal Access Act 2009, s.292(4), s.292(5)",2009 c. 23
+17,17.1,Possession of controlled drugs,"Misuse of Drugs Act 1971, s.5(2)",1971 c.38
+17,17.1,Solicitation by men,"Sexual Offences Act 1956, s.32",1956 c. 69
 17,17.1,Burglary (domestic),"Theft Act 1968, s.9(3)(a)",1968 c. 60
 17,17.1,Burglary (non-domestic),"Theft Act 1968, s.9(3)(b)",1968 c. 60
 17,17.1,Disclosure of information for enforcing warrants,"Access to Justice Act 1999, s.94",1999 c. 22
@@ -836,7 +842,8 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 17,17.1,Public nuisance,Common Law,
 17,17.1,Removing corpse from grave,Common Law,
 17,17.1,Rescuing a prisoner in custody,Common Law,
-17,17.1,Possession or supply of apparatus etc for contravening s.125,"Communications Act 2003, s.126",2003 c. 21
+17,17.1,"Possession or supply of apparatus for use in dishonestly obtaining an electronic communication service.
+","Communications Act 2003, s.126",2003 c. 21
 17,17.1,Offences in connection with information requirements,"Communications Act 2003, s.144, 393 and Paragraph 12 and 13 of Schedule 11",2003 c. 21
 17,17.1,Failing to comply with provisions in connection with requests for or disclosure of information from the register of members,"Companies Act 2006, s.119",2006 c. 46
 17,17.1,Failing to comply with provisions in relation to duty to keep accounting records,"Companies Act 2006, s.387",2006 c. 46
@@ -861,7 +868,8 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 17,17.1,Wildlife Offences,Control of Trade in Endangered Species (Enforcement) Regulations 1997,1997 No. 1372
 17,17.1,Making or dealing with infringing articles etc,"Copyright, Designs and Patents Act 1988, s.107",1988 c. 48
 17,17.1,"Making, dealing with or using illicit recordings","Copyright, Designs and Patents Act 1988, s.198",1988 c. 48
-17,17.1,Failing to comply with a publicity order,"Corporate Manslaughter and Corporate Homicide Act 2007, s.9",2007 c. 19
+17,17.1,"Failure to comply with a remedial order.
+","Corporate Manslaughter and Corporate Homicide Act 2007, s.9",2007 c. 19
 17,17.1,Failing to comply with a publicity order,"Corporate Manslaughter and Corporate Homicide Act 2007, s.10",2007 c. 19
 17,17.1,Giving a false certificate of summons or other process,"County Courts Act 1984, s.133",1984 c. 28
 17,17.1,Assaulting an officer of the county court,"County Courts Act 1984, s.14",1984 c. 28
@@ -894,7 +902,6 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 17,17.1,Failure to be in UK when  prohibition in travel restriction order suspended,"Criminal Justice and Police Act 2001, s.36(2)",2001 c. 16
 17,17.1,Intimidation of witnesses,"Criminal Justice and Police Act 2001, s.39",2001 c. 16
 17,17.1,Harassment etc. of a person in his home,"Criminal Justice and Police Act 2001, s.42A",2001 c. 16
-17,17.1,"Intimidation of witnesses, jurors and others","Criminal Justice and Public Order Act 1994, s.51(1)",1994 c. 33
 17,17.1,Assault on custody officer,"Criminal Justice and Public Order Act 1994, s.13(1)",1994 c. 33
 17,17.1,Resisting or wilfully obstructing a custody officer,"Criminal Justice and Public Order Act 1994, s.13(2)",1994 c. 33
 17,17.1,"Harming witnesses, jurors and others","Criminal Justice and Public Order Act 1994, s.51(2)",1994 c. 33
@@ -903,7 +910,6 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 17,17.1,Concealment of offences,"Criminal Law Act 1967, s.5(1)",1967 c. 58
 17,17.1,Wrongful disclosure of information relating to persons detained in youth detention accommodation,"Criminal Justice and Public Order Act 1994, s.14",1994 c.33
 17,17.1,Assisting offenders,"Criminal Law Act 1967, s.5(1)",1967 c.58
-17,17.1,Causing bomb hoaxes,"Criminal Law Act 1977, s.51",1977 c.45
 17,17.1,Untrue declarations etc to Customs and Excise,"Customs and Excise Management Act 1979, s.167(1) ",1979 c. 2
 17,17.1,Obstructing the Information Commissioner in inspection of overseas information systems,"Data Protection Act 1998, s.54A",1998 c. 29
 17,17.1,"Using data for unauthorised purpose; disclosing data to unauthorised person etc.
@@ -916,7 +922,8 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 17,17.1,Unauthorised disclosure of information in relation to education,"Education Act 2005, s.109 and 111.",2005 c. 18
 17,17.1,Using false documents and making false statements,"Emergency Laws (Re-enactments and Repeals) Act 1964, s.10",1964 c. 60
 17,17.1,Providing false information or making a false statement,"Employment Rights Act 1996, s.169(3)",1996 c. 18
-17,17.1,"Ensuring components of vehicles on the market do not contain lead, mercury, cadmium or hexavalent chromium except as permitted ","End-of-Life Vehicles Regulations 2003, regulation 6",2003 No. 2635
+17,17.1,"Contravention of the requirements in regulation 6, that vehicle components do not contain lead, mercury, cadmium, or hexavalent chromium (unless permitted).
+","End-of-Life Vehicles Regulations 2003, regulation 6",2003 No. 2635
 17,17.1,Failure to comply with direction under s.10 - importation and storage of combustible gas,"Energy Act 2008, s.11",2008 c. 32
 17,17.1,Carrying on unlicensed activities - storage of carbon dioxide,"Energy Act 2008, s.22",2008 c. 32
 17,17.1,Breach of licence conditions - storage of carbon dioxide,"Energy Act 2008, s.23(1)",2008 c. 32
@@ -928,8 +935,6 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 17,17.1,Making a statement which the person knows to be false or recklessly making statement which is false to obtain license or consent of relevant authority - importation and storage of combustible gas ,"Energy Act 2008, s.9(3)",2008 c. 32
 17,17.1,Failure to disclose information which is known or ought to be known to be relevant to an application for licence or consent of relevant authority - importation and storage of combustible gas,"Energy Act 2008, s.9(4)",2008 c. 32
 17,17.1,Assaulting or obstructing an authorised person in the execution of his powers under s.109,"Environment Act 1995, s.110(1) with (4)(a)",1995 c. 25
-17,17.1,Failing to conduct risk assessments or comply with notification requirements in connection with genetically modified organisms ,"Environmental Protection Act 1990, s.118(1)(a)(b)",1990 c. 43
-17,17.1,Failing to comply with consent requirements in connection with genetically modified organisms,"Environmental Protection Act 1990, s.118(1)(c)",1990 c. 43
 17,17.1,"Failing to identify risks of importing or acquiring genetically modified organisms, importing or acquiring modified organisms despite the risks, not taking all reasonable steps to prevent risk of damage to the environment as a result of keeping modified organisms. Releasing or marketing modified organisms without regard to the risks of damage to the environment","Environmental Protection Act 1990, s.118(1)(d)",1990 c. 43
 17,17.1,Failing to keep a record of a risk assessment or failing to give the  Secretary of State further information,"Environmental Protection Act 1990, s.118(1)(e)",1990 c. 43
 17,17.1,Contravening a prohibition notice,"Environmental Protection Act 1990, s.118(1)(f)",1990 c. 43
@@ -976,7 +981,8 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 17,17.1,Cheating at gambling or enabling or assisting person to cheat,"Gambling Act 2005, s.42",2005 c. 19
 17,17.1,"Carrying out controlled operations without required consent, failure to comply with an order or notice","Gas Act 1965, s.5 and 21",1965 c. 36
 17,17.1,"Conveying gas without a licence; altering, suppressing or destroying a document; making a false statement; impersonating an officer of gas transporter, supplier or shipper ","Gas Act 1986, s.5, 38(3), s.43",1986 c. 44
-17,17.1,TEW offences,General Product Safety Regulations 2005,2005 No. 1803
+17,17.1,"TEW offences: General Product Safety Regulations 2005
+",General Product Safety Regulations 2005,2005 No. 1803
 17,17.1,"Forgery, false statements, falsification of consignment notes and records; forgery of documents; forgery of licence","Goods Vehicles (Licensing of Operators) Act 1995, s.38, paragraph 4, schedule 5.                                                                Road Traffic Act 1988, s.173(1).                                                                                                 Public Passenger Vehicles Act 1981, s.65(1)(a) and (2)",1995 c. 23; 1988 c.52; 1981 c.14
 17,17.1,Applying prohibited descriptions to unhallmarked article;,"Hallmarking Act 1973, s.1",1973 c. 43
 17,17.1,Unauthorised striking of sponsor’s mark;  ,"Hallmarking Act 1973, s.3(8)",1973 c. 43
@@ -1038,8 +1044,6 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 17,17.1,Sending letters etc with intent to cause distress or anxiety,"Malicious Communications Act 1988, s.1",1988 c. 27
 17,17.1,Obstructing engine or carriage on railway,"Malicious Damage Act 1861, s.36",1861 c. 97
 17,17.1,Failure to comply with a requirement or direction by an enforcement officer,"Marine and Coastal Access Act 2009, s.292(1)",2009 c. 23
-17,17.1, Contravening byelaws or orders under the Act,"Marine and Coastal Access Act 2009, s.139, s.163, s.190",2009 c. 23
-17,17.1,Obstructing or assaulting an enforcement officer in the performance of the officer's functions ,"Marine and Coastal Access Act 2009, s.292(4), s.292(5)",2009 c. 23
 17,17.1,TEW offences,"Medicines (Homoeopathic Medicinal Products For Human Use) Amendment Regulations 2005, Schedule 6",2005 No. 2753
 17,17.1,Adulterating or selling sub-standard medicinal products,"Medicines Act 1968, s.67(2), s.67(3)",1968 c. 67
 17,17.1,Making a false statement to a person authorised to enter premises under the Act,"Medicines Act 1968, s.114(3)",1968 c. 67
@@ -1059,7 +1063,6 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 17,17.1,Selling abroad wreck found in British waters,"Merchant Shipping Act 1995, s.245",1995 c. 21
 17,17.1,Failure to comply with direction under Schedule 3A,"Merchant Shipping Act 1995, Schedule 3A",1995 c. 21
 17,17.1,Failure to produce information or providing false information relating to disused tips ,"Mines and Quarries (Tips) Act 1969, s.12",1969 c. 10
-17,17.1,Possession of controlled drugs,"Misuse of Drugs Act 1971, s.5(2)",1971 c.38
 17,17.1,Contravention of directions relating to safe custody of controlled drugs,"Misuse of Drugs Act 1971, s.11(2)",1971 c. 38
 17,17.1,"Failure to comply with notice requiring information relating to  prescribing, supply etc. of drugs  ","Misuse of Drugs Act 1971, s.17(3)",1971 c. 38
 17,17.1,"Obstructing an authorised person in exercise of powers of search in relation to controlled drugs, or concealing material relating to such drugs etc","Misuse of Drugs Act 1971, s.23(4)",1971 c. 38
@@ -1079,7 +1082,8 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 17,17.1,Procuring drugs etc. to cause abortion,"Offences against the Person Act 1861, s.59",1866 c. 100
 17,17.1,Concealment of birth,"Offences against the Person Act 1861, s.60",1863 c. 100
 17,17.1,Infringement of the Olympic Association right,"Olympic Symbol etc. (Protection) Act 1995, s.8",1995 c. 32
-17,17.1,Offences arising from breach of Regulations 20 and 21,"Package Holildays and Package Tours Regulations 1992, Regulation 22",1992 No. 3288
+17,17.1,"Offences arising from breach of regulation 20 (Monies in Trust) and 21 (Monies in Trust where other party to contract is acting otherwise than in the court of business). 
+","Package Holildays and Package Tours Regulations 1992, Regulation 22",1992 No. 3288
 17,17.1,Providing false or misleading information,"Pensions Act 2004, s.80",2004 c. 35
 17,17.1,False unsworn statements,"Perjury Act 1911, s.1A",1911 c. 6
 17,17.1,False statements on oath not in judicial proceeding,"Perjury Act 1911, s.2",1911 c. 6
@@ -1168,7 +1172,6 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 17,17.1,Intimidation of persons connected with animal research organisations,"Serious Organised Crime and Police Act 2005, s.146",2005 c. 15
 17,17.1,"Person who has been given, or shown protected material, gives a copy or otherwise to any person other than the defendant","Sexual Offences (Protected Material) Act 1997, s.8(2)(a)",1997 c. 39
 17,17.1,"Person who has been given, or shown, protected material, gives a copy or otherwise to the defendant when not supposed to","Sexual Offences (Protected Material) Act 1997, s. 8(2)(b)",1997 c. 39
-17,17.1,Solicitation by men,"Sexual Offences Act 1956, s.32",1956 c. 69
 17,17.1,Soliciting,"Sexual Offences Act 2003, s.51A",2003 c. 42
 17,17.1,Exposure,"Sexual Offences Act 2003, s.66",2003 c. 42
 17,17.1,Failure to comply with a Notification Order,"Sexual Offences Act 2003, s.91(1)(a)",2003 c. 42
@@ -1214,7 +1217,7 @@ Category,Band ,Offence,Contrary to,Year and Chapter
 17,17.1,Assaulting an immigration officer exercising S2 detention powers,"UK Borders Act 2007, s.3(1)(b)",2007 c. 30
 17,17.1,Assaulting an immigration officer ,"UK Borders Act 2007, s.22(1)",2007 c. 30
 17,17.1,Disclosing information relating to identity of persons which is specified in the disclosure or can be deducted from that disclosure,"UK Borders Act 2007, s.42",2007 c. 30
-17,17.1,Directory entries,"Unsolicited Goods and Services Act 1971, s.3(2)",1971 c. 30
+17,17.1,Demanding payment for the inclusion of a person’s trade or business in a directory.,"Unsolicited Goods and Services Act 1971, s.3(2)",1971 c. 30
 17,17.1,Vagrant violently resisting a constable,"Vagrancy Act 1824, s.4",1824 c. 83
 17,17.1,"Forge/alter/use/lend/make document/authority to drive/card/licence/certificate with intent to
 deceive","Vehicle Drivers (Certificates of Professional Competence) Regulations 2007, s.13(1)",2007 No. 605
@@ -1224,7 +1227,7 @@ deceive","Vehicle Drivers (Certificates of Professional Competence) Regulations 
 17,17.1,Prohibition of use of practitioners’ titles by unqualified persons,"Veterinary Surgeons Act 1966, s.20",1966 c. 36
 17,17.1,Supplying video recording of unclassified work,"Video Recordings Act 1984, s.9",1984 c. 39
 17,17.1,Possession of video recording of unclassified work for the purposes of supply,"Video Recordings Act 1984, s.10",1984 c. 39
-17,17.1,Offences under regulations under s.6 and s.7,"Waste and Emissions Trading Act 2003, s.8",2003 c. 33
+17,17.1,Offences under regulations 6 (Borrowing and banking of landfill allowances) and 7 (Trading and other transfer of landfill allowances).,"Waste and Emissions Trading Act 2003, s.8",2003 c. 33
 17,17.1,Prohibition on unauthorised use of supply system or unauthorised introduction of water,"Water  Industry Act 1991, s.66I and 66J",1991 c. 56
 17,17.1,Failure to give assistance/information to an inspector,"Water Industry Act 1991, s.86(6)",1991 c. 56
 17,17.1,Prohibition of catching or treating whales within United Kingdom waters,"Whaling Industry (Regulation) Act 1934, s.2",1934 c. 49

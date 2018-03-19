@@ -137,7 +137,7 @@ class BaseClaimTest
       "api_key": api_key,
       "claim_id": claim_uuid,
       "fee_type_id": warrant_type_id,
-      "warrant_issued_date": 1.month.ago.as_json,
+      "warrant_issued_date": 3.months.ago.as_json,
       "warrant_executed_date": 1.week.ago.as_json,
       "amount": 100.25
     }

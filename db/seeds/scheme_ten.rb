@@ -64,6 +64,4 @@ csv.each do |row|
     year_chapter: row[4]
   )
   OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: agfs_fee_scheme_ten)
-rescue => e
-  binding.pry
 end

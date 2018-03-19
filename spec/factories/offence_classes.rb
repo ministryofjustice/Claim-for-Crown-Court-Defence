@@ -21,7 +21,9 @@ FactoryBot.define do
 
   trait :with_lgfs_offence do
     after(:create) do |record|
-      create :offence, :miscellaneous, offence_class: record
+      offence = create :offence, :miscellaneous, offence_class: record
+      fee_scheme = FeeScheme.first || create(:fee_scheme, :nine)
+      offence.fee_schemes << fee_scheme
     end
   end
 

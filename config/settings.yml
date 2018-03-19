@@ -86,7 +86,7 @@ active_features:
   - :agfs_fee_reform
 
 # TODO: Update date to actual release date
-agfs_fee_reform_release_date: <%= Date.new(2018, 3, 1) %>
+agfs_fee_reform_release_date: <%= Date.new(2017, 12, 1) %>
 
 # number of weeks in one state before automatic transition to archived pending delete
 timed_transition_stale_weeks: 16

@@ -3,7 +3,7 @@
     = t('.warrant_fee')
 
   = f.fields_for :warrant_fee do |wf|
-    .form-group.nested-fields.js-block{data:{"type": "warrantFees", autovat: @claim.apply_vat? ? "true" : "false"}}
+    .form-group
       %fieldset
         %legend.visuallyhidden
           = t('.warrant_fee')
@@ -23,10 +23,10 @@
                                   id: 'warrant_fee.warrant_executed_date',
                                   error_messages: gov_uk_date_field_error_messages(@error_presenter, 'warrant_fee.warrant_executed_date')
 
-    .form-group
+    .form-group.nested-fields.js-block{data:{"type": "interimFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlock"}}
       = wf.adp_text_field :amount,
                             label: t('.total'),
-                            input_classes:'form-control-1-4',
+                            input_classes:'form-control-1-4 total',
                             input_type: 'currency',
                             errors: @error_presenter,
                             value: number_with_precision(wf.object.amount, precision: 2),

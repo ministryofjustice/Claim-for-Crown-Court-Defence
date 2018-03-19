@@ -479,7 +479,7 @@ en:
         lgfs_transfer_rb: Litigator transfer fee
     claims:
       hints:
-        fees_header_prompt_text_html: All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users.
+        fees_header_prompt_text_html: &fees_vat_prompt All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users.
       redraft:
         error_html: 'An error is preventing this claim from being redrafted.  The problem has been logged and is being investigated. To continue please start a new claim.'
       additional_information:
@@ -751,7 +751,7 @@ en:
             fixed_fees: "Fixed fees"
             fee_type: "Fee type"
             total: "Total"
-            prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
+            prompt_text_html: &graduated_fee_prompt_content Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help.
             select_sub_type: "Please select the relevant option"
             date: "Date"
       misc_fees:
@@ -785,7 +785,7 @@ en:
         fields:
           actual_trial_length: 'Actual trial length'
           graduated_fees: 'Graduated fees'
-          graduated_prompt_text: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
+          graduated_prompt_text: *graduated_fee_prompt_content
           fee_type: "Fee type"
           ppe_total: "PPE total"
           total: "Total"
@@ -839,7 +839,8 @@ en:
       interim_fee:
         fields:
           interim_fees: "Interim fees"
-          interim_fees_prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
+          interim_fees_prompt_text_vat: *fees_vat_prompt
+          interim_fees_prompt_text_html: *graduated_fee_prompt_content
           fee_type: "Fee type"
           ppe_total: "PPE total at the time"
           total: "Total"
@@ -862,11 +863,11 @@ en:
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       transfer_fees:
         fields:
-          transfer_fees_prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
+          transfer_fees_prompt_text_html: *graduated_fee_prompt_content
           transfer_fees: Missing Translation
       fees_shared_header:
         fees: Fees
-        fees_header_prompt_text_html: All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users.
+        fees_header_prompt_text_html: *fees_vat_prompt
       summary_claims_sidebar:
         button_label: 'Continue to certification'
         continue: 'Continue'

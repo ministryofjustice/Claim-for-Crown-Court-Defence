@@ -109,7 +109,7 @@
         %td
           = claim&.trial_cracked_at_third&.humanize
 
-    - unless claim.interim?
+    - unless claim.lgfs? && claim.interim?
       - if claim&.case_type && claim.requires_trial_dates?
         %tr
           %th{scope: 'row'}

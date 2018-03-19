@@ -16,7 +16,7 @@
           .xsmall
             = defendant.date_of_birth.strftime(Settings.date_format) rescue ''
 
-    - unless @claim.interim?
+    - unless @claim.lgfs? && @claim.interim?
       .judical_apportionment
         %span.b
           Judicial apportionment:

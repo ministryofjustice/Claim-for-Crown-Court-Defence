@@ -400,7 +400,7 @@ module Claim
     end
 
     def redeterminable?
-      VALID_STATES_FOR_REDETERMINATION.include?(state) && !interim?
+      VALID_STATES_FOR_REDETERMINATION.include?(state) && !(lgfs? && interim?)
     end
 
     def applicable_for_written_reasons?

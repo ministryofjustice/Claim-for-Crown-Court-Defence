@@ -12,7 +12,7 @@
     %a{:id => "defendant_#{@defendant_count+1}_date_of_birth"}
     = f.gov_uk_date_field(:date_of_birth, legend_text: t('.date_of_birth'), legend_class: 'govuk-legend', id: "defendant_#{@defendant_count+1}_date_of_birth_group", error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count+1}_date_of_birth"))
 
-  - unless @claim.interim?
+  - unless @claim.lgfs? && @claim.interim?
     .form-group
       %fieldset
         .multiple-choice

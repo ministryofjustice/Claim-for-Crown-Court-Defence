@@ -1080,7 +1080,7 @@ warrant_fee:
     check_on_or_after_earliest_representation_order:
       long: Warrant issued date needs to be on or after the earliest representation order date
       short: needs to be on or after earliest representation order date
-      api: needs to be on or after earliest rep order date
+      api: needs to be on or after earliest representation order date
     check_not_in_future:
       long: Check the warrant issued date
       short: *in_future
@@ -1090,9 +1090,9 @@ warrant_fee:
       short: *too_far_in_past
       api: Check the warrant issued date
     on_or_before:
-      long: Warrant cannot be claimed unless it has been issued at least 3 months ago
-      short: needs to have been issued at least 3 months
-      api: needs to have been issued at least 3 months
+      long: Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued
+      short: "needs to have been issued at least 3 months prior to today's date"
+      api: "needs to have been issued at least 3 months prior to today's date"
 
   warrant_executed_date:
     _seq: 30

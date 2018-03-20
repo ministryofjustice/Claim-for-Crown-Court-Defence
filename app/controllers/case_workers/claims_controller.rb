@@ -1,6 +1,5 @@
 class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   include PaginationHelpers
-  include DocTypes
 
   skip_load_and_authorize_resource
   authorize_resource class: Claim::BaseClaim
@@ -14,9 +13,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :filter_current_claims,   only: [:index]
   before_action :filter_archived_claims,  only: [:archived]
   before_action :sort_claims,             only: %i[index archived]
-
   before_action :set_claim, only: %i[show messages publish enquire download_zip]
-  before_action :set_doctypes, only: %i[show update]
 
   include ReadMessages
   include MessageControlsDisplay
@@ -46,7 +43,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def update
     updater = Claims::CaseWorkerClaimUpdater.new(params[:id], claim_params.merge(current_user: current_user)).update!
     @claim = updater.claim
-    @doc_types = DocType.all
     if updater.result == :ok
       redirect_to case_workers_claim_path(params.slice(:messages))
     else
@@ -60,7 +56,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def prepare_show_action
     @claim.assessment = Assessment.new if @claim.assessment.nil?
-    @doc_types = DocType.all
     @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
   end

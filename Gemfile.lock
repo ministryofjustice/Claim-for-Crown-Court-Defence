@@ -717,7 +717,6 @@ DEPENDENCIES
   puma
   quiet_assets
   rack-livereload (~> 0.3.16)
-  rack-protection (~> 1.5.4)
   rails (~> 4.2)
   rails_12factor (= 0.0.3)
   redis (~> 3.3.1)

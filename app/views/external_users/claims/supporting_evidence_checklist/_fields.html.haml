@@ -3,4 +3,4 @@
     %h3.heading-medium
       = t('.supporting_evidence_checklist')
 
-  = render partial: 'external_users/claims/supporting_evidence_checklist/evidence_checklist', locals: { f: f, collection: DocType.all }
+  = render partial: 'external_users/claims/supporting_evidence_checklist/evidence_checklist', locals: { f: f, collection: f.object.eligible_document_types }

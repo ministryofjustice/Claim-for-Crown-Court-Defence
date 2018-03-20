@@ -150,7 +150,7 @@ class Claim::BaseClaimValidator < BaseValidator
   def check_array_elements
     # prevent array elements that do no represent a doctype
     @record.evidence_checklist_ids.each do |id|
-      unless DocType.all.map(&:id).include?(id)
+      unless @record.eligible_document_types.map(&:id).include?(id)
         add_error(:evidence_checklist_ids,
                   "Evidence checklist id #{id} is invalid, please use valid evidence checklist ids")
       end

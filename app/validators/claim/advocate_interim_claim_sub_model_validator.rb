@@ -13,7 +13,8 @@ class Claim::AdvocateInterimClaimSubModelValidator < Claim::BaseClaimSubModelVal
       case_details: [],
       defendants: %i[defendants],
       offence_details: [],
-      travel_expenses: %i[expenses]
+      travel_expenses: %i[expenses],
+      supporting_evidence: %i[documents]
     }
   end
 end

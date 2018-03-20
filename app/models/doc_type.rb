@@ -21,8 +21,14 @@ class DocType
     DocType.new(11, 1200,  'Prior authority CRM4')
   ].sort_by(&:sequence)
 
+  FEE_REFORM_DOC_TYPE_IDS = [1, 3, 4, 6].freeze
+
   def self.all
     DOCTYPES
+  end
+
+  def self.for_fee_reform
+    DOCTYPES.select { |doc| FEE_REFORM_DOC_TYPE_IDS.include?(doc.id) }
   end
 
   def self.all_first_half

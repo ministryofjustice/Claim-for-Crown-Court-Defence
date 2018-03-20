@@ -74,7 +74,7 @@ describe API::V1::DropdownData do
       create_list(:case_type, 2)
       create_list(:court, 2)
       create_list(:offence_class, 2, :with_lgfs_offence)
-      create_list(:offence, 2)
+      create_list(:offence, 2, :with_fee_scheme)
       create_list(:basic_fee_type, 2)
       create_list(:expense_type, 2)
       create_list(:disbursement_type, 2)
@@ -111,16 +111,22 @@ describe API::V1::DropdownData do
 
   context 'GET api/offences' do
 
-      let!(:offence)                        { create(:offence) }
-      let!(:other_offence)                  { create(:offence) }
-      let!(:misc_offence)                   { create(:offence, :miscellaneous, offence_class: offence.offence_class) }
-      let!(:offence_with_same_description)  { create(:offence, description: offence.description) }
-      let!(:response)                       { get OFFENCE_ENDPOINT, params }
+    let!(:fee_scheme) { create(:fee_scheme, :nine) }
+    let!(:offence)                        { create(:offence) }
+    let!(:other_offence)                  { create(:offence) }
+    let!(:misc_offence)                   { create(:offence, :miscellaneous, offence_class: offence.offence_class) }
+    let!(:offence_with_same_description)  { create(:offence, description: offence.description) }
+    let(:exposed_offence_class) { ->(offence_class) { API::Entities::OffenceClass.represent(offence_class).as_json } }
+    let(:exposed_offence) { ->(offence) { API::Entities::Offence.represent(offence).as_json } }
 
-      let(:exposed_offence_class) { ->(offence_class) { API::Entities::OffenceClass.represent(offence_class).as_json } }
-      let(:exposed_offence) { ->(offence) { API::Entities::Offence.represent(offence).as_json } }
+    before do
+      create :offence_fee_scheme, offence: offence, fee_scheme: fee_scheme
+      create :offence_fee_scheme, offence: other_offence, fee_scheme: fee_scheme
+      create :offence_fee_scheme, offence: offence_with_same_description, fee_scheme: fee_scheme
+    end
 
     it 'should include the offence class as nested JSON' do
+      response = get OFFENCE_ENDPOINT, params
       body = JSON.parse(response.body, symbolize_names: true)
       expect(body.first[:offence_class]).to eq(exposed_offence_class[offence.offence_class])
     end

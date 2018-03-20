@@ -17,6 +17,24 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   after { Timecop.return }
 
+  describe '#show_sidebar?' do
+    context 'when current step does NOT require sidebar' do
+      before do
+        expect(claim).to receive(:current_step).and_return(:defendants)
+      end
+
+      specify { expect(presenter.show_sidebar?).to be_falsey }
+    end
+
+    context 'when current step does require sidebar' do
+      before do
+        expect(claim).to receive(:current_step).and_return(:requires_sidebar_step)
+      end
+
+      specify { expect(presenter.show_sidebar?).to be_truthy }
+    end
+  end
+
   describe '#case_type_name' do
     context 'non redetermination or awaiting written reason' do
       it 'should display the case type name' do

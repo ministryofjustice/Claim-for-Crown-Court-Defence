@@ -13,6 +13,13 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
+  def show_sidebar?
+    !%i[case_details
+        defendants
+        offence_details
+        transfer_fee_details].include? claim.current_step
+  end
+
   present_with_currency :misc_fees_total, :disbursements_total, :total_inc
 
   # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down

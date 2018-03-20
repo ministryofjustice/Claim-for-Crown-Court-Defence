@@ -20,5 +20,10 @@ FactoryBot.define do
       description 'Miscellaneous/other'
     end
 
+    trait :with_fee_scheme do
+      after(:create) do |offence|
+        offence.fee_schemes << (FeeScheme.first || create(:fee_scheme, :nine))
+      end
+    end
   end
 end

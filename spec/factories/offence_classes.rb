@@ -22,11 +22,9 @@ FactoryBot.define do
   trait :with_lgfs_offence do
     after(:create) do |record|
       offence = create :offence, :miscellaneous, offence_class: record
-      fee_scheme = FeeScheme.first || create(:fee_scheme, :nine)
-      offence.fee_schemes << fee_scheme
+      offence.fee_schemes << (FeeScheme.first || create(:fee_scheme, :nine))
     end
   end
-
 end
 
 def generate_random_unused_class_letter(letters=%w{ A B C D E F G H I J K })

@@ -74,6 +74,7 @@ describe API::V1::DropdownData do
       create_list(:case_type, 2)
       create_list(:court, 2)
       create_list(:offence_class, 2, :with_lgfs_offence)
+      create_list(:offence, 2, :with_fee_scheme)
       create_list(:basic_fee_type, 2)
       create_list(:expense_type, 2)
       create_list(:disbursement_type, 2)

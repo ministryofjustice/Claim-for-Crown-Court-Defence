@@ -16,6 +16,7 @@ RSpec.describe Offence, type: :model do
   it { should have_many(:claims) }
 
   it { should validate_presence_of(:offence_class) }
+  it { should validate_presence_of(:fee_band) }
   it { should validate_presence_of(:unique_code) }
   it { should validate_uniqueness_of(:unique_code) }
   it { should validate_presence_of(:description) }
@@ -25,6 +26,32 @@ RSpec.describe Offence, type: :model do
       offence_class = create :offence_class, class_letter: 'A', description: 'My offence class'
       offence = create :offence, offence_class: offence_class
       expect(offence.offence_class_description).to eq 'A: My offence class'
+    end
+  end
+
+  describe 'validations' do
+    subject(:offence) { build :offence, fee_band: fee_band, offence_class: offence_class }
+    let(:fee_band) { create :fee_band }
+    let(:offence_class) { create :offence_class, class_letter: 'A', description: 'My offence class' }
+
+    context 'when the offence has a fee_band' do
+      let(:offence_class) { nil }
+      it { is_expected.to be_valid }
+    end
+
+    context 'when the offence has an offence_class' do
+      let(:fee_band) { nil }
+      it { is_expected.to be_valid }
+    end
+
+    context 'when the offence has both a fee_band and an offence_class' do
+      it { is_expected.to_not be_valid }
+    end
+
+    context 'when the offence has neither a fee_band and an offence_class' do
+      let(:fee_band) { nil }
+      let(:offence_class) { nil }
+      it { is_expected.to_not be_valid }
     end
   end
 end

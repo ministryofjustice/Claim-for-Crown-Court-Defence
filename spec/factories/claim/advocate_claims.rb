@@ -83,6 +83,7 @@ FactoryBot.define do
     end
 
     factory :authorised_claim do
+      offence { FactoryBot.create :offence, :with_fee_scheme, offence_class: FactoryBot.create(:offence_class) }
       after(:create) { |c| authorise_claim(c) }
     end
 

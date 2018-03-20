@@ -35,7 +35,7 @@ FeeCategory.find_or_create_by(number: 17, description: 'Standard Offences')
 # create offence bands
 [
   [1, 4],[2, 2], [3, 5], [4, 3], [5, 3], [6, 5], [7, 3], [8, 1], [9, 7],
-  [10, 1], [11, 2], [12, 3], [13, 1], [14, 1], [15, 1], [16, 3], [17, 1]
+  [10, 1], [11, 2], [12, 3], [13, 1], [14, 1], [15, 3], [16, 3], [17, 1]
 ].each do |k,v|
   category = FeeCategory.find_by(number: k)
   1.upto(v) do |i|

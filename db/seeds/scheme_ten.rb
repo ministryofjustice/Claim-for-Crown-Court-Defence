@@ -1,9 +1,9 @@
 require 'csv'
 require_relative '../offence_code_seeder_scheme_ten.rb'
 
-lgfs_scheme_nine = FeeScheme.find_or_create_by(number: 9, name: 'LGFS', start_date: '2014-03-20 00:00:00')
-agfs_scheme_nine = FeeScheme.find_or_create_by(number: 9, name: 'AGFS', start_date: '2012-04-01 00:00:00', end_date: '2018-03-31 23:59:59')
-FeeScheme.find_or_create_by(number: 10, name: 'AGFS', start_date: '2018-04-01 00:00:00')
+lgfs_scheme_nine = FeeScheme.find_or_create_by(number: 9, name: 'LGFS', start_date: Date.new(2014, 03, 20).beginning_of_day)
+agfs_scheme_nine = FeeScheme.find_or_create_by(number: 9, name: 'AGFS', start_date: Date.new(2012, 04, 01).beginning_of_day, end_date: Date.new(2018, 03, 31).end_of_day)
+FeeScheme.find_or_create_by(number: 10, name: 'AGFS', start_date: Date.new(2012, 04, 01).beginning_of_day)
 
 Offence.find_each do |offence|
   OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: agfs_scheme_nine)
@@ -11,32 +11,32 @@ Offence.find_each do |offence|
 end
 
 # create offence categories
-FeeCategory.find_or_create_by(number: 1, description: 'Murder/Manslaughter')
-FeeCategory.find_or_create_by(number: 2, description: 'Terrorism')
-FeeCategory.find_or_create_by(number: 3, description: 'Serious Violence')
-FeeCategory.find_or_create_by(number: 4, description: 'Sexual Offences (Children)')
-FeeCategory.find_or_create_by(number: 5, description: 'Sexual Offences (Adult)')
-FeeCategory.find_or_create_by(number: 6, description: 'Dishonesty Offences')
-FeeCategory.find_or_create_by(number: 7, description: 'Property Damage')
-FeeCategory.find_or_create_by(number: 8, description: 'Offences Against the Public Interest')
-FeeCategory.find_or_create_by(number: 9, description: 'Drugs Offences')
-FeeCategory.find_or_create_by(number: 10, description: 'Driving Offences')
-FeeCategory.find_or_create_by(number: 11, description: 'Burglary and Robbery')
-FeeCategory.find_or_create_by(number: 12, description: 'Firearms Offences')
-FeeCategory.find_or_create_by(number: 13, description: 'Other Offences Against the Person')
-FeeCategory.find_or_create_by(number: 14, description: 'Exploitation and Human Trafficking Offences')
-FeeCategory.find_or_create_by(number: 15, description: 'Public Order Offences')
-FeeCategory.find_or_create_by(number: 16, description: 'Regulatory Offences')
-FeeCategory.find_or_create_by(number: 17, description: 'Standard Offences')
+OffenceCategory.find_or_create_by(number: 1, description: 'Murder/Manslaughter')
+OffenceCategory.find_or_create_by(number: 2, description: 'Terrorism')
+OffenceCategory.find_or_create_by(number: 3, description: 'Serious Violence')
+OffenceCategory.find_or_create_by(number: 4, description: 'Sexual Offences (Children)')
+OffenceCategory.find_or_create_by(number: 5, description: 'Sexual Offences (Adult)')
+OffenceCategory.find_or_create_by(number: 6, description: 'Dishonesty Offences')
+OffenceCategory.find_or_create_by(number: 7, description: 'Property Damage')
+OffenceCategory.find_or_create_by(number: 8, description: 'Offences Against the Public Interest')
+OffenceCategory.find_or_create_by(number: 9, description: 'Drugs Offences')
+OffenceCategory.find_or_create_by(number: 10, description: 'Driving Offences')
+OffenceCategory.find_or_create_by(number: 11, description: 'Burglary and Robbery')
+OffenceCategory.find_or_create_by(number: 12, description: 'Firearms Offences')
+OffenceCategory.find_or_create_by(number: 13, description: 'Other Offences Against the Person')
+OffenceCategory.find_or_create_by(number: 14, description: 'Exploitation and Human Trafficking Offences')
+OffenceCategory.find_or_create_by(number: 15, description: 'Public Order Offences')
+OffenceCategory.find_or_create_by(number: 16, description: 'Regulatory Offences')
+OffenceCategory.find_or_create_by(number: 17, description: 'Standard Offences')
 
 # create offence bands
 [
   [1, 4],[2, 2], [3, 5], [4, 3], [5, 3], [6, 5], [7, 3], [8, 1], [9, 7],
   [10, 1], [11, 2], [12, 3], [13, 1], [14, 1], [15, 3], [16, 3], [17, 1]
 ].each do |k,v|
-  category = FeeCategory.find_by(number: k)
+  category = OffenceCategory.find_by(number: k)
   1.upto(v) do |i|
-    FeeBand.find_or_create_by(fee_category: category, number: i, description: "#{k}.#{i}")
+    OffenceBand.find_or_create_by(offence_category: category, number: i, description: "#{k}.#{i}")
   end
 end
 
@@ -50,11 +50,11 @@ csv = CSV.parse(csv_file, headers: true)
 csv.each do |row|
   # row desc : Category,Band,Offence,Contrary to,Year and Chapter
   description = row[2].strip
-  fee_category = FeeCategory.find_by(number: row[0])
-  fee_band = FeeBand.find_by(fee_category: fee_category, description: row[1])
-  unique_code = OffenceCodeSeederSchemeTen.new(description, fee_band.number.to_s.each_byte.to_a.join(''), row[3]).unique_code
+  offence_category = OffenceCategory.find_by(number: row[0])
+  offence_band = OffenceBand.find_by(offence_category: offence_category, description: row[1])
+  unique_code = OffenceCodeSeederSchemeTen.new(description, offence_band.number.to_s.each_byte.to_a.join(''), row[3]).unique_code
   offence = Offence.find_or_create_by!(
-    fee_band: fee_band,
+    offence_band: offence_band,
     description: description,
     unique_code: unique_code,
     contrary: row[3],

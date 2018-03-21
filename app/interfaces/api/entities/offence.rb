@@ -9,12 +9,12 @@ module API
       expose :full_format, merge: true, unless: export_format? do
         expose :id
         expose :description
-        expose :offence_class_id, if: ->(instance, _opts) { instance.fee_schemes.first.number.eql?(9) }
+        expose :offence_class_id, if: ->(instance, _opts) { instance.scheme_nine? }
         expose :offence_class,
-               if: ->(instance, _opts) { instance.fee_schemes.first.number.eql?(9) },
+               if: ->(instance, _opts) { instance.scheme_nine? },
                using: API::Entities::OffenceClass
         expose :fee_band,
-               if: ->(instance, _opts) { instance.fee_schemes.first.number.eql?(10) },
+               if: ->(instance, _opts) { !instance.scheme_nine? },
                using: API::Entities::FeeBand
       end
 

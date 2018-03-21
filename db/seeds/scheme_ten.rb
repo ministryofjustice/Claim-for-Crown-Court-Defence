@@ -1,9 +1,9 @@
 require 'csv'
 require_relative '../offence_code_seeder_scheme_ten.rb'
 
-lgfs_scheme_nine = FeeScheme.find_or_create_by(number: 9, name: 'LGFS', start_date: Date.new(2014, 03, 20).beginning_of_day)
-agfs_scheme_nine = FeeScheme.find_or_create_by(number: 9, name: 'AGFS', start_date: Date.new(2012, 04, 01).beginning_of_day, end_date: Date.new(2018, 03, 31).end_of_day)
-FeeScheme.find_or_create_by(number: 10, name: 'AGFS', start_date: Date.new(2012, 04, 01).beginning_of_day)
+lgfs_scheme_nine = FeeScheme.find_or_create_by(name: 'LGFS', version: 9, start_date: Date.new(2014, 03, 20).beginning_of_day)
+agfs_scheme_nine = FeeScheme.find_or_create_by(name: 'AGFS', version: 9, start_date: Date.new(2012, 04, 01).beginning_of_day, end_date: Date.new(2018, 03, 31).end_of_day)
+agfs_fee_scheme_ten = FeeScheme.find_or_create_by(name: 'AGFS', version: 10, start_date: Date.new(2012, 04, 01).beginning_of_day)
 
 Offence.find_each do |offence|
   OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: agfs_scheme_nine)
@@ -46,8 +46,6 @@ end
 ActiveRecord::Base.connection.set_pk_sequence!('offences', 1000)
 
 # create new offences (from csv)
-agfs_fee_scheme_ten = FeeScheme.find_by(name: 'AGFS', number: '10')
-
 file_path = Rails.root.join('lib', 'assets', 'data', 'scheme_10_offences.csv')
 csv_file = File.open(file_path, 'r:ISO-8859-1')
 csv = CSV.parse(csv_file, headers: true)

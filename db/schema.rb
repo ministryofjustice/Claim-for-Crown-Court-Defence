@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20180314084912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "adminpack"
   enable_extension "uuid-ossp"
 
   create_table "case_types", force: :cascade do |t|
@@ -316,23 +317,6 @@ ActiveRecord::Schema.define(version: 20180314084912) do
   add_index "external_users", ["provider_id"], name: "index_external_users_on_provider_id", using: :btree
   add_index "external_users", ["supplier_number"], name: "index_external_users_on_supplier_number", using: :btree
 
-  create_table "fee_bands", force: :cascade do |t|
-    t.integer  "number"
-    t.string   "description"
-    t.integer  "fee_category_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "fee_bands", ["fee_category_id"], name: "index_fee_bands_on_fee_category_id", using: :btree
-
-  create_table "fee_categories", force: :cascade do |t|
-    t.integer  "number"
-    t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
   create_table "fee_schemes", force: :cascade do |t|
     t.integer  "number"
     t.string   "name"
@@ -414,6 +398,23 @@ ActiveRecord::Schema.define(version: 20180314084912) do
   add_index "messages", ["claim_id"], name: "index_messages_on_claim_id", using: :btree
   add_index "messages", ["sender_id"], name: "index_messages_on_sender_id", using: :btree
 
+  create_table "offence_bands", force: :cascade do |t|
+    t.integer  "number"
+    t.string   "description"
+    t.integer  "offence_category_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "offence_bands", ["offence_category_id"], name: "index_offence_bands_on_offence_category_id", using: :btree
+
+  create_table "offence_categories", force: :cascade do |t|
+    t.integer  "number"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "offence_classes", force: :cascade do |t|
     t.string   "class_letter"
     t.string   "description"
@@ -438,12 +439,12 @@ ActiveRecord::Schema.define(version: 20180314084912) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "unique_code",      default: "anyoldrubbish", null: false
-    t.integer  "fee_band_id"
+    t.integer  "offence_band_id"
     t.string   "contrary"
     t.string   "year_chapter"
   end
 
-  add_index "offences", ["fee_band_id"], name: "index_offences_on_fee_band_id", using: :btree
+  add_index "offences", ["offence_band_id"], name: "index_offences_on_offence_band_id", using: :btree
   add_index "offences", ["offence_class_id"], name: "index_offences_on_offence_class_id", using: :btree
   add_index "offences", ["unique_code"], name: "index_offences_on_unique_code", unique: true, using: :btree
 
@@ -569,7 +570,7 @@ ActiveRecord::Schema.define(version: 20180314084912) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
-  add_foreign_key "fee_bands", "fee_categories"
   add_foreign_key "injection_attempts", "claims"
-  add_foreign_key "offences", "fee_bands"
+  add_foreign_key "offence_bands", "offence_categories"
+  add_foreign_key "offences", "offence_bands"
 end

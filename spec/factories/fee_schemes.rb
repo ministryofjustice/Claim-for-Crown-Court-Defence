@@ -5,7 +5,7 @@ FactoryBot.define do
     end_date nil
     number 10
 
-    trait :nine do
+    trait :agfs_nine do
       start_date '2015-01-01 00:00:00'
       end_date '2018-03-31 23:59:59'
       number 9

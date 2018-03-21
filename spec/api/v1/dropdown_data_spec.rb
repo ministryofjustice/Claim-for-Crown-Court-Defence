@@ -111,7 +111,7 @@ describe API::V1::DropdownData do
 
   context 'GET api/offences' do
 
-    let!(:fee_scheme) { create(:fee_scheme, :nine) }
+    let!(:fee_scheme) { create(:fee_scheme, :agfs_nine) }
     let!(:offence)                        { create(:offence) }
     let!(:other_offence)                  { create(:offence) }
     let!(:misc_offence)                   { create(:offence, :miscellaneous, offence_class: offence.offence_class) }

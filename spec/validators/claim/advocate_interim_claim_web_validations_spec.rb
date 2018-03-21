@@ -4,6 +4,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
   # TODO: this let! is necessary because the fee types are not seeded
   # by default (IMO they should as they're a basic part of the app)
   let!(:warrant_fee_type) { create(:warrant_fee_type, :warr) }
+  let!(:parking_expense_type) { create(:expense_type, :parking) }
+  let!(:subsistence_expense_type) { create(:expense_type, :subsistence) }
   let(:external_user) { create(:external_user, :advocate) }
   let(:court) { create(:court, name: 'Court Name') }
   let(:attributes) { valid_attributes }
@@ -580,6 +582,210 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       specify {
         is_expected.to be_invalid
         expect(claim.errors[:"warrant_fee.amount"]).to match_array(['numericality'])
+      }
+    end
+  end
+
+  context 'when submission step is travel expenses details' do
+    before do
+      allow(Settings).to receive(:agfs_fee_reform_release_date).and_return(release_date)
+    end
+
+    let(:form_step) { 'travel_expenses' }
+    let(:release_date) { 4.months.ago.to_date }
+    let(:earliest_representation_order_date) { release_date + 1.day }
+    let(:warrant_issued_date) { 3.months.ago }
+    let(:previous_steps_attributes) {
+      {
+        court_id: court.id,
+        case_number: 'T20170101',
+        external_user_id: external_user.id,
+        creator_id: external_user.id,
+        case_transferred_from_another_court: false,
+        defendants_attributes: {
+          '0' => {
+            first_name: 'John',
+            last_name: 'Doe',
+            date_of_birth_dd: '03',
+            date_of_birth_mm: '11',
+            date_of_birth_yyyy: '1967',
+            order_for_judicial_apportionment: '0',
+            representation_orders_attributes: {
+              '0' => {
+                representation_order_date_dd: earliest_representation_order_date.day.to_s,
+                representation_order_date_mm: earliest_representation_order_date.month.to_s,
+                representation_order_date_yyyy: earliest_representation_order_date.year.to_s
+              },
+              '1' => {
+                representation_order_date_dd: (release_date + 2.day).day.to_s,
+                representation_order_date_mm: (release_date + 2.day).month.to_s,
+                representation_order_date_yyyy: (release_date + 2.day).year.to_s
+              }
+            }
+          },
+          '1' => {
+            first_name: 'Jane',
+            last_name: 'Doe',
+            date_of_birth_dd: '26',
+            date_of_birth_mm: '07',
+            date_of_birth_yyyy: '1959',
+            order_for_judicial_apportionment: '0',
+            representation_orders_attributes: {
+              '0' => {
+                representation_order_date_dd: (release_date + 3.day).day.to_s,
+                representation_order_date_mm: (release_date + 3.day).month.to_s,
+                representation_order_date_yyyy: (release_date + 3.day).year.to_s
+              }
+            }
+          }
+        },
+        advocate_category: 'QC',
+        warrant_fee_attributes: {
+          warrant_issued_date_dd: warrant_issued_date.day.to_s,
+          warrant_issued_date_mm: warrant_issued_date.month.to_s,
+          warrant_issued_date_yyyy: warrant_issued_date.year.to_s,
+          amount: 20
+        }
+      }
+    }
+    let(:court_hearing_reason) { ExpenseType::REASON_SET_A[1] }
+    let(:valid_one_expense_attributes) {
+      {
+        expense_type_id: parking_expense_type.id.to_s,
+        reason_id: court_hearing_reason.id.to_s,
+        date_dd: earliest_representation_order_date.day.to_s,
+        date_mm: earliest_representation_order_date.month.to_s,
+        date_yyyy: earliest_representation_order_date.year.to_s,
+        amount: 50
+      }
+    }
+    let(:one_expense_attributes) { valid_one_expense_attributes }
+    let(:pre_trial_conference_defendant_reason) { ExpenseType::REASON_SET_A[3] }
+    let(:valid_other_expense_attributes) {
+      {
+        expense_type_id: subsistence_expense_type.id.to_s,
+        reason_id: pre_trial_conference_defendant_reason.id.to_s,
+        location: 'Luton',
+        date_dd: (earliest_representation_order_date + 1.day).day.to_s,
+        date_mm: (earliest_representation_order_date + 1.day).month.to_s,
+        date_yyyy: (earliest_representation_order_date + 1.day).year.to_s,
+        amount: 32.5
+      }
+    }
+    let(:other_expense_attributes) { valid_other_expense_attributes }
+    let(:valid_expenses_attributes) {
+      {
+        '0' => one_expense_attributes,
+        '1' => other_expense_attributes
+      }
+    }
+    let(:expenses_attributes) { valid_expenses_attributes }
+    let(:valid_attributes) {
+      {
+        expenses_attributes: expenses_attributes
+      }
+    }
+
+    subject(:claim) {
+      Claim::AdvocateInterimClaim.create(previous_steps_attributes).tap do |record|
+        record.assign_attributes(params)
+      end
+    }
+
+    context 'with valid attributes' do
+      let(:attributes) { valid_attributes }
+
+      specify { is_expected.to be_valid }
+    end
+
+    context 'when one of the expenses requires an expense type  but its not given' do
+      let(:one_expense_attributes) { valid_one_expense_attributes.except(:expense_type_id) }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:expense_1_expense_type]).to match_array(['blank'])
+      }
+    end
+
+    context 'when one of the expenses requires an expense type  but an invalid one is given' do
+      let(:other_expense_attributes) { valid_other_expense_attributes.merge(expense_type_id: 99999) }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:expense_2_expense_type]).to match_array(['blank'])
+      }
+    end
+
+    context 'when one of the expenses requires a reason but its not given' do
+      let(:one_expense_attributes) { valid_one_expense_attributes.except(:reason_id) }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:expense_1_reason_id]).to match_array(['blank'])
+      }
+    end
+
+    context 'when one of the expenses requires a reason but an invalid one is given' do
+      let(:one_expense_attributes) { valid_one_expense_attributes.merge(reason_id: 9999999) }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:expense_1_reason_id]).to match_array(['invalid'])
+      }
+    end
+
+    context 'when one of the expenses requires a date but its not given' do
+      let(:other_expense_attributes) { valid_other_expense_attributes.except(:date_dd, :date_mm, :date_yyyy) }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:expense_2_date]).to match_array(['blank'])
+      }
+    end
+
+    context 'when one of the expenses requires a date but its in the future' do
+      let(:date_in_future) { 5.days.from_now.to_date }
+      let(:one_expense_attributes) { valid_one_expense_attributes.merge(
+        date_dd: date_in_future.day.to_s,
+        date_mm: date_in_future.month.to_s,
+        date_yyyy: date_in_future.year.to_s)
+      }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:expense_1_date]).to match_array(['future'])
+      }
+    end
+
+    context 'when one of the expenses requires a date but its before the earliest permitted date' do
+      let(:date_too_old) { Date.parse(Settings.earliest_permitted_date.to_s) - 2.days }
+      let(:one_expense_attributes) { valid_one_expense_attributes.merge(
+        date_dd: date_too_old.day.to_s,
+        date_mm: date_too_old.month.to_s,
+        date_yyyy: date_too_old.year.to_s)
+      }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:expense_1_date]).to match_array(['check_not_too_far_in_past'])
+      }
+    end
+
+    context 'when one of the expenses requires an amount but its not given' do
+      let(:other_expense_attributes) { valid_other_expense_attributes.except(:amount) }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:expense_2_amount]).to match_array(['blank'])
+      }
+    end
+
+    context 'when one of the expenses requires a positive amount but its not given' do
+      let(:other_expense_attributes) { valid_other_expense_attributes.merge(amount: 0) }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:expense_2_amount]).to match_array(['numericality'])
       }
     end
   end

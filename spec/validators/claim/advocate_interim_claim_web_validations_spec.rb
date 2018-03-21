@@ -932,4 +932,120 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       }
     end
   end
+
+  context 'when submission step is additional information' do
+    before do
+      allow(Settings).to receive(:agfs_fee_reform_release_date).and_return(release_date)
+    end
+
+    let(:form_step) { 'additional_information' }
+    let(:release_date) { 4.months.ago.to_date }
+    let(:earliest_representation_order_date) { release_date + 1.day }
+    let(:warrant_issued_date) { 3.months.ago }
+    let(:court_hearing_reason) { ExpenseType::REASON_SET_A[1] }
+    let(:pre_trial_conference_defendant_reason) { ExpenseType::REASON_SET_A[3] }
+    let(:previous_steps_attributes) {
+      {
+        court_id: court.id,
+        case_number: 'T20170101',
+        external_user_id: external_user.id,
+        creator_id: external_user.id,
+        case_transferred_from_another_court: false,
+        defendants_attributes: {
+          '0' => {
+            first_name: 'John',
+            last_name: 'Doe',
+            date_of_birth_dd: '03',
+            date_of_birth_mm: '11',
+            date_of_birth_yyyy: '1967',
+            order_for_judicial_apportionment: '0',
+            representation_orders_attributes: {
+              '0' => {
+                representation_order_date_dd: earliest_representation_order_date.day.to_s,
+                representation_order_date_mm: earliest_representation_order_date.month.to_s,
+                representation_order_date_yyyy: earliest_representation_order_date.year.to_s
+              },
+              '1' => {
+                representation_order_date_dd: (release_date + 2.day).day.to_s,
+                representation_order_date_mm: (release_date + 2.day).month.to_s,
+                representation_order_date_yyyy: (release_date + 2.day).year.to_s
+              }
+            }
+          },
+          '1' => {
+            first_name: 'Jane',
+            last_name: 'Doe',
+            date_of_birth_dd: '26',
+            date_of_birth_mm: '07',
+            date_of_birth_yyyy: '1959',
+            order_for_judicial_apportionment: '0',
+            representation_orders_attributes: {
+              '0' => {
+                representation_order_date_dd: (release_date + 3.day).day.to_s,
+                representation_order_date_mm: (release_date + 3.day).month.to_s,
+                representation_order_date_yyyy: (release_date + 3.day).year.to_s
+              }
+            }
+          }
+        },
+        advocate_category: 'QC',
+        warrant_fee_attributes: {
+          warrant_issued_date_dd: warrant_issued_date.day.to_s,
+          warrant_issued_date_mm: warrant_issued_date.month.to_s,
+          warrant_issued_date_yyyy: warrant_issued_date.year.to_s,
+          amount: 20
+        },
+        expenses_attributes: {
+          '0' => {
+            expense_type_id: parking_expense_type.id.to_s,
+            reason_id: court_hearing_reason.id.to_s,
+            date_dd: earliest_representation_order_date.day.to_s,
+            date_mm: earliest_representation_order_date.month.to_s,
+            date_yyyy: earliest_representation_order_date.year.to_s,
+            amount: 50
+          },
+          '1' => {
+            expense_type_id: subsistence_expense_type.id.to_s,
+            reason_id: pre_trial_conference_defendant_reason.id.to_s,
+            location: 'Luton',
+            date_dd: (earliest_representation_order_date + 1.day).day.to_s,
+            date_mm: (earliest_representation_order_date + 1.day).month.to_s,
+            date_yyyy: (earliest_representation_order_date + 1.day).year.to_s,
+            amount: 32.5
+          }
+        },
+        disk_evidence: false,
+        evidence_checklist_ids: DocType::FEE_REFORM_DOC_TYPE_IDS
+      }
+    }
+    let(:valid_attributes) {
+      {
+        additional_information: 'Some additional information'
+      }
+    }
+
+    subject(:claim) {
+      Claim::AdvocateInterimClaim.create(previous_steps_attributes).tap do |record|
+        record.assign_attributes(params)
+      end
+    }
+
+    context 'with valid attributes' do
+      let(:attributes) { valid_attributes }
+
+      specify { is_expected.to be_valid }
+    end
+
+    context 'when no additional information is provided' do
+      let(:attributes) { valid_attributes.except(:additional_information) }
+
+      specify { is_expected.to be_valid }
+    end
+
+    context 'when additional information is blank' do
+      let(:attributes) { valid_attributes.merge(additional_information: '') }
+
+      specify { is_expected.to be_valid }
+    end
+  end
 end

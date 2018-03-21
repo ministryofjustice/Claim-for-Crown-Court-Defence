@@ -1,25 +1,23 @@
-.form-group
-  .form-row.js-typeahead
-    .form-col.forced-width{class: error_class?(@error_presenter, :external_user)}
-      %a{id: :external_user}
-      %label.form-label{for: 'claim_external_user_id_input'}
-        = t('.advocate')
+.form-group.js-typeahead{class: error_class?(@error_presenter, :external_user)}
+  %a{id: :external_user}
+  %label.form-label{for: 'claim_external_user_id_input'}
+    = t('.advocate')
 
-      - provider_advocates = @provider.advocates.sort_by(&:name_and_number)
-      - if provider_advocates.length >= 6
-        = f.collection_select :external_user_id, provider_advocates, :id, :name_and_number, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
+  - provider_advocates = @provider.advocates.sort_by(&:name_and_number)
+  - if provider_advocates.length >= 6
+    = f.collection_select :external_user_id, provider_advocates, :id, :name_and_number, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
 
-      - else
-        - options = provider_advocates.length == 1 ? { checked: provider_advocates.first.id } : {}
-        = f.collection_radio_buttons(:external_user_id, provider_advocates, :id, :name_and_number, options) do |b|
-          .multiple-choice
-            = b.radio_button
-            - if provider_advocates.length == 1
-              = b.label(class: 'selected') { b.text }
-            - else
-              = b.label { b.text }
+  - else
+    - options = provider_advocates.length == 1 ? { checked: provider_advocates.first.id } : {}
+    = f.collection_radio_buttons(:external_user_id, provider_advocates, :id, :name_and_number, options) do |b|
+      .multiple-choice
+        = b.radio_button
+        - if provider_advocates.length == 1
+          = b.label(class: 'selected') { b.text }
+        - else
+          = b.label { b.text }
 
-      = validation_error_message(@error_presenter, :external_user)
+  = validation_error_message(@error_presenter, :external_user)
 
 .form-group
   %details

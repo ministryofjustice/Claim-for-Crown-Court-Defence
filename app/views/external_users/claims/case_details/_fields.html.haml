@@ -6,37 +6,33 @@
     - if @claim.agfs? && @external_user.admin?
       = render partial: 'external_users/claims/case_details/advocate_fields', locals: { f: f }
 
-    .form-row
-      .form-col.forced-width
-        = f.adp_text_field :providers_ref, label: t('common.external_user.providers_ref'), errors: @error_presenter, hint_text: t('common.external_user.providers_ref_hint')
+    = f.adp_text_field :providers_ref, label: t('common.external_user.providers_ref'), errors: @error_presenter, hint_text: t('common.external_user.providers_ref_hint')
 
     - if @claim.requires_case_type?
-      .form-row.js-typeahead
-        .form-col{class: error_class?(@error_presenter, :case_type)}
-          %a{:id => "case_type"}
-          %label.form-label{:for => "claim_case_type_id_input"}
-            = t('.case_type')
-          .form-hint.xsmall.zero-vert-margin
-            = t('.case_type_hint')
-          = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
-          = validation_error_message(@error_presenter, :case_type)
 
-    .form-row.js-typeahead
-      .form-col.forced-width{class: error_class?(@error_presenter, :court)}
-        %a{:id => "court"}
-        %label.form-label{:for => "claim_court_id_input"}
-          = t('.court')
-
+      .form-group.js-typeahead{class: error_class?(@error_presenter, :case_type)}
+        %a{:id => "case_type"}
+        %label.form-label{:for => "claim_case_type_id_input"}
+          = t('.case_type')
         .form-hint.xsmall.zero-vert-margin
-          = t('.court_hint')
-        = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
+          = t('.case_type_hint')
+        = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
+        = validation_error_message(@error_presenter, :case_type)
 
-        %div.clean
-          = validation_error_message(@error_presenter, :court)
+    .form-group.js-typeahead{class: error_class?(@error_presenter, :court)}
+      %a{:id => "court"}
+      %label.form-label{:for => "claim_court_id_input"}
+        = t('.court')
 
-    .form-row.js-typeahead
-      .form-col
-        = f.adp_text_field :case_number,
+      .form-hint.xsmall.zero-vert-margin
+        = t('.court_hint')
+      = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
+
+      %div.clean
+        = validation_error_message(@error_presenter, :court)
+
+    .form-group.js-typeahead
+      = f.adp_text_field :case_number,
                             label: t('.case_number'),
                             hint_text: t('.case_number_hint'),
                             errors: @error_presenter

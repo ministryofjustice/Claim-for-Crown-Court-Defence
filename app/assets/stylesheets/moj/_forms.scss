@@ -108,13 +108,6 @@ input.form-control[type=number]
   }
 }
 
-select.form-control {
-  @include span(6 of 12);
-  .form-row & {
-    @include full;
-  }
-}
-
 textarea.form-control{
   width:100%;
 }
@@ -299,14 +292,14 @@ select.form-control {
   }
 
   .margin-spacer-lg{
-    margin-top: 60px;
+    margin-top: 50px;
   }
   .margin-spacer-sm{
-    margin-top: 30px;
+    margin-top: 25px;
   }
   .js-interim-feeTotal{
     .amount_wrapper{
-      margin-top: 60px;
+      margin-top: 50px;
     }
   }
   .fee-quantity{

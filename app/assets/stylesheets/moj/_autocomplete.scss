@@ -3,6 +3,10 @@
   width: auto !important;
 }
 
+.typeahead.fixedwidth{
+  width: 330px;
+}
+
 //autocomplete styling
 .tt-menu {
   background-color: #fff;
@@ -12,6 +16,18 @@
   overflow-y: scroll;
 }
 
+@media (min-width: 641px){
+  .tt-menu {
+    width: 50%;
+  }
+
+  .js-block{
+    .tt-menu{
+      width: 100%;
+    }
+  }
+
+}
 .tt-hint{
   opacity: 0.6 !important;
 }

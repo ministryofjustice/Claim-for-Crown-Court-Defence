@@ -39,4 +39,8 @@ class Offence < ActiveRecord::Base
     return if offence_class.present? ^ offence_band.present?
     errors[:base] << 'Specify an Offence or an OffenceBand, not both'
   end
+
+  def scheme_nine?
+    fee_schemes.map(&:version).any? { |s| s == FeeScheme::SCHEME9 }
+  end
 end

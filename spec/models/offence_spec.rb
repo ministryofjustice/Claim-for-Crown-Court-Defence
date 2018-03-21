@@ -54,4 +54,20 @@ RSpec.describe Offence, type: :model do
       it { is_expected.to_not be_valid }
     end
   end
+
+  describe '#scheme_nine?' do
+    subject(:scheme_nine?) { offence.scheme_nine? }
+
+    context 'when the fee_scheme is set to ten' do
+      let(:offence) { create(:offence, :with_fee_scheme_ten) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the fee_scheme is set to nine' do
+      let(:offence) { create(:offence, :with_fee_scheme) }
+
+      it { is_expected.to be_truthy }
+    end
+  end
 end

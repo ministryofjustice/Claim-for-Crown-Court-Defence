@@ -1,16 +1,13 @@
 require 'csv'
 require_relative '../offence_code_seeder_scheme_ten.rb'
 
-FeeScheme.create(number: 9, name: 'LGFS', start_date: '2014-03-20 00:00:00')
-FeeScheme.create(number: 9, name: 'AGFS', start_date: '2012-04-01 00:00:00', end_date: '2018-03-31 23:59:59')
-FeeScheme.create(number: 10, name: 'AGFS', start_date: '2018-04-01 00:00:00')
-
-agfs_scheme_nine = FeeScheme.find_by(name: 'AGFS', number: '9')
-lgfs_scheme_nine = FeeScheme.find_by(name: 'LGFS', number: '9')
+lgfs_scheme_nine = FeeScheme.find_or_create_by(number: 9, name: 'LGFS', start_date: '2014-03-20 00:00:00')
+agfs_scheme_nine = FeeScheme.find_or_create_by(number: 9, name: 'AGFS', start_date: '2012-04-01 00:00:00', end_date: '2018-03-31 23:59:59')
+FeeScheme.find_or_create_by(number: 10, name: 'AGFS', start_date: '2018-04-01 00:00:00')
 
 Offence.find_each do |offence|
-  OffenceFeeScheme.create(offence: offence, fee_scheme: agfs_scheme_nine)
-  OffenceFeeScheme.create(offence: offence, fee_scheme: lgfs_scheme_nine)
+  OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: agfs_scheme_nine)
+  OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: lgfs_scheme_nine)
 end
 
 # create offence categories

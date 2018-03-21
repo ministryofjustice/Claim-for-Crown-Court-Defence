@@ -14,9 +14,9 @@ FactoryBot.define do
     case_number { random_case_number }
     external_user
     source { 'web' }
-    apply_vat  false
+    apply_vat false
     providers_ref { random_providers_ref }
-    case_type { FactoryBot.build :case_type }
+    case_type
     offence
     advocate_category 'QC'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }

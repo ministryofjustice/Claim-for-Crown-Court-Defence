@@ -176,7 +176,8 @@ module Claim
     end
 
     def eligible_basic_fee_types
-      Fee::BasicFeeType.agfs
+      return Fee::BasicFeeType.agfs unless fee_scheme == 'fee_reform'
+      Fee::BasicFeeType.agfs.fee_reform
     end
 
     def eligible_misc_fee_types
@@ -232,12 +233,10 @@ module Claim
 
     # create a blank fee for every basic fee type not passed to Claim::AdvocateClaim.new
     def instantiate_basic_fees
-      return unless new_record?
+      return unless case_type.present? && !case_type.is_fixed_fee?
+      # return unless new_record?
 
-      existing_basic_fee_type_ids = basic_fees.map(&:fee_type_id)
-      basic_fee_types = Fee::BasicFeeType.all
-      basic_fee_types.each do |basic_fee_type|
-        next if basic_fee_type.id.in?(existing_basic_fee_type_ids)
+      (eligible_basic_fee_types - basic_fees.map(&:fee_type)).each do |basic_fee_type|
         basic_fees << Fee::BasicFee.new_blank(self, basic_fee_type)
       end
     end

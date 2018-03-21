@@ -140,15 +140,20 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#eligible_case_types' do
-    it 'should return only AGFS case types' do
+    let!(:agfs_case_types) {
+      [
+        create(:case_type, name: 'AGFS and LGFS case type', roles: %w[agfs lgfs]),
+        create(:case_type, name: 'AGFS case type', roles: %w[agfs])
+      ]
+    }
+    let!(:lgfs_case_type) {
+      create(:case_type, name: 'LGFS case type', roles: %w[lgfs])
+    }
 
-      agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
-      agfs_case_type      = create :case_type, name: 'AGFS case type', roles: ['agfs']
-      lgfs_case_type      = create :case_type, name: 'LGFS case type', roles: ['lgfs']
-      claim = build :unpersisted_claim
+    subject(:claim) { described_class.new }
 
-
-      expect(claim.eligible_case_types).to eq([agfs_lgfs_case_type, agfs_case_type])
+    it 'returns only AGFS case types' do
+      expect(claim.eligible_case_types).to match_array(agfs_case_types)
     end
   end
 
@@ -156,6 +161,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     before(:all) do
       @bft1 = create :basic_fee_type
       @bft2 = create :basic_fee_type, :lgfs
+      @bft3 = create :basic_fee_type, :npw
       @mft1 = create :misc_fee_type
       @mft2 = create :misc_fee_type, :lgfs
       @fft1 = create :fixed_fee_type
@@ -169,7 +175,17 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#eligible_basic_fee_types' do
       it 'returns only basic fee types for AGFS' do
-        expect(@claim.eligible_basic_fee_types).to eq([@bft1])
+        expect(@claim.eligible_basic_fee_types).to match_array([@bft1, @bft3])
+      end
+
+      context 'when claim has fee reform scheme' do
+        before do
+          expect(@claim).to receive(:fee_scheme).and_return('fee_reform')
+        end
+
+        it 'returns only basic fee types for AGFS excluding the ones that are not part of the fee reform' do
+          expect(@claim.eligible_basic_fee_types).to eq([@bft1])
+        end
       end
     end
 
@@ -323,8 +339,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '.is_allocated_to_case_worker' do
-    let(:case_worker_1)        { FactoryBot.create :case_worker }
-    let(:case_worker_2)        { FactoryBot.create :case_worker }
+    let(:case_worker_1) { FactoryBot.create :case_worker }
+    let(:case_worker_2) { FactoryBot.create :case_worker }
 
     it 'should return true if allocated to the specified case_worker' do
       subject.case_workers << case_worker_1
@@ -339,39 +355,66 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   context 'basic fees' do
-    before(:each) do
-      @bft1 = FactoryBot.create :basic_fee_type,  description: 'ZZZZ', id: 1
-      @mft1 = FactoryBot.create :misc_fee_type,   description: 'CCCC', id: 2
-      @fft1 = FactoryBot.create :fixed_fee_type,  description: 'DDDD', id: 3
-      @bft2 = FactoryBot.create :basic_fee_type,  description: 'AAAA', id: 4
-      @mft2 = FactoryBot.create :misc_fee_type,   description: 'EEEE', id: 5
-      @bft3 = FactoryBot.create :basic_fee_type,  description: 'BBBB', id: 6
+    let!(:fixed_fee_type) {
+      create(:fixed_fee_type, description: 'DDDD')
+    }
+    let!(:misc_fee_types) {
+      [
+        create(:misc_fee_type, description: 'CCCC'),
+        create(:misc_fee_type, description: 'EEEE')
+      ]
+    }
+    let!(:basic_fee_types) {
+      [
+        create(:basic_fee_type, description: 'ZZZZ'),
+        create(:basic_fee_type, description: 'AAAA'),
+        create(:basic_fee_type, description: 'BBBB')
+      ]
+    }
+
+    context 'when the case type is not yet set' do
+      subject(:claim) { described_class.new(case_type: nil) }
+
+      specify { expect(claim.basic_fees).to be_empty }
     end
 
-    describe '.instantiate_basic_fees (after_initialize callback)' do
-      it 'should create an unpersisted basic fee record for every basic fee type, in fee_type_id order' do
-        claim = FactoryBot.build :claim
-        expect(claim.basic_fees.size).to eq 3
-        claim.basic_fees.each { |fee| expect(fee).to be_blank }
-        expect(claim.basic_fees.map(&:fee_type_id).sort).to eq( [1, 4, 6])
-      end
+    context 'when the case type is set and its for fixed fee' do
+      let(:case_type) { create(:case_type, :fixed_fee) }
+      subject(:claim) { described_class.new(case_type: case_type) }
 
-      it 'should create a persisted basic fee record for every basic fee type in params plus blank basic fees for those not specified by params' do
-        claim = Claim::AdvocateClaim.new(valid_params['claim'])
-        claim.save
-        claim.reload
-        expect(claim.fees.size).to eq 3
-        expect(claim.basic_fees.map(&:fee_type_id).sort).to eq( [1, 4, 6])
-        expect(claim.basic_fees.find_by(fee_type_id: 1).amount).to eq 450
-        expect(claim.basic_fees.find_by(fee_type_id: 4).amount).to eq 0
-        expect(claim.basic_fees.find_by(fee_type_id: 6).amount).to eq 0
-      end
+      specify { expect(claim.basic_fees).to be_empty }
     end
 
-    describe '.basic_fees' do
-      it 'should return a fee for every basic fee sorted in order of fee type id (i.e. seeded data order)' do
-        claim = FactoryBot.build :claim
-        expect(claim.basic_fees.map(&:fee_type_id).sort).to eq( [1, 4, 6])
+    context 'when the case type is set and its for graduated fee' do
+      let(:case_type) { create(:case_type, :graduated_fee) }
+      subject(:claim) { described_class.new(case_type: case_type) }
+
+      it 'returns a list of basic fees for each of the eligible basic fee types with all the fees with blank values' do
+        expect(claim.basic_fees.length).to eq(3)
+        expect(claim.basic_fees.map(&:fee_type)).to match_array(claim.eligible_basic_fee_types)
+        expect(claim.basic_fees).to all(be_blank)
+      end
+
+      context 'when some basic fees are provided' do
+        let(:attributes) {
+          {
+            'basic_fees_attributes' => {
+              '0' => {
+                'quantity' => '1',
+                'rate' => '450',
+                'fee_type_id' => basic_fee_types.first.id
+              }
+            },
+            'case_type_id' => case_type.id
+          }
+        }
+        subject(:claim) { described_class.new(attributes) }
+
+        it 'returns a list of basic fees for each of the eligible basic fee types with the ones provided by the user filled in' do
+          expect(claim.basic_fees.length).to eq(3)
+          expect(claim.basic_fees.map(&:fee_type_id).sort).to eq(claim.eligible_basic_fee_types.map(&:id).sort)
+          expect(claim.basic_fees.map(&:rate)).to match_array([450, nil, nil])
+        end
       end
     end
   end
@@ -1254,7 +1297,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           expect(@claim.requested_redetermination?).to be false
         end
       end
-
     end
 
     context 'allocated state where the previous state was not redetermination' do
@@ -1270,7 +1312,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         expect(claim.requested_redetermination?).to be false
       end
     end
-
   end
 
   describe '#amount_assessed' do
@@ -1294,7 +1335,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'when VAT not applied' do
-
       before do
         claim.external_user.vat_registered = false
         claim.submit!
@@ -1388,7 +1428,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       claim.creator = external_user
       expect(claim.save).to be true
       claim.force_validation = true
-      result = claim.valid?
+      claim.valid?
       expect(claim.expenses).to have(1).member
       expect(claim.expenses_total).to eq 40.0
     end
@@ -1449,7 +1489,5 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       "offence_category"=>{"description"=>""},
       "offence_class"=>{"description"=>"64"}
     }
-
   end
-
 end

@@ -1,7 +1,7 @@
 FactoryBot.define do
-  factory :fee_band do
+  factory :offence_band do
     number 1
     description "MyString"
-    fee_category
+    offence_category
   end
 end

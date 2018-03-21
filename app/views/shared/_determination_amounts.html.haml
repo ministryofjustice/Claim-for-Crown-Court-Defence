@@ -1,5 +1,5 @@
 - present(determination) do |determination|
-  - unless claim.interim? && claim.disbursement_only?
+  - unless claim.lgfs? && claim.interim? && claim.disbursement_only?
     %tr.determination-display
       %td
         Fees

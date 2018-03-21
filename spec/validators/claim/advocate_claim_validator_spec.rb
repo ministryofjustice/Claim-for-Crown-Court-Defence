@@ -82,8 +82,32 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
       should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
     end
 
-    valid_entries = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
-    valid_entries.each do |valid_entry|
+    default_valid_categories = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
+
+    context 'when on fee reform scheme' do
+      before do
+        allow(claim).to receive(:fee_scheme).and_return('fee_reform')
+      end
+
+      fee_reform_valid_categories = ['QC', 'Leading junior', 'Junior']
+      fee_reform_invalid_categories = ['Led junior', 'Junior alone']
+
+      fee_reform_valid_categories.each do |valid_entry|
+        it "should not error if '#{valid_entry}' specified" do
+          claim.advocate_category = valid_entry
+          should_not_error(claim, :advocate_category)
+        end
+      end
+
+      fee_reform_invalid_categories.each do |valid_entry|
+        it "should not error if '#{valid_entry}' specified" do
+          claim.advocate_category = valid_entry
+          should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
+        end
+      end
+    end
+
+    default_valid_categories.each do |valid_entry|
       it "should not error if '#{valid_entry}' specified" do
         claim.advocate_category = valid_entry
         should_not_error(claim, :advocate_category)

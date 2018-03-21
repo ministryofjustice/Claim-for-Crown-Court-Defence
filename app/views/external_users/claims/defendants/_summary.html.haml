@@ -19,7 +19,7 @@
           %td
             = defendant.date_of_birth.strftime('%d/%m/%Y') rescue ''
 
-      - unless claim.interim?
+      - unless claim.lgfs? && claim.interim?
         %tr
           %th{scope:'row'}
             %span.visuallyhidden

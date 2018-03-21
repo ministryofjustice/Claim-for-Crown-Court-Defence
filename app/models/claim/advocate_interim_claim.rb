@@ -6,6 +6,10 @@ module Claim
                    unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::AdvocateInterimClaimSubModelValidator
 
+    has_one :warrant_fee, foreign_key: :claim_id, class_name: 'Fee::WarrantFee', dependent: :destroy, inverse_of: :claim
+
+    accepts_nested_attributes_for :warrant_fee, allow_destroy: false
+
     before_validation do
       set_supplier_number
     end
@@ -63,6 +67,22 @@ module Claim
 
     def requires_case_type?
       false
+    end
+
+    def agfs?
+      true
+    end
+
+    def final?
+      false
+    end
+
+    def interim?
+      true
+    end
+
+    def eligible_advocate_categories
+      Claims::FetchEligibleAdvocateCategories.for(self)
     end
 
     private

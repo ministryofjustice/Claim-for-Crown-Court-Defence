@@ -10,4 +10,9 @@ class Claim::AdvocateInterimClaimPresenter < Claim::BaseClaimPresenter
   def can_have_disbursements?
     false
   end
+
+  def raw_warrant_fees_total
+    claim.warrant_fee&.amount || 0
+  end
+  present_with_currency :warrant_fees_total
 end

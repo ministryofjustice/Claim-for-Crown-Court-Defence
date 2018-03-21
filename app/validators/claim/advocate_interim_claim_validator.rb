@@ -10,12 +10,8 @@ class Claim::AdvocateInterimClaimValidator < Claim::BaseClaimValidator
         supplier_number
       ],
       defendants: %i[earliest_representation_order],
-      offence_details: %i[offence],
-      fees: %i[
-        advocate_category
-        total
-        defendant_uplifts
-      ]
+      # offence_details: %i[offence],
+      interim_fees: %i[advocate_category]
     }
   end
 
@@ -29,5 +25,15 @@ class Claim::AdvocateInterimClaimValidator < Claim::BaseClaimValidator
     date = @record.earliest_representation_order&.representation_order_date
     return unless date.present?
     add_error(:base, 'unclaimable') unless date >= Date.parse(Settings.agfs_fee_reform_release_date.to_s)
+  end
+
+  def validate_offence
+    validate_presence(:offence, 'blank')
+  end
+
+  def validate_advocate_category
+    validate_presence(:advocate_category, 'blank')
+    return if @record.advocate_category.blank?
+    validate_inclusion(:advocate_category, @record.eligible_advocate_categories, I18n.t('validators.advocate.category'))
   end
 end

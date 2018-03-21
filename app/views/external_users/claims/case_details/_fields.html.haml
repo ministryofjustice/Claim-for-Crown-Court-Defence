@@ -53,7 +53,7 @@
             #transfer-court-details.panel.panel-border-narrow.js-hidden
               = render partial: 'external_users/claims/case_details/transfer_court_fields', locals: { f: f }
 
-- if @claim.agfs?
+- if @claim.agfs? && !@claim.interim?
   = render partial: 'external_users/claims/case_details/cracked_trial_fields', locals: { f: f }
   = render partial: 'external_users/claims/case_details/trial_detail_fields', locals: { f: f }
   = render partial: 'external_users/claims/case_details/retrial_detail_fields', locals: { f: f }

@@ -195,6 +195,10 @@ module Claim
       self.class.agfs?
     end
 
+    def eligible_advocate_categories
+      Claims::FetchEligibleAdvocateCategories.for(self)
+    end
+
     def update_claim_document_owners
       documents.each { |d| d.update_column(:external_user_id, external_user_id) }
     end

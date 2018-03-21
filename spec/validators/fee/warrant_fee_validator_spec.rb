@@ -10,8 +10,8 @@ RSpec.describe Fee::WarrantFeeValidator, type: :validator do
   include_examples 'common amount validations'
 
   describe '#validate_warrant_issued_date' do
-    it 'should be valid if present and in the past' do
-      fee.warrant_issued_date = Date.today
+    it 'should be valid if present and issued at least 3 months ago' do
+      fee.warrant_issued_date = 3.months.ago
       expect(fee).to be_valid
     end
 

@@ -1,33 +1,33 @@
-#warrant_fee.mod-fees
+#warrant_fee
   %h2.bold-medium
     = t('.warrant_fee')
 
   = f.fields_for :warrant_fee do |wf|
-    %fieldset
-      %legend.visuallyhidden
-        = t('.warrant_fee')
-      .form-group.nested-fields.js-block{data:{"type": "warrantFees", autovat: @claim.apply_vat? ? "true" : "false"}}
-        .grid-row
-          .warrant-fee-issued-date-group.column-one-half
-            = wf.gov_uk_date_field :warrant_issued_date,
-                                    legend_text: t('.date_issued'),
-                                    legend_class: 'govuk-legend',
-                                    id: 'warrant_fee.warrant_issued_date',
-                                    error_messages: gov_uk_date_field_error_messages(@error_presenter, 'warrant_fee.warrant_issued_date')
+    .form-group
+      %fieldset
+        %legend.visuallyhidden
+          = t('.warrant_fee')
+        .form-date.warrant-fee-issued-date-group
+          = wf.gov_uk_date_field :warrant_issued_date,
+                                  legend_text: t('.date_issued'),
+                                  legend_class: 'form-label-bold',
+                                  id: 'warrant_fee.warrant_issued_date',
+                                  error_messages: gov_uk_date_field_error_messages(@error_presenter, 'warrant_fee.warrant_issued_date')
 
-          .warrant-fee-executed-date-group.column-one-half
-            = wf.gov_uk_date_field :warrant_executed_date,
-                                    legend_text: t('.date_executed'),
-                                    legend_class: 'govuk-legend',
-                                    id: 'warrant_fee.warrant_executed_date',
-                                    error_messages: gov_uk_date_field_error_messages(@error_presenter, 'warrant_fee.warrant_executed_date')
+    - if f.object.warrant_fee.requires_executed_date?
+      .form-group
+        .form-date.warrant-fee-executed-date-group
+          = wf.gov_uk_date_field :warrant_executed_date,
+                                  legend_text: t('.date_executed'),
+                                  legend_class: 'govuk-legend',
+                                  id: 'warrant_fee.warrant_executed_date',
+                                  error_messages: gov_uk_date_field_error_messages(@error_presenter, 'warrant_fee.warrant_executed_date')
 
-        .grid-row.warrant-amount
-          .column-quarter
-            = wf.adp_text_field :amount,
-                                  label: t('.total'),
-                                  input_classes:'total',
-                                  input_type: 'currency',
-                                  errors: @error_presenter,
-                                  value: number_with_precision(wf.object.amount, precision: 2),
-                                  error_key: 'warrant_fee.amount'
+    .form-group.nested-fields.js-block{data:{"type": "interimFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlock"}}
+      = wf.adp_text_field :amount,
+                            label: t('.total'),
+                            input_classes:'form-control-1-4 total',
+                            input_type: 'currency',
+                            errors: @error_presenter,
+                            value: number_with_precision(wf.object.amount, precision: 2),
+                            error_key: 'warrant_fee.amount'

@@ -9,6 +9,11 @@ advocate_categories:
   - Leading junior
   - Junior alone
 
+agfs_reform_advocate_categories:
+  - QC
+  - Leading junior
+  - Junior
+
 court_types:
    - Magistrates' Court
    - Crown Court

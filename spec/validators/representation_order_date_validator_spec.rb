@@ -11,7 +11,7 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
     it { should_error_if_too_far_in_the_past(reporder, :representation_order_date, "not_before_earliest_permitted_date") }
   end
 
-  context 'for an interim claim' do
+  context 'for a litigator interim claim' do
     let(:claim) { FactoryBot.build :interim_claim, force_validation: true }
 
     context 'representation_order_date' do
@@ -47,5 +47,4 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
       expect(ro2.errors[:representation_order_date]).to include('check')
     end
   end
-
 end

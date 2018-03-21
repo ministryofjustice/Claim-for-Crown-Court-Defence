@@ -186,6 +186,16 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
+  describe '#eligible_advocate_categories' do
+    let(:categories) { double(:mocked_categories_result) }
+    let(:claim) { build(:advocate_claim) }
+
+    specify {
+      expect(Claims::FetchEligibleAdvocateCategories).to receive(:for).with(claim).and_return(categories)
+      expect(claim.eligible_advocate_categories).to eq(categories)
+    }
+  end
+
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryBot.build :claim }
     let(:all_states)  { [  'allocated', 'archived_pending_delete',

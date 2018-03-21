@@ -14,14 +14,14 @@
   Defendants
 = render partial: 'external_users/claims/defendants/summary', locals: { claim: claim }
 
-- if claim.interim?
+- if claim.lgfs? && claim.interim?
   %h2
     = t('common.interim_fees')
   = render partial: 'external_users/claims/interim_fee/summary', locals: { claim: claim }
 - else
   = render partial: 'summary_fees', locals: { claim: claim }
 
-- if @claim.final? || @claim.interim?
+- if @claim.final? || (@claim.lgfs? && @claim.interim?)
   %h2
     = t('common.warrant_fees')
   = render partial: 'external_users/claims/warrant_fee/summary', locals: { claim: claim }

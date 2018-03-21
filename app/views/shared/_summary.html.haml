@@ -16,7 +16,7 @@
               = t('.fee_category')
             %th{ scope: 'col' }
               = t('.fee_type')
-            - unless claim.interim?
+            - unless claim.lgfs? && claim.interim?
               %th.numeric{ scope: 'col' }
                 = t('.quantity')
             - if claim.agfs?
@@ -43,7 +43,7 @@
                   %p
                     = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
 
-              - unless claim.interim?
+              - unless claim.lgfs? && claim.interim?
                 %td.numeric
                   = fee.quantity
               - if claim.agfs?

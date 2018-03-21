@@ -26,7 +26,6 @@ class BasePresenter < SimpleDelegator
 
   private
 
-  def h
-    @view
-  end
+  attr_reader :view
+  alias h view
 end

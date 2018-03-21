@@ -40,6 +40,11 @@ OffenceCategory.find_or_create_by(number: 17, description: 'Standard Offences')
   end
 end
 
+# Reset the ID so that ids of >=1000 will be scheme 10 offences
+# This will allow us to add extra scheme 9 offences in an emergency while also providing an obvious break point
+# for software vendors
+ActiveRecord::Base.connection.set_pk_sequence!('offences', 1000)
+
 # create new offences (from csv)
 agfs_fee_scheme_ten = FeeScheme.find_by(name: 'AGFS', number: '10')
 

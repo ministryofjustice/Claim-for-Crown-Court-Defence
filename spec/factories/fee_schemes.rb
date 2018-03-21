@@ -14,5 +14,11 @@ FactoryBot.define do
     trait :lgfs do
       name 'LGFS'
     end
+
+    trait :lgfs_nine do
+      name 'LGFS'
+      start_date '2015-01-01 00:00:00'
+      number 9
+    end
   end
 end

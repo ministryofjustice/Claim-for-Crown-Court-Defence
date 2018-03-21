@@ -13,6 +13,14 @@ class FeeScheme < ActiveRecord::Base
     where('(:date BETWEEN start_date AND end_date) OR (start_date < :date AND end_date IS NULL)', date: check_date)
   }
 
+  def self.current_agfs
+    agfs.current.order(end_date: :desc).first
+  end
+
+  def self.current_lgfs
+    lgfs.current.order(end_date: :desc).first
+  end
+
   def self.for_claim(claim)
     # TODO: Align this with Fee reform SPIKE
     return 'default' if claim.lgfs? || !FeatureFlag.active?(:agfs_fee_reform)

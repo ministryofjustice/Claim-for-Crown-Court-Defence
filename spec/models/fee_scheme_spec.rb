@@ -94,6 +94,36 @@ RSpec.describe FeeScheme, type: :model do
         end
       end
     end
+
+    context 'setup for current_Xgfs' do
+
+      let!(:lgfs_scheme_nine) { create :fee_scheme, :lgfs_nine }
+      let!(:agfs_scheme_nine) { create :fee_scheme, :agfs_nine }
+      let!(:agfs_scheme_ten) { create :fee_scheme }
+
+      describe '.current_agfs' do
+        subject(:current_agfs) { described_class.current_agfs }
+
+        context 'when date is before cut over date' do
+          it { Timecop.freeze(2018, 3, 10) { is_expected.to eq agfs_scheme_nine } }
+        end
+
+        context 'when date is after cut over date' do
+          it { Timecop.freeze(2018, 4, 10) { is_expected.to eq agfs_scheme_ten } }
+        end
+      end
+
+      describe '.current_lgfs' do
+        subject(:current_lgfs) { described_class.current_lgfs }
+
+        context 'when date is before cut over date' do
+          it { Timecop.freeze(2018, 3, 10) { is_expected.to eq lgfs_scheme_nine } }
+        end
+
+        context 'when date is after cut over date' do
+          it { Timecop.freeze(2018, 4, 10) { is_expected.to eq lgfs_scheme_nine } }
+        end
+      end
+    end
   end
 end
-

@@ -1,8 +1,8 @@
 class CreateFeeSchemes < ActiveRecord::Migration
   def change
     create_table :fee_schemes do |t|
-      t.integer :number
       t.string :name
+      t.integer :version
       t.datetime :start_date
       t.datetime :end_date, default: nil
 

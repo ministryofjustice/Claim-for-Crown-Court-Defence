@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe FeeScheme, type: :model do
 
   it { should validate_presence_of(:start_date) }
-  it { should validate_presence_of(:number) }
+  it { should validate_presence_of(:version) }
   it { should validate_presence_of(:name) }
 
   describe '.for_claim' do
@@ -97,9 +97,9 @@ RSpec.describe FeeScheme, type: :model do
 
     context 'setup for current_Xgfs' do
 
-      let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', number: 9) || create(:fee_scheme, :lgfs_nine) }
-      let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', number: 9) || create(:fee_scheme, :agfs_nine) }
-      let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', number: 10) || create(:fee_scheme) }
+      let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
+      let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
+      let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
 
       describe '.current_agfs' do
         subject(:current_agfs) { described_class.current_agfs }

@@ -95,7 +95,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 3,3.4,Causing bodily injury by explosion,Offences against the Person Act 1861 s.28,1861 c. 100
 3,3.4,Setting spring guns etc with intent to inflict grievous bodily harm,Offences against the Person Act 1861 s.31,1861 c. 100
 3,3.4,Administering drugs or using instruments to procure abortion,Offences against the Person Act 1861 s.58,1861 c. 100
-3,3.4,Make / manufacture / possess an explosive / a thing / machine / engine / instrument / with intent to commit an offence,Offences against the Person Act 1861 s.64                                                     ,1861 c. 100
+3,3.4,Make / manufacture / possess an explosive / a thing / machine / engine / instrument / with intent to commit an offence,Offences against the Person Act 1861 s.64,1861 c. 100
 3,3.5,Racially or Religiously Aggravated assault occasioning actual bodily harm,"Crime and Disorder Act 1998, s.29(1)(b)",1998 c. 37
 3,3.5,Threats to Kill,"Offences against the Person Act 1861, s.16",1861 c. 100
 3,3.5,"Inflicting bodily injury, with or without a weapon","Offences against the Person Act 1861, s.20",1861 c. 100
@@ -842,8 +842,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,Public nuisance,Common Law,
 17,17.1,Removing corpse from grave,Common Law,
 17,17.1,Rescuing a prisoner in custody,Common Law,
-17,17.1,"Possession or supply of apparatus for use in dishonestly obtaining an electronic communication service.
-","Communications Act 2003, s.126",2003 c. 21
+17,17.1,"Possession or supply of apparatus for use in dishonestly obtaining an electronic communication service.","Communications Act 2003, s.126",2003 c. 21
 17,17.1,Offences in connection with information requirements,"Communications Act 2003, s.144, 393 and Paragraph 12 and 13 of Schedule 11",2003 c. 21
 17,17.1,Failing to comply with provisions in connection with requests for or disclosure of information from the register of members,"Companies Act 2006, s.119",2006 c. 46
 17,17.1,Failing to comply with provisions in relation to duty to keep accounting records,"Companies Act 2006, s.387",2006 c. 46
@@ -868,8 +867,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,Wildlife Offences,Control of Trade in Endangered Species (Enforcement) Regulations 1997,1997 No. 1372
 17,17.1,Making or dealing with infringing articles etc,"Copyright, Designs and Patents Act 1988, s.107",1988 c. 48
 17,17.1,"Making, dealing with or using illicit recordings","Copyright, Designs and Patents Act 1988, s.198",1988 c. 48
-17,17.1,"Failure to comply with a remedial order.
-","Corporate Manslaughter and Corporate Homicide Act 2007, s.9",2007 c. 19
+17,17.1,"Failure to comply with a remedial order.","Corporate Manslaughter and Corporate Homicide Act 2007, s.9",2007 c. 19
 17,17.1,Failing to comply with a publicity order,"Corporate Manslaughter and Corporate Homicide Act 2007, s.10",2007 c. 19
 17,17.1,Giving a false certificate of summons or other process,"County Courts Act 1984, s.133",1984 c. 28
 17,17.1,Assaulting an officer of the county court,"County Courts Act 1984, s.14",1984 c. 28
@@ -912,9 +910,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,Assisting offenders,"Criminal Law Act 1967, s.5(1)",1967 c.58
 17,17.1,Untrue declarations etc to Customs and Excise,"Customs and Excise Management Act 1979, s.167(1) ",1979 c. 2
 17,17.1,Obstructing the Information Commissioner in inspection of overseas information systems,"Data Protection Act 1998, s.54A",1998 c. 29
-17,17.1,"Using data for unauthorised purpose; disclosing data to unauthorised person etc.
-","Data Protection Act 1998.  All sections other than s.54A and schedule 9, paragraph 12
-",1998 c. 29
+17,17.1,"Using data for unauthorised purpose; disclosing data to unauthorised person etc.","Data Protection Act 1998.  All sections other than s.54A and schedule 9, paragraph 12",1998 c. 29
 17,17.1,Breach of non-molestation order,"Domestic Violence, Crime and Victims Act 2004, s.1",2004 c. 28
 17,17.1,"Breach of requirements relating to conformity assessments, declarations of conformity etc.","Ecodesign for Energy-related Products Regulations 2010, s.14",2010 No. 2617
 17,17.1,Neglecting the cleanliness of a pupil by parent,"Education Act 1996, s.525",1996 c. 56
@@ -922,8 +918,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,Unauthorised disclosure of information in relation to education,"Education Act 2005, s.109 and 111.",2005 c. 18
 17,17.1,Using false documents and making false statements,"Emergency Laws (Re-enactments and Repeals) Act 1964, s.10",1964 c. 60
 17,17.1,Providing false information or making a false statement,"Employment Rights Act 1996, s.169(3)",1996 c. 18
-17,17.1,"Contravention of the requirements in regulation 6, that vehicle components do not contain lead, mercury, cadmium, or hexavalent chromium (unless permitted).
-","End-of-Life Vehicles Regulations 2003, regulation 6",2003 No. 2635
+17,17.1,"Contravention of the requirements in regulation 6, that vehicle components do not contain lead, mercury, cadmium, or hexavalent chromium (unless permitted).","End-of-Life Vehicles Regulations 2003, regulation 6",2003 No. 2635
 17,17.1,Failure to comply with direction under s.10 - importation and storage of combustible gas,"Energy Act 2008, s.11",2008 c. 32
 17,17.1,Carrying on unlicensed activities - storage of carbon dioxide,"Energy Act 2008, s.22",2008 c. 32
 17,17.1,Breach of licence conditions - storage of carbon dioxide,"Energy Act 2008, s.23(1)",2008 c. 32
@@ -981,8 +976,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,Cheating at gambling or enabling or assisting person to cheat,"Gambling Act 2005, s.42",2005 c. 19
 17,17.1,"Carrying out controlled operations without required consent, failure to comply with an order or notice","Gas Act 1965, s.5 and 21",1965 c. 36
 17,17.1,"Conveying gas without a licence; altering, suppressing or destroying a document; making a false statement; impersonating an officer of gas transporter, supplier or shipper ","Gas Act 1986, s.5, 38(3), s.43",1986 c. 44
-17,17.1,"TEW offences: General Product Safety Regulations 2005
-",General Product Safety Regulations 2005,2005 No. 1803
+17,17.1,"TEW offences: General Product Safety Regulations 2005",General Product Safety Regulations 2005,2005 No. 1803
 17,17.1,"Forgery, false statements, falsification of consignment notes and records; forgery of documents; forgery of licence","Goods Vehicles (Licensing of Operators) Act 1995, s.38, paragraph 4, schedule 5.                                                                Road Traffic Act 1988, s.173(1).                                                                                                 Public Passenger Vehicles Act 1981, s.65(1)(a) and (2)",1995 c. 23; 1988 c.52; 1981 c.14
 17,17.1,Applying prohibited descriptions to unhallmarked article;,"Hallmarking Act 1973, s.1",1973 c. 43
 17,17.1,Unauthorised striking of sponsor’s mark;  ,"Hallmarking Act 1973, s.3(8)",1973 c. 43
@@ -1038,9 +1032,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,Publishing material in connection with a knife which is likely to encourage violent behaviour,"Knives Act 1997, s.2(1)",1997 c. 21
 17,17.1,Improper alteration of registers,"Land Registration Act 2002, s.124 ",2002 c. 9
 17,17.1,TEW Offences ,Legal Services Act 2007,2007 c. 29
-17,17.1,Making a false written statement tendered in evidence,"Magistrates’ Court Act 1980, s.106 and Criminal Justice Act 1967, s.89","1980 c. 43,       1967, c.80
-
-"
+17,17.1,Making a false written statement tendered in evidence,"Magistrates’ Court Act 1980, s.106 and Criminal Justice Act 1967, s.89","1980 c. 43,1967, c.80"
 17,17.1,Sending letters etc with intent to cause distress or anxiety,"Malicious Communications Act 1988, s.1",1988 c. 27
 17,17.1,Obstructing engine or carriage on railway,"Malicious Damage Act 1861, s.36",1861 c. 97
 17,17.1,Failure to comply with a requirement or direction by an enforcement officer,"Marine and Coastal Access Act 2009, s.292(1)",2009 c. 23
@@ -1082,8 +1074,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,Procuring drugs etc. to cause abortion,"Offences against the Person Act 1861, s.59",1866 c. 100
 17,17.1,Concealment of birth,"Offences against the Person Act 1861, s.60",1863 c. 100
 17,17.1,Infringement of the Olympic Association right,"Olympic Symbol etc. (Protection) Act 1995, s.8",1995 c. 32
-17,17.1,"Offences arising from breach of regulation 20 (Monies in Trust) and 21 (Monies in Trust where other party to contract is acting otherwise than in the court of business). 
-","Package Holildays and Package Tours Regulations 1992, Regulation 22",1992 No. 3288
+17,17.1,"Offences arising from breach of regulation 20 (Monies in Trust) and 21 (Monies in Trust where other party to contract is acting otherwise than in the court of business). ","Package Holildays and Package Tours Regulations 1992, Regulation 22",1992 No. 3288
 17,17.1,Providing false or misleading information,"Pensions Act 2004, s.80",2004 c. 35
 17,17.1,False unsworn statements,"Perjury Act 1911, s.1A",1911 c. 6
 17,17.1,False statements on oath not in judicial proceeding,"Perjury Act 1911, s.2",1911 c. 6
@@ -1151,8 +1142,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,False statements in nomination papers,"Representation of the People Act 1983, s.65A",1983 c. 2
 17,17.1,Make false declaration with a view to securing release of a vehicle from an immobilization device,"Road Safety (Immobilisation, Removal and Disposal of Vehicles) Regulations 2009, Regulation 8",2009 No. 493
 17,17.1,Contravention of regulations in connection with immobilisation device,"Road Traffic Act 1988, s.22, s.160, Schedule 2A, Paragraph 2(1)(2)(4) ",1988 c. 52
-17,17.1,Contravention of regulations in connection with securing possession of vehicles,"Road Traffic Act 1988, s.22, s.160, Schedule 2A, Paragraph 4
-",1988 c. 52
+17,17.1,Contravention of regulations in connection with securing possession of vehicles,"Road Traffic Act 1988, s.22, s.160, Schedule 2A, Paragraph 4",1988 c. 52
 17,17.1,Causing danger to road-users,"Road Traffic Act 1988, s.22A",1988 c. 52
 17,17.1,Tampering with motor vehicles,"Road Traffic Act 1988, s.25",1988 c. 52
 17,17.1,"Forgery of documents, etc","Road Traffic Act 1988, s.173",1988 c. 52
@@ -1219,8 +1209,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,Disclosing information relating to identity of persons which is specified in the disclosure or can be deducted from that disclosure,"UK Borders Act 2007, s.42",2007 c. 30
 17,17.1,Demanding payment for the inclusion of a person’s trade or business in a directory.,"Unsolicited Goods and Services Act 1971, s.3(2)",1971 c. 30
 17,17.1,Vagrant violently resisting a constable,"Vagrancy Act 1824, s.4",1824 c. 83
-17,17.1,"Forge/alter/use/lend/make document/authority to drive/card/licence/certificate with intent to
-deceive","Vehicle Drivers (Certificates of Professional Competence) Regulations 2007, s.13(1)",2007 No. 605
+17,17.1,"Forge/alter/use/lend/make document/authority to drive/card/licence/certificate with intent to deceive","Vehicle Drivers (Certificates of Professional Competence) Regulations 2007, s.13(1)",2007 No. 605
 17,17.1,Knowingly make a false statement to obtain issue of a driver qualification card,"Vehicle Drivers (Certificates of Professional Competence) Regulations 2007, s.13(3)",2007 No. 605
 17,17.1,"Fraud, forgery etc. and false or misleading information associated with registration and licensing documents","Vehicle Excise and Registration Act 1994, s. 44 and s.45",1994 c. 22
 17,17.1,Restriction of practice of veterinary surgery by unqualified persons,"Veterinary Surgeons Act 1966, s.19(1)",1966 c. 36
@@ -1232,8 +1221,7 @@ deceive","Vehicle Drivers (Certificates of Professional Competence) Regulations 
 17,17.1,Failure to give assistance/information to an inspector,"Water Industry Act 1991, s.86(6)",1991 c. 56
 17,17.1,Prohibition of catching or treating whales within United Kingdom waters,"Whaling Industry (Regulation) Act 1934, s.2",1934 c. 49
 17,17.1,Release or allow to escape into the wild any animal which is of a kind which is not ordinarily resident in and is not a regular visitor to Great Britain in a wild state,"Wildlife and Countryside Act 1981, s.14(1)",1981 c. 69
-17,17.1,"Falsely pretending , with intent to deceive, to be a wildlife inspector.","Wildlife and Countryside Act 1981, s.14XB(4)
-s 19.XB(4)",1981 c. 69
+17,17.1,"Falsely pretending , with intent to deceive, to be a wildlife inspector.","Wildlife and Countryside Act 1981, s.14XB(4) s 19.XB(4)",1981 c. 69
 17,17.1,Carrying out any operation likely to damage a site of special scientific interest,"Wildlife and Countryside Act 1981, s.28P",1981 c. 69
 17,17.1,Remove or disturb limestone on designated land,"Wildlife and Countryside Act 1981, s.34",1981 c. 69
 17,17.1,Establish/install/use a wireless telegraphy station/apparatus without a S.8 licence.,"Wireless Telegraphy Act 2006, s.8 and 35(1)",2006 c. 36

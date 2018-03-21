@@ -1,6 +1,6 @@
-class CreateFeeCategories < ActiveRecord::Migration
+class CreateOffenceCategories < ActiveRecord::Migration
   def change
-    create_table :fee_categories do |t|
+    create_table :offence_categories do |t|
       t.integer :number
       t.string :description
 

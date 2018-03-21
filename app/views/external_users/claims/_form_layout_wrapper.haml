@@ -1,8 +1,8 @@
 - present(@claim) do |claim|
-  .grid-row.grid-sidebar
-    .column-two-thirds.first
+  .grid-row
+    .column-two-thirds
       = render partial: 'form', locals: { claim: claim }
 
     - if claim.show_sidebar?
-      .column-one-third.first
+      .column-one-third
         = render partial: 'external_users/claims/summary_claims_sidebar', locals: { claim: claim, display_buttons: false }

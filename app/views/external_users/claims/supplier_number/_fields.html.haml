@@ -1,22 +1,20 @@
-.form-group.lgfs-supplier-numbers
-  .form-row
-    .form-col.form-col-one-half.has-select{class: error_class?(@error_presenter, :supplier_number)}
-      = f.anchored_label(t('.lgfs_supplier_number'), 'supplier_number', { label_attributes: {class: 'form-label'} })
-      %div.form-hint
-        = supplier_number_hint
+.form-group.lgfs-supplier-numbers.has-select{class: error_class?(@error_presenter, :supplier_number)}
+  = f.anchored_label(t('.lgfs_supplier_number'), 'supplier_number', { label_attributes: {class: 'form-label'} })
+  %div.form-hint
+    = supplier_number_hint
 
-      - if current_user.persona.provider.lgfs_supplier_numbers.length >= 6
-        -# Select element
-        = f.collection_select :supplier_number, current_user.persona.provider.lgfs_supplier_numbers, :supplier_number, :supplier_number, {prompt: true}, {class: 'form-control'}
+  - if current_user.persona.provider.lgfs_supplier_numbers.length >= 6
+    -# Select element
+    = f.collection_select :supplier_number, current_user.persona.provider.lgfs_supplier_numbers, :supplier_number, :supplier_number, {prompt: true}, {class: 'form-control'}
 
-      - else
-        -# Radio element
-        = f.collection_radio_buttons(:supplier_number, current_user.persona.provider.lgfs_supplier_numbers, :supplier_number, :supplier_number) do |b|
-          .multiple-choice
-            = b.radio_button
-            - if(current_user.persona.provider.lgfs_supplier_numbers.length == 1)
-              = b.label(class: "selected") { b.text }
-            - else
-              = b.label { b.text }
+  - else
+    -# Radio element
+    = f.collection_radio_buttons(:supplier_number, current_user.persona.provider.lgfs_supplier_numbers, :supplier_number, :supplier_number) do |b|
+      .multiple-choice
+        = b.radio_button
+        - if(current_user.persona.provider.lgfs_supplier_numbers.length == 1)
+          = b.label(class: "selected") { b.text }
+        - else
+          = b.label { b.text }
 
-      = validation_error_message(@error_presenter, :supplier_number)
+  = validation_error_message(@error_presenter, :supplier_number)

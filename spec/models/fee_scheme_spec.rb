@@ -97,9 +97,9 @@ RSpec.describe FeeScheme, type: :model do
 
     context 'setup for current_Xgfs' do
 
-      let!(:lgfs_scheme_nine) { create :fee_scheme, :lgfs_nine }
-      let!(:agfs_scheme_nine) { create :fee_scheme, :agfs_nine }
-      let!(:agfs_scheme_ten) { create :fee_scheme }
+      let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', number: 9) || create(:fee_scheme, :lgfs_nine) }
+      let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', number: 9) || create(:fee_scheme, :agfs_nine) }
+      let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', number: 10) || create(:fee_scheme) }
 
       describe '.current_agfs' do
         subject(:current_agfs) { described_class.current_agfs }

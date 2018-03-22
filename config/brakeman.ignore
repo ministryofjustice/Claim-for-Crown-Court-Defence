@@ -3,6 +3,26 @@
     {
       "warning_type": "File Access",
       "warning_code": 16,
+      "fingerprint": "8738e8b7994af508882a105d873642c98a284c6139f8c6bcf53ae7e25bf14bfa",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/case_workers/claims_controller.rb",
+      "line": 36,
+      "link": "http://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(S3ZipDownloader.new(Claim::BaseClaim.active.find(params[:id])).generate!, :filename => (\"#{Claim::BaseClaim.active.find(params[:id]).case_number}-documents.zip\"), :type => \"application/zip\", :disposition => \"attachment\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CaseWorkers::ClaimsController",
+        "method": "download_zip"
+      },
+      "user_input": "Claim::BaseClaim.active.find(params[:id])",
+      "confidence": "Weak",
+      "note": "Caseworkers need to identify the downloads correspond to the cases they are processing"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
       "fingerprint": "c3fd2006caf5192011639586399ac3331dc9153aad24e8cda822f1c56c911a49",
       "check_name": "SendFile",
       "message": "Model attribute used in file name",

@@ -60,7 +60,7 @@ describe API::V1::DropdownData do
         ADVOCATE_CATEGORY_ENDPOINT => Settings.advocate_categories.to_json,
         CRACKED_THIRD_ENDPOINT => Settings.trial_cracked_at_third.to_json,
         OFFENCE_CLASS_ENDPOINT => API::Entities::OffenceClass.represent(OffenceClass.all).to_json,
-        OFFENCE_ENDPOINT => API::Entities::Offence.represent(Offence.all).to_json,
+        OFFENCE_ENDPOINT => API::Entities::Offence.represent(FeeScheme.current_agfs.offences).to_json,
         FEE_TYPE_ENDPOINT => API::Entities::BaseFeeType.represent(Fee::BaseFeeType.all).to_json,
         EXPENSE_TYPE_ENDPOINT => API::Entities::ExpenseType.represent(ExpenseType.all).to_json,
         EXPENSE_REASONS_ENDPOINT => API::Entities::ExpenseReasonSet.represent(ExpenseType.reason_sets).to_json,

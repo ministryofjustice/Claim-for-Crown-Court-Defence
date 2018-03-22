@@ -43,7 +43,7 @@ end
 # Reset the ID so that ids of >=1000 will be scheme 10 offences
 # This will allow us to add extra scheme 9 offences in an emergency while also providing an obvious break point
 # for software vendors
-ActiveRecord::Base.connection.set_pk_sequence!('offences', 1000)
+ActiveRecord::Base.connection.set_pk_sequence!('offences', 1000) if Offence.order(:id).last.id < 1000
 
 # create new offences (from csv)
 file_path = Rails.root.join('lib', 'assets', 'data', 'scheme_10_offences.csv')

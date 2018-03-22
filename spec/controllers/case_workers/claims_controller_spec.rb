@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CaseWorkers::ClaimsController, type: :controller do
-
   before do
     @case_worker = create(:case_worker)
     sign_in @case_worker.user
@@ -18,7 +17,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       'action' => 'index'
     }
     end
-    
+
     let(:criteria) do
       {
         sorting: 'last_submitted_at',
@@ -79,7 +78,6 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     it 'populates instance variables' do
       expect(assigns(:claim)).to eq claim
-      expect(assigns(:doc_types)).to eq DocType.all
       expect(assigns(:messages)).to be_empty
       expect(assigns(:message)).to be_instance_of(Message)
     end

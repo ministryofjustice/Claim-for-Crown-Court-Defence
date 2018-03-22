@@ -452,7 +452,6 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   end
 
   context 'evidence_checklist_ids' do
-
     let(:doc_types) { DocType.all.sample(4).map(&:id) }
     let(:invalid_ids) { ['a','ABC','??','-'] }
 

@@ -1,7 +1,6 @@
 class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   # This performs magic
   include PaginationHelpers
-  include DocTypes
 
   class ResourceClassNotDefined < StandardError; end
 
@@ -20,7 +19,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
                                                    confirmation show_message_controls messages disc_evidence]
   before_action :redirect_unless_editable, only: %i[edit update]
   before_action :set_form_step, only: %i[edit]
-  before_action :set_doctypes, only: [:show]
   before_action :generate_form_id, only: %i[new edit]
   before_action :initialize_submodel_counts
 

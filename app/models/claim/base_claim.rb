@@ -600,6 +600,10 @@ module Claim
         .sort_by(&:representation_order_date).first
     end
 
+    def eligible_document_types
+      Claims::FetchEligibleDocumentTypes.for(self)
+    end
+
     private
 
     # called from state_machine before_transition on submit - override in subclass

@@ -439,7 +439,6 @@ module Claim
   end
 
   describe '#earliest_representation_order_date' do
-
     let(:april_1) { Date.new(2016, 4, 1) }
     let(:march_10) { Date.new(2016, 3, 10) }
     let(:jun_30) { Date.new(2016, 6, 30) }
@@ -475,6 +474,16 @@ module Claim
       expect(claim.representation_orders.size).to eq 3
       expect(claim.earliest_representation_order_date).to eq march_10
     end
+  end
+
+  describe '#eligible_document_types' do
+    let(:claim) { MockBaseClaim.new }
+    let(:mock_doc_types) { double(:doc_types) }
+
+    specify {
+      expect(Claims::FetchEligibleDocumentTypes).to receive(:for).with(claim).and_return(mock_doc_types)
+      expect(claim.eligible_document_types).to eq(mock_doc_types)
+    }
   end
 
   describe '#fee_scheme' do

@@ -18,11 +18,8 @@
 
 class Fee::BasicFeeType < Fee::BaseFeeType
   DATES_ATTENDED_APPLICABLE_FEES = %w[BAF DAF DAH DAJ PCM SAF].freeze
-  FEE_REFORM_UNIQUE_CODES_BLACKLIST = %w[BANPW].freeze
 
   default_scope { order(id: :asc) }
-
-  scope :fee_reform, -> { where.not(unique_code: FEE_REFORM_UNIQUE_CODES_BLACKLIST) }
 
   def requires_dates_attended?
     DATES_ATTENDED_APPLICABLE_FEES.include?(code)

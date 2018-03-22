@@ -1,15 +1,15 @@
 ID,DESCRIPTION,CODE,UNIQUE_CODE,MAX_AMOUNT,CALCULATED,CLASS,ROLES,PARENT_ID,QUANTITY_IS_DECIMAL,
-1,Basic fee,BAF,BABAF,9999,TRUE,Fee::BasicFeeType,agfs,,FALSE,
-2,Daily attendance fee (3 to 40),DAF,BADAF,999,TRUE,Fee::BasicFeeType,agfs,,FALSE,N
-3,Daily attendance fee (41 to 50),DAH,BADAH,9999,TRUE,Fee::BasicFeeType,agfs,,FALSE,N
-4,Daily attendance fee (51+),DAJ,BADAJ,999,TRUE,Fee::BasicFeeType,agfs,,FALSE,N
-5,Standard appearance fee,SAF,BASAF,999,TRUE,Fee::BasicFeeType,agfs,,FALSE,N
-6,Plea and case management hearing,PCM,BAPCM,999,TRUE,Fee::BasicFeeType,agfs,,FALSE,N
-7,Conferences and views,CAV,BACAV,,TRUE,Fee::BasicFeeType,agfs,,TRUE,N
-8,Number of defendants uplift,NDR,BANDR,,TRUE,Fee::BasicFeeType,agfs,,FALSE,N
-9,Number of cases uplift,NOC,BANOC,,TRUE,Fee::BasicFeeType,agfs,,FALSE,N
-10,Number of prosecution witnesses,NPW,BANPW,,FALSE,Fee::BasicFeeType,agfs,,FALSE,N
-11,Pages of prosecution evidence,PPE,BAPPE,,FALSE,Fee::BasicFeeType,agfs,,FALSE,N
+1,Basic fee,BAF,BABAF,9999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+2,Daily attendance fee (3 to 40),DAF,BADAF,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
+3,Daily attendance fee (41 to 50),DAH,BADAH,9999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
+4,Daily attendance fee (51+),DAJ,BADAJ,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
+5,Standard appearance fee,SAF,BASAF,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
+6,Plea and trial preparation hearing,PCM,BAPCM,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
+7,Conferences and views,CAV,BACAV,,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,TRUE,N
+8,Number of defendants uplift,NDR,BANDR,,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
+9,Number of cases uplift,NOC,BANOC,,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
+10,Number of prosecution witnesses,NPW,BANPW,,FALSE,Fee::BasicFeeType,agfs;agfs_scheme_9,,FALSE,N
+11,Pages of prosecution evidence,PPE,BAPPE,,FALSE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
 12,Appeals to the crown court against conviction,ACV,FXACV,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,N
 13,Appeals to the crown court against conviction uplift,ACU,FXACU,,TRUE,Fee::FixedFeeType,agfs,,FALSE,N
 14,Appeals to the crown court against sentence,ASE,FXASE,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,N

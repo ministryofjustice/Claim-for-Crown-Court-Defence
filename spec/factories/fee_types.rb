@@ -25,6 +25,10 @@ FactoryBot.define do
     quantity_is_decimal false
     unique_code { generate_unique_code }
 
+    trait :agfs_scheme_10 do
+      roles %w[agfs agfs_scheme_10]
+    end
+
     trait :ppe do
       description 'Pages of prosecution evidence'
       code 'PPE'

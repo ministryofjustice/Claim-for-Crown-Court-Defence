@@ -497,16 +497,14 @@ en:
           no_dates: 'No dates currently selected.'
           add_date_attended: 'Add dates'
           remove: *remove
-          # basic_fee_prompt_text: |
-          #   Please include dates for those Standard appearance fees and PCMH's included in the Basic Fee
         basic_fee_calculated_fields:
           basic_fee_prompt_text: |
-            Please include dates for those Standard appearance fees and PCMH's included in the Basic Fee
+            Please include dates for those Standard appearance fees and PTPH's included in the Basic Fee
           fee_type: Fee type
           quantity: Quantity
           rate: Rate
           case_numbers: *case_numbers
-          saf_prompt_text: Include any additional PCMH fees under SAF
+          saf_prompt_text: Include any additional PTPH fees under SAF
         basic_fee_uncalculated_fields:
           quantity: Quantity
           rate: Rate

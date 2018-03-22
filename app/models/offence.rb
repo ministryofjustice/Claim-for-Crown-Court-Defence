@@ -37,7 +37,7 @@ class Offence < ActiveRecord::Base
 
   def offence_class_xor_fee_band
     return if offence_class.present? ^ offence_band.present?
-    errors[:base] << 'Specify an Offence or an OffenceBand, not both'
+    errors[:base] << I18n.t('external_users.claims.offence_details.scheme_xor.one_not_both')
   end
 
   def scheme_nine?

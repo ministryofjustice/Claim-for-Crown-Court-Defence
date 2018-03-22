@@ -73,6 +73,7 @@ end
 
 group :development, :devunicorn, :test do
   gem 'annotate'
+  gem 'brakeman', :require => false
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'byebug'

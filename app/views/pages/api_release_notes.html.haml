@@ -3,6 +3,27 @@
 %section.api-documentation
 
   %hr
+  %h2 23 March 2018
+  %ul.list-bullet
+    %li
+      Due to the implementation of AGFS fee scheme 10 in April 2018 significant changes to the offence list are needed.
+      %br/
+      %br/
+      This release adds the new 1244 AGFS offences to the existing offences list, but starting from 1000.  Therefore the
+      %code.code
+        \/api/external_users/offences
+      endpoint has an additional, optional, parameter;
+      %code.code
+        rep_order_date
+      ='.'
+      %br/
+      %br/
+      When left empty or submitted with a date prior to the start of scheme 10, this will return the current offences from AGFS scheme 9.
+      %br/
+      %br/
+      When submitted with a date on or after the start of scheme 10 this will return the new, scheme 10, offences.
+
+  %hr
   %h2 24 February 2018
   %ul.list-bullet
     %li

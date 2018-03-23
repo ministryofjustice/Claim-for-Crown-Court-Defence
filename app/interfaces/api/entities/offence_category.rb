@@ -1,6 +1,6 @@
 module API
   module Entities
-    class FeeCategory < BaseEntity
+    class OffenceCategory < BaseEntity
       expose :id
       expose :number
       expose :description, as: 'name'

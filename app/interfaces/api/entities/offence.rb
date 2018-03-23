@@ -13,9 +13,9 @@ module API
         expose :offence_class,
                if: ->(instance, _opts) { instance.scheme_nine? },
                using: API::Entities::OffenceClass
-        expose :fee_band,
+        expose :offence_band,
                if: ->(instance, _opts) { !instance.scheme_nine? },
-               using: API::Entities::FeeBand
+               using: API::Entities::OffenceBand
       end
 
       private

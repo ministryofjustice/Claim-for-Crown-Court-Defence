@@ -1,19 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe Fee::BaseFeeValidator, type: :validator do
-  let(:claim)      { FactoryBot.build :advocate_claim, force_validation: true }
-  let(:fee)        { FactoryBot.build :fixed_fee, claim: claim }
-  let(:baf_fee)    { FactoryBot.build :basic_fee, :baf_fee, claim: claim }
-  let(:daf_fee)    { FactoryBot.build :basic_fee, :daf_fee, claim: claim }
-  let(:dah_fee)    { FactoryBot.build :basic_fee, :dah_fee, claim: claim }
-  let(:daj_fee)    { FactoryBot.build :basic_fee, :daj_fee, claim: claim }
-  let(:pcm_fee)    { FactoryBot.build :basic_fee, :pcm_fee, claim: claim }
-  let(:ppe_fee)    { FactoryBot.build :basic_fee, :ppe_fee, claim: claim }
-  let(:npw_fee)    { FactoryBot.build :basic_fee, :npw_fee, claim: claim }
-  let(:spf_fee)    { FactoryBot.build :misc_fee, :spf_fee, claim: claim }
+  let(:claim)   { build :advocate_claim }
+  let(:fee)     { build :fixed_fee, claim: claim }
+  let(:baf_fee) { build :basic_fee, :baf_fee, claim: claim }
+  let(:daf_fee) { build :basic_fee, :daf_fee, claim: claim }
+  let(:dah_fee) { build :basic_fee, :dah_fee, claim: claim }
+  let(:daj_fee) { build :basic_fee, :daj_fee, claim: claim }
+  let(:pcm_fee) { build :basic_fee, :pcm_fee, claim: claim }
+  let(:ppe_fee) { build :basic_fee, :ppe_fee, claim: claim }
+  let(:npw_fee) { build :basic_fee, :npw_fee, claim: claim }
+  let(:spf_fee) { build :misc_fee, :spf_fee, claim: claim }
+
+  before do
+    claim.force_validation = true
+  end
 
   context 'for a JSON imported claim (and no forced validation)' do
-    let(:claim) { FactoryBot.build :advocate_claim, source: 'json_import' }
+    before do
+      claim.force_validation = false
+    end
+
+    let(:claim) { build :advocate_claim, source: 'json_import' }
 
     it 'should not perform claim validation' do
       expect(claim.perform_validation?).to be_falsey

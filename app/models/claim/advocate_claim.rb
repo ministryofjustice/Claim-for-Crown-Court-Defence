@@ -242,7 +242,7 @@ module Claim
       fee_type_ids = basic_fees.map(&:fee_type_id)
       eligible_basic_fee_type_ids = eligible_basic_fee_types.map(&:id)
       not_eligible_ids = fee_type_ids - eligible_basic_fee_type_ids
-      basic_fees.where(fee_type_id: not_eligible_ids).delete_all
+      self.basic_fees = basic_fees.reject { |fee| not_eligible_ids.include?(fee.fee_type_id) }
       eligible_basic_fee_types.each do |basic_fee_type|
         next if fee_type_ids.include?(basic_fee_type.id)
         basic_fees << Fee::BasicFee.new_blank(self, basic_fee_type)

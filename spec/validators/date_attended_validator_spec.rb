@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DateAttendedValidator, type: :validator do
   let(:claim) do
-    create(:claim, :without_fees, total: 10, force_validation: true, first_day_of_trial: 5.weeks.ago).tap do |claim|
+    create(:claim, :without_fees, total: 10, first_day_of_trial: 5.weeks.ago).tap do |claim|
       create(:basic_fee, claim: claim).tap do |fee|
         create(:date_attended, attended_item: fee)
       end
@@ -11,6 +11,10 @@ RSpec.describe DateAttendedValidator, type: :validator do
 
   let(:date_attended)          { claim.fees.first.dates_attended.first }
   let(:earliest_reporder_date) { claim.defendants.first.representation_orders.first.representation_order_date }
+
+  before do
+    claim.force_validation = true
+  end
 
   context 'date' do
     it { should_error_if_not_present(date_attended, :date, 'blank') }

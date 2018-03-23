@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'ExpenseV1Validator and ExpenseV2Validator', type: :validator do
   context 'schema_version 2' do
-    let(:claim)                       { build :claim, force_validation: true }
+    let(:claim)                       { build :claim }
     let(:expense)                     { build :expense, :train, claim: claim }
     let(:car_travel_expense)          { build(:expense, :car_travel, claim: claim ) }
     let(:bike_travel_expense)         { build(:expense, :bike_travel, claim: claim ) }
@@ -15,7 +15,10 @@ RSpec.describe 'ExpenseV1Validator and ExpenseV2Validator', type: :validator do
     let(:travel_time_expense)         { build(:expense, :travel_time, claim: claim) }
     let(:other_reason_type_expense)   { build(:expense, :train, claim: claim, reason_id: 5)}
 
-    before(:each) { allow(Settings).to receive(:expense_schema_version).and_return(2) }
+    before do
+      allow(Settings).to receive(:expense_schema_version).and_return(2)
+      claim.force_validation = true
+    end
 
     it { should_error_if_equal_to_value(expense, :amount, 200_001, 'item_max_amount') }
 

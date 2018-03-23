@@ -5,16 +5,18 @@ module Claims::Calculations
     # calculate_amount followed by amount.
     fees.reload
     if category.blank?
-      fees.map do |fee|
-        fee.calculate_amount
-        fee.amount
-      end.compact.sum
+      calculate_total_for(fees)
     else
-      __send__("#{category.downcase}_fees").map do |fee|
-        fee.calculate_amount
-        fee.amount
-      end.compact.sum
+      fee_category_items = __send__("#{category.downcase}_fees")
+      calculate_total_for(fee_category_items)
     end
+  end
+
+  def calculate_total_for(fees_collection)
+    fees_collection.map do |fee|
+      fee.calculate_amount
+      fee.amount
+    end.compact.sum
   end
 
   # returns totals for all klass records belonging to the named claim

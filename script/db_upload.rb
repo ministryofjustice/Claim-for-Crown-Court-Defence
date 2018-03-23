@@ -9,7 +9,8 @@ require 'ruby-progressbar'
 ENVIRONMENTS = {
   'dev' => 'dev',
   'demo' => 'demo',
-  'staging' => 'staging'
+  'staging' => 'staging',
+  'disaster' => 'disaster'
 }
 
 def ssh_user

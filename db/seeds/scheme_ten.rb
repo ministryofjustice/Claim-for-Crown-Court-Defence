@@ -3,7 +3,7 @@ require_relative '../offence_code_seeder_scheme_ten.rb'
 
 lgfs_scheme_nine = FeeScheme.find_or_create_by(name: 'LGFS', version: 9, start_date: Date.new(2014, 03, 20).beginning_of_day)
 agfs_scheme_nine = FeeScheme.find_or_create_by(name: 'AGFS', version: 9, start_date: Date.new(2012, 04, 01).beginning_of_day, end_date: Date.new(2018, 03, 31).end_of_day)
-agfs_fee_scheme_ten = FeeScheme.find_or_create_by(name: 'AGFS', version: 10, start_date: Date.new(2012, 04, 01).beginning_of_day)
+agfs_fee_scheme_ten = FeeScheme.find_or_create_by(name: 'AGFS', version: 10, start_date: Date.new(2018, 04, 01).beginning_of_day)
 
 Offence.find_each do |offence|
   OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: agfs_scheme_nine)

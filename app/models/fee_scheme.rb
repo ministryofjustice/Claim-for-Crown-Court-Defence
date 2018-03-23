@@ -1,6 +1,6 @@
 class FeeScheme < ActiveRecord::Base
-  SCHEME9 = 9
-  SCHEME10 = 10
+  NINE = 9
+  TEN = 10
   validates :start_date, :version, :name, presence: true
 
   has_many :offence_fee_schemes

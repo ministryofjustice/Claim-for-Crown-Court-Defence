@@ -41,6 +41,6 @@ class Offence < ActiveRecord::Base
   end
 
   def scheme_nine?
-    fee_schemes.map(&:version).any? { |s| s == FeeScheme::SCHEME9 }
+    fee_schemes.map(&:version).any? { |s| s == FeeScheme::NINE }
   end
 end

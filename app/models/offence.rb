@@ -17,7 +17,11 @@ class Offence < ActiveRecord::Base
   belongs_to :offence_band
   has_many :claims, -> { active }, class_name: Claim::BaseClaim, foreign_key: :offence_id, dependent: :nullify
   has_many :offence_fee_schemes
-  has_many :fee_schemes, through: :offence_fee_schemes
+  has_many :fee_schemes, through: :offence_fee_schemes do
+    def in_scheme_nine?
+      where('version=?', FeeScheme::NINE)
+    end
+  end
 
   validates :offence_class, presence: true, unless: :offence_band_id
   validates :offence_band, presence: true, unless: :offence_class_id
@@ -28,8 +32,9 @@ class Offence < ActiveRecord::Base
 
   default_scope { includes(:offence_class).order(:description, :offence_class_id) }
 
-  scope :unique_name,   -> { unscoped.select(:description).distinct.order(:description) }
+  scope :unique_name,   -> { unscoped.in_scheme_nine.select(:description).distinct.order(:description) }
   scope :miscellaneous, -> { where(description: 'Miscellaneous/other') }
+  scope :in_scheme_nine, -> { joins(:fee_schemes).merge(FeeScheme.nine).distinct }
 
   def offence_class_description
     offence_class.letter_and_description

@@ -8,6 +8,8 @@ class FeeScheme < ActiveRecord::Base
 
   scope :agfs, -> { where(name: 'AGFS') }
   scope :lgfs, -> { where(name: 'LGFS') }
+  scope :nine, -> { where(version: FeeScheme::NINE) }
+  scope :ten, -> { where(version: FeeScheme::TEN) }
   scope :current, lambda {
     where('(:now BETWEEN start_date AND end_date) OR (start_date < :now AND end_date IS NULL)', now: Time.zone.now)
   }

@@ -34,7 +34,11 @@ module Claims
     def default_offences
       # TODO: Eventually they will need to be scoped by fee scheme 9
       # which currently does not exist
-      claim.offence ? [claim.offence] : Offence.all
+      if claim.offence
+        [claim.offence]
+      else
+        Offence.in_scheme_nine
+      end
     end
   end
 end

@@ -14,9 +14,9 @@ require 'rails_helper'
 RSpec.describe OffencesController, type: :controller do
 
   before(:each) do
-    create :offence, description: "Offence 1"
-    create :offence, description: "Offence 2"
-    create :offence, description: "Offence 3"
+    create :offence, :with_fee_scheme, description: "Offence 1"
+    create :offence, :with_fee_scheme, description: "Offence 3"
+    create :offence, :with_fee_scheme, description: "Offence 2"
   end
 
 

@@ -245,7 +245,7 @@ module Claim
       self.basic_fees = basic_fees.reject { |fee| not_eligible_ids.include?(fee.fee_type_id) }
       eligible_basic_fee_types.each do |basic_fee_type|
         next if fee_type_ids.include?(basic_fee_type.id)
-        basic_fees << Fee::BasicFee.new_blank(self, basic_fee_type)
+        basic_fees.build(fee_type: basic_fee_type, quantity: 0, amount: 0)
       end
     end
 

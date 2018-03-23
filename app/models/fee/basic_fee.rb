@@ -26,10 +26,6 @@ class Fee::BasicFee < Fee::BaseFee
 
   default_scope { order(claim_id: :asc, fee_type_id: :asc) }
 
-  def self.new_blank(claim, fee_type)
-    new(claim: claim, fee_type: fee_type, quantity: 0, amount: 0)
-  end
-
   def is_basic?
     true
   end

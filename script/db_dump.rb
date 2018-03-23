@@ -11,6 +11,7 @@ ENVIRONMENTS = {
   'staging' => %w(staging adp_staging),
   'api-sandbox' => %w(api-sandbox adp_api-sandbox),
   'demo' => %w(demo adp_demo),
+  'disaster' => %w(disaster adp_disaster),
   'gamma' => %w(gamma adp_gamma)
 }
 

@@ -24,7 +24,7 @@ class Offence < ActiveRecord::Base
   validates :description, presence: true
   validates :unique_code, presence: true, uniqueness: true
 
-  validate :offence_class_xor_fee_band
+  validate :offence_class_xor_offence_band
 
   default_scope { includes(:offence_class).order(:description, :offence_class_id) }
 
@@ -35,7 +35,7 @@ class Offence < ActiveRecord::Base
     offence_class.letter_and_description
   end
 
-  def offence_class_xor_fee_band
+  def offence_class_xor_offence_band
     return if offence_class.present? ^ offence_band.present?
     errors[:base] << I18n.t('external_users.claims.offence_details.scheme_xor.one_not_both')
   end

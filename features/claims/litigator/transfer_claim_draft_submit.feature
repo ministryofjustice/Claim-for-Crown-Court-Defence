@@ -76,7 +76,6 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I add some additional information
 
     Then I click Submit to LAA
-    And I save and open screenshot
     And I should be on the check your claim page
     And I should see 'G: Other offences of dishonesty between £30,001 and £100,000'
 

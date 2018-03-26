@@ -35,6 +35,7 @@ class Offence < ActiveRecord::Base
   scope :unique_name,   -> { unscoped.in_scheme_nine.select(:description).distinct.order(:description) }
   scope :miscellaneous, -> { where(description: 'Miscellaneous/other') }
   scope :in_scheme_nine, -> { joins(:fee_schemes).merge(FeeScheme.nine).distinct }
+  scope :in_scheme_ten, -> { joins(:fee_schemes).merge(FeeScheme.ten).distinct }
 
   def offence_class_description
     offence_class.letter_and_description

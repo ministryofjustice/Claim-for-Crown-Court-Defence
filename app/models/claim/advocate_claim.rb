@@ -184,7 +184,11 @@ module Claim
     end
 
     def eligible_misc_fee_types
-      Fee::MiscFeeType.agfs
+      # TODO: this should return a list based on the current given fee scheme
+      # rather than conditionally return scheme 10 specifically
+      # TBD once all the fee scheme work is integrated
+      return Fee::MiscFeeType.agfs_scheme_10s if fee_scheme == 'fee_reform'
+      Fee::MiscFeeType.agfs_scheme_9s
     end
 
     def eligible_fixed_fee_types

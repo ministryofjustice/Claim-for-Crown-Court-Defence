@@ -162,8 +162,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       @bft1 = create :basic_fee_type, :agfs_scheme_10
       @bft2 = create :basic_fee_type, :lgfs
       @bft3 = create :basic_fee_type
-      @mft1 = create :misc_fee_type
+      @mft1 = create :misc_fee_type, :agfs_scheme_9
       @mft2 = create :misc_fee_type, :lgfs
+      @mft3 = create :misc_fee_type, :agfs_scheme_10
       @fft1 = create :fixed_fee_type
       @fft2 = create :fixed_fee_type, :lgfs
       @claim = build :unpersisted_claim
@@ -190,8 +191,18 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     describe '#eligible_misc_fee_types' do
-      it 'returns only misc fee types for AGFS' do
+      it 'returns only misc fee types for AGFS scheme 9' do
         expect(@claim.eligible_misc_fee_types).to eq([@mft1])
+      end
+
+      context 'when claim has fee reform scheme' do
+        before do
+          expect(@claim).to receive(:fee_scheme).and_return('fee_reform')
+        end
+
+        it 'returns only misc fee types for AGFS scheme 10' do
+          expect(@claim.eligible_misc_fee_types).to eq([@mft3])
+        end
       end
     end
 

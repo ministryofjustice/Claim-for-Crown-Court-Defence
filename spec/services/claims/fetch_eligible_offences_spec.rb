@@ -10,7 +10,7 @@ RSpec.describe Claims::FetchEligibleOffences, type: :service do
       end
 
       it 'returns a list of all available offences' do
-        expect(offences).to match_array(Offence.all)
+        expect(offences).to match_array(Offence.in_scheme_nine)
       end
     end
 

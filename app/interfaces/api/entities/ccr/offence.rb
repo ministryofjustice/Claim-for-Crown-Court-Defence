@@ -3,7 +3,9 @@ module API
     module CCR
       class Offence < API::Entities::BaseEntity
         expose :unique_code
-        expose :offence_class, using: API::Entities::CCR::OffenceClass
+        expose :offence_class,
+               if: ->(instance, _opts) { instance.scheme_nine? },
+               using: API::Entities::CCR::OffenceClass
       end
     end
   end

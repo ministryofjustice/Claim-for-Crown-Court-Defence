@@ -614,6 +614,9 @@ en:
           offence_class: "Offence class"
           offence_class_hint: "for example Burglary"
           select_offence_class: "Please select"
+        scheme_xor:
+          one_not_both: 'Specify an Offence or an OffenceBand, not both'
+
       defendants:
         defendant_fields:
           first_name: *first_name

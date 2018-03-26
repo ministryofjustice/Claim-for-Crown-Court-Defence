@@ -1,12 +1,17 @@
 require 'rails_helper'
 
-RSpec.describe FeeScheme do
+RSpec.describe FeeScheme, type: :model do
+
+  it { should validate_presence_of(:start_date) }
+  it { should validate_presence_of(:version) }
+  it { should validate_presence_of(:name) }
+
   describe '.for_claim' do
     subject(:fee_scheme) { described_class.for_claim(claim) }
 
-    context 'for a LGFS claim' do
-      let(:claim) { build(:litigator_claim) }
+    let(:claim) { build(:litigator_claim) }
 
+    context 'for a LGFS claim' do
       it 'returns the default scheme' do
         expect(fee_scheme).to eq('default')
       end
@@ -86,6 +91,37 @@ RSpec.describe FeeScheme do
           end
 
           specify { expect(fee_scheme).to eq('fee_reform') }
+        end
+      end
+    end
+
+    context 'setup for current_Xgfs' do
+
+      let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
+      let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
+      let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
+
+      describe '.current_agfs' do
+        subject(:current_agfs) { described_class.current_agfs }
+
+        context 'when date is before cut over date' do
+          it { Timecop.freeze(2018, 3, 10) { is_expected.to eq agfs_scheme_nine } }
+        end
+
+        context 'when date is after cut over date' do
+          it { Timecop.freeze(2018, 4, 10) { is_expected.to eq agfs_scheme_ten } }
+        end
+      end
+
+      describe '.current_lgfs' do
+        subject(:current_lgfs) { described_class.current_lgfs }
+
+        context 'when date is before cut over date' do
+          it { Timecop.freeze(2018, 3, 10) { is_expected.to eq lgfs_scheme_nine } }
+        end
+
+        context 'when date is after cut over date' do
+          it { Timecop.freeze(2018, 4, 10) { is_expected.to eq lgfs_scheme_nine } }
         end
       end
     end

@@ -13,7 +13,7 @@ class OffencesController < ApplicationController
   skip_load_and_authorize_resource only: [:index]
 
   def index
-    @offences = Offence.where(offence_filter)
+    @offences = Offence.in_scheme_nine.where(offence_filter)
   end
 
   private

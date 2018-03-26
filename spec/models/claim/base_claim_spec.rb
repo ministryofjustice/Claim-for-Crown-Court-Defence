@@ -496,6 +496,34 @@ module Claim
     }
   end
 
+  describe '#vat_registered?' do
+    subject { claim.vat_registered? }
+
+    let(:claim) { create :claim }
+    let(:mock_provider_delegator) { provider_delegator }
+
+    before { allow(claim).to receive(:provider_delegator).and_return(mock_provider_delegator) }
+
+    context 'when the provider exists' do
+      let(:provider_delegator) { double(:provider_delegator, vat_registered?: true) }
+
+      specify {
+        expect(LogStuff).not_to receive(:error)
+        subject
+      }
+    end
+
+    context 'when the provider is nil' do
+      # this shouldn't happen but the logger is implemented to trace errors in live
+      let(:provider_delegator) { nil }
+
+      specify {
+        expect(LogStuff).to receive(:error).once
+        expect{ subject }.to raise_error NoMethodError
+      }
+    end
+  end
+
   describe '#earliest_representation_order' do
     let(:claim) { MockBaseClaim.new }
 

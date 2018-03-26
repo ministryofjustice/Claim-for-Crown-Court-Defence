@@ -513,6 +513,15 @@ module Claim
     end
 
     def vat_registered?
+      if provider_delegator.nil?
+        LogStuff.send(:error, 'vat_registration',
+                      action: 'vat_registration',
+                      provider_id: provider&.id,
+                      creator_id: creator&.id,
+                      claim_id: id) do
+          "calculating VAT for #{id}"
+        end
+      end
       provider_delegator.vat_registered?
     end
 

@@ -27,7 +27,10 @@ module Claims
       # TODO: Missing the following steps
       # 1. Checks fee scheme associated with claim
       # 2. Retrieves list of offences associated with that fee scheme
-      claim.offence ? [claim.offence] : Offence.in_scheme_ten
+      Offence.unscoped.in_scheme_ten
+             .joins(offence_band: :offence_category)
+             .includes(offence_band: :offence_category)
+             .group('offences.description, offences.id, offence_bands.id, offence_categories.id')
     end
 
     def default_offences

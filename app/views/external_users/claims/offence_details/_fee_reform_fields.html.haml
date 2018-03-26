@@ -1,15 +1,28 @@
-- locale_scope = 'external_users.claims.offence_details.fields'
+- locale_scope = 'external_users.claims.offence_details'
+- selected_offence = f.object.offence
 
-.error-summary
-  %h1.heading-medium.error-summary-heading Warning: This is just a place holder for new offences page
+- if selected_offence.present?
+  .grid-row
+    .column-two-thirds
+      .selected-offence
+        %p.bold
+          = t('selected_offence_header', scope: locale_scope)
+        %p
+          %em
+            = "#{selected_offence.offence_category.description} &gt; #{selected_offence.offence_band.description} &gt; #{selected_offence.description}".html_safe
+        %p
+          %a{ href: '#', class: 'clear-selection' }
+            = t('clear_selection', scope: "#{locale_scope}.actions")
 
-.form-section
-  #search-field.form-group
-    = f.anchored_label t('search_offence', scope: locale_scope), 'search_offence', { label_attributes: { class: 'form-label-bold' } }
-    %input{ type: :text, class: 'form-control form-control-2-3' }
-    -# TODO: replace the fields below with the actual selected values
-    = f.hidden_field :offence_category, value: @offence_descriptions.first.description
-    = f.hidden_field :offence_id, value: @offences.first.id
+.form-section.search-offences
+  %h2.heading-medium
+    = t('offence_search_header', scope: locale_scope)
+  #search-field.form-group.js-typeahead
+    = f.anchored_label t('search_offence', scope: "#{locale_scope}.fields"), 'search_offence', { label_attributes: { class: 'form-label-bold', hint: 'bla' } }
+    %span.form-hint
+      = t('search_offence_hint', scope: "#{locale_scope}.fields")
+    %input{ type: :text, id: 'search_offence', name: 'search_offence', class: 'form-control form-control-2-3 typeahead typeahead-textfield', data: { url: "/offences?fee_scheme=#{@claim.fee_scheme}",  menu: '#offence-list' } }
+    = f.hidden_field :offence_id, value: f.object.offence.present? ? f.object.offence.id : nil, class: 'clearable-fields', data: { selection: '.selected-offence' }
 
   %details
     %summary
@@ -27,19 +40,5 @@
         page on GOV.UK.
 
 .grid-row
-  #offence-list.column-full
-    .grid-row.offence-item
-      .column-two-thirds
-        %a{ href: "#", class: 'font-xsmall link-grey' } Offence category placeholder
-        %span.font-xsmall.font-grey &gt;
-        %a{ href: "#", class: 'font-xsmall link-grey' } Offence band placeholder
-        %br
-        %span Offence placeholder
-        %br
-        %a{ href: "#", class: 'font-xsmall link-grey' } Act placeholder
-
-
-      .column-one-third.align-right
-        %br
-        %a{ href: "#", class: 'button offence-item-button' } Select and continue
-
+  #offence-list.column-full.typeahead-menu
+    -# NOTE: placeholder for typeahead suggestions

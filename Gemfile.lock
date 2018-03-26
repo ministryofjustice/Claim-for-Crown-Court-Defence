@@ -31,6 +31,11 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_model_serializers (0.10.7)
+      actionpack (>= 4.1, < 6)
+      activemodel (>= 4.1, < 6)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (4.2.10)
       activesupport (= 4.2.10)
       globalid (>= 0.3.0)
@@ -88,6 +93,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    case_transform (0.2)
+      activesupport
     celluloid (0.16.0)
       timers (~> 4.0.0)
     childprocess (0.8.0)
@@ -329,6 +336,7 @@ GEM
     json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
+    jsonapi-renderer (0.2.0)
     jwt (2.1.0)
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
@@ -649,6 +657,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers (~> 0.10.7)
   amoeba (~> 3.1)
   annotate
   auto_strip_attributes (~> 2)

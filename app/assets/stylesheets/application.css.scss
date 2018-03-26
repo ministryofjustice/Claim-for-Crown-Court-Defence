@@ -141,24 +141,55 @@ form{
   color: $error-colour;
 }
 
-.offence-item {
-  margin: 0px;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+#offence-list {
+  padding: 0px;
+
+  .offence-item {
+    margin: 0px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+
+    .link-grey {
+      color: #6f777b !important;
+      text-decoration: none;
+    }
+
+    .link-grey:hover {
+      color: #6f777b !important;
+      text-decoration: underline;
+    }
+
+    .align-right {
+      text-align: right;
+    }
+  }
+
+  .offence-item:nth-child(odd) {
+    color: #000;
+    background-color: #f8f8f8;
+  }
+
+  .offence-item:hover {
+    color: #000;
+    background-color: #e7f4fb;
+  }
+
+  .offence-item a.offence-item-button {
+    visibility: hidden;
+  }
+
+  .offence-item:hover a.offence-item-button {
+    visibility: visible;
+  }
+
+  .empty-message {
+    color: #000;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ccc;
+  }
 }
 
-.offence-item:nth-child(odd) {
-  background-color: #f8f8f8;
-}
-
-.offence-item:hover {
-  background-color: #e7f4fb;
-}
-
-.offence-item a.offence-item-button {
-  visibility: hidden;
-}
-
-.offence-item:hover a.offence-item-button {
-  visibility: visible;
+.selected-offence {
+  background: #e1e8e8;
+  padding: 15px 30px;
 }

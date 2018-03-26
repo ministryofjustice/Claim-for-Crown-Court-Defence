@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.5.0'
 gem 'dotenv-rails', groups: [:development, :test]
+gem 'active_model_serializers', '~> 0.10.7'
 gem 'amoeba',                 '~> 3.1'
 gem 'auto_strip_attributes',  '~> 2'
 gem 'aws-sdk',                '~> 2'

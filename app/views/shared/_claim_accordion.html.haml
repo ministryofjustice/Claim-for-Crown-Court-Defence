@@ -14,7 +14,7 @@
             - unless last_claim?
               = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
 
-  = render partial: 'shared/claim_history', locals: {claim: claim }
+  = render partial: 'shared/claim_history', locals: { claim: claim }
   = render partial: 'shared/claim_status', locals: { claim: claim, disabled: status_disabled }
 
   %div.js-accordion{"data-accordion-prefix-classes": "minimalist-accordion"}

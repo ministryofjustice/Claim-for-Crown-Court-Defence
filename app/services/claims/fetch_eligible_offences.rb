@@ -24,11 +24,10 @@ module Claims
     end
 
     def eligible_offences
-      # TODO: Depends on Fee Scheme 10 SPIKE work
+      # TODO: Missing the following steps
       # 1. Checks fee scheme associated with claim
       # 2. Retrieves list of offences associated with that fee scheme
-      # 3. If claim already has an associated offence return list only with that offence
-      [:todo]
+      claim.offence ? [claim.offence] : Offence.in_scheme_ten
     end
 
     def default_offences

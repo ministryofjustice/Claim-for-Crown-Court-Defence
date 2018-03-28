@@ -9,14 +9,23 @@ FactoryBot.define do
     # factory :advocate_claim do
     # end
 
+    # NOTE: this was introduced here because was the only way to get FactoryBot to set
+    # model attributes on initialize (which seems not to be the default behaviour) and
+    # was causing the factory not to assign the appropriate attributes/associations on
+    # initialize which makes after_initialize logic not to behave as expected since the
+    # expected values are not yet set.
+    # More details can be found here:
+    # https://stackoverflow.com/questions/5916162/problem-with-factory-girl-association-and-after-initialize
+    initialize_with { new(attributes) }
+
     form_id SecureRandom.uuid
     court
     case_number { random_case_number }
     external_user
     source { 'web' }
-    apply_vat  false
+    apply_vat false
     providers_ref { random_providers_ref }
-    case_type { FactoryBot.build :case_type }
+    case_type
     offence
     advocate_category 'QC'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }

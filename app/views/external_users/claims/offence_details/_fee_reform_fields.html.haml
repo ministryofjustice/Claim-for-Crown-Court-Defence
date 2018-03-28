@@ -7,6 +7,9 @@
   #search-field.form-group
     = f.anchored_label t('search_offence', scope: locale_scope), 'search_offence', { label_attributes: { class: 'form-label-bold' } }
     %input{ type: :text, class: 'form-control form-control-2-3' }
+    -# TODO: replace the fields below with the actual selected values
+    = f.hidden_field :offence_category, value: @offence_descriptions.first.description
+    = f.hidden_field :offence_id, value: @offences.first.id
 
   %details
     %summary

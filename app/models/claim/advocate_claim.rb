@@ -176,11 +176,19 @@ module Claim
     end
 
     def eligible_basic_fee_types
-      Fee::BasicFeeType.agfs
+      # TODO: this should return a list based on the current given fee scheme
+      # rather than conditionally return scheme 10 specifically
+      # TBD once all the fee scheme work is integrated
+      return Fee::BasicFeeType.agfs unless fee_scheme == 'fee_reform'
+      Fee::BasicFeeType.agfs_scheme_10s
     end
 
     def eligible_misc_fee_types
-      Fee::MiscFeeType.agfs
+      # TODO: this should return a list based on the current given fee scheme
+      # rather than conditionally return scheme 10 specifically
+      # TBD once all the fee scheme work is integrated
+      return Fee::MiscFeeType.agfs_scheme_10s if fee_scheme == 'fee_reform'
+      Fee::MiscFeeType.agfs_scheme_9s
     end
 
     def eligible_fixed_fee_types
@@ -232,13 +240,16 @@ module Claim
 
     # create a blank fee for every basic fee type not passed to Claim::AdvocateClaim.new
     def instantiate_basic_fees
-      return unless new_record?
+      return unless case_type.present? && !case_type.is_fixed_fee?
+      return unless editable?
 
-      existing_basic_fee_type_ids = basic_fees.map(&:fee_type_id)
-      basic_fee_types = Fee::BasicFeeType.all
-      basic_fee_types.each do |basic_fee_type|
-        next if basic_fee_type.id.in?(existing_basic_fee_type_ids)
-        basic_fees << Fee::BasicFee.new_blank(self, basic_fee_type)
+      fee_type_ids = basic_fees.map(&:fee_type_id)
+      eligible_basic_fee_type_ids = eligible_basic_fee_types.map(&:id)
+      not_eligible_ids = fee_type_ids - eligible_basic_fee_type_ids
+      self.basic_fees = basic_fees.reject { |fee| not_eligible_ids.include?(fee.fee_type_id) }
+      eligible_basic_fee_types.each do |basic_fee_type|
+        next if fee_type_ids.include?(basic_fee_type.id)
+        basic_fees.build(fee_type: basic_fee_type, quantity: 0, amount: 0)
       end
     end
 

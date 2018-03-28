@@ -12,10 +12,11 @@
                         value: fee.quantity,
                         errors: @error_presenter
 
-  .column-one-quarter.fee-rate
-    = f.adp_text_field :amount,
-                        label: t('.total'),
-                        input_classes:'total',
-                        input_type: 'currency',
-                        value: number_with_precision(fee.fee.amount, precision: 2),
-                        errors: @error_presenter
+  - if fee.display_amount?
+    .column-one-quarter.fee-rate
+      = f.adp_text_field :amount,
+                          label: t('.total'),
+                          input_classes:'total',
+                          input_type: 'currency',
+                          value: number_with_precision(fee.fee.amount, precision: 2),
+                          errors: @error_presenter

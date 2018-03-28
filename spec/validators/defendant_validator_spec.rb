@@ -1,8 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe DefendantValidator, type: :validator do
-  let(:claim)     { FactoryBot.build(:claim, force_validation: true) }
-  let(:defendant) { FactoryBot.build :defendant, claim: claim }
+  let(:claim)     { build(:claim) }
+  let(:defendant) { build(:defendant, claim: claim) }
+
+  before do
+    claim.force_validation = true
+  end
 
   describe '#validate_claim' do
     it { should_error_if_not_present(defendant, :claim, 'blank') }
@@ -30,7 +34,7 @@ RSpec.describe DefendantValidator, type: :validator do
     end
 
     context 'from api' do
-      let(:claim) { FactoryBot.build(:claim, source: 'api') }
+      let(:claim) { build(:claim, source: 'api') }
 
       it 'should not validate for presence of a rep order' do
         expect(defendant).to be_valid
@@ -38,7 +42,7 @@ RSpec.describe DefendantValidator, type: :validator do
     end
 
     context 'not from api' do
-      let(:claim) { FactoryBot.create(:submitted_claim, source: 'web') }
+      let(:claim) { create(:submitted_claim, source: 'web') }
 
       it 'should validate for presence of a rep order' do
         expect(defendant).to_not be_valid

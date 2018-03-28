@@ -62,8 +62,26 @@ RSpec.describe Claims::FetchEligibleOffences, type: :service do
           allow(claim).to receive(:fee_scheme).and_return('fee_reform')
         end
 
-        it 'TODO: returns the eligible offences' do
-          expect(offences).to match_array([:todo])
+        context 'and the claim has no associated offence' do
+          before do
+            claim.offence = nil
+          end
+
+          it 'returns a list of all available offences for the associated fee scheme' do
+            expect(offences).to match_array(Offence.in_scheme_ten)
+          end
+        end
+
+        context 'and the claim has an associated offence' do
+          let(:offence) { create(:offence, :with_fee_scheme_ten) }
+
+          before do
+            claim.offence = offence
+          end
+
+          it 'returns a list containing only the associated offence' do
+            expect(offences).to match_array([offence])
+          end
         end
       end
     end

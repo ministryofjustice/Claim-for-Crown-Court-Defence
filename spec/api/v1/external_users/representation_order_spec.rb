@@ -111,6 +111,22 @@ describe API::V1::ExternalUsers::RepresentationOrder do
       end
     end
 
+    context 'when a claim has been submitted with an AGFS scheme 10 offence' do
+      let(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence: create(:offence, :with_fee_scheme_ten)) }
+      let(:defendant) { create(:defendant, :without_reporder, claim: claim).reload }
+      let(:representation_order_date) { Date.today }
+
+      describe 'and the rep_order_date pre-dates the start of the scheme' do
+
+        before { Timecop.freeze(2018, 1, 1) { post_to_create_endpoint } }
+
+        specify { expect_error_response("Representation Order Date is not valid for AGFS scheme ten") }
+      end
+
+      describe 'and the rep_order_date post-dates the start of the scheme' do
+        specify { expect{ post_to_create_endpoint(Date.new(2018, 5, 1)) }.to change { RepresentationOrder.count }.by(1) }
+      end
+    end
   end
 
   describe "POST #{VALIDATE_REPRESENTATION_ORDER_ENDPOINT}" do

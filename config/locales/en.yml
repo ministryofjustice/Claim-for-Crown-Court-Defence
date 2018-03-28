@@ -602,6 +602,7 @@ en:
         actions:
           clear_selection: Clear selection
         fields:
+          offence_band: Offence band
           offence_class: 'Offence class'
           offence_category: Offence category
           offence_category_hint: 'If the offence category is not listed, choose "Miscellaneous/other"'
@@ -618,6 +619,10 @@ en:
           select_offence_class: "Please select"
         scheme_xor:
           one_not_both: 'Specify an Offence or an OffenceBand, not both'
+        summary:
+          caption: 'Offence Details: This section contains information about the offence details.'
+          header: Offence details
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
         selected_offence_header: 'You have chosen the following offence details:'
 
       defendants:

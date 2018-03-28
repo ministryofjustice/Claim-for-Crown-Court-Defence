@@ -14,6 +14,10 @@
   Defendants
 = render partial: 'external_users/claims/defendants/summary', locals: { claim: claim }
 
+%h2
+  = t('external_users.claims.offence_details.summary.header')
+= render partial: 'external_users/claims/offence_details/summary', locals: { claim: claim }
+
 - if claim.lgfs? && claim.interim?
   %h2
     = t('common.interim_fees')

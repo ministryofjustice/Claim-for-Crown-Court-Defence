@@ -10,7 +10,7 @@ class Claim::AdvocateInterimClaimValidator < Claim::BaseClaimValidator
         supplier_number
       ],
       defendants: %i[earliest_representation_order],
-      # offence_details: %i[offence],
+      offence_details: %i[offence],
       interim_fees: %i[advocate_category]
     }
   end
@@ -28,7 +28,7 @@ class Claim::AdvocateInterimClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_offence
-    validate_presence(:offence, 'blank')
+    validate_presence(:offence, 'new_blank')
   end
 
   def validate_advocate_category

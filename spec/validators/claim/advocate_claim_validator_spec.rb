@@ -128,7 +128,33 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
 
     it 'should NOT error if not present for fixed fee case types' do
       allow(claim.case_type).to receive(:is_fixed_fee?).and_return(true)
-      should_not_error(claim,:offence)
+      should_not_error(claim, :offence)
+    end
+
+    context 'when the claim is associated with the new fee reform scheme' do
+      before do
+        allow(claim).to receive(:fee_scheme).and_return('fee_reform')
+      end
+
+      context 'and case type is for non-fixed fees' do
+        before do
+          allow(claim.case_type).to receive(:is_fixed_fee?).and_return(false)
+        end
+
+        it 'should error if not present' do
+          should_error_with(claim, :offence, 'new_blank')
+        end
+      end
+
+      context 'and case type is for fixed fees' do
+        before do
+          allow(claim.case_type).to receive(:is_fixed_fee?).and_return(true)
+        end
+
+        it 'should NOT error if not present' do
+          should_not_error(claim, :offence)
+        end
+      end
     end
   end
 

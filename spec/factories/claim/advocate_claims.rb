@@ -17,6 +17,9 @@ FactoryBot.define do
     # More details can be found here:
     # https://stackoverflow.com/questions/5916162/problem-with-factory-girl-association-and-after-initialize
     initialize_with { new(attributes) }
+    transient do
+      create_defendant_and_rep_order true
+    end
 
     form_id SecureRandom.uuid
     court
@@ -31,7 +34,7 @@ FactoryBot.define do
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
 
     after(:build) { |claim| post_build_actions_for_draft_claim(claim) }
-    after(:create) { |claim| add_defendant_and_reporder(claim) }
+    after(:create) { |claim, evaluator| add_defendant_and_reporder(claim) if evaluator.create_defendant_and_rep_order }
 
     trait :admin_creator do
       after(:build) { |claim| make_claim_creator_advocate_admin(claim) }

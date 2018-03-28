@@ -13,11 +13,11 @@ describe API::V1::ExternalUsers::RepresentationOrder do
   ALL_REP_ORDER_ENDPOINTS = [VALIDATE_REPRESENTATION_ORDER_ENDPOINT, CREATE_REPRESENTATION_ORDER_ENDPOINT]
   FORBIDDEN_REP_ORDER_VERBS = [:get, :put, :patch, :delete]
 
-  let(:representation_order_date) { 10.days.ago }
+  let(:representation_order_date) { Date.new(2017, 6, 1) }
 
   let!(:provider)      { create(:provider) }
-  let!(:claim)         { create(:claim, source: 'api') }
-  let!(:defendant)     { create(:defendant, claim: claim).reload }
+  let!(:claim)         { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence: create(:offence, :with_fee_scheme)) }
+  let!(:defendant)     { create(:defendant, :without_reporder, claim: claim).reload }
   let!(:valid_params)  {
     {
         api_key: provider.api_key,
@@ -42,8 +42,8 @@ describe API::V1::ExternalUsers::RepresentationOrder do
 
   describe "POST #{CREATE_REPRESENTATION_ORDER_ENDPOINT}" do
 
-    def post_to_create_endpoint
-      post CREATE_REPRESENTATION_ORDER_ENDPOINT, valid_params, format: :json
+    def post_to_create_endpoint(submission_date = Date.new(2017, 7, 1))
+      Timecop.freeze(submission_date) { post CREATE_REPRESENTATION_ORDER_ENDPOINT, valid_params, format: :json }
     end
 
     include_examples "should NOT be able to amend a non-draft claim"

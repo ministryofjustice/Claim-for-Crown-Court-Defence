@@ -656,6 +656,10 @@ representation_order:
       long: 'Representation order date of the #{defendant} cannot be prior to 02/10/14. Please check this date'
       short: *check_date
       api: 'Representation order date of the defendant cannot be prior to 02/10/14. Please check this date'
+    scheme_ten_offence:
+      long: Representation Order Date is not valid for AGFS scheme ten
+      short: *check_date
+      api: Representation Order Date is not valid for AGFS scheme ten
 
   maat_reference:
     _seq: 30

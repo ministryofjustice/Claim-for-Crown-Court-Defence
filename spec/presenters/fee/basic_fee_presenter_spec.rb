@@ -40,6 +40,20 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
         specify { expect(presenter.prompt_text).to be_nil }
       end
     end
+
+    context 'when the fee type code is PPE' do
+      let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }
+
+      specify { expect(presenter.prompt_text).to be_nil }
+
+      context 'and the claim is under the fee reform scheme' do
+        before do
+          allow(claim).to receive(:fee_scheme).and_return('fee_reform')
+        end
+
+        specify { expect(presenter.prompt_text).to eq("Please enter the volume of PPE to help the caseworker assess the correct offence band\n") }
+      end
+    end
   end
 
   describe '#display_amount?' do

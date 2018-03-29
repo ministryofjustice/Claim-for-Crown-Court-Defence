@@ -4,14 +4,10 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
 
     t_scope = %i[external_users claims basic_fees basic_fee_calculated_fields]
 
-    case code
-    when 'BAF'
-      key = claim.fee_scheme == 'fee_reform' ? 'basic_fee_reform_prompt_text' : 'basic_fee_prompt_text'
-      I18n.t(key, scope: t_scope)
-    when 'SAF'
-      return if claim.fee_scheme == 'fee_reform'
-      I18n.t('saf_prompt_text', scope: t_scope)
-    end
+    key = prompt_text_key_for(code)
+
+    return unless key
+    I18n.t(key, scope: t_scope)
   end
 
   def display_amount?
@@ -25,7 +21,7 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
 
   private
 
-  FEE_CODES_WITH_PROMPT_TEXT = %w[BAF SAF].freeze
+  FEE_CODES_WITH_PROMPT_TEXT = %w[BAF SAF PPE].freeze
   FEE_CODES_WITHOUT_AMOUNT = %w[PPE].freeze
 
   def code
@@ -34,5 +30,24 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
 
   def claim
     fee.claim
+  end
+
+  def prompt_text_key_for(code)
+    return default_prompt_text_for(code) unless claim.fee_scheme == 'fee_reform'
+    fee_reform_prompt_text_for(code)
+  end
+
+  def default_prompt_text_for(code)
+    {
+      'BAF' => 'basic_fee_prompt_text',
+      'SAF' => 'saf_prompt_text'
+    }[code]
+  end
+
+  def fee_reform_prompt_text_for(code)
+    {
+      'BAF' => 'basic_fee_reform_prompt_text',
+      'PPE' => 'ppe_fee_reform_prompt_text'
+    }[code]
   end
 end

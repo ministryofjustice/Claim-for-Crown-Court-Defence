@@ -3,6 +3,9 @@
     = fee.section_header('external_users.claims.basic_fees.basic_fee_uncalculated_fields')
   .column-one-half.fee-type
     = fee.section_hint('external_users.claims.basic_fees.basic_fee_uncalculated_fields')
+    - if fee.prompt_text
+      .form-hint
+        = fee.prompt_text
 
   .column-one-quarter.fee-quantity
     = f.adp_text_field :quantity,

@@ -1,100 +1,101 @@
-ID,DESCRIPTION,CODE,UNIQUE_CODE,MAX_AMOUNT,CALCULATED,CLASS,ROLES,PARENT_ID,QUANTITY_IS_DECIMAL,
-1,Basic fee,BAF,BABAF,9999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
-2,Daily attendance fee (3 to 40),DAF,BADAF,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-3,Daily attendance fee (41 to 50),DAH,BADAH,9999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-4,Daily attendance fee (51+),DAJ,BADAJ,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-5,Standard appearance fee,SAF,BASAF,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-6,Plea and trial preparation hearing,PCM,BAPCM,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-7,Conferences and views,CAV,BACAV,,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,TRUE,N
-8,Number of defendants uplift,NDR,BANDR,,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-9,Number of cases uplift,NOC,BANOC,,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-10,Number of prosecution witnesses,NPW,BANPW,,FALSE,Fee::BasicFeeType,agfs;agfs_scheme_9,,FALSE,N
-11,Pages of prosecution evidence,PPE,BAPPE,,FALSE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-12,Appeals to the crown court against conviction,ACV,FXACV,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,N
-13,Appeals to the crown court against conviction uplift,ACU,FXACU,,TRUE,Fee::FixedFeeType,agfs,,FALSE,N
-14,Appeals to the crown court against sentence,ASE,FXASE,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,N
-15,Appeals to the crown court against sentence uplift,ASU,FXASU,,TRUE,Fee::FixedFeeType,agfs,,FALSE,N
-16,Breach of a crown court order,CBR,FXCBR,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,N
-17,Breach of a crown court order uplift,CBU,FXCBU,,TRUE,Fee::FixedFeeType,agfs,,FALSE,N
-20,Committal for sentence hearings,CSE,FXCSE,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,N
-21,Committal for sentence hearings uplift,CSU,FXCSU,,TRUE,Fee::FixedFeeType,agfs,,FALSE,N
-22,Cracked case discontinued,CCD,FXCCD,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,N
-23,Cracked case discontinued uplift,CDU,FXCDU,,TRUE,Fee::FixedFeeType,agfs,,FALSE,N
-24,Elected case not proceeded,ENP,FXENP,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,N
-25,Elected case not proceeded uplift,ENU,FXENU,,TRUE,Fee::FixedFeeType,agfs,,FALSE,N
-26,Number of cases uplift,NOC,FXNOC,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,N
-27,Number of defendants uplift,NDR,FXNDR,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,N
-28,Standard appearance fee,SAF,FXSAF,,TRUE,Fee::FixedFeeType,agfs,,FALSE,N
-29,Abuse of process hearings (half day),APH,MIAPH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-30,Abuse of process hearings (whole day),APW,MIAPW,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-31,Abuse of process hearings (half day uplift),AHU,MIAHU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-32,Abuse of process hearings (whole day uplift),AWU,MIAWU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-33,Adjourned appeals,SAF,MISAF,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-34,Application to dismiss a charge (half day),PAH,MIADC1,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-35,Application to dismiss a charge (whole day),PAW,MIADC2,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-36,Application to dismiss a charge (half day uplift),PHU,MIADC3,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-37,Application to dismiss a charge (whole day uplift),PWU,MIADC4,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-38,Confiscation hearings (half day),DTH,MIDTH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-39,Confiscation hearings (whole day),DTW,MIDTW,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-40,Confiscation hearings (half day uplift),DHU,MIDHU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-41,Confiscation hearings (whole day uplift),DWU,MIDWU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-42,Deferred sentence hearings,DSE,MIDSE,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-43,Deferred sentence hearings uplift,DSU,MIDSU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-44,Hearings relating to admissibility of evidence (half day),AEH,MIAEH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-45,Hearings relating to admissibility of evidence (whole day),AEW,MIAEW,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-46,Hearings relating to admissibility of evidence (half day uplift),EHU,MIEHU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-47,Hearings relating to admissibility of evidence (whole day uplift),EWU,MIEWU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-48,Hearings relating to disclosure (half day),HDH,MIHDH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-49,Hearings relating to disclosure (whole day),HDW,MIHDW,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-50,Hearings relating to disclosure (half day uplift),HHU,MIHHU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-51,Hearings relating to disclosure (whole day uplift),HWU,MIHWU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-52,Noting brief fee,NBR,MINBR,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-53,Paper plea & case management,PPC,MIPPC,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9,,FALSE,N
-54,Paper plea & case management uplift,PCU,MIPCU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9,,FALSE,N
-55,Proceeds of crime hearings (half day),PCH,MIPCH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-56,Proceeds of crime hearings (whole day),PCW,MIPCW,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-57,Proceeds of crime hearings (half day uplift),CHU,MICHU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-58,Proceeds of crime hearings (whole day uplift),CHW,MICHW,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-59,Public interest immunity hearings (half day),PAH,MIPIH1,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-60,Public interest immunity hearings (whole day),PAW,MIPIH2,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-61,Public interest immunity hearings (half day uplift),PHU,MIPIU3,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-62,Public interest immunity hearings (whole day uplift),PWU,MIPIH4,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-63,Research of very unusual or novel factual issue,RNF,MIRNF,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,TRUE,N
-64,Research of very unusual or novel point of law,RNL,MIRNL,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,TRUE,N
-65,Standard appearance fee uplift,SAU,MISAU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-66,Sentence hearings,SHR,MISHR,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-67,Sentence hearings uplift,SHU,MISHU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-68,Special preparation fee,SPF,MISPF,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10;lgfs,,TRUE,N
-69,Trial not proceed,TNP,MITNP,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-70,Trial not proceed uplift,TNU,MITNU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-71,Unsuccessful application to vacate a guilty plea (half day),PAH,MIUAV1,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-72,Unsuccessful application to vacate a guilty plea (whole day),PAW,MIUAV2,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-73,Unsuccessful application to vacate a guilty plea (half day uplift),PHU,MIUAV3,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-74,Unsuccessful application to vacate a guilty plea (whole day uplift),PWU,MIUAV4,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,N
-75,Written / oral advice,WOA,MIWOA,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,TRUE,N
-76,Wasted preparation fee,WPF,MIWPF,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,TRUE,N
-77,Trial,GTRL,GRTRL,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,N
-78,Retrial,GRTR,GRRTR,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,N
-79,Guilty plea,GGLTY,GRGLT,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,N
-80,Discontinuance,GDIS,GRDIS,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,N
-81,Cracked trial,GCRAK,GRRAK,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,N
-82,Cracked before retrial,GCBR,GRCBR,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,N
-83,Hearing subsequent to sentence,XH2S,FXH2S,,FALSE,Fee::FixedFeeType,lgfs,,FALSE,N
-84,Vary/discharge an ASBO s1c Crime and Disorder Act 1998,XASB,FXASB,,FALSE,Fee::FixedFeeType,lgfs,83,FALSE,N
-85,Alteration of Crown Court sentence s155 Powers of Criminal Courts (Sentencing Act 2000),XALT,FXALT,,FALSE,Fee::FixedFeeType,lgfs,83,FALSE,N
-86,Assistance by defendant: review of sentence s74 Serious Organised Crime and Police Act 2005,XASS,FXASS,,FALSE,Fee::FixedFeeType,lgfs,83,FALSE,N
-87,Evidence provision fee,XEVI,MIEVI,,FALSE,Fee::MiscFeeType,lgfs,,FALSE,N
-88,Costs judge application,XCJA,MICJA,,FALSE,Fee::MiscFeeType,lgfs,,FALSE,N
-89,Costs judge preparation,XCJP,MICJP,,FALSE,Fee::MiscFeeType,lgfs,,FALSE,N
-90,Case uplift,XUPL,MIUPL,,FALSE,Fee::MiscFeeType,lgfs,,FALSE,N
-91,Warrant Fee,XWAR,WARR,,FALSE,Fee::WarrantFeeType,lgfs,,FALSE,N
-92,Contempt,ZCON,FXCON,,TRUE,Fee::FixedFeeType,agfs,,FALSE,N
-93,Effective PCMH,IPCMH,INPCM,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,N
-94,Trial start,ITST,INTDT,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,N
-95,Retrial New solicitor,IRNS,INRNS,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,N
-96,Retrial start,IRST,INRST,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,N
-97,Disbursement only,IDISO,INDIS,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,N
-98,Warrant,IWARR,INWAR,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,N
-99,Transfer,TRANS,TRANS,,FALSE,Fee::TransferFeeType,lgfs,,FALSE,N
-100,Further case management hearing,FCM,MIFCM,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_10,,FALSE,N
-101,Ground rules hearing,GRH,MIGRH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_10,,FALSE,N
+ID,DESCRIPTION,CODE,UNIQUE_CODE,MAX_AMOUNT,CALCULATED,CLASS,ROLES,PARENT_ID,QUANTITY_IS_DECIMAL,POSITION
+1,Basic fee,BAF,BABAF,9999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,1
+2,Daily attendance fee (3 to 40),DAF,BADAF,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9,,FALSE,2
+3,Daily attendance fee (41 to 50),DAH,BADAH,9999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9,,FALSE,3
+4,Daily attendance fee (51+),DAJ,BADAJ,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9,,FALSE,4
+5,Standard appearance fee,SAF,BASAF,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,5
+6,Plea and trial preparation hearing,PCM,BAPCM,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,6
+7,Conferences and views,CAV,BACAV,,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,TRUE,7
+8,Number of defendants uplift,NDR,BANDR,,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,8
+9,Number of cases uplift,NOC,BANOC,,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,9
+10,Number of prosecution witnesses,NPW,BANPW,,FALSE,Fee::BasicFeeType,agfs;agfs_scheme_9,,FALSE,10
+11,Pages of prosecution evidence,PPE,BAPPE,,FALSE,Fee::BasicFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,11
+12,Appeals to the crown court against conviction,ACV,FXACV,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,
+13,Appeals to the crown court against conviction uplift,ACU,FXACU,,TRUE,Fee::FixedFeeType,agfs,,FALSE,
+14,Appeals to the crown court against sentence,ASE,FXASE,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,
+15,Appeals to the crown court against sentence uplift,ASU,FXASU,,TRUE,Fee::FixedFeeType,agfs,,FALSE,
+16,Breach of a crown court order,CBR,FXCBR,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,
+17,Breach of a crown court order uplift,CBU,FXCBU,,TRUE,Fee::FixedFeeType,agfs,,FALSE,
+20,Committal for sentence hearings,CSE,FXCSE,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,
+21,Committal for sentence hearings uplift,CSU,FXCSU,,TRUE,Fee::FixedFeeType,agfs,,FALSE,
+22,Cracked case discontinued,CCD,FXCCD,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,
+23,Cracked case discontinued uplift,CDU,FXCDU,,TRUE,Fee::FixedFeeType,agfs,,FALSE,
+24,Elected case not proceeded,ENP,FXENP,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,
+25,Elected case not proceeded uplift,ENU,FXENU,,TRUE,Fee::FixedFeeType,agfs,,FALSE,
+26,Number of cases uplift,NOC,FXNOC,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,
+27,Number of defendants uplift,NDR,FXNDR,,TRUE,Fee::FixedFeeType,agfs;lgfs,,FALSE,
+28,Standard appearance fee,SAF,FXSAF,,TRUE,Fee::FixedFeeType,agfs,,FALSE,
+29,Abuse of process hearings (half day),APH,MIAPH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+30,Abuse of process hearings (whole day),APW,MIAPW,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+31,Abuse of process hearings (half day uplift),AHU,MIAHU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+32,Abuse of process hearings (whole day uplift),AWU,MIAWU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+33,Adjourned appeals,SAF,MISAF,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+34,Application to dismiss a charge (half day),PAH,MIADC1,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+35,Application to dismiss a charge (whole day),PAW,MIADC2,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+36,Application to dismiss a charge (half day uplift),PHU,MIADC3,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+37,Application to dismiss a charge (whole day uplift),PWU,MIADC4,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+38,Confiscation hearings (half day),DTH,MIDTH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+39,Confiscation hearings (whole day),DTW,MIDTW,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+40,Confiscation hearings (half day uplift),DHU,MIDHU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+41,Confiscation hearings (whole day uplift),DWU,MIDWU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+42,Deferred sentence hearings,DSE,MIDSE,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+43,Deferred sentence hearings uplift,DSU,MIDSU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+44,Hearings relating to admissibility of evidence (half day),AEH,MIAEH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+45,Hearings relating to admissibility of evidence (whole day),AEW,MIAEW,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+46,Hearings relating to admissibility of evidence (half day uplift),EHU,MIEHU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+47,Hearings relating to admissibility of evidence (whole day uplift),EWU,MIEWU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+48,Hearings relating to disclosure (half day),HDH,MIHDH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+49,Hearings relating to disclosure (whole day),HDW,MIHDW,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+50,Hearings relating to disclosure (half day uplift),HHU,MIHHU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+51,Hearings relating to disclosure (whole day uplift),HWU,MIHWU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+52,Noting brief fee,NBR,MINBR,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+53,Paper plea & case management,PPC,MIPPC,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9,,FALSE,
+54,Paper plea & case management uplift,PCU,MIPCU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9,,FALSE,
+55,Proceeds of crime hearings (half day),PCH,MIPCH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+56,Proceeds of crime hearings (whole day),PCW,MIPCW,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+57,Proceeds of crime hearings (half day uplift),CHU,MICHU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+58,Proceeds of crime hearings (whole day uplift),CHW,MICHW,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+59,Public interest immunity hearings (half day),PAH,MIPIH1,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+60,Public interest immunity hearings (whole day),PAW,MIPIH2,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+61,Public interest immunity hearings (half day uplift),PHU,MIPIU3,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+62,Public interest immunity hearings (whole day uplift),PWU,MIPIH4,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+63,Research of very unusual or novel factual issue,RNF,MIRNF,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,TRUE,
+64,Research of very unusual or novel point of law,RNL,MIRNL,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,TRUE,
+65,Standard appearance fee uplift,SAU,MISAU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+66,Sentence hearings,SHR,MISHR,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+67,Sentence hearings uplift,SHU,MISHU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+68,Special preparation fee,SPF,MISPF,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10;lgfs,,TRUE,
+69,Trial not proceed,TNP,MITNP,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+70,Trial not proceed uplift,TNU,MITNU,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+71,Unsuccessful application to vacate a guilty plea (half day),PAH,MIUAV1,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+72,Unsuccessful application to vacate a guilty plea (whole day),PAW,MIUAV2,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+73,Unsuccessful application to vacate a guilty plea (half day uplift),PHU,MIUAV3,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+74,Unsuccessful application to vacate a guilty plea (whole day uplift),PWU,MIUAV4,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE,
+75,Written / oral advice,WOA,MIWOA,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,TRUE,
+76,Wasted preparation fee,WPF,MIWPF,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,TRUE,
+77,Trial,GTRL,GRTRL,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,
+78,Retrial,GRTR,GRRTR,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,
+79,Guilty plea,GGLTY,GRGLT,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,
+80,Discontinuance,GDIS,GRDIS,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,
+81,Cracked trial,GCRAK,GRRAK,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,
+82,Cracked before retrial,GCBR,GRCBR,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,
+83,Hearing subsequent to sentence,XH2S,FXH2S,,FALSE,Fee::FixedFeeType,lgfs,,FALSE,
+84,Vary/discharge an ASBO s1c Crime and Disorder Act 1998,XASB,FXASB,,FALSE,Fee::FixedFeeType,lgfs,83,FALSE,
+85,Alteration of Crown Court sentence s155 Powers of Criminal Courts (Sentencing Act 2000),XALT,FXALT,,FALSE,Fee::FixedFeeType,lgfs,83,FALSE,
+86,Assistance by defendant: review of sentence s74 Serious Organised Crime and Police Act 2005,XASS,FXASS,,FALSE,Fee::FixedFeeType,lgfs,83,FALSE,
+87,Evidence provision fee,XEVI,MIEVI,,FALSE,Fee::MiscFeeType,lgfs,,FALSE,
+88,Costs judge application,XCJA,MICJA,,FALSE,Fee::MiscFeeType,lgfs,,FALSE,
+89,Costs judge preparation,XCJP,MICJP,,FALSE,Fee::MiscFeeType,lgfs,,FALSE,
+90,Case uplift,XUPL,MIUPL,,FALSE,Fee::MiscFeeType,lgfs,,FALSE,
+91,Warrant Fee,XWAR,WARR,,FALSE,Fee::WarrantFeeType,lgfs,,FALSE,
+92,Contempt,ZCON,FXCON,,TRUE,Fee::FixedFeeType,agfs,,FALSE,
+93,Effective PCMH,IPCMH,INPCM,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,
+94,Trial start,ITST,INTDT,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,
+95,Retrial New solicitor,IRNS,INRNS,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,
+96,Retrial start,IRST,INRST,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,
+97,Disbursement only,IDISO,INDIS,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,
+98,Warrant,IWARR,INWAR,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,
+99,Transfer,TRANS,TRANS,,FALSE,Fee::TransferFeeType,lgfs,,FALSE,
+100,Further case management hearing,FCM,MIFCM,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_10,,FALSE,
+101,Ground rules hearing,GRH,MIGRH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_10,,FALSE,
+102,Daily attendance fee (2+),DAT,BADAT,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_10,,FALSE,2

@@ -12,7 +12,7 @@ module Seeds
 
       def to_h
         {
-          id: row_attrs.fetch(:id),
+          id: primary_key,
           description: row_attrs.fetch(:description),
           code: row_attrs.fetch(:code),
           unique_code: row_attrs.fetch(:unique_code),
@@ -21,13 +21,18 @@ module Seeds
           type: row_attrs.fetch(:fee_type),
           parent_id: parent_id,
           roles: mapped_roles,
-          quantity_is_decimal: row_attrs.fetch(:quantity_is_decimal)
+          quantity_is_decimal: row_attrs.fetch(:quantity_is_decimal),
+          position: mapped_position
         }
       end
 
       private
 
       attr_reader :row_attrs, :parent_id
+
+      def primary_key
+        row_attrs.fetch(:id)
+      end
 
       def mapped_roles
         row_attrs.fetch(:roles).split(';')
@@ -44,6 +49,10 @@ module Seeds
       def mapped_max_amount
         return if max_amount.to_s.strip.blank?
         max_amount
+      end
+
+      def mapped_position
+        row_attrs[:position] || primary_key
       end
     end
   end

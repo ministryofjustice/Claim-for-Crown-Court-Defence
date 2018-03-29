@@ -89,19 +89,6 @@
           %td
             = claim.case_type.try(:name)
 
-      - if claim.agfs?
-        %tr
-          %th{scope: "col"}
-            = t('.offence')
-          %td
-            = claim.offence ? claim.offence.description : t('general.not_provided')
-
-      %tr
-        %th{scope: "col"}
-          = t('.offence_class')
-        %td
-          = claim.offence ? claim.offence.offence_class : t('general.not_provided')
-
       - if claim.agfs? && claim.case_type.present? && claim.requires_cracked_dates?
         = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
 
@@ -126,3 +113,7 @@
     = render partial: 'shared/claim_defendants', locals: {defendants: claim.defendants }
   - else
     = "No defendant details have been supplied for this claim."
+
+  %h3.heading-medium
+    = t('external_users.claims.offence_details.summary.header')
+  = render partial: 'external_users/claims/offence_details/summary', locals: { claim: claim }

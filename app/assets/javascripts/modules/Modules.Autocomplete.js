@@ -11,6 +11,7 @@ moj.Modules.Autocomplete = {
       this.typeaheadKickoff();
       this.typeaheadBindEvents();
     }
+    this.initAutoCompleteTextFields();
   },
 
   doKickoff: function() {
@@ -182,6 +183,73 @@ moj.Modules.Autocomplete = {
       return obj;
 
     }).get();
-  }
+  },
 
+  // TODO: this should be related to the autocomplete
+  // module currently being used. Right now don't really
+  // know how to do that easily :(
+  suggestionTemplate: function(data) {
+    template = '<div class="grid-row offence-item">';
+    template += '<div class="column-two-thirds">';
+    template += '<a href="#" class="font-xsmall link-grey">' + data.category.description + '</a>'
+    template += '<span class="font-xsmall link-grey">&nbsp;&gt;&nbsp;</span>';
+    template += '<a href="#" class="font-xsmall link-grey">' + data.band.description + '</a>'
+    template += '</br>';
+    template += '<span>' + data.description + '</span>';
+    template += '</br>';
+    template += '<a href="#" class="font-xsmall link-grey">' + data.contrary + '</a>'
+    template += '</div>';
+    template += '<div class="column-one-third align-right">';
+    template += '</br>';
+    template += '<a href="#" class="button offence-item-button set-selection" data-field="#claim_offence_id" data-value="' + data.id + '">Select and continue</a>';
+    template += '</div></div>';
+    return template;
+  },
+
+  emptyTemplate: function() {
+    var template = '<div class="empty-message">';
+    template += 'No Results, please check your spelling';
+    template += '</div>';
+    return template;
+  },
+
+  initAutoCompleteTextFields: function() {
+    var self = this;
+
+    $('.typeahead-textfield').each(function() {
+      var $element = $(this);
+      var data = $element.data();
+      var dataSource = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+          url: data.url,
+          prepare: function(query, settings) {
+            // TODO: URL for now already has a base query string
+            // hence this just appending extra query params
+            settings.url += '&' + $element.attr('name') + '=' + query;
+            return settings;
+          }
+        }
+      });
+      $element.typeahead({
+        hint: false,
+        highlight: true,
+        menu: $(data.menu),
+        minLength: 3
+      },
+      {
+        name: $element.attr('name'),
+        display: 'value',
+        limit: 100,
+        source: dataSource,
+        templates: {
+          empty: self.emptyTemplate(),
+          suggestion: function(data) {
+            return self.suggestionTemplate(data);
+          }
+        }
+      });
+    });
+  }
 };

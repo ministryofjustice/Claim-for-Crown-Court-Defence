@@ -56,7 +56,9 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_offence
-    validate_presence(:offence, 'blank') unless fixed_fee_case?
+    return if fixed_fee_case?
+    error_message = @record.fee_scheme == 'fee_reform' ? 'new_blank' : 'blank'
+    validate_presence(:offence, error_message)
   end
 
   def validate_case_concluded_at

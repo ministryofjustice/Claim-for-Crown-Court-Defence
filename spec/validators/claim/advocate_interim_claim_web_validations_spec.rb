@@ -6,6 +6,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
   let!(:warrant_fee_type) { create(:warrant_fee_type, :warr) }
   let!(:parking_expense_type) { create(:expense_type, :parking) }
   let!(:subsistence_expense_type) { create(:expense_type, :subsistence) }
+  let!(:offence) { create(:offence, :with_fee_scheme_ten) }
   let(:external_user) { create(:external_user, :advocate) }
   let(:court) { create(:court, name: 'Court Name') }
   let(:attributes) { valid_attributes }
@@ -393,15 +394,15 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     end
   end
 
-  context 'when submission step is interim fees details' do
+  context 'when submission step is offence details' do
     before do
       allow(Settings).to receive(:agfs_fee_reform_release_date).and_return(release_date)
     end
 
-    let(:form_step) { 'interim_fees' }
+    let(:form_step) { 'offence_details' }
     let(:release_date) { 4.months.ago.to_date }
     let(:earliest_representation_order_date) { release_date + 1.day }
-    let(:offence_details_attributes) {
+    let(:previous_step_attributes) {
       {
         court_id: court.id,
         case_number: 'T20170101',
@@ -447,6 +448,87 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         }
       }
     }
+    let(:valid_attributes) {
+      { offence_id: offence.id }
+    }
+
+    subject(:claim) {
+      Claim::AdvocateInterimClaim.create(previous_step_attributes).tap do |record|
+        record.assign_attributes(params)
+      end
+    }
+
+    context 'with valid attributes' do
+      let(:attributes) { valid_attributes }
+
+      specify { is_expected.to be_valid }
+    end
+
+    context 'when offence id is not set' do
+      let(:attributes) { valid_attributes.except(:offence_id) }
+
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:offence]).to match_array(['new_blank'])
+      }
+    end
+  end
+
+  context 'when submission step is interim fees details' do
+    before do
+      allow(Settings).to receive(:agfs_fee_reform_release_date).and_return(release_date)
+    end
+
+    let(:form_step) { 'interim_fees' }
+    let(:release_date) { 4.months.ago.to_date }
+    let(:earliest_representation_order_date) { release_date + 1.day }
+    let(:previous_step_attributes) {
+      {
+        court_id: court.id,
+        case_number: 'T20170101',
+        external_user_id: external_user.id,
+        creator_id: external_user.id,
+        case_transferred_from_another_court: false,
+        defendants_attributes: {
+          '0' => {
+            first_name: 'John',
+            last_name: 'Doe',
+            date_of_birth_dd: '03',
+            date_of_birth_mm: '11',
+            date_of_birth_yyyy: '1967',
+            order_for_judicial_apportionment: '0',
+            representation_orders_attributes: {
+              '0' => {
+                representation_order_date_dd: earliest_representation_order_date.day.to_s,
+                representation_order_date_mm: earliest_representation_order_date.month.to_s,
+                representation_order_date_yyyy: earliest_representation_order_date.year.to_s
+              },
+              '1' => {
+                representation_order_date_dd: (release_date + 2.day).day.to_s,
+                representation_order_date_mm: (release_date + 2.day).month.to_s,
+                representation_order_date_yyyy: (release_date + 2.day).year.to_s
+              }
+            }
+          },
+          '1' => {
+            first_name: 'Jane',
+            last_name: 'Doe',
+            date_of_birth_dd: '26',
+            date_of_birth_mm: '07',
+            date_of_birth_yyyy: '1959',
+            order_for_judicial_apportionment: '0',
+            representation_orders_attributes: {
+              '0' => {
+                representation_order_date_dd: (release_date + 3.day).day.to_s,
+                representation_order_date_mm: (release_date + 3.day).month.to_s,
+                representation_order_date_yyyy: (release_date + 3.day).year.to_s
+              }
+            }
+          }
+        },
+        offence_id: offence.id
+      }
+    }
     let(:warrant_issued_date) { 3.months.ago }
     let(:valid_warrant_fee_attributes) {
       {
@@ -465,7 +547,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     }
 
     subject(:claim) {
-      Claim::AdvocateInterimClaim.create(offence_details_attributes).tap do |record|
+      Claim::AdvocateInterimClaim.create(previous_step_attributes).tap do |record|
         record.assign_attributes(params)
       end
     }
@@ -639,6 +721,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
             }
           }
         },
+        offence_id: offence.id,
         advocate_category: 'QC',
         warrant_fee_attributes: {
           warrant_issued_date_dd: warrant_issued_date.day.to_s,
@@ -845,6 +928,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
             }
           }
         },
+        offence_id: offence.id,
         advocate_category: 'QC',
         warrant_fee_attributes: {
           warrant_issued_date_dd: warrant_issued_date.day.to_s,
@@ -988,6 +1072,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
             }
           }
         },
+        offence_id: offence.id,
         advocate_category: 'QC',
         warrant_fee_attributes: {
           warrant_issued_date_dd: warrant_issued_date.day.to_s,

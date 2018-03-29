@@ -40,6 +40,33 @@ moj.Modules.NewClaim = {
       $('.offence-class-select').hide();
     }
 
+    $('.clear-selection').on('click', function(e) {
+      $('.clearable-fields').each(function(){
+        var elem = $(this);
+        var data = elem.data();
+        elem.attr('value', '');
+        $(data.selection).hide();
+      });
+    });
+
+    $(document.body).on('click', '.set-selection', function(e) {
+      var $element = $(e.target);
+      var data = $element.data();
+      var field = $(data.field);
+      var value = data.value;
+      if(field){
+        field.attr('value', value);
+        var form = field.closest('form');
+        // NOTE: simulate a normal form submit
+        $('<input />')
+          .attr('type', 'hidden')
+          .attr('name', 'commit_continue')
+          .attr('value', 'Submit')
+          .appendTo(form);
+        form.submit();
+      }
+    });
+
     self.attachToOffenceClassSelect();
   },
 

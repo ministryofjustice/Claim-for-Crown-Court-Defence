@@ -13,7 +13,17 @@ class OffencesController < ApplicationController
   skip_load_and_authorize_resource only: [:index]
 
   def index
-    @offences = Offence.in_scheme_nine.where(offence_filter)
+    if params[:fee_scheme] && params[:fee_scheme] == 'fee_reform'
+      @offences = FeeReform::SearchOffences.call(params)
+
+      respond_to do |format|
+        format.json do
+          render json: @offences, each_serializer: FeeReform::OffenceSerializer
+        end
+      end
+    else
+      @offences = Offence.in_scheme_nine.where(offence_filter)
+    end
   end
 
   private

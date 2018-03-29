@@ -4,7 +4,7 @@
 
 = form_for @certification, builder: AdpFormBuilder, url: external_users_claim_certification_path(@claim) do |f|
   %div.certification.normal
-    - if @claim.is_a? Claim::AdvocateClaim
+    - if @claim.agfs?
 
       .grid-row
         .column-two-thirds

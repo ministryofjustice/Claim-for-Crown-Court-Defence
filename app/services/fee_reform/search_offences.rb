@@ -28,6 +28,7 @@ module FeeReform
 
     def description_scope(description)
       offences_table[:description].matches("%#{description}%")
+                                  .or(offences_table[:contrary].matches("%#{description}%"))
                                   .or(bands_table[:description].matches("%#{description}%"))
                                   .or(categories_table[:description].matches("%#{description}%"))
     end

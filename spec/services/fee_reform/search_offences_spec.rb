@@ -12,6 +12,7 @@ RSpec.describe FeeReform::SearchOffences, type: :service do
     [
       create(:offence, :with_fee_scheme_ten, description: 'Offence 10-1'),
       create(:offence, :with_fee_scheme_ten, description: 'Offence 10-4 paTTern'),
+      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-5', contrary: 'Matches pattERN'),
       create(:offence, :with_fee_scheme_ten, description: 'Offence 10-3', offence_band: create(:offence_band, description: 'Bla bla Patterns bla bla')),
       create(:offence, :with_fee_scheme_ten, description: 'Offence 10-2', offence_band: create(:offence_band, offence_category: create(:offence_category, description: 'PaTterN bla bla')))
     ]
@@ -22,8 +23,8 @@ RSpec.describe FeeReform::SearchOffences, type: :service do
 
     it 'returns all existent offences under fee scheme 10' do
       offences = described_class.call(filters)
-      expect(offences.length).to eq(4)
-      expect(offences.map(&:description)).to match_array(['Offence 10-1', 'Offence 10-4 paTTern', 'Offence 10-3', 'Offence 10-2'])
+      expect(offences.length).to eq(5)
+      expect(offences.map(&:description)).to match_array(['Offence 10-1', 'Offence 10-4 paTTern', 'Offence 10-5', 'Offence 10-3', 'Offence 10-2'])
     end
   end
 
@@ -32,8 +33,8 @@ RSpec.describe FeeReform::SearchOffences, type: :service do
 
     it 'returns all offences under fee scheme 10 that match the provided pattern (including band description and category description)' do
       offences = described_class.call(filters)
-      expect(offences.length).to eq(3)
-      expect(offences.map(&:description)).to match_array(['Offence 10-4 paTTern', 'Offence 10-3', 'Offence 10-2'])
+      expect(offences.length).to eq(4)
+      expect(offences.map(&:description)).to match_array(['Offence 10-4 paTTern', 'Offence 10-5', 'Offence 10-3', 'Offence 10-2'])
     end
   end
 end

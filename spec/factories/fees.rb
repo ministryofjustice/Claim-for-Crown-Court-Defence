@@ -173,6 +173,10 @@ FactoryBot.define do
       amount 25
       fee_type { build :basic_fee_type, description: 'Number of prosecution witnesses', code: 'NPW', unique_code: 'BANPW', calculated: false }
     end
+
+    trait :saf_fee do
+      fee_type { build :basic_fee_type, description: 'Standard appearance fee', code: 'SAF', unique_code: 'BASAF' }
+    end
   end
 
   factory :transfer_fee, class: Fee::TransferFee do

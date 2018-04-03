@@ -19,13 +19,13 @@ RSpec.describe 'external_users/claim_types/selection.html.haml', type: :view do
       end
 
       it "should include advocate fee, litigator final, interim and transfer fee options" do
-        expect(response.body).to include("Advocate fees")
+        expect(response.body).to include("Advocate final fee")
         expect(response.body).to include("Litigator final fee")
         expect(response.body).to include("Litigator interim fee")
         expect(response.body).to include("Litigator transfer fee")
       end
 
-      it "should default to selecting Advocate fees" do
+      it "should default to selecting Advocate final fee" do
         expect(response.body).to have_checked_field(:claim_type_agfs)
       end
     end
@@ -40,7 +40,7 @@ RSpec.describe 'external_users/claim_types/selection.html.haml', type: :view do
       end
 
       it "should include litigator final, interim and transfer fee options only" do
-        expect(response.body).not_to include("Advocate fees")
+        expect(response.body).not_to include("Advocate final fee")
         expect(response.body).to include("Litigator final fee")
         expect(response.body).to include("Litigator interim fee")
         expect(response.body).to include("Litigator transfer fee")
@@ -61,7 +61,7 @@ RSpec.describe 'external_users/claim_types/selection.html.haml', type: :view do
       end
 
       it "should include advocate fee options only" do
-        expect(response.body).to include("Advocate fees")
+        expect(response.body).to include("Advocate final fee")
         expect(response.body).not_to include("Litigator final fee")
         expect(response.body).not_to include("Litigator interim fee")
         expect(response.body).not_to include("Litigator transfer fee")

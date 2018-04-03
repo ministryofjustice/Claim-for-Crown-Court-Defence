@@ -3,7 +3,7 @@ require 'api_spec_helper'
 require 'support/claim_api_endpoints'
 require_relative '../shared_examples_for_all'
 
-describe API::V1::ExternalUsers::Claims::AdvocateInterimClaim do
+describe API::V1::ExternalUsers::Claims::Advocate::InterimClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 

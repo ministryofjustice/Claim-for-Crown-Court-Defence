@@ -9,7 +9,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 1,1.2,Manslaughter,"Common Law, Offences against the Person Act 1861, s.5",1861 c. 100
 1,1.2,Conspiracy to commit murder,"Criminal Law Act 1977, s.1",1977 c. 45
 1,1.3,Murder,Common Law,
-1,1.3,Manslaughter,"Common Law, Offences against the Person Act 1861, s.5",1861 c. 100
+1,1.4,Manslaughter,"Common Law, Offences against the Person Act 1861, s.5",1861 c. 100
 1,1.3,Conspiracy to commit murder,"Criminal Law Act 1977, s.1",1977 c. 45
 1,1.3,Soliciting to commit murder,"Offences against the Person Act 1861, s.4   ",1861 c. 100
 2,2.1,Causing explosion likely to endanger life or property,"Explosive Substances Act 1883, s.2",1883 c. 3
@@ -628,6 +628,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 9,9.2,Improper importation of goods and evasion of duty - Class B,"Customs and Excise Management Act 1979, s.50, s.170",1979 c. 2
 9,9.2,Exportation of prohibited or restricted goods - Class B,"Customs and Excise Management Act 1979, s.68, s.170 ",1979 c. 2
 9,9.2,Restriction of importation or exportation of controlled drugs - Class B,"Misuse of Drugs Act 1971, s.3",1971 c. 38
+9,9.2,Supply Psychoactive Substances,"Psychoactive Substances Act 2016, s.7",2016 c. 2
 9,9.3,Carrying or concealing on a ship a controlled drug for import or export - Class C,"Criminal Justice (International Co-operation) Act 1990, s.19 ",1990 c. 5
 9,9.3,Improper importation of goods and evasion of duty - Class C,"Customs and Excise Management Act 1979, s.50, s.170",1979 c. 2
 9,9.3,Exportation of prohibited or restricted goods - Class C,"Customs and Excise Management Act 1979, s.68, s.170 ",1979 c. 2
@@ -638,6 +639,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 9,9.3,Assisting in or inducing commission of drug offence outside United Kingdom,"Misuse of Drugs Act 1971, s.20 ",1971 c. 38
 9,9.3,"Production, supply or offer to supply, or being concerned in the production - Class C","Misuse of Drugs Act 1971, s.4",1971 c. 38
 9,9.3,Possession of a controlled drug with intent to supply - Class C,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
+9,9.3,Supply Psychoactive Substances,"Psychoactive Substances Act 2016, s.7",2016 c. 2
 9,9.4,"Production, supply or offer to supply, or being concerned in the production - Class A","Misuse of Drugs Act 1971, s.4",1971 c. 38
 9,9.4,Possession of a controlled drug with intent to supply - Class A,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
 9,9.4,Offences relating to opium,"Misuse of Drugs Act 1971, s.9 ",1971 c. 38
@@ -652,12 +654,14 @@ Category,Band,Offence,Contrary to,Year and Chapter
 9,9.5,"Production, supply or offer to supply, or being concerned in the production - Class B","Misuse of Drugs Act 1971, s.4",1971 c. 38
 9,9.5,Possession of a controlled drug with intent to supply - Class B,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
 9,9.5,Restrictions of cultivation of cannabis plant,"Misuse of Drugs Act 1971, s.6 ",1971 c. 38
+9,9.5,Supply Psychoactive Substances,"Psychoactive Substances Act 2016, s.7",2016 c. 2
 9,9.6,Supply etc. of articles for administering or preparing controlled drugs ,"Misuse of Drugs Act 1971, s.9A ",1971 c. 38
 9,9.6,Incite another to supply a controlled drug ,"Misue of Drugs Act 1971, s.19",1971 c. 38
 9,9.6,Offences against Misuse of Drugs Regulations etc,"Misuse of Drugs Act 1971, s.18",1971 c. 38
 9,9.6,Assisting in or inducing commission of drug offence outside United Kingdom,"Misuse of Drugs Act 1971, s.20 ",1971 c. 38
 9,9.6,"Production, supply or offer to supply, or being concerned in the production - Class C","Misuse of Drugs Act 1971, s.4",1971 c. 38
 9,9.6,Possession of a controlled drug with intent to supply - Class C,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
+9,9.6,Supply Psychoactive Substances,"Psychoactive Substances Act 2016, s.7",2016 c. 2
 9,9.7,"Production, supply or offer to supply, or being concerned in the production - Class A","Misuse of Drugs Act 1971, s.4",1971 c. 38
 9,9.7,Possession of a controlled drug with intent to supply - Class A,"Misuse of Drugs Act 1971, s.5(3) ",1971 c. 38
 9,9.7,Offences relating to opium,"Misuse of Drugs Act 1971, s.9 ",1971 c. 38

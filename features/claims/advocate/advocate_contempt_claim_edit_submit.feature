@@ -6,6 +6,7 @@ Feature: Advocate submits a claim for a Contempt case
     Given I am a signed in advocate
     And I am on the 'Your claims' page
     And I click 'Start a claim'
+    And I select the fee scheme 'Advocate final fee'
     Then I should be on the new claim page
 
     And I select the court 'Blackfriars'

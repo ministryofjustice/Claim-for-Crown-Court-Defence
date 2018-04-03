@@ -6,6 +6,7 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     Given I am a signed in advocate
     And I am on the 'Your claims' page
     And I click 'Start a claim'
+    And I select the fee scheme 'Advocate final fee'
     Then I should be on the new claim page
 
     And I select the court 'Blackfriars'

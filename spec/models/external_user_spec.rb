@@ -263,9 +263,15 @@ RSpec.describe ExternalUser, type: :model do
     context 'for users with only an advocate role' do
       let(:user) { build(:external_user, :advocate) }
 
-      it 'returns the single advocate claim type available' do
-        expect(user.available_claim_types)
-          .to match_array([Claim::AdvocateClaim])
+      context 'when the AGFS fee reform feature flag is NOT active' do
+        before do
+          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(false)
+        end
+
+        it 'returns the single advocate claim type available' do
+          expect(user.available_claim_types)
+            .to match_array([Claim::AdvocateClaim])
+        end
       end
 
       context 'when the AGFS fee reform feature flag is active' do
@@ -292,9 +298,15 @@ RSpec.describe ExternalUser, type: :model do
     context 'for users with an admin role' do
       let(:user) { build(:external_user, :admin) }
 
-      it 'returns the list of all available claims types' do
-        expect(user.available_claim_types)
-          .to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+      context 'when the AGFS fee reform feature flag is NOT active' do
+        before do
+          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(false)
+        end
+
+        it 'returns the list of all available claims types' do
+          expect(user.available_claim_types)
+            .to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+        end
       end
 
       context 'when the AGFS fee reform feature flag is active' do
@@ -312,9 +324,15 @@ RSpec.describe ExternalUser, type: :model do
     context 'for users with both an advocate and litigator role' do
       let(:user) { build(:external_user, :advocate_litigator) }
 
-      it 'returns the list of claims types available for advocates and litigators' do
-        expect(user.available_claim_types)
-          .to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+      context 'when the AGFS fee reform feature flag is NOT active' do
+        before do
+          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(false)
+        end
+
+        it 'returns the list of claims types available for advocates and litigators' do
+          expect(user.available_claim_types)
+            .to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+        end
       end
 
       context 'when the AGFS fee reform feature flag is active' do

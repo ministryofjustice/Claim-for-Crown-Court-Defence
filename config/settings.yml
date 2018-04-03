@@ -81,7 +81,7 @@ scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
 # on their claim
 email_notification_enabled?: true
 
-feature_flags_enabled?: <%= !%w(test api-sandbox gamma).include?(ENV['ENV']) %>
+feature_flags_enabled?: true
 active_features:
   - :agfs_fee_reform
 

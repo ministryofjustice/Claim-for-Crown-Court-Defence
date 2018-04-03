@@ -89,9 +89,9 @@ if (!String.prototype.supplant) {
   });
 
 
-  $('.defendants').on('cocoon:after-insert', function(e, el){
+  $('.form-actions').on('cocoon:after-insert', function(e, el){
     var $el = $(el);
-    if($el.hasClass('defendant-details')){
+    if($el.hasClass('resource-details')){
       $el.find('a.add_fields').click();
     }
   });

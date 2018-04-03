@@ -1,7 +1,8 @@
 - locale_scope = 'external_users.claims.offence_details'
 - selected_offence = f.object.offence
+- valid_offence = selected_offence.present? && selected_offence.offence_category.present?
 
-- if selected_offence.present?
+- if valid_offence
   .grid-row
     .column-two-thirds
       .selected-offence
@@ -22,7 +23,7 @@
     %span.form-hint
       = t('search_offence_hint', scope: "#{locale_scope}.fields")
     %input{ type: :text, id: 'search_offence', name: 'search_offence', class: 'form-control form-control-2-3 typeahead typeahead-textfield', data: { url: "/offences?fee_scheme=#{@claim.fee_scheme}",  menu: '#offence-list' } }
-    = f.hidden_field :offence_id, value: f.object.offence.present? ? f.object.offence.id : nil, class: 'clearable-fields', data: { selection: '.selected-offence' }
+    = f.hidden_field :offence_id, value: valid_offence ? f.object.offence.id : nil, class: 'clearable-fields', data: { selection: '.selected-offence' }
 
   %details
     %summary

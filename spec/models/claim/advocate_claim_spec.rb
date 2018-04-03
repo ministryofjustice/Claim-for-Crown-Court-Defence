@@ -159,7 +159,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   context 'eligible misc and fixed fee types' do
     before(:all) do
-      @bft1 = create :basic_fee_type, :agfs_scheme_10
+      @bft1 = create :basic_fee_type, roles: %w[agfs agfs_scheme_9 agfs_scheme_10]
       @bft2 = create :basic_fee_type, :lgfs
       @bft3 = create :basic_fee_type
       @mft1 = create :misc_fee_type, :agfs_scheme_9

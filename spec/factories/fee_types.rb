@@ -21,7 +21,7 @@ FactoryBot.define do
     sequence(:description) { |n| "AGFS, Basic fee type, basic fee -#{n}" }
     code { random_safe_code }
     calculated true
-    roles ['agfs']
+    roles %w[agfs agfs_scheme_9]
     quantity_is_decimal false
     unique_code { generate_unique_code }
 

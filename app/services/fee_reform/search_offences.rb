@@ -15,7 +15,8 @@ module FeeReform
       offences = Offence.unscoped.in_scheme_ten
                         .joins(offence_band: :offence_category)
                         .includes(offence_band: :offence_category)
-                        .group('offences.description, offences.id, offence_bands.id, offence_categories.id')
+                        .group('offence_categories.id, offence_bands.id, offences.id')
+                        .order('offence_categories.description, offence_bands.description, offences.description')
 
       offences = offences.where(description_scope(filters[:search_offence])) if filters[:search_offence].present?
 
@@ -28,6 +29,7 @@ module FeeReform
 
     def description_scope(description)
       offences_table[:description].matches("%#{description}%")
+                                  .or(offences_table[:contrary].matches("%#{description}%"))
                                   .or(bands_table[:description].matches("%#{description}%"))
                                   .or(categories_table[:description].matches("%#{description}%"))
     end

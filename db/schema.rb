@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180314084912) do
+ActiveRecord::Schema.define(version: 20180329145753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -337,6 +337,7 @@ ActiveRecord::Schema.define(version: 20180314084912) do
     t.integer  "parent_id"
     t.boolean  "quantity_is_decimal", default: false
     t.string   "unique_code"
+    t.integer  "position"
   end
 
   add_index "fee_types", ["code"], name: "index_fee_types_on_code", using: :btree

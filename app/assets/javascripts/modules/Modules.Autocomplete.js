@@ -241,7 +241,7 @@ moj.Modules.Autocomplete = {
       {
         name: $element.attr('name'),
         display: 'value',
-        limit: 100,
+        limit: 1000,
         source: dataSource,
         templates: {
           empty: self.emptyTemplate(),

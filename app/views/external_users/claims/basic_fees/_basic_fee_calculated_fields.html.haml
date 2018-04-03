@@ -4,12 +4,10 @@
       = t('.fee_type')
 
     = f.object.description
-    - if fee.fee_type.code == 'BAF'
+
+    - if fee.prompt_text
       .form-hint
-        = raw t('.basic_fee_prompt_text')
-    - if fee.fee_type.code == 'SAF'
-      .form-hint
-        = raw t('.saf_prompt_text')
+        = fee.prompt_text
 
   .column-one-quarter.fee-quantity
     = f.adp_text_field :quantity,

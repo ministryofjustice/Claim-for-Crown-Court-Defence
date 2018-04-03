@@ -500,7 +500,11 @@ en:
         basic_fee_calculated_fields:
           basic_fee_prompt_text: |
             Please include dates for those Standard appearance fees and PTPH's included in the Basic Fee
+          basic_fee_reform_prompt_text: |
+            The basic fee for Scheme 10 claims includes the first day of trial and 3 conferences and views. All other hearings must be added in the relevant sections below
           fee_type: Fee type
+          ppe_fee_reform_prompt_text: |
+            Please enter the volume of PPE to help the caseworker assess the correct offence band
           quantity: Quantity
           rate: Rate
           case_numbers: *case_numbers

@@ -1,4 +1,5 @@
-= render partial: 'external_users/claims/supporting_documents/disk_evidence', locals: { f: f }
+- unless @claim.agfs? && @claim.interim?
+  = render partial: 'external_users/claims/supporting_documents/disk_evidence', locals: { f: f }
 
 %h3.heading-medium
   = t('.supporting_evidence_docs')

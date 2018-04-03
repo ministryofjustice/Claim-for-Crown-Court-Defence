@@ -4,13 +4,13 @@
   %th{scope: 'row'}
     = t('offence_class', scope: claim_fields)
   %td
-    = claim.offence ? claim.offence.offence_category.description : t("general.not_provided")
+    = claim.offence&.offence_category ? claim.offence.offence_category.description : t("general.not_provided")
 
 %tr
   %th{scope: 'row'}
     = t('offence_band', scope: claim_fields)
   %td
-    = claim.offence ? claim.offence.offence_band.description : t("general.not_provided")
+    = claim.offence&.offence_band ? claim.offence.offence_band.description : t("general.not_provided")
 
 %tr
   %th{scope: 'row'}

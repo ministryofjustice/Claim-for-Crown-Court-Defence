@@ -37,7 +37,7 @@ module Seeds
       end
 
       def process_row(row)
-        id, description, code, unique_code, max_amount, calculated, fee_type, roles, parent_id, quantity_is_decimal = row
+        id, description, code, unique_code, max_amount, calculated, fee_type, roles, parent_id, quantity_is_decimal, position = row
         row_attributes = {
           id: id,
           description: description,
@@ -47,7 +47,8 @@ module Seeds
           calculated: calculated,
           fee_type: fee_type,
           roles: roles,
-          quantity_is_decimal: quantity_is_decimal
+          quantity_is_decimal: quantity_is_decimal,
+          position: position
         }
         klass = fee_type.constantize
         parent_id = parent_id.nil? ? nil : klass.find_by(description: parent_id.strip).try(:id)

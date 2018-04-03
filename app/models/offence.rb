@@ -23,7 +23,7 @@ class Offence < ActiveRecord::Base
     end
   end
 
-  delegate :offence_category, to: :offence_band
+  delegate :offence_category, to: :offence_band, allow_nil: true
 
   validates :offence_class, presence: true, unless: :offence_band_id
   validates :offence_band, presence: true, unless: :offence_class_id

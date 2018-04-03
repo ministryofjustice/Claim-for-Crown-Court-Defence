@@ -12,8 +12,6 @@ module API::V1::ExternalUsers
 
         use :common_params
         use :legacy_agfs_params
-        # TODO: this might need to be changed given there's a different list
-        # of advocate categories depending on the fee scheme in use
         optional :advocate_category,
                  type: String,
                  desc: local_t(:advocate_category),

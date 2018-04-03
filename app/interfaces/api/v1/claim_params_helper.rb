@@ -2,6 +2,7 @@ module API
   module V1
     module ClaimParamsHelper
       extend Grape::API::Helpers
+      AGFS_SCOPE = %i[api v1 external_users claims advocate_claim params].freeze
 
       # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
       #
@@ -34,10 +35,46 @@ module API
       end
 
       params :common_lgfs_params do
-        optional :user_email, type: String, desc: I18n.t('api.v1.common_params.user_email')
+        use :user_email
         optional :supplier_number, type: String, desc: 'REQUIRED. The supplier number.'
         optional :transfer_court_id, type: Integer, desc: 'OPTIONAL: The unique identifier for the transfer court.'
         optional :transfer_case_number, type: String, desc: 'OPTIONAL: The case number for the transfer court.'
+      end
+
+      params :legacy_agfs_params do
+        optional :advocate_email, type: String, desc: local_t(:advocate_email, AGFS_SCOPE)
+        use :user_email
+      end
+
+      params :common_agfs_params do
+        optional :actual_trial_length, type: Integer, desc: local_t(:actual_trial_length, AGFS_SCOPE)
+        optional :retrial_actual_length, type: Integer, desc: local_t(:retrial_actual_length, AGFS_SCOPE)
+        optional :retrial_concluded_at,
+                 type: String,
+                 desc: local_t(:retrial_concluded_at, AGFS_SCOPE),
+                 standard_json_format: true
+        optional :retrial_reduction,
+                 type: Boolean,
+                 desc: local_t(:retrial_reduction, AGFS_SCOPE),
+                 documentation: { default: false }
+
+        optional :trial_fixed_notice_at,
+                 type: String, desc:
+                     local_t(:trial_fixed_notice_at, AGFS_SCOPE),
+                 standard_json_format: true
+        optional :trial_fixed_at, type: String, desc: local_t(:trial_fixed_at, AGFS_SCOPE), standard_json_format: true
+        optional :trial_cracked_at,
+                 type: String,
+                 desc: local_t(:trial_cracked_at, AGFS_SCOPE),
+                 standard_json_format: true
+        optional :trial_cracked_at_third,
+                 type: String,
+                 desc: local_t(:trial_cracked_at_third, AGFS_SCOPE),
+                 values: Settings.trial_cracked_at_third
+      end
+
+      params :user_email do
+        optional :user_email, type: String, desc: I18n.t('api.v1.common_params.user_email')
       end
 
       def build_arguments

@@ -14,7 +14,7 @@ namespace :db do
       puts "Expect FeeSchemes to equal 3: #{FeeScheme.count}"
       puts "Expect OffenceCategories to equal 17: #{OffenceCategory.count}"
       puts "Expect OffenceBands to equal 48: #{OffenceBand.count}"
-      puts "Expect Offences to equal 1244: #{Offence.where(id: 1000..Float::INFINITY).count}"
+      puts "Expect Offences to equal 1248: #{Offence.where(id: 1000..Float::INFINITY).count}"
       ActiveRecord::Base.logger.level = log_level
     end
   end

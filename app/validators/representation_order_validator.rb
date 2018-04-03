@@ -17,6 +17,9 @@ class RepresentationOrderValidator < BaseValidator
     validate_presence(:representation_order_date, 'blank')
     validate_on_or_before(Date.today, :representation_order_date, 'in_future')
     validate_on_or_after(earliest_permitted[:date], :representation_order_date, earliest_permitted[:error])
+    if scheme_ten?
+      validate_on_or_after(Settings.agfs_fee_reform_release_date, :representation_order_date, 'scheme_ten_offence')
+    end
 
     return if @record.is_first_reporder_for_same_defendant?
     first_reporder_date = @record.first_reporder_for_same_defendant.try(:representation_order_date)
@@ -37,6 +40,10 @@ class RepresentationOrderValidator < BaseValidator
   #
   def claim
     @record.defendant.claim
+  end
+
+  def scheme_ten?
+    claim&.offence&.scheme_ten?
   end
 
   def earliest_permitted

@@ -71,6 +71,10 @@ module Fee
           subject.case_uplift?
         end
       end
+
+      describe '#position' do
+        specify { is_expected.to delegate_method(:position).to(:fee_type) }
+      end
     end
 
     describe 'blank quantity should be set to zero before validation' do

@@ -5,7 +5,7 @@
     %span.table-caption.visuallyhidden
       = t('.caption')
   %tbody
-    - present_collection(claim.fees.select(&:present?)).each do |fee|
+    - present_collection(claim.fees.select(&:present?).sort_by { |fee| fee.fee_type.position }).each do |fee|
       %tr
         %th.summary-headings{ scope: 'row'}
           = t('shared.summary.fee_category')

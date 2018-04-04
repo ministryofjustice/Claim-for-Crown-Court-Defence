@@ -25,7 +25,7 @@
             %th.numeric{ scope: 'col' }
               = t('.amount')
         %tbody
-          - present_collection(claim.fees.select(&:present?)).each do |fee|
+          - present_collection(claim.fees.select(&:present?).sort_by { |fee| fee.fee_type.position }).each do |fee|
             %tr
               %td
                 = fee.fee_type&.fee_category_name || 'n/a'

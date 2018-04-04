@@ -4,7 +4,7 @@ class ClaimStateTransitionReason
 
   attr_accessor :code, :description
 
-  TRANSITION_REASONS = HashWithIndifferentAccess.new(
+  TRANSITION_REASONS = {
     rejected: {
       no_indictment: 'No indictment attached',
       no_rep_order: 'No Magistrates’ representation order attached (granted before 1/8/2015)',
@@ -12,6 +12,7 @@ class ClaimStateTransitionReason
       no_amend_rep_order: 'No amending representation order',
       case_still_live: 'Case still live',
       wrong_case_no: 'Incorrect case number',
+      wrong_maat_ref: 'Wrong MAAT reference',
       other: 'Other'
     },
     disbursement: {
@@ -41,7 +42,7 @@ class ClaimStateTransitionReason
     global: {
       timed_transition: 'TimedTransition::Transitioner'
     }
-  ).freeze
+  }.with_indifferent_access.freeze
 
   def initialize(code, description)
     self.code = code

@@ -41,17 +41,24 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
 
   describe '.reject_reasons_for' do
     subject(:reject_reasons_for) { described_class.reject_reasons_for(claim) }
-
-    context 'for a Litigator interim, disbursement only claim' do
-      let(:claim) { create(:interim_claim, :disbursement_only_fee, state: 'rejected') }
-
-      it { expect(subject.count).to eq 9 }
-    end
+    let(:reasons) { %w[no_indictment no_rep_order time_elapsed no_amend_rep_order case_still_live wrong_case_no wrong_maat_ref other] }
+    let(:disbursement_only_reasons) { %w[no_prior_authority no_invoice] }
+    let(:all_reasons) { (reasons + disbursement_only_reasons) }
 
     context 'for an advocate claim' do
       let(:claim) { create(:advocate_claim, state: 'rejected') }
 
-      it { expect(subject.count).to eq 7 }
+      it 'returns base rejection reasons' do
+        expect(reject_reasons_for.map(&:code)).to match_array(reasons)
+      end
+    end
+
+    context 'for a Litigator interim, disbursement only claim' do
+      let(:claim) { create(:interim_claim, :disbursement_only_fee, state: 'rejected') }
+
+      it 'returns base rejection reasons and disbursement specific reasons' do
+        expect(reject_reasons_for.map(&:code)).to match_array(all_reasons)
+      end
     end
   end
 

@@ -1,10 +1,8 @@
 module DemoData
-
   class BasicFeeGenerator
-
     def initialize(claim)
       @claim       = claim
-      @fee_types   = Fee::BasicFeeType.all
+      @fee_types   = Fee::BasicFeeType.agfs_scheme_9s.all
       @codes_added = []
     end
 
@@ -18,7 +16,6 @@ module DemoData
     end
 
     private
-
 
     def update_basic_fee(basic_fee_code, attributes={})
       fee = @claim.basic_fees.find_by(fee_type_id: basic_fee_type_by_code(basic_fee_code))
@@ -94,10 +91,5 @@ module DemoData
       raise RuntimeError.new "Unable to find Fee Type with code #{code}" if fee_type.nil?
       fee_type
     end
-
   end
-
 end
-
-
-

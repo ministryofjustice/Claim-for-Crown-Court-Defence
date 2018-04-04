@@ -7,6 +7,7 @@ Feature: An API promotion banner will appear on the create claim page, until the
     And The API promo feature flag is enabled
     And I am on the 'Your claims' page
     When I click 'Start a claim'
+    And I select the fee scheme 'Advocate final fee'
     Then I should be on the new claim page
 
     And The API promo banner is visible

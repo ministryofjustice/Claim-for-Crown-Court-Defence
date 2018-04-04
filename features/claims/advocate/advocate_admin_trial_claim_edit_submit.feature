@@ -6,6 +6,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And There are other advocates in my provider
     And I am on the 'Your claims' page
     And I click 'Start a claim'
+    And I select the fee scheme 'Advocate final fee'
     Then I should be on the new claim page
 
     When I choose 'Doe, John (AC135)' as the instructed advocate

@@ -120,9 +120,15 @@ RSpec.describe Provider, type: :model do
     context 'for an AGFS provider' do
       let(:provider) { build :provider, :agfs }
 
-      it 'return the list of available claim types for AGFS' do
-        expect(provider.available_claim_types)
-          .to match_array([ Claim::AdvocateClaim ])
+      context 'when the AGFS fee reform feature flag is NOT active' do
+        before do
+          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(false)
+        end
+
+        it 'return the list of available claim types for AGFS' do
+          expect(provider.available_claim_types)
+            .to match_array([ Claim::AdvocateClaim ])
+        end
       end
 
       context 'when the AGFS fee reform feature flag is active' do
@@ -149,9 +155,15 @@ RSpec.describe Provider, type: :model do
     context 'for a AGFS and LGFS provider' do
       let(:provider) { build(:provider, :agfs_lgfs) }
 
-      it 'returns the list of available claim types for AGFS and LGFS' do
-        expect(provider.available_claim_types)
-          .to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+      context 'when the AGFS fee reform feature flag is NOT active' do
+        before do
+          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(false)
+        end
+
+        it 'returns the list of available claim types for AGFS and LGFS' do
+          expect(provider.available_claim_types)
+            .to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+        end
       end
 
       context 'when the AGFS fee reform feature flag is active' do

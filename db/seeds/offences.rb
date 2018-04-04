@@ -1,6 +1,8 @@
 require 'csv'
 require_relative '../offence_code_seeder.rb'
 
+Offence.reset_column_information
+
 file_path = Rails.root.join('lib', 'assets', 'data', 'offences.csv')
 csv_file = File.open(file_path, 'r:ISO-8859-1')
 csv = CSV.parse(csv_file, headers: true)

@@ -13,6 +13,7 @@ expense_types = [
 ]
 
 max_id = 0
+ExpenseType.reset_column_information
 expense_types.each do |fields|
   record_id, name, roles, reason_set, code = fields
   max_id = [max_id, record_id].max

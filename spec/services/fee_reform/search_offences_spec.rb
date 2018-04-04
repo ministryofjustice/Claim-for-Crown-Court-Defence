@@ -10,11 +10,11 @@ RSpec.describe FeeReform::SearchOffences, type: :service do
   }
   let!(:scheme_10_offences) {
     [
-      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-1', offence_band: create(:offence_band, description: 'OB-A', offence_category: create(:offence_category, description: 'OC-A'))),
-      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-4 paTTern', offence_band: create(:offence_band, description: 'OB-B', offence_category: create(:offence_category, description: 'OC-A'))),
-      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-5', contrary: 'Matches pattERN', offence_band: create(:offence_band, description: 'OB-A', offence_category: create(:offence_category, description: 'OC-Z'))),
-      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-3', offence_band: create(:offence_band, description: 'Bla bla Patterns bla bla', offence_category: create(:offence_category, description: 'OC-C'))),
-      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-2', offence_band: create(:offence_band, offence_category: create(:offence_category, description: 'PaTterN bla bla')))
+      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-1', offence_band: create(:offence_band, description: 'OB-A', number: 1, offence_category: create(:offence_category, description: 'OC-A', number: 1))),
+      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-4 paTTern', offence_band: create(:offence_band, description: 'OB-B', number: 2, offence_category: create(:offence_category, description: 'OC-A', number: 1))),
+      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-5', contrary: 'Matches pattERN', offence_band: create(:offence_band, description: 'OB-A', number: 1, offence_category: create(:offence_category, description: 'OC-Z', number: 12))),
+      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-3', offence_band: create(:offence_band, description: 'Bla bla Patterns bla bla', number: 2, offence_category: create(:offence_category, description: 'OC-C', number: 3))),
+      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-2', offence_band: create(:offence_band, description: 'AAA', number: 1, offence_category: create(:offence_category, description: 'PaTterN bla bla', number: 17)))
     ]
   }
 

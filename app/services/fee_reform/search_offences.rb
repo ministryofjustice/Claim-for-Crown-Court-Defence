@@ -16,7 +16,7 @@ module FeeReform
                         .joins(offence_band: :offence_category)
                         .includes(offence_band: :offence_category)
                         .group('offence_categories.id, offence_bands.id, offences.id')
-                        .order('offence_categories.description, offence_bands.description, offences.description')
+                        .order('offence_categories.number, offence_bands.number, offences.description')
 
       offences = offences.where(description_scope(filters[:search_offence])) if filters[:search_offence].present?
 

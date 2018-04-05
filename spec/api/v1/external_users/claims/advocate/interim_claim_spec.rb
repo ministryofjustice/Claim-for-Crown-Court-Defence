@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'api_spec_helper'
 require 'support/claim_api_endpoints'
-require_relative '../shared_examples_for_all'
+require_relative '../../shared_examples_for_all'
 
 describe API::V1::ExternalUsers::Claims::Advocate::InterimClaim do
   include Rack::Test::Methods
@@ -12,24 +12,14 @@ describe API::V1::ExternalUsers::Claims::Advocate::InterimClaim do
   let!(:vendor)         { create(:external_user, :admin, provider: provider) }
   let!(:advocate)       { create(:external_user, :advocate, provider: provider) }
   let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
-  let!(:offence)        { create(:offence)}
+  let!(:offence)        { create(:offence, :with_fee_scheme_ten)}
   let!(:court)          { create(:court)}
   let!(:valid_params)   { {
       :api_key => provider.api_key,
       :creator_email => vendor.user.email,
       :advocate_email => advocate.user.email,
-      :case_type_id => FactoryBot.create(:case_type, :retrial).id,
       :case_number => 'A20161234',
-      :first_day_of_trial => "2015-01-01",
-      :estimated_trial_length => 10,
-      :actual_trial_length => 9,
-      :trial_concluded_at => "2015-01-09",
-      :retrial_started_at => "2015-02-01",
-      :retrial_concluded_at => "2015-02-05",
-      :retrial_actual_length => "4",
-      :retrial_estimated_length => "5",
-      :retrial_reduction => "true",
-      :advocate_category => 'Led junior',
+      :advocate_category => 'Leading junior',
       :offence_id => offence.id,
       :court_id => court.id } }
 
@@ -42,7 +32,7 @@ describe API::V1::ExternalUsers::Claims::Advocate::InterimClaim do
   end
 
   context 'when sending non-permitted verbs' do
-    ClaimApiEndpoints.for(:advocate).all.each do |endpoint| # for each endpoint
+    ClaimApiEndpoints.for('advocate/interim').all.each do |endpoint| # for each endpoint
       context "to endpoint #{endpoint}" do
         ClaimApiEndpoints.forbidden_verbs.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
           it "#{api_verb.upcase} should return a status of 405" do
@@ -54,9 +44,9 @@ describe API::V1::ExternalUsers::Claims::Advocate::InterimClaim do
     end
   end
 
-  describe "POST #{ClaimApiEndpoints.for(:advocate).validate}" do
+  describe "POST #{ClaimApiEndpoints.for('advocate/interim').validate}" do
     def post_to_validate_endpoint
-      post ClaimApiEndpoints.for(:advocate).validate, valid_params, format: :json
+      post ClaimApiEndpoints.for('advocate/interim').validate, valid_params, format: :json
     end
 
     it 'valid requests should return 200 and String true' do
@@ -95,35 +85,11 @@ describe API::V1::ExternalUsers::Claims::Advocate::InterimClaim do
       post_to_validate_endpoint
       expect_error_response("Enter a case number")
     end
-
-    it 'returns 400 and JSON error when dates are not in acceptable format' do
-      valid_params[:first_day_of_trial] = '01-01-2015'
-      valid_params[:trial_concluded_at] = '09-01-2015'
-      valid_params[:trial_fixed_notice_at] = '01-01-2015'
-      valid_params[:trial_fixed_at] = '01-01-2015'
-      valid_params[:trial_cracked_at] = '01-01-2015'
-      valid_params[:retrial_started_at] = '01-01-2015'
-      valid_params[:retrial_concluded_at] = '01-01-2015'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      body = last_response.body
-      [
-        "first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"
-      ].each do |error|
-        expect(body).to include(error)
-      end
-    end
   end
 
-  describe "POST #{ClaimApiEndpoints.for(:advocate).create}" do
+  describe "POST #{ClaimApiEndpoints.for('advocate/interim').create}" do
     def post_to_create_endpoint
-      post ClaimApiEndpoints.for(:advocate).create, valid_params, format: :json
+      post ClaimApiEndpoints.for('advocate/interim').create, valid_params, format: :json
     end
 
     context "when claim params are valid" do
@@ -196,35 +162,33 @@ describe API::V1::ExternalUsers::Claims::Advocate::InterimClaim do
 
       context "missing expected params" do
         it "should return a JSON error array when required model attributes are missing" do
-          valid_params.delete(:case_type_id)
           valid_params.delete(:case_number)
           post_to_create_endpoint
-          expect_error_response("Choose a case type",0)
-          expect_error_response("Enter a case number",1)
+          expect_error_response("Enter a case number")
         end
       end
 
       context "existing but invalid value" do
         it "should return 400 and JSON error array of model validation BLANK errors" do
-          valid_params[:estimated_trial_length] = -1
-          valid_params[:actual_trial_length] = -1
+          valid_params[:court_id] = -1
+          valid_params[:offence_id] = -1
           post_to_create_endpoint
-          expect_error_response("Enter a whole number of days for the estimated trial length",0)
-          expect_error_response("Enter a whole number of days for the actual trial length",1)
+          expect_error_response("Choose a court",0)
+          expect_error_response("Choose an offence",1)
         end
 
         it "should return 400 and JSON error array of model validation INVALID errors" do
-          valid_params[:estimated_trial_length] = nil
-          valid_params[:actual_trial_length] = nil
+          valid_params[:court_id] = nil
+          valid_params[:offence_id] = nil
           post_to_create_endpoint
-          expect_error_response("Enter an estimated trial length",0)
-          expect_error_response("Enter an actual trial length",1)
+          expect_error_response("Choose a court",0)
+          expect_error_response("Choose an offence",1)
         end
       end
 
       context "unexpected error" do
         it "should return 400 and JSON error array of error message" do
-          valid_params[:case_type_id] = 1000000000000000000000000000011111
+          valid_params[:court_id] = 1000000000000000000000000000011111
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           json = JSON.parse(last_response.body)

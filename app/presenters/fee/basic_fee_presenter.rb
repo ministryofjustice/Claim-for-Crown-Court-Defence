@@ -10,6 +10,12 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
     I18n.t(key, scope: t_scope)
   end
 
+  def should_be_displayed?
+    return true unless claim.fee_scheme == 'fee_reform'
+    return true unless FEE_CODES_RESTRICTED_DISPLAY.include?(code)
+    OFFENCE_CATEGORIES_WITHOUT_RESTRICTED_DISPLAY.include?(offence_category_number)
+  end
+
   def display_amount?
     # TODO: this is not really ideal, but right now I
     # can't see any other way to achieve this specific
@@ -23,6 +29,8 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
 
   FEE_CODES_WITH_PROMPT_TEXT = %w[BAF SAF PPE].freeze
   FEE_CODES_WITHOUT_AMOUNT = %w[PPE].freeze
+  FEE_CODES_RESTRICTED_DISPLAY = %w[PPE].freeze
+  OFFENCE_CATEGORIES_WITHOUT_RESTRICTED_DISPLAY = [6, 9].freeze
 
   def code
     fee.fee_type.code
@@ -30,6 +38,10 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
 
   def claim
     fee.claim
+  end
+
+  def offence_category_number
+    claim&.offence&.offence_category&.number
   end
 
   def prompt_text_key_for(code)

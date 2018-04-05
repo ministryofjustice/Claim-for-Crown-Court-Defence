@@ -6,6 +6,6 @@
     %p
       = raw t('.fee_prompt_text')
 
-    = f.fields_for :basic_fees, f.object.basic_fees.sort_by { |fee| fee.fee_type.position } do |basic_fee_fields|
+    = f.fields_for :basic_fees, f.object.basic_fees.sort_by(&:position) do |basic_fee_fields|
       - @basic_fee_count += 1
       = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields

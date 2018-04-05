@@ -25,7 +25,8 @@ module API
     VALID_MODEL_KLASSES = [
       Fee::GraduatedFee, Fee::InterimFee, Fee::TransferFee, Fee::BasicFee, Fee::MiscFee, Fee::FixedFee,
       Expense, Disbursement, Defendant, DateAttended, RepresentationOrder,
-      Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim
+      Claim::AdvocateClaim, Claim::AdvocateInterimClaim,
+      Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim
     ].freeze
 
     def initialize(object)

@@ -11,16 +11,22 @@ module API::V1::ExternalUsers
             I18n.t(attribute.to_s, scope: scope)
           end
 
-          use :common_params
-          use :legacy_agfs_params
+          optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the provider'
+          optional :creator_email, type: String, desc: I18n.t('api.v1.common_params.creator_email')
+          optional :court_id, type: Integer, desc: 'REQUIRED: The unique identifier for this court'
+          optional :offence_id, type: Integer, desc: 'REQUIRED: The unique identifier for this offence.'
+          optional :case_number, type: String, desc: 'REQUIRED: The case number'
+          optional :providers_ref, type: String, desc: 'OPTIONAL: Providers reference number'
+          optional :cms_number, type: String, desc: 'OPTIONAL: The CMS number'
+          optional :additional_information, type: String, desc: 'OPTIONAL: Any additional information'
+          optional :apply_vat, type: Boolean, desc: 'OPTIONAL: Include VAT (JSON Boolean data type: true or false)'
+          use :user_email
           optional :advocate_category,
                    type: String,
                    desc: local_t(:advocate_category),
                    values: Settings.agfs_reform_advocate_categories
-
-          use :common_trial_params
-          use :common_agfs_params
         end
+
         namespace :advocate do
           namespace :interim do
             desc 'Create an Advocate Interim claim.'

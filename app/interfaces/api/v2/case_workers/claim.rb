@@ -52,19 +52,19 @@ module API
             end
 
             def current_claims
-              current_user.claims.caseworker_dashboard_under_assessment.search(
+              current_user.claims.search(
                 search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options
               )
             end
 
             def archived_claims
-              ::Claim::BaseClaim.active.caseworker_dashboard_archived.search(
+              ::Claim::BaseClaim.active.search(
                 search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES, *search_options
               )
             end
 
             def allocated_claims
-              ::Claim::BaseClaim.active.__send__(scheme).caseworker_dashboard_under_assessment.search(
+              ::Claim::BaseClaim.active.public_send(scheme).search(
                 search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options
               )
             end
@@ -82,7 +82,12 @@ module API
             end
 
             def claims
-              claims_scope.sort(params.sorting, params.direction).page(params.page).per(params.limit)
+              claims_scope
+                .includes(:external_user, :case_type, :injection_attempts,
+                          :case_workers, :court, :messages,
+                          defendants: %i[representation_orders])
+                .sort(params.sorting, params.direction)
+                .page(params.page).per(params.limit)
             end
           end
 

@@ -20,10 +20,18 @@ module Claims::Search
     }
   }.freeze
 
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
   def search(term, states = [], *options)
     raise 'Invalid search option' if (options - QUERY_MAPPINGS_FOR_SEARCH.keys).any?
-    sql = options.inject([]) { |a, e| a << "(#{QUERY_MAPPINGS_FOR_SEARCH[e][:query]})" }.join(' OR ')
-    relation = options.inject(all) { |a, e| a.joins(QUERY_MAPPINGS_FOR_SEARCH[e][:joins]) }
+    term = term.to_s.strip.downcase
+
+    if term.present?
+      sql = options.inject([]) { |a, e| a << "(#{QUERY_MAPPINGS_FOR_SEARCH[e][:query]})" }.join(' OR ')
+      relation = options.inject(all) { |a, e| a.joins(QUERY_MAPPINGS_FOR_SEARCH[e][:joins]) }
+    else
+      relation = all
+    end
 
     states ||= Claims::StateMachine.dashboard_displayable_states
     states = Array[states] unless states.is_a?(Array)
@@ -32,6 +40,11 @@ module Claims::Search
       raise "Invalid state, #{state}, specified"
     end
 
-    relation.active.where(sql, term: "%#{term.strip.downcase}%").where(state: states).uniq
+    relation = relation.active
+    relation = relation.where(sql, term: "%#{term}%") if term.present?
+    relation = relation.where(state: states) if states.present?
+    from(relation.group('claims.id'), 'claims')
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/MethodLength
 end

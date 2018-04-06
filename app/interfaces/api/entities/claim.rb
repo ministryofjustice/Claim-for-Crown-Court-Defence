@@ -30,11 +30,11 @@ module API
       private
 
       def messages_count
-        object.messages.count
+        object.messages.size
       end
 
       def unread_messages_count(user)
-        object.unread_messages_for(user).count
+        object.unread_messages_for(user).size
       end
     end
   end

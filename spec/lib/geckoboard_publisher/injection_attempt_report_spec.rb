@@ -10,6 +10,7 @@ RSpec.describe GeckoboardPublisher::InjectionAttemptReport, geckoboard: true do
 
     let(:expected_fields) do
       [
+        Geckoboard::DateField.new(:date, name: 'Date'),
         Geckoboard::NumberField.new(:succeeded, name: 'Succeeded'),
         Geckoboard::NumberField.new(:failed, name: 'Failed'),
       ].map { |field| [field.class, field.id, field.name] }
@@ -21,7 +22,7 @@ RSpec.describe GeckoboardPublisher::InjectionAttemptReport, geckoboard: true do
   describe '#items' do
     subject { described_class.new.items }
 
-    let(:expected_items) { [ { succeeded: 3, failed: 2 } ] }
+    let(:expected_items) { [ { date: Date.today.iso8601, succeeded: 3, failed: 2 } ] }
 
     before do
       create_list(:injection_attempt, 3, :with_success)

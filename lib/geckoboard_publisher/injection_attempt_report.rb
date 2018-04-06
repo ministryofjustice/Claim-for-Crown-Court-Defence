@@ -8,6 +8,7 @@ module GeckoboardPublisher
 
     def fields
       [
+        Geckoboard::DateField.new(:date, name: 'Date'),
         Geckoboard::NumberField.new(:succeeded, name: 'Succeeded'),
         Geckoboard::NumberField.new(:failed, name: 'Failed')
       ]
@@ -15,7 +16,7 @@ module GeckoboardPublisher
 
     def items
       sets = InjectionAttempt.group(:succeeded).count
-      record = { succeeded: sets[true], failed: sets[false] }
+      record = { date: Date.today.iso8601, succeeded: sets[true], failed: sets[false] }
       [record]
     end
   end

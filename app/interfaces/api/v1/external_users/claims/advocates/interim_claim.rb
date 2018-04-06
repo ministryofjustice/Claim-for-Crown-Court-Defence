@@ -1,6 +1,6 @@
 module API::V1::ExternalUsers
   module Claims
-    module Advocate
+    module Advocates
       class InterimClaim < Grape::API
         helpers API::V1::ClaimParamsHelper
 
@@ -27,7 +27,7 @@ module API::V1::ExternalUsers
                    values: Settings.agfs_reform_advocate_categories
         end
 
-        namespace :advocate do
+        namespace :advocates do
           namespace :interim do
             desc 'Create an Advocate Interim claim.'
             post do

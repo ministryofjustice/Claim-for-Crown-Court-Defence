@@ -3,7 +3,7 @@ require 'api_spec_helper'
 require 'support/claim_api_endpoints'
 require_relative '../../shared_examples_for_all'
 
-describe API::V1::ExternalUsers::Claims::Advocate::InterimClaim do
+describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -32,7 +32,7 @@ describe API::V1::ExternalUsers::Claims::Advocate::InterimClaim do
   end
 
   context 'when sending non-permitted verbs' do
-    ClaimApiEndpoints.for('advocate/interim').all.each do |endpoint| # for each endpoint
+    ClaimApiEndpoints.for('advocates/interim').all.each do |endpoint| # for each endpoint
       context "to endpoint #{endpoint}" do
         ClaimApiEndpoints.forbidden_verbs.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
           it "#{api_verb.upcase} should return a status of 405" do
@@ -44,9 +44,9 @@ describe API::V1::ExternalUsers::Claims::Advocate::InterimClaim do
     end
   end
 
-  describe "POST #{ClaimApiEndpoints.for('advocate/interim').validate}" do
+  describe "POST #{ClaimApiEndpoints.for('advocates/interim').validate}" do
     def post_to_validate_endpoint
-      post ClaimApiEndpoints.for('advocate/interim').validate, valid_params, format: :json
+      post ClaimApiEndpoints.for('advocates/interim').validate, valid_params, format: :json
     end
 
     it 'valid requests should return 200 and String true' do
@@ -87,9 +87,9 @@ describe API::V1::ExternalUsers::Claims::Advocate::InterimClaim do
     end
   end
 
-  describe "POST #{ClaimApiEndpoints.for('advocate/interim').create}" do
+  describe "POST #{ClaimApiEndpoints.for('advocates/interim').create}" do
     def post_to_create_endpoint
-      post ClaimApiEndpoints.for('advocate/interim').create, valid_params, format: :json
+      post ClaimApiEndpoints.for('advocates/interim').create, valid_params, format: :json
     end
 
     context "when claim params are valid" do

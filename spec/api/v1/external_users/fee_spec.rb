@@ -165,19 +165,18 @@ describe API::V1::ExternalUsers::Fee do
         end
       end
 
-      context 'misc fees of type case uplift' do
+      context 'misc fees of type defendant uplift' do
         context "LGFS fees" do
           let(:claim) { create(:litigator_claim, source: 'api') }
-          let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_xupl_type.id, amount: 210, case_numbers: 'T20161234' } }
+          let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_xupl_type.id, amount: 210 } }
 
-          it 'creates the misc fee with the provided amount and case numbers' do
+          it 'creates the misc fee with the provided amount' do
             post_to_create_endpoint
             json = JSON.parse(last_response.body)
             fee = Fee::MiscFee.find_by(uuid: json['id'])
             expect(fee.claim_id).to eq claim.id
             expect(fee.fee_type_id).to eq misc_fee_xupl_type.id
             expect(fee.amount).to eq 210.00
-            expect(fee.case_numbers).to eq 'T20161234'
           end
         end
       end
@@ -188,7 +187,7 @@ describe API::V1::ExternalUsers::Fee do
         { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 }
       end
 
-      it 'THE basic fee should raise basic fee (code BAF) errors' do
+      it 'basic (code BAF) fee should raise basic fee errors' do
         valid_params.delete(:rate)
         valid_params[:fee_type_id] = basic_fee_type.id
         basic_fee_type.update(code: 'BAF') # need to use real basic fee codes to trigger code specific validation and errors
@@ -206,19 +205,6 @@ describe API::V1::ExternalUsers::Fee do
         post_to_create_endpoint
         expect(last_response.status).to eq 400
         expect_error_response("Pages of prosecution evidence fees must not have a rate",0)
-      end
-
-      context "LGFS fee" do
-        let(:claim) { create(:litigator_claim, source: 'api') }
-        let!(:valid_params) do
-          { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_xupl_type.id, amount: 210.0 }
-        end
-
-        it 'should raise error if case numbers are not provided for miscellaneous fee of type Case Uplift' do
-          post_to_create_endpoint
-          expect(last_response.status).to eq 400
-          expect_error_response("Enter at least one case number for the miscellaneous fee",0)
-        end
       end
 
       context 'quantity is forbidden' do

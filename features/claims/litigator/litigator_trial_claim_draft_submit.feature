@@ -48,7 +48,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Then I click "Continue" in the claim form
 
     And I add a miscellaneous fee 'Costs judge application'
-    And I add a Case uplift fee with case numbers 'A20161234, A20165588'
+    And I add a miscellaneous fee 'Defendant uplift'
 
     Then I click "Continue" in the claim form
 

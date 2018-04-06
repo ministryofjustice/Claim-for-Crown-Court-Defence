@@ -12,10 +12,6 @@ module Fee
 
       private
 
-      # NOTE: LGFS fee of MIUPL/XUPL implements similar logic
-      # but does not require a quantity and therefore
-      # cannot implement the quantity mismatch validation.
-      #
       # TODO: At time of writing the AGFS case uplift fee types are
       # not requiring case numbers due to impact on the API
       # but this SHOULD change for CCR compatability.

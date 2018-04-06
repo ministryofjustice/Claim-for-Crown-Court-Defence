@@ -132,7 +132,7 @@ FactoryBot.define do
 
       trait :miupl do
         lgfs
-        description 'Case uplift'
+        description 'Defendant uplift'
         code 'XUPL'
         unique_code 'MIUPL'
         quantity_is_decimal true

@@ -1,7 +1,7 @@
 module CCLF
   module Fee
     class MiscFeeAdapter < MappingBillAdapter
-      # TODO: MIUPL - Case uplift - no equivalent in LGFS - to be removed from app too?!
+      # TODO: MIUPL - Defendant uplift (repurposed) - quantity used in CCLF to calculate an uplift
       MISC_FEE_BILL_MAPPINGS = {
         MICJA: zip(%w[OTHER COST_JUDGE_FEE]), # Costs judge application
         MICJP: zip(%w[OTHER COST_JUD_EXP]), # Costs judge preparation

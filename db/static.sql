@@ -634,7 +634,7 @@ COPY fee_types (id, description, code, created_at, updated_at, max_amount, calcu
 87	Evidence provision fee	XEVI	2016-04-11 18:04:55.577483	2016-10-26 19:59:46.684919	\N	f	Fee::MiscFeeType	---\n- lgfs\n	\N	f	MIEVI
 88	Costs judge application	XCJA	2016-04-11 18:04:55.587708	2016-10-26 19:59:46.692956	\N	f	Fee::MiscFeeType	---\n- lgfs\n	\N	f	MICJA
 89	Costs judge preparation	XCJP	2016-04-11 18:04:55.597252	2016-10-26 19:59:46.701265	\N	f	Fee::MiscFeeType	---\n- lgfs\n	\N	f	MICJP
-90	Case uplift	XUPL	2016-04-11 18:04:55.606936	2016-10-26 19:59:46.710336	\N	f	Fee::MiscFeeType	---\n- lgfs\n	\N	f	MIUPL
+90	Defendant uplift	XUPL	2016-04-11 18:04:55.606936	2016-10-26 19:59:46.710336	\N	f	Fee::MiscFeeType	---\n- lgfs\n	\N	f	MIUPL
 91	Warrant Fee	XWAR	2016-04-11 18:04:55.620925	2016-10-26 19:59:46.726819	\N	f	Fee::WarrantFeeType	---\n- lgfs\n	\N	f	WARR
 1	Basic fee	BAF	2015-11-05 17:08:50.446583	2016-10-26 19:59:45.789211	9999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f	BABAF
 3	Daily attendance fee (41 to 50)	DAH	2015-11-05 17:08:50.46179	2016-10-26 19:59:45.811226	9999.0	t	Fee::BasicFeeType	---\n- agfs\n	\N	f	BADAH

@@ -1,6 +1,28 @@
 = render partial: 'layouts/header', locals: {page_heading: 'API release notes'}
 
 %section.api-documentation
+  %hr
+  %h2 6 April 2018
+  %ul.list-bullet
+    %li
+      A new claim type was introduced in the scheme 10
+      =link_to 'Crown Court Fee Guidance', 'https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/696617/crown-court-fee-guidance.-post-1-apr-2018.pdf'
+      , this has been implemented on the API as
+      %code.code
+        \/api/external_users/claims/advocates/interim
+      ='.'
+      %br/
+      %br/
+      This has a reduced set of fields as the claim will never require a case type value or trial dates.  We have also taken the opportunity to remove the deprecated
+      %code.code
+        advocate_email
+      field.
+      %br/
+      %br/
+      There is the usual
+      %code.code
+        \/api/external_users/claims/advocates/interim/validate
+      endpoint to test your submissions against, this will return any validation errors that will prevent the record being created on the creation endpoint.
 
   %hr
   %h2 23 March 2018

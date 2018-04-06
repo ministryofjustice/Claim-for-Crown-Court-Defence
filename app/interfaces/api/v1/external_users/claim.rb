@@ -8,6 +8,7 @@ module API
           end
 
           mount API::V1::ExternalUsers::Claims::AdvocateClaim
+          mount API::V1::ExternalUsers::Claims::Advocates::InterimClaim
           mount API::V1::ExternalUsers::Claims::FinalClaim
           mount API::V1::ExternalUsers::Claims::InterimClaim
           mount API::V1::ExternalUsers::Claims::TransferClaim

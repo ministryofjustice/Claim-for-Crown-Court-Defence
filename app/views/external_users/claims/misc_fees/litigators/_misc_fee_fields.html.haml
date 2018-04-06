@@ -4,25 +4,17 @@
 
   .form-group.misc-fee-group.js-block.nested-fields.fx-fee-group{data:{"type": "miscFees", autovat: @claim.apply_vat? ? "true" : "false"}}
     .grid-row.js-typeahead
-      .column-three-quarters
-        .column-half{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
-          %label.form-label
-            = t('.fee_type')
-            %span.form-hint.xsmall.zero-vert-margin
-              &nbsp;<br/>
-          %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
-          - misc_fee_types_collection = present_collection(@claim.eligible_misc_fee_types)
-          = f.select :fee_type_id, misc_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, { include_blank: ''.html_safe }, {class: 'form-control typeahead js-misc-fee-type js-fee-type', style: 'width:100%'}
-          = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
+      .column-two-thirds{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
+        %label.form-label
+          = t('.fee_type')
+          %span.form-hint.xsmall.zero-vert-margin
+            &nbsp;<br/>
+        %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
+        - misc_fee_types_collection = present_collection(@claim.eligible_misc_fee_types)
+        = f.select :fee_type_id, misc_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, { include_blank: ''.html_safe }, {class: 'form-control typeahead js-misc-fee-type js-fee-type', style: 'width:100%'}
+        = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 
-        .column-half
-          = f.adp_text_field :case_numbers,
-                              label: t('.case_numbers'),
-                              input_classes:'js-misc-fee-case-numbers fx-fee-case-numbers',
-                              hint_text:'Separate by commas',
-                              errors: @error_presenter
-
-      .column-one-quarter.fee-rate.margin-spacer-sm
+      .column-one-third.fee-rate.margin-spacer-sm
         = f.adp_text_field :amount,
                             label: t('.amount'),
                             input_classes:'total',

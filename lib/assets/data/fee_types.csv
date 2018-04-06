@@ -86,7 +86,7 @@ ID,DESCRIPTION,CODE,UNIQUE_CODE,MAX_AMOUNT,CALCULATED,CLASS,ROLES,PARENT_ID,QUAN
 87,Evidence provision fee,XEVI,MIEVI,,FALSE,Fee::MiscFeeType,lgfs,,FALSE,
 88,Costs judge application,XCJA,MICJA,,FALSE,Fee::MiscFeeType,lgfs,,FALSE,
 89,Costs judge preparation,XCJP,MICJP,,FALSE,Fee::MiscFeeType,lgfs,,FALSE,
-90,Case uplift,XUPL,MIUPL,,FALSE,Fee::MiscFeeType,lgfs,,FALSE,
+90,Defendant uplift,XUPL,MIUPL,,FALSE,Fee::MiscFeeType,lgfs,,FALSE,
 91,Warrant Fee,XWAR,WARR,,FALSE,Fee::WarrantFeeType,lgfs,,FALSE,
 92,Contempt,ZCON,FXCON,,TRUE,Fee::FixedFeeType,agfs,,FALSE,
 93,Effective PCMH,IPCMH,INPCM,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,

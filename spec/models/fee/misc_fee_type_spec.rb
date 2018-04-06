@@ -44,13 +44,9 @@ module Fee
     describe '#case_uplift?' do
       subject { fee_type.case_uplift? }
 
-      it 'returns true when fee_type is Case Uplift' do
-        fee_type.unique_code = 'MIUPL'
-        is_expected.to be_truthy
-      end
-
+      # No Misc fees are case uplifts
       it 'returns false when fee_type is not Case Uplift' do
-        fee_type.code = 'XXX'
+        fee_type.code = 'MIUPL'
         is_expected.to be_falsey
       end
     end

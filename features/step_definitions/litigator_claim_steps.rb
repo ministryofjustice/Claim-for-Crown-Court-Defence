@@ -41,11 +41,6 @@ And(/^I add a miscellaneous fee '(.*)'$/) do |name|
   @litigator_claim_form_page.miscellaneous_fees.last.amount.set "135.78"
 end
 
-And(/^I add a Case uplift fee with case numbers '(.*)'$/) do |case_numbers|
-  step "I add a miscellaneous fee 'Case uplift'"
-  @litigator_claim_form_page.miscellaneous_fees.last.case_numbers.set case_numbers
-end
-
 And(/^I add (?:a|another) disbursement '(.*)' with net amount '(.*)' and vat amount '(.*)'$/) do |name, net_amount, vat_amount|
   @litigator_claim_form_page.add_disbursement_if_required
   @litigator_claim_form_page.disbursements.last.select_fee_type name

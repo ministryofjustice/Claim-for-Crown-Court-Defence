@@ -5,7 +5,7 @@ shared_examples 'case upliftable' do
     subject { fee_type.case_uplift? }
 
     context 'for fees that require additional case numbers' do
-      %w[BANOC FXNOC FXACU FXASU FXCBU FXCSU FXCDU FXENU MIUPL].each do |unique_code|
+      %w[BANOC FXNOC FXACU FXASU FXCBU FXCSU FXCDU FXENU].each do |unique_code|
         before { allow(fee_type).to receive(:unique_code).and_return unique_code }
 
         it "#{unique_code} should return true" do

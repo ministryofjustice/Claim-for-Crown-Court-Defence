@@ -9,7 +9,7 @@ RSpec.describe CCLF::Fee::MiscFeeAdapter, type: :adapter do
   # *nb: formula is used CCLF-side only and maps to whether to use quantity or amount???
   #
   MISC_FEE_BILL_TYPES = {
-    # MIUPL: [nil, nil], # Case uplift - no equivalent in LGFS - to be removed from app too?!
+    # MIUPL: [nil, nil], # Defendant uplift - handled via actual defendants on claim at point of injection
     MICJA: ['OTHER', 'COST_JUDGE_FEE'], # Costs judge application
     MICJP: ['OTHER', 'COST_JUD_EXP'], # Costs judge preparation
     MIEVI: ['EVID_PROV_FEE', 'EVID_PROV_FEE'], # Evidence provision fee

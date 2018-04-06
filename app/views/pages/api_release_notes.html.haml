@@ -5,12 +5,13 @@
   %h2 6 April 2018
   %ul.list-bullet
     %li
-      A new claim type was introduced in the scheme 10
-      =link_to 'Crown Court Fee Guidance', 'https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/696617/crown-court-fee-guidance.-post-1-apr-2018.pdf'
-      , this has been implemented on the API as
+      A new claim type was introduced as part of the AGFS fee scheme changes on 1st April 2018. This has been implemented on the API as
       %code.code
         \/api/external_users/claims/advocates/interim
-      ='.'
+      and enables a submission of a warrant fee.
+      Please see the
+      =link_to 'Crown Court Fee Guidance', 'https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/696617/crown-court-fee-guidance.-post-1-apr-2018.pdf'
+      for details.
       %br/
       %br/
       This has a reduced set of fields as the claim will never require a case type value or trial dates.  We have also taken the opportunity to remove the deprecated
@@ -22,7 +23,7 @@
       There is the usual
       %code.code
         \/api/external_users/claims/advocates/interim/validate
-      endpoint to test your submissions against, this will return any validation errors that will prevent the record being created on the creation endpoint.
+      endpoint to test your submissions against.  This will return any validation errors that will prevent the record being created on the creation endpoint.
 
   %hr
   %h2 23 March 2018

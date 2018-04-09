@@ -1,3 +1,4 @@
+# TODO: no misc fees are case uplifts any longer, remove whole class
 class Fee::MiscFeeTypePresenter < BasePresenter
   presents :fee_type
 

@@ -4,6 +4,8 @@ shared_examples '#defendant_uplift?' do
       allow(subject).to receive(:fee_type).and_return fee_type
     end
 
+    let(:fee_type) { instance_double('fee_type') }
+
     it 'delegates to fee type' do
       expect(fee_type).to receive(:defendant_uplift?)
       subject.defendant_uplift?
@@ -12,17 +14,19 @@ shared_examples '#defendant_uplift?' do
 end
 
 shared_examples '.defendant_uplift_sums' do
-  describe '.defendant_uplift_sums' do
-    subject { described_class.defendant_uplift_sums }
-    let(:claim) { create(:claim) }
-    let(:miahu) { create(:misc_fee_type, :miahu) }
+  context 'miscellaneous fees' do
+    describe '.defendant_uplift_sums' do
+      subject { described_class.defendant_uplift_sums }
+      let(:claim) { create(:claim) }
+      let(:miahu) { create(:misc_fee_type, :miahu) }
 
-    before do
-      create(:misc_fee, fee_type: miahu, claim: claim, quantity: 3, amount: 21.01)
-    end
+      before do
+        create(:misc_fee, fee_type: miahu, claim: claim, quantity: 3, amount: 21.01)
+      end
 
-    it 'returns hash of sums grouped by fee\'s unique_code' do
-      is_expected.to eql({ "MIAHU" => 3 })
+      it 'returns hash of sums grouped by fee\'s unique_code' do
+        is_expected.to eql({ "MIAHU" => 3 })
+      end
     end
   end
 end
@@ -37,7 +41,7 @@ shared_examples 'defendant upliftable' do
     end
 
     it 'returns false when fee_type is not a defendant uplift' do
-      fee_type.unique_code = 'MIUPL'
+      fee_type.unique_code = 'MIAPH'
       is_expected.to be_falsey
     end
   end

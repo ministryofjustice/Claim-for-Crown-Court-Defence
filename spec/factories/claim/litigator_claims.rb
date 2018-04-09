@@ -27,6 +27,10 @@ FactoryBot.define do
       after(:build) do |claim|
         claim.fees.destroy_all
       end
+
+      after(:create) do |claim|
+        claim.fees.destroy_all
+      end
     end
 
     trait :graduated_fee do

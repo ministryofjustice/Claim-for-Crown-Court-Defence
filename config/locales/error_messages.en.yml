@@ -49,9 +49,13 @@ defendant:
 base:
   _seq: 5
   defendant_uplifts_mismatch:
-    long: The quantity of defendant uplifts exceeds the number of defendants
+    long: The quantity of defendant uplifts exceeds the number of additional defendants
     short: Too many defendant uplifts
-    api: Defendant uplift sums must match number of defendants
+    api: Defendant uplift sums must match number of additional defendants
+  lgfs_defendant_uplifts_mismatch:
+    long: The number of defendant uplifts exceeds the number of additional defendants
+    short: Too many defendant uplifts
+    api: Defendant uplift record counts must match number of additional defendants
   unclaimable:
     long: You cannot submit an interim bill for claims with the earliest representation order before 1 April 2018
     short: Earliest representation order before 1 April 2018

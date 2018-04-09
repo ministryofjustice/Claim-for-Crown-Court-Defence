@@ -82,8 +82,7 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   def defendant_uplifts
     (@record.basic_fees + @record.fixed_fees + @record.misc_fees).select do |fee|
       !fee.marked_for_destruction? &&
-        fee.fee_type &&
-        Fee::BaseFeeType.defendant_uplift_unique_codes.include?(fee.fee_type.unique_code)
+        fee&.defendant_uplift?
     end
   end
 

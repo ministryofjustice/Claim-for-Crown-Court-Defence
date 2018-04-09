@@ -1,7 +1,7 @@
 require 'rails_helper'
 
+# TODO: no misc fees are case uplifts any longer, remove whole class and spec
 RSpec.describe Fee::MiscFeeTypePresenter do
-
   let(:fee_type)  { build :misc_fee_type }
   let(:presenter) { described_class.new(fee_type, view) }
 
@@ -12,7 +12,7 @@ RSpec.describe Fee::MiscFeeTypePresenter do
       end
 
       it 'returns true when is Case uplift' do
-        fee_type.unique_code = 'MIUPL'
+        allow(fee_type).to receive(:case_uplift?).and_return true
         expect(presenter.data_attributes[:case_numbers]).to be_truthy
       end
     end

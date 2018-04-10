@@ -209,18 +209,15 @@ class Claim::BaseClaimValidator < BaseValidator
       (@record.case_type && !@record.requires_cracked_dates?)
   end
 
-  # must be less than or equal to last day of trial
-  # cannot be before first rep order date (except for retrials)
-  # cannot be more than 5 years in the past
-  def validate_first_day_of_trial
+  def validate_trial_dates
     validate_trial_start_and_end(:first_day_of_trial, :trial_concluded_at, false)
-  end
-
-  # cannot be before the first day of trial
-  # cannot be before the first rep order was granted
-  # cannot be more than 5 years in the past
-  def validate_trial_concluded_at
     validate_trial_start_and_end(:first_day_of_trial, :trial_concluded_at, true)
+
+    return if @record.case_type&.requires_retrial_dates?
+    error_code = 'check_not_earlier_than_rep_order'
+    validate_on_or_after(earliest_rep_order, :first_day_of_trial, error_code)
+    return if @record.errors[:first_day_of_trial]&.include?(error_code)
+    validate_on_or_after(earliest_rep_order, :trial_concluded_at, error_code)
   end
 
   # must exist for retrial claims
@@ -326,9 +323,6 @@ class Claim::BaseClaimValidator < BaseValidator
     method("validate_on_or_#{inverse ? 'after' : 'before'}".to_sym)
       .call(@record.__send__(end_attribute), start_attribute, 'check_other_date')
 
-    unless @record.case_type.requires_retrial_dates?
-      validate_on_or_after(earliest_rep_order, start_attribute, 'check_not_earlier_than_rep_order')
-    end
     validate_too_far_in_past(start_attribute)
   end
 

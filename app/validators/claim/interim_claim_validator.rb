@@ -15,9 +15,8 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
       defendants: [],
       offence_details: %i[offence],
       interim_fees: %i[
-        first_day_of_trial
+        trial_dates
         estimated_trial_length
-        trial_concluded_at
         retrial_started_at
         retrial_estimated_length
         effective_pcmh_date
@@ -35,6 +34,11 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
 
   def validate_case_concluded_at
     validate_absence(:case_concluded_at, 'present')
+  end
+
+  def validate_trial_dates
+    validate_first_day_of_trial
+    validate_trial_concluded_at
   end
 
   def validate_first_day_of_trial

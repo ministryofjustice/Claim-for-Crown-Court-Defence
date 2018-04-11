@@ -52,9 +52,9 @@ module API
             end
 
             def current_claims
-              current_user.claims.search(
+              current_user.claims.where(id: ::Claim::BaseClaim.search(
                 search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options
-              )
+              ))
             end
 
             def archived_claims

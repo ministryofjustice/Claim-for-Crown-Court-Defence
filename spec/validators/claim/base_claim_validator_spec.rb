@@ -600,7 +600,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       before { contempt_claim_with_nil_first_day.force_validation = true }
       it { should_error_if_not_present(contempt_claim_with_nil_first_day, :first_day_of_trial, "blank", translated_message: 'Enter a date') }
       it { should_errror_if_later_than_other_date(contempt_claim_with_nil_first_day, :first_day_of_trial, :trial_concluded_at, 'check_other_date', translated_message: 'Can\'t be after the date "Trial concluded"') }
-      it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_first_day, :first_day_of_trial, 'check_not_earlier_than_rep_order', translated_message: 'Can\'t be before the earliest rep. order') }
+      it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_first_day, :first_day_of_trial, 'check_not_earlier_than_rep_order', translated_message: 'Check combination of representation order date and trial dates') }
       it { should_error_if_too_far_in_the_past(contempt_claim_with_nil_first_day, :first_day_of_trial, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
     end
 
@@ -609,7 +609,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       before { contempt_claim_with_nil_concluded_at.force_validation = true }
       it { should_error_if_not_present(contempt_claim_with_nil_concluded_at, :trial_concluded_at, "blank", translated_message: 'Enter a date') }
       it { should_error_if_earlier_than_other_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, :first_day_of_trial, 'check_other_date', translated_message: 'Can\'t be before the "First day of trial"') }
-      it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'check_not_earlier_than_rep_order', translated_message: 'Can\'t be before the earliest rep. order') }
+      it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'check_not_earlier_than_rep_order', translated_message: 'Check combination of representation order date and trial dates') }
       it { should_error_if_too_far_in_the_past(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
     end
   end

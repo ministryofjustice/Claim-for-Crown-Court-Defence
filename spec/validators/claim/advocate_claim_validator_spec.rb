@@ -338,8 +338,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
           trial_fixed_notice_at
           trial_fixed_at
           trial_cracked_at
-          first_day_of_trial
-          trial_concluded_at
+          trial_dates
           retrial_started_at
           retrial_concluded_at
           case_concluded_at

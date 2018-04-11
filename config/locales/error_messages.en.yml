@@ -169,9 +169,9 @@ first_day_of_trial:
     short: *too_far_in_past
     api: 'Check the date for "First day of trial"'
   check_not_earlier_than_rep_order:
-    long: 'Check the date for "First day of trial"'
-    short: *before_rep_order
-    api: 'Check the date for "First day of trial"'
+    long: 'Check the combination of the representation order date and the dates of trial'
+    short: 'Check combination of representation order date and trial dates'
+    api: 'Check combination of rep order date and trial dates'
   invalid_date:
     long: Enter a valid date for the first day of trial
     short: *enter_valid_date
@@ -226,9 +226,9 @@ trial_concluded_at:
     short: *too_far_in_past
     api: 'Check the date for "Trial concluded"'
   check_not_earlier_than_rep_order:
-    long: 'Check the date for "Trial concluded"'
-    short: *before_rep_order
-    api: 'Check the date for "Trial concluded"'
+    long: 'Check the combination of the representation order date and the dates of trial'
+    short: 'Check combination of representation order date and trial dates'
+    api: 'Check combination of rep order date and trial dates'
   invalid_date:
     long: 'Enter a valid date for trial concluded'
     short: *enter_valid_date

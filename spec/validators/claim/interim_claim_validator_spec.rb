@@ -24,9 +24,8 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
     [],
     %i[offence],
     %i[
-      first_day_of_trial
+      trial_dates
       estimated_trial_length
-      trial_concluded_at
       retrial_started_at
       retrial_estimated_length
       effective_pcmh_date

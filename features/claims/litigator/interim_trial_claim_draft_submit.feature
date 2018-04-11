@@ -23,7 +23,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     Then Claim 'A20161234' should be listed with a status of 'Draft'
 
     When I click the claim 'A20161234'
-    And I edit this claim
+    And I edit the claim's case details
 
     Then I click "Continue" in the claim form
 

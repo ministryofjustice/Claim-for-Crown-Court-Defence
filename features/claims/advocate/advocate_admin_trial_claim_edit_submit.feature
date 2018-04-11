@@ -19,7 +19,7 @@ Feature: Advocate admin submits a claim for a Trial case
     Then Claim 'A20161234' should be listed with a status of 'Draft'
 
     When I click the claim 'A20161234'
-    And I edit this claim
+    And I edit the claim's case details
 
     When I select 'Doe, John (AC135)' as the instructed advocate
     And I select the court 'Blackfriars'

@@ -19,7 +19,7 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     Then Claim 'A20161234' should be listed with a status of 'Draft'
 
     When I click the claim 'A20161234'
-    And I edit this claim
+    And I edit the claim's case details
     And I enter trial start and end dates
 
     Then I click "Continue" in the claim form

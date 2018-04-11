@@ -59,7 +59,7 @@
 
           %td{'aria-label' => t(".case_number")}
             = link_to claim.case_number,
-                      external_users_claim_path(claim),
+                      external_users_claim_path_for_state(claim),
                       class: "js-test-case-number-link",
                       'aria-label': "View #{claim.state.humanize} Claim, Case number: #{claim.case_number}"
             %div.unique-id-small

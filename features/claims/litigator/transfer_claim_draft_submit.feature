@@ -30,8 +30,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Then Claim 'A20161234' should be listed with a status of 'Draft'
 
     When I click the claim 'A20161234'
-    And I edit this claim
-    And I click "Continue" in the claim form
+    And I edit the claim's case details
 
     And I enter the case concluded date
 

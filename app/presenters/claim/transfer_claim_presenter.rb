@@ -20,7 +20,7 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def litigator_type_description
-    claim.litigator_type.humanize
+    claim.litigator_type&.humanize
   end
 
   def elected_case_description
@@ -28,6 +28,7 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def transfer_stage_description
+    return unless claim.transfer_stage_id
     Claim::TransferBrain.transfer_stage_by_id(claim.transfer_stage_id).description || ''
   end
 

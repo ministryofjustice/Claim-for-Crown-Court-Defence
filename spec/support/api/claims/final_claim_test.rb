@@ -71,13 +71,12 @@ class FinalClaimTest < BaseClaimTest
   end
 
   def misc_fee_data
-    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'lgfs'), 'id') # Case Uplift
+    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'lgfs'), 'id') # Costs judge application
 
     {
       "api_key": api_key,
       "claim_id": claim_uuid,
       "fee_type_id": fee_type_id,
-      "case_numbers": 'A20161234',
       "amount": 200.45
     }
   end

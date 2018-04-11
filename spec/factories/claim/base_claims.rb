@@ -14,9 +14,11 @@ FactoryBot.define do
     providers_ref       { random_providers_ref }
     disable_for_state_transition nil
     after(:create) do |claim|
-      defendant = create(:defendant, claim: claim)
-      create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)
-      claim.reload
+      unless claim.defendants.present?
+        defendant = create(:defendant, claim: claim)
+        create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)
+        claim.reload
+      end
     end
   end
 end

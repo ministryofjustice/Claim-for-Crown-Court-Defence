@@ -51,9 +51,9 @@ module Claims::Sort
   end
 
   def sort_case_type(direction)
-    select('claims.*, "case_types"."name" AS case_type_name')
+    select('"claims".*, "case_types"."name"')
       .joins(:case_type)
-      .order(sort_field_by('case_type_name', direction))
+      .order(sort_field_by('"case_types"."name"', direction))
   end
 
   def sort_total_inc_vat(direction)

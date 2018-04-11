@@ -64,13 +64,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @claims = @claims.search(search_terms, states, *search_options) unless @claims.remote?
   end
 
-  # no longer used because all claims are remote
-  # def search_options
-  #   options = [:case_number, :maat_reference, :defendant_name]
-  #   options << :case_worker_name_or_email if current_user.persona.admin?
-  #   options
-  # end
-
   def claim_params
     params.require(:claim).permit(
       :state,

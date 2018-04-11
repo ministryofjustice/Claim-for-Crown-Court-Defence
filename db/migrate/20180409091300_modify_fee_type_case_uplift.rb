@@ -1,15 +1,16 @@
 class ModifyFeeTypeCaseUplift < ActiveRecord::Migration
   # repurpose LGFS case uplift as defendant uplift
-  #
+  # NOTE: smoke test on dev build of branch means we
+  # need to cater for type not existing
   def up
     Fee::MiscFeeType
-      .find_by(unique_code: 'MIUPL')
-      .update(description: 'Defendant uplift')
+      .where(unique_code: 'MIUPL')
+      .update_all(description: 'Defendant uplift')
   end
 
   def down
     Fee::MiscFeeType
-      .find_by(unique_code: 'MIUPL')
-      .update(description: 'Case uplift')
+      .where(unique_code: 'MIUPL')
+      .update_all(description: 'Case uplift')
   end
 end

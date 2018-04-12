@@ -447,7 +447,7 @@ en:
     your_claims: Your claims
     claim_heading: Claim for Crown Court fees
     agfs_claim_heading: Claim for advocate fees
-    agfs_interim_claim_heading: Claim for advocate interim fees
+    agfs_interim_claim_heading: Claim for advocate warrant fees
     lgfs_claim_heading: Claim for litigator fees
     start_agfs_claim_heading: Claim for advocate fees
     start_lgfs_final_claim_heading: Claim for litigator fees
@@ -467,8 +467,8 @@ en:
           invalid_claim_types: 'Invalid bill type selected'
       selection:
         agfs_rb: Advocate final fee
-        agfs_interim_hint: For claims with the earliest representation order dated on or after 1 April 2018
-        agfs_interim_rb: Advocate interim fee
+        agfs_interim_hint: For warrant fee claims with the earliest representation order dated on or after 1 April 2018
+        agfs_interim_rb: Advocate warrant fee
         claim_type_prompt_section_heading: 'What would you like to do?'
         choose_claim_type_prompt_text: Choose your bill type
         errors:

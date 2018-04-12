@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180409091300) do
+ActiveRecord::Schema.define(version: 20180412104444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(version: 20180409091300) do
     t.index ["offence_id"], name: "index_claims_on_offence_id", using: :btree
     t.index ["state"], name: "index_claims_on_state", using: :btree
     t.index ["transfer_case_number"], name: "index_claims_on_transfer_case_number", using: :btree
+    t.index ["uuid"], name: "index_claims_on_uuid", unique: true, using: :btree
     t.index ["valid_until"], name: "index_claims_on_valid_until", using: :btree
   end
 

@@ -11,7 +11,7 @@ RSpec.describe Claim::AdvocateInterimClaimPresenter, type: :presenter do
   # to change that pattern. Something to address in the near future
 
   describe '#pretty_type' do
-    specify { expect(presenter.pretty_type).to eq('AGFS Interim') }
+    specify { expect(presenter.pretty_type).to eq('AGFS Warrant') }
   end
 
   describe '#type_identifier' do

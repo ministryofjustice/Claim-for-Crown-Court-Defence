@@ -1,6 +1,6 @@
 class Claim::AdvocateInterimClaimPresenter < Claim::BaseClaimPresenter
   def pretty_type
-    'AGFS Interim'
+    'AGFS Warrant'
   end
 
   def type_identifier

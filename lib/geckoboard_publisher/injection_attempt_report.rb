@@ -10,13 +10,21 @@ module GeckoboardPublisher
       [
         Geckoboard::DateField.new(:date, name: 'Date'),
         Geckoboard::NumberField.new(:succeeded, name: 'Succeeded'),
-        Geckoboard::NumberField.new(:failed, name: 'Failed')
+        Geckoboard::NumberField.new(:failed, name: 'Failed'),
+        Geckoboard::NumberField.new(:total, name: 'Total'),
+        Geckoboard::PercentageField.new(:success_percentage, name: 'Success-Percentage')
       ]
     end
 
     def items
       sets = InjectionAttempt.group(:succeeded).count
-      record = { date: Date.today.iso8601, succeeded: sets[true], failed: sets[false] }
+      record = {
+        date: Date.today.iso8601,
+        succeeded: sets[true],
+        failed: sets[false],
+        total: sets[true] + sets[false],
+        success_percentage: sets[true] / (sets[true] + sets[false]).to_f
+      }
       [record]
     end
   end

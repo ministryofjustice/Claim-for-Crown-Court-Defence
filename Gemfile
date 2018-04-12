@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.5.0'
+ruby '2.5.1'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'active_model_serializers', '~> 0.10.7'
 gem 'amoeba',                 '~> 3.1'

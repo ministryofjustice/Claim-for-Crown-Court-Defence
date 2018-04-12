@@ -210,6 +210,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_trial_dates
+    return unless @record.case_type&.requires_trial_dates?
     validate_trial_start_and_end(:first_day_of_trial, :trial_concluded_at, false)
     validate_trial_start_and_end(:first_day_of_trial, :trial_concluded_at, true)
 
@@ -317,7 +318,6 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_trial_start_and_end(start_attribute, end_attribute, inverse = false)
-    return unless @record.case_type&.requires_trial_dates?
     start_attribute, end_attribute = end_attribute, start_attribute if inverse
     validate_presence(start_attribute, 'blank')
     method("validate_on_or_#{inverse ? 'after' : 'before'}".to_sym)

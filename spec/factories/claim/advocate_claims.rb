@@ -51,6 +51,14 @@ FactoryBot.define do
       end
     end
 
+    trait :with_fixed_fee_case do
+      case_type { association(:case_type, :fixed_fee) }
+    end
+
+    trait :with_graduated_fee_case do
+      case_type { association(:case_type, :graduated_fee) }
+    end
+
     factory :unpersisted_claim do
       court         { FactoryBot.build :court }
       external_user { FactoryBot.build :external_user, provider: FactoryBot.build(:provider) }

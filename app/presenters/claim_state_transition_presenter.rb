@@ -18,6 +18,7 @@ class ClaimStateTransitionPresenter < BasePresenter
   private
 
   def transition_messages
+    # binding.pry if transition.event.eql? 'reject'
     {
       'redetermination' => {
         'CaseWorker' => 'Redetermination requested', 'ExternalUser' => 'You requested redetermination'
@@ -32,7 +33,7 @@ class ClaimStateTransitionPresenter < BasePresenter
       'part_authorised' => {
         'CaseWorker' => 'Claim part authorised', 'ExternalUser' => 'Your claim has been part-authorised'
       },
-      'rejected' => { 'CaseWorker' => 'Claim rejected', 'ExternalUser' => 'Your claim has been rejected' },
+      'rejected' => { 'CaseWorker' => 'Claim rejected', 'ExternalUser' => 'Your claim has been rejected'},
       'refused' => { 'CaseWorker' => 'Claim refused', 'ExternalUser' => 'Your claim has been refused' },
       'archived_pending_delete' => {
         'CaseWorker' => 'Claim archived', 'ExternalUser' => 'Your claim has been archived'

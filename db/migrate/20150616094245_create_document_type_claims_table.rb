@@ -4,7 +4,7 @@ class CreateDocumentTypeClaimsTable < ActiveRecord::Migration
       t.belongs_to :claim, null: false, index: true
       t.belongs_to :document_type, null: false, index: true
 
-      t.timestamps
+      t.timestamps null: true
     end
 
     add_index :document_type_claims,

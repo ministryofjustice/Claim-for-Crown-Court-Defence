@@ -11,7 +11,7 @@ class CreateCertifications < ActiveRecord::Migration
       t.string  :certified_by
       t.date    :certification_date
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

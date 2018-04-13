@@ -23,7 +23,7 @@ class CreateClaims < ActiveRecord::Migration
       t.references :offence, index: true
       t.references :scheme, index: true
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

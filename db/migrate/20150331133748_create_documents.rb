@@ -6,7 +6,7 @@ class CreateDocuments < ActiveRecord::Migration
       t.text :notes
       t.string :document
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

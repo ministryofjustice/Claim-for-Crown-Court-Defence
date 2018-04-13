@@ -3,7 +3,7 @@ class CreateLocations < ActiveRecord::Migration
     create_table :locations do |t|
       t.string :name
 
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :locations, :name
   end

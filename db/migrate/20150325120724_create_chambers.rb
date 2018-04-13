@@ -5,7 +5,7 @@ class CreateChambers < ActiveRecord::Migration
       t.string :account_number
       t.boolean :vat_registered
 
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :chambers, :name
     add_index :chambers, :account_number

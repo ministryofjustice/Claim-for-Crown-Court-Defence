@@ -7,7 +7,7 @@ class CreateDeterminations < ActiveRecord::Migration
       t.decimal :expenses
       t.decimal :total
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

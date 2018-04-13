@@ -4,7 +4,7 @@ class CreateEvidenceListItemClaims < ActiveRecord::Migration
       t.belongs_to :claim, null: false, index: true
       t.belongs_to :evidence_list_item, null: false, index: true
 
-      t.timestamps
+      t.timestamps null: true
     end
 
     add_index :evidence_list_item_claims,

@@ -10,7 +10,7 @@ class CreateExpenses < ActiveRecord::Migration
       t.decimal :hours
       t.decimal :amount
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

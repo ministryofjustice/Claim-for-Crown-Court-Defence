@@ -4,7 +4,7 @@ class CreateFeeTypes < ActiveRecord::Migration
       t.string :description
       t.string :code
 
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :fee_types, :description
     add_index :fee_types, :code

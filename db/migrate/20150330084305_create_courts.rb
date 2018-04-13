@@ -5,7 +5,7 @@ class CreateCourts < ActiveRecord::Migration
       t.string :name
       t.string :court_type
 
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :courts, :code
     add_index :courts, :name

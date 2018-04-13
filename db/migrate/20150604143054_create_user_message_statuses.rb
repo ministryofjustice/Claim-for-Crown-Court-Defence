@@ -5,7 +5,7 @@ class CreateUserMessageStatuses < ActiveRecord::Migration
       t.references :message, index: true
       t.boolean :read, default: false
 
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :user_message_statuses, :read
   end

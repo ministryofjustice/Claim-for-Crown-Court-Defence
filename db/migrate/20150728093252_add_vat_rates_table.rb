@@ -4,7 +4,7 @@ class AddVatRatesTable < ActiveRecord::Migration
       t.integer :rate_base_points
       t.date :effective_date
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

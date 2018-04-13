@@ -3,7 +3,7 @@ class CreateCaseWorkers < ActiveRecord::Migration
     create_table :case_workers do |t|
       t.string :role
 
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :case_workers, :role
   end

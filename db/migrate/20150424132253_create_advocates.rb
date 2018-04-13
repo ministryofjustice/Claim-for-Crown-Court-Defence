@@ -8,7 +8,7 @@ class CreateAdvocates < ActiveRecord::Migration
 
       t.references :chamber, index: true
 
-      t.timestamps
+      t.timestamps null: true
     end
     add_index :advocates, :role
   end

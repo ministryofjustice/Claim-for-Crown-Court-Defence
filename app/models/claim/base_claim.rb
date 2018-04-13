@@ -69,7 +69,7 @@ module Claim
     end
   end
 
-  class BaseClaim < ActiveRecord::Base
+  class BaseClaim < ApplicationRecord
     include SoftlyDeletable
 
     self.table_name = 'claims'

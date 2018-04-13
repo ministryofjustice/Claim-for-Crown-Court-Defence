@@ -7,7 +7,7 @@
 #  updated_at :datetime
 #
 
-class SuperAdmin < ActiveRecord::Base
+class SuperAdmin < ApplicationRecord
   has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy
   validates :user, presence: true
 

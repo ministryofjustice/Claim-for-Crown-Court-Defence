@@ -152,7 +152,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         it 'default sorting is claims with draft first (oldest created first) then oldest submitted' do
-          expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.sort('last_submitted_at', 'asc'))
+          expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.sort_using('last_submitted_at', 'asc'))
         end
 
         context 'case number ascending' do
@@ -350,7 +350,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         it 'orders claims with most recently submitted first' do
-          expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete.sort('last_submitted_at', 'desc'))
+          expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete.sort_using('last_submitted_at', 'desc'))
         end
 
         context 'pagination limit' do

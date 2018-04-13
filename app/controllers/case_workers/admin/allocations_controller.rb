@@ -92,7 +92,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def sort_and_paginate
-    @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(page_size)
+    @claims = @claims.sort_using(sort_column, sort_direction).page(current_page).per(page_size)
   end
 
   def allocation_params

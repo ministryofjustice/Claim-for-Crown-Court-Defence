@@ -12,7 +12,7 @@
 #  attended_item_type :string
 #
 
-class DateAttended < ActiveRecord::Base
+class DateAttended < ApplicationRecord
   include Duplicable
 
   belongs_to :attended_item, polymorphic: true

@@ -13,7 +13,7 @@
 #  deleted_at      :datetime
 #
 
-class ExternalUser < ActiveRecord::Base
+class ExternalUser < ApplicationRecord
   SUPPLIER_NUMBER_REGEX ||= /\A[0-9A-Z]{5}\z/
 
   auto_strip_attributes :supplier_number, squish: true, nullify: true

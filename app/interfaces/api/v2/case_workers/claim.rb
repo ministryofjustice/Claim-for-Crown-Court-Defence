@@ -86,7 +86,7 @@ module API
                 .includes(:external_user, :case_type, :injection_attempts,
                           :case_workers, :court, :messages,
                           defendants: %i[representation_orders])
-                .sort(params.sorting, params.direction)
+                .sort_using(params.sorting, params.direction)
                 .page(params.page).per(params.limit)
             end
           end

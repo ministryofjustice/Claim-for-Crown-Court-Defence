@@ -126,7 +126,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def sort_and_paginate
     # GOTCHA: must paginate in same call that sorts/orders
-    @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(page_size) unless @claims.remote?
+    @claims = @claims.sort_using(sort_column, sort_direction).page(current_page).per(page_size) unless @claims.remote?
   end
 
   def sort_claims

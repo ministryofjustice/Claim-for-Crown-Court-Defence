@@ -11,7 +11,7 @@
 #  uuid        :uuid
 #
 
-class CaseWorker < ActiveRecord::Base
+class CaseWorker < ApplicationRecord
   auto_strip_attributes squish: true, nullify: true
 
   ROLES = %w[admin case_worker].freeze

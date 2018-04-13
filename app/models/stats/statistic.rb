@@ -11,7 +11,7 @@
 #
 
 module Stats
-  class Statistic < ActiveRecord::Base
+  class Statistic < ApplicationRecord
     self.table_name = 'statistics'
 
     def self.find_by_date_and_report_name(date, report_name)

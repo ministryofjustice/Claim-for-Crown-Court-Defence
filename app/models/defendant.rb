@@ -13,7 +13,7 @@
 #  uuid                             :uuid
 #
 
-class Defendant < ActiveRecord::Base
+class Defendant < ApplicationRecord
   include Duplicable
   auto_strip_attributes :first_name, :last_name, squish: true, nullify: true
 

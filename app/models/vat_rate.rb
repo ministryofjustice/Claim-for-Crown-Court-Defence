@@ -13,7 +13,7 @@
 # All rates are cached in a class variable on first use to prevent re-reading the vat_rates table
 # every time.
 #
-class VatRate < ActiveRecord::Base
+class VatRate < ApplicationRecord
   class MissingVatRateError < RuntimeError; end
 
   validates :effective_date, uniqueness: true

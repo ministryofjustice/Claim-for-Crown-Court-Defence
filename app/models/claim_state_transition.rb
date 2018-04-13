@@ -15,7 +15,7 @@
 #  reason_text :string
 #
 
-class ClaimStateTransition < ActiveRecord::Base
+class ClaimStateTransition < ApplicationRecord
   belongs_to :claim, class_name: ::Claim::BaseClaim, foreign_key: :claim_id
   belongs_to :author, class_name: User, foreign_key: :author_id
   belongs_to :subject, class_name: User, foreign_key: :subject_id

@@ -10,7 +10,7 @@
 #  updated_at :datetime
 #
 
-class Court < ActiveRecord::Base
+class Court < ApplicationRecord
   auto_strip_attributes :code, :name, squish: true, nullify: true
 
   COURT_TYPES = %w[crown magistrate].freeze

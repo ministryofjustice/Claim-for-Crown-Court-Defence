@@ -10,7 +10,7 @@
 #  unique_code :string
 #
 
-class DisbursementType < ActiveRecord::Base
+class DisbursementType < ApplicationRecord
   include SoftlyDeletable
 
   default_scope -> { order(name: :asc) }

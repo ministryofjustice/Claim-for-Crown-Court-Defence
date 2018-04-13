@@ -35,7 +35,7 @@ module Duplicable
         superclass = nil
         loop do
           superclass = self.superclass
-          break if superclass == ActiveRecord::Base
+          break if superclass == ApplicationRecord
 
           blocks.unshift(*superclass.amoeba_blocks)
         end

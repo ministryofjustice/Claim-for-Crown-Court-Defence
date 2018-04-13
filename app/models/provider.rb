@@ -22,7 +22,7 @@
 # instead of an agfs supplier number for each advocate
 #
 
-class Provider < ActiveRecord::Base
+class Provider < ApplicationRecord
   auto_strip_attributes :name, :firm_agfs_supplier_number, squish: true, nullify: true
 
   PROVIDER_TYPES = %w[chamber firm].freeze

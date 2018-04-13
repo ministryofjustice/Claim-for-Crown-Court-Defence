@@ -11,7 +11,7 @@
 #
 
 module Stats
-  class StatsReport < ActiveRecord::Base
+  class StatsReport < ApplicationRecord
     validates :status, inclusion: { in: %w[started completed error] }
 
     default_scope { order('started_at DESC') }

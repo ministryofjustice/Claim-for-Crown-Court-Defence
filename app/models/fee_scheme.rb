@@ -1,4 +1,4 @@
-class FeeScheme < ActiveRecord::Base
+class FeeScheme < ApplicationRecord
   NINE = 9
   TEN = 10
   validates :start_date, :version, :name, presence: true

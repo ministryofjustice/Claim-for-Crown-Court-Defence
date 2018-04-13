@@ -1,6 +1,6 @@
 require 'xmlsimple'
 
-class LaaImportedSupplier < ActiveRecord::Base
+class LaaImportedSupplier < ApplicationRecord
 end
 
 class LaaSupplierDataImporter

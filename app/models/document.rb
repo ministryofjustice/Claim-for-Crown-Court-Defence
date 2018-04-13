@@ -23,7 +23,7 @@
 #  verified                                :boolean          default(FALSE)
 #
 
-class Document < ActiveRecord::Base
+class Document < ApplicationRecord
   include DocumentAttachment
   include Duplicable
 

@@ -11,7 +11,7 @@
 #  uuid                      :uuid
 #
 
-class RepresentationOrder < ActiveRecord::Base
+class RepresentationOrder < ApplicationRecord
   include Duplicable
 
   auto_strip_attributes :maat_reference, squish: true, nullify: true

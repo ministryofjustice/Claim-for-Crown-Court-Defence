@@ -27,7 +27,7 @@
 #  api_key                :uuid
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   include SoftlyDeletable
 
   auto_strip_attributes :first_name, :last_name, :email, squish: true, nullify: true

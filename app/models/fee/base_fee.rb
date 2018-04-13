@@ -26,7 +26,7 @@ module Fee
     end
   end
 
-  class BaseFee < ActiveRecord::Base
+  class BaseFee < ApplicationRecord
     include NumberCommaParser
     include Duplicable
 

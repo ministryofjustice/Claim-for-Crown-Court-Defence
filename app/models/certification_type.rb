@@ -10,7 +10,7 @@
 #  roles        :string
 #
 
-class CertificationType < ActiveRecord::Base
+class CertificationType < ApplicationRecord
   ROLES = %w[agfs lgfs].freeze
   include Roles
 

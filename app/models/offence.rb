@@ -10,7 +10,7 @@
 #  unique_code      :string           default("anyoldrubbish"), not null
 #
 
-class Offence < ActiveRecord::Base
+class Offence < ApplicationRecord
   auto_strip_attributes :description, squish: true, nullify: true
 
   belongs_to :offence_class

@@ -252,7 +252,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def sort_and_paginate(options = {})
     sort_defaults(options)
-    @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(@sort_defaults[:pagination])
+    @claims = @claims.sort_using(sort_column, sort_direction).page(current_page).per(@sort_defaults[:pagination])
   end
 
   def scheme

@@ -22,7 +22,7 @@
 #  vat_amount      :decimal(, )      default(0.0)
 #
 
-class Expense < ActiveRecord::Base
+class Expense < ApplicationRecord
   CAR_MILEAGE_RATES = {
     1 => Struct.new(:id, :mileage_type, :name, :description, :rate).new(1, :car, '25p', '25p per mile', 0.25),
     2 => Struct.new(:id, :mileage_type, :name, :description, :rate).new(2, :car, '45p', '45p per mile', 0.45)

@@ -17,7 +17,7 @@
 #  uuid                    :uuid
 #
 
-class CaseType < ActiveRecord::Base
+class CaseType < ApplicationRecord
   ROLES = %w[lgfs agfs interim].freeze
   include Roles
 

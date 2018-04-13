@@ -22,7 +22,7 @@ module Claims
 
     def extract_transition_params
       @state = @params.delete('state')
-      @transition_reason = @params.delete('state_reason')&.reject(&:empty?)
+      @transition_reasons = @params.delete('state_reason')&.reject(&:empty?)
       @transition_reason_text = extract_reason_text
       @current_user = @params.delete(:current_user)
     end
@@ -78,7 +78,7 @@ module Claims
 
     def validate_reason_presence
       return unless %w[rejected refused].include?(@state)
-      add_error("requires a reason when #{state_verb}", state_symbol(false)) if @transition_reason&.empty?
+      add_error("requires a reason when #{state_verb}", state_symbol(false)) if @transition_reasons&.empty?
       add_error('needs a description', state_symbol) if transition_reason_text_missing?
     end
 
@@ -91,7 +91,7 @@ module Claims
     end
 
     def transition_reason_text_missing?
-      @transition_reason&.any? { |reason| %w[other other_refuse].include?(reason) } && @transition_reason_text.blank?
+      @transition_reasons&.any? { |reason| %w[other other_refuse].include?(reason) } && @transition_reason_text.blank?
     end
 
     def params_present?(params)
@@ -106,6 +106,7 @@ module Claims
         @claim.update(@params)
         update_assessment if @assessment_params_present
         add_redetermination if @redetermination_params_present
+        add_message if @transition_reasons
         @claim.send(event, audit_attributes) unless state_not_updateable?
       rescue StandardError => err
         add_error err.message
@@ -135,6 +136,24 @@ module Claims
       @claim.redeterminations << Redetermination.new(params_with_defaults)
     end
 
+    def add_message
+      @claim.messages.create(sender_id: @current_user.id, body: reasons_message)
+    end
+
+    def long_reasons
+      @transition_reasons.each_with_object([]) do |reason, arr|
+        details = ClaimStateTransitionReason.get(reason)
+        arr << "#{details.description}: #{details.long_description}"
+      end
+    end
+
+    def reasons_message
+      <<~MSG
+        Your claim has been rejected:
+        #{long_reasons.join("\n")}
+      MSG
+    end
+
     def add_error(message, attribute = :determinations)
       @claim.errors[attribute] << message
       @result = :error
@@ -143,7 +162,7 @@ module Claims
     def audit_attributes
       {
         author_id: current_user&.id,
-        reason_code: @transition_reason,
+        reason_code: @transition_reasons,
         reason_text: @transition_reason_text
       }
     end

@@ -3,17 +3,27 @@ require 'rails_helper'
 RSpec.describe ClaimStateTransitionReason, type: :model do
 
   describe '.new' do
-    let(:reason) { described_class.new('code', 'description') }
+    let(:reason) { described_class.new('code', 'short description', 'long description') }
 
     it 'initialize a reason object with provided code and description' do
       expect(reason.code).to eq('code')
-      expect(reason.description).to eq('description')
+      expect(reason.description).to eq('short description')
+      expect(reason.long_description).to eq('long description')
     end
   end
 
   describe '.reasons' do
     let(:reasons) { described_class.reasons(state) }
-    let(:reasons_hash) { {example_state: {test: 'description'}} }
+    let(:reasons_hash) do
+      {
+        example_state: {
+          test: {
+            short: 'short description',
+            long: 'long description'
+          }
+        }
+      }
+    end
 
     before do
       allow(described_class).to receive(:reasons_map).and_return(reasons_hash)
@@ -26,7 +36,8 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
         expect(reasons).to be_kind_of(Array)
         expect(reasons.size).to eq(1)
         expect(reasons.first.code).to eq(:test)
-        expect(reasons.first.description).to eq('description')
+        expect(reasons.first.description).to eq('short description')
+        expect(reasons.first.long_description).to eq('long description')
       end
     end
 
@@ -99,11 +110,13 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
     context 'for an existing code' do
       before do
         allow(described_class).to receive(:description_for).with(code).and_return('description')
+        allow(described_class).to receive(:description_for).with(code, :long).and_return('long description')
       end
 
       it 'initializes and retrieve a reason object if code exists' do
         expect(reason.code).to eq('code')
         expect(reason.description).to eq('description')
+        expect(reason.long_description).to eq('long description')
       end
     end
 

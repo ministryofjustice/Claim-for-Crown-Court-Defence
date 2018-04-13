@@ -7,6 +7,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
   let(:daf_fee) { build :basic_fee, :daf_fee, claim: claim }
   let(:dah_fee) { build :basic_fee, :dah_fee, claim: claim }
   let(:daj_fee) { build :basic_fee, :daj_fee, claim: claim }
+  let(:dat_fee) { build :basic_fee, :dat_fee, claim: claim }
   let(:pcm_fee) { build :basic_fee, :pcm_fee, claim: claim }
   let(:ppe_fee) { build :basic_fee, :ppe_fee, claim: claim }
   let(:npw_fee) { build :basic_fee, :npw_fee, claim: claim }
@@ -323,6 +324,61 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
             daj_fee.claim.retrial_actual_length = 70
             should_be_valid_if_equal_to_value(daj_fee, :quantity, 20)
             should_error_if_equal_to_value(daj_fee, :quantity, 21, 'daj_qty_mismatch')
+        end
+      end
+
+      context 'daily attendance 2 plus (DAT)' do
+        context 'trial length less than 2 days' do
+          let(:actual_trial_length) { 1 }
+
+          it 'is not valid and cannot be claimed' do
+            dat_fee.claim.actual_trial_length = 1
+            should_error_if_equal_to_value(dat_fee, :quantity, 2, 'dat_qty_mismatch')
+          end
+        end
+
+        context 'trial length was exactly 2 days' do
+          let(:actual_trial_length) { 2 }
+
+          context 'when the extra days claims are within the actual trial length' do
+            it 'is valid and can be claimed' do
+              dat_fee.claim.actual_trial_length = actual_trial_length
+              should_be_valid_if_equal_to_value(dat_fee, :quantity, 1)
+            end
+          end
+
+          context 'when the extra days claims are NOT within the actual trial length' do
+            it 'is not valid and cannot be claimed' do
+              dat_fee.claim.actual_trial_length = actual_trial_length
+              should_error_if_equal_to_value(dat_fee, :quantity, 2, 'dat_qty_mismatch')
+            end
+          end
+        end
+
+        context 'trial length greater than 2 days' do
+          let(:actual_trial_length) { 6 }
+
+          context 'when the extra days claims are within the actual trial length' do
+            it 'is valid and can be claimed' do
+              dat_fee.claim.actual_trial_length = actual_trial_length
+              should_be_valid_if_equal_to_value(dat_fee, :quantity, 5)
+            end
+          end
+
+          context 'when the extra days claims are NOT within the actual trial length' do
+            it 'is not valid and cannot be claimed' do
+              dat_fee.claim.actual_trial_length = actual_trial_length
+              should_error_if_equal_to_value(dat_fee, :quantity, 11, 'dat_qty_mismatch')
+            end
+          end
+        end
+
+        it 'should validate based on retrial length for retrials' do
+          dat_fee.claim.case_type = create(:case_type, :retrial)
+          dat_fee.claim.actual_trial_length = 2
+          dat_fee.claim.retrial_actual_length = 10
+          should_be_valid_if_equal_to_value(dat_fee, :quantity, 9)
+          should_error_if_equal_to_value(dat_fee, :quantity, 10, 'dat_qty_mismatch')
         end
       end
 

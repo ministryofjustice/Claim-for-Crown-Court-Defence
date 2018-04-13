@@ -150,6 +150,10 @@ FactoryBot.define do
       fee_type { build :basic_fee_type, description: 'Daily Attendance Fee (50+)', code: 'DAJ', unique_code: 'BADAJ' }
     end
 
+    trait :dat_fee do
+      fee_type { build(:basic_fee_type, :dat) }
+    end
+
     trait :pcm_fee do
       fee_type { build :basic_fee_type, description: 'Plea and Case Management Hearing', code: 'PCM' }
     end

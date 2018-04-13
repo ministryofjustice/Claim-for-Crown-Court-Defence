@@ -35,6 +35,7 @@ FactoryBot.define do
 
     trait :dat do
       description 'Daily Attendance Fee (2+)'
+      agfs_scheme_10
       code 'DAT'
       unique_code 'BADAT'
     end

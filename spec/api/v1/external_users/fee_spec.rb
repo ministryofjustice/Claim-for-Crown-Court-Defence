@@ -16,7 +16,8 @@ describe API::V1::ExternalUsers::Fee do
 
   let!(:provider)         { create(:provider) }
 
-  let!(:basic_fee_type)     { create(:basic_fee_type) }
+  let!(:basic_fee_type) { create(:basic_fee_type) }
+  let!(:basic_fee_dat_type) { create(:basic_fee_type, :dat) }
   let!(:misc_fee_type)      { create(:misc_fee_type) }
   let!(:misc_fee_xupl_type) { create(:misc_fee_type, :miupl) }
   let!(:fixed_fee_type)     { create(:fixed_fee_type) }
@@ -42,7 +43,6 @@ describe API::V1::ExternalUsers::Fee do
   end
 
   describe "POST #{CREATE_FEE_ENDPOINT}" do
-
     def post_to_create_endpoint
       post CREATE_FEE_ENDPOINT, valid_params, format: :json
     end
@@ -103,29 +103,50 @@ describe API::V1::ExternalUsers::Fee do
 
       context 'basic fees' do
         let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, rate: 210.00 } }
+        let(:json) { JSON.parse(last_response.body) }
+        let(:fee) { Fee::BaseFee.find_by(uuid: json['id']) }
 
-        it 'should update, not create, the fee, return 200 and fee JSON output including UUID' do
+        it 'should return 200 and fee JSON output including UUID' do
           post_to_create_endpoint
           expect(last_response.status).to eq 200
-          json = JSON.parse(last_response.body)
           expect(json['id']).not_to be_nil
-          expect(Fee::BaseFee.find_by(uuid: json['id']).uuid).to eq(json['id'])
-          expect(Fee::BaseFee.find_by(uuid: json['id']).claim.uuid).to eq(json['claim_id'])
+          expect(fee.uuid).to eq(json['id'])
+          expect(fee.claim.uuid).to eq(json['claim_id'])
         end
 
         it 'should update, not create, one basic fee' do
           expect{ post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(0)
         end
 
-        it 'should update the basic fee with the quantity, rate and amount' do
+        it 'should update quantity, rate and amount' do
           post_to_create_endpoint
-          json = JSON.parse(last_response.body)
-          fee = Fee::BaseFee.find_by(uuid: json['id'])
           expect(fee.claim_id).to eq claim.id
           expect(fee.fee_type_id).to eq basic_fee_type.id
           expect(fee.quantity).to eq 1
           expect(fee.rate).to eq 210.00
           expect(fee.amount).to eq 210.00
+        end
+
+        context 'agfs scheme 10' do
+          let!(:claim) { create(:claim, :agfs_scheme_10, source: 'api', actual_trial_length: 5).reload }
+          let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_dat_type.id, quantity: 2, rate: 600.00 } }
+
+          it 'should return 200 and fee JSON output including UUID' do
+            post_to_create_endpoint
+            expect(last_response.status).to eq 200
+            expect(json['id']).not_to be_nil
+            expect(fee.uuid).to eq(json['id'])
+            expect(fee.claim.uuid).to eq(json['claim_id'])
+          end
+
+          it 'should update quantity, rate and amount' do
+            post_to_create_endpoint
+            expect(fee.claim_id).to eq claim.id
+            expect(fee.fee_type_id).to eq basic_fee_dat_type.id
+            expect(fee.quantity).to eq 2
+            expect(fee.rate).to eq 600.00
+            expect(fee.amount).to eq 1200.00
+          end
         end
       end
 

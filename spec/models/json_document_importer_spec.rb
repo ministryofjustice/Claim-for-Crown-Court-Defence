@@ -49,7 +49,6 @@ describe JsonDocumentImporter do
   end
 
   context 'parses a json document and' do
-
     let(:subject) { JsonDocumentImporter.new(json_file: exported_claim_with_nulls, schema_validator: schema_validator, api_key: 'test_key') }
     let(:schema) { schema_validator.full_schema }
 
@@ -61,7 +60,6 @@ describe JsonDocumentImporter do
     end
 
     context 'calls API endpoints for' do
-
       let(:subject) { JsonDocumentImporter.new(json_file: exported_claim, schema_validator: schema_validator, api_key: 'test_key') }
 
       it 'claims, defendants, representation_orders, fees, expenses' do
@@ -89,7 +87,6 @@ describe JsonDocumentImporter do
     end
 
     context 'each claim is processed as an atomic transaction' do
-
       let(:subject) { JsonDocumentImporter.new(json_file: exported_claim_with_errors, schema_validator: schema_validator, api_key: 'test_key') }
 
       before {
@@ -105,7 +102,6 @@ describe JsonDocumentImporter do
     end
 
     context 'can validate the json document provided' do
-
       context 'returning true' do
         let(:subject) { JsonDocumentImporter.new(json_file: exported_claim, schema_validator: schema_validator, api_key: 'test_key') }
 
@@ -134,17 +130,16 @@ describe JsonDocumentImporter do
       }
 
       context 'and creates claims' do
-        let(:subject) { JsonDocumentImporter.new(json_file: exported_claims, schema_validator: schema_validator, api_key: 'test_key') }
+        subject(:importer) { JsonDocumentImporter.new(json_file: exported_claims, schema_validator: schema_validator, api_key: 'test_key') }
 
         it 'from valid hashes' do
-          expect(subject).to receive(:create_claim).exactly(2).times
-          subject.import!
-          expect(subject.errors.blank?).to be true
+          expect(importer).to receive(:create_claim).exactly(2).times
+          importer.import!
+          expect(importer.errors).to be_blank
         end
       end
 
       context 'and collates errors' do
-
         # API calls are stubbed to return errors so the only thing that matters here is that the subject is instantiated with a document describing two claims
         let(:subject) { JsonDocumentImporter.new(json_file: exported_claims, schema_validator: schema_validator, api_key: 'test_key') }
 
@@ -166,12 +161,12 @@ describe JsonDocumentImporter do
           subject.import!
           expect(subject.errors.to_hash).to eq({
             A20161234: [
-              'Case type cannot be blank, you must select a case type', 
-              'Court cannot be blank, you must select a court', 
-              'Case number cannot be blank, you must enter a case number', 
-              'Advocate category cannot be blank, you must select an appropriate advocate category', 
+              'Case type cannot be blank, you must select a case type',
+              'Court cannot be blank, you must select a court',
+              'Case number cannot be blank, you must enter a case number',
+              'Advocate category cannot be blank, you must select an appropriate advocate category',
               'Offence Category cannot be blank, you must select an offence category'
-            ], 
+            ],
             A987654321: [
               'Case type cannot be blank, you must select a case type',
               'Court cannot be blank, you must select a court',

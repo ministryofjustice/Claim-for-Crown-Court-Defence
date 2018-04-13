@@ -59,6 +59,16 @@ FactoryBot.define do
       case_type { association(:case_type, :graduated_fee) }
     end
 
+    trait :agfs_scheme_10 do
+      after(:create) do |claim|
+        claim.defendants.each do |defendant|
+          defendant
+            .representation_orders
+            .update_all(representation_order_date: Settings.agfs_fee_reform_release_date)
+        end
+      end
+    end
+
     factory :unpersisted_claim do
       court         { FactoryBot.build :court }
       external_user { FactoryBot.build :external_user, provider: FactoryBot.build(:provider) }

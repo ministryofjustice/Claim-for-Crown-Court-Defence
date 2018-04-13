@@ -22,7 +22,7 @@ module Fee
   describe BasicFeeType do
 
     let(:fee_type)  { build :basic_fee_type }
-    DATES_ATTENDED_APPLICABLE_FEES = %w( BAF DAF DAH DAJ PCM SAF )
+    DATES_ATTENDED_APPLICABLE_FEES = %w( BAF DAF DAH DAJ PCM SAF DAT )
     DATES_ATTENDED_NOT_APPLICABLE_FEES = %w( CAV NDR NOC PPE NPW )
 
     describe '#requires_dates_attended?' do

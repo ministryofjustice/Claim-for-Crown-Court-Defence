@@ -11,7 +11,7 @@ class CreateRepresentationOrders < ActiveRecord::Migration
       t.integer   :converted_preview_document_file_size
       t.datetime  :converted_preview_document_updated_at
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

@@ -8,7 +8,7 @@ class CreateFees < ActiveRecord::Migration
       t.decimal :rate
       t.decimal :amount
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

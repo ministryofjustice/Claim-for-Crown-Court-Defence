@@ -4,7 +4,7 @@ class CreateCertificationTypes < ActiveRecord::Migration
       t.string :name, index: true
       t.boolean :pre_may_2015, default: false
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

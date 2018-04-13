@@ -8,14 +8,14 @@ class DropDocumentTypes < ActiveRecord::Migration
   def down
     create_table :document_types do |t|
       t.string :description
-      t.timestamps
+      t.timestamps null: true
     end
 
     create_table :document_type_claims do |t|
       t.belongs_to :claim, null: false, index: true
       t.belongs_to :document_type, null: false, index: true
 
-      t.timestamps
+      t.timestamps null: true
     end
 
     add_index :document_type_claims,

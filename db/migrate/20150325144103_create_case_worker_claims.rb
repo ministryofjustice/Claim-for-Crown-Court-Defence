@@ -4,7 +4,7 @@ class CreateCaseWorkerClaims < ActiveRecord::Migration
       t.references :case_worker, index: true
       t.references :claim, index: true
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

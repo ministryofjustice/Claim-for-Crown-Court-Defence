@@ -10,7 +10,7 @@ class CreateDefendants < ActiveRecord::Migration
       t.string :maat_reference
       t.references :claim, index: true
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

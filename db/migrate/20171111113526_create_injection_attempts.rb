@@ -4,7 +4,7 @@ class CreateInjectionAttempts < ActiveRecord::Migration
       t.references :claim, index: true, foreign_key: true
       t.boolean :succeeded
       t.string :error_message
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

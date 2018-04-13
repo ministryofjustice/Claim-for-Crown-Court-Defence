@@ -4,7 +4,7 @@ class CreateOffences < ActiveRecord::Migration
       t.string :description
       t.references :offence_class, index: true
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

@@ -4,7 +4,7 @@ class CreateDatesAttended < ActiveRecord::Migration
       t.datetime :date
       t.references :fee, index: true
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

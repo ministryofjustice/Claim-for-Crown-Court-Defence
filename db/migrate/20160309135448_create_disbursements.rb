@@ -5,7 +5,7 @@ class CreateDisbursements < ActiveRecord::Migration
       t.references :claim, index: true
       t.decimal :net_amount
       t.decimal :vat_amount
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

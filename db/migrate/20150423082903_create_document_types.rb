@@ -3,7 +3,7 @@ class CreateDocumentTypes < ActiveRecord::Migration
     create_table :document_types do |t|
       t.string :description
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

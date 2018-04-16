@@ -5,7 +5,7 @@ module API
 
       helpers do
         def claim
-          ::Claim::AdvocateClaim.find_by(uuid: params.uuid) || error!('Claim not found', 404)
+          ::Claim::AdvocateClaim.find_by(uuid: params[:uuid]) || error!('Claim not found', 404)
         end
       end
 

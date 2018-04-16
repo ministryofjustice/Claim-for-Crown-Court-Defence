@@ -7,11 +7,11 @@ module API::Helpers
     end
 
     def claim_source
-      params.source || 'api'
+      params[:source] || 'api'
     end
 
     def claim_id
-      claim = ::Claim::BaseClaim.active.find_by(uuid: params.claim_id)
+      claim = ::Claim::BaseClaim.active.find_by(uuid: params[:claim_id])
       raise ArgumentError, 'Claim cannot be blank' unless claim
       claim&.id
     end

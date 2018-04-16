@@ -8,7 +8,7 @@ module API
       helpers ClaimParamsHelper
       helpers do
         def claim
-          ::Claim::BaseClaim.find_by(uuid: params.uuid) || error!('Claim not found', 404)
+          ::Claim::BaseClaim.find_by(uuid: params[:uuid]) || error!('Claim not found', 404)
         end
 
         def soap_format?

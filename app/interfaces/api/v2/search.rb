@@ -22,7 +22,7 @@ module API
           end
 
           def scheme
-            params.scheme
+            params[:scheme]
           end
         end
 

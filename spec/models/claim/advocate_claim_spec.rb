@@ -106,14 +106,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       subject.external_user_id = external_user.id
       subject.creator_id = external_user.id
       subject.save
-      expect(subject.reload.errors.messages[:external_user]).to be_nil
+      expect(subject.reload.errors.messages[:external_user]).not_to be_present
     end
 
     it 'should be valid with different external_user_id and creator_id but same provider' do
       subject.external_user_id = external_user.id
       subject.creator_id = same_provider_external_user.id
       subject.save
-      expect(subject.reload.errors.messages[:external_user]).to be_nil
+      expect(subject.reload.errors.messages[:external_user]).not_to be_present
     end
 
     it 'should not be valid when the external_user and creator are with the same provider' do

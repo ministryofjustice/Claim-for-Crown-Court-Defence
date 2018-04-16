@@ -44,7 +44,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     updater = Claims::CaseWorkerClaimUpdater.new(params[:id], claim_params.merge(current_user: current_user)).update!
     @claim = updater.claim
     if updater.result == :ok
-      redirect_to case_workers_claim_path(params.slice(:messages))
+      redirect_to case_workers_claim_path(permitted_params)
     else
       @error_presenter = ErrorPresenter.new(@claim)
       prepare_show_action
@@ -53,6 +53,10 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   private
+
+  def permitted_params
+    params.permit(:messages)
+  end
 
   def prepare_show_action
     @claim.assessment = Assessment.new if @claim.assessment.nil?

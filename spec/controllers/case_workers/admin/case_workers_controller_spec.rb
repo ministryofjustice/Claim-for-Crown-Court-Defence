@@ -225,10 +225,17 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
       end
     end
 
-    context 'when invalid' do
-      before(:each) { put :update_password, id: subject, case_worker: { user_attributes: { } } }
+    context 'when mandatory params for case worker are not provided' do
+      it 'raises a paramenter missing error' do
+        expect {
+          put :update_password, params: { id: subject, case_worker: { } }
+        }.to raise_error(ActionController::ParameterMissing)
+      end
+    end
 
+    context 'when invalid' do
       it 'renders the change password template' do
+        put :update_password, id: subject, case_worker: { user_attributes: { foo: 'bar' } }
         expect(response).to render_template(:change_password)
       end
     end

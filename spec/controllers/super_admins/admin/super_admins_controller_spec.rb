@@ -68,10 +68,17 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
       end
     end
 
-    context 'when invalid' do
-      before(:each) { put :update_password, id: subject, super_admin: { user_attributes: { } } }
+    context 'when mandatory params for super admin are not provided' do
+      it 'raises a paramenter missing error' do
+        expect {
+          put :update_password, params: { id: subject, super_admin: { } }
+        }.to raise_error(ActionController::ParameterMissing)
+      end
+    end
 
+    context 'when invalid' do
       it 'renders the change password template' do
+        put :update_password, id: subject, super_admin: { user_attributes: { foo: 'bar' } }
         expect(response).to render_template(:change_password)
       end
     end

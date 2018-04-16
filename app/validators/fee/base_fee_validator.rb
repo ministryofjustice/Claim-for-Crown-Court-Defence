@@ -40,10 +40,10 @@ module Fee
       case fee_code
       when 'BAF'
         validate_baf_quantity
-      when 'DAF', 'DAH', 'DAJ'
-        validate_daily_attendance(fee_code)
       when 'PCM'
         validate_pcm_quantity
+      when *Fee::BasicFeeType::ADDITIONAL_DAILY_ATTENDANCE_FEE_CODES
+        validate_daily_attendance(fee_code)
       end
 
       validate_any_quantity
@@ -55,23 +55,21 @@ module Fee
 
     def validate_daily_attendance(code)
       return if @record.quantity.zero?
-      case code
-      when 'DAF'
-        # cannot claim this fee if trial lasted less than 3 days
-        # can only claim a maximum of 38 (or trial length after first 2 days deducted)
-        check_for_daily_attendance_error(code, 3, -2, 38)
-      when 'DAH'
-        # cannot claim this fee if trial lasted less than 41 days
-        # can only claim a maximum of 10 (or trial length after first 40 days deducted)
-        check_for_daily_attendance_error(code, 41, -40, 10)
-      when 'DAJ'
-        # cannot claim this fee if trial lasted less than 51 days
-        # can only claim a maximum of trial length after first 50 days deducted
-        check_for_daily_attendance_error(code, 51, -50, nil)
-      end
+      options = validation_options_for_daily_attendance_code(code)
+      return unless options
+      check_for_daily_attendance_error(code, **options)
     end
 
-    def check_for_daily_attendance_error(code, min, mod, max)
+    def validation_options_for_daily_attendance_code(code)
+      {
+        'DAF' => { min: 3, mod: -2, max: 38 },
+        'DAH' => { min: 41, mod: -40, max: 10 },
+        'DAJ' => { min: 51, mod: -50, max: nil },
+        'DAT' => { min: 2, mod: -1, max: nil }
+      }[code.to_s]
+    end
+
+    def check_for_daily_attendance_error(code, min:, mod:, max:)
       add_error(:quantity, "#{code.downcase}_qty_mismatch") if daf_trial_length_combination_invalid(min, mod, max)
     end
 

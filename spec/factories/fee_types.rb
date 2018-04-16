@@ -33,6 +33,12 @@ FactoryBot.define do
       roles %w[agfs agfs_scheme_10]
     end
 
+    trait :dat do
+      description 'Daily Attendance Fee (2+)'
+      code 'DAT'
+      unique_code 'BADAT'
+    end
+
     trait :ppe do
       description 'Pages of prosecution evidence'
       code 'PPE'

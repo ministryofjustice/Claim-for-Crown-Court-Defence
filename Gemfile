@@ -107,6 +107,7 @@ group :test do
   gem 'kaminari-rspec'
   gem 'launchy',                    '~> 2.4.3'
   gem 'poltergeist'
+  gem 'rails-controller-testing'
   gem 'rspec-mocks'
   gem 'shoulda-matchers'
   gem 'selenium-webdriver'

@@ -137,21 +137,11 @@ module Claims
     end
 
     def add_message
-      @claim.messages.create(sender_id: @current_user.id, body: reasons_message)
+      @claim.messages.create(sender_id: @current_user.id, body: transition_message)
     end
 
-    def long_reasons
-      @transition_reasons.each_with_object([]) do |reason, arr|
-        details = ClaimStateTransitionReason.get(reason)
-        arr << "#{details.description}: #{details.long_description}"
-      end
-    end
-
-    def reasons_message
-      <<~MSG
-        Your claim has been rejected:
-        #{long_reasons.join("\n")}
-      MSG
+    def transition_message
+      Claims::StateTransitionMessage.new(@state, @transition_reasons, @transition_reason_text).call
     end
 
     def add_error(message, attribute = :determinations)

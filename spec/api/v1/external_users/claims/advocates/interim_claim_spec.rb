@@ -198,7 +198,7 @@ describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           json = JSON.parse(last_response.body)
-          expect_error_response("out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer")
+          expect_error_response("out of range for ActiveModel::Type::Integer")
         end
 
         it "should not create a new claim" do

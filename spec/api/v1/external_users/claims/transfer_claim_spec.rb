@@ -216,7 +216,7 @@ describe API::V1::ExternalUsers::Claims::TransferClaim do
           valid_params[:case_type_id] = 1000000000000000000000000000011111
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
-          expect_error_response("out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer")
+          expect_error_response("out of range for ActiveModel::Type::Integer")
         end
       end
 

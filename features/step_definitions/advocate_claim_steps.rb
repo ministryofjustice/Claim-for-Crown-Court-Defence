@@ -179,7 +179,7 @@ end
 Given(/^6\+ advocates exist for my provider$/) do
   number_to_add = 6 - @advocate.provider.advocates.size
   number_to_add.times do |index|
-    @advocate.provider.advocates << FactoryBot.create(:external_user, :advocate, provider: @advocate.provider)
+    FactoryBot.create(:external_user, :advocate, provider: @advocate.provider)
   end
 end
 

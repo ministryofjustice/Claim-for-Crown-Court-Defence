@@ -16,7 +16,7 @@ module SelectHelper
   def fill_autocomplete(field, options = {})
     dropdown = find(:select, field, visible: false)
     container = dropdown.find(:xpath, '..')
-    input_field = container.find(:input, '.tt-input')
+    input_field = container.find('input.tt-input')
     input_field.set options[:with]
 
     page.execute_script %Q{ $(document.body).xpath('#{input_field.path}').trigger('focus') }

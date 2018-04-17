@@ -97,5 +97,6 @@ ID,DESCRIPTION,CODE,UNIQUE_CODE,MAX_AMOUNT,CALCULATED,CLASS,ROLES,PARENT_ID,QUAN
 98,Warrant,IWARR,INWAR,,FALSE,Fee::InterimFeeType,lgfs,,FALSE,
 99,Transfer,TRANS,TRANS,,FALSE,Fee::TransferFeeType,lgfs,,FALSE,
 100,Further case management hearing,FCM,MIFCM,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_10,,FALSE,
-101,Ground rules hearing,GRH,MIGRH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_10,,FALSE,
+101,Ground rules hearing (whole day),GRW,MIGRW,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_10,,FALSE,
 102,Daily attendance fee (2+),DAT,BADAT,999,TRUE,Fee::BasicFeeType,agfs;agfs_scheme_10,,FALSE,2
+103,Ground rules hearing (half day),GRH,MIGRH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_10,,FALSE,

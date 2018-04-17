@@ -4,6 +4,7 @@ class ClaimStateTransitionReason
 
   attr_accessor :code, :description, :long_description
 
+  # rubocop:disable Metrics/LineLength
   TRANSITION_REASONS = {
     rejected: {
       no_indictment: {
@@ -36,7 +37,7 @@ class ClaimStateTransitionReason
       },
       other: {
         short: 'Other',
-        long: 'Other'
+        long: ''
       }
     },
     disbursement: {
@@ -52,11 +53,11 @@ class ClaimStateTransitionReason
     refused_advocate_claims: {
       wrong_ia: {
         short: 'Wrong Instructed Advocate',
-        long: 'We rejected your claim because court records show a different advocate was instructed for the case. Please submit the claim again with the correct advocate details or include evidence to support why you think the court records are wrong.'
+        long: 'We refused your claim because court records show a different advocate was instructed for the case. Please submit the claim again with the correct advocate details or include evidence to support why you think the court records are wrong.'
       },
       duplicate_claim: {
         short: 'Duplicate claim',
-        long: ''
+        long: 'We refused your claim because our records show this bill has already been paid.'
       },
       other_refuse: {
         short: 'Other',
@@ -106,12 +107,13 @@ class ClaimStateTransitionReason
       }
     },
     global: {
-      timed_transition:{
-        short:'TimedTransition::Transitioner',
+      timed_transition: {
+        short: 'TimedTransition::Transitioner',
         long: 'TimedTransition::Transitioner'
       }
     }
   }.with_indifferent_access.freeze
+  # rubocop:enable Metrics/LineLength
 
   def initialize(code, description, long_description = nil)
     self.code = code
@@ -124,8 +126,13 @@ class ClaimStateTransitionReason
   end
 
   class << self
-    def get(code)
-      new(code, description_for(code), description_for(code, :long)) unless code.blank?
+    def get(code, other_reason = nil)
+      return if code.blank?
+      if %w[other other_refuse].include?(code)
+        new(code, description_for(code), other_reason)
+      else
+        new(code, description_for(code), description_for(code, :long))
+      end
     end
 
     def reasons(state)
@@ -151,7 +158,9 @@ class ClaimStateTransitionReason
     end
 
     def reasons_for(state)
-      reasons_map.fetch(state).map { |code, descriptions| new(code, descriptions.fetch(:short), descriptions.fetch(:long)) }
+      reasons_map.fetch(state).map do |code, descriptions|
+        new(code, descriptions.fetch(:short), descriptions.fetch(:long))
+      end
     rescue KeyError
       raise StateNotFoundError, "State with name '#{state}' not found"
     end

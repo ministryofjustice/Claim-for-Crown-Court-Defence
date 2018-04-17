@@ -206,43 +206,7 @@ module Claims
         updater.update! unless example.metadata[:wait]
       end
 
-      context 'with a single reason' do
-        let(:params) do
-          {
-            'state' => 'rejected',
-            'state_reason' => ['wrong_maat_ref'],
-            'reject_reason_text' => 'rejecting because...',
-            'assessment_attributes' => {'fees' => '', 'expenses' => '0'}
-          }
-        end
-
-        it 'changes state to rejected' do
-          expect(updater.result).to eq :ok
-          expect(updater.claim.state).to eq 'rejected'
-        end
-
-        it 'adds message to the claim', :wait do
-          expect { updater.update! }.to change(claim.messages, :count).by(1)
-        end
-
-        context 'reason message' do
-          let(:body) { claim.messages.unscope(:order).last.body }
-
-          it 'contains message header' do
-            expect(body).to match /Your claim has been rejected:/
-          end
-
-          it 'contains short description of reason' do
-            expect(body).to match /Wrong MAAT reference/
-          end
-
-          it 'contains long description of reason' do
-            expect(body).to match /.* rejected your claim .* MAAT reference .* does not match/
-          end
-        end
-      end
-
-      context 'with multiple reason' do
+      context 'with multiple reasons' do
         let(:params) do
           {
             'state' => 'rejected',
@@ -269,13 +233,71 @@ module Claims
           end
 
           it 'contains short description of reason' do
-            expect(body).to match /Wrong MAAT reference/
-            expect(body).to match /No indictment attached/
+            expect(body).to match /Wrong MAAT reference:/
+            expect(body).to match /No indictment attached:/
+            expect(body).to match /Other:/
           end
 
           it 'contains long description of reason' do
             expect(body).to match /.* rejected your claim .* MAAT reference .* does not match/
             expect(body).to match /.* rejected your claim .* attach the indictment/
+          end
+
+          it 'contains case worker specified other rejection message' do
+            expect(body).to match /rejecting because\.\.\./
+          end
+        end
+      end
+    end
+
+    context 'refusals' do
+      subject(:updater) { CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)) }
+      let(:claim) { create :allocated_claim }
+      let(:current_user) { create(:user) }
+
+      before do |example|
+        updater.update! unless example.metadata[:wait]
+      end
+
+      context 'with multiple reasons' do
+        let(:params) do
+          {
+            'state' => 'refused',
+            'state_reason' => ['wrong_ia','duplicate_claim','other_refuse'],
+            'refuse_reason_text' => 'refusing because...',
+            'assessment_attributes' => {'fees' => '', 'expenses' => '0'}
+          }
+        end
+
+        it 'changes state to refused' do
+          expect(updater.result).to eq :ok
+          expect(updater.claim.state).to eq 'refused'
+        end
+
+        it 'adds message to the claim', :wait do
+          expect { updater.update! }.to change(claim.messages, :count).by(1)
+        end
+
+        context 'reason message' do
+          let(:body) { claim.messages.unscope(:order).last.body }
+
+          it 'contains message header' do
+            expect(body).to match /Your claim has been refused:/
+          end
+
+          it 'contains short description of reason' do
+            expect(body).to match /Wrong Instructed Advocate:/
+            expect(body).to match /Duplicate claim:/
+            expect(body).to match /Other:/
+          end
+
+          it 'contains long description of reason' do
+            expect(body).to match /.* refused your claim .* different advocate was instructed/
+            expect(body).to match /.* refused your claim .* bill has already been paid/
+          end
+
+          it 'contains case worker specified other refusal message' do
+            expect(body).to match /refusing because\.\.\./
           end
         end
       end

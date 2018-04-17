@@ -713,7 +713,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     let(:claim) { create :refused_claim, external_user: advocate }
 
     it 'does something' do
-      xhr :get, :show_message_controls, id: claim, claim_action: 'Apply for redetermination', format: :js
+      get :show_message_controls, params: { id: claim, claim_action: 'Apply for redetermination' }, xhr: true, format: :js
       expect(response.status).to eq 200
       expect(response).to render_template('shared/show_message_controls')
     end

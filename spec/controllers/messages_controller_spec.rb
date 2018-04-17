@@ -35,7 +35,7 @@ RSpec.describe MessagesController, type: :controller do
       end
 
       it 'renders the create js template' do
-        xhr :post, :create, message: message_params
+        post :create, params: { message: message_params }, xhr: true
         expect(response).to render_template(:create)
       end
 

@@ -1365,6 +1365,10 @@ date_attended:
       long: The fixed fee date must not be more than two years before the earliest representation order date
       short: *enter_valid_date
       api: The fixed fee date must not be more than two years before the earliest representation order date
+    not_after_today:
+      long: 'The #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense} is invalid'
+      short: Enter a date that is not in the future
+      api: The date attended (from) cannot be in the future
     not_before_earliest_permitted_date:
       long: 'The #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense} is invalid'
       short: Enter a date later than two years before the earliest representation order date

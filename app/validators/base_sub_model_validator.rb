@@ -34,6 +34,8 @@ class BaseSubModelValidator < BaseValidator
 
   def validate_collection_for(record, association_name)
     collection = record.__send__(association_name)
+    order_column = collection.detect { |item| item.respond_to?(:validation_order) }&.validation_order
+    collection = collection.sort_by(&:"#{order_column}") if order_column
     collection.each_with_index do |associated_record, i|
       next if associated_record.marked_for_destruction? || associated_record.valid?
       @result = false

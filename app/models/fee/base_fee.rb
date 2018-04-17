@@ -61,6 +61,14 @@ module Fee
       ensure_not_abstract_class
     end
 
+    def self.validation_order
+      :position
+    end
+
+    def validation_order
+      self.class.validation_order
+    end
+
     def ensure_not_abstract_class
       raise BaseFeeAbstractClassError if self.class == BaseFee
     end

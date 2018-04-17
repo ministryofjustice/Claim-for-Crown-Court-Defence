@@ -20,7 +20,7 @@ class Allocation
     end
   end
 
-  attr_accessor :current_user, :case_worker_id, :claim_ids, :deallocate, :allocating, :successful_claims
+  attr_accessor :current_user, :case_worker_id, :claim_ids, :deallocate, :allocating, :successful_claims, :transaction
 
   validates :case_worker_id, presence: true, unless: :deallocating?
   validates :claim_ids, presence: true
@@ -32,15 +32,17 @@ class Allocation
     @deallocate = [true, 'true'].include?(attributes[:deallocate])
     @allocating = attributes[:allocating]
     @successful_claims = []
+    @transaction = SecureRandom.random_number(9999)
     LogStuff.send(:info, 'Allocation',
                   action: 'allocation',
+                  transaction_id: @transaction,
                   allocating_user_id: @current_user&.id,
                   allocating_to_user_id: @case_worker_id,
                   claim_ids: @claim_ids,
                   allocating: @allocating,
                   deallocate: @deallocate,
                   reallocate: !@allocating && !@deallocate) do
-      'Start allocation'
+      "Start allocation (#{@transaction})"
     end
   end
 
@@ -144,13 +146,14 @@ class Allocation
   def allocate_claim!(claim)
     LogStuff.send(:info, 'Allocation',
                   action: 'allocating',
+                  transaction_id: @transaction,
                   allocating_user_id: @current_user&.id,
                   allocating_to_user_id: @case_worker_id,
                   claim_id: claim.id,
                   allocating: @allocating,
                   deallocate: @deallocate,
                   reallocate: !@allocating && !@deallocate) do
-      "Allocating #{claim.id}"
+      "Transaction (#{@transaction}) allocating #{claim.id}"
     end
 
     claim.deallocate!(audit_attributes) if claim.allocated?
@@ -160,22 +163,24 @@ class Allocation
     if claim.case_workers.empty?
       LogStuff.send(:error, 'Allocation',
                     action: 'allocated',
+                    transaction_id: @transaction,
                     allocating_user_id: @current_user&.id,
                     allocating_to_user_id: @case_worker_id,
                     claim_id: claim.id,
                     case_workers: claim&.case_workers&.pluck(:id)) do
-        "Allocating #{claim.id} failed"
+        "Transaction (#{@transaction}) allocating #{claim.id} failed"
       end
 
       errors.add(:base, "Allocating Claim #{claim.case_number} to #{case_worker&.name} was unsuccessful")
     else
       LogStuff.send(:info, 'Allocation',
                     action: 'allocated',
+                    transaction_id: @transaction,
                     allocating_user_id: @current_user&.id,
                     allocating_to_user_id: @case_worker_id,
                     claim_id: claim.id,
                     case_workers: claim&.case_workers&.pluck(:id)) do
-        "Allocated #{claim.id}"
+        "Transaction (#{@transaction}) allocated #{claim.id}"
       end
       successful_claims << claim
     end

@@ -127,14 +127,14 @@ describe API::V1::DropdownData do
     end
 
     it 'should include the offence class as nested JSON' do
-      response = get OFFENCE_ENDPOINT, params
+      response = get OFFENCE_ENDPOINT, params: params
       body = JSON.parse(response.body, symbolize_names: true)
       expect(body.first[:offence_class]).to eq(exposed_offence_class[offence.offence_class])
     end
 
     it 'should only return offences matching description when offence_description param is present' do
       params.merge!(offence_description: offence.description)
-      response = get OFFENCE_ENDPOINT, params
+      response = get OFFENCE_ENDPOINT, params: params
 
       returned_offences = JSON.parse(response.body, symbolize_names: true)
       expect(returned_offences).to include(exposed_offence[offence], exposed_offence[offence_with_same_description])

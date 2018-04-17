@@ -39,7 +39,7 @@ RSpec.describe UserMessageStatusesController, type: :controller do
       create(:message)
       sign_in external_user.user
       request.env['HTTP_REFERER'] = 'redirect-to-page'
-      put :update, id: message.user_message_statuses.first
+      put :update, params: { id: message.user_message_statuses.first }
     end
 
     it 'marks the message as read' do

@@ -41,7 +41,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     def do_put(params = {})
-      put :update_settings, params.merge(id: user, format: :js)
+      put :update_settings, params: params.merge(id: user, format: :js)
       user.reload
     end
 

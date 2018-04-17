@@ -18,7 +18,7 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
     end
 
     context 'when env not api-sandbox' do
-      before { post :create, user: sign_up_attributes, terms_and_conditions_acceptance: '1' }
+      before { post :create, params: { user: sign_up_attributes, terms_and_conditions_acceptance: '1' } }
 
       it 'redirects to user sign up path' do
         expect(response).to redirect_to(external_users_root_url)
@@ -44,7 +44,7 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
 
       context 'when valid' do
         context 'and terms and conditions are accepted' do
-          before { post :create, user: sign_up_attributes, terms_and_conditions_acceptance: '1' }
+          before { post :create, params: { user: sign_up_attributes, terms_and_conditions_acceptance: '1' } }
 
           it 'creates a user' do
             expect(User.first.email).to eq(email)
@@ -69,7 +69,7 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
             allow(controller).to receive(:resource).and_return(resource)
             allow(controller).to receive(:create_external_user).and_return(resource)
             allow(controller).to receive(:after_inactive_sign_up_path_for).with(resource).and_return('/')
-            post :create, user: sign_up_attributes, terms_and_conditions_acceptance: '1'
+            post :create, params: { user: sign_up_attributes, terms_and_conditions_acceptance: '1' }
           end
 
           it 'redirects to the inactive sign up path' do
@@ -82,7 +82,7 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
         end
 
         context 'and terms and conditions are not accepted' do
-          before { post :create, user: sign_up_attributes }
+          before { post :create, params: { user: sign_up_attributes } }
 
           it 'redirects to the sign up path' do
             expect(response).to redirect_to(new_user_registration_path)
@@ -105,7 +105,7 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
       context 'when invalid' do
         before do
           sign_up_attributes.delete(:email)
-          post :create, user: sign_up_attributes
+          post :create, params: { user: sign_up_attributes }
         end
 
         it 'does not create a user' do

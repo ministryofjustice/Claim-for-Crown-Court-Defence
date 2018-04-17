@@ -34,7 +34,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       value_band_id: 0
     }
   end
-  
+
   let(:create_allocation_params) do
     {
       tab: 'unallocated',
@@ -47,7 +47,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       action: 'create'
     }
   end
-  
+
   let(:deallocation_params) do
     {
       tab: 'allocated',
@@ -98,7 +98,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
     context 'success' do
       it 'redirects to allocation page' do
         expect(allocation).to receive(:save).and_return(true)
-        post :create, create_allocation_params
+        post :create, params: create_allocation_params
         expect(response).to redirect_to(case_workers_admin_allocations_path(tab: 'unallocated', scheme: 'agfs'))
       end
     end
@@ -106,7 +106,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
     context 'failure' do
       it 'renders new' do
         expect(allocation).to receive(:save).and_return(false)
-        post :create, create_allocation_params
+        post :create, params: create_allocation_params
         expect(response).to render_template(:new)
       end
     end
@@ -124,7 +124,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       expect(Claims::CaseWorkerClaims).to receive(:new).with(current_user: @admin.user, action: 'unallocated', criteria: standard_allocation_params).and_return(claims_service)
       expect(claims_service).to receive(:claims).and_return(claims_collection)
 
-      get :new, tab: tab
+      get :new, params: { tab: tab }
 
       expect(assigns(:case_workers)).to eq active_case_workers
       expect(assigns(:claims)).to eq claims_collection

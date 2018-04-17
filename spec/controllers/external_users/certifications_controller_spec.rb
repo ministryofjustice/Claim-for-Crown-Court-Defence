@@ -12,7 +12,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
 
     context 'claim is valid for submission' do
       before(:each) do
-        get :new, { claim_id: claim.id }
+        get :new, params: { claim_id: claim.id }
       end
 
       it 'should return success' do
@@ -35,7 +35,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
     context 'claim already in submitted state' do
       it 'should redirect to claim path with a flash message' do
         claim = create(:submitted_claim)
-        get :new, { claim_id: claim }
+        get :new, params: { claim_id: claim }
         expect(response).to redirect_to(external_users_claim_path(claim))
         expect(flash[:alert]).to eq 'Cannot certify a claim in submitted state'
       end
@@ -44,7 +44,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
     context 'claim not in a valid state' do
       it 'should redirect to edit page with flash message' do
         claim = create(:claim, case_type_id: nil)
-        get :new, { claim_id: claim }
+        get :new, params: { claim_id: claim }
         expect(response).to redirect_to(controller.send(:edit_polymorphic_path,claim))
         expect(flash[:alert]).to eq 'Claim is not in a state to be submitted'
       end
@@ -73,18 +73,18 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
         let(:frozen_time) { Time.new(2015, 8, 20, 13, 54, 22) }
 
         it 'should be a redirect to confirmation' do
-          post :create, valid_certification_params(claim, certification_type)
+          post :create, params: valid_certification_params(claim, certification_type)
           expect(response).to redirect_to(confirmation_external_users_claim_path(claim))
         end
 
         it 'should change the state to submitted' do
-          post :create, valid_certification_params(claim, certification_type)
+          post :create, params: valid_certification_params(claim, certification_type)
           expect(claim.reload).to be_submitted
         end
 
         it 'should set the submitted at date' do
           Timecop.freeze(frozen_time) do
-            post :create, valid_certification_params(claim, certification_type)
+            post :create, params: valid_certification_params(claim, certification_type)
           end
 
           expect(claim.reload.last_submitted_at).to eq(frozen_time)
@@ -92,7 +92,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
 
         it 'logs a successful message on the queue' do
           expect(Rails.logger).to receive(:info).with(/Successfully sent message about submission of claim#/)
-          post :create, valid_certification_params(claim, certification_type)
+          post :create, params: valid_certification_params(claim, certification_type)
           expect(sns_client).to have_received(:publish).once
         end
       end
@@ -117,7 +117,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
       end
 
       it 'calls the SNS notification path' do
-        post :create, valid_certification_params(claim, certification_type)
+        post :create, params: valid_certification_params(claim, certification_type)
         expect(sns_client).to have_received(:publish).once
       end
     end
@@ -126,7 +126,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
       it 'should redirect to new' do
         params = valid_certification_params(claim, certification_type)
         params['certification']['certification_type_id'] = 9999
-        post :create, params
+        post :create, params: params
         expect(response).to render_template(:new)
         expect(assigns(:certification).errors.full_messages).to eq(['You must select one option on this form'])
       end
@@ -136,7 +136,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
   describe 'PATCH #update' do
     it 'should redirect to claim path with a flash message' do
       claim = create(:claim)
-      patch :update, { claim_id: claim }
+      patch :update, params: { claim_id: claim }
       expect(response).to redirect_to(external_users_claim_path(claim))
       expect(flash[:alert]).to eq 'Cannot certify a claim in submitted state'
     end

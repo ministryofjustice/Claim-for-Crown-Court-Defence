@@ -33,7 +33,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
         expect(Claims::CaseWorkerClaims).to receive(:new).with(current_user: @case_worker.user, action: 'current', criteria: criteria).and_return(claims_service)
         expect(claims_service).to receive(:claims).and_return(claims_collection)
 
-        get 'index', params
+        get 'index', params: params
         expect(assigns(:claims)).to eq claims_collection
       end
     end
@@ -43,7 +43,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
         expect(claims_service).to receive(:claims).and_return(claims_collection)
         expect(Claims::CaseWorkerClaims).to receive(:new).with(current_user: @case_worker.user, action: 'current', criteria: criteria.merge(search: 'T20161235')).and_return(claims_service)
 
-        get 'index', params.merge('search' => 'T20161235')
+        get 'index', params: params.merge('search' => 'T20161235')
         expect(assigns(:claims)).to eq claims_collection
       end
     end
@@ -52,7 +52,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   describe 'GET download_zip' do
     let(:claim) { create :claim }
 
-    before(:each) { get :download_zip, id: claim }
+    before(:each) { get :download_zip, params: { id: claim } }
 
     it 'responds with an http success' do
       expect(response).to have_http_status(:success)
@@ -70,7 +70,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   describe  'GET show' do
     let(:claim) { create :claim }
 
-    before(:each) { get :show, id: claim }
+    before(:each) { get :show, params: { id: claim } }
 
     it 'responds with an http success' do
       expect(response).to have_http_status(:success)
@@ -91,7 +91,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     let(:claim) { create :claim }
 
     it 'renders the messages partial' do
-      get :messages, id: claim.id
+      get :messages, params: { id: claim.id }
       expect(response).to render_template('messages/claim_messages')
     end
   end
@@ -109,18 +109,18 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     it 'should call updater service with params' do
       expect(updater).to receive(:result).and_return(:ok)
-      patch :update, id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update'
+      patch :update, params: { id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update' }
     end
 
     it 'should redirect if updater service responded :ok' do
       expect(updater).to receive(:result).and_return(:ok)
-      patch :update, id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update'
+      patch :update, params: { id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update' }
       expect(response).to redirect_to case_workers_claim_path
     end
 
     it 'should render show if updater service responds :error' do
       expect(updater).to receive(:result).and_return(:error)
-      patch :update, id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update'
+      patch :update, params: { id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update' }
       expect(response).to render_template(:show)
     end
   end
@@ -143,7 +143,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     describe '#archived with no filtering', vcr: {cassette_name: 'spec/case_workers/claims/archived'} do
       before(:each) do
-        get :archived, 'tab' => 'archived'
+        get :archived, params: { 'tab' => 'archived' }
       end
 
       xit 'returns all in authorised and part authorised status, with default ordering based on last submitted date, oldest first' do
@@ -160,7 +160,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       }
       search_terms.each do |search_term, expected_number_of_results|
         xit 'returns only the claims where the defendant is is in the search terms' do
-          get :archived, 'tab' => 'archived', 'search' => search_term
+          get :archived, params: { 'tab' => 'archived', 'search' => search_term }
           expect(assigns(:claims).size).to eq expected_number_of_results
         end
       end

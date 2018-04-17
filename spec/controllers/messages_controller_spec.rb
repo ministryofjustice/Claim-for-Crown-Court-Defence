@@ -42,7 +42,7 @@ RSpec.describe MessagesController, type: :controller do
       context 'when valid' do
         it 'creates a message' do
           expect {
-            post :create, message: message_params
+            post :create, params: { message: message_params }
           }.to change(Message, :count).by(1)
         end
 
@@ -51,7 +51,7 @@ RSpec.describe MessagesController, type: :controller do
             claim.submit!; claim.allocate!; claim.refuse!
 
             Settings.claim_actions.each do |action|
-              post :create, message: message_params.merge(claim_action: action)
+              post :create, params: { message: message_params.merge(claim_action: action) }
               expect(response).to redirect_to(external_users_claim_path(claim, messages: true) + '#claim-accordion')
             end
           end
@@ -66,7 +66,7 @@ RSpec.describe MessagesController, type: :controller do
         #TODO: We must handle the fact that if the message cannot be created, there will not be ID to redirect to (redirect_to_url)
         xit 'does not create a message' do
           expect {
-            post :create, message: message_params
+            post :create, params: { message: message_params }
           }.to_not change(Message, :count)
         end
       end
@@ -77,7 +77,7 @@ RSpec.describe MessagesController, type: :controller do
         subject { create(:message, :with_attachment) }
 
         it 'returns the attachment file' do
-          get :download_attachment, id: subject.id
+          get :download_attachment, params: { id: subject.id }
           expect(response.headers['Content-Disposition']).to include("filename=\"#{subject.attachment.original_filename}\"")
         end
       end
@@ -87,7 +87,7 @@ RSpec.describe MessagesController, type: :controller do
 
         it 'redirects to 500 page' do
           expect {
-            get :download_attachment, id: subject.id
+            get :download_attachment, params: { id: subject.id }
           }.to raise_exception('No attachment present on this message')
         end
       end
@@ -108,7 +108,7 @@ RSpec.describe MessagesController, type: :controller do
           sender.email_notification_of_message = 'true'
           sign_in sender.user
           expect(NotifyMailer).not_to receive(:message_added_email)
-          post :create, message: message_params
+          post :create, params: { message: message_params }
         end
       end
 
@@ -117,7 +117,7 @@ RSpec.describe MessagesController, type: :controller do
           sender.email_notification_of_message = 'false'
           sign_in sender.user
           expect(NotifyMailer).not_to receive(:message_added_email)
-          post :create, message: message_params
+          post :create, params: { message: message_params }
         end
       end
     end
@@ -133,7 +133,7 @@ RSpec.describe MessagesController, type: :controller do
           mock_mail = double 'Mail message'
           expect(NotifyMailer).to receive(:message_added_email).and_return(mock_mail)
           expect(mock_mail).to receive(:deliver_later)
-          post :create, message: message_params
+          post :create, params: { message: message_params }
         end
 
         context 'but has been deleted' do
@@ -145,7 +145,7 @@ RSpec.describe MessagesController, type: :controller do
 
           it 'does not send an email' do
             expect(NotifyMailer).not_to receive(:message_added_email)
-            post :create, message: message_params
+            post :create, params: { message: message_params }
           end
         end
       end
@@ -154,7 +154,7 @@ RSpec.describe MessagesController, type: :controller do
           claim.creator.email_notification_of_message = 'false'
           sign_in sender.user
           expect(NotifyMailer).not_to receive(:message_added_email)
-          post :create, message: message_params
+          post :create, params: { message: message_params }
         end
       end
     end

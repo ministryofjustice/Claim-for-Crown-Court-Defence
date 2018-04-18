@@ -13,6 +13,10 @@ module API
         def role
           params.role.try(:downcase).try(:to_sym) || :all
         end
+
+        def category
+          params.category.try(:downcase)
+        end
       end
 
       after do
@@ -68,20 +72,17 @@ module API
         end
 
         resource :fee_types do
-          helpers do
-            def category
-              params.category.try(:downcase)
-            end
-          end
-
           params do
             category_types = %w[all basic misc fixed graduated interim transfer warrant].to_sentence
-            use :role_filter
-            optional  :category,
-                      type: String,
-                      default: 'all',
-                      values: %w[all basic misc fixed graduated interim transfer warrant],
-                      desc: "OPTIONAL: The fee category to filter the results. Can be: #{category_types}. Default: all"
+            optional :role,
+                     type: String,
+                     desc: I18n.t('api.v1.dropdown_data.params.role_filter'),
+                     values: %w[agfs_scheme_9 agfs_scheme_10 lgfs]
+            optional :category,
+                     type: String,
+                     default: 'all',
+                     values: %w[all basic misc fixed graduated interim transfer warrant],
+                     desc: "OPTIONAL: The fee category to filter the results. Can be: #{category_types}. Default: all"
           end
 
           desc 'Return all AGFS Fee Types (optional category filter).'
@@ -91,7 +92,6 @@ module API
                         else
                           Fee::BaseFeeType.__send__(category).__send__(role)
                         end
-
             present fee_types, with: API::Entities::BaseFeeType
           end
         end

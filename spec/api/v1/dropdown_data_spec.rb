@@ -145,10 +145,12 @@ describe API::V1::DropdownData do
 
   context 'GET api/fee_types/[:category]' do
     before {
-      create(:basic_fee_type, id: 1)
+      create(:basic_fee_type, :agfs_scheme_9, id: 1)
       create(:misc_fee_type, id: 2)
       create(:fixed_fee_type, id: 3)
       create(:graduated_fee_type, id: 4) # LGFS fee, not applicable to AGFS
+      create(:basic_fee_type, :agfs_scheme_10, id: 5)
+      create(:misc_fee_type, :agfs_scheme_10, id: 6)
     }
 
     def get_filtered_fee_types(category=nil)
@@ -169,8 +171,8 @@ describe API::V1::DropdownData do
       let(:parsed_body) { JSON.parse(last_response.body) }
 
       it 'should only include AGFS fee types' do
-        get FEE_TYPE_ENDPOINT, params.merge(role: 'agfs'), format: :json
-        expect(parsed_body.collect{|e| e['roles'].include?('agfs') }.uniq).to eq([true])
+        get FEE_TYPE_ENDPOINT, params.merge(role: 'agfs_scheme_9'), format: :json
+        expect(parsed_body.collect{|e| e['roles'].include?('agfs_scheme_9') }.uniq).to eq([true])
       end
 
       it 'should only include LGFS fee types' do
@@ -225,7 +227,7 @@ describe API::V1::DropdownData do
       end
 
       context 'with role filter' do
-        it 'should only include AGFS expense types' do
+        it 'should only include AGFS scheme 9 expense types' do
           get EXPENSE_TYPE_ENDPOINT, params.merge(role: 'agfs'), format: :json
           expect(parsed_body.collect{|e| e['roles'].include?('agfs') }.uniq).to eq([true])
         end

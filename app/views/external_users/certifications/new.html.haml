@@ -27,7 +27,7 @@
 
           .radio-wrapper
             .form-group.inline
-              = f.collection_radio_buttons(:certification_type_id, CertificationType.post_may_2015.agfs, :id, :name) do |b|
+              = f.collection_radio_buttons(:certification_type_id, CertificationType.post_may_2015.agfs, :id, :name, include_hidden: false) do |b|
                 .multiple-choice
                   = b.radio_button
                   = b.label(class: "#{to_slug(b.object.name)}") { b.object.name }
@@ -42,7 +42,7 @@
 
           .radio-wrapper
             .form-group.inline
-              = f.collection_radio_buttons(:certification_type_id, CertificationType.pre_may_2015.agfs, :id, :name) do |b|
+              = f.collection_radio_buttons(:certification_type_id, CertificationType.pre_may_2015.agfs, :id, :name, include_hidden: false) do |b|
                 .multiple-choice
                   = b.radio_button
                   = b.label { b.object.name }

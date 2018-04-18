@@ -91,15 +91,15 @@ class ClaimStateTransitionReason
       },
       no_effective_pcmh: {
         short: 'No effective PCMH has taken place',
-        long: ''
+        long: 'We refused your claim because the court records do not show that an effective PCMH has taken place. Please check the case details and submit the claim again.The ‘effective PCMH payment can be made at any time after the PCMH has taken place up until the trial conclusion.'
       },
       no_effective_trial: {
         short: 'No effective trial start has taken place',
-        long: ''
+        long: 'We refused your claim because the court records do not show that the trial has commenced. Please check the case details and submit the claim again.'
       },
       short_trial: {
         short: 'The trial estimate was less than 10 days',
-        long: ''
+        long: 'We refused your claim because the trial is estimated to last for less than 10 days, this interim payment can only be claimed where the trial has commenced and is set to last for more than 10 days.'
       },
       other_refuse: {
         short: 'Other',

@@ -16,6 +16,11 @@
   overflow-y: scroll;
 }
 
+.tt-highlight{
+  background-color: #ffffca !important;
+}
+
+
 @media (min-width: 641px){
   .tt-menu {
     width: 50%;
@@ -39,10 +44,6 @@
   &.tt-cursor {
     color: #fff;
     background-color: #0097cf;
-  }
-
-  &:hover {
-    cursor: pointer;
   }
 }
 

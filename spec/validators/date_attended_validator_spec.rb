@@ -20,6 +20,7 @@ RSpec.describe DateAttendedValidator, type: :validator do
     it { should_error_if_not_present(date_attended, :date, 'blank') }
     it { should_error_if_before_specified_date(date_attended, :date, earliest_reporder_date - 2.years - 1.day, 'too_long_before_earliest_reporder') }
     it { should_error_if_too_far_in_the_past(date_attended, :date, 'not_before_earliest_permitted_date') }
+    it { should_error_if_in_future(date_attended, :date, 'not_after_today') }
 
     it 'should not error if less than two years before earliest rep order date' do
       date_attended.date = earliest_reporder_date - 369.days

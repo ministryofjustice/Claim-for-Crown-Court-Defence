@@ -128,11 +128,8 @@ class ClaimStateTransitionReason
   class << self
     def get(code, other_reason = nil)
       return if code.blank?
-      if %w[other other_refuse].include?(code)
-        new(code, description_for(code), other_reason)
-      else
-        new(code, description_for(code), description_for(code, :long))
-      end
+      return new(code, description_for(code), other_reason) if %w[other other_refuse].include?(code)
+      new(code, description_for(code), description_for(code, :long))
     end
 
     def reasons(state)

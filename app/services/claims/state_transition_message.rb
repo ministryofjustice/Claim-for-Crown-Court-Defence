@@ -14,9 +14,13 @@ module Claims
 
     private
 
+    def reason_details(reason, reason_text)
+      ClaimStateTransitionReason.get(reason, reason_text)
+    end
+
     def long_reasons
       reasons.each_with_object([]) do |reason, arr|
-        details = ClaimStateTransitionReason.get(reason, reason_text)
+        details = reason_details(reason, reason_text)
         arr << "#{details.description}: #{details.long_description}"
       end
     end

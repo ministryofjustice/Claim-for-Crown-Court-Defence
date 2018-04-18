@@ -26,12 +26,17 @@ shared_examples_for 'roles' do |klass, roles|
   end
 
   describe 'scopes' do
-    roles.each do |role|
-      describe ".#{role.pluralize}" do
-        before { create(factory_name, roles: [role]) }
+    roles.each do |orig_role|
+      if orig_role.split('_').last.numeric?
+        role = orig_role
+      else
+        role = orig_role.pluralize
+      end
+      describe ".#{role}" do
+        before { create(factory_name, roles: [orig_role]) }
 
         it "only returns #{klass.to_s.underscore} with role '#{role}'" do
-          expect(klass.send(role.pluralize).count).to eq(1)
+          expect(klass.send(role).count).to eq(1)
         end
       end
     end

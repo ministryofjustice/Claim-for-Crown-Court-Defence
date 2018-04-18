@@ -3,6 +3,7 @@ moj.Modules.FeeFieldsDisplay = {
     var self = this;
     this.addFeeChangeEvent();
   },
+
   addFeeChangeEvent: function(el) {
     var self = this;
     var $el = el ? $(el) : $('.fx-fee-group');
@@ -17,11 +18,14 @@ moj.Modules.FeeFieldsDisplay = {
       self.showHideFeeFields(el);
     });
   },
+
   showHideFeeFields: function(el) {
     var self = this;
     var currentElement = $(el);
     var caseNumbersInput = currentElement.find('input.fx-fee-case-numbers');
+    var epfAmountRadios = currentElement.find('.fx-fee-amount-radio-section');
 
+    // enable/disable case numbers field
     if (caseNumbersInput.exists()) {
       var showCaseNumbers = currentElement.find('option:selected').data('case-numbers');
 
@@ -34,5 +38,31 @@ moj.Modules.FeeFieldsDisplay = {
         caseNumbersInput.prop('tabindex', -1);
       }
     }
-  }
+
+    // show/hide Evidence provision fee amount-limiting radios
+    if (epfAmountRadios.exists()) {
+      self.toggleEpfRadios(el);
+    }
+  },
+
+  toggleEpfRadios: function(el) {
+    var currentElement = $(el);
+    var evidenceProvisionFee = currentElement.find('option:selected').data('evidence-provision-fee');
+    var epfAmountRadios = currentElement.find('.fx-fee-amount-radio-section');
+    var epfAmountRadio = currentElement.find('.fx-fee-amount-radio');
+    var feeAmount = currentElement.find('.fx-fee-amount-section');
+    var feeAmountInput = currentElement.find('.fx-fee-amount');
+
+    if (evidenceProvisionFee) {
+      epfAmountRadios.show();
+      epfAmountRadio.prop('disabled', false);
+      feeAmountInput.prop('disabled', true);
+      feeAmount.hide();
+    } else {
+      epfAmountRadio.prop('disabled', true);
+      epfAmountRadios.hide();
+      feeAmount.show();
+      feeAmountInput.prop('disabled', false);
+    }
+  },
 }

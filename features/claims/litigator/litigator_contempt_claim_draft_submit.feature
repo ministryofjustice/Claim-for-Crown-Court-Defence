@@ -44,6 +44,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     And I add a miscellaneous fee 'Costs judge application'
     And I add a miscellaneous fee 'Defendant uplift'
+    And I add an Evidence provision fee for '£90'
 
     Then I click "Continue" in the claim form
 

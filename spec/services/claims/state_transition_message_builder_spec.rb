@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Claims::StateTransitionMessage do
+RSpec.describe Claims::StateTransitionMessageBuilder do
   subject { described_class.new(state, reasons, reason_text).call }
 
   context '#call' do

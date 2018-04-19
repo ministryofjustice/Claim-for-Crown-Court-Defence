@@ -1,5 +1,5 @@
 module Claims
-  class StateTransitionMessage
+  class StateTransitionMessageBuilder
     attr_reader :reasons, :reason_text
 
     def initialize(state, reasons, reason_text)

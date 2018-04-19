@@ -141,7 +141,7 @@ module Claims
     end
 
     def transition_message
-      StateTransitionMessage.new(@state, @transition_reasons, @transition_reason_text).call
+      StateTransitionMessageBuilder.new(@state, @transition_reasons, @transition_reason_text).call
     end
 
     def add_error(message, attribute = :determinations)

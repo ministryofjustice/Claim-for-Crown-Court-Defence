@@ -17,11 +17,11 @@ module API
         end
 
         def role
-          params.role.try(:downcase).try(:to_sym) || :all
+          params[:role]&.downcase&.to_sym || :all
         end
 
         def category
-          params.category.try(:downcase)
+          params[:category]&.downcase
         end
       end
 

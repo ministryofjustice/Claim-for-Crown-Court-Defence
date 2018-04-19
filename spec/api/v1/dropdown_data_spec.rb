@@ -135,7 +135,7 @@ describe API::V1::DropdownData do
     it 'should only return offences matching description when offence_description param is present' do
       params.merge!(offence_description: offence.description)
       response = get OFFENCE_ENDPOINT, params
-      
+
       returned_offences = JSON.parse(response.body, symbolize_names: true)
       expect(returned_offences).to include(exposed_offence[offence], exposed_offence[offence_with_same_description])
       expect(returned_offences).to_not include(exposed_offence[other_offence])

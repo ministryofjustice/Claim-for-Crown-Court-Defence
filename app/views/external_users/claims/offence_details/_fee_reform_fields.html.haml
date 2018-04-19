@@ -5,7 +5,7 @@
 - if valid_offence
   .grid-row
     .column-two-thirds
-      .selected-offence
+      .selected-offence.form-section
         %p.bold
           = t('selected_offence_header', scope: locale_scope)
         %p
@@ -16,8 +16,6 @@
             = t('clear_selection', scope: "#{locale_scope}.actions")
 
 .form-section.search-offences
-  %h2.heading-medium
-    = t('offence_search_header', scope: locale_scope)
   #search-field.form-group.js-typeahead
     = f.anchored_label t('search_offence', scope: "#{locale_scope}.fields"), 'search_offence', { label_attributes: { class: 'form-label-bold', hint: 'bla' } }
     %span.form-hint

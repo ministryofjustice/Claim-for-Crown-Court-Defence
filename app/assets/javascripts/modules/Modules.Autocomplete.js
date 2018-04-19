@@ -189,28 +189,29 @@ moj.Modules.Autocomplete = {
   // module currently being used. Right now don't really
   // know how to do that easily :(
   suggestionTemplate: function(data) {
-    template = '<div class="grid-row offence-item">';
-    template += '<div class="column-two-thirds">';
-    template += '<a href="#" class="font-xsmall link-grey">' + data.category.description + '</a>'
-    template += '<span class="font-xsmall link-grey">&nbsp;&gt;&nbsp;</span>';
-    template += '<a href="#" class="font-xsmall link-grey">' + data.band.description + '</a>'
-    template += '</br>';
-    template += '<span>' + data.description + '</span>';
-    template += '</br>';
-    template += '<a href="#" class="font-xsmall link-grey">' + data.contrary + '</a>'
-    template += '</div>';
-    template += '<div class="column-one-third align-right">';
-    template += '</br>';
-    template += '<a href="#" class="button offence-item-button set-selection" data-field="#claim_offence_id" data-value="' + data.id + '">Select and continue</a>';
-    template += '</div></div>';
-    return template;
+    return ['<div class="grid-row offence-item">',
+      '<div class="column-two-thirds">',
+      '<span class="font-xsmall link-grey">',
+      data.category.description,
+      '&nbsp;&gt;&nbsp;Band:&nbsp;',
+      data.band.description,
+      '</span></br>',
+      data.description,
+      '</br>',
+      '<span class="font-xsmall link-grey">' + data.contrary + '</a>',
+      '</div>',
+      '<div class="column-one-third align-right">',
+      '</br>',
+      '<a href="#" class="button offence-item-button set-selection" data-field="#claim_offence_id" data-value="' + data.id + '">Select and continue</a>',
+      '</div></div>'
+    ].join('');
   },
 
   emptyTemplate: function() {
-    var template = '<div class="empty-message">';
-    template += 'No Results, please check your spelling';
-    template += '</div>';
-    return template;
+    return ['<div class="empty-message">',
+      'No Results, please check your spelling',
+      '</div>'
+    ].join('');
   },
 
   initAutoCompleteTextFields: function() {
@@ -237,8 +238,7 @@ moj.Modules.Autocomplete = {
         highlight: true,
         menu: $(data.menu),
         minLength: 3
-      },
-      {
+      }, {
         name: $element.attr('name'),
         display: 'value',
         limit: 1000,

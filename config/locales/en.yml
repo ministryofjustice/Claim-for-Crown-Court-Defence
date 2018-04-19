@@ -611,9 +611,8 @@ en:
           offence_category: Offence category
           offence_category_hint: 'If the offence category is not listed, choose "Miscellaneous/other"'
           offence_details: 'Offence details'
-          search_offence: Search
+          search_offence: Search for the offence
           search_offence_hint: For example class, band, offence or act name
-        offence_search_header: Find the offence related to your claim
         offence_select:
           offence_class: 'Offence class'
           select_offence_class: 'Please select'

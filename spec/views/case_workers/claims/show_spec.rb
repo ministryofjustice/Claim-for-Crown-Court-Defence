@@ -56,54 +56,6 @@ describe 'case_workers/claims/show.html.haml', type: :view do
       end
     end
 
-    describe 'reject reasons' do
-      let(:claim) { create(:allocated_claim) }
-      let(:reason_code) { ['no_amend_rep_order'] }
-      let(:old_style) { false }
-
-      before do
-        claim.reject!(reason_code: reason_code)
-        @messages = claim.messages.most_recent_last
-        @message = claim.messages.build
-        allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('wrong_case_no') if old_style
-        assign(:claim, claim)
-        render
-      end
-
-      it 'has the correct status display' do
-        expect(rendered).to have_selector('span', 'state state-rejected', text: 'Rejected')
-      end
-
-      it 'renders the reason header with the correct tense' do
-        expect(rendered).to have_content('Reason provided:')
-      end
-
-      it 'renders the full text of the reason' do
-        expect(rendered).to have_selector('li', text: 'No amending representation order')
-      end
-
-      context 'with multiple reasons' do
-        let(:reason_code) { %w[no_amend_rep_order case_still_live] }
-
-        it 'renders the reason header with the correct tense' do
-          expect(rendered).to have_content('Reasons provided:')
-        end
-
-        it 'renders the full text of the reasons' do
-          expect(rendered).to have_selector('li', text: 'No amending representation order')
-          expect(rendered).to have_selector('li', text: 'Case still live')
-        end
-      end
-
-      context 'legacy cases with non-array reason codes' do
-        let(:old_style) { true }
-
-        it 'renders the full text of the reason' do
-          expect(rendered).to have_selector('li', text: 'Incorrect case number')
-        end
-      end
-    end
-
     context 'injection errors' do
       before do
         certified_claim

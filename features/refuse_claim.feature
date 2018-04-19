@@ -16,7 +16,8 @@ Feature: Case worker rejects a claim, providing a reason
     And I select the first refusal reason
     And I click update
     Then the status at top of page should be Refused
-    And I should see 'Reason provided:'
+    Then the third message contains 'Claim refused'
+    Then the last message contains 'Your claim has been refused'
 
     When I click your claims
     Then the claim I've just updated is no longer in the list

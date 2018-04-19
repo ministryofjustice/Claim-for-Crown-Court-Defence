@@ -17,12 +17,12 @@ When(/^I open up the claim$/) do
   @external_user_home_page.claim_for(@claim.case_number).case_number.click
 end
 
-When(/^I expand messages$/) do
-  @external_user_claim_show_page.messages_tab.click
-end
-
 Then(/^the message '(.*?)' from the caseworker should be visible$/) do |text|
   expect(@external_user_claim_show_page).to have_content(text)
+end
+
+Then(/^the (last|first|second|third|fourth|fifth) message contains '(.*?)'$/) do |method, text|
+  expect(@external_user_claim_show_page.messages_panel.messages.send(method.to_sym)).to have_text(text)
 end
 
 When(/^I enter a message '(.*?)'$/) do |text|

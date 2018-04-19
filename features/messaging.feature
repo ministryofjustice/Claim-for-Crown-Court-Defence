@@ -19,7 +19,6 @@ Feature: Case worker messages advocate and advocate responds
     And it is displaying 'View (1 new)' in the messages column
 
     When I open up the claim
-    And I expand messages
     Then the message 'More information please' from the caseworker should be visible
 
     When I enter a message 'Commital bundle provided'
@@ -30,7 +29,6 @@ Feature: Case worker messages advocate and advocate responds
     Then the claim should be visible with 1 new message
 
     When I open the claim
-    And I expand messages
     Then the response and uploaded file should be visible
 
     And I eject the VCR cassette

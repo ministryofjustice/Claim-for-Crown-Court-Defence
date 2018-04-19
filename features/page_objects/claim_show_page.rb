@@ -29,5 +29,8 @@ class ClaimShowPage < SitePrism::Page
     def upload_file(path)
       attach_file("message_attachment", path)
     end
+
+    sections :messages, '.message-body' do
+    end
   end
 end

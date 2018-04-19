@@ -106,8 +106,8 @@ module Claims
         @claim.update(@params)
         update_assessment if @assessment_params_present
         add_redetermination if @redetermination_params_present
-        add_message if @transition_reasons
         @claim.send(event, audit_attributes) unless state_not_updateable?
+        add_message if @transition_reasons
       rescue StandardError => err
         add_error err.message
         raise ActiveRecord::Rollback
@@ -141,7 +141,7 @@ module Claims
     end
 
     def transition_message
-      Claims::StateTransitionMessage.new(@state, @transition_reasons, @transition_reason_text).call
+      StateTransitionMessage.new(@state, @transition_reasons, @transition_reason_text).call
     end
 
     def add_error(message, attribute = :determinations)

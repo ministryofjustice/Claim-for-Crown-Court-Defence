@@ -21,6 +21,7 @@ class ClaimStateTransition < ActiveRecord::Base
   belongs_to :subject, class_name: User, foreign_key: :subject_id
 
   serialize :reason_code, Array
+  alias_attribute :reason_codes, :reason_code
 
   def reason
     if reason_code.is_a?(Array)

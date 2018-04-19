@@ -130,13 +130,7 @@ module Claim
           { to_stage: :supporting_evidence }
         ]
       },
-      {
-        name: :supporting_evidence,
-        transitions: [
-          { to_stage: :additional_information }
-        ]
-      },
-      { name: :additional_information }
+      { name: :supporting_evidence }
     ].freeze
 
     def assign_total_attrs

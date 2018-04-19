@@ -36,9 +36,6 @@ Feature: Advocate submits a claim for a Contempt case
 
     And I upload 3 documents
     And I check the boxes for the uploaded documents
-
-    Then I click "Continue" in the claim form
-
     And I add some additional information
 
     Then I click Submit to LAA

@@ -50,10 +50,8 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     And I upload 3 documents
     And I check the boxes for the uploaded documents
-
-    Then I click "Continue" in the claim form
-
     And I add some additional information
+
     And I click Submit to LAA
     Then I should be on the check your claim page
 

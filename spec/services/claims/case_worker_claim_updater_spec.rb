@@ -201,7 +201,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       updater.update! unless example.metadata[:wait]
     end
 
-    context 'with multiple reasons' do
+    context 'with reasons' do
       let(:params) do
         {
           'state' => 'rejected',
@@ -219,29 +219,6 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       it 'adds message to the claim', :wait do
         expect { updater.update! }.to change(claim.messages, :count).by(1)
       end
-
-      context 'reason message' do
-        let(:body) { claim.messages.unscope(:order).last.body }
-
-        it 'contains message header' do
-          expect(body).to match /Your claim has been rejected:/
-        end
-
-        it 'contains short description of reason' do
-          expect(body).to match /Wrong MAAT reference:/
-          expect(body).to match /No indictment attached:/
-          expect(body).to match /Other:/
-        end
-
-        it 'contains long description of reason' do
-          expect(body).to match /.* rejected your claim .* MAAT reference .* does not match/
-          expect(body).to match /.* rejected your claim .* attach the indictment/
-        end
-
-        it 'contains case worker specified other rejection message' do
-          expect(body).to match /rejecting because\.\.\./
-        end
-      end
     end
   end
 
@@ -253,11 +230,11 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       updater.update! unless example.metadata[:wait]
     end
 
-    context 'with multiple reasons' do
+    context 'with reasons' do
       let(:params) do
         {
           'state' => 'refused',
-          'state_reason' => %w[ wrong_ia duplicate_claim other_refuse],
+          'state_reason' => %w[wrong_ia duplicate_claim other_refuse],
           'refuse_reason_text' => 'refusing because...',
           'assessment_attributes' => {'fees' => '', 'expenses' => '0'}
         }
@@ -270,29 +247,6 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
       it 'adds message to the claim', :wait do
         expect { updater.update! }.to change(claim.messages, :count).by(1)
-      end
-
-      context 'reason message' do
-        let(:body) { claim.messages.unscope(:order).last.body }
-
-        it 'contains message header' do
-          expect(body).to match /Your claim has been refused:/
-        end
-
-        it 'contains short description of reason' do
-          expect(body).to match /Wrong Instructed Advocate:/
-          expect(body).to match /Duplicate claim:/
-          expect(body).to match /Other:/
-        end
-
-        it 'contains long description of reason' do
-          expect(body).to match /.* refused your claim .* different advocate was instructed/
-          expect(body).to match /.* refused your claim .* bill has already been paid/
-        end
-
-        it 'contains case worker specified other refusal message' do
-          expect(body).to match /refusing because\.\.\./
-        end
       end
     end
   end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Claims::StateMachine, type: :model do
-  subject { create(:claim) }
+  subject(:claim) { create(:claim) }
 
   describe 'all available states' do
     let(:states) do
@@ -191,7 +191,6 @@ RSpec.describe Claims::StateMachine, type: :model do
       before { subject.submit!; subject.allocate!; subject.reject! }
 
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
-
     end
 
     describe 'from submitted' do
@@ -384,27 +383,35 @@ RSpec.describe Claims::StateMachine, type: :model do
     end
   end
 
-  describe 'reject! supports a reason code' do
-    before { subject.submit!; subject.allocate!; subject.reject!(reason_code: reason_code) }
+  describe 'reject!' do
+    before { claim.submit!; claim.allocate!; claim.reject!(reason_code: reason_codes) }
+    let(:reason_codes) { ['no_indictment'] }
+    let(:last_state_transition) { claim.last_state_transition }
 
-    let(:reason_code) { ['reason'] }
+    context 'claim state transitions (audit trail)' do
+      it 'updates #to' do
+        expect(last_state_transition.to).to eq('rejected')
+      end
 
-    it 'updates the transition reason code' do
-      transition = subject.claim_state_transitions.first
-      expect(transition.to).to eq('rejected')
-      expect(transition.reason_code).to eq(reason_code)
+      it 'updates #reason_code[s]' do
+        expect(last_state_transition.reason_codes).to eq(reason_codes)
+      end
     end
   end
 
-  describe 'refuse! supports a reason code' do
-    before { subject.submit!; subject.allocate!; subject.refuse!(reason_code: reason_code) }
+  describe 'refuse!' do
+    before { claim.submit!; claim.allocate!; claim.refuse!(reason_code: reason_codes) }
+    let(:reason_codes) { ['wrong_ia'] }
+    let(:last_state_transition) { claim.last_state_transition }
 
-    let(:reason_code) { ['reason'] }
+    context 'claim state transitions (audit trail)' do
+      it 'updates #to' do
+        expect(last_state_transition.to).to eq('refused')
+      end
 
-    it 'updates the transition reason code' do
-      transition = subject.claim_state_transitions.first
-      expect(transition.to).to eq('refused')
-      expect(transition.reason_code).to eq(reason_code)
+      it 'updates #reason_code[s]' do
+        expect(last_state_transition.reason_codes).to eq(reason_codes)
+      end
     end
   end
 

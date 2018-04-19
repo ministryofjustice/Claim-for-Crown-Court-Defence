@@ -2,14 +2,46 @@ class SeedAndMoveToCertificationTypes < ActiveRecord::Migration
   def change
     add_column :certification_types, :roles, :string
 
-    main_hearing                      = CertificationType.find_or_create_by!(name: 'I attended the Main Hearing (1st day of trial)', pre_may_2015: false, roles: ['agfs'])
-    notified_court                    = CertificationType.find_or_create_by!(name: 'I notified the court, in writing before the PCMH that I was the Instructed Advocate. A copy of the letter is attached.', pre_may_2015: true, roles: ['agfs'])
-    attended_pcmh                     = CertificationType.find_or_create_by!(name: 'I attended the PCMH (where the client was arraigned) and no other advocate wrote to the court prior to this to advice that they were the Instructed Advocate.', pre_may_2015: true, roles: ['agfs'])
-    attended_first_hearing            = CertificationType.find_or_create_by!(name: 'I attended the first hearing after the PCMH and no other advocate attended the PCMH or wrote to the court prior to this to advise that they were the Instructed Advocate.', pre_may_2015: true, roles: ['agfs'])
-    previous_advocate_notified_court  = CertificationType.find_or_create_by!(name: 'The previous Instructed Advocate notified the court in writing that they were no longer acting in this case and I was then instructed.', pre_may_2015: true, roles: ['agfs'])
-    fixed_fee_case                    = CertificationType.find_or_create_by!(name: 'The case was a fixed fee (with a case number beginning with an S or A) and I attended the main hearing.', pre_may_2015: true, roles: ['agfs'])
+    list = [
+      {
+        name: 'I attended the Main Hearing (1st day of trial)',
+        pre_may_2015: false,
+        roles: ['agfs']
+      },
+      {
+        name: 'I notified the court, in writing before the PCMH that I was the Instructed Advocate. A copy of the letter is attached.',
+        pre_may_2015: true,
+        roles: ['agfs']
+      },
+      {
+        name: 'I attended the PCMH (where the client was arraigned) and no other advocate wrote to the court prior to this to advice that they were the Instructed Advocate.',
+        pre_may_2015: true,
+        roles: ['agfs']
+      },
+      {
+        name: 'I attended the first hearing after the PCMH and no other advocate attended the PCMH or wrote to the court prior to this to advise that they were the Instructed Advocate.',
+        pre_may_2015: true,
+        roles: ['agfs']
+      },
+      {
+        name: 'The previous Instructed Advocate notified the court in writing that they were no longer acting in this case and I was then instructed.',
+        pre_may_2015: true,
+        roles: ['agfs']
+      },
+      {
+        name: 'The case was a fixed fee (with a case number beginning with an S or A) and I attended the main hearing.',
+        pre_may_2015: true,
+        roles: ['agfs']
+      }
+    ]
 
-    
+    list.each do |data|
+      CertificationType.find_or_create_by!(name: data.delete(:name)) do |c|
+        c.pre_may_2015 = data[:pre_may_2015]
+        c.roles = data[:roles]
+      end
+    end
+
     Certification.all.each do |certification|
       certification_type = nil
 

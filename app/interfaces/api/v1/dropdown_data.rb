@@ -9,6 +9,12 @@ module API
         params :role_filter do
           optional :role, type: String, desc: I18n.t('api.v1.dropdown_data.params.role_filter'), values: %w[agfs lgfs]
         end
+        params :scheme_ten_role_filter do
+          optional :role,
+                   type: String,
+                   desc: I18n.t('api.v1.dropdown_data.params.role_filter'),
+                   values: %w[agfs_scheme_9 agfs_scheme_10 lgfs]
+        end
 
         def role
           params.role.try(:downcase).try(:to_sym) || :all
@@ -36,10 +42,15 @@ module API
         end
 
         resource :advocate_categories do
-          # TODO: this might need to be changed given there's a different list
-          # of advocate categories depending on the fee scheme in use
           desc 'Return all Advocate Categories'
-          get { Settings.advocate_categories }
+          params { use :scheme_ten_role_filter }
+          get do
+            if role.eql?(:agfs_scheme_10)
+              Settings.agfs_reform_advocate_categories
+            else
+              Settings.advocate_categories
+            end
+          end
         end
 
         resource :trial_cracked_at_thirds do
@@ -74,10 +85,7 @@ module API
         resource :fee_types do
           params do
             category_types = %w[all basic misc fixed graduated interim transfer warrant].to_sentence
-            optional :role,
-                     type: String,
-                     desc: I18n.t('api.v1.dropdown_data.params.role_filter'),
-                     values: %w[agfs_scheme_9 agfs_scheme_10 lgfs]
+            use :scheme_ten_role_filter
             optional :category,
                      type: String,
                      default: 'all',

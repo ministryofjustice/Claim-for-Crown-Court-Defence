@@ -182,6 +182,46 @@ describe API::V1::DropdownData do
     end
   end
 
+  context 'GET api/advocate_categories[:category]' do
+    before do
+      allow(Settings).to receive(:agfs_reform_advocate_categories).and_return(['QC', 'Leading junior', 'Junior'])
+      allow(Settings).to receive(:advocate_categories).and_return(['QC', 'Led junior', 'Leading junior', 'Junior'])
+      params.merge!(role: role)
+      get ADVOCATE_CATEGORY_ENDPOINT, params, format: :json
+    end
+
+    context 'when role is nil' do
+      let(:role) { nil }
+
+      it 'returns 4 options' do
+        expect(JSON.parse(last_response.body).count).to eq 4
+      end
+    end
+
+    context 'when role is agfs_scheme_9' do
+      let(:role) { 'agfs_scheme_9' }
+
+      it 'returns 4 options' do
+        expect(JSON.parse(last_response.body).count).to eq 4
+      end
+    end
+
+    context 'when role is agfs_scheme_10' do
+      let(:role) { 'agfs_scheme_10' }
+
+      it 'returns 3 options' do
+        expect(JSON.parse(last_response.body).count).to eq 3
+      end
+    end
+
+    context 'when role is lgfs' do
+      let(:role) { 'lgfs' }
+
+      it 'returns 4 options' do
+        expect(JSON.parse(last_response.body).count).to eq 4
+      end
+    end
+  end
   # TODO: remove or refactor endpoint and spec, not too mention claims,
   #       to handle v1 potential returns as well!!
   # context "expense v1" do

@@ -15,6 +15,20 @@ class ClaimStateTransitionPresenter < BasePresenter
     format(sentence, author: transition.author.name, subject: transition.subject&.name)
   end
 
+  def reason_header
+    "#{"Reason".pluralize(transition.reason.size)} provided:"
+  end
+
+  def reason_descriptions
+    transition.reason.each_with_object([]) do |reason, arr|
+      description = reason.description
+      other_description = " (#{transition.reason_text})" if description.eql?('Other') && reason_text.present?
+      description = "#{description}#{other_description}"
+      yield description if block_given?
+      arr << description
+    end
+  end
+
   private
 
   def transition_messages

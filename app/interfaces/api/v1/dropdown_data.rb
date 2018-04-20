@@ -13,11 +13,16 @@ module API
           optional :role,
                    type: String,
                    desc: I18n.t('api.v1.dropdown_data.params.role_filter'),
-                   values: %w[agfs_scheme_9 agfs_scheme_10 lgfs]
+                   values: %w[agfs agfs_scheme_9 agfs_scheme_10 lgfs]
         end
 
         def role
-          params[:role]&.downcase&.to_sym || :all
+          params[:role]&.pluralize&.downcase&.to_sym || :all
+        end
+
+        def scheme_ten_role
+          chosen_role = params[:role].eql?('agfs') ? 'agfs_scheme_9' : params[:role]
+          chosen_role&.pluralize&.downcase&.to_sym || :all
         end
 
         def category
@@ -45,7 +50,7 @@ module API
           desc 'Return all Advocate Categories'
           params { use :scheme_ten_role_filter }
           get do
-            if role.eql?(:agfs_scheme_10)
+            if scheme_ten_role.eql?(:agfs_scheme_10s)
               Settings.agfs_reform_advocate_categories
             else
               Settings.advocate_categories

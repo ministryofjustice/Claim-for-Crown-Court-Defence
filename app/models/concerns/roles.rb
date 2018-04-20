@@ -8,11 +8,7 @@ module Roles
     klass.validate :roles_valid
 
     klass::ROLES.each do |role|
-      if role.split('_').last.numeric?
-        klass.scope role.to_sym, -> { matching_role_query([role.to_s]) }
-      else
-        klass.scope role.pluralize.to_sym, -> { matching_role_query([role.to_s]) }
-      end
+      klass.scope role.pluralize.to_sym, -> { matching_role_query([role.to_s]) }
 
       define_method "#{role}?" do
         is?(role)

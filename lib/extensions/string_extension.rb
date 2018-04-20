@@ -29,12 +29,6 @@ module StringExtension
     Time.zone.parse(self).strftime(format)
   end
 
-  def numeric?
-    true if match?(/\A\d+\Z/)
-  rescue StandardError
-    false
-  end
-
   def abbreviate(target_length = 6)
     words = clean_and_split_sentence
     acronym = first_word_char_or_chars(words, target_length)

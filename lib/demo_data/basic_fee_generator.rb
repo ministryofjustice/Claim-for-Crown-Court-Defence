@@ -2,7 +2,7 @@ module DemoData
   class BasicFeeGenerator
     def initialize(claim)
       @claim       = claim
-      @fee_types   = Fee::BasicFeeType.agfs_scheme_9.all
+      @fee_types   = Fee::BasicFeeType.agfs_scheme_9s.all
       @codes_added = []
     end
 

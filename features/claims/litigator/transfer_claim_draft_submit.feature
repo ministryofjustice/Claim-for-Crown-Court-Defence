@@ -70,9 +70,6 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     And I upload 1 document
     And I check the boxes for the uploaded documents
-
-    Then I click "Continue" in the claim form
-
     And I add some additional information
 
     Then I click Submit to LAA

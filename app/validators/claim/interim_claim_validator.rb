@@ -22,7 +22,7 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
         effective_pcmh_date
         legal_aid_transfer_date
       ],
-      additional_information: %i[total]
+      supporting_evidence: %i[total]
     }
   end
 

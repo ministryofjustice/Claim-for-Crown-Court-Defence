@@ -51,9 +51,7 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     Then I click "Continue" in the claim form
 
     And I should be in the 'Evidence supplied on disk' form page
-    Then I click "Continue" in the claim form
 
-    And I should be in the 'Additional information' form page
     Then I click "Continue" in the claim form
 
     And I should be on the check your claim page

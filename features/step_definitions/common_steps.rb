@@ -139,7 +139,7 @@ end
 
 And(/^I should be in the '(.*?)' form page$/) do |page_title|
   within('#claim-form') do
-    expect(page.find('h2')).to have_content(page_title)
+    expect(page.first('h2')).to have_content(page_title)
   end
 end
 

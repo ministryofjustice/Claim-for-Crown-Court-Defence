@@ -9,9 +9,24 @@ module API
         params :role_filter do
           optional :role, type: String, desc: I18n.t('api.v1.dropdown_data.params.role_filter'), values: %w[agfs lgfs]
         end
+        params :scheme_ten_role_filter do
+          optional :role,
+                   type: String,
+                   desc: I18n.t('api.v1.dropdown_data.params.role_filter'),
+                   values: %w[agfs agfs_scheme_9 agfs_scheme_10 lgfs]
+        end
 
         def role
-          params.role.try(:downcase).try(:to_sym) || :all
+          params[:role]&.pluralize&.downcase&.to_sym || :all
+        end
+
+        def scheme_ten_role
+          chosen_role = params[:role].eql?('agfs') ? 'agfs_scheme_9' : params[:role]
+          chosen_role&.pluralize&.downcase&.to_sym || :all
+        end
+
+        def category
+          params[:category]&.downcase
         end
       end
 
@@ -32,10 +47,15 @@ module API
         end
 
         resource :advocate_categories do
-          # TODO: this might need to be changed given there's a different list
-          # of advocate categories depending on the fee scheme in use
           desc 'Return all Advocate Categories'
-          get { Settings.advocate_categories }
+          params { use :scheme_ten_role_filter }
+          get do
+            if scheme_ten_role.eql?(:agfs_scheme_10s)
+              Settings.agfs_reform_advocate_categories
+            else
+              Settings.advocate_categories
+            end
+          end
         end
 
         resource :trial_cracked_at_thirds do
@@ -68,20 +88,14 @@ module API
         end
 
         resource :fee_types do
-          helpers do
-            def category
-              params.category.try(:downcase)
-            end
-          end
-
           params do
             category_types = %w[all basic misc fixed graduated interim transfer warrant].to_sentence
-            use :role_filter
-            optional  :category,
-                      type: String,
-                      default: 'all',
-                      values: %w[all basic misc fixed graduated interim transfer warrant],
-                      desc: "OPTIONAL: The fee category to filter the results. Can be: #{category_types}. Default: all"
+            use :scheme_ten_role_filter
+            optional :category,
+                     type: String,
+                     default: 'all',
+                     values: %w[all basic misc fixed graduated interim transfer warrant],
+                     desc: "OPTIONAL: The fee category to filter the results. Can be: #{category_types}. Default: all"
           end
 
           desc 'Return all AGFS Fee Types (optional category filter).'
@@ -91,7 +105,6 @@ module API
                         else
                           Fee::BaseFeeType.__send__(category).__send__(role)
                         end
-
             present fee_types, with: API::Entities::BaseFeeType
           end
         end

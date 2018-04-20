@@ -3,6 +3,56 @@
 %section.api-documentation
 
   %hr
+  %h2 20 April 2018
+  %ul.list-bullet
+    %li
+      The endpoints for
+      %code.code
+        \/api/fee_types
+      and
+      %code.code
+        \/api/advocate_categories
+      have been updated.
+      %br/
+      %br/
+      The
+      %code.code
+        role
+      options have been updated on
+      %code.code
+        \/api/fee_types
+      and added to
+      %code.code
+        \/api/advocate_categories
+      you can now send
+      %code.code
+        agfs
+      ,
+      %code.code
+        agfs_scheme_9
+      ,
+      %code.code
+        agfs_scheme_10
+      or
+      %code.code
+        lgfs
+      to get the appropriate returns.
+      %br/
+      %br/
+      Sending
+      %code.code
+        agfs
+      will return the
+      %code.code
+        agfs_scheme_9
+      values.
+      %br/
+      %br/
+      Sending no
+      %code.code
+        role
+      filter to either will return all data, regardless of fee scheme.
+  %hr
   %h2 12 April 2018
   %ul.list-bullet
     %li

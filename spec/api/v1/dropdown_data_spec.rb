@@ -187,7 +187,6 @@ describe API::V1::DropdownData do
       allow(Settings).to receive(:agfs_reform_advocate_categories).and_return(['QC', 'Leading junior', 'Junior'])
       allow(Settings).to receive(:advocate_categories).and_return(['QC', 'Led junior', 'Leading junior', 'Junior'])
       params.merge!(role: role)
-      binding.pry if role.eql?('agfs_scheme_10s')
       get ADVOCATE_CATEGORY_ENDPOINT, params, format: :json
     end
 

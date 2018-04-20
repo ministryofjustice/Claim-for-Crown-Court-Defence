@@ -38,7 +38,8 @@ module API
           model_klass = get_fee_subclass(args) if model_klass == ::Fee::BaseFee
 
           if basic_fee_update_required(model_klass, args)
-            model_instance = model_klass.where(fee_type_id: args[:fee_type_id], claim_id: args[:claim_id]).first
+            model_instance = ::Claim::BaseClaim.find(args[:claim_id])
+                                               .basic_fees.detect { |bf| bf.fee_type_id == args[:fee_type_id] }
             model_instance.assign_attributes(args)
           else
             model_instance = model_klass.new(args)

@@ -50,6 +50,8 @@ module AdvocateDefencePayments
     config.autoload_paths << Rails.root.join('lib')
     config.autoload_paths << Rails.root.join('app','presenters','concerns')
 
+    config.eager_load_paths << Rails.root.join('lib')
+
     config.exceptions_app = self.routes
 
     config.to_prepare do

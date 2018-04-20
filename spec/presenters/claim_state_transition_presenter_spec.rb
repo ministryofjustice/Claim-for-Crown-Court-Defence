@@ -1,25 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe ClaimStateTransitionPresenter do
-
+  subject(:presenter) { described_class.new(transition, view) }
   let(:claim) { create(:allocated_claim) }
+  let(:transition) { claim.last_state_transition }
   let(:current_user) { create(:user, first_name: 'Brielle', last_name: 'Jenkins') }
   let(:another_user) { create(:user, first_name: 'Madyson', last_name: 'Gibson') }
 
-  let(:subject) { ClaimStateTransitionPresenter.new(claim.last_state_transition, view) }
-
   describe '#transition_message' do
+    subject { presenter.transition_message }
+
     before(:each) do
-      allow(subject).to receive(:current_user_persona).and_return('CaseWorker')
+      allow(presenter).to receive(:current_user_persona).and_return('CaseWorker')
     end
 
     it 'returns a human readable string describing a state change' do
-      expect(subject.transition_message).to eq "Claim allocated"
+      is_expected.to eq "Claim allocated"
     end
   end
 
   describe '#audit_users' do
+    subject { presenter.audit_users }
     let(:is_external_user) { false }
+    let(:claim) { create(:submitted_claim) }
 
     before(:each) do
       allow(view).to receive(:current_user_is_external_user?).and_return(is_external_user)
@@ -27,9 +30,7 @@ RSpec.describe ClaimStateTransitionPresenter do
 
     context 'without an author user' do
       it 'returns a default string' do
-        claim = create :submitted_claim
-        presenter = ClaimStateTransitionPresenter.new(claim.last_state_transition, view)
-        expect(presenter.audit_users).to eq('(System)')
+        is_expected.to eq('(System)')
       end
     end
 
@@ -47,7 +48,7 @@ RSpec.describe ClaimStateTransitionPresenter do
         end
 
         it 'returns a default string' do
-          expect(subject.audit_users).to eq('Brielle Jenkins')
+          is_expected.to eq('Brielle Jenkins')
         end
       end
 
@@ -57,7 +58,7 @@ RSpec.describe ClaimStateTransitionPresenter do
         end
 
         it 'returns a default string' do
-          expect(subject.audit_users).to eq('(System)')
+          is_expected.to eq('(System)')
         end
       end
     end
@@ -71,7 +72,7 @@ RSpec.describe ClaimStateTransitionPresenter do
 
       it 'returns a human readable string describing who did the change' do
         expect(claim.last_state_transition.event).to eq('archive_pending_delete')
-        expect(subject.audit_users).to eq('Brielle Jenkins')
+        is_expected.to eq('Brielle Jenkins')
       end
     end
 
@@ -84,7 +85,52 @@ RSpec.describe ClaimStateTransitionPresenter do
 
       it 'returns a human readable string describing who did the change and to whom' do
         expect(claim.last_state_transition.event).to eq('allocate')
-        expect(subject.audit_users).to eq('Brielle Jenkins to Madyson Gibson')
+        is_expected.to eq('Brielle Jenkins to Madyson Gibson')
+      end
+    end
+  end
+
+  describe '#reason_header' do
+    subject { presenter.reason_header }
+    let(:claim) { create(:rejected_claim) }
+
+    context '1 reason' do
+      before do
+        allow(transition).to receive(:reason_code).and_return(['wrong_maat_ref'])
+      end
+
+      it 'returns a human readable string header' do
+        is_expected.to eq('Reason provided:')
+      end
+    end
+
+    context '2+ reasons' do
+      before do
+        allow(transition).to receive(:reason_code).and_return(['wrong_maat_ref', 'other'])
+      end
+
+      it 'returns a human readable string header' do
+        is_expected.to eq('Reasons provided:')
+      end
+    end
+  end
+
+  describe '#reason_descriptions' do
+    subject { presenter.reason_descriptions }
+    let(:claim) { create(:rejected_claim) }
+
+    context '2+ reasons (including other)' do
+      before do
+        allow(transition).to receive(:reason_code).and_return(['wrong_maat_ref','other'])
+        allow(transition).to receive(:reason_text).and_return('rejecting because...')
+      end
+
+      it 'yields a human readable reason description for each reason' do
+        expect { |b| presenter.reason_descriptions(&b) }.to yield_successive_args('Wrong MAAT reference', 'Other (rejecting because...)')
+      end
+
+      it 'returns array containing the human readable reasons' do
+        is_expected.to match_array(['Wrong MAAT reference', 'Other (rejecting because...)'])
       end
     end
   end

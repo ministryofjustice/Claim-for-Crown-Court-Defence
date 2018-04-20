@@ -1,0 +1,12 @@
+.grid-row
+  .notice
+    %i.icon.icon-important
+      %span.visuallyhidden
+        = "Warning"
+    %strong.bold-small
+      - present(claim.last_state_transition) do |transition|
+        = transition.reason_header
+        %ul.timed-retention-states
+          -transition.reason_descriptions do |description|
+            %li
+              = description

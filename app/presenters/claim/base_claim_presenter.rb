@@ -46,6 +46,11 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.claim_state_transitions.last.reason_text
   end
 
+  def display_reject_refuses_reasons?
+    claim.last_state_transition_reason.present? &&
+      claim.last_state_transition.created_at <= Settings.reject_refuse_messaging_released_at
+  end
+
   def claim_state
     if claim.opened_for_redetermination?
       'Redetermination'

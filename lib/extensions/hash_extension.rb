@@ -14,4 +14,20 @@ module HashExtension
       values.concat(v.all_values_for(key)) if v.is_a? Hash
     end
   end
+
+  def key_paths(path = [])
+    each_with_object([]) do |(k, v), items|
+      if v.is_a?(Hash)
+        items.push(*v.key_paths(path + [k]))
+      else
+        items << (path + [k])
+      end
+    end
+  end
+
+  def bury(value, *keys)
+    keys[0...-1].inject(self) do |acc, key|
+      acc.public_send(:[], key)
+    end.public_send(:[]=, keys.last, value)
+  end
 end

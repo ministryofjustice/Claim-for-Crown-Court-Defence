@@ -16,7 +16,7 @@ class ClaimStateTransitionPresenter < BasePresenter
   end
 
   def reason_header
-    "#{"Reason".pluralize(transition.reason.size)} provided:"
+    "#{'Reason'.pluralize(transition.reason.size)} provided:"
   end
 
   def reason_descriptions

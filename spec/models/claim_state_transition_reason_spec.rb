@@ -1,7 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe ClaimStateTransitionReason, type: :model do
+RSpec::Matchers.define :include_match do |regex|
+  match do |actual|
+    actual.find { |str| str.match?(regex) }
+  end
+end
 
+RSpec.describe ClaimStateTransitionReason, type: :model do
   describe '.new' do
     let(:reason) { described_class.new('code', 'short description', 'long description') }
 
@@ -26,7 +31,7 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
     end
 
     before do
-      allow(described_class).to receive(:reasons_map).and_return(reasons_hash)
+      allow(described_class).to receive(:transition_reasons).and_return(reasons_hash)
     end
 
     context 'for an existing state' do
@@ -154,6 +159,22 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
 
     it 'considers as different two reasons with different reason codes or different descriptions' do
       expect(reason_1).not_to eq(reason_3)
+    end
+  end
+
+  describe '.transition_reasons' do
+    subject { described_class.transition_reasons }
+
+    it 'returns deeply nested hash of string reasons' do
+      is_expected.to be_a(Hash)
+      described_class::TRANSITION_REASON_KEYS.key_paths.each do |path|
+        expect(subject.dig(*path)).to be_a(String)
+      end
+    end
+
+    it 'has no missing translations' do
+      expect(subject.all_values_for('short')).not_to include_match('translation missing')
+      expect(subject.all_values_for('long')).not_to include_match('translation missing')
     end
   end
 end

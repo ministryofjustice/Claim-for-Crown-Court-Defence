@@ -40,85 +40,112 @@ describe 'case_workers/claims/show.html.haml', type: :view do
       render
       expect(rendered).to have_content('First day of retrial')
     end
+  end
 
-    describe 'document checklist' do
-      let!(:claim_with_doc) { create :claim }
-      let!(:document) { create :document, :verified, claim: claim_with_doc }
+  context 'document checklist' do
+    let!(:claim_with_doc) { create :claim }
+    let!(:document) { create :document, :verified, claim: claim_with_doc }
 
-      before do
-        allow(view).to receive(:current_user_persona_is?).with(CaseWorker).and_return(true)
-        assign(:claim, claim_with_doc)
-        render
-      end
+    before do
+      allow(view).to receive(:current_user_persona_is?).with(CaseWorker).and_return(true)
+      assign(:claim, claim_with_doc)
+      render
+    end
 
-      it 'displays a `download all` link' do
-        expect(rendered).to have_link('Download all')
+    it 'displays a `download all` link' do
+      expect(rendered).to have_link('Download all')
+    end
+  end
+
+  context 'reject/refuse reasons' do
+    let(:claim) { create(:allocated_claim) }
+
+    context 'after messaging feature released' do
+      context 'rejected claims' do
+        let(:reason_code) { %w[no_amend_rep_order other] }
+
+        before do
+          travel_to(Settings.reject_refuse_messaging_released_at + 1) do
+            claim.reject!(reason_code: reason_code, reason_text: 'rejecting because...')
+          end
+          @messages = claim.messages.most_recent_last
+          @message = claim.messages.build
+          assign(:claim, claim.reload)
+          render
+        end
+
+        it 'does not render reasons section content' do
+          expect(rendered).to_not have_content(/Reason(s) provided:/)
+          expect(rendered).to_not have_selector('li', text: 'No amending representation order')
+          expect(rendered).to_not have_selector('li', text: 'Other (rejecting because...)')
+        end
       end
     end
 
-    describe 'reject reasons' do
-      let(:claim) { create(:allocated_claim) }
-      let(:reason_code) { ['no_amend_rep_order'] }
-      let(:old_style) { false }
+    context 'before messaging feature released' do
+      let(:reason_code) { %w[no_amend_rep_order] }
 
-      before do
-        claim.reject!(reason_code: reason_code)
-        @messages = claim.messages.most_recent_last
-        @message = claim.messages.build
-        allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('wrong_case_no') if old_style
-        assign(:claim, claim)
-        render
-      end
+      context 'rejected claims' do
+        before do |example|
+          travel_to(Settings.reject_refuse_messaging_released_at - 1) do
+            claim.reject!(reason_code: reason_code, reason_text: 'rejecting because...')
+          end
+          @messages = claim.messages.most_recent_last
+          @message = claim.messages.build
+          allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('wrong_case_no') if example.metadata[:legacy]
+          assign(:claim, claim)
+          render
+        end
 
-      it 'has the correct status display' do
-        expect(rendered).to have_selector('span', 'state state-rejected', text: 'Rejected')
-      end
-
-      it 'renders the reason header with the correct tense' do
-        expect(rendered).to have_content('Reason provided:')
-      end
-
-      it 'renders the full text of the reason' do
-        expect(rendered).to have_selector('li', text: 'No amending representation order')
-      end
-
-      context 'with multiple reasons' do
-        let(:reason_code) { %w[no_amend_rep_order case_still_live] }
+        it 'has the correct status display' do
+          expect(rendered).to have_selector('span', 'state state-rejected', text: 'Rejected')
+        end
 
         it 'renders the reason header with the correct tense' do
-          expect(rendered).to have_content('Reasons provided:')
+          expect(rendered).to have_content('Reason provided:')
         end
-
-        it 'renders the full text of the reasons' do
-          expect(rendered).to have_selector('li', text: 'No amending representation order')
-          expect(rendered).to have_selector('li', text: 'Case still live')
-        end
-      end
-
-      context 'legacy cases with non-array reason codes' do
-        let(:old_style) { true }
 
         it 'renders the full text of the reason' do
-          expect(rendered).to have_selector('li', text: 'Incorrect case number')
+          expect(rendered).to have_selector('li', text: 'No amending representation order')
+        end
+
+        context 'with multiple reasons' do
+          let(:reason_code) { %w[no_amend_rep_order case_still_live other] }
+
+          it 'renders the reason header with the correct tense' do
+            expect(rendered).to have_content('Reasons provided:')
+          end
+
+          it 'renders the full text of the reasons' do
+            expect(rendered).to have_selector('li', text: 'No amending representation order')
+            expect(rendered).to have_selector('li', text: 'Case still live')
+            expect(rendered).to have_selector('li', text: 'Other (rejecting because...)')
+          end
+        end
+
+        context 'legacy cases with non-array reason codes', :legacy do
+          it 'renders the full text of the reason' do
+            expect(rendered).to have_selector('li', text: 'Incorrect case number')
+          end
         end
       end
     end
+  end
 
-    context 'injection errors' do
-      before do
-        certified_claim
-        create(:injection_attempt, :with_errors, claim: @claim)
-        assign(:claim, @claim)
-        render
-      end
+  context 'injection errors' do
+    before do
+      certified_claim
+      create(:injection_attempt, :with_errors, claim: @claim)
+      assign(:claim, @claim)
+      render
+    end
 
-      it 'displays summary errors' do
-        expect(rendered).to have_selector('div.error-summary')
-      end
+    it 'displays summary errors' do
+      expect(rendered).to have_selector('div.error-summary')
+    end
 
-      it 'displays each error message' do
-        expect(rendered).to have_selector('ul.error-summary-list > li > a', text: /injection error/, count: 2)
-      end
+    it 'displays each error message' do
+      expect(rendered).to have_selector('ul.error-summary-list > li > a', text: /injection error/, count: 2)
     end
   end
 

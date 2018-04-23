@@ -1,51 +1,69 @@
-%p.form-hint
-  Check all the information below is correct before submitting your claim at the bottom of the page.
-
-%h2
-  Claim and case type
-= render partial: 'external_users/claims/case_details/summary', locals: { claim: claim }
+%p
+  = t('external_users.claims.check_your_claim.help_text')
 
 - if claim.transfer?
-  %h2
-    Transfer details
-  = render partial: 'external_users/claims/transfer_detail/summary', locals: { claim: claim }
+  .form-section
+    %h3.heading-medium
+      = t('external_users.claims.transfer_detail.summary.header')
+    = render partial: 'external_users/claims/transfer_detail/summary', locals: { claim: claim }
 
-%h2
-  Defendants
-= render partial: 'external_users/claims/defendants/summary', locals: { claim: claim }
+.form-section
+  %h3.heading-medium
+    = t('external_users.claims.case_details.summary.header')
+  = render partial: 'external_users/claims/case_details/summary', locals: { claim: claim }
+
+.form-section
+  %h3.heading-medium
+    = t('external_users.claims.defendants.summary.header')
+  = render partial: 'external_users/claims/defendants/summary', locals: { claim: claim }
 
 - unless claim.fixed_fee_case?
-  %h2
-    = t('external_users.claims.offence_details.summary.header')
-  = render partial: 'external_users/claims/offence_details/summary', locals: { claim: claim }
+  .form-section
+    %h3.heading-medium
+      = t('external_users.claims.offence_details.summary.header')
+    = render partial: 'external_users/claims/offence_details/summary', locals: { claim: claim }
+
+-# TODO: if possible get rid of this conditionals
+-# all this is doing is rendering a list of sections for a given claim
+-# should be possible to iterate over them and render the appropriate templates
+
+- if claim.agfs? || (claim.lgfs? && claim.final?)
+  .form-section
+    = render partial: 'summary_fees', locals: { claim: claim, header: t('external_users.claims.fixed_fees.summary.header'), collection: claim.fixed_fees }
 
 - if claim.lgfs? && claim.interim?
-  %h2
-    = t('common.interim_fees')
-  = render partial: 'external_users/claims/interim_fee/summary', locals: { claim: claim }
+  .form-section
+    %h3.heading-medium
+      = t('external_users.claims.interim_fee.summary.header')
+    = render partial: 'external_users/claims/interim_fee/summary', locals: { claim: claim }
 - else
-  = render partial: 'summary_fees', locals: { claim: claim }
+  .form-section
+    = render partial: 'summary_fees', locals: { claim: claim, header: t('external_users.claims.misc_fees.summary.header'), collection: claim.misc_fees }
 
 - if @claim.final? || (@claim.lgfs? && @claim.interim?)
-  %h2
-    = t('common.warrant_fees')
-  = render partial: 'external_users/claims/warrant_fee/summary', locals: { claim: claim }
+  .form-section
+    %h3.heading-medium
+      = t('external_users.claims.warrant_fee.summary.header')
+    = render partial: 'external_users/claims/warrant_fee/summary', locals: { claim: claim }
 
 - if @claim.lgfs?
-  %h2
-    = t('common.disbursements')
-  = render partial: 'external_users/claims/disbursements/summary', locals: { claim: claim }
+  .form-section
+    %h3.heading-medium
+      = t('external_users.claims.disbursements.summary.header')
+    = render partial: 'external_users/claims/disbursements/summary', locals: { claim: claim }
 
-%h2
-  = t('common.expenses')
-= render partial: 'external_users/claims/expenses/summary', locals: { claim: claim }
+.form-section
+  %h3.heading-medium
+    = t('external_users.claims.expenses.summary.header')
+  = render partial: 'external_users/claims/expenses/summary', locals: { claim: claim }
 
-= render partial: 'external_users/claims/supporting_documents/summary', locals: { claim: claim }
+.form-section
+  %h3.heading-medium
+    = t('external_users.claims.supporting_evidence_checklist.summary.header')
+  = render partial: 'external_users/claims/supporting_documents/summary', locals: { claim: claim }
+  = render partial: 'external_users/claims/supporting_evidence_checklist/summary', locals: { claim: claim }
 
-%h2
-  Supporting evidence checklist
-= render partial: 'external_users/claims/supporting_evidence_checklist/summary', locals: { claim: claim }
-
-%h2
-  = t('external_users.claims.additional_information.fields.additional_information')
-= render partial: 'external_users/claims/additional_information/summary', locals: { claim: claim}
+.form-section
+  %h3.heading-medium
+    = t('external_users.claims.additional_information.summary.header')
+  = render partial: 'external_users/claims/additional_information/summary', locals: { claim: claim}

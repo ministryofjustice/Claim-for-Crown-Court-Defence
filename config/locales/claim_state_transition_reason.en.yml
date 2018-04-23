@@ -82,5 +82,5 @@ en:
         long: *blank
     global:
       timed_transition:
-        short: TimedTransition::Transitioner
-        long: TimedTransition::Transitioner
+        short: automated transition by system
+        long: *blank

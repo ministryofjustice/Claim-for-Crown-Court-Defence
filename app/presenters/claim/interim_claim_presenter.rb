@@ -36,4 +36,11 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
   def raw_warrant_fees_total
     claim.warrant_fee&.amount || 0
   end
+
+  def summary_sections
+    # NOTE: ideally this would use the claim current stages
+    # unfortunately they don't map 1-2-1
+    %i[case_details defendants offence_details interim_fee warrant_fee
+       disbursements expenses supporting_evidence additional_information]
+  end
 end

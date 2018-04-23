@@ -1,6 +1,9 @@
-- if claim.additional_information.present?
-  %p
-    = claim.additional_information
-- else
-  %p
-    No additional information has been provided
+.form-section
+  %h3.heading-medium
+    = t('external_users.claims.additional_information.summary.header')
+
+  - if claim.additional_information.present?
+    = simple_format(claim.additional_information)
+  - else
+    %p
+      = t('external_users.claims.additional_information.summary.not_available')

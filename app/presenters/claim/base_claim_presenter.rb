@@ -117,10 +117,6 @@ class Claim::BaseClaimPresenter < BasePresenter
     "##{claim.id}"
   end
 
-  def additional_information
-    simple_format(claim.additional_information)
-  end
-
   def vat_date(format = nil)
     if format == :db
       claim.vat_date.to_s(:db)

@@ -48,4 +48,11 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   def raw_transfer_fees_total
     claim.transfer_fee&.amount || 0
   end
+
+  def summary_sections
+    # NOTE: ideally this would use the claim current stages
+    # unfortunately they don't map 1-2-1
+    %i[transfer_detail case_details defendants offence_details transfer_fee misc_fees
+       disbursements expenses supporting_evidence additional_information]
+  end
 end

@@ -10,6 +10,10 @@ class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
     'lgfs_final'
   end
 
+  def fixed_fees
+    [claim.fixed_fee].compact
+  end
+
   def raw_fixed_fees_total
     claim.fixed_fee&.amount || 0
   end
@@ -20,5 +24,12 @@ class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
 
   def raw_warrant_fees_total
     claim.warrant_fee&.amount || 0
+  end
+
+  def summary_sections
+    # NOTE: ideally this would use the claim current stages
+    # unfortunately they don't map 1-2-1
+    %i[case_details defendants offence_details fixed_fees graduated_fees misc_fees warrant_fee
+       disbursements expenses supporting_evidence additional_information]
   end
 end

@@ -1,28 +1,32 @@
-- if claim.warrant_fee.nil?
-  %p
-    There is no warrant fee for this claim
-- else
-  - warrant_fee = present(claim.warrant_fee)
-  %table{class:'table-summary', summary: t('.summary')}
-    %caption
-      %span.table-caption.visuallyhidden
-        = t('common.warrant_fees')
-        = t('.caption')
-    %tbody
-      %tr
-        %th.summary-headings{scope: 'row'}
-          = t('shared.summary.fee_type')
-        %td
-          = warrant_fee.fee_type.description
-      %tr
-        %th{scope: 'row'}
-          = t('shared.summary.warrant_fee.date_issued')
-        %td
-          = warrant_fee.warrant_issued_date
+.form-section
+  %h3.heading-medium
+    = t('external_users.claims.warrant_fee.summary.header')
 
-      - if warrant_fee.warrant_executed?
+  - if claim.warrant_fee.nil?
+    %p
+      There is no warrant fee for this claim
+  - else
+    - warrant_fee = present(claim.warrant_fee)
+    %table{class:'table-summary', summary: t('.summary')}
+      %caption
+        %span.table-caption.visuallyhidden
+          = t('common.warrant_fees')
+          = t('.caption')
+      %tbody
+        %tr
+          %th.summary-headings{scope: 'row'}
+            = t('shared.summary.fee_type')
+          %td
+            = warrant_fee.fee_type.description
         %tr
           %th{scope: 'row'}
-            = t('shared.summary.warrant_fee.date_executed')
+            = t('shared.summary.warrant_fee.date_issued')
           %td
-            = warrant_fee.warrant_executed_date
+            = warrant_fee.warrant_issued_date
+
+        - if warrant_fee.warrant_executed?
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.warrant_fee.date_executed')
+            %td
+              = warrant_fee.warrant_executed_date

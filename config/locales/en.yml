@@ -488,6 +488,7 @@ en:
           additional_information_prompt_text: 'for example any other information that will help us process your claim'
         summary:
           header: Additional information
+          not_available: No additional information has been provided
       archived:
         archived_claims: 'Archived claims'
         archived_claim: 'archived claim'
@@ -746,6 +747,8 @@ en:
           transfer_stage_default_label_text: When did you stop/start acting?
           transfer_date_default_label_text: Date stopped/started acting
           case_conclusions: How did the case conclude?
+        summary:
+          header: Transfer fee
       error_summary:
         prohibited_save: This claim has
         error: 'error'
@@ -818,6 +821,8 @@ en:
           ppe_total: "PPE total"
           total: "Total"
           date: "Date"
+        summary:
+          header: Graduated fees
       index:
         claims: Claims
         completed: Completed

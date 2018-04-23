@@ -1,35 +1,39 @@
-- if claim.disbursements.empty?
-  %p
-    = t('shared.summary.no_values.disbursements')
-- else
-  %table{class:'table-summary', summary: t('.summary')}
-    %caption
-      %span.table-caption.visuallyhidden
-        = t('.caption')
-    %colgroup
-      %col.summary-headings
-      %col.summary-desc
-    %tbody
-      - present_collection(claim.disbursements).each do |disbursement|
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.disbursements.type')
-          %td
-            = disbursement.name
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.disbursements.net_amount')
-          %td
-            = disbursement.net_amount
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.disbursements.vat_amount')
-          %td
-            = disbursement.vat_amount
+.form-section
+  %h3.heading-medium
+    = t('external_users.claims.disbursements.summary.header')
 
-    %tfoot
-      %tr
-        %th{scope: 'row'}
-          = t('shared.summary.disbursements.total')
-        %td
-          = claim.disbursements_total
+  - if claim.disbursements.empty?
+    %p
+      = t('shared.summary.no_values.disbursements')
+  - else
+    %table{class:'table-summary', summary: t('.summary')}
+      %caption
+        %span.table-caption.visuallyhidden
+          = t('.caption')
+      %colgroup
+        %col.summary-headings
+        %col.summary-desc
+      %tbody
+        - present_collection(claim.disbursements).each do |disbursement|
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.disbursements.type')
+            %td
+              = disbursement.name
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.disbursements.net_amount')
+            %td
+              = disbursement.net_amount
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.disbursements.vat_amount')
+            %td
+              = disbursement.vat_amount
+
+      %tfoot
+        %tr
+          %th{scope: 'row'}
+            = t('shared.summary.disbursements.total')
+          %td
+            = claim.disbursements_total

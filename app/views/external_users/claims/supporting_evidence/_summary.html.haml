@@ -1,0 +1,6 @@
+.form-section
+  %h3.heading-medium
+    = t('external_users.claims.supporting_evidence_checklist.summary.header')
+
+  = render partial: 'external_users/claims/supporting_documents/summary', locals: { claim: claim }
+  = render partial: 'external_users/claims/supporting_evidence_checklist/summary', locals: { claim: claim }

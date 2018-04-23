@@ -48,7 +48,7 @@ class Claim::BaseClaimPresenter < BasePresenter
 
   def display_reject_refuses_reasons?
     claim.last_state_transition_reason.present? &&
-      claim.last_state_transition.created_at <= Settings.reject_refuse_messaging_released_at
+      claim.last_state_transition.created_at.midnight <= Settings.reject_refuse_messaging_released_at
   end
 
   def claim_state

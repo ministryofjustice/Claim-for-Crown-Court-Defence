@@ -10,6 +10,6 @@
 
 FactoryBot.define do
   factory :location do
-    name { Faker::Address.city }
+    name { Faker::Address.unique.city }
   end
 end

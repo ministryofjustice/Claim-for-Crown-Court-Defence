@@ -1,4 +1,4 @@
-class ManagemenInformationGenerationJob < ActiveJob::Base
+class ManagementInformationGenerationJob < ActiveJob::Base
   queue_as :default
 
   def perform(*_args)

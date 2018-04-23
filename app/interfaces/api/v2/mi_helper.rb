@@ -11,7 +11,7 @@ module API
           start_date = params[:date].to_date.beginning_of_day
           end_date = params[:date].to_date.end_of_day
         end
-        [start_date, end_date]
+        [start_date.strftime('%FT%T'), end_date.strftime('%FT%T')]
       end
 
       def build_csv_from(data)

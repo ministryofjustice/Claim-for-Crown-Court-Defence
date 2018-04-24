@@ -41,7 +41,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
 
     describe '#GET generate' do
       before do
-        allow(ManagemenInformationGenerationJob).to receive(:perform_later)
+        allow(ManagementInformationGenerationJob).to receive(:perform_later)
         get :generate
       end
 
@@ -53,8 +53,8 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
         expect(response).to redirect_to(case_workers_admin_management_information_url)
       end
 
-      it 'starts a ManagemenInformationGeneration job' do
-        expect(ManagemenInformationGenerationJob).to have_received(:perform_later)
+      it 'starts a ManagementInformationGeneration job' do
+        expect(ManagementInformationGenerationJob).to have_received(:perform_later)
       end
     end
   end

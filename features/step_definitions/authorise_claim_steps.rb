@@ -23,8 +23,13 @@ When(/^I click the authorised radio button$/) do
   @case_worker_claim_show_page.authorised.click
 end
 
+# TODO: to be removed once reject refuse feature release accepted
+When(/^the reject refuse messaging feature is released$/) do
+  allow(Settings).to receive(:reject_refuse_messaging_released_at).and_return(Time.current - 1.day)
+end
+
 When(/^I click the rejected radio button$/) do
-  @case_worker_claim_show_page.rejected.click
+    @case_worker_claim_show_page.rejected.click
 end
 
 And(/^I select the first rejection reason$/) do

@@ -10,8 +10,8 @@ Feature: Case worker rejects a claim, providing a reason
     And I insert the VCR cassette 'features/case_workers/claims/reject'
 
     When I am signed in as the case worker
+    And the reject refuse messaging feature is released
     And I select the claim
-    And expand the messages section
     And I click the rejected radio button
     And I select the first rejection reason
     And I click update

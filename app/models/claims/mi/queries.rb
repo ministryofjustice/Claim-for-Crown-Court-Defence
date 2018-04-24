@@ -29,7 +29,7 @@ module Claims::MI
             INNER JOIN users u ON u.persona_id = eu.id
             INNER JOIN providers p ON p.id = eu.provider_id
         WHERE
-          c.last_submitted_at BETWEEN '#{start_date}' AND '#{end_date}'
+          c.last_submitted_at BETWEEN #{start_date} AND #{end_date}
           AND c.type LIKE 'Claim::Advocate%'
           AND ro.representation_order_date >= '2018-04-01'
           AND c.state != 'draft'

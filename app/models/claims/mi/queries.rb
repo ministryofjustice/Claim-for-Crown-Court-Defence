@@ -1,5 +1,5 @@
-module API::V2
-  module MIQueryHelper
+module Claims::MI
+  module Queries
     extend Grape::API::Helpers
 
     def scheme_ten_claims(start_date, end_date)

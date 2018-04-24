@@ -3,7 +3,7 @@ module API
     module MI
       class SchemeTen < Grape::API
         require 'csv'
-        helpers API::V2::MIQueryHelper
+        helpers Claims::MI::Queries
         helpers API::V2::MIHelper
 
         content_type :csv, 'text/csv; utf-8'

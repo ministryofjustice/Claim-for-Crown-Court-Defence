@@ -15,7 +15,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   end
 
   def generate
-    ManagemenInformationGenerationJob.perform_later
+    ManagementInformationGenerationJob.perform_later
     redirect_to case_workers_admin_management_information_url,
                 alert: t('case_workers.admin.management_information.alert')
   end

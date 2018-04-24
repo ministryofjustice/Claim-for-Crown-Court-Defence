@@ -32,7 +32,7 @@ module API
                 header 'Content-Disposition', "attachment; filename=scheme_ten_data-#{params[:date]}.csv"
                 present csv
               else
-                object, entity = claims.count.positive? ? [nil, nil] : [OpenStruct, API::Entities::SchemeTenClaim]
+                object, entity = claims.count.positive? ? [nil, nil] : [OpenStruct, API::Entities::AGFSSchemeTen::Claim]
                 present JSON.parse(claims.to_json, object_class: object), with: entity
               end
             end

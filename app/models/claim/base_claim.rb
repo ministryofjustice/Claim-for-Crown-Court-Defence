@@ -130,7 +130,7 @@ module Claim
     has_many :documents, -> { where verified: true }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
     has_many :messages,                 foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
 
-    has_many :claim_state_transitions, -> { order(created_at: :desc) },
+    has_many :claim_state_transitions, -> { order(created_at: :desc, id: :desc) },
              foreign_key: :claim_id,
              dependent: :destroy,
              inverse_of: :claim

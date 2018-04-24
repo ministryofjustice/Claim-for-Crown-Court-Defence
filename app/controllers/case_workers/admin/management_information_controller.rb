@@ -11,7 +11,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
 
   def download
     mi_report = Stats::StatsReport.most_recent_management_information
-    send_data mi_report.report, filename: mi_report.download_filename
+    send_data mi_report.report, filename: mi_report.download_filename, type: 'text/csv'
   end
 
   def generate

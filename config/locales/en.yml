@@ -1324,3 +1324,6 @@ en:
           amount: 'OPTIONAL: The number of claims to allocate'
           claim_ids: 'OPTIONAL: The specific claim ids to be allocated'
           filters: 'OPTIONAL: The filters to be applied if allocating by number'
+      mi:
+        scheme_ten:
+          format: 'OPTIONAL: the format to output the data. DEFAULT: json.  CSV will download automatically'

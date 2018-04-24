@@ -25,10 +25,6 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
     'lgfs_interim'
   end
 
-  def raw_fixed_fees_total
-    claim.fixed_fee&.amount || 0
-  end
-
   def raw_interim_fees_total
     claim.interim_fee&.amount || 0
   end
@@ -40,7 +36,7 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
   def summary_sections
     # NOTE: ideally this would use the claim current stages
     # unfortunately they don't map 1-2-1
-    %i[case_details defendants offence_details interim_fee warrant_fee
-       disbursements expenses supporting_evidence additional_information]
+    %i[case_details defendants offence_details interim_fee
+       expenses supporting_evidence additional_information]
   end
 end

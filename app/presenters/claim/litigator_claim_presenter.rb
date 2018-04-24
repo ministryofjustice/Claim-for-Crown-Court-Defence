@@ -29,7 +29,7 @@ class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
   def summary_sections
     # NOTE: ideally this would use the claim current stages
     # unfortunately they don't map 1-2-1
-    %i[case_details defendants offence_details fixed_fees graduated_fees misc_fees warrant_fee
+    %i[case_details defendants offence_details fixed_fees graduated_fees misc_fees
        disbursements expenses supporting_evidence additional_information]
   end
 end

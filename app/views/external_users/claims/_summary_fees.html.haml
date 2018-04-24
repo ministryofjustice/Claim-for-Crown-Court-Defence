@@ -1,12 +1,14 @@
 %h3.heading-medium
-  = header ? header : t('common.fees')
+  = local_assigns.has_key?(:header) ? header : t('common.fees')
+  - if local_assigns[:editable]
+    = link_to 'Change', edit_polymorphic_path(claim, step: step), class: 'link-change'
 
 %table{class:'table-summary', summary: t('.summary')}
   %caption
     %span.table-caption.visuallyhidden
       = t('.caption')
   %tbody
-    - collection = collection ? collection : claim.fees.select(&:present?)
+    - collection = local_assigns.has_key?(:collection) ? collection : claim.fees.select(&:present?)
     - present_collection(collection.sort_by(&:position)).each do |fee|
       %tr
         %th.summary-headings{ scope: 'row'}

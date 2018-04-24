@@ -1,6 +1,8 @@
 .form-section
   %h3.heading-medium
     = t('external_users.claims.disbursements.summary.header')
+    - if local_assigns[:editable]
+      = link_to 'Change', edit_polymorphic_path(claim, step: :disbursements), class: 'link-change'
 
   - if claim.disbursements.empty?
     %p

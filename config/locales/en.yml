@@ -45,6 +45,7 @@ en:
     add_evidence: 'Upload evidence'
     edit_draft: 'Edit this claim'
     delete_draft: 'Delete draft'
+    continue_to_certification: &continue_to_certification_button Continue to certification
   date:
     formats:
       default: "%d/%m/%Y"
@@ -754,6 +755,7 @@ en:
         error: 'error'
         form_error_hint: 'Check below for more detail'
       summary:
+        button_label: *continue_to_certification_button
         heading: Check your claim
         case_details: Case details
       fee_fields:
@@ -910,7 +912,7 @@ en:
         fees: Fees
         fees_header_prompt_text_html: *fees_vat_prompt
       summary_claims_sidebar:
-        button_label: 'Continue to certification'
+        button_label: *continue_to_certification_button
         continue: 'Continue'
 
         fees_total: 'Fees Total '

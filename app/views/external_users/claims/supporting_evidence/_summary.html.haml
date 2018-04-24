@@ -1,6 +1,8 @@
 .form-section
   %h3.heading-medium
     = t('external_users.claims.supporting_evidence_checklist.summary.header')
+    - if local_assigns[:editable]
+      = link_to 'Change', edit_polymorphic_path(claim, step: :supporting_evidence), class: 'link-change'
 
   = render partial: 'external_users/claims/supporting_documents/summary', locals: { claim: claim }
   = render partial: 'external_users/claims/supporting_evidence_checklist/summary', locals: { claim: claim }

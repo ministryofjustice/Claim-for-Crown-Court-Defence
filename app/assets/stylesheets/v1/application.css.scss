@@ -203,3 +203,15 @@ form{
 
 .highlight { background-color: #ffffca }
 
+a.link-change {
+  float: right;
+  font-size: 19px;
+  line-height: 1.31579;
+  &:hover {
+    color: #2b8cc4;
+  }
+  @media (max-width: 640px) {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}

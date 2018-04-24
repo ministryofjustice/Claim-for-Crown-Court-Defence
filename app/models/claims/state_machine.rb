@@ -163,7 +163,7 @@ module Claims
     end
 
     def last_state_transition
-      claim_state_transitions.first
+      claim_state_transitions.unscope(:order).order(created_at: :desc, id: :desc).first
     end
 
     def last_state_transition_reason

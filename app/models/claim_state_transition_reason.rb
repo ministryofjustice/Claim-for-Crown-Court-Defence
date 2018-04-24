@@ -64,7 +64,7 @@ class ClaimStateTransitionReason
 
     def reject_reasons_for(claim)
       reasons = reasons_for('rejected')
-      reasons.insert(6, reasons_for(:disbursement)) if claim.fees.first.fee_type.code.eql?('IDISO')
+      reasons.insert(6, reasons_for(:disbursement)) if claim&.fees&.first&.fee_type&.code.eql?('IDISO')
       reasons.flatten
     end
 

@@ -60,6 +60,14 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
         expect(reject_reasons_for.map(&:code)).to match_array(all_reasons)
       end
     end
+
+    context 'when the claim has no fees' do
+      let(:claim) { create(:advocate_claim, :without_fees, state: 'rejected') }
+
+      it 'returns base rejection reasons' do
+        expect(reject_reasons_for.map(&:code)).to match_array(reasons)
+      end
+    end
   end
 
   describe '.refuse_reasons_for' do

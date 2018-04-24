@@ -136,9 +136,11 @@ module Claims
       @claim.redeterminations << Redetermination.new(params_with_defaults)
     end
 
+    # rubocop:disable Metrics/LineLength
     def add_message
-      @claim.messages.create(sender_id: @current_user.id, body: transition_message)
+      @claim.messages.create(sender_id: @current_user.id, body: transition_message) if Release.reject_refuse_messaging_released?
     end
+    # rubocop:enable Metrics/LineLength
 
     def transition_message
       StateTransitionMessageBuilder.new(@state, @transition_reasons, @transition_reason_text).call

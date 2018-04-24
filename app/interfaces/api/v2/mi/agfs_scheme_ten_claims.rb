@@ -1,7 +1,7 @@
 module API
   module V2
     module MI
-      class SchemeTen < Grape::API
+      class AGFSSchemeTenClaims < Grape::API
         require 'csv'
         helpers Claims::MI::Queries
         helpers API::V2::MIHelper

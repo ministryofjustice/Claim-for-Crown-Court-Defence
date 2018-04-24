@@ -193,12 +193,22 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
     end
   end
 
+
+
+
   context 'rejections' do
     subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
     let(:claim) { create :allocated_claim }
 
     before do |example|
       updater.update! unless example.metadata[:wait]
+    end
+
+    # TODO to be removed post release
+    around do |example|
+      travel_to(Settings.reject_refuse_messaging_released_at + 1) do
+        example.run
+      end
     end
 
     context 'with reasons' do
@@ -228,6 +238,13 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
     before do |example|
       updater.update! unless example.metadata[:wait]
+    end
+
+    # TODO to be removed post release
+    around do |example|
+      travel_to(Settings.reject_refuse_messaging_released_at + 1) do
+        example.run
+      end
     end
 
     context 'with reasons' do

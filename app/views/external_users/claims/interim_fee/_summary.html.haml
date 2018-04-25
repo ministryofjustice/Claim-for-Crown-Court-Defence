@@ -10,7 +10,7 @@
   - else
     - fee = present(claim.interim_fee)
       - unless fee.is_disbursement?
-      %table{class:'table-summary', summary: t('.summary')}
+      %table{ class: 'summary', summary: t('.summary') }
         %caption
           %span.table-caption.visuallyhidden
             = t('.caption')
@@ -19,78 +19,71 @@
           %col.summary-desc
         %tbody
           %tr
-            %th{scope: 'row'}
+            %th{ scope: 'row', class: 'bold' }
               = t('shared.summary.fee_type')
             %td
               = fee.fee_type.description
 
           - unless fee.is_interim_warrant?
             %tr
-              %th{scope: 'row'}
+              %th{ scope: 'row', class: 'bold' }
                 = t('shared.summary.ppe_total')
               %td
                 = fee.quantity
 
           - if fee.is_interim_warrant?
             %tr
-              %th{scope: 'row'}
+              %th{ scope: 'row', class: 'bold' }
                 = t('shared.summary.warrant_fee.date_issued')
               %td
                 = fee.warrant_issued_date
 
             - if fee.warrant_executed_date.present?
               %tr
-                %th{scope: 'row'}
+                %th{ scope: 'row', class: 'bold' }
                   = t('shared.summary.warrant_fee.date_executed')
                 %td
                   = fee.warrant_executed_date
 
           - if fee.is_effective_pcmh?
             %tr
-              %th{scope: 'row'}
+              %th{ scope: 'row', class: 'bold' }
                 = t('shared.summary.effective_pcmh_date')
               %td
                 = fee.effective_pcmh_date
 
           - if fee.is_trial_start?
             %tr
-              %th{scope: 'row'}
+              %th{ scope: 'row', class: 'bold' }
                 = t('shared.summary.trial_start')
               %td
                 = fee.first_day_of_trial
             %tr
-              %th{scope: 'row'}
+              %th{ scope: 'row', class: 'bold' }
                 = t('shared.summary.estimated_trial_length')
               %td
                 = fee.estimated_trial_length
 
           - if fee.is_retrial_start?
             %tr
-              %th{scope: 'row'}
+              %th{ scope: 'row', class: 'bold' }
                 = t('shared.summary.retrial_start')
               %td
                 = fee.retrial_started_at
             %tr
-              %th{scope: 'row'}
+              %th{ scope: 'row', class: 'bold' }
                 = t('shared.summary.estimated_retrial_length')
               %td
                 = fee.retrial_estimated_length
 
           - if fee.is_retrial_new_solicitor?
             %tr
-              %th{scope: 'row'}
+              %th{ scope: 'row', class: 'bold' }
                 = t('shared.summary.legal_aid_transfer_date')
               %td
                 = fee.legal_aid_transfer_date
             %tr
-              %th{scope: 'row'}
+              %th{ scope: 'row', class: 'bold' }
                 = t('shared.summary.trial_concluded_at')
               %td
                 = fee.trial_concluded_at
-
-        %tfoot
-          %tr
-            %th
-              = t('shared.summary.total')
-            %td
-              = fee.amount

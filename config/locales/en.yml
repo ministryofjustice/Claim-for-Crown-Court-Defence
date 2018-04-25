@@ -653,6 +653,7 @@ en:
           defendants: 'Defendants'
           add_another_defendant: 'Add another defendant'
         representation_order_fields:
+          date: Representation order date
           representation_order: Representation order details
           maat_reference_number: MAAT reference
           maat_reference_number_eg: 'for example 1234567890'

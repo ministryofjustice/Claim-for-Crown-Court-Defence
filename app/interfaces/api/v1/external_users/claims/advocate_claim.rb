@@ -15,7 +15,7 @@ module API::V1::ExternalUsers
         optional :advocate_category,
                  type: String,
                  desc: local_t(:advocate_category),
-                 values: Settings.advocate_categories
+                 values: (Settings.advocate_categories + Settings.agfs_reform_advocate_categories).uniq
 
         use :common_trial_params
         use :common_agfs_params

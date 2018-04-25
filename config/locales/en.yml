@@ -1014,6 +1014,7 @@ en:
       amount: Net amount
       vat_amount: VAT amount
       date: Date
+      disbursement: Disbursement
       distance: Distance
       fee_category: Fee category
       fee_type: Type of fee
@@ -1033,7 +1034,7 @@ en:
       additional_information: Additional information
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
-        type: "Disbursement type"
+        type: Type of disbursement
         net_amount: "Net amount"
         vat_amount: "VAT amount"
         total: "Total"

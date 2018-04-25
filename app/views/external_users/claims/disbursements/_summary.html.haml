@@ -8,7 +8,7 @@
     %p
       = t('shared.summary.no_values.disbursements')
   - else
-    %table{class:'table-summary', summary: t('.summary')}
+    %table{ class: 'summary', summary: t('.summary') }
       %caption
         %span.table-caption.visuallyhidden
           = t('.caption')
@@ -16,26 +16,25 @@
         %col.summary-headings
         %col.summary-desc
       %tbody
-        - present_collection(claim.disbursements).each do |disbursement|
+        - present_collection(claim.disbursements).each.with_index(1) do |disbursement, index|
           %tr
-            %th{scope: 'row'}
-              = t('shared.summary.disbursements.type')
+            %th{ scope: 'row', class: 'bold' }
+              = "#{t('shared.summary.disbursement')} #{index}"
             %td
-              = disbursement.name
-          %tr
-            %th{scope: 'row'}
-              = t('shared.summary.disbursements.net_amount')
-            %td
-              = disbursement.net_amount
-          %tr
-            %th{scope: 'row'}
-              = t('shared.summary.disbursements.vat_amount')
-            %td
-              = disbursement.vat_amount
-
-      %tfoot
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.disbursements.total')
-          %td
-            = claim.disbursements_total
+              %table.nested-summary
+                %tbody
+                  %tr
+                    %th{ scope: 'row', class: 'bold' }
+                      = t('shared.summary.disbursements.type')
+                    %td
+                      = disbursement.name
+                  %tr
+                    %th{ scope: 'row', class: 'bold' }
+                      = t('shared.summary.disbursements.net_amount')
+                    %td
+                      = disbursement.net_amount
+                  %tr
+                    %th{ scope: 'row', class: 'bold' }
+                      = t('shared.summary.disbursements.vat_amount')
+                    %td
+                      = disbursement.vat_amount

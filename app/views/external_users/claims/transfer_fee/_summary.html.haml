@@ -1,2 +1,2 @@
 .form-section
-  = render partial: 'summary_fees', locals: { claim: claim, header: t('external_users.claims.transfer_fee.summary.header'), collection: [claim.transfer_fee], editable: editable, step: :transfer_fees }
+  = render partial: 'summary_fees', locals: { claim: claim, header: t('external_users.claims.transfer_fee.summary.header'), fee: claim.transfer_fee, editable: editable, step: :transfer_fees }

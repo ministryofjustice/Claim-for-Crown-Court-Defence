@@ -2,13 +2,13 @@
   %h2
     Evidence supplied on disk
 
-  %table{class:'table-summary', summary: t('.summary')}
+  %table{ class: 'summary', summary: t('.summary') }
     %caption
       %span.table-caption.visuallyhidden
         = "Evidence supplied on disk"
     %tbody
       %tr
-        %th.summary-headings{scope:'row'}
+        %th{ scope:'row', class: 'bold' }
           = "Reference number:"
         %td
           = claim.disk_evidence_reference

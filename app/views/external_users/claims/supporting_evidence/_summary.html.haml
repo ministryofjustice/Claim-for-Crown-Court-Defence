@@ -4,5 +4,38 @@
     - if local_assigns[:editable]
       = link_to 'Change', edit_polymorphic_path(claim, step: :supporting_evidence), class: 'link-change'
 
-  = render partial: 'external_users/claims/supporting_documents/summary', locals: { claim: claim }
-  = render partial: 'external_users/claims/supporting_evidence_checklist/summary', locals: { claim: claim }
+  %table{ class: 'summary', summary: t('.summary') }
+    %caption
+      %span.table-caption.visuallyhidden
+        = t('.caption')
+        = "Evidence supplied on disk"
+    %tbody
+      %tr
+        %th{ scope:'row', class: 'bold' }
+          = t('shared.summary.disk_evidence')
+        %td
+          = claim.disk_evidence ? 'Yes' : 'No'
+      %tr
+        %th{ scope:'row', class: 'bold' }
+          = "Reference number:"
+        %td
+          = claim.disk_evidence_reference
+      %tr
+        %th{ scope:'row', class: 'bold' }
+          = t('shared.summary.supporting_evidence')
+        %td
+          %ul
+            - claim.documents.each do |document|
+              %li
+                = link_to document.document_file_name,
+                          download_document_path(document),
+                          class: 'download',
+                          'aria-label': "Download document: #{document.document_file_name}"
+      %tr
+        %th{ scope:'row', class: 'bold' }
+          = t('shared.summary.supporting_evidence_checklist')
+        %td
+          %ul
+            - DocType.find_by_ids(claim.evidence_checklist_ids).each do |dt|
+              %li
+                = dt.name

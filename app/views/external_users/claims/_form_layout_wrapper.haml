@@ -3,7 +3,6 @@
     .grid-row
       .column-two-thirds
         = render partial: 'form', locals: { claim: claim }
-
       .column-one-third
         = render partial: 'external_users/claims/summary_claims_sidebar', locals: { claim: claim, display_buttons: false }
   - else

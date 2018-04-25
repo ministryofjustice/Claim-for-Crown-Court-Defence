@@ -1,3 +1,9 @@
+.fx-result{
+  border: red 1px solid;
+  padding: 0 $gutter;
+  margin: $gutter 0;
+}
+
 .js-enabled select.typeahead{
   @extend .visuallyhidden;
   width: auto !important;
@@ -53,4 +59,24 @@
 
 .empty-message{
   padding: 0.5em;
+}
+
+// a.fx-filter{
+//   text-decoration: none;
+//   color: $secondary-text-colour;
+//   &:hover{
+//     text-decoration: underline;
+//   }
+// }
+
+.mod-search-input{
+  .fx-clear-filters{}
+  .fx-input{
+    float:left;
+  }
+  .fx-clear-search{
+    display: inline-block;
+    margin: 10px;
+    font-weight: normal;
+  }
 }

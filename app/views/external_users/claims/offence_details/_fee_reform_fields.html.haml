@@ -5,28 +5,37 @@
 - if valid_offence
   .grid-row
     .column-two-thirds
-      .selected-offence.form-section
-        %p.bold
-          = t('selected_offence_header', scope: locale_scope)
-        %p
-          %em
-            = "#{selected_offence.offence_category.description} &gt; #{selected_offence.offence_band.description} &gt; #{selected_offence.description}".html_safe
-        %p
-          %a{ href: '#', class: 'clear-selection' }
+      .fx-view-selectedOffence
+        .selected-offence.form-group
+          %p.bold
+            = t('selected_offence_header', scope: locale_scope)
+          %p
+            %em
+              = "#{selected_offence.offence_category.description} &gt; #{selected_offence.offence_band.description} &gt; #{selected_offence.description}".html_safe
+
+        .form-group
+          %input.button.left.btn-spacer-20{:name => "commit_continue", :type => "submit", :value => "Save and continue"}/
+          %a{ href: '#', class: 'fx-clear-selection' }
             = t('clear_selection', scope: "#{locale_scope}.actions")
 
-.form-section.search-offences
-  #search-field.form-group.js-typeahead
-    = f.anchored_label t('search_offence', scope: "#{locale_scope}.fields"), 'search_offence', { label_attributes: { class: 'form-label-bold', hint: 'bla' } }
+.form-group.mod-search-input
+  %label.form-label{:for => "offence"}
+    = "Search for the offence"
     %span.form-hint
-      = t('search_offence_hint', scope: "#{locale_scope}.fields")
-    %input{ type: :text, id: 'search_offence', name: 'search_offence', class: 'form-control form-control-2-3 typeahead typeahead-textfield', data: { url: "/offences?fee_scheme=#{@claim.fee_scheme}",  menu: '#offence-list' } }
-    = f.hidden_field :offence_id, value: valid_offence ? f.object.offence.id : nil, class: 'clearable-fields', data: { selection: '.selected-offence' }
+      = "For example class, band, offence or act name"
 
-  %details
-    %summary
-      %span Help with the offence classification
-    .panel.panel-border-narrow
+    %a.fx-clear-search{:style => "display:none;",:href => "#noop"} Clear search
+
+
+    %input#offence.form-control.fx-input{:name => "offence-search-input", :type => "input", :autocomplete => "off"}/
+
+  = f.hidden_field :offence_id, value: valid_offence ? f.object.offence.id : nil, class: 'fx-model'
+
+.form-group
+  %details{:role => "group"}
+    %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
+      %span.summary Help with the offence classification
+    #details-content-0.panel.panel-border-narrow{"aria-hidden" => "false"}
       %p
         For more information on offence classification for the
         %br
@@ -38,6 +47,12 @@
         %a{ href: "https://www.gov.uk/government/publications/crown-court-fee-guidance", target: '_blank' } Crown Court fee guidance
         page on GOV.UK.
 
-.grid-row
-  #offence-list.column-full.typeahead-menu
-    -# NOTE: placeholder for typeahead suggestions
+.form-group
+  #offence-list.fx-view
+    .fx-results-found.visually-hidden
+      %p
+    .fx-filters-display
+      %p
+    .fx-results{"aria-live" => "polite", :role => "region"}
+
+

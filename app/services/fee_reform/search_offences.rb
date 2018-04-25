@@ -20,6 +20,10 @@ module FeeReform
 
       offences = offences.where(description_scope(filters[:search_offence])) if filters[:search_offence].present?
 
+      offences = offences.where(categories_table[:id].eq(filters[:category_id])) if filters[:category_id].present?
+
+      offences = offences.where(bands_table[:id].eq(filters[:band_id])) if filters[:band_id].present?
+
       offences
     end
 

@@ -751,6 +751,13 @@ en:
           case_conclusions: How did the case conclude?
         summary:
           header: Transfer fee
+          litigator_type: Litigator type
+          elected_case: Was the case elected?
+          transfer_stage_new: When did you start acting?
+          transfer_stage_original: When did you stop acting?
+          transfer_date_new: Date you started acting
+          transfer_date_original: Date you stopped acting
+          case_conclusion: How did the case conclude?
       error_summary:
         prohibited_save: This claim has
         error: 'error'

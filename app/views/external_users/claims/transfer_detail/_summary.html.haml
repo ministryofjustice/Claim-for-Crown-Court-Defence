@@ -1,4 +1,4 @@
-- transfer_detail_translations = 'external_users.claims.case_details.transfer_detail_fields'
+- transfer_detail_translations = 'external_users.claims.transfer_fee.summary'
 
 .form-section
   %h3.heading-medium
@@ -6,34 +6,34 @@
     - if local_assigns[:editable]
       = link_to 'Change', edit_polymorphic_path(claim, step: :transfer_fee_details), class: 'link-change'
 
-  %table{class:'table-summary', summary: t('.summary')}
+  %table{ class: 'summary', summary: t('.summary') }
     %caption
       %span.table-caption.visuallyhidden
         = t('.caption')
     %tbody
       %tr
-        %th.summary-headings{scope: 'row'}
+        %th{ scope: 'row', class: 'bold' }
           = t("#{transfer_detail_translations}.litigator_type")
         %td
           = claim.litigator_type_description
       %tr
-        %th{scope: 'row'}
+        %th{ scope: 'row', class: 'bold' }
           = t("#{transfer_detail_translations}.elected_case")
         %td
           = claim.elected_case_description
       %tr
-        %th{scope: 'row'}
+        %th{ scope: 'row', class: 'bold' }
           = t("#{transfer_detail_translations}.transfer_stage_#{claim.litigator_type}")
         %td
           = claim.transfer_stage_description
       %tr
-        %th{scope: 'row'}
+        %th{ scope: 'row', class: 'bold' }
           = t("#{transfer_detail_translations}.transfer_date_#{claim.litigator_type}")
         %td
           = claim.transfer_date
       - if claim.case_conclusion_id.present?
         %tr
-          %th{scope: 'row'}
+          %th{ scope: 'row', class: 'bold' }
             = t("#{transfer_detail_translations}.case_conclusion")
           %td
             = claim.case_conclusion_description

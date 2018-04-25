@@ -297,3 +297,46 @@ table{
     padding: em(12, 16) em(20, 16) em(9, 16) 0;
   }
 }
+
+table.summary {
+  width: 100%;
+  margin-bottom: 1em;
+  background-color: #fff;
+  border-collapse: collapse;
+  border-top: none;
+
+  caption {
+    @include core-19;
+    font-weight: 700;
+    text-align: left;
+    padding-bottom: $gutter-half/2;
+  }
+
+  thead th {
+    padding-top: $gutter-half;
+    padding-bottom: $gutter-half;
+    vertical-align: bottom;
+  }
+
+  tbody {
+    tr:nth-child(odd) {
+      background: transparent;
+    }
+
+    th {
+      @include core-19;
+      font-weight: 700;
+      color: $text-colour;
+      background: transparent;
+
+      &:first-child {
+        width: 33%;
+        padding-left: 0;
+      }
+    }
+
+    td {
+      @include core-19;
+    }
+  }
+}

@@ -11,7 +11,7 @@
 #  certification_type_id :integer
 #
 
-class Certification < ActiveRecord::Base
+class Certification < ApplicationRecord
   auto_strip_attributes :certified_by, squish: true, nullify: true
 
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id

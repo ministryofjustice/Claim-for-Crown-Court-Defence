@@ -29,13 +29,13 @@ RSpec.describe OffencesController, type: :controller do
 
   describe 'GET index' do
     it 'should return all offences if no description present' do
-      xhr :get, :index
+      get :index, xhr: true
       expect(assigns(:offences).size).to eq 3
       expect(assigns(:offences).map(&:description)).to eq( ['Offence 1', 'Offence 2', 'Offence 3' ])
     end
 
     it 'should just get the matching offence' do
-      xhr :get, :index, {description: 'Offence 3'}
+      get :index, params: { description: 'Offence 3' }, xhr: true
       expect(assigns(:offences).map(&:description)).to eq( [ 'Offence 3'] )
     end
 
@@ -43,7 +43,7 @@ RSpec.describe OffencesController, type: :controller do
       let(:params) { { fee_scheme: 'fee_reform' } }
 
       it 'returns offences only for fee scheme 10' do
-        xhr :get, :index, params
+        get :index, params: params, xhr: true
         expect(assigns(:offences).size).to eq 3
         expect(assigns(:offences).map(&:description)).to match_array( ['Offence 10-1', 'Offence 10-3', 'Offence 10-2' ])
       end
@@ -51,7 +51,7 @@ RSpec.describe OffencesController, type: :controller do
       it 'calls the fee reform search offences service with the provided filters' do
         expected_args = { fee_scheme: 'fee_reform', controller: 'offences', action: 'index' }
         expect(FeeReform::SearchOffences).to receive(:call).with(expected_args).and_call_original
-        xhr :get, :index, params
+        get :index, params: params, xhr: true
       end
     end
   end

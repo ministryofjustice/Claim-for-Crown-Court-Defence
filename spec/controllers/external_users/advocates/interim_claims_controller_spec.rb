@@ -64,7 +64,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
     }
     let(:params) { { claim: claim_params }.merge(form_action) }
 
-    subject(:create_request) { post :create, params }
+    subject(:create_request) { post :create, params: params }
 
     context 'when the user in NOT authenticated' do
       it 'redirects the user to the login page' do
@@ -222,7 +222,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
   describe "GET #edit" do
     let(:claim) { create(:advocate_interim_claim, external_user: authorized_user, creator: authorized_user) }
 
-    subject(:edit_request) { get :edit, id: claim.id }
+    subject(:edit_request) { get :edit, params: { id: claim.id } }
 
     context 'when the user in NOT authenticated' do
       it 'redirects the user to the login page' do
@@ -308,7 +308,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
     }
     let(:params) { { id: claim.id, claim: claim_params }.merge(form_action) }
 
-    subject(:update_request) { put :update, params }
+    subject(:update_request) { put :update, params: params }
 
     context 'when the user in NOT authenticated' do
       it 'redirects the user to the login page' do

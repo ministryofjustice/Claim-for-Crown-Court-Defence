@@ -10,7 +10,7 @@
 #  updated_at :datetime
 #
 
-class UserMessageStatus < ActiveRecord::Base
+class UserMessageStatus < ApplicationRecord
   belongs_to :user
   belongs_to :message
 

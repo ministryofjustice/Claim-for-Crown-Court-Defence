@@ -25,7 +25,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
 
     context 'search' do
-      before { get :index, search: subject.user.last_name }
+      before { get :index, params: { search: subject.user.last_name } }
 
       it 'finds the case workers with specified search criteria' do
         expect(assigns(:case_workers)).to match_array([subject])
@@ -35,7 +35,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
   describe "GET #show" do
 
-    before { get :show, id: subject }
+    before { get :show, params: { id: subject } }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -74,7 +74,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
   describe "GET #edit" do
 
-    before { get :edit, id: subject }
+    before { get :edit, params: { id: subject } }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -91,7 +91,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
   describe "GET #change_password" do
 
-    before { get :change_password, id: subject }
+    before { get :change_password, params: { id: subject } }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -126,18 +126,18 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
       it 'creates a case_worker' do
         expect {
-          post :create, case_worker_params
+          post :create, params: case_worker_params
         }.to change(User, :count).by(1)
       end
 
       it 'redirects to case workers index' do
-        post :create, case_worker_params
+        post :create, params: case_worker_params
         expect(response).to redirect_to(case_workers_admin_case_workers_url)
       end
 
       it 'attempts to deliver an email' do
         expect(DeviseMailer).to receive(:reset_password_instructions)
-        post :create, case_worker_params
+        post :create, params: case_worker_params
       end
 
       describe 'if there is an issue with delivering the email' do
@@ -149,7 +149,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
         it 'raises an error' do
           expect(Rails.logger).to receive(:error).with(/DEVISE MAILER ERROR: 'NoMethodError' while sending reset password mail/)
-          post :create, case_worker_params
+          post :create, params: case_worker_params
         end
       end
     end
@@ -157,12 +157,12 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     context 'when invalid' do
       it 'does not create a case worker' do
         expect {
-          post :create, case_worker: { roles: ['case_worker'], user_attributes: {email: 'invalidemail'} }
+          post :create, params: { case_worker: { roles: ['case_worker'], user_attributes: {email: 'invalidemail'} } }
         }.to_not change(User, :count)
       end
 
       it 'renders the new template' do
-        post :create, case_worker: { roles: ['case_worker'], user_attributes: {email: 'invalidemail'} }
+        post :create, params: { case_worker: { roles: ['case_worker'], user_attributes: {email: 'invalidemail'} } }
         expect(response).to render_template(:new)
       end
     end
@@ -171,7 +171,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   describe "PUT #update" do
 
     context 'when valid' do
-      before(:each) { put :update, id: subject, case_worker: { roles: ['admin'] } }
+      before(:each) { put :update, params: { id: subject, case_worker: { roles: ['admin'] } } }
 
       it 'updates a case_worker' do
         subject.reload
@@ -184,7 +184,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
 
     context 'when invalid' do
-      before(:each) { put :update, id: subject, case_worker: { roles: ['foo'] } }
+      before(:each) { put :update, params: { id: subject, case_worker: { roles: ['foo'] } } }
 
       it 'does not update case worker' do
         subject.reload
@@ -201,7 +201,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
       let(:claims) { create_list(:submitted_claim, 3) }
 
       it 'allocates claims to case worker' do
-        put :update, id: subject, case_worker: { claim_ids: [claims.first.id, claims.second.id] }
+        put :update, params: { id: subject, case_worker: { claim_ids: [claims.first.id, claims.second.id] } }
         subject.reload
         expect(subject.claims).to match_array([claims.first, claims.second])
       end
@@ -217,7 +217,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
     context 'when valid' do
       before(:each) do
-        put :update_password, id: subject, case_worker: { user_attributes: { current_password: 'password', password: 'password123', password_confirmation: 'password123' } }
+        put :update_password, params: { id: subject, case_worker: { user_attributes: { current_password: 'password', password: 'password123', password_confirmation: 'password123' } } }
       end
 
       it 'redirects to case_worker show action' do
@@ -225,10 +225,17 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
       end
     end
 
-    context 'when invalid' do
-      before(:each) { put :update_password, id: subject, case_worker: { user_attributes: { } } }
+    context 'when mandatory params for case worker are not provided' do
+      it 'raises a paramenter missing error' do
+        expect {
+          put :update_password, params: { id: subject, case_worker: { } }
+        }.to raise_error(ActionController::ParameterMissing)
+      end
+    end
 
+    context 'when invalid' do
       it 'renders the change password template' do
+        put :update_password, params: { id: subject, case_worker: { user_attributes: { foo: 'bar' } } }
         expect(response).to render_template(:change_password)
       end
     end
@@ -242,14 +249,14 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     context 'case worker without sent messages' do
 
       it 'destroys the case worker' do
-        delete :destroy, id: subject
+        delete :destroy, params: { id: subject }
         expect(CaseWorker.active.count).to eq(1)
         expect(CaseWorker.softly_deleted.count).to eq(1)
         expect(subject.reload.deleted_at).not_to be_nil
       end
 
       it 'redirects to case worker admin root url with notice message' do
-        delete :destroy, id: subject
+        delete :destroy, params: { id: subject }
         expect(flash[:notice]).to eq('Case worker deleted')
       end
     end

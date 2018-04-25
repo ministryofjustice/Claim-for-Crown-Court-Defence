@@ -9,7 +9,7 @@ module Claims::Sort
     sortable_columns.include?(column)
   end
 
-  def sort(column, direction)
+  def sort_using(column, direction)
     raise 'Invalid column' unless sortable_by?(column)
     raise 'Invalid sort direction' unless %( asc desc ).include?(direction)
 

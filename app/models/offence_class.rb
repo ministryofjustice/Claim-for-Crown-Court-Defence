@@ -9,7 +9,7 @@
 #  updated_at   :datetime
 #
 
-class OffenceClass < ActiveRecord::Base
+class OffenceClass < ApplicationRecord
   auto_strip_attributes :class_letter, :description, squish: true, nullify: true
 
   CLASS_LETTERS = ('A'..'K').to_a

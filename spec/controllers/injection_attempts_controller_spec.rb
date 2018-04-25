@@ -7,7 +7,7 @@ RSpec.describe InjectionAttemptsController, type: :controller do
     let(:injection_attempt) { create(:injection_attempt, :with_errors, claim: claim) }
 
     def do_put
-      put :dismiss, id: injection_attempt.id, format: :js
+      put :dismiss, params: { id: injection_attempt.id }, format: :js
       injection_attempt.reload
     end
 

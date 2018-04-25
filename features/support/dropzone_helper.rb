@@ -2,7 +2,7 @@ module DropzoneHelper
   def drag_and_drop_file(selector, file)
     page.execute_script <<-JS
       tempFileInput = window.$('<input/>').attr(
-        {id: 'temp-file-input', type:'file'}
+        {id: 'temp-file-input', name: 'temp-file-input', type:'file'}
       ).appendTo('body');
     JS
 

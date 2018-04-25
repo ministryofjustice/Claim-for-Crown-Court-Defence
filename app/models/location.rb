@@ -8,7 +8,7 @@
 #  updated_at :datetime
 #
 
-class Location < ActiveRecord::Base
+class Location < ApplicationRecord
   auto_strip_attributes :name, squish: true, nullify: true
 
   has_many :case_workers

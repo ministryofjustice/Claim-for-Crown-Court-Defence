@@ -11,7 +11,7 @@
 #
 
 module Stats
-  class Statistic < ActiveRecord::Base
+  class Statistic < ApplicationRecord
     self.table_name = 'statistics'
 
     def self.find_by_date_and_report_name(date, report_name)
@@ -19,13 +19,13 @@ module Stats
     end
 
     def self.report(report_name, claim_type, start_date, end_date)
-      Statistic.where(report_name: report_name, claim_type: claim_type)
+      Statistic.where(report_name: report_name, claim_type: claim_type.to_s)
                .where('date between ? and ?', start_date.to_date, end_date.to_date)
                .order(:date)
     end
 
     def self.create_or_update(date, report_name, claim_type, value1, value2 = 0)
-      stat = Statistic.where(date: date, report_name: report_name, claim_type: claim_type).first
+      stat = Statistic.where(date: date, report_name: report_name, claim_type: claim_type.to_s).first
       if stat
         stat.update(value_1: value1, value_2: value2)
         retval = 0
@@ -33,7 +33,7 @@ module Stats
         Statistic.create(
           date: date,
           report_name: report_name,
-          claim_type: claim_type,
+          claim_type: claim_type.to_s,
           value_1: value1,
           value_2: value2
         )

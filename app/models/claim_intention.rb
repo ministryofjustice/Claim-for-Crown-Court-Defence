@@ -9,7 +9,7 @@
 #  user_id    :integer
 #
 
-class ClaimIntention < ActiveRecord::Base
+class ClaimIntention < ApplicationRecord
   validates :form_id, presence: true, uniqueness: { message: 'There is already a claim with this form-id' }
 
   belongs_to :user

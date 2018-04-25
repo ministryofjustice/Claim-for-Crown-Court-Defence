@@ -2,10 +2,8 @@ require 'rails_helper'
 require 'json'
 
 RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
-
   let(:super_admin)   { create(:super_admin) }
   let(:provider)      { create(:provider) }
-
   let(:frozen_time)  { 6.months.ago }
   let(:external_user)   do
     Timecop.freeze(frozen_time) { create(:external_user, :admin, provider: provider) }
@@ -13,9 +11,8 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
 
   before { sign_in super_admin.user }
 
-
   describe "GET #show" do
-    before { get :show, provider_id: provider, id: external_user }
+    before { get :show, params: { provider_id: provider, id: external_user } }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -25,11 +22,10 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
       expect(assigns(:provider)).to eq(provider)
       expect(assigns(:external_user)).to eq(external_user)
     end
-
   end
 
   describe "GET #index" do
-    before { get :index, provider_id: provider }
+    before { get :index, params: { provider_id: provider } }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -55,7 +51,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
   describe 'POST #search' do
     subject { response }
 
-    before { post :search, external_user: { email: email } }
+    before { post :search, params: { external_user: { email: email } } }
 
     context 'when the email is for a provider' do
       let(:email) { external_user.email }
@@ -83,7 +79,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
      a
     end
 
-    before { get :new, provider_id: provider }
+    before { get :new, params: { provider_id: provider } }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -110,14 +106,19 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
   describe "POST #create" do
 
     def post_to_create_external_user_action(options={})
-      post :create,
-            provider_id: provider,
-            external_user: { user_attributes: {  email: 'foo@foobar.com',
-                                                 email_confirmation: 'foo@foobar.com',
-                                            first_name: options[:valid]==false ? '' : 'john',
-                                            last_name: 'Smith' },
-                        roles: ['advocate'],
-                        supplier_number: 'AB124' }
+      post :create, params: {
+        provider_id: provider,
+        external_user: {
+          user_attributes: {
+            email: 'foo@foobar.com',
+            email_confirmation: 'foo@foobar.com',
+            first_name: options[:valid]==false ? '' : 'john',
+            last_name: 'Smith'
+          },
+          roles: ['advocate'],
+          supplier_number: 'AB124'
+        }
+      }
     end
 
     context 'when valid' do
@@ -144,7 +145,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
   end
 
   describe "GET #edit" do
-    before { get :edit, provider_id: provider, id: external_user }
+    before { get :edit, params: { provider_id: provider, id: external_user } }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -163,7 +164,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
   describe "PUT #update" do
 
     context 'when valid' do
-      before(:each) { put :update, provider_id: provider, id: external_user, external_user: { supplier_number: 'XX100', roles: ['advocate'] } }
+      before(:each) { put :update, params: { provider_id: provider, id: external_user, external_user: { supplier_number: 'XX100', roles: ['advocate'] } } }
 
       it 'updates an external_user' do
         external_user.reload
@@ -176,7 +177,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     end
 
     context 'when invalid' do
-      before(:each) { put :update, provider_id: provider, id: external_user, external_user: { roles: ['foo'] } }
+      before(:each) { put :update, params: { provider_id: provider, id: external_user, external_user: { roles: ['foo'] } } }
 
       it 'does not update external_user' do
         external_user.reload
@@ -190,7 +191,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
   end
 
   describe "GET #change_password" do
-    before { get :change_password, provider_id: provider, id: external_user }
+    before { get :change_password, params: { provider_id: provider, id: external_user } }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -211,7 +212,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     context 'when valid' do
 
       before(:each) do
-        put :update_password, provider_id: provider, id: external_user, external_user: { user_attributes: { password: 'password123', password_confirmation: 'password123' } }
+        put :update_password, params: { provider_id: provider, id: external_user, external_user: { user_attributes: { password: 'password123', password_confirmation: 'password123' } } }
         external_user.reload
       end
 
@@ -227,7 +228,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     context 'when invalid' do
 
       before(:each) do
-        put :update_password, provider_id: provider, id: external_user, external_user: { user_attributes: { password: 'password123', password_confirmation: 'passwordxxx' } }
+        put :update_password, params: { provider_id: provider, id: external_user, external_user: { user_attributes: { password: 'password123', password_confirmation: 'passwordxxx' } } }
       end
 
       it 'does not update the user record' do

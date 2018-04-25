@@ -21,7 +21,7 @@ module Claim
     end
 
     def provider_supplier_numbers
-      @record.provider.lgfs_supplier_numbers.pluck(:supplier_number)
+      @record.provider.reload.lgfs_supplier_numbers.pluck(:supplier_number)
     rescue StandardError
       []
     end

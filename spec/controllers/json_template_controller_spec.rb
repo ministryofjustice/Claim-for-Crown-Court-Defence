@@ -22,7 +22,7 @@ RSpec.describe JsonTemplateController, type: :controller do
 
   describe 'GET #show/:schema' do
     before do
-      get :show, schema: 'ccr_schema'
+      get :show, params: { schema: 'ccr_schema' }
     end
 
     it 'yields a successful response' do

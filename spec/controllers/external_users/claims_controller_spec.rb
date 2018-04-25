@@ -99,7 +99,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       context 'scheme filtering' do
         before do
           sign_in advocate_admin.user
-          get :index, query_params
+          get :index, params: query_params
         end
 
         context 'ALL filter' do
@@ -148,11 +148,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         before(:each) do
           allow(subject).to receive(:page_size).and_return(limit)
           sign_in advocate.user
-          get :index, query_params
+          get :index, params: query_params
         end
 
         it 'default sorting is claims with draft first (oldest created first) then oldest submitted' do
-          expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.sort('last_submitted_at', 'asc'))
+          expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.sort_using('last_submitted_at', 'asc'))
         end
 
         context 'case number ascending' do
@@ -350,7 +350,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         it 'orders claims with most recently submitted first' do
-          expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete.sort('last_submitted_at', 'desc'))
+          expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete.sort_using('last_submitted_at', 'desc'))
         end
 
         context 'pagination limit' do
@@ -449,11 +449,9 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     end
 
     describe 'Search' do
-      def advocate
-        @advocate ||= create(:external_user, :advocate)
-      end
+      let(:advocate) { create(:external_user, :advocate) }
 
-      before(:all) do
+      before do
         @archived_claim = create(:archived_pending_delete_claim, external_user: advocate)
         create(:defendant, claim: @archived_claim, first_name: 'John', last_name: 'Smith')
 
@@ -464,22 +462,29 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         create(:defendant, claim: @allocated_claim, first_name: 'Pete', last_name: 'Adams')
       end
 
-      after(:all) do
-        clean_database
-      end
-
       context 'in all claims' do
         context 'by defendant name' do
           it 'finds the claims' do
-            get :index, search: 'Smith'
+            get :index, params: { search: 'Smith' }
             expect(assigns(:claims)).to eq([@draft_claim])
           end
         end
 
         context 'by advocate name' do
-          it 'finds the claims' do
-            get :index, advocate.user.last_name
-            expect(assigns(:claims).sort_by(&:state)).to eq([@allocated_claim, @draft_claim])
+          let(:params) { { search: advocate.user.last_name } }
+
+          it 'returns no claims by default' do
+            get :index, params: params
+            expect(assigns(:claims).sort_by(&:state)).to be_empty
+          end
+
+          context 'when advocate is an admin' do
+            let(:advocate) { create(:external_user, :advocate, :admin) }
+
+            it 'finds the claims' do
+              get :index, params: params
+              expect(assigns(:claims).sort_by(&:state)).to eq([@allocated_claim, @draft_claim])
+            end
           end
         end
       end
@@ -487,15 +492,26 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       context 'in archive' do
         context 'by defendant name' do
           it 'finds the claims' do
-            get :archived, search: 'Smith'
+            get :archived, params: { search: 'Smith' }
             expect(assigns(:claims)).to eq([@archived_claim])
           end
         end
 
         context 'by advocate name' do
-          it 'finds the claims' do
-            get :archived, advocate.user.last_name
-            expect(assigns(:claims)).to eq([@archived_claim])
+          let(:params) { { search: advocate.user.last_name } }
+
+          it 'returns no claims by default' do
+            get :archived, params: params
+            expect(assigns(:claims).sort_by(&:state)).to be_empty
+          end
+
+          context 'when advocate is an admin' do
+            let(:advocate) { create(:external_user, :advocate, :admin) }
+
+            it 'finds the claims' do
+              get :archived, params: params
+              expect(assigns(:claims)).to eq([@archived_claim])
+            end
           end
         end
       end
@@ -508,17 +524,17 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     let(:case_worker) { create(:case_worker) }
 
     it "returns http success" do
-      get :show, id: subject
+      get :show, params: { id: subject }
       expect(response).to have_http_status(:success)
     end
 
     it 'assigns @claim' do
-      get :show, id: subject
+      get :show, params: { id: subject }
       expect(assigns(:claim)).to eq(subject)
     end
 
     it 'renders the template' do
-      get :show, id: subject
+      get :show, params: { id: subject }
       expect(response).to render_template(:show)
     end
 
@@ -527,14 +543,14 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
       expect(subject.unread_messages_for(advocate.user).count).to eq(3)
 
-      get :show, id: subject
+      get :show, params: { id: subject }
 
       expect(subject.unread_messages_for(advocate.user).count).to eq(0)
     end
   end
 
   describe 'GET #disc_evidence' do
-    before { get :disc_evidence, id: claim }
+    before { get :disc_evidence, params: { id: claim } }
 
     let(:claim) { create(:claim, external_user: advocate) }
 
@@ -552,7 +568,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       subject { create(:rejected_claim, external_user: advocate) }
 
       before do
-        patch :clone_rejected, id: subject
+        patch :clone_rejected, params: { id: subject }
       end
 
       it 'creates a draft from the rejected claim' do
@@ -575,12 +591,12 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
                                                  documents: 0,
                                                  total_size: 0,
                                                  error: 'Claims::Cloner.clone_rejected_to_new_draft failed with error \'Can only clone claims in state "rejected"\'')
-        patch :clone_rejected, id: subject
+        patch :clone_rejected, params: { id: subject }
       end
 
       describe 'the response' do
         before do
-          patch :clone_rejected, id: subject
+          patch :clone_rejected, params: { id: subject }
         end
 
         it 'redirects to advocates dashboard' do
@@ -599,7 +615,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
   end
 
   describe "DELETE #destroy" do
-    before { delete :destroy, id: claim }
+    before { delete :destroy, params: { id: claim } }
 
     context 'when draft claim' do
       let(:claim) { create(:draft_claim, external_user: advocate) }
@@ -642,7 +658,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         claim
       end
 
-      before { patch :unarchive, id: subject }
+      before { patch :unarchive, params: { id: subject } }
 
       it 'unarchives the claim and restores to state prior to archiving' do
         expect(subject.reload).to be_authorised
@@ -665,7 +681,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         expect(claim.state).to eq 'archived_pending_delete'
 
         # when I unarchive
-        patch :unarchive, id: claim
+        patch :unarchive, params: { id: claim }
 
         # it 'should set the state back to authorised and the totals to zero (not null)'
         claim.reload
@@ -679,7 +695,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     context 'when non-archived claim' do
       subject { create(:part_authorised_claim, external_user: advocate) }
 
-      before { patch :unarchive, id: subject }
+      before { patch :unarchive, params: { id: subject } }
 
       it 'does not change the claim state' do
         expect(subject).to be_part_authorised
@@ -697,7 +713,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     let(:claim) { create :refused_claim, external_user: advocate }
 
     it 'does something' do
-      xhr :get, :show_message_controls, id: claim, claim_action: 'Apply for redetermination', format: :js
+      get :show_message_controls, params: { id: claim, claim_action: 'Apply for redetermination' }, xhr: true, format: :js
       expect(response.status).to eq 200
       expect(response).to render_template('shared/show_message_controls')
     end

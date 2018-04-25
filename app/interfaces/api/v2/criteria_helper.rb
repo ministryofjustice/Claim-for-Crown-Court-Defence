@@ -23,11 +23,11 @@ module API::V2
     end
 
     def sort_attribute
-      params.sorting.blank? ? :id : params.sorting
+      params[:sorting].blank? ? :id : params[:sorting]
     end
 
     def sort_direction
-      params.direction.blank? ? :asc : params.direction
+      params[:direction].blank? ? :asc : params[:direction]
     end
 
     def sorting

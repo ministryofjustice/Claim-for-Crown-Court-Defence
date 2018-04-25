@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception unless ENV['DISABLE_CSRF'] == '1'
+  protect_from_forgery prepend: true, with: :exception unless ENV['DISABLE_CSRF'] == '1'
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # Excluding some endpoints due to ELB only talking HTTP on port 80 and not following redirects to https.

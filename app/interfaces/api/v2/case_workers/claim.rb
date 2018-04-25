@@ -36,19 +36,19 @@ module API
             end
 
             def search_terms
-              params.search.to_s.strip
+              params[:search].to_s.strip
             end
 
             def scheme
-              params.scheme
+              params[:scheme]
             end
 
             def filter
-              params.filter
+              params[:filter]
             end
 
             def value_band_id
-              params.value_band_id
+              params[:value_band_id]
             end
 
             def current_claims
@@ -78,7 +78,7 @@ module API
             end
 
             def claims_scope
-              send("#{params.status}_claims")
+              send("#{params[:status]}_claims")
             end
 
             def claims
@@ -86,8 +86,8 @@ module API
                 .includes(:external_user, :case_type, :injection_attempts,
                           :case_workers, :court, :messages,
                           defendants: %i[representation_orders])
-                .sort(params.sorting, params.direction)
-                .page(params.page).per(params.limit)
+                .sort_using(params[:sorting], params[:direction])
+                .page(params[:page]).per(params[:limit])
             end
           end
 

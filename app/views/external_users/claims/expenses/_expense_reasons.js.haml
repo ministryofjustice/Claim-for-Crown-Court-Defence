@@ -1,7 +1,5 @@
+- data = { A: ExpenseType::REASON_SET_A.values, B: ExpenseType::REASON_SET_B.values }
 :javascript
   var MOJ = MOJ || {};
 
-  MOJ.ExpenseReasons = {
-    "A": #{ExpenseType::REASON_SET_A.values.to_json},
-    "B": #{ExpenseType::REASON_SET_B.values.to_json}
-  };
+  MOJ.ExpenseReasons = #{data.to_json.html_safe}

@@ -24,7 +24,7 @@ module Fee
     end
   end
 
-  class BaseFeeType < ActiveRecord::Base
+  class BaseFeeType < ApplicationRecord
     ROLES = %w[lgfs agfs agfs_scheme_9 agfs_scheme_10].freeze
     include ActionView::Helpers::NumberHelper
     include Comparable

@@ -11,7 +11,7 @@
 #  unique_code :string
 #
 
-class ExpenseType < ActiveRecord::Base
+class ExpenseType < ApplicationRecord
   ROLES = %w[agfs lgfs].freeze
   include Roles
 

@@ -5,7 +5,7 @@ module API
 
       helpers do
         def claim
-          ::Claim::BaseClaim.lgfs.find_by(uuid: params.uuid) || error!('Claim not found', 404)
+          ::Claim::BaseClaim.lgfs.find_by(uuid: params[:uuid]) || error!('Claim not found', 404)
         end
 
         def entity_class

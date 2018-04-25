@@ -143,7 +143,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
   describe 'POST #chosen' do
     context 'when an invalid scheme is provided' do
-      before { post :chosen, claim_type: 'invalid'}
+      before { post :chosen, params: { claim_type: 'invalid' }}
 
       it "redirects the user to the claims page with an error" do
         expect(response).to redirect_to(external_users_claims_url)
@@ -152,7 +152,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
     end
 
     context "AGFS claim" do
-      before { post :chosen, claim_type: 'agfs'}
+      before { post :chosen, params: { claim_type: 'agfs' }}
 
       it "should redirect to the new advocate claim form page" do
         expect(response).to redirect_to(new_advocates_claim_path)
@@ -160,7 +160,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
     end
 
     context "LGFS final claim" do
-      before { post :chosen, claim_type: 'lgfs_final'}
+      before { post :chosen, params: { claim_type: 'lgfs_final' }}
 
       it "should redirect to the new litigator final claim form page" do
         expect(response).to redirect_to(new_litigators_claim_path)
@@ -168,7 +168,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
     end
 
     context "LGFS interim claim" do
-      before { post :chosen, claim_type: 'lgfs_interim'}
+      before { post :chosen, params: { claim_type: 'lgfs_interim' }}
 
       it "should redirect to the new litigator interim claim form page" do
         expect(response).to redirect_to(new_litigators_interim_claim_path)
@@ -176,7 +176,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
     end
 
     context "LGFS transfer claim" do
-      before { post :chosen, claim_type: 'lgfs_transfer'}
+      before { post :chosen, params: { claim_type: 'lgfs_transfer' }}
 
       it "should redirect to the new litigator transfer claim form page" do
         expect(response).to redirect_to(new_litigators_transfer_claim_path)

@@ -188,3 +188,8 @@ form{
   background: #e1e8e8;
   padding: 15px 30px;
 }
+
+.hidden, .js-enabled .js-hidden {
+  display: none;
+  visibility: hidden;
+}

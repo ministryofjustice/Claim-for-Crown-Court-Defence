@@ -9,7 +9,7 @@
 #  updated_at     :datetime
 #
 
-class CaseWorkerClaim < ActiveRecord::Base
+class CaseWorkerClaim < ApplicationRecord
   belongs_to :case_worker
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
 

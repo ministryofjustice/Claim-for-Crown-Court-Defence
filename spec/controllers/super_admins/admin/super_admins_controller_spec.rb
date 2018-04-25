@@ -8,7 +8,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
   before { sign_in subject.user }
 
   describe "GET #show" do
-    before { get :show, id: subject }
+    before { get :show, params: { id: subject } }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -21,7 +21,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
 
   describe "GET #edit" do
 
-    before { get :edit, id: subject }
+    before { get :edit, params: { id: subject } }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -38,7 +38,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
 
   describe "GET #change_password" do
 
-    before { get :change_password, id: subject }
+    before { get :change_password, params: { id: subject } }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -61,17 +61,24 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
     end
 
     context 'when valid' do
-      before { put :update_password, id: subject, super_admin: { user_attributes: { current_password: 'password', password: 'password123', password_confirmation: 'password123' } } }
+      before { put :update_password, params: { id: subject, super_admin: { user_attributes: { current_password: 'password', password: 'password123', password_confirmation: 'password123' } } } }
 
       it 'redirects to super admin show action' do
         expect(response).to redirect_to(super_admins_admin_super_admin_path(subject))
       end
     end
 
-    context 'when invalid' do
-      before(:each) { put :update_password, id: subject, super_admin: { user_attributes: { } } }
+    context 'when mandatory params for super admin are not provided' do
+      it 'raises a paramenter missing error' do
+        expect {
+          put :update_password, params: { id: subject, super_admin: { } }
+        }.to raise_error(ActionController::ParameterMissing)
+      end
+    end
 
+    context 'when invalid' do
       it 'renders the change password template' do
+        put :update_password, params: { id: subject, super_admin: { user_attributes: { foo: 'bar' } } }
         expect(response).to render_template(:change_password)
       end
     end
@@ -79,7 +86,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
 
  describe "PUT #update" do
     before(:each) do
-      put :update, id: subject, super_admin: { user_attributes: { first_name: 'Joshua', last_name: 'Dude', password: 'password', email: 'superadmin@bigblackhhole.com'} }
+      put :update, params: { id: subject, super_admin: { user_attributes: { first_name: 'Joshua', last_name: 'Dude', password: 'password', email: 'superadmin@bigblackhhole.com'} } }
     end
 
     context 'when valid' do
@@ -96,7 +103,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
 
     context 'when invalid' do
       before(:each) do
-        put :update, id: subject, super_admin: { user_attributes: { first_name: '' } }
+        put :update, params: { id: subject, super_admin: { user_attributes: { first_name: '' } } }
       end
 
       it 'does not update super admin' do

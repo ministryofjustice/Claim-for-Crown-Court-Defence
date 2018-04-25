@@ -8,7 +8,8 @@ RSpec.describe CaseConclusionsController, type: :controller do
   describe 'GET index' do
 
     context 'basics' do
-      before { xhr :get, :index, params }
+      before { get :index, params: params, xhr: true }
+
       it 'should assign @transfer_details' do
         expect(assigns(:transfer_detail)).to have_attributes(litigator_type: 'new', elected_case: false, transfer_stage_id: 30)
       end
@@ -19,7 +20,8 @@ RSpec.describe CaseConclusionsController, type: :controller do
     end
 
     context 'for new litigator_type' do
-      before { xhr :get, :index, params }
+      before { get :index, params: params, xhr: true }
+
       it 'should assign @transfer_stage_label_text to say start' do
         expect(assigns(:transfer_stage_label_text)).to_not be_nil
         expect(assigns(:transfer_stage_label_text)).to eql 'When did you start acting?'
@@ -34,7 +36,7 @@ RSpec.describe CaseConclusionsController, type: :controller do
     context 'for original litigator type' do
       before do
         params[:litigator_type] = 'original'
-        xhr :get, :index, params
+        get :index, params: params, xhr: true
       end
       it 'should assign @transfer_stage_label_text to say stop' do
         expect(assigns(:transfer_stage_label_text)).to eql 'When did you stop acting?'

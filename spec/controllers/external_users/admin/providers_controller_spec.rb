@@ -9,7 +9,7 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
   before { sign_in admin.user }
 
   describe "GET #show" do
-    before { get :show, id: subject }
+    before { get :show, params: { id: subject } }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -21,7 +21,7 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
   end
 
   describe "GET #edit" do
-    before { get :edit, id: subject }
+    before { get :edit, params: { id: subject } }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -34,12 +34,12 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
 
   describe "PUT #update" do
     it 'does not allow updating of provider type' do
-      put :update, id: subject, provider: {provider_type: 'chamber'}
+      put :update, params: { id: subject, provider: {provider_type: 'chamber'} }
       expect(subject.reload).to be_firm
     end
 
     context 'when valid' do
-      before(:each) { put :update, id: subject, provider: {name: 'test firm'} }
+      before(:each) { put :update, params: { id: subject, provider: {name: 'test firm'} } }
 
       it 'updates successfully' do
         expect(subject.reload.name).to eq('test firm')
@@ -51,7 +51,7 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
     end
 
     context 'when invalid' do
-      before(:each) { put :update, id: subject, provider: {name: ''} }
+      before(:each) { put :update, params: { id: subject, provider: {name: ''} } }
 
       it 'does not update provider' do
         expect(subject.reload.name).to eq('test 123')
@@ -70,12 +70,12 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
 
       context 'when invalid' do
         before(:each) do
-          put :update, id: subject, provider: {
+          put :update, params: { id: subject, provider: {
               lgfs_supplier_numbers_attributes: [
                   {supplier_number: 'XY123'},
                   {supplier_number: ''}
               ]
-          }
+          } }
         end
 
         it 'does not update provider' do
@@ -90,12 +90,12 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
 
       context 'when valid' do
         before(:each) do
-          put :update, id: subject, provider: {
+          put :update, params: { id: subject, provider: {
               lgfs_supplier_numbers_attributes: [
                   {supplier_number: '1B222Z'},
                   {supplier_number: '2B555Z'}
               ]
-          }
+          } }
         end
 
         it 'updates the provider' do

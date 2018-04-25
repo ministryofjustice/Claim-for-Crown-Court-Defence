@@ -13,7 +13,7 @@
 #  uuid                 :uuid
 #
 
-class Disbursement < ActiveRecord::Base
+class Disbursement < ApplicationRecord
   include NumberCommaParser
   include Duplicable
 

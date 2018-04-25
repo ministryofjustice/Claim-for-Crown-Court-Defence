@@ -160,7 +160,7 @@ describe AdpTextField do
     context 'errored value with hint' do
       it 'produces error text' do
         resource.case_number = nil
-        resource.errors[:case_number] = 'Validation error here'
+        resource.errors.add(:case_number, 'Validation error here')
         error_presenter = ErrorPresenter.new(resource)
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', hint_text: 'Hint text here', errors: error_presenter)
         expect(atf.to_html).to eq c100_with_value_with_hint_and_error

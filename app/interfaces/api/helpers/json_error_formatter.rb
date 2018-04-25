@@ -1,7 +1,8 @@
 module API::Helpers
   module JsonErrorFormatter
     class << self
-      def call(messages, _backtrace, _options = {}, _env = nil)
+      # NOTE: latest version of grape requires an extra argument (original_exception)
+      def call(messages, _backtrace, _options = {}, _env = nil, _original_exception)
         wrap_messages(*messages).to_json
       end
 

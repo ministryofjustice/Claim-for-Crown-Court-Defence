@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller do
-  let(:provider)  { create(:provider) }
+  let(:provider) { create(:provider) }
 
   context 'admin user' do
-    let(:admin)     { create(:external_user, :admin, provider: provider) }
+    let(:admin) { create(:external_user, :admin, provider: provider) }
 
     subject { create(:external_user, provider: provider) }
 
@@ -31,7 +31,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     end
 
     describe "GET #show" do
-      before { get :show, id: subject }
+      before { get :show, params: { id: subject } }
 
       it "returns http success" do
         expect(response).to have_http_status(:success)
@@ -63,7 +63,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     end
 
     describe "GET #edit" do
-      before { get :edit, id: subject }
+      before { get :edit, params: { id: subject } }
 
       it "returns http success" do
         expect(response).to have_http_status(:success)
@@ -79,7 +79,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     end
 
     describe "GET #change_password" do
-      before { get :change_password, id: subject }
+      before { get :change_password, params: { id: subject } }
 
       it "returns http success" do
         expect(response).to have_http_status(:success)
@@ -96,26 +96,42 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
     describe "POST #create" do
       context 'when valid' do
+        let(:params) {
+          {
+            external_user: {
+              user_attributes: {
+                email: 'foo@foobar.com',
+                password: 'password',
+                password_confirmation: 'password',
+                first_name: 'John',
+                last_name: 'Smith',
+                email_notification_of_message: 'true'
+              },
+              roles: ['advocate'],
+              supplier_number: 'AB124'
+            }
+          }
+        }
+
         it 'creates a external_user' do
           expect {
-            post :create, external_user: { user_attributes: {
-                                            email: 'foo@foobar.com',
-                                            password: 'password',
-                                            password_confirmation: 'password',
-                                            first_name: 'John',
-                                            last_name: 'Smith',
-                                            email_notification_of_message: 'true'},
-                                      roles: ['advocate'],
-                                      supplier_number: 'AB124' }
+            post :create, params: params
           }.to change(User, :count).by(1)
           user = User.find_by_email('foo@foobar.com')
           expect(user.settings).to eq({'email_notification_of_message' => true})
         end
 
         it 'redirects to external_users index' do
-          post :create, external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', first_name: 'John', last_name: 'Smith'},
-                                    roles: ['advocate'],
-                                    supplier_number: 'XY123'  }
+          params = {
+            external_user: {
+              user_attributes: {
+                email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', first_name: 'John', last_name: 'Smith'
+              },
+              roles: ['advocate'],
+              supplier_number: 'XY123'
+            }
+          }
+          post :create, params: params
           expect(response).to redirect_to(external_users_admin_external_users_url)
         end
       end
@@ -123,12 +139,12 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       context 'when invalid' do
         it 'does not create a external_user' do
           expect {
-            post :create, external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx' }, roles: ['advocate'] }
+            post :create, params: { external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx' }, roles: ['advocate'] } }
           }.to_not change(User, :count)
         end
 
         it 'renders the new template' do
-          post :create, external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx' }, roles: ['advocate'] }
+          post :create, params: { external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx' }, roles: ['advocate'] } }
           expect(response).to render_template(:new)
         end
       end
@@ -137,7 +153,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     describe "PUT #update" do
 
       context 'when valid' do
-        before(:each) { put :update, id: subject, external_user: { roles: ['admin'] } }
+        before(:each) { put :update, params: { id: subject, external_user: { roles: ['admin'] } } }
 
         it 'updates a external_user' do
           subject.reload
@@ -150,7 +166,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       end
 
       context 'when invalid' do
-        before(:each) { put :update, id: subject, external_user: { roles: ['foo'] } }
+        before(:each) { put :update, params: { id: subject, external_user: { roles: ['foo'] } } }
 
         it 'does not update external_user' do
           subject.reload
@@ -173,7 +189,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
       context 'when valid' do
         before(:each) do
-          put :update_password, id: subject, external_user: { user_attributes: { current_password: 'password', password: 'password123', password_confirmation: 'password123' } }
+          put :update_password, params: { id: subject, external_user: { user_attributes: { current_password: 'password', password: 'password123', password_confirmation: 'password123' } } }
         end
 
         it 'redirects to external_user show action' do
@@ -182,10 +198,17 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
         end
       end
 
-      context 'when invalid' do
-        before(:each) { put :update_password, id: subject, external_user: { user_attributes: { } } }
+      context 'when mandatory params for external user are not provided' do
+        it 'raises a paramenter missing error' do
+          expect {
+            put :update_password, params: { id: subject, external_user: { } }
+          }.to raise_error(ActionController::ParameterMissing)
+        end
+      end
 
+      context 'when invalid' do
         it 'renders the change password template' do
+          put :update_password, params: { id: subject, external_user: { user_attributes: { foo: 'bar' } } }
           expect(response).to render_template(:change_password)
         end
       end
@@ -197,13 +220,13 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       it 'destroys the external user' do
         subject     # create an additional External user
         expect{
-          delete :destroy, id: subject
+          delete :destroy, params: { id: subject }
         }.to change{ExternalUser.active.count}.by(-1)
         expect(subject.reload.deleted_at).not_to be_nil
       end
 
       it 'redirects to external_user admin root url' do
-        delete :destroy, id: subject
+        delete :destroy, params: { id: subject }
         expect(response).to redirect_to(external_users_admin_external_users_url)
       end
     end
@@ -231,12 +254,12 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
     describe "GET #show" do
       it 'displays the show page for the current user' do
-        get :show, id: external_user
+        get :show, params: { id: external_user }
         expect(response).to have_http_status(:success)
       end
 
       it 'doesnt show the details for a different user' do
-        get :show, id: other_external_user
+        get :show, params: { id: other_external_user }
         expect(response).to redirect_to(external_users_root_path)
         expect(flash[:alert]).to eq "Unauthorised"
       end
@@ -260,7 +283,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
     describe "GET #edit" do
       it 'displays the edit form' do
-        get :edit, id: external_user
+        get :edit, params: { id: external_user }
         expect(response).to have_http_status(:success)
       end
     end
@@ -269,7 +292,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       context 'current user' do
         it 'updates non-roles attributes' do
           expect(external_user.email).to_not eq 'bobsmith@example.com'
-          put :update, params_updating_email(external_user)
+          put :update, params: params_updating_email(external_user)
           expect(external_user.user.reload.email).to eq 'bobsmith@example.com'
 
         end
@@ -277,20 +300,20 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
         it 'ignores roles attributes' do
           expect(external_user.roles).to eq(['advocate'])
           expect(external_user.email).to_not eq 'bobsmith@example.com'
-          put :update, params_updating_roles(external_user)
+          put :update, params: params_updating_roles(external_user)
           expect(external_user.reload.roles).to eq(['advocate'])
           expect(external_user.user.reload.email).to eq 'bobsmith@example.com'
         end
 
         it 'redirects to external_users index' do
-          put :update, id: external_user,  external_user: { email: 'bobsmith@example.com' }
+          put :update, params: { id: external_user, external_user: { email: 'bobsmith@example.com' } }
           expect(response).to redirect_to(external_users_claims_path)
         end
       end
 
       context 'other user' do
         it 'does not allow any updates' do
-          put :update, params_updating_email(other_external_user)
+          put :update, params: params_updating_email(other_external_user)
           expect(response).to redirect_to(external_users_root_path)
           expect(flash[:alert]).to eq "Unauthorised"
         end
@@ -299,13 +322,13 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     end
     describe "DELETE #destroy" do
       it 'does not allow user to delete himself' do
-        delete :destroy, id: external_user
+        delete :destroy, params: { id: external_user }
         expect(response).to redirect_to(external_users_root_path)
         expect(flash[:alert]).to eq "Unauthorised"
       end
 
       it 'does not allow user to delete other user' do
-        delete :destroy, id: other_external_user
+        delete :destroy, params: { id: other_external_user }
         expect(response).to redirect_to(external_users_root_path)
         expect(flash[:alert]).to eq "Unauthorised"
       end

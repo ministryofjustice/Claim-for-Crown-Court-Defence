@@ -74,7 +74,7 @@ RSpec.describe CaseWorker, type: :model do
       it 'should return ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
         expect{
           CaseWorker.softly_deleted.find(@live_cw1.id)
-        }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find CaseWorker with 'id'=#{@live_cw1.id} [WHERE "case_workers"."deleted_at" IS NOT NULL]}
+        }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find CaseWorker with 'id'=#{@live_cw1.id} [WHERE ("case_workers"."deleted_at" IS NOT NULL)]}
       end
 
       it 'returns an empty array if the selection criteria only reference live records' do

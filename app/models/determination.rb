@@ -14,7 +14,7 @@
 #  disbursements :decimal(, )      default(0.0)
 #
 
-class Determination < ActiveRecord::Base
+class Determination < ApplicationRecord
   include NumberCommaParser
   numeric_attributes :fees, :expenses, :disbursements
 

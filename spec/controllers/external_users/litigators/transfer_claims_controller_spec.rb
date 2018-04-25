@@ -60,12 +60,12 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     context 'continue button pressed' do
       context 'valid params' do
 
-        before(:each) { post :create, params }
+        before(:each) { post :create, params: params }
 
         it 'creates a claim' do
           expect {
             params['claim']['form_id'] = SecureRandom.uuid
-            post :create, params
+            post :create, params: params
           }.to change(Claim::TransferClaim, :count).by(1)
         end
 
@@ -83,13 +83,13 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       context 'invalid params' do
         before(:each) do
           params['claim'].delete('litigator_type')
-          post :create, params
+          post :create, params: params
         end
 
         it 'does not create a claim' do
           expect {
             params['claim']['form_id'] = SecureRandom.uuid
-            post :create, params
+            post :create, params: params
           }.not_to change(Claim::TransferClaim, :count)
         end
 
@@ -117,13 +117,13 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         before(:each) do
           params.delete('commit_stage_1')
           params['commit'] = 'Continue'
-          post :create, params
+          post :create, params: params
         end
 
         it 'creates a claim' do
           expect {
             params['claim']['form_id'] = SecureRandom.uuid
-            post :create, params
+            post :create, params: params
           }.to change(Claim::TransferClaim, :count).by(1)
         end
 
@@ -145,13 +145,13 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
           params.delete('commit_stage_1')
           params['claim'].delete('litigator_type')
           params['commit'] = 'Continue'
-          post :create, params
+          post :create, params: params
         end
 
         it 'creates a claim' do
           expect {
             params['claim']['form_id'] = SecureRandom.uuid
-            post :create, params
+            post :create, params: params
           }.to change(Claim::TransferClaim, :count).by(1)
         end
 
@@ -197,14 +197,14 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
 
       it 'redirects user to next step' do
-        put :update, page_1_params
+        put :update, params: page_1_params
         claim = Claim::TransferClaim.last
         expect(response.status).to eq 302
         expect(response).to redirect_to edit_litigators_transfer_claim_path(claim, step: :case_details)
       end
 
       it 'updates the claim details' do
-        put :update, page_1_params
+        put :update, params: page_1_params
         expect(assigns(:claim).litigator_type).to eq 'original'
         expect(assigns(:claim).elected_case).to be true
         expect(assigns(:claim).transfer_stage_id).to eq 10
@@ -269,7 +269,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
 
   describe 'GET #edit' do
-    let(:edit_request) { -> { get :edit, id: claim } }
+    let(:edit_request) { -> { get :edit, params: { id: claim } } }
 
     before { edit_request.call }
 
@@ -290,7 +290,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
       context 'when a step is provided' do
         let(:step) { :defendants }
-        let(:edit_request) { -> { get :edit, id: claim, step: step } }
+        let(:edit_request) { -> { get :edit, params: { id: claim, step: step } } }
 
         it 'claim is submitted submission step' do
           expect(assigns(:claim).form_step).to eq(:defendants)
@@ -329,20 +329,22 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       context 'and deleting a rep order' do
         before {
           put :update,
-              id: subject,
-              claim: {
-                defendants_attributes: {
-                  '1' => {
-                    id: subject.defendants.first,
-                    representation_orders_attributes: {
-                      '0' => {
-                        id: subject.defendants.first.representation_orders.first,
-                        _destroy: 1}
-                    }
-                  }
-                }
-              },
-            commit_save_draft: 'Save to drafts'
+              params: {
+               id: subject,
+               claim: {
+                 defendants_attributes: {
+                   '1' => {
+                     id: subject.defendants.first,
+                     representation_orders_attributes: {
+                       '0' => {
+                         id: subject.defendants.first.representation_orders.first,
+                         _destroy: 1}
+                     }
+                   }
+                 }
+               },
+               commit_save_draft: 'Save to drafts'
+              }
         }
         it 'reduces the number of associated rep orders by 1' do
           expect(subject.reload.defendants.first.representation_orders.count).to eq 1
@@ -373,21 +375,21 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
       context 'and saving to draft' do
         it 'updates a claim' do
-          put :update, id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts'
+          put :update, params: { id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts' }
           subject.reload
           expect(subject.additional_information).to eq('foo')
         end
 
         it 'redirects to claims list path' do
-          put :update, id: subject, claim: { additional_information: 'foo' }
+          put :update, params: { id: subject, claim: { additional_information: 'foo' } }
           expect(response).to redirect_to(external_users_claims_path)
         end
       end
 
       context 'and submitted to LAA' do
         before do
-          get :edit, id: subject
-          put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit_submit_claim: 'Submit to LAA'
+          get :edit, params: { id: subject }
+          put :update, params: { id: subject, claim: { additional_information: 'foo' }, summary: true, commit_submit_claim: 'Submit to LAA' }
         end
 
         it 'redirects to the claim summary page' do
@@ -398,31 +400,31 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
     context 'when submitted to LAA and invalid ' do
       it 'does not set claim to submitted' do
-        put :update, id: subject, claim: { form_step: 'case_details', court_id: nil }, commit_submit_claim: 'Submit to LAA'
+        put :update, params: { id: subject, claim: { form_step: 'case_details', court_id: nil }, commit_submit_claim: 'Submit to LAA' }
         subject.reload
         expect(subject).to_not be_submitted
       end
 
       it 'renders edit template' do
-        put :update, id: subject, claim: { form_step: 'case_details', court_id: nil }, commit_submit_claim: 'Submit to LAA'
+        put :update, params: { id: subject, claim: { form_step: 'case_details', court_id: nil }, commit_submit_claim: 'Submit to LAA' }
         expect(response).to render_template(:edit)
       end
     end
 
     context 'Date Parameter handling' do
       it 'should transform dates with named months into dates' do
-        put :update, id: subject, claim: {
+        put :update, params: { id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => 'jan',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA'
+          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA' }
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
       it 'should transform dates with numbered months into dates' do
-        put :update, id: subject, claim: {
+        put :update, params: { id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => '11',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA'
+          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA' }
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
       end
     end

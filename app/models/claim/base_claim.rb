@@ -69,7 +69,7 @@ module Claim
     end
   end
 
-  class BaseClaim < ActiveRecord::Base
+  class BaseClaim < ApplicationRecord
     include SoftlyDeletable
 
     self.table_name = 'claims'
@@ -157,8 +157,8 @@ module Claim
 
     scope :dashboard_displayable_states, -> { where(state: Claims::StateMachine.dashboard_displayable_states) }
 
-    scope :total_greater_than_or_equal_to, ->(value) { where { total >= value } }
-    scope :total_lower_than, ->(value) { where { total < value } }
+    scope :total_greater_than_or_equal_to, ->(value) { where(arel_table[:total].gteq(value)) }
+    scope :total_lower_than, ->(value) { where(arel_table[:total].lt(value)) }
 
     scope :cloned, -> { where.not(clone_source_id: nil) }
 

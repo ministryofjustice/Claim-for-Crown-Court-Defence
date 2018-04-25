@@ -36,7 +36,7 @@ RSpec.describe DocumentsController, type: :controller do
 
     context 'when form_id not present' do
       it 'returns an empty JSON set' do
-        get :index, params
+        get :index, params: params
         expect(response.body).to eq([].to_json)
       end
     end
@@ -48,7 +48,7 @@ RSpec.describe DocumentsController, type: :controller do
 
       let(:params) { { form_id: form_id } }
 
-      before { get :index, params }
+      before { get :index, params: params }
 
       it 'returns documents matching the form_id' do
         ids = JSON.parse(response.body).map { |h| h['id'] }
@@ -61,7 +61,7 @@ RSpec.describe DocumentsController, type: :controller do
     let(:document) { create(:document, external_user_id: external_user.id) }
 
     it 'downloads a preview of the document' do
-      get :show, id: document.id
+      get :show, params: { id: document.id }
       expect(response.body).to eq binread(document.converted_preview_document.path)
     end
   end
@@ -70,7 +70,7 @@ RSpec.describe DocumentsController, type: :controller do
     let(:document) { create(:document, external_user_id: external_user.id) }
 
     it 'downloads the document' do
-      get :show, id: document.id
+      get :show, params: { id: document.id }
       expect(response.body).to eq binread(document.document.path)
     end
   end
@@ -85,17 +85,17 @@ RSpec.describe DocumentsController, type: :controller do
     context 'when valid' do
       it 'creates a document' do
         expect {
-          post :create, document: params
+          post :create, params: { document: params }
         }.to change(Document, :count).by(1)
       end
 
       it 'returns status created' do
-        post :create, document: params
+        post :create, params: { document: params }
         expect(response.status).to eq(201)
       end
 
       it 'returns the created document as JSON' do
-        post :create, document: params
+        post :create, params: { document: params }
         expect(JSON.parse(response.body)['document']).to eq(JSON.parse(Document.first.to_json))
       end
     end
@@ -105,17 +105,17 @@ RSpec.describe DocumentsController, type: :controller do
 
       it 'does not create a document' do
         expect {
-          post :create, document: params
+          post :create, params: { document: params }
         }.to_not change(Document, :count)
       end
 
       it 'returns status unprocessable entity' do
-        post :create, document: params
+        post :create, params: { document: params }
         expect(response.status).to eq(422)
       end
 
       it 'returns errors in response' do
-        post :create, document: params
+        post :create, params: { document: params }
         expect(JSON.parse(response.body)).to have_key('error')
       end
     end
@@ -132,7 +132,7 @@ RSpec.describe DocumentsController, type: :controller do
       expect(paperclip_document).to receive(:path).at_least(1).and_return(file.path)
       expect(paperclip_adapters).to receive(:for).at_least(1).with(instance_of(Paperclip::Attachment)).and_return(paperclip_document)
       expect(Paperclip).to receive(:io_adapters).at_least(1).and_return(paperclip_adapters)
-      get :download, id: document.id
+      get :download, params: { id: document.id }
     end
   end
 
@@ -141,14 +141,14 @@ RSpec.describe DocumentsController, type: :controller do
 
     it 'destroys the document' do
       expect {
-        delete :destroy, id: document.id, format: :json
+        delete :destroy, params: { id: document.id }, format: :json
       }.to change(Document, :count).by(-1)
     end
 
     it 'responds with errors if unable to destroy the document' do
       expect_any_instance_of(Document).to receive(:destroy).and_return(false)
       expect {
-        delete :destroy, id: document.id, format: :json
+        delete :destroy, params: { id: document.id }, format: :json
       }.not_to change(Document, :count)
     end
   end

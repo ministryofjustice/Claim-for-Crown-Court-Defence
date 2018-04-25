@@ -22,13 +22,13 @@ RSpec.describe ClaimIntentionsController, type: :controller do
 
       it 'should create a Claim Intention' do
         expect {
-          post :create, claim_intention: {form_id: form_id}
+          post :create, params: { claim_intention: {form_id: form_id} }
         }.to change(ClaimIntention, :count).by(1)
       end
 
       context 'user ID' do
         before do
-          post :create, claim_intention: {form_id: form_id}
+          post :create, params: { claim_intention: {form_id: form_id} }
         end
 
         it 'should records the logged in user ID' do
@@ -42,7 +42,7 @@ RSpec.describe ClaimIntentionsController, type: :controller do
     context 'when form_id not present' do
       it 'should not create a Claim Intention' do
         expect {
-          post :create, claim_intention: {form_id: nil}
+          post :create, params: { claim_intention: {form_id: nil} }
         }.to_not change(ClaimIntention, :count)
       end
     end

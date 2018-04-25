@@ -1,3 +1,3 @@
-class OffenceCategory < ActiveRecord::Base
+class OffenceCategory < ApplicationRecord
   has_many :offence_bands
 end

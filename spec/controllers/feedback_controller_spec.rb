@@ -4,7 +4,7 @@ RSpec.describe FeedbackController, type: :controller do
   describe "GET #new" do
     let(:params) { {} }
 
-    before { get :new, params }
+    before { get :new, params: params }
 
     it 'assigns a new @feedback' do
       expect(assigns(:feedback)).to_not be_nil
@@ -50,21 +50,21 @@ RSpec.describe FeedbackController, type: :controller do
           end
 
           it "redirects to the users home" do
-            post :create, feedback: params
+            post :create, params: { feedback: params }
             expect(response).to redirect_to(external_users_root_url)
           end
         end
 
         context 'and no user signed in' do
           it "redirects to the sign in page" do
-            post :create, feedback: params
+            post :create, params: { feedback: params }
             expect(response).to redirect_to(new_user_session_url)
           end
         end
 
         it 'calls the GoogleAnalytics::Api' do
           expect(GoogleAnalytics::Api).to receive(:event).and_return(true)
-          post :create, feedback: params
+          post :create, params: { feedback: params }
         end
       end
 
@@ -74,7 +74,7 @@ RSpec.describe FeedbackController, type: :controller do
         end
 
         it "renders the new template" do
-          post :create, feedback: params
+          post :create, params: { feedback: params }
           expect(response).to render_template('feedback/feedback')
         end
       end
@@ -94,14 +94,14 @@ RSpec.describe FeedbackController, type: :controller do
           end
 
           it "redirects to the users home" do
-            post :create, feedback: params
+            post :create, params: { feedback: params }
             expect(response).to redirect_to(external_users_root_url)
           end
         end
 
         context 'and no user signed in' do
           it "redirects to the sign in page" do
-            post :create, feedback: params
+            post :create, params: { feedback: params }
             expect(response).to redirect_to(new_user_session_url)
           end
         end
@@ -113,7 +113,7 @@ RSpec.describe FeedbackController, type: :controller do
         end
 
         it "renders the new template" do
-          post :create, feedback: params
+          post :create, params: { feedback: params }
           expect(response).to render_template('feedback/bug_report')
         end
       end

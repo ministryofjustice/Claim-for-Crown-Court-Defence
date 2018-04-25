@@ -1,5 +1,5 @@
 class ExternalUsers::JsonDocumentImportersController < ApplicationController
-  skip_before_filter :verify_authenticity_token, only: :create
+  skip_before_action :verify_authenticity_token, only: :create
   skip_load_and_authorize_resource only: [:create]
 
   def create

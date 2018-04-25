@@ -177,3 +177,7 @@ Style/IfInsideElse:
 Lint/DuplicateMethods:
   Exclude:
     - 'app/models/claim/base_claim.rb'
+
+Style/OptionalArguments:
+  Exclude:
+    - 'app/interfaces/api/helpers/json_error_formatter.rb'

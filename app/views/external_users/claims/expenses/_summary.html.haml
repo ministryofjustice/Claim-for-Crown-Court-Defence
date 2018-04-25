@@ -8,75 +8,74 @@
     %p
       = t('shared.summary.no_values.expenses')
   - else
-    %table{class:'table-summary', summary: t('.summary')}
+    %table{ class: 'summary', summary: t('.summary') }
       %caption
         %span.table-caption.visuallyhidden
           = t('.caption')
       %tbody
-        - present_collection(claim.expenses).each do |expense|
+        - present_collection(claim.expenses).each.with_index(1) do |expense, index|
           %tr
-            %th.summary-headings{scope: 'row'}
-              = t('shared.summary.expense_type')
+            %th{ scope: 'row', class: 'bold' }
+              = "#{t('shared.summary.expense')} #{index}"
             %td
-              = expense.name
-          - if expense.date.present?
-            %tr
-              %th{scope: 'row'}
-                = t('shared.summary.dates_attended')
-              %td
-                = expense.pretty_date
-          - if expense.location.present?
-            %tr
-              %th{scope: 'row'}
-                = t('shared.summary.location')
-              %td
-                = expense.location
-          - if expense.distance.present?
-            %tr
-              %th{scope: 'row'}
-                = t('shared.summary.distance')
-              %td
-                = expense.distance
-            %tr
-              %th{scope: 'row'}
-                = t('shared.summary.mileage_rate')
-              %td
-                = expense.mileage_rate
-          - if expense.quantity.present?
-            %tr
-              %th{scope: 'row'}
-                = t('shared.summary.quantity')
-              %td
-                = expense.quantity
-          - if expense.hours.present?
-            %tr
-              %th{scope: 'row'}
-                = t('shared.summary.quantity_hours')
-              %td
-                = expense.hours
-          %tr
-            %th{scope: 'row'}
-              = t('shared.summary.reason')
-            %td
-              = expense.reason
+              %table.nested-summary
+                %tbody
+                  %tr
+                    %th{ scope: 'row', class: 'bold' }
+                      = t('shared.summary.expense_type')
+                    %td
+                      = expense.name
+                  %tr
+                    %th{ scope: 'row', class: 'bold' }
+                      = t('shared.summary.reason')
+                    %td
+                      = expense.reason
+                  - if expense.location.present?
+                    %tr
+                      %th{ scope: 'row', class: 'bold' }
+                        = t('shared.summary.location')
+                      %td
+                        = expense.location
+                  - if expense.distance.present?
+                    %tr
+                      %th{ scope: 'row', class: 'bold' }
+                        = t('shared.summary.distance')
+                      %td
+                        = expense.distance
+                  - if expense.date.present?
+                    %tr
+                      %th{ scope: 'row', class: 'bold' }
+                        = t('shared.summary.date_of_expense')
+                      %td
+                        = expense.pretty_date
+                    %tr
+                      %th{ scope: 'row', class: 'bold' }
+                        = t('shared.summary.mileage_rate')
+                      %td
+                        = expense.mileage_rate
+                  - if expense.quantity.present?
+                    %tr
+                      %th{ scope: 'row', class: 'bold' }
+                        = t('shared.summary.quantity')
+                      %td
+                        = expense.quantity
+                  - if expense.hours.present?
+                    %tr
+                      %th{ scope: 'row', class: 'bold' }
+                        = t('shared.summary.quantity_hours')
+                      %td
+                        = expense.hours
 
-          - if expense.amount.present?
-            %tr
-              %th{scope: 'row'}
-                = t('shared.summary.amount')
-              %td
-                = expense.amount
+                  - if expense.amount.present?
+                    %tr
+                      %th{ scope: 'row', class: 'bold' }
+                        = t('shared.summary.amount')
+                      %td
+                        = expense.amount
 
-          - if claim.lgfs?
-            %tr
-              %th{scope: 'row'}
-                = t('shared.summary.vat_amount')
-              %td
-                = expense.vat_amount
-
-      %tfoot
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.expenses_total')
-          %td
-            = claim.expenses_total
+                  - if claim.lgfs?
+                    %tr
+                      %th{ scope: 'row', class: 'bold' }
+                        = t('shared.summary.vat_amount')
+                      %td
+                        = expense.vat_amount

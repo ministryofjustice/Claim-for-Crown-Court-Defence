@@ -5,7 +5,7 @@
       - if local_assigns[:editable]
         = link_to 'Change', edit_polymorphic_path(claim, step: :offence_details), class: 'link-change'
 
-    %table{class: 'table-summary', summary: t('.summary') }
+    %table{ class: 'summary', summary: t('.summary') }
       %caption
         %span.table-caption.visuallyhidden
           = t('.caption')

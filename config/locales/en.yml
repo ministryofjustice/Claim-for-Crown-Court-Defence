@@ -826,6 +826,9 @@ en:
           date: "Date"
         summary:
           header: Graduated fees
+          actual_trial_length:
+            one: 1 day
+            other: '%{count} days'
       index:
         claims: Claims
         completed: Completed
@@ -1001,18 +1004,21 @@ en:
       date_added: Date added
       actions: Actions
     summary:
+      actual_trial_length: Actual trial length
       mileage_rate: Mileage rate
       expenses:
         caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+      fee: Fee
       fees:
         caption: 'Fees: A detailed list by Category and Type including amounts'
-      amount: Amount
+      amount: Net amount
       vat_amount: VAT amount
       date: Date
       distance: Distance
       fee_category: Fee category
-      fee_type: Fee type
+      fee_type: Type of fee
       fee_subtype: Fee subtype
+      first_day_of_hearing: First day of hearing
       case_numbers: *case_numbers
       quantity: Quantity
       dates_attended: Dates attended
@@ -1036,6 +1042,7 @@ en:
         date_executed: "Warrant executed"
         total: "Total"
       total: "Total"
+      ppe: Total pages of evidence
       ppe_total: "PPE total at the time"
       effective_pcmh_date: "Effective PCMH"
       trial_start: "Trial start"

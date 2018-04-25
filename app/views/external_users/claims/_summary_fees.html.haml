@@ -3,73 +3,23 @@
   - if local_assigns[:editable]
     = link_to 'Change', edit_polymorphic_path(claim, step: step), class: 'link-change'
 
-%table{class:'table-summary', summary: t('.summary')}
+%table{ class: 'summary', summary: t('.summary') }
   %caption
     %span.table-caption.visuallyhidden
       = t('.caption')
   %tbody
     - collection = local_assigns.has_key?(:collection) ? collection : claim.fees.select(&:present?)
-    - present_collection(collection.sort_by(&:position)).each do |fee|
-      %tr
-        %th.summary-headings{ scope: 'row'}
-          = t('shared.summary.fee_category')
-        %td
-          = fee.fee_type.fee_category_name
-      %tr
-        %th{scope: 'row'}
-          = t('shared.summary.fee_type')
-        %td
-          = fee.fee_type.description
 
-      - if fee.sub_type.present?
+    -# - NOTE: this check might need to be changed to check if the item passed in is a has_many or has_one
+    -# - as we can have a single item for a has_many
+    - if collection.many?
+      - present_collection(collection.sort_by(&:position)).each.with_index(1) do |fee, index|
         %tr
-          %th{scope: 'row'}
-            = t('shared.summary.fee_subtype')
+          %th{ scope: 'row', class: 'bold' }
+            = "#{t('shared.summary.fee')} #{index}"
           %td
-            = fee.sub_type.description
-      - if fee.case_uplift?
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.case_numbers')
-          %td
-            = fee.case_numbers
-
-      - if fee.claim.agfs? || fee.is_graduated? || fee.is_transfer?
-        %tr
-          %th{ scope: 'row'}
-            - if fee.is_transfer? || fee.is_graduated?
-              = "PPE"
-            - else
-              = t('shared.summary.quantity')
-          %td
-            = fee.quantity
-
-      - if fee.claim.agfs?
-        %tr
-          %th{ scope: 'row'}
-            = t('shared.summary.rate')
-          %td
-            = fee.rate
-      %tr
-        %th{ scope: 'row'}
-          = t('shared.summary.amount')
-        %td
-          = fee.amount
-      - if fee.dates_attended.any?
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.dates_attended')
-          %td
-            = fee.dates_attended_delimited_string
-      - if fee.date?
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.date')
-          %td
-            = fee.date
-  %tfoot
-    %tr
-      %th
-        = t('shared.summary.fees_total')
-      %td
-        = claim.fees_total
+            %table.nested-summary
+              %tbody
+                = render partial: 'external_users/claims/summary_fee', locals: { fee: fee }
+    - else
+      = render partial: 'external_users/claims/summary_fee', collection: present_collection(collection.sort_by(&:position)), as: :fee

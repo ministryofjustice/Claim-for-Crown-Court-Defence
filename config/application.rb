@@ -49,6 +49,7 @@ module AdvocateDefencePayments
     # config.autoload_paths += Dir[Rails.root.join('app', 'services', 'stats', '*')]
     config.autoload_paths << Rails.root.join('lib')
     config.autoload_paths << Rails.root.join('app','presenters','concerns')
+    config.autoload_paths << Rails.root.join('app','services','concerns')
 
     config.eager_load_paths << Rails.root.join('lib')
 

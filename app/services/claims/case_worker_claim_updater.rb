@@ -52,16 +52,18 @@ module Claims
 
     def validate_params
       if @assessment_params_present || @redetermination_params_present
-        validate_state_when_value_params_present
+        validate_state_when_assessment_present
+        clear_transition_reasons
       elsif @state.blank?
         add_error 'You should select a status'
+
       else
-        validate_state_when_no_value_params
+        validate_state_when_no_assessment_present
         validate_reason_presence
       end
     end
 
-    def validate_state_when_value_params_present
+    def validate_state_when_assessment_present
       if @state.blank?
         add_error 'You must specify authorised or part authorised if you supply values'
       elsif @state == 'refused'
@@ -71,7 +73,12 @@ module Claims
       end
     end
 
-    def validate_state_when_no_value_params
+    def clear_transition_reasons
+      @transition_reasons = nil
+      @transition_reason_text = nil
+    end
+
+    def validate_state_when_no_assessment_present
       return unless @state.in?(%w[authorised part_authorised])
       add_error 'You must specify positive values if authorising or part authorising a claim'
     end

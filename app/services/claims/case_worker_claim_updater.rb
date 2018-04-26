@@ -107,7 +107,7 @@ module Claims
         update_assessment if @assessment_params_present
         add_redetermination if @redetermination_params_present
         @claim.send(event, audit_attributes) unless state_not_updateable?
-        add_message if @transition_reasons
+        add_message if @transition_reasons.present?
       rescue StandardError => err
         add_error err.message
         raise ActiveRecord::Rollback

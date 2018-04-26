@@ -60,7 +60,7 @@ module API
       end
 
       def disk_evidence
-        object.disk_evidence.eql?('t').to_i
+        object.disk_evidence.to_i
       end
 
       def redetermination
@@ -68,7 +68,7 @@ module API
       end
 
       def fixed_fee
-        ((object.is_fixed_fee.eql?('t') || allocation_type_is_fixed?) && is_submitted?).to_i
+        ((object.is_fixed_fee || allocation_type_is_fixed?) && is_submitted?).to_i
       end
 
       def awaiting_written_reasons

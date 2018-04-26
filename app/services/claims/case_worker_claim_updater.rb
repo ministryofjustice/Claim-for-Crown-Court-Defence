@@ -22,7 +22,6 @@ module Claims
       event = Claims::InputEventMapper.input_event(state)
 
       claim.class.transaction do
-        # @claim.update(@params)
         update_assessment if assessment_params
         add_redetermination if redetermination_params
         claim.send(event, audit_attributes) unless state_not_updateable?
@@ -34,7 +33,7 @@ module Claims
     end
 
     def state_not_updateable?
-      state.blank? || state == claim.state
+      state.blank? || state.eql?(claim.state)
     end
 
     def update_assessment
@@ -45,11 +44,10 @@ module Claims
       claim.redeterminations.create(redetermination_params)
     end
 
-    # rubocop:disable Metrics/LineLength
     def add_message
-      claim.messages.create(sender_id: current_user.id, body: transition_message) if Release.reject_refuse_messaging_released?
+      return unless Release.reject_refuse_messaging_released?
+      claim.messages.create(sender_id: current_user.id, body: transition_message)
     end
-    # rubocop:enable Metrics/LineLength
 
     def transition_message
       StateTransitionMessageBuilder.new(state, transition_reasons, transition_reason_text).call

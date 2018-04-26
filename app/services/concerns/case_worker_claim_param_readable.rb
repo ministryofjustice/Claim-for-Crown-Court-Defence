@@ -31,20 +31,21 @@ module CaseWorkerClaimParamReadable
     end
 
     def assessment_attributes
-      determination_with_defaults(params['assessment_attributes']) if determination_non_zero?(params['assessment_attributes'])
+      assessment_attributes = params['assessment_attributes']
+      determination_with_defaults(assessment_attributes) unless determination_zero?(assessment_attributes)
     end
 
     def redetermination_params
-      @redetermination_params ||= redeterminations_attributes
+      @redetermination_params ||= redetermination_attributes
     end
 
-    def redeterminations_attributes
-      redetermination_params = params.dig('redeterminations_attributes', '0')
-      determination_with_defaults(redetermination_params) if determination_non_zero?(redetermination_params)
+    def redetermination_attributes
+      redetermination_attributes = params.dig('redeterminations_attributes', '0')
+      determination_with_defaults(redetermination_attributes) unless determination_zero?(redetermination_attributes)
     end
 
     def state_verb
-      @state_verb ||= state.eql?('refused') ? 'refusing' : 'rejecting'
+      @state_verb ||= state.chomp('ed').concat('ing')
     end
 
     def state_symbol(other_suffix = true)
@@ -65,9 +66,9 @@ module CaseWorkerClaimParamReadable
       }.merge(attributes)
     end
 
-    def determination_non_zero?(params)
-      return false unless params.present?
-      %w[fees expenses disbursements].any? { |field| params[field].to_f > 0.0 }
+    def determination_zero?(params)
+      params.blank? ||
+        %w[fees expenses disbursements].none? { |field| params[field].to_f > 0.0 }
     end
 
     def determination_present?

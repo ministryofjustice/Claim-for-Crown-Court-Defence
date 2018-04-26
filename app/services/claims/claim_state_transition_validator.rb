@@ -30,21 +30,20 @@ module Claims
     end
 
     def validate_refused
-      add_error('You cannot specify values when refusing a claim') if determination_present?
       common_undetermined_validations
     end
 
     def validate_rejected
-      add_error('You cannot specify values when rejecting a claim') if determination_present?
       common_undetermined_validations
     end
 
     def common_determination_validations
-      add_error('You must provide an assessment with positive values when [part] authorising') unless determination_present?
+      add_error('You must provide values when [part] authorising') unless determination_present?
       add_error('You cannot provide reject/refuse reasons with an assessment') if reasons_present?
     end
 
     def common_undetermined_validations
+      add_error("You cannot specify values when #{state_verb} a claim") if determination_present?
       add_error("requires a reason when #{state_verb}", state_symbol(false)) if transition_reasons&.empty?
       add_error('needs a description', state_symbol) if transition_reason_text_missing?
     end

@@ -41,7 +41,7 @@ class ClaimStateTransition < ApplicationRecord
   end
 
   def self.decided_this_month(state)
-    where { (to == state.to_s) & (created_at >= Time.now.beginning_of_month) }.count('DISTINCT claim_id')
+    where(to: state.to_s).where(arel_table[:created_at].gteq(Time.now.beginning_of_month)).count('DISTINCT claim_id')
   end
 
   def update_author_id(value)

@@ -4,7 +4,7 @@ namespace :claims do
     total = 0
     current_id = 0
     start_id = args[:start_id] || 1
-    Claim::BaseClaim.active.where { id >= start_id }.where.not(state: %w(draft archived_pending_delete)).order(id: :asc).find_each(batch_size: 100) do |claim|
+    Claim::BaseClaim.active.where(Claim::BaseClaim.arel_table[:id].gteq(start_id)).where.not(state: %w(draft archived_pending_delete)).order(id: :asc).find_each(batch_size: 100) do |claim|
       total += 1
       current_id = claim.id
       message = Messaging::ExportRequest.new(claim)

@@ -125,8 +125,6 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
     end
 
     it 'adds errors on claim' do
-      ap updater.claim.errors.messages
-      ap updater.claim.errors[error_field]
       expect(updater.claim.errors[error_field]).to eq(expected_error)
     end
   end
@@ -177,21 +175,21 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.assessment).to be_zero
-        expect(updater.claim.errors[:determinations]).to eq(['You must provide an assessment with positive values when [part] authorising'])
+        expect(updater.claim.errors[:determinations]).to include('You must provide values when [part] authorising')
       end
 
       it 'errors if assessment data is present in the params but no state specified' do
         params = {'state' => '', 'assessment_attributes' => {'fees' => '128.33', 'expenses' => '42.88'}}
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
-        expect(updater.claim.errors[:determinations]).to eq(['You must select a status'])
+        expect(updater.claim.errors[:determinations]).to include('You must select a status')
       end
 
       it 'errors if values are supplied with refused' do
         params = {'state' => 'refused', 'assessment_attributes' => {'fees' => '93.65','expenses' => '42.88'}}
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
-        expect(updater.claim.errors[:determinations]).to eq(['You cannot specify values when refusing a claim'])
+        expect(updater.claim.errors[:determinations]).to include('You cannot specify values when refusing a claim')
         expect(updater.claim.state).to eq 'allocated'
         expect(updater.claim.assessment.fees.to_f).to eq 0.0
         expect(updater.claim.assessment.expenses).to eq 0.0
@@ -202,7 +200,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
         params = {'state' => 'rejected', 'assessment_attributes' => {'fees' => '93.65','expenses' => '42.88'}}
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
-        expect(updater.claim.errors[:determinations]).to eq(['You cannot specify values when rejecting a claim'])
+        expect(updater.claim.errors[:determinations]).to include('You cannot specify values when rejecting a claim')
         expect(updater.claim.state).to eq 'allocated'
         expect(updater.claim.assessment.fees.to_f).to eq 0.0
         expect(updater.claim.assessment.expenses).to eq 0.0
@@ -213,7 +211,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
         params = {'state' => 'rejected', 'state_reason' => [''], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
-        expect(updater.claim.errors[:rejected_reason]).to eq(['requires a reason when rejecting'])
+        expect(updater.claim.errors[:rejected_reason]).to include('requires a reason when rejecting')
         expect(updater.claim.state).to eq 'allocated'
         expect(updater.claim.assessment.fees.to_f).to eq 0.0
         expect(updater.claim.assessment.expenses).to eq 0.0
@@ -224,7 +222,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
         params = {'state' => 'rejected', 'state_reason' => ['other'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
-        expect(updater.claim.errors[:rejected_reason_other]).to eq(['needs a description'])
+        expect(updater.claim.errors[:rejected_reason_other]).to include('needs a description')
         expect(updater.claim.state).to eq 'allocated'
         expect(updater.claim.assessment.fees.to_f).to eq 0.0
         expect(updater.claim.assessment.expenses).to eq 0.0
@@ -235,7 +233,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
         params = {'state' => 'refused', 'state_reason' => [''], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
-        expect(updater.claim.errors[:refused_reason]).to eq(['requires a reason when refusing'])
+        expect(updater.claim.errors[:refused_reason]).to include('requires a reason when refusing')
         expect(updater.claim.state).to eq 'allocated'
         expect(updater.claim.assessment.fees.to_f).to eq 0.0
         expect(updater.claim.assessment.expenses).to eq 0.0
@@ -246,7 +244,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
         params = {'state' => 'refused', 'state_reason' => ['other'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
-        expect(updater.claim.errors[:refused_reason_other]).to eq(['needs a description'])
+        expect(updater.claim.errors[:refused_reason_other]).to include('needs a description')
         expect(updater.claim.state).to eq 'allocated'
         expect(updater.claim.assessment.fees.to_f).to eq 0.0
         expect(updater.claim.assessment.expenses).to eq 0.0
@@ -260,7 +258,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
         updater = described_class.new(submitted_claim.id, params).update!
 
         expect(updater.result).to eq :error
-        expect(updater.claim.errors[:determinations]).to eq(['Cannot transition state via :authorise from :submitted (Reason(s): State cannot transition via "authorise")'])
+        expect(updater.claim.errors[:determinations]).to include('Cannot transition state via :authorise from :submitted (Reason(s): State cannot transition via "authorise")')
 
         # objects will not have their instance data returned to their pre-transactional state
         expect(updater.claim.assessment.fees.to_f).to eq 200.0
@@ -388,22 +386,28 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
         expect(updater.claim.errors[:determinations]).to eq(['You must select a status'])
       end
 
-      context 'if values are supplied with refused' do
+      context 'when determination values are supplied with refused' do
         it_behaves_like 'an erroneous determination', 'refused', ['You cannot specify values when refusing a claim'], 'assessment'
         it_behaves_like 'an erroneous determination', 'refused', ['You cannot specify values when refusing a claim'], 'redeterminations'
       end
 
-      context 'if values are supplied with rejected' do
+      context 'when determination values are supplied with rejected' do
         it_behaves_like 'an erroneous determination', 'rejected', ['You cannot specify values when rejecting a claim'], 'assessment'
         it_behaves_like 'an erroneous determination', 'rejected', ['You cannot specify values when rejecting a claim'], 'redeterminations'
       end
 
-      context 'if no state_reason are supplied' do
+      context 'when no reasons are supplied with rejected/refused' do
         it_behaves_like 'an erroneous determination', 'rejected', ['requires a reason when rejecting'], 'redeterminations', [''], '', 0, :rejected_reason
+        it_behaves_like 'an erroneous determination', 'refused', ['requires a reason when refusing'], 'redeterminations', [''], '', 0, :refused_reason
       end
 
-      context 'if state_reason is other, but no text is supplied' do
+      context 'when other reason given without reason text' do
         it_behaves_like 'an erroneous determination', 'rejected', ['needs a description'], 'redeterminations', ['other'], 0, 0, :rejected_reason_other
+      end
+
+      context 'when reasons given for authorised claims' do
+        it_behaves_like 'an erroneous determination', 'authorised', ['You cannot provide reject/refuse reasons with an assessment'], 'assessment', ['no_indictment']
+        it_behaves_like 'an erroneous determination', 'authorised', ['You cannot provide reject/refuse reasons with an assessment'], 'redeterminations', ['wrong_ia']
       end
     end
   end

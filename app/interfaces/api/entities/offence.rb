@@ -15,7 +15,7 @@ module API
                using: API::Entities::OffenceClass
         expose :act_of_law, if: ->(instance, _opts) { instance.scheme_ten? }
         expose :offence_band,
-               if: ->(instance, _opts) { !instance.scheme_nine? },
+               if: ->(instance, _opts) { instance.scheme_ten? },
                using: API::Entities::OffenceBand
       end
 

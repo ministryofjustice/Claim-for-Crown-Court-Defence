@@ -13,8 +13,9 @@ module API
         expose :offence_class,
                if: ->(instance, _opts) { instance.scheme_nine? },
                using: API::Entities::OffenceClass
+        expose :act_of_law, if: ->(instance, _opts) { instance.scheme_ten? }
         expose :offence_band,
-               if: ->(instance, _opts) { !instance.scheme_nine? },
+               if: ->(instance, _opts) { instance.scheme_ten? },
                using: API::Entities::OffenceBand
       end
 
@@ -22,6 +23,10 @@ module API
 
       def class_description
         object.offence_class.description
+      end
+
+      def act_of_law
+        "#{object.contrary} #{object.year_chapter}"
       end
     end
   end

@@ -12,9 +12,20 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
   end
 
   shared_examples 'base_test' do |state, state_reason, reason_text=nil|
-    subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)).update! }
+    subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
     let(:claim) { create :allocated_claim }
-    let(:params) { {'state' => state, 'state_reason' => state_reason, "#{state.eql?('rejected') ? 'reject' : 'refuse'}_reason_text" => reason_text, 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
+    let(:params) do
+      {
+        'state' => state,
+        'state_reason' => state_reason,
+        "#{state.eql?('rejected') ? 'reject' : 'refuse'}_reason_text" => reason_text,
+        'assessment_attributes' => {'fees' => '', 'expenses' => '0'}
+      }
+    end
+
+    before do |example|
+      updater.update! unless example.metadata[:wait]
+    end
 
     it "updates the state to #{state} and reason to #{state_reason.join(',')} and returns OK" do
       expect(updater.result).to eq :ok
@@ -23,14 +34,30 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       expect(updater.claim.last_state_transition.reason_text).to eq reason_text
       expect(updater.claim.last_state_transition.author_id).to eq(current_user.id)
     end
+
+    it 'adds message to the claim', :wait do
+      expect { updater.update! }.to change(updater.claim.messages, :count).by(1)
+    end
   end
 
   shared_examples 'a successful assessment' do |state, fees='128.33', expenses='42.40'|
-    subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)).update! }
+    subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
     let(:claim) { create :allocated_claim }
-    let(:params) { {'state' => state, 'assessment_attributes' => {'fees' => fees, 'expenses' => expenses}} }
+    let(:params) do
+      {
+        'state' => state,
+        'state_reason' => [],
+        'reject_reason_text' => '',
+        'refuse_reason_text' => '',
+        'assessment_attributes' => {'fees' => fees, 'expenses' => expenses}
+      }
+    end
 
-    it 'sets the result to error' do
+    before do |example|
+      updater.update! unless example.metadata[:wait]
+    end
+
+    it "updates the state to #{state}, updates assessment and returns OK" do
       expect(updater.result).to eq :ok
       expect(updater.claim.state).to eq state
       expect(updater.claim.assessment.fees).to eq fees
@@ -38,18 +65,38 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       expect(updater.claim.assessment.disbursements).to eq 0.0
       expect(updater.claim.last_state_transition.author_id).to eq(current_user.id)
     end
+
+    it 'does not add message to the claim', :wait do
+      expect { updater.update! }.to_not change(updater.claim.messages, :count)
+    end
   end
 
-  shared_examples 'a failing assessment' do |state, expected_error, update_type='redeterminations', state_reason=nil, fees='128.33', expenses='42.40', error_field=:determinations|
-    subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)).update! }
+  shared_examples 'an erroneous assessment' do |state, expected_error, update_type = 'redeterminations', state_reason = [], fees = '128.33', expenses = '42.40', error_field = :determinations|
+    subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
     let(:claim) { create :allocated_claim }
-    let(:params) { {'state' => state, 'state_reason' => state_reason, "#{update_type}_attributes" => {'0' => {'fees' => fees, 'expenses' => expenses}}} }
+    let(:params) do
+      {
+        'state' => state,
+        'state_reason' => state_reason,
+        'reject_reason_text' => '',
+        'refuse_reason_text' => '',
+        "#{update_type}_attributes" => {'0' => {'fees' => fees, 'expenses' => expenses} }
+      }
+    end
+
+    before do |example|
+      updater.update! unless example.metadata[:wait]
+    end
 
     it 'sets the result to error' do
       expect(updater.result).to eq :error
       expect(updater.claim.errors[error_field]).to eq(expected_error)
       expect(updater.claim.state).to eq 'allocated'
       expect(updater.claim.redeterminations).to be_empty
+    end
+
+    it 'does not add message to the claim', :wait do
+      expect { updater.update! }.to_not change(updater.claim.messages, :count)
     end
   end
 
@@ -193,9 +240,6 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
     end
   end
 
-
-
-
   context 'rejections' do
     subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
     let(:claim) { create :allocated_claim }
@@ -314,19 +358,19 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       context 'if values are supplied with refused' do
-        it_behaves_like 'a failing assessment', 'refused', ['You cannot specify values when refusing a claim']
+        it_behaves_like 'an erroneous assessment', 'refused', ['You cannot specify values when refusing a claim']
       end
 
       context 'if values are supplied with rejected' do
-        it_behaves_like 'a failing assessment', 'rejected', ['You cannot specify values when rejecting a claim']
+        it_behaves_like 'an erroneous assessment', 'rejected', ['You cannot specify values when rejecting a claim']
       end
 
       context 'if no state_reason are supplied' do
-        it_behaves_like 'a failing assessment', 'rejected', ['requires a reason when rejecting'], 'redeterminations', [''], '', 0, :rejected_reason
+        it_behaves_like 'an erroneous assessment', 'rejected', ['requires a reason when rejecting'], 'redeterminations', [''], '', 0, :rejected_reason
       end
 
       context 'if state_reason is other, but no text is supplied' do
-        it_behaves_like 'a failing assessment', 'rejected', ['needs a description'], 'redeterminations', ['other'], 0, 0, :rejected_reason_other
+        it_behaves_like 'an erroneous assessment', 'rejected', ['needs a description'], 'redeterminations', ['other'], 0, 0, :rejected_reason_other
       end
     end
   end

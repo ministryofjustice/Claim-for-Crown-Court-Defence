@@ -13,7 +13,7 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
     resource.save
     yield resource if block_given?
     if resource.persisted?
-      create_external_user
+      ExternalUsers::CreateUser.new(resource).call!
       notify_resource
     else
       clean_up_passwords resource
@@ -32,26 +32,8 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name])
   end
 
-  def create_external_user
-    highest_sup_no = SupplierNumber.last&.id || 1
-    supplier_number = SupplierNumber.new(supplier_number: format('9X%03dX', highest_sup_no))
-    provider = Provider.create!(
-      name: Faker::Company.name,
-      firm_agfs_supplier_number: generate_unique_supplier_number,
-      provider_type: 'firm',
-      roles: %w[agfs lgfs],
-      lgfs_supplier_numbers: [supplier_number]
-    )
-    external_user = ExternalUser.new(
-      provider: provider,
-      roles: ['admin'],
-      supplier_number: generate_unique_supplier_number
-    )
-    external_user.user = resource
-    external_user.save!
-  end
-
   def notify_resource
+    resource.reload
     if resource.active_for_authentication?
       set_flash_message :notice, :signed_up if is_flashing_format?
       sign_up(resource_name, resource)
@@ -61,12 +43,5 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
       expire_data_after_sign_in!
       respond_with resource, location: after_inactive_sign_up_path_for(resource)
     end
-  end
-
-  def generate_unique_supplier_number
-    alpha_part = ''
-    2.times { alpha_part << rand(65..89).chr }
-    numeric_part = rand(999)
-    "#{alpha_part}#{format('%03d', numeric_part)}"
   end
 end

@@ -27,7 +27,7 @@ module Claims
         claim.send(event, audit_attributes) unless state_not_updateable?
         add_message if transition_reasons.present?
       rescue StandardError => err
-        add_error(err.message)
+        @result = validator.add_error(err.message)
         raise ActiveRecord::Rollback
       end
     end

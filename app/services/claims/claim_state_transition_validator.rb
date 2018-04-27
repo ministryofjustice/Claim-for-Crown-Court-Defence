@@ -13,6 +13,11 @@ module Claims
       validate
     end
 
+    def add_error(message, attribute = :determinations)
+      claim.errors[attribute] << message
+      @result = :error
+    end
+
     private
 
     def validate

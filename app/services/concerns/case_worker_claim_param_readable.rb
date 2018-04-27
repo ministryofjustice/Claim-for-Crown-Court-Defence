@@ -78,10 +78,5 @@ module CaseWorkerClaimParamReadable
     def reasons_present?
       transition_reasons.present? || transition_reason_text.present?
     end
-
-    def add_error(message, attribute = :determinations)
-      claim.errors[attribute] << message
-      @result = :error
-    end
   end
 end

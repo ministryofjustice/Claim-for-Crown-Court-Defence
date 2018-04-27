@@ -21,9 +21,13 @@ module Claims
     private
 
     def validate
-      add_error('You must select a status') if state.blank?
+      validate_state
       send("validate_#{state}") if state&.in?(%w[authorised part_authorised refused rejected])
       result
+    end
+
+    def validate_state
+      add_error('must select a status') if state.blank?
     end
 
     def validate_authorised
@@ -43,13 +47,13 @@ module Claims
     end
 
     def common_determination_validations
-      add_error('You must provide values when [part] authorising') unless determination_present?
-      add_error('You cannot provide reject/refuse reasons with an assessment') if reasons_present?
+      add_error('require values when authorising') unless determination_present?
+      add_error('must not provide reject/refuse reasons') if reasons_present?
     end
 
     def common_undetermined_validations
-      add_error("You cannot specify values when #{state_verb} a claim") if determination_present?
-      add_error("requires a reason when #{state_verb}", state_symbol(false)) if transition_reasons&.empty?
+      add_error("must not have values when #{state_verb} a claim") if determination_present?
+      add_error('requires a reason', state_symbol(false)) if transition_reasons&.empty?
       add_error('needs a description', state_symbol) if transition_reason_text_missing?
     end
   end

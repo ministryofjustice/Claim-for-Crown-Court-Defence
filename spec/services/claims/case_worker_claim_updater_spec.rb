@@ -131,7 +131,6 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
   context 'assessments' do
     let(:claim) { create :allocated_claim }
-    let(:submitted_claim) { create :claim, :submitted }
 
     context 'successful transitions' do
       context 'advances the claim to part authorised' do
@@ -251,20 +250,29 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
         expect(updater.claim.assessment.disbursements).to eq 0.0
       end
 
-      it 'rollbacks the transaction if transition fails' do
-        expect(submitted_claim.assessment.fees.to_f).to eq 0.0
+      context 'transactional rollback' do
+        subject(:updater) { described_class.new(claim.id, params).update! }
+        let(:claim) { create :claim, :submitted }
+        let(:params) { { 'state' => 'authorised', 'assessment_attributes' => {'fees' => '200', 'expenses' => '0.00'} } }
 
-        params = {'state' => 'authorised', 'assessment_attributes' => {'fees' => '200', 'expenses' => '0.00'}}
-        updater = described_class.new(submitted_claim.id, params).update!
+        it 'returns result of :error' do
+          expect(updater.result).to eq :error
+        end
 
-        expect(updater.result).to eq :error
-        expect(updater.claim.errors[:determinations]).to include('Cannot transition state via :authorise from :submitted (Reason(s): State cannot transition via "authorise")')
+        it 'adds error to its instance claim object' do
+          expect(updater.claim.errors[:determinations]).to include('Cannot transition state via :authorise from :submitted (Reason(s): State cannot transition via "authorise")')
+        end
 
-        # objects will not have their instance data returned to their pre-transactional state
-        expect(updater.claim.assessment.fees.to_f).to eq 200.0
-        updater.claim.reload
-        expect(updater.claim.state).to eq 'submitted'
-        expect(updater.claim.assessment.fees.to_f).to eq 0.0
+        it 'instance data remains in pre-transactional state' do
+          expect(updater.claim.assessment.fees.to_f).to eq 200.0
+        end
+
+        it 'does not persist the change' do
+          expect(claim.assessment.fees.to_f).to eq 0.0
+          updater.claim.reload
+          expect(updater.claim.state).to eq 'submitted'
+          expect(updater.claim.assessment.fees.to_f).to eq 0.0
+        end
       end
     end
   end

@@ -6,6 +6,9 @@ class Claim::BaseClaimValidator < BaseValidator
   private
 
   def step_fields_for_validation
+    # NOTE: keeping existent validation for API purposes
+    # The form validations just validate the fields for the current step
+    return (self.class.fields_for_steps[@record.form_step] || []) unless @record.from_api?
     self.class.fields_for_steps.select do |k, _v|
       @record.submission_current_flow.map(&:to_sym).include?(k)
     end.values.flatten

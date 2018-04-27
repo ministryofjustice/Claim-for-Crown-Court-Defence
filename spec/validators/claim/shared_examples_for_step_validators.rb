@@ -1,43 +1,21 @@
 RSpec.shared_examples 'common partial validations' do |steps|
 
   context 'partial validation' do
-    let(:step1_attributes) { steps[0] }
-    let(:step2_attributes) { steps[1] }
-    let(:step3_attributes) { steps[2] || [] }
-
     context 'from web' do
       before do
         claim.source = 'web'
       end
 
-      context 'first step' do
-        before do
-          claim.form_step = claim.submission_stages.first
-        end
-
-        it 'should validate only attributes for this step' do
-          step1_attributes.each do |attrib|
-            expect_any_instance_of(described_class).to receive(:validate_field).with(attrib)
+      it 'validates fields just for the current step' do
+        # NOTE: not very happy with what this is validating
+        # Ideally should be matching exactly the fields to be validated
+        # The current way only asserts that the provided fields are validated,
+        # not that the other step fields aren't, so could leas to false positives.
+        steps.each do |step_name, fields|
+          claim.form_step = step_name
+          fields.each do |field|
+            expect_any_instance_of(described_class).to receive(:validate_field).with(field)
           end
-
-          step2_attributes.each do |attrib|
-            expect_any_instance_of(described_class).not_to receive(:validate_field).with(attrib)
-          end
-
-          claim.valid?
-        end
-      end
-
-      context 'second step' do
-        before do
-          claim.form_step = claim.submission_stages.second
-        end
-
-        it 'should validate attributes for this step and previous steps' do
-          (step1_attributes + step2_attributes).each do |attrib|
-            expect_any_instance_of(described_class).to receive(:validate_field).with(attrib)
-          end
-
           claim.valid?
         end
       end
@@ -48,8 +26,8 @@ RSpec.shared_examples 'common partial validations' do |steps|
         claim.source = 'api'
       end
 
-      it 'should validate all the attributes for all the steps' do
-        steps.flatten.each do |attrib|
+      it 'validates all the attributes for all the steps' do
+        steps.values.flatten.each do |attrib|
           expect_any_instance_of(described_class).to receive(:validate_field).with(attrib)
         end
 

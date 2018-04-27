@@ -322,34 +322,33 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
     end
   end
 
-  include_examples 'common partial validations', [
-      %i[
-          case_type
-          court
-          case_number
-          case_transferred_from_another_court
-          transfer_court
-          transfer_case_number
-          estimated_trial_length
-          actual_trial_length
-          retrial_estimated_length
-          retrial_actual_length
-          trial_cracked_at_third
-          trial_fixed_notice_at
-          trial_fixed_at
-          trial_cracked_at
-          trial_dates
-          retrial_started_at
-          retrial_concluded_at
-          case_concluded_at
-          supplier_number
-      ],
-      [],
-      %i[offence],
-      %i[total advocate_category defendant_uplifts],
-      %i[total],
-      %i[total],
-      [],
-      []
-  ]
+  include_examples 'common partial validations', {
+    case_details: %i[
+      case_type
+      court
+      case_number
+      case_transferred_from_another_court
+      transfer_court
+      transfer_case_number
+      estimated_trial_length
+      actual_trial_length
+      retrial_estimated_length
+      retrial_actual_length
+      trial_cracked_at_third
+      trial_fixed_notice_at
+      trial_fixed_at
+      trial_cracked_at
+      trial_dates
+      retrial_started_at
+      retrial_concluded_at
+      case_concluded_at
+      supplier_number
+    ],
+    defendants: [],
+    offence_details: %i[offence],
+    basic_and_fixed_fees: %i[total advocate_category defendant_uplifts],
+    miscellaneous_fees: %i[total defendant_uplifts],
+    travel_expenses: %i[total],
+    supporting_evidence: []
+  }
 end

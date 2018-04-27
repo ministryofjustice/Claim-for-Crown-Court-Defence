@@ -8,8 +8,8 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
   let(:claim) { build :transfer_claim }
   let(:transfer_detail) { build :transfer_detail, claim: claim }
 
-  include_examples 'common partial validations', [
-    %i[
+  include_examples 'common partial validations', {
+    transfer_fee_details: %i[
       litigator_type
       elected_case
       transfer_stage_id
@@ -17,7 +17,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
       case_conclusion_id
       transfer_detail_combo
     ],
-    %i[
+    case_details: %i[
       court
       case_number
       case_transferred_from_another_court
@@ -28,11 +28,11 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
       amount_assessed
       evidence_checklist_ids
     ],
-    [],
-    %i[offence],
-    %i[transfer_fee],
-    %i[total]
-  ]
+    defendants: [],
+    offence_details: %i[offence],
+    transfer_fees: %i[transfer_fee],
+    supporting_evidence: %i[total]
+  }
 
   before do
     claim.form_step = :case_details
@@ -40,6 +40,11 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
   end
 
   context 'litigator type' do
+    before do
+      claim.form_step = :transfer_fee_details
+      claim.force_validation = true
+    end
+
     it 'errors if not new or original' do
       expect_invalid_attribute_with_message(claim, :litigator_type, 'xxx', 'invalid')
     end
@@ -51,6 +56,11 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
   end
 
   context 'elected_case' do
+    before do
+      claim.form_step = :transfer_fee_details
+      claim.force_validation = true
+    end
+
     it 'errors if nil' do
       expect_invalid_attribute_with_message(claim, :elected_case, nil, 'invalid')
     end
@@ -62,6 +72,11 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
   end
 
   context 'transfer_stage_id' do
+    before do
+      claim.form_step = :transfer_fee_details
+      claim.force_validation = true
+    end
+
     it 'errors if invalid id' do
       expect_invalid_attribute_with_message(claim, :transfer_stage_id, 33, 'invalid')
     end
@@ -72,6 +87,11 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
   end
 
   context 'transfer_date' do
+    before do
+      claim.form_step = :transfer_fee_details
+      claim.force_validation = true
+    end
+
     it 'errors if blank' do
       expect_invalid_attribute_with_message(claim, :transfer_date, nil, 'blank')
     end
@@ -127,6 +147,10 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
   end
 
   context 'case_conclusion' do
+    before do
+      claim.form_step = :transfer_fee_details
+      claim.force_validation = true
+    end
 
     let(:claim) { Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id:30, case_conclusion_id: 10) }
 
@@ -153,6 +177,10 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
   end
 
   context 'transfer_details combination' do
+    before do
+      claim.form_step = :transfer_fee_details
+      claim.force_validation = true
+    end
 
     let(:claim) { Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id: 50, case_conclusion_id: 10) }
 

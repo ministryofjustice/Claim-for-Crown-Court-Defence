@@ -48,6 +48,21 @@ RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
 
         include_examples 'an AGFS claim'
       end
+
+      context 'when the claim has been submitted via the API' do
+        # This will mean the offence will determine the fee_scheme, not the rep_order date
+        context 'with a scheme_ten offence' do
+          let(:claim) { create :api_advocate_claim, :with_scheme_ten_offence }
+
+          it { is_expected.to match_array(['QC', 'Leading junior', 'Junior']) }
+        end
+
+        context 'with a scheme_nine offence' do
+          let(:claim) { create :api_advocate_claim }
+
+          it { is_expected.to match_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
+        end
+      end
     end
   end
 end

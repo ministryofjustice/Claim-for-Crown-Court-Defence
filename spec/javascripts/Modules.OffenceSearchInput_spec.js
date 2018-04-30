@@ -224,7 +224,3 @@ describe("Modules.OffenceSearchInput.js", function() {
 
   });
 });
-
-describe("Modules.Modules.OffenceCtrl.js", function() {
-
-});

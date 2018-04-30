@@ -12,6 +12,9 @@
 //= require typeahead-aria.js
 //= require jquery.jq-element-revealer.js
 //= require jquery.datatables.min.js
+//= require jsrender.min.js
+//= require jquery.highlight-5.min.js
+//= require jquery.ba-throttle-debounce.js
 //= require_tree ./modules
 //
 

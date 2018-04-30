@@ -149,9 +149,15 @@ form{
     padding: 10px;
     border-bottom: 1px solid #ccc;
 
-    .link-grey {
+    span.link-grey {
+      a{
+        color: #6f777b !important;
+        text-decoration: none;
+      }
+      a:hover{
+        text-decoration: underline;
+      }
       color: #6f777b !important;
-      text-decoration: none;
     }
 
     .align-right {
@@ -189,7 +195,11 @@ form{
   padding: 15px 30px;
 }
 
+
 .hidden, .js-enabled .js-hidden {
   display: none;
   visibility: hidden;
 }
+
+.highlight { background-color: #ffffca }
+

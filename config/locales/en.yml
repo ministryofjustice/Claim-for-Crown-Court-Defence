@@ -44,7 +44,7 @@ en:
     clear_form: 'Clear form'
     add_evidence: 'Upload evidence'
     edit_draft: 'Edit this claim'
-    delete_draft: 'Delete draft'
+    delete_draft: Delete draft claim
     continue_to_certification: &continue_to_certification_button Continue to certification
   date:
     formats:

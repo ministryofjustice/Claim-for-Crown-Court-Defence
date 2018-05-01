@@ -13,3 +13,4 @@
     .form-group.form-buttons
       = link_to t('buttons.continue'), new_external_users_claim_certification_path(claim), { class: 'button button-continue', role: 'button', 'aria-label': t('.button_label') }
       = link_to t('buttons.save_a_draft'), external_users_root_path, { class: 'button button-gray-3', role: 'button' }
+      = link_to t('buttons.delete_draft'), external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'link-delete'

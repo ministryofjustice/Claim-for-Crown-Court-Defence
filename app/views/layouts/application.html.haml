@@ -5,7 +5,13 @@
 
 - content_for :head do
   %meta{:name =>"format-detection", :content => "telephone=no"}
-  = stylesheet_link_tag "application", media: "all"
+
+
+  - content_for(:v1_stylesheets) do
+    = stylesheet_link_tag "v1/application", media: "all"
+
+  = content_for?(:v2_stylesheets) ? yield(:v2_stylesheets) : yield(:v1_stylesheets)
+
   - if GoogleAnalytics::DataTracking.enabled?
     = render partial: 'layouts/analytics', :formats => [:js], locals: { adapter: GoogleAnalytics::DataTracking.adapter_name }
     %script

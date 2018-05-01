@@ -79,10 +79,12 @@ namespace :db do
     end
 
     # The following will export the previously excluded tables data, in an anonymised way
+    $arel_silence_type_casting_deprecation = true
     excluded_tables.each do |table|
       task_name = "db:dump:#{table}"
       Rake::Task[task_name].invoke(filename)
     end
+    $arel_silence_type_casting_deprecation = false
 
     compress_file(filename)
   end
@@ -271,7 +273,12 @@ namespace :db do
     file_name = name || 'anonymised_data.sql'
     open(file_name, 'a') do |file|
       yield ->(model) do
-        file.puts model.class.arel_table.create_insert.tap { |im| im.insert(model.send(:arel_attributes_with_values_for_create, model.attribute_names)) }.to_sql.gsub('"', '') + ';'
+        type_caster = model.class.arel_table.send(:type_caster)
+        values = model.send(:arel_attributes_with_values_for_create, model.attribute_names)
+        values.each do |attribute, value|
+          values[attribute] = type_caster.type_cast_for_database(attribute.name, value)
+        end
+        file.puts model.class.arel_table.compile_insert(values).to_sql.gsub('"', '') + ';'
       end
     end
   end

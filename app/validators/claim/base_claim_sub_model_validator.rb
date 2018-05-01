@@ -20,6 +20,9 @@ class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
   private
 
   def associations_for_has_many_validations(record)
+    # NOTE: keeping existent validation for API purposes
+    # The form validations just validate the fields for the current step
+    return (has_many_association_names_for_steps[record.form_step] || []) unless record.from_api?
     has_many_association_names_for_steps.select do |k, _v|
       record.submission_current_flow.map(&:to_sym).include?(k)
     end.values.flatten
@@ -32,6 +35,9 @@ class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
   end
 
   def associations_for_has_one_validations(record)
+    # NOTE: keeping existent validation for API purposes
+    # The form validations just validate the fields for the current step
+    return (has_one_association_names_for_steps[record.form_step] || []) unless record.from_api?
     has_one_association_names_for_steps.select do |k, _v|
       record.submission_current_flow.map(&:to_sym).include?(k)
     end.values.flatten

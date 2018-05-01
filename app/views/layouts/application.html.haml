@@ -6,10 +6,11 @@
 - content_for :head do
   %meta{:name =>"format-detection", :content => "telephone=no"}
 
-
+  -# default CSS to v1
   - content_for(:v1_stylesheets) do
     = stylesheet_link_tag "v1/application", media: "all"
 
+  -# Conditionally load CSS
   = content_for?(:v2_stylesheets) ? yield(:v2_stylesheets) : yield(:v1_stylesheets)
 
   - if GoogleAnalytics::DataTracking.enabled?

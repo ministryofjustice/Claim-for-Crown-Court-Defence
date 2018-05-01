@@ -22,9 +22,7 @@
   overflow-y: scroll;
 }
 
-.tt-highlight{
-  background-color: #ffffca !important;
-}
+
 
 
 @media (min-width: 641px){
@@ -61,7 +59,12 @@
   padding: 0.5em;
 }
 
+#offence-list .tt-highlight{
+  background-color: #ffffca !important;
+}
+
 .mod-search-input{
+
   .fx-clear-filters{}
   .fx-input{
     float:left;

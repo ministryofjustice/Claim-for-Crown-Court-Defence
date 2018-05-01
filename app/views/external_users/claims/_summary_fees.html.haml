@@ -10,7 +10,8 @@
   %tbody
 
     - if local_assigns.has_key?(:fee)
-      = render partial: 'external_users/claims/summary_fee', locals: { fee: fee }
+      - if fee
+        = render partial: 'external_users/claims/summary_fee', locals: { fee: fee }
     - else
       - collection = local_assigns.has_key?(:collection) ? collection : claim.fees.select(&:present?)
       - present_collection(collection.sort_by(&:position)).each.with_index(1) do |fee, index|

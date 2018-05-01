@@ -2,7 +2,7 @@
   %th{ scope: 'row', class: 'bold' }
     = t('shared.summary.fee_type')
   %td
-    = fee.fee_type.description
+    = fee.fee_type&.description
 
 - if fee.sub_type.present?
   %tr

@@ -2,7 +2,7 @@
   %h3.heading-medium
     = t('external_users.claims.interim_fee.summary.header')
     - if local_assigns[:editable]
-      = link_to 'Change', edit_polymorphic_path(claim, step: :interim_fees), class: 'link-change'
+      = link_to 'Change', edit_polymorphic_path(claim, step: :interim_fees, referrer: summary_external_users_claim_path(claim)), class: 'link-change'
 
   - if claim.interim_fee.nil? || claim.interim_fee.is_disbursement?
     %p

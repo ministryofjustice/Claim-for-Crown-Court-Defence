@@ -7,7 +7,7 @@
   %h3.heading-medium
     = t('external_users.claims.case_details.summary.header')
     - if local_assigns[:editable]
-      = link_to 'Change', edit_polymorphic_path(claim, step: :case_details), class: 'link-change'
+      = link_to 'Change', edit_polymorphic_path(claim, step: :case_details, referrer: summary_external_users_claim_path(claim)), class: 'link-change'
 
   %table{ class: 'summary', summary: t('.summary') }
     %caption

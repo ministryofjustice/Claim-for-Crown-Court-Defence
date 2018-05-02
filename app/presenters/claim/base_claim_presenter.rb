@@ -20,6 +20,10 @@ class Claim::BaseClaimPresenter < BasePresenter
         transfer_fee_details].include? claim.current_step
   end
 
+  def can_be_saved_as_draft?
+    claim.draft? && !%i[case_details transfer_fee_details].include?(claim.current_step)
+  end
+
   present_with_currency :misc_fees_total, :disbursements_total, :total_inc
 
   # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down

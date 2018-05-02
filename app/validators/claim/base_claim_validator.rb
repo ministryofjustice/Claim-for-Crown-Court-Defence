@@ -209,6 +209,7 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def ignore_validation_for_cracked_trials?
     @record.disable_for_state_transition.eql?(:only_amount_assessed) ||
+      !@record.case_type.present? ||
       (@record.case_type && !@record.requires_cracked_dates?)
   end
 

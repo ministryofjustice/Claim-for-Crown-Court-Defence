@@ -168,6 +168,14 @@ FactoryBot.define do
         quantity_is_decimal false
       end
 
+      trait :fxndr do
+        description 'Number of defendants uplifts'
+        code 'NDR'
+        unique_code 'FXNDR'
+        roles ['agfs','lgfs']
+        quantity_is_decimal false
+      end
+
       trait :fxcbu do
         description 'Breach of a crown court order uplift'
         code 'CBU'

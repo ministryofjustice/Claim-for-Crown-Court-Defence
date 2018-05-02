@@ -24,8 +24,10 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
       ],
       defendants: [],
       offence_details: %i[offence],
-      basic_and_fixed_fees: FEE_VALIDATION_FIELDS + %i[advocate_category defendant_uplifts],
-      miscellaneous_fees: FEE_VALIDATION_FIELDS + %i[defendant_uplifts],
+      basic_and_fixed_fees: FEE_VALIDATION_FIELDS + %i[
+        advocate_category defendant_uplifts_basic_fees defendant_uplifts_fixed_fees
+      ],
+      miscellaneous_fees: FEE_VALIDATION_FIELDS + %i[defendant_uplifts_misc_fees],
       travel_expenses: FEE_VALIDATION_FIELDS,
       supporting_evidence: []
     }
@@ -67,25 +69,65 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
     validate_pattern(:supplier_number, supplier_number_regex, 'invalid')
   end
 
-  def validate_defendant_uplifts
+  def validate_defendant_uplifts_basic_fees
+    return if @record.from_api? || @record.fixed_fee_case?
+    return unless defendant_uplifts_greater_than?(defendant_uplifts_basic_fees_counts, number_of_defendants)
+    add_error(:base, 'defendant_uplifts_basic_fees_mismatch')
+  end
+
+  def validate_defendant_uplifts_fixed_fees
+    return if @record.from_api? || !@record.fixed_fee_case?
+    return unless defendant_uplifts_greater_than?(defendant_uplifts_fixed_fees_counts, number_of_defendants)
+    add_error(:base, 'defendant_uplifts_fixed_fees_mismatch')
+  end
+
+  def validate_defendant_uplifts_misc_fees
     return if @record.from_api?
-    no_of_defendants = @record.defendants.reject(&:marked_for_destruction?).size
-    add_error(:base, 'defendant_uplifts_mismatch') if defendant_uplifts_greater_than?(no_of_defendants)
+    return unless defendant_uplifts_greater_than?(defendant_uplifts_misc_fees_counts, number_of_defendants)
+    add_error(:base, 'defendant_uplifts_misc_fees_mismatch')
+  end
+
+  def number_of_defendants
+    @record.defendants.reject(&:marked_for_destruction?).size
   end
 
   # we add one because uplift quantities reflect the number of "additional" defendants
-  def defendant_uplifts_greater_than?(no_of_defendants)
+  def defendant_uplifts_greater_than?(defendant_uplifts_counts, no_of_defendants)
     defendant_uplifts_counts.map(&:to_i).any? { |sum| sum + 1 > no_of_defendants }
   end
 
-  def defendant_uplifts
-    (@record.basic_fees + @record.fixed_fees + @record.misc_fees).select do |fee|
+  def defendant_uplifts_basic_fees
+    defendant_uplifts_fees(@record.basic_fees)
+  end
+
+  def defendant_uplifts_fixed_fees
+    defendant_uplifts_fees(@record.fixed_fees)
+  end
+
+  def defendant_uplifts_misc_fees
+    defendant_uplifts_fees(@record.misc_fees)
+  end
+
+  def defendant_uplifts_fees(fees)
+    fees.select do |fee|
       !fee.marked_for_destruction? &&
         fee&.defendant_uplift?
     end
   end
 
-  def defendant_uplifts_counts
+  def defendant_uplifts_basic_fees_counts
+    defendant_uplifts_counts_for(defendant_uplifts_basic_fees)
+  end
+
+  def defendant_uplifts_fixed_fees_counts
+    defendant_uplifts_counts_for(defendant_uplifts_fixed_fees)
+  end
+
+  def defendant_uplifts_misc_fees_counts
+    defendant_uplifts_counts_for(defendant_uplifts_misc_fees)
+  end
+
+  def defendant_uplifts_counts_for(defendant_uplifts)
     defendant_uplifts.each_with_object({}) do |fee, res|
       res[fee.fee_type.unique_code] ||= []
       res[fee.fee_type.unique_code] << fee.quantity

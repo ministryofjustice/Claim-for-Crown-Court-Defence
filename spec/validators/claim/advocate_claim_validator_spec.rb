@@ -201,7 +201,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
         end
 
         it 'should error' do
-          should_error_with(claim, :base, 'defendant_uplifts_mismatch')
+          should_error_with(claim, :base, 'defendant_uplifts_misc_fees_mismatch')
         end
 
         context 'when from api' do
@@ -225,8 +225,45 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
           expect(claim.basic_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[BANDR])
         end
 
-        it 'should error' do
-          should_error_with(claim, :base, 'defendant_uplifts_mismatch')
+        it 'should not error' do
+          should_not_error(claim, :base)
+        end
+
+        context 'and form step is basic and fixed fees' do
+          before do
+            claim.form_step = :basic_and_fixed_fees
+          end
+
+          it 'should error' do
+            should_error_with(claim, :base, 'defendant_uplifts_basic_fees_mismatch')
+          end
+        end
+      end
+
+      context 'when there is 1 fixed fee uplift' do
+        let(:claim) { create(:advocate_claim, :with_fixed_fee_case) }
+
+        before do
+          create(:fixed_fee, :fxndr_fee, claim: claim, quantity: 1, amount: 21.01)
+        end
+
+        it 'test setup' do
+          expect(claim.defendants.size).to eql 1
+          expect(claim.fixed_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[FXNDR])
+        end
+
+        it 'should not error' do
+          should_not_error(claim, :base)
+        end
+
+        context 'and form step is basic and fixed fees' do
+          before do
+            claim.form_step = :basic_and_fixed_fees
+          end
+
+          it 'should error' do
+            should_error_with(claim, :base, 'defendant_uplifts_fixed_fees_mismatch')
+          end
         end
       end
 
@@ -264,7 +301,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
           end
 
           it 'should add one error only' do
-            should_error_with(claim, :base, 'defendant_uplifts_mismatch')
+            should_error_with(claim, :base, 'defendant_uplifts_misc_fees_mismatch')
             expect(claim.errors[:base].size).to eql 1
           end
         end
@@ -346,8 +383,8 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
     ],
     defendants: [],
     offence_details: %i[offence],
-    basic_and_fixed_fees: %i[total advocate_category defendant_uplifts],
-    miscellaneous_fees: %i[total defendant_uplifts],
+    basic_and_fixed_fees: %i[total advocate_category defendant_uplifts_basic_fees defendant_uplifts_fixed_fees],
+    miscellaneous_fees: %i[total defendant_uplifts_misc_fees],
     travel_expenses: %i[total],
     supporting_evidence: []
   }

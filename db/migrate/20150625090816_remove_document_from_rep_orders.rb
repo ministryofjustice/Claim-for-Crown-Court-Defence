@@ -1,4 +1,4 @@
-class RemoveDocumentFromRepOrders < ActiveRecord::Migration
+class RemoveDocumentFromRepOrders < ActiveRecord::Migration[4.2]
 
   def up
     remove_column :representation_orders, :document_file_name

@@ -1,4 +1,4 @@
-class AddRetrialColumnsToClaim < ActiveRecord::Migration
+class AddRetrialColumnsToClaim < ActiveRecord::Migration[4.2]
   def change
     change_table :claims do |t|
       t.date    :retrial_started_at

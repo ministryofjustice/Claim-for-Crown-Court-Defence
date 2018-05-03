@@ -1,4 +1,4 @@
-class CreateCertifications < ActiveRecord::Migration
+class CreateCertifications < ActiveRecord::Migration[4.2]
   def change
     create_table :certifications do |t|
       t.integer :claim_id

@@ -1,4 +1,4 @@
-class MigrateDatesAttended < ActiveRecord::Migration
+class MigrateDatesAttended < ActiveRecord::Migration[4.2]
 
   def up
     migrate_dates_for(Fee::GraduatedFee)

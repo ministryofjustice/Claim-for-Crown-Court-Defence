@@ -1,4 +1,4 @@
-class AddUuids < ActiveRecord::Migration
+class AddUuids < ActiveRecord::Migration[4.2]
   def change
     add_column :advocates,              :uuid, :uuid, default: 'uuid_generate_v4()', index: true
     add_column :chambers,               :uuid, :uuid, default: 'uuid_generate_v4()', index: true

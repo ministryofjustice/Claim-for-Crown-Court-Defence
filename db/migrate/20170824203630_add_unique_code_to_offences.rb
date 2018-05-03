@@ -1,4 +1,4 @@
-class AddUniqueCodeToOffences < ActiveRecord::Migration
+class AddUniqueCodeToOffences < ActiveRecord::Migration[4.2]
   def up
     add_column :offences, :unique_code, :string, default: 'anyoldrubbish', null: false
     Rake::Task['data:migrate:offence_unique_code'].invoke

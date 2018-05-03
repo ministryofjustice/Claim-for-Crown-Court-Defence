@@ -1,4 +1,4 @@
-class SeedAndMoveToCertificationTypes < ActiveRecord::Migration
+class SeedAndMoveToCertificationTypes < ActiveRecord::Migration[4.2]
   def change
     add_column :certification_types, :roles, :string
 

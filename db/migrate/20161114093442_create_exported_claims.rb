@@ -1,4 +1,4 @@
-class CreateExportedClaims < ActiveRecord::Migration
+class CreateExportedClaims < ActiveRecord::Migration[4.2]
   def change
     create_table :exported_claims do |t|
       t.references :claim, index: true, null: false

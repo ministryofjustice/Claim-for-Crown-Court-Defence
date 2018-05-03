@@ -1,4 +1,4 @@
-class AddVatAmountToDeterminations < ActiveRecord::Migration
+class AddVatAmountToDeterminations < ActiveRecord::Migration[4.2]
   def up
     add_column :determinations, :vat_amount, :float, default: 0.0
 

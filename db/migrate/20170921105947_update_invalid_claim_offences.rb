@@ -31,7 +31,7 @@ module InvalidOffences
   end
 end
 
-class UpdateInvalidClaimOffences < ActiveRecord::Migration
+class UpdateInvalidClaimOffences < ActiveRecord::Migration[4.2]
   include InvalidOffences
 
   def up

@@ -1,4 +1,4 @@
-class AddRolesToCertificationTypes < ActiveRecord::Migration
+class AddRolesToCertificationTypes < ActiveRecord::Migration[4.2]
   def change
     return if ActiveRecord::Base.connection.column_exists?(:certification_types, :roles)
 

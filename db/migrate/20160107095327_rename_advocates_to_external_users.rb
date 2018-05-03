@@ -1,4 +1,4 @@
-class RenameAdvocatesToExternalUsers < ActiveRecord::Migration
+class RenameAdvocatesToExternalUsers < ActiveRecord::Migration[4.2]
   def self.up
     rename_table :advocates, :external_users
   end

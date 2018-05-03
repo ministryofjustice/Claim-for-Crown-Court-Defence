@@ -1,4 +1,4 @@
-class ModifyOffenceDescription < ActiveRecord::Migration
+class ModifyOffenceDescription < ActiveRecord::Migration[4.2]
   # fix typo
   def up
     Offence

@@ -1,4 +1,4 @@
-class AddQuantityIsDecimalToFeeType < ActiveRecord::Migration
+class AddQuantityIsDecimalToFeeType < ActiveRecord::Migration[4.2]
   def up
     add_column :fee_types, :quantity_is_decimal, :boolean, default: false
     Fee::BaseFeeType.reset_column_information

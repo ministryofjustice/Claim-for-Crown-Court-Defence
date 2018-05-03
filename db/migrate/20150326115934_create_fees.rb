@@ -1,4 +1,4 @@
-class CreateFees < ActiveRecord::Migration
+class CreateFees < ActiveRecord::Migration[4.2]
   def change
     create_table :fees do |t|
       t.references :claim, index: true

@@ -1,4 +1,4 @@
-class AddDisbursementsToDeterminations < ActiveRecord::Migration
+class AddDisbursementsToDeterminations < ActiveRecord::Migration[4.2]
   def up
     add_column :determinations, :disbursements, :decimal, default: 0.0
     change_column_default :determinations, :fees, 0.0

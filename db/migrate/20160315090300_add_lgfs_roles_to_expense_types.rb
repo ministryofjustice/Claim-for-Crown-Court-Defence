@@ -1,4 +1,4 @@
-class AddLgfsRolesToExpenseTypes < ActiveRecord::Migration
+class AddLgfsRolesToExpenseTypes < ActiveRecord::Migration[4.2]
   def up
     expense_types.each do |et|
       et.update(roles: ['agfs', 'lgfs'])

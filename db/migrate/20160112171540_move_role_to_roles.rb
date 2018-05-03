@@ -1,4 +1,4 @@
-class MoveRoleToRoles < ActiveRecord::Migration
+class MoveRoleToRoles < ActiveRecord::Migration[4.2]
   def change
     add_column :external_users, :roles, :string
     add_column :case_workers, :roles, :string

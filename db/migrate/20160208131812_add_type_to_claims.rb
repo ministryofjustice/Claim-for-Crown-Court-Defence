@@ -1,4 +1,4 @@
-class AddTypeToClaims < ActiveRecord::Migration
+class AddTypeToClaims < ActiveRecord::Migration[4.2]
   def up
     add_column :claims, :type, :string
     ActiveRecord::Base.connection.execute "UPDATE claims SET type = 'Claim::AdvocateClaim'"

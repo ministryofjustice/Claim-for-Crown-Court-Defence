@@ -1,4 +1,4 @@
-class AddVerifiedFileSizeToDocuments < ActiveRecord::Migration
+class AddVerifiedFileSizeToDocuments < ActiveRecord::Migration[4.2]
   def change
     add_column :documents, :verified_file_size, :integer
     add_column :documents, :file_path, :string

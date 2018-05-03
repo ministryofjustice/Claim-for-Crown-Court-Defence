@@ -1,4 +1,4 @@
-class CreateFeeTypes < ActiveRecord::Migration
+class CreateFeeTypes < ActiveRecord::Migration[4.2]
   def change
     create_table :fee_types do |t|
       t.string :description

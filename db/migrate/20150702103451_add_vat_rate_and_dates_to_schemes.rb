@@ -1,4 +1,4 @@
-class AddVatRateAndDatesToSchemes < ActiveRecord::Migration
+class AddVatRateAndDatesToSchemes < ActiveRecord::Migration[4.2]
   def change
     add_column :schemes, :vat_rate, :float
     add_column :schemes, :start_date, :datetime

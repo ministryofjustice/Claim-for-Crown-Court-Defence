@@ -1,4 +1,4 @@
-class AddReasonSetToExpenseType < ActiveRecord::Migration
+class AddReasonSetToExpenseType < ActiveRecord::Migration[4.2]
   def change
     add_column :expense_types, :reason_set, :string
 

@@ -1,4 +1,4 @@
-class CreateDefendants < ActiveRecord::Migration
+class CreateDefendants < ActiveRecord::Migration[4.2]
   def change
     create_table :defendants do |t|
       t.string :first_name

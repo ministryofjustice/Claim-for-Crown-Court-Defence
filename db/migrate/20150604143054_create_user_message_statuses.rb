@@ -1,4 +1,4 @@
-class CreateUserMessageStatuses < ActiveRecord::Migration
+class CreateUserMessageStatuses < ActiveRecord::Migration[4.2]
   def change
     create_table :user_message_statuses do |t|
       t.references :user, index: true

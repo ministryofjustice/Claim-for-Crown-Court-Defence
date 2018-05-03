@@ -1,4 +1,4 @@
-class CreateDisbursementTypes < ActiveRecord::Migration
+class CreateDisbursementTypes < ActiveRecord::Migration[4.2]
   def change
     create_table :disbursement_types do |t|
       t.string :name

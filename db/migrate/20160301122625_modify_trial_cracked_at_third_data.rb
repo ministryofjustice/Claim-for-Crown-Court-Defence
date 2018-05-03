@@ -1,4 +1,4 @@
-class ModifyTrialCrackedAtThirdData < ActiveRecord::Migration
+class ModifyTrialCrackedAtThirdData < ActiveRecord::Migration[4.2]
   def up
     Claim::BaseClaim.where.not(trial_cracked_at_third: nil).each do |claim|
       clean_trial_cracked_at_third = claim.trial_cracked_at_third.downcase.strip.gsub(/\s/,'_')

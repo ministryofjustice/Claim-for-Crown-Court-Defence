@@ -1,4 +1,4 @@
-class ChangeNameOfSupplierNumber < ActiveRecord::Migration
+class ChangeNameOfSupplierNumber < ActiveRecord::Migration[4.2]
   def up
     rename_column :providers, :supplier_number, :firm_agfs_supplier_number
   end

@@ -1,4 +1,4 @@
-class CreateOffenceClasses < ActiveRecord::Migration
+class CreateOffenceClasses < ActiveRecord::Migration[4.2]
   def change
     create_table :offence_classes do |t|
       t.string :class_letter

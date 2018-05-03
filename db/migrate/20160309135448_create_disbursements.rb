@@ -1,4 +1,4 @@
-class CreateDisbursements < ActiveRecord::Migration
+class CreateDisbursements < ActiveRecord::Migration[4.2]
   def change
     create_table :disbursements do |t|
       t.references :disbursement_type, index: true

@@ -1,4 +1,4 @@
-class RemoveExternalUserProviderForeignKey < ActiveRecord::Migration
+class RemoveExternalUserProviderForeignKey < ActiveRecord::Migration[4.2]
 
   # Having problems sometimes to find the FK with error: Table 'external_users' has no foreign key on column 'provider_id'
   # This will work around

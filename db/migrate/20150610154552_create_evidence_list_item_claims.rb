@@ -1,4 +1,4 @@
-class CreateEvidenceListItemClaims < ActiveRecord::Migration
+class CreateEvidenceListItemClaims < ActiveRecord::Migration[4.2]
   def change
     create_table :evidence_list_item_claims do |t|
       t.belongs_to :claim, null: false, index: true

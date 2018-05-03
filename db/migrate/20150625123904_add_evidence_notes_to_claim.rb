@@ -1,4 +1,4 @@
-class AddEvidenceNotesToClaim < ActiveRecord::Migration
+class AddEvidenceNotesToClaim < ActiveRecord::Migration[4.2]
   def up
     add_column :claims, :evidence_notes, :text
     remove_column :documents, :notes

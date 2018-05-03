@@ -1,4 +1,4 @@
-class RemoveDisbursementTypeIdFromFees < ActiveRecord::Migration
+class RemoveDisbursementTypeIdFromFees < ActiveRecord::Migration[4.2]
   def up
     remove_column :fees, :disbursement_type_id
   end

@@ -31,9 +31,8 @@ Metrics/ClassLength:
 Metrics/LineLength:
   Exclude:
     - 'app/services/ccr/fee/misc_fee_adapter.rb'
-    - 'app/interfaces/api/entities/full_claim.rb'
+    - 'app/interfaces/api/entities/full_claim.rb' # not used
     - 'lib/data_migrator/*rb'
-    # @jsugarman to check ^^
 
 # Offense count: 56
 # Configuration parameters: CountComments.

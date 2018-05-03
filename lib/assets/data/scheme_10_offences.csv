@@ -170,7 +170,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 5,5.1,Assault with intent to commit buggery,"Sexual Offences Act 1956, s.16",1956 c. 69
 5,5.1,Rape,"Sexual Offences Act 2003, s.1",2003 c. 42
 5,5.1,Assault by penetration,"Sexual Offences Act 2003, s.2",2003 c. 42
-5,5.1,"Causing a person to engage in sexual activity without consent: Sexual Offences Act 2003, s.4(4)","Sexual Offences Act 2003, s.4(4)",2003 c. 42
+5,5.1,Causing a person to engage in sexual activity without consent,"Sexual Offences Act 2003, s.4(4)",2003 c. 42
 5,5.2,Sexual assault,"Sexual Offences Act 2003, s.3",2003 c. 42
 5,5.2,Administering drugs to obtain or facilitate intercourse,"Sexual Offences Act 1956, s.4",1956 c. 69
 5,5.2,Indecent assault on a woman,"Sexual Offences Act 1956, s.14",1956 c. 69
@@ -188,7 +188,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 5,5.3,Detention of woman in brothel or other premises,"Sexual Offences Act 1956, s.24",1956 c. 69
 5,5.3,Possession of extreme pornographic images,"Criminal Justice and Immigration Act 2008, s.63",2008 c. 4
 5,5.3,"To have protected material, or copy of it, in his possession otherwise than while inspecting it","Sexual Offences (Protected Material) Act 1997, s.8(1)(a) ",1997 c. 39
-5,5.3,Give to another person disclosed protected material in connection with sexual offence proceedings.,"Sexual Offences (Protected Material) Act 1997, s.8(1)(b)",1997 c. 39
+5,5.3,Give that (protected) material or any copy of it, or otherwise reveal its contents, to any other person,"Sexual Offences (Protected Material) Act 1997, s.8(1)(b)",1997 c. 39
 5,5.3,Man living on earnings of prostitution,"Sexual Offences Act 1956, s.30",1956 c. 69
 5,5.3,Woman exercising control over prostitute,"Sexual Offences Act 1956, s.32",1956 c. 69
 5,5.3,Keeping a brothel,"Sexual Offences Act 1956, s.33",1956 c. 69
@@ -846,7 +846,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,Public nuisance,Common Law,
 17,17.1,Removing corpse from grave,Common Law,
 17,17.1,Rescuing a prisoner in custody,Common Law,
-17,17.1,"Possession or supply of apparatus for use in dishonestly obtaining an electronic communication service.","Communications Act 2003, s.126",2003 c. 21
+17,17.1,"Possession or supply of apparatus etc for contravening s.125","Communications Act 2003, s.126",2003 c. 21
 17,17.1,Offences in connection with information requirements,"Communications Act 2003, s.144, 393 and Paragraph 12 and 13 of Schedule 11",2003 c. 21
 17,17.1,Failing to comply with provisions in connection with requests for or disclosure of information from the register of members,"Companies Act 2006, s.119",2006 c. 46
 17,17.1,Failing to comply with provisions in relation to duty to keep accounting records,"Companies Act 2006, s.387",2006 c. 46
@@ -871,7 +871,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,Wildlife Offences,Control of Trade in Endangered Species (Enforcement) Regulations 1997,1997 No. 1372
 17,17.1,Making or dealing with infringing articles etc,"Copyright, Designs and Patents Act 1988, s.107",1988 c. 48
 17,17.1,"Making, dealing with or using illicit recordings","Copyright, Designs and Patents Act 1988, s.198",1988 c. 48
-17,17.1,"Failure to comply with a remedial order.","Corporate Manslaughter and Corporate Homicide Act 2007, s.9",2007 c. 19
+17,17.1,"Failing to comply with a remedial order","Corporate Manslaughter and Corporate Homicide Act 2007, s.9",2007 c. 19
 17,17.1,Failing to comply with a publicity order,"Corporate Manslaughter and Corporate Homicide Act 2007, s.10",2007 c. 19
 17,17.1,Giving a false certificate of summons or other process,"County Courts Act 1984, s.133",1984 c. 28
 17,17.1,Assaulting an officer of the county court,"County Courts Act 1984, s.14",1984 c. 28
@@ -1078,7 +1078,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,Procuring drugs etc. to cause abortion,"Offences against the Person Act 1861, s.59",1866 c. 100
 17,17.1,Concealment of birth,"Offences against the Person Act 1861, s.60",1863 c. 100
 17,17.1,Infringement of the Olympic Association right,"Olympic Symbol etc. (Protection) Act 1995, s.8",1995 c. 32
-17,17.1,"Offences arising from breach of regulation 20 (Monies in Trust) and 21 (Monies in Trust where other party to contract is acting otherwise than in the court of business). ","Package Holildays and Package Tours Regulations 1992, Regulation 22",1992 No. 3288
+17,17.1,"Offences arising from breach of Regulations 20 and 21","Package Holildays and Package Tours Regulations 1992, Regulation 22",1992 No. 3288
 17,17.1,Providing false or misleading information,"Pensions Act 2004, s.80",2004 c. 35
 17,17.1,False unsworn statements,"Perjury Act 1911, s.1A",1911 c. 6
 17,17.1,False statements on oath not in judicial proceeding,"Perjury Act 1911, s.2",1911 c. 6
@@ -1211,7 +1211,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,Assaulting an immigration officer exercising S2 detention powers,"UK Borders Act 2007, s.3(1)(b)",2007 c. 30
 17,17.1,Assaulting an immigration officer ,"UK Borders Act 2007, s.22(1)",2007 c. 30
 17,17.1,Disclosing information relating to identity of persons which is specified in the disclosure or can be deducted from that disclosure,"UK Borders Act 2007, s.42",2007 c. 30
-17,17.1,Demanding payment for the inclusion of a person’s trade or business in a directory.,"Unsolicited Goods and Services Act 1971, s.3(2)",1971 c. 30
+17,17.1,Directory entries,"Unsolicited Goods and Services Act 1971, s.3(2)",1971 c. 30
 17,17.1,Vagrant violently resisting a constable,"Vagrancy Act 1824, s.4",1824 c. 83
 17,17.1,"Forge/alter/use/lend/make document/authority to drive/card/licence/certificate with intent to deceive","Vehicle Drivers (Certificates of Professional Competence) Regulations 2007, s.13(1)",2007 No. 605
 17,17.1,Knowingly make a false statement to obtain issue of a driver qualification card,"Vehicle Drivers (Certificates of Professional Competence) Regulations 2007, s.13(3)",2007 No. 605
@@ -1220,7 +1220,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 17,17.1,Prohibition of use of practitioners’ titles by unqualified persons,"Veterinary Surgeons Act 1966, s.20",1966 c. 36
 17,17.1,Supplying video recording of unclassified work,"Video Recordings Act 1984, s.9",1984 c. 39
 17,17.1,Possession of video recording of unclassified work for the purposes of supply,"Video Recordings Act 1984, s.10",1984 c. 39
-17,17.1,Offences under regulations 6 (Borrowing and banking of landfill allowances) and 7 (Trading and other transfer of landfill allowances).,"Waste and Emissions Trading Act 2003, s.8",2003 c. 33
+17,17.1,Offences under regulations under s.6 and s.7,"Waste and Emissions Trading Act 2003, s.8",2003 c. 33
 17,17.1,Prohibition on unauthorised use of supply system or unauthorised introduction of water,"Water  Industry Act 1991, s.66I and 66J",1991 c. 56
 17,17.1,Failure to give assistance/information to an inspector,"Water Industry Act 1991, s.86(6)",1991 c. 56
 17,17.1,Prohibition of catching or treating whales within United Kingdom waters,"Whaling Industry (Regulation) Act 1934, s.2",1934 c. 49

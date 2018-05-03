@@ -71,8 +71,7 @@ namespace :data do
         require Rails.root.join('lib','data_migrator','offence_unique_code_migrator').to_s
         offences = Offence.joins(:offence_class).where.not(offence_class: nil).unscope(:order).order('offences.description COLLATE "C", offence_classes.class_letter COLLATE "C"')
         migrator = DataMigrator::OffenceUniqueCodeMigrator.new(relation: offences)
-        # migrator.migrate!
-        migrator.pretend(format: :diff)
+        migrator.migrate!
     end
 
     desc 'Migrate offence data for scheme 10 offences to have unique code based on description and offence category/band'
@@ -81,7 +80,6 @@ namespace :data do
         offences = Offence.joins(:offence_band).where(offence_class: nil).unscope(:order).order('offences.description COLLATE "C", offence_bands.description COLLATE "C"')
         migrator = DataMigrator::OffenceUniqueCodeMigrator.new(relation: offences)
         migrator.migrate!
-        # migrator.pretend
     end
 
     desc 'Migrate injection attempts error_message:string to error_messages:json'

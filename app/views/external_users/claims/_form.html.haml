@@ -6,4 +6,4 @@
 
     = render partial: "#{claim.current_step}_form_step", locals: { claim: claim, f: f }
 
-    = render partial: 'external_users/claims/buttons/continue', locals: { claim: claim, f: f }
+    = render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: claim.next_step? ? 'commit_continue' : 'commit_submit_claim' }

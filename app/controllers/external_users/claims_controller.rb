@@ -426,7 +426,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def continue_claim?
-    params.key?(:commit_continue) || params.key?(:commit_stage_1)
+    params.key?(:commit_continue)
   end
 
   def render_action_with_resources(action)

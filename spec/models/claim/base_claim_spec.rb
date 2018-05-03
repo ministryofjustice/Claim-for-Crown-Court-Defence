@@ -303,6 +303,52 @@ module Claim
       ].freeze
     end
 
+    describe '#next_step' do
+      let(:claim) { MockSteppableClaim.new }
+      let(:step) { :step_1 }
+
+      context 'when condition 3A is met' do
+        before do
+          allow(claim).to receive(:fixed_fee_case?).and_return(true)
+          claim.form_step = step
+        end
+
+        it 'does not change the current step' do
+          expect { claim.next_step }
+            .not_to change { claim.current_step }
+            .from(step)
+        end
+
+        it 'follows the steps path 1 -> 2 -> 3A' do
+          expect(claim.next_step).to eq(:step_2)
+          claim.form_step = claim.next_step
+          expect(claim.next_step).to eq(:step_3A)
+          claim.form_step = claim.next_step
+          expect(claim.next_step).to eq(nil)
+        end
+      end
+
+      context 'when condition 3B is met' do
+        before do
+          allow(claim).to receive(:fixed_fee_case?).and_return(false)
+        end
+
+        it 'does not change the current step' do
+          expect { claim.next_step }
+            .not_to change { claim.current_step }
+            .from(step)
+        end
+
+        it 'follows the steps path 1 -> 2 -> 3B' do
+          expect(claim.next_step).to eq(:step_2)
+          claim.form_step = claim.next_step
+          expect(claim.next_step).to eq(:step_3B)
+          claim.form_step = claim.next_step
+          expect(claim.next_step).to eq(nil)
+        end
+      end
+    end
+
     describe '#next_step!' do
       let(:claim) { MockSteppableClaim.new }
 
@@ -328,6 +374,30 @@ module Claim
           expect(claim.next_step!).to eq(:step_3B)
           expect(claim.next_step!).to eq(nil)
         end
+      end
+    end
+
+    describe '#next_step?' do
+      let(:claim) { MockSteppableClaim.new }
+
+      context 'when there is a next step to go to' do
+        let(:step) { :step_1 }
+
+        before do
+          claim.form_step = step
+        end
+
+        specify { expect(claim.next_step?).to be_truthy }
+      end
+
+      context 'when there is NOT a next step to go to' do
+        let(:step) { :step_3A }
+
+        before do
+          claim.form_step = step
+        end
+
+        specify { expect(claim.next_step?).to be_falsey }
       end
     end
 
@@ -378,6 +448,30 @@ module Claim
           claim.form_step = claim.previous_step
           expect(claim.previous_step).to eq(nil)
         end
+      end
+    end
+
+    describe '#step_back?' do
+      let(:claim) { MockSteppableClaim.new }
+
+      context 'when there is a previous step to go to' do
+        let(:step) { :step_2 }
+
+        before do
+          claim.form_step = step
+        end
+
+        specify { expect(claim.step_back?).to be_truthy }
+      end
+
+      context 'when there is NOT a previous step to go to' do
+        let(:step) { :step_1 }
+
+        before do
+          claim.form_step = step
+        end
+
+        specify { expect(claim.step_back?).to be_falsey }
       end
     end
   end

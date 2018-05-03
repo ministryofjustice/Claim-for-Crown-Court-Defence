@@ -222,6 +222,10 @@ module Claim
       previous_step.present?
     end
 
+    def next_step?
+      next_step.present?
+    end
+
     def misc_fees_changed?
       misc_fees.any?(&:changed?)
     end
@@ -441,9 +445,14 @@ module Claim
       submission_stages.previous_stage(form_step)
     end
 
+    def next_step
+      return unless form_step
+      submission_stages.next_stage(form_step)
+    end
+
     def next_step!
       return unless form_step
-      self.form_step = submission_stages.next_stage(form_step)
+      self.form_step = next_step
     end
 
     def from_api?

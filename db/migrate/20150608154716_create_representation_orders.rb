@@ -1,4 +1,4 @@
-class CreateRepresentationOrders < ActiveRecord::Migration
+class CreateRepresentationOrders < ActiveRecord::Migration[4.2]
   def change
     create_table :representation_orders do |t|
       t.integer   :defendant_id

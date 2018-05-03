@@ -1,4 +1,4 @@
-class ModifyUncalculatedFeeData < ActiveRecord::Migration
+class ModifyUncalculatedFeeData < ActiveRecord::Migration[4.2]
   def up
     Fee::BasicFee.joins(:fee_type).where(fee_types: { code: ['PPE','NPW'] }).where('fees.rate > 0').each do |fee|
       fee.update_column(:rate, 0)

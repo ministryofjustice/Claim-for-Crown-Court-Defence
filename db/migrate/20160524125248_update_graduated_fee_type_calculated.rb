@@ -1,4 +1,4 @@
-class UpdateGraduatedFeeTypeCalculated < ActiveRecord::Migration
+class UpdateGraduatedFeeTypeCalculated < ActiveRecord::Migration[4.2]
   def up
      Fee::GraduatedFeeType.update_all(calculated: false)
   end

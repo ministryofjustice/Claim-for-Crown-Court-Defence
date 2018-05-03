@@ -1,4 +1,4 @@
-class AddUuidToCaseTypes < ActiveRecord::Migration
+class AddUuidToCaseTypes < ActiveRecord::Migration[4.2]
 
   UUIDS = %w(
     a05f6ee1-c9fb-4069-9789-1f68aea85fb8

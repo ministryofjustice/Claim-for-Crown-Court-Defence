@@ -1,4 +1,4 @@
-class DropDocumentTypes < ActiveRecord::Migration
+class DropDocumentTypes < ActiveRecord::Migration[4.2]
   def up
     drop_table :document_types
     drop_table :document_type_claims

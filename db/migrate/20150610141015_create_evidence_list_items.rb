@@ -1,4 +1,4 @@
-class CreateEvidenceListItems < ActiveRecord::Migration
+class CreateEvidenceListItems < ActiveRecord::Migration[4.2]
   def change
     create_table :evidence_list_items do |t|
       t.string :description, null: false

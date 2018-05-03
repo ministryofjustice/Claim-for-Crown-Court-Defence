@@ -1,4 +1,4 @@
-class AddCalculationToFeeTypes < ActiveRecord::Migration
+class AddCalculationToFeeTypes < ActiveRecord::Migration[4.2]
   def up
     add_column :fee_types, :calculated, :boolean, default: true
 

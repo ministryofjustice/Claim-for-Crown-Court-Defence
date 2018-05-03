@@ -1,4 +1,4 @@
-class AddMigrationSpikesTable < ActiveRecord::Migration
+class AddMigrationSpikesTable < ActiveRecord::Migration[4.2]
   def change
     add_column :courts, :deleted_at, :datetime, default: nil
   end

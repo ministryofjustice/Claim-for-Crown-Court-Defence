@@ -1,4 +1,4 @@
-class CreateClaimIntentions < ActiveRecord::Migration
+class CreateClaimIntentions < ActiveRecord::Migration[4.2]
   def change
     create_table :claim_intentions do |t|
       t.string :form_id

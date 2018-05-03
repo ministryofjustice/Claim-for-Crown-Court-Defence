@@ -1,4 +1,4 @@
-class MoveRepOrderDateAndMaatFromDefendantToReporder < ActiveRecord::Migration
+class MoveRepOrderDateAndMaatFromDefendantToReporder < ActiveRecord::Migration[4.2]
   def up
     add_column :representation_orders, :maat_reference, :string
     add_column :representation_orders, :representation_order_date, :date

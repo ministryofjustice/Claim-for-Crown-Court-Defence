@@ -1,4 +1,4 @@
-class DropAmountAssessedFromClaims < ActiveRecord::Migration
+class DropAmountAssessedFromClaims < ActiveRecord::Migration[4.2]
   def up
     remove_column :claims, :amount_assessed
   end

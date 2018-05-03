@@ -1,4 +1,4 @@
-class CreateDeterminations < ActiveRecord::Migration
+class CreateDeterminations < ActiveRecord::Migration[4.2]
   def change
     create_table :determinations do |t|
       t.integer :claim_id

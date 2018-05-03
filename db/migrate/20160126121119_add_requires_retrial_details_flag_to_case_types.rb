@@ -1,4 +1,4 @@
-class AddRequiresRetrialDetailsFlagToCaseTypes < ActiveRecord::Migration
+class AddRequiresRetrialDetailsFlagToCaseTypes < ActiveRecord::Migration[4.2]
   def up
     add_column :case_types, :requires_retrial_dates, :boolean, default: false
     retrial = CaseType.find_by_sql("SELECT * FROM case_types WHERE name = 'Retrial'").first

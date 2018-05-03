@@ -1,4 +1,4 @@
-class CreateClaimStateTransitions < ActiveRecord::Migration
+class CreateClaimStateTransitions < ActiveRecord::Migration[4.2]
   def change
     create_table :claim_state_transitions do |t|
       t.references :claim, index: true

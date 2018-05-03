@@ -1,4 +1,4 @@
-class AddTypeToFee < ActiveRecord::Migration
+class AddTypeToFee < ActiveRecord::Migration[4.2]
   def up
     add_column :fees, :type, :string
 

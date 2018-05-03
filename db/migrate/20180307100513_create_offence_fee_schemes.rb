@@ -1,4 +1,4 @@
-class CreateOffenceFeeSchemes < ActiveRecord::Migration
+class CreateOffenceFeeSchemes < ActiveRecord::Migration[4.2]
   def change
     create_table :offence_fee_schemes do |t|
       t.references :offence, index: true

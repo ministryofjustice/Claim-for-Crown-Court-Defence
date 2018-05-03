@@ -1,4 +1,4 @@
-class CreateOffences < ActiveRecord::Migration
+class CreateOffences < ActiveRecord::Migration[4.2]
   def change
     create_table :offences do |t|
       t.string :description

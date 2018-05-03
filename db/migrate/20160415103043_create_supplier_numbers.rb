@@ -1,4 +1,4 @@
-class CreateSupplierNumbers < ActiveRecord::Migration
+class CreateSupplierNumbers < ActiveRecord::Migration[4.2]
   def change
     create_table :supplier_numbers do |t|
       t.integer :provider_id

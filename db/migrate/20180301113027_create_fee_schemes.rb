@@ -1,4 +1,4 @@
-class CreateFeeSchemes < ActiveRecord::Migration
+class CreateFeeSchemes < ActiveRecord::Migration[4.2]
   def change
     create_table :fee_schemes do |t|
       t.string :name

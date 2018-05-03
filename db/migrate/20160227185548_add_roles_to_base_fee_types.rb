@@ -1,4 +1,4 @@
-class AddRolesToBaseFeeTypes < ActiveRecord::Migration
+class AddRolesToBaseFeeTypes < ActiveRecord::Migration[4.2]
   def change
     add_column :fee_types, :roles, :string
 

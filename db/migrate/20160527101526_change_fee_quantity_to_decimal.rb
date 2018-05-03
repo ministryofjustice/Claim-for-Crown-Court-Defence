@@ -1,4 +1,4 @@
-class ChangeFeeQuantityToDecimal < ActiveRecord::Migration
+class ChangeFeeQuantityToDecimal < ActiveRecord::Migration[4.2]
   def up
     change_column :fees, :quantity,  :decimal
   end

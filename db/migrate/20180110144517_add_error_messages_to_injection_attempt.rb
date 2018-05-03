@@ -1,4 +1,4 @@
-class AddErrorMessagesToInjectionAttempt < ActiveRecord::Migration
+class AddErrorMessagesToInjectionAttempt < ActiveRecord::Migration[4.2]
   def change
     add_column :injection_attempts, :error_messages, :json
   end

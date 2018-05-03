@@ -1,4 +1,4 @@
-class DropEvidenceListItemClaimsTable < ActiveRecord::Migration
+class DropEvidenceListItemClaimsTable < ActiveRecord::Migration[4.2]
  def up
     drop_table :evidence_list_item_claims
   end

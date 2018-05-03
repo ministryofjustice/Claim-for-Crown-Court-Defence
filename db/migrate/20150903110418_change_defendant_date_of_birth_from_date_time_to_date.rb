@@ -1,4 +1,4 @@
-class ChangeDefendantDateOfBirthFromDateTimeToDate < ActiveRecord::Migration
+class ChangeDefendantDateOfBirthFromDateTimeToDate < ActiveRecord::Migration[4.2]
   def up
     change_column :defendants, :date_of_birth, :date
     change_column :dates_attended, :date, :date

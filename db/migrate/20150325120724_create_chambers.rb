@@ -1,4 +1,4 @@
-class CreateChambers < ActiveRecord::Migration
+class CreateChambers < ActiveRecord::Migration[4.2]
   def change
     create_table :chambers do |t|
       t.string :name

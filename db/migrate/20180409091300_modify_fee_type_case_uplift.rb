@@ -1,4 +1,4 @@
-class ModifyFeeTypeCaseUplift < ActiveRecord::Migration
+class ModifyFeeTypeCaseUplift < ActiveRecord::Migration[4.2]
   # repurpose LGFS case uplift as defendant uplift
   # NOTE: smoke test on dev build of branch means we
   # need to cater for type not existing

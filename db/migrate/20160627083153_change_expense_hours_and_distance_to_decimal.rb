@@ -1,4 +1,4 @@
-class ChangeExpenseHoursAndDistanceToDecimal < ActiveRecord::Migration
+class ChangeExpenseHoursAndDistanceToDecimal < ActiveRecord::Migration[4.2]
   def up
     change_column :expenses, :hours, :decimal
     change_column :expenses, :distance, :decimal

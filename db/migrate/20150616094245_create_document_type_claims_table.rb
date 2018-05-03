@@ -1,4 +1,4 @@
-class CreateDocumentTypeClaimsTable < ActiveRecord::Migration
+class CreateDocumentTypeClaimsTable < ActiveRecord::Migration[4.2]
    def change
     create_table :document_type_claims do |t|
       t.belongs_to :claim, null: false, index: true

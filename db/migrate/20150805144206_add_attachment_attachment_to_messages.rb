@@ -1,4 +1,4 @@
-class AddAttachmentAttachmentToMessages < ActiveRecord::Migration
+class AddAttachmentAttachmentToMessages < ActiveRecord::Migration[4.2]
   def self.up
     change_table :messages do |t|
       t.attachment :attachment

@@ -1,4 +1,4 @@
-class ModifyFeeTypeCalculatedData < ActiveRecord::Migration
+class ModifyFeeTypeCalculatedData < ActiveRecord::Migration[4.2]
   def up
     Fee::BasicFeeType.where(code: ['PPE','NPW']).each do |record|
       record.update_column(:calculated, false)

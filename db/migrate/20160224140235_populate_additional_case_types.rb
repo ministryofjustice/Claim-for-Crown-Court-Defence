@@ -1,4 +1,4 @@
-class PopulateAdditionalCaseTypes < ActiveRecord::Migration
+class PopulateAdditionalCaseTypes < ActiveRecord::Migration[4.2]
   def up
     CaseType.reset_column_information
     # load File.join Rails.root, 'db', 'seeds', 'case_types.rb'

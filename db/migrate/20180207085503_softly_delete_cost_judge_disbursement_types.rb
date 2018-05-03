@@ -1,4 +1,4 @@
-class SoftlyDeleteCostJudgeDisbursementTypes < ActiveRecord::Migration
+class SoftlyDeleteCostJudgeDisbursementTypes < ActiveRecord::Migration[4.2]
   def up
     DisbursementType.where(unique_code: %i[CJP CJA]).each {|d| d.soft_delete }
   end

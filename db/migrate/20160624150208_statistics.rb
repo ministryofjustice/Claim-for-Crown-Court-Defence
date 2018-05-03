@@ -1,4 +1,4 @@
-class Statistics < ActiveRecord::Migration
+class Statistics < ActiveRecord::Migration[4.2]
   def change
     create_table :statistics do |t|
       t.date :date

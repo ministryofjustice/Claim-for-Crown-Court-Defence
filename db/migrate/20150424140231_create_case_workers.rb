@@ -1,4 +1,4 @@
-class CreateCaseWorkers < ActiveRecord::Migration
+class CreateCaseWorkers < ActiveRecord::Migration[4.2]
   def change
     create_table :case_workers do |t|
       t.string :role

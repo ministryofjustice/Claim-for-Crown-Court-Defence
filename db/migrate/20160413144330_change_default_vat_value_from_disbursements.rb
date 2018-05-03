@@ -1,4 +1,4 @@
-class ChangeDefaultVatValueFromDisbursements < ActiveRecord::Migration
+class ChangeDefaultVatValueFromDisbursements < ActiveRecord::Migration[4.2]
   def up
     change_column_default :disbursements, :vat_amount, nil
   end

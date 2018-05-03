@@ -24,7 +24,7 @@ class StageCollection
   end
 
   def next_stage(stage)
-    find_stage(stage)&.first_valid_transition
+    find_stage(find_stage(stage)&.first_valid_transition)
   end
 
   def path_until(stage)
@@ -41,10 +41,17 @@ class StageCollection
   private
 
   def initialize_stages(stages)
-    stages.map { |stage| Stage.new(name: stage[:name], transitions: stage[:transitions], object: @object) }
+    stages.map do |stage|
+      Stage.new(
+        name: stage[:name],
+        transitions: stage[:transitions],
+        dependencies: stage[:dependencies],
+        object: @object
+      )
+    end
   end
 
   def find_stage(stage_name)
-    stages.find { |stage| stage.name == stage_name.to_sym }
+    stages.find { |stage| stage.name == stage_name&.to_sym }
   end
 end

@@ -57,14 +57,19 @@ module DataMigrator
       end
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity
     def output(code, offence, format)
-      puts \
-        case format.downcase.to_sym
-        when :sql then "UPDATE offences SET unique_code = #{code} WHERE id = #{offence[:id]}".yellow
-        when :diff then offence[:description].concat("\n -: #{offence[:unique_code]}".red).concat("\n +: #{code} ".green)
-        when :csv then [offence[:description], offence[:band] || offence[:class_letter], code].to_csv
-        else "-- [would have] updated #{offence[:description]},#{offence[:band] || offence[:class_letter]}".white.concat(" unique_code: #{offence[:unique_code]} --> #{code}".green)
-        end
+      case format.downcase.to_sym
+      when :sql
+        puts "UPDATE offences SET unique_code = #{code} WHERE id = #{offence[:id]}".yellow
+      when :diff
+        puts offence[:description].concat("\n -#{offence[:unique_code]}".red).concat("\n +#{code} ".green) unless offence[:unique_code].eql?(code)
+      when :csv
+        puts [offence[:description], offence[:band] || offence[:class_letter], code].to_csv
+      when :text
+        puts "-- [would have] updated #{offence[:description]},#{offence[:band] || offence[:class_letter]}".white.concat(" unique_code: #{offence[:unique_code]} --> #{code}".green)
+      end
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
   end
 end

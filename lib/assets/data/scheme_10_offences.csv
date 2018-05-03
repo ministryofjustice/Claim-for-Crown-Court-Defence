@@ -1,4 +1,4 @@
-Category,Band,Offence,Contrary to,Year and Chapter
+category,band,description,contrary_to,year_chapter
 1,1.1,Murder,Common Law,
 1,1.1,Manslaughter,"Common Law, Offences against the Person Act 1861, s.5",1861 c. 100
 1,1.1,Conspiracy to commit murder,"Criminal Law Act 1977, s.1",1977 c. 45
@@ -105,6 +105,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 4,4.1,Intercourse with a defective,"Sexual Offences Act 1956, s.7",1956 c. 69
 4,4.1,Buggery,"Sexual Offences Act 1956, s.12",1956 c. 69
 4,4.1,Assault with intent to commit buggery,"Sexual Offences Act 1956, s.16",1956 c. 69
+4,4.1,Rape,"Sexual Offences Act 1956, s.1",1956 c. 69
 4,4.1,Rape,"Sexual Offences Act 2003, s.1",2003 c. 42
 4,4.1,Assault by penetration,"Sexual Offences Act 2003, s.2",2003 c. 42
 4,4.1,Causing or inciting a child under 13 to engage in sexual activity,"Sexual Offences Act 2003, s.8(2)",2003 c. 42
@@ -168,6 +169,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 4,4.3,Care workers : Causing a person with a mental disorder to watch a sexual act,"Sexual Offences Act 2003, s.41",2003 c. 42
 5,5.1,Buggery,"Sexual Offences Act 1956, s.12",1956 c. 69
 5,5.1,Assault with intent to commit buggery,"Sexual Offences Act 1956, s.16",1956 c. 69
+5,5.1,Rape,"Sexual Offences Act 1956, s.1",1956 c. 69
 5,5.1,Rape,"Sexual Offences Act 2003, s.1",2003 c. 42
 5,5.1,Assault by penetration,"Sexual Offences Act 2003, s.2",2003 c. 42
 5,5.1,Causing a person to engage in sexual activity without consent,"Sexual Offences Act 2003, s.4(4)",2003 c. 42
@@ -188,7 +190,7 @@ Category,Band,Offence,Contrary to,Year and Chapter
 5,5.3,Detention of woman in brothel or other premises,"Sexual Offences Act 1956, s.24",1956 c. 69
 5,5.3,Possession of extreme pornographic images,"Criminal Justice and Immigration Act 2008, s.63",2008 c. 4
 5,5.3,"To have protected material, or copy of it, in his possession otherwise than while inspecting it","Sexual Offences (Protected Material) Act 1997, s.8(1)(a) ",1997 c. 39
-5,5.3,Give that (protected) material or any copy of it, or otherwise reveal its contents, to any other person,"Sexual Offences (Protected Material) Act 1997, s.8(1)(b)",1997 c. 39
+5,5.3,"Give that (protected) material or any copy of it, or otherwise reveal its contents, to any other person","Sexual Offences (Protected Material) Act 1997, s.8(1)(b)",1997 c. 39
 5,5.3,Man living on earnings of prostitution,"Sexual Offences Act 1956, s.30",1956 c. 69
 5,5.3,Woman exercising control over prostitute,"Sexual Offences Act 1956, s.32",1956 c. 69
 5,5.3,Keeping a brothel,"Sexual Offences Act 1956, s.33",1956 c. 69

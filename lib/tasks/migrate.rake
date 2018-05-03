@@ -68,25 +68,25 @@ namespace :data do
 
     desc 'Migrate offence data for scheme 9 to have unique code based on description and class letter'
     task :offence_unique_code_scheme_9 => :environment do
-        require Rails.root.join('lib','data_migrator','offence_unique_code_migrator').to_s
-        offences = Offence.joins(:offence_class).where.not(offence_class: nil).unscope(:order).order('offences.description COLLATE "C", offence_classes.class_letter COLLATE "C"')
-        migrator = DataMigrator::OffenceUniqueCodeMigrator.new(relation: offences)
-        migrator.migrate!
+      require Rails.root.join('lib','data_migrator','offence_unique_code_migrator').to_s
+      offences = Offence.joins(:offence_class).where.not(offence_class: nil).unscope(:order).order('offences.description COLLATE "C", offence_classes.class_letter COLLATE "C"')
+      migrator = DataMigrator::OffenceUniqueCodeMigrator.new(relation: offences)
+      migrator.migrate!
     end
 
     desc 'Migrate offence data for scheme 10 offences to have unique code based on description and offence category/band'
     task :offence_unique_code_scheme_10 => :environment do
-        require Rails.root.join('lib','data_migrator','offence_unique_code_migrator').to_s
-        offences = Offence.joins(:offence_band).where(offence_class: nil).unscope(:order).order('offences.description COLLATE "C", offence_bands.description COLLATE "C"')
-        migrator = DataMigrator::OffenceUniqueCodeMigrator.new(relation: offences)
-        migrator.migrate!
+      require Rails.root.join('lib','data_migrator','offence_unique_code_migrator').to_s
+      offences = Offence.joins(:offence_band).where(offence_class: nil).unscope(:order).order('offences.description COLLATE "C", offences.contrary COLLATE "C", offence_bands.description COLLATE "C"')
+      migrator = DataMigrator::OffenceUniqueCodeMigrator.new(relation: offences)
+      migrator.migrate!
     end
 
     desc 'Migrate injection attempts error_message:string to error_messages:json'
     task :injection_errors => :environment do
-        require Rails.root.join('lib','data_migrator','injection_error_migrator').to_s
-        migrator = DataMigrator::InjectionErrorMigrator.new
-        migrator.migrate!
+      require Rails.root.join('lib','data_migrator','injection_error_migrator').to_s
+      migrator = DataMigrator::InjectionErrorMigrator.new
+      migrator.migrate!
     end
   end
 end

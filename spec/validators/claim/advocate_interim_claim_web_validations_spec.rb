@@ -245,8 +245,10 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     context 'when no defendants are set' do
       let(:attributes) { valid_attributes.except(:defendants_attributes) }
 
-      # TODO: shouldn't this be failing?
-      specify { is_expected.to be_valid }
+      specify {
+        is_expected.to be_invalid
+        expect(claim.errors[:defendants]).to match_array(['blank'])
+      }
     end
 
     context 'when one of the defendants has no first name set' do

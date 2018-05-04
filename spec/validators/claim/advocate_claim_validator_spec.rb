@@ -398,7 +398,8 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
     ],
     defendants: [],
     offence_details: %i[offence],
-    basic_and_fixed_fees: %i[total advocate_category defendant_uplifts_basic_fees defendant_uplifts_fixed_fees],
+    basic_fees: %i[total advocate_category defendant_uplifts_basic_fees],
+    fixed_fees: %i[total advocate_category defendant_uplifts_fixed_fees],
     miscellaneous_fees: %i[total defendant_uplifts_misc_fees],
     travel_expenses: %i[total],
     supporting_evidence: []

@@ -56,8 +56,13 @@ RSpec.shared_examples 'common partial association validations' do |steps|
         # not that the other step fields aren't, so could leas to false positives.
         steps[:has_one].each do |step_name, associations|
           claim.form_step = step_name
-          associations.each do |association|
-            expect_any_instance_of(described_class).to receive(:validate_association_for).with(claim, association)
+          associations.each do |association_data|
+            association_name = association_data[:name]
+            expect_any_instance_of(described_class).to receive(:validate_association_for).with(claim, association_name)
+
+            if association_data[:options] && association_data[:options][:presence]
+              expect_any_instance_of(described_class).to receive(:validate_presence).with(association_name, 'blank')
+            end
           end
           claim.valid?
         end
@@ -70,8 +75,13 @@ RSpec.shared_examples 'common partial association validations' do |steps|
         # not that the other step fields aren't, so could leas to false positives.
         steps[:has_many].each do |step_name, associations|
           claim.form_step = step_name
-          associations.each do |association|
-            expect_any_instance_of(described_class).to receive(:validate_collection_for).with(claim, association)
+          associations.each do |association_data|
+            association_name = association_data[:name]
+            expect_any_instance_of(described_class).to receive(:validate_collection_for).with(claim, association_name)
+
+            if association_data[:options] && association_data[:options][:presence]
+              expect_any_instance_of(described_class).to receive(:validate_presence).with(association_name, 'blank')
+            end
           end
           claim.valid?
         end
@@ -84,16 +94,16 @@ RSpec.shared_examples 'common partial association validations' do |steps|
       end
 
       it 'validates all the has_one associations for all the steps' do
-        steps[:has_one].values.flatten.each do |association|
-          expect_any_instance_of(described_class).to receive(:validate_association_for).with(claim, association)
+        steps[:has_one].values.flatten.each do |association_data|
+          expect_any_instance_of(described_class).to receive(:validate_association_for).with(claim, association_data[:name])
         end
 
         claim.valid?
       end
 
       it 'validates all the has_many associations for all the steps' do
-        steps[:has_many].values.flatten.each do |association|
-          expect_any_instance_of(described_class).to receive(:validate_collection_for).with(claim, association)
+        steps[:has_many].values.flatten.each do |association_data|
+          expect_any_instance_of(described_class).to receive(:validate_collection_for).with(claim, association_data[:name])
         end
 
         claim.valid?

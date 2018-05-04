@@ -167,10 +167,6 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
               expect(subject_claim.draft?).to be_truthy
             end
 
-            it 'should assign current_step to 2' do
-              expect(assigns(:claim).current_step).to eq(:defendants)
-            end
-
             it { expect(response).to redirect_to edit_litigators_interim_claim_path(subject_claim, step: :defendants) }
           end
 

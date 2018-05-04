@@ -207,7 +207,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             post :create, params: { commit_continue: 'Continue', claim: claim_params_step1 }
             expect(subject_claim.draft?).to be_truthy
             expect(subject_claim.valid?).to be_truthy
-            expect(assigns(:claim).current_step).to eq(:defendants)
             expect(response).to redirect_to edit_litigators_claim_path(subject_claim, step: :defendants)
 
             put :update, params: { id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2 }
@@ -305,7 +304,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             end
 
             before do
-              allow_any_instance_of(CaseType).to receive(:is_fixed_fee?).and_return(true)
               post :create, params: { claim: fixed_fee_claim_params, commit_submit_claim: 'Submit to LAA' }
             end
 

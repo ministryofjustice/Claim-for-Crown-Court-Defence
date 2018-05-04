@@ -85,7 +85,15 @@ RSpec.describe Claim::InterimClaimPresenter, type: :presenter do
 
   describe '#summary_sections' do
     specify {
-      expect(presenter.summary_sections).to eq(%i[case_details defendants offence_details interim_fee expenses supporting_evidence additional_information])
+      expect(presenter.summary_sections).to eq({
+        case_details: :case_details,
+        defendants: :defendants,
+        offence_details: :offence_details,
+        interim_fee: :interim_fees,
+        expenses: :travel_expenses,
+        supporting_evidence: :supporting_evidence,
+        additional_information: :supporting_evidence
+      })
     }
   end
 end

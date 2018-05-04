@@ -10,17 +10,17 @@ RSpec.describe Claim::TransferClaimSubModelValidator, type: :validator do
       case_details: [],
       defendants: [],
       offence_details: [],
-      transfer_fees: %i[transfer_fee]
+      transfer_fees: [{ name: :transfer_fee, options: { presence: true } }]
     },
     has_many: {
       transfer_fee_details: [],
       case_details: [],
-      defendants: %i[defendants],
+      defendants: [{ name: :defendants, options: { presence: true } }],
       offence_details: [],
-      miscellaneous_fees: %i[misc_fees],
-      disbursements: %i[disbursements],
-      travel_expenses: %i[expenses],
-      supporting_evidence: %i[documents]
+      miscellaneous_fees: [{ name: :misc_fees }],
+      disbursements: [{ name: :disbursements }],
+      travel_expenses: [{ name: :expenses }],
+      supporting_evidence: [{ name: :documents }]
     }
   }
 end

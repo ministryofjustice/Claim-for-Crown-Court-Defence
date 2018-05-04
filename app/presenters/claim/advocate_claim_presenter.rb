@@ -1,6 +1,21 @@
 class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
   present_with_currency :basic_fees_total, :fixed_fees_total
 
+  # NOTE: this shows we should probably refactor the template naming
+  # to bring some consistency between claim steps and their associated
+  # templates
+  SUMMARY_SECTIONS = {
+    case_details: :case_details,
+    defendants: :defendants,
+    offence_details: :offence_details,
+    basic_fees: :basic_and_fixed_fees,
+    fixed_fees: :basic_and_fixed_fees,
+    misc_fees: :miscellaneous_fees,
+    expenses: :travel_expenses,
+    supporting_evidence: :supporting_evidence,
+    additional_information: :supporting_evidence
+  }.freeze
+
   def pretty_type
     'AGFS Final'
   end
@@ -26,9 +41,6 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def summary_sections
-    # NOTE: ideally this would use the claim current stages
-    # unfortunately they don't map 1-2-1
-    %i[case_details defendants offence_details basic_fees fixed_fees misc_fees
-       expenses supporting_evidence additional_information]
+    SUMMARY_SECTIONS
   end
 end

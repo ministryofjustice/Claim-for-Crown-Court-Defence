@@ -226,6 +226,18 @@ module Claim
       next_step.present?
     end
 
+    def editable_step?(step)
+      submission_steps = submission_stages.path_until(submission_stages.last&.to_sym)
+      step_object = submission_steps.find { |s| s == step }
+      return false unless editable? && step_object
+      return true if step_object.dependencies.empty?
+      step_object.dependencies.all? do |dependency|
+        self.form_step = dependency
+        self.force_validation = true
+        valid?
+      end
+    end
+
     def misc_fees_changed?
       misc_fees.any?(&:changed?)
     end

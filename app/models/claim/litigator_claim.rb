@@ -100,25 +100,29 @@ module Claim
             to_stage: :fixed_fees,
             condition: ->(claim) { claim.fixed_fee_case? }
           }
-        ]
+        ],
+        dependencies: %i[case_details]
       },
       {
         name: :offence_details,
         transitions: [
           { to_stage: :graduated_fees }
-        ]
+        ],
+        dependencies: %i[case_details defendants]
       },
       {
         name: :fixed_fees,
         transitions: [
           { to_stage: :miscellaneous_fees }
-        ]
+        ],
+        dependencies: %i[case_details defendants]
       },
       {
         name: :graduated_fees,
         transitions: [
           { to_stage: :miscellaneous_fees }
-        ]
+        ],
+        dependencies: %i[case_details defendants offence_details]
       },
       {
         name: :miscellaneous_fees,

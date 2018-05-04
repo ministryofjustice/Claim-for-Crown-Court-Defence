@@ -87,13 +87,15 @@ module Claim
         name: :defendants,
         transitions: [
           { to_stage: :offence_details }
-        ]
+        ],
+        dependencies: %i[case_details]
       },
       {
         name: :offence_details,
         transitions: [
           { to_stage: :interim_fees }
-        ]
+        ],
+        dependencies: %i[case_details defendants]
       },
       {
         name: :interim_fees,
@@ -106,7 +108,8 @@ module Claim
             to_stage: :supporting_evidence,
             condition: ->(claim) { !claim.interim_fee&.is_interim_warrant? }
           }
-        ]
+        ],
+        dependencies: %i[case_details defendants offence_details]
       },
       {
         name: :travel_expenses,

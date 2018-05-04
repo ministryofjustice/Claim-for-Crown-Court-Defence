@@ -1,4 +1,17 @@
 class Claim::AdvocateInterimClaimPresenter < Claim::BaseClaimPresenter
+  # NOTE: this shows we should probably refactor the template naming
+  # to bring some consistency between claim steps and their associated
+  # templates
+  SUMMARY_SECTIONS = {
+    case_details: :case_details,
+    defendants: :defendants,
+    offence_details: :offence_details,
+    warrant_fee: :interim_fees,
+    expenses: :travel_expenses,
+    supporting_evidence: :supporting_evidence,
+    additional_information: :supporting_evidence
+  }.freeze
+
   def pretty_type
     'AGFS Warrant'
   end
@@ -17,8 +30,6 @@ class Claim::AdvocateInterimClaimPresenter < Claim::BaseClaimPresenter
   present_with_currency :warrant_fees_total
 
   def summary_sections
-    # NOTE: ideally this would use the claim current stages
-    # unfortunately they don't map 1-2-1
-    %i[case_details defendants offence_details warrant_fee expenses supporting_evidence additional_information]
+    SUMMARY_SECTIONS
   end
 end

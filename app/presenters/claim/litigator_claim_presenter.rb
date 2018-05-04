@@ -2,6 +2,22 @@ class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
   # TODO: Any differences in baseclaimpresenters for litigators and advocates to be handled here
   present_with_currency :fixed_fees_total, :warrant_fees_total, :grad_fees_total
 
+  # NOTE: this shows we should probably refactor the template naming
+  # to bring some consistency between claim steps and their associated
+  # templates
+  SUMMARY_SECTIONS = {
+    case_details: :case_details,
+    defendants: :defendants,
+    offence_details: :offence_details,
+    fixed_fees: :fixed_fees,
+    graduated_fees: :graduated_fees,
+    misc_fees: :miscellaneous_fees,
+    disbursements: :disbursements,
+    expenses: :travel_expenses,
+    supporting_evidence: :supporting_evidence,
+    additional_information: :supporting_evidence
+  }.freeze
+
   def pretty_type
     'LGFS Final'
   end
@@ -27,9 +43,6 @@ class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def summary_sections
-    # NOTE: ideally this would use the claim current stages
-    # unfortunately they don't map 1-2-1
-    %i[case_details defendants offence_details fixed_fees graduated_fees misc_fees
-       disbursements expenses supporting_evidence additional_information]
+    SUMMARY_SECTIONS
   end
 end

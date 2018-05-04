@@ -1,5 +1,5 @@
 %p
   = t('external_users.claims.check_your_claim.help_text')
 
-- claim.summary_sections.each do |section|
-  = render partial: "external_users/claims/#{section}/summary", locals: { claim: claim, editable: claim.editable? }
+- claim.summary_sections.each do |section, associated_step|
+  = render partial: "external_users/claims/#{section}/summary", locals: { claim: claim, editable: claim.editable_step?(associated_step) }

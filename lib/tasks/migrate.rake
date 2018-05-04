@@ -68,7 +68,7 @@ namespace :data do
 
     desc 'Migrate offence data for scheme 9 to have unique code based on description and class letter'
     task :offence_unique_code_scheme_9 => :environment do
-      require Rails.root.join('lib','data_migrator','offence_unique_code_migrator').to_s
+      require Rails.root.join('lib','data_migrator','offence_unique_code_migrator')
       offences = Offence.joins(:offence_class).where.not(offence_class: nil).unscope(:order).order('offences.description COLLATE "C", offence_classes.class_letter COLLATE "C"')
       migrator = DataMigrator::OffenceUniqueCodeMigrator.new(relation: offences)
       migrator.migrate!
@@ -76,7 +76,7 @@ namespace :data do
 
     desc 'Migrate offence data for scheme 10 offences to have unique code based on description and offence category/band'
     task :offence_unique_code_scheme_10 => :environment do
-      require Rails.root.join('lib','data_migrator','offence_unique_code_migrator').to_s
+      require Rails.root.join('lib','data_migrator','offence_unique_code_migrator')
       offences = Offence.joins(:offence_band).where(offence_class: nil).unscope(:order).order('offences.description COLLATE "C", offences.contrary COLLATE "C", offence_bands.description COLLATE "C"')
       migrator = DataMigrator::OffenceUniqueCodeMigrator.new(relation: offences)
       migrator.migrate!
@@ -88,6 +88,57 @@ namespace :data do
       migrator = DataMigrator::InjectionErrorMigrator.new
       migrator.migrate!
     end
+
+    desc 'Modify offence data for scheme 10 offences and regenerate their unique codes'
+    task :modify_scheme_10_offences => :environment do
+      require Rails.root.join('db','seed_helper')
+      def relation
+        @relation ||= Offence.where(offence_class: nil)
+      end
+
+      relation.
+        where(description: 'Causing a person to engage in sexual activity without consent: Sexual Offences Act 2003, s.4(4)').
+        update_all(description: 'Causing a person to engage in sexual activity without consent')
+
+      relation.
+        where('description ILIKE ?', 'Demanding payment for the inclusion of a person%').
+        update_all(description: 'Directory entries')
+
+      relation.
+        where(description: 'Failure to comply with a remedial order.').
+        update_all(description: 'Failing to comply with a remedial order')
+
+      relation.
+        where(description: 'Give to another person disclosed protected material in connection with sexual offence proceedings.').
+        update_all(description: 'Give that (protected) material or any copy of it, or otherwise reveal its contents, to any other person')
+
+      relation.
+        where(description: 'Offences arising from breach of regulation 20 (Monies in Trust) and 21 (Monies in Trust where other party to contract is acting otherwise than in the court of business).').
+        update_all(description: 'Offences arising from breach of Regulations 20 and 21')
+
+      relation.
+        where(description: 'Offences under regulations 6 (Borrowing and banking of landfill allowances) and 7 (Trading and other transfer of landfill allowances).').
+        update_all(description: 'Offences under regulations under s.6 and s.7')
+
+      relation.
+        where(description: 'Possession or supply of apparatus for use in dishonestly obtaining an electronic communication service.').
+        update_all(description: 'Possession or supply of apparatus etc for contravening s.125')
+
+      SeedHelper.find_or_create_scheme_10_offence!(
+        description: "Rape",
+        offence_band: OffenceBand.find_by(description: '4.1'),
+        contrary: "Sexual Offences Act 1956, s.1",
+        year_chapter: "1956 c. 69"
+      )
+
+      SeedHelper.find_or_create_scheme_10_offence!(
+        description: "Rape",
+        offence_band: OffenceBand.find_by(description: '5.1'),
+        contrary: "Sexual Offences Act 1956, s.1",
+        year_chapter: "1956 c. 69"
+      )
+
+      Rake::Task['data:migrate:offence_unique_code_scheme_10'].invoke
+    end
   end
 end
-

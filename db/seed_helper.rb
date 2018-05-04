@@ -4,11 +4,9 @@ module SeedHelper
   # - see DataMigrator::OffenceUniqueCodeMigrator
   def self.find_or_create_scheme_10_offence!(attrs)
     offence = Offence.find_by(attrs)
-    if offence.blank?
-      Offence.create!(
-        attrs.merge(unique_code: SecureRandom.uuid)
-      )
-    end
+    offence = Offence.create!(attrs.merge(unique_code: SecureRandom.uuid)) if offence.blank?
+    agfs_fee_scheme_10 = FeeScheme.find_by(name: 'AGFS', version: 10)
+    OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: agfs_fee_scheme_10)
     offence
   end
 

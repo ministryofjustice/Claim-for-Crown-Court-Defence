@@ -24,14 +24,7 @@ module Claim
       {
         name: :defendants,
         transitions: [
-          {
-            to_stage: :offence_details,
-            condition: ->(claim) { !claim.fixed_fee_case? }
-          },
-          {
-            to_stage: :basic_and_fixed_fees,
-            condition: ->(claim) { claim.fixed_fee_case? }
-          }
+          { to_stage: :offence_details }
         ],
         dependencies: %i[case_details]
       },

@@ -192,7 +192,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   context 'total' do
     before do
       allow(claim).to receive(:total).and_return(total)
-      claim.form_step = :basic_and_fixed_fees
+      claim.form_step = :basic_fees
     end
 
     context 'when total is not greater than 0' do

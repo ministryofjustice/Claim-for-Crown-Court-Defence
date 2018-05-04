@@ -68,50 +68,65 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   end
 
   context 'advocate_category' do
-    before do
-      claim.form_step = 'basic_and_fixed_fees'
-    end
+    shared_examples_for 'advocate category validations' do
 
-    it 'should error if not present' do
-      claim.advocate_category = nil
-      should_error_with(claim, :advocate_category, 'blank')
-    end
-
-    it 'should error if not in the available list' do
-      claim.advocate_category = 'not-a-QC'
-      should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
-    end
-
-    default_valid_categories = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
-
-    context 'when on fee reform scheme' do
-      before do
-        allow(claim).to receive(:fee_scheme).and_return('fee_reform')
+      it 'should error if not present' do
+        claim.advocate_category = nil
+        should_error_with(claim, :advocate_category, 'blank')
       end
 
-      fee_reform_valid_categories = ['QC', 'Leading junior', 'Junior']
-      fee_reform_invalid_categories = ['Led junior', 'Junior alone']
+      it 'should error if not in the available list' do
+        claim.advocate_category = 'not-a-QC'
+        should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
+      end
 
-      fee_reform_valid_categories.each do |valid_entry|
+      default_valid_categories = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
+
+      context 'when on fee reform scheme' do
+        before do
+          allow(claim).to receive(:fee_scheme).and_return('fee_reform')
+        end
+
+        fee_reform_valid_categories = ['QC', 'Leading junior', 'Junior']
+        fee_reform_invalid_categories = ['Led junior', 'Junior alone']
+
+        fee_reform_valid_categories.each do |valid_entry|
+          it "should not error if '#{valid_entry}' specified" do
+            claim.advocate_category = valid_entry
+            should_not_error(claim, :advocate_category)
+          end
+        end
+
+        fee_reform_invalid_categories.each do |valid_entry|
+          it "should not error if '#{valid_entry}' specified" do
+            claim.advocate_category = valid_entry
+            should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
+          end
+        end
+      end
+
+      default_valid_categories.each do |valid_entry|
         it "should not error if '#{valid_entry}' specified" do
           claim.advocate_category = valid_entry
           should_not_error(claim, :advocate_category)
         end
       end
-
-      fee_reform_invalid_categories.each do |valid_entry|
-        it "should not error if '#{valid_entry}' specified" do
-          claim.advocate_category = valid_entry
-          should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
-        end
-      end
     end
 
-    default_valid_categories.each do |valid_entry|
-      it "should not error if '#{valid_entry}' specified" do
-        claim.advocate_category = valid_entry
-        should_not_error(claim, :advocate_category)
+    context 'when on the basic fees step' do
+      before do
+        claim.form_step = 'basic_fees'
       end
+
+      include_examples 'advocate category validations'
+    end
+
+    context 'when on the fixed fees step' do
+      before do
+        claim.form_step = 'fixed_fees'
+      end
+
+      include_examples 'advocate category validations'
     end
   end
 
@@ -229,9 +244,9 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
           should_not_error(claim, :base)
         end
 
-        context 'and form step is basic and fixed fees' do
+        context 'and form step is basic fees' do
           before do
-            claim.form_step = :basic_and_fixed_fees
+            claim.form_step = :basic_fees
           end
 
           it 'should error' do
@@ -256,9 +271,9 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
           should_not_error(claim, :base)
         end
 
-        context 'and form step is basic and fixed fees' do
+        context 'and form step is fixed fees' do
           before do
-            claim.form_step = :basic_and_fixed_fees
+            claim.form_step = :fixed_fees
           end
 
           it 'should error' do

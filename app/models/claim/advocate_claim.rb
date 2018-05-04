@@ -101,7 +101,7 @@ module Claim
             condition: ->(claim) { !claim.fixed_fee_case? }
           },
           {
-            to_stage: :basic_and_fixed_fees,
+            to_stage: :fixed_fees,
             condition: ->(claim) { claim.fixed_fee_case? }
           }
         ],
@@ -110,16 +110,23 @@ module Claim
       {
         name: :offence_details,
         transitions: [
-          { to_stage: :basic_and_fixed_fees }
+          { to_stage: :basic_fees }
         ],
         dependencies: %i[case_details defendants]
       },
       {
-        name: :basic_and_fixed_fees,
+        name: :basic_fees,
         transitions: [
           { to_stage: :miscellaneous_fees }
         ],
         dependencies: %i[case_details defendants offence_details]
+      },
+      {
+        name: :fixed_fees,
+        transitions: [
+          { to_stage: :miscellaneous_fees }
+        ],
+        dependencies: %i[case_details defendants]
       },
       {
         name: :miscellaneous_fees,

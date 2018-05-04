@@ -1,13 +1,25 @@
 module SeedHelper
+  # unique_code has unique, not null contraint but cannot be given
+  # expected value until all offences seeded
+  # - see DataMigrator::OffenceUniqueCodeMigrator
+  def self.find_or_create_scheme_10_offence!(attrs)
+    offence = Offence.find_by(attrs)
+    if offence.blank?
+      Offence.create!(
+        attrs.merge(unique_code: SecureRandom.uuid)
+      )
+    end
+    offence
+  end
 
   def self.find_or_create_caseworker!(attrs)
     user = User.active.find_by(email: attrs[:email].downcase)
     if user.blank?
       user = User.create!(
         first_name: attrs[:first_name],
-        last_name:  attrs[:last_name],
-        email:      attrs[:email].downcase,
-        password:   ENV.fetch(attrs[:password_env_var]),
+        last_name: attrs[:last_name],
+        email: attrs[:email].downcase,
+        password: ENV.fetch(attrs[:password_env_var]),
         password_confirmation: ENV[attrs[:password_env_var]]
       )
       case_worker = CaseWorker.new(roles: attrs[:roles])

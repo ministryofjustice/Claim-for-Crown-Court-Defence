@@ -1,14 +1,13 @@
+# NOTE: this is NOT idempotent due to whitespace in the scheme 10 offence
+# file. It has not been changed because it will create a difference with
+# live data
 require 'csv'
+require Rails.root.join('db','seed_helper')
 
 lgfs_scheme_nine = FeeScheme.find_or_create_by(name: 'LGFS', version: 9, start_date: Date.new(2014, 03, 20).beginning_of_day)
 agfs_scheme_nine = FeeScheme.find_or_create_by(name: 'AGFS', version: 9, start_date: Date.new(2012, 04, 01).beginning_of_day, end_date: Date.new(2018, 03, 31).end_of_day)
 agfs_fee_scheme_ten = FeeScheme.find_or_create_by(name: 'AGFS', version: 10, start_date: Date.new(2018, 04, 01).beginning_of_day)
 
-# FIXME: this is not idempotent
-# - first run no scheme 10 offences exist so only updates scheme 9 offences
-# - second+ run scheme 10 offences exist so creates additional scheme 9
-# - OffenceFeeScheme(s) for scheme 10 offences
-# NOTE: have amended but needs testing
 Offence.where.not(offence_class: nil).each do |offence|
   OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: agfs_scheme_nine)
   OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: lgfs_scheme_nine)
@@ -74,10 +73,6 @@ module OffenceCSVRowExtensions
   def year_chapter
     self['year_chapter']
   end
-
-  def unique_code
-    SecureRandom.uuid # to be overwritten afterward
-  end
 end
 
 class CSV::Row
@@ -85,10 +80,9 @@ class CSV::Row
 end
 
 csv.each do |row|
-  offence = Offence.find_or_create_by!(
+  offence = SeedHelper.find_or_create_scheme_10_offence!(
     offence_band: row.offence_band,
     description: row.description,
-    unique_code: row.unique_code,
     contrary: row.contrary_to,
     year_chapter: row.year_chapter
   )

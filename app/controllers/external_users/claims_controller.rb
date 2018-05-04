@@ -17,8 +17,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   before_action :set_and_authorize_claim, only: %i[show edit update unarchive clone_rejected destroy summary
                                                    confirmation show_message_controls messages disc_evidence]
-  before_action :redirect_unless_editable, only: %i[edit update]
   before_action :set_form_step, only: %i[edit]
+  before_action :redirect_unless_editable, only: %i[edit update]
   before_action :generate_form_id, only: %i[new edit]
   before_action :initialize_submodel_counts
 
@@ -506,7 +506,26 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def redirect_unless_editable
-    return if @claim.editable?
-    redirect_to external_users_claims_url, notice: 'Can only edit "draft" claims'
+    return if @claim.current_step_editable?
+    error_code = !@claim.editable? ? :not_editable : :dependencies_missing
+    options = redirect_options_for(error_code)
+    redirect_to options[:url], alert: options[:message]
+  end
+
+  def redirect_options_for(error_code)
+    {
+      not_editable: {
+        url: external_users_claims_url,
+        message: t('errors.not_editable', scope: default_scope)
+      },
+      dependencies_missing: {
+        url: summary_external_users_claim_path(@claim),
+        message: t('errors.dependencies_missing', scope: default_scope)
+      }
+    }[error_code&.to_sym]
+  end
+
+  def default_scope
+    %i[external_users claims]
   end
 end

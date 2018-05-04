@@ -227,6 +227,7 @@ module Claim
     end
 
     def editable_step?(step)
+      @original_current_step = current_step
       submission_steps = submission_stages.path_until(submission_stages.last&.to_sym)
       step_object = submission_steps.find { |s| s == step }
       return false unless editable? && step_object
@@ -236,6 +237,15 @@ module Claim
         self.force_validation = true
         valid?
       end
+    ensure
+      # NOTE: this shows that we probably should handle the step
+      # management by having an object form for each step that can be
+      # validated in isolation.
+      self.form_step = @original_current_step
+    end
+
+    def current_step_editable?
+      editable_step?(current_step)
     end
 
     def misc_fees_changed?

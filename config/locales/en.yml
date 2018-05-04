@@ -479,6 +479,9 @@ en:
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee
     claims:
+      errors:
+        not_editable: 'Can only edit "draft" claims'
+        dependencies_missing: Claim section cannot be edited. Please fill its dependencies
       hints:
         fees_header_prompt_text_html: &fees_vat_prompt All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users.
       redraft:

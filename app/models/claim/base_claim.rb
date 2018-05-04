@@ -454,12 +454,12 @@ module Claim
 
     def previous_step
       return unless form_step
-      submission_stages.previous_stage(form_step)
+      submission_stages.previous_stage(form_step)&.to_sym
     end
 
     def next_step
       return unless form_step
-      submission_stages.next_stage(form_step)
+      submission_stages.next_stage(form_step)&.to_sym
     end
 
     def next_step!

@@ -2,7 +2,7 @@
   - if params[:referrer]
     = link_to 'Back', params[:referrer], class: 'link-back'
   - elsif @claim && @claim.step_back?
-    = link_to 'Back', edit_polymorphic_path(@claim, step: @claim.previous_step&.to_sym), class: 'link-back'
+    = link_to 'Back', edit_polymorphic_path(@claim, step: @claim.previous_step), class: 'link-back'
   - else
     = link_to 'Home', external_users_root_path, class: 'link-back'
 

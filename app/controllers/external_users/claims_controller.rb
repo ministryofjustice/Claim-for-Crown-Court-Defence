@@ -448,7 +448,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
                   title: '%{action_t} %{type} claim page %{step}'
                 }, claim_tracking_substitutions)
 
-    redirect_to edit_polymorphic_path(@claim, step: @claim.next_step!)
+    redirect_to edit_polymorphic_path(@claim, step: @claim.next_step)
   end
 
   def render_or_redirect(result)

@@ -17,7 +17,7 @@ class Offence < ApplicationRecord
   belongs_to :offence_band
   has_many :claims, -> { active }, class_name: Claim::BaseClaim, foreign_key: :offence_id, dependent: :nullify
   has_many :offence_fee_schemes
-  has_many :fee_schemes, through: :offence_fee_schemes do
+  has_many :fee_schemes, through: :offence_fee_schemes, dependent: :destroy do
     def in_scheme_nine?
       where('version=?', FeeScheme::NINE)
     end

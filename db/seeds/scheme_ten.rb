@@ -86,11 +86,10 @@ csv.each do |row|
     contrary: row.contrary_to,
     year_chapter: row.year_chapter
   )
-  OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: agfs_fee_scheme_ten)
 end
 
 # regenerate unique codes based on offence description and band where order is significant
-require Rails.root.join('lib','data_migrator','offence_unique_code_migrator').to_s
+require Rails.root.join('lib','data_migrator','offence_unique_code_migrator')
 offences = Offence.joins(:offence_band).where(offence_class: nil).unscope(:order).order('offences.description COLLATE "C", offences.contrary COLLATE "C", offence_bands.description COLLATE "C"')
 migrator = DataMigrator::OffenceUniqueCodeMigrator.new(relation: offences)
 migrator.migrate!

@@ -978,6 +978,7 @@ en:
       certification_caption: Certification details
       instructed_heading: Instructed advocate
       alert: 'Cannot certify a claim in submitted state'
+      invalid_claim: 'Claim is not in a state to be submitted'
     claim:
       advocate_category: Advocate category
       litigator_category: 'Litigator category'

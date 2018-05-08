@@ -30,8 +30,8 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
     ],
     defendants: [],
     offence_details: %i[offence],
-    transfer_fees: %i[transfer_fee],
-    supporting_evidence: %i[total]
+    transfer_fees: %i[transfer_fee total],
+    supporting_evidence: []
   }
 
   before do

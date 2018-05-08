@@ -30,8 +30,9 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
       retrial_estimated_length
       effective_pcmh_date
       legal_aid_transfer_date
+      total
     ],
-    supporting_evidence: %i[total]
+    supporting_evidence: []
   }
 
   describe 'estimated trial length and estimated retrial length fields should not accept values of less than 10 days' do

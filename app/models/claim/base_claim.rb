@@ -226,26 +226,20 @@ module Claim
       next_step.present?
     end
 
+    def invalid_steps
+      @invalid_steps ||= Claims::ValidateAllSteps.call(self)
+    end
+
     def editable_step?(step)
-      @original_current_step = current_step
-      submission_steps = submission_stages.path_until(submission_stages.last&.to_sym)
-      step_object = submission_steps.find { |s| s == step }
-      return false unless editable? && step_object
-      return true if step_object.dependencies.empty?
-      step_object.dependencies.all? do |dependency|
-        self.form_step = dependency
-        self.force_validation = true
-        valid?
-      end
-    ensure
-      # NOTE: this shows that we probably should handle the step
-      # management by having an object form for each step that can be
-      # validated in isolation.
-      self.form_step = @original_current_step
+      Claims::CheckStepEditability.call(self, step).valid?
     end
 
     def current_step_editable?
       editable_step?(current_step)
+    end
+
+    def missing_dependencies_for(step)
+      Claims::CheckStepEditability.call(self, step).invalid_dependencies
     end
 
     def misc_fees_changed?
@@ -460,6 +454,10 @@ module Claim
     def submission_current_flow
       return submission_stages if from_api?
       submission_stages.path_until(form_step)
+    end
+
+    def full_submission_flow
+      submission_stages.path_until(submission_stages.last&.to_sym)
     end
 
     def previous_step

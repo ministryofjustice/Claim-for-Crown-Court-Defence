@@ -1,3 +1,3 @@
 - unless claim.fixed_fee_case?
   .form-section
-    = render partial: 'external_users/claims/summary_fees', locals: { claim: claim, header: t('external_users.claims.graduated_fees.summary.header'), fee: claim.graduated_fee, editable: editable, step: :graduated_fees }
+    = render partial: 'external_users/claims/summary_fees', locals: { claim: claim, header: t('external_users.claims.graduated_fees.summary.header'), fee: claim.graduated_fee, editable: editable, section: section, step: :graduated_fees }

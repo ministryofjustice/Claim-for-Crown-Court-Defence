@@ -1,0 +1,14 @@
+- missing_dependencies = claim.missing_dependencies_for(step)
+
+- unless missing_dependencies.empty?
+  .panel.panel-border-wide
+    %h3.heading-small
+      = t('external_users.claims.check_your_claim.missing_information.header')
+    %p
+      = t('external_users.claims.check_your_claim.missing_information.section_help_text', section: t("external_users.claims.#{section}.summary.header"))
+
+    %ul.list.list-bullet
+      - claim.summary_sections.each do |section, associated_step|
+        - if missing_dependencies.include?(associated_step)
+          %li
+            = t("external_users.claims.#{section}.summary.header")

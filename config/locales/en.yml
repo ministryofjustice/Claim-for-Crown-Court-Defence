@@ -537,6 +537,10 @@ en:
           header: Graduated fees
       check_your_claim:
         help_text: Check all the information below is correct before submitting your claim at the bottom of the page.
+        missing_information:
+          header: 'Warning: Missing information'
+          help_text: 'You must complete the following sections before submitting the claim:'
+          section_help_text: 'You must enter the following before adding %{section}:'
       case_details:
         advocate_fields:
           advocate: Instructed advocate

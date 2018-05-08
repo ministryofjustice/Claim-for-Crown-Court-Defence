@@ -4,6 +4,9 @@
     - if local_assigns[:editable]
       = link_to 'Change', edit_polymorphic_path(claim, step: :travel_expenses, referrer: summary_external_users_claim_path(claim)), class: 'link-change'
 
+  - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
+    = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :travel_expenses }
+
   - if claim.expenses.empty?
     %p
       = t('shared.summary.no_values.expenses')

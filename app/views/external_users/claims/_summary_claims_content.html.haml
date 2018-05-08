@@ -1,5 +1,18 @@
 %p
   = t('external_users.claims.check_your_claim.help_text')
 
+- unless claim.invalid_steps.empty?
+  .panel.panel-border-wide
+    %h3.heading-small
+      = t('external_users.claims.check_your_claim.missing_information.header')
+    %p
+      = t('external_users.claims.check_your_claim.missing_information.help_text')
+
+    %ul.list.list-bullet
+      - claim.summary_sections.each do |section, associated_step|
+        - if claim.invalid_steps.include?(associated_step)
+          %li
+            = t("external_users.claims.#{section}.summary.header")
+
 - claim.summary_sections.each do |section, associated_step|
-  = render partial: "external_users/claims/#{section}/summary", locals: { claim: claim, editable: claim.editable_step?(associated_step) }
+  = render partial: "external_users/claims/#{section}/summary", locals: { claim: claim, section: section, editable: claim.editable_step?(associated_step) }

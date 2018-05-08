@@ -1074,9 +1074,13 @@ en:
       legal_aid_transfer_date: "Legal aid transfer"
       trial_concluded_at: "First trial concluded"
       no_values:
+        basic_fees: "There are no graduated fees for this claim"
         fees: "There are no fees for this claim"
-        expenses: "There are no expenses for this claim"
+        expenses: "There are no travel expenses for this claim"
         disbursements: "There are no disbursements for this claim"
+        fixed_fees: "There are no fixed fees for this claim"
+        graduated_fees: "There are no graduated fees for this claim"
+        misc_fees: "There are no miscellaneous fees for this claim"
       supporting_evidence: Supporting evidence
       supporting_evidence_checklist: Supporting evidence checklist
     summary_agfs:

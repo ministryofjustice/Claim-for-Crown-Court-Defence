@@ -6,22 +6,33 @@
 - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
   = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: step }
 
-%table{ class: 'summary', summary: t('.summary') }
-  %caption
-    %span.table-caption.visuallyhidden
-      = t('.caption')
-  %tbody
+- if local_assigns.has_key?(:fee)
+  %table{ class: 'summary', summary: t('.summary') }
+    %caption
+      %span.table-caption.visuallyhidden
+        = t('.caption')
+    %tbody
 
-    - if local_assigns.has_key?(:fee)
       - if fee
         = render partial: 'external_users/claims/summary_fee', locals: { fee: fee }
-    - else
-      - collection = local_assigns.has_key?(:collection) ? collection : claim.fees.select(&:present?)
-      - present_collection(collection.sort_by(&:position)).each.with_index(1) do |fee, index|
-        %tr
-          %th{ scope: 'row', class: 'bold' }
-            = "#{t('shared.summary.fee')} #{index}"
-          %td
-            %table.nested-summary
-              %tbody
-                = render partial: 'external_users/claims/summary_fee', locals: { fee: fee }
+- else
+  - collection = local_assigns.has_key?(:collection) ? collection : claim.fees.select(&:present?)
+  - section = local_assigns.has_key?(:section) ? section : :fees
+
+  - if collection.empty?
+    %p
+      = t("shared.summary.no_values.#{section}")
+  - else
+    %table{ class: 'summary', summary: t('.summary') }
+      %caption
+        %span.table-caption.visuallyhidden
+          = t('.caption')
+      %tbody
+        - present_collection(collection.sort_by(&:position)).each.with_index(1) do |fee, index|
+          %tr
+            %th{ scope: 'row', class: 'bold' }
+              = "#{t('shared.summary.fee')} #{index}"
+            %td
+              %table.nested-summary
+                %tbody
+                  = render partial: 'external_users/claims/summary_fee', locals: { fee: fee }

@@ -16,6 +16,8 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select the court 'Blackfriars'
     And I select a case type of 'Contempt'
     And I enter a case number of 'A20161234'
+    And I enter the case concluded date
+    Then I click "Continue" in the claim form
 
     And I save as draft
     Then I should see 'Draft claim saved'
@@ -28,8 +30,6 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I edit the claim's case details
 
     Then I should see a supplier number select list
-    And I enter the case concluded date
-
     Then I click "Continue" in the claim form
 
     And I enter defendant, representation order and MAAT reference

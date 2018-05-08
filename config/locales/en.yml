@@ -874,8 +874,9 @@ en:
           supporting_evidence_docs: 'Upload supporting evidence'
       supporting_evidence:
         summary:
-            caption: 'Supporting evidence: This section contains information about supporting evidence.'
-            summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          header: Supporting evidence
+          caption: 'Supporting evidence: This section contains information about supporting evidence.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       supporting_evidence_checklist:
         summary:
           caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'

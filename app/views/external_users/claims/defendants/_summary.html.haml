@@ -7,62 +7,66 @@
   - defendant_fields_scope = 'external_users.claims.defendants.defendant_fields'
   - rep_order_fields_scope = 'external_users.claims.defendants.representation_order_fields'
 
-  - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
-    = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :defendants }
-
-  %table{ class: 'summary', summary: t('.summary')}
-    %caption
-      %span.table-caption.visuallyhidden
-        = t('.caption')
-    %tbody
-      - claim.defendants.each.with_index(1) do | defendant, index|
-        %tr
-          %th{ scope: 'row', class: 'bold' }
-            = "#{t('common.defendant')} #{index}"
-          %td
-            %table.nested-summary
-              %tbody
-                %tr
-                  %th{ scope: 'row', class: 'bold' }
-                    = t('first_name', scope: defendant_fields_scope)
-                  %td
-                    = defendant.first_name
-                %tr
-                  %th{ scope: 'row', class: 'bold' }
-                    = t('last_name', scope: defendant_fields_scope)
-                  %td
-                    = defendant.last_name
-
-                - if defendant.date_of_birth.present?
+  - if claim.defendants.empty?
+    - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
+      = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :defendants }
+    - else
+      %p
+        = t('shared.summary.no_values.defendants')
+  - else
+    %table{ class: 'summary', summary: t('.summary')}
+      %caption
+        %span.table-caption.visuallyhidden
+          = t('.caption')
+      %tbody
+        - claim.defendants.each.with_index(1) do | defendant, index|
+          %tr
+            %th{ scope: 'row', class: 'bold' }
+              = "#{t('common.defendant')} #{index}"
+            %td
+              %table.nested-summary
+                %tbody
                   %tr
                     %th{ scope: 'row', class: 'bold' }
-                      %span.visuallyhidden
-                        = "#{t('common.defendant')} #{index}"
-                      = t('date_of_birth', scope: defendant_fields_scope)
+                      = t('first_name', scope: defendant_fields_scope)
                     %td
-                      = defendant.date_of_birth.strftime('%d/%m/%Y') rescue ''
+                      = defendant.first_name
+                  %tr
+                    %th{ scope: 'row', class: 'bold' }
+                      = t('last_name', scope: defendant_fields_scope)
+                    %td
+                      = defendant.last_name
 
-                - unless claim.lgfs? && claim.interim?
-                  %tr
-                    %th{ scope: 'row', class: 'bold' }
-                      %span.visuallyhidden
-                        = "#{t('common.defendant')} #{index}"
-                      = t('order_for_judicial_apportionment', scope: defendant_fields_scope)
-                    %td
-                      = defendant.order_for_judicial_apportionment == true ? 'Yes' : 'No'
+                  - if defendant.date_of_birth.present?
+                    %tr
+                      %th{ scope: 'row', class: 'bold' }
+                        %span.visuallyhidden
+                          = "#{t('common.defendant')} #{index}"
+                        = t('date_of_birth', scope: defendant_fields_scope)
+                      %td
+                        = defendant.date_of_birth.strftime('%d/%m/%Y') rescue ''
 
-                - defendant.representation_orders.each.with_index(1) do | representation_order, index|
-                  %tr
-                    %th{ scope: 'row', class: 'bold' }
-                      %span.visuallyhidden
-                        = "#{t('common.defendant')} #{index} representation order #{index}"
-                      = "#{t('date', scope: rep_order_fields_scope)} #{index}"
-                    %td
-                      = representation_order.representation_order_date.strftime('%d/%m/%Y') rescue ''
-                  %tr
-                    %th{ scope: 'row', class: 'bold' }
-                      %span.visuallyhidden
-                        = "#{t('common.defendant')} #{index} representation order #{index}"
-                      = "#{t('maat_reference_number', scope: rep_order_fields_scope)} #{index}"
-                    %td
-                      = representation_order.maat_reference
+                  - unless claim.lgfs? && claim.interim?
+                    %tr
+                      %th{ scope: 'row', class: 'bold' }
+                        %span.visuallyhidden
+                          = "#{t('common.defendant')} #{index}"
+                        = t('order_for_judicial_apportionment', scope: defendant_fields_scope)
+                      %td
+                        = defendant.order_for_judicial_apportionment == true ? 'Yes' : 'No'
+
+                  - defendant.representation_orders.each.with_index(1) do | representation_order, index|
+                    %tr
+                      %th{ scope: 'row', class: 'bold' }
+                        %span.visuallyhidden
+                          = "#{t('common.defendant')} #{index} representation order #{index}"
+                        = "#{t('date', scope: rep_order_fields_scope)} #{index}"
+                      %td
+                        = representation_order.representation_order_date.strftime('%d/%m/%Y') rescue ''
+                    %tr
+                      %th{ scope: 'row', class: 'bold' }
+                        %span.visuallyhidden
+                          = "#{t('common.defendant')} #{index} representation order #{index}"
+                        = "#{t('maat_reference_number', scope: rep_order_fields_scope)} #{index}"
+                      %td
+                        = representation_order.maat_reference

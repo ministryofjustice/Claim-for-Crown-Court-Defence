@@ -4,12 +4,12 @@
     - if local_assigns[:editable]
       = link_to 'Change', edit_polymorphic_path(claim, step: :disbursements, referrer: summary_external_users_claim_path(claim)), class: 'link-change'
 
-  - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
-    = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :disbursements }
-
   - if claim.disbursements.empty?
-    %p
-      = t('shared.summary.no_values.disbursements')
+    - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
+      = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :disbursements }
+    - else
+      %p
+        = t('shared.summary.no_values.disbursements')
   - else
     %table{ class: 'summary', summary: t('.summary') }
       %caption

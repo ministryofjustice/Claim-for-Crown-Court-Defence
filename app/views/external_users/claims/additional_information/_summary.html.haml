@@ -4,11 +4,11 @@
     - if local_assigns[:editable]
       = link_to 'Change', edit_polymorphic_path(claim, step: :supporting_evidence, anchor: 'additional_info', referrer: summary_external_users_claim_path(claim)), class: 'link-change'
 
-  - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
-    = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :supporting_evidence }
-
   - if claim.additional_information.present?
     = simple_format(claim.additional_information)
   - else
-    %p
-      = t('external_users.claims.additional_information.summary.not_available')
+    - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
+      = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :supporting_evidence }
+    - else
+      %p
+        = t('external_users.claims.additional_information.summary.not_available')

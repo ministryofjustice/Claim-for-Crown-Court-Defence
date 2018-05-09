@@ -1079,10 +1079,13 @@ en:
         basic_fees: "There are no graduated fees for this claim"
         fees: "There are no fees for this claim"
         expenses: "There are no travel expenses for this claim"
+        defendants: "There are no defendants for this claim"
         disbursements: "There are no disbursements for this claim"
         fixed_fees: "There are no fixed fees for this claim"
         graduated_fees: "There are no graduated fees for this claim"
+        interim_fee: "There is no interim fee for this claim"
         misc_fees: "There are no miscellaneous fees for this claim"
+        offence_details: "There are no offence details for this claim"
       supporting_evidence: Supporting evidence
       supporting_evidence_checklist: Supporting evidence checklist
     summary_agfs:

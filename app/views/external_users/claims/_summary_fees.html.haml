@@ -3,25 +3,27 @@
   - if local_assigns[:editable]
     = link_to 'Change', edit_polymorphic_path(claim, step: step, referrer: summary_external_users_claim_path(claim)), class: 'link-change'
 
-- if local_assigns.has_key?(:editable) && !local_assigns[:editable]
-  = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: step }
-
 - if local_assigns.has_key?(:fee)
-  %table{ class: 'summary', summary: t('.summary') }
-    %caption
-      %span.table-caption.visuallyhidden
-        = t('.caption')
-    %tbody
-
-      - if fee
+  - if fee
+    %table{ class: 'summary', summary: t('.summary') }
+      %caption
+        %span.table-caption.visuallyhidden
+          = t('.caption')
+      %tbody
         = render partial: 'external_users/claims/summary_fee', locals: { fee: fee }
+  - else
+    - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
+      = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: step }
 - else
   - collection = local_assigns.has_key?(:collection) ? collection : claim.fees.select(&:present?)
   - section = local_assigns.has_key?(:section) ? section : :fees
 
   - if collection.empty?
-    %p
-      = t("shared.summary.no_values.#{section}")
+    - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
+      = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: step }
+    - else
+      %p
+        = t("shared.summary.no_values.#{section}")
   - else
     %table{ class: 'summary', summary: t('.summary') }
       %caption

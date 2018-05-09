@@ -4,7 +4,8 @@ module CCR
       'QC': 'QC',
       'Led junior': 'LEDJR',
       'Leading junior': 'LEADJR',
-      'Junior alone': 'JRALONE'
+      'Junior alone': 'JRALONE',
+      'Junior': 'JUNIOR'
     }.stringify_keys.freeze
 
     class << self

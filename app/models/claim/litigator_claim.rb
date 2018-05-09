@@ -82,6 +82,10 @@ module Claim
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :graduated_fee, reject_if: :all_blank, allow_destroy: false
 
+    before_validation do
+      assign_total_attrs
+    end
+
     SUBMISSION_STAGES = [
       {
         name: :case_details,
@@ -198,6 +202,50 @@ module Claim
         fixed_fee.try(:destroy)
         self.fixed_fee = nil
       end
+    end
+
+    def assign_total_attrs
+      # TODO: understand if this check is really needed
+      # left it here mostly to ensure the new changes do
+      # not impact anything API related
+      return if from_api?
+      if case_type&.is_fixed_fee?
+        assign_fixed_total_attrs
+      else
+        assign_graduated_total_attrs
+      end
+      assign_expenses_total if expenses_changed?
+      return unless total_changes_required?
+      assign_total
+      assign_vat
+    end
+
+    def assign_fixed_total_attrs
+      assign_fees_total(%i[fixed_fee misc_fees]) if fees_changed?
+    end
+
+    def assign_graduated_total_attrs
+      assign_fees_total(%i[graduated_fee misc_fees]) if fees_changed?
+    end
+
+    def fees_changed?
+      if case_type&.is_fixed_fee?
+        fixed_fee_changed? || misc_fees_changed?
+      else
+        graduated_fee_changed? || misc_fees_changed?
+      end
+    end
+
+    def total_changes_required?
+      fees_changed? || expenses_changed?
+    end
+
+    def fixed_fee_changed?
+      fixed_fee&.changed?
+    end
+
+    def graduated_fee_changed?
+      graduated_fee&.changed?
     end
   end
 end

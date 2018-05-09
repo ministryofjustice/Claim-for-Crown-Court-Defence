@@ -285,7 +285,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def raw_misc_fees_total
-    claim.calculate_fees_total(:misc) || 0
+    claim.calculate_fees_total(:misc_fees) || 0
   end
 
   def raw_expenses_total

@@ -246,6 +246,10 @@ module Claim
       misc_fees.any?(&:changed?)
     end
 
+    def expenses_changed?
+      expenses.any?(&:changed?)
+    end
+
     # Override the corresponding method in the subclass
     def agfs?
       false

@@ -674,9 +674,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'calculates fee totals by category too' do
-        expect(subject.calculate_fees_total(:basic)).to eq(7.0)
-        expect(subject.calculate_fees_total(:misc)).to eq(0.5)
-        expect(subject.calculate_fees_total(:fixed)).to eq(0.5)
+        expect(subject.calculate_fees_total(:basic_fees)).to eq(7.0)
+        expect(subject.calculate_fees_total(:misc_fees)).to eq(0.5)
+        expect(subject.calculate_fees_total(:fixed_fees)).to eq(0.5)
       end
     end
 

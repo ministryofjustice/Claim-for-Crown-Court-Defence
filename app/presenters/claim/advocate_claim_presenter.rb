@@ -29,11 +29,11 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def raw_fixed_fees_total
-    claim.calculate_fees_total(:fixed)
+    claim.calculate_fees_total(:fixed_fees)
   end
 
   def raw_basic_fees_total
-    claim.calculate_fees_total(:basic)
+    claim.calculate_fees_total(:basic_fees)
   end
 
   def raw_fixed_fees_combined_total

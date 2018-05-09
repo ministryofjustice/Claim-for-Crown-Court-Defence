@@ -75,6 +75,10 @@ module Claim
     validates_with ::Claim::TransferClaimValidator
     validates_with ::Claim::TransferClaimSubModelValidator
 
+    before_validation do
+      assign_total_attrs
+    end
+
     # The ActiveSupport delegate method doesn't work with new objects - i.e.
     #   You can't say Claim.new(xxx: value) where xxx is delegated
     # So we have to do this instead.  Probably good to put it in a gem eventually.
@@ -201,6 +205,30 @@ module Claim
 
     def provider_delegator
       provider
+    end
+
+    def assign_total_attrs
+      # TODO: understand if this check is really needed
+      # left it here mostly to ensure the new changes do
+      # not impact anything API related
+      return if from_api?
+      assign_fees_total(%i[transfer_fee misc_fees]) if fees_changed?
+      assign_expenses_total if expenses_changed?
+      return unless total_changes_required?
+      assign_total
+      assign_vat
+    end
+
+    def fees_changed?
+      transfer_fee_changed? || misc_fees_changed?
+    end
+
+    def total_changes_required?
+      fees_changed? || expenses_changed?
+    end
+
+    def transfer_fee_changed?
+      transfer_fee&.changed?
     end
   end
 end

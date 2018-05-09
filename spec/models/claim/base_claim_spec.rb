@@ -515,6 +515,26 @@ module Claim
     end
   end
 
+  describe '#disk_evidence_reference' do
+    context 'when case number is not set' do
+      let(:claim) { MockBaseClaim.new(case_number: nil) }
+
+      specify { expect(claim.disk_evidence_reference).to be_nil }
+    end
+
+    context 'when claim id is not set' do
+      let(:claim) { MockBaseClaim.new(case_number: 'A20161234', id: nil) }
+
+      specify { expect(claim.disk_evidence_reference).to be_nil }
+    end
+
+    context 'when case number and claim id are set' do
+      let(:claim) { MockBaseClaim.new(case_number: 'A20161234', id: 9999) }
+
+      specify { expect(claim.disk_evidence_reference).to eq('A20161234/9999') }
+    end
+  end
+
   describe '#evidence_doc_types' do
     it 'returns an array of DocType objects' do
       claim = MockBaseClaim.new(evidence_checklist_ids: [1, 5, 10])

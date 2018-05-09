@@ -585,6 +585,7 @@ module Claim
     end
 
     def disk_evidence_reference
+      return unless case_number && id
       "#{case_number}/#{id}"
     end
 

@@ -1,5 +1,6 @@
 module Claims::Calculations
   def calculate_fee_total(fee)
+    return 0 unless fee
     fee.calculate_amount
     fee.amount
   end

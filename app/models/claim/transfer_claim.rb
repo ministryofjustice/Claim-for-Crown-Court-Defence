@@ -135,24 +135,26 @@ module Claim
         name: :miscellaneous_fees,
         transitions: [
           { to_stage: :disbursements }
-        ]
+        ],
+        dependencies: %i[transfer_fee_details]
       },
       {
         name: :disbursements,
         transitions: [
           { to_stage: :travel_expenses }
-        ]
+        ],
+        dependencies: %i[transfer_fee_details]
       },
       {
         name: :travel_expenses,
         transitions: [
           { to_stage: :supporting_evidence }
         ],
-        dependencies: %i[transfer_fee_details case_details]
+        dependencies: %i[transfer_fee_details]
       },
       {
         name: :supporting_evidence,
-        dependencies: %i[transfer_fee_details case_details]
+        dependencies: %i[transfer_fee_details]
       }
     ].freeze
 

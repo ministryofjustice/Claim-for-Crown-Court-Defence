@@ -14,17 +14,17 @@
         = "Evidence supplied on disk"
     %tbody
       %tr
-        %th{ scope:'row', class: 'bold' }
+        %th{ scope: 'row', class: 'bold' }
           = t('shared.summary.disk_evidence')
         %td
           = claim.disk_evidence ? 'Yes' : 'No'
       %tr
-        %th{ scope:'row', class: 'bold' }
-          = "Reference number:"
+        %th{ scope: 'row', class: 'bold' }
+          = t('shared.summary.disk_evidence_reference')
         %td
           = claim.disk_evidence_reference
       %tr
-        %th{ scope:'row', class: 'bold' }
+        %th{ scope: 'row', class: 'bold' }
           = t('shared.summary.supporting_evidence')
         %td
           %ul
@@ -35,7 +35,7 @@
                           class: 'download',
                           'aria-label': "Download document: #{document.document_file_name}"
       %tr
-        %th{ scope:'row', class: 'bold' }
+        %th{ scope: 'row', class: 'bold' }
           = t('shared.summary.supporting_evidence_checklist')
         %td
           %ul

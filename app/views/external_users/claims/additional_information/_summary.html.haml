@@ -2,7 +2,7 @@
   %h3.heading-medium
     = t('external_users.claims.additional_information.summary.header')
     - if local_assigns[:editable]
-      = link_to 'Change', edit_polymorphic_path(claim, step: :supporting_evidence, anchor: 'additional_info', referrer: summary_external_users_claim_path(claim)), class: 'link-change'
+      = link_to 'Change', edit_polymorphic_path(claim, step: :supporting_evidence, anchor: 'additional_info', referrer: :summary), class: 'link-change'
 
   - if claim.additional_information.present?
     = simple_format(claim.additional_information)

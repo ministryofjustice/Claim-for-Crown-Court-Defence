@@ -64,4 +64,11 @@ module ExternalUsers::ClaimsHelper
   def external_users_claim_path_for_state(claim)
     claim.draft? ? summary_external_users_claim_path(claim) : external_users_claim_path(claim)
   end
+
+  def url_for_referrer(referrer, claim)
+    return unless claim
+    {
+      'summary' => summary_external_users_claim_path(claim)
+    }[referrer.to_s]
+  end
 end

@@ -2,7 +2,7 @@
   %h3.heading-medium
     = t('external_users.claims.defendants.summary.header')
     - if local_assigns[:editable]
-      = link_to 'Change', edit_polymorphic_path(claim, step: :defendants, referrer: summary_external_users_claim_path(claim)), class: 'link-change'
+      = link_to 'Change', edit_polymorphic_path(claim, step: :defendants, referrer: :summary), class: 'link-change'
 
   - defendant_fields_scope = 'external_users.claims.defendants.defendant_fields'
   - rep_order_fields_scope = 'external_users.claims.defendants.representation_order_fields'

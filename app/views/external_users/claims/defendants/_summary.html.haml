@@ -19,7 +19,7 @@
         %span.table-caption.visuallyhidden
           = t('.caption')
       %tbody
-        - claim.defendants.each.with_index(1) do | defendant, index|
+        - claim.defendants.order(:created_at).each.with_index(1) do | defendant, index|
           %tr
             %th{ scope: 'row', class: 'bold' }
               = "#{t('common.defendant')} #{index}"

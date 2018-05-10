@@ -15,4 +15,5 @@
             = t("external_users.claims.#{section}.summary.header")
 
 - claim.summary_sections.each do |section, associated_step|
-  = render partial: "external_users/claims/#{section}/summary", locals: { claim: claim, section: section, editable: claim.editable_step?(associated_step) }
+  - if claim.accessible_step?(associated_step)
+    = render partial: "external_users/claims/#{section}/summary", locals: { claim: claim, section: section, editable: claim.editable_step?(associated_step) }

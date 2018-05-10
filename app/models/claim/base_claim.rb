@@ -230,6 +230,10 @@ module Claim
       @invalid_steps ||= Claims::ValidateAllSteps.call(self)
     end
 
+    def accessible_step?(step)
+      full_submission_flow.include?(step)
+    end
+
     def editable_step?(step)
       Claims::CheckStepEditability.call(self, step).valid?
     end

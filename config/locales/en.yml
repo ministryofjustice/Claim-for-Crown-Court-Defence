@@ -1078,6 +1078,7 @@ en:
       trial_concluded_at: "First trial concluded"
       no_values:
         basic_fees: "There are no graduated fees for this claim"
+        case_details: "There are no case details for this claim"
         fees: "There are no fees for this claim"
         expenses: "There are no travel expenses for this claim"
         defendants: "There are no defendants for this claim"

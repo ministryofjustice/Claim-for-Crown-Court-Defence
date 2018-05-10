@@ -49,4 +49,11 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
   def summary_sections
     SUMMARY_SECTIONS
   end
+
+  # NOTE: this is an interim solution for what probably should be
+  # some sort of DSL to describe what fields are required for a given section
+  # for that section to be considered completed
+  def mandatory_case_details?
+    claim.court && claim.case_number && claim.supplier_number
+  end
 end

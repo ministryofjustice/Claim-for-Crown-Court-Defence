@@ -1088,6 +1088,7 @@ en:
         interim_fee: "There is no interim fee for this claim"
         misc_fees: "There are no miscellaneous fees for this claim"
         offence_details: "There are no offence details for this claim"
+        supporting_evidence: "There is no supporting evidence for this claim"
       supporting_evidence: Supporting evidence
       supporting_evidence_checklist: Supporting evidence checklist
     summary_agfs:

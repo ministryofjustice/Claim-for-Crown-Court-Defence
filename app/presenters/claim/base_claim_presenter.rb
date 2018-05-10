@@ -31,6 +31,13 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.case_type && claim.court && claim.case_number
   end
 
+  # NOTE: this is an interim solution for what probably should be
+  # some sort of DSL to describe what fields are required for a given section
+  # for that section to be considered completed
+  def mandatory_supporting_evidence?
+    claim.disk_evidence || claim.documents.any? || claim.evidence_checklist_ids.any?
+  end
+
   present_with_currency :misc_fees_total, :disbursements_total, :total_inc
 
   # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down

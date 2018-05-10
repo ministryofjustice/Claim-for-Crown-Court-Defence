@@ -159,9 +159,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   context 'eligible misc and fixed fee types' do
     before(:all) do
-      @bft1 = create :basic_fee_type, roles: %w[agfs agfs_scheme_9 agfs_scheme_10]
-      @bft2 = create :basic_fee_type, :lgfs
-      @bft3 = create :basic_fee_type
+      @bft1 = create :basic_fee_type, roles: %w[agfs agfs_scheme_9 agfs_scheme_10], description: 'bft1'
+      @bft2 = create :basic_fee_type, :lgfs, description: 'bft2'
+      @bft3 = create :basic_fee_type, description: 'bft3'
+      @bft4 = create :basic_fee_type, roles: %w[agfs agfs_scheme_9], description: 'bft4'
+      @bft5 = create :basic_fee_type, roles: %w[agfs agfs_scheme_10], description: 'bft5'
       @mft1 = create :misc_fee_type, :agfs_scheme_9
       @mft2 = create :misc_fee_type, :lgfs
       @mft3 = create :misc_fee_type, :agfs_scheme_10
@@ -176,7 +178,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#eligible_basic_fee_types' do
       it 'returns only basic fee types for AGFS' do
-        expect(@claim.eligible_basic_fee_types).to match_array([@bft1, @bft3])
+        expect(@claim.eligible_basic_fee_types).to match_array([@bft1, @bft3, @bft4])
       end
 
       context 'when claim has fee reform scheme' do
@@ -185,7 +187,16 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         end
 
         it 'returns only basic fee types for AGFS excluding the ones that are not part of the fee reform' do
-          expect(@claim.eligible_basic_fee_types).to eq([@bft1])
+          expect(@claim.eligible_basic_fee_types).to eq([@bft1, @bft5])
+        end
+      end
+      
+      context 'when claim has a scheme 10 offence (from API)' do
+        let(:offence) { create(:offence, :with_fee_scheme_ten) }
+        let(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence: offence) }
+
+        it 'returns only basic fee types for AGFS scheme 10' do
+          expect(claim.eligible_basic_fee_types).to eq([@bft1, @bft5])
         end
       end
     end

@@ -84,7 +84,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#case_number' do
     it 'returns a placeholder text when not provided' do
       subject.case_number = nil
-      expect(subject.case_number).to eql('not-provided')
+      expect(subject.case_number).to eq('N/A')
     end
 
     it 'returns it when provided' do

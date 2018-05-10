@@ -10,7 +10,7 @@
         %span.table-caption.visuallyhidden
           = t('.caption')
       %tbody
-        = render partial: 'external_users/claims/summary_fee', locals: { fee: fee }
+        = render partial: 'external_users/claims/summary_fee', locals: { fee: present(fee) }
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
       = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: step }

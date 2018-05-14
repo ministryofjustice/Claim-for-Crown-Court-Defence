@@ -53,7 +53,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
           'transfer_date_yyyy' => '2016',
           'case_conclusion_id' => ''
         },
-        'commit_stage_1' => 'Continue'
+        'commit_continue' => 'Continue'
       }
     end
 
@@ -115,7 +115,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
       context 'valid_params' do
         before(:each) do
-          params.delete('commit_stage_1')
+          params.delete('commit_continue')
           params['commit'] = 'Continue'
           post :create, params: params
         end
@@ -142,7 +142,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
       context 'invalid params' do
         before(:each) do
-          params.delete('commit_stage_1')
+          params.delete('commit_continue')
           params['claim'].delete('litigator_type')
           params['commit'] = 'Continue'
           post :create, params: params
@@ -191,7 +191,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
             'transfer_date_yyyy' => '2016',
             'case_conclusion_id' => ''
           },
-          'commit_stage_1' => 'Continue',
+          'commit_continue' => 'Continue',
           'id' => claim.id.to_s
         }
       end

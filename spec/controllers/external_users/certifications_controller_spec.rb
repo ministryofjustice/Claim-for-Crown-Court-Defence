@@ -42,10 +42,10 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
     end
 
     context 'claim not in a valid state' do
-      it 'should redirect to edit page with flash message' do
+      it 'should redirect to the check your claim page with flash message' do
         claim = create(:claim, case_type_id: nil)
         get :new, params: { claim_id: claim }
-        expect(response).to redirect_to(controller.send(:edit_polymorphic_path,claim))
+        expect(response).to redirect_to(summary_external_users_claim_path(claim))
         expect(flash[:alert]).to eq 'Claim is not in a state to be submitted'
       end
     end
@@ -67,6 +67,16 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
       before do
         allow(Aws::SNS::Client).to receive(:new).and_return sns_client
         allow(sns_client).to receive(:publish)
+      end
+
+      context 'claim not in a valid state' do
+        let(:claim) { create(:claim, case_type_id: nil) }
+
+        it 'should redirect to check your claim page with flash message' do
+          post :create, params: valid_certification_params(claim, certification_type)
+          expect(response).to redirect_to(summary_external_users_claim_path(claim))
+          expect(flash[:alert]).to eq 'Claim is not in a state to be submitted'
+        end
       end
 
       context 'valid certification params for submission' do
@@ -119,6 +129,16 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
       it 'calls the SNS notification path' do
         post :create, params: valid_certification_params(claim, certification_type)
         expect(sns_client).to have_received(:publish).once
+      end
+    end
+
+    context 'claim not in a valid state' do
+      let(:claim) { create(:litigator_claim, case_type_id: nil) }
+
+      it 'should redirect to check your claim page with flash message' do
+        post :create, params: valid_certification_params(claim, certification_type)
+        expect(response).to redirect_to(summary_external_users_claim_path(claim))
+        expect(flash[:alert]).to eq 'Claim is not in a state to be submitted'
       end
     end
 

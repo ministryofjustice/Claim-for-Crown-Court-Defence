@@ -22,6 +22,8 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     When I choose the supplier number '1A222Z'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
+    And I enter the case concluded date
+    And I click "Continue" in the claim form
 
     And I save as draft
     Then I should see 'Draft claim saved'
@@ -30,12 +32,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Then Claim 'A20161234' should be listed with a status of 'Draft'
 
     When I click the claim 'A20161234'
-    And I edit this claim
-    And I click "Continue" in the claim form
-
-    And I enter the case concluded date
-
-    And I click "Continue" in the claim form
+    And I edit the claim's defendants
 
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference

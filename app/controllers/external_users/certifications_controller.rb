@@ -1,20 +1,14 @@
 class ExternalUsers::CertificationsController < ExternalUsers::ApplicationController
   before_action :set_claim, only: %i[new create update]
   before_action :redirect_already_certified, only: %i[new create]
+  before_action :redirect_if_not_valid, only: %i[new create]
 
   def new
-    redirect_to external_users_claim_path(@claim), alert: t('shared.certification.alert') if @claim.submitted?
-
-    @claim.force_validation = true
-    if @claim.valid?
-      build_certification
-      track_visit({
-                    url: 'external_user/%{type}/claim/%{action}/certification',
-                    title: '%{action_t} %{type} claim certification'
-                  }, claim_tracking_substitutions)
-    else
-      redirect_to edit_polymorphic_path(@claim), alert: 'Claim is not in a state to be submitted'
-    end
+    build_certification
+    track_visit({
+                  url: 'external_user/%{type}/claim/%{action}/certification',
+                  title: '%{action_t} %{type} claim certification'
+                }, claim_tracking_substitutions)
   end
 
   def create
@@ -36,6 +30,11 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
 
   def redirect_already_certified
     redirect_to external_users_claim_path(@claim), alert: t('shared.certification.alert') if @claim.submitted?
+  end
+
+  def redirect_if_not_valid
+    return if @claim.invalid_steps.empty?
+    redirect_to summary_external_users_claim_path(@claim), alert: t('shared.certification.invalid_claim')
   end
 
   def notify_legacy_importers

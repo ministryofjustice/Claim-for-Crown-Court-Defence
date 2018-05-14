@@ -2,13 +2,13 @@
 
 - if claim.agfs?
   %tr
-    %th{scope: 'row'}
+    %th{ scope: 'row', class: 'bold' }
       = t("offence_category", scope: claim_fields)
     %td
       = claim.offence ? claim.offence.description : t("general.not_provided")
 
 %tr
-  %th{scope: 'row'}
+  %th{ scope: 'row', class: 'bold' }
     = t("offence_class", scope: claim_fields)
   %td
     = claim.offence ? claim.offence.offence_class : t("general.not_provided")

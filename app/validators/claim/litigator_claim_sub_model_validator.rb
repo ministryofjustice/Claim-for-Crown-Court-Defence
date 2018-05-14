@@ -4,20 +4,20 @@ class Claim::LitigatorClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       case_details: [],
       defendants: [],
       offence_details: [],
-      fixed_fees: %i[fixed_fee],
-      graduated_fees: %i[graduated_fee]
+      fixed_fees: [{ name: :fixed_fee }],
+      graduated_fees: [{ name: :graduated_fee }]
     }
   end
 
   def has_many_association_names_for_steps
     {
       case_details: [],
-      defendants: %i[defendants],
+      defendants: [{ name: :defendants, options: { presence: true } }],
       offence_details: [],
-      miscellaneous_fees: %i[misc_fees],
-      disbursements: %i[disbursements],
-      travel_expenses: %i[expenses],
-      supporting_evidence: %i[documents]
+      miscellaneous_fees: [{ name: :misc_fees }],
+      disbursements: [{ name: :disbursements }],
+      travel_expenses: [{ name: :expenses }],
+      supporting_evidence: [{ name: :documents }]
     }
   end
 end

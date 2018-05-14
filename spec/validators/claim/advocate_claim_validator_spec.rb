@@ -68,50 +68,65 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   end
 
   context 'advocate_category' do
-    before do
-      claim.form_step = 'basic_and_fixed_fees'
-    end
+    shared_examples_for 'advocate category validations' do
 
-    it 'should error if not present' do
-      claim.advocate_category = nil
-      should_error_with(claim, :advocate_category, 'blank')
-    end
-
-    it 'should error if not in the available list' do
-      claim.advocate_category = 'not-a-QC'
-      should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
-    end
-
-    default_valid_categories = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
-
-    context 'when on fee reform scheme' do
-      before do
-        allow(claim).to receive(:fee_scheme).and_return('fee_reform')
+      it 'should error if not present' do
+        claim.advocate_category = nil
+        should_error_with(claim, :advocate_category, 'blank')
       end
 
-      fee_reform_valid_categories = ['QC', 'Leading junior', 'Junior']
-      fee_reform_invalid_categories = ['Led junior', 'Junior alone']
+      it 'should error if not in the available list' do
+        claim.advocate_category = 'not-a-QC'
+        should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
+      end
 
-      fee_reform_valid_categories.each do |valid_entry|
+      default_valid_categories = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
+
+      context 'when on fee reform scheme' do
+        before do
+          allow(claim).to receive(:fee_scheme).and_return('fee_reform')
+        end
+
+        fee_reform_valid_categories = ['QC', 'Leading junior', 'Junior']
+        fee_reform_invalid_categories = ['Led junior', 'Junior alone']
+
+        fee_reform_valid_categories.each do |valid_entry|
+          it "should not error if '#{valid_entry}' specified" do
+            claim.advocate_category = valid_entry
+            should_not_error(claim, :advocate_category)
+          end
+        end
+
+        fee_reform_invalid_categories.each do |valid_entry|
+          it "should not error if '#{valid_entry}' specified" do
+            claim.advocate_category = valid_entry
+            should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
+          end
+        end
+      end
+
+      default_valid_categories.each do |valid_entry|
         it "should not error if '#{valid_entry}' specified" do
           claim.advocate_category = valid_entry
           should_not_error(claim, :advocate_category)
         end
       end
-
-      fee_reform_invalid_categories.each do |valid_entry|
-        it "should not error if '#{valid_entry}' specified" do
-          claim.advocate_category = valid_entry
-          should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
-        end
-      end
     end
 
-    default_valid_categories.each do |valid_entry|
-      it "should not error if '#{valid_entry}' specified" do
-        claim.advocate_category = valid_entry
-        should_not_error(claim, :advocate_category)
+    context 'when on the basic fees step' do
+      before do
+        claim.form_step = 'basic_fees'
       end
+
+      include_examples 'advocate category validations'
+    end
+
+    context 'when on the fixed fees step' do
+      before do
+        claim.form_step = 'fixed_fees'
+      end
+
+      include_examples 'advocate category validations'
     end
   end
 
@@ -201,7 +216,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
         end
 
         it 'should error' do
-          should_error_with(claim, :base, 'defendant_uplifts_mismatch')
+          should_error_with(claim, :base, 'defendant_uplifts_misc_fees_mismatch')
         end
 
         context 'when from api' do
@@ -225,8 +240,45 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
           expect(claim.basic_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[BANDR])
         end
 
-        it 'should error' do
-          should_error_with(claim, :base, 'defendant_uplifts_mismatch')
+        it 'should not error' do
+          should_not_error(claim, :base)
+        end
+
+        context 'and form step is basic fees' do
+          before do
+            claim.form_step = :basic_fees
+          end
+
+          it 'should error' do
+            should_error_with(claim, :base, 'defendant_uplifts_basic_fees_mismatch')
+          end
+        end
+      end
+
+      context 'when there is 1 fixed fee uplift' do
+        let(:claim) { create(:advocate_claim, :with_fixed_fee_case) }
+
+        before do
+          create(:fixed_fee, :fxndr_fee, claim: claim, quantity: 1, amount: 21.01)
+        end
+
+        it 'test setup' do
+          expect(claim.defendants.size).to eql 1
+          expect(claim.fixed_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[FXNDR])
+        end
+
+        it 'should not error' do
+          should_not_error(claim, :base)
+        end
+
+        context 'and form step is fixed fees' do
+          before do
+            claim.form_step = :fixed_fees
+          end
+
+          it 'should error' do
+            should_error_with(claim, :base, 'defendant_uplifts_fixed_fees_mismatch')
+          end
         end
       end
 
@@ -264,7 +316,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
           end
 
           it 'should add one error only' do
-            should_error_with(claim, :base, 'defendant_uplifts_mismatch')
+            should_error_with(claim, :base, 'defendant_uplifts_misc_fees_mismatch')
             expect(claim.errors[:base].size).to eql 1
           end
         end
@@ -322,34 +374,34 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
     end
   end
 
-  include_examples 'common partial validations', [
-      %i[
-          case_type
-          court
-          case_number
-          case_transferred_from_another_court
-          transfer_court
-          transfer_case_number
-          estimated_trial_length
-          actual_trial_length
-          retrial_estimated_length
-          retrial_actual_length
-          trial_cracked_at_third
-          trial_fixed_notice_at
-          trial_fixed_at
-          trial_cracked_at
-          trial_dates
-          retrial_started_at
-          retrial_concluded_at
-          case_concluded_at
-          supplier_number
-      ],
-      [],
-      %i[offence],
-      %i[total advocate_category defendant_uplifts],
-      %i[total],
-      %i[total],
-      [],
-      []
-  ]
+  include_examples 'common partial validations', {
+    case_details: %i[
+      case_type
+      court
+      case_number
+      case_transferred_from_another_court
+      transfer_court
+      transfer_case_number
+      estimated_trial_length
+      actual_trial_length
+      retrial_estimated_length
+      retrial_actual_length
+      trial_cracked_at_third
+      trial_fixed_notice_at
+      trial_fixed_at
+      trial_cracked_at
+      trial_dates
+      retrial_started_at
+      retrial_concluded_at
+      case_concluded_at
+      supplier_number
+    ],
+    defendants: [],
+    offence_details: %i[offence],
+    basic_fees: %i[total advocate_category defendant_uplifts_basic_fees],
+    fixed_fees: %i[total advocate_category defendant_uplifts_fixed_fees],
+    miscellaneous_fees: %i[defendant_uplifts_misc_fees],
+    travel_expenses: [],
+    supporting_evidence: []
+  }
 end

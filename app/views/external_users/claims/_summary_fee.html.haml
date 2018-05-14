@@ -1,0 +1,64 @@
+%tr
+  %th{ scope: 'row', class: 'bold' }
+    = t('shared.summary.fee_type')
+  %td
+    = fee.fee_type&.description
+
+- if fee.sub_type.present?
+  %tr
+    %th{ scope: 'row', class: 'bold' }
+      = t('shared.summary.fee_subtype')
+    %td
+      = fee.sub_type.description
+- if fee.case_uplift?
+  %tr
+    %th{ scope: 'row', class: 'bold' }
+      = t('shared.summary.case_numbers')
+    %td
+      = fee.case_numbers
+
+- if fee.claim.agfs? || fee.is_graduated? || fee.is_transfer?
+  %tr
+    %th{ scope: 'row', class: 'bold' }
+      - if fee.is_transfer? || fee.is_graduated?
+        = t('shared.summary.ppe')
+      - else
+        = t('shared.summary.quantity')
+    %td
+      = fee.quantity
+
+- if fee.date?
+  %tr
+    %th{ scope: 'row', class: 'bold' }
+      - if fee.is_graduated?
+        = t('shared.summary.first_day_of_hearing')
+      - else
+        = t('shared.summary.date')
+    %td
+      = fee.date
+
+  - if fee.is_graduated? && fee.claim.actual_trial_length
+    %tr
+      %th{ scope: 'row', class: 'bold' }
+        = t('shared.summary.actual_trial_length')
+      %td
+        = t('external_users.claims.graduated_fees.summary.actual_trial_length', count: fee.claim.actual_trial_length)
+
+- if fee.claim.agfs?
+  %tr
+    %th{ scope: 'row', class: 'bold' }
+      = t('shared.summary.rate')
+    %td
+      = fee.rate
+%tr
+  %th{ scope: 'row', class: 'bold' }
+    = t('shared.summary.amount')
+  %td
+    = fee.amount
+
+- if fee.dates_attended.any?
+  %tr
+    %th{ scope: 'row', class: 'bold' }
+      = t('shared.summary.dates_attended')
+    %td
+      = fee.dates_attended_delimited_string

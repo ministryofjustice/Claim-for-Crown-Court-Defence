@@ -1,35 +1,43 @@
-- if claim.disbursements.empty?
-  %p
-    = t('shared.summary.no_values.disbursements')
-- else
-  %table{class:'table-summary', summary: t('.summary')}
-    %caption
-      %span.table-caption.visuallyhidden
-        = t('.caption')
-    %colgroup
-      %col.summary-headings
-      %col.summary-desc
-    %tbody
-      - present_collection(claim.disbursements).each do |disbursement|
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.disbursements.type')
-          %td
-            = disbursement.name
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.disbursements.net_amount')
-          %td
-            = disbursement.net_amount
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.disbursements.vat_amount')
-          %td
-            = disbursement.vat_amount
+.form-section
+  %h3.heading-medium
+    = t('external_users.claims.disbursements.summary.header')
+    - if local_assigns[:editable]
+      = link_to 'Change', edit_polymorphic_path(claim, step: :disbursements, referrer: :summary), class: 'link-change'
 
-    %tfoot
-      %tr
-        %th{scope: 'row'}
-          = t('shared.summary.disbursements.total')
-        %td
-          = claim.disbursements_total
+  - if claim.disbursements.empty?
+    - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
+      = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :disbursements }
+    - else
+      %p
+        = t('shared.summary.no_values.disbursements')
+  - else
+    %table{ class: 'summary', summary: t('.summary') }
+      %caption
+        %span.table-caption.visuallyhidden
+          = t('.caption')
+      %colgroup
+        %col.summary-headings
+        %col.summary-desc
+      %tbody
+        - present_collection(claim.disbursements).each.with_index(1) do |disbursement, index|
+          %tr
+            %th{ scope: 'row', class: 'bold' }
+              = "#{t('shared.summary.disbursement')} #{index}"
+            %td
+              %table.nested-summary
+                %tbody
+                  %tr
+                    %th{ scope: 'row', class: 'bold' }
+                      = t('shared.summary.disbursements.type')
+                    %td
+                      = disbursement.name
+                  %tr
+                    %th{ scope: 'row', class: 'bold' }
+                      = t('shared.summary.disbursements.net_amount')
+                    %td
+                      = disbursement.net_amount
+                  %tr
+                    %th{ scope: 'row', class: 'bold' }
+                      = t('shared.summary.disbursements.vat_amount')
+                    %td
+                      = disbursement.vat_amount

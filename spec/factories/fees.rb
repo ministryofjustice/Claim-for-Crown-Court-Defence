@@ -37,6 +37,11 @@ FactoryBot.define do
 
     trait :noc_fee do
       fee_type { build :fixed_fee_type, description: 'Number of cases uplift', code: 'NOC', unique_code: 'FXNOC', calculated: true }
+      case_numbers { claim&.case_number }
+    end
+
+    trait :fxndr_fee do
+      fee_type { build(:fixed_fee_type, :fxndr) }
     end
 
     trait :fxcbr_fee do

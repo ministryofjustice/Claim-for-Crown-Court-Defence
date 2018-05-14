@@ -11,8 +11,8 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
   include_examples "common advocate litigator validations", :litigator
   include_examples "common litigator validations"
 
-  include_examples 'common partial validations', [
-    %i[
+  include_examples 'common partial validations', {
+    case_details: %i[
       case_type
       court
       case_number
@@ -21,18 +21,19 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
       transfer_case_number
       case_concluded_at
     ],
-    [],
-    %i[offence],
-    %i[
+    defendants: [],
+    offence_details: %i[offence],
+    interim_fees: %i[
       trial_dates
       estimated_trial_length
       retrial_started_at
       retrial_estimated_length
       effective_pcmh_date
       legal_aid_transfer_date
+      total
     ],
-    %i[total]
-  ]
+    supporting_evidence: []
+  }
 
   describe 'estimated trial length and estimated retrial length fields should not accept values of less than 10 days' do
     let(:claim) { create(:interim_claim, interim_fee: interim_fee) }

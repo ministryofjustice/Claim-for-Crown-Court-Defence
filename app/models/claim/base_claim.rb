@@ -222,8 +222,36 @@ module Claim
       previous_step.present?
     end
 
+    def next_step?
+      next_step.present?
+    end
+
+    def invalid_steps
+      @invalid_steps ||= Claims::ValidateAllSteps.call(self)
+    end
+
+    def accessible_step?(step)
+      full_submission_flow.include?(step)
+    end
+
+    def editable_step?(step)
+      Claims::CheckStepEditability.call(self, step).valid?
+    end
+
+    def current_step_editable?
+      editable_step?(current_step)
+    end
+
+    def missing_dependencies_for(step)
+      Claims::CheckStepEditability.call(self, step).invalid_dependencies
+    end
+
     def misc_fees_changed?
       misc_fees.any?(&:changed?)
+    end
+
+    def expenses_changed?
+      expenses.any?(&:changed?)
     end
 
     # Override the corresponding method in the subclass
@@ -436,14 +464,23 @@ module Claim
       submission_stages.path_until(form_step)
     end
 
+    def full_submission_flow
+      submission_stages.path_until(submission_stages.last&.to_sym)
+    end
+
     def previous_step
       return unless form_step
-      submission_stages.previous_stage(form_step)
+      submission_stages.previous_stage(form_step)&.to_sym
+    end
+
+    def next_step
+      return unless form_step
+      submission_stages.next_stage(form_step)&.to_sym
     end
 
     def next_step!
       return unless form_step
-      self.form_step = submission_stages.next_stage(form_step)
+      self.form_step = next_step
     end
 
     def from_api?
@@ -552,6 +589,7 @@ module Claim
     end
 
     def disk_evidence_reference
+      return unless case_number && id
       "#{case_number}/#{id}"
     end
 

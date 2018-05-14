@@ -27,7 +27,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
       @misc_fee = FactoryBot.create :misc_fee,:with_date_attended, claim: claim
       FactoryBot.create :date_attended, attended_item: @misc_fee
       claim.fees.map(&:dates_attended).flatten      # iterate through the fees and dates attended so that the examples below know they have been created
-      claim.form_step = :basic_and_fixed_fees
+      claim.form_step = :basic_fees
     end
 
     it 'should call the validator on all the attended dates for all the fees' do

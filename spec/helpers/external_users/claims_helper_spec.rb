@@ -95,4 +95,24 @@ describe ExternalUsers::ClaimsHelper do
       end
     end
   end
+
+  describe 'url_for_referrer' do
+    let(:claim) { create(:advocate_claim) }
+
+    context 'when referrer is summary' do
+      let(:referrer) { :summary }
+
+      it 'returns the url for the check your claim page' do
+        expect(helper.url_for_referrer(referrer, claim)).to eq(summary_external_users_claim_path(claim))
+      end
+    end
+
+    context 'when referrer is not known' do
+      let(:referrer) { :not_known }
+
+      it 'returns nil' do
+        expect(helper.url_for_referrer(referrer, claim)).to be_nil
+      end
+    end
+  end
 end

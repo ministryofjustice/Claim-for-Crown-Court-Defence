@@ -1,9 +1,23 @@
-%table{class: 'table-summary', summary: t('.summary') }
-  %caption
-    %span.table-caption.visuallyhidden
-      = t('.caption')
-  %tbody
-    - if claim.fee_scheme == 'fee_reform'
-      = render partial: 'external_users/claims/offence_details/fee_reform_summary', locals: { claim: claim }
+- unless claim.fixed_fee_case?
+  .form-section
+    %h3.heading-medium
+      = t('external_users.claims.offence_details.summary.header')
+      - if local_assigns[:editable]
+        = link_to 'Change', edit_polymorphic_path(claim, step: :offence_details, referrer: :summary), class: 'link-change'
+
+    - if claim.offence
+      %table{ class: 'summary', summary: t('.summary') }
+        %caption
+          %span.table-caption.visuallyhidden
+            = t('.caption')
+        %tbody
+          - if claim.fee_scheme == 'fee_reform'
+            = render partial: 'external_users/claims/offence_details/fee_reform_summary', locals: { claim: claim }
+          - else
+            = render partial: 'external_users/claims/offence_details/default_summary', locals: { claim: claim }
     - else
-      = render partial: 'external_users/claims/offence_details/default_summary', locals: { claim: claim }
+      - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
+        = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :offence_details }
+      - else
+        %p
+          = t("shared.summary.no_values.offence_details")

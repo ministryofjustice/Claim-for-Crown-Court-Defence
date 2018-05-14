@@ -29,14 +29,20 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
     context 'when claim is in draft state' do
       context 'during submission' do
+        context 'of case details' do
+          before do
+            invalid_claim.form_step = :case_details
+          end
+
+          it 'validation is performed on claim' do
+            expect { invalid_claim.submit! }.to raise_error StateMachines::InvalidTransition, /reason.*court/i
+          end
+        end
+
         before do
           invalid_claim.defendants.first.update_attribute(:first_name, nil)
           invalid_claim.defendants.first.representation_orders.first.update_attribute(:maat_reference, nil)
           invalid_claim.form_step = :defendants
-        end
-
-        it 'validation is performed on claim' do
-          expect { invalid_claim.submit! }.to raise_error StateMachines::InvalidTransition, /reason.*court/i
         end
 
         it 'validation is performed on defendants sub model' do
@@ -186,7 +192,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   context 'total' do
     before do
       allow(claim).to receive(:total).and_return(total)
-      claim.form_step = :basic_and_fixed_fees
+      claim.form_step = :basic_fees
     end
 
     context 'when total is not greater than 0' do

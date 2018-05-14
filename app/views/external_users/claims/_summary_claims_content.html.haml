@@ -1,51 +1,19 @@
-%p.form-hint
-  Check all the information below is correct before submitting your claim at the bottom of the page.
+%p
+  = t('external_users.claims.check_your_claim.help_text')
 
-%h2
-  Claim and case type
-= render partial: 'external_users/claims/case_details/summary', locals: { claim: claim }
+- unless claim.invalid_steps.empty?
+  .panel.panel-border-wide
+    %h3.heading-small
+      = t('external_users.claims.check_your_claim.missing_information.header')
+    %p
+      = t('external_users.claims.check_your_claim.missing_information.help_text')
 
-- if claim.transfer?
-  %h2
-    Transfer details
-  = render partial: 'external_users/claims/transfer_detail/summary', locals: { claim: claim }
+    %ul.list.list-bullet
+      - claim.summary_sections.each do |section, associated_step|
+        - if claim.invalid_steps.include?(associated_step)
+          %li
+            = t("external_users.claims.#{section}.summary.header")
 
-%h2
-  Defendants
-= render partial: 'external_users/claims/defendants/summary', locals: { claim: claim }
-
-- unless claim.fixed_fee_case?
-  %h2
-    = t('external_users.claims.offence_details.summary.header')
-  = render partial: 'external_users/claims/offence_details/summary', locals: { claim: claim }
-
-- if claim.lgfs? && claim.interim?
-  %h2
-    = t('common.interim_fees')
-  = render partial: 'external_users/claims/interim_fee/summary', locals: { claim: claim }
-- else
-  = render partial: 'summary_fees', locals: { claim: claim }
-
-- if @claim.final? || (@claim.lgfs? && @claim.interim?)
-  %h2
-    = t('common.warrant_fees')
-  = render partial: 'external_users/claims/warrant_fee/summary', locals: { claim: claim }
-
-- if @claim.lgfs?
-  %h2
-    = t('common.disbursements')
-  = render partial: 'external_users/claims/disbursements/summary', locals: { claim: claim }
-
-%h2
-  = t('common.expenses')
-= render partial: 'external_users/claims/expenses/summary', locals: { claim: claim }
-
-= render partial: 'external_users/claims/supporting_documents/summary', locals: { claim: claim }
-
-%h2
-  Supporting evidence checklist
-= render partial: 'external_users/claims/supporting_evidence_checklist/summary', locals: { claim: claim }
-
-%h2
-  = t('external_users.claims.additional_information.fields.additional_information')
-= render partial: 'external_users/claims/additional_information/summary', locals: { claim: claim}
+- claim.summary_sections.each do |section, associated_step|
+  - if claim.accessible_step?(associated_step)
+    = render partial: "external_users/claims/#{section}/summary", locals: { claim: claim, section: section, editable: claim.editable_step?(associated_step) }

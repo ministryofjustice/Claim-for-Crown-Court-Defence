@@ -76,6 +76,10 @@ module Claim
     accepts_nested_attributes_for :interim_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
 
+    before_validation do
+      assign_total_attrs
+    end
+
     SUBMISSION_STAGES = [
       {
         name: :case_details,
@@ -87,13 +91,15 @@ module Claim
         name: :defendants,
         transitions: [
           { to_stage: :offence_details }
-        ]
+        ],
+        dependencies: %i[case_details]
       },
       {
         name: :offence_details,
         transitions: [
           { to_stage: :interim_fees }
-        ]
+        ],
+        dependencies: %i[case_details defendants]
       },
       {
         name: :interim_fees,
@@ -106,7 +112,8 @@ module Claim
             to_stage: :supporting_evidence,
             condition: ->(claim) { !claim.interim_fee&.is_interim_warrant? }
           }
-        ]
+        ],
+        dependencies: %i[case_details defendants offence_details]
       },
       {
         name: :travel_expenses,
@@ -153,6 +160,26 @@ module Claim
         warrant_fee.try(:destroy)
         self.warrant_fee = nil
       end
+    end
+
+    def assign_total_attrs
+      # TODO: understand if this check is really needed
+      # left it here mostly to ensure the new changes do
+      # not impact anything API related
+      return if from_api?
+      assign_fees_total(%i[interim_fee]) if interim_fee_changed?
+      assign_expenses_total if expenses_changed?
+      return unless total_changes_required?
+      assign_total
+      assign_vat
+    end
+
+    def total_changes_required?
+      interim_fee_changed? || expenses_changed?
+    end
+
+    def interim_fee_changed?
+      interim_fee&.changed?
     end
   end
 end

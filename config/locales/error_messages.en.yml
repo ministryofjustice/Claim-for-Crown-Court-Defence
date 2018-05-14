@@ -52,6 +52,22 @@ base:
     long: The quantity of defendant uplifts exceeds the number of additional defendants
     short: Too many defendant uplifts
     api: Defendant uplift sums must match number of additional defendants
+  defendant_uplifts_basic_fees_mismatch:
+    long: The quantity of graduated fees defendant uplifts exceeds the number of additional defendants
+    short: Too many defendant uplifts
+    api: Defendant uplift sums must match number of additional defendants
+  defendant_uplifts_fixed_fees_mismatch:
+    long: The quantity of fixed fees defendant uplifts exceeds the number of additional defendants
+    short: Too many defendant uplifts
+    api: Defendant uplift sums must match number of additional defendants
+  defendant_uplifts_misc_fees_mismatch:
+    long: The quantity of miscelaneous fees defendant uplifts exceeds the number of additional defendants
+    short: Too many defendant uplifts
+    api: Defendant uplift sums must match number of additional defendants
+  defendant_uplifts_mismatch:
+    long: The quantity of defendant uplifts exceeds the number of additional defendants
+    short: Too many defendant uplifts
+    api: Defendant uplift sums must match number of additional defendants
   lgfs_defendant_uplifts_mismatch:
     long: The number of defendant uplifts exceeds the number of additional defendants
     short: Too many defendant uplifts

@@ -82,6 +82,14 @@ When(/I edit this claim/) do
   @external_user_claim_show_page.edit_this_claim.click
 end
 
+When(/^I edit the claim's case details$/) do
+  @claim_summary_page.change_case_details.click
+end
+
+When(/^I edit the claim's defendants$/) do
+  @claim_summary_page.change_defendants.click
+end
+
 Then(/^I should be on the certification page$/) do
   expect(@certification_page).to be_displayed
 end

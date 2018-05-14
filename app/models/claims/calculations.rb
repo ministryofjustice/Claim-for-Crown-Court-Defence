@@ -1,4 +1,10 @@
 module Claims::Calculations
+  def calculate_fee_total(fee)
+    return 0 unless fee
+    fee.calculate_amount
+    fee.amount || 0
+  end
+
   def calculate_fees_total(category = nil)
     # TODO: revisit this method to understand if it is
     # possible to remove the cumbersome
@@ -7,15 +13,14 @@ module Claims::Calculations
     if category.blank?
       calculate_total_for(fees)
     else
-      fee_category_items = __send__("#{category.downcase}_fees")
-      calculate_total_for(fee_category_items)
+      fees_records = public_send(category)
+      fees_records.is_a?(Enumerable) ? calculate_total_for(fees_records) : calculate_fee_total(fees_records)
     end
   end
 
   def calculate_total_for(fees_collection)
     fees_collection.map do |fee|
-      fee.calculate_amount
-      fee.amount
+      calculate_fee_total(fee)
     end.compact.sum
   end
 
@@ -42,10 +47,7 @@ module Claims::Calculations
   end
 
   def calculate_total
-    a = fees_total
-    b = expenses_total
-    c = disbursements_total
-    a + b + c
+    fees_total + expenses_total + disbursements_total
   end
 
   def assign_fees_total(categories = [])

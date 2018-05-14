@@ -272,7 +272,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
             edit_request
             expect(response).to have_http_status(:redirect)
             expect(response).to redirect_to(external_users_claims_path)
-            expect(flash[:notice]).to eq('Can only edit "draft" claims')
+            expect(flash[:alert]).to eq('Can only edit "draft" claims')
           end
         end
 
@@ -369,7 +369,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
             update_request
             expect(response).to have_http_status(:redirect)
             expect(response).to redirect_to(external_users_claims_path)
-            expect(flash[:notice]).to eq('Can only edit "draft" claims')
+            expect(flash[:alert]).to eq('Can only edit "draft" claims')
           end
 
           it 'does not update the existent claim record' do

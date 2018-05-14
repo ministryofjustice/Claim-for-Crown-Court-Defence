@@ -44,7 +44,8 @@ en:
     clear_form: 'Clear form'
     add_evidence: 'Upload evidence'
     edit_draft: 'Edit this claim'
-    delete_draft: 'Delete draft'
+    delete_draft: Delete draft claim
+    continue_to_certification: &continue_to_certification_button Continue to certification
   date:
     formats:
       default: "%d/%m/%Y"
@@ -478,6 +479,9 @@ en:
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee
     claims:
+      errors:
+        not_editable: 'Can only edit "draft" claims'
+        dependencies_missing: Claim section cannot be edited. Please fill its dependencies
       hints:
         fees_header_prompt_text_html: &fees_vat_prompt All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users.
       redraft:
@@ -486,6 +490,9 @@ en:
         fields:
           additional_information: 'Additional information'
           additional_information_prompt_text: 'for example any other information that will help us process your claim'
+        summary:
+          header: Additional information
+          not_available: No additional information has been provided
       archived:
         archived_claims: 'Archived claims'
         archived_claim: 'archived claim'
@@ -526,6 +533,14 @@ en:
           fee_type: 'Type of fee'
           quantity: 'Quantity'
           rate: 'Rate'
+        summary:
+          header: Graduated fees
+      check_your_claim:
+        help_text: Check all the information below is correct before submitting your claim at the bottom of the page.
+        missing_information:
+          header: 'Warning: Missing information'
+          help_text: 'You must complete the following sections before submitting the claim:'
+          section_help_text: 'You must enter the following before adding %{section}:'
       case_details:
         advocate_fields:
           advocate: Instructed advocate
@@ -601,6 +616,7 @@ en:
           case_conclusion: Case conclusion
         summary:
           caption: 'Case Details: This section contains information about the case.'
+          header: Case details
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       offence_details:
         actions:
@@ -644,11 +660,13 @@ en:
           defendants: 'Defendants'
           add_another_defendant: 'Add another defendant'
         representation_order_fields:
+          date: Representation order date
           representation_order: Representation order details
           maat_reference_number: MAAT reference
           maat_reference_number_eg: 'for example 1234567890'
         summary:
           caption: 'Defendants: This section contains details about each defendant.'
+          header: Defendant details
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       main_claims_list:
         show_count: 'Showing %{page_count} of %{total} claims'
@@ -689,6 +707,7 @@ en:
       disbursements:
         summary:
           caption: 'Disbursements: This section contains details of all disbursements that have been claimed.'
+          header: Disbursements
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
         fields:
           disbursements: "Disbursements"
@@ -722,6 +741,7 @@ en:
           rate: 'Rate'
         summary:
           caption: 'Expenses: This section contains details of all expenses that have been claimed.'
+          header: Travel expenses
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       transfer_fee:
         fields:
@@ -736,11 +756,21 @@ en:
           transfer_stage_default_label_text: When did you stop/start acting?
           transfer_date_default_label_text: Date stopped/started acting
           case_conclusions: How did the case conclude?
+        summary:
+          header: Transfer fee
+          litigator_type: Litigator type
+          elected_case: Was the case elected?
+          transfer_stage_new: When did you start acting?
+          transfer_stage_original: When did you stop acting?
+          transfer_date_new: Date you started acting
+          transfer_date_original: Date you stopped acting
+          case_conclusion: How did the case conclude?
       error_summary:
         prohibited_save: This claim has
         error: 'error'
         form_error_hint: 'Check below for more detail'
       summary:
+        button_label: *continue_to_certification_button
         heading: Check your claim
         case_details: Case details
       fee_fields:
@@ -768,6 +798,8 @@ en:
             prompt_text_html: &graduated_fee_prompt_content Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help.
             select_sub_type: "Please select the relevant option"
             date: "Date"
+        summary:
+          header: Fixed fees
       misc_fees:
         fields:
           add_misc_fee: 'Add another miscellaneous fee'
@@ -790,6 +822,8 @@ en:
             case_numbers: *case_numbers
             amount: "Total"
             remove: "Remove miscellaneous fee"
+        summary:
+          header: Miscellaneous fees
       financial_summary:
         total_outstanding: 'Total outstanding:'
         total_authorised: 'Total authorised:'
@@ -804,6 +838,11 @@ en:
           ppe_total: "PPE total"
           total: "Total"
           date: "Date"
+        summary:
+          header: Graduated fees
+          actual_trial_length:
+            one: 1 day
+            other: '%{count} days'
       index:
         claims: Claims
         completed: Completed
@@ -833,14 +872,21 @@ en:
           choose_file: 'Choose a file'
           file_name: "File name"
           supporting_evidence_docs: 'Upload supporting evidence'
+      supporting_evidence:
+        summary:
+          header: Supporting evidence
+          caption: 'Supporting evidence: This section contains information about supporting evidence.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       supporting_evidence_checklist:
         summary:
           caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'
+          header: Supporting evidence
         fields:
           supporting_evidence_checklist: 'Supporting evidence checklist'
       warrant_fee:
         summary:
           caption: 'Warrant Fees: This section contains details of any warrant fees that have been claimed.'
+          header: Warrant fees
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
         fields:
           warrant_fee: "Warrant fee"
@@ -874,10 +920,12 @@ en:
         heading: Interim fees
         summary:
           caption: 'Interim Fees: This section contains details of any interim fees that have been claimed.'
+          header: Interim fees
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-      tranfer_detail:
+      transfer_detail:
         summary:
           caption: 'Transfer Detail: This section contains transfer details.'
+          header: Transfer details
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       transfer_fees:
         fields:
@@ -887,7 +935,7 @@ en:
         fees: Fees
         fees_header_prompt_text_html: *fees_vat_prompt
       summary_claims_sidebar:
-        button_label: 'Continue to certification'
+        button_label: *continue_to_certification_button
         continue: 'Continue'
 
         fees_total: 'Fees Total '
@@ -897,10 +945,6 @@ en:
         total: 'Total'
         no_fees: 'No fees for this claim'
         no_disbursements: 'No disbursements for this claim'
-      transfer_detail:
-        summary:
-          caption: 'Transfer Detail: This section contains transfer details.'
-          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
     litigators:
       interim_claims:
         new:
@@ -935,6 +979,7 @@ en:
       certification_caption: Certification details
       instructed_heading: Instructed advocate
       alert: 'Cannot certify a claim in submitted state'
+      invalid_claim: 'Claim is not in a state to be submitted'
     claim:
       advocate_category: Advocate category
       litigator_category: 'Litigator category'
@@ -979,33 +1024,41 @@ en:
       date_added: Date added
       actions: Actions
     summary:
-      mileage_rate: Mileage rate
+      actual_trial_length: Actual trial length
+      mileage_rate: Cost per mile
+      expense: Expense
       expenses:
         caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+      fee: Fee
       fees:
         caption: 'Fees: A detailed list by Category and Type including amounts'
-      amount: Amount
+      amount: Net amount
       vat_amount: VAT amount
       date: Date
+      disbursement: Disbursement
+      disk_evidence: Will you be sending disk evidence for this claim?
+      disk_evidence_reference: Reference number
       distance: Distance
       fee_category: Fee category
-      fee_type: Fee type
+      fee_type: Type of fee
       fee_subtype: Fee subtype
+      first_day_of_hearing: First day of hearing
       case_numbers: *case_numbers
       quantity: Quantity
+      date_of_expense: Date of expense
       dates_attended: Dates attended
       fees_total: 'Fees total:'
-      expense_type: Expense type
+      expense_type: Type of expense
       location: Destination
       quantity_hours: 'Hours'
       rate: Rate
       expenses_total: 'Expenses total:'
       claim_total: 'Claim total:'
-      reason: 'Reason'
+      reason: Reason for travel
       additional_information: Additional information
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
-        type: "Disbursement type"
+        type: Type of disbursement
         net_amount: "Net amount"
         vat_amount: "VAT amount"
         total: "Total"
@@ -1014,6 +1067,7 @@ en:
         date_executed: "Warrant executed"
         total: "Total"
       total: "Total"
+      ppe: Total pages of evidence
       ppe_total: "PPE total at the time"
       effective_pcmh_date: "Effective PCMH"
       trial_start: "Trial start"
@@ -1023,9 +1077,20 @@ en:
       legal_aid_transfer_date: "Legal aid transfer"
       trial_concluded_at: "First trial concluded"
       no_values:
+        basic_fees: "There are no graduated fees for this claim"
+        case_details: "There are no case details for this claim"
         fees: "There are no fees for this claim"
-        expenses: "There are no expenses for this claim"
+        expenses: "There are no travel expenses for this claim"
+        defendants: "There are no defendants for this claim"
         disbursements: "There are no disbursements for this claim"
+        fixed_fees: "There are no fixed fees for this claim"
+        graduated_fees: "There are no graduated fees for this claim"
+        interim_fee: "There is no interim fee for this claim"
+        misc_fees: "There are no miscellaneous fees for this claim"
+        offence_details: "There are no offence details for this claim"
+        supporting_evidence: "There is no supporting evidence for this claim"
+      supporting_evidence: Supporting evidence
+      supporting_evidence_checklist: Supporting evidence checklist
     summary_agfs:
       mileage_rate: Mileage rate
       expenses:

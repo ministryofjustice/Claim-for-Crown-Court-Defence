@@ -24,27 +24,23 @@ module Claim
       {
         name: :defendants,
         transitions: [
-          {
-            to_stage: :offence_details,
-            condition: ->(claim) { !claim.fixed_fee_case? }
-          },
-          {
-            to_stage: :basic_and_fixed_fees,
-            condition: ->(claim) { claim.fixed_fee_case? }
-          }
-        ]
+          { to_stage: :offence_details }
+        ],
+        dependencies: %i[case_details]
       },
       {
         name: :offence_details,
         transitions: [
           { to_stage: :interim_fees }
-        ]
+        ],
+        dependencies: %i[case_details defendants]
       },
       {
         name: :interim_fees,
         transitions: [
           { to_stage: :travel_expenses }
-        ]
+        ],
+        dependencies: %i[case_details defendants offence_details]
       },
       {
         name: :travel_expenses,

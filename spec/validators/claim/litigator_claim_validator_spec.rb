@@ -11,8 +11,8 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
   include_examples "common advocate litigator validations", :litigator
   include_examples "common litigator validations"
 
-  include_examples 'common partial validations', [
-    %i[
+  include_examples 'common partial validations', {
+    case_details: %i[
       case_type
       court
       case_number
@@ -21,12 +21,12 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
       transfer_case_number
       case_concluded_at
     ],
-    [],
-    %i[offence],
-    %i[actual_trial_length],
-    %i[defendant_uplifts],
-    %i[total]
-  ]
+    defendants: [],
+    offence_details: %i[offence],
+    graduated_fees: %i[actual_trial_length total],
+    miscellaneous_fees: %i[defendant_uplifts],
+    supporting_evidence: []
+  }
 
   describe '#validate_defendant_uplifts' do
     let(:claim) { create(:litigator_claim, :without_fees) }

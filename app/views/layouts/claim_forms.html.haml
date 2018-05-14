@@ -1,6 +1,9 @@
 = content_for :navigation do
-  - if @claim && @claim.step_back?
-    = link_to 'Back', edit_polymorphic_path(@claim, step: @claim.previous_step&.to_sym), class: 'link-back'
+  - referrer_url = params[:referrer] && url_for_referrer(params[:referrer], @claim)
+  - if referrer_url
+    = link_to 'Back', referrer_url, class: 'link-back'
+  - elsif @claim && @claim.step_back?
+    = link_to 'Back', edit_polymorphic_path(@claim, step: @claim.previous_step), class: 'link-back'
   - else
     = link_to 'Home', external_users_root_path, class: 'link-back'
 

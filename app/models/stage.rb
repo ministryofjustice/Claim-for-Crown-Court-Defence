@@ -1,12 +1,13 @@
 class Stage
   include Comparable
 
-  attr_reader :name, :transitions
+  attr_reader :name, :transitions, :dependencies
 
-  def initialize(name:, transitions: [], object:)
+  def initialize(name:, transitions: [], dependencies: [], object:)
     @name = name
     @object = object
     @transitions = initialize_transitions(transitions || [])
+    @dependencies = dependencies || []
   end
 
   def first_valid_transition

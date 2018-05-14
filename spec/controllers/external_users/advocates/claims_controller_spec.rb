@@ -212,7 +212,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
             post :create, params: { commit_continue: 'Continue', claim: claim_params_step1 }
             expect(subject_claim.draft?).to be_truthy
             expect(subject_claim.valid?).to be_truthy
-            expect(assigns(:claim).current_step).to eq(:defendants)
             expect(response).to redirect_to(edit_advocates_claim_path(subject_claim, step: :defendants))
 
             put :update, params: { id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2 }

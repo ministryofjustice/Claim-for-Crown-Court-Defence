@@ -1,6 +1,7 @@
 .form-section
   .form-group.form-buttons.button-holder
+    - commit = claim.next_step? ? 'commit_continue' : 'commit_submit_claim'
     = f.submit t('buttons.continue'), name: commit, class: 'button left btn-spacer-20'
 
-    - if @claim.draft?
+    - if claim.can_be_saved_as_draft?
       = f.submit t('buttons.save_a_draft'), name: 'commit_save_draft', class: 'button-gray-3 left'

@@ -20,6 +20,24 @@ class Claim::BaseClaimPresenter < BasePresenter
         transfer_fee_details].include? claim.current_step
   end
 
+  def can_be_saved_as_draft?
+    claim.draft? && !%i[case_details transfer_fee_details].include?(claim.current_step)
+  end
+
+  # NOTE: this is an interim solution for what probably should be
+  # some sort of DSL to describe what fields are required for a given section
+  # for that section to be considered completed
+  def mandatory_case_details?
+    claim.case_type && claim.court && claim.case_number
+  end
+
+  # NOTE: this is an interim solution for what probably should be
+  # some sort of DSL to describe what fields are required for a given section
+  # for that section to be considered completed
+  def mandatory_supporting_evidence?
+    claim.disk_evidence || claim.documents.any? || claim.evidence_checklist_ids.any?
+  end
+
   present_with_currency :misc_fees_total, :disbursements_total, :total_inc
 
   # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down
@@ -110,15 +128,11 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def case_number
-    claim.case_number.blank? ? 'not-provided' : claim.case_number
+    claim.case_number.blank? ? 'N/A' : claim.case_number
   end
 
   def unique_id
     "##{claim.id}"
-  end
-
-  def additional_information
-    simple_format(claim.additional_information)
   end
 
   def vat_date(format = nil)
@@ -285,7 +299,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def raw_misc_fees_total
-    claim.calculate_fees_total(:misc) || 0
+    claim.calculate_fees_total(:misc_fees) || 0
   end
 
   def raw_expenses_total

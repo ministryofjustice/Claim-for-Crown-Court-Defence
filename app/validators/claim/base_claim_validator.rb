@@ -6,6 +6,9 @@ class Claim::BaseClaimValidator < BaseValidator
   private
 
   def step_fields_for_validation
+    # NOTE: keeping existent validation for API purposes
+    # The form validations just validate the fields for the current step
+    return (self.class.fields_for_steps[@record.form_step] || []) unless @record.from_api?
     self.class.fields_for_steps.select do |k, _v|
       @record.submission_current_flow.map(&:to_sym).include?(k)
     end.values.flatten
@@ -206,6 +209,7 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def ignore_validation_for_cracked_trials?
     @record.disable_for_state_transition.eql?(:only_amount_assessed) ||
+      !@record.case_type.present? ||
       (@record.case_type && !@record.requires_cracked_dates?)
   end
 

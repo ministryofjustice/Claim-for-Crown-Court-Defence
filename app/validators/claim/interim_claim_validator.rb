@@ -21,8 +21,9 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
         retrial_estimated_length
         effective_pcmh_date
         legal_aid_transfer_date
+        total
       ],
-      supporting_evidence: %i[total]
+      supporting_evidence: []
     }
   end
 

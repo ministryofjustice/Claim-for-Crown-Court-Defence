@@ -50,4 +50,16 @@ RSpec.describe Claim::AdvocateInterimClaimPresenter, type: :presenter do
       expect(presenter.warrant_fees_total).to eq('£32.50')
     end
   end
+
+  specify {
+    expect(presenter.summary_sections).to eq({
+      case_details: :case_details,
+      defendants: :defendants,
+      offence_details: :offence_details,
+      warrant_fee: :interim_fees,
+      expenses: :travel_expenses,
+      supporting_evidence: :supporting_evidence,
+      additional_information: :supporting_evidence
+    })
+  }
 end

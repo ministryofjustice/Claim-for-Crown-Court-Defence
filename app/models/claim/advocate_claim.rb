@@ -101,22 +101,32 @@ module Claim
             condition: ->(claim) { !claim.fixed_fee_case? }
           },
           {
-            to_stage: :basic_and_fixed_fees,
+            to_stage: :fixed_fees,
             condition: ->(claim) { claim.fixed_fee_case? }
           }
-        ]
+        ],
+        dependencies: %i[case_details]
       },
       {
         name: :offence_details,
         transitions: [
-          { to_stage: :basic_and_fixed_fees }
-        ]
+          { to_stage: :basic_fees }
+        ],
+        dependencies: %i[case_details defendants]
       },
       {
-        name: :basic_and_fixed_fees,
+        name: :basic_fees,
         transitions: [
           { to_stage: :miscellaneous_fees }
-        ]
+        ],
+        dependencies: %i[case_details defendants offence_details]
+      },
+      {
+        name: :fixed_fees,
+        transitions: [
+          { to_stage: :miscellaneous_fees }
+        ],
+        dependencies: %i[case_details defendants]
       },
       {
         name: :miscellaneous_fees,
@@ -138,7 +148,7 @@ module Claim
       # left it here mostly to ensure the new changes do
       # not impact anything API related
       return if from_api?
-      assign_fees_total(%i[basic fixed misc]) if fees_changed?
+      assign_fees_total(%i[basic_fees fixed_fees misc_fees]) if fees_changed?
       assign_expenses_total if expenses_changed?
       return unless total_changes_required?
       assign_total
@@ -159,10 +169,6 @@ module Claim
 
     def fixed_fees_changed?
       fixed_fees.any?(&:changed?)
-    end
-
-    def expenses_changed?
-      expenses.any?(&:changed?)
     end
 
     def eligible_case_types

@@ -12,6 +12,9 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
+    And I enter trial start and end dates
+
+    Then I click "Continue" in the claim form
     And I save as draft
     Then I should see 'Draft claim saved'
 
@@ -19,10 +22,7 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     Then Claim 'A20161234' should be listed with a status of 'Draft'
 
     When I click the claim 'A20161234'
-    And I edit this claim
-    And I enter trial start and end dates
-
-    Then I click "Continue" in the claim form
+    And I edit the claim's defendants
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
 

@@ -1,6 +1,14 @@
-- if claim.additional_information.present?
-  %p
-    = claim.additional_information
-- else
-  %p
-    No additional information has been provided
+.form-section
+  %h3.heading-medium
+    = t('external_users.claims.additional_information.summary.header')
+    - if local_assigns[:editable]
+      = link_to 'Change', edit_polymorphic_path(claim, step: :supporting_evidence, anchor: 'additional_info', referrer: :summary), class: 'link-change'
+
+  - if claim.additional_information.present?
+    = simple_format(claim.additional_information)
+  - else
+    - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
+      = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :supporting_evidence }
+    - else
+      %p
+        = t('external_users.claims.additional_information.summary.not_available')

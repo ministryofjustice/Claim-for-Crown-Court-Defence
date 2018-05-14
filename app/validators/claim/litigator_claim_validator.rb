@@ -14,14 +14,15 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
       ],
       defendants: [],
       offence_details: %i[offence],
-      graduated_fees: %i[actual_trial_length],
+      graduated_fees: %i[actual_trial_length total],
       miscellaneous_fees: %i[defendant_uplifts],
-      supporting_evidence: %i[total]
+      supporting_evidence: []
     }
   end
 
   def validate_defendant_uplifts
     return if @record.from_api?
+    return if defendant_uplifts.all?(&:blank?)
     no_of_defendants = @record.defendants.reject(&:marked_for_destruction?).size
     add_error(:base, 'lgfs_defendant_uplifts_mismatch') if defendant_uplifts_greater_than?(no_of_defendants)
   end

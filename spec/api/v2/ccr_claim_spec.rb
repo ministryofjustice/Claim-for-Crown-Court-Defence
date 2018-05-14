@@ -23,10 +23,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  def is_valid_ccr_json(response)
-    expect(response).to be_valid_ccr_claim_json
-  end
-
   after(:all) { clean_database }
 
   before(:all) do
@@ -45,13 +41,31 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
   end
 
   def do_request(claim_uuid: @claim.uuid, api_key: @case_worker.user.api_key)
-    get "/api/ccr/claims/#{claim_uuid}", {api_key: api_key}, {format: :json}
+    get "/api/ccr/claims/#{claim_uuid}", { api_key: api_key }, { format: :json }
   end
 
   describe 'GET /ccr/claim/:uuid?api_key=:api_key' do
+    let(:dsl) { Grape::DSL::InsideRoute }
+
+    it 'presents advocate claim with CCR advocate claim entity' do
+      expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateClaim), with: API::Entities::CCR::AdvocateClaim )
+      do_request
+    end
+
+    it 'presents advocate interim claim with CCR advocate interim claim entity' do
+      @claim.update!(type: Claim::AdvocateInterimClaim)
+      expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateInterimClaim), with: API::Entities::CCR::AdvocateInterimClaim)
+      do_request
+    end
+
+    it 'returns 200, success, and JSON response when existing claim exists and api key authorised' do
+      do_request
+      expect(last_response.status).to eq 200
+      expect(last_response).to be_valid_ccr_claim_json
+    end
+
     it 'returns 406, Not Acceptable, if requested API version (via header) is not supported' do
       header 'Accept-Version', 'v1'
-
       do_request
       expect(last_response.status).to eq 406
       expect(last_response.body).to include('The requested version is not supported.')
@@ -80,10 +94,19 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       end
     end
 
-    context 'JSON response' do
-      subject(:response) { do_request }
+    context 'claim' do
+      subject(:response) { do_request.body }
 
-      it { is_valid_ccr_json(response) }
+      it { is_expected.to expose :uuid }
+      it { is_expected.to expose :supplier_number }
+      it { is_expected.to expose :case_number }
+      it { is_expected.to expose :last_submitted_at }
+      it { is_expected.to expose :advocate_category }
+      it { is_expected.to expose :court }
+      it { is_expected.to expose :offence }
+      it { is_expected.to expose :defendants }
+      it { is_expected.to expose :additional_information }
+      it { is_expected.to expose :bills }
     end
 
     context 'defendants' do
@@ -133,7 +156,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       end
 
       context 'advocate fee' do
-        it { is_valid_ccr_json(response) }
+        it { expect(response).to be_valid_ccr_claim_json }
 
         it 'not added to bills array when no basic fees are being claimed' do
           allow_any_instance_of(Fee::BasicFee).to receive_messages(rate: 0, quantity: 0, amount: 0)
@@ -401,7 +424,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
             create(:fixed_fee, fee_type: fxcbr, claim: claim)
           end
 
-          it { is_valid_ccr_json(response) }
+          it { expect(response).to be_valid_ccr_claim_json }
 
           it 'added to bills' do
             expect(response).to have_json_size(1).at_path("bills")
@@ -505,7 +528,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
         context 'when relevant CCCD fees exist' do
-          it { is_valid_ccr_json(response) }
+          it { expect(response).to be_valid_ccr_claim_json }
 
           it 'added to bills' do
             expect(response).to have_json_size(1).at_path("bills")
@@ -573,7 +596,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         context 'when an expense is claimed' do
           before { create(:expense, :car_travel, claim: claim) }
 
-          it { is_valid_ccr_json(response) }
+          it { expect(response).to be_valid_ccr_claim_json }
 
           it 'added to bills' do
             expect(response).to have_json_size(1).at_path('bills')

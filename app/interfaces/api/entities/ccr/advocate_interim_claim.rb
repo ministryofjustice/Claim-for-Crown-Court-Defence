@@ -27,13 +27,9 @@ module API
 
         def bills
           data = []
-          # data.push AdaptedWarrantFee.represent(warrant_fee) # TODO
-          # data.push AdaptedExpense.represent(object.expenses)
+          data.push AdaptedWarrantFee.represent(object.warrant_fee)
+          data.push AdaptedExpense.represent(object.expenses)
           data.flatten.as_json
-        end
-
-        def warrant_fee
-          # TODO
         end
 
         def adapted_advocate_category

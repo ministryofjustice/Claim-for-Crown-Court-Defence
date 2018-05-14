@@ -22,7 +22,7 @@ RSpec.shared_examples_for 'a mapping fee adapter' do
   end
 end
 
-RSpec.shared_examples_for 'a simple bill adapter' do
+RSpec.shared_examples_for 'a simple bill adapter' do |options|
   subject { described_class.new(instance_double('fee')) }
 
   it { is_expected.to respond_to(:bill_type) }
@@ -30,6 +30,20 @@ RSpec.shared_examples_for 'a simple bill adapter' do
 
   it 'should respond to .acts_as_simple_bill' do
     expect(described_class).to respond_to :acts_as_simple_bill
+  end
+
+  describe '#bill_type' do
+    subject { described_class.new(fee).bill_type }
+    it "returns expected bill type - #{options[:bill_type]}" do
+      is_expected.to eql options[:bill_type]
+    end
+  end
+
+  describe '#bill_subtype' do
+    subject { described_class.new(fee).bill_subtype }
+    it "returns expected bill type - #{options[:bill_subtype]}" do
+      is_expected.to eql options[:bill_subtype]
+    end
   end
 end
 

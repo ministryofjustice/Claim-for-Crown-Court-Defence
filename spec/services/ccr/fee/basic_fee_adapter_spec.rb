@@ -9,7 +9,9 @@ RSpec.describe CCR::Fee::BasicFeeAdapter, type: :adapter do
     allow(claim).to receive(:case_type).and_return case_type
   end
 
-  it_behaves_like 'a simple bill adapter'
+  it_behaves_like 'a simple bill adapter', bill_type: 'AGFS_FEE', bill_subtype: 'AGFS_FEE' do
+    let(:fee) { instance_double(Fee::BasicFee) }
+  end
 
   describe '#bill_type' do
     subject { described_class.new(claim).bill_type }

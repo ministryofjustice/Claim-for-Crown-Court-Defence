@@ -1,27 +1,40 @@
+#
+# This file configures the New Relic Agent.  New Relic monitors Ruby, Java,
+# .NET, PHP, Python, Node, and Go applications with deep visibility and low
+# overhead.  For more information, visit www.newrelic.com.
+#
+# Generated May 11, 2018
+#
+# This configuration file is custom generated for MoJDS
+#
+# For full documentation of agent configuration options, please refer to
+# https://docs.newrelic.com/docs/agents/ruby-agent/installation-configuration/ruby-agent-configuration
+
 common: &default_settings
-  license_key: '<%= ENV["NEWRELIC_LICENSE_KEY"] %>'
-  app_name: "Crime Billing Online Heroku Dev"
-  monitor_mode: true
-  developer_mode: false
+  license_key: <%= ENV['NEWRELIC_LICENSE_KEY'] %>
+  app_name: CCCD
+
+  # To disable the agent regardless of other settings, uncomment the following:
+  # agent_enabled: false
+
+  # Logging level for log/newrelic_agent.log
   log_level: info
-  browser_monitoring:
-      auto_instrument: true
-  audit_log:
-    enabled: false
-  capture_params: false
-  transaction_tracer:
-    enabled: true
-    transaction_threshold: apdex_f
-    record_sql: obfuscated
-    stack_trace_threshold: 0.500
-  error_collector:
-    enabled: true
-    ignore_errors: "ActionController::RoutingError"
+
+# Environment-specific settings are in this section.
+# RAILS_ENV or RACK_ENV (as appropriate) is used to determine the environment.
+# If your application has other named environments, configure them here.
 development:
   <<: *default_settings
-  monitor_mode: true
-  app_name: "CBO Heroku Dev"
-  developer_mode: true
+  app_name: CCCD (Development)
+  log_level: debug
+  monitor_mode: false
+
 test:
   <<: *default_settings
+  app_name: CCCD (Test)
+  # It doesn't make sense to report to New Relic from automated test runs.
   monitor_mode: false
+
+production:
+  <<: *default_settings
+  app_name: <%= "CCCD (#{ENV['ENV']})" %>

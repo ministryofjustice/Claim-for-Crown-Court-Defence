@@ -88,7 +88,7 @@ if (!String.prototype.supplant) {
 
     moj.Modules.Autocomplete.typeaheadKickoff(insertedSelect);
     moj.Modules.Autocomplete.typeaheadBindEvents(typeaheadWrapper);
-    moj.Modules.FeeFieldsDisplay.addFeeChangeEvent($insertedItem.find('.fx-fee-group'))
+    moj.Modules.FeeFieldsDisplay.addFeeChangeEvent(insertedItem)
   });
 
 

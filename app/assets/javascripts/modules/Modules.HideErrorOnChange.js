@@ -1,6 +1,7 @@
 moj.Modules.HideErrorOnChange = {
 
   railsErrorClassName: 'field_with_errors',
+  gdsErrorClassName: 'form-group-error',
 
   config: [{
     delegate: '.form-group.field_with_errors',
@@ -12,6 +13,10 @@ moj.Modules.HideErrorOnChange = {
     messageSelector: '.error'
   }, {
     delegate: 'fieldset.gov_uk_date.error',
+    wrapperClassName: 'error',
+    messageSelector: 'ul'
+  }, {
+    delegate: '.gov_uk_date.form-group-error',
     wrapperClassName: 'error',
     messageSelector: 'ul'
   }, {
@@ -27,9 +32,8 @@ moj.Modules.HideErrorOnChange = {
 
   removeNestedErrorWrappers: function($el) {
     var wrappers = $el.find('.' + this.railsErrorClassName);
-    if (wrappers.length) {
-      wrappers.removeClass(this.railsErrorClassName);
-    }
+    $el.find('.form-control-error').removeClass('form-control-error');
+    wrappers.removeClass(this.railsErrorClassName);
   },
 
   removeClassName: function($el, className) {
@@ -46,12 +50,11 @@ moj.Modules.HideErrorOnChange = {
     var context;
 
     this.config.forEach(function(opt) {
-
       context = opt.eventSelector || 'input';
-
       $(opt.delegate).one('click', context, function(e) {
         var $el = $(e.delegateTarget);
         self.removeClassName($el, opt.wrapperClassName);
+        self.removeClassName($el, 'form-group-error');
         self.removeBySelector($el, opt.messageSelector);
 
         return false;

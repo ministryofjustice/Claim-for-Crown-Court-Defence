@@ -32,7 +32,7 @@ describe AdpTextField do
         html = <<-eos
         <div class="form-group case_number_wrapper">
           <a id="case_number"></a>
-          <label class="form-label" for="claim_case_number">
+          <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
           <input class="form-control " type="text" name="claim[case_number]" id="claim_case_number" />
@@ -45,7 +45,7 @@ describe AdpTextField do
         html = <<-eos
         <div class="form-group case_number_wrapper">
           <a id="case_number"></a>
-          <label class="form-label" for="claim_case_number">
+          <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
           <input class="form-control " type="text" name="claim[case_number]" id="claim_case_number" value="X22334455" />
@@ -71,7 +71,7 @@ describe AdpTextField do
         html = <<-eos
         <div class="form-group case_number_wrapper">
           <a id="case_number"></a>
-          <label class="form-label" for="claim_case_number">
+          <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
           <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" min="0" max="99999" />
@@ -84,7 +84,7 @@ describe AdpTextField do
         html = <<-eos
         <div class="form-group case_number_wrapper">
           <a id="case_number"></a>
-          <label class="form-label" for="claim_case_number">
+          <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
           <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" value="555" min="0" max="99999" />
@@ -103,6 +103,7 @@ describe AdpTextField do
       it 'should produce expected result when resource has a value' do
         resource.case_number = '555'
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'currency', errors: error_presenter)
+
         expect(atf.to_html).to eq a200_value_no_hint
       end
 
@@ -110,10 +111,10 @@ describe AdpTextField do
         html = <<-eos
         <div class="form-group case_number_wrapper">
           <a id="case_number"></a>
-          <label class="form-label" for="claim_case_number">
+          <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
-          <span class="currency-indicator">&pound;</span>
+          <span class="currency-indicator form-input-denote">&pound;</span>
           <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" min="0" max="99999" />
         </div>
         eos
@@ -124,10 +125,10 @@ describe AdpTextField do
         html = <<-eos
         <div class="form-group case_number_wrapper">
           <a id="case_number"></a>
-          <label class="form-label" for="claim_case_number">
+          <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
-          <span class="currency-indicator">&pound;</span>
+          <span class="currency-indicator form-input-denote">&pound;</span>
           <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" value="555" min="0" max="99999" />
         </div>
         eos
@@ -146,7 +147,7 @@ describe AdpTextField do
         html = <<-eos
         <div class="form-group case_number_wrapper">
           <a id="case_number"></a>
-          <label class="form-label" for="claim_case_number">
+          <label class="form-label-bold" for="claim_case_number">
             Case number
             <span class="form-hint">Hint text here</span>
           </label>
@@ -168,14 +169,14 @@ describe AdpTextField do
 
       def c100_with_value_with_hint_and_error
         html = <<-eos
-        <div class="form-group case_number_wrapper field_with_errors">
+        <div class="form-group case_number_wrapper field_with_errors form-group-error">
           <a id="case_number"></a>
-          <label class="form-label" for="claim_case_number">
+          <label class="form-label-bold" for="claim_case_number">
             Case number
             <span class="form-hint">Hint text here</span>
+            <span class="error error-message">Validation error here</span>
           </label>
           <input class="form-control " type="text" name="claim[case_number]" id="claim_case_number" />
-          <span class="error">Validation error here</span>
         </div>
         eos
         squash(html)

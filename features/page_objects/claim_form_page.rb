@@ -67,7 +67,7 @@ class ClaimFormPage < SitePrism::Page
   element :add_another_miscellaneous_fee, "div#misc-fees > a.add_fields"
 
   sections :fixed_fees, TypedFeeSection, "div#fixed-fees .fixed-fee-group"
-  element :add_another_fixed_fee, "div#fixed-fees > a.add_fields"
+  element :add_another_fixed_fee, "div#fixed-fees > .form-group > a.add_fields"
 
   sections :expenses, ExpenseSection, "div#expenses div.expense-group"
   element :add_another_expense, "div#expense > a.add_fields"

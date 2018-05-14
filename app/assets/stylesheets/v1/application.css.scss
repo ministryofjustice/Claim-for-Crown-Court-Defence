@@ -203,6 +203,7 @@ form{
 
 .highlight { background-color: #ffffca }
 
+
 a.link-change {
   float: right;
   font-size: 19px;
@@ -223,5 +224,21 @@ a.link-delete {
   border: none;
   &:hover {
     color: #df3034;
+  }
+}
+
+
+.field_with_errors, .dropdown_field_with_errors{
+  .error{
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  input, select, textarea{
+    border: 2px solid $error-colour;
+  }
+
+  fieldset.indent-fieldset {
+    border-left: 5px solid $error-colour;
   }
 }

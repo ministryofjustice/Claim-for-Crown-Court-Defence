@@ -1,23 +1,10 @@
-%fieldset
-  %legend.visuallyhidden
-  .grid-row.extra-data.nested-fields.fee-dates
+.extra-data.nested-fields.fee-dates
+  - if defined?(parent_model_prefix) && defined?(submodel_count)
+    - error_prefix = "#{parent_model_prefix}_date_attended_#{submodel_count}"
+  - else
+    - error_prefix = "date_attended_0"
 
-    - if defined?(parent_model_prefix) && defined?(submodel_count)
-      - error_prefix = "#{parent_model_prefix}_date_attended_#{submodel_count}"
-    - else
-      - error_prefix = "date_attended_0"
+  = link_to_remove_association t(".remove"), f, {class: "date-action"}
 
-    .column-one-third.fee-date-from{class: error_class?(@error_presenter, "#{error_prefix}_date")}
-      %span.auto-width{id: "#{error_prefix}_date"}
-        = f.label :date, t('.date_from')
-        = f.gov_uk_date_field :date
-        = validation_error_message(@error_presenter, "#{error_prefix}_date")
-
-    .column-one-third.fee-date-to{class: error_class?(@error_presenter, "#{error_prefix}_date_to")}
-      %span.auto-width{id: "#{error_prefix}_date_to"}
-        = f.label :date, t('.date_to')
-        = f.gov_uk_date_field :date_to
-        = validation_error_message(@error_presenter, "#{error_prefix}_date_to")
-
-    .column-one-third.fee-date-remove
-      = link_to_remove_association t('.remove'), f
+  .fee-date-from
+    = f.gov_uk_date_field :date, legend_text: t('.date'), legend_class: "form-label-bold", id: "#{error_prefix}_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, "#{error_prefix}_date")

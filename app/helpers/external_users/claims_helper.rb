@@ -13,7 +13,7 @@ module ExternalUsers::ClaimsHelper
 
   def validation_message_from_presenter(presenter, attribute)
     if presenter.errors_for?(attribute.to_sym)
-      content_tag :span, class: 'error' do
+      content_tag :span, class: 'error error-message' do
         presenter.field_level_error_for(attribute.to_sym)
       end
     else
@@ -23,7 +23,7 @@ module ExternalUsers::ClaimsHelper
 
   def validation_message_from_errors_hash(resource, attribute)
     if resource[attribute]
-      content_tag :span, class: 'error' do
+      content_tag :span, class: 'error error-message' do
         resource[attribute].join(', ')
       end
     else

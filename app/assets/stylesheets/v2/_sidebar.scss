@@ -1,0 +1,22 @@
+// --------------------------------------- */
+// Sidebar */
+// --------------------------------------- */
+
+.new-claim-hgroup{
+  border-top: 5px solid $link-colour;
+  margin-top: 5px;
+
+  h2{
+    @include core-24;
+    font-weight: 800;
+    margin-top: $gutter-half;
+  }
+  h3{
+    @include core-19;
+    font-weight: 800;
+  }
+  .numeric{
+    display: block;
+    font-weight: normal;
+  }
+}

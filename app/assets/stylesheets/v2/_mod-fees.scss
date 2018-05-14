@@ -1,0 +1,14 @@
+.mod-fees{
+  .dates-wrapper{
+    position: relative;
+  }
+  .header-action,
+  .date-action{
+    float: right;
+    @include core-16;
+    }
+  .date-action{
+    position: absolute;
+    right:40%;
+  }
+}

@@ -37,10 +37,10 @@
       %label.form-label Dates
       %span.no-dates.form-hint
         = t('.no_dates')
-      = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', data: {'association-insertion-method' => 'prepend','association-insertion-traversal' => 'next', 'association-insertion-node' => 'div'}
+      = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', partial: 'date_attended_fields_condensed', data: {'association-insertion-method' => 'prepend','association-insertion-traversal' => 'next', 'association-insertion-node' => 'div'}
 
       .grid-row.dates-wrapper
         = f.fields_for :dates_attended do |date_attended|
-          = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
+          = render 'date_attended_fields_condensed', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
 
     = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }

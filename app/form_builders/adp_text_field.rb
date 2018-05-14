@@ -54,9 +54,9 @@ class AdpTextField
     result += anchor
     result += label
     result += hint
+    result += error_message
     result += label_close
     result += input_field
-    result += error_message
     result += div_close
     result.html_safe
   end
@@ -109,13 +109,6 @@ class AdpTextField
     else
       "#{@form.object_name}_#{@method}"
     end
-
-    # if @form.object_name.is_a?(Symbol)
-    #   "#{@form.object_name}_#{@method}"
-    # else
-    #   # translates e.g. claim[defendants_attributes][0]_last_name to claim_defendants_attributes_0_last_name
-    #   @form.object_name.to_s.tr('[', '_').tr(']', '_').gsub('__', '_') + @method.to_s
-    # end
   end
 
   def is_a_cocoon_nested_object?
@@ -145,7 +138,7 @@ class AdpTextField
 
   def div_start
     result = %(<div class="form-group #{@method}_wrapper)
-    result += %( field_with_errors) if has_errors?
+    result += %( field_with_errors form-group-error) if has_errors?
     result += %(">)
     result
   end
@@ -155,11 +148,12 @@ class AdpTextField
   end
 
   def currency
-    %(<span class="currency-indicator">&pound;</span>)
+    # supporting both classes for now
+    %(<span class="currency-indicator form-input-denote">&pound;</span>)
   end
 
   def label
-    %(<label class="form-label" for="#{@form_field_id}">#{@options[:label]})
+    %(<label class="form-label-bold" for="#{@form_field_id}">#{@options[:label]})
   end
 
   def label_close
@@ -180,7 +174,7 @@ class AdpTextField
 
   def input_field
     result = %()
-    result += %(<span class="currency-indicator">&pound;</span>) if @input_is_currency
+    result += %(<span class="currency-indicator form-input-denote">&pound;</span>) if @input_is_currency
     input_part1 = "class=\"form-control #{@input_classes}\" type=\"#{@input_type_string}\""
     result += %(<input #{input_part1} name="#{@form_field_name}" id="#{@form_field_id}" )
     result += %(value="#{strip_tags(@value)}" ) unless @form.object.__send__(@method).nil?

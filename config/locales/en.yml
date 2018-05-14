@@ -698,7 +698,10 @@ en:
           at any time in the <a href="%{external_users_root_url}">Your claims</a> view.</p>
         will_be_processed: Your claim will be processed shortly
       date_attended_fields:
-        date_from: 'Date attended (from)'
+        date: 'Date'
+        remove: 'Remove'
+      date_attended_fields_condensed:
+        date_from_full: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
         remove: 'Remove date attended'
       summary_fees:
@@ -788,8 +791,9 @@ en:
           case_numbers: *case_numbers
           no_dates: 'No dates currently selected.'
           fee_type: 'Type of fee'
-          add_date_attended: 'Add dates'
-          remove: 'Remove this fixed fee'
+          add_date_attended: 'Add another date'
+          remove: 'Remove'
+          net_amount: 'Net amount'
         litigators:
           fields:
             fixed_fees: "Fixed fees"

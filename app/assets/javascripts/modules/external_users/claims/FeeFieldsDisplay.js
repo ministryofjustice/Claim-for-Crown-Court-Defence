@@ -1,11 +1,11 @@
 moj.Modules.FeeFieldsDisplay = {
   init: function() {
     var self = this;
-    this.addFeeChangeEvent();
+    this.addFeeChangeEvent($('.fx-fee-group'));
   },
   addFeeChangeEvent: function(el) {
     var self = this;
-    var $el = el ? $(el) : $('.fx-fee-group');
+    var $el = $(el);
 
     $el.find('select.js-fee-type').each(function() {
       var el = $(this).closest('.fx-fee-group');

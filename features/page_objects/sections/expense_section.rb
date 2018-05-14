@@ -12,7 +12,7 @@ class ExpenseSection < SitePrism::Section
   element :amount, "#claim_expenses_attributes_0_amount"
   element :vat_amount, "#claim_expenses_attributes_0_vat_amount"
 
-  section :expense_date, "fieldset#expense_1_date" do
+  section :expense_date, "#expense_1_date" do
     include DateHelper
     element :day, "input#claim_expenses_attributes_0_date_dd"
     element :month, "input#claim_expenses_attributes_0_date_mm"

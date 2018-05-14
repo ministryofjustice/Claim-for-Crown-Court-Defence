@@ -1,0 +1,44 @@
+// --------------------------------------- */
+// Buttons */
+// --------------------------------------- */
+
+.button-secondary {
+
+  @include button($grey-3);
+
+  &.blue {
+    background-color: $link-hover-colour;
+    box-shadow: 0 2px 0 $link-colour;
+    color: $page-colour;
+  }
+
+  &.blue:hover {
+    background-color: $govuk-blue;
+  }
+}
+
+.button-holder {
+  margin-top: $gutter;
+}
+
+.btn-green {
+  @include button();
+}
+
+.button-grey-3,
+.button-gray-3 {
+
+  @include button($grey-3);
+  padding: .52632em .78947em .26316em;
+
+  @include media (mobile) {
+    text-align: center;
+    width: 100%;
+  }
+}
+
+form .form-buttons * {
+  display: inline-block;
+  margin-right: 10px;
+}
+

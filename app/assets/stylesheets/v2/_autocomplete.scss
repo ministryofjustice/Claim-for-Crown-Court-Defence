@@ -1,0 +1,86 @@
+
+
+.fx-result {
+  margin: $gutter 0;
+  padding: 0 $gutter;
+}
+
+// scss-lint:disable QualifyingElement, ImportantRule
+.js-enabled select.typeahead {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  width: auto !important;
+}
+
+.typeahead.fixedwidth {
+  width: 330px;
+}
+
+//autocomplete styling
+.tt-menu {
+  background-color: $page-colour;
+  border: 1px solid $text-colour;
+  max-height: 220px;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+@media (min-width: 641px) {
+  .tt-menu {
+    width: 50%;
+  }
+
+  // scss-lint:disable IdSelector
+  .js-block,
+  #offence {
+    .tt-menu {
+      width: 100%;
+    }
+  }
+}
+
+// scss-lint:disable ImportantRule
+.tt-hint {
+  opacity: .6 !important;
+}
+
+.tt-suggestion {
+  padding: .5em;
+
+  &:hover,
+  &.tt-cursor {
+    background-color: $link-colour;
+    color: $page-colour;
+  }
+}
+
+.twitter-typeahead {
+  width: 100%;
+}
+
+.empty-message {
+  padding: .5em;
+}
+
+// scss-lint:disable IdSelector
+#offence-list .tt-highlight {
+  background-color: $focus-colour !important;
+}
+
+.mod-search-input {
+  .fx-input {
+    float: left;
+  }
+
+  .fx-clear-search {
+    display: inline-block;
+    font-weight: normal;
+    margin: 10px;
+  }
+}

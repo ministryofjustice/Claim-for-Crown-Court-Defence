@@ -1,0 +1,36 @@
+// --------------------------------------- */
+// Denote styles */
+// --------------------------------------- */
+
+.form-input-denote {
+  position: absolute;
+  margin: 2px 0 0 2px;
+  padding: 6px 12px;
+  background-color: #dee0e2;
+  line-height: 1.1;
+}
+
+@media (min-width: 641px) {
+  .form-input-denote {
+    padding: 7px 12px;
+  }
+}
+
+.form-input-denote__input {
+  margin: 0;
+  padding-left: 39px;
+}
+
+.error .form-input-denote {
+  margin-top: 4px;
+  margin-left: 4px;
+  padding: 6px 12px;
+  background-color: #b10e1e;
+  color: #fff;
+}
+
+@media (min-width: 641px) {
+  .error .form-input-denote {
+    padding: 8px 12px;
+  }
+}

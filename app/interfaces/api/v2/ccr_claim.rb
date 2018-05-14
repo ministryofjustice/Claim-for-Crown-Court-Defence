@@ -5,7 +5,12 @@ module API
 
       helpers do
         def claim
-          ::Claim::AdvocateClaim.find_by(uuid: params[:uuid]) || error!('Claim not found', 404)
+          ::Claim::BaseClaim.agfs.find_by(uuid: params[:uuid]) || error!('Claim not found', 404)
+        end
+
+        def entity_class
+          return API::Entities::CCR::AdvocateInterimClaim if claim.interim?
+          API::Entities::CCR::AdvocateClaim
         end
       end
 
@@ -14,7 +19,7 @@ module API
         params { use :common_injection_params }
 
         get ':uuid' do
-          present claim, with: API::Entities::CCR::AdvocateClaim
+          present claim, with: entity_class
         end
       end
     end

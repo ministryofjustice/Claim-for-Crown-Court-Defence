@@ -21,7 +21,7 @@ class UserMessageStatusesController < ApplicationController
     @user_message_status.update(read: true)
 
     respond_to do |format|
-      format.html { redirect_to :back }
+      format.html { redirect_back(fallback_location: :root_path) }
       format.js
     end
   end

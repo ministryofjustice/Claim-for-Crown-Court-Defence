@@ -1,7 +1,7 @@
 module API
   module Entities
     module CCR
-      class AdaptedMiscFee < API::Entities::CCR::AdaptedBaseFee
+      class AdaptedMiscFee < AdaptedBaseFee
         with_options(format_with: :string) do
           expose :quantity
           expose :rate

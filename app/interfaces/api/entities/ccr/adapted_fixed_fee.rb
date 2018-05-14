@@ -12,7 +12,7 @@
 module API
   module Entities
     module CCR
-      class AdaptedFixedFee < API::Entities::CCR::AdaptedBaseFee
+      class AdaptedFixedFee < AdaptedBaseFee
         with_options(format_with: :string) do
           expose :daily_attendances
           expose :number_of_defendants

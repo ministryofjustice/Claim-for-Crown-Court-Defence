@@ -1,7 +1,7 @@
 module API
   module Entities
     module CCR
-      class AdaptedBasicFee < API::Entities::CCR::AdaptedBaseFee
+      class AdaptedBasicFee < AdaptedBaseFee
         with_options(format_with: :string) do
           expose :ppe
           expose :number_of_witnesses

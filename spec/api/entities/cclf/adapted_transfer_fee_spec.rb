@@ -20,7 +20,7 @@ RSpec.describe API::Entities::CCLF::AdaptedTransferFee, type: :adapter do
   end
 
   it 'exposes expected json key-value pairs' do
-    expect(response).to match_array(
+    is_expected.to match_array(
       bill_type: 'LIT_FEE',
       bill_subtype: 'LIT_FEE',
       quantity: '888',

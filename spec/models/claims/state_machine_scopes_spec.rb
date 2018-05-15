@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Claims::StateMachine, type: :model do
   describe 'all available states are scoped' do
-    subject { create(:claim) }
+    subject { create(:advocate_claim) }
 
     let(:states) { subject.class.state_machine.states.map(&:name) }
 
@@ -15,10 +15,10 @@ RSpec.describe Claims::StateMachine, type: :model do
   end
 
   describe 'custom scopes' do
-    let!(:draft_claim) { create(:claim) }
+    let!(:draft_claim) { create(:advocate_claim) }
     let!(:submitted_claim) { create(:submitted_claim) }
     let!(:allocated_claim) { create(:allocated_claim) }
-    let!(:deleted_claim)   { create(:archived_pending_delete_claim) }
+    let!(:deleted_claim) { create(:archived_pending_delete_claim) }
     let!(:redetermination_claim) { create(:redetermination_claim) }
     let!(:awaiting_written_reasons_claim) { create(:awaiting_written_reasons_claim) }
 

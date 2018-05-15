@@ -6,7 +6,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
 
   before { sign_in advocate.user }
 
-  let(:claim) { create(:claim) }
+  let(:claim) { create(:advocate_claim) }
 
   describe 'GET #new' do
 
@@ -53,7 +53,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
 
   describe 'POST create' do
     context 'AGFS' do
-      let(:claim) { create(:claim) }
+      let(:claim) { create(:advocate_claim) }
       let(:sns_client) do
         Aws::SNS::Client.new(
             region: 'eu_west_1',
@@ -155,7 +155,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
 
   describe 'PATCH #update' do
     it 'should redirect to claim path with a flash message' do
-      claim = create(:claim)
+      claim = create(:advocate_claim)
       patch :update, params: { claim_id: claim }
       expect(response).to redirect_to(external_users_claim_path(claim))
       expect(flash[:alert]).to eq 'Cannot certify a claim in submitted state'

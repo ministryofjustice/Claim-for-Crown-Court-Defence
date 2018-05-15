@@ -3,7 +3,7 @@ require "rails_helper"
 describe ApplicationHelper do
 
   context '#present' do
-    let(:claim) { create(:claim) }
+    let(:claim) { create(:advocate_claim) }
 
     it 'returns a <Classname>Presenter instance' do
      expect(present(claim)).to be_a Claim::BaseClaimPresenter

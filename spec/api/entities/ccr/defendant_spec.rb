@@ -3,7 +3,7 @@ require 'rails_helper'
 describe API::Entities::CCR::Defendant do
   subject(:response) { JSON.parse(described_class.represent(defendant).to_json).deep_symbolize_keys }
 
-  let(:claim) { create(:claim) }
+  let(:claim) { create(:advocate_claim) }
   let(:rep_orders) { create_list(:representation_order, 1, uuid: 'uuid', maat_reference: '1234567890', representation_order_date: Date.new(2016, 1, 10)) }
 
   let(:defendant) do

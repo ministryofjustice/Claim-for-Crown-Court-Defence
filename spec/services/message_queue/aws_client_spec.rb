@@ -17,7 +17,7 @@ module MessageQueue
           }
       )
     end
-    let(:claim) { create(:claim) }
+    let(:claim) { create(:advocate_claim) }
     let(:aws_queue_name) { 'valid_queue_name' }
     let(:stub_queue_response) { stub_queue_response_success }
     let(:stub_send_response) {}

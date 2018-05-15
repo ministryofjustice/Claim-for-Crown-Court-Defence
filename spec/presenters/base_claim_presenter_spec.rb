@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'cgi'
 
 RSpec.describe Claim::BaseClaimPresenter do
-  let(:claim) { create(:claim) }
+  let(:claim) { create(:advocate_claim) }
   subject(:presenter) { Claim::BaseClaimPresenter.new(claim, view) }
 
   before do

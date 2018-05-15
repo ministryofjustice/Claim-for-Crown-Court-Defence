@@ -25,7 +25,7 @@ RSpec.describe MessagesController, type: :controller do
     end
 
     describe "POST #create" do
-      let(:claim) { create(:claim) }
+      let(:claim) { create(:advocate_claim) }
       let(:message_params) do
         {
           claim_id: claim.id,

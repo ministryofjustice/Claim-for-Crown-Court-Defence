@@ -49,7 +49,7 @@ RSpec.describe OffencesController, type: :controller do
       end
 
       it 'calls the fee reform search offences service with the provided filters' do
-        expected_args = { fee_scheme: 'fee_reform', controller: 'offences', action: 'index' }
+        expected_args = ActionController::Parameters.new(fee_scheme: 'fee_reform', controller: 'offences', action: 'index')
         expect(FeeReform::SearchOffences).to receive(:call).with(expected_args).and_call_original
         get :index, params: params, xhr: true
       end

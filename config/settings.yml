@@ -88,7 +88,7 @@ active_features:
 reject_refuse_messaging_released_at: <%= DateTime.new(2018, 4, 24, 23, 05, 0).change(offset: '+100') %>
 
 # agfs_fee_reform_release_date: <%= Date.new(2018, 4, 1) %>
-agfs_fee_reform_release_date: <%= ENV["ENV"].eql?('api-sandbox') ? Date.new(2018, 1, 1) : Date.new(2018, 4, 1) %>
+agfs_fee_reform_release_date: <%= ENV["ENV"].in?(['api-sandbox','demo','development']) ? Date.new(2018, 1, 1) : Date.new(2018, 04, 1) %>
 
 # number of weeks in one state before automatic transition to archived pending delete
 timed_transition_stale_weeks: 16

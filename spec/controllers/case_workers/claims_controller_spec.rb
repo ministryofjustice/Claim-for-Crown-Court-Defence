@@ -100,7 +100,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     let(:claim) {create :allocated_claim }
     let(:updater) { double Claims::CaseWorkerClaimUpdater }
-    let(:params) { ActionController::Parameters.new({'additional_information' => 'foo bar', 'current_user'=> @case_worker.user}).permit! }
+    let(:params) { strong_params('additional_information' => 'foo bar', 'current_user'=> @case_worker.user) }
 
     before(:each) do
       expect(updater).to receive(:update!).and_return(updater)

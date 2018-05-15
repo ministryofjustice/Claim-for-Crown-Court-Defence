@@ -91,8 +91,8 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
     before(:each) do
       expect(CaseWorkerService).to receive(:new).and_return(case_worker_service_instance)
       expect(Claims::CaseWorkerClaims).to receive(:new).and_return(case_worker_claims_instance)
-      expect(Allocation).to receive(:new).with(ActionController::Parameters.new(expected_params).permit!)
-      expect(Allocation).to receive(:new).with(ActionController::Parameters.new(expected_params_with_user).permit!).and_return(allocation)
+      expect(Allocation).to receive(:new).with(strong_params(expected_params))
+      expect(Allocation).to receive(:new).with(strong_params(expected_params_with_user)).and_return(allocation)
     end
 
     context 'success' do

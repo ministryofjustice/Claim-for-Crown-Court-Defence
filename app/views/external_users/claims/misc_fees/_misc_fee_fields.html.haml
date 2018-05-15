@@ -1,46 +1,37 @@
 - fee = present(f.object)
-%fieldset
-  %legend.visuallyhidden
-    Miscellaneous fee
-  .form-group.misc-fee-group.nested-fields.js-block.fx-fee-group{data:{"type": "miscFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
-    .grid-row.js-typeahead
-      .column-one-half.fee-type{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
-        %label.form-label
-          = t('.fee_type')
-        %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
-        = f.collection_select :fee_type_id, @claim.eligible_misc_fee_types, :id, :description, {include_blank: ''.html_safe }, {class: 'typeahead js-misc-fee-type js-fee-type fixedwidth'}
-        = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
+.form-section.misc-fee-group.nested-fields.js-block.fx-fee-group{data:{"type": "miscFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
+  %h2.bold-medium
+    = t('.misc_fee')
+    = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group', class: "header-action" }
 
-      .column-one-quarter.fee-quantity
-        = f.adp_text_field :quantity,
-                            label: t('.quantity'),
-                            input_classes:'quantity',
-                            input_type: 'number',
-                            value: fee.quantity,
-                            errors: @error_presenter
+  .form-group
+    .fee-type.js-typeahead{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
+      %label.form-label-bold
+        = t('.fee_type')
+      %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
+      = f.collection_select :fee_type_id, @claim.eligible_misc_fee_types, :id, :description, {include_blank: ''.html_safe }, {class: 'form-control js-misc-fee-type js-fee-type typeahead', style: 'width:100%'}
 
-      .column-one-quarter.fee-rate
-        = f.adp_text_field :rate,
-                            label: t('.rate'),
-                            input_classes:'rate',
-                            input_type: 'currency',
-                            errors: @error_presenter,
-                            value: number_with_precision(f.object.rate, precision: 2)
+      = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 
-    .grid-row
-      .column-one-third.fee-total
-        %label.form-label Total
-        %span.total{data: {'total': f.object.amount ||= 0}}
-          = number_to_currency(f.object.amount ||= 0)
+  = f.adp_text_field :quantity,
+                          label: t('.quantity'),
+                          input_classes:'quantity fee-quantity form-control-1-8',
+                          input_type: 'number',
+                          value: fee.quantity,
+                          errors: @error_presenter
 
-    .grid-row.fee-dates-row
-      %label.form-label Dates
-      %span.no-dates.form-hint
-        = t('.no_dates')
-      = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', partial: 'date_attended_fields_condensed', data: {'association-insertion-method' => 'prepend','association-insertion-traversal' => 'next', 'association-insertion-node' => 'div'}
+  %div.dates-wrapper.form-group
+    %div
+      = f.fields_for :dates_attended do |date_attended|
+        = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
 
-      .grid-row.dates-wrapper
-        = f.fields_for :dates_attended do |date_attended|
-          = render 'date_attended_fields_condensed', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
+    = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', partial: 'date_attended_fields', data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
 
-    = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }
+  = f.adp_text_field :rate,
+                    label: t('.net_amount'),
+                    input_classes:'rate fee-rate form-input-denote__input form-control-1-4',
+                    input_type: 'currency',
+                    errors: @error_presenter,
+                    value: number_with_precision(f.object.rate, precision: 2)
+
+  %hr/

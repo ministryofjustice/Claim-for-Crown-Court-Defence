@@ -2,6 +2,7 @@ require_relative 'sections/common_date_section'
 require_relative 'sections/supplier_numbers_section'
 require_relative 'sections/retrial_section'
 require_relative 'sections/fee_case_numbers_section'
+require_relative 'sections/fee_dates_section_condensed'
 require_relative 'sections/fee_dates_section'
 require_relative 'sections/fee_section'
 require_relative 'sections/typed_fee_section'
@@ -52,7 +53,7 @@ class ClaimFormPage < SitePrism::Page
     section :basic_fee_dates, FeeDatesSection, ".basic-fee.fee-details .fee-dates-row"
 
     section :daily_attendance_fee_3_to_40, FeeSection, ".basic-fee-group.daily-attendance-fee-3-to-40"
-    section :daily_attendance_fee_3_to_40_dates, FeeDatesSection, ".basic-fee-group.daily-attendance-fee-3-to-40 .fee-dates-row"
+    section :daily_attendance_fee_3_to_40_dates, FeeDatesSectionCondensed, ".basic-fee-group.daily-attendance-fee-3-to-40 .dates-wrapper"
 
     section :daily_attendance_fee_41_to_50, FeeSection, ".basic-fee-group.daily-attendance-fee-41-to-50"
     section :daily_attendance_fee_51_plus, FeeSection, ".basic-fee-group.daily-attendance-fee-51"
@@ -64,7 +65,7 @@ class ClaimFormPage < SitePrism::Page
   end
 
   sections :miscellaneous_fees, TypedFeeSection, "div#misc-fees .misc-fee-group"
-  element :add_another_miscellaneous_fee, "div#misc-fees > a.add_fields"
+  element :add_another_miscellaneous_fee, "div#misc-fees > .form-group > a.add_fields"
 
   sections :fixed_fees, TypedFeeSection, "div#fixed-fees .fixed-fee-group"
   element :add_another_fixed_fee, "div#fixed-fees > .form-group > a.add_fields"

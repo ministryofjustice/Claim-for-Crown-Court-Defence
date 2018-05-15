@@ -1,14 +1,13 @@
 - claims_scope = 'external_users.claims'
-#misc-fees.mod-fees
-  %h2.bold-medium
-    = t('.misc_fees')
-  .form-hint.xsmall
-    = t('hints.fees_header_prompt_text_html', scope: claims_scope)
-    = t('prep_forms.advocates_html')
+%p
+  = t('.page_intro_html')
 
+
+#misc-fees.mod-fees
   .misc-fee-group-wrapper
     = f.fields_for :misc_fees do |misc_fee_fields|
       - @misc_fee_count += 1
-      = render partial: 'external_users/claims/misc_fees/misc_fee_fields', locals: {f: misc_fee_fields }
+      = render 'external_users/claims/misc_fees/misc_fee_fields', f: misc_fee_fields
 
-  = link_to_add_association t('.add_misc_fee'), f, :misc_fees, partial: 'external_users/claims/misc_fees/misc_fee_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'div'}
+  .form-group
+    = link_to_add_association t('.add_misc_fee'), f, :misc_fees, partial: 'external_users/claims/misc_fees/misc_fee_fields', class: 'button button-secondary blue add_fields', data: {'association-insertion-method' => 'append', 'association-insertion-node' => '.misc-fee-group-wrapper'}

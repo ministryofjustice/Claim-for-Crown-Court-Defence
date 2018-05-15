@@ -78,6 +78,7 @@ module Claim
              dependent: :destroy,
              inverse_of: :claim,
              validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :fixed_fees }
+    has_one :interim_claim_info, dependent: :destroy, foreign_key: :claim_id
 
     accepts_nested_attributes_for :basic_fees, reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :fixed_fees, reject_if: all_blank_or_zero, allow_destroy: true

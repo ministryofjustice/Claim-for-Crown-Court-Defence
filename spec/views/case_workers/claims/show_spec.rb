@@ -98,7 +98,7 @@ describe 'case_workers/claims/show.html.haml', type: :view do
         end
 
         it 'has the correct status display' do
-          expect(rendered).to have_selector('span', 'state state-rejected', text: 'Rejected')
+          expect(rendered).to have_selector('span.state.state-rejected', text: 'Rejected')
         end
 
         it 'renders the reason header with the correct tense' do

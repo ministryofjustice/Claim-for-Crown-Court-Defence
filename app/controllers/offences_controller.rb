@@ -13,8 +13,8 @@ class OffencesController < ApplicationController
   skip_load_and_authorize_resource only: [:index]
 
   def index
-    if params[:fee_scheme] && params[:fee_scheme] == 'fee_reform'
-      @offences = FeeReform::SearchOffences.call(params)
+    if permitted_params[:fee_scheme] && permitted_params[:fee_scheme] == 'fee_reform'
+      @offences = FeeReform::SearchOffences.call(permitted_params)
 
       respond_to do |format|
         format.json do
@@ -28,9 +28,13 @@ class OffencesController < ApplicationController
 
   private
 
+  def permitted_params
+    params.permit(:fee_scheme, :description)
+  end
+
   def offence_filter
     {}.tap do |filters|
-      filters.merge!(description: params[:description]) if params[:description].present?
+      filters.merge!(description: permitted_params[:description]) if permitted_params[:description].present?
     end
   end
 end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ExpensePresenter do
 
-  let(:claim)     { create(:claim) }
+  let(:claim)     { create(:advocate_claim) }
   let(:expense_type)  { create(:expense_type) }
   let(:expense)       { create(:expense, quantity: 4, claim: claim, expense_type: expense_type) }
   let(:presenter) {ExpensePresenter.new(expense, view) }

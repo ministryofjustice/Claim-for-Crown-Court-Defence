@@ -333,7 +333,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   it { should accept_nested_attributes_for(:expenses) }
   it { should accept_nested_attributes_for(:defendants) }
 
-  subject { create(:claim) }
+  subject { create(:advocate_claim) }
 
   describe '.earliest_representation_order' do
     let(:claim)         { FactoryBot.build :unpersisted_claim }
@@ -442,7 +442,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '.search' do
-    let!(:other_claim) { create(:claim) }
+    let!(:other_claim) { create(:advocate_claim) }
     let(:states) { nil }
 
     it 'finds only claims with states that match dashboard displayable states' do
@@ -786,7 +786,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#editable?' do
-    let(:draft) { create(:claim) }
+    let(:draft) { create(:advocate_claim) }
     let(:submitted) { create(:submitted_claim) }
     let(:allocated) { create(:allocated_claim) }
 
@@ -804,7 +804,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#archivable?' do
-    let(:claim) { create(:claim) }
+    let(:claim) { create(:advocate_claim) }
 
     it 'should not be archivable from states: allocated, archived_pending_delete, awaiting_written_reasons, draft, redetermination' do
       %w( allocated awaiting_written_reasons draft redetermination ).each do |state|
@@ -1141,7 +1141,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#opened_for_redetermination?' do
-    let(:claim) { create(:claim) }
+    let(:claim) { create(:advocate_claim) }
 
     before do
       claim.submit!
@@ -1231,7 +1231,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#written_reasons_outstanding?' do
-    let(:claim) { create(:claim) }
+    let(:claim) { create(:advocate_claim) }
 
     before do
       claim.submit!

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Claim, type: :model do
-  subject(:claim) { create(:claim) }
+  subject(:claim) { create(:advocate_claim) }
   let(:expenses) { [3.5, 1.0, 142.0].each { |amount| create(:expense, claim_id: claim.id, amount: amount) } }
   let(:fee_type) { create(:fixed_fee_type) }
 
@@ -71,7 +71,7 @@ RSpec.describe Claim, type: :model do
     end
 
     context 'AGFS claim' do
-      subject(:claim) { create(:claim) }
+      subject(:claim) { create(:advocate_claim) }
 
       it 'calculates the claim expenses VAT' do
         expect(claim.expenses_vat).to eq(29.3)

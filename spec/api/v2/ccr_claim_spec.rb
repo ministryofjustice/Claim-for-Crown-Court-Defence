@@ -588,6 +588,12 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
       end
 
+      context 'warrant fees' do
+        let(:claim) do
+          create(:authorised_claim, :without_fees)
+        end
+      end
+
       context 'expenses' do
         subject(:response) do
           do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body

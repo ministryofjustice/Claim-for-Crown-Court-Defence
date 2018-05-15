@@ -20,7 +20,7 @@ RSpec.describe Defendant, type: :model do
 
   describe 'validations' do
     context 'draft claim' do
-      before { subject.claim = create(:claim) }
+      before { subject.claim = create(:advocate_claim) }
 
       it { should validate_presence_of(:claim).with_message('blank') }
     end
@@ -69,8 +69,7 @@ RSpec.describe Defendant, type: :model do
   end
 
   context 'representation orders' do
-
-    let(:defendant)  { FactoryBot.create :defendant, claim: FactoryBot.create(:claim) }
+    let(:defendant) { FactoryBot.create :defendant, claim: FactoryBot.create(:advocate_claim) }
 
     it 'should be valid if there is one representation order that isnt blank' do
       expect(defendant).to be_valid
@@ -98,7 +97,7 @@ RSpec.describe Defendant, type: :model do
   end
 
   context 'name presentation methods' do
-    let(:claim) { create(:claim) }
+    let(:claim) { create(:advocate_claim) }
 
     describe '#name' do
       it 'joins first name and last name together' do

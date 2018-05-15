@@ -1,11 +1,12 @@
 require_relative 'claim_factory_helpers'
 include ClaimFactoryHelpers
 
+#
+# NOTE: use the :advocate_claim alias when calling this factory to
+# differentiate from other claim types.
+#
 FactoryBot.define do
   factory :claim, aliases: [:advocate_claim], class: Claim::AdvocateClaim do
-
-    # Alias for :claim factory that should be used since we now have a litigator claim factory
-    # TODO: replace all instances for create(:claim) to create(:advocate_claim)
 
     advocate_base_setup
 

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
   subject(:response) { JSON.parse(described_class.represent(adapted_misc_fee).to_json).deep_symbolize_keys }
 
-  let(:claim) { create(:claim) }
+  let(:claim) { create(:advocate_claim) }
 
   let(:misc_fee) do
     create(:misc_fee, :mispf_fee, :with_date_attended,

@@ -361,7 +361,7 @@ describe Ability do
     end
 
     context 'can update claim when assigned to claim' do
-      let(:claim) { create(:claim) }
+      let(:claim) { create(:advocate_claim) }
 
       before { case_worker.claims << claim }
 

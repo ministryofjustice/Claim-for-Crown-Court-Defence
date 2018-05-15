@@ -17,7 +17,7 @@ shared_examples '.defendant_uplift_sums' do
   context 'miscellaneous fees' do
     describe '.defendant_uplift_sums' do
       subject { described_class.defendant_uplift_sums }
-      let(:claim) { create(:claim) }
+      let(:claim) { create(:advocate_claim) }
       let(:miahu) { create(:misc_fee_type, :miahu) }
 
       before do

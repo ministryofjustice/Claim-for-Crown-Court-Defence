@@ -38,7 +38,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     let(:advocate_with_vat)           { create(:external_user, :advocate, vat_registered: true) }
     let(:advocate_without_vat)        { create(:external_user, :advocate, vat_registered: false) }
     let(:another_advocate)            { create(:external_user, :advocate) }
-    let(:other_advocate_claim)        { create(:claim) }
+    let(:other_advocate_claim)        { create(:advocate_claim) }
 
     context 'with VAT applied' do
       before do
@@ -102,7 +102,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     let(:advocate1_without_vat)   { create(:external_user, provider: agfs_provider, vat_registered: false) }
     let(:advocate2_without_vat)   { create(:external_user, provider: agfs_provider, vat_registered: false) }
     let(:another_advocate_admin)  { create(:external_user, :admin, provider: other_provider) }
-    let(:other_provider_claim)    { create(:claim) }
+    let(:other_provider_claim)    { create(:advocate_claim) }
 
     before do
       other_provider_claim.external_user = another_advocate_admin

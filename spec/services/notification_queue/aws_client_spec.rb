@@ -20,7 +20,7 @@ module NotificationQueue
     describe '#send!' do
       subject(:send!) { aws_client.send!(claim) }
 
-      let(:claim) { create(:claim) }
+      let(:claim) { create(:advocate_claim) }
 
       it { is_expected.to eql true}
     end

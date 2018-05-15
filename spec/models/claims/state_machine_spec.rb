@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Claims::StateMachine, type: :model do
-  subject(:claim) { create(:claim) }
+  subject(:claim) { create(:advocate_claim) }
 
   describe 'all available states' do
     let(:states) do
@@ -351,7 +351,7 @@ RSpec.describe Claims::StateMachine, type: :model do
   end
 
   describe 'state transition audit trail' do
-    let!(:claim) { create(:claim) }
+    let!(:claim) { create(:advocate_claim) }
     let!(:expected) do
       {
         event: 'submit',

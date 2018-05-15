@@ -47,7 +47,7 @@ RSpec.describe UsersController, type: :controller do
 
     it 'updates the setting' do
       do_put(api_promo_seen: 'test')
-      expect(assigns(:settings).to_a).to eq([%w(api_promo_seen test)])
+      expect(assigns(:settings).to_h).to eq({'api_promo_seen' => 'test'})
       expect(user.settings).to eq({'api_promo_seen' => 'test'})
     end
   end

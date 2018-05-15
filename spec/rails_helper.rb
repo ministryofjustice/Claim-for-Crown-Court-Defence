@@ -79,6 +79,7 @@ RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers
   config.include JsonSpec::Helpers
   config.include CCLF::BillScenarioHelpers, type: :adapter
+  config.include StrongParamHelpers
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

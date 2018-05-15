@@ -4,20 +4,20 @@ class ErrorsController < ApplicationController
 
   def not_endpoint
     logger.info("Data POSTed to root with API key: #{not_endpoint_params[:api_key]}") if params.present?
-    render status: 403, text: 'Not a valid api endpoint'
+    render status: 403, plain: 'Not a valid api endpoint'
   end
 
   def not_found
     respond_to do |format|
       format.html { render status: 404 }
-      format.all { render status: 404, text: 'not found' }
+      format.all { render status: 404, plain: 'not found' }
     end
   end
 
   def internal_server_error
     respond_to do |format|
       format.html { render status: 500 }
-      format.all { render status: 500, text: 'error' }
+      format.all { render status: 500, plain: 'error' }
     end
   end
 

@@ -100,11 +100,12 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     let(:claim) {create :allocated_claim }
     let(:updater) { double Claims::CaseWorkerClaimUpdater }
+    let(:params) { strong_params('additional_information' => 'foo bar', 'current_user'=> @case_worker.user) }
 
     before(:each) do
       expect(updater).to receive(:update!).and_return(updater)
       expect(updater).to receive(:claim).and_return(claim)
-      expect(Claims::CaseWorkerClaimUpdater).to receive(:new).with(claim.id.to_s, {'additional_information' => 'foo bar', 'current_user'=> @case_worker.user}).and_return(updater)
+      expect(Claims::CaseWorkerClaimUpdater).to receive(:new).with(claim.id.to_s, params).and_return(updater)
     end
 
     it 'should call updater service with params' do

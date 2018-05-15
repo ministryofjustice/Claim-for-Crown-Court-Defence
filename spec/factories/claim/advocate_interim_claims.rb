@@ -8,7 +8,13 @@ FactoryBot.define do
     end
 
     trait :authorised do
-      state :authorised
+      after(:create) { |c| authorise_claim(c) }
+    end
+
+    trait :without_fees do
+      after(:build) do |claim|
+        claim.fees.destroy_all
+      end
     end
   end
 end

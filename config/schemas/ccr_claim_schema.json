@@ -241,7 +241,7 @@
         }
       },
       "type": "object",
-      "required": ["offence_class","unique_code"]
+      "required": ["unique_code"]
     },
     "advocate_category": {
       "id": "/properties/advocate_category",

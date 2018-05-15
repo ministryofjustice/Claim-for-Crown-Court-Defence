@@ -142,7 +142,10 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
     end
 
     context 'bills' do
-      subject(:response) { do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body }
+      subject(:response) do
+        do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+      end
+
       subject(:bills) { JSON.parse(response)['bills'] }
 
       let(:claim) do
@@ -589,8 +592,27 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       end
 
       context 'warrant fees' do
+        subject(:response) do
+          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
+        end
+
+        let(:warr) { create(:warrant_fee_type, :warr) }
+        let(:offence) { create(:offence, :with_fee_scheme_ten) }
         let(:claim) do
-          create(:authorised_claim, :without_fees)
+          create(:advocate_interim_claim, :without_fees, offence: offence).tap do |claim|
+            create(:warrant_fee, fee_type: warr, claim: claim)
+          end
+        end
+
+        it { is_expected.to be_valid_ccr_claim_json }
+
+        it 'returns array containing the bill' do
+          is_expected.to have_json_size(1).at_path("bills")
+        end
+
+        it 'returns a warrant fee bill' do
+          is_expected.to be_json_eql('AGFS_ADVANCE'.to_json).at_path("bills/0/bill_type")
+          is_expected.to be_json_eql('AGFS_WARRANT'.to_json).at_path("bills/0/bill_subtype")
         end
       end
 
@@ -602,10 +624,10 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         context 'when an expense is claimed' do
           before { create(:expense, :car_travel, claim: claim) }
 
-          it { expect(response).to be_valid_ccr_claim_json }
+          it { is_expected.to be_valid_ccr_claim_json }
 
           it 'added to bills' do
-            expect(response).to have_json_size(1).at_path('bills')
+            is_expected.to have_json_size(1).at_path('bills')
           end
         end
       end

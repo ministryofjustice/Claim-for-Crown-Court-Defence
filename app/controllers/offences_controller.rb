@@ -29,7 +29,7 @@ class OffencesController < ApplicationController
   private
 
   def permitted_params
-    params.permit(:fee_scheme, :description)
+    params.permit(:fee_scheme, :description, :search_offence, :category_id, :band_id)
   end
 
   def offence_filter

@@ -162,8 +162,8 @@ module Claim
 
     scope :cloned, -> { where.not(clone_source_id: nil) }
 
-    scope :agfs, -> { where(type: 'Claim::AdvocateClaim') }
-    scope :lgfs, -> { where.not(type: 'Claim::AdvocateClaim') }
+    scope :agfs, -> { where(type: agfs_claim_types) }
+    scope :lgfs, -> { where(type: lgfs_claim_types) }
 
     accepts_nested_attributes_for :misc_fees,         reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :expenses,          reject_if: all_blank_or_zero, allow_destroy: true

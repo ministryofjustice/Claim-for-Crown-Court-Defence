@@ -147,15 +147,16 @@ describe API::V1::DropdownData do
     before {
       create(:basic_fee_type, :agfs_scheme_9, id: 1)
       create(:misc_fee_type, id: 2)
-      create(:fixed_fee_type, id: 3)
+      create(:fixed_fee_type, :agfs_scheme_9, id: 3)
       create(:graduated_fee_type, id: 4) # LGFS fee, not applicable to AGFS
       create(:basic_fee_type, :agfs_scheme_10, id: 5)
       create(:misc_fee_type, :agfs_scheme_10, id: 6)
+      create(:fixed_fee_type, :agfs_all_schemes, id: 7)
     }
 
     def get_filtered_fee_types(category=nil)
       params.merge!(category: category)
-      get FEE_TYPE_ENDPOINT, params , format: :json
+      get FEE_TYPE_ENDPOINT, params, format: :json
     end
 
     it 'should filter by category and scheme applicability' do
@@ -178,6 +179,34 @@ describe API::V1::DropdownData do
       it 'should only include LGFS fee types' do
         get FEE_TYPE_ENDPOINT, params.merge(role: 'lgfs'), format: :json
         expect(parsed_body.collect{|e| e['roles'].include?('lgfs') }.uniq).to eq([true])
+      end
+
+      context 'fixed fees for' do
+        before { get FEE_TYPE_ENDPOINT, params.merge(category: 'fixed', role: role), format: :json }
+
+        context 'agfs' do
+          let(:role) { 'agfs' }
+
+          it 'returns scheme 9 agfs roles' do
+            expect(parsed_body.pluck('id')).to match_array([3, 7])
+          end
+        end
+
+        context 'agfs_scheme_9' do
+          let(:role) { 'agfs_scheme_9' }
+
+          it 'returns scheme 9 agfs roles' do
+            expect(parsed_body.pluck('id')).to match_array([3, 7])
+          end
+        end
+
+        context 'agfs_scheme_10' do
+          let(:role) { 'agfs_scheme_10' }
+
+          it 'returns scheme 10 agfs roles' do
+            expect(parsed_body.pluck('id')).to eq([7])
+          end
+        end
       end
     end
   end

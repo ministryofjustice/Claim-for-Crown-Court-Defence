@@ -33,6 +33,10 @@ FactoryBot.define do
       roles %w[agfs agfs_scheme_10]
     end
 
+    trait :agfs_all_schemes do
+      roles %w[agfs agfs_scheme_9 agfs_scheme_10]
+    end
+
     trait :dat do
       description 'Daily Attendance Fee (2+)'
       agfs_scheme_10

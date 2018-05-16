@@ -6,7 +6,7 @@ class TypedFeeSection < SitePrism::Section
   element :rate, "input.rate"
   element :amount, nil
   element :case_numbers, "input.fx-fee-case-numbers"
-  element :add_dates, ".fee-dates-row > a"
+  element :add_dates, ".dates-wrapper .add_fields"
   section :dates, FeeDatesSection, ".fee-dates"
 
   def select_fee_type(name)

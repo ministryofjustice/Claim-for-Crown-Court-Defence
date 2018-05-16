@@ -112,7 +112,6 @@ When(/^I add a miscellaneous fee '(.*?)' with dates attended$/) do |name|
   @claim_form_page.miscellaneous_fees.last.rate.set "34.56"
   @claim_form_page.miscellaneous_fees.last.add_dates.trigger "click"
   @claim_form_page.miscellaneous_fees.last.dates.from.set_date "2016-01-02"
-  @claim_form_page.miscellaneous_fees.last.dates.to.set_date "2016-01-03"
 end
 
 When(/^I add a fixed fee '(.*?)'$/) do |name|

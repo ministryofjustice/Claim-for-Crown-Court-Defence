@@ -483,7 +483,7 @@ en:
         not_editable: 'Can only edit "draft" claims'
         dependencies_missing: Claim section cannot be edited. Please fill its dependencies
       hints:
-        fees_header_prompt_text_html: &fees_vat_prompt All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users.
+        fees_header_prompt_text_html: &fees_vat_prompt All fees should be entered exclusive of VAT.
       redraft:
         error_html: 'An error is preventing this claim from being redrafted.  The problem has been logged and is being investigated. To continue please start a new claim.'
       additional_information:
@@ -784,6 +784,12 @@ en:
           add_fixed_fee: 'Add another fixed fee'
           amount: 'Amount'
           fixed_fees: 'Fixed fees'
+          page_header: 'Fixed fees'
+          page_hint: *fees_vat_prompt
+          page_intro_html: |
+            If needed, please complete
+            <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Special Prep Form">special prep form</a>
+            and attach to the claim.
         fixed_fee_fields:
           fixed_fee: "Fixed fee"
           quantity: 'Quantity'
@@ -806,15 +812,23 @@ en:
           header: Fixed fees
       misc_fees:
         fields:
-          add_misc_fee: 'Add another miscellaneous fee'
+          add_misc_fee: 'Add another fee'
           amount: 'Amount'
           misc_fees: 'Miscellaneous fees'
+          page_header: 'Miscellaneous fees'
+          page_hint: *fees_vat_prompt
+          page_intro_html: |
+            If needed, please complete
+            <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a>
+            and attach to the claim.
         misc_fee_fields:
+          misc_fee: 'Miscellaneous fee'
           rate: 'Rate'
+          net_amount: 'Net amount'
           quantity: 'Quantity'
           fee_type: 'Type of fee'
           add_date_attended: 'Add dates'
-          remove: 'Remove this miscellaneous fee'
+          remove: 'Remove'
           no_dates: 'No dates currently selected.'
         litigators:
           fields:

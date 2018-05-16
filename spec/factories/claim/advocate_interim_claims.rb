@@ -4,11 +4,7 @@ FactoryBot.define do
     advocate_base_setup
 
     trait :submitted do
-      state :submitted
-    end
-
-    trait :authorised do
-      after(:create) { |c| authorise_claim(c) }
+      after(:create) { |c| c.submit! }
     end
 
     trait :without_fees do

@@ -27,7 +27,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
   before(:all) do
     @case_worker = create(:case_worker, :admin)
-    @claim = create(:authorised_claim, :without_fees).tap do |claim|
+    @claim = create(:submitted_claim, :without_fees).tap do |claim|
       # NOTE: this will also create the BABAF basic fee TYPE and MISPF misc fee TYPE
       create(:basic_fee, :baf_fee, claim: claim, quantity: 1)
       create(:misc_fee, :mispf_fee, :with_date_attended, claim: claim)
@@ -149,7 +149,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       let(:bills) { JSON.parse(response)['bills'] }
 
       let(:claim) do
-        create(:authorised_claim, :without_fees)
+        create(:submitted_claim, :without_fees)
       end
 
       it 'returns empty array if no bills found' do
@@ -599,7 +599,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         let(:warr) { create(:warrant_fee_type, :warr) }
         let(:offence) { create(:offence, :with_fee_scheme_ten) }
         let(:claim) do
-          create(:advocate_interim_claim, :without_fees, offence: offence).tap do |claim|
+          create(:advocate_interim_claim, :without_fees, :submitted, offence: offence).tap do |claim|
             create(:warrant_fee, fee_type: warr, claim: claim)
           end
         end

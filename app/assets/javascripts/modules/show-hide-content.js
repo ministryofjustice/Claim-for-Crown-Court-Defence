@@ -16,7 +16,7 @@
 
     // Escape name attribute for use in DOM selector
     function escapeElementName (str) {
-      var result = str.replace('[', '\\[').replace(']', '\\]')
+      var result = str.replace(/\[/g, '\\[').replace(/\]/g, '\\]')
       return result
     }
 

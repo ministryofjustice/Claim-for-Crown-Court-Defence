@@ -110,9 +110,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
     end
 
     context 'defendants' do
-      subject(:response) do
-        do_request(claim_uuid: @claim.uuid, api_key: @case_worker.user.api_key).body
-      end
+      subject(:response) { do_request.body }
 
       before do
         travel_to 2.day.from_now do
@@ -214,10 +212,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
         context 'pages of prosecution evidence' do
-          subject(:response) do
-            do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-          end
-
           before do
             create(:basic_fee, :ppe_fee, claim: claim, quantity: 1024)
           end
@@ -236,10 +230,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
         context 'number of cases uplifts' do
-          subject(:response) do
-            do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-          end
-
           before do
             create(:basic_fee, :noc_fee, claim: claim, quantity: 2, case_numbers: 'T20170001,T20170002')
           end
@@ -258,10 +248,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
        context 'case numbers' do
-          subject(:response) do
-            do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-          end
-
           before do
             create(:basic_fee, :noc_fee, claim: claim, quantity: 2, case_numbers: 'T20172765, T20172766')
           end
@@ -280,10 +266,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
         context 'number_of_defendants' do
-          subject(:response) do
-            do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-          end
-
           let(:bandr) { create(:basic_fee_type, :ndr) }
 
           before do
@@ -309,10 +291,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
         context 'number of prosecution witnesses' do
-          subject(:response) do
-            do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-          end
-
           before do
             create(:basic_fee, :npw_fee, claim: claim, quantity: 3)
           end
@@ -331,10 +309,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
         context 'daily attendances' do
-          subject(:response) do
-            do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-          end
-
           before do
             # NOTE: you must be claiming at least on basic fee for an advocate fee to be submitted
             claim.basic_fees.find_by(fee_type_id: Fee::BasicFeeType.find_by(unique_code: 'BABAF')).update(quantity: 1)
@@ -409,10 +383,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       end
 
       context 'fixed fees' do
-        subject(:response) do
-          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-        end
-
         let(:fxcbr) { create(:fixed_fee_type, :fxcbr) }
         let(:fxcbu) { create(:fixed_fee_type, :fxcbu) }
         let(:fxndr) { create(:fixed_fee_type, :fxndr) }
@@ -521,10 +491,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       end
 
       context 'miscellaneous fees' do
-        subject(:response) do
-          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-        end
-
         before do
           create(:misc_fee, claim: claim)
           allow_any_instance_of(Fee::MiscFeeType).to receive(:unique_code).and_return 'MIAPH'
@@ -592,10 +558,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       end
 
       context 'warrant fees' do
-        subject(:response) do
-          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-        end
-
         let(:warr) { create(:warrant_fee_type, :warr) }
         let(:offence) { create(:offence, :with_fee_scheme_ten) }
         let(:claim) do
@@ -617,10 +579,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       end
 
       context 'expenses' do
-        subject(:response) do
-          do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body
-        end
-
         context 'when an expense is claimed' do
           before { create(:expense, :car_travel, claim: claim) }
 

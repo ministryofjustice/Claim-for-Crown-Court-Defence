@@ -54,6 +54,14 @@ FactoryBot.define do
       name 'Contempt'
     end
 
+    trait :guilty_plea do
+      name 'Guilty plea'
+      allow_pcmh_fee_type true
+      requires_retrial_dates false
+      roles %w[agfs lgfs]
+      fee_type_code 'GRGLT'
+    end
+
     trait :trial do
       name 'Trial'
       fee_type_code 'GRTRL'

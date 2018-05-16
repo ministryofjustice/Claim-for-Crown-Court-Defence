@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :advocate_interim_claim, class: Claim::AdvocateInterimClaim do
-
     advocate_base_setup
+    case_type nil
 
     trait :submitted do
       after(:create) { |c| c.submit! }

@@ -94,17 +94,69 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       end
     end
 
-    context 'claim' do
+    context 'advocate claim' do
       subject(:response) { do_request.body }
 
       it { is_expected.to expose :uuid }
       it { is_expected.to expose :supplier_number }
       it { is_expected.to expose :case_number }
+      it { is_expected.to expose :first_day_of_trial }
+      it { is_expected.to expose :trial_fixed_notice_at }
+      it { is_expected.to expose :trial_fixed_at }
+      it { is_expected.to expose :trial_cracked_at }
+      it { is_expected.to expose :retrial_started_at }
+      it { is_expected.to expose :trial_cracked_at_third }
       it { is_expected.to expose :last_submitted_at }
+
       it { is_expected.to expose :advocate_category }
+      it { is_expected.to expose :case_type }
       it { is_expected.to expose :court }
       it { is_expected.to expose :offence }
       it { is_expected.to expose :defendants }
+      it { is_expected.to expose :retrial_reduction }
+
+      it { is_expected.to expose :actual_trial_Length }
+      it { is_expected.to expose :estimated_trial_length }
+      it { is_expected.to expose :retrial_actual_length }
+      it { is_expected.to expose :retrial_estimated_length }
+
+      it { is_expected.to expose :additional_information }
+      it { is_expected.to expose :bills }
+    end
+
+    context 'advocate interim claim' do
+      subject(:response) { do_request(claim_uuid: claim.uuid).body }
+      let(:warr) { create(:warrant_fee_type, :warr) }
+      let(:offence) { create(:offence, :with_fee_scheme_ten) }
+      let(:claim) do
+        create(:advocate_interim_claim, :without_fees, :submitted, offence: offence).tap do |claim|
+          create(:warrant_fee, fee_type: warr, claim: claim)
+        end
+      end
+
+      it { is_expected.to expose :uuid }
+      it { is_expected.to expose :supplier_number }
+      it { is_expected.to expose :case_number }
+      it { is_expected.to expose :first_day_of_trial }
+      it { is_expected.to expose :trial_fixed_notice_at }
+      it { is_expected.to expose :trial_fixed_at }
+      it { is_expected.to expose :trial_cracked_at }
+      it { is_expected.to expose :retrial_started_at }
+      it { is_expected.to expose :trial_cracked_at_third }
+      it { is_expected.to expose :last_submitted_at }
+
+      it { is_expected.to expose :advocate_category }
+      it { is_expected.to expose :case_type }
+      it { is_expected.to expose :court }
+      it { is_expected.to expose :offence }
+      it { is_expected.to expose :defendants }
+      it { is_expected.to expose :retrial_reduction }
+
+      it { is_expected.to expose :actual_trial_Length }
+      it { is_expected.to expose :estimated_trial_length }
+      it { is_expected.to expose :retrial_actual_length }
+      it { is_expected.to expose :retrial_estimated_length }
+
       it { is_expected.to expose :additional_information }
       it { is_expected.to expose :bills }
     end

@@ -137,12 +137,12 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       it { is_expected.to expose :uuid }
       it { is_expected.to expose :supplier_number }
       it { is_expected.to expose :case_number }
-      it { is_expected.to expose :first_day_of_trial }
-      it { is_expected.to expose :trial_fixed_notice_at }
-      it { is_expected.to expose :trial_fixed_at }
-      it { is_expected.to expose :trial_cracked_at }
-      it { is_expected.to expose :retrial_started_at }
-      it { is_expected.to expose :trial_cracked_at_third }
+      it { is_expected.not_to expose :first_day_of_trial }
+      it { is_expected.not_to expose :trial_fixed_notice_at }
+      it { is_expected.not_to expose :trial_fixed_at }
+      it { is_expected.not_to expose :trial_cracked_at }
+      it { is_expected.not_to expose :retrial_started_at }
+      it { is_expected.not_to expose :trial_cracked_at_third }
       it { is_expected.to expose :last_submitted_at }
 
       it { is_expected.to expose :advocate_category }
@@ -150,7 +150,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       it { is_expected.to expose :court }
       it { is_expected.to expose :offence }
       it { is_expected.to expose :defendants }
-      it { is_expected.to expose :retrial_reduction }
+      it { is_expected.not_to expose :retrial_reduction }
 
       it { is_expected.to expose :actual_trial_Length }
       it { is_expected.to expose :estimated_trial_length }
@@ -616,6 +616,13 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           create(:advocate_interim_claim, :without_fees, :submitted, offence: offence).tap do |claim|
             create(:warrant_fee, fee_type: warr, claim: claim)
           end
+        end
+
+        before do
+          # TODO: to be removed as and when case type nil on advocate interim claim issue
+          # is resolved. see case type dummying in advocate interim
+          # claim entity which defaults to using guilty plea if case type is nil
+          create(:case_type, :guilty_plea)
         end
 
         it { is_expected.to be_valid_ccr_claim_json }

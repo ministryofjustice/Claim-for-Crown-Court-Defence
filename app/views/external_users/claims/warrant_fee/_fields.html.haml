@@ -7,7 +7,7 @@
       %fieldset
         %legend.visuallyhidden
           = t('.warrant_fee')
-        .form-date.warrant-fee-issued-date-group
+        .warrant-fee-issued-date-group
           = wf.gov_uk_date_field :warrant_issued_date,
                                   legend_text: t('.date_issued'),
                                   legend_class: 'form-label-bold',
@@ -16,7 +16,7 @@
 
     - if f.object.warrant_fee.requires_executed_date?
       .form-group
-        .form-date.warrant-fee-executed-date-group
+        .warrant-fee-executed-date-group
           = wf.gov_uk_date_field :warrant_executed_date,
                                   legend_text: t('.date_executed'),
                                   legend_class: 'govuk-legend',

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Fee::BaseFeeValidator, type: :validator do
-  let(:claim)   { build :advocate_claim }
+  let(:claim)   { build :advocate_claim, :with_fixed_fee_case }
   let(:fee)     { build :fixed_fee, claim: claim }
   let(:baf_fee) { build :basic_fee, :baf_fee, claim: claim }
   let(:daf_fee) { build :basic_fee, :daf_fee, claim: claim }
@@ -149,18 +149,6 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         end
       end
     end
-
-    # TODO: max_amount not used in later PR - remove?
-    # context 'fee with max amount' do
-    #   before(:each)       { fee.fee_type.max_amount = 9999 }
-    #   it { should_be_valid_if_equal_to_value(fee, :amount, 9999) }
-    # end
-
-    # context 'fee with no max amount' do
-    #   before(:each)       { fee.fee_type.max_amount = nil }
-    #   it { should_be_valid_if_equal_to_value(fee, :amount, 100_000) }
-    # end
-
   end
 
   describe '#validate_quantity' do
@@ -191,6 +179,8 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     end
 
     context 'Basic fee types' do
+      let(:claim) { build :advocate_claim, :with_graduated_fee_case }
+
       context 'basic fee (BAF)' do
         context 'when rate present' do
           it 'should be valid with quantity of one' do
@@ -467,5 +457,4 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
     end
   end
-
 end

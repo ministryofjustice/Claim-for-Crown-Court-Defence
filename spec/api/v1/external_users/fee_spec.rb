@@ -174,6 +174,7 @@ describe API::V1::ExternalUsers::Fee do
       end
 
       context 'fixed fees of type case uplift' do
+        let!(:claim) { create(:advocate_claim, :with_fixed_fee_case, source: 'api') }
         let!(:fixed_fee_noc_type) { create(:fixed_fee_type, :fxnoc) }
         let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: fixed_fee_noc_type.id, quantity: 1, rate: 201.01, case_numbers: 'T20170001' } }
 

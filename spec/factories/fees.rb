@@ -22,12 +22,13 @@
 FactoryBot.define do
 
   factory :fixed_fee, class: Fee::FixedFee do
-    claim
+    claim { build(:advocate_claim, :with_fixed_fee_case) }
     fee_type { build :fixed_fee_type }
     quantity 1
     rate 25
 
     trait :lgfs do
+      claim { build(:litigator_claim, :with_fixed_fee_case) }
       fee_type { build :fixed_fee_type, :lgfs }
       quantity 0
       rate 0

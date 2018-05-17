@@ -219,6 +219,10 @@ module Claim
       self.class.agfs?
     end
 
+    def final?
+      true
+    end
+
     def eligible_advocate_categories
       Claims::FetchEligibleAdvocateCategories.for(self)
     end

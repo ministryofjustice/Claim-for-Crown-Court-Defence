@@ -1,5 +1,8 @@
-
 include WaitForAjax
+
+Given(/^AGFS reform commenced on "([^"]*)"$/) do |agfs_reform_start_date|
+  allow(Settings).to receive(:agfs_fee_reform_release_date).and_return Date.parse(agfs_reform_start_date)
+end
 
 Given(/^I am on the new claim page$/) do
   @claim_form_page.load
@@ -47,13 +50,14 @@ When(/I enter trial start and end dates$/) do
   end
 end
 
-When(/^I enter defendant, representation order and MAAT reference$/) do
+When(/^I enter (.*?)defendant, representation order and MAAT reference$/) do |scheme_text|
+    date = scheme_text.match?('scheme 10') ? Settings.agfs_fee_reform_release_date.strftime : "2016-01-01"
     using_wait_time(6) do
       @claim_form_page.wait_for_defendants
       @claim_form_page.defendants.first.first_name.set "Bob"
       @claim_form_page.defendants.first.last_name.set "Billiards"
       @claim_form_page.defendants.first.dob.set_date "1955-01-01"
-      @claim_form_page.defendants.last.representation_orders.first.date.set_date "2016-01-01"
+      @claim_form_page.defendants.last.representation_orders.first.date.set_date date
       @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
     end
 end
@@ -76,6 +80,15 @@ When(/^I add another defendant, representation order and MAAT reference$/) do
     @claim_form_page.defendants.last.representation_orders.first.date.set_date "2016-01-01"
     @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
   end
+end
+
+When(/^I search for the scheme 10 offence '(.*?)'$/) do |search_text|
+  @claim_form_page.offence_search.set search_text
+end
+
+Then(/^I select the first search result$/) do
+  sleep Capybara.default_max_wait_time
+  @claim_form_page.offence_results.first.select_button(visible: false).trigger('click')
 end
 
 When(/^I add a basic fee with dates attended$/) do

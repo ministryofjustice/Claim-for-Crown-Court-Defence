@@ -7,6 +7,7 @@ require_relative 'sections/fee_dates_section'
 require_relative 'sections/fee_section'
 require_relative 'sections/typed_fee_section'
 require_relative 'sections/expense_section'
+require_relative 'sections/offence_result_section'
 
 class ClaimFormPage < SitePrism::Page
   include DropzoneHelper
@@ -43,6 +44,9 @@ class ClaimFormPage < SitePrism::Page
   end
 
   element :add_another_defendant, ".defendants-actions a.add_fields"
+
+  element :offence_search, "input[name='offence-search-input']"
+  sections :offence_results, OffenceResultSection, '#offence-list div.fx-result-item'
 
   element :continue_button, 'div.button-holder > input.button.left'
 

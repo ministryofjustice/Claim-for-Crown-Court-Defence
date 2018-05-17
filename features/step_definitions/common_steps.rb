@@ -15,7 +15,7 @@ When(/^I start a claim/) do
 end
 
 And(/^I select the fee scheme '(.*)'$/) do |fee_scheme|
-  method_name = fee_scheme.downcase.gsub(' ', '_').to_sym
+  method_name = fee_scheme.downcase.gsub(' ', '_').gsub('warrant','interim').to_sym
   @fee_scheme_selector.send(method_name).click
   @fee_scheme_selector.continue.click
 end

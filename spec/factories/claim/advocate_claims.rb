@@ -8,7 +8,18 @@ include ClaimFactoryHelpers
 FactoryBot.define do
   factory :claim, aliases: [:advocate_claim], class: Claim::AdvocateClaim do
 
+    # NOTE: this was introduced because it was the only way to get FactoryBot to set
+    # model attributes on initialize (which seems not to be the default behaviour) and
+    # was causing the factory not to assign the appropriate attributes/associations on
+    # initialize which makes after_initialize logic not to behave as expected since the
+    # expected values are not yet set.
+    # More details can be found here:
+    # https://stackoverflow.com/questions/5916162/problem-with-factory-girl-association-and-after-initialize
+    initialize_with { new(attributes) }
+
     advocate_base_setup
+
+    after(:build) { |claim| post_build_actions_for_draft_final_claim(claim) }
 
     trait :admin_creator do
       after(:build) { |claim| make_claim_creator_advocate_admin(claim) }

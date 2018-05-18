@@ -1,18 +1,6 @@
 FactoryBot.define do
 
   trait :advocate_base_setup do
-    # NOTE: this was introduced because it was the only way to get FactoryBot to set
-    # model attributes on initialize (which seems not to be the default behaviour) and
-    # was causing the factory not to assign the appropriate attributes/associations on
-    # initialize which makes after_initialize logic not to behave as expected since the
-    # expected values are not yet set.
-    # More details can be found here:
-    # https://stackoverflow.com/questions/5916162/problem-with-factory-girl-association-and-after-initialize
-    initialize_with { new(attributes) }
-    transient do
-      create_defendant_and_rep_order true
-    end
-
     form_id SecureRandom.uuid
     court
     case_number { random_case_number }
@@ -25,8 +13,13 @@ FactoryBot.define do
     advocate_category 'QC'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
 
-    after(:build) { |claim| post_build_actions_for_draft_claim(claim) }
-    after(:create) { |claim, evaluator| add_defendant_and_reporder(claim) if evaluator.create_defendant_and_rep_order }
+    transient do
+      create_defendant_and_rep_order true
+    end
+
+    after(:create) do |claim, evaluator|
+      add_defendant_and_reporder(claim) if evaluator.create_defendant_and_rep_order
+    end
   end
 
   trait :litigator_base_setup do

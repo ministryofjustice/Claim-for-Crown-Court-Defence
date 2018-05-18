@@ -3,6 +3,10 @@ FactoryBot.define do
     advocate_base_setup
     case_type nil
 
+    after(:build) do |claim|
+      claim.creator = claim.external_user
+    end
+
     trait :submitted do
       after(:create) { |c| c.submit! }
     end

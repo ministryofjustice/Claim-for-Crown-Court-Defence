@@ -45,7 +45,7 @@ module ClaimFactoryHelpers
     claim.creator = advocate_admin
   end
 
-  def post_build_actions_for_draft_claim(claim)
+  def post_build_actions_for_draft_final_claim(claim)
     certify_claim(claim)
     add_fee(:misc_fee, claim)
     set_creator(claim)

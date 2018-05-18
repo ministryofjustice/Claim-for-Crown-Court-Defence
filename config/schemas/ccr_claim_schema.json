@@ -110,6 +110,10 @@
             "id": "/properties/bills/items/properties/amount",
             "type": "string"
           },
+          "warrant_issued_date": {
+            "id": "/properties/bills/items/properties/warrant_issued_date",
+            "type": ["string", "null"]
+          },
           "dates_attended": {
             "id": "/properties/bills/items/properties/dates_attended",
             "items": {

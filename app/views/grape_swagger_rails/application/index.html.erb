@@ -47,7 +47,7 @@
 
   <meta content='telephone=no' name='format-detection'>
 
-  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= stylesheet_link_tag 'v1/application', media: 'all' %>
 
   <script type="text/javascript">
     $(function () {
@@ -150,21 +150,6 @@
   <%= csrf_meta_tags %>
 
   <div id="page">
-    <div class='phase-banner'>
-      <p>
-        <strong class='phase-tag'>
-          BETA
-        </strong>
-        <span>
-        This is a new service – your
-        <a target="_blank" href="/feedback/new"><span class="visuallyhidden">Give your </span>feedback</a>
-        will help us to improve it.
-        You can
-        <a target="_blank" href="/feedback/new?type=bug_report">report a fault here.</a>
-      </span>
-      </p>
-    </div>
-
     <div id="content">
       <main class="main-content">
         <div id="message-bar" class="swagger-ui-wrap">

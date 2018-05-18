@@ -3,7 +3,7 @@ module API
     module CCR
       class AdaptedWarrantFee < AdaptedBaseFee
         unexpose :case_numbers
-        expose :warrant_issued_date, :warrant_executed_date, format_with: :utc
+        expose :warrant_issued_date, format_with: :utc
         expose :amount, format_with: :string
 
         private

@@ -261,6 +261,7 @@ en:
     delete: Delete
     view: View
     warrant_fees: Warrant fees
+    interim_claim_info: Warrant fees
     interim_fees: "Interim fees"
     transfer_fees: Transfer fees
     search:
@@ -870,7 +871,7 @@ en:
         submitted: Submitted to LAA
         show_count: 'Showing %{page_count} of %{total} claims'
       interim_claim_info:
-        fields:
+        fields: &interim_claim_info_fields
           warrant_fee: Warrant fees
           warrant_fee_paid: 'Have you previously been paid for an interim warrant fee?'
           date_issued: Warrant issued date
@@ -1022,6 +1023,9 @@ en:
       reporders: Representation orders
       submit_date: Claim submitted
       trial_concluded: Trial concluded
+    claims:
+      interim_claim_info:
+        fields: *interim_claim_info_fields
     errors:
       error: 'error'
       form_error_hint: 'Check below for more detail'
@@ -1320,6 +1324,8 @@ en:
         none: None
       hint:
         search: for example case number, MAAT reference, defendant name, case worker name or email
+      interim_claim_info:
+        fields: *interim_claim_info_fields
   devise:
     shared:
       links:

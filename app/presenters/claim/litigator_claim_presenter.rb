@@ -52,4 +52,8 @@ class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
   def mandatory_case_details?
     claim.court && claim.case_number && claim.supplier_number
   end
+
+  def requires_interim_claim_info?
+    true
+  end
 end

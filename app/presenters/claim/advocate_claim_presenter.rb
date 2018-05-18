@@ -50,4 +50,8 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
   def mandatory_case_details?
     claim.case_type && claim.court && claim.case_number && claim.external_user
   end
+
+  def requires_interim_claim_info?
+    claim.fee_scheme == 'fee_reform'
+  end
 end

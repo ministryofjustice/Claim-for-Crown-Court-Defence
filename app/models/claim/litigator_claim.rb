@@ -83,11 +83,16 @@ module Claim
             dependent: :destroy,
             inverse_of: :claim,
             validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :graduated_fees }
-    has_one :interim_claim_info, dependent: :destroy, foreign_key: :claim_id
+    has_one :interim_claim_info,
+            foreign_key: :claim_id,
+            dependent: :destroy,
+            inverse_of: :claim,
+            validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :miscellaneous_fees }
 
     accepts_nested_attributes_for :fixed_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :graduated_fee, reject_if: :all_blank, allow_destroy: false
+    accepts_nested_attributes_for :interim_claim_info, reject_if: :all_blank, allow_destroy: false
 
     before_validation do
       assign_total_attrs

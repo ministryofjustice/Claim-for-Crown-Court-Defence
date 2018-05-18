@@ -1087,7 +1087,7 @@ fixed_fee:
 #                                                                               #
 #################################################################################
 
-warrant_fee:
+warrant_fee: &warrant_fee_errors
   _seq: 650
 
   base:
@@ -1175,6 +1175,8 @@ warrant_fee:
       long: Enter a valid amount for the warrant
       short: *enter_valid_amount
       api: Enter a valid amount for the warrant
+
+interim_claim_info: *warrant_fee_errors
 
 #################################################################################
 #                                                                               #

@@ -401,6 +401,11 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         date_attributes_for(:date),
         :_destroy,
         common_dates_attended_attributes
+      ],
+      interim_claim_info_attributes: [
+        :warrant_fee_paid,
+        date_attributes_for(:warrant_issued_date),
+        date_attributes_for(:warrant_executed_date)
       ]
     )
   end

@@ -869,6 +869,12 @@ en:
         rejected: Rejected
         submitted: Submitted to LAA
         show_count: 'Showing %{page_count} of %{total} claims'
+      interim_claim_info:
+        fields:
+          warrant_fee: Warrant fees
+          warrant_fee_paid: 'Have you previously been paid for an interim warrant fee?'
+          date_issued: Warrant issued date
+          date_executed: Warrant executed date
       json_document_importer:
         import_claim: Or upload your claims in JSON format
       outstanding:

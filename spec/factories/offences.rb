@@ -21,16 +21,16 @@ FactoryBot.define do
     end
 
     trait :with_fee_scheme do
-      after(:create) do |offence|
-        offence.fee_schemes << (FeeScheme.agfs.first || create(:fee_scheme, :agfs_nine))
+      after(:build) do |offence|
+        offence.fee_schemes << (FeeScheme.agfs.first || build(:fee_scheme, :agfs_nine))
       end
     end
 
     trait :with_fee_scheme_ten do
       offence_class nil
       offence_band
-      after(:create) do |offence|
-        offence.fee_schemes << (FeeScheme.agfs.where(version: 10).first || create(:fee_scheme))
+      after(:build) do |offence|
+        offence.fee_schemes << (FeeScheme.agfs.where(version: 10).first || build(:fee_scheme))
       end
     end
   end

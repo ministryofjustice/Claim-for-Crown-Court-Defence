@@ -179,8 +179,8 @@ module Claim
       # TODO: this should return a list based on the current given fee scheme
       # rather than conditionally return scheme 10 specifically
       # TBD once all the fee scheme work is integrated
-      return Fee::BasicFeeType.all if from_api? || from_json_import?
-      return Fee::BasicFeeType.unscoped.agfs_scheme_10s.order(:position) if fee_scheme.eql?('fee_reform')
+      return Fee::BasicFeeType.all if from_json_import?
+      return Fee::BasicFeeType.unscoped.agfs_scheme_10s.order(:position) if scheme_10?
       Fee::BasicFeeType.agfs_scheme_9s
     end
 
@@ -190,6 +190,10 @@ module Claim
       # TBD once all the fee scheme work is integrated
       return Fee::MiscFeeType.agfs_scheme_10s if fee_scheme == 'fee_reform'
       Fee::MiscFeeType.agfs_scheme_9s
+    end
+
+    def scheme_10?
+      fee_scheme.eql?('fee_reform') || offence&.scheme_ten?
     end
 
     def eligible_fixed_fee_types

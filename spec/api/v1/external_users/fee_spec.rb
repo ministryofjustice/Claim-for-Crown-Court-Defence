@@ -129,6 +129,11 @@ describe API::V1::ExternalUsers::Fee do
 
         context 'agfs scheme 10' do
           let!(:claim) { create(:claim, :agfs_scheme_10, source: 'api', actual_trial_length: 5).reload }
+          before do
+            # Replicate the creation of this by the API submission of the claim
+            create(:basic_fee, fee_type: basic_fee_dat_type, claim: claim, quantity: 0, rate: 0.0, case_numbers: '')
+          end
+
           let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_dat_type.id, quantity: 2, rate: 600.00 } }
 
           it 'should return 200 and fee JSON output including UUID' do

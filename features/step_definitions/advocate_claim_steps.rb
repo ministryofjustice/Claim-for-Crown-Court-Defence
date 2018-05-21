@@ -127,6 +127,14 @@ When(/^I add a miscellaneous fee '(.*?)' with dates attended$/) do |name|
   @claim_form_page.miscellaneous_fees.last.dates.from.set_date "2016-01-02"
 end
 
+Then(/^I check the section heading$/) do
+
+end
+
+Then(/^I check the section heading to be "([^"]*)"$/) do |num|
+  expect(@claim_form_page.miscellaneous_fees.last.numbered.text).to have_content(num)
+end
+
 When(/^I add a fixed fee '(.*?)'$/) do |name|
   @claim_form_page.add_fixed_fee_if_required
   @claim_form_page.fixed_fees.last.select_fee_type name

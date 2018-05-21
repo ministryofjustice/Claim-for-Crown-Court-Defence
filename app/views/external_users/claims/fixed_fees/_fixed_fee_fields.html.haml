@@ -1,7 +1,8 @@
 -fee = present(f.object)
-.form-section.fixed-fee-group.nested-fields.fx-fee-group.js-block{data:{type:"fixedFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
+.form-section.fixed-fee-group.nested-fields.fx-fee-group.fx-numberedList-item.js-block{data:{type:"fixedFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
   %h2.bold-medium
     = t('.fixed_fee')
+    %span.fx-numberedList-number
     = link_to_remove_association t('.remove'), f, { wrapper_class: 'fixed-fee-group', class: "header-action" }
 
   .form-group

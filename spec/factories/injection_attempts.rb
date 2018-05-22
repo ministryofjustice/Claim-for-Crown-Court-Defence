@@ -17,6 +17,11 @@ FactoryBot.define do
     succeeded true
     error_messages nil
 
+    trait :with_success do
+      succeeded true
+      error_messages nil
+    end
+
     trait :with_errors do
       succeeded false
       error_messages "{\"errors\":[ {\"error\":\"injection error 1\"},{\"error\":\"injection error 2\"}]}"

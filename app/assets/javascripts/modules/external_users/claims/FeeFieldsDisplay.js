@@ -24,14 +24,13 @@ moj.Modules.FeeFieldsDisplay = {
 
     if (caseNumbersInput.exists()) {
       var showCaseNumbers = currentElement.find('option:selected').data('case-numbers');
+      var caseNumbersWrapper = caseNumbersInput.closest('.case_numbers_wrapper');
 
       if (showCaseNumbers) {
-        caseNumbersInput.prop('readonly', false);
-        caseNumbersInput.prop('tabindex', 0);
+        caseNumbersWrapper.show();
       } else {
         caseNumbersInput.val('');
-        caseNumbersInput.prop('readonly', true);
-        caseNumbersInput.prop('tabindex', -1);
+        caseNumbersWrapper.hide();
       }
     }
   }

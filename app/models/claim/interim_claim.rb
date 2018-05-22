@@ -169,17 +169,22 @@ module Claim
       return if from_api?
       assign_fees_total(%i[interim_fee]) if interim_fee_changed?
       assign_expenses_total if expenses_changed?
+      assign_disbursements_total if disbursements_changed?
       return unless total_changes_required?
       assign_total
       assign_vat
     end
 
     def total_changes_required?
-      interim_fee_changed? || expenses_changed?
+      interim_fee_changed? || expenses_changed? || disbursements_changed?
     end
 
     def interim_fee_changed?
       interim_fee&.changed?
+    end
+
+    def disbursements_changed?
+      disbursements.any?(&:changed?)
     end
   end
 end

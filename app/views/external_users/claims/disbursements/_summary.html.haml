@@ -1,12 +1,13 @@
+- step = local_assigns[:step] ? local_assigns[:step] : :disbursements
 .form-section
   %h3.heading-medium
     = t('external_users.claims.disbursements.summary.header')
     - if local_assigns[:editable]
-      = link_to 'Change', edit_polymorphic_path(claim, step: :disbursements, referrer: :summary), class: 'link-change'
+      = link_to 'Change', edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change'
 
   - if claim.disbursements.empty?
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
-      = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :disbursements }
+      = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: step }
     - else
       %p
         = t('shared.summary.no_values.disbursements')

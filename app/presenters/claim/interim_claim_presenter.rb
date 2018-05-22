@@ -9,6 +9,7 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
     defendants: :defendants,
     offence_details: :offence_details,
     interim_fee: :interim_fees,
+    disbursements: :interim_fees,
     expenses: :travel_expenses,
     supporting_evidence: :supporting_evidence,
     additional_information: :supporting_evidence

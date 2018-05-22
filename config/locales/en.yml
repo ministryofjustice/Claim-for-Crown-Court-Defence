@@ -781,7 +781,7 @@ en:
         remove: *remove
       fixed_fees:
         fields:
-          add_fixed_fee: 'Add another fixed fee'
+          add_fixed_fee: 'Add another fee'
           amount: 'Amount'
           fixed_fees: 'Fixed fees'
           page_header: 'Fixed fees'
@@ -797,7 +797,7 @@ en:
           case_numbers: *case_numbers
           no_dates: 'No dates currently selected.'
           fee_type: 'Type of fee'
-          add_date_attended: 'Add another date'
+          add_date_attended: 'Add dates'
           remove: 'Remove'
           net_amount: 'Net amount'
         litigators:
@@ -833,13 +833,19 @@ en:
         litigators:
           fields:
             misc_fees: "Miscellaneous fees"
-            add_misc_fee: "Add another miscellaneous fee"
+            add_misc_fee: "Add another fee"
+            page_hint: *fees_vat_prompt
+            page_intro_html: |
+              If needed, please complete
+              <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a>
+              and attach to the claim.
           misc_fee_fields:
-            miscellaneous_fee: 'Miscellaneous Fee'
+            misc_fee: 'Miscellaneous fee'
             fee_type: "Fee type"
             case_numbers: *case_numbers
-            amount: "Total"
-            remove: "Remove miscellaneous fee"
+            net_amount: "Net amount"
+            remove: "Remove"
+
         summary:
           header: Miscellaneous fees
       financial_summary:

@@ -44,12 +44,6 @@
       %td
         = t('external_users.claims.graduated_fees.summary.actual_trial_length', count: fee.claim.actual_trial_length)
 
-- if fee.claim.agfs?
-  %tr
-    %th{ scope: 'row', class: 'bold' }
-      = t('shared.summary.rate')
-    %td
-      = fee.rate
 %tr
   %th{ scope: 'row', class: 'bold' }
     = t('shared.summary.amount')

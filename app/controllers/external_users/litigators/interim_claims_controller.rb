@@ -7,7 +7,6 @@ class ExternalUsers::Litigators::InterimClaimsController < ExternalUsers::Claims
 
   def build_nested_resources
     @claim.build_interim_fee if @claim.interim_fee.nil?
-    @claim.build_warrant_fee if @claim.warrant_fee.nil?
 
     %i[disbursements expenses].each do |association|
       build_nested_resource(@claim, association)

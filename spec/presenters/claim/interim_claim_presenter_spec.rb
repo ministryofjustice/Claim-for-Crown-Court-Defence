@@ -59,30 +59,6 @@ RSpec.describe Claim::InterimClaimPresenter, type: :presenter do
     end
   end
 
-  describe '#raw_warrant_fees_total' do
-    context 'when the warrant fee is nil' do
-      let(:claim) { build(:interim_claim, warrant_fee: nil) }
-
-      specify { expect(presenter.raw_warrant_fees_total).to eq(0) }
-    end
-
-    context 'when the warrant fee is set' do
-      let(:claim) { build(:interim_claim, warrant_fee: warrant_fee) }
-
-      context 'but amount is not set' do
-        let(:warrant_fee) { build(:warrant_fee, amount: nil) }
-
-        specify { expect(presenter.raw_warrant_fees_total).to eq(0) }
-      end
-
-      context 'and amount is set' do
-        let(:warrant_fee) { build(:warrant_fee, amount: 42.5) }
-
-        specify { expect(presenter.raw_warrant_fees_total).to eq(42.5) }
-      end
-    end
-  end
-
   describe '#summary_sections' do
     specify {
       expect(presenter.summary_sections).to eq({

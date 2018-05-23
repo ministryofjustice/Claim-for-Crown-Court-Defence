@@ -3,7 +3,7 @@
 = content_for :v2_stylesheets do
 	= stylesheet_link_tag "v2/application", media: "all"
 
-= render partial: 'external_users/claims/fees_shared_header', locals: {page_header: t('page_header', scope: locale_scope), page_hint: t('page_hint', scope: locale_scope)}
+= render partial: 'external_users/claims/fees_shared_header', locals: {page_header: t('page_header', scope: locale_scope), page_hint: t('page_intro_html', scope: locale_scope)}
 
 = render partial: 'external_users/advocates/claims/advocate_category', locals: { f: f }
 

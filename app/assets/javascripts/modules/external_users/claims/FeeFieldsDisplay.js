@@ -1,6 +1,5 @@
 moj.Modules.FeeFieldsDisplay = {
   init: function() {
-    var self = this;
     this.addFeeChangeEvent($('.fx-fee-group'));
   },
   addFeeChangeEvent: function(el) {
@@ -18,21 +17,19 @@ moj.Modules.FeeFieldsDisplay = {
     });
   },
   showHideFeeFields: function(el) {
-    var self = this;
     var currentElement = $(el);
     var caseNumbersInput = currentElement.find('input.fx-fee-case-numbers');
 
     if (caseNumbersInput.exists()) {
       var showCaseNumbers = currentElement.find('option:selected').data('case-numbers');
+      var caseNumbersWrapper = caseNumbersInput.closest('.case_numbers_wrapper');
 
       if (showCaseNumbers) {
-        caseNumbersInput.prop('readonly', false);
-        caseNumbersInput.prop('tabindex', 0);
+        caseNumbersWrapper.show();
       } else {
         caseNumbersInput.val('');
-        caseNumbersInput.prop('readonly', true);
-        caseNumbersInput.prop('tabindex', -1);
+        caseNumbersWrapper.hide();
       }
     }
   }
-}
+};

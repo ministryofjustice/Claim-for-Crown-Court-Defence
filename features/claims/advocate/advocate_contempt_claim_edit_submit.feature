@@ -22,7 +22,9 @@ Feature: Advocate submits a claim for a Contempt case
 
     And I select an advocate category of 'Junior alone'
     And I add a fixed fee 'Contempt'
+    Then the last fixed fee case numbers section should not be visible
     And I add a fixed fee 'Number of cases uplift' with case numbers
+    Then the last fixed fee case numbers section should be visible
 
     Then I click "Continue" in the claim form
 

@@ -1,6 +1,5 @@
 moj.Modules.FeeFieldsDisplay = {
   init: function() {
-    var self = this;
     this.addFeeChangeEvent($('.fx-fee-group'));
   },
   addFeeChangeEvent: function(el) {
@@ -18,7 +17,6 @@ moj.Modules.FeeFieldsDisplay = {
     });
   },
   showHideFeeFields: function(el) {
-    var self = this;
     var currentElement = $(el);
     var caseNumbersInput = currentElement.find('input.fx-fee-case-numbers');
 
@@ -34,4 +32,4 @@ moj.Modules.FeeFieldsDisplay = {
       }
     }
   }
-}
+};

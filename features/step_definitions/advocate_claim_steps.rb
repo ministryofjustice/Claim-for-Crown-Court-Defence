@@ -202,7 +202,10 @@ Then(/^I should see retrial fields$/) do
   expect(@claim_form_page.retrial_details).to be_all_there
 end
 
-Then(/^the last fixed fee case numbers field should (not )?be visible$/) do |negate|
-  visible = !negate.present?
-  expect(@claim_form_page.fixed_fees.last.case_numbers(visible: visible)).to be_present
+Then(/^the last fixed fee case numbers section should (not )?be visible$/) do |negate|
+  if negate
+    expect(@claim_form_page.fixed_fees.last).to_not have_case_numbers_section
+  else
+    expect(@claim_form_page.fixed_fees.last).to have_case_numbers_section
+  end
 end

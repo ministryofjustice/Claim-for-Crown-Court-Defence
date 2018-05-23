@@ -66,7 +66,14 @@ Given(/^submitted claims? exists? with case numbers? "(.*?)$/) do |case_numbers|
   @claims = []
 
   case_numbers.each do |case_number|
-    @claims << create(:submitted_claim, case_number: case_number)
+    # TODO: this does not create a valid submitted claim
+    # creates some sort of claim with some information that happens
+    # to be in the submitted state
+    # To go around this I'm preserving old functionality for the factory by
+    # setting the form_step.
+    # Going forward this should be properly fixed with an actual factory that is valid
+    # for a submitted claim
+    @claims << create(:submitted_claim, case_number: case_number, form_step: :case_details)
   end
 end
 

@@ -24,8 +24,7 @@ RSpec.shared_examples 'returns LGFS claim type' do |type|
   let(:case_type_grtrl) { create(:case_type, :grtrl) }
 
   it "returns #{type.to_s.humanize}s" do
-    claim = create(type, :submitted)
-    claim.update!(case_type: case_type_grtrl)
+    claim = create_claim(type, :submitted, case_type: case_type_grtrl)
     do_request(claim_uuid: claim.uuid)
     is_expected.to eq 200
   end
@@ -82,18 +81,21 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
     expect(response).to be_valid_cclf_claim_json
   end
 
+  def create_claim(*args)
+    # TODO: this should not require build + save + reload
+    # understand what the factory is doing to solve this
+    claim = build(*args)
+    claim.save
+    claim.reload
+  end
+
   after(:all) { clean_database }
 
-  before(:all) do
-    @case_worker = create(:case_worker, :admin)
-    @claim = create(:litigator_claim, :without_fees, :submitted)
-  end
+  let(:case_worker) { create(:case_worker, :admin) }
+  let(:case_type) { create(:case_type, :trial) }
+  let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type) }
 
-  before do
-    allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'GRTRL'
-  end
-
-  def do_request(claim_uuid: @claim.uuid, api_key: @case_worker.user.api_key)
+  def do_request(claim_uuid: claim.uuid, api_key: case_worker.user.api_key)
     get "/api/cclf/claims/#{claim_uuid}", {api_key: api_key}, {format: :json}
   end
 
@@ -116,7 +118,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
     end
 
     context 'when accessed by an ExternalUser' do
-      before { do_request(api_key: @claim.external_user.user.api_key )}
+      before { do_request(api_key: claim.external_user.user.api_key )}
 
       it 'returns unauthorised' do
         expect(last_response.status).to eq 401
@@ -169,12 +171,12 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
       subject(:response) { do_request.body }
 
       context 'when claim does not apply VAT' do
-        before { @claim.update(apply_vat: false) }
+        before { claim.update(apply_vat: false) }
         it { is_expected.to be_json_eql('false').at_path('apply_vat') }
       end
 
       context 'when claim does apply VAT' do
-        before { @claim.update(apply_vat: true) }
+        before { claim.update(apply_vat: true) }
         it { is_expected.to be_json_eql('true').at_path('apply_vat') }
       end
     end
@@ -192,13 +194,10 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
     end
 
     context 'defendants' do
-      subject(:response) { do_request(claim_uuid: @claim.uuid, api_key: @case_worker.user.api_key).body }
+      let(:defendants) { create_list(:defendant, 2) }
+      let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type, defendants: defendants) }
 
-      before do
-        travel_to 2.day.from_now do
-          create(:defendant, claim: @claim)
-        end
-      end
+      subject(:response) { do_request.body }
 
       it 'returns multiple defendants' do
         is_expected.to have_json_size(2).at_path('defendants')
@@ -209,26 +208,28 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
       end
 
       context 'representation orders' do
+        let(:defendants) {
+          [
+            create(:defendant, representation_orders: create_list(:representation_order, 2, representation_order_date: 5.days.ago)),
+            create(:defendant, representation_orders: [create(:representation_order, representation_order_date: 2.days.ago)])
+          ]
+        }
+
         it 'returns multiple representation orders' do
           is_expected.to have_json_size(2).at_path('defendants/0/representation_orders')
         end
 
-        # NOTE: use of factory defaults results in two rep orders for the first
-        # defendant with dates 400 and 380 days before claim created
         it 'returns earliest rep order first (per defendant)' do
-          is_expected.to be_json_eql(@claim.earliest_representation_order_date.to_json).at_path('defendants/0/representation_orders/0/representation_order_date')
+          is_expected.to be_json_eql(claim.earliest_representation_order_date.to_json).at_path('defendants/0/representation_orders/0/representation_order_date')
         end
       end
     end
 
     context 'bills' do
-      subject(:response) { do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body }
+      subject(:response) { do_request.body }
+
       let(:bills) { JSON.parse(response)['bills'] }
-
-      let(:claim) do
-        create(:litigator_claim, :submitted, :without_fees)
-      end
-
+      let(:claim) { create_claim(:litigator_claim, :submitted, :without_fees, case_type: case_type_grtrl) }
       let(:case_type_grtrl) { create(:case_type, :grtrl) }
 
       it 'returns empty array if no bills found' do
@@ -248,12 +249,8 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
         context 'litigator fee' do
           context 'when graduated fee exists' do
             let(:grtrl) { create(:graduated_fee_type, :grtrl) }
-            let(:claim) do
-              create(:litigator_claim, :without_fees, :submitted).tap do |claim|
-                claim.update!(case_type: case_type_grtrl)
-                create(:graduated_fee, fee_type: grtrl, claim: claim, quantity: 1000)
-              end
-            end
+            let(:graduated_fee) { create(:graduated_fee, fee_type: grtrl, quantity: 1000) }
+            let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type_grtrl, graduated_fee: graduated_fee) }
 
             it { is_valid_cclf_json(response) }
 
@@ -272,12 +269,8 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           context 'when fixed fee exists' do
             let(:fxcbr) { create(:fixed_fee_type, :fxcbr) }
             let(:case_type_fxcbr) { create(:case_type, :cbr) }
-            let(:claim) do
-              create(:litigator_claim, :without_fees, :submitted).tap do |claim|
-                claim.update!(case_type: case_type_fxcbr)
-                create(:fixed_fee, :lgfs, fee_type: fxcbr, claim: claim)
-              end
-            end
+            let(:fixed_fee) { create(:fixed_fee, :lgfs, fee_type: fxcbr) }
+            let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type_fxcbr, fixed_fee: fixed_fee) }
 
             it { is_valid_cclf_json(response) }
 
@@ -290,11 +283,8 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
 
           context 'when miscellaneous fees exists' do
             let(:mispf) { create(:misc_fee_type, :lgfs, :mispf) }
-            let(:claim) do
-              create(:litigator_claim, :submitted, :without_fees).tap do |claim|
-                create(:misc_fee, :lgfs, fee_type: mispf, claim: claim)
-              end
-            end
+            let(:misc_fee) { create(:misc_fee, :lgfs, fee_type: mispf) }
+            let(:claim) { create_claim(:litigator_claim, :submitted, :without_fees, misc_fees: [misc_fee]) }
 
             before do
               allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
@@ -315,12 +305,8 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           context 'when warrant fee exists' do
             let(:warr) { create(:warrant_fee_type, :warr) }
             let(:case_type_fxcbr) { create(:case_type, :cbr) }
-            let(:claim) do
-              create(:litigator_claim, :without_fees, :submitted).tap do |claim|
-                claim.update!(case_type: case_type_fxcbr)
-                create(:warrant_fee, fee_type: warr, claim: claim)
-              end
-            end
+            let(:warrant_fee) { create(:warrant_fee, fee_type: warr) }
+            let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type_fxcbr, warrant_fee: warrant_fee) }
 
             it { is_valid_cclf_json(response) }
 
@@ -336,11 +322,8 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
 
           context 'when disbursements exist' do
             let(:forensic) { create(:disbursement_type, :forensic) }
-            let(:claim) do
-              create(:litigator_claim, :submitted, :without_fees).tap do |claim|
-                create(:disbursement, disbursement_type: forensic, claim: claim)
-              end
-            end
+            let(:disbursement) { build(:disbursement, disbursement_type: forensic) }
+            let(:claim) { create_claim(:litigator_claim, :submitted, :without_fees, disbursements: [disbursement]) }
 
             before do
               allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
@@ -356,11 +339,8 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           end
 
           context 'when expenses exist' do
-            let(:claim) do
-              create(:litigator_claim, :submitted, :without_fees).tap do |claim|
-                create(:expense, :bike_travel, claim: claim, amount: 9.99, vat_amount: 1.99)
-              end
-            end
+            let(:expense) { create(:expense, :bike_travel, amount: 9.99, vat_amount: 1.99) }
+            let(:claim) { create_claim(:litigator_claim, :submitted, :without_fees, expenses: [expense]) }
 
             before do
               allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCBR'
@@ -381,7 +361,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
         let(:case_type_grrtr) { create(:case_type, :retrial) }
 
         context 'claim' do
-          let(:claim) { create(:interim_claim, :interim_trial_start_fee, :submitted) }
+          let(:claim) { create_claim(:interim_claim, :interim_trial_start_fee, :submitted) }
 
           it { is_expected.to expose :estimated_trial_length }
           it { is_expected.to expose :retrial_estimated_length }
@@ -400,15 +380,11 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
         end
 
         context 'when disbursements exist' do
-          subject(:response) { do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body }
+          subject(:response) { do_request.body }
 
           let(:forensic) { create(:disbursement_type, :forensic) }
-          let(:claim) do
-            create(:interim_claim, :disbursement_only_fee, :submitted).tap do |claim|
-              claim.disbursements.delete_all
-              create(:disbursement, disbursement_type: forensic, claim: claim)
-            end
-          end
+          let(:disbursement) { build(:disbursement, disbursement_type: forensic) }
+          let(:claim) { create_claim(:interim_claim, :disbursement_only_fee, :submitted, case_type: case_type, disbursements: [disbursement]) }
 
           it { is_valid_cclf_json(response) }
 
@@ -421,7 +397,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
         end
 
         context 'when interim warrant fee exists' do
-          let(:claim) { create(:interim_claim, :interim_warrant_fee, :submitted) }
+          let(:claim) { create(:interim_claim, :interim_warrant_fee, :submitted, case_type: case_type) }
 
           it { is_valid_cclf_json(response) }
 
@@ -466,7 +442,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
         end
 
         context 'when disbursements exist' do
-          subject(:response) { do_request(claim_uuid: claim.uuid, api_key: @case_worker.user.api_key).body }
+          subject(:response) { do_request.body }
 
           let(:forensic) { create(:disbursement_type, :forensic) }
           let(:claim) do

@@ -66,8 +66,18 @@ module Claim
   class AdvocateClaim < BaseClaim
     route_key_name 'advocates_claim'
 
-    has_many :basic_fees, foreign_key: :claim_id, class_name: 'Fee::BasicFee', dependent: :destroy, inverse_of: :claim
-    has_many :fixed_fees, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
+    has_many :basic_fees,
+             foreign_key: :claim_id,
+             class_name: 'Fee::BasicFee',
+             dependent: :destroy,
+             inverse_of: :claim,
+             validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :basic_fees }
+    has_many :fixed_fees,
+             foreign_key: :claim_id,
+             class_name: 'Fee::FixedFee',
+             dependent: :destroy,
+             inverse_of: :claim,
+             validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :fixed_fees }
 
     accepts_nested_attributes_for :basic_fees, reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :fixed_fees, reject_if: all_blank_or_zero, allow_destroy: true

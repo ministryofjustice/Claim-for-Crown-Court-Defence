@@ -241,7 +241,7 @@ RSpec.describe Claims::StateMachine, type: :model do
     end
 
     describe 'when supplier number has been invalidated' do
-      let(:claim) { create :litigator_claim, :fixed_fee, force_validation: true }
+      let(:claim) { create(:litigator_claim, :fixed_fee, force_validation: true, fixed_fee: build(:fixed_fee, :lgfs)) }
 
       before { SupplierNumber.find_by(supplier_number: claim.supplier_number).delete }
 
@@ -376,7 +376,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
   describe 'before submit state transition' do
     it 'sets the allocation_type for trasfer_claims' do
-      claim = build :transfer_claim
+      claim = build(:transfer_claim, transfer_fee: build(:transfer_fee))
       expect(claim.allocation_type).to be nil
       claim.submit!
       expect(claim.allocation_type).to eq 'Grad'

@@ -5,6 +5,12 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
   let(:unauthorized_user) { create(:external_user, :litigator) }
   let(:authorized_user) { create(:external_user, :advocate) }
 
+  def create_claim(*args)
+    claim = build(*args)
+    claim.save
+    claim.reload
+  end
+
   describe "GET #new" do
     subject(:new_request) { get :new }
 
@@ -255,7 +261,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
 
         context 'but the user is not the creator of the claim' do
           let(:other_authorized_user) { create(:external_user, :advocate) }
-          let(:claim) { create(:advocate_interim_claim, external_user: other_authorized_user, creator: other_authorized_user) }
+          let(:claim) { create_claim(:advocate_interim_claim, external_user: other_authorized_user, creator: other_authorized_user) }
 
           it 'redirects the user to its home page with an unauthorised error' do
             edit_request
@@ -266,7 +272,9 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
         end
 
         context 'but the claim is not longer editable' do
-          let(:claim) { create(:advocate_interim_claim, :submitted, external_user: authorized_user, creator: authorized_user) }
+          # TODO: there seems to be problems with the factories which previously allowed claims to be in submitted state without the
+          # necessary valid information. Needs looking at!
+          let!(:claim) { create_claim(:advocate_interim_claim, :submitted, external_user: authorized_user, creator: authorized_user).tap { |c| c.submit! } }
 
           it 'redirects the user to its home page with an unauthorised error' do
             edit_request
@@ -363,7 +371,9 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
         end
 
         context 'but the claim is not longer editable' do
-          let!(:claim) { create(:advocate_interim_claim, :submitted, external_user: authorized_user, creator: authorized_user) }
+          # TODO: there seems to be problems with the factories which previously allowed claims to be in submitted state without the
+          # necessary valid information. Needs looking at!
+          let!(:claim) { create_claim(:advocate_interim_claim, :submitted, external_user: authorized_user, creator: authorized_user).tap { |c| c.submit! } }
 
           it 'redirects the user to its home page with an unauthorised error' do
             update_request

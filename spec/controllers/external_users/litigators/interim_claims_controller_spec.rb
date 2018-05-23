@@ -249,7 +249,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
     end
 
     context 'uneditable claim' do
-      let(:claim) { create(:interim_claim, :allocated, creator: litigator) }
+      let(:claim) { create(:interim_claim, :allocated, :interim_effective_pcmh_fee, creator: litigator) }
 
       it 'redirects to the claims index' do
         expect(response).to redirect_to(external_users_claims_path)

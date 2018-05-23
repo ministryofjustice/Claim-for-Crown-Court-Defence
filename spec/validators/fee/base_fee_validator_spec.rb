@@ -89,15 +89,6 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
     end
 
-    # TODO: to be removed after gamma/private beta claims archived/deleted
-    # context 'for fees entered before rate was reintroduced' do
-    #   it 'should NOT require a rate of more than zero' do
-    #     fee.amount = 255
-    #     fee.rate = nil
-    #     expect(fee).to be_valid
-    #   end
-    # end
-
     context 'for fees on agfs draft claims' do
       it 'should validate presence of rate' do
         fee.amount = nil
@@ -112,6 +103,11 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     # NOTE: this enables fees that were created and submitted prior to rate being re-introduced to be valid
     context 'for fees on agfs submitted claims' do
       it 'should NOT validate presence of rate' do
+        # TODO: there's some issues the factories related with the validity of its data
+        # historically all claims were by default set with a form_step which is no longer
+        # the case. Without it set, the claim as a whole is validated and other attributes
+        # that are not set in the factories cause validation errors. Needs revisiting!
+        fee.claim.form_step = :case_details
         fee.amount = 255
         fee.claim.submit!
         fee.rate = nil

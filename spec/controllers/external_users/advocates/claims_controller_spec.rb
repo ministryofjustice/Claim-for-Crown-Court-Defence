@@ -315,12 +315,12 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
               create :fixed_fee_type, unique_code: 'ZXY'
               ct = create :case_type, :fixed_fee,  fee_type_code: 'ZXY'
               claim_params['case_type_id'] = ct.id
-              response = post :create, params: { claim: claim_params }
+              post :create, params: { claim: claim_params }
               claim = assigns(:claim)
 
               # basic fees are cleared, but not destroyed, implicitly for fixed-fee case types
               expect(claim.basic_fees.size).to eq 4
-              expect(claim.basic_fees.map(&:amount).sum.to_f).to eql 0.00
+              expect(claim.basic_fees.map(&:amount).compact.sum.to_f).to eql 0.00
 
               # miscellaneous fees are NOT destroyed implicitly by claim model for fixed-fee case types
               expect(claim.misc_fees.size).to eq 1

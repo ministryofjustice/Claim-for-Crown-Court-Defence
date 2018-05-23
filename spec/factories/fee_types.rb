@@ -37,6 +37,12 @@ FactoryBot.define do
       roles %w[agfs agfs_scheme_9 agfs_scheme_10]
     end
 
+    trait :baf do
+      description 'Basic Fee'
+      code 'BAF'
+      unique_code 'BABAF'
+    end
+
     trait :dat do
       description 'Daily Attendance Fee (2+)'
       agfs_scheme_10
@@ -44,11 +50,35 @@ FactoryBot.define do
       unique_code 'BADAT'
     end
 
+    trait :daf do
+      description 'Daily Attendance Fee (3 to 40)'
+      code 'DAF'
+      unique_code 'BADAF'
+    end
+
+    trait :dah do
+      description 'Daily Attendance Fee (41 to 50)'
+      code 'DAH'
+      unique_code 'BADAH'
+    end
+
+    trait :daj do
+      description 'Daily Attendance Fee (50+)'
+      code 'DAJ'
+      unique_code 'BADAJ'
+    end
+
     trait :ppe do
       description 'Pages of prosecution evidence'
       code 'PPE'
       calculated false
       unique_code 'BAPPE'
+    end
+
+    trait :pcm do
+      description 'Plea and Case Management Hearing'
+      code 'PCM'
+      unique_code 'BAPCM'
     end
 
     trait :npw do
@@ -65,8 +95,8 @@ FactoryBot.define do
     end
 
     trait :ndr do
-      description 'Number of cases uplift'
-      code 'NOC'
+      description 'Number of defendants uplift'
+      code 'NDR'
       unique_code 'BANDR'
     end
 

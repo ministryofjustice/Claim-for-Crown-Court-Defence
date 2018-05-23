@@ -62,7 +62,8 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
     let(:all_reasons) { (reasons + disbursement_only_reasons) }
 
     context 'for an advocate claim' do
-      let(:claim) { create(:advocate_claim, state: 'rejected') }
+      let(:basic_fee) { build(:basic_fee, :baf_fee, quantity: 1, amount: 21.01) }
+      let(:claim) { create(:advocate_claim, :with_graduated_fee_case, basic_fees: [basic_fee], state: 'refused') }
 
       it 'returns base rejection reasons' do
         expect(reject_reasons_for.map(&:code)).to match_array(reasons)
@@ -78,7 +79,7 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
     end
 
     context 'when the claim has no fees' do
-      let(:claim) { create(:advocate_claim, :without_fees, state: 'rejected') }
+      let(:claim) { build(:advocate_claim, :without_fees, state: 'rejected') }
 
       it 'returns base rejection reasons' do
         expect(reject_reasons_for.map(&:code)).to match_array(reasons)
@@ -89,20 +90,27 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
   describe '.refuse_reasons_for' do
     subject(:refuse_reasons_for) { described_class.refuse_reasons_for(claim) }
 
-    context 'for a Litigator claim' do
-      let(:claim) { create(:transfer_claim, state: 'refused') }
+    context 'for a litigator final claim' do
+      let(:claim) { create(:litigator_claim, :fixed_fee, fixed_fee: build(:fixed_fee, :lgfs), state: 'refused') }
 
       it { expect(subject.count).to eq 2 }
     end
 
-    context 'for a Litigator interim claim' do
-      let(:claim) { create(:interim_claim, state: 'refused') }
+    context 'for a litigator transfer claim' do
+      let(:claim) { create(:transfer_claim, transfer_fee: build(:transfer_fee), state: 'refused') }
+
+      it { expect(subject.count).to eq 2 }
+    end
+
+    context 'for a litigator interim claim' do
+      let(:claim) { create(:interim_claim, interim_fee: build(:interim_fee), state: 'refused') }
 
       it { expect(subject.count).to eq 5 }
     end
 
-    context 'for an advocate claim' do
-      let(:claim) { create(:advocate_claim, state: 'refused') }
+    context 'for an advocate final claim' do
+      let(:basic_fee) { build(:basic_fee, :baf_fee, quantity: 1, amount: 21.01) }
+      let(:claim) { create(:advocate_claim, :with_graduated_fee_case, basic_fees: [basic_fee], state: 'refused') }
 
       it { expect(subject.count).to eq 3 }
     end

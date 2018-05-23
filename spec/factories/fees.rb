@@ -41,15 +41,19 @@ FactoryBot.define do
     end
 
     trait :fxndr_fee do
-      fee_type { build(:fixed_fee_type, :fxndr) }
+      fee_type { Fee::FixedFeeType.find_by(unique_code: 'FXNDR') || build(:fixed_fee_type, :fxndr) }
     end
 
     trait :fxcbr_fee do
-      fee_type { build :fixed_fee_type, :fxcbr }
+      fee_type { Fee::FixedFeeType.find_by(unique_code: 'FXCBR') || build(:fixed_fee_type, :fxcbr) }
     end
 
     trait :fxcbu_fee do
-      fee_type { build :fixed_fee_type, :fxcbu }
+      fee_type { Fee::FixedFeeType.find_by(unique_code: 'FXCBU') || build(:fixed_fee_type, :fxcbu) }
+    end
+
+    trait :fxacv_fee do
+      fee_type { Fee::FixedFeeType.find_by(unique_code: 'FXACV') || build(:fixed_fee_type, :fxacv) }
     end
   end
 
@@ -73,6 +77,10 @@ FactoryBot.define do
     trait :mispf_fee do
       fee_type { build :misc_fee_type, :mispf }
     end
+
+    trait :miaph_fee do
+      fee_type { Fee::FixedFeeType.find_by(unique_code: 'MIAPH') || build(:misc_fee_type, :miaph) }
+    end
   end
 
   factory :warrant_fee, class: Fee::WarrantFee do
@@ -83,6 +91,10 @@ FactoryBot.define do
 
     trait :warrant_executed do
       warrant_exectuted_date { warrant_issued_date + 5.days }
+    end
+
+    trait :warr_fee do
+      fee_type { Fee::WarrantFeeType.find_by(unique_code: 'WARR') || build(:warrant_fee_type, :warr) }
     end
 
     after(:build) do |fee|
@@ -140,47 +152,47 @@ FactoryBot.define do
     rate 25
 
     trait :baf_fee do
-      fee_type { build :basic_fee_type, description: 'Basic Fee', code: 'BAF', unique_code: 'BABAF' }
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BABAF') || build(:basic_fee_type, :baf) }
     end
 
     trait :daf_fee do
-      fee_type {build  :basic_fee_type, description: 'Daily Attendance Fee (3 to 40)', code: 'DAF', unique_code: 'BADAF' }
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BADAF') || build(:basic_fee_type, :daf) }
     end
 
     trait :dah_fee do
-      fee_type { build :basic_fee_type, description: 'Daily Attendance Fee (41 to 50)', code: 'DAH', unique_code: 'BADAH' }
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BADAH') || build(:basic_fee_type, :dah) }
     end
 
     trait :daj_fee do
-      fee_type { build :basic_fee_type, description: 'Daily Attendance Fee (50+)', code: 'DAJ', unique_code: 'BADAJ' }
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BADAJ') || build(:basic_fee_type, :daj) }
     end
 
     trait :dat_fee do
-      fee_type { build(:basic_fee_type, :dat) }
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BADAT') || build(:basic_fee_type, :dat) }
     end
 
     trait :pcm_fee do
-      fee_type { build :basic_fee_type, description: 'Plea and Case Management Hearing', code: 'PCM' }
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BAPCM') || build(:basic_fee_type, :pcm) }
     end
 
     trait :ppe_fee do
       rate 0
       amount 25
-      fee_type { build :basic_fee_type, description: 'Pages of prosecution evidence', code: 'PPE', unique_code: 'BAPPE', calculated: false }
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BAPPE') || build(:basic_fee_type, :ppe) }
     end
 
     trait :ndr_fee do
-      fee_type { build :basic_fee_type, description: 'Number of defendants uplift', code: 'NDR', unique_code: 'BANDR', calculated: true }
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BANDR') || build(:basic_fee_type, :ndr) }
     end
 
     trait :noc_fee do
-      fee_type { build :basic_fee_type, description: 'Number of cases uplift', code: 'NOC', unique_code: 'BANOC', calculated: true }
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BANOC') || build(:basic_fee_type, :noc) }
     end
 
     trait :npw_fee do
       rate 0
       amount 25
-      fee_type { build :basic_fee_type, description: 'Number of prosecution witnesses', code: 'NPW', unique_code: 'BANPW', calculated: false }
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BANPW') || build(:basic_fee_type, :npw) }
     end
 
     trait :saf_fee do

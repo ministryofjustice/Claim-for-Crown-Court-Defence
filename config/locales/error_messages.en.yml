@@ -19,6 +19,7 @@ dictionary:
     check_amount: &check_amount 'Check amount'
     enter_valid_quantity: &enter_valid_quantity 'Enter a valid quantity'
     enter_valid_rate: &enter_valid_rate 'Enter a valid rate'
+    enter_valid_net_amount: &enter_valid_net_amount 'Enter a valid net amount'
     item_max_amount: &item_max_amount 'Amount exceeds limit'
     max_vat_amount: &max_vat_amount 'Enter a valid amount'
     claim_max_amount: &claim_max_amount 'Amount claimed exceeds limit'
@@ -936,9 +937,9 @@ misc_fee:
   rate:
     _seq: 20
     invalid:
-      long: 'Enter a valid rate for the #{misc_fee}'
-      short: *enter_valid_rate
-      api: Enter a rate for the miscellaneous fee
+      long: 'Enter a valid net amount for the #{misc_fee}'
+      short: *enter_valid_amount
+      api: Enter a rate/net amount for the miscellaneous fee
 
   quantity:
     _seq: 30
@@ -1002,9 +1003,9 @@ fixed_fee:
   rate:
     _seq: 20
     invalid:
-      long: 'Enter a valid rate for the #{fixed_fee}'
-      short: *enter_valid_rate
-      api: Enter a rate for the fixed fee
+      long: 'Enter a valid net amount for the #{fixed_fee}'
+      short: *enter_valid_amount
+      api: Enter a rate/net amount for the fixed fee
 
   quantity:
     _seq: 30

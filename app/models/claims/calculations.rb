@@ -38,6 +38,17 @@ module Claims::Calculations
     { vat: values.map { |v| v.first || BigDecimal.new(0.0, 8) }.sum, net: values.map(&:last).sum }
   end
 
+  # NOTE: This is meant to reproduce the same behaviour as totalize_for_claim
+  # but doing all the operations in memory without hitting the DB
+  def calculate_association_total(association_name, net_attribute, vat_attribute)
+    records = public_send(association_name)
+    records.each_with_object(vat: 0, net: 0) do |record, memo|
+      next if record.marked_for_destruction? || record.public_send(net_attribute).nil?
+      memo[:vat] += (record.public_send(vat_attribute) || BigDecimal.new(0.0, 8))
+      memo[:net] += record.public_send(net_attribute)
+    end
+  end
+
   def attribute_is_null_to_s(net_attribute)
     "#{net_attribute} IS NOT NULL"
   end
@@ -74,6 +85,13 @@ module Claims::Calculations
     totals = totalize_for_claim(Expense, id, :amount, :vat_amount)
     assign_attributes(expenses_vat: totals[:vat],
                       expenses_total: totals[:net],
+                      value_band_id: Claims::ValueBands.band_id_for_value(totals[:net] + totals[:vat]))
+  end
+
+  def assign_disbursements_total
+    totals = calculate_association_total(:disbursements, :net_amount, :vat_amount)
+    assign_attributes(disbursements_vat: totals[:vat],
+                      disbursements_total: totals[:net],
                       value_band_id: Claims::ValueBands.band_id_for_value(totals[:net] + totals[:vat]))
   end
 

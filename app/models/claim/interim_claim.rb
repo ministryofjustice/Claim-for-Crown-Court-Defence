@@ -71,10 +71,8 @@ module Claim
     validates_with ::Claim::InterimClaimSubModelValidator
 
     has_one :interim_fee, foreign_key: :claim_id, class_name: 'Fee::InterimFee', dependent: :destroy, inverse_of: :claim
-    has_one :warrant_fee, foreign_key: :claim_id, class_name: 'Fee::WarrantFee', dependent: :destroy, inverse_of: :claim
 
     accepts_nested_attributes_for :interim_fee, reject_if: :all_blank, allow_destroy: false
-    accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
 
     before_validation do
       assign_total_attrs
@@ -151,15 +149,10 @@ module Claim
     end
 
     def destroy_all_invalid_fee_types
-      return unless interim_fee
+      return unless interim_fee&.is_interim_warrant?
 
-      if interim_fee.is_interim_warrant?
-        disbursements.destroy_all
-        self.disbursements = []
-      else
-        warrant_fee.try(:destroy)
-        self.warrant_fee = nil
-      end
+      disbursements.destroy_all
+      self.disbursements = []
     end
 
     def assign_total_attrs
@@ -169,17 +162,22 @@ module Claim
       return if from_api?
       assign_fees_total(%i[interim_fee]) if interim_fee_changed?
       assign_expenses_total if expenses_changed?
+      assign_disbursements_total if disbursements_changed?
       return unless total_changes_required?
       assign_total
       assign_vat
     end
 
     def total_changes_required?
-      interim_fee_changed? || expenses_changed?
+      interim_fee_changed? || expenses_changed? || disbursements_changed?
     end
 
     def interim_fee_changed?
       interim_fee&.changed?
+    end
+
+    def disbursements_changed?
+      disbursements.any?(&:changed?)
     end
   end
 end

@@ -25,6 +25,10 @@ Then(/^the (last|first|second|third|fourth|fifth) message contains '(.*?)'$/) do
   expect(@external_user_claim_show_page.messages_panel.messages.send(method.to_sym)).to have_text(text)
 end
 
+Then(/^the messages should not contain '(.*?)'$/) do |text|
+  expect(@external_user_claim_show_page.messages_panel.messages.map(&:text).join).to_not have_text(text)
+end
+
 When(/^I enter a message '(.*?)'$/) do |text|
   @message = text
   @external_user_claim_show_page.messages_panel.enter_your_message.set @message

@@ -10,6 +10,11 @@ Given(/^there is a claim allocated to the case worker with case number '(.*?)'$/
   @case_worker.claims << @claim
 end
 
+Given(/^there is a redetermination claim allocated to the case worker with case number '(.*?)'$/) do |case_number|
+  @claim = create(:redetermination_claim, external_user: @advocate, case_number: case_number)
+  @case_worker.claims << @claim
+end
+
 When(/^I select the claim$/) do
   @case_worker_home_page.claim_for(@claim.case_number).case_number.click
 end

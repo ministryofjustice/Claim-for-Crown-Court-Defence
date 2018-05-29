@@ -149,18 +149,6 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         end
       end
     end
-
-    # TODO: max_amount not used in later PR - remove?
-    # context 'fee with max amount' do
-    #   before(:each)       { fee.fee_type.max_amount = 9999 }
-    #   it { should_be_valid_if_equal_to_value(fee, :amount, 9999) }
-    # end
-
-    # context 'fee with no max amount' do
-    #   before(:each)       { fee.fee_type.max_amount = nil }
-    #   it { should_be_valid_if_equal_to_value(fee, :amount, 100_000) }
-    # end
-
   end
 
   describe '#validate_quantity' do
@@ -400,13 +388,27 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
       context 'number of cases uplift (BANOC)' do
         let(:noc_fee) { build :basic_fee, :noc_fee, claim: claim }
+
+        context 'when case numbers are blank and quantity is zero' do
+          let(:noc_fee) { build(:basic_fee, :noc_fee, claim: claim, case_numbers: '', quantity: 0, rate: 0) }
+
+          it { should_not_error(noc_fee, :case_numbers) }
+        end
+
         include_examples 'common AGFS number of cases uplift validations'
       end
     end
 
-    context 'Fixed fee types' do
+    context 'fixed fee types' do
       context 'number of cases uplift (FXNOC)' do
         let(:noc_fee) { build :fixed_fee, :noc_fee, claim: claim }
+
+        context 'when case numbers are blank and quantity is zero' do
+          let(:noc_fee) { build(:fixed_fee, :noc_fee, claim: claim, case_numbers: '', quantity: 0) }
+
+          it { should_error_with(noc_fee, :quantity, 'invalid') }
+        end
+
         include_examples 'common AGFS number of cases uplift validations'
       end
     end

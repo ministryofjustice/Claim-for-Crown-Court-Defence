@@ -425,15 +425,16 @@ RSpec.describe Claims::StateMachine, type: :model do
       before do
         claim.submit!
         claim.allocate!
-        claim.assessment.update(fees: 666.00, expenses: 23.45)
+        claim.assessment.update(fees: 123.00, expenses: 23.45)
         claim.authorise_part!
         claim.redetermine!
         claim.allocate!
-        claim.refuse!(reason_code: reason_codes)
       end
 
       it 'does not set the assessment to zero' do
-        expect(claim.assessment.total).to be_positive
+        expect { claim.refuse!(reason_code: reason_codes) }
+          .not_to change { claim.assessment.fees.to_f }
+          .from(123.0)
       end
     end
   end

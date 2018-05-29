@@ -6,7 +6,12 @@ module Claim
                    unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::AdvocateInterimClaimSubModelValidator
 
-    has_one :warrant_fee, foreign_key: :claim_id, class_name: 'Fee::WarrantFee', dependent: :destroy, inverse_of: :claim
+    has_one :warrant_fee,
+            foreign_key: :claim_id,
+            class_name: 'Fee::WarrantFee',
+            dependent: :destroy,
+            inverse_of: :claim,
+            validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :interim_fees }
 
     accepts_nested_attributes_for :warrant_fee, allow_destroy: false
 

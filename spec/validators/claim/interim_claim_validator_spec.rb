@@ -6,10 +6,11 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
   include_context "force-validation"
 
   let(:litigator) { build(:external_user, :litigator) }
-  let(:claim)     { create(:interim_claim) }
+  let(:interim_fee) { build(:interim_fee) }
+  let(:claim) { create(:interim_claim, interim_fee: interim_fee) }
 
   include_examples "common advocate litigator validations", :litigator
-  include_examples "common litigator validations"
+  include_examples "common litigator validations", :interim_claim
 
   include_examples 'common partial validations', {
     case_details: %i[

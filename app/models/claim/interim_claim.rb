@@ -70,7 +70,12 @@ module Claim
     validates_with ::Claim::LitigatorSupplierNumberValidator
     validates_with ::Claim::InterimClaimSubModelValidator
 
-    has_one :interim_fee, foreign_key: :claim_id, class_name: 'Fee::InterimFee', dependent: :destroy, inverse_of: :claim
+    has_one :interim_fee,
+            foreign_key: :claim_id,
+            class_name: 'Fee::InterimFee',
+            dependent: :destroy,
+            inverse_of: :claim,
+            validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :interim_fees }
 
     accepts_nested_attributes_for :interim_fee, reject_if: :all_blank, allow_destroy: false
 

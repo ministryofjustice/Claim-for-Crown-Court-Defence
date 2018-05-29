@@ -123,8 +123,7 @@ RSpec.shared_examples "common advocate litigator validations" do |external_user_
   end
 end
 
-RSpec.shared_examples "common litigator validations" do
-
+RSpec.shared_examples "common litigator validations" do |*flags|
   let(:advocate)      { build(:external_user, :advocate) }
   let(:offence)       { build(:offence) }
   let(:offence_class) { build(:offence_class, class_letter: 'X', description: 'Offences of dishonesty in Class F where the value in is in excess of £100,000') }
@@ -155,8 +154,12 @@ RSpec.shared_examples "common litigator validations" do
   end
 
   context 'case concluded at date' do
-    let(:claim) { build :litigator_claim }
-    before(:each) { claim.force_validation = true }
+    before do
+      # TODO: refactor shared examples so that things that do not apply to all litigator claims
+      # are not set as common/shared examples :/
+      skip('does not apply to an interim claim') if flags.include?(:interim_claim)
+      claim.force_validation = true
+    end
 
     it 'is invalid when absent' do
       should_error_if_not_present(claim,:case_concluded_at,'blank')

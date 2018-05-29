@@ -53,7 +53,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
     end
 
     context 'scheme 10 claim' do
-      let(:claim) { create(:authorised_claim, :agfs_scheme_10) }
+      let(:claim) { create(:authorised_claim, :agfs_scheme_10, form_step: :case_details) }
       attendances_incl_in_basic_fee = 1
 
       context 'for trials' do

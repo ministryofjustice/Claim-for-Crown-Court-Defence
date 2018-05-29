@@ -683,7 +683,6 @@ module Claim
 
     def default_values
       self.source ||= 'web'
-      self.form_step ||= submission_stages.first
     end
 
     def default_case_transferred_from_another_court

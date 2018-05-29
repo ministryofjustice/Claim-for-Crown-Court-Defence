@@ -7,7 +7,9 @@ describe Claims::CreateDraft do
   end
 
   context 'draft claim creation' do
-    let(:claim) { FactoryBot.build :advocate_claim }
+    # NOTE: a form_step needs to be supplied otherwise the service
+    # will validate all the steps for the claim
+    let(:claim) { build(:advocate_claim, form_step: :case_details) }
     let(:validate) { true }
 
     subject { described_class.new(claim, validate: validate) }

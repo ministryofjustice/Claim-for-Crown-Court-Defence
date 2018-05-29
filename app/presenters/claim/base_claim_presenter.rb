@@ -20,10 +20,6 @@ class Claim::BaseClaimPresenter < BasePresenter
         transfer_fee_details].include? claim.current_step
   end
 
-  def can_be_saved_as_draft?
-    claim.draft? && !%i[case_details transfer_fee_details].include?(claim.current_step)
-  end
-
   # NOTE: this is an interim solution for what probably should be
   # some sort of DSL to describe what fields are required for a given section
   # for that section to be considered completed

@@ -156,7 +156,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
 
     describe 'on create' do
       describe 'the claim is invalid' do
-        let(:claim) { build :litigator_claim, :fixed_fee, :forced_validation }
+        let(:claim) { build(:litigator_claim, :fixed_fee, :forced_validation, fixed_fee: build(:fixed_fee, :lgfs)) }
 
         it { is_expected.to be false }
       end
@@ -164,7 +164,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
 
     describe 'on edit' do
       describe 'the claim is valid' do
-        let(:claim) { create :litigator_claim, :fixed_fee, :forced_validation }
+        let(:claim) { create(:litigator_claim, :fixed_fee, :forced_validation, fixed_fee: build(:fixed_fee, :lgfs)) }
 
         it { is_expected.to be true }
       end

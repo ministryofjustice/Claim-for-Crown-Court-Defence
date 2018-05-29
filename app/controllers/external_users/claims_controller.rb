@@ -17,7 +17,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   before_action :set_and_authorize_claim, only: %i[show edit update unarchive clone_rejected destroy summary
                                                    confirmation show_message_controls messages disc_evidence]
-  before_action :set_form_step, only: %i[edit]
+  before_action :set_form_step, only: %i[edit update]
   before_action :redirect_unless_editable, only: %i[edit update]
   before_action :generate_form_id, only: %i[new edit]
   before_action :initialize_submodel_counts
@@ -134,6 +134,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def new
     @claim = resource_klass.new
+    @claim.form_step = params[:step] || @claim.submission_stages.first
     authorize! :new, @claim
     load_offences_and_case_types
     build_nested_resources
@@ -154,6 +155,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def create
     @claim = resource_klass.new(params_with_external_user_and_creator)
+    @claim.form_step ||= @claim.submission_stages.first
     authorize! :create, @claim
     result = if submitting_to_laa?
                Claims::CreateClaim.call(@claim)
@@ -266,8 +268,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def set_form_step
     return unless @claim
-    return unless params[:step].present?
-    @claim.form_step = params[:step]
+    @claim.form_step = params[:step] ||
+                       params.key?(:claim) && claim_params[:form_step] ||
+                       @claim.submission_stages.first
   end
 
   def claim_params

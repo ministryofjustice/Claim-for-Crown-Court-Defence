@@ -355,6 +355,7 @@ RSpec.describe Claim::BaseClaim do
     context 'when condition 3B is met' do
       before do
         allow(claim).to receive(:fixed_fee_case?).and_return(false)
+        claim.form_step = step
       end
 
       it 'does not change the current step' do
@@ -374,7 +375,7 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '#next_step!' do
-    let(:claim) { MockSteppableClaim.new }
+    let(:claim) { MockSteppableClaim.new(form_step: :step_1) }
 
     context 'when condition 3A is met' do
       before do

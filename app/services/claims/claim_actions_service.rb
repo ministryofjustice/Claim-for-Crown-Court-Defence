@@ -53,7 +53,7 @@ module Claims
     end
 
     def already_submitted?
-      claim.class.where(form_id: claim.form_id).where.not(last_submitted_at: nil).any?
+      claim.last_submitted_at.present?
     end
 
     def already_saved?

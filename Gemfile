@@ -34,7 +34,7 @@ gem 'logstasher',             '0.6.2'
 gem 'logstuff',               '0.0.2'
 gem 'newrelic_rpm',           '~> 5.1.0.344'
 gem 'paperclip',              '~> 5.3.0'
-gem 'paper_trail',            '4.0.2' # version locked, https://github.com/airblade/paper_trail/issues/738
+gem 'paper_trail',            '~> 9.0.2'
 gem 'pdf-forms'
 gem 'pg',                     '~> 0.18.2'
 gem 'rails',                  '>= 5.0.0', '< 5.1'

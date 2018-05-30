@@ -64,7 +64,6 @@
 
 require 'rails_helper'
 
-
 class MockBaseClaim < Claim::BaseClaim
   SUBMISSION_STAGES = [
     {
@@ -497,6 +496,42 @@ RSpec.describe Claim::BaseClaim do
       end
 
       specify { expect(claim.step_back?).to be_falsey }
+    end
+  end
+
+  describe '#step_validation_required?' do
+    let(:claim) { MockSteppableClaim.new(source: source) }
+
+    context 'when the claim is from an API submission' do
+      let(:source) { 'api' }
+
+      specify { expect(claim.step_validation_required?(:some_step)).to be_truthy }
+    end
+
+    context 'when the claim is not from an API submission' do
+      let(:source) { 'web' }
+
+      context 'and the form step is nil' do
+        before do
+          claim.form_step = nil
+        end
+
+        specify { expect(claim.step_validation_required?(:some_step)).to be_truthy }
+      end
+
+      context 'and the form step is set' do
+        before do
+          claim.form_step = :some_step
+        end
+
+        context 'and it matches the provided step' do
+          specify { expect(claim.step_validation_required?(:some_step)).to be_truthy }
+        end
+
+        context 'but it does not match the provided step' do
+          specify { expect(claim.step_validation_required?(:other_step)).to be_falsey }
+        end
+      end
     end
   end
 end

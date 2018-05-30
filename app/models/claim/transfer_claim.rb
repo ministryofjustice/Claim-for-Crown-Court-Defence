@@ -71,15 +71,13 @@ module Claim
             class_name: Claim::TransferDetail,
             dependent: :destroy,
             inverse_of: :claim,
-            validate: proc { |claim|
-              claim.from_api? || claim.form_step.nil? || claim.form_step == :transfer_fee_details
-            }
+            validate: proc { |claim| claim.step_validation_required?(:transfer_fee_details) }
     has_one :transfer_fee,
             foreign_key: :claim_id,
             class_name: Fee::TransferFee,
             dependent: :destroy,
             inverse_of: :claim,
-            validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :transfer_fees }
+            validate: proc { |claim| claim.step_validation_required?(:transfer_fees) }
 
     accepts_nested_attributes_for :transfer_detail, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :transfer_fee, reject_if: :all_blank, allow_destroy: false

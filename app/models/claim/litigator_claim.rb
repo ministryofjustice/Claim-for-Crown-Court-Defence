@@ -75,19 +75,19 @@ module Claim
             class_name: 'Fee::FixedFee',
             dependent: :destroy,
             inverse_of: :claim,
-            validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :fixed_fees }
+            validate: proc { |claim| claim.step_validation_required?(:fixed_fees) }
     has_one :warrant_fee, foreign_key: :claim_id, class_name: 'Fee::WarrantFee', dependent: :destroy, inverse_of: :claim
     has_one :graduated_fee,
             foreign_key: :claim_id,
             class_name: 'Fee::GraduatedFee',
             dependent: :destroy,
             inverse_of: :claim,
-            validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :graduated_fees }
+            validate: proc { |claim| claim.step_validation_required?(:graduated_fees) }
     has_one :interim_claim_info,
             foreign_key: :claim_id,
             dependent: :destroy,
             inverse_of: :claim,
-            validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :miscellaneous_fees }
+            validate: proc { |claim| claim.step_validation_required?(:miscellaneous_fees) }
 
     accepts_nested_attributes_for :fixed_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false

@@ -75,7 +75,7 @@ module Claim
             class_name: 'Fee::InterimFee',
             dependent: :destroy,
             inverse_of: :claim,
-            validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :interim_fees }
+            validate: proc { |claim| claim.step_validation_required?(:interim_fees) }
 
     accepts_nested_attributes_for :interim_fee, reject_if: :all_blank, allow_destroy: false
 

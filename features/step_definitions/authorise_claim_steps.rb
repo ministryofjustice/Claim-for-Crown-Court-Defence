@@ -11,7 +11,14 @@ Given(/^there is a claim allocated to the case worker with case number '(.*?)'$/
 end
 
 Given(/^there is a redetermination claim allocated to the case worker with case number '(.*?)'$/) do |case_number|
-  @claim = create(:redetermination_claim, external_user: @advocate, case_number: case_number)
+  # TODO: this does not create a valid redetermination claim
+  # creates some sort of claim with some information that happens
+  # to be in the redetermination state
+  # To go around this I'm preserving old functionality for the factory by
+  # setting the form_step.
+  # Going forward this should be properly fixed with an actual factory that is valid
+  # for a redetermination claim
+  @claim = create(:redetermination_claim, external_user: @advocate, case_number: case_number, form_step: :case_details)
   @case_worker.claims << @claim
 end
 

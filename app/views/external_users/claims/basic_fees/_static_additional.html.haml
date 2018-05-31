@@ -180,29 +180,3 @@
           %span.form-input-denote
             £
           %input#cases-uplift-net-amount.form-control.form-control-1-4.form-input-denote__input{:autocapitalize => "off", :autocorrect => "off", :max => "999999.99", :min => "0.00", :name => "cases_uplift_net_amount", :spellcheck => "false", :step => "0.01", :type => "number", :value => ""}/
-
-
-%fieldset
-  .form-group.basic-fee-group.nested-fields.fee-details.js-block{class: to_slug(f.object.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": f.object.calculated? ? "FeeBlockCalculator" : "FeeBlock"}}
-    = f.hidden_field :fee_type_id, value: f.object.fee_type_id
-
-    - if f.object.calculated?
-      = "CALCULATED"
-      = render partial: 'external_users/claims/basic_fees/basic_fee_calculated_fields', locals: { f: f, fee: present(f.object) }
-    - else
-      = "UN CALCULATED"
-      = render partial: 'external_users/claims/basic_fees/basic_fee_uncalculated_fields', locals: { f: f, fee: present(f.object) }
-
-    = "f.object.fee_type.requires_dates_attended?"
-    = f.object.fee_type.requires_dates_attended?
-    - if f.object.fee_type.requires_dates_attended?
-      %div.dates-wrapper.form-group
-        %div
-          = f.fields_for :dates_attended do |date_attended|
-            = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}"
-
-        = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', partial: 'date_attended_fields', data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
-
-    - else
-      %h2
-        = "NO adding dates"

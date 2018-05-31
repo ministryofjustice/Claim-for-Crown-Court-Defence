@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180515140528) do
+ActiveRecord::Schema.define(version: 20180531110653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -453,6 +453,7 @@ ActiveRecord::Schema.define(version: 20180515140528) do
     t.string   "maat_reference"
     t.date     "representation_order_date"
     t.uuid     "uuid",                      default: -> { "uuid_generate_v4()" }
+    t.index ["defendant_id"], name: "index_representation_orders_on_defendant_id", using: :btree
   end
 
   create_table "statistics", force: :cascade do |t|

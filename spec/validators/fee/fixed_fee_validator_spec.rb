@@ -86,7 +86,11 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
       let!(:unrelated_child) { create :child_fee_type, :s74 }
       let!(:fee) { build :fixed_fee, :lgfs, fee_type: parent, sub_type: child, claim: fixed_fee_claim, date: nil }
 
-      before(:each) { fee.claim.force_validation = true }
+      before do
+        fee.claim.force_validation = true
+        fee.quantity = 1
+        fee.rate = 2.0
+      end
 
       context 'should error if fee type has children but fee has no sub type' do
         it 'should be present' do

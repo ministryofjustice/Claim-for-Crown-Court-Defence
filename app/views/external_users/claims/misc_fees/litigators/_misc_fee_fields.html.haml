@@ -1,25 +1,30 @@
-%fieldset
-  %legend.visuallyhidden
-    = t('.miscellaneous_fee')
+.form-section.misc-fee-group.nested-fields.js-block.fx-fee-group{data:{"type": "miscFees", autovat: @claim.apply_vat? ? "true" : "false"}}
+  %h2.bold-medium
+    = t('.misc_fee')
+    = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group', class: "header-action" }
 
-  .form-group.misc-fee-group.js-block.nested-fields.fx-fee-group{data:{"type": "miscFees", autovat: @claim.apply_vat? ? "true" : "false"}}
-    .grid-row.js-typeahead
-      .column-two-thirds{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
-        %label.form-label
-          = t('.fee_type')
-          %span.form-hint.xsmall.zero-vert-margin
-            &nbsp;<br/>
-        %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
-        - misc_fee_types_collection = present_collection(@claim.eligible_misc_fee_types)
-        = f.select :fee_type_id, misc_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, { include_blank: ''.html_safe }, {class: 'form-control typeahead js-misc-fee-type js-fee-type', style: 'width:100%'}
-        = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
+  .form-group
+    .fee-type.js-typeahead{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
+      %label.form-label-bold
+        = t('.fee_type')
+      %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
+      - misc_fee_types_collection = present_collection(@claim.eligible_misc_fee_types)
+      - options = misc_fee_types_collection.length == 1 ? { checked: misc_fee_types_collection.first.id } : {}
+      = f.collection_radio_buttons(:fee_type_id, misc_fee_types_collection, :id, :description, options) do |b|
+        .multiple-choice
+          = b.radio_button
+          - if misc_fee_types_collection.length == 1
+            = b.label(class: 'selected') { b.text }
+          - else
+            = b.label { b.text }
 
-      .column-one-third.fee-rate.margin-spacer-sm
-        = f.adp_text_field :amount,
-                            label: t('.amount'),
-                            input_classes:'total',
-                            input_type:'currency',
-                            value: number_with_precision(f.object.amount, precision: 2),
-                            errors: @error_presenter
+      = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 
-    = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }
+  = f.adp_text_field :amount,
+                    label: t('.net_amount'),
+                    input_classes:'total fee-rate form-input-denote__input form-control-1-4',
+                    input_type: 'currency',
+                    errors: @error_presenter,
+                    value: number_with_precision(f.object.amount, precision: 2)
+
+  %hr/

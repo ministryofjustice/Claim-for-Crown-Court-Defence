@@ -9,7 +9,7 @@ class LitigatorClaimFormPage < ClaimFormPage
   section :case_concluded_date, CommonDateSection, 'div.case-concluded-date'
 
   sections :miscellaneous_fees, TypedFeeAmountSection, "div#misc-fees .misc-fee-group"
-  element :add_another_miscellaneous_fee, "div#misc-fees > a.add_fields"
+  element :add_another_miscellaneous_fee, "div#misc-fees a.add_fields"
 
   sections :disbursements, DisbursementSection, "div#disbursements .disbursement-group"
   element :add_another_disbursement, "div#disbursements > a.add_fields"

@@ -37,7 +37,7 @@ end
 
 And(/^I add a miscellaneous fee '(.*)'$/) do |name|
   @litigator_claim_form_page.add_misc_fee_if_required
-  @litigator_claim_form_page.miscellaneous_fees.last.select_fee_type name
+  @claim_form_page.all('label', text: name).last.click
   @litigator_claim_form_page.miscellaneous_fees.last.amount.set "135.78"
 end
 

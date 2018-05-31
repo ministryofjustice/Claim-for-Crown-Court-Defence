@@ -38,3 +38,4 @@ test:
 production:
   <<: *default_settings
   app_name: <%= "CCCD (#{ENV['ENV']})" %>
+  monitor_mode: <%= ENV['ENV'] == 'gamma' %>

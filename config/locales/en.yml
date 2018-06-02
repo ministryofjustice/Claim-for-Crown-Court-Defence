@@ -147,7 +147,6 @@ en:
         supplier_number:
           attributes:
             supplier_number:
-#              invalid: *invalid_supplier_number
               invalid_format: "LGFS supplier number invalid format"
               not_unique: "LGFS supplier number has already been taken"
         provider:
@@ -856,18 +855,24 @@ en:
         view_details_authorised_html: 'View details <span class="visuallyhidden">for total authorised</span>'
       graduated_fees:
         fields:
-          actual_trial_length: 'Actual trial length'
-          graduated_fees: 'Graduated fees'
+          actual_trial_length: "Actual trial length"
+          total_pages_of_evidence: "Total pages of evidence"
+          graduated_fees: "Graduated fees"
           graduated_prompt_text: *graduated_fee_prompt_content
           fee_type: "Fee type"
           ppe_total: "PPE total"
           total: "Total"
+          net_amount: "Net amount"
           date: "Date"
+          page_header: "Graduated fees"
+          page_hint: *fees_vat_prompt
+          page_intro_html: |
+            Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help.
         summary:
           header: Graduated fees
           actual_trial_length:
             one: 1 day
-            other: '%{count} days'
+            other: "%{count} days"
       index:
         claims: Claims
         completed: Completed

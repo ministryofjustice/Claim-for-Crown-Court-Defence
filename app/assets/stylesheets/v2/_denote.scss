@@ -21,9 +21,9 @@
   padding-left: 39px;
 }
 
-.error .form-input-denote {
-  margin-top: 4px;
-  margin-left: 4px;
+.error .form-input-denote, .form-group-error .form-input-denote {
+  margin-top: 5px;
+  margin-left: 5px;
   padding: 6px 12px;
   background-color: #b10e1e;
   color: #fff;

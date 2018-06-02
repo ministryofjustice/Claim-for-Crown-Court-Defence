@@ -27,6 +27,14 @@ And(/^I fill '(.*)' as the graduated fee total$/) do |total|
   @litigator_claim_form_page.graduated_fee_total.set total
 end
 
+Then(/^I fill '(\d+)' as the ppe total$/) do |total|
+  @litigator_claim_form_page.ppe_total.set total
+end
+
+Then(/^I fill '(\d+)' as the actual trial length$/) do |total|
+  @litigator_claim_form_page.actual_trial_length.set total
+end
+
 And(/^I fill '(.*)' as the warrant fee total$/) do |total|
   @litigator_claim_form_page.warrant_fee_total.set total
 end
@@ -89,4 +97,3 @@ end
 def additional_supplier_numbers
   %w[1A833H 1A832G 1A831F 1A830E 1A829D 1A828C 1A827B 1A826A 1A825Z 1A824Y 1A823X 1A822W 1A821V 1A820U]
 end
-

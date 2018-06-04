@@ -15,6 +15,9 @@
   &.blue:hover {
     background-color: $govuk-blue;
   }
+  &:link, &:link:focus, &:hover, &:focus, &:visited {
+    color: $page-colour;
+  }
 }
 
 .button-holder {

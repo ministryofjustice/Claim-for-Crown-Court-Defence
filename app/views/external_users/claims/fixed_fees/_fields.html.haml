@@ -1,5 +1,5 @@
 - if @claim.allows_fixed_fees?
-  #fixed-fees.mod-fees
+  #fixed-fees.mod-fees.fx-numberedList-wrapper{"data-mute-indictment": @claim.allows_fixed_fees? ? "true" : "false"}
     .fixed-fee-group-wrapper
       = f.fields_for :fixed_fees do |fixed_fee_fields|
         - @fixed_fee_count += 1

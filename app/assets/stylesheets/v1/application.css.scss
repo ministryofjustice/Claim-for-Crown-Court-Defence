@@ -135,6 +135,10 @@ form{
   &:hover {
     background-color: $link-colour;
     }
+
+  &:link, &:link:focus, &:hover, &:focus, &:visited {
+    color: $page-colour;
+  }
 }
 
 .disk-evidence{

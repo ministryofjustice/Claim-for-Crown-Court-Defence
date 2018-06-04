@@ -42,7 +42,9 @@ Feature: Advocate admin submits a claim for a Trial case
     Then I click "Continue" in the claim form
 
     And I add a miscellaneous fee 'Adjourned appeals' with dates attended
+    And I check the section heading to be "1"
     And I add a miscellaneous fee 'Noting brief fee' with dates attended
+    And I check the section heading to be "2"
 
     Then I click "Continue" in the claim form
 

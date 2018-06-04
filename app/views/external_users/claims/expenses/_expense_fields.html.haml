@@ -1,8 +1,9 @@
 - @expense_count += 1
-.expense-group.nested-fields.js-block{data:{"type": "expenses", autovat: @claim.agfs? && @claim.apply_vat? ? "true" : "false"}}
+.expense-group.nested-fields.js-block.fx-numberedList-item{data:{"type": "expenses", autovat: @claim.agfs? && @claim.apply_vat? ? "true" : "false"}}
   %fieldset
     %legend
       = "Expense"
+      %span.fx-numberedList-number
       %span.fx-remove-link
         = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' }
 

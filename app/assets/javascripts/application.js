@@ -16,6 +16,7 @@
 //= require jquery.highlight-5.min.js
 //= require jquery.ba-throttle-debounce.js
 //= require_tree ./modules
+//= require_tree ./plugins
 //
 
 // TINY PUBSUB
@@ -61,6 +62,8 @@ if (!String.prototype.supplant) {
     );
   };
 }
+
+$.numberedList();
 
 (function() {
   'use strict';

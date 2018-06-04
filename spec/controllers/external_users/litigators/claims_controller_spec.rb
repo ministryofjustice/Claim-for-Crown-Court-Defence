@@ -159,44 +159,41 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
         context 'multi-step form submit to LAA' do
           let(:case_number) { 'A20168888' }
+          let(:case_concluded_at) { 5.days.ago }
+          let(:representation_order_date) { case_concluded_at }
 
           let(:claim_params_step1) do
             {
-                external_user_id: litigator.id,
-                supplier_number: supplier_number,
-                court_id: court,
-                case_type_id: case_type.id,
-                offence_id: offence,
-                case_number: case_number,
-                case_concluded_at_dd: 5.days.ago.day.to_s,
-                case_concluded_at_mm: 5.days.ago.month.to_s,
-                case_concluded_at_yyyy: 5.days.ago.year.to_s,
-                defendants_attributes: [
-                    { first_name: 'John',
-                      last_name: 'Smith',
-                      date_of_birth_dd: '4',
-                      date_of_birth_mm: '10',
-                      date_of_birth_yyyy: '1980',
-                      representation_orders_attributes: [
-                          {
-                              representation_order_date_dd: Time.now.day.to_s,
-                              representation_order_date_mm: Time.now.month.to_s,
-                              representation_order_date_yyyy: Time.now.year.to_s,
-                              maat_reference: '4561237895'
-                          }
-                      ]
-                    }
-                ]
+              external_user_id: litigator.id,
+              supplier_number: supplier_number,
+              court_id: court,
+              case_type_id: case_type.id,
+              case_number: case_number,
+              case_concluded_at_dd: case_concluded_at.day.to_s,
+              case_concluded_at_mm: case_concluded_at.month.to_s,
+              case_concluded_at_yyyy: case_concluded_at.year.to_s,
             }
           end
 
           let(:claim_params_step2) do
             {
               form_step: :defendants,
-              additional_information: 'foo',
-              expenses_attributes:
-              [
-                expense_params
+              defendants_attributes: [
+                  {
+                    first_name: 'John',
+                    last_name: 'Smith',
+                    date_of_birth_dd: '4',
+                    date_of_birth_mm: '10',
+                    date_of_birth_yyyy: '1980',
+                    representation_orders_attributes: [
+                        {
+                          representation_order_date_dd: representation_order_date.day.to_s,
+                          representation_order_date_mm: representation_order_date.month.to_s,
+                          representation_order_date_yyyy: representation_order_date.year.to_s,
+                          maat_reference: '4561237895'
+                        }
+                    ]
+                  }
               ]
             }
           end

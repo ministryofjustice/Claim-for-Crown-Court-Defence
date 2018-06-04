@@ -104,7 +104,7 @@
               = claim&.trial_cracked_at_third&.humanize
 
         - unless claim.lgfs? && claim.interim?
-          - if claim&.case_type && claim.requires_trial_dates?
+          - if claim&.requires_trial_dates?
             %tr
               %th{ scope: 'row', class: 'bold' }
                 = t("first_day_of_trial", scope: trial_detail_fields)
@@ -126,7 +126,7 @@
               %td
                 = claim&.trial_concluded_at&.strftime(Settings.date_format)
 
-          - if claim&.case_type && claim.requires_retrial_dates?
+          - if claim&.requires_retrial_dates?
             %tr
               %th{ scope: 'row', class: 'bold' }
                 = t("retrial_started_at", scope: retrial_detail_fields)

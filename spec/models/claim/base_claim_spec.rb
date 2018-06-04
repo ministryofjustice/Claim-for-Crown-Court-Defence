@@ -534,6 +534,40 @@ RSpec.describe Claim::BaseClaim do
       end
     end
   end
+
+  describe '#trial_length' do
+    let(:actual_trial_length) { 3 }
+    let(:retrial_actual_length) { 5 }
+    let(:claim) { MockSteppableClaim.new(actual_trial_length: actual_trial_length, retrial_actual_length: retrial_actual_length) }
+
+    subject(:trial_length) { claim.trial_length }
+
+    context 'when the claim requires re-trial dates' do
+      before do
+        expect(claim).to receive(:requires_retrial_dates?).and_return(true)
+      end
+
+      specify { is_expected.to eq(retrial_actual_length) }
+    end
+
+    context 'when the claim requires trial dates' do
+      before do
+        expect(claim).to receive(:requires_retrial_dates?).and_return(false)
+        expect(claim).to receive(:requires_trial_dates?).and_return(true)
+      end
+
+      specify { is_expected.to eq(actual_trial_length) }
+    end
+
+    context 'when the claim does not require trial dates or re-trial dates' do
+      before do
+        expect(claim).to receive(:requires_retrial_dates?).and_return(false)
+        expect(claim).to receive(:requires_trial_dates?).and_return(false)
+      end
+
+      specify { is_expected.to be_nil }
+    end
+  end
 end
 
 describe MockBaseClaim do

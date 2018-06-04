@@ -62,10 +62,11 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
   end
 
   describe '#validate_rate' do
-
-    before(:each) do
-      daf_fee.claim.actual_trial_length = 10
-    end
+    let(:first_day_of_trial) { 1.month.ago }
+    let(:actual_trial_length) { 10 }
+    let(:trial_concluded_at) { first_day_of_trial + actual_trial_length.days }
+    let(:case_type) { build(:case_type, :trial) }
+    let(:claim) { build(:advocate_claim, case_type: case_type, actual_trial_length: actual_trial_length, first_day_of_trial: first_day_of_trial, trial_concluded_at: trial_concluded_at) }
 
     context 'with quantity greater than zero' do
       it { should_be_valid_if_equal_to_value(daf_fee, :rate, 450.00) }
@@ -102,6 +103,8 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
     # NOTE: this enables fees that were created and submitted prior to rate being re-introduced to be valid
     context 'for fees on agfs submitted claims' do
+      let(:claim) { build(:advocate_claim, :with_fixed_fee_case) }
+
       it 'should NOT validate presence of rate' do
         # TODO: there's some issues the factories related with the validity of its data
         # historically all claims were by default set with a form_step which is no longer
@@ -179,7 +182,8 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     end
 
     context 'Basic fee types' do
-      let(:claim) { build :advocate_claim, :with_graduated_fee_case }
+      let(:case_type) { build(:case_type, :trial) }
+      let(:claim) { build(:advocate_claim, case_type: case_type) }
 
       context 'basic fee (BAF)' do
         context 'when rate present' do
@@ -241,12 +245,15 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           end
         end
 
-        it 'should validate based on retrial length for retrials' do
-            daf_fee.claim.case_type = FactoryBot.create(:case_type, :retrial)
+        context 'for retrials' do
+          let(:case_type) { build(:case_type, :retrial) }
+
+          it 'should validate based on retrial length' do
             daf_fee.claim.actual_trial_length = 2
             daf_fee.claim.retrial_actual_length = 20
             should_be_valid_if_equal_to_value(daf_fee, :quantity, 18)
             should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
+          end
         end
       end
 

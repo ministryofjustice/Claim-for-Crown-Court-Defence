@@ -101,7 +101,7 @@ module Claim
     belongs_to :case_type
 
     delegate :provider_id, :provider, to: :creator
-    delegate :requires_trial_dates?, :requires_retrial_dates?, to: :case_type
+    delegate :requires_trial_dates?, :requires_retrial_dates?, to: :case_type, allow_nil: true
 
     has_many :case_worker_claims, foreign_key: :claim_id, dependent: :destroy
     has_many :case_workers, through: :case_worker_claims
@@ -564,6 +564,14 @@ module Claim
         end
       end
       provider_delegator.vat_registered?
+    end
+
+    def trial_length
+      if requires_retrial_dates?
+        retrial_actual_length
+      elsif requires_trial_dates?
+        actual_trial_length
+      end
     end
 
     def allows_graduated_fees?

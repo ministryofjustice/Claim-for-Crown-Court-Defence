@@ -7,10 +7,12 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
     subject { described_class.new(claim).attendances }
 
     context 'scheme 9 claim' do
-      let(:claim) { create(:authorised_claim) }
+      let(:claim) { create(:authorised_claim, case_type: case_type) }
       attendances_incl_in_basic_fee = 2
 
       context 'for trials' do
+        let(:case_type) { build(:case_type, :trial) }
+
         context 'when no daily attendance uplift fees applied' do
           [0,1,3,nil].each do |trial_length|
             context "and claim has an actual trial length of #{trial_length || 'nil'}" do
@@ -37,7 +39,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
       end
 
       context 'for retrials' do
-        before { claim.update(case_type: retrial) }
+        let(:case_type) { build(:case_type, :retrial) }
 
         context 'when no daily attendance uplift fees applied' do
           [0,1,3,nil].each do |trial_length|
@@ -53,10 +55,12 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
     end
 
     context 'scheme 10 claim' do
-      let(:claim) { create(:authorised_claim, :agfs_scheme_10, form_step: :case_details) }
+      let(:claim) { create(:authorised_claim, :agfs_scheme_10, case_type: case_type, form_step: :case_details) }
       attendances_incl_in_basic_fee = 1
 
       context 'for trials' do
+        let(:case_type) { build(:case_type, :trial) }
+
         context 'when no daily attendance uplift fee (2+) applied' do
           [0,1,2,nil].each do |trial_length|
             context "and claim has an actual trial length of #{trial_length || 'nil'}" do
@@ -81,7 +85,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
       end
 
       context 'for retrials' do
-        before { claim.update(case_type: retrial) }
+        let(:case_type) { build(:case_type, :retrial) }
 
         context 'when no daily attendance uplift fee (2+) applied' do
           [0,1,2,nil].each do |trial_length|

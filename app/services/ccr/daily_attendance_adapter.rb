@@ -51,7 +51,7 @@ module CCR
     end
 
     def trial_length
-      claim&.case_type&.requires_retrial_dates? ? claim&.retrial_actual_length : claim&.actual_trial_length
+      claim&.trial_length
     end
 
     def eligible_fee_type_unique_codes

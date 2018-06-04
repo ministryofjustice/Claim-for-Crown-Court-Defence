@@ -120,6 +120,7 @@ group :test do
   gem 'vcr'
   gem 'webmock'
   gem 'hashdiff'
+  gem 'test-prof'
 end
 
 group :doc do

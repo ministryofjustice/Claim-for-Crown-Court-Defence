@@ -95,6 +95,10 @@ RSpec.describe Claim::LitigatorClaimPresenter, type: :presenter do
     end
   end
 
+  describe '#requires_interim_claim_info?' do
+    specify { expect(presenter.requires_interim_claim_info?).to be_truthy }
+  end
+
   describe '#summary_sections' do
     specify {
       expect(presenter.summary_sections).to eq({

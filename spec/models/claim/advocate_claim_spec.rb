@@ -125,10 +125,10 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'validate external user is advocate role' do
-    let(:claim)   { build :unpersisted_claim }
+    let(:claim) { build(:unpersisted_claim, :with_fixed_fee_case) }
 
     it 'validates external user with advocate role' do
-      expect(claim.external_user.is?(:advocate)).to be true
+      expect(claim.external_user.is?(:advocate)).to be_truthy
       expect(claim).to be_valid
     end
 
@@ -665,48 +665,102 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   context 'fees total' do
-    let(:basic_fee)           { create(:basic_fee_type) }
-    let(:fixed_fee)           { create(:fixed_fee_type) }
-    let(:misc_fee)            { create(:misc_fee_type)  }
-
-    before do
-      subject.fees.destroy_all
-
-      create(:basic_fee, claim_id: subject.id, rate: 4.00)
-      create(:basic_fee, claim_id: subject.id, rate: 3.00)
-      create(:fixed_fee, claim_id: subject.id, rate: 0.50)
-      create(:misc_fee, claim_id: subject.id, rate: 0.50)
-      subject.reload
-    end
+    let(:misc_fees) { [build(:misc_fee, rate: 0.50)] }
 
     describe '#calculate_fees_total' do
-      it 'calculates the fees total' do
-        expect(subject.calculate_fees_total).to eq(8.0)
+      context 'for a fixed case type' do
+        let(:fixed_fees) { [build(:fixed_fee, rate: 0.50)] }
+
+        subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees: fixed_fees, misc_fees: misc_fees) }
+
+        it 'calculates the fees total' do
+          expect(subject.calculate_fees_total).to eq(1.0)
+        end
+
+        it 'calculates fee totals by category too' do
+          expect(subject.calculate_fees_total(:basic_fees)).to eq(0.0)
+          expect(subject.calculate_fees_total(:misc_fees)).to eq(0.5)
+          expect(subject.calculate_fees_total(:fixed_fees)).to eq(0.5)
+        end
       end
 
-      it 'calculates fee totals by category too' do
-        expect(subject.calculate_fees_total(:basic_fees)).to eq(7.0)
-        expect(subject.calculate_fees_total(:misc_fees)).to eq(0.5)
-        expect(subject.calculate_fees_total(:fixed_fees)).to eq(0.5)
+      context 'for a graduated case type' do
+        let(:basic_fees) {
+          [
+            build(:basic_fee, rate: 4.00),
+            build(:basic_fee, rate: 3.00)
+          ]
+        }
+
+        subject(:claim) {
+          create(:advocate_claim, :with_graduated_fee_case, misc_fees: misc_fees).tap do |c|
+            c.basic_fees = basic_fees
+          end
+        }
+
+        it 'calculates the fees total' do
+          expect(subject.calculate_fees_total).to eq(7.5)
+        end
+
+        it 'calculates fee totals by category too' do
+          expect(subject.calculate_fees_total(:basic_fees)).to eq(7.0)
+          expect(subject.calculate_fees_total(:misc_fees)).to eq(0.5)
+          expect(subject.calculate_fees_total(:fixed_fees)).to eq(0.0)
+        end
       end
     end
 
     describe '#update_fees_total' do
-      it 'stores the fees total' do
-        expect(subject.fees_total).to eq(8.0)
+      context 'for a fixed case type' do
+        let(:fixed_fees) { [build(:fixed_fee, rate: 0.50)] }
+
+        subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees: fixed_fees, misc_fees: misc_fees) }
+
+        it 'stores the fees total' do
+          expect(claim.fees_total).to eq(1.0)
+        end
+
+        it 'updates the fees total' do
+          claim.fixed_fees.create attributes_for(:fixed_fee, rate: 2.00)
+          expect(claim.fees_total).to eq(3.0)
+        end
+
+        it 'updates total when claim fee destroyed' do
+          expect {
+            claim.fixed_fees.first.destroy
+          }.to change { claim.fees_total }.from(1.0).to(0.5)
+        end
       end
 
-      it 'updates the fees total' do
-        create(:basic_fee, claim_id: subject.id, rate: 2.00)
-        subject.reload
-        expect(subject.fees_total).to eq(10.0)
-      end
+      context 'for a graduated case type' do
+        let(:basic_fees) {
+          [
+            build(:basic_fee, rate: 4.00),
+            build(:basic_fee, rate: 3.00)
+          ]
+        }
 
-      it 'updates total when claim fee destroyed' do
-        fee = subject.fees.first
-        fee.destroy
-        subject.reload
-        expect(subject.fees_total).to eq(4.0)
+        subject(:claim) {
+          create(:advocate_claim, :with_graduated_fee_case, misc_fees: misc_fees).tap do |c|
+            c.basic_fees = basic_fees
+          end
+        }
+
+        it 'stores the fees total' do
+          expect(subject.fees_total).to eq(7.5)
+        end
+
+        it 'updates the fees total' do
+          expect {
+            claim.basic_fees.create attributes_for(:basic_fee, rate: 2.00)
+          }.to change { claim.fees_total }.from(7.5).to(9.5)
+        end
+
+        it 'updates total when claim fee destroyed' do
+          expect {
+            claim.basic_fees.where(rate: 3.00).first.destroy
+          }.to change { claim.fees_total }.from(7.5).to(4.5)
+        end
       end
     end
   end
@@ -1006,43 +1060,78 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
-  describe '.destroy_all_invalid_fee_types' do
+  describe '#destroy_all_invalid_fee_types' do
+    let(:misc_fees) { [build(:misc_fee, rate: 9.99)] }
 
-    let(:claim_with_all_fee_types) do
-      claim = FactoryBot.create :draft_claim
-      FactoryBot.create(:basic_fee, :with_date_attended, claim: claim, rate: 9.99)
-      FactoryBot.create(:fixed_fee, :with_date_attended, claim: claim, rate: 9.99)
-      claim.misc_fees.first.update(rate: 9.99)
-      # FactoryBot.create(:misc_fee, claim: claim, rate: 9.99)
-      claim
+    context 'when the claim is for a case type with fixed fees and is changed to graduated fees' do
+      let(:fixed_fees) { [build(:fixed_fee, :with_date_attended, rate: 9.99)] }
+
+      subject(:claim) { create(:draft_claim, :with_fixed_fee_case, fixed_fees: fixed_fees, misc_fees: misc_fees) }
+
+      it 'removes the fixed fees' do
+        expect {
+          claim.case_type = build(:case_type, :graduated_fee)
+          claim.basic_fees.build attributes_for(:basic_fee, rate: 8.00)
+          claim.save
+        }.to change {
+          [claim.fixed_fees.size, claim.basic_fees.size]
+        }.from([1, 0])
+         .to([0, 1])
+      end
+
+      it 'keeps the misc fees' do
+        expect {
+          claim.case_type = build(:case_type, :graduated_fee)
+          claim.basic_fees.build attributes_for(:basic_fee, rate: 8.00)
+          claim.save
+        }.not_to change { claim.misc_fees.size }.from(1)
+      end
     end
 
-    it 'destroys fixed fees for non fixed case types' do
-      claim_with_all_fee_types.save
-      expect(claim_with_all_fee_types.basic_fees.map(&:amount).sum.to_f).to eql 9.99
-      expect(claim_with_all_fee_types.fixed_fees.size).to eql 0
-      expect(claim_with_all_fee_types.misc_fees.size).to eql 1
+    context 'when the claim is for a case type with graduated fees and is changed to fixed fees' do
+      let(:basic_fees) {
+        [
+          build(:basic_fee, :with_date_attended, rate: 4.00),
+          build(:basic_fee, :with_date_attended, rate: 3.00)
+        ]
+      }
+
+      subject(:claim) {
+        create(:advocate_claim, :with_graduated_fee_case, misc_fees: misc_fees).tap do |c|
+          c.basic_fees = basic_fees
+        end
+      }
+
+      it 'clears basic fees' do
+        expect {
+          claim.case_type = build(:case_type, :fixed_fee)
+          claim.fixed_fees.build attributes_for(:fixed_fee, rate: 8.00)
+          claim.save
+        }.to change {
+          [claim.fixed_fees.size, claim.basic_fees.size]
+        }.from([0, 2])
+         .to([1, 2])
+        expect(claim.basic_fees.map(&:amount).sum.to_f).to eq(0.0)
+      end
+
+      it 'keeps the misc fees' do
+        expect {
+          claim.case_type = build(:case_type, :fixed_fee)
+          claim.fixed_fees.build attributes_for(:fixed_fee, rate: 8.00)
+          claim.save
+        }.not_to change { claim.misc_fees.size }.from(1)
+      end
+
+      it 'destroys basic fee child relations explicitly (dates attended)' do
+        expect {
+          claim.case_type = build(:case_type, :fixed_fee)
+          claim.fixed_fees.build attributes_for(:fixed_fee, rate: 8.00)
+          claim.save
+        }.to change {
+          claim.basic_fees.flat_map(&:dates_attended).size
+        }.from(2).to(0)
+      end
     end
-
-    it 'clears basic fees and but does NOT destroy miscellaneous fees for Fixed Fee case types' do
-      allow_any_instance_of(CaseType).to receive(:is_fixed_fee?).and_return(true)
-      claim_with_all_fee_types.case_type = FactoryBot.create :case_type, :fixed_fee
-      claim_with_all_fee_types.save
-
-      expect(claim_with_all_fee_types.basic_fees.size).to eql 1
-      expect(claim_with_all_fee_types.basic_fees.map(&:amount).sum.to_f).to eql 0.0
-      expect(claim_with_all_fee_types.fixed_fees.size).to eql 1
-      expect(claim_with_all_fee_types.misc_fees.size).to eql 1
-    end
-
-    it 'destroys basic fee child relations explicitly (dates attended)' do
-      allow_any_instance_of(CaseType).to receive(:is_fixed_fee?).and_return(true)
-      expect(claim_with_all_fee_types.basic_fees.first.dates_attended.size).to eql 1
-      claim_with_all_fee_types.case_type = FactoryBot.create :case_type, :fixed_fee
-      claim_with_all_fee_types.save
-      expect(claim_with_all_fee_types.basic_fees.first.dates_attended.size).to eql 0
-    end
-
   end
 
   describe 'sets the source field before saving a claim' do
@@ -1123,21 +1212,19 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'calculate_vat' do
-
     it 'should calaculate vat on submission if vat is applied' do
       allow(VatRate).to receive(:vat_amount).and_return(10)
-      claim = FactoryBot.build :unpersisted_claim, total: 100
+      claim = build(:unpersisted_claim, :with_fixed_fee_case, total: 100)
       claim.submit!
       expect(claim.vat_amount).to eq 10
     end
 
     it 'should zeroise the vat amount if vat is not applied' do
-      claim = FactoryBot.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, vat_amount: 20, total: 100
+      claim = build(:unpersisted_claim, :with_fixed_fee_case, fees_total: 1500.22, expenses_total: 500.00, vat_amount: 20, total: 100)
       claim.external_user.vat_registered = false
       claim.submit!
       expect(claim.vat_amount).to eq 0.0
     end
-
   end
 
   describe '#opened_for_redetermination?' do

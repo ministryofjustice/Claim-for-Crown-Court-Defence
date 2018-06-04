@@ -17,6 +17,24 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
     specify { expect(presenter.can_have_disbursements?).to be_falsey }
   end
 
+  describe '#requires_interim_claim_info?' do
+    context 'when claim is not for the AGFS fee reform scheme' do
+      before do
+        allow(claim).to receive(:fee_scheme).and_return('default')
+      end
+
+      specify { expect(presenter.requires_interim_claim_info?).to be_falsey }
+    end
+
+    context 'when claim is for the AGFS fee reform scheme' do
+      before do
+        allow(claim).to receive(:fee_scheme).and_return('fee_reform')
+      end
+
+      specify { expect(presenter.requires_interim_claim_info?).to be_truthy }
+    end
+  end
+
   specify {
     expect(presenter.summary_sections).to eq({
       case_details: :case_details,

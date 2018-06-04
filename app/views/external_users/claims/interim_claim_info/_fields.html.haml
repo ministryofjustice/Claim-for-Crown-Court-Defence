@@ -1,0 +1,34 @@
+- if claim.requires_interim_claim_info?
+  #interim-claim-info
+    %h2.bold-medium
+      = t('.warrant_fee')
+
+    = f.fields_for :interim_claim_info do |ff|
+      .form-row
+        %fieldset
+          = ff.anchored_label t('.warrant_fee_paid'), 'warrant_fee_paid', label_attributes: { class: 'form-label' }
+          = ff.collection_radio_buttons(:warrant_fee_paid, yes_no_options, :last, :first, { include_hidden: false, checked: ff.object.warrant_fee_paid ? 'true' : 'false' }) do |b|
+            .multiple-choice{ 'data-target' => b.value.to_bool ? 'interim-claim-info-details' : nil }
+              = b.radio_button
+              = b.label { b.text }
+
+            - if b.value.to_bool
+              #interim-claim-info-details.panel.panel-border-narrow.js-hidden
+                .form-group
+                  %fieldset
+                    %legend.visuallyhidden
+                      = t('.warrant_fee')
+                    .warrant-fee-issued-date-group
+                      = ff.gov_uk_date_field :warrant_issued_date,
+                                              legend_text: t('.date_issued'),
+                                              legend_class: 'form-label-bold',
+                                              id: 'interim_claim_info.warrant_issued_date',
+                                              error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_claim_info.warrant_issued_date')
+
+                .form-group
+                  .warrant-fee-executed-date-group
+                    = ff.gov_uk_date_field :warrant_executed_date,
+                                            legend_text: t('.date_executed'),
+                                            legend_class: 'govuk-legend',
+                                            id: 'interim_claim_info.warrant_executed_date',
+                                            error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_claim_info.warrant_executed_date')

@@ -5,7 +5,8 @@ class Claim::LitigatorClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       defendants: [],
       offence_details: [],
       fixed_fees: [{ name: :fixed_fee }],
-      graduated_fees: [{ name: :graduated_fee }]
+      graduated_fees: [{ name: :graduated_fee }],
+      miscellaneous_fees: [{ name: :interim_claim_info }]
     }
   end
 

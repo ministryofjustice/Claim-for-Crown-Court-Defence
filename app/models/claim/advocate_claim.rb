@@ -71,16 +71,22 @@ module Claim
              class_name: 'Fee::BasicFee',
              dependent: :destroy,
              inverse_of: :claim,
-             validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :basic_fees }
+             validate: proc { |claim| claim.step_validation_required?(:basic_fees) }
     has_many :fixed_fees,
              foreign_key: :claim_id,
              class_name: 'Fee::FixedFee',
              dependent: :destroy,
              inverse_of: :claim,
-             validate: proc { |claim| claim.from_api? || claim.form_step.nil? || claim.form_step == :fixed_fees }
+             validate: proc { |claim| claim.step_validation_required?(:fixed_fees) }
+    has_one :interim_claim_info,
+            foreign_key: :claim_id,
+            dependent: :destroy,
+            inverse_of: :claim,
+            validate: proc { |claim| claim.step_validation_required?(:miscellaneous_fees) }
 
     accepts_nested_attributes_for :basic_fees, reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :fixed_fees, reject_if: all_blank_or_zero, allow_destroy: true
+    accepts_nested_attributes_for :interim_claim_info, reject_if: :all_blank, allow_destroy: false
 
     validates_with ::Claim::AdvocateClaimValidator, unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::AdvocateClaimSubModelValidator
@@ -216,6 +222,10 @@ module Claim
 
     def agfs?
       self.class.agfs?
+    end
+
+    def final?
+      true
     end
 
     def eligible_advocate_categories

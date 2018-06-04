@@ -10,7 +10,8 @@ RSpec.describe Claim::LitigatorClaimSubModelValidator, type: :validator do
       defendants: [],
       offence_details: [],
       fixed_fees: [{ name: :fixed_fee }],
-      graduated_fees: [{ name: :graduated_fee }]
+      graduated_fees: [{ name: :graduated_fee }],
+      miscellaneous_fees: [{ name: :interim_claim_info }]
     },
     has_many: {
       case_details: [],

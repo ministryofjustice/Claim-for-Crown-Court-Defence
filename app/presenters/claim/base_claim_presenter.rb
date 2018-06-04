@@ -266,6 +266,10 @@ class Claim::BaseClaimPresenter < BasePresenter
     true
   end
 
+  def requires_interim_claim_info?
+    false
+  end
+
   def assessment_date
     claim.assessment.blank? ? 'not yet assessed' : assessment_or_determination_date.strftime(Settings.date_format)
   end

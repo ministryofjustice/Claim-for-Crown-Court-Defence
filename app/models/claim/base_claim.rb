@@ -451,6 +451,10 @@ module Claim
       true
     end
 
+    def step_validation_required?(step)
+      from_api? || form_step.nil? || form_step == step
+    end
+
     def disabled_for_transition?
       disable_for_state_transition.present?
     end

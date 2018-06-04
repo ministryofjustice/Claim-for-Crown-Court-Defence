@@ -5,6 +5,8 @@ RSpec.describe Claim::InterimClaimPresenter, type: :presenter do
 
   subject(:presenter) { described_class.new(claim, view) }
 
+  include_examples 'a claim presenter'
+
   specify { expect(presenter.requires_trial_dates?).to be_falsey }
   specify { expect(presenter.requires_retrial_dates?).to be_falsey }
   specify { expect(presenter.can_have_expenses?).to be_falsey }

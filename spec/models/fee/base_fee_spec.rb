@@ -45,7 +45,7 @@ module Fee
       end
 
       it 'does not zeroise the amount if not null' do
-        fee = create :fixed_fee, :lgfs, amount: nil, rate: 2, quantity: 150
+        fee = create :fixed_fee, amount: nil, rate: 2, quantity: 150
         fee.save!
         expect(fee.amount).to eq 300.0
       end

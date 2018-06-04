@@ -9,12 +9,13 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
   let(:fxndr) { create(:fixed_fee_type, :fxndr) }
   let(:fxnoc) { create(:fixed_fee_type, :fxnoc) }
 
-  let(:case_type) { instance_double('case_type', fee_type_code: 'FXCBR', requires_maat_reference?: false )}
   let(:adapted_fixed_fees) { ::CCR::Fee::FixedFeeAdapter.new.call(claim) }
 
   context 'when an applicable fixed fee is claimed' do
+    let(:case_type) { build(:case_type, :fixed_fee, fee_type_code: 'FXCBR', requires_maat_reference: false) }
+    let(:claim) { create(:authorised_claim, case_number: 'T20160001', case_type: case_type) }
+
     before do |example|
-      allow(claim).to receive(:case_type).and_return case_type
       create(:fixed_fee, fee_type: fxcbr, claim: claim, quantity: 13) unless example.metadata[:skip_fee]
       create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: 'T20170001,T20170002') unless example.metadata[:skip_uplifts]
     end

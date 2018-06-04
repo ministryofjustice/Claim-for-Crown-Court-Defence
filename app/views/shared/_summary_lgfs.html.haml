@@ -50,6 +50,26 @@
         = t('.fees_total')
         = claim.fees_total
 
+    - if claim.final? && claim.interim_claim_info.present?
+      - present(claim.interim_claim_info) do |info|
+        %h3.heading-medium
+          = t('common.interim_claim_info')
+        - if info.warrant_fee_paid?
+          %table.table-summary
+            %caption.hidden
+              = t('.fees.caption')
+            %tbody
+              %tr
+                %th.col-date{ scope: 'col' }
+                  = t('shared.claims.interim_claim_info.fields.date_issued')
+                %td
+                  = info.warrant_issued_date
+              %tr
+                %th.col-date{ scope: 'col' }
+                  = t('shared.claims.interim_claim_info.fields.date_executed')
+                %td
+                  = info.warrant_executed_date
+
     - if claim.can_have_expenses?
       - if claim.expenses.empty?
         %h3.heading-medium

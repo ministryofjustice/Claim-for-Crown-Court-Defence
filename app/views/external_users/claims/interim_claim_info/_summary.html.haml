@@ -1,0 +1,17 @@
+- claim.interim_claim_info && present(claim.interim_claim_info) do |info|
+  - if info.warrant_fee_paid?
+    %table{ class: 'summary', summary: t('.summary') }
+      %caption
+        %span.table-caption.visuallyhidden
+          = t('.caption')
+      %tbody
+        %tr
+          %th{ scope: 'row', class: 'bold' }
+            = t('shared.claims.interim_claim_info.fields.date_issued')
+          %td
+            = info.warrant_issued_date
+        %tr
+          %th{ scope: 'row', class: 'bold' }
+            = t('shared.claims.interim_claim_info.fields.date_executed')
+          %td
+            = info.warrant_executed_date

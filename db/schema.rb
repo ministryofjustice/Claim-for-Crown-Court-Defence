@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180409091300) do
+ActiveRecord::Schema.define(version: 20180515140528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -354,6 +354,14 @@ ActiveRecord::Schema.define(version: 20180409091300) do
     t.json     "error_messages"
     t.datetime "deleted_at"
     t.index ["claim_id"], name: "index_injection_attempts_on_claim_id", using: :btree
+  end
+
+  create_table "interim_claim_info", force: :cascade do |t|
+    t.boolean "warrant_fee_paid"
+    t.date    "warrant_issued_date"
+    t.date    "warrant_executed_date"
+    t.integer "claim_id"
+    t.index ["claim_id"], name: "index_interim_claim_info_on_claim_id", using: :btree
   end
 
   create_table "locations", force: :cascade do |t|

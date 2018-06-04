@@ -5,6 +5,8 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
 
   subject(:presenter) { described_class.new(claim, view) }
 
+  include_examples 'a claim presenter'
+
   specify { expect(presenter.pretty_type).to eq('LGFS Transfer') }
   specify { expect(presenter.type_identifier).to eq('lgfs_transfer') }
 

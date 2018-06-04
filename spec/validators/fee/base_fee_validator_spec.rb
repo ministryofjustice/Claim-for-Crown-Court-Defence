@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Fee::BaseFeeValidator, type: :validator do
-  let(:claim)   { build :advocate_claim }
+  let(:claim)   { build :advocate_claim, :with_fixed_fee_case }
   let(:fee)     { build :fixed_fee, claim: claim }
   let(:baf_fee) { build :basic_fee, :baf_fee, claim: claim }
   let(:daf_fee) { build :basic_fee, :daf_fee, claim: claim }
@@ -179,6 +179,8 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     end
 
     context 'Basic fee types' do
+      let(:claim) { build :advocate_claim, :with_graduated_fee_case }
+
       context 'basic fee (BAF)' do
         context 'when rate present' do
           it 'should be valid with quantity of one' do
@@ -469,5 +471,4 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
     end
   end
-
 end

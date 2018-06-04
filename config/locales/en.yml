@@ -819,8 +819,8 @@ en:
           page_header: 'Miscellaneous fees'
           page_hint: *fees_vat_prompt
           page_intro_html: |
-            If needed, please complete
-            <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a>
+            If needed, please complete an
+            <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" target="_blank" rel="external" title="Special Prep Forms">appropriate special prep form</a>
             and attach to the claim.
         misc_fee_fields:
           misc_fee: 'Miscellaneous fee'

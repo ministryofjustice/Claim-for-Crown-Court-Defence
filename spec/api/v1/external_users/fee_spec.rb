@@ -295,14 +295,14 @@ describe API::V1::ExternalUsers::Fee do
             valid_params[:fee_type_id] = misc_fee_type.id
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response("Enter a rate for the miscellaneous fee",0)
+            expect_error_response("Enter a rate/net amount for the miscellaneous fee",0)
           end
 
-          it 'fixed fees should raise misc fee errors from translations' do
+          it 'fixed fees should raise fixed fee errors from translations' do
             valid_params[:fee_type_id] = fixed_fee_type.id
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response("Enter a rate for the fixed fee",0)
+            expect_error_response("Enter a rate/net amount for the fixed fee", 0)
           end
         end
 

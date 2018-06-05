@@ -15,8 +15,17 @@ module API
         end
 
         helpers do
+          def in_statement_for(arr)
+            arr.map(&:to_s).join('\', \'').prepend('(\'').concat('\')')
+          end
+
+          def claim_types_for_scheme
+            return in_statement_for(::Claim::BaseClaim.agfs_claim_types) if scheme.eql?('agfs')
+            in_statement_for(::Claim::BaseClaim.lgfs_claim_types)
+          end
+
           def claims
-            built_sql = unallocated_sql.gsub(/REPLACE_MATCHER/, scheme.eql?('agfs') ? ' IN ' : ' NOT IN ')
+            built_sql = unallocated_sql.gsub(/CLAIM_TYPES_FOR_SCHEME/, claim_types_for_scheme)
             result = ActiveRecord::Base.connection.execute(built_sql).to_a
             JSON.parse(result.to_json, object_class: OpenStruct)
           end

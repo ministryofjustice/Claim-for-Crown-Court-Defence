@@ -35,6 +35,7 @@ Metrics/BlockLength:
     - helpers
     - group
     - state_machine
+    - resource
 
 Metrics/ModuleLength:
   Exclude:

@@ -78,7 +78,7 @@ module API::V2
             ON o.offence_class_id = oc.id
         WHERE
           c.deleted_at IS NULL
-          AND c.type REPLACE_MATCHER ('Claim::AdvocateClaim','Claim::AdvocateInterimClaim')
+          AND c.type IN CLAIM_TYPES_FOR_SCHEME
           AND c.state IN ('submitted', 'redetermination' ,'awaiting_written_reasons')
         GROUP BY
           c.id, c.uuid, c.allocation_type, court.name,

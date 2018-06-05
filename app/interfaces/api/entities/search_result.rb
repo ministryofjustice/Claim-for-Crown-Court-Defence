@@ -31,6 +31,7 @@ module API
         expose :graduated_fees
         expose :interim_fees
         expose :warrants
+        expose :agfs_warrants
         expose :interim_disbursements
         expose :risk_based_bills
         expose :injection_errored
@@ -97,6 +98,10 @@ module API
 
       def warrants
         (interim_claim? && contains_fee_of_type('Warrant')).to_i
+      end
+
+      def agfs_warrants
+        object.case_type.eql?('Warrant').to_i
       end
 
       def interim_disbursements

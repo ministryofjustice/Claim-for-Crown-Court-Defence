@@ -16,7 +16,7 @@ module API
 
         helpers do
           def claims
-            built_sql = unallocated_sql.gsub(/REPLACE_MATCHER/, scheme.eql?('agfs') ? ' = ' : ' != ')
+            built_sql = unallocated_sql.gsub(/REPLACE_MATCHER/, scheme.eql?('agfs') ? ' IN ' : ' NOT IN ')
             result = ActiveRecord::Base.connection.execute(built_sql).to_a
             JSON.parse(result.to_json, object_class: OpenStruct)
           end

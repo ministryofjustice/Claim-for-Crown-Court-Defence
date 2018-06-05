@@ -60,7 +60,7 @@ describe API::Entities::SearchResult do
           guilty_plea: 0,
           graduated_fees: 0,
           interim_fees: 0,
-          warrants: 0,
+          lgfs_warrants: 0,
           agfs_warrants: 0,
           interim_disbursements: 0,
           risk_based_bills: 0,
@@ -112,7 +112,7 @@ describe API::Entities::SearchResult do
 
       context 'when passed a litigator warrant Interim fee' do
         let(:claim) { OpenStruct.new('id' => '179818', 'uuid' => '887cbd94-3f48-4955-8646-918de4db3617', 'scheme' => 'lgfs', 'scheme_type' => 'Interim', 'case_number' => 'T20170081', 'state' => 'submitted', 'court_name' => 'Cambridge', 'case_type' => 'Trial', 'total' => '667.33', 'disk_evidence' => false, 'external_user' => 'Fernando Zboncak', 'maat_references' => '5663494', 'defendants' => 'Reta Stark', 'fees' => '0.0~Warrant~Fee::InterimFeeType', 'last_submitted_at' => '07/12/2017  12:58:29', 'class_letter' => 'B', 'is_fixed_fee' => false, 'fee_type_code' => 'GRTRL', 'graduated_fee_types' => 'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR') }
-        before { result.merge!(trial: 1, graduated_fees: 1, warrants: 1) }
+        before { result.merge!(trial: 1, graduated_fees: 1, lgfs_warrants: 1) }
         include_examples 'returns expected JSON filter values'
       end
 

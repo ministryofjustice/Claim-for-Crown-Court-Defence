@@ -30,7 +30,7 @@ module API
         expose :guilty_plea
         expose :graduated_fees
         expose :interim_fees
-        expose :warrants
+        expose :lgfs_warrants
         expose :agfs_warrants
         expose :interim_disbursements
         expose :risk_based_bills
@@ -96,7 +96,7 @@ module API
         (interim_claim? && fee_is_interim_type && is_submitted?).to_i
       end
 
-      def warrants
+      def lgfs_warrants
         (interim_claim? && contains_fee_of_type('Warrant')).to_i
       end
 

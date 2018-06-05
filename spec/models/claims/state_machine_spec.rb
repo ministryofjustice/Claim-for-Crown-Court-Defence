@@ -400,17 +400,52 @@ RSpec.describe Claims::StateMachine, type: :model do
   end
 
   describe 'refuse!' do
-    before { claim.submit!; claim.allocate!; claim.refuse!(reason_code: reason_codes) }
     let(:reason_codes) { ['wrong_ia'] }
-    let(:last_state_transition) { claim.last_state_transition }
 
-    context 'claim state transitions (audit trail)' do
-      it 'updates #to' do
-        expect(last_state_transition.to).to eq('refused')
+    context 'when refused on first assessment' do
+
+      before do
+        subject.submit!
+        subject.allocate!
       end
 
-      it 'updates #reason_code[s]' do
-        expect(last_state_transition.reason_codes).to eq(reason_codes)
+      context 'claim state transitions (audit trail)' do
+        it 'updates #to' do
+          expect { subject.refuse!(reason_code: reason_codes) }
+            .to change { claim.reload.last_state_transition.to }
+            .to 'refused'
+        end
+
+        it 'updates #reason_code[s]' do
+          expect{ subject.refuse!(reason_code: reason_codes) }
+            .to change{ subject.last_state_transition.reason_codes }
+            .to(reason_codes)
+        end
+
+        it {expect{ subject.refuse!(reason_code: reason_codes) }.not_to change{ subject.assessment.fees }.from(0) }
+
+        context 'test' do
+          before { subject.refuse!(reason_code: reason_codes) }
+
+          it { expect(subject.assessment.fees).to eq(0) }
+        end
+      end
+    end
+
+    context 'when refused on a redetermination' do
+      before do
+        claim.submit!
+        claim.allocate!
+        claim.assessment.update(fees: 123.00, expenses: 23.45)
+        claim.authorise_part!
+        claim.redetermine!
+        claim.allocate!
+      end
+
+      it 'does not set the assessment to zero' do
+        expect { claim.refuse!(reason_code: reason_codes) }
+          .not_to change { claim.assessment.fees.to_f }
+          .from(123.0)
       end
     end
   end

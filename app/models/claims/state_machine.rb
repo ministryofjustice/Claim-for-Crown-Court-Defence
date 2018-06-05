@@ -235,7 +235,12 @@ module Claims
     end
 
     def set_amount_assessed_zero!
+      return if has_been_previously_assessed?
       assessment.zeroize! if state == 'allocated'
+    end
+
+    def has_been_previously_assessed?
+      claim_state_transitions.map(&:to).any? { |state| %w[authorised part_authorised].include?(state) }
     end
 
     def remove_case_workers!

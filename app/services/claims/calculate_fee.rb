@@ -36,7 +36,9 @@ module Claims
 
     private
 
-    attr_reader :supplier_type, :case_date, :fee_type_code, :advocate_category, :options, :offence_class, :number_of_days_attended, :number_of_cases, :number_of_defendants, :trial_length, :number_of_prosecution_witnesses, :pages_prosecution_evidence, :case, :retrial_interval
+    attr_reader :supplier_type, :case_date, :fee_type_code, :advocate_category, :options, :offence_class,
+                :number_of_days_attended, :number_of_cases, :number_of_defendants, :trial_length,
+                :number_of_prosecution_witnesses, :pages_prosecution_evidence, :case, :retrial_interval
 
     alias day number_of_days_attended
     alias pw number_of_prosecution_witnesses
@@ -46,11 +48,7 @@ module Claims
     end
 
     def calculate_fee
-      data = {
-        fee_scheme_id: fee_scheme.id,
-        fee_type_code: mapped_fee_type_code,
-        scenario_id: scenario_identifier
-      }
+      data = { fee_scheme_id: fee_scheme.id, fee_type_code: mapped_fee_type_code, scenario_id: scenario_identifier }
 
       optional_data.each do |optional_field|
         data[optional_field] = send(optional_field) if send(optional_field)
@@ -87,7 +85,7 @@ module Claims
       # Also, atm, this is specific for CCR (does not include CCLF)
       res = CCR::CaseTypeAdapter::BILL_SCENARIOS[fee_type_code.to_sym]
       return unless res
-      res[res.length-2..res.length].to_i
+      res[res.length - 2..res.length].to_i
     end
 
     def advocate_type

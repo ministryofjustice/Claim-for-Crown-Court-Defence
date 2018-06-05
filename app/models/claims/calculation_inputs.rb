@@ -51,7 +51,7 @@ module Claims
     end
 
     def number_of_cases
-      #TODO: change to a dynamic value if necessary
+      # TODO: change to a dynamic value if necessary
       # for now it will default to 1
       res = claim.fees&.where(fee_types: { code: 'NOC' })&.sum(:quantity)&.to_i
       [1, res].max

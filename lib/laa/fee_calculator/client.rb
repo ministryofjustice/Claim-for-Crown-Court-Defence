@@ -22,7 +22,7 @@ module LAA
 
       def set_connection
         Faraday.new(url: host, headers: default_headers)
-          # conn.response :json, content_type: /\bjson$/
+        # conn.response :json, content_type: /\bjson$/
       end
 
       def default_headers

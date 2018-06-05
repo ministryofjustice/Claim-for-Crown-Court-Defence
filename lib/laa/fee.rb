@@ -14,7 +14,8 @@ module LAA
           scenario: options.fetch(:scenario_id)
         }
 
-        %i[advocate_type offence_class day number_of_cases number_of_defendants trial_length pw ppe case defendant fixed halfday hour month pages_of_prosecuting_evidence retrial_interval].each do |field|
+        %i[advocate_type offence_class day number_of_cases number_of_defendants trial_length pw ppe case defendant
+           fixed halfday hour month pages_of_prosecuting_evidence retrial_interval].each do |field|
           filters[field] = options[field] if options[field]
         end
 

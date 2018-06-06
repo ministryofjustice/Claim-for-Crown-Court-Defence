@@ -45,8 +45,15 @@ shared_examples 'common amount validations' do
   end
 end
 
-RSpec.shared_examples 'common AGFS number of cases uplift validations' do
+shared_examples 'common AGFS number of cases uplift validations' do
   context 'case numbers list valid' do
+    it 'when case_numbers is blank and quantity is zero' do
+      noc_fee.quantity = 0
+      noc_fee.rate = 0
+      noc_fee.case_numbers = ''
+      should_not_error(noc_fee, :case_numbers)
+    end
+
     context 'when submitted by API' do
       before do
         noc_fee.claim.source = 'api'

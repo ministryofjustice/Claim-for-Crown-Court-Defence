@@ -215,11 +215,11 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_trial_dates
-    return unless @record.case_type&.requires_trial_dates?
+    return unless @record&.requires_trial_dates?
     validate_trial_start_and_end(:first_day_of_trial, :trial_concluded_at, false)
     validate_trial_start_and_end(:first_day_of_trial, :trial_concluded_at, true)
 
-    return if @record.case_type&.requires_retrial_dates?
+    return if @record&.requires_retrial_dates?
     error_code = 'check_not_earlier_than_rep_order'
     validate_on_or_after(earliest_rep_order, :first_day_of_trial, error_code)
     return if @record.errors[:first_day_of_trial]&.include?(error_code)
@@ -332,7 +332,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_retrial_start_and_end(start_attribute, end_attribute, inverse = false)
-    return unless @record.case_type&.requires_retrial_dates?
+    return unless @record&.requires_retrial_dates?
     start_attribute, end_attribute = end_attribute, start_attribute if inverse
     # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
     validate_presence(start_attribute, 'blank') if @record.editable?

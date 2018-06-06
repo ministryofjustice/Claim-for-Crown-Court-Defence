@@ -158,11 +158,7 @@ module Fee
     end
 
     def trial_length
-      if @record.claim.try(:case_type).try(:requires_retrial_dates?)
-        @record.try(:claim).try(:retrial_actual_length) || 0
-      else
-        @record.try(:claim).try(:actual_trial_length) || 0
-      end
+      @record&.claim&.trial_length || 0
     end
 
     def daf_trial_length_combination_invalid(lower_bound, trial_length_modifier, max_quantity = nil)

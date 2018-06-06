@@ -101,10 +101,10 @@
       - if claim.transfer?
         = render partial: 'shared/claim_transfer_details', locals: { claim: claim }
 
-      - if claim.case_type && claim.requires_trial_dates?
+      - if claim&.requires_trial_dates?
         = render partial: 'shared/claim_trial_details', locals: { claim: claim }
 
-      - if claim.case_type && claim.requires_retrial_dates?
+      - if claim&.requires_retrial_dates?
         = render partial: 'shared/claim_retrial_details', locals: { claim: claim }
 
   - if claim.defendants.any?

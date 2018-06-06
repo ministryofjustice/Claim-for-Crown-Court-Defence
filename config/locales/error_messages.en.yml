@@ -677,6 +677,18 @@ representation_order:
       long: 'Representation order date of the #{defendant} cannot be prior to 02/10/14. Please check this date'
       short: *check_date
       api: 'Representation order date of the defendant cannot be prior to 02/10/14. Please check this date'
+    not_on_or_before_case_concluded_date:
+      long: 'Check the combination of the representation order date and the case concluded date'
+      short: 'Check combination of representation order date and case concluded date'
+      api: 'Check combination of rep order date and case concluded date'
+    not_on_or_before_first_day_of_retrial:
+      long: 'Check the combination of the representation order date and the dates of trial'
+      short: 'Check combination of representation order date and trial dates'
+      api: 'Check combination of rep order date and trial dates'
+    not_on_or_before_first_day_of_trial:
+      long: 'Check the combination of the representation order date and the dates of trial'
+      short: 'Check combination of representation order date and trial dates'
+      api: 'Check combination of rep order date and trial dates'
     scheme_ten_offence:
       long: Representation Order Date is not valid for AGFS scheme ten
       short: *check_date

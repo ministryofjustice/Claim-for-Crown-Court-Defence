@@ -3,7 +3,7 @@ require 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 require_relative 'shared_examples_for_fees'
 
-describe API::V1::ExternalUsers::Fee do
+RSpec.describe API::V1::ExternalUsers::Fee do
 
   include Rack::Test::Methods
   include ApiSpecHelper
@@ -13,6 +13,14 @@ describe API::V1::ExternalUsers::Fee do
 
   ALL_FEE_ENDPOINTS = [VALIDATE_FEE_ENDPOINT, CREATE_FEE_ENDPOINT]
   FORBIDDEN_FEE_VERBS = [:get, :put, :patch, :delete]
+
+  def create_claim(*args)
+    # TODO: this should not require build + save + reload
+    # understand what the factory is doing to solve this
+    claim = build(*args)
+    claim.save
+    claim.reload
+  end
 
   let!(:provider)         { create(:provider) }
 
@@ -128,13 +136,19 @@ describe API::V1::ExternalUsers::Fee do
         end
 
         context 'agfs scheme 10' do
-          let!(:claim) { create(:claim, :agfs_scheme_10, source: 'api', actual_trial_length: 5).reload }
-          before do
-            # Replicate the creation of this by the API submission of the claim
-            create(:basic_fee, fee_type: basic_fee_dat_type, claim: claim, quantity: 0, rate: 0.0, case_numbers: '')
-          end
-
-          let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_dat_type.id, quantity: 2, rate: 600.00 } }
+          let(:first_day_of_trial) { Settings.agfs_fee_reform_release_date }
+          let(:actual_trial_length) { 5 }
+          let(:trial_concluded_at) { first_day_of_trial + actual_trial_length.days }
+          let(:case_type) { build(:case_type, :trial) }
+          let(:basic_fees) {
+            [
+              build(:basic_fee, :baf_fee, quantity: 0, rate: 0.0, case_numbers: ''),
+              build(:basic_fee, :dat_fee, quantity: 0, rate: 0.0, case_numbers: '')
+            ]
+          }
+          let(:defendants) { [build(:defendant, representation_orders: [build(:representation_order, representation_order_date: first_day_of_trial)])] }
+          let!(:claim) { create_claim(:advocate_claim, source: 'api', first_day_of_trial: first_day_of_trial, trial_concluded_at: trial_concluded_at, actual_trial_length: actual_trial_length, case_type: case_type, defendants: defendants, basic_fees: basic_fees) }
+          let(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_dat_type.id, quantity: 2, rate: 600.00 } }
 
           it 'should return 200 and fee JSON output including UUID' do
             post_to_create_endpoint

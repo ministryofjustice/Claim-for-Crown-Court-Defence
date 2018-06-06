@@ -153,6 +153,7 @@ ActiveRecord::Schema.define(version: 20181115121652) do
     t.index ["cms_number"], name: "index_claims_on_cms_number", using: :btree
     t.index ["court_id"], name: "index_claims_on_court_id", using: :btree
     t.index ["creator_id"], name: "index_claims_on_creator_id", using: :btree
+    t.index ["deleted_at"], name: "index_claims_on_deleted_at", using: :btree
     t.index ["external_user_id"], name: "index_claims_on_external_user_id", using: :btree
     t.index ["form_id"], name: "index_claims_on_form_id", using: :btree
     t.index ["offence_id"], name: "index_claims_on_offence_id", using: :btree

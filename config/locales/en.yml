@@ -1276,8 +1276,6 @@ en:
           password_confirmation: *password_confirmation
           submit: 'Change password'
       allocations:
-        case_type_filters:
-          case_types: 'Case types'
         scheme_filters:
           scheme_types: 'Scheme types'
         allocation:

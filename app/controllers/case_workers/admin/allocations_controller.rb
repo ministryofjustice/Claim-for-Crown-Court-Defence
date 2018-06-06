@@ -6,6 +6,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   before_action :set_summary_values, only: [:new], if: :summary_from_previous_request?
   before_action :process_claim_ids, only: [:create], if: :quantity_allocation?
 
+  # FIXME: is this even used....the partial it is called from does not appear to be used!!
   helper_method :allocation_filters_for_scheme
 
   def new
@@ -116,6 +117,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     params[:commit] == 'Allocate'
   end
 
+  # FIXME: is this even used....the partial it is called from does not appear to be used!!
   def allocation_filters_for_scheme(scheme)
     if scheme == 'agfs'
       %w[all fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons disk_evidence]

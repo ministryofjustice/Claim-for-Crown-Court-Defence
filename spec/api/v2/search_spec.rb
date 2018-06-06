@@ -49,7 +49,8 @@ describe API::V2::Search do
                           guilty_plea
                           graduated_fees
                           interim_fees
-                          warrants
+                          agfs_warrants
+                          lgfs_warrants
                           interim_disbursements
                           risk_based_bills
                           injection_errored
@@ -87,7 +88,7 @@ describe API::V2::Search do
 
       it 'returns JSON with the required search result keys' do
         search_result_keys = JSON.parse(last_response.body, symbolize_names: true).first.all_keys
-        expect(search_result_keys).to eq(search_keys)
+        expect(search_result_keys).to include(*search_keys)
       end
 
       it 'returns JSON with expected injection error message' do

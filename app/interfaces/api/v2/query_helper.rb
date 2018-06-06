@@ -7,15 +7,26 @@ module API::V2
         SELECT
           c.id,
           c.uuid,
-          CASE WHEN c.type = 'Claim::AdvocateClaim' THEN 'agfs' ELSE 'lgfs' END AS scheme,
+          CASE
+            WHEN c.type IN ('Claim::AdvocateClaim','Claim::AdvocateInterimClaim') THEN 'agfs'
+            ELSE 'lgfs'
+          END AS scheme,
           CASE
             WHEN ltrim(replace(type, 'Claim', ''), '::') = 'Litigator'
-            THEN 'Final' ELSE ltrim(replace(type, 'Claim', ''), '::')
-            END AS scheme_type,
+            THEN 'Final'
+            ELSE ltrim(replace(type, 'Claim', ''), '::')
+          END AS scheme_type,
           c.case_number,
           c.state,
           court.name AS court_name,
-          CASE WHEN ct.name IS NULL THEN 'Transfer' ELSE ct.name END as case_type,
+          CASE
+            WHEN ct.name IS NULL THEN
+              CASE c.type
+                WHEN 'Claim::AdvocateInterimClaim' THEN 'Warrant'
+                WHEN 'Claim::TransferClaim' THEN 'Transfer'
+              END
+            ELSE ct.name
+          END as case_type,
           SUM(c.total + c.vat_amount)/COUNT(c.id) as total,
           c.disk_evidence,
           u.first_name || ' ' || u.last_name AS external_user,
@@ -67,7 +78,7 @@ module API::V2
             ON o.offence_class_id = oc.id
         WHERE
           c.deleted_at IS NULL
-          AND c.type REPLACE_MATCHER 'Claim::AdvocateClaim'
+          AND c.type IN CLAIM_TYPES_FOR_SCHEME
           AND c.state IN ('submitted', 'redetermination' ,'awaiting_written_reasons')
         GROUP BY
           c.id, c.uuid, c.allocation_type, court.name,

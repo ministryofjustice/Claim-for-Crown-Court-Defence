@@ -74,7 +74,7 @@
             %td
               = claim.case_type&.name
 
-        - if claim.final? || claim.transfer?
+        - if claim.requires_case_concluded_date?
           %tr
             %th{ scope: 'row', class: 'bold' }
               = t('external_users.claims.case_details.case_concluded_date.case_concluded_at')

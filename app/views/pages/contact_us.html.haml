@@ -1,8 +1,5 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Contact us'}
 
-- advocates_email  = 'advocates-fee@legalaid.gsi.gov.uk'
-- litigators_email = 'litigators-fee@legalaid.gsi.gov.uk'
-
 %section.contact-us
   %p
     For any queries about your claim, contact the following:
@@ -11,14 +8,14 @@
     %li
       Advocates’ graduated fee scheme
     %li
-      Email: #{mail_to advocates_email, advocates_email}
+      Email: #{mail_to Settings.advocates_email, Settings.advocates_email}
     %li.last-element
       Phone:
       %a{:href => 'tel:01158526000'} 0115 852 6000
     %li
       Litigators’ graduated fee scheme
     %li
-      Email: #{mail_to litigators_email, litigators_email}
+      Email: #{mail_to Settings.litigators_email, Settings.litigators_email}
     %li
       Phone:
       %a{:href => 'tel:01158526000'} 0115 852 6000

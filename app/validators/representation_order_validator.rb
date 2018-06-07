@@ -21,6 +21,7 @@ class RepresentationOrderValidator < BaseValidator
     validate_against_agfs_fee_reform_release_date
     validate_against_trial_dates
     validate_against_retrial_dates
+    validate_against_cracked_trial_dates
     validate_against_case_concluded_date
     validate_against_first_rep_order_date
   end
@@ -39,6 +40,12 @@ class RepresentationOrderValidator < BaseValidator
   def validate_against_retrial_dates
     return unless claim&.requires_retrial_dates?
     validate_on_or_before(claim.retrial_started_at, :representation_order_date, 'not_on_or_before_first_day_of_retrial')
+  end
+
+  def validate_against_cracked_trial_dates
+    return unless claim&.requires_cracked_dates?
+    validate_on_or_before(claim.trial_fixed_notice_at,
+                          :representation_order_date, 'not_on_or_before_trial_fixed_notice_date')
   end
 
   def validate_against_case_concluded_date

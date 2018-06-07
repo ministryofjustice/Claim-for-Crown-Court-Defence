@@ -79,6 +79,20 @@ FactoryBot.define do
       requires_retrial_dates true
     end
 
+    trait :cracked_trial do
+      name 'Cracked Trial'
+      fee_type_code 'GRRAK'
+      requires_cracked_dates true
+      allow_pcmh_fee_type true
+    end
+
+    trait :cracked_before_retrial do
+      name 'Cracked before retrial'
+      fee_type_code 'GRCBR'
+      requires_cracked_dates true
+      allow_pcmh_fee_type true
+    end
+
     trait :requires_maat_reference do
       requires_maat_reference true
     end

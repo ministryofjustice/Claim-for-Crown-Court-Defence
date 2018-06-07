@@ -4,6 +4,12 @@
     - if local_assigns[:editable]
       = link_to 'Change', edit_polymorphic_path(claim, step: :interim_fees, referrer: :summary), class: 'link-change'
 
+  - if claim.agfs?
+    = render partial: 'external_users/claims/advocate_category_summary', locals: { claim: claim }
+
+    %p
+      &nbsp;
+
   - if claim.warrant_fee.nil?
     %p
       There is no warrant fee for this claim

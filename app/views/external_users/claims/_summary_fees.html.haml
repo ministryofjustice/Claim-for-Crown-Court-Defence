@@ -3,6 +3,14 @@
   - if local_assigns[:editable]
     = link_to 'Change', edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change'
 
+  -# TODO: Avoid use of these checks and just display info
+  -# based on configuration
+  - if claim.agfs? && %i[basic_fees fixed_fees].include?(step)
+    = render partial: 'external_users/claims/advocate_category_summary', locals: { claim: claim }
+
+    %p
+      &nbsp;
+
 - if local_assigns.has_key?(:fee)
   - if fee
     %table{ class: 'summary', summary: t('.summary') }

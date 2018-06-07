@@ -5,7 +5,25 @@
     %p
       = raw t('.fee_prompt_text')
 
-    = f.fields_for :basic_fees, f.object.basic_fees.sort_by(&:position) do |basic_fee_fields|
-      - @basic_fee_count += 1
-      - if present(basic_fee_fields.object).should_be_displayed?
-        = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields
+    - present(f.object.basic_fees, BasicFeesPresenter) do | basic_fees |
+
+
+
+
+      = f.fields_for :basic_fees, basic_fees.primary_fee do |basic_fee_fields|
+        - @basic_fee_count += 1
+        - if present(basic_fee_fields.object).should_be_displayed?
+          = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields
+
+
+
+
+      %hr/
+      offence type
+      %hr/
+
+
+      = f.fields_for :basic_fees, basic_fees.additional_fees.sort_by(&:position) do |basic_fee_fields|
+        - @basic_fee_count += 1
+        - if present(basic_fee_fields.object).should_be_displayed?
+          = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields

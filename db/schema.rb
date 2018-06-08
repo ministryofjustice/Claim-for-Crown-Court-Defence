@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180531110653) do
+ActiveRecord::Schema.define(version: 20180608101520) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -204,6 +204,7 @@ ActiveRecord::Schema.define(version: 20180531110653) do
     t.datetime "updated_at"
     t.float    "vat_amount",    default: 0.0
     t.decimal  "disbursements", default: "0.0"
+    t.index ["claim_id"], name: "index_determinations_on_claim_id", using: :btree
   end
 
   create_table "disbursement_types", force: :cascade do |t|

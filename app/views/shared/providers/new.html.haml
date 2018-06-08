@@ -2,4 +2,4 @@
 %h3.heading-medium
   New provider details
 
-= render partial: 'form'
+= render partial: 'shared/providers/form', locals: { form_url: url_for(controller: params[:controller], action: 'create') }

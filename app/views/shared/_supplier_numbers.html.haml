@@ -1,16 +1,8 @@
-.form-row#provider_base
-  %h3.form-label-bold
-    = t('.lgfs_supplier_numbers')
-
-  .insert-hook
-
-    = f.fields_for :lgfs_supplier_numbers do |snf|
-      - @sn_index = snf.index + 1
-      = render 'shared/supplier_number_fields', f: snf
-
-  = link_to_add_association t('.add_supplier_number'),
-                                  f,
-                                  :lgfs_supplier_numbers, partial: 'shared/supplier_number_fields',
-                                  data: {'association-insertion-method' => 'append',
-                                          'association-insertion-traversal' => 'prev',
-                                          'association-insertion-node' => '.insert-hook'}
+.panel.panel-border-narrow
+  .form-section.defendants
+    %fieldset
+      - @collection = f.object.lgfs_supplier_numbers.present? ? f.object.lgfs_supplier_numbers : [f.object.lgfs_supplier_numbers.build]
+      = f.fields_for :lgfs_supplier_numbers, @collection do |snf|
+        = render partial: 'shared/supplier_number_fields', locals: { f: snf, collection: @collection }
+  .form-section.form-actions
+    = link_to_add_association t('.add_supplier'), f, :lgfs_supplier_numbers, partial: 'shared/supplier_number_fields', render_options: { locals: { collection: @collection } }, class: 'button button-secondary blue'

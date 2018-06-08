@@ -1,15 +1,18 @@
-.form-group.supplier-number-group
-  = f.label :supplier_number, class: 'form-label'
+.grid-row.list-item-row
+  .column-two-thirds
+    %h2.heading-small.list-item-heading
+      = "Supplier #{f.options[:child_index]}"
+      - editable = f.object.new_record? || f.object.supplier_number.blank? || !f.object.valid?
+      - if editable
+        = link_to_remove_association t('.remove'), f, class: 'link-remove remove-list-item', wrapper_class: 'supplier-number-group'
+      - else
+        - if f.object.has_non_archived_claims?
+          %span.form-hint
+            Cannot remove supplier number while claims are still in progress
+        - else
+          = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group' }
 
-  - if f.object.supplier_number.blank? || !f.object.valid?
-    = f.text_field :supplier_number, class: 'form-control'
-    = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group' }
-  - else
-    = f.text_field :supplier_number, class: 'form-control', disabled: true
-    - if f.object.has_non_archived_claims?
-      %span.form-hint
-        Cannot remove supplier number while claims are still in progress
-    - else
-      = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group' }
+    .supplier-number-group
+      = f.adp_text_field :supplier_number, id: "lgfs_supplier_number_#{f.options[:child_index]}_supplier_number", label: t('.supplier_number'), class: 'form-control', disabled: !editable, errors: f.options[:parent_builder].object.errors
 
-
+    %hr

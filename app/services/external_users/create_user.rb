@@ -24,6 +24,7 @@ module ExternalUsers
         firm_agfs_supplier_number: generate_unique_supplier_number,
         provider_type: 'firm',
         roles: %w[agfs lgfs],
+        vat_registered: false,
         lgfs_supplier_numbers: [lgfs_supplier_number]
       )
     end

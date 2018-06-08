@@ -1,0 +1,62 @@
+#provider-form
+  = form_for @provider, url: form_url, builder: AdpFormBuilder, html: { novalidate: true } do |f|
+
+    = render partial: 'errors/error_summary', locals: { ep: @provider, error_summary: t('.prohibited_save') }
+
+    = f.adp_text_field :name, id: 'name', label: t('.provider_name'), hint_text: t('.provider_name_hint')
+
+    .form-group#js-provider-type.jqr-delegate-hook{class: @provider.errors[:provider_type].any? ? "error" : ""}
+      %fieldset.inline#provider_provider_type
+        %legend
+          %span.form-label-bold
+            = t('.provider_type')
+
+        = f.collection_radio_buttons(:provider_type, Provider::PROVIDER_TYPES, :to_s, :to_s, include_hidden: false) do |b|
+          %div.multiple-choice
+            = b.radio_button(class: "jqr-publisher",  "data-jqr-publish-events": "/provider/type/")
+            = b.label { b.value.capitalize }
+
+    .form-group#js-fee-schemes.jqr-delegate-hook.jqr-subscriber{"data-jqr-subscribe-events": "/provider/type/", "data-jqr-subscribe-values": "chamber|firm", class: @provider.errors[:roles].any? ? "error" : ""}
+      %fieldset.inline#provider_roles
+        %legend
+          %span.form-label-bold
+            = t('.fee_schemes')
+          %span.form-hint
+            = t('.fee_schemes_hint')
+
+        = f.collection_check_boxes(:roles, Provider::ROLES, :to_s, :to_s) do |b|
+          -# conditionally apply the correct subscribe and publish strings
+          - jqr_subscribe_values = b.value.upcase == "AGFS" ? "chamber|firm" : "firm"
+          - jqr_publish_events = "/scheme/type/" + b.value + "/"
+
+          %div.multiple-choice
+            = b.check_box(class: "jqr-publisher", "data-jqr-publish-events": jqr_publish_events)
+            = b.label(class: 'block-label jqr-subscriber', "data-jqr-subscribe-events": "/provider/type/", "data-jqr-subscribe-values": jqr_subscribe_values) { b.value.upcase }
+
+    .form-group#js-agfs-supplier-number.jqr-subscriber{"data-jqr-subscribe-events": "/scheme/type/agfs/custom/", "data-jqr-subscribe-values": "show-agfs-supplier" }
+      = f.adp_text_field :firm_agfs_supplier_number, id: 'firm_agfs_supplier_number', label: t('.agfs_supplier_number'), error_key: 'firm_agfs_supplier_number'
+
+    .form-group#js-lgfs-supplier-numbers.jqr-subscriber{"data-jqr-subscribe-events": "/scheme/type/lgfs/custom/", "data-jqr-subscribe-values": "show-lgfs-supplier" }
+      = render 'shared/supplier_numbers', f: f
+
+    .form-group#js-vat.jqr-subscriber{"data-jqr-subscribe-events": "/scheme/type/lgfs/custom/", "data-jqr-subscribe-values": "show-lgfs-supplier", class: @provider.errors[:vat_registered].any? ? "form-group-error" : "" }
+      %a#vat_registered
+      %fieldset.inline
+        %legend
+          %span.form-label-bold
+            = t('.vat_registered')
+          %span.form-hint
+            = t('.vat_registered_hint')
+
+        = f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s, include_hidden: false) do |b|
+          %div.multiple-choice
+            = b.radio_button
+            = b.label { (b.value.to_s == 'true' ? 'Yes' : 'No') }
+
+        = validation_error_message(@provider, :vat_registered)
+
+    .form-section
+      .form-group.form-buttons
+        = f.submit t('.save_button'), class: 'button'
+        - unless @provider.new_record?
+          = link_to t('.cancel_button'), external_users_admin_provider_path(@provider), class: 'link-secondary'

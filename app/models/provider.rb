@@ -51,7 +51,7 @@ class Provider < ApplicationRecord
 
   accepts_nested_attributes_for :lgfs_supplier_numbers, allow_destroy: true
 
-  before_validation :set_api_key, :upcase_firm_agfs_supplier_number
+  before_validation :set_defaults_and_normalise_data
 
   validates :provider_type, presence: true
   validates :name, presence: { message: :blank }, uniqueness: { case_sensitive: false, message: :not_unique }
@@ -60,11 +60,9 @@ class Provider < ApplicationRecord
   validates :firm_agfs_supplier_number, presence: { message: :blank }, if: :agfs_firm?
   validates :firm_agfs_supplier_number, absence: { message: :absent }, unless: :agfs_firm?
   validates :firm_agfs_supplier_number, format: { with: ExternalUser::SUPPLIER_NUMBER_REGEX,
-                                                  allow_nil: true,
-                                                  message: :invalid_format }
+                                                  allow_nil: true }
+  validates :vat_registered, inclusion: [true, false], if: :lgfs?
   validates_with SupplierNumberSubModelValidator, if: :lgfs?
-
-  before_validation :force_lgfs_flag_for_firms
 
   # Allows calling of provider.admins or provider.advocates
   ExternalUser::ROLES.each do |role|
@@ -102,6 +100,12 @@ class Provider < ApplicationRecord
   end
 
   private
+
+  def set_defaults_and_normalise_data
+    set_api_key
+    upcase_firm_agfs_supplier_number
+    force_lgfs_flag_for_firms
+  end
 
   def upcase_firm_agfs_supplier_number
     firm_agfs_supplier_number.upcase! unless firm_agfs_supplier_number.blank?

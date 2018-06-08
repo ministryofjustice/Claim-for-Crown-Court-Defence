@@ -4,11 +4,12 @@ describe('Modules.Provider.js', function() {
     spyOn($, 'subscribe');
 
     module.init();
-    expect($.subscribe.calls.all().length).toEqual(3);
+    expect($.subscribe.calls.all().length).toEqual(5);
     expect($.subscribe.calls.all()[0].args[0]).toMatch('/provider/type/');
     expect($.subscribe.calls.all()[1].args[0]).toMatch('/scheme/type/agfs/');
     expect($.subscribe.calls.all()[2].args[0]).toMatch('/scheme/type/agfs/proxy/');
-
+    expect($.subscribe.calls.all()[3].args[0]).toMatch('/scheme/type/lgfs/');
+    expect($.subscribe.calls.all()[4].args[0]).toMatch('/scheme/type/lgfs/proxy/');
   });
 
 

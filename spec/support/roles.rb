@@ -55,7 +55,7 @@ shared_examples_for 'roles' do |klass, roles|
 
   describe '#has_roles?' do
     subject { create(factory_name, roles: roles) }
-    
+
     it "returns true if subject has exact specified roles" do
       expect(subject.has_roles?(roles)).to eq(true)
       expect(subject.has_roles?(*roles)).to eq(true)

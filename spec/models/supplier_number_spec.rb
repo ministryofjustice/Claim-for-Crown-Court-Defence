@@ -18,19 +18,19 @@ RSpec.describe SupplierNumber, type: :model do
       create :supplier_number, supplier_number: '9X999X'
       expect {
         create :supplier_number, supplier_number: '9X999X'
-      }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Supplier number LGFS supplier number has already been taken'
+      }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Supplier number has already been taken'
     end
 
     it 'should fail if the supplier number after upcasing is the same as an existing record' do
       create :supplier_number, supplier_number: '9X999X'
       expect {
         create :supplier_number, supplier_number: '9x999x'
-      }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Supplier number LGFS supplier number has already been taken'
+      }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Supplier number has already been taken'
     end
   end
 
   context 'validates supplier number format' do
-    let(:format_error) { ['LGFS supplier number invalid format'] }
+    let(:format_error) { ['invalid format'] }
 
     it 'fails for incorrect format' do
       allow(subject).to receive(:supplier_number).and_return('ABC123')

@@ -207,6 +207,7 @@ ActiveRecord::Schema.define(version: 20181115121652) do
     t.datetime "updated_at"
     t.float    "vat_amount",    default: 0.0
     t.decimal  "disbursements", default: "0.0"
+    t.index ["claim_id"], name: "index_determinations_on_claim_id", using: :btree
   end
 
   create_table "disbursement_types", force: :cascade do |t|

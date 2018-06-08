@@ -1,29 +1,17 @@
 - unless @claim.allows_fixed_fees?
   #basic-fees.mod-fees
-    %h2.bold-medium
-      = t('.basic_fees')
-    %p
-      = raw t('.fee_prompt_text')
+    .form-section
+      %h3.heading-medium
+        = "Basic fees"
 
-    - present(f.object.basic_fees, BasicFeesPresenter) do | basic_fees |
-
-
-
-
-      = f.fields_for :basic_fees, basic_fees.primary_fee do |basic_fee_fields|
-        - @basic_fee_count += 1
-        - if present(basic_fee_fields.object).should_be_displayed?
-          = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields
+      - present(f.object.basic_fees, BasicFeesPresenter) do | basic_fees |
+        = f.fields_for :basic_fees, basic_fees.primary_fee do |basic_fee_fields|
+          - @basic_fee_count += 1
+          - if present(basic_fee_fields.object).should_be_displayed?
+            = render 'external_users/claims/basic_fees/basic_fee_fields_new', f: basic_fee_fields
 
 
-
-
-      %hr/
-      offence type
-      %hr/
-
-
-      = f.fields_for :basic_fees, basic_fees.additional_fees.sort_by(&:position) do |basic_fee_fields|
-        - @basic_fee_count += 1
-        - if present(basic_fee_fields.object).should_be_displayed?
-          = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields
+        = f.fields_for :basic_fees, basic_fees.additional_fees.sort_by(&:position) do |basic_fee_fields|
+          - @basic_fee_count += 1
+          - if present(basic_fee_fields.object).should_be_displayed?
+            = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields

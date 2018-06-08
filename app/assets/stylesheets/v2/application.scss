@@ -57,3 +57,7 @@
 @import 'links';
 @import 'panels';
 @import 'breadcrumbs';
+
+.panel-margin-fix{
+  margin-bottom: $gutter !important;
+}

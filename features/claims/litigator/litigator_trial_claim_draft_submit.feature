@@ -43,6 +43,8 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     Then I click "Continue" in the claim form
 
+    And I fill '125' as the ppe total
+    And I fill '5' as the actual trial length
     And I fill '100.25' as the graduated fee total
     And I fill '2016-01-01' as the graduated fee date
 

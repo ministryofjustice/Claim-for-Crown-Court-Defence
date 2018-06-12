@@ -1,47 +1,41 @@
+
+%p
+  = t(".page_intro_html")
+
 - if @claim.allows_graduated_fees?
-
   #graduated-fees.mod-graduated-fees
-    %h2.bold-medium
-      = t('.graduated_fees')
-    .form-hint.xsmall
-      = raw t('.graduated_prompt_text')
-
-    = f.fields_for :graduated_fee do |grad_fee_form|
-      - grad_fee = present(grad_fee_form.object)
+    = f.fields_for :graduated_fee do |gradfee|
+      - grad_fee = present(gradfee.object)
       .graduated-fee-group.nested-fields.js-block{data:{"type": "gradFees", autovat: @claim.apply_vat? ? "true" : "false"}}
-        .grid-row
+        = gradfee.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
+        .form-section
+          -#  PPE Total
+          %a{:id => "graduated_fee.quantity"}
+          = gradfee.adp_text_field :quantity,
+                      label: t('.total_pages_of_evidence'),
+                      input_classes:'form-control form-control-1-4',
+                      input_type: 'number',
+                      value: grad_fee.quantity,
+                      errors: @error_presenter,
+                      error_key: "graduated_fee.quantity"
 
-          .column-one-third
-            %label.form-label
-              = t('.fee_type')
-            = grad_fee_form.anchored_attribute 'fee_type'
-            = @claim.case_type.graduated_fee_type.description
-            = grad_fee_form.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
-            = validation_error_message(@error_presenter, :fee_type)
+          -# Hearing date
+          %a{:id => "graduated_fee.date"}
+          = gradfee.gov_uk_date_field(:date, legend_text: "First day of hearing", legend_class: "govuk-legend", error_messages: gov_uk_date_field_error_messages(@error_presenter, "graduated_fee.date"))
 
-          .column-one-third.condensed.js-expense-location
-            %label.form-label
-              = t('.ppe_total')
-            = grad_fee_form.anchored_attribute 'quantity'
-            = grad_fee_form.number_field :quantity, value: grad_fee.quantity, class: 'quantity', min: 0, max: 99999
-            = validation_error_message(@error_presenter, 'graduated_fee.quantity')
+          -# Actual trial length
+          = f.adp_text_field :actual_trial_length,
+                      label: t('.actual_trial_length'),
+                      input_classes:'form-control form-control-1-4',
+                      input_type: 'number',
+                      errors: @error_presenter
 
-        .grid-row
-          .column-one-third
-            = grad_fee_form.anchored_attribute 'date'
-            = grad_fee_form.gov_uk_date_field(:date, legend_text: 'First day of hearing', legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'graduated_fee.date'))
-
-          .column-one-third.js-expense-reason
-            %label.form-label
-              = t('.actual_trial_length')
-            = f.number_field :actual_trial_length, step: 1, min: 0, class: 'form-control'
-            = validation_error_message(@error_presenter, :actual_trial_length)
-
-          .column-one-third.condensed.js-expense-amount.fee-total
-            %label.form-label Total
-
-            = grad_fee_form.anchored_attribute 'amount'
-            %span.currency-indicator>< &pound;
-            = grad_fee_form.number_field :amount, value: number_with_precision(grad_fee_form.object.amount, precision: 2), class: 'form-control total', size: 10, min: 0, max: 99999
-            = validation_error_message(@error_presenter, :amount)
-            = grad_fee_form.anchored_attribute 'amount'
+          -# Net amount
+          %a#to
+          %a{:id => "graduated_fee.amount"}
+          = gradfee.adp_text_field :amount,
+                      label: t('.net_amount'),
+                      input_classes:"total  fee-rate form-input-denote__input form-control-1-4",
+                      input_type: "currency",
+                      errors: @error_presenter,
+                      error_key: "graduated_fee.amount"

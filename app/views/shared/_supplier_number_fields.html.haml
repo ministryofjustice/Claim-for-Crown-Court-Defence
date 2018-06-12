@@ -12,7 +12,17 @@
         - else
           = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group' }
 
+    -# adp_text_field does not allow to use rails defaults locales for model attributes :S
+    - attributes_scope = 'activerecord.attributes.supplier_number'
+    - form_scope = 'shared.providers.form.labels.supplier_number'
+
+    .name-group
+      = f.adp_text_field :name, id: "lgfs_supplier_number_#{f.options[:child_index]}_name", label: t('name', scope: form_scope), class: 'form-control', disabled: !editable, errors: f.options[:parent_builder].object.errors
+
+    .postcode-group
+      = f.adp_text_field :postcode, id: "lgfs_supplier_number_#{f.options[:child_index]}_postcode", label: t('postcode', scope: attributes_scope), class: 'form-control', disabled: !editable, errors: f.options[:parent_builder].object.errors
+
     .supplier-number-group
-      = f.adp_text_field :supplier_number, id: "lgfs_supplier_number_#{f.options[:child_index]}_supplier_number", label: t('.supplier_number'), class: 'form-control', disabled: !editable, errors: f.options[:parent_builder].object.errors
+      = f.adp_text_field :supplier_number, id: "lgfs_supplier_number_#{f.options[:child_index]}_supplier_number", label: t('supplier_number', scope: attributes_scope), class: 'form-control', disabled: !editable, errors: f.options[:parent_builder].object.errors
 
     %hr

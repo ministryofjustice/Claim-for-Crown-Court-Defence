@@ -135,6 +135,10 @@ en:
         firm_agfs_supplier_number: AGFS supplier number
         name: Provider name
         vat_registered: VAT registered
+      supplier_number:
+        name: name
+        postcode: Postcode
+        supplier_number: Supplier number
     errors:
       messages:
         absent: must be absent
@@ -1072,6 +1076,9 @@ en:
         fee_schemes: Fee scheme
         fee_schemes_hint: Please choose all relevant options
         form_error_hint: Check below for more detail
+        labels:
+          supplier_number:
+            name: 'Name (optional)'
         prohibited_save: 'This provider has'
         provider_name: *provider_name
         provider_name_hint: The trading name of the Chamber or Firm

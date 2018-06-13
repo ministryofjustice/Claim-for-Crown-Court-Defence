@@ -10,13 +10,14 @@
 class SupplierNumber < ApplicationRecord
   SUPPLIER_NUMBER_REGEX ||= /\A[0-9][A-Z][0-9]{3}[A-Z]\z/
 
-  auto_strip_attributes :supplier_number, squish: true, nullify: true
+  auto_strip_attributes :supplier_number, :name, :postcode, squish: true, nullify: true
 
   belongs_to :provider
 
   before_validation { supplier_number.upcase! unless supplier_number.blank? }
 
   validates :supplier_number, format: { with: SUPPLIER_NUMBER_REGEX, allow_nil: false }, uniqueness: true
+  validates :postcode, format: { with: Settings.postcode_regexp, allow_nil: true }
 
   def to_s
     supplier_number

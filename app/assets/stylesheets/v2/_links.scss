@@ -1,0 +1,46 @@
+/* --------------------------------------- */
+/* Basic link styles */
+/* --------------------------------------- */
+
+a.link-delete {
+  color: #b10e1e;
+  position: relative;
+  padding: .526315em 0em .263157em;
+  border: none;
+  &:hover {
+    color: #df3034;
+  }
+}
+
+a.link-secondary, a.fix {
+  position: relative;
+  padding: .526315em 0em .263157em;
+  border: none;
+  &:hover {
+    color: #2b8cc4;
+  }
+}
+
+a.link-change, a.link-remove {
+  float: right;
+  font-size: 19px;
+  /*font-weight: normal !important;*/
+  line-height: 1.31579;
+  margin: 0px;
+  &:hover {
+    color: #2b8cc4;
+  }
+  @media (max-width: 640px) {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+a[target="_blank"]:after
+/*a.link-open-window:after
+
+a:not( [href*='herokuapp.com'] ):not( [href^='#'] ):not( [href^='/'] ):after  */
+{
+  content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
+  margin: 0 0 0 5px;
+}

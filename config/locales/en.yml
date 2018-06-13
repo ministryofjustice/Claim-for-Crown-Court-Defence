@@ -1076,9 +1076,16 @@ en:
         fee_schemes: Fee scheme
         fee_schemes_hint: Please choose all relevant options
         form_error_hint: Check below for more detail
-        labels:
-          supplier_number:
-            name: 'Name (optional)'
+
+        supplier_details:
+          label:
+            supplier_name: Name (optional)
+            postcode: Postcode
+            supplier_number: Supplier number
+          hint_text:
+            supplier_name: For example, the city or street name
+            postcode: For example, SW11 1AA
+            supplier_number: For example, 1A234B
         prohibited_save: 'This provider has'
         provider_name: *provider_name
         provider_name_hint: The trading name of the Chamber or Firm
@@ -1266,6 +1273,14 @@ en:
       add_supplier: Add another supplier
       lgfs_supplier_numbers: "LGFS Supplier Numbers"
       supplier_numbers: "Supplier numbers"
+      postcode_help:
+        heading: Why we need a postcode
+        text_html: |
+          <p>
+          We use the postcode to automatically calculate the distance between the supplier's address and the destination, eg prison or court.
+          <br /><br />
+          The distance can be overwritten in the expenses form.
+          </p>
     supplier_number_fields:
       remove: Remove
     claim_accordion:

@@ -1,0 +1,10 @@
+.mod-supplier-details{
+  .bold-medium{
+    padding-bottom: $gutter;
+  }
+  .header-action{
+    float: right;
+    @include core-16;
+    font-weight: 700;
+  }
+}

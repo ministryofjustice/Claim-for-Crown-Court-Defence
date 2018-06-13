@@ -1,8 +1,18 @@
 .panel.panel-border-narrow
-  .form-section.defendants
-    %fieldset
-      - @collection = f.object.lgfs_supplier_numbers.present? ? f.object.lgfs_supplier_numbers : [f.object.lgfs_supplier_numbers.build]
-      = f.fields_for :lgfs_supplier_numbers, @collection do |snf|
-        = render partial: 'shared/supplier_number_fields', locals: { f: snf, collection: @collection }
-  .form-section.form-actions
-    = link_to_add_association t('.add_supplier'), f, :lgfs_supplier_numbers, partial: 'shared/supplier_number_fields', render_options: { locals: { collection: @collection } }, class: 'button button-secondary blue'
+  .grid-row
+    .column-two-thirds
+      .supplier-numbers-wrapper.fx-numberedList-wrapper
+        - @collection = f.object.lgfs_supplier_numbers.present? ? f.object.lgfs_supplier_numbers : [f.object.lgfs_supplier_numbers.build]
+        = f.fields_for :lgfs_supplier_numbers, @collection do |snf|
+          = render partial: 'shared/supplier_number_fields', locals: { f: snf, collection: @collection }
+
+      .form-group.form-actions
+        %br/
+        = link_to_add_association t('.add_supplier'), f, :lgfs_supplier_numbers, partial: 'shared/supplier_number_fields', render_options: { locals: { collection: @collection } }, class: 'button button-secondary blue', data: {'association-insertion-method' => 'append', 'association-insertion-node' => '.supplier-numbers-wrapper'}
+
+      %details{:role => "group"}
+        %summary{"aria-controls" => "details-content-0", :role => "button"}
+          %span.summary
+            = t('.postcode_help.heading')
+        #details-content-0.panel.panel-border-narrow
+          = t('.postcode_help.text_html')

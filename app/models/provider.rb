@@ -101,7 +101,15 @@ class Provider < ApplicationRecord
 
   private
 
+  def reset_values
+    return unless chamber?
+    self.roles = ROLES - %w[lgfs]
+    self.lgfs_supplier_numbers = []
+    self.firm_agfs_supplier_number = nil
+  end
+
   def set_defaults_and_normalise_data
+    reset_values
     set_api_key
     upcase_firm_agfs_supplier_number
     force_lgfs_flag_for_firms

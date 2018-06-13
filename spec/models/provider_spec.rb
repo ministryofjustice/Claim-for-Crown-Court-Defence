@@ -17,8 +17,6 @@
 require 'rails_helper'
 
 RSpec.describe Provider, type: :model do
-  it_behaves_like 'roles', Provider, Provider::ROLES
-
   let(:firm) { create(:provider, :firm) }
   let(:chamber) { create(:provider, :chamber) }
   let(:agfs_lgfs) { create(:provider, :agfs_lgfs) }
@@ -47,7 +45,50 @@ RSpec.describe Provider, type: :model do
 
     it { should_not validate_presence_of(:firm_agfs_supplier_number) }
     it { should_not validate_uniqueness_of(:firm_agfs_supplier_number) }
-    it { should validate_absence_of(:firm_agfs_supplier_number).with_message(:absent) }
+  end
+
+  context 'when firm' do
+    let(:provider) { firm }
+
+    context 'and changing the provider type to chamber' do
+      subject(:change_to_chamber) do
+        provider.provider_type = 'chamber'
+        provider.save
+      end
+
+      context 'with LGFS role only' do
+        let(:lgfs_supplier_numbers) { build_list(:supplier_number, 2) }
+        let(:roles) { %w[lgfs] }
+        let(:provider) { create(:provider, :firm, roles: roles, lgfs_supplier_numbers: lgfs_supplier_numbers) }
+
+        it 'removes LGFS role' do
+          expect { change_to_chamber }.to change { provider.reload.roles }.from(roles).to(%w[agfs])
+        end
+
+        it 'resets LGFS suppliers that are only required for firm' do
+          expect { change_to_chamber }.to change { provider.reload.lgfs_supplier_numbers.count }.from(2).to(0)
+        end
+      end
+
+      context 'with AGFS and LGFS roles' do
+        let(:firm_agfs_supplier_number) { '123AH' }
+        let(:lgfs_supplier_numbers) { build_list(:supplier_number, 2) }
+        let(:roles) { %w[agfs lgfs] }
+        let(:provider) { create(:provider, :firm, roles: roles, firm_agfs_supplier_number: firm_agfs_supplier_number, lgfs_supplier_numbers: lgfs_supplier_numbers) }
+
+        it 'removes LGFS role' do
+          expect { change_to_chamber }.to change { provider.reload.roles }.from(roles).to(%w[agfs])
+        end
+
+        it 'resets AGFS supplier number that is only required for firm' do
+          expect { change_to_chamber }.to change { provider.reload.firm_agfs_supplier_number }.from(firm_agfs_supplier_number).to(nil)
+        end
+
+        it 'resets LGFS suppliers that are only required for firm' do
+          expect { change_to_chamber }.to change { provider.reload.lgfs_supplier_numbers.count }.from(2).to(0)
+        end
+      end
+    end
   end
 
   context 'ROLES' do
@@ -209,21 +250,6 @@ RSpec.describe Provider, type: :model do
       it 'returns no errors' do
         chamber.firm_agfs_supplier_number = ''
         expect(chamber).to be_valid
-      end
-    end
-
-    context 'for a valid supplier number' do
-      it 'returns no errors' do
-        chamber.firm_agfs_supplier_number = '2M462'
-        expect(chamber).not_to be_valid
-      end
-    end
-
-    context 'for an invalid supplier number' do
-      it 'returns errors' do
-        chamber.firm_agfs_supplier_number = 'XXX'
-        expect(chamber).not_to be_valid
-        expect(chamber.errors).to have_key(:firm_agfs_supplier_number)
       end
     end
   end

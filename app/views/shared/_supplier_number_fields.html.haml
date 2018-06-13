@@ -1,16 +1,16 @@
 .supplier-number-group.form-group.mod-supplier-details.fx-numberedList-item
   %h2.heading-small
-    = "Supplier "
+    = t('.details_heading')
     %span.fx-numberedList-number
     - editable = f.object.new_record? || f.object.supplier_number.blank? || !f.object.valid?
     - if editable
-      = link_to_remove_association t('.remove'), f, class: 'header-action remove_fields dynamic', wrapper_class: 'supplier-number-group'
+      = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group', class: 'header-action' }
     - else
       - if f.object.has_non_archived_claims?
         %span.form-hint
           Cannot remove supplier number while claims are still in progress
       - else
-        = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group', class: 'header-action remove_fields dynamic' }
+        = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group', class: 'header-action' }
 
   -# adp_text_field does not allow to use rails defaults locales for model attributes :S
   - attributes_scope = 'activerecord.attributes.supplier_number'

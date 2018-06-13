@@ -1,5 +1,11 @@
-= render partial: 'layouts/header', locals: {page_heading: 'Add a new provider'}
-%h3.heading-medium
-  New provider details
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
 
-= render partial: 'shared/providers/form', locals: { form_url: url_for(controller: params[:controller], action: 'create') }
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
+
+.grid-row
+  .column-full
+    %h2#section-heading.heading-large
+      = t('.section_heading')
+
+    = render partial: 'shared/providers/form', locals: { form_url: url_for(controller: params[:controller], action: 'create') }

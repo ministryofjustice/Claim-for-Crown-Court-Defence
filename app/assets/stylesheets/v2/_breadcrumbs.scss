@@ -1,0 +1,29 @@
+.breadcrumbs{
+
+  // Link styles
+  a:link {
+    color: $link-colour;
+  }
+
+  a:visited {
+    color: $link-visited-colour;
+  }
+
+  a:hover {
+    color: $link-hover-colour;
+  }
+
+  a:active {
+    color: $link-active-colour;
+  }
+
+  li{
+    &:first-child{
+    border-left: 0;
+  }
+  background-image: none;
+  margin-left: 1em;
+  padding-left: 1em;
+  border-left: 1px solid black;
+  }
+}

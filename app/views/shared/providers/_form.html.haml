@@ -19,7 +19,7 @@
             = b.label { b.value.capitalize }
 
 
-    #js-fee-schemes.form-group.jqr-delegate-hook.jqr-subscriber{"data-jqr-subscribe-events": "/provider/type/", "data-jqr-subscribe-values": "chamber|firm", class: @provider.errors[:roles].any? ? "error" : ""}
+    #js-fee-schemes.form-group.jqr-delegate-hook.jqr-subscriber{style: "display: none;", "data-jqr-subscribe-events": "/provider/type/", "data-jqr-subscribe-values": "chamber|firm", class: @provider.errors[:roles].any? ? "error" : ""}
       %fieldset.inline#provider_roles
         %legend
           %h1.heading-medium
@@ -36,13 +36,13 @@
             = b.check_box(class: "jqr-publisher", "data-jqr-publish-events": jqr_publish_events)
             = b.label(class: 'block-label jqr-subscriber', "data-jqr-subscribe-events": "/provider/type/", "data-jqr-subscribe-values": jqr_subscribe_values) { b.value.upcase }
 
-    #js-agfs-supplier-number.jqr-subscriber{"data-jqr-subscribe-events": "/scheme/type/agfs/custom/", "data-jqr-subscribe-values": "show-agfs-supplier" }
+    #js-agfs-supplier-number.jqr-subscriber{style: "display: none;", "data-jqr-subscribe-events": "/scheme/type/agfs/custom/", "data-jqr-subscribe-values": "show-agfs-supplier" }
       = f.adp_text_field :firm_agfs_supplier_number, id: 'firm_agfs_supplier_number', label: t('.agfs_supplier_number'), error_key: 'firm_agfs_supplier_number'
 
-    #js-lgfs-supplier-numbers.jqr-subscriber{"data-jqr-subscribe-events": "/scheme/type/lgfs/custom/", "data-jqr-subscribe-values": "show-lgfs-supplier" }
+    #js-lgfs-supplier-numbers.jqr-subscriber{style: "display: none;", "data-jqr-subscribe-events": "/scheme/type/lgfs/custom/", "data-jqr-subscribe-values": "show-lgfs-supplier" }
       = render 'shared/supplier_numbers', f: f
 
-    #js-vat.form-group.jqr-subscriber{"data-jqr-subscribe-events": "/scheme/type/lgfs/custom/", "data-jqr-subscribe-values": "show-lgfs-supplier", class: @provider.errors[:vat_registered].any? ? "form-group-error" : "" }
+    #js-vat.form-group.jqr-subscriber{style: "display: none;", "data-jqr-subscribe-events": "/scheme/type/lgfs/custom/", "data-jqr-subscribe-values": "show-lgfs-supplier", class: @provider.errors[:vat_registered].any? ? "form-group-error" : "" }
       %a#vat_registered
       %fieldset.inline
         %legend

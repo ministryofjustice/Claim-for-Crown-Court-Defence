@@ -1004,6 +1004,7 @@ en:
           start_transfer_claim_heading: "Start transfer claim"
         edit:
           edit_transfer_claim_heading: "Edit transfer claim"
+
   shared:
     claim_defendant_details:
       caption: 'Defendant: Additional information'
@@ -1065,7 +1066,11 @@ en:
       accepted_files_help_text: "Files accepted: pdf, doc, rtf, jpeg, png, tiff, bmp: (Max file upload 20MB)"
       remove_file_tool_tip: "Remove the file you have selected to upload"
       remove: Remove
+
     providers:
+      new:
+        page_heading: Settings
+        section_heading: Add provider details
       edit:
         page_heading: Settings
         section_heading: Edit provider details
@@ -1282,6 +1287,7 @@ en:
           The distance can be overwritten in the expenses form.
           </p>
     supplier_number_fields:
+      details_heading: "Supplier "
       remove: Remove
     claim_accordion:
       additional_information: Additional information

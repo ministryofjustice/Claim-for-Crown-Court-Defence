@@ -652,20 +652,22 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
   describe "PATCH #unarchive" do
     context 'when archived claim' do
-      subject do
+      let(:claim) do
         claim = create(:authorised_claim, external_user: advocate)
         claim.archive_pending_delete!
         claim
       end
 
-      before { patch :unarchive, params: { id: subject } }
+      context 'when the current version of paper trail is used' do
+        before { patch :unarchive, params: { id: claim } }
 
-      it 'unarchives the claim and restores to state prior to archiving' do
-        expect(subject.reload).to be_authorised
-      end
+        it 'unarchives the claim and restores to state prior to archiving' do
+          expect(claim.reload).to be_authorised
+        end
 
-      it 'redirects to external users root url' do
-        expect(response).to redirect_to(external_users_claims_url)
+        it 'redirects to external users root url' do
+          expect(response).to redirect_to(external_users_claims_url)
+        end
       end
     end
 

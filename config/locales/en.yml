@@ -786,10 +786,8 @@ en:
           fixed_fees: 'Fixed fees'
           page_header: 'Fixed fees'
           page_hint: *fees_vat_prompt
-          page_intro_html: |
-            If needed, please complete
-            <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Special Prep Form">special prep form</a>
-            and attach to the claim.
+          page_intro_html: &vat_intro |
+            All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users.
         fixed_fee_fields:
           fixed_fee: "Fixed fee"
           quantity: 'Quantity'
@@ -803,11 +801,13 @@ en:
         litigators:
           fields:
             fixed_fees: "Fixed fees"
+            page_header: 'Fixed fees'
             fee_type: "Fee type"
             total: "Total"
             prompt_text_html: &graduated_fee_prompt_content Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help.
             select_sub_type: "Please select the relevant option"
             date: "Date"
+            page_intro_html: *vat_intro
         summary:
           header: Fixed fees
       misc_fees:

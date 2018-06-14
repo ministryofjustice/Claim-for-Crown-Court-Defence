@@ -44,7 +44,7 @@ class Provider < ApplicationRecord
     end
   end
 
-  has_many :lgfs_supplier_numbers, class_name: SupplierNumber, dependent: :destroy
+  has_many :lgfs_supplier_numbers, -> { order(:id) }, class_name: SupplierNumber, dependent: :destroy
 
   has_many :claims_created, -> { active }, through: :external_users
   has_many :claims, -> { active }, through: :external_users
@@ -93,10 +93,6 @@ class Provider < ApplicationRecord
 
   def agfs_supplier_numbers
     advocates.map(&:supplier_number)
-  end
-
-  def remove_lgfs_supplier_numbers_if_chamber
-    lgfs_supplier_numbers.clear if chamber?
   end
 
   private

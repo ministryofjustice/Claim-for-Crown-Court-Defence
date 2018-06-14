@@ -1,7 +1,7 @@
 require 'rails_helper'
 # require File.join(Rails.root, 'lib', 'cleanse_paper_trail_arrays')
 
-describe PreviousVersionOfClaim do
+RSpec.describe PreviousVersionOfClaim do
   subject(:previous_version) { described_class.new(claim) }
 
   let(:claim) { create(:archived_pending_delete_claim, evidence_checklist_ids: [3, 4, 1]) }

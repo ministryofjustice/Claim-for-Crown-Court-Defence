@@ -30,7 +30,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def index
     track_visit(url: 'external_user/claims', title: 'Your claims')
 
-    @claims = @claims_context.dashboard_displayable_states
+    @claims = @claims_context
+              .dashboard_displayable_states
+              .includes(:defendants, :case_type, :external_user, :assessment, :messages)
     search if params[:search].present?
     sort_and_paginate(column: 'last_submitted_at', direction: 'asc')
   end
@@ -42,7 +44,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def outstanding
-    @claims = @financial_summary.outstanding_claims
+    @claims = @financial_summary
+              .outstanding_claims
+              .includes(:defendants, :case_type, :external_user, :assessment, :messages)
     sort_and_paginate(column: 'last_submitted_at', direction: 'asc')
     @total_value = @financial_summary.total_outstanding_claim_value
   end

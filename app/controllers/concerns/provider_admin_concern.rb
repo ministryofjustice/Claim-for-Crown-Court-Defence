@@ -22,6 +22,8 @@ module ProviderAdminConcern
         id
         provider_id
         supplier_number
+        name
+        postcode
         _destroy
       ]
     )

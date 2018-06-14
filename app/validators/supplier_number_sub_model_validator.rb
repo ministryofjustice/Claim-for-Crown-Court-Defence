@@ -4,7 +4,7 @@ class SupplierNumberSubModelValidator < BaseSubModelValidator
   end
 
   def suffix_error_fields?
-    false
+    true
   end
 
   def validate(record)

@@ -1,24 +1,24 @@
 class SuperAdmins::ProvidersController < ApplicationController
   include ProviderAdminConcern
 
-  def show; end
-
-  def edit; end
-
   def index
     @providers = Provider.order(name: :asc)
   end
 
   def new
     @provider = Provider.new
+    render 'shared/providers/new'
+  end
+
+  def edit
+    render 'shared/providers/edit'
   end
 
   def update
     if @provider.update(provider_params.except(*filtered_params))
-      @provider.remove_lgfs_supplier_numbers_if_chamber
       redirect_to super_admins_provider_path(@provider), notice: 'Provider successfully updated'
     else
-      render :edit
+      render 'shared/providers/edit'
     end
   end
 
@@ -27,7 +27,7 @@ class SuperAdmins::ProvidersController < ApplicationController
     if @provider.save
       redirect_to super_admins_root_path, notice: 'Provider successfully created'
     else
-      render :new
+      render 'shared/providers/new'
     end
   end
 
@@ -38,7 +38,6 @@ class SuperAdmins::ProvidersController < ApplicationController
   end
 
   def filtered_params
-    # [:provider_type]
     []
   end
 end

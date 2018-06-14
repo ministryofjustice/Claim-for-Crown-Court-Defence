@@ -63,8 +63,6 @@ if (!String.prototype.supplant) {
   };
 }
 
-$.numberedList();
-
 (function() {
   'use strict';
   delete moj.Modules.devs;
@@ -116,4 +114,5 @@ $.numberedList();
   }(['au', 'th', 'ent', 'ici', 'ty'].join(''))); //;-)
 
   moj.init();
+  $.numberedList();
 }());

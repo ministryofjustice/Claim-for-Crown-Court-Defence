@@ -131,7 +131,17 @@ en:
         transfer_case_number: 'Transfer case number'
         case_type: 'Case type'
         advocate_category: 'Advocate category'
+      provider:
+        firm_agfs_supplier_number: AGFS supplier number
+        name: Provider name
+        vat_registered: VAT registered
+      supplier_number:
+        name: name
+        postcode: Postcode
+        supplier_number: Supplier number
     errors:
+      messages:
+        absent: must be absent
       models:
         allocation:
           attributes:
@@ -147,24 +157,17 @@ en:
         supplier_number:
           attributes:
             supplier_number:
-              invalid_format: "LGFS supplier number invalid format"
-              not_unique: "LGFS supplier number has already been taken"
+              invalid: invalid format
         provider:
           attributes:
             base:
               blank_supplier_numbers: "You must specify at least one LGFS supplier number"
             supplier_number:
               invalid: *invalid_supplier_number
-            provider_type:
-              blank: "Provider type can't be blank"
             name:
-              blank: "Provider name can't be blank"
               not_unique: There is already a provider with this name
-            firm_agfs_supplier_number:
-              blank: "AGFS supplier number can't be blank"
-              absent: "AGFS supplier number must be absent"
-              invalid_format: "AGFS supplier number is invalid"
-
+            vat_registered:
+              inclusion: must be set
         external_user:
           attributes:
             roles:
@@ -339,11 +342,15 @@ en:
         supplier_number: *supplier_number
         vat_registered: *vat_registered
       form:
+        cancel_button: Cancel
         error: 'error'
         prohibited_save: 'This provider has'
         provider_type: *provider_type
-        fee_schemes: 'Fee schemes'
+        fee_schemes: Fee scheme
+        fee_schemes_hint: Please choose all relevant options
         provider_name: *provider_name
+        provider_name_hint: The trading name of the Chamber or Firm
+        save_button: Save details
         supplier_number: *supplier_number
         vat_registered: *vat_registered
         form_error_hint: 'Check below for more detail'
@@ -437,9 +444,11 @@ en:
           firm_agfs_supplier_number: "AGFS supplier number"
         edit:
           error: 'error'
+          page_heading: Settings
           prohibited_save: 'This provider has'
           provider_type: *provider_type
           provider_name: *provider_name
+          section_heading: Edit provider details
           supplier_number: *supplier_number
           api_key: *api_key
           vat_registered: *vat_registered
@@ -995,6 +1004,7 @@ en:
           start_transfer_claim_heading: "Start transfer claim"
         edit:
           edit_transfer_claim_heading: "Edit transfer claim"
+
   shared:
     claim_defendant_details:
       caption: 'Defendant: Additional information'
@@ -1056,6 +1066,39 @@ en:
       accepted_files_help_text: "Files accepted: pdf, doc, rtf, jpeg, png, tiff, bmp: (Max file upload 20MB)"
       remove_file_tool_tip: "Remove the file you have selected to upload"
       remove: Remove
+
+    providers:
+      new:
+        page_heading: Settings
+        section_heading: Add provider details
+      edit:
+        page_heading: Settings
+        section_heading: Edit provider details
+      form:
+        agfs_supplier_number: AGFS Supplier Number
+        cancel_button: Cancel
+        error: 'error'
+        fee_schemes: Fee scheme
+        fee_schemes_hint: Please choose all relevant options
+        form_error_hint: Check below for more detail
+
+        supplier_details:
+          label:
+            supplier_name: Name (optional)
+            postcode: Postcode
+            supplier_number: Supplier number
+          hint_text:
+            supplier_name: For example, the city or street name
+            postcode: For example, SW11 1AA
+            supplier_number: For example, 1A234B
+        prohibited_save: 'This provider has'
+        provider_name: *provider_name
+        provider_name_hint: The trading name of the Chamber or Firm
+        provider_type: *provider_type
+        save_button: Save details
+        supplier_number: *supplier_number
+        vat_registered: 'Is the provider VAT registered?'
+        vat_registered_hint: This allows us to correctly calculate fees
     evidence_list:
       caption: 'Evidence Provided: A list of uploaded documents'
       summary: 'Note: View and Download links are in 4th column, Actions'
@@ -1232,11 +1275,20 @@ en:
         disbursements: "There are no disbursements for this claim"
 
     supplier_numbers:
-      supplier_numbers: "Supplier numbers"
-      add_supplier_number: "Add another supplier number"
+      add_supplier: Add another supplier
       lgfs_supplier_numbers: "LGFS Supplier Numbers"
+      supplier_numbers: "Supplier numbers"
+      postcode_help:
+        heading: Why we need a postcode
+        text_html: |
+          <p>
+          We use the postcode to automatically calculate the distance between the supplier's address and the destination, eg prison or court.
+          <br /><br />
+          The distance can be overwritten in the expenses form.
+          </p>
     supplier_number_fields:
-      remove: "Remove this supplier number"
+      details_heading: "Supplier "
+      remove: Remove
     claim_accordion:
       additional_information: Additional information
       created_by: 'Created by:'

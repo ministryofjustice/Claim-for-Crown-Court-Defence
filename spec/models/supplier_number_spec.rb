@@ -11,26 +11,49 @@ require 'rails_helper'
 
 RSpec.describe SupplierNumber, type: :model do
 
-  subject { build(:supplier_number) }
+  subject(:supplier) { build(:supplier_number) }
 
   context 'uniqueness' do
     it 'should fail if two records with the same suppplier number are created' do
       create :supplier_number, supplier_number: '9X999X'
       expect {
         create :supplier_number, supplier_number: '9X999X'
-      }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Supplier number LGFS supplier number has already been taken'
+      }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Supplier number has already been taken'
     end
 
     it 'should fail if the supplier number after upcasing is the same as an existing record' do
       create :supplier_number, supplier_number: '9X999X'
       expect {
         create :supplier_number, supplier_number: '9x999x'
-      }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Supplier number LGFS supplier number has already been taken'
+      }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Supplier number has already been taken'
+    end
+  end
+
+  context 'postcode validation' do
+    it 'is valid if postcode is nil' do
+      supplier.postcode = nil
+      expect(supplier).to be_valid
+    end
+
+    it 'is valid if postcode is blank' do
+      supplier.postcode = ''
+      expect(supplier).to be_valid
+    end
+
+    it 'is valid if postcode is filled and has the right format' do
+      supplier.postcode = 'SW1H 9AJ'
+      expect(supplier).to be_valid
+    end
+
+    it 'is invalid if postcode is filled and has the wrong format' do
+      supplier.postcode = 'not-a-valid-postcode'
+      expect(supplier).not_to be_valid
+      expect(supplier.errors[:postcode]).to include('is invalid')
     end
   end
 
   context 'validates supplier number format' do
-    let(:format_error) { ['LGFS supplier number invalid format'] }
+    let(:format_error) { ['invalid format'] }
 
     it 'fails for incorrect format' do
       allow(subject).to receive(:supplier_number).and_return('ABC123')

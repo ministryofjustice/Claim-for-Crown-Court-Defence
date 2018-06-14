@@ -24,8 +24,12 @@ FactoryBot.define do
 
     roles ['agfs']
 
-    before(:create) do |provider|
-      provider.lgfs_supplier_numbers << build(:supplier_number, provider: provider) if provider.lgfs?
+    after(:build) { |provider| provider.vat_registered = false if provider.lgfs? && provider.vat_registered.nil? }
+
+    before(:create) do |provider, evaluator|
+      unless evaluator.__override_names__.include?(:lgfs_supplier_numbers)
+        provider.lgfs_supplier_numbers << build(:supplier_number, provider: provider) if provider.lgfs?
+      end
     end
 
     trait :agfs do
@@ -37,12 +41,14 @@ FactoryBot.define do
       provider_type 'firm'
       firm_agfs_supplier_number nil
       roles ['lgfs']
+      vat_registered false
     end
 
     trait :agfs_lgfs do
       provider_type 'firm'
       firm_agfs_supplier_number '123AB'
       roles ['agfs', 'lgfs']
+      vat_registered false
     end
 
     trait :firm do
@@ -65,6 +71,5 @@ FactoryBot.define do
         end
       end
     end
-
   end
 end

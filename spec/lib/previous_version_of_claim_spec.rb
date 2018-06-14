@@ -1,5 +1,4 @@
 require 'rails_helper'
-# require File.join(Rails.root, 'lib', 'cleanse_paper_trail_arrays')
 
 RSpec.describe PreviousVersionOfClaim do
   subject(:previous_version) { described_class.new(claim) }

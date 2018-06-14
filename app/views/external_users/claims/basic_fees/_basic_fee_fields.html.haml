@@ -1,33 +1,47 @@
 -# Check box input
 .multiple-choice{"data-target" => to_slug(f.object.description)}
-  %input{id: "#{to_slug(f.object.description)}_input","aria-controls" => to_slug(f.object.description), :name => "graduated_fees_checklist", :type => "checkbox" }/
 
-  = f.check_box(:toggle, checked: !f.object.blank?)
 
-  %label{:for => "daily-attendance-fee"}
+
+  = f.check_box(:toggle, checked: !f.object.blank?, id: "#{to_slug(f.object.description)}_input", "aria-controls" => to_slug(f.object.description), :name => "graduated_fees_checklist")
+
+  %label{:for => "#{to_slug(f.object.description)}_input"}
     = f.object.description
-
+    = f.object.fee_type_code.downcase
 -# Panel content
 .panel.panel-border-narrow.js-hidden{:id => to_slug(f.object.description)}
   = f.hidden_field :fee_type_id, value: f.object.fee_type_id
 
   -# Number of days
-  = f.adp_text_field :quantity,
-                        label: t('.number_of_days'),
-                        hint_text:  t('.days_attended'),
+  = f.adp_text_field :quantity, label: t(".#{f.object.fee_type_code.downcase}.quantity"), hint_text:  t(".#{f.object.fee_type_code.downcase}.hint"),
                         input_classes:'quantity form-control-1-8',
                         input_type: 'number',
                         value: present(f.object).quantity,
                         errors: @error_presenter
+  -# Rate
+  = f.adp_text_field :rate,
+                        label: t(".rate"),
+                        input_classes:'rate form-control-1-4 form-input-denote__input',
+                        input_type: 'currency',
+                        errors: @error_presenter,
+                        value: number_with_precision(present(f.object).rate, precision: 2)
+
   -# Adding dates
-  .dates-wrapper.form-group
-    %div
-      = f.fields_for :dates_attended do |date_attended|
-        = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}"}
+  - if f.object.fee_type.requires_dates_attended?
+    .dates-wrapper.form-group
+      %div
+        = f.fields_for :dates_attended do |date_attended|
+          = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}"}
 
 
-    = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields', data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
+      = link_to_add_association t('.add_dates'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields', data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
 
+  - if f.object.fee_type.case_uplift?
+    = f.adp_text_field :case_numbers,
+                      label: t('.case_numbers'),
+                      input_classes:'js-basic-fee-case-numbers fx-fee-case-numbers',
+                      hint_text:'Separate by commas',
+                      errors: @error_presenter
 
   -# Net amount
   = f.adp_text_field :amount,

@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  net_amount: &net_amount Net amount
   views:
     pagination:
       first: "First"
@@ -514,6 +515,49 @@ en:
         with_total_assessed_value_of: 'claims with a total assessed value of'
       basic_fees:
         basic_fee_fields:
+          add_dates: Add another date
+          net_amount: *net_amount
+          rate: Rate
+          daf:
+            quantity: &number_of_days Number of days
+            hint: need some hint text
+          dah:
+            quantity: *number_of_days
+            hint: need some hint text
+          daj:
+            quantity: *number_of_days
+            hint: need some hint text
+          saf:
+            quantity: Number of appearances
+            # hint: need some hint text
+          pcm:
+            quantity: Number of hearings
+            # hint: need some hint text
+          cav:
+            quantity: Number of conferences and views
+            hint: ''
+          ndr:
+            quantity: Number of defendants
+            hint: ''
+          noc:
+            quantity: Number of cases
+            hint: ''
+          npw:
+            quantity: change me please npw
+            hint: need some hint text
+          ppe:
+            quantity: change me please ppe
+            hint: need some hint text
+            # daf Daily attendance fee (3 to 40)
+            # dah Daily attendance fee (41 to 50)
+            # daj Daily attendance fee (51+)
+            # saf Standard appearance fee
+            # pcm Plea and trial preparation hearing
+            # cav Conferences and views
+            # ndr Number of defendants uplift
+            # noc Number of cases uplift
+            # npw Number of prosecution witnesses
+            # ppe Pages of prosecution evidence
           no_dates: 'No dates currently selected.'
           add_date_attended: 'Add dates'
           remove: *remove
@@ -712,6 +756,7 @@ en:
         will_be_processed: Your claim will be processed shortly
       date_attended_fields:
         date: 'Date'
+        date_attended: Date attended
         remove: 'Remove'
       date_attended_fields_condensed:
         date_from_full: 'Date attended (from)'

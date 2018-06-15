@@ -140,5 +140,16 @@ namespace :data do
 
       Rake::Task['data:migrate:offence_unique_code_scheme_10'].invoke
     end
+
+    namespace :providers do
+      desc 'Seed LGFS supplier data (prefix with SEEDS_DRY_MODE=false to disable DRY mode)'
+      task lgfs_suppliers: :environment do
+        require "#{Rails.root}/lib/data_migrator/provider_suppliers_migrator"
+        options = {}
+        options[:dry_run] = ENV['SEEDS_DRY_MODE'].present? ? ENV['SEEDS_DRY_MODE'] : 'true'
+        options[:seed_file] = ENV['SEED_FILE_PATH'] if ENV['SEED_FILE_PATH'].present?
+        DataMigrator::ProviderSuppliersMigrator.call(options)
+      end
+    end
   end
 end

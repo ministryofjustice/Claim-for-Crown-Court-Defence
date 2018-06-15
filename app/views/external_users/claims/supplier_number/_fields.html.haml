@@ -3,13 +3,14 @@
   %div.form-hint
     = supplier_number_hint
 
+  - supplier_numbers = present(current_user.persona.provider.lgfs_supplier_numbers, SupplierNumberCollectionPresenter)
   - if current_user.persona.provider.lgfs_supplier_numbers.length >= 6
     -# Select element
-    = f.collection_select :supplier_number, current_user.persona.provider.lgfs_supplier_numbers, :supplier_number, :supplier_number, {prompt: true}, {class: 'form-control'}
+    = f.collection_select :supplier_number, supplier_numbers, :supplier_number, :supplier_label, {prompt: true}, {class: 'form-control'}
 
   - else
     -# Radio element
-    = f.collection_radio_buttons(:supplier_number, current_user.persona.provider.lgfs_supplier_numbers, :supplier_number, :supplier_number) do |b|
+    = f.collection_radio_buttons(:supplier_number, supplier_numbers, :supplier_number, :supplier_label) do |b|
       .multiple-choice
         = b.radio_button
         - if(current_user.persona.provider.lgfs_supplier_numbers.length == 1)

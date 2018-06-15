@@ -1,7 +1,7 @@
 require 'csv'
 
-module Db
-  class ProviderSuppliersDataSeeder
+module DataMigrator
+  class ProviderSuppliersMigrator
     def self.call(options = {})
       new(options).call
     end
@@ -41,22 +41,34 @@ module Db
 
     def process_row(row)
       sn = SupplierNumber.find_by(supplier_number: row['account_number'])
-      if sn && sn.postcode.present?
-        self.total_not_updated += 1
-        log("[NOT UPDATED] Supplier with account number '#{row['account_number']}' already has a postcode set")
-      elsif sn
-        sn.update_attribute(:postcode, row['postcode']) unless dry_run
-        self.total_updated += 1
-        log("[UPDATED] Supplier with account number '#{row['account_number']}' updated with postcode #{row['postcode']}")
-      else
-        self.total_not_found += 1
-        log("[NOT FOUND] Supplier with account number '#{row['account_number']}' not found")
-      end
-    rescue => exception
-      log "[ERROR] #{exception.class} #{exception.message}"
-      self.total_errored += 1
+      return not_found(row) unless sn
+      return not_updated(row) if sn.postcode.present?
+      update_record(sn, row)
+    rescue StandardError => exception
+      errored(exception)
     ensure
       self.total += 1
+    end
+
+    def not_updated(row)
+      self.total_not_updated += 1
+      log("[NOT UPDATED] Supplier with account number '#{row['account_number']}' already has a postcode set")
+    end
+
+    def update_record(supplier_number, row)
+      supplier_number.update_attribute(:postcode, row['postcode']) unless dry_run
+      self.total_updated += 1
+      log("[UPDATED] Supplier with account number '#{row['account_number']}' updated with postcode #{row['postcode']}")
+    end
+
+    def not_found(row)
+      self.total_not_found += 1
+      log("[NOT FOUND] Supplier with account number '#{row['account_number']}' not found")
+    end
+
+    def errored(exception)
+      log "[ERROR] #{exception.class} #{exception.message}"
+      self.total_errored += 1
     end
 
     def log(message, stdout: false)

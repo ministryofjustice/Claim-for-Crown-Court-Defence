@@ -36,7 +36,7 @@ module Fee
 
     auto_strip_attributes :code, :description, squish: true, nullify: true
 
-    has_many :fees, dependent: :destroy, class_name: Fee::BaseFee, foreign_key: :fee_type_id
+    has_many :fees, dependent: :destroy, class_name: 'Fee::BaseFee', foreign_key: :fee_type_id
     has_many :claims, -> { active }, through: :fees
 
     validates :description,

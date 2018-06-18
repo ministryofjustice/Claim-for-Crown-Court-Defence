@@ -15,7 +15,7 @@ class Court < ApplicationRecord
 
   COURT_TYPES = %w[crown magistrate].freeze
 
-  has_many :claims, -> { active }, class_name: Claim::BaseClaim, dependent: :nullify
+  has_many :claims, -> { active }, class_name: 'Claim::BaseClaim', dependent: :nullify
 
   validates :code, presence: true, uniqueness: { case_sensitve: false, message: 'Court code must be unique' }
   validates :name, presence: true, uniqueness: { case_sensitve: false, message: 'Court name must be unique' }

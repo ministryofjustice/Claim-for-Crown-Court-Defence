@@ -68,13 +68,13 @@ module Claim
 
     has_one :transfer_detail,
             foreign_key: :claim_id,
-            class_name: Claim::TransferDetail,
+            class_name: 'Claim::TransferDetail',
             dependent: :destroy,
             inverse_of: :claim,
             validate: proc { |claim| claim.step_validation_required?(:transfer_fee_details) }
     has_one :transfer_fee,
             foreign_key: :claim_id,
-            class_name: Fee::TransferFee,
+            class_name: 'Fee::TransferFee',
             dependent: :destroy,
             inverse_of: :claim,
             validate: proc { |claim| claim.step_validation_required?(:transfer_fees) }

@@ -19,7 +19,7 @@
 #  date                  :date
 #
 class Fee::MiscFee < Fee::BaseFee
-  belongs_to :fee_type, class_name: Fee::MiscFeeType
+  belongs_to :fee_type, class_name: 'Fee::MiscFeeType'
 
   validates_with Fee::MiscFeeValidator
 

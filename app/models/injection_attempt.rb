@@ -15,7 +15,7 @@ class InjectionAttempt < ApplicationRecord
   include SoftlyDeletable
   include JsonAttrParser
 
-  belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
+  belongs_to :claim, class_name: 'Claim::BaseClaim', foreign_key: :claim_id
 
   validates :claim, presence: true
 

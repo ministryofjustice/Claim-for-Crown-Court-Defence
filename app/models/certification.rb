@@ -14,7 +14,7 @@
 class Certification < ApplicationRecord
   auto_strip_attributes :certified_by, squish: true, nullify: true
 
-  belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
+  belongs_to :claim, class_name: 'Claim::BaseClaim', foreign_key: :claim_id
   belongs_to :certification_type
 
   validates_with CertificationValidator

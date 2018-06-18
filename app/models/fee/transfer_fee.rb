@@ -20,7 +20,7 @@
 #
 
 class Fee::TransferFee < Fee::BaseFee
-  belongs_to :fee_type, class_name: Fee::TransferFeeType
+  belongs_to :fee_type, class_name: 'Fee::TransferFeeType'
 
   validates :warrant_issued_date, :warrant_executed_date, :sub_type_id, :case_numbers, absence: true
   validates_with Fee::TransferFeeValidator

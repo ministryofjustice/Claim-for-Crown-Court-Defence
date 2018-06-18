@@ -44,7 +44,7 @@ class Provider < ApplicationRecord
     end
   end
 
-  has_many :lgfs_supplier_numbers, -> { order(:id) }, class_name: SupplierNumber, dependent: :destroy
+  has_many :lgfs_supplier_numbers, -> { order(:id) }, class_name: 'SupplierNumber', dependent: :destroy
 
   has_many :claims_created, -> { active }, through: :external_users
   has_many :claims, -> { active }, through: :external_users

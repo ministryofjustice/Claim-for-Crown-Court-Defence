@@ -15,7 +15,7 @@ module Claim
   class TransferDetail < ApplicationRecord
     include TransferBrainDelegatable
 
-    belongs_to :claim, class_name: Claim::TransferClaim, foreign_key: :claim_id, inverse_of: :transfer_detail
+    belongs_to :claim, class_name: 'Claim::TransferClaim', foreign_key: :claim_id, inverse_of: :transfer_detail
     acts_as_gov_uk_date :transfer_date, error_clash_behaviour: :override_with_gov_uk_date_field_error
     transfer_brain_delegate :allocation_type, :bill_scenario, :ppe_required, :transfer_stage
 

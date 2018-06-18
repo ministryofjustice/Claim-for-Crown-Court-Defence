@@ -106,7 +106,7 @@ module Claim
     has_many :case_worker_claims, foreign_key: :claim_id, dependent: :destroy
     has_many :case_workers, through: :case_worker_claims
     has_many :fees,         foreign_key: :claim_id, class_name: 'Fee::BaseFee', dependent: :destroy, inverse_of: :claim
-    has_many :fee_types,    through: :fees, class_name: Fee::BaseFeeType
+    has_many :fee_types,    through: :fees, class_name: 'Fee::BaseFeeType'
     has_many :expenses,     foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim do
       def with_vat
         select(&:vat_present?)

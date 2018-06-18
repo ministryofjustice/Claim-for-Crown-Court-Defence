@@ -18,7 +18,7 @@ class Disbursement < ApplicationRecord
   include Duplicable
 
   belongs_to :disbursement_type
-  belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
+  belongs_to :claim, class_name: 'Claim::BaseClaim', foreign_key: :claim_id
 
   numeric_attributes :net_amount, :vat_amount, :total
 

@@ -20,7 +20,7 @@
 #
 
 class Fee::BasicFee < Fee::BaseFee
-  belongs_to :fee_type, class_name: Fee::BasicFeeType
+  belongs_to :fee_type, class_name: 'Fee::BasicFeeType'
 
   validates_with Fee::BasicFeeValidator
 

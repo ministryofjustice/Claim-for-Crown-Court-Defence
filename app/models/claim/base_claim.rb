@@ -81,6 +81,7 @@ module Claim
     attr_reader :form_step
     alias current_step form_step
     attr_accessor :disable_for_state_transition
+    attribute :case_transferred_from_another_court
 
     include ::Claims::StateMachine
     extend ::Claims::Search
@@ -297,7 +298,7 @@ module Claim
     end
 
     def case_transferred_from_another_court_changed?
-      changed.include?('case_transferred_from_another_court')
+      will_save_change_to_case_transferred_from_another_court?
     end
 
     def self.agfs_claim_types
@@ -702,7 +703,7 @@ module Claim
     end
 
     def transfer_details_changed?
-      transfer_court_id_changed? || transfer_case_number_changed?
+      will_save_change_to_transfer_court_id? || will_save_change_to_transfer_case_number?
     end
   end
 end

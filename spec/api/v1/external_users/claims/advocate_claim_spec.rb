@@ -221,16 +221,6 @@ describe API::V1::ExternalUsers::Claims::AdvocateClaim do
           expect_error_response("Enter an actual trial length",1)
         end
       end
-
-      context "unexpected error" do
-        it "should return 400 and JSON error array of error message" do
-          valid_params[:case_type_id] = 1000000000000000000000000000011111
-          post_to_create_endpoint
-          expect(last_response.status).to eq(400)
-          json = JSON.parse(last_response.body)
-          expect_error_response("out of range for ActiveModel::Type::Integer")
-        end
-      end
     end
   end
 end

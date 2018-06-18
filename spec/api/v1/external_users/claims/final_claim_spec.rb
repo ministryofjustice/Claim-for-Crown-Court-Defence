@@ -16,16 +16,16 @@ describe API::V1::ExternalUsers::Claims::FinalClaim do
   let!(:offence)        { create(:offence, :miscellaneous)}
   let!(:court)          { create(:court)}
   let!(:valid_params)   { {
-      :api_key => provider.api_key,
-      :creator_email => vendor.user.email,
-      :user_email => litigator.user.email,
-      :supplier_number => provider.lgfs_supplier_numbers.first,
-      :case_type_id => FactoryBot.create(:case_type, :trial).id,
-      :case_number => 'A20161234',
-      :offence_id => offence.id,
-      :court_id => court.id,
-      :case_concluded_at => 1.month.ago.as_json,
-      :actual_trial_length => 10 } }
+    :api_key => provider.api_key,
+    :creator_email => vendor.user.email,
+    :user_email => litigator.user.email,
+    :supplier_number => provider.lgfs_supplier_numbers.first,
+    :case_type_id => FactoryBot.create(:case_type, :trial).id,
+    :case_number => 'A20161234',
+    :offence_id => offence.id,
+    :court_id => court.id,
+    :case_concluded_at => 1.month.ago.as_json,
+    :actual_trial_length => 10 } }
 
   after(:all) { clean_database }
 
@@ -198,20 +198,7 @@ describe API::V1::ExternalUsers::Claims::FinalClaim do
           expect_error_response("Enter a case number for example A20161234",0)
           expect_error_response("Check the date case concluded",1)
         end
-    end
-
-      context "unexpected error" do
-        it "should return 400 and JSON error array of error message" do
-          valid_params[:case_type_id] = 1000000000000000000000000000011111
-          post_to_create_endpoint
-          expect(last_response.status).to eq(400)
-          json = JSON.parse(last_response.body)
-          expect_error_response("out of range for ActiveModel::Type::Integer")
-        end
       end
-
     end
-
   end
-
 end

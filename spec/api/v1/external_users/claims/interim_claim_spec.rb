@@ -146,32 +146,15 @@ describe API::V1::ExternalUsers::Claims::InterimClaim do
           expect_error_response('Enter a case number for example A20161234')
         end
       end
-
-    context 'unexpected error' do
-      it 'should return 400 and JSON error array of error message' do
-        valid_params[:case_type_id] = 1000000000000000000000000000011111
-        post_to_create_endpoint
-        expect(last_response.status).to eq(400)
-        json = JSON.parse(last_response.body)
-        expect_error_response('out of range for ActiveModel::Type::Integer')
-      end
     end
-
   end
-
-
-  end
-
 
   def post_to_create_endpoint
     post ClaimApiEndpoints.for(:interim).create, valid_params, format: :json
   end
 
-
   def post_to_validate_endpoint
     post ClaimApiEndpoints.for(:interim).validate, valid_params, format: :json
   end
-
-
 end
 

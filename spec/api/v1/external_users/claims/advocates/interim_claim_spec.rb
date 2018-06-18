@@ -194,13 +194,6 @@ describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
       context "unexpected error" do
         before { valid_params[:court_id] = 1000000000000000000000000000011111 }
 
-        it "should return 400 and JSON error array of error message" do
-          post_to_create_endpoint
-          expect(last_response.status).to eq(400)
-          json = JSON.parse(last_response.body)
-          expect_error_response("out of range for ActiveModel::Type::Integer")
-        end
-
         it "should not create a new claim" do
           expect{ post_to_create_endpoint }.not_to change { Claim::AdvocateInterimClaim.active.count }
         end

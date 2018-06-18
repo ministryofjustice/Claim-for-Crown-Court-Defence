@@ -86,6 +86,7 @@ moj.Helpers.SideBar = {
     };
 
     this.render = function() {
+      this.$el.find('.net_amount').val(this.totals.total.toFixed(2));
       this.$el.find('.total').html('&pound;' + moj.Helpers.SideBar.addCommas(this.totals.total.toFixed(2)));
       this.$el.find('.total').data('total', this.totals.total);
     };

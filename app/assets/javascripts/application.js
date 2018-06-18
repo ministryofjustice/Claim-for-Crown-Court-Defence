@@ -93,6 +93,12 @@ if (!String.prototype.supplant) {
   });
 
 
+  // Basic fees page
+  $('#basic-fees').on('change', 'input', function(){
+    $(this).trigger('recalculate');
+  })
+
+  // ??
   $('.form-actions').on('cocoon:after-insert', function(e, el){
     var $el = $(el);
     if($el.hasClass('resource-details')){

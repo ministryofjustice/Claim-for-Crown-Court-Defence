@@ -497,7 +497,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       expect {
         claim.evidence_checklist_ids = '1, 45, 457'
         claim.save!
-      }.to raise_error ActiveRecord::SerializationTypeMismatch, /Attribute was supposed to be a Array, but was a String. -- "1, 45, 457"/i
+      }.to raise_error(ActiveRecord::SerializationTypeMismatch, /was supposed to be a Array, but was a String/)
     end
 
     context 'when evidence_checklist_ids have been made invalid' do

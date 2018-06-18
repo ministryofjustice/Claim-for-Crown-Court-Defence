@@ -107,6 +107,13 @@ describe AdpTextField do
         expect(atf.to_html).to eq a200_value_no_hint
       end
 
+      it 'should produce expected result when disabled' do
+        resource.case_number = '555'
+        atf = AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'currency', input_disabled: true, errors: error_presenter)
+
+        expect(atf.to_html).to eq a200_value_no_hint_disabled
+      end
+
       def a100_no_value_no_hint
         html = <<-eos
         <div class="form-group case_number_wrapper">
@@ -130,6 +137,20 @@ describe AdpTextField do
           </label>
           <span class="currency-indicator form-input-denote">&pound;</span>
           <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" value="555" min="0" max="99999" />
+        </div>
+        eos
+        squash(html)
+      end
+
+      def a200_value_no_hint_disabled
+        html = <<-eos
+        <div class="form-group case_number_wrapper">
+          <a id="case_number"></a>
+          <label class="form-label-bold" for="claim_case_number">
+            Case number
+          </label>
+          <span class="currency-indicator form-input-denote">&pound;</span>
+          <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" value="555" min="0" max="99999" disabled />
         </div>
         eos
         squash(html)

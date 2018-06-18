@@ -70,6 +70,7 @@ class AdpTextField
   end
 
   def extract_options
+    @input_disabled = options[:input_disabled] || false
     @errors = options[:errors] || @form.object.errors
     @input_classes = options[:input_classes] || ''
     @input_type = options[:input_type] || 'text'
@@ -181,6 +182,9 @@ class AdpTextField
     if @input_is_number
       result += %(min="#{@input_min}" )
       result += %(max="#{@input_max}" )
+    end
+    if @input_disabled
+      result += %(disabled )
     end
     result += %(/>)
     result

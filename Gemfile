@@ -37,7 +37,7 @@ gem 'paperclip',              '~> 5.3.0'
 gem 'paper_trail',            '~> 9.0.2'
 gem 'pdf-forms'
 gem 'pg',                     '~> 0.18.2'
-gem 'rails',                  '>= 5.0.0', '< 5.1'
+gem 'rails',                  '>= 5.1.0', '< 5.2'
 gem 'redis',                  '~> 3.3.1'
 gem 'rubyzip'
 gem 'config',                 '~> 1.2' # this gem provides our Settings.xxx mechanism

@@ -27,7 +27,7 @@ module API
       private
 
       def sanitize_and_format(date)
-        ActiveRecord::Base.sanitize(date.strftime('%FT%T'))
+        ActiveRecord::Base.connection.quote(date.strftime('%FT%T'))
       end
     end
   end

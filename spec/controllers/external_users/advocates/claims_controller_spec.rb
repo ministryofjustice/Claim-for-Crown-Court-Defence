@@ -527,7 +527,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
 
   def valid_claim_fee_params
   case_type = FactoryBot.create :case_type
-  HashWithIndifferentAccess.new(
+  ActiveSupport::HashWithIndifferentAccess.new(
     {
      "source" => 'web',
      "case_type_id" => case_type.id.to_s,

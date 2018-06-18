@@ -474,7 +474,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
   def valid_claim_fee_params
     case_type = FactoryBot.create :case_type
 
-    HashWithIndifferentAccess.new(
+    ActiveSupport::HashWithIndifferentAccess.new(
       {
        "source" => 'web',
        "supplier_number" => supplier_number,
@@ -533,7 +533,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
   end
 
   def fixed_fee_attributes
-    HashWithIndifferentAccess.new({
+    ActiveSupport::HashWithIndifferentAccess.new({
         fixed_fee_attributes: {
             fee_type_id: fixed_fee_type_1.id.to_s, amount: '2500', date_dd: '15', date_mm: '05', date_yyyy: '2015', _destroy: 'false'
         }

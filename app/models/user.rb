@@ -71,7 +71,7 @@ class User < ApplicationRecord
   end
 
   def settings
-    HashWithIndifferentAccess.new(JSON.parse(read_attribute(:settings)))
+    ActiveSupport::HashWithIndifferentAccess.new(JSON.parse(read_attribute(:settings)))
   rescue StandardError
     {}
   end

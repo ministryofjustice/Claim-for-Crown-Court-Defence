@@ -15,7 +15,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
     before { get :new }
 
     it 'returns http success' do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @claim' do
@@ -219,7 +219,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
       let(:claim) { create(:interim_claim, creator: litigator) }
 
       it 'returns http success' do
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'assigns @claim' do

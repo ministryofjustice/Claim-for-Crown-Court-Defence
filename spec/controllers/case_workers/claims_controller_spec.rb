@@ -55,7 +55,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     before(:each) { get :download_zip, params: { id: claim } }
 
     it 'responds with an http success' do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'returns a zip file' do
@@ -73,7 +73,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     before(:each) { get :show, params: { id: claim } }
 
     it 'responds with an http success' do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'populates instance variables' do

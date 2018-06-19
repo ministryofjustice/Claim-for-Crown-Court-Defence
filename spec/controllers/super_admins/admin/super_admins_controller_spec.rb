@@ -11,7 +11,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
     before { get :show, params: { id: subject } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @super_admin' do
@@ -24,7 +24,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
     before { get :edit, params: { id: subject } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @super_admin' do
@@ -41,7 +41,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
     before { get :change_password, params: { id: subject } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @super_admin' do

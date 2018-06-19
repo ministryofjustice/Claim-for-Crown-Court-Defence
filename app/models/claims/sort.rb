@@ -36,7 +36,7 @@ module Claims::Sort
   end
 
   def sort_field_with_nulls(field, direction)
-    "#{sort_field_by(field, direction)} #{sort_nulls_by(direction)}, id desc"
+    "#{sort_field_by(field, direction)} #{sort_nulls_by(direction)}, \"claims\".id desc"
   end
 
   def sort_last_submitted_at(direction)

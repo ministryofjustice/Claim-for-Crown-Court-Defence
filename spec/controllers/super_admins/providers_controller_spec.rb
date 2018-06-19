@@ -13,7 +13,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
     before { get :show, params: { id: subject } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @provider' do
@@ -25,7 +25,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
     before { get :index }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @providers to ALL providers' do
@@ -39,7 +39,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
     before { get :edit, params: { id: subject } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @provider' do
@@ -139,7 +139,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
     before { get :new }
 
     it 'returns http succes' do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it "assigns a new provider to @provider" do

@@ -17,7 +17,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
       it 'returns success' do
         get :index
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'renders the template' do
@@ -269,7 +269,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
       it 'returns success' do
         get :archived
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'renders the template' do
@@ -370,7 +370,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       end
 
       it 'returns success' do
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'renders the template' do
@@ -412,7 +412,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       end
 
       it 'returns success' do
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'renders the template' do
@@ -525,7 +525,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
     it "returns http success" do
       get :show, params: { id: subject }
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @claim' do
@@ -555,7 +555,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     let(:claim) { create(:claim, external_user: advocate) }
 
     it 'returns http success' do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'returns the pdf mime type' do

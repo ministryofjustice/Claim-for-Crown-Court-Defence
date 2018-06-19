@@ -15,7 +15,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     before { get :show, params: { provider_id: provider, id: external_user } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @provider and @external_user' do
@@ -28,7 +28,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     before { get :index, params: { provider_id: provider } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @provider' do
@@ -44,7 +44,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     before { get :find }
 
     it 'returns http success' do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
   end
 
@@ -82,7 +82,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     before { get :new, params: { provider_id: provider } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     # NOTE: use json comparison because we are not interested in
@@ -148,7 +148,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     before { get :edit, params: { provider_id: provider, id: external_user } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
    it 'assigns @provider and @external_user' do
@@ -194,7 +194,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     before { get :change_password, params: { provider_id: provider, id: external_user } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @provider and @external_user' do

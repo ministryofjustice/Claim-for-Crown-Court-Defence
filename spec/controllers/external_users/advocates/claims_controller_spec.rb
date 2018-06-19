@@ -8,7 +8,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
     context 'AGFS or LGFS provider members only' do
       before { get :new }
       it "returns http success" do
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'assigns @claim' do
@@ -369,7 +369,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
       let(:claim) { create(:advocate_claim, external_user: advocate) }
 
       it "returns http success" do
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'updates the last_edited_at field' do

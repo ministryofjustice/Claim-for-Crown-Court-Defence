@@ -14,7 +14,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
       it "returns http success" do
         get :index
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'assigns @eternal_users' do
@@ -34,7 +34,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       before { get :show, params: { id: subject } }
 
       it "returns http success" do
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'assigns @external_user' do
@@ -50,7 +50,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       before { get :new }
 
       it "returns http success" do
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'assigns @external_user' do
@@ -66,7 +66,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       before { get :edit, params: { id: subject } }
 
       it "returns http success" do
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'assigns @external_user' do
@@ -82,7 +82,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       before { get :change_password, params: { id: subject } }
 
       it "returns http success" do
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'assigns @external_user' do
@@ -255,7 +255,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     describe "GET #show" do
       it 'displays the show page for the current user' do
         get :show, params: { id: external_user }
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'doesnt show the details for a different user' do
@@ -284,7 +284,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     describe "GET #edit" do
       it 'displays the edit form' do
         get :edit, params: { id: external_user }
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
     end
 

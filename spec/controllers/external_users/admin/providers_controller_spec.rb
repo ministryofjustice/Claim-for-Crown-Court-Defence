@@ -12,7 +12,7 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
     before { get :show, params: { id: subject } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @provider' do
@@ -24,7 +24,7 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
     before { get :edit, params: { id: subject } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @provider' do

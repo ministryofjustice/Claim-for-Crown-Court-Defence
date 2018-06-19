@@ -50,7 +50,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
 
         it 'renders the template' do
           new_request
-          expect(response).to have_http_status(:success)
+          expect(response).to have_http_status(200)
           expect(response).to render_template(:new)
         end
       end
@@ -153,7 +153,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
 
             it 'renders the template' do
               create_request
-              expect(response).to have_http_status(:success)
+              expect(response).to have_http_status(200)
               expect(response).to render_template(:new)
             end
 
@@ -171,7 +171,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
 
           it 'renders the template' do
             create_request
-            expect(response).to have_http_status(:success)
+            expect(response).to have_http_status(200)
             expect(response).to render_template(:new)
           end
 
@@ -292,7 +292,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
 
         it 'renders the template' do
           edit_request
-          expect(response).to have_http_status(:success)
+          expect(response).to have_http_status(200)
           expect(response).to render_template(:edit)
         end
       end
@@ -433,7 +433,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
 
             it 'renders the template' do
               update_request
-              expect(response).to have_http_status(:success)
+              expect(response).to have_http_status(200)
               expect(response).to render_template(:edit)
             end
 
@@ -456,7 +456,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
 
           it 'renders the template' do
             update_request
-            expect(response).to have_http_status(:success)
+            expect(response).to have_http_status(200)
             expect(response).to render_template(:edit)
           end
 

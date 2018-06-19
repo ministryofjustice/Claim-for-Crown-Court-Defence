@@ -13,7 +13,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
       before { get :index }
 
       it 'returns http success' do
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'renders the template' do
@@ -31,7 +31,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
       let(:stats_report) { instance_double ::Stats::StatsReport, report_name: 'management_information', download_filename: 'test.csv' }
 
       it 'returns http success' do
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it 'renders the template' do

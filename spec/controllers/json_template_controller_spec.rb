@@ -8,7 +8,7 @@ RSpec.describe JsonTemplateController, type: :controller do
     end
 
     it 'yields a successful response' do
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'assigns @schema' do
@@ -26,7 +26,7 @@ RSpec.describe JsonTemplateController, type: :controller do
     end
 
     it 'yields a successful response' do
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'assigns @schema' do

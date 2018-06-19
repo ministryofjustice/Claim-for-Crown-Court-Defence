@@ -12,7 +12,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     before { get :index }
 
     it 'returns http success' do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @case_workers' do
@@ -38,7 +38,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     before { get :show, params: { id: subject } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @case_worker' do
@@ -57,7 +57,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     before { get :new }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @case_worker' do
@@ -77,7 +77,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     before { get :edit, params: { id: subject } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @case_worker' do
@@ -94,7 +94,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     before { get :change_password, params: { id: subject } }
 
     it "returns http success" do
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(200)
     end
 
     it 'assigns @advocate' do

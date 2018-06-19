@@ -80,7 +80,7 @@ class CSV::Row
 end
 
 csv.each do |row|
-  offence = SeedHelper.find_or_create_scheme_10_offence!(
+  SeedHelper.find_or_create_scheme_10_offence!(
     offence_band: row.offence_band,
     description: row.description,
     contrary: row.contrary_to,
@@ -90,8 +90,6 @@ end
 
 # regenerate unique codes based on offence description and band where order is significant
 require Rails.root.join('lib','data_migrator','offence_unique_code_migrator')
-offences = Offence.joins(:offence_band).where(offence_class: nil).unscope(:order).order('offences.description COLLATE "C", offences.contrary COLLATE "C", offence_bands.description COLLATE "C"')
+offences = Offence.joins(:offence_band).where(offence_class: nil).unscope(:order).order(Arel.sql('offences.description COLLATE "C", offences.contrary COLLATE "C", offence_bands.description COLLATE "C"'))
 migrator = DataMigrator::OffenceUniqueCodeMigrator.new(relation: offences)
 migrator.migrate!
-
-

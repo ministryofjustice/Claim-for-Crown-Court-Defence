@@ -40,25 +40,25 @@ module Claims::Sort
   end
 
   def sort_last_submitted_at(direction)
-    order(sort_field_with_nulls('last_submitted_at', direction))
+    order(Arel.sql(sort_field_with_nulls('last_submitted_at', direction)))
   end
 
   def sort_advocate(direction)
     select('claims.*, ("users"."last_name" || \', \' || "users"."first_name") AS user_name')
       .joins(external_user: :user)
-      .order(sort_field_by('user_name', direction))
-      .order(sort_field_by('created_at', direction))
+      .order(Arel.sql(sort_field_by('user_name', direction)))
+      .order(Arel.sql(sort_field_by('created_at', direction)))
   end
 
   def sort_case_type(direction)
     select('"claims".*, "case_types"."name"')
       .joins(:case_type)
-      .order(sort_field_by('"case_types"."name"', direction))
+      .order(Arel.sql(sort_field_by('"case_types"."name"', direction)))
   end
 
   def sort_total_inc_vat(direction)
     select('claims.*, (claims.total+claims.vat_amount) AS total_inc_vat')
-      .order(sort_field_by('total_inc_vat', direction))
+      .order(Arel.sql(sort_field_by('total_inc_vat', direction)))
   end
 
   # NOTE: amount assessed is the most recent determinations' total including vat
@@ -67,6 +67,6 @@ module Claims::Sort
       .joins(:determinations)
       .where('determinations.created_at = (SELECT MAX(d.created_at) FROM ' \
              '"determinations" d WHERE d."claim_id" = "claims"."id")')
-      .order(sort_field_by('total_inc_vat', direction))
+      .order(Arel.sql(sort_field_by('total_inc_vat', direction)))
   end
 end

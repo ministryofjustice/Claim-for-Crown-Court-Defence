@@ -17,8 +17,8 @@ module DemoData
 
     def initialize(claim)
       @claim                = claim
-      @case_worker          = User.where("email like '%example.com' and  persona_type = 'CaseWorker'").order('RANDOM()').first.persona
-      @advocate             = User.where("email like '%example.com' and  persona_type = 'ExternalUser'").order('RANDOM()').first.persona
+      @case_worker          = User.where("email like '%example.com' and  persona_type = 'CaseWorker'").order(default_order).first.persona
+      @advocate             = User.where("email like '%example.com' and  persona_type = 'ExternalUser'").order(default_order).first.persona
     end
 
     def advance_to(desired_state)
@@ -35,6 +35,10 @@ module DemoData
     end
 
     private
+
+    def default_order
+      Arel.sql('RANDOM()')
+    end
 
     def add_message(claim, sender)
       Message.create(claim: claim, sender: sender.user, body: Faker::Lorem.paragraph)

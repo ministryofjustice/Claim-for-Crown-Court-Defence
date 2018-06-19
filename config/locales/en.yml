@@ -1486,3 +1486,6 @@ en:
       mi:
         scheme_ten:
           format: 'OPTIONAL: the format to output the data. DEFAULT: json.  CSV will download automatically'
+  faker:
+    address:
+      postcode: /[A-PR-UWYZ]([A-HK-Y][0-9][ABEHMNPRVWXY0-9]?|[0-9][ABCDEFGHJKPSTUW0-9]?) [0-9][ABD-HJLNP-UW-Z]{2}/

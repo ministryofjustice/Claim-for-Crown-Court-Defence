@@ -100,8 +100,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
           expect(claim.reload.last_submitted_at).to eq(frozen_time)
         end
 
-        it 'logs a successful message on the queue' do
-          expect(Rails.logger).to receive(:info).with(/Successfully sent message about submission of claim#/)
+        it 'notifies legacy importer' do
           post :create, params: valid_certification_params(claim, certification_type)
           expect(sns_client).to have_received(:publish).once
         end

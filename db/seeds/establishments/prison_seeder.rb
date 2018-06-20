@@ -59,7 +59,7 @@ module Seeds
       end
 
       def log(message, stdout: false)
-        log_parts = []
+        log_parts = ['[PRISONS]']
         log_parts << '[DRY RUN]' if dry_run
         log_parts << message
         output = log_parts.join(' ')

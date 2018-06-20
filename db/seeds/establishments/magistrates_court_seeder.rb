@@ -48,18 +48,18 @@ module Seeds
 
       def create_record(name, attributes)
         Establishment.create(attributes.merge(name: name, category: 'magistrates_court')) unless dry_run
-        log "[CREATED] Created magistrate court with name '#{name}'"
+        log "[CREATED] Created magistrates court with name '#{name}'"
         self.total_created += 1
       end
 
       def update_record(record, name, attributes)
         record.update(attributes) unless dry_run
-        log "[UPDATED] Updated magistrate court with name '#{name}'"
+        log "[UPDATED] Updated magistrates court with name '#{name}'"
         self.total_updated += 1
       end
 
       def log(message, stdout: false)
-        log_parts = []
+        log_parts = ['[MAGISTRATES COURTS]']
         log_parts << '[DRY RUN]' if dry_run
         log_parts << message
         output = log_parts.join(' ')

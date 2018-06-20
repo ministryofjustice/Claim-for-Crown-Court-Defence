@@ -32,12 +32,14 @@ RSpec.describe SupplierNumber, type: :model do
   context 'postcode validation' do
     it 'is valid if postcode is nil' do
       supplier.postcode = nil
-      expect(supplier).to be_valid
+      expect(supplier).not_to be_valid
+      expect(supplier.errors[:postcode]).to include('is invalid')
     end
 
     it 'is valid if postcode is blank' do
       supplier.postcode = ''
-      expect(supplier).to be_valid
+      expect(supplier).not_to be_valid
+      expect(supplier.errors[:postcode]).to include('is invalid')
     end
 
     it 'is valid if postcode is filled and has the right format' do

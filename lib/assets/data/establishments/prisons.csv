@@ -1,0 +1,132 @@
+id,name,address_line_1,address_line_2,address_line_3,city,postcode,region,latitude,longitude,type,category
+1,HMP Altcourse,Higher Lane,Fazakerley,,Liverpool,L9 7LH,North West,53.46093146,-2.936031994,HMP,B
+2,HMP Ashfield,Shortwood Road,Pucklechurch,,Bristol,BS16 9QJ,South West,51.48242362,-2.438868998,HMP,C
+3,HMP Askham Grange,Askham Richard,,,York,YO23 3FT,Yorkshire and The Humber,53.92591936,-1.184091529,HMP,D
+4,HMP/YOI Aylesbury,Bierton Road,,,Aylesbury,HP20 1EH,South East,51.82260242,-0.8017363237,"HMP, YOI",HMYOI
+5,HMP Bedford,St Loyes Street,,,Bedford,MK40 1HG,East of England,52.13932218,-0.4702318354,HMP,B
+6,HMP Belmarsh,Western Way,Thamesmead,,London,SE28 0EB,London,51.49684596,0.09270390639,HMP,A
+7,HMP Berwyn,Bridge Road,Wrexham Industrial Estate,,Wrexham,LL13 9QE,Wales,53.03516934,-2.926991646,HMP,C
+8,HMP Birmingham,Winson Green Road,,,Birmingham,B18 4AS,West Midlands,52.49249052,-1.938510152,HMP,"B, C"
+9,HMP Blantyre House,Horden,,,Goudhurst,TN17 2NH,South East,51.13433474,0.504419824,HMP,"C, D"
+10,HMP/YOI Brinsford,New Road,Featherstone,,Wolverhampton,WV10 7PY,West Midlands,52.65018842,-2.112412695,"HMP, YOI",HMYOI
+11,HMP Bristol,19 Cambridge Road,,,Bristol,BS7 8PS,South West,51.48061536,-2.590658328,HMP,B
+12,HMP Brixton,Jebb Avenue,Brixton,,London,SW2 5XF,London,51.4518244,-0.1254940033,HMP,"C, Training"
+13,HMP Bronzefield,Woodthorpe Road,,,Ashford,TW15 3JZ,South East,51.43292173,-0.4828504012,HMP,A
+14,HMP Buckley Hall,Buckley Hall Road,,,Rochdale,OL12 9DP,North West,53.63496498,-2.145054335,HMP,C
+15,HMP Bullingdon,PO Box 50,,,Bicester,OX25 1PZ,South East,51.84849841,-1.094423037,HMP,"B, C"
+16,HMP Bure,Jaguar Drive,Badersfield,,Norwich,NR10 5GB,East of England,52.75900994,1.347006044,HMP,C
+17,HMP Cardiff,Knox Road,,,Cardiff,CF24 0UG,Wales,51.48106688,-3.168271598,HMP,B
+18,HMP Channings Wood,Denbury,,,Newton Abbot,TQ12 6DW,South West,50.51049834,-3.651821209,HMP,C
+19,HMP Chelmsford,200 Springfield Road,,,Chelmsford,CM2 6LQ,East of England,51.73672356,0.4846545977,HMP,B
+20,HMP Coldingley,Shaftesbury Road,Bisley,,Woking,GU24 9EX,South East,51.32190775,-0.6430596176,HMP,C
+21,HMP/YOI Cookham Wood,Sir Evelyn Road,,,Rochester,ME1 3LU,South East,51.36520177,0.4943704675,"HMP, YOI",HMYOI
+22,HMP Dartmoor,Princetown,,,Yelverton,PL20 6RR,South West,50.5492298,-3.997530342,HMP,C
+23,HMP/YOI Deerbolt,Bowes Road,,,Barnard Castle,DL12 9BG,North East,54.5440338,-1.936700092,"HMP, YOI",HMYOI
+24,HMP Doncaster,Off North Bridge Road,Marshgate,,Doncaster,DN5 8UX,Yorkshire and The Humber,53.52517992,-1.145003204,HMP,B
+25,HMP Dovegate,,,,Uttoxeter,ST14 8XR,West Midlands,52.87060939,-1.782243391,HMP,B
+26,HMP Downview,Sutton Lane,,,Sutton,SM2 5PD,South East,51.33908457,-0.1884448573,HMP,C
+27,HMP Drake Hall,,,,Eccleshall,ST21 6LQ,West Midlands,52.87883479,-2.240835059,HMP,C
+28,HMP Durham,Old Elvet,,,Durham,DH1 3HU,North East,54.77372234,-1.569374532,HMP,B
+29,HMP East Sutton Park,Sutton Valence,,,Maidstone,ME17 3DF,South East,51.21515498,0.613670681,HMP,D
+30,HMP Eastwood Park,Falfield,,,Wotton-under-Edge,GL12 8DB,South West,51.63445761,-2.46738381,HMP,Semi-Open
+31,HMP Erlestoke,Erlestoke,,,Devizes,SN10 5TU,South West,51.28466522,-2.044156837,HMP,C
+32,HMP Exeter,30 New North Road,,,Exeter,EX4 4EX,South West,50.72804015,-3.532208401,HMP,B
+33,HMP Featherstone,New Road,Featherstone,,Wolverhampton,WV10 7PU,West Midlands,52.65018842,-2.112412695,HMP,C
+34,HMP/YOI Feltham,Bedfont Road,,,Feltham,TW13 4ND,London,51.44151536,-0.4340750664,"HMP, YOI",HMYOI
+35,HMP Ford,,,,Arundel,BN18 0BX,South East,50.81621717,-0.579803752,HMP,D
+36,HMP Forest Bank,Agecroft Road,Pendlebury,,Salford,M27 8FB,North West,53.51425497,-2.302093551,HMP,B
+37,HMP Foston Hall,Foston,,,Derby,DE65 5DN,East Midlands,52.8820968,-1.725361365,HMP,B
+38,HMP Frankland,Brasside,,,Durham,DH1 5YD,North East,54.80582016,-1.551407048,HMP,A
+39,HMP Full Sutton,,,,York,YO41 1PS,Yorkshire and The Humber,53.98445822,-0.8699075782,HMP,A
+40,HMP Garth,Ulnes Walton,Leyland,,Preston,PR26 8NE,North West,53.6806502,-2.758097406,HMP,B
+41,HMP Gartree,Gallow Field Road,,,Market Harborough,LE16 7RP,East Midlands,52.49563636,-0.9614951573,HMP,B
+42,HMP Grendon & Springhill,,,,Grendon Underwood,HP18 0TL,South East,51.89217057,-1.009843181,HMP,B
+43,HMP Guys Marsh,,,,Shaftesbury,SP7 0AH,South West,50.9853738,-2.219826664,HMP,C
+44,HMP Hatfield,Thorne Road,Hatfield,,Doncaster,DN7 6EL,Yorkshire and The Humber,53.5867235,-0.9807016792,HMP,D
+45,HMP Haverigg,North Lane,,,Millom,LA18 4NA,North West,54.20066761,-3.312424919,HMP,C
+46,HMP Hewell,Hewell Lane,,,Redditch,B97 6QS,West Midlands,52.32478702,-1.986589004,HMP,"B, C, D"
+47,HMP High Down,High Down Lane,,,Sutton,SM2 5PJ,South East,51.33684087,-0.1887342981,HMP,B
+48,HMP Highpoint North,Stradishall,,,Newmarket,CB8 9YG,East of England,52.137409,0.5138403085,HMP,C
+49,HMP Highpoint South,Stradishall,,,Newmarket,CB8 9YG,East of England,52.137409,0.5138403085,HMP,C
+50,HMP/YOI Hindley,Gibson Street,Bickershaw,,Wigan,WN2 5TH,North West,53.51775661,-2.576949681,"HMP, YOI",HMYOI
+51,HMP Hollesley Bay,,,,Woodbridge,IP12 3JW,East of England,52.05157286,1.451237704,HMP,D
+52,HMP Holme House,Holme House Road,,,Stockton-on-Tees,TS18 2QU,North East,54.57779888,-1.293112484,HMP,B
+53,HMP Hull,Hedon Road,,,Hull,HU9 5LS,Yorkshire and The Humber,53.74826448,-0.2967754805,HMP,B
+54,HMP Humber,,,,Everthorpe,HU15 2JZ,Yorkshire and The Humber,53.76783421,-0.6338000299,HMP,C
+55,HMP/YOI Huntercombe,Nuffield,,,Henley-on-Thames,RG9 5SB,South East,51.58765819,-1.018351944,"HMP, YOI",HMYOI
+56,HMP/YOI Isis,Western Way,,,Thamesmead,SE28 0NZ,London,51.49724632,0.09697244195,"HMP, YOI",HMYOI
+57,HMP Isle of Wight (Albany),Albany House,55 Parkhurst Road,,Newport,PO30 5RS,South East,50.71199951,-1.304896278,HMP,B
+58,HMP Isle of Wight (Parkhurst),Clissold Road,,,Newport,PO30 5NX,South East,50.714434,-1.306404,HMP,B
+59,HMP Kennet,Parkbourne,Maghull,,Liverpool,L31 1HX,North West,53.515561,-2.910406,HMP,C
+60,HMP Kirkham,Freckleton Road,Kirkham,,Preston,PR4 2RN,North West,53.77490929,-2.873205367,HMP,D
+61,HMP Kirklevington Grange,Yarm,,,Cleveland,TS15 9PA,North East,54.49502125,-1.339608311,HMP,"C, D"
+62,HMP Lancaster Farms,Stone Row Head,Off Quernmore Road,,Lancaster,LA1 3QZ,North West,54.05270422,-2.772066662,HMP,C
+63,HMP Leeds,2 Gloucester Terrace,Stanningley Road,,Leeds,LS12 2TJ,Yorkshire and The Humber,53.79573019,-1.57617032,HMP,B
+64,HMP Leicester,116 Welford Road,,,Leicester,LE2 7AJ,East Midlands,52.62770296,-1.132544739,HMP,B
+65,HMP Lewes,1 Brighton Road,,,Lewes,BN7 1EA,South East,50.8728674,-0.00530273063,HMP,B
+66,HMP Leyhill,,,,Wotton-under-Edge,GL12 8BT,South West,51.62803877,-2.436777324,HMP,D
+67,HMP Lincoln,Greetwell Road,,,Lincoln,LN2 4BD,East Midlands,53.23538978,-0.5179993449,HMP,B
+68,HMP Lindholme,Bawtry Road,Hatfield Woodhouse,,Doncaster,DN7 6EE,Yorkshire and The Humber,53.54427833,-0.9701613624,HMP,"C, D"
+69,HMP Littlehey,Perry,,,Huntingdon,PE28 0SR,East of England,52.28079489,-0.3122762014,HMP,C
+70,HMP Liverpool,68 Hornby Road,,,Liverpool,L9 3DF,North West,53.45754814,-2.969166373,HMP,"B, C"
+71,HMP Long Lartin,South Littleton,,,Evesham,WR11 8TZ,West Midlands,52.10964929,-1.854987877,HMP,A
+72,HMP Low Newton,Brasside,,,Durham,DH1 5YA,North East,54.80536201,-1.556343741,HMP,C
+73,HMP Lowdham Grange,Old Epperstone Road,,,Lowdham,NG14 7DA,East Midlands,53.01613164,-1.038021427,HMP,B
+74,HMP Maidstone,36 County Road,,,Maidstone,ME14 1UZ,South East,51.27826546,0.5247605633,HMP,C
+75,HMP Manchester,1 Southall Street,,,Manchester,M60 9AH,North West,53.4921918,-2.245686399,HMP,A
+76,HMP Moorland,Bawtry Road,Hatfield Woodhouse,,Doncaster,DN7 6BW,Yorkshire and The Humber,53.54857741,-0.9714908604,HMP,C
+77,HMP New Hall,Dial Wood,Flockton,,Wakefield,WF4 4XX,Yorkshire and The Humber,53.63614411,-1.61290293,HMP,C
+78,HMP Northumberland,,,,Morpeth,NE65 9XG,North East,55.29608869,-1.6353007,HMP,C
+79,HMP North Sea Camp,Croppers Lane,Freiston,,Boston,PE22 0QX,East Midlands,52.93996552,0.0634345524,HMP,D
+80,HMP Norwich,Knox Road,,,Norwich,NR1 4LU,East of England,52.63756892,1.317585191,HMP,"B, C"
+81,HMP Nottingham,Perry Road,Sherwood,,Nottingham,NG5 3AG,East Midlands,52.98453285,-1.155057804,HMP,B
+82,HMP Oakwood,Oak Road,,,Featherstone,WV10 7QD,West Midlands,52.64795841,-2.113012962,HMP,C
+83,HMP Onley,,,,Rugby,CV23 8AP,East Midlands,52.32646557,-1.247690915,HMP,C
+84,HMP Parc,,,,Bridgend,CF35 6AP,Wales,51.53095131,-3.563142965,HMP,B
+85,HMP Pentonville,Caledonian Road,,,London,N7 8TT,London,51.54500405,-0.115883749,HMP,"B, C"
+86,HMP Peterborough,Saville Road,Westwood,,Peterborough,PE3 7PD,East of England,52.58651475,-0.2599612609,HMP,B
+87,HMP/YOI Portland,104 The Grove,Easton,,Portland,DT5 1DL,South West,50.54903297,-2.419978219,"HMP, YOI",HMYOI
+88,HMP Prescoed,,,,Pontypool,NP4 0TB,Wales,51.67835654,-2.943030235,HMP,D
+89,HMP Preston,2 Ribbleton Lane,,,Preston,PR1 5AB,North West,53.76146558,-2.689365926,HMP,B
+90,HMP Ranby,Retford,,,Nottingham,DN22 8EU,East Midlands,53.32006401,-0.9961180334,HMP,C
+91,HMP Risley,Warrington Road,Risley,,Warrington,WA3 6BP,North West,53.4387704,-2.525132864,HMP,C
+92,HMP/YOI Rochester,1 Fort Road,,,Rochester,ME1 3QS,South East,51.36692966,0.4934730405,"HMP, YOI",HMYOI
+93,HMP Rye Hill,,,,Willoughby,CV23 8SZ,East Midlands,52.32752217,-1.242801314,HMP,B
+94,HMP Send,Ripley Road,,,Woking,GU23 7LJ,South East,51.27269703,-0.4899252367,HMP,C
+95,HMP Sheppey Cluster (Elmley),Church Road,Eastchurch,,Sheerness,ME12 4DZ,South East,51.38782432,0.8508631666,HMP,"B, C"
+96,HMP Sheppey Cluster (Standford Hill),Church Road,Eastchurch,,Sheerness,ME12 4AA,South East,51.39495424,0.850961578,HMP,D
+97,HMP Sheppey Cluster (Swaleside),Brabazon Road,Eastchurch,,Isle of Sheppey,ME12 4AX,South East,51.39381248,0.8550023009,HMP,B
+98,HMP Stafford,54 Gaol Road,,,Stafford,ST16 3AW,West Midlands,52.81151852,-2.118452168,HMP,C
+99,HMP Stocken,Stocken Hall Road,Stretton,Nr Oakham,Rutland,LE15 7RD,East Midlands,52.74593576,-0.5817857925,HMP,C
+100,HMP Stoke Heath,,,,Market Drayton,TF9 2JL,West Midlands,52.86958326,-2.523414545,HMP,C
+101,HMP Styal,,,,Wilmslow,SK9 4HR,North West,53.3411365,-2.238117884,HMP,C
+102,HMP Sudbury,,,,Ashbourne,DE6 5HW,East Midlands,52.89276867,-1.768249866,HMP,D
+103,HMP Swansea,200 Oystermouth Road,,,Swansea,SA1 3SR,Wales,51.61538899,-3.948886882,HMP,"B, C"
+104,HMP Swinfen Hall,Swinfen Hall,,,Lichfield,WS14 9QS,West Midlands,52.65335381,-1.805038224,HMP,C
+105,HMP Thameside,Griffin Manor Way,Thameside,,London,SE28 0FJ,London,51.49344941,0.08750615237,HMP,B
+106,HMP The Mount,Molyneaux Avenue,Bovingdon,,Hemel Hempstead,HP3 0NZ,East of England,51.72471748,-0.5413550037,HMP,C
+107,HMP Thorn Cross,Arley Road,Appleton Thorn,,Warrington,WA4 4RL,North West,53.35012525,-2.540972507,HMP,D
+108,HMP Usk,47 Maryport Street,,,Usk,NP15 1XP,Wales,51.69943358,-2.900493052,HMP,C
+109,HMP Wakefield,5 Love Lane,,,Wakefield,WF2 9AG,Yorkshire and The Humber,53.68329422,-1.509287576,HMP,A
+110,HMP Wandsworth,Heathfield Road,Wandsworth,,London,SW18 3HU,London,51.44913829,-0.1746657048,HMP,"B, C"
+111,HMP/YOI Warren Hill,Grove Road,,,Hollesley,IP12 3BF,East of England,52.05867617,1.460511515,"HMP, YOI",HMYOI
+112,HMP Wayland,Griston,,,Thetford,IP25 6RL,East of England,52.55248889,0.8587293236,HMP,C
+113,HMP Wealstun,Church Causeway,Thorp Arch,,Wetherby,LS23 7AZ,Yorkshire and The Humber,53.91617993,-1.32835563,HMP,C
+114,HMP/YOI Werrington,Ash Bank Road,Werrington,,Stoke-on-Trent,ST9 0DX,West Midlands,53.02237132,-2.087454814,"HMP, YOI",HMYOI
+115,HMP/YOI Wetherby,York Road,,,Wetherby,LS22 5ED,Yorkshire and The Humber,53.93525082,-1.367819909,"HMP, YOI",HMYOI
+116,HMP Whatton,New Lane,,,Whatton,NG13 9FQ,East Midlands,52.94740795,-0.9110618068,HMP,C
+117,HMP Whitemoor,Longhill Road,,,March,PE15 0PR,East of England,52.5757817,0.08088485911,HMP,A
+118,HMP Winchester,Romsey Road,,,Winchester,SO22 5DF,South East,51.06236259,-1.328747,HMP,B
+119,HMP Woodhill,Tattenhoe Street,,,Milton Keynes,MK4 4DA,South East,52.01308987,-0.8077436258,HMP,A
+120,HMP Wormwood Scrubs,Du Cane Road,,,London,W12 0AE,London,51.51763223,-0.240435098,HMP,B
+121,HMP Wymott,Ulnes Walton Lane,Leyland,,Preston,PR26 8LW,North West,53.67837687,-2.749412129,HMP,C
+122,IRC Brook House,Perimeter Road South,London Gatwick Airport,,Gatwick,RH6 0PQ,South East,51.14712727,-0.1834605148,IRC,IRC
+123,IRC Campsfield House,Langford Lane,,,Kidlington,OX5 1RE,South East,51.8274123,-1.311824297,IRC,IRC
+124,IRC Colnbrook,Colnbrook Bypass,Harmondsworth,,West Drayton,UB7 0FX,London,51.48361395,-0.4830842889,IRC,IRC
+125,IRC Dungavel House,,,,Strathaven,ML10 6RF,Scotland,55.60978721,-4.131202419,IRC,IRC
+126,IRC Harmondsworth,Colnbrook Bypass,Harmondsworth,,West Drayton,UB7 0HB,London,51.48308941,-0.4835481531,IRC,IRC
+127,IRC Larne House,2 Hope Street,,,Larne,BT40 1UR,Northern Ireland,54.85082848,-5.812772144,IRC,IRC
+128,IRC Morton Hall,,,,Swinderby,LN6 9PT,East Midlands,53.16794421,-0.6877236133,IRC,IRC
+129,IRC Pennine House,Room 1506-1510,Terminal 2,,Manchester Airport,M90 4AG,North West,53.36704087,-2.279950653,IRC,IRC
+130,IRC Tinsley House,Perimeter Road South,Gatwick Airport,,Gatwick,RH6 0PQ,South East,51.14712727,-0.1834605148,IRC,IRC
+131,IRC Yarl's Wood,Twinwoods Business Park,Thurleigh Road,Milton Ernest,Bedford,MK44 2FQ,East of England,52.197711,-0.495473,IRC,IRC

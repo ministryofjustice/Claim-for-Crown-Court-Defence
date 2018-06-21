@@ -1,0 +1,313 @@
+.form-group.fx-travel-court
+  %legend.form-label-bold
+    Crown court
+  %select#travel-expense-1-court.form-control.form-control-3-4.fx-select-court{:name => "travel_expense_1_court"}
+    %option{:value => ""}
+    %option{"data-other-names" => "Aylesbury Crown Court", "data-postcode" => "HP21 7FT", :value => "aylesbury"} Aylesbury
+    %option{"data-other-names" => "Basildon Combined Court", "data-postcode" => "SS14 2EW", :value => "basildon"} Basildon
+    %option{"data-other-names" => "Birmingham Crown Court", "data-postcode" => "B4 7NA", :value => "birmingham"} Birmingham
+    %option{"data-other-names" => "Blackfriars Crown Court", "data-postcode" => "SE1 0BT", :value => "blackfriars"} Blackfriars
+    %option{"data-other-names" => "Bolton Crown Court", "data-postcode" => "BL1 1SU", :value => "bolton"} Bolton
+    %option{"data-other-names" => "Bournemouth Crown Court", "data-postcode" => "BH7 7DS", :value => "bournemouth"} Bournemouth
+    %option{"data-other-names" => "Bradford Combined Court Centre", "data-postcode" => "BD1 1JA", :value => "bradford"} Bradford
+    %option{"data-other-names" => "Bristol Crown Court", "data-postcode" => "BS1 1DA", :value => "bristol"} Bristol
+    %option{"data-other-names" => "Burnley Combined Court Centre", "data-postcode" => "BB11 1XD", :value => "burnley"} Burnley
+    %option{"data-other-names" => "Caernarfon Crown Court", "data-postcode" => "LL55 2DF", :value => "caernarfon"} Caernarfon
+    %option{"data-other-names" => "Cambridge Crown Court", "data-postcode" => "CB1 1BT", :value => "cambridge"} Cambridge
+    %option{"data-other-names" => "Canterbury Combined Court Centre", "data-postcode" => "CT1 1ZA", :value => "canterbury"} Canterbury
+    %option{"data-other-names" => "Cardiff Crown Court", "data-postcode" => "CF10 3PG", :value => "cardiff"} Cardiff
+    %option{"data-other-names" => "Carlisle Combined Court", "data-postcode" => "CA1 1DJ", :value => "carlisle"} Carlisle
+    %option{"data-postcode" => "EC4M 7EH", :value => "central_criminal_court"} Central Criminal Court
+    %option{"data-other-names" => "Chelmsford Crown Court", "data-postcode" => "CM1 1EL", :value => "chelmsford"} Chelmsford
+    %option{"data-other-names" => "Chester Crown Court", "data-postcode" => "CH1 2AN", :value => "chester"} Chester
+    %option{"data-other-names" => "Chichester Combined Court Centre", "data-postcode" => "PO19 1SX", :value => "chichester"} Chichester
+    %option{"data-other-names" => "Coventry Combined Court Centre", "data-postcode" => "CV1 2SN", :value => "coventry"} Coventry
+    %option{"data-other-names" => "Coydon Crown Court", "data-postcode" => "CR9 5AB", :value => "croydon"} Croydon
+    %option{"data-other-names" => "Derby Combined Court Centre", "data-postcode" => "DE1 2XE", :value => "derby"} Derby
+    %option{"data-other-names" => "Doncaster Justice Centre North", "data-postcode" => "DN1 3HS", :value => "doncaster_north"} Doncaster (North)
+    %option{"data-other-names" => "Doncaster Justice Centre South", "data-postcode" => "DN1 3HS", :value => "doncaster_south"} Doncaster (South)
+    %option{"data-other-names" => "Durham Crown Court", "data-postcode" => "DH1 3HW", :value => "durham"} Durham
+    %option{"data-other-names" => "Exeter Combined Court Centre", "data-postcode" => "EX1 1UH", :value => "exeter"} Exeter
+    %option{"data-other-names" => "Gloucester Crown Court", "data-postcode" => "GL1 2TS", :value => "gloucester"} Gloucester
+    %option{"data-other-names" => "Great Grimsby Combined Court Centre", "data-postcode" => "DN31 1HX", :value => "grimsby"} Grimsby
+    %option{"data-other-names" => "Guildford Crown Court", "data-postcode" => "GU1 4ST", :value => "guildford"} Guildford
+    %option{"data-other-names" => "Harrow Crown Court", "data-postcode" => "HA1 4TU", :value => "harrow"} Harrow
+    %option{"data-other-names" => "Hull and Holderness Magistrates' Court and Hearing Centre", "data-postcode" => "HU1 1RD", :value => "hull"} Hull
+    %option{"data-other-names" => "Inner London Crown Court", "data-postcode" => "SE1 6AZ", :value => "inner_london"} Inner London
+    %option{"data-other-names" => "Ipswich Crown Court", "data-postcode" => "IP1 2AG", :value => "ipswich"} Ipswich
+    %option{"data-other-names" => "Isleworth Crown Court", "data-postcode" => "TW7 5LP", :value => "isleworth"} Isleworth
+    %option{"data-other-names" => "Kingston Upon Thames Crown Court", "data-postcode" => "KT1 2BB", :value => "kingston_upon_thames"} Kingston Upon Thames
+    %option{"data-other-names" => "Leeds Combined Court Centre", "data-postcode" => "LS1 3BG", :value => "leeds"} Leeds
+    %option{"data-other-names" => "Leicester Crown Court", "data-postcode" => "LE1 6HG", :value => "leicester"} Leicester
+    %option{"data-other-names" => "Lewes Combined Court Centre", "data-postcode" => "BN7 1YB", :value => "lewes"} Lewes
+    %option{"data-other-names" => "Lincoln Crown Court", "data-postcode" => "LN1 3GA", :value => "lincoln"} Lincoln
+    %option{"data-other-names" => "Liverpool Crown Court", "data-postcode" => "L2 1XA", :value => "liverpool"} Liverpool
+    %option{"data-other-names" => "Luton Crown Court", "data-postcode" => "LU1 2AA", :value => "luton"} Luton
+    %option{"data-other-names" => "Maidstone Combined Court Centre", "data-postcode" => "ME16 8EQ", :value => "maidstone"} Maidstone
+    %option{"data-other-names" => "Manchester Crown Court (Crown Square)", "data-postcode" => "M3 3FL", :value => "manchester_crown_square"} Manchester (Crown Square)
+    %option{"data-other-names" => "Manchester Crown Court (Minshull Street)", "data-postcode" => "M1 3FS", :value => "manchester_minshull_street"} Manchester (Minshull Street)
+    %option{"data-other-names" => "Merthyr Tydfil Combined Court Centre", "data-postcode" => "CF47 8BH", :value => "merthyr_tydfil"} Merthyr Tydfil
+    %option{"data-other-names" => "Middlesex Guildhall Crown Court,Supreme Court of the United Kingdom", "data-postcode" => "SW1P 3BD", :value => "middlesex_guildhall"} Middlesex Guildhall
+    %option{"data-other-names" => "Mold Crown Court", "data-postcode" => "CH7 1AE", :value => "mold"} Mold
+    %option{"data-other-names" => "Newcastle upon Tyne Combined Court Centre", "data-postcode" => "NE1 3LA", :value => "newcastle"} Newcastle
+    %option{"data-other-names" => "Newport (South Wales) Crown Court", "data-postcode" => "NP20 4PR", :value => "newport"} Newport
+    %option{"data-other-names" => "Isle of Wight Combined Court", "data-postcode" => "PO30 5YT", :value => "newport_iow"} Newport (IOW)
+    %option{"data-other-names" => "Northampton Crown Court, County Court and Family Court", "data-postcode" => "NN1 3HQ", :value => "northampton"} Northampton
+    %option{"data-other-names" => "Norwich Combined Court Centre", "data-postcode" => "NR3 1UR", :value => "norwich"} Norwich
+    %option{"data-other-names" => "Nottingham Crown Court", "data-postcode" => "NG1 7EL", :value => "nottingham"} Nottingham
+    %option{"data-other-names" => "Oxford Combined Court Centre", "data-postcode" => "OX1 1TL", :value => "oxford"} Oxford
+    %option{"data-other-names" => "Peterborough Combined Court Centre", "data-postcode" => "PE1 1EJ", :value => "peterborough"} Peterborough
+    %option{"data-other-names" => "Plymouth Combined Court", "data-postcode" => "PL1 2ER", :value => "plymouth"} Plymouth
+    %option{"data-other-names" => "Portsmouth Combined Court Centre", "data-postcode" => "PO1 2EB", :value => "portsmouth"} Portsmouth
+    %option{"data-other-names" => "Preston Crown Court and Family Court (Sessions House)", "data-postcode" => "PR1 2PD", :value => "preston"} Preston
+    %option{"data-other-names" => "Reading Crown Court", "data-postcode" => "RG1 3EH", :value => "reading"} Reading
+    %option{"data-other-names" => "Salisbury Law Courts", "data-postcode" => "SP2 7EP", :value => "salisbury"} Salisbury
+    %option{"data-other-names" => "Sheffield Combined Court Centre", "data-postcode" => "S3 8PH", :value => "sheffield"} Sheffield
+    %option{"data-other-names" => "Shrewsbury Crown Court", "data-postcode" => "SY2 6LU", :value => "shrewsbury"} Shrewsbury
+    %option{"data-other-names" => "Snaresbrook Crown Court", "data-postcode" => "E11 1QW", :value => "snaresbrook"} Snaresbrook
+    %option{"data-other-names" => "Southampton Combined Court Centre", "data-postcode" => "SO15 2XQ", :value => "southampton"} Southampton
+    %option{"data-other-names" => "Southwark Crown Court", "data-postcode" => "SE1 2HU", :value => "southwark"} Southwark
+    %option{"data-other-names" => "Stafford Combined Court Centre", "data-postcode" => "ST16 2QQ", :value => "stafford"} Stafford
+    %option{"data-other-names" => "St Albans Crown Court", "data-postcode" => "AL1 3JW", :value => "st_albans"} St Albans
+    %option{"data-other-names" => "Stoke-on-Trent Combined Court", "data-postcode" => "ST1 3BP", :value => "stoke_on_trent"} Stoke on Trent
+    %option{"data-other-names" => "Swansea Crown Court", "data-postcode" => "SA1 4PF", :value => "swansea"} Swansea
+    %option{"data-other-names" => "Swindon Combined Court", "data-postcode" => "SN1 2HG", :value => "swindon"} Swindon
+    %option{"data-other-names" => "Taunton Crown Court", "data-postcode" => "TA1 4EU", :value => "taunton"} Taunton
+    %option{"data-other-names" => "Teesside Combined Court Centre", "data-postcode" => "TS1 2AE", :value => "teesside_combined_court"} Teesside
+    %option{"data-other-names" => "Teesside Justice Centre", "data-postcode" => "TS1 2AS", :value => "teesside_justice_centre"} Teesside
+    %option{"data-other-names" => "Truro Crown Court", "data-postcode" => "TR1 2PB", :value => "truro"} Truro
+    %option{"data-other-names" => "Warrington Crown Court", "data-postcode" => "WA1 1UR", :value => "warrington"} Warrington
+    %option{"data-other-names" => "Warwick Combined Court", "data-postcode" => "CV32 4EL", :value => "warwick"} Warwick
+    %option{"data-other-names" => "Weymouth Combined Court", "data-postcode" => "DT4 8BS", :value => "weymouth_and_dorcester"} Weymouth and Dorcester
+    %option{"data-other-names" => "Winchester Combined Court Centre", "data-postcode" => "SO23 9EL", :value => "winchester"} Winchester
+    %option{"data-other-names" => "Wolverhampton Combined Court Centre", "data-postcode" => "WV1 3LQ", :value => "wolverhampton"} Wolverhampton
+    %option{"data-other-names" => "Wood Green Crown Court", "data-postcode" => "N22 5LF", :value => "wood_green"} Wood Green
+    %option{"data-other-names" => "Woolwich Crown Court", "data-postcode" => "SE28 0EY", :value => "woolwich"} Woolwich
+    %option{"data-other-names" => "Worcester Combined Court", "data-postcode" => "WR1 1EQ", :value => "worcester"} Worcester
+    %option{"data-other-names" => "York Crown Court", "data-postcode" => "YO1 9WZ", :value => "york"} York
+.form-group.fx-travel-magistrates-court{:style => "display: none;"}
+  %legend.form-label-bold
+    Magistrates' court
+  %select#travel-expense-1-magistrates-court.form-control.form-control-3-4.fx-select-court{:name => "travel_expense_1_court"}
+    %option{:value => ""}
+    %option{"data-other-names" => "Aberystwyth Justice Centre", "data-postcode" => "SY23 1AS", :value => "aberystwyth_justice_centre"} Aberystwyth Justice Centre
+    %option{"data-other-names" => "Aldershot Magistrates' Court", "data-postcode" => "GU11 1NY", :value => "aldershot_magistrates_court"} Aldershot Magistrates' Court
+    %option{"data-other-names" => "Amersham Law Courts", "data-postcode" => "HP6 5AJ", :value => "amersham_law_courts"} Amersham Law Courts
+    %option{"data-other-names" => "Aylesbury Magistrates' Court and Family Court", "data-postcode" => "HP21 7QZ", :value => "aylesbury_magistrates_court_and_family_court"} Aylesbury Magistrates' Court and Family Court
+    %option{"data-other-names" => "Banbury Magistrates' Court and Family Court", "data-postcode" => "OX16 2AW", :value => "banbury_magistrates_court_and_family_court"} Banbury Magistrates' Court and Family Court
+    %option{"data-other-names" => "Barkingside Magistrates' Court", "data-postcode" => "IG6 1HW", :value => "barkingside_magistrates_court"} Barkingside Magistrates' Court
+    %option{"data-other-names" => "Barnstaple Magistrates’ Court - North and East Devon", "data-postcode" => "EX31 1DX", :value => "barnstaple_magistrates_court"} Barnstaple Magistrates' Court
+    %option{"data-other-names" => "Barrow-in-Furness Magistrates' Court", "data-postcode" => "LA14 5QX", :value => "barrow_in_furness_magistrates_court"} Barrow-in-Furness Magistrates' Court
+    %option{"data-other-names" => "Basildon Magistrates' Court and Family Court", "data-postcode" => "SS14 1EH", :value => "basildon_magistrates_court_and_family_court"} Basildon Magistrates' Court and Family Court
+    %option{"data-other-names" => "Basingstoke Magistrates' Court", "data-postcode" => "RG21 4AB", :value => "basingstoke_magistrates_court"} Basingstoke Magistrates' Court
+    %option{"data-other-names" => "Bath Magistrates' Court", "data-postcode" => "BA1 5AF", :value => "bath_magistrates_court"} Bath Magistrates' Court
+    %option{"data-other-names" => "Bedford and Mid Beds Magistrates' Court and Family Court", "data-postcode" => "MK40 1SQ", :value => "bedford_and_mid_beds_magistrates_court_and_family_court"} Bedford and Mid Beds Magistrates' Court and Family Court
+    %option{"data-other-names" => "Belmarsh Magistrates' Court", "data-postcode" => "SE28 0FG", :value => "belmarsh_magistrates_court"} Belmarsh Magistrates' Court
+    %option{"data-other-names" => "Berwick upon Tweed Magistrates' Court", "data-postcode" => "TD15 1DX", :value => "berwick_upon_tweed_magistrates_court"} Berwick upon Tweed Magistrates' Court
+    %option{"data-other-names" => "Beverley Magistrates' Court and Family Court", "data-postcode" => "HU17 9EJ", :value => "beverley_magistrates_court_and_family_court"} Beverley Magistrates' Court and Family Court
+    %option{"data-other-names" => "Bexley Magistrates' Court and Family Court", "data-postcode" => "DA6 7ND", :value => "bexley_magistrates_court_and_family_court"} Bexley Magistrates' Court and Family Court
+    %option{"data-other-names" => "Bicester Magistrates' Court and Family Court", "data-postcode" => "OX26 2NZ", :value => "bicester_magistrates_court_and_family_court"} Bicester Magistrates' Court and Family Court
+    %option{"data-other-names" => "Birmingham Magistrates' Court", "data-postcode" => "B4 6QA", :value => "birmingham_magistrates_court"} Birmingham Magistrates' Court
+    %option{"data-other-names" => "Blackburn Magistrates' Court", "data-postcode" => "BB2 1AA", :value => "blackburn_magistrates_court"} Blackburn Magistrates' Court
+    %option{"data-other-names" => "Blackpool Magistrates' Court", "data-postcode" => "FY1 5DQ", :value => "blackpool_magistrates_court"} Blackpool Magistrates' Court
+    %option{"data-other-names" => "Bodmin Magistrates' Court", "data-postcode" => "PL31 2AL", :value => "bodmin_magistrates_court"} Bodmin Magistrates' Court
+    %option{"data-other-names" => "Bolton Magistrates' Court", "data-postcode" => "BL1 1UA", :value => "bolton_magistrates_court"} Bolton Magistrates' Court
+    %option{"data-other-names" => "Boston Magistrates' Court", "data-postcode" => "PE21 6PE", :value => "boston_magistrates_court"} Boston Magistrates' Court
+    %option{"data-other-names" => "Bournemouth Magistrates' Court", "data-postcode" => "BH1 1JH", :value => "bournemouth_magistrates_court"} Bournemouth Magistrates' Court
+    %option{"data-other-names" => "Bradford and Keighley Magistrates' Court", "data-postcode" => "BD1 1LA", :value => "bradford_and_keighley_magistrates_court"} Bradford and Keighley Magistrates' Court
+    %option{"data-other-names" => "Bridlington Magistrates' Court and Family Court", "data-postcode" => "YO16 4EJ", :value => "bridlington_magistrates_court_and_family_court"} Bridlington Magistrates' Court and Family Court
+    %option{"data-other-names" => "Brighton Magistrates' Court and Family Court", "data-postcode" => "BN2 0LG", :value => "brighton_magistrates_court_and_family_court"} Brighton Magistrates' Court and Family Court
+    %option{"data-other-names" => "Bristol Magistrates' Court", "data-postcode" => "BS1 3NU", :value => "bristol_magistrates_court"} Bristol Magistrates' Court
+    %option{"data-other-names" => "Bromley Magistrates' Court", "data-postcode" => "BR1 1RA", :value => "bromley_magistrates_court"} Bromley Magistrates' Court
+    %option{"data-other-names" => "Burnley Magistrates' Court", "data-postcode" => "BB11 2BS", :value => "burnley_magistrates_court"} Burnley Magistrates' Court
+    %option{"data-other-names" => "Bury and Rochdale Magistrates' Court", "data-postcode" => "BL9 0HX", :value => "bury_and_rochdale_magistrates_court"} Bury and Rochdale Magistrates' Court
+    %option{"data-other-names" => "Bury St Edmunds Magistrates' Court and Family Court", "data-postcode" => "IP33 1HF", :value => "bury_st_edmunds_magistrates_court_and_family_court"} Bury St Edmunds Magistrates' Court and Family Court
+    %option{"data-other-names" => "Buxton Magistrates' Court and Family Court", "data-postcode" => "SK17 6DY", :value => "buxton_magistrates_court_and_family_court"} Buxton Magistrates' Court and Family Court
+    %option{"data-other-names" => "Caernarfon Magistrates' Court and Family Court,Caernarfon Criminal Justice Centre", "data-postcode" => "LL55 2DF", :value => "caernarfon_magistrates_court_and_family_court"} Caernarfon Magistrates' Court and Family Court
+    %option{"data-other-names" => "Caerphilly Magistrates' Court", "data-postcode" => "CF83 1HG", :value => "caerphilly_magistrates_court"} Caerphilly Magistrates' Court
+    %option{"data-other-names" => "Calderdale (Halifax) Magistrates’ Court and Family Court,Calderdale Magistrates’ Court and Family Court Hearing Centre", "data-postcode" => "HX1 2AN", :value => "calderdale_halifax_magistrates_court_and_family_court"} Calderdale (Halifax) Magistrates’ Court and Family Court
+    %option{"data-other-names" => "Camberwell Green Magistrates' Court", "data-postcode" => "SE5 7UP", :value => "camberwell_green_magistrates_court"} Camberwell Green Magistrates' Court
+    %option{"data-other-names" => "Cambridge Magistrates' Court", "data-postcode" => "CB2 3AX", :value => "cambridge_magistrates_court"} Cambridge Magistrates' Court
+    %option{"data-other-names" => "Cannock Magistrates' Court", "data-postcode" => "WS11 1AT", :value => "cannock_magistrates_court"} Cannock Magistrates' Court
+    %option{"data-other-names" => "Canterbury Magistrates' Court and Family Court", "data-postcode" => "CT1 2UE", :value => "canterbury_magistrates_court_and_family_court"} Canterbury Magistrates' Court and Family Court
+    %option{"data-other-names" => "Cardiff Magistrates' Court,Cardiff and the Vale Magistrates Court", "data-postcode" => "CF24 0RZ", :value => "cardiff_magistrates_court"} Cardiff Magistrates' Court
+    %option{"data-other-names" => "Carlisle Magistrates' Court", "data-postcode" => "CA3 8QH", :value => "carlisle_magistrates_court"} Carlisle Magistrates' Court
+    %option{"data-other-names" => "Carmarthen Magistrates' Court and Family Court", "data-postcode" => "SA31 1PR", :value => "carmarthen_magistrates_court_and_family_court"} Carmarthen Magistrates' Court and Family Court
+    %option{"data-other-names" => "Central Buckinghamshire Magistrates' Court and Family Court", "data-postcode" => "HP21 7QZ", :value => "central_buckinghamshire_magistrates_court_and_family_court"} Central Buckinghamshire Magistrates' Court and Family Court
+    %option{"data-other-names" => "Chatham Magistrates' Court and Family Court", "data-postcode" => "ME4 4JZ", :value => "chatham_magistrates_court_and_family_court"} Chatham Magistrates' Court and Family Court
+    %option{"data-other-names" => "Chelmsford Magistrates' Court and Family Court", "data-postcode" => "CM1 1NT", :value => "chelmsford_magistrates_court_and_family_court"} Chelmsford Magistrates' Court and Family Court
+    %option{"data-other-names" => "Cheltenham Magistrates' Court and Family Court", "data-postcode" => "GL50 3PF", :value => "cheltenham_magistrates_court_and_family_court"} Cheltenham Magistrates' Court and Family Court
+    %option{"data-other-names" => "Chester Magistrates’ Court", "data-postcode" => "CH1 2XA", :value => "chester_magistrates_court"} Chester Magistrates’ Court
+    %option{"data-other-names" => "Chester-le-Street Magistrates' Court", "data-postcode" => "DH3 3UA", :value => "chester_le_street_magistrates_court"} Chester-le-Street Magistrates' Court
+    %option{"data-other-names" => "Chichester Magistrates' Court", "data-postcode" => "PO19 1YE", :value => "chichester_magistrates_court"} Chichester Magistrates' Court
+    %option{"data-other-names" => "Chippenham & Trowbridge Law Courts", "data-postcode" => "SN15 3BF", :value => "chippenham_trowbridge_law_courts"} Chippenham & Trowbridge Law Courts
+    %option{"data-other-names" => "Chorley Magistrates' Court", "data-postcode" => "PR7 1RZ", :value => "chorley_magistrates_court"} Chorley Magistrates' Court
+    %option{"data-other-names" => "City of London Magistrates' Court", "data-postcode" => "EC4N 4XY", :value => "city_of_london_magistrates_court"} City of London Magistrates' Court
+    %option{"data-other-names" => "Colchester Magistrates' Court", "data-postcode" => "CO2 7EF", :value => "colchester_magistrates_court"} Colchester Magistrates' Court
+    %option{"data-other-names" => "Consett Magistrates' Court", "data-postcode" => "DH8 6LY", :value => "consett_magistrates_court"} Consett Magistrates' Court
+    %option{"data-other-names" => "Corby Magistrates' Court", "data-postcode" => "NN17 1SH", :value => "corby_magistrates_court"} Corby Magistrates' Court
+    %option{"data-other-names" => "Coventry Magistrates' Court", "data-postcode" => "CV1 2SQ", :value => "coventry_magistrates_court"} Coventry Magistrates' Court
+    %option{"data-other-names" => "Crawley Magistrates' Court and Family Court", "data-postcode" => "RH10 8BF", :value => "crawley_magistrates_court_and_family_court"} Crawley Magistrates' Court and Family Court
+    %option{"data-other-names" => "Crewe (South Cheshire) Magistrates’ Court", "data-postcode" => "CW1 2DT", :value => "crewe_south_cheshire_magistrates_court"} Crewe (South Cheshire) Magistrates’ Court
+    %option{"data-other-names" => "Croydon Magistrates' Court and Family Court", "data-postcode" => "CR9 3NG", :value => "croydon_magistrates_court_and_family_court"} Croydon Magistrates' Court and Family Court
+    %option{"data-other-names" => "Cwmbran Magistrates' Court", "data-postcode" => "NP44 3YA", :value => "cwmbran_magistrates_court"} Cwmbran Magistrates' Court
+    %option{"data-other-names" => "Darlington Magistrates' Court and Family Court", "data-postcode" => "DL1 1RU", :value => "darlington_magistrates_court_and_family_court"} Darlington Magistrates' Court and Family Court
+    %option{"data-other-names" => "Dartford Magistrates' Court and Family Court", "data-postcode" => "DA1 2JW", :value => "dartford_magistrates_court_and_family_court"} Dartford Magistrates' Court and Family Court
+    %option{"data-other-names" => "Derby Magistrates' Court", "data-postcode" => "DE1 3JR", :value => "derby_magistrates_court"} Derby Magistrates' Court
+    %option{"data-other-names" => "Dolgellau Magistrates' Court and Family Court", "data-postcode" => "LL40 1AU", :value => "dolgellau_magistrates_court_and_family_court"} Dolgellau Magistrates' Court and Family Court
+    %option{"data-other-names" => "Doncaster Magistrates' Court and Family Court", "data-postcode" => "DN1 3HS", :value => "doncaster_magistrates_court_and_family_court"} Doncaster Magistrates' Court and Family Court
+    %option{"data-other-names" => "Dover Magistrates' Court", "data-postcode" => "CT16 1BS", :value => "dover_magistrates_court"} Dover Magistrates' Court
+    %option{"data-other-names" => "Dudley Magistrates' Court", "data-postcode" => "DY1 1RY", :value => "dudley_magistrates_court"} Dudley Magistrates' Court
+    %option{"data-other-names" => "Durham Magistrates' Court", "data-postcode" => "DH1 3HW", :value => "durham_magistrates_court"} Durham Magistrates' Court
+    %option{"data-other-names" => "Ealing Magistrates' Court", "data-postcode" => "W13 0SD", :value => "ealing_magistrates_court"} Ealing Magistrates' Court
+    %option{"data-other-names" => "East Berkshire Magistrates' Court, Maidenhead", "data-postcode" => "SL6 8PB", :value => "east_berkshire_magistrates_court_maidenhead"} East Berkshire Magistrates' Court, Maidenhead
+    %option{"data-other-names" => "East Berkshire Magistrates' Court, Slough", "data-postcode" => "SL1 2HJ", :value => "east_berkshire_magistrates_court_slough"} East Berkshire Magistrates' Court, Slough
+    %option{"data-other-names" => "Eastbourne Magistrates' Court and Family Court", "data-postcode" => "BN21 4UN", :value => "eastbourne_magistrates_court_and_family_court"} Eastbourne Magistrates' Court and Family Court
+    %option{"data-other-names" => "Exeter Magistrates' Court", "data-postcode" => "EX1 2LS", :value => "exeter_magistrates_court"} Exeter Magistrates' Court
+    %option{"data-other-names" => "Fareham Magistrates' Court", "data-postcode" => "PO16 7SB", :value => "fareham_magistrates_court"} Fareham Magistrates' Court
+    %option{"data-other-names" => "Feltham Magistrates' Court", "data-postcode" => "TW13 5AF", :value => "feltham_magistrates_court"} Feltham Magistrates' Court
+    %option{"data-other-names" => "Fleetwood Magistrates' Court and Family Court", "data-postcode" => "FY7 6BN", :value => "fleetwood_magistrates_court_and_family_court"} Fleetwood Magistrates' Court and Family Court
+    %option{"data-other-names" => "Folkestone Magistrates' Court and Family Court", "data-postcode" => "CT20 2DH", :value => "folkestone_magistrates_court_and_family_court"} Folkestone Magistrates' Court and Family Court
+    %option{"data-other-names" => "Gateshead Magistrates' Court and Family Court", "data-postcode" => "NE8 1DT", :value => "gateshead_magistrates_court_and_family_court"} Gateshead Magistrates' Court and Family Court
+    %option{"data-other-names" => "Gloucester Magistrates' Court", "data-postcode" => "GL1 2JH", :value => "gloucester_magistrates_court"} Gloucester Magistrates' Court
+    %option{"data-other-names" => "Grantham Magistrates' Court", "data-postcode" => "NG31 7SB", :value => "grantham_magistrates_court"} Grantham Magistrates' Court
+    %option{"data-other-names" => "Great Yarmouth Magistrates' Court and Family Court", "data-postcode" => "NR30 1PW", :value => "great_yarmouth_magistrates_court_and_family_court"} Great Yarmouth Magistrates' Court and Family Court
+    %option{"data-other-names" => "Greenwich Magistrates' Court", "data-postcode" => "SE10 8PE", :value => "greenwich_magistrates_court"} Greenwich Magistrates' Court
+    %option{"data-other-names" => "Grimsby Magistrates' Court and Family Court", "data-postcode" => "DN31 1NR", :value => "grimsby_magistrates_court_and_family_court"} Grimsby Magistrates' Court and Family Court
+    %option{"data-other-names" => "Guildford Magistrates' Court and Family Court", "data-postcode" => "GU1 4PS", :value => "guildford_magistrates_court_and_family_court"} Guildford Magistrates' Court and Family Court
+    %option{"data-other-names" => "Hammersmith Magistrates' Court", "data-postcode" => "W6 8DN", :value => "hammersmith_magistrates_court"} Hammersmith Magistrates' Court
+    %option{"data-other-names" => "Harrogate Magistrates' Court and Family Court", "data-postcode" => "HG1 1EL", :value => "harrogate_magistrates_court_and_family_court"} Harrogate Magistrates' Court and Family Court
+    %option{"data-other-names" => "Hartlepool Magistrates' Court and Family Hearing Court", "data-postcode" => "TS24 8AG", :value => "hartlepool_magistrates_court_and_family_hearing_court"} Hartlepool Magistrates' Court and Family Hearing Court
+    %option{"data-other-names" => "Hastings Magistrates' Court and Family Court", "data-postcode" => "TN34 1ND", :value => "hastings_magistrates_court_and_family_court"} Hastings Magistrates' Court and Family Court
+    %option{"data-other-names" => "Hatfield Magistrates' Court", "data-postcode" => "AL10 9SJ", :value => "hatfield_magistrates_court"} Hatfield Magistrates' Court
+    %option{"data-other-names" => "Haverfordwest Magistrates' Court", "data-postcode" => "SA61 2AX", :value => "haverfordwest_magistrates_court"} Haverfordwest Magistrates' Court
+    %option{"data-other-names" => "Hendon Magistrates' Court", "data-postcode" => "NW9 7BY", :value => "hendon_magistrates_court"} Hendon Magistrates' Court
+    %option{"data-other-names" => "Hereford Magistrates' Court, Hereford Justice Centre", "data-postcode" => "HR1 2HE", :value => "hereford_magistrates_court"} Hereford Magistrates' Court
+    %option{"data-other-names" => "Hertford Magistrates' Court and Family Court", "data-postcode" => "SG14 1DH", :value => "hertford_magistrates_court_and_family_court"} Hertford Magistrates' Court and Family Court
+    %option{"data-other-names" => "High Peak Magistrates' Court", "data-postcode" => "SK17 6DY", :value => "high_peak_magistrates_court"} High Peak Magistrates' Court
+    %option{"data-other-names" => "High Wycombe Magistrates' Court and Family Court", "data-postcode" => "HP11 1LR", :value => "high_wycombe_magistrates_court_and_family_court"} High Wycombe Magistrates' Court and Family Court
+    %option{"data-other-names" => "Highbury Corner Magistrates' Court", "data-postcode" => "N7 8JA", :value => "highbury_corner_magistrates_court"} Highbury Corner Magistrates' Court
+    %option{"data-other-names" => "Hinckley Magistrates' Court", "data-postcode" => "LE10 1NZ", :value => "hinckley_magistrates_court"} Hinckley Magistrates' Court
+    %option{"data-other-names" => "Holyhead Magistrates' Court and Family Court", "data-postcode" => "LL65 1HG", :value => "holyhead_magistrates_court_and_family_court"} Holyhead Magistrates' Court and Family Court
+    %option{"data-other-names" => "Horsham Magistrates' Court and Family Court", "data-postcode" => "RH12 2ET", :value => "horsham_magistrates_court_and_family_court"} Horsham Magistrates' Court and Family Court
+    %option{"data-other-names" => "Hull and Holderness Magistrates' Court and Family Court", "data-postcode" => "HU1 1RD", :value => "hull_and_holderness_magistrates_court_and_family_court"} Hull and Holderness Magistrates' Court and Family Court
+    %option{"data-other-names" => "Ipswich Magistrates' Court and Family Court", "data-postcode" => "IP1 2AP", :value => "ipswich_magistrates_court_and_family_court"} Ipswich Magistrates' Court and Family Court
+    %option{"data-other-names" => "Isles of Scilly Magistrates' Court", "data-postcode" => "TR21 0JD", :value => "isles_of_scilly_magistrates_court"} Isles of Scilly Magistrates' Court
+    %option{"data-other-names" => "Kendal Magistrates' Court", "data-postcode" => "LA9 4TJ", :value => "kendal_magistrates_court"} Kendal Magistrates' Court
+    %option{"data-other-names" => "Kettering Magistrates' Court", "data-postcode" => "NN15 7QP", :value => "kettering_magistrates_court"} Kettering Magistrates' Court
+    %option{"data-other-names" => "Kidderminster Magistrates' Court", "data-postcode" => "DY10 1QQ", :value => "kidderminster_magistrates_court"} Kidderminster Magistrates' Court
+    %option{"data-other-names" => "King's Lynn Magistrates' Court and Family Court", "data-postcode" => "PE30 1PQ", :value => "king_s_lynn_magistrates_court_and_family_court"} King's Lynn Magistrates' Court and Family Court
+    %option{"data-other-names" => "Kingston-upon-Hull Magistrates' Court and Hearing Centre", "data-postcode" => "HU1 1RD", :value => "kingston_upon_hull_magistrates_court_and_hearing_centre"} Kingston-upon-Hull Magistrates' Court and Hearing Centre
+    %option{"data-other-names" => "Lancaster Magistrates' Court", "data-postcode" => "LA1 1XZ", :value => "lancaster_magistrates_court"} Lancaster Magistrates' Court
+    %option{"data-other-names" => "Lavender Hill Magistrates’ Court", "data-postcode" => "SW11 1JU", :value => "lavender_hill_magistrates_court"} Lavender Hill Magistrates’ Court
+    %option{"data-other-names" => "Leamington Spa Magistrates' Court", "data-postcode" => "CV32 4EL", :value => "leamington_spa_magistrates_court"} Leamington Spa Magistrates' Court
+    %option{"data-other-names" => "Leeds Magistrates’ Court and Family Court", "data-postcode" => "LS1 3BY", :value => "leeds_magistrates_court_and_family_court"} Leeds Magistrates’ Court and Family Court
+    %option{"data-other-names" => "Leicester Magistrates' Court", "data-postcode" => "LE1 6BT", :value => "leicester_magistrates_court"} Leicester Magistrates' Court
+    %option{"data-other-names" => "Lincoln Magistrates' Court", "data-postcode" => "LN5 7QA", :value => "lincoln_magistrates_court"} Lincoln Magistrates' Court
+    %option{"data-other-names" => "Liverpool and Knowsley Magistrates’ Court", "data-postcode" => "L2 1XA", :value => "liverpool_and_knowsley_magistrates_court"} Liverpool and Knowsley Magistrates’ Court
+    %option{"data-other-names" => "Llandrindod Wells Magistrates' and Family Court", "data-postcode" => "LD1 5DF", :value => "llandrindod_wells_magistrates_and_family_court"} Llandrindod Wells Magistrates' and Family Court
+    %option{"data-other-names" => "Llandudno Magistrates' Court and Family Court", "data-postcode" => "LL30 1GA", :value => "llandudno_magistrates_court_and_family_court"} Llandudno Magistrates' Court and Family Court
+    %option{"data-other-names" => "Llanelli Magistrates' Court and Family Court", "data-postcode" => "SA15 3AW", :value => "llanelli_magistrates_court_and_family_court"} Llanelli Magistrates' Court and Family Court
+    %option{"data-other-names" => "Loughborough Magistrates' Court", "data-postcode" => "LE11 1AZ", :value => "loughborough_magistrates_court"} Loughborough Magistrates' Court
+    %option{"data-other-names" => "Lowestoft Magistrates' Court and Family Court", "data-postcode" => "NR32 1HJ", :value => "lowestoft_magistrates_court_and_family_court"} Lowestoft Magistrates' Court and Family Court
+    %option{"data-other-names" => "Luton and South Bedfordshire Magistrates' Court and Family Court", "data-postcode" => "LU1 5BL", :value => "luton_and_south_bedfordshire_magistrates_court_and_family_court"} Luton and South Bedfordshire Magistrates' Court and Family Court
+    %option{"data-other-names" => "Macclesfield Magistrates' Court", "data-postcode" => "SK10 2AB", :value => "macclesfield_magistrates_court"} Macclesfield Magistrates' Court
+    %option{"data-other-names" => "Maidstone Magistrates' Court and Family Court", "data-postcode" => "ME15 6LL", :value => "maidstone_magistrates_court_and_family_court"} Maidstone Magistrates' Court and Family Court
+    %option{"data-other-names" => "Manchester and Salford Magistrates' Court", "data-postcode" => "M60 1PR", :value => "manchester_and_salford_magistrates_court"} Manchester and Salford Magistrates' Court
+    %option{"data-other-names" => "Mansfield Magistrates' Court, County Court and Family Court", "data-postcode" => "NG19 6EE", :value => "mansfield_magistrates_court_county_court_and_family_court"} Mansfield Magistrates' Court, County Court and Family Court
+    %option{"data-other-names" => "Margate Magistrates' Court", "data-postcode" => "CT9 1RL", :value => "margate_magistrates_court"} Margate Magistrates' Court
+    %option{"data-other-names" => "Medway Magistrates' Court and Family Court", "data-postcode" => "ME4 4JZ", :value => "medway_magistrates_court_and_family_court"} Medway Magistrates' Court and Family Court
+    %option{"data-other-names" => "Milton Keynes Magistrates' Court and Family Court", "data-postcode" => "MK9 2AJ", :value => "milton_keynes_magistrates_court_and_family_court"} Milton Keynes Magistrates' Court and Family Court
+    %option{"data-other-names" => "Mold Magistrates' Court and Family Court", "data-postcode" => "CH7 1AE", :value => "mold_magistrates_court_and_family_court"} Mold Magistrates' Court and Family Court
+    %option{"data-other-names" => "Newcastle-Upon-Tyne Magistrates' Court", "data-postcode" => "NE99 1AU", :value => "newcastle_upon_tyne_magistrates_court"} Newcastle-Upon-Tyne Magistrates' Court
+    %option{"data-other-names" => "Newport Magistrates' Court", "data-postcode" => "NP20 2GE", :value => "newport_magistrates_court"} Newport Magistrates' Court
+    %option{"data-other-names" => "Newton Abbot Magistrates' Court", "data-postcode" => "TQ12 1NG", :value => "newton_abbot_magistrates_court"} Newton Abbot Magistrates' Court
+    %option{"data-other-names" => "Newton Aycliffe Magistrates' Court and Family Court", "data-postcode" => "DL5 5RT", :value => "newton_aycliffe_magistrates_court_and_family_court"} Newton Aycliffe Magistrates' Court and Family Court
+    %option{"data-other-names" => "North Avon Magistrates' Court", "data-postcode" => "BS37 4PY", :value => "north_avon_magistrates_court"} North Avon Magistrates' Court
+    %option{"data-other-names" => "North Somerset Magistrates' Court", "data-postcode" => "BS22 7BB", :value => "north_somerset_magistrates_court"} North Somerset Magistrates' Court
+    %option{"data-other-names" => "North Staffordshire Justice Centre", "data-postcode" => "ST5 2AA", :value => "north_staffordshire_justice_centre"} North Staffordshire Justice Centre
+    %option{"data-other-names" => "North Tyneside Magistrates' Court", "data-postcode" => "NE30 1AG", :value => "north_tyneside_magistrates_court"} North Tyneside Magistrates' Court
+    %option{"data-other-names" => "Northallerton Magistrates' Court and Family Court", "data-postcode" => "DL7 8QZ", :value => "northallerton_magistrates_court_and_family_court"} Northallerton Magistrates' Court and Family Court
+    %option{"data-other-names" => "Northampton Magistrates' Court", "data-postcode" => "NN1 3EB", :value => "northampton_magistrates_court"} Northampton Magistrates' Court
+    %option{"data-other-names" => "Norwich Magistrates' Court and Family Court", "data-postcode" => "NR3 1UP", :value => "norwich_magistrates_court_and_family_court"} Norwich Magistrates' Court and Family Court
+    %option{"data-other-names" => "Nottingham Justice Centre", "data-postcode" => "NG2 1EE", :value => "nottingham_justice_centre"} Nottingham Justice Centre
+    %option{"data-other-names" => "Nuneaton Magistrates' Court, Warwickshire Justice Centre", "data-postcode" => "CV11 4JU", :value => "nuneaton_magistrates_court"} Nuneaton Magistrates' Court
+    %option{"data-other-names" => "Oldham Magistrates' Court", "data-postcode" => "OL1 1QE", :value => "oldham_magistrates_court"} Oldham Magistrates' Court
+    %option{"data-other-names" => "Ormskirk Magistrates' Court", "data-postcode" => "L39 2BJ", :value => "ormskirk_magistrates_court"} Ormskirk Magistrates' Court
+    %option{"data-other-names" => "Oxford and Southern Oxfordshire Magistrates' Court and Family Court", "data-postcode" => "OX1 1RZ", :value => "oxford_and_southern_oxfordshire_magistrates_court_and_family_court"} Oxford and Southern Oxfordshire Magistrates' Court and Family Court
+    %option{"data-other-names" => "Peterborough Magistrates' Court", "data-postcode" => "PE1 1ED", :value => "peterborough_magistrates_court"} Peterborough Magistrates' Court
+    %option{"data-other-names" => "Peterlee Magistrates' Court", "data-postcode" => "SR8 1QR", :value => "peterlee_magistrates_court"} Peterlee Magistrates' Court
+    %option{"data-other-names" => "Plymouth Magistrates' Court", "data-postcode" => "PL1 2DP", :value => "plymouth_magistrates_court"} Plymouth Magistrates' Court
+    %option{"data-other-names" => "Pontypridd Magistrates' Court and Family Court", "data-postcode" => "CF37 1SD", :value => "pontypridd_magistrates_court_and_family_court"} Pontypridd Magistrates' Court and Family Court
+    %option{"data-other-names" => "Poole Magistrates' Court", "data-postcode" => "BH15 2NS", :value => "poole_magistrates_court"} Poole Magistrates' Court
+    %option{"data-other-names" => "Portsmouth Magistrates' Court", "data-postcode" => "PO1 2DQ", :value => "portsmouth_magistrates_court"} Portsmouth Magistrates' Court
+    %option{"data-other-names" => "Prestatyn Magistrates' Court and Family Court", "data-postcode" => "LL19 7TE", :value => "prestatyn_magistrates_court_and_family_court"} Prestatyn Magistrates' Court and Family Court
+    %option{"data-other-names" => "Preston Magistrates' Court", "data-postcode" => "PR1 2QT", :value => "preston_magistrates_court"} Preston Magistrates' Court
+    %option{"data-other-names" => "Reading Magistrates' Court and Family Court", "data-postcode" => "RG1 7TQ", :value => "reading_magistrates_court_and_family_court"} Reading Magistrates' Court and Family Court
+    %option{"data-other-names" => "Redditch Magistrates' Court", "data-postcode" => "B98 8DB", :value => "redditch_magistrates_court"} Redditch Magistrates' Court
+    %option{"data-other-names" => "Redhill Magistrates' Court and Family Court", "data-postcode" => "RH1 6DH", :value => "redhill_magistrates_court_and_family_court"} Redhill Magistrates' Court and Family Court
+    %option{"data-other-names" => "Reedley Magistrates' Court and Family Court", "data-postcode" => "BB10 2LJ", :value => "reedley_magistrates_court_and_family_court"} Reedley Magistrates' Court and Family Court
+    %option{"data-other-names" => "Richmond-upon-Thames Magistrates' Court", "data-postcode" => "TW9 2RF", :value => "richmond_upon_thames_magistrates_court"} Richmond-upon-Thames Magistrates' Court
+    %option{"data-other-names" => "Romford Magistrates' Court", "data-postcode" => "RM1 3BH", :value => "romford_magistrates_court"} Romford Magistrates' Court
+    %option{"data-other-names" => "Rotherham Magistrates' Court and Family Court", "data-postcode" => "S60 1RX", :value => "rotherham_magistrates_court_and_family_court"} Rotherham Magistrates' Court and Family Court
+    %option{"data-other-names" => "Runcorn (Halton) Magistrates' Court", "data-postcode" => "WA7 2HA", :value => "runcorn_halton_magistrates_court"} Runcorn (Halton) Magistrates' Court
+    %option{"data-other-names" => "Salisbury Law Courts", "data-postcode" => "SP2 7EP", :value => "salisbury_law_courts"} Salisbury Law Courts
+    %option{"data-other-names" => "Sandwell Magistrates’ Court", "data-postcode" => "B69 4JN", :value => "sandwell_magistrates_court"} Sandwell Magistrates’ Court
+    %option{"data-other-names" => "Scarborough Justice Centre", "data-postcode" => "YO12 7AE", :value => "scarborough_justice_centre"} Scarborough Justice Centre
+    %option{"data-other-names" => "Scunthorpe Magistrates' Court and Family Court", "data-postcode" => "DN15 6RY", :value => "scunthorpe_magistrates_court_and_family_court"} Scunthorpe Magistrates' Court and Family Court
+    %option{"data-other-names" => "Sefton Magistrates' Court", "data-postcode" => "L20 3XX", :value => "sefton_magistrates_court"} Sefton Magistrates' Court
+    %option{"data-other-names" => "Sevenoaks Magistrates' Court and Family Court", "data-postcode" => "TN13 2HU", :value => "sevenoaks_magistrates_court_and_family_court"} Sevenoaks Magistrates' Court and Family Court
+    %option{"data-other-names" => "Sheffield Magistrates' Court", "data-postcode" => "S3 8LU", :value => "sheffield_magistrates_court"} Sheffield Magistrates' Court
+    %option{"data-other-names" => "Shrewsbury Magistrates' Court", "data-postcode" => "SY2 5NX", :value => "shrewsbury_magistrates_court"} Shrewsbury Magistrates' Court
+    %option{"data-other-names" => "Skegness Magistrates' Court", "data-postcode" => "PE25 1BH", :value => "skegness_magistrates_court"} Skegness Magistrates' Court
+    %option{"data-other-names" => "Skipton Magistrates' Court", "data-postcode" => "BD23 1RH", :value => "skipton_magistrates_court"} Skipton Magistrates' Court
+    %option{"data-other-names" => "Solihull Magistrates' Court", "data-postcode" => "UNKNOWN", :value => "solihull_magistrates_court"} Solihull Magistrates' Court
+    %option{"data-other-names" => "South Tyneside Magistrates' Court and Family Court", "data-postcode" => "NE33 1RG", :value => "south_tyneside_magistrates_court_and_family_court"} South Tyneside Magistrates' Court and Family Court
+    %option{"data-other-names" => "South Worcestershire Magistrates' Court", "data-postcode" => "WR1 3QZ", :value => "south_worcestershire_magistrates_court"} South Worcestershire Magistrates' Court
+    %option{"data-other-names" => "Southend Magistrates' Court and Family Court", "data-postcode" => "SS2 6EU", :value => "southend_magistrates_court_and_family_court"} Southend Magistrates' Court and Family Court
+    %option{"data-other-names" => "St. Albans Magistrates' Court and Family Court", "data-postcode" => "AL1 3LB", :value => "st_albans_magistrates_court_and_family_court"} St Albans Magistrates' Court and Family Court
+    %option{"data-other-names" => "St. Helens Magistrates' Court", "data-postcode" => "WA10 1SZ", :value => "st_helens_magistrates_court"} St Helens Magistrates' Court
+    %option{"data-other-names" => "Stafford Magistrates' Court", "data-postcode" => "ST16 3DW", :value => "stafford_magistrates_court"} Stafford Magistrates' Court
+    %option{"data-other-names" => "Staffs Central Finance and Enforcement Unit", "data-postcode" => "WS15 2FX", :value => "staffs_central_finance_and_enforcement_unit"} Staffs Central Finance and Enforcement Unit
+    %option{"data-other-names" => "Staines Magistrates' Court and Family Court", "data-postcode" => "TW18 1XH", :value => "staines_magistrates_court_and_family_court"} Staines Magistrates' Court and Family Court
+    %option{"data-other-names" => "Stevenage Magistrates' Court", "data-postcode" => "SG1 1XH", :value => "stevenage_magistrates_court"} Stevenage Magistrates' Court
+    %option{"data-other-names" => "Stockport Magistrates' Court and Family Court", "data-postcode" => "SK1 3DQ", :value => "stockport_magistrates_court_and_family_court"} Stockport Magistrates' Court and Family Court
+    %option{"data-other-names" => "Stratford Magistrates' Court and Family Court", "data-postcode" => "E15 4SB", :value => "stratford_magistrates_court_and_family_court"} Stratford Magistrates' Court and Family Court
+    %option{"data-other-names" => "Stroud Magistrates' Court", "data-postcode" => "GL5 1ET", :value => "stroud_magistrates_court"} Stroud Magistrates' Court
+    %option{"data-other-names" => "Sunderland Magistrates' Court and Family Court", "data-postcode" => "SR1 3AP", :value => "sunderland_magistrates_court_and_family_court"} Sunderland Magistrates' Court and Family Court
+    %option{"data-other-names" => "Swansea Magistrates' Court and Family Court", "data-postcode" => "SA1 5DB", :value => "swansea_magistrates_court_and_family_court"} Swansea Magistrates' Court and Family Court
+    %option{"data-other-names" => "Swindon Magistrates' Court", "data-postcode" => "SN1 2JB", :value => "swindon_magistrates_court"} Swindon Magistrates' Court
+    %option{"data-other-names" => "Tameside Magistrates' Court", "data-postcode" => "OL6 7TP", :value => "tameside_magistrates_court"} Tameside Magistrates' Court
+    %option{"data-other-names" => "Taunton Magistrates' Court", "data-postcode" => "TA1 4AX", :value => "taunton_magistrates_court"} Taunton Magistrates' Court
+    %option{"data-other-names" => "Teesside Magistrates' Court and Family Court", "data-postcode" => "TS1 2AS", :value => "teesside_magistrates_court_and_family_court"} Teesside Magistrates' Court and Family Court
+    %option{"data-other-names" => "Telford Magistrates' Court", "data-postcode" => "TF3 4HX", :value => "telford_magistrates_court"} Telford Magistrates' Court
+    %option{"data-other-names" => "Thames Magistrates' Court", "data-postcode" => "E3 4DJ", :value => "thames_magistrates_court"} Thames Magistrates' Court
+    %option{"data-other-names" => "Torquay Magistrates' Court", "data-postcode" => "TQ1 4BP", :value => "torquay_magistrates_court"} Torquay Magistrates' Court
+    %option{"data-other-names" => "Tottenham Magistrates’ Court", "data-postcode" => "N17 6RT", :value => "tottenham_magistrates_court"} Tottenham Magistrates’ Court
+    %option{"data-other-names" => "Trafford Magistrates' Court", "data-postcode" => "M33 7NR", :value => "trafford_magistrates_court"} Trafford Magistrates' Court
+    %option{"data-other-names" => "Truro Magistrates' Court", "data-postcode" => "TR1 1HZ", :value => "truro_magistrates_court"} Truro Magistrates' Court
+    %option{"data-other-names" => "Uxbridge Magistrates' Court", "data-postcode" => "UB8 1PQ", :value => "uxbridge_magistrates_court"} Uxbridge Magistrates' Court
+    %option{"data-other-names" => "Vale of Glamorgan Magistrates' Court", "data-postcode" => "CF63 4SX", :value => "vale_of_glamorgan_magistrates_court"} Vale of Glamorgan Magistrates' Court
+    %option{"data-other-names" => "Wakefield & Pontefract Magistrates' Court", "data-postcode" => "WF1 2QN", :value => "wakefield_pontefract_magistrates_court"} Wakefield & Pontefract Magistrates' Court
+    %option{"data-other-names" => "Walsall Magistrates' Court", "data-postcode" => "WS2 8HA", :value => "walsall_magistrates_court"} Walsall Magistrates' Court
+    %option{"data-other-names" => "Waltham Forest Magistrates' Court", "data-postcode" => "E17 4NX", :value => "waltham_forest_magistrates_court"} Waltham Forest Magistrates' Court
+    %option{"data-other-names" => "Warrington Magistrates' Court, North Cheshire Magistrates’ Court", "data-postcode" => "WA1 1LQ", :value => "warrington_magistrates_court"} Warrington Magistrates' Court
+    %option{"data-other-names" => "Watford Magistrates' Court and Family Court", "data-postcode" => "WD17 1ST", :value => "watford_magistrates_court_and_family_court"} Watford Magistrates' Court and Family Court
+    %option{"data-other-names" => "Wellingborough Magistrates' Court and Family Court", "data-postcode" => "NN8 1HF", :value => "wellingborough_magistrates_court_and_family_court"} Wellingborough Magistrates' Court and Family Court
+    %option{"data-other-names" => "Welshpool Magistrates' Court and Family Court", "data-postcode" => "SY21 7UX", :value => "welshpool_magistrates_court_and_family_court"} Welshpool Magistrates' Court and Family Court
+    %option{"data-other-names" => "West Berkshire Magistrates' Court, Newbury", "data-postcode" => "RG14 5QS", :value => "west_berkshire_magistrates_court_newbury"} West Berkshire Magistrates' Court, Newbury
+    %option{"data-other-names" => "West Hampshire Magistrates' Court", "data-postcode" => "SO17 1EY", :value => "west_hampshire_magistrates_court"} West Hampshire Magistrates' Court
+    %option{"data-other-names" => "West Somerset Magistrates' Court", "data-postcode" => "TA1 4AX", :value => "west_somerset_magistrates_court"} West Somerset Magistrates' Court
+    %option{"data-other-names" => "Westminster Magistrates' Court", "data-postcode" => "NW1 5BR", :value => "westminster_magistrates_court"} Westminster Magistrates' Court
+    %option{"data-other-names" => "Weymouth Magistrates' Court", "data-postcode" => "DT4 8BS", :value => "weymouth_magistrates_court"} Weymouth Magistrates' Court
+    %option{"data-other-names" => "Wigan and Leigh Magistrates' Court", "data-postcode" => "WN1 1DW", :value => "wigan_and_leigh_magistrates_court"} Wigan and Leigh Magistrates' Court
+    %option{"data-other-names" => "Willesden Magistrates' Court", "data-postcode" => "NW10 2DZ", :value => "willesden_magistrates_court"} Willesden Magistrates' Court
+    %option{"data-other-names" => "Wimbledon Magistrates' Court", "data-postcode" => "SW19 7JP", :value => "wimbledon_magistrates_court"} Wimbledon Magistrates' Court
+    %option{"data-other-names" => "Wirral Magistrates' Court", "data-postcode" => "CH41 5HW", :value => "wirral_magistrates_court"} Wirral Magistrates' Court
+    %option{"data-other-names" => "Wolverhampton Magistrates' Court", "data-postcode" => "WV1 1RA", :value => "wolverhampton_magistrates_court"} Wolverhampton Magistrates' Court
+    %option{"data-other-names" => "Worcester Magistrates' Court", "data-postcode" => "WR1 3QZ", :value => "worcester_magistrates_court"} Worcester Magistrates' Court
+    %option{"data-other-names" => "Worksop Magistrates' Court", "data-postcode" => "S80 2AJ", :value => "worksop_magistrates_court"} Worksop Magistrates' Court
+    %option{"data-other-names" => "Worthing Magistrates' Court", "data-postcode" => "BN11 1JE", :value => "worthing_magistrates_court"} Worthing Magistrates' Court
+    %option{"data-other-names" => "Wrexham Magistrates' Court and Family Court", "data-postcode" => "CH7 1AE", :value => "wrexham_magistrates_court_and_family_court"} Wrexham Magistrates' Court and Family Court
+    %option{"data-other-names" => "Yeovil Magistrates' Court", "data-postcode" => "BA20 1SW", :value => "yeovil_magistrates_court"} Yeovil Magistrates' Court
+    %option{"data-other-names" => "York Magistrates' Court and Family Court", "data-postcode" => "YO1 9RE", :value => "york_magistrates_court_and_family_court"} York Magistrates' Court and Family Court

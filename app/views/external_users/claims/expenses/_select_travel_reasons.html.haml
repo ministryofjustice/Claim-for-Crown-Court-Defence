@@ -1,0 +1,15 @@
+.form-group.fx-travel-reason
+  %fieldset
+    %legend.form-label-bold
+      Travel reason
+      / <span class="form-hint">Something</span>
+    %select#travel-expense-1-reason.form-control.form-control-3-4.fx-select-travel-reason{:name => "travel_expense_1_reason"}
+      %option{:value => ""}
+      %option{:value => "court_hearing"} Court hearing (Crown court)
+      %option{:value => "court_hearing_magistrates"} Court hearing (Magistrates' court)
+      %option{:value => "pre_trial_conference_expert_witnesses"} Pre-trial conference expert witnesses
+      %option{:value => "prison_visit"} Pre-trial conference defendant (prison)
+      %option{:value => "secure_hospital_visit"} Pre-trial conference defendant (hospital)
+      %option{:value => "pre_trial_conference_defendant"} Pre-trial conference defendant (other)
+      %option{:value => "view_of_crime_scene"} View of crime scene
+      %option{"data-other" => "true", :value => "other"} Other

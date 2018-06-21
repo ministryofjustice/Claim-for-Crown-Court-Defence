@@ -12,6 +12,35 @@ RSpec.describe Fee::GraduatedFeeValidator, type: :validator do
 
   describe '#validate_claim' do
     it { should_error_if_not_present(fee, :claim, 'blank') }
+
+    context 'when the fee is for an interim claim' do
+      let(:claim) { build(:interim_claim) }
+      let(:fee) { build(:graduated_fee, claim: claim) }
+
+      it 'does not contain errors on the claim' do
+        expect(fee).to be_valid
+      end
+    end
+
+    context 'when the associated claim has no case type defined' do
+      let(:claim) { build(:litigator_claim, case_type: nil) }
+      let(:fee) { build(:graduated_fee, claim: claim) }
+
+      it 'does not container an error on the claim case type' do
+        expect(fee).to be_valid
+      end
+    end
+
+    context 'when the associated claim has a fixed case type' do
+      let(:case_type) { build(:case_type, :fixed_fee) }
+      let(:claim) { build(:litigator_claim, case_type: case_type) }
+      let(:fee) { build(:graduated_fee, claim: claim) }
+
+      it 'is invalid as it can be associated with this type of claim' do
+        expect(fee).not_to be_valid
+        expect(fee.errors[:claim]).to include('Fixed fee invalid on non-fixed fee case types')
+      end
+    end
   end
 
   describe '#validate_fee_type' do

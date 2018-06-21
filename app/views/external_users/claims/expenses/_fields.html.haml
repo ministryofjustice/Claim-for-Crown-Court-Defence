@@ -1,4 +1,4 @@
-%form.form{:autocomplete => "off", :method => "post"}
+.form{:autocomplete => "off", :method => "post"}
   .form-section-compound{"data-item-number" => "1"}
     %input#origin_postcode{:autocapitalize => "off", :autocorrect => "off", :name => "origin", :spellcheck => "false", :type => "hidden", :value => "B4 6QB"}/
     %h3.heading-medium
@@ -26,12 +26,27 @@
     .grid-row
       .column-half
 
+        .form-group.fx-toggle-select{:style => "display: block;"}
+          %fieldset
+            %legend.form-label-bold
+              Dynamic select
+
+            %select#mySelect.form-control.form-control-3-4{:name => "my-name"}
+
+        .form-group.fx-toggle-input{:style => "display: block;"}
+          %label.form-label-bold{:for => "travel-expense-1-destination"}
+            Dynamic Input
+            / <span class="form-hint">Something</span>
+          %input#travel-expense-1-destination.form-control.form-control-3-4{:autocapitalize => "off", :autocomplete => "off", :autocorrect => "off", :name => "travel_expense_1_destination", :spellcheck => "false", :type => "text", :value => ""}/
+
+
         -# INPUT: Destination
         .form-group.fx-travel-destination
           %label.form-label-bold{:for => "travel-expense-1-destination"}
             Destination
             / <span class="form-hint">Something</span>
           %input#travel-expense-1-destination.form-control.form-control-3-4{:autocapitalize => "off", :autocomplete => "off", :autocorrect => "off", :name => "travel_expense_1_destination", :spellcheck => "false", :type => "text", :value => ""}/
+
 
         -# SELECT: Crown courts
         = render 'external_users/claims/expenses/select_crown_courts'

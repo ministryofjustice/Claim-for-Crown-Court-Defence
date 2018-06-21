@@ -514,6 +514,23 @@ en:
         authorised_claims: 'Authorised claims for last week'
         with_total_assessed_value_of: 'claims with a total assessed value of'
       basic_fees:
+        basic_fee_fields_primary:
+          net_amount: *net_amount
+
+        basic_fee_fields_conditional:
+          npw:
+            net_amount: *net_amount
+            heading_html: Prosecution witnesses
+            quantity: Total number of prosecution witnesses
+            quantity_hint: ''
+          ppe:
+            net_amount: *net_amount
+            quantity: Total number of pages
+            quantity_hint: Please remove all cover sheets from the total count
+            heading_html: |
+              Pages of prosecution evidence (<abbr title="pages of prosecution evidence">PPE</abbr>)
+            help_text: |
+              Please enter the number of pages of prosecution evidence to help the caseworker assess the correct offence class.
         basic_fee_fields:
           add_dates: Add another date
           net_amount: *net_amount
@@ -679,9 +696,9 @@ en:
         actions:
           clear_selection: Clear selection
         fields:
-          offence_band: Offence band
-          offence_class: 'Offence class'
-          offence_category: Offence category
+          offence_band: Band
+          offence_class: Class
+          offence_category: Category
           offence_category_hint: 'If the offence category is not listed, choose "Miscellaneous/other"'
           offence_details: 'Offence details'
           search_offence: Search for the offence

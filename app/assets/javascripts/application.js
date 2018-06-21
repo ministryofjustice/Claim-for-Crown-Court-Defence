@@ -94,14 +94,25 @@ if (!String.prototype.supplant) {
 
 
   // Basic fees page
-  $('#basic-fees').on('change', 'input', function(){
+  $('#basic-fees').on('change', '.js-block input', function() {
     $(this).trigger('recalculate');
   })
 
+  $.subscribe('/multiple-choice/content/show/', function(e, panel){
+    $(panel).find('input').is(function(idx, el){
+      var $el = $(el);
+      console.log($el.attr('type'));
+    });
+  });
+
+  $.subscribe('/multiple-choice/content/hide/', function(e, panel){
+    console.log(arguments);
+  });
+
   // ??
-  $('.form-actions').on('cocoon:after-insert', function(e, el){
+  $('.form-actions').on('cocoon:after-insert', function(e, el) {
     var $el = $(el);
-    if($el.hasClass('resource-details')){
+    if ($el.hasClass('resource-details')) {
       $el.find('a.add_fields').click();
     }
   });

@@ -1,0 +1,44 @@
+.form-group.basic-fee-group.nested-fields.fee-details.js-block{class: to_slug(f.object.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": f.object.calculated? ? "FeeBlock" : "FeeBlock"}}
+  %fieldset
+    .form-group
+      %span.bold
+        Case type
+      %p
+        = f.object.claim.case_type.name
+
+    .form-group
+      = render partial: 'external_users/claims/basic_fees/offence_display', locals: { f: f }
+
+    = f.hidden_field :fee_type_id, value: f.object.fee_type_id
+    = f.hidden_field :quantity, value: 1
+    = f.adp_text_field :rate,
+                          label: t('.net_amount'),
+                          input_classes:'total form-control-1-4 form-input-denote__input',
+                          input_type: 'currency',
+                          value: number_with_precision(f.object.rate, precision: 2),
+                          errors: @error_presenter
+
+
+    %details{:role => "group"}
+      %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
+        %span.summary
+          = "Help with basic fees"
+      #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
+        %p
+          Basic fees include:
+        %ul.list.list-bullet
+
+          - if f.object.claim.fee_scheme == 'fee_reform'
+            %li
+              1 daily attendance fee
+
+          - else
+            %li
+              2 daily attendance fees
+            %li
+              4 standard appearance fees
+            %li
+              1 plea and trial preparation hearing (
+              %abbr{:title => "plea and trial preparation hearing"}> PTPH
+              )
+            %li 3 conferences and views

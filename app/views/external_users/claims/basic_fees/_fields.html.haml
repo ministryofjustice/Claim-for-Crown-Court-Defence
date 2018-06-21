@@ -1,17 +1,34 @@
 - unless @claim.allows_fixed_fees?
   #basic-fees.mod-fees
-    .form-section
-      %h3.heading-medium
-        = "Basic fees"
+    - present(f.object.basic_fees, BasicFeesPresenter) do | basic_fees |
+      // Present the primary fee
+      .form-section
+        %h3.heading-medium
+          = "Basic fees"
+      = f.fields_for :basic_fees, basic_fees.primary_fee do |basic_fee_fields|
+        - @basic_fee_count += 1
+        - if present(basic_fee_fields.object).should_be_displayed?
+          = render 'external_users/claims/basic_fees/basic_fee_fields_primary', f: basic_fee_fields
 
-      - present(f.object.basic_fees, BasicFeesPresenter) do | basic_fees |
-        = f.fields_for :basic_fees, basic_fees.primary_fee do |basic_fee_fields|
-          - @basic_fee_count += 1
-          - if present(basic_fee_fields.object).should_be_displayed?
-            = render 'external_users/claims/basic_fees/basic_fee_fields_new', f: basic_fee_fields
+      .form-section
+        %h3.heading-medium
+          = "Additional details"
 
-
+        .form-group
+          %fieldset
+            %legend.heading-small
+              Type of fee
+              %span.form-hint
+                Please choose all relevant options
         = f.fields_for :basic_fees, basic_fees.additional_fees.sort_by(&:position) do |basic_fee_fields|
           - @basic_fee_count += 1
+
           - if present(basic_fee_fields.object).should_be_displayed?
             = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields
+
+
+      = f.fields_for :basic_fees, basic_fees.extra_fees.sort_by(&:position) do |basic_fee_fields|
+        - @basic_fee_count += 1
+        - if present(basic_fee_fields.object).should_be_displayed?
+          .form-section
+            = render 'external_users/claims/basic_fees/basic_fee_fields_conditional', f: basic_fee_fields

@@ -25,6 +25,15 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
     true
   end
 
+  def display_help_text?
+    return false unless claim.fee_scheme == 'fee_reform'
+    OFFENCE_CATEGORIES_WITHOUT_RESTRICTED_DISPLAY.include?(offence_category_number)
+  end
+
+  def activate_js_block?
+    !display_help_text?
+  end
+
   private
 
   FEE_CODES_WITH_PROMPT_TEXT = %w[BAF SAF PPE].freeze

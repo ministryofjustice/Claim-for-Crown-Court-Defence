@@ -1,3 +1,7 @@
+/**
+ * [SideBar description]
+ * @type {Object}
+ */
 moj.Helpers.SideBar = {
   Base: function(options) {
     var _options = {
@@ -18,7 +22,7 @@ moj.Helpers.SideBar = {
     };
 
     this.isVisible = function() {
-      return this.$el.find('.rate').is(':visible') || this.$el.find('.amount').is(':visible') || this.$el.find('.total').is(':visible');
+      return this.$el.is(':visible');
     };
 
     this.applyVat = function() {
@@ -86,17 +90,29 @@ moj.Helpers.SideBar = {
     };
 
     this.render = function() {
-      this.$el.find('.net_amount').val(this.totals.total.toFixed(2));
-      this.$el.find('.total').html('&pound;' + moj.Helpers.SideBar.addCommas(this.totals.total.toFixed(2)));
+      // For fee calculation
+      // this.$el.find('.total').html('&pound;' + moj.Helpers.SideBar.addCommas(this.totals.total.toFixed(2)));
+
+      // Updating the totals element
+      this.$el.find('.total').val(this.totals.total.toFixed(2));
       this.$el.find('.total').data('total', this.totals.total);
     };
 
+    // init
     this.init();
   },
+
+  /**
+   * [FeeBlockCalculator description]
+   */
   FeeBlockCalculator: function() {
     var self = this;
     moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
 
+    /**
+     * [init description]
+     * @return {[type]} [description]
+     */
     this.init = function() {
       this.config.fn = 'FeeBlockCalculator';
       this.bindRender();

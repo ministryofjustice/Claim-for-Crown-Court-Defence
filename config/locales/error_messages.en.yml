@@ -912,6 +912,14 @@ basic_fee:
       long: Enter a valid amount for pages of prosecution evidence fees
       short: *enter_valid_amount
       api: Enter a valid amount for pages of prosecution evidence fees
+    baf_invalid:
+      long: Enter a valid amount for the basic fee
+      short: *enter_valid_amount
+      api: Enter a valid amount for the basic fee
+    daf_invalid:
+      long: Enter a valid amount for daily attendance fees (3-40 days)
+      short: *enter_valid_amount
+      api: Enter a valid amount for daily attendance fees (3-40 days)
 
   case_numbers:
     _seq: 40

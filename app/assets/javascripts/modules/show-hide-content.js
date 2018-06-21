@@ -37,17 +37,13 @@
     // Return toggled content for control
     function getToggledContent($control) {
       var id = $control.attr('aria-controls')
-
       // ARIA attributes aren't set before init
       if (!id) {
         id = $control.closest('[data-target]').data('target')
       }
-
       // Find show/hide content by id
       return $('#' + id)
     }
-
-
 
     // Show toggled content for control
     function showToggledContent($control, $content) {
@@ -55,7 +51,6 @@
       if ($content.hasClass('js-hidden')) {
         $content.removeClass('js-hidden')
         $content.attr('aria-hidden', 'false')
-
         // If the controlling input, update aria-expanded
         if ($control.attr('aria-controls')) {
           $control.attr('aria-expanded', 'true')
@@ -67,7 +62,6 @@
     // Hide toggled content for control
     function hideToggledContent($control, $content) {
       $content = $content || getToggledContent($control)
-
       // Hide content
       if (!$content.hasClass('js-hidden')) {
         $content.addClass('js-hidden')

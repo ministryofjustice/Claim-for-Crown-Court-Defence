@@ -58,6 +58,7 @@ Rails.application.routes.draw do
     get 'download_attachment', on: :member
   end
 
+  resources :establishments, only: %i[index], format: :js
   resources :offences, only: [:index], format: :js
   resources :case_types, only: [:show], format: :js
   resources :case_conclusions, only: [:index], format: :js

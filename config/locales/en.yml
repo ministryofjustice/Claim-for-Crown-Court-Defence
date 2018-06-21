@@ -154,6 +154,10 @@ en:
             certification_date:
               after_claim_creation: "must be same day or after claim submission day"
               not_in_the_future: "can't be in the future"
+        fee/graduated_fee:
+          attributes:
+            claim:
+              incompatible_case_type: Fixed fee invalid on non-fixed fee case types
         supplier_number:
           attributes:
             supplier_number:

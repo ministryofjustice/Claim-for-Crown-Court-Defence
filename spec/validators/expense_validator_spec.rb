@@ -222,6 +222,25 @@ RSpec.describe 'ExpenseValidator', type: :validator do
     end
   end
 
+  describe 'location type validations' do
+    context 'when the location type is not set' do
+      subject(:expense) { build(:expense, :train, claim: claim, location_type: '') }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'when the location type is set' do
+      context 'but does not match a valid type' do
+        subject(:expense) { build(:expense, :train, claim: claim, location_type: 'invalid_type') }
+
+        it {
+          is_expected.not_to be_valid
+          expect(expense.errors[:location_type]).to include('invalid')
+        }
+      end
+    end
+  end
+
   describe '#validate_reason_id' do
     it 'should be valid with values 1-4 for reason set A' do
       (1..4).each do |i|

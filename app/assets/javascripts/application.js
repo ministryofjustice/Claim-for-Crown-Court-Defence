@@ -76,6 +76,8 @@ if (!String.prototype.supplant) {
   // to toggle hidden content
   var showHideContent = new GOVUK.ShowHideContent()
   showHideContent.init()
+  GOVUK.stickAtTopWhenScrolling.init();
+
 
   /**
    * Cocoon call back to init features once they have been
@@ -86,30 +88,30 @@ if (!String.prototype.supplant) {
     var insertedSelect = $insertedItem.find('select.typeahead');
     var typeaheadWrapper = $insertedItem.find('.js-typeahead');
 
-
     moj.Modules.Autocomplete.typeaheadKickoff(insertedSelect);
     moj.Modules.Autocomplete.typeaheadBindEvents(typeaheadWrapper);
     moj.Modules.FeeFieldsDisplay.addFeeChangeEvent(insertedItem)
   });
-
 
   // Basic fees page
   $('#basic-fees').on('change', '.js-block input', function() {
     $(this).trigger('recalculate');
   })
 
-  $.subscribe('/multiple-choice/content/show/', function(e, panel){
-    $(panel).find('input').is(function(idx, el){
-      var $el = $(el);
-      console.log($el.attr('type'));
-    });
+  // this is a bit hacky
+  // TODO: To be moved to more page based controllers
+  $('#basic-fees').on('change', '.multiple-choice input[type=checkbox]', function(e){
+    var fields_wrapper = $(e.target).attr('aria-controls');
+    var $fields_wrapper = $('#'+fields_wrapper)
+
+    $fields_wrapper.find('.remove_fields').click();
+    $fields_wrapper.find('input[type=number]').val(0);
+    $fields_wrapper.find('input[type=text]').val('');
+    $fields_wrapper.trigger('recalculate')
   });
 
-  $.subscribe('/multiple-choice/content/hide/', function(e, panel){
-    console.log(arguments);
-  });
-
-  // ??
+  // Manually hit the `add rep order` button after a
+  // cocoon insert.
   $('.form-actions').on('cocoon:after-insert', function(e, el) {
     var $el = $(el);
     if ($el.hasClass('resource-details')) {
@@ -124,7 +126,7 @@ if (!String.prototype.supplant) {
     }
   });
 
-  GOVUK.stickAtTopWhenScrolling.init();
+
 
   moj.Helpers.token = (function(name) {
     return $('form input[name=' + name + '_token]').val();

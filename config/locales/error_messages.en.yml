@@ -689,6 +689,10 @@ representation_order:
       long: 'Check the combination of the representation order date and the dates of trial'
       short: 'Check combination of representation order date and trial dates'
       api: 'Check combination of rep order date and trial dates'
+    not_on_or_before_trial_fixed_notice_date:
+      long: 'Check the combination of the representation order date and the dates of cracked trial'
+      short: 'Check combination of representation order date and cracked trial dates'
+      api: 'Check combination of rep order date and cracked trial dates'
     scheme_ten_offence:
       long: Representation Order Date is not valid for AGFS scheme ten
       short: *check_date

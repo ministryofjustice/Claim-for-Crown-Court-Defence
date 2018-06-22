@@ -91,7 +91,7 @@ module Claim
     validates_with ::Claim::AdvocateClaimValidator, unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::AdvocateClaimSubModelValidator
 
-    delegate :requires_cracked_dates?, to: :case_type
+    delegate :requires_cracked_dates?, to: :case_type, allow_nil: true
 
     after_initialize do
       instantiate_basic_fees

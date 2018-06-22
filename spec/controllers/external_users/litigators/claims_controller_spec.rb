@@ -40,30 +40,17 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
   end
 
   def expense_params
-    Settings.expense_schema_version == 1 ? v1_expense_params : v2_expense_params
-  end
-
-  def v1_expense_params
     {
-        expense_type_id: expense_type.id,
-        location: "London",
-        quantity: 1,
-        rate: 40
-    }
-  end
-
-  def v2_expense_params
-    {
-        expense_type_id: expense_type.id,
-        location: "London",
-        quantity: 1,
-        rate: 40,
-        reason_id: 1,
-        distance: nil,
-        amount: 1125.00,
-        date_dd: expense_date.day,
-        date_mm: expense_date.month,
-        date_yyyy: expense_date.year
+      expense_type_id: expense_type.id,
+      location: "London",
+      quantity: 1,
+      rate: 40,
+      reason_id: 1,
+      distance: nil,
+      amount: 1125.00,
+      date_dd: expense_date.day,
+      date_mm: expense_date.month,
+      date_yyyy: expense_date.year
     }
   end
 

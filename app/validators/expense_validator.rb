@@ -1,23 +1,11 @@
-class ExpenseV2Validator < BaseValidator
+class ExpenseValidator < BaseValidator
   def self.fields
-    %i[
-      expense_type
-      distance
-      hours
-      location
-      date
-      reason_id
-      reason_text
-      mileage_rate_id
-      amount
-      vat_amount
-    ]
+    %i[expense_type distance hours location date
+       reason_id reason_text mileage_rate_id amount vat_amount]
   end
 
   def self.mandatory_fields
-    [
-      :claim
-    ]
+    %i[claim]
   end
 
   private

@@ -1331,6 +1331,13 @@ expense:
       short: Enter a valid location
       api: Enter a valid location for the expense
 
+  location_type:
+    _seq: 30
+    invalid:
+      long: 'Enter a valid location for the #{expense}'
+      short: Enter a valid location
+      api: Enter a valid location for the expense
+
   distance:
     _seq: 40
     blank:

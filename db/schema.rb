@@ -283,6 +283,7 @@ ActiveRecord::Schema.define(version: 20180718102824) do
     t.date     "date"
     t.decimal  "hours"
     t.decimal  "vat_amount",      default: "0.0"
+    t.string   "location_type"
     t.index ["claim_id"], name: "index_expenses_on_claim_id", using: :btree
     t.index ["expense_type_id"], name: "index_expenses_on_expense_type_id", using: :btree
   end

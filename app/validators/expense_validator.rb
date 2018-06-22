@@ -1,6 +1,6 @@
 class ExpenseValidator < BaseValidator
   def self.fields
-    %i[expense_type distance hours location date
+    %i[expense_type distance hours location location_type date
        reason_id reason_text mileage_rate_id amount vat_amount]
   end
 
@@ -32,6 +32,11 @@ class ExpenseValidator < BaseValidator
     else
       validate_presence(:location, 'blank')
     end
+  end
+
+  def validate_location_type
+    return unless @record.location_type.present?
+    add_error(:location_type, 'invalid') unless Establishment::CATEGORIES.include?(@record.location_type)
   end
 
   def validate_reason_id

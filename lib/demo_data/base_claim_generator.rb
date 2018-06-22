@@ -106,11 +106,7 @@ module DemoData
     end
 
     def add_expenses(claim)
-      if Settings.expense_schema_version == 1
-        ExpenseGenerator.new(claim).generate!
-      else
-        ExpenseV2Generator.new(claim).generate!
-      end
+      ExpenseGenerator.new(claim).generate!
     end
 
     def advance_claim_to_state(claim, state)

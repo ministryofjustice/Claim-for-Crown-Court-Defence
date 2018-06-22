@@ -1,0 +1,62 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://maps.googleapis.com/maps/api/directions/json?alternatives=true&destination=MK40%201HG&key=<GOOGLE_API_KEY>&origin=A%20galaxy%20far%20far%20away&region=uk
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - GoogleMapsRubyClient/1.5.0
+      Connection:
+      - close
+      Host:
+      - maps.googleapis.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Fri, 22 Jun 2018 15:13:01 GMT
+      Expires:
+      - Sat, 23 Jun 2018 15:13:01 GMT
+      Cache-Control:
+      - public, max-age=86400
+      Server:
+      - mafe
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alt-Svc:
+      - quic=":443"; ma=2592000; v="43,42,41,39,35"
+      Accept-Ranges:
+      - none
+      Vary:
+      - Accept-Language,Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "geocoded_waypoints" : [
+              {
+                 "geocoder_status" : "ZERO_RESULTS"
+              },
+              {
+                 "geocoder_status" : "OK",
+                 "place_id" : "ChIJBbUWctC2d0gR0yPNDoNt0y8",
+                 "types" : [ "postal_code" ]
+              }
+           ],
+           "routes" : [],
+           "status" : "NOT_FOUND"
+        }
+    http_version: 
+  recorded_at: Fri, 22 Jun 2018 15:13:01 GMT
+recorded_with: VCR 3.0.3

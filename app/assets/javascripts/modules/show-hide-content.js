@@ -55,7 +55,6 @@
         if ($control.attr('aria-controls')) {
           $control.attr('aria-expanded', 'true')
         }
-        $.publish('/multiple-choice/content/show/', $content)
       }
     }
 
@@ -71,7 +70,6 @@
         if ($control.attr('aria-controls')) {
           $control.attr('aria-expanded', 'false')
         }
-        $.publish('/multiple-choice/content/hide/', $content)
       }
     }
 

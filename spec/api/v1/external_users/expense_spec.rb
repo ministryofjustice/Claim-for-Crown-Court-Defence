@@ -7,15 +7,12 @@ RSpec.describe API::V1::ExternalUsers::Expense do
   include ApiSpecHelper
 
   ALL_EXPENSE_ENDPOINTS = [endpoint(:expenses, :validate), endpoint(:expenses)]
+
   FORBIDDEN_EXPENSE_VERBS = [:get, :put, :patch, :delete]
 
   let(:parsed_body) { JSON.parse(last_response.body) }
 
   describe "v2" do
-    before(:each) do
-      allow(Settings).to receive(:expense_schema_version).and_return(2)
-    end
-
     let!(:provider)       { create(:provider) }
     let!(:claim)          { create(:claim, source: 'api').reload }
     let!(:expense_type)   { create(:expense_type, :car_travel) }

@@ -7,4 +7,9 @@
   = link_to_remove_association t(".remove"), f, {class: "date-action"}
 
   .fee-date-from.panel-margin-fix
-    = f.gov_uk_date_field :date, legend_text: t('.date'), legend_class: "form-label-bold", id: "#{error_prefix}_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, "#{error_prefix}_date")
+    - if defined?(locale_scope)
+      - date_text = t('date', scope: locale_scope)
+    - else
+      - date_text = t('.date')
+
+    = f.gov_uk_date_field :date, legend_text: date_text, legend_class: "form-label-bold", id: "#{error_prefix}_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, "#{error_prefix}_date")

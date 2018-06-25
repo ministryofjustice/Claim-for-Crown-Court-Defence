@@ -24,6 +24,10 @@
           - @basic_fee_count += 1
 
           - if present(basic_fee_fields.object).should_be_displayed?
+            -# Both calculated and uncalculated fees are now handled in a single view.
+            -# ========================================================================
+            -# TODO: make sure there are features that prove the above statement
+            -# ========================================================================
             = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields
 
 

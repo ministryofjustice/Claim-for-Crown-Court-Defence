@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  date: Date
   net_amount: &net_amount Net amount
   views:
     pagination:
@@ -514,15 +515,53 @@ en:
         authorised_claims: 'Authorised claims for last week'
         with_total_assessed_value_of: 'claims with a total assessed value of'
       basic_fees:
+        empty_input: &empty_input ''
+        number_of_days: &number_of_days Number of days
+        date: &date_attended_heading Date attended
         basic_fee_fields_primary:
           net_amount: *net_amount
-
         basic_fee_fields_conditional:
+          noc:
+            case_numbers: Additional case numbers
+            quantity: Number of cases
+            quantity_hint: *empty_input
+          ndr:
+            quantity: Number of defendants
+            quantity_hint: *empty_input
+          cav:
+            quantity: Number of conferences and view
+            quantity_hint: *empty_input
+          daf:
+            date: *date_attended_heading
+            quantity: *number_of_days
+            quantity_hint: *empty_input
+          dah:
+            date: *date_attended_heading
+            quantity: *number_of_days
+            quantity_hint: *empty_input
+          daj:
+            date: *date_attended_heading
+            quantity: *number_of_days
+            quantity_hint: *empty_input
+          pcm:
+            date: *date_attended_heading
+            quantity: Number of hearings
+            quantity_hint: *empty_input
+          saf:
+            date: *date_attended_heading
+            quantity: Number of appearances
+            quantity_hint: *empty_input
           npw:
+            heading_html: Prosecution witnesses
+            net_amount: *net_amount
+            quantity: Total number of prosecution witnesses
+            quantity_hint: *empty_input
+          dat:
+            date: *date_attended_heading
             net_amount: *net_amount
             heading_html: Prosecution witnesses
-            quantity: Total number of prosecution witnesses
-            quantity_hint: ''
+            quantity: *number_of_days
+            quantity_hint: Include all days attended
           ppe:
             net_amount: *net_amount
             quantity: Total number of pages
@@ -532,11 +571,13 @@ en:
             help_text: |
               Please enter the number of pages of prosecution evidence to help the caseworker assess the correct offence class.
         basic_fee_fields:
+          case_numbers: Case numbers
+          quantity: Quantity
           add_dates: Add another date
           net_amount: *net_amount
           rate: Rate
           daf:
-            quantity: &number_of_days Number of days
+            quantity: *number_of_days
             hint: need some hint text
           dah:
             quantity: *number_of_days

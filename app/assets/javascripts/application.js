@@ -76,8 +76,11 @@ if (!String.prototype.supplant) {
   // to toggle hidden content
   var showHideContent = new GOVUK.ShowHideContent()
   showHideContent.init()
-  GOVUK.stickAtTopWhenScrolling.init();
 
+
+  // Sticky sidebar
+  // TODO: Re-init / reset the screen dimentions as page expands
+  GOVUK.stickAtTopWhenScrolling.init();
 
   /**
    * Cocoon call back to init features once they have been

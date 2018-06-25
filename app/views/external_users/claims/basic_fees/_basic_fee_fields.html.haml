@@ -1,4 +1,6 @@
 - fee = present(f.object)
+-# Setting a namespaced locale pointer
+- locale_scope = "external_users.claims.basic_fees.basic_fee_fields_conditional.#{fee.fee_type_code.downcase}"
 -# Check box input
 .multiple-choice{"data-target" => to_slug(f.object.description)}
 
@@ -14,8 +16,9 @@
 
     -# Quantity
     = f.adp_text_field :quantity,
-                          label: t('.quantity'),
-                          input_classes:'quantity form-control-1-8',
+                          label: t('quantity', scope: locale_scope),
+                          hint_text: t('quantity_hint', scope: locale_scope),
+                          input_classes:'quantity form-control-1-4',
                           input_type: 'number',
                           value: fee.quantity,
                           errors: @error_presenter
@@ -33,15 +36,16 @@
       .dates-wrapper.form-group
         %div
           = f.fields_for :dates_attended do |date_attended|
-            = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}"}
+            // TODO: Numbering, the implementaion used on fees will not work here.
+            = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}", locale_scope: locale_scope}
 
 
-        = link_to_add_association t('.add_dates'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields', data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
+        = link_to_add_association t('.add_dates'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields',  render_options: { locals: { locale_scope:locale_scope } }, data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
 
     -# Case numbers
     - if f.object.fee_type.case_uplift?
       = f.adp_text_field :case_numbers,
-                        label: t('.case_numbers'),
+                        label: t('case_numbers', scope: locale_scope),
                         input_classes:'js-basic-fee-case-numbers fx-fee-case-numbers',
                         hint_text:'Separate by commas',
                         errors: @error_presenter

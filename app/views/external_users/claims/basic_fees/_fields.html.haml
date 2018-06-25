@@ -5,7 +5,70 @@
     %p
       = raw t('.fee_prompt_text')
 
-    = f.fields_for :basic_fees, f.object.basic_fees.sort_by(&:position) do |basic_fee_fields|
-      - @basic_fee_count += 1
-      - if present(basic_fee_fields.object).should_be_displayed?
-        = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields
+    .form-section
+      %h3.heading-medium
+        Additional details
+      %p Something, something something
+      .form-group
+        %fieldset
+          %legend.heading-small
+            Type of fee
+            %span.form-hint
+              Please choose all relevant options
+
+          = f.fields_for :basic_fees, f.object.basic_fees.sort_by(&:position) do |basic_fee_fields|
+            - @basic_fee_count += 1
+            - if present(basic_fee_fields.object).should_be_displayed?
+
+              .multiple-choice{"data-target" => "daily-attendance-fees-panel"}
+                %input#daily-attendance-fees{"aria-controls" => "daily-attendance-fees-panel", "aria-expanded" => "false", :autocapitalize => "off", :autocorrect => "off", "data-com.agilebits.onepassword.user-edited" => "yes", :name => "graduated_fees_checklist", :spellcheck => "false", :type => "checkbox", :value => "daily_attendance_fees"}/
+                %label{:for => "daily-attendance-fee"}
+                  Daily attendance fee
+              #daily-attendance-fees-panel.panel.panel-border-narrow.js-hidden{"aria-hidden" => "true"}
+                .form-group
+                  %label.form-label-bold{:for => "daily-attendance-fees-number-of-days"}
+                    Number of days
+                    %span.form-hint
+                      Include all days attended
+                  %input#daily-attendance-fees-number-of-days.form-control.form-control-1-8{:autocapitalize => "off", :autocorrect => "off", :name => "daily_attendance_fees_number_of_days", :spellcheck => "false", :type => "text", :value => ""}/
+                .form-group
+                  %fieldset
+                    %legend.form-label-bold{:style => "width:100%;"}
+                      Date attended 1
+                      %span.form-hint
+                        For example, 31 3 2017
+                    .form-date
+                      .form-group.form-group-day
+                        %label.form-label{:for => "daily-attendance-fees-date-attended-1-day"}
+                          Day
+                        %input#daily-attendance-fees-date-attended-1-day.form-control{:autocapitalize => "off", :autocorrect => "off", :max => "31", :min => "1", :name => "daily_attendance_fees_date_attended_1_day", :pattern => "[0-9]*", :spellcheck => "false", :type => "number", :value => ""}/
+                      .form-group.form-group-month
+                        %label.form-label{:for => "daily-attendance-fees-date-attended--month"}
+                          Month
+                        %input#daily-attendance-fees-date-attended-1-month.form-control{:autocapitalize => "off", :autocorrect => "off", :max => "12", :min => "1", :name => "daily_attendance_fees_date_attended_1_month", :pattern => "[0-9]*", :spellcheck => "false", :type => "number", :value => ""}/
+                      .form-group.form-group-year
+                        %label.form-label{:for => "daily-attendance-fees-date-attended--year"}
+                          Year
+                        %input#daily-attendance-fees-date-attended-1-year.form-control{:autocapitalize => "off", :autocorrect => "off", :max => "2019", :min => "1900", :name => "daily_attendance_fees_date_attended_1_year", :pattern => "[0-9]*", :spellcheck => "false", :type => "number", :value => ""}/
+                .form-group
+                  %a{:href => "#noop"}
+                    Add another date
+                / TODO: If actual trial length is greater than 2, show box. Need some JS here??
+                /
+                .form-group
+                  %label.form-label-bold{:for => "daily-attendance-fees-net-amount"}
+                    Net amount
+                  %span.form-input-denote
+                    £
+                  %input#daily-attendance-fees-net-amount.form-control.form-control-1-4.form-input-denote__input{:autocapitalize => "off", :autocorrect => "off", :max => "999999.99", :min => "0.00", :name => "daily_attendance_fees_net_amount", :spellcheck => "false", :step => "0.01", :type => "number", :value => ""}/
+
+    -#     %hr/
+    -#     %h1
+    -#       = "NEW VIEW HERE"
+    -#     = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields
+
+    -# = render 'external_users/claims/basic_fees/static_additional'
+
+    -# = render 'external_users/claims/basic_fees/static_witnesses'
+
+    -# = render 'external_users/claims/basic_fees/static_ppe'

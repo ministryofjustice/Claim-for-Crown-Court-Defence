@@ -8,7 +8,6 @@
         Type of fee
         %span.form-hint
           Please choose all relevant options
-
       .multiple-choice{"data-target" => "daily-attendance-fees-panel"}
         %input#daily-attendance-fees{"aria-controls" => "daily-attendance-fees-panel", "aria-expanded" => "false", :autocapitalize => "off", :autocorrect => "off", "data-com.agilebits.onepassword.user-edited" => "yes", :name => "graduated_fees_checklist", :spellcheck => "false", :type => "checkbox", :value => "daily_attendance_fees"}/
         %label{:for => "daily-attendance-fee"}
@@ -50,7 +49,6 @@
           %span.form-input-denote
             £
           %input#daily-attendance-fees-net-amount.form-control.form-control-1-4.form-input-denote__input{:autocapitalize => "off", :autocorrect => "off", :max => "999999.99", :min => "0.00", :name => "daily_attendance_fees_net_amount", :spellcheck => "false", :step => "0.01", :type => "number", :value => ""}/
-
       .multiple-choice{"data-target" => "standard-appearance-fees-panel"}
         %input#standard-appearance-fees{"aria-controls" => "standard-appearance-fees-panel", "aria-expanded" => "false", :autocapitalize => "off", :autocorrect => "off", "data-com.agilebits.onepassword.user-edited" => "yes", :name => "graduated_fees_checklist", :spellcheck => "false", :type => "checkbox", :value => "standard_appearance_fees"}/
         %label{:for => "standard-appearance-fees"}
@@ -88,7 +86,6 @@
           %span.form-input-denote
             £
           %input#standard-appearance-fees-net-amount.form-control.form-control-1-4.form-input-denote__input{:autocapitalize => "off", :autocorrect => "off", :max => "999999.99", :min => "0.00", :name => "standard_appearance_fees_net_amount", :spellcheck => "false", :step => "0.01", :type => "number", :value => ""}/
-
       .multiple-choice{"data-target" => "plea-trial-prep-hearings-panel"}
         %input#plea-trial-prep-hearings{"aria-controls" => "plea-trial-prep-hearings-panel", "aria-expanded" => "false", :autocapitalize => "off", :autocorrect => "off", "data-com.agilebits.onepassword.user-edited" => "yes", :name => "graduated_fees_checklist", :spellcheck => "false", :type => "checkbox", :value => "plea_trial_prep_hearings"}/
         %label{:for => "plea-trial-prep-hearings"}
@@ -126,7 +123,6 @@
           %span.form-input-denote
             £
           %input#plea-trial-prep-hearing-net-amount.form-control.form-control-1-4.form-input-denote__input{:autocapitalize => "off", :autocorrect => "off", :max => "999999.99", :min => "0.00", :name => "plea_trial_prep_hearing_net_amount", :spellcheck => "false", :step => "0.01", :type => "number", :value => ""}/
-
       .multiple-choice{"data-target" => "conferences-views-panel"}
         %input#conferences-views{"aria-controls" => "conferences-views-panel", "aria-expanded" => "false", :autocapitalize => "off", :autocorrect => "off", "data-com.agilebits.onepassword.user-edited" => "yes", :name => "graduated_fees_checklist", :spellcheck => "false", :type => "checkbox", :value => "conferences_views"}/
         %label{:for => "conferences-views"}
@@ -142,7 +138,6 @@
           %span.form-input-denote
             £
           %input#conference-views-net-amount.form-control.form-control-1-4.form-input-denote__input{:autocapitalize => "off", :autocorrect => "off", :max => "999999.99", :min => "0.00", :name => "conferences_views_net_amount", :spellcheck => "false", :step => "0.01", :type => "number", :value => ""}/
-
       .multiple-choice{"data-target" => "defendants-uplift-panel"}
         %input#defendants-uplift{"aria-controls" => "defendants-uplift-panel", "aria-expanded" => "false", :autocapitalize => "off", :autocorrect => "off", "data-com.agilebits.onepassword.user-edited" => "yes", :name => "graduated_fees_checklist", :spellcheck => "false", :type => "checkbox", :value => "defendants_uplift"}/
         %label{:for => "defendants-uplift"}
@@ -158,7 +153,6 @@
           %span.form-input-denote
             £
           %input#defendants-uplift-net-amount.form-control.form-control-1-4.form-input-denote__input{:autocapitalize => "off", :autocorrect => "off", :max => "999999.99", :min => "0.00", :name => "defendants_uplift_net_amount", :spellcheck => "false", :step => "0.01", :type => "number", :value => ""}/
-
       .multiple-choice{"data-target" => "cases-uplift-panel"}
         %input#cases-uplift{"aria-controls" => "cases-uplift-panel", "aria-expanded" => "false", :autocapitalize => "off", :autocorrect => "off", "data-com.agilebits.onepassword.user-edited" => "yes", :name => "graduated_fees_checklist", :spellcheck => "false", :type => "checkbox", :value => "cases_uplift"}/
         %label{:for => "cases-uplift"}
@@ -180,29 +174,36 @@
           %span.form-input-denote
             £
           %input#cases-uplift-net-amount.form-control.form-control-1-4.form-input-denote__input{:autocapitalize => "off", :autocorrect => "off", :max => "999999.99", :min => "0.00", :name => "cases_uplift_net_amount", :spellcheck => "false", :step => "0.01", :type => "number", :value => ""}/
-
-
-%fieldset
-  .form-group.basic-fee-group.nested-fields.fee-details.js-block{class: to_slug(f.object.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": f.object.calculated? ? "FeeBlockCalculator" : "FeeBlock"}}
-    = f.hidden_field :fee_type_id, value: f.object.fee_type_id
-
-    - if f.object.calculated?
-      = "CALCULATED"
-      = render partial: 'external_users/claims/basic_fees/basic_fee_calculated_fields', locals: { f: f, fee: present(f.object) }
-    - else
-      = "UN CALCULATED"
-      = render partial: 'external_users/claims/basic_fees/basic_fee_uncalculated_fields', locals: { f: f, fee: present(f.object) }
-
-    = "f.object.fee_type.requires_dates_attended?"
-    = f.object.fee_type.requires_dates_attended?
-    - if f.object.fee_type.requires_dates_attended?
-      %div.dates-wrapper.form-group
-        %div
-          = f.fields_for :dates_attended do |date_attended|
-            = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}"
-
-        = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', partial: 'date_attended_fields', data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
-
-    - else
-      %h2
-        = "NO adding dates"
+.form-section
+  %h3#prosecution-witnesses.heading-medium
+    Prosecution witnesses
+  .form-group
+    %fieldset
+      .form-group
+        %label.form-label-bold{:for => "total-number-of-prosecution-witnesses"}
+          Total number of prosecution witnesses
+        %input#total-number-of-prosecution-witnesses.form-control.form-control-1-4{:autocapitalize => "off", :autocomplete => "off", :autocorrect => "off", :max => "9999", :min => "0", :name => "total_number_of_prosecution_witnesses", :spellcheck => "false", :step => "1", :type => "number", :value => ""}/
+      .form-group
+        %label.form-label-bold{:for => "prosecution-witnesses-net-amount"}
+          Net amount
+        %span.form-input-denote
+          £
+        %input#prosecution-witnesses-net-amount.form-control.form-control-1-4.form-input-denote__input{:autocapitalize => "off", :autocorrect => "off", :max => "999999.99", :min => "0.00", :name => "prosecution_witnesses_net_amount", :spellcheck => "false", :step => "0.00", :type => "number", :value => ""}/
+.form-section
+  %h3#prosecution-evidence.heading-medium
+    Pages of prosecution evidence (
+    %abbr{:title => "pages of prosecution evidence"}> PPE
+    )
+  .form-group
+    %fieldset
+      .form-group
+        %label.form-label-bold{:for => "total-number-of-pages-of-prosecution-evidence"}
+          Total number of pages
+          %span.form-hint Please remove all cover sheets from the total count
+        %input#total-number-of-pages-of-prosecution-evidence.form-control.form-control-1-4{:autocapitalize => "off", :autocomplete => "off", :autocorrect => "off", :max => "999999", :min => "0", :name => "total_number_of_pages_of_prosecution_evidence", :spellcheck => "false", :step => "1", :type => "number", :value => ""}/
+      .form-group
+        %label.form-label-bold{:for => "prosecution-evidence-net-amount"}
+          Net amount
+        %span.form-input-denote
+          £
+        %input#prosecution-evidence-net-amount.form-control.form-control-1-4.form-input-denote__input{:autocapitalize => "off", :autocorrect => "off", :max => "999999.99", :min => "0.00", :name => "prosecution_evidence_net_amount", :spellcheck => "false", :step => "0.01", :type => "number", :value => ""}/

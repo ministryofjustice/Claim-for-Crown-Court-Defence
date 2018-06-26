@@ -103,7 +103,19 @@ done.  The CaseWorker allocation pages use the API to talk to the main applicati
 database directly.  In the dev environment, it accesses another server running on port 3001, which is why you
 need to start up the second server.
 
+## Testing
 
+To execute unit tests
+
+```
+bundle exec rspec
+```
+
+To execute cucumber test scenarios
+
+```
+bundle exec cucumber
+```
 
 ## Developing Cucumber tests
 

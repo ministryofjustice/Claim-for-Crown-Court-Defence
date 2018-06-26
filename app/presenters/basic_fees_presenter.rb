@@ -6,7 +6,7 @@ class BasicFeesPresenter < BasePresenter
   end
 
   def extra_fees
-    basic_fees.select { |b| ['NPW', 'PPE'].include? b.fee_type_code }
+    basic_fees.select { |b| %w[NPW PPE].include? b.fee_type_code }
   end
 
   def additional_fees

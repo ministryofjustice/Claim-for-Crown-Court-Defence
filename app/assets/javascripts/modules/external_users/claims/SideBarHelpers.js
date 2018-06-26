@@ -1,5 +1,5 @@
 /**
- * [SideBar description]
+ * SideBar factory to create fee block instances
  * @type {Object}
  */
 moj.Helpers.SideBar = {
@@ -90,10 +90,6 @@ moj.Helpers.SideBar = {
     };
 
     this.render = function() {
-      // For fee calculation
-      // this.$el.find('.total').html('&pound;' + moj.Helpers.SideBar.addCommas(this.totals.total.toFixed(2)));
-
-      // Updating the totals element
       this.$el.find('.total').val(this.totals.total.toFixed(2));
       this.$el.find('.total').data('total', this.totals.total);
     };
@@ -103,16 +99,12 @@ moj.Helpers.SideBar = {
   },
 
   /**
-   * [FeeBlockCalculator description]
+   * FeeBlockCalculator: constructor for calculated fees
    */
   FeeBlockCalculator: function() {
     var self = this;
     moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
 
-    /**
-     * [init description]
-     * @return {[type]} [description]
-     */
     this.init = function() {
       this.config.fn = 'FeeBlockCalculator';
       this.bindRender();
@@ -141,6 +133,9 @@ moj.Helpers.SideBar = {
 
     this.init();
   },
+  /**
+   * FeeBlockManualAmounts: constructor for uncalculated fees
+   */
   FeeBlockManualAmounts: function() {
     var self = this;
     moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
@@ -172,7 +167,11 @@ moj.Helpers.SideBar = {
 
     this.init();
   },
-
+  /**
+   * PhantomBlock: constructor for dealing with fees from
+   * other sections. Data is scraped from the DOM and block
+   * instances are created to deal with calculations
+   */
   PhantomBlock: function() {
     var self = this;
     // copy methods over

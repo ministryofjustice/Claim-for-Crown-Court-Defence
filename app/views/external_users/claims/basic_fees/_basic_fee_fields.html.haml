@@ -2,11 +2,11 @@
 -# Setting a namespaced locale pointer
 - locale_scope = "external_users.claims.basic_fees.basic_fee_fields_conditional.#{fee.fee_type_code.downcase}"
 -# Check box input
-.multiple-choice{"data-target" => to_slug(f.object.description)}
+.multiple-choice{"data-target" => to_slug(f.object.description), "class" => "fx-hook-#{fee.fee_type_code.downcase}"}
 
-  = f.check_box(:toggle, checked: !f.object.blank?, id: "#{to_slug(f.object.description)}_input", "aria-controls" => to_slug(f.object.description), :name => "graduated_fees_checklist_#{f.object.fee_type_code.downcase}")
+  = f.check_box(:toggle, checked: !f.object.blank?, id: "#{to_slug(f.object.description)}-input", "aria-controls" => to_slug(f.object.description), :name => "graduated_fees_checklist_#{f.object.fee_type_code.downcase}")
 
-  %label{:for => "#{to_slug(f.object.description)}_input"}
+  %label{:for => "#{to_slug(f.object.description)}-input"}
     = f.object.description
 
 -# Panel content

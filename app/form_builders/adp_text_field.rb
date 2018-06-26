@@ -73,13 +73,13 @@ class AdpTextField
     @input_disabled = options[:input_disabled] || false
     @errors = options[:errors] || @form.object.errors
     @input_classes = options[:input_classes] || ''
-    @input_type = options[:input_type] || 'text'
     @error_key = options[:error_key] || @anchor_id
     @value = (options[:value] || form.object.__send__(method)).to_s
     setup_input_type
   end
 
   def setup_input_type
+    @input_type = options[:input_type] || 'text'
     @input_is_number = false
     @input_is_currency = (@input_type == 'currency')
     @input_type_string = @input_type
@@ -183,9 +183,8 @@ class AdpTextField
       result += %(min="#{@input_min}" )
       result += %(max="#{@input_max}" )
     end
-    if @input_disabled
-      result += %(disabled )
-    end
+    result += %(disabled ) if @input_disabled
+
     result += %(/>)
     result
   end

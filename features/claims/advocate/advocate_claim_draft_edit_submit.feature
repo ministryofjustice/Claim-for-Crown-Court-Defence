@@ -34,7 +34,8 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     Then I click "Continue" in the claim form
 
     And I select an advocate category of 'Junior alone'
-    And I add a basic fee with dates attended
+    And I add a basic fee net amount
+
     And I add a daily attendance fee with dates attended
 
     Then I click "Continue" in the claim form

@@ -1079,6 +1079,14 @@ en:
         total: 'Total'
         no_fees: 'No fees for this claim'
         no_disbursements: 'No disbursements for this claim'
+    expenses:
+      distances:
+        create:
+          errors:
+            claim_not_found: Cannot calculate distance without a valid claim
+            invalid_claim_type: Cannot calculate distance for this type of claim
+            missing_origin: Supplier associated with the claim does not have a postcode
+            missing_destination: Destination not provided
     litigators:
       interim_claims:
         new:

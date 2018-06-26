@@ -124,6 +124,10 @@ Rails.application.routes.draw do
       post 'types',                 to: 'claim_types#chosen',     on: :collection
 
       resource :certification, only: [:new, :create, :update]
+
+      namespace :expenses do
+        post 'calculate_distance', to: 'distances#create', as: :calculate_distance
+      end
     end
 
     namespace :admin do

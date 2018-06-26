@@ -32,7 +32,7 @@ RSpec.describe HeartbeatController, type: :controller do
       end
 
       it 'returns "Not Available"' do
-        expect(JSON.parse(response.body).values).to eq( ["Not Available", "Not Available", "Not Available", "Not Available", 0])
+        expect(JSON.parse(response.body).values).to eq( ["Not Available", "Not Available", "Not Available", "Not Available"])
       end
     end
 
@@ -42,8 +42,7 @@ RSpec.describe HeartbeatController, type: :controller do
           'version_number'  => '123',
           'build_date'      => '20150721',
           'commit_id'       => 'afb12cb3',
-          'build_tag'       => 'test',
-          'num_claims'      => 0
+          'build_tag'       => 'test'
         }
       end
 
@@ -84,7 +83,7 @@ RSpec.describe HeartbeatController, type: :controller do
 
       let(:expected_response) do
         {
-          checks: { database: false, redis: false, sidekiq: false, sidekiq_queue: false }
+          checks: { database: false, redis: false, sidekiq: false, sidekiq_queue: false, num_claims: 0 }
         }.to_json
       end
 
@@ -109,7 +108,7 @@ RSpec.describe HeartbeatController, type: :controller do
 
       let(:expected_response) do
         {
-          checks: { database: true, redis: true, sidekiq: true, sidekiq_queue: true }
+          checks: { database: true, redis: true, sidekiq: true, sidekiq_queue: true, num_claims: 0 }
         }.to_json
       end
 

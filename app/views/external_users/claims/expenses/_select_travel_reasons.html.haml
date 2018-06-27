@@ -1,27 +1,26 @@
-.form-group.fx-travel-reason
-  %fieldset
-    %legend.form-label-bold
-      Travel reason
+%fieldset
+  %legend.form-label-bold
+    Travel reason
 
 
-    -# establishment
-    %input{:type => "hidden", :value => 'crown_court magistrates_court prison hospital' }/
+  -# establishment
+  %input{:type => "hidden", :value => 'crown_court magistrates_court prison hospital' }/
 
-    %select#travel-expense-1-reason.form-control.form-control-3-4.fx-select-travel-reason{:name => "travel_expense_1_reason"}
-      %option{:value => ""}
+  %select#travel-expense-1-reason.form-control.form-control-3-4.fx-select-travel-reason{:name => "travel_expense_1_reason"}
+    %option{:value => ""}
 
-      %option{:value => "1", "data-category": "crown_court", "data-reason-text": "false"} Court hearing (Crown court)
+    %option{:value => "1", "data-category": "crown_court", "data-reason-text": "false"} Court hearing (Crown court)
 
-      %option{:value => "1", "data-category": "magistrates_court", "data-reason-text": "false"} Court hearing (Magistrates' court)
+    %option{:value => "1", "data-category": "magistrates_court", "data-reason-text": "false"} Court hearing (Magistrates' court)
 
-      %option{:value => "2"} Pre-trial conference expert witnesses
+    %option{:value => "2"} Pre-trial conference expert witnesses
 
-      %option{:value => "3", "data-category": "prison", "data-reason-text": "false"} Pre-trial conference defendant (prison)
+    %option{:value => "3", "data-category": "prison", "data-reason-text": "false"} Pre-trial conference defendant (prison)
 
-      %option{:value => "3", "data-category": "hospital", "data-reason-text": "false"} Pre-trial conference defendant (hospital)
+    %option{:value => "3", "data-category": "hospital", "data-reason-text": "false"} Pre-trial conference defendant (hospital)
 
-      %option{:value => "3", "data-reason-text": "false"} Pre-trial conference defendant (other)
+    %option{:value => "3", "data-reason-text": "false"} Pre-trial conference defendant (other)
 
-      %option{:value => "4", "data-reason-text": "false"} View of crime scene
+    %option{:value => "4", "data-reason-text": "false"} View of crime scene
 
-      %option{:value => "5", "data-reason-text": "true"} Other
+    %option{:value => "5", "data-reason-text": "true"} Other

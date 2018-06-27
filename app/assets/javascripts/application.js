@@ -1,3 +1,4 @@
+/*global GOVUK*/
 //= require jquery
 //= require jquery_ujs
 //= require jquery.remotipart
@@ -74,8 +75,8 @@ if (!String.prototype.supplant) {
 
   // Where .multiple-choice uses the data-target attribute
   // to toggle hidden content
-  var showHideContent = new GOVUK.ShowHideContent()
-  showHideContent.init()
+  var showHideContent = new GOVUK.ShowHideContent();
+  showHideContent.init();
 
   /**
    * Cocoon call back to init features once they have been
@@ -89,7 +90,7 @@ if (!String.prototype.supplant) {
 
     moj.Modules.Autocomplete.typeaheadKickoff(insertedSelect);
     moj.Modules.Autocomplete.typeaheadBindEvents(typeaheadWrapper);
-    moj.Modules.FeeFieldsDisplay.addFeeChangeEvent(insertedItem)
+    moj.Modules.FeeFieldsDisplay.addFeeChangeEvent(insertedItem);
   });
 
 

@@ -1,0 +1,18 @@
+%fieldset
+  %legend.form-label-bold
+    Date of expense
+    %span.form-hint
+      For example, 31 3 2017
+  .form-date
+    .form-group.form-group-day
+      %label.form-label{:for => "travel-expense-date-1-day"}
+        Day
+      %input#travel-expense-date-1-day.form-control{ :max => "31", :min => "1", :name => "travel_expense_date_1_day", :pattern => "[0-9]*", :spellcheck => "false", :type => "number", :value => ""}/
+    .form-group.form-group-month
+      %label.form-label{:for => "travel-expense-date-1-month"}
+        Month
+      %input#travel-expense-date-1-month.form-control{ :max => "12", :min => "1", :name => "travel_expense_date_1_month", :pattern => "[0-9]*", :spellcheck => "false", :type => "number", :value => ""}/
+    .form-group.form-group-year
+      %label.form-label{:for => "travel-expense-date-1-year"}
+        Year
+      %input#travel-expense-date-1-year.form-control{ :max => "2019", :min => "1900", :name => "travel_expense_date_1_year", :pattern => "[0-9]*", :spellcheck => "false", :type => "number", :value => ""}/

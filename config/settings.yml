@@ -85,7 +85,7 @@ feature_flags_enabled?: true
 active_features:
   - :agfs_fee_reform
 
-reject_refuse_messaging_released_at: <%= DateTime.new(2018, 4, 24, 23, 05, 0).change(offset: '+100') %>
+reject_refuse_messaging_released_at: <%= DateTime.new(2018, 4, 24, 23, 05, 0).change(offset: '+1:00') %>
 
 # agfs_fee_reform_release_date: <%= Date.new(2018, 4, 1) %>
 agfs_fee_reform_release_date: <%= ENV["ENV"].in?(['api-sandbox', 'demo', 'development']) ? Date.new(2018, 1, 1) : Date.new(2018, 04, 1) %>

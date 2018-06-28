@@ -283,7 +283,7 @@ ActiveRecord::Schema.define(version: 20180718102824) do
     t.decimal  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.uuid     "uuid",            default: -> { "uuid_generate_v4()" }
+    t.uuid     "uuid",                default: -> { "uuid_generate_v4()" }
     t.integer  "reason_id"
     t.string   "reason_text"
     t.integer  "schema_version"
@@ -291,8 +291,9 @@ ActiveRecord::Schema.define(version: 20180718102824) do
     t.integer  "mileage_rate_id"
     t.date     "date"
     t.decimal  "hours"
-    t.decimal  "vat_amount",      default: "0.0"
+    t.decimal  "vat_amount",          default: "0.0"
     t.string   "location_type"
+    t.decimal  "calculated_distance"
     t.index ["claim_id"], name: "index_expenses_on_claim_id", using: :btree
     t.index ["expense_type_id"], name: "index_expenses_on_expense_type_id", using: :btree
   end

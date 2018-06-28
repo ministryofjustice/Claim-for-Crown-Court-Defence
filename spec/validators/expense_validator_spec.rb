@@ -365,12 +365,85 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       end
     end
 
-    context 'invalid' do
-      it 'is invalid when absent for car travel' do
-        car_travel_expense.distance = nil
-        expect(car_travel_expense).not_to be_valid
-        expect(car_travel_expense.errors[:distance]).to include('blank')
+      context 'invalid' do
+        it 'is invalid when absent for car travel' do
+          car_travel_expense.distance = nil
+          expect(car_travel_expense).not_to be_valid
+          expect(car_travel_expense.errors[:distance]).to include('blank')
+        end
       end
+    end
+    describe 'calculated distance' do
+      context 'when the expense is not car travel' do
+        subject(:expense) { hotel_accommodation_expense }
+
+        context 'and the calculated distance is not set' do
+          before do
+            expense.calculated_distance = nil
+          end
+
+          it 'is valid' do
+            expect(expense).to be_valid
+          end
+        end
+
+        context 'and the calculated distance is set' do
+          before do
+            expense.calculated_distance = 12345
+          end
+
+          it 'is valid' do
+            expect(expense).to be_valid
+          end
+        end
+      end
+
+      context 'when the expense is car travel' do
+        subject(:expense) { car_travel_expense }
+
+        context 'and the calculated distance is not set' do
+          before do
+            expense.calculated_distance = nil
+          end
+
+          it 'is valid' do
+            expect(expense).to be_valid
+          end
+        end
+
+        context 'and the calculated distance is set' do
+          let(:calculated_distance) { 123456 }
+
+          before do
+            expense.calculated_distance = calculated_distance
+          end
+
+          it { expect(expense).to be_valid }
+
+          context 'but is not a valid number' do
+            let(:calculated_distance) { 'this-is-not-a-valid-number' }
+
+            it 'is invalid' do
+              expect(expense).not_to be_valid
+              expect(expense.errors[:calculated_distance]).to include('numericality')
+            end
+          end
+
+          context 'but has a value set below the minumum acceptable' do
+            let(:calculated_distance) { 0.0001 }
+
+            it 'is invalid' do
+              expect(expense).not_to be_valid
+              expect(expense.errors[:calculated_distance]).to include('numericality')
+            end
+          end
+        end
+      end
+    end
+
+    describe 'validate_mileage_rate_id' do
+      context 'not car or bike travel' do
+        let(:expenses_to_test) { [parking_expense, travel_time_expense, hotel_accommodation_expense, train_expense, road_tolls_expense, cab_fares_expense, subsistence_expense] }
 
       it 'is invalid when zero for car travel' do
         car_travel_expense.distance = 0
@@ -471,15 +544,17 @@ RSpec.describe 'ExpenseValidator', type: :validator do
         end
       end
 
-      it 'is valid if the correct rate for bike travel' do
-        bike_travel_expense.mileage_rate_id = 3
-        expect(bike_travel_expense).to be_valid
-      end
+    context 'schema_version 1' do
+      let(:claim)   { build(:claim, force_validation: true) }
+      let(:expense) { build(:expense, claim: claim, expense_type: build(:expense_type)) }
 
-      it 'is invalid if absent' do
-        bike_travel_expense.mileage_rate_id = nil
-        expect(bike_travel_expense).not_to be_valid
-        expect(bike_travel_expense.errors[:mileage_rate_id]).to include('blank')
+      before(:each) { allow(Settings).to receive(:expense_schema_version).and_return(1) }
+
+        it 'is invalid if absent' do
+          bike_travel_expense.mileage_rate_id = nil
+          expect(bike_travel_expense).not_to be_valid
+          expect(bike_travel_expense.errors[:mileage_rate_id]).to include('blank')
+        end
       end
     end
   end

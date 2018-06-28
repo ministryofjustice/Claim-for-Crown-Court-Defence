@@ -37,7 +37,7 @@ module RakeHelpers
 
 
     def get_num_claims
-      JSON.parse(RestClient.get 'staging-adp.dsd.io/ping.json')['num_claims']
+      JSON.parse(RestClient.get 'staging-adp.dsd.io/healthcheck.json')['num_claims']
     end
 
   end

@@ -1,6 +1,6 @@
 class ExpenseValidator < BaseValidator
   def self.fields
-    %i[expense_type distance hours location location_type date
+    %i[expense_type distance calculated_distance hours location location_type date
        reason_id reason_text mileage_rate_id amount vat_amount]
   end
 
@@ -63,6 +63,11 @@ class ExpenseValidator < BaseValidator
     else
       validate_absence(:distance, 'invalid')
     end
+  end
+
+  def validate_calculated_distance
+    return unless @record.car_travel? && @record.calculated_distance.present?
+    validate_presence_and_numericality(:calculated_distance, minimum: 0.1)
   end
 
   def validate_mileage_rate_id

@@ -401,6 +401,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :reason_id,
         :reason_text,
         :distance,
+        :calculated_distance,
         :mileage_rate_id,
         :hours,
         date_attributes_for(:date),

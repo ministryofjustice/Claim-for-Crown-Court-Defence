@@ -1,96 +1,3 @@
-.form{:autocomplete => "off", :method => "post"}
-  .form-section-compound{"data-item-number" => "1"}
-    %input#origin_postcode{ :name => "origin", :spellcheck => "false", :type => "hidden", :value => "B4 6QB"}/
-    %h3.heading-medium
-      Expense 1
-      %a.link-remove{:href => "#noop"}
-        Remove
-        %span.visually-hidden  this expense
-    .grid-row
-      .column-half
-        -# SELECT: Expense types
-        .form-group
-          = render 'external_users/claims/expenses/select_expense_types'
-
-      .column-half
-        -# SELECT: Travel reasons
-        .form-group.fx-travel-reason
-          = render 'external_users/claims/expenses/select_travel_reasons'
-
-        -# INPUT: Other travel reason input
-        .form-group.fx-travel-reason-other.js-hidden
-          = render 'external_users/claims/expenses/other_travel_reason_input'
-
-    .grid-row
-      .column-half
-        -# DYNAMIC: Render the correct element based on config
-        .form-group.fx-toggle-select{:style => "display: block;"}
-          = render "external_users/claims/expenses/dynamic_control_area"
-
-        -# -# SELECT: Crown courts
-        -# = render 'external_users/claims/expenses/select_crown_courts'
-
-        -# -# SELECT: Prisons
-        -# = render 'external_users/claims/expenses/select_prisons'
-
-        -# -# SELECT: Secure hospitals
-        -# = render 'external_users/claims/expenses/select_secure_hospitals'
-
-        -# INPUT: Location
-        .form-group.fx-travel-location.js-hidden
-          = render "external_users/claims/expenses/location_input"
-
-      .column-half
-        -# INPUT: Travel hours
-        .form-group.fx-travel-hours.js-hidden
-          = render "external_users/claims/expenses/travel_hours_input"
-
-        -# INPUT: Travel Distance
-        .form-group-compound.fx-travel-distance
-          = render "external_users/claims/expenses/travel_distance_input"
-
-        -# DETAILS: Distance calculation
-        .form-group.fx-travel-distance
-          = render "external_users/claims/expenses/distance_help_summary"
-
-    .grid-row
-      .column-half
-        -# RADIOS: Cost per mile
-        .form-group.fx-travel-cost
-          = render "external_users/claims/expenses/cost_per_mile_radios"
-
-
-    .grid-row
-      .column-half
-        -# DATES: Expense date
-        .form-group.fx-travel-date
-          = render "external_users/claims/expenses/expense_date"
-
-    .grid-row
-      .column-half
-        -# INPUT: Net amount
-        .form-group.fx-travel-net-amount
-          = render "external_users/claims/expenses/net_amount_input"
-
-      .column-half
-        -# INPUT: VAT amount
-        .form-group.fx-travel-vat-amount
-          = render "external_users/claims/expenses/vat_amount_input"
-
-      .column-half
-        -# INPUT: Expense total
-        .form-group.fx-travel-gross-amount
-          = render "external_users/claims/expenses/expense_total_input"
-
-    .grid-row
-      .column-full
-        -# TEXTAREA: Additional information
-        .form-group.fx-additional-info
-          = render "external_users/claims/expenses/additional_info_textarea"
-
-
-%hr/
-
 #expenses.mod-expenses.fx-numberedList-wrapper
   = render partial: 'external_users/claims/expenses/expense_reasons', :formats => [:js]
 
@@ -101,6 +8,7 @@
     %p.form-hint
       = t('.expenses_prompt_text')
 
+
     = f.fields_for :expenses do |expense|
       = render 'external_users/claims/expenses/expense_fields', f: expense
 
@@ -108,3 +16,9 @@
 
   %a.fx-duplicate-expense{:href => ""}
     = "Duplicate last expense"
+
+  .grid-row
+    .column-full
+      -# TEXTAREA: Additional information
+      .form-group.fx-additional-info
+        = render "external_users/claims/expenses/textarea_additional_info"

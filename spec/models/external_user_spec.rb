@@ -58,7 +58,6 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'when Provider present and Provider is a "firm"' do
-      # let!(:provider) { create(:provider, provider_type: 'firm', firm_agfs_supplier_number: 'ZZ123') }
       let!(:provider) { create(:provider, :agfs_lgfs, firm_agfs_supplier_number: 'ZZ123') }
 
       before do
@@ -422,9 +421,10 @@ RSpec.describe ExternalUser, type: :model do
       end
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
+        expect(ExternalUser.find(@live_user_1.id)).to eq(@live_user_1)
         expect{
           ExternalUser.softly_deleted.find(@live_user_1.id)
-        }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find ExternalUser with 'id'=#{@live_user_1.id} [WHERE ("external_users"."deleted_at" IS NOT NULL)]}
+        }.to raise_error ActiveRecord::RecordNotFound, /Couldn't find ExternalUser with 'id'=#{@live_user_1.id}/
       end
 
       it 'returns an empty array if the selection criteria only reference live records' do
@@ -491,7 +491,6 @@ RSpec.describe ExternalUser, type: :model do
 
   context 'email notification of messages preferences' do
     context 'settings on user record are nil' do
-
       let(:eu)  { build :external_user }
 
       it 'has an underlying user setting of nil' do
@@ -561,7 +560,6 @@ RSpec.describe ExternalUser, type: :model do
     end
   end
 end
-
 
 def create_admin(provider, first_name, last_name)
   create :external_user, :admin, provider: provider, user: create(:user, first_name: first_name, last_name: last_name)

@@ -155,7 +155,6 @@ moj.Helpers.SideBar = {
 
     this.init();
   },
-
   PhantomBlock: function() {
     var self = this;
     // copy methods over
@@ -173,19 +172,102 @@ moj.Helpers.SideBar = {
     };
 
     this.reload = function() {
-      this.totals.total =  (parseFloat(this.$el.data('seed')) || 0);
+      this.totals.total = (parseFloat(this.$el.data('seed')) || 0);
       this.totals.typeTotal = this.totals.total;
 
-      if(this.config.autoVAT){
+      if (this.config.autoVAT) {
         this.totals.vat = this.totals.total * 0.2;
-      } else{
+      } else {
         this.totals.vat = (parseFloat(this.$el.data('seed-vat')) || 0)
       }
       return this;
     };
 
-    this.init = function(){
+    this.init = function() {
       this.reload();
+    }
+
+    this.init();
+  },
+
+  ExpenseBlock: function() {
+    var self = this;
+    moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
+
+    this.stateLookup = {
+      "vatAmount": ".fx-travel-vat-amount",
+      "reason": ".fx-expense-reason",
+      "netAmount": ".fx-travel-net-amount",
+      "location": ".fx-travel-location",
+      "hours": ".fx-travel-hours",
+      "distance": ".fx-travel-distance",
+      "destination": ".fx-travel-destination",
+      "date": ".fx-travel-date",
+      "cost": ".fx-travel-cost",
+      "grossAmount": ".fx-travel-gross-amount"
+    }
+
+    this.defaultstate = {
+      "grossAmount": false,
+      "vatAmount": false,
+      "reason": false,
+      "netAmount": false,
+      "mileage": false,
+      "location": false,
+      "hours": false,
+      "distance": false,
+      "destination": false,
+      "date": false,
+      "cost": false,
+      "additionalInfo": false
+    }
+
+    this.init = function() {
+      this.config.fn = 'ExpenseBlock';
+      this.bindEvents();
+      this.reload();
+    };
+
+    this.bindEvents = function() {
+      this.bindRender();
+      this.bindListners();
+    };
+
+    this.bindListners = function() {
+      var self = this;
+
+      /**
+       * Listen for the `expense type` change event and
+       * pass the event object to the statemanager
+      */
+      this.$el.on('change', '.fx-travel-expense-type select', function(e) {
+        self.statemanager(e);
+      });
+      return this;
+    };
+
+
+    this.bindRender = function() {
+
+    };
+
+    /**
+     * statemanager: Controlling the visiblilty of form elements
+     * @param  {object} e jQuery event object
+     * @return this
+     */
+    this.statemanager = function(e) {
+      var self = this;
+      var $el = $(e.target);
+      var state = {
+        config: $.extend({}, this.defaultstate, $el.find('option:selected').data()),
+        value: $el.val()
+      };
+
+      $.each(state.config, function(key, val) {
+        self.$el.find(self.stateLookup[key]).toggle(val)
+      });
+      return this;
     }
 
     this.init();

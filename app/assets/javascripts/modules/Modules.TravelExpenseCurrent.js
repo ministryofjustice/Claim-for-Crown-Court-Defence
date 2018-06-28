@@ -1,7 +1,7 @@
 moj.Modules.TravelExpenseCurrent = {
   $expenses: $('#expenses'),
 
-  init: function() {
+  _init: function() {
     var self = this;
     self.attachEventsForExpenseTypes();
     self.attachToExpenseReason();
@@ -10,14 +10,15 @@ moj.Modules.TravelExpenseCurrent = {
     self.setNumberOfExpenses();
 
     //Show/hide expense elements on page load
-    self.$expenses.find('select.js-expense-type').each(function() {
+    self.$expenses.find('.fx-travel-expense-type select').each(function() {
       self.showHideExpenseFields(this);
     });
   },
 
   attachEventsForExpenseTypes: function() {
+    // console.log('attachEventsForExpenseTypes');
     var self = this;
-    this.$expenses.on('change', 'select.js-expense-type', function() {
+    this.$expenses.on('change', '.fx-travel-expense-type select', function() {
       self.showHideExpenseFields(this);
     });
   },
@@ -25,12 +26,13 @@ moj.Modules.TravelExpenseCurrent = {
   attachToExpenseReason: function() {
     var self = this;
 
-    self.$expenses.on('change', '.js-expense-reason select', function() {
+    self.$expenses.on('change', '.fx-expense-reason select', function() {
       self.showHideExpenseReasonsText(this);
     });
   },
 
   setNumberOfExpenses: function() {
+    // console.log('setNumberOfExpenses');
     var self = this;
 
     self.$expenses.on('cocoon:after-insert cocoon:after-remove', function(e, insertedItem) {
@@ -45,7 +47,7 @@ moj.Modules.TravelExpenseCurrent = {
 
       //if inserting show/hide the new expense fields and set focus
       if (e.type === 'cocoon:after-insert') {
-        self.showHideExpenseFields($(insertedItem).find('.js-expense-type'));
+        self.showHideExpenseFields($(insertedItem).find('.fx-travel-expense-type'));
 
         $(insertedItem).find('input:first').focus();
       }
@@ -53,6 +55,7 @@ moj.Modules.TravelExpenseCurrent = {
   },
 
   showHideExpenseFields: function(elem) {
+    // console.log('showExpenseFields', /*[elem]*/);
     var self = this;
 
     self.getCurrentExpenseSection(elem);
@@ -78,36 +81,39 @@ moj.Modules.TravelExpenseCurrent = {
   },
 
   showHideExpenseReasonsText: function(elem) {
+    // console.log('showHideExpenseReasonsText', /*[elem]*/);
     var $reason = $(elem);
     var $currentExpense = $reason.closest('.expense-group');
     var visible = $reason.find('option:selected').data('reason-text');
 
     if (!visible) {
-      $currentExpense.find('.js-expense-reason-text input').val('');
+      $currentExpense.find('.fx-expense-reason-text input').val('');
     }
-    $currentExpense.find('.js-expense-reason-text').toggle(visible);
+    $currentExpense.find('.fx-expense-reason-text').toggle(visible);
 
   },
 
   getCurrentExpenseSection: function(elem) {
+    // console.log('getCurrentExpenseSection', [elem]);
     this.$element = $(elem);
     this.$currentExpense = this.$element.closest('.expense-group');
     this.dataAttribute = this.$element.find('option:selected').data();
     this.$location = this.$currentExpense.find('.js-expense-location');
     this.$distance = this.$currentExpense.find('.js-expense-distance');
     this.$mileage = this.$currentExpense.find('.js-expense-mileage');
-    this.$mileage_car = this.$currentExpense.find('.js-expense-type-car');
-    this.$mileage_bike = this.$currentExpense.find('.js-expense-type-bike');
+    this.$mileage_car = this.$currentExpense.find('.fx-travel-expense-type-car');
+    this.$mileage_bike = this.$currentExpense.find('.fx-travel-expense-type-bike');
     this.$hours = this.$currentExpense.find('.js-expense-hours');
-    this.$reason = this.$currentExpense.find('.js-expense-reason');
+    this.$reason = this.$currentExpense.find('.fx-expense-reason');
     this.$amount = this.$currentExpense.find('.js-expense-amount');
     this.$vat_amount = this.$currentExpense.find('.js-expense-vat-amount');
-    this.$reasonText = this.$currentExpense.find('.js-expense-reason-text');
+    this.$reasonText = this.$currentExpense.find('.fx-expense-reason-text');
     this.$date = this.$currentExpense.find('.js-expense-date');
     this.$ariaLiveRegion = this.$element.next();
   },
 
   showExpenseFields: function(elem) {
+    // console.log('showExpenseFields', /*[elem]*/);
     var self = this;
 
     self.$date.show();
@@ -143,6 +149,7 @@ moj.Modules.TravelExpenseCurrent = {
   },
 
   buildReasonSelectOptions: function(expenseType) {
+    // console.log('buildReasonSelectOptions', expenseType);
     var newReason = [];
     var expenseReason = {};
     var self = this;
@@ -168,6 +175,7 @@ moj.Modules.TravelExpenseCurrent = {
   },
 
   toggleMileageRateFields: function() {
+    // console.log('toggleMileageRateFields');
     var self = this;
     // toggle between bike / car mileage
     if (self.dataAttribute.mileageType === 'bike') {
@@ -180,9 +188,10 @@ moj.Modules.TravelExpenseCurrent = {
       $(self.$mileage_bike).find('input').prop('disabled', true).prop('checked', false);;
     }
   },
-  clearUnusedFields: function(expenseGroup) {
-    expenseGroup.find('input:hidden').not('input[type="hidden"]').not('input[type="radio"]').val('');
-    expenseGroup.find('select:hidden').not('select[type="hidden"]').val('');
-    expenseGroup.find('input:hidden[type="radio"]').prop("checked", false);
+  clearUnusedFields: function(elem) {
+    // console.log('clearUnusedFields' /*, elem*/);
+    elem.find('input:hidden').not('input[type="hidden"]').not('input[type="radio"]').val('');
+    elem.find('select:hidden').not('select[type="hidden"]').val('');
+    elem.find('input:hidden[type="radio"]').prop("checked", false);
   }
 }

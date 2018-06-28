@@ -8,13 +8,13 @@
       Expense
       %span.fx-numberedList-number
       %span.fx-remove-link
-        = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' }
+        = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group', class: 'header-action' }
       %span.visually-hidden  this expense
 
     .grid-row
       .column-half
         -# SELECT: Expense types
-        .form-group
+        .form-group.fx-travel-expense-type
           = render 'external_users/claims/expenses/select_expense_types'
 
       .column-half
@@ -30,7 +30,7 @@
       .column-half
         -# DYNAMIC: Render the correct element based on config
         .form-group.fx-toggle-select{:style => "display: none;"}
-          = render "external_users/claims/expenses/dynamic_control_area"
+          = render 'external_users/claims/expenses/dynamic_control_area'
 
         -# -# SELECT: Crown courts
         .form-group.fx-crown-courts{:style => "display: none;"}
@@ -46,155 +46,50 @@
 
         -# INPUT: Location
         .form-group.fx-travel-location{:style => "display: none;"}
-          = render "external_users/claims/expenses/input_location"
+          = render 'external_users/claims/expenses/input_location'
 
         -# INPUT: Destination
         .form-group.fx-travel-destination{:style => "display: none;"}
-          = render "external_users/claims/expenses/input_destination"
+          = render 'external_users/claims/expenses/input_destination'
 
       .column-half
         -# INPUT: Travel hours
         .form-group.fx-travel-hours{:style => "display: none;"}
-          = render "external_users/claims/expenses/input_travel_hours"
+          = render 'external_users/claims/expenses/input_travel_hours'
 
         -# INPUT: Travel Distance
-        .form-group-compound.fx-travel-distance
-          = render "external_users/claims/expenses/input_travel_distance"
+        .form-group-compound.fx-travel-distance{:style => "display: none;"}
+          = render 'external_users/claims/expenses/input_travel_distance'
 
         -# DETAILS: Distance calculation
-        .form-group.fx-travel-distance
-          = render "external_users/claims/expenses/summary_distance_help"
+        .form-group.fx-travel-distance{:style => "display: none;"}
+          = render 'external_users/claims/expenses/summary_distance_help'
 
     .grid-row
       .column-half
         -# RADIOS: Cost per mile
-        .form-group.fx-travel-cost
-          = render "external_users/claims/expenses/radio_cost_per_mile"
+        .form-group.fx-travel-cost{:style => "display: none;"}
+          = render 'external_users/claims/expenses/radio_cost_per_mile'
 
-
-    .grid-row
       .column-half
         -# DATES: Expense date
-        .form-group.fx-travel-date
-          = render "external_users/claims/expenses/date_govuk_date"
+        .form-group.fx-travel-date{:style => "display: none;"}
+          = render 'external_users/claims/expenses/date_govuk_date'
 
     .grid-row
       .column-half
         -# INPUT: Net amount
-        .form-group.fx-travel-net-amount
-          = render "external_users/claims/expenses/input_net_amount"
+        .form-group.fx-travel-net-amount{:style => "display: none;"}
+          = render 'external_users/claims/expenses/input_net_amount'
 
       .column-half
         -# INPUT: VAT amount
-        .form-group.fx-travel-vat-amount
-          = render "external_users/claims/expenses/input_vat_amount"
+        .form-group.fx-travel-vat-amount{:style => "display: none;"}
+          = render 'external_users/claims/expenses/input_vat_amount'
 
       .column-half
         -# INPUT: Expense total
-        .form-group.fx-travel-gross-amount
-          = render "external_users/claims/expenses/input_expense_total"
+        .form-group.fx-travel-gross-amount{:style => "display: none;"}
+          = render 'external_users/claims/expenses/input_expense_total'
 
-
-    %hr/
-    %fieldset
-      %legend
-        = "Expense"
-        %span.fx-numberedList-number
-        %span.fx-remove-link
-          = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' }
-
-      .grid-row
-        .column-one-third{class: error_class?(@error_presenter, "expense_#{@expense_count}_expense_type")}
-
-          %a{id: "expense_#{@expense_count}_expense_type"}
-          = f.label :expense_type_id, 'Expense type'
-          - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
-          = f.select :expense_type_id, expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}, {include_blank: 'Please select'}, {class: 'form-control js-expense-type'}
-          %span{role: 'status', aria: {live: 'assertive', relevant: 'additions' }, class:'visually-hidden'}
-          = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
-
-        .column-one-third{class: "js-expense-location"}
-          = f.adp_text_field :location,
-                              label: t('.destination'),
-                              errors: @error_presenter
-
-        .column-one-third.condensed{class: "js-expense-distance expense-distance"}
-          = f.adp_text_field :distance,
-                              label: t('.distance'),
-                              input_type: 'number',
-                              value: number_with_precision(f.object.distance, precision: 2),
-                              errors: @error_presenter
-
-        .column-one-third.condensed{class: "js-expense-hours expense-hours"}
-          = f.adp_text_field :hours,
-                              label: t('.hours'),
-                              input_classes:'short-input',
-                              input_type: 'number',
-                              errors: @error_presenter
-
-      .grid-row
-        .column-one-third{class: "js-expense-date expense_#{@expense_count}_date"}
-          = f.gov_uk_date_field :date,
-                                  legend_text: 'Date of expenses',
-                                  legend_class: 'govuk-legend',
-                                  id: "expense_#{@expense_count}_date",
-                                  error_messages: gov_uk_date_field_error_messages(@error_presenter, "expense_#{@expense_count}_date")
-
-        .column-one-third.js-expense-reason.fx-expense-reason{class: error_class?(@error_presenter, "expense_#{@expense_count}_reason_id")}
-          %a{id: "expense_#{@expense_count}_reason_id"}
-          = f.label :reason_id, 'Reason for travel'
-          -# (hardcoded for now, dependent on chosen Expense Type):
-          = f.collection_select :reason_id, ExpenseType::REASON_SET_A.values, :id, :reason, {prompt: true}, { disabled: false , class: 'form-control'}
-          = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
-
-          - present(f.object) do |expense|
-            %div{class: "js-expense-reason-text fx-expense-reason-text", style: "display: #{expense.display_reason_text_css}" }
-              %a{id: "expense_#{@expense_count}_reason_text"}
-              = f.label :reason_text, 'Reason text'
-              -#  (only will show when selected Reason is Other):
-              = f.text_field :reason_text, {class: 'form-control'}
-              = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")
-
-        .column-one-third.condensed{class: "js-expense-amount fee-total"}
-          = f.adp_text_field :amount,
-                              label: t('.total'),
-                              input_classes:'total',
-                              input_type: 'currency',
-                              errors: @error_presenter,
-                              value: number_with_precision(f.object.amount, precision: 2)
-
-      .grid-row
-        .column-two-thirds{style: "width: 80%"}
-          &nbsp;
-          .js-expense-mileage.expense-cost{class: error_class?(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")}
-            %a{id: "expense_#{@expense_count}_mileage_rate_id"}
-            %fieldset{class: "inline"}
-              %legend
-                ='Cost'
-              %div.js-expense-type-car
-                = f.hidden_field :mileage_rate_id, value: ''
-                = f.collection_radio_buttons(:mileage_rate_id, Expense::CAR_MILEAGE_RATES.values, :id, :description) do |b|
-                  .multiple-choice
-                    = b.radio_button
-                    = b.label { b.object.description }
-                = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
-
-              %div.js-expense-type-bike
-                = f.collection_radio_buttons(:mileage_rate_id, Expense::BIKE_MILEAGE_RATES.values, :id, :description) do |b|
-                  .multiple-choice
-                    = b.radio_button
-                    = b.label { b.object.description }
-                = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
-
-
-
-        .column-one-third.condensed
-          - if @claim.lgfs?
-            .js-expense-vat-amount
-              = f.adp_text_field :vat_amount,
-                            label: t('.vat'),
-                            input_classes:'vat',
-                            input_type: 'currency',
-                            errors: @error_presenter,
-                            value: number_with_precision(f.object.vat_amount, precision: 2)
-
+  %hr/

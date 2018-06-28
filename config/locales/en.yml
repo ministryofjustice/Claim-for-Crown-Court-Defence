@@ -738,7 +738,7 @@ en:
       expenses:
         expense_fields:
           add_date_attended: 'Add dates'
-          remove: Remove expense <span class="js-expense-remove-count"></span>
+          remove: Remove
           vat: VAT
           destination: Destination
           distance: Distance

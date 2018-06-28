@@ -1,24 +1,25 @@
 #expenses.mod-expenses.fx-numberedList-wrapper
-  = render partial: 'external_users/claims/expenses/expense_reasons', :formats => [:js]
+  .form-section
+    = render partial: 'external_users/claims/expenses/expense_reasons', :formats => [:js]
 
-  .js-cocoon-expenses
-    %h2.bold-medium
-      = t('.expenses')
+    .js-cocoon-expenses
+      %h2.bold-medium
+        = t('.expenses')
 
-    %p.form-hint
-      = t('.expenses_prompt_text')
+      %p.form-hint
+        = t('.expenses_prompt_text')
 
 
-    = f.fields_for :expenses do |expense|
-      = render 'external_users/claims/expenses/expense_fields', f: expense
+      = f.fields_for :expenses do |expense|
+        = render 'external_users/claims/expenses/expense_fields', f: expense
 
-  = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', class:'button button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'div'}
+  .form-section
+    = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', class: 'button button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-node' => '.js-cocoon-expenses'}
 
-  %a.fx-duplicate-expense{:href => ""}
-    = "Duplicate last expense"
+    %a.fx-duplicate-expense.button.button-tertiary
+      = "Duplicate last expense"
 
-  .grid-row
-    .column-full
-      -# TEXTAREA: Additional information
-      .form-group.fx-additional-info
-        = render "external_users/claims/expenses/textarea_additional_info"
+  .form-section
+  -# TEXTAREA: Additional information
+    .form-group.fx-additional-info
+      = render "external_users/claims/expenses/textarea_additional_info"

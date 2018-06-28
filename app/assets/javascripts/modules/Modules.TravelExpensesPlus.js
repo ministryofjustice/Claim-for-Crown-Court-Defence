@@ -3,22 +3,22 @@ moj.Modules.TravelExpensesPlus = {
   input: '.fx-toggle-input',
   select: '.fx-toggle-select',
   init: function() {
-    var self = this;
-    this.$el = $(this.el);
-    this.$input = $(this.input);
-    this.$select = $(this.select);
+    // var self = this;
+    // this.$el = $(this.el);
+    // this.$input = $(this.input);
+    // this.$select = $(this.select);
 
 
-    $.subscribe('/API/expenses/loaded/', function() {
-      self.bindEvents();
-    });
+    // $.subscribe('/API/expenses/loaded/', function() {
+    //   self.bindEvents();
+    // });
   },
   bindEvents: function() {
     var self = this;
     this.$el.on('change', '.fx-select-travel-reason', function(e) {
       var $el = $(e.target);
-      console.log($el.find(':selected').data());
-      console.log('Render the correct element based on settings passed as data');
+      // console.log($el.find(':selected').data());
+      // console.log('Render the correct element based on settings passed as data');
       self.buildElement($el.find(':selected').data('category'));
     });
   },

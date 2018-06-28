@@ -15,11 +15,11 @@ class ClaimShowPage < SitePrism::Page
   element :rejected, "label[for='claim_state_rejected']"
 
   section :rejection_reasons, 'div.js-cw-claim-rejection-reasons' do
-    element :first_reason, 'label[for="_state_reason_no_indictment"]'
+    element :first_reason, 'label[for="state_reason_no_indictment"]'
   end
 
   section :refusal_reasons, 'div.js-cw-claim-refuse-reasons' do
-    element :first_reason, 'label[for="_state_reason_duplicate_claim"]'
+    element :first_reason, 'label[for="state_reason_duplicate_claim"]'
   end
 
   section :messages_panel, "#claim-accordion .messages-container" do

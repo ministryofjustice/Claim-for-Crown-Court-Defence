@@ -10,8 +10,7 @@ class HeartbeatController < ApplicationController
       'version_number'  => ENV['VERSION_NUMBER'] || 'Not Available',
       'build_date'      => ENV['BUILD_DATE'] || 'Not Available',
       'commit_id'       => ENV['COMMIT_ID'] || 'Not Available',
-      'build_tag'       => ENV['BUILD_TAG'] || 'Not Available',
-      'num_claims'      => Claim::BaseClaim.count
+      'build_tag'       => ENV['BUILD_TAG'] || 'Not Available'
     }.to_json
 
     render json: json
@@ -22,13 +21,12 @@ class HeartbeatController < ApplicationController
       database: database_alive?,
       redis: redis_alive?,
       sidekiq: sidekiq_alive?,
-      sidekiq_queue: sidekiq_queue_healthy?
+      sidekiq_queue: sidekiq_queue_healthy?,
+      num_claims: Claim::BaseClaim.count
     }
 
     status = :bad_gateway unless checks.values.all?
-    render status: status, json: {
-      checks: checks
-    }
+    render status: status, json: { checks: checks }
   end
 
   private

@@ -98,7 +98,7 @@ module ApplicationHelper
   end
 
   def dom_id(record, prefix = nil)
-    result = ActionView::RecordIdentifier.dom_id(record, prefix)
+    result = ActionView::RecordIdentifier.dom_id(record, prefix).dup
     if record.is_a?(Claim::BaseClaim) || record.is_a?(Claim::BaseClaimPresenter)
       result.sub!(/claim_((base)|(advocate)|(litigator))_claim/, 'claim')
     end

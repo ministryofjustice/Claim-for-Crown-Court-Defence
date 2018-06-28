@@ -5,7 +5,8 @@ FactoryBot.define do
       Timecop.freeze(Time.new(2016, 3, 10, 11, 44, 55).utc)
     end
 
-    after(:create) do
+    after(:create) do |claim, _evaluator|
+      create_list(:message, 1, :with_attachment, body: 'This is the message body.', claim: claim, sender: claim.external_user.user)
       Timecop.return
     end
 
@@ -82,10 +83,6 @@ FactoryBot.define do
 
     documents do
       build_list(:document, 1, :verified)
-    end
-
-    messages do
-      build_list(:message, 1, :with_attachment, body: 'This is the message body.', sender: external_user.user)
     end
 
     redeterminations do

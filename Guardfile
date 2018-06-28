@@ -25,6 +25,8 @@ guard :rubocop, all_on_start: false do
   watch(%r{(?:.+/)?\.(rubocop|rubocop_todo)\.yml$}) { |m| File.dirname(m[0]) }
 end
 
-guard :cucumber, all_on_start: false do
-  watch(%r{features/.+\.feature})
-end
+# NOTE Current guard-cucumber version does not support the most recent cucumber
+# version (> 3.X)
+# guard :cucumber, all_on_start: false do
+#   watch(%r{features/.+\.feature})
+# end

@@ -87,7 +87,7 @@ email_notification_enabled?: true
 feature_flags_enabled?: true
 active_features: []
 
-reject_refuse_messaging_released_at: <%= DateTime.new(2018, 4, 24, 23, 05, 0).change(offset: '+100') %>
+reject_refuse_messaging_released_at: <%= DateTime.new(2018, 4, 24, 23, 05, 0).change(offset: '+1:00') %>
 
 agfs_fee_reform_release_date: <%= Date.new(2018, 4, 1) %>
 agfs_scheme_11_release_date: <%= Date.new(2018, 12, 31) %>

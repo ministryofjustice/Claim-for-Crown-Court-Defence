@@ -1,0 +1,34 @@
+%h3.heading-medium
+  = t(".header_#{vat ? 'with_vat' : 'without_vat'}")
+%table.figures{class: (current_user.case_worker? ? 'expenses-data-table' : nil)}
+  %caption.visually-hidden
+    = t('.caption')
+  %thead
+    %tr
+      %th.col-type{scope: 'col'}
+        = t('.expense_type')
+      %th.col-reason{scope: 'col'}
+        = t('.reason')
+      %th.col-details{scope: 'col'}
+        = t('.details')
+      %th.col-date{scope: 'col'}
+        = t('.date')
+      %th.col-net.numeric{scope: 'col'}
+        = t('.net_amount')
+      %th.col-vat.numeric{scope: 'col'}
+        = vat ? t('.vat') : '-'
+
+  %tbody
+    - expenses = vat ? claim.expenses.with_vat : claim.expenses.without_vat
+    - present_collection(expenses).each do |expense|
+      = render template: 'shared/summary/expenses/show', locals: { claim: claim, expense: expense }
+
+  %tfoot
+    %tr.totals
+      %td{colspan: 4}
+        = succeed ':' do
+          = t(".totals_#{vat ? 'with_vat' : 'without_vat'}")
+      %td.numeric
+        = vat ? claim.expenses_with_vat_net : claim.expenses_without_vat_net
+      %td.numeric
+        = vat ? claim.expenses_vat : ''

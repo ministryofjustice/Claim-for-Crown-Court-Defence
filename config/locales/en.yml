@@ -1117,7 +1117,25 @@ en:
       mileage_rate: Cost per mile
       expense: Expense
       expenses:
-        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+        caption: &expenses_caption 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+        index:
+          caption: *expenses_caption
+          date: Date of expense
+          details: Details
+          expense_type: Type of expense
+          gross_amount: Gross amount
+          header_with_vat: Expenses with VAT
+          header_without_vat: Expenses without VAT
+          net_amount: Net amount
+          reason: Reason for travel
+          totals_with_vat: Expenses with VAT total
+          totals_without_vat: Expenses without VAT total
+          vat: VAT amount
+        show:
+          cost: Cost
+          destination: Destination
+          distance: Distance
+          hours: Hours
       fee: Fee
       fees:
         caption: 'Fees: A detailed list by Category and Type including amounts'

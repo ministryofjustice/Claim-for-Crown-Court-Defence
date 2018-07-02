@@ -85,6 +85,14 @@ class User < ApplicationRecord
   end
   alias save_setting! save_settings!
 
+  def case_worker?
+    persona.is_a?(CaseWorker)
+  end
+
+  def external_user?
+    persona.is_a?(ExternalUser)
+  end
+
   # So we are able to return useful error messages to the user related to the locking of the account,
   # without having to disable Devise paranoid mode globally (security issues).
   #

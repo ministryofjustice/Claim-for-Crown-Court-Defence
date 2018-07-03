@@ -28,12 +28,16 @@ moj.Helpers.SideBar = {
     };
 
     this.getVal = function(selector) {
-      return parseFloat(this.$el.find(selector).val()) || 0;
+      return parseFloat(this.$el.find(selector + ':visible').val()) || 0;
     };
 
     this.getDataVal = function(selector) {
       return parseFloat(this.$el.find('.' + selector).data('total')) || false;
     };
+
+    this.getMultipliedVal = function(val1, val2){
+      return parseFloat((this.getVal(val1) * this.getVal(val2)).toFixed(2));
+    }
   },
   FeeBlock: function() {
     var self = this;
@@ -87,6 +91,7 @@ moj.Helpers.SideBar = {
     };
 
     this.render = function() {
+      // TODO: Can this be removed? Investigate across block types.
       this.$el.find('.total').html('&pound;' + moj.Helpers.SideBar.addCommas(this.totals.total.toFixed(2)));
       this.$el.find('.total').data('total', this.totals.total);
     };
@@ -110,7 +115,7 @@ moj.Helpers.SideBar = {
         quantity: this.getVal('.quantity'),
         rate: this.getVal('.rate'),
         amount: this.getVal('.amount'),
-        total: parseFloat((this.getVal('.quantity') * this.getVal('.rate')).toFixed(2)),
+        total: this.getMultipliedVal('.quantity', '.rate'),
         vat: this.getVal('.vat')
       };
 
@@ -252,6 +257,7 @@ moj.Helpers.SideBar = {
        */
       this.$el.on('change', '.fx-travel-expense-type select', function(e) {
         self.statemanager(e);
+        self.$el.trigger('recalculate');
       });
       return this;
     };
@@ -294,8 +300,6 @@ moj.Helpers.SideBar = {
       });
       return this;
     }
-
-
   },
   addCommas: function(nStr) {
     nStr += '';

@@ -290,6 +290,7 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('should call reload when instantiated', function() {
+            instance.init();
             expect(instance.totals).toEqual({
               quantity: 11.11,
               rate: 22.22,

@@ -36,7 +36,8 @@ moj.Modules.SideBar = {
         el: el,
         $el: $el
       };
-      self.blocks.push(new moj.Helpers.SideBar[options.fn](options));
+      var block = new moj.Helpers.SideBar[options.fn](options);
+      self.blocks.push(block.init());
       self.removePhantomKey($el.data('type'));
     });
   },
@@ -51,6 +52,7 @@ moj.Modules.SideBar = {
   loadStaticBlocks: function() {
     var self = this;
     var $el;
+
     this.phantomBlockList.forEach(function(val, idx) {
       if ($('.fx-seed-' + val).length) {
 
@@ -65,9 +67,9 @@ moj.Modules.SideBar = {
         if ($el.data('autovat') === false) {
           options.autoVAT = false;
         }
-        self.blocks.push(new moj.Helpers.SideBar[options.fn](options));
+        var block = new moj.Helpers.SideBar[options.fn](options);
+        self.blocks.push(block.init());
       }
-
     });
   },
 

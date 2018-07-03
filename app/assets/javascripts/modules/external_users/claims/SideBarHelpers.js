@@ -51,6 +51,7 @@ moj.Helpers.SideBar = {
       this.config.fn = 'FeeBlock';
       this.bindRecalculate();
       this.reload();
+      return this;
     };
 
     this.bindRecalculate = function() {
@@ -90,7 +91,7 @@ moj.Helpers.SideBar = {
       this.$el.find('.total').data('total', this.totals.total);
     };
 
-    this.init();
+
   },
   FeeBlockCalculator: function() {
     var self = this;
@@ -98,8 +99,10 @@ moj.Helpers.SideBar = {
 
     this.init = function() {
       this.config.fn = 'FeeBlockCalculator';
+      this.bindRecalculate();
       this.bindRender();
       this.reload();
+      return this;
     };
 
     this.setTotals = function() {
@@ -122,7 +125,7 @@ moj.Helpers.SideBar = {
       });
     };
 
-    this.init();
+
   },
   FeeBlockManualAmounts: function() {
     var self = this;
@@ -130,8 +133,13 @@ moj.Helpers.SideBar = {
 
     this.init = function() {
       this.config.fn = 'FeeBlockManualAmounts';
+
+      this.bindRecalculate();
+      this.reload();
+
       this.bindRender();
       this.setTotals();
+      return this;
     };
 
     this.setTotals = function() {
@@ -153,7 +161,7 @@ moj.Helpers.SideBar = {
       });
     };
 
-    this.init();
+
   },
   PhantomBlock: function() {
     var self = this;
@@ -185,11 +193,11 @@ moj.Helpers.SideBar = {
 
     this.init = function() {
       this.reload();
+      return this;
     }
 
-    this.init();
-  },
 
+  },
   ExpenseBlock: function() {
     var self = this;
     moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
@@ -224,8 +232,10 @@ moj.Helpers.SideBar = {
 
     this.init = function() {
       this.config.fn = 'ExpenseBlock';
+      this.bindRecalculate();
       this.bindEvents();
       this.reload();
+      return this;
     };
 
     this.bindEvents = function() {
@@ -239,7 +249,7 @@ moj.Helpers.SideBar = {
       /**
        * Listen for the `expense type` change event and
        * pass the event object to the statemanager
-      */
+       */
       this.$el.on('change', '.fx-travel-expense-type select', function(e) {
         self.statemanager(e);
       });
@@ -248,8 +258,23 @@ moj.Helpers.SideBar = {
 
 
     this.bindRender = function() {
-
     };
+
+    this.setTotals = function() {
+      this.totals = {
+        quantity: this.getVal('.quantity'),
+        rate: this.getVal('.rate'),
+        amount: this.getVal('.amount'),
+        total: this.getVal('.rate'),
+        vat: this.getVal('.vat')
+      };
+
+      this.totals.typeTotal = this.totals.total;
+      return this.totals;
+    };
+
+
+
 
     /**
      * statemanager: Controlling the visiblilty of form elements
@@ -270,7 +295,7 @@ moj.Helpers.SideBar = {
       return this;
     }
 
-    this.init();
+
   },
   addCommas: function(nStr) {
     nStr += '';

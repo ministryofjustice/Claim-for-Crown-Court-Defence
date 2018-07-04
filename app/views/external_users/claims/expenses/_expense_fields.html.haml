@@ -19,7 +19,7 @@
 
       .column-half
         -# SELECT: Travel reasons
-        .form-group.fx-travel-reason
+        .form-group.fx-travel-reason{:style => "display: none;"}
           = render 'external_users/claims/expenses/select_travel_reasons'
 
         -# INPUT: Other travel reason input

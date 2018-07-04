@@ -95,8 +95,6 @@ moj.Helpers.SideBar = {
       this.$el.find('.total').html('&pound;' + moj.Helpers.SideBar.addCommas(this.totals.total.toFixed(2)));
       this.$el.find('.total').data('total', this.totals.total);
     };
-
-
   },
   FeeBlockCalculator: function() {
     var self = this;
@@ -129,8 +127,6 @@ moj.Helpers.SideBar = {
         self.render();
       });
     };
-
-
   },
   FeeBlockManualAmounts: function() {
     var self = this;
@@ -165,12 +161,9 @@ moj.Helpers.SideBar = {
         self.render();
       });
     };
-
-
   },
   PhantomBlock: function() {
     var self = this;
-    // copy methods over
     moj.Helpers.SideBar.Base.apply(this, arguments);
     this.totals = {
       quantity: 0,
@@ -200,8 +193,6 @@ moj.Helpers.SideBar = {
       this.reload();
       return this;
     }
-
-
   },
   ExpenseBlock: function() {
     var self = this;
@@ -209,7 +200,7 @@ moj.Helpers.SideBar = {
 
     this.stateLookup = {
       "vatAmount": ".fx-travel-vat-amount",
-      "reason": ".fx-expense-reason",
+      "reason": ".fx-travel-reason",
       "netAmount": ".fx-travel-net-amount",
       "location": ".fx-travel-location",
       "hours": ".fx-travel-hours",
@@ -250,7 +241,6 @@ moj.Helpers.SideBar = {
 
     this.bindListners = function() {
       var self = this;
-
       /**
        * Listen for the `expense type` change event and
        * pass the event object to the statemanager
@@ -259,9 +249,17 @@ moj.Helpers.SideBar = {
         self.statemanager(e);
         self.$el.trigger('recalculate');
       });
+      /**
+       * Listen for the `expense reason` change event and
+       * show/hide the other reason box
+       */
+      this.$el.on('change', '.fx-travel-reason select', function(e) {
+        var state = $(e.target).find('option:selected').data('reasonText');
+        self.$el.find('.fx-travel-reason-other').toggle(state)
+      });
+
       return this;
     };
-
 
     this.bindRender = function() {
     };
@@ -278,9 +276,6 @@ moj.Helpers.SideBar = {
       this.totals.typeTotal = this.totals.total;
       return this.totals;
     };
-
-
-
 
     /**
      * statemanager: Controlling the visiblilty of form elements
@@ -301,6 +296,7 @@ moj.Helpers.SideBar = {
       return this;
     }
   },
+
   addCommas: function(nStr) {
     nStr += '';
     x = nStr.split('.');

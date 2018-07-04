@@ -3,10 +3,10 @@
     = render partial: 'external_users/claims/expenses/expense_reasons', :formats => [:js]
 
     .js-cocoon-expenses
-      %h2.bold-medium
-        = t('.expenses')
+      %h2.heading-large
+        = "Travel expenses"
 
-      %p.form-hint
+      %p
         = t('.expenses_prompt_text')
 
 
@@ -14,12 +14,12 @@
         = render 'external_users/claims/expenses/expense_fields', f: expense
 
   .form-section
-    = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', class: 'button button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-node' => '.js-cocoon-expenses'}
+    = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', class: 'button button-secondary btn-spacer-20', style: 'background-color: #2b8cc4', data: {'association-insertion-method' => 'append', 'association-insertion-node' => '.js-cocoon-expenses'}
 
-    %a.fx-duplicate-expense.button.button-tertiary
+    %a.fx-duplicate-expense.button-gray-3{}
       = "Duplicate last expense"
 
   .form-section
     -# TEXTAREA: Additional information
-    .form-group.fx-additional-info
-      = render "external_users/claims/expenses/textarea_additional_info"
+    = render "external_users/claims/expenses/textarea_additional_info"
+

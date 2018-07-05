@@ -1,16 +1,15 @@
 %fieldset
   %legend.form-label-bold{:for => "expense-type"}
     Type of expense
-    / <span class="form-hint">Something</span>
-  %select#travel-expense-1-type.form-control.form-control-3-4{:name => "expense_type_id"}
-    %option{:value => ""}
-    %option{"data-additional-info" => "true", "data-cost" => "false", "data-date" => "true", "data-destination" => "true", "data-distance" => "true", "data-gross-amount" => "false", "data-hours" => "false", "data-location" => "false", "data-mileage" => "false", "data-net-amount" => "true", "data-reason" => "true", "data-vat-amount" => "true", :value => "bike_travel"} Bicycle travel
-    %option{"data-additional-info" => "true", "data-cost" => "false", "data-date" => "true", "data-destination" => "true", "data-distance" => "false", "data-gross-amount" => "true", "data-hours" => "false", "data-location" => "false", "data-mileage" => "false", "data-net-amount" => "false", "data-reason" => "true", "data-vat-amount" => "false", :value => "cab_fares"} Cab fares
-    %option{"data-additional-info" => "true", "data-cost" => "true", "data-date" => "true", "data-destination" => "true", "data-distance" => "true", "data-gross-amount" => "false", "data-hours" => "false", "data-location" => "false", "data-mileage" => "false", "data-net-amount" => "true", "data-reason" => "true", "data-vat-amount" => "true", :value => "car_travel"} Car travel
-    %option{"data-additional-info" => "true", "data-cost" => "false", "data-date" => "true", "data-destination" => "false", "data-distance" => "false", "data-gross-amount" => "true", "data-hours" => "false", "data-location" => "true", "data-mileage" => "false", "data-net-amount" => "false", "data-reason" => "true", "data-vat-amount" => "false", :value => "hotel_accommodation"} Hotel accommodation
-    %option{"data-additional-info" => "true", "data-cost" => "false", "data-date" => "true", "data-destination" => "false", "data-distance" => "false", "data-gross-amount" => "true", "data-hours" => "false", "data-location" => "false", "data-mileage" => "false", "data-net-amount" => "false", "data-reason" => "true", "data-vat-amount" => "false", :value => "parking"} Parking
-    %option{"data-additional-info" => "true", "data-cost" => "false", "data-date" => "true", "data-destination" => "true", "data-distance" => "false", "data-gross-amount" => "true", "data-hours" => "false", "data-location" => "false", "data-mileage" => "false", "data-net-amount" => "false", "data-reason" => "true", "data-vat-amount" => "false", :value => "road_or_tunnel_tolls"} Road or tunnel tolls
-    %option{"data-additional-info" => "true", "data-cost" => "false", "data-date" => "true", "data-destination" => "false", "data-distance" => "false", "data-gross-amount" => "true", "data-hours" => "false", "data-location" => "true", "data-mileage" => "false", "data-net-amount" => "false", "data-reason" => "true", "data-vat-amount" => "false", :value => "subsistence"} Subsistence
-    %option{"data-additional-info" => "true", "data-cost" => "false", "data-date" => "true", "data-destination" => "true", "data-distance" => "false", "data-gross-amount" => "true", "data-hours" => "false", "data-location" => "false", "data-mileage" => "false", "data-net-amount" => "false", "data-reason" => "true", "data-vat-amount" => "false", :value => "train_or_public_transport"} Train or public transport
-    %option{"data-additional-info" => "true", "data-cost" => "false", "data-date" => "true", "data-destination" => "true", "data-distance" => "false", "data-gross-amount" => "false", "data-hours" => "true", "data-location" => "false", "data-mileage" => "false", "data-net-amount" => "true", "data-reason" => "true", "data-vat-amount" => "true", :value => "travel_time"} Travel time
+
+  - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
+  = f.select :expense_type_id, expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}, {include_blank: 'Please select'}, {class: 'form-control form-control-3-4'}
+  = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
+
+
+
+
+
+
+
 

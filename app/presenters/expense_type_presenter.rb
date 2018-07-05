@@ -3,13 +3,18 @@ class ExpenseTypePresenter < BasePresenter
 
   def data_attributes
     {
+      date: true,
+      distance: distance_field?,
+      gross_amount: gross_amount_field?,
+      hours: hours_field?,
       location: location_field?,
       location_label: location_label,
-      distance: distance_field?,
       mileage: mileage_field?,
       mileage_type: mileage_type,
-      hours: hours_field?,
-      reason_set: reason_set
+      net_amount: net_amount_field?,
+      reason: true,
+      reason_set: reason_set,
+      vat_amount: vat_amount_field?
     }
   end
 
@@ -39,6 +44,18 @@ class ExpenseTypePresenter < BasePresenter
 
   def mileage_field?
     car_travel? || bike_travel?
+  end
+
+  def net_amount_field?
+    car_travel? || bike_travel?
+  end
+
+  def vat_amount_field?
+    car_travel? || bike_travel?
+  end
+
+  def gross_amount_field?
+    !(car_travel? || bike_travel?)
   end
 
   def mileage_type

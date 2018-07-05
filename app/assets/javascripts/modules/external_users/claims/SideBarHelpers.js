@@ -35,7 +35,7 @@ moj.Helpers.SideBar = {
       return parseFloat(this.$el.find('.' + selector).data('total')) || false;
     };
 
-    this.getMultipliedVal = function(val1, val2){
+    this.getMultipliedVal = function(val1, val2) {
       return parseFloat((this.getVal(val1) * this.getVal(val2)).toFixed(2));
     }
   },
@@ -207,34 +207,33 @@ moj.Helpers.SideBar = {
       "distance": ".fx-travel-distance",
       "destination": ".fx-travel-destination",
       "date": ".fx-travel-date",
-      "cost": ".fx-travel-cost",
+      "mileage": ".fx-travel-mileage",
       "grossAmount": ".fx-travel-gross-amount"
     }
 
     this.defaultstate = {
-      "grossAmount": false,
-      "vatAmount": false,
-      "reason": false,
-      "netAmount": false,
       "mileage": false,
-      "location": false,
-      "hours": false,
-      "distance": false,
-      "destination": false,
       "date": false,
-      "cost": false,
-      "additionalInfo": false
+      "distance": false,
+      "grossAmount": false,
+      "hours": false,
+      "location": false,
+      "netAmount": false,
+      "reason": false,
+      "vatAmount": false,
     }
 
     this.init = function() {
       this.config.fn = 'ExpenseBlock';
-      this.bindRecalculate();
       this.bindEvents();
+      this.loadCurrentState();
       this.reload();
+
       return this;
     };
 
     this.bindEvents = function() {
+      this.bindRecalculate();
       this.bindRender();
       this.bindListners();
     };
@@ -249,6 +248,7 @@ moj.Helpers.SideBar = {
         self.statemanager(e);
         self.$el.trigger('recalculate');
       });
+
       /**
        * Listen for the `expense reason` change event and
        * show/hide the other reason box
@@ -257,12 +257,15 @@ moj.Helpers.SideBar = {
         var state = $(e.target).find('option:selected').data('reasonText');
         self.$el.find('.fx-travel-reason-other').toggle(state)
       });
-
       return this;
     };
 
-    this.bindRender = function() {
-    };
+    this.loadCurrentState = function(){
+      var $select = this.$el.find('.fx-travel-expense-type select');
+      return $select.val() ? $select.trigger('change') : undefined;
+    }
+
+    this.bindRender = function() {};
 
     this.setTotals = function() {
       this.totals = {
@@ -276,6 +279,11 @@ moj.Helpers.SideBar = {
       this.totals.typeTotal = this.totals.total;
       return this.totals;
     };
+
+    this.setLocationLabel = function(key, val) {
+      if (key !== 'locationLabel') return;
+      this.$el.find(this.stateLookup['location'] + ' label').text(val);
+    }
 
     /**
      * statemanager: Controlling the visiblilty of form elements
@@ -291,7 +299,9 @@ moj.Helpers.SideBar = {
       };
 
       $.each(state.config, function(key, val) {
-        self.$el.find(self.stateLookup[key]).toggle(val)
+        // console.log(key, self.stateLookup[key], val);
+        self.$el.find(self.stateLookup[key]).toggle(val);
+        self.setLocationLabel(key, val);
       });
       return this;
     }

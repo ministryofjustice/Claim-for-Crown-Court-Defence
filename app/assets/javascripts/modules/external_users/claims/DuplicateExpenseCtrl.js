@@ -60,7 +60,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     this.setInputValue($el, '.fx-travel-vat-amount input', data.vat_amount);
     this.setInputValue($el, '.fx-travel-gross-amount input', data.gross_amount);
 
-    this.setRadioValue($el, '.fx-travel-cost input', data.mileage_rate_id)
+    this.setRadioValue($el, '.fx-travel-mileage input', data.mileage_rate_id)
 
     this.setSelectValue($el, '.fx-travel-expense-type select', data.expense_type_id);
     this.setSelectValue($el, '.fx-travel-reason select', data.reason_id);

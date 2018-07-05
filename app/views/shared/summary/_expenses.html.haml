@@ -1,0 +1,5 @@
+- if claim.expenses.with_vat.any?
+  = render template: 'shared/summary/expenses/index', locals: { claim: claim, vat: true }
+
+- if claim.expenses.without_vat.any?
+  = render template: 'shared/summary/expenses/index', locals: { claim: claim, vat: false }

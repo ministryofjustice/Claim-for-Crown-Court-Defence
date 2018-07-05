@@ -30,7 +30,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject { build(:user) }
+  subject(:user) { build(:user) }
 
   it { should belong_to(:persona) }
   it { should validate_presence_of(:first_name) }
@@ -134,6 +134,42 @@ RSpec.describe User, type: :model do
       it 'maintains the other settings' do
         expect(subject.settings.keys.sort).to eq(%w(setting1 setting2 test123))
       end
+    end
+  end
+
+  describe '#case_worker?' do
+    let(:user) { build(:user, persona_type: persona_type) }
+
+    subject { user.case_worker? }
+
+    context 'when the persona is NOT a case worker' do
+      let(:persona_type) { 'ExternalUser' }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the persona is a case worker' do
+      let(:persona_type) { 'CaseWorker' }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '#external_user?' do
+    let(:user) { build(:user, persona_type: persona_type) }
+
+    subject { user.external_user? }
+
+    context 'when the persona is NOT an external user' do
+      let(:persona_type) { 'CaseWorker' }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the persona is an external user' do
+      let(:persona_type) { 'ExternalUser' }
+
+      it { is_expected.to be_falsey }
     end
   end
 

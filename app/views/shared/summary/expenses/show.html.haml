@@ -1,0 +1,38 @@
+%tr.no-border
+  %td{scope: 'row'}
+    %span.bold-normal
+      = expense.name
+  %td{scope: 'row'}
+    %span.bold-normal
+      = expense.reason
+  %td
+    .details
+      %ul
+        %li
+          %span.bold
+            = succeed ':' do
+              = t('.destination')
+          = expense.location
+        - if expense.distance?
+          %li
+            %span.bold
+              = succeed ':' do
+                = t('.distance')
+            = "#{expense.distance} miles"
+          %li
+            %span.bold
+              = succeed ':' do
+                = t('.cost')
+            = expense.mileage_rate
+        - if expense.hours?
+          %li
+            %span.bold
+              = succeed ':' do
+                = t('.hours')
+            = expense.hours
+  %td
+    = expense.pretty_date
+  %td.numeric
+    = expense.amount
+  %td.numeric
+    = expense.vat_present? ? expense.vat_amount : ''

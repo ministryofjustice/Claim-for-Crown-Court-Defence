@@ -94,6 +94,9 @@ Metrics/MethodLength:
     - 'lib/geckoboard_publisher/providers_report.rb'
     - 'scheduled_tasks/daily_stats_generator.rb'
     - 'spikes/supplier_import/migrate/20161020133346_laa_imported_suppliers.rb'
+    - 'app/models/claims/calculation_inputs.rb'
+    - 'app/services/claims/calculate_fee.rb'
+    - 'lib/laa/fee.rb'
 
 # Offense count: 7
 Metrics/PerceivedComplexity:
@@ -178,6 +181,7 @@ Style/IfInsideElse:
 Lint/DuplicateMethods:
   Exclude:
     - 'app/models/claim/base_claim.rb'
+    - 'lib/laa/fee_calculator/api.rb'
 
 Style/OptionalArguments:
   Exclude:

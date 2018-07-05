@@ -21,6 +21,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :redirect_unless_editable, only: %i[edit update]
   before_action :generate_form_id, only: %i[new edit]
   before_action :initialize_submodel_counts
+  before_action :set_precalculated_fee, only: %i[new edit summary]
 
   include ReadMessages
   include MessageControlsDisplay
@@ -167,6 +168,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
                Claims::CreateDraft.call(@claim, validate: continue_claim?)
              end
 
+    set_precalculated_fee
     render_or_redirect(result)
   end
 
@@ -177,6 +179,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
                Claims::UpdateDraft.call(@claim, params: claim_params, validate: continue_claim?)
              end
 
+    set_precalculated_fee
     render_or_redirect(result)
   end
 
@@ -506,6 +509,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @expense_count                  = 0
     @expense_date_attended_count    = 0
     @disbursement_count             = 0
+  end
+
+  def set_precalculated_fee
+    return unless @claim
+    calculation_inputs = Claims::CalculationInputs.for(@claim)
+    Rails.logger.info calculation_inputs.to_h.inspect
+    @precalculated_fee = Claims::CalculateFee.call(calculation_inputs.to_h)
   end
 
   def claim_tracking_substitutions

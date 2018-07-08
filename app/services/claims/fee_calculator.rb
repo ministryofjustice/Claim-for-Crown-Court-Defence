@@ -1,0 +1,68 @@
+module Claims
+  class FeeCalculator
+    delegate :earliest_representation_order_date,
+      :agfs?,
+      :case_type,
+      :advocate_category,
+      :offence,
+      to: :@claim
+    attr_reader :claim
+
+    def initialize(claim)
+      @claim = claim
+    end
+
+    def call(fee_type, quantity)
+      fee_scheme.calculate do |options|
+        # TODO: create select/find_by calls to list endpoints in gem
+        scenario = fee_scheme.scenarios.select {|s| s.code.eql?(CCR::CaseTypeAdapter::BILL_SCENARIOS[case_type.fee_type_code.to_sym]) }.first
+
+        # some/all fixed fees do not require offences and they has no bearing on calculated fee amount
+        offence_class = offence&.offence_class&.class_letter || offence&.offence_band&.description
+
+        advocate_type = CCR::AdvocateCategoryAdapter.code_for(advocate_category)
+
+        fee_type_code = [
+          # CCR::Fee::BasicFeeAdapter::BASIC_FEE_BILL_MAPPINGS, # TODO: all are AGFS_FEE
+          CCR::Fee::FixedFeeAdapter::FIXED_FEE_BILL_MAPPINGS,
+          CCR::Fee::MiscFeeAdapter::MISC_FEE_BILL_MAPPINGS
+        ].inject(&:merge)[fee_type.unique_code.to_sym][:bill_subtype]
+
+        options[:scenario] = scenario.id
+        options[:offence_class] = offence_class
+        options[:advocate_type] = advocate_type
+        options[:fee_type_code] = fee_type_code
+
+        # units
+        # TODO: unit needs to be dynamically determined and values determined
+        # this only works assuming there is only one unit type and the quantity of
+        # the fee is for that unit type.
+        units = fee_scheme.units(options).map { |u| u.id.downcase }
+        units.each do |unit|
+          options[unit.to_sym] = quantity.to_f
+        end
+
+        # TODO: aberrations
+        # elected case not proceeded is an scenario type with ccr fee type code of AGFS_FEE
+
+        # modifiers
+        # TODO: modifier needs to be dynamically determined and could be more than one
+        # TODO: modifier values should be based on "munging" uplifts and "number of.." fee types
+        # options[:number_of_defendants] = 1
+        # options[:number_of_cases] = 1
+      end
+    end
+
+    private
+
+    def fee_scheme
+      return @fee_scheme if @fee_scheme
+      scheme_type = agfs? ? 'AGFS' : 'LGFS'
+      @fee_scheme ||= client.fee_schemes(type: scheme_type, case_date: earliest_representation_order_date.to_s(:db))
+    end
+
+    def client
+      @client ||= LAA::FeeCalculator.client
+    end
+  end
+end

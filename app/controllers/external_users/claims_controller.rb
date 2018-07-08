@@ -189,6 +189,60 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     )
   end
 
+  def calculate_fee
+    @claim = Claim::BaseClaim.active.find(params[:claim_id])
+    @fee_type = Fee::BaseFeeType.find(params[:fee_type_id])
+
+
+    respond_to do |format|
+      format.html
+      format.js do
+        client = LAA::FeeCalculator.client
+        fee_scheme = client.fee_schemes(type: 'AGFS', case_date: @claim.earliest_representation_order_date.to_s(:db))
+
+        @amount = fee_scheme.calculate do |options|
+          # TODO: create select/find_by calls to list endpoints in gem
+          scenario = fee_scheme.scenarios.select {|s| s.code.eql?(CCR::CaseTypeAdapter::BILL_SCENARIOS[@claim.case_type.fee_type_code.to_sym]) }.first
+
+          # some/all fixed fees do not require offences and they has no bearing on calculated fee amount
+          offence_class = @claim.offence&.offence_class&.class_letter || @claim&.offence&.offence_band&.description
+
+          advocate_type = CCR::AdvocateCategoryAdapter.code_for(@claim.advocate_category)
+
+          fee_type_code = [
+            # CCR::Fee::BasicFeeAdapter::BASIC_FEE_BILL_MAPPINGS, # TODO: all are AGFS_FEE
+            CCR::Fee::FixedFeeAdapter::FIXED_FEE_BILL_MAPPINGS,
+            CCR::Fee::MiscFeeAdapter::MISC_FEE_BILL_MAPPINGS
+          ].inject(&:merge)[@fee_type.unique_code.to_sym][:bill_subtype]
+
+          options[:scenario] = scenario.id
+          options[:offence_class] = offence_class
+          options[:advocate_type] = advocate_type
+          options[:fee_type_code] = fee_type_code
+
+          # units
+          # TODO: unit needs to be dynamically determined and values determined
+          # this only works assuming there is only one unit type and the quantity of
+          # the fee is for that unit type.
+          units = fee_scheme.units(options).map { |u| u.id.downcase }
+          units.each do |unit|
+            options[unit.to_sym] = params[:quantity].to_f
+          end
+
+          # TODO: aberrations
+          # elected case not proceeded is an scenario type with ccr fee type code of AGFS_FEE
+
+          # modifiers
+          # TODO: modifier needs to be dynamically determined and could be more than one
+          # TODO: modifier values should be based on "munging" uplifts and "number of.." fee types
+          # options[:number_of_defendants] = 1
+          # options[:number_of_cases] = 1
+        end
+      end
+    end
+
+  end
+
   class << self
     def resource_klass(klass)
       @resource_klass ||= klass

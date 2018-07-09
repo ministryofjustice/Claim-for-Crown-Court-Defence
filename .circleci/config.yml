@@ -21,6 +21,12 @@ jobs:
     steps:
       - checkout # special step to check out source code to working directory
 
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
      # Install dependencies
       - run:
           name: Install dependencies
@@ -58,7 +64,10 @@ jobs:
       # Run rspec in parallel
       - run:
           name: Run tests
-          command: bundle exec rake ci:test_suite
+          command: |
+            bundle exec rake ci:test_suite
+            ./cc-test-reporter format-coverage -t simplecov
+            ./cc-test-reporter upload-coverage
 
       # Save test results for timing analysis
       # Adding dummy comment for test purposes

@@ -56,9 +56,9 @@ moj.Modules.DuplicateExpenseCtrl = {
     this.setInputValue($el, '.fx-travel-hours', data.hours);
     this.setInputValue($el, '.fx-travel-location input', data.location);
     this.setInputValue($el, '.fx-travel-destination input', data.destination);
-    this.setInputValue($el, '.fx-travel-net-amount input', data.net_amount);
+    this.setInputValue($el, '.fx-travel-net-amount input', data.amount);
     this.setInputValue($el, '.fx-travel-vat-amount input', data.vat_amount);
-    this.setInputValue($el, '.fx-travel-gross-amount input', data.gross_amount);
+    this.setInputValue($el, '.fx-travel-gross-amount input', data.amount);
 
     this.setRadioValue($el, '.fx-travel-mileage input', data.mileage_rate_id)
 

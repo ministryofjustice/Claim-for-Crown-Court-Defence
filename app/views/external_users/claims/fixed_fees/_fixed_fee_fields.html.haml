@@ -40,14 +40,13 @@
               hint_text:'Separate by commas',
               errors: @error_presenter
 
-
-  = f.adp_text_field :rate,
-                    label: t('.net_amount'),
-                    input_classes:'rate fee-rate form-input-denote__input form-control-1-4',
-                    input_type: 'currency',
-                    errors: @error_presenter,
-                    value: number_with_precision(f.object.rate, precision: 2)
-#calculated-fee
-  Calculated fee:
+  .js-calculator-effectee
+    .calculated-fee
+    = f.adp_text_field :rate,
+                      label: t('.net_amount'),
+                      input_classes:'rate fee-rate form-input-denote__input form-control-1-4',
+                      input_type: 'currency',
+                      errors: @error_presenter,
+                      value: number_with_precision(f.object.rate, precision: 2)
 
   %hr/

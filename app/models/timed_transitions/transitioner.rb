@@ -77,7 +77,7 @@ module TimedTransitions
                     dummy_run: @dummy) do
         'Destroying soft-deleted claim'
       end
-      @claim.destroy unless is_dummy?
+      Stats::MIData.import(@claim) && @claim.destroy unless is_dummy?
       self.success = true
     end
   end

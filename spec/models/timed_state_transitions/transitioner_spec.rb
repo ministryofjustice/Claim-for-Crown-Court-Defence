@@ -126,11 +126,18 @@ module TimedTransitions
 
         context 'destroying' do
           context 'soft-deleted claim more than 16 weeks ago' do
+            let(:claim) { create :archived_pending_delete_claim }
+
             it 'should destroy the claim' do
-              claim = instance_double(Claim::LitigatorClaim, id: 123, state: 'allocated', deleted_at: 17.weeks.ago)
               expect(claim).to receive(:softly_deleted?).and_return(true)
               expect(claim).to receive(:destroy)
               Transitioner.new(claim).run
+            end
+
+            it 'creates an MI version of the record' do
+              expect(claim).to receive(:softly_deleted?).and_return(true)
+              expect(claim).to receive(:destroy)
+              expect { Transitioner.new(claim).run }.to change { Stats::MIData.count }.by 1 
             end
           end
 

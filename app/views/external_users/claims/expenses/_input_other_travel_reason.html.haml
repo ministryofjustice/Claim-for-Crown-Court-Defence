@@ -1,4 +1,5 @@
 -# INPUT: Other reasons
-%label.form-label-bold{:for => "travel-expense-1-travel-reason-other"}
-  Other reason
-  %input#travel-expense-1-travel-reason-other.form-control.form-control-3-4{ :autocomplete => "off", :name => "reason_text", :spellcheck => "false", :type => "text", :value => ""}/
+- present(f.object) do |expense|
+  = f.adp_text_field :reason_text, label: t('.reason_text'), input_classes:'', errors: @error_presenter
+
+  = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")

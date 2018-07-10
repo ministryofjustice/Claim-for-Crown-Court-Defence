@@ -223,12 +223,48 @@ moj.Helpers.SideBar = {
       "vatAmount": false,
     }
 
+    this.expenseResons = {
+      "A": [{
+        "id": 1,
+        "reason": "Court hearing",
+        "reason_text": false
+      }, {
+        "id": 2,
+        "reason": "Pre-trial conference expert witnesses",
+        "reason_text": false
+      }, {
+        "id": 3,
+        "reason": "Pre-trial conference defendant",
+        "reason_text": false
+      }, {
+        "id": 4,
+        "reason": "View of crime scene",
+        "reason_text": false
+      }, {
+        "id": 5,
+        "reason": "Other",
+        "reason_text": true
+      }],
+      "B": [{
+        "id": 2,
+        "reason": "Pre-trial conference expert witnesses",
+        "reason_text": false
+      }, {
+        "id": 3,
+        "reason": "Pre-trial conference defendant",
+        "reason_text": false
+      }, {
+        "id": 4,
+        "reason": "View of crime scene",
+        "reason_text": false
+      }]
+    };
+
     this.init = function() {
       this.config.fn = 'ExpenseBlock';
       this.bindEvents();
       this.loadCurrentState();
       this.reload();
-
       return this;
     };
 
@@ -246,7 +282,10 @@ moj.Helpers.SideBar = {
        */
       this.$el.on('change', '.fx-travel-expense-type select', function(e) {
         self.statemanager(e);
-        self.$el.trigger('recalculate');
+        // Deay the call just a bit
+        $.wait(150).then(function() {
+          self.$el.trigger('recalculate');
+        });
       });
 
       /**
@@ -260,9 +299,11 @@ moj.Helpers.SideBar = {
       return this;
     };
 
-    this.loadCurrentState = function(){
+    this.loadCurrentState = function() {
       var $select = this.$el.find('.fx-travel-expense-type select');
-      return $select.val() ? $select.trigger('change') : undefined;
+      if ($select.val()) {
+        $select.trigger('change');
+      }
     }
 
     this.bindRender = function() {};
@@ -285,6 +326,47 @@ moj.Helpers.SideBar = {
       this.$el.find(this.stateLookup['location'] + ' label').text(val);
     }
 
+    this.setTravelReason = function(key, val) {
+      if (key !== 'reasonSet') return;
+      var optionsArr = [];
+      var option;
+      var selectedVal = this.$el.find('.fx-travel-reason select').find('option:selected').val();
+
+
+      $.each(this.expenseResons[val], function(idx, obj){
+        $option = $(new Option(obj.reason, obj.id));
+        $option.attr('data-reason-text', obj.reason_text)
+
+        if (selectedVal == obj.id) {
+          $option.prop('selected', true)
+        }
+        optionsArr.push($option);
+
+      });
+      this.$el.find('.fx-travel-reason select').children().remove().end().append(optionsArr)
+    }
+
+    this.setCostPerMile = function(key, val) {
+      var self = this;
+      if (key !== "mileageType") return;
+
+      // toggle between bike / car mileage
+      if (val === 'bike') {
+        this.$el.find('.fx-travel-mileage-bike input').prop('disabled', false).prop('checked', 'checked').trigger('click');
+
+        this.$el.find('.fx-travel-mileage-car').toggle(false)
+        this.$el.find('.fx-travel-mileage-bike').toggle(true)
+      }
+
+      if (val === 'car') {
+        this.$el.find('.fx-travel-mileage-bike input').prop('disabled', true).prop('checked', false);
+
+        this.$el.find('.fx-travel-mileage-car').toggle(true)
+        this.$el.find('.fx-travel-mileage-bike').toggle(false)
+      }
+
+    }
+
     /**
      * statemanager: Controlling the visiblilty of form elements
      * @param  {object} e jQuery event object
@@ -299,9 +381,10 @@ moj.Helpers.SideBar = {
       };
 
       $.each(state.config, function(key, val) {
-        // console.log(key, self.stateLookup[key], val);
         self.$el.find(self.stateLookup[key]).toggle(val);
         self.setLocationLabel(key, val);
+        self.setTravelReason(key, val);
+        self.setCostPerMile(key, val);
       });
       return this;
     }

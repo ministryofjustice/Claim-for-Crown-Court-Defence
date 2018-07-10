@@ -20,39 +20,17 @@
       .column-half
         -# SELECT: Travel reasons
         .form-group.fx-travel-reason{:style => "display: none;"}
-          = render 'external_users/claims/expenses/select_travel_reasons'
+          = render 'external_users/claims/expenses/select_travel_reasons', f:f
 
         -# INPUT: Other travel reason input
         .form-group.fx-travel-reason-other{:style => "display: none;"}
-          = render 'external_users/claims/expenses/input_other_travel_reason'
+          = render 'external_users/claims/expenses/input_other_travel_reason', f:f
 
     .grid-row
       .column-half
-        -# -# DYNAMIC: Render the correct element based on config
-        -# .form-group.fx-toggle-select{:style => "display: none;"}
-        -#   = render 'external_users/claims/expenses/dynamic_control_area'
-
-        -# -# -# SELECT: Crown courts
-        -# .form-group.fx-crown-courts{:style => "display: none;"}
-        -#   = render 'external_users/claims/expenses/select_crown_courts'
-
-        -# -# -# SELECT: Prisons
-        -# .form-group.fx-prisons{:style => "display: none;"}
-        -#   = render 'external_users/claims/expenses/select_prisons'
-
-        -# -# -# SELECT: Secure hospitals
-        -# .form-group.fx-hospitals{:style => "display: none;"}
-        -#   = render 'external_users/claims/expenses/select_secure_hospitals'
-
         -# INPUT: Location
         .form-group.fx-travel-location{:style => "display: none;"}
-          -# = render 'external_users/claims/expenses/input_location'
           = f.adp_text_field :location, label: t('.location'), input_classes:'form-control-3-4', errors: @error_presenter
-
-        -# -# INPUT: Destination
-        -# .form-group.fx-travel-destination{:style => "display: none;"}
-        -#   -# = render 'external_users/claims/expenses/input_destination'
-        -#   = f.adp_text_field :location, label: t('.destination'), input_classes:'form-control-3-4', errors: @error_presenter
 
       .column-half
         -# INPUT: Travel hours
@@ -78,24 +56,24 @@
       .column-half
         -# RADIOS: Cost per mile
         .form-group.fx-travel-mileage{:style => "display: none;"}
-          -# = render 'external_users/claims/expenses/radio_cost_per_mile', f: f
           %fieldset
             %legend.form-label-bold
               = t('.cost')
 
-            = f.hidden_field :mileage_rate_id, value: ''
-            = f.collection_radio_buttons(:mileage_rate_id, Expense::CAR_MILEAGE_RATES.values, :id, :description) do |b|
-              .multiple-choice
-                = b.radio_button
-                = b.label { b.object.description }
-            = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
+            %div.fx-travel-mileage-car
+              = f.hidden_field :mileage_rate_id, value: ''
+              = f.collection_radio_buttons(:mileage_rate_id, Expense::CAR_MILEAGE_RATES.values, :id, :description) do |b|
+                .multiple-choice
+                  = b.radio_button
+                  = b.label { b.object.description }
+              = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
 
-
-            = f.collection_radio_buttons(:mileage_rate_id, Expense::BIKE_MILEAGE_RATES.values, :id, :description) do |b|
-              .multiple-choice
-                = b.radio_button
-                = b.label { b.object.description }
-            = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
+            %div.fx-travel-mileage-bike
+              = f.collection_radio_buttons(:mileage_rate_id, Expense::BIKE_MILEAGE_RATES.values, :id, :description) do |b|
+                .multiple-choice
+                  = b.radio_button
+                  = b.label { b.object.description }
+              = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
 
       .column-half
         -# DATES: Expense date
@@ -111,7 +89,6 @@
       .column-half
         -# INPUT: Net amount
         .form-group.fx-travel-net-amount{:style => "display: none;"}
-          -# = render 'external_users/claims/expenses/input_net_amount'
           = f.adp_text_field :amount,
                             label: t('.net_amount'),
                             input_classes:'form-input-denote__input rate',
@@ -122,7 +99,6 @@
       .column-half
         -# INPUT: VAT amount
         .form-group.fx-travel-vat-amount{:style => "display: none;"}
-          -# = render 'external_users/claims/expenses/input_vat_amount'
           = f.adp_text_field :vat_amount,
                             label: t('.vat_amount'),
                             input_classes:'form-input-denote__input vat',
@@ -133,7 +109,6 @@
       .column-half
         -# INPUT: Expense total
         .form-group.fx-travel-gross-amount{:style => "display: none;"}
-          -# = render 'external_users/claims/expenses/input_expense_total'
           = f.adp_text_field :amount,
                             label: t('.total'),
                             input_classes:'form-input-denote__input rate',

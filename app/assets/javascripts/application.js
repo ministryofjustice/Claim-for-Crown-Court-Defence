@@ -29,6 +29,14 @@
 
 (function($) {
 
+  $.wait = function(ms) {
+    var defer = $.Deferred();
+    setTimeout(function() {
+      defer.resolve();
+    }, ms);
+    return defer;
+  };
+
   var o = $({});
 
   $.subscribe = function() {
@@ -94,9 +102,9 @@ if (!String.prototype.supplant) {
   });
 
 
-  $('.form-actions').on('cocoon:after-insert', function(e, el){
+  $('.form-actions').on('cocoon:after-insert', function(e, el) {
     var $el = $(el);
-    if($el.hasClass('resource-details')){
+    if ($el.hasClass('resource-details')) {
       $el.find('a.add_fields').click();
     }
   });

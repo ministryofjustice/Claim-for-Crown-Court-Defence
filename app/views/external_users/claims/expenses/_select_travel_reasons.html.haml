@@ -1,40 +1,10 @@
 %fieldset
   %legend.form-label-bold
     Travel reason
+    %a{id: "expense_#{@expense_count}_reason_id"}
 
+- reasons_collection = present_collection(reasonset_for_expense_type(f.object.expense_type).values, TravelReasonPresenter)
 
-  -# NEW FIELDS
-  %input{:type => "hidden", :value => 'crown_court magistrates_court prison hospital' }/
+= f.select :reason_id, reasons_collection.map {|et| [et.reason, et.id, { data: et.data_attributes }]}, {include_blank: 'Please select'}, {class: 'form-control form-control-3-4'}
 
-  -# CURRENT FIELDS
-  %select#claim_expenses_attributes_0_reason_id.form-control.form-control-3-4{:name => "claim[expenses_attributes][0][reason_id]"}
-    %option{:value => ""}
-
-    %option{"data-reason-text" => "false", :value => "1"} Court hearing
-
-    %option{"data-reason-text" => "false", :value => "2"} Pre-trial conference expert witnesses
-
-    %option{"data-reason-text" => "false", :value => "3"} Pre-trial conference defendant
-
-    %option{"data-reason-text" => "false", :value => "4"} View of crime scene
-
-    %option{"data-reason-text" => "true", :value => "5"} Other
-
-  -# %select#travel-expense-1-reason.form-control.form-control-3-4.fx-select-travel-reason{:name => "reason_id"}
-  -#   %option{:value => ""}
-
-  -#   %option{:value => "1", "data-category": "crown_court", "data-reason-text": "false"} Court hearing (Crown court)
-
-  -#   %option{:value => "1", "data-category": "magistrates_court", "data-reason-text": "false"} Court hearing (Magistrates' court)
-
-  -#   %option{:value => "2"} Pre-trial conference expert witnesses
-
-  -#   %option{:value => "3", "data-category": "prison", "data-reason-text": "false"} Pre-trial conference defendant (prison)
-
-  -#   %option{:value => "3", "data-category": "hospital", "data-reason-text": "false"} Pre-trial conference defendant (hospital)
-
-  -#   %option{:value => "3", "data-reason-text": "false"} Pre-trial conference defendant (other)
-
-  -#   %option{:value => "4", "data-reason-text": "false"} View of crime scene
-
-  -#   %option{:value => "5", "data-reason-text": "true"} Other
+= validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")

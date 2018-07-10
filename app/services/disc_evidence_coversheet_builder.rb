@@ -20,7 +20,7 @@ class DiscEvidenceCoversheetBuilder
     fill :date_year, Date.today.year.to_s
     fill :fee_scheme, @claim.agfs? ? 'AGFS' : 'LGFS'
     fill :case_number, @claim.case_number
-    fill :court_name, @claim.court.name
+    fill :court_name, @claim.court&.name
     fill :date_claim_submitted_day, @claim&.last_submitted_at&.day.to_s
     fill :date_claim_submitted_month, @claim&.last_submitted_at&.month.to_s
     fill :date_claim_submitted_year, @claim&.last_submitted_at&.year.to_s

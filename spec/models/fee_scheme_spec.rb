@@ -9,98 +9,79 @@ RSpec.describe FeeScheme, type: :model do
   describe '.for_claim' do
     subject(:fee_scheme) { described_class.for_claim(claim) }
 
-    let(:claim) { build(:litigator_claim) }
+    let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
+    let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
+    let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
+
 
     context 'for a LGFS claim' do
+      let(:claim) { create :litigator_claim }
+
       it 'returns the default scheme' do
-        expect(fee_scheme).to eq('default')
+        expect(fee_scheme).to eq(lgfs_scheme_nine)
       end
     end
 
     context 'for a AGFS claim' do
       let(:claim) { build(:advocate_claim) }
 
-      context 'when the AGFS fee reform feature is not active' do
+      context 'but there is no representation order dates for the associated defendants' do
         before do
-          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(false)
+          expect(claim).to receive(:earliest_representation_order).and_return(nil)
         end
 
-        it 'returns the default scheme' do
-          expect(fee_scheme).to eq('default')
-        end
+        specify { expect(fee_scheme).to be_nil }
       end
 
-      context 'when the AGFS fee reform feature is active' do
+      context 'and there is a representation order but its date is not set' do
+        let(:representation_order) { instance_double(RepresentationOrder) }
+
         before do
-          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(true)
+          expect(claim).to receive(:earliest_representation_order).and_return(representation_order)
+          expect(representation_order).to receive(:representation_order_date).and_return(nil)
         end
 
-        context 'but there is no representation order dates for the associated defendants' do
-          before do
-            expect(claim).to receive(:earliest_representation_order).and_return(nil)
-          end
+        specify { expect(fee_scheme).to be_nil }
+      end
 
-          specify { expect(fee_scheme).to be_nil }
+      context 'and the earliest representation order date is before the AGFS fee reform release date' do
+        let(:representation_order) { instance_double(RepresentationOrder) }
+        let(:release_date) { 3.months.ago.to_date }
+
+        before do
+          expect(claim).to receive(:earliest_representation_order).and_return(representation_order)
+          expect(representation_order).to receive(:representation_order_date).and_return(release_date - 1.month)
         end
 
-        context 'and there is a representation order but its date is not set' do
-          let(:representation_order) { instance_double(RepresentationOrder) }
+        specify { expect(fee_scheme).to eq agfs_scheme_nine }
+      end
 
-          before do
-            expect(claim).to receive(:earliest_representation_order).and_return(representation_order)
-            expect(representation_order).to receive(:representation_order_date).and_return(nil)
-          end
+      context 'and the earliest representation order date is in the AGFS fee reform release date' do
+        let(:representation_order) { instance_double(RepresentationOrder) }
+        let(:release_date) { 3.months.ago.to_date }
 
-          specify { expect(fee_scheme).to be_nil }
+        before do
+          expect(claim).to receive(:earliest_representation_order).and_return(representation_order)
+          expect(representation_order).to receive(:representation_order_date).and_return(release_date)
         end
 
-        context 'and the earliest representation order date is before the AGFS fee reform release date' do
-          let(:representation_order) { instance_double(RepresentationOrder) }
-          let(:release_date) { 3.months.ago.to_date }
+        specify { expect(fee_scheme).to eq agfs_scheme_ten }
+      end
 
-          before do
-            expect(Settings).to receive(:agfs_fee_reform_release_date).and_return(release_date.to_s)
-            expect(claim).to receive(:earliest_representation_order).and_return(representation_order)
-            expect(representation_order).to receive(:representation_order_date).and_return(release_date - 1.month)
-          end
+      context 'and the earliest representation order date is after the AGFS fee reform release date' do
+        let(:representation_order) { instance_double(RepresentationOrder) }
+        let(:release_date) { 3.months.ago.to_date }
 
-          specify { expect(fee_scheme).to eq('default') }
+        before do
+          expect(claim).to receive(:earliest_representation_order).and_return(representation_order)
+          expect(representation_order).to receive(:representation_order_date).and_return(release_date + 2.days)
         end
 
-        context 'and the earliest representation order date is in the AGFS fee reform release date' do
-          let(:representation_order) { instance_double(RepresentationOrder) }
-          let(:release_date) { 3.months.ago.to_date }
-
-          before do
-            expect(Settings).to receive(:agfs_fee_reform_release_date).and_return(release_date.to_s)
-            expect(claim).to receive(:earliest_representation_order).and_return(representation_order)
-            expect(representation_order).to receive(:representation_order_date).and_return(release_date)
-          end
-
-          specify { expect(fee_scheme).to eq('fee_reform') }
-        end
-
-        context 'and the earliest representation order date is after the AGFS fee reform release date' do
-          let(:representation_order) { instance_double(RepresentationOrder) }
-          let(:release_date) { 3.months.ago.to_date }
-
-          before do
-            expect(Settings).to receive(:agfs_fee_reform_release_date).and_return(release_date.to_s)
-            expect(claim).to receive(:earliest_representation_order).and_return(representation_order)
-            expect(representation_order).to receive(:representation_order_date).and_return(release_date + 2.days)
-          end
-
-          specify { expect(fee_scheme).to eq('fee_reform') }
-        end
+        specify { expect(fee_scheme).to eq agfs_scheme_ten  }
       end
     end
 
     context 'setup for current_Xgfs' do
-
-      let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
-      let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
-      let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
-
       describe '.current_agfs' do
         subject(:current_agfs) { described_class.current_agfs }
 

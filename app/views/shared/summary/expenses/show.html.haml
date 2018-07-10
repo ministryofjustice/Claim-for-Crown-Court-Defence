@@ -36,3 +36,5 @@
     = expense.amount
   %td.numeric
     = expense.vat_present? ? expense.vat_amount : ''
+  %td.numeric
+    = expense.gross_amount

@@ -17,6 +17,8 @@
         = t('.net_amount')
       %th.col-vat.numeric{scope: 'col'}
         = vat ? t('.vat') : '-'
+      %th.col-vat.numeric{scope: 'col'}
+        = t('.gross_amount')
 
   %tbody
     - expenses = vat ? claim.expenses.with_vat : claim.expenses.without_vat
@@ -32,3 +34,5 @@
         = vat ? claim.expenses_with_vat_net : claim.expenses_without_vat_net
       %td.numeric
         = vat ? claim.expenses_vat : ''
+      %td.numeric
+        = vat ? claim.expenses_with_vat_gross : claim.expenses_without_vat_gross

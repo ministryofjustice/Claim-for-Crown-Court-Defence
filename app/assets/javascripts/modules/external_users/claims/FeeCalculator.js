@@ -2,8 +2,9 @@ moj.Modules.FeeCalculator = {
   init: function () {
     var self = this;
 
-    if ($('.calculated-fee').exists()) {
-      $('.js-calculator-effector').change(function(event) {
+    // fixed fees
+    if ($('.calculated-fixed-fee').exists()) {
+      $('.js-fixed-fee-calculator-effector').change(function(event) {
         claim_id = $('#claim-form').data('claimId');
         fee_type_id = $('.js-fee-type').val();
         quantity = $('.js-fee-quantity').val();
@@ -14,10 +15,10 @@ moj.Modules.FeeCalculator = {
           url: '/external_users/claims/' + claim_id + '/calculate_fee.json',
           success: function (data) {
             data = '&pound;' + moj.Helpers.SideBar.addCommas(data.toFixed(2));
-            calculate_prefix = ' (Calculated to be: ';
-            calculate_suffix = data + ')';
-            label_text = $('.js-calculator-effectee label').text().replace(/ \(Calculated to be: .*\)/g,'') + calculate_prefix + calculate_suffix;
-            $('.js-calculator-effectee label').html(label_text)
+            calculate_html = '<div style="color: #2b8cc4; font-weight: bold;"> Calculated to be: ' + data + '<div>';
+            original_label = $('.js-fixed-fee-calculator-effectee label').text().replace(/ \Calculated to be: .*/g,'');
+            new_label = original_label + ' ' + calculate_html;
+            $('.js-fixed-fee-calculator-effectee label').html(new_label);
           }
         });
       });

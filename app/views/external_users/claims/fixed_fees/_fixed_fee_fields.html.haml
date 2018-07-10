@@ -15,14 +15,14 @@
       = f.select :fee_type_id,
           fixed_fee_types_collection.map { |fee| [fee.description, fee.id, { data: fee.data_attributes }]},
           { include_blank: ''.html_safe },
-          {class: 'form-control js-fixed-fee-type js-fee-type js-calculator-effector typeahead', style: 'width:100%'}
+          {class: 'form-control js-fixed-fee-type js-fee-type js-fixed-fee-calculator-effector typeahead', style: 'width:100%'}
 
       = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")
 
 
   = f.adp_text_field :quantity,
                         label: t('.quantity'),
-                        input_classes:'quantity fee-quantity form-control-1-8  js-fee-quantity js-calculator-effector',
+                        input_classes:"quantity fee-quantity form-control-1-8 js-fee-quantity js-fixed-fee-calculator-effector",
                         input_type: 'number',
                         value: fee.quantity,
                         errors: @error_presenter
@@ -40,13 +40,13 @@
               hint_text:'Separate by commas',
               errors: @error_presenter
 
-  .js-calculator-effectee
-    .calculated-fee
+  .js-fixed-fee-calculator-effectee
+    .calculated-fixed-fee
     = f.adp_text_field :rate,
-                      label: t('.net_amount'),
-                      input_classes:'rate fee-rate form-input-denote__input form-control-1-4',
-                      input_type: 'currency',
-                      errors: @error_presenter,
-                      value: number_with_precision(f.object.rate, precision: 2)
+        label: t('.net_amount'),
+        input_classes:'rate fee-rate form-input-denote__input form-control-1-4',
+        input_type: 'currency',
+        errors: @error_presenter,
+        value: number_with_precision(f.object.rate, precision: 2)
 
   %hr/

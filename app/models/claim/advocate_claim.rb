@@ -204,12 +204,12 @@ module Claim
       # TODO: this should return a list based on the current given fee scheme
       # rather than conditionally return scheme 10 specifically
       # TBD once all the fee scheme work is integrated
-      return Fee::MiscFeeType.agfs_scheme_10s if fee_scheme == 'fee_reform'
+      return Fee::MiscFeeType.agfs_scheme_10s if scheme_10?
       Fee::MiscFeeType.agfs_scheme_9s
     end
 
     def scheme_10?
-      fee_scheme.eql?('fee_reform') || offence&.scheme_ten?
+      fee_scheme&.version.eql?(10) || offence&.scheme_ten?
     end
 
     def eligible_fixed_fee_types

@@ -190,14 +190,17 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def calculate_fee
-    @claim = Claim::BaseClaim.active.find(params[:claim_id])
-    @fee_type = Fee::BaseFeeType.find(params[:fee_type_id])
-fee_calc_claim = Claims::FeeCalculator.new(@claim)
-        @amount = fee_calc_claim.call(@fee_type, params[:quantity])
+    claim = Claim::BaseClaim.active.find(params[:claim_id])
+    fee_type = Fee::BaseFeeType.find(params[:fee_type_id])
+    advocate_category = params[:advocate_category]
+
+    fee_calc_claim = Claims::FeeCalculator.new(claim)
+    @amount = fee_calc_claim.call(fee_type: fee_type, quantity: params[:quantity], advocate_category: advocate_category)
+
     respond_to do |format|
       format.html
       format.json { render json: @amount }
-      format.js { @amount}
+      format.js { @amount }
     end
   end
 

@@ -190,12 +190,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def calculate_fee
-    claim = Claim::BaseClaim.active.find(params[:claim_id])
-    fee_type = Fee::BaseFeeType.find(params[:fee_type_id])
-    advocate_category = params[:advocate_category]
-
+    claim = Claim::BaseClaim.active.find(calculator_params[:id])
     fee_calc_claim = Claims::FeeCalculator.new(claim)
-    @amount = fee_calc_claim.call(fee_type: fee_type, quantity: params[:quantity], advocate_category: advocate_category)
+    @amount = fee_calc_claim.call(calculator_params)
 
     respond_to do |format|
       format.html
@@ -290,6 +287,16 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @claim.form_step = params[:step] ||
                        params.key?(:claim) && claim_params[:form_step] ||
                        @claim.submission_stages.first
+  end
+
+  def calculator_params
+    params.permit(
+      :id,
+      :advocate_category,
+      :fee_type_id,
+      :quantity,
+      :format
+      )
   end
 
   def claim_params

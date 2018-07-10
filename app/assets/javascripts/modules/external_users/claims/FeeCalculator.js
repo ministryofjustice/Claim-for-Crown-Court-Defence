@@ -12,7 +12,7 @@ moj.Modules.FeeCalculator = {
 
         $.ajax({
           type: 'GET',
-          data: { claim_id: claim_id, advocate_category: advocate_category, fee_type_id: fee_type_id, quantity: quantity },
+          data: { advocate_category: advocate_category, fee_type_id: fee_type_id, quantity: quantity },
           url: '/external_users/claims/' + claim_id + '/calculate_fee.json',
           success: function (data) {
             data = '&pound;' + moj.Helpers.SideBar.addCommas(data.toFixed(2));

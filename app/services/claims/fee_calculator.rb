@@ -3,16 +3,18 @@ module Claims
     delegate :earliest_representation_order_date,
       :agfs?,
       :case_type,
+      :advocate_category,
       :offence,
       to: :@claim
-    attr_reader :claim
+
+    attr_reader :claim, :fee_type, :advocate_category, :quantity
 
     def initialize(claim)
       @claim = claim
     end
 
-    def call(fee_type:, quantity: , advocate_category: nil)
-      @advocate_category = advocate_category
+    def call(options)
+      set_attributes(options)
 
       fee_scheme.calculate do |options|
         options[:scenario] = scenario.id
@@ -43,6 +45,12 @@ module Claims
 
     private
 
+    def set_attributes(options)
+      @fee_type = Fee::BaseFeeType.find(options[:fee_type_id])
+      @advocate_category = options[:advocate_category] || advocate_category
+      @quantity = options[:quantity] || 1
+    end
+
     def scheme_type
       agfs? ? 'AGFS' : 'LGFS'
     end
@@ -63,10 +71,6 @@ module Claims
       # some/all fixed fees do not require offences and they have no bearing on calculated fee amount
       # TODO: make conditional on fee scheme version
       offence&.offence_class&.class_letter || offence&.offence_band&.description
-    end
-
-    def advocate_category
-      @advocate_category || claim.advocate_category
     end
 
     def advocate_type

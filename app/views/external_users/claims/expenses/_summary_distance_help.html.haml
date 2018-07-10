@@ -1,0 +1,9 @@
+%details{:role => "group"}
+  %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
+    %span.summary
+      = t('.distance_summary_heading')
+      = "How we calculate the distance"
+  #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
+    %p
+      = t('.distance_summary_text')
+      = "We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison."

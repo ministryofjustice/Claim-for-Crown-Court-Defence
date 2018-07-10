@@ -290,6 +290,7 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('should call reload when instantiated', function() {
+            instance.init();
             expect(instance.totals).toEqual({
               quantity: 11.11,
               rate: 22.22,
@@ -481,5 +482,59 @@ describe('Helpers.SideBar.js', function() {
         });
       });
     });
+
+    describe('ExpenseBlock', function() {
+      it('should apply Base Methods and set config props on the instance', function() {
+        var fixtureDom = [
+          '<div class="js-block">',
+          '</div>'
+        ].join('');
+        $('body').append(fixtureDom);
+        instance = new moj.Helpers.SideBar.ExpenseBlock({
+          type: 'ExpenseBlock',
+          $el: $('.js-block'),
+          el: fixtureDom
+        });
+        expect(instance.getConfig).toBeDefined();
+        expect(instance.getConfig('type')).toEqual('ExpenseBlock');
+        $('.js-block').remove();
+      });
+
+      describe('Methods', function() {
+        var fixtureDom;
+        beforeEach(function() {
+          fixtureDom = [
+            '<div class="js-block">',
+            '<input class="quantity" value="11.11"/>',
+            '<input class="rate" value="22.22"/>',
+            '<input class="amount" value="33.33"/>',
+            '<span class="total" data-total="44.44" />',
+            '<input class="vat" value=""/>',
+            '</div>'
+          ].join('');
+          $('body').append(fixtureDom);
+          instance = new moj.Helpers.SideBar.ExpenseBlock({
+            $el: $('.js-block'),
+            el: fixtureDom
+          });
+        });
+
+        afterEach(function() {
+          $('.js-block').remove();
+        });
+
+        describe('...init', function() {
+          it('should call `this.bindRecalculate`', function() {
+            spyOn(instance, 'bindRecalculate');
+            instance.init();
+            // expect(instance.bindRecalculate).toHaveBeenCalled();
+          });
+        });
+      });
+    });
+
+
+
+
   });
 });

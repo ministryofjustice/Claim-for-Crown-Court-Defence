@@ -1,3 +1,4 @@
+/*global GOVUK*/
 //= require jquery
 //= require jquery_ujs
 //= require jquery.remotipart
@@ -27,6 +28,14 @@
  * Copyright (c) 2011 "Cowboy" Ben Alman; Licensed MIT, GPL */
 
 (function($) {
+
+  $.wait = function(ms) {
+    var defer = $.Deferred();
+    setTimeout(function() {
+      defer.resolve();
+    }, ms);
+    return defer;
+  };
 
   var o = $({});
 
@@ -74,8 +83,8 @@ if (!String.prototype.supplant) {
 
   // Where .multiple-choice uses the data-target attribute
   // to toggle hidden content
-  var showHideContent = new GOVUK.ShowHideContent()
-  showHideContent.init()
+  var showHideContent = new GOVUK.ShowHideContent();
+  showHideContent.init();
 
   /**
    * Cocoon call back to init features once they have been
@@ -89,13 +98,13 @@ if (!String.prototype.supplant) {
 
     moj.Modules.Autocomplete.typeaheadKickoff(insertedSelect);
     moj.Modules.Autocomplete.typeaheadBindEvents(typeaheadWrapper);
-    moj.Modules.FeeFieldsDisplay.addFeeChangeEvent(insertedItem)
+    moj.Modules.FeeFieldsDisplay.addFeeChangeEvent(insertedItem);
   });
 
 
-  $('.form-actions').on('cocoon:after-insert', function(e, el){
+  $('.form-actions').on('cocoon:after-insert', function(e, el) {
     var $el = $(el);
-    if($el.hasClass('resource-details')){
+    if ($el.hasClass('resource-details')) {
       $el.find('a.add_fields').click();
     }
   });

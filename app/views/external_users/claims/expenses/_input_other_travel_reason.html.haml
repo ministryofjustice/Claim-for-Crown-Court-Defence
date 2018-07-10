@@ -1,5 +1,0 @@
--# INPUT: Other reasons
-- present(f.object) do |expense|
-  = f.adp_text_field :reason_text, label: t('.reason_text'), input_classes:'', errors: @error_presenter
-
-  = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")

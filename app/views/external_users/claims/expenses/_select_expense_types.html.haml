@@ -1,7 +1,0 @@
-%fieldset
-  %legend.form-label-bold{:for => "expense-type"}
-    Type of expense
-
-  - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
-  = f.select :expense_type_id, expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}, {include_blank: 'Please select'}, {class: 'form-control form-control-3-4'}
-  = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")

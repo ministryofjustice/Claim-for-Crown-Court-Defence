@@ -737,6 +737,13 @@ en:
           remove: "Remove disbursement"
       expenses:
         expense_fields:
+          select_option: Please select
+          travel_reason: Travel reason
+          type_of_expense: Type of expense
+          expense: Expense
+          cost: Cost per mile
+          location: Location
+          reason_text: Other reason
           add_date_attended: Add dates
           date: Date of expense
           date_hint: For example 31 3 2017
@@ -753,6 +760,7 @@ en:
           vat_amount: VAT amount
         fields:
           add_another_expense: 'Add another expense'
+          duplicate: Duplicate last expense
           amount: 'Amount'
           vat_amount: 'VAT amount'
           expenses: 'Travel Expenses'
@@ -762,6 +770,7 @@ en:
           location: 'Destination'
           quantity_hours: 'Hours'
           rate: 'Rate'
+          travel_expenses: Travel expenses
         summary:
           caption: 'Expenses: This section contains details of all expenses that have been claimed.'
           header: Travel expenses

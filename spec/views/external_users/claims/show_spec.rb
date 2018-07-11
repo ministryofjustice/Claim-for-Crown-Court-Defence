@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'external_users/claims/show.html.haml', type: :view do
   include ViewSpecHelper
+  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
+  let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
+  let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
 
   before(:all) do
     @external_user = create(:external_user, :litigator_and_admin)

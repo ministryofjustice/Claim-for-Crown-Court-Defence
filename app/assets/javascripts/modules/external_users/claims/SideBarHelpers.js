@@ -284,6 +284,7 @@ moj.Helpers.SideBar = {
         self.statemanager(e);
         // Deay the call just a bit
         $.wait(150).then(function() {
+          self.cleanupHiddenElements('form');
           self.$el.trigger('recalculate');
         });
       });
@@ -326,14 +327,18 @@ moj.Helpers.SideBar = {
       this.$el.find(this.stateLookup['location'] + ' label').text(val);
     }
 
+    this.setAmountLabel = function(key, val){
+     if (key !== 'netAmountLabel') return;
+      this.$el.find(this.stateLookup['netAmount'] + ' label').text(val);
+    }
+
     this.setTravelReason = function(key, val) {
       if (key !== 'reasonSet') return;
       var optionsArr = [];
       var option;
       var selectedVal = this.$el.find('.fx-travel-reason select').find('option:selected').val();
 
-
-      $.each(this.expenseResons[val], function(idx, obj){
+      $.each(this.expenseResons[val], function(idx, obj) {
         $option = $(new Option(obj.reason, obj.id));
         $option.attr('data-reason-text', obj.reason_text)
 
@@ -364,7 +369,6 @@ moj.Helpers.SideBar = {
         this.$el.find('.fx-travel-mileage-car').toggle(true)
         this.$el.find('.fx-travel-mileage-bike').toggle(false)
       }
-
     }
 
     /**
@@ -380,13 +384,28 @@ moj.Helpers.SideBar = {
         value: $el.val()
       };
 
-      $.each(state.config, function(key, val) {
-        self.$el.find(self.stateLookup[key]).toggle(val);
-        self.setLocationLabel(key, val);
-        self.setTravelReason(key, val);
-        self.setCostPerMile(key, val);
+      $.each(state.config, function(key, visible) {
+        self.changeState(key, visible)
       });
       return this;
+    }
+
+    this.changeState = function(key, visible) {
+      var selector = this.stateLookup[key];
+      this.$el.find(selector).toggle(visible);
+      this.setLocationLabel(key, visible);
+      this.setAmountLabel(key, visible);
+      this.setTravelReason(key, visible);
+      this.setCostPerMile(key, visible);
+    }
+
+    this.cleanupHiddenElements = function(selector, key) {
+      // return if no selector provided
+      if (!selector) return;
+      var $el = $(selector);
+      $el.find('input:hidden').not('input[type="hidden"]').not('input[type="radio"]').val('');
+      $el.find('select:hidden').not('select[type="hidden"]').val('');
+      $el.find('input:hidden[type="radio"]').prop("checked", false);
     }
   },
 

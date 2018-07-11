@@ -5,13 +5,13 @@ class ExpenseTypePresenter < BasePresenter
     {
       date: true,
       distance: distance_field?,
-      gross_amount: gross_amount_field?,
       hours: hours_field?,
       location: location_field?,
       location_label: location_label,
       mileage: mileage_field?,
       mileage_type: mileage_type,
       net_amount: net_amount_field?,
+      net_amount_label: net_amount_label,
       reason: true,
       reason_set: reason_set,
       vat_amount: vat_amount_field?
@@ -34,6 +34,10 @@ class ExpenseTypePresenter < BasePresenter
     end
   end
 
+  def net_amount_label
+    'Net amount'
+  end
+
   def destination_field?
     car_travel? || bike_travel? || train? || travel_time? || road_tolls? || cab_fares?
   end
@@ -47,15 +51,11 @@ class ExpenseTypePresenter < BasePresenter
   end
 
   def net_amount_field?
-    car_travel? || bike_travel?
+    true
   end
 
   def vat_amount_field?
-    car_travel? || bike_travel?
-  end
-
-  def gross_amount_field?
-    !(car_travel? || bike_travel?)
+    true
   end
 
   def mileage_type

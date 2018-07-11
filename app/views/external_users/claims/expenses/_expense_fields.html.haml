@@ -1,5 +1,5 @@
 - @expense_count += 1
-.expense-group.nested-fields.js-block.fx-numberedList-item{data:{"type": "expenses", autovat: "false", "block-type": "ExpenseBlock"}}
+.expense-group.nested-fields.js-block.fx-numberedList-item{data:{"type": "expenses", autovat: @claim.agfs? && @claim.apply_vat? ? "true" : "false", "block-type": "ExpenseBlock"}}
   .form-section-compound{"data-item-number" => "1"}
 
     %input#origin_postcode{ :name => "origin", :spellcheck => "false", :type => "hidden", :value => "B4 6QB"}/
@@ -38,7 +38,7 @@
 
 
         -# INPUT: Other travel reason input
-        .form-group.fx-travel-reason-other{:style => "display: none;"}
+        .form-group.fx-travel-reason-other{style: f.object.reason_id.eql?(5) ? "display: block;" : "display: none;" }
           - present(f.object) do |expense|
             = f.adp_text_field :reason_text, label: t('.reason_text'), input_classes:'', errors: @error_presenter
 
@@ -118,8 +118,9 @@
 
       .column-half
         -# INPUT: VAT amount
-        .form-group.fx-travel-vat-amount{:style => "display: none;"}
-          = f.adp_text_field :vat_amount,
+        - if @claim.lgfs?
+          .form-group.fx-travel-vat-amount{:style => "display: none;"}
+            = f.adp_text_field :vat_amount,
                             label: t('.vat_amount'),
                             input_classes:'form-input-denote__input vat',
                             input_type: 'currency',

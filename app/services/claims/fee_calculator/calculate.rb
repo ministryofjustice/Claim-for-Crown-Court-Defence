@@ -1,3 +1,5 @@
+require 'ostruct'
+
 # Service to calculate the total "price/bill" for a given fee.
 # Note that this price will require input from different attributes
 # on the claim and may require input from different CCCD fees
@@ -23,7 +25,7 @@ module Claims
       def call
         set_attributes(options)
 
-        fee_scheme.calculate do |options|
+        amount = fee_scheme.calculate do |options|
           options[:scenario] = scenario.id
           options[:offence_class] = offence_class
           options[:advocate_type] = advocate_type
@@ -39,7 +41,8 @@ module Claims
           end
 
           # TODO: aberrations
-          # elected case not proceeded is an scenario type with ccr fee type code of AGFS_FEE
+          # - elected case not proceeded is a scenario type with ccr fee type code of AGFS_FEE
+          # - cracked case discontinued - not sure we should even have this fee after speakin to BA??
 
           # modifiers
           # TODO: modifier needs to be dynamically determined and could be more than one
@@ -48,6 +51,12 @@ module Claims
           # options[:number_of_defendants] = 1
           # options[:number_of_cases] = 1
         end
+
+        data = OpenStruct.new(amount: amount)
+        OpenStruct.new(success?: true, data: data, errors: nil)
+
+      rescue LAA::FeeCalculator::ClientError => err
+        OpenStruct.new(success?: false, data: nil, errors: err)
       end
 
       private

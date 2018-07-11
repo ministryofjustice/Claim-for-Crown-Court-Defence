@@ -52,8 +52,11 @@ moj.Modules.FeeCalculator = {
       success: function (data) {
         self.populateInput('.js-fixed-fee-calculator-effectee', data);
       },
-      fail: function () {
-        console.log('failed!');
+      error: function (response) {
+        console.log('errors!');
+        $.each(response.responseJSON.errors, function(_index, value) {
+          console.log(value);
+        });
       }
     });
   },
@@ -75,8 +78,11 @@ moj.Modules.FeeCalculator = {
       success: function (data) {
         self.populateInput('.js-fixed-fee-calculator-effectee', data);
       },
-      fail: function () {
-        console.log('failed!');
+      error: function (response) {
+        console.log('errors!');
+        $.each(response.responseJSON.errors, function(_index, value) {
+          console.log(value);
+        });
       }
     });
   }

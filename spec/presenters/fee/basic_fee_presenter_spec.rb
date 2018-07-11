@@ -1,8 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Fee::BasicFeePresenter, type: :presenter do
-  let(:claim) { build(:advocate_claim) }
+  let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
+  let(:claim_9) { create(:advocate_claim, :agfs_scheme_9) }
   let(:fee) { build(:basic_fee, claim: claim) }
+  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
+  let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
+  let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
 
   subject(:presenter) { described_class.new(fee, view) }
 
@@ -14,42 +18,41 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
     end
 
     context 'when the fee type code is BAF' do
-      let(:fee) { build(:basic_fee, :baf_fee, claim: claim) }
+      context 'and the claim is under the original fee scheme' do
+        let(:fee) { build(:basic_fee, :baf_fee, claim: claim_9) }
 
-      specify { expect(presenter.prompt_text).to eq("Please include dates for those Standard appearance fees and PTPH's included in the Basic Fee\n") }
+        specify { expect(presenter.prompt_text).to eq("Please include dates for those Standard appearance fees and PTPH's included in the Basic Fee\n") }
+      end
 
       context 'and the claim is under the fee reform scheme' do
-        before do
-          allow(claim).to receive(:fee_scheme).and_return('fee_reform')
-        end
+        let(:fee) { build(:basic_fee, :baf_fee, claim: claim) }
 
         specify { expect(presenter.prompt_text).to eq("The basic fee for Scheme 10 claims includes the first day of trial and 3 conferences and views. All other hearings must be added in the relevant sections below\n") }
       end
     end
 
     context 'when the fee type code is SAF' do
-      let(:fee) { build(:basic_fee, :saf_fee, claim: claim) }
+      context 'and the claim is under the original fee scheme' do
+        let(:fee) { build(:basic_fee, :saf_fee, claim: claim_9) }
 
-      specify { expect(presenter.prompt_text).to eq("Include any additional PTPH fees under SAF") }
-
+        specify { expect(presenter.prompt_text).to eq("Include any additional PTPH fees under SAF") }
+      end
       context 'and the claim is under the fee reform scheme' do
-        before do
-          allow(claim).to receive(:fee_scheme).and_return('fee_reform')
-        end
+        let(:fee) { build(:basic_fee, :saf_fee, claim: claim) }
 
         specify { expect(presenter.prompt_text).to be_nil }
       end
     end
 
     context 'when the fee type code is PPE' do
-      let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }
+      context 'and the claim is under the original fee scheme' do
+        let(:fee) { build(:basic_fee, :ppe_fee, claim: claim_9) }
 
-      specify { expect(presenter.prompt_text).to be_nil }
+        specify { expect(presenter.prompt_text).to be_nil }
+      end
 
       context 'and the claim is under the fee reform scheme' do
-        before do
-          allow(claim).to receive(:fee_scheme).and_return('fee_reform')
-        end
+        let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }
 
         specify { expect(presenter.prompt_text).to eq("Please enter the volume of PPE to help the caseworker assess the correct offence band\n") }
       end
@@ -58,18 +61,12 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
 
   describe '#display_amount?' do
     context 'when the associated claim is not under the new fee reform' do
-      before do
-        expect(claim).to receive(:fee_scheme).and_return('default')
-      end
+      let(:fee) { build(:basic_fee, :baf_fee, claim: claim_9) }
 
       specify { expect(presenter.display_amount?).to be_truthy }
     end
 
     context 'when the associated claim is under the new fee reform' do
-      before do
-        expect(claim).to receive(:fee_scheme).and_return('fee_reform')
-      end
-
       context 'but the fee type code is not included in the blacklist' do
         let(:fee) { build(:basic_fee, :baf_fee, claim: claim) }
 
@@ -86,18 +83,12 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
 
   describe '#should_be_displayed?' do
     context 'when claim is NOT under the reformed fee scheme' do
-      before do
-        allow(claim).to receive(:fee_scheme).and_return('default')
-      end
+      let(:fee) { build(:basic_fee, :baf_fee, claim: claim_9) }
 
       specify { expect(presenter.should_be_displayed?).to be_truthy }
     end
 
     context 'when claim is under the reformed fee scheme' do
-      before do
-        allow(claim).to receive(:fee_scheme).and_return('fee_reform')
-      end
-
       context 'but fee type does not have any restrictions to be displayed' do
         let(:fee) { build(:basic_fee, :baf_fee, claim: claim) }
 

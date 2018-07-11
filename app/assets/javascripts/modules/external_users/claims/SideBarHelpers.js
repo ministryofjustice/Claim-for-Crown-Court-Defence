@@ -1,7 +1,3 @@
-/**
- * SideBar factory to create fee block instances
- * @type {Object}
- */
 moj.Helpers.SideBar = {
   Base: function(options) {
     var _options = {
@@ -22,7 +18,7 @@ moj.Helpers.SideBar = {
     };
 
     this.isVisible = function() {
-      return this.$el.is(':visible');
+      return this.$el.find('.rate').is(':visible') || this.$el.find('.amount').is(':visible') || this.$el.find('.total').is(':visible');
     };
 
     this.applyVat = function() {
@@ -32,12 +28,16 @@ moj.Helpers.SideBar = {
     };
 
     this.getVal = function(selector) {
-      return parseFloat(this.$el.find(selector).val()) || 0;
+      return parseFloat(this.$el.find(selector + ':visible').val()) || 0;
     };
 
     this.getDataVal = function(selector) {
       return parseFloat(this.$el.find('.' + selector).data('total')) || false;
     };
+
+    this.getMultipliedVal = function(val1, val2) {
+      return parseFloat((this.getVal(val1) * this.getVal(val2)).toFixed(2));
+    }
   },
   FeeBlock: function() {
     var self = this;
@@ -55,6 +55,7 @@ moj.Helpers.SideBar = {
       this.config.fn = 'FeeBlock';
       this.bindRecalculate();
       this.reload();
+      return this;
     };
 
     this.bindRecalculate = function() {
@@ -90,25 +91,21 @@ moj.Helpers.SideBar = {
     };
 
     this.render = function() {
-      this.$el.find('.total').val(this.totals.total.toFixed(2));
+      // TODO: Can this be removed? Investigate across block types.
+      this.$el.find('.total').html('&pound;' + moj.Helpers.SideBar.addCommas(this.totals.total.toFixed(2)));
       this.$el.find('.total').data('total', this.totals.total);
     };
-
-    // init
-    this.init();
   },
-
-  /**
-   * FeeBlockCalculator: constructor for calculated fees
-   */
   FeeBlockCalculator: function() {
     var self = this;
     moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
 
     this.init = function() {
       this.config.fn = 'FeeBlockCalculator';
+      this.bindRecalculate();
       this.bindRender();
       this.reload();
+      return this;
     };
 
     this.setTotals = function() {
@@ -116,7 +113,7 @@ moj.Helpers.SideBar = {
         quantity: this.getVal('.quantity'),
         rate: this.getVal('.rate'),
         amount: this.getVal('.amount'),
-        total: parseFloat((this.getVal('.quantity') * this.getVal('.rate')).toFixed(2)),
+        total: this.getMultipliedVal('.quantity', '.rate'),
         vat: this.getVal('.vat')
       };
 
@@ -130,20 +127,20 @@ moj.Helpers.SideBar = {
         self.render();
       });
     };
-
-    this.init();
   },
-  /**
-   * FeeBlockManualAmounts: constructor for uncalculated fees
-   */
   FeeBlockManualAmounts: function() {
     var self = this;
     moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
 
     this.init = function() {
       this.config.fn = 'FeeBlockManualAmounts';
+
+      this.bindRecalculate();
+      this.reload();
+
       this.bindRender();
       this.setTotals();
+      return this;
     };
 
     this.setTotals = function() {
@@ -164,17 +161,9 @@ moj.Helpers.SideBar = {
         self.render();
       });
     };
-
-    this.init();
   },
-  /**
-   * PhantomBlock: constructor for dealing with fees from
-   * other sections. Data is scraped from the DOM and block
-   * instances are created to deal with calculations
-   */
   PhantomBlock: function() {
     var self = this;
-    // copy methods over
     moj.Helpers.SideBar.Base.apply(this, arguments);
     this.totals = {
       quantity: 0,
@@ -189,23 +178,246 @@ moj.Helpers.SideBar = {
     };
 
     this.reload = function() {
-      this.totals.total =  (parseFloat(this.$el.data('seed')) || 0);
+      this.totals.total = (parseFloat(this.$el.data('seed')) || 0);
       this.totals.typeTotal = this.totals.total;
 
-      if(this.config.autoVAT){
+      if (this.config.autoVAT) {
         this.totals.vat = this.totals.total * 0.2;
-      } else{
+      } else {
         this.totals.vat = (parseFloat(this.$el.data('seed-vat')) || 0)
       }
       return this;
     };
 
-    this.init = function(){
+    this.init = function() {
       this.reload();
+      return this;
+    }
+  },
+  ExpenseBlock: function() {
+    var self = this;
+    moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
+
+    this.stateLookup = {
+      "vatAmount": ".fx-travel-vat-amount",
+      "reason": ".fx-travel-reason",
+      "netAmount": ".fx-travel-net-amount",
+      "location": ".fx-travel-location",
+      "hours": ".fx-travel-hours",
+      "distance": ".fx-travel-distance",
+      "destination": ".fx-travel-destination",
+      "date": ".fx-travel-date",
+      "mileage": ".fx-travel-mileage",
+      "grossAmount": ".fx-travel-gross-amount"
+    };
+
+    this.defaultstate = {
+      "mileage": false,
+      "date": false,
+      "distance": false,
+      "grossAmount": false,
+      "hours": false,
+      "location": false,
+      "netAmount": false,
+      "reason": false,
+      "vatAmount": false,
+    };
+
+    this.expenseResons = {
+      "A": [{
+        "id": 1,
+        "reason": "Court hearing",
+        "reason_text": false
+      }, {
+        "id": 2,
+        "reason": "Pre-trial conference expert witnesses",
+        "reason_text": false
+      }, {
+        "id": 3,
+        "reason": "Pre-trial conference defendant",
+        "reason_text": false
+      }, {
+        "id": 4,
+        "reason": "View of crime scene",
+        "reason_text": false
+      }, {
+        "id": 5,
+        "reason": "Other",
+        "reason_text": true
+      }],
+      "B": [{
+        "id": 2,
+        "reason": "Pre-trial conference expert witnesses",
+        "reason_text": false
+      }, {
+        "id": 3,
+        "reason": "Pre-trial conference defendant",
+        "reason_text": false
+      }, {
+        "id": 4,
+        "reason": "View of crime scene",
+        "reason_text": false
+      }]
+    };
+
+    this.init = function() {
+      this.config.fn = 'ExpenseBlock';
+
+      // Bind events
+      this.bindEvents();
+
+      // Load the state based on the selected option
+      this.loadCurrentState();
+
+      // reload the block totals
+      // after the state is set
+      this.reload();
+      return this;
+    };
+
+    this.bindEvents = function() {
+      // Bind the core change listner
+      this.bindRecalculate();
+
+      // Bind events on the this.$el element
+      this.bindListners();
+    };
+
+    // Bind delegated events onto this.$el
+    this.bindListners = function() {
+      var self = this;
+      /**
+       * Listen for the `expense type` change event and
+       * pass the event object to the statemanager
+       */
+      this.$el.on('change', '.fx-travel-expense-type select', function(e) {
+        self.statemanager(e);
+        // Delay the call just a bit
+        $.wait(150).then(function() {
+          self.cleanupHiddenElements('form');
+          self.$el.trigger('recalculate');
+        });
+      });
+
+      /**
+       * Listen for the `expense reason` change event and
+       * show/hide the other reason box
+       */
+      this.$el.on('change', '.fx-travel-reason select', function(e) {
+        var state = $(e.target).find('option:selected').data('reasonText');
+        self.$el.find('.fx-travel-reason-other').toggle(state)
+      });
+      return this;
+    };
+
+
+    this.loadCurrentState = function() {
+      var $select = this.$el.find('.fx-travel-expense-type select');
+      if ($select.val()) {
+        $select.trigger('change');
+      }
     }
 
-    this.init();
+    this.setTotals = function() {
+      this.totals = {
+        quantity: this.getVal('.quantity'),
+        rate: this.getVal('.rate'),
+        amount: this.getVal('.amount'),
+        total: this.getVal('.rate'),
+        vat: this.getVal('.vat')
+      };
+
+      this.totals.typeTotal = this.totals.total;
+      return this.totals;
+    };
+
+    this.setLocationLabel = function(key, val) {
+      if (key !== 'locationLabel') return;
+      this.$el.find(this.stateLookup['location'] + ' label').text(val);
+    };
+
+    this.setAmountLabel = function(key, val){
+     if (key !== 'netAmountLabel') return;
+      this.$el.find(this.stateLookup['netAmount'] + ' label').text(val);
+    };
+
+    this.setTravelReason = function(key, val) {
+      if (key !== 'reasonSet') return;
+      var optionsArr = [];
+      var option;
+      var selectedVal = this.$el.find('.fx-travel-reason select').find('option:selected').val();
+
+      $.each(this.expenseResons[val], function(idx, obj) {
+        $option = $(new Option(obj.reason, obj.id));
+        $option.attr('data-reason-text', obj.reason_text)
+
+        if (selectedVal == obj.id) {
+          $option.prop('selected', true)
+        }
+        optionsArr.push($option);
+
+      });
+      this.$el.find('.fx-travel-reason select').children().remove().end().append(optionsArr)
+    };
+
+    this.setCostPerMile = function(key, val) {
+      var self = this;
+      if (key !== "mileageType") return;
+
+      // toggle between bike / car mileage
+      if (val === 'bike') {
+        this.$el.find('.fx-travel-mileage-bike input').prop('disabled', false).prop('checked', 'checked').trigger('click');
+
+        this.$el.find('.fx-travel-mileage-car').toggle(false)
+        this.$el.find('.fx-travel-mileage-bike').toggle(true)
+      }
+
+      if (val === 'car') {
+        this.$el.find('.fx-travel-mileage-bike input').prop('disabled', true).prop('checked', false);
+
+        this.$el.find('.fx-travel-mileage-car').toggle(true)
+        this.$el.find('.fx-travel-mileage-bike').toggle(false)
+      }
+    };
+
+    /**
+     * statemanager: Controlling the visiblilty of form elements
+     * @param  {object} e jQuery event object
+     * @return this
+     */
+    this.statemanager = function(e) {
+      var self = this;
+      var $el = $(e.target);
+      var state = {
+        config: $.extend({}, this.defaultstate, $el.find('option:selected').data()),
+        value: $el.val()
+      };
+
+      $.each(state.config, function(key, visible) {
+        self.changeState(key, visible)
+      });
+      return this;
+    };
+
+    this.changeState = function(key, visible) {
+      var selector = this.stateLookup[key];
+      this.$el.find(selector).toggle(visible);
+      this.setLocationLabel(key, visible);
+      this.setAmountLabel(key, visible);
+      this.setTravelReason(key, visible);
+      this.setCostPerMile(key, visible);
+    };
+
+    this.cleanupHiddenElements = function(selector, key) {
+      // return if no selector provided
+      if (!selector) return;
+      var $el = $(selector);
+      $el.find('input:hidden').not('input[type="hidden"]').not('input[type="radio"]').val('');
+      $el.find('select:hidden').not('select[type="hidden"]').val('');
+      $el.find('input:hidden[type="radio"]').prop("checked", false);
+    }
   },
+
   addCommas: function(nStr) {
     nStr += '';
     x = nStr.split('.');

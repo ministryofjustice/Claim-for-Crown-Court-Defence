@@ -3,13 +3,18 @@ class ExpenseTypePresenter < BasePresenter
 
   def data_attributes
     {
+      date: true,
+      distance: distance_field?,
+      hours: hours_field?,
       location: location_field?,
       location_label: location_label,
-      distance: distance_field?,
       mileage: mileage_field?,
       mileage_type: mileage_type,
-      hours: hours_field?,
-      reason_set: reason_set
+      net_amount: true,
+      net_amount_label: net_amount_label,
+      reason: true,
+      reason_set: reason_set,
+      vat_amount: true
     }
   end
 
@@ -27,6 +32,10 @@ class ExpenseTypePresenter < BasePresenter
     else
       ''
     end
+  end
+
+  def net_amount_label
+    'Net amount'
   end
 
   def destination_field?

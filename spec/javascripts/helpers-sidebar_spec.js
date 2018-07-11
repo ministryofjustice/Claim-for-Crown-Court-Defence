@@ -286,6 +286,7 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('should call reload when instantiated', function() {
+            instance.init();
             expect(instance.totals).toEqual({
               quantity: 11.11,
               rate: 22.22,
@@ -390,7 +391,6 @@ describe('Helpers.SideBar.js', function() {
         expect(instance.init).toBeDefined();
         expect(instance.render).toBeDefined();
         $('.js-block').remove();
-
       });
 
       describe('Methods', function() {
@@ -425,17 +425,15 @@ describe('Helpers.SideBar.js', function() {
         });
 
         describe('...render', function() {
-          it('should update the view correctly', function(){
+          it('should update the view correctly', function() {
             instance.totals.total = 1234567.89;
             instance.render();
-            console.log(instance.$el.find('.total'));
             expect(instance.$el.find('.total').data('total')).toBe(1234567.89);
-            expect(instance.$el.find('.total').val()).toEqual('1234567.89');
           });
         });
 
         describe('...setTotals', function() {
-          it('should set `this.totals` correctly', function(){
+          it('should set `this.totals` correctly', function() {
             instance.totals = {
               quantity: 'changeme',
               rate: 'changeme',
@@ -478,5 +476,214 @@ describe('Helpers.SideBar.js', function() {
         });
       });
     });
+
+    describe('ExpenseBlock', function() {
+
+      describe('Defaults', function() {
+        var fixtureDom;
+        var instance;
+
+        beforeEach(function() {
+          fixtureDom = [
+            '<div class="js-block">',
+            '</div>'
+          ].join('');
+          $('body').append(fixtureDom);
+
+          instance = new moj.Helpers.SideBar.ExpenseBlock({
+            type: 'ExpenseBlock',
+            $el: $('.js-block'),
+            el: fixtureDom
+          });
+        });
+
+        afterEach(function() {
+          $('.js-block').remove();
+        });
+
+        it('should apply Base Methods and set config props on the instance', function() {
+          expect(instance.getConfig).toBeDefined();
+          expect(instance.getConfig('type')).toEqual('ExpenseBlock');
+        });
+
+        it('should have `this.stateLookup` defined', function() {
+          expect(instance.stateLookup).toEqual({
+            "vatAmount": ".fx-travel-vat-amount",
+            "reason": ".fx-travel-reason",
+            "netAmount": ".fx-travel-net-amount",
+            "location": ".fx-travel-location",
+            "hours": ".fx-travel-hours",
+            "distance": ".fx-travel-distance",
+            "destination": ".fx-travel-destination",
+            "date": ".fx-travel-date",
+            "mileage": ".fx-travel-mileage",
+            "grossAmount": ".fx-travel-gross-amount"
+          });
+        });
+
+        it('should have `this.defaultstate` defined', function() {
+          expect(instance.defaultstate).toEqual({
+            "mileage": false,
+            "date": false,
+            "distance": false,
+            "grossAmount": false,
+            "hours": false,
+            "location": false,
+            "netAmount": false,
+            "reason": false,
+            "vatAmount": false,
+          });
+        });
+
+        it('should have `this.expenseResons` defined', function() {
+          expect(instance.expenseResons).toEqual({
+            "A": [{
+              "id": 1,
+              "reason": "Court hearing",
+              "reason_text": false
+            }, {
+              "id": 2,
+              "reason": "Pre-trial conference expert witnesses",
+              "reason_text": false
+            }, {
+              "id": 3,
+              "reason": "Pre-trial conference defendant",
+              "reason_text": false
+            }, {
+              "id": 4,
+              "reason": "View of crime scene",
+              "reason_text": false
+            }, {
+              "id": 5,
+              "reason": "Other",
+              "reason_text": true
+            }],
+            "B": [{
+              "id": 2,
+              "reason": "Pre-trial conference expert witnesses",
+              "reason_text": false
+            }, {
+              "id": 3,
+              "reason": "Pre-trial conference defendant",
+              "reason_text": false
+            }, {
+              "id": 4,
+              "reason": "View of crime scene",
+              "reason_text": false
+            }]
+          });
+        });
+      });
+
+      describe('Methods', function() {
+        var fixtureDom;
+        beforeEach(function() {
+          fixtureDom = [
+            '<div class="js-block">',
+            '<input class="quantity" value="11.11"/>',
+            '<input class="rate" value="22.22"/>',
+            '<input class="amount" value="33.33"/>',
+            '<span class="total" data-total="44.44" />',
+            '<div class="fx-travel-expense-type"><select><option value="">please select</option><option value="1">option selected</option></select></div>',
+            '<div class="fx-travel-reason"><select><option value="">please select</option><option data-reason-text="true" value="1">option selected</option></select></div>',
+            '<div class="fx-travel-reason-other" style="display:none"><span>here</span></div>',
+            '<input class="vat" value=""/>',
+            '</div>'
+          ].join('');
+          $('body').append(fixtureDom);
+          instance = new moj.Helpers.SideBar.ExpenseBlock({
+            $el: $('.js-block'),
+            el: fixtureDom
+          });
+        });
+
+        afterEach(function() {
+          $('.js-block').remove();
+        });
+
+        describe('...init', function() {
+          it('should call `this.bindEvents`', function() {
+            spyOn(instance, 'bindEvents');
+            instance.init();
+            expect(instance.bindEvents).toHaveBeenCalled();
+          });
+          it('should call `this.loadCurrentState`', function() {
+            spyOn(instance, 'loadCurrentState');
+            instance.init();
+            expect(instance.loadCurrentState).toHaveBeenCalled();
+          });
+          it('should call `this.reload`', function() {
+            spyOn(instance, 'reload');
+            instance.init();
+            expect(instance.reload).toHaveBeenCalled();
+          });
+        });
+
+        describe('...bindEvents', function() {
+          it('should call `this.bindRecalculate`', function() {
+            spyOn(instance, 'bindRecalculate');
+            instance.init();
+            expect(instance.bindRecalculate).toHaveBeenCalled();
+          });
+
+          it('should call `this.bindListners`', function() {
+            spyOn(instance, 'bindListners');
+            instance.init();
+            expect(instance.bindListners).toHaveBeenCalled();
+          });
+        });
+
+        describe('...bindListners', function() {
+          it('expense type: should bind change listner', function() {
+            var selector = '.fx-travel-expense-type select'
+            var spyEvent = spyOnEvent(selector, 'change');
+
+            $(selector).change();
+
+            expect('change').toHaveBeenTriggeredOn(selector);
+            expect(spyEvent).toHaveBeenTriggered();
+          });
+
+          it('expense type: should handle change event', function() {
+            jasmine.clock().install();
+            var selector = '.fx-travel-expense-type select'
+
+            instance.bindListners();
+            spyOn(instance, 'statemanager');
+            spyOn(instance, 'cleanupHiddenElements');
+            spyOn(instance.$el, 'trigger');
+
+            $(selector).change();
+
+            jasmine.clock().tick(200);
+
+            expect(instance.statemanager).toHaveBeenCalled();
+            expect(instance.cleanupHiddenElements).toHaveBeenCalledWith('form');
+            expect(instance.$el.trigger).toHaveBeenCalledWith('recalculate');
+          });
+
+          it('travel reason: should bind change listner', function() {
+            var selector = '.fx-travel-reason select:last'
+            var spyEvent = spyOnEvent(selector, 'change');
+
+            $(selector).change();
+
+            expect('change').toHaveBeenTriggeredOn(selector);
+            expect(spyEvent).toHaveBeenTriggered();
+          });
+
+          it('travel reason: should handle change event', function() {
+            var selector = '.fx-travel-reason select:last'
+
+            instance.bindListners();
+            $(selector).prop('selectedIndex', 1).change();
+            expect(instance.$el.find('.fx-travel-reason-other').is(':visible')).toBe(true);
+          });
+        });
+      });
+    });
+
+
+
   });
 });

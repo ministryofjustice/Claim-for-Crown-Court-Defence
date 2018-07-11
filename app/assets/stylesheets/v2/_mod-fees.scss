@@ -16,3 +16,7 @@
     right:40%;
   }
 }
+
+.expense-group{
+  @extend .mod-fees;
+}

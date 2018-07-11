@@ -153,6 +153,8 @@ describe("Modules.SideBar.js", function() {
         jsBlockFixtureDOM.append([jsBlockViewNonCalculated().clone(), jsBlockViewNonCalculated().clone(), jsBlockViewNonCalculated().clone()]);
         $('body').append(jsBlockFixtureDOM);
 
+        expect(moj.Modules.SideBar.blocks.length).toEqual(2)
+
         moj.Modules.SideBar.loadBlocks();
 
         expect(moj.Modules.SideBar.blocks.length).toBe(3);
@@ -169,15 +171,14 @@ describe("Modules.SideBar.js", function() {
         jsBlockFixtureDOM.append(fixture);
         $('body').append(jsBlockFixtureDOM);
 
-        spyOn(moj.Helpers.SideBar, 'FeeBlock');
         moj.Modules.SideBar.loadBlocks();
-
-        expect(moj.Helpers.SideBar.FeeBlock).toHaveBeenCalled();
+        expect(moj.Modules.SideBar.blocks.length).toEqual(3)
 
         jsBlockFixtureDOM.empty();
       });
 
       it('should update the `phantomBlockList` by removing types', function() {
+
         var fixture = [
           jsBlockViewNonCalculated().clone(),
           jsBlockViewNonCalculated({
@@ -190,7 +191,6 @@ describe("Modules.SideBar.js", function() {
 
         $('body').append(jsBlockFixtureDOM);
 
-        spyOn(moj.Helpers.SideBar, 'FeeBlock');
         spyOn(moj.Modules.SideBar, 'removePhantomKey').and.callThrough();
 
         moj.Modules.SideBar.loadBlocks();
@@ -201,6 +201,7 @@ describe("Modules.SideBar.js", function() {
 
         jsBlockFixtureDOM.empty();
       });
+
     });
 
     describe('...removePhantomKey', function() {

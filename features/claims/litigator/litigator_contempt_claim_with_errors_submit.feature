@@ -36,7 +36,7 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     And I should be in the 'Disbursements' form page
     Then I click "Continue" in the claim form
 
-    And I should be in the 'Travel Expenses' form page
+    And I should be in the 'Travel expenses' form page
     And I add an expense 'Parking' with total '99.25' and VAT '15.50' with invalid date
     Then I should see in the sidebar total '£215.50'
     Then I should see in the sidebar vat total '£15.50'

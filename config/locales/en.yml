@@ -819,15 +819,30 @@ en:
           remove: "Remove disbursement"
       expenses:
         expense_fields:
-          add_date_attended: 'Add dates'
-          remove: Remove expense <span class="js-expense-remove-count"></span>
-          vat: VAT
+          select_option: Please select
+          travel_reason: Travel reason
+          type_of_expense: Type of expense
+          expense: Expense
+          cost: Cost per mile
+          location: Location
+          reason_text: Other reason
+          add_date_attended: Add dates
+          date: Date of expense
+          date_hint: For example 31 3 2017
           destination: Destination
           distance: Distance
+          distance_hint: Total distance for the return journey
+          distance_summary_heading: How we calculate the distance
+          distance_summary_text: |
+            We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison.
           hours: Hours
-          total: Total
+          net_amount: Net amount
+          remove: Remove
+          total: Total amount
+          vat_amount: VAT amount
         fields:
           add_another_expense: 'Add another expense'
+          duplicate: Duplicate last expense
           amount: 'Amount'
           vat_amount: 'VAT amount'
           expenses: 'Travel Expenses'
@@ -837,6 +852,7 @@ en:
           location: 'Destination'
           quantity_hours: 'Hours'
           rate: 'Rate'
+          travel_expenses: Travel expenses
         summary:
           caption: 'Expenses: This section contains details of all expenses that have been claimed.'
           header: Travel expenses

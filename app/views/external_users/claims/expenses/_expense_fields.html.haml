@@ -1,104 +1,123 @@
 - @expense_count += 1
-.expense-group.nested-fields.js-block.fx-numberedList-item{data:{"type": "expenses", autovat: @claim.agfs? && @claim.apply_vat? ? "true" : "false"}}
-  %fieldset
-    %legend
-      = "Expense"
+.expense-group.nested-fields.js-block.fx-numberedList-item{data:{"type": "expenses", autovat: @claim.agfs? && @claim.apply_vat? ? "true" : "false", "block-type": "ExpenseBlock"}}
+  .form-section-compound{"data-item-number" => "1"}
+
+    %input#origin_postcode{ :name => "origin", :spellcheck => "false", :type => "hidden", :value => "B4 6QB"}/
+
+    %h3.heading-medium
+      = t('.expense')
       %span.fx-numberedList-number
       %span.fx-remove-link
-        = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' }
+        = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group', class: 'header-action' }
 
     .grid-row
-      .column-one-third{class: error_class?(@error_presenter, "expense_#{@expense_count}_expense_type")}
+      .column-half
+        -# SELECT: Expense types
+        .form-group.fx-travel-expense-type
+          %fieldset
+            %legend.form-label-bold{:for => "expense-type"}
+              = t('.type_of_expense')
 
-        %a{id: "expense_#{@expense_count}_expense_type"}
-        = f.label :expense_type_id, 'Expense type'
-        - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
-        = f.select :expense_type_id, expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}, {include_blank: 'Please select'}, {class: 'form-control js-expense-type'}
-        %span{role: 'status', aria: {live: 'assertive', relevant: 'additions' }, class:'visually-hidden'}
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
+            - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
+            = f.select :expense_type_id, expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}, {include_blank: t('.select_option')}, {class: 'form-control form-control-3-4'}
+            = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
 
-      .column-one-third{class: "js-expense-location"}
-        = f.adp_text_field :location,
-                            label: t('.destination'),
-                            errors: @error_presenter
+      .column-half
+        -# SELECT: Travel reasons
+        .form-group.fx-travel-reason{:style => "display: none;"}
+          %fieldset
+            %legend.form-label-bold
+              = t('.travel_reason')
+              %a{id: "expense_#{@expense_count}_reason_id"}
 
-      .column-one-third.condensed{class: "js-expense-distance expense-distance"}
-        = f.adp_text_field :distance,
-                            label: t('.distance'),
-                            input_type: 'number',
-                            value: number_with_precision(f.object.distance, precision: 2),
-                            errors: @error_presenter
+          - reasons_collection = present_collection(reasonset_for_expense_type(f.object.expense_type).values, TravelReasonPresenter)
+          = f.select :reason_id, reasons_collection.map {|et| [et.reason, et.id, { data: et.data_attributes }]}, {include_blank: t('.select_option')}, {class: 'form-control form-control-3-4'}
+          = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
 
-      .column-one-third.condensed{class: "js-expense-hours expense-hours"}
-        = f.adp_text_field :hours,
-                            label: t('.hours'),
-                            input_classes:'short-input',
-                            input_type: 'number',
-                            errors: @error_presenter
-
-    .grid-row
-      .column-one-third{class: "js-expense-date expense_#{@expense_count}_date"}
-        = f.gov_uk_date_field :date,
-                                legend_text: 'Date of expenses',
-                                legend_class: 'govuk-legend',
-                                id: "expense_#{@expense_count}_date",
-                                error_messages: gov_uk_date_field_error_messages(@error_presenter, "expense_#{@expense_count}_date")
-
-      .column-one-third.js-expense-reason{class: error_class?(@error_presenter, "expense_#{@expense_count}_reason_id")}
-        %a{id: "expense_#{@expense_count}_reason_id"}
-        = f.label :reason_id, 'Reason for travel'
-        -# (hardcoded for now, dependent on chosen Expense Type):
-        = f.collection_select :reason_id, ExpenseType::REASON_SET_A.values, :id, :reason, {prompt: true}, { disabled: false , class: 'form-control'}
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
-
-        - present(f.object) do |expense|
-          %div{class: "js-expense-reason-text", style: "display: #{expense.display_reason_text_css}" }
-            %a{id: "expense_#{@expense_count}_reason_text"}
-            = f.label :reason_text, 'Reason text'
-            -#  (only will show when selected Reason is Other):
-            = f.text_field :reason_text, {class: 'form-control'}
-            = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")
-
-      .column-one-third.condensed{class: "js-expense-amount fee-total"}
-        = f.adp_text_field :amount,
-                            label: t('.total'),
-                            input_classes:'total',
-                            input_type: 'currency',
-                            errors: @error_presenter,
-                            value: number_with_precision(f.object.amount, precision: 2)
+        -# INPUT: Other travel reason input
+        .form-group.fx-travel-reason-other{style: f.object.reason_id.eql?(5) ? "display: block;" : "display: none;" }
+          - present(f.object) do |expense|
+            = f.adp_text_field :reason_text, label: t('.reason_text'), input_classes:'', errors: @error_presenter
 
     .grid-row
-      .column-two-thirds{style: "width: 80%"}
-        &nbsp;
-        .js-expense-mileage.expense-cost{class: error_class?(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")}
-          %a{id: "expense_#{@expense_count}_mileage_rate_id"}
-          %fieldset{class: "inline"}
-            %legend
-              ='Cost'
-            %div.js-expense-type-car
-              = f.hidden_field :mileage_rate_id, value: ''
+      .column-half
+        -# INPUT: Location
+        .form-group.fx-travel-location{:style => "display: none;"}
+          = f.adp_text_field :location, label: t('.location'), input_classes:'form-control-3-4', errors: @error_presenter
+
+      .column-half
+        -# INPUT: Travel hours
+        .form-group.fx-travel-hours{:style => "display: none;"}
+          = f.adp_text_field :hours, label: t('.hours'), input_classes:'form-control-1-8', input_type: 'number', errors: @error_presenter
+
+
+        -# INPUT: Travel Distance
+        .form-group-compound.fx-travel-distance{:style => "display: none;"}
+          = f.adp_text_field :distance, label: t('.distance'), hint_text: t('.distance_hint'), input_type: 'number', input_classes: 'form-control-1-4', value: number_with_precision(f.object.distance, precision: 2), errors: @error_presenter
+
+        -# DETAILS: Distance calculation
+        .form-group.fx-travel-distance{:style => "display: none;"}
+          %details{:role => "group"}
+            %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
+              %span.summary
+                = t('.distance_summary_heading')
+            #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
+              %p
+                = t('.distance_summary_text')
+
+    .grid-row
+      .column-half
+        -# RADIOS: Cost per mile
+        .form-group.fx-travel-mileage{:style => "display: none;"}
+          %fieldset
+            %legend.form-label-bold
+              = t('.cost')
+
+            %div.fx-travel-mileage-car
+
               = f.collection_radio_buttons(:mileage_rate_id, Expense::CAR_MILEAGE_RATES.values, :id, :description) do |b|
                 .multiple-choice
                   = b.radio_button
                   = b.label { b.object.description }
               = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
 
-            %div.js-expense-type-bike
+            %div.fx-travel-mileage-bike
               = f.collection_radio_buttons(:mileage_rate_id, Expense::BIKE_MILEAGE_RATES.values, :id, :description) do |b|
                 .multiple-choice
                   = b.radio_button
                   = b.label { b.object.description }
               = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
 
+      .column-half
+        -# DATES: Expense date
+        .form-group.fx-travel-date{:style => "display: none;"}
+          = f.gov_uk_date_field :date,
+            legend_text: t('.date'),
+            form_hint_text: t('.date_hint'),
+            legend_class: 'govuk-legend',
+            id: "expense_#{@expense_count}_date",
+            error_messages: gov_uk_date_field_error_messages(@error_presenter, "expense_#{@expense_count}_date")
 
+    .grid-row
+      .column-half
+        -# INPUT: Net amount
+        .form-group.fx-travel-net-amount{:style => "display: none;"}
+          = f.adp_text_field :amount,
+                            label: t('.net_amount'),
+                            input_classes:'form-input-denote__input rate',
+                            input_type: 'currency',
+                            errors: @error_presenter,
+                            value: number_with_precision(f.object.amount, precision: 2)
 
-      .column-one-third.condensed
+      .column-half
+        -# INPUT: VAT amount
         - if @claim.lgfs?
-          .js-expense-vat-amount
+          .form-group.fx-travel-vat-amount{:style => "display: none;"}
             = f.adp_text_field :vat_amount,
-                          label: t('.vat'),
-                          input_classes:'vat',
-                          input_type: 'currency',
-                          errors: @error_presenter,
-                          value: number_with_precision(f.object.vat_amount, precision: 2)
+                            label: t('.vat_amount'),
+                            input_classes:'form-input-denote__input vat',
+                            input_type: 'currency',
+                            errors: @error_presenter,
+                            value: number_with_precision(f.object.vat_amount, precision: 2)
 
+  %hr/

@@ -39,15 +39,18 @@ moj.Modules.FeeCalculator = {
     try {
       console.log(response.responseJSON.errors);
     } catch(e) {}
-    this.clearErrors();
+
+    this.clearErrors(selector);
+    $(selector).find('.form-group').addClass('field_with_errors form-group-error');
     error_html = '<div class="js-calculate-error" style="color: #b10e1e; font-weight: bold;">' + user_error +'<div>';
     original_label = $(selector + ' label').text()
     new_label = original_label + ' ' + error_html;
     $(selector + ' label').html(new_label);
   },
 
-  clearErrors: function() {
-    $('.js-calculate-error').remove();
+  clearErrors: function(selector) {
+    $(selector).find('.form-group').removeClass('field_with_errors form-group-error');
+    $(selector).find('.js-calculate-error').remove();
   },
 
   // Calculates the "total" fee
@@ -65,6 +68,7 @@ moj.Modules.FeeCalculator = {
       data: { advocate_category: advocate_category, fee_type_id: fee_type_id, quantity: quantity },
       url: '/external_users/claims/' + claim_id + '/calculate_fee.json',
       success: function (data) {
+        self.clearErrors('.js-fixed-fee-calculator-effectee');
         self.populateInput('.js-fixed-fee-calculator-effectee', data);
       },
       error: function (response) {
@@ -88,7 +92,7 @@ moj.Modules.FeeCalculator = {
       data: { advocate_category: advocate_category, fee_type_id: fee_type_id },
       url: '/external_users/claims/' + claim_id + '/calculate_unit_price.json',
       success: function (response) {
-        self.clearErrors();
+        self.clearErrors('.js-fixed-fee-calculator-effectee');
         self.populateInput('.js-fixed-fee-calculator-effectee', response.data["amount"]);
       },
       error: function (response) {

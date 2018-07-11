@@ -52,6 +52,6 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def requires_interim_claim_info?
-    claim.fee_scheme == 'fee_reform'
+    claim.fee_scheme.version.eql?(10)
   end
 end

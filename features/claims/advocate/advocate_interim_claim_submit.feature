@@ -1,9 +1,6 @@
 @javascript
 Feature: Advocate partially fills out a draft AGFS interim claim for a trial, then later edits and submits it
 
-  Background:
-    Given AGFS reform commenced on "2018-01-01"
-
   Scenario: I create an AGFS interim claim, save it to draft and later complete it
 
     Given I am a signed in advocate
@@ -32,7 +29,7 @@ Feature: Advocate partially fills out a draft AGFS interim claim for a trial, th
     Then I select the first search result
 
     And I select an advocate category of 'Junior'
-    And I fill in '2018-01-01' as the warrant issued date
+    And I fill in '2018-04-01' as the warrant issued date
     And I enter a Warrant net amount of '100'
 
     Then I click "Continue" in the claim form

@@ -1,5 +1,7 @@
 %h2.heading-large
   = t('.offence_details')
 
-- if @claim.fee_scheme
-  = render partial: "external_users/claims/offence_details/#{@claim.fee_scheme}_fields", locals: { f: f }
+- if @claim.fee_scheme.version.eql?(10)
+  = render partial: "external_users/claims/offence_details/fee_reform_fields", locals: { f: f }
+- else
+  = render partial: "external_users/claims/offence_details/default_fields", locals: { f: f }

@@ -7,6 +7,9 @@ require 'ostruct'
 #
 module Claims
   module FeeCalculator
+    Response = Struct.new(:success?, :data, :errors, keyword_init: true)
+    Data = Struct.new(:amount, keyword_init: true)
+
     class Calculate
       delegate :earliest_representation_order_date,
         :agfs?,
@@ -32,7 +35,7 @@ module Claims
           options[:fee_type_code] = fee_type_code_for(fee_type)
 
           # units
-          # TODO: unit needs to be dynamically determined and values determined
+          # TODO: which unit to use and their values need to be dynamically determined.
           # Current code only works assuming there is only one unit type and the quantity of
           # the fee is for that unit type.
           units = fee_scheme.units(options).map { |u| u.id.downcase }
@@ -42,7 +45,7 @@ module Claims
 
           # TODO: aberrations
           # - elected case not proceeded is a scenario type with ccr fee type code of AGFS_FEE
-          # - cracked case discontinued - not sure we should even have this fee after speakin to BA??
+          # - cracked case discontinued - not sure we should even have this fixed fee in CCCD after speaking to BA??
 
           # modifiers
           # TODO: modifier needs to be dynamically determined and could be more than one
@@ -52,11 +55,9 @@ module Claims
           # options[:number_of_cases] = 1
         end
 
-        data = OpenStruct.new(amount: amount)
-        OpenStruct.new(success?: true, data: data, errors: nil)
-
+        response(true, amount);
       rescue LAA::FeeCalculator::ClientError => err
-        OpenStruct.new(success?: false, data: nil, errors: err)
+        response(false, err);
       end
 
       private
@@ -98,6 +99,11 @@ module Claims
           CCR::Fee::FixedFeeAdapter::FIXED_FEE_BILL_MAPPINGS,
           CCR::Fee::MiscFeeAdapter::MISC_FEE_BILL_MAPPINGS
         ].inject(&:merge)[fee_type.unique_code.to_sym][:bill_subtype]
+      end
+
+      def response(success, data)
+        return Response.new(success?: true, data: Data.new(amount: data), errors: nil) if success
+        Response.new(success?: false, data: nil, errors: [data])
       end
 
       def client

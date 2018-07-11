@@ -189,19 +189,18 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     )
   end
 
+  # TODO: not used at the moment but will be required for
+  # advocate fee (consolidated basic fees)
+  #
   def calculate_fee
     claim = Claim::BaseClaim.active.find(calculator_params[:id])
     claim_fee_calculator = Claims::FeeCalculator::Calculate.new(claim, calculator_params.except(:id))
-    result = claim_fee_calculator.call
+    response = claim_fee_calculator.call
 
     respond_to do |format|
       format.html
       format.json do
-        if result.success?
-          render json: result.data.amount
-        else
-          render json: { errors: result.errors }, status: 422
-        end
+        render json: response, status: response.success? ? 200 : 422
       end
     end
   end
@@ -209,16 +208,12 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def calculate_unit_price
     claim = Claim::BaseClaim.active.find(calculator_params[:id])
     claim_fee_unit_pricer = Claims::FeeCalculator::UnitPrice.new(claim, calculator_params.except(:id))
-    result = claim_fee_unit_pricer.call
+    response = claim_fee_unit_pricer.call
 
     respond_to do |format|
       format.html
       format.json do
-        if result.success?
-          render json: result.data.amount
-        else
-          render json: { errors: result.errors }, status: 422
-        end
+        render json: response, status: response.success? ? 200 : 422
       end
     end
   end

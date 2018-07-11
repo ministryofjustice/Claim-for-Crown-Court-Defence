@@ -24,7 +24,7 @@ moj.Modules.FeeCalculator = {
     $effectee.change();
   },
 
-  // FIXME: kept in for example use only as one option is to display the
+  // FIXME: displayFee kept in for example use only as one option is to display the
   // the fee value/unit price. can be got rid off once we know what we are
   // doing.
   displayFee: function(selector, data) {
@@ -33,6 +33,21 @@ moj.Modules.FeeCalculator = {
     original_label = $(selector + ' label').text().replace(/ \Calculated to be: .*/g,'');
     new_label = original_label + ' ' + calculate_html;
     $(selector + ' label').html(new_label);
+  },
+
+  displayError: function(selector, response, user_error) {
+    try {
+      console.log(response.responseJSON.errors);
+    } catch(e) {}
+    this.clearErrors();
+    error_html = '<div class="js-calculate-error" style="color: #b10e1e; font-weight: bold;">' + user_error +'<div>';
+    original_label = $(selector + ' label').text()
+    new_label = original_label + ' ' + error_html;
+    $(selector + ' label').html(new_label);
+  },
+
+  clearErrors: function() {
+    $('.js-calculate-error').remove();
   },
 
   // Calculates the "total" fee
@@ -53,10 +68,7 @@ moj.Modules.FeeCalculator = {
         self.populateInput('.js-fixed-fee-calculator-effectee', data);
       },
       error: function (response) {
-        console.log('errors!');
-        $.each(response.responseJSON.errors, function(_index, value) {
-          console.log(value);
-        });
+        self.displayError('.js-fixed-fee-calculator-effectee', response, 'Fee price not calculated');
       }
     });
   },
@@ -75,14 +87,12 @@ moj.Modules.FeeCalculator = {
       type: 'GET',
       data: { advocate_category: advocate_category, fee_type_id: fee_type_id },
       url: '/external_users/claims/' + claim_id + '/calculate_unit_price.json',
-      success: function (data) {
-        self.populateInput('.js-fixed-fee-calculator-effectee', data);
+      success: function (response) {
+        self.clearErrors();
+        self.populateInput('.js-fixed-fee-calculator-effectee', response.data["amount"]);
       },
       error: function (response) {
-        console.log('errors!');
-        $.each(response.responseJSON.errors, function(_index, value) {
-          console.log(value);
-        });
+        self.displayError('.js-fixed-fee-calculator-effectee', response, 'Unit price not found');
       }
     });
   }

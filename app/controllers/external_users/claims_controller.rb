@@ -191,13 +191,25 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def calculate_fee
     claim = Claim::BaseClaim.active.find(calculator_params[:id])
-    fee_calc_claim = Claims::FeeCalculator.new(claim)
-    @amount = fee_calc_claim.call(calculator_params)
+    claim_fee_calculator = Claims::FeeCalculator::Calculate.new(claim, calculator_params.except(:id))
+    @amount = claim_fee_calculator.call
 
     respond_to do |format|
       format.html
       format.json { render json: @amount }
       format.js { @amount }
+    end
+  end
+
+  def calculate_unit_price
+    claim = Claim::BaseClaim.active.find(calculator_params[:id])
+    claim_fee_unit_pricer = Claims::FeeCalculator::UnitPrice.new(claim, calculator_params.except(:id))
+    @unit_price = claim_fee_unit_pricer.call
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @unit_price }
+      format.js { @unit_price }
     end
   end
 

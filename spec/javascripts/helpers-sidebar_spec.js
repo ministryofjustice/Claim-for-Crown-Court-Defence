@@ -99,11 +99,7 @@ describe('Helpers.SideBar.js', function() {
               el: fixtureDom
             });
             expect(instance.isVisible()).toBe(true);
-            instance.$el.find('.rate').hide();
-            expect(instance.isVisible()).toBe(true);
-            instance.$el.find('.amount').hide();
-            expect(instance.isVisible()).toBe(true);
-            instance.$el.find('.total').hide();
+            instance.$el.hide();
             expect(instance.isVisible()).toBe(false);
             $('.js-block').remove();
           });
@@ -432,8 +428,9 @@ describe('Helpers.SideBar.js', function() {
           it('should update the view correctly', function(){
             instance.totals.total = 1234567.89;
             instance.render();
+            console.log(instance.$el.find('.total'));
             expect(instance.$el.find('.total').data('total')).toBe(1234567.89);
-            expect(instance.$el.find('.total').html()).toEqual('£1,234,567.89');
+            expect(instance.$el.find('.total').val()).toEqual('1234567.89');
           });
         });
 

@@ -57,3 +57,17 @@
 @import 'links';
 @import 'panels';
 @import 'breadcrumbs';
+
+.panel-margin-fix{
+  margin-bottom: $gutter !important;
+}
+
+.contact-us-details {
+  li {
+    line-height: 30px;
+
+    &.last-element {
+      margin-bottom: 40px;
+    }
+  }
+}

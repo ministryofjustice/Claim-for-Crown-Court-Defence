@@ -41,6 +41,7 @@ module Fee
 
     delegate :description, :case_uplift?, :position, to: :fee_type
     delegate :defendant_uplift?, to: :fee_type, allow_nil: true
+    delegate :code, to: :fee_type, prefix: true
 
     has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 

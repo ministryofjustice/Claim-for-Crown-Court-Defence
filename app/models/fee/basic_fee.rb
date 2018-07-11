@@ -22,6 +22,8 @@
 class Fee::BasicFee < Fee::BaseFee
   belongs_to :fee_type, class_name: Fee::BasicFeeType
 
+  attr_writer :toggle
+
   validates_with Fee::BasicFeeValidator
 
   default_scope { order(claim_id: :asc, fee_type_id: :asc) }

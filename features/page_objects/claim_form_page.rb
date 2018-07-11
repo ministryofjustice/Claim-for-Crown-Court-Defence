@@ -56,6 +56,9 @@ class ClaimFormPage < SitePrism::Page
     section :basic_fee, FeeSection, ".basic-fee.fee-details"
     section :basic_fee_dates, FeeDatesSection, ".basic-fee.fee-details .fee-dates-row"
 
+    element :number_of_case_uplift_input, ".fx-hook-noc"
+    element :daily_attendance_fee_input, ".fx-hook-daf"
+
     section :daily_attendance_fee_3_to_40, FeeSection, ".basic-fee-group.daily-attendance-fee-3-to-40"
     section :daily_attendance_fee_3_to_40_dates, FeeDatesSectionCondensed, ".basic-fee-group.daily-attendance-fee-3-to-40 .dates-wrapper"
 

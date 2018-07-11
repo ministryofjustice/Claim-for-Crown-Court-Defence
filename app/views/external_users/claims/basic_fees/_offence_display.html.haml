@@ -1,0 +1,36 @@
+- claim_fields = %i[external_users claims offence_details fields]
+%span.bold
+  Offence
+
+%ul.list.list-bullet
+- if f.object.claim.fee_scheme == 'fee_reform'
+  %li
+    %span.bold>
+      = t('offence_class', scope: claim_fields)
+    \:
+    = f.object.claim.offence&.offence_category ? f.object.claim.offence.offence_category.description : t("general.not_provided")
+
+  %li
+    %span.bold>
+      = t('offence_band', scope: claim_fields)
+    \:
+    = f.object.claim.offence&.offence_band ? f.object.claim.offence.offence_band.description : t("general.not_provided")
+
+  %li
+    %span.bold>
+      = t('offence_category', scope: claim_fields)
+    \:
+    = f.object.claim.offence ? f.object.claim.offence.description : t("general.not_provided")
+
+- else
+
+  %li
+    %span.bold>
+      = t("offence_class", scope: claim_fields)
+    \:
+    = f.object.claim.offence ? f.object.claim.offence.offence_class : t("general.not_provided")
+  %li
+    %span.bold>
+      = t("offence_category", scope: claim_fields)
+    \:
+    = f.object.claim.offence ? f.object.claim.offence.description : t("general.not_provided")

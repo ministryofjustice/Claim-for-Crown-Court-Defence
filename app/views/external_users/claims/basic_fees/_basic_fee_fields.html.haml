@@ -1,20 +1,60 @@
-%fieldset
-  .form-group.basic-fee-group.nested-fields.fee-details.js-block{class: to_slug(f.object.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": f.object.calculated? ? "FeeBlockCalculator" : "FeeBlock"}}
+- fee = present(f.object)
+-# Setting a namespaced locale pointer
+- locale_scope = "external_users.claims.basic_fees.basic_fee_fields_conditional.#{fee.fee_type_code.downcase}"
+-# Check box input
+.multiple-choice{"data-target" => to_slug(f.object.description), "class" => "fx-hook-#{fee.fee_type_code.downcase}"}
+
+  = f.check_box(:toggle, checked: !f.object.blank?, id: "#{to_slug(f.object.description)}-input", "aria-controls" => to_slug(f.object.description), :name => "graduated_fees_checklist_#{f.object.fee_type_code.downcase}")
+
+  %label{:for => "#{to_slug(f.object.description)}-input"}
+    = f.object.description
+
+-# Panel content
+.panel.panel-border-narrow.js-hidden{:id => to_slug(f.object.description)}
+  .basic-fee-group.fee-details.js-block{class: to_slug(f.object.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": f.object.calculated? ? "FeeBlockCalculator" : "FeeBlock"}}
     = f.hidden_field :fee_type_id, value: f.object.fee_type_id
 
+    -# Quantity
+    = f.adp_text_field :quantity,
+                          label: t('quantity', scope: locale_scope),
+                          hint_text: t('quantity_hint', scope: locale_scope),
+                          input_classes:'quantity form-control-1-4',
+                          input_type: 'number',
+                          value: fee.quantity,
+                          errors: @error_presenter
+    -# Rate
     - if f.object.calculated?
-      = render partial: 'external_users/claims/basic_fees/basic_fee_calculated_fields', locals: { f: f, fee: present(f.object) }
-    - else
-      = render partial: 'external_users/claims/basic_fees/basic_fee_uncalculated_fields', locals: { f: f, fee: present(f.object) }
+      = f.adp_text_field :rate,
+                          label: t('.rate'),
+                          input_classes:'rate form-input-denote__input form-control-1-4',
+                          input_type: 'currency',
+                          value: number_with_precision(f.object.rate, precision: 2),
+                          errors: @error_presenter
 
+    -# Adding dates
     - if f.object.fee_type.requires_dates_attended?
-      .grid-row.fee-dates-row
-        %label.form-label Dates
-
-        %span.no-dates.form-hint
-          = t('.no_dates')
-        = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', partial: 'date_attended_fields_condensed', data: {'association-insertion-method' => 'prepend', 'association-insertion-traversal' => 'next', 'association-insertion-node' => 'div'}
-
-        .grid-row.dates-wrapper
+      .dates-wrapper.form-group
+        %div
           = f.fields_for :dates_attended do |date_attended|
-            = render 'date_attended_fields_condensed', { f: date_attended, submodel_count: date_attended.index+1,  parent_model_prefix: "basic_fee_#{@basic_fee_count}" }
+            // TODO: Numbering, the implementaion used on fees will not work here.
+            = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}", locale_scope: locale_scope}
+
+
+        = link_to_add_association t('.add_dates'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields',  render_options: { locals: { locale_scope:locale_scope } }, data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
+
+    -# Case numbers
+    - if f.object.fee_type.case_uplift?
+      = f.adp_text_field :case_numbers,
+                        label: t('case_numbers', scope: locale_scope),
+                        input_classes:'js-basic-fee-case-numbers fx-fee-case-numbers',
+                        hint_text:'Separate by commas',
+                        errors: @error_presenter
+    -# Amount
+    = f.adp_text_field :amount,
+                          label: t('.net_amount'),
+                          input_disabled: f.object.calculated? ? true : false,
+                          input_classes:'total form-input-denote__input form-control-1-4',
+                          input_type: 'currency',
+                          value: number_with_precision(f.object.amount, precision: 2),
+                          errors: @error_presenter
+

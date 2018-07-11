@@ -36,7 +36,7 @@ Feature: Advocate admin submits a claim for a Trial case
 
     Then I click "Continue" in the claim form
     And I select an advocate category of 'Junior alone'
-    And I add a basic fee with dates attended
+    And I add a basic fee net amount
     And I add a number of cases uplift fee with additional case numbers
 
     Then I click "Continue" in the claim form

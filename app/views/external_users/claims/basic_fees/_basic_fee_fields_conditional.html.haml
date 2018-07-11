@@ -1,0 +1,35 @@
+- fee = present(f.object)
+-# Setting a namespaced locale pointer
+- locale_scope = "external_users.claims.basic_fees.basic_fee_fields_conditional.#{fee.fee_type_code.downcase}"
+
+%h3.heading-medium
+  = t('heading_html', scope: locale_scope)
+
+-# Help text
+- if fee.display_help_text?
+  %p
+    = t('help_text', scope: locale_scope)
+
+.form-group
+  -# .js-block is conditional
+  .basic-fee-group.fee-details{class: to_slug(f.object.description), class: fee.activate_js_block? ? 'js-block' : '', data:{type:'gradFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': f.object.calculated? ? 'FeeBlockCalculator' : 'FeeBlock'}}
+    = f.hidden_field :fee_type_id, value: f.object.fee_type_id
+
+    -# Quantity
+    = f.adp_text_field :quantity,
+                          label: t('quantity', scope: locale_scope),
+                          input_classes:'quantity form-control-1-4',
+                          hint_text: t('quantity_hint', scope: locale_scope),
+                          input_type: 'number',
+                          value: fee.quantity,
+                          errors: @error_presenter
+
+    -# Amount
+    - if fee.display_amount?
+      = f.adp_text_field :amount,
+                          label: t('net_amount', scope: locale_scope),
+                          input_disabled: f.object.calculated? ? true : false,
+                          input_classes:'total form-input-denote__input form-control-1-4',
+                          value: number_with_precision(f.object.amount, precision: 2),
+                          input_type: 'currency',
+                          errors: @error_presenter

@@ -27,6 +27,13 @@
     %td
       = fee.quantity
 
+- if fee.claim.agfs?
+  %tr
+    %th{ scope: 'row'}
+      = t('shared.summary.rate')
+    %td
+      = fee.rate
+
 - if fee.date?
   %tr
     %th{ scope: 'row', class: 'bold' }

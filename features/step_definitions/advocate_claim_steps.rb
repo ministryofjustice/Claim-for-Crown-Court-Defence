@@ -96,14 +96,17 @@ When(/^I add a basic fee with dates attended$/) do
     @claim_form_page.initial_fees.basic_fee.quantity.set "1"
     @claim_form_page.initial_fees.basic_fee.rate.set "3.45"
   end
+end
 
-  # @claim_form_page.initial_fees.basic_fee.add_dates.click
-  # @claim_form_page.initial_fees.basic_fee_dates.from.set_date "2016-01-02"
-  # @claim_form_page.initial_fees.basic_fee_dates.to.set_date "2016-01-03"
+When(/^I add a basic fee net amount$/) do
+  using_wait_time 6 do
+    @claim_form_page.initial_fees.basic_fee.total.set "3.45"
+  end
 end
 
 When(/^I add a number of cases uplift fee with additional case numbers$/) do
   using_wait_time 6 do
+    @claim_form_page.initial_fees.number_of_case_uplift_input.click()
     @claim_form_page.initial_fees.number_of_cases_uplift.quantity.set "1"
     @claim_form_page.initial_fees.number_of_cases_uplift.rate.set "200.00"
     @claim_form_page.initial_fees.number_of_cases_uplift.case_numbers.set "A20170001"
@@ -111,11 +114,13 @@ When(/^I add a number of cases uplift fee with additional case numbers$/) do
 end
 
 When(/^I add a daily attendance fee with dates attended$/) do
-  @claim_form_page.initial_fees.daily_attendance_fee_3_to_40.quantity.set "4"
-  @claim_form_page.initial_fees.daily_attendance_fee_3_to_40.rate.set "45.77"
-  @claim_form_page.initial_fees.daily_attendance_fee_3_to_40.add_dates.click
-  @claim_form_page.initial_fees.daily_attendance_fee_3_to_40_dates.from.set_date "2016-01-04"
-  @claim_form_page.initial_fees.daily_attendance_fee_3_to_40_dates.to.set_date "2016-01-05"
+  using_wait_time 6 do
+    @claim_form_page.initial_fees.daily_attendance_fee_input.click()
+    @claim_form_page.initial_fees.daily_attendance_fee_3_to_40.quantity.set "4"
+    @claim_form_page.initial_fees.daily_attendance_fee_3_to_40.rate.set "45.77"
+    @claim_form_page.initial_fees.daily_attendance_fee_3_to_40.add_dates.click
+    @claim_form_page.initial_fees.daily_attendance_fee_3_to_40_dates.from.set_date "2016-01-04"
+  end
 end
 
 When(/^I add a miscellaneous fee '(.*?)' with dates attended$/) do |name|

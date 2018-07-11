@@ -139,4 +139,54 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
       end
     end
   end
+
+  describe '#display_help_text?' do
+    context 'when claim is NOT under the reformed fee scheme' do
+      before do
+        allow(claim).to receive(:fee_scheme).and_return('default')
+      end
+
+      specify { expect(presenter.display_help_text?).to be_falsey }
+    end
+
+    context 'when claim is under the reformed fee scheme' do
+      before do
+        allow(claim).to receive(:fee_scheme).and_return('fee_reform')
+      end
+
+      context 'and fee type has restrictions to be displayed' do
+        let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }
+
+        context 'and the offence category number is neither 6 or 9' do
+          let!(:offence) {
+            create(:offence, :with_fee_scheme_ten,
+                   offence_band: create(:offence_band,
+                                        offence_category: create(:offence_category, number: 2))) }
+          let(:claim) { build(:advocate_claim, offence: offence) }
+
+          specify { expect(presenter.display_help_text?).to be_falsey }
+        end
+
+        context 'and the offence category number is 6' do
+          let!(:offence) {
+            create(:offence, :with_fee_scheme_ten,
+                   offence_band: create(:offence_band,
+                                        offence_category: create(:offence_category, number: 6))) }
+          let(:claim) { build(:advocate_claim, offence: offence) }
+
+          specify { expect(presenter.display_help_text?).to be_truthy }
+        end
+
+        context 'and the offence category number is 9' do
+          let!(:offence) {
+            create(:offence, :with_fee_scheme_ten,
+                   offence_band: create(:offence_band,
+                                        offence_category: create(:offence_category, number: 9))) }
+          let(:claim) { build(:advocate_claim, offence: offence) }
+
+          specify { expect(presenter.display_help_text?).to be_truthy }
+        end
+      end
+    end
+  end
 end

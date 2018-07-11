@@ -197,7 +197,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     respond_to do |format|
       format.html
       format.json { render json: @amount }
-      format.js { @amount }
     end
   end
 
@@ -209,7 +208,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     respond_to do |format|
       format.html
       format.json { render json: @unit_price }
-      format.js { @unit_price }
     end
   end
 

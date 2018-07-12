@@ -208,10 +208,6 @@ module Claim
       Fee::MiscFeeType.agfs_scheme_9s
     end
 
-    def scheme_10?
-      fee_scheme&.version.eql?(10) || offence&.scheme_ten?
-    end
-
     def eligible_fixed_fee_types
       Fee::FixedFeeType.top_levels.agfs
     end

@@ -102,6 +102,7 @@ module Claim
 
     delegate :provider_id, :provider, to: :creator
     delegate :requires_trial_dates?, :requires_retrial_dates?, to: :case_type, allow_nil: true
+    delegate :scheme_10?, to: :fee_scheme, allow_nil: true
 
     has_many :case_worker_claims, foreign_key: :claim_id, dependent: :destroy
     has_many :case_workers, through: :case_worker_claims

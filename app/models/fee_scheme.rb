@@ -32,10 +32,11 @@ class FeeScheme < ApplicationRecord
   def self.for_claim(claim)
     # TODO: Align this with Fee reform SPIKE
     date = claim.earliest_representation_order&.representation_order_date
+    scheme = claim.agfs? ? 'AGFS' : 'LGFS'
     if date.present?
-      FeeScheme.for(date).find_by(name: claim.agfs? ? 'AGFS' : 'LGFS')
+      FeeScheme.for(date).find_by(name: scheme)
     elsif claim.offence.present?
-      claim.offence.fee_schemes.find_by(name: claim.agfs? ? 'AGFS' : 'LGFS')
+      claim.offence.fee_schemes.find_by(name: scheme)
     end
   end
 end

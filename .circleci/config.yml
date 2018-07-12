@@ -78,7 +78,7 @@ jobs:
       - run:
           name: Run rspec tests
           command: |
-            bundle exec rspec
+            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
             ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json
       - persist_to_workspace:
           root: tmp

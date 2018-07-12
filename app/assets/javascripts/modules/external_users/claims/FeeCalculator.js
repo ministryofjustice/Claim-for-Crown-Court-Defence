@@ -6,13 +6,23 @@ moj.Modules.FeeCalculator = {
   },
 
   bindEvents: function () {
-    this.fixedFeeChange();
+    this.advocateTypeChange();
+    this.fixedFeeTypeChange();
   },
 
-  fixedFeeChange: function () {
+  fixedFeeTypeChange: function () {
     var self = this;
     if ($('.calculated-fixed-fee').exists()) {
-      $('.js-fixed-fee-calculator-effector').change( function(e) {
+      $('.js-fixed-fee-calculator-effector-closest').change( function(e) {
+        self.calculateUnitPriceFixedFee();
+      });
+    }
+  },
+
+  advocateTypeChange: function () {
+    var self = this;
+    if ($('.calculated-fixed-fee').exists()) {
+      $('.js-fixed-fee-calculator-effector-all').change( function(e) {
         self.calculateUnitPriceFixedFee();
       });
     }
@@ -51,25 +61,37 @@ moj.Modules.FeeCalculator = {
     $(selector).find('.js-calculate-error').remove();
   },
 
+  unitPriceAjax: function (data) {
+    return $.ajax({
+      type: 'GET',
+      url: '/external_users/claims/' + data['claim_id'] + '/calculate_unit_price.json',
+      data: data,
+      dataType: 'json'
+    });
+  },
+
   // Calculates the "unit price" for a given fixed fee,
   // including fixed fee case uplift fee types.
   calculateUnitPriceFixedFee: function () {
     var self = this;
-    claim_id = $('#claim-form').data('claimId');
-    advocate_category = $("input:radio[name='claim[advocate_category]']:checked").val();
-    fee_type_id = $('.js-fee-type').val();
+    // if it was an advocate type change we need to recalculate all
+    // unit prices - .js-fixed-fee-calculator-effectee
+    // if it was a fee type change we only need to calculate the unit
+    // price of the closest input to the event target
+    //
+    data = {
+      claim_id: $('#claim-form').data('claimId'),
+      advocate_category: $("input:radio[name='claim[advocate_category]']:checked").val(),
+      fee_type_id: $('.js-fee-type').val(),
+    }
 
-    $.ajax({
-      type: 'GET',
-      data: { advocate_category: advocate_category, fee_type_id: fee_type_id },
-      url: '/external_users/claims/' + claim_id + '/calculate_unit_price.json',
-      success: function (response) {
+    self.unitPriceAjax(data)
+      .done(function(response) {
         self.clearErrors('.js-fixed-fee-calculator-effectee');
         self.populateInput('.js-fixed-fee-calculator-effectee', response.data["amount"]);
-      },
-      error: function (response) {
+      })
+      .fail(function(response) {
         self.displayError('.js-fixed-fee-calculator-effectee', response);
-      }
-    });
+      });
   }
 };

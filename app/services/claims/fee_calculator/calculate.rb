@@ -7,7 +7,7 @@ require 'ostruct'
 #
 module Claims
   module FeeCalculator
-    Response = Struct.new(:success?, :data, :errors, keyword_init: true)
+    Response = Struct.new(:success?, :data, :errors, :message, keyword_init: true)
     Data = Struct.new(:amount, keyword_init: true)
 
     class Calculate
@@ -56,8 +56,8 @@ module Claims
         end
 
         response(true, amount);
-      rescue LAA::FeeCalculator::ClientError => err
-        response(false, err);
+      rescue StandardError => err
+        response(false, err, 'Price unavailable');
       end
 
       private
@@ -101,9 +101,9 @@ module Claims
         ].inject(&:merge)[fee_type.unique_code.to_sym][:bill_subtype]
       end
 
-      def response(success, data)
-        return Response.new(success?: true, data: Data.new(amount: data), errors: nil) if success
-        Response.new(success?: false, data: nil, errors: [data])
+      def response(success, data, message = nil)
+        return Response.new(success?: true, data: Data.new(amount: data), errors: nil, message: message) if success
+        Response.new(success?: false, data: nil, errors: [data], message: message)
       end
 
       def client

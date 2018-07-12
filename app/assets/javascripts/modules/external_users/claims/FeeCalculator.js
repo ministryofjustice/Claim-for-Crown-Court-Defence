@@ -35,14 +35,12 @@ moj.Modules.FeeCalculator = {
     $(selector + ' label').html(new_label);
   },
 
-  displayError: function(selector, response, user_error) {
-    try {
-      console.log(response.responseJSON.errors);
-    } catch(e) {}
-
+  displayError: function(selector, response) {
+    // only some errors will have a JSON response
+    try { console.log(response.responseJSON.errors); } catch(e) {}
     this.clearErrors(selector);
     $(selector).find('.form-group').addClass('field_with_errors form-group-error');
-    error_html = '<div class="js-calculate-error" style="color: #b10e1e; font-weight: bold;">' + user_error +'<div>';
+    error_html = '<div class="js-calculate-error" style="color: #b10e1e; font-weight: bold;">' + response.responseJSON["message"] +'<div>';
     original_label = $(selector + ' label').text()
     new_label = original_label + ' ' + error_html;
     $(selector + ' label').html(new_label);
@@ -53,34 +51,8 @@ moj.Modules.FeeCalculator = {
     $(selector).find('.js-calculate-error').remove();
   },
 
-  // Calculates the "total" fee
-  // i.e. quantity for unit * "basic/base" fee
-  //
-  calculateFixedFee: function () {
-    var self = this;
-    claim_id = $('#claim-form').data('claimId');
-    advocate_category = $("input:radio[name='claim[advocate_category]']:checked").val();
-    fee_type_id = $('.js-fee-type').val();
-    quantity = $('.js-fee-quantity').val();
-
-    $.ajax({
-      type: 'GET',
-      data: { advocate_category: advocate_category, fee_type_id: fee_type_id, quantity: quantity },
-      url: '/external_users/claims/' + claim_id + '/calculate_fee.json',
-      success: function (data) {
-        self.clearErrors('.js-fixed-fee-calculator-effectee');
-        self.populateInput('.js-fixed-fee-calculator-effectee', data);
-      },
-      error: function (response) {
-        self.displayError('.js-fixed-fee-calculator-effectee', response, 'Fee price not calculated');
-      }
-    });
-  },
-
-  // Calculates the "unit price" for fee.
-  // Another option is just to call calculate_fee.json
-  // explicity with 1 for quantity??
-  //
+  // Calculates the "unit price" for a given fixed fee,
+  // including fixed fee case uplift fee types.
   calculateUnitPriceFixedFee: function () {
     var self = this;
     claim_id = $('#claim-form').data('claimId');
@@ -96,7 +68,7 @@ moj.Modules.FeeCalculator = {
         self.populateInput('.js-fixed-fee-calculator-effectee', response.data["amount"]);
       },
       error: function (response) {
-        self.displayError('.js-fixed-fee-calculator-effectee', response, 'Unit price not found');
+        self.displayError('.js-fixed-fee-calculator-effectee', response);
       }
     });
   }

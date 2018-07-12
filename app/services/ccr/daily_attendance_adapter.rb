@@ -47,7 +47,7 @@ module CCR
     private
 
     def daily_attendances_in_basic
-      claim.fee_scheme.version.eql?(10) ? 1 : 2
+      claim.scheme_10? ? 1 : 2
     end
 
     def trial_length
@@ -55,7 +55,7 @@ module CCR
     end
 
     def eligible_fee_type_unique_codes
-      claim.fee_scheme.version.eql?(10) ? 'BADAT' : %w[BADAF BADAH BADAJ]
+      claim.scheme_10? ? 'BADAT' : %w[BADAF BADAH BADAJ]
     end
 
     def daily_attendance_fee_types

@@ -22,6 +22,16 @@ RSpec.describe DateAttendedValidator, type: :validator do
     it { should_error_if_too_far_in_the_past(date_attended, :date, 'not_before_earliest_permitted_date') }
     it { should_error_if_in_future(date_attended, :date, 'not_after_today') }
 
+    context 'when there is no representation order date set' do
+      before do
+        claim.defendants.each do |defendant|
+          defendant.representation_orders.clear
+        end
+      end
+
+      it { expect(date_attended).to be_valid }
+    end
+
     it 'should not error if less than two years before earliest rep order date' do
       date_attended.date = earliest_reporder_date - 369.days
       date_attended.date_to = nil

@@ -51,11 +51,12 @@
       %td
         = t('external_users.claims.graduated_fees.summary.actual_trial_length', count: fee.claim.actual_trial_length)
 
-%tr
-  %th{ scope: 'row', class: 'bold' }
-    = t('shared.summary.amount')
-  %td
-    = fee.amount
+- if fee.display_amount?
+  %tr
+    %th{ scope: 'row', class: 'bold' }
+      = t('shared.summary.amount')
+    %td
+      = fee.amount
 
 - if fee.dates_attended.any?
   %tr

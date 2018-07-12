@@ -104,12 +104,14 @@ if (!String.prototype.supplant) {
   // this is a bit hacky
   // TODO: To be moved to more page based controllers
   $('#basic-fees').on('change', '.multiple-choice input[type=checkbox]', function(e){
+    var checked = $(e.target).is(':checked');
     var fields_wrapper = $(e.target).attr('aria-controls');
     var $fields_wrapper = $('#'+fields_wrapper)
 
-    $fields_wrapper.find('.remove_fields').click();
     $fields_wrapper.find('input[type=number]').val(0);
     $fields_wrapper.find('input[type=text]').val('');
+    $fields_wrapper.find('.gov_uk_date input[type=number]').val('');
+    $fields_wrapper.find('.gov_uk_date input[type=number]').prop('disabled', !checked);
     $fields_wrapper.trigger('recalculate')
   });
 

@@ -48,6 +48,10 @@ class Fee::BaseFeePresenter < BasePresenter
     end
   end
 
+  def display_amount?
+    true
+  end
+
   private
 
   def t(scope, suffix = nil)

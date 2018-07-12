@@ -118,7 +118,6 @@ When(/^I add a daily attendance fee with dates attended$/) do
     @claim_form_page.initial_fees.daily_attendance_fee_input.click()
     @claim_form_page.initial_fees.daily_attendance_fee_3_to_40.quantity.set "4"
     @claim_form_page.initial_fees.daily_attendance_fee_3_to_40.rate.set "45.77"
-    @claim_form_page.initial_fees.daily_attendance_fee_3_to_40.add_dates.click
     @claim_form_page.initial_fees.daily_attendance_fee_3_to_40_dates.from.set_date "2016-01-04"
   end
 end

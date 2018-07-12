@@ -35,12 +35,13 @@
     - if f.object.fee_type.requires_dates_attended?
       .dates-wrapper.form-group
         %div
+          - f.object.dates_attended.build unless f.object.dates_attended.any?
           = f.fields_for :dates_attended do |date_attended|
-            // TODO: Numbering, the implementaion used on fees will not work here.
-            = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}", locale_scope: locale_scope}
+            -# TODO: Numbering, the implementation used on fees will not work here.
+            = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}", locale_scope: locale_scope  }
 
 
-        = link_to_add_association t('.add_dates'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields',  render_options: { locals: { locale_scope:locale_scope } }, data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
+        = link_to_add_association t('.add_dates'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields',  render_options: { locals: { locale_scope: locale_scope } }, data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
 
     -# Case numbers
     - if f.object.fee_type.case_uplift?

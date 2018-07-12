@@ -811,9 +811,9 @@ basic_fee:
       short: *enter_valid_quantity
       api: Enter a valid quantity for standard appearance fees
     pcm_invalid:
-      long: Enter a valid quantity for plea and case management hearing fees
+      long: Enter a valid quantity for plea and trial preparation hearing
       short: *enter_valid_quantity
-      api: Enter a valid quantity for plea and case management hearing fees
+      api: Enter a valid quantity for plea and trial preparation hearing
     cav_invalid:
       long: Enter a valid quantity for conference and views fees
       short: *enter_valid_quantity

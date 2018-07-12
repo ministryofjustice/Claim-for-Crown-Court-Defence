@@ -13,6 +13,27 @@ RSpec.describe FeeScheme, type: :model do
     let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
     let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
 
+    describe '#scheme_10?' do
+      subject(:scheme_10?) { fee_scheme.scheme_10? }
+
+      context 'for an agfs scheme 10 claim' do
+        let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'for an agfs scheme 9 claim' do
+        let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'for an lgfs claim' do
+        let(:claim) { create(:litigator_claim) }
+
+        it { is_expected.to be_falsey }
+      end
+    end
 
     context 'for a LGFS claim' do
       let(:claim) { create :litigator_claim }

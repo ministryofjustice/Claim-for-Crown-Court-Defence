@@ -11,12 +11,12 @@ module Claims
     Data = Struct.new(:amount, keyword_init: true)
 
     class Calculate
-      delegate :earliest_representation_order_date,
-        :agfs?,
-        :case_type,
-        :advocate_category,
-        :offence,
-        to: :@claim
+      delegate  :earliest_representation_order_date,
+                :agfs?,
+                :case_type,
+                :advocate_category,
+                :offence,
+                to: :@claim
 
       attr_reader :claim, :options, :fee_type, :advocate_category, :quantity
 
@@ -26,7 +26,7 @@ module Claims
       end
 
       def call
-        set_attributes(options)
+        setup(options)
 
         amount = fee_scheme.calculate do |options|
           options[:scenario] = scenario.id
@@ -55,14 +55,15 @@ module Claims
           # options[:number_of_cases] = 1
         end
 
-        response(true, amount);
+        response(true, amount)
       rescue StandardError => err
-        response(false, err, 'Price unavailable');
+        Rails.logger.error(err.message)
+        response(false, err, 'Price unavailable')
       end
 
       private
 
-      def set_attributes(options)
+      def setup(options)
         @fee_type = Fee::BaseFeeType.find(options[:fee_type_id])
         @advocate_category = options[:advocate_category] || advocate_category
         @quantity = options[:quantity] || 1

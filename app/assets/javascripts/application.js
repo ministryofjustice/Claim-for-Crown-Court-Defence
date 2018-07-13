@@ -100,7 +100,7 @@ if (!String.prototype.supplant) {
   // Basic fees page
   $('#basic-fees').on('change', '.js-block input', function() {
     $(this).trigger('recalculate');
-  })
+  });
 
   // this is a bit hacky
   // TODO: To be moved to more page based controllers
@@ -116,6 +116,16 @@ if (!String.prototype.supplant) {
     $fields_wrapper.trigger('recalculate')
   });
 
+  /**
+   * Cocoon call back to init fee calculation features
+   * inserted into the DOM
+   */
+  $('#fixed-fees').on('cocoon:after-insert', function(e, insertedItem) {
+    var $insertedItem = $(insertedItem);
+    var calculatorEffector = $insertedItem.find('.js-fixed-fee-calculator-sibling-effector');
+
+    moj.Modules.FeeCalculator.fixedFeeTypeChange(calculatorEffector);
+  });
 
   // Manually hit the `add rep order` button after a
   // cocoon insert.

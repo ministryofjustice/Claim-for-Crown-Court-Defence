@@ -313,7 +313,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :fee_type_id,
       :quantity,
       :format
-      )
+    )
   end
 
   def claim_params

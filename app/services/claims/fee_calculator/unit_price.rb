@@ -13,18 +13,18 @@ module Claims
     #
     class UnitPrice < Calculate
       def call
-        set_attributes(options)
+        setup(options)
 
         if fee_type.case_uplift?
-          _unit_price_for_modifier = unit_price(:number_of_cases)
-          _unit_price = _unit_price_for_modifier - unit_price
+          unit_price_for_modifier = unit_price(:number_of_cases)
+          final_unit_price = unit_price_for_modifier - unit_price
         else
-          _unit_price = unit_price
+          final_unit_price = unit_price
         end
 
-        response(true, _unit_price);
+        response(true, final_unit_price)
       rescue StandardError => err
-        response(false, err, 'Price unavailable');
+        response(false, err, 'Price unavailable')
       end
 
       def unit_price(modifier = nil)
@@ -32,12 +32,8 @@ module Claims
         calc_options[:scenario] = scenario.id
         calc_options[:offence_class] = offence_class
         calc_options[:advocate_type] = advocate_type
-
-        if fee_type.case_uplift?
-          calc_options[:fee_type_code] = fee_type_code_for_uplift(fee_type)
-        else
-          calc_options[:fee_type_code] = fee_type_code_for(fee_type)
-        end
+        calc_options[:fee_type_code] = fee_type_code_for_uplift(fee_type) if fee_type.case_uplift?
+        calc_options[:fee_type_code] = fee_type_code_for(fee_type) unless fee_type.case_uplift?
 
         units = fee_scheme.units(calc_options).map { |u| u.id.downcase }
         units.each do |unit|
@@ -49,14 +45,14 @@ module Claims
       end
 
       def fee_type_code_for_uplift(fee_type)
-        # TODO: not ideal but there is no relationship between fixed fee "primary" types
+        # TODO: hacky but there is no relationship between fixed fee "primary" types
         # and their case uplift equivalent.
         # - could create relationship on models/database
         #
-        non_uplift_fee_type = Fee::BaseFeeType.
-          where("description ILIKE ?", "#{fee_type.description.gsub(' uplift','')}").
-          where.not("description ILIKE ?",'%uplift%').
-          first
+        non_uplift_fee_type = Fee::BaseFeeType
+                              .where('description = ?', fee_type.description.gsub(' uplift', ''))
+                              .where.not('description ILIKE ?', '%uplift%')
+                              .first
         fee_type_code_for(non_uplift_fee_type)
       end
     end

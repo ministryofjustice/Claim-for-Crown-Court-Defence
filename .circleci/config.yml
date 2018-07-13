@@ -159,27 +159,47 @@ jobs:
           name: Upload coverage results to Code Climate
           command: |
             ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.backend.json
+  build-artifact:
+    <<: *defaults
+    environment:
+      DOCKER_REGISTRY: registry.service.dsd.io
+      APP_NAME: advocatedefencepayments
+    type: approval
+    steps:
+      - checkout # special step to check out source code to working directory
+
+      - run:
+          name: Test docker registry availability
+          command: curl -f https://$DOCKER_REGISTRY/v1/_ping || { echo -e "\nDocker registry is down!"; exit 1; }
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: Build docker image
+          command: docker build --pull -t $DOCKER_REGISTRY/$APP_NAME -f docker/Dockerfile .
 
 workflows:
   version: 2
   commit:
     jobs:
-      - setup
-      - rubocop:
-          requires:
-            - setup
-      - rspec-tests:
-          requires:
-            - setup
-      - cucumber-tests:
-          requires:
-            - setup
-      - jasmine-tests:
-          requires:
-            - setup
-      - upload-coverage:
-          requires:
-            - rubocop
-            - rspec-tests
-            - cucumber-tests
-            - jasmine-tests
+      # - setup
+      # - rubocop:
+      #     requires:
+      #       - setup
+      # - rspec-tests:
+      #     requires:
+      #       - setup
+      # - cucumber-tests:
+      #     requires:
+      #       - setup
+      # - jasmine-tests:
+      #     requires:
+      #       - setup
+      # - upload-coverage:
+      #     requires:
+      #       - rubocop
+      #       - rspec-tests
+      #       - cucumber-tests
+      #       - jasmine-tests
+      - build-artifact

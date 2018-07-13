@@ -1,6 +1,7 @@
-# FIXME: testing fee calculator integration against local server
-# not including this will mean you use the clients default host
-# which is the dev version of the API.
+# To run development against a local or other fee calculator
+# client define LAA_FEE_CALCULATOR_HOST in your environment
+# Not having an LAA_FEE_CALCULATOR_HOST envvar will result in use of the
+# clients default host, which is currently the dev version of the API.
 LAA::FeeCalculator.configure do |config|
-  config.host = 'http://localhost:8000/api/v1'
+  config.host = ENV['LAA_FEE_CALCULATOR_HOST'] if ENV['LAA_FEE_CALCULATOR_HOST']
 end

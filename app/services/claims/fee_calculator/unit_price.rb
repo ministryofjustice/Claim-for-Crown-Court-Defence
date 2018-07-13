@@ -24,6 +24,7 @@ module Claims
 
         response(true, final_unit_price)
       rescue StandardError => err
+        Rails.logger.error(err.message)
         response(false, err, 'Price unavailable')
       end
 

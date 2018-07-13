@@ -136,6 +136,20 @@ jobs:
       - run:
           name: Run cucumber tests
           command: bundle exec cucumber
+  jasmine-tests:
+    <<: *defaults
+    steps:
+      - checkout # special step to check out source code to working directory
+
+      - attach_workspace:
+          at: ~/repo/
+
+      - attach_workspace:
+          at: ~/repo/tmp
+
+      - run:
+          name: Run jasmine tests
+          command: bundle exec rake jasmine:ci
   upload-coverage:
     <<: *defaults
     steps:
@@ -160,8 +174,12 @@ workflows:
       - cucumber-tests:
           requires:
             - setup
+      - jasmine-tests:
+          requires:
+            - setup
       - upload-coverage:
           requires:
             - rubocop
             - rspec-tests
             - cucumber-tests
+            - jasmine-tests

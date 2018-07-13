@@ -7,11 +7,14 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
 
   let(:litigator) { create(:external_user, :litigator) }
   let(:claim)     { create(:advocate_claim) }
+  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
+  let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
+  let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
 
   include_examples "common advocate litigator validations", :advocate
 
   context 'case concluded at date' do
-    let(:claim) { build(:claim) }
+    let(:claim) { create(:claim, :agfs_scheme_9) }
 
     it 'is valid when absent' do
       expect(claim.case_concluded_at).to be_nil
@@ -147,9 +150,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
     end
 
     context 'when the claim is associated with the new fee reform scheme' do
-      before do
-        allow(claim).to receive(:fee_scheme).and_return('fee_reform')
-      end
+      let(:claim) { create(:claim, :agfs_scheme_10) }
 
       context 'and case type is for non-fixed fees' do
         before do

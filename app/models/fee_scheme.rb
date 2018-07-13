@@ -17,6 +17,10 @@ class FeeScheme < ApplicationRecord
     where('(:date BETWEEN start_date AND end_date) OR (start_date < :date AND end_date IS NULL)', date: check_date)
   }
 
+  def scheme_10?
+    version.eql?(10)
+  end
+
   def self.current_agfs
     agfs.current.order(end_date: :desc).first
   end
@@ -27,9 +31,12 @@ class FeeScheme < ApplicationRecord
 
   def self.for_claim(claim)
     # TODO: Align this with Fee reform SPIKE
-    return 'default' if claim.lgfs? || !FeatureFlag.active?(:agfs_fee_reform)
     date = claim.earliest_representation_order&.representation_order_date
-    return unless date.present?
-    date >= Date.parse(Settings.agfs_fee_reform_release_date.to_s) ? 'fee_reform' : 'default'
+    scheme = claim.agfs? ? 'AGFS' : 'LGFS'
+    if date.present?
+      FeeScheme.for(date).find_by(name: scheme)
+    elsif claim.offence.present?
+      claim.offence.fee_schemes.find_by(name: scheme)
+    end
   end
 end

@@ -12,6 +12,7 @@ AllCops:
     - 'features/**/*'
     - 'old_features/**/*'
     - 'spec/**/*'
+    - 'tmp/**/*'
     - 'vendor/**/*'
 
 Documentation:

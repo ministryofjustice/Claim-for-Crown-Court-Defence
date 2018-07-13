@@ -20,7 +20,7 @@ defaults: &defaults
         POSTGRES_PASSWORD: ""
 
 jobs:
-  build:
+  setup:
     <<: *defaults
     steps:
       - checkout # special step to check out source code to working directory
@@ -62,6 +62,20 @@ jobs:
           paths:
             - vendor/bundle
 
+  rubocop:
+    <<: *defaults
+    steps:
+      - checkout # special step to check out source code to working directory
+
+      - attach_workspace:
+          at: ~/repo/
+
+      - attach_workspace:
+          at: ~/repo/tmp
+
+      - run:
+          name: Run Rubocop
+          command: bundle exec rubocop
   rspec-tests:
     <<: *defaults
     parallelism: 2
@@ -136,14 +150,18 @@ workflows:
   version: 2
   commit:
     jobs:
-      - build
+      - setup
+      - rubocop:
+          requires:
+            - setup
       - rspec-tests:
           requires:
-            - build
+            - setup
       - cucumber-tests:
           requires:
-            - build
+            - setup
       - upload-coverage:
           requires:
+            - rubocop
             - rspec-tests
             - cucumber-tests

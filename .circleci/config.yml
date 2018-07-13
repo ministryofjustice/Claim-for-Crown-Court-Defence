@@ -23,6 +23,8 @@ jobs:
   build:
     <<: *defaults
     steps:
+      - checkout # special step to check out source code to working directory
+
       - run:
           name: Setup Code Climate test-reporter
           command: |
@@ -34,20 +36,7 @@ jobs:
           paths:
             - cc-test-reporter
 
-  rspec-tests:
-    <<: *defaults
-    steps:
-      - checkout # special step to check out source code to working directory
-
-      - attach_workspace:
-          at: ~/repo/tmp
-
-     # Install dependencies
-      - run:
-          name: Install dependencies
-          command: sudo apt-get install -y pdftk
-
-     # Which version of bundler?
+      # Which version of bundler?
       - run:
           name: Which bundler?
           command: bundle -v
@@ -67,6 +56,27 @@ jobs:
           key: cccd-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - vendor/bundle
+
+  rspec-tests:
+    <<: *defaults
+    steps:
+      - checkout # special step to check out source code to working directory
+
+      - attach_workspace:
+          at: ~/repo/
+
+      - attach_workspace:
+          at: ~/repo/tmp
+
+     # Install dependencies
+      - run:
+          name: Install dependencies
+          command: sudo apt-get install -y pdftk
 
       - run:
           name: Wait for DB
@@ -88,6 +98,10 @@ jobs:
     <<: *defaults
     steps:
       - checkout # special step to check out source code to working directory
+
+      - attach_workspace:
+          at: ~/repo/
+
       - attach_workspace:
           at: ~/repo/tmp
 
@@ -95,27 +109,6 @@ jobs:
       - run:
           name: Install dependencies
           command: sudo apt-get install -y pdftk
-
-     # Which version of bundler?
-      - run:
-          name: Which bundler?
-          command: bundle -v
-
-      # Restore bundle cache
-      - restore_cache:
-          keys:
-            - cccd-{{ checksum "Gemfile.lock" }}
-            - cccd-
-
-      - run:
-          name: Bundle Install
-          command: bundle check || bundle install
-
-      # Store bundle cache
-      - save_cache:
-          key: cccd-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
 
       - run:
           name: Wait for DB

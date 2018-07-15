@@ -95,11 +95,23 @@ module Claims
       end
 
       def fee_type_code_for(fee_type)
+        fee_type = case_uplift_parent if fee_type.case_uplift?
         [
           # CCR::Fee::BasicFeeAdapter::BASIC_FEE_BILL_MAPPINGS, # TODO: all are AGFS_FEE
           CCR::Fee::FixedFeeAdapter::FIXED_FEE_BILL_MAPPINGS,
           CCR::Fee::MiscFeeAdapter::MISC_FEE_BILL_MAPPINGS
         ].inject(&:merge)[fee_type.unique_code.to_sym][:bill_subtype]
+      end
+
+      def case_uplift_parent
+        # TODO: hacky but there is no relationship between fixed fee "primary" types
+        # and their case uplift equivalent.
+        # - could create relationship on models/database
+        #
+        Fee::BaseFeeType
+          .where('description = ?', fee_type.description.gsub(' uplift', ''))
+          .where.not('description ILIKE ?', '%uplift%')
+          .first
       end
 
       def response(success, data, message = nil)

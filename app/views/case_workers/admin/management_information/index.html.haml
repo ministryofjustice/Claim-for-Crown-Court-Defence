@@ -1,21 +1,24 @@
-= render partial: 'layouts/header', locals: {page_heading: t('.h1_managment_info')}
+= render partial: 'layouts/header', locals: { page_heading: t('.h1_managment_info') }
 
-.body-content
-  - if @time_generated.nil?
-    %p
-      There is currently no management information report available.  Click the 'Regenerate' button below, and
-      then refresh this page after a couple of minutes to download the report.
-  - else
-    %p
-      The management information report was generated at #{@time_generated.strftime('%a %d %b %Y at %H:%M:%S')}.
+%table
+  - @available_report_types.each do |report_type, report|
+    - report_name = t(".report_types.#{report_type}")
+    %tr
+      %td
+        .bold
+          = report_name
+        .report-status
+          - if report&.started_at
+            = t('.report_generated_at', time: report.started_at.strftime('%a %d %b %Y at %H:%M:%S'))
+          - else
+            = t('.unavailable_report')
+      %td
+        .form-group
+          - if report&.started_at.present?
+            = link_to 'Download', case_workers_admin_management_information_download_url(report_type: report_type, format: :csv), class: 'button btn-spacer-20'
 
-    %p
-      Click 'Download' to download this file now, or click 'Regenerate' to generate a more up to date report and refresh
-      this page in a few minutes to download the new report'.
+          = link_to 'Regenerate', case_workers_admin_management_information_generate_url(report_type: report_type), class: 'button'
 
-
-  .form-group
-    - unless @time_generated.nil?
-      = link_to 'Download', case_workers_admin_management_information_download_url(format: :csv), class: "button btn-spacer-20"
-
-    = link_to 'Regenerate', case_workers_admin_management_information_generate_url, class: "button"
+%p.panel.panel-border-wide
+  Click 'Download' to download the report now, or click 'Regenerate' to generate a more up to date report and refresh
+  this page in a few minutes to download the new report.

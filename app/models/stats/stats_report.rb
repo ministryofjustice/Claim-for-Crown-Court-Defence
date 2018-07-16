@@ -12,19 +12,26 @@
 
 module Stats
   class StatsReport < ApplicationRecord
+    TYPES = %w[management_information provisional_assessment].freeze
+
     validates :status, inclusion: { in: %w[started completed error] }
 
     default_scope { order('started_at DESC') }
 
     scope :completed, -> { where(status: 'completed') }
-
+    scope :errored, -> { where(status: 'error') }
     scope :not_errored, -> { where('status != ?', 'error') }
 
     scope :management_information, -> { not_errored.where(report_name: 'management_information') }
+    scope :provisional_assessment, -> { not_errored.where(report_name: 'provisional_assessment') }
 
     def self.clean_up(report_name)
       destroy_reports_older_than(report_name, 1.month.ago)
       destroy_unfinished_reports_older_than(report_name, 2.hours.ago)
+    end
+
+    def self.most_recent_by_type(report_type)
+      where(report_name: report_type).completed.first
     end
 
     def self.most_recent_management_information

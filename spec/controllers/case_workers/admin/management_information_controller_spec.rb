@@ -22,39 +22,72 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
     end
 
     describe '#GET download' do
-      before do
-        allow(Stats::StatsReport).to receive(:most_recent_management_information).and_return(stats_report)
-        allow(stats_report).to receive(:report).and_return(true)
-        get :download
+      context 'for a valid report type' do
+        let(:report_type) { 'management_information' }
+        let(:content) { 'header1,header2,header3' }
+        let(:stats_report) { instance_double(::Stats::StatsReport, report_name: 'management_information', download_filename: 'test.csv', report: content) }
+
+        before do
+          expect(Stats::StatsReport).to receive(:most_recent_by_type).with(report_type).and_return(stats_report)
+          get :download, params: { report_type: report_type }
+        end
+
+        it 'returns http success' do
+          expect(response).to have_http_status(:success)
+        end
+
+        it 'renders the template' do
+          expect(response.headers['Content-Type']).to eq 'text/csv'
+        end
       end
 
-      let(:stats_report) { instance_double ::Stats::StatsReport, report_name: 'management_information', download_filename: 'test.csv' }
+      context 'for an invalid report type' do
+        let(:report_type) { 'invalid_report_type' }
 
-      it 'returns http success' do
-        expect(response).to have_http_status(:success)
-      end
+        before do
+          get :download, params: { report_type: report_type }
+        end
 
-      it 'renders the template' do
-        expect(response.headers['Content-Type']).to eq 'text/csv'
+        it 'redirects to the management information page with an error' do
+          expect(response).to have_http_status(:redirect)
+          expect(response).to redirect_to(case_workers_admin_management_information_url)
+          expect(flash[:alert]).to eq('The requested report type is not supported')
+        end
       end
     end
 
     describe '#GET generate' do
-      before do
-        allow(ManagementInformationGenerationJob).to receive(:perform_later)
-        get :generate
+      context 'for a valid report type' do
+        let(:report_type) { 'management_information' }
+
+        before do
+          allow(StatsReportGenerationJob).to receive(:perform_later).with(report_type)
+          get :generate, params: { report_type: report_type }
+        end
+
+        it 'redirects the user to the management information page with a successful alert message' do
+          expect(response).to have_http_status(:redirect)
+          expect(response).to redirect_to(case_workers_admin_management_information_url)
+          expect(flash[:alert]).to eq('A background job has been scheduled to regenerate the report. Please refresh this page in a few minutes.')
+        end
+
+        it 'starts a ManagemenInformationGeneration job' do
+          expect(StatsReportGenerationJob).to have_received(:perform_later).with(report_type)
+        end
       end
 
-      it 'returns http success' do
-        expect(response).to have_http_status(:redirect)
-      end
+      context 'for an invalid report type' do
+        let(:report_type) { 'invalid_report_type' }
 
-      it 'redirect to the login prompt' do
-        expect(response).to redirect_to(case_workers_admin_management_information_url)
-      end
+        before do
+          get :generate, params: { report_type: report_type }
+        end
 
-      it 'starts a ManagemenInformationGeneration job' do
-        expect(ManagementInformationGenerationJob).to have_received(:perform_later)
+        it 'redirects to the management information page with an error' do
+          expect(response).to have_http_status(:redirect)
+          expect(response).to redirect_to(case_workers_admin_management_information_url)
+          expect(flash[:alert]).to eq('The requested report type is not supported')
+        end
       end
     end
   end

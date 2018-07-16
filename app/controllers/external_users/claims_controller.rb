@@ -311,8 +311,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :id,
       :advocate_category,
       :fee_type_id,
-      :quantity,
-      :format
+      fees: %i[fee_type_id quantity]
     )
   end
 

@@ -122,9 +122,9 @@ if (!String.prototype.supplant) {
    */
   $('#fixed-fees').on('cocoon:after-insert', function(e, insertedItem) {
     var $insertedItem = $(insertedItem);
-    var calculatorEffector = $insertedItem.find('.js-fixed-fee-calculator-sibling-effector');
 
-    moj.Modules.FeeCalculator.fixedFeeTypeChange(calculatorEffector);
+    moj.Modules.FeeCalculator.fixedFeeTypeChange($insertedItem.find('.js-fixed-fee-calculator-fee-type'));
+    moj.Modules.FeeCalculator.fixedFeeQuantityChange($insertedItem.find('.js-fixed-fee-calculator-quantity'));
   });
 
   // Manually hit the `add rep order` button after a

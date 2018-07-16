@@ -15,13 +15,13 @@
       = f.select :fee_type_id,
           fixed_fee_types_collection.map { |fee| [fee.description, fee.id, { data: fee.data_attributes }]},
           { include_blank: ''.html_safe },
-          {class: 'form-control js-fixed-fee-type js-fee-type js-fixed-fee-calculator-sibling-effector typeahead', style: 'width:100%'}
+          {class: 'form-control js-fixed-fee-type js-fee-type js-fixed-fee-calculator-fee-type typeahead', style: 'width:100%'}
 
       = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")
 
   = f.adp_text_field :quantity,
       label: t('.quantity'),
-      input_classes:"quantity fee-quantity form-control-1-8 js-fee-quantity",
+      input_classes:"quantity fee-quantity form-control-1-8 js-fee-quantity js-fixed-fee-calculator-quantity",
       input_type: 'number',
       value: fee.quantity,
       errors: @error_presenter

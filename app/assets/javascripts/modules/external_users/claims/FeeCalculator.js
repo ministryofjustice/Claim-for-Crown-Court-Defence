@@ -6,35 +6,44 @@ moj.Modules.FeeCalculator = {
   bindEvents: function () {
     this.advocateTypeChange();
     this.fixedFeeTypeChange();
+    this.fixedFeeQuantityChange();
+  },
+
+  advocateTypeChange: function () {
+    var self = this;
+    if ($('.calculated-fixed-fee').exists()) {
+      $('.js-fixed-fee-calculator-advocate-type').change( function() {
+        self.calculateUnitPriceFixedFee();
+      });
+    }
   },
 
   // needs to be usable by cocoon:after-insert
   // so can bind to one or many elements
   fixedFeeTypeChange: function ($el) {
     var self = this;
-    var $els = $el || $('.js-fixed-fee-calculator-sibling-effector');
+    var $els = $el || $('.js-fixed-fee-calculator-fee-type');
     if ($('.calculated-fixed-fee').exists()) {
       $els.change( function() {
-        var $el = $(event.target);
-        self.calculateUnitPriceFixedFee($el, 'sibling');
+        self.calculateUnitPriceFixedFee();
       });
     }
   },
 
-  advocateTypeChange: function () {
+  fixedFeeQuantityChange: function ($el) {
     var self = this;
+    var $els = $el || $('.js-fixed-fee-calculator-quantity');
     if ($('.calculated-fixed-fee').exists()) {
-      $('.js-fixed-fee-calculator-children-effector').change( function() {
-        var $el = $(event.target);
-        self.calculateUnitPriceFixedFee($el, 'children');
+      $els.change( function() {
+        self.calculateUnitPriceFixedFee();
       });
     }
   },
 
   populateInput: function(data, context) {
-    var $effectee = $(context).find('input.form-control');
-    $effectee.val(data.toFixed(2));
-    $effectee.change();
+    var $input = $(context).find('input.form-control');
+    $input.val(data.toFixed(2));
+    $input.change();
   },
 
   // FIXME: displayFee kept in for example use only as one option is to display the
@@ -82,26 +91,43 @@ moj.Modules.FeeCalculator = {
     });
   },
 
+  consolidateFixedFees: function(data) {
+    var fees = data['fees'] = [];
+    var fee_type_id;
+    $('.js-fixed-fee-calculator-quantity').each(function() {
+      fee_type_id = $(this).closest('.fixed-fee-group').find('select.js-fee-type').val();
+      fees.push({ fee_type_id: fee_type_id, quantity: $(this).val()});
+    });
+  },
+
   // Calculates the "unit price" for a given fixed fee,
   // including fixed fee case uplift fee types.
-  calculateUnitPriceFixedFee: function ($el, effectee) {
+  calculateUnitPriceFixedFee: function () {
     var self = this;
     var data = {
       claim_id: $('#claim-form').data('claimId'),
       advocate_category: $('input:radio[name="claim[advocate_category]"]:checked').val()
     };
 
+    self.consolidateFixedFees(data);
+
     var context;
-    if (effectee == 'children') {
-      $('.js-fixed-fee-calculator-effectee').each(function() {
-        data.fee_type_id = $(this).closest('.fixed-fee-group').find('select.js-fee-type').val();
-        context = this;
-        self.unitPriceAjax(data, context);
-      });
-    } else if (effectee == 'sibling') {
-      data.fee_type_id = $el.closest('.fixed-fee-group').find('select.js-fee-type').val();
-      context = $el.closest('.fixed-fee-group').children('.js-fixed-fee-calculator-effectee');
+    $('.js-fixed-fee-calculator-effectee').each(function() {
+      data.fee_type_id = $(this).closest('.fixed-fee-group').find('select.js-fee-type').val();
+      context = this;
       self.unitPriceAjax(data, context);
-    }
+    });
+
+    // if (effectee == 'children') {
+    //   $('.js-fixed-fee-calculator-effectee').each(function() {
+    //     data.fee_type_id = $(this).closest('.fixed-fee-group').find('select.js-fee-type').val();
+    //     context = this;
+    //     self.unitPriceAjax(data, context);
+    //   });
+    // } else if (effectee == 'sibling') {
+    //   data.fee_type_id = $el.closest('.fixed-fee-group').find('select.js-fee-type').val();
+    //   context = $el.closest('.fixed-fee-group').children('.js-fixed-fee-calculator-effectee');
+    //   self.unitPriceAjax(data, context);
+    // }
   }
 };

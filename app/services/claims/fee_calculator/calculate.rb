@@ -18,7 +18,7 @@ module Claims
                 :offence,
                 to: :@claim
 
-      attr_reader :claim, :options, :fee_type, :advocate_category, :quantity
+      attr_reader :claim, :options, :fee_type, :advocate_category, :quantity, :current_page_fees
 
       def initialize(claim, options)
         @claim = claim
@@ -28,7 +28,24 @@ module Claims
       def call
         setup(options)
 
-        amount = fee_scheme.calculate do |options|
+        amount = calculate
+        response(true, amount)
+      rescue StandardError => err
+        Rails.logger.error(err.message)
+        response(false, err, 'Price unavailable')
+      end
+
+      private
+
+      def setup(options)
+        @fee_type = Fee::BaseFeeType.find(options[:fee_type_id])
+        @advocate_category = options[:advocate_category] || advocate_category
+        @quantity = options[:quantity] || 1
+        @current_page_fees = options[:fees].values
+      end
+
+      def calculate
+        fee_scheme.calculate do |options|
           options[:scenario] = scenario.id
           options[:offence_class] = offence_class
           options[:advocate_type] = advocate_type
@@ -54,19 +71,6 @@ module Claims
           # options[:number_of_defendants] = 1
           # options[:number_of_cases] = 1
         end
-
-        response(true, amount)
-      rescue StandardError => err
-        Rails.logger.error(err.message)
-        response(false, err, 'Price unavailable')
-      end
-
-      private
-
-      def setup(options)
-        @fee_type = Fee::BaseFeeType.find(options[:fee_type_id])
-        @advocate_category = options[:advocate_category] || advocate_category
-        @quantity = options[:quantity] || 1
       end
 
       def scheme_type
@@ -96,6 +100,7 @@ module Claims
 
       def fee_type_code_for(fee_type)
         fee_type = case_uplift_parent if fee_type.case_uplift?
+
         [
           # CCR::Fee::BasicFeeAdapter::BASIC_FEE_BILL_MAPPINGS, # TODO: all are AGFS_FEE
           CCR::Fee::FixedFeeAdapter::FIXED_FEE_BILL_MAPPINGS,

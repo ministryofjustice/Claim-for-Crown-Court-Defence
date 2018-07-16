@@ -5,7 +5,7 @@
       = t('shared.claim.advocate_category')
   .form-group.advocate-categories{class: error_class?(@error_presenter, :advocate_category)}
     = f.collection_radio_buttons(:advocate_category, f.object.eligible_advocate_categories.sort, :to_s, :to_s) do |b|
-      .multiple-choice.js-fixed-fee-calculator-children-effector
+      .multiple-choice.js-fixed-fee-calculator-advocate-type
         = b.radio_button
         = b.label { b.value.to_s }
 

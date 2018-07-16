@@ -134,3 +134,5 @@ govuk_notify:
     new_external_advocate_admin: 'new_external_advocate_admin_template_uuid'
     new_external_litigator_admin: 'new_external_litigator_admin_template_uuid'
     unlock_instructions: 'unlock_instructions_template_uuid'
+
+notify_report_errors: <%= ENV["ENV"].in?(%w[api-sandbox demo disaster gamma]) %>

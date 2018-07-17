@@ -12,7 +12,7 @@
 
 .form-group
   -# .js-block is conditional
-  .basic-fee-group.fee-details{class: to_slug(f.object.description), class: fee.activate_js_block? ? 'js-block' : '', data:{type:'gradFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': f.object.calculated? ? 'FeeBlockCalculator' : 'FeeBlock'}}
+  .basic-fee-group.fee-details{class: to_slug(f.object.description), class: fee.activate_js_block? ? 'js-block fx-do-init' : '', data:{type:'gradFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': f.object.calculated? ? 'FeeBlockCalculator' : 'FeeBlock'}}
     = f.hidden_field :fee_type_id, value: f.object.fee_type_id
 
     -# Quantity

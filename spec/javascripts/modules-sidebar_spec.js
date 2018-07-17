@@ -18,12 +18,12 @@ describe("Modules.SideBar.js", function() {
       type: 'fixedFees',
       autovat: true,
       blockType: 'FeeBlock'
-    }
+    };
 
     options = $.extend({}, defaults, options);
 
     return $([
-      '<div class="js-block nested-fields" ',
+      '<div class="js-block fx-do-init nested-fields" ',
       '  data-block-type="' + options.blockType + '" ',
       '  data-autovat="' + options.autovat + '" ',
       '  data-type="' + options.type + '">',
@@ -33,19 +33,19 @@ describe("Modules.SideBar.js", function() {
       '  <span class="total" data-total="0.0">£0.00</span>',
       '</div>'
     ].join(' '));
-  }
+  };
 
   var jsBlockViewCalculated = function(options) {
     var defaults = {
       type: 'fixedFees',
       autovat: true,
       blockType: 'FeeBlockCalculator'
-    }
+    };
 
     options = $.extend({}, defaults, options);
 
     return $([
-      '<div class="js-block nested-fields" ',
+      '<div class="js-block fx-do-init nested-fields" ',
       '  data-block-type="' + options.blockType + '" ',
       '  data-autovat="' + options.autovat + '" ',
       '  data-type="' + options.type + '">',
@@ -54,7 +54,7 @@ describe("Modules.SideBar.js", function() {
       '  <input value="5.20" class="form-control rate" size="10" maxlength="8" type="text">',
       '  <span class="total" data-total="31.20">£31.20</span>',
       '</div>'
-    ].join(' '))
+    ].join(' '));
   };
 
   beforeEach(function() {
@@ -153,7 +153,7 @@ describe("Modules.SideBar.js", function() {
         jsBlockFixtureDOM.append([jsBlockViewNonCalculated().clone(), jsBlockViewNonCalculated().clone(), jsBlockViewNonCalculated().clone()]);
         $('body').append(jsBlockFixtureDOM);
 
-        expect(moj.Modules.SideBar.blocks.length).toEqual(2)
+        expect(moj.Modules.SideBar.blocks.length).toEqual(2);
 
         moj.Modules.SideBar.loadBlocks();
 
@@ -172,7 +172,7 @@ describe("Modules.SideBar.js", function() {
         $('body').append(jsBlockFixtureDOM);
 
         moj.Modules.SideBar.loadBlocks();
-        expect(moj.Modules.SideBar.blocks.length).toEqual(3)
+        expect(moj.Modules.SideBar.blocks.length).toEqual(3);
 
         jsBlockFixtureDOM.empty();
       });

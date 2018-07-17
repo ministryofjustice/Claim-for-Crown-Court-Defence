@@ -58,9 +58,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     this.setInputValue($el, '.fx-travel-destination input', data.destination);
     this.setInputValue($el, '.fx-travel-net-amount input', data.amount);
     this.setInputValue($el, '.fx-travel-vat-amount input', data.vat_amount);
-
     this.setRadioValue($el, '.fx-travel-mileage input', data.mileage_rate_id)
-
     this.setSelectValue($el, '.fx-travel-expense-type select', data.expense_type_id);
     this.setSelectValue($el, '.fx-travel-reason select', data.reason_id);
     this.setSelectValue($el, '.fx-travel-reason-other input', data.reason_text);
@@ -114,7 +112,6 @@ moj.Modules.DuplicateExpenseCtrl = {
    */
   mapFormData: function() {
     var deferred = $.Deferred()
-
     var self = this;
     var data = {};
     $.map(this.getDataInput(), function(obj, idx) {
@@ -127,8 +124,6 @@ moj.Modules.DuplicateExpenseCtrl = {
     return deferred.promise();
   }
 };
-
-
 
 (function($) {
   $.fn.serializeFormJSON = function() {

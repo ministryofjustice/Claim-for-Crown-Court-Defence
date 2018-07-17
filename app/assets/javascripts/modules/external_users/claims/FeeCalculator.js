@@ -94,9 +94,12 @@ moj.Modules.FeeCalculator = {
   consolidateFixedFees: function(data) {
     var fees = data['fees'] = [];
     var fee_type_id;
-    $('.js-fixed-fee-calculator-quantity').each(function() {
-      fee_type_id = $(this).closest('.fixed-fee-group').find('select.js-fee-type').val();
-      fees.push({ fee_type_id: fee_type_id, quantity: $(this).val()});
+    $('.fixed-fee-group:visible').each(function() {
+      fee_type_id = $(this).find('select.js-fee-type').val();
+      fees.push({
+        fee_type_id: $(this).find('select.js-fee-type').val(),
+        quantity: $(this).find('input.js-fee-quantity').val()
+      });
     });
   },
 

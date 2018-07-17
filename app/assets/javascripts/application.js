@@ -107,24 +107,31 @@ if (!String.prototype.supplant) {
   $('#basic-fees').on('change', '.multiple-choice input[type=checkbox]', function(e){
     var checked = $(e.target).is(':checked');
     var fields_wrapper = $(e.target).attr('aria-controls');
-    var $fields_wrapper = $('#'+fields_wrapper)
+    var $fields_wrapper = $('#'+fields_wrapper);
 
     $fields_wrapper.find('input[type=number]').val(0);
     $fields_wrapper.find('input[type=text]').val('');
     $fields_wrapper.find('.gov_uk_date input[type=number]').val('');
     $fields_wrapper.find('.gov_uk_date input[type=number]').prop('disabled', !checked);
-    $fields_wrapper.trigger('recalculate')
+    $fields_wrapper.trigger('recalculate');
   });
 
   /**
-   * Cocoon call back to init fee calculation features
-   * inserted into the DOM
+   * Fee calculation event binding for added fees
    */
   $('#fixed-fees').on('cocoon:after-insert', function(e, insertedItem) {
     var $insertedItem = $(insertedItem);
 
     moj.Modules.FeeCalculator.fixedFeeTypeChange($insertedItem.find('.js-fixed-fee-calculator-fee-type'));
     moj.Modules.FeeCalculator.fixedFeeQuantityChange($insertedItem.find('.js-fixed-fee-calculator-quantity'));
+  });
+
+  /**
+  * Fee Calculation is inter-fee dependant. When one changes
+  * it could have impact on others so all have to be checked.
+  */
+  $('#fixed-fees').on('cocoon:after-remove', function() {
+    moj.Modules.FeeCalculator.calculateUnitPriceFixedFee();
   });
 
   // Manually hit the `add rep order` button after a

@@ -37,7 +37,7 @@ moj.Helpers.SideBar = {
 
     this.getMultipliedVal = function(val1, val2) {
       return parseFloat((this.getVal(val1) * this.getVal(val2)).toFixed(2));
-    }
+    };
   },
   FeeBlock: function() {
     var self = this;
@@ -180,14 +180,14 @@ moj.Helpers.SideBar = {
       if (this.config.autoVAT) {
         this.totals.vat = this.totals.total * 0.2;
       } else {
-        this.totals.vat = (parseFloat(this.$el.data('seed-vat')) || 0)
+        this.totals.vat = (parseFloat(this.$el.data('seed-vat')) || 0);
       }
       return this;
     };
 
     this.init = function() {
       return this;
-    }
+    };
   },
   ExpenseBlock: function() {
     var self = this;
@@ -241,7 +241,7 @@ moj.Helpers.SideBar = {
         $option = $(e.target).find('option:selected');
         state = $option.data('reasonText');
         location_type = $option.data('locationType') || '';
-        self.$el.find('.fx-location-type').val(location_type)
+        self.$el.find('.fx-location-type').val(location_type);
         self.$el.find('.fx-travel-reason-other').css('display', state ? 'block' : 'none');
       });
       return this;
@@ -308,8 +308,8 @@ moj.Helpers.SideBar = {
       reasons.push(new Option('Please select'));
       this.expenseReasons[state.config.reasonSet].forEach(function(obj) {
         $option = $(new Option(obj.reason, obj.id));
-        $option.attr('data-reason-text', obj.reason_text)
-        $option.attr('data-location-type', obj.location_type)
+        $option.attr('data-reason-text', obj.reason_text);
+        $option.attr('data-location-type', obj.location_type);
         if (locationType) {
           if (obj.location_type == locationType && obj.id == travelReasonValue) {
             $option.prop('selected', true);
@@ -319,7 +319,7 @@ moj.Helpers.SideBar = {
             $option.prop('selected', true);
           }
         }
-        reasons.push($option)
+        reasons.push($option);
       });
       // Attach the travel reasons
       $detached.find('.fx-travel-reason select').children().remove().end().append(reasons);
@@ -342,10 +342,12 @@ moj.Helpers.SideBar = {
         // Display the correct block
         $detached.find('.fx-travel-mileage-car').css('display', 'block');
         $detached.find('.fx-travel-mileage-bike').css('display', 'none');
+
         // Activate the radios for this block and reset checked status
         $detached.find('.fx-travel-mileage-car input').is(function() {
           $(this).prop('disabled', false);
         });
+
         // Deactivate the others and reset checked status
         $detached.find('.fx-travel-mileage-bike input').is(function() {
           $(this).prop('checked', false).prop('disabled', true);

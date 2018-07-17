@@ -91,11 +91,12 @@ moj.Modules.FeeCalculator = {
     });
   },
 
-  consolidateFixedFees: function(data) {
+  addFixedFeeData: function(data) {
+    data.claim_id = $('#claim-form').data('claimId');
+    data.advocate_category = $('input:radio[name="claim[advocate_category]"]:checked').val();
+
     var fees = data['fees'] = [];
-    var fee_type_id;
     $('.fixed-fee-group:visible').each(function() {
-      fee_type_id = $(this).find('select.js-fee-type').val();
       fees.push({
         fee_type_id: $(this).find('select.js-fee-type').val(),
         quantity: $(this).find('input.js-fee-quantity').val()
@@ -107,30 +108,12 @@ moj.Modules.FeeCalculator = {
   // including fixed fee case uplift fee types.
   calculateUnitPriceFixedFee: function () {
     var self = this;
-    var data = {
-      claim_id: $('#claim-form').data('claimId'),
-      advocate_category: $('input:radio[name="claim[advocate_category]"]:checked').val()
-    };
+    var data = {};
+    self.addFixedFeeData(data);
 
-    self.consolidateFixedFees(data);
-
-    var context;
     $('.js-fixed-fee-calculator-effectee').each(function() {
       data.fee_type_id = $(this).closest('.fixed-fee-group').find('select.js-fee-type').val();
-      context = this;
-      self.unitPriceAjax(data, context);
+      self.unitPriceAjax(data, this);
     });
-
-    // if (effectee == 'children') {
-    //   $('.js-fixed-fee-calculator-effectee').each(function() {
-    //     data.fee_type_id = $(this).closest('.fixed-fee-group').find('select.js-fee-type').val();
-    //     context = this;
-    //     self.unitPriceAjax(data, context);
-    //   });
-    // } else if (effectee == 'sibling') {
-    //   data.fee_type_id = $el.closest('.fixed-fee-group').find('select.js-fee-type').val();
-    //   context = $el.closest('.fixed-fee-group').children('.js-fixed-fee-calculator-effectee');
-    //   self.unitPriceAjax(data, context);
-    // }
   }
 };

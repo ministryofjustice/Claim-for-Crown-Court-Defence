@@ -99,13 +99,46 @@ module Claims
       end
 
       def fee_type_code_for(fee_type)
-        fee_type = case_uplift_parent if fee_type.case_uplift?
 
-        [
+        ap "File: #{File.basename(__FILE__)}, Method: #{__method__}, Line: #{__LINE__}"
+
+        if fee_type.unique_code.eql? 'FXNOC'
+          ids = current_page_fees.map { |pf| pf[:fee_type_id] }
+          page_fee_types = Fee::BaseFeeType.where(id: ids)
+          ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
+          ap page_fee_types.class
+          ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
+          ap page_fee_types
+          ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
+          primary_fee_types = page_fee_types.where(unique_code: CCR::Fee::FixedFeeAdapter::FIXED_FEE_BILL_MAPPINGS.keys)
+          ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
+          ap primary_fee_types
+          ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
+          return nil if primary_fee_types.size > 1
+          fee_type = primary_fee_types.first
+        else
+          fee_type = case_uplift_parent if fee_type.case_uplift?
+        end
+        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
+        ap fee_type
+        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
+        ap fee_type&.unique_code.to_sym
+        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
+        ap fee_type.case_uplift?
+        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
+
+        mappings = [
           # CCR::Fee::BasicFeeAdapter::BASIC_FEE_BILL_MAPPINGS, # TODO: all are AGFS_FEE
           CCR::Fee::FixedFeeAdapter::FIXED_FEE_BILL_MAPPINGS,
           CCR::Fee::MiscFeeAdapter::MISC_FEE_BILL_MAPPINGS
-        ].inject(&:merge)[fee_type.unique_code.to_sym][:bill_subtype]
+        ].inject(&:merge)
+        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
+        ap mappings
+        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
+        ap mappings[fee_type&.unique_code.to_sym][:bill_subtype]
+        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
+
+        mappings[fee_type&.unique_code.to_sym][:bill_subtype]
       end
 
       def case_uplift_parent
@@ -117,6 +150,9 @@ module Claims
           .where('description = ?', fee_type.description.gsub(' uplift', ''))
           .where.not('description ILIKE ?', '%uplift%')
           .first
+      end
+
+      def defendant_uplift_parent
       end
 
       def response(success, data, message = nil)

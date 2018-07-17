@@ -47,7 +47,11 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
 
     Then I click "Continue" in the claim form
 
-    And I add an expense 'Hotel accommodation'
+    And I select an expense type "Hotel accommodation"
+    And I select a travel reason "View of crime scene"
+    And I add an expense net amount for "34.56"
+    And I add an expense location
+    And I add an expense date
 
     Then I click "Continue" in the claim form
 

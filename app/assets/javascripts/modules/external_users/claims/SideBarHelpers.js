@@ -9,6 +9,21 @@ moj.Helpers.SideBar = {
     this.$el = this.config.$el;
     this.el = this.config.el;
 
+    this.setState = function(selector, state) {
+      if (this.$el.find(selector).is(':visible') === state) {
+        return;
+      }
+      return this.$el.find(selector).css('display', state ? 'block' : 'none');
+    };
+
+    this.setVal = function(selector, val) {
+      if (this.$el.find(selector).length) {
+        this.$el.find(selector).val(val);
+        return;
+      }
+      return new Error('selector did not return an element', selector);
+    };
+
     this.getConfig = function(key) {
       return this.config[key] || undefined;
     };
@@ -200,11 +215,8 @@ moj.Helpers.SideBar = {
 
     this.init = function() {
       this.config.fn = 'ExpenseBlock';
+      this.config.featureDistance = $('#expenses').data('featureDistance');
 
-      // Overides for LGFS reason set C;
-      // NOT REQUIRED IN THE DESIGN UPGRADE
-      // this.config.featureDistance = $('#expenses').data('featureDistance');
-      //
       // Bind events
       this.bindEvents();
       // Load the state based on the selected option
@@ -212,20 +224,21 @@ moj.Helpers.SideBar = {
       return this;
     };
     this.bindEvents = function() {
-      // Bind the core change listner
+      // Bind the core change listener
       this.bindRecalculate();
-
       // Bind events on the this.$el element
       this.bindListners();
     };
     // Bind delegated events onto this.$el
     this.bindListners = function() {
       var self = this;
+
       /**
        * Listen for the `expense type` change event and
        * pass the event object to the statemanager
        */
       this.$el.on('change', '.fx-travel-expense-type select', function(e) {
+        e.stopPropagation();
         self.statemanager(e);
       });
       /**
@@ -236,22 +249,83 @@ moj.Helpers.SideBar = {
        *   when the user returns to the page
        */
       this.$el.on('change', '.fx-travel-reason select', function(e) {
+        e.stopPropagation();
         var $option, state, location_type;
-
         $option = $(e.target).find('option:selected');
         state = $option.data('reasonText');
         location_type = $option.data('locationType') || '';
-        self.$el.find('.fx-location-type').val(location_type);
-        self.$el.find('.fx-travel-reason-other').css('display', state ? 'block' : 'none');
+        self.setVal('.fx-location-type', location_type);
+        self.setState('.fx-travel-reason-other', state);
+        self.attachElement($option.data());
+      });
+
+      // Where the location is using a select box, the selected
+      // value is stored in a hidden field
+      // This is used to reset the correct block state and seleted values
+      // when the page reloads
+      this.$el.on('change', '.fx-establishment-select select', function(e) {
+        e.stopPropagation();
+        var $option = $(e.target).find('option:selected');
+        self.$el.find('.fx-location-model').val($option.text());
       });
       return this;
     };
+
+    this.attachElement = function(obj) {
+      if (!obj) throw Error('Missing param: obj, cannot build element');
+
+      var selectedValue = this.$el.find('.fx-location-model').val();
+
+      if (obj.locationType) {
+        this.attachSelectWithOptions(obj.locationType, selectedValue);
+        return this;
+      }
+      this.attachInput();
+      return this;
+    };
+
+    this.attachInput = function() {
+      this.$el.find('.fx-travel-location label').text(staticdata.locationLabel.default);
+      this.$el.find('.location_wrapper').css('display', 'block');
+      this.$el.find('.fx-establishment-select').css('display', 'none');
+      return this;
+    };
+
+    this.attachSelectWithOptions = function(locationType, selectedValue) {
+      var self = this;
+      var $detachedSelect;
+
+      if (!locationType) return new Error('Missing param: locationType');
+
+      moj.Helpers.API.Establishments.getAsSelectWithOptions(locationType, {
+        prop: 'name',
+        value: selectedValue
+      }).then(function(els) {
+
+        $detachedSelect = self.$el.find('.fx-establishment-select select').detach();
+
+        $detachedSelect.find('option').remove();
+        $detachedSelect.append(els.join(''));
+
+        self.$el.find('.fx-establishment-select').css('display', 'block');
+        self.$el.find('.fx-establishment-select').append($detachedSelect);
+
+        // this class `location_wrapper` is added by the adp_text_field ruby helper
+        self.$el.find('.location_wrapper').css('display', 'none');
+        self.$el.find('.fx-travel-location label').text(staticdata.locationLabel[locationType] || staticdata.locationLabel.default);
+
+      }, function() {
+        return Error('Attach options failed:', arguments);
+      });
+    };
+
     this.loadCurrentState = function() {
       var $select = this.$el.find('.fx-travel-expense-type select');
       if ($select.val()) {
         $select.trigger('change');
       }
     };
+
     this.setTotals = function() {
       this.totals = {
         quantity: this.getVal('.quantity'),
@@ -281,6 +355,7 @@ moj.Helpers.SideBar = {
       var $detached = $parent.find('.form-section-compound').detach();
       var locationType = $detached.find('.fx-location-type').val();
       var travelReasonValue = $detached.find('.fx-travel-reason option:selected').val();
+
       // regular fields
       ['date',
         'distance',
@@ -293,19 +368,27 @@ moj.Helpers.SideBar = {
       });
 
       // net amount & lable
-      $detached.find(this.stateLookup['netAmount']).css('display', (state.config['netAmount'] ? 'block' : 'none'));
-      $detached.find(this.stateLookup['netAmount'] + ' label').text(state.config['netAmountLabel']);
+      $detached.find(this.stateLookup.netAmount).css('display', (state.config.netAmount ? 'block' : 'none'));
+      $detached.find(this.stateLookup.netAmount + ' label').text(state.config.netAmountLabel);
 
-      // location & label
-      $detached.find(this.stateLookup['location']).css('display', (state.config['location'] ? 'block' : 'none'));
-      $detached.find(this.stateLookup['location'] + ' label').text(state.config['locationLabel']);
+
+      $detached.find(this.stateLookup.location).css('display', (state.config.location ? 'block' : 'none'));
+      $detached.find(this.stateLookup.location + ' label').text(state.config.locationLabel);
+
+      // cache the location input
+      if (!this.$location) {
+        this.$location = {
+          input: $detached.find('.fx-travel-location > .location_wrapper:first'),
+          select: $detached.find('.fx-travel-location > .fx-establishment-select')
+        };
+      }
 
       // Overides for LGFS reason set C;
-      // NOT REQUIRED IN THE DESIGN UPGRADE
-      // state.config.reasonSet = (this.config.featureDistance ? 'C' : (state.config.reasonSet || 'A'));
+      state.config.reasonSet = (this.config.featureDistance ? 'C' : (state.config.reasonSet || 'A'));
 
       // travel reasons
       reasons.push(new Option('Please select'));
+
       this.expenseReasons[state.config.reasonSet].forEach(function(obj) {
         $option = $(new Option(obj.reason, obj.id));
         $option.attr('data-reason-text', obj.reason_text);
@@ -321,22 +404,34 @@ moj.Helpers.SideBar = {
         }
         reasons.push($option);
       });
+
       // Attach the travel reasons
       $detached.find('.fx-travel-reason select').children().remove().end().append(reasons);
+
+      // Loading the dynamic `location` data
+      // wait for the data is loaded before
+      // firing the change event
+      $.subscribe('/API/establishments/loaded/', function() {
+        $detached.find('.fx-travel-reason select').trigger('change');
+      });
+
       // Mileage radios: BIKE
       if (state.config.mileageType === 'bike') {
         // Display the correct block
         $detached.find('.fx-travel-mileage-car').css('display', 'none');
         $detached.find('.fx-travel-mileage-bike').css('display', 'block');
+
         // Activate the radios for this block and reset checked status
         $detached.find('.fx-travel-mileage-bike input[type=radio]').is(function() {
           $(this).prop('checked', true).prop('disabled', false);
         });
+
         // Deactivate the others and reset checked status
         $detached.find('.fx-travel-mileage-car input').is(function() {
           $(this).prop('checked', false).prop('disabled', true);
         });
       }
+
       // Mileage radios: BIKE
       if (state.config.mileageType === 'car') {
         // Display the correct block
@@ -359,71 +454,115 @@ moj.Helpers.SideBar = {
   staticdata: {
     expenseBlock: {
       stateLookup: {
-        "vatAmount": ".fx-travel-vat-amount",
-        "reason": ".fx-travel-reason",
-        "netAmount": ".fx-travel-net-amount",
-        "location": ".fx-travel-location",
-        "hours": ".fx-travel-hours",
-        "distance": ".fx-travel-distance",
-        "destination": ".fx-travel-destination",
-        "date": ".fx-travel-date",
-        "mileage": ".fx-travel-mileage",
-        "grossAmount": ".fx-travel-gross-amount"
+        'vatAmount': '.fx-travel-vat-amount',
+        'reason': '.fx-travel-reason',
+        'netAmount': '.fx-travel-net-amount',
+        'location': '.fx-travel-location',
+        'hours': '.fx-travel-hours',
+        'distance': '.fx-travel-distance',
+        'destination': '.fx-travel-destination',
+        'date': '.fx-travel-date',
+        'mileage': '.fx-travel-mileage',
+        'grossAmount': '.fx-travel-gross-amount'
       },
       defaultstate: {
-        "mileage": false,
-        "date": false,
-        "distance": false,
-        "grossAmount": false,
-        "hours": false,
-        "location": false,
-        "netAmount": false,
-        "reason": false,
-        "vatAmount": false,
+        'mileage': false,
+        'date': false,
+        'distance': false,
+        'grossAmount': false,
+        'hours': false,
+        'location': false,
+        'netAmount': false,
+        'reason': false,
+        'vatAmount': false,
+      },
+      locationLabel: {
+        crown_court: 'Crown court',
+        magistrates_court: 'Magistrates court',
+        prison: 'Prison',
+        hospital: 'Hospital',
+        default: 'Destination'
       },
       expenseReasons: {
-        "A": [{
-          "id": 1,
-          "reason": "Court hearing",
-          "reason_text": false
+        'A': [{
+          'id': 1,
+          'reason': 'Court hearing',
+          'reason_text': false
         }, {
-          "id": 2,
-          "reason": "Pre-trial conference expert witnesses",
-          "reason_text": false
+          'id': 2,
+          'reason': 'Pre-trial conference expert witnesses',
+          'reason_text': false
         }, {
-          "id": 3,
-          "reason": "Pre-trial conference defendant",
-          "reason_text": false
+          'id': 3,
+          'reason': 'Pre-trial conference defendant',
+          'reason_text': false
         }, {
-          "id": 4,
-          "reason": "View of crime scene",
-          "reason_text": false
+          'id': 4,
+          'reason': 'View of crime scene',
+          'reason_text': false
         }, {
-          "id": 5,
-          "reason": "Other",
-          "reason_text": true
+          'id': 5,
+          'reason': 'Other',
+          'reason_text': true
         }],
-        "B": [{
-          "id": 2,
-          "reason": "Pre-trial conference expert witnesses",
-          "reason_text": false
+        'B': [{
+          'id': 2,
+          'reason': 'Pre-trial conference expert witnesses',
+          'reason_text': false
         }, {
-          "id": 3,
-          "reason": "Pre-trial conference defendant",
-          "reason_text": false
+          'id': 3,
+          'reason': 'Pre-trial conference defendant',
+          'reason_text': false
         }, {
-          "id": 4,
-          "reason": "View of crime scene",
-          "reason_text": false
+          'id': 4,
+          'reason': 'View of crime scene',
+          'reason_text': false
+        }],
+        'C': [{
+          'id': 1,
+          'reason': 'Court hearing (Crown court)',
+          'location_type': 'crown_court',
+          'reason_text': false
+        }, {
+          'id': 1,
+          'reason': 'Court hearing (Magistrates\' court)',
+          'location_type': 'magistrates_court',
+          'reason_text': false
+        }, {
+          'id': 2,
+          'reason': 'Pre-trial conference expert witnesses',
+          'reason_text': false
+        }, {
+          'id': 3,
+          'reason': 'Pre-trial conference defendant (prison)',
+          'location_type': 'prison',
+          'reason_text': false
+        }, {
+          'id': 3,
+          'reason': 'Pre-trial conference defendant (hospital)',
+          'location_type': 'hospital',
+          'reason_text': false
+        }, {
+          'id': 3,
+          'reason': 'Pre-trial conference defendant (other)',
+          'reason_text': false
+        }, {
+          'id': 4,
+          'reason': 'View of crime scene',
+          'reason_text': false
+        }, {
+          'id': 5,
+          'reason': 'Other',
+          'reason_text': true
         }]
       }
     }
   },
   addCommas: function(nStr) {
     nStr += '';
-    x = nStr.split('.');
-    x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
+    var x = nStr.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? '.' + x[1] : '';
     var rgx = /(\d+)(\d{3})/;
     while (rgx.test(x1)) {
       x1 = x1.replace(rgx, '$1' + ',' + '$2');

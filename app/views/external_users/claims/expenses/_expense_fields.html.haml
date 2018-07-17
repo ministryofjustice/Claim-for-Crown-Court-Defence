@@ -73,20 +73,21 @@
             %legend.form-label-bold
               = t('.cost')
 
-            %div.fx-travel-mileage-car
-
-              = f.collection_radio_buttons(:mileage_rate_id, Expense::CAR_MILEAGE_RATES.values, :id, :description) do |b|
-                .multiple-choice
-                  = b.radio_button
-                  = b.label { b.object.description }
-              = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
-
+            -# Bike before Car.. due to hidden inputs
             %div.fx-travel-mileage-bike
               = f.collection_radio_buttons(:mileage_rate_id, Expense::BIKE_MILEAGE_RATES.values, :id, :description) do |b|
                 .multiple-choice
                   = b.radio_button
                   = b.label { b.object.description }
               = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
+
+            %div.fx-travel-mileage-car
+              = f.collection_radio_buttons(:mileage_rate_id, Expense::CAR_MILEAGE_RATES.values, :id, :description) do |b|
+                .multiple-choice
+                  = b.radio_button
+                  = b.label { b.object.description }
+              = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
+
 
       .column-half
         -# DATES: Expense date

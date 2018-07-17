@@ -3,7 +3,6 @@ require_relative 'document_generator'
 require_relative 'basic_fee_generator'
 require_relative 'fee_generator'
 require_relative 'expense_generator'
-require_relative 'expense_v2_generator'
 
 module DemoData
 

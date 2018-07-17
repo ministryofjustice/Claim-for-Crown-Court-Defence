@@ -101,7 +101,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     if (obj.name.indexOf('][') === -1) {
       return obj.name;
     }
-    str = obj.name.split('][').slice(2)[0]
+    str = obj.name.split('][').slice(2)[0];
     return str.substring(0, str.length - 1);
   },
 
@@ -111,7 +111,7 @@ moj.Modules.DuplicateExpenseCtrl = {
    * populate the duplicated expenses
    */
   mapFormData: function() {
-    var deferred = $.Deferred()
+    var deferred = $.Deferred();
     var self = this;
     var data = {};
     $.map(this.getDataInput(), function(obj, idx) {
@@ -120,7 +120,7 @@ moj.Modules.DuplicateExpenseCtrl = {
         data[str] = obj.value;
       }
     });
-    deferred.resolve(data)
+    deferred.resolve(data);
     return deferred.promise();
   }
 };

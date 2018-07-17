@@ -40,7 +40,7 @@ end
 
 Then(/^I select the first search result$/) do
   sleep Capybara.default_max_wait_time
-  @claim_form_page.offence_results.first.select_button(visible: false).trigger('click')
+  @claim_form_page.offence_results.first.select_button(visible: false).click
 end
 
 When(/^I add a basic fee with dates attended$/) do
@@ -58,7 +58,7 @@ end
 
 When(/^I add a number of cases uplift fee with additional case numbers$/) do
   using_wait_time 6 do
-    @claim_form_page.basic_fees.number_of_case_uplift_input.click()
+    @claim_form_page.basic_fees.number_of_case_uplift_input.click
     @claim_form_page.basic_fees.number_of_cases_uplift.quantity.set "1"
     @claim_form_page.basic_fees.number_of_cases_uplift.rate.set "200.00"
     @claim_form_page.basic_fees.number_of_cases_uplift.case_numbers.set "A20170001"
@@ -80,7 +80,7 @@ When(/^I add a miscellaneous fee '(.*?)' with dates attended\s*(.*)?$/) do |name
   @claim_form_page.miscellaneous_fees.last.select_fee_type name
   @claim_form_page.miscellaneous_fees.last.quantity.set 1
   @claim_form_page.miscellaneous_fees.last.rate.set "34.56"
-  @claim_form_page.miscellaneous_fees.last.add_dates.trigger "click"
+  @claim_form_page.miscellaneous_fees.last.add_dates.click
   @claim_form_page.miscellaneous_fees.last.dates.from.set_date(date)
 end
 

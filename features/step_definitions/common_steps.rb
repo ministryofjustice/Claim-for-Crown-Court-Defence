@@ -100,7 +100,7 @@ end
 
 When(/^I click Certify and submit claim$/) do
   allow(Aws::SNS::Client).to receive(:new).and_return Aws::SNS::Client.new(region: 'eu_west_1', stub_responses: true)
-  @certification_page.certify_and_submit_claim.trigger "click"
+  @certification_page.certify_and_submit_claim.click
 end
 
 Then(/^I should be on the page showing basic claim information$/) do

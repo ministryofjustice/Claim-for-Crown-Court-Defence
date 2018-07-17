@@ -71,7 +71,7 @@ end
 
 When(/^I click Submit to LAA$/) do
   allow(Aws::SNS::Client).to receive(:new).and_return Aws::SNS::Client.new(region: 'eu_west_1', stub_responses: true)
-  @claim_form_page.submit_to_laa.trigger "click"
+  @claim_form_page.submit_to_laa.click
 end
 
 Then(/^I should be on the check your claim page$/) do
@@ -80,7 +80,6 @@ Then(/^I should be on the check your claim page$/) do
 end
 
 When(/^I save as draft$/) do
-  # @claim_form_page.save_to_drafts.trigger('click')
   @claim_form_page.save_to_drafts.click
 end
 

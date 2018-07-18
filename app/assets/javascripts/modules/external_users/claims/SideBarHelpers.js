@@ -324,7 +324,7 @@ moj.Helpers.SideBar = {
           $(this).prop('checked', true).prop('disabled', false);
         });
         // Deactivate the others and reset checked status
-        $detached.find('.fx-travel-mileage-car input[type=radio]').is(function() {
+        $detached.find('.fx-travel-mileage-car input').is(function() {
           $(this).prop('checked', false).prop('disabled', true);
         });
       }
@@ -334,11 +334,11 @@ moj.Helpers.SideBar = {
         $detached.find('.fx-travel-mileage-car').css('display', 'block');
         $detached.find('.fx-travel-mileage-bike').css('display', 'none');
         // Activate the radios for this block and reset checked status
-        $detached.find('.fx-travel-mileage-car input[type=radio]').is(function() {
+        $detached.find('.fx-travel-mileage-car input').is(function() {
           $(this).prop('disabled', false);
         });
         // Deactivate the others and reset checked status
-        $detached.find('.fx-travel-mileage-bike input[type=radio]').is(function() {
+        $detached.find('.fx-travel-mileage-bike input').is(function() {
           $(this).prop('checked', false).prop('disabled', true);
         });
       }

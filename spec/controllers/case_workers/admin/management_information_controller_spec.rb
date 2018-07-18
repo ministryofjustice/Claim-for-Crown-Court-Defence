@@ -24,20 +24,49 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
     describe '#GET download' do
       context 'for a valid report type' do
         let(:report_type) { 'management_information' }
-        let(:content) { 'header1,header2,header3' }
-        let(:stats_report) { instance_double(::Stats::StatsReport, report_name: 'management_information', download_filename: 'test.csv', report: content) }
 
-        before do
-          expect(Stats::StatsReport).to receive(:most_recent_by_type).with(report_type).and_return(stats_report)
-          get :download, params: { report_type: report_type }
+        context 'using DB storage' do
+          let(:content) { 'header1,header2,header3' }
+          let!(:stats_report) { create(:stats_report, report_name: 'management_information', report: content) }
+
+          before do
+            get :download, params: { report_type: report_type }
+          end
+
+          it 'returns http success' do
+            expect(response).to have_http_status(:success)
+          end
+
+          it 'renders the template' do
+            expect(response.headers['Content-Type']).to eq 'text/csv'
+          end
         end
 
-        it 'returns http success' do
-          expect(response).to have_http_status(:success)
-        end
+        context 'using S3 storage' do
+          let(:content) { 'header1,header2,header3' }
+          let(:document) { StringIO.new(content) }
+          let!(:stats_report) {
+            create(:stats_report,
+                   report_name: report_type,
+                   document: document,
+                   document_file_name: "#{report_type}_#{Time.now.to_s(:number)}.csv",
+                   document_content_type: 'text/csv'
+                  )
+          }
 
-        it 'renders the template' do
-          expect(response.headers['Content-Type']).to eq 'text/csv'
+          before do
+            get :download, params: { report_type: report_type }
+          end
+
+          after { document.close }
+
+          it 'returns http success' do
+            expect(response).to have_http_status(:success)
+          end
+
+          it 'renders the template' do
+            expect(response.headers['Content-Type']).to eq 'text/csv'
+          end
         end
       end
 

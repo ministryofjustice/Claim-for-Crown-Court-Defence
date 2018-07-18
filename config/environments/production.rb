@@ -15,6 +15,13 @@ Rails.application.configure do
     url: "reporders/:id_partition/:filename"
   }
 
+  REPORTS_STORAGE_OPTIONS = {
+    storage: :s3,
+    s3_credentials: 'config/aws.yml',
+    path: "reports/:filename",
+    url: "reports/:filename"
+  }
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 

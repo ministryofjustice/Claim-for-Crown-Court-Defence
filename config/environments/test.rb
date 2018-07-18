@@ -15,6 +15,12 @@ Rails.application.configure do
     url: "assets/test/images/reporders/:filename"
   }
 
+  REPORTS_STORAGE_OPTIONS = {
+    storage: :filesystem,
+    path: "tmp/test/reports/:filename",
+    url: "tmp/test/reports/:filename"
+  }
+
   # logstasher
   # Enable the logstasher logs for the current environment
   config.logstasher.enabled = true

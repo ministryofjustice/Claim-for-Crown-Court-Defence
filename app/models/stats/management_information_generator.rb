@@ -13,10 +13,13 @@ module Stats
     end
 
     def call
-      generate_new_report
+      output = generate_new_report
+      Stats::Result.new(output, format)
     end
 
     private
+
+    attr_reader :format
 
     # TODO: separate data retrieval from exporting the data itself
     # keeping existent behaviour for now

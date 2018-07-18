@@ -133,7 +133,10 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
-    FileUtils.rm_rf('./public/assets/test/images/') #to delete files from filesystem that were generated during rspec tests
+    # to delete files from filesystem that were generated during rspec tests
+    FileUtils.rm_rf('./public/assets/test/images/')
+    # Deletes report files created during the test suite run
+    FileUtils.rm_rf("#{Rails.root}/tmp/test/reports/")
     VatRate.delete_all
   end
 

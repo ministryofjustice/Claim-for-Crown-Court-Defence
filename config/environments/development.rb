@@ -7,6 +7,12 @@ Rails.application.configure do
     url: "assets/dev/images/docs/:id_partition/:filename"
   }
 
+  REPORTS_STORAGE_OPTIONS = {
+    storage: :filesystem,
+    path: "tmp/dev/reports/:filename",
+    url: "tmp/dev/reports/:filename"
+  }
+
   # logging
   jsonlogger = LogStuff.new_logger("#{Rails.root}/log/logstash_development.log", Logger::INFO)
   config.logstasher.enabled = true

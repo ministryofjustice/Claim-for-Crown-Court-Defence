@@ -66,7 +66,7 @@ RSpec.describe Stats::StatsReport do
     describe '#download_filename' do
       it 'generates a filename incorportating the report name and started at time' do
         report = build :stats_report, report_name: 'my_new_report', started_at: Time.zone.local(2016, 2, 3, 4, 55, 12)
-        expect(report.download_filename).to eq 'my_new_report_2016_02_03_04_55_12.csv'
+        expect(report.download_filename).to eq 'my_new_report_20160203045512.csv'
       end
     end
 
@@ -92,13 +92,51 @@ RSpec.describe Stats::StatsReport do
         end
 
         Timecop.freeze(frozen_time + 2.minutes) do
-          record.write_report('The contents of my new report')
+          record.write_report(Stats::Result.new('The contents of my new report', 'csv'))
         end
 
         report = described_class.completed.where(report_name: 'my_new_report').first
-        expect(report.report).to eq 'The contents of my new report'
+        expect(report.document).to be_kind_of(Paperclip::Attachment)
+        expect(open(report.document.path).read).to eq 'The contents of my new report'
         expect(report.started_at).to eq frozen_time
         expect(report.completed_at).to eq frozen_time + 2.minutes
+      end
+    end
+  end
+
+  describe '#document_url' do
+    context 'when document is nil' do
+      let(:report) { build(:stats_report, report: nil, document: nil) }
+
+      it { expect(report.document_url).to be_nil }
+    end
+
+    context 'when document exists' do
+      let(:report) { build(:stats_report, :with_document) }
+
+      context 'and the document storage is filesystem' do
+        let(:options) { { storage: :filesystem } }
+
+        before do
+          allow(report.document).to receive(:options).and_return(options)
+        end
+
+        it 'returns the document path' do
+          expect(report.document_url).to eq('tmp/test/reports/report.csv')
+        end
+      end
+
+      context 'and the document storage is S3' do
+        let(:options) { { storage: :s3 } }
+
+        before do
+          original_options = report.document.options
+          allow(report.document).to receive(:options).and_return(original_options.merge(options))
+        end
+
+        it 'returns the an expiring url for the document' do
+          expect(report.document_url).to match(/tmp\/test\/reports\/report.csv\?([0-9])+/)
+        end
       end
     end
   end

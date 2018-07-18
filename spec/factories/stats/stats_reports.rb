@@ -17,7 +17,12 @@ FactoryBot.define do
     status 'completed'
     started_at { 2.minutes.ago }
     completed_at { 2.seconds.ago }
-    
+
+    trait :with_document do
+      report nil
+      document { fixture_file_upload "#{Rails.root}/spec/fixtures/files/report.csv", 'text/csv' }
+    end
+
     trait :incomplete do
       status 'started'
       completed_at nil

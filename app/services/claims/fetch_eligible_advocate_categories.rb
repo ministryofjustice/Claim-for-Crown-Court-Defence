@@ -27,14 +27,7 @@ module Claims
     end
 
     def agfs_reform?
-      case claim.fee_scheme
-      when 'default'
-        false
-      when 'fee_reform'
-        true
-      else
-        claim.fee_scheme&.agfs? && claim.fee_scheme.version >= 10
-      end
+      claim.fee_scheme&.agfs? && claim.fee_scheme.version >= 10
     end
   end
 end

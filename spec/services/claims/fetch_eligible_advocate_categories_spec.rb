@@ -1,76 +1,64 @@
 require 'rails_helper'
 
 RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
+  before do
+    FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine)
+    FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine)
+    FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme, :agfs_ten)
+  end
+
+  let(:scheme_9_advocate_categories) { ['QC', 'Led junior', 'Leading junior', 'Junior alone']}
+  let(:scheme_10_advocate_categories) { ['QC', 'Leading junior', 'Junior']}
+
   describe '.for' do
     subject { described_class.for(claim) }
 
     context 'nil claim' do
       let(:claim) { nil }
-      specify { is_expected.to eq(nil) }
+      it { is_expected.to eq(nil) }
     end
 
     context 'LGFS claim' do
       let(:claim) { build(:litigator_claim) }
-      specify { is_expected.to eq(nil) }
+      it { is_expected.to eq(nil) }
     end
 
     context 'AGFS claim' do
-      shared_examples_for 'AGFS fee reform dependant advocate categories' do
-        context 'default scheme' do
-          before do
-            expect(claim).to receive(:fee_scheme).and_return('default')
-          end
-
-          it 'returns the default list for advocate categories' do
-            is_expected.to match_array(["QC", "Led junior", "Leading junior", "Junior alone"])
-          end
-        end
-
-        context 'fee reform scheme' do
-          before do
-            expect(claim).to receive(:fee_scheme).and_return('fee_reform')
-          end
-
-          it 'returns the list for AGFS fee reform advocate categories' do
-            is_expected.to match_array(["QC", "Leading junior", "Junior"])
-          end
-        end
-
-        context 'scheme 9 object' do
-          let(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
-
-          before do
-            expect(claim).to receive(:fee_scheme).at_least(:once).and_return(agfs_scheme_nine)
-          end
+      context 'when the claim is final' do
+        context 'scheme 9' do
+          let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
 
           it 'returns the list for AGFS scheme 9 advocate categories' do
-            is_expected.to match_array(["QC", "Led junior", "Leading junior", "Junior alone"])
+            is_expected.to match_array(scheme_9_advocate_categories)
           end
         end
 
-        context 'scheme 10 object' do
-          let(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
-
-          before do
-            expect(claim).to receive(:fee_scheme).at_least(:once).and_return(agfs_scheme_ten)
-          end
+        context 'scheme 10' do
+          let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
 
           it 'returns the list for AGFS scheme 10 advocate categories' do
-            is_expected.to match_array(["QC", "Leading junior", "Junior"])
+            is_expected.to match_array(scheme_10_advocate_categories)
           end
         end
-      end
-
-      context 'when the claim is final' do
-        let(:claim) { build(:advocate_claim) }
-
-        include_examples 'AGFS fee reform dependant advocate categories'
       end
 
       context 'when the claim is interim' do
-        let(:claim) { build(:advocate_interim_claim) }
+        # FIXME: this kind of claim should be invalid for scheme 9 at any point
+        context 'scheme 9' do
+          let(:claim) { create(:advocate_interim_claim, :agfs_scheme_9) }
 
-        include_examples 'AGFS fee reform dependant advocate categories'
+          it 'returns the list for AGFS scheme 9 advocate categories' do
+            is_expected.to match_array(scheme_9_advocate_categories)
+          end
+        end
+
+        context 'scheme 10' do
+          let(:claim) { create(:advocate_interim_claim, :agfs_scheme_10) }
+
+          it 'returns the list for AGFS scheme 10 advocate categories' do
+            is_expected.to match_array(scheme_10_advocate_categories)
+          end
+        end
       end
 
       context 'when the claim has been submitted via the API' do
@@ -78,13 +66,13 @@ RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
         context 'with a scheme 10 offence' do
           let(:claim) { create :api_advocate_claim, :with_scheme_ten_offence }
 
-          it { is_expected.to match_array(['QC', 'Leading junior', 'Junior']) }
+          it { is_expected.to match_array(scheme_10_advocate_categories) }
         end
 
         context 'with a scheme 9 offence' do
           let(:claim) { create :api_advocate_claim }
 
-          it { is_expected.to match_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
+          it { is_expected.to match_array(scheme_9_advocate_categories) }
         end
       end
     end

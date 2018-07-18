@@ -24,7 +24,7 @@ class ExpenseType < ApplicationRecord
     6 => ExpenseReason.new(3, 'Pre-trial conference defendant (other)', false),
     7 => ExpenseReason.new(4, 'View of crime scene', false),
     8 => ExpenseReason.new(5, 'Other', true)
-  }
+  }.freeze
 
   REASON_SET_A = {
     1 => ExpenseReason.new(1, 'Court hearing', false),
@@ -53,7 +53,7 @@ class ExpenseType < ApplicationRecord
   validates :reason_set, inclusion: { in: %w[A B C] }
 
   def self.reason_sets
-    [{ 'A': REASON_SET_A.values }, { 'B': REASON_SET_B.values }, { 'C': REASON_SET_C.values}]
+    [{ 'A': REASON_SET_A.values }, { 'B': REASON_SET_B.values }, { 'C': REASON_SET_C.values }]
   end
 
   def expense_reasons_hash

@@ -200,11 +200,8 @@ moj.Helpers.SideBar = {
 
     this.init = function() {
       this.config.fn = 'ExpenseBlock';
+      this.config.featureDistance = $('#expenses').data('featureDistance');
 
-      // Overides for LGFS reason set C;
-      // NOT REQUIRED IN THE DESIGN UPGRADE
-      // this.config.featureDistance = $('#expenses').data('featureDistance');
-      //
       // Bind events
       this.bindEvents();
       // Load the state based on the selected option
@@ -212,9 +209,8 @@ moj.Helpers.SideBar = {
       return this;
     };
     this.bindEvents = function() {
-      // Bind the core change listner
+      // Bind the core change listener
       this.bindRecalculate();
-
       // Bind events on the this.$el element
       this.bindListners();
     };
@@ -299,11 +295,8 @@ moj.Helpers.SideBar = {
       // location & label
       $detached.find(this.stateLookup['location']).css('display', (state.config['location'] ? 'block' : 'none'));
       $detached.find(this.stateLookup['location'] + ' label').text(state.config['locationLabel']);
-
       // Overides for LGFS reason set C;
-      // NOT REQUIRED IN THE DESIGN UPGRADE
-      // state.config.reasonSet = (this.config.featureDistance ? 'C' : (state.config.reasonSet || 'A'));
-
+      state.config.reasonSet = (this.config.featureDistance ? 'C' : (state.config.reasonSet || 'A'));
       // travel reasons
       reasons.push(new Option('Please select'));
       this.expenseReasons[state.config.reasonSet].forEach(function(obj) {
@@ -359,71 +352,108 @@ moj.Helpers.SideBar = {
   staticdata: {
     expenseBlock: {
       stateLookup: {
-        "vatAmount": ".fx-travel-vat-amount",
-        "reason": ".fx-travel-reason",
-        "netAmount": ".fx-travel-net-amount",
-        "location": ".fx-travel-location",
-        "hours": ".fx-travel-hours",
-        "distance": ".fx-travel-distance",
-        "destination": ".fx-travel-destination",
-        "date": ".fx-travel-date",
-        "mileage": ".fx-travel-mileage",
-        "grossAmount": ".fx-travel-gross-amount"
+        'vatAmount': '.fx-travel-vat-amount',
+        'reason': '.fx-travel-reason',
+        'netAmount': '.fx-travel-net-amount',
+        'location': '.fx-travel-location',
+        'hours': '.fx-travel-hours',
+        'distance': '.fx-travel-distance',
+        'destination': '.fx-travel-destination',
+        'date': '.fx-travel-date',
+        'mileage': '.fx-travel-mileage',
+        'grossAmount': '.fx-travel-gross-amount'
       },
       defaultstate: {
-        "mileage": false,
-        "date": false,
-        "distance": false,
-        "grossAmount": false,
-        "hours": false,
-        "location": false,
-        "netAmount": false,
-        "reason": false,
-        "vatAmount": false,
+        'mileage': false,
+        'date': false,
+        'distance': false,
+        'grossAmount': false,
+        'hours': false,
+        'location': false,
+        'netAmount': false,
+        'reason': false,
+        'vatAmount': false,
       },
       expenseReasons: {
-        "A": [{
-          "id": 1,
-          "reason": "Court hearing",
-          "reason_text": false
+        'A': [{
+          'id': 1,
+          'reason': 'Court hearing',
+          'reason_text': false
         }, {
-          "id": 2,
-          "reason": "Pre-trial conference expert witnesses",
-          "reason_text": false
+          'id': 2,
+          'reason': 'Pre-trial conference expert witnesses',
+          'reason_text': false
         }, {
-          "id": 3,
-          "reason": "Pre-trial conference defendant",
-          "reason_text": false
+          'id': 3,
+          'reason': 'Pre-trial conference defendant',
+          'reason_text': false
         }, {
-          "id": 4,
-          "reason": "View of crime scene",
-          "reason_text": false
+          'id': 4,
+          'reason': 'View of crime scene',
+          'reason_text': false
         }, {
-          "id": 5,
-          "reason": "Other",
-          "reason_text": true
+          'id': 5,
+          'reason': 'Other',
+          'reason_text': true
         }],
-        "B": [{
-          "id": 2,
-          "reason": "Pre-trial conference expert witnesses",
-          "reason_text": false
+        'B': [{
+          'id': 2,
+          'reason': 'Pre-trial conference expert witnesses',
+          'reason_text': false
         }, {
-          "id": 3,
-          "reason": "Pre-trial conference defendant",
-          "reason_text": false
+          'id': 3,
+          'reason': 'Pre-trial conference defendant',
+          'reason_text': false
         }, {
-          "id": 4,
-          "reason": "View of crime scene",
-          "reason_text": false
+          'id': 4,
+          'reason': 'View of crime scene',
+          'reason_text': false
+        }],
+        'C': [{
+          'id': 1,
+          'reason': 'Court hearing (Crown court)',
+          'location_type': 'crown_court',
+          'reason_text': false
+        }, {
+          'id': 1,
+          'reason': 'Court hearing (Magistrates\' court)',
+          'location_type': 'magistrates_court',
+          'reason_text': false
+        }, {
+          'id': 2,
+          'reason': 'Pre-trial conference expert witnesses',
+          'reason_text': false
+        }, {
+          'id': 3,
+          'reason': 'Pre-trial conference defendant (prison)',
+          'location_type': 'prison',
+          'reason_text': false
+        }, {
+          'id': 3,
+          'reason': 'Pre-trial conference defendant (hospital)',
+          'location_type': 'hospital',
+          'reason_text': false
+        }, {
+          'id': 3,
+          'reason': 'Pre-trial conference defendant (other)',
+          'reason_text': false
+        }, {
+          'id': 4,
+          'reason': 'View of crime scene',
+          'reason_text': false
+        }, {
+          'id': 5,
+          'reason': 'Other',
+          'reason_text': true
         }]
       }
     }
   },
   addCommas: function(nStr) {
     nStr += '';
-    x = nStr.split('.');
-    x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
+    var x = nStr.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? '.' + x[1] : '';
     var rgx = /(\d+)(\d{3})/;
     while (rgx.test(x1)) {
       x1 = x1.replace(rgx, '$1' + ',' + '$2');

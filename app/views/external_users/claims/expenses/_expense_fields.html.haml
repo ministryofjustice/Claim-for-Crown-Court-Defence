@@ -1,7 +1,9 @@
 - @expense_count += 1
 .expense-group.nested-fields.js-block.fx-numberedList-item{data:{"type": "expenses", autovat: @claim.agfs? && @claim.apply_vat? ? "true" : "false", "block-type": "ExpenseBlock"}}
   .form-section-compound{"data-item-number" => "1"}
-    %input#origin_postcode{ :name => "origin", :spellcheck => "false", :type => "hidden", :value => "B4 6QB"}/
+
+    -# crown_court hospital magistrates_court prison
+    = f.hidden_field :location_type, {class: 'fx-location-type'}
 
     %h3.heading-medium
       = t('.expense')

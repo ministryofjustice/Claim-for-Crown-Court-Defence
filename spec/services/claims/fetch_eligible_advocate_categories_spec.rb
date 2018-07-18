@@ -2,9 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
   before do
-    FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine)
-    FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine)
-    FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme, :agfs_ten)
+    seed_fee_schemes
   end
 
   let(:scheme_9_advocate_categories) { ['QC', 'Led junior', 'Leading junior', 'Junior alone']}

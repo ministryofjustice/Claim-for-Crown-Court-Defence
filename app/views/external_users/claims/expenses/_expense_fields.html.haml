@@ -1,6 +1,6 @@
 - @expense_count += 1
 .expense-group.nested-fields.js-block.fx-numberedList-item{data:{"type": "expenses", autovat: @claim.agfs? && @claim.apply_vat? ? "true" : "false", "block-type": "ExpenseBlock"}}
-  .form-section-compound{"data-item-number" => "1"}
+  .form-section-compound
 
     -# crown_court hospital magistrates_court prison
     = f.hidden_field :location_type, {class: 'fx-location-type'}
@@ -122,4 +122,4 @@
                             errors: @error_presenter,
                             value: number_with_precision(f.object.vat_amount, precision: 2)
 
-  %hr/
+    %hr/

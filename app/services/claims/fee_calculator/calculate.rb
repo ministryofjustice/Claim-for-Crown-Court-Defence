@@ -31,7 +31,7 @@ module Claims
         amount = calculate
         response(true, amount)
       rescue StandardError => err
-        Rails.logger.error(err.message)
+        Rails.logger.error("error: #{err.message}")
         response(false, err, 'Price unavailable')
       end
 
@@ -98,50 +98,38 @@ module Claims
         CCR::AdvocateCategoryAdapter.code_for(advocate_category)
       end
 
-      def fee_type_code_for(fee_type)
-
-        ap "File: #{File.basename(__FILE__)}, Method: #{__method__}, Line: #{__LINE__}"
-
-        if fee_type.unique_code.eql? 'FXNOC'
-          ids = current_page_fees.map { |pf| pf[:fee_type_id] }
-          page_fee_types = Fee::BaseFeeType.where(id: ids)
-          ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-          ap page_fee_types.class
-          ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-          ap page_fee_types
-          ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-          primary_fee_types = page_fee_types.where(unique_code: CCR::Fee::FixedFeeAdapter::FIXED_FEE_BILL_MAPPINGS.keys)
-          ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-          ap primary_fee_types
-          ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-          return nil if primary_fee_types.size > 1
-          fee_type = primary_fee_types.first
-        else
-          fee_type = case_uplift_parent if fee_type.case_uplift?
-        end
-        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-        ap fee_type
-        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-        ap fee_type&.unique_code.to_sym
-        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-        ap fee_type.case_uplift?
-        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-
-        mappings = [
+      def fee_type_mappings
+        [
           # CCR::Fee::BasicFeeAdapter::BASIC_FEE_BILL_MAPPINGS, # TODO: all are AGFS_FEE
           CCR::Fee::FixedFeeAdapter::FIXED_FEE_BILL_MAPPINGS,
           CCR::Fee::MiscFeeAdapter::MISC_FEE_BILL_MAPPINGS
         ].inject(&:merge)
-        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-        ap mappings
-        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-        ap mappings[fee_type&.unique_code.to_sym][:bill_subtype]
-        ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
+      end
 
-        mappings[fee_type&.unique_code.to_sym][:bill_subtype]
+      def fee_type_code_for(fee_type)
+        fee_type = case_uplift_parent if fee_type.case_uplift?
+        fee_type_mappings[fee_type&.unique_code.to_sym][:bill_subtype]
+      end
+
+      def orphan_uplift?
+        %w[FXNOC FXNDR].include?(fee_type.unique_code)
+      end
+
+      def current_fee_types
+        return @current_fee_types if @current_fee_types
+        ids = current_page_fees.map { |pf| pf[:fee_type_id] }
+        @current_fee_types = Fee::BaseFeeType.where(id: ids)
+      end
+
+      def primary_fee_type_on_page
+        primary_fee_types = current_fee_types.where(unique_code: fee_type_mappings.keys)
+        return nil if primary_fee_types.size > 1
+        primary_fee_types.first
       end
 
       def case_uplift_parent
+        return primary_fee_type_on_page if orphan_uplift?
+
         # TODO: hacky but there is no relationship between fixed fee "primary" types
         # and their case uplift equivalent.
         # - could create relationship on models/database

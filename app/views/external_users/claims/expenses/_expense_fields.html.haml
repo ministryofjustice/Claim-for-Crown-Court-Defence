@@ -1,7 +1,6 @@
 - @expense_count += 1
 .expense-group.nested-fields.js-block.fx-numberedList-item{data:{"type": "expenses", autovat: @claim.agfs? && @claim.apply_vat? ? "true" : "false", "block-type": "ExpenseBlock"}}
   .form-section-compound{"data-item-number" => "1"}
-
     %input#origin_postcode{ :name => "origin", :spellcheck => "false", :type => "hidden", :value => "B4 6QB"}/
 
     %h3.heading-medium
@@ -121,4 +120,4 @@
                             errors: @error_presenter,
                             value: number_with_precision(f.object.vat_amount, precision: 2)
 
-  %hr/
+    %hr/

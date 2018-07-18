@@ -15,6 +15,17 @@ class ExpenseType < ApplicationRecord
   ROLES = %w[agfs lgfs].freeze
   include Roles
 
+  REASON_SET_C = {
+    1 => ExpenseReason.new(1, 'Court hearing (Crown court)', false),
+    2 => ExpenseReason.new(1, 'Court hearing (Magistrates\' court)', false),
+    3 => ExpenseReason.new(2, 'Pre-trial conference expert witnesses', false),
+    4 => ExpenseReason.new(3, 'Pre-trial conference defendant (prison)', false),
+    5 => ExpenseReason.new(3, 'Pre-trial conference defendant (hospital)', false),
+    6 => ExpenseReason.new(3, 'Pre-trial conference defendant (other)', false),
+    7 => ExpenseReason.new(4, 'View of crime scene', false),
+    8 => ExpenseReason.new(5, 'Other', true)
+  }
+
   REASON_SET_A = {
     1 => ExpenseReason.new(1, 'Court hearing', false),
     2 => ExpenseReason.new(2, 'Pre-trial conference expert witnesses', false),
@@ -39,10 +50,10 @@ class ExpenseType < ApplicationRecord
             presence: true,
             uniqueness: { case_sensitive: false,
                           message: 'An expense type with this unique code already exists' }
-  validates :reason_set, inclusion: { in: %w[A B] }
+  validates :reason_set, inclusion: { in: %w[A B C] }
 
   def self.reason_sets
-    [{ 'A': REASON_SET_A.values }, { 'B': REASON_SET_B.values }]
+    [{ 'A': REASON_SET_A.values }, { 'B': REASON_SET_B.values }, { 'C': REASON_SET_C.values}]
   end
 
   def expense_reasons_hash

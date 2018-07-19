@@ -393,6 +393,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :claim_id,
         :expense_type_id,
         :location,
+        :location_type,
         :quantity,
         :amount,
         :vat_amount,

@@ -21,4 +21,4 @@ moj.Helpers.DataTables = {
     var __options = $.extend({}, this._defaultOptions, options || {});
     return $(el || '#example').DataTable(__options);
   }
-}
+};

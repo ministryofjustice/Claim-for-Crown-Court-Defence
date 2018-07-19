@@ -68,6 +68,7 @@ Metrics/MethodLength:
     - 'app/presenters/claim_state_transition_presenter.rb'
     - 'app/presenters/error_message_translator.rb'
     - 'app/presenters/error_presenter.rb'
+    - 'app/presenters/expense_type_presenter.rb'
     - 'app/presenters/fee/interim_fee_type_presenter.rb'
     - 'app/rake_helpers/cloned_claim_repairer.rb'
     - 'app/services/claims/case_worker_claim_updater.rb'

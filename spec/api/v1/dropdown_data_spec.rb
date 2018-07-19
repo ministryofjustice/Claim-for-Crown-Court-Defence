@@ -1,8 +1,7 @@
 require 'rails_helper'
 require 'api_spec_helper'
 
-describe API::V1::DropdownData do
-
+RSpec.describe API::V1::DropdownData do
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -259,30 +258,6 @@ describe API::V1::DropdownData do
       end
     end
   end
-  # TODO: remove or refactor endpoint and spec, not too mention claims,
-  #       to handle v1 potential returns as well!!
-  # context "expense v1" do
-  #   let(:expectation) { ExpenseType.all.to_json }
-
-  #   before(:each) do
-  #     allow(Settings).to receive(:expense_schema_version).and_return(1)
-  #     create_list(:expense_type, 2)
-  #   end
-
-  #   xit 'should return a JSON formatted list of the required information' do
-  #     get EXPENSE_TYPE_ENDPOINT, params, format: :json
-  #     expect(last_response.status).to eq 200
-  #     expect(JSON.parse(last_response.body).count).to be > 0
-  #     expect(JSON.parse(last_response.body)).to match_array JSON.parse(expectation)
-  #   end
-
-  #   it 'should require an API key' do
-  #     params.delete(:api_key)
-  #     get EXPENSE_TYPE_ENDPOINT, params, format: :json
-  #     expect(last_response.status).to eq 401
-  #     expect(last_response.body).to include('Unauthorised')
-  #   end
-  # end
 
   context "expense v2" do
     before do
@@ -292,10 +267,6 @@ describe API::V1::DropdownData do
     end
 
     context "with api key" do
-      before do
-        allow(Settings).to receive(:expense_schema_version).and_return(2)
-      end
-
       let(:parsed_body) { JSON.parse(last_response.body) }
 
       it 'should return a JSON formatted list of the required information' do

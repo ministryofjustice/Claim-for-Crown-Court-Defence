@@ -97,8 +97,7 @@ describe('Basic Fees View', function() {
           rate: 0,
           amount: 0,
           total: 0,
-          vat: 0,
-          typeTotal: 0
+          vat: 0
         });
       });
 
@@ -109,7 +108,10 @@ describe('Basic Fees View', function() {
           rate: 0,
           total: 15
         }));
+
         moj.Modules.SideBar.init();
+
+        $('#claim-form').trigger('recalculate');
 
         block = moj.Modules.SideBar.blocks[0];
 
@@ -151,6 +153,8 @@ describe('Basic Fees View', function() {
         }));
         moj.Modules.SideBar.init();
 
+        $('#claim-form').trigger('recalculate');
+
         block = moj.Modules.SideBar.blocks[0];
 
         block.$el.find('.total').val('22');
@@ -186,6 +190,8 @@ describe('Basic Fees View', function() {
           total: 15
         }));
         moj.Modules.SideBar.init();
+
+        $('#claim-form').trigger('recalculate');
 
         block = moj.Modules.SideBar.blocks[0];
 
@@ -241,6 +247,8 @@ describe('Basic Fees View', function() {
         helpers.insertView(blockView());
         moj.Modules.SideBar.init();
 
+        $('#claim-form').trigger('recalculate');
+
         block = moj.Modules.SideBar.blocks[0];
 
         expect(block.totals).toEqual({
@@ -261,6 +269,7 @@ describe('Basic Fees View', function() {
           total: 15
         }));
         moj.Modules.SideBar.init();
+        $('#claim-form').trigger('recalculate');
 
         block = moj.Modules.SideBar.blocks[0];
 
@@ -307,6 +316,8 @@ describe('Basic Fees View', function() {
         }));
         moj.Modules.SideBar.init();
 
+        $('#claim-form').trigger('recalculate');
+
         block = moj.Modules.SideBar.blocks[0];
 
         block.$el.find('.rate').val('11');
@@ -343,7 +354,7 @@ describe('Basic Fees View', function() {
           total: 143
         }));
         moj.Modules.SideBar.init();
-
+        $('#claim-form').trigger('recalculate');
         block = moj.Modules.SideBar.blocks[0];
 
         expect(block.totals).toEqual({

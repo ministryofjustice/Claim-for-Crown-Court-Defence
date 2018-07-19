@@ -142,4 +142,44 @@ describe('Helpers.API.Establishments.js', function() {
       deferred.resolve(fixtureData);
     });
   });
+
+
+
+  describe('...getAsOptions', function() {
+    beforeEach(function() {
+      $('body').append('<div id="expenses" data-feature-distance="true">here</div>');
+    });
+    afterEach(function() {
+      $('#expenses').remove();
+    });
+
+    it('should filter the results', function() {
+      var deferred = $.Deferred();
+      var fixtureData = [{
+        "id": 1,
+        "name": "HMP One",
+        "category": "hospital",
+        "postcode": "L9 7LH"
+      },{
+        "id": 2,
+        "name": "HMP Two",
+        "category": "prison",
+        "postcode": "L9 7LH"
+      },{
+        "id": 3,
+        "name": "HMP Three",
+        "category": "crown_court",
+        "postcode": "L9 7LH"
+      }];
+      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(deferred.promise());
+
+      helper.init().then(function() {
+
+        expect(helper.getAsOptions('prison')).toEqual(['<option data-postcode="L9 7LH" value="2">HMP Two</option>']);
+
+        expect(helper.getAsOptions('crown_court')).toEqual(['<option data-postcode="L9 7LH" value="3">HMP Three</option>']);
+      });
+      deferred.resolve(fixtureData);
+    });
+  });
 });

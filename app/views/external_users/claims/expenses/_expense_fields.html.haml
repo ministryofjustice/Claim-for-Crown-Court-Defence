@@ -42,6 +42,9 @@
 
     .grid-row
       .column-half
+        %select.fx-establishment-select.form-control.form-control-3-4{:name => "fx-establishment-select"}
+          %option{:value => ""}
+            Please select
         -# INPUT: Location
         .form-group.fx-travel-location{:style => "display: none;"}
           = f.adp_text_field :location, label: t('.location'), input_classes:'form-control-3-4', errors: @error_presenter

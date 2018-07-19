@@ -180,14 +180,14 @@ moj.Helpers.SideBar = {
       if (this.config.autoVAT) {
         this.totals.vat = this.totals.total * 0.2;
       } else {
-        this.totals.vat = (parseFloat(this.$el.data('seed-vat')) || 0)
+        this.totals.vat = (parseFloat(this.$el.data('seed-vat')) || 0);
       }
       return this;
     };
 
     this.init = function() {
       return this;
-    }
+    };
   },
   ExpenseBlock: function() {
     var self = this;
@@ -237,9 +237,22 @@ moj.Helpers.SideBar = {
         $option = $(e.target).find('option:selected');
         state = $option.data('reasonText');
         location_type = $option.data('locationType') || '';
-        self.$el.find('.fx-location-type').val(location_type)
+        self.$el.find('.fx-location-type').val(location_type);
         self.$el.find('.fx-travel-reason-other').css('display', state ? 'block' : 'none');
+
+
+        var options = moj.Helpers.API.Establishments.getAsOptions(location_type);
+
+        self.$el.find('.fx-establishment-select option').remove();
+
+        self.$el.find('.fx-establishment-select').append(options.join(''));
+
       });
+
+
+
+
+
       return this;
     };
     this.loadCurrentState = function() {
@@ -290,13 +303,17 @@ moj.Helpers.SideBar = {
       // net amount & lable
       $detached.find(this.stateLookup['netAmount']).css('display', (state.config['date'] ? 'block' : 'none'));
       $detached.find(this.stateLookup['netAmount'] + ' label').text(state.config['netAmountLabel']);
+
       // location & lable
       $detached.find(this.stateLookup['location']).css('display', (state.config['date'] ? 'block' : 'none'));
       $detached.find(this.stateLookup['location'] + ' label').text(state.config['locationLabel']);
+
       // Overides for LGFS reason set C;
       state.config.reasonSet = (this.config.featureDistance ? 'C' : (state.config.reasonSet || 'A'));
+
       // travel reasons
       reasons.push(new Option('Please select'));
+
       this.expenseReasons[state.config.reasonSet].forEach(function(obj) {
         $option = $(new Option(obj.reason, obj.id));
         $option.attr('data-reason-text', obj.reason_text)

@@ -32,7 +32,6 @@
 
   // Init
   function loadData(ajaxConfig) {
-    console.log('loading her', ajaxConfig);
     // This module is a simple cache of data
     // It will self init and publish success and failure
     // events when the promise resolves
@@ -81,18 +80,27 @@
 
   // init with jquery based on a dom selector
   function init() {
-    console.log('init', $(settings.init.selector).length);
     //Checking DOM for feature flag value
     if ($(settings.init.selector).data(settings.init.dataAttr)) {
       return loadData();
     }
   }
 
+  function getAsOptions(category) {
+    var results = getLocationByCategory(category);
+    var optionsArray = [];
+
+    results.forEach(function(obj) {
+      optionsArray.push('<option data-postcode="' + obj.postcode + '" value="' + obj.id + '">' + obj.name + '</option>');
+    });
+    return optionsArray;
+  }
 
   Module.Establishments = {
     init: init,
     loadData: loadData,
-    getLocationByCategory: getLocationByCategory
+    getLocationByCategory: getLocationByCategory,
+    getAsOptions: getAsOptions
   };
 
 

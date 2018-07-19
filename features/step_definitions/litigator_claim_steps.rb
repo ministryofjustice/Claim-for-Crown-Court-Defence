@@ -39,8 +39,9 @@ And(/^I fill '(.*)' as the warrant fee total$/) do |total|
   @litigator_claim_form_page.warrant_fee_total.set total
 end
 
-And(/^I enter the case concluded date$/) do
-  @litigator_claim_form_page.case_concluded_date.set_date "2016-01-01"
+And(/^I enter the case concluded date\s*(.*?)$/) do |date|
+  date = date.present? ? date : "2016-01-01"
+  @litigator_claim_form_page.case_concluded_date.set_date date
 end
 
 And(/^I add a miscellaneous fee '(.*)'$/) do |name|

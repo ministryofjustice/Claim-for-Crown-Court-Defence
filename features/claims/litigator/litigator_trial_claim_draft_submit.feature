@@ -13,10 +13,11 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I should see 3 supplier number radios
 
     When I choose the supplier number '1A222Z'
-    And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
+    And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
-    And I enter the case concluded date
+    And I enter the case concluded date '2018-04-01'
+
     Then I click "Continue" in the claim form
 
     And I save as draft
@@ -33,10 +34,22 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     Then I click "Continue" in the claim form
 
-    And I enter defendant, representation order and MAAT reference
-    And I add another defendant, representation order and MAAT reference
+    And I enter post agfs reform defendant, representation order and MAAT reference
+    And I add another post agfs reform defendant, representation order and MAAT reference
 
     Then I click "Continue" in the claim form
+
+    When I select the offence category 'Abandonment of children under two'
+    Then the offence class list is set to 'C: Lesser offences involving violence or damage and less serious drug offences'
+    And the offence class list has 1 options
+
+    When I select the offence category 'Murder'
+    Then the offence class list is set to 'A: Homicide and related grave offences'
+    And the offence class list has 1 options
+
+    When I select the offence category 'Abstraction of electricity'
+    Then the offence class list is set to 'F: Other offences of dishonesty up to £30,000'
+    And the offence class list has 3 options
 
     And I select the offence category 'Handling stolen goods'
     And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
@@ -46,7 +59,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I fill '125' as the ppe total
     And I fill '5' as the actual trial length
     And I fill '100.25' as the graduated fee total
-    And I fill '2016-01-01' as the graduated fee date
+    And I fill '2018-04-02' as the graduated fee date
 
     Then I click "Continue" in the claim form
 

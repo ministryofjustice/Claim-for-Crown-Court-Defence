@@ -51,7 +51,7 @@ When(/I enter trial start and end dates$/) do
 end
 
 When(/^I enter (.*?)defendant, representation order and MAAT reference$/) do |scheme_text|
-    date = scheme_text.match?('scheme 10') ? Settings.agfs_fee_reform_release_date.strftime : "2016-01-01"
+    date = scheme_text.match?('scheme 10') || scheme_text.match?('post agfs reform') ? Settings.agfs_fee_reform_release_date.strftime : "2016-01-01"
     using_wait_time(6) do
       @claim_form_page.wait_for_defendants
       @claim_form_page.defendants.first.first_name.set "Bob"
@@ -66,7 +66,9 @@ When(/^I save as draft$/) do
   @claim_form_page.save_to_drafts.trigger('click')
 end
 
-When(/^I add another defendant, representation order and MAAT reference$/) do
+
+When(/^I add another (.*?)defendant, representation order and MAAT reference$/) do |scheme_text|
+  date = scheme_text.match?('scheme 10') || scheme_text.match?('post agfs reform') ? Settings.agfs_fee_reform_release_date.strftime : "2016-01-01"
   using_wait_time 6 do
     @claim_form_page.add_another_defendant.click
     wait_for_ajax

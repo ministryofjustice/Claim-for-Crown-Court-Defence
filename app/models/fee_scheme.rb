@@ -17,6 +17,10 @@ class FeeScheme < ApplicationRecord
     where('(:date BETWEEN start_date AND end_date) OR (start_date < :date AND end_date IS NULL)', date: check_date)
   }
 
+  def agfs?
+    name.eql?('AGFS')
+  end
+
   def scheme_10?
     version.eql?(10)
   end

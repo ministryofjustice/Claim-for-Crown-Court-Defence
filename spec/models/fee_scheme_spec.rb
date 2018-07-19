@@ -1,17 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe FeeScheme, type: :model do
+  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
+  let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
+  let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
 
   it { should validate_presence_of(:start_date) }
   it { should validate_presence_of(:version) }
   it { should validate_presence_of(:name) }
 
+  it { is_expected.to respond_to(:agfs?) }
+  it { is_expected.to respond_to(:scheme_10?) }
+
   describe '.for_claim' do
     subject(:fee_scheme) { described_class.for_claim(claim) }
 
-    let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
-    let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
-    let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
+    describe '#agfs?' do
+      subject(:agfs?) { fee_scheme.agfs? }
+
+      context 'for an agfs scheme 10 claim' do
+        let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'for an lgfs claim' do
+        let(:claim) { create(:litigator_claim) }
+
+        it { is_expected.to be_falsey }
+      end
+    end
 
     describe '#scheme_10?' do
       subject(:scheme_10?) { fee_scheme.scheme_10? }
@@ -35,7 +53,7 @@ RSpec.describe FeeScheme, type: :model do
       end
     end
 
-    context 'for a LGFS claim' do
+    context 'for an LGFS claim' do
       let(:claim) { create :litigator_claim }
 
       it 'returns the default scheme' do
@@ -43,7 +61,7 @@ RSpec.describe FeeScheme, type: :model do
       end
     end
 
-    context 'for a AGFS claim' do
+    context 'for an AGFS claim' do
       let(:claim) { build(:advocate_claim) }
 
       context 'but there is no representation order dates for the associated defendants' do
@@ -98,7 +116,7 @@ RSpec.describe FeeScheme, type: :model do
           expect(representation_order).to receive(:representation_order_date).and_return(release_date + 2.days)
         end
 
-        specify { expect(fee_scheme).to eq agfs_scheme_ten  }
+        specify { expect(fee_scheme).to eq agfs_scheme_ten }
       end
     end
 

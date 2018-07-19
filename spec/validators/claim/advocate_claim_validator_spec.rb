@@ -87,7 +87,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
 
       context 'when on fee reform scheme' do
         before do
-          allow(claim).to receive(:fee_scheme).and_return('fee_reform')
+          allow(claim).to receive(:fee_scheme).and_return(agfs_scheme_ten)
         end
 
         fee_reform_valid_categories = ['QC', 'Leading junior', 'Junior']

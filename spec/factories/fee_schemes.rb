@@ -11,6 +11,12 @@ FactoryBot.define do
       version 9
     end
 
+    trait :agfs_ten do
+      start_date "2018-04-01 00:00:00"
+      end_date nil
+      version 10
+    end
+
     trait :lgfs do
       name 'LGFS'
     end

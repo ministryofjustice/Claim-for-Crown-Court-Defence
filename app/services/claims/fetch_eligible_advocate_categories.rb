@@ -10,7 +10,7 @@ module Claims
 
     def call
       return unless claim&.agfs?
-      return fee_reform_categories if using_fee_reform? || Offence.in_scheme_ten.include?(claim.offence)
+      return agfs_reform_categories if agfs_reform? || Offence.in_scheme_ten.include?(claim.offence)
       default_categories
     end
 
@@ -22,12 +22,20 @@ module Claims
       Settings.advocate_categories
     end
 
-    def fee_reform_categories
+    def agfs_reform_categories
       Settings.agfs_reform_advocate_categories
     end
 
-    def using_fee_reform?
-      claim.fee_scheme == 'fee_reform'
+    # TODO: to be changed to solely use fee_scheme objects once rest of app cleared up
+    def agfs_reform?
+      case claim.fee_scheme
+      when 'default'
+        false
+      when 'fee_reform'
+        true
+      else
+        claim.fee_scheme&.agfs? && claim.fee_scheme.version >= 10
+      end
     end
   end
 end

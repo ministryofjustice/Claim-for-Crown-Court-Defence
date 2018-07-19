@@ -1,66 +1,102 @@
 require 'rails_helper'
 
 RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
+  before do
+    seed_fee_schemes
+  end
+
+  let(:scheme_9_advocate_categories) { ['QC', 'Led junior', 'Leading junior', 'Junior alone']}
+  let(:scheme_10_advocate_categories) { ['QC', 'Leading junior', 'Junior']}
+
   describe '.for' do
     subject { described_class.for(claim) }
 
-    context 'when claim is nil' do
+    context 'nil claim' do
       let(:claim) { nil }
-      specify { is_expected.to eq(nil) }
+      it { is_expected.to eq(nil) }
     end
 
-    context 'when claim is for an LGFS' do
+    context 'LGFS claim' do
       let(:claim) { build(:litigator_claim) }
-      specify { is_expected.to eq(nil) }
+      it { is_expected.to eq(nil) }
     end
 
-    context 'when claim is for a AGFS' do
-      shared_examples_for 'an AGFS claim' do
-        context 'and it is NOT on the AGFS fee reform scheme' do
-          before do
-            expect(claim).to receive(:fee_scheme).and_return('default')
+    context 'AGFS claim' do
+      context 'when the claim is final' do
+        context 'scheme 9' do
+          let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
+
+          it 'returns the list for AGFS scheme 9 advocate categories' do
+            is_expected.to match_array(scheme_9_advocate_categories)
           end
 
-          it 'returns the default list for advocate categories' do
-            is_expected.to match_array(["QC", "Led junior", "Leading junior", "Junior alone"])
+          # TODO: to be removed once all use of `fee_scheme` string removed
+          context 'using deprecated `fee_scheme` string' do
+            let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
+
+            before do
+              expect(claim).to receive(:fee_scheme).at_least(:once).and_return(nil)
+            end
+
+            it 'returns the list for AGFS scheme 9 advocate categories' do
+              is_expected.to match_array(scheme_9_advocate_categories)
+            end
           end
         end
 
-        context 'and it is on the AGFS fee reform scheme' do
-          before do
-            expect(claim).to receive(:fee_scheme).and_return('fee_reform')
+        context 'scheme 10' do
+          let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
+
+          it 'returns the list for AGFS scheme 10 advocate categories' do
+            is_expected.to match_array(scheme_10_advocate_categories)
           end
 
-          it 'returns the list for AGFS fee reform advocate categories' do
-            is_expected.to match_array(["QC", "Leading junior", "Junior"])
+          # TODO: to be removed once all use of `fee_scheme` string removed
+          context 'using deprecated `fee_scheme` string' do
+            let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
+
+            before do
+              expect(claim).to receive(:fee_scheme).at_least(:once).and_return('fee_reform')
+            end
+
+            it 'returns the list for AGFS scheme 10 advocate categories' do
+              is_expected.to match_array(scheme_10_advocate_categories)
+            end
           end
         end
       end
 
-      context 'and the claim is final' do
-        let(:claim) { build(:advocate_claim) }
+      context 'when the claim is interim' do
+        # FIXME: this kind of claim should be invalid for scheme 9 at any point
+        context 'scheme 9' do
+          let(:claim) { create(:advocate_interim_claim, :agfs_scheme_9) }
 
-        include_examples 'an AGFS claim'
-      end
+          it 'returns the list for AGFS scheme 9 advocate categories' do
+            is_expected.to match_array(scheme_9_advocate_categories)
+          end
+        end
 
-      context 'and the claim is interim' do
-        let(:claim) { build(:advocate_interim_claim) }
+        context 'scheme 10' do
+          let(:claim) { create(:advocate_interim_claim, :agfs_scheme_10) }
 
-        include_examples 'an AGFS claim'
+          it 'returns the list for AGFS scheme 10 advocate categories' do
+            is_expected.to match_array(scheme_10_advocate_categories)
+          end
+        end
       end
 
       context 'when the claim has been submitted via the API' do
         # This will mean the offence will determine the fee_scheme, not the rep_order date
-        context 'with a scheme_ten offence' do
+        context 'with a scheme 10 offence' do
           let(:claim) { create :api_advocate_claim, :with_scheme_ten_offence }
 
-          it { is_expected.to match_array(['QC', 'Leading junior', 'Junior']) }
+          it { is_expected.to match_array(scheme_10_advocate_categories) }
         end
 
-        context 'with a scheme_nine offence' do
+        context 'with a scheme 9 offence' do
           let(:claim) { create :api_advocate_claim }
 
-          it { is_expected.to match_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
+          it { is_expected.to match_array(scheme_9_advocate_categories) }
         end
       end
     end

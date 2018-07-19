@@ -63,9 +63,9 @@ When(/^I enter (.*?)defendant, representation order and MAAT reference$/) do |sc
 end
 
 When(/^I save as draft$/) do
-  @claim_form_page.save_to_drafts.trigger('click')
+  # @claim_form_page.save_to_drafts.trigger('click')
+  @claim_form_page.save_to_drafts.click
 end
-
 
 When(/^I add another (.*?)defendant, representation order and MAAT reference$/) do |scheme_text|
   date = scheme_text.match?('scheme 10') || scheme_text.match?('post agfs reform') ? Settings.agfs_fee_reform_release_date.strftime : "2016-01-01"
@@ -79,7 +79,7 @@ When(/^I add another (.*?)defendant, representation order and MAAT reference$/) 
     sleep 1
     # do it again if the first click failed
     @claim_form_page.defendants.last.add_another_representation_order.click if @claim_form_page.defendants.last.representation_orders.first.nil?
-    @claim_form_page.defendants.last.representation_orders.first.date.set_date "2016-01-01"
+    @claim_form_page.defendants.last.representation_orders.first.date.set_date date
     @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
   end
 end
@@ -124,17 +124,14 @@ When(/^I add a daily attendance fee with dates attended$/) do
   end
 end
 
-When(/^I add a miscellaneous fee '(.*?)' with dates attended$/) do |name|
+When(/^I add a miscellaneous fee '(.*?)' with dates attended\s*(.*)?$/) do |name, date|
+  date = date.present? ? date : "2016-01-02"
   @claim_form_page.add_misc_fee_if_required
   @claim_form_page.miscellaneous_fees.last.select_fee_type name
   @claim_form_page.miscellaneous_fees.last.quantity.set 1
   @claim_form_page.miscellaneous_fees.last.rate.set "34.56"
   @claim_form_page.miscellaneous_fees.last.add_dates.trigger "click"
-  @claim_form_page.miscellaneous_fees.last.dates.from.set_date "2016-01-02"
-end
-
-Then(/^I check the section heading$/) do
-
+  @claim_form_page.miscellaneous_fees.last.dates.from.set_date(date)
 end
 
 Then(/^I check the section heading to be "([^"]*)"$/) do |num|
@@ -162,7 +159,7 @@ When(/^I upload (\d+) documents?$/) do |count|
 end
 
 When(/^I check the boxes for the uploaded documents$/) do
-  @claim_form_page.check_evidence_checklist(@document_count)
+  @claim_form_page.check_evidence_checklist(@document_count || 1)
 end
 
 When(/^I add some additional information$/) do
@@ -222,4 +219,10 @@ Then(/^the last fixed fee case numbers section should (not )?be visible$/) do |n
   else
     expect(@claim_form_page.fixed_fees.last).to have_case_numbers_section
   end
+end
+
+Then(/^I should see the advocate categories\s*'([^']*)'$/) do |categories|
+  categories = categories.split(',')
+  expect(@claim_form_page.advocate_category_radios).to be_visible
+  expect(@claim_form_page.advocate_category_radios.radio_labels).to match_array(categories)
 end

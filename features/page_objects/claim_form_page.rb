@@ -8,6 +8,7 @@ require_relative 'sections/fee_section'
 require_relative 'sections/typed_fee_section'
 require_relative 'sections/expense_section'
 require_relative 'sections/offence_result_section'
+require_relative 'sections/advocate_category_section'
 
 class ClaimFormPage < SitePrism::Page
   include DropzoneHelper
@@ -47,6 +48,8 @@ class ClaimFormPage < SitePrism::Page
 
   element :offence_search, "input[name='offence-search-input']"
   sections :offence_results, OffenceResultSection, '#offence-list div.fx-result-item'
+
+  section :advocate_category_radios, AdvocateCategoryRadioSection, '.advocate-categories'
 
   element :continue_button, 'div.button-holder > input.button.left'
 
@@ -130,9 +133,7 @@ class ClaimFormPage < SitePrism::Page
 
   def attach_evidence(count = 1)
     available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/*.pdf"
-
     available_docs[0...count].each do |path|
-      # puts "      Attaching #{path}"
       drag_and_drop_file("dropzone", path)
     end
   end

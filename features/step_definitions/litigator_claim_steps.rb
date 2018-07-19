@@ -44,7 +44,7 @@ And(/^I enter the case concluded date\s*(.*?)$/) do |date|
   @litigator_claim_form_page.case_concluded_date.set_date date
 end
 
-And(/^I add a miscellaneous fee '(.*)'$/) do |name|
+And(/^I add a litigator miscellaneous fee '(.*)'$/) do |name|
   @litigator_claim_form_page.add_misc_fee_if_required
   @claim_form_page.all('label', text: name).last.click
   @litigator_claim_form_page.miscellaneous_fees.last.amount.set "135.78"

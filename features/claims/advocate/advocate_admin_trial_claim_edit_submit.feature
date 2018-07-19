@@ -35,6 +35,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And I select the offence category 'Activities relating to opium'
 
     Then I click "Continue" in the claim form
+    And I should see the advocate categories 'Junior alone,Led junior,Leading junior,QC'
     And I select an advocate category of 'Junior alone'
     And I add a basic fee net amount
     And I add a number of cases uplift fee with additional case numbers

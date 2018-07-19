@@ -3,7 +3,7 @@
     = f.anchored_without_label t('shared.claim.advocate_category')
     %legend{ class: 'form-label-bold' }
       = t('shared.claim.advocate_category')
-  .form-group{class: error_class?(@error_presenter, :advocate_category)}
+  .form-group.advocate-categories{class: error_class?(@error_presenter, :advocate_category)}
     = f.collection_radio_buttons(:advocate_category, f.object.eligible_advocate_categories.sort, :to_s, :to_s) do |b|
       .multiple-choice
         = b.radio_button

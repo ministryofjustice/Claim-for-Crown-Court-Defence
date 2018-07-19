@@ -51,8 +51,8 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     Then I click "Continue" in the claim form
 
-    And I add a miscellaneous fee 'Costs judge application'
-    And I add a miscellaneous fee 'Defendant uplift'
+    And I add a litigator miscellaneous fee 'Costs judge application'
+    And I add a litigator miscellaneous fee 'Defendant uplift'
 
     Then I click "Continue" in the claim form
 

@@ -1469,10 +1469,21 @@ en:
           hint:
             search: case worker name or email
       management_information:
+        validate_report_type:
+          invalid_report_type: &invalid_report_type The requested report type is not supported
+        download:
+          invalid_report_type: *invalid_report_type
+        generate:
+          invalid_report_type: *invalid_report_type
         index:
           h1_managment_info: Management information
           all_claims_report: 'All claims report'
-        alert: 'A background job has been scheduled to regenerate the Management Information report.  Please refresh this page in a few minutes.'
+          report_generated_at: "The latest report was generated at %{time}"
+          report_types:
+            management_information: Management information
+            provisional_assessment: Provisional assessment
+          unavailable_report: "There is currently no report available"
+        job_scheduled: 'A background job has been scheduled to regenerate the report. Please refresh this page in a few minutes.'
     claims:
       archived:
         archived_claims: Archived claims

@@ -9,6 +9,7 @@ require_relative 'sections/typed_fee_section'
 require_relative 'sections/expense_section'
 require_relative 'sections/offence_result_section'
 require_relative 'sections/advocate_category_section'
+require_relative 'sections/evidence_checklist_section'
 
 class ClaimFormPage < SitePrism::Page
   include DropzoneHelper
@@ -83,9 +84,7 @@ class ClaimFormPage < SitePrism::Page
   sections :expenses, ExpenseSection, "div#expenses div.expense-group"
   element :add_another_expense, "div#expense > a.add_fields"
 
-  sections :evidence_checklist, "div.evidence-checklist > div" do
-    element :check, "input"
-  end
+  section :evidence_checklist, EvidenceChecklistSection, "fieldset.evidence-checklist"
 
   element :additional_information, "textarea#claim_additional_information"
   element :continue, "div.button-holder > input:nth-of-type(1)"
@@ -139,6 +138,7 @@ class ClaimFormPage < SitePrism::Page
   end
 
   def check_evidence_checklist(count = 1)
-    evidence_checklist[0...count].each { |item| item.check.trigger "click" }
+    evidence_checklist.items_with_labels[0...count].each { |item| item.label.trigger "click" }
+    # evidence_checklist.items[0...count].each { |item| item.label.trigger "click" if item.has_label? }
   end
 end

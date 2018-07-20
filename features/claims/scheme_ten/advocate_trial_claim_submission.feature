@@ -33,6 +33,7 @@ Feature: Advocate submits a claim for a final fee trial case under scheme 10
     Then I select the first search result
 
     And I should see the advocate categories 'Junior,Leading junior,QC'
+    # And I should the basic fees 'Daily attendance 2+'
     And I select an advocate category of 'Junior'
     And I add a basic fee net amount
     And I add a number of cases uplift fee with additional case numbers
@@ -50,8 +51,9 @@ Feature: Advocate submits a claim for a final fee trial case under scheme 10
 
     Then I click "Continue" in the claim form
 
-    And I upload 3 documents
-    And I check the boxes for the uploaded documents
+    And I upload 1 document
+    And I should see 10 evidence check boxes
+    And I check the evidence boxes for 'Order in respect of judicial apportionment'
     And I add some additional information
 
     Then I click Submit to LAA
@@ -74,6 +76,7 @@ Feature: Advocate submits a claim for a final fee trial case under scheme 10
     And I should see 'Hotel accommodation'
 
     And I should see 'other_supporting_evidence.pdf'
+    And I should see 'Order in respect of judicial apportionment'
     And I should see 'Bish bosh bash'
 
     When I click "Continue"

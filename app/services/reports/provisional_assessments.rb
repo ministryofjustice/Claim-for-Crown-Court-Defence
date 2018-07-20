@@ -35,7 +35,7 @@ module Reports
       count(supplier_number) as supplier_claims,
       sum(amount_claimed) as claimed,
       sum(amount_authorised) as authorised,
-      sum(amount_authorised)/sum(amount_claimed) as percent
+      sum(amount_authorised)/NULLIF(sum(amount_claimed), 0) as percent
       FROM mi_data
       GROUP BY provider_name, provider_type, supplier_number}
     end

@@ -33,8 +33,8 @@ Feature: Advocate submits a claim for a final fee trial case under scheme 10
     Then I select the first search result
 
     And I should see the advocate categories 'Junior,Leading junior,QC'
-    # And I should the basic fees 'Daily attendance 2+'
     And I select an advocate category of 'Junior'
+    And I should see the scheme 10 applicable basic fees
     And I add a basic fee net amount
     And I add a number of cases uplift fee with additional case numbers
 

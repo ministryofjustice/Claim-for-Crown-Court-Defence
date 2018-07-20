@@ -72,7 +72,7 @@ class ExternalUser < ApplicationRecord
   end
 
   def advocate_claim_types
-    [Claim::AdvocateClaim].tap { |array| array << Claim::AdvocateInterimClaim if FeatureFlag.active?(:agfs_fee_reform) }
+    [Claim::AdvocateClaim, Claim::AdvocateInterimClaim]
   end
 
   def litigator_claim_types

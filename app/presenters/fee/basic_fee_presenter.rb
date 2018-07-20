@@ -26,7 +26,7 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
   end
 
   def display_help_text?
-    return false unless claim.fee_scheme == 'fee_reform'
+    return false unless claim.scheme_10?
     OFFENCE_CATEGORIES_WITHOUT_RESTRICTED_DISPLAY.include?(offence_category_number)
   end
 

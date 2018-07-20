@@ -50,19 +50,6 @@ RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
           it 'returns the list for AGFS scheme 10 advocate categories' do
             is_expected.to match_array(scheme_10_advocate_categories)
           end
-
-          # TODO: to be removed once all use of `fee_scheme` string removed
-          context 'using deprecated `fee_scheme` string' do
-            let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
-
-            before do
-              expect(claim).to receive(:fee_scheme).at_least(:once).and_return('fee_reform')
-            end
-
-            it 'returns the list for AGFS scheme 10 advocate categories' do
-              is_expected.to match_array(scheme_10_advocate_categories)
-            end
-          end
         end
       end
 

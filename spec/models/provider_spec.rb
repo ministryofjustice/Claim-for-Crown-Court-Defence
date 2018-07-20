@@ -161,26 +161,9 @@ RSpec.describe Provider, type: :model do
     context 'for an AGFS provider' do
       let(:provider) { build :provider, :agfs }
 
-      context 'when the AGFS fee reform feature flag is NOT active' do
-        before do
-          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(false)
-        end
-
-        it 'return the list of available claim types for AGFS' do
-          expect(provider.available_claim_types)
-            .to match_array([ Claim::AdvocateClaim ])
-        end
-      end
-
-      context 'when the AGFS fee reform feature flag is active' do
-        before do
-          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(true)
-        end
-
-        it 'returns the list of available claim types including the feature flagged ones' do
-          expect(provider.available_claim_types)
-            .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim])
-        end
+      it 'returns the list of available claim types including the feature flagged ones' do
+        expect(provider.available_claim_types)
+          .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim])
       end
     end
 
@@ -196,26 +179,9 @@ RSpec.describe Provider, type: :model do
     context 'for a AGFS and LGFS provider' do
       let(:provider) { build(:provider, :agfs_lgfs) }
 
-      context 'when the AGFS fee reform feature flag is NOT active' do
-        before do
-          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(false)
-        end
-
-        it 'returns the list of available claim types for AGFS and LGFS' do
-          expect(provider.available_claim_types)
-            .to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
-        end
-      end
-
-      context 'when the AGFS fee reform feature flag is active' do
-        before do
-          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(true)
-        end
-
-        it 'returns the list of available claim types including the feature flagged ones' do
-          expect(provider.available_claim_types)
-            .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
-        end
+      it 'returns the list of available claim types including the feature flagged ones' do
+        expect(provider.available_claim_types)
+          .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
       end
     end
   end

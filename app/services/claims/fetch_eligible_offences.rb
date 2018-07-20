@@ -18,9 +18,7 @@ module Claims
     attr_reader :claim
 
     def using_fee_reform?
-      claim.agfs? &&
-        FeatureFlag.active?(:agfs_fee_reform) &&
-        claim.fee_scheme == 'fee_reform'
+      claim.agfs? && claim.scheme_10?
     end
 
     def eligible_offences

@@ -34,7 +34,6 @@ class FeeScheme < ApplicationRecord
   end
 
   def self.for_claim(claim)
-    # TODO: Align this with Fee reform SPIKE
     date = claim.earliest_representation_order&.representation_order_date
     scheme = claim.agfs? ? 'AGFS' : 'LGFS'
     if date.present?

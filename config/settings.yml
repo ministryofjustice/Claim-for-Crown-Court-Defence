@@ -82,8 +82,7 @@ scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
 email_notification_enabled?: true
 
 feature_flags_enabled?: true
-active_features:
-  - :agfs_fee_reform
+active_features: []
 
 reject_refuse_messaging_released_at: <%= DateTime.new(2018, 4, 24, 23, 05, 0).change(offset: '+100') %>
 

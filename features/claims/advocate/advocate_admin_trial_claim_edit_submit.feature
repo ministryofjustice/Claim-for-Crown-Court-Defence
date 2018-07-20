@@ -54,14 +54,33 @@ Feature: Advocate admin submits a claim for a Trial case
 
     Then I click "Continue" in the claim form
 
-    And I upload 3 documents
+    And I upload the document 'judicial_appointment_order.pdf'
+    And I should see 10 evidence check boxes
     And I check the boxes for the uploaded documents
     And I add some additional information
 
     Then I click Submit to LAA
     And I should be on the check your claim page
+
+    Then I should be on the check your claim page
+    And I should see 'Blackfriars'
+    And I should see 'A20161234'
+    And I should see 'Trial'
+
     And I should see 'Activities relating to opium'
     And I should see 'B: Offences involving serious violence or damage and serious drug offences'
+    And I should see 'Advocate category'
+    And I should see 'Junior alone'
+
+    And I should see 'Basic fee'
+    And I should see 'Number of cases uplift'
+    And I should see 'Adjourned appeals'
+    And I should see 'Noting brief fee'
+    And I should see 'Hotel accommodation'
+
+    And I should see 'judicial_appointment_order.pdf'
+    And I should see 'Order in respect of judicial apportionment'
+    And I should see 'Bish bosh bash'
 
     When I click "Continue"
     Then I should be on the certification page

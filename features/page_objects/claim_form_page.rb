@@ -140,15 +140,14 @@ class ClaimFormPage < SitePrism::Page
     end
   end
 
-  def attach_evidence(count = 1)
-    available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/*.pdf"
+  def attach_evidence(count = 1, document: '*')
+    available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/#{document.gsub('.pdf','')}.pdf"
     available_docs[0...count].each do |path|
       drag_and_drop_file("dropzone", path)
     end
   end
 
   def check_evidence_checklist(count = 1)
-    evidence_checklist.items_with_labels[0...count].each { |item| item.label.trigger "click" }
-    # evidence_checklist.items[0...count].each { |item| item.label.trigger "click" if item.has_label? }
+    evidence_checklist.items_with_labels[0...count].each { |item| item.label.trigger('click') }
   end
 end

@@ -56,7 +56,7 @@ Feature: Advocate admin submits a claim for a Trial case
 
     And I upload the document 'judicial_appointment_order.pdf'
     And I should see 10 evidence check boxes
-    And I check the boxes for the uploaded documents
+    And I check the evidence boxes for 'Order in respect of judicial apportionment'
     And I add some additional information
 
     Then I click Submit to LAA

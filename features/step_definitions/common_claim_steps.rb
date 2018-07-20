@@ -41,7 +41,7 @@ end
 
 When(/^I upload (\d+) documents?$/) do |count|
   @document_count = count.to_i
-  @claim_form_page.attach_evidence(@document_count)
+  @claim_form_page.attach_evidence(count: @document_count)
 end
 
 When(/^I upload the document '(.*)'$/) do |document|
@@ -49,7 +49,7 @@ When(/^I upload the document '(.*)'$/) do |document|
 end
 
 When(/^I check the boxes for the uploaded documents$/) do
-  @claim_form_page.check_evidence_checklist(@document_count)
+  @claim_form_page.check_evidence_checklist(@document_count || 1)
 end
 
 When(/^I check the evidence boxes for\s+'([^']*)'$/) do |labels|

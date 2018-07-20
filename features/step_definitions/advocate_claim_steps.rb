@@ -245,3 +245,32 @@ Then(/^I should see the advocate categories\s*'([^']*)'$/) do |categories|
   expect(@claim_form_page.advocate_category_radios).to be_visible
   expect(@claim_form_page.advocate_category_radios.radio_labels).to match_array(categories)
 end
+
+Then(/^I should see the (.*) applicable basic fees$/) do |scheme_text|
+  additional_fees = scheme_text.match?('scheme 10') ? scheme_10_additional_fees : scheme_9_additional_fees
+  expect(@claim_form_page.initial_fees.additional_fee_labels).to match_array(additional_fees)
+end
+
+def scheme_9_additional_fees
+  [
+    'Daily attendance fee (3 to 40)',
+    'Daily attendance fee (41 to 50)',
+    'Daily attendance fee (51+)',
+    'Standard appearance fee',
+    'Plea and trial preparation hearing',
+    'Conferences and views',
+    'Number of defendants uplift',
+    'Number of cases uplift'
+  ].freeze
+end
+
+def scheme_10_additional_fees
+  [
+    'Daily attendance fee (2+)',
+    'Standard appearance fee',
+    'Plea and trial preparation hearing',
+    'Conferences and views',
+    'Number of defendants uplift',
+    'Number of cases uplift'
+  ].freeze
+end

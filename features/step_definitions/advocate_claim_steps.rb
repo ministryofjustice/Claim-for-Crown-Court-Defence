@@ -159,7 +159,26 @@ When(/^I upload (\d+) documents?$/) do |count|
 end
 
 When(/^I check the boxes for the uploaded documents$/) do
-  @claim_form_page.check_evidence_checklist(@document_count || 1)
+  @claim_form_page.check_evidence_checklist(@document_count)
+end
+
+When(/^I check the evidence boxes for\s+'([^']*)'$/) do |labels|
+  labels = labels.split(',')
+  labels.each do |label|
+    @claim_form_page.evidence_checklist.check(label)
+  end
+end
+
+Then(/^I should see evidence boxes for\s+'([^']*)'$/) do |labels|
+  labels = labels.split(',')
+  expect(@claim_form_page.evidence_checklist).to be_visible
+  expect(@claim_form_page.evidence_checklist.labels).to match_array(labels)
+end
+
+# NOTE: can't use have_items because, at least, LAC1 check box may not have a label/be-hidden
+Then(/^I should see (\d+)\s*evidence check boxes$/) do |count|
+  expect(@claim_form_page.evidence_checklist).to be_visible
+  expect(@claim_form_page.evidence_checklist.labels.count).to eql(count.to_i) if count.present?
 end
 
 When(/^I add some additional information$/) do

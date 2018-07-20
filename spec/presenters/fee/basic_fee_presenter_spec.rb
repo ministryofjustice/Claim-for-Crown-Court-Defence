@@ -4,9 +4,8 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
   let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
   let(:claim_9) { create(:advocate_claim, :agfs_scheme_9) }
   let(:fee) { build(:basic_fee, claim: claim) }
-  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
-  let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
-  let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
+
+  before { seed_fee_schemes }
 
   subject(:presenter) { described_class.new(fee, view) }
 
@@ -133,17 +132,13 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
 
   describe '#display_help_text?' do
     context 'when claim is NOT under the reformed fee scheme' do
-      before do
-        allow(claim).to receive(:fee_scheme).and_return('default')
-      end
+      let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
 
       specify { expect(presenter.display_help_text?).to be_falsey }
     end
 
     context 'when claim is under the reformed fee scheme' do
-      before do
-        allow(claim).to receive(:fee_scheme).and_return('fee_reform')
-      end
+      let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
 
       context 'and fee type has restrictions to be displayed' do
         let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }

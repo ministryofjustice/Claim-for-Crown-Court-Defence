@@ -26,16 +26,8 @@ module Claims
       Settings.agfs_reform_advocate_categories
     end
 
-    # TODO: to be changed to solely use fee_scheme objects once rest of app cleared up
     def agfs_reform?
-      case claim.fee_scheme
-      when 'default'
-        false
-      when 'fee_reform'
-        true
-      else
-        claim.fee_scheme&.agfs? && claim.fee_scheme.version >= 10
-      end
+      claim.fee_scheme&.agfs? && claim.fee_scheme.version >= 10
     end
   end
 end

@@ -43,72 +43,28 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
     context 'admin of AGFS and LGFS provider' do
       let(:external_user) { create(:external_user, :agfs_lgfs_admin) }
 
-      context 'when AGFS fee reform feature flag is NOT active' do
-        before do
-          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(false)
-        end
-
-        it "assigns bill types based on provider roles" do
-          get :selection
-          expect(assigns(:available_claim_types)).to match_array(%w(agfs lgfs_final lgfs_interim lgfs_transfer))
-        end
-
-        it "renders claim type options page" do
-          get :selection
-          expect(response).to render_template(:selection)
-        end
+      it "assigns bill types based on provider roles" do
+        get :selection
+        expect(assigns(:available_claim_types)).to match_array(%w(agfs agfs_interim lgfs_final lgfs_interim lgfs_transfer))
       end
 
-      context 'when AGFS fee reform feature flag is active' do
-        before do
-          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(true)
-        end
-
-        it "assigns bill types based on provider roles" do
-          get :selection
-          expect(assigns(:available_claim_types)).to match_array(%w(agfs agfs_interim lgfs_final lgfs_interim lgfs_transfer))
-        end
-
-        it "renders the bill type options page" do
-          get :selection
-          expect(response).to render_template(:selection)
-        end
+      it "renders the bill type options page" do
+        get :selection
+        expect(response).to render_template(:selection)
       end
     end
 
     context 'admin of AGFS provider' do
       let(:external_user) { create(:external_user, :admin, provider: create(:provider, :agfs)) }
 
-      context 'when AGFS fee reform feature flag is NOT active' do
-        before do
-          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(false)
-        end
-
-        it "assigns bill types based on provider roles" do
-          get :selection
-          expect(assigns(:available_claim_types)).to match_array(%w(agfs))
-        end
-
-        it "redirects to the new advocate claim form page" do
-          get :selection
-          expect(response).to redirect_to(new_advocates_claim_path)
-        end
+      it "assigns bill types based on provider roles" do
+        get :selection
+        expect(assigns(:available_claim_types)).to match_array(%w(agfs agfs_interim))
       end
 
-      context 'when AGFS fee reform feature flag is active' do
-        before do
-          allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(true)
-        end
-
-        it "assigns bill types based on provider roles" do
-          get :selection
-          expect(assigns(:available_claim_types)).to match_array(%w(agfs agfs_interim))
-        end
-
-        it "renders the bill type options page" do
-          get :selection
-          expect(response).to render_template(:selection)
-        end
+      it "renders the bill type options page" do
+        get :selection
+        expect(response).to render_template(:selection)
       end
     end
 

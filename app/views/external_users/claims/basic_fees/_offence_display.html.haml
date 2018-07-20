@@ -3,7 +3,7 @@
   Offence
 
 %ul.list.list-bullet
-- if f.object.claim.fee_scheme == 'fee_reform'
+- if f.object.claim.agfs? && f.object.claim.scheme_10?
   %li
     %span.bold>
       = t('offence_class', scope: claim_fields)

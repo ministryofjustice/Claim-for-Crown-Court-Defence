@@ -7,9 +7,8 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
 
   let(:litigator) { create(:external_user, :litigator) }
   let(:claim)     { create(:advocate_claim) }
-  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
-  let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
-  let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
+
+  before { seed_fee_schemes }
 
   include_examples "common advocate litigator validations", :advocate
 
@@ -86,9 +85,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
       default_valid_categories = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
 
       context 'when on fee reform scheme' do
-        before do
-          allow(claim).to receive(:fee_scheme).and_return(agfs_scheme_ten)
-        end
+        let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
 
         fee_reform_valid_categories = ['QC', 'Leading junior', 'Junior']
         fee_reform_invalid_categories = ['Led junior', 'Junior alone']

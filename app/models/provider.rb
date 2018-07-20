@@ -120,7 +120,7 @@ class Provider < ApplicationRecord
   end
 
   def agfs_claim_types
-    [Claim::AdvocateClaim].tap { |array| array << Claim::AdvocateInterimClaim if FeatureFlag.active?(:agfs_fee_reform) }
+    [Claim::AdvocateClaim, Claim::AdvocateInterimClaim]
   end
 
   def lgfs_claim_types

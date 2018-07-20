@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Claims::FetchEligibleOffences, type: :service do
   subject(:offences) { described_class.for(claim) }
 
+  before { seed_fee_schemes }
+
   shared_examples_for 'a claim with default offences' do
     context 'and the claim has no associated offence' do
       before do
@@ -34,37 +36,17 @@ RSpec.describe Claims::FetchEligibleOffences, type: :service do
   end
 
   context 'when claim is for AGFS' do
-    let(:claim) { create(:advocate_claim) }
-
-    context 'and AGFS fee reform feature is not active' do
-      before do
-        allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(false)
-      end
+    context 'and fee scheme for the claim is not the AGFS reform scheme' do
+      let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
 
       include_examples 'a claim with default offences'
     end
 
-    context 'and AGFS fee reform feature is active' do
-      before do
-        allow(FeatureFlag).to receive(:active?).with(:agfs_fee_reform).and_return(true)
-      end
+    context 'and fee scheme for the claim is the AGFS reform scheme' do
+      let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
 
-      context 'and fee scheme for the claim is not the AGFS reform scheme' do
-        before do
-          allow(claim).to receive(:fee_scheme).and_return('default')
-        end
-
-        include_examples 'a claim with default offences'
-      end
-
-      context 'and fee scheme for the claim is the AGFS reform scheme' do
-        before do
-          allow(claim).to receive(:fee_scheme).and_return('fee_reform')
-        end
-
-        it 'returns a list of all available offences for the associated fee scheme' do
-          expect(offences).to match_array(Offence.in_scheme_ten)
-        end
+      it 'returns a list of all available offences for the associated fee scheme' do
+        expect(offences).to match_array(Offence.in_scheme_ten)
       end
     end
   end

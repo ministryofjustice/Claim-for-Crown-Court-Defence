@@ -10,16 +10,16 @@ Feature: Advocate partially fills out a draft AGFS interim claim for a trial, th
     Then I should be on the advocate interim new claim page
 
     And I select the court 'Blackfriars'
-    And I enter a case number of 'A20161234'
+    And I enter a case number of 'A20181234'
 
     Then I click "Continue" in the claim form
     And I save as draft
     Then I should see 'Draft claim saved'
 
     Given I am later on the Your claims page
-    Then Claim 'A20161234' should be listed with a status of 'Draft'
+    Then Claim 'A20181234' should be listed with a status of 'Draft'
 
-    When I click the claim 'A20161234'
+    When I click the claim 'A20181234'
     And I edit the claim's defendants
     And I enter a scheme 10 defendant, representation order and MAAT reference
 
@@ -54,4 +54,4 @@ Feature: Advocate partially fills out a draft AGFS interim claim for a trial, th
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£161.47'
+    And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£161.47'

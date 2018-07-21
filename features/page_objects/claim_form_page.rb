@@ -5,6 +5,7 @@ require_relative 'sections/fee_case_numbers_section'
 require_relative 'sections/fee_dates_section_condensed'
 require_relative 'sections/fee_dates_section'
 require_relative 'sections/fee_section'
+require_relative 'sections/basic_fee_section'
 require_relative 'sections/typed_fee_section'
 require_relative 'sections/expense_section'
 require_relative 'sections/offence_result_section'
@@ -54,36 +55,7 @@ class ClaimFormPage < SitePrism::Page
 
   element :continue_button, 'div.button-holder > input.button.left'
 
-  section :initial_fees, "div#basic-fees" do
-    # In CSS 'foo + bar' means instances of bar which immediately follow foo and
-    # have the same parent.
-    section :basic_fee, FeeSection, ".basic-fee.fee-details"
-    section :basic_fee_dates, FeeDatesSection, ".basic-fee.fee-details .fee-dates-row"
-
-    element :number_of_case_uplift_input, ".fx-hook-noc"
-    element :daily_attendance_fee_input, ".fx-hook-daf"
-
-    section :daily_attendance_fee_2, FeeSection, ".basic-fee-group.daily-attendance-fee-2"
-    section :daily_attendance_fee_3_to_40, FeeSection, ".basic-fee-group.daily-attendance-fee-3-to-40"
-    section :daily_attendance_fee_3_to_40_dates, FeeDatesSectionCondensed, ".basic-fee-group.daily-attendance-fee-3-to-40 .dates-wrapper"
-    section :daily_attendance_fee_41_to_50, FeeSection, ".basic-fee-group.daily-attendance-fee-41-to-50"
-    section :daily_attendance_fee_51_plus, FeeSection, ".basic-fee-group.daily-attendance-fee-51"
-    section :standard_appearance_fee, FeeSection, ".basic-fee-group.standard-appearance-fee"
-    section :plea_and_trial_preparation_hearing, FeeSection, ".basic-fee-group.plea-and-trial-preparation-hearing"
-    section :conferences_and_views, FeeSection, ".basic-fee-group.conferences-and-views"
-    section :number_of_defendants_uplift, FeeSection, ".basic-fee-group.number-of-defendants-uplift"
-    section :number_of_cases_uplift, FeeCaseNumbersSection, ".basic-fee-group.number-of-cases-uplift"
-
-
-    sections :additional_fee_checklist, '#basic-fees .multiple-choice' do
-      element :label, 'label'
-      element :input, 'input'
-    end
-
-    def additional_fee_labels
-      additional_fee_checklist.map { |item| item.label.text if item.has_label? }
-    end
-  end
+  section :basic_fees, BasicFeeSection, "div#basic-fees"
 
   sections :miscellaneous_fees, TypedFeeSection, "div#misc-fees .misc-fee-group"
   element :add_another_miscellaneous_fee, "div#misc-fees > .form-group > a.add_fields"

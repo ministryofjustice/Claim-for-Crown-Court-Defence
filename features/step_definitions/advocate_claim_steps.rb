@@ -50,32 +50,32 @@ end
 
 When(/^I add a basic fee with dates attended$/) do
   using_wait_time 6 do
-    @claim_form_page.initial_fees.basic_fee.quantity.set "1"
-    @claim_form_page.initial_fees.basic_fee.rate.set "3.45"
+    @claim_form_page.basic_fees.basic_fee.quantity.set "1"
+    @claim_form_page.basic_fees.basic_fee.rate.set "3.45"
   end
 end
 
 When(/^I add a basic fee net amount$/) do
   using_wait_time 6 do
-    @claim_form_page.initial_fees.basic_fee.total.set "3.45"
+    @claim_form_page.basic_fees.basic_fee.total.set "3.45"
   end
 end
 
 When(/^I add a number of cases uplift fee with additional case numbers$/) do
   using_wait_time 6 do
-    @claim_form_page.initial_fees.number_of_case_uplift_input.click()
-    @claim_form_page.initial_fees.number_of_cases_uplift.quantity.set "1"
-    @claim_form_page.initial_fees.number_of_cases_uplift.rate.set "200.00"
-    @claim_form_page.initial_fees.number_of_cases_uplift.case_numbers.set "A20170001"
+    @claim_form_page.basic_fees.number_of_case_uplift_input.click()
+    @claim_form_page.basic_fees.number_of_cases_uplift.quantity.set "1"
+    @claim_form_page.basic_fees.number_of_cases_uplift.rate.set "200.00"
+    @claim_form_page.basic_fees.number_of_cases_uplift.case_numbers.set "A20170001"
   end
 end
 
 When(/^I add a daily attendance fee with dates attended$/) do
   using_wait_time 6 do
-    @claim_form_page.initial_fees.daily_attendance_fee_input.click()
-    @claim_form_page.initial_fees.daily_attendance_fee_3_to_40.quantity.set "4"
-    @claim_form_page.initial_fees.daily_attendance_fee_3_to_40.rate.set "45.77"
-    @claim_form_page.initial_fees.daily_attendance_fee_3_to_40_dates.from.set_date "2016-01-04"
+    @claim_form_page.basic_fees.daily_attendance_fee_input.click()
+    @claim_form_page.basic_fees.daily_attendance_fee_3_to_40.quantity.set "4"
+    @claim_form_page.basic_fees.daily_attendance_fee_3_to_40.rate.set "45.77"
+    @claim_form_page.basic_fees.daily_attendance_fee_3_to_40_dates.from.set_date "2016-01-04"
   end
 end
 
@@ -151,7 +151,7 @@ end
 
 Then(/^I should see the (.*) applicable basic fees$/) do |scheme_text|
   additional_fees = scheme_text.match?('scheme 10') ? scheme_10_additional_fees : scheme_9_additional_fees
-  expect(@claim_form_page.initial_fees.additional_fee_labels).to match_array(additional_fees)
+  expect(@claim_form_page.basic_fees.checklist_labels).to match_array(additional_fees)
 end
 
 def scheme_9_additional_fees

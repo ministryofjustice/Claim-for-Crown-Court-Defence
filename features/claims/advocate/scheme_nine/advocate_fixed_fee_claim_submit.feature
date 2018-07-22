@@ -26,8 +26,6 @@ Feature: Advocate submits a claim for a Fixed fee (Contempt)
     Then the last fixed fee case numbers section should not be visible
     And I add a fixed fee 'Number of cases uplift' with case numbers
     Then the last fixed fee case numbers section should be visible
-    And I save and open screenshot
-
 
     Then I click "Continue" in the claim form
 

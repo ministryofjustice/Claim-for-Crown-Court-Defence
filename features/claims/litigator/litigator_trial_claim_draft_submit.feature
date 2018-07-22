@@ -34,8 +34,8 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     Then I click "Continue" in the claim form
 
-    And I enter post agfs reform defendant, representation order and MAAT reference
-    And I add another post agfs reform defendant, representation order and MAAT reference
+    And I enter defendant, post agfs reform representation order and MAAT reference
+    And I add another defendant, post agfs reform representation order and MAAT reference
 
     Then I click "Continue" in the claim form
 

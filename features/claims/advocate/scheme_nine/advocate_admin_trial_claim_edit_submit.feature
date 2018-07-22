@@ -69,7 +69,6 @@ Feature: Advocate admin submits a claim for a Trial case
 
     And I should see 'Activities relating to opium'
     And I should see 'B: Offences involving serious violence or damage and serious drug offences'
-    And I should see 'Advocate category'
     And I should see 'Junior alone'
 
     And I should see 'Basic fee'

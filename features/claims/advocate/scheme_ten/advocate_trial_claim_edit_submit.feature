@@ -1,5 +1,5 @@
 @javascript
-Feature: Advocate submits a claim for a final fee trial case under scheme 10
+Feature: Advocate creates, saves, edits then submits a claim for a final fee trial case under scheme 10
 
   Scenario: Successful submission
     Given I am a signed in advocate

@@ -11,9 +11,11 @@ class TypedFeeSection < SitePrism::Section
   element :numbered, ".fx-numberedList-number"
   section :dates, FeeDatesSection, ".fee-dates"
 
+  # FIXME: does not seem to work when selecting an Appeal against a conviction plus its uplift equivalent
   def select_fee_type(name)
-    id = select_container[:id]
-    select name, from: id
+    from = select_container[:id]
+    # find(:select, from).find(:option, name).select_option
+    select(name, from: from)
   end
 
   def populated?

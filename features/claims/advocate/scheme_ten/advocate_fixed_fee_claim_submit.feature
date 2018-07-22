@@ -22,13 +22,9 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     And I should see the advocate categories 'Junior,Leading junior,QC'
     And I select an advocate category of 'Junior'
-    # And I add a fixed fee 'Appeals to the crown court against conviction'
-    And I add a fixed fee 'Contempt'
+    And I add a fixed fee 'Appeals to the crown court against conviction'
     Then the last fixed fee case numbers section should not be visible
-    And I add a fixed fee 'Number of cases uplift' with case numbers
-    # And I add a fixed fee 'Appeals to the crown court against conviction uplift' with case numbers
-    And I save and open screenshot
-
+    And I add a fixed fee 'Appeals to the crown court against conviction uplift' with case numbers
     Then the last fixed fee case numbers section should be visible
 
     Then I click "Continue" in the claim form
@@ -49,8 +45,6 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     Then I click Submit to LAA
 
     And I should be on the check your claim page
-    And I save and open screenshot
-
     And I should see 'Caernarfon'
     And I should see 'A20181234'
     And I should see 'Appeal against conviction'
@@ -59,8 +53,8 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I should see 'Advocate category'
     And I should see 'Junior'
 
-    And I should see 'Contempt'
-    And I should see 'Number of cases uplift'
+    And I should see 'Appeals to the crown court against conviction'
+    And I should see 'Appeals to the crown court against conviction uplift'
     And I should see 'Adjourned appeals'
     And I should see 'Parking'
 

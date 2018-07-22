@@ -1,7 +1,5 @@
 class TypedFeeSection < SitePrism::Section
-  include SelectHelper
-
-  element :select_container, "select.typeahead", visible: false
+  element :select_input, "input.tt-input", visible: true
   element :quantity, "input.quantity"
   element :rate, "input.rate"
   element :amount, nil
@@ -11,11 +9,10 @@ class TypedFeeSection < SitePrism::Section
   element :numbered, ".fx-numberedList-number"
   section :dates, FeeDatesSection, ".fee-dates"
 
-  # FIXME: does not seem to work when selecting an Appeal against a conviction plus its uplift equivalent
+  # NOTE: the select list is hidden. Selection is done
+  # by entering text into the input text field.
   def select_fee_type(name)
-    from = select_container[:id]
-    # find(:select, from).find(:option, name).select_option
-    select(name, from: from)
+    fill_in(select_input[:id], with: name)
   end
 
   def populated?

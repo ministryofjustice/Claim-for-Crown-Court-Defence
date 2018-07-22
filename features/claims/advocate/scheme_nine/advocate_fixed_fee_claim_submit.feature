@@ -1,5 +1,5 @@
 @javascript
-Feature: Advocate submits a claim for a Contempt case
+Feature: Advocate submits a claim for a Fixed fee (Contempt)
 
   Scenario: I create a contempt claim, then submit it
 
@@ -20,11 +20,14 @@ Feature: Advocate submits a claim for a Contempt case
 
     Then I click "Continue" in the claim form
 
+    And I should see the advocate categories 'Junior alone,Led junior,Leading junior,QC'
     And I select an advocate category of 'Junior alone'
     And I add a fixed fee 'Contempt'
     Then the last fixed fee case numbers section should not be visible
     And I add a fixed fee 'Number of cases uplift' with case numbers
     Then the last fixed fee case numbers section should be visible
+    And I save and open screenshot
+
 
     Then I click "Continue" in the claim form
 

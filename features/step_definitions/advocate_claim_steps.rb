@@ -16,11 +16,6 @@ When(/^I select an advocate category of '(.*?)'$/) do |name|
   @claim_form_page.find('label', text: name).click
 end
 
-# FIXME: remove if unused
-# When(/^I select '(.*)' as the instructed advocate$/) do |text|
-#   @claim_form_page.select_advocate(text)
-# end
-
 When(/^I choose '(.*)' as the instructed advocate$/) do |text|
   @claim_form_page.find('label', text: text).click
 end

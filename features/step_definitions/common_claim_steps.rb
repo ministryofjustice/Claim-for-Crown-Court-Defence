@@ -10,7 +10,7 @@ When(/^I enter a case number of '(.*?)'$/) do |number|
   @claim_form_page.case_number.set number
 end
 
-When(/^I enter (.*?)defendant, representation order and MAAT reference$/) do |scheme_text|
+When(/^I enter defendant, (.*?)representation order and MAAT reference$/) do |scheme_text|
     date = scheme_text.match?('scheme 10') || scheme_text.match?('post agfs reform') ? Settings.agfs_fee_reform_release_date.strftime : "2016-01-01"
     using_wait_time(6) do
       @claim_form_page.wait_for_defendants
@@ -22,7 +22,7 @@ When(/^I enter (.*?)defendant, representation order and MAAT reference$/) do |sc
     end
 end
 
-When(/^I add another (.*?)defendant, representation order and MAAT reference$/) do |scheme_text|
+When(/^I add another defendant, (.*?)representation order and MAAT reference$/) do |scheme_text|
   date = scheme_text.match?('scheme 10') || scheme_text.match?('post agfs reform') ? Settings.agfs_fee_reform_release_date.strftime : "2016-01-01"
   using_wait_time 6 do
     @claim_form_page.add_another_defendant.click
@@ -57,12 +57,6 @@ When(/^I check the evidence boxes for\s+'([^']*)'$/) do |labels|
   labels.each do |label|
     @claim_form_page.evidence_checklist.check(label)
   end
-end
-
-Then(/^I should see evidence boxes for\s+'([^']*)'$/) do |labels|
-  labels = labels.split(',')
-  expect(@claim_form_page.evidence_checklist).to be_visible
-  expect(@claim_form_page.evidence_checklist.labels).to match_array(labels)
 end
 
 # NOTE: can't use have_items because, at least, LAC1 check box may not have a label/be-hidden

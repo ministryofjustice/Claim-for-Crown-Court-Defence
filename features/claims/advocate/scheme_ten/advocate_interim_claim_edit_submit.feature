@@ -21,7 +21,7 @@ Feature: Advocate partially fills out a draft AGFS interim claim for a trial, th
 
     When I click the claim 'A20181234'
     And I edit the claim's defendants
-    And I enter a scheme 10 defendant, representation order and MAAT reference
+    And I enter defendant, scheme 10 representation order and MAAT reference
 
     Then I click "Continue" in the claim form
 

@@ -15,8 +15,8 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     Then I click "Continue" in the claim form
 
-    And I enter scheme 10 defendant, representation order and MAAT reference
-    And I add another scheme 10 defendant, representation order and MAAT reference
+    And I enter defendant, scheme 10 representation order and MAAT reference
+    And I add another defendant, scheme 10 representation order and MAAT reference
 
     Then I click "Continue" in the claim form
 
@@ -50,7 +50,6 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I should see 'Appeal against conviction'
 
     And I should not see 'Standard Offences'
-    And I should see 'Advocate category'
     And I should see 'Junior'
 
     And I should see 'Appeals to the crown court against conviction'

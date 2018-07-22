@@ -112,10 +112,6 @@ class ClaimFormPage < SitePrism::Page
     end
   end
 
-  # FIXME: using the count feature should add other_supporting_evidence.pdf first
-  # which is "true" locally but on travis other_supporting_evidence.pdf is not added at all??
-  # debug of travis needed! but more specific document upload and check is "clearer" in any event.
-  #
   def attach_evidence(count: 1, document: '*')
     count ||= 1
     available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/#{document.gsub('.pdf','')}.pdf"

@@ -24,8 +24,8 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     When I click the claim 'A20181234'
     And I edit the claim's defendants
 
-    And I enter scheme 10 defendant, representation order and MAAT reference
-    And I add another scheme 10 defendant, representation order and MAAT reference
+    And I enter defendant, scheme 10 representation order and MAAT reference
+    And I add another defendant, scheme 10 representation order and MAAT reference
 
     Then I click "Continue" in the claim form
 
@@ -66,7 +66,6 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I should see 'Standard Offences'
     And I should see '17.1'
     And I should see 'Absconding from lawful custody'
-    And I should see 'Advocate category'
     And I should see 'Junior'
 
     And I should see 'Basic fee'

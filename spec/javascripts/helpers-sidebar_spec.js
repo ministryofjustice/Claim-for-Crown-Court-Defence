@@ -199,6 +199,56 @@ describe('Helpers.SideBar.js', function() {
             expect(instance.getDataVal('total')).toBe(false);
           });
         });
+
+        xdescribe('...setState', function() {
+          beforeEach(function() {
+            var fixtureDom = [
+              '<div class="js-block">',
+              '<input class="total" data-total="44.44" value="44.44"/>',
+              '</div>'
+            ].join('');
+            $('body').append(fixtureDom);
+            instance = new moj.Helpers.SideBar.Base({
+              $el: $('.js-block'),
+              el: fixtureDom
+            });
+          });
+
+          afterEach(function() {
+            $('.js-block').remove();
+          });
+
+          it('should set the state of the selector', function() {
+
+          });
+
+
+
+        });
+
+        xdescribe('...setVal', function() {
+          beforeEach(function() {
+            var fixtureDom = [
+              '<div class="js-block">',
+              '<input class="total" data-total="44.44" value="44.44"/>',
+              '</div>'
+            ].join('');
+            $('body').append(fixtureDom);
+            instance = new moj.Helpers.SideBar.Base({
+              $el: $('.js-block'),
+              el: fixtureDom
+            });
+          });
+
+          afterEach(function() {
+            $('.js-block').remove();
+          });
+
+          it('should set the value of the selector', function() {
+
+          });
+        });
+
       });
     });
 

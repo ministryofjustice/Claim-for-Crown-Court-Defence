@@ -12,7 +12,7 @@
 
 module Stats
   class StatsReport < ApplicationRecord
-    TYPES = %w[management_information provisional_assessment].freeze
+    TYPES = %w[management_information provisional_assessment rejections_refusals].freeze
 
     validates :status, inclusion: { in: %w[started completed error] }
 

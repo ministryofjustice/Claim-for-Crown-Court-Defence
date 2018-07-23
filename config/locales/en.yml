@@ -1482,6 +1482,7 @@ en:
           report_types:
             management_information: Management information
             provisional_assessment: Provisional assessment
+            rejections_refusals: 'Rejections/Refusals'
           unavailable_report: "There is currently no report available"
         job_scheduled: 'A background job has been scheduled to regenerate the report. Please refresh this page in a few minutes.'
     claims:

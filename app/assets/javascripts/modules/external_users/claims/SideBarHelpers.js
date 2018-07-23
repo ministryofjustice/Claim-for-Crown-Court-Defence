@@ -252,11 +252,35 @@ moj.Helpers.SideBar = {
         $option = $(e.target).find('option:selected');
         state = $option.data('reasonText');
         location_type = $option.data('locationType') || '';
-        self.$el.find('.fx-location-type').val(location_type);
-        self.$el.find('.fx-travel-reason-other').css('display', state ? 'block' : 'none');
+        self.setVal('.fx-location-type', location_type);
+        self.setState('.fx-travel-reason-other', state);
+        self.attachOptions(location_type);
       });
+
+      this.$el.on('change', '.fx-establishment-select', function(e) {
+        var $option = $(e.target).find('option:selected');
+        console.log('->>>>Selected value', $option.val());
+      });
+
+
       return this;
     };
+
+
+    this.attachOptions = function(location_type) {
+      var self = this;
+      // TODO: do this after detaching from the dom..?
+      if (!location_type) return new Error('Missing param: location_type');
+
+      moj.Helpers.API.Establishments.getAsOptions(location_type).then(function(els) {
+        self.$el.find('.fx-establishment-select option').remove();
+        self.$el.find('.fx-travel-location label').text(staticdata.locationLabel[location_type] || "Destination");
+        self.$el.find('.fx-establishment-select').append(els.join(''));
+      }, function() {
+        return Error('Attach options failed:', arguments);
+      });
+    };
+
     this.loadCurrentState = function() {
       var $select = this.$el.find('.fx-travel-expense-type select');
       if ($select.val()) {
@@ -310,10 +334,13 @@ moj.Helpers.SideBar = {
       // location & label
       $detached.find(this.stateLookup['location']).css('display', (state.config['location'] ? 'block' : 'none'));
       $detached.find(this.stateLookup['location'] + ' label').text(state.config['locationLabel']);
+
       // Overides for LGFS reason set C;
       state.config.reasonSet = (this.config.featureDistance ? 'C' : (state.config.reasonSet || 'A'));
+
       // travel reasons
       reasons.push(new Option('Please select'));
+
       this.expenseReasons[state.config.reasonSet].forEach(function(obj) {
         $option = $(new Option(obj.reason, obj.id));
         $option.attr('data-reason-text', obj.reason_text);
@@ -388,6 +415,12 @@ moj.Helpers.SideBar = {
         'netAmount': false,
         'reason': false,
         'vatAmount': false,
+      },
+      locationLabel: {
+        crown_court: 'Crown court',
+        magistrates_court: 'Magistrates court',
+        prison: 'Prison',
+        hospital: 'Hospital'
       },
       expenseReasons: {
         'A': [{

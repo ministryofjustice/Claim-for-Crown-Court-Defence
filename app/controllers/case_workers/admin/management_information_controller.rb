@@ -13,7 +13,14 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
 
   def download
     record = Stats::StatsReport.most_recent_by_type(params[:report_type])
-    send_data record.report, filename: record.download_filename, type: 'text/csv'
+    if record.document?
+      data = open(record.document_url).read
+      content_type = record.document_content_type
+    else
+      data = record.report
+      content_type = 'text/csv'
+    end
+    send_data data, filename: record.download_filename, type: content_type
   end
 
   def generate

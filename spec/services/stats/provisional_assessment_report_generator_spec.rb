@@ -25,7 +25,10 @@ RSpec.describe Stats::ProvisionalAssessmentReportGenerator, type: :service do
         .to receive(:call)
         .with(mocked_data, headers: Reports::ProvisionalAssessments::COLUMNS)
         .and_return(mocked_csv_output)
-      expect(described_class.call).to eq(mocked_csv_output)
+      result = described_class.call
+      expect(result).to be_kind_of(Stats::Result)
+      expect(result.content).to eq(mocked_csv_output)
+      expect(result.format).to eq('csv')
     end
   end
 end

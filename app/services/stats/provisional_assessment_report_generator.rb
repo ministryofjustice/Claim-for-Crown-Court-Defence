@@ -12,7 +12,8 @@ module Stats
 
     def call
       data = Reports::ProvisionalAssessments.call
-      Stats::CsvExporter.call(data, headers: Reports::ProvisionalAssessments::COLUMNS)
+      output = Stats::CsvExporter.call(data, headers: Reports::ProvisionalAssessments::COLUMNS)
+      Stats::Result.new(output, format)
     end
 
     private

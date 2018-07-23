@@ -30,14 +30,16 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
     context 'when there is no report of that type in progress' do
       let(:report_type) { 'management_information' }
       let!(:report) { Stats::StatsReport.create(report_name: report_type, status: 'completed', report: 'some content') }
+      let(:mocked_result) { Stats::Result.new('some new content', 'csv') }
 
       it 'creates a new report marked as completed with the generated content' do
-        expect(Stats::ManagementInformationGenerator).to receive(:call).and_return('some new content')
+        expect(Stats::ManagementInformationGenerator).to receive(:call).and_return(mocked_result)
         expect {
           described_class.call(report_type)
         }.to change { Stats::StatsReport.where(report_name: report_type).completed.count }.from(1).to(2)
         new_record = Stats::StatsReport.where(report_name: report_type).completed.last
-        expect(new_record.report).to eq('some new content')
+        expect(new_record.document).to be_kind_of(Paperclip::Attachment)
+        expect(open(new_record.document.path).read).to eq('some new content')
       end
 
       context 'but an error happens during the generation of the report' do

@@ -16,7 +16,7 @@ RSpec.describe Stats::ManagementInformationGenerator do
 
     it 'returns CSV content with a header and a row for all active non-draft claims' do
       result = described_class.call
-      expect(result.split("\n").size).to eq(valid_claims.size + 1)
+      expect(result.content.split("\n").size).to eq(valid_claims.size + 1)
     end
   end
 end

@@ -95,7 +95,7 @@
     var results = getLocationByCategory(category);
     var def = $.Deferred();
 
-    formControls.getOptions(results||[]).then(function(els){
+    formControls.getOptions(results||[], selected).then(function(els){
       def.resolve(els);
     }, function(){
       def.reject(arguments);

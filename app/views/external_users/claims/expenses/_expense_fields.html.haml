@@ -45,13 +45,14 @@
         -# INPUT: Location
         .form-group.fx-travel-location{:style => "display: none;"}
 
+
           //Input to be hidden field
           %fieldset
             = label_tag :location, nil, class: 'form-label-bold'
-            = f.hidden_field :location
             = select_tag(:location, '', :include_blank => "Please select", :class => "form-control form-control-3-4 fx-establishment-select")
 
-          -# = f.adp_text_field :location, label: t('.location'), input_classes:'form-control-3-4 fx-location-id', errors: @error_presenter
+          // hidden model for :location
+          = f.hidden_field :location, class: 'fx-location-model'
       .column-half
         -# INPUT: Travel hours
         .form-group.fx-travel-hours{:style => "display: none;"}

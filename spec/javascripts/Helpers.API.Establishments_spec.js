@@ -9,7 +9,7 @@ describe('Helpers.API.Establishments.js', function() {
     expect(helper.loadData).toBeDefined();
   });
 
-  describe('...dataLoad', function() {
+  describe('...loadData', function() {
     beforeEach(function() {
       $('body').append('<div id="expenses" data-feature-distance="true">here</div>');
     });
@@ -173,10 +173,10 @@ describe('Helpers.API.Establishments.js', function() {
 
       helper.init().then(function() {
         helper.getAsOptions('prison').then(function(el) {
-          expect(el).toEqual(['<option value="">Please select</option>', '<option data-postcode="L9 7LH" value="2">HMP Two</option>']);
+          expect(el).toEqual(['<option value="">Please select</option>', '<option value="2" data-postcode="L9 7LH">HMP Two</option>']);
         });
         helper.getAsOptions('crown_court').then(function(el) {
-          expect(el).toEqual(['<option value="">Please select</option>', '<option data-postcode="L9 7LH" value="3">HMP Three</option>']);
+          expect(el).toEqual(['<option value="">Please select</option>', '<option value="3" data-postcode="L9 7LH">HMP Three</option>']);
         });
       });
       deferred.resolve(fixtureData);

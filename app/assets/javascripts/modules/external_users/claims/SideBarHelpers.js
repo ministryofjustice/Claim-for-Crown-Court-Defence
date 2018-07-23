@@ -232,6 +232,7 @@ moj.Helpers.SideBar = {
     // Bind delegated events onto this.$el
     this.bindListners = function() {
       var self = this;
+
       /**
        * Listen for the `expense type` change event and
        * pass the event object to the statemanager
@@ -259,7 +260,7 @@ moj.Helpers.SideBar = {
 
       this.$el.on('change', '.fx-establishment-select', function(e) {
         var $option = $(e.target).find('option:selected');
-        console.log('->>>>Selected value', $option.val());
+        self.$el.find('.fx-location-model').val($option.text());
       });
 
 
@@ -269,10 +270,16 @@ moj.Helpers.SideBar = {
 
     this.attachOptions = function(location_type) {
       var self = this;
+
+      var selected = this.$el.find('.fx-location-model').val();
+
       // TODO: do this after detaching from the dom..?
       if (!location_type) return new Error('Missing param: location_type');
 
-      moj.Helpers.API.Establishments.getAsOptions(location_type).then(function(els) {
+      moj.Helpers.API.Establishments.getAsOptions(location_type, {
+        prop: 'name',
+        value: selected
+      }).then(function(els) {
         self.$el.find('.fx-establishment-select option').remove();
         self.$el.find('.fx-travel-location label').text(staticdata.locationLabel[location_type] || "Destination");
         self.$el.find('.fx-establishment-select').append(els.join(''));
@@ -356,8 +363,18 @@ moj.Helpers.SideBar = {
         }
         reasons.push($option);
       });
+
       // Attach the travel reasons
       $detached.find('.fx-travel-reason select').children().remove().end().append(reasons);
+
+      // Loading the dynamic `location` data
+      // wait for the data is loaded before
+      // firing the change event
+      //
+      $.subscribe('/API/expenses/loaded/', function(){
+        $detached.find('.fx-travel-reason select').trigger('change');
+      });
+
       // Mileage radios: BIKE
       if (state.config.mileageType === 'bike') {
         // Display the correct block

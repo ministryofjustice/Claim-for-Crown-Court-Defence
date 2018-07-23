@@ -23,7 +23,6 @@ describe('Helpers.FormControls.js', function() {
     it('...should warp any `<option />` passed as params', function() {
       expect(helper.getSelect(['<option name="one">One</option>'])).toEqual('<select name="" id=""><option name="one">One</option></select>');
     });
-
   });
 
   describe('...selectOptions', function() {
@@ -42,15 +41,31 @@ describe('Helpers.FormControls.js', function() {
     });
 
     it('...should return an `Error` if no params passed', function() {
-      expect(function(){
+      expect(function() {
         helper.getOptions();
       }).toThrowError('Missing param: collection');
     });
 
     it('...should return an array of options in a promise', function() {
-      helper.getOptions([{id: 'id', postcode:'postcode', name: 'name'}]).then(function(el){
-      expect(el).toEqual([ '<option value="">Please select</option>', '<option data-postcode="postcode" value="id">name</option>' ]);
+      helper.getOptions([{
+        id: 'id',
+        postcode: 'postcode',
+        name: 'name'
+      }]).then(function(el) {
+        expect(el).toEqual(['<option value="">Please select</option>', '<option value="id" data-postcode="postcode">name</option>']);
       });
     });
+
+    it('...should set the selected option', function() {
+
+      helper.getOptions([{
+        id: 'id',
+        postcode: 'postcode',
+        name: 'name'
+      }], {value: 'name', prop: 'name'}).then(function(el) {
+        expect(el).toEqual(['<option value="">Please select</option>', '<option value="id" selected="" data-postcode="postcode">name</option>']);
+      });
+    });
+
   });
 });

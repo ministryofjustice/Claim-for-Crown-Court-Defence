@@ -9,6 +9,21 @@ moj.Helpers.SideBar = {
     this.$el = this.config.$el;
     this.el = this.config.el;
 
+    this.setState = function(selector, state) {
+      if (this.$el.find(selector).is(':visible') === state) {
+        return;
+      }
+      return this.$el.find(selector).css('display', state ? 'block' : 'none');
+    };
+
+    this.setVal = function(selector, val) {
+      if (this.$el.find(selector).length) {
+        this.$el.find(selector).val(val);
+        return;
+      }
+      return new Error('selector did not return an element', selector);
+    };
+
     this.getConfig = function(key) {
       return this.config[key] || undefined;
     };

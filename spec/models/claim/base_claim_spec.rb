@@ -704,6 +704,18 @@ describe '#fee_scheme' do
   }
 end
 
+describe '#agfs_reform?' do
+  let(:claim) { MockBaseClaim.new }
+  let(:mock_fee_scheme) { double(:fee_scheme) }
+
+  specify {
+    expect(FeeScheme).to receive(:for_claim).with(claim).and_return(mock_fee_scheme)
+    expect(mock_fee_scheme).to receive(:agfs_reform?)
+    claim.agfs_reform?
+  }
+end
+
+
 describe '#vat_registered?' do
   subject { claim.vat_registered? }
 

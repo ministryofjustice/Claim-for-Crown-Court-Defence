@@ -21,8 +21,8 @@ class FeeScheme < ApplicationRecord
     name.eql?('AGFS')
   end
 
-  def scheme_10?
-    version.eql?(10)
+  def agfs_reform?
+    agfs? && version >= 10
   end
 
   def self.current_agfs

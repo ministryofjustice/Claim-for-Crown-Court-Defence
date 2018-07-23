@@ -9,7 +9,7 @@ module Claims
     end
 
     def call
-      return eligible_offences if using_fee_reform?
+      return agfs_reform_offences if claim.agfs_reform?
       default_offences
     end
 
@@ -17,14 +17,7 @@ module Claims
 
     attr_reader :claim
 
-    def using_fee_reform?
-      claim.agfs? && claim.scheme_10?
-    end
-
-    def eligible_offences
-      # TODO: Missing the following steps
-      # 1. Checks fee scheme associated with claim
-      # 2. Retrieves list of offences associated with that fee scheme
+    def agfs_reform_offences
       Offence.unscoped.in_scheme_ten
              .joins(offence_band: :offence_category)
              .includes(offence_band: :offence_category)

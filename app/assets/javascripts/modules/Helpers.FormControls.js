@@ -18,19 +18,25 @@
 (function(exports, $) {
   var Module = exports.Helpers.FormControls || {};
 
-  function getOptions(collection) {
+  function getOptions(collection, selected) {
     var def = $.Deferred();
     var optionsArray = [];
     var collectioSize;
+    selected = selected || {value: 'miss-match'};
     if (!collection) {
       throw Error('Missing param: collection');
     }
 
-    optionsArray.push('<option value="">Please select</option>');
+    optionsArray.push(new Option('Please select', '').outerHTML);
     collectionSize = collection.length;
 
     collection.forEach(function(obj, idx) {
-      optionsArray.push('<option data-postcode="' + obj.postcode + '" value="' + obj.id + '">' + obj.name + '</option>');
+
+      var option = new Option(obj.name, obj.id, (obj[selected.prop] === selected.value));
+
+      option.dataset.postcode  = obj.postcode;
+      optionsArray.push(option.outerHTML);
+
       if (collectionSize - 1 === idx) {
         def.resolve(optionsArray);
       }

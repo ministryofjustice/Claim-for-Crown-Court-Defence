@@ -67,6 +67,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     And I upload 1 document
     And I check the boxes for the uploaded documents
+    And I check the evidence boxes for 'A copy of the indictment'
     And I add some additional information
 
     Then I click Submit to LAA

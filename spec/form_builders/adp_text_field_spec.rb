@@ -35,7 +35,7 @@ describe AdpTextField do
           <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
-          <input class="form-control " type="text" name="claim[case_number]" id="claim_case_number" />
+          <input class="form-control " type="text" name="claim[case_number]" id="claim_case_number" value="" />
         </div>
         eos
         squash(html)
@@ -74,7 +74,7 @@ describe AdpTextField do
           <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
-          <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" min="0" max="99999" />
+          <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" value="" min="0" max="99999" />
         </div>
         eos
         squash(html)
@@ -122,7 +122,7 @@ describe AdpTextField do
             Case number
           </label>
           <span class="currency-indicator form-input-denote">&pound;</span>
-          <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" min="0" max="99999" />
+          <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" value="" min="0" max="99999" />
         </div>
         eos
         squash(html)
@@ -197,7 +197,7 @@ describe AdpTextField do
             <span class="form-hint">Hint text here</span>
             <span class="error error-message">Validation error here</span>
           </label>
-          <input class="form-control " type="text" name="claim[case_number]" id="claim_case_number" />
+          <input class="form-control " type="text" name="claim[case_number]" id="claim_case_number" value="" />
         </div>
         eos
         squash(html)

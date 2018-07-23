@@ -291,11 +291,13 @@ moj.Helpers.SideBar = {
       ].forEach(function(value, idx) {
         $detached.find(self.stateLookup[value]).css('display', (state.config[value] ? 'block' : 'none'));
       });
+
       // net amount & lable
-      $detached.find(this.stateLookup['netAmount']).css('display', (state.config['date'] ? 'block' : 'none'));
+      $detached.find(this.stateLookup['netAmount']).css('display', (state.config['netAmount'] ? 'block' : 'none'));
       $detached.find(this.stateLookup['netAmount'] + ' label').text(state.config['netAmountLabel']);
-      // location & lable
-      $detached.find(this.stateLookup['location']).css('display', (state.config['date'] ? 'block' : 'none'));
+
+      // location & label
+      $detached.find(this.stateLookup['location']).css('display', (state.config['location'] ? 'block' : 'none'));
       $detached.find(this.stateLookup['location'] + ' label').text(state.config['locationLabel']);
 
       // Overides for LGFS reason set C;

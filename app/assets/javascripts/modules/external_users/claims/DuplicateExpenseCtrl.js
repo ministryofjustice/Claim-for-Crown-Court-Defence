@@ -11,7 +11,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     var self = this;
 
     this.$el.on('click', '.fx-duplicate-expense', function() {
-      self.step1()
+      self.step1();
       // return false to stop the href;
       return false;
     });
@@ -30,7 +30,7 @@ moj.Modules.DuplicateExpenseCtrl = {
   step1: function() {
     this.mapFormData().then(function(data) {
       $.publish('/step1/complete/', data);
-    })
+    });
     return this;
   },
   /**
@@ -58,7 +58,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     this.setInputValue($el, '.fx-travel-destination input', data.destination);
     this.setInputValue($el, '.fx-travel-net-amount input', data.amount);
     this.setInputValue($el, '.fx-travel-vat-amount input', data.vat_amount);
-    this.setRadioValue($el, '.fx-travel-mileage input', data.mileage_rate_id)
+    this.setRadioValue($el, '.fx-travel-mileage input', data.mileage_rate_id);
     this.setSelectValue($el, '.fx-travel-expense-type select', data.expense_type_id);
     this.setSelectValue($el, '.fx-travel-reason select', data.reason_id);
     this.setSelectValue($el, '.fx-travel-reason-other input', data.reason_text);

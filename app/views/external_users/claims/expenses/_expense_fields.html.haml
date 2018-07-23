@@ -97,7 +97,7 @@
                             input_classes:'form-input-denote__input rate',
                             input_type: 'currency',
                             errors: @error_presenter,
-                            value: number_with_precision(f.object.amount, precision: 2)
+                            value: number_with_precision(f.object.amount || 0, precision: 2)
 
       .column-half
         -# INPUT: VAT amount

@@ -52,6 +52,6 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def requires_interim_claim_info?
-    claim.scheme_10?
+    claim.agfs_reform?
   end
 end

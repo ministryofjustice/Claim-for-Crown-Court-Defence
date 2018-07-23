@@ -10,7 +10,7 @@ module Claims
 
     def call
       return unless claim&.agfs?
-      return agfs_reform_categories if agfs_reform? || Offence.in_scheme_ten.include?(claim.offence)
+      return agfs_reform_categories if agfs_reform?
       default_categories
     end
 
@@ -27,7 +27,7 @@ module Claims
     end
 
     def agfs_reform?
-      claim.fee_scheme&.agfs? && claim.fee_scheme.version >= 10
+      claim.agfs_reform? || Offence.in_scheme_ten.include?(claim.offence)
     end
   end
 end

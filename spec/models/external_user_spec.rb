@@ -281,7 +281,7 @@ RSpec.describe ExternalUser, type: :model do
     context 'for users with an admin role' do
       let(:user) { build(:external_user, :admin) }
 
-      it 'returns the list of available advocate claim types including the feature flagged ones' do
+      it 'returns the list of available advocate claim types' do
         expect(user.available_claim_types)
           .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
       end
@@ -290,7 +290,7 @@ RSpec.describe ExternalUser, type: :model do
     context 'for users with both an advocate and litigator role' do
       let(:user) { build(:external_user, :advocate_litigator) }
 
-      it 'returns the list of claim types available for advocate and litigators including the feature flagged ones' do
+      it 'returns the list of claim types available for advocate and litigators' do
         expect(user.available_claim_types)
           .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
       end

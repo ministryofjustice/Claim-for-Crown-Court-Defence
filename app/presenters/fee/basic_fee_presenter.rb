@@ -11,7 +11,7 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
   end
 
   def should_be_displayed?
-    return true unless claim.scheme_10?
+    return true unless claim.agfs_reform?
     return true unless FEE_CODES_RESTRICTED_DISPLAY.include?(code)
     OFFENCE_CATEGORIES_WITHOUT_RESTRICTED_DISPLAY.include?(offence_category_number)
   end
@@ -20,13 +20,13 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
     # TODO: this is not really ideal, but right now I
     # can't see any other way to achieve this specific
     # requirement :/
-    return true unless claim.scheme_10?
+    return true unless claim.agfs_reform?
     return false if FEE_CODES_WITHOUT_AMOUNT.include?(code)
     true
   end
 
   def display_help_text?
-    return false unless claim.scheme_10?
+    return false unless claim.agfs_reform?
     OFFENCE_CATEGORIES_WITHOUT_RESTRICTED_DISPLAY.include?(offence_category_number)
   end
 
@@ -54,7 +54,7 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
   end
 
   def prompt_text_key_for(code)
-    return default_prompt_text_for(code) unless claim.scheme_10?
+    return default_prompt_text_for(code) unless claim.agfs_reform?
     fee_reform_prompt_text_for(code)
   end
 

@@ -161,7 +161,7 @@ RSpec.describe Provider, type: :model do
     context 'for an AGFS provider' do
       let(:provider) { build :provider, :agfs }
 
-      it 'returns the list of available claim types including the feature flagged ones' do
+      it 'returns the list of available claim types' do
         expect(provider.available_claim_types)
           .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim])
       end
@@ -179,7 +179,7 @@ RSpec.describe Provider, type: :model do
     context 'for a AGFS and LGFS provider' do
       let(:provider) { build(:provider, :agfs_lgfs) }
 
-      it 'returns the list of available claim types including the feature flagged ones' do
+      it 'returns the list of available claim types' do
         expect(provider.available_claim_types)
           .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
       end

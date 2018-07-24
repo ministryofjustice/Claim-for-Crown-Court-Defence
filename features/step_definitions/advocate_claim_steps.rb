@@ -40,7 +40,8 @@ end
 
 Then(/^I select the first search result$/) do
   sleep Capybara.default_max_wait_time
-  @claim_form_page.offence_results.first.select_button(visible: false).click
+  find(:xpath, '//*[@id="offence-list"]/div[3]/div').hover
+  find(:xpath, '//*[@id="offence-list"]/div[3]/div/div[2]/a').click
 end
 
 When(/^I add a basic fee with dates attended$/) do

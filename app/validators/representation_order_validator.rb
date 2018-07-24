@@ -44,8 +44,8 @@ class RepresentationOrderValidator < BaseValidator
 
   def validate_against_cracked_trial_dates
     return unless claim&.requires_cracked_dates?
-    validate_on_or_before(claim.trial_fixed_notice_at,
-                          :representation_order_date, 'not_on_or_before_trial_fixed_notice_date')
+    validate_on_or_before(claim.trial_cracked_at,
+                          :representation_order_date, 'not_on_or_before_trial_cracked_date')
   end
 
   def validate_against_case_concluded_date

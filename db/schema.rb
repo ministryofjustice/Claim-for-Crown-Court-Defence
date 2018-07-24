@@ -254,6 +254,15 @@ ActiveRecord::Schema.define(version: 20180718102824) do
     t.index ["external_user_id"], name: "index_documents_on_external_user_id", using: :btree
   end
 
+  create_table "establishments", force: :cascade do |t|
+    t.string   "name"
+    t.string   "category"
+    t.string   "postcode"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_establishments_on_category", using: :btree
+  end
+
   create_table "expense_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"

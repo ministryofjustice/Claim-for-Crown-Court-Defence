@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'api_spec_helper'
 require 'support/claim_api_endpoints'
 
-RSpec.describe 'API claim creation for AGFS Scheme 10 trial' do
+RSpec.describe 'API claim creation for AGFS' do
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -97,11 +97,11 @@ RSpec.describe 'API claim creation for AGFS Scheme 10 trial' do
 
   context 'scheme 9' do
     let(:case_type) { create(:case_type, :trial) }
-    let(:offence) { create(:offence, :with_fee_scheme) }
+    let(:offence) { create(:offence, :with_fee_scheme_nine) }
     let(:representation_order_date) { Date.new(2018, 03, 31).as_json }
     let(:advocate_category) { 'Junior alone' }
 
-    specify "Case management system creates a valid scheme 9 final graduated fee claim" do
+    specify "Case management system creates a valid scheme 9 graduated fee claim" do
       post ClaimApiEndpoints.for(:advocate).create, claim_params, format: :json
       expect(last_response.status).to eql 201
 

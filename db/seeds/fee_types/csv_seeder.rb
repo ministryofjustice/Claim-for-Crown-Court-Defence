@@ -18,7 +18,7 @@ module Seeds
           process_row(row)
         end
 
-        log "[OUTPUT] Created: #{total_created} | Updated: #{total_updated} | Error: #{total_with_error} | Total: #{total}", stdout: true
+        # log "[OUTPUT] Created: #{total_created} | Updated: #{total_updated} | Error: #{total_with_error} | Total: #{total}", stdout: true
       end
 
       protected

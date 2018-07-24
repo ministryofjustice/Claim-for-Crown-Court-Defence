@@ -31,15 +31,14 @@ module API
         def validate_resource(model_klass, api_response, arg_builder_proc)
           #
           # basic fees (which are instantiated at claim creation)
-          # must be updated if they already exist, otherwise created.
+          # must be updated if they already exist.
           # all other model class instances must be created.
           #
           args = arg_builder_proc.call
           model_klass = get_fee_subclass(args) if model_klass == ::Fee::BaseFee
 
           if basic_fee_update_required(model_klass, args)
-            model_instance = ::Claim::BaseClaim.find(args[:claim_id])
-                                               .basic_fees.detect { |bf| bf.fee_type_id == args[:fee_type_id] }
+            model_instance = find_basic_fee(args[:claim_id], args[:fee_type_id])
             model_instance.assign_attributes(args)
           else
             model_instance = model_klass.new(args)
@@ -61,6 +60,14 @@ module API
         end
 
         private
+
+        def find_basic_fee(claim_id, fee_type_id)
+          basic_fee = ::Claim::BaseClaim.find(claim_id)
+                                        .basic_fees
+                                        .detect { |bf| bf.fee_type_id == fee_type_id }
+          raise "basic fee of type with id #{fee_type_id} not found on claim" if basic_fee.nil?
+          basic_fee
+        end
 
         def get_fee_subclass(args)
           id_or_code = args.delete(:fee_type_id) || args.delete(:fee_type_unique_code)

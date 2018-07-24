@@ -14,8 +14,17 @@ FactoryBot.define do
     advocate_category 'QC'
     source { 'api' }
 
+    trait :with_scheme_nine_offence do
+      offence { association(:offence, :with_fee_scheme_nine) }
+    end
+
     trait :with_scheme_ten_offence do
-      offence { create :offence, :with_fee_scheme_ten }
+      offence { association(:offence, :with_fee_scheme_ten) }
+    end
+
+    trait :with_no_offence do
+      case_type { association(:case_type, :fixed_fee) }
+      offence nil
     end
 
     after(:build) { |claim| set_creator(claim) }

@@ -70,8 +70,12 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   end
 
   context 'advocate_category' do
-    shared_examples_for 'advocate category validations' do
+    default_valid_categories = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
+    fee_reform_valid_categories = ['QC', 'Leading junior', 'Junior']
+    fee_reform_invalid_categories = default_valid_categories - fee_reform_valid_categories
+    all_valid_categories = (default_valid_categories + fee_reform_valid_categories).uniq
 
+    shared_examples_for 'advocate category validations' do
       it 'should error if not present' do
         claim.advocate_category = nil
         should_error_with(claim, :advocate_category, 'blank')
@@ -82,33 +86,67 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
         should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
       end
 
-      default_valid_categories = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
-
-      context 'when on fee reform scheme' do
-        let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
-
-        fee_reform_valid_categories = ['QC', 'Leading junior', 'Junior']
-        fee_reform_invalid_categories = ['Led junior', 'Junior alone']
-
-        fee_reform_valid_categories.each do |valid_entry|
-          it "should not error if '#{valid_entry}' specified" do
-            claim.advocate_category = valid_entry
-            should_not_error(claim, :advocate_category)
-          end
-        end
-
-        fee_reform_invalid_categories.each do |valid_entry|
-          it "should not error if '#{valid_entry}' specified" do
-            claim.advocate_category = valid_entry
-            should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
-          end
-        end
-      end
-
       default_valid_categories.each do |valid_entry|
         it "should not error if '#{valid_entry}' specified" do
           claim.advocate_category = valid_entry
           should_not_error(claim, :advocate_category)
+        end
+      end
+
+      context 'when on fee reform scheme' do
+        let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
+
+        fee_reform_valid_categories.each do |category|
+          it "should not error if '#{category}' specified" do
+            claim.advocate_category = category
+            should_not_error(claim, :advocate_category)
+          end
+        end
+
+        fee_reform_invalid_categories.each do |category|
+          it "should error if '#{category}' specified" do
+            claim.advocate_category = category
+            should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
+          end
+        end
+      end
+    end
+
+    # API behaviour is different because fixed fees
+    # do not require an offence so cannot rely on
+    # either offence or rep order date to determine valid
+    # advocate categories
+    context 'when claim from API' do
+      context 'with scheme 9 offence' do
+        let(:claim) { create(:api_advocate_claim, :with_scheme_nine_offence) }
+
+        default_valid_categories.each do |category|
+          it "should not error if '#{category}' specified" do
+            claim.advocate_category = category
+            should_not_error(claim, :advocate_category)
+          end
+        end
+      end
+
+      context 'with scheme 10 offence' do
+        let(:claim) { create(:api_advocate_claim, :with_scheme_ten_offence) }
+
+        fee_reform_valid_categories.each do |category|
+          it "should not error if '#{category}' specified" do
+            claim.advocate_category = category
+            should_not_error(claim, :advocate_category)
+          end
+        end
+      end
+
+      context 'with no offence (fixed fee case type)' do
+        let(:claim) { create(:api_advocate_claim, :with_no_offence) }
+
+        all_valid_categories.each do |category|
+          it "should not error if '#{category}' specified" do
+            claim.advocate_category = category
+            should_not_error(claim, :advocate_category)
+          end
         end
       end
     end

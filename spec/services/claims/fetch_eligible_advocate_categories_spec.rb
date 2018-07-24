@@ -7,6 +7,7 @@ RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
 
   let(:scheme_9_advocate_categories) { ['QC', 'Led junior', 'Leading junior', 'Junior alone']}
   let(:scheme_10_advocate_categories) { ['QC', 'Leading junior', 'Junior']}
+  let(:all_advocate_categories) { (scheme_9_advocate_categories + scheme_10_advocate_categories).uniq }
 
   describe '.for' do
     subject { described_class.for(claim) }
@@ -68,9 +69,15 @@ RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
         end
 
         context 'with a scheme 9 offence' do
-          let(:claim) { create :api_advocate_claim }
+          let(:claim) { create :api_advocate_claim, :with_scheme_nine_offence }
 
           it { is_expected.to match_array(scheme_9_advocate_categories) }
+        end
+
+        context 'with no offence (fixed fee case type)' do
+          let(:claim) { create :api_advocate_claim, :with_no_offence }
+
+          it { is_expected.to match_array(all_advocate_categories) }
         end
       end
     end

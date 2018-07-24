@@ -1,3 +1,4 @@
+/*global GOVUK*/
 //= require jquery
 //= require jquery_ujs
 //= require jquery.remotipart
@@ -74,8 +75,8 @@ if (!String.prototype.supplant) {
 
   // Where .multiple-choice uses the data-target attribute
   // to toggle hidden content
-  var showHideContent = new GOVUK.ShowHideContent()
-  showHideContent.init()
+  var showHideContent = new GOVUK.ShowHideContent();
+  showHideContent.init();
 
 
   // Sticky sidebar
@@ -93,7 +94,7 @@ if (!String.prototype.supplant) {
 
     moj.Modules.Autocomplete.typeaheadKickoff(insertedSelect);
     moj.Modules.Autocomplete.typeaheadBindEvents(typeaheadWrapper);
-    moj.Modules.FeeFieldsDisplay.addFeeChangeEvent(insertedItem)
+    moj.Modules.FeeFieldsDisplay.addFeeChangeEvent(insertedItem);
   });
 
   // Basic fees page
@@ -114,6 +115,7 @@ if (!String.prototype.supplant) {
     $fields_wrapper.find('.gov_uk_date input[type=number]').prop('disabled', !checked);
     $fields_wrapper.trigger('recalculate')
   });
+
 
   // Manually hit the `add rep order` button after a
   // cocoon insert.

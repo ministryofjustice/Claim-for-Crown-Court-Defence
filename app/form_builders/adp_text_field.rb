@@ -178,7 +178,7 @@ class AdpTextField
     result += %(<span class="currency-indicator form-input-denote">&pound;</span>) if @input_is_currency
     input_part1 = "class=\"form-control #{@input_classes}\" type=\"#{@input_type_string}\""
     result += %(<input #{input_part1} name="#{@form_field_name}" id="#{@form_field_id}" )
-    result += %(value="#{strip_tags(@value)}" ) unless @form.object.__send__(@method).nil?
+    result += %(value="#{strip_tags(@value)}" ) unless @value.nil?
     if @input_is_number
       result += %(min="#{@input_min}" )
       result += %(max="#{@input_max}" )

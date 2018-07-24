@@ -11,7 +11,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ location: true, location_label: 'Destination', distance: true, mileage: true, mileage_type: :car, hours: false, reason_set: 'A' })
+          eq({ location: true, location_label: 'Destination', date: true, distance: true, mileage: true, mileage_type: :car, hours: false, net_amount: true, net_amount_label: 'Net amount', reason: true, reason_set: 'A', vat_amount: true })
       end
     end
 
@@ -20,7 +20,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ location: true, location_label: 'Destination', distance: true, mileage: true, mileage_type: :bike, hours: false, reason_set: 'A' })
+          eq({ location: true, location_label: 'Destination', date: true,  distance: true, mileage: true, mileage_type: :bike, hours: false, net_amount: true, net_amount_label: 'Net amount', reason: true, reason_set: 'A', vat_amount: true })
       end
     end
 
@@ -29,7 +29,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ location: true, location_label: 'Destination', distance: false, mileage: false, mileage_type: nil, hours: false, reason_set: 'A' })
+          eq({ location: true, location_label: 'Destination', date: true, distance: false, mileage: false, mileage_type: nil, hours: false, net_amount: true, net_amount_label: 'Net amount', reason: true, reason_set: 'A', vat_amount: true })
       end
     end
 
@@ -38,7 +38,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ location: false, location_label: '', distance: false, mileage: false, mileage_type: nil, hours: false, reason_set: 'A' })
+          eq({ location: false, location_label: '', date: true, distance: false, mileage: false, mileage_type: nil, hours: false, net_amount: true, reason: true, net_amount_label: 'Net amount', reason_set: 'A', vat_amount: true })
       end
     end
 
@@ -47,7 +47,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ location: true, location_label: 'Location', distance: false, mileage: false, mileage_type: nil, hours: false, reason_set: 'A' })
+          eq({ location: true, location_label: 'Location', date: true, distance: false, mileage: false, mileage_type: nil, hours: false, net_amount: true, net_amount_label: 'Net amount', reason: true, reason_set: 'A', vat_amount: true })
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ location: true, location_label: 'Destination', distance: false, mileage: false, mileage_type: nil, hours: true, reason_set: 'B' })
+          eq({ location: true, location_label: 'Destination', date: true, distance: false, mileage: false, mileage_type: nil, hours: true, net_amount: true, net_amount_label: 'Net amount', reason: true, reason_set: 'B', vat_amount: true })
       end
     end
 
@@ -65,7 +65,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ location: true, location_label: 'Destination', distance: false, mileage: false, mileage_type: nil, hours: false, reason_set: 'A' })
+          eq({ location: true, location_label: 'Destination', date: true, distance: false, mileage: false, mileage_type: nil, hours: false, net_amount: true, net_amount_label: 'Net amount', reason: true, reason_set: 'A', vat_amount: true })
       end
     end
 
@@ -74,7 +74,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ location: true, location_label: 'Destination', distance: false, mileage: false, mileage_type: nil, hours: false, reason_set: 'A' })
+          eq({ location: true, location_label: 'Destination', date: true, distance: false, mileage: false, mileage_type: nil, hours: false, net_amount: true, net_amount_label: 'Net amount', reason: true, reason_set: 'A', vat_amount: true })
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ location: true, location_label: 'Location', distance: false, mileage: false, mileage_type: nil, hours: false, reason_set: 'A' })
+          eq({ location: true, location_label: 'Location', date: true, distance: false, mileage: false, mileage_type: nil, hours: false, net_amount: true, net_amount_label: 'Net amount', reason: true, reason_set: 'A', vat_amount: true })
       end
     end
   end

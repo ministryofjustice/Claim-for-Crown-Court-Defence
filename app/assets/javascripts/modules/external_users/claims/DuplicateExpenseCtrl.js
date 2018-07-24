@@ -11,7 +11,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     var self = this;
 
     this.$el.on('click', '.fx-duplicate-expense', function() {
-      self.step1()
+      self.step1();
       // return false to stop the href;
       return false;
     });
@@ -30,7 +30,7 @@ moj.Modules.DuplicateExpenseCtrl = {
   step1: function() {
     this.mapFormData().then(function(data) {
       $.publish('/step1/complete/', data);
-    })
+    });
     return this;
   },
   /**
@@ -52,15 +52,16 @@ moj.Modules.DuplicateExpenseCtrl = {
   populateNewItem: function(data) {
     var $el = $('.expense-group:last');
 
-    this.setSelectValue($el, 'select.js-expense-type', data.expense_type_id);
-    this.setSelectValue($el, '.js-expense-reason select', data.reason_id);
-    this.setSelectValue($el, '.js-expense-reason input', data.reason_text);
-    this.setInputValue($el, '.js-expense-location input', data.location);
-    this.setInputValue($el, '.js-expense-distance input', data.distance);
-    this.setInputValue($el, '.js-expense-amount input', data.amount);
-    this.setRadioValue($el, '.js-expense-type-car input', data.mileage_rate_id)
-    this.setInputValue($el, '.js-expense-vat-amount input', data.vat_amount);
-    this.setInputValue($el, '.js-expense-hours input', data.hours);
+    this.setInputValue($el, '.fx-travel-distance input', data.distance);
+    this.setInputValue($el, '.fx-travel-hours', data.hours);
+    this.setInputValue($el, '.fx-travel-location input', data.location);
+    this.setInputValue($el, '.fx-travel-destination input', data.destination);
+    this.setInputValue($el, '.fx-travel-net-amount input', data.amount);
+    this.setInputValue($el, '.fx-travel-vat-amount input', data.vat_amount);
+    this.setRadioValue($el, '.fx-travel-mileage input', data.mileage_rate_id);
+    this.setSelectValue($el, '.fx-travel-expense-type select', data.expense_type_id);
+    this.setSelectValue($el, '.fx-travel-reason select', data.reason_id);
+    this.setSelectValue($el, '.fx-travel-reason-other input', data.reason_text);
 
     // trigger the side bar to recalculate all totals
     $('#claim-form').trigger('recalculate');
@@ -96,7 +97,11 @@ moj.Modules.DuplicateExpenseCtrl = {
    * @return {String}     the model name
    */
   getKeyName: function(obj) {
-    var str = obj.name.split('][').slice(2)[0]
+    var str;
+    if (obj.name.indexOf('][') === -1) {
+      return obj.name;
+    }
+    str = obj.name.split('][').slice(2)[0]
     return str.substring(0, str.length - 1);
   },
 
@@ -107,7 +112,6 @@ moj.Modules.DuplicateExpenseCtrl = {
    */
   mapFormData: function() {
     var deferred = $.Deferred()
-
     var self = this;
     var data = {};
     $.map(this.getDataInput(), function(obj, idx) {
@@ -120,8 +124,6 @@ moj.Modules.DuplicateExpenseCtrl = {
     return deferred.promise();
   }
 };
-
-
 
 (function($) {
   $.fn.serializeFormJSON = function() {

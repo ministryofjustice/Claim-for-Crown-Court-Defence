@@ -71,4 +71,9 @@ module ExternalUsers::ClaimsHelper
       'summary' => summary_external_users_claim_path(claim)
     }[referrer.to_s]
   end
+
+  def reasonset_for_expense_type(expense_type)
+    return ExpenseType::REASON_SET_A unless expense_type.present?
+    expense_type.expense_reasons_hash
+  end
 end

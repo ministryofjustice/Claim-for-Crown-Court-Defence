@@ -10,6 +10,7 @@ module Claims
 
     def call
       return unless claim&.agfs?
+      return all_categories unless claim.fee_scheme
       return agfs_reform_categories if agfs_reform?
       default_categories
     end
@@ -26,6 +27,12 @@ module Claims
       Settings.agfs_reform_advocate_categories
     end
 
+    def all_categories
+      (default_categories + agfs_reform_categories).uniq
+    end
+
+    # TODO: remove the Offence check from here as this should already
+    # be handled by FeeScheme.for_claim called by agfs_reform?
     def agfs_reform?
       claim.agfs_reform? || Offence.in_scheme_ten.include?(claim.offence)
     end

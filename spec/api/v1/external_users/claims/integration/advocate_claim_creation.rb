@@ -162,7 +162,7 @@ RSpec.describe 'API claim creation for AGFS' do
       let(:advocate_category) { 'Junior alone' }
 
       specify "Case management system creates a valid scheme 9 fixed fee claim" do
-        post ClaimApiEndpoints.for(:advocate).create, claim_params, format: :json
+        post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length,:trial_concluded_at), format: :json
         expect(last_response.status).to eql 201
 
         claim = Claim::BaseClaim.find_by(uuid: JSON.parse(last_response.body)['id'])
@@ -273,6 +273,62 @@ RSpec.describe 'API claim creation for AGFS' do
     end
 
     specify 'Case management system creates a valid scheme 10 fixed fee claim', skip: 'TODO: ' do
+    end
+
+    context 'fixed fee case type' do
+      let(:case_type) { CaseType.find_by(fee_type_code: 'FXACV') } # Appeal against conviction
+      let(:representation_order_date) { Date.new(2018, 04, 01).as_json }
+      let(:advocate_category) { 'Junior' }
+
+      specify "Case management system creates a valid scheme 10 fixed fee claim" do
+        post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length,:trial_concluded_at), format: :json
+        expect(last_response.status).to eql 201
+
+        claim = Claim::BaseClaim.find_by(uuid: JSON.parse(last_response.body)['id'])
+
+        post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
+        expect(last_response.status).to eql 201
+
+        defendant = Defendant.find_by(uuid: JSON.parse(last_response.body)['id'] )
+
+        post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: Fee::BaseFeeType.find_by(unique_code: 'FXACV').id), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: Fee::BaseFeeType.find_by(unique_code: 'FXACU').id), format: :json
+        expect(last_response.status).to eql 201
+
+        fee = Fee::BaseFee.find_by(uuid: JSON.parse(last_response.body)['id'] )
+
+        post endpoint(:dates_attended), date_attended_params.merge(attended_item_id: fee.uuid, date: representation_order_date), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: Fee::BaseFeeType.find_by(unique_code: 'MIAPH').id), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: Fee::BaseFeeType.find_by(unique_code: 'MIAHU').id), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: ExpenseType.find_by(unique_code: 'CAR').id, distance: 500.38, mileage_rate_id: 1), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: ExpenseType.find_by(unique_code: 'HOTEL').id), format: :json
+        expect(last_response.status).to eql 201
+
+        expect(claim).to be_valid
+        expect(claim.fee_scheme.name).to eql 'AGFS'
+        expect(claim.fee_scheme.version).to eql 10
+        expect(claim.offence).to be_nil
+        expect(claim.defendants.size).to eql 1
+        expect(claim.defendants.first.representation_orders.size).to eql 1
+        expect(claim.fixed_fees.size).to eql 2
+        expect(claim.fixed_fees.find_by(fee_type_id: Fee::BaseFeeType.find_by(unique_code: 'FXACU').id).dates_attended.size).to eql 1
+        expect(claim.expenses.size).to eql 2
+        expect(claim.source).to eql 'api'
+        expect(claim.state).to eql 'draft'
+      end
     end
 
     specify 'Case management system creates a valid scheme 10 interim/warrant fee claim', skip: 'TODO: ' do

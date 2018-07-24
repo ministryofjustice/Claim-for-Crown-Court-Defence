@@ -11,7 +11,6 @@ RSpec.describe FeeScheme, type: :model do
 
   it { is_expected.to respond_to(:agfs?) }
   it { is_expected.to respond_to(:agfs_reform?) }
-  # it { is_expected.to respond_to(:scheme_10?) }
 
   describe '.for_claim' do
     subject(:fee_scheme) { described_class.for_claim(claim) }
@@ -31,29 +30,6 @@ RSpec.describe FeeScheme, type: :model do
         it { is_expected.to be_falsey }
       end
     end
-
-    # TODO: remove if unsused
-    # describe '#scheme_10?' do
-    #   subject(:scheme_10?) { fee_scheme.scheme_10? }
-
-    #   context 'for an agfs scheme 10 claim' do
-    #     let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
-
-    #     it { is_expected.to be_truthy }
-    #   end
-
-    #   context 'for an agfs scheme 9 claim' do
-    #     let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
-
-    #     it { is_expected.to be_falsey }
-    #   end
-
-    #   context 'for an lgfs claim' do
-    #     let(:claim) { create(:litigator_claim) }
-
-    #     it { is_expected.to be_falsey }
-    #   end
-    # end
 
     describe '#agfs_reform?' do
       subject(:agfs_reform?) { fee_scheme.agfs_reform? }

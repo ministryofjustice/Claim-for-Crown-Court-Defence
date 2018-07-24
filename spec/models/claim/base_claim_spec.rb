@@ -696,7 +696,7 @@ end
 
 describe '#fee_scheme' do
   let(:claim) { MockBaseClaim.new }
-  let(:mock_fee_scheme) { double(:fee_scheme) }
+  let(:mock_fee_scheme) { instance_double(FeeScheme) }
 
   specify {
     expect(FeeScheme).to receive(:for_claim).with(claim).and_return(mock_fee_scheme)
@@ -706,15 +706,9 @@ end
 
 describe '#agfs_reform?' do
   let(:claim) { MockBaseClaim.new }
-  let(:mock_fee_scheme) { double(:fee_scheme) }
 
-  specify {
-    expect(FeeScheme).to receive(:for_claim).with(claim).and_return(mock_fee_scheme)
-    expect(mock_fee_scheme).to receive(:agfs_reform?)
-    claim.agfs_reform?
-  }
+  specify { expect(claim).to delegate_method(:agfs_reform?).to(:fee_scheme) }
 end
-
 
 describe '#vat_registered?' do
   subject { claim.vat_registered? }

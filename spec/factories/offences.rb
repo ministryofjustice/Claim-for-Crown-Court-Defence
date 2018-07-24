@@ -22,8 +22,12 @@ FactoryBot.define do
 
     trait :with_fee_scheme do
       after(:build) do |offence|
-        offence.fee_schemes << (FeeScheme.agfs.first || build(:fee_scheme, :agfs_nine))
+        offence.fee_schemes << (FeeScheme.find_by(name: 'AGFS', version: 9) || build(:fee_scheme, :agfs_nine))
       end
+    end
+
+    trait :with_fee_scheme_nine do
+      with_fee_scheme
     end
 
     trait :with_fee_scheme_ten do

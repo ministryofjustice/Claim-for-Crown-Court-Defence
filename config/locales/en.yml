@@ -21,6 +21,10 @@
 
 en:
   date: Date
+  distance:
+    unit:
+      one: 'mile'
+      other: 'miles'
   net_amount: &net_amount Net amount
   views:
     pagination:
@@ -1225,6 +1229,7 @@ en:
       expenses:
         caption: &expenses_caption 'Expenses: A detailed list by Type including amount, distance and location where applicable'
         index:
+          calculated_distance: Calculated distance
           caption: *expenses_caption
           date: Date of expense
           details: Details
@@ -1238,6 +1243,7 @@ en:
           totals_without_vat: Expenses without VAT total
           vat: VAT amount
         show:
+          calculated_distance: Calculated distance
           cost: Cost
           destination: Destination
           distance: Distance

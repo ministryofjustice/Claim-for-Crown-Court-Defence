@@ -28,4 +28,6 @@ class BasePresenter < SimpleDelegator
 
   attr_reader :view
   alias h view
+
+  delegate :t, to: :view
 end

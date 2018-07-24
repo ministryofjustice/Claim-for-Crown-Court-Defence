@@ -6,7 +6,7 @@ class ManagementInformationGenerationTask < Scheduler::SchedulerTask
 
   def run
     log('Management Information Generation started')
-    Stats::ManagementInformationGenerator.new.run
+    Stats::StatsReportGenerator.call('management_information')
   rescue StandardError => err
     log('There was an error: ' + err.message)
   ensure

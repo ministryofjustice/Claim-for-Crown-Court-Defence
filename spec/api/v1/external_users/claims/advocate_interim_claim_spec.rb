@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'api_spec_helper'
 require 'support/claim_api_endpoints'
-require_relative '../../shared_examples_for_all'
+require_relative '../shared_examples_for_all'
 
 describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
   include Rack::Test::Methods

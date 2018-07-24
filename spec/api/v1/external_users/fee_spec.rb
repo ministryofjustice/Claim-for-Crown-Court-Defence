@@ -32,9 +32,8 @@ RSpec.describe API::V1::ExternalUsers::Fee do
   let!(:interim_fee_type)   { create(:interim_fee_type) }
   let!(:graduated_fee_type) { create(:graduated_fee_type) }
   let!(:transfer_fee_type)  { create(:transfer_fee_type) }
-  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
-  let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
-  let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
+
+  before { seed_fee_schemes }
 
   let!(:claim)            { create(:claim, source: 'api').reload }
   let(:valid_params)      { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }

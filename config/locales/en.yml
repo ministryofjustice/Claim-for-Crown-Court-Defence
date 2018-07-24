@@ -1542,7 +1542,7 @@ en:
     v1:
       common_params:
         creator_email: 'REQUIRED: The ADP administrator account email address that uniquely identifies the creator of the claim.'
-        user_email: 'REQUIRED: The ADP account email address that uniquely identifies the litigator to whom this claim belongs.'
+        user_email: 'REQUIRED: The ADP account email address that uniquely identifies the advocate/litigator to whom this claim belongs.'
       dropdown_data:
         params:
           role_filter: 'OPTIONAL: The role to filter the results. If not provided, all results are returned.'

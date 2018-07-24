@@ -44,7 +44,6 @@ moj.Modules.NewClaim = {
     });
   },
 
-  // in use
   attachToOffenceClassSelect: function() {
     $('#offence_class_description').on('change', function() {
       $('#claim_offence_id').val($(this).val());

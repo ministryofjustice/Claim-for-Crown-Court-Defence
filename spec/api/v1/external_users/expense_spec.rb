@@ -2,11 +2,9 @@ require 'rails_helper'
 require 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
-describe API::V1::ExternalUsers::Expense do
-
+RSpec.describe API::V1::ExternalUsers::Expense do
   include Rack::Test::Methods
   include ApiSpecHelper
-
 
   CREATE_EXPENSE_ENDPOINT = "/api/external_users/expenses"
   VALIDATE_EXPENSE_ENDPOINT = "/api/external_users/expenses/validate"
@@ -17,10 +15,6 @@ describe API::V1::ExternalUsers::Expense do
   let(:parsed_body) { JSON.parse(last_response.body) }
 
   describe "v2" do
-    before(:each) do
-      allow(Settings).to receive(:expense_schema_version).and_return(2)
-    end
-
     let!(:provider)       { create(:provider) }
     let!(:claim)          { create(:claim, source: 'api').reload }
     let!(:expense_type)   { create(:expense_type, :car_travel) }

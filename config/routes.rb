@@ -58,6 +58,7 @@ Rails.application.routes.draw do
     get 'download_attachment', on: :member
   end
 
+  resources :establishments, only: %i[index], format: :js
   resources :offences, only: [:index], format: :js
   resources :case_types, only: [:show], format: :js
   resources :case_conclusions, only: [:index], format: :js
@@ -123,6 +124,10 @@ Rails.application.routes.draw do
       post 'types',                 to: 'claim_types#chosen',     on: :collection
 
       resource :certification, only: [:new, :create, :update]
+
+      namespace :expenses do
+        post 'calculate_distance', to: 'distances#create', as: :calculate_distance
+      end
     end
 
     namespace :admin do

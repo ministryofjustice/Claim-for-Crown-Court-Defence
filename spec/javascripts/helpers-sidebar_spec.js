@@ -199,6 +199,56 @@ describe('Helpers.SideBar.js', function() {
             expect(instance.getDataVal('total')).toBe(false);
           });
         });
+
+        xdescribe('...setState', function() {
+          beforeEach(function() {
+            var fixtureDom = [
+              '<div class="js-block">',
+              '<input class="total" data-total="44.44" value="44.44"/>',
+              '</div>'
+            ].join('');
+            $('body').append(fixtureDom);
+            instance = new moj.Helpers.SideBar.Base({
+              $el: $('.js-block'),
+              el: fixtureDom
+            });
+          });
+
+          afterEach(function() {
+            $('.js-block').remove();
+          });
+
+          it('should set the state of the selector', function() {
+
+          });
+
+
+
+        });
+
+        xdescribe('...setVal', function() {
+          beforeEach(function() {
+            var fixtureDom = [
+              '<div class="js-block">',
+              '<input class="total" data-total="44.44" value="44.44"/>',
+              '</div>'
+            ].join('');
+            $('body').append(fixtureDom);
+            instance = new moj.Helpers.SideBar.Base({
+              $el: $('.js-block'),
+              el: fixtureDom
+            });
+          });
+
+          afterEach(function() {
+            $('.js-block').remove();
+          });
+
+          it('should set the value of the selector', function() {
+
+          });
+        });
+
       });
     });
 
@@ -552,6 +602,43 @@ describe('Helpers.SideBar.js', function() {
               "id": 4,
               "reason": "View of crime scene",
               "reason_text": false
+            }],
+            "C": [{
+              "id": 1,
+              "reason": "Court hearing (Crown court)",
+              "location_type": "crown_court",
+              "reason_text": false
+            }, {
+              "id": 1,
+              "reason": "Court hearing (Magistrates' court)",
+              "location_type": "magistrates_court",
+              "reason_text": false
+            }, {
+              "id": 2,
+              "reason": "Pre-trial conference expert witnesses",
+              "reason_text": false
+            }, {
+              "id": 3,
+              "reason": "Pre-trial conference defendant (prison)",
+              "location_type": "prison",
+              "reason_text": false
+            }, {
+              "id": 3,
+              "reason": "Pre-trial conference defendant (hospital)",
+              "location_type": "hospital",
+              "reason_text": false
+            }, {
+              "id": 3,
+              "reason": "Pre-trial conference defendant (other)",
+              "reason_text": false
+            }, {
+              "id": 4,
+              "reason": "View of crime scene",
+              "reason_text": false
+            }, {
+              "id": 5,
+              "reason": "Other",
+              "reason_text": true
             }]
           });
         });

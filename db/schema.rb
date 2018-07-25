@@ -254,6 +254,15 @@ ActiveRecord::Schema.define(version: 20180718102824) do
     t.index ["external_user_id"], name: "index_documents_on_external_user_id", using: :btree
   end
 
+  create_table "establishments", force: :cascade do |t|
+    t.string   "name"
+    t.string   "category"
+    t.string   "postcode"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_establishments_on_category", using: :btree
+  end
+
   create_table "expense_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -274,7 +283,7 @@ ActiveRecord::Schema.define(version: 20180718102824) do
     t.decimal  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.uuid     "uuid",            default: -> { "uuid_generate_v4()" }
+    t.uuid     "uuid",                default: -> { "uuid_generate_v4()" }
     t.integer  "reason_id"
     t.string   "reason_text"
     t.integer  "schema_version"
@@ -282,7 +291,9 @@ ActiveRecord::Schema.define(version: 20180718102824) do
     t.integer  "mileage_rate_id"
     t.date     "date"
     t.decimal  "hours"
-    t.decimal  "vat_amount",      default: "0.0"
+    t.decimal  "vat_amount",          default: "0.0"
+    t.string   "location_type"
+    t.decimal  "calculated_distance"
     t.index ["claim_id"], name: "index_expenses_on_claim_id", using: :btree
     t.index ["expense_type_id"], name: "index_expenses_on_expense_type_id", using: :btree
   end

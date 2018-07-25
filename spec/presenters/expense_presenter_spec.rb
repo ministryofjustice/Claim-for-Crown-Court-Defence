@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe ExpensePresenter do
+  let(:claim) { create(:advocate_claim) }
+  let(:expense_type) { create(:expense_type) }
+  let(:expense) { create(:expense, quantity: 4, claim: claim, expense_type: expense_type) }
 
-  let(:claim)     { create(:advocate_claim) }
-  let(:expense_type)  { create(:expense_type) }
-  let(:expense)       { create(:expense, quantity: 4, claim: claim, expense_type: expense_type) }
-  let(:presenter) {ExpensePresenter.new(expense, view) }
+  subject(:presenter) { described_class.new(expense, view) }
 
   describe '#dates_attended_delimited_string' do
 
     before {
-      claim.expenses .each do |fee|
+      claim.expenses.each do |fee|
         expense.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('21/05/2015'), date_to: Date.parse('23/05/2015'))
         expense.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('25/05/2015'), date_to: nil)
       end
@@ -55,6 +55,43 @@ RSpec.describe ExpensePresenter do
     it 'strips insignificant zeros' do
       expense.distance = 324.00
       expect(presenter.distance).to eq '324'
+    end
+  end
+
+  describe '#calculated_distance' do
+    let(:calculated_distance) { 234 }
+    let(:expense) { create(:expense, quantity: 4, claim: claim, expense_type: expense_type, calculated_distance: calculated_distance) }
+
+    it 'formats as decimal number, 2 decimals precision, with rounding' do
+      expense.calculated_distance = 324.479
+      expect(presenter.calculated_distance).to eq '324.48'
+    end
+
+    it 'strips insignificant zeros' do
+      expense.calculated_distance = 324.00
+      expect(presenter.calculated_distance).to eq '324'
+    end
+
+    context 'when is not set' do
+      let(:calculated_distance) { nil }
+
+      it { expect(presenter.calculated_distance).to be_nil }
+    end
+  end
+
+  describe '#pretty_calculated_distance' do
+    let(:calculated_distance) { 234 }
+    let(:expense) { create(:expense, quantity: 4, claim: claim, expense_type: expense_type, calculated_distance: calculated_distance) }
+
+    it 'returns the value with the locale unit' do
+      expense.calculated_distance = 324.479
+      expect(presenter.pretty_calculated_distance).to eq '324.48 miles'
+    end
+
+    context 'when is not set' do
+      let(:calculated_distance) { nil }
+
+      it { expect(presenter.pretty_calculated_distance).to eq('n/a') }
     end
   end
 

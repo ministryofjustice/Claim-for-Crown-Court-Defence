@@ -80,6 +80,8 @@ RSpec.configure do |config|
   config.include JsonSpec::Helpers
   config.include CCLF::BillScenarioHelpers, type: :adapter
   config.include StrongParamHelpers
+  config.include RequestSpecHelper, type: :request
+  config.include Devise::Test::IntegrationHelpers, type: :request
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

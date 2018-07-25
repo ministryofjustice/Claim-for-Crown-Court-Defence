@@ -1,7 +1,9 @@
 - @expense_count += 1
 .expense-group.nested-fields.js-block.fx-numberedList-item{data:{"type": "expenses", autovat: @claim.agfs? && @claim.apply_vat? ? "true" : "false", "block-type": "ExpenseBlock"}}
-  .form-section-compound{"data-item-number" => "1"}
-    %input#origin_postcode{ :name => "origin", :spellcheck => "false", :type => "hidden", :value => "B4 6QB"}/
+  .form-section-compound
+
+    -# crown_court hospital magistrates_court prison
+    = f.hidden_field :location_type, {class: 'fx-location-type'}
 
     %h3.heading-medium
       = t('.expense')
@@ -42,8 +44,15 @@
       .column-half
         -# INPUT: Location
         .form-group.fx-travel-location{:style => "display: none;"}
-          = f.adp_text_field :location, label: t('.location'), input_classes:'form-control-3-4', errors: @error_presenter
 
+
+          //Input to be hidden field
+          %fieldset
+            = label_tag :location, nil, class: 'form-label-bold'
+            = select_tag(:location, '', :include_blank => "Please select", :class => "form-control form-control-3-4 fx-establishment-select")
+
+          // hidden model for :location
+          = f.hidden_field :location, class: 'fx-location-model'
       .column-half
         -# INPUT: Travel hours
         .form-group.fx-travel-hours{:style => "display: none;"}

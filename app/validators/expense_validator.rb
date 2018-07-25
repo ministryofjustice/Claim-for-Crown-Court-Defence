@@ -1,23 +1,11 @@
-class ExpenseV2Validator < BaseValidator
+class ExpenseValidator < BaseValidator
   def self.fields
-    %i[
-      expense_type
-      distance
-      hours
-      location
-      date
-      reason_id
-      reason_text
-      mileage_rate_id
-      amount
-      vat_amount
-    ]
+    %i[expense_type distance calculated_distance hours location location_type date
+       reason_id reason_text mileage_rate_id amount vat_amount]
   end
 
   def self.mandatory_fields
-    [
-      :claim
-    ]
+    %i[claim]
   end
 
   private
@@ -46,6 +34,11 @@ class ExpenseV2Validator < BaseValidator
     end
   end
 
+  def validate_location_type
+    return unless @record.location_type.present?
+    add_error(:location_type, 'invalid') unless Establishment::CATEGORIES.include?(@record.location_type)
+  end
+
   def validate_reason_id
     if @record.reason_id.nil?
       add_error(:reason_id, 'blank')
@@ -70,6 +63,11 @@ class ExpenseV2Validator < BaseValidator
     else
       validate_absence(:distance, 'invalid')
     end
+  end
+
+  def validate_calculated_distance
+    return unless @record.car_travel? && @record.calculated_distance.present?
+    validate_presence_and_numericality(:calculated_distance, minimum: 0.1)
   end
 
   def validate_mileage_rate_id

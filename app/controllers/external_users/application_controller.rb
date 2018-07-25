@@ -5,7 +5,14 @@ class ExternalUsers::ApplicationController < ApplicationController
 
   def authenticate_external_user!
     return if user_signed_in? && current_user.persona.is_a?(ExternalUser)
-    redirect_to root_path_url_for_user, alert: t('requires_external_user_authorisation')
+    respond_to do |format|
+      format.html do
+        redirect_to root_path_url_for_user, alert: t('requires_external_user_authorisation')
+      end
+      format.json do
+        render status: :unauthorized, json: { error: t('requires_external_user_authorisation') }
+      end
+    end
   end
 
   def date_attributes_for(date_param)

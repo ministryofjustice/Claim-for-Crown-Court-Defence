@@ -10,6 +10,24 @@ describe('Helpers.FormControls.js', function() {
     });
   });
 
+  describe('...selectOptions', function() {
+    it('...should be defined and be a function', function() {
+      expect(helper.selectOptions).toBeDefined();
+      expect(helper.selectOptions).toEqual({
+        getOptions: jasmine.any(Function)
+      });
+    });
+  });
+
+  describe('...input', function() {
+    it('...should be defined and be a function', function() {
+      expect(helper.input).toBeDefined();
+      expect(helper.input).toEqual({
+        getInput: jasmine.any(Function)
+      });
+    });
+  });
+
   describe('...getSelect', function() {
     it('...should be defined and be a function', function() {
       expect(helper.getSelect).toBeDefined();
@@ -22,15 +40,6 @@ describe('Helpers.FormControls.js', function() {
 
     it('...should warp any `<option />` passed as params', function() {
       expect(helper.getSelect(['<option name="one">One</option>'])).toEqual('<select name="" id=""><option name="one">One</option></select>');
-    });
-  });
-
-  describe('...selectOptions', function() {
-    it('...should be defined and be a function', function() {
-      expect(helper.selectOptions).toBeDefined();
-      expect(helper.selectOptions).toEqual({
-        getOptions: jasmine.any(Function)
-      });
     });
   });
 
@@ -65,6 +74,21 @@ describe('Helpers.FormControls.js', function() {
       }], {value: 'name', prop: 'name'}).then(function(el) {
         expect(el).toEqual(['<option value="">Please select</option>', '<option value="id" selected="" data-postcode="postcode">name</option>']);
       });
+    });
+  });
+
+  describe('...getInput', function() {
+    it('...should be defined and be a function', function() {
+      expect(helper.getInput).toBeDefined();
+      expect(helper.getInput).toEqual(jasmine.any(Function));
+    });
+
+    it('...should return an empty `<input />` with defaults, called with no params', function() {
+      expect(helper.getInput()).toEqual('<input class="form-control " type="text" name="" id="" value="" />');
+    });
+
+    it('...should return an `<input />` called with params', function() {
+      expect(helper.getInput({name: 'name', type: 'type', id:'id', classes:'classes', value: 'value'})).toEqual('<input class="form-control classes" type="type" name="name" id="id" value="value" />');
     });
 
   });

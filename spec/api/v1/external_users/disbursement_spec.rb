@@ -2,14 +2,11 @@ require 'rails_helper'
 require 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
-describe API::V1::ExternalUsers::Disbursement do
+RSpec.describe API::V1::ExternalUsers::Disbursement do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_DISBURSEMENT_ENDPOINT = "/api/external_users/disbursements"
-  VALIDATE_DISBURSEMENT_ENDPOINT = "/api/external_users/disbursements/validate"
-
-  ALL_DISBURSEMENT_ENDPOINTS = [VALIDATE_DISBURSEMENT_ENDPOINT, CREATE_DISBURSEMENT_ENDPOINT]
+  ALL_DISBURSEMENT_ENDPOINTS = [endpoint(:disbursements, :validate), endpoint(:disbursements)]
   FORBIDDEN_DISBURSEMENT_VERBS = [:get, :put, :patch, :delete]
 
   let(:parsed_body) { JSON.parse(last_response.body) }
@@ -60,10 +57,10 @@ describe API::V1::ExternalUsers::Disbursement do
     # total: "Enter a total amount for the disbursement", # SET to zero by model if absent
   }
 
-  describe "POST #{CREATE_DISBURSEMENT_ENDPOINT}" do
+  describe "POST #{endpoint(:disbursements)}" do
 
     def post_to_create_endpoint
-      post CREATE_DISBURSEMENT_ENDPOINT, params, format: :json
+      post endpoint(:disbursements), params, format: :json
     end
 
     include_examples "should NOT be able to amend a non-draft claim"
@@ -176,9 +173,9 @@ describe API::V1::ExternalUsers::Disbursement do
     end
   end
 
-  describe "POST #{VALIDATE_DISBURSEMENT_ENDPOINT}" do
+  describe "POST #{endpoint(:disbursements, :validate)}" do
     def post_to_validate_endpoint
-      post VALIDATE_DISBURSEMENT_ENDPOINT, params, format: :json
+      post endpoint(:disbursements, :validate), params, format: :json
     end
 
     it 'valid requests should return 200 and String true' do

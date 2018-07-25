@@ -2,15 +2,11 @@ require 'rails_helper'
 require 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
-describe API::V1::ExternalUsers::Defendant do
-
+RSpec.describe API::V1::ExternalUsers::Defendant do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_DEFENDANT_ENDPOINT = "/api/external_users/defendants"
-  VALIDATE_DEFENDANT_ENDPOINT = "/api/external_users/defendants/validate"
-
-  ALL_DEFENDANT_ENDPOINTS = [VALIDATE_DEFENDANT_ENDPOINT, CREATE_DEFENDANT_ENDPOINT]
+  ALL_DEFENDANT_ENDPOINTS = [endpoint(:defendants, :validate), endpoint(:defendants)]
   FORBIDDEN_DEFENDANT_VERBS = [:get, :put, :patch, :delete]
 
   # NOTE: need to specify claim.source as api to ensure defendant model validations applied
@@ -31,6 +27,7 @@ describe API::V1::ExternalUsers::Defendant do
       context "to endpoint #{endpoint}" do
         FORBIDDEN_DEFENDANT_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
           it "#{api_verb.upcase} should return a status of 405" do
+
             response = send api_verb, endpoint, format: :json
             expect(response.status).to eq 405
           end
@@ -39,10 +36,9 @@ describe API::V1::ExternalUsers::Defendant do
     end
   end
 
-  describe "POST #{CREATE_DEFENDANT_ENDPOINT}" do
-
+  describe "POST #{endpoint(:defendants)}" do
     def post_to_create_endpoint
-      post CREATE_DEFENDANT_ENDPOINT, valid_params, format: :json
+      post endpoint(:defendants), valid_params, format: :json
     end
 
     include_examples "should NOT be able to amend a non-draft claim"
@@ -104,10 +100,9 @@ describe API::V1::ExternalUsers::Defendant do
 
   end
 
-  describe "POST #{VALIDATE_DEFENDANT_ENDPOINT}" do
-
+  describe "POST #{endpoint(:defendants, :validate)}" do
     def post_to_validate_endpoint
-      post VALIDATE_DEFENDANT_ENDPOINT, valid_params, format: :json
+      post endpoint(:defendants, :validate), valid_params, format: :json
     end
 
     it 'valid requests should return 200 and String true' do

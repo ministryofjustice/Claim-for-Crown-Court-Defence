@@ -27,6 +27,10 @@ module ApiSpecHelper
     expect(json[0]['error']).to eql(message)
   end
 
+  def last_response_uuid
+    JSON.parse(last_response.body)['id']
+  end
+
   def endpoint(association)
     ENDPOINTS[association.to_sym]
   end

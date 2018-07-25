@@ -22,6 +22,7 @@
 en:
   date: Date
   net_amount: &net_amount Net amount
+  rate: &rate Rate
   views:
     pagination:
       first: "First"
@@ -904,7 +905,7 @@ en:
         fixed_fee_fields:
           fixed_fee: "Fixed fee"
           quantity: 'Quantity'
-          rate: 'Rate'
+          rate: *rate
           case_numbers: *case_numbers
           no_dates: 'No dates currently selected.'
           fee_type: 'Type of fee'

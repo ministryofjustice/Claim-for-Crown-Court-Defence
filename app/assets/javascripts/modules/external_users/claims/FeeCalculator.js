@@ -49,29 +49,34 @@ moj.Modules.FeeCalculator = {
   // FIXME: displayFee kept in for example use only as one option is to display the
   // the fee value/unit price. can be got rid off once we know what we are
   // doing.
-  displayFee: function(data, context) {
-    data = '&pound;' + moj.Helpers.SideBar.addCommas(data.toFixed(2));
-    var calculate_html = '<div style="color: #2b8cc4; font-weight: bold;"> Calculated to be: ' + data + '<div>';
-    var original_label = $(context + ' label').text().replace(/ \Calculated to be: .*/g,'');
-    var new_label = original_label + ' ' + calculate_html;
-    $(context + ' label').html(new_label);
-  },
+  // displayFee: function(data, context) {
+  //   data = '&pound;' + moj.Helpers.SideBar.addCommas(data.toFixed(2));
+  //   var calculate_html = '<div style="color: #2b8cc4; font-weight: bold;"> Calculated to be: ' + data + '<div>';
+  //   var original_label = $(context + ' label').text().replace(/ \Calculated to be: .*/g,'');
+  //   var new_label = original_label + ' ' + calculate_html;
+  //   $(context + ' label').html(new_label);
+  // },
 
   displayError: function(response, context) {
     // only some errors will have a JSON response
     try { console.log(response.responseJSON.errors); } catch(e) {}
     this.clearErrors(context);
     var $label = $(context).find('label');
-    var error_html = '<div class="js-calculate-error" style="color: #b10e1e; font-weight: bold;">' + response.responseJSON["message"] +'<div>';
+    var error_html = '<div class="js-calculate-error" style="color: #b10e1e; font-weight: bold;">' + response.responseJSON["message"] + '<div>';
     var new_label = $label.text() + ' ' + error_html;
 
-    $(context).find('.form-group').addClass('field_with_errors form-group-error');
+    $(context).find('.form-group.rate_wrapper').addClass('field_with_errors form-group-error');
     $label.html(new_label);
   },
 
-  clearErrors: function(selector) {
-    $(selector).find('.form-group').removeClass('field_with_errors form-group-error');
-    $(selector).find('.js-calculate-error').remove();
+  clearErrors: function(context) {
+    $(context).find('.form-group.rate_wrapper').removeClass('field_with_errors form-group-error');
+    $(context).find('.js-calculate-error').remove();
+  },
+
+  displayHelp: function(context, show) {
+    $help = $(context).closest('.fixed-fee-group').find('.help-wrapper.form-group');
+    show ? $help.show() : $help.hide();
   },
 
   unitPriceAjax: function (data, context) {
@@ -85,9 +90,11 @@ moj.Modules.FeeCalculator = {
     .done(function(response) {
       self.clearErrors(context);
       self.populateInput(response.data.amount, context);
+      self.displayHelp(context, true);
     })
     .fail(function(response) {
       self.displayError(response, context);
+      self.displayHelp(context, false);
     });
   },
 

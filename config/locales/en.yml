@@ -912,6 +912,8 @@ en:
           add_date_attended: 'Add dates'
           remove: 'Remove'
           net_amount: 'Net amount'
+          help_how_we_calculate_rate_title: How is this rate calculated?
+          help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme, case type, advocate category and fee type.
         litigators:
           fields:
             fixed_fees: "Fixed fees"

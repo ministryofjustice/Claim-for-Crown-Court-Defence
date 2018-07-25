@@ -14,6 +14,22 @@
   exports.Helpers.FormControls = Module;
 }(moj, jQuery));
 
+// Helpers.FormControls.getInput
+(function(exports, $) {
+  var Module = exports.Helpers.FormControls || {};
+
+  function getInput(config) {
+    var _config = $.extend({}, {type: 'text', classes: '', id: '', value: '', name: ''}, config);
+    return ['<input class="form-control '+ _config.classes +'" type="'+ _config.type +'" name="'+ _config.name +'" id="'+ _config.id +'" value="'+ _config.value +'" />'].join('');
+  }
+
+  Module.input = {
+    getInput: getInput
+  };
+
+  exports.Helpers.FormControls = Module;
+}(moj, jQuery));
+
 // Helpers.FormControls.getOptions
 (function(exports, $) {
   var Module = exports.Helpers.FormControls || {};
@@ -56,9 +72,12 @@
 
   Module = {
     select: Module.select,
-    getSelect: Module.select.getSelect,
     selectOptions: Module.selectOptions,
+    input: Module.input,
+    getInput: Module.input.getInput,
+    getSelect: Module.select.getSelect,
     getOptions: Module.selectOptions.getOptions,
+
   };
 
   exports.Helpers.FormControls = Module;

@@ -4,14 +4,10 @@ require_relative 'shared_examples_for_all'
 require_relative 'shared_examples_for_fees'
 
 RSpec.describe API::V1::ExternalUsers::Fee do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_FEE_ENDPOINT = "/api/external_users/fees"
-  VALIDATE_FEE_ENDPOINT = "/api/external_users/fees/validate"
-
-  ALL_FEE_ENDPOINTS = [VALIDATE_FEE_ENDPOINT, CREATE_FEE_ENDPOINT]
+  ALL_FEE_ENDPOINTS = [endpoint(:fees, :validate), endpoint(:fees)]
   FORBIDDEN_FEE_VERBS = [:get, :put, :patch, :delete]
 
   def create_claim(*args)
@@ -52,9 +48,9 @@ RSpec.describe API::V1::ExternalUsers::Fee do
     end
   end
 
-  describe "POST #{CREATE_FEE_ENDPOINT}" do
+  describe "POST #{endpoint(:fees)}" do
     def post_to_create_endpoint
-      post CREATE_FEE_ENDPOINT, valid_params, format: :json
+      post endpoint(:fees), valid_params, format: :json
     end
 
     include_examples "should NOT be able to amend a non-draft claim"
@@ -424,10 +420,10 @@ RSpec.describe API::V1::ExternalUsers::Fee do
 
   end
 
-  describe "POST #{VALIDATE_FEE_ENDPOINT}" do
+  describe "POST #{endpoint(:fees, :validate)}" do
 
     def post_to_validate_endpoint
-      post VALIDATE_FEE_ENDPOINT, valid_params, format: :json
+      post endpoint(:fees, :validate), valid_params, format: :json
     end
 
     context 'non-basic fees' do

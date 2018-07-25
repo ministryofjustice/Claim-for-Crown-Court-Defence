@@ -2,14 +2,11 @@ require 'rails_helper'
 require 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
-describe API::V1::ExternalUsers::Expense do
+RSpec.describe API::V1::ExternalUsers::Expense do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_EXPENSE_ENDPOINT = "/api/external_users/expenses"
-  VALIDATE_EXPENSE_ENDPOINT = "/api/external_users/expenses/validate"
-
-  ALL_EXPENSE_ENDPOINTS = [VALIDATE_EXPENSE_ENDPOINT, CREATE_EXPENSE_ENDPOINT]
+  ALL_EXPENSE_ENDPOINTS = [endpoint(:expenses, :validate), endpoint(:expenses)]
   FORBIDDEN_EXPENSE_VERBS = [:get, :put, :patch, :delete]
 
   let(:parsed_body) { JSON.parse(last_response.body) }
@@ -69,9 +66,9 @@ describe API::V1::ExternalUsers::Expense do
       distance: "Enter the distance for the expense"
     }
 
-    describe "POST #{CREATE_EXPENSE_ENDPOINT}" do
+    describe "POST #{endpoint(:expenses)}" do
       def post_to_create_endpoint
-        post CREATE_EXPENSE_ENDPOINT, params, format: :json
+        post endpoint(:expenses), params, format: :json
       end
 
       include_examples "should NOT be able to amend a non-draft claim"
@@ -192,9 +189,9 @@ describe API::V1::ExternalUsers::Expense do
 
     end
 
-    describe "POST #{VALIDATE_EXPENSE_ENDPOINT}" do
+    describe "POST #{endpoint(:expenses, :validate)}" do
       def post_to_validate_endpoint
-        post VALIDATE_EXPENSE_ENDPOINT, params, format: :json
+        post endpoint(:expenses, :validate), params, format: :json
       end
 
       it 'valid requests should return 200 and String true' do

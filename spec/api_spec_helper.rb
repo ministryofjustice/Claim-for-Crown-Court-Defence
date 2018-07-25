@@ -1,5 +1,4 @@
 module ApiSpecHelper
-  # TODO: use these constants everywhere and wrap for validate equivalents
   ENDPOINTS = {
     defendants: '/api/external_users/defendants',
     representation_orders: '/api/external_users/representation_orders',
@@ -8,6 +7,22 @@ module ApiSpecHelper
     expenses: '/api/external_users/expenses',
     disbursements: '/api/external_users/disbursements'
   }.freeze
+
+  def self.included(base)
+    base.extend ClassMethods
+  end
+
+  module ClassMethods
+    def endpoint(association, validate = nil)
+      endpoint = ENDPOINTS[association.to_sym]
+      return endpoint + '/validate' if validate
+      endpoint
+    end
+  end
+
+  def endpoint(association, validate = nil)
+    self.class.endpoint(association, validate)
+  end
 
   def expect_validate_success_response
     expect(last_response.status).to eq 200
@@ -29,9 +44,5 @@ module ApiSpecHelper
 
   def last_response_uuid
     JSON.parse(last_response.body)['id']
-  end
-
-  def endpoint(association)
-    ENDPOINTS[association.to_sym]
   end
 end

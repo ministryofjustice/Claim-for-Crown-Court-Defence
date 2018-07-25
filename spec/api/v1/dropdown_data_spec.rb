@@ -1,8 +1,7 @@
 require 'rails_helper'
 require 'api_spec_helper'
 
-describe API::V1::DropdownData do
-
+RSpec.describe API::V1::DropdownData do
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -52,7 +51,6 @@ describe API::V1::DropdownData do
   end
 
   context 'each dropdown data endpoint' do
-
     let(:results) do
       {
         CASE_TYPE_ENDPOINT => API::Entities::CaseType.represent(CaseType.all).to_json,
@@ -111,7 +109,6 @@ describe API::V1::DropdownData do
   end
 
   context 'GET api/offences' do
-
     let!(:fee_scheme) { create(:fee_scheme, :agfs_nine) }
     let!(:offence)                        { create(:offence) }
     let!(:other_offence)                  { create(:offence) }

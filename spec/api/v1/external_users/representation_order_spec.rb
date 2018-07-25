@@ -2,15 +2,11 @@ require 'rails_helper'
 require 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
-describe API::V1::ExternalUsers::RepresentationOrder do
-
+RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_REPRESENTATION_ORDER_ENDPOINT = "/api/external_users/representation_orders"
-  VALIDATE_REPRESENTATION_ORDER_ENDPOINT = "/api/external_users/representation_orders/validate"
-
-  ALL_REP_ORDER_ENDPOINTS = [VALIDATE_REPRESENTATION_ORDER_ENDPOINT, CREATE_REPRESENTATION_ORDER_ENDPOINT]
+  ALL_REP_ORDER_ENDPOINTS = [endpoint(:representation_orders, :validate), endpoint(:representation_orders)]
   FORBIDDEN_REP_ORDER_VERBS = [:get, :put, :patch, :delete]
 
   let(:representation_order_date) { Date.new(2017, 6, 1) }
@@ -40,10 +36,10 @@ describe API::V1::ExternalUsers::RepresentationOrder do
     end
   end
 
-  describe "POST #{CREATE_REPRESENTATION_ORDER_ENDPOINT}" do
+  describe "POST #{endpoint(:representation_orders)}" do
 
     def post_to_create_endpoint(submission_date = Date.new(2017, 7, 1))
-      Timecop.freeze(submission_date) { post CREATE_REPRESENTATION_ORDER_ENDPOINT, valid_params, format: :json }
+      Timecop.freeze(submission_date) { post endpoint(:representation_orders), valid_params, format: :json }
     end
 
     include_examples "should NOT be able to amend a non-draft claim"
@@ -136,10 +132,10 @@ describe API::V1::ExternalUsers::RepresentationOrder do
     end
   end
 
-  describe "POST #{VALIDATE_REPRESENTATION_ORDER_ENDPOINT}" do
+  describe "POST #{endpoint(:representation_orders, :validate)}" do
 
     def post_to_validate_endpoint
-      post VALIDATE_REPRESENTATION_ORDER_ENDPOINT, valid_params, format: :json
+      post endpoint(:representation_orders, :validate), valid_params, format: :json
     end
 
    it 'valid requests should return 200 and String true' do

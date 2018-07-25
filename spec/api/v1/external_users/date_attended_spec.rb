@@ -2,15 +2,11 @@ require 'rails_helper'
 require 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
-describe API::V1::ExternalUsers::DateAttended do
-
+RSpec.describe API::V1::ExternalUsers::DateAttended do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_DATE_ATTENDED_ENDPOINT = "/api/external_users/dates_attended"
-  VALIDATE_DATE_ATTENDED_ENDPOINT = "/api/external_users/dates_attended/validate"
-
-  ALL_DATES_ATTENDED_ENDPOINTS = [VALIDATE_DATE_ATTENDED_ENDPOINT, CREATE_DATE_ATTENDED_ENDPOINT]
+  ALL_DATES_ATTENDED_ENDPOINTS = [endpoint(:dates_attended, :validate), endpoint(:dates_attended)]
   FORBIDDEN_DATES_ATTENDED_VERBS = [:get, :put, :patch, :delete]
 
   let!(:provider)     { create(:provider) }
@@ -33,10 +29,10 @@ describe API::V1::ExternalUsers::DateAttended do
     end
   end
 
-  describe "POST #{CREATE_DATE_ATTENDED_ENDPOINT}" do
+  describe "POST #{endpoint(:dates_attended)}" do
 
     def post_to_create_endpoint
-      post CREATE_DATE_ATTENDED_ENDPOINT, valid_params, format: :json
+      post endpoint(:dates_attended), valid_params, format: :json
     end
 
     include_examples "should NOT be able to amend a non-draft claim"
@@ -110,10 +106,10 @@ describe API::V1::ExternalUsers::DateAttended do
     end
   end
 
-  describe "POST #{VALIDATE_DATE_ATTENDED_ENDPOINT}" do
+  describe "POST #{endpoint(:dates_attended, :validate)}" do
 
     def post_to_validate_endpoint
-      post VALIDATE_DATE_ATTENDED_ENDPOINT, valid_params, format: :json
+      post endpoint(:dates_attended, :validate), valid_params, format: :json
     end
 
      it 'valid requests should return 200 and String true' do

@@ -79,61 +79,61 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
       end
 
       context 'with a cracked trial case type' do
-        let(:trial_fixed_notice_at) { 5.days.ago }
+        let(:trial_cracked_at) { 5.days.ago }
         let(:case_type) { build(:case_type, :cracked_trial) }
-        let(:claim) { build(:advocate_claim, case_type: case_type, trial_fixed_notice_at: trial_fixed_notice_at) }
+        let(:claim) { build(:advocate_claim, case_type: case_type, trial_cracked_at: trial_cracked_at) }
 
-        context 'and the representation order date is before the fixed notice date' do
-          let(:rep_order_date) { trial_fixed_notice_at - 2.days }
+        context 'and the representation order date is before the trial cracked date' do
+          let(:rep_order_date) { trial_cracked_at - 2.days }
           let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
-
+           
           specify { expect(reporder).to be_valid }
         end
 
-        context 'and the representation order date matches the first day of trial' do
-          let(:rep_order_date) { trial_fixed_notice_at }
+        context 'and the representation order date matches the trial cracked date' do
+          let(:rep_order_date) { trial_cracked_at }
           let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
-
+          
           specify { expect(reporder).to be_valid }
         end
 
         context 'and the representation order date is later than the first day of trial' do
-          let(:rep_order_date) { trial_fixed_notice_at + 1.day }
+          let(:rep_order_date) { trial_cracked_at + 1.day }
           let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
 
           it 'is invalid' do
             expect(reporder).not_to be_valid
-            expect(reporder.errors[:representation_order_date]).to include('not_on_or_before_trial_fixed_notice_date')
+            expect(reporder.errors[:representation_order_date]).to include('not_on_or_before_trial_cracked_date')
           end
         end
       end
 
       context 'with a cracked before retrial case type' do
-        let(:trial_fixed_notice_at) { 5.days.ago }
+        let(:trial_cracked_at) { 5.days.ago }
         let(:case_type) { build(:case_type, :cracked_before_retrial) }
-        let(:claim) { build(:advocate_claim, case_type: case_type, trial_fixed_notice_at: trial_fixed_notice_at) }
+        let(:claim) { build(:advocate_claim, case_type: case_type, trial_cracked_at: trial_cracked_at) }
 
         context 'and the representation order date is before the fixed notice date' do
-          let(:rep_order_date) { trial_fixed_notice_at - 2.days }
+          let(:rep_order_date) { trial_cracked_at - 2.days }
           let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
 
           specify { expect(reporder).to be_valid }
         end
 
         context 'and the representation order date matches the first day of trial' do
-          let(:rep_order_date) { trial_fixed_notice_at }
+          let(:rep_order_date) { trial_cracked_at }
           let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
 
           specify { expect(reporder).to be_valid }
         end
 
         context 'and the representation order date is later than the first day of trial' do
-          let(:rep_order_date) { trial_fixed_notice_at + 1.day }
+          let(:rep_order_date) { trial_cracked_at + 1.day }
           let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
 
           it 'is invalid' do
             expect(reporder).not_to be_valid
-            expect(reporder.errors[:representation_order_date]).to include('not_on_or_before_trial_fixed_notice_date')
+            expect(reporder.errors[:representation_order_date]).to include('not_on_or_before_trial_cracked_date')
           end
         end
       end

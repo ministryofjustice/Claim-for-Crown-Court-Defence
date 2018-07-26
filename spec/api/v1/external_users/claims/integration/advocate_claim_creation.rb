@@ -2,6 +2,54 @@ require 'rails_helper'
 require 'api_spec_helper'
 require 'support/claim_api_endpoints'
 
+RSpec::Matchers.define :be_valid_api_claim do |expected|
+  match do |claim|
+    @results = results(claim)
+    @results.values.map{ |arr| arr.uniq.length.eql?(1) }.all?
+  end
+
+  def results_hash
+    { valid: [], fee_scheme: [], offence: [], source: [], state: [], defendant_count: [], representation_orders_count: [], total: [] }
+  end
+
+  def results(claim)
+    results = results_hash
+
+    results[:valid][0] = expected.fetch(:valid, true)
+    results[:valid][1] = claim.valid?
+    results[:fee_scheme][0] = expected[:fee_scheme]
+    results[:fee_scheme][1] = [claim.fee_scheme.name, claim.fee_scheme.version]
+    results[:offence][0] = expected[:offence]
+    results[:offence][1] = claim.offence
+    results[:source][0] = expected.fetch(:source, 'api')
+    results[:source][1] = claim.source
+    results[:state][0] = expected.fetch(:state, 'draft')
+    results[:state][1] = claim.state
+    results[:defendant_count][0] = expected.fetch(:defendant_count, 1)
+    results[:defendant_count][1] = claim.defendants.size
+    results[:representation_orders_count][0] = expected.fetch(:representation_orders_count, 1)
+    results[:representation_orders_count][1] = claim.defendants.first.representation_orders.size
+
+    claim.reload
+    results[:total][0] = expected[:total]
+    results[:total][1] = claim.total.to_f
+    results
+  end
+
+  description do
+    "a valid api created claim with matching attributes"
+  end
+
+  failure_message do |owner|
+    msg = "should be a valid API claim with matching attributes"
+    failures = @results.select{ |_k, v| !v.uniq.length.eql?(1) }
+    failures.each_pair do |k, v|
+      msg += "\nexpected: #{k} to eql #{v[0].inspect.humanize} but got #{v[1].inspect.humanize}"
+    end
+    msg
+  end
+end
+
 RSpec.describe 'API claim creation for AGFS' do
   include Rack::Test::Methods
   include ApiSpecHelper
@@ -104,7 +152,11 @@ RSpec.describe 'API claim creation for AGFS' do
   around do |example|
     result = example.run
     if result.is_a?(RSpec::Expectations::ExpectationNotMetError)
-      puts JSON.parse(last_response.body).map{ |hash| hash['error'] }.join("\n").red
+      begin
+        puts JSON.parse(last_response.body).map{ |hash| hash['error'] }.join("\n").red
+      rescue StandardError
+        nil
+      end
     end
   end
 
@@ -152,17 +204,11 @@ RSpec.describe 'API claim creation for AGFS' do
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
         expect(last_response.status).to eql 201
 
-        expect(claim).to be_valid
-        expect(claim.fee_scheme.name).to eql 'AGFS'
-        expect(claim.fee_scheme.version).to eql 9
-        expect(claim.offence).to eql offence
-        expect(claim.defendants.size).to eql 1
-        expect(claim.defendants.first.representation_orders.size).to eql 1
+
+        expect(claim).to be_valid_api_claim(fee_scheme: ['AGFS', 9], offence: offence, total: 1840.2)
         expect(claim.basic_fees.where(amount: 1..Float::INFINITY).size).to eql 2
         expect(claim.basic_fees.find_by(fee_type_id: daily_attendance_3.id).dates_attended.size).to eql 1
         expect(claim.expenses.size).to eql 2
-        expect(claim.source).to eql 'api'
-        expect(claim.state).to eql 'draft'
       end
     end
 
@@ -208,17 +254,10 @@ RSpec.describe 'API claim creation for AGFS' do
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
         expect(last_response.status).to eql 201
 
-        expect(claim).to be_valid
-        expect(claim.fee_scheme.name).to eql 'AGFS'
-        expect(claim.fee_scheme.version).to eql 9
-        expect(claim.offence).to be_nil
-        expect(claim.defendants.size).to eql 1
-        expect(claim.defendants.first.representation_orders.size).to eql 1
+        expect(claim).to be_valid_api_claim(fee_scheme: ['AGFS', 9], offence: nil, total: 1840.2)
         expect(claim.fixed_fees.size).to eql 2
         expect(claim.fixed_fees.find_by(fee_type_id: fixed_uplift.id).dates_attended.size).to eql 1
         expect(claim.expenses.size).to eql 2
-        expect(claim.source).to eql 'api'
-        expect(claim.state).to eql 'draft'
       end
     end
   end
@@ -268,17 +307,10 @@ RSpec.describe 'API claim creation for AGFS' do
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
         expect(last_response.status).to eql 201
 
-        expect(claim).to be_valid
-        expect(claim.fee_scheme.name).to eql 'AGFS'
-        expect(claim.fee_scheme.version).to eql 10
-        expect(claim.offence).to eql offence
-        expect(claim.defendants.size).to eql 1
-        expect(claim.defendants.first.representation_orders.size).to eql 1
+        expect(claim).to be_valid_api_claim(fee_scheme: ['AGFS', 10], offence: offence, total: 1840.2)
         expect(claim.basic_fees.where(amount: 1..Float::INFINITY).size).to eql 2
         expect(claim.basic_fees.find_by(fee_type_id: daily_attendance_2.id).dates_attended.size).to eql 1
         expect(claim.expenses.size).to eql 2
-        expect(claim.source).to eql 'api'
-        expect(claim.state).to eql 'draft'
       end
     end
 
@@ -324,17 +356,10 @@ RSpec.describe 'API claim creation for AGFS' do
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
         expect(last_response.status).to eql 201
 
-        expect(claim).to be_valid
-        expect(claim.fee_scheme.name).to eql 'AGFS'
-        expect(claim.fee_scheme.version).to eql 10
-        expect(claim.offence).to be_nil
-        expect(claim.defendants.size).to eql 1
-        expect(claim.defendants.first.representation_orders.size).to eql 1
+        expect(claim).to be_valid_api_claim(fee_scheme: ['AGFS', 10], offence: nil, total: 1840.2)
         expect(claim.fixed_fees.size).to eql 2
         expect(claim.fixed_fees.find_by(fee_type_id: fixed_uplift.id).dates_attended.size).to eql 1
         expect(claim.expenses.size).to eql 2
-        expect(claim.source).to eql 'api'
-        expect(claim.state).to eql 'draft'
       end
     end
 
@@ -367,16 +392,9 @@ RSpec.describe 'API claim creation for AGFS' do
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
         expect(last_response.status).to eql 201
 
-        expect(claim).to be_valid
-        expect(claim.fee_scheme.name).to eql 'AGFS'
-        expect(claim.fee_scheme.version).to eql 10
-        expect(claim.offence).to eq offence
-        expect(claim.defendants.size).to eql 1
-        expect(claim.defendants.first.representation_orders.size).to eql 1
+        expect(claim).to be_valid_api_claim(fee_scheme: ['AGFS', 10], offence: offence, total: 1210.2)
         expect(claim.warrant_fee).to be_present
         expect(claim.expenses.size).to eql 2
-        expect(claim.source).to eql 'api'
-        expect(claim.state).to eql 'draft'
       end
     end
   end

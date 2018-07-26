@@ -65,7 +65,7 @@ module API
           basic_fee = ::Claim::BaseClaim.find(claim_id)
                                         .basic_fees
                                         .detect { |bf| bf.fee_type_id == fee_type_id }
-          raise "basic fee of type with id #{fee_type_id} not found on claim" if basic_fee.nil?
+          raise 'Basic fee not found on claim' if basic_fee.nil?
           basic_fee
         end
 

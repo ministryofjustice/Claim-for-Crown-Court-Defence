@@ -124,6 +124,13 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           expect{ post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(0)
         end
 
+        it 'should raise error if basic fee does not exist on claim' do
+          valid_params.merge!(fee_type_id: basic_fee_dat_type.id)
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect_error_response('Basic fee not found on claim', 0)
+        end
+
         it 'should update quantity, rate and amount' do
           post_to_create_endpoint
           expect(fee.claim_id).to eq claim.id

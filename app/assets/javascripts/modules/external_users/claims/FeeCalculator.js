@@ -6,6 +6,7 @@ moj.Modules.FeeCalculator = {
   bindEvents: function () {
     this.advocateTypeChange();
     this.fixedFeeTypeChange();
+    this.fixedFeeRateChange();
     this.fixedFeeQuantityChange();
   },
 
@@ -18,8 +19,7 @@ moj.Modules.FeeCalculator = {
     }
   },
 
-  // needs to be usable by cocoon:after-insert
-  // so can bind to one or many elements
+  // needs to be usable by cocoon:after-insert so can bind to one or many elements
   fixedFeeTypeChange: function ($el) {
     var self = this;
     var $els = $el || $('.js-fixed-fee-calculator-fee-type');
@@ -30,32 +30,41 @@ moj.Modules.FeeCalculator = {
     }
   },
 
+  // needs to be usable by cocoon:after-insert so can bind to one or many elements
   fixedFeeQuantityChange: function ($el) {
     var self = this;
     var $els = $el || $('.js-fixed-fee-calculator-quantity');
     if ($('.calculated-fixed-fee').exists()) {
       $els.change( function() {
         self.calculateUnitPriceFixedFee();
+        self.populateNetAmount(this);
       });
     }
   },
 
-  populateInput: function(data, context) {
-    var $input = $(context).find('input.form-control');
+  // needs to be usable by cocoon:after-insert so can bind to one or many elements
+  fixedFeeRateChange: function ($el) {
+    var self = this;
+    var $els = $el || $('.js-fixed-fee-calculator-rate');
+    $els.change( function() {
+      self.populateNetAmount(this);
+    });
+  },
+
+  populateRate: function(data, context) {
+    var $input = $(context).find('input.fee-rate');
     $input.val(data.toFixed(2));
     $input.change();
   },
 
-  // FIXME: displayFee kept in for example use only as one option is to display the
-  // the fee value/unit price. can be got rid off once we know what we are
-  // doing.
-  // displayFee: function(data, context) {
-  //   data = '&pound;' + moj.Helpers.SideBar.addCommas(data.toFixed(2));
-  //   var calculate_html = '<div style="color: #2b8cc4; font-weight: bold;"> Calculated to be: ' + data + '<div>';
-  //   var original_label = $(context + ' label').text().replace(/ \Calculated to be: .*/g,'');
-  //   var new_label = original_label + ' ' + calculate_html;
-  //   $(context + ' label').html(new_label);
-  // },
+  populateNetAmount: function(context) {
+    var $el = $(context).closest('.fixed-fee-group').find('.fee-net-amount');
+    var rate = $(context).closest('.fixed-fee-group').find('input.fee-rate').val();
+    var quantity = $(context).closest('.fixed-fee-group').find('input.fee-quantity').val();
+    var value = (rate * quantity);
+    var text = '&pound;' + moj.Helpers.SideBar.addCommas(value.toFixed(2));
+    $el.html(text);
+  },
 
   displayError: function(response, context) {
     // only some errors will have a JSON response
@@ -75,7 +84,7 @@ moj.Modules.FeeCalculator = {
   },
 
   displayHelp: function(context, show) {
-    $help = $(context).closest('.fixed-fee-group').find('.help-wrapper.form-group');
+    var $help = $(context).closest('.fixed-fee-group').find('.help-wrapper.form-group');
     show ? $help.show() : $help.hide();
   },
 
@@ -89,7 +98,7 @@ moj.Modules.FeeCalculator = {
     })
     .done(function(response) {
       self.clearErrors(context);
-      self.populateInput(response.data.amount, context);
+      self.populateRate(response.data.amount, context);
       self.displayHelp(context, true);
     })
     .fail(function(response) {
@@ -102,7 +111,7 @@ moj.Modules.FeeCalculator = {
     data.claim_id = $('#claim-form').data('claimId');
     data.advocate_category = $('input:radio[name="claim[advocate_category]"]:checked').val();
 
-    var fees = data['fees'] = [];
+    var fees = data.fees = [];
     $('.fixed-fee-group:visible').each(function() {
       fees.push({
         fee_type_id: $(this).find('select.js-fee-type').val(),

@@ -124,6 +124,7 @@ if (!String.prototype.supplant) {
 
     moj.Modules.FeeCalculator.fixedFeeTypeChange($insertedItem.find('.js-fixed-fee-calculator-fee-type'));
     moj.Modules.FeeCalculator.fixedFeeQuantityChange($insertedItem.find('.js-fixed-fee-calculator-quantity'));
+    moj.Modules.FeeCalculator.fixedFeeRateChange($insertedItem.find('.js-fixed-fee-calculator-rate'));
   });
 
   /**

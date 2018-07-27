@@ -36,7 +36,7 @@
     .calculated-fixed-fee
     = f.adp_text_field :rate,
         label: t('.rate'),
-        input_classes:'rate fee-rate form-input-denote__input form-control-1-4',
+        input_classes:'rate fee-rate js-fixed-fee-calculator-rate form-input-denote__input form-control-1-4',
         input_type: 'currency',
         errors: @error_presenter,
         value: number_with_precision(f.object.rate, precision: 2)
@@ -56,5 +56,11 @@
         = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "fixed_fee_#{@fixed_fee_count}"
 
     = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', partial: 'date_attended_fields', data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
+
+  .form-group
+    %label.form-label-bold
+      = t('.net_amount')
+    .fee-net-amount.currency-indicator
+      = fee.amount || number_to_currency(0)
 
   %hr/

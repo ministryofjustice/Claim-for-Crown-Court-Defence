@@ -15,8 +15,6 @@ module Claims
     class UnitPrice < Calculate
       def call
         setup(options)
-
-        amount = fee_type.case_uplift? ? case_uplift_unit_price : unit_price
         response(true, amount)
       rescue StandardError => err
         Rails.logger.error(err.message)
@@ -41,18 +39,43 @@ module Claims
         end
       end
 
-      def unit_from_parent_or_one
-        return 1 unless fee_type.case_uplift?
-
-        parent_fee_type = case_uplift_parent
-        days = current_page_fees.inject(0) do |sum, fee|
-          fee[:fee_type_id].eql?(parent_fee_type.id.to_s) ? sum + fee[:quantity].to_i : sum
-        end
-        days || 1
+      def uplift?
+        fee_type.case_uplift? || fee_type.defendant_uplift?
       end
 
-      def case_uplift_unit_price
-        unit_price(:number_of_cases) - unit_price
+      def parent_fee_type
+        return unless uplift?
+        fee_type.case_uplift? ? case_uplift_parent : defendant_uplift_parent
+      end
+
+      def unit_from_parent_or_one
+        parent = parent_fee_type
+        return 1 unless parent
+        current_total_quantity_for_fee_type(parent)
+      end
+
+      def current_total_quantity_for_fee_type(fee_type)
+        current_page_fees.inject(0) do |sum, fee|
+          fee[:fee_type_id].eql?(fee_type.id.to_s) ? sum + fee[:quantity].to_i : sum
+        end
+      end
+
+      def uplift_unit_price(modifier)
+        unit_price(modifier.to_sym) - unit_price
+      end
+
+      def defendant_uplift_unit_price
+        unit_price(:number_of_defendants) - unit_price
+      end
+
+      def amount
+        if fee_type.case_uplift?
+          uplift_unit_price(:number_of_cases)
+        elsif fee_type.defendant_uplift?
+          uplift_unit_price(:number_of_defendants)
+        else
+          unit_price
+        end
       end
     end
   end

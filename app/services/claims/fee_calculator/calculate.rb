@@ -27,8 +27,6 @@ module Claims
 
       def call
         setup(options)
-
-        amount = calculate
         response(true, amount)
       rescue StandardError => err
         Rails.logger.error("error: #{err.message}")
@@ -44,7 +42,7 @@ module Claims
         @current_page_fees = options[:fees].values
       end
 
-      def calculate
+      def amount
         fee_scheme.calculate do |options|
           options[:scenario] = scenario.id
           options[:offence_class] = offence_class
@@ -108,9 +106,11 @@ module Claims
 
       def fee_type_code_for(fee_type)
         fee_type = case_uplift_parent if fee_type.case_uplift?
-        fee_type_mappings[fee_type&.unique_code.to_sym][:bill_subtype]
+        fee_type = defendant_uplift_parent if fee_type.defendant_uplift?
+        fee_type_mappings[fee_type&.unique_code&.to_sym][:bill_subtype]
       end
 
+      # TODO: share/take from adapters
       def orphan_uplift?
         %w[FXNOC FXNDR].include?(fee_type.unique_code)
       end
@@ -141,6 +141,7 @@ module Claims
       end
 
       def defendant_uplift_parent
+        return primary_fee_type_on_page if orphan_uplift?
       end
 
       def response(success, data, message = nil)

@@ -87,7 +87,7 @@ if (!String.prototype.supplant) {
    * Cocoon call back to init features once they have been
    * interted into the DOM
    */
-  $('#fixed-fees, #misc-fees, #disbursements, #expenses, #documents').on('cocoon:after-insert', function(e, insertedItem) {
+  $('#fixed-fees, #misc-fees, #disbursements, #documents').on('cocoon:after-insert', function(e, insertedItem) {
     var $insertedItem = $(insertedItem);
     var insertedSelect = $insertedItem.find('select.typeahead');
     var typeaheadWrapper = $insertedItem.find('.js-typeahead');

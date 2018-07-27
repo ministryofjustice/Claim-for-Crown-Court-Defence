@@ -83,7 +83,7 @@ module Claims
         # TODO: create select/find_by calls to list endpoints in client gem
         fee_scheme.scenarios.select do |s|
           s.code.eql?(CCR::CaseTypeAdapter::BILL_SCENARIOS[case_type.fee_type_code.to_sym])
-        end.first
+        end&.first
       end
 
       def offence_class
@@ -136,8 +136,7 @@ module Claims
         #
         Fee::BaseFeeType
           .where('description = ?', fee_type.description.gsub(' uplift', ''))
-          .where.not('description ILIKE ?', '%uplift%')
-          .first
+          .where.not('description ILIKE ?', '%uplift%')&.first
       end
 
       def defendant_uplift_parent

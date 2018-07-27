@@ -292,6 +292,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def calculator_params
     params.permit(
+      :format,
       :id,
       :advocate_category,
       :fee_type_id,

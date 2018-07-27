@@ -563,6 +563,67 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     end
   end
 
+  describe 'GET #calculate_unit_price.json' do
+    let(:case_type) { create(:case_type, :appeal_against_conviction) }
+    let(:claim) { create(:draft_claim, case_type: case_type, external_user: advocate) }
+    let(:fee) { create(:fixed_fee, :fxacv_fee, claim: claim, quantity: 1) }
+
+    let(:calculator_params) do
+      {
+        format: :json,
+        id: claim.id,
+        advocate_category: 'Junior alone',
+        fee_type_id: fee.fee_type.id,
+        fees: {
+          "0": { fee_type_id: fee.fee_type.id, quantity: fee.quantity }
+        }
+      }
+    end
+
+    before { get :calculate_unit_price, params: calculator_params }
+
+    context 'success', :vcr do
+      it 'returns http success' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns JSON' do
+        expect(response.body).to be_json
+      end
+
+      it 'returns success? true' do
+        expect(JSON.parse(response.body)['success?']).to eql true
+      end
+    end
+
+    context 'failure', :vcr do
+      before do
+        calculator_params.merge!('advocate_category' => 'Rubbish')
+        get :calculate_unit_price, params: calculator_params
+      end
+
+      it 'returns unprocessible entity' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns JSON' do
+        expect(response.body).to be_json
+      end
+
+      it 'returns success? false' do
+        expect(JSON.parse(response.body)['success?']).to eql false
+      end
+
+      it 'returns JSON errors array' do
+        expect(JSON.parse(response.body)['errors']).to be_an Array
+      end
+
+      it 'returns JSON error message string' do
+        expect(JSON.parse(response.body)['message']).to be_a String
+      end
+    end
+  end
+
   describe "PATCH #clone_rejected" do
     context 'from rejected claim' do
       subject { create(:rejected_claim, external_user: advocate) }
@@ -709,9 +770,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     end
   end
 
-
   describe 'GET #show_message_controls' do
-
     let(:claim) { create :refused_claim, external_user: advocate }
 
     it 'does something' do

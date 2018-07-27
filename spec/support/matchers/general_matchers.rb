@@ -26,3 +26,24 @@ RSpec::Matchers.define :have_constant do |expected|
     msg
   end
 end
+
+RSpec::Matchers.define :be_json do
+  match do |actual|
+    JSON.parse(actual)
+    true
+  rescue StandardError
+    false
+  end
+
+  description do
+    "should be JSON format"
+  end
+
+  failure_message do |actual|
+    "expected #{actual} to be parsable JSON"
+  end
+
+  failure_message_when_negated do |actual|
+    "expected #{actual} not to be parsable JSON"
+  end
+end

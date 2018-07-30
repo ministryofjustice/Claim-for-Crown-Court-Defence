@@ -58,7 +58,12 @@ module API::V2
               LIMIT 1
             ) AS last_injection_attempt
             WHERE last_injection_attempt.deleted_at is NULL
-          ) AS injection_errors
+          ) AS injection_errors,
+          (
+            SELECT transfer_stage_id
+            FROM transfer_details
+            WHERE claim_id = c.id
+          ) AS transfer_stage_id
         FROM claims AS c
           LEFT OUTER JOIN defendants AS d
             ON c.id = d.claim_id

@@ -38,7 +38,7 @@ describe('Helpers.API.Establishments.js', function() {
       spyOn($, 'publish');
 
       helper.init().then(function() {
-        expect($.publish).toHaveBeenCalledWith('/API/expenses/loaded/');
+        expect($.publish).toHaveBeenCalledWith('/API/establishments/loaded/');
       });
       deferred.resolve();
     });
@@ -50,7 +50,7 @@ describe('Helpers.API.Establishments.js', function() {
       spyOn($, 'publish');
 
       helper.init().then(function() {}, function() {
-        expect($.publish).toHaveBeenCalledWith('/API/expenses/load/error/', {
+        expect($.publish).toHaveBeenCalledWith('/API/establishments/load/error/', {
           status: 'status',
           error: 'error'
         });

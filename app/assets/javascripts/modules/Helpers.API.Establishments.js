@@ -4,6 +4,8 @@
   // Internal cache
   var internalCache = {};
 
+  var formControls;
+
   // Default config
   var settings = {
 
@@ -25,8 +27,8 @@
 
     // Success / Fail events via $.publish()
     events: {
-      cacheLoaded: '/API/expenses/loaded/',
-      cacheLoadError: '/API/expenses/load/error/'
+      cacheLoaded: '/API/establishments/loaded/',
+      cacheLoadError: '/API/establishments/load/error/'
     }
   };
 
@@ -82,8 +84,14 @@
   function init() {
     //Checking DOM for feature flag value
     if ($(settings.init.selector).data(settings.init.dataAttr)) {
+      formControls = moj.Helpers.FormControls;
       return loadData();
     }
+  }
+
+  // leaving in place for possible refactor
+  function getAsSelectWithOptions(a,b){
+    return getAsOptions(a,b);
   }
 
   // This method will return an array of <option> tags
@@ -91,25 +99,24 @@
   // the entire operation completes before other
   // events are triggered
   function getAsOptions(category, selected) {
-    var formControls = moj.Helpers.FormControls;
     var results = getLocationByCategory(category);
     var def = $.Deferred();
+    if (results.length === 0) throw Error('Missing results: no data to build options with');
 
-    formControls.getOptions(results||[], selected).then(function(els){
+    formControls.getOptions(results, selected).then(function(els){
       def.resolve(els);
     }, function(){
       def.reject(arguments);
     });
-
     return def.promise();
   }
-
 
   Module.Establishments = {
     init: init,
     loadData: loadData,
     getLocationByCategory: getLocationByCategory,
-    getAsOptions: getAsOptions
+    getAsOptions: getAsOptions,
+    getAsSelectWithOptions: getAsSelectWithOptions
   };
 
   $(document).ready(init);

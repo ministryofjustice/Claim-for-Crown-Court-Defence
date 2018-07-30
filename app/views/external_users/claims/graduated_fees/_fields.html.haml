@@ -3,7 +3,7 @@
   #graduated-fees.mod-graduated-fees
     = f.fields_for :graduated_fee do |gradfee|
       - grad_fee = present(gradfee.object)
-      .graduated-fee-group.nested-fields.js-block{data:{"type": "gradFees", autovat: @claim.apply_vat? ? "true" : "false"}}
+      .graduated-fee-group.nested-fields.js-block.fx-do-init{data:{"type": "gradFees", autovat: @claim.apply_vat? ? "true" : "false"}}
         = gradfee.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
         .form-section
           -#  PPE Total

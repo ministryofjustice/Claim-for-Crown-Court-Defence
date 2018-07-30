@@ -55,7 +55,7 @@ describe('Helpers.SideBar.js', function() {
       });
 
       it('should cache referances to the DOM element', function() {
-        var fixtureDom = ['<div class="js-block">', '<span>hello</span>', '</div>'].join('');
+        var fixtureDom = ['<div class="js-block fx-do-init">', '<span>hello</span>', '</div>'].join('');
         $('body').append(fixtureDom);
         instance = new moj.Helpers.SideBar.Base({
           $el: $('.js-block'),
@@ -87,7 +87,7 @@ describe('Helpers.SideBar.js', function() {
         describe('...isVisible', function() {
           it('should correctly return the `isVisible` status', function() {
             var fixtureDom = [
-              '<div class="js-block">',
+              '<div class="js-block fx-do-init">',
               '<span class="rate">rate</span>',
               '<span class="amount">amount</span>',
               '<span class="total">total</span>',
@@ -145,7 +145,7 @@ describe('Helpers.SideBar.js', function() {
         describe('...getVal', function() {
           beforeEach(function() {
             var fixtureDom = [
-              '<div class="js-block">',
+              '<div class="js-block fx-do-init">',
               '<input class="rate" value="22.22"/>',
               '<input class="amount" value="33.33"/>',
               '</div>'
@@ -175,7 +175,7 @@ describe('Helpers.SideBar.js', function() {
         describe('...getDataVal', function() {
           beforeEach(function() {
             var fixtureDom = [
-              '<div class="js-block">',
+              '<div class="js-block fx-do-init">',
               '<input class="total" data-total="44.44" value="44.44"/>',
               '</div>'
             ].join('');
@@ -203,7 +203,7 @@ describe('Helpers.SideBar.js', function() {
         xdescribe('...setState', function() {
           beforeEach(function() {
             var fixtureDom = [
-              '<div class="js-block">',
+              '<div class="js-block fx-do-init">',
               '<input class="total" data-total="44.44" value="44.44"/>',
               '</div>'
             ].join('');
@@ -229,7 +229,7 @@ describe('Helpers.SideBar.js', function() {
         xdescribe('...setVal', function() {
           beforeEach(function() {
             var fixtureDom = [
-              '<div class="js-block">',
+              '<div class="js-block fx-do-init">',
               '<input class="total" data-total="44.44" value="44.44"/>',
               '</div>'
             ].join('');
@@ -255,7 +255,7 @@ describe('Helpers.SideBar.js', function() {
     describe('FeeBlock', function() {
       it('should apply Base Methods and set config props on the instance', function() {
         var fixtureDom = [
-          '<div class="js-block">',
+          '<div class="js-block fx-do-init">',
           '</div>'
         ].join('');
         $('body').append(fixtureDom);
@@ -273,7 +273,7 @@ describe('Helpers.SideBar.js', function() {
         var fixtureDom;
         beforeEach(function() {
           fixtureDom = [
-            '<div class="js-block">',
+            '<div class="js-block fx-do-init">',
             '<input class="quantity" value="11.11"/>',
             '<input class="rate" value="22.22"/>',
             '<input class="amount" value="33.33"/>',
@@ -409,7 +409,7 @@ describe('Helpers.SideBar.js', function() {
     describe('FeeBlockCalculator', function() {
       it('should apply Base Methods and set config props on the instance', function() {
         var fixtureDom = [
-          '<div class="js-block">',
+          '<div class="js-block fx-do-init">',
           '</div>'
         ].join('');
         $('body').append(fixtureDom);
@@ -429,7 +429,7 @@ describe('Helpers.SideBar.js', function() {
         var fixtureDom;
         beforeEach(function() {
           fixtureDom = [
-            '<div class="js-block">',
+            '<div class="js-block fx-do-init">',
             '<input class="quantity" value="11.11"/>',
             '<input class="rate" value="22.22"/>',
             '<input class="amount" value="33.33"/>',
@@ -517,7 +517,7 @@ describe('Helpers.SideBar.js', function() {
 
         beforeEach(function() {
           fixtureDom = [
-            '<div class="js-block">',
+            '<div class="js-block fx-do-init">',
             '</div>'
           ].join('');
           $('body').append(fixtureDom);
@@ -648,13 +648,14 @@ describe('Helpers.SideBar.js', function() {
         var fixtureDom;
         beforeEach(function() {
           fixtureDom = [
-            '<div class="js-block">',
+            '<div class="js-block fx-do-init">',
+            '<input class="fx-location-model" value ="sample"/>',
             '<input class="quantity" value="11.11"/>',
             '<input class="rate" value="22.22"/>',
             '<input class="amount" value="33.33"/>',
             '<span class="total" data-total="44.44" />',
             '<div class="fx-travel-expense-type"><select><option value="">please select</option><option value="1">option selected</option></select></div>',
-            '<div class="fx-travel-reason"><select><option value="">please select</option><option data-reason-text="true" value="1">option selected</option></select></div>',
+            '<div class="fx-travel-reason"><select><option value="">please select</option><option data-reason-text="true" value="1">option 1</option><option data-reason-text="false" value="2" data-location-type="test-location">option 2</option></select></div>',
             '<div class="fx-travel-reason-other" style="display:none"><span>here</span></div>',
             '<input class="vat" value=""/>',
             '</div>'
@@ -699,7 +700,7 @@ describe('Helpers.SideBar.js', function() {
 
         describe('...bindListners', function() {
           it('expense type: should bind change listner', function() {
-            var selector = '.fx-travel-expense-type select'
+            var selector = '.fx-travel-expense-type select';
             var spyEvent = spyOnEvent(selector, 'change');
 
             $(selector).change();
@@ -709,7 +710,7 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('expense type: should handle change event', function() {
-            var selector = '.fx-travel-expense-type select'
+            var selector = '.fx-travel-expense-type select';
             instance.bindListners();
             spyOn(instance, 'statemanager');
             $(selector).change();
@@ -717,18 +718,8 @@ describe('Helpers.SideBar.js', function() {
             expect(instance.statemanager).toHaveBeenCalled();
           });
 
-          xit('expense type: should handle change event (Hidden elements)', function() {
-            var selector = '.fx-travel-expense-type select'
-
-            instance.bindListners();
-            spyOn(instance, 'cleanupHiddenElements');
-
-            $(selector).change();
-            expect(instance.cleanupHiddenElements).toHaveBeenCalledWith('form');
-          });
-
           it('travel reason: should bind change listner', function() {
-            var selector = '.fx-travel-reason select:last'
+            var selector = '.fx-travel-reason select:last';
             var spyEvent = spyOnEvent(selector, 'change');
 
             $(selector).change();
@@ -738,17 +729,94 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('travel reason: should handle change event', function() {
-            var selector = '.fx-travel-reason select:last'
+            var selector = '.fx-travel-reason select:last';
+            spyOn(instance, 'setVal');
+            spyOn(instance, 'attachElement');
 
             instance.bindListners();
             $(selector).prop('selectedIndex', 1).change();
+
             expect(instance.$el.find('.fx-travel-reason-other').is(':visible')).toBe(true);
+
+            $(selector).prop('selectedIndex', 2).change();
+            expect(instance.$el.find('.fx-travel-reason-other').is(':visible')).toBe(false);
+          });
+
+          it('travel reason: should call `this.setVal` passing params', function() {
+            var selector = '.fx-travel-reason select:last';
+            spyOn(instance, 'setVal');
+            spyOn(instance, 'setState');
+            spyOn(instance, 'attachElement');
+
+            instance.bindListners();
+            $(selector).prop('selectedIndex', 1).change();
+
+            expect(instance.setVal).toHaveBeenCalledWith('.fx-location-type', '');
+
+
+            $(selector).prop('selectedIndex', 2).change();
+            expect(instance.setVal).toHaveBeenCalledWith('.fx-location-type', 'test-location');
+          });
+
+          it('travel reason: should call `this.setState` passing params', function() {
+            var selector = '.fx-travel-reason select:last';
+            spyOn(instance, 'setVal');
+            spyOn(instance, 'setState');
+            spyOn(instance, 'attachElement');
+
+            instance.bindListners();
+            $(selector).prop('selectedIndex', 1).change();
+
+            expect(instance.setState).toHaveBeenCalledWith('.fx-travel-reason-other', true);
+
+            $(selector).prop('selectedIndex', 2).change();
+            expect(instance.setState).toHaveBeenCalledWith('.fx-travel-reason-other', false);
+          });
+
+          it('travel reason: should call `this.attachElement` passing params', function() {
+            var selector = '.fx-travel-reason select:last';
+            spyOn(instance, 'setVal');
+            spyOn(instance, 'setState');
+            spyOn(instance, 'attachElement');
+
+            instance.bindListners();
+            $(selector).prop('selectedIndex', 1).change();
+
+            expect(instance.attachElement).toHaveBeenCalledWith({
+              reasonText: true
+            });
+
+            $(selector).prop('selectedIndex', 2).change();
+            expect(instance.attachElement).toHaveBeenCalledWith({
+              reasonText: false,
+              locationType: 'test-location'
+            });
+          });
+        });
+
+        describe('...attachElement', function() {
+          it('should exist as a function', function() {
+            expect(instance.attachElement).toEqual(jasmine.any(Function));
+          });
+          it('should return an error if no params supplied', function() {
+            expect(function() {
+              instance.attachElement();
+            }).toThrowError('Missing param: obj, cannot build element');
+          });
+
+          it('should call `this.attachSelectWithOptions` if param.locationType is supplied', function(){
+            spyOn(instance, 'attachSelectWithOptions');
+            instance.attachElement({locationType:'not empty'});
+            expect(instance.attachSelectWithOptions).toHaveBeenCalledWith('not empty', 'sample');
+          });
+          it('should call `this.attachSelectWithOptions` with param', function(){
+            spyOn(instance, 'attachSelectWithOptions');
+            instance.$el.find('.fx-location-model').val('');
+            instance.attachElement({locationType:'not empty'});
+            expect(instance.attachSelectWithOptions).toHaveBeenCalledWith('not empty', '');
           });
         });
       });
     });
-
-
-
   });
 });

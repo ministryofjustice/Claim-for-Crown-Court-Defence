@@ -10,7 +10,7 @@
 
 -# Panel content
 .panel.panel-border-narrow.js-hidden{:id => to_slug(f.object.description)}
-  .basic-fee-group.fee-details.js-block{class: to_slug(f.object.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": f.object.calculated? ? "FeeBlockCalculator" : "FeeBlock"}}
+  .basic-fee-group.fee-details.js-block.fx-do-init{class: to_slug(f.object.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": f.object.calculated? ? "FeeBlockCalculator" : "FeeBlock"}}
     = f.hidden_field :fee_type_id, value: f.object.fee_type_id
 
     -# Quantity

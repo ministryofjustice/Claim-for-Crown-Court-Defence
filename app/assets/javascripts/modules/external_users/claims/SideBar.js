@@ -25,8 +25,11 @@ moj.Modules.SideBar = {
 
   loadBlocks: function() {
     var self = this;
-    self.blocks = [];
-    $('.js-block').each(function(id, el) {
+    self.blocks = self.blocks.filter(function(block){
+      if (!block || !block.config) return;
+      return block.config.fn !== "PhantomBlock";
+    });
+    $('.js-block.fx-do-init').each(function(id, el) {
       var $el = $(el);
       var fn = $el.data('block-type') ? $el.data('block-type') : 'FeeBlock';
       var options = {
@@ -39,6 +42,7 @@ moj.Modules.SideBar = {
       var block = new moj.Helpers.SideBar[options.fn](options);
       self.blocks.push(block.init());
       self.removePhantomKey($el.data('type'));
+      $el.removeClass('fx-do-init');
     });
   },
 
@@ -62,7 +66,7 @@ moj.Modules.SideBar = {
           type: val,
           autoVAT: $el.data('autovat'),
           $el: $('.fx-seed-' + val)
-        }
+        };
 
         if ($el.data('autovat') === false) {
           options.autoVAT = false;

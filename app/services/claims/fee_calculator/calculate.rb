@@ -14,10 +14,10 @@ module Claims
       delegate  :earliest_representation_order_date,
                 :agfs?,
                 :case_type,
-                :advocate_category,
                 :offence,
-                to: :@claim
+                to: :claim
 
+      # TODO: check if these can all be made private
       attr_reader :claim, :options, :fee_type, :advocate_category, :quantity, :current_page_fees
 
       def initialize(claim, options)
@@ -37,7 +37,7 @@ module Claims
 
       def setup(options)
         @fee_type = Fee::BaseFeeType.find(options[:fee_type_id])
-        @advocate_category = options[:advocate_category] || advocate_category
+        @advocate_category = options[:advocate_category] || claim.advocate_category
         @quantity = options[:quantity] || 1
         @current_page_fees = options[:fees].values
       end

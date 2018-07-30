@@ -20,13 +20,20 @@ VCR.configure do |c|
   end
 end
 
+# use `VCR_OFF=true rspec` too turn off vcr
+VCR.turn_off! if ENV['VCR_OFF']
+
 # Create VCR cassettes for any specs with a :vcr tag
 # in the cassette library under a directory structure
 # mirroring the specs'.
 RSpec.configure do |config|
   config.around(:each, :vcr) do |example|
-    cassette = Pathname.new(example.metadata[:file_path]).cleanpath.sub_ext('').to_s
-    VCR.use_cassette(cassette, :record => :new_episodes) do
+    if VCR.turned_on?
+      cassette = Pathname.new(example.metadata[:file_path]).cleanpath.sub_ext('').to_s
+      VCR.use_cassette(cassette, :record => :new_episodes) do
+        example.run
+      end
+    else
       example.run
     end
   end

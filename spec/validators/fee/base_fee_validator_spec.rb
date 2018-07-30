@@ -415,7 +415,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
     context 'Fixed fee types' do
       context 'number of cases uplift (FXNOC)' do
-        let(:noc_fee) { build :fixed_fee, :noc_fee, claim: claim }
+        let(:noc_fee) { build :fixed_fee, :fxnoc_fee, claim: claim }
         include_examples 'common AGFS number of cases uplift validations'
       end
     end

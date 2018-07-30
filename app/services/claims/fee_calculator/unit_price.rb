@@ -54,9 +54,10 @@ module Claims
         current_total_quantity_for_fee_type(parent)
       end
 
+      # TODO: promote?
       def current_total_quantity_for_fee_type(fee_type)
         current_page_fees.inject(0) do |sum, fee|
-          fee[:fee_type_id].eql?(fee_type.id.to_s) ? sum + fee[:quantity].to_i : sum
+          fee[:fee_type_id].to_s.eql?(fee_type.id.to_s) ? sum + fee[:quantity].to_i : sum
         end
       end
 

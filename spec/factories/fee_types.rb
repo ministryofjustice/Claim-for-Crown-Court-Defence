@@ -214,7 +214,6 @@ FactoryBot.define do
         description 'Breach of a crown court order uplift'
         code 'CBU'
         unique_code 'FXCBU'
-        roles ['agfs']
         quantity_is_decimal false
       end
 
@@ -236,6 +235,13 @@ FactoryBot.define do
         description 'Appeals to the crown court against conviction'
         code 'ACV'
         unique_code 'FXACV'
+        quantity_is_decimal false
+      end
+
+      trait :fxacu do
+        description 'Appeals to the crown court against conviction uplift'
+        code 'ACU'
+        unique_code 'FXACU'
         quantity_is_decimal false
       end
     end

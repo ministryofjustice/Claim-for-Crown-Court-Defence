@@ -24,7 +24,6 @@ module SearchResultHelpers
         fee[0].to_i.between?(1, 50),
         fee[1].in?(['Discontinuance', 'Guilty plea']),
         fee[2].eql?('Fee::GraduatedFeeType')
-        # fee[1].eql?('Fee::TransferFee')
       ]&.all?
     end&.any?
   end
@@ -33,8 +32,7 @@ module SearchResultHelpers
     fees&.map do |fee|
       [
         fee[0].to_i.between?(1, 50),
-        fee[2].eql?('Fee::TransferFeeType'),
-        object.transfer_stage_id&.eql?(10)
+        fee[2].eql?('Fee::TransferFeeType')
       ]&.all?
     end&.any?
   end
@@ -66,5 +64,9 @@ module SearchResultHelpers
 
   def allocation_type_is_fixed?
     object.allocation_type.eql?('Fixed')
+  end
+
+  def up_to_and_inc_pcmh_transfer?
+    object.transfer_stage_id.eql?(10)
   end
 end

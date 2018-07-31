@@ -110,7 +110,7 @@ module API
 
       def risk_based_bills
         ((risk_based_class_letter && (contains_risk_based_fee ||
-          contains_risk_based_transfer_fee)).eql?(true) && is_submitted?).to_i
+          (contains_risk_based_transfer_fee && up_to_and_inc_pcmh_transfer?))).eql?(true) && is_submitted?).to_i
       end
 
       def injection_errored

@@ -1,3 +1,4 @@
+
 module API::V2
   module QueryHelper
     extend Grape::API::Helpers
@@ -59,11 +60,7 @@ module API::V2
             ) AS last_injection_attempt
             WHERE last_injection_attempt.deleted_at is NULL
           ) AS injection_errors,
-          (
-            SELECT transfer_stage_id
-            FROM transfer_details
-            WHERE claim_id = c.id
-          ) AS transfer_stage_id
+          dt.transfer_stage_id AS transfer_stage_id
         FROM claims AS c
           LEFT OUTER JOIN defendants AS d
             ON c.id = d.claim_id
@@ -81,6 +78,8 @@ module API::V2
             ON c.offence_id = o.id
           LEFT OUTER JOIN offence_classes AS oc
             ON o.offence_class_id = oc.id
+          LEFT OUTER JOIN transfer_details AS dt
+            ON c.id = dt.claim_id
         WHERE
           c.deleted_at IS NULL
           AND c.type IN CLAIM_TYPES_FOR_SCHEME
@@ -88,7 +87,7 @@ module API::V2
         GROUP BY
           c.id, c.uuid, c.allocation_type, court.name,
           ct.name, ct.is_fixed_fee, ct.fee_type_code, c.disk_evidence,
-          u.first_name, u.last_name, oc.class_letter
+          u.first_name, u.last_name, oc.class_letter, dt.transfer_stage_id
         ;
       SQL
     end

@@ -1,8 +1,14 @@
-RSpec.describe Claims::FeeCalculator::Calculate, :vcr do
+RSpec.describe Claims::FeeCalculator::Calculate, :fee_calc_vcr do
   subject { described_class.new(claim, params) }
 
+  # IMPORTANT: use specific case type, offence class and fee types in order
+  # to reduce and afix VCR cassettes required (that have to match on query values)
+  # , prevent flickering specs (from random offence classes)
+  # and to allow testing actual amounts "calculated".
   let(:case_type) { create(:case_type, :appeal_against_conviction) }
-  let(:claim) { create(:draft_claim, case_type: case_type) }
+  let(:offence_class) { create(:offence_class, class_letter: 'K') }
+  let(:offence) { create(:offence, offence_class: offence_class) }
+  let(:claim) { create(:draft_claim, case_type: case_type, offence: offence) }
   let(:fee) { create(:fixed_fee, :fxacv_fee, claim: claim, quantity: 1) }
 
   let(:params) do

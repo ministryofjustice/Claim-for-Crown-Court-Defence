@@ -1,9 +1,71 @@
-RSpec.describe Claims::FeeCalculator::UnitPrice, :vcr do
+RSpec.configure do |c|
+  c.alias_it_behaves_like_to :it_returns, 'returns'
+end
+
+RSpec.shared_examples 'a successful fee calculator response' do
+  it 'returns success? true' do
+    expect(response.success?).to be true
+  end
+
+  it 'includes amount' do
+    expect(response.data.amount).to be_kind_of Float
+  end
+
+  it 'includes no errors' do
+    expect(response.errors).to be_nil
+  end
+
+  it 'includes no error message' do
+    expect(response.message).to be_nil
+  end
+end
+
+RSpec.shared_examples 'a failed fee calculator response' do
+  it 'includes success? false' do
+    expect(response.success?).to be false
+  end
+
+  it 'includes no data' do
+    expect(response.data).to be_nil
+  end
+
+  it 'includes errors' do
+    expect(response.errors).to be_an Array
+  end
+
+  it 'includes error message' do
+    expect(response.message).to be_a String
+  end
+end
+
+RSpec.shared_examples 'a fee calculator response with amount' do |options|
+  let(:expected_amount) { options.fetch(:amount, nil) }
+
+  it 'includes non-zero amount' do
+    expect(response.data.amount).to be > 0
+  end
+
+  # TODO: maybe too much integration??
+  if options&.fetch(:amount)
+    it 'includes expected amount' do
+      expect(response.data.amount).to be expected_amount
+    end
+  end
+end
+
+RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
   subject { described_class.new(claim, params) }
 
+  # IMPORTANT: use specific case type, offence class and fee types in order
+  # to reduce and afix VCR cassettes required (that have to match on query values)
+  # , prevent flickering specs (from random offence classes)
+  # and to allow testing actual amounts "calculated".
   let(:case_type) { create(:case_type, :appeal_against_conviction) }
-  let(:claim) { create(:draft_claim, case_type: case_type) }
-  let(:fee) { create(:fixed_fee, :fxacv_fee, claim: claim, quantity: 1) }
+  let(:offence_class) { create(:offence_class, class_letter: 'K') }
+  let(:offence) { create(:offence, offence_class: offence_class) }
+  let(:claim) { create(:draft_claim, case_type: case_type, offence: offence) }
+  let(:fee_type) { create(:fixed_fee_type, :fxacv) }
+  let(:fee) { create(:fixed_fee, fee_type: fee_type, claim: claim, quantity: 1) }
 
   let(:params) do
     {
@@ -22,53 +84,52 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :vcr do
   describe '#call' do
     subject(:response) { described_class.new(claim, params).call }
 
-    # create params from fees on claim for brevity/dryness
-    before do
-      claim.fixed_fees.each_with_index do |fee, idx|
-        params[:fees].merge!("#{idx}": { fee_type_id: fee.fee_type.id, quantity: fee.quantity })
-      end
-    end
-
     context 'for a fixed fee' do
-      it_behaves_like 'successful fee calculator response'
+      it_returns 'a successful fee calculator response'
 
-      include_examples 'fee calculator amount', amount: 130.0
+      it_returns 'a fee calculator response with amount', amount: 130.0
     end
 
     context 'for a fixed fee case uplift' do
       let(:uplift_fee) { create(:fixed_fee, :fxacu_fee, claim: claim, quantity: 1) }
 
-      before { params.merge!(fee_type_id: uplift_fee.id) }
+      before do
+        params.merge!(fee_type_id: uplift_fee.fee_type.id)
+        params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+      end
 
-      it_behaves_like 'successful fee calculator response'
-
-      include_examples 'fee calculator amount', amount: 26.0
+      it_returns 'a successful fee calculator response'
+      it_returns 'a fee calculator response with amount', amount: 26.0
     end
 
     context 'for a fixed fee number of cases uplift' do
       let(:uplift_fee) { create(:fixed_fee, :fxnoc_fee, claim: claim, quantity: 1) }
 
-      before { params.merge!(fee_type_id: uplift_fee.id) }
+      before do
+        params.merge!(fee_type_id: uplift_fee.fee_type.id)
+        params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+      end
 
-      it_behaves_like 'successful fee calculator response'
-
-      include_examples 'fee calculator amount', amount: 26.0
+      it_returns 'a successful fee calculator response'
+      it_returns 'a fee calculator response with amount', amount: 26.0
     end
 
     context 'for a fixed fee number of defendants uplift' do
       let(:uplift_fee) { create(:fixed_fee, :fxndr_fee, claim: claim, quantity: 1) }
 
-      before { params.merge!(fee_type_id: uplift_fee.id) }
+      before do
+        params.merge!(fee_type_id: uplift_fee.fee_type.id)
+        params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+      end
 
-      it_behaves_like 'successful fee calculator response'
-
-      include_examples 'fee calculator amount', amount: 26.0
+      it_returns 'a successful fee calculator response'
+      it_returns 'a fee calculator response with amount', amount: 26.0
     end
 
     context 'for erroneous request' do
       before { params.merge!(advocate_category: 'Not an advocate category') }
 
-      it_behaves_like 'failed fee calculator response'
+      it_returns 'a failed fee calculator response'
     end
   end
 end

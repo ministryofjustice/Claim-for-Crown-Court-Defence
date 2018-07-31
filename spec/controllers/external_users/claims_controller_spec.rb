@@ -564,8 +564,14 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
   end
 
   describe 'GET #calculate_unit_price.json' do
+    # IMPORTANT: use specific case type, offence class and fee types in order
+    # to reduce and afix VCR cassettes required (that have to match on query values)
+    # , prevent flickering specs (from random offence classes)
+    # and to allow testing actual amounts "calculated".
     let(:case_type) { create(:case_type, :appeal_against_conviction) }
-    let(:claim) { create(:draft_claim, case_type: case_type, external_user: advocate) }
+    let(:offence_class) { create(:offence_class, class_letter: 'K') }
+    let(:offence) { create(:offence, offence_class: offence_class) }
+    let(:claim) { create(:draft_claim, case_type: case_type, external_user: advocate, offence: offence ) }
     let(:fee) { create(:fixed_fee, :fxacv_fee, claim: claim, quantity: 1) }
 
     let(:calculator_params) do
@@ -582,7 +588,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
     before { get :calculate_unit_price, params: calculator_params }
 
-    context 'success', :vcr do
+    context 'success', :fee_calc_vcr do
       it 'returns http success' do
         expect(response).to have_http_status(:ok)
       end
@@ -596,7 +602,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       end
     end
 
-    context 'failure', :vcr do
+    context 'failure', :fee_calc_vcr do
       before do
         calculator_params.merge!('advocate_category' => 'Rubbish')
         get :calculate_unit_price, params: calculator_params

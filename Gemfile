@@ -62,7 +62,7 @@ gem 'ruby-progressbar'
 gem 'geckoboard-ruby'
 gem 'posix-spawn', '~> 0.3.13'
 # gem 'laa-fee-calculator-client', :git => 'git@github.com:ministryofjustice/laa-fee-calculator-client.git', :branch => 'master'
-gem 'laa-fee-calculator-client', '~> 0.1.1'
+gem 'laa-fee-calculator-client', '~> 0.1.2'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'

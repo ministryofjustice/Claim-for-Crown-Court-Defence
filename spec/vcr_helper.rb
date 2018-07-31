@@ -23,14 +23,23 @@ end
 # use `VCR_OFF=true rspec` too turn off vcr
 VCR.turn_off! if ENV['VCR_OFF']
 
-# Create VCR cassettes for any specs with a :vcr tag
+# custom VCR request matcher to match request based on
+# path and query but not host because laa-fee-calculator
+# host could change and responses are path and query specific
+path_query_matcher = lambda do |request_1, request_2|
+  uri_1 = URI(request_1.uri)
+  uri_2 = URI(request_2.uri)
+  [uri_1.path == uri_2.path, uri_1.query == uri_2.query].all?
+end
+
+# Create VCR cassettes for any specs with a :fee_calc_vcr tag
 # in the cassette library under a directory structure
 # mirroring the specs'.
 RSpec.configure do |config|
-  config.around(:each, :vcr) do |example|
+  config.around(:each, :fee_calc_vcr) do |example|
     if VCR.turned_on?
       cassette = Pathname.new(example.metadata[:file_path]).cleanpath.sub_ext('').to_s
-      VCR.use_cassette(cassette, :record => :new_episodes) do
+      VCR.use_cassette(cassette, :record => :new_episodes, :match_requests_on => [:method, path_query_matcher]) do
         example.run
       end
     else

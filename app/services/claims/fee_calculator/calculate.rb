@@ -79,6 +79,9 @@ module Claims
         @fee_scheme ||= client.fee_schemes(type: scheme_type, case_date: earliest_representation_order_date.to_s(:db))
       end
 
+      # TODO: consider creating a mapping to fee calculator id's
+      # (less "safe" but faster/negates the need to query the API)??
+      #
       def scenario
         # TODO: create select/find_by calls to list endpoints in client gem
         fee_scheme.scenarios.select do |s|

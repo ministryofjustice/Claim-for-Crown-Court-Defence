@@ -1,3 +1,4 @@
+
 require 'rails_helper'
 
 describe API::Entities::SearchResult do
@@ -89,6 +90,12 @@ describe API::Entities::SearchResult do
       context 'when passed a litigator case with a risk based bill' do
         let(:claim) { OpenStruct.new('id'=>'113336', 'uuid'=>'446fd8db-4441-4726-857c-3e80e440f5a2', 'scheme'=>'lgfs', 'scheme_type'=>'Final', 'case_number'=>'T20170329', 'state'=>'submitted', 'court_name'=>'Chester', 'case_type'=>'Guilty plea', 'total'=>'556.11', 'disk_evidence'=>false, 'external_user'=>'Ozella Adams', 'maat_references'=>'5782148', 'defendants'=>'Vallie King', 'fees'=>'30.0~Guilty plea~Fee::GraduatedFeeType', 'last_submitted_at'=>'2017-07-18 09:19:42.860977', 'class_letter'=>'H', 'is_fixed_fee'=>false, 'fee_type_code'=>'GRGLT', 'graduated_fee_types'=>'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR') }
         before { result.merge!(guilty_plea: 1, graduated_fees: 1, risk_based_bills: 1) }
+        include_examples 'returns expected JSON filter values'
+      end
+
+      context 'when passed a litigator case with a risk based transfer bill' do
+        let(:claim) { OpenStruct.new('id'=>'113336', 'uuid'=>'446fd8db-4441-4726-857c-3e80e440f5a2', 'scheme'=>'lgfs', 'scheme_type'=>'Transfer', 'case_number'=>'T20170329', 'state'=>'submitted', 'court_name'=>'Chester', 'total'=>'556.11', 'disk_evidence'=>false, 'external_user'=>'Ozella Adams', 'maat_references'=>'5782148', 'defendants'=>'Vallie King', 'fees'=>'30.0~~Fee::TransferFeeType', 'last_submitted_at'=>'2017-07-18 09:19:42.860977', 'class_letter'=>'G', 'is_fixed_fee'=>false, 'fee_type_code'=>'GRGLT', 'graduated_fee_types'=>'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR', 'transfer_stage_id'=>10) }
+        before { result.merge!(guilty_plea: 0, graduated_fees: 1, risk_based_bills: 1) }
         include_examples 'returns expected JSON filter values'
       end
 

@@ -36,24 +36,24 @@ module Claims
       end
     end
 
-    describe 'all_risk_based_bills' do
-      it 'selects only those claims that match the risk based criteria' do
-        offence_class_f = create :offence_class, class_letter: 'F'
-        offence_class_a = create :offence_class, class_letter: 'A'
-        offence_f = create :offence, offence_class: offence_class_f
-        offence_a = create :offence, offence_class: offence_class_a
-        guilty_plea_fee_type = create :graduated_fee_type, description: 'Guilty plea'
-        guilty_plea_fee = create :graduated_fee, fee_type: guilty_plea_fee_type
+    # describe 'all_risk_based_bills' do
+      # it 'selects only those claims that match the risk based criteria' do
+        # offence_class_f = create :offence_class, class_letter: 'F'
+        # offence_class_a = create :offence_class, class_letter: 'A'
+        # offence_f = create :offence, offence_class: offence_class_f
+        # offence_a = create :offence, offence_class: offence_class_a
+        # guilty_plea_fee_type = create :graduated_fee_type, description: 'Guilty plea'
+        # guilty_plea_fee = create :graduated_fee, fee_type: guilty_plea_fee_type
 
-        create :advocate_claim
-        create :transfer_claim
-        create :interim_claim
-        create :litigator_claim, offence: offence_a
-        claim = create :litigator_claim, offence: offence_f
-        create :graduated_fee, fee_type: guilty_plea_fee_type, claim: claim
+        # create :advocate_claim
+        # create :transfer_claim
+        # create :interim_claim
+        # create :litigator_claim, offence: offence_a
+        # claim = create :litigator_claim, offence: offence_f
+        # create :graduated_fee, fee_type: guilty_plea_fee_type, claim: claim
 
-        expect(Claim::BaseClaim.all_risk_based_bills).to match_array( [ claim ])
-      end
-    end
+        # expect(Claim::BaseClaim.all_risk_based_bills).to match_array( [ claim ])
+      # end
+    # end
   end
 end

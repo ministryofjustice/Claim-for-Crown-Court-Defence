@@ -238,6 +238,7 @@ moj.Helpers.SideBar = {
        * pass the event object to the statemanager
        */
       this.$el.on('change', '.fx-travel-expense-type select', function(e) {
+        e.stopPropagation();
         self.statemanager(e);
       });
       /**
@@ -248,41 +249,66 @@ moj.Helpers.SideBar = {
        *   when the user returns to the page
        */
       this.$el.on('change', '.fx-travel-reason select', function(e) {
+        e.stopPropagation();
         var $option, state, location_type;
-
         $option = $(e.target).find('option:selected');
         state = $option.data('reasonText');
         location_type = $option.data('locationType') || '';
         self.setVal('.fx-location-type', location_type);
         self.setState('.fx-travel-reason-other', state);
-        self.attachOptions(location_type);
+        self.attachElement($option.data());
       });
 
-      this.$el.on('change', '.fx-establishment-select', function(e) {
+      this.$el.on('change', '.fx-establishment-select select', function(e) {
+        e.stopPropagation();
         var $option = $(e.target).find('option:selected');
         self.$el.find('.fx-location-model').val($option.text());
       });
-
-
       return this;
     };
 
+    this.attachElement = function(obj) {
+      if (!obj) throw Error('Missing param: obj, cannot build element');
 
-    this.attachOptions = function(location_type) {
+      var selectedValue = this.$el.find('.fx-location-model').val();
+
+      if (obj.locationType) {
+        this.attachSelectWithOptions(obj.locationType, selectedValue);
+        return this;
+      }
+      this.attachInput();
+      return this;
+    };
+
+    this.attachInput = function() {
+      this.$el.find('.fx-travel-location label').text(staticdata.locationLabel.default);
+      this.$el.find('.location_wrapper').css('display', 'block');
+      this.$el.find('.fx-establishment-select').css('display', 'none');
+      return this;
+    };
+
+    this.attachSelectWithOptions = function(locationType, selectedValue) {
       var self = this;
+      var $detachedSelect;
 
-      var selected = this.$el.find('.fx-location-model').val();
+      if (!locationType) return new Error('Missing param: locationType');
 
-      // TODO: do this after detaching from the dom..?
-      if (!location_type) return new Error('Missing param: location_type');
-
-      moj.Helpers.API.Establishments.getAsOptions(location_type, {
+      moj.Helpers.API.Establishments.getAsSelectWithOptions(locationType, {
         prop: 'name',
-        value: selected
+        value: selectedValue
       }).then(function(els) {
-        self.$el.find('.fx-establishment-select option').remove();
-        self.$el.find('.fx-travel-location label').text(staticdata.locationLabel[location_type] || "Destination");
-        self.$el.find('.fx-establishment-select').append(els.join(''));
+
+        $detachedSelect = self.$el.find('.fx-establishment-select select').detach();
+
+        $detachedSelect.find('option').remove();
+        $detachedSelect.append(els.join(''));
+
+        self.$el.find('.fx-establishment-select').css('display', 'block');
+        self.$el.find('.fx-establishment-select').append($detachedSelect);
+
+        self.$el.find('.location_wrapper').css('display', 'none');
+        self.$el.find('.fx-travel-location label').text(staticdata.locationLabel[locationType] || staticdata.locationLabel.default);
+
       }, function() {
         return Error('Attach options failed:', arguments);
       });
@@ -294,6 +320,7 @@ moj.Helpers.SideBar = {
         $select.trigger('change');
       }
     };
+
     this.setTotals = function() {
       this.totals = {
         quantity: this.getVal('.quantity'),
@@ -323,6 +350,7 @@ moj.Helpers.SideBar = {
       var $detached = $parent.find('.form-section-compound').detach();
       var locationType = $detached.find('.fx-location-type').val();
       var travelReasonValue = $detached.find('.fx-travel-reason option:selected').val();
+
       // regular fields
       ['date',
         'distance',
@@ -335,12 +363,20 @@ moj.Helpers.SideBar = {
       });
 
       // net amount & lable
-      $detached.find(this.stateLookup['netAmount']).css('display', (state.config['netAmount'] ? 'block' : 'none'));
-      $detached.find(this.stateLookup['netAmount'] + ' label').text(state.config['netAmountLabel']);
+      $detached.find(this.stateLookup.netAmount).css('display', (state.config.netAmount ? 'block' : 'none'));
+      $detached.find(this.stateLookup.netAmount + ' label').text(state.config.netAmountLabel);
 
-      // location & label
-      $detached.find(this.stateLookup['location']).css('display', (state.config['location'] ? 'block' : 'none'));
-      $detached.find(this.stateLookup['location'] + ' label').text(state.config['locationLabel']);
+
+      $detached.find(this.stateLookup.location).css('display', (state.config.location ? 'block' : 'none'));
+      $detached.find(this.stateLookup.location + ' label').text(state.config.locationLabel);
+
+      // cache the location input
+      if (!this.$location) {
+        this.$location = {
+          input: $detached.find('.fx-travel-location > .location_wrapper:first'),
+          select: $detached.find('.fx-travel-location > .fx-establishment-select')
+        };
+      }
 
       // Overides for LGFS reason set C;
       state.config.reasonSet = (this.config.featureDistance ? 'C' : (state.config.reasonSet || 'A'));
@@ -370,8 +406,7 @@ moj.Helpers.SideBar = {
       // Loading the dynamic `location` data
       // wait for the data is loaded before
       // firing the change event
-      //
-      $.subscribe('/API/expenses/loaded/', function(){
+      $.subscribe('/API/establishments/loaded/', function() {
         $detached.find('.fx-travel-reason select').trigger('change');
       });
 
@@ -437,7 +472,8 @@ moj.Helpers.SideBar = {
         crown_court: 'Crown court',
         magistrates_court: 'Magistrates court',
         prison: 'Prison',
-        hospital: 'Hospital'
+        hospital: 'Hospital',
+        default: 'Destination'
       },
       expenseReasons: {
         'A': [{

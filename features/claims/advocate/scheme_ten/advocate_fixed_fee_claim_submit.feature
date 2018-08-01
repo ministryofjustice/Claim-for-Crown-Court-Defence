@@ -1,6 +1,7 @@
 @javascript
 Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
+  @fee_calc_vcr
   Scenario: I create an Appeal against conviction claim, then submit it
 
     Given I am a signed in advocate
@@ -20,12 +21,18 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     Then I click "Continue" in the claim form
 
+    Given I insert the VCR cassette 'features/claims/advocate/scheme_10/fixed_fee_calculations'
+
     And I should see the advocate categories 'Junior,Leading junior,QC'
     And I select an advocate category of 'Junior'
     And I add a fixed fee 'Appeals to the crown court against conviction'
     Then the last fixed fee case numbers section should not be visible
+    Then the last fixed fee rate should be populated with '250.00'
     And I add a fixed fee 'Appeals to the crown court against conviction uplift' with case numbers
     Then the last fixed fee case numbers section should be visible
+    Then the last fixed fee rate should be populated with '50.00'
+
+    And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
 
@@ -70,4 +77,4 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£109.75'
+    And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£442.94'

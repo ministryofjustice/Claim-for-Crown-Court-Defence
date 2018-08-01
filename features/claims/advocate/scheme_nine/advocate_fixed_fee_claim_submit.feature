@@ -1,6 +1,7 @@
 @javascript
-Feature: Advocate submits a claim for a Fixed fee (Contempt)
+Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
 
+  @fee_calc_vcr
   Scenario: I create a contempt claim, then submit it
 
     Given I am a signed in advocate
@@ -20,12 +21,19 @@ Feature: Advocate submits a claim for a Fixed fee (Contempt)
 
     Then I click "Continue" in the claim form
 
+    Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/fixed_fee_calculations'
+
     And I should see the advocate categories 'Junior alone,Led junior,Leading junior,QC'
     And I select an advocate category of 'Junior alone'
-    And I add a fixed fee 'Contempt'
+    And I add a fixed fee 'Appeals to the crown court against sentence'
     Then the last fixed fee case numbers section should not be visible
+    Then the last fixed fee rate should be populated with '108.00'
+
     And I add a fixed fee 'Number of cases uplift' with case numbers
     Then the last fixed fee case numbers section should be visible
+    Then the last fixed fee rate should be populated with '21.60'
+
+    And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
 
@@ -53,4 +61,4 @@ Feature: Advocate submits a claim for a Fixed fee (Contempt)
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£109.75'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£238.46'

@@ -85,7 +85,7 @@ RSpec.describe FeeScheme, type: :model do
 
       context 'and the earliest representation order date is before the AGFS fee reform release date' do
         let(:representation_order) { instance_double(RepresentationOrder) }
-        let(:release_date) { 3.months.ago.to_date }
+        let(:release_date) { Settings.agfs_fee_reform_release_date }
 
         before do
           expect(claim).to receive(:earliest_representation_order).and_return(representation_order)
@@ -97,7 +97,7 @@ RSpec.describe FeeScheme, type: :model do
 
       context 'and the earliest representation order date is in the AGFS fee reform release date' do
         let(:representation_order) { instance_double(RepresentationOrder) }
-        let(:release_date) { 3.months.ago.to_date }
+        let(:release_date) { Settings.agfs_fee_reform_release_date }
 
         before do
           expect(claim).to receive(:earliest_representation_order).and_return(representation_order)
@@ -109,7 +109,7 @@ RSpec.describe FeeScheme, type: :model do
 
       context 'and the earliest representation order date is after the AGFS fee reform release date' do
         let(:representation_order) { instance_double(RepresentationOrder) }
-        let(:release_date) { 3.months.ago.to_date }
+        let(:release_date) { Settings.agfs_fee_reform_release_date }
 
         before do
           expect(claim).to receive(:earliest_representation_order).and_return(representation_order)

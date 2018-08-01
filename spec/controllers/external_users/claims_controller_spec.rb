@@ -564,15 +564,22 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
   end
 
   describe 'GET #calculate_unit_price.json' do
-    # IMPORTANT: use specific case type, offence class and fee types in order
-    # to reduce and afix VCR cassettes required (that have to match on query values)
-    # , prevent flickering specs (from random offence classes)
-    # and to allow testing actual amounts "calculated".
+    # IMPORTANT: use specific case type, offence class, fee types and reporder
+    # date in order to reduce and afix VCR cassettes required (that have to match
+    # on query values), prevent flickering specs (from random offence classes,
+    # rep order dates) and to allow testing actual amounts "calculated".
+    let(:claim) do
+      create(:draft_claim,
+        create_defendant_and_rep_order: false,
+        create_defendant_and_rep_order_for_scheme_9: true,
+        case_type: case_type, offence: offence
+      )
+    end
     let(:case_type) { create(:case_type, :appeal_against_conviction) }
     let(:offence_class) { create(:offence_class, class_letter: 'K') }
     let(:offence) { create(:offence, offence_class: offence_class) }
-    let(:claim) { create(:draft_claim, case_type: case_type, external_user: advocate, offence: offence ) }
-    let(:fee) { create(:fixed_fee, :fxacv_fee, claim: claim, quantity: 1) }
+    let(:fee_type) { create(:fixed_fee_type, :fxacv) }
+    let(:fee) { create(:fixed_fee, fee_type: fee_type, claim: claim, quantity: 1) }
 
     let(:calculator_params) do
       {

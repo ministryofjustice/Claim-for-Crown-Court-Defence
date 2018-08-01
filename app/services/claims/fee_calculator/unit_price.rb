@@ -18,7 +18,7 @@ module Claims
         response(true, amount)
       rescue StandardError => err
         Rails.logger.error(err.message)
-        response(false, err, 'Price unavailable')
+        response(false, err, I18n.t('fee_calculator.unit_price.amount_unavailable'))
       end
 
       private

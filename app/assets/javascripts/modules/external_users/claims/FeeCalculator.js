@@ -51,10 +51,15 @@ moj.Modules.FeeCalculator = {
     });
   },
 
-  populateRate: function(data, context) {
+  setRate: function(data, context) {
     var $input = $(context).find('input.fee-rate');
     $input.val(data.toFixed(2));
     $input.change();
+    $input.prop('readonly', data > 0);
+  },
+
+  enableRate: function(context) {
+    $(context).find('input.fee-rate').prop('readonly', false);
   },
 
   populateNetAmount: function(context) {
@@ -74,7 +79,8 @@ moj.Modules.FeeCalculator = {
     var error_html = '<div class="js-calculate-error" style="color: #b10e1e; font-weight: bold;">' + response.responseJSON["message"] + '<div>';
     var new_label = $label.text() + ' ' + error_html;
 
-    $(context).find('.form-group.rate_wrapper').addClass('field_with_errors form-group-error');
+    $(context).find('.form-group.rate_wrapper').addClass('field_with_errors form-group-error')
+    $(context).find('.form-group.rate_wrapper').find('input.fee-rate').prop("readonly", false);;
     $label.html(new_label);
   },
 
@@ -98,12 +104,15 @@ moj.Modules.FeeCalculator = {
     })
     .done(function(response) {
       self.clearErrors(context);
-      self.populateRate(response.data.amount, context);
+      self.setRate(response.data.amount, context);
       self.displayHelp(context, true);
     })
     .fail(function(response) {
-      self.displayError(response, context);
-      self.displayHelp(context, false);
+      if (response.responseJSON['errors'][0] != 'incomplete') {
+        self.displayError(response, context);
+        self.displayHelp(context, false);
+      }
+      self.enableRate(context);
     });
   },
 

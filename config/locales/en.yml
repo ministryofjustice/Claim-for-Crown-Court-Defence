@@ -298,6 +298,11 @@ en:
   disk_evidence:
     header: 'Evidence supplied on disk'
     question: 'Will you be sending disk evidence for this claim?'
+  fee_calculator:
+    calculate:
+      amount_unavailable: Calculated rate unavailable
+    unit_price:
+      amount_unavailable: Calculated rate unavailable
 
 
 # en.super_admins

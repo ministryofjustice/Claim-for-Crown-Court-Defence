@@ -30,7 +30,7 @@ module Claims
         response(true, amount)
       rescue StandardError => err
         Rails.logger.error("error: #{err.message}")
-        response(false, err, 'Price unavailable')
+        response(false, err, I18n.t('fee_calculator.calculate.amount_unavailable'))
       end
 
       private
@@ -40,6 +40,8 @@ module Claims
         @advocate_category = options[:advocate_category] || claim.advocate_category
         @quantity = options[:quantity] || 1
         @current_page_fees = options[:fees].values
+      rescue StandardError
+        raise 'incomplete'
       end
 
       def amount

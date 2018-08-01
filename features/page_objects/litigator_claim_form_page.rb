@@ -36,7 +36,7 @@ class LitigatorClaimFormPage < ClaimFormPage
 
   def add_disbursement_if_required
     if disbursements.last.populated?
-      add_another_disbursement.trigger "click"
+      add_another_disbursement.click
     end
   end
 end

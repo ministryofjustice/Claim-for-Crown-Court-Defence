@@ -102,13 +102,13 @@ class ClaimFormPage < SitePrism::Page
 
   def add_fixed_fee_if_required
     if fixed_fees.last.populated?
-      add_another_fixed_fee.trigger "click"
+      add_another_fixed_fee.click
     end
   end
 
   def add_misc_fee_if_required
     if miscellaneous_fees.last.populated?
-      add_another_miscellaneous_fee.trigger "click"
+      add_another_miscellaneous_fee.click
     end
   end
 
@@ -121,6 +121,6 @@ class ClaimFormPage < SitePrism::Page
   end
 
   def check_evidence_checklist(count = 1)
-    evidence_checklist.items_with_labels[0...count].each { |item| item.label.trigger('click') }
+    evidence_checklist.items_with_labels[0...count].each { |item| item.label.click }
   end
 end

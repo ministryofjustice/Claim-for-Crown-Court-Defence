@@ -14,7 +14,7 @@ class EvidenceChecklistSection < SitePrism::Section
 
   def check(label)
     items_with_labels.each do |item|
-      item.label.trigger('click') if item.label.text.match?(Regexp.new(label, true))
+      item.label.click if item.label.text.match?(Regexp.new(label, true))
     end
   end
 end

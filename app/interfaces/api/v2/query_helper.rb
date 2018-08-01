@@ -1,4 +1,3 @@
-
 module API::V2
   module QueryHelper
     extend Grape::API::Helpers

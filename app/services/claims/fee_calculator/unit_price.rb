@@ -73,7 +73,9 @@ module Claims
         if fee_type.case_uplift?
           uplift_unit_price(:number_of_cases)
         elsif fee_type.defendant_uplift?
-          uplift_unit_price(:number_of_defendants)
+          # TODO: This call replaced uplift_unit_price(:number_of_defendants)
+          # which seems to return the same value, so one or other should be used
+          defendant_uplift_unit_price
         else
           unit_price
         end

@@ -102,13 +102,13 @@ class ClaimFormPage < SitePrism::Page
 
   def add_fixed_fee_if_required
     if fixed_fees.last.populated?
-      add_another_fixed_fee.trigger "click"
+      add_another_fixed_fee.click
     end
   end
 
   def add_misc_fee_if_required
     if miscellaneous_fees.last.populated?
-      add_another_miscellaneous_fee.trigger "click"
+      add_another_miscellaneous_fee.click
     end
   end
 

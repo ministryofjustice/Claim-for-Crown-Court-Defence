@@ -106,6 +106,14 @@ Then(/^I add a fixed fee '(.*?)' with case numbers$/) do |name|
   wait_for_ajax
 end
 
+Then(/^I add a fixed fee of defendants uplift/) do
+  @claim_form_page.add_fixed_fee_if_required
+  @claim_form_page.fixed_fees.last.select_fee_type 'Number of defendants uplift'
+  wait_for_ajax
+  @claim_form_page.fixed_fees.last.quantity.set 1
+  wait_for_ajax
+end
+
 Given(/^There are other advocates in my provider$/) do
   FactoryBot.create(:external_user,
                      :advocate,

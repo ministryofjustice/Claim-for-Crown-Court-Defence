@@ -40,9 +40,12 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I add a miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
 
     Then I click "Continue" in the claim form
-
     Then I should see the additional info area
-    And I add an expense 'Parking'
+    And I select an expense type "Parking"
+    And I select a travel reason "View of crime scene"
+    And I add an expense net amount for "34.56"
+    And I add an expense date
+
 
     Then I click "Continue" in the claim form
 

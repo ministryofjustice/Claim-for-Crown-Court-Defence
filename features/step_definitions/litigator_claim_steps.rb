@@ -73,16 +73,42 @@ And(/^I fill '(.*)' as the warrant fee executed date$/) do |date|
   @litigator_claim_form_page.warrant_fee_executed_date.set_date date
 end
 
+Then(/^I select an expense type "([^"]*)"$/) do |name|
+  @claim_form_page.expenses.last.expense_type_dropdown.select name
+end
+
+Then(/^I select a travel reason "([^"]*)"$/) do |arg1|
+  @claim_form_page.expenses.last.reason_for_travel_dropdown.select 'View of crime scene'
+end
+
+Then(/^I add an expense location$/) do
+  @claim_form_page.expenses.last.destination.set 'Liverpool'
+end
+
+Then(/^I add an expense date$/) do
+  @claim_form_page.expenses.last.expense_date.set_date '2016-01-02'
+end
+
+Then(/^I add an expense net amount for "([^"]*)"$/) do |net_amount|
+  @claim_form_page.expenses.last.amount.set(net_amount || '34.56')
+end
+
+Then(/^I add an expense vat amount for "([^"]*)"$/) do |vat_amount|
+  @claim_form_page.expenses.last.vat_amount.set(vat_amount || '6.91')
+end
+
+Then(/^I add an expense date as invalid$/) do
+  @claim_form_page.expenses.last.expense_date.set_invalid_date
+end
+
 When(/^I add an expense '(.*?)'(?: with total '(.*?)')?(?: and VAT '(.*?)')?( with invalid date)?$/) do |name, total, vat, invalid_date|
   @claim_form_page.expenses.last.expense_type_dropdown.select name
 
   if name == 'Hotel accommodation'
     @claim_form_page.expenses.last.destination.set 'Liverpool'
   end
-  @claim_form_page.expenses.last.reason_for_travel_dropdown.select 'View of crime scene'
 
-  @claim_form_page.expenses.last.amount.set(total || '34.56')
-  @claim_form_page.expenses.last.vat_amount.set(vat) if vat.present?
+  @claim_form_page.expenses.last.reason_for_travel_dropdown.select 'View of crime scene'
 
   if invalid_date.present?
     @claim_form_page.expenses.last.expense_date.set_invalid_date

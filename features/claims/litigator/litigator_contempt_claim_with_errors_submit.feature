@@ -37,7 +37,13 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     Then I click "Continue" in the claim form
 
     And I should be in the 'Travel expenses' form page
-    And I add an expense 'Parking' with total '99.25' and VAT '15.50' with invalid date
+
+    And I select an expense type "Parking"
+    And I select a travel reason "View of crime scene"
+    And I add an expense net amount for "99.25"
+    And I add an expense vat amount for "15.50"
+    And I add an expense date as invalid
+
     Then I should see in the sidebar total '£215.50'
     Then I should see in the sidebar vat total '£15.50'
 

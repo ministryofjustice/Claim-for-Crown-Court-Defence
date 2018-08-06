@@ -19,11 +19,24 @@ module SearchResultHelpers
   end
 
   def contains_risk_based_fee
+    (contains_risk_based_final_fee || (contains_risk_based_transfer_fee && up_to_and_inc_pcmh_transfer?))
+  end
+
+  def contains_risk_based_final_fee
     fees&.map do |fee|
       [
-        fee[0].to_i.between?(1, 50),
-        fee[1].eql?('Guilty plea'),
+        fee[0].to_i.between?(0, 49),
+        fee[1].in?(['Discontinuance', 'Guilty plea']),
         fee[2].eql?('Fee::GraduatedFeeType')
+      ]&.all?
+    end&.any?
+  end
+
+  def contains_risk_based_transfer_fee
+    fees&.map do |fee|
+      [
+        fee[0].to_i.between?(0, 49),
+        fee[2].eql?('Fee::TransferFeeType')
       ]&.all?
     end&.any?
   end
@@ -38,7 +51,7 @@ module SearchResultHelpers
   end
 
   def risk_based_class_letter
-    object.class_letter&.in?(%w[E F H I])
+    object.class_letter&.in?(%w[E F G H I])
   end
 
   def interim_claim?
@@ -55,5 +68,9 @@ module SearchResultHelpers
 
   def allocation_type_is_fixed?
     object.allocation_type.eql?('Fixed')
+  end
+
+  def up_to_and_inc_pcmh_transfer?
+    object.transfer_stage_id.eql?(10)
   end
 end

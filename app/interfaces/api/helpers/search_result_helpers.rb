@@ -25,7 +25,7 @@ module SearchResultHelpers
   def contains_risk_based_final_fee
     fees&.map do |fee|
       [
-        fee[0].to_i.between?(1, 50),
+        fee[0].to_i.between?(0, 49),
         fee[1].in?(['Discontinuance', 'Guilty plea']),
         fee[2].eql?('Fee::GraduatedFeeType')
       ]&.all?
@@ -35,7 +35,7 @@ module SearchResultHelpers
   def contains_risk_based_transfer_fee
     fees&.map do |fee|
       [
-        fee[0].to_i.between?(1, 50),
+        fee[0].to_i.between?(0, 49),
         fee[2].eql?('Fee::TransferFeeType')
       ]&.all?
     end&.any?

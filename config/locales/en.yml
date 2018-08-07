@@ -977,8 +977,6 @@ en:
           date: "Date"
           page_header: "Graduated fees"
           page_hint: *fees_vat_prompt
-          page_intro_html: |
-            Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help.
         summary:
           header: Graduated fees
           actual_trial_length:
@@ -1084,6 +1082,8 @@ en:
       fees_shared_header:
         fees: Fees
         fees_header_prompt_text_html: *fees_vat_prompt
+        fees_calculator_html: |
+            Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help.
       summary_claims_sidebar:
         button_label: *continue_to_certification_button
         continue: 'Continue'

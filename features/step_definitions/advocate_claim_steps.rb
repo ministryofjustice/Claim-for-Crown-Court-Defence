@@ -114,6 +114,11 @@ Then(/^I add a fixed fee of defendants uplift/) do
   wait_for_ajax
 end
 
+When(/^I set the last fixed fee value to '(.*?)'$/) do |value|
+  @claim_form_page.fixed_fees.last.rate.set value
+  wait_for_ajax
+end
+
 Given(/^There are other advocates in my provider$/) do
   FactoryBot.create(:external_user,
                      :advocate,
@@ -152,6 +157,12 @@ end
 Then(/^the last fixed fee rate should be populated with '(\d+\.\d+)'$/) do |rate|
   expect(@claim_form_page.fixed_fees.last).to have_rate
   expect(@claim_form_page.fixed_fees.last.rate.value).to eql rate
+end
+
+Then(/^the last fixed fee rate should be in the calculator error state/) do
+  expect(@claim_form_page.fixed_fees.last).to have_rate
+  expect(@claim_form_page.fixed_fees.last.populated?).to be false
+  expect(@claim_form_page.fixed_fees.last.text).to match /Calculated rate unavailable/
 end
 
 Then(/^I should see the advocate categories\s*'([^']*)'$/) do |categories|

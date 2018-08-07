@@ -73,6 +73,7 @@ moj.Modules.FeeCalculator = {
 
   displayError: function(response, context) {
     // only some errors will have a JSON response
+    //TODO:remove the console.log debug
     try { console.log(response.responseJSON.errors); } catch(e) {}
     this.clearErrors(context);
     var $label = $(context).find('label');

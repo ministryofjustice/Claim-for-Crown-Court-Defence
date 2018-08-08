@@ -2,7 +2,6 @@
 .expense-group.nested-fields.js-block.fx-do-init.fx-numberedList-item{data:{"type": "expenses", autovat: @claim.agfs? && @claim.apply_vat? ? "true" : "false", "block-type": "ExpenseBlock"}}
   .form-section-compound
 
-    -# crown_court hospital magistrates_court prison
     = f.hidden_field :location_type, {class: 'fx-location-type'}
 
     %h3.heading-medium
@@ -46,13 +45,14 @@
         .fx-travel-location{:style => "display: none;"}
           = f.adp_text_field :location, label: t('.location'), input_classes:'form-control-3-4', errors: @error_presenter
 
-          .form-group.fx-establishment-select{:style => "display: none;"}
-            %fieldset
-              = label_tag :location, nil, class: "form-label-bold"
-              = select_tag(:location, "", :class => "form-control form-control-3-4", :autocomplete => "off")
+          - if @claim.lgfs?
+            .form-group.fx-establishment-select{:style => "display: none;"}
+              %fieldset
+                = label_tag :location, nil, class: "form-label-bold"
+                = select_tag(:location, "", :class => "form-control form-control-3-4", :autocomplete => "off")
 
 
-          = f.hidden_field :location, class: "fx-location-model"
+            = f.hidden_field :location, class: "fx-location-model"
 
       .column-half
         -# INPUT: Travel hours

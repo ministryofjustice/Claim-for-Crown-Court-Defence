@@ -77,16 +77,28 @@ Then(/^I select an expense type "([^"]*)"$/) do |name|
   @claim_form_page.expenses.last.expense_type_dropdown.select name
 end
 
-Then(/^I select a travel reason "([^"]*)"$/) do |arg1|
-  @claim_form_page.expenses.last.reason_for_travel_dropdown.select 'View of crime scene'
+Then(/^I select a travel reason "([^"]*)"$/) do |name|
+  @claim_form_page.expenses.last.reason_for_travel_dropdown.select name
+end
+
+Then(/^I add an other reason of "([^"]*)"$/) do |reason_text|
+  @claim_form_page.expenses.last.other_reason_input.set reason_text
 end
 
 Then(/^I add an expense location$/) do
   @claim_form_page.expenses.last.destination.set 'Liverpool'
 end
 
+Then(/^I add an expense distance of "([^"]*)"$/) do |number|
+  @claim_form_page.expenses.last.distance.set number
+end
+
 Then(/^I add an expense date$/) do
   @claim_form_page.expenses.last.expense_date.set_date '2016-01-02'
+end
+
+Then(/^I should see a destination label of "([^"]*)"$/) do |label_text|
+  expect(@claim_form_page.expenses.last.destination_label.text).to eq(label_text)
 end
 
 Then(/^I add an expense net amount for "([^"]*)"$/) do |net_amount|

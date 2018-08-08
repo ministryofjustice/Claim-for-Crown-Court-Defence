@@ -6,9 +6,12 @@ class ExpenseSection < SitePrism::Section
   # the elements by ID pointing to the first (zero-index) one.
   #
   element :expense_type_dropdown, "#claim_expenses_attributes_0_expense_type_id"
+  element :destination_label, ".fx-establishment-select label"
   element :destination, "#claim_expenses_attributes_0_location"
+  element :distance, "#claim_expenses_attributes_0_distance"
   element :quantity, "#claim_expenses_attributes_0_distance"
   element :reason_for_travel_dropdown, "#claim_expenses_attributes_0_reason_id"
+  element :other_reason_input, "#claim_expenses_attributes_0_reason_text"
   element :amount, "#claim_expenses_attributes_0_amount"
   element :vat_amount, "#claim_expenses_attributes_0_vat_amount"
 

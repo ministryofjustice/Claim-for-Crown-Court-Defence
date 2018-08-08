@@ -79,8 +79,10 @@ moj.Modules.FeeCalculator = {
     var $label = $(context).find('label');
     var error_html = '<div class="js-calculate-error form-hint">' + response.responseJSON["message"] + '<div>';
     var new_label = $label.text() + ' ' + error_html;
+    var $input = $(context).find('input.fee-rate');
 
-    $(context).find('.form-group.rate_wrapper').find('input.fee-rate').prop("readonly", false);;
+    $input.val('');
+    $input.prop("readonly", false);
     $label.html(new_label);
   },
 

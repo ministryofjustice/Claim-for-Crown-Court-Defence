@@ -77,16 +77,14 @@ moj.Modules.FeeCalculator = {
     try { console.log(response.responseJSON.errors); } catch(e) {}
     this.clearErrors(context);
     var $label = $(context).find('label');
-    var error_html = '<div class="js-calculate-error" style="color: #b10e1e; font-weight: bold;">' + response.responseJSON["message"] + '<div>';
+    var error_html = '<div class="js-calculate-error form-hint">' + response.responseJSON["message"] + '<div>';
     var new_label = $label.text() + ' ' + error_html;
 
-    $(context).find('.form-group.rate_wrapper').addClass('field_with_errors form-group-error')
     $(context).find('.form-group.rate_wrapper').find('input.fee-rate').prop("readonly", false);;
     $label.html(new_label);
   },
 
   clearErrors: function(context) {
-    $(context).find('.form-group.rate_wrapper').removeClass('field_with_errors form-group-error');
     $(context).find('.js-calculate-error').remove();
   },
 

@@ -1,6 +1,6 @@
 NON_TRUNCATED_TABLES ||= %w(
   vat_rates courts offence_classes offences case_types fee_types certification_types expense_types disbursement_types
-  offence_bands offence_categories offence_fee_schemes fee_schemes
+  offence_bands offence_categories offence_fee_schemes fee_schemes establishments
 )
 
 Before('~@no-site-prism') do
@@ -35,6 +35,7 @@ Before do
     load "#{Rails.root}/db/seeds/disbursement_types.rb"
     load "#{Rails.root}/db/seeds/expense_types.rb"
     load "#{Rails.root}/db/seeds/vat_rates.rb"
+    load "#{Rails.root}/db/seeds/establishments.rb"
 
     $seed_done = true
   end

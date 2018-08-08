@@ -90,6 +90,10 @@ When(/^I edit the claim's defendants$/) do
   @claim_summary_page.change_defendants.click
 end
 
+When(/^I edit the claim's expenses$/) do
+  @claim_summary_page.change_expenses.click
+end
+
 Then(/^I should be on the certification page$/) do
   expect(@certification_page).to be_displayed
 end

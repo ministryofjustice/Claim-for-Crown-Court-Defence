@@ -1,7 +1,4 @@
 
-%p
-  = t(".page_intro_html")
-
 - if @claim.allows_graduated_fees?
   #graduated-fees.mod-graduated-fees
     = f.fields_for :graduated_fee do |gradfee|

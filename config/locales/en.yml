@@ -300,9 +300,9 @@ en:
     question: 'Will you be sending disk evidence for this claim?'
   fee_calculator:
     calculate:
-      amount_unavailable: Calculated rate unavailable
+      amount_unavailable: The calculated rate is unavailable, please enter manually.
     unit_price:
-      amount_unavailable: Calculated rate unavailable
+      amount_unavailable: The calculated rate is unavailable, please enter manually.
 
 
 # en.super_admins

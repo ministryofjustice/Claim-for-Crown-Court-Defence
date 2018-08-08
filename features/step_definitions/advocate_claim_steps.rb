@@ -162,7 +162,7 @@ end
 Then(/^the last fixed fee rate should be in the calculator error state/) do
   expect(@claim_form_page.fixed_fees.last).to have_rate
   expect(@claim_form_page.fixed_fees.last.populated?).to be false
-  expect(@claim_form_page.fixed_fees.last.text).to match /Calculated rate unavailable/
+  expect(@claim_form_page.fixed_fees.last.text).to match /The calculated rate is unavailable, please enter manually/
 end
 
 Then(/^I should see the advocate categories\s*'([^']*)'$/) do |categories|

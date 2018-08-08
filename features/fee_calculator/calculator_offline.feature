@@ -1,7 +1,6 @@
 @javascript
 Feature: Advocate completes fixed fees, but calculator offline
 
-  @fee_calc_vcr
   @stub_calculator_request_and_fail
   Scenario: I create a contempt claim, then submit it
 

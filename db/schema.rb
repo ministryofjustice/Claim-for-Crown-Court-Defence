@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180718102824) do
+ActiveRecord::Schema.define(version: 20180809101905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -342,6 +342,7 @@ ActiveRecord::Schema.define(version: 20180718102824) do
     t.integer  "sub_type_id"
     t.string   "case_numbers"
     t.date     "date"
+    t.boolean  "rate_calculated",       default: false
     t.index ["claim_id"], name: "index_fees_on_claim_id", using: :btree
     t.index ["fee_type_id"], name: "index_fees_on_fee_type_id", using: :btree
   end

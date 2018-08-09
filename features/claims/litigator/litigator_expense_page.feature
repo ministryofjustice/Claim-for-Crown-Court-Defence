@@ -1,4 +1,4 @@
-@javascript
+@javascript @establishments
 Feature: Litigator expense specific page features
 
   Scenario: I create a final fee claim, save it to draft and later do expenses

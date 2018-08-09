@@ -200,6 +200,7 @@ describe('Helpers.SideBar.js', function() {
           });
         });
 
+        // TO DO
         xdescribe('...setState', function() {
           beforeEach(function() {
             var fixtureDom = [
@@ -219,13 +220,10 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('should set the state of the selector', function() {
-
           });
-
-
-
         });
 
+        // TO DO
         xdescribe('...setVal', function() {
           beforeEach(function() {
             var fixtureDom = [
@@ -245,10 +243,8 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('should set the value of the selector', function() {
-
           });
         });
-
       });
     });
 

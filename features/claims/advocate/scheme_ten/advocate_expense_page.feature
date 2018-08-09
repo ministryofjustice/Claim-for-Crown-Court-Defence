@@ -1,4 +1,4 @@
-@javascript
+@javascript @establishments
 Feature: Advocate creates, saves, edits claims and expenses
 
   Scenario: Travel expenses page

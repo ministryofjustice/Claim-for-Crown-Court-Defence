@@ -259,6 +259,10 @@ moj.Helpers.SideBar = {
         self.attachElement($option.data());
       });
 
+      // Where the location is using a select box, the selected
+      // value is stored in a hidden field
+      // This is used to reset the correct block state and seleted values
+      // when the page reloads
       this.$el.on('change', '.fx-establishment-select select', function(e) {
         e.stopPropagation();
         var $option = $(e.target).find('option:selected');
@@ -306,6 +310,7 @@ moj.Helpers.SideBar = {
         self.$el.find('.fx-establishment-select').css('display', 'block');
         self.$el.find('.fx-establishment-select').append($detachedSelect);
 
+        // this class `location_wrapper` is added by the adp_text_field ruby helper
         self.$el.find('.location_wrapper').css('display', 'none');
         self.$el.find('.fx-travel-location label').text(staticdata.locationLabel[locationType] || staticdata.locationLabel.default);
 
@@ -415,15 +420,18 @@ moj.Helpers.SideBar = {
         // Display the correct block
         $detached.find('.fx-travel-mileage-car').css('display', 'none');
         $detached.find('.fx-travel-mileage-bike').css('display', 'block');
+
         // Activate the radios for this block and reset checked status
         $detached.find('.fx-travel-mileage-bike input[type=radio]').is(function() {
           $(this).prop('checked', true).prop('disabled', false);
         });
+
         // Deactivate the others and reset checked status
         $detached.find('.fx-travel-mileage-car input').is(function() {
           $(this).prop('checked', false).prop('disabled', true);
         });
       }
+
       // Mileage radios: BIKE
       if (state.config.mileageType === 'car') {
         // Display the correct block

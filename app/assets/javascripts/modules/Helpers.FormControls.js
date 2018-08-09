@@ -19,8 +19,14 @@
   var Module = exports.Helpers.FormControls || {};
 
   function getInput(config) {
-    var _config = $.extend({}, {type: 'text', classes: '', id: '', value: '', name: ''}, config);
-    return ['<input class="form-control '+ _config.classes +'" type="'+ _config.type +'" name="'+ _config.name +'" id="'+ _config.id +'" value="'+ _config.value +'" />'].join('');
+    var _config = $.extend({}, {
+      type: 'text',
+      classes: '',
+      id: '',
+      value: '',
+      name: ''
+    }, config);
+    return ['<input class="form-control ' + _config.classes + '" type="' + _config.type + '" name="' + _config.name + '" id="' + _config.id + '" value="' + _config.value + '" />'].join('');
   }
 
   Module.input = {
@@ -38,7 +44,10 @@
     var def = $.Deferred();
     var optionsArray = [];
     var collectioSize;
-    selected = selected || {value: 'miss-match'};
+    var option;
+    selected = selected || {
+      value: 'miss-match'
+    };
     if (!collection) {
       throw Error('Missing param: collection');
     }
@@ -47,10 +56,8 @@
     collectionSize = collection.length;
 
     collection.forEach(function(obj, idx) {
-
-      var option = new Option(obj.name, obj.id, (obj[selected.prop] === selected.value));
-
-      option.dataset.postcode  = obj.postcode;
+      option = new Option(obj.name, obj.id, (obj[selected.prop] === selected.value));
+      option.dataset.postcode = obj.postcode;
       optionsArray.push(option.outerHTML);
 
       if (collectionSize - 1 === idx) {

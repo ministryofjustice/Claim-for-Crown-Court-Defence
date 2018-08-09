@@ -58,7 +58,7 @@
     });
   }
 
-  // Query will merge the setttings
+  // Query will merge the settings
   // and delegate to ..API.CORE
   function query(ajaxConfig) {
     var mergedSettings;
@@ -73,7 +73,7 @@
       return internalCache;
     }
 
-    // Filter the internalCache on catergory
+    // Filter the internalCache on category
     // Examples: 'crown_court', 'prison', etc
     return internalCache.filter(function(obj) {
       return obj.category.indexOf(category) > -1;

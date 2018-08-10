@@ -70,6 +70,7 @@ class AdpTextField
   end
 
   def extract_options
+    @input_readonly = options[:input_readonly] || false
     @input_disabled = options[:input_disabled] || false
     @errors = options[:errors] || @form.object.errors
     @input_classes = options[:input_classes] || ''
@@ -184,6 +185,7 @@ class AdpTextField
       result += %(max="#{@input_max}" )
     end
     result += %(disabled ) if @input_disabled
+    result += %(readonly ) if @input_readonly
 
     result += %(/>)
     result

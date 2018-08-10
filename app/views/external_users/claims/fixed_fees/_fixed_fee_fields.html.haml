@@ -39,8 +39,11 @@
         input_classes:'rate fee-rate js-fixed-fee-calculator-rate form-input-denote__input form-control-1-4',
         input_type: 'currency',
         errors: @error_presenter,
+        readonly: (f.object.rate_calculated ||= false),
         value: number_with_precision(f.object.rate, precision: 2)
 
+  .js-fixed-fee-calculator-success
+    = f.hidden_field :rate_calculated, value: f.object.rate_calculated ||= false
   .help-wrapper.form-group{ style: 'display: none;' }
     %details
       %summary

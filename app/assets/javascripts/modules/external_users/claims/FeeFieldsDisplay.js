@@ -26,7 +26,6 @@ moj.Modules.FeeFieldsDisplay = {
 
       if (showCaseNumbers) {
         caseNumbersWrapper.show();
-        caseNumbersInput.focus();
       } else {
         caseNumbersInput.val('');
         caseNumbersWrapper.hide();

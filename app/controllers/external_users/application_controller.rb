@@ -39,6 +39,7 @@ class ExternalUsers::ApplicationController < ApplicationController
       :rate,
       :amount,
       :case_numbers,
+      :rate_calculated,
       :_destroy,
       date_attributes_for(:date),
       common_dates_attended_attributes

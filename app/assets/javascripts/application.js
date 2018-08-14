@@ -100,22 +100,40 @@ if (!String.prototype.supplant) {
   // Basic fees page
   $('#basic-fees').on('change', '.js-block input', function() {
     $(this).trigger('recalculate');
-  })
+  });
 
   // this is a bit hacky
   // TODO: To be moved to more page based controllers
   $('#basic-fees').on('change', '.multiple-choice input[type=checkbox]', function(e){
     var checked = $(e.target).is(':checked');
     var fields_wrapper = $(e.target).attr('aria-controls');
-    var $fields_wrapper = $('#'+fields_wrapper)
+    var $fields_wrapper = $('#'+fields_wrapper);
 
     $fields_wrapper.find('input[type=number]').val(0);
     $fields_wrapper.find('input[type=text]').val('');
     $fields_wrapper.find('.gov_uk_date input[type=number]').val('');
     $fields_wrapper.find('.gov_uk_date input[type=number]').prop('disabled', !checked);
-    $fields_wrapper.trigger('recalculate')
+    $fields_wrapper.trigger('recalculate');
   });
 
+  /**
+   * Fee calculation event binding for added fees
+   */
+  $('#fixed-fees').on('cocoon:after-insert', function(e, insertedItem) {
+    var $insertedItem = $(insertedItem);
+
+    moj.Modules.FeeCalculator.fixedFeeTypeChange($insertedItem.find('.js-fixed-fee-calculator-fee-type'));
+    moj.Modules.FeeCalculator.fixedFeeQuantityChange($insertedItem.find('.js-fixed-fee-calculator-quantity'));
+    moj.Modules.FeeCalculator.fixedFeeRateChange($insertedItem.find('.js-fixed-fee-calculator-rate'));
+  });
+
+  /**
+  * Fee Calculation is inter-fee dependant. When one changes
+  * it could have impact on others so all have to be checked.
+  */
+  $('#fixed-fees').on('cocoon:after-remove', function() {
+    moj.Modules.FeeCalculator.calculateUnitPriceFixedFee();
+  });
 
   // Manually hit the `add rep order` button after a
   // cocoon insert.

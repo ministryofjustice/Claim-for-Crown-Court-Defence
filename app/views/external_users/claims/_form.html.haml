@@ -1,4 +1,4 @@
-#claim-form
+#claim-form{ data: { claim_id: @claim.id } }
   = form_for @claim, as: :claim, builder: AdpFormBuilder, html: { novalidate: true }, multipart: true, authenticity_token: true do |f|
 
     = f.hidden_field :form_id, value: @form_id || params[:claim][:form_id]

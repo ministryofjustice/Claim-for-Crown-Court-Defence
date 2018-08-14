@@ -1,0 +1,2451 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:04 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:04 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:04 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:04 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:04 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:04 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:04 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:04 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:04 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:04 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:04 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:04 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:05 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:05 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:05 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:05 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:05 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:05 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:05 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:05 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:05 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:05 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:05 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:05 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:05 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:05 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:05 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:05 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&number_of_cases=2&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:05 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":129.6}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:05 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:05 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:05 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:05 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:05 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:06 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:06 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:06 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:06 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:06 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&number_of_cases=2&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:06 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":129.6}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:06 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:06 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:06 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:06 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:06 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:06 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&number_of_cases=2&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":129.6}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&number_of_cases=2&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":129.6}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&number_of_defendants=2&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":129.6}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:07 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:07 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:08 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:08 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:08 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:08 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:08 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '158'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:08 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:08 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:08 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:08 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:08 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:08 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:08 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:08 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:08 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&number_of_defendants=2&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:08 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":129.6}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:08 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&number_of_cases=2&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:08 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":129.6}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:08 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:08 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '292'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:08 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:08 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"}]}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:08 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:08 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:08 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-dev.apps.non-production.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 03 Aug 2018 09:53:08 GMT
+      Server:
+      - nginx/1.13.9
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":108.0}'
+    http_version: 
+  recorded_at: Fri, 03 Aug 2018 09:53:08 GMT
+recorded_with: VCR 3.0.3

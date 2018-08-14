@@ -1,10 +1,14 @@
 module ClaimFactoryHelpers
 
-  def add_defendant_and_reporder(claim)
-    defendant = create(:defendant, claim: claim)
+  def add_defendant_and_reporder(claim, representation_order_date = nil)
+    defendant = if representation_order_date
+                  create(:defendant, :without_reporder, claim: claim)
+                else
+                  create(:defendant, claim: claim)
+                end
     create(:representation_order,
             defendant: defendant,
-            representation_order_date: 380.days.ago)
+            representation_order_date: representation_order_date || 380.days.ago)
     claim.reload
   end
 

@@ -70,12 +70,16 @@ class AdpTextField
   end
 
   def extract_options
-    @input_disabled = options[:input_disabled] || false
+    %w[readonly disabled].each { |input| build_input_or_false(input) }
     @errors = options[:errors] || @form.object.errors
     @input_classes = options[:input_classes] || ''
     @error_key = options[:error_key] || @anchor_id
     @value = (options[:value] || form.object.__send__(method)).to_s
     setup_input_type
+  end
+
+  def build_input_or_false(variable)
+    instance_variable_set("@input_#{variable}", options["input_#{variable}".to_sym] || false)
   end
 
   def setup_input_type
@@ -183,10 +187,14 @@ class AdpTextField
       result += %(min="#{@input_min}" )
       result += %(max="#{@input_max}" )
     end
-    result += %(disabled ) if @input_disabled
+    %w[disabled readonly].each { |check| result += add_if_needed(check) }
 
     result += %(/>)
     result
+  end
+
+  def add_if_needed(field)
+    instance_variable_get("@input_#{field}") ? %(#{field} ) : ''
   end
 
   def div_close

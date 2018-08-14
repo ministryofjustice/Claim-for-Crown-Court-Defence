@@ -189,6 +189,19 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     )
   end
 
+  def calculate_unit_price
+    claim = Claim::BaseClaim.active.find(calculator_params[:id])
+    claim_fee_unit_pricer = Claims::FeeCalculator::UnitPrice.new(claim, calculator_params.except(:id))
+    response = claim_fee_unit_pricer.call
+
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: response, status: response.success? ? 200 : 422
+      end
+    end
+  end
+
   class << self
     def resource_klass(klass)
       @resource_klass ||= klass
@@ -275,6 +288,16 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @claim.form_step = params[:step] ||
                        params.key?(:claim) && claim_params[:form_step] ||
                        @claim.submission_stages.first
+  end
+
+  def calculator_params
+    params.permit(
+      :format,
+      :id,
+      :advocate_category,
+      :fee_type_id,
+      fees: %i[fee_type_id quantity]
+    )
   end
 
   def claim_params

@@ -36,9 +36,8 @@ FactoryBot.define do
       date 3.days.ago
     end
 
-    trait :noc_fee do
-      fee_type { build :fixed_fee_type, description: 'Number of cases uplift', code: 'NOC', unique_code: 'FXNOC', calculated: true }
-      case_numbers { claim&.case_number }
+    trait :fxnoc_fee do
+      fee_type { Fee::FixedFeeType.find_by(unique_code: 'FXNOC') || build(:fixed_fee_type, :fxnoc) }
     end
 
     trait :fxndr_fee do
@@ -55,6 +54,10 @@ FactoryBot.define do
 
     trait :fxacv_fee do
       fee_type { Fee::FixedFeeType.find_by(unique_code: 'FXACV') || build(:fixed_fee_type, :fxacv) }
+    end
+
+    trait :fxacu_fee do
+      fee_type { Fee::FixedFeeType.find_by(unique_code: 'FXACU') || build(:fixed_fee_type, :fxacu) }
     end
   end
 

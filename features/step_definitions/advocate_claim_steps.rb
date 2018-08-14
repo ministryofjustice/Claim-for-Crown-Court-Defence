@@ -14,6 +14,7 @@ end
 
 When(/^I select an advocate category of '(.*?)'$/) do |name|
   @claim_form_page.find('label', text: name).click
+  wait_for_ajax
 end
 
 When(/^I choose '(.*)' as the instructed advocate$/) do |text|
@@ -92,16 +93,31 @@ end
 When(/^I add a fixed fee '(.*?)'$/) do |name|
   @claim_form_page.add_fixed_fee_if_required
   @claim_form_page.fixed_fees.last.select_fee_type name
+  wait_for_ajax
   @claim_form_page.fixed_fees.last.quantity.set 1
-  @claim_form_page.fixed_fees.last.rate.set "12.34"
+  wait_for_ajax
 end
 
 Then(/^I add a fixed fee '(.*?)' with case numbers$/) do |name|
   @claim_form_page.add_fixed_fee_if_required
   @claim_form_page.fixed_fees.last.select_fee_type name
-  @claim_form_page.fixed_fees.last.quantity.set 1
-  @claim_form_page.fixed_fees.last.rate.set "10.00"
+  wait_for_ajax
   @claim_form_page.fixed_fees.last.case_numbers.set "T20170001"
+  @claim_form_page.fixed_fees.last.quantity.set 1
+  wait_for_ajax
+end
+
+Then(/^I add a fixed fee of defendants uplift/) do
+  @claim_form_page.add_fixed_fee_if_required
+  @claim_form_page.fixed_fees.last.select_fee_type 'Number of defendants uplift'
+  wait_for_ajax
+  @claim_form_page.fixed_fees.last.quantity.set 1
+  wait_for_ajax
+end
+
+When(/^I set the last fixed fee value to '(.*?)'$/) do |value|
+  @claim_form_page.fixed_fees.last.rate.set value
+  wait_for_ajax
 end
 
 Given(/^There are other advocates in my provider$/) do
@@ -137,6 +153,17 @@ Then(/^the last fixed fee case numbers section should (not )?be visible$/) do |n
   else
     expect(@claim_form_page.fixed_fees.last).to have_case_numbers_section
   end
+end
+
+Then(/^the last fixed fee rate should be populated with '(\d+\.\d+)'$/) do |rate|
+  expect(@claim_form_page.fixed_fees.last).to have_rate
+  expect(@claim_form_page.fixed_fees.last.rate.value).to eql rate
+end
+
+Then(/^the last fixed fee rate should be in the calculator error state/) do
+  expect(@claim_form_page.fixed_fees.last).to have_rate
+  expect(@claim_form_page.fixed_fees.last.populated?).to be false
+  expect(@claim_form_page.fixed_fees.last.text).to match /The calculated rate is unavailable, please enter manually/
 end
 
 Then(/^I should see the advocate categories\s*'([^']*)'$/) do |categories|

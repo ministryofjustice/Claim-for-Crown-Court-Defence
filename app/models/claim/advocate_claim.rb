@@ -72,7 +72,7 @@ module Claim
              dependent: :destroy,
              inverse_of: :claim,
              validate: proc { |claim| claim.step_validation_required?(:basic_fees) }
-    has_many :fixed_fees,
+    has_many :fixed_fees, -> { order(:created_at) },
              foreign_key: :claim_id,
              class_name: 'Fee::FixedFee',
              dependent: :destroy,

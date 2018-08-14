@@ -117,6 +117,8 @@ Rails.application.routes.draw do
       get 'archived',               on: :collection
       get 'messages',               on: :member
       get 'disc_evidence',          on: :member
+      get 'calculate_fee',          on: :member
+      get 'calculate_unit_price',   on: :member
       patch 'clone_rejected',       to: 'claims#clone_rejected',  on: :member
       patch 'unarchive',            to: 'claims#unarchive',       on: :member
       get  'types',                 to: 'claim_types#selection',  on: :collection

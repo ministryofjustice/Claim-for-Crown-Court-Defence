@@ -1,5 +1,3 @@
-require 'ostruct'
-
 # Service to calculate the total "price/bill" for a given fee.
 # Note that this price will require input from different attributes
 # on the claim and may require input from different CCCD fees

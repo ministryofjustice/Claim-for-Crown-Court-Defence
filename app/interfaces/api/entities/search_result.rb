@@ -57,7 +57,13 @@ module API
 
       # for display purposes we only want to use the injection error header
       def injection_errors
-        I18n.t(:error, scope: %i[shared injection_errors]) if object.injection_errors.present?
+        I18n.t(:error, scope: %i[shared injection_errors]) if parse_injection_errors
+      end
+
+      def parse_injection_errors
+        JSON.parse(object.injection_errors)['errors'].present?
+      rescue TypeError
+        false
       end
 
       def disk_evidence
@@ -113,7 +119,7 @@ module API
       end
 
       def injection_errored
-        object.injection_errors.present?.to_i
+        parse_injection_errors.to_i
       end
     end
   end

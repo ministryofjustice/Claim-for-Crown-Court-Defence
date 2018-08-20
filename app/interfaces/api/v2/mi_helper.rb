@@ -14,9 +14,9 @@ module API
         [sanitize_and_format(start_date), sanitize_and_format(end_date)]
       end
 
-      def build_csv_from(data)
+      def build_csv_from(data, headers = [])
         CSV.generate do |build_csv|
-          fields = data.first.keys
+          fields = headers.empty? ? data.first.keys : headers
           build_csv << fields
           data.each do |row|
             build_csv << row.values

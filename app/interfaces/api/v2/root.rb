@@ -17,6 +17,7 @@ module API
           mount API::V2::Claim
           mount API::V2::Search
           mount API::V2::MI::AGFSSchemeTenClaims
+          mount API::V2::MI::InjectionErrors
 
           namespace :ccr, desc: 'CCR injection specific claim format' do
             mount API::V2::CCRClaim

@@ -92,7 +92,6 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
     context 'for a fixed fee' do
       it_returns 'a successful fee calculator response'
-
       it_returns 'a fee calculator response with amount', amount: 130.0
     end
 

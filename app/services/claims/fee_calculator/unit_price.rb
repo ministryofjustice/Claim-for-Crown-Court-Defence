@@ -13,14 +13,6 @@ module Claims
     # of calls and/or simplify.
     #
     class UnitPrice < Calculate
-      def call
-        setup(options)
-        response(true, amount)
-      rescue StandardError => err
-        Rails.logger.error(err.message)
-        response(false, err, I18n.t('fee_calculator.unit_price.amount_unavailable'))
-      end
-
       private
 
       def unit_price(modifier = nil)
@@ -54,28 +46,15 @@ module Claims
         current_total_quantity_for_fee_type(parent)
       end
 
-      # TODO: promote?
-      def current_total_quantity_for_fee_type(fee_type)
-        current_page_fees.inject(0) do |sum, fee|
-          fee[:fee_type_id].to_s.eql?(fee_type.id.to_s) ? sum + fee[:quantity].to_i : sum
-        end
-      end
-
       def uplift_unit_price(modifier)
         unit_price(modifier.to_sym) - unit_price
-      end
-
-      def defendant_uplift_unit_price
-        unit_price(:number_of_defendants) - unit_price
       end
 
       def amount
         if fee_type.case_uplift?
           uplift_unit_price(:number_of_cases)
         elsif fee_type.defendant_uplift?
-          # TODO: This call replaced uplift_unit_price(:number_of_defendants)
-          # which seems to return the same value, so one or other should be used
-          defendant_uplift_unit_price
+          uplift_unit_price(:number_of_defendants)
         else
           unit_price
         end

@@ -15,6 +15,9 @@ module CCR
         MIDTH: zip(%w[AGFS_MISC_FEES AGFS_CONFISC_HF]), # Confiscation hearings (half day)
         MIDTW: zip(%w[AGFS_MISC_FEES AGFS_CONFISC_WL]), # Confiscation hearings (whole day)
         MIDSE: zip(%w[AGFS_MISC_FEES AGFS_DEF_SEN_HR]), # Deferred sentence hearings
+        MIFCM: zip(%w[AGFS_MISC_FEES AGFS_FCMH]), # Further case management hearing
+        MIGRH: zip(%w[AGFS_MISC_FEES AGFS_GRH_HALF]), # Ground rules hearing (half day)
+        MIGRW: zip(%w[AGFS_MISC_FEES AGFS_GRH_FULL]), # Ground rules hearing (whole day)
         MIAEH: zip(%w[AGFS_MISC_FEES AGFS_ADM_EVD_HF]), # Hearings relating to admissibility of evidence (half day)
         MIAEW: zip(%w[AGFS_MISC_FEES AGFS_ADM_EVD_WL]), # Hearings relating to admissibility of evidence (whole day)
         MIHDH: zip(%w[AGFS_MISC_FEES AGFS_DISC_HALF]), # Hearings relating to disclosure (half day)

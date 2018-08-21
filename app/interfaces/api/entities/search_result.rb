@@ -57,10 +57,10 @@ module API
 
       # for display purposes we only want to use the injection error header
       def injection_errors
-        I18n.t(:error, scope: %i[shared injection_errors]) if parse_injection_errors
+        I18n.t(:error, scope: %i[shared injection_errors]) if injection_errors_present
       end
 
-      def parse_injection_errors
+      def injection_errors_present
         JSON.parse(object.injection_errors)['errors'].present?
       rescue TypeError
         false
@@ -119,7 +119,7 @@ module API
       end
 
       def injection_errored
-        parse_injection_errors.to_i
+        injection_errors_present.to_i
       end
     end
   end

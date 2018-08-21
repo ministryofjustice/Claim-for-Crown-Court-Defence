@@ -63,9 +63,10 @@ module Claims
           # - cracked case discontinued - not sure we should even have this fixed fee in CCCD after speaking to BA??
 
           # modifiers
-          # TODO: modifier needs to be dynamically determined and could be more than one
-          # TODO: modifier values should be based on "munging" uplifts and "number of.." fee types
-          # rather than actual number of defendants/cases (based on only paying what they ask for logic)
+          # TODO: modifier needs to be dynamically determined and could be more than one.
+          # Modifier values need to be based on values specificed by the user rather than, for
+          # example, actual number of defendants/cases. This is because we should based payments
+          # on what is asked for.
           # options[:number_of_defendants] = 1
           # options[:number_of_cases] = 1
         end
@@ -80,7 +81,7 @@ module Claims
       end
 
       # TODO: consider creating a mapping to fee calculator id's
-      # (less "safe" but faster/negates the need to query the API)??
+      # - less "safe" but faster/negates the need to query the API??
       #
       def scenario
         # TODO: create select/find_by calls to list endpoints in client gem
@@ -124,6 +125,12 @@ module Claims
         @current_fee_types = Fee::BaseFeeType.where(id: ids)
       end
 
+      def current_total_quantity_for_fee_type(fee_type)
+        current_page_fees.inject(0) do |sum, fee|
+          fee[:fee_type_id].to_s.eql?(fee_type.id.to_s) ? sum + fee[:quantity].to_i : sum
+        end
+      end
+
       def primary_fee_type_on_page
         primary_fee_types = current_fee_types.where(unique_code: fee_type_mappings.keys)
         return nil if primary_fee_types.size > 1
@@ -136,6 +143,8 @@ module Claims
         # TODO: hacky but there is no relationship between fixed fee "primary" types
         # and their case uplift equivalent.
         # - could create relationship on models/database
+        #
+        # Alternatively, could use case_upliftable module for mappings of parent and child
         #
         Fee::BaseFeeType
           .where('description = ?', fee_type.description.gsub(' uplift', ''))

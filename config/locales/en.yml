@@ -301,8 +301,6 @@ en:
   fee_calculator:
     calculate:
       amount_unavailable: The calculated rate is unavailable, please enter manually.
-    unit_price:
-      amount_unavailable: The calculated rate is unavailable, please enter manually.
 
 
 # en.super_admins

@@ -50,5 +50,9 @@ module DefendantUpliftable
     def defendant_uplift?
       unique_code.in?(self.class.defendant_uplift_unique_codes)
     end
+
+    def orphan_defendant_uplift?
+      unique_code.in?(self.class.const_get(:ORPHAN_DEFENDANT_UPLIFTS))
+    end
   end
 end

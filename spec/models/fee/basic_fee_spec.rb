@@ -27,7 +27,7 @@ RSpec.describe Fee::BasicFee do
   it { should validate_presence_of(:claim).with_message('blank')}
   it { should validate_presence_of(:fee_type).with_message('blank') }
 
-  include_examples '#defendant_uplift?'
+  include_examples 'defendant uplift delegation'
 
   describe 'default scope' do
     it 'should order by claim id and fee type id ascending' do

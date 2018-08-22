@@ -1,16 +1,8 @@
-shared_examples '#defendant_uplift?' do
-  describe '#defendant_uplift?' do
-    before do
-      allow(subject).to receive(:fee_type).and_return fee_type
-    end
-
-    let(:fee_type) { instance_double('fee_type') }
-
-    it 'delegates to fee type' do
-      expect(fee_type).to receive(:defendant_uplift?)
-      subject.defendant_uplift?
-    end
-  end
+shared_examples 'defendant uplift delegation' do
+  it { is_expected.to respond_to(:defendant_uplift?) }
+  it { is_expected.to respond_to(:orphan_defendant_uplift?) }
+  it { is_expected.to delegate_method(:defendant_uplift?).to(:fee_type) }
+  it { is_expected.to delegate_method(:orphan_defendant_uplift?).to(:fee_type) }
 end
 
 shared_examples '.defendant_uplift_sums' do
@@ -32,6 +24,9 @@ shared_examples '.defendant_uplift_sums' do
 end
 
 shared_examples 'defendant upliftable' do
+  it { is_expected.to respond_to(:defendant_uplift?) }
+  it { is_expected.to respond_to(:orphan_defendant_uplift?) }
+
  describe '#defendant_uplift?' do
     subject { fee_type.defendant_uplift? }
 
@@ -42,6 +37,20 @@ shared_examples 'defendant upliftable' do
 
     it 'returns false when fee_type is not a defendant uplift' do
       fee_type.unique_code = 'MIAPH'
+      is_expected.to be_falsey
+    end
+  end
+
+  describe '#orphan_defendant_uplift?' do
+    subject { fee_type.defendant_uplift? }
+
+    it 'returns true when fee_type is a defendant uplift' do
+      fee_type.unique_code = 'FXNDR'
+      is_expected.to be_truthy
+    end
+
+    it 'returns false when fee_type is not a defendant uplift' do
+      fee_type.unique_code = 'FXACV'
       is_expected.to be_falsey
     end
   end
@@ -57,7 +66,7 @@ shared_examples 'defendant upliftable' do
     subject { described_class.defendant_uplift_unique_codes }
 
     it 'includes orphan defendant uplift unique codes' do
-      is_expected.to include(*%w[BANDR FXNDR])
+      is_expected.to include(*%w[BANDR FXNDR MIUPL])
     end
   end
 

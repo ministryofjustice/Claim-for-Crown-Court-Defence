@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180809101905) do
+ActiveRecord::Schema.define(version: 20180822130536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -439,6 +439,9 @@ ActiveRecord::Schema.define(version: 20180809101905) do
     t.string   "transfer_court"
     t.string   "trial_cracked_at_third"
     t.string   "claim_type"
+    t.decimal  "assessment_fees"
+    t.decimal  "assessment_expenses"
+    t.decimal  "assessment_disbursements"
     t.index ["actual_trial_length"], name: "index_mi_data_on_actual_trial_length", using: :btree
     t.index ["case_type"], name: "index_mi_data_on_case_type", using: :btree
     t.index ["created_at"], name: "index_mi_data_on_created_at", using: :btree

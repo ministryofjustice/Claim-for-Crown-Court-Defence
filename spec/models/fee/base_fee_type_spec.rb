@@ -17,83 +17,62 @@
 #
 
 require 'rails_helper'
+require_relative 'shared_examples_for_defendant_uplifts'
 
-module Fee
-  RSpec.describe BaseFeeType, type: :model do
-    include DatabaseHousekeeping
+RSpec.describe Fee::BaseFeeType, type: :model do
+  include DatabaseHousekeeping
 
-    context '#new' do
-      it 'should raise BaseFeeTypeAbstractClassError' do
-        expect { BaseFeeType.new }.to raise_error(Fee::BaseFeeTypeAbstractClassError)
-      end
-    end
+  class FeeTypeDouble < described_class; end
 
-    context 'behaves like roles' do
-      # using MiscFeeType becasue the shared exmaples use a factory, which rules out the use of a class double
-      it_behaves_like 'roles', MiscFeeType, MiscFeeType::ROLES
+  subject(:fee_type) { FeeTypeDouble.new }
+
+  context '#new' do
+    it 'should raise BaseFeeTypeAbstractClassError' do
+      expect {
+        described_class.new
+      }.to raise_error Fee::BaseFeeTypeAbstractClassError, 'Fee::BaseFeeType is an abstract class and cannot be instantiated'
     end
   end
 
-  class FeeTypeDouble < BaseFeeType
+  it_behaves_like 'roles', Fee::MiscFeeType, Fee::MiscFeeType::ROLES # using MiscFeeType because the shared examples use a factory, which rules out the use of a class double
+  it_behaves_like 'defendant upliftable'
+
+  it { should have_many(:fees) }
+
+  it { should validate_presence_of(:description).with_message('Fee type description cannot be blank') }
+  it { should validate_presence_of(:code).with_message('Fee type code cannot be blank') }
+  it { should validate_uniqueness_of(:description).ignoring_case_sensitivity.with_message('Fee type description must be unique').scoped_to(:type) }
+
+  it { should respond_to(:code) }
+  it { should respond_to(:description) }
+
+  describe '#requires_dates_attended?' do
+    it 'returns false' do
+      expect(build(:fixed_fee_type).requires_dates_attended?).to be false
+      expect(build(:misc_fee_type).requires_dates_attended?).to be false
+    end
   end
 
-  RSpec.describe FeeTypeDouble, type: :model do
-    it { should have_many(:fees) }
-
-    it { should validate_presence_of(:description).with_message('Fee type description cannot be blank') }
-    it { should validate_presence_of(:code).with_message('Fee type code cannot be blank') }
-    it { should validate_uniqueness_of(:description).ignoring_case_sensitivity.with_message('Fee type description must be unique').scoped_to(:type) }
-
-    it { should respond_to(:code) }
-    it { should respond_to(:description) }
-
-    describe '.new' do
-      it 'raises an error' do
-        expect {
-          BaseFeeType.new
-        }.to raise_error BaseFeeTypeAbstractClassError, 'Fee::BaseFeeType is an abstract class and cannot be instantiated'
-      end
+  describe '#quanity_is_decimal?' do
+    it 'should return false' do
+      ft = build :basic_fee_type
+      expect(ft.quantity_is_decimal).to be false
     end
-
-    describe '#requires_dates_attended?' do
-      it 'returns false' do
-        expect(build(:fixed_fee_type).requires_dates_attended?).to be false
-        expect(build(:misc_fee_type).requires_dates_attended?).to be false
-      end
-    end
-
-    describe '#quanity_is_decimal?' do
-      it 'should return false' do
-        ft = build :basic_fee_type
-        expect(ft.quantity_is_decimal).to be false
-      end
-      it 'should return true' do
-        ft = build :misc_fee_type, :spf
-        expect(ft.quantity_is_decimal).to be true
-      end
-    end
-
-    describe '#fee_category_name' do
-      it 'returns the humanised name' do
-        expect(build(:transfer_fee_type).fee_category_name).to eq 'Transfer Fee'
-        expect(build(:basic_fee_type).fee_category_name).to eq 'Basic Fees'
-        expect(build(:fixed_fee_type).fee_category_name).to eq 'Fixed Fees'
-        expect(build(:graduated_fee_type).fee_category_name).to eq 'Graduated Fees'
-        expect(build(:interim_fee_type).fee_category_name).to eq 'Interim Fees'
-        expect(build(:warrant_fee_type).fee_category_name).to eq 'Warrant Fee'
-      end
+    it 'should return true' do
+      ft = build :misc_fee_type, :spf
+      expect(ft.quantity_is_decimal).to be true
     end
   end
 
   describe '#fee_category_name' do
-    it 'returns the correct category name' do
-      expect(BasicFeeType.new.fee_category_name).to eq 'Basic Fees'
-      expect(MiscFeeType.new.fee_category_name).to eq 'Miscellaneous Fees'
-      expect(FixedFeeType.new.fee_category_name).to eq 'Fixed Fees'
-      expect(InterimFeeType.new.fee_category_name).to eq 'Interim Fees'
-      expect(TransferFeeType.new.fee_category_name).to eq 'Transfer Fee'
-      expect(GraduatedFeeType.new.fee_category_name).to eq 'Graduated Fees'
-      expect(WarrantFeeType.new.fee_category_name).to eq 'Warrant Fee'
+    it 'returns the humanised name' do
+      expect(build(:basic_fee_type).fee_category_name).to eq 'Basic Fees'
+      expect(build(:fixed_fee_type).fee_category_name).to eq 'Fixed Fees'
+      expect(build(:misc_fee_type).fee_category_name).to eq 'Miscellaneous Fees'
+      expect(build(:graduated_fee_type).fee_category_name).to eq 'Graduated Fees'
+      expect(build(:transfer_fee_type).fee_category_name).to eq 'Transfer Fee'
+      expect(build(:interim_fee_type).fee_category_name).to eq 'Interim Fees'
+      expect(build(:warrant_fee_type).fee_category_name).to eq 'Warrant Fee'
     end
   end
 
@@ -136,32 +115,34 @@ module Fee
       end
     end
 
-    it 'returns all basic fee types' do
-      expect(Fee::BaseFeeType.basic).to match_array( [ @bf1, @bf2 ] )
-    end
+    describe 'scopes' do
+      it '.basic - returns all basic fee types' do
+        expect(described_class.basic).to match_array( [ @bf1, @bf2 ] )
+      end
 
-    it 'returns all misc fee types' do
-      expect(Fee::BaseFeeType.misc).to match_array( [ @mf1, @mf2 ] )
-    end
+      it '.misc - returns all misc fee types' do
+        expect(described_class.misc).to match_array( [ @mf1, @mf2 ] )
+      end
 
-    it 'returns all fixed fee types' do
-      expect(Fee::BaseFeeType.fixed).to match_array( [ @ff1, @ff2 ] )
-    end
+      it '.fixed - returns all fixed fee types' do
+        expect(described_class.fixed).to match_array( [ @ff1, @ff2 ] )
+      end
 
-    it 'returns all warrant fee types' do
-      expect(Fee::BaseFeeType.warrant).to match_array( [ @wf1, @wf2 ] )
-    end
+      it '.warrant - returns all warrant fee types' do
+        expect(described_class.warrant).to match_array( [ @wf1, @wf2 ] )
+      end
 
-    it 'returns all graduated fee types' do
-      expect(Fee::BaseFeeType.graduated).to match_array( [ @gf1, @gf2 ] )
-    end
+      it '.graduated - returns all graduated fee types' do
+        expect(described_class.graduated).to match_array( [ @gf1, @gf2 ] )
+      end
 
-    it 'returns all interim fee types' do
-      expect(Fee::BaseFeeType.interim).to match_array( [ @if1, @if2 ] )
-    end
+      it '.interim - returns all interim fee types' do
+        expect(described_class.interim).to match_array( [ @if1, @if2 ] )
+      end
 
-    it 'returns all transfer fee types' do
-      expect(Fee::BaseFeeType.transfer).to match_array( [ @tf1, @tf2 ] )
+      it '.transfer - returns all transfer fee types' do
+        expect(described_class.transfer).to match_array( [ @tf1, @tf2 ] )
+      end
     end
   end
 end

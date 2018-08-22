@@ -15,7 +15,6 @@ module Claims
                 :offence,
                 to: :claim
 
-      # TODO: check if these can all be made private
       attr_reader :claim, :options, :fee_type, :advocate_category, :quantity, :current_page_fees
 
       def initialize(claim, options)
@@ -114,11 +113,6 @@ module Claims
         fee_type_mappings[fee_type&.unique_code&.to_sym][:bill_subtype]
       end
 
-      # TODO: share/take from adapters
-      def orphan_uplift?
-        %w[FXNOC FXNDR].include?(fee_type.unique_code)
-      end
-
       def current_fee_types
         return @current_fee_types if @current_fee_types
         ids = current_page_fees.map { |pf| pf[:fee_type_id] }
@@ -138,21 +132,12 @@ module Claims
       end
 
       def case_uplift_parent
-        return primary_fee_type_on_page if orphan_uplift?
-
-        # TODO: hacky but there is no relationship between fixed fee "primary" types
-        # and their case uplift equivalent.
-        # - could create relationship on models/database
-        #
-        # Alternatively, could use case_upliftable module for mappings of parent and child
-        #
-        Fee::BaseFeeType
-          .where('description = ?', fee_type.description.gsub(' uplift', ''))
-          .where.not('description ILIKE ?', '%uplift%')&.first
+        return primary_fee_type_on_page if fee_type.orphan_case_uplift?
+        fee_type.case_uplift_parent
       end
 
       def defendant_uplift_parent
-        return primary_fee_type_on_page if orphan_uplift?
+        return primary_fee_type_on_page if fee_type.orphan_defendant_uplift?
       end
 
       def response(success, data, message = nil)

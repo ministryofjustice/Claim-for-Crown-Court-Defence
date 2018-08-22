@@ -7,7 +7,7 @@ module Claims
   module FeeCalculator
     # TODO: this is using:
     # 1. for primary/main fixed fees it use the calculate endpoint with quantity/days of 1 and no modifiers
-    # 2. for case uplifts it calculates for the matching "primary" fee type with number of cases
+    # 2. for case uplifts and defendant uplifts it calculates for the matching "primary" fee type with number of cases
     #    modifier of 2 (1 additional case) and "days/quantity" taken from the primary fee types' quantity.
     # However, could use the prices endpoint of API directly or request a new endpoint to reduce number
     # of calls and/or simplify.

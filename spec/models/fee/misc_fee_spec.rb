@@ -27,7 +27,7 @@ RSpec.describe Fee::MiscFee do
   it { should validate_presence_of(:claim).with_message('blank') }
   it { should validate_presence_of(:fee_type).with_message('blank') }
 
-  include_examples '#defendant_uplift?'
+  include_examples 'defendant uplift delegation'
   include_examples '.defendant_uplift_sums'
 
   describe '#is_misc?' do

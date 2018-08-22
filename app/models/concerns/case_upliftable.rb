@@ -35,5 +35,17 @@ module CaseUpliftable
     def case_uplift?
       unique_code.in?(self.class.case_uplift_unique_codes)
     end
+
+    def orphan_case_uplift?
+      unique_code.in?(self.class.const_get(:ORPHAN_CASE_UPLIFTS))
+    end
+
+    def case_uplift_parent_unique_code
+      CASE_UPLIFT_MAPPINGS.find { |_parent_code, uplift_code| uplift_code.eql?(unique_code) }&.first
+    end
+
+    def case_uplift_parent
+      self.class.find_by(unique_code: case_uplift_parent_unique_code)
+    end
   end
 end

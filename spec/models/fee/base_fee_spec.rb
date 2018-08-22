@@ -29,7 +29,6 @@ module Fee
   end
 
   RSpec.describe Fee::FeeDouble, type: :model do
-
     let(:subject) { FeeDouble.new }
 
     it { should belong_to(:claim) }
@@ -52,28 +51,20 @@ module Fee
     end
 
     context 'delegations' do
-      let(:fee_type) { FeeTypeDouble.new }
-
-      before do
-        allow(subject).to receive(:fee_type).and_return fee_type
-      end
-
       describe '#description' do
-        it 'is delegated to fee type' do
-          expect(fee_type).to receive(:description)
-          subject.description
-        end
+        it { is_expected.to delegate_method(:description).to(:fee_type) }
       end
 
       describe '#case_uplift?' do
-        it 'is delegated to fee type' do
-          expect(fee_type).to receive(:case_uplift?)
-          subject.case_uplift?
-        end
+        it { is_expected.to delegate_method(:case_uplift?).to(:fee_type) }
+      end
+
+      describe '#orphan_case_uplift?' do
+        it { is_expected.to delegate_method(:orphan_case_uplift?).to(:fee_type) }
       end
 
       describe '#position' do
-        specify { is_expected.to delegate_method(:position).to(:fee_type) }
+        it { is_expected.to delegate_method(:position).to(:fee_type) }
       end
     end
 

@@ -39,8 +39,8 @@ module Fee
     belongs_to :fee_type, class_name: Fee::BaseFeeType
     belongs_to :sub_type, class_name: Fee::BaseFeeType
 
-    delegate :description, :case_uplift?, :position, to: :fee_type
-    delegate :defendant_uplift?, to: :fee_type, allow_nil: true
+    delegate :description, :case_uplift?, :orphan_case_uplift?, :position, to: :fee_type
+    delegate :defendant_uplift?, :orphan_defendant_uplift?, to: :fee_type, allow_nil: true
     delegate :code, to: :fee_type, prefix: true
 
     has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item

@@ -24,6 +24,9 @@ module Transform
       provider_name: { object: :provider, att: :name },
       provider_type: { object: :provider, att: :provider_type },
       assessment_total: { object: :assessment, att: :total },
+      assessment_fees: { object: :assessment, att: :fees },
+      assessment_expenses: { object: :assessment, att: :expenses },
+      assessment_disbursements: { object: :assessment, att: :disbursements },
       assessment_vat: { object: :assessment, att: :vat_amount },
       scheme_name: { object: :fee_scheme, att: :name },
       scheme_number: { object: :fee_scheme, att: :version }

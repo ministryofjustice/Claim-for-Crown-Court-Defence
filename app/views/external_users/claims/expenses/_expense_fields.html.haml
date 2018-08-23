@@ -10,6 +10,9 @@
       %span.fx-remove-link
         = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group', class: 'header-action' }
 
+    %p.fx-general-errors{:style => "display: none;"}
+      %span
+
     .grid-row
       .column-half
         -# SELECT: Expense types
@@ -24,15 +27,16 @@
 
       .column-half
         -# SELECT: Travel reasons
-        .form-group.fx-travel-reason{:style => "display: none;"}
+        - error_classes = error_class?(@error_presenter, "expense_#{@expense_count}_reason_id")
+        - error_classes += ' form-group-error' if error_classes.present?
+        .form-group.fx-travel-reason{:style => "display: none;", class: error_classes }
           %fieldset
             %legend.form-label-bold
               = t('.travel_reason')
               %a{id: "expense_#{@expense_count}_reason_id"}
-
+          = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
           - reasons_collection = present_collection(reasonset_for_expense_type(f.object.expense_type).values, TravelReasonPresenter)
           = f.select :reason_id, reasons_collection.map {|et| [et.reason, et.id, { data: et.data_attributes }]}, {include_blank: t('.select_option')}, {class: 'form-control form-control-3-4'}
-          = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
 
         -# INPUT: Other travel reason input
         .form-group.fx-travel-reason-other{style: f.object.reason_id.eql?(5) ? "display: block;" : "display: none;" }
@@ -43,16 +47,17 @@
       .column-half
         -# INPUT: Location
         .fx-travel-location{:style => "display: none;"}
-          = f.adp_text_field :location, label: t('.location'), input_classes:'form-control-3-4', errors: @error_presenter
 
           - if @claim.lgfs?
-            .form-group.fx-establishment-select{:style => "display: none;"}
-              %fieldset
-                = label_tag :location, nil, class: "form-label-bold"
-                = select_tag(:location, "", :class => "form-control form-control-3-4", :autocomplete => "off")
+            - error_classes = error_class?(@error_presenter, "expense_#{@expense_count}_location")
+            - error_classes += ' form-group-error' if error_classes.present?
+            .form-group.fx-establishment-select.has-select{:style => "display: none;", class: error_classes}
+              %a{:id => "expense_#{@expense_count}_location"}
+              = f.label :location, nil, class: "form-label-bold", for: "expense_#{@expense_count}_location"
+              = validation_error_message(@error_presenter, "expense_#{@expense_count}_location")
+              = f.select :location, {}, {}, { class: "form-control form-control-3-4", :autocomplete => "off" }
 
-
-            = f.hidden_field :location, class: "fx-location-model"
+          = f.adp_text_field :location, label: t('.location'), input_classes:'form-control-3-4 fx-location-model', errors: @error_presenter
 
       .column-half
         -# INPUT: Travel hours
@@ -62,7 +67,7 @@
 
         -# INPUT: Travel Distance
         .form-group-compound.fx-travel-distance{:style => "display: none;"}
-          = f.adp_text_field :distance, label: t('.distance'), hint_text: t('.distance_hint'), input_type: 'number', input_classes: 'form-control-1-4', value: number_with_precision(f.object.distance, precision: 2), errors: @error_presenter
+          = f.adp_text_field :distance, label: t('.distance'), hint_text: t('.distance_hint'), input_type: 'number', input_classes: 'form-control-1-4', value: number_with_precision(f.object.distance, precision: 0), errors: @error_presenter
 
     .grid-row
       .column-half

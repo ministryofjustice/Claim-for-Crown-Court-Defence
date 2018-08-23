@@ -838,7 +838,7 @@ en:
           date_hint: For example 31 3 2017
           destination: Destination
           distance: Distance
-          distance_hint: Total distance for the return journey
+          distance_hint: Total mileage for the return journey
           distance_summary_heading: How we calculate the distance
           distance_summary_text: |
             We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison.

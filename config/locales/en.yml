@@ -822,6 +822,9 @@ en:
           disbursement: "Disbursement"
           remove: "Remove disbursement"
       expenses:
+        textarea_additional_info:
+          additional_info_heading: Additional information (optional)
+          additional_info_label: Provide any information that will help in the assessment of your expenses
         expense_fields:
           select_option: Please select
           travel_reason: Travel reason
@@ -861,6 +864,7 @@ en:
           caption: 'Expenses: This section contains details of all expenses that have been claimed.'
           header: Travel expenses
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          additional_information: Additional information
       transfer_fee:
         fields:
           ppe_total: "PPE total"

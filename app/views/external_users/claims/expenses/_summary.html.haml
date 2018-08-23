@@ -82,3 +82,14 @@
                         = t('shared.summary.vat_amount')
                       %td
                         = expense.vat_amount
+
+  %table{ class: 'summary', summary: t('.summary') }
+    %caption
+      %span.table-caption.visuallyhidden
+        = t('.caption')
+    %tbody
+      %tr
+        %th{ scope: 'row', class: 'bold', valign: "top" }
+          = t('.additional_information')
+        %td
+          = @claim.travel_expense_additional_information

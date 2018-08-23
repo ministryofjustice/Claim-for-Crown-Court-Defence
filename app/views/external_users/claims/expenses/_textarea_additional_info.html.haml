@@ -1,0 +1,7 @@
+%h2.heading-medium
+  = t('.additional_info_heading')
+.form-group
+  %label.form-label{:for => "travel-expenses-additional-information"}
+    = t('.additional_info_label')
+
+  = f.text_area :travel_expense_additional_information, class: 'form-control form-control-full-textarea', id: 'travel-expenses-additional-information', rows: 5, 'aria-describedby': 'additional-info-hint'

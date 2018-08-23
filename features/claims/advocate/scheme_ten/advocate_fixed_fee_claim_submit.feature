@@ -21,7 +21,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     Then I click "Continue" in the claim form
 
-    Given I insert the VCR cassette 'features/claims/advocate/scheme_10/fixed_fee_calculations'
+    Given I insert the VCR cassette 'features/claims/advocate/scheme_ten/fixed_fee_calculations'
 
     And I should see the advocate categories 'Junior,Leading junior,QC'
     And I select an advocate category of 'Junior'

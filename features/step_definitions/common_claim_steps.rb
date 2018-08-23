@@ -92,3 +92,7 @@ When(/^I click "Continue" in the claim form$/) do
   @claim_form_page.continue_button.click
   wait_for_ajax
 end
+
+Then(/^I am on the miscellaneous fees page$/) do
+  expect(@claim_form_page).to have_miscellaneous_fees
+end

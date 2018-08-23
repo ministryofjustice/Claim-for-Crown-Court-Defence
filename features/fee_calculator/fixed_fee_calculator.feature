@@ -1,5 +1,5 @@
 @javascript
-Feature: Advocate requests calculator
+Feature: Advocate completes fixed fee page using calculator
 
   @fee_calc_vcr
   Scenario: I create a contempt claim, then submit it
@@ -11,7 +11,7 @@ Feature: Advocate requests calculator
     Then I should be on the new claim page
 
     And I select the court 'Blackfriars'
-    And I select a case type of 'Contempt'
+    And I select a case type of 'Appeal against conviction'
     And I enter a case number of 'A20161234'
 
     Then I click "Continue" in the claim form
@@ -21,46 +21,28 @@ Feature: Advocate requests calculator
 
     Then I click "Continue" in the claim form
 
-    Given I insert the VCR cassette 'features/fixed_fee_calculations/agfs/scheme_nine'
+    Given I insert the VCR cassette 'features/fee_calculator/fixed_fee_calculator'
 
     And I select an advocate category of 'Junior alone'
-    And I add a fixed fee 'Appeals to the crown court against sentence'
-    Then the last fixed fee case numbers section should not be visible
-    Then the last fixed fee rate should be populated with '108.00'
-
+    And I add a fixed fee 'Appeals to the crown court against conviction'
     And I add a fixed fee 'Number of cases uplift' with case numbers
-    Then the last fixed fee case numbers section should be visible
-    Then the last fixed fee rate should be populated with '21.60'
+    And I add a fixed fee 'Number of defendants uplift'
 
-    And I add a fixed fee of defendants uplift
-    Then the last fixed fee case numbers section should not be visible
-    Then the last fixed fee rate should be populated with '21.60'
+    Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '130.00'
+    Then the fixed fee 'Number of cases uplift' should have a rate of '26.00'
+    Then the fixed fee 'Number of defendants uplift' should have a rate of '26.00'
+
+    And I select an advocate category of 'QC'
+    Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '260.00'
+    Then the fixed fee 'Number of cases uplift' should have a rate of '52.00'
+    Then the fixed fee 'Number of defendants uplift' should have a rate of '52.00'
+
+    Then I amend the fixed fee 'Appeals to the crown court against conviction' to have a quantity of 2
+    Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '260.00'
+    Then the fixed fee 'Number of cases uplift' should have a rate of '104.00'
+    Then the fixed fee 'Number of defendants uplift' should have a rate of '104.00'
 
     And I eject the VCR cassette
-    Then I click "Continue" in the claim form
-
-    And I add a miscellaneous fee 'Adjourned appeals' with dates attended
 
     Then I click "Continue" in the claim form
-
-    And I add an expense 'Parking'
-
-    Then I click "Continue" in the claim form
-
-    And I upload 3 documents
-    And I check the boxes for the uploaded documents
-    And I add some additional information
-
-    Then I click Submit to LAA
-    And I should be on the check your claim page
-
-    When I click "Continue"
-    Then I should be on the certification page
-
-    When I check “I attended the main hearing”
-    And I click Certify and submit claim
-    Then I should be on the page showing basic claim information
-
-    When I click View your claims
-    Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£264.38'
+    And I am on the miscellaneous fees page

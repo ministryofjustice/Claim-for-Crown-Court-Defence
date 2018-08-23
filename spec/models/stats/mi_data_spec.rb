@@ -6,7 +6,7 @@ module Stats
 
     it { is_expected.to be_a Stats::MIData }
 
-    it { expect(subject.attributes.size).to eq 53 }
+    it { expect(subject.attributes.size).to eq 56 }
 
     it { expect(subject).to_not respond_to :import }
 

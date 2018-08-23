@@ -9,7 +9,7 @@ RSpec.describe Transform::Claim do
     specify { is_expected.to be_a Hash }
 
     it 'has the required amount of key/value pairs ' do
-      expect(call.count).to eq 52
+      expect(call.count).to eq 55
     end
 
     context 'runs different import types' do

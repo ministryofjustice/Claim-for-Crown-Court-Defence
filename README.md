@@ -117,20 +117,38 @@ To execute cucumber test scenarios
 bundle exec cucumber
 ```
 
-## Developing Cucumber tests
+## Testing external services
 
-Some cucumber feature test use VCR to record/store mock results. This is currently required
-because of internal API calls (calling our own API) for certain endpoints (case worker claims
-in particular). To create a new feature/scenario that relies on such endpoints you will therefore
-need to record a new "cassette", as below.
 
-#### Create new VCR cassette
-##### (for cucumber features that call the internal API or a microservice)
+#### LAA fee calculator API
+##### RSpec
+Some rspec unit tests require VCR cassettes for the LAA fee calculator API external service. These specs are tagged with `:fee_calc_vcr` so can be targetted using rspec cmdline options.
+
+```bash
+# run specs requiring LAA fee calculator API call stubs/cassettes
+$ rspec --tag fee_calc_vcr
+
+```
+
+Changes to the calling of the LAA fee calculator API will most likely require you to rerecord the VCR cassettes that stub these calls. To rerecord VCR cassettes you can delete the existing ones (in `vcr/cassettes/spec`). They will be recreated when the specs are run.
+
+It is a good idea to do this when changes occur to the LAA fee calculator API too.
+
+##### Cucumber
+Some cucumber features require VCR cassettes to stub calls to the LAA fee caclculator API. These features require and are tagged with a `@fee_calc_vcr` tag. To re-record the cassettes delete the existing ones and run the feature again. See
+[Create a new VCR cassette](#create-new-vcr-cassette).
+
+#### Internal API
+Some cucumber feature tests use VCR to record/store mock results the internal API calls (calling our own API) for certain endpoints (case worker claims in particular).
+To create a new feature/scenario that relies on such endpoints you will therefore need to record a new "cassette", as below.
+
+##### Create new VCR cassette
 
 Run this in a new console:
 
 ```bash
-RAILS_ENV=test rails s -p 3001 -P /tmp/rails3001.pid
+# Start internal API for use by test suite
+$ RAILS_ENV=test rails s -p 3001 -P /tmp/rails3001.pid
 ```
 
 In your `.feature` file add this step before any calls relying on the internal API - i.e. which will be mocked by the cassette produced:
@@ -140,7 +158,13 @@ In your `.feature` file add this step before any calls relying on the internal A
 And I insert the VCR cassette 'features/case_workers/claims/injection_error'
 ```
 
-...and add this step at the point you want to stop recording and write the output to the cassette file:
+You can change the default recording mode (:once) by adding `and record 'all|new_episodes|none|once'` to the end of this step
+```ruby
+# record new vcr episodes. Remember to remove this once they are recorded.
+And I insert the VCR cassette 'features/case_workers/claims/injection_error' and record 'new_episodes'
+```
+
+Add this step at the point you want to stop recording and write the output to the cassette file:
 
 ```ruby
 # eject the previously inserted cassette (optional if there already is one but needs to be done if a new is being created in order to output the file
@@ -153,7 +177,7 @@ Run the feature:
 cucumber features/000.feature features/injection_errors.feature
 ```
 
-After you have run it once you must amend the cassette inserting step as below if you added `and record ‘all'` to prevent it creating new cassettes on each run:
+After you have run it once you must amend the cassette inserting step as below if you added `and record 'all|new_episodes'` to prevent it creating new cassettes on each run:
 
 ```ruby
 And I insert the VCR cassette 'features/case_workers/claims/injection_error'

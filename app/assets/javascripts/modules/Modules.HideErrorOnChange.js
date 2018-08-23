@@ -56,14 +56,17 @@ moj.Modules.HideErrorOnChange = {
         self.removeClassName($el, opt.wrapperClassName);
         self.removeClassName($el, 'form-group-error');
         self.removeBySelector($el, opt.messageSelector);
-
-        return false;
       });
 
       // mainly for FF
       $(opt.delegate).one('focus', context, function(e) {
         $(e.target).trigger('click');
       });
+
+      $(opt.delegate).one('change', context, function(e) {
+        $(e.target).trigger('click');
+      });
+
     });
   }
 };

@@ -1,34 +1,41 @@
-# Service to calculate the unit price for a given fee.
+# Service to retrieve the unit price for a given fee.
 # Unit price will require input from different attributes
-# on the claim and may require input from different CCCD fees
-# to be consolidated/munged.
+# on the claim and may require the quantity from separate
+# but related fees (i.e. for uplifts).
 #
 module Claims
   module FeeCalculator
-    # TODO: this is using:
-    # 1. for primary/main fixed fees it use the calculate endpoint with quantity/days of 1 and no modifiers
-    # 2. for case uplifts and defendant uplifts it calculates for the matching "primary" fee type with number of cases
-    #    modifier of 2 (1 additional case) and "days/quantity" taken from the primary fee types' quantity.
-    # However, could use the prices endpoint of API directly or request a new endpoint to reduce number
-    # of calls and/or simplify.
-    #
     class UnitPrice < Calculate
       private
 
+      # TODO: unit should be passed from options or dynamically determined
+      # However, day is the unit for all fixed fees.
+      #
       def unit_price(modifier = nil)
-        fee_scheme.calculate do |options|
-          options[:scenario] = scenario.id
-          options[:offence_class] = offence_class
-          options[:advocate_type] = advocate_type
-          options[:fee_type_code] = fee_type_code_for(fee_type)
-          options[modifier] = 2 if modifier.present?
+        @prices = fee_scheme.prices(
+          scenario: scenario.id,
+          offence_class: offence_class,
+          advocate_type: advocate_type,
+          fee_type_code: fee_type_code_for(fee_type),
+          unit: 'DAY'
+        )
 
-          # TODO: this will need to be dynamically determined eventually
-          # e.g.
-          #   units = fee_scheme.units(options).map { |u| u.id.downcase }
-          #   units.each { |unit| options[unit.to_sym] = unit_from_parent_or_one }
-          options[:day] = unit_from_parent_or_one
-        end
+        return fee_per_unit unless modifier
+        fee_per_unit * unit_scale_factor(modifier) * quantity_from_parent_or_one
+      end
+
+      def price
+        raise 'Too many prices' if @prices.size > 1
+        @prices.first
+      end
+
+      def fee_per_unit
+        price.fee_per_unit.to_f
+      end
+
+      def unit_scale_factor(modifier)
+        modifier = price.modifiers.find { |o| !o.modifier_type.find { |mt| mt.name.eql?(modifier.upcase.to_s).empty? } }
+        modifier.percent_per_unit.to_f / 100
       end
 
       def uplift?
@@ -40,21 +47,17 @@ module Claims
         fee_type.case_uplift? ? case_uplift_parent : defendant_uplift_parent
       end
 
-      def unit_from_parent_or_one
+      def quantity_from_parent_or_one
         parent = parent_fee_type
         return 1 unless parent
         current_total_quantity_for_fee_type(parent)
       end
 
-      def uplift_unit_price(modifier)
-        unit_price(modifier.to_sym) - unit_price
-      end
-
       def amount
         if fee_type.case_uplift?
-          uplift_unit_price(:number_of_cases)
+          unit_price(:number_of_cases)
         elsif fee_type.defendant_uplift?
-          uplift_unit_price(:number_of_defendants)
+          unit_price(:number_of_defendants)
         else
           unit_price
         end

@@ -10,18 +10,29 @@ moj.Helpers.SideBar = {
     this.el = this.config.el;
 
     this.setState = function(selector, state) {
-      if (this.$el.find(selector).is(':visible') === state) {
-        return;
+      if (this.$el.find(selector).length) {
+        if (this.$el.find(selector).is(':visible') === state) {
+          return;
+        }
+        return this.$el.find(selector).css('display', state ? 'block' : 'none');
       }
-      return this.$el.find(selector).css('display', state ? 'block' : 'none');
+      throw Error('Selector did not return an element: ' + selector);
     };
 
     this.setVal = function(selector, val) {
       if (this.$el.find(selector).length) {
-        this.$el.find(selector).val(val);
+        this.$el.find(selector).val(val).change();
         return;
       }
-      return new Error('selector did not return an element', selector);
+      throw Error('Selector did not return an element: ' + selector);
+    };
+
+    this.setNumber = function(selector, val) {
+      if (this.$el.find(selector).length) {
+        this.$el.find(selector).val(parseFloat(val).toFixed(2)).change();
+        return;
+      }
+      throw Error('Selector did not return an element: ' + selector);
     };
 
     this.getConfig = function(key) {
@@ -204,14 +215,24 @@ moj.Helpers.SideBar = {
       return this;
     };
   },
+  /**
+   * ExpenseBlock Class
+   * - manage visibility of elements for each expense type
+   * - expense type options has data attr that are read
+   * - <option data-example="true" data-... />
+   * - manage the travel reason select
+   * - manage the location select
+   */
   ExpenseBlock: function() {
     var self = this;
     var staticdata = moj.Helpers.SideBar.staticdata.expenseBlock;
+
     moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
 
     this.stateLookup = staticdata.stateLookup;
     this.defaultstate = staticdata.defaultstate;
     this.expenseReasons = staticdata.expenseReasons;
+
 
     this.init = function() {
       this.config.fn = 'ExpenseBlock';
@@ -223,13 +244,14 @@ moj.Helpers.SideBar = {
       this.loadCurrentState();
       return this;
     };
+
     this.bindEvents = function() {
       // Bind the core change listener
       this.bindRecalculate();
       // Bind events on the this.$el element
       this.bindListners();
     };
-    // Bind delegated events onto this.$el
+
     this.bindListners = function() {
       var self = this;
 
@@ -239,7 +261,13 @@ moj.Helpers.SideBar = {
        */
       this.$el.on('change', '.fx-travel-expense-type select', function(e) {
         e.stopPropagation();
-        self.statemanager(e);
+        var $el = $(e.target);
+
+        // The lookup is `distance` specific and the
+        // feature is toggled as required
+        self.distanceLookupEnabled = $el.find('option:selected').data('distance') || false;
+
+        self.statemanager($el);
       });
       /**
        * Travel reason change event
@@ -250,41 +278,87 @@ moj.Helpers.SideBar = {
        */
       this.$el.on('change', '.fx-travel-reason select', function(e) {
         e.stopPropagation();
+
         var $option, state, location_type;
+
+        // cache referance to selected option
         $option = $(e.target).find('option:selected');
-        state = $option.data('reasonText');
+
+        // read  & set `reasonText` state
+        reasonTextState = $option.data('reasonText');
+        self.setState('.fx-travel-reason-other', reasonTextState);
+
+        // read & set `locationType` value
         location_type = $option.data('locationType') || '';
         self.setVal('.fx-location-type', location_type);
-        self.setState('.fx-travel-reason-other', state);
-        self.attachElement($option.data());
+
+        // create the location `input / select` element
+        self.setLocationElement($option.data());
       });
 
       // Where the location is using a select box, the selected
       // value is stored in a hidden field
       // This is used to reset the correct block state and seleted values
       // when the page reloads
+      // The change event will also trigger the distance lookup if required
       this.$el.on('change', '.fx-establishment-select select', function(e) {
         e.stopPropagation();
         var $option = $(e.target).find('option:selected');
+
         self.$el.find('.fx-location-model').val($option.text());
+        if (self.distanceLookupEnabled) {
+          self.getDistance({
+            claimid: $('form').data('claimid'),
+            destination: $option.text()
+          }).then(function(result) {
+            self.setNumber('.fx-travel-distance input', result.miles);
+            self.setNumber('.fx-travel-net-amount input', result.miles / 5);
+            self.setNumber('.fx-travel-vat-amount input', result.miles / 25);
+          }, function() {
+            console.log('error', arguments);
+            return arguments;
+          });
+        }
       });
       return this;
     };
 
-    this.attachElement = function(obj) {
+    // TO DO: specs
+    this.getDistance = function(ajaxConfig) {
+      var self = this;
+      return moj.Helpers.API.Distance.query(ajaxConfig).then(function(result) {
+        result.miles = (result.distance / 1609.34);
+
+        return result;
+      }, function() {
+        return arguments;
+      });
+    };
+
+    /**
+     * setLocationElement
+     * @param  obj Config extracted from the selected option
+     * @return {[type]}     [description]
+     */
+    this.setLocationElement = function(obj) {
       if (!obj) throw Error('Missing param: obj, cannot build element');
 
+      // cache selected value
       var selectedValue = this.$el.find('.fx-location-model').val();
 
+      // Travel reason
+      // <option data-location-type="crown_court|prison|etc" />
       if (obj.locationType) {
         this.attachSelectWithOptions(obj.locationType, selectedValue);
         return this;
       }
-      this.attachInput();
-      return this;
+
+      // Attach input as default / fallback
+      return this.displayLocationInput();
     };
 
-    this.attachInput = function() {
+    //
+    this.displayLocationInput = function() {
       this.$el.find('.fx-travel-location label').text(staticdata.locationLabel.default);
       this.$el.find('.location_wrapper').css('display', 'block');
       this.$el.find('.fx-establishment-select').css('display', 'none');
@@ -343,14 +417,14 @@ moj.Helpers.SideBar = {
      * @param  {object} e jQuery event object
      * @return this
      */
-    this.statemanager = function(e) {
+    this.statemanager = function($el) {
       var self = this;
       var reasons = [];
-      var $el = $(e.target);
       var state = {
         config: $.extend({}, this.defaultstate, $el.find('option:selected').data()),
         value: $el.val()
       };
+
       var $parent = $el.closest('.js-block');
       var $detached = $parent.find('.form-section-compound').detach();
       var locationType = $detached.find('.fx-location-type').val();
@@ -389,10 +463,15 @@ moj.Helpers.SideBar = {
       // travel reasons
       reasons.push(new Option('Please select'));
 
+      // Looping over the correct reasonset and
+      // build the `<options data-attr="" .. />` elements
+      // This will handled the selected option as well
       this.expenseReasons[state.config.reasonSet].forEach(function(obj) {
         $option = $(new Option(obj.reason, obj.id));
         $option.attr('data-reason-text', obj.reason_text);
         $option.attr('data-location-type', obj.location_type);
+
+        // If `locationType` is present then a compounded condition is required
         if (locationType) {
           if (obj.location_type == locationType && obj.id == travelReasonValue) {
             $option.prop('selected', true);
@@ -415,42 +494,55 @@ moj.Helpers.SideBar = {
         $detached.find('.fx-travel-reason select').trigger('change');
       });
 
+      $detached = this.radioStateManager($detached, state);
+
+      return $parent.append($detached);
+    };
+
+    /**
+     * radioStateManager
+     * @param $dom  Expense block dom referance
+     * @param state State config object
+     * @return $dom return the $dom referance
+     */
+    this.radioStateManager = function($dom, state) {
       // Mileage radios: BIKE
       if (state.config.mileageType === 'bike') {
-        // Display the correct block
-        $detached.find('.fx-travel-mileage-car').css('display', 'none');
-        $detached.find('.fx-travel-mileage-bike').css('display', 'block');
-
-        // Activate the radios for this block and reset checked status
-        $detached.find('.fx-travel-mileage-bike input[type=radio]').is(function() {
-          $(this).prop('checked', true).prop('disabled', false);
-        });
-
-        // Deactivate the others and reset checked status
-        $detached.find('.fx-travel-mileage-car input').is(function() {
-          $(this).prop('checked', false).prop('disabled', true);
+        this.setRadioState($dom, {
+          car: 'none',
+          carModel: false,
+          bike: 'block',
+          bikeModel: true
         });
       }
 
       // Mileage radios: BIKE
       if (state.config.mileageType === 'car') {
-        // Display the correct block
-        $detached.find('.fx-travel-mileage-car').css('display', 'block');
-        $detached.find('.fx-travel-mileage-bike').css('display', 'none');
-
-        // Activate the radios for this block and reset checked status
-        $detached.find('.fx-travel-mileage-car input').is(function() {
-          $(this).prop('disabled', false);
-        });
-
-        // Deactivate the others and reset checked status
-        $detached.find('.fx-travel-mileage-bike input').is(function() {
-          $(this).prop('checked', false).prop('disabled', true);
+        this.setRadioState($dom, {
+          car: 'block',
+          carModel: true,
+          bike: 'none',
+          bikeModel: false
         });
       }
-      return $parent.append($detached);
+      return $dom;
+    };
+
+    this.setRadioState = function($dom, config) {
+      // Car mileage visibility, radio checked & disabled values
+      $dom.find('.fx-travel-mileage-car').css('display', config.car);
+      $dom.find('.fx-travel-mileage-car input').is(function() {
+        $(this).prop('checked', config.carModel).prop('disabled', !config.carModel);
+      });
+
+      // Bike mileage visibility, radio checked & disabled values
+      $dom.find('.fx-travel-mileage-bike').css('display', config.bike);
+      $dom.find('.fx-travel-mileage-bike input[type=radio]').is(function() {
+        $(this).prop('checked', config.bikeModel).prop('disabled', !config.bikeModel);
+      });
     };
   },
+
   staticdata: {
     expenseBlock: {
       stateLookup: {

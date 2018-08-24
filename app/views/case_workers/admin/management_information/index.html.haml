@@ -18,6 +18,19 @@
             = link_to 'Download', case_workers_admin_management_information_download_url(report_type: report_type, format: :csv), class: 'button btn-spacer-20'
 
           = link_to 'Regenerate', case_workers_admin_management_information_generate_url(report_type: report_type), class: 'button'
+  %tr#provisional-assessment-date
+    %td
+      .bold Provisional Assessments by date
+      .report_inputs
+        =label_tag(:start_date, 'Start date')
+        =date_field_tag(:start_date, nil, class: 'provisional_assessments_date_field')
+        =label_tag(:end_date, 'End date')
+        =date_field_tag(:end_date, nil, class: 'provisional_assessments_date_field')
+      .report-status
+        These reports are not saved and are generated on demand
+    %td
+      .form-group
+        =link_to 'Download', "", class: 'button disabled', id: 'provisional_assessments_date_download'
 
 %p.panel.panel-border-wide
   Click 'Download' to download the report now, or click 'Regenerate' to generate a more up to date report and refresh

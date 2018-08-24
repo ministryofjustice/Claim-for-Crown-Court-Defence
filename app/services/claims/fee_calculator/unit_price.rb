@@ -12,6 +12,7 @@ module Claims
       # However, day is the unit for all fixed fees.
       #
       def unit_price(modifier = nil)
+        @modifier = modifier
         @prices = fee_scheme.prices(
           scenario: scenario.id,
           offence_class: offence_class,
@@ -20,22 +21,12 @@ module Claims
           unit: 'DAY'
         )
 
-        return fee_per_unit unless modifier
-        fee_per_unit * unit_scale_factor(modifier) * quantity_from_parent_or_one
+        price.fee_per_unit
       end
 
       def price
         raise 'Too many prices' if @prices.size > 1
-        @prices.first
-      end
-
-      def fee_per_unit
-        price.fee_per_unit.to_f
-      end
-
-      def unit_scale_factor(modifier)
-        modifier = price.modifiers.find { |o| !o.modifier_type.find { |mt| mt.name.eql?(modifier.upcase.to_s).empty? } }
-        modifier.percent_per_unit.to_f / 100
+        Price.new(@prices.first, @modifier, quantity_from_parent_or_one)
       end
 
       def uplift?

@@ -1420,7 +1420,8 @@ en:
       details_heading: "Supplier "
       remove: Remove
     claim_accordion:
-      additional_information: Additional information
+      additional_information: Additional claim information
+      travel_expense_additional_information: Additional expenses information
       created_by: 'Created by:'
       h2_basic_info: Basic claim information
       h2_evidence: Evidence

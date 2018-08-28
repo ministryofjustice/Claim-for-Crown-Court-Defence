@@ -209,7 +209,7 @@ module Claim
     end
 
     def eligible_fixed_fee_types
-      Fee::FixedFeeType.top_levels.agfs
+      Fee::FixedFeeType.agfs
     end
 
     def external_user_type

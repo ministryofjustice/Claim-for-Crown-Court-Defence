@@ -13,6 +13,12 @@ Rails.application.configure do
     url: "assets/dev/images/reporders/:id_partition/:filename"
   }
 
+  REPORTS_STORAGE_OPTIONS = {
+    storage: :filesystem,
+    path: "tmp/dev/reports/:filename",
+    url: "tmp/dev/reports/:filename"
+  }
+
   #Removed to allow for remote device testing (Ipad or other tablets)
   #config.action_controller.asset_host = "http://localhost:3000"
 

@@ -209,7 +209,7 @@ module Claim
     end
 
     def eligible_fixed_fee_types
-      Fee::FixedFeeType.agfs
+      Claims::FetchEligibleFixedFeeTypes.new(self).call
     end
 
     def external_user_type

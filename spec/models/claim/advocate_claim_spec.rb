@@ -218,8 +218,16 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     describe '#eligible_fixed_fee_types' do
-      it 'returns only fixed fee types for AGFS' do
-        expect(@claim.eligible_fixed_fee_types).to eq([@fft1])
+      subject { @claim.eligible_fixed_fee_types }
+      let(:case_type) { create(:case_type, :appeal_against_conviction) }
+      let!(:fee_type) { create(:fixed_fee_type, :fxacv) }
+
+      before do
+        allow(@claim).to receive(:case_type).and_return case_type
+      end
+
+      it 'returns only fixed fee types applicable to the case type' do
+        is_expected.to match_array [fee_type]
       end
     end
   end

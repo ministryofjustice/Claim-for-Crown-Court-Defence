@@ -28,7 +28,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I add a fixed fee 'Appeals to the crown court against conviction'
     Then the last fixed fee case numbers section should not be visible
     Then the last fixed fee rate should be populated with '250.00'
-    And I add a fixed fee 'Appeals to the crown court against conviction uplift' with case numbers
+    And I add a fixed fee 'Number of cases uplift' with case numbers
     Then the last fixed fee case numbers section should be visible
     Then the last fixed fee rate should be populated with '50.00'
 
@@ -60,7 +60,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I should see 'Junior'
 
     And I should see 'Appeals to the crown court against conviction'
-    And I should see 'Appeals to the crown court against conviction uplift'
+    And I should see 'Number of cases uplift'
     And I should see 'Adjourned appeals'
     And I should see 'Parking'
 

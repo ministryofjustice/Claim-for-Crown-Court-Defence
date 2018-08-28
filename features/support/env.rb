@@ -30,6 +30,13 @@ if ENV['BROWSER'] == 'chrome'
   Capybara.javascript_driver = :chrome
 end
 
+if ENV['BROWSER'] == 'chrome'
+  Capybara.configure do |config|
+    config.default_max_wait_time = 10 # seconds
+    config.default_driver        = :chrome
+  end
+end
+
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
 # selectors in your step definitions to use the XPath syntax.

@@ -164,6 +164,10 @@ And(/^I insert the VCR cassette '(.*?)'(?: and record '(.*?)')?$/) do |name, rec
   VCR.insert_cassette(name, record: record_mode)
 end
 
+And(/^pause for (\d+) seconds$/) do |seconds|
+  sleep seconds.to_i
+end
+
 And(/^I eject the VCR cassette$/) do
   VCR.eject_cassette
 end

@@ -187,7 +187,7 @@ module Claim
     end
 
     def eligible_fixed_fee_types
-      Fee::FixedFeeType.top_levels.lgfs
+      Fee::FixedFeeType.lgfs
     end
 
     def external_user_type

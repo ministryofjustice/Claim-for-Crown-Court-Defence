@@ -142,8 +142,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     end
 
     describe '#eligible_fixed_fee_types' do
-      it 'returns only top level fixed fee types for LGFS' do
-        @fft3 = create :child_fee_type, parent: @fft2
+      it 'returns only fixed fee types for LGFS' do
         expect(@claim.eligible_fixed_fee_types).to eq([@fft2])
       end
     end

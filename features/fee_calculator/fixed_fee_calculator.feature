@@ -31,20 +31,18 @@ Feature: Advocate completes fixed fee page using calculator
     Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '130.00'
     Then the fixed fee 'Number of cases uplift' should have a rate of '26.00'
     Then the fixed fee 'Number of defendants uplift' should have a rate of '26.00'
-    # And pause for 10 seconds
 
     And I select an advocate category of 'QC'
-    # And pause for 10 seconds
+    And pause for 10 seconds
     Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '260.00'
     Then the fixed fee 'Number of cases uplift' should have a rate of '52.00'
     Then the fixed fee 'Number of defendants uplift' should have a rate of '52.00'
-    # And pause for 10 seconds
 
     Then I amend the fixed fee 'Appeals to the crown court against conviction' to have a quantity of 2
+    And pause for 10 seconds
     Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '260.00'
     Then the fixed fee 'Number of cases uplift' should have a rate of '104.00'
     Then the fixed fee 'Number of defendants uplift' should have a rate of '104.00'
-    # And pause for 10 seconds
 
     And I eject the VCR cassette
 

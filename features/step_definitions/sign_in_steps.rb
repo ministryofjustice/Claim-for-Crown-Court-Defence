@@ -30,6 +30,7 @@ end
 Given(/^I am a signed in advocate$/) do
   @advocate = create(:external_user, :advocate)
   visit new_user_session_path
+  switch_to_window(Capybara.current_session.current_window) if ENV['BROWSER'] == 'chrome'
   sign_in(@advocate.user, 'password')
 end
 

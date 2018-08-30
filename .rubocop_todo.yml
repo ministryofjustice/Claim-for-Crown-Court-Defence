@@ -78,6 +78,7 @@ Metrics/MethodLength:
     - 'app/services/message_queue/aws_client.rb'
     - 'app/services/message_queue/message_template.rb'
     - 'app/services/reports/injection_errors.rb'
+    - 'app/services/reports/provisional_assessments_by_dates.rb'
     - 'app/services/slack_notifier.rb'
     - 'app/services/stats/management_information_generator.rb'
     - 'app/services/vat_auditor.rb'

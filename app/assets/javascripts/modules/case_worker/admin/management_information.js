@@ -10,7 +10,7 @@ moj.Modules.ManagementInformation = {
 
   buildDataArray: function() {
     var data = {};
-    data.api_key='64c9177b-e5a0-4ac5-9f2b-33166597c436';
+    data.api_key=$('#user_api_key').val();
     data.start_date=$('#start_date').val();
     data.end_date=$('#end_date').val();
     data.format='csv';

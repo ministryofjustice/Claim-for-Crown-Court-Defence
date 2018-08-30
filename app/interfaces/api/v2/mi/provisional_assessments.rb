@@ -28,9 +28,9 @@ module API
               optional :format, type: String, desc: 'JSON or CSV. Defaults to JSON', values: %w[json csv]
             end
             get do
-              results = Reports::ProvisionalAssessmentsDates.call(date_range)
+              results = Reports::ProvisionalAssessmentsByDates.call(date_range)
               if params[:format].eql?('csv')
-                csv = build_csv_from(results, Reports::ProvisionalAssessmentsDates::COLUMNS)
+                csv = build_csv_from(results, Reports::ProvisionalAssessmentsByDates::COLUMNS)
                 filename = "attachment; filename=provisional-assessment-#{params[:start_date]}-#{params[:end_date]}.csv"
                 header 'Content-Disposition', filename
                 present csv

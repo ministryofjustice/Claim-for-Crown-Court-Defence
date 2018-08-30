@@ -1,5 +1,5 @@
 module Reports
-  class ProvisionalAssessmentsDates
+  class ProvisionalAssessmentsByDates
     NAME = 'provisional_assessment'.freeze
     COLUMNS = %w[scheme provider_name provider_type supplier_number case_type offence_name offence_type ppe
                  number_of_trial_days date_submitted disbursements_claimed fees_claimed expenses_claimed total_claimed

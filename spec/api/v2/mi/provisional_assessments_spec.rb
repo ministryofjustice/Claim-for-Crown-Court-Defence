@@ -94,7 +94,7 @@ RSpec.describe API::V2::MI::ProvisionalAssessments do
           it 'returns a file with just the headers' do
             csv_content = CSV.parse(last_response.body)
             expect(csv_content.count).to eq 1
-            expect(csv_content[0]).to match_array(Reports::ProvisionalAssessmentsDates::COLUMNS)
+            expect(csv_content[0]).to match_array(Reports::ProvisionalAssessmentsByDates::COLUMNS)
           end
         end
       end
@@ -128,7 +128,7 @@ RSpec.describe API::V2::MI::ProvisionalAssessments do
           it 'returns a file with the headers and the data retrieved' do
             csv_content = CSV.parse(last_response.body)
             expect(csv_content.count).to eq(4)
-            expect(csv_content[0]).to match_array(Reports::ProvisionalAssessmentsDates::COLUMNS)
+            expect(csv_content[0]).to match_array(Reports::ProvisionalAssessmentsByDates::COLUMNS)
           end
         end
       end

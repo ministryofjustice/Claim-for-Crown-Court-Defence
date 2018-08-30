@@ -27,13 +27,9 @@ if ENV['BROWSER'] == 'chrome'
     Capybara::Selenium::Driver.new(app, browser: :chrome)
   end
 
-  Capybara.javascript_driver = :chrome
-end
-
-if ENV['BROWSER'] == 'chrome'
   Capybara.configure do |config|
     config.default_max_wait_time = 10 # seconds
-    config.default_driver        = :chrome
+    config.javascript_driver = :chrome
   end
 end
 

@@ -93,18 +93,21 @@ end
 When(/^I add a fixed fee '(.*?)'$/) do |name|
   @claim_form_page.add_fixed_fee_if_required
   @claim_form_page.fixed_fees.last.select_fee_type name
+  @claim_form_page.fixed_fees.last.select_input.send_keys(:tab) # required for chrome driver
   wait_for_ajax
   @claim_form_page.fixed_fees.last.quantity.set 1
+  @claim_form_page.fixed_fees.last.quantity.send_keys(:tab) # required for chrome driver
   wait_for_ajax
 end
 
 Then(/^I add a fixed fee '(.*?)' with case numbers$/) do |name|
   @claim_form_page.add_fixed_fee_if_required
   @claim_form_page.fixed_fees.last.select_fee_type name
-  wait_for_ajax
   @claim_form_page.fixed_fees.last.select_input.send_keys(:tab) # required for chrome driver
+  wait_for_ajax
   @claim_form_page.fixed_fees.last.case_numbers.set "T20170001"
   @claim_form_page.fixed_fees.last.quantity.set 1
+  @claim_form_page.fixed_fees.last.quantity.send_keys(:tab) # required for chrome driver
   wait_for_ajax
 end
 

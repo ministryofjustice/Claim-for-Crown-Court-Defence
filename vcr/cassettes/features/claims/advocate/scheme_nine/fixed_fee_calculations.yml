@@ -23,7 +23,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:21 GMT
+      - Thu, 30 Aug 2018 11:02:56 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -39,7 +39,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
         Fee Scheme 9"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:21 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:56 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
@@ -63,7 +63,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:21 GMT
+      - Thu, 30 Aug 2018 11:02:56 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -84,10 +84,10 @@ http_interactions:
         of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
         case not proceeded","code":"AS000014"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:21 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:56 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=6&unit=DAY
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&limit_from=1&offence_class&scenario=6&unit=DAY
     body:
       encoding: US-ASCII
       string: ''
@@ -108,7 +108,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:21 GMT
+      - Thu, 30 Aug 2018 11:02:56 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -126,7 +126,7 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:21 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:56 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
@@ -150,7 +150,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:21 GMT
+      - Thu, 30 Aug 2018 11:02:56 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -166,7 +166,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
         Fee Scheme 9"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:21 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:56 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
@@ -190,7 +190,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:56 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -211,10 +211,10 @@ http_interactions:
         of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
         case not proceeded","code":"AS000014"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:56 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=6&unit=DAY
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&limit_from=1&offence_class&scenario=6&unit=DAY
     body:
       encoding: US-ASCII
       string: ''
@@ -235,7 +235,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:56 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -253,7 +253,7 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:56 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
@@ -277,7 +277,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:56 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -293,7 +293,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
         Fee Scheme 9"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:56 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
@@ -317,7 +317,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:56 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -333,7 +333,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
         Fee Scheme 9"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:56 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
@@ -357,7 +357,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:56 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -373,7 +373,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
         Fee Scheme 9"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:56 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
@@ -397,7 +397,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:56 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -418,7 +418,7 @@ http_interactions:
         of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
         case not proceeded","code":"AS000014"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:56 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
@@ -442,7 +442,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:56 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -463,7 +463,7 @@ http_interactions:
         of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
         case not proceeded","code":"AS000014"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:56 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
@@ -487,7 +487,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:56 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -508,10 +508,10 @@ http_interactions:
         of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
         case not proceeded","code":"AS000014"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:57 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=6&unit=DAY
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&limit_from=1&offence_class&scenario=6&unit=DAY
     body:
       encoding: US-ASCII
       string: ''
@@ -532,7 +532,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:57 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -550,10 +550,10 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:57 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=6&unit=DAY
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&limit_from=1&offence_class&scenario=6&unit=DAY
     body:
       encoding: US-ASCII
       string: ''
@@ -574,7 +574,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:57 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -592,10 +592,10 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:57 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=6&unit=DAY
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&limit_from=1&offence_class&scenario=6&unit=DAY
     body:
       encoding: US-ASCII
       string: ''
@@ -616,7 +616,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:57 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -634,7 +634,7 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:57 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
@@ -658,7 +658,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:57 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -674,7 +674,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
         Fee Scheme 9"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:57 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-01-01&type=AGFS
@@ -698,7 +698,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:57 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -714,7 +714,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
         Fee Scheme 9"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:57 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
@@ -738,7 +738,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:57 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -759,7 +759,7 @@ http_interactions:
         of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
         case not proceeded","code":"AS000014"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:57 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
@@ -783,7 +783,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:22 GMT
+      - Thu, 30 Aug 2018 11:02:57 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -804,10 +804,10 @@ http_interactions:
         of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
         case not proceeded","code":"AS000014"}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:22 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:57 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=6&unit=DAY
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&limit_from=1&offence_class&scenario=6&unit=DAY
     body:
       encoding: US-ASCII
       string: ''
@@ -828,7 +828,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:23 GMT
+      - Thu, 30 Aug 2018 11:02:57 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -846,10 +846,10 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:23 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:57 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&offence_class&scenario=6&unit=DAY
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_SEN&limit_from=1&offence_class&scenario=6&unit=DAY
     body:
       encoding: US-ASCII
       string: ''
@@ -870,7 +870,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 23 Aug 2018 15:52:23 GMT
+      - Thu, 30 Aug 2018 11:02:57 GMT
       Server:
       - nginx/1.13.12
       Vary:
@@ -888,5 +888,5 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Thu, 23 Aug 2018 15:52:23 GMT
+  recorded_at: Thu, 30 Aug 2018 11:02:57 GMT
 recorded_with: VCR 3.0.3

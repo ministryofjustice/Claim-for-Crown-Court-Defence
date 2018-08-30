@@ -2,7 +2,7 @@
 Feature: Advocate completes fixed fee page using calculator
 
   @fee_calc_vcr
-  Scenario: I create a contempt claim, then submit it
+  Scenario: I create a fixed fee claim using calculated value, then submit it
 
     Given I am a signed in advocate
     And I am on the 'Your claims' page

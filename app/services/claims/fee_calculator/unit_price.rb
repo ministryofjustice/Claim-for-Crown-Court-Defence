@@ -13,8 +13,8 @@ module Claims
       #
       # TODO: ** limit_from represents the price based on the quantity "instance"
       # e.g. AGFS scheme 10, Contempt scenario, Standard appearance fee
-      #      attracts one price per unit/day (£180 for a QC) for the first 6 days
-      #      then £0.00 price for days 7 onwards. This breaks the "rate" per unit logic
+      #      attracts one price per unit/day (180 for a QC) for the first 6 days
+      #      then 0.00 price for days 7 onwards. This breaks the "rate" per unit logic
       #      of CCCD and would need to be accounted for via the quantity * rate calculation
       #      instead, as one solution.
       #

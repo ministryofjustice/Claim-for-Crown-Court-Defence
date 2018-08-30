@@ -27,7 +27,10 @@ if ENV['BROWSER'] == 'chrome'
     Capybara::Selenium::Driver.new(app, browser: :chrome)
   end
 
-  Capybara.javascript_driver = :chrome
+  Capybara.configure do |config|
+    config.default_max_wait_time = 10 # seconds
+    config.javascript_driver = :chrome
+  end
 end
 
 # Capybara defaults to CSS3 selectors rather than XPath.

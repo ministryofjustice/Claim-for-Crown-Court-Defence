@@ -1269,10 +1269,11 @@ expense:
       long: 'Check the date for the #{expense}'
       short: *in_future
       api: Check the date for the expense
-    check_not_too_far_in_past:
+    check_not_earlier_than_rep_order:
       long: 'Check the date for the #{expense}'
-      short: *too_far_in_past
+      short: *before_rep_order
       api: Check the date for the expense
+    
 
   expense_type:
     _seq: 10

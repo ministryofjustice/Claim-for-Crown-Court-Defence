@@ -36,7 +36,7 @@ module API
           return @case_numbers if @case_numbers
           @case_numbers = []
           matching_case_uplift_fees.each_with_object(@case_numbers) do |fee, memo|
-            fee.case_numbers.split(',').inject(memo, :<<)
+            fee.case_numbers&.split(',')&.inject(memo, :<<)
           end
           @case_numbers = @case_numbers.map(&:strip).uniq.join(',')
         end

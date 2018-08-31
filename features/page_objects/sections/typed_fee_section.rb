@@ -1,4 +1,5 @@
 class TypedFeeSection < SitePrism::Section
+  sections :select_options, "select.js-fee-type > option" do end
   element :select_input, "input.tt-input", visible: true
   element :quantity, "input.quantity"
   element :rate, "input.rate"
@@ -13,6 +14,10 @@ class TypedFeeSection < SitePrism::Section
   # by entering text into the input text field.
   def select_fee_type(name)
     fill_in(select_input[:id], with: name)
+  end
+
+  def fee_type_descriptions
+    select_options.map(&:text).reject(&:empty?)
   end
 
   def populated?

@@ -151,6 +151,11 @@ Then(/^the last fixed fee case numbers section should (not )?be visible$/) do |n
   end
 end
 
+Then(/^the last fixed fee should have fee type options\s*'([^']*)'$/) do |fee_type_descriptions|
+  fee_type_descriptions = fee_type_descriptions.split(',')
+  expect(@claim_form_page.fixed_fees.last.fee_type_descriptions).to match_array(fee_type_descriptions)
+end
+
 Then(/^the fixed fee '(.*?)' should have a rate of '(\d+\.\d+)'$/) do |fee_type, rate|
   fixed_fee = @claim_form_page.fixed_fees.find { |section| section.select_input.value.eql?(fee_type) }
   expect(fixed_fee.rate.value).to eql rate

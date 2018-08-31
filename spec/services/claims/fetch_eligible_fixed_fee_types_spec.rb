@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Claims::FetchEligibleFixedFeeTypes, type: :service do
   before(:all) do
-    seed_fee_schemes
     seed_case_types
     seed_fee_types
   end

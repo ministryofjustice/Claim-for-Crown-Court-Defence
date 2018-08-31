@@ -25,6 +25,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     And I should see the advocate categories 'Junior,Leading junior,QC'
     And I select an advocate category of 'Junior'
+    And the last fixed fee should have fee type options 'Appeals to the crown court against conviction,Number of cases uplift,Number of defendants uplift,Standard appearance fee'
     And I add a fixed fee 'Appeals to the crown court against conviction'
     Then the last fixed fee case numbers section should not be visible
     Then the last fixed fee rate should be populated with '250.00'

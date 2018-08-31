@@ -54,7 +54,7 @@ module API::V2
               SELECT *
               FROM injection_attempts last_ia
               WHERE last_ia.claim_id = c.id
-              ORDER BY last_ia.created_at
+              ORDER BY last_ia.created_at DESC
               LIMIT 1
             ) AS last_injection_attempt
             WHERE last_injection_attempt.deleted_at is NULL

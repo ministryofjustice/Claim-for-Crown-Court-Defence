@@ -37,16 +37,8 @@
       - else
         = render partial: 'shared/summary_lgfs', locals: { claim: claim }
 
-
-      - if claim.travel_expense_additional_information.present?
-        %h3.heading-medium
-          = t('.travel_expense_additional_information')
-        %p.indent-sides
-          = claim.travel_expense_additional_information
-
     - if claim.additional_information.present?
-      .grid-row
-        %h3.heading-medium
-          = t('.additional_information')
-        %p.indent-sides
-          = claim.additional_information
+      %h3.heading-medium
+        = t('.additional_information')
+      %p
+        = claim.additional_information

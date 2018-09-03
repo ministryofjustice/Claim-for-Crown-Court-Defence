@@ -1226,6 +1226,8 @@ en:
       expense: Expense
       expenses:
         caption: &expenses_caption 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+        travel_expense_additional_information: Additional expenses information
+        travel_expenses: Travel expenses
         index:
           caption: *expenses_caption
           date: Date of expense
@@ -1421,7 +1423,6 @@ en:
       remove: Remove
     claim_accordion:
       additional_information: Additional claim information
-      travel_expense_additional_information: Additional expenses information
       created_by: 'Created by:'
       h2_basic_info: Basic claim information
       h2_evidence: Evidence

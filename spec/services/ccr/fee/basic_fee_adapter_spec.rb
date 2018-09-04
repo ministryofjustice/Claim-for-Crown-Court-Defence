@@ -68,6 +68,11 @@ RSpec.describe CCR::Fee::BasicFeeAdapter, type: :adapter do
       is_expected.to be false
     end
 
+    it 'returns false when the basic fee has nil values for quantity, rate and amount'do
+      allow(basic_fee).to receive_messages(quantity: nil, rate: nil, amount: nil)
+      is_expected.to be false
+    end
+
     it 'returns false when the basic fee is not part of the CCR advocate fee' do
       allow(basic_fee_type).to receive(:unique_code).and_return 'BAPCM'
       is_expected.to be false

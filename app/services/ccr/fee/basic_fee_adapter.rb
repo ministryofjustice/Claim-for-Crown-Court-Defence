@@ -29,7 +29,7 @@ module CCR
 
       def claimed?
         filtered_fees.any? do |f|
-          f.amount.positive? || f.quantity.positive? || f.rate.positive?
+          f.amount&.positive? || f.quantity&.positive? || f.rate&.positive?
         end
       end
 

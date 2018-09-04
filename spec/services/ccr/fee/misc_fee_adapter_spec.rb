@@ -100,8 +100,19 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
       is_expected.to be true
     end
 
-    it 'returns false when the misc is not being claimed'do
+    it 'returns true when the misc fee has a positive quantity rate or amount' do
+      allow(fee).to receive_messages(quantity: nil, rate: 0, amount: 1)
+      is_expected.to be true
+    end
+
+
+    it 'returns false when the misc has zero values for quantity, rate and amount' do
       allow(fee).to receive_messages(quantity: 0, rate: 0, amount: 0)
+      is_expected.to be false
+    end
+
+    it 'returns false when the misc has nil values for quantity, rate and amount'do
+      allow(fee).to receive_messages(quantity: nil, rate: nil, amount: nil)
       is_expected.to be false
     end
   end

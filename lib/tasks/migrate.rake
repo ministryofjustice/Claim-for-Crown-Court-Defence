@@ -151,5 +151,25 @@ namespace :data do
         DataMigrator::ProviderSuppliersMigrator.call(options)
       end
     end
+
+    namespace :fee_types do
+      desc 'Rename and re-type the MiscFeeType Adjourned appeals to FixedFeeType'
+      task :adjourned_appeal_move, [:direction] => :environment do |_task, args|
+        args.with_defaults(direction: 'up')
+        if args.direction.downcase.eql?('up')
+          puts 'UP'
+          Fee::BaseFeeType
+            .where(unique_code: 'MISAF')
+            .update_all(code: 'ADJ', unique_code: 'FXADJ', type: 'Fee::FixedFeeType', description: 'Adjourned appeals')
+        elsif args.direction.downcase.eql?('down')
+          puts 'DOWN'
+          Fee::BaseFeeType
+            .where(unique_code: 'FXADJ')
+            .update_all(code: 'SAF', unique_code: 'MISAF', type: 'Fee::MiscFeeType', description: 'Adjourned appeals')
+        else
+          puts "#{task} argument error. direction must be 'up' or 'down'"
+        end
+      end
+    end
   end
 end

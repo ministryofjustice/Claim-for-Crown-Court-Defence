@@ -32,11 +32,11 @@ RSpec.describe Claims::FetchEligibleFixedFeeTypes, type: :service do
 
     context 'AGFS' do
       AGFS_FIXED_FEE_ELIGIBILITY = {
-        FXACV: %w[FXACV FXNOC FXNDR FXSAF],
-        FXASE: %w[FXASE FXNOC FXNDR FXSAF],
-        FXCBR: %w[FXCBR FXNOC FXNDR FXSAF],
-        FXCSE: %w[FXCSE FXNOC FXNDR FXSAF],
-        FXCON: %w[FXCON FXSAF],
+        FXACV: %w[FXACV FXNOC FXNDR FXSAF FXADJ],
+        FXASE: %w[FXASE FXNOC FXNDR FXSAF FXADJ],
+        FXCBR: %w[FXCBR FXNOC FXNDR FXSAF FXADJ],
+        FXCSE: %w[FXCSE FXNOC FXNDR FXSAF FXADJ],
+        FXCON: %w[FXCON FXSAF FXADJ],
         FXENP: %w[FXENP FXNOC FXNDR]
       }.with_indifferent_access.freeze
 

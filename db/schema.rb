@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180822130536) do
+ActiveRecord::Schema.define(version: 20180823134645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,11 +98,11 @@ ActiveRecord::Schema.define(version: 20180822130536) do
     t.string   "case_number"
     t.string   "advocate_category"
     t.date     "first_day_of_trial"
-    t.integer  "estimated_trial_length",   default: 0
-    t.integer  "actual_trial_length",      default: 0
-    t.decimal  "fees_total",               default: "0.0"
-    t.decimal  "expenses_total",           default: "0.0"
-    t.decimal  "total",                    default: "0.0"
+    t.integer  "estimated_trial_length",                default: 0
+    t.integer  "actual_trial_length",                   default: 0
+    t.decimal  "fees_total",                            default: "0.0"
+    t.decimal  "expenses_total",                        default: "0.0"
+    t.decimal  "total",                                 default: "0.0"
     t.integer  "external_user_id"
     t.integer  "court_id"
     t.integer  "offence_id"
@@ -120,17 +120,17 @@ ActiveRecord::Schema.define(version: 20180822130536) do
     t.date     "trial_cracked_at"
     t.string   "trial_cracked_at_third"
     t.string   "source"
-    t.decimal  "vat_amount",               default: "0.0"
-    t.uuid     "uuid",                     default: -> { "uuid_generate_v4()" }
+    t.decimal  "vat_amount",                            default: "0.0"
+    t.uuid     "uuid",                                  default: -> { "uuid_generate_v4()" }
     t.integer  "case_type_id"
     t.string   "form_id"
     t.datetime "original_submission_date"
     t.date     "retrial_started_at"
-    t.integer  "retrial_estimated_length", default: 0
-    t.integer  "retrial_actual_length",    default: 0
+    t.integer  "retrial_estimated_length",              default: 0
+    t.integer  "retrial_actual_length",                 default: 0
     t.date     "retrial_concluded_at"
     t.string   "type"
-    t.decimal  "disbursements_total",      default: "0.0"
+    t.decimal  "disbursements_total",                   default: "0.0"
     t.date     "case_concluded_at"
     t.integer  "transfer_court_id"
     t.string   "supplier_number"
@@ -142,12 +142,13 @@ ActiveRecord::Schema.define(version: 20180822130536) do
     t.datetime "last_edited_at"
     t.datetime "deleted_at"
     t.string   "providers_ref"
-    t.boolean  "disk_evidence",            default: false
-    t.decimal  "fees_vat",                 default: "0.0"
-    t.decimal  "expenses_vat",             default: "0.0"
-    t.decimal  "disbursements_vat",        default: "0.0"
+    t.boolean  "disk_evidence",                         default: false
+    t.decimal  "fees_vat",                              default: "0.0"
+    t.decimal  "expenses_vat",                          default: "0.0"
+    t.decimal  "disbursements_vat",                     default: "0.0"
     t.integer  "value_band_id"
-    t.boolean  "retrial_reduction",        default: false
+    t.boolean  "retrial_reduction",                     default: false
+    t.string   "travel_expense_additional_information"
     t.index ["case_number"], name: "index_claims_on_case_number", using: :btree
     t.index ["cms_number"], name: "index_claims_on_cms_number", using: :btree
     t.index ["court_id"], name: "index_claims_on_court_id", using: :btree
@@ -254,6 +255,15 @@ ActiveRecord::Schema.define(version: 20180822130536) do
     t.index ["external_user_id"], name: "index_documents_on_external_user_id", using: :btree
   end
 
+  create_table "establishments", force: :cascade do |t|
+    t.string   "name"
+    t.string   "category"
+    t.string   "postcode"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_establishments_on_category", using: :btree
+  end
+
   create_table "expense_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -274,7 +284,7 @@ ActiveRecord::Schema.define(version: 20180822130536) do
     t.decimal  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.uuid     "uuid",            default: -> { "uuid_generate_v4()" }
+    t.uuid     "uuid",                default: -> { "uuid_generate_v4()" }
     t.integer  "reason_id"
     t.string   "reason_text"
     t.integer  "schema_version"
@@ -282,7 +292,9 @@ ActiveRecord::Schema.define(version: 20180822130536) do
     t.integer  "mileage_rate_id"
     t.date     "date"
     t.decimal  "hours"
-    t.decimal  "vat_amount",      default: "0.0"
+    t.decimal  "vat_amount",          default: "0.0"
+    t.string   "location_type"
+    t.decimal  "calculated_distance"
     t.index ["claim_id"], name: "index_expenses_on_claim_id", using: :btree
     t.index ["expense_type_id"], name: "index_expenses_on_expense_type_id", using: :btree
   end

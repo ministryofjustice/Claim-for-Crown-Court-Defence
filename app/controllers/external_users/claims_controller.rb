@@ -316,6 +316,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :case_number,
       :case_type_id,
       :offence_id,
+      :travel_expense_additional_information,
       date_attributes_for(:first_day_of_trial),
       :estimated_trial_length,
       :actual_trial_length,

@@ -41,6 +41,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     Then I click "Continue" in the claim form
 
+    Then I should see the additional info area
     And I add an expense 'Parking'
 
     Then I click "Continue" in the claim form

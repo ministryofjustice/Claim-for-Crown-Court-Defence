@@ -98,3 +98,7 @@ end
 def additional_supplier_numbers
   %w[1A833H 1A832G 1A831F 1A830E 1A829D 1A828C 1A827B 1A826A 1A825Z 1A824Y 1A823X 1A822W 1A821V 1A820U]
 end
+
+Then(/^I should see the additional info area$/) do
+  expect(@claim_form_page.additional_information_expenses).to be_visible
+end

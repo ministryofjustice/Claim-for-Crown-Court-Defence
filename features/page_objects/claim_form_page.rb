@@ -65,6 +65,8 @@ class ClaimFormPage < SitePrism::Page
 
   sections :expenses, ExpenseSection, "div#expenses div.expense-group"
   element :add_another_expense, "div#expense > a.add_fields"
+  element :additional_information_expenses, ".fx-additional-info"
+
 
   section :evidence_checklist, EvidenceChecklistSection, "fieldset.evidence-checklist"
 

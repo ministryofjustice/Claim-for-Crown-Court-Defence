@@ -9,7 +9,7 @@ module CCR
         FXSAF: zip(%w[AGFS_MISC_FEES AGFS_STD_APPRNC]), # Standard Appearance fee (fixed fee)
         MIAPH: zip(%w[AGFS_MISC_FEES AGFS_ABS_PRC_HF]), # Abuse of process hearings (half day)
         MIAPW: zip(%w[AGFS_MISC_FEES AGFS_ABS_PRC_WL]), # Abuse of process hearings (whole day)
-        MISAF: zip(%w[AGFS_MISC_FEES AGFS_ADJOURNED]), # Adjourned appeals
+        FXADJ: zip(%w[AGFS_MISC_FEES AGFS_ADJOURNED]), # Adjourned appeals
         MIADC1: zip(%w[AGFS_MISC_FEES AGFS_DMS_DY2_HF]), # Application to dismiss a charge (half day)
         MIADC2: zip(%w[AGFS_MISC_FEES AGFS_DMS_DY2_WL]), # Application to dismiss a charge (whole day)
         MIDTH: zip(%w[AGFS_MISC_FEES AGFS_CONFISC_HF]), # Confiscation hearings (half day)

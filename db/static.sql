@@ -604,7 +604,7 @@ COPY fee_types (id, description, code, created_at, updated_at, max_amount, calcu
 29	Abuse of process hearings (half day)	APH	2015-11-05 17:08:50.648618	2016-10-26 19:59:46.1695	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIAPH
 30	Abuse of process hearings (whole day)	APW	2015-11-05 17:08:50.655636	2016-10-26 19:59:46.179988	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIAPW
 32	Abuse of process hearings (whole day uplift)	AWU	2015-11-05 17:08:50.668767	2016-10-26 19:59:46.199728	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIAWU
-33	Adjourned appeals	SAF	2015-11-05 17:08:50.676743	2016-10-26 19:59:46.207887	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MISAF
+33	Adjourned appeals	ADJ	2015-11-05 17:08:50.676743	2016-10-26 19:59:46.207887	\N	t	Fee::FixedFeeType	---\n- agfs\n	\N	f	FXADJ
 36	Application to dismiss a charge (half day uplift)	PHU	2015-11-05 17:08:50.697175	2016-10-26 19:59:46.23089	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIADC3
 38	Confiscation hearings (half day)	DTH	2015-11-05 17:08:50.710717	2016-10-26 19:59:46.246925	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIDTH
 39	Confiscation hearings (whole day)	DTW	2015-11-05 17:08:50.717469	2016-10-26 19:59:46.255711	\N	t	Fee::MiscFeeType	---\n- agfs\n	\N	f	MIDTW

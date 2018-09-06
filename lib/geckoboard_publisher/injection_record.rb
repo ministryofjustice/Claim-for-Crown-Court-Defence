@@ -36,8 +36,8 @@ module GeckoboardPublisher
 
     def totals_fields
       {
-        total_succeeded: InjectionAttempt.where(succeeded: true).where(created_at: date_range).count,
-        total: InjectionAttempt.where(created_at: date_range).count
+        total_succeeded: total_ccr_succeeded + total_cclf_succeeded,
+        total: total
       }
     end
 
@@ -50,19 +50,31 @@ module GeckoboardPublisher
     end
 
     def total_ccr_succeeded
-      ccr_injections.where(succeeded: true).where(created_at: date_range).count
-    end
-
-    def total_ccr
-      ccr_injections.where(created_at: date_range).count
+      @total_ccr_succeeded ||=
+        ccr_injections.where(succeeded: true).where(created_at: date_range).count
     end
 
     def total_cclf_succeeded
-      cclf_injections.where(succeeded: true).where(created_at: date_range).count
+      @total_cclf_succeeded ||=
+        cclf_injections.where(succeeded: true).where(created_at: date_range).count
+    end
+
+    def total_ccr
+      ccr_injections
+        .where(created_at: date_range)
+        .exclude_error('%already exist%')
+        .count
     end
 
     def total_cclf
       cclf_injections.where(created_at: date_range).count
+    end
+
+    def total
+      InjectionAttempt
+        .where(created_at: date_range)
+        .exclude_error('%already exist%')
+        .count
     end
 
     def percentage(numerator, denominator)

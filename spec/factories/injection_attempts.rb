@@ -21,6 +21,11 @@ FactoryBot.define do
       succeeded false
       error_messages "{\"errors\":[ {\"error\":\"injection error 1\"},{\"error\":\"injection error 2\"}]}"
     end
+
+    trait :with_stat_excluded_errors do
+      succeeded false
+      error_messages "{\"errors\":[ {\"error\":\"case already exists\"}]}"
+    end
   end
 end
 

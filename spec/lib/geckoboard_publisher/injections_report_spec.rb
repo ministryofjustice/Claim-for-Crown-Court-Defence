@@ -73,6 +73,7 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
       travel_to(Date.parse('19-MAR-2017')) do
         create_list(:injection_attempt, 3, claim: agfs_claim)
         create_list(:injection_attempt, 2, :with_errors, claim: agfs_claim)
+        create_list(:injection_attempt, 1, :with_stat_excluded_errors, claim: agfs_claim)
 
         create_list(:injection_attempt, 1, claim: lgfs_claim)
         create_list(:injection_attempt, 5, :with_errors, claim: lgfs_claim)
@@ -128,6 +129,18 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
 
       let(:start_date) { Date.new(2017, 3, 19) }
       let(:end_date) { Date.new(2017, 3, 21) }
+
+      let(:total_excluding_error) do
+        InjectionAttempt
+        .where(created_at: start_date)
+        .exclude_error('%already exist%')
+        .count
+      end
+
+      it 'excludes errors that are considered warnings' do
+        item = expected_items.find { |item| item[:date].eql?(start_date.to_s(:db)) }
+        expect(item[:total]).to eql(total_excluding_error)
+      end
 
       it 'returns expected data item count' do
         expect(subject.size).to eql 3

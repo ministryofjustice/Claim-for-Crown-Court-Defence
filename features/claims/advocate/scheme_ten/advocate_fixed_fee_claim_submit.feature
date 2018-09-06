@@ -25,7 +25,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     And I should see the advocate categories 'Junior,Leading junior,QC'
     And I select an advocate category of 'Junior'
-    And the last fixed fee should have fee type options 'Appeals to the crown court against conviction,Number of cases uplift,Number of defendants uplift,Standard appearance fee'
+    And the last fixed fee should have fee type options 'Appeals to the crown court against conviction,Number of cases uplift,Number of defendants uplift,Standard appearance fee,Adjourned appeals'
     And I add a fixed fee 'Appeals to the crown court against conviction'
     Then the last fixed fee case numbers section should not be visible
     Then the last fixed fee rate should be populated with '250.00'
@@ -37,7 +37,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     Then I click "Continue" in the claim form
 
-    And I add a miscellaneous fee 'Adjourned appeals' with dates attended '2018-04-01'
+    And I add a miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
 
     Then I click "Continue" in the claim form
 
@@ -63,7 +63,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     And I should see 'Appeals to the crown court against conviction'
     And I should see 'Number of cases uplift'
-    And I should see 'Adjourned appeals'
+    And I should see 'Noting brief fee'
     And I should see 'Parking'
 
     And I should see 'indictment.pdf'

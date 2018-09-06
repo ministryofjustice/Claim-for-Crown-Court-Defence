@@ -43,7 +43,7 @@ Feature: Advocate admin submits a claim for a Trial case
 
     Then I click "Continue" in the claim form
 
-    And I add a miscellaneous fee 'Adjourned appeals' with dates attended
+    And I add a miscellaneous fee 'Special preparation fee' with dates attended
     And I check the section heading to be "1"
     And I add a miscellaneous fee 'Noting brief fee' with dates attended
     And I check the section heading to be "2"
@@ -73,7 +73,7 @@ Feature: Advocate admin submits a claim for a Trial case
 
     And I should see 'Basic fee'
     And I should see 'Number of cases uplift'
-    And I should see 'Adjourned appeals'
+    And I should see 'Special preparation fee'
     And I should see 'Noting brief fee'
     And I should see 'Hotel accommodation'
 

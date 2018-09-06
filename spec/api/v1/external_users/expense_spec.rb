@@ -31,7 +31,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
         reason_id: 5,
         reason_text: "Foo",
         mileage_rate_id: 1,
-        date: "2016-01-01T12:30:00"
+        date: Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')
       }
     end
 

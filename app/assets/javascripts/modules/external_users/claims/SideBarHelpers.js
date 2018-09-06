@@ -223,12 +223,14 @@ moj.Helpers.SideBar = {
       this.loadCurrentState();
       return this;
     };
+
     this.bindEvents = function() {
       // Bind the core change listener
       this.bindRecalculate();
       // Bind events on the this.$el element
       this.bindListners();
     };
+
     // Bind delegated events onto this.$el
     this.bindListners = function() {
       var self = this;
@@ -254,8 +256,11 @@ moj.Helpers.SideBar = {
         $option = $(e.target).find('option:selected');
         state = $option.data('reasonText');
         location_type = $option.data('locationType') || '';
+
         self.setVal('.fx-location-type', location_type);
         self.setState('.fx-travel-reason-other', state);
+
+
         self.attachElement($option.data());
       });
 
@@ -276,17 +281,20 @@ moj.Helpers.SideBar = {
 
       var selectedValue = this.$el.find('.fx-location-model').val();
 
+      this.setVal('.fx-location-model', '');
+
       if (obj.locationType) {
         this.attachSelectWithOptions(obj.locationType, selectedValue);
         return this;
       }
-      this.attachInput();
+      this.attachInput(selectedValue);
       return this;
     };
 
-    this.attachInput = function() {
+    this.attachInput = function(selectedValue) {
       this.$el.find('.fx-travel-location label').text(staticdata.locationLabel.default);
       this.$el.find('.location_wrapper').css('display', 'block');
+      this.setVal('.fx-location-model', selectedValue);
       this.$el.find('.fx-establishment-select').css('display', 'none');
       return this;
     };

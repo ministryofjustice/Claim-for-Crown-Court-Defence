@@ -47,9 +47,8 @@
 
           - if @claim.lgfs?
             .form-group.fx-establishment-select{:style => "display: none;"}
-              %fieldset
-                = label_tag :location, nil, class: "form-label-bold"
-                = select_tag(:location, "", :class => "form-control form-control-3-4", :autocomplete => "off")
+              = label_tag :location, nil, class: "form-label-bold"
+              = select_tag(:location, "", :class => "form-control form-control-3-4", :autocomplete => "off")
 
 
             = f.hidden_field :location, class: "fx-location-model"

@@ -40,7 +40,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
 
     Then I click "Continue" in the claim form
 
-    And I add a miscellaneous fee 'Adjourned appeals' with dates attended '2018-04-01'
+    And I add a miscellaneous fee 'Special preparation fee' with dates attended '2018-04-01'
     And I check the section heading to be "1"
     And I add a miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
     And I check the section heading to be "2"
@@ -70,7 +70,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
 
     And I should see 'Basic fee'
     And I should see 'Number of cases uplift'
-    And I should see 'Adjourned appeals'
+    And I should see 'Special preparation fee'
     And I should see 'Noting brief fee'
     And I should see 'Hotel accommodation'
 

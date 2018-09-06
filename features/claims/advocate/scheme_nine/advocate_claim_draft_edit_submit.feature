@@ -40,7 +40,7 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     Then I click "Continue" in the claim form
 
-    And I add a miscellaneous fee 'Adjourned appeals' with dates attended
+    And I add a miscellaneous fee 'Special preparation fee' with dates attended
     And I add a miscellaneous fee 'Noting brief fee' with dates attended
 
     Then I click "Continue" in the claim form

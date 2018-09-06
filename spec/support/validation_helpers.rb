@@ -76,6 +76,14 @@ module ValidationHelpers
     with_expected_error_translation(field,message,options) if options[:translated_message]
   end
 
+  def should_error_if_earlier_than_earliest_reporder_date(claim_record, other_record, field, message, options={})
+    stub_earliest_rep_order(claim_record,1.year.ago.to_date)
+    other_record.send("#{field}=", 13.months.ago)
+    expect(other_record.send(:valid?)).to be false
+    expect(other_record.errors[field]).to include( message )
+    with_expected_error_translation(field,message,options) if options[:translated_message]
+  end
+
   def should_error_if_earlier_than_other_date(record, field, other_date, message, options={})
     record.send("#{field}=", 5.day.ago)
     record.send("#{other_date}=", 3.day.ago)

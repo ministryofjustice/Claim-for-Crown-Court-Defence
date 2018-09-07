@@ -153,20 +153,33 @@ namespace :data do
     end
 
     namespace :fee_types do
-      desc 'Rename and re-type the MiscFeeType Adjourned appeals to FixedFeeType'
+      desc 'Re-type the MiscFeeType Adjourned appeals to FixedFeeType'
       task :adjourned_appeal_move, [:direction] => :environment do |_task, args|
         args.with_defaults(direction: 'up')
         if args.direction.downcase.eql?('up')
-          Fee::BaseFeeType
-            .where(unique_code: 'MISAF')
-            .update_all(code: 'ADJ', unique_code: 'FXADJ', type: 'Fee::FixedFeeType', description: 'Adjourned appeals')
+          fee_type_update = Fee::BaseFeeType
+                            .where(unique_code: 'MISAF')
+                            .update_all(code: 'ADJ', unique_code: 'FXADJ', type: 'Fee::FixedFeeType', description: 'Adjourned appeals')
+
+          fee_update = Fee::BaseFee
+                      .where(type: 'Fee::MiscFee', fee_type_id: Fee::BaseFeeType.find_by(unique_code: 'FXADJ').id)
+                      .update_all(type: 'Fee::FixedFee')
         elsif args.direction.downcase.eql?('down')
-          Fee::BaseFeeType
-            .where(unique_code: 'FXADJ')
-            .update_all(code: 'SAF', unique_code: 'MISAF', type: 'Fee::MiscFeeType', description: 'Adjourned appeals')
+          fee_type_update = Fee::BaseFeeType
+                            .where(unique_code: 'FXADJ')
+                            .update_all(code: 'SAF', unique_code: 'MISAF', type: 'Fee::MiscFeeType', description: 'Adjourned appeals')
+
+          fee_update = Fee::BaseFee
+                      .where(type: 'Fee::FixedFee', fee_type_id: Fee::BaseFeeType.find_by(unique_code: 'MISAF').id)
+                      .update_all(type: 'Fee::MiscFee')
         else
           puts "#{task} argument error. direction must be 'up' or 'down'"
         end
+
+        include ActionView::Helpers::TextHelper
+        puts "-- Updated #{pluralize(fee_type_update,'fee type')}"
+        puts "-- Updated #{pluralize(fee_update,'fee')} to new type"
+        puts '--'
       end
     end
   end

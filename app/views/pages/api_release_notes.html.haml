@@ -3,6 +3,146 @@
 %section.api-documentation
 
   %hr
+  %h2 3 September 2018
+  %ul.list-bullet
+    %li
+      AGFS fixed fee eligiblity logic has been applied to web interface.
+      %br/
+      %br/
+      It was previously possible to add a fixed fee of any type to any
+      fixed fee case type. However, certain combinations are not applicable and can result in claims be rejected in full or in part. The web interface has been modifed to ensure that only applicable fixed fees can be claimed, based on the case type selected. The table below summarizes the change.
+      %br/
+      %br/
+      %table
+        %caption
+          Eligible fixed fee types
+        %thead
+          %tr
+            %th
+              Case type
+            %th
+              Eligible fixed fees
+        %tbody
+          %tr
+            %td
+              Appeal against conviction
+            %td
+              Appeals to the crown court against conviction; Standard appearance fee; Number of cases uplift; Number of defendants uplift
+          %tr
+            %td
+              Appeal against sentence
+            %td
+              Appeals to the crown court against sentence;Standard appearance fee; Number of cases uplift; Number of defendants uplift
+          %tr
+            %td
+              Breach of Crown Court order
+            %td
+              Breach of a crown court order; Standard appearance fee; Number of cases uplift; Number of defendants uplift
+          %tr
+            %td
+              Committal for Sentence
+            %td
+              Committal for sentence hearings; Standard appearance fee; Number of cases uplift; Number of defendants uplift
+          %tr
+            %td
+              Contempt
+            %td
+              Contempt; Standard appearance fee
+          %tr
+            %td
+              Elected cases not proceeded
+            %td
+              Elected case not proceeded; Number of cases uplift; Number of defendants uplift
+        %tfoot
+          %tr
+            %td{ colspan: 4}
+              %em
+                ** see not below
+    %li
+      Case type-specific fixed fee case uplifts have been deprecated.
+      %br/
+      %br/
+      The following case uplifts are no longer considered eligible for any case type and are to be considered deprecated.
+      %br/
+      %br/
+      %table
+        %caption
+          Deprecated case uplift fixed fee types
+        %thead
+          %tr
+            %th
+              description
+            %th
+              unique_code
+        %tbody
+          %tr
+            %td
+              Appeals to the crown court against conviction uplift
+            %td
+              FXACU
+          %tr
+            %td
+              Appeals to the crown court against sentence uplift
+            %td
+              FXASU
+          %tr
+            %td
+              Breach of a crown court order uplift
+            %td
+              FXCBU
+          %tr
+            %td
+              Committal for sentence hearings uplift
+            %td
+              FXCSU
+          %tr
+            %td
+              Elected case not proceeded uplift
+            %td
+              FXENU
+        %tfoot
+          %tr
+            %td{ colspan: 4}
+              %em
+                ** see not below
+    %li
+      "Cracked case discontinued" fixed fee type and its uplift has been deprecated.
+      %br/
+      %br/
+      The following fixed fee type has been deprecated and should not be used.
+      %br/
+      %br/
+      %table
+        %caption
+          Deprecated fixed fee types
+        %thead
+          %tr
+            %th
+              description
+            %th
+              unique_code
+        %tbody
+          %tr
+            %td
+              Cracked case discontinued
+            %td
+              FXCCD
+          %tr
+            %td
+              Cracked case discontinued uplift
+            %td
+              FXCDU
+        %tfoot
+          %tr
+            %td{ colspan: 4}
+              %em
+                ** see not below
+
+    %em
+      ** API consumer applications that send ineligible fixed fees will NOT error. However, when reviewing the claim's fixed fees in the web interface any ineligible fees will no longer have a type and will need to be amended to apply an eligible type.
+
+
+  %hr
   %h2 20 April 2018
   %ul.list-bullet
     %li

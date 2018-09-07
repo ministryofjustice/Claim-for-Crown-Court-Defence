@@ -1,6 +1,78 @@
 = render partial: 'layouts/header', locals: {page_heading: 'API release notes'}
 
 %section.api-documentation
+  %hr
+  %h2 10 September 2018
+  %ul.list-bullet
+    %li
+      The miscellaneous fee type "Adjourned appeals" has been repurposed as a fixed fee type. The
+      %code.code
+        id
+      remains the same but the
+      %code.code
+        type
+      ,
+      %code.code
+        unique_code
+      and
+      %code.code
+        code
+      and
+      %code.code
+        description
+      have been modified as below.
+
+      %br/
+      %br/
+      %table
+        %thead
+          %tr
+            %th
+              Field
+            %th
+              Old value
+            %th
+              New value
+        %tbody
+          %tr
+            %td
+              id
+            %td
+              33
+            %td
+              33
+          %tr
+            %td
+              type
+            %td
+              Fee::MiscFeeType
+            %td
+              Fee::FixedFeeType
+          %tr
+            %td
+              unique_code
+            %td
+              MISAF
+            %td
+              FXADJ
+          %tr
+            %td
+              code
+            %td
+              SAF
+            %td
+              ADJ
+          %tr
+            %td
+              description
+            %td
+              Adjourned appeals
+            %td
+              Adjourned appeals, committals and breaches
+      This change relates to business logic and user research findings that show that claims for remuneration in relation to Adjournments of appeals against conviction or sentence, committal for sentence and breach of crown court order hearings are typically claimed for in isolation and users are having to work around the current system to submit such claims.
+      %br/
+      %br/
+      All existing fees of this type will be updated in line with these changes, but will not affect their value.
 
   %hr
   %h2 3 September 2018

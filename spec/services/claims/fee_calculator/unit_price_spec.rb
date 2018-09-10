@@ -48,7 +48,7 @@ RSpec.shared_examples 'a fee calculator response with amount' do |options|
   # TODO: maybe too much integration??
   if options&.fetch(:amount)
     it 'includes expected amount' do
-      expect(response.data.amount).to be expected_amount
+      expect(response.data.amount).to eq expected_amount
     end
   end
 end
@@ -95,6 +95,19 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
       it_returns 'a fee calculator response with amount', amount: 130.0
     end
 
+    context 'for a fixed non-case-type-specific fee' do
+      let(:saf_fee) { create(:fixed_fee, :fxsaf_fee, claim: claim, quantity: 1) }
+
+      before do
+        params.merge!(fee_type_id: saf_fee.fee_type.id)
+        params[:fees].merge!("1": { fee_type_id: saf_fee.fee_type.id, quantity: saf_fee.quantity })
+      end
+
+      it_returns 'a successful fee calculator response'
+      it_returns 'a fee calculator response with amount', amount: 87.0
+    end
+
+    # TODO: deprecated fee type - to be removed
     context 'for a fixed fee case uplift' do
       let(:uplift_fee) { create(:fixed_fee, :fxacu_fee, claim: claim, quantity: 1) }
 

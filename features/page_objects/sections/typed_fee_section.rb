@@ -21,6 +21,6 @@ class TypedFeeSection < SitePrism::Section
   end
 
   def populated?
-    rate.value.size > 0
+    select_input.value.present?
   end
 end

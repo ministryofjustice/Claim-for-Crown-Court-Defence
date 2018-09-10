@@ -15,7 +15,12 @@ module Claims
                 :offence,
                 to: :claim
 
-      attr_reader :claim, :options, :fee_type, :advocate_category, :quantity, :current_page_fees
+      attr_reader :claim,
+                  :options,
+                  :fee_type,
+                  :advocate_category,
+                  :quantity,
+                  :current_page_fees
 
       def initialize(claim, options)
         @claim = claim
@@ -59,7 +64,6 @@ module Claims
 
           # TODO: aberrations
           # - elected case not proceeded is a scenario type with ccr fee type code of AGFS_FEE
-          # - cracked case discontinued - not sure we should even have this fixed fee in CCCD after speaking to BA??
 
           # modifiers
           # TODO: modifier needs to be dynamically determined and could be more than one.
@@ -100,17 +104,13 @@ module Claims
       end
 
       def fee_type_mappings
-        [
-          # CCR::Fee::BasicFeeAdapter::BASIC_FEE_BILL_MAPPINGS, # TODO: all are AGFS_FEE
-          CCR::Fee::FixedFeeAdapter::FIXED_FEE_BILL_MAPPINGS,
-          CCR::Fee::MiscFeeAdapter::MISC_FEE_BILL_MAPPINGS
-        ].inject(&:merge)
+        FeeTypeMappings.instance
       end
 
       def fee_type_code_for(fee_type)
         fee_type = case_uplift_parent if fee_type.case_uplift?
         fee_type = defendant_uplift_parent if fee_type.defendant_uplift?
-        fee_type_mappings[fee_type&.unique_code&.to_sym][:bill_subtype]
+        fee_type_mappings.all[fee_type&.unique_code&.to_sym][:bill_subtype]
       end
 
       def current_fee_types
@@ -126,7 +126,7 @@ module Claims
       end
 
       def primary_fee_type_on_page
-        primary_fee_types = current_fee_types.where(unique_code: fee_type_mappings.keys)
+        primary_fee_types = current_fee_types.where(unique_code: fee_type_mappings.primary_fee_types.keys)
         return nil if primary_fee_types.size > 1
         primary_fee_types.first
       end

@@ -244,6 +244,13 @@ FactoryBot.define do
         unique_code 'FXACU'
         quantity_is_decimal false
       end
+
+      trait :fxsaf do
+        description 'Standard appearance fee'
+        code 'SAF'
+        unique_code 'FXSAF'
+        quantity_is_decimal false
+      end
     end
 
     factory :graduated_fee_type, class: Fee::GraduatedFeeType do

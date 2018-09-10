@@ -20,5 +20,6 @@ Feature: Case worker admin allocates claims
     When I sign in as John Smith
     Then I should be on the 'Your claims' page
     And claims "T20160001, T20160002" should appear on the page
+    And I sign out
 
     And I eject the VCR cassette

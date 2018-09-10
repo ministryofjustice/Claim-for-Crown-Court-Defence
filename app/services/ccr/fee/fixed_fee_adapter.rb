@@ -32,7 +32,7 @@
 #           FXNDR
 #
 # C. Yet other CCCD fixed fees actually map to miscellaneous fees in CCR
-#     i.e. FXCON, FXSAF (contempt and standard appearance fee respectively)
+#     i.e. FXCON, FXSAF, FXADJ (contempt, Standard appearance fee, Adjourned appeals)
 #
 module CCR
   module Fee

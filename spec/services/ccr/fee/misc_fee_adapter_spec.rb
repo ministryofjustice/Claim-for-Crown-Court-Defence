@@ -20,7 +20,7 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
     FXCON: %w[AGFS_MISC_FEES AGFS_CONTEMPT], # Contempt (fixed fee)
     MIAPH: %w[AGFS_MISC_FEES AGFS_ABS_PRC_HF], # Abuse of process hearings (half day)
     MIAPW: %w[AGFS_MISC_FEES AGFS_ABS_PRC_WL], # Abuse of process hearings (whole day)
-    FXADJ: %w[AGFS_MISC_FEES AGFS_ADJOURNED], # Adjourned appeals
+    FXADJ: %w[AGFS_MISC_FEES AGFS_ADJOURNED], # Adjourned appeals, committals and breaches
     MIADC1: %w[AGFS_MISC_FEES AGFS_DMS_DY2_HF], # Application to dismiss a charge (half day)
     MIADC2: %w[AGFS_MISC_FEES AGFS_DMS_DY2_WL], # Application to dismiss a charge (whole day)
     MIDTH: %w[AGFS_MISC_FEES AGFS_CONFISC_HF], # Confiscation hearings (half day)

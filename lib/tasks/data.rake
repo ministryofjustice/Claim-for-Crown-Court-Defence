@@ -159,7 +159,7 @@ namespace :data do
         if args.direction.downcase.eql?('up')
           fee_type_update = Fee::BaseFeeType
                             .where(unique_code: 'MISAF')
-                            .update_all(code: 'ADJ', unique_code: 'FXADJ', type: 'Fee::FixedFeeType', description: 'Adjourned appeals')
+                            .update_all(code: 'ADJ', unique_code: 'FXADJ', type: 'Fee::FixedFeeType', description: 'Adjourned appeals, committals and breaches')
 
           fee_update = Fee::BaseFee
                       .where(type: 'Fee::MiscFee', fee_type_id: Fee::BaseFeeType.find_by(unique_code: 'FXADJ').id)

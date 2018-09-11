@@ -381,7 +381,7 @@ moj.Helpers.SideBar = {
 
 
       $detached.find(this.stateLookup.location).css('display', (state.config.location ? 'block' : 'none'));
-      $detached.find(this.stateLookup.location + ' label').text(state.config.locationLabel);
+      $detached.find(this.stateLookup.location + ' label').contents().first()[0].textContent = state.config.locationLabel;
 
       // cache the location input
       if (!this.$location) {

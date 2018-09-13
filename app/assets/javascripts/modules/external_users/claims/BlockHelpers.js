@@ -376,7 +376,6 @@ moj.Helpers.Blocks = {
 
     //
     this.displayLocationInput = function() {
-      this.$el.find('.fx-travel-location label').text(staticdata.locationLabel.default);
       this.$el.find('.location_wrapper').css('display', 'block');
       this.$el.find('.fx-establishment-select').css('display', 'none');
       return this;
@@ -458,13 +457,12 @@ moj.Helpers.Blocks = {
         $detached.find(self.stateLookup[value]).css('display', (state.config[value] ? 'block' : 'none'));
       });
 
-      // net amount & lable
+      // net amount
       $detached.find(this.stateLookup.netAmount).css('display', (state.config.netAmount ? 'block' : 'none'));
-      $detached.find(this.stateLookup.netAmount + ' label').text(state.config.netAmountLabel);
 
-
+      // location
       $detached.find(this.stateLookup.location).css('display', (state.config.location ? 'block' : 'none'));
-      $detached.find(this.stateLookup.location + ' label').text(state.config.locationLabel);
+      $detached.find(this.stateLookup.location + ' label').contents().first()[0].textContent = state.config.locationLabel;
 
       // cache the location input
       if (!this.$location) {

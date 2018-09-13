@@ -27,9 +27,10 @@ moj.Helpers.Blocks = {
       throw Error('Selector did not return an element: ' + selector);
     };
 
-    this.setNumber = function(selector, val) {
+    this.setNumber = function(selector, val, points) {
+      points = points  || '2';
       if (this.$el.find(selector).length) {
-        this.$el.find(selector).val(parseFloat(val).toFixed(2)).change();
+        this.$el.find(selector).val(parseFloat(val).toFixed(points)).change();
         return;
       }
       throw Error('Selector did not return an element: ' + selector);
@@ -311,10 +312,7 @@ moj.Helpers.Blocks = {
             destination: $option.text()
           }).then(function(result) {
             var number = self.$el.find('.fx-travel-mileage input:checked').val();
-            var factor = (number == '3') ? 0.20 : (number == '1') ? 0.25 : 0.45;
-            self.setNumber('.fx-travel-distance input', result.miles);
-            self.setNumber('.fx-travel-net-amount input', result.miles * factor);
-            self.setNumber('.fx-travel-vat-amount input', (result.miles * factor) * 0.2);
+            self.updateMileageElements(number, result);
           }, function() {
             console.log('error', arguments);
             return arguments;
@@ -322,27 +320,32 @@ moj.Helpers.Blocks = {
         }
       });
 
-
       this.$el.on('change, click', '.fx-travel-mileage input', function(e) {
         var number = $(e.target).val();
-        var factor = (number == '3') ? 0.20 : (number == '1') ? 0.25 : 0.45;
-        var result = {
-          miles: self.$el.find('.fx-travel-distance input').val()
-        };
-        self.setNumber('.fx-travel-distance input', result.miles);
-        self.setNumber('.fx-travel-net-amount input', result.miles * factor);
-        self.setNumber('.fx-travel-vat-amount input', (result.miles * factor) * 0.2);
+        self.updateMileageElements(number);
       });
 
       return this;
+    };
+
+
+    this.updateMileageElements = function(number, result) {
+      var factor = (number == '3') ? 0.20 : (number == '1') ? 0.25 : 0.45;
+      if(!result){
+        result = {
+          miles: self.$el.find('.fx-travel-distance input').val()
+        };
+      }
+      self.setNumber('.fx-travel-distance input', result.miles, '0');
+      self.setNumber('.fx-travel-net-amount input', result.miles * factor);
+      self.setNumber('.fx-travel-vat-amount input', (result.miles * factor) * 0.2);
     };
 
     // TO DO: specs
     this.getDistance = function(ajaxConfig) {
       var self = this;
       return moj.Helpers.API.Distance.query(ajaxConfig).then(function(result) {
-        result.miles = (result.distance / 1609.34);
-
+        result.miles = Math.round((result.distance / 1609.34));
         return result;
       }, function() {
         return arguments;

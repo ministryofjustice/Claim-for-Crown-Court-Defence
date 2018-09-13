@@ -39,7 +39,7 @@ moj.Modules.SideBar = {
         el: el,
         $el: $el
       };
-      var block = new moj.Helpers.SideBar[options.fn](options);
+      var block = new moj.Helpers.Blocks[options.fn](options);
       self.blocks.push(block.init());
       self.removePhantomKey($el.data('type'));
       $el.removeClass('fx-do-init');
@@ -71,7 +71,7 @@ moj.Modules.SideBar = {
         if ($el.data('autovat') === false) {
           options.autoVAT = false;
         }
-        var block = new moj.Helpers.SideBar[options.fn](options);
+        var block = new moj.Helpers.Blocks[options.fn](options);
         self.blocks.push(block.init());
       }
     });
@@ -84,7 +84,7 @@ moj.Modules.SideBar = {
     this.sanitzeFeeToFloat();
     $.each(this.totals, function(key, val) {
       selector = '.total-' + key;
-      value = '&pound;' + moj.Helpers.SideBar.addCommas(val.toFixed(2));
+      value = '&pound;' + moj.Helpers.Blocks.addCommas(val.toFixed(2));
       $(self.el).find(selector).html(value);
     });
   },

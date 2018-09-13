@@ -1,4 +1,4 @@
-moj.Helpers.SideBar = {
+moj.Helpers.Blocks = {
   Base: function(options) {
     var _options = {
       type: '_Base',
@@ -68,7 +68,7 @@ moj.Helpers.SideBar = {
   FeeBlock: function() {
     var self = this;
     // copy methods over
-    moj.Helpers.SideBar.Base.apply(this, arguments);
+    moj.Helpers.Blocks.Base.apply(this, arguments);
     this.totals = {
       quantity: 0,
       rate: 0,
@@ -117,13 +117,13 @@ moj.Helpers.SideBar = {
 
     this.render = function() {
       // TODO: Can this be removed? Investigate across block types.
-      this.$el.find('.total').html('&pound;' + moj.Helpers.SideBar.addCommas(this.totals.total.toFixed(2)));
+      this.$el.find('.total').html('&pound;' + moj.Helpers.Blocks.addCommas(this.totals.total.toFixed(2)));
       this.$el.find('.total').data('total', this.totals.total);
     };
   },
   FeeBlockCalculator: function() {
     var self = this;
-    moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
+    moj.Helpers.Blocks.FeeBlock.apply(this, arguments);
 
     this.init = function() {
       this.config.fn = 'FeeBlockCalculator';
@@ -154,7 +154,7 @@ moj.Helpers.SideBar = {
   },
   FeeBlockManualAmounts: function() {
     var self = this;
-    moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
+    moj.Helpers.Blocks.FeeBlock.apply(this, arguments);
 
     this.init = function() {
       this.config.fn = 'FeeBlockManualAmounts';
@@ -186,7 +186,7 @@ moj.Helpers.SideBar = {
   },
   PhantomBlock: function() {
     var self = this;
-    moj.Helpers.SideBar.Base.apply(this, arguments);
+    moj.Helpers.Blocks.Base.apply(this, arguments);
     this.totals = {
       quantity: 0,
       rate: 0,
@@ -225,14 +225,13 @@ moj.Helpers.SideBar = {
    */
   ExpenseBlock: function() {
     var self = this;
-    var staticdata = moj.Helpers.SideBar.staticdata.expenseBlock;
+    var staticdata = moj.Helpers.Blocks.staticdata.expenseBlock;
 
-    moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
+    moj.Helpers.Blocks.FeeBlock.apply(this, arguments);
 
     this.stateLookup = staticdata.stateLookup;
     this.defaultstate = staticdata.defaultstate;
     this.expenseReasons = staticdata.expenseReasons;
-
 
     this.init = function() {
       this.config.fn = 'ExpenseBlock';
@@ -311,15 +310,30 @@ moj.Helpers.SideBar = {
             claimid: $('form').data('claimid'),
             destination: $option.text()
           }).then(function(result) {
+            var number = self.$el.find('.fx-travel-mileage input:checked').val();
+            var factor = (number == '3') ? 0.20 : (number == '1') ? 0.25 : 0.45;
             self.setNumber('.fx-travel-distance input', result.miles);
-            self.setNumber('.fx-travel-net-amount input', result.miles / 5);
-            self.setNumber('.fx-travel-vat-amount input', result.miles / 25);
+            self.setNumber('.fx-travel-net-amount input', result.miles * factor);
+            self.setNumber('.fx-travel-vat-amount input', (result.miles * factor) * 0.2);
           }, function() {
             console.log('error', arguments);
             return arguments;
           });
         }
       });
+
+
+      this.$el.on('change, click', '.fx-travel-mileage input', function(e) {
+        var number = $(e.target).val();
+        var factor = (number == '3') ? 0.20 : (number == '1') ? 0.25 : 0.45;
+        var result = {
+          miles: self.$el.find('.fx-travel-distance input').val()
+        };
+        self.setNumber('.fx-travel-distance input', result.miles);
+        self.setNumber('.fx-travel-net-amount input', result.miles * factor);
+        self.setNumber('.fx-travel-vat-amount input', (result.miles * factor) * 0.2);
+      });
+
       return this;
     };
 
@@ -495,7 +509,6 @@ moj.Helpers.SideBar = {
       });
 
       $detached = this.radioStateManager($detached, state);
-
       return $parent.append($detached);
     };
 

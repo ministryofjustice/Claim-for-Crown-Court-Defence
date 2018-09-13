@@ -1,9 +1,9 @@
-describe('Helpers.SideBar.js', function() {
+describe('Helpers.Blocks.js', function() {
   it('should exist with expected constructors', function() {
-    expect(moj.Helpers.SideBar).toBeDefined();
-    expect(moj.Helpers.SideBar.Base).toBeDefined();
-    expect(moj.Helpers.SideBar.FeeBlock).toBeDefined();
-    expect(moj.Helpers.SideBar.FeeBlockCalculator).toBeDefined();
+    expect(moj.Helpers.Blocks).toBeDefined();
+    expect(moj.Helpers.Blocks.Base).toBeDefined();
+    expect(moj.Helpers.Blocks.FeeBlock).toBeDefined();
+    expect(moj.Helpers.Blocks.FeeBlockCalculator).toBeDefined();
   });
 
   describe('Methods', function() {
@@ -21,7 +21,7 @@ describe('Helpers.SideBar.js', function() {
         };
 
         ['0.01', '0.11', '1.11', '11.11', '111.11', '1111.11', '11111.11', '111111111.11'].forEach(function(val, idx) {
-          expect(expected[idx]).toBe(moj.Helpers.SideBar.addCommas(val));
+          expect(expected[idx]).toBe(moj.Helpers.Blocks.addCommas(val));
         });
       });
     });
@@ -33,7 +33,7 @@ describe('Helpers.SideBar.js', function() {
 
     describe('Base', function() {
       it('should have defaults set', function() {
-        instance = new moj.Helpers.SideBar.Base();
+        instance = new moj.Helpers.Blocks.Base();
         expect(instance.config).toEqual({
           type: '_Base',
           vatfactor: 0.2,
@@ -42,7 +42,7 @@ describe('Helpers.SideBar.js', function() {
       });
 
       it('should take an `options` object and overide', function() {
-        instance = new moj.Helpers.SideBar.Base({
+        instance = new moj.Helpers.Blocks.Base({
           type: 'TYPE',
           vatfactor: 99,
           autoVAT: false
@@ -57,7 +57,7 @@ describe('Helpers.SideBar.js', function() {
       it('should cache referances to the DOM element', function() {
         var fixtureDom = ['<div class="js-block fx-do-init">', '<span>hello</span>', '</div>'].join('');
         $('body').append(fixtureDom);
-        instance = new moj.Helpers.SideBar.Base({
+        instance = new moj.Helpers.Blocks.Base({
           $el: $('.js-block'),
           el: fixtureDom
         });
@@ -69,7 +69,7 @@ describe('Helpers.SideBar.js', function() {
       describe('Methods', function() {
         describe('...getConfig', function() {
           it('should return the correct `this.config` prop', function() {
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               some: 'thing'
             });
             expect(instance.getConfig('type')).toBe('_Base');
@@ -79,7 +79,7 @@ describe('Helpers.SideBar.js', function() {
 
         describe('...updateTotals', function() {
           it('should return a info message', function() {
-            instance = new moj.Helpers.SideBar.Base();
+            instance = new moj.Helpers.Blocks.Base();
             expect(instance.updateTotals()).toBe('This method needs an override');
           });
         });
@@ -94,7 +94,7 @@ describe('Helpers.SideBar.js', function() {
               '</div>'
             ].join('');
             $('body').append(fixtureDom);
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               $el: $('.js-block'),
               el: fixtureDom
             });
@@ -107,7 +107,7 @@ describe('Helpers.SideBar.js', function() {
 
         describe('...applyVat', function() {
           it('should not apply 20% VAT by default', function() {
-            instance = new moj.Helpers.SideBar.Base();
+            instance = new moj.Helpers.Blocks.Base();
             instance.totals = {
               vat: 0,
               total: 100
@@ -117,7 +117,7 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('should not apply VAT if `autoVAT` is false', function() {
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               autoVAT: false
             });
             instance.totals = {
@@ -129,7 +129,7 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('should use a configurable `config.vatfactor`', function() {
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               vatfactor: 0.5,
               autoVAT: true
             });
@@ -151,7 +151,7 @@ describe('Helpers.SideBar.js', function() {
               '</div>'
             ].join('');
             $('body').append(fixtureDom);
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               $el: $('.js-block'),
               el: fixtureDom
             });
@@ -180,7 +180,7 @@ describe('Helpers.SideBar.js', function() {
               '</div>'
             ].join('');
             $('body').append(fixtureDom);
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               $el: $('.js-block'),
               el: fixtureDom
             });
@@ -209,7 +209,7 @@ describe('Helpers.SideBar.js', function() {
               '</div>'
             ].join('');
             $('body').append(fixtureDom);
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               $el: $('.js-block'),
               el: fixtureDom
             });
@@ -244,7 +244,7 @@ describe('Helpers.SideBar.js', function() {
               '</div>'
             ].join('');
             $('body').append(fixtureDom);
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               $el: $('.js-block'),
               el: fixtureDom
             });
@@ -276,7 +276,7 @@ describe('Helpers.SideBar.js', function() {
               '</div>'
             ].join('');
             $('body').append(fixtureDom);
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               $el: $('.js-block'),
               el: fixtureDom
             });
@@ -309,7 +309,7 @@ describe('Helpers.SideBar.js', function() {
           '</div>'
         ].join('');
         $('body').append(fixtureDom);
-        instance = new moj.Helpers.SideBar.FeeBlock({
+        instance = new moj.Helpers.Blocks.FeeBlock({
           type: 'FeeBlock',
           $el: $('.js-block'),
           el: fixtureDom
@@ -332,7 +332,7 @@ describe('Helpers.SideBar.js', function() {
             '</div>'
           ].join('');
           $('body').append(fixtureDom);
-          instance = new moj.Helpers.SideBar.FeeBlock({
+          instance = new moj.Helpers.Blocks.FeeBlock({
             $el: $('.js-block'),
             el: fixtureDom
           });
@@ -463,7 +463,7 @@ describe('Helpers.SideBar.js', function() {
           '</div>'
         ].join('');
         $('body').append(fixtureDom);
-        instance = new moj.Helpers.SideBar.FeeBlockCalculator({
+        instance = new moj.Helpers.Blocks.FeeBlockCalculator({
           type: 'FeeBlockCalculator',
           $el: $('.js-block'),
           el: fixtureDom
@@ -488,7 +488,7 @@ describe('Helpers.SideBar.js', function() {
             '</div>'
           ].join('');
           $('body').append(fixtureDom);
-          instance = new moj.Helpers.SideBar.FeeBlockCalculator({
+          instance = new moj.Helpers.Blocks.FeeBlockCalculator({
             $el: $('.js-block'),
             el: fixtureDom
           });
@@ -572,7 +572,7 @@ describe('Helpers.SideBar.js', function() {
           ].join('');
           $('body').append(fixtureDom);
 
-          instance = new moj.Helpers.SideBar.ExpenseBlock({
+          instance = new moj.Helpers.Blocks.ExpenseBlock({
             type: 'ExpenseBlock',
             $el: $('.js-block'),
             el: fixtureDom
@@ -719,7 +719,7 @@ describe('Helpers.SideBar.js', function() {
 
           $('body').append(el);
 
-          instance = new moj.Helpers.SideBar.ExpenseBlock({
+          instance = new moj.Helpers.Blocks.ExpenseBlock({
             $el: $('.js-block'),
             el: fixtureDom
           });
@@ -909,8 +909,8 @@ describe('Helpers.SideBar.js', function() {
               miles: 99
             });
 
-            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('19.80');
-            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('3.96');
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('44.55');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('8.91');
             expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('99.00');
           });
         });

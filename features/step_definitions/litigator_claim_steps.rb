@@ -73,22 +73,44 @@ And(/^I fill '(.*)' as the warrant fee executed date$/) do |date|
   @litigator_claim_form_page.warrant_fee_executed_date.set_date date
 end
 
-When(/^I add an expense '(.*?)'(?: with total '(.*?)')?(?: and VAT '(.*?)')?( with invalid date)?$/) do |name, total, vat, invalid_date|
+Then(/^I select an expense type "([^"]*)"$/) do |name|
   @claim_form_page.expenses.last.expense_type_dropdown.select name
+end
 
-  if name == 'Hotel accommodation'
-    @claim_form_page.expenses.last.destination.set 'Liverpool'
-  end
-  @claim_form_page.expenses.last.reason_for_travel_dropdown.select 'View of crime scene'
+Then(/^I select a travel reason "([^"]*)"$/) do |name|
+  @claim_form_page.expenses.last.reason_for_travel_dropdown.select name
+end
 
-  @claim_form_page.expenses.last.amount.set(total || '34.56')
-  @claim_form_page.expenses.last.vat_amount.set(vat) if vat.present?
+Then(/^I add an other reason of "([^"]*)"$/) do |reason_text|
+  @claim_form_page.expenses.last.other_reason_input.set reason_text
+end
 
-  if invalid_date.present?
-    @claim_form_page.expenses.last.expense_date.set_invalid_date
-  else
-    @claim_form_page.expenses.last.expense_date.set_date '2016-01-02'
-  end
+Then(/^I add an expense location$/) do
+  @claim_form_page.expenses.last.destination.set 'Liverpool'
+end
+
+Then(/^I add an expense distance of "([^"]*)"$/) do |number|
+  @claim_form_page.expenses.last.distance.set number
+end
+
+Then(/^I add an expense date$/) do
+  @claim_form_page.expenses.last.expense_date.set_date '2016-01-02'
+end
+
+Then(/^I should see a destination label of "([^"]*)"$/) do |label_text|
+  expect(@claim_form_page.expenses.last.destination_label.text).to eq(label_text)
+end
+
+Then(/^I add an expense net amount for "([^"]*)"$/) do |net_amount|
+  @claim_form_page.expenses.last.amount.set(net_amount || '34.56')
+end
+
+Then(/^I add an expense vat amount for "([^"]*)"$/) do |vat_amount|
+  @claim_form_page.expenses.last.vat_amount.set(vat_amount || '6.91')
+end
+
+Then(/^I add an expense date as invalid$/) do
+  @claim_form_page.expenses.last.expense_date.set_invalid_date
 end
 
 And(/^I enter the date for the (\w+) expense '(.*?)'$/) do |ordinal, date|

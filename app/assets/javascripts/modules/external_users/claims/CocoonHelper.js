@@ -1,6 +1,5 @@
 moj.Modules.CocoonHelper = {
   el: [
-    '#expenses',
     '#basic-fees',
     '#misc-fees',
     '#fixed-fees',

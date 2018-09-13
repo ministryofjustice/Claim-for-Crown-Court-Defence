@@ -47,8 +47,7 @@ class Expense < ApplicationRecord
 
   has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 
-  validates_with ExpenseV1Validator, if: :schema_version_1?
-  validates_with ExpenseV2Validator, if: :schema_version_2?
+  validates_with ExpenseValidator
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
@@ -66,7 +65,6 @@ class Expense < ApplicationRecord
   before_validation do
     self.schema_version ||= 2
     round_quantity
-    self.amount = ((rate || 0) * (quantity || 0)).abs unless schema_version_2?
     calculate_vat
   end
 
@@ -85,10 +83,6 @@ class Expense < ApplicationRecord
     claim.update_expenses_total
     claim.update_total
     claim.update_vat
-  end
-
-  def schema_version_1?
-    self.schema_version == 1
   end
 
   def schema_version_2?

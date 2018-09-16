@@ -11,6 +11,7 @@ module Claims
     class Calculate
       delegate  :earliest_representation_order_date,
                 :agfs?,
+                :agfs_reform?,
                 :case_type,
                 :offence,
                 to: :claim
@@ -93,10 +94,23 @@ module Claims
         end&.first
       end
 
+      # Send a default offence as fee calc currently requires offences
+      # for some prices even though the values are identical for different
+      # offence classes/bands.
+      # TODO: fee calculator API should not require
+      # offences for at least "Elected case not proceeded"
+      #
+      # TODO: "Elected case not proceeded" does not have a
+      # unit price but a single fixed amount regardless
+      # of days claimed for (or you cannot claim for more than
+      # one of this fee. see javascript responsible.
+      #
       def offence_class
-        # some/all fixed fees do not require offences and they have no bearing on calculated fee amount
-        # TODO: make conditional on fee scheme version
-        offence&.offence_class&.class_letter || offence&.offence_band&.description
+        if agfs_reform?
+          offence&.offence_band&.description || '17.1'
+        else
+          offence&.offence_class&.class_letter || 'H'
+        end
       end
 
       def advocate_type

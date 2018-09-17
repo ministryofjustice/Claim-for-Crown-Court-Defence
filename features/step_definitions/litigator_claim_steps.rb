@@ -87,7 +87,7 @@ When(/^I add an expense '(.*?)'(?: with total '(.*?)')?(?: and VAT '(.*?)')?( wi
   if invalid_date.present?
     @claim_form_page.expenses.last.expense_date.set_invalid_date
   else
-    @claim_form_page.expenses.last.expense_date.set_date '2016-01-02'
+    @claim_form_page.expenses.last.expense_date.set_date '2018-04-01'
   end
 end
 

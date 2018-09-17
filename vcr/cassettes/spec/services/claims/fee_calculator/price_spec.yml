@@ -23,7 +23,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 10 Sep 2018 20:41:43 GMT
+      - Mon, 17 Sep 2018 11:20:44 GMT
       Server:
       - nginx/1.15.3
       Vary:
@@ -39,7 +39,7 @@ http_interactions:
       string: '{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
         Fee Scheme 9"}'
     http_version: 
-  recorded_at: Mon, 10 Sep 2018 20:41:43 GMT
+  recorded_at: Mon, 17 Sep 2018 11:20:44 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_CON&scenario=5&unit=DAY
@@ -63,7 +63,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 10 Sep 2018 20:41:44 GMT
+      - Mon, 17 Sep 2018 11:20:44 GMT
       Server:
       - nginx/1.15.3
       Vary:
@@ -81,7 +81,7 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Mon, 10 Sep 2018 20:41:44 GMT
+  recorded_at: Mon, 17 Sep 2018 11:20:44 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_FEE&scenario=12&unit=DAY
@@ -105,7 +105,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Sun, 16 Sep 2018 21:22:55 GMT
+      - Mon, 17 Sep 2018 11:20:45 GMT
       Server:
       - nginx/1.15.3
       Vary:
@@ -143,5 +143,5 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Sun, 16 Sep 2018 21:22:55 GMT
+  recorded_at: Mon, 17 Sep 2018 11:20:45 GMT
 recorded_with: VCR 3.0.3

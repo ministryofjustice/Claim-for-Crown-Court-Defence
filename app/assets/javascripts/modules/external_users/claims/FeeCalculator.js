@@ -69,7 +69,7 @@ moj.Modules.FeeCalculator = {
     var rate = $(context).closest('.fixed-fee-group').find('input.fee-rate').val();
     var quantity = $(context).closest('.fixed-fee-group').find('input.fee-quantity').val();
     var value = (rate * quantity);
-    var text = '&pound;' + moj.Helpers.SideBar.addCommas(value.toFixed(2));
+    var text = '&pound;' + moj.Helpers.Blocks.addCommas(value.toFixed(2));
     $el.html(text);
   },
 

@@ -14,11 +14,11 @@
 
     // Merge `callbackSettings` with defaults
     callbackSettings = $.extend({}, {
-      success: function(results) {
+      success: function(results, status, res) {
         def.resolve(results);
       },
-      error: function(req, status, err) {
-        def.reject(status, err);
+      error: function(res, status, message) {
+        def.reject(res.responseJSON);
       }
     }, callbackSettings);
 

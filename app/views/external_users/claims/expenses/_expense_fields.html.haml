@@ -10,6 +10,9 @@
       %span.fx-remove-link
         = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group', class: 'header-action' }
 
+    %p.fx-general-errors{:style => "display: none;"}
+      %span
+
     .grid-row
       .column-half
         -# SELECT: Expense types

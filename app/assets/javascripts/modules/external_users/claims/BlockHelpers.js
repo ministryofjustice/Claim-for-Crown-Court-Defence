@@ -28,7 +28,7 @@ moj.Helpers.Blocks = {
     };
 
     this.setNumber = function(selector, val, points) {
-      points = points  || '2';
+      points = points || '2';
       if (this.$el.find(selector).length) {
         this.$el.find(selector).val(parseFloat(val).toFixed(points)).change();
         return;
@@ -310,12 +310,6 @@ moj.Helpers.Blocks = {
           self.getDistance({
             claimid: $('form').data('claimid'),
             destination: $option.text()
-          }).then(function(result) {
-            var number = self.$el.find('.fx-travel-mileage input:checked').val();
-            self.updateMileageElements(number, result);
-          }, function() {
-            console.log('error', arguments);
-            return arguments;
           });
         }
       });
@@ -328,10 +322,9 @@ moj.Helpers.Blocks = {
       return this;
     };
 
-
     this.updateMileageElements = function(number, result) {
       var factor = (number == '3') ? 0.20 : (number == '1') ? 0.25 : 0.45;
-      if(!result){
+      if (!result) {
         result = {
           miles: self.$el.find('.fx-travel-distance input').val()
         };
@@ -344,12 +337,20 @@ moj.Helpers.Blocks = {
     // TO DO: specs
     this.getDistance = function(ajaxConfig) {
       var self = this;
-      return moj.Helpers.API.Distance.query(ajaxConfig).then(function(result) {
+      moj.Helpers.API.Distance.query(ajaxConfig).then(function(result) {
+        var number = self.$el.find('.fx-travel-mileage input:checked').val();
         result.miles = Math.round((result.distance / 1609.34));
-        return result;
-      }, function() {
-        return arguments;
+        self.updateMileageElements(number, result);
+      }, function(result) {
+        console.log(result.error);
+        self.viewErrorHandler(result.error);
       });
+    };
+
+    this.viewErrorHandler = function(message){
+      var el = this.$el.find('.fx-general-errors');
+      el.find('span').text(message);
+      // el.css('display', 'inline-block');
     };
 
     /**

@@ -32,6 +32,8 @@ FactoryBot.define do
       is_fixed_fee true
     end
 
+
+
     trait :graduated_fee do
       name 'Graduated fee'
       is_fixed_fee false
@@ -48,6 +50,18 @@ FactoryBot.define do
 
     trait :requires_retrial_dates do
       requires_retrial_dates true
+    end
+
+    trait :elected_cases_not_proceeded do
+      name 'Elected cases not proceeded'
+      is_fixed_fee true
+      allow_pcmh_fee_type false
+      requires_retrial_dates false
+      requires_maat_reference true
+      requires_cracked_dates false
+      requires_trial_dates false
+      roles %w[agfs lgfs]
+      fee_type_code 'FXENP'
     end
 
     trait :contempt do

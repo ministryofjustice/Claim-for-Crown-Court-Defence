@@ -88,7 +88,9 @@ module Claims
       # - less "safe" but faster/negates the need to query the API??
       #
       def scenario
-        # TODO: create select/find_by calls to list endpoints in client gem
+        # TODO: create select/find_by calls to retrieve endpoint data in client gem
+        # e.g. fee_scheme.scenarios.find_by(code: 'AS000002')
+        #
         fee_scheme.scenarios.select do |s|
           s.code.eql?(CCR::CaseTypeAdapter::BILL_SCENARIOS[case_type.fee_type_code.to_sym])
         end&.first

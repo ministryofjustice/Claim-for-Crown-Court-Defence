@@ -77,6 +77,10 @@ Then(/^I select an expense type "([^"]*)"$/) do |name|
   @claim_form_page.expenses.last.expense_type_dropdown.select name
 end
 
+Then(/^I select a mileage rate of '(\d+)p per mile'$/) do |arg1|
+  @claim_form_page.expenses.last.mileage_20.click
+end
+
 Then(/^I select a travel reason "([^"]*)"$/) do |name|
   @claim_form_page.expenses.last.reason_for_travel_dropdown.select name
 end
@@ -93,8 +97,9 @@ Then(/^I add an expense distance of "([^"]*)"$/) do |number|
   @claim_form_page.expenses.last.distance.set number
 end
 
-Then(/^I add an expense date$/) do
-  @claim_form_page.expenses.last.expense_date.set_date '2016-01-02'
+Then(/^I add an expense date for scheme (\d+)$/) do |scheme|
+  date = scheme.match?('10') ? Settings.agfs_fee_reform_release_date.strftime : "2016-01-02"
+  @claim_form_page.expenses.last.expense_date.set_date date
 end
 
 Then(/^I should see a destination label of "([^"]*)"$/) do |label_text|

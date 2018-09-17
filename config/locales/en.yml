@@ -21,6 +21,10 @@
 
 en:
   date: Date
+  distance:
+    unit:
+      one: 'mile'
+      other: 'miles'
   net_amount: &net_amount Net amount
   rate: &rate Rate
   views:
@@ -826,6 +830,9 @@ en:
           additional_info_heading: Additional information (optional)
           additional_info_label: Provide any information that will help in the assessment of your expenses
         expense_fields:
+          summary_heading: "How we calculate the distance"
+          summary_content: |
+            We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison
           select_option: Please select
           travel_reason: Travel reason
           type_of_expense: Type of expense
@@ -1237,6 +1244,7 @@ en:
         travel_expense_additional_information: Additional expenses information
         travel_expenses: Travel expenses
         index:
+          calculated_distance: Calculated distance
           caption: *expenses_caption
           date: Date of expense
           details: Details
@@ -1250,6 +1258,7 @@ en:
           totals_without_vat: Expenses without VAT total
           vat: VAT amount
         show:
+          calculated_distance: Calculated distance
           cost: Cost
           destination: Destination
           distance: Distance

@@ -141,6 +141,11 @@ class Expense < ApplicationRecord
     !vat_absent?
   end
 
+  def diff_distances?
+    return unless distance.present? && calculated_distance.present?
+    distance != calculated_distance
+  end
+
   private
 
   # we only calculate VAT for AGFS claims for vatable providers.  On LGFS claims, the VAT amount is entered in the form.

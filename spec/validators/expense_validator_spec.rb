@@ -92,8 +92,8 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       expect(expense).to be_valid
     end
 
-    it 'is invalid for dates too far in the past' do
-      should_error_if_too_far_in_the_past(expense, :date, 'check_not_too_far_in_past')
+    it 'is invalid if before earliest rep order date' do
+      should_error_if_earlier_than_earliest_reporder_date(claim, expense, :date, 'check_not_earlier_than_rep_order')
     end
 
     it 'is invalid for dates in the future' do

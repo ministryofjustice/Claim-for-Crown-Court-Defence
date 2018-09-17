@@ -15,7 +15,7 @@ VCR.configure do |c|
   #  `VCR_DEBUG=1 rspec ./spec/controllers/external_users/claims_controller_spec.rb`
   c.debug_logger = File.open(c.cassette_library_dir + '/vcr_debug.log', 'w') if ENV['VCR_DEBUG']
 
-  # Ignore requests other than to the API endpoints and LAA fee calculator
+  # Ignore requests other than to the API endpoints, LAA fee calculator and google maps
   c.ignore_request do |request|
     URI(request.uri).path == "/__identify__" ||
     (!URI(request.uri).path.start_with?('/api/') &&

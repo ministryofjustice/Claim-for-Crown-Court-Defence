@@ -32,8 +32,6 @@ FactoryBot.define do
       is_fixed_fee true
     end
 
-
-
     trait :graduated_fee do
       name 'Graduated fee'
       is_fixed_fee false

@@ -29,7 +29,7 @@ module Claims
           limit_from: 1 # ** see TODO
         )
 
-        price.fee_per_unit
+        price.per_unit
       end
 
       def price

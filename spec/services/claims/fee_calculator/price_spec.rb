@@ -17,7 +17,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
 
   it { is_expected.to respond_to(:price) }
   it { is_expected.to respond_to(:modifier_name) }
-  it { is_expected.to respond_to(:fee_per_unit) }
+  it { is_expected.to respond_to(:per_unit) }
   it { is_expected.to respond_to(:modifier) }
   it { is_expected.to respond_to(:parent_quantity) }
 
@@ -28,8 +28,8 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
     end
   end
 
-  describe '#fee_per_unit' do
-    subject { described_class.new(price, modifier_name, parent_quantity).fee_per_unit }
+  describe '#per_unit' do
+    subject { described_class.new(price, modifier_name, parent_quantity).per_unit }
 
     it 'returns a float' do
       is_expected.to be_a Float

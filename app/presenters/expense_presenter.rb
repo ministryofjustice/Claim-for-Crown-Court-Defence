@@ -21,6 +21,16 @@ class ExpensePresenter < BasePresenter
     h.number_with_precision(expense.distance, precision: 2, strip_insignificant_zeros: true)
   end
 
+  def calculated_distance
+    return unless expense.calculated_distance.present?
+    h.number_with_precision(expense.calculated_distance, precision: 2, strip_insignificant_zeros: true)
+  end
+
+  def pretty_calculated_distance
+    return 'n/a' unless calculated_distance.present?
+    "#{calculated_distance} #{t('distance.unit', count: calculated_distance)}"
+  end
+
   def hours
     h.number_with_precision(expense.hours, precision: 2, strip_insignificant_zeros: true)
   end

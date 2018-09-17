@@ -27,20 +27,22 @@ Feature: Advocate creates, saves, edits claims and expenses
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
-    And I add an expense date
+    And I add an expense date for scheme 9
 
     Then I should see 'Expense 1'
-    Then I should not see 'Destination'
+    Then I should not see 'Location'
 
     And I select an expense type "Hotel accommodation"
     And I select a travel reason "Court hearing"
-    Then I should see 'Destination'
+    Then I should see 'Location'
 
     And I select an expense type "Bike travel"
     And I select a travel reason "Other"
     And I add an expense distance of "873"
 
     And I add an other reason of "Other reason text"
+
+    And I select a mileage rate of '20p per mile'
 
     Then I should see 'Distance'
     Then I should see 'Cost per mile'
@@ -54,4 +56,4 @@ Feature: Advocate creates, saves, edits claims and expenses
     Then I should see 'Other reason text'
     Then I should see '20p'
     Then I should see '873'
-    Then I should see '£34.56'
+    Then I should see '£174.60'

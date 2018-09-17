@@ -2,7 +2,7 @@
 Feature: Advocate completes fixed fee page using calculator
 
   @fee_calc_vcr
-  Scenario: I create a fixed fee claim using calculated value, then submit it
+  Scenario: I create a fixed fee claim using calculated value
 
     Given I am a signed in advocate
     And I am on the 'Your claims' page
@@ -50,3 +50,49 @@ Feature: Advocate completes fixed fee page using calculator
 
     Then I click "Continue" in the claim form
     And I am on the miscellaneous fees page
+
+
+  @fee_calc_vcr
+  Scenario: I create a fixed fee which has a fixed amount calculated value
+
+  Given I am a signed in advocate
+  And I am on the 'Your claims' page
+  And I click 'Start a claim'
+  And I select the fee scheme 'Advocate final fee'
+  Then I should be on the new claim page
+
+  And I select the court 'Blackfriars'
+  And I select a case type of 'Elected cases not proceeded'
+  And I enter a case number of 'A20161234'
+
+  Then I click "Continue" in the claim form
+
+  And I enter defendant, representation order and MAAT reference
+  And I add another defendant, representation order and MAAT reference
+
+  Then I click "Continue" in the claim form
+
+  Given I insert the VCR cassette 'features/fee_calculator/fixed_fee_calculator' and record 'new_episodes'
+
+  And I select an advocate category of 'Junior alone'
+  And I add a fixed fee 'Elected case not proceeded'
+  And I add a fixed fee 'Number of cases uplift' with case numbers
+  And I add a fixed fee 'Number of defendants uplift'
+
+  Then the fixed fee 'Elected case not proceeded' should have a rate of '194.00'
+  Then the fixed fee 'Number of cases uplift' should have a rate of '38.80'
+  Then the fixed fee 'Number of defendants uplift' should have a rate of '38.80'
+
+  And I select an advocate category of 'QC'
+  Then the fixed fee 'Elected case not proceeded' should have a rate of '194.00'
+  Then the fixed fee 'Number of cases uplift' should have a rate of '38.80'
+  Then the fixed fee 'Number of defendants uplift' should have a rate of '38.80'
+
+  Then I amend the fixed fee 'Elected case not proceeded' to have a quantity of 2
+  Then the fixed fee 'Number of cases uplift' should have a rate of '38.80'
+  Then the fixed fee 'Number of defendants uplift' should have a rate of '38.80'
+
+  And I eject the VCR cassette
+
+  Then I click "Continue" in the claim form
+  And I am on the miscellaneous fees page

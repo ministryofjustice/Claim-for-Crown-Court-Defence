@@ -50,7 +50,7 @@ module Claims
       def amount
         fee_scheme.calculate do |options|
           options[:scenario] = scenario.id
-          options[:offence_class] = offence_class
+          options[:offence_class] = offence_class_or_default
           options[:advocate_type] = advocate_type
           options[:fee_type_code] = fee_type_code_for(fee_type)
 
@@ -107,7 +107,7 @@ module Claims
       # TODO: fee calculator API should not require
       # offences for at least "Elected case not proceeded"
       #
-      def offence_class
+      def offence_class_or_default
         if agfs_reform?
           offence&.offence_band&.description || '17.1'
         else

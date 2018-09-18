@@ -92,13 +92,7 @@ module Claims
       # - less "safe" but faster/negates the need to query the API??
       #
       def scenario
-        # TODO: create select/find_by calls to retrieve endpoint data by attribute value
-        # as opposed to being limited to parameter queries
-        # e.g. fee_scheme.scenarios.find_by(code: bill_scenario)
-        #
-        fee_scheme.scenarios.select do |s|
-          s.code.eql?(bill_scenario)
-        end&.first
+        fee_scheme.scenarios.find_by(code: bill_scenario)
       end
 
       # Send a default offence as fee calc currently requires offences

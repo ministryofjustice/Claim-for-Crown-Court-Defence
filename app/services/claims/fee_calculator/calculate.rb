@@ -101,17 +101,11 @@ module Claims
         end&.first
       end
 
-
       # Send a default offence as fee calc currently requires offences
       # for some prices even though the values are identical for different
       # offence classes/bands.
       # TODO: fee calculator API should not require
       # offences for at least "Elected case not proceeded"
-      #
-      # TODO: "Elected case not proceeded" does not have a
-      # unit price but a single fixed amount regardless
-      # of days claimed for (or you cannot claim for more than
-      # one of this fee. see javascript responsible.
       #
       def offence_class
         if agfs_reform?

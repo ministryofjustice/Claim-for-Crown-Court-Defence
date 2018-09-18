@@ -31,10 +31,6 @@ moj.Modules.FeeCalculator = {
   },
 
   // needs to be usable by cocoon:after-insert so can bind to one or many elements
-  // TODO: "Elected case not proceeded" does not have a
-  // unit price but a single fixed amount regardless
-  // of days claimed for (i.e. you cannot claim for more than
-  // one of this fee).
   fixedFeeQuantityChange: function ($el) {
     var self = this;
     var $els = $el || $('.js-fixed-fee-calculator-quantity');

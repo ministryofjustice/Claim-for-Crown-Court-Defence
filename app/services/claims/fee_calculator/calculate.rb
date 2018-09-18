@@ -84,17 +84,23 @@ module Claims
         @fee_scheme ||= client.fee_schemes(type: scheme_type, case_date: earliest_representation_order_date.to_s(:db))
       end
 
+      def bill_scenario
+        CCR::CaseTypeAdapter::BILL_SCENARIOS[case_type.fee_type_code.to_sym]
+      end
+
       # TODO: consider creating a mapping to fee calculator id's
       # - less "safe" but faster/negates the need to query the API??
       #
       def scenario
-        # TODO: create select/find_by calls to retrieve endpoint data in client gem
-        # e.g. fee_scheme.scenarios.find_by(code: 'AS000002')
+        # TODO: create select/find_by calls to retrieve endpoint data by attribute value
+        # as opposed to being limited to parameter queries
+        # e.g. fee_scheme.scenarios.find_by(code: bill_scenario)
         #
         fee_scheme.scenarios.select do |s|
-          s.code.eql?(CCR::CaseTypeAdapter::BILL_SCENARIOS[case_type.fee_type_code.to_sym])
+          s.code.eql?(bill_scenario)
         end&.first
       end
+
 
       # Send a default offence as fee calc currently requires offences
       # for some prices even though the values are identical for different

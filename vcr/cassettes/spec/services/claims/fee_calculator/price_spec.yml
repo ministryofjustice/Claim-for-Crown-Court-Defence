@@ -23,7 +23,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 10 Sep 2018 20:41:43 GMT
+      - Mon, 17 Sep 2018 11:20:44 GMT
       Server:
       - nginx/1.15.3
       Vary:
@@ -39,7 +39,7 @@ http_interactions:
       string: '{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
         Fee Scheme 9"}'
     http_version: 
-  recorded_at: Mon, 10 Sep 2018 20:41:43 GMT
+  recorded_at: Mon, 17 Sep 2018 11:20:44 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_CON&scenario=5&unit=DAY
@@ -63,7 +63,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 10 Sep 2018 20:41:44 GMT
+      - Mon, 17 Sep 2018 11:20:44 GMT
       Server:
       - nginx/1.15.3
       Vary:
@@ -81,5 +81,67 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Mon, 10 Sep 2018 20:41:44 GMT
+  recorded_at: Mon, 17 Sep 2018 11:20:44 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_FEE&scenario=12&unit=DAY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.1.3
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 17 Sep 2018 11:20:45 GMT
+      Server:
+      - nginx/1.15.3
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '463'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":11,"next":null,"previous":null,"results":[{"id":738,"scenario":12,"advocate_type":"JRALONE","fee_type":34,"offence_class":"A","scheme":1,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"194.00000","limit_from":1,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
+        of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false},{"id":739,"scenario":12,"advocate_type":"JRALONE","fee_type":34,"offence_class":"B","scheme":1,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"194.00000","limit_from":1,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
+        of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false},{"id":740,"scenario":12,"advocate_type":"JRALONE","fee_type":34,"offence_class":"C","scheme":1,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"194.00000","limit_from":1,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
+        of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false},{"id":741,"scenario":12,"advocate_type":"JRALONE","fee_type":34,"offence_class":"D","scheme":1,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"194.00000","limit_from":1,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
+        of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false},{"id":742,"scenario":12,"advocate_type":"JRALONE","fee_type":34,"offence_class":"E","scheme":1,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"194.00000","limit_from":1,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
+        of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false},{"id":743,"scenario":12,"advocate_type":"JRALONE","fee_type":34,"offence_class":"F","scheme":1,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"194.00000","limit_from":1,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
+        of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false},{"id":744,"scenario":12,"advocate_type":"JRALONE","fee_type":34,"offence_class":"G","scheme":1,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"194.00000","limit_from":1,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
+        of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false},{"id":745,"scenario":12,"advocate_type":"JRALONE","fee_type":34,"offence_class":"H","scheme":1,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"194.00000","limit_from":1,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
+        of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false},{"id":746,"scenario":12,"advocate_type":"JRALONE","fee_type":34,"offence_class":"I","scheme":1,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"194.00000","limit_from":1,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
+        of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false},{"id":747,"scenario":12,"advocate_type":"JRALONE","fee_type":34,"offence_class":"J","scheme":1,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"194.00000","limit_from":1,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
+        of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false},{"id":748,"scenario":12,"advocate_type":"JRALONE","fee_type":34,"offence_class":"K","scheme":1,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"194.00000","limit_from":1,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
+        of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
+    http_version: 
+  recorded_at: Mon, 17 Sep 2018 11:20:45 GMT
 recorded_with: VCR 3.0.3

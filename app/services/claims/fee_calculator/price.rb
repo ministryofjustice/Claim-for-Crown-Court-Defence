@@ -1,6 +1,7 @@
 # Price: Wraps a fee calc API price object to
-# factor in modifier effects and uplift parent quantities
-# on fee per unit.
+# factor in modifier effects and uplift parent
+# quantities on fee_per_unit or fixed_fee
+# attributes.
 #
 module Claims
   module FeeCalculator
@@ -13,8 +14,23 @@ module Claims
         @parent_quantity = parent_quantity
       end
 
+      def per_unit
+        fee = fixed_fee? ? fixed_fee : fee_per_unit
+        fee.round(2)
+      end
+
+      def fixed_fee?
+        price.fixed_fee.to_f > price.fee_per_unit.to_f
+      end
+
+      def fixed_fee
+        @fixed_fee ||=
+          price.fixed_fee.to_f * modifier_scale_factor
+      end
+
       def fee_per_unit
-        price.fee_per_unit.to_f * modifier_scale_factor * parent_quantity
+        @fee_per_unit ||=
+          price.fee_per_unit.to_f * modifier_scale_factor * parent_quantity
       end
 
       def modifier

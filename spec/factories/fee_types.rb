@@ -251,6 +251,14 @@ FactoryBot.define do
         unique_code 'FXSAF'
         quantity_is_decimal false
       end
+
+      trait :fxenp do
+        description 'Elected case not proceeded'
+        code 'ENP'
+        unique_code 'FXENP'
+        quantity_is_decimal false
+        roles ['agfs', 'agfs_scheme_9', 'agfs_scheme_10', 'lgfs']
+      end
     end
 
     factory :graduated_fee_type, class: Fee::GraduatedFeeType do

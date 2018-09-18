@@ -23,7 +23,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 10 Sep 2018 20:41:53 GMT
+      - Mon, 17 Sep 2018 11:20:47 GMT
       Server:
       - nginx/1.15.3
       Vary:
@@ -39,7 +39,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
         Fee Scheme 9"}]}'
     http_version: 
-  recorded_at: Mon, 10 Sep 2018 20:41:53 GMT
+  recorded_at: Mon, 17 Sep 2018 11:20:47 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
@@ -63,7 +63,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 10 Sep 2018 20:41:53 GMT
+      - Mon, 17 Sep 2018 11:20:47 GMT
       Server:
       - nginx/1.15.3
       Vary:
@@ -84,7 +84,7 @@ http_interactions:
         of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
         case not proceeded","code":"AS000014"}]}'
     http_version: 
-  recorded_at: Mon, 10 Sep 2018 20:41:53 GMT
+  recorded_at: Mon, 17 Sep 2018 11:20:47 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/units/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_CON&offence_class=K&scenario=5
@@ -108,7 +108,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 10 Sep 2018 20:41:53 GMT
+      - Mon, 17 Sep 2018 11:20:47 GMT
       Server:
       - nginx/1.15.3
       Vary:
@@ -124,7 +124,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":"DAY","name":"Whole
         Days"}]}'
     http_version: 
-  recorded_at: Mon, 10 Sep 2018 20:41:54 GMT
+  recorded_at: Mon, 17 Sep 2018 11:20:48 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1.0&fee_type_code=AGFS_APPEAL_CON&offence_class=K&scenario=5
@@ -148,7 +148,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 10 Sep 2018 20:41:54 GMT
+      - Mon, 17 Sep 2018 11:20:48 GMT
       Server:
       - nginx/1.15.3
       Vary:
@@ -163,5 +163,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"amount":130.0}'
     http_version: 
-  recorded_at: Mon, 10 Sep 2018 20:41:54 GMT
+  recorded_at: Mon, 17 Sep 2018 11:20:48 GMT
 recorded_with: VCR 3.0.3

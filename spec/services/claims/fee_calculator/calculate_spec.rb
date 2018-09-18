@@ -33,6 +33,7 @@ RSpec.describe Claims::FeeCalculator::Calculate, :fee_calc_vcr do
   it { is_expected.to respond_to(:call) }
   it { is_expected.to delegate_method(:earliest_representation_order_date).to(:claim) }
   it { is_expected.to delegate_method(:agfs?).to(:claim) }
+  it { is_expected.to delegate_method(:agfs_reform?).to(:claim) }
   it { is_expected.to delegate_method(:case_type).to(:claim) }
   it { is_expected.to delegate_method(:offence).to(:claim) }
 

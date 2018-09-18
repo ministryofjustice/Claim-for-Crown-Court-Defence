@@ -11,6 +11,7 @@ module Claims
     class Calculate
       delegate  :earliest_representation_order_date,
                 :agfs?,
+                :agfs_reform?,
                 :case_type,
                 :offence,
                 to: :claim
@@ -49,7 +50,7 @@ module Claims
       def amount
         fee_scheme.calculate do |options|
           options[:scenario] = scenario.id
-          options[:offence_class] = offence_class
+          options[:offence_class] = offence_class_or_default
           options[:advocate_type] = advocate_type
           options[:fee_type_code] = fee_type_code_for(fee_type)
 
@@ -83,20 +84,35 @@ module Claims
         @fee_scheme ||= client.fee_schemes(type: scheme_type, case_date: earliest_representation_order_date.to_s(:db))
       end
 
+      def bill_scenario
+        CCR::CaseTypeAdapter::BILL_SCENARIOS[case_type.fee_type_code.to_sym]
+      end
+
       # TODO: consider creating a mapping to fee calculator id's
       # - less "safe" but faster/negates the need to query the API??
       #
       def scenario
-        # TODO: create select/find_by calls to list endpoints in client gem
+        # TODO: create select/find_by calls to retrieve endpoint data by attribute value
+        # as opposed to being limited to parameter queries
+        # e.g. fee_scheme.scenarios.find_by(code: bill_scenario)
+        #
         fee_scheme.scenarios.select do |s|
-          s.code.eql?(CCR::CaseTypeAdapter::BILL_SCENARIOS[case_type.fee_type_code.to_sym])
+          s.code.eql?(bill_scenario)
         end&.first
       end
 
-      def offence_class
-        # some/all fixed fees do not require offences and they have no bearing on calculated fee amount
-        # TODO: make conditional on fee scheme version
-        offence&.offence_class&.class_letter || offence&.offence_band&.description
+      # Send a default offence as fee calc currently requires offences
+      # for some prices even though the values are identical for different
+      # offence classes/bands.
+      # TODO: fee calculator API should not require
+      # offences for at least "Elected case not proceeded"
+      #
+      def offence_class_or_default
+        if agfs_reform?
+          offence&.offence_band&.description || '17.1'
+        else
+          offence&.offence_class&.class_letter || 'H'
+        end
       end
 
       def advocate_type

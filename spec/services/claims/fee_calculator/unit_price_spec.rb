@@ -45,7 +45,6 @@ RSpec.shared_examples 'a fee calculator response with amount' do |options|
     expect(response.data.amount).to be > 0
   end
 
-  # TODO: maybe too much integration??
   if options&.fetch(:amount)
     it 'includes expected amount' do
       expect(response.data.amount).to eq expected_amount
@@ -90,12 +89,20 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
   describe '#call' do
     subject(:response) { described_class.new(claim, params).call }
 
-    context 'for a fixed fee' do
+    context 'for a case-type-specific fixed fee' do
       it_returns 'a successful fee calculator response'
       it_returns 'a fee calculator response with amount', amount: 130.0
     end
 
-    context 'for a fixed non-case-type-specific fee' do
+    context 'for a case-type-specific fixed fee with fixed amount (elected case not proceeded)' do
+      let(:case_type) { create(:case_type, :elected_cases_not_proceeded) }
+      let(:fee) { create(:fixed_fee, :fxenp_fee, claim: claim, quantity: 1) }
+
+      it_returns 'a successful fee calculator response'
+      it_returns 'a fee calculator response with amount', amount: 194.0
+    end
+
+    context 'for a non-case-type-specific fixed fee (standard appearance fee/adjournments)' do
       let(:saf_fee) { create(:fixed_fee, :fxsaf_fee, claim: claim, quantity: 1) }
 
       before do
@@ -108,7 +115,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
     end
 
     # TODO: deprecated fee type - to be removed
-    context 'for a fixed fee case uplift' do
+    context 'for a case-type-specific fixed fee case uplift' do
       let(:uplift_fee) { create(:fixed_fee, :fxacu_fee, claim: claim, quantity: 1) }
 
       before do

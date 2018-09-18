@@ -22,14 +22,14 @@ module Claims
         @modifier = modifier
         @prices = fee_scheme.prices(
           scenario: scenario.id,
-          offence_class: offence_class,
+          offence_class: offence_class_or_default,
           advocate_type: advocate_type,
           fee_type_code: fee_type_code_for(fee_type),
           unit: 'DAY', # * see TODO
           limit_from: 1 # ** see TODO
         )
 
-        price.fee_per_unit
+        price.per_unit
       end
 
       def price

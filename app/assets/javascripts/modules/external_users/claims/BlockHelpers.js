@@ -33,7 +33,7 @@ moj.Helpers.Blocks = {
         this.$el.find(selector).val(parseFloat(val).toFixed(points)).change();
         return;
       }
-      throw Error('Selector did not return an element: ' + selector);
+      return;
     };
 
     this.getConfig = function(key) {
@@ -308,13 +308,22 @@ moj.Helpers.Blocks = {
         self.$el.find('.fx-location-model').val($option.text());
         if (self.distanceLookupEnabled) {
           self.getDistance({
-            claimid: $('form').data('claimid'),
+            claimid: $('#claim-form').data('claimId'),
             destination: $option.text()
+          }).then(function(number, result){
+            self.updateMileageElements(number, result);
+          }, function(error){
+            self.viewErrorHandler(error);
           });
         }
       });
 
       this.$el.on('change, click', '.fx-travel-mileage input', function(e) {
+        var number = $(e.target).val();
+        self.updateMileageElements(number);
+      });
+
+      this.$el.on('keyup', '.fx-travel-distance input', function(e){
         var number = $(e.target).val();
         self.updateMileageElements(number);
       });
@@ -336,21 +345,22 @@ moj.Helpers.Blocks = {
 
     // TO DO: specs
     this.getDistance = function(ajaxConfig) {
+      var def = $.Deferred();
       var self = this;
       moj.Helpers.API.Distance.query(ajaxConfig).then(function(result) {
         var number = self.$el.find('.fx-travel-mileage input:checked').val();
         result.miles = Math.round((result.distance / 1609.34));
-        self.updateMileageElements(number, result);
+        def.resolve(number, result);
       }, function(result) {
-        console.log(result.error);
-        self.viewErrorHandler(result.error);
+        def.reject(result.error);
       });
+      return def.promise();
     };
 
     this.viewErrorHandler = function(message){
       var el = this.$el.find('.fx-general-errors');
       el.find('span').text(message);
-      // el.css('display', 'inline-block');
+      el.css('display', 'inline-block');
     };
 
     /**

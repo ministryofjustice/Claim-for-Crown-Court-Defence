@@ -31,7 +31,7 @@ Feature: Litigator expense specific page features
     And I add an expense date
 
     Then I should see 'Expense 1'
-    Then I should not see 'Destination'
+    Then I should not see 'Location'
 
     And I select an expense type "Hotel accommodation"
     And I select a travel reason "Court hearing (Crown court)"
@@ -45,7 +45,7 @@ Feature: Litigator expense specific page features
     And I add an expense distance of "873"
     And I add an other reason of "Other reason text"
 
-    Then I should see 'Destination'
+    Then I should see 'Location'
     Then I should see 'Distance'
     Then I should see 'Cost per mile'
     Then I should see '20p per mile'

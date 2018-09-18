@@ -403,7 +403,7 @@ moj.Helpers.Blocks = {
 
         // this class `location_wrapper` is added by the adp_text_field ruby helper
         self.$el.find('.location_wrapper').css('display', 'none');
-        self.$el.find('.fx-travel-location label').text(staticdata.locationLabel[locationType] || staticdata.locationLabel.default);
+        self.$el.find('.fx-travel-location .has-select label').text(staticdata.locationLabel[locationType] || staticdata.locationLabel.default);
 
       }, function() {
         return Error('Attach options failed:', arguments);
@@ -463,7 +463,9 @@ moj.Helpers.Blocks = {
 
       // location
       $detached.find(this.stateLookup.location).css('display', (state.config.location ? 'block' : 'none'));
-      $detached.find(this.stateLookup.location + ' label').contents().first()[0].textContent = state.config.locationLabel;
+      if(this.config.featureDistance){
+        $detached.find(this.stateLookup.location + ' .has-select label').contents().first()[0].textContent = state.config.locationLabel;
+      }
 
       // cache the location input
       if (!this.$location) {

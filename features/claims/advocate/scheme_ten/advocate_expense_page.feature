@@ -30,11 +30,11 @@ Feature: Advocate creates, saves, edits claims and expenses
     And I add an expense date
 
     Then I should see 'Expense 1'
-    Then I should not see 'Destination'
+    Then I should not see 'Location'
 
     And I select an expense type "Hotel accommodation"
     And I select a travel reason "Court hearing"
-    Then I should see 'Destination'
+    Then I should see 'Location'
 
     And I select an expense type "Bike travel"
     And I select a travel reason "Other"

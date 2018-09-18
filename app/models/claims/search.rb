@@ -21,7 +21,6 @@ module Claims::Search
   }.freeze
 
   # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/MethodLength
   def search(term, states = [], *options)
     raise 'Invalid search option' if (options - QUERY_MAPPINGS_FOR_SEARCH.keys).any?
     term = term.to_s.strip.downcase
@@ -46,5 +45,4 @@ module Claims::Search
     from(relation.group('claims.id'), 'claims')
   end
   # rubocop:enable Metrics/CyclomaticComplexity
-  # rubocop:enable Metrics/MethodLength
 end

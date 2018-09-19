@@ -319,20 +319,22 @@ moj.Helpers.Blocks = {
       });
 
       this.$el.on('change, click', '.fx-travel-mileage input', function(e) {
-        var number = $(e.target).val();
-        self.updateMileageElements(number);
+        self.updateMileageElements(self.getRateId());
       });
 
       this.$el.on('keyup', '.fx-travel-distance input', function(e){
-        var number = $(e.target).val();
-        self.updateMileageElements(number);
+        self.updateMileageElements(self.getRateId());
       });
 
       return this;
     };
 
-    this.updateMileageElements = function(number, result) {
-      var factor = (number == '3') ? 0.20 : (number == '1') ? 0.25 : 0.45;
+    this.getRateId = function(){
+      return this.$el.find('.fx-travel-mileage input[type=radio]:checked').val();
+    };
+
+    this.updateMileageElements = function(rateId, result) {
+      var factor = (rateId == '3') ? 0.20 : (rateId == '1') ? 0.25 : 0.45;
       if (!result) {
         result = {
           miles: self.$el.find('.fx-travel-distance input').val()

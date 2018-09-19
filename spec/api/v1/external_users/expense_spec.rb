@@ -31,7 +31,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
         reason_id: 5,
         reason_text: "Foo",
         mileage_rate_id: 1,
-        date: "2016-01-01T12:30:00"
+        date: "2018-04-01T12:30:00"
       }
     end
 

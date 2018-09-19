@@ -24,6 +24,7 @@ dictionary:
     max_vat_amount: &max_vat_amount 'Enter a valid amount'
     claim_max_amount: &claim_max_amount 'Amount claimed exceeds limit'
     max_length: &max_length 'Length exceeds limit'
+    expense_before_rep_order: &expense_before_rep_order "Date of expense must be on or after the date of the earliest representation order"
 
 # applies to defendant, fee, expense
 claim:
@@ -1269,10 +1270,11 @@ expense:
       long: 'Check the date for the #{expense}'
       short: *in_future
       api: Check the date for the expense
-    check_not_too_far_in_past:
+    check_not_earlier_than_rep_order:
       long: 'Check the date for the #{expense}'
-      short: *too_far_in_past
+      short: *expense_before_rep_order
       api: Check the date for the expense
+    
 
   expense_type:
     _seq: 10

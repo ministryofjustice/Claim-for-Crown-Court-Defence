@@ -852,7 +852,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_1_date]).to match_array(['check_not_too_far_in_past'])
+        expect(claim.errors[:expense_1_date]).to match_array(['check_not_earlier_than_rep_order'])
       }
     end
 

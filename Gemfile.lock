@@ -429,7 +429,7 @@ GEM
     pdf-forms (1.1.1)
       cliver (~> 0.3.2)
       safe_shell (>= 1.0.3, < 2.0)
-    pg (0.18.4)
+    pg (1.0.0)
     phantomjs (2.1.1.0)
     poltergeist (1.9.0)
       capybara (~> 2.1)
@@ -737,7 +737,7 @@ DEPENDENCIES
   paperclip (~> 5.3.0)
   parallel_tests
   pdf-forms
-  pg (~> 0.18.2)
+  pg (~> 1.0.0)
   poltergeist
   posix-spawn (~> 0.3.13)
   pry-byebug
@@ -788,4 +788,4 @@ RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   1.16.2
+   1.16.5

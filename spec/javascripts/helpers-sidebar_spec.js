@@ -703,6 +703,26 @@ describe('Helpers.Blocks.js', function() {
             '<div class="location_wrapper"><label>Destination</label><input type="text" value=""></div>',
             '<div class="fx-establishment-select"><label class="form-label-bold" for="location">Crown court</label><select id="location"><option value="">please select</option><option value="1" selected>establishment selected</option></select></div>',
             '</div>',
+            '<div class="fx-travel-mileage">',
+            ' <div class="fx-travel-mileage-bike">',
+            '   <input type="hidden" name="mileage_rate_id" value="" />',
+            '   <div class="multiple-choice">',
+            '     <input type="radio" value="3" name="mileage_rate_id" id="mileage_rate_id_3" />',
+            '     <label for="mileage_rate_id_3">20p per mile</label>',
+            '   </div>',
+            ' </div>',
+            ' <div class="fx-travel-mileage-car">',
+            '   <input type="hidden" name="mileage_rate_id" value="" disabled="" />',
+            '   <div class="multiple-choice">',
+            '     <input type="radio" value="1" name="mileage_rate_id" id="mileage_rate_id_1" />',
+            '     <label for="mileage_rate_id_1">25p per mile</label>',
+            '   </div>',
+            '   <div class="multiple-choice">',
+            '     <input type="radio" value="2" name="mileage_rate_id" id="mileage_rate_id_2" checked/>',
+            '     <label for="mileage_rate_id_2">45p per mile</label>',
+            '   </div>',
+            ' </div>',
+            '</div>',
             '<div class="fx-travel-net-amount"><input value=""/></div>',
             '<div class="fx-travel-vat-amount"><input value=""/></div>',
             '<div class="fx-travel-distance"><input value=""/></div>',
@@ -1044,6 +1064,13 @@ describe('Helpers.Blocks.js', function() {
             expect(instance.$el.find('.fx-travel-location label:first').text()).toEqual('Destination');
             expect(instance.$el.find('.location_wrapper').css('display')).toEqual('block');
             expect(instance.$el.find('.fx-establishment-select').css('display')).toEqual('none');
+          });
+        });
+
+        describe('...getRateId', function() {
+          it('...should return the correct rateId', function() {
+            instance.init();
+            expect(instance.getRateId()).toEqual('2');
           });
         });
 

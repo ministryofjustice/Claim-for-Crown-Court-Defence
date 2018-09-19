@@ -86,7 +86,7 @@ moj.Modules.DuplicateExpenseCtrl = {
    * serialise them into an array
    * @return {Array} Serialised form elements
    */
-  getDataInput: function() {
+  getFormData: function() {
     return $('.expense-group:last').find('input,select').serializeArray();
   },
   /**
@@ -114,7 +114,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     var deferred = $.Deferred();
     var self = this;
     var data = {};
-    $.map(this.getDataInput(), function(obj, idx) {
+    $.map(this.getFormData(), function(obj, idx) {
       var str = self.getKeyName(obj);
       if (obj.value) {
         data[str] = obj.value;

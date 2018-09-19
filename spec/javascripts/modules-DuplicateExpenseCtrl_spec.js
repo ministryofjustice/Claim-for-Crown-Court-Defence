@@ -22,7 +22,7 @@ describe('Modules.DuplicateExpenseCtrl', function() {
   });
 
   it('should have a default `el` defined', function() {
-    expect(moj.Modules.DuplicateExpenseCtrl.el).toEqual('.mod-expenses')
+    expect(moj.Modules.DuplicateExpenseCtrl.el).toEqual('.mod-expenses');
   });
 
   describe('Methods', function() {
@@ -34,7 +34,7 @@ describe('Modules.DuplicateExpenseCtrl', function() {
         $('body').append(domFixture);
 
         expect(moj.Modules.DuplicateExpenseCtrl.bindEvents).not.toHaveBeenCalled();
-        moj.Modules.DuplicateExpenseCtrl.init()
+        moj.Modules.DuplicateExpenseCtrl.init();
         expect(moj.Modules.DuplicateExpenseCtrl.bindEvents).toHaveBeenCalled();
         domFixture.empty();
       });
@@ -42,7 +42,7 @@ describe('Modules.DuplicateExpenseCtrl', function() {
 
     describe('...step1', function() {
       it('...should be defined', function() {
-        expect(moj.Modules.DuplicateExpenseCtrl.step1).toBeDefined()
+        expect(moj.Modules.DuplicateExpenseCtrl.step1).toBeDefined();
       });
       it('...should call `$.publish` and `this.mapFormData`', function() {
 
@@ -65,53 +65,52 @@ describe('Modules.DuplicateExpenseCtrl', function() {
 
     describe('...step2', function() {
       it('...should be defined', function() {
-        expect(moj.Modules.DuplicateExpenseCtrl.step2).toBeDefined()
+        expect(moj.Modules.DuplicateExpenseCtrl.step2).toBeDefined();
       });
     });
 
-    describe('...getDataInput', function() {
+    describe('...getFormData', function() {
       it('...should be defined', function() {
-        expect(moj.Modules.DuplicateExpenseCtrl.getDataInput).toBeDefined()
+        expect(moj.Modules.DuplicateExpenseCtrl.getFormData).toBeDefined();
       });
       it('...return the correct data in the correct format', function() {
         $('body').append(domFixture);
 
-        expect(moj.Modules.DuplicateExpenseCtrl.getDataInput()).toEqual([{
+        expect(moj.Modules.DuplicateExpenseCtrl.getFormData()).toEqual([{
           name: 'this[name][0][modelname]',
           value: '12'
         }]);
 
         domFixture.empty();
-      })
+      });
     });
 
     describe('...getKeyName', function() {
       it('...should be defined', function() {
-        expect(moj.Modules.DuplicateExpenseCtrl.getKeyName).toBeDefined()
+        expect(moj.Modules.DuplicateExpenseCtrl.getKeyName).toBeDefined();
       });
       it('...should return the correct output given the correct input', function() {
         var fixture = {
           name: 'this[is-the][0][modelname1]',
           value: 'false'
-        }
+        };
         expect(moj.Modules.DuplicateExpenseCtrl.getKeyName(fixture)).toEqual('modelname1');
       });
     });
 
     describe('...mapFormData', function() {
       it('...should be defined', function() {
-        expect(moj.Modules.DuplicateExpenseCtrl.mapFormData).toBeDefined()
+        expect(moj.Modules.DuplicateExpenseCtrl.mapFormData).toBeDefined();
       });
 
       it('...should return an `Object`', function() {
         $('body').append(domFixture);
-        var def = moj.Modules.DuplicateExpenseCtrl.mapFormData()
+        var def = moj.Modules.DuplicateExpenseCtrl.mapFormData();
         def.then(function(data) {
           expect(data).toEqual({
             modelname: "12"
           });
-        })
-
+        });
         domFixture.empty();
       });
     });
@@ -139,9 +138,7 @@ describe('Modules.DuplicateExpenseCtrl', function() {
         });
 
         expect(mod.step2).toHaveBeenCalled();
-
       });
     });
-
   });
 });

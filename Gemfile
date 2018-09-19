@@ -61,7 +61,7 @@ gem 'shell-spinner', '~> 1.0', '>= 1.0.4'
 gem 'ruby-progressbar'
 gem 'geckoboard-ruby'
 gem 'posix-spawn', '~> 0.3.13'
-gem 'laa-fee-calculator-client', '~> 0.1.4'
+gem 'laa-fee-calculator-client', '~> 0.2.0'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'

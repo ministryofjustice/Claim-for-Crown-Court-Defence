@@ -93,8 +93,9 @@ Then(/^I add an expense distance of "([^"]*)"$/) do |number|
   @claim_form_page.expenses.last.distance.set number
 end
 
-Then(/^I add an expense date$/) do
-  @claim_form_page.expenses.last.expense_date.set_date '2016-01-02'
+Then(/^I add an expense date for scheme (\d+)$/) do |scheme|
+  date = scheme.match?('10') ? Settings.agfs_fee_reform_release_date.strftime : "2016-01-02"
+  @claim_form_page.expenses.last.expense_date.set_date date
 end
 
 Then(/^I should see a destination label of "([^"]*)"$/) do |label_text|

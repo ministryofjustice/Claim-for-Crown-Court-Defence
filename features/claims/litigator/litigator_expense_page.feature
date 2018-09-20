@@ -28,7 +28,7 @@ Feature: Litigator expense specific page features
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
-    And I add an expense date
+    And I add an expense date for scheme 9
 
     Then I should see 'Expense 1'
     Then I should not see 'Location'

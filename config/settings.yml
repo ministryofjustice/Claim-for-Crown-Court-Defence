@@ -108,7 +108,8 @@ remote_api_url: <%= (ENV['GRAPE_SWAGGER_ROOT_URL'] || 'http://localhost:3001') +
 laa_contact_email: crowncourtdefence@legalaid.gsi.gov.uk
 advocates_email: advocates-fee@justice.gov.uk
 litigators_email: litigators-fee@justice.gov.uk
-phone_contact: '03002002020'
+advocate_phone_contact: '03002002020'
+litigator_phone_contact: '03002002020'
 
 aws:
   access: <%= ENV['AWS_ACCESS_KEY'] %>

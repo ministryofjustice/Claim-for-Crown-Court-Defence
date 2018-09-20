@@ -96,7 +96,8 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
     context 'for a case-type-specific fixed fee with fixed amount (elected case not proceeded)' do
       let(:case_type) { create(:case_type, :elected_cases_not_proceeded) }
-      let(:fee) { create(:fixed_fee, :fxenp_fee, claim: claim, quantity: 1) }
+      let(:fee_type) { create(:fixed_fee_type, :fxenp) }
+      let(:fee) { create(:fixed_fee, fee_type: fee_type, claim: claim, quantity: 1) }
 
       it_returns 'a successful fee calculator response'
       it_returns 'a fee calculator response with amount', amount: 194.0

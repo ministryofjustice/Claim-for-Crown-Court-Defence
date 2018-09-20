@@ -300,6 +300,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     )
   end
 
+  # rubocop:disable Metrics/MethodLength
   def claim_params
     params.require(:claim).permit(
       :form_id,
@@ -437,6 +438,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       ]
     )
   end
+  # rubocop:enable Metrics/MethodLength
 
   def params_with_external_user_and_creator
     form_params = claim_params

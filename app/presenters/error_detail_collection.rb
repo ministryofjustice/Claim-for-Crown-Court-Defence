@@ -1,4 +1,3 @@
-
 # This class holds a collection of ErrorDetail objects, keyed by fieldname to which error it pertains.
 # Each key can hold more than one ErrorDetail.  The class provides specialised methods for retrieving
 # short messages by fieldname, and all the long messages with associated fieldnames

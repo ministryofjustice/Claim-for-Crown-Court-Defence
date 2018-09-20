@@ -1,4 +1,3 @@
-
 class VatAuditor
   def initialize(claim, verbose: false)
     puts ">>>>>>>>>>>> starting audit of claim #{claim.id}"

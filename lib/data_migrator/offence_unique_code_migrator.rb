@@ -15,7 +15,14 @@ module DataMigrator
     def create_offence_set
       @offence_set = {}
       offences.each_with_object(@offence_set) do |offence, set|
-        set[unique_code(offence)] = { id: offence.id, description: offence.description, unique_code: offence.unique_code, contrary: offence.contrary, band: offence.offence_band&.description, class_letter: offence.offence_class&.class_letter }
+        set[unique_code(offence)] = {
+          id: offence.id,
+          description: offence.description,
+          unique_code: offence.unique_code,
+          contrary: offence.contrary,
+          band: offence.offence_band&.description,
+          class_letter: offence.offence_class&.class_letter
+        }
         set
       end
     end

@@ -1,4 +1,3 @@
-
 # class to create specialized text field wrapped in all the GDS gubbins
 class AdpTextField
   attr_reader :form, :method, :options

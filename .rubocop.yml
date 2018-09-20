@@ -25,6 +25,8 @@ Style/FormatStringToken:
 
 Metrics/LineLength:
   Max: 120
+  IgnoredPatterns: ['(\A|\s)#','.*\s+ # .*']
+  AllowHeredoc: true
 
 Metrics/BlockLength:
   ExcludedMethods:
@@ -42,5 +44,9 @@ Metrics/ModuleLength:
     - 'app/models/claims/calculations.rb'
     - 'app/models/claims/state_machine.rb'
     - 'app/helpers/application_helper.rb'
+
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
 
 inherit_from: .rubocop_todo.yml

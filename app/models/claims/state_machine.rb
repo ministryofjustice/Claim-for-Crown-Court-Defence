@@ -51,6 +51,7 @@ module Claims
       return false
     end
 
+    # rubocop:disable Metrics/MethodLength
     def self.included(klass)
       klass.state_machine :state, initial: :draft do
         audit_trail class: ClaimStateTransition, context: %i[reason_code reason_text author_id subject_id]
@@ -157,6 +158,7 @@ module Claims
       }
       klass.scope :caseworker_dashboard_archived, -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
     end
+    # rubocop:enable Metrics/MethodLength
 
     def last_decision_transition
       claim_state_transitions.detect { |t| t.to.in?(CASEWORKER_DASHBOARD_COMPLETED_STATES) }

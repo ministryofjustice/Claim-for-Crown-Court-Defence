@@ -1,4 +1,3 @@
-
 class LaaImportedSuppliers < ActiveRecord::Migration
   def change
     create_table :laa_imported_suppliers do |t|

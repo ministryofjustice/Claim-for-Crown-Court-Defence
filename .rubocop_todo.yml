@@ -6,23 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 234
-# Cop supports --auto-correct.
-Layout/EmptyLineAfterGuardClause:
-  Enabled: false
-
-# Offense count: 7
-# Cop supports --auto-correct.
-Layout/LeadingBlankLines:
-  Exclude:
-    - 'app/controllers/case_conclusions_controller.rb'
-    - 'app/form_builders/adp_text_field.rb'
-    - 'app/models/claim/transfer_brain.rb'
-    - 'app/presenters/error_detail_collection.rb'
-    - 'app/services/stats/claim_percentage_authorised_generator.rb'
-    - 'app/services/vat_auditor.rb'
-    - 'spikes/supplier_import/migrate/20161020133346_laa_imported_suppliers.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 Lint/BigDecimalNew:
@@ -55,20 +38,28 @@ Metrics/AbcSize:
 # Offense count: 21
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 489
+  Max: 200
+  Exclude:
+    - app/models/claim/base_claim.rb
+    - app/controllers/external_users/claims_controller.rb
+    - app/validators/claim/base_claim_validator.rb
+    - app/presenters/claim/base_claim_presenter.rb
 
 # Offense count: 15
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:
-  Max: 242
   Exclude:
     - app/services/reports/injection_errors.rb
+    - app/services/ccr/fee/misc_fee_adapter.rb
+    - app/services/reports/injection_errors.rb
+    - app/interfaces/api/entities/full_claim.rb
+    - lib/data_migrator/*rb
 
 # Offense count: 53
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
-  Max: 135
+  Max: 40
 
 # Offense count: 3
 Metrics/PerceivedComplexity:

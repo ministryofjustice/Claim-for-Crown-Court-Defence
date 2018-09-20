@@ -1,4 +1,3 @@
-
 # Used to conditionally show or hide
 # case conclusion field based on forms
 # current transfer details

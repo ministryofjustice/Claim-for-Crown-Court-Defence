@@ -1,4 +1,3 @@
-
 module Stats
   class ClaimPercentageAuthorisedGenerator
     def initialize

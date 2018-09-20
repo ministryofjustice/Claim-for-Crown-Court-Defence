@@ -1,4 +1,3 @@
-
 # This class holds only static methods to help with
 # validation, determining visibility, the full fee name and the case
 # allocation type for a TransferClaim.

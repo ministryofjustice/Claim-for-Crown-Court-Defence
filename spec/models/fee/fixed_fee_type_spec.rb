@@ -49,9 +49,8 @@ module Fee
 
       context 'for fixed fees that require additional case numbers' do
         %w[FXACU FXASU FXCBU FXCSU FXCDU FXENU FXNOC].each do |unique_code|
-          before { allow(fee_type).to receive(:unique_code).and_return unique_code }
-
           it "#{unique_code} should return true" do
+            expect(fee_type).to receive(:unique_code).at_least(:once).and_return unique_code
             is_expected.to be_truthy
           end
         end
@@ -59,9 +58,8 @@ module Fee
 
       context 'for fixed fees that do not require additional case numbers' do
         %w[FXACV FXASE FXCBR FXCSE FXCON FXCCD FXENP FXH2S FXSAF FXALT FXASS FXASB].each do |unique_code|
-          before { allow(fee_type).to receive(:code).and_return unique_code }
-
           it "#{unique_code} should return false" do
+            expect(fee_type).to receive(:unique_code).at_least(:once).and_return unique_code
             is_expected.to be_falsey
           end
         end

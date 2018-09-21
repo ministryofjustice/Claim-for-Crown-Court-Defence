@@ -561,13 +561,13 @@ moj.Helpers.Blocks = {
       // Car mileage visibility, radio checked & disabled values
       $dom.find('.fx-travel-mileage-car').css('display', config.car);
       $dom.find('.fx-travel-mileage-car input').is(function() {
-        $(this).prop('checked', config.carModel).prop('disabled', !config.carModel);
+        $(this).prop('disabled', !config.carModel);
       });
 
       // Bike mileage visibility, radio checked & disabled values
       $dom.find('.fx-travel-mileage-bike').css('display', config.bike);
       $dom.find('.fx-travel-mileage-bike input[type=radio]').is(function() {
-        $(this).prop('checked', config.bikeModel).prop('disabled', !config.bikeModel);
+        $(this).prop('disabled', !config.bikeModel);
       });
     };
   },

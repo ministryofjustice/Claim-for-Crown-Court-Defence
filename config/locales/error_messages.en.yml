@@ -360,7 +360,7 @@ trial_fixed_notice_at:
     api: 'Check the date for "Notice of 1st fixed/warned issued"'
   check_before_trial_fixed_at:
     long: 'Check the date for "Notice of 1st fixed/warned issued"'
-    short: 'Must be before the "1st fixed/warned trial date"'
+    short: 'Must be 2+ days before the "1st fixed/warned trial date"'
     api: '"Notice of 1st fixed/warned issued" must be on or before "1st fixed/warned trial date"'
   check_before_trial_cracked_at:
     long: 'Check the date for "Notice of 1st fixed/warned issued"'
@@ -383,7 +383,7 @@ trial_fixed_at:
     api: 'Check the date for "1st fixed/warned trial"'
   check_not_earlier_than_trial_fixed_notice_at:
     long: 'Check the date for "1st fixed/warned trial"'
-    short: Can't be before the "Notice of 1st fixed/warned issued"
+    short: Must be 2+ days after "Notice of 1st fixed/warned issued"
     api: 'Check the date for "1st fixed/warned trial"'
   invalid_date:
       long: 'Enter a valid date for the "1st fixed/warned trial"'

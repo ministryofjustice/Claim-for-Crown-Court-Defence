@@ -171,15 +171,14 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be in the future
   # cannot be before earliest rep order
   # cannot be more than 5 years old
-  # must be more than 2 days before trial_fixed_notice_at
+  # must be 2+ days before trial_fixed_notice_at
   def validate_trial_fixed_notice_at
     return unless @record.case_type && @record.requires_cracked_dates?
     validate_presence(:trial_fixed_notice_at, 'blank')
     validate_on_or_before(Date.today, :trial_fixed_notice_at, 'check_not_in_future')
     validate_presence(:trial_fixed_notice_at, 'blank')
     validate_too_far_in_past(:trial_fixed_notice_at)
-    validate_before(@record.trial_fixed_at - 1.day, :trial_fixed_notice_at, 'check_before_trial_fixed_at')
-    # validate_before(@record.trial_fixed_at - 1.days, :trial_fixed_notice_at, 'check_2_days_before_trial_fixed_at')
+    validate_before(@record.trial_fixed_at&.ago(1.day), :trial_fixed_notice_at, 'check_before_trial_fixed_at')
     validate_before(@record.trial_cracked_at, :trial_fixed_notice_at, 'check_before_trial_cracked_at')
   end
 
@@ -187,14 +186,16 @@ class Claim::BaseClaimValidator < BaseValidator
   # REMOVED as trial may never have occured - cannot be in the future
   # cannot be before earliest rep order
   # cannot be more than 5 years old
-  # cannot be before trial_fixed_notice_at
-  # must be more than 2 days after trial_fixed_at
+  # must be 2+ days after trial_fixed_at
   def validate_trial_fixed_at
     return if ignore_validation_for_cracked_trials?
     validate_presence(:trial_fixed_at, 'blank')
     validate_too_far_in_past(:trial_fixed_at)
-    validate_on_or_after(@record.trial_fixed_notice_at + 2.days, :trial_fixed_at, 'check_not_earlier_than_trial_fixed_notice_at')
-    # validate_on_or_after(@record.trial_fixed_notice_at + 2.days, :trial_fixed_at, 'check_2_days_after_trial_fixed_notice_at')
+    validate_on_or_after(
+      @record.trial_fixed_notice_at&.in(2.days),
+      :trial_fixed_at,
+      'check_after_trial_fixed_notice_at'
+    )
   end
 
   # required when case type is cracked, cracked before retrial
@@ -207,8 +208,7 @@ class Claim::BaseClaimValidator < BaseValidator
     validate_presence(:trial_cracked_at, 'blank')
     validate_on_or_before(Date.today, :trial_cracked_at, 'check_not_in_future')
     validate_too_far_in_past(:trial_cracked_at)
-    validate_on_or_after(@record.trial_fixed_notice_at, :trial_cracked_at,
-                         'check_not_earlier_than_trial_fixed_notice_at')
+    validate_on_or_after(@record.trial_fixed_notice_at, :trial_cracked_at, 'check_after_trial_fixed_notice_at')
   end
 
   def ignore_validation_for_cracked_trials?

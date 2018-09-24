@@ -77,6 +77,10 @@ Then(/^I select an expense type "([^"]*)"$/) do |name|
   @claim_form_page.expenses.last.expense_type_dropdown.select name
 end
 
+Then(/^I select a mileage rate of '(\d+)p per mile'$/) do |arg1|
+  @claim_form_page.expenses.last.mileage_20.click
+end
+
 Then(/^I select a travel reason "([^"]*)"$/) do |name|
   @claim_form_page.expenses.last.reason_for_travel_dropdown.select name
 end

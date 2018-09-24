@@ -42,6 +42,8 @@ Feature: Advocate creates, saves, edits claims and expenses
 
     And I add an other reason of "Other reason text"
 
+    And I select a mileage rate of '20p per mile'
+
     Then I should see 'Distance'
     Then I should see 'Cost per mile'
     Then I should see '20p per mile'
@@ -54,4 +56,4 @@ Feature: Advocate creates, saves, edits claims and expenses
     Then I should see 'Other reason text'
     Then I should see '20p'
     Then I should see '873'
-    Then I should see '£34.56'
+    Then I should see '£174.60'

@@ -7,6 +7,7 @@ moj.Modules.DuplicateExpenseCtrl = {
       this.bindEvents();
     }
   },
+
   bindEvents: function() {
     var self = this;
 
@@ -19,7 +20,6 @@ moj.Modules.DuplicateExpenseCtrl = {
     $.subscribe('/step1/complete/', function(e, data) {
       self.step2(data);
     });
-
   },
   /**
    * Step 1 will scrape the DOM for the
@@ -33,6 +33,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     });
     return this;
   },
+
   /**
    * Step 2 will click the add button and
    * fill in the models
@@ -44,6 +45,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     this.populateNewItem(data);
     return this;
   },
+
   /**
    * Here the new dom nodes are given their
    * values and the change events are fired
@@ -51,36 +53,59 @@ moj.Modules.DuplicateExpenseCtrl = {
    */
   populateNewItem: function(data) {
     var $el = $('.expense-group:last');
-
-    this.setInputValue($el, '.fx-travel-distance input', data.distance);
-    this.setInputValue($el, '.fx-travel-hours', data.hours);
-    this.setInputValue($el, '.fx-travel-location input', data.location);
-    this.setInputValue($el, '.fx-travel-destination input', data.destination);
-    this.setInputValue($el, '.fx-travel-net-amount input', data.amount);
-    this.setInputValue($el, '.fx-travel-vat-amount input', data.vat_amount);
-    this.setRadioValue($el, '.fx-travel-mileage input', data.mileage_rate_id);
+    // expense type & travel reasons + other & milage rates
     this.setSelectValue($el, '.fx-travel-expense-type select', data.expense_type_id);
-    this.setSelectValue($el, '.fx-travel-reason select', data.reason_id);
+    this.setSelectValue($el, '.fx-travel-reason select', data.reason_id, data.location_type);
     this.setSelectValue($el, '.fx-travel-reason-other input', data.reason_text);
+
+    //amounts
+    this.setInputValue($el, '.fx-travel-vat-amount input', data.vat_amount);
+    this.setInputValue($el, '.fx-travel-net-amount input', data.amount);
+
+    // Hours & distance
+    this.setInputValue($el, '.fx-travel-hours', data.hours);
+    this.setInputValue($el, '.fx-travel-distance input', data.distance);
+
+    this.setInputValue($el, '.fx-travel-location input', data.location);
+
+    // select the option by the data.location value
+    $el.find('.fx-establishment-select select option').filter(function(idx, el){
+      if($(el).text() == data.location){
+        $(el).prop('selected', true);
+        return;
+      }
+    });
+
+    this.setRadioValue($el, '.fx-travel-mileage input', data.mileage_rate_id);
 
     // trigger the side bar to recalculate all totals
     $('#claim-form').trigger('recalculate');
   },
+
   setRadioValue: function($el, selector, val) {
     if (val) {
       $el.find(selector + '[id$=mileage_rate_id_' + val + ']').prop('checked', true).click();
     }
   },
-  setSelectValue: function($el, selector, val) {
+
+  setSelectValue: function($el, selector, val, location_type) {
+    if (location_type) {
+      $el.find(selector + ' option[data-location-type=' + location_type + ']').prop('selected', true);
+      $el.find(selector).trigger('change');
+      return;
+    }
+
     if (val) {
       $el.find(selector).val(val).trigger('change');
     }
   },
+
   setInputValue: function($el, selector, val) {
     if (val) {
       $el.find(selector).val(val);
     }
   },
+
   /**
    * Get all the `input` & `select` elements and
    * serialise them into an array
@@ -89,6 +114,7 @@ moj.Modules.DuplicateExpenseCtrl = {
   getFormData: function() {
     return $('.expense-group:last').find('input,select').serializeArray();
   },
+
   /**
    * The format of the input is important
    * Here we break up the input name attr

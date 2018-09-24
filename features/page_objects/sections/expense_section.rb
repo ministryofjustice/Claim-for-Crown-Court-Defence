@@ -14,6 +14,9 @@ class ExpenseSection < SitePrism::Section
   element :other_reason_input, "#claim_expenses_attributes_0_reason_text"
   element :amount, "#claim_expenses_attributes_0_amount"
   element :vat_amount, "#claim_expenses_attributes_0_vat_amount"
+  element :mileage_20, ".fx-travel-mileage .fx-travel-mileage-bike label"
+  element :mileage_25, ".fx-travel-mileage .fx-travel-mileage-car label:first"
+  element :mileage_45, ".fx-travel-mileage .fx-travel-mileage-bike label:last"
 
   section :expense_date, "#expense_1_date" do
     include DateHelper

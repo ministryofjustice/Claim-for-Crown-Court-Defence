@@ -542,32 +542,50 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       nulify_fields_on_record(claim, :trial_fixed_notice_at, :trial_fixed_at, :trial_cracked_at)
     end
 
+    RSpec.shared_examples 'validates trial_fixed_notice_at compared to trial_fixed_at' do
+      context 'compared to trial_fixed_at' do
+        let(:options) do
+          {
+            field: :trial_fixed_notice_at,
+            other_field: :trial_fixed_at,
+            message: 'check_before_trial_fixed_at',
+            translated_message: 'Must be 2+ days before the "1st fixed/warned trial date"'
+          }
+        end
+
+        [4,3,2].each do |num|
+          it { is_expected.to include_field_error_when(options.merge(field_value: 3.days.ago.to_date, other_field_value: num.days.ago.to_date)) }
+        end
+
+        it { is_expected.to_not include_field_error_when(options.merge(field_value: 3.days.ago.to_date, other_field_value: 1.day.ago.to_date)) }
+      end
+    end
+
+    RSpec.shared_examples 'validates trial_fixed_at compared to trial_fixed_notice_at' do
+      context 'compared to trial_fixed_notice_at' do
+        let(:options) do
+          {
+            field: :trial_fixed_at,
+            other_field: :trial_fixed_notice_at,
+            message: 'check_after_trial_fixed_notice_at',
+            translated_message: 'Must be 2+ days after "Notice of 1st fixed/warned issued"'
+          }
+        end
+
+        [4, 3, 2].each do |num|
+          it { is_expected.to include_field_error_when(options.merge(field_value: 3.days.ago.to_date, other_field_value: num.days.ago.to_date)) }
+        end
+
+        it { is_expected.to_not include_field_error_when(options.merge(field_value: 5.days.ago.to_date, other_field_value: 7.days.ago.to_date)) }
+      end
+    end
+
     before do
       cracked_trial_claim.force_validation = true
       cracked_before_retrial_claim.force_validation = true
     end
 
     context 'trial_fixed_notice_at' do
-
-      RSpec.shared_examples 'validates trial_fixed_notice_at compared to trial_fixed_at' do
-        context 'compared to trial_fixed_at' do
-          let(:options) do
-            {
-              field: :trial_fixed_notice_at,
-              other_field: :trial_fixed_at,
-              message: 'check_before_trial_fixed_at',
-              translated_message: 'Must be 2+ days before the "1st fixed/warned trial date"'
-            }
-          end
-
-          [4,3,2].each do |num|
-            it { is_expected.to include_field_error_when(options.merge(field_value: 3.days.ago.to_date, other_field_value: num.days.ago.to_date)) }
-          end
-
-          it { is_expected.to_not include_field_error_when(options.merge(field_value: 3.days.ago.to_date, other_field_value: 1.day.ago.to_date)) }
-        end
-      end
-
       context 'cracked_trial_claim' do
         subject { cracked_trial_claim }
 
@@ -596,26 +614,6 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'trial fixed at' do
-
-      RSpec.shared_examples 'validates trial_fixed_at compared to trial_fixed_notice_at' do
-        context 'compared to trial_fixed_notice_at' do
-          let(:options) do
-            {
-              field: :trial_fixed_at,
-              other_field: :trial_fixed_notice_at,
-              message: 'check_after_trial_fixed_notice_at',
-              translated_message: 'Must be 2+ days after "Notice of 1st fixed/warned issued"'
-            }
-          end
-
-          [4, 3, 2].each do |num|
-            it { is_expected.to include_field_error_when(options.merge(field_value: 3.days.ago.to_date, other_field_value: num.days.ago.to_date)) }
-          end
-
-          it { is_expected.to_not include_field_error_when(options.merge(field_value: 5.days.ago.to_date, other_field_value: 7.days.ago.to_date)) }
-        end
-      end
-
       context 'cracked trial claim' do
         subject { cracked_trial_claim }
 

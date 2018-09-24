@@ -120,15 +120,6 @@ module ValidationHelpers
     expect(record.errors[field]).to include(message)
   end
 
-  def should_error_if_after_specified_field_by(record, field, specified_field, period, message)
-    earlier = 365.days.ago
-    later = earlier.ago(period)
-    record.send("#{specified_field}=", earlier)
-    record.send("#{field}=", later)
-    expect(record.send(:valid?)).to be false
-    expect(record.errors[field]).to include(message)
-  end
-
   def should_errror_if_later_than_other_date(record, field, other_date, message, options={})
     record.send("#{field}=", 5.day.ago)
     record.send("#{other_date}=", 7.day.ago)

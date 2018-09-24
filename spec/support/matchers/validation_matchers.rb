@@ -1,17 +1,13 @@
 require 'rspec/expectations'
 
-RSpec::Matchers.define :have_date_error_if_earlier_than_other_field do |options|
-  options.assert_valid_keys :field, :other_field, :message, :translated_message, :translated_message_type, :by
+RSpec::Matchers.define :include_field_error_when do |options|
+  options.assert_valid_keys :field, :other_field, :field_value, :other_field_value, :message, :translated_message, :translated_message_type
   match do |record|
-    date1 = 365.days.ago
-    date2 = date1 + options.fetch(:by, 1.day)
-    record.send("#{options[:field]}=", date1)
-    record.send("#{options[:other_field]}=", date2)
+    record.send("#{options[:field]}=", options[:field_value])
+    record.send("#{options[:other_field]}=", options[:other_field_value])
     record.valid?
     result = record.errors[options[:field]].include?(options[:message]) if options.fetch(:message, nil).present?
-    if options.fetch(:translated_message, nil).present? && result
-      result = translation_match?(options)
-    end
+    result = translation_match?(options) if result && options.fetch(:translated_message, nil).present?
     result
   end
 
@@ -27,7 +23,7 @@ RSpec::Matchers.define :have_date_error_if_earlier_than_other_field do |options|
   end
 
   description do
-    "error when earlier than #{options[:other_field]}#{" by #{options[:by]/86400} days" if options.fetch(:by, nil).present?}"
+    "include error on #{options[:field]} when #{options[:field]}: #{options[:field_value]} and #{options[:other_field]}: #{options[:other_field_value]}"
   end
 
   failure_message do |record|

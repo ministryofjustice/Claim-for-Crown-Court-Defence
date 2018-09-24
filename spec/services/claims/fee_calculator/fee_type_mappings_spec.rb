@@ -6,6 +6,11 @@ RSpec.describe Claims::FeeCalculator::FeeTypeMappings do
     described_class.reset
   end
 
+  after do
+    # important to not impact other tests
+    described_class.reset
+  end
+
   it { is_expected.to respond_to :all }
   it { is_expected.to respond_to :primary_fee_types }
 

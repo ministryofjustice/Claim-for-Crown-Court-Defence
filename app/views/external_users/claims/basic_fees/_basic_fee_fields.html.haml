@@ -1,5 +1,4 @@
 - fee = present(f.object)
--# Setting a namespaced locale pointer
 - locale_scope = "external_users.claims.basic_fees.basic_fee_fields_conditional.#{fee.fee_type_code.downcase}"
 -# Check box input
 .multiple-choice{"data-target" => to_slug(f.object.description), "class" => "fx-hook-#{fee.fee_type_code.downcase}"}
@@ -18,7 +17,7 @@
     = f.adp_text_field :quantity,
                           label: t('quantity', scope: locale_scope),
                           hint_text: t('quantity_hint', scope: locale_scope),
-                          input_classes:'quantity form-control-1-4',
+                          input_classes:'quantity js-fee-quantity form-control-1-4',
                           input_type: 'number',
                           value: fee.quantity,
                           errors: @error_presenter
@@ -26,7 +25,7 @@
     - if f.object.calculated?
       = f.adp_text_field :rate,
                           label: t('.rate'),
-                          input_classes:'rate form-input-denote__input form-control-1-4',
+                          input_classes:'rate js-fee-rate form-input-denote__input form-control-1-4',
                           input_type: 'currency',
                           value: number_with_precision(f.object.rate, precision: 2),
                           errors: @error_presenter
@@ -38,10 +37,9 @@
           - f.object.dates_attended.build unless f.object.dates_attended.any?
           = f.fields_for :dates_attended do |date_attended|
             -# TODO: Numbering, the implementation used on fees will not work here.
-            = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}", locale_scope: locale_scope  }
+            = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}", locale_scope: locale_scope }
 
-
-        = link_to_add_association t('.add_dates'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields',  render_options: { locals: { locale_scope: locale_scope } }, data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
+        = link_to_add_association t('.add_dates'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields', render_options: { locals: { locale_scope: locale_scope } }, data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
 
     -# Case numbers
     - if f.object.fee_type.case_uplift?
@@ -54,8 +52,7 @@
     = f.adp_text_field :amount,
                           label: t('.net_amount'),
                           input_disabled: f.object.calculated? ? true : false,
-                          input_classes:'total form-input-denote__input form-control-1-4',
+                          input_classes:'total js-fee-amount form-input-denote__input form-control-1-4',
                           input_type: 'currency',
                           value: number_with_precision(f.object.amount, precision: 2),
                           errors: @error_presenter
-

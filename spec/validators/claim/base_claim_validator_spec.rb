@@ -548,35 +548,72 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'trial_fixed_notice_at' do
+
+      RSpec.shared_examples 'validates trial_fixed_notice_at compared to trial_fixed_at' do
+        context 'compared to trial_fixed_at' do
+          let(:options) do
+            {
+              field: :trial_fixed_notice_at,
+              other_field: :trial_fixed_at,
+              message: 'check_before_trial_fixed_at',
+              translated_message: 'Must be 2+ days before the "1st fixed/warned trial date"'
+            }
+          end
+
+          [4,3,2].each do |num|
+            it { is_expected.to include_field_error_when(options.merge(field_value: 3.days.ago.to_date, other_field_value: num.days.ago.to_date)) }
+          end
+
+          it { is_expected.to_not include_field_error_when(options.merge(field_value: 3.days.ago.to_date, other_field_value: 1.day.ago.to_date)) }
+        end
+      end
+
       context 'cracked_trial_claim' do
+        subject { cracked_trial_claim }
+
         it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_notice_at, 'blank', translated_message: 'Enter a date') }
         it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_in_future', translated_message: 'Can\'t be in the future')}
         it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
-        it { should_error_if_after_specified_field_by(cracked_trial_claim, :trial_fixed_notice_at, :trial_fixed_at, 1.day, 'check_before_trial_fixed_at')}
         it { should_error_if_after_specified_field(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
         it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
         it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
+
+        include_examples 'validates trial_fixed_notice_at compared to trial_fixed_at'
       end
 
       context 'cracked_before_retrial claim' do
+        subject { cracked_before_retrial_claim }
+
         it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_notice_at, 'blank') }
         it { should_error_if_in_future(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check_not_in_future', translated_message: 'Can\'t be in the future') }
         it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
-        it { should_error_if_after_specified_field_by(cracked_trial_claim, :trial_fixed_notice_at, :trial_fixed_at, 1.day, 'check_before_trial_fixed_at') }
-        it { should_error_if_after_specified_field(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
-        it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
-        it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
+        it { should_error_if_after_specified_field(cracked_before_retrial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
+        it { should_error_if_field_dates_match(cracked_before_retrial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
+        it { should_error_if_field_dates_match(cracked_before_retrial_claim, :trial_fixed_notice_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
+
+        include_examples 'validates trial_fixed_notice_at compared to trial_fixed_at'
       end
     end
 
     context 'trial fixed at' do
-      let(:options) do
-        {
-          field: :trial_fixed_at,
-          other_field: :trial_fixed_notice_at,
-          message: 'check_after_trial_fixed_notice_at',
-          translated_message: 'Must be 2+ days after "Notice of 1st fixed/warned issued"'
-        }
+
+      RSpec.shared_examples 'validates trial_fixed_at compared to trial_fixed_notice_at' do
+        context 'compared to trial_fixed_notice_at' do
+          let(:options) do
+            {
+              field: :trial_fixed_at,
+              other_field: :trial_fixed_notice_at,
+              message: 'check_after_trial_fixed_notice_at',
+              translated_message: 'Must be 2+ days after "Notice of 1st fixed/warned issued"'
+            }
+          end
+
+          [4, 3, 2].each do |num|
+            it { is_expected.to include_field_error_when(options.merge(field_value: 3.days.ago.to_date, other_field_value: num.days.ago.to_date)) }
+          end
+
+          it { is_expected.to_not include_field_error_when(options.merge(field_value: 5.days.ago.to_date, other_field_value: 7.days.ago.to_date)) }
+        end
       end
 
       context 'cracked trial claim' do
@@ -585,11 +622,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
         it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_at, 'blank', translated_message: 'Enter a date') }
         it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_fixed_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
 
-        [1, 0, -1].each do |num|
-          it { is_expected.to have_date_error_if_earlier_than_other_field(options.merge(by: num.days)) }
-        end
-
-        it { is_expected.not_to have_date_error_if_earlier_than_other_field(options.merge(by: -2.days)) }
+        include_examples 'validates trial_fixed_at compared to trial_fixed_notice_at'
       end
 
       context 'cracked before retrial' do
@@ -598,11 +631,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
         it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_at, 'blank', translated_message: 'Enter a date') }
         it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
 
-        [1, 0, -1].each do |num|
-          it { is_expected.to have_date_error_if_earlier_than_other_field(options.merge(by: num.days)) }
-        end
-
-        it { is_expected.not_to have_date_error_if_earlier_than_other_field(options.merge(by: -2.days)) }
+        include_examples 'validates trial_fixed_at compared to trial_fixed_notice_at'
       end
     end
 

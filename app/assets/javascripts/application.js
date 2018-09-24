@@ -102,6 +102,17 @@ if (!String.prototype.supplant) {
     $(this).trigger('recalculate');
   });
 
+  $('#basic-fees').on('change', '.js-fee-rate, .js-fee-quantity', function() {
+    var $el, quantity, rate, amount;
+
+    $el = $(this).closest('.basic-fee-group');
+    quantity = $el.find('.js-fee-quantity').val();
+    rate = $el.find('.js-fee-rate').val();
+    amount = quantity * rate;
+
+    $el.find('.js-fee-amount').val(amount.toFixed(2));
+  });
+
   // this is a bit hacky
   // TODO: To be moved to more page based controllers
   $('#basic-fees').on('change', '.multiple-choice input[type=checkbox]', function(e){

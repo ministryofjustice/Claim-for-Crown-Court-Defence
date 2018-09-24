@@ -6,6 +6,7 @@ describe('Modules.DuplicateExpenseCtrl', function() {
     '<input name="this[name][0][modelname]" value="12" />',
     '</div>',
     '<a class="fx-duplicate-expense" href="">Duplicate this expense</a>',
+    '<a class="add_fields" href="">Add another expense</a>',
     '</div>'
   ].join('');
 
@@ -40,6 +41,32 @@ describe('Modules.DuplicateExpenseCtrl', function() {
       });
     });
 
+    describe('...bindEvents', function() {
+      it('should have `bindEvents` defined', function() {
+        expect(moj.Modules.DuplicateExpenseCtrl.bindEvents).toBeDefined();
+      });
+      it('...should bind the `.fx-duplicate-expense` event', function() {
+        var mod = moj.Modules.DuplicateExpenseCtrl;
+        spyOn(mod, 'step1');
+        expect(mod.step1).not.toHaveBeenCalled();
+        $('.fx-duplicate-expense').click();
+        expect(mod.step1).toHaveBeenCalled();
+      });
+      it('...should subscribe to `/step1/complete/` event', function() {
+        var mod = moj.Modules.DuplicateExpenseCtrl;
+
+        spyOn(mod, 'step2');
+
+        expect(mod.step2).not.toHaveBeenCalled();
+
+        $.publish('/step1/complete/', {
+          data: 'object'
+        });
+
+        expect(mod.step2).toHaveBeenCalled();
+      });
+    });
+
     describe('...step1', function() {
       it('...should be defined', function() {
         expect(moj.Modules.DuplicateExpenseCtrl.step1).toBeDefined();
@@ -47,8 +74,10 @@ describe('Modules.DuplicateExpenseCtrl', function() {
       it('...should call `$.publish` and `this.mapFormData`', function() {
 
         // set up spy
-        spyOn($, 'publish').and.callThrough();
-        spyOn(moj.Modules.DuplicateExpenseCtrl, 'mapFormData').and.returnValue($.when({a:'e'}));
+        spyOn($, 'publish');
+        spyOn(moj.Modules.DuplicateExpenseCtrl, 'mapFormData').and.returnValue($.when({
+          a: 'e'
+        }));
 
         // expect not to be called
         expect($.publish).not.toHaveBeenCalled();
@@ -58,7 +87,9 @@ describe('Modules.DuplicateExpenseCtrl', function() {
         moj.Modules.DuplicateExpenseCtrl.step1();
 
         // // expect to have been called
-        expect($.publish).toHaveBeenCalledWith('/step1/complete/', { a: 'e' });
+        expect($.publish).toHaveBeenCalledWith('/step1/complete/', {
+          a: 'e'
+        });
         expect(moj.Modules.DuplicateExpenseCtrl.mapFormData).toHaveBeenCalled();
       });
     });
@@ -115,30 +146,6 @@ describe('Modules.DuplicateExpenseCtrl', function() {
       });
     });
 
-    describe('...bindEvents', function() {
-      it('should have `bindEvents` defined', function() {
-        expect(moj.Modules.DuplicateExpenseCtrl.bindEvents).toBeDefined();
-      });
-      it('...should bind the `.fx-duplicate-expense` event', function() {
-        var mod = moj.Modules.DuplicateExpenseCtrl;
-        spyOn(mod, 'step1');
-        expect(mod.step1).not.toHaveBeenCalled();
-        $('.fx-duplicate-expense').click();
-        expect(mod.step1).toHaveBeenCalled();
-      });
-      it('...should subscribe to `/step1/complete/` event', function() {
-        var mod = moj.Modules.DuplicateExpenseCtrl;
 
-        spyOn(mod, 'step2');
-
-        expect(mod.step2).not.toHaveBeenCalled();
-
-        $.publish('/step1/complete/', {
-          data: 'object'
-        });
-
-        expect(mod.step2).toHaveBeenCalled();
-      });
-    });
   });
 });

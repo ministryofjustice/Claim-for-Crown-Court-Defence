@@ -26,6 +26,7 @@ end
 shared_examples 'defendant upliftable' do
   it { is_expected.to respond_to(:defendant_uplift?) }
   it { is_expected.to respond_to(:orphan_defendant_uplift?) }
+  it { is_expected.to respond_to(:case_uplift_parent_unique_code) }
 
  describe '#defendant_uplift?' do
     subject { fee_type.defendant_uplift? }
@@ -68,6 +69,29 @@ shared_examples 'defendant upliftable' do
     it 'includes orphan defendant uplift unique codes' do
       is_expected.to include(*%w[BANDR FXNDR MIUPL])
     end
+  end
+
+  describe '.defendant_uplift_parent_unique_code' do
+    subject { fee_type.defendant_uplift_parent_unique_code }
+
+    context 'for non-orphan defendant uplift fees types' do
+      before { allow(fee_type).to receive(:unique_code).and_return 'MIAHU' }
+
+      it 'returns parent fee type unique code' do
+        is_expected.to eql 'MIAPH'
+      end
+    end
+
+    context 'for orphan defendant uplift fees types' do
+      before { allow(fee_type).to receive(:unique_code).and_return 'MIUPL' }
+      it { is_expected.to be_nil }
+    end
+
+    context 'for non-defendant uplift fees types' do
+      before { allow(fee_type).to receive(:unique_code).and_return 'MIAPH' }
+      it { is_expected.to be_nil }
+    end
+
   end
 
   describe '::DEFENDANT_UPLIFT_MAPPINGS' do

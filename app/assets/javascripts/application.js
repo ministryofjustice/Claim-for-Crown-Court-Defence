@@ -134,8 +134,15 @@ if (!String.prototype.supplant) {
     var $insertedItem = $(insertedItem);
 
     moj.Modules.FeeCalculator.fixedFeeTypeChange($insertedItem.find('.js-fixed-fee-calculator-fee-type'));
-    moj.Modules.FeeCalculator.fixedFeeQuantityChange($insertedItem.find('.js-fixed-fee-calculator-quantity'));
+    moj.Modules.FeeCalculator.feeQuantityChange($insertedItem.find('.js-fixed-fee-calculator-quantity'));
     moj.Modules.FeeCalculator.fixedFeeRateChange($insertedItem.find('.js-fixed-fee-calculator-rate'));
+  });
+
+  $('#misc-fees').on('cocoon:after-insert', function(e, insertedItem) {
+    var $insertedItem = $(insertedItem);
+
+    moj.Modules.FeeCalculator.miscFeeTypeChange($insertedItem.find('.js-misc-fee-calculator-fee-type'));
+    moj.Modules.FeeCalculator.feeQuantityChange($insertedItem.find('.js-misc-fee-calculator-quantity'));
   });
 
   /**

@@ -1,9 +1,9 @@
-describe('Helpers.SideBar.js', function() {
+describe('Helpers.Blocks.js', function() {
   it('should exist with expected constructors', function() {
-    expect(moj.Helpers.SideBar).toBeDefined();
-    expect(moj.Helpers.SideBar.Base).toBeDefined();
-    expect(moj.Helpers.SideBar.FeeBlock).toBeDefined();
-    expect(moj.Helpers.SideBar.FeeBlockCalculator).toBeDefined();
+    expect(moj.Helpers.Blocks).toBeDefined();
+    expect(moj.Helpers.Blocks.Base).toBeDefined();
+    expect(moj.Helpers.Blocks.FeeBlock).toBeDefined();
+    expect(moj.Helpers.Blocks.FeeBlockCalculator).toBeDefined();
   });
 
   describe('Methods', function() {
@@ -21,7 +21,7 @@ describe('Helpers.SideBar.js', function() {
         };
 
         ['0.01', '0.11', '1.11', '11.11', '111.11', '1111.11', '11111.11', '111111111.11'].forEach(function(val, idx) {
-          expect(expected[idx]).toBe(moj.Helpers.SideBar.addCommas(val));
+          expect(expected[idx]).toBe(moj.Helpers.Blocks.addCommas(val));
         });
       });
     });
@@ -33,7 +33,7 @@ describe('Helpers.SideBar.js', function() {
 
     describe('Base', function() {
       it('should have defaults set', function() {
-        instance = new moj.Helpers.SideBar.Base();
+        instance = new moj.Helpers.Blocks.Base();
         expect(instance.config).toEqual({
           type: '_Base',
           vatfactor: 0.2,
@@ -42,7 +42,7 @@ describe('Helpers.SideBar.js', function() {
       });
 
       it('should take an `options` object and overide', function() {
-        instance = new moj.Helpers.SideBar.Base({
+        instance = new moj.Helpers.Blocks.Base({
           type: 'TYPE',
           vatfactor: 99,
           autoVAT: false
@@ -55,9 +55,9 @@ describe('Helpers.SideBar.js', function() {
       });
 
       it('should cache referances to the DOM element', function() {
-        var fixtureDom = ['<div class="js-block">', '<span>hello</span>', '</div>'].join('');
+        var fixtureDom = ['<div class="js-block fx-do-init">', '<span>hello</span>', '</div>'].join('');
         $('body').append(fixtureDom);
-        instance = new moj.Helpers.SideBar.Base({
+        instance = new moj.Helpers.Blocks.Base({
           $el: $('.js-block'),
           el: fixtureDom
         });
@@ -69,7 +69,7 @@ describe('Helpers.SideBar.js', function() {
       describe('Methods', function() {
         describe('...getConfig', function() {
           it('should return the correct `this.config` prop', function() {
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               some: 'thing'
             });
             expect(instance.getConfig('type')).toBe('_Base');
@@ -79,7 +79,7 @@ describe('Helpers.SideBar.js', function() {
 
         describe('...updateTotals', function() {
           it('should return a info message', function() {
-            instance = new moj.Helpers.SideBar.Base();
+            instance = new moj.Helpers.Blocks.Base();
             expect(instance.updateTotals()).toBe('This method needs an override');
           });
         });
@@ -87,14 +87,14 @@ describe('Helpers.SideBar.js', function() {
         describe('...isVisible', function() {
           it('should correctly return the `isVisible` status', function() {
             var fixtureDom = [
-              '<div class="js-block">',
+              '<div class="js-block fx-do-init">',
               '<span class="rate">rate</span>',
               '<span class="amount">amount</span>',
               '<span class="total">total</span>',
               '</div>'
             ].join('');
             $('body').append(fixtureDom);
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               $el: $('.js-block'),
               el: fixtureDom
             });
@@ -107,7 +107,7 @@ describe('Helpers.SideBar.js', function() {
 
         describe('...applyVat', function() {
           it('should not apply 20% VAT by default', function() {
-            instance = new moj.Helpers.SideBar.Base();
+            instance = new moj.Helpers.Blocks.Base();
             instance.totals = {
               vat: 0,
               total: 100
@@ -117,7 +117,7 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('should not apply VAT if `autoVAT` is false', function() {
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               autoVAT: false
             });
             instance.totals = {
@@ -129,7 +129,7 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('should use a configurable `config.vatfactor`', function() {
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               vatfactor: 0.5,
               autoVAT: true
             });
@@ -145,13 +145,13 @@ describe('Helpers.SideBar.js', function() {
         describe('...getVal', function() {
           beforeEach(function() {
             var fixtureDom = [
-              '<div class="js-block">',
+              '<div class="js-block fx-do-init">',
               '<input class="rate" value="22.22"/>',
               '<input class="amount" value="33.33"/>',
               '</div>'
             ].join('');
             $('body').append(fixtureDom);
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               $el: $('.js-block'),
               el: fixtureDom
             });
@@ -175,12 +175,12 @@ describe('Helpers.SideBar.js', function() {
         describe('...getDataVal', function() {
           beforeEach(function() {
             var fixtureDom = [
-              '<div class="js-block">',
+              '<div class="js-block fx-do-init">',
               '<input class="total" data-total="44.44" value="44.44"/>',
               '</div>'
             ].join('');
             $('body').append(fixtureDom);
-            instance = new moj.Helpers.SideBar.Base({
+            instance = new moj.Helpers.Blocks.Base({
               $el: $('.js-block'),
               el: fixtureDom
             });
@@ -199,17 +199,109 @@ describe('Helpers.SideBar.js', function() {
             expect(instance.getDataVal('total')).toBe(false);
           });
         });
+
+        // TO DO
+        describe('...setState', function() {
+          beforeEach(function() {
+            var fixtureDom = [
+              '<div class="js-block fx-do-init">',
+              '<input class="total" data-total="44.44" value="44.44"/>',
+              '</div>'
+            ].join('');
+            $('body').append(fixtureDom);
+            instance = new moj.Helpers.Blocks.Base({
+              $el: $('.js-block'),
+              el: fixtureDom
+            });
+          });
+
+          afterEach(function() {
+            $('.js-block').remove();
+          });
+
+          it('should throw an error if no element is found', function() {
+
+            expect(function() {
+              instance.setState('.tal', true);
+            }).toThrowError('Selector did not return an element: .tal');
+
+          });
+
+          it('should set the visibility of the selector', function() {
+            instance.setState('.total', true);
+            expect(instance.$el.find('.total:visible').length).toEqual(1);
+
+            instance.setState('.total', false);
+            expect(instance.$el.find('.total:visible').length).toEqual(0);
+          });
+        });
+
+        describe('...setVal', function() {
+          beforeEach(function() {
+            var fixtureDom = [
+              '<div class="js-block fx-do-init">',
+              '<input class="total" data-total="44.44" value="44.44"/>',
+              '</div>'
+            ].join('');
+            $('body').append(fixtureDom);
+            instance = new moj.Helpers.Blocks.Base({
+              $el: $('.js-block'),
+              el: fixtureDom
+            });
+          });
+
+          afterEach(function() {
+            $('.js-block').remove();
+          });
+
+          it('should throw an error if no element is found', function() {
+
+            expect(function() {
+              instance.setVal('.tal', 83.333339);
+            }).toThrowError('Selector did not return an element: .tal');
+
+          });
+
+          it('should set the value of the selector', function() {
+            instance.setVal('.total', 83.333339);
+            expect(instance.$el.find('.total').val()).toEqual('83.333339');
+          });
+        });
+
+        describe('...setNumber', function() {
+          beforeEach(function() {
+            var fixtureDom = [
+              '<div class="js-block fx-do-init">',
+              '<input class="total" data-total="44.44" value="44.44"/>',
+              '</div>'
+            ].join('');
+            $('body').append(fixtureDom);
+            instance = new moj.Helpers.Blocks.Base({
+              $el: $('.js-block'),
+              el: fixtureDom
+            });
+          });
+
+          afterEach(function() {
+            $('.js-block').remove();
+          });
+
+          it('should set the value of the selector', function() {
+            instance.setNumber('.total', 83.333339);
+            expect(instance.$el.find('.total').val()).toEqual('83.33');
+          });
+        });
       });
     });
 
     describe('FeeBlock', function() {
       it('should apply Base Methods and set config props on the instance', function() {
         var fixtureDom = [
-          '<div class="js-block">',
+          '<div class="js-block fx-do-init">',
           '</div>'
         ].join('');
         $('body').append(fixtureDom);
-        instance = new moj.Helpers.SideBar.FeeBlock({
+        instance = new moj.Helpers.Blocks.FeeBlock({
           type: 'FeeBlock',
           $el: $('.js-block'),
           el: fixtureDom
@@ -223,7 +315,7 @@ describe('Helpers.SideBar.js', function() {
         var fixtureDom;
         beforeEach(function() {
           fixtureDom = [
-            '<div class="js-block">',
+            '<div class="js-block fx-do-init">',
             '<input class="quantity" value="11.11"/>',
             '<input class="rate" value="22.22"/>',
             '<input class="amount" value="33.33"/>',
@@ -232,7 +324,7 @@ describe('Helpers.SideBar.js', function() {
             '</div>'
           ].join('');
           $('body').append(fixtureDom);
-          instance = new moj.Helpers.SideBar.FeeBlock({
+          instance = new moj.Helpers.Blocks.FeeBlock({
             $el: $('.js-block'),
             el: fixtureDom
           });
@@ -359,11 +451,11 @@ describe('Helpers.SideBar.js', function() {
     describe('FeeBlockCalculator', function() {
       it('should apply Base Methods and set config props on the instance', function() {
         var fixtureDom = [
-          '<div class="js-block">',
+          '<div class="js-block fx-do-init">',
           '</div>'
         ].join('');
         $('body').append(fixtureDom);
-        instance = new moj.Helpers.SideBar.FeeBlockCalculator({
+        instance = new moj.Helpers.Blocks.FeeBlockCalculator({
           type: 'FeeBlockCalculator',
           $el: $('.js-block'),
           el: fixtureDom
@@ -379,7 +471,7 @@ describe('Helpers.SideBar.js', function() {
         var fixtureDom;
         beforeEach(function() {
           fixtureDom = [
-            '<div class="js-block">',
+            '<div class="js-block fx-do-init">',
             '<input class="quantity" value="11.11"/>',
             '<input class="rate" value="22.22"/>',
             '<input class="amount" value="33.33"/>',
@@ -388,7 +480,7 @@ describe('Helpers.SideBar.js', function() {
             '</div>'
           ].join('');
           $('body').append(fixtureDom);
-          instance = new moj.Helpers.SideBar.FeeBlockCalculator({
+          instance = new moj.Helpers.Blocks.FeeBlockCalculator({
             $el: $('.js-block'),
             el: fixtureDom
           });
@@ -467,12 +559,12 @@ describe('Helpers.SideBar.js', function() {
 
         beforeEach(function() {
           fixtureDom = [
-            '<div class="js-block">',
+            '<div class="js-block fx-do-init">',
             '</div>'
           ].join('');
           $('body').append(fixtureDom);
 
-          instance = new moj.Helpers.SideBar.ExpenseBlock({
+          instance = new moj.Helpers.Blocks.ExpenseBlock({
             type: 'ExpenseBlock',
             $el: $('.js-block'),
             el: fixtureDom
@@ -552,6 +644,43 @@ describe('Helpers.SideBar.js', function() {
               "id": 4,
               "reason": "View of crime scene",
               "reason_text": false
+            }],
+            "C": [{
+              "id": 1,
+              "reason": "Court hearing (Crown court)",
+              "location_type": "crown_court",
+              "reason_text": false
+            }, {
+              "id": 1,
+              "reason": "Court hearing (Magistrates' court)",
+              "location_type": "magistrates_court",
+              "reason_text": false
+            }, {
+              "id": 2,
+              "reason": "Pre-trial conference expert witnesses",
+              "reason_text": false
+            }, {
+              "id": 3,
+              "reason": "Pre-trial conference defendant (prison)",
+              "location_type": "prison",
+              "reason_text": false
+            }, {
+              "id": 3,
+              "reason": "Pre-trial conference defendant (hospital)",
+              "location_type": "hospital",
+              "reason_text": false
+            }, {
+              "id": 3,
+              "reason": "Pre-trial conference defendant (other)",
+              "reason_text": false
+            }, {
+              "id": 4,
+              "reason": "View of crime scene",
+              "reason_text": false
+            }, {
+              "id": 5,
+              "reason": "Other",
+              "reason_text": true
             }]
           });
         });
@@ -561,26 +690,58 @@ describe('Helpers.SideBar.js', function() {
         var fixtureDom;
         beforeEach(function() {
           fixtureDom = [
-            '<div class="js-block">',
+            '<div class="js-block fx-do-init">',
+            '<input class="fx-location-model" value ="sample"/>',
             '<input class="quantity" value="11.11"/>',
             '<input class="rate" value="22.22"/>',
             '<input class="amount" value="33.33"/>',
             '<span class="total" data-total="44.44" />',
             '<div class="fx-travel-expense-type"><select><option value="">please select</option><option value="1">option selected</option></select></div>',
-            '<div class="fx-travel-reason"><select><option value="">please select</option><option data-reason-text="true" value="1">option selected</option></select></div>',
+            '<div class="fx-travel-reason"><select><option value="">please select</option><option data-reason-text="true" value="1">option 1</option><option data-reason-text="false" value="2" data-location-type="test-location">option 2</option></select></div>',
             '<div class="fx-travel-reason-other" style="display:none"><span>here</span></div>',
+            '<div class="fx-travel-location">',
+            '<div class="location_wrapper"><label>Destination</label><input type="text" value=""></div>',
+            '<div class="fx-establishment-select"><label class="form-label-bold" for="location">Crown court</label><select id="location"><option value="">please select</option><option value="1" selected>establishment selected</option></select></div>',
+            '</div>',
+            '<div class="fx-travel-mileage">',
+            ' <div class="fx-travel-mileage-bike">',
+            '   <input type="hidden" name="mileage_rate_id" value="" />',
+            '   <div class="multiple-choice">',
+            '     <input type="radio" value="3" name="mileage_rate_id" id="mileage_rate_id_3" />',
+            '     <label for="mileage_rate_id_3">20p per mile</label>',
+            '   </div>',
+            ' </div>',
+            ' <div class="fx-travel-mileage-car">',
+            '   <input type="hidden" name="mileage_rate_id" value="" disabled="" />',
+            '   <div class="multiple-choice">',
+            '     <input type="radio" value="1" name="mileage_rate_id" id="mileage_rate_id_1" />',
+            '     <label for="mileage_rate_id_1">25p per mile</label>',
+            '   </div>',
+            '   <div class="multiple-choice">',
+            '     <input type="radio" value="2" name="mileage_rate_id" id="mileage_rate_id_2" checked/>',
+            '     <label for="mileage_rate_id_2">45p per mile</label>',
+            '   </div>',
+            ' </div>',
+            '</div>',
+            '<div class="fx-travel-net-amount"><input value=""/></div>',
+            '<div class="fx-travel-vat-amount"><input value=""/></div>',
+            '<div class="fx-travel-distance"><input value=""/></div>',
             '<input class="vat" value=""/>',
             '</div>'
           ].join('');
-          $('body').append(fixtureDom);
-          instance = new moj.Helpers.SideBar.ExpenseBlock({
+
+          var el = $('<div id="claim-form" data-claim-id="99"><form><div id="expenses" data-feature-distance="true"></div></form></div>').append(fixtureDom);
+
+          $('body').append(el);
+
+          instance = new moj.Helpers.Blocks.ExpenseBlock({
             $el: $('.js-block'),
             el: fixtureDom
           });
         });
 
         afterEach(function() {
-          $('.js-block').remove();
+          $('#claim-form').remove();
         });
 
         describe('...init', function() {
@@ -593,6 +754,14 @@ describe('Helpers.SideBar.js', function() {
             spyOn(instance, 'loadCurrentState');
             instance.init();
             expect(instance.loadCurrentState).toHaveBeenCalled();
+          });
+          it('should update `this.config.fn`', function() {
+            spyOn(instance, 'bindEvents');
+            spyOn(instance, 'loadCurrentState');
+
+            instance.init();
+            expect(instance.config.fn).toEqual('ExpenseBlock');
+            expect(instance.config.featureDistance).toEqual(true);
           });
         });
 
@@ -612,7 +781,7 @@ describe('Helpers.SideBar.js', function() {
 
         describe('...bindListners', function() {
           it('expense type: should bind change listner', function() {
-            var selector = '.fx-travel-expense-type select'
+            var selector = '.fx-travel-expense-type select';
             var spyEvent = spyOnEvent(selector, 'change');
 
             $(selector).change();
@@ -622,26 +791,16 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('expense type: should handle change event', function() {
-            var selector = '.fx-travel-expense-type select'
+            var selector = '.fx-travel-expense-type select';
             instance.bindListners();
             spyOn(instance, 'statemanager');
             $(selector).change();
 
-            expect(instance.statemanager).toHaveBeenCalled();
-          });
-
-          xit('expense type: should handle change event (Hidden elements)', function() {
-            var selector = '.fx-travel-expense-type select'
-
-            instance.bindListners();
-            spyOn(instance, 'cleanupHiddenElements');
-
-            $(selector).change();
-            expect(instance.cleanupHiddenElements).toHaveBeenCalledWith('form');
+            expect(instance.statemanager).toHaveBeenCalledWith(selector);
           });
 
           it('travel reason: should bind change listner', function() {
-            var selector = '.fx-travel-reason select:last'
+            var selector = '.fx-travel-reason select:last';
             var spyEvent = spyOnEvent(selector, 'change');
 
             $(selector).change();
@@ -651,17 +810,278 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('travel reason: should handle change event', function() {
-            var selector = '.fx-travel-reason select:last'
+            var selector = '.fx-travel-reason select:last';
+            spyOn(instance, 'setVal');
+            spyOn(instance, 'setLocationElement');
 
             instance.bindListners();
             $(selector).prop('selectedIndex', 1).change();
+
             expect(instance.$el.find('.fx-travel-reason-other').is(':visible')).toBe(true);
+
+            $(selector).prop('selectedIndex', 2).change();
+            expect(instance.$el.find('.fx-travel-reason-other').is(':visible')).toBe(false);
+          });
+
+          it('travel reason: should call `this.setVal` passing params', function() {
+            var selector = '.fx-travel-reason select:last';
+            spyOn(instance, 'setVal');
+            spyOn(instance, 'setState');
+            spyOn(instance, 'setLocationElement');
+
+            instance.bindListners();
+            $(selector).prop('selectedIndex', 1).change();
+
+            expect(instance.setVal).toHaveBeenCalledWith('.fx-location-type', '');
+
+
+            $(selector).prop('selectedIndex', 2).change();
+            expect(instance.setVal).toHaveBeenCalledWith('.fx-location-type', 'test-location');
+          });
+
+          it('travel reason: should call `this.setState` passing params', function() {
+            var selector = '.fx-travel-reason select:last';
+            spyOn(instance, 'setVal');
+            spyOn(instance, 'setState');
+            spyOn(instance, 'setLocationElement');
+
+            instance.bindListners();
+            $(selector).prop('selectedIndex', 1).change();
+
+            expect(instance.setState).toHaveBeenCalledWith('.fx-travel-reason-other', true);
+
+            $(selector).prop('selectedIndex', 2).change();
+            expect(instance.setState).toHaveBeenCalledWith('.fx-travel-reason-other', false);
+          });
+
+          it('travel reason: should call `this.setLocationElement` passing params', function() {
+            var selector = '.fx-travel-reason select:last';
+            spyOn(instance, 'setVal');
+            spyOn(instance, 'setState');
+            spyOn(instance, 'setLocationElement');
+
+            instance.bindListners();
+            $(selector).prop('selectedIndex', 1).change();
+
+            expect(instance.setLocationElement).toHaveBeenCalledWith({
+              reasonText: true
+            });
+
+            $(selector).prop('selectedIndex', 2).change();
+            expect(instance.setLocationElement).toHaveBeenCalledWith({
+              reasonText: false,
+              locationType: 'test-location'
+            });
+          });
+
+          it('establishment location: should bind change listner', function() {
+            var selector = '.fx-establishment-select select:last';
+            var spyEvent = spyOnEvent(selector, 'change');
+
+            $(selector).change();
+
+            expect('change').toHaveBeenTriggeredOn(selector);
+            expect(spyEvent).toHaveBeenTriggered();
+          });
+
+          it('establishment location: should set the `.fx-location-model`', function() {
+            var selector = '.fx-establishment-select select:last';
+
+            instance.bindListners();
+            $(selector).prop('selectedIndex', 1).change();
+
+            expect($('.fx-location-model').val()).toEqual('establishment selected');
+
+          });
+
+          it('establishment location: should call `this.getDistance` if feature is enabled', function() {
+            var deferred = $.Deferred();
+            spyOn(instance, 'getDistance').and.returnValue(deferred.promise());
+
+            var selector = '.fx-establishment-select select:last';
+
+            instance.bindListners();
+            instance.distanceLookupEnabled = true;
+            $(selector).prop('selectedIndex', 1).change();
+
+            expect(instance.getDistance).toHaveBeenCalledWith({
+              claimid: 99,
+              destination: 'establishment selected'
+            });
+          });
+
+          xit('establishment location: should set the `net amount` and `vat amount`', function() {
+            var deferred = $.Deferred();
+            spyOn(instance, 'getDistance').and.returnValue(deferred.promise());
+
+            var selector = '.fx-establishment-select select:last';
+
+            instance.bindListners();
+            instance.distanceLookupEnabled = true;
+            $(selector).prop('selectedIndex', 1).change();
+
+            deferred.resolve({
+              miles: 99
+            });
+
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('44.55');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('8.91');
+            expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('99');
           });
         });
+
+        describe('...setLocationElement', function() {
+          it('should exist as a function', function() {
+            expect(instance.setLocationElement).toEqual(jasmine.any(Function));
+          });
+
+          it('should return an error if no params supplied', function() {
+            expect(function() {
+              instance.setLocationElement();
+            }).toThrowError('Missing param: obj, cannot build element');
+          });
+
+          it('should call `this.attachSelectWithOptions` if param.locationType is supplied', function() {
+            spyOn(instance, 'attachSelectWithOptions');
+            instance.setLocationElement({
+              locationType: 'not empty'
+            });
+            expect(instance.attachSelectWithOptions).toHaveBeenCalledWith('not empty', 'sample');
+          });
+
+          it('should call `this.attachSelectWithOptions` with param', function() {
+            spyOn(instance, 'attachSelectWithOptions');
+            instance.$el.find('.fx-location-model').val('');
+            instance.setLocationElement({
+              locationType: 'not empty'
+            });
+            expect(instance.attachSelectWithOptions).toHaveBeenCalledWith('not empty', '');
+          });
+
+          it('should call `this.displayLocationInput` ', function() {
+            spyOn(instance, 'displayLocationInput');
+            instance.$el.find('.fx-location-model').val('');
+            instance.setLocationElement({
+              locationType: undefined
+            });
+            expect(instance.displayLocationInput).toHaveBeenCalledWith();
+          });
+        });
+
+        describe('...updateMileageElements', function() {
+          it('...should calculate for 25p', function() {
+            instance.init();
+
+            // API success callback
+            instance.updateMileageElements('1', {
+              distance: 166956,
+              miles: 104
+            });
+            expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('104');
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('26.00');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('5.20');
+
+            // Event binding callback
+            instance.setNumber('.fx-travel-distance input', 583);
+            instance.updateMileageElements('1');
+            expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('583');
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('145.75');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('29.15');
+
+          });
+
+          it('...should calculate for 45p', function() {
+            instance.init();
+
+            // API success callback
+            instance.updateMileageElements('2', {
+              distance: 166956,
+              miles: 104
+            });
+            expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('104');
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('46.80');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('9.36');
+
+            // Event binding callback
+            instance.setNumber('.fx-travel-distance input', 583);
+            instance.updateMileageElements('2');
+            expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('583');
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('262.35');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('52.47');
+          });
+
+          it('...should calculate for 20p', function() {
+            instance.init();
+
+            // API success callback
+            instance.updateMileageElements('3', {
+              distance: 166956,
+              miles: 104
+            });
+            expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('104');
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('20.80');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('4.16');
+
+            // Event binding callback
+            instance.setNumber('.fx-travel-distance input', 583);
+            instance.updateMileageElements('3');
+            expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('583');
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('116.60');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('23.32');
+          });
+        });
+
+        xdescribe('...getDistance', function() {
+          it('should behave...', function() {
+            var deferred = $.Deferred();
+            spyOn(moj.Helpers.API.Distance, 'query').and.returnValue(deferred.promise());
+
+            instance.getDistance({
+              claimid: 2,
+              destination: "Aylesbury"
+            }).then(function(result) {
+              expect(moj.Helpers.API.Distance.query).toHaveBeenCalledWith({
+                claimid: 2,
+                destination: 'Aylesbury'
+              });
+              expect(result).toEqual({
+                distance: 204993,
+                miles: 127
+              });
+            });
+
+            deferred.resolve({
+              distance: 204993
+            });
+
+          });
+        });
+
+        describe('...displayLocationInput', function() {
+          it('should update the view correctly', function() {
+            instance.init();
+            instance.displayLocationInput();
+            expect(instance.$el.find('.fx-travel-location label:first').text()).toEqual('Destination');
+            expect(instance.$el.find('.location_wrapper').css('display')).toEqual('block');
+            expect(instance.$el.find('.fx-establishment-select').css('display')).toEqual('none');
+          });
+        });
+
+        describe('...getRateId', function() {
+          it('...should return the correct rateId', function() {
+            instance.init();
+            expect(instance.getRateId()).toEqual('2');
+          });
+        });
+
+        // attachSelectWithOptions
+        // loadCurrentState
+        // setTotals
+        // statemanager
+        // radioStateManager
+        // setRadioState
+
       });
     });
-
-
-
   });
 });

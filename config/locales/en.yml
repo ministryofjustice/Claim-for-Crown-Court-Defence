@@ -838,7 +838,7 @@ en:
           date_hint: For example 31 3 2017
           destination: Destination
           distance: Distance
-          distance_hint: Total distance for the return journey
+          distance_hint: Total mileage for the return journey
           distance_summary_heading: How we calculate the distance
           distance_summary_text: |
             We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison.
@@ -1105,6 +1105,14 @@ en:
         total: 'Total'
         no_fees: 'No fees for this claim'
         no_disbursements: 'No disbursements for this claim'
+    expenses:
+      distances:
+        create:
+          errors:
+            claim_not_found: Cannot calculate distance without a valid claim
+            invalid_claim_type: Cannot calculate distance for this type of claim
+            missing_origin: Supplier associated with the claim does not have a postcode
+            missing_destination: Destination not provided
     litigators:
       interim_claims:
         new:

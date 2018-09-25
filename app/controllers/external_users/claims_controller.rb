@@ -17,6 +17,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   before_action :set_and_authorize_claim, only: %i[show edit update unarchive clone_rejected destroy summary
                                                    confirmation show_message_controls messages disc_evidence]
+  before_action :set_supplier_postcode, only: %i[edit update]
   before_action :set_form_step, only: %i[edit update]
   before_action :redirect_unless_editable, only: %i[edit update]
   before_action :generate_form_id, only: %i[new edit]
@@ -283,6 +284,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     authorize! params[:action].to_sym, @claim
   end
 
+  def set_supplier_postcode
+    @supplier_postcode = SupplierNumber.find_by(supplier_number: @claim&.supplier_number)&.postcode
+  end
+
   def set_form_step
     return unless @claim
     @claim.form_step = params[:step] ||
@@ -418,6 +423,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :claim_id,
         :expense_type_id,
         :location,
+        :location_type,
         :quantity,
         :amount,
         :vat_amount,
@@ -425,6 +431,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :reason_id,
         :reason_text,
         :distance,
+        :calculated_distance,
         :mileage_rate_id,
         :hours,
         date_attributes_for(:date),

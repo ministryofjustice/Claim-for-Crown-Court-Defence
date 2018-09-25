@@ -549,7 +549,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
             field: :trial_fixed_notice_at,
             other_field: :trial_fixed_at,
             message: 'check_before_trial_fixed_at',
-            translated_message: 'Must be 2+ days before the "1st fixed/warned trial date"'
+            translated_message: 'Must be 2+ days before the "1st fixed/warned trial" date'
           }
         end
 
@@ -568,7 +568,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
             field: :trial_fixed_at,
             other_field: :trial_fixed_notice_at,
             message: 'check_after_trial_fixed_notice_at',
-            translated_message: 'Must be 2+ days after "Notice of 1st fixed/warned issued"'
+            translated_message: 'Must be 2+ days after "Notice of 1st fixed/warned issued" date'
           }
         end
 

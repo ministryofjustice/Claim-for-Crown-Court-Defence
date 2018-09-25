@@ -6,7 +6,7 @@
 module Claims
   module FeeCalculator
     Response = Struct.new(:success?, :data, :errors, :message, keyword_init: true)
-    Data = Struct.new(:amount, keyword_init: true)
+    Data = Struct.new(:amount, :unit, keyword_init: true)
 
     class Calculate
       delegate  :earliest_representation_order_date,
@@ -30,7 +30,7 @@ module Claims
 
       def call
         setup(options)
-        response(true, amount)
+        response(true, build_data(amount))
       rescue StandardError => err
         Rails.logger.error("error: #{err.message}")
         response(false, err, I18n.t('fee_calculator.calculate.amount_unavailable'))
@@ -148,11 +148,17 @@ module Claims
 
       def defendant_uplift_parent
         return primary_fee_type_on_page if fee_type.orphan_defendant_uplift?
+        fee_type.defendant_uplift_parent
       end
 
       def response(success, data, message = nil)
-        return Response.new(success?: true, data: Data.new(amount: data), errors: nil, message: message) if success
+        return Response.new(success?: true, data: data, errors: nil, message: message) if success
         Response.new(success?: false, data: nil, errors: [data], message: message)
+      end
+
+      def build_data(data)
+        return Data.new(amount: data.per_unit, unit: data.unit) if data.is_a?(Price)
+        Data.new(amount: data)
       end
 
       def client

@@ -11,6 +11,10 @@ RSpec.shared_examples 'a successful fee calculator response' do
     expect(response.data.amount).to be_kind_of Float
   end
 
+  it 'includes unit' do
+    expect(response.data.unit).to be_kind_of String 
+  end
+
   it 'includes no errors' do
     expect(response.errors).to be_nil
   end

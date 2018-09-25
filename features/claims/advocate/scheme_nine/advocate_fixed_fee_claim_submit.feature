@@ -28,17 +28,18 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
     And the last fixed fee should have fee type options 'Appeals to the crown court against sentence,Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
     And I add a fixed fee 'Appeals to the crown court against sentence'
     Then the last fixed fee case numbers section should not be visible
-    Then the last fixed fee rate should be populated with '108.00'
+    Then the last 'fixed' fee rate should be populated with '108.00'
 
     And I add a fixed fee 'Number of cases uplift' with case numbers
     Then the last fixed fee case numbers section should be visible
-    Then the last fixed fee rate should be populated with '21.60'
-
-    And I eject the VCR cassette
+    Then the last 'fixed' fee rate should be populated with '21.60'
 
     Then I click "Continue" in the claim form
 
-    And I add a miscellaneous fee 'Special preparation fee' with dates attended
+    And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended
+    Then the last 'miscellaneous' fee rate should be populated with '39.00'
+
+    And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
 
@@ -65,4 +66,4 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£238.46'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£243.79'

@@ -21,6 +21,10 @@
 
 en:
   date: Date
+  distance:
+    unit:
+      one: 'mile'
+      other: 'miles'
   net_amount: &net_amount Net amount
   rate: &rate Rate
   views:
@@ -1237,6 +1241,7 @@ en:
         travel_expense_additional_information: Additional expenses information
         travel_expenses: Travel expenses
         index:
+          calculated_distance: Calculated distance
           caption: *expenses_caption
           date: Date of expense
           details: Details
@@ -1250,6 +1255,7 @@ en:
           totals_without_vat: Expenses without VAT total
           vat: VAT amount
         show:
+          calculated_distance: Calculated distance
           cost: Cost
           destination: Destination
           distance: Distance

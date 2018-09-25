@@ -33,6 +33,11 @@ module Claims
           price.fee_per_unit.to_f * modifier_scale_factor * parent_quantity
       end
 
+      def unit
+        return singular_modifier_name if modifier_name
+        price.unit
+      end
+
       def modifier
         return nil unless modifier_name
 
@@ -45,6 +50,10 @@ module Claims
       end
 
       private
+
+      def singular_modifier_name
+        modifier_name.upcase.to_s.singularize.sub(/NUMBER_OF_/, '')
+      end
 
       def modifier_scale_factor
         return 1 unless modifier

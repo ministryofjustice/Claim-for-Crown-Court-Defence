@@ -3,6 +3,7 @@ moj.Helpers.Blocks = {
     var _options = {
       type: '_Base',
       vatfactor: 0.2,
+      mileageFactor: 0.45,
       autoVAT: false
     };
     this.config = $.extend({}, _options, options);
@@ -310,9 +311,9 @@ moj.Helpers.Blocks = {
           self.getDistance({
             claimid: $('#claim-form').data('claimId'),
             destination: $option.text()
-          }).then(function(number, result){
+          }).then(function(number, result) {
             self.updateMileageElements(number, result);
-          }, function(error){
+          }, function(error) {
             self.viewErrorHandler(error);
           });
         }
@@ -322,19 +323,19 @@ moj.Helpers.Blocks = {
         self.updateMileageElements(self.getRateId());
       });
 
-      this.$el.on('keyup', '.fx-travel-distance input', function(e){
+      this.$el.on('keyup', '.fx-travel-distance input', function(e) {
         self.updateMileageElements(self.getRateId());
       });
 
       return this;
     };
 
-    this.getRateId = function(){
+    this.getRateId = function() {
       return this.$el.find('.fx-travel-mileage input[type=radio]:checked').val();
     };
 
     this.updateMileageElements = function(rateId, result) {
-      var factor = (rateId == '3') ? 0.20 : (rateId == '1') ? 0.25 : 0.45;
+      var factor = (rateId == '3') ? 0.20 : (rateId == '1') ? 0.25 : this.config.mileageFactor;
       if (!result) {
         result = {
           miles: self.$el.find('.fx-travel-distance input').val()
@@ -359,7 +360,7 @@ moj.Helpers.Blocks = {
       return def.promise();
     };
 
-    this.viewErrorHandler = function(message){
+    this.viewErrorHandler = function(message) {
       var el = this.$el.find('.fx-general-errors');
       el.find('span').text(message);
       el.css('display', 'inline-block');
@@ -475,7 +476,7 @@ moj.Helpers.Blocks = {
 
       // location
       $detached.find(this.stateLookup.location).css('display', (state.config.location ? 'block' : 'none'));
-      if(this.config.featureDistance){
+      if (this.config.featureDistance) {
         $detached.find(this.stateLookup.location + ' .has-select label').contents().first()[0].textContent = state.config.locationLabel;
       }
 
@@ -537,6 +538,7 @@ moj.Helpers.Blocks = {
     this.radioStateManager = function($dom, state) {
       // Mileage radios: BIKE
       if (state.config.mileageType === 'bike') {
+        this.config.mileageFactor = 0.20;
         this.setRadioState($dom, {
           car: 'none',
           carModel: false,
@@ -547,6 +549,7 @@ moj.Helpers.Blocks = {
 
       // Mileage radios: BIKE
       if (state.config.mileageType === 'car') {
+        this.config.mileageFactor = 0.45;
         this.setRadioState($dom, {
           car: 'block',
           carModel: true,
@@ -567,7 +570,7 @@ moj.Helpers.Blocks = {
       // Bike mileage visibility, radio checked & disabled values
       $dom.find('.fx-travel-mileage-bike').css('display', config.bike);
       $dom.find('.fx-travel-mileage-bike input[type=radio]').is(function() {
-        $(this).prop('disabled', !config.bikeModel);
+        $(this).prop('checked', config.bikeModel).prop('disabled', !config.bikeModel);
       });
     };
   },

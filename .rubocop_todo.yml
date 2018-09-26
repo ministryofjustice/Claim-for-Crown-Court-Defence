@@ -17,12 +17,6 @@ Lint/DuplicateMethods:
   Exclude:
     - 'app/models/claim/base_claim.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Lint/UnneededCopDisableDirective:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-
 # Offense count: 49
 Metrics/AbcSize:
   Max: 87

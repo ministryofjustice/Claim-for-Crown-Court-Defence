@@ -37,7 +37,8 @@ describe('Helpers.Blocks.js', function() {
         expect(instance.config).toEqual({
           type: '_Base',
           vatfactor: 0.2,
-          autoVAT: false
+          autoVAT: false,
+          mileageFactor: 0.45
         });
       });
 
@@ -50,7 +51,8 @@ describe('Helpers.Blocks.js', function() {
         expect(instance.config).toEqual({
           type: 'TYPE',
           vatfactor: 99,
-          autoVAT: false
+          autoVAT: false,
+          mileageFactor: 0.45
         });
       });
 

@@ -185,15 +185,11 @@ RSpec.describe Claim, type: :model do
       context 'with VAT' do
         before do
           allow(claim).to receive_messages(vat_registered?: true, apply_vat?: true)
+          create(:basic_fee, claim: claim, quantity: 1, rate: 200)
+          create(:expense, claim: claim, amount: 9.99)
         end
 
-        it 'should automatically add VAT' do
-          is_expected.to have_totals(fees_total: 0.0, fees_vat: 0.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 0.0, expenses_vat: 0.0)
-
-          claim.basic_fees << create(:basic_fee, claim: claim, quantity: 1, rate: 200)
-          is_expected.to have_totals(fees_total: 200.0, fees_vat: 40.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 0.0, expenses_vat: 0.0)
-
-          claim.expenses << create(:expense, claim: claim, amount: 9.99)
+        it 'automatically applies VAT' do
           is_expected.to have_totals(fees_total: 200.0, fees_vat: 40.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 9.99, expenses_vat: 2.0)
         end
       end
@@ -204,8 +200,8 @@ RSpec.describe Claim, type: :model do
         end
 
         context 'with no fees, expenses or disbursements' do
-          it 'applies no VAT' do
-            is_expected.to have_totals(fees_total: 0.0, fees_vat: 0.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 0.0, expenses_vat: 0.0)
+          it 'has zero totals and vat' do
+            is_expected.to have_totals(fees_total: 0.00, fees_vat: 0.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 0.0, expenses_vat: 0.0)
           end
         end
 
@@ -218,6 +214,27 @@ RSpec.describe Claim, type: :model do
 
           it 'applies no VAT' do
             is_expected.to have_totals(fees_total: 300.00, fees_vat: 0.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 9.99, expenses_vat: 0.0)
+          end
+        end
+      end
+
+      # This recreates a bug found on expenses for api claim
+      # submissions by non-vat-registered suppliers/providers
+      # with apply_vat=true whereby expenses were not VAT'd.
+      context 'with apply_vat flag set to true on a non-VAT registered provider' do
+        before do
+          allow(claim).to receive_messages(vat_registered?: false, apply_vat?: true)
+        end
+
+        context 'with fees and expenses' do
+          before do
+            create(:basic_fee, claim: claim, quantity: 1, rate: 200)
+            create(:misc_fee, claim: claim, quantity: 2, rate: 50)
+            create(:expense, claim: claim, amount: 9.99)
+          end
+
+          it 'automatically adds VAT' do
+            is_expected.to have_totals(fees_total: 300.0, fees_vat: 60.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 9.99, expenses_vat: 2.0)
           end
         end
       end

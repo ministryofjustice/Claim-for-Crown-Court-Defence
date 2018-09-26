@@ -4,7 +4,8 @@ moj.Helpers.Blocks = {
       type: '_Base',
       vatfactor: 0.2,
       mileageFactor: 0.45,
-      autoVAT: false
+      autoVAT: false,
+      metersPerMile: 1609.34
     };
     this.config = $.extend({}, _options, options);
     this.$el = this.config.$el;
@@ -307,12 +308,13 @@ moj.Helpers.Blocks = {
         var $option = $(e.target).find('option:selected');
 
         self.$el.find('.fx-location-model').val($option.text());
+
         if (self.distanceLookupEnabled) {
           self.getDistance({
             claimid: $('#claim-form').data('claimId'),
             destination: $option.text()
           }).then(function(number, result) {
-            self.updateMileageElements(number, result);
+            self.updateMileageElements(number, false, result);
           }, function(error) {
             self.viewErrorHandler(error);
           });
@@ -320,11 +322,11 @@ moj.Helpers.Blocks = {
       });
 
       this.$el.on('change, click', '.fx-travel-mileage input', function(e) {
-        self.updateMileageElements(self.getRateId());
+        self.updateMileageElements(self.getRateId(), true);
       });
 
       this.$el.on('keyup', '.fx-travel-distance input', function(e) {
-        self.updateMileageElements(self.getRateId());
+        self.updateMileageElements(self.getRateId(), true);
       });
 
       return this;
@@ -334,7 +336,7 @@ moj.Helpers.Blocks = {
       return this.$el.find('.fx-travel-mileage input[type=radio]:checked').val();
     };
 
-    this.updateMileageElements = function(rateId, result) {
+    this.updateMileageElements = function(rateId, calculate, result) {
       var factor = (rateId == '3') ? 0.20 : (rateId == '1') ? 0.25 : this.config.mileageFactor;
       if (!result) {
         result = {
@@ -342,8 +344,11 @@ moj.Helpers.Blocks = {
         };
       }
       self.setNumber('.fx-travel-distance input', result.miles, '0');
-      self.setNumber('.fx-travel-net-amount input', result.miles * factor);
-      self.setNumber('.fx-travel-vat-amount input', (result.miles * factor) * 0.2);
+
+      if (calculate || self.$el.find('.fx-travel-mileage input:checked').length) {
+        self.setNumber('.fx-travel-net-amount input', result.miles * factor);
+        self.setNumber('.fx-travel-vat-amount input', (result.miles * factor) * self.config.vatfactor);
+      }
     };
 
     // TO DO: specs
@@ -352,7 +357,7 @@ moj.Helpers.Blocks = {
       var self = this;
       moj.Helpers.API.Distance.query(ajaxConfig).then(function(result) {
         var number = self.$el.find('.fx-travel-mileage input:checked').val();
-        result.miles = Math.round((result.distance / 1609.34));
+        result.miles = Math.round((result.distance / self.config.metersPerMile));
         def.resolve(number, result);
       }, function(result) {
         def.reject(result.error);
@@ -565,12 +570,13 @@ moj.Helpers.Blocks = {
       $dom.find('.fx-travel-mileage-car').css('display', config.car);
       $dom.find('.fx-travel-mileage-car input').is(function() {
         $(this).prop('disabled', !config.carModel);
+
       });
 
       // Bike mileage visibility, radio checked & disabled values
       $dom.find('.fx-travel-mileage-bike').css('display', config.bike);
       $dom.find('.fx-travel-mileage-bike input[type=radio]').is(function() {
-        $(this).prop('checked', config.bikeModel).prop('disabled', !config.bikeModel);
+        $(this).prop('checked', config.bikeModel).prop('disabled', !config.bikeModel).change();
       });
     };
   },

@@ -38,7 +38,8 @@ describe('Helpers.Blocks.js', function() {
           type: '_Base',
           vatfactor: 0.2,
           autoVAT: false,
-          mileageFactor: 0.45
+          mileageFactor: 0.45,
+          metersPerMile: 1609.34
         });
       });
 
@@ -52,7 +53,8 @@ describe('Helpers.Blocks.js', function() {
           type: 'TYPE',
           vatfactor: 99,
           autoVAT: false,
-          mileageFactor: 0.45
+          mileageFactor: 0.45,
+          metersPerMile: 1609.34
         });
       });
 
@@ -720,7 +722,7 @@ describe('Helpers.Blocks.js', function() {
             '     <label for="mileage_rate_id_1">25p per mile</label>',
             '   </div>',
             '   <div class="multiple-choice">',
-            '     <input type="radio" value="2" name="mileage_rate_id" id="mileage_rate_id_2" checked/>',
+            '     <input type="radio" value="2" name="mileage_rate_id" id="mileage_rate_id_2"/>',
             '     <label for="mileage_rate_id_2">45p per mile</label>',
             '   </div>',
             ' </div>',
@@ -975,20 +977,20 @@ describe('Helpers.Blocks.js', function() {
             instance.init();
 
             // API success callback
-            instance.updateMileageElements('1', {
+            instance.updateMileageElements('1', false, {
               distance: 166956,
               miles: 104
             });
             expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('104');
-            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('26.00');
-            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('5.20');
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('');
 
             // Event binding callback
             instance.setNumber('.fx-travel-distance input', 583);
             instance.updateMileageElements('1');
             expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('583');
-            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('145.75');
-            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('29.15');
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('');
 
           });
 
@@ -996,40 +998,41 @@ describe('Helpers.Blocks.js', function() {
             instance.init();
 
             // API success callback
-            instance.updateMileageElements('2', {
+            instance.updateMileageElements('2', false, {
               distance: 166956,
               miles: 104
             });
             expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('104');
-            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('46.80');
-            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('9.36');
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('');
 
             // Event binding callback
             instance.setNumber('.fx-travel-distance input', 583);
             instance.updateMileageElements('2');
             expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('583');
-            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('262.35');
-            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('52.47');
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('');
           });
 
           it('...should calculate for 20p', function() {
             instance.init();
 
             // API success callback
-            instance.updateMileageElements('3', {
+            instance.updateMileageElements('3', false, {
               distance: 166956,
               miles: 104
             });
             expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('104');
-            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('20.80');
-            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('4.16');
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('');
 
             // Event binding callback
             instance.setNumber('.fx-travel-distance input', 583);
             instance.updateMileageElements('3');
             expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('583');
-            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('116.60');
-            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('23.32');
+            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('');
+            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('');
+
           });
         });
 
@@ -1072,17 +1075,10 @@ describe('Helpers.Blocks.js', function() {
         describe('...getRateId', function() {
           it('...should return the correct rateId', function() {
             instance.init();
+            instance.$el.find('.fx-travel-mileage input[type=radio]:last').prop('checked', true);
             expect(instance.getRateId()).toEqual('2');
           });
         });
-
-        // attachSelectWithOptions
-        // loadCurrentState
-        // setTotals
-        // statemanager
-        // radioStateManager
-        // setRadioState
-
       });
     });
   });

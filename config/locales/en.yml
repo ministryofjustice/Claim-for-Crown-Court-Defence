@@ -830,6 +830,9 @@ en:
           additional_info_heading: Additional information (optional)
           additional_info_label: Provide any information that will help in the assessment of your expenses
         expense_fields:
+          summary_heading: "How we calculate the distance"
+          summary_content: |
+            We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison
           select_option: Please select
           travel_reason: Travel reason
           type_of_expense: Type of expense

@@ -19,14 +19,6 @@ Lint/DuplicateMethods:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-# Configuration parameters: Whitelist.
-# Whitelist: present?, blank?, presence, try, try!
-Lint/SafeNavigationConsistency:
-  Exclude:
-    - 'app/models/fee/base_fee.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
 Lint/UnneededCopDisableDirective:
   Exclude:
     - 'app/controllers/application_controller.rb'

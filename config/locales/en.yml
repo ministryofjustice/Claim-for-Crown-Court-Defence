@@ -1259,7 +1259,8 @@ en:
           vat: VAT amount
         show:
           calculated_distance: Calculated distance
-          cost: Cost
+          cost: Cost per mile
+          origin: Origin
           destination: Destination
           distance: Distance
           hours: Hours

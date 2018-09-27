@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180823134645) do
+ActiveRecord::Schema.define(version: 20180927091047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -178,8 +178,8 @@ ActiveRecord::Schema.define(version: 20180823134645) do
     t.datetime "updated_at"
     t.date     "date_to"
     t.uuid     "uuid",               default: -> { "uuid_generate_v4()" }
-    t.string   "attended_item_type"
     t.integer  "attended_item_id"
+    t.string   "attended_item_type"
     t.index ["attended_item_id", "attended_item_type"], name: "index_dates_attended_on_attended_item_id_and_attended_item_type", using: :btree
   end
 
@@ -596,8 +596,8 @@ ActiveRecord::Schema.define(version: 20180823134645) do
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.string   "persona_type"
     t.integer  "persona_id"
+    t.string   "persona_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "first_name"
@@ -631,7 +631,6 @@ ActiveRecord::Schema.define(version: 20180823134645) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   end
 
-  add_foreign_key "injection_attempts", "claims"
   add_foreign_key "offence_bands", "offence_categories"
   add_foreign_key "offences", "offence_bands"
 end

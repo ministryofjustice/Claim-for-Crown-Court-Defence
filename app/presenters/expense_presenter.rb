@@ -31,6 +31,10 @@ class ExpensePresenter < BasePresenter
     "#{calculated_distance} #{t('distance.unit', count: calculated_distance)}"
   end
 
+  def location_postcode
+    Establishment.find_by(name: expense.location).postcode
+  end
+
   def hours
     h.number_with_precision(expense.hours, precision: 2, strip_insignificant_zeros: true)
   end

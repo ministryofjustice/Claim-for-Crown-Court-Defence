@@ -931,6 +931,7 @@ describe('Helpers.Blocks.js', function() {
             expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('44.55');
             expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('8.91');
             expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('99');
+            expect(instance.$el.find('.fx-travel-calculated-distance').val()).toEqual('99');
           });
         });
 

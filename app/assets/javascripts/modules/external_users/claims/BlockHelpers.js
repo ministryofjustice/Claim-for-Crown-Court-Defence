@@ -358,6 +358,7 @@ moj.Helpers.Blocks = {
       moj.Helpers.API.Distance.query(ajaxConfig).then(function(result) {
         var number = self.$el.find('.fx-travel-mileage input:checked').val();
         result.miles = Math.round((result.distance / self.config.metersPerMile));
+        self.$el.find('.fx-travel-calculated-distance').val(result.miles);
         def.resolve(number, result);
       }, function(result) {
         def.reject(result.error);

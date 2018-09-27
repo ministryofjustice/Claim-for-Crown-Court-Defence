@@ -15,7 +15,7 @@
       = f.select :fee_type_id,
           fixed_fee_types_collection.map { |fee| [fee.description, fee.id, { data: fee.data_attributes }]},
           { include_blank: ''.html_safe },
-          {class: 'form-control js-fixed-fee-type js-fee-type js-fixed-fee-calculator-fee-type typeahead', style: 'width:100%'}
+          {class: 'form-control js-fixed-fee-type js-fee-type js-fee-calculator-fee-type typeahead', style: 'width:100%'}
 
       = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")
 
@@ -32,11 +32,11 @@
       value: fee.quantity,
       errors: @error_presenter
 
-  .js-fixed-fee-calculator-effectee
-    .calculated-fixed-fee
+  .js-fee-calculator-effectee
+    .calculated-fee
     = f.adp_text_field :rate,
         label: t('.rate'),
-        input_classes:'rate fee-rate js-fixed-fee-calculator-rate form-input-denote__input form-control-1-4',
+        input_classes:'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
         input_type: 'currency',
         errors: @error_presenter,
         input_readonly: f.object.rate_calculated?,

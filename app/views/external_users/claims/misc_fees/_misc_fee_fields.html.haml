@@ -13,7 +13,7 @@
       = f.collection_select :fee_type_id,
        @claim.eligible_misc_fee_types, :id, :description,
        {include_blank: ''.html_safe },
-       {class: 'form-control js-misc-fee-type js-fee-type js-misc-fee-calculator-fee-type typeahead', style: 'width:100%'}
+       {class: 'form-control js-misc-fee-type js-fee-type js-fee-calculator-fee-type typeahead', style: 'width:100%'}
 
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 
@@ -25,11 +25,11 @@
                           value: fee.quantity,
                           errors: @error_presenter
 
-  .js-misc-fee-calculator-effectee
-    .calculated-misc-fee
+  .js-fee-calculator-effectee
+    .calculated-fee
     = f.adp_text_field :rate,
         label: t('.rate'),
-        input_classes:'rate fee-rate js-misc-fee-calculator-rate form-input-denote__input form-control-1-4',
+        input_classes:'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
         input_type: 'currency',
         errors: @error_presenter,
         input_readonly: f.object.rate_calculated?,

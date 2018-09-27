@@ -134,7 +134,7 @@ if (!String.prototype.supplant) {
     var $insertedItem = $(insertedItem);
 
     moj.Modules.FeeCalculator.feeTypeChange($insertedItem.find('.js-fee-calculator-fee-type'));
-    moj.Modules.FeeCalculator.feeQuantityChange($insertedItem.find('.js-fixed-fee-calculator-quantity'));
+    moj.Modules.FeeCalculator.feeQuantityChange($insertedItem.find('.js-fee-calculator-quantity'));
     moj.Modules.FeeCalculator.feeRateChange($insertedItem.find('.js-fee-calculator-rate'));
   });
 

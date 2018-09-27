@@ -65,6 +65,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     // Hours & distance
     this.setInputValue($el, '.fx-travel-hours', data.hours);
     this.setInputValue($el, '.fx-travel-distance input', data.distance);
+    this.setInputValue($el, '.fx-travel-calculated-distance', data.calculated_distance);
 
     this.setInputValue($el, '.fx-travel-location input', data.location);
 

@@ -21,7 +21,12 @@ moj.Modules.ExpensesDataTable = {
     ],
 
     columnDefs: [
-      { targets: 2, orderable: false }
+      {targets: 0, width: '1%'},
+      {targets: 1, width: '1%'},
+      { targets: 2, orderable: false },
+      {targets: 3, width: '1%'},
+      {targets: 4, width: '1%'},
+      {targets: 5, width: '1%'},
     ]
   },
 

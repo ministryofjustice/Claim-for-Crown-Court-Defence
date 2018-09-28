@@ -6,9 +6,13 @@ module CaseWorkers::TravelHelper
     origin = options.delete(:origin)
     destination = options.delete(:destination)
     travelmode = options.delete(:travelmode) || 'driving'
-    if origin.present? && destination.present?
-      url = "https://www.google.co.uk/maps/dir/?api=1&origin=#{origin}&destination=#{destination}&travelmode=#{travelmode}"
-      link_to(body, url, options)
-    end
+
+    link_to(body, google_map_url(origin, destination, travelmode), options) if origin.present? && destination.present?
+  end
+
+  private
+
+  def google_map_url(origin, destination, travelmode)
+    "https://www.google.co.uk/maps/dir/?api=1&origin=#{origin}&destination=#{destination}&travelmode=#{travelmode}"
   end
 end

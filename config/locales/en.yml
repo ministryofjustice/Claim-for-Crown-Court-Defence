@@ -1262,7 +1262,7 @@ en:
           cost: Cost per mile
           origin: Origin
           destination: Destination
-          view_map_link: View on map
+          view_map_link: View on a map
           distance: Distance
           hours: Hours
       fee: Fee

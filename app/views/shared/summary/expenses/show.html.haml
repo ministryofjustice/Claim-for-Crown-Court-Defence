@@ -12,29 +12,29 @@
           %span.bold
             = succeed ':' do
               = t('.origin')
-          = claim.supplier_postcode
+          = claim.supplier_name
+          = "(#{claim.supplier_postcode})"
           %br/
           %span.bold
             = succeed ':' do
               = t('.destination')
           = expense.location
-          = expense.location_postcode
+          = "(#{expense.location_postcode})"
         - if expense.distance?
+          %li
+            %span.bold
+              = succeed ':' do
+                = t('.distance')
+            = "#{expense.distance} miles"
           - if claim.lgfs?
             %li{ class: ('error' if expense.diff_distances?) }
               %span.bold
                 = succeed ':' do
                   = t('.calculated_distance')
               = expense.pretty_calculated_distance
-
+              %br/
+              = link_to_map t('.view_map_link'), origin: claim.supplier_postcode, destination: expense.location_postcode, target: '_blank'
           %li
-            %span.bold
-              = succeed ':' do
-                = t('.distance')
-            = "#{expense.distance} miles"
-            %br/
-            = link_to_map t('.view_map_link'), origin: claim.supplier_postcode, destination: expense.location_postcode, target: '_blank'
-            %li
             %span.bold
               = succeed ':' do
                 = t('.cost')

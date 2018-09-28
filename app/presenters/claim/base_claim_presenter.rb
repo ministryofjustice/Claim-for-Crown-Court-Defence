@@ -335,6 +335,11 @@ class Claim::BaseClaimPresenter < BasePresenter
       SupplierNumber.find_by(supplier_number: claim.supplier_number)&.postcode
   end
 
+  def supplier_name
+    @supplier_name ||=
+      SupplierNumber.find_by(supplier_number: claim.supplier_number)&.name
+  end
+
   private
 
   # a blank assessment is created when the claim is created,

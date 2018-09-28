@@ -45,21 +45,27 @@ describe("Modules.ExpensesDataTable.js", function() {
       };
 
       it('...should have `targets` defined', function() {
-        expect(getColsDefs(0, "targets")).toEqual([1]);
-        expect(getColsDefs(1, "targets")).toEqual([2]);
-        expect(getColsDefs(2, "targets")).toEqual([3]);
-        expect(getColsDefs(3, "targets")).toEqual([4]);
-        expect(getColsDefs(4, "targets")).toEqual([5]);
+        expect(getColsDefs(0, "targets")).toEqual([0]);
+        expect(getColsDefs(1, "targets")).toEqual([1]);
+        expect(getColsDefs(2, "targets")).toEqual([2]);
+        expect(getColsDefs(3, "targets")).toEqual([3]);
+        expect(getColsDefs(4, "targets")).toEqual([4]);
+        expect(getColsDefs(5, "targets")).toEqual([5]);
       });
 
       it('...should have orderable disabled for the details column', function() {
+        expect(getColsDefsByTarget(0)).toEqual({
+          targets: 0,
+          width: "1%"
+        });
         expect(getColsDefsByTarget(1)).toEqual({
           targets: 1,
-          width: "1%"
+          width: "20%"
         });
         expect(getColsDefsByTarget(2)).toEqual({
           targets: 2,
-          orderable: false
+          orderable: false,
+          width: "99%"
         });
         expect(getColsDefsByTarget(3)).toEqual({
           targets: 3,

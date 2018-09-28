@@ -330,8 +330,8 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.total
   end
 
-  def supplier_number_postcode
-    @supplier_number_postcode ||=
+  def supplier_postcode
+    @supplier_postcode ||=
       SupplierNumber.find_by(supplier_number: claim.supplier_number)&.postcode
   end
 

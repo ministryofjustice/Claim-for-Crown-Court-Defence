@@ -12,7 +12,7 @@
           %span.bold
             = succeed ':' do
               = t('.origin')
-          = claim.supplier_number_postcode
+          = claim.supplier_postcode
           %br/
           %span.bold
             = succeed ':' do
@@ -33,7 +33,7 @@
                 = t('.distance')
             = "#{expense.distance} miles"
             %br/
-            = link_to_map t('.view_map_link'), origin: claim.supplier_number_postcode, destination: expense.location_postcode, target: '_blank'
+            = link_to_map t('.view_map_link'), origin: claim.supplier_postcode, destination: expense.location_postcode, target: '_blank'
             %li
             %span.bold
               = succeed ':' do

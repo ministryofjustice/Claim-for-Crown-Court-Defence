@@ -32,7 +32,8 @@ class ExpensePresenter < BasePresenter
   end
 
   def location_postcode
-    Establishment.find_by(name: expense.location)&.postcode
+    @location_postcode ||=
+      Establishment.find_by(name: expense.location)&.postcode
   end
 
   def hours

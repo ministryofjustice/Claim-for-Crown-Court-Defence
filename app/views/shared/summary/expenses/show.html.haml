@@ -33,10 +33,8 @@
                 = t('.distance')
             = "#{expense.distance} miles"
             %br/
-            %a{:target => "_blank", :href => "https://www.google.co.uk/maps/dir/?api=1&origin=#{claim.supplier_number_postcode}&destination=#{expense.location_postcode}&travelmode=driving"}
-              View on a map
-              %span.visually-hidden(opens in new window)
-          %li
+            = link_to_map t('.view_map_link'), origin: claim.supplier_number_postcode, destination: expense.location_postcode, target: '_blank'
+            %li
             %span.bold
               = succeed ':' do
                 = t('.cost')

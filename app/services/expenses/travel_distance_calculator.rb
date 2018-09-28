@@ -38,6 +38,7 @@ module Expenses
       return Failure.new(:invalid_claim_type) unless claim.lgfs?
       return Failure.new(:missing_origin) unless origin
       return Failure.new(:missing_destination) unless destination
+      return Failure.new(:invalid_destination) unless destination.match?(Settings.postcode_regexp)
       Success.new(:valid)
     end
 

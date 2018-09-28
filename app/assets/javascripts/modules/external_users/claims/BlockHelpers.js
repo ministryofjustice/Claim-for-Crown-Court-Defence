@@ -312,7 +312,7 @@ moj.Helpers.Blocks = {
         if (self.distanceLookupEnabled) {
           self.getDistance({
             claimid: $('#claim-form').data('claimId'),
-            destination: $option.text()
+            destination: $option.data('postcode')
           }).then(function(number, result) {
             self.updateMileageElements(number, false, result);
           }, function(error) {

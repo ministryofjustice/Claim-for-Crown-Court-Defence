@@ -3,7 +3,7 @@ require 'cgi'
 
 RSpec.describe Claim::BaseClaimPresenter do
   let(:claim) { create(:advocate_claim) }
-  subject(:presenter) { Claim::BaseClaimPresenter.new(claim, view) }
+  subject(:presenter) { described_class.new(claim, view) }
 
   before do
     Timecop.freeze(Time.current)
@@ -410,6 +410,26 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     it 'returns the last error messages array' do
       is_expected.to match_array(['injection error 1', 'injection error 2'])
+    end
+  end
+
+  describe '#supplier_postcode' do
+    subject { presenter.supplier_postcode }
+
+    context 'AGFS' do
+      it 'returns nil' do
+        is_expected.to be_nil
+      end
+    end
+
+    context 'LGFS' do
+      let(:claim) { create(:litigator_claim) }
+      let(:supplier_postcode) { SupplierNumber.find_by(supplier_number: claim.supplier_number).postcode }
+
+      it 'returns claim suppliers postcode' do
+        is_expected.to_not be_nil
+        is_expected.to eql supplier_postcode
+      end
     end
   end
 end

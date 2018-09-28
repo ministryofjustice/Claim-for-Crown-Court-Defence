@@ -17,17 +17,25 @@ moj.Modules.ExpensesDataTable = {
     // type of expense (index 0) asc
     // and date of expense (index 3) asc
     order: [
-      [0, 'asc'], [3, 'asc']
+      [0, 'asc'],
+      [3, 'asc']
     ],
-
-    columnDefs: [
-      {targets: 0, width: '1%'},
-      {targets: 1, width: '1%'},
-      { targets: 2, orderable: false },
-      {targets: 3, width: '1%'},
-      {targets: 4, width: '1%'},
-      {targets: 5, width: '1%'},
-    ]
+    columnDefs: [{
+      targets: 1,
+      width: '1%'
+    }, {
+      targets: 2,
+      orderable: false
+    }, {
+      targets: 3,
+      width: '1%'
+    }, {
+      targets: 4,
+      width: '1%'
+    }, {
+      targets: 5,
+      width: '1%'
+    } ],
   },
 
   init: function() {
@@ -38,7 +46,7 @@ moj.Modules.ExpensesDataTable = {
 
   bindEvents: function() {
     var self = this;
-    self.$el.on('preDraw.dt', function(){
+    self.$el.on('preDraw.dt', function() {
       self.setOrder();
     });
   },
@@ -51,10 +59,10 @@ moj.Modules.ExpensesDataTable = {
     // and reason for travel (index 1) have secondary order column
     // set to date of expense (index 3) as the current configuration
     // for columnDefs does not support setting sorting direction
-    if(columnIndex === 0 || columnIndex === 1) {
+    if (columnIndex === 0 || columnIndex === 1) {
       this.dataTable.order([columnIndex, direction], [3, 'asc']);
     }
-    if(columnIndex === 3) {
+    if (columnIndex === 3) {
       this.dataTable.order([columnIndex, direction], [0, 'asc'], [1, 'asc']);
     }
   }

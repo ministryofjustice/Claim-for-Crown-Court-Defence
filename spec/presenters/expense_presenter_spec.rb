@@ -135,13 +135,15 @@ RSpec.describe ExpensePresenter do
   end
 
   describe '#reason' do
+    subject { presenter.reason }
+
     context 'when a specific reason was selected' do
       before do
         expense.reason_id = 1
       end
 
       it 'outputs the reason text' do
-        expect(presenter.reason).to eq('Court hearing')
+        is_expected.to eq('Court hearing')
       end
     end
 
@@ -151,25 +153,48 @@ RSpec.describe ExpensePresenter do
       end
 
       it 'outputs a placeholder text if no free text reason was provided' do
-        expect(presenter.reason).to eq('Not provided')
+        is_expected.to eq('Not provided')
       end
 
       it 'outputs the free text reason if provided' do
         expense.reason_text = 'This is a test reason'
-        expect(presenter.reason).to eq('This is a test reason')
+        is_expected.to eq('This is a test reason')
       end
     end
   end
 
   describe '#mileage_rate' do
+    subject { presenter.mileage_rate }
+
     it 'outputs the mileage rate name if any' do
       expense.mileage_rate_id = 1
-      expect(presenter.mileage_rate).to eq('25p')
+      is_expected.to eq('25p')
     end
 
     it 'outputs n/a if no mileage rate was selected' do
       expense.mileage_rate_id = nil
-      expect(presenter.mileage_rate).to eq('n/a')
+      is_expected.to eq('n/a')
+    end
+  end
+
+  describe '#location_postcode' do
+    subject { presenter.location_postcode }
+
+    before do
+      create(:establishment, :crown_court, name: 'Basildon', postcode: 'SS14 2EW')
+    end
+
+    context 'when a location exists' do
+      let(:expense) { create(:expense, :car_travel, location: 'Basildon', claim: claim) }
+
+      it 'returns the establishments postcode' do
+        is_expected.to eql 'SS14 2EW'
+      end
+    end
+
+    context 'when a location is NOT present' do
+      let(:expense) { create(:expense, :parking, location: nil, claim: claim) }
+      it { is_expected.to be_nil }
     end
   end
 end

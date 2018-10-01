@@ -705,7 +705,7 @@ describe('Helpers.Blocks.js', function() {
             '<div class="fx-travel-reason-other" style="display:none"><span>here</span></div>',
             '<div class="fx-travel-location">',
             '<div class="location_wrapper"><label>Destination</label><input type="text" value=""></div>',
-            '<div class="fx-establishment-select"><label class="form-label-bold" for="location">Crown court</label><select id="location"><option value="">please select</option><option value="1" selected>establishment selected</option></select></div>',
+            '<div class="fx-establishment-select"><label class="form-label-bold" for="location">Crown court</label><select id="location"><option value="">please select</option><option value="1" data-postcode="POSTCODE" selected>establishment selected</option></select></div>',
             '</div>',
             '<div class="fx-travel-mileage">',
             ' <div class="fx-travel-mileage-bike">',
@@ -910,7 +910,7 @@ describe('Helpers.Blocks.js', function() {
 
             expect(instance.getDistance).toHaveBeenCalledWith({
               claimid: 99,
-              destination: 'establishment selected'
+              destination: 'POSTCODE'
             });
           });
 

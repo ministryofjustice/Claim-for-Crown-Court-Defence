@@ -1258,12 +1258,13 @@ en:
           totals_without_vat: Expenses without VAT total
           vat: VAT amount
         show:
-          calculated_distance: Calculated distance
+          distance_calculated: Distance calculated
+          distance_claimed: Distance claimed
+          distance: Distance
           cost: Cost per mile
           origin: Origin
           destination: Destination
           view_map_link: View on a map
-          distance: Distance
           hours: Hours
       fee: Fee
       fees:

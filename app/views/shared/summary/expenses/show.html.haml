@@ -1,11 +1,11 @@
 %tr.no-border
-  %td{scope: 'row'}
+  %td{scope: 'row', style: 'width: 20%'}
     %span.bold-normal
       = expense.name
-  %td{scope: 'row'}
+  %td{scope: 'row', style: 'width: 12%'}
     %span.bold-normal
       = expense.reason
-  %td
+  %td{ style: 'width: 75%'}
     .details
       %ul
         %li
@@ -21,16 +21,16 @@
           = expense.location
           = "(#{expense.location_postcode})"
         - if expense.distance?
-          %li
+          %li{ class: ('error' if expense.diff_distances?) }
             %span.bold
               = succeed ':' do
-                = t('.distance')
+                = expense.diff_distances? ? t('.distance_claimed') : t('.distance')
             = "#{expense.distance} miles"
-          - if claim.lgfs?
+          - if claim.lgfs? && expense.diff_distances?
             %li{ class: ('error' if expense.diff_distances?) }
               %span.bold
                 = succeed ':' do
-                  = t('.calculated_distance')
+                  = t('.distance_calculated')
               = expense.pretty_calculated_distance
               %br/
               = link_to_map t('.view_map_link'), origin: claim.supplier_postcode, destination: expense.location_postcode, target: '_blank'

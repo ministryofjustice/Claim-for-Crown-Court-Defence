@@ -1,5 +1,5 @@
 class SlackNotifier
-  def initialize(channel = Settings.slack.channel)
+  def initialize(channel)
     @slack_url = Settings.slack.bot_url
     @ready_to_send = false
     @payload = {

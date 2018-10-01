@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180823134645) do
+ActiveRecord::Schema.define(version: 20180927091047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -253,6 +253,15 @@ ActiveRecord::Schema.define(version: 20180823134645) do
     t.index ["creator_id"], name: "index_documents_on_creator_id", using: :btree
     t.index ["document_file_name"], name: "index_documents_on_document_file_name", using: :btree
     t.index ["external_user_id"], name: "index_documents_on_external_user_id", using: :btree
+  end
+
+  create_table "establishments", force: :cascade do |t|
+    t.string   "name"
+    t.string   "category"
+    t.string   "postcode"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_establishments_on_category", using: :btree
   end
 
   create_table "expense_types", force: :cascade do |t|
@@ -622,7 +631,6 @@ ActiveRecord::Schema.define(version: 20180823134645) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   end
 
-  add_foreign_key "injection_attempts", "claims"
   add_foreign_key "offence_bands", "offence_categories"
   add_foreign_key "offences", "offence_bands"
 end

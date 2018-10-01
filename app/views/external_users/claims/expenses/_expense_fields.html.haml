@@ -1,13 +1,18 @@
 - @expense_count += 1
-.expense-group.nested-fields.js-block.fx-numberedList-item{data:{"type": "expenses", autovat: @claim.agfs? && @claim.apply_vat? ? "true" : "false", "block-type": "ExpenseBlock"}}
-  .form-section-compound{"data-item-number" => "1"}
-    %input#origin_postcode{ :name => "origin", :spellcheck => "false", :type => "hidden", :value => "B4 6QB"}/
+.expense-group.nested-fields.js-block.fx-do-init.fx-numberedList-item{data:{"type": "expenses", autovat: @claim.agfs? && @claim.apply_vat? ? "true" : "false", "block-type": "ExpenseBlock"}}
+  .form-section-compound
+
+    = f.hidden_field :location_type, {class: 'fx-location-type'}
+    = f.hidden_field :calculated_distance, {class: 'fx-travel-calculated-distance'}
 
     %h3.heading-medium
       = t('.expense')
       %span.fx-numberedList-number
       %span.fx-remove-link
         = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group', class: 'header-action' }
+
+    %p.fx-general-errors{:style => "display: none;"}
+      %span
 
     .grid-row
       .column-half
@@ -23,15 +28,16 @@
 
       .column-half
         -# SELECT: Travel reasons
-        .form-group.fx-travel-reason{:style => "display: none;"}
+        - error_classes = error_class?(@error_presenter, "expense_#{@expense_count}_reason_id")
+        - error_classes += ' form-group-error' if error_classes.present?
+        .form-group.fx-travel-reason{:style => "display: none;", class: error_classes }
           %fieldset
             %legend.form-label-bold
               = t('.travel_reason')
               %a{id: "expense_#{@expense_count}_reason_id"}
-
+          = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
           - reasons_collection = present_collection(reasonset_for_expense_type(f.object.expense_type).values, TravelReasonPresenter)
           = f.select :reason_id, reasons_collection.map {|et| [et.reason, et.id, { data: et.data_attributes }]}, {include_blank: t('.select_option')}, {class: 'form-control form-control-3-4'}
-          = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
 
         -# INPUT: Other travel reason input
         .form-group.fx-travel-reason-other{style: f.object.reason_id.eql?(5) ? "display: block;" : "display: none;" }
@@ -41,8 +47,18 @@
     .grid-row
       .column-half
         -# INPUT: Location
-        .form-group.fx-travel-location{:style => "display: none;"}
-          = f.adp_text_field :location, label: t('.location'), input_classes:'form-control-3-4', errors: @error_presenter
+        .fx-travel-location{:style => "display: none;"}
+
+          - if @claim.lgfs?
+            - error_classes = error_class?(@error_presenter, "expense_#{@expense_count}_location")
+            - error_classes += ' form-group-error' if error_classes.present?
+            .form-group.fx-establishment-select.has-select{:style => "display: none;", class: error_classes}
+              %a{:id => "expense_#{@expense_count}_location"}
+              = f.label :location, nil, class: "form-label-bold", for: "expense_#{@expense_count}_location"
+              = validation_error_message(@error_presenter, "expense_#{@expense_count}_location")
+              = f.select :location, {}, {}, { class: "form-control form-control-3-4", :autocomplete => "off" }
+
+          = f.adp_text_field :location, label: t('.location'), input_classes:'form-control-3-4 fx-location-model', errors: @error_presenter
 
       .column-half
         -# INPUT: Travel hours
@@ -52,7 +68,15 @@
 
         -# INPUT: Travel Distance
         .form-group-compound.fx-travel-distance{:style => "display: none;"}
-          = f.adp_text_field :distance, label: t('.distance'), hint_text: t('.distance_hint'), input_type: 'number', input_classes: 'form-control-1-4', value: number_with_precision(f.object.distance, precision: 2), errors: @error_presenter
+          = f.adp_text_field :distance, label: t('.distance'), hint_text: t('.distance_hint'), input_type: 'number', input_classes: 'form-control-1-4', value: number_with_precision(f.object.distance, precision: 0), errors: @error_presenter
+          - if @claim.lgfs?
+            %details
+              %summary{"aria-controls" => "distance-summary"}
+                %span.summary
+                  = t('.summary_heading')
+              #distance-summary.panel.panel-border-narrow
+                %p
+                  = t('.summary_content')
 
     .grid-row
       .column-half

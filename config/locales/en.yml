@@ -21,6 +21,10 @@
 
 en:
   date: Date
+  distance:
+    unit:
+      one: 'mile'
+      other: 'miles'
   net_amount: &net_amount Net amount
   rate: &rate Rate
   views:
@@ -826,6 +830,9 @@ en:
           additional_info_heading: Additional information (optional)
           additional_info_label: Provide any information that will help in the assessment of your expenses
         expense_fields:
+          summary_heading: "How we calculate the distance"
+          summary_content: |
+            We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison
           select_option: Please select
           travel_reason: Travel reason
           type_of_expense: Type of expense
@@ -838,7 +845,7 @@ en:
           date_hint: For example 31 3 2017
           destination: Destination
           distance: Distance
-          distance_hint: Total distance for the return journey
+          distance_hint: Total mileage for the return journey
           distance_summary_heading: How we calculate the distance
           distance_summary_text: |
             We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison.
@@ -1105,6 +1112,14 @@ en:
         total: 'Total'
         no_fees: 'No fees for this claim'
         no_disbursements: 'No disbursements for this claim'
+    expenses:
+      distances:
+        create:
+          errors:
+            claim_not_found: Cannot calculate distance without a valid claim
+            invalid_claim_type: Cannot calculate distance for this type of claim
+            missing_origin: Supplier associated with the claim does not have a postcode
+            missing_destination: Destination not provided
     litigators:
       interim_claims:
         new:
@@ -1229,6 +1244,7 @@ en:
         travel_expense_additional_information: Additional expenses information
         travel_expenses: Travel expenses
         index:
+          calculated_distance: Calculated distance
           caption: *expenses_caption
           date: Date of expense
           details: Details
@@ -1242,8 +1258,11 @@ en:
           totals_without_vat: Expenses without VAT total
           vat: VAT amount
         show:
-          cost: Cost
+          calculated_distance: Calculated distance
+          cost: Cost per mile
+          origin: Origin
           destination: Destination
+          view_map_link: View on a map
           distance: Distance
           hours: Hours
       fee: Fee

@@ -28,12 +28,13 @@ describe("Modules.ExpensesDataTable.js", function() {
 
     describe('...options.columnDefs', function() {
       var columnDefs = options.columnDefs;
-      var getColsDefs = function(prop) {
+
+      var getColsDefs = function(idx, prop) {
         prop = prop || "";
-        return $.map(columnDefs, function(item) {
+        return $.map([columnDefs[idx]], function(item) {
           return item[prop];
         });
-      }
+      };
 
       var getColsDefsByTarget = function(target) {
         return $.map(columnDefs, function(item) {
@@ -41,18 +42,43 @@ describe("Modules.ExpensesDataTable.js", function() {
             return item;
           }
         })[0];
-      }
+      };
 
       it('...should have `targets` defined', function() {
-        expect(getColsDefs("targets")).toEqual([2]);
-      })
+        expect(getColsDefs(0, "targets")).toEqual([0]);
+        expect(getColsDefs(1, "targets")).toEqual([1]);
+        expect(getColsDefs(2, "targets")).toEqual([2]);
+        expect(getColsDefs(3, "targets")).toEqual([3]);
+        expect(getColsDefs(4, "targets")).toEqual([4]);
+        expect(getColsDefs(5, "targets")).toEqual([5]);
+      });
 
       it('...should have orderable disabled for the details column', function() {
-        var result = getColsDefsByTarget(2);
-        expect(result).toEqual({
+        expect(getColsDefsByTarget(0)).toEqual({
+          targets: 0,
+          width: "1%"
+        });
+        expect(getColsDefsByTarget(1)).toEqual({
+          targets: 1,
+          width: "20%"
+        });
+        expect(getColsDefsByTarget(2)).toEqual({
           targets: 2,
-          orderable: false
-        })
+          orderable: false,
+          width: "99%"
+        });
+        expect(getColsDefsByTarget(3)).toEqual({
+          targets: 3,
+          width: "1%"
+        });
+        expect(getColsDefsByTarget(4)).toEqual({
+          targets: 4,
+          width: "1%"
+        });
+        expect(getColsDefsByTarget(5)).toEqual({
+          targets: 5,
+          width: "1%"
+        });
       });
     });
   });

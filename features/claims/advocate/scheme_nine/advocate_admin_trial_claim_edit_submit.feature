@@ -50,13 +50,17 @@ Feature: Advocate admin submits a claim for a Trial case
 
     Then I click "Continue" in the claim form
 
-    And I add an expense 'Hotel accommodation'
+    And I select an expense type "Hotel accommodation"
+    And I select a travel reason "View of crime scene"
+    And I add an expense net amount for "34.56"
+    And I add an expense location
+    And I add an expense date for scheme 9
+
 
     Then I click "Continue" in the claim form
-
     And I upload the document 'judicial_appointment_order.pdf'
     And I should see 10 evidence check boxes
-    And I check the evidence boxes for 'Order in respect of judicial apportionment,A copy of the indictment'
+    And I check the evidence boxes for 'Order in respect of judicial apportionment'
     And I add some additional information
 
     Then I click Submit to LAA

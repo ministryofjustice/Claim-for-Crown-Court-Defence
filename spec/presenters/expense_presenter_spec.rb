@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe ExpensePresenter do
+  let(:claim) { create(:advocate_claim) }
+  let(:expense_type) { create(:expense_type) }
+  let(:expense) { create(:expense, quantity: 4, claim: claim, expense_type: expense_type) }
 
-  let(:claim)     { create(:advocate_claim) }
-  let(:expense_type)  { create(:expense_type) }
-  let(:expense)       { create(:expense, quantity: 4, claim: claim, expense_type: expense_type) }
-  let(:presenter) {ExpensePresenter.new(expense, view) }
+  subject(:presenter) { described_class.new(expense, view) }
 
   describe '#dates_attended_delimited_string' do
 
     before {
-      claim.expenses .each do |fee|
+      claim.expenses.each do |fee|
         expense.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('21/05/2015'), date_to: Date.parse('23/05/2015'))
         expense.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('25/05/2015'), date_to: nil)
       end
@@ -58,6 +58,43 @@ RSpec.describe ExpensePresenter do
     end
   end
 
+  describe '#calculated_distance' do
+    let(:calculated_distance) { 234 }
+    let(:expense) { create(:expense, quantity: 4, claim: claim, expense_type: expense_type, calculated_distance: calculated_distance) }
+
+    it 'formats as decimal number, 2 decimals precision, with rounding' do
+      expense.calculated_distance = 324.479
+      expect(presenter.calculated_distance).to eq '324.48'
+    end
+
+    it 'strips insignificant zeros' do
+      expense.calculated_distance = 324.00
+      expect(presenter.calculated_distance).to eq '324'
+    end
+
+    context 'when is not set' do
+      let(:calculated_distance) { nil }
+
+      it { expect(presenter.calculated_distance).to be_nil }
+    end
+  end
+
+  describe '#pretty_calculated_distance' do
+    let(:calculated_distance) { 234 }
+    let(:expense) { create(:expense, quantity: 4, claim: claim, expense_type: expense_type, calculated_distance: calculated_distance) }
+
+    it 'returns the value with the locale unit' do
+      expense.calculated_distance = 324.479
+      expect(presenter.pretty_calculated_distance).to eq '324.48 miles'
+    end
+
+    context 'when is not set' do
+      let(:calculated_distance) { nil }
+
+      it { expect(presenter.pretty_calculated_distance).to eq('n/a') }
+    end
+  end
+
   describe '#hours' do
     it 'formats as decimal number, 2 decimals precision with rounding' do
       expense.hours = 35.239
@@ -98,13 +135,15 @@ RSpec.describe ExpensePresenter do
   end
 
   describe '#reason' do
+    subject { presenter.reason }
+
     context 'when a specific reason was selected' do
       before do
         expense.reason_id = 1
       end
 
       it 'outputs the reason text' do
-        expect(presenter.reason).to eq('Court hearing')
+        is_expected.to eq('Court hearing')
       end
     end
 
@@ -114,25 +153,48 @@ RSpec.describe ExpensePresenter do
       end
 
       it 'outputs a placeholder text if no free text reason was provided' do
-        expect(presenter.reason).to eq('Not provided')
+        is_expected.to eq('Not provided')
       end
 
       it 'outputs the free text reason if provided' do
         expense.reason_text = 'This is a test reason'
-        expect(presenter.reason).to eq('This is a test reason')
+        is_expected.to eq('This is a test reason')
       end
     end
   end
 
   describe '#mileage_rate' do
+    subject { presenter.mileage_rate }
+
     it 'outputs the mileage rate name if any' do
       expense.mileage_rate_id = 1
-      expect(presenter.mileage_rate).to eq('25p')
+      is_expected.to eq('25p')
     end
 
     it 'outputs n/a if no mileage rate was selected' do
       expense.mileage_rate_id = nil
-      expect(presenter.mileage_rate).to eq('n/a')
+      is_expected.to eq('n/a')
+    end
+  end
+
+  describe '#location_postcode' do
+    subject { presenter.location_postcode }
+
+    before do
+      create(:establishment, :crown_court, name: 'Basildon', postcode: 'SS14 2EW')
+    end
+
+    context 'when a location exists' do
+      let(:expense) { create(:expense, :car_travel, location: 'Basildon', claim: claim) }
+
+      it 'returns the establishments postcode' do
+        is_expected.to eql 'SS14 2EW'
+      end
+    end
+
+    context 'when a location is NOT present' do
+      let(:expense) { create(:expense, :parking, location: nil, claim: claim) }
+      it { is_expected.to be_nil }
     end
   end
 end

@@ -41,8 +41,10 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     Then I click "Continue" in the claim form
 
-    Then I should see the additional info area
-    And I add an expense 'Parking'
+    And I select an expense type "Parking"
+    And I select a travel reason "View of crime scene"
+    And I add an expense net amount for "34.56"
+    And I add an expense date for scheme 10
 
     Then I click "Continue" in the claim form
 

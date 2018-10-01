@@ -8,6 +8,7 @@ moj.Modules.FeeCalculator = {
     this.feeTypeChange();
     this.feeRateChange();
     this.feeQuantityChange();
+    this.pageLoad();
   },
 
   advocateTypeChange: function () {
@@ -158,4 +159,13 @@ moj.Modules.FeeCalculator = {
       self.unitPriceAjax(data, this);
     });
   },
+
+  pageLoad: function () {
+    var self = this;
+    $(document).ready( function() {
+      $('.calculated-fee').each(function() {
+        self.calculateUnitPriceFee();
+      });
+    });
+  }
 };

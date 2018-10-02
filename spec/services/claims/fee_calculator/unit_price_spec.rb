@@ -156,6 +156,26 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
       it_returns 'a fee calculator response with amount', amount: 26.0
     end
 
+    context 'for misc fees' do
+      let(:fee) { create(:misc_fee, :miaph_fee, claim: claim, quantity: 1) }
+
+      it_returns 'a successful fee calculator response'
+      it_returns 'a fee calculator response with amount', amount: 130.0
+    end
+
+    context 'for a misc fee number of defendants uplift' do
+      let(:fee) { create(:misc_fee, :miaph_fee, claim: claim, quantity: 1) }
+      let(:uplift_fee) { create(:misc_fee, :miahu_fee, claim: claim, quantity: 2) }
+
+      before do
+        params.merge!(fee_type_id: uplift_fee.fee_type.id)
+        params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+      end
+
+      it_returns 'a successful fee calculator response'
+      it_returns 'a fee calculator response with amount', amount: 26.0
+    end
+
     context 'for erroneous request' do
       before { params.merge!(advocate_category: 'Not an advocate category') }
 

@@ -19,7 +19,8 @@
             = succeed ':' do
               = t('.destination')
           = expense.location
-          = "(#{expense.location_postcode})"
+          - if expense.location_postcode
+            = "(#{expense.location_postcode})"
         - if expense.distance?
           %li{ class: ('error' if expense.diff_distances?) }
             %span.bold
@@ -33,7 +34,8 @@
                   = t('.distance_calculated')
               = expense.pretty_calculated_distance
               %br/
-              = link_to_map t('.view_map_link'), origin: claim.supplier_postcode, destination: expense.location_postcode, target: '_blank'
+          %li
+            = link_to_map t('.view_map_link'), origin: claim.supplier_postcode, destination: expense.location_postcode, target: '_blank'
           %li
             %span.bold
               = succeed ':' do

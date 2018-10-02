@@ -29,22 +29,22 @@ Feature: Advocate completes fixed fee page using calculator
     And I add a fixed fee 'Number of defendants uplift'
     And I add a fixed fee 'Standard appearance fee'
 
-    Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '130.00'
-    Then the fixed fee 'Number of cases uplift' should have a rate of '26.00'
-    Then the fixed fee 'Number of defendants uplift' should have a rate of '26.00'
-    Then the fixed fee 'Standard appearance fee' should have a rate of '87.00'
+    Then the 'fixed' fee 'Appeals to the crown court against conviction' should have a rate of '130.00'
+    Then the 'fixed' fee 'Number of cases uplift' should have a rate of '26.00'
+    Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '26.00'
+    Then the 'fixed' fee 'Standard appearance fee' should have a rate of '87.00'
 
     And I select an advocate category of 'QC'
-    Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '260.00'
-    Then the fixed fee 'Number of cases uplift' should have a rate of '52.00'
-    Then the fixed fee 'Number of defendants uplift' should have a rate of '52.00'
-    Then the fixed fee 'Standard appearance fee' should have a rate of '173.00'
+    Then the 'fixed' fee 'Appeals to the crown court against conviction' should have a rate of '260.00'
+    Then the 'fixed' fee 'Number of cases uplift' should have a rate of '52.00'
+    Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '52.00'
+    Then the 'fixed' fee 'Standard appearance fee' should have a rate of '173.00'
 
     Then I amend the fixed fee 'Appeals to the crown court against conviction' to have a quantity of 2
-    Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '260.00'
-    Then the fixed fee 'Number of cases uplift' should have a rate of '104.00'
-    Then the fixed fee 'Number of defendants uplift' should have a rate of '104.00'
-    Then the fixed fee 'Standard appearance fee' should have a rate of '173.00'
+    Then the 'fixed' fee 'Appeals to the crown court against conviction' should have a rate of '260.00'
+    Then the 'fixed' fee 'Number of cases uplift' should have a rate of '104.00'
+    Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '104.00'
+    Then the 'fixed' fee 'Standard appearance fee' should have a rate of '173.00'
 
     And I eject the VCR cassette
 
@@ -79,18 +79,18 @@ Feature: Advocate completes fixed fee page using calculator
   And I add a fixed fee 'Number of cases uplift' with case numbers
   And I add a fixed fee 'Number of defendants uplift'
 
-  Then the fixed fee 'Elected case not proceeded' should have a rate of '194.00'
-  Then the fixed fee 'Number of cases uplift' should have a rate of '38.80'
-  Then the fixed fee 'Number of defendants uplift' should have a rate of '38.80'
+  Then the 'fixed' fee 'Elected case not proceeded' should have a rate of '194.00'
+  Then the 'fixed' fee 'Number of cases uplift' should have a rate of '38.80'
+  Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '38.80'
 
   And I select an advocate category of 'QC'
-  Then the fixed fee 'Elected case not proceeded' should have a rate of '194.00'
-  Then the fixed fee 'Number of cases uplift' should have a rate of '38.80'
-  Then the fixed fee 'Number of defendants uplift' should have a rate of '38.80'
+  Then the 'fixed' fee 'Elected case not proceeded' should have a rate of '194.00'
+  Then the 'fixed' fee 'Number of cases uplift' should have a rate of '38.80'
+  Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '38.80'
 
   Then I amend the fixed fee 'Elected case not proceeded' to have a quantity of 2
-  Then the fixed fee 'Number of cases uplift' should have a rate of '38.80'
-  Then the fixed fee 'Number of defendants uplift' should have a rate of '38.80'
+  Then the 'fixed' fee 'Number of cases uplift' should have a rate of '38.80'
+  Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '38.80'
 
   And I eject the VCR cassette
 

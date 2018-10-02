@@ -45,7 +45,7 @@ module Fee
 
     has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 
-    default_scope { includes(:fee_type) }
+    default_scope { includes(:fee_type).order(:id) }
 
     scope :defendant_uplift_sums, lambda {
       joins(:fee_type)
@@ -119,10 +119,6 @@ module Fee
     end
 
     def is_transfer?
-      false
-    end
-
-    def is_rate_calculated?
       false
     end
 

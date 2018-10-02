@@ -29,8 +29,4 @@ class Fee::FixedFee < Fee::BaseFee
   def is_fixed?
     true
   end
-
-  def is_rate_calculated?
-    rate_calculated
-  end
 end

@@ -7,16 +7,18 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
   # rep order dates) and to allow testing actual amounts "calculated".
 
   let(:price) do
-    client = LAA::FeeCalculator.client
-    fee_scheme = client.fee_schemes(1)
-    prices = fee_scheme.prices(scenario: 5, advocate_type: 'JRALONE', fee_type_code: 'AGFS_APPEAL_CON', unit: 'DAY')
+    prices = fee_scheme_prices
     prices.first
   end
+  let(:laa_calculator_client) {  LAA::FeeCalculator.client }
+  let(:client_fee_scheme) { laa_calculator_client.fee_schemes(1) }
+  let(:fee_scheme_prices) { client_fee_scheme.prices(scenario: 5, advocate_type: 'JRALONE', fee_type_code: 'AGFS_APPEAL_CON', unit: 'DAY') }
   let(:modifier_name) { nil }
   let(:parent_quantity) { 1 }
 
   it { is_expected.to respond_to(:price) }
   it { is_expected.to respond_to(:modifier_name) }
+  it { is_expected.to respond_to(:unit) }
   it { is_expected.to respond_to(:per_unit) }
   it { is_expected.to respond_to(:modifier) }
   it { is_expected.to respond_to(:parent_quantity) }
@@ -25,6 +27,31 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
     subject { described_class.new(price, modifier_name, parent_quantity).price }
     it 'returns supplied price object' do
       is_expected.to eql price
+    end
+  end
+
+  describe '#unit' do
+    subject { described_class.new(price, modifier_name, parent_quantity).unit }
+    it 'returns a string' do
+      is_expected.to be_a String
+    end
+
+    it 'returns supplied unit' do
+      is_expected.to eql 'DAY'
+    end
+
+    context 'when no unit provided' do
+      let(:fee_scheme_prices) { client_fee_scheme.prices(scenario: 5, advocate_type: 'JRALONE', fee_type_code: 'AGFS_DISC_FULL') }
+
+      it { is_expected.to eql 'DAY' }
+    end
+
+    context 'when the fee is an uplift' do
+      let(:fee_scheme_prices) { client_fee_scheme.prices(scenario: 5, advocate_type: 'JRALONE', fee_type_code: 'AGFS_DISC_FULL') }
+      let(:modifier_name) { :number_of_defendants }
+      let(:parent_quantity) { 1 }
+
+      it { is_expected.to eql 'DEFENDANT' }
     end
   end
 

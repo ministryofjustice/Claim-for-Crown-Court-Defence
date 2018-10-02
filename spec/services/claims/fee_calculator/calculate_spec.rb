@@ -57,5 +57,12 @@ RSpec.describe Claims::FeeCalculator::Calculate, :fee_calc_vcr do
       it { is_expected.to respond_to(:errors) }
       it { is_expected.to respond_to(:message) }
     end
+
+    context 'data object' do
+      subject(:data) { response.data }
+
+      it { is_expected.to respond_to(:amount) }
+      it { is_expected.to respond_to(:unit) }
+    end
   end
 end

@@ -11,6 +11,10 @@ RSpec.shared_examples 'a successful fee calculator response' do
     expect(response.data.amount).to be_kind_of Float
   end
 
+  it 'includes unit' do
+    expect(response.data.unit).to be_kind_of String 
+  end
+
   it 'includes no errors' do
     expect(response.errors).to be_nil
   end
@@ -142,6 +146,26 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
     context 'for a fixed fee number of defendants uplift' do
       let(:uplift_fee) { create(:fixed_fee, :fxndr_fee, claim: claim, quantity: 1) }
+
+      before do
+        params.merge!(fee_type_id: uplift_fee.fee_type.id)
+        params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+      end
+
+      it_returns 'a successful fee calculator response'
+      it_returns 'a fee calculator response with amount', amount: 26.0
+    end
+
+    context 'for misc fees' do
+      let(:fee) { create(:misc_fee, :miaph_fee, claim: claim, quantity: 1) }
+
+      it_returns 'a successful fee calculator response'
+      it_returns 'a fee calculator response with amount', amount: 130.0
+    end
+
+    context 'for a misc fee number of defendants uplift' do
+      let(:fee) { create(:misc_fee, :miaph_fee, claim: claim, quantity: 1) }
+      let(:uplift_fee) { create(:misc_fee, :miahu_fee, claim: claim, quantity: 2) }
 
       before do
         params.merge!(fee_type_id: uplift_fee.fee_type.id)

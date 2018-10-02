@@ -1,6 +1,7 @@
 @javascript
 Feature: Advocate creates, saves, edits then submits a claim for a final fee trial case under scheme 10
 
+  @fee_calc_vcr
   Scenario: Successful submission
     Given I am a signed in advocate
     And I am on the 'Your claims' page
@@ -32,6 +33,8 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I search for the scheme 10 offence 'Absconding from lawful custody'
     Then I select the first search result
 
+    Given I insert the VCR cassette 'features/claims/advocate/scheme_ten/trial_claim_edit'
+
     And I should see the advocate categories 'Junior,Leading junior,QC'
     And I select an advocate category of 'Junior'
     And I should see the scheme 10 applicable basic fees
@@ -40,10 +43,12 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
 
     Then I click "Continue" in the claim form
 
-    And I add a miscellaneous fee 'Special preparation fee' with dates attended '2018-04-01'
+    And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended '2018-04-01'
     And I check the section heading to be "1"
-    And I add a miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
+    And I add a calculated miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
     And I check the section heading to be "2"
+
+    And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
 
@@ -91,4 +96,4 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£368.55'
+    And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£462.01'

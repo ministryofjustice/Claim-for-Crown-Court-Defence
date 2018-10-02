@@ -33,6 +33,8 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     Then I click "Continue" in the claim form
 
+    Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/claim_draft_edit'
+
     And I select an advocate category of 'Junior alone'
     And I add a basic fee net amount
 
@@ -40,8 +42,10 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     Then I click "Continue" in the claim form
 
-    And I add a miscellaneous fee 'Special preparation fee' with dates attended
-    And I add a miscellaneous fee 'Noting brief fee' with dates attended
+    And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended
+    And I add a calculated miscellaneous fee 'Noting brief fee' with dates attended
+
+    And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
 
@@ -68,4 +72,4 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£348.25'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£441.71'

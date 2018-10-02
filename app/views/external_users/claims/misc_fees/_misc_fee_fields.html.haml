@@ -10,16 +10,49 @@
       %label.form-label-bold
         = t('.fee_type')
       %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
-      = f.collection_select :fee_type_id, @claim.eligible_misc_fee_types, :id, :description, {include_blank: ''.html_safe }, {class: 'form-control js-misc-fee-type js-fee-type typeahead', style: 'width:100%'}
+      = f.collection_select :fee_type_id,
+       @claim.eligible_misc_fee_types, :id, :description,
+       {include_blank: ''.html_safe },
+       {class: 'form-control js-misc-fee-type js-fee-type js-fee-calculator-fee-type typeahead', style: 'width:100%'}
 
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 
   = f.adp_text_field :quantity,
                           label: t('.quantity'),
-                          input_classes:'quantity fee-quantity form-control-1-8',
+                          hint_text: t('.quantity_hint'),
+                          hide_hint: true,
+                          input_classes:'quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity',
                           input_type: 'number',
                           value: fee.quantity,
                           errors: @error_presenter
+
+  .js-fee-calculator-effectee
+    .calculated-fee
+    = f.adp_text_field :rate,
+        label: t('.rate'),
+        input_classes:'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
+        input_type: 'currency',
+        errors: @error_presenter,
+        input_readonly: f.object.rate_calculated?,
+        value: number_with_precision(f.object.rate, precision: 2)
+
+  .js-fee-calculator-success
+    = f.hidden_field :rate_calculated, value: f.object.rate_calculated?
+
+  .help-wrapper.form-group{ style: 'display: none;' }
+    %details
+      %summary
+        %span.summary
+          = t('.help_how_we_calculate_rate_title')
+      .panel.panel-border-narrow
+        %p
+          = t('.help_how_we_calculate_rate_body')
+
+  .form-group
+    %label.form-label-bold
+      = t('.net_amount')
+    .fee-net-amount.currency-indicator
+      = fee.amount || number_to_currency(0)
 
   %div.dates-wrapper.form-group
     %div
@@ -27,12 +60,5 @@
         = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
 
     = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', partial: 'date_attended_fields', data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
-
-  = f.adp_text_field :rate,
-                    label: t('.net_amount'),
-                    input_classes:'rate fee-rate form-input-denote__input form-control-1-4',
-                    input_type: 'currency',
-                    errors: @error_presenter,
-                    value: number_with_precision(f.object.rate, precision: 2)
 
   %hr/

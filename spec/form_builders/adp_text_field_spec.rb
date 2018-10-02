@@ -192,7 +192,7 @@ describe AdpTextField do
           <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
-            <span class="form-hint">Hint text here</span>
+            <span class="form-hint" >Hint text here</span>
           </label>
           <input class="form-control " type="text" name="claim[case_number]" id="claim_case_number" value="X22334455" />
         </div>
@@ -216,7 +216,7 @@ describe AdpTextField do
           <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
-            <span class="form-hint">Hint text here</span>
+            <span class="form-hint" >Hint text here</span>
             <span class="error error-message">Validation error here</span>
           </label>
           <input class="form-control " type="text" name="claim[case_number]" id="claim_case_number" value="" />
@@ -225,6 +225,51 @@ describe AdpTextField do
         squash(html)
       end
     end
+
+    context 'simple number field with hint' do
+      subject(:html_output) { adp_text_field.to_html }
+
+      context 'shown' do
+        let(:adp_text_field) {  AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'number', hint_text: 'Hint text here', errors: error_presenter) }
+
+        it { is_expected.to eq squash(d100_no_value_hint_shown) }
+      end
+
+      context 'hidden' do
+        let(:adp_text_field) {  AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'number', hint_text: 'Hint text here', hide_hint: true, errors: error_presenter) }
+
+        it { is_expected.to eq squash(e100_no_value_hint_hidden) }
+      end
+
+      def d100_no_value_hint_shown
+        html = <<-eos
+        <div class="form-group case_number_wrapper">
+          <a id="case_number"></a>
+          <label class="form-label-bold" for="claim_case_number">
+            Case number
+            <span class="form-hint" >Hint text here</span>
+          </label>
+          <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" value="" min="0" max="99999" />
+        </div>
+        eos
+        squash(html)
+      end
+
+      def e100_no_value_hint_hidden
+        html = <<-eos
+        <div class="form-group case_number_wrapper">
+          <a id="case_number"></a>
+          <label class="form-label-bold" for="claim_case_number">
+            Case number
+            <span class="form-hint" style="display: none;">Hint text here</span>
+          </label>
+          <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" value="" min="0" max="99999" />
+        </div>
+        eos
+        squash(html)
+      end
+    end
+
   end
 
   def squash(html)

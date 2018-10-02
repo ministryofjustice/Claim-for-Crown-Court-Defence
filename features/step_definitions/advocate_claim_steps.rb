@@ -76,14 +76,18 @@ When(/^I add a daily attendance fee with dates attended$/) do
   end
 end
 
-When(/^I add a miscellaneous fee '(.*?)' with dates attended\s*(.*)?$/) do |name, date|
-  date = date.present? ? date : "2016-01-02"
+When(/^I add a calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')?(?: with dates attended\s*(.*))?$/) do |name, quantity, date|
+  quantity = quantity.present? ? quantity : '1'
   @claim_form_page.add_misc_fee_if_required
   @claim_form_page.miscellaneous_fees.last.select_fee_type name
-  @claim_form_page.miscellaneous_fees.last.quantity.set 1
-  @claim_form_page.miscellaneous_fees.last.rate.set "34.56"
-  @claim_form_page.miscellaneous_fees.last.add_dates.click
-  @claim_form_page.miscellaneous_fees.last.dates.from.set_date(date)
+  @claim_form_page.miscellaneous_fees.last.select_input.send_keys(:tab) # required for chrome driver
+  wait_for_ajax
+  @claim_form_page.miscellaneous_fees.last.quantity.set quantity
+  if date.present?
+    @claim_form_page.miscellaneous_fees.last.add_dates.click
+    @claim_form_page.miscellaneous_fees.last.dates.from.set_date(date)
+  end
+  wait_for_ajax
 end
 
 Then(/^I check the section heading to be "([^"]*)"$/) do |num|
@@ -156,14 +160,15 @@ Then(/^the last fixed fee should have fee type options\s*'([^']*)'$/) do |fee_ty
   expect(@claim_form_page.fixed_fees.last.fee_type_descriptions).to match_array(fee_type_descriptions)
 end
 
-Then(/^the fixed fee '(.*?)' should have a rate of '(\d+\.\d+)'$/) do |fee_type, rate|
-  fixed_fee = @claim_form_page.fixed_fees.find { |section| section.select_input.value.eql?(fee_type) }
-  expect(fixed_fee.rate.value).to eql rate
+Then(/^the '(.*?)' fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee_type, fee, rate, hint|
+  fee = @claim_form_page.send("#{fee_type}_fees").find { |section| section.select_input.value.eql?(fee) }
+  expect(fee.rate.value).to eql rate
+  expect(fee.hint.text).to eql hint if hint.present?
 end
 
-Then(/^the last fixed fee rate should be populated with '(\d+\.\d+)'$/) do |rate|
-  expect(@claim_form_page.fixed_fees.last).to have_rate
-  expect(@claim_form_page.fixed_fees.last.rate.value).to eql rate
+Then(/^the last '(.*?)' fee rate should be populated with '(\d+\.\d+)'$/) do |fee_type, rate|
+  expect(@claim_form_page.send("#{fee_type}_fees").last).to have_rate
+  expect(@claim_form_page.send("#{fee_type}_fees").last.rate.value).to eql rate
 end
 
 Then(/^the last fixed fee rate should be in the calculator error state/) do

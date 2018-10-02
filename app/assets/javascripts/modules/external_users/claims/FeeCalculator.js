@@ -5,47 +5,48 @@ moj.Modules.FeeCalculator = {
 
   bindEvents: function () {
     this.advocateTypeChange();
-    this.fixedFeeTypeChange();
-    this.fixedFeeRateChange();
-    this.fixedFeeQuantityChange();
+    this.feeTypeChange();
+    this.feeRateChange();
+    this.feeQuantityChange();
+    this.pageLoad();
   },
 
   advocateTypeChange: function () {
     var self = this;
-    if ($('.calculated-fixed-fee').exists()) {
+    if ($('.calculated-fee').exists()) {
       $('.js-fixed-fee-calculator-advocate-type').change( function() {
-        self.calculateUnitPriceFixedFee();
+        self.calculateUnitPriceFee();
       });
     }
   },
 
   // needs to be usable by cocoon:after-insert so can bind to one or many elements
-  fixedFeeTypeChange: function ($el) {
+  feeTypeChange: function ($el) {
     var self = this;
-    var $els = $el || $('.js-fixed-fee-calculator-fee-type');
-    if ($('.calculated-fixed-fee').exists()) {
+    var $els = $el || $('.js-fee-calculator-fee-type');
+    if ($('.calculated-fee').exists()) {
       $els.change( function() {
-        self.calculateUnitPriceFixedFee();
+        self.calculateUnitPriceFee();
       });
     }
   },
 
   // needs to be usable by cocoon:after-insert so can bind to one or many elements
-  fixedFeeQuantityChange: function ($el) {
+  feeQuantityChange: function ($el) {
     var self = this;
-    var $els = $el || $('.js-fixed-fee-calculator-quantity');
-    if ($('.calculated-fixed-fee').exists()) {
+    var $els = $el || $('.js-fee-quantity');
+    if ($('.calculated-fee').exists()) {
       $els.change( function() {
-        self.calculateUnitPriceFixedFee();
+        self.calculateUnitPriceFee();
         self.populateNetAmount(this);
       });
     }
   },
 
   // needs to be usable by cocoon:after-insert so can bind to one or many elements
-  fixedFeeRateChange: function ($el) {
+  feeRateChange: function ($el) {
     var self = this;
-    var $els = $el || $('.js-fixed-fee-calculator-rate');
+    var $els = $el || $('.js-fee-calculator-rate');
     $els.change( function() {
       self.populateNetAmount(this);
     });
@@ -53,11 +54,35 @@ moj.Modules.FeeCalculator = {
 
   setRate: function(data, context) {
     var $input = $(context).find('input.fee-rate');
-    var $calculated = $(context).closest('.fixed-fee-group').find('.js-fixed-fee-calculator-success').find('input');
+    var $calculated = $(context).siblings('.js-fee-calculator-success').find('input');
     $input.val(data.toFixed(2));
     $input.change();
     $calculated.val(data > 0);
     $input.prop('readonly', data > 0);
+  },
+
+  setHintLabel: function(data) {
+    var $result = '';
+    switch(data) {
+      case 'HALFDAY':
+        $result = 'half day';
+        break;
+      case 'DEFENDANT':
+        $result = 'additional defendant';
+        break;
+      default:
+        $result = data;
+    }
+
+    return  (data ? "Number of " + $result.toLowerCase() + 's' : '');
+  },
+
+  setHint: function(data, context) {
+    var self = this;
+    var $label = $(context).closest('.fx-fee-group').find('.form-group.quantity_wrapper').find('.form-hint');
+    var $newLabel = self.setHintLabel(data);
+    $label.text($newLabel);
+    data ? $label.show() : $label.hide();
   },
 
   enableRate: function(context) {
@@ -65,9 +90,10 @@ moj.Modules.FeeCalculator = {
   },
 
   populateNetAmount: function(context) {
-    var $el = $(context).closest('.fixed-fee-group').find('.fee-net-amount');
-    var rate = $(context).closest('.fixed-fee-group').find('input.fee-rate').val();
-    var quantity = $(context).closest('.fixed-fee-group').find('input.fee-quantity').val();
+    var $feeGroup = $(context).closest('.fx-fee-group');
+    var $el = $feeGroup.find('.fee-net-amount');
+    var rate = $feeGroup.find('input.fee-rate').val();
+    var quantity = $feeGroup.find('input.fee-quantity').val();
     var value = (rate * quantity);
     var text = '&pound;' + moj.Helpers.Blocks.addCommas(value.toFixed(2));
     $el.html(text);
@@ -77,7 +103,7 @@ moj.Modules.FeeCalculator = {
     // only some errors will have a JSON response
     this.clearErrors(context);
     var $label = $(context).find('label');
-    var $calculated = $(context).closest('.fixed-fee-group').find('.js-fixed-fee-calculator-success').find('input');
+    var $calculated = $(context).closest('.fx-fee-group').find('.js-fee-calculator-success').find('input');
     var error_html = '<div class="js-calculate-error form-hint">' + response.responseJSON["message"] + '<div>';
     var new_label = $label.text() + ' ' + error_html;
     var $input = $(context).find('input.fee-rate');
@@ -93,7 +119,7 @@ moj.Modules.FeeCalculator = {
   },
 
   displayHelp: function(context, show) {
-    var $help = $(context).closest('.fixed-fee-group').find('.help-wrapper.form-group');
+    var $help = $(context).siblings('.help-wrapper.form-group');
     show ? $help.show() : $help.hide();
   },
 
@@ -108,23 +134,28 @@ moj.Modules.FeeCalculator = {
     .done(function(response) {
       self.clearErrors(context);
       self.setRate(response.data.amount, context);
+      self.setHint(response.data.unit, context);
       self.displayHelp(context, true);
     })
     .fail(function(response) {
       if (response.responseJSON['errors'][0] != 'incomplete') {
         self.displayError(response, context);
         self.displayHelp(context, false);
+        self.setHint(null, context);
       }
       self.enableRate(context);
     });
   },
 
-  addFixedFeeData: function(data) {
+  buildFeeData: function(data) {
     data.claim_id = $('#claim-form').data('claimId');
-    data.advocate_category = $('input:radio[name="claim[advocate_category]"]:checked').val();
+    var advocate_category = $('input:radio[name="claim[advocate_category]"]:checked').val();
+    if (advocate_category) {
+      data.advocate_category = advocate_category
+    }
 
     var fees = data.fees = [];
-    $('.fixed-fee-group:visible').each(function() {
+    $('.fx-fee-group:visible').each(function() {
       fees.push({
         fee_type_id: $(this).find('select.js-fee-type').val(),
         quantity: $(this).find('input.js-fee-quantity').val()
@@ -132,16 +163,26 @@ moj.Modules.FeeCalculator = {
     });
   },
 
-  // Calculates the "unit price" for a given fixed fee,
-  // including fixed fee case uplift fee types.
-  calculateUnitPriceFixedFee: function () {
+  // Calculates the "unit price" for a given fee,
+  // including fixed fee case uplift fee types,
+  // and misc fee defendant uplifts.
+  calculateUnitPriceFee: function () {
     var self = this;
     var data = {};
-    self.addFixedFeeData(data);
+    self.buildFeeData(data);
 
-    $('.js-fixed-fee-calculator-effectee').each(function() {
-      data.fee_type_id = $(this).closest('.fixed-fee-group').find('select.js-fee-type').val();
+    $('.js-fee-calculator-effectee').each(function () {
+      data.fee_type_id = $(this).closest('.fx-fee-group').find('select.js-fee-type').val();
       self.unitPriceAjax(data, this);
+    });
+  },
+
+  pageLoad: function () {
+    var self = this;
+    $(document).ready( function() {
+      $('.calculated-fee').each(function() {
+        self.calculateUnitPriceFee();
+      });
     });
   }
 };

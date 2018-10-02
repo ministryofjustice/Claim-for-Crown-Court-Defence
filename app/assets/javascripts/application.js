@@ -130,12 +130,12 @@ if (!String.prototype.supplant) {
   /**
    * Fee calculation event binding for added fees
    */
-  $('#fixed-fees').on('cocoon:after-insert', function(e, insertedItem) {
+  $('#fixed-fees, #misc-fees').on('cocoon:after-insert', function(e, insertedItem) {
     var $insertedItem = $(insertedItem);
 
-    moj.Modules.FeeCalculator.fixedFeeTypeChange($insertedItem.find('.js-fixed-fee-calculator-fee-type'));
-    moj.Modules.FeeCalculator.fixedFeeQuantityChange($insertedItem.find('.js-fixed-fee-calculator-quantity'));
-    moj.Modules.FeeCalculator.fixedFeeRateChange($insertedItem.find('.js-fixed-fee-calculator-rate'));
+    moj.Modules.FeeCalculator.feeTypeChange($insertedItem.find('.js-fee-calculator-fee-type'));
+    moj.Modules.FeeCalculator.feeQuantityChange($insertedItem.find('.js-fee-calculator-quantity'));
+    moj.Modules.FeeCalculator.feeRateChange($insertedItem.find('.js-fee-calculator-rate'));
   });
 
   /**
@@ -143,7 +143,7 @@ if (!String.prototype.supplant) {
   * it could have impact on others so all have to be checked.
   */
   $('#fixed-fees').on('cocoon:after-remove', function() {
-    moj.Modules.FeeCalculator.calculateUnitPriceFixedFee();
+    moj.Modules.FeeCalculator.calculateUnitPriceFee();
   });
 
   // Manually hit the `add rep order` button after a

@@ -72,6 +72,7 @@ class AdpTextField
     %w[readonly disabled].each { |input| build_input_or_false(input) }
     @errors = options[:errors] || @form.object.errors
     @input_classes = options[:input_classes] || ''
+    @hide_hint = options[:hide_hint] || false
     @error_key = options[:error_key] || @anchor_id
     @value = (options[:value] || form.object.__send__(method)).to_s
     setup_input_type
@@ -170,7 +171,8 @@ class AdpTextField
 
   def hint
     if @options[:hint_text]
-      %(<span class="form-hint">#{@options[:hint_text]}</span>)
+      @style = 'style="display: none;"' if @hide_hint
+      %(<span class="form-hint" #{@style}>#{@options[:hint_text]}</span>)
     else
       ''
     end

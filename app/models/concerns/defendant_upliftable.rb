@@ -54,5 +54,13 @@ module DefendantUpliftable
     def orphan_defendant_uplift?
       unique_code.in?(self.class.const_get(:ORPHAN_DEFENDANT_UPLIFTS))
     end
+
+    def defendant_uplift_parent_unique_code
+      DEFENDANT_UPLIFT_MAPPINGS.find { |_parent_code, uplift_code| uplift_code.eql?(unique_code) }&.first
+    end
+
+    def defendant_uplift_parent
+      self.class.find_by(unique_code: defendant_uplift_parent_unique_code)
+    end
   end
 end

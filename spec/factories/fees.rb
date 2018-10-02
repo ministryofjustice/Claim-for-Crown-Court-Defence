@@ -93,6 +93,10 @@ FactoryBot.define do
     trait :miaph_fee do
       fee_type { Fee::FixedFeeType.find_by(unique_code: 'MIAPH') || build(:misc_fee_type, :miaph) }
     end
+
+    trait :miahu_fee do
+      fee_type { Fee::FixedFeeType.find_by(unique_code: 'MIAHU') || build(:misc_fee_type, :miahu) }
+    end
   end
 
   factory :warrant_fee, class: Fee::WarrantFee do

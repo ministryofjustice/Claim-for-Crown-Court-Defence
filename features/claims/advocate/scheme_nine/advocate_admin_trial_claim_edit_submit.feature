@@ -34,6 +34,8 @@ Feature: Advocate admin submits a claim for a Trial case
     Then I click "Continue" in the claim form
     And I select the offence category 'Activities relating to opium'
 
+    Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/trial_claim_edit'
+
     Then I click "Continue" in the claim form
     And I should see the advocate categories 'Junior alone,Led junior,Leading junior,QC'
     And I select an advocate category of 'Junior alone'
@@ -43,10 +45,12 @@ Feature: Advocate admin submits a claim for a Trial case
 
     Then I click "Continue" in the claim form
 
-    And I add a miscellaneous fee 'Special preparation fee' with dates attended
+    And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended
     And I check the section heading to be "1"
-    And I add a miscellaneous fee 'Noting brief fee' with dates attended
+    And I add a calculated miscellaneous fee 'Noting brief fee' with dates attended
     And I check the section heading to be "2"
+
+    And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
 
@@ -94,4 +98,4 @@ Feature: Advocate admin submits a claim for a Trial case
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£368.55'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£462.01'

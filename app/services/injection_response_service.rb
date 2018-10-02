@@ -3,6 +3,7 @@ class InjectionResponseService
     @response = json.stringify_keys
     raise ParseError, 'Invalid JSON string' unless @response.keys.sort.eql?(%w[errors from messages uuid])
     @claim = Claim::BaseClaim.find_by(uuid: @response['uuid'])
+    @channel = Claims::InjectionChannel.for(@claim)
   end
 
   def run!
@@ -17,7 +18,7 @@ class InjectionResponseService
   private
 
   def slack
-    @slack ||= SlackNotifier.new
+    @slack ||= SlackNotifier.new(@channel)
   end
 
   def failure(options = {})

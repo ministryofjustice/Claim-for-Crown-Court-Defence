@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SlackNotifier, slack_bot: true do
-  subject(:slack_notifier) { described_class.new() }
+  subject(:slack_notifier) { described_class.new(claim) }
 
   let(:claim) { create :claim }
   let(:valid_json_on_success) { { "from":"external application", "errors":[], "uuid":claim.uuid, "messages":[{'message':'Claim injected successfully.'}]} }

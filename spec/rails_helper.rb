@@ -108,7 +108,6 @@ RSpec.configure do |config|
 
   config.before :each, slack_bot: true do
     allow(Settings.slack).to receive(:bot_url).and_return('https://hooks.slack.com/services/fake/endpoint')
-    allow(Settings.slack).to receive(:channel).and_return('#monitoring')
     allow(Settings.slack).to receive(:bot_name).and_return('monitor_bot')
     allow(Settings.slack).to receive(:success_icon).and_return(':good_icon:')
     allow(Settings.slack).to receive(:fail_icon).and_return(':bad_icon:')

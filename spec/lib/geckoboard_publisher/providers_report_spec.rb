@@ -63,7 +63,7 @@ RSpec.describe GeckoboardPublisher::ProvidersReport, geckoboard: true do
     include_examples 'returns valid items structure'
 
     it 'returns dates to day precision in ISO 8601 format - YYYY-MM-DD' do
-      expect(subject.first[:date]).to match /^(\d{4}-(0[1-9]|1[12])-((0[1-9]|[12]\d)|3[01]))$/
+      expect(subject.first[:date]).to match /^(\d{4}-(0[1-9]|1[0-2])-((0[1-9]|[12]\d)|3[01]))$/
     end
 
     context 'when run without parameters' do

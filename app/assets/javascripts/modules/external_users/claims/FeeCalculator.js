@@ -61,9 +61,26 @@ moj.Modules.FeeCalculator = {
     $input.prop('readonly', data > 0);
   },
 
+  setHintLabel: function(data) {
+    var $result = '';
+    switch(data) {
+      case 'HALFDAY':
+        $result = 'half day';
+        break;
+      case 'DEFENDANT':
+        $result = 'additional defendant';
+        break;
+      default:
+        $result = data;
+    }
+
+    return  (data ? "Number of " + $result.toLowerCase() + 's' : '');
+  },
+
   setHint: function(data, context) {
+    var self = this;
     var $label = $(context).closest('.fx-fee-group').find('.form-group.quantity_wrapper').find('.form-hint');
-    var $new_label = (data ? "Number of " + (data=="HALFDAY" ? 'half day' : data).toLowerCase() + 's' : 'Enter a quantity');
+    var $new_label = self.setHintLabel(data);
     $label.text($new_label);
     data ? $label.show() : $label.hide();
   },

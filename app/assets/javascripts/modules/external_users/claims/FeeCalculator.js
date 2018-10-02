@@ -80,8 +80,8 @@ moj.Modules.FeeCalculator = {
   setHint: function(data, context) {
     var self = this;
     var $label = $(context).closest('.fx-fee-group').find('.form-group.quantity_wrapper').find('.form-hint');
-    var $new_label = self.setHintLabel(data);
-    $label.text($new_label);
+    var $newLabel = self.setHintLabel(data);
+    $label.text($newLabel);
     data ? $label.show() : $label.hide();
   },
 

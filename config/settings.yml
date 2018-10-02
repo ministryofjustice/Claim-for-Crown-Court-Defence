@@ -119,7 +119,6 @@ aws:
 
 slack:
   bot_url: 'slack_bot_url'
-  channel: '#channel_name'
   bot_name: 'bot_name'
   success_icon: ':icon:'
   fail_icon: ':icon:'

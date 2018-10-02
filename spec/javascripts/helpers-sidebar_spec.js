@@ -895,7 +895,6 @@ describe('Helpers.Blocks.js', function() {
             $(selector).prop('selectedIndex', 1).change();
 
             expect($('.fx-location-model').val()).toEqual('establishment selected');
-
           });
 
           it('establishment location: should call `this.getDistance` if feature is enabled', function() {
@@ -912,26 +911,6 @@ describe('Helpers.Blocks.js', function() {
               claimid: 99,
               destination: 'POSTCODE'
             });
-          });
-
-          xit('establishment location: should set the `net amount` and `vat amount`', function() {
-            var deferred = $.Deferred();
-            spyOn(instance, 'getDistance').and.returnValue(deferred.promise());
-
-            var selector = '.fx-establishment-select select:last';
-
-            instance.bindListners();
-            instance.distanceLookupEnabled = true;
-            $(selector).prop('selectedIndex', 1).change();
-
-            deferred.resolve({
-              miles: 99
-            });
-
-            expect(instance.$el.find('.fx-travel-net-amount input').val()).toEqual('44.55');
-            expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('8.91');
-            expect(instance.$el.find('.fx-travel-distance input').val()).toEqual('99');
-            expect(instance.$el.find('.fx-travel-calculated-distance').val()).toEqual('99');
           });
         });
 

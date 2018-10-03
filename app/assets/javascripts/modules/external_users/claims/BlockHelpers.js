@@ -321,19 +321,20 @@ moj.Helpers.Blocks = {
         }
       });
 
-      this.$el.on('change, click', '.fx-travel-mileage input', function(e) {
+      this.$el.on('change, click', '.fx-travel-mileage input[type=radio]', function(e) {
         self.updateMileageElements(self.getRateId(), true);
       });
 
       this.$el.on('keyup', '.fx-travel-distance input', function(e) {
-        self.updateMileageElements(self.getRateId(), true);
+        var rateId = self.getRateId();
+        self.updateMileageElements(rateId, rateId ? true : false);
       });
 
       return this;
     };
 
     this.getRateId = function() {
-      return this.$el.find('.fx-travel-mileage input[type=radio]:checked').val();
+      return this.$el.find('.fx-travel-mileage input[type=radio]:visible:checked').val();
     };
 
     this.updateMileageElements = function(rateId, calculate, result) {
@@ -345,7 +346,7 @@ moj.Helpers.Blocks = {
       }
       self.setNumber('.fx-travel-distance input', result.miles, '0');
 
-      if (calculate || self.$el.find('.fx-travel-mileage input:checked').length) {
+      if (calculate || self.$el.find('.fx-travel-mileage input[type=radio]:visible:checked').length) {
         self.setNumber('.fx-travel-net-amount input', result.miles * factor);
         self.setNumber('.fx-travel-vat-amount input', (result.miles * factor) * self.config.vatfactor);
       }
@@ -356,7 +357,7 @@ moj.Helpers.Blocks = {
       var def = $.Deferred();
       var self = this;
       moj.Helpers.API.Distance.query(ajaxConfig).then(function(result) {
-        var number = self.$el.find('.fx-travel-mileage input:checked').val();
+        var number = self.$el.find('.fx-travel-mileage input[type=radio]:visible:checked').val();
         result.miles = Math.round((result.distance / self.config.metersPerMile));
         self.$el.find('.fx-travel-calculated-distance').val(result.miles);
         def.resolve(number, result);

@@ -61,7 +61,7 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def scheme
-    if type == 'Claim::AdvocateClaim'
+    if %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim].include? type
       'AGFS'
     elsif %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim].include? type
       'LGFS'

@@ -9,7 +9,7 @@ RSpec.describe SupplierNumberPresenter do
   subject(:presenter) { described_class.new(supplier_number, view) }
 
   describe '#supplier_label' do
-    it 'returns a label including the supplier number and its postcode' do
+    it 'returns a label including the supplier number, name and postcode' do
       expect(presenter.supplier_label).to eq("#{account_number} - #{supplier_name} (#{postcode})")
     end
 
@@ -21,10 +21,11 @@ RSpec.describe SupplierNumberPresenter do
       end
     end
 
-    context 'when the supplier does not have a defined postcode' do
+
+    context 'when the supplier does not have a defined name' do
       let(:supplier_name) { nil }
 
-      it 'returns a label including only the supplier number' do
+      it 'returns a label including only the supplier number and postcode' do
         expect(presenter.supplier_label).to eq("#{account_number} - (#{postcode})")
       end
     end

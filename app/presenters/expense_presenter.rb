@@ -36,6 +36,11 @@ class ExpensePresenter < BasePresenter
       Establishment.find_by(name: expense.location)&.postcode
   end
 
+  def location_with_postcode
+    return "#{expense.location} (#{location_postcode})" if location_postcode
+    expense.location
+  end
+
   def hours
     h.number_with_precision(expense.hours, precision: 2, strip_insignificant_zeros: true)
   end

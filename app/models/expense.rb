@@ -141,9 +141,9 @@ class Expense < ApplicationRecord
     !vat_absent?
   end
 
-  def diff_distances?
+  def distance_gt_calculated?
     return unless distance.present? && calculated_distance.present?
-    distance != calculated_distance
+    distance > calculated_distance
   end
 
   private

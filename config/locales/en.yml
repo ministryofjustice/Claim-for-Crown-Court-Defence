@@ -1260,7 +1260,7 @@ en:
           totals_with_vat: Expenses with VAT total
           totals_without_vat: Expenses without VAT total
           vat: VAT amount
-        show:
+        details:
           distance_calculated: Distance calculated
           distance_claimed: Distance claimed
           distance: Distance
@@ -1269,6 +1269,13 @@ en:
           destination: Destination
           view_map_link: View on a map
           hours: Hours
+        distance_warnings:
+          title:
+            one: There is an error with the travel expenses
+            other: There are %{count} errors with the travel expenses
+          message:
+            one: The distance claimed by the provider is greater than the calculated distance for one expense. Please see the table below for details.
+            other: The distance claimed by the provider is greater than the calculated distance for %{count} expenses. Please see the table below for details.
       fee: Fee
       fees:
         caption: 'Fees: A detailed list by Category and Type including amounts'

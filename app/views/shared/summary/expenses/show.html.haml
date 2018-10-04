@@ -6,47 +6,7 @@
     %span.bold-normal
       = expense.reason
   %td{ style: 'width: 75%'}
-    .details
-      %ul
-        %li
-          %span.bold
-            = succeed ':' do
-              = t('.origin')
-          = claim.supplier_name
-          = "(#{claim.supplier_postcode})"
-          %br/
-          %span.bold
-            = succeed ':' do
-              = t('.destination')
-          = expense.location
-          - if expense.location_postcode
-            = "(#{expense.location_postcode})"
-        - if expense.distance?
-          %li{ class: ('error' if expense.diff_distances?) }
-            %span.bold
-              = succeed ':' do
-                = expense.diff_distances? ? t('.distance_claimed') : t('.distance')
-            = "#{expense.distance} miles"
-          - if claim.lgfs? && expense.diff_distances?
-            %li{ class: ('error' if expense.diff_distances?) }
-              %span.bold
-                = succeed ':' do
-                  = t('.distance_calculated')
-              = expense.pretty_calculated_distance
-              %br/
-          %li
-            = link_to_map t('.view_map_link'), origin: claim.supplier_postcode, destination: expense.location_postcode, target: '_blank'
-          %li
-            %span.bold
-              = succeed ':' do
-                = t('.cost')
-            = expense.mileage_rate
-        - if expense.hours?
-          %li
-            %span.bold
-              = succeed ':' do
-                = t('.hours')
-            = expense.hours
+    = render partial: 'shared/summary/expenses/details', locals: { claim: claim, expense: expense }
   %td
     = expense.pretty_date
   %td.numeric

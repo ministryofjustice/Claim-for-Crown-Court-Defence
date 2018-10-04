@@ -197,4 +197,30 @@ RSpec.describe ExpensePresenter do
       it { is_expected.to be_nil }
     end
   end
+
+  describe '#location_with_postcode' do
+    subject { presenter.location_with_postcode }
+
+    before do
+      create(:establishment, :prison, name: 'HMP Buckley Hall', postcode: 'OL12 9DP')
+    end
+
+    context 'when a location exists' do
+      let(:expense) { create(:expense, :car_travel, location: 'HMP Buckley Hall', claim: claim) }
+
+      it 'returns the establishment with postcode' do
+        is_expected.to eql 'HMP Buckley Hall (OL12 9DP)'
+      end
+    end
+
+    context 'when a location is NOT present' do
+      let(:expense) { create(:expense, :parking, location: nil, claim: claim) }
+      it { is_expected.to be_nil }
+    end
+
+    context 'when a locations establishment is NOT present' do
+      let(:expense) { create(:expense, :parking, location: 'Timbuktu', claim: claim) }
+      it { is_expected.to eql 'Timbuktu' }
+    end
+  end
 end

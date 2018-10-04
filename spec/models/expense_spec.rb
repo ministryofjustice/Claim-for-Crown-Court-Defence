@@ -113,7 +113,9 @@ RSpec.describe Expense, type: :model do
     end
   end
 
-  describe '#diff_distances?' do
+  describe '#distance_gt_calculated?' do
+    subject { expense.distance_gt_calculated? }
+
     let(:attrs) {
       {
         distance: distance,
@@ -121,8 +123,6 @@ RSpec.describe Expense, type: :model do
       }
     }
     let(:expense) { described_class.new(attrs) }
-
-    subject { expense.diff_distances? }
 
     context 'when distance is not set' do
       let(:distance) { nil }
@@ -139,8 +139,8 @@ RSpec.describe Expense, type: :model do
     end
 
     context 'when both distance and calculated distance are set' do
-      context 'but they do no have the same value' do
-        let(:distance) { 567 }
+      context 'and "claimed" distance is greater than "calculated"' do
+        let(:distance) { 235 }
         let(:calculated_distance) { 234 }
 
         it { is_expected.to be_truthy }
@@ -148,6 +148,13 @@ RSpec.describe Expense, type: :model do
 
       context 'and they both have the same value' do
         let(:distance) { 234 }
+        let(:calculated_distance) { 234 }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'and "claimed" distance is less than "calculated"' do
+        let(:distance) { 233 }
         let(:calculated_distance) { 234 }
 
         it { is_expected.to be_falsey }

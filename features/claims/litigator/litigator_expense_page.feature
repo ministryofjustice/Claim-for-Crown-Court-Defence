@@ -38,7 +38,7 @@ Feature: Litigator expense specific page features
     Then I should see a destination label of "Crown court"
 
     And I select a travel reason "Court hearing (Magistrates' court)"
-    Then I should see a destination label of "Magistrates court"
+    Then I should see a destination label of "Magistrates' court"
 
     And I select an expense type "Bike travel"
     And I select a travel reason "Other"

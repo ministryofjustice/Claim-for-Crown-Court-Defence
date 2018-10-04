@@ -28,7 +28,7 @@ describe('Helpers.API.Establishments.js', function() {
           dataType: 'json'
         });
       });
-      deferred.resolve({});
+      deferred.resolve([]);
     });
 
     it('should call `$.publish` the success event', function() {
@@ -40,7 +40,7 @@ describe('Helpers.API.Establishments.js', function() {
       helper.init().then(function() {
         expect($.publish).toHaveBeenCalledWith('/API/establishments/loaded/');
       });
-      deferred.resolve();
+      deferred.resolve([]);
     });
 
     it('should call `$.publish` the error event', function() {
@@ -131,13 +131,14 @@ describe('Helpers.API.Establishments.js', function() {
         "category": "crown_court",
         "postcode": "L9 7LH"
       }];
+
       spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(deferred.promise());
 
       helper.init().then(function() {
 
-        expect(helper.getLocationByCategory('prison')).toEqual([fixtureData[1]]);
+        expect(helper.getLocationByCategory('prison')).toEqual([fixtureData[2]]);
 
-        expect(helper.getLocationByCategory('crown_court')).toEqual([fixtureData[2]]);
+        expect(helper.getLocationByCategory('crown_court')).toEqual([fixtureData[1]]);
       });
       deferred.resolve(fixtureData);
     });

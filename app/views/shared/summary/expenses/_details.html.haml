@@ -4,7 +4,8 @@
       %span.bold
         = succeed ':' do
           = t('.origin')
-      = "#{claim.supplier_name} (#{claim.supplier_postcode})"
+      = claim.supplier_name_with_postcode
+      / = # "#{claim.supplier_name} (#{claim.supplier_postcode})"
       %br/
       %span.bold
         = succeed ':' do

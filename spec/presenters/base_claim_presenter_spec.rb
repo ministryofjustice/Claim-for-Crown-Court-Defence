@@ -413,6 +413,27 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
+  describe '#supplier_name' do
+    subject { presenter.supplier_name }
+
+    context 'AGFS' do
+      it 'returns nil' do
+        is_expected.to be_nil
+      end
+    end
+
+    context 'LGFS' do
+      let(:claim) { create(:litigator_claim) }
+      let(:supplier) do
+        SupplierNumber.find_by(supplier_number: claim.supplier_number)
+      end
+
+      it 'returns claim supplier\'s name' do
+        is_expected.to eql supplier.name
+      end
+    end
+  end
+
   describe '#supplier_postcode' do
     subject { presenter.supplier_postcode }
 
@@ -424,11 +445,46 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'LGFS' do
       let(:claim) { create(:litigator_claim) }
-      let(:supplier_postcode) { SupplierNumber.find_by(supplier_number: claim.supplier_number).postcode }
+      let(:supplier) { SupplierNumber.find_by(supplier_number: claim.supplier_number) }
 
       it 'returns claim suppliers postcode' do
         is_expected.to_not be_nil
-        is_expected.to eql supplier_postcode
+        is_expected.to eql supplier.postcode
+      end
+    end
+  end
+
+  describe '#supplier_name_with_postcode' do
+    subject { presenter.supplier_name_with_postcode }
+
+    context 'AGFS' do
+      it 'returns nil' do
+        is_expected.to be_nil
+      end
+    end
+
+    context 'LGFS' do
+      let(:claim) { create(:litigator_claim) }
+      let(:supplier) { SupplierNumber.find_by(supplier_number: claim.supplier_number) }
+
+      context 'when claim supplier has name and postcode' do
+        it 'returns name and postcode' do
+          is_expected.to_not be_nil
+          is_expected.to eql "#{supplier.name} (#{supplier.postcode})"
+        end
+      end
+
+      context 'when claim supplier has name but NOT postcode' do
+        before { supplier.update(postcode: nil) }
+
+        it 'returns name' do
+          is_expected.to eql "#{supplier.name}"
+        end
+      end
+
+      context 'when claim supplier has no name or postcode' do
+        before { supplier.update(name: nil, postcode: nil) }
+        it { is_expected.to be_nil }
       end
     end
   end

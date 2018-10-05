@@ -40,7 +40,17 @@
     return query(ajaxConfig).then(function(results) {
 
       // Load the results into the internal cache
-      internalCache = results;
+      internalCache = results.sort(function(a, b) {
+        var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+        var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
 
       // Publish the success event
       $.publish(settings.events.cacheLoaded);
@@ -90,8 +100,8 @@
   }
 
   // leaving in place for possible refactor
-  function getAsSelectWithOptions(a,b){
-    return getAsOptions(a,b);
+  function getAsSelectWithOptions(a, b) {
+    return getAsOptions(a, b);
   }
 
   // This method will return an array of <option> tags
@@ -100,12 +110,12 @@
   // events are triggered
   function getAsOptions(category, selected) {
     var results = getLocationByCategory(category);
-    var def = $.Deferred();
-    if (results.length === 0) throw Error('Missing results: no data to build options with');
-
-    formControls.getOptions(results, selected).then(function(els){
+    var def;
+    if (results.length == 0) throw Error('Missing results: no data to build options with');
+    def = $.Deferred();
+    formControls.getOptions(results, selected).then(function(els) {
       def.resolve(els);
-    }, function(){
+    }, function() {
       def.reject(arguments);
     });
     return def.promise();

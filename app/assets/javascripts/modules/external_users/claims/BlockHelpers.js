@@ -610,7 +610,7 @@ moj.Helpers.Blocks = {
       },
       locationLabel: {
         crown_court: 'Crown court',
-        magistrates_court: 'Magistrates court',
+        magistrates_court: 'Magistrates\' court',
         prison: 'Prison',
         hospital: 'Hospital',
         default: 'Destination'

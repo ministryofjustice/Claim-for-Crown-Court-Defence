@@ -71,6 +71,28 @@ class ClaimStateTransitionReason
         long: ''
       }
     },
+    refused_advocate_interim_claims: {
+      duplicate_claim: {
+        short: '',
+        long: ''
+      },
+      no_effective_pcmh: {
+        short: '',
+        long: ''
+      },
+      no_effective_trial: {
+        short: '',
+        long: ''
+      },
+      short_trial: {
+        short: '',
+        long: ''
+      },
+      other_refuse: {
+        short: '',
+        long: ''
+      }
+    },
     refused_litigator_claims: {
       duplicate_claim: {
         short: '',

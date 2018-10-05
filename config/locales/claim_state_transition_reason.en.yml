@@ -7,6 +7,15 @@ en:
       duplicate_claim:
         short: &duplicate_claim_short Duplicate claim
         long: &duplicate_claim_long We refused your claim because our records show this bill has already been paid.
+      no_effective_pcmh:
+        short: &no_effective_pcmh_short No effective PCMH has taken place
+        long: &no_effective_pcmh_long We refused your claim because the court records do not show that an effective PCMH has taken place. Please check the case details and submit the claim again.The ‘effective PCMH payment can be made at any time after the PCMH has taken place up until the trial conclusion.
+      no_effective_trial:
+        short: &no_effective_trial_short No effective trial start has taken place
+        long: &no_effective_trial_long We refused your claim because the court records do not show that the trial has commenced. Please check the case details and submit the claim again.
+      short_trial:
+        short: &short_trial_short The trial estimate was less than 10 days
+        long: &short_trial_long We refused your claim because the trial is estimated to last for less than 10 days, this interim payment can only be claimed where the trial has commenced and is set to last for more than 10 days.
   claim_state_transition_reason:
     rejected:
       no_indictment:
@@ -50,6 +59,22 @@ en:
       other_refuse:
         short: *other
         long: *blank
+    refused_advocate_interim_claims:
+      duplicate_claim:
+        short: *duplicate_claim_short
+        long: *duplicate_claim_long
+      no_effective_pcmh:
+        short: *no_effective_pcmh_short
+        long: *no_effective_pcmh_long
+      no_effective_trial:
+        short: *no_effective_trial_short
+        long: *no_effective_trial_long
+      short_trial:
+        short: *short_trial_short
+        long: *short_trial_long
+      other_refuse:
+        short: *other
+        long: *blank
     refused_litigator_claims:
       duplicate_claim:
         short: *duplicate_claim_short
@@ -69,14 +94,14 @@ en:
         short: *duplicate_claim_short
         long: *duplicate_claim_long
       no_effective_pcmh:
-        short: No effective PCMH has taken place
-        long: We refused your claim because the court records do not show that an effective PCMH has taken place. Please check the case details and submit the claim again.The ‘effective PCMH payment can be made at any time after the PCMH has taken place up until the trial conclusion.
+        short: *no_effective_pcmh_short
+        long: *no_effective_pcmh_long
       no_effective_trial:
-        short: No effective trial start has taken place
-        long: We refused your claim because the court records do not show that the trial has commenced. Please check the case details and submit the claim again.
+        short: *no_effective_trial_short
+        long: *no_effective_trial_long
       short_trial:
-        short: The trial estimate was less than 10 days
-        long: We refused your claim because the trial is estimated to last for less than 10 days, this interim payment can only be claimed where the trial has commenced and is set to last for more than 10 days.
+        short: *short_trial_short
+        long: *short_trial_long
       other_refuse:
         short: *other
         long: *blank

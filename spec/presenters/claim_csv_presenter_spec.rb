@@ -48,6 +48,17 @@ RSpec.describe ClaimCsvPresenter do
           end
         end
 
+        context 'AGFS' do
+          it 'scheme' do
+            subject.update_column(:type, 'Claim::AdvocateInterimClaim')
+
+            subject.present! do |claim_journeys|
+              expect(claim_journeys.first).to include('AGFS')
+              expect(claim_journeys.second).to include('AGFS')
+            end
+          end
+        end
+
         context 'LGFS' do
           it 'scheme' do
             subject.update_column(:type, 'Claim::LitigatorClaim')

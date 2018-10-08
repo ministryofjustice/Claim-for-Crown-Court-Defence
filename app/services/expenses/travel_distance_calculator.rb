@@ -34,12 +34,27 @@ module Expenses
     end
 
     def validate_inputs
-      return Failure.new(:claim_not_found) unless claim
-      return Failure.new(:invalid_claim_type) unless claim.lgfs?
-      return Failure.new(:missing_origin) unless origin
-      return Failure.new(:missing_destination) unless destination
-      return Failure.new(:invalid_destination) unless destination.match?(Settings.postcode_regexp)
+      validate_claim
+      validate_origin
+      validate_destination
+
       Success.new(:valid)
+    rescue RuntimeError => err
+      Failure.new(err.message.to_sym)
+    end
+
+    def validate_claim
+      raise 'claim_not_found' unless claim
+      raise 'invalid_claim_type' unless claim.lgfs?
+    end
+
+    def validate_origin
+      raise 'missing_origin' unless origin
+    end
+
+    def validate_destination
+      raise 'missing_destination' unless destination
+      raise 'invalid_destination' unless destination.match?(Settings.postcode_regexp)
     end
 
     def origin

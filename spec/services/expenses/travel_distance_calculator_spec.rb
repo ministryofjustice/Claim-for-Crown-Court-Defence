@@ -54,6 +54,17 @@ RSpec.describe Expenses::TravelDistanceCalculator, type: :service do
     end
   end
 
+  context 'but the destination is not a postcode' do
+    let(:params) { { destination: 'London' } }
+
+    it 'returns a failure result with the appropriate error code' do
+      result = service.call
+
+      expect(result).to be_failure
+      expect(result.failure).to eq(:invalid_destination)
+    end
+  end
+
   context 'but the distance cannot be calculated' do
     it 'returns nil as the calculated distance' do
       expect(Maps::DistanceCalculator).to receive(:call).with(supplier_postcode, destination).and_return(nil)

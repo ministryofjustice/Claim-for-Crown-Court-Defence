@@ -34,24 +34,24 @@ module GeckoboardPublisher
         start_at = date.beginning_of_day.to_s(:db)
         end_at = date.end_of_day.to_s(:db)
 
-        data = Expense
-               .joins(:claim)
-               .where(claims: { original_submission_date: start_at..end_at })
-               .where('calculated_distance IS NOT NULL')
+        expenses = Expense
+                   .joins(:claim)
+                   .where(claims: { original_submission_date: start_at..end_at })
+                   .where('calculated_distance IS NOT NULL')
 
         record = { date: date.to_date.iso8601 }
         fields.from(1).map(&:id).each { |field| record[field.to_sym] = 0 }
 
-        if data.present?
-          record[:total_calculated] = data.count
-          record[:accepted] = data.where('calculated_distance = distance').count
-          record[:increased] = data.where('calculated_distance < distance').count
-          record[:reduced] = data.where('calculated_distance > distance').count
+        if expenses.present?
+          record[:total_calculated] = expenses.count
+          record[:accepted] = expenses.where('calculated_distance = distance').count
+          record[:increased] = expenses.where('calculated_distance < distance').count
+          record[:reduced] = expenses.where('calculated_distance > distance').count
           record[:percent_accepted] = (record[:accepted].to_f / record[:total_calculated].to_f).to_f.round(2)
           record[:percent_increased] = (record[:increased].to_f / record[:total_calculated].to_f).to_f.round(2)
           record[:percent_reduced] = (record[:reduced].to_f / record[:total_calculated].to_f).to_f.round(2)
-          record[:cost_increased] = calculate_cost(data.where('calculated_distance < distance'), :increase)
-          record[:cost_reduction] = calculate_cost(data.where('calculated_distance > distance'), :reduction)
+          record[:cost_increased] = calculate_cost(expenses.where('calculated_distance < distance'), :increase)
+          record[:cost_reduction] = calculate_cost(expenses.where('calculated_distance > distance'), :reduction)
         end
         items << record
       end
@@ -65,9 +65,9 @@ module GeckoboardPublisher
 
     private
 
-    def calculate_cost(data, change)
+    def calculate_cost(collection, change)
       total = 0
-      data.each do |expense|
+      collection.each do |expense|
         user_total, calculated_total = calculate_totals(expense)
         if change.eql?(:increase)
           total += (user_total - calculated_total)

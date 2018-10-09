@@ -21,6 +21,13 @@ class ErrorsController < ApplicationController
     end
   end
 
+  def service_unavailable
+    respond_to do |format|
+      format.html { render status: 503 }
+      format.all { render status: 503, plain: 'service unavailable' }
+    end
+  end
+
   def dummy_exception
     raise ArgumentError, "This exception has been raised as a test by going to the 'dummy_exception' endpoint."
   end

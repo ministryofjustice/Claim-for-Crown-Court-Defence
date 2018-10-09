@@ -367,24 +367,23 @@ moj.Helpers.Blocks = {
       return def.promise();
     };
 
+    // Setting the view error state and message
     this.viewErrorHandler = function(message) {
       var el = this.$el.find('.fx-general-errors');
       el.find('span').text(message);
       el.css('display', 'inline-block');
     };
 
-    /**
-     * setLocationElement
-     * @param  obj Config extracted from the selected option
-     * @return {[type]}     [description]
-     */
+    // The location elment is an input or a select
+    // This method will return the html to append to the dom
     this.setLocationElement = function(obj) {
       if (!obj) throw Error('Missing param: obj, cannot build element');
 
       // cache selected value
       var selectedValue = this.$el.find('.fx-location-model').val();
 
-      // Travel reason
+      // If a locationType is present render the select
+      // This will set the selected value if present
       // <option data-location-type="crown_court|prison|etc" />
       if (obj.locationType) {
         this.attachSelectWithOptions(obj.locationType, selectedValue);
@@ -395,7 +394,7 @@ moj.Helpers.Blocks = {
       return this.displayLocationInput();
     };
 
-    //
+    // Display the input and hide the select
     this.displayLocationInput = function() {
       this.$el.find('.location_wrapper').css('display', 'block');
       this.$el.find('.fx-establishment-select').css('display', 'none');
@@ -476,6 +475,11 @@ moj.Helpers.Blocks = {
         'vatAmount'
       ].forEach(function(value, idx) {
         $detached.find(self.stateLookup[value]).css('display', (state.config[value] ? 'block' : 'none'));
+
+        // Clear out the value for this input
+        if(!state.config[value]){
+          $detached.find(self.stateLookup[value] +' input:not([type=radio])').val('');
+        }
       });
 
       // net amount
@@ -533,6 +537,7 @@ moj.Helpers.Blocks = {
       });
 
       $detached = this.radioStateManager($detached, state);
+
       return $parent.append($detached);
     };
 
@@ -543,10 +548,19 @@ moj.Helpers.Blocks = {
      * @return $dom return the $dom referance
      */
     this.radioStateManager = function($dom, state) {
+
+      // Clearing the radio buttons if they are not required
+      if(!state.config.mileage){
+        $dom.find('.fx-travel-mileage input[type=radio]').is(function () {
+          $(this).removeAttr('checked').prop('disabled', true);
+        });
+        return $dom;
+      }
+
       // Mileage radios: BIKE
       if (state.config.mileageType === 'bike') {
         this.config.mileageFactor = 0.20;
-        this.setRadioState($dom, {
+        return this.setRadioState($dom, {
           car: 'none',
           carModel: false,
           bike: 'block',
@@ -557,7 +571,7 @@ moj.Helpers.Blocks = {
       // Mileage radios: BIKE
       if (state.config.mileageType === 'car') {
         this.config.mileageFactor = 0.45;
-        this.setRadioState($dom, {
+        return this.setRadioState($dom, {
           car: 'block',
           carModel: true,
           bike: 'none',
@@ -580,6 +594,7 @@ moj.Helpers.Blocks = {
       $dom.find('.fx-travel-mileage-bike input[type=radio]').is(function() {
         $(this).prop('checked', config.bikeModel).prop('disabled', !config.bikeModel).change();
       });
+      return $dom;
     };
   },
 

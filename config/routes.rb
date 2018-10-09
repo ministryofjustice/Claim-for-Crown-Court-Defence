@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'maintenance', to: 'maintenance#show'
+
   get 'dummy_exception', to: 'errors#dummy_exception'
   get 'ping',           to: 'heartbeat#ping', format: :json
   get 'healthcheck',    to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json

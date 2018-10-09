@@ -163,7 +163,7 @@ end
 Then(/^the '(.*?)' fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee_type, fee, rate, hint|
   fee = @claim_form_page.send("#{fee_type}_fees").find { |section| section.select_input.value.eql?(fee) }
   expect(fee.rate.value).to eql rate
-  expect(fee.hint.text).to eql hint if hint.present?
+  expect(fee.quantity_hint.text).to eql hint if hint.present?
 end
 
 Then(/^the last '(.*?)' fee rate should be populated with '(\d+\.\d+)'$/) do |fee_type, rate|

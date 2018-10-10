@@ -18,7 +18,7 @@ moj.Helpers.Blocks = {
         }
         return this.$el.find(selector).css('display', state ? 'block' : 'none');
       }
-      throw Error('Selector did not return an element: ' + selector);
+      throw new Error('Selector did not return an element: ' + selector);
     };
 
     this.setVal = function(selector, val) {
@@ -26,7 +26,7 @@ moj.Helpers.Blocks = {
         this.$el.find(selector).val(val).change();
         return;
       }
-      throw Error('Selector did not return an element: ' + selector);
+      throw new Error('Selector did not return an element: ' + selector);
     };
 
     this.setNumber = function(selector, val, points) {
@@ -352,15 +352,19 @@ moj.Helpers.Blocks = {
       }
     };
 
-    // TO DO: specs
+    // Call the Distance helper and return the
+    // id for the checked ra
     this.getDistance = function(ajaxConfig) {
       var def = $.Deferred();
       var self = this;
       moj.Helpers.API.Distance.query(ajaxConfig).then(function(result) {
         var number = self.$el.find('.fx-travel-mileage input[type=radio]:visible:checked').val();
+
         result.miles = Math.round((result.distance / self.config.metersPerMile));
         self.$el.find('.fx-travel-calculated-distance').val(result.miles);
+
         def.resolve(number, result);
+
       }, function(result) {
         def.reject(result.error);
       });
@@ -377,7 +381,7 @@ moj.Helpers.Blocks = {
     // The location elment is an input or a select
     // This method will return the html to append to the dom
     this.setLocationElement = function(obj) {
-      if (!obj) throw Error('Missing param: obj, cannot build element');
+      if (!obj) throw new Error('Missing param: obj, cannot build element');
 
       // cache selected value
       var selectedValue = this.$el.find('.fx-location-model').val();
@@ -405,7 +409,7 @@ moj.Helpers.Blocks = {
       var self = this;
       var $detachedSelect;
 
-      if (!locationType) return new Error('Missing param: locationType');
+      if (!locationType) throw new Error('Missing param: locationType');
 
       moj.Helpers.API.Establishments.getAsSelectWithOptions(locationType, {
         prop: 'name',
@@ -425,7 +429,7 @@ moj.Helpers.Blocks = {
         self.$el.find('.fx-travel-location .has-select label').text(staticdata.locationLabel[locationType] || staticdata.locationLabel.default);
 
       }, function() {
-        return Error('Attach options failed:', arguments);
+        throw new Error('Attach options failed:', arguments);
       });
     };
 

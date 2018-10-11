@@ -81,6 +81,13 @@ FactoryBot.define do
       unique_code 'BAPCM'
     end
 
+    trait :cav do
+      description 'Conferences and views'
+      code 'CAV'
+      unique_code 'BACAV'
+      quantity_is_decimal true
+    end
+
     trait :npw do
       description 'Number of prosecution witnesses'
       code 'NPW'

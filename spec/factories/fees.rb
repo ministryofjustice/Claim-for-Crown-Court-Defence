@@ -191,6 +191,10 @@ FactoryBot.define do
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BAPCM') || build(:basic_fee_type, :pcm) }
     end
 
+    trait :cav_fee do
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BACAV') || build(:basic_fee_type, :cav) }
+    end
+
     trait :ppe_fee do
       rate 0
       amount 25

@@ -12,6 +12,8 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
 
   it_behaves_like 'a mapping fee adapter'
 
+  EXCLUSIONS = %i[BACAV].freeze
+
   MAPPINGS = {
     BACAV: %w[AGFS_MISC_FEES AGFS_CONFERENCE], # Conferences and views (basic fee)
     BAPCM: %w[AGFS_MISC_FEES AGFS_PLEA], # Plea & Case management hearing
@@ -48,7 +50,7 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
     MIUAV2: %w[AGFS_MISC_FEES AGFS_UN_VAC_WL], # Unsuccessful application to vacate a guilty plea (whole day)
     MIWPF: %w[AGFS_MISC_FEES AGFS_WSTD_PREP], # Wasted preparation fee
     MIWOA: %w[AGFS_MISC_FEES AGFS_WRTN_ORAL], # Written / oral advice
-  }.freeze
+  }.except(*EXCLUSIONS).freeze
 
   describe '#bill_type' do
     subject { described_class.new.call(fee).bill_type }
@@ -105,7 +107,6 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
       is_expected.to be true
     end
 
-
     it 'returns false when the misc has zero values for quantity, rate and amount' do
       allow(fee).to receive_messages(quantity: 0, rate: 0, amount: 0)
       is_expected.to be false
@@ -113,6 +114,12 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
 
     it 'returns false when the misc has nil values for quantity, rate and amount'do
       allow(fee).to receive_messages(quantity: nil, rate: nil, amount: nil)
+      is_expected.to be false
+    end
+
+    it 'returns false when the fee is of an explicitly excluded type' do
+      allow(fee).to receive_messages(quantity: 1, rate: 1, amount: 1)
+      allow(fee_type).to receive(:unique_code).and_return 'BACAV'
       is_expected.to be false
     end
   end

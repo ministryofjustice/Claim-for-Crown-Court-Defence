@@ -39,6 +39,8 @@ module CCR
         MIWOA: zip(%w[AGFS_MISC_FEES AGFS_WRTN_ORAL]) # Written / oral advice
       }.freeze
 
+      MISC_FEE_BILL_MAPPING_EXCLUSIONS = %i[BACAV].freeze
+
       def claimed?
         maps? && charges?
       end
@@ -46,7 +48,7 @@ module CCR
       private
 
       def bill_mappings
-        MISC_FEE_BILL_MAPPINGS
+        MISC_FEE_BILL_MAPPINGS.except(*MISC_FEE_BILL_MAPPING_EXCLUSIONS)
       end
 
       def bill_key

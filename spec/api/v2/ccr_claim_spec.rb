@@ -584,6 +584,22 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           end
         end
 
+        context 'when CCCD fee exists but is excluded from injection' do
+          context 'Conferences and views cannot be adapted' do
+            let(:basic_fees) { [build(:basic_fee, :cav_fee, rate: 1, quantity: 8)] }
+            let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, basic_fees: basic_fees) }
+
+            before do
+              # TODO: this should probably be using seeds instead
+              create(:basic_fee_type, :cav)
+            end
+
+            it 'not added to bills if it is of an excluded fee type' do
+              is_expected.to have_json_size(0).at_path("bills")
+            end
+          end
+        end
+
         context 'when CCCD fee maps to a CCR misc fee' do
           let(:rate) { 0 }
           let(:quantity) { 0 }

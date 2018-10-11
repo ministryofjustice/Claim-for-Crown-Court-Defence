@@ -14,8 +14,8 @@ RSpec.describe Claims::FeeCalculator::FeeTypeMappings do
   it { is_expected.to respond_to :all }
   it { is_expected.to respond_to :primary_fee_types }
 
-  let(:fixed_fee_mappings) { CCR::Fee::FixedFeeAdapter::FIXED_FEE_BILL_MAPPINGS.keys }
-  let(:misc_fee_mappings) { CCR::Fee::MiscFeeAdapter::MISC_FEE_BILL_MAPPINGS.keys }
+  let(:fixed_fee_mappings) { CCR::Fee::FixedFeeAdapter.new.mappings.keys }
+  let(:misc_fee_mappings) { CCR::Fee::MiscFeeAdapter.new.mappings.keys }
   let(:all_fee_mappings) { fixed_fee_mappings + misc_fee_mappings }
   let(:primary_fee_types) { %i[FXACV FXASE FXCBR FXCSE FXCON FXENP] }
 

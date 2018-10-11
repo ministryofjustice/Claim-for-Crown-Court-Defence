@@ -29,10 +29,10 @@ Feature: Advocate completes fixed fee page using calculator
     And I add a fixed fee 'Number of defendants uplift'
     And I add a fixed fee 'Standard appearance fee'
 
-    Then the 'fixed' fee 'Appeals to the crown court against conviction' should have a rate of '130.00'
-    Then the 'fixed' fee 'Number of cases uplift' should have a rate of '26.00'
-    Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '26.00'
-    Then the 'fixed' fee 'Standard appearance fee' should have a rate of '87.00'
+    Then the 'fixed' fee 'Appeals to the crown court against conviction' should have a rate of '130.00' and a hint of 'Number of days'
+    Then the 'fixed' fee 'Number of cases uplift' should have a rate of '26.00' and a hint of 'Number of additional cases'
+    Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '26.00' and a hint of 'Number of additional defendants'
+    Then the 'fixed' fee 'Standard appearance fee' should have a rate of '87.00' and a hint of 'Number of days'
 
     And I select an advocate category of 'QC'
     Then the 'fixed' fee 'Appeals to the crown court against conviction' should have a rate of '260.00'

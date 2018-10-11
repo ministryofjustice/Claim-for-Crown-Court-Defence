@@ -68,7 +68,8 @@ moj.Modules.FeeCalculator = {
         $result = 'half day';
         break;
       case 'DEFENDANT':
-        $result = 'additional defendant';
+      case 'CASE':
+        $result = 'additional ' + data;
         break;
       default:
         $result = data;

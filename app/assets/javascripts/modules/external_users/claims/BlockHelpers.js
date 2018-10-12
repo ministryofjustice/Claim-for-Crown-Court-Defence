@@ -491,6 +491,14 @@ moj.Helpers.Blocks = {
 
       // location
       $detached.find(this.stateLookup.location).css('display', (state.config.location ? 'block' : 'none'));
+
+      // remove the location data from the form
+      if(!state.config.location){
+        $detached.find('.fx-location-model').val('');
+        $detached.find('.fx-travel-location > .location_wrapper:first input').val('');
+        $detached.find('.fx-travel-location > .fx-establishment-select select').prop('selectedIndex', 0);
+      }
+
       if (this.config.featureDistance) {
         $detached.find(this.stateLookup.location + ' .has-select label').contents().first()[0].textContent = state.config.locationLabel;
       }

@@ -67,7 +67,7 @@ class RepresentationOrderValidator < BaseValidator
     return unless case_type&.requires_maat_reference?
     validate_presence(:maat_reference, 'invalid')
     validate_pattern(:maat_reference, /^[0-9]{7,10}$/, 'invalid')
-    matt_reference_uniqueness(:maat_reference, 'unique')
+    validate_matt_reference_uniqueness(:maat_reference, 'unique')
   end
 
   # helper methods
@@ -76,7 +76,7 @@ class RepresentationOrderValidator < BaseValidator
     @record.defendant.claim
   end
 
-  def matt_reference_uniqueness(attribute, message)
+  def validate_matt_reference_uniqueness(attribute, message)
     return if attr_blank?(attribute)
     all_maat_references = claim.representation_orders.pluck(:maat_reference)
     add_error(attribute, message) if all_maat_references.count(@record.__send__(attribute)) > 1

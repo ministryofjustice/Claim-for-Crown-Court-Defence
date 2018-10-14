@@ -1,5 +1,6 @@
 class MaintenanceController < ApplicationController
-  skip_load_and_authorize_resource
+  protect_from_forgery prepend: true, except: :index
+  skip_load_and_authorize_resource only: :index
 
   def index
     response.set_header('Retry-After', MaintenanceMode.retry_after)

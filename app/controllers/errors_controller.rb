@@ -17,7 +17,7 @@ class ErrorsController < ApplicationController
   def internal_server_error
     respond_to do |format|
       format.html { render status: 500 }
-      format.all { render status: 500, plain: 'error' }
+      format.all { render status: 500, plain: 'internal server error' }
     end
   end
 

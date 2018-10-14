@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-
-  get 'maintenance', to: 'maintenance#show'
+  match('*path', to: 'maintenance#index', via: :all) if MaintenanceMode.enabled?
 
   get 'dummy_exception', to: 'errors#dummy_exception'
   get 'ping',           to: 'heartbeat#ping', format: :json
@@ -17,8 +16,12 @@ Rails.application.routes.draw do
   get 'json_schema' => 'json_template#index'
   get 'json_schemas/:schema', to: 'json_template#show', as: :json_schemas
 
+  
+
   get '/404', to: 'errors#not_found', as: :error_404
   get '/500', to: 'errors#internal_server_error', as: :error_500
+  get '/503', to: 'errors#service_unavailable', as: :error_503
+  post '/', to: 'errors#not_endpoint'
 
   devise_for :users, controllers: { sessions: 'sessions', passwords: 'passwords', unlocks: 'unlocks', registrations: 'external_users/registrations' }
 
@@ -201,8 +204,6 @@ Rails.application.routes.draw do
   end
 
   get 'statistics', to: 'geckoboard_api/statistics#index'
-
-  post '/', to: 'errors#not_endpoint'
 
   # catch-all route
   # -------------------------------------------------

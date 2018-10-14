@@ -6,7 +6,8 @@
 #   config.retry_after = 3600
 # end
 #
-# Then use Template deploy to update environment to have:
+# For the above example you can use Template deploy to
+# update environment to have:
 # MAINTENANCE_MODE: any-old-value-as-var-presence-is-enough
 #
 module MaintenanceMode

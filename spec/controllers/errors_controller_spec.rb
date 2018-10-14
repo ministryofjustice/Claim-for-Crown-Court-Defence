@@ -37,4 +37,16 @@ RSpec.describe ErrorsController, type: :controller do
       expect(response).to render_template(:internal_server_error)
     end
   end
+
+  describe "GET #service_unavailable" do
+    before { get :service_unavailable }
+
+    it 'has a status of 503' do
+      expect(response.status).to eq(503)
+    end
+
+    it 'renders the 503/service_unavailablw' do
+      expect(response).to render_template(:service_unavailable)
+    end
+  end
 end

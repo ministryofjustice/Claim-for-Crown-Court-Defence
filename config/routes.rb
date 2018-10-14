@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  # This (conditional) route must be first
-  match('*path', to: 'maintenance#index', via: :all) if MaintenanceMode.enabled?
+  # These (conditional) routes must be first to put site in maintenance mode
+  if MaintenanceMode.enabled?
+    root to: 'maintenance#index', via: :all
+    match '*path', to: 'maintenance#index', via: :all
+  end
 
   get 'dummy_exception', to: 'errors#dummy_exception'
   get 'ping',           to: 'heartbeat#ping', format: :json
@@ -95,7 +98,6 @@ Rails.application.routes.draw do
         patch 'update_password', on: :member
       end
     end
-
   end
 
   scope module: 'external_users' do
@@ -150,7 +152,6 @@ Rails.application.routes.draw do
         patch :regenerate_api_key, on: :member
       end
     end
-
   end
 
   namespace :case_workers do

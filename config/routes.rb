@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # This (conditional) route must be first
   match('*path', to: 'maintenance#index', via: :all) if MaintenanceMode.enabled?
 
   get 'dummy_exception', to: 'errors#dummy_exception'

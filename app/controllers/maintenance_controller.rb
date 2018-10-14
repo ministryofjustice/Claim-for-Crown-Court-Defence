@@ -2,6 +2,7 @@ class MaintenanceController < ApplicationController
   skip_load_and_authorize_resource
 
   def index
+    response.set_header('Retry-After', MaintenanceMode.retry_after)
     respond_to do |format|
       format.html { render :index, status: 503 }
       format.json { render json: { status: 503, message: 'maintenance mode enabled' } }

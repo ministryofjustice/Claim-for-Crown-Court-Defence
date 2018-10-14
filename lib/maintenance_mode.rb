@@ -1,5 +1,14 @@
-# Module to configure maintenance mode for the entire
-# app.
+# Helper module to put site in maintenance mode.
+# Configure in initializer, example:
+#
+# MaintenanceMode.configure do |config|
+#   config.enabled = ENV['MAINTENANCE_MODE'].present?
+#   config.retry_after = 3600
+# end
+#
+# Then use Template deploy to update environment to have:
+# MAINTENANCE_MODE: any-old-value-as-var-presence-is-enough
+#
 module MaintenanceMode
   class Configuration
     attr_accessor :enabled, :retry_after

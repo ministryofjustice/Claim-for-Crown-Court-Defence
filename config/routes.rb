@@ -1,10 +1,7 @@
 Rails.application.routes.draw do
-  # These (conditional) routes must be first to put site in maintenance mode
-  if MaintenanceMode.enabled?
-    root to: 'maintenance#index', via: :all
-    match '*path', to: 'maintenance#index', via: :all
-  end
-
+  # must be first
+  MaintenanceMode.routes
+  
   get 'dummy_exception', to: 'errors#dummy_exception'
   get 'ping',           to: 'heartbeat#ping', format: :json
   get 'healthcheck',    to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
@@ -19,8 +16,6 @@ Rails.application.routes.draw do
 
   get 'json_schema' => 'json_template#index'
   get 'json_schemas/:schema', to: 'json_template#show', as: :json_schemas
-
-  
 
   get '/404', to: 'errors#not_found', as: :error_404
   get '/500', to: 'errors#internal_server_error', as: :error_500

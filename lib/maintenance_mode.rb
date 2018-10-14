@@ -37,5 +37,14 @@ module MaintenanceMode
       yield(configuration) if block_given?
       configuration
     end
+
+    def routes
+      if enabled?
+        Rails.application.routes.draw do
+          root to: 'maintenance#index', via: :all
+          match '*path', to: 'maintenance#index', via: :all
+        end
+      end
+    end
   end
 end

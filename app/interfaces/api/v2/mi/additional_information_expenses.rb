@@ -24,10 +24,10 @@ module API
 
             desc 'Retrieve additional travel expenses information from between two dates'
             params do
-              optional :api_key, type: String, desc: t('api.v2.generic.params.api_key')
-              optional :start_date, type: String, desc: t('api.v2.mi.travel_automation.date_from')
-              optional :end_date, type: String, desc: t('api.v2.mi.travel_automation.date_to')
-              optional :format, type: String, desc: t('api.v2.generic.params.format'), values: %w[json csv]
+              optional :api_key, type: String, desc: I18n.t('api.v2.generic.params.api_key')
+              optional :start_date, type: String, desc: I18n.t('api.v2.mi.travel_automation.date_from')
+              optional :end_date, type: String, desc: I18n.t('api.v2.mi.travel_automation.date_to')
+              optional :format, type: String, desc: I18n.t('api.v2.generic.params.format'), values: %w[json csv]
             end
             get do
               results = Reports::AdditionalTravelExpenseInformationByDates.call(date_range)

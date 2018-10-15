@@ -83,6 +83,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
     context 'with 2 defendants' do
       before do
         create(:defendant, claim: claim)
+        claim.reload
       end
 
       context 'when there is 1 defendant uplift fee' do
@@ -137,6 +138,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
     context 'defendants marked for destruction' do
       before do
         create(:defendant, claim: claim)
+        claim.reload
       end
 
       it 'test setup' do

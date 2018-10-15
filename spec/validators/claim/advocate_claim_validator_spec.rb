@@ -322,6 +322,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
         before do
           create(:defendant, claim: claim)
           create(:misc_fee, fee_type: midtw, claim: claim, quantity: 1, amount: 21.01)
+          claim.reload
         end
 
         context 'when there are multiple uplifts of 1 per fee type' do
@@ -387,6 +388,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
         before do
           create(:defendant, claim: claim)
           create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
+          claim.reload
         end
 
         it 'test setup' do

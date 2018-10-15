@@ -701,6 +701,10 @@ representation_order:
       long: "Enter a valid MAAT reference for the #{representation_order} of the #{defendant}"
       short: Enter a valid MAAT reference
       api: "Enter a valid MAAT reference for the representation order of the defendant"
+    unique:
+      long: "Each defendant must have a unique MAAT reference"
+      short: "Enter a unique MAAT reference"
+      api: "Each defendant must have a unique MAAT reference"
 
 #################################################################################
 #                                                                               #

@@ -79,3 +79,4 @@ id,key,court_name_short,court_name_full,address_line_1,address_line_2,address_li
 472,woolwich_crown_court,Woolwich,Woolwich Crown Court,,,,London,SE28 0EY,51.49649605,0.09013780356,London,crown,
 380,worcester_combined_court_centre,Worcester,Worcester Combined Court Centre,,,,Worcester,WR1 1EQ,52.19695284,-2.221883619,West Midlands,crown,
 467,york_crown_court,York,York Crown Court,,,,York,YO1 9WZ,53.95527456,-1.079646999,Yorkshire and The Humber,crown,
+000,hereford_crown_court,Hereford,Hereford Crown Court,,,,Hereford,HR1 2HY,,,,crown,

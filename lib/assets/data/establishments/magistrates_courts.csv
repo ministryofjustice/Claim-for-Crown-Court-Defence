@@ -35,7 +35,6 @@ id,key,court_name_short,court_name_full,address_line_1,address_line_2,address_li
 31,bury_and_rochdale_magistrates_court,Bury,Bury and Rochdale Magistrates' Court,The Courthouse,Tenters Street,,Bury,BL9 0HX,53.59303845,-2.305435618,North West,magistrates,Bury and Rochdale Magistrates' Court
 32,bury_st_edmunds_magistrates_court_and_family_court,Bury St Edmunds,Bury St Edmunds Magistrates' Court and Family Court,Shire Hall,Honey Hill,,Bury St Edmunds,IP33 1HF,52.242503,0.719563,East of England,"family, magistrates",Bury St Edmunds Magistrates' Court and Family Court
 33,buxton_magistrates_court_and_family_court,Buxton,Buxton Magistrates' Court and Family Court,Peak Buildings,Terrace Road,,Buxton,SK17 6DY,53.256792,-1.913081,North West,"family, magistrates",Buxton Magistrates' Court and Family Court
-95,high_peak_magistrates_court,Buxton,High Peak Magistrates' Court,Peak Buildings,Terrace Road,,Buxton,SK17 6DY,53.256792,-1.913081,North West,magistrates,High Peak Magistrates' Court
 34,caernarfon_magistrates_court_and_family_court,Caernarfon,Caernarfon Magistrates' Court and Family Court,Llanberis Road,,,Caernarfon,LL55 2DF,53.14072879,-4.264067316,Wales,"family, magistrates","Caernarfon Magistrates' Court and Family Court, Caernarfon Criminal Justice Centre"
 35,caerphilly_magistrates_court,Caerphilly,Caerphilly Magistrates' Court,The Court House,Mountain Road,,Caerphilly,CF83 1HG,51.56949679,-3.217402378,Wales,magistrates,Caerphilly Magistrates' Court
 38,cambridge_magistrates_court,Cambridge,Cambridge Magistrates' Court,12 St Andrews Street,,,Cambridge,CB2 3AX,52.20438925,0.1224531102,East of England,magistrates,Cambridge Magistrates' Court
@@ -108,7 +107,6 @@ id,key,court_name_short,court_name_full,address_line_1,address_line_2,address_li
 113,leicester_magistrates_court,Leicester,Leicester Magistrates' Court,15 Pocklingtons Walk,,,Leicester,LE1 6BT,52.63221179,-1.134435523,East Midlands,magistrates,Leicester Magistrates' Court
 114,lincoln_magistrates_court,Lincoln,Lincoln Magistrates' Court,The Court House,358 High Street,,Lincoln,LN5 7QA,53.22459307,-0.5420399214,East Midlands,magistrates,Lincoln Magistrates' Court
 115,liverpool_and_knowsley_magistrates_court,Liverpool,Liverpool and Knowsley Magistrates’ Court,Queen Elizabeth II Law Courts,Derby Square,,Liverpool,L2 1XA,53.40406677,-2.989685563,North West,magistrates,Liverpool and Knowsley Magistrates’ Court
-116,llandrindod_wells_magistrates_and_family_court,Llandrindod Wells,Llandrindod Wells Magistrates' and Family Court,Noyadd Parks,,,Llandrindod Wells,LD1 5DF,52.25203014,-3.369755082,Wales,"family, magistrates",Llandrindod Wells Magistrates' and Family Court
 117,llandudno_magistrates_court_and_family_court,Llandudno,Llandudno Magistrates' Court and Family Court,The Court House,Conwy Road,,Llandudno,LL30 1GA,53.32018664,-3.82329219,Wales,"family, magistrates",Llandudno Magistrates' Court and Family Court
 118,llanelli_magistrates_court_and_family_court,Llanelli,Llanelli Magistrates' Court and Family Court,Town Hall Square,,,Llanelli,SA15 3AW,51.68211114,-4.163143538,Wales,"family, magistrates",Llanelli Magistrates' Court and Family Court
 13,belmarsh_magistrates_court,Belmarsh,Belmarsh Magistrates' Court,4 Belmarsh Road,Thamesmead,,London,SE28 0FG,51.49724632,0.09697244195,London,magistrates,Belmarsh Magistrates' Court
@@ -172,7 +170,7 @@ id,key,court_name_short,court_name_full,address_line_1,address_line_2,address_li
 158,richmond_upon_thames_magistrates_court,Richmond-upon-Thames,Richmond-upon-Thames Magistrates' Court,Parkshot,,,Richmond-upon-Thames,TW9 2RF,51.463815,-0.303474,London,magistrates,Richmond-upon-Thames Magistrates' Court
 159,romford_magistrates_court,Romford,Romford Magistrates' Court,Main Road,,,Romford,RM1 3BH,51.58175952,0.1857059433,London,magistrates,Romford Magistrates' Court
 160,rotherham_magistrates_court_and_family_court,Rotherham,Rotherham Magistrates' Court and Family Court,The Statutes,,,Rotherham,S60 1RX,53.430396,-1.360974272,Yorkshire and The Humber,"family, magistrates",Rotherham Magistrates' Court and Family Court
-179,staffs_central_finance_and_enforcement_unit,Rugeley,Staffs Central Finance and Enforcement Unit,The Court House,Bryans Lane,,Rugeley,WS15 2FX,52.76181962,-1.932383366,West Midlands,magistrates,Staffs Central Finance and Enforcement Unit
+179,staffordshire_magistrates_court,Stafford,Staffordshire (Rugeley) Magistrates' Court,,,,Rugeley,WS15 2FX,52.76181962,-1.932383366,West Midlands,magistrates,Stafford Magistrates' Court
 161,runcorn_halton_magistrates_court,Runcorn,Runcorn (Halton) Magistrates' Court,The Court House,Halton Lea,,Runcorn,WA7 2HA,53.32909561,-2.696217261,North West,magistrates,Runcorn (Halton) Magistrates' Court
 195,trafford_magistrates_court,Sale,Trafford Magistrates' Court,Ashton Lane,,,Sale,M33 7NR,53.42631364,-2.325276885,North West,magistrates,Trafford Magistrates' Court
 162,salisbury_law_courts,Salisbury,Salisbury Law Courts,Wilton Road,,,Salisbury,SP2 7EP,51.07337973,-1.810385948,South West,magistrates,Salisbury Law Courts
@@ -220,3 +218,13 @@ id,key,court_name_short,court_name_full,address_line_1,address_line_2,address_li
 218,worthing_magistrates_court,Worthing,Worthing Magistrates' Court,The Law Courts,Christchurch Road,,Worthing,BN11 1JE,50.81416062,-0.374064814,South East,magistrates,Worthing Magistrates' Court
 220,yeovil_magistrates_court,Yeovil,Yeovil Magistrates' Court,The Law Courts,Petters Way,,Yeovil,BA20 1SW,50.93962751,-2.633787624,South West,magistrates,Yeovil Magistrates' Court
 221,york_magistrates_court_and_family_court,York,York Magistrates' Court and Family Court,Law Courts,Clifford Street,,York,YO1 9RE,53.95641537,-1.081907862,Yorkshire and The Humber,"family, magistrates",York Magistrates' Court and Family Court
+900,,Barnsley,Barnsley Magistrates' Court,,,,,S70 2HW
+901,,Huntingdon,Huntingdon Magistrates' Court,,,,,PE29 3DW
+902,,Kirklees,Kirklees (Huddersfield) Magistrates' Court,,,,,HD1 2NW
+903,,Leyland,Leyland Magistrates' Court,,,,,PR25 2EX
+904,,Llandrindod Wells,Llandrindod Wells Magistrates' Court,,,,,LD1 5DF
+905,,Mid and South East Northumberland,Mid and South East Northumberland Magistrates' Court,,,,,NE22 7LX
+906,,West Cumbria,West Cumbria (Workington) Magistrates' Court,,,,,CA14 4AS
+907,,Chesterfield,Chesterfield Justice Centre,,,,,S41 7TW
+908,,Merthyr Tydfil,Merthyr Tydfil Combined Court Centre,,,,,CF47 8BH
+909,,Newcastle-under-Lyme,Newcastle-under-Lyme Magistrates' Court,,,,,ST5 2DT

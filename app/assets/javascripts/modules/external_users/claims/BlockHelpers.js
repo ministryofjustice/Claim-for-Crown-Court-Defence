@@ -18,7 +18,7 @@ moj.Helpers.Blocks = {
         }
         return this.$el.find(selector).css('display', state ? 'block' : 'none');
       }
-      throw Error('Selector did not return an element: ' + selector);
+      throw new Error('Selector did not return an element: ' + selector);
     };
 
     this.setVal = function(selector, val) {
@@ -26,7 +26,7 @@ moj.Helpers.Blocks = {
         this.$el.find(selector).val(val).change();
         return;
       }
-      throw Error('Selector did not return an element: ' + selector);
+      throw new Error('Selector did not return an element: ' + selector);
     };
 
     this.setNumber = function(selector, val, points) {
@@ -352,39 +352,42 @@ moj.Helpers.Blocks = {
       }
     };
 
-    // TO DO: specs
+    // Call the Distance helper and return the
+    // id for the checked ra
     this.getDistance = function(ajaxConfig) {
       var def = $.Deferred();
       var self = this;
       moj.Helpers.API.Distance.query(ajaxConfig).then(function(result) {
         var number = self.$el.find('.fx-travel-mileage input[type=radio]:visible:checked').val();
+
         result.miles = Math.round((result.distance / self.config.metersPerMile));
         self.$el.find('.fx-travel-calculated-distance').val(result.miles);
+
         def.resolve(number, result);
+
       }, function(result) {
         def.reject(result.error);
       });
       return def.promise();
     };
 
+    // Setting the view error state and message
     this.viewErrorHandler = function(message) {
       var el = this.$el.find('.fx-general-errors');
       el.find('span').text(message);
       el.css('display', 'inline-block');
     };
 
-    /**
-     * setLocationElement
-     * @param  obj Config extracted from the selected option
-     * @return {[type]}     [description]
-     */
+    // The location elment is an input or a select
+    // This method will return the html to append to the dom
     this.setLocationElement = function(obj) {
-      if (!obj) throw Error('Missing param: obj, cannot build element');
+      if (!obj) throw new Error('Missing param: obj, cannot build element');
 
       // cache selected value
       var selectedValue = this.$el.find('.fx-location-model').val();
 
-      // Travel reason
+      // If a locationType is present render the select
+      // This will set the selected value if present
       // <option data-location-type="crown_court|prison|etc" />
       if (obj.locationType) {
         this.attachSelectWithOptions(obj.locationType, selectedValue);
@@ -395,7 +398,7 @@ moj.Helpers.Blocks = {
       return this.displayLocationInput();
     };
 
-    //
+    // Display the input and hide the select
     this.displayLocationInput = function() {
       this.$el.find('.location_wrapper').css('display', 'block');
       this.$el.find('.fx-establishment-select').css('display', 'none');
@@ -406,7 +409,7 @@ moj.Helpers.Blocks = {
       var self = this;
       var $detachedSelect;
 
-      if (!locationType) return new Error('Missing param: locationType');
+      if (!locationType) throw new Error('Missing param: locationType');
 
       moj.Helpers.API.Establishments.getAsSelectWithOptions(locationType, {
         prop: 'name',
@@ -426,7 +429,7 @@ moj.Helpers.Blocks = {
         self.$el.find('.fx-travel-location .has-select label').text(staticdata.locationLabel[locationType] || staticdata.locationLabel.default);
 
       }, function() {
-        return Error('Attach options failed:', arguments);
+        throw new Error('Attach options failed:', arguments);
       });
     };
 
@@ -476,6 +479,11 @@ moj.Helpers.Blocks = {
         'vatAmount'
       ].forEach(function(value, idx) {
         $detached.find(self.stateLookup[value]).css('display', (state.config[value] ? 'block' : 'none'));
+
+        // Clear out the value for this input
+        if(!state.config[value]){
+          $detached.find(self.stateLookup[value] +' input:not([type=radio])').val('');
+        }
       });
 
       // net amount
@@ -483,6 +491,14 @@ moj.Helpers.Blocks = {
 
       // location
       $detached.find(this.stateLookup.location).css('display', (state.config.location ? 'block' : 'none'));
+
+      // remove the location data from the form
+      if(!state.config.location){
+        $detached.find('.fx-location-model').val('');
+        $detached.find('.fx-travel-location > .location_wrapper:first input').val('');
+        $detached.find('.fx-travel-location > .fx-establishment-select select').prop('selectedIndex', 0);
+      }
+
       if (this.config.featureDistance) {
         $detached.find(this.stateLookup.location + ' .has-select label').contents().first()[0].textContent = state.config.locationLabel;
       }
@@ -533,6 +549,7 @@ moj.Helpers.Blocks = {
       });
 
       $detached = this.radioStateManager($detached, state);
+
       return $parent.append($detached);
     };
 
@@ -543,10 +560,19 @@ moj.Helpers.Blocks = {
      * @return $dom return the $dom referance
      */
     this.radioStateManager = function($dom, state) {
+
+      // Clearing the radio buttons if they are not required
+      if(!state.config.mileage){
+        $dom.find('.fx-travel-mileage input[type=radio]').is(function () {
+          $(this).removeAttr('checked').prop('disabled', true);
+        });
+        return $dom;
+      }
+
       // Mileage radios: BIKE
       if (state.config.mileageType === 'bike') {
         this.config.mileageFactor = 0.20;
-        this.setRadioState($dom, {
+        return this.setRadioState($dom, {
           car: 'none',
           carModel: false,
           bike: 'block',
@@ -557,7 +583,7 @@ moj.Helpers.Blocks = {
       // Mileage radios: BIKE
       if (state.config.mileageType === 'car') {
         this.config.mileageFactor = 0.45;
-        this.setRadioState($dom, {
+        return this.setRadioState($dom, {
           car: 'block',
           carModel: true,
           bike: 'none',
@@ -580,6 +606,7 @@ moj.Helpers.Blocks = {
       $dom.find('.fx-travel-mileage-bike input[type=radio]').is(function() {
         $(this).prop('checked', config.bikeModel).prop('disabled', !config.bikeModel).change();
       });
+      return $dom;
     };
   },
 

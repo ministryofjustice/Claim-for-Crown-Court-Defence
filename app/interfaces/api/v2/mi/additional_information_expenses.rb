@@ -12,10 +12,12 @@ module API
           resource :additional_travel_expense_information do
             helpers do
               def date_range
+                default_hash = { start_date: 1.day.ago.utc.beginning_of_day, end_date: 1.day.ago.utc.end_of_day }
+                return default_hash unless params[:start_date].present?
                 @start_date = params[:start_date].to_date.beginning_of_day.utc
                 @end_date = params[:end_date].to_date.end_of_day.utc
                 { start_date: @start_date, end_date: @end_date }
-              rescue NoMethodError
+              rescue NoMethodError, ArgumentError
                 error!('Please provide both dates in the format YYYY-MM-DD', 400)
               end
             end
@@ -23,8 +25,8 @@ module API
             desc 'Retrieve additional travel expenses information from between two dates'
             params do
               optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the user'
-              optional :start_date, type: String, desc: 'REQUIRED: Claims submitted on or after date (YYYY-MM-DD).'
-              optional :end_date, type: String, desc: 'REQUIRED: Claims submitted on or before date (YYYY-MM-DD).'
+              optional :start_date, type: String, desc: 'OPTIONAL: Claims submitted on or after date (YYYY-MM-DD). Defaults to yesterday'
+              optional :end_date, type: String, desc: 'OPTIONAL/REQUIRED: Claims submitted on or before date (YYYY-MM-DD). Required if start date set'
               optional :format, type: String, desc: 'JSON or CSV. Defaults to JSON', values: %w[json csv]
             end
             get do

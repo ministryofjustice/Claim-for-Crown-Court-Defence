@@ -10,11 +10,13 @@ RSpec.describe API::V2::MI::AdditionalInformationExpenses do
   let(:case_worker_admin) { create(:case_worker, :admin) }
   let(:external_user) { create(:external_user) }
   let(:default_params) { { api_key: api_key, start_date: start_date, end_date: end_date } }
+  let(:invalid_params) { { api_key: api_key, start_date: '--', end_date: '31 Jan 2018' } }
   let(:missing_params) { { api_key: api_key } }
   let(:params) { default_params }
   let(:start_date) { Date.new(2018, 01, 01).to_s(:db) }
   let(:end_date) { Date.new(2018, 01, 31).to_s(:db) }
   let(:create_data?) { false }
+  let(:run_date) { Date.today }
 
   describe 'GET additional_travel_expense_information' do
     def populate_expense_data
@@ -32,6 +34,9 @@ RSpec.describe API::V2::MI::AdditionalInformationExpenses do
           create(:expense, :with_calculated_distance, date: 3.days.ago,claim: lgfs_claim)
         end
         create(:litigator_claim, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(1)) do |lgfs_claim|
+          create(:expense, :with_calculated_distance_decreased, date: 3.days.ago,claim: lgfs_claim)
+        end
+        create(:litigator_claim, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(1)) do |lgfs_claim|
           create(:expense, date: 4.days.ago,claim: lgfs_claim)
         end
       end
@@ -39,7 +44,9 @@ RSpec.describe API::V2::MI::AdditionalInformationExpenses do
 
     def do_request
       populate_expense_data if create_data?
-      get '/api/mi/additional_travel_expense_information', params, format: :json
+      travel_to(run_date) do
+        get '/api/mi/additional_travel_expense_information', params, format: :json
+      end
     end
 
     context 'when accessed by a CaseWorker' do
@@ -50,8 +57,8 @@ RSpec.describe API::V2::MI::AdditionalInformationExpenses do
       end
 
       context 'and there is no data available' do
-        context 'and dates are not provided' do
-          let(:params) { missing_params }
+        context 'and dates are in the wrong format' do
+          let(:params) { invalid_params }
 
           it 'returns an error' do
             expect(last_response.status).to eq 400
@@ -59,6 +66,18 @@ RSpec.describe API::V2::MI::AdditionalInformationExpenses do
 
           it 'returns a specific error message' do
             expect(last_response.body).to include('Please provide both dates in the format')
+          end
+        end
+
+        context 'and dates are not provided' do
+          let(:params) { missing_params }
+
+          it 'returns an error' do
+            expect(last_response.status).to eq 200
+          end
+
+          it 'returns an empty array' do
+            expect(JSON.parse(last_response.body)).to be_empty
           end
         end
 
@@ -126,6 +145,16 @@ RSpec.describe API::V2::MI::AdditionalInformationExpenses do
 
         it 'retrieves travel expense data from the provided date' do
           expect(JSON.parse(last_response.body).count).to eq(1)
+        end
+
+        context 'and no date provided' do
+          let(:params) { missing_params }
+
+          let(:run_date) { Date.new(2018, 02, 15) }
+
+          it 'retrieves yesterdays data (14 Feb 2018' do
+            expect(JSON.parse(last_response.body).count).to eq(2)
+          end
         end
 
         context 'and with CSV output format' do

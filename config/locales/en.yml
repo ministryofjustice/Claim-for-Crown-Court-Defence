@@ -1652,6 +1652,7 @@ en:
       generic:
         params:
           api_key: 'REQUIRED: The API authentication key of the case worker'
+          format: 'OPTIONAL: the format to output the data. DEFAULT: json.  CSV will download automatically'
       allocate:
         params:
           case_worker_id: 'REQUIRED: The id of the caseworker'
@@ -1659,6 +1660,9 @@ en:
           claim_ids: 'OPTIONAL: The specific claim ids to be allocated'
           filters: 'OPTIONAL: The filters to be applied if allocating by number'
       mi:
+        travel_automation:
+          date_from: "OPTIONAL: Claims submitted on or after date (YYYY-MM-DD). Defaults to yesterday"
+          date_to: "OPTIONAL/REQUIRED: Claims submitted on or before date (YYYY-MM-DD). Required if start date set"
         scheme_ten:
           format: 'OPTIONAL: the format to output the data. DEFAULT: json.  CSV will download automatically'
   faker:

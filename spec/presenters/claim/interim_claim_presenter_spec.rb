@@ -9,7 +9,7 @@ RSpec.describe Claim::InterimClaimPresenter, type: :presenter do
 
   specify { expect(presenter.requires_trial_dates?).to be_falsey }
   specify { expect(presenter.requires_retrial_dates?).to be_falsey }
-  specify { expect(presenter.can_have_expenses?).to be_falsey }
+  specify { expect(presenter.can_have_expenses?).to be_truthy }
   specify { expect(presenter.pretty_type).to eq('LGFS Interim') }
   specify { expect(presenter.type_identifier).to eq('lgfs_interim') }
 

@@ -39,11 +39,10 @@ module MaintenanceMode
     end
 
     def routes
-      if enabled?
-        Rails.application.routes.draw do
-          root to: 'maintenance#index', via: :all
-          match '*path', to: 'maintenance#index', via: :all
-        end
+      return unless enabled?
+      Rails.application.routes.draw do
+        root to: 'maintenance#index', via: :all
+        match '*path', to: 'maintenance#index', via: :all
       end
     end
   end

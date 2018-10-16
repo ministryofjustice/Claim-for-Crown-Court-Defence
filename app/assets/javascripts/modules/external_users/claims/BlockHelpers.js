@@ -321,13 +321,22 @@ moj.Helpers.Blocks = {
         }
       });
 
+      // Binding to the mileage radio buttons (click and change)
+      // to update calculations
       this.$el.on('change, click', '.fx-travel-mileage input[type=radio]', function(e) {
         self.updateMileageElements(self.getRateId(), true);
       });
 
+      // Binding to mileage input key up
+      // when a user manually enters the distance to update the calculations
       this.$el.on('keyup', '.fx-travel-distance input', function(e) {
         var rateId = self.getRateId();
         self.updateMileageElements(rateId, rateId ? true : false);
+      });
+
+      // Binding to the net amount key up to update the VAT amount field
+      this.$el.on('keyup', '.fx-travel-net-amount input', function(e) {
+        self.setNumber('.fx-travel-vat-amount input', e.target.value * self.config.vatfactor);
       });
 
       return this;

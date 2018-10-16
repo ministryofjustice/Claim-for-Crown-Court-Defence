@@ -913,6 +913,33 @@ describe('Helpers.Blocks.js', function() {
               destination: 'POSTCODE'
             });
           });
+
+          it('net amount: should bind keyup listner', function() {
+            var selector = '.fx-travel-net-amount input';
+            var spyEvent = spyOnEvent(selector, 'keyup');
+
+            $(selector).keyup();
+
+            expect('keyup').toHaveBeenTriggeredOn(selector);
+            expect(spyEvent).toHaveBeenTriggered();
+          });
+
+          it('net amount: should update vat amount on key up', function() {
+            var selector = '.fx-travel-net-amount input';
+            spyOn(instance, 'setNumber');
+
+            instance.bindListners();
+
+            $(selector).val(11.35).keyup();
+            expect(instance.setNumber).toHaveBeenCalledWith( '.fx-travel-vat-amount input', 2.27);
+
+            instance.config.vatfactor = 0.99;
+
+            $(selector).val(10.21).keyup();
+
+            expect(instance.setNumber).toHaveBeenCalledWith( '.fx-travel-vat-amount input', 10.1079);
+
+          });
         });
 
         describe('...setLocationElement', function() {
@@ -1096,11 +1123,11 @@ describe('Helpers.Blocks.js', function() {
 
         describe('...attachSelectWithOptions', function() {
           var optionsFixture = ['<option value="">Please select</option>',
-              '<option value="135" data-postcode="SY23 1AS">Aberystwyth Justice Centre</option>',
-              '<option value="136" selected="" data-postcode="GU11 1NY">Aldershot Magistrates\' Court</option>',
-              '<option value="137" data-postcode="HP6 5AJ">Amersham Law Courts</option>',
-              '<option value="139" data-postcode="HP21 7QZ">Aylesbury Magistrates\' Court and Family Court</option>")'
-            ];
+            '<option value="135" data-postcode="SY23 1AS">Aberystwyth Justice Centre</option>',
+            '<option value="136" selected="" data-postcode="GU11 1NY">Aldershot Magistrates\' Court</option>',
+            '<option value="137" data-postcode="HP6 5AJ">Amersham Law Courts</option>',
+            '<option value="139" data-postcode="HP21 7QZ">Aylesbury Magistrates\' Court and Family Court</option>")'
+          ];
           it('should return an error if no locationType', function() {
             instance.init();
             expect(function() {

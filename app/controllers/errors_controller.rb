@@ -1,6 +1,17 @@
 class ErrorsController < ApplicationController
-  skip_load_and_authorize_resource only: %i[not_endpoint not_found internal_server_error dummy_exception]
-  protect_from_forgery prepend: true, except: %i[not_endpoint not_found internal_server_error]
+  skip_load_and_authorize_resource only: %i[
+    not_endpoint
+    not_found
+    internal_server_error
+    service_unavailable
+    dummy_exception
+  ]
+  protect_from_forgery prepend: true, except: %i[
+    not_endpoint
+    not_found
+    internal_server_error
+    service_unavailable
+  ]
 
   def not_endpoint
     logger.info("Data POSTed to root with API key: #{not_endpoint_params[:api_key]}") if params.present?
@@ -17,7 +28,14 @@ class ErrorsController < ApplicationController
   def internal_server_error
     respond_to do |format|
       format.html { render status: 500 }
-      format.all { render status: 500, plain: 'error' }
+      format.all { render status: 500, plain: 'internal server error' }
+    end
+  end
+
+  def service_unavailable
+    respond_to do |format|
+      format.html { render status: 503 }
+      format.all { render status: 503, plain: 'service unavailable' }
     end
   end
 

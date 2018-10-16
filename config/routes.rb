@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-
+  # must be first
+  MaintenanceMode.routes
+  
   get 'dummy_exception', to: 'errors#dummy_exception'
   get 'ping',           to: 'heartbeat#ping', format: :json
   get 'healthcheck',    to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
@@ -17,6 +19,8 @@ Rails.application.routes.draw do
 
   get '/404', to: 'errors#not_found', as: :error_404
   get '/500', to: 'errors#internal_server_error', as: :error_500
+  get '/503', to: 'errors#service_unavailable', as: :error_503
+  post '/', to: 'errors#not_endpoint'
 
   devise_for :users, controllers: { sessions: 'sessions', passwords: 'passwords', unlocks: 'unlocks', registrations: 'external_users/registrations' }
 
@@ -89,7 +93,6 @@ Rails.application.routes.draw do
         patch 'update_password', on: :member
       end
     end
-
   end
 
   scope module: 'external_users' do
@@ -144,7 +147,6 @@ Rails.application.routes.draw do
         patch :regenerate_api_key, on: :member
       end
     end
-
   end
 
   namespace :case_workers do
@@ -199,8 +201,6 @@ Rails.application.routes.draw do
   end
 
   get 'statistics', to: 'geckoboard_api/statistics#index'
-
-  post '/', to: 'errors#not_endpoint'
 
   # catch-all route
   # -------------------------------------------------

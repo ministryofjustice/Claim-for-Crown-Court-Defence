@@ -61,3 +61,6 @@ dump.rdb
 tags
 
 .env.*
+
+# for personal dev work related to app e.g. Dockerfile
+.personal/

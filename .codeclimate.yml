@@ -12,6 +12,9 @@ checks:
     enabled: true
     config:
       threshold: 18
+  method-count:
+    config:
+      threshold: 21
 engines:
   duplication:
     enabled: true

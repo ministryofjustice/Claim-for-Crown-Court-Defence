@@ -23,10 +23,6 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
     false
   end
 
-  def can_have_expenses?
-    false
-  end
-
   def disbursement_only?
     claim.interim_fee&.is_disbursement?
   end

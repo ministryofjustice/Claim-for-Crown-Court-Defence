@@ -1142,6 +1142,65 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
+  describe 'clears_inapplicable_fields' do
+    context 'cracked trial details' do
+      let(:claim) { build(:draft_claim, case_type: case_type, source: 'api', **cracked_details) }
+
+      let(:cracked_details) {
+        {
+          trial_fixed_notice_at: Date.current - 3.days,
+          trial_fixed_at: Date.current - 1,
+          trial_cracked_at: Date.current,
+          trial_cracked_at_third: 'final_third'
+        }
+      }
+
+      before do
+        claim.save!
+        claim.reload
+      end
+
+      context 'when guilty plea claim created via API with cracked case details' do
+        let(:case_type) { create(:case_type, :guilty_plea) }
+
+        it 'removes the cracked details' do
+          expect(claim).to have_attributes(
+                              trial_fixed_notice_at: nil,
+                              trial_fixed_at: nil,
+                              trial_cracked_at: nil,
+                              trial_cracked_at_third: nil
+                            )
+        end
+      end
+
+      context 'when cracked trial claim created via API with cracked case details' do
+        let(:case_type) { create(:case_type, :cracked_trial) }
+
+        it 'does not remove the cracked details' do
+          expect(claim).to have_attributes(
+                              trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
+                              trial_fixed_at: cracked_details[:trial_fixed_at],
+                              trial_cracked_at: cracked_details[:trial_cracked_at],
+                              trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
+                            )
+        end
+      end
+
+      context 'when cracked before retrial claim created via API with cracked case details' do
+        let(:case_type) { create(:case_type, :cracked_before_retrial) }
+
+        it 'does not remove the cracked details' do
+          expect(claim).to have_attributes(
+                              trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
+                              trial_fixed_at: cracked_details[:trial_fixed_at],
+                              trial_cracked_at: cracked_details[:trial_cracked_at],
+                              trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
+                            )
+        end
+      end
+    end
+  end
+
   describe 'sets the source field before saving a claim' do
     let(:claim) { FactoryBot.build :claim }
 

@@ -189,6 +189,7 @@ module Claim
     before_validation do
       errors.clear
       destroy_all_invalid_fee_types
+      clear_inapplicable_fields
       reset_transfer_court_details unless case_transferred_from_another_court
       documents.each { |d| d.external_user_id = external_user_id }
     end
@@ -667,10 +668,11 @@ module Claim
     private
 
     # called from state_machine before_transition on submit - override in subclass
-    #
     def set_allocation_type; end
 
     def destroy_all_invalid_fee_types; end
+
+    def clear_inapplicable_fields; end
 
     def reset_transfer_court_details
       self.transfer_court = nil

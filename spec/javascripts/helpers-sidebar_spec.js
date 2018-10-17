@@ -695,6 +695,7 @@ describe('Helpers.Blocks.js', function() {
         beforeEach(function() {
           fixtureDom = [
             '<div class="js-block fx-do-init">',
+            '<p class="fx-general-errors" style="display: none;"><span></span></p>',
             '<input class="fx-location-model" value ="sample"/>',
             '<input class="quantity" value="11.11"/>',
             '<input class="rate" value="22.22"/>',
@@ -705,7 +706,7 @@ describe('Helpers.Blocks.js', function() {
             '<div class="fx-travel-reason-other" style="display:none"><span>here</span></div>',
             '<div class="fx-travel-location">',
             '<div class="location_wrapper"><label>Destination</label><input type="text" value=""></div>',
-            '<div class="fx-establishment-select"><label class="form-label-bold" for="location">Crown court</label><select id="location"><option value="">please select</option><option value="1" data-postcode="POSTCODE" selected>establishment selected</option></select></div>',
+            '<div class="fx-establishment-select has-select" style="display:none;"><label class="form-label-bold" for="location">Destination</label><select id="location"><option value="">please select</option><option value="1" data-postcode="POSTCODE" selected>establishment selected</option></select></div>',
             '</div>',
             '<div class="fx-travel-mileage">',
             ' <div class="fx-travel-mileage-bike">',
@@ -912,6 +913,33 @@ describe('Helpers.Blocks.js', function() {
               destination: 'POSTCODE'
             });
           });
+
+          it('net amount: should bind keyup listner', function() {
+            var selector = '.fx-travel-net-amount input';
+            var spyEvent = spyOnEvent(selector, 'keyup');
+
+            $(selector).keyup();
+
+            expect('keyup').toHaveBeenTriggeredOn(selector);
+            expect(spyEvent).toHaveBeenTriggered();
+          });
+
+          it('net amount: should update vat amount on key up', function() {
+            var selector = '.fx-travel-net-amount input';
+            spyOn(instance, 'setNumber');
+
+            instance.bindListners();
+
+            $(selector).val(11.35).keyup();
+            expect(instance.setNumber).toHaveBeenCalledWith( '.fx-travel-vat-amount input', 2.27);
+
+            instance.config.vatfactor = 0.99;
+
+            $(selector).val(10.21).keyup();
+
+            expect(instance.setNumber).toHaveBeenCalledWith( '.fx-travel-vat-amount input', 10.1079);
+
+          });
         });
 
         describe('...setLocationElement', function() {
@@ -1016,27 +1044,51 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        xdescribe('...getDistance', function() {
-          it('should behave...', function() {
+        describe('...getDistance', function() {
+          it('should return the id and augmented distance object...', function() {
             var deferred = $.Deferred();
             spyOn(moj.Helpers.API.Distance, 'query').and.returnValue(deferred.promise());
-
+            instance.$el.find('#mileage_rate_id_1').prop('checked', true);
             instance.getDistance({
               claimid: 2,
-              destination: "Aylesbury"
-            }).then(function(result) {
+              destination: "POSTCODE"
+            }).then(function(number, result) {
               expect(moj.Helpers.API.Distance.query).toHaveBeenCalledWith({
                 claimid: 2,
-                destination: 'Aylesbury'
+                destination: 'POSTCODE'
               });
+
               expect(result).toEqual({
                 distance: 204993,
                 miles: 127
               });
+
+              expect(number).toEqual('1');
             });
 
             deferred.resolve({
               distance: 204993
+            });
+          });
+          it('should populate and return an error ...', function() {
+            var deferred = $.Deferred();
+            spyOn(moj.Helpers.API.Distance, 'query').and.returnValue(deferred.promise());
+            instance.$el.find('#mileage_rate_id_1').prop('checked', true);
+
+            instance.getDistance({
+              claimid: 2,
+              destination: "POSTCODE"
+            }).then(undefined, function(result) {
+              expect(moj.Helpers.API.Distance.query).toHaveBeenCalledWith({
+                claimid: 2,
+                destination: 'POSTCODE'
+              });
+
+              expect(result).toEqual('error');
+            });
+
+            deferred.reject({
+              error: 'error'
             });
 
           });
@@ -1057,6 +1109,60 @@ describe('Helpers.Blocks.js', function() {
             instance.init();
             instance.$el.find('.fx-travel-mileage input[type=radio]:last').prop('checked', true);
             expect(instance.getRateId()).toEqual('2');
+          });
+        });
+
+        describe('...viewErrorHandler', function() {
+          it('...should set the correct view state', function() {
+            instance.init();
+            instance.viewErrorHandler('This is the message');
+            expect(instance.$el.find('.fx-general-errors span').text()).toEqual('This is the message');
+            expect(instance.$el.find('.fx-general-errors').is(':visible')).toEqual(true);
+          });
+        });
+
+        describe('...attachSelectWithOptions', function() {
+          var optionsFixture = ['<option value="">Please select</option>',
+            '<option value="135" data-postcode="SY23 1AS">Aberystwyth Justice Centre</option>',
+            '<option value="136" selected="" data-postcode="GU11 1NY">Aldershot Magistrates\' Court</option>',
+            '<option value="137" data-postcode="HP6 5AJ">Amersham Law Courts</option>',
+            '<option value="139" data-postcode="HP21 7QZ">Aylesbury Magistrates\' Court and Family Court</option>")'
+          ];
+          it('should return an error if no locationType', function() {
+            instance.init();
+            expect(function() {
+              instance.attachSelectWithOptions();
+            }).toThrowError('Missing param: locationType');
+          });
+
+          it('should call the Establishments API with the correct params ', function() {
+            var deferred = $.Deferred();
+            spyOn(moj.Helpers.API.Establishments, 'getAsSelectWithOptions').and.returnValue(deferred.promise());
+
+            instance.attachSelectWithOptions('crown_court', 'SomeThing');
+            expect(moj.Helpers.API.Establishments.getAsSelectWithOptions).toHaveBeenCalledWith('crown_court', {
+              prop: 'name',
+              value: 'SomeThing'
+            });
+
+          });
+          it('should update the view correctly', function() {
+            var deferred = $.Deferred();
+            spyOn(moj.Helpers.API.Establishments, 'getAsSelectWithOptions').and.returnValue(deferred.promise());
+            expect(instance.$el.find('.fx-establishment-select').is(':visible')).toEqual(false);
+            expect(instance.$el.find('.fx-establishment-select option').length).toEqual(2);
+            expect(instance.$el.find('.location_wrapper').is(':visible')).toEqual(true);
+            expect(instance.$el.find('.fx-travel-location .has-select label').text()).toEqual('Destination');
+
+
+            instance.attachSelectWithOptions('crown_court', 'SomeThing');
+            deferred.resolve(optionsFixture);
+
+            expect(instance.$el.find('.fx-establishment-select').is(':visible')).toEqual(true);
+            expect(instance.$el.find('.fx-establishment-select option').length).toEqual(5);
+            expect(instance.$el.find('.location_wrapper').is(':visible')).toEqual(false);
+            expect(instance.$el.find('.fx-travel-location .has-select label').text()).toEqual('Crown court');
+
           });
         });
       });

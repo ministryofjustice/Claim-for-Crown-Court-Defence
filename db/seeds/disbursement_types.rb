@@ -5,8 +5,8 @@ disbursement_types = [
   [2, 'ACC', 'Accounts'],
   [3, 'SWX', 'Computer experts'],
   [4, 'CMR', 'Consultant medical reports'],
-  [5, 'CJA', 'Costs judge application fee'], # softly deleted as handled by misc fees
-  [6, 'CJP', 'Costs judge preparation award'], # softly deleted as handled misc fees
+  [5, 'CJA', 'Costs judge application fee', DateTime.new(2018,2,7)], # softly deleted as handled by misc fees
+  [6, 'CJP', 'Costs judge preparation award', DateTime.new(2018,2,7)], # softly deleted as handled misc fees
   [7, 'DNA', 'DNA testing'],
   [8, 'ENG', 'Engineer'],
   [9, 'ENQ', 'Enquiry agents'],
@@ -30,16 +30,16 @@ disbursement_types = [
   [27, 'ARC', 'Surveyor/architect'],
   [28, 'SCR', 'Transcripts'],
   [29, 'TRA', 'Translator'],
-  [30, 'TRV', 'Travel costs'], # softly deleted as handled by travel expenses
+  [30, 'TRV', 'Travel costs', DateTime.new(2016,9,2)], # softly deleted as handled by travel expenses
   [31, 'VET', 'Vet report'],
   [32, 'VOI', 'Voice recognition'],
 ]
 
 max_id = 0
 disbursement_types.each do |row|
-  record_id, unique_code, name = row
+  record_id, unique_code, name , deleted_at = row
   max_id = [max_id, record_id].max
-  SeedHelper.find_or_create_disbursement_type!(record_id, unique_code, name)
+  SeedHelper.find_or_create_disbursement_type!(record_id, unique_code, name, deleted_at)
 end
 
 # This is to ensure API Sandbox and Gamma are in sync regarding the IDs

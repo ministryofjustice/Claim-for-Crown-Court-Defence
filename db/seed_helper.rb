@@ -70,26 +70,21 @@ module SeedHelper
       raise "Unexpected name for ExpenseType #{expense_type.id}: Expected #{name}, got #{expense_type.name}"
     end
 
-    if expense_type.unique_code.blank?
-      expense_type.update(unique_code: code)
-    end
-
+    expense_type.update(unique_code: code) if expense_type.unique_code.blank?
     expense_type
   end
 
-  def self.find_or_create_disbursement_type!(record_id, code, name)
+  def self.find_or_create_disbursement_type!(record_id, code, name, deleted_at=nil)
     disbursement_type = DisbursementType.find_by(id: record_id)
 
     if disbursement_type.nil?
-      disbursement_type = DisbursementType.create!(id: record_id, unique_code: code, name: name)
+      disbursement_type = DisbursementType.create!(id: record_id, unique_code: code, name: name, deleted_at: deleted_at)
     elsif disbursement_type.name != name
       raise "Unexpected name for DisbursementType #{disbursement_type.id}: Expected #{name}, got #{disbursement_type.name}"
     end
 
-    if disbursement_type.unique_code.blank?
-      disbursement_type.update(unique_code: code)
-    end
-
+    disbursement_type.update(unique_code: code) if disbursement_type.unique_code.blank?
+    disbursement_type.update(deleted_at: deleted_at) if disbursement_type.deleted_at.blank? && deleted_at
     disbursement_type
   end
 

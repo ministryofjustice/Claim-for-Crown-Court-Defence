@@ -112,9 +112,7 @@ module DemoData
       begin
         ClaimStateAdvancer.new(claim).advance_to(state)
       rescue => err
-        puts "ERROR: #{err.class} :: #{err.message}"
-        ap claim
-        ap claim.assessment
+        puts "ERROR: #{err.class} :: #{err.message}".red
         raise err
       end
     end
@@ -160,7 +158,5 @@ module DemoData
         'The cold passed reluctantly from the earth, and the retiring fogs revealed an army stretched out on the hills, resting.'
       ].sample
     end
-
   end
-
 end

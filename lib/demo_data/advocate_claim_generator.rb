@@ -7,7 +7,7 @@ module DemoData
       claim = Claim::AdvocateClaim.new(
         creator: advocate,
         external_user: advocate,
-        advocate_category: Settings.advocate_categories.sample,
+        advocate_category: advocate_category,
         court: Court.all.sample,
         case_type: CaseType.agfs.sample,
         case_number: random_case_number,
@@ -37,9 +37,12 @@ module DemoData
   private
 
     def add_certification(claim)
-      FactoryBot.create(:certification,  claim: claim, certified_by: claim.external_user.name, certification_type: CertificationType.all.sample)
+      FactoryBot.create(:certification, claim: claim, certified_by: claim.external_user.name, certification_type: CertificationType.all.sample)
       claim.save!
     end
 
+    def advocate_category
+      ['QC', 'Leading junior'].sample
+    end
   end
 end

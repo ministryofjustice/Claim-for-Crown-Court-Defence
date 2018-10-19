@@ -1,6 +1,4 @@
-
 module DemoData
-
   class ClaimStateAdvancer
 
     TRANSITION_METHODS = {
@@ -104,5 +102,4 @@ module DemoData
       {author_id: @advocate.user.id}
     end
   end
-
 end

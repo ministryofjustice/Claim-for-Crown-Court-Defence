@@ -18,7 +18,7 @@ module SeedHelper
         last_name: attrs[:last_name],
         email: attrs[:email].downcase,
         password: ENV.fetch(attrs[:password_env_var]),
-        password_confirmation: ENV[attrs[:password_env_var]]
+        password_confirmation: ENV.fetch(attrs[:password_env_var])
       )
       case_worker = CaseWorker.new(roles: attrs[:roles])
       case_worker.user = user

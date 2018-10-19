@@ -8,6 +8,7 @@ module Seeds
       def initialize(options = {})
         @seed_file = Rails.root.join('lib', 'assets', 'data', 'establishments', 'crown_courts.csv')
         @dry_run = options[:dry_run].to_s.downcase.strip == 'true'
+        @stdout = options.fetch(:stdout, false)
       end
 
       def call
@@ -15,7 +16,7 @@ module Seeds
         CSV.foreach(seed_file, headers: true) do |row|
           process_row(row)
         end
-        log("[OUTPUT] Total: #{total} | Created: #{total_created}| Updated: #{total_updated} | Error: #{total_with_error}", stdout: true)
+        log("[OUTPUT] Total: #{total} | Created: #{total_created}| Updated: #{total_updated} | Error: #{total_with_error}", stdout: @stdout)
       end
 
       protected

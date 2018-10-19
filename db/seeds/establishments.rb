@@ -3,7 +3,7 @@ require Rails.root.join('db','seeds', 'establishments', 'hospital_seeder')
 require Rails.root.join('db','seeds', 'establishments', 'magistrates_court_seeder')
 require Rails.root.join('db','seeds', 'establishments', 'crown_court_seeder')
 
-options = { dry_run: ENV['SEEDS_DRY_MODE'] }
+options = { dry_run: ENV['SEEDS_DRY_MODE'], stdout: false }
 
 Seeds::Establishments::PrisonSeeder.call(options)
 Seeds::Establishments::HospitalSeeder.call(options)

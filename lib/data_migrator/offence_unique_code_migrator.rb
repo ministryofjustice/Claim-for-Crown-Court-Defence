@@ -6,8 +6,9 @@ module DataMigrator
 
     class InappropriateRelation < StandardError; end
 
-    def initialize(relation: nil)
+    def initialize(relation: nil, stdout: false)
       raise InappropriateRelation, "Inappropriate relation given: expected #{Offence}, got #{relation.klass}" unless relation.nil? || relation.klass.eql?(Offence)
+      @stdout = stdout
       @offences = relation || Offence.unscoped.order(description: :asc)
       create_offence_set
     end
@@ -28,15 +29,15 @@ module DataMigrator
     end
 
     def migrate!
-      puts '-- clearing existing offences.unique_code data'
+      out '-- clearing existing offences.unique_code data'
       offences.update_all('unique_code = id')
-      puts '-- updating offences.unique_code data'
+      out '-- updating offences.unique_code data'
       offence_set.each do |code, offence|
         sql = "UPDATE offences SET unique_code = \'#{code}\' WHERE id = #{offence[:id]}"
         @offences.connection.execute sql
       end
-      puts "codes generated: #{offence_set.count}".green
-      puts "unique codes generated: #{offence_set.keys.uniq.count}".green
+      out "codes generated: #{offence_set.count}".green
+      out "unique codes generated: #{offence_set.keys.uniq.count}".green
     end
 
     def pretend(format: :text)
@@ -62,6 +63,10 @@ module DataMigrator
       else
         @generator
       end
+    end
+
+    def out(string)
+      puts string if @stdout
     end
 
     # rubocop:disable Metrics/CyclomaticComplexity

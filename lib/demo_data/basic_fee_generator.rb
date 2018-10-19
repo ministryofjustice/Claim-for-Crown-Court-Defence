@@ -2,7 +2,7 @@ module DemoData
   class BasicFeeGenerator
     def initialize(claim)
       @claim       = claim
-      @fee_types   = Fee::BasicFeeType.agfs_scheme_9s.all
+      @fee_types   = Fee::BasicFeeType.agfs_scheme_10s.all
       @codes_added = []
     end
 
@@ -11,7 +11,7 @@ module DemoData
       add_daily_attendances
       add_pcm if @claim.case_type.allow_pcmh_fee_type?
       add_ppe if rand(2)==1
-      add_npw if rand(2)==1
+      # add_npw if rand(2)==1
       rand(0..3).times { add_fee }
     end
 
@@ -36,16 +36,18 @@ module DemoData
         return
       end
 
-      add_daf if @trial_length > 2
-      add_dah if @trial_length > 40
-      add_daj if @trial_length > 50
-
+      # add_daf if @trial_length > 2
+      # add_dah if @trial_length > 40
+      # add_daj if @trial_length > 50
+      add_dat if @trial_length > 50
     end
 
     def add_daily_attendance(type_code)
-        options = { daf: { modifier: -2, max: 40 },
+        options = {
+          daf: { modifier: -2, max: 40 },
           dah: { modifier: -40, max: 50 },
-          daj: { modifier: -50, max: 60 }
+          daj: { modifier: -50, max: 60 },
+          dat: { modifier: -2, max: 60 }
         }
 
         trial_length_field = @claim.case_type.requires_retrial_dates? ? :retrial_actual_length : :actual_trial_length
@@ -54,34 +56,39 @@ module DemoData
         update_basic_fee(type_code.to_s.upcase, quantity: quantity, rate: rate.round(2))
     end
 
-    def add_daf
-      add_daily_attendance(:daf)
-    end
+    # not applicable to scheme 10
+    # def add_daf
+    #   add_daily_attendance(:daf)
+    # end
 
-    def add_dah
-      add_daily_attendance(:dah)
-    end
+    # def add_dah
+    #   add_daily_attendance(:dah)
+    # end
 
-    def add_daj
-      add_daily_attendance(:daj)
+    # def add_daj
+    #   add_daily_attendance(:daj)
+    # end
+
+    def add_dat
+      add_daily_attendance(:dat)
     end
 
     def add_pcm
       update_basic_fee('PCM', quantity: rand(1..3), rate: 125)
     end
 
-    def add_npw
-      update_basic_fee('NPW',quantity: 777, amount: 200)
-    end
+    # def add_npw
+    #   update_basic_fee('NPW',quantity: 777, amount: 200)
+    # end
 
     def add_ppe
       update_basic_fee('PPE',quantity: 800, amount: 200)
     end
 
     def add_fee
-      fee_type = @fee_types.where(calculated: true).sample
-      while @codes_added.include?(fee_type.code) || ['BAF','DAF','DAH','DAJ','PCM'].include?(fee_type.code)
-        fee_type = @fee_types.where(calculated: true).sample
+      fee_type = validatable_basic_fee_types.sample
+      while @codes_added.include?(fee_type.code) || %w[BAF DAT PCM].include?(fee_type.code)
+        fee_type = validatable_basic_fee_types.sample
       end
       update_basic_fee(fee_type.code, quantity: rand(1..10), rate: rand(100..900) )
     end
@@ -90,6 +97,16 @@ module DemoData
       fee_type = Fee::BasicFeeType.find_by(code: code)
       raise RuntimeError.new "Unable to find Fee Type with code #{code}" if fee_type.nil?
       fee_type
+    end
+
+    # avoid defendant uplifts for simplicities sake
+    # as claim must have a matching number of defendants
+    # and they are uncommon
+    #
+    def validatable_basic_fee_types
+     @fee_types.select do |fee_type|
+        fee_type.calculated == true && !fee_type.defendant_uplift?
+      end
     end
   end
 end

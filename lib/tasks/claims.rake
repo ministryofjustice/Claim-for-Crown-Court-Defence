@@ -55,6 +55,7 @@ namespace :claims do
     params = {num_claims_per_state: 1, num_external_users: 1}.merge(args)
     Rake::Task['claims:demo_data:seed'].invoke
     Rake::Task["claims:demo_data:advocates"].invoke(params[:num_claims_per_state], params[:num_external_users])
+    # Rake::Task["claims:demo_data:advocate_interims"].invoke(params[:num_claims_per_state], params[:num_external_users]) # TODO
     Rake::Task['claims:demo_data:litigators'].invoke(params[:num_claims_per_state], params[:num_external_users])
     Rake::Task['claims:demo_data:interims'].invoke(params[:num_claims_per_state], params[:num_external_users])
     Rake::Task['claims:demo_data:transfers'].invoke(params[:num_claims_per_state], params[:num_external_users])
@@ -68,9 +69,9 @@ namespace :claims do
     end
 
     desc 'ADP Task: Load demo data Advocate Claims [num_claims_per_state=1, num_claims_per_user=1]'
-    task :advocates, :num_claims_per_state, :num_external_users do | _task, args |
+    task :advocates, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
-      puts ">>>>>> LOADING DEMO DATA ADVOCATE CLAIMS #{args.inspect}"
+      puts "#{task.name} with #{args}".green
       require 'fileutils'
       doc_store = File.join(Rails.root, 'public', 'assets', 'dev', 'images', 'docs')
       FileUtils.rm_r(doc_store, secure: true) if Dir.exist?(doc_store)
@@ -79,31 +80,31 @@ namespace :claims do
     end
 
     desc "ADP Task: Load demo data Litigator Claims [num_claims_per_state=1, num_claims_per_user=1]"
-    task :litigators, :num_claims_per_state, :num_external_users do | _task, args |
+    task :litigators, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
-      puts ">>>>>> LOADING DEMO DATA LITIGATOR CLAIMS #{args.inspect}"
+      puts "#{task.name} with #{args}".green
       require File.join(Rails.root, 'lib', 'demo_data', 'litigator_claim_generator')
       DemoData::LitigatorClaimGenerator.new(num_external_users: 1).run
     end
 
     desc "ADP Task: Load demo data Interim Claims [num_claims_per_state=1, num_claims_per_user=1]"
-    task :interims, :num_claims_per_state, :num_external_users do | _task, args |
+    task :interims, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
-      puts ">>>>>> LOADING DEMO DATA INTERIM  CLAIMS #{args.inspect}"
+      puts "#{task.name} with #{args}".green
       require File.join(Rails.root, 'lib', 'demo_data', 'interim_claim_generator')
       DemoData::InterimClaimGenerator.new(num_external_users: 1).run
     end
 
     desc 'ADP Task: Load demo data Transfer Claims [num_claims_per_state=1, num_claims_per_user=1]'
-    task :transfers, :num_claims_per_state, :num_external_users do | _task, args |
+    task :transfers, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
-      puts ">>>>>> LOADING DEMO DATA TRANSFERS CLAIMS #{args.inspect}"
+      puts "#{task.name} with #{args}".green
       require File.join(Rails.root, 'lib', 'demo_data', 'transfer_claim_generator')
       DemoData::TransferClaimGenerator.new(num_external_users: 1).run
     end
   end
 
-  desc  'ADP Task: Delete sample providers'
+  desc 'ADP Task: Delete sample providers'
   task :destroy_sample_providers => :environment do
     require File.join(Rails.root, 'lib', 'demo_data', 'claim_destroyer')
     DemoData::ClaimDestroyer.new.run

@@ -8,7 +8,7 @@ module API
           data.push AdaptedMiscFee.represent(object.misc_fees)
           data.push AdaptedDisbursement.represent(object.disbursements)
           data.push AdaptedExpense.represent(object.expenses)
-          data.flatten.as_json
+          data.as_json.flat_select { |bill| bill[:bill_type].present? }
         end
       end
     end

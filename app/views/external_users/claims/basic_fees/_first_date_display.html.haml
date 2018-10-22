@@ -1,0 +1,5 @@
+- if fee.claim.case_type.name.downcase.eql?('trial')
+  = fee.first_day_of_trial
+
+- elsif fee.claim.case_type.name.downcase.eql?('retrial')
+  = fee.retrial_started_at

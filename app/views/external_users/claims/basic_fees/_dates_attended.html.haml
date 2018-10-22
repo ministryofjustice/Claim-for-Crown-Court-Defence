@@ -1,0 +1,9 @@
+- if fee.fee_type.requires_dates_attended?
+  .dates-wrapper.form-group
+    %div
+      - fee.dates_attended.build unless fee.dates_attended.any?
+      = f.fields_for :dates_attended do |date_attended|
+        -# TODO: Numbering, the implementation used on fees will not work here.
+        = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}", locale_scope: 'external_users.claims.basic_fees.basic_fee_fields_primary.date_label' }
+
+    = link_to_add_association t('.add_dates'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields', render_options: { locals: { } }, data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}

@@ -48,6 +48,18 @@ class Fee::BaseFeePresenter < BasePresenter
     end
   end
 
+  def first_day_of_trial
+    format_date(_claim.first_day_of_trial)
+  end
+
+  def retrial_started_at
+    format_date(_claim.retrial_started_at)
+  end
+
+  def trial_concluded_at
+    format_date(_claim.trial_concluded_at)
+  end
+
   def display_amount?
     true
   end
@@ -68,5 +80,9 @@ class Fee::BaseFeePresenter < BasePresenter
 
   def not_applicable
     hint_tag I18n.t('general.not_applicable')
+  end
+
+  def _claim
+    fee.claim
   end
 end

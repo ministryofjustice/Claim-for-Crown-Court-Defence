@@ -6,26 +6,29 @@ namespace :brakeman do
     require 'colorize'
 
     puts 'Running Brakeman...'
-    tracker = Brakeman.run(:app_path => ".", quiet: true, output_files: report_file, exit_on_warn: true, print_report: false)
-    unignored_warnings = tracker.warnings.reject do |warning|
-      warning.fingerprint.in?(tracker.ignored_filter.ignored_warnings.map(&:fingerprint))
+    ShellSpinner do
+      system("brakeman -o #{report_output.join(' -o ')} -q")
     end
 
-    if unignored_warnings.count > 0
-      puts "New warnings: #{unignored_warnings.count} - see #{report_file.first} for details".red
+    content = File.read(report_output.second)
+    report = JSON.parse(content, object_class: OpenStruct)
+    time_taken = (report.scan_info.end_time.to_datetime.to_f - report.scan_info.start_time.to_datetime.to_f).to_i
+
+    if report.warnings.size > 0
+      puts "New warnings: #{report.warnings.size} - see #{report_output.first} for details".red
     else
       puts "No new warnings".green
     end
-
-    puts "Finished in #{(tracker.end_time - tracker.start_time).round(2)} seconds - warnings: #{tracker.warnings.size}, new warnings: #{unignored_warnings.count}, errors: #{tracker.errors.size}"
-    exit 1 if unignored_warnings.count > 0
+    puts "Finished in #{time_taken} seconds"
+    puts "warnings: #{report.ignored_warnings.size}, new warnings: #{report.warnings.size}, errors: #{report.errors.size}"
+    exit 1 if report.warnings.count > 0
   end
 
-  def report_file
-    return @report_file unless @report_file.nil?
+  def report_output
+    return @report_output unless @report_output.nil?
     dir = Rails.root.join('tmp','brakeman')
     FileUtils::mkdir_p(dir) unless File.dirname(dir)
-    @report_file = [File.join(dir, 'report.out')]
+    @report_output = [File.join(dir, 'report.out'), File.join(dir, 'report.json')]
   end
 end
 

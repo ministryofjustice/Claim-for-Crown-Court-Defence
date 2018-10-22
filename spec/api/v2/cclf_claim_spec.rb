@@ -500,6 +500,22 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             is_expected.to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/1/bill_subtype")
           end
         end
+
+        context 'when unmappable miscellaneous fees exists' do
+          let(:miupl) { create(:misc_fee_type, :lgfs, :miupl) }
+          let(:claim) do
+            create(:transfer_claim, :with_transfer_detail, :submitted).tap do |claim|
+              create(:misc_fee, :lgfs, fee_type: miupl, claim: claim)
+            end
+          end
+
+          it { is_valid_cclf_json(response) }
+
+          it 'returns array NOT containing misc fee bill' do
+            is_expected.to have_json_size(1).at_path("bills")
+            is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
+          end
+        end
       end
     end
   end

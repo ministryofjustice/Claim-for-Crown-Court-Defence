@@ -511,7 +511,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
 
           it { is_valid_cclf_json(response) }
 
-          it 'returns array NOT containing misc fee bill' do
+          it 'returns array NOT containing misc fee bills' do
             is_expected.to have_json_size(1).at_path("bills")
             is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
           end

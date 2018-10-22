@@ -532,7 +532,15 @@ en:
         number_of_days: &number_of_days Number of days
         date: &date_attended_heading Date attended
         basic_fee_fields_primary:
+          add_dates: Add another date
           net_amount: *net_amount
+          date_label:
+            trial: First day of trial
+            cracked_trial: Date case cracked on
+            retrial: First day of retrial
+            cracked_before_retrial: Date case cracked on
+            guilty_plea: Date plea entered
+            discontinuance: Date of discontinuance
         basic_fee_fields_conditional:
           noc:
             case_numbers: Additional case numbers

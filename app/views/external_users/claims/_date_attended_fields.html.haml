@@ -5,10 +5,9 @@
     - error_prefix = "date_attended_0"
 
   = link_to_remove_association t(".remove"), f, {class: "date-action"}
-
   .fee-date-from.panel-margin-fix
     - if defined?(locale_scope)
-      - date_text = t('date', scope: locale_scope)
+      - date_text = t(f.object.claim.case_type.name.split(' ').collect(&:capitalize).join.underscore, scope: locale_scope)
     - else
       - date_text = t('.date')
 

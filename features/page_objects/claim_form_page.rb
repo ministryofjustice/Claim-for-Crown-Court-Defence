@@ -18,10 +18,11 @@ class ClaimFormPage < SitePrism::Page
 
   set_url "/advocates/claims/new"
 
-  element :claim_advocate_category_junior_alone, "#claim_advocate_category_junior_alone"
+  element :providers_ref, "#claim_providers_ref"
   element :court, "#s2id_autogen1"
   element :case_type, "#s2id_autogen2"
   element :case_number, "#claim_case_number"
+  # element :claim_advocate_category_junior_alone, "#claim_advocate_category_junior_alone" # TODO: remove if no longer needed
 
   section :trial_details, "#trial-details" do
     section :first_day_of_trial, CommonDateSection, '#first_day_of_trial'

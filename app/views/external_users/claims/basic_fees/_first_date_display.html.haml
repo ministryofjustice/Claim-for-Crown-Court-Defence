@@ -1,5 +1,14 @@
 - if fee.claim.case_type.name.downcase.eql?('trial')
-  = fee.first_day_of_trial
+  .form-group
+    %span.bold
+      First data of trial
+    %p
+      = fee.first_day_of_trial
 
 - elsif fee.claim.case_type.name.downcase.eql?('retrial')
-  = fee.retrial_started_at
+  .form-group
+    %span.bold
+      Retrial started at
+    %p
+      = fee.retrial_started_at
+

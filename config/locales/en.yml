@@ -536,6 +536,7 @@ en:
           net_amount: *net_amount
           date_label:
             trial: First day of trial
+            trial_plural: Second day of trial
             cracked_trial: Date case cracked on
             retrial: First day of retrial
             cracked_before_retrial: Date case cracked on

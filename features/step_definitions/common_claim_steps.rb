@@ -1,13 +1,14 @@
-def generate_rep_order_date_for(scheme_text)
-  if scheme_text.match?('scheme 10' || 'post agfs reform')
-    Settings.agfs_fee_reform_release_date.strftime
-  elsif scheme_text.match?('scheme 11')
-    Settings.agfs_scheme_11_release_date.strftime
-  else
-    '2016-01-01'
-  end
+When(/^I goto claim form step '(.*)'$/) do |form_step|
+  form_step = form_step.parameterize.underscore
+  uri = Addressable::URI.parse(@claim_form_page.current_url)
+  uri.query_values = uri.query_values.merge('step' => form_step)
+  visit uri
+  wait_for_ajax # for fee calc on fee pages, etc
 end
 
+When(/^I enter a providers reference of '(.*?)'$/) do |ref|
+  @claim_form_page.providers_ref.set ref
+end
 
 When(/^I select the court '(.*?)'$/) do |name|
   @claim_form_page.select_court(name)
@@ -22,7 +23,7 @@ When(/^I enter a case number of '(.*?)'$/) do |number|
 end
 
 When(/^I enter defendant, (.*?)representation order and MAAT reference$/) do |scheme_text|
-  date = generate_rep_order_date_for(scheme_text)
+    date = scheme_date_for(scheme_text)
     using_wait_time(6) do
       @claim_form_page.wait_for_defendants
       @claim_form_page.defendants.first.first_name.set "Bob"
@@ -34,7 +35,7 @@ When(/^I enter defendant, (.*?)representation order and MAAT reference$/) do |sc
 end
 
 When(/^I add another defendant, (.*?)representation order and MAAT reference$/) do |scheme_text|
-  date = generate_rep_order_date_for(scheme_text)
+  date = scheme_date_for(scheme_text)
   using_wait_time 6 do
     @claim_form_page.add_another_defendant.click
     wait_for_ajax

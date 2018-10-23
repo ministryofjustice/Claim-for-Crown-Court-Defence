@@ -15,8 +15,9 @@ And(/^I enter (\d+) in the interim fee total field$/) do |value|
   @interim_claim_form_page.interim_fee.total.set value
 end
 
-And(/^I enter the effective PCMH date$/) do
-  @interim_claim_form_page.interim_fee.effective_pcmh_date.set_date "2016-01-01"
+And(/^I enter the effective PCMH date\s*(.*?)$/) do |date|
+  date = date.present? ? date : "2016-04-01"
+  @interim_claim_form_page.interim_fee.effective_pcmh_date.set_date date
 end
 
 Then(/^I should see interim fee types applicable to a '(.*?)'$/) do |name|

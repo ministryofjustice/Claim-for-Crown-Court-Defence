@@ -22,7 +22,7 @@ Feature: Advocate completes misc fee page using calculator
 
     Then I click "Continue" in the claim form
 
-    Given I insert the VCR cassette 'features/fee_calculator/agfs_misc_fee_calculator' and record 'new_episodes'
+    Given I insert the VCR cassette 'features/fee_calculator/advocate/misc_fee_calculator'
 
     And I select an advocate category of 'QC'
     And I add a fixed fee 'Appeals to the crown court against conviction'

@@ -21,7 +21,7 @@ Feature: Advocate completes fixed fee page using calculator
 
     Then I click "Continue" in the claim form
 
-    Given I insert the VCR cassette 'features/fee_calculator/fixed_fee_calculator'
+    Given I insert the VCR cassette 'features/fee_calculator/advocate/fixed_fee_calculator'
 
     And I select an advocate category of 'Junior alone'
     And I add a fixed fee 'Appeals to the crown court against conviction'
@@ -72,7 +72,7 @@ Feature: Advocate completes fixed fee page using calculator
 
   Then I click "Continue" in the claim form
 
-  Given I insert the VCR cassette 'features/fee_calculator/fixed_fee_calculator'
+  Given I insert the VCR cassette 'features/fee_calculator/advocate/fixed_fee_calculator'
 
   And I select an advocate category of 'Junior alone'
   And I add a fixed fee 'Elected case not proceeded'

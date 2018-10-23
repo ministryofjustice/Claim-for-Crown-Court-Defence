@@ -26,7 +26,9 @@ en:
       one: 'mile'
       other: 'miles'
   net_amount: &net_amount Net amount
+  vat_amount: &vat_amount VAT amount
   rate: &rate Rate
+  quantity: &quantity Quantity
   views:
     pagination:
       first: "First"
@@ -583,10 +585,10 @@ en:
               Please enter the number of pages of prosecution evidence to help the caseworker assess the correct offence class.
         basic_fee_fields:
           case_numbers: Case numbers
-          quantity: Quantity
+          quantity: *quantity
           add_dates: Add another date
           net_amount: *net_amount
-          rate: Rate
+          rate: *rate
           daf:
             quantity: *number_of_days
           dah:
@@ -617,12 +619,12 @@ en:
           fee_type: Fee type
           ppe_fee_reform_prompt_text: |
             Please enter the volume of PPE to help the caseworker assess the correct offence band
-          quantity: Quantity
+          quantity: *quantity
           rate: Rate
           case_numbers: *case_numbers
           saf_prompt_text: Include any additional PTPH fees under SAF
         basic_fee_uncalculated_fields:
-          quantity: Quantity
+          quantity: *quantity
           rate: Rate
           ppe_section_header: PPE
           ppe_section_hint: Total number of pages of prosecution evidence
@@ -636,7 +638,7 @@ en:
             You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
             for help.
           fee_type: 'Type of fee'
-          quantity: 'Quantity'
+          quantity: *quantity
           rate: 'Rate'
         summary:
           header: Graduated fees
@@ -822,8 +824,8 @@ en:
           disbursements: "Disbursements"
           add_disbursement: "Add another disbursement"
         disbursement_fields:
-          net_amount: "Net amount"
-          vat_amount: "VAT amount"
+          net_amount: *net_amount
+          vat_amount: *vat_amount
           total: "Total"
           disbursement_type: "Disbursement type"
           disbursement: "Disbursement"
@@ -853,15 +855,15 @@ en:
           distance_summary_text: |
             We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison.
           hours: Hours
-          net_amount: Net amount
+          net_amount: *net_amount
           remove: Remove
           total: Total amount
-          vat_amount: VAT amount
+          vat_amount: *vat_amount
         fields:
           add_another_expense: 'Add another expense'
           duplicate: Duplicate last expense
           amount: 'Amount'
-          vat_amount: 'VAT amount'
+          vat_amount: *vat_amount
           expenses: 'Travel Expenses'
           expenses_prompt_text: Please enter each expense (for example train ticket, hotel stay) separately
           expense_type: 'Type of expense'
@@ -921,7 +923,7 @@ en:
             and attach to the claim.
         fixed_fee_fields:
           fixed_fee: "Fixed fee"
-          quantity: 'Quantity'
+          quantity: *quantity
           quantity_hint: 'Enter a quantity'
           rate: *rate
           case_numbers: *case_numbers
@@ -935,8 +937,12 @@ en:
         litigators:
           fields:
             fixed_fees: "Fixed fees"
-            fee_type: "Fee type"
+            fee_type: Type of fee
             total: "Total"
+            quantity: *quantity
+            quantity_hint: 'Enter a quantity'
+            rate: *rate
+            amount: Total
             prompt_text_html: &graduated_fee_prompt_content Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help.
             select_sub_type: "Please select the relevant option"
             date: "Date"
@@ -956,8 +962,8 @@ en:
         misc_fee_fields:
           misc_fee: 'Miscellaneous fee'
           rate: 'Rate'
-          net_amount: 'Net amount'
-          quantity: 'Quantity'
+          net_amount: *net_amount
+          quantity: *quantity
           quantity_hint: 'Enter a quantity'
           fee_type: 'Type of fee'
           add_date_attended: 'Add dates'
@@ -978,7 +984,7 @@ en:
             misc_fee: 'Miscellaneous fee'
             fee_type: "Fee type"
             case_numbers: *case_numbers
-            net_amount: "Net amount"
+            net_amount: *net_amount
             remove: "Remove"
 
         summary:
@@ -997,7 +1003,7 @@ en:
           fee_type: "Fee type"
           ppe_total: "PPE total"
           total: "Total"
-          net_amount: "Net amount"
+          net_amount: *net_amount
           date: "Date"
           page_header: "Graduated fees"
           page_hint: *fees_vat_prompt
@@ -1064,7 +1070,7 @@ en:
           warrant_fee: "Warrant fee"
           date_issued: "Warrant issued"
           date_executed: "Warrant executed (if applicable)"
-          total: "Net amount"
+          total: *net_amount
       supplier_number:
         fields:
           lgfs_supplier_number: "LGFS supplier number"
@@ -1262,11 +1268,11 @@ en:
           gross_amount: Gross amount
           header_with_vat: Expenses with VAT
           header_without_vat: Expenses without VAT
-          net_amount: Net amount
+          net_amount: *net_amount
           reason: Reason for travel
           totals_with_vat: Expenses with VAT total
           totals_without_vat: Expenses without VAT total
-          vat: VAT amount
+          vat: *vat_amount
         details:
           distance_calculated: Distance calculated
           distance_claimed: Distance claimed
@@ -1287,7 +1293,7 @@ en:
       fees:
         caption: 'Fees: A detailed list by Category and Type including amounts'
       amount: Net amount
-      vat_amount: VAT amount
+      vat_amount: *vat_amount
       date: Date
       disbursement: Disbursement
       disk_evidence: Will you be sending disk evidence for this claim?
@@ -1298,7 +1304,7 @@ en:
       fee_subtype: Fee subtype
       first_day_of_hearing: First day of hearing
       case_numbers: *case_numbers
-      quantity: Quantity
+      quantity: *quantity
       date_of_expense: Date of expense
       dates_attended: Dates attended
       fees_total: 'Fees total:'
@@ -1313,8 +1319,8 @@ en:
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
         type: Type of disbursement
-        net_amount: "Net amount"
-        vat_amount: "VAT amount"
+        net_amount: *net_amount
+        vat_amount: *vat_amount
         total: "Total"
       warrant_fee:
         date_issued: "Warrant issued"
@@ -1352,14 +1358,14 @@ en:
       fees:
         caption: 'Fees: A detailed list by Category and Type including amounts'
       amount: Amount
-      vat_amount: VAT amount
+      vat_amount: *vat_amount
       date: Date
       distance: Distance
       fee_category: Fee category
       fee_type: Fee type
       fee_subtype: Fee subtype
       case_numbers: *case_numbers
-      quantity: Quantity
+      quantity: *quantity
       dates_attended: Dates attended
       fees_total: 'Fees total:'
       expense_type: Expense type
@@ -1373,8 +1379,8 @@ en:
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
         type: "Disbursement type"
-        net_amount: "Net amount"
-        vat_amount: "VAT amount"
+        net_amount: *net_amount
+        vat_amount: *vat_amount
         total: "Total"
       warrant_fee:
         date_issued: "Warrant issued"
@@ -1401,14 +1407,14 @@ en:
       fees:
         caption: 'Fees: A detailed list by Category and Type including amounts'
       amount: Amount
-      vat_amount: VAT amount
+      vat_amount: *vat_amount
       date: Date
       distance: Distance
       fee_category: Fee category
       fee_type: Fee type
       fee_subtype: Fee subtype
       case_numbers: *case_numbers
-      quantity: Quantity
+      quantity: *quantity
       dates_attended: Dates attended
       fees_total: 'Fees total:'
       expense_type: Expense type
@@ -1422,8 +1428,8 @@ en:
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
         type: "Disbursement type"
-        net_amount: "Net amount"
-        vat_amount: "VAT amount"
+        net_amount: *net_amount
+        vat_amount: *vat_amount
         total: "Total"
       warrant_fee:
         date_issued: "Warrant issued"

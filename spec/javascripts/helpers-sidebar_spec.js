@@ -195,12 +195,12 @@ describe('Helpers.Blocks.js', function() {
           });
 
           it('should return the input value given a selector', function() {
-            expect(instance.getDataVal('total')).toBe(44.44);
+            expect(instance.getDataVal('.total', 'total')).toBe(44.44);
           });
 
           it('should return `false` if no value is found', function() {
             $('.js-block').find('.total').remove();
-            expect(instance.getDataVal('total')).toBe(false);
+            expect(instance.getDataVal('.total', 'total')).toBe(false);
           });
         });
 
@@ -339,6 +339,20 @@ describe('Helpers.Blocks.js', function() {
         });
 
         describe('...init', function() {
+          it('should call `this.bindEvents`', function() {
+            spyOn(instance, 'bindEvents');
+            instance.init();
+            expect(instance.bindEvents).toHaveBeenCalled();
+          });
+
+          it('should call `this.bindRecalculate`', function() {
+            spyOn(instance, 'bindRecalculate');
+            instance.init();
+            expect(instance.bindRecalculate).toHaveBeenCalled();
+          });
+        });
+
+        describe('...bindEvents', function() {
           it('should call `this.bindRecalculate`', function() {
             spyOn(instance, 'bindRecalculate');
             instance.init();
@@ -931,13 +945,13 @@ describe('Helpers.Blocks.js', function() {
             instance.bindListners();
 
             $(selector).val(11.35).keyup();
-            expect(instance.setNumber).toHaveBeenCalledWith( '.fx-travel-vat-amount input', 2.27);
+            expect(instance.setNumber).toHaveBeenCalledWith('.fx-travel-vat-amount input', 2.27);
 
             instance.config.vatfactor = 0.99;
 
             $(selector).val(10.21).keyup();
 
-            expect(instance.setNumber).toHaveBeenCalledWith( '.fx-travel-vat-amount input', 10.1079);
+            expect(instance.setNumber).toHaveBeenCalledWith('.fx-travel-vat-amount input', 10.1079);
 
           });
         });

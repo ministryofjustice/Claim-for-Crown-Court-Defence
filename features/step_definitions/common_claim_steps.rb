@@ -8,6 +8,9 @@ def generate_rep_order_date_for(scheme_text)
   end
 end
 
+When(/^I enter a providers reference of '(.*?)'$/) do |ref|
+  @claim_form_page.providers_ref.set ref
+end
 
 When(/^I select the court '(.*?)'$/) do |name|
   @claim_form_page.select_court(name)

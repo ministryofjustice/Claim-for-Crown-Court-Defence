@@ -1,13 +1,24 @@
+- if !defined?(hide_remove)
+  - hide_remove = false
+
 .extra-data.nested-fields.fee-dates.fee-dates-from
   - if defined?(parent_model_prefix) && defined?(submodel_count)
     - error_prefix = "#{parent_model_prefix}_date_attended_#{submodel_count}"
   - else
     - error_prefix = "date_attended_0"
 
-  = link_to_remove_association t(".remove"), f, {class: "date-action"}
+    - unless hide_remove&.eql?(true)
+      = link_to_remove_association t(".remove"), f, {class: "date-action"}
+
   .fee-date-from.panel-margin-fix
     - if defined?(locale_scope)
-      - date_text = t(f.object.claim.case_type.name.split(' ').collect(&:capitalize).join.underscore, scope: locale_scope)
+      - locale_key = f.object.claim.case_type.name.split(' ').collect(&:capitalize).join.underscore
+
+      - if defined?(plural)
+        - locale_key = "#{locale_key}_plural"
+
+      - date_text = t(locale_key, scope: locale_scope)
+
     - else
       - date_text = t('.date')
 

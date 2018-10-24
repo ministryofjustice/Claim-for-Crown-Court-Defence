@@ -24,6 +24,11 @@ class ExternalUsers::Admin::ProvidersController < ExternalUsers::Admin::Applicat
     @provider = current_user.persona.provider
   end
 
+  # This functionality was raised as a bug in 2018 when we were unable to edit a provider in demo.
+  # After reviewing it is our assumption that, historically, a decision was made to prevent provider admins
+  # from editing their provider_type and roles as this would have been set up by a super_admin and should only
+  # be changed by another super_admin as there are a significant changes required in the data structure
+  # when they change
   def filtered_params
     %i[roles provider_type]
   end

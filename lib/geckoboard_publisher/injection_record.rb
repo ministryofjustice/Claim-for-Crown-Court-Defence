@@ -67,7 +67,10 @@ module GeckoboardPublisher
     end
 
     def total_cclf
-      cclf_injections.where(created_at: date_range).count
+      cclf_injections
+        .where(created_at: date_range)
+        .exclude_error('%already exist%')
+        .count
     end
 
     def total

@@ -54,7 +54,7 @@ class ErrorMessageTranslator
     if key_refers_to_numbered_submodel?(key) && submodel_key_exists?(translations, key)
       translation_subset, submodel_key = extract_last_submodel_attribute(translations, key)
       get_messages(translation_subset, submodel_key, error)
-    elsif key_refers_to_submodel?(key)
+    elsif key_refers_to_unnumbered_submodel?(key)
       translation_subset, submodel_key = extract_submodel_attribute(translations, key)
       get_messages(translation_subset, submodel_key, error)
     else
@@ -75,7 +75,7 @@ class ErrorMessageTranslator
     key =~ @regex
   end
 
-  def key_refers_to_submodel?(key)
+  def key_refers_to_unnumbered_submodel?(key)
     key =~ @submodel_regex
   end
 
@@ -102,6 +102,7 @@ class ErrorMessageTranslator
     key =~ @submodel_regex
     parent_model = Regexp.last_match(1)
     attribute = Regexp.last_match(2)
+    @submodel_numbers[parent_model] = 0
     translation_subset = translations.fetch(parent_model, {})
     [translation_subset, attribute]
   end
@@ -113,7 +114,8 @@ class ErrorMessageTranslator
   def substitute_submodel_numbers_and_names(message)
     @submodel_numbers.each do |submodel_name, number|
       substitution_key = '#{' + submodel_name + '}'
-      message = message.sub(substitution_key, to_ordinal(number) + ' ' + humanize_submodel_name(submodel_name))
+      substitution_value = [to_ordinal(number), humanize_submodel_name(submodel_name)].select(&:present?).join(' ')
+      message = message.sub(substitution_key, substitution_value)
     end
     # clean out unused message substitution keys
     message = message.gsub(/#\{(\S+)\}/, '')
@@ -126,7 +128,9 @@ class ErrorMessageTranslator
 
   def to_ordinal(number)
     n = number.to_i
-    if n < 11
+    if n.zero?
+      ''
+    elsif n < 11
       to_ordinal_in_words(n)
     else
       n.ordinalize

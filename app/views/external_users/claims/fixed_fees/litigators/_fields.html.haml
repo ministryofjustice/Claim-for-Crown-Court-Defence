@@ -26,7 +26,8 @@
           input_classes:"quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity",
           input_type: 'number',
           value: fee.quantity,
-          errors: @error_presenter
+          errors: @error_presenter,
+          error_key: "fixed_fee.quantity"
 
       .js-fee-calculator-effectee
         .calculated-fee

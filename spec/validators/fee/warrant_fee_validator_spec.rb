@@ -7,7 +7,7 @@ RSpec.describe Fee::WarrantFeeValidator, type: :validator do
     allow(fee).to receive(:perform_validation?).and_return(true)
   end
 
-  include_examples 'common amount validations'
+  include_examples 'common LGFS amount validations'
 
   describe '#validate_warrant_issued_date' do
     it 'should be valid if present and issued at least 3 months ago' do

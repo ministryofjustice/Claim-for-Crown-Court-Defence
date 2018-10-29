@@ -1,4 +1,4 @@
-shared_examples 'common fee date validations' do
+RSpec.shared_examples 'common LGFS fee date validations' do
   describe '#validate_date' do
     it { should_error_if_not_present(fee, :date, 'blank') }
 
@@ -25,7 +25,7 @@ shared_examples 'common fee date validations' do
   end
 end
 
-shared_examples 'common amount validations' do
+RSpec.shared_examples 'common LGFS amount validations' do
   describe '#validate_amount' do
     it 'adds error if amount is blank' do
       should_error_if_equal_to_value(fee, :amount, '', 'numericality')
@@ -45,7 +45,7 @@ shared_examples 'common amount validations' do
   end
 end
 
-shared_examples 'common AGFS number of cases uplift validations' do
+RSpec.shared_examples 'common AGFS number of cases uplift validations' do
   context 'case numbers list valid' do
     it 'when case_numbers is blank and quantity is zero' do
       noc_fee.quantity = 0

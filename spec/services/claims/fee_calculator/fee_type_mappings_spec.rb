@@ -26,6 +26,13 @@ RSpec.describe Claims::FeeCalculator::FeeTypeMappings do
       described_class.reset
       expect(described_class.instance.primary_fee_types.keys).to_not include(:FXACV)
     end
+
+    it 'sets instance vars to nil' do
+      expect(described_class.instance).to receive(:instance_variable_set).with(:@all, nil).at_least(:once)
+      expect(described_class.instance).to receive(:instance_variable_set).with(:@primary_fee_types, nil).at_least(:once)
+      expect(described_class.instance).to receive(:instance_variable_set).with(:@primary_fee_type_codes, nil).at_least(:once)
+      described_class.reset
+    end
   end
 
   describe '#all' do

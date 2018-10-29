@@ -75,7 +75,7 @@ shared_examples 'common AGFS number of cases uplift validations' do
       noc_fee.case_numbers = 'A20161234,T20171234'
       should_not_error(noc_fee, :case_numbers)
     end
-  end
+   end
 
   context 'case numbers list invalid' do
     it 'when case_numbers is blank and quantity is not zero' do
@@ -102,6 +102,11 @@ shared_examples 'common AGFS number of cases uplift validations' do
     it 'when quantity and number of additional cases do not match' do
       noc_fee.case_numbers = 'A20161234 , A20158888'
       should_error_with(noc_fee, :case_numbers, 'noc_qty_mismatch')
+    end
+
+    it 'when case number is not equal to main case number' do
+      noc_fee.case_numbers = claim.case_number
+      should_error_with(noc_fee, :case_numbers, 'adtnl_case_num_eqls_main_case_num')
     end
   end
 

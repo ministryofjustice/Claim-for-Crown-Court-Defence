@@ -7,7 +7,7 @@ namespace :db do
       log_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = 1
 
-      seed_file = "#{Rails.root}/db/seeds/scheme_ten.rb"
+      seed_file = "#{Rails.root}/db/seeds/scheme_10.rb"
       puts "Running scheme ten seed file: #{seed_file}"
       load seed_file
       puts 'Import complete'

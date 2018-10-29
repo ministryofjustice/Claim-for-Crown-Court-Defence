@@ -1,6 +1,7 @@
 class FeeScheme < ApplicationRecord
   NINE = 9
   TEN = 10
+  ELEVEN = 11
   validates :start_date, :version, :name, presence: true
 
   has_many :offence_fee_schemes
@@ -10,6 +11,7 @@ class FeeScheme < ApplicationRecord
   scope :lgfs, -> { where(name: 'LGFS') }
   scope :nine, -> { where(version: FeeScheme::NINE) }
   scope :ten, -> { where(version: FeeScheme::TEN) }
+  scope :eleven, -> { where(version: FeeScheme::ELEVEN) }
   scope :current, lambda {
     where('(:now BETWEEN start_date AND end_date) OR (start_date < :now AND end_date IS NULL)', now: Time.zone.now)
   }

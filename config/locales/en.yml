@@ -947,6 +947,8 @@ en:
             prompt_text_html: &graduated_fee_prompt_content Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help.
             select_sub_type: "Please select the relevant option"
             date: "Date"
+            help_how_we_calculate_rate_title: How is this rate calculated?
+            help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme and fee type.
         summary:
           header: Fixed fees
       misc_fees:

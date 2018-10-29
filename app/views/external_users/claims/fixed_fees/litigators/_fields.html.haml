@@ -1,66 +1,56 @@
 - if @claim.allows_fixed_fees?
-
-  #fixed-fees.mod-fees
+  .form-section.fixed-fee-group.js-block.fx-do-init{data:{"type": "fixedFees", autovat: @claim.apply_vat? ? "true" : "false"}}
     %h2.bold-medium
       = t('.fixed_fees')
 
     = f.fields_for :fixed_fee do |ff|
       - fee = present(ff.object)
-      %fieldset
-        %legend.visuallyhidden
-          = t('.fixed_fees')
-        .fixed-fee-group.nested-fields.js-block.fx-do-init{data:{"type": "fixedFees", autovat: @claim.apply_vat? ? "true" : "false"}}
-          .grid-row
-            %div
-              %label.form-label
-                = t('.fee_type')
-              = ff.anchored_attribute 'fee_type'
-              = @claim.case_type.fixed_fee_type.description
-              = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
-              = validation_error_message(@error_presenter, :fee_type)
 
-          .grid-row
-            .column-three-quarters
-              = ff.anchored_attribute 'date'
-              = ff.gov_uk_date_field(:date, legend_text: t('.date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'fixed_fee.date'))
+      .form-group
+        %label.form-label
+          = t('.fee_type')
+        = ff.anchored_attribute 'fee_type'
+        = @claim.case_type.fixed_fee_type.description
+        = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
+        = validation_error_message(@error_presenter, :fee_type)
 
-          = ff.adp_text_field :quantity,
-              label: t('.quantity'),
-              hint_text: t('.quantity_hint'),
-              hide_hint: true,
-              input_classes:"quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity",
-              input_type: 'number',
-              value: fee.quantity,
-              errors: @error_presenter
+      .form-group
+        = ff.anchored_attribute 'date'
+        = ff.gov_uk_date_field(:date, legend_text: t('.date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'fixed_fee.date'))
 
-          .js-fee-calculator-effectee
-            .calculated-fee
-            = ff.adp_text_field :rate,
-                label: t('.rate'),
-                input_classes:'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
-                input_type: 'currency',
-                errors: @error_presenter,
-                input_readonly: fee.rate_calculated?,
-                value: number_with_precision(fee.rate, precision: 2)
+      = ff.adp_text_field :quantity,
+          label: t('.quantity'),
+          hint_text: t('.quantity_hint'),
+          hide_hint: true,
+          input_classes:"quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity",
+          input_type: 'number',
+          value: fee.quantity,
+          errors: @error_presenter
 
-          .js-fee-calculator-success
-            = ff.hidden_field :rate_calculated, value: ff.object.rate_calculated?
+      .js-fee-calculator-effectee
+        .calculated-fee
+        = ff.adp_text_field :rate,
+            label: t('.rate'),
+            input_classes:'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
+            input_type: 'currency',
+            errors: @error_presenter,
+            input_readonly: fee.rate_calculated?,
+            value: number_with_precision(fee.rate, precision: 2)
 
-          .help-wrapper.form-group{ style: 'display: none;' }
-            %details
-              %summary
-                %span.summary
-                  = t('.help_how_we_calculate_rate_title')
-              .panel.panel-border-narrow
-                %p
-                  = t('.help_how_we_calculate_rate_body')
+      .js-fee-calculator-success
+        = ff.hidden_field :rate_calculated, value: ff.object.rate_calculated?
 
-            .column-one-quarter.condensed.js-expense-amount.fee-total.margin-spacer-lg
-              %a{:id => "fixed_fee.amount"}
-              = ff.adp_text_field :amount,
-                  label: t('.total'),
-                  input_classes:'total',
-                  input_type: 'currency',
-                  errors: @error_presenter,
-                  error_key: 'fixed_fee.amount',
-                  value: number_with_precision(fee.amount, precision: 2)
+      .help-wrapper.form-group{ style: 'display: none;' }
+        %details
+          %summary
+            %span.summary
+              = t('.help_how_we_calculate_rate_title')
+          .panel.panel-border-narrow
+            %p
+              = t('.help_how_we_calculate_rate_body')
+
+      .form-group
+        %label.form-label-bold
+          = t('.net_amount')
+        .fee-net-amount
+          = fee.amount || number_to_currency(0)

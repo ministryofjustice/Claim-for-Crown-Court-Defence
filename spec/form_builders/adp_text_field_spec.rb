@@ -2,8 +2,7 @@ require 'rails_helper'
 
 class TestHelper < ActionView::Base; end
 
-describe AdpTextField do
-
+RSpec.describe AdpTextField do
   context 'top level text fields' do
     let(:helper) { TestHelper.new }
     let(:resource)  { FactoryBot.create :claim, case_number: nil }
@@ -270,11 +269,27 @@ describe AdpTextField do
       end
     end
 
+    context 'anchor_id' do
+      subject { AdpTextField.new(builder, :case_number, options).to_html }
+      let(:options) { {} }
+
+      context 'when no error_key provided' do
+        it 'uses form object name' do
+          is_expected.to include('<a id="case_number"></a>')
+        end
+      end
+
+      context 'when error_key provided' do
+        let(:options) { { error_key: 'custom_anchor_id' } }
+
+        it 'uses error_key' do
+          is_expected.to include('<a id="custom_anchor_id"></a>')
+        end
+      end
+    end
   end
 
   def squash(html)
     html.gsub("\n", '').gsub(/\>\s+/, '>').gsub(/\s+\</, '<').chomp
   end
 end
-
-

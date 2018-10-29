@@ -72,17 +72,9 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             case_concluded_at_dd: 5.days.ago.day.to_s,
             case_concluded_at_mm: 5.days.ago.month.to_s,
             case_concluded_at_yyyy: 5.days.ago.year.to_s,
-            expenses_attributes:
-              [
-                  expense_params
-              ],
-              #   {
-              #     expense_type_id: expense_type.id,
-              #     location: "London",
-              #     quantity: 1,
-              #     rate: 40
-              #   }
-              # ],
+            expenses_attributes: [
+              expense_params
+            ],
             defendants_attributes: [
               { first_name: 'John',
                 last_name: 'Smith',
@@ -297,7 +289,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
             it 'should create the fixed fee' do
               expect(assigns(:claim).fixed_fee).to be_valid
-              expect(assigns(:claim).fixed_fee.amount).to eq 2500
+              expect(assigns(:claim).fixed_fee.amount).to eq 388.30
             end
 
             it 'should create the miscellaneous fees' do
@@ -310,7 +302,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             end
 
             it 'should update claim total to sum of fixed and miscellaneous fees' do
-              expect(assigns(:claim).fees_total).to eq 2875.00
+              expect(assigns(:claim).fees_total).to eq 763.30
             end
           end
         end
@@ -522,7 +514,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
   def fixed_fee_attributes
     HashWithIndifferentAccess.new({
         fixed_fee_attributes: {
-            fee_type_id: fixed_fee_type_1.id.to_s, amount: '2500', date_dd: '15', date_mm: '05', date_yyyy: '2015', _destroy: 'false'
+            fee_type_id: fixed_fee_type_1.id.to_s, quantity: 5, rate: 77.66, amount: nil, date_dd: '15', date_mm: '05', date_yyyy: '2015', _destroy: 'false'
         }
     })
   end

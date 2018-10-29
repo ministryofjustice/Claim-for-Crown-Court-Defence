@@ -144,6 +144,7 @@ FactoryBot.define do
         unique_code 'MISPF'
         calculated true
         quantity_is_decimal true
+        roles ["agfs", "agfs_scheme_9", "agfs_scheme_10", "lgfs"]
       end
 
       trait :miaph do

@@ -114,7 +114,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
   end
 
   describe '#validate_amount' do
-    include_examples 'common amount validations'
+    include_examples 'common LGFS amount validations'
 
     context 'disbursement fee' do
       it 'is invalid if present' do

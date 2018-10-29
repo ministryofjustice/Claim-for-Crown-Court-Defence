@@ -24,7 +24,7 @@ RSpec.describe Fee::TransferFeeValidator, type: :validator do
     end
   end
 
-  include_examples 'common amount validations'
+  include_examples 'common LGFS amount validations'
 
   describe 'absence of unnecessary attributes' do
     it 'validates absence of warrant issued date' do

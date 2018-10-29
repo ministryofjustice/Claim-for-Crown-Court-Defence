@@ -26,7 +26,7 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
 
     context 'validation of case_type on claim' do
       let(:fixed_fee) { build :fixed_fee, :lgfs }
-      let(:grad_fee)  { build :graduated_fee }
+      let(:grad_fee) { build :graduated_fee }
 
       context 'claim has a fixed fee case type' do
         let(:claim) { build(:litigator_claim, case_type: build(:case_type, :fixed_fee)) }
@@ -58,28 +58,27 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
       end
     end
 
-    context 'override validation of fields from the superclass validator' do
+    context 'uses the superclass validator' do
       let(:superclass) { described_class.superclass }
 
       it 'quantity' do
-        expect_any_instance_of(superclass).not_to receive(:validate_quantity)
+        expect_any_instance_of(superclass).to receive(:validate_quantity)
         fee.valid?
       end
 
       it 'rate' do
-        expect_any_instance_of(superclass).not_to receive(:validate_rate)
+        expect_any_instance_of(superclass).to receive(:validate_rate)
         fee.valid?
       end
 
       it 'amount' do
-        expect_any_instance_of(superclass).not_to receive(:validate_amount)
+        expect_any_instance_of(superclass).to receive(:validate_amount)
         fee.valid?
       end
     end
 
     describe '#validate_sub_type' do
-
-      let(:fixed_fee_claim)  { build :claim, case_type: build(:case_type, :fixed_fee) }
+      let(:fixed_fee_claim) { build :claim, case_type: build(:case_type, :fixed_fee) }
       let!(:non_parent) { create :fixed_fee_type }
       let!(:parent) { create :fixed_fee_type }
       let!(:child) { create :child_fee_type, :asbo, parent: parent }
@@ -111,7 +110,6 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
       end
     end
 
-    include_examples 'common amount validations'
-    include_examples 'common fee date validations'
+    include_examples 'common LGFS fee date validations'
   end
 end

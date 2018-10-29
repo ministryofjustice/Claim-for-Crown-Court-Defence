@@ -128,6 +128,7 @@ class AdpTextField
 
   def generate_anchor_id
     # translates e.g. claim_defendants_attributes_0_last_name to defendant_1_last_name
+    return @options[:error_key] if @options[:error_key] # hacky fix for error handling of one-to-one relations
     anchor = @form_field_id.sub(/^claim_/, '').gsub('s_attributes', '')
     parts = anchor.split('_')
     incremented_anchor_parts = []

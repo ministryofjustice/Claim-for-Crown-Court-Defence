@@ -29,6 +29,7 @@ Before do
     load "#{Rails.root}/db/seeds/offence_classes.rb"
     load "#{Rails.root}/db/seeds/offences.rb"
     load "#{Rails.root}/db/seeds/scheme_ten.rb"
+    load "#{Rails.root}/db/seeds/scheme_11.rb"
     load "#{Rails.root}/db/seeds/case_types.rb"
     load "#{Rails.root}/db/seeds/fee_types.rb"
     load "#{Rails.root}/db/seeds/certification_types.rb"

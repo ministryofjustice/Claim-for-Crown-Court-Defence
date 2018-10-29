@@ -11,6 +11,7 @@ module Claims
     class Calculate
       delegate  :earliest_representation_order_date,
                 :agfs?,
+                :lgfs?,
                 :agfs_reform?,
                 :case_type,
                 :offence,
@@ -85,6 +86,7 @@ module Claims
       end
 
       def bill_scenario
+        return CCLF::CaseTypeAdapter::BILL_SCENARIOS[case_type.fee_type_code.to_sym] if lgfs?
         CCR::CaseTypeAdapter::BILL_SCENARIOS[case_type.fee_type_code.to_sym]
       end
 
@@ -110,7 +112,19 @@ module Claims
       end
 
       def advocate_type
-        CCR::AdvocateCategoryAdapter.code_for(advocate_category)
+        CCR::AdvocateCategoryAdapter.code_for(advocate_category) if advocate_category
+      end
+
+      # TODO: limit_from represents the price based on the quantity "instance"
+      # e.g. AGFS scheme 10, Contempt scenario, Standard appearance fee
+      #      attracts one price per unit/day (180 for a QC) for the first 6 days
+      #      then 0.00 price for days 7 onwards. This breaks the "rate" per unit logic
+      #      of CCCD and would need to be accounted for via the quantity * rate calculation
+      #      instead, as one solution.
+      # NOTE: In the API AGFS fee scheme prices have a limit_from minimum of 1, while
+      # LGFS does not use this attribute and uses 0. github issue TODO?
+      def limit_from_or_default
+        agfs? ? 1 : 0
       end
 
       def fee_type_mappings
@@ -118,6 +132,7 @@ module Claims
       end
 
       def fee_type_code_for(fee_type)
+        return 'LIT_FEE' if lgfs?
         fee_type = case_uplift_parent if fee_type.case_uplift?
         fee_type = defendant_uplift_parent if fee_type.defendant_uplift?
         fee_type_mappings.all[fee_type&.unique_code&.to_sym][:bill_subtype]

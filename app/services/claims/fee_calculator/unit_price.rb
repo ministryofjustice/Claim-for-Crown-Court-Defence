@@ -11,13 +11,6 @@ module Claims
       # TODO: * unit should be passed from options or dynamically determined
       # However, day is the unit for all fixed fees.
       #
-      # TODO: ** limit_from represents the price based on the quantity "instance"
-      # e.g. AGFS scheme 10, Contempt scenario, Standard appearance fee
-      #      attracts one price per unit/day (180 for a QC) for the first 6 days
-      #      then 0.00 price for days 7 onwards. This breaks the "rate" per unit logic
-      #      of CCCD and would need to be accounted for via the quantity * rate calculation
-      #      instead, as one solution.
-      #
       def unit_price(modifier = nil)
         @modifier = modifier
         @prices = fee_scheme.prices(
@@ -25,9 +18,8 @@ module Claims
           offence_class: offence_class_or_default,
           advocate_type: advocate_type,
           fee_type_code: fee_type_code_for(fee_type),
-          limit_from: 1 # ** see TODO
+          limit_from: limit_from_or_default
         )
-
         price
       end
 

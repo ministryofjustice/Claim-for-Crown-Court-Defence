@@ -154,11 +154,14 @@ moj.Modules.FeeCalculator = {
     if (advocate_category) {
       data.advocate_category = advocate_category
     }
+    // TODO: check if this can be here instead of calculateUnitPrice
+    // loop iteration for $('.js-fee-calculator-effectee')
+    // data.fee_type_id = $(this).closest('.fx-fee-group').find('.js-fee-type').first().val();
 
     var fees = data.fees = [];
     $('.fx-fee-group:visible').each(function() {
       fees.push({
-        fee_type_id: $(this).find('select.js-fee-type').val(),
+        fee_type_id: $(this).find('.js-fee-type').first().val(),
         quantity: $(this).find('input.js-fee-quantity').val()
       });
     });
@@ -173,7 +176,7 @@ moj.Modules.FeeCalculator = {
     self.buildFeeData(data);
 
     $('.js-fee-calculator-effectee').each(function () {
-      data.fee_type_id = $(this).closest('.fx-fee-group').find('select.js-fee-type').val();
+      data.fee_type_id = $(this).closest('.fx-fee-group').find('.js-fee-type').first().val();
       self.unitPriceAjax(data, this);
     });
   },

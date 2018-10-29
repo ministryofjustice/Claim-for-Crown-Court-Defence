@@ -24,7 +24,7 @@ RSpec.describe FeeReform::SearchOffences, type: :service do
     ]
   }
 
-  context 'when no filter is provided' do
+  context 'when no search_offence filter is provided' do
     let(:filters) { { fee_scheme: 'AGFS 10' } }
 
     it 'returns all existent offences under fee scheme 10' do

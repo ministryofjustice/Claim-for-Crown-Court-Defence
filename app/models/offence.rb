@@ -56,4 +56,8 @@ class Offence < ApplicationRecord
   def scheme_ten?
     fee_schemes.map(&:version).any? { |s| s == FeeScheme::TEN }
   end
+
+  def post_agfs_reform?
+    fee_schemes.agfs.map(&:version).any? { |s| s > FeeScheme::NINE }
+  end
 end

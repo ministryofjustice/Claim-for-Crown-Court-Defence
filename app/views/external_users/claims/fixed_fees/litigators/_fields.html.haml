@@ -1,5 +1,5 @@
 - if @claim.allows_fixed_fees?
-  .form-section.fixed-fee-group.js-block.fx-do-init{data:{"type": "fixedFees", autovat: @claim.apply_vat? ? "true" : "false"}}
+  .form-section.fixed-fee-group.js-block.fx-do-init{data:{"type": "fixedFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
     %h2.bold-medium
       = t('.fixed_fees')
 
@@ -52,5 +52,5 @@
       .form-group
         %label.form-label-bold
           = t('.net_amount')
-        .fee-net-amount
+        .fee-net-amount.total
           = fee.amount || number_to_currency(0)

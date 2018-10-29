@@ -16,6 +16,9 @@ moj.Modules.OffenceSearchInput = {
   // clear button selector
   clear: '.fx-clear-search',
 
+  //fee_scheme selector
+  feeScheme: '.fx-fee-scheme',
+
   // delay in miliseconds
   debouce: 500,
 
@@ -43,6 +46,7 @@ moj.Modules.OffenceSearchInput = {
       this.$input = $(this.input);
       this.$model = $(this.model);
       this.$clear = $(this.clear);
+      this.$feeScheme = $(this.feeScheme);
       this.bindEvents();
     }
   },
@@ -73,7 +77,7 @@ moj.Modules.OffenceSearchInput = {
     // defaults, search input and filters
     var dataOptions = $.extend({}, {
         // default value
-        fee_scheme: 'fee_reform',
+        fee_scheme: this.$feeScheme.val(),
 
         // Search query text
         search_offence: this.$input.val()

@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe FeeReform::SearchOffences, type: :service do
+
+  before do
+    create(:fee_scheme, :agfs_nine)
+    create(:fee_scheme, :agfs_ten)
+  end
+
   let!(:scheme_9_offences) {
     [
       create(:offence, :with_fee_scheme, description: 'Offence 1'),
@@ -19,7 +25,7 @@ RSpec.describe FeeReform::SearchOffences, type: :service do
   }
 
   context 'when no filter is provided' do
-    let(:filters) { {} }
+    let(:filters) { { fee_scheme: 'AGFS 10' } }
 
     it 'returns all existent offences under fee scheme 10' do
       offences = described_class.call(filters)
@@ -29,7 +35,7 @@ RSpec.describe FeeReform::SearchOffences, type: :service do
   end
 
   context 'when search_offence filter is provided' do
-    let(:filters) { { search_offence: 'pattern' } }
+    let(:filters) { { fee_scheme: 'AGFS 10', search_offence: 'pattern' } }
 
     it 'returns all offences under fee scheme 10 that match the provided pattern (including band description and category description)' do
       offences = described_class.call(filters)

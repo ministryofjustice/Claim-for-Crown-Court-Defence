@@ -6,17 +6,19 @@ module FeeReform
 
     def initialize(filters = {})
       @filters = filters
+      fee_scheme_array = @filters[:fee_scheme].split(' ')
+      @fee_scheme = FeeScheme.find_by(name: fee_scheme_array[0], version: fee_scheme_array[1])
       @offences_table = Offence.arel_table
       @bands_table = OffenceBand.arel_table
       @categories_table = OffenceCategory.arel_table
     end
 
     def call
-      offences = Offence.unscoped.in_scheme_ten
-                        .joins(offence_band: :offence_category)
-                        .includes(offence_band: :offence_category)
-                        .group('offence_categories.id, offence_bands.id, offences.id')
-                        .order('offence_categories.number, offence_bands.number, offences.description')
+      offences = fee_scheme_offences
+                 .joins(offence_band: :offence_category)
+                 .includes(offence_band: :offence_category)
+                 .group('offence_categories.id, offence_bands.id, offences.id')
+                 .order('offence_categories.number, offence_bands.number, offences.description')
 
       offences = offences.where(description_scope(filters[:search_offence])) if filters[:search_offence].present?
 
@@ -29,7 +31,11 @@ module FeeReform
 
     private
 
-    attr_reader :filters, :offences_table, :bands_table, :categories_table
+    attr_reader :filters, :fee_scheme, :offences_table, :bands_table, :categories_table
+
+    def fee_scheme_offences
+      Offence.unscoped.joins(:fee_schemes).merge(FeeScheme.where(id: fee_scheme.id)).distinct
+    end
 
     def description_scope(description)
       offences_table[:description].matches("%#{description}%")

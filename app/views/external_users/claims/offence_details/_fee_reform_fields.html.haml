@@ -30,6 +30,7 @@
     %input#offence.form-control.fx-input{:name => "offence-search-input", :type => "input", :autocomplete => "off"}/
 
   = f.hidden_field :offence_id, value: valid_offence ? f.object.offence.id : nil, class: 'fx-model'
+  = f.hidden_field :fee_scheme, value: [@claim.fee_scheme.name, @claim.fee_scheme.version], class: 'fx-fee-scheme'
 
 .form-group
   %details{:role => "group"}

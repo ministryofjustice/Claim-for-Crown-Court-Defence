@@ -935,7 +935,7 @@ en:
         litigators:
           fields:
             fixed_fees: "Fixed fees"
-            fee_type: "Fee type"
+            fee_type: Type of fee
             total: "Total"
             prompt_text_html: &graduated_fee_prompt_content Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help.
             select_sub_type: "Please select the relevant option"

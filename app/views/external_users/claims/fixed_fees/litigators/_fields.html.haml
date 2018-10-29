@@ -1,5 +1,5 @@
 - if @claim.allows_fixed_fees?
-  .form-section.fixed-fee-group.js-block.fx-do-init{data:{"type": "fixedFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
+  .form-section.fx-fee-group.fixed-fee-group.js-block.fx-do-init{data:{"type": "fixedFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
     %h2.bold-medium
       = t('.fixed_fees')
 
@@ -7,11 +7,12 @@
       - fee = present(ff.object)
 
       .form-group
-        %label.form-label
+        %br
+        %label.form-label-bold
           = t('.fee_type')
         = ff.anchored_attribute 'fee_type'
         = @claim.case_type.fixed_fee_type.description
-        = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
+        = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id, class: 'js-fee-type'
         = validation_error_message(@error_presenter, :fee_type)
 
       .form-group

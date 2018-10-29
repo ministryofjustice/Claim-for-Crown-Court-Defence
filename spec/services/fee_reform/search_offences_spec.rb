@@ -23,6 +23,15 @@ RSpec.describe FeeReform::SearchOffences, type: :service do
       create(:offence, :with_fee_scheme_ten, description: 'Offence 10-2', offence_band: create(:offence_band, description: 'AAA', number: 1, offence_category: create(:offence_category, description: 'PaTterN bla bla', number: 17)))
     ]
   }
+  let!(:scheme_11_offences) {
+    [
+      create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-1', offence_band: create(:offence_band, description: 'OB-A', number: 1, offence_category: create(:offence_category, description: 'OC-A', number: 1))),
+      create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-4 paTTern', offence_band: create(:offence_band, description: 'OB-B', number: 2, offence_category: create(:offence_category, description: 'OC-A', number: 1))),
+      create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-5', contrary: 'Matches pattERN', offence_band: create(:offence_band, description: 'OB-A', number: 1, offence_category: create(:offence_category, description: 'OC-Z', number: 12))),
+      create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-3', offence_band: create(:offence_band, description: 'Bla bla Patterns bla bla', number: 2, offence_category: create(:offence_category, description: 'OC-C', number: 3))),
+      create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-2', offence_band: create(:offence_band, description: 'AAA', number: 1, offence_category: create(:offence_category, description: 'PaTterN bla bla', number: 17)))
+    ]
+  }
 
   context 'when no search_offence filter is provided' do
     let(:filters) { { fee_scheme: 'AGFS 10' } }
@@ -35,12 +44,12 @@ RSpec.describe FeeReform::SearchOffences, type: :service do
   end
 
   context 'when search_offence filter is provided' do
-    let(:filters) { { fee_scheme: 'AGFS 10', search_offence: 'pattern' } }
+    let(:filters) { { fee_scheme: 'AGFS 11', search_offence: 'pattern' } }
 
     it 'returns all offences under fee scheme 10 that match the provided pattern (including band description and category description)' do
       offences = described_class.call(filters)
       expect(offences.length).to eq(4)
-      expect(offences.map(&:description)).to eq(['Offence 10-4 paTTern', 'Offence 10-3', 'Offence 10-5', 'Offence 10-2'])
+      expect(offences.map(&:description)).to eq(['Offence 11-4 paTTern', 'Offence 11-3', 'Offence 11-5', 'Offence 11-2'])
     end
   end
 end

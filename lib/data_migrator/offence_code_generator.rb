@@ -34,6 +34,15 @@ module OffenceExtensions
     description.abbreviate +
       modifier.to_s +
       '_' +
-      offence_band.description
+      offence_band.description +
+      gt_10_offence_code_suffix
+  end
+
+  def gt_10_offence_code_suffix
+    if fee_schemes&.first&.version && fee_schemes.first.version > 10
+      '~' + fee_schemes.first.version.to_s
+    else
+      ''
+    end
   end
 end

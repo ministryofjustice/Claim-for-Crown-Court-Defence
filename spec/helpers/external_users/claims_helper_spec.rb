@@ -115,4 +115,65 @@ describe ExternalUsers::ClaimsHelper do
       end
     end
   end
+
+  describe 'claim_requires_dates_attended?' do
+    subject { helper.claim_requires_dates_attended?(claim) }
+
+    context 'when claim fee_scheme is nine' do
+      let(:claim) { build(:advocate_claim, case_type: case_type) }
+
+      context 'and has a case type of Trial' do
+        let(:case_type) { build(:case_type, :trial) }
+
+        it { is_expected.to be true }
+      end
+
+      context 'and has a case type of Retrial' do
+        let(:case_type) { build(:case_type, :retrial) }
+
+        it { is_expected.to be true }
+      end
+
+      context 'and has a case type of Guilty pLea' do
+        let(:case_type) { build(:case_type, :guilty_plea) }
+
+        it { is_expected.to be true }
+      end
+
+      context 'and has a case type of Contempt' do
+        let(:case_type) { build(:case_type, :contempt) }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'when claim fee_scheme is ten' do
+      let!(:scheme_10) { create(:fee_scheme, :agfs_ten)}
+      let(:claim) { create(:advocate_claim, :agfs_scheme_10, case_type: case_type) }
+
+      context 'and has a case type of Trial' do
+        let(:case_type) { build(:case_type, :trial) }
+
+        it { is_expected.to be false }
+      end
+
+      context 'and has a case type of Retrial' do
+        let(:case_type) { build(:case_type, :retrial) }
+
+        it { is_expected.to be false }
+      end
+
+      context 'and has a case type of Guilty pLea' do
+        let(:case_type) { build(:case_type, :guilty_plea) }
+
+        it { is_expected.to be true }
+      end
+
+      context 'and has a case type of Contempt' do
+        let(:case_type) { build(:case_type, :contempt) }
+
+        it { is_expected.to be false }
+      end
+    end
+  end
 end

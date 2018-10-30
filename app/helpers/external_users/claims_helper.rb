@@ -1,4 +1,9 @@
 module ExternalUsers::ClaimsHelper
+  def claim_requires_dates_attended?(claim)
+    case_type_codes = claim&.fee_scheme&.agfs_reform? ? %w[GRDIS GRGLT] : %w[GRTRL GRRTR GRDIS GRGLT]
+    case_type_codes.include?(claim.case_type.fee_type_code)
+  end
+
   def validation_error_message(error_presenter_or_resource, attribute)
     return if error_presenter_or_resource.nil?
     case error_presenter_or_resource

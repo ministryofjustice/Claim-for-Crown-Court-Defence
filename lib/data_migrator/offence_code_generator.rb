@@ -19,7 +19,7 @@ module OffenceExtensions
     if offence_class
       scheme_9_offence_unique_code
     elsif offence_band
-      scheme_10_offence_unique_code
+      scheme_10_plus_offence_unique_code
     end
   end
 
@@ -30,7 +30,7 @@ module OffenceExtensions
       offence_class.class_letter
   end
 
-  def scheme_10_offence_unique_code
+  def scheme_10_plus_offence_unique_code
     description.abbreviate +
       modifier.to_s +
       '_' +

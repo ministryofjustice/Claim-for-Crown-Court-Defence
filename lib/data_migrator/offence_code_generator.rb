@@ -39,8 +39,9 @@ module OffenceExtensions
   end
 
   def gt_10_offence_code_suffix
-    if fee_schemes&.first&.version && fee_schemes.first.version > 10
-      '~' + fee_schemes.first.version.to_s
+    fee_scheme = fee_schemes.find { |fs| fs.name.eql?('AGFS') }
+    if fee_scheme&.version && fee_scheme.version > 10
+      '~' + fee_scheme.version.to_s
     else
       ''
     end

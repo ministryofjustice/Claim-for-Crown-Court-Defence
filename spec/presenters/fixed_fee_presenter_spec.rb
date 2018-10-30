@@ -1,44 +1,52 @@
 require 'rails_helper'
 
-describe Fee::FixedFeePresenter do
-
+RSpec.describe Fee::FixedFeePresenter do
   let(:fixed_fee) { instance_double(Fee::FixedFee, claim: double, quantity_is_decimal?: false, errors: {:quantity => []}) }
   let(:presenter) { Fee::FixedFeePresenter.new(fixed_fee, view) }
 
   context '#rate' do
-    it 'should call not_applicable when fee belongs to and LGFS claim' do
-      allow(presenter).to receive(:agfs?).and_return false
-      expect(presenter).to receive(:not_applicable)
-      presenter.rate
+    context 'for AGFS claims' do
+      it 'returns number as currency for calculated fees' do
+        allow(fixed_fee).to receive(:calculated?).and_return true
+        expect(fixed_fee).to receive(:rate).and_return 12.02
+        expect(presenter.rate).to eq '£12.02'
+      end
+
+      it 'return not_applicable for uncalculated fees' do
+        allow(fixed_fee).to receive(:calculated?).and_return false
+        expect(presenter).to receive(:not_applicable)
+        presenter.rate
+      end
     end
 
-    it 'should return number as currency for calculated fees belonging to an AGFS claim' do
-      allow(presenter).to receive(:agfs?).and_return true
-      allow(fixed_fee).to receive(:calculated?).and_return true
-      expect(fixed_fee).to receive(:rate).and_return 12.02
-      expect(presenter.rate).to eq '£12.02'
-    end
+    context 'for LGFS claims' do
+      it 'returns number as currency for calculated fees' do
+        allow(fixed_fee).to receive(:calculated?).and_return true
+        expect(fixed_fee).to receive(:rate).and_return 12.03
+        expect(presenter.rate).to eq '£12.03'
+      end
 
-    it 'should return not_applicable for uncalculated fees belonging to an AGFS claim' do
-      allow(presenter).to receive(:agfs?).and_return true
-      allow(fixed_fee).to receive(:calculated?).and_return false
-      expect(presenter).to receive(:not_applicable)
-      presenter.rate
+      it 'return not_applicable for uncalculated fees' do
+        allow(fixed_fee).to receive(:calculated?).and_return false
+        expect(presenter).to receive(:not_applicable)
+        presenter.rate
+      end
     end
   end
 
   context '#quantity' do
-    it 'should return fee quantity when belonging to an AGFS claim' do
-      allow(presenter).to receive(:agfs?).and_return true
-      expect(fixed_fee).to receive(:quantity)
-      presenter.quantity
+    context 'for AGFS claims' do
+      it 'returns the raw fee quantity' do
+        expect(fixed_fee).to receive(:quantity)
+        presenter.quantity
+      end
     end
 
-    it 'should return not_applicable when belonging to an LGFS claim' do
-      allow(presenter).to receive(:agfs?).and_return false
-      expect(presenter).to receive(:not_applicable)
-      presenter.quantity
+    context 'for LGFS claims' do
+      it 'returns the raw fee quantity' do
+        expect(fixed_fee).to receive(:quantity)
+        presenter.quantity
+      end
     end
   end
-
 end

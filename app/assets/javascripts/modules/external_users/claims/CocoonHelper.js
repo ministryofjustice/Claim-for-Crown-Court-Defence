@@ -20,23 +20,12 @@ moj.Modules.CocoonHelper = {
     $elem.on('cocoon:after-insert', function(e) {
       var $el = $(e.target);
       $el.siblings('.no-dates').hide();
-
-      if($el.find('.gov_uk_date').length >= 2){
-        $el.next().hide();
-      }
-
-
-
     });
 
     $elem.on('cocoon:after-remove', function(e) {
       var $el = $(e.target);
       if ($el.find('.fee-dates').length === 0) {
         $el.siblings('.no-dates').show();
-      }
-
-      if($el.find('.gov_uk_date').length < 2){
-        $el.next().show();
       }
 
       $el.trigger('recalculate');

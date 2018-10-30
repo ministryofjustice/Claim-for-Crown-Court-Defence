@@ -531,6 +531,9 @@ en:
         empty_input: &empty_input ''
         number_of_days: &number_of_days Number of days
         date: &date_attended_heading Date attended
+        first_date_display:
+          first_day_of_trial: First day of trial
+          retrial_started_at: Retrail started at
         basic_fee_fields_primary:
           add_dates: Add another date
           net_amount: *net_amount
@@ -649,6 +652,7 @@ en:
           fee_type: 'Type of fee'
           quantity: *quantity
           rate: 'Rate'
+          additional_details: Additional details
         summary:
           header: Graduated fees
       check_your_claim:

@@ -47,9 +47,13 @@ module Fee
 
         case_numbers.split(',').each do |case_number|
           case_number = case_number.strip
-          add_error(:case_numbers, 'invalid') unless case_number.match?(CASE_NUMBER_PATTERN)
-          add_error(:case_numbers, 'adtnl_case_num_eqls_main_case_num') if case_number.eql?(claim.case_number)
+          validate_case_number(case_number)
         end
+      end
+
+      def validate_case_number(case_number)
+        add_error(:case_numbers, 'invalid') unless case_number.match?(CASE_NUMBER_PATTERN)
+        add_error(:case_numbers, 'adtnl_case_num_eqls_main_case_num') if case_number.eql?(claim.case_number)
       end
     end
   end

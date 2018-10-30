@@ -1,14 +1,4 @@
-= "fee.fee_type.requires_dates_attended?:"
-= fee.fee_type.requires_dates_attended?
-%br/
-= "!fee.claim.agfs_reform?:"
-= !fee.claim.agfs_reform?
-%br/
-= "outcome:"
-= (fee.fee_type.requires_dates_attended? && !fee.claim.agfs_reform?)
-
-
-- if fee.fee_type.requires_dates_attended? && !fee.claim.agfs_reform?
+- if claim_requires_dates_attended?(@claim)
   .dates-wrapper.form-group
     %div
       - fee.dates_attended.build unless fee.dates_attended.any?

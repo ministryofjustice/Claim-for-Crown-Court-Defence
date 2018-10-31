@@ -79,7 +79,7 @@ ID,DESCRIPTION,CODE,UNIQUE_CODE,MAX_AMOUNT,CALCULATED,CLASS,ROLES,PARENT_ID,QUAN
 80,Discontinuance,GDIS,GRDIS,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,
 81,Cracked trial,GCRAK,GRRAK,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,
 82,Cracked before retrial,GCBR,GRCBR,9999,FALSE,Fee::GraduatedFeeType,lgfs,,FALSE,
-83,Hearing subsequent to sentence,XH2S,FXH2S,,FALSE,Fee::FixedFeeType,lgfs,,FALSE,
+83,Hearing subsequent to sentence,XH2S,FXH2S,,TRUE,Fee::FixedFeeType,lgfs,,FALSE,
 84,Vary/discharge an ASBO s1c Crime and Disorder Act 1998,XASB,FXASB,,FALSE,Fee::FixedFeeType,lgfs,83,FALSE,
 85,Alteration of Crown Court sentence s155 Powers of Criminal Courts (Sentencing Act 2000),XALT,FXALT,,FALSE,Fee::FixedFeeType,lgfs,83,FALSE,
 86,Assistance by defendant: review of sentence s74 Serious Organised Crime and Police Act 2005,XASS,FXASS,,FALSE,Fee::FixedFeeType,lgfs,83,FALSE,

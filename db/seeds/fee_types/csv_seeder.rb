@@ -3,10 +3,13 @@ require_relative 'csv_row_mapper'
 module Seeds
   module FeeTypes
     class CsvSeeder
-      def initialize(dry_mode: true)
+      def initialize(dry_mode: true, stdout: false)
+        @stdout = stdout
         @dry_mode = dry_mode.to_s.downcase.strip == 'true'
         @file_path = Rails.root.join('lib', 'assets', 'data', 'fee_types.csv')
       end
+
+      attr_reader :stdout
 
       def call
         data = CSV.read(file_path)
@@ -18,7 +21,7 @@ module Seeds
           process_row(row)
         end
 
-        # log "[OUTPUT] Created: #{total_created} | Updated: #{total_updated} | Error: #{total_with_error} | Total: #{total}", stdout: true
+        log "Created: #{total_created} | Updated: #{total_updated} | Error: #{total_with_error} | Processed: #{total}"
       end
 
       protected
@@ -56,11 +59,16 @@ module Seeds
 
         record = klass.find_by(id: id)
         if record
-          log "[EXISTENT RECORD] Updating attributes: #{attributes.inspect}"
+          current_attributes = record.attributes.except('created_at', 'updated_at').symbolize_keys
+          new_attributes = attributes.symbolize_keys
+          return if current_attributes.eql?(new_attributes)
+
+          log "Updating: #{record.description}".yellow
+          log "Attribute Diff: #{HashDiff.diff(current_attributes, new_attributes)}".yellow
           record.update_attributes!(attributes) unless dry_mode
           self.total_updated += 1
         else
-          log "[NEW RECORD] Creating with attributes: #{attributes.inspect}"
+          log "Creating with attributes: #{attributes.inspect}"
           klass.create!(attributes) unless dry_mode
           self.total_created += 1
         end
@@ -73,7 +81,7 @@ module Seeds
         self.total += 1
       end
 
-      def log(message, stdout: false)
+      def log(message)
         contents = dry_mode ? ['[DRY MODE]'] : []
         contents << message
         output = contents.join(' ')

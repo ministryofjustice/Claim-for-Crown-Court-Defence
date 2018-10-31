@@ -21,7 +21,7 @@ module Seeds
           type: row_attrs.fetch(:fee_type),
           parent_id: parent_id,
           roles: mapped_roles,
-          quantity_is_decimal: row_attrs.fetch(:quantity_is_decimal),
+          quantity_is_decimal: mapped_quantity_is_decimal,
           position: mapped_position
         }
       end
@@ -31,7 +31,7 @@ module Seeds
       attr_reader :row_attrs, :parent_id
 
       def primary_key
-        row_attrs.fetch(:id)
+        row_attrs.fetch(:id).to_i
       end
 
       def mapped_roles
@@ -48,11 +48,16 @@ module Seeds
 
       def mapped_max_amount
         return if max_amount.to_s.strip.blank?
-        max_amount
+        max_amount.to_f
       end
 
       def mapped_position
-        row_attrs[:position] || primary_key
+        pos = row_attrs[:position] || primary_key
+        pos.to_i
+      end
+
+      def mapped_quantity_is_decimal
+        row_attrs.fetch(:quantity_is_decimal).to_s.downcase.strip == 'true'
       end
     end
   end

@@ -131,7 +131,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     return redirect_to claim_url, alert: t('.not_archived') unless @claim.archived_pending_delete?
     @claim = PreviousVersionOfClaim.new(@claim).call
     @claim.zeroise_nil_totals!
-    @claim.save!
+    @claim.save!(validate: false)
     redirect_to external_users_claims_url, notice: 'Claim unarchived'
   rescue StandardError
     redirect_to claim_url, alert: t('.unarchivable')

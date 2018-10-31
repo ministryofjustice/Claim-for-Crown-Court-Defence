@@ -26,6 +26,7 @@ gem 'grape-papertrail',       '~> 0.1.2.1'
 gem 'grape-swagger',          '~> 0.28.0'
 gem 'grape-swagger-rails',    '~> 0.3.0'
 gem 'haml-rails',             '~> 1.0.0'
+gem 'hashdiff'
 gem 'hashie-forbidden_attributes', '>= 0.1.1'
 gem 'jquery-rails',           '~> 4.3.1'
 gem 'json-schema',            '~> 2.6.2'
@@ -122,7 +123,6 @@ group :test do
   gem 'timecop'
   gem 'vcr'
   gem 'webmock'
-  gem 'hashdiff'
   gem 'test-prof'
 end
 

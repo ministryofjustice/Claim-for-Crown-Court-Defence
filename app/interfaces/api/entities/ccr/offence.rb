@@ -10,9 +10,7 @@ module API
         private
 
         def unique_code_check
-          suffix = object.unique_code.match(/(~\d{2})/)
-          return object.unique_code unless suffix.present?
-          object.unique_code.sub(suffix[1], '')
+          object.unique_code.split('~').first
         end
       end
     end

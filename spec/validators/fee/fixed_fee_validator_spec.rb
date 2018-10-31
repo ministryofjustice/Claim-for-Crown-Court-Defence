@@ -70,13 +70,9 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
         expect_any_instance_of(superclass).to receive(:validate_rate)
         fee.valid?
       end
-    end
-
-    context 'does not use the superclass validator' do
-      let(:superclass) { described_class.superclass }
 
       it 'amount' do
-        expect_any_instance_of(superclass).not_to receive(:validate_amount)
+        expect_any_instance_of(superclass).to receive(:validate_amount)
         fee.valid?
       end
     end
@@ -114,7 +110,6 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
       end
     end
 
-    include_examples 'common amount validations'
-    include_examples 'common fee date validations'
+    include_examples 'common LGFS fee date validations'
   end
 end

@@ -24,7 +24,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
       it { should_error_if_not_present(fee, :fee_type, 'blank') }
     end
 
-    include_examples 'common amount validations'
+    include_examples 'common LGFS amount validations'
 
     context 'override validation of fields from the superclass validator' do
       let(:superclass) { described_class.superclass }

@@ -20,22 +20,6 @@ module Fee
       add_error(:claim, 'Graduated fee invalid on fixed fee case types') unless @record.claim.case_type.is_fixed_fee?
     end
 
-    # def validate_quantity
-    #   super if run_base_fee_validators?
-    # end
-
-    # def validate_rate
-    #   super if run_base_fee_validators?
-    # end
-
-    def validate_amount
-      if run_base_fee_validators? || fee_code.nil?
-        super
-      else
-        validate_presence_and_numericality(:amount, minimum: 0.1)
-      end
-    end
-
     def validate_date
       run_base_fee_validators? ? super : validate_single_attendance_date
     end

@@ -40,8 +40,12 @@ module Fee
     belongs_to :sub_type, class_name: Fee::BaseFeeType
 
     delegate :description, :case_uplift?, :orphan_case_uplift?, :position, to: :fee_type
-    delegate :defendant_uplift?, :orphan_defendant_uplift?, to: :fee_type, allow_nil: true
+    delegate :defendant_uplift?,
+             :orphan_defendant_uplift?,
+             to: :fee_type,
+             allow_nil: true
     delegate :code, to: :fee_type, prefix: true
+    delegate :editable?, :agfs?, :lgfs?, to: :claim, allow_nil: true
 
     has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 
@@ -129,16 +133,17 @@ module Fee
       claim&.perform_validation? || claim&.from_json_import?
     end
 
+    # where fee type not available, default calculated? to true
     def calculated?
-      fee_type&.calculated?.nil? ? true : fee_type&.calculated?
+      fee_type&.calculated?.nil? ? true : fee_type.calculated?
     end
 
+    # NOTE:
+    #   - agfs fixed fees and misc fees are calculated, except for old claims (non-draft) that can have nil/0 rate
+    #   - agfs basic fees are calculated based on fee type, except for old claims (non-draft) that can have nil/0 rate
+    #   - only lgfs fixed fees are calculated
     def calculation_required?
-      # NOTE:
-      #   - agfs fixed fees and misc fees are calculated, except for old claims (non-draft) that can have nil/0 rate
-      #   - agfs basic fees are calculated based on fee type, except for old claims (non-draft) that can have nil/0 rate
-      #   - only lgfs fixed fees are calculated
-      claim&.editable? && calculated?
+      [editable?, calculated?, (agfs? || lgfs? && is_fixed?)].all?
     end
 
     def calculate_amount

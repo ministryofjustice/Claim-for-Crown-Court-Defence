@@ -274,7 +274,9 @@ RSpec.describe Claim, type: :model do
         expect(claim.vat_amount).to eq 0.0
         expect(claim.value_band_id).to eq 10
 
-        create :misc_fee, claim: claim, amount: 25_002.20
+        # NOTE: the special prep fee, mispf, is used here as it is
+        # as an edge case because it is calculated for agfs but not for lgfs
+        create(:misc_fee, :mispf_fee, claim: claim, amount: 25_002.20)
 
         claim.reload
         expect(claim.total).to eq 25_027.2

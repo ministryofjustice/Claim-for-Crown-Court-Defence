@@ -91,7 +91,7 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
     subject(:refuse_reasons_for) { described_class.refuse_reasons_for(claim) }
 
     context 'for a litigator final claim' do
-      let(:claim) { create(:litigator_claim, :fixed_fee, fixed_fee: build(:fixed_fee, :lgfs), state: 'refused') }
+      let(:claim) { create(:litigator_claim, :fixed_fee, fixed_fee: create(:fixed_fee, :lgfs), state: 'refused') }
 
       it { expect(subject.count).to eq 2 }
     end

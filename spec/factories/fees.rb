@@ -20,7 +20,6 @@
 #
 
 FactoryBot.define do
-
   factory :fixed_fee, class: Fee::FixedFee do
     claim { build(:advocate_claim, :with_fixed_fee_case) }
     fee_type { build :fixed_fee_type }

@@ -505,6 +505,9 @@ en:
       errors:
         not_editable: 'Can only edit "draft" claims'
         dependencies_missing: Claim section cannot be edited. Please fill its dependencies
+      unarchive:
+        not_archived: 'This claim is not in the archive'
+        unarchivable: 'This claim cannot be unarchived'
       hints:
         fees_header_prompt_text_html: &fees_vat_prompt All fees should be entered exclusive of VAT.
       redraft:

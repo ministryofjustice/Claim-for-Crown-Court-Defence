@@ -936,7 +936,7 @@ basic_fee:
       long: The number of case uplifts does not match the additional case numbers
       short: Enter case numbers for each uplift
       api: The number of case uplifts does not match the additional case numbers
-    adtnl_case_num_eqls_main_case_num:
+    eqls_claim_case_number:
       long: The additional case number must be different to the main case number
       short: Enter valid case numbers
       api: Enter valid case numbers for the Number of cases uplift

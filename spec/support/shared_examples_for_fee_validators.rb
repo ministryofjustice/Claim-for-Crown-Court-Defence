@@ -106,7 +106,7 @@ shared_examples 'common AGFS number of cases uplift validations' do
 
     it 'when case number is equal to main case number' do
       noc_fee.case_numbers = claim.case_number
-      should_error_with(noc_fee, :case_numbers, 'adtnl_case_num_eqls_main_case_num')
+      should_error_with(noc_fee, :case_numbers, 'eqls_claim_case_number')
     end
   end
 

@@ -53,7 +53,7 @@ module Fee
 
       def validate_case_number(case_number)
         add_error(:case_numbers, 'invalid') unless case_number.match?(CASE_NUMBER_PATTERN)
-        add_error(:case_numbers, 'adtnl_case_num_eqls_main_case_num') if case_number.eql?(claim.case_number)
+        add_error(:case_numbers, 'eqls_claim_case_number') if case_number.eql?(claim.case_number)
       end
     end
   end

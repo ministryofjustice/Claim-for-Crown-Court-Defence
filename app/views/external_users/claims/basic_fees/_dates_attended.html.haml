@@ -1,10 +1,9 @@
 - if claim_requires_dates_attended?(@claim)
   .dates-wrapper.form-group
     %div
-      - fee.dates_attended.build unless fee.dates_attended.any?
       = f.fields_for :dates_attended do |date_attended|
         -# TODO: Numbering, the implementation used on fees will not work here.
         = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}", locale_scope: 'external_users.claims.basic_fees.basic_fee_fields_primary.date_label', hide_remove: true }
 
-    - if fee.claim.case_type.name.downcase.eql?('trial') || fee.claim.case_type.name.downcase.eql?('retrial')
-      = link_to_add_association t('.add_dates'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields', render_options: { locals: { locale_scope: 'external_users.claims.basic_fees.basic_fee_fields_primary.date_label', plural: true, hide_remove: true} }, data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
+    - if fee.claim.case_type.name.downcase.eql?('trial') || fee.claim.case_type.name.downcase.eql?('retrial') || fee.claim.case_type.name.downcase.eql?('discontinuance') || fee.claim.case_type.name.downcase.eql?('guilty plea')
+      = link_to_add_association t('.add_dates'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields', render_options: { locals: { locale_scope: 'external_users.claims.basic_fees.basic_fee_fields_primary.date_label', plural: true, hide_remove: false} }, data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}

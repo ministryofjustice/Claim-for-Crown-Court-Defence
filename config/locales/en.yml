@@ -528,6 +528,8 @@ en:
         authorised_claims: 'Authorised claims for last week'
         with_total_assessed_value_of: 'claims with a total assessed value of'
       basic_fees:
+        dates_attended:
+          add_dates: Add another date
         empty_input: &empty_input ''
         number_of_days: &number_of_days Number of days
         date: &date_attended_heading Date attended
@@ -538,10 +540,9 @@ en:
           add_dates: Add another date
           net_amount: *net_amount
           date_label:
-            trial: First day of trial
-            trial_plural: Second day of trial
+            trial: Second day of trial
             cracked_trial: Date case cracked on
-            retrial: First day of retrial
+            retrial: Second day of retrial
             cracked_before_retrial: Date case cracked on
             guilty_plea: Date plea entered
             discontinuance: Date of discontinuance

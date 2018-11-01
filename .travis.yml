@@ -1,7 +1,7 @@
 language: ruby
 cache: bundler
 addons:
-  postgresql: '9.3'
+  postgresql: '9.6'
   code_climate:
     repo_token: c94f8c6df526a441d103d0c6d54623174af5eb6ccbfe5f3e7c7dbce734ebfa98
 env:

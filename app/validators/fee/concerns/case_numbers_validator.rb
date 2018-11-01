@@ -46,11 +46,14 @@ module Fee
         return if case_numbers.blank?
 
         case_numbers.split(',').each do |case_number|
-          unless case_number.strip.match?(CASE_NUMBER_PATTERN)
-            add_error(:case_numbers, 'invalid')
-            break
-          end
+          case_number = case_number.strip
+          validate_case_number(case_number)
         end
+      end
+
+      def validate_case_number(case_number)
+        add_error(:case_numbers, 'invalid') unless case_number.match?(CASE_NUMBER_PATTERN)
+        add_error(:case_numbers, 'eqls_claim_case_number') if case_number.casecmp?(claim.case_number)
       end
     end
   end

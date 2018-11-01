@@ -103,6 +103,11 @@ shared_examples 'common AGFS number of cases uplift validations' do
       noc_fee.case_numbers = 'A20161234 , A20158888'
       should_error_with(noc_fee, :case_numbers, 'noc_qty_mismatch')
     end
+
+    it 'when case number is equal to main case number' do
+      noc_fee.case_numbers = claim.case_number
+      should_error_with(noc_fee, :case_numbers, 'eqls_claim_case_number')
+    end
   end
 
   context 'when there is more than one case uplift' do

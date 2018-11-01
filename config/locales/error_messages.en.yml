@@ -25,6 +25,8 @@ dictionary:
     claim_max_amount: &claim_max_amount 'Amount claimed exceeds limit'
     max_length: &max_length 'Length exceeds limit'
     expense_before_rep_order: &expense_before_rep_order "Date of expense must be on or after the date of the earliest representation order"
+    eqls_claim_case_number: &eqls_claim_case_number 'The additional case number must be different to the main case number'
+
 
 # applies to defendant, fee, expense
 claim:
@@ -936,6 +938,10 @@ basic_fee:
       long: The number of case uplifts does not match the additional case numbers
       short: Enter case numbers for each uplift
       api: The number of case uplifts does not match the additional case numbers
+    eqls_claim_case_number:
+      long: *eqls_claim_case_number
+      short: Enter valid case numbers
+      api: Enter valid case numbers for the Number of cases uplift
 
 #################################################################################
 #                                                                               #
@@ -1106,6 +1112,10 @@ fixed_fee:
         long: The number of case uplifts does not match the additional case numbers
         short: Enter case numbers for each uplift
         api: The number of case uplifts does not match the additional case numbers
+      eqls_claim_case_number:
+        long: *eqls_claim_case_number
+        short: Enter valid case numbers
+        api: Enter valid case numbers for the Number of cases uplift
 
 #################################################################################
 #                                                                               #

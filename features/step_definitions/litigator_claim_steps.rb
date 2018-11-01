@@ -19,8 +19,27 @@ And(/^I select the litigator offence class '(.*)'$/) do |name|
   @litigator_claim_form_page.select_offence_class(name)
 end
 
-And(/^I fill '(.*)' as the fixed fee total$/) do |total|
-  @litigator_claim_form_page.fixed_fee_total.set total
+And(/^I fill '(.*)' as the fixed fee date$/) do |date|
+  @litigator_claim_form_page.fixed_fee.date.set_date date
+end
+
+And(/^I fill '(\d+)' as the fixed fee quantity$/) do |quantity|
+  @litigator_claim_form_page.fixed_fee.quantity.set quantity
+  @litigator_claim_form_page.fixed_fee.quantity.send_keys(:tab) # required for chrome driver
+  wait_for_ajax
+end
+
+Then(/I should see fixed fee type '(.*?)'$/) do |description|
+  expect(@litigator_claim_form_page.fixed_fee).to have_text(description)
+end
+
+Then(/^the fixed fee rate should be populated with '(\d+\.\d+)'$/) do |rate|
+  expect(@litigator_claim_form_page.fixed_fee).to have_rate
+  expect(@litigator_claim_form_page.fixed_fee.rate.value).to eql rate
+end
+
+Then(/I should see fixed fee net amount '(\d+\.\d+)'$/) do |amount|
+  expect(@litigator_claim_form_page.fixed_fee.amount).to have_text(amount)
 end
 
 And(/^I fill '(.*)' as the graduated fee total$/) do |total|
@@ -40,7 +59,7 @@ And(/^I fill '(.*)' as the warrant fee total$/) do |total|
 end
 
 And(/^I enter the case concluded date\s*(.*?)$/) do |date|
-  date = date.present? ? date : "2016-01-01"
+  date = date.present? ? date : "2016-04-01"
   @litigator_claim_form_page.case_concluded_date.set_date date
 end
 
@@ -55,10 +74,6 @@ And(/^I add (?:a|another) disbursement '(.*)' with net amount '(.*)' and vat amo
   @litigator_claim_form_page.disbursements.last.select_fee_type name
   @litigator_claim_form_page.disbursements.last.net_amount.set net_amount
   @litigator_claim_form_page.disbursements.last.vat_amount.set vat_amount
-end
-
-And(/^I enter the fixed fee date$/) do
-  @litigator_claim_form_page.fixed_fee_date.set_date "2016-01-01"
 end
 
 And(/^I fill '(.*)' as the graduated fee date$/) do |date|
@@ -97,8 +112,8 @@ Then(/^I add an expense distance of "([^"]*)"$/) do |number|
   @claim_form_page.expenses.last.distance.set number
 end
 
-Then(/^I add an expense date for scheme (\d+)$/) do |scheme|
-  date = scheme.match?('10') ? Settings.agfs_fee_reform_release_date.strftime : "2016-01-02"
+Then(/^I add an expense date for (.*?)$/) do |scheme_text|
+  date = scheme_date_for(scheme_text)
   @claim_form_page.expenses.last.expense_date.set_date date
 end
 

@@ -25,7 +25,8 @@ When(/^I enter a case number of '(.*?)'$/) do |number|
 end
 
 When(/^I enter defendant, (.*?)representation order and MAAT reference$/) do |scheme_text|
-  date = generate_rep_order_date_for(scheme_text)
+  # date = generate_rep_order_date_for(scheme_text)
+    date = scheme_date_for(scheme_text)
     using_wait_time(6) do
       @claim_form_page.wait_for_defendants
       @claim_form_page.defendants.first.first_name.set "Bob"
@@ -37,7 +38,8 @@ When(/^I enter defendant, (.*?)representation order and MAAT reference$/) do |sc
 end
 
 When(/^I add another defendant, (.*?)representation order and MAAT reference$/) do |scheme_text|
-  date = generate_rep_order_date_for(scheme_text)
+  # date = generate_rep_order_date_for(scheme_text)
+  date = scheme_date_for(scheme_text)
   using_wait_time 6 do
     @claim_form_page.add_another_defendant.click
     wait_for_ajax

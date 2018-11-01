@@ -689,37 +689,54 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
   end
 
   describe "DELETE #destroy" do
-    before { delete :destroy, params: { id: claim } }
 
-    context 'when draft claim' do
+    context 'on success' do
+      before { delete :destroy, params: { id: claim } }
+
+      context 'when draft claim' do
+        let(:claim) { create(:draft_claim, external_user: advocate) }
+
+        it 'deletes the claim' do
+          expect(Claim::BaseClaim.active.count).to eq(0)
+        end
+
+        it 'redirects to advocates root url' do
+          expect(response).to redirect_to(external_users_claims_url)
+          expect(flash[:notice]).to eq 'Claim deleted'
+        end
+      end
+
+      context 'when non-draft claim in a valid state for archival' do
+        let(:claim) { create(:authorised_claim, external_user: advocate) }
+
+        it "sets the claim's state to 'archived_pending_delete'" do
+          expect(Claim::BaseClaim.active.count).to eq(1)
+          expect(claim.reload.state).to eq 'archived_pending_delete'
+          expect(flash[:notice]).to eq 'Claim archived'
+        end
+      end
+
+      context 'when non-draft claim in an invalid state for archival' do
+        let(:claim) { create(:archived_pending_delete_claim, external_user: advocate) }
+
+        it 'responds with an error' do
+          expect(Claim::BaseClaim.active.count).to eq(1)
+          expect(flash[:alert]).to eq 'This claim cannot be deleted'
+        end
+      end
+    end
+
+    context 'when the soft delete fails' do
+      subject { delete :destroy, params: { id: claim } }
+
+      before { allow_any_instance_of(Claims::ExternalUserClaimUpdater).to receive(:delete).and_return false }
       let(:claim) { create(:draft_claim, external_user: advocate) }
 
-      it 'deletes the claim' do
-        expect(Claim::BaseClaim.active.count).to eq(0)
-      end
+      it { expect { subject }.to_not change(claim, :deleted_at) }
 
-      it 'redirects to advocates root url' do
-        expect(response).to redirect_to(external_users_claims_url)
-        expect(flash[:notice]).to eq 'Claim deleted'
-      end
-    end
-
-    context 'when non-draft claim in a valid state for archival' do
-      let(:claim) { create(:authorised_claim, external_user: advocate) }
-
-      it "sets the claim's state to 'archived_pending_delete'" do
-        expect(Claim::BaseClaim.active.count).to eq(1)
-        expect(claim.reload.state).to eq 'archived_pending_delete'
-        expect(flash[:notice]).to eq 'Claim archived'
-      end
-    end
-
-    context 'when non-draft claim in an invalid state for archival' do
-      let(:claim) { create(:archived_pending_delete_claim, external_user: advocate) }
-
-      it 'responds with an error' do
-        expect(Claim::BaseClaim.active.count).to eq(1)
-        expect(flash[:alert]).to eq 'This claim cannot be deleted'
+      it 'sets the appropriate error message' do
+        subject
+        expect(flash[:alert]).to eq 'Claim could not be deleted'
       end
     end
   end

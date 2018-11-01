@@ -113,16 +113,14 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def destroy
-    if @claim.draft?
-      claim_updater.delete
-      flash[:notice] = 'Claim deleted'
-    elsif @claim.can_archive_pending_delete?
-      claim_updater.archive
-      flash[:notice] = 'Claim archived'
-    else
-      flash[:alert] = 'This claim cannot be deleted'
-    end
-
+    message = if @claim.draft?
+                flash_message_for :delete, claim_updater.delete
+              elsif @claim.can_archive_pending_delete?
+                flash_message_for :archive, claim_updater.archive
+              else
+                { alert: 'This claim cannot be deleted' }
+              end
+    flash[message.keys.first.to_sym] = message.values.first
     respond_with @claim, location: external_users_claims_url
   end
 
@@ -572,5 +570,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def default_scope
     %i[external_users claims]
+  end
+
+  def flash_message_for(event, status)
+    status ? { notice: "Claim #{event}d" } : { alert: "Claim could not be #{event}d" }
   end
 end

@@ -29,7 +29,7 @@ And(/^I fill '(\d+)' as the fixed fee quantity$/) do |quantity|
   wait_for_ajax
 end
 
-Then(/I should see fixed fee type '(.*?)'$/) do |description|
+Then(/I should see fixed fee type '(.*)'$/) do |description|
   expect(@litigator_claim_form_page.fixed_fee).to have_text(description)
 end
 
@@ -38,8 +38,9 @@ Then(/^the fixed fee rate should be populated with '(\d+\.\d+)'$/) do |rate|
   expect(@litigator_claim_form_page.fixed_fee.rate.value).to eql rate
 end
 
-Then(/I should see fixed fee net amount '(\d+\.\d+)'$/) do |amount|
-  expect(@litigator_claim_form_page.fixed_fee.amount).to have_text(amount)
+Then(/I should see fixed fee total '£?(\d+\.\d+)'$/) do |total_text|
+  expect(@litigator_claim_form_page.fixed_fee).to have_total
+  expect(@litigator_claim_form_page.fixed_fee.total.text).to match(total_text)
 end
 
 And(/^I fill '(.*)' as the graduated fee total$/) do |total|

@@ -36,15 +36,14 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I enter defendant, LGFS representation order and MAAT reference
     And I add another defendant, LGFS representation order and MAAT reference
 
-    Given I insert the VCR cassette 'features/claims/litigator/fixed_fee_calculations' and record 'new_episodes'
-
+    Given I insert the VCR cassette 'features/claims/litigator/fixed_fee_calculations'
     Then I click "Continue" in the claim form
 
     And I should see fixed fee type 'Contempt'
     And the fixed fee rate should be populated with '116.49'
     And I fill '2018-11-01' as the fixed fee date
     And I fill '2' as the fixed fee quantity
-    Then I should see fixed fee net amount '232.98'
+    Then I should see fixed fee total '£232.98'
 
     And I eject the VCR cassette
 

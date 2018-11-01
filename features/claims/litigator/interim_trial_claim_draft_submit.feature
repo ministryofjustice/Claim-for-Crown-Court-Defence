@@ -41,7 +41,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I select an interim fee type of 'Effective PCMH'
     And I enter 10 in the PPE total field
     And I enter 250 in the interim fee total field
-    And I enter the effective PCMH date
+    And I enter the effective PCMH date '2018-04-01'
 
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'

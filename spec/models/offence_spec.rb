@@ -86,4 +86,26 @@ RSpec.describe Offence, type: :model do
       it { expect(scheme_ten?).to be_falsey }
     end
   end
+
+  describe '#post_agfs_reform?' do
+    subject(:post_agfs_reform?) { offence.post_agfs_reform? }
+
+    context 'when the fee_scheme is set to eleven' do
+      let(:offence) { create(:offence, :with_fee_scheme_eleven) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when the fee_scheme is set to ten' do
+      let(:offence) { create(:offence, :with_fee_scheme_ten) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when the fee_scheme is set to nine' do
+      let(:offence) { create(:offence, :with_fee_scheme) }
+
+      it { is_expected.to be_falsey }
+    end
+  end
 end

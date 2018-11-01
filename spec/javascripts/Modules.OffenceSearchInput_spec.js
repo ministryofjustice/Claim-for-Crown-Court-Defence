@@ -4,7 +4,8 @@ describe("Modules.OffenceSearchInput.js", function() {
   var view = function(data) {
 
     data = $.extend({}, data, {
-      value: ''
+      value: '',
+      fee_scheme: 'AGFS 10'
     });
     return $([
       '<div class="form-group mod-search-input">',
@@ -15,6 +16,7 @@ describe("Modules.OffenceSearchInput.js", function() {
       '    <input autocomplete="off" class="fx-input" id="offence" name="offence-search-input" type="input" value="' + data.value + '">',
       '  </label>',
       '  <input value="' + data.value + '" class="fx-model" type="hidden" name="claim[offence_id]" id="claim_offence_id" />',
+      '  <input value="' + data.fee_scheme + '" class="fx-fee-scheme" name="claim[fee_scheme]" id="claim_fee_scheme" type="hidden">',
       '</div>'
     ].join(''));
   }
@@ -38,6 +40,9 @@ describe("Modules.OffenceSearchInput.js", function() {
     });
     it('`this.model`', function() {
       expect(module.model).toEqual('.fx-model')
+    });
+    it('`this.feeScheme`', function() {
+      expect(module.feeScheme).toEqual('.fx-fee-scheme')
     });
     it('`this.debouce`', function() {
       expect(module.debouce).toEqual(500)
@@ -66,6 +71,7 @@ describe("Modules.OffenceSearchInput.js", function() {
         expect(module.$el.length).toEqual(1)
         expect(module.$input.length).toEqual(1)
         expect(module.$model.length).toEqual(1)
+        expect(module.$feeScheme.length).toEqual(1)
       });
     });
 
@@ -104,7 +110,7 @@ describe("Modules.OffenceSearchInput.js", function() {
         module.runQuery();
 
         expect(module.query).toHaveBeenCalledWith({
-          fee_scheme: 'fee_reform',
+          fee_scheme: 'AGFS 10',
           search_offence: 'test term'
         });
 
@@ -116,7 +122,7 @@ describe("Modules.OffenceSearchInput.js", function() {
         });
 
         expect(module.query).toHaveBeenCalledWith({
-          fee_scheme: 'fee_reform',
+          fee_scheme: 'AGFS 10',
           search_offence: 'test term',
           category_id: 2
         });
@@ -130,7 +136,7 @@ describe("Modules.OffenceSearchInput.js", function() {
         });
 
         expect(module.query).toHaveBeenCalledWith({
-          fee_scheme: 'fee_reform',
+          fee_scheme: 'AGFS 10',
           search_offence: 'test term',
           band_id: 22,
           category_id: 99
@@ -159,7 +165,7 @@ describe("Modules.OffenceSearchInput.js", function() {
         var deferred = $.Deferred();
         var spy = spyOn(module, 'query').and.returnValue(deferred.promise());
         var fixtureData = {
-          fee_scheme: "fee_reform",
+          fee_scheme: "AGFS 10",
           search_offence: "mur",
           results: [{
             result: 'one'

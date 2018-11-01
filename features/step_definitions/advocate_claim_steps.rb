@@ -39,6 +39,10 @@ When(/^I search for the scheme 10 offence '(.*?)'$/) do |search_text|
   @claim_form_page.offence_search.set search_text
 end
 
+When(/^I search for a post agfs reform offence '(.*?)'$/) do |search_text|
+  @claim_form_page.offence_search.set search_text
+end
+
 Then(/^I select the first search result$/) do
   sleep Capybara.default_max_wait_time
   find(:xpath, '//*[@id="offence-list"]/div[3]/div').hover

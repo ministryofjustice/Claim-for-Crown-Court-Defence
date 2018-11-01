@@ -13,7 +13,7 @@ class OffencesController < ApplicationController
   skip_load_and_authorize_resource only: [:index]
 
   def index
-    if permitted_params[:fee_scheme] && permitted_params[:fee_scheme] == 'fee_reform'
+    if permitted_params[:fee_scheme].present?
       @offences = FeeReform::SearchOffences.call(permitted_params)
 
       respond_to do |format|

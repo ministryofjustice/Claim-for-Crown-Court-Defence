@@ -19,4 +19,12 @@ describe API::Entities::CCR::Offence do
       expect(response).to include(unique_code: 'ACUTY_3.1')
     end
   end
+
+  context 'scheme 11' do
+    let(:offence) { build(:offence, :with_fee_scheme_ten, unique_code: 'ACUTY_3.1~11') }
+
+    it 'has expected json key-value pairs' do
+      expect(response).to include(unique_code: 'ACUTY_3.1')
+    end
+  end
 end

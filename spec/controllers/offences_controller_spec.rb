@@ -40,7 +40,7 @@ RSpec.describe OffencesController, type: :controller do
     end
 
     context 'when fee reform filter is provided' do
-      let(:params) { { fee_scheme: 'fee_reform' } }
+      let(:params) { { fee_scheme: 'AGFS 10' } }
 
       it 'returns offences only for fee scheme 10' do
         get :index, params: params, xhr: true
@@ -49,7 +49,7 @@ RSpec.describe OffencesController, type: :controller do
       end
 
       it 'calls the fee reform search offences service with the provided filters' do
-        expected_args = strong_params(fee_scheme: 'fee_reform')
+        expected_args = strong_params(fee_scheme: 'AGFS 10')
         expect(FeeReform::SearchOffences).to receive(:call).with(expected_args).and_call_original
         get :index, params: params, xhr: true
       end

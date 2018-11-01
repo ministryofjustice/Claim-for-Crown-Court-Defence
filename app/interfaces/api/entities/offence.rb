@@ -13,9 +13,9 @@ module API
         expose :offence_class,
                if: ->(instance, _opts) { instance.scheme_nine? },
                using: API::Entities::OffenceClass
-        expose :act_of_law, if: ->(instance, _opts) { instance.scheme_ten? }
+        expose :act_of_law, if: ->(instance, _opts) { instance.post_agfs_reform? }
         expose :offence_band,
-               if: ->(instance, _opts) { instance.scheme_ten? },
+               if: ->(instance, _opts) { instance.post_agfs_reform? },
                using: API::Entities::OffenceBand
       end
 

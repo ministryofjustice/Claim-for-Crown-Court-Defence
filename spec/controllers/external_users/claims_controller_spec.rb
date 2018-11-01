@@ -781,6 +781,29 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         expect(response).to redirect_to(external_users_claim_url(subject))
       end
     end
+
+    context 'when the claim is archived with assessed values' do
+      subject(:claim) { create(:advocate_claim, external_user: advocate) }
+      before do
+        claim.submit!
+        claim.allocate!
+        claim.assessment.update(fees: 123.00, expenses: 23.45)
+        claim.authorise_part!
+        claim.redetermine!
+        claim.allocate!
+        claim.refuse!
+        claim.archive_pending_delete!
+        patch :unarchive, params: { id: claim }
+      end
+
+      it 'unarchives the claim and restores to state prior to archiving' do
+        expect(claim.reload).to be_refused
+      end
+
+      it 'redirects to external users root url' do
+        expect(response).to redirect_to(external_users_claims_url)
+      end
+    end
   end
 
   describe 'GET #show_message_controls' do

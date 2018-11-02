@@ -5,7 +5,7 @@ module ExternalUsers::ClaimsHelper
   end
 
   def show_add_date_link?(fee)
-    %w[trial retrail].include? fee.claim.case_type.name.downcase
+    %w[trial retrial].include? fee.claim.case_type.name.downcase
   end
 
   def build_dates_attended?(fee)

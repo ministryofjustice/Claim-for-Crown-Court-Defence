@@ -4,6 +4,14 @@ module ExternalUsers::ClaimsHelper
     case_type_codes.include?(claim.case_type.fee_type_code)
   end
 
+  def show_add_date_link?(fee)
+    ['trial', 'retrail'].include? fee.claim.case_type.name.downcase
+  end
+
+  def build_dates_attended?(fee)
+    ['discontinuance', 'guilty plea'].include? fee.claim.case_type.name.downcase
+  end
+
   def validation_error_message(error_presenter_or_resource, attribute)
     return if error_presenter_or_resource.nil?
     case error_presenter_or_resource

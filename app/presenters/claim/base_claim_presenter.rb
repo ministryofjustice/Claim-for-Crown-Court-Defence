@@ -345,6 +345,10 @@ class Claim::BaseClaimPresenter < BasePresenter
     supplier_name
   end
 
+  def has_conference_and_views?
+    claim.fees.select { |f| 'BACAV'.include?(f.fee_type.unique_code) }.any? { |x| x.amount.nonzero? }
+  end
+
   private
 
   # a blank assessment is created when the claim is created,

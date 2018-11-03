@@ -8,9 +8,6 @@ module Claims
     class UnitPrice < Calculate
       private
 
-      # TODO: * unit should be passed from options or dynamically determined
-      # However, day is the unit for all fixed fees.
-      #
       def unit_price(modifier = nil)
         @modifier = modifier
         @prices = fee_scheme.prices(
@@ -18,7 +15,7 @@ module Claims
           offence_class: offence_class_or_default,
           advocate_type: advocate_type,
           fee_type_code: fee_type_code_for(fee_type),
-          limit_from: limit_from_or_default
+          limit_from: limit_from_default
         )
         price
       end

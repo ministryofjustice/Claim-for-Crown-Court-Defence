@@ -64,9 +64,6 @@ module Claims
             options[unit.to_sym] = quantity.to_f
           end
 
-          # TODO: aberrations
-          # - elected case not proceeded is a scenario type with ccr fee type code of AGFS_FEE
-
           # modifiers
           # TODO: modifier needs to be dynamically determined and could be more than one.
           # Modifier values need to be based on values specificed by the user rather than, for
@@ -123,7 +120,7 @@ module Claims
       #      instead, as one solution.
       # NOTE: In the API AGFS fee scheme prices have a limit_from minimum of 1, while
       # LGFS does not use this attribute and uses 0. github issue TODO?
-      def limit_from_or_default
+      def limit_from_default
         agfs? ? 1 : 0
       end
 

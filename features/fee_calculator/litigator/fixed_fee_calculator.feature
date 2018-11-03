@@ -21,20 +21,40 @@ Feature: litigator completes fixed fee page using calculator
     Then I click "Continue" in the claim form
     And I should be in the 'Defendant details' form page
 
-    And I enter defendant, post agfs reform representation order and MAAT reference
-    And I add another defendant, post agfs reform representation order and MAAT reference
+    And I enter defendant, LGFS representation order and MAAT reference
+    And I add another defendant, LGFS representation order and MAAT reference
+
+    Given I insert the VCR cassette 'features/fee_calculator/litigator/fixed_fee_calculations'
 
     Then I click "Continue" in the claim form
     And I should be in the 'Fees' form page
 
-    # Given I insert the VCR cassette 'features/fee_calculator/litigator/fixed_fee_calculator'
-    # TODO: below
-    Then the 'fixed' fee 'Appeals to the crown court against conviction' should have a rate of '349.47' and a hint of 'Number of days'
-    And I enter a fixed fee quantity of 2
-    Then I should see in the sidebar total '£698.94'
-    Then I should see in the sidebar vat total '£0.00'
-
-    # And I eject the VCR cassette
+    And I should see fixed fee type 'Appeals to the crown court against conviction'
+    And the fixed fee rate should be populated with '349.47'
+    And I fill '2018-11-01' as the fixed fee date
+    And I fill '1' as the fixed fee quantity
+    Then I should see fixed fee total '£349.47'
+    And I fill '2' as the fixed fee quantity
+    Then I should see fixed fee total '£698.94'
 
     Then I click "Continue" in the claim form
     And I should be in the 'Miscellaneous fees' form page
+
+    # And I save and open screenshot
+    # And I goto claim form step 'case details'
+    # And I save and open screenshot
+    # And I select a case type of 'Hearing subsequent to sentence'
+
+    # And I goto the fixed fees page
+    # Then I should see fixed fee total '£310.64'
+
+    # And I edit the claim's case details
+    # And I select a case type of 'Hearing subsequent to sentence'
+
+    # And I goto the fixed fees page
+    # Then I should see fixed fee total '£310.64'
+
+    And I eject the VCR cassette
+
+    # Then I click "Continue" in the claim form
+    # And I should be in the 'Miscellaneous fees' form page

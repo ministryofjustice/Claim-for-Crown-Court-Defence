@@ -1,8 +1,3 @@
-When(/^I goto claim form step '(.*)'$/) do |form_Step|
-  form_step.parameterize.underscore
-  @litigator_claim_form_page.load(query: { step: form_step })
-end
-
 And(/^My provider has supplier numbers$/) do
   [['1A222Z', 'SW1H 9AJ'], ['2B333Z', nil]].each do |number, postcode|
     @litigator.provider.lgfs_supplier_numbers << SupplierNumber.new(supplier_number: number, postcode: postcode)

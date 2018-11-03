@@ -1,3 +1,11 @@
+When(/^I goto claim form step '(.*)'$/) do |form_step|
+  form_step = form_step.parameterize.underscore
+  uri = Addressable::URI.parse(@claim_form_page.current_url)
+  uri.query_values = uri.query_values.merge('step' => form_step)
+  visit uri
+  wait_for_ajax # for fee calc on fee pages, etc
+end
+
 When(/^I enter a providers reference of '(.*?)'$/) do |ref|
   @claim_form_page.providers_ref.set ref
 end

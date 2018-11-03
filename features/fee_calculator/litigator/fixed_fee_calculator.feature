@@ -40,21 +40,23 @@ Feature: litigator completes fixed fee page using calculator
     Then I click "Continue" in the claim form
     And I should be in the 'Miscellaneous fees' form page
 
-    # And I save and open screenshot
-    # And I goto claim form step 'case details'
-    # And I save and open screenshot
-    # And I select a case type of 'Hearing subsequent to sentence'
+    And I goto claim form step 'case details'
+    And I select a case type of 'Hearing subsequent to sentence'
+    Then I click "Continue" in the claim form
 
-    # And I goto the fixed fees page
-    # Then I should see fixed fee total '£310.64'
+    And I goto claim form step 'fixed fees'
+    Then the fixed fee rate should be populated with '155.32'
+    Then I should see fixed fee total '£310.64'
 
-    # And I edit the claim's case details
-    # And I select a case type of 'Hearing subsequent to sentence'
+    And I goto claim form step 'case details'
+    And I select a case type of 'Elected cases not proceeded'
+    Then I click "Continue" in the claim form
 
-    # And I goto the fixed fees page
-    # Then I should see fixed fee total '£310.64'
+    And I goto claim form step 'fixed fees'
+    Then the fixed fee rate should be populated with '330.33'
+    Then I should see fixed fee total '£660.66'
 
     And I eject the VCR cassette
 
-    # Then I click "Continue" in the claim form
-    # And I should be in the 'Miscellaneous fees' form page
+    Then I click "Continue" in the claim form
+    And I should be in the 'Miscellaneous fees' form page

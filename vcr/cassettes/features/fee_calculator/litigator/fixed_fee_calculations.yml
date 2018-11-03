@@ -489,4 +489,86 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":58843,"scenario":5,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"349.47000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
     http_version: 
   recorded_at: Sat, 03 Nov 2018 11:51:40 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/prices/?advocate_type&fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=32
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 03 Nov 2018 14:21:40 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '207'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":52217,"scenario":32,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"155.32000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
+    http_version: 
+  recorded_at: Sat, 03 Nov 2018 14:21:40 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/prices/?advocate_type&fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=12
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 03 Nov 2018 14:24:28 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '334'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":58865,"scenario":12,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"330.33000","limit_from":0,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":4,"fixed_percent":"20.00","percent_per_unit":"0.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":true},{"limit_from":5,"limit_to":null,"fixed_percent":"30.00","percent_per_unit":"0.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":true}],"strict_range":false}]}'
+    http_version: 
+  recorded_at: Sat, 03 Nov 2018 14:24:28 GMT
 recorded_with: VCR 3.0.3

@@ -45,6 +45,8 @@ Metrics/ModuleLength:
     - 'app/models/claims/state_machine.rb'
     - 'app/helpers/application_helper.rb'
 
+Style/DateTime:
+  AllowCoercion: true
 
 Layout/EmptyLineAfterGuardClause:
   Enabled: false

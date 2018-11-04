@@ -20,9 +20,9 @@ class VatRatesController < ApplicationController
   def index
     respond_with(
       'net_amount' => number_to_currency(net_amount),
-      'date'          => formatted_date,
-      'rate'          => rate,
-      'vat_amount'    => number_to_currency(vat_amount),
+      'date' => formatted_date,
+      'rate' => rate,
+      'vat_amount' => number_to_currency(vat_amount),
       'total_inc_vat' => total
     )
   end

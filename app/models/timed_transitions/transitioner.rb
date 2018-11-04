@@ -3,14 +3,14 @@ module TimedTransitions
     attr_accessor :success
 
     @@timed_transition_specifications = {
-      draft:                    Specification.new(:draft, Settings.timed_transition_stale_weeks, :destroy_claim),
-      authorised:               Specification.new(:authorised, Settings.timed_transition_stale_weeks, :archive),
-      part_authorised:          Specification.new(:part_authorised, Settings.timed_transition_stale_weeks, :archive),
-      refused:                  Specification.new(:refused, Settings.timed_transition_stale_weeks, :archive),
-      rejected:                 Specification.new(:rejected, Settings.timed_transition_stale_weeks, :archive),
-      archived_pending_delete:  Specification.new(:archived_pending_delete,
-                                                  Settings.timed_transition_pending_weeks,
-                                                  :destroy_claim)
+      draft: Specification.new(:draft, Settings.timed_transition_stale_weeks, :destroy_claim),
+      authorised: Specification.new(:authorised, Settings.timed_transition_stale_weeks, :archive),
+      part_authorised: Specification.new(:part_authorised, Settings.timed_transition_stale_weeks, :archive),
+      refused: Specification.new(:refused, Settings.timed_transition_stale_weeks, :archive),
+      rejected: Specification.new(:rejected, Settings.timed_transition_stale_weeks, :archive),
+      archived_pending_delete: Specification.new(:archived_pending_delete,
+                                                 Settings.timed_transition_pending_weeks,
+                                                 :destroy_claim)
     }
 
     def self.candidate_claims_ids

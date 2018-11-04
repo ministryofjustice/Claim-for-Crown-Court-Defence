@@ -74,17 +74,17 @@ class DocumentsController < ApplicationController
 
   def view_file_options
     {
-      type:        @document.converted_preview_document_content_type,
-      filename:    @document.converted_preview_document_file_name,
+      type: @document.converted_preview_document_content_type,
+      filename: @document.converted_preview_document_file_name,
       disposition: 'inline'
     }
   end
 
   def download_file_options
     {
-      type:        @document.document_content_type,
-      filename:    @document.document_file_name,
-      x_sendfile:  true
+      type: @document.document_content_type,
+      filename: @document.document_file_name,
+      x_sendfile: true
     }
   end
 

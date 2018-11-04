@@ -265,8 +265,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def sort_defaults(defaults = {})
-    @sort_defaults = {  column:     defaults.fetch(:column, 'last_submitted_at'),
-                        direction:  defaults.fetch(:direction, 'asc'),
+    @sort_defaults = {  column: defaults.fetch(:column, 'last_submitted_at'),
+                        direction: defaults.fetch(:direction, 'asc'),
                         pagination: defaults.fetch(:pagination, page_size) }
   end
 

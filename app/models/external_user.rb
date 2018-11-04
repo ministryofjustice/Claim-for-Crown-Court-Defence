@@ -109,8 +109,8 @@ class ExternalUser < ApplicationRecord
 
   def claim_types_for(role)
     {
-      'admin'     => advocate_claim_types | litigator_claim_types,
-      'advocate'  => advocate_claim_types,
+      'admin' => advocate_claim_types | litigator_claim_types,
+      'advocate' => advocate_claim_types,
       'litigator' => litigator_claim_types
     }[role.to_s] || []
   end

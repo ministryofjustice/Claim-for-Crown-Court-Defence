@@ -1,5 +1,5 @@
 class ErrorPresenter
-  SUBMODEL_REGEX = /^(\S+?)(_(\d+)_)(\S+)$/
+  SUBMODEL_REGEX = /^(\S+?)(_(\d+)_)(\S+)$/.freeze
 
   def initialize(claim, message_file = nil)
     @claim = claim

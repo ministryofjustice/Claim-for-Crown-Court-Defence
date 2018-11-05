@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-describe 'case_workers/claims/show.html.haml', type: :view do
-  include ViewSpecHelper
+RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
   let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
   let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
   let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
@@ -47,95 +46,76 @@ describe 'case_workers/claims/show.html.haml', type: :view do
 
   context 'fee summaries' do
     context 'AGFS' do
-      context 'basic fees' do
-        before do
-          trial_claim
-          assign(:claim, @claim)
-          render
-        end
+      before do
+        claim.save
+        assign(:claim, claim)
+        render
+      end
 
-        it 'displays Quantity, Rate and Net amount columns' do
-          expect(rendered).to have_selector('.fees-summary')
+      context 'basic fees' do
+        let(:claim) { build(:advocate_claim, :without_misc_fees, :submitted) }
+
+        it 'displays expected table headers' do
           within '.fees-summary' do |summary|
-            expect(summary).to have_selector("th", text: 'Fee category')
-            expect(summary).to have_selector("th", text: 'Fee type')
-            expect(summary).to have_selector("th", text: 'Quantity')
-            expect(summary).to have_selector("th", text: 'Rate')
-            expect(summary).to have_selector("th", text: 'Net amount')
+            expect(summary).to have_table_headers('Fee category', 'Fee type', 'Quantity', 'Rate', 'Net amount')
           end
         end
       end
 
       context 'fixed fees' do
-       before do
-          let(:claim) { create(:advocate_claim, :with_fixed_fee_case, :submitted, case_type: case_type, defendants: defendants) }
-          assign(:claim, claim)
-          render
-        end
+        let(:claim) { build(:advocate_claim, :with_fixed_fee_case, :without_misc_fees, :submitted) }
 
-        it 'displays Quantity, Rate and Net amount columns', skip: '#TODO' do
-          expect(rendered).to have_selector('.fees-summary')
+        it 'displays expected table headers' do
           within '.fees-summary' do |summary|
-            expect(summary).to have_selector("th", text: 'Fee category')
-            expect(summary).to have_selector("th", text: 'Fee type')
-            expect(summary).to have_selector("th", text: 'Quantity')
-            expect(summary).to have_selector("th", text: 'Rate')
-            expect(summary).to have_selector("th", text: 'Net amount')
+            expect(summary).to have_table_headers('Fee category', 'Fee type', 'Quantity', 'Rate', 'Net amount')
           end
         end
-      end
-
-      context 'misc fees', skip: "#TODO" do
       end
     end
 
     context 'LGFS' do
       before do
         claim.save
-        claim.reload
         assign(:claim, claim)
         render
       end
 
-      context 'graduated fees', skip: "#TODO" do
-      end
+      context 'graduated fee' do
+        let(:claim) { build(:litigator_claim, :trial, :submitted) }
 
-      context 'fixed fees' do
-        let(:fxcbr) { build(:fixed_fee_type, :fxcbr) }
-        let(:case_type_fxcbr) { build(:case_type, :cbr) }
-        let(:fixed_fee) { build(:fixed_fee, :lgfs, fee_type: fxcbr) }
-        let(:claim) { build(:litigator_claim, :without_fees, :submitted, case_type: case_type_fxcbr, fixed_fee: fixed_fee) }
-
-        it 'displays Quantity, Rate and Amount columns' do
-          expect(rendered).to have_selector('.fees-summary')
+        it 'displays expected table headers' do
           within '.fees-summary' do |summary|
-            expect(summary).to have_selector("th", text: 'Fee category')
-            expect(summary).to have_selector("th", text: 'Fee type')
-            expect(summary).to have_selector("th", text: 'Quantity')
-            expect(summary).to have_selector("th", text: 'Rate')
-            expect(summary).to have_selector("th", text: 'Amount')
+            expect(summary).to have_table_headers('Fee category', 'Fee type', 'PPE', 'Amount')
           end
         end
       end
 
-      context 'misc fees', skip: "#TODO" do
-        it 'displays PPE and Net amount columns' do
+      context 'fixed fee' do
+        let(:claim) { build(:litigator_claim, :with_fixed_fee_case, :submitted) }
+
+        it 'displays expected table headers' do
           within '.fees-summary' do |summary|
-            expect(summary).to have_selector("th", text: 'Fee category')
-            expect(summary).to have_selector("th", text: 'Fee type')
-            expect(summary).to have_selector("th", text: 'PPE')
-            expect(summary).to have_selector("th", text: 'Net amount')
+            expect(summary).to have_table_headers('Fee category', 'Fee type', 'Quantity', 'Rate', 'Amount')
           end
         end
       end
 
-      context 'interim fee', skip: "#TODO" do
-        it 'displays PPE and Net amount columns' do
+      context 'interim fee' do
+        let(:claim) { build(:interim_claim, :interim_warrant_fee, :submitted) }
+
+        it 'displays expected table headers' do
           within '.fees-summary' do |summary|
-            expect(summary).to have_selector("th", text: 'Fee category')
-            expect(summary).to have_selector("th", text: 'Fee type')
-            expect(summary).to have_selector("th", text: 'PPE')
-            expect(summary).to have_selector("th", text: 'Amount')
+            expect(summary).to have_table_headers('Fee category', 'Fee type', 'Amount')
+          end
+        end
+      end
+
+      context 'transfer fee' do
+        let(:claim) { build(:transfer_claim, :submitted) }
+
+        it 'displays expected table headers' do
+          within '.fees-summary' do |summary|
+            expect(summary).to have_table_headers('Fee category', 'Fee type', 'PPE', 'Amount')
           end
         end
       end

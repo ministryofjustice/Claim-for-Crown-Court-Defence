@@ -74,6 +74,7 @@ RSpec.configure do |config|
   config.include ValidationHelpers, type: :validator
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view
+  config.include ViewSpecHelper, type: :view
   config.include KaminariRspec::TestHelpers, type: :controller
   config.include ActionView::TestCase::Behavior, file_path: %r{spec/presenters}
   config.include ActiveSupport::Testing::TimeHelpers

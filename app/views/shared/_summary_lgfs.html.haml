@@ -17,7 +17,10 @@
             %th{ scope: 'col' }
               = t('.fee_type')
             %th.numeric{ scope: 'col' }
-              = "PPE"
+              = claim.fixed_fee_case? ? t('.quantity') : 'PPE'
+            - if claim.fixed_fee_case?
+              %th.numeric{ scope: 'col' }
+                = t('.rate')
             %th.numeric{ scope: 'col' }
               = t('.amount')
         %tbody
@@ -43,6 +46,9 @@
                   = "(#{t('.case_numbers')}: #{fee.case_numbers})"
               %td.numeric
                 = fee.quantity
+              - if claim.fixed_fee_case?
+                %td.numeric
+                  = fee.rate
               %td.numeric
                 = fee.amount
 

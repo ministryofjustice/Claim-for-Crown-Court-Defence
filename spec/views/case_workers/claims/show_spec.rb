@@ -45,6 +45,103 @@ describe 'case_workers/claims/show.html.haml', type: :view do
     end
   end
 
+  context 'fee summaries' do
+    context 'AGFS' do
+      context 'basic fees' do
+        before do
+          trial_claim
+          assign(:claim, @claim)
+          render
+        end
+
+        it 'displays Quantity, Rate and Net amount columns' do
+          expect(rendered).to have_selector('.fees-summary')
+          within '.fees-summary' do |summary|
+            expect(summary).to have_selector("th", text: 'Fee category')
+            expect(summary).to have_selector("th", text: 'Fee type')
+            expect(summary).to have_selector("th", text: 'Quantity')
+            expect(summary).to have_selector("th", text: 'Rate')
+            expect(summary).to have_selector("th", text: 'Net amount')
+          end
+        end
+      end
+
+      context 'fixed fees' do
+       before do
+          let(:claim) { create(:advocate_claim, :with_fixed_fee_case, :submitted, case_type: case_type, defendants: defendants) }
+          assign(:claim, claim)
+          render
+        end
+
+        it 'displays Quantity, Rate and Net amount columns', skip: '#TODO' do
+          expect(rendered).to have_selector('.fees-summary')
+          within '.fees-summary' do |summary|
+            expect(summary).to have_selector("th", text: 'Fee category')
+            expect(summary).to have_selector("th", text: 'Fee type')
+            expect(summary).to have_selector("th", text: 'Quantity')
+            expect(summary).to have_selector("th", text: 'Rate')
+            expect(summary).to have_selector("th", text: 'Net amount')
+          end
+        end
+      end
+
+      context 'misc fees', skip: "#TODO" do
+      end
+    end
+
+    context 'LGFS' do
+      before do
+        claim.save
+        claim.reload
+        assign(:claim, claim)
+        render
+      end
+
+      context 'graduated fees', skip: "#TODO" do
+      end
+
+      context 'fixed fees' do
+        let(:fxcbr) { build(:fixed_fee_type, :fxcbr) }
+        let(:case_type_fxcbr) { build(:case_type, :cbr) }
+        let(:fixed_fee) { build(:fixed_fee, :lgfs, fee_type: fxcbr) }
+        let(:claim) { build(:litigator_claim, :without_fees, :submitted, case_type: case_type_fxcbr, fixed_fee: fixed_fee) }
+
+        it 'displays Quantity, Rate and Amount columns' do
+          expect(rendered).to have_selector('.fees-summary')
+          within '.fees-summary' do |summary|
+            expect(summary).to have_selector("th", text: 'Fee category')
+            expect(summary).to have_selector("th", text: 'Fee type')
+            expect(summary).to have_selector("th", text: 'Quantity')
+            expect(summary).to have_selector("th", text: 'Rate')
+            expect(summary).to have_selector("th", text: 'Amount')
+          end
+        end
+      end
+
+      context 'misc fees', skip: "#TODO" do
+        it 'displays PPE and Net amount columns' do
+          within '.fees-summary' do |summary|
+            expect(summary).to have_selector("th", text: 'Fee category')
+            expect(summary).to have_selector("th", text: 'Fee type')
+            expect(summary).to have_selector("th", text: 'PPE')
+            expect(summary).to have_selector("th", text: 'Net amount')
+          end
+        end
+      end
+
+      context 'interim fee', skip: "#TODO" do
+        it 'displays PPE and Net amount columns' do
+          within '.fees-summary' do |summary|
+            expect(summary).to have_selector("th", text: 'Fee category')
+            expect(summary).to have_selector("th", text: 'Fee type')
+            expect(summary).to have_selector("th", text: 'PPE')
+            expect(summary).to have_selector("th", text: 'Amount')
+          end
+        end
+      end
+    end
+  end
+
   context 'document checklist' do
     let!(:claim_with_doc) { create :claim }
     let!(:document) { create :document, :verified, claim: claim_with_doc }

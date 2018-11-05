@@ -21,6 +21,10 @@ module SeedHelpers
     load_seed 'expense_types'
   end
 
+  def seed_disbursement_types
+    load_seed 'disbursement_types'
+  end
+
   private
 
   def load_seed file

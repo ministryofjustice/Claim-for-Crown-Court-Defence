@@ -1,5 +1,80 @@
 = render partial: 'layouts/header', locals: {page_heading: 'API release notes'}
 
+%section.api-github-issue
+  Any development issues? aside from our
+  %a{href: 'https://laavendorsupport.slack.com', target: '_blank'}
+    vendor support slack channel
+  you can raise
+  %a{href: 'https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence/issues', target: '_blank'}
+    Github issues
+  for bugs or other problems.
+
+%section.api-documentation
+  %hr
+  %h2 05 November 2018
+  %ul.list-bullet
+    %li
+      Implementation of LGFS fixed fee calculation.
+      %br/
+      %br/
+      The CCCD web interface has been amended to calculate LGFS fixed fees. As part of this work the interface
+      has (re)introduced the
+      %code.code
+        quantity
+      and
+      %code.code
+        rate
+      attributes for all
+      %code.code
+        LGFS Fee::FixedFeeType
+      fee objects. The
+      %code.code
+        amount
+      attribute will be calculated on a simple quantity x rate basis.
+      %br/
+      %br/
+      The interface will populate the
+      %code.code
+        rate
+      attribute by querying the
+      %a{:href => 'https://github.com/ministryofjustice/laa-fee-calculator', target: '_blank'}
+        LAA fee calculation API
+      \. The
+      %code.code
+        quantity
+      is required.
+      %br/
+      %br/
+      Any API consumers (applications) that POST LGFS fixed fees with an amount, but no rate and
+      quantity will default the quantity to 1 and rate to the amount provided.
+      %br/
+      %br/
+      For example:
+      %br/
+      %pre.code
+        {
+        &nbsp;api_key: you-provider-api-key,
+        &nbsp;claim_id: claim-uuid,
+        &nbsp;fee_type_id: fixed-fee-type-id,
+        &nbsp;date: "2018-04-19",
+        &nbsp;amount: 349.47
+        }
+      %br/
+      will result in a fixed fee with the following attributes:
+      %br/
+      %pre.code
+        {
+        &ensp;claim_id: claim-uuid,
+        &ensp;fee_type_id: fixed-fee-type-id,
+        &ensp;date: "2018-04-19",
+        &ensp;quantity: 1
+        &ensp;rate: 349.47
+        &ensp;amount: 349.47}
+        }
+      %br/
+      %br/
+      Long term, API consumers should look to provide quantity and rate separately where quantity represents the number of days (in court) typically.
+
 %section.api-documentation
   %hr
   %h2 10 September 2018

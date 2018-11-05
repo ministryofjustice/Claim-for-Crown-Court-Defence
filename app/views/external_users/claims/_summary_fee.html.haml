@@ -17,7 +17,7 @@
     %td
       = fee.case_numbers
 
-- if fee.claim.agfs? || fee.is_graduated? || fee.is_transfer?
+- if fee.calculated? || fee.is_graduated? || fee.is_transfer?
   %tr
     %th{ scope: 'row', class: 'bold' }
       - if fee.is_transfer? || fee.is_graduated?
@@ -27,7 +27,7 @@
     %td
       = fee.quantity
 
-- if fee.claim.agfs?
+- if fee.calculated?
   %tr
     %th{ scope: 'row'}
       = t('shared.summary.rate')

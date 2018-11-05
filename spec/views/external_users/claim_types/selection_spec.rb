@@ -1,9 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'external_users/claim_types/selection.html.haml', type: :view do
-
-  include ViewSpecHelper
-
   before(:each) do
     initialize_view_helpers(view)
   end

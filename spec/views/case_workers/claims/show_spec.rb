@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-describe 'case_workers/claims/show.html.haml', type: :view do
-  include ViewSpecHelper
+RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
   let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
   let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
   let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
@@ -42,6 +41,84 @@ describe 'case_workers/claims/show.html.haml', type: :view do
       assign(:claim, @claim)
       render
       expect(rendered).to have_content('First day of retrial')
+    end
+  end
+
+  context 'fee summaries' do
+    context 'AGFS' do
+      before do
+        claim.save
+        assign(:claim, claim)
+        render
+      end
+
+      context 'basic fees' do
+        let(:claim) { build(:advocate_claim, :without_misc_fees, :submitted) }
+
+        it 'displays expected table headers' do
+          within '.fees-summary' do |summary|
+            expect(summary).to have_table_headers('Fee category', 'Fee type', 'Quantity', 'Rate', 'Net amount')
+          end
+        end
+      end
+
+      context 'fixed fees' do
+        let(:claim) { build(:advocate_claim, :with_fixed_fee_case, :without_misc_fees, :submitted) }
+
+        it 'displays expected table headers' do
+          within '.fees-summary' do |summary|
+            expect(summary).to have_table_headers('Fee category', 'Fee type', 'Quantity', 'Rate', 'Net amount')
+          end
+        end
+      end
+    end
+
+    context 'LGFS' do
+      before do
+        claim.save
+        assign(:claim, claim)
+        render
+      end
+
+      context 'graduated fee' do
+        let(:claim) { build(:litigator_claim, :trial, :submitted) }
+
+        it 'displays expected table headers' do
+          within '.fees-summary' do |summary|
+            expect(summary).to have_table_headers('Fee category', 'Fee type', 'PPE', 'Amount')
+          end
+        end
+      end
+
+      context 'fixed fee' do
+        let(:claim) { build(:litigator_claim, :with_fixed_fee_case, :submitted) }
+
+        it 'displays expected table headers' do
+          within '.fees-summary' do |summary|
+            expect(summary).to have_table_headers('Fee category', 'Fee type', 'Quantity', 'Rate', 'Amount')
+          end
+        end
+      end
+
+      context 'interim fee' do
+        let(:claim) { build(:interim_claim, :interim_warrant_fee, :submitted) }
+
+        it 'displays expected table headers' do
+          within '.fees-summary' do |summary|
+            expect(summary).to have_table_headers('Fee category', 'Fee type', 'Amount')
+          end
+        end
+      end
+
+      context 'transfer fee' do
+        let(:claim) { build(:transfer_claim, :submitted) }
+
+        it 'displays expected table headers' do
+          within '.fees-summary' do |summary|
+            expect(summary).to have_table_headers('Fee category', 'Fee type', 'PPE', 'Amount')
+          end
+        end
+      end
     end
   end
 

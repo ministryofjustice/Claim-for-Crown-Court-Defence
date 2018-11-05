@@ -44,6 +44,8 @@ module API
             model_instance = model_klass.new(args)
           end
 
+          model_instance = adapt(model_instance)
+
           test_editability(model_instance)
           if model_instance.errors.present?
             pop_error_response(model_instance, api_response)
@@ -105,6 +107,10 @@ module API
 
         def is_a_basic_fee_type?(args)
           Fee::BaseFeeType.find(args[:fee_type_id]).is_a?(::Fee::BasicFeeType)
+        end
+
+        def adapt(model_instance)
+          API::Services::ResourceAdapter.new(model_instance).call
         end
       end
     end

@@ -133,7 +133,6 @@ module Fee
 
       return if @record.calculated?
       return unless @record.quantity <= 0 && @record.amount.positive?
-
       add_error(:quantity, "#{fee_code.downcase}_invalid")
     end
 

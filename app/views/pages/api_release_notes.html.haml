@@ -1,5 +1,62 @@
 = render partial: 'layouts/header', locals: {page_heading: 'API release notes'}
 
+%section.api-github-issue
+  Any development issues? aside from our
+  %a{href: 'https://laavendorsupport.slack.com', target: '_blank'}
+    vendor support slack channel
+  you can raise
+  %a{href: 'https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence/issues', target: '_blank'}
+    Github issues
+  for bugs or other problems.
+
+%section.api-documentation
+  %hr
+  %h2 05 November 2018
+  %ul.list-bullet
+    %li
+      Implementation of LGFS fixed fee calculation.
+      %br/
+      %br/
+      The CCCD web interface has been amended to calculate LGFS fixed fees. As part of this work the interface
+      has (re)introduced the
+      %code.code
+        quantity
+      and
+      %code.code
+        rate
+      attributes for all
+      %code.code
+        LGFS Fee::FixedFeeType
+      fee objects. The
+      %code.code
+        amount
+      attribute will be calculated on a simple quantity x rate basis.
+      %br/
+      %br/
+      The interface will populate the
+      %code.code
+        rate
+      attribute by querying the
+      %a{:href => 'https://github.com/ministryofjustice/laa-fee-calculator', target: '_blank'}
+        LAA fee calculation API
+      \. The
+      %code.code
+        quantity
+      is required.
+      %br/
+      %br/
+      API POSTs of fixed fees for such claims will ignore (i.e. set to 0) any
+      %code.code
+        amount
+      value provided. Therefore, POSTs of LGFS fixed fees should provide a
+      %code.code
+        quantity
+      and
+      %code.code
+        rate
+      \. Those POSTs that do not provide these will not error, but will require the user
+      to navigate to the fixed fee page to set them via the interface.
+
 %section.api-documentation
   %hr
   %h2 10 September 2018

@@ -118,7 +118,8 @@ RSpec.describe 'API claim creation for LGFS' do
       claim_id: nil,
       fee_type_id: nil,
       date: "2018-04-19",
-      amount: 350.00,
+      quantity: 1,
+      rate: 349.47
     }
   end
 
@@ -205,7 +206,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
         expect(last_response.status).to eql 201
 
-        expect(claim).to be_valid_api_claim(fee_scheme: ['LGFS', 9], offence: nil, total: 1145.25, vat_amount: 220.05)
+        expect(claim).to be_valid_api_claim(fee_scheme: ['LGFS', 9], offence: nil, total: 1494.72, vat_amount: 220.05)
         expect(claim.fixed_fees.size).to eql 1
         expect(claim.expenses.size).to eql 2
         expect(claim.disbursements.size).to eql 1

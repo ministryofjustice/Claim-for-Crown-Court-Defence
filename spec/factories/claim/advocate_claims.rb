@@ -36,6 +36,10 @@ FactoryBot.define do
       end
     end
 
+    trait :without_misc_fees do
+      after(:build) { |claim| claim.misc_fees = [] }
+    end
+
     trait :with_fixed_fee_case do
       case_type { association(:case_type, :fixed_fee) }
     end

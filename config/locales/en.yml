@@ -1192,7 +1192,7 @@ en:
       error: Claim not injected
       dismiss: Dismiss this message
       cav_warning:
-        header: 'Warning: Conferences and views were not injected'
+        header: 'Warning: conferences and views were not injected'
         message: 'The provider has claimed conferences and views on this claim, but they have not been injected into CCR. Please enter them manually.'
 
     message_controls:

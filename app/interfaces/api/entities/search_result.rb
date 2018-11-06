@@ -35,6 +35,7 @@ module API
         expose :interim_disbursements
         expose :risk_based_bills
         expose :injection_errored
+        expose :cav_warning
       end
 
       private
@@ -120,6 +121,10 @@ module API
 
       def injection_errored
         injection_errors_present.to_i
+      end
+
+      def cav_warning
+        (!injection_errors_present && contains_conference_and_view).to_i
       end
     end
   end

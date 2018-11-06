@@ -64,7 +64,8 @@ describe API::Entities::SearchResult do
           agfs_warrants: 0,
           interim_disbursements: 0,
           risk_based_bills: 0,
-          injection_errored: 0
+          injection_errored: 0,
+          cav_warning: 0
         }
       end
 
@@ -143,6 +144,12 @@ describe API::Entities::SearchResult do
       context 'when passed an advocate claims with an injection attempt error' do
         let(:claim) { OpenStruct.new('id'=>'19932', 'uuid'=>'aec3900f-3e82-4c4f-a7cd-498ad45f11f8', 'scheme'=>'agfs', 'scheme_type'=>'Advocate', 'case_number'=>'T20160427', 'state'=>'submitted', 'court_name'=>'Newcastle', 'case_type'=>'Contempt', 'total'=>'426.36', 'disk_evidence'=>false, 'external_user'=>'Theodore Schumm', 'maat_references'=>'2320144', 'defendants'=>'Junius Lesch', 'fees'=>'0.0~Daily attendance fee (3 to 40)~Fee::BasicFeeType, 0.0~Daily attendance fee (41 to 50)~Fee::BasicFeeType, 0.0~Daily attendance fee (51+)~Fee::BasicFeeType, 0.0~Standard appearance fee~Fee::BasicFeeType, 0.0~Plea and case management hearing~Fee::BasicFeeType, 0.0~Conferences and views~Fee::BasicFeeType, 0.0~Number of defendants uplift~Fee::BasicFeeType, 0.0~Number of cases uplift~Fee::BasicFeeType, 0.0~Number of prosecution witnesses~Fee::BasicFeeType, 1.0~Basic fee~Fee::BasicFeeType, 34.0~Pages of prosecution evidence~Fee::BasicFeeType', 'last_submitted_at'=>'2017-07-06 09:33:30.932017', 'class_letter'=>'F', 'is_fixed_fee'=>false, 'fee_type_code'=>'GRRAK', 'graduated_fee_types'=>'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR', 'injection_errors'=>'{"errors":[{"error":"Claim not injected"}]}') }
         before { result.merge!(graduated_fees: 1, injection_errored: 1) }
+        include_examples 'returns expected JSON filter values'
+      end
+
+      context 'when passed an advocate claims with a CAV value and without an injection attempt error' do
+        let(:claim) { OpenStruct.new('id'=>'19932', 'uuid'=>'aec3900f-3e82-4c4f-a7cd-498ad45f11f8', 'scheme'=>'agfs', 'scheme_type'=>'Advocate', 'case_number'=>'T20160427', 'state'=>'submitted', 'court_name'=>'Newcastle', 'case_type'=>'Contempt', 'total'=>'426.36', 'disk_evidence'=>false, 'external_user'=>'Theodore Schumm', 'maat_references'=>'2320144', 'defendants'=>'Junius Lesch', 'fees'=>'0.0~Daily attendance fee (3 to 40)~Fee::BasicFeeType, 0.0~Daily attendance fee (41 to 50)~Fee::BasicFeeType, 0.0~Daily attendance fee (51+)~Fee::BasicFeeType, 0.0~Standard appearance fee~Fee::BasicFeeType, 0.0~Plea and case management hearing~Fee::BasicFeeType, 100.0~Conferences and views~Fee::BasicFeeType, 0.0~Number of defendants uplift~Fee::BasicFeeType, 0.0~Number of cases uplift~Fee::BasicFeeType, 0.0~Number of prosecution witnesses~Fee::BasicFeeType, 1.0~Basic fee~Fee::BasicFeeType, 34.0~Pages of prosecution evidence~Fee::BasicFeeType', 'last_submitted_at'=>'2017-07-06 09:33:30.932017', 'class_letter'=>'F', 'is_fixed_fee'=>false, 'fee_type_code'=>'GRRAK', 'graduated_fee_types'=>'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR', 'injection_errors'=>'{"errors":[]}') }
+        before { result.merge!(graduated_fees: 1, cav_warning: 1) }
         include_examples 'returns expected JSON filter values'
       end
 

@@ -50,6 +50,16 @@ module SearchResultHelpers
     end&.any?
   end
 
+  def contains_conference_and_view
+    fees&.map do |fee|
+      [
+        fee[2].eql?('Fee::BasicFeeType'),
+        fee[1].eql?('Conferences and views'),
+        fee[0].to_i.positive?
+      ].all?
+    end&.any?
+  end
+
   def risk_based_class_letter
     object.class_letter&.in?(%w[E F G H I])
   end

@@ -36,9 +36,9 @@ class MessagesController < ApplicationController
   def download_attachment
     raise 'No attachment present on this message' if message.attachment.blank?
 
-    send_file Paperclip.io_adapters.for(message.attachment).path, type:        message.attachment_content_type,
-                                                                  filename:    message.attachment_file_name,
-                                                                  x_sendfile:  true
+    send_file Paperclip.io_adapters.for(message.attachment).path, type: message.attachment_content_type,
+                                                                  filename: message.attachment_file_name,
+                                                                  x_sendfile: true
   end
 
   private

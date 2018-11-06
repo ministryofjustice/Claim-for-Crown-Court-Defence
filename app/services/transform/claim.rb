@@ -38,11 +38,11 @@ module Transform
     }.freeze
 
     CLAIM_TYPE_CONVERSIONS = {
-      'Claim::AdvocateInterimClaim' =>  'Advocate interim claim',
-      'Claim::AdvocateClaim'        =>  'Advocate final claim',
-      'Claim::InterimClaim'         =>  'Litigator interim claim',
-      'Claim::LitigatorClaim'       =>  'Litigator final claim',
-      'Claim::TransferClaim'        =>  'Litigator transfer claim'
+      'Claim::AdvocateInterimClaim' => 'Advocate interim claim',
+      'Claim::AdvocateClaim' => 'Advocate final claim',
+      'Claim::InterimClaim' => 'Litigator interim claim',
+      'Claim::LitigatorClaim' => 'Litigator final claim',
+      'Claim::TransferClaim' => 'Litigator transfer claim'
     }.freeze
 
     class << self

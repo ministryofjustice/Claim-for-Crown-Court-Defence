@@ -1,11 +1,11 @@
 module Claims
   class InputEventMapper
     FORM_INPUT_EVENTS = {
-      'authorised'               => :authorise!,
-      'part_authorised'          => :authorise_part!,
-      'rejected'                 => :reject!,
-      'refused'                  => :refuse!,
-      'redetermination'          => :redetermine!
+      'authorised' => :authorise!,
+      'part_authorised' => :authorise_part!,
+      'rejected' => :reject!,
+      'refused' => :refuse!,
+      'redetermination' => :redetermine!
     }.freeze
 
     def self.input_event(input)

@@ -38,10 +38,10 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
 
   def claim_type_redirect_url_for(claim_type)
     {
-      'agfs'          => new_advocates_claim_url,
-      'agfs_interim'  => new_advocates_interim_claim_url,
-      'lgfs_final'    => new_litigators_claim_url,
-      'lgfs_interim'  => new_litigators_interim_claim_url,
+      'agfs' => new_advocates_claim_url,
+      'agfs_interim' => new_advocates_interim_claim_url,
+      'lgfs_final' => new_litigators_claim_url,
+      'lgfs_interim' => new_litigators_interim_claim_url,
       'lgfs_transfer' => new_litigators_transfer_claim_url
     }[claim_type.to_s]
   end

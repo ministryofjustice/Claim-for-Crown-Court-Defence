@@ -35,11 +35,11 @@ module Claims
 
     def comprehensive_claim_type_for(claim_type)
       {
-        'Claim::AdvocateClaim'        => 'agfs',
+        'Claim::AdvocateClaim' => 'agfs',
         'Claim::AdvocateInterimClaim' => 'agfs_interim',
-        'Claim::LitigatorClaim'       => 'lgfs_final',
-        'Claim::InterimClaim'         => 'lgfs_interim',
-        'Claim::TransferClaim'        => 'lgfs_transfer'
+        'Claim::LitigatorClaim' => 'lgfs_final',
+        'Claim::InterimClaim' => 'lgfs_interim',
+        'Claim::TransferClaim' => 'lgfs_transfer'
       }[claim_type.to_s]
     end
   end

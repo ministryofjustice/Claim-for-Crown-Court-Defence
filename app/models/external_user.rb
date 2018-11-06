@@ -14,7 +14,7 @@
 #
 
 class ExternalUser < ApplicationRecord
-  SUPPLIER_NUMBER_REGEX ||= /\A[0-9A-Z]{5}\z/
+  SUPPLIER_NUMBER_REGEX ||= /\A[0-9A-Z]{5}\z/.freeze
 
   auto_strip_attributes :supplier_number, squish: true, nullify: true
 
@@ -109,8 +109,8 @@ class ExternalUser < ApplicationRecord
 
   def claim_types_for(role)
     {
-      'admin'     => advocate_claim_types | litigator_claim_types,
-      'advocate'  => advocate_claim_types,
+      'admin' => advocate_claim_types | litigator_claim_types,
+      'advocate' => advocate_claim_types,
       'litigator' => litigator_claim_types
     }[role.to_s] || []
   end

@@ -1,3 +1,4 @@
+-# VIEW for /:id/summary
 %tr
   %th{ scope: 'row', class: 'bold' }
     = t('shared.summary.fee_type')
@@ -58,9 +59,28 @@
     %td
       = fee.amount
 
+- if fee.fee_type.unique_code.eql?('BABAF')
+  - if fee.first_day_of_trial
+    %tr
+      %th{ scope: 'row', class: 'bold' }
+        = t('shared.summary.dates_attended.first_day_of_trial')
+      %td
+        = fee.first_day_of_trial
+
+  - if fee.retrial_started_at
+    %tr
+      %th{ scope: 'row', class: 'bold' }
+        = t('shared.summary.dates_attended.retrial_started_at')
+      %td
+        = fee.retrial_started_at
+
 - if fee.dates_attended.any?
+  -# Guilty plea, discontin, second dates..
   %tr
     %th{ scope: 'row', class: 'bold' }
-      = t('shared.summary.dates_attended')
+      - if fee.fee_type.unique_code.eql?('BABAF')
+        = t(fee.claim.case_type.name.split(' ').collect(&:capitalize).join.underscore, scope: "external_users.claims.basic_fees.basic_fee_fields_primary.date_label")
+      - else
+        = t('shared.summary.dates_attended.dates_attended')
     %td
       = fee.dates_attended_delimited_string

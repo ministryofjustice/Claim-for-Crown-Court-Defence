@@ -362,6 +362,11 @@ table.summary, table.nested-summary {
 
 table.nested-summary {
   tbody {
+    th {
+      &:first-child {
+        width: 50%;
+      }
+    }
     tr:last-child {
       th, td {
         border-bottom: 0;

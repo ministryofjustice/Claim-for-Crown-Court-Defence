@@ -535,7 +535,7 @@ en:
         date: &date_attended_heading Date attended
         first_date_display:
           first_day_of_trial: First day of trial
-          retrial_started_at: Retrail started at
+          retrial_started_at: Retrial started at
         basic_fee_fields_primary:
           add_dates: Add another date
           net_amount: *net_amount
@@ -1267,6 +1267,10 @@ en:
       date_added: Date added
       actions: Actions
     summary:
+      dates_attended:
+        dates_attended: Dates attended
+        retrial_started_at: Retrial started at
+        first_day_of_trial: First day of trial
       actual_trial_length: Actual trial length
       mileage_rate: Cost per mile
       expense: Expense
@@ -1321,7 +1325,6 @@ en:
       case_numbers: *case_numbers
       quantity: *quantity
       date_of_expense: Date of expense
-      dates_attended: Dates attended
       fees_total: 'Fees total:'
       expense_type: Type of expense
       location: Destination

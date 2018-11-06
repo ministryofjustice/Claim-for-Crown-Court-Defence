@@ -1,12 +1,13 @@
 - if claim_requires_dates_attended?(@claim)
+  - guilty_plea_or_discontinuance = build_dates_attended?(fee)
   .dates-wrapper.form-group.fx-date-controller
     %div
-      - if build_dates_attended?(fee)
+      - if guilty_plea_or_discontinuance
         - fee.dates_attended.build unless fee.dates_attended.any?
 
       = f.fields_for :dates_attended do |date_attended|
         -# TODO: Numbering, the implementation used on fees will not work here.
-        = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}", locale_scope: 'external_users.claims.basic_fees.basic_fee_fields_primary.date_label', hide_remove: false }
+        = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}", locale_scope: 'external_users.claims.basic_fees.basic_fee_fields_primary.date_label', hide_remove: guilty_plea_or_discontinuance }
 
     - if show_add_date_link?(fee)
-      = link_to_add_association t('.add_dates'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields', render_options: { locals: { locale_scope: 'external_users.claims.basic_fees.basic_fee_fields_primary.date_label', plural: true, hide_remove: true} }, data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
+      = link_to_add_association t('.add_dates'), f, :dates_attended, class: 'form-group', partial: 'date_attended_fields', render_options: { locals: { locale_scope: 'external_users.claims.basic_fees.basic_fee_fields_primary.date_label', plural: true, hide_remove: guilty_plea_or_discontinuance} }, data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}

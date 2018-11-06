@@ -50,6 +50,25 @@ table {
         }
       }
     }
+    &.cav_warning {
+      border-left: 5px solid $orange;
+      td {
+        padding-top: 30px !important;
+        .warning-message-container {
+          position: relative;
+        }
+        .warning-message {
+          font-weight: bold;
+          position: absolute;
+          top: -30px;
+          color: $orange;
+          width: 320px;
+          @media (max-width: 1018px) {
+            width: auto;
+          }
+        }
+      }
+    }
   }
   th,
   td {

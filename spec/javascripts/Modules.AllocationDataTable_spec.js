@@ -73,6 +73,18 @@ describe("Modules.AllocationDataTable.js", function() {
       expect(output[0].outerHTML).toEqual('<tr class="error"><td><div class="error-message-container"><div class="error-message">I am an error</div></div></td></tr>')
     });
 
+    it('...should have a `createdRow` callback defined for CAV warnings', function() {
+      expect(options.createdRow).toBeDefined();
+      var row = $('<tr><td></td></tr>');
+      var data = {
+        "filter": {
+          "cav_warning": 1
+        }
+      }
+      var output = options.createdRow(row, data)
+      expect(output[0].outerHTML).toEqual('<tr class="cav_warning"><td><div class="warning-message-container"><div class="warning-message">CAVs not injected</div></div></td></tr>')
+    });
+
     it('...should have `processing`', function() {
       expect(options.processing).toEqual(true);
     });

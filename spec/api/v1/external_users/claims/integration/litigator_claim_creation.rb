@@ -123,6 +123,16 @@ RSpec.describe 'API claim creation for LGFS' do
     }
   end
 
+  let(:fixed_fee_params_with_amount) do
+    {
+      api_key: provider.api_key,
+      claim_id: nil,
+      fee_type_id: nil,
+      date: "2018-04-19",
+      amount: 349.47
+    }
+  end
+
   let(:misc_fee_params) do
     {
       api_key: provider.api_key,
@@ -190,6 +200,51 @@ RSpec.describe 'API claim creation for LGFS' do
         expect(last_response.status).to eql 201
 
         post endpoint(:fees), fixed_fee_params.merge(claim_id: claim.uuid, fee_type_id: fixed_fee_type.id), format: :json
+        expect(last_response.status).to eql 201
+
+        fee = Fee::BaseFee.find_by(uuid: last_response_uuid )
+
+        post endpoint(:fees), misc_fee_params.merge(claim_id: claim.uuid, fee_type_id: miscellaneous_fee_type.id), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_car.id, distance: 500.38, mileage_rate_id: 1), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:disbursements), disbursement_params.merge(claim_id: claim.uuid, disbursement_type_id: disbursement_type.id), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
+        expect(last_response.status).to eql 201
+
+        expect(claim).to be_valid_api_claim(fee_scheme: ['LGFS', 9], offence: nil, total: 1494.72, vat_amount: 220.05)
+        expect(claim.fixed_fees.size).to eql 1
+        expect(claim.expenses.size).to eql 2
+        expect(claim.disbursements.size).to eql 1
+      end
+    end
+
+    # changes to interface following LGFS fixed fee calculation render this
+    # the old way of creating fixed fees but we still need to handle
+    # API submissions (it takes 3 months+ for vendors to change their apps).
+    context 'fixed fee claim with amount' do
+      let(:case_type) { CaseType.find_by(fee_type_code: 'FXACV') } # Appeal against conviction
+      let(:representation_order_date) { Date.new(2018, 03, 31).as_json }
+
+      specify "Case management system creates a valid scheme 9 fixed fee claim" do
+        post ClaimApiEndpoints.for(:final).create, claim_params, format: :json
+        expect(last_response.status).to eql 201
+
+        claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
+
+        post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
+        expect(last_response.status).to eql 201
+
+        defendant = Defendant.find_by(uuid: last_response_uuid )
+
+        post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:fees), fixed_fee_params_with_amount.merge(claim_id: claim.uuid, fee_type_id: fixed_fee_type.id), format: :json
         expect(last_response.status).to eql 201
 
         fee = Fee::BaseFee.find_by(uuid: last_response_uuid )

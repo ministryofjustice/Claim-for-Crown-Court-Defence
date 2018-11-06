@@ -45,17 +45,35 @@
       is required.
       %br/
       %br/
-      API POSTs of fixed fees for such claims will ignore (i.e. set to 0) any
-      %code.code
-        amount
-      value provided. Therefore, POSTs of LGFS fixed fees should provide a
-      %code.code
-        quantity
-      and
-      %code.code
-        rate
-      \. Those POSTs that do not provide these will not error, but will require the user
-      to navigate to the fixed fee page to set them via the interface.
+      Any API consumers (applications) that POST LGFS fixed fees with an amount, but no rate and
+      quantity will default the quantity to 1 and rate to the amount provided.
+      %br/
+      %br/
+      For example:
+      %br/
+      %pre.code
+        {
+        &nbsp;api_key: you-provider-api-key,
+        &nbsp;claim_id: claim-uuid,
+        &nbsp;fee_type_id: fixed-fee-type-id,
+        &nbsp;date: "2018-04-19",
+        &nbsp;amount: 349.47
+        }
+      %br/
+      will result in a fixed fee with the following attributes:
+      %br/
+      %pre.code
+        {
+        &ensp;claim_id: claim-uuid,
+        &ensp;fee_type_id: fixed-fee-type-id,
+        &ensp;date: "2018-04-19",
+        &ensp;quantity: 1
+        &ensp;rate: 349.47
+        &ensp;amount: 349.47}
+        }
+      %br/
+      %br/
+      Long term, API consumers should look to provide quantity and rate separately where quantity represents the number of days (in court) typically.
 
 %section.api-documentation
   %hr

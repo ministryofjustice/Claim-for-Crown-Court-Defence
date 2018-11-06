@@ -17,7 +17,7 @@ module API
         end
 
         def representation_orders_with_earliest_first
-          object.representation_orders.unscope(:order).order(representation_order_date: :asc)
+          object.representation_orders.unscope(:order).order(representation_order_date: :asc).take(1)
         end
       end
     end

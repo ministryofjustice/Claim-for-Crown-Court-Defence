@@ -7,6 +7,8 @@ module API
         @resource = resource
       end
 
+      # TODO: `uncalculatable?` logic should apply across all fees
+      # but needs more robust testing for confidence
       def call
         if resource.is_a?(::Fee::FixedFee) && uncalculatable?
           resource.assign_attributes(quantity: 1, rate: resource.amount, amount: nil)
@@ -17,7 +19,12 @@ module API
       private
 
       def uncalculatable?
-        [resource.quantity.blank?, resource.rate.blank?, resource.amount.present?].all?
+        [
+          resource.calculated?,
+          resource.quantity.blank?,
+          resource.rate.blank?,
+          resource.amount.present?
+        ].all?
       end
     end
   end

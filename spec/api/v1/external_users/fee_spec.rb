@@ -31,8 +31,8 @@ RSpec.describe API::V1::ExternalUsers::Fee do
 
   before { seed_fee_schemes }
 
-  let!(:claim)            { create(:claim, source: 'api').reload }
-  let(:valid_params)      { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
+  let!(:claim) { create(:claim, source: 'api').reload }
+  let(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
   let(:json_error_response) { [ {"error" => "Type of fee not found by ID or Unique Code" } ].to_json }
 
   context 'sending non-permitted verbs' do
@@ -56,7 +56,6 @@ RSpec.describe API::V1::ExternalUsers::Fee do
     include_examples "should NOT be able to amend a non-draft claim"
 
     context 'when fee params are valid' do
-
       it "should create fee, return 201 and fee JSON output including UUID" do
         post_to_create_endpoint
         expect(last_response.status).to eq 201
@@ -98,12 +97,53 @@ RSpec.describe API::V1::ExternalUsers::Fee do
         end
       end
 
-      context 'with fee amount provided' do
-        it 'should ignore amount for all fee types that are calculated (all except PPE/NPW)' do
-          valid_params.merge!(amount: 155.50)
-          post_to_create_endpoint
-          fee = Fee::BaseFee.last
-          expect(fee.amount).to eq 150.00
+      context 'when fee amount provided' do
+        context 'with quantity and rate' do
+          let(:valid_params) do
+            {
+              api_key: provider.api_key,
+              claim_id: claim.uuid,
+              fee_type_id: misc_fee_type.id,
+              quantity: 3,
+              rate: 50.00,
+              amount: 151.00
+            }
+          end
+
+          it 'calculates amount based on quantity x rate (all except PPE/NPW)' do
+            post_to_create_endpoint
+            fee = Fee::BaseFee.last
+            expect(fee).to have_attributes(quantity: 3, rate: 50.00, amount: 150.00)
+          end
+        end
+
+        context 'without quantity and rate' do
+          context 'fixed fees' do
+            let(:claim) { create(:litigator_claim, :with_fixed_fee_case, :without_fees, source: 'api').reload }
+            let(:valid_params) do
+              {
+                api_key: provider.api_key,
+                claim_id: claim.uuid,
+                fee_type_id: fee_type.id,
+                date: '2018-04-19',
+                quantity: nil,
+                rate: nil,
+                amount: 349.47
+              }
+            end
+
+            context 'calculated fee with amount but no quantity and rate' do
+              let(:fee_type) { create(:fixed_fee_type, calculated: true ) }
+
+              # Need comes out of shift from uncalculated to calculated LGFS fixed
+              # fees to enable laa-fee-calculator API use.
+              it 'populates quantity and rate to mimic amount supplied' do
+                post_to_create_endpoint
+                fee = Fee::BaseFee.last
+                expect(fee).to have_attributes(quantity: 1, rate: 349.47, amount: 349.47)
+              end
+            end
+          end
         end
       end
 
@@ -302,7 +342,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       context 'Fee Category' do
         before (:each) { valid_params.delete(:rate) }
 
-        context 'advocate claim' do
+        context 'advocate (final) claim' do
           it 'basic fees should raise basic fee errors from translations' do
             valid_params[:fee_type_id] = basic_fee_type.id
             post_to_create_endpoint
@@ -339,7 +379,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
         context 'litigator (final) claim' do
           let!(:claim) { create(:litigator_claim, source: 'api').reload }
 
-          it 'graduates fees should raise graduated fee errors from translations' do
+          it 'graduated fees should raise graduated fee errors from translations' do
             valid_params[:fee_type_id] = graduated_fee_type.id
             post_to_create_endpoint
             expect(last_response.status).to eq 400
@@ -422,13 +462,10 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           expect_error_response("Claim cannot be blank",0)
         end
       end
-
     end
-
   end
 
   describe "POST #{endpoint(:fees, :validate)}" do
-
     def post_to_validate_endpoint
       post endpoint(:fees, :validate), valid_params, format: :json
     end
@@ -448,5 +485,4 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       end
     end
   end
-
 end

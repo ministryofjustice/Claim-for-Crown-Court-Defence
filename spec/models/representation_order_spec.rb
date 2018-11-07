@@ -28,6 +28,7 @@ describe RepresentationOrder do
 
     context 'case type requires maat reference' do
       before(:each)       { representation_order.defendant.claim.case_type = FactoryBot.build(:case_type, :requires_maat_reference) }
+
       it 'should error if blank' do
         representation_order.maat_reference = nil
         expect(representation_order).not_to be_valid
@@ -53,8 +54,13 @@ describe RepresentationOrder do
       end
 
       it 'should not error if 7-10 numeric digits' do
-        representation_order.maat_reference = '2078352232'
+        representation_order.maat_reference = '5078352232'
         expect(representation_order).to be_valid
+      end
+
+      it 'should error if the first digit is below 4' do
+        representation_order.maat_reference = '2345678'
+        expect(representation_order).not_to be_valid
       end
     end
 

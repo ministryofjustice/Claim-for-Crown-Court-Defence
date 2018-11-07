@@ -6,7 +6,7 @@ module API
         expose :first_name
         expose :last_name
         expose :date_of_birth
-        expose :representation_orders_with_earliest_first,
+        expose :earliest_representation_order,
                using: API::Entities::CCR::RepresentationOrder,
                as: :representation_orders
 
@@ -16,8 +16,8 @@ module API
           object.claim.defendants.unscope(:order).order(created_at: :asc)&.first == object || false
         end
 
-        def representation_orders_with_earliest_first
-          object.representation_orders.unscope(:order).order(representation_order_date: :asc)
+        def earliest_representation_order
+          object.representation_orders.unscope(:order).order(representation_order_date: :asc).take(1)
         end
       end
     end

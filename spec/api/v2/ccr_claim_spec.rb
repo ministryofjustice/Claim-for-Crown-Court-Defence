@@ -184,8 +184,8 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           ]
         }
 
-        it 'returns multiple representation orders' do
-          is_expected.to have_json_size(2).at_path('defendants/0/representation_orders')
+        it 'returns the earliest of the representation orders' do
+          is_expected.to have_json_size(1).at_path('defendants/0/representation_orders')
         end
 
         it 'returns earliest rep order first (per defendant)' do

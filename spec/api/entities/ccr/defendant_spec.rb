@@ -36,4 +36,21 @@ describe API::Entities::CCR::Defendant do
     expect(response[:representation_orders].first).to include(maat_reference: '1234567890', representation_order_date: '2016-01-10')
   end
 
+  context 'when the defendant has more than one rep_order' do
+    let(:rep_orders) do
+      [
+        create(:representation_order, maat_reference: '1234567890', representation_order_date: Date.new(2016, 1, 10)),
+        create(:representation_order, maat_reference: '0987654321', representation_order_date: Date.new(2016, 1, 11))
+      ]
+    end
+
+    it 'returns a single rep_order' do
+      expect(response[:representation_orders].count).to eql 1
+    end
+
+    it 'returns the first representation order entered' do
+      expect(response[:representation_orders].first).to include(maat_reference: '1234567890', representation_order_date: '2016-01-10')
+    end
+
+  end
 end

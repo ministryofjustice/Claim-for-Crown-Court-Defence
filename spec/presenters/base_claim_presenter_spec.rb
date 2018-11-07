@@ -372,6 +372,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   it { is_expected.to respond_to :injection_error_summary }
   it { is_expected.to respond_to :injection_errors }
   it { is_expected.to respond_to :last_injection_attempt }
+  it { is_expected.to respond_to :has_conference_and_views? }
 
   describe '#injection_error' do
     subject { presenter.injection_error }
@@ -486,6 +487,27 @@ RSpec.describe Claim::BaseClaimPresenter do
         before { supplier.update(name: nil, postcode: nil) }
         it { is_expected.to be_nil }
       end
+    end
+  end
+
+  describe '#has_conference_and_views?' do
+    subject { presenter.has_conference_and_views? }
+    let!(:fee) { create(:basic_fee, :cav_fee, claim: claim, quantity: quantity, rate: rate)}
+
+    before { claim.reload }
+
+    context 'when the claims CAV fee is populated' do
+      let(:rate) { 1 }
+      let(:quantity) { 25 }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when the claims CAV fee is empty' do
+      let(:rate) { 0 }
+      let(:quantity) { 0 }
+
+      it { is_expected.to be false }
     end
   end
 end

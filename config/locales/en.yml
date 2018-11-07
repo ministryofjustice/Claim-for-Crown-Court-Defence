@@ -1191,6 +1191,9 @@ en:
       form_error_hint: data injection error
       error: Claim not injected
       dismiss: Dismiss this message
+      cav_warning:
+        header: 'Warning: conferences and views were not injected'
+        message: 'The provider has claimed conferences and views on this claim, but they have not been injected into CCR. Please enter them manually.'
 
     message_controls:
       update_claim_status: Update your claim status

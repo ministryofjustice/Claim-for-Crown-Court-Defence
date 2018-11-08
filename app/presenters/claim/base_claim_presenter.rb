@@ -346,7 +346,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def has_conference_and_views?
-    claim.fees.select { |f| f.fee_type.unique_code.eql?('BACAV') }.any? { |x| x.amount.nonzero? }
+    claim.fees.select { |f| f.fee_type.unique_code.eql?('BACAV') }.any? { |x| x.amount&.nonzero? }
   end
 
   private

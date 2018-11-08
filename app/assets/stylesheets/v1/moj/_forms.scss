@@ -151,7 +151,6 @@ select.form-control {
   }
 }
 .mod-expenses,
-.mod-graduated-fees,
 .mod-fees{
   input.rate,
   input.amount,
@@ -161,8 +160,7 @@ select.form-control {
   }
 }
 
-.mod-expenses,
-.mod-graduated-fees {
+.mod-expenses{
   .grid-row{
     .column-one-third.js-expense-reason,
     .column-one-third.js-expense-amount {
@@ -172,8 +170,7 @@ select.form-control {
 }
 
 .mod-fees,
-.mod-expenses,
-.mod-graduated-fees{
+.mod-expenses{
   .govuk-legend{
     font-weight:normal;
   }

@@ -1,4 +1,3 @@
-
 - if @claim.allows_graduated_fees?
   #graduated-fees.mod-graduated-fees
     = f.fields_for :graduated_fee do |gradfee|
@@ -6,8 +5,6 @@
       .graduated-fee-group.nested-fields.js-block.fx-do-init{data:{"type": "gradFees", autovat: @claim.apply_vat? ? "true" : "false"}}
         = gradfee.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
         .form-section
-          -#  PPE Total
-          %a{:id => "graduated_fee.quantity"}
           = gradfee.adp_text_field :quantity,
                       label: t('.total_pages_of_evidence'),
                       input_classes:'form-control form-control-1-4',
@@ -16,23 +13,19 @@
                       errors: @error_presenter,
                       error_key: "graduated_fee.quantity"
 
-          -# Hearing date
           %a{:id => "graduated_fee.date"}
           = gradfee.gov_uk_date_field(:date, legend_text: "First day of hearing", legend_class: "govuk-legend", error_messages: gov_uk_date_field_error_messages(@error_presenter, "graduated_fee.date"))
 
-          -# Actual trial length
           = f.adp_text_field :actual_trial_length,
                       label: t('.actual_trial_length'),
                       input_classes:'form-control form-control-1-4',
                       input_type: 'number',
                       errors: @error_presenter
 
-          -# Net amount
           %a#to
-          %a{:id => "graduated_fee.amount"}
           = gradfee.adp_text_field :amount,
                       label: t('.net_amount'),
-                      input_classes:"total  fee-rate form-input-denote__input form-control-1-4",
+                      input_classes:"total fee-rate form-input-denote__input form-control-1-4",
                       input_type: "currency",
                       errors: @error_presenter,
                       error_key: "graduated_fee.amount"

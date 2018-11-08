@@ -15,7 +15,6 @@
             = @claim.transfer_fee.description
 
           .column-one-third.fee-quantity
-            = tf.anchored_attribute 'quantity'
             = tf.adp_text_field :quantity,
                       label: t('.ppe_total'),
                       input_classes:'quantity',
@@ -24,7 +23,6 @@
                       error_key:'transfer_fee.quantity'
 
           .column-one-third.condensed.fee-total
-            = tf.anchored_attribute 'amount'
             = tf.adp_text_field :amount,
                                 label: t('.total'),
                                 input_classes:'total',

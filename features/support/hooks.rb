@@ -25,6 +25,7 @@ end
 Before do
   unless ($seed_done ||= false)
 
+    ActiveRecord::Base.connection.reset_pk_sequence!('offences')
     load "#{Rails.root}/db/seeds/courts.rb"
     load "#{Rails.root}/db/seeds/offence_classes.rb"
     load "#{Rails.root}/db/seeds/offences.rb"

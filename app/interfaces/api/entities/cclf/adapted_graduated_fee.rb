@@ -11,6 +11,10 @@ module API
         def adapter
           @adapter ||= ::CCLF::Fee::GraduatedFeeAdapter.new(object)
         end
+
+        def quantity
+          [object.quantity, 1].compact.max
+        end
       end
     end
   end

@@ -19,4 +19,13 @@ RSpec.describe API::Entities::CCLF::AdaptedGraduatedFee, type: :adapter do
       quantity: '999',
     )
   end
+
+  # CCLF returns error response for 0 quantity on LIT_FEE
+  context 'when zero quantity on grad fee' do
+    let(:graduated_fee) { instance_double('graduated_fee', claim: claim, fee_type: fee_type, quantity: 0) }
+
+    it 'defaults quantity to 1' do
+      expect(response).to include(quantity: '1')
+    end
+  end
 end

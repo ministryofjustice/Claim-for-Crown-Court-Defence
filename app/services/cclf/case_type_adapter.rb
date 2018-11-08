@@ -1,7 +1,5 @@
 module CCLF
   class CaseTypeAdapter
-    # TODO: transfer claims only
-    #
     # NOTE: on the missing interim fee types:
     # - Interim "Warrant" (INWAR) fees are handled as "final" warrant fees, using the case_type.fee_type_code.
     # - Interim "Disbursement only" (INDIS) fee is merely a flag to indicate only disbursements are

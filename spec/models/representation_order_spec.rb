@@ -64,7 +64,7 @@ describe RepresentationOrder do
       end
     end
 
-    context 'case type does not require maat refrence' do
+    context 'case type does not require maat reference' do
       before(:each)       { representation_order.defendant.claim.case_type = FactoryBot.build(:case_type, requires_maat_reference: false) }
       it 'should not error if present' do
         representation_order.maat_reference = '2078352232'

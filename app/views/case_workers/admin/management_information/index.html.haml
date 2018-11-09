@@ -1,37 +1,40 @@
 = render partial: 'layouts/header', locals: { page_heading: t('.h1_managment_info') }
 
-%table
-  - @available_report_types.each do |report_type, report|
-    - report_name = t(".report_types.#{report_type}")
-    %tr
-      %td
-        .bold
-          = report_name
-        .report-status
-          - if report&.started_at
-            = t('.report_generated_at', time: report.started_at.strftime('%a %d %b %Y at %H:%M:%S'))
-          - else
-            = t('.unavailable_report')
-      %td
-        .form-group
-          - if report&.started_at.present?
-            = link_to 'Download', case_workers_admin_management_information_download_url(report_type: report_type, format: :csv), class: 'button btn-spacer-20'
+- @available_report_types.each do |report_type, report|
+  - report_name = t(".report_types.#{report_type}")
+  .form-section
+    %h2.heading-large
+      = report_name
+    %p{role: 'group', 'aria-labelledby': 'something'}
+      - if report&.started_at
+        = t('.report_generated_at', time: report.started_at.strftime('%a %d %b %Y at %H:%M:%S'))
+      - else
+        = t('.unavailable_report')
+    %p
+      - if report&.started_at.present?
 
-          = link_to 'Regenerate', case_workers_admin_management_information_generate_url(report_type: report_type), class: 'button'
-  %tr#provisional-assessment-date
-    %td
-      .bold Provisional Assessments by date
+        = link_to 'Download', case_workers_admin_management_information_download_url(report_type: report_type, format: :csv), class: 'button btn-spacer-20'
+
+      = link_to 'Regenerate', case_workers_admin_management_information_generate_url(report_type: report_type), class: 'button'
+
+.form-section#provisional-assessment-date
+  .form-group
+    %h2.heading-large
+      = "Provisional Assessments by date"
+    .form-group
+      .report-status
+        =hidden_field_tag :user_api_key, @current_user.api_key
+        These reports are not saved and are generated on demand
+    .form-group
       .report_inputs
         =label_tag(:start_date, 'Start date')
         =date_field_tag(:start_date, nil, class: 'provisional_assessments_date_field')
         =label_tag(:end_date, 'End date')
         =date_field_tag(:end_date, nil, class: 'provisional_assessments_date_field')
-      .report-status
-        =hidden_field_tag :user_api_key, @current_user.api_key
-        These reports are not saved and are generated on demand
-    %td
-      .form-group
-        =link_to 'Download', "", class: 'button disabled', id: 'provisional_assessments_date_download'
+
+  .form-group
+    =link_to 'Download', "", class: 'button disabled', id: 'provisional_assessments_date_download'
+
 
 %p.panel.panel-border-wide
   Click 'Download' to download the report now, or click 'Regenerate' to generate a more up to date report and refresh

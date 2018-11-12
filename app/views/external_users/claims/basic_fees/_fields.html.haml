@@ -12,12 +12,12 @@
 
       .form-section
         %h3.heading-medium
-          = "Additional details"
+          = t('.additional_details')
 
         .form-group
           %fieldset
             %legend.heading-small
-              Type of fee
+              = t('.fee_type')
               %span.form-hint
                 Please choose all relevant options
         = f.fields_for :basic_fees, basic_fees.additional_fees.sort_by(&:position) do |basic_fee_fields|

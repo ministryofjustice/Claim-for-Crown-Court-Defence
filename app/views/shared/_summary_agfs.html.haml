@@ -1,3 +1,4 @@
+-# AGFS fees accordion content
 - present(@claim) do |claim|
   %section#summary
     %h3.heading-medium
@@ -29,12 +30,33 @@
             %tr
               %td
                 = fee.fee_type&.fee_category_name || 'n/a'
+                %br/
+                - if fee.fee_type.unique_code.eql?('BABAF')
+                  - if fee.first_day_of_trial
+                    = t('shared.summary.dates_attended.first_day_of_trial')
+                    %br/
+                    = fee.first_day_of_trial
+                    %br/
+                    %br/
+
+                  - if fee.retrial_started_at
+                    = t('shared.summary.dates_attended.retrial_started_at')
+                    %br/
+                    = fee.retrial_started_at
+                    %br/
+                    %br/
                 - if fee.dates_attended.any?
-                  %br
-                  = t('.dates_attended')
+                  - if fee.fee_type.unique_code.eql?('BABAF')
+                    = t(fee.claim.case_type.name.split(' ').collect(&:capitalize).join.underscore, scope: "external_users.claims.basic_fees.basic_fee_fields_primary.date_label")
+                  - else
+                    = t('shared.summary.dates_attended.dates_attended')
+                  %br/
                   = fee.dates_attended_delimited_string
+                  %br/
+                  %br/
+
+
                 - if fee.date?
-                  %br
                   = t('.date')
                   = fee.date
               %td{scope: 'row'}

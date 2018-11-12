@@ -528,11 +528,24 @@ en:
         authorised_claims: 'Authorised claims for last week'
         with_total_assessed_value_of: 'claims with a total assessed value of'
       basic_fees:
+        dates_attended:
+          add_dates: Add another date
         empty_input: &empty_input ''
         number_of_days: &number_of_days Number of days
         date: &date_attended_heading Date attended
+        first_date_display:
+          first_day_of_trial: First day of trial
+          retrial_started_at: Retrial started at
         basic_fee_fields_primary:
+          add_dates: Add another date
           net_amount: *net_amount
+          date_label:
+            trial: Second day of trial
+            cracked_trial: Date case cracked on
+            retrial: Second day of retrial
+            cracked_before_retrial: Date case cracked on
+            guilty_plea: Date plea entered
+            discontinuance: Date of discontinuance
         basic_fee_fields_conditional:
           noc:
             case_numbers: Additional case numbers
@@ -640,6 +653,7 @@ en:
           fee_type: 'Type of fee'
           quantity: *quantity
           rate: 'Rate'
+          additional_details: Additional details
         summary:
           header: Graduated fees
       check_your_claim:
@@ -1253,6 +1267,10 @@ en:
       date_added: Date added
       actions: Actions
     summary:
+      dates_attended:
+        dates_attended: Dates attended
+        retrial_started_at: Retrial started at
+        first_day_of_trial: First day of trial
       actual_trial_length: Actual trial length
       mileage_rate: Cost per mile
       expense: Expense
@@ -1307,7 +1325,6 @@ en:
       case_numbers: *case_numbers
       quantity: *quantity
       date_of_expense: Date of expense
-      dates_attended: Dates attended
       fees_total: 'Fees total:'
       expense_type: Type of expense
       location: Destination

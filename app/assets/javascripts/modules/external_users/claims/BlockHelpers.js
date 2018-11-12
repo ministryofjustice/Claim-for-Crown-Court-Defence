@@ -60,8 +60,8 @@ moj.Helpers.Blocks = {
       return parseFloat(this.$el.find(selector + ':visible').val()) || 0;
     };
 
-    this.getDataVal = function(selector) {
-      return parseFloat(this.$el.find('.' + selector).data('total')) || false;
+    this.getDataVal = function(selector, key) {
+      return parseFloat(this.$el.find(selector).data(key)) || false;
     };
 
     this.getMultipliedVal = function(val1, val2) {
@@ -82,8 +82,12 @@ moj.Helpers.Blocks = {
 
     this.init = function() {
       this.config.fn = 'FeeBlock';
-      this.bindRecalculate();
+      this.bindEvents();
       return this;
+    };
+
+    this.bindEvents = function () {
+      this.bindRecalculate();
     };
 
     this.bindRecalculate = function() {
@@ -103,7 +107,7 @@ moj.Helpers.Blocks = {
         quantity: this.getVal('.quantity'),
         rate: this.getVal('.rate'),
         amount: this.getVal('.amount'),
-        total: this.getDataVal('total') || this.getVal('.total'),
+        total: this.getDataVal('.total', 'total') || this.getVal('.total'),
         vat: this.getVal('.vat')
       };
 

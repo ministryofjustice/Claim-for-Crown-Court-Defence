@@ -27,6 +27,7 @@ moj.Modules.CocoonHelper = {
       if ($el.find('.fee-dates').length === 0) {
         $el.siblings('.no-dates').show();
       }
+
       $el.trigger('recalculate');
     });
   }

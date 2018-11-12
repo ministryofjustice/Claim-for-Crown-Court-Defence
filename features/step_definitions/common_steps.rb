@@ -154,6 +154,10 @@ And(/^I should be in the '(.*?)' form page$/) do |page_title|
   end
 end
 
+Then(/^I should see "([^"]*)"$/) do |arg1|
+  expect(page).to have_content(arg1)
+end
+
 # Record modes can be: all, none, new_episodes or once. Default is 'none'.
 # When creating new tests that calls new endpoints, you will need to record the cassette.
 # NOTE: see the README section 'Recording new VCR cassettes' for assistance

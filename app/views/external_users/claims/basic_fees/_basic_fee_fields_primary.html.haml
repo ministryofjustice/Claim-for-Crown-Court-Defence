@@ -1,10 +1,12 @@
-.form-group.basic-fee-group.nested-fields.fee-details.js-block.fx-do-init{class: to_slug(f.object.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": f.object.calculated? ? "FeeBlock" : "FeeBlock"}}
+- fee = present(f.object)
+
+.form-group.basic-fee-group.nested-fields.fee-details.js-block.fx-do-init{class: to_slug(fee.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": fee.calculated? ? "FeeBlock" : "FeeBlock"}}
   %fieldset
     .form-group
       %span.bold
         Case type
       %p
-        = f.object.claim.case_type.name
+        = fee.claim.case_type.name
 
     .form-group
       = render partial: 'external_users/claims/basic_fees/offence_display', locals: { f: f }
@@ -18,6 +20,9 @@
                           value: number_with_precision(f.object.rate, precision: 2),
                           errors: @error_presenter
 
+    = render partial: 'external_users/claims/basic_fees/first_date_display', locals: { fee: fee }
+
+    = render partial: 'external_users/claims/basic_fees/dates_attended', locals: { f: f, fee: fee }
 
     %details{:role => "group"}
       %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
@@ -28,7 +33,7 @@
           Basic fees include:
         %ul.list.list-bullet
 
-          - if f.object.claim.agfs_reform?
+          - if fee.claim.agfs_reform?
             %li
               1 daily attendance fee
 
@@ -42,3 +47,4 @@
               %abbr{:title => "plea and trial preparation hearing"}> PTPH
               )
             %li 3 conferences and views
+

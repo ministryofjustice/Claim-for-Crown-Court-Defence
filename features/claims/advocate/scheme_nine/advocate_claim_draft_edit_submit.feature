@@ -16,7 +16,6 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     Then I click "Continue" in the claim form
     And I save as draft
-    Then I should see 'Draft claim saved'
 
     Given I am later on the Your claims page
     Then Claim 'A20161234' should be listed with a status of 'Draft'
@@ -37,6 +36,8 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     And I select an advocate category of 'Junior alone'
     And I add a basic fee net amount
+    Then I should see "First day of trial"
+
 
     And I add a daily attendance fee with dates attended
 

@@ -235,7 +235,7 @@ en:
     form:
       upload: 'Choose file to upload'
   maat_reference_number: 'MAAT reference'
-  maat_reference_number_eg: 'for example 1234567890'
+  maat_reference_number_eg: 'for example 1234567'
 
   page_headings:
     edit_lgfs_claim: Edit litigator claim
@@ -770,7 +770,7 @@ en:
           date: Representation order date
           representation_order: Representation order details
           maat_reference_number: MAAT reference
-          maat_reference_number_eg: 'for example 1234567890'
+          maat_reference_number_eg: 'for example 1234567, this can be found on the Representation Order'
         summary:
           caption: 'Defendants: This section contains details about each defendant.'
           header: Defendant details

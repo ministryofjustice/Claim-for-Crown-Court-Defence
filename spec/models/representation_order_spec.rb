@@ -58,9 +58,26 @@ describe RepresentationOrder do
         expect(representation_order).to be_valid
       end
 
-      it 'should error if the first digit is below 4' do
-        representation_order.maat_reference = '2345678'
-        expect(representation_order).not_to be_valid
+      context 'our test MAAT reference' do
+        before { representation_order.maat_reference = '2320006' }
+
+        context 'when on the live environment' do
+          before do
+            allow(ENV).to receive(:[]).with('MAAT_REGEXP').and_return /^[4-9][0-9]{6}$/
+            allow(Settings).to receive(:maat_regexp).and_return ENV['MAAT_REGEXP']
+          end
+
+          it 'should error' do
+            expect(Settings.maat_regexp).to eql /^[4-9][0-9]{6}$/
+            expect(representation_order).not_to be_valid
+          end
+        end
+
+        context 'when on a non-live environment' do
+          it 'should be valid' do
+            expect(representation_order).to be_valid
+          end
+        end
       end
     end
 

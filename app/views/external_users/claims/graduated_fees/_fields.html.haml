@@ -1,30 +1,53 @@
 - if @claim.allows_graduated_fees?
   #graduated-fees
-    = f.fields_for :graduated_fee do |gradfee|
-      - grad_fee = present(gradfee.object)
-      .graduated-fee-group.js-block.fx-do-init{data:{"type": "gradFees", autovat: @claim.apply_vat? ? "true" : "false"}}
-        = gradfee.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
-        .form-section
-          = gradfee.adp_text_field :quantity,
-                      label: t('.total_pages_of_evidence'),
-                      input_classes:'form-control form-control-1-4',
-                      input_type: 'number',
-                      value: grad_fee.quantity,
-                      errors: @error_presenter,
-                      error_key: "graduated_fee.quantity"
+    = f.fields_for :graduated_fee do |ff|
+      - grad_fee = present(ff.object)
+      .form-section.graduated-fee-group.js-block.fx-do-init{data:{"type": "gradFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
+        = ff.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
 
+        .form-section
           %a{:id => "graduated_fee.date"}
-          = gradfee.gov_uk_date_field(:date, legend_text: "First day of hearing", legend_class: "govuk-legend", error_messages: gov_uk_date_field_error_messages(@error_presenter, "graduated_fee.date"))
+          = ff.gov_uk_date_field(:date, legend_text: "First day of hearing", legend_class: "govuk-legend", error_messages: gov_uk_date_field_error_messages(@error_presenter, "graduated_fee.date"))
 
           = f.adp_text_field :actual_trial_length,
-                      label: t('.actual_trial_length'),
-                      input_classes:'form-control form-control-1-4',
-                      input_type: 'number',
-                      errors: @error_presenter
+            label: t('.actual_trial_length'),
+            input_classes:'form-control form-control-1-4',
+            input_type: 'number',
+            errors: @error_presenter
 
-          = gradfee.adp_text_field :amount,
-                      label: t('.net_amount'),
-                      input_classes:"total fee-rate form-input-denote__input form-control-1-4",
-                      input_type: "currency",
-                      errors: @error_presenter,
-                      error_key: "graduated_fee.amount"
+          = ff.adp_text_field :quantity,
+            label: t('.quantity'),
+            hint_text: t('.quantity_hint'),
+            input_classes:'quantity fee-quantity form-control-1-4 js-fee-quantity js-fee-calculator-quantity"',
+            input_type: 'number',
+            value: grad_fee.quantity,
+            errors: @error_presenter,
+            error_key: "graduated_fee.quantity"
+
+          .js-fee-calculator-effectee
+            .calculated-fee
+            = ff.adp_text_field :rate,
+                label: t('.rate'),
+                input_classes:'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
+                input_type: 'currency',
+                errors: @error_presenter,
+                input_readonly: grad_fee.rate_calculated?,
+                value: number_with_precision(grad_fee.rate, precision: 2)
+
+          .js-fee-calculator-success
+            = ff.hidden_field :rate_calculated, value: grad_fee.rate_calculated?
+
+          .help-wrapper.form-group{ style: 'display: none;' }
+            %details
+              %summary
+                %span.summary
+                  = t('.help_how_we_calculate_rate_title')
+              .panel.panel-border-narrow
+                %p
+                  = t('.help_how_we_calculate_rate_body')
+
+          .form-group
+            %label.form-label-bold
+              = t('.amount')
+            .fee-amount.total
+              = grad_fee.amount || number_to_currency(0)

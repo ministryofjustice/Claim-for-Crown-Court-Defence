@@ -3,6 +3,11 @@
 # on the claim and may require the quantity from separate
 # but related fees (i.e. for uplifts).
 #
+# Use this service for prices that can be determined
+# with the supply of a value for only ONE unit type.
+# This includes fixed fees and miscellaneous fees across
+# LGFS and AGFS fee schemes.
+#
 module Claims
   module FeeCalculator
     class UnitPrice < Calculate

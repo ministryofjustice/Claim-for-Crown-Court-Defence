@@ -133,9 +133,9 @@ if (!String.prototype.supplant) {
   $('#fixed-fees, #misc-fees').on('cocoon:after-insert', function(e, insertedItem) {
     var $insertedItem = $(insertedItem);
 
-    moj.Modules.FeeCalculator.feeTypeChange($insertedItem.find('.js-fee-calculator-fee-type'));
-    moj.Modules.FeeCalculator.feeQuantityChange($insertedItem.find('.js-fee-calculator-quantity'));
-    moj.Modules.FeeCalculator.feeRateChange($insertedItem.find('.js-fee-calculator-rate'));
+    moj.Modules.FeeCalculator.UnitPrice.feeTypeChange($insertedItem.find('.js-fee-calculator-fee-type'));
+    moj.Modules.FeeCalculator.UnitPrice.feeQuantityChange($insertedItem.find('.js-fee-calculator-quantity'));
+    moj.Modules.FeeCalculator.UnitPrice.feeRateChange($insertedItem.find('.js-fee-calculator-rate'));
   });
 
   /**
@@ -143,7 +143,7 @@ if (!String.prototype.supplant) {
   * it could have impact on others so all have to be checked.
   */
   $('#fixed-fees').on('cocoon:after-remove', function() {
-    moj.Modules.FeeCalculator.calculateUnitPriceFee();
+    moj.Modules.FeeCalculator.UnitPrice.calculateUnitPriceFee();
   });
 
   // Manually hit the `add rep order` button after a

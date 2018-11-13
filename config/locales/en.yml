@@ -1019,9 +1019,9 @@ en:
           rate: *rate
           quantity: Total pages of evidence
           quantity_hint: Enter a quantity
-          amount: Total
-          help_how_we_calculate_rate_title: How is this rate calculated?
-          help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme, advocate category and fee type.
+          amount: *net_amount
+          help_how_we_calculate_amount_title: How is this calculated?
+          help_how_we_calculate_amount_body: We calculate the rate based upon the fee scheme, case type and offence class
         summary:
           header: Graduated fees
           actual_trial_length:

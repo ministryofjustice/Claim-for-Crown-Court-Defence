@@ -188,6 +188,19 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     )
   end
 
+  def calculate_price
+    claim = Claim::BaseClaim.active.find(calculator_params[:id])
+    claim_graduated_pricer = Claims::FeeCalculator::GraduatedPrice.new(claim, calculator_params.except(:id))
+    response = claim_graduated_pricer.call
+
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: response, status: response.success? ? 200 : 422
+      end
+    end
+  end
+
   def calculate_unit_price
     claim = Claim::BaseClaim.active.find(calculator_params[:id])
     claim_fee_unit_pricer = Claims::FeeCalculator::UnitPrice.new(claim, calculator_params.except(:id))
@@ -297,8 +310,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     params.permit(
       :format,
       :id,
-      :advocate_category,
       :fee_type_id,
+      :advocate_category,
+      :ppe,
+      :days,
       fees: %i[fee_type_id quantity]
     )
   end

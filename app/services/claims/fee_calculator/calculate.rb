@@ -49,30 +49,34 @@ module Claims
       end
 
       def amount
-        fee_scheme.calculate do |options|
-          options[:scenario] = scenario.id
-          options[:offence_class] = offence_class_or_default
-          options[:advocate_type] = advocate_type
-          options[:fee_type_code] = fee_type_code_for(fee_type)
-
-          # units
-          # TODO: which unit to use and their values need to be dynamically determined.
-          # Current code only works assuming there is only one unit type and the quantity of
-          # the fee is for that unit type.
-          units = fee_scheme.units(options).map { |u| u.id.downcase }
-          units.each do |unit|
-            options[unit.to_sym] = quantity.to_f
-          end
-
-          # modifiers
-          # TODO: modifier needs to be dynamically determined and could be more than one.
-          # Modifier values need to be based on values specificed by the user rather than, for
-          # example, actual number of defendants/cases. This is because we should based payments
-          # on what is asked for.
-          # options[:number_of_defendants] = 1
-          # options[:number_of_cases] = 1
-        end
+        raise 'implement in subclasses'
       end
+
+      # def amount
+      #   fee_scheme.calculate do |options|
+      #     options[:scenario] = scenario.id
+      #     options[:offence_class] = offence_class_or_default
+      #     options[:advocate_type] = advocate_type
+      #     options[:fee_type_code] = fee_type_code_for(fee_type)
+
+      #     # units
+      #     # TODO: which unit to use and their values need to be dynamically determined.
+      #     # Current code only works assuming there is only one unit type and the quantity of
+      #     # the fee is for that unit type.
+      #     units = fee_scheme.units(options).map { |u| u.id.downcase }
+      #     units.each do |unit|
+      #       options[unit.to_sym] = quantity.to_f
+      #     end
+
+      #     # modifiers
+      #     # TODO: modifier needs to be dynamically determined and could be more than one.
+      #     # Modifier values need to be based on values specificed by the user rather than, for
+      #     # example, actual number of defendants/cases. This is because we should based payments
+      #     # on what is asked for.
+      #     # options[:number_of_defendants] = 1
+      #     # options[:number_of_cases] = 1
+      #   end
+      # end
 
       def scheme_type
         agfs? ? 'AGFS' : 'LGFS'

@@ -549,7 +549,7 @@ describe('Helpers.Blocks.js', function() {
           it('should bind a change event on specific elements', function() {
             spyOn(instance.$el, 'on');
             instance.bindRender();
-            expect(instance.$el.on).toHaveBeenCalledWith('change', '.quantity, .rate', jasmine.any(Function));
+            expect(instance.$el.on).toHaveBeenCalledWith('change keyup', '.quantity, .rate', jasmine.any(Function));
           });
 
           it('should call `this.updateTotals` when `change` is fired', function() {
@@ -559,10 +559,24 @@ describe('Helpers.Blocks.js', function() {
             expect(instance.updateTotals).toHaveBeenCalled();
           });
 
+          it('should call `this.updateTotals` when `keyup` is fired', function() {
+            spyOn(instance, 'updateTotals');
+            instance.bindRender();
+            instance.$el.find('.rate').trigger('keyup');
+            expect(instance.updateTotals).toHaveBeenCalled();
+          });
+
           it('should call `this.render` when `change` is fired', function() {
             spyOn(instance, 'render');
             instance.bindRender();
             instance.$el.find('.rate').trigger('change');
+            expect(instance.render).toHaveBeenCalled();
+          });
+
+          it('should call `this.render` when `keyup` is fired', function() {
+            spyOn(instance, 'render');
+            instance.bindRender();
+            instance.$el.find('.rate').trigger('keyup');
             expect(instance.render).toHaveBeenCalled();
           });
         });

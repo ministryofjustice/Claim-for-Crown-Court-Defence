@@ -119,5 +119,3 @@
 
   exports.Modules.FeeCalculator = Modules;
 }(moj, jQuery));
-
-

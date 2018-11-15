@@ -364,7 +364,7 @@ describe('Helpers.Blocks.js', function() {
           it('should bind a change event on specific elements', function() {
             spyOn(instance.$el, 'on');
             instance.bindRecalculate();
-            expect(instance.$el.on).toHaveBeenCalledWith('change', '.quantity, .rate, .amount, .vat, .total', jasmine.any(Function));
+            expect(instance.$el.on).toHaveBeenCalledWith('change keyup', '.quantity, .rate, .amount, .vat, .total', jasmine.any(Function));
           });
 
           it('should trigger the `recalculate` event when `change` is fired', function() {

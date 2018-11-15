@@ -91,7 +91,7 @@ moj.Helpers.Blocks = {
     };
 
     this.bindRecalculate = function() {
-      this.$el.on('change', '.quantity, .rate, .amount, .vat, .total', function(e) {
+      this.$el.on('change keyup', '.quantity, .rate, .amount, .vat, .total', function(e) {
         self.$el.trigger('recalculate');
       });
     };

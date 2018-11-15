@@ -1551,6 +1551,10 @@ en:
           h1_managment_info: Management information
           all_claims_report: 'All claims report'
           report_generated_at: "The latest report was generated at %{time}"
+          day: Day
+          month: Month
+          year: Year
+          example_date: "For example, 31 3 1980"
           report_types:
             management_information: Management information
             provisional_assessment: Provisional assessment
@@ -1562,7 +1566,7 @@ en:
           regenerate: Regenerate
           report_information: |
             These reports are not saved and are generated on demand
-          report_instuctions: |
+          report_instructions: |
             Click 'Download' to download the report now, or click 'Regenerate' to generate a more up to date report and refresh this page in a few minutes to download the new report.
           start_date: Start date
           date_hint: For example 31 3 2017

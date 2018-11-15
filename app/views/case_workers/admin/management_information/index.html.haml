@@ -31,63 +31,48 @@
       %fieldset
         %legend
           %span.form-label-bold
-            What is your date of birth?
-          %span.form-hint For example, 31 3 1980
+            = t('.start_date')
+          %span.form-hint
+            = t('.example_date')
         .form-date
           .form-group.form-group-day
-            %label.form-label{:for => "dob-day"} Day
-            %input#dob-day.form-control{:name => "dob-day", :pattern => "[0-9]*", :type => "number"}/
+            %label.form-label{:for => "dob-day-1"}
+              = t('.day')
+            %input#dob-day-1.form-control{:name => "dob-day-1", :pattern => "[0-9]*", :type => "number"}/
           .form-group.form-group-month
-            %label.form-label{:for => "dob-month"} Month
-            %input#dob-month.form-control{:name => "dob-month", :pattern => "[0-9]*", :type => "number"}/
+            %label.form-label{:for => "dob-month-1"}
+              = t('.month')
+            %input#dob-month-1.form-control{:name => "dob-month-1", :pattern => "[0-9]*", :type => "number"}/
           .form-group.form-group-year
-            %label.form-label{:for => "dob-year"} Year
-            %input#dob-year.form-control{:name => "dob-year", :pattern => "[0-9]*", :type => "number"}/
+            %label.form-label{:for => "dob-year-1"}
+              = t('.year')
+            %input#dob-year-1.form-control{:name => "dob-year-1", :pattern => "[0-9]*", :type => "number"}/
 
     -# GDS End start
     .form-group.fx-end-date
       %fieldset
         %legend
           %span.form-label-bold
-            What is your date of birth?
-          %span.form-hint For example, 31 3 1980
+            = t('.end_date')
+          %span.form-hint
+            = t('.example_date')
         .form-date
           .form-group.form-group-day
-            %label.form-label{:for => "dob-day"} Day
-            %input#dob-day.form-control{:name => "dob-day", :pattern => "[0-9]*", :type => "number"}/
+            %label.form-label{:for => "dob-day-2"}
+              = t('.day')
+            %input#dob-day-2.form-control{:name => "dob-day-2", :pattern => "[0-9]*", :type => "number"}/
           .form-group.form-group-month
-            %label.form-label{:for => "dob-month"} Month
-            %input#dob-month.form-control{:name => "dob-month", :pattern => "[0-9]*", :type => "number"}/
+            %label.form-label{:for => "dob-month-2"}
+              = t('.month')
+            %input#dob-month-2.form-control{:name => "dob-month-2", :pattern => "[0-9]*", :type => "number"}/
           .form-group.form-group-year
-            %label.form-label{:for => "dob-year"} Year
-            %input#dob-year.form-control{:name => "dob-year", :pattern => "[0-9]*", :type => "number"}/
-
-    -# .form-group
-    -#   .report_inputs
-    -#     .form-group
-    -#       %fieldset
-    -#         %legend
-    -#           %span.form-label-bold
-    -#             = label_tag(:start_date, t('.start_date'))
-    -#           %span.form-hint
-    -#             = t('.date_hint')
-    -#         .form-date
-    -#           .form-group{style: 'width: auto;'}
-    -#             = date_field_tag(:start_date, nil, class: 'provisional_assessments_date_field')
-    -# .form-group
-    -#   %fieldset
-    -#     %legend
-    -#       %span.form-label-bold
-    -#         = label_tag(:end_date, t('.end_date'))
-    -#       %span.form-hint
-    -#         = t('.date_hint')
-    -#     .form-date
-    -#       .form-group{style: 'width: auto;'}
-    -#         = date_field_tag(:end_date, nil, class: 'provisional_assessments_date_field')
+            %label.form-label{:for => "dob-year-2"}
+              = t('.year')
+            %input#dob-year-2.form-control{:name => "dob-year-2", :pattern => "[0-9]*", :type => "number"}/
 
   .form-group
     = link_to t('.download'), "", class: 'button disabled', id: 'provisional_assessments_date_download'
 
 
 %p.panel.panel-border-wide
-  = t('.report_instuctions')
+  = t('.report_instructions')

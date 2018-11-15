@@ -1,72 +1,95 @@
 moj.Modules.ManagementInformation = {
   el: '.fx-dates-chooser',
+  download: '#provisional_assessments_date_download',
+  disableDownload: true,
+
   init: function() {
-    console.log($(this.el).length);
-    if($(this.el).length){
+    if ($(this.el).length) {
       this.$el = $(this.el);
+      this.$download = $(this.download);
       this.bindEvents();
     }
   },
 
   bindEvents: function() {
-    this.provisionalAssessmentsDateFieldChange();
-    this.provisionalAssessmentsDownloadClicked();
+    this.dateInputEvent();
+    this.blockDisabledLinkClick();
+  },
+
+  extractDates: function(el) {
+    var start = [];
+    var end = [];
+
+    this.$el.find('.fx-start-date input').each(function(a, b) {
+      start.push($(b).val());
+    });
+
+    this.$el.find('.fx-end-date input').each(function(a, b) {
+      end.push($(b).val());
+    });
+    return {
+      startDate: start.reverse().join('-'),
+      endDate: end.reverse().join('-')
+    };
   },
 
   buildDataArray: function() {
-    var data = {};
-    data.api_key = $('#user_api_key').val();
-    data.start_date = $('#start_date').val();
-    data.end_date = $('#end_date').val();
-    data.format = 'csv';
-    return data;
+    var dates = this.extractDates();
+    return {
+      api_key: $('#user_api_key').val(),
+      start_date: dates.startDate,
+      end_date: dates.endDate,
+      format: 'csv'
+    };
   },
 
   buildAttributes: function() {
     var array = [];
     var data = this.buildDataArray();
     $.each(data, function(key, value) {
-      array.push(key + "=" + value)
+      array.push(key + "=" + value);
     });
     return array.join('&');
   },
 
   disableDownloadButton: function() {
-    var downloadButton = $('#provisional_assessments_date_download');
-    if (!downloadButton.hasClass('disabled')) {
-      downloadButton.addClass('disabled');
+    if (!this.$download.hasClass('disabled')) {
+      this.$download.addClass('disabled');
     }
-    downloadButton.removeAttr("href");
+    this.$download.removeAttr("href");
   },
 
   enableDownloadButton: function() {
-    var downloadButton = $('#provisional_assessments_date_download');
     var url = '/api/mi/provisional_assessments?' + this.buildAttributes();
-    downloadButton.attr("href", url);
-    downloadButton.removeClass('disabled');
+    this.$download.attr("href", url);
+    this.$download.removeClass('disabled');
   },
 
-  provisionalAssessmentsDateFieldChange: function() {
+  activateDownload: function() {
+    var regex = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/g;
+    var data = this.extractDates();
+
+    if (data.startDate.match(regex) && data.endDate.match(regex)) {
+      this.enableDownloadButton();
+      return true;
+    }
+
+    this.disableDownloadButton();
+    return false;
+  },
+
+  dateInputEvent: function() {
     var self = this;
-    $('.provisional_assessments_date_field').change(function() {
-      var disableDownload = false;
-      console.log('you');
-      $('.provisional_assessments_date_field').each(function() {
-        if (this.value == '') {
-          disableDownload = true;
-        }
-      });
-      if (disableDownload) {
-        self.disableDownloadButton();
-      } else {
-        self.enableDownloadButton();
-      }
+    this.$el.find('input').on('keyup', function(e) {
+      self.activateDownload();
     });
   },
 
-  provisionalAssessmentsDownloadClicked: function() {
-    $('#provisional_assessments_date_download').on('click', function(e) {
-      if ($('#provisional_assessments_date_download').hasClass('disabled')) {
+  // blocking the download link
+  blockDisabledLinkClick: function() {
+    var self = this;
+    this.$download.on('click', function(e) {
+      if (self.$download.hasClass('disabled')) {
         e.preventDefault();
         return false;
       }

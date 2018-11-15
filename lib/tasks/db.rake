@@ -223,6 +223,7 @@ namespace :db do
       shell_working "exporting anonymised #{task.name.split(':').last} data" do
         write_to_file(args.file) do |writer|
           Claim::BaseClaim.find_each(batch_size: batch_size) do |claim|
+            claim.travel_expense_additional_information = fake_paragraphs if claim.travel_expense_additional_information.present?
             claim.additional_information = fake_paragraphs if claim.additional_information.present?
             claim.providers_ref = claim.providers_ref.tr('a-zA-Z', translation) if claim.providers_ref.present?
             writer.call(claim)

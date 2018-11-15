@@ -13,14 +13,10 @@ module Claims
       def setup(options)
         @fee_type = Fee::BaseFeeType.find(options[:fee_type_id])
         @advocate_category = options[:advocate_category] || claim.advocate_category
-        @days = options[:days] || 1
-        @pee = options[:ppe] || 1
+        @days = options[:days] || 0
+        @ppe = options[:ppe] || 0
       rescue StandardError
         raise 'incomplete'
-      end
-
-      def additional_defendants
-        [claim.defendants.size - 1, 1].compact.max
       end
 
       def amount
@@ -33,11 +29,10 @@ module Claims
           options[:day] = days.to_i
           options[:ppe] = ppe.to_i
 
-          # in CCCD claiming for defendant uplift is handled as a misc fee.
-          # can only pass number of defendant records. Defendant uplifts
-          # need proper handling as part of the grad fee.
-          # defaulting to 1 for now
-          options[:number_of_defendants] = additional_defendants
+          # In CCCD claiming for defendant uplift is handled as a misc fee.
+          # Defendant uplifts need proper handling as part of the grad fee.
+          # rely on fee calc default now (which assumes one)
+          # options[:number_of_defendants] = 1
         end
       end
     end

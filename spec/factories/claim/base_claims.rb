@@ -37,7 +37,17 @@ FactoryBot.define do
     supplier_number     { provider.lgfs_supplier_numbers.first.supplier_number }
     providers_ref       { random_providers_ref }
     disable_for_state_transition nil
-    after(:create) do |claim|
+
+    transient do
+      create_defendant_and_rep_order_for_scheme_8 false
+    end
+
+    after(:create) do |claim, evaluator|
+      if evaluator.create_defendant_and_rep_order_for_scheme_8
+        claim.defendants.clear
+        add_defendant_and_reporder(claim, DateTime.parse('2016-04-01'))
+      end
+
       unless claim.defendants.present?
         defendant = create(:defendant, claim: claim)
         create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)

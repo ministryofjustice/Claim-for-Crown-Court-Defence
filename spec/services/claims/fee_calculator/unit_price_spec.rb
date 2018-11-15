@@ -1,61 +1,3 @@
-RSpec.configure do |c|
-  c.alias_it_behaves_like_to :it_returns, 'returns'
-end
-
-RSpec.shared_examples 'a successful fee calculator response' do
-  it 'returns success? true' do
-    expect(response.success?).to be true
-  end
-
-  it 'includes amount' do
-    expect(response.data.amount).to be_kind_of Float
-  end
-
-  it 'includes unit' do
-    expect(response.data.unit).to be_kind_of String
-  end
-
-  it 'includes no errors' do
-    expect(response.errors).to be_nil
-  end
-
-  it 'includes no error message' do
-    expect(response.message).to be_nil
-  end
-end
-
-RSpec.shared_examples 'a failed fee calculator response' do
-  it 'includes success? false' do
-    expect(response.success?).to be false
-  end
-
-  it 'includes no data' do
-    expect(response.data).to be_nil
-  end
-
-  it 'includes errors' do
-    expect(response.errors).to be_an Array
-  end
-
-  it 'includes error message' do
-    expect(response.message).to be_a String
-  end
-end
-
-RSpec.shared_examples 'a fee calculator response with amount' do |options|
-  let(:expected_amount) { options.fetch(:amount, nil) }
-
-  it 'includes non-zero amount' do
-    expect(response.data.amount).to be > 0
-  end
-
-  if options&.fetch(:amount)
-    it 'includes expected amount' do
-      expect(response.data.amount).to eq expected_amount
-    end
-  end
-end
-
 RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
   subject { described_class.new(claim, {}) }
 
@@ -86,8 +28,6 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
       let(:params) do
         {
-          format: :json,
-          id: claim.id,
           advocate_category: 'Junior alone',
           fee_type_id: fee.fee_type.id,
           fees: {
@@ -97,8 +37,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
       end
 
       context 'for a case-type-specific fixed fee' do
-        it_returns 'a successful fee calculator response'
-        it_returns 'a fee calculator response with amount', amount: 130.0
+        it_returns 'a successful fee calculator response', unit: 'day', amount: 130.0
       end
 
       context 'for a case-type-specific fixed fee with fixed amount (elected case not proceeded)' do
@@ -106,8 +45,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
         let(:fee_type) { create(:fixed_fee_type, :fxenp) }
         let(:fee) { create(:fixed_fee, fee_type: fee_type, claim: claim, quantity: 1) }
 
-        it_returns 'a successful fee calculator response'
-        it_returns 'a fee calculator response with amount', amount: 194.0
+        it_returns 'a successful fee calculator response', unit: 'day', amount: 194.0
       end
 
       context 'for a non-case-type-specific fixed fee (standard appearance fee/adjournments)' do
@@ -118,8 +56,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
           params[:fees].merge!("1": { fee_type_id: saf_fee.fee_type.id, quantity: saf_fee.quantity })
         end
 
-        it_returns 'a successful fee calculator response'
-        it_returns 'a fee calculator response with amount', amount: 87.0
+        it_returns 'a successful fee calculator response', unit: 'day', amount: 87.0
       end
 
       # TODO: deprecated fee type - to be removed
@@ -131,8 +68,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
           params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
         end
 
-        it_returns 'a successful fee calculator response'
-        it_returns 'a fee calculator response with amount', amount: 26.0
+        it_returns 'a successful fee calculator response', unit: 'case', amount: 26.0
       end
 
       context 'for a fixed fee number of cases uplift' do
@@ -143,8 +79,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
           params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
         end
 
-        it_returns 'a successful fee calculator response'
-        it_returns 'a fee calculator response with amount', amount: 26.0
+        it_returns 'a successful fee calculator response', unit: 'case', amount: 26.0
       end
 
       context 'for a fixed fee number of defendants uplift' do
@@ -155,15 +90,13 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
           params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
         end
 
-        it_returns 'a successful fee calculator response'
-        it_returns 'a fee calculator response with amount', amount: 26.0
+        it_returns 'a successful fee calculator response', unit: 'defendant', amount: 26.0
       end
 
       context 'for misc fees' do
         let(:fee) { create(:misc_fee, :miaph_fee, claim: claim, quantity: 1) }
 
-        it_returns 'a successful fee calculator response'
-        it_returns 'a fee calculator response with amount', amount: 130.0
+        it_returns 'a successful fee calculator response', unit: 'halfday', amount: 130.0
       end
 
       context 'for a misc fee number of defendants uplift' do
@@ -175,8 +108,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
           params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
         end
 
-        it_returns 'a successful fee calculator response'
-        it_returns 'a fee calculator response with amount', amount: 26.0
+        it_returns 'a successful fee calculator response', unit: 'defendant', amount: 26.0
       end
 
       context 'for erroneous request' do
@@ -191,12 +123,20 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
     describe '#call' do
       subject(:response) { described_class.new(claim, params).call }
 
-      let(:claim) { create(:litigator_claim, case_type: case_type) }
+      # IMPORTANT: use specific case type, offence (incl. explicit nil), fee types
+      # and reporder date in order to reduce and afix VCR cassettes required (that have to match
+      # on query values), prevent flickering specs (from random offence classes,
+      # rep order dates) and to allow testing actual amounts "calculated".
+      let(:claim) do
+        create(:litigator_claim,
+          create_defendant_and_rep_order_for_scheme_8: true,
+          case_type: case_type,
+          offence: nil
+        )
+      end
 
       let(:params) do
         {
-          format: :json,
-          id: claim.id,
           fee_type_id: fee.fee_type.id,
           fees: {
             "0": { fee_type_id: fee.fee_type.id, quantity: fee.quantity }
@@ -205,8 +145,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
       end
 
       context 'for a case-type-specific fixed fee' do
-        it_returns 'a successful fee calculator response'
-        it_returns 'a fee calculator response with amount', amount: 349.47
+        it_returns 'a successful fee calculator response', unit: 'day', amount: 349.47
       end
 
       context 'for a case-type-specific fixed fee with fixed amount (elected case not proceeded)' do
@@ -214,8 +153,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
         let(:fee_type) { create(:fixed_fee_type, :fxenp) }
         let(:fee) { create(:fixed_fee, fee_type: fee_type, claim: claim, quantity: 1) }
 
-        it_returns 'a successful fee calculator response'
-        it_returns 'a fee calculator response with amount', amount: 330.33
+        it_returns 'a successful fee calculator response', unit: 'day', amount: 330.33
       end
 
       context 'for erroneous request' do

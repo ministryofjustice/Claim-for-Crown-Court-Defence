@@ -1,4 +1,4 @@
-RSpec.describe Claims::FeeCalculator::Calculate, :fee_calc_vcr do
+RSpec.describe Claims::FeeCalculator::Calculate do
   subject { described_class.new(claim, params) }
 
   # IMPORTANT: use specific case type, offence class, fee types and reporder
@@ -33,6 +33,7 @@ RSpec.describe Claims::FeeCalculator::Calculate, :fee_calc_vcr do
   it { is_expected.to respond_to(:call) }
   it { is_expected.to delegate_method(:earliest_representation_order_date).to(:claim) }
   it { is_expected.to delegate_method(:agfs?).to(:claim) }
+  it { is_expected.to delegate_method(:lgfs?).to(:claim) }
   it { is_expected.to delegate_method(:agfs_reform?).to(:claim) }
   it { is_expected.to delegate_method(:case_type).to(:claim) }
   it { is_expected.to delegate_method(:offence).to(:claim) }
@@ -51,18 +52,58 @@ RSpec.describe Claims::FeeCalculator::Calculate, :fee_calc_vcr do
       is_expected.to be_a Claims::FeeCalculator::Response
     end
 
-    context 'response object' do
-      it { is_expected.to respond_to(:success?) }
-      it { is_expected.to respond_to(:data) }
-      it { is_expected.to respond_to(:errors) }
-      it { is_expected.to respond_to(:message) }
+    it 'returns a response error message \'implement in subclass\'' do
+      expect(response.errors).to include(a_kind_of(RuntimeError))
+      expect(response.errors.map(&:message)).to include('implement in subclass')
+    end
+  end
+
+  context 'Subclasses' do
+    class SubclassPrice < described_class
+      private
+
+      def amount
+        1001.00
+      end
     end
 
-    context 'data object' do
-      subject(:data) { response.data }
+    describe '#call' do
+      subject(:response) { SubclassPrice.new(claim, params).call }
 
-      it { is_expected.to respond_to(:amount) }
-      it { is_expected.to respond_to(:unit) }
+      it 'returns a response object' do
+        is_expected.to be_a Claims::FeeCalculator::Response
+      end
+
+      context 'response object' do
+        it { is_expected.to respond_to(:success?) }
+        it { is_expected.to respond_to(:data) }
+        it { is_expected.to respond_to(:errors) }
+        it { is_expected.to respond_to(:message) }
+      end
+
+      context 'data object' do
+        subject(:data) { response.data }
+
+        it { is_expected.to respond_to(:amount) }
+        it { is_expected.to respond_to(:unit) }
+      end
+
+      it 'populates data amount' do
+        expect(response.data.amount).to eql 1001.00
+      end
+
+      it 'unit may be populated' do
+        expect(response.data.unit).to be_nil
+      end
+
+      context 'when setup fails' do
+        before { params.delete(:fee_type_id) }
+
+        it 'returns a response error' do
+          expect(response.errors).to include(a_kind_of(RuntimeError))
+          expect(response.errors.map(&:message)).to include('incomplete')
+        end
+      end
     end
   end
 end

@@ -83,4 +83,8 @@ module SearchResultHelpers
   def up_to_and_inc_pcmh_transfer?
     object.transfer_stage_id.eql?(10)
   end
+
+  def last_injection_attempt_succeeded
+    object&.last_injection_succeeded || false
+  end
 end

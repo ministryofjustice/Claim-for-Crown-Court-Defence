@@ -124,7 +124,7 @@ module API
       end
 
       def cav_warning
-        (!injection_errors_present && contains_conference_and_view).to_i
+        (last_injection_attempt_succeeded && contains_conference_and_view).to_i
       end
     end
   end

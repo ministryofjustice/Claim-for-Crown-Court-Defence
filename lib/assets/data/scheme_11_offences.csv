@@ -223,6 +223,11 @@ category,band,description,contrary_to,year_chapter
 5,5.3,Intercourse with an animal,"Sexual Offences Act 2003, s.69",2003 c. 42
 5,5.3,Sexual penetration of a corpse,"Sexual Offences Act 2003, s.70",2003 c. 42
 5,5.3,"Failure to comply with, or notify police, under Notification Order, with false information","Sexual Offences Act 2003, s.91(1)",2003 c. 42
+5,5.3,Solicitation by men,"Sexual Offences Act 1956, s.32",1956 c. 69
+5,5.3,Soliciting,"Sexual Offences Act 2003, s.51A",2003 c. 42
+5,5.3,Exposure,"Sexual Offences Act 2003, s.66",2003 c. 42
+5,5.3,Failure to comply with a Notification Order,"Sexual Offences Act 2003, s.91(1)(a)",2003 c. 42
+5,5.3,Breach Sexual Harm Prevention Order,"Sexual Offences Act 2003, s.103I(1)(b)",2003 c. 42
 6,6.1,Cheating the public revenue,Common Law,
 6,6.1,Conspiracy to defraud,Common Law,
 6,6.1,Dishonestly obtaining electronic communication services,"Communications Act 2003, s.125",2003 c. 21
@@ -797,7 +802,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1, Contravening byelaws or orders under the Act,"Marine and Coastal Access Act 2009, s.139, s.163, s.190",2009 c. 23
 17,17.1,Obstructing or assaulting an enforcement officer in the performance of the officer's functions ,"Marine and Coastal Access Act 2009, s.292(4), s.292(5)",2009 c. 23
 17,17.1,Possession of controlled drugs,"Misuse of Drugs Act 1971, s.5(2)",1971 c.38
-17,17.1,Solicitation by men,"Sexual Offences Act 1956, s.32",1956 c. 69
 17,17.1,Burglary (domestic),"Theft Act 1968, s.9(3)(a)",1968 c. 60
 17,17.1,Burglary (non-domestic),"Theft Act 1968, s.9(3)(b)",1968 c. 60
 17,17.1,Disclosure of information for enforcing warrants,"Access to Justice Act 1999, s.94",1999 c. 22
@@ -1169,10 +1173,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Intimidation of persons connected with animal research organisations,"Serious Organised Crime and Police Act 2005, s.146",2005 c. 15
 17,17.1,"Person who has been given, or shown protected material, gives a copy or otherwise to any person other than the defendant","Sexual Offences (Protected Material) Act 1997, s.8(2)(a)",1997 c. 39
 17,17.1,"Person who has been given, or shown, protected material, gives a copy or otherwise to the defendant when not supposed to","Sexual Offences (Protected Material) Act 1997, s. 8(2)(b)",1997 c. 39
-17,17.1,Soliciting,"Sexual Offences Act 2003, s.51A",2003 c. 42
-17,17.1,Exposure,"Sexual Offences Act 2003, s.66",2003 c. 42
-17,17.1,Failure to comply with a Notification Order,"Sexual Offences Act 2003, s.91(1)(a)",2003 c. 42
-17,17.1,Breach Sexual Harm Prevention Order,"Sexual Offences Act 2003, s.103I(1)(b)",2003 c. 42
 17,17.1,Resisting a Sheriff in the execution of a writ,"Sheriffs Act 1887, s.8(2)",1887 c. 55
 17,17.1,Fraudulent evasion of contributions,"Social Security Act 1998, s.61",1998 c. 14
 17,17.1,Administration of oath by person without jurisdiction,"Statutory Declaration Act 1835, s.13",1835 c. 62

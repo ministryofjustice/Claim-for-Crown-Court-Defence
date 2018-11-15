@@ -96,6 +96,14 @@ category,band,description,contrary_to,year_chapter
 3,3.4,Setting spring guns etc with intent to inflict grievous bodily harm,Offences against the Person Act 1861 s.31,1861 c. 100
 3,3.4,Administering drugs or using instruments to procure abortion,Offences against the Person Act 1861 s.58,1861 c. 100
 3,3.4,Make / manufacture / possess an explosive / a thing / machine / engine / instrument / with intent to commit an offence,Offences against the Person Act 1861 s.64,1861 c. 100
+3,3.4,Causing bomb hoaxes,"Criminal Law Act 1977, s.51",1977 c.45
+3,3.4,Possession of offensive weapon on school premises,"Criminal Justice Act 1988, s.139A",1996 c. 26
+3,3.4,Threatening with an article with blade or point or offensive weapon,"Criminal Justice Act 1988, s.139AA",1988 c. 33
+3,3.4,Putting people in fear of violence,"Protection from Harassment Act 1997, s.4",1997 c. 40
+3,3.4,Stalking involving fear of violence or serious alarm or distress,"Protection from Harrassment Act 1997, s.4A(1)",1997 c. 40
+3,3.4,Breach of a restraining order,"Protection from Harassment Act 1997, s.5",1997 c. 40
+3,3.4,Controlling or coercive behaviour,"Serious Crime Act 2015, s.76(1)",2015 c. 9
+3,3.4,Intentionally doing an act capable of encouraging or assisting the suicide or attempted suicide of another ,"Suicide Act 1961, s.2(1)",1961 c. 60
 3,3.5,Racially or Religiously Aggravated assault occasioning actual bodily harm,"Crime and Disorder Act 1998, s.29(1)(b)",1998 c. 37
 3,3.5,Threats to Kill,"Offences against the Person Act 1861, s.16",1861 c. 100
 3,3.5,"Inflicting bodily injury, with or without a weapon","Offences against the Person Act 1861, s.20",1861 c. 100
@@ -778,7 +786,6 @@ category,band,description,contrary_to,year_chapter
 16,16.3,"Obstructing, interfering or failing to comply with request in connection to rights of access, search etc by Agency inspectors","Nuclear Safeguards Act 2000, s.3, s.5, s.8, s.9",2000 c. 5
 16,16.3,Being unfit for duty,"Railways and Transport Safety Act 2003, s.92",2003 c. 20
 16,16.3,Making false statement,"Statistics of Trade Act 1947, s.4(3)",1947 c. 39
-17,17.1,Causing bomb hoaxes,"Criminal Law Act 1977, s.51",1977 c.45
 17,17.1,Failing to conduct risk assessments or comply with notification requirements in connection with genetically modified organisms ,"Environmental Protection Act 1990, s.118(1)(a)(b)",1990 c. 43
 17,17.1,Failing to comply with consent requirements in connection with genetically modified organisms,"Environmental Protection Act 1990, s.118(1)(c)",1990 c. 43
 17,17.1, Contravening byelaws or orders under the Act,"Marine and Coastal Access Act 2009, s.139, s.163, s.190",2009 c. 23
@@ -900,8 +907,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Assault on prisoner custody officer,"Criminal Justice Act 1991, s.90(1)",1991 c. 53
 17,17.1,Resisting or wilfully obstructing a prisoner custody officer ,"Criminal Justice Act 1991, s.90(3)",1991 c. 53
 17,17.1,Having an article with a blade or point in a public place,"Criminal Justice Act 1988, s.139",1988 c. 33
-17,17.1,Possession of offensive weapon on school premises,"Criminal Justice Act 1988, s.139A",1996 c. 26
-17,17.1,Threatening with an article with blade or point or offensive weapon,"Criminal Justice Act 1988, s.139AA",1988 c. 33
 17,17.1,"Failure to comply with prohibition, restriction or condition in violent offender order or interim violent offender order","Criminal Justice and Immigration Act 2008, s.113(1)",2008 c. 4 
 17,17.1,"Fail to comply with notification requirements of s.108(1), 109(1), s.110(1) and 112(4)","Criminal Justice and Immigration Act 2008, s.113(2)",2008 c. 4 
 17,17.1,"Notify false information to police in purported compliance with s.108(1), 109(1), 110(1) or regulations under s.111(1)","Criminal Justice and Immigration Act 2008, s.113(3)",2008 c. 4 
@@ -1117,9 +1122,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Unlawful eviction and harassment of occupier,"Protection from Eviction Act 1977, s.1",1977 c. 43
 17,17.1,Harassment,"Protection from Harassment Act 1997, s.2",1997 c. 40
 17,17.1,Breach of conditions of injunction against harassment ,"Protection from Harassment Act 1997, s.3",1997 c. 40
-17,17.1,Putting people in fear of violence,"Protection from Harassment Act 1997, s.4",1997 c. 40
-17,17.1,Stalking involving fear of violence or serious alarm or distress,"Protection from Harrassment Act 1997, s.4A(1)",1997 c. 40
-17,17.1,Breach of a restraining order,"Protection from Harassment Act 1997, s.5",1997 c. 40
 17,17.1,Failure to hand over a Euro note or coin believing it to be counterfeit,"Protection of the Euro against Counterfeiting Regulations 2001, s.3",2001 No. 3948
 17,17.1,Failure to withdraw from circulation a Euro note or coin which is believed to be counterfeit,"Protection of the Euro against Counterfeiting Regulations 2001, regulation 2 (SI 3948/2001)",2001 No. 3948
 17,17.1,TEW offences,Protection of Wrecks Act 1973,1973 c. 33
@@ -1161,7 +1163,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Publication or disclosure of information,"Sea Fish Industry Act 1970, s.14, s.42",1970 c. 11
 17,17.1,Failure to comply with a Serious Crime Prevention Order ,"Serious Crime Act 2007, s.25",2007 c. 27
 17,17.1,Disclosure of protected information,"Serious Crime Act 2007, s.69",2007 c. 27
-17,17.1,Controlling or coercive behaviour,"Serious Crime Act 2015, s.76(1)",2015 c. 9
 17,17.1,Disclosure of information about protection arrangements,"Serious Organised Crime and Police Act 2005, s.86",2005 c. 15
 17,17.1,Disclosure of information relating to persons assuming new identity,"Serious Organised Crime and Police Act 2005, s.88",2005 c. 15
 17,17.1,Interference with contractual relationships so as to harm animal research organisations,"Serious Organised Crime and Police Act 2005, s.145",2005 c. 15
@@ -1175,7 +1176,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Resisting a Sheriff in the execution of a writ,"Sheriffs Act 1887, s.8(2)",1887 c. 55
 17,17.1,Fraudulent evasion of contributions,"Social Security Act 1998, s.61",1998 c. 14
 17,17.1,Administration of oath by person without jurisdiction,"Statutory Declaration Act 1835, s.13",1835 c. 62
-17,17.1,Intentionally doing an act capable of encouraging or assisting the suicide or attempted suicide of another ,"Suicide Act 1961, s.2(1)",1961 c. 60
 17,17.1,Fraudulent activity with a view to obtaining payments of tax credit,"Tax Credits Act 2002, s.35(1)",2002 c. 21
 17,17.1,Disclosure of information,"Tax Credits Act 2002, s.59 and schedule 5",2002 c. 21
 17,17.1,Disclosure of information,"Telecommunications Act 1984, s.101",1984 c. 12

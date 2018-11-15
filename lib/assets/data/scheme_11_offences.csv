@@ -632,6 +632,13 @@ category,band,description,contrary_to,year_chapter
 8,8.1,"Intimidation of witnesses, jurors and others","Criminal Justice and Public Order Act 1994, s.51(1)",1994 c. 33
 8,8.1,Assisting offenders,"Criminal Law Act 1967, s.5(1)",1967 c.58
 8,8.1,"Harming witnesses, jurors and others","Criminal Justice and Public Order Act 1994, s.51(2)",1994 c. 33
+8,8.1,Public nuisance,Common Law,
+8,8.1,False statement to obtain passport,"Criminal Justice Act 1925, s.36",1925 c. 86
+8,8.1,Have in possession or  control identity documents with improper intent,"Identity Documents Act 2010, s.4",2010 c. 40
+8,8.1,Make or have in possession or control apparatus / article / material designed / adapted for making false identity documents,"Identity Documents Act 2010, s.5",2010 c. 40
+8,8.1,Have in possess or control a false / improperly obtained / another person's identity document or apparatus for making false identity documents,"Identity Documents Act 2010, s.6",2010 c. 40
+8,8.1,"Makes/uses or attempts to use a false registration card, alters a registration card, makes article designed to be used in making false registration card or altering card etc.; has in possession a false registration card or article as above","Immigration Act 1971, s.26A (3)(a) to (h)",1971 c. 77
+8,8.1,Conveyance etc. of List A articles into or out of prison,"Prison Act 1952, s.40",1952 c. 52
 9,9.1,Improper importation of goods and evasion of duty - Class A,"Customs and Excise Management Act 1979, s.50, s.170",1979 c. 2
 9,9.1,Restriction of importation or exportation of controlled drugs - Class A,"Misuse of Drugs Act 1971, s.3",1971 c. 38
 9,9.1,"Production, supply or offer to supply, or being concerned in the production - Class A","Misuse of Drugs Act 1971, s.4",1971 c. 38
@@ -866,7 +873,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Duty to aid constables,Common Law,
 17,17.1,Embracery,Common Law,
 17,17.1,Preventing the burial of a corpse,Common Law,
-17,17.1,Public nuisance,Common Law,
 17,17.1,Removing corpse from grave,Common Law,
 17,17.1,Rescuing a prisoner in custody,Common Law,
 17,17.1,"Possession or supply of apparatus etc for contravening s.125","Communications Act 2003, s.126",2003 c. 21
@@ -907,7 +913,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Interference with a motor vehicle,"Criminal Attempts Act 1981, s.9",1981 c. 47
 17,17.1,Threats to destroy or damage property,"Criminal Damage Act 1971, s.2 ",1971 c. 48
 17,17.1,Possessing anything with intent to destroy or damage property,"Criminal Damage Act 1971, s.3 ",1971 c. 48
-17,17.1,False statement to obtain passport,"Criminal Justice Act 1925, s.36",1925 c. 86
 17,17.1,Common assault and battery,"Criminal Justice Act 1988, s.39",1988 c. 33
 17,17.1,Resisting or wilfully obstructing court security officer,"Criminal Justice Act 1991, s.78(2)",1991 c. 53
 17,17.1,Assault on prisoner custody officer,"Criminal Justice Act 1991, s.90(1)",1991 c. 53
@@ -1021,12 +1026,8 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Use or supply of duty-free oil in contravention of restrictions,"Hydrocarbon Oil Duties Act 1979, s.10(5),(6)",1979 c. 5
 17,17.1,Misuse of rebated heavy oil,"Hydrocarbon Oil Duties Act 1979, s.13(3),(4)",1979 c. 5
 17,17.1,Misuse of rebated light oil,"Hydrocarbon Oil Duties Act 1979, s.14(6),(7)",1979 c. 5
-17,17.1,Have in possession or  control identity documents with improper intent,"Identity Documents Act 2010, s.4",2010 c. 40
-17,17.1,Make or have in possession or control apparatus / article / material designed / adapted for making false identity documents,"Identity Documents Act 2010, s.5",2010 c. 40
-17,17.1,Have in possess or control a false / improperly obtained / another person's identity document or apparatus for making false identity documents,"Identity Documents Act 2010, s.6",2010 c. 40
 17,17.1,"Non British Citizen, by means including deception, obtains or seeks to obtain leave to enter or remain in the UK or, postponement, avoidance or revocation of enforcement action against him","Immigration Act 1971, s.24A",1971 c. 77
 17,17.1,Helping asylum seeker to enter UK,"Immigration Act 1971, s.25A",1971 c. 77
-17,17.1,"Makes/uses or attempts to use a false registration card, alters a registration card, makes article designed to be used in making false registration card or altering card etc.; has in possession a false registration card or article as above","Immigration Act 1971, s.26A (3)(a) to (h)",1971 c. 77
 17,17.1,Possession of Immigration Stamp,"Immigration Act 1971, s.26B",1971 c. 77
 17,17.1,Assaulting a detainee custody officer,"Immigration and Asylum Act 1999,  paragraph 4, schedule 11",1999 c. 33
 17,17.1,Providing immigration advice (unqualified),"Immigration and Asylum Act 1999, s.91(1)",1999 c. 33
@@ -1112,7 +1113,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Interfering with the mail: postal operators,"Postal Services Act 2000, s.83",2000 c. 26
 17,17.1,Prohibition on sending certain articles by post,"Postal Services Act 2000, s.85",2000 c. 26
 17,17.1,Assisting a prisoner to escape,"Prison Act 1952, s.39",1952 c. 52
-17,17.1,Conveyance etc. of List A articles into or out of prison,"Prison Act 1952, s.40",1952 c. 52
 17,17.1,Conveyance etc. of List B articles into or out of prison,"Prison Act 1952, s.41",1952 c. 52
 17,17.1,Using unlicensed security operative,"Private Security Industry Act 2001, s.5(1)",2001 c. 12
 17,17.1,Right to use approved status,"Private Security Industry Act 2001, s.16(2)(a)(b)",2001 c. 12

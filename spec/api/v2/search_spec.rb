@@ -54,6 +54,7 @@ describe API::V2::Search do
                           interim_disbursements
                           risk_based_bills
                           injection_errored
+                          cav_warning
                       ]
                     }
 
@@ -94,6 +95,20 @@ describe API::V2::Search do
       it 'returns JSON with expected injection error message' do
         search_result = JSON.parse(last_response.body, symbolize_names: true).first
         expect(search_result[:injection_errors]).to eql 'Claim not injected'
+      end
+
+      it 'returns a single claims' do
+        search_result = JSON.parse(last_response.body, symbolize_names: true).count
+        expect(search_result).to eql 1
+      end
+
+      context 'filtered by LGFS' do
+        let(:params) { { api_key: api_key, scheme: 'lgfs' } }
+
+        it 'returns no claims' do
+          search_result = JSON.parse(last_response.body, symbolize_names: true).count
+          expect(search_result).to eql 0
+        end
       end
     end
 

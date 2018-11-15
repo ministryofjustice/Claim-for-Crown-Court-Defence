@@ -47,18 +47,8 @@ module API::V2
             WHERE type IN ('Fee::GraduatedFeeType')
           ) AS graduated_fee_types,
           c.allocation_type,
-          (
-            SELECT error_messages
-            FROM
-            (
-              SELECT *
-              FROM injection_attempts last_ia
-              WHERE last_ia.claim_id = c.id
-              ORDER BY last_ia.created_at DESC
-              LIMIT 1
-            ) AS last_injection_attempt
-            WHERE last_injection_attempt.deleted_at is NULL
-          ) AS injection_errors,
+          last_injection_attempt.error_messages AS injection_errors,
+          last_injection_attempt.succeeded AS last_injection_succeeded,
           dt.transfer_stage_id AS transfer_stage_id
         FROM claims AS c
           LEFT OUTER JOIN defendants AS d
@@ -79,14 +69,24 @@ module API::V2
             ON o.offence_class_id = oc.id
           LEFT OUTER JOIN transfer_details AS dt
             ON c.id = dt.claim_id
+          LEFT JOIN LATERAL (
+            SELECT CAST(error_messages AS VARCHAR), succeeded, deleted_at
+              FROM injection_attempts last_ia
+              WHERE last_ia.claim_id = c.id
+                AND last_ia.deleted_at is NULL
+              ORDER BY last_ia.created_at DESC
+              LIMIT 1
+            ) AS last_injection_attempt ON 1=1
         WHERE
           c.deleted_at IS NULL
           AND c.type IN CLAIM_TYPES_FOR_SCHEME
           AND c.state IN ('submitted', 'redetermination' ,'awaiting_written_reasons')
+          AND last_injection_attempt.deleted_at IS NULL
         GROUP BY
           c.id, c.uuid, c.allocation_type, court.name,
           ct.name, ct.is_fixed_fee, ct.fee_type_code, c.disk_evidence,
-          u.first_name, u.last_name, oc.class_letter, dt.transfer_stage_id
+          u.first_name, u.last_name, oc.class_letter, last_injection_attempt.error_messages,
+          last_injection_attempt.succeeded, dt.transfer_stage_id
         ;
       SQL
     end

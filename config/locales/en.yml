@@ -1017,7 +1017,7 @@ en:
           graduated_fees: Graduated fees
           graduated_prompt_text: *graduated_fee_prompt_content
           rate: *rate
-          quantity: Total pages of evidence (to be changed)
+          quantity: Total pages of evidence
           quantity_hint: Enter a quantity
           amount: *net_amount
           help_how_we_calculate_amount_title: How is this calculated?

@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'api_spec_helper'
 require 'support/claim_api_endpoints'
 
-RSpec::Matchers.define :be_valid_api_claim do |expected|
+RSpec::Matchers.define :be_valid_api_lgfs_claim do |expected|
   match do |claim|
     @results = results(claim)
     @results.values.map{ |arr| arr.uniq.length.eql?(1) }.all?
@@ -216,7 +216,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
         expect(last_response.status).to eql 201
 
-        expect(claim).to be_valid_api_claim(fee_scheme: ['LGFS', 9], offence: nil, total: 1494.72, vat_amount: 220.05)
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: nil, total: 1494.72, vat_amount: 220.05)
         expect(claim.fixed_fees.size).to eql 1
         expect(claim.expenses.size).to eql 2
         expect(claim.disbursements.size).to eql 1
@@ -261,7 +261,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
         expect(last_response.status).to eql 201
 
-        expect(claim).to be_valid_api_claim(fee_scheme: ['LGFS', 9], offence: nil, total: 1494.72, vat_amount: 220.05)
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: nil, total: 1494.72, vat_amount: 220.05)
         expect(claim.fixed_fees.size).to eql 1
         expect(claim.expenses.size).to eql 2
         expect(claim.disbursements.size).to eql 1

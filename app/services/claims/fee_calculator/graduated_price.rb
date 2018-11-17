@@ -13,8 +13,8 @@ module Claims
       def setup(options)
         @fee_type = Fee::BaseFeeType.find(options[:fee_type_id])
         @advocate_category = options[:advocate_category] || claim.advocate_category
-        @days = options[:days] || 1
-        @pee = options[:ppe] || 1
+        @days = options[:days] || 0
+        @ppe = options[:ppe] || 0
       rescue StandardError
         raise 'incomplete'
       end

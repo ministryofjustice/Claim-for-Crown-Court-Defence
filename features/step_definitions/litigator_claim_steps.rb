@@ -25,7 +25,7 @@ end
 
 And(/^I fill '(\d+)' as the fixed fee quantity$/) do |quantity|
   @litigator_claim_form_page.fixed_fee.quantity.set quantity
-  @litigator_claim_form_page.fixed_fee.quantity.send_keys(:tab) # required for chrome driver
+  @litigator_claim_form_page.fixed_fee.quantity.send_keys(:tab)
   wait_for_ajax
 end
 
@@ -38,21 +38,34 @@ Then(/^the fixed fee rate should be populated with '(\d+\.\d+)'$/) do |rate|
   expect(@litigator_claim_form_page.fixed_fee.rate.value).to eql rate
 end
 
+Then(/^the graduated fee amount should be populated with '(\d+\.\d+)'$/) do |amount|
+  expect(@litigator_claim_form_page.graduated_fee).to have_amount
+  expect(@litigator_claim_form_page.graduated_fee.amount.value).to eql amount
+end
+
 Then(/I should see fixed fee total '£?(\d+\.\d+)'$/) do |total_text|
   expect(@litigator_claim_form_page.fixed_fee).to have_total
   expect(@litigator_claim_form_page.fixed_fee.total.text).to match(total_text)
 end
 
-And(/^I fill '(.*)' as the graduated fee total$/) do |total|
-  @litigator_claim_form_page.graduated_fee_total.set total
-end
+# TODO: should use graduated fee section for clarity and isolation,
+# rather than shared methods below
+# Then(/^I fill '(\d+)' as the graduated fee ppe$/) do |quantity|
+#   @litigator_claim_form_page.graduated_fee.quantity.set quantity
+#   @litigator_claim_form_page.graduated_fee.quantity.send_keys(:tab)
+#   wait_for_ajax
+# end
 
 Then(/^I fill '(\d+)' as the ppe total$/) do |total|
   @litigator_claim_form_page.ppe_total.set total
+  @litigator_claim_form_page.ppe_total.send_keys(:tab)
+  wait_for_ajax
 end
 
-Then(/^I fill '(\d+)' as the actual trial length$/) do |total|
-  @litigator_claim_form_page.actual_trial_length.set total
+Then(/^I fill '(\d+)' as the actual trial length$/) do |length|
+  @litigator_claim_form_page.actual_trial_length.set length
+  @litigator_claim_form_page.actual_trial_length.send_keys(:tab)
+  wait_for_ajax
 end
 
 And(/^I fill '(.*)' as the warrant fee total$/) do |total|

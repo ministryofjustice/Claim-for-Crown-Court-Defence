@@ -22,7 +22,6 @@ class ClaimFormPage < SitePrism::Page
   element :court, "#s2id_autogen1"
   element :case_type, "#s2id_autogen2"
   element :case_number, "#claim_case_number"
-  # element :claim_advocate_category_junior_alone, "#claim_advocate_category_junior_alone" # TODO: remove if no longer needed
 
   section :trial_details, "#trial-details" do
     section :first_day_of_trial, CommonDateSection, '#first_day_of_trial'
@@ -67,7 +66,6 @@ class ClaimFormPage < SitePrism::Page
   sections :expenses, ExpenseSection, "div#expenses div.expense-group"
   element :add_another_expense, "div#expense > a.add_fields"
   element :additional_information_expenses, ".fx-additional-info"
-
 
   section :evidence_checklist, EvidenceChecklistSection, "fieldset.evidence-checklist"
 

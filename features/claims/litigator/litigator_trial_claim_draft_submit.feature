@@ -1,6 +1,7 @@
 @javascript
 Feature: Litigator partially fills out a draft final fee claim, then later edits and submits it
 
+  @fee_calc_vcr
   Scenario: I create a final fee claim, save it to draft and later complete it
 
     Given I am a signed in litigator
@@ -16,8 +17,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select a case type of 'Trial'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
-    And I enter the case concluded date '2018-04-01'
-
+    And I enter the case concluded date '2016-04-01'
     Then I click "Continue" in the claim form
 
     And I save as draft
@@ -31,11 +31,10 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I edit the claim's case details
 
     Then I should see a supplier number select list
-
     Then I click "Continue" in the claim form
 
-    And I enter defendant, post agfs reform representation order and MAAT reference
-    And I add another defendant, post agfs reform representation order and MAAT reference
+    And I enter defendant, LGFS representation order and MAAT reference
+    And I add another defendant, LGFS representation order and MAAT reference
 
     Then I click "Continue" in the claim form
 
@@ -54,14 +53,20 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select the offence category 'Handling stolen goods'
     And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
+    Given I insert the VCR cassette 'features/claims/litigator/graduated_fee_calculations'
     Then I click "Continue" in the claim form
 
-    And I fill '125' as the ppe total
-    And I fill '5' as the actual trial length
-    And I fill '100.25' as the graduated fee total
-    And I fill '2018-04-02' as the graduated fee date
+    And the graduated fee amount should be populated with '357.60'
+    And I fill '2018-01-01' as the graduated fee date
+    And I fill '1' as the actual trial length
+    And I fill '50' as the ppe total
+    Then the graduated fee amount should be populated with '357.60'
+    And I fill '51' as the ppe total
+    Then the graduated fee amount should be populated with '364.91'
 
     Then I click "Continue" in the claim form
+
+    And I eject the VCR cassette
 
     And I add a litigator miscellaneous fee 'Costs judge application'
     And I add a litigator miscellaneous fee 'Defendant uplift'
@@ -96,4 +101,4 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£615.07'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£879.73'

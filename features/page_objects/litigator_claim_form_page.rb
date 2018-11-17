@@ -1,6 +1,7 @@
 require_relative 'claim_form_page'
 require_relative 'sections/disbursement_section'
 require_relative 'sections/typed_fee_amount_section'
+require_relative 'sections/lgfs_graduated_fee_section'
 require_relative 'sections/lgfs_fixed_fee_section'
 
 class LitigatorClaimFormPage < ClaimFormPage
@@ -15,11 +16,11 @@ class LitigatorClaimFormPage < ClaimFormPage
   sections :disbursements, DisbursementSection, "div#disbursements .disbursement-group"
   element :add_another_disbursement, "div#disbursements > a.add_fields"
 
+  section :graduated_fee, LgfsGraduatedFeeSection, ".graduated-fee-group"
   section :fixed_fee, LgfsFixedFeeSection, ".fixed-fee-group"
 
   element :ppe_total, "#claim_graduated_fee_attributes_quantity"
   element :actual_trial_length, "#claim_actual_trial_length"
-  element :graduated_fee_total, "#claim_graduated_fee_attributes_amount"
   section :graduated_fee_date, CommonDateSection, "div.graduated-fee-group"
 
   element :warrant_fee_total, "#claim_warrant_fee_attributes_amount"

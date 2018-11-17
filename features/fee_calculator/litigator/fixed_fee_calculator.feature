@@ -24,12 +24,11 @@ Feature: litigator completes fixed fee page using calculator
     And I enter defendant, LGFS representation order and MAAT reference
     And I add another defendant, LGFS representation order and MAAT reference
 
-    Given I insert the VCR cassette 'features/fee_calculator/litigator/fixed_fee_calculations'
+    Given I insert the VCR cassette 'features/fee_calculator/litigator/fixed_fee_calculator'
 
     Then I click "Continue" in the claim form
     And I should be in the 'Fees' form page
 
-    And I should see fixed fee type 'Appeals to the crown court against conviction'
     And the fixed fee rate should be populated with '349.47'
     And I fill '2018-11-01' as the fixed fee date
     And I fill '1' as the fixed fee quantity

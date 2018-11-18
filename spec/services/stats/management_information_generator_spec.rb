@@ -21,6 +21,9 @@ RSpec.describe Stats::ManagementInformationGenerator do
     it 'returns CSV content with a header and a row for all active non-draft claims' do
       expect(contents.size).to eq(valid_claims.size + 1)
     end
+
+    it 'has 15 columns' do
+      expect(contents.first.split(',').count).to eql 15
     end
   end
 end

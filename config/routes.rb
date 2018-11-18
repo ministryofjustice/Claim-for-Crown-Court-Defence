@@ -118,11 +118,9 @@ Rails.application.routes.draw do
       get 'archived',               on: :collection
       get 'messages',               on: :member
       get 'disc_evidence',          on: :member
-      get 'calculate_price',        on: :member
-      get 'calculate_unit_price',   on: :member
       patch 'clone_rejected',       to: 'claims#clone_rejected',  on: :member
       patch 'unarchive',            to: 'claims#unarchive',       on: :member
-      get  'types',                 to: 'claim_types#selection',  on: :collection
+      get 'types',                 to: 'claim_types#selection',  on: :collection
       post 'types',                 to: 'claim_types#chosen',     on: :collection
 
       resource :certification, only: [:new, :create, :update]
@@ -130,7 +128,12 @@ Rails.application.routes.draw do
       namespace :expenses do
         post 'calculate_distance', to: 'distances#create', as: :calculate_distance
       end
+
+      namespace :fees do
+        post 'calculate_price', to: 'prices#calculate'
+      end
     end
+
 
     namespace :admin do
       root to: 'claims#index'

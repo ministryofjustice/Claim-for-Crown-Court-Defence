@@ -73,8 +73,8 @@
     graduatedPriceAjax: function (data, context) {
       var self = this;
       $.ajax({
-        type: 'GET',
-        url: '/external_users/claims/' + data.claim_id + '/calculate_price.json',
+        type: 'POST',
+        url: '/external_users/claims/' + data.claim_id + '/fees/calculate_price.json',
         data: data,
         dataType: 'json'
       })
@@ -94,6 +94,7 @@
 
     buildFeeData: function(data, context) {
       data.claim_id = $('#claim-form').data('claimId');
+      data.price_type = 'GraduatedPrice';
       data.fee_type_id = $('.fx-fee-group').find('.js-fee-type').val();
       data.ppe = $('.fx-fee-group').find('input.js-fee-calculator-ppe').val();
       data.days = $('.fx-fee-group').find('input.js-fee-calculator-days').val();

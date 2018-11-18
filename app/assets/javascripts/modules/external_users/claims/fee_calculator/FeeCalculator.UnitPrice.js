@@ -131,8 +131,8 @@
     unitPriceAjax: function (data, context) {
       var self = this;
       $.ajax({
-        type: 'GET',
-        url: '/external_users/claims/' + data.claim_id + '/calculate_unit_price.json',
+        type: 'POST',
+        url: '/external_users/claims/' + data.claim_id + '/fees/calculate_price.json',
         data: data,
         dataType: 'json'
       })
@@ -154,6 +154,7 @@
 
     buildFeeData: function(data) {
       data.claim_id = $('#claim-form').data('claimId');
+      data.price_type = 'UnitPrice';
       var advocate_category = $('input:radio[name="claim[advocate_category]"]:checked').val();
       if (advocate_category) {
         data.advocate_category = advocate_category

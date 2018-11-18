@@ -74,6 +74,14 @@ class ClaimCsvPresenter < BasePresenter
     disk_evidence ? 'Yes' : 'No'
   end
 
+  def main_defendant
+    defendants.first.name
+  end
+
+  def maat_reference
+    earliest_representation_order.maat_reference
+  end
+
   def claim_total
     total_including_vat.to_s
   end

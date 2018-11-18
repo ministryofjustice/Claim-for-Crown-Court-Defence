@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ClaimCsvPresenter do
 
   let(:claim)               { create(:redetermination_claim) }
-  let(:subject)             { ClaimCsvPresenter.new(claim, view) }
+  let(:presenter)             { ClaimCsvPresenter.new(claim, view) }
 
   context '#present!' do
 
@@ -12,28 +12,28 @@ RSpec.describe ClaimCsvPresenter do
       context 'with identical values for' do
 
         it 'case_number' do
-          subject.present! do |claim_journeys|
+          presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include(claim.case_number)
             expect(claim_journeys.second).to include(claim.case_number)
           end
         end
 
         it 'supplier number' do
-          subject.present! do |claim_journeys|
+          presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include(claim.supplier_number)
             expect(claim_journeys.second).to include(claim.supplier_number)
           end
         end
 
         it 'organisation/provider_name' do
-          subject.present! do |claim_journeys|
+          presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include(claim.external_user.provider.name)
             expect(claim_journeys.second).to include(claim.external_user.provider.name)
           end
         end
 
         it 'case_type' do
-          subject.present! do |claim_journeys|
+          presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include(claim.case_type.name)
             expect(claim_journeys.second).to include(claim.case_type.name)
           end
@@ -41,7 +41,7 @@ RSpec.describe ClaimCsvPresenter do
 
         context 'AGFS' do
           it 'scheme' do
-            subject.present! do |claim_journeys|
+            presenter.present! do |claim_journeys|
               expect(claim_journeys.first).to include('AGFS')
               expect(claim_journeys.second).to include('AGFS')
             end
@@ -50,9 +50,9 @@ RSpec.describe ClaimCsvPresenter do
 
         context 'AGFS' do
           it 'scheme' do
-            subject.update_column(:type, 'Claim::AdvocateInterimClaim')
+            presenter.update_column(:type, 'Claim::AdvocateInterimClaim')
 
-            subject.present! do |claim_journeys|
+            presenter.present! do |claim_journeys|
               expect(claim_journeys.first).to include('AGFS')
               expect(claim_journeys.second).to include('AGFS')
             end
@@ -61,9 +61,9 @@ RSpec.describe ClaimCsvPresenter do
 
         context 'LGFS' do
           it 'scheme' do
-            subject.update_column(:type, 'Claim::LitigatorClaim')
+            presenter.update_column(:type, 'Claim::LitigatorClaim')
 
-            subject.present! do |claim_journeys|
+            presenter.present! do |claim_journeys|
               expect(claim_journeys.first).to include('LGFS')
               expect(claim_journeys.second).to include('LGFS')
             end
@@ -71,14 +71,14 @@ RSpec.describe ClaimCsvPresenter do
         end
 
         it 'total (inc VAT)' do
-          subject.present! do |claim_journeys|
+          presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include(claim.total_including_vat.to_s)
             expect(claim_journeys.second).to include(claim.total_including_vat.to_s)
           end
         end
 
         it 'disc evidence' do
-          subject.present! do |claim_journeys|
+          presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include('No')
             expect(claim_journeys.second).to include('No')
           end
@@ -86,7 +86,7 @@ RSpec.describe ClaimCsvPresenter do
       end
 
       describe 'disc evidence' do
-        subject { ClaimCsvPresenter.new(claim, view).disk_evidence_case }
+        subject { presenter.disk_evidence_case }
 
         context 'when the applicant has checked disc_evidence' do
           let(:claim) { create :advocate_claim, disk_evidence: true }
@@ -99,6 +99,18 @@ RSpec.describe ClaimCsvPresenter do
 
           it { is_expected.to eq 'No' }
         end
+      end
+
+      describe 'main_defendant' do
+        subject { presenter.main_defendant }
+
+        it { is_expected.to eq claim.defendants.first.name }
+      end
+
+      describe 'maat_reference' do
+        subject { presenter.maat_reference }
+
+        it { is_expected.to eq claim.earliest_representation_order.maat_reference }
       end
 
       describe 'caseworker name' do
@@ -146,35 +158,35 @@ RSpec.describe ClaimCsvPresenter do
         after  { Timecop.return }
 
         it 'submission type' do
-          subject.present! do |claim_journeys|
+          presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include('new')
             expect(claim_journeys.second).to include('redetermination')
           end
         end
 
         it 'date submitted' do
-          subject.present! do |claim_journeys|
+          presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include((Time.zone.now - 3.day).strftime('%d/%m/%Y'))
             expect(claim_journeys.second).to include((Time.zone.now).strftime('%d/%m/%Y'))
           end
         end
 
         it 'date allocated' do
-          subject.present! do |claim_journeys|
+          presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include((Time.zone.now - 2.day).strftime('%d/%m/%Y'))
             expect(claim_journeys.second).to include('n/a', 'n/a')
           end
         end
 
         it 'date of last assessment' do
-          subject.present! do |claim_journeys|
+          presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include((Time.zone.now - 1.day).strftime('%d/%m/%Y'))
             expect(claim_journeys.second).to include('n/a', 'n/a')
           end
         end
 
         it 'current/end state' do
-          subject.present! do |claim_journeys|
+          presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include('authorised')
             expect(claim_journeys.second).to include('submitted')
           end

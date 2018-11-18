@@ -22,8 +22,8 @@ RSpec.describe Stats::ManagementInformationGenerator do
       expect(contents.size).to eq(valid_claims.size + 1)
     end
 
-    it 'has 15 columns' do
-      expect(contents.first.split(',').count).to eql 15
+    it 'has 17 columns' do
+      expect(contents.first.split(',').count).to eql 17
     end
   end
 end

@@ -12,7 +12,15 @@ end
 VCR.configure do |c|
   c.hook_into :webmock
   # TODO: remove all explicit paths from existing features and enable this default
+  # taking name from path of feature??
   # c.cassette_library_dir = 'vcr/cassettes/features'
+
+  # ignore chrome browser/selenium requests to localhost port on which it runs
+  # TODO: Set this port explicitly for chrome/selenium so we have control
+  c.ignore_request do |request|
+    uri = URI(request.uri)
+    [uri.host.eql?('127.0.0.1'), uri.port.eql?(9515)].all?
+  end
 end
 
 VCR.cucumber_tags do |t|

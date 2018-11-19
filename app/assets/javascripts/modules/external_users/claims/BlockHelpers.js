@@ -91,7 +91,7 @@ moj.Helpers.Blocks = {
     };
 
     this.bindRecalculate = function() {
-      this.$el.on('change', '.quantity, .rate, .amount, .vat, .total', function(e) {
+      this.$el.on('change keyup', '.quantity, .rate, .amount, .vat, .total', function(e) {
         self.$el.trigger('recalculate');
       });
     };
@@ -123,7 +123,6 @@ moj.Helpers.Blocks = {
     };
 
     this.render = function() {
-      // TODO: Can this be removed? Investigate across block types.
       this.$el.find('.total').html('&pound;' + moj.Helpers.Blocks.addCommas(this.totals.total.toFixed(2)));
       this.$el.find('.total').data('total', this.totals.total);
     };
@@ -153,7 +152,7 @@ moj.Helpers.Blocks = {
     };
 
     this.bindRender = function() {
-      this.$el.on('change', '.quantity, .rate', function() {
+      this.$el.on('change keyup', '.quantity, .rate', function() {
         self.updateTotals();
         self.render();
       });

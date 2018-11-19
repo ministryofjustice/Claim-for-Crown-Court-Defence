@@ -75,11 +75,11 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def main_defendant
-    defendants.first.name
+    defendants&.first&.name
   end
 
   def maat_reference
-    earliest_representation_order.maat_reference
+    earliest_representation_order&.maat_reference
   end
 
   def claim_total

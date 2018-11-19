@@ -61,6 +61,8 @@ claim_csv_headers:
   - :rejection_reason
   - :case_worker
   - :disk_evidence_case
+  - :main_defendant
+  - :maat_reference
 
 expense_schema_version: 2
 

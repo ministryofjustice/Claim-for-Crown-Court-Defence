@@ -1,7 +1,7 @@
 # Use this service for prices that are determined
 # with the supply of multiple unit values.
 #
-# This includes LGFS (and AGFS?? TODO) gradauted fees
+# This includes LGFS (and AGFS?? TODO) graduated fees
 #
 module Claims
   module FeeCalculator

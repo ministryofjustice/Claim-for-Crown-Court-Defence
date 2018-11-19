@@ -1,38 +1,78 @@
 = render partial: 'layouts/header', locals: { page_heading: t('.h1_managment_info') }
 
-%table
-  - @available_report_types.each do |report_type, report|
-    - report_name = t(".report_types.#{report_type}")
-    %tr
-      %td
-        .bold
-          = report_name
-        .report-status
-          - if report&.started_at
-            = t('.report_generated_at', time: report.started_at.strftime('%a %d %b %Y at %H:%M:%S'))
-          - else
-            = t('.unavailable_report')
-      %td
-        .form-group
-          - if report&.started_at.present?
-            = link_to 'Download', case_workers_admin_management_information_download_url(report_type: report_type, format: :csv), class: 'button btn-spacer-20'
+- @available_report_types.each do |report_type, report|
+  - report_name = t(".report_types.#{report_type}")
+  .form-section
+    %h2.heading-large{id: "heading-#{report_type}"}
+      = report_name
+    %p{role: 'group', "aria-labelledby": "heading-#{report_type}"}
+      - if report&.started_at
+        = t('.report_generated_at', time: report.started_at.strftime('%a %d %b %Y at %H:%M:%S'))
+      - else
+        = t('.unavailable_report')
+    %p
+      - if report&.started_at.present?
 
-          = link_to 'Regenerate', case_workers_admin_management_information_generate_url(report_type: report_type), class: 'button'
-  %tr#provisional-assessment-date
-    %td
-      .bold Provisional Assessments by date
-      .report_inputs
-        =label_tag(:start_date, 'Start date')
-        =date_field_tag(:start_date, nil, class: 'provisional_assessments_date_field')
-        =label_tag(:end_date, 'End date')
-        =date_field_tag(:end_date, nil, class: 'provisional_assessments_date_field')
+        = link_to t('.download'), case_workers_admin_management_information_download_url(report_type: report_type, format: :csv), class: 'button btn-spacer-20'
+
+      = link_to t('.regenerate'), case_workers_admin_management_information_generate_url(report_type: report_type), class: 'button'
+
+.form-section#provisional-assessment-date.fx-dates-chooser
+  .form-group
+    %h2.heading-large
+      = t('.provisional_assessments_by_date')
+    .form-group
       .report-status
-        =hidden_field_tag :user_api_key, @current_user.api_key
-        These reports are not saved and are generated on demand
-    %td
-      .form-group
-        =link_to 'Download', "", class: 'button disabled', id: 'provisional_assessments_date_download'
+        = hidden_field_tag :user_api_key, @current_user.api_key
+        = t('.report_information')
+
+    -# GDS Date start
+    .form-group.fx-start-date
+      %fieldset
+        %legend
+          %span.form-label-bold
+            = t('.start_date')
+          %span.form-hint
+            = t('.example_date')
+        .form-date
+          .form-group.form-group-day
+            %label.form-label{:for => "dob-day-1"}
+              = t('.day')
+            %input#dob-day-1.form-control{:name => "dob-day-1", :pattern => "[0-9]*", :type => "number"}/
+          .form-group.form-group-month
+            %label.form-label{:for => "dob-month-1"}
+              = t('.month')
+            %input#dob-month-1.form-control{:name => "dob-month-1", :pattern => "[0-9]*", :type => "number"}/
+          .form-group.form-group-year
+            %label.form-label{:for => "dob-year-1"}
+              = t('.year')
+            %input#dob-year-1.form-control{:name => "dob-year-1", :pattern => "[0-9]*", :type => "number"}/
+
+    -# GDS End start
+    .form-group.fx-end-date
+      %fieldset
+        %legend
+          %span.form-label-bold
+            = t('.end_date')
+          %span.form-hint
+            = t('.example_date')
+        .form-date
+          .form-group.form-group-day
+            %label.form-label{:for => "dob-day-2"}
+              = t('.day')
+            %input#dob-day-2.form-control{:name => "dob-day-2", :pattern => "[0-9]*", :type => "number"}/
+          .form-group.form-group-month
+            %label.form-label{:for => "dob-month-2"}
+              = t('.month')
+            %input#dob-month-2.form-control{:name => "dob-month-2", :pattern => "[0-9]*", :type => "number"}/
+          .form-group.form-group-year
+            %label.form-label{:for => "dob-year-2"}
+              = t('.year')
+            %input#dob-year-2.form-control{:name => "dob-year-2", :pattern => "[0-9]*", :type => "number"}/
+
+  .form-group
+    = link_to t('.download'), "", class: 'button disabled', id: 'provisional_assessments_date_download'
+
 
 %p.panel.panel-border-wide
-  Click 'Download' to download the report now, or click 'Regenerate' to generate a more up to date report and refresh
-  this page in a few minutes to download the new report.
+  = t('.report_instructions')

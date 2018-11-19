@@ -15,7 +15,7 @@ namespace :db do
       puts "FeeSchemes is now: #{FeeScheme.count}, it should be changed from #{pre_run[:fee_scheme]}"
       puts "OffenceCategories is now: #{OffenceCategory.count}, it should be unchanged from #{pre_run[:offence_categories]}"
       puts "OffenceBands is now: #{OffenceBand.count}, it should be unchanged from #{pre_run[:offence_bands]}"
-      puts "Expect Offences to equal 1250: #{Offence.where(id: 3000..Float::INFINITY).count}"
+      puts "Expect Offences to equal 1248: #{Offence.where(id: 3000..Float::INFINITY).count}"
       ActiveRecord::Base.logger.level = log_level
     end
 

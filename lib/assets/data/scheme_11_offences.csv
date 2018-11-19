@@ -96,10 +96,24 @@ category,band,description,contrary_to,year_chapter
 3,3.4,Setting spring guns etc with intent to inflict grievous bodily harm,Offences against the Person Act 1861 s.31,1861 c. 100
 3,3.4,Administering drugs or using instruments to procure abortion,Offences against the Person Act 1861 s.58,1861 c. 100
 3,3.4,Make / manufacture / possess an explosive / a thing / machine / engine / instrument / with intent to commit an offence,Offences against the Person Act 1861 s.64,1861 c. 100
+3,3.4,Causing bomb hoaxes,"Criminal Law Act 1977, s.51",1977 c.45
+3,3.4,Possession of offensive weapon on school premises,"Criminal Justice Act 1988, s.139A",1996 c. 26
+3,3.4,Threatening with an article with blade or point or offensive weapon,"Criminal Justice Act 1988, s.139AA",1988 c. 33
+3,3.4,Putting people in fear of violence,"Protection from Harassment Act 1997, s.4",1997 c. 40
+3,3.4,Stalking involving fear of violence or serious alarm or distress,"Protection from Harrassment Act 1997, s.4A(1)",1997 c. 40
+3,3.4,Breach of a restraining order,"Protection from Harassment Act 1997, s.5",1997 c. 40
+3,3.4,Controlling or coercive behaviour,"Serious Crime Act 2015, s.76(1)",2015 c. 9
+3,3.4,Intentionally doing an act capable of encouraging or assisting the suicide or attempted suicide of another ,"Suicide Act 1961, s.2(1)",1961 c. 60
 3,3.5,Racially or Religiously Aggravated assault occasioning actual bodily harm,"Crime and Disorder Act 1998, s.29(1)(b)",1998 c. 37
 3,3.5,Threats to Kill,"Offences against the Person Act 1861, s.16",1861 c. 100
 3,3.5,"Inflicting bodily injury, with or without a weapon","Offences against the Person Act 1861, s.20",1861 c. 100
 3,3.5,Assault occasioning actual bodily harm,"Offences against the Person Act 1861, s.47",1861 c. 100
+3,3.5,Racially or religiously aggravated common assault,"Crime and Disorder Act 1998, s.29(1)(c ) and (3)",1998 c. 37
+3,3.5,"Racially or religiously aggravated intentional harassment, alarm or distress","Crime and Disorder Act 1998, s.31(1)(a), s.31(1)(b) and s.31(4)",1998 c. 37
+3,3.5,"Racially or religiously aggravated harassment, alarm or distress","Crime and Disorder Act 1998, s.31(1)(c )",1998 c. 37
+3,3.5,Racially or religiously aggravated harassment and stalking,"Crime and Disorder Act 1998, s.32(1)(a) and (4)",1998 c. 37
+3,3.5,Having an article with a blade or point in a public place,"Criminal Justice Act 1988, s.139",1988 c. 33
+3,3.5,Possession of an offensive weapon,"Prevention of Crime Act 1953, s.1",1953 c. 14
 4,4.1,Intercourse with a girl under thirteen,"Sexual Offences Act 1956, s.5",1956 c. 69
 4,4.1,Intercourse with a girl between thirteen and sixteen,"Sexual Offences Act 1956, s.6",1956 c. 69
 4,4.1,Intercourse with a defective,"Sexual Offences Act 1956, s.7",1956 c. 69
@@ -209,6 +223,11 @@ category,band,description,contrary_to,year_chapter
 5,5.3,Intercourse with an animal,"Sexual Offences Act 2003, s.69",2003 c. 42
 5,5.3,Sexual penetration of a corpse,"Sexual Offences Act 2003, s.70",2003 c. 42
 5,5.3,"Failure to comply with, or notify police, under Notification Order, with false information","Sexual Offences Act 2003, s.91(1)",2003 c. 42
+5,5.3,Solicitation by men,"Sexual Offences Act 1956, s.32",1956 c. 69
+5,5.3,Soliciting,"Sexual Offences Act 2003, s.51A",2003 c. 42
+5,5.3,Exposure,"Sexual Offences Act 2003, s.66",2003 c. 42
+5,5.3,Failure to comply with a Notification Order,"Sexual Offences Act 2003, s.91(1)(a)",2003 c. 42
+5,5.3,Breach Sexual Harm Prevention Order,"Sexual Offences Act 2003, s.103I(1)(b)",2003 c. 42
 6,6.1,Cheating the public revenue,Common Law,
 6,6.1,Conspiracy to defraud,Common Law,
 6,6.1,Dishonestly obtaining electronic communication services,"Communications Act 2003, s.125",2003 c. 21
@@ -613,6 +632,13 @@ category,band,description,contrary_to,year_chapter
 8,8.1,"Intimidation of witnesses, jurors and others","Criminal Justice and Public Order Act 1994, s.51(1)",1994 c. 33
 8,8.1,Assisting offenders,"Criminal Law Act 1967, s.5(1)",1967 c.58
 8,8.1,"Harming witnesses, jurors and others","Criminal Justice and Public Order Act 1994, s.51(2)",1994 c. 33
+8,8.1,Public nuisance,Common Law,
+8,8.1,False statement to obtain passport,"Criminal Justice Act 1925, s.36",1925 c. 86
+8,8.1,Have in possession or  control identity documents with improper intent,"Identity Documents Act 2010, s.4",2010 c. 40
+8,8.1,Make or have in possession or control apparatus / article / material designed / adapted for making false identity documents,"Identity Documents Act 2010, s.5",2010 c. 40
+8,8.1,Have in possess or control a false / improperly obtained / another person's identity document or apparatus for making false identity documents,"Identity Documents Act 2010, s.6",2010 c. 40
+8,8.1,"Makes/uses or attempts to use a false registration card, alters a registration card, makes article designed to be used in making false registration card or altering card etc.; has in possession a false registration card or article as above","Immigration Act 1971, s.26A (3)(a) to (h)",1971 c. 77
+8,8.1,Conveyance etc. of List A articles into or out of prison,"Prison Act 1952, s.40",1952 c. 52
 9,9.1,Improper importation of goods and evasion of duty - Class A,"Customs and Excise Management Act 1979, s.50, s.170",1979 c. 2
 9,9.1,Restriction of importation or exportation of controlled drugs - Class A,"Misuse of Drugs Act 1971, s.3",1971 c. 38
 9,9.1,"Production, supply or offer to supply, or being concerned in the production - Class A","Misuse of Drugs Act 1971, s.4",1971 c. 38
@@ -778,15 +804,17 @@ category,band,description,contrary_to,year_chapter
 16,16.3,"Obstructing, interfering or failing to comply with request in connection to rights of access, search etc by Agency inspectors","Nuclear Safeguards Act 2000, s.3, s.5, s.8, s.9",2000 c. 5
 16,16.3,Being unfit for duty,"Railways and Transport Safety Act 2003, s.92",2003 c. 20
 16,16.3,Making false statement,"Statistics of Trade Act 1947, s.4(3)",1947 c. 39
-17,17.1,Causing bomb hoaxes,"Criminal Law Act 1977, s.51",1977 c.45
+16,16.3,Drunkenness in aircraft,"Air Navigation Order 2016, Article 242",2016 No. 765
+16,16.3,Unlicensed or unauthorised air traffic controllers,Air Navigation Order 2016,2016 No. 765
+16,16.3,Unauthorised access with intent to commit or facilitate commission of further offences,"Computer Misuse Act 1990, s.2 ",1990 c. 18
+16,16.3,"Unauthorised acts with intent to impair, or recklessness as to impairing, operation of computer, etc","Computer Misuse Act 1990, s.3",1990 c. 18
+16,16.3,"Making, supplying or obtaining articles for use in offence under sections 1 or 3","Computer Misuse Act 1990, s.3A (as added by Police and Justice Act 2006)",1990 c. 18
+16,16.3,Unauthorised access to computer material,"Computer Misuse Act 1990, s.1 (as amended by Police and Justice Act 2006)",1990 c. 18
 17,17.1,Failing to conduct risk assessments or comply with notification requirements in connection with genetically modified organisms ,"Environmental Protection Act 1990, s.118(1)(a)(b)",1990 c. 43
 17,17.1,Failing to comply with consent requirements in connection with genetically modified organisms,"Environmental Protection Act 1990, s.118(1)(c)",1990 c. 43
 17,17.1, Contravening byelaws or orders under the Act,"Marine and Coastal Access Act 2009, s.139, s.163, s.190",2009 c. 23
 17,17.1,Obstructing or assaulting an enforcement officer in the performance of the officer's functions ,"Marine and Coastal Access Act 2009, s.292(4), s.292(5)",2009 c. 23
 17,17.1,Possession of controlled drugs,"Misuse of Drugs Act 1971, s.5(2)",1971 c.38
-17,17.1,Solicitation by men,"Sexual Offences Act 1956, s.32",1956 c. 69
-17,17.1,Burglary (domestic),"Theft Act 1968, s.9(3)(a)",1968 c. 60
-17,17.1,Burglary (non-domestic),"Theft Act 1968, s.9(3)(b)",1968 c. 60
 17,17.1,Disclosure of information for enforcing warrants,"Access to Justice Act 1999, s.94",1999 c. 22
 17,17.1,Failing to hold a licence as required or failing to  act in accordance with a licence,"Activity Centres (Young Persons) Act 1995, s.2(1)(a) (against regulations made under the above Section)",1995 c. 15
 17,17.1,Making a false statement for the purposes of obtaining or holding a licence,"Activity Centres (Young Persons) Act 1995, s.2(1)(b) (against regulations made under the above Section)",1995 c. 15
@@ -794,8 +822,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Contravening provisions of a scheme for sale of regulated products or disclosing information,"Agricultural Marketing Act 1958, s.6(6) and 47(3)",1958 c. 47
 17,17.1,Disclosing information otherwise than in accordance with s.55(4),"Agriculture Act 1967, s.55(4)",1967 c. 22
 17,17.1,Offences in connection with farm capital grants and animal diseases,"Agriculture Act 1970, other than s.66-87 (part IV)",1970 c. 40
-17,17.1,Drunkenness in aircraft,"Air Navigation Order 2016, Article 242",2016 No. 765
-17,17.1,Unlicensed or unauthorised air traffic controllers,Air Navigation Order 2016,2016 No. 765
 17,17.1,Failing to comply with requirements in relation to certificate of airworthiness,"Air Navigation Order 2016, Article 33, Article 37",2016 No. 765
 17,17.1,Removing object of archaeological or historical interest discovered by use of a metal detector in a protected place,"Ancient Monuments and Archaeological Areas Act 1979, s.42 (3).",1979 c. 46
 17,17.1,Control of works affecting scheduled monuments,"Ancient Monuments and Archaeological Areas Act 1979, s.2",1979 c. 46
@@ -849,7 +875,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Duty to aid constables,Common Law,
 17,17.1,Embracery,Common Law,
 17,17.1,Preventing the burial of a corpse,Common Law,
-17,17.1,Public nuisance,Common Law,
 17,17.1,Removing corpse from grave,Common Law,
 17,17.1,Rescuing a prisoner in custody,Common Law,
 17,17.1,"Possession or supply of apparatus etc for contravening s.125","Communications Act 2003, s.126",2003 c. 21
@@ -861,10 +886,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,"Acting in contravention of a disqualification order or undertaking or in contravention of s.12(2), 12A or 12B","Company Directors Disqualification Act 1986, s.13.",1986 c. 46
 17,17.1,"Undischarged bankrupt acting as a director or taking part in the promotion, formation or management of a company","Company Directors Disqualification Act 1986, s.11(1)",1986 c. 46
 17,17.1,"Providing regulated claims management services otherwise than in accordance with s.4, pretending to be authorised etc.","Compensation Act 2006, s.7, s.11",2006 c. 29
-17,17.1,Unauthorised access with intent to commit or facilitate commission of further offences,"Computer Misuse Act 1990, s.2 ",1990 c. 18
-17,17.1,"Unauthorised acts with intent to impair, or recklessness as to impairing, operation of computer, etc","Computer Misuse Act 1990, s.3",1990 c. 18
-17,17.1,"Making, supplying or obtaining articles for use in offence under sections 1 or 3","Computer Misuse Act 1990, s.3A (as added by Police and Justice Act 2006)",1990 c. 18
-17,17.1,Unauthorised access to computer material,"Computer Misuse Act 1990, s.1 (as amended by Police and Justice Act 2006)",1990 c. 18
 17,17.1,"Furnishing false information in response to notice, or to enforcement officer","Consumer Protection Act 1987, s.18(3)(b) and s.32(2)",1987 c. 43
 17,17.1,Engaging in a commercial practice contravening requirements of professional diligence etc,"Consumer Protection from Unfair Trading Regulations 2008, Regulation 8 (1) and 13",2008 No. 1277
 17,17.1,Engaging in a commercial practice which is a misleading action,"Consumer Protection from Unfair Trading Regulations 2008, Regulation 9 and 13",2008 No. 1277
@@ -885,23 +906,15 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Contravening provisions in relation to tying-in arrangements,"Courts and Legal Services Act 1990, s.106",1993 c. 41
 17,17.1,Making a false representation or false certificate with a view to the burning of any human remains,"Cremation Act 1902, s.8(2)",1902 c. 8
 17,17.1,Making false or misleading statements in relation to interim possession orders,"Criminal Justice and Public Order Act 1994,  s.75 ",1994 c. 33
-17,17.1,Racially or religiously aggravated common assault,"Crime and Disorder Act 1998, s.29(1)(c ) and (3)",1998 c. 37
-17,17.1,"Racially or religiously aggravated intentional harassment, alarm or distress","Crime and Disorder Act 1998, s.31(1)(a), s.31(1)(b) and s.31(4)",1998 c. 37
-17,17.1,"Racially or religiously aggravated harassment, alarm or distress","Crime and Disorder Act 1998, s.31(1)(c )",1998 c. 37
-17,17.1,Racially or religiously aggravated harassment and stalking,"Crime and Disorder Act 1998, s.32(1)(a) and (4)",1998 c. 37
 17,17.1,Making a false statement in purported compliance with a customer information order,"Crime (International co-operation) Act 2003, s.34",2003 c. 32
 17,17.1,Disclosing information specified in s.42(3),"Crime (International co-operation) Act 2003, s.42",2003 c. 32
 17,17.1,Interference with a motor vehicle,"Criminal Attempts Act 1981, s.9",1981 c. 47
 17,17.1,Threats to destroy or damage property,"Criminal Damage Act 1971, s.2 ",1971 c. 48
 17,17.1,Possessing anything with intent to destroy or damage property,"Criminal Damage Act 1971, s.3 ",1971 c. 48
-17,17.1,False statement to obtain passport,"Criminal Justice Act 1925, s.36",1925 c. 86
 17,17.1,Common assault and battery,"Criminal Justice Act 1988, s.39",1988 c. 33
 17,17.1,Resisting or wilfully obstructing court security officer,"Criminal Justice Act 1991, s.78(2)",1991 c. 53
 17,17.1,Assault on prisoner custody officer,"Criminal Justice Act 1991, s.90(1)",1991 c. 53
 17,17.1,Resisting or wilfully obstructing a prisoner custody officer ,"Criminal Justice Act 1991, s.90(3)",1991 c. 53
-17,17.1,Having an article with a blade or point in a public place,"Criminal Justice Act 1988, s.139",1988 c. 33
-17,17.1,Possession of offensive weapon on school premises,"Criminal Justice Act 1988, s.139A",1996 c. 26
-17,17.1,Threatening with an article with blade or point or offensive weapon,"Criminal Justice Act 1988, s.139AA",1988 c. 33
 17,17.1,"Failure to comply with prohibition, restriction or condition in violent offender order or interim violent offender order","Criminal Justice and Immigration Act 2008, s.113(1)",2008 c. 4 
 17,17.1,"Fail to comply with notification requirements of s.108(1), 109(1), s.110(1) and 112(4)","Criminal Justice and Immigration Act 2008, s.113(2)",2008 c. 4 
 17,17.1,"Notify false information to police in purported compliance with s.108(1), 109(1), 110(1) or regulations under s.111(1)","Criminal Justice and Immigration Act 2008, s.113(3)",2008 c. 4 
@@ -1011,12 +1024,8 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Use or supply of duty-free oil in contravention of restrictions,"Hydrocarbon Oil Duties Act 1979, s.10(5),(6)",1979 c. 5
 17,17.1,Misuse of rebated heavy oil,"Hydrocarbon Oil Duties Act 1979, s.13(3),(4)",1979 c. 5
 17,17.1,Misuse of rebated light oil,"Hydrocarbon Oil Duties Act 1979, s.14(6),(7)",1979 c. 5
-17,17.1,Have in possession or  control identity documents with improper intent,"Identity Documents Act 2010, s.4",2010 c. 40
-17,17.1,Make or have in possession or control apparatus / article / material designed / adapted for making false identity documents,"Identity Documents Act 2010, s.5",2010 c. 40
-17,17.1,Have in possess or control a false / improperly obtained / another person's identity document or apparatus for making false identity documents,"Identity Documents Act 2010, s.6",2010 c. 40
 17,17.1,"Non British Citizen, by means including deception, obtains or seeks to obtain leave to enter or remain in the UK or, postponement, avoidance or revocation of enforcement action against him","Immigration Act 1971, s.24A",1971 c. 77
 17,17.1,Helping asylum seeker to enter UK,"Immigration Act 1971, s.25A",1971 c. 77
-17,17.1,"Makes/uses or attempts to use a false registration card, alters a registration card, makes article designed to be used in making false registration card or altering card etc.; has in possession a false registration card or article as above","Immigration Act 1971, s.26A (3)(a) to (h)",1971 c. 77
 17,17.1,Possession of Immigration Stamp,"Immigration Act 1971, s.26B",1971 c. 77
 17,17.1,Assaulting a detainee custody officer,"Immigration and Asylum Act 1999,  paragraph 4, schedule 11",1999 c. 33
 17,17.1,Providing immigration advice (unqualified),"Immigration and Asylum Act 1999, s.91(1)",1999 c. 33
@@ -1101,9 +1110,7 @@ category,band,description,contrary_to,year_chapter
 17,17.1,"Refuses or neglects to furnish information giving false statement, information obtained for the Act should not be disclosed","Population (Statistics) Act 1938, s.4",1938 c. 12
 17,17.1,Interfering with the mail: postal operators,"Postal Services Act 2000, s.83",2000 c. 26
 17,17.1,Prohibition on sending certain articles by post,"Postal Services Act 2000, s.85",2000 c. 26
-17,17.1,Possession of an offensive weapon,"Prevention of Crime Act 1953, s.1",1953 c. 14
 17,17.1,Assisting a prisoner to escape,"Prison Act 1952, s.39",1952 c. 52
-17,17.1,Conveyance etc. of List A articles into or out of prison,"Prison Act 1952, s.40",1952 c. 52
 17,17.1,Conveyance etc. of List B articles into or out of prison,"Prison Act 1952, s.41",1952 c. 52
 17,17.1,Using unlicensed security operative,"Private Security Industry Act 2001, s.5(1)",2001 c. 12
 17,17.1,Right to use approved status,"Private Security Industry Act 2001, s.16(2)(a)(b)",2001 c. 12
@@ -1117,9 +1124,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Unlawful eviction and harassment of occupier,"Protection from Eviction Act 1977, s.1",1977 c. 43
 17,17.1,Harassment,"Protection from Harassment Act 1997, s.2",1997 c. 40
 17,17.1,Breach of conditions of injunction against harassment ,"Protection from Harassment Act 1997, s.3",1997 c. 40
-17,17.1,Putting people in fear of violence,"Protection from Harassment Act 1997, s.4",1997 c. 40
-17,17.1,Stalking involving fear of violence or serious alarm or distress,"Protection from Harrassment Act 1997, s.4A(1)",1997 c. 40
-17,17.1,Breach of a restraining order,"Protection from Harassment Act 1997, s.5",1997 c. 40
 17,17.1,Failure to hand over a Euro note or coin believing it to be counterfeit,"Protection of the Euro against Counterfeiting Regulations 2001, s.3",2001 No. 3948
 17,17.1,Failure to withdraw from circulation a Euro note or coin which is believed to be counterfeit,"Protection of the Euro against Counterfeiting Regulations 2001, regulation 2 (SI 3948/2001)",2001 No. 3948
 17,17.1,TEW offences,Protection of Wrecks Act 1973,1973 c. 33
@@ -1161,21 +1165,15 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Publication or disclosure of information,"Sea Fish Industry Act 1970, s.14, s.42",1970 c. 11
 17,17.1,Failure to comply with a Serious Crime Prevention Order ,"Serious Crime Act 2007, s.25",2007 c. 27
 17,17.1,Disclosure of protected information,"Serious Crime Act 2007, s.69",2007 c. 27
-17,17.1,Controlling or coercive behaviour,"Serious Crime Act 2015, s.76(1)",2015 c. 9
 17,17.1,Disclosure of information about protection arrangements,"Serious Organised Crime and Police Act 2005, s.86",2005 c. 15
 17,17.1,Disclosure of information relating to persons assuming new identity,"Serious Organised Crime and Police Act 2005, s.88",2005 c. 15
 17,17.1,Interference with contractual relationships so as to harm animal research organisations,"Serious Organised Crime and Police Act 2005, s.145",2005 c. 15
 17,17.1,Intimidation of persons connected with animal research organisations,"Serious Organised Crime and Police Act 2005, s.146",2005 c. 15
 17,17.1,"Person who has been given, or shown protected material, gives a copy or otherwise to any person other than the defendant","Sexual Offences (Protected Material) Act 1997, s.8(2)(a)",1997 c. 39
 17,17.1,"Person who has been given, or shown, protected material, gives a copy or otherwise to the defendant when not supposed to","Sexual Offences (Protected Material) Act 1997, s. 8(2)(b)",1997 c. 39
-17,17.1,Soliciting,"Sexual Offences Act 2003, s.51A",2003 c. 42
-17,17.1,Exposure,"Sexual Offences Act 2003, s.66",2003 c. 42
-17,17.1,Failure to comply with a Notification Order,"Sexual Offences Act 2003, s.91(1)(a)",2003 c. 42
-17,17.1,Breach Sexual Harm Prevention Order,"Sexual Offences Act 2003, s.103I(1)(b)",2003 c. 42
 17,17.1,Resisting a Sheriff in the execution of a writ,"Sheriffs Act 1887, s.8(2)",1887 c. 55
 17,17.1,Fraudulent evasion of contributions,"Social Security Act 1998, s.61",1998 c. 14
 17,17.1,Administration of oath by person without jurisdiction,"Statutory Declaration Act 1835, s.13",1835 c. 62
-17,17.1,Intentionally doing an act capable of encouraging or assisting the suicide or attempted suicide of another ,"Suicide Act 1961, s.2(1)",1961 c. 60
 17,17.1,Fraudulent activity with a view to obtaining payments of tax credit,"Tax Credits Act 2002, s.35(1)",2002 c. 21
 17,17.1,Disclosure of information,"Tax Credits Act 2002, s.59 and schedule 5",2002 c. 21
 17,17.1,Disclosure of information,"Telecommunications Act 1984, s.101",1984 c. 12

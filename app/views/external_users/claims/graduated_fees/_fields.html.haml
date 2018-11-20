@@ -26,9 +26,6 @@
             errors: @error_presenter,
             error_key: "graduated_fee.quantity"
 
-        .js-fee-calculator-success
-          = ff.hidden_field :price_calculated, value: ff.object.price_calculated?
-
         .js-fee-calculator-effectee
           .calculated-grad-fee
           = ff.adp_text_field :amount,
@@ -38,6 +35,9 @@
             value: number_with_precision(ff.object.amount, precision: 2),
             error_key: "graduated_fee.amount",
             errors: @error_presenter
+
+        .js-fee-calculator-success
+          = ff.hidden_field :price_calculated, value: ff.object.price_calculated?
 
         .help-wrapper.form-group{ style: 'display: none;' }
           %details

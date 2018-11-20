@@ -27,7 +27,7 @@
             error_key: "graduated_fee.quantity"
 
         .js-fee-calculator-success
-          = ff.hidden_field :price_calculated, value: fee.price_calculated?
+          = ff.hidden_field :price_calculated, value: ff.object.price_calculated?
 
         .js-fee-calculator-effectee
           .calculated-grad-fee
@@ -35,7 +35,7 @@
             label: t('.amount'),
             input_classes:"total fee-amount form-input-denote__input form-control-1-4",
             input_type: "currency",
-            value: number_with_precision(fee.amount, precision: 2),
+            value: number_with_precision(ff.object.amount, precision: 2),
             error_key: "graduated_fee.amount",
             errors: @error_presenter
 

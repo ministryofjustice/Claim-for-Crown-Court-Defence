@@ -20,9 +20,18 @@ FactoryBot.define do
       description 'Miscellaneous/other'
     end
 
+    transient do
+      lgfs_fee_scheme false
+    end
+
     trait :with_fee_scheme do
-      after(:build) do |offence|
-        offence.fee_schemes << (FeeScheme.find_by(name: 'AGFS', version: 9) || build(:fee_scheme, :agfs_nine))
+      after(:build) do |offence, evaluator|
+        if evaluator.lgfs_fee_scheme
+          fee_scheme = FeeScheme.find_by(name: 'LGFS', version: 9) || build(:fee_scheme, :lgfs_nine)
+        else
+          fee_scheme = FeeScheme.find_by(name: 'AGFS', version: 9) || build(:fee_scheme, :agfs_nine)
+        end
+        offence.fee_schemes << fee_scheme
       end
     end
 

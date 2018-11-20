@@ -7,6 +7,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
   # rep order dates) and to allow testing actual amounts "calculated".
   let(:claim) { create(
         :litigator_claim,
+        create_defendant_and_rep_order_for_scheme_8: true,
         case_type: case_type,
         offence: offence,
         actual_trial_length: 10

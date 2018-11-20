@@ -158,3 +158,13 @@ end
 Then(/^I should see the additional info area$/) do
   expect(@claim_form_page.additional_information_expenses).to be_visible
 end
+
+Then(/^the graduated fee should have its price_calculated value set to true$/) do
+  claim = Claim::BaseClaim.find(@claim_form_page.claim_id)
+  expect(claim.graduated_fee.price_calculated).to eql true
+end
+
+Then(/^the fixed fee should have its price_calculated value set to true$/) do
+  claim = Claim::BaseClaim.find(@claim_form_page.claim_id)
+  expect(claim.fixed_fee.price_calculated).to eql true
+end

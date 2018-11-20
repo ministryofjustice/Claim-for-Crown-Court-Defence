@@ -81,6 +81,10 @@ class ClaimFormPage < SitePrism::Page
   section :lgfs_supplier_number_radios, SupplierNumberRadioSection, '.lgfs-supplier-numbers'
   element :lgfs_supplier_number_select, 'select#claim_supplier_number'
 
+  def claim_id
+    find('#claim-form')['data-claim-id']
+  end
+
   def select_advocate(name)
     select name, from: "claim_external_user_id"
   end

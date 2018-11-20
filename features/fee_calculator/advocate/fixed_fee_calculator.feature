@@ -96,3 +96,5 @@ Feature: Advocate completes fixed fee page using calculator
 
   Then I click "Continue" in the claim form
   And I am on the miscellaneous fees page
+
+  And all the fixed fees should have their price_calculated values set to true

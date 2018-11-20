@@ -199,6 +199,16 @@ Then(/^I should see the (.*) applicable basic fees$/) do |scheme_text|
   expect(@claim_form_page.basic_fees.checklist_labels).to match_array(additional_fees)
 end
 
+Then(/^all the fixed fees should have their price_calculated values set to true$/) do
+  claim = Claim::BaseClaim.find(@claim_form_page.claim_id)
+  expect(claim.fixed_fees.pluck(:price_calculated).all?).to eql true
+end
+
+Then(/^all the misc fees should have their price_calculated values set to true$/) do
+  claim = Claim::BaseClaim.find(@claim_form_page.claim_id)
+  expect(claim.misc_fees.pluck(:price_calculated).all?).to eql true
+end
+
 def scheme_9_additional_fees
   [
     'Daily attendance fee (3 to 40)',

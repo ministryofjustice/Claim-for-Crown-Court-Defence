@@ -40,6 +40,9 @@ Feature: Advocate completes misc fee page using calculator
     And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
+    And I should be in the 'Travel expenses' form page
+    And all the misc fees should have their price_calculated values set to true
+
     And I save as draft
     Then I should see 'Draft claim saved'
     And Claim 'A20174321' should be listed with a status of 'Draft' and a claimed amount of '£2,070.72'

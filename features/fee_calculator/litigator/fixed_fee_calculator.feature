@@ -59,3 +59,5 @@ Feature: litigator completes fixed fee page using calculator
 
     Then I click "Continue" in the claim form
     And I should be in the 'Miscellaneous fees' form page
+
+    And the fixed fee should have its price_calculated value set to true

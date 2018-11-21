@@ -8,7 +8,7 @@ module Claims
     Response = Struct.new(:success?, :data, :errors, :message, keyword_init: true)
     Data = Struct.new(:amount, :unit, keyword_init: true)
 
-    class Calculate
+    class CalculatePrice
       delegate  :earliest_representation_order_date,
                 :agfs?,
                 :lgfs?,

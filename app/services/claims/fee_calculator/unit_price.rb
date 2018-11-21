@@ -10,7 +10,7 @@
 #
 module Claims
   module FeeCalculator
-    class UnitPrice < Calculate
+    class UnitPrice < CalculatePrice
       private
 
       def unit_price(modifier = nil)

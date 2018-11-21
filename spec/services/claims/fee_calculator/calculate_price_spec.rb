@@ -1,4 +1,4 @@
-RSpec.describe Claims::FeeCalculator::Calculate do
+RSpec.describe Claims::FeeCalculator::CalculatePrice do
   subject { described_class.new(claim, params) }
 
   # IMPORTANT: use specific case type, offence class, fee types and reporder

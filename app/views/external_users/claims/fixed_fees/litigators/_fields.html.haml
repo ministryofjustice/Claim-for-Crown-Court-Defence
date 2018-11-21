@@ -36,8 +36,8 @@
             input_classes:'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
             input_type: 'currency',
             errors: @error_presenter,
-            input_readonly: fee.price_calculated?,
-            value: number_with_precision(fee.rate, precision: 2)
+            input_readonly: ff.object.price_calculated?,
+            value: number_with_precision(ff.object.rate, precision: 2)
 
       .js-fee-calculator-success
         = ff.hidden_field :price_calculated, value: ff.object.price_calculated?

@@ -14,6 +14,6 @@
 FactoryBot.define do
   factory :representation_order do
     representation_order_date           { Date.today }
-    maat_reference                      { Faker::Number.number(10) }
+    maat_reference                      { Faker::Number.between(from = 4000000, to = 9999999) }
   end
 end

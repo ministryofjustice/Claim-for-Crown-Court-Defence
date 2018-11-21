@@ -103,7 +103,7 @@ class BaseClaimTest
     {
       "api_key": api_key,
       "defendant_id": defendant_uuid,
-      "maat_reference": '4546963741',
+      "maat_reference": '4546963',
       "representation_order_date": '2015-05-21'
     }
   end

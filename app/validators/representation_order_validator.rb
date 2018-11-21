@@ -66,7 +66,7 @@ class RepresentationOrderValidator < BaseValidator
     case_type = claim.try(:case_type)
     return unless case_type&.requires_maat_reference?
     validate_presence(:maat_reference, 'invalid')
-    validate_pattern(:maat_reference, /^[0-9]{7,10}$/, 'invalid')
+    validate_pattern(:maat_reference, Settings.maat_regexp, 'invalid')
     validate_matt_reference_uniqueness(:maat_reference, 'unique')
   end
 

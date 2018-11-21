@@ -86,7 +86,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
                     representation_order_date_dd: Time.now.day.to_s,
                     representation_order_date_mm: Time.now.month.to_s,
                     representation_order_date_yyyy: Time.now.year.to_s,
-                    maat_reference: '4561237895'
+                    maat_reference: '4561237'
                   }
                 ]
               }
@@ -169,7 +169,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
                           representation_order_date_dd: representation_order_date.day.to_s,
                           representation_order_date_mm: representation_order_date.month.to_s,
                           representation_order_date_yyyy: representation_order_date.year.to_s,
-                          maat_reference: '4561237895'
+                          maat_reference: '4561237'
                         }
                     ]
                   }

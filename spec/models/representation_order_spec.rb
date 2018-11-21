@@ -28,6 +28,7 @@ describe RepresentationOrder do
 
     context 'case type requires maat reference' do
       before(:each)       { representation_order.defendant.claim.case_type = FactoryBot.build(:case_type, :requires_maat_reference) }
+
       it 'should error if blank' do
         representation_order.maat_reference = nil
         expect(representation_order).not_to be_valid
@@ -40,7 +41,7 @@ describe RepresentationOrder do
         expect(representation_order.errors[:maat_reference]).to eq( [ 'invalid'])
       end
 
-      it 'should error if greater than 10 numeric characters' do
+      it 'should error if greater than 7 numeric characters' do
         representation_order.maat_reference = '4562131111111'
         expect(representation_order).not_to be_valid
         expect(representation_order.errors[:maat_reference]).to eq( [ 'invalid'])
@@ -52,13 +53,33 @@ describe RepresentationOrder do
         expect(representation_order.errors[:maat_reference]).to eq( [ 'invalid'])
       end
 
-      it 'should not error if 7-10 numeric digits' do
-        representation_order.maat_reference = '2078352232'
+      it 'should not error if 7 numeric digits' do
+        representation_order.maat_reference = '5078332'
         expect(representation_order).to be_valid
+      end
+
+      context 'our test MAAT reference' do
+        before { representation_order.maat_reference = '2320006' }
+
+        context 'uses environment configured MAAT regex' do
+          before do
+            allow(Settings).to receive(:maat_regexp).and_return /^[4-9][0-9]{6}$/
+          end
+
+          it 'should error' do
+            expect(representation_order).not_to be_valid
+          end
+        end
+
+        context 'when on a non-live environment' do
+          it 'should be valid' do
+            expect(representation_order).to be_valid
+          end
+        end
       end
     end
 
-    context 'case type does not require maat refrence' do
+    context 'case type does not require maat reference' do
       before(:each)       { representation_order.defendant.claim.case_type = FactoryBot.build(:case_type, requires_maat_reference: false) }
       it 'should not error if present' do
         representation_order.maat_reference = '2078352232'

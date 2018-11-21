@@ -26,7 +26,7 @@
           "order_for_judicial_apportionment": true,
           "representation_orders": [
             {
-              "maat_reference": "1234567892",
+              "maat_reference": "2345678",
               "representation_order_date": "2015-05-01"
             }
           ]
@@ -90,7 +90,7 @@
           "order_for_judicial_apportionment": true,
           "representation_orders": [
             {
-              "maat_reference": "1234567893",
+              "maat_reference": "2345678",
               "representation_order_date": "2015-05-01"
             }
           ]

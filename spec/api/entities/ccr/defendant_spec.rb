@@ -4,7 +4,7 @@ describe API::Entities::CCR::Defendant do
   subject(:response) { JSON.parse(described_class.represent(defendant).to_json).deep_symbolize_keys }
 
   let(:claim) { create(:advocate_claim) }
-  let(:rep_orders) { create_list(:representation_order, 1, uuid: 'uuid', maat_reference: '1234567890', representation_order_date: Date.new(2016, 1, 10)) }
+  let(:rep_orders) { create_list(:representation_order, 1, uuid: 'uuid', maat_reference: '2345678', representation_order_date: Date.new(2016, 1, 10)) }
 
   let(:defendant) do
     create(:defendant,
@@ -33,14 +33,14 @@ describe API::Entities::CCR::Defendant do
   end
 
   it 'returns representation order' do
-    expect(response[:representation_orders].first).to include(maat_reference: '1234567890', representation_order_date: '2016-01-10')
+    expect(response[:representation_orders].first).to include(maat_reference: '2345678', representation_order_date: '2016-01-10')
   end
 
   context 'when the defendant has more than one rep_order' do
     let(:rep_orders) do
       [
-        create(:representation_order, maat_reference: '1234567890', representation_order_date: Date.new(2016, 1, 10)),
-        create(:representation_order, maat_reference: '0987654321', representation_order_date: Date.new(2016, 1, 11))
+        create(:representation_order, maat_reference: '2345678', representation_order_date: Date.new(2016, 1, 10)),
+        create(:representation_order, maat_reference: '8765432', representation_order_date: Date.new(2016, 1, 11))
       ]
     end
 
@@ -49,7 +49,7 @@ describe API::Entities::CCR::Defendant do
     end
 
     it 'returns the first representation order entered' do
-      expect(response[:representation_orders].first).to include(maat_reference: '1234567890', representation_order_date: '2016-01-10')
+      expect(response[:representation_orders].first).to include(maat_reference: '2345678', representation_order_date: '2016-01-10')
     end
 
   end

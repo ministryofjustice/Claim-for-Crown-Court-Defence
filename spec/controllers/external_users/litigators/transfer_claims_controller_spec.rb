@@ -246,7 +246,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
                     'representation_order_date_dd' => '2',
                     'representation_order_date_mm' => '7',
                     'representation_order_date_yyyy' => '2015',
-                    'maat_reference' => '1234567890',
+                    'maat_reference' => '2345678',
                     '_destroy' => 'false',
                     'id' => '115'
                   }

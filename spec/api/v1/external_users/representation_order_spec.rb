@@ -19,7 +19,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
         api_key: provider.api_key,
         defendant_id: defendant.uuid,
         representation_order_date: representation_order_date.as_json,
-        maat_reference: '0123456789'
+        maat_reference: '4567890'
     }
   }
 

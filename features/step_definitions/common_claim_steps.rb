@@ -30,7 +30,7 @@ When(/^I enter defendant, (.*?)representation order and MAAT reference$/) do |sc
       @claim_form_page.defendants.first.last_name.set "Billiards"
       @claim_form_page.defendants.first.dob.set_date "1955-01-01"
       @claim_form_page.defendants.last.representation_orders.first.date.set_date date
-      @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
+      @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "4567890"
     end
 end
 
@@ -47,7 +47,7 @@ When(/^I add another defendant, (.*?)representation order and MAAT reference$/) 
     # do it again if the first click failed
     @claim_form_page.defendants.last.add_another_representation_order.click if @claim_form_page.defendants.last.representation_orders.first.nil?
     @claim_form_page.defendants.last.representation_orders.first.date.set_date date
-    @claim_form_page.defendants.last.representation_orders.first.maat_reference.set Random.rand(1000000...9999999)
+    @claim_form_page.defendants.last.representation_orders.first.maat_reference.set Random.rand(4000000...9999999)
   end
 end
 

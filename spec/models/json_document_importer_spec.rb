@@ -13,7 +13,7 @@ describe JsonDocumentImporter do
 
   let(:claim_params)                        { {:source=>'json_import', 'creator_email'=>'advocateadmin@example.com', 'advocate_email'=>'advocate@example.com', 'case_number'=>'A20161234', 'case_type_id'=>1, 'first_day_of_trial'=>'2015-06-01', 'estimated_trial_length'=>3, 'actual_trial_length'=>3, 'trial_concluded_at'=>'2015-06-03', 'advocate_category'=>'QC', 'offence_id'=>1, 'court_id'=>1, 'cms_number'=>'12345678', 'additional_information'=>'string', 'apply_vat'=>true, 'trial_fixed_notice_at'=>'2015-06-01', 'trial_fixed_at'=>'2015-06-01', 'trial_cracked_at'=>'2015-06-01', 'api_key'=>'test_key'} }
   let(:defendant_params)                    { {'first_name'=>'Angela', 'last_name'=>'Merkel', 'date_of_birth'=>'1979-12-10', 'order_for_judicial_apportionment'=>true, 'claim_id'=>'642ec639-5037-4d64-a3aa-27c377e51ea7', 'api_key'=>'test_key'} }
-  let(:rep_order_params)                    { {'maat_reference'=>'1234567891', 'representation_order_date'=>'2015-05-01', 'defendant_id'=>'642ec639-5037-4d64-a3aa-27c377e51ea7', 'api_key'=>'test_key'} }
+  let(:rep_order_params)                    { {'maat_reference'=>'2345678', 'representation_order_date'=>'2015-05-01', 'defendant_id'=>'642ec639-5037-4d64-a3aa-27c377e51ea7', 'api_key'=>'test_key'} }
   let(:fee_params)                          { {'fee_type_id'=>2, 'quantity'=>1, 'rate'=>1.1, 'claim_id'=>'642ec639-5037-4d64-a3aa-27c377e51ea7', 'api_key'=>'test_key'} }
   let(:expense_params)                      { {
                                                 'expense_type_id' => 1,

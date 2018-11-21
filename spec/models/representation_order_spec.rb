@@ -61,14 +61,12 @@ describe RepresentationOrder do
       context 'our test MAAT reference' do
         before { representation_order.maat_reference = '2320006' }
 
-        context 'when on the live environment' do
+        context 'uses environment configured MAAT regex' do
           before do
-            allow(ENV).to receive(:[]).with('MAAT_REGEXP').and_return /^[4-9][0-9]{6}$/
-            allow(Settings).to receive(:maat_regexp).and_return ENV['MAAT_REGEXP']
+            allow(Settings).to receive(:maat_regexp).and_return /^[4-9][0-9]{6}$/
           end
 
           it 'should error' do
-            expect(Settings.maat_regexp).to eql /^[4-9][0-9]{6}$/
             expect(representation_order).not_to be_valid
           end
         end

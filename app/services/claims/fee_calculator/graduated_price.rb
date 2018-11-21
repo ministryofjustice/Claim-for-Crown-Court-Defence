@@ -5,7 +5,7 @@
 #
 module Claims
   module FeeCalculator
-    class GraduatedPrice < Calculate
+    class GraduatedPrice < CalculatePrice
       attr_reader :ppe, :days
 
       private

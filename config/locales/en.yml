@@ -770,7 +770,7 @@ en:
           date: Representation order date
           representation_order: Representation order details
           maat_reference_number: MAAT reference
-          maat_reference_number_eg: 'for example 1234567, this can be found on the Representation Order'
+          maat_reference_number_eg: 'this should be 7 digits long, starting with at least a 4'
         summary:
           caption: 'Defendants: This section contains details about each defendant.'
           header: Defendant details

@@ -17,7 +17,7 @@
       var self = this;
       var $els = $el || $('.js-fee-calculator-days');
       if ($('.calculated-grad-fee').exists()) {
-        $els.change( function() {
+        $els.on('change keyup', function() {
           self.calculateGraduatedPrice();
         });
       }
@@ -27,7 +27,7 @@
       var self = this;
       var $els = $el || $('.js-fee-calculator-ppe');
       if ($('.calculated-grad-fee').exists()) {
-        $els.change( function() {
+        $els.on('change keyup', function() {
           self.calculateGraduatedPrice();
         });
       }

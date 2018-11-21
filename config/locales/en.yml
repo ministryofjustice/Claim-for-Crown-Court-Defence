@@ -1021,7 +1021,7 @@ en:
           quantity_hint: Enter a quantity
           amount: *net_amount
           help_how_we_calculate_amount_title: How is this calculated?
-          help_how_we_calculate_amount_body: We calculate the amount based upon the fee scheme, case type, offence class, trial length and pages of evidence
+          help_how_we_calculate_amount_body: We calculate the amount based upon the fee scheme, case type, offence class, trial length and the total pages of evidence
         summary:
           header: Graduated fees
           actual_trial_length:

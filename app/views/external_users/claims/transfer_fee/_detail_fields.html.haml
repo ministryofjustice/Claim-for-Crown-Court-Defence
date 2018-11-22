@@ -1,5 +1,5 @@
 - present(f.object) do |claim|
-  #transfer-fee
+  #transfer-detail
     = f.anchored_without_label 'transfer_detail'
     - if @error_presenter&.errors_for?(:transfer_detail)
       .dropdown_field_with_errors

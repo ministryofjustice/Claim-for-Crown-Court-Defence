@@ -906,7 +906,7 @@ en:
           quantity: *ppe_quantity
           amount: *net_amount
           help_how_we_calculate_amount_title: *how_is_this_calculated_help
-          help_how_we_calculate_amount_body: We calculate the amount based upon the fee scheme, transfer details, offence class, days claimed and the total pages of evidence
+          help_how_we_calculate_amount_body: We calculate the amount based upon the fee scheme, transfer details, offence class, total days claimed and the total pages of evidence
         detail_fields:
           litigator_type: Litigator type
           elected_case: Was the case elected?
@@ -1026,7 +1026,6 @@ en:
           actual_trial_length_hint: Number of days
           rate: *rate
           quantity: *ppe_quantity
-          quantity_hint: Number of pages
           amount: *net_amount
           help_how_we_calculate_amount_title: *how_is_this_calculated_help
           help_how_we_calculate_amount_body: We calculate the amount based upon the fee scheme, case type, offence class, trial length and the total pages of evidence

@@ -42,8 +42,31 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
   describe '#call' do
     subject(:response) { described_class.new(claim, params).call }
 
-    context 'LGFS claims' do
-      it_returns 'a successful fee calculator response', amount: 5142.87
+    context 'LGFS' do
+      context 'final claim' do
+        it_returns 'a successful fee calculator response', amount: 5142.87
+      end
+
+      context 'transfer claim' do
+        # IMPORTANT: use specific case type, offence class, fee types and reporder
+        # date in order to reduce and afix VCR cassettes required (that have to match
+        # on query values), prevent flickering specs (from random offence classes,
+        # rep order dates) and to allow testing actual amounts "calculated".
+        let(:claim) { create(
+              :transfer_claim,
+              create_defendant_and_rep_order_for_scheme_8: true,
+              offence: offence,
+              actual_trial_length: 10,
+              litigator_type: 'new',
+              elected_case: false,
+              transfer_stage_id: 20, # Before trial transfer
+              transfer_date: 3.months.ago,
+              case_conclusion_id: 30 # Cracked
+            )
+        }
+
+        it_returns 'a successful fee calculator response', amount: 904.58
+      end
 
       context 'when api call fails' do
         before do

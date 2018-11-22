@@ -61,6 +61,7 @@ module Claims
       end
 
       def bill_scenario
+        return claim.transfer_detail.bill_scenario if claim.transfer?
         return CCLF::CaseTypeAdapter::BILL_SCENARIOS[case_type.fee_type_code.to_sym] if lgfs?
         CCR::CaseTypeAdapter::BILL_SCENARIOS[case_type.fee_type_code.to_sym]
       end

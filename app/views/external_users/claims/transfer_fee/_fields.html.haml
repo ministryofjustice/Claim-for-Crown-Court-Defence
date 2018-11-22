@@ -21,11 +21,24 @@
           errors: @error_presenter,
           error_key:'transfer_fee.quantity'
 
-      .form-group
+      .js-fee-calculator-effectee
+        .calculated-grad-fee
         = tf.adp_text_field :amount,
             label: t('.amount'),
-            input_classes:'total fee-amount form-input-denote__input form-control-1-4',
+            input_classes:'total fee-amount form-input-denote__input form-control-1-4 ',
             input_type: 'currency',
             value: number_with_precision(tf.object.amount, precision: 2),
-            errors: @error_presenter,
-            error_key: 'transfer_fee.amount'
+            error_key: 'transfer_fee.amount',
+            errors: @error_presenter
+
+      .js-fee-calculator-success
+        = tf.hidden_field :price_calculated, value: tf.object.price_calculated?
+
+      .help-wrapper.form-group{ style: 'display: none;' }
+        %details
+          %summary
+            %span.summary
+              = t('.help_how_we_calculate_amount_title')
+          .panel.panel-border-narrow
+            %p
+              = t('.help_how_we_calculate_amount_body')

@@ -7,7 +7,6 @@ class ExternalUsers::Fees::PricesController < ExternalUsers::ApplicationControll
   def calculate
     calculator = pricer.new(claim, calculator_params.except(:id))
     response = calculator.call
-
     respond_to do |format|
       format.html
       format.json do

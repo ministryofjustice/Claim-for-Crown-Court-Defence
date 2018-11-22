@@ -384,6 +384,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         claim_id
         fee_type_id
         amount
+        price_calculated
         quantity
       ],
       warrant_fee_attributes: [

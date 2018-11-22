@@ -52,7 +52,7 @@ moj.Modules.AllocationDataTable = {
     // row callback to add injection errors
     createdRow: function(row, data, index) {
       if(data.filter.injection_errored){
-        $(row).addClass('error');
+        $(row).addClass('error injection-error');
         $('td', row).eq(0).wrapInner( "<div class='error-message-container'></div>");
         $('td .error-message-container', row).eq(0).append( "<div class='error-message'>"+ data.injection_errors +"</div>");
       }

@@ -70,7 +70,7 @@ describe("Modules.AllocationDataTable.js", function() {
         }
       }
       var output = options.createdRow(row, data)
-      expect(output[0].outerHTML).toEqual('<tr class="error"><td><div class="error-message-container"><div class="error-message">I am an error</div></div></td></tr>')
+      expect(output[0].outerHTML).toEqual('<tr class="error injection-error"><td><div class="error-message-container"><div class="error-message">I am an error</div></div></td></tr>')
     });
 
     it('...should have a `createdRow` callback defined for CAV warnings', function() {

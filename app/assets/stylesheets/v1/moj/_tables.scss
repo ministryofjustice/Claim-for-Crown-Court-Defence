@@ -32,8 +32,9 @@ table {
         border: none;
       }
     }
-    &.error {
+    &.error.injection-error {
       border-left: 5px solid $error-colour;
+      color: inherit;
       td {
         padding-top: 30px !important;
         .error-message-container {

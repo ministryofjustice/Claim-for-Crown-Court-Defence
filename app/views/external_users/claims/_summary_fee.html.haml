@@ -1,9 +1,9 @@
--# VIEW for /:id/summary
-%tr
-  %th{ scope: 'row', class: 'bold' }
-    = t('shared.summary.fee_type')
-  %td
-    = fee.fee_type&.description
+- unless fee.is_transfer?
+  %tr
+    %th{ scope: 'row', class: 'bold' }
+      = t('shared.summary.fee_type')
+    %td
+      = fee.fee_type&.description
 
 - if fee.sub_type.present?
   %tr
@@ -17,6 +17,30 @@
       = t('shared.summary.case_numbers')
     %td
       = fee.case_numbers
+
+- if fee.date?
+  %tr
+    %th{ scope: 'row', class: 'bold' }
+      - if fee.is_graduated?
+        = t('shared.summary.first_day_of_hearing')
+      - else
+        = t('shared.summary.date')
+    %td
+      = fee.date
+
+- if fee.is_graduated? && fee.claim.actual_trial_length
+  %tr
+    %th{ scope: 'row', class: 'bold' }
+      = t('shared.summary.actual_trial_length')
+    %td
+      = t('external_users.claims.graduated_fees.summary.actual_trial_length', count: fee.claim.actual_trial_length)
+
+- if fee.is_transfer? && fee.claim.actual_trial_length
+  %tr
+    %th{ scope: 'row', class: 'bold' }
+      = t('external_users.claims.transfer_fee.summary.actual_trial_length')
+    %td
+      = t('external_users.claims.transfer_fee.summary.actual_trial_length_value', count: fee.claim.actual_trial_length)
 
 - if fee.calculated? || fee.is_graduated? || fee.is_transfer?
   %tr
@@ -34,23 +58,6 @@
       = t('shared.summary.rate')
     %td
       = fee.rate
-
-- if fee.date?
-  %tr
-    %th{ scope: 'row', class: 'bold' }
-      - if fee.is_graduated?
-        = t('shared.summary.first_day_of_hearing')
-      - else
-        = t('shared.summary.date')
-    %td
-      = fee.date
-
-  - if fee.is_graduated? && fee.claim.actual_trial_length
-    %tr
-      %th{ scope: 'row', class: 'bold' }
-        = t('shared.summary.actual_trial_length')
-      %td
-        = t('external_users.claims.graduated_fees.summary.actual_trial_length', count: fee.claim.actual_trial_length)
 
 - if fee.display_amount?
   %tr

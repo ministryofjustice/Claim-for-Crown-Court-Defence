@@ -16,6 +16,9 @@
               = t('.fee_category')
             %th{ scope: 'col' }
               = t('.fee_type')
+            - if claim.transfer? # could be applied to graduated too
+              %th.numeric{ scope: 'col' }
+                = t('.days_claimed')
             %th.numeric{ scope: 'col' }
               = claim.fixed_fee_case? ? t('.quantity') : 'PPE'
             - if claim.fixed_fee_case?
@@ -27,7 +30,7 @@
           - present_collection(claim.fees.select(&:present?).sort_by(&:position)).each do |fee|
             %tr
               %td
-                = fee.fee_type&.fee_category_name || 'n/a'
+                = fee.fee_type&.fee_category_name || fee.not_applicable
                 - if fee.dates_attended.any?
                   %br
                   = t('.dates_attended')
@@ -37,13 +40,16 @@
                   = t('.date')
                   = fee.date
               %td{scope: 'row'}
-                = fee.fee_type&.description || 'n/a'
+                = fee.fee_type&.description || fee.not_applicable
                 - if fee.sub_type.present?
                   %p
                     = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
                 - if fee.case_uplift?
                   %br
                   = "(#{t('.case_numbers')}: #{fee.case_numbers})"
+              - if claim.transfer?
+                %td.numeric{ scope: 'col' }
+                  = fee.days_claimed
               %td.numeric
                 = fee.quantity
               - if claim.fixed_fee_case?

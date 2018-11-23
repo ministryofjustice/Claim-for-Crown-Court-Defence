@@ -64,6 +64,10 @@ class Fee::BaseFeePresenter < BasePresenter
     true
   end
 
+  def days_claimed
+    not_applicable
+  end
+
   private
 
   def t(scope, suffix = nil)

@@ -920,6 +920,10 @@ en:
           transfer_date_new: Date you started acting
           transfer_date_original: Date you stopped acting
           case_conclusion: How did the case conclude?
+          actual_trial_length: Total days claimed
+          actual_trial_length_value:
+            one: 1 day
+            other: "%{count} days"
       error_summary:
         prohibited_save: This claim has
         error: 'error'
@@ -1018,7 +1022,7 @@ en:
         view_details_authorised_html: 'View details <span class="visuallyhidden">for total authorised</span>'
       graduated_fees:
         fields:
-          page_header: Graduated fees
+          page_header: Graduated fee
           page_hint: *fees_vat_prompt
           actual_trial_length: Actual trial length
           actual_trial_length_hint: Number of days
@@ -1028,7 +1032,7 @@ en:
           help_how_we_calculate_amount_title: *how_is_this_calculated_help
           help_how_we_calculate_amount_body: We calculate the amount based upon the fee scheme, case type, offence class, trial length and the total pages of evidence
         summary:
-          header: Graduated fees
+          header: Graduated fee
           actual_trial_length:
             one: 1 day
             other: "%{count} days"
@@ -1125,10 +1129,6 @@ en:
           caption: 'Transfer Detail: This section contains transfer details.'
           header: Transfer details
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-      transfer_fees:
-        fields:
-          transfer_fees_prompt_text_html: *graduated_fee_calculators_help
-          transfer_fees: Missing Translation
       fees_shared_header:
         fees: Fees
         fees_header_prompt_text_html: *fees_vat_prompt
@@ -1437,6 +1437,7 @@ en:
       fee_type: Fee type
       fee_subtype: Fee subtype
       case_numbers: *case_numbers
+      days_claimed: Days
       quantity: *quantity
       dates_attended: Dates attended
       fees_total: 'Fees total:'

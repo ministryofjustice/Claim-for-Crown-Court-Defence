@@ -33,7 +33,7 @@ Feature: litigator completes graduated fee page using calculator
     Given I insert the VCR cassette 'features/fee_calculator/litigator/graduated_fee_calculator'
 
     Then I click "Continue" in the claim form
-    And I should be in the 'Graduated fees' form page
+    And I should be in the 'Graduated fee' form page
     And the graduated fee amount should be populated with '442.91'
 
      # trial length (days) has no impact on guilty plea
@@ -55,7 +55,7 @@ Feature: litigator completes graduated fee page using calculator
     Then the offence class list is set to 'A: Homicide and related grave offences'
 
     Then I click "Continue" in the claim form
-    And I should be in the 'Graduated fees' form page
+    And I should be in the 'Graduated fee' form page
     And the graduated fee amount should be populated with '680.39'
 
     # case type impact

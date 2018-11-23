@@ -1,4 +1,4 @@
-RSpec::Matchers.define :have_table_headers do |*expected|
+RSpec::Matchers.define :include_table_headers do |*expected|
   match do |actual|
     @results = expected.each_with_object({}) do |text, memo|
       memo["#{text}"] = actual.has_selector?("th", text: /#{Regexp.quote(text)}\s/)

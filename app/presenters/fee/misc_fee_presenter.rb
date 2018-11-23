@@ -7,6 +7,10 @@ class Fee::MiscFeePresenter < Fee::BaseFeePresenter
     agfs? ? super : not_applicable
   end
 
+  def days_claimed
+    super
+  end
+
   private
 
   def agfs?

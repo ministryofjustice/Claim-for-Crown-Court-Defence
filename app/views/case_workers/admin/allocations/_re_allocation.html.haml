@@ -71,7 +71,7 @@
         %tbody
           = collection_check_boxes :allocation, :claim_ids, @claims, :id, :case_number do |b|
             - present(b.object) do |claim|
-              %tr{id: dom_id(claim), class: claim.injection_error ? 'error' : nil }
+              %tr{id: dom_id(claim), class: claim.injection_error ? 'error injection-error' : nil }
                 %td{'aria-label' => t(".select")}
                   .error-message-container
                     = b.label(class:'visuallyhidden'){"Choose #{claim.case_number}"}

@@ -39,7 +39,7 @@
           = sortable 'case_type', t('.case_type')
           = sortable 'last_submitted_at', t('.submission_date')
       - present_collection(claims).each do |claim|
-        %tr{ class: claim.injection_error ? 'error' : nil }
+        %tr{ class: claim.injection_error ? 'error injection-error' : nil }
           %td{'aria-label' => t(".type")}
             .error-message-container
               = claim.pretty_type

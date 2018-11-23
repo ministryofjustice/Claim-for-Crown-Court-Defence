@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181115121652) do
+ActiveRecord::Schema.define(version: 20181123102020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,11 +153,13 @@ ActiveRecord::Schema.define(version: 20181115121652) do
     t.index ["cms_number"], name: "index_claims_on_cms_number", using: :btree
     t.index ["court_id"], name: "index_claims_on_court_id", using: :btree
     t.index ["creator_id"], name: "index_claims_on_creator_id", using: :btree
+    t.index ["deleted_at"], name: "index_claims_on_deleted_at", using: :btree
     t.index ["external_user_id"], name: "index_claims_on_external_user_id", using: :btree
     t.index ["form_id"], name: "index_claims_on_form_id", using: :btree
     t.index ["offence_id"], name: "index_claims_on_offence_id", using: :btree
     t.index ["state"], name: "index_claims_on_state", using: :btree
     t.index ["transfer_case_number"], name: "index_claims_on_transfer_case_number", using: :btree
+    t.index ["uuid"], name: "index_claims_on_uuid", unique: true, using: :btree
     t.index ["valid_until"], name: "index_claims_on_valid_until", using: :btree
   end
 
@@ -205,6 +207,7 @@ ActiveRecord::Schema.define(version: 20181115121652) do
     t.datetime "updated_at"
     t.float    "vat_amount",    default: 0.0
     t.decimal  "disbursements", default: "0.0"
+    t.index ["claim_id"], name: "index_determinations_on_claim_id", using: :btree
   end
 
   create_table "disbursement_types", force: :cascade do |t|

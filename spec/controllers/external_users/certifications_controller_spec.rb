@@ -100,10 +100,30 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
           expect(claim.reload.last_submitted_at).to eq(frozen_time)
         end
 
-        it 'logs a successful message on the queue' do
-          expect(Rails.logger).to receive(:info).with(/Successfully sent message about submission of claim#/)
+        it 'notifies legacy importers' do
+          expect(sns_client).to receive(:publish).once
           post :create, params: valid_certification_params(claim, certification_type)
-          expect(sns_client).to have_received(:publish).once
+        end
+
+        context 'logging' do
+          let(:logger) { double(Rails.logger) }
+          before { allow(Rails).to receive(:logger).and_return logger }
+
+          context 'on success' do
+            it 'logs info of successful message sending' do
+              expect(logger).to receive(:info).with(/Successfully sent message about submission of claim#/)
+              post :create, params: valid_certification_params(claim, certification_type)
+            end
+          end
+
+          context 'on failure' do
+            before { allow(Aws::SNS::Client).to receive(:new).and_raise(StandardError, 'my unexpected SNS client error') }
+
+            it 'logs warning of failed message sending' do
+              expect(logger).to receive(:warn).with(/my unexpected SNS client error/)
+              post :create, params: valid_certification_params(claim, certification_type)
+            end
+          end
         end
       end
     end

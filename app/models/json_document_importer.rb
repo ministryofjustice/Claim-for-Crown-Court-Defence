@@ -83,7 +83,7 @@ class JsonDocumentImporter
   end
 
   def api_key_params
-    HashWithIndifferentAccess.new(api_key: @api_key)
+    { api_key: @api_key }.with_indifferent_access
   end
 
   def case_number_for(claim_hash, index)

@@ -335,7 +335,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     end
 
     def params_updating_roles(external_user)
-      HashWithIndifferentAccess.new(
         { id: external_user,
           external_user: {
             user_attributes: {
@@ -344,11 +343,10 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
             }
           },
           roles: %w{ admin advocate litigator}
-        })
+        }.with_indifferent_access
     end
 
     def params_updating_email(external_user)
-      HashWithIndifferentAccess.new(
         {id: external_user,
           external_user: {
             user_attributes: {
@@ -356,7 +354,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
               email: 'bobsmith@example.com'
             }
           }
-        })
+        }.with_indifferent_access
     end
 
   end

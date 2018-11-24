@@ -77,7 +77,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::InterimClaim do
   end
 
   describe 'POST api/external_users/claim/interim' do
-
     context 'valid parameters' do
       describe 'the newly created claim should ....' do
         it 'should have the same attributes as were submitted' do
@@ -107,7 +106,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::InterimClaim do
     end
 
     context 'invalid parameters' do
-
       context 'invalid email input' do
         it 'should return 400 and a JSON error array when user email is invalid' do
           valid_params[:user_email] = 'non_existent_user@bigblackhole.com'
@@ -147,31 +145,27 @@ RSpec.describe API::V1::ExternalUsers::Claims::InterimClaim do
         end
       end
 
-    context 'unexpected error' do
-      it 'should return 400 and JSON error array of error message' do
-        valid_params[:case_type_id] = 1000000000000000000000000000011111
-        post_to_create_endpoint
-        expect(last_response.status).to eq(400)
-        json = JSON.parse(last_response.body)
-        expect_error_response('out of range for ActiveModel::Type::Integer')
+      context 'unexpected error' do
+        before do
+          allow_any_instance_of(Claim::BaseClaim).to receive(:save!).and_raise(StandardError, 'my unexpected error')
+        end
+
+        it 'should return 400 and JSON error array of error message' do
+          post_to_create_endpoint
+          expect(last_response.status).to eq(400)
+          json = JSON.parse(last_response.body)
+          expect_error_response('my unexpected error')
+        end
       end
     end
-
   end
-
-
-  end
-
 
   def post_to_create_endpoint
     post ClaimApiEndpoints.for(:interim).create, valid_params, format: :json
   end
 
-
   def post_to_validate_endpoint
     post ClaimApiEndpoints.for(:interim).validate, valid_params, format: :json
   end
-
-
 end
 

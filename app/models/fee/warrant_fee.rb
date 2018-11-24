@@ -20,7 +20,7 @@
 #
 
 class Fee::WarrantFee < Fee::BaseFee
-  belongs_to :fee_type, class_name: Fee::WarrantFeeType
+  belongs_to :fee_type, class_name: 'Fee::WarrantFeeType'
 
   validates_with Fee::WarrantFeeValidator
 

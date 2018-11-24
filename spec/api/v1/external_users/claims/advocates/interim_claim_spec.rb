@@ -3,7 +3,7 @@ require 'api_spec_helper'
 require 'support/claim_api_endpoints'
 require_relative '../../shared_examples_for_all'
 
-describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
+RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -192,13 +192,15 @@ describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
       end
 
       context "unexpected error" do
-        before { valid_params[:court_id] = 1000000000000000000000000000011111 }
+        before do
+          allow_any_instance_of(Claim::BaseClaim).to receive(:save!).and_raise(StandardError, 'my unexpected error')
+        end
 
         it "should return 400 and JSON error array of error message" do
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           json = JSON.parse(last_response.body)
-          expect_error_response("out of range for ActiveModel::Type::Integer")
+          expect_error_response("my unexpected error")
         end
 
         it "should not create a new claim" do

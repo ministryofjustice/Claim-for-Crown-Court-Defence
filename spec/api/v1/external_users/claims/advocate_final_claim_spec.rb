@@ -75,7 +75,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
         post_to_validate_endpoint
         expect_unauthorised_error("Creator and advocate/litigator must belong to the provider")
       end
-
     end
 
     it "should return 400 and JSON error array when creator email is invalid" do
@@ -224,11 +223,11 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
 
       context "unexpected error" do
         it "should return 400 and JSON error array of error message" do
-          valid_params[:case_type_id] = 1000000000000000000000000000011111
+          allow_any_instance_of(Claim::BaseClaim).to receive(:save!).and_raise(StandardError, 'my unexpected error')
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           json = JSON.parse(last_response.body)
-          expect_error_response("out of range for ActiveModel::Type::Integer")
+          expect_error_response("my unexpected error")
         end
       end
     end

@@ -48,7 +48,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
   end
 
   describe "POST #{ClaimApiEndpoints.for(:final).validate}" do
-
     def post_to_validate_endpoint
       post ClaimApiEndpoints.for(:final).validate, valid_params, format: :json
     end
@@ -62,7 +61,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
     end
 
     context 'invalid API key' do
-
       include_examples "invalid API key validate endpoint"
 
       it "should return 401 and JSON error array when it is an API key from another provider's admin" do
@@ -70,7 +68,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
         post_to_validate_endpoint
         expect_unauthorised_error("Creator and advocate/litigator must belong to the provider")
       end
-
     end
 
     it 'should return 400 and JSON error array when creator email is invalid' do
@@ -93,13 +90,11 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
   end
 
   describe "POST #{ClaimApiEndpoints.for(:final).create}" do
-
     def post_to_create_endpoint
       post ClaimApiEndpoints.for(:final).create, valid_params, format: :json
     end
 
     context "when claim params are valid" do
-
       it "should create claim, return 201 and claim JSON output including UUID, but not API key" do
         post_to_create_endpoint
         expect(last_response.status).to eq(201)
@@ -122,7 +117,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
       end
 
       context "the new claim should" do
-
         before(:each) {
           post_to_create_endpoint
           @new_claim = Claim::LitigatorClaim.active.last
@@ -143,11 +137,9 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
           expect(@new_claim.external_user).to eq expected_owner.persona
         end
       end
-
     end
 
     context "when claim params are invalid" do
-
       context 'invalid API key' do
         include_examples "invalid API key create endpoint"
 
@@ -197,20 +189,20 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
           expect_error_response("Enter a case number for example A20161234",0)
           expect_error_response("Check the date case concluded",1)
         end
-    end
+      end
 
       context "unexpected error" do
+        before do
+          allow_any_instance_of(Claim::BaseClaim).to receive(:save!).and_raise(StandardError, 'my unexpected error')
+        end
+
         it "should return 400 and JSON error array of error message" do
-          valid_params[:case_type_id] = 1000000000000000000000000000011111
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           json = JSON.parse(last_response.body)
-          expect_error_response("out of range for ActiveModel::Type::Integer")
+          expect_error_response("my unexpected error")
         end
       end
-
     end
-
   end
-
 end

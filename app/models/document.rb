@@ -29,7 +29,7 @@ class Document < ApplicationRecord
 
   belongs_to :external_user
   belongs_to :creator, foreign_key: 'creator_id', class_name: 'ExternalUser'
-  belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
+  belongs_to :claim, class_name: 'Claim::BaseClaim', foreign_key: :claim_id
 
   validates_attachment :document,
                        presence: { message: 'Document must have an attachment' },

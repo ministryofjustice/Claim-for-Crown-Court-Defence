@@ -30,7 +30,8 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def transfer_detail_summary
-    Claim::TransferBrain.transfer_detail_summary(claim.transfer_detail)
+    text = Claim::TransferBrain.transfer_detail_summary(claim.transfer_detail)
+    text.humanize.gsub('pcmh', 'PCMH')
   rescue StandardError
     ''
   end

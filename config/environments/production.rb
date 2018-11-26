@@ -130,5 +130,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.active_record.raise_in_transactional_callbacks = true
+  # TODO: remove as NOT AVAILABLE in rails 5.1+
+  # This will be be default behaviour in next version of activerecord - early opt-in
+  # config.active_record.raise_in_transactional_callbacks = true
 end

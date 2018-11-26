@@ -44,7 +44,8 @@ Rails.application.configure do
   config.active_record.migration_error = :page_load
 
   # This will be be default behaviour in next version of activerecord - early opt-in
-  config.active_record.raise_in_transactional_callbacks = true
+  # TODO: remove as NOT AVAILABLE in rails 5.1+
+  # config.active_record.raise_in_transactional_callbacks = true
 
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large

@@ -41,7 +41,7 @@ moj.Modules.DataTables = {
       $.publish('/general/clear-filters/');
     });
   }
-}
+};
 
 // init the jquery plugin
 // to broadcast events from the filters

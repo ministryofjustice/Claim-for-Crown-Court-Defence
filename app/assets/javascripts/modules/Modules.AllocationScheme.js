@@ -19,7 +19,6 @@ moj.Modules.AllocationScheme = {
   },
 
   bindEvents: function() {
-
     /**
      * Publish the sheme change event
      * passng the value
@@ -30,5 +29,12 @@ moj.Modules.AllocationScheme = {
         scheme: $(e.target).val()
       });
     });
+  },
+
+  /**
+   * Return the value of the selected radio
+   */
+  selectedValue: function () {
+    return $(this.el).find('input:checked').val();
   }
-}
+};

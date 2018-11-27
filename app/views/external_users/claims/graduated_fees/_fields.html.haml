@@ -12,6 +12,7 @@
         .js-fee-calculator-effector
           = f.adp_text_field :actual_trial_length,
             label: t('.actual_trial_length'),
+            hint_text: t('.actual_trial_length_hint'),
             input_classes:'form-control form-control-1-4 js-fee-calculator-days',
             input_type: 'number',
             errors: @error_presenter
@@ -19,8 +20,7 @@
         .js-fee-calculator-effector
           = ff.adp_text_field :quantity,
             label: t('.quantity'),
-            hint_text: t('.quantity_hint'),
-            input_classes:'quantity fee-quantity form-control-1-4 js-fee-calculator-ppe',
+            input_classes:'quantity fee-quantity js-fee-calculator-ppe form-control-1-4',
             input_type: 'number',
             value: fee.quantity,
             errors: @error_presenter,

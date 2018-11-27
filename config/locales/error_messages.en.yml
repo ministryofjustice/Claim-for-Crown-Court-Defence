@@ -1244,6 +1244,10 @@ transfer_fee:
       long: Enter a valid PPE quantity for the transfer fee
       short: *enter_valid_quantity
       api: Enter a valid PPE quantity for the transfer fee
+    item_max_amount:
+      long: Enter a valid PPE quantity for the transfer fee
+      short: *enter_valid_quantity
+      api: Enter a valid PPE quantity for the transfer fee
   amount:
     _seq: 20
     blank:
@@ -1254,6 +1258,7 @@ transfer_fee:
       long: Enter a valid amount for the transfer fee
       short: *enter_valid_amount
       api: Enter a valid amount for the transfer fee
+
 
 #################################################################################
 #                                                                               #

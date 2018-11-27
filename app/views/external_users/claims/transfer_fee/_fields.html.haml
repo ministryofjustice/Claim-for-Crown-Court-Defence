@@ -1,32 +1,31 @@
-#transfer-fee.mod-fees
-  = f.anchored_without_label 'transfer_fee'
-  %h2.bold-medium
-    = t('.transfer_fee_section_header')
-  %p.form-hint.xsmall
-    = t('.transfer_fee_prompt_text_html')
-
+#transfer-fee
   = f.fields_for :transfer_fee do |tf|
-    .transfer-fee-group.nested-fields.mod-fees.js-block.fx-do-init{data:{"type": "transferFees", autovat: @claim.apply_vat? ? "true" : "false"}}
-      %fieldset
-        .form-row
-          .column-one-third
-            = tf.label :fee_type, t('.fee_type'), class: "form-label"
-            = tf.anchored_attribute 'fee_type'
-            = @claim.transfer_fee.description
+    .form-section.fx-fee-group.transfer-fee-group.js-block.fx-do-init{data:{"type": "transferFees", autovat: @claim.apply_vat? ? "true" : "false"}}
 
-          .column-one-third.fee-quantity
-            = tf.adp_text_field :quantity,
-                      label: t('.ppe_total'),
-                      input_classes:'quantity',
-                      value: number_with_precision(tf.object.quantity, precision: 0),
-                      errors: @error_presenter,
-                      error_key:'transfer_fee.quantity'
+      .js-fee-calculator-effector
+        = tf.hidden_field :fee_type_id, value: @claim.transfer_fee.fee_type.id, class: 'js-fee-type'
 
-          .column-one-third.condensed.fee-total
-            = tf.adp_text_field :amount,
-                                label: t('.total'),
-                                input_classes:'total',
-                                input_type: 'currency',
-                                value: number_with_precision(tf.object.amount, precision: 2),
-                                errors: @error_presenter,
-                                error_key: 'transfer_fee.amount'
+      .js-fee-calculator-effector
+        = f.adp_text_field :actual_trial_length,
+          label: t('.actual_trial_length'),
+          input_classes:'form-control form-control-1-4 js-fee-calculator-days',
+          input_type: 'number',
+          errors: @error_presenter
+
+      .js-fee-calculator-effector
+        = tf.adp_text_field :quantity,
+          label: t('.quantity'),
+          input_type: 'number',
+          input_classes:'quantity fee-quantity js-fee-calculator-ppe form-control-1-4',
+          value: number_with_precision(tf.object.quantity, precision: 0),
+          errors: @error_presenter,
+          error_key:'transfer_fee.quantity'
+
+      .form-group
+        = tf.adp_text_field :amount,
+            label: t('.amount'),
+            input_classes:'total fee-amount form-input-denote__input form-control-1-4',
+            input_type: 'currency',
+            value: number_with_precision(tf.object.amount, precision: 2),
+            errors: @error_presenter,
+            error_key: 'transfer_fee.amount'

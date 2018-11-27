@@ -13,11 +13,12 @@ Feature: Case worker rejects a claim, providing a reason
     And the reject refuse messaging feature is released
     And I select the claim
     And I click the rejected radio button
-    And I select the first rejection reason
+    And I select the rejection reason 'No indictment attached'
     And I click update
     Then the status at top of page should be Rejected
     Then the third message contains 'Claim rejected'
     Then the last message contains 'Your claim has been rejected'
+    And the last message contains 'No indictment attached'
 
     When I click your claims
     Then the claim I've just updated is no longer in the list

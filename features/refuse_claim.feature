@@ -13,11 +13,12 @@ Feature: Case worker rejects a claim, providing a reason
     And the reject refuse messaging feature is released
     And I select the claim
     And I click the refused radio button
-    And I select the first refusal reason
+    And I select the refusal reason 'Duplicate claim'
     And I click update
     Then the status at top of page should be Refused
     Then the third message contains 'Claim refused'
     Then the last message contains 'Your claim has been refused'
+    Then the last message contains 'Duplicate claim'
 
     When I click your claims
     Then the claim I've just updated is no longer in the list
@@ -35,12 +36,13 @@ Feature: Case worker rejects a claim, providing a reason
     When I am signed in as the case worker
     And I select the claim
     And I click the refused radio button
-    And I select the first refusal reason
+    And I select the refusal reason 'Wrong Instructed Advocate'
     And I click update
     Then the status at top of page should be Refused
     Then the messages should not contain 'Total (inc VAT): £0.00'
     Then the third message contains 'Claim refused'
     Then the last message contains 'Your claim has been refused'
+    Then the last message contains 'Wrong Instructed Advocate'
 
     When I click your claims
     Then the claim I've just updated is no longer in the list

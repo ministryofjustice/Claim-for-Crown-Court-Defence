@@ -68,9 +68,9 @@ describe("Modules.AllocationDataTable.js", function() {
         "filter": {
           "injection_errored": 1
         }
-      }
-      var output = options.createdRow(row, data)
-      expect(output[0].outerHTML).toEqual('<tr class="error injection-error"><td><div class="error-message-container"><div class="error-message">I am an error</div></div></td></tr>')
+      };
+      var output = options.createdRow(row, data);
+      expect(output[0].outerHTML).toEqual('<tr class="error injection-error"><td><div class="error-message-container"><div class="error-message">I am an error</div></div></td></tr>');
     });
 
     it('...should have a `createdRow` callback defined for CAV warnings', function() {
@@ -80,9 +80,9 @@ describe("Modules.AllocationDataTable.js", function() {
         "filter": {
           "cav_warning": 1
         }
-      }
-      var output = options.createdRow(row, data)
-      expect(output[0].outerHTML).toEqual('<tr class="cav_warning"><td><div class="warning-message-container"><div class="warning-message">CAVs not injected</div></div></td></tr>')
+      };
+      var output = options.createdRow(row, data);
+      expect(output[0].outerHTML).toEqual('<tr class="cav_warning"><td><div class="warning-message-container"><div class="warning-message">CAVs not injected</div></div></td></tr>');
     });
 
     it('...should have `processing`', function() {
@@ -106,7 +106,7 @@ describe("Modules.AllocationDataTable.js", function() {
         emptyTable: "",
         infoFiltered: "",
         processing: "Table loading, please wait a moment."
-      })
+      });
     });
 
     it('...should have `ajax`', function() {
@@ -129,7 +129,7 @@ describe("Modules.AllocationDataTable.js", function() {
         return $.map(columnDefs, function(item) {
           return item[prop];
         });
-      }
+      };
 
       var getColsDefsByTarget = function(target) {
         return $.map(columnDefs, function(item) {
@@ -137,14 +137,14 @@ describe("Modules.AllocationDataTable.js", function() {
             return item;
           }
         })[0];
-      }
+      };
 
       it('...should have `targets` defined', function() {
-        expect(getColsDefs("targets")).toEqual([0, 1, 2, 3, 4, 5, 6])
-      })
+        expect(getColsDefs("targets")).toEqual([0, 1, 2, 3, 4, 5, 6]);
+      });
 
       it('...should have `data` defined', function() {
-        expect(getColsDefs("data")).toEqual(['id', 'court_name', 'defendants'])
+        expect(getColsDefs("data")).toEqual(['id', 'court_name', 'defendants']);
       });
 
       describe('...columnDefs[total]', function() {
@@ -160,7 +160,7 @@ describe("Modules.AllocationDataTable.js", function() {
               filter: 'total_display',
               display: 'total_display'
             }
-          })
+          });
         });
       });
 
@@ -183,8 +183,16 @@ describe("Modules.AllocationDataTable.js", function() {
 
 
   describe('...Methods', function() {
-    xdescribe('...init', function() {
+    describe('...init', function() {
+      it('...should call `this.setAjaxURL`', function () {
+        spyOn(module, 'setAjaxURL').and.callThrough();
+        spyOn(moj.Modules.AllocationScheme, 'selectedValue').and.callThrough();
 
+        module.init();
+
+        expect(module.setAjaxURL).toHaveBeenCalled();
+        expect(moj.Modules.AllocationScheme.selectedValue).toHaveBeenCalled();
+      });
     });
 
     describe('...setAjaxURL', function() {
@@ -216,11 +224,11 @@ describe("Modules.AllocationDataTable.js", function() {
 
         expect(module.options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=agfs');
 
-        module.setAjaxURL('abcd')
+        module.setAjaxURL('abcd');
 
         expect(module.options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=abcd');
 
-        module.setAjaxURL()
+        module.setAjaxURL();
 
         expect(module.options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=agfs');
       });

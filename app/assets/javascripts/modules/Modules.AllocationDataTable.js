@@ -51,14 +51,13 @@ moj.Modules.AllocationDataTable = {
     ],
     // row callback to add injection errors
     createdRow: function(row, data, index) {
-      if(data.filter.injection_errored){
+      if (data.filter.injection_errored) {
         $(row).addClass('error injection-error');
-        $('td', row).eq(0).wrapInner( "<div class='error-message-container'></div>");
-        $('td .error-message-container', row).eq(0).append( "<div class='error-message'>"+ data.injection_errors +"</div>");
-      }
-      else if(data.filter.cav_warning){
+        $('td', row).eq(0).wrapInner("<div class='error-message-container'></div>");
+        $('td .error-message-container', row).eq(0).append("<div class='error-message'>" + data.injection_errors + "</div>");
+      } else if (data.filter.cav_warning) {
         $(row).addClass('cav_warning');
-        $('td', row).eq(0).wrapInner( "<div class='warning-message-container'></div>");
+        $('td', row).eq(0).wrapInner("<div class='warning-message-container'></div>");
         $('td .warning-message-container', row).eq(0).append("<div class='warning-message'>CAVs not injected</div>");
       }
       return row;
@@ -167,7 +166,8 @@ moj.Modules.AllocationDataTable = {
 
     this.searchConfig.key = $('#api-key').data('api-key');
 
-    this.setAjaxURL();
+    // Get the selected value and update the URL
+    this.setAjaxURL(moj.Modules.AllocationScheme.selectedValue());
     this.dataTable = moj.Modules.DataTables._init(this.options, '#dtAllocation');
 
     // :(
@@ -184,11 +184,11 @@ moj.Modules.AllocationDataTable = {
    */
   setAjaxURL: function(scheme) {
     this.searchConfig.scheme = scheme || this.defaultScheme;
-
-    return this.options.ajax.url = '/api/search/unallocated?api_key={0}&scheme={1}'.supplant([
+    this.options.ajax.url = '/api/search/unallocated?api_key={0}&scheme={1}'.supplant([
       this.searchConfig.key,
       this.searchConfig.scheme
     ]);
+    return this.options.ajax.url;
   },
   /**
    * Check if there are any rows selected
@@ -227,7 +227,7 @@ moj.Modules.AllocationDataTable = {
         //
         // If the task is the `Disk Evidence` one - we simply return the
         // `filter.disk_evidence` value
-        return self.searchConfig.task === 'disk_evidence' ? rowData.filter.disk_evidence : !rowData.filter.disk_evidence
+        return self.searchConfig.task === 'disk_evidence' ? rowData.filter.disk_evidence : !rowData.filter.disk_evidence;
       }
 
       // The row does not meet the task filter
@@ -271,7 +271,7 @@ moj.Modules.AllocationDataTable = {
 
     // EVENT: Clear all filters & reset table
     $.subscribe('/filter/clearAll', function(e, data) {
-      self.clearFilter(e, data)
+      self.clearFilter(e, data);
     });
 
     // EVENT: Task filter
@@ -419,4 +419,4 @@ moj.Modules.AllocationDataTable = {
     this.dataTable.ajax.url(this.setAjaxURL(data.scheme));
     return this.dataTable.ajax.reload();
   }
-}
+};

@@ -27,7 +27,7 @@ module Claim
       50 => 'Guilty plea'
     }.freeze
 
-    data_item_collection_delegate :allocation_type, :bill_scenario, :ppe_required
+    data_item_collection_delegate :allocation_type, :bill_scenario, :ppe_required, :days_claimable
 
     def self.transfer_detail_summary(detail)
       TransferBrainDataItemCollection.instance.transfer_fee_full_name(detail)

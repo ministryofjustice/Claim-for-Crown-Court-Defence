@@ -47,7 +47,9 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Given I insert the VCR cassette 'features/claims/litigator/transfer_fee_calculations'
     And I click "Continue" in the claim form
 
-    And the transfer fee amount should be populated with '224.23'
+    Then the transfer fee amount should be populated with '224.23'
+    And I should not see the days claimed field
+    And I should see the ppe field
     And I fill '50' as the ppe total
     Then the transfer fee amount should be populated with '224.23'
     And I fill '51' as the ppe total

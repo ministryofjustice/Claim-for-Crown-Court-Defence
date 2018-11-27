@@ -5,21 +5,24 @@
       .js-fee-calculator-effector
         = tf.hidden_field :fee_type_id, value: @claim.transfer_fee.fee_type.id, class: 'js-fee-type'
 
-      .js-fee-calculator-effector
-        = f.adp_text_field :actual_trial_length,
-          label: t('.actual_trial_length'),
-          input_classes:'form-control form-control-1-4 js-fee-calculator-days',
-          input_type: 'number',
-          errors: @error_presenter
+      - unless @claim.transfer_detail.elected_case?
 
-      .js-fee-calculator-effector
-        = tf.adp_text_field :quantity,
-          label: t('.quantity'),
-          input_type: 'number',
-          input_classes:'quantity fee-quantity js-fee-calculator-ppe form-control-1-4',
-          value: number_with_precision(tf.object.quantity, precision: 0),
-          errors: @error_presenter,
-          error_key:'transfer_fee.quantity'
+        - if @claim.transfer_detail.days_claimable?
+          .js-fee-calculator-effector
+            = f.adp_text_field :actual_trial_length,
+              label: t('.actual_trial_length'),
+              input_classes:'form-control form-control-1-4 js-fee-calculator-days',
+              input_type: 'number',
+              errors: @error_presenter
+
+        .js-fee-calculator-effector
+          = tf.adp_text_field :quantity,
+            label: t('.quantity'),
+            input_type: 'number',
+            input_classes:'quantity fee-quantity js-fee-calculator-ppe form-control-1-4',
+            value: number_with_precision(tf.object.quantity, precision: 0),
+            errors: @error_presenter,
+            error_key:'transfer_fee.quantity'
 
       .js-fee-calculator-effectee
         .calculated-grad-fee

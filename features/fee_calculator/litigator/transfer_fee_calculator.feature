@@ -43,6 +43,8 @@ Feature: litigator completes transfer fee page using calculator
     Then I click "Continue" in the claim form
     And I should be in the 'Transfer fee' form page
     And the transfer fee amount should be populated with '733.79'
+    And I should see the days claimed field
+    And I should see the ppe field
 
      # trial length (days) trial - first two days included
     And I fill '2' as the actual trial length
@@ -75,12 +77,11 @@ Feature: litigator completes transfer fee page using calculator
 
     Then I click "Continue" in the claim form
     And I goto claim form step 'transfer fees'
-    And the transfer fee amount should be populated with '442.91'
 
     # trial length (days) - no impact for guilty plea
-    And I fill '10000' as the actual trial length
     And the transfer fee amount should be populated with '442.91'
-    And I fill '0' as the actual trial length
+    And I should not see the days claimed field
+    And I should see the ppe field
 
     # ppe impact for guilty plea
     And I fill '40' as the ppe total

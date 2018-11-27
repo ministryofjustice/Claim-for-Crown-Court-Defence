@@ -223,4 +223,40 @@ RSpec.describe ExpensePresenter do
       it { is_expected.to eql 'Timbuktu' }
     end
   end
+
+  describe '#show_map_link?' do
+    subject { presenter.show_map_link? }
+
+    let(:claim) { create(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(1)) }
+    let(:expense) { create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim: claim) }
+    let(:mileage_rate) { 1 }
+
+    context 'when the mileage rate is 45p' do
+      let(:mileage_rate) { 2 }
+
+      { accepted: 27, decreased: 28, increased: 26 }.each do |type, value|
+        context "and the distance is #{type}" do
+          let(:calculated_distance) { value }
+
+          it { is_expected.to be true }
+        end
+      end
+    end
+
+    context 'when the mileage rate is 25p' do
+      { accepted: 27, decreased: 28 }.each do |type, value|
+        context "and the distance is #{type}" do
+          let(:calculated_distance) { value }
+
+          it { is_expected.to be false }
+        end
+      end
+
+      context 'and the distance is increased' do
+        let(:calculated_distance) { 26 }
+
+        it { is_expected.to be true }
+      end
+    end
+  end
 end

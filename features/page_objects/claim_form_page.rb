@@ -71,7 +71,7 @@ class ClaimFormPage < SitePrism::Page
 
   element :additional_information, "textarea#claim_additional_information"
   element :continue, "div.button-holder > input:nth-of-type(1)"
-  element :submit_to_laa, "div.button-holder > input:nth-of-type(1)"
+  element :submit_to_laa, "div.button-holder > input:nth-of-type(1)" # this maps to Save and continue too
   element :save_to_drafts, "div.button-holder > input:nth-of-type(2)"
 
   sections :errors, "div.error-summary > ul > li" do

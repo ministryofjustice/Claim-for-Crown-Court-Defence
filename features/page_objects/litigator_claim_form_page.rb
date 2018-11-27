@@ -19,7 +19,7 @@ class LitigatorClaimFormPage < ClaimFormPage
   section :graduated_fee, LgfsGraduatedFeeSection, ".graduated-fee-group"
   section :fixed_fee, LgfsFixedFeeSection, ".fixed-fee-group"
 
-  element :ppe_total, "#claim_graduated_fee_attributes_quantity"
+  element :ppe_total, "input.quantity"
   element :actual_trial_length, "#claim_actual_trial_length"
   section :graduated_fee_date, CommonDateSection, "div.graduated-fee-group"
 

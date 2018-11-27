@@ -1,6 +1,7 @@
 @javascript
 Feature: Litigator partially fills out a draft transfer claim, then later edits and submits it
 
+  @fee_calc_vcr
   Scenario: I create a transfer claim, save it to draft and later complete it
 
     Given I am a signed in litigator
@@ -23,6 +24,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date
+
     And I click "Continue" in the claim form
 
     And I save as draft
@@ -34,22 +36,26 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     When I click the claim 'A20161234'
     And I edit the claim's defendants
 
-    And I enter defendant, representation order and MAAT reference
-    And I add another defendant, representation order and MAAT reference
+    And I enter defendant, LGFS representation order and MAAT reference
+    And I add another defendant, LGFS representation order and MAAT reference
 
     And I click "Continue" in the claim form
 
     And I select the offence category 'Handling stolen goods'
     And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
+    Given I insert the VCR cassette 'features/claims/litigator/transfer_fee_calculations'
     And I click "Continue" in the claim form
 
-    When I click Submit to LAA
-    Then I should see the error 'Add a transfer fee'
-
-    Then I fill in '121.21' as the transfer fee total
+    And the transfer fee amount should be populated with '224.23'
+    And I fill '50' as the ppe total
+    Then the transfer fee amount should be populated with '224.23'
+    And I fill '51' as the ppe total
+    Then the transfer fee amount should be populated with '228.64'
 
     Then I click "Continue" in the claim form
+
+    And I eject the VCR cassette
 
     And I add a litigator miscellaneous fee 'Costs judge application'
     And I add a litigator miscellaneous fee 'Defendant uplift'
@@ -64,7 +70,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
-    And I add an expense date for scheme 9
+    And I add an expense date for LGFS
 
     Then I click "Continue" in the claim form
 
@@ -85,4 +91,4 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£636.03'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£743.46'

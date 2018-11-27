@@ -20,7 +20,7 @@ module Claim
       @collection_hash = construct_collection_hash
     end
 
-    data_item_delegate :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required
+    data_item_delegate :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable
 
     def to_h
       @collection_hash

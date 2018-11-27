@@ -10,6 +10,7 @@ module Claim
       @allocation_type = data_item.allocation_type
       @bill_scenario = data_item.bill_scenario
       @ppe_required = data_item.ppe_required
+      @days_claimable = data_item.days_claimable
     end
 
     def to_h
@@ -22,7 +23,8 @@ module Claim
                 transfer_fee_full_name: @transfer_fee_full_name,
                 allocation_type: @allocation_type,
                 bill_scenario: @bill_scenario,
-                ppe_required: @ppe_required
+                ppe_required: @ppe_required,
+                days_claimable: @days_claimable
               }
             }
           }

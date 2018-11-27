@@ -39,7 +39,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       end
 
       it 'assigns deep nested hash with expected keys' do
-        expect(collection_hash.dig("new", true, 10, "*").keys).to include(:validity, :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required)
+        expect(collection_hash.dig("new", true, 10, "*").keys).to include(:validity, :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable)
       end
 
       it 'adds one nested hash for each data item' do
@@ -145,7 +145,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
     context 'when given valid details with a mappable case conclusion id' do
       let(:detail) { with_specific_mapping }
 
-      it 'returns for matching detail' do
+      it 'returns boolean' do
         is_expected.to be_in(%w[TRUE FALSE])
       end
     end
@@ -153,7 +153,27 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
     context 'when given valid details with a wildcard case conclusion id' do
       let(:detail) { with_wildcard_mapping }
 
-      it 'returns bill scenario for matching detail' do
+      it 'returns boolean' do
+        is_expected.to be_in(%w[TRUE FALSE])
+      end
+    end
+  end
+
+  describe '#days_claimable' do
+    subject(:call) { collection.days_claimable(detail) }
+
+    context 'when given valid details with a mappable case conclusion id' do
+      let(:detail) { with_specific_mapping }
+
+      it 'returns boolean' do
+        is_expected.to be_in(%w[TRUE FALSE])
+      end
+    end
+
+    context 'when given valid details with a wildcard case conclusion id' do
+      let(:detail) { with_wildcard_mapping }
+
+      it 'returns boolean' do
         is_expected.to be_in(%w[TRUE FALSE])
       end
     end

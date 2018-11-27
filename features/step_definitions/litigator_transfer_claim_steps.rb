@@ -29,6 +29,22 @@ Then(/^the transfer fee amount should be populated with '(\d+\.\d+)'$/) do |amou
   expect(@litigator_transfer_claim_form_page.transfer_fee.amount.value).to eql amount
 end
 
+Then(/^I should (not )?see the days claimed field$/) do |negate|
+  if negate
+    expect(@litigator_transfer_claim_form_page.transfer_fee).to_not have_days_total
+  else
+    expect(@litigator_transfer_claim_form_page.transfer_fee).to have_days_total
+  end
+end
+
+Then(/^I should (not )?see the ppe field$/) do |negate|
+  if negate
+    expect(@litigator_transfer_claim_form_page.transfer_fee).to_not have_ppe_total
+  else
+    expect(@litigator_transfer_claim_form_page.transfer_fee).to have_ppe_total
+  end
+end
+
 Then(/^the transfer fee should have its price_calculated value set to true$/) do
   claim = Claim::BaseClaim.find(@claim_form_page.claim_id)
   expect(claim.transfer_fee.price_calculated).to eql true

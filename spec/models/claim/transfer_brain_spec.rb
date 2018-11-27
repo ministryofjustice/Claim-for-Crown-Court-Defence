@@ -93,9 +93,16 @@ RSpec.describe Claim::TransferBrain do
   end
 
   describe '.ppe_required' do
-    it 'returns a boolean string denoting wether PPE quantity is required for the transfer fee' do
+    it 'returns a boolean string denoting whether PPE quantity is required for the transfer fee' do
       td = transfer_detail('new', true, 10)
       expect(described_class.ppe_required(td)).to eq "FALSE"
+    end
+  end
+
+  describe '.days_claimable' do
+    it 'returns a boolean string denoting whether total days claimed (actual_trial_length) quantity effects calculated price ' do
+      td = transfer_detail('new', true, 10)
+      expect(described_class.days_claimable(td)).to eq "FALSE"
     end
   end
 

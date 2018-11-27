@@ -40,5 +40,19 @@ FactoryBot.define do
       transfer_stage_id 20
       case_conclusion_id 30
     end
+
+    trait :with_days_claimable do
+      litigator_type 'new'
+      elected_case false
+      transfer_stage_id 30
+      case_conclusion_id 10
+    end
+
+    trait :with_days_not_required do
+      litigator_type 'new'
+      elected_case true
+      transfer_stage_id 20
+      case_conclusion_id 10 # Trial
+    end
   end
 end

@@ -102,6 +102,33 @@ RSpec.describe Claim::TransferDetail do
     end
   end
 
+  describe '#days_claimable' do
+    it_behaves_like 'transfer brain delegator', :days_claimable, 'TRUE' do
+      let(:detail) { build(:transfer_detail, :with_days_claimable) }
+    end
+
+    it_behaves_like 'transfer brain delegator', :days_claimable, 'FALSE' do
+      let(:detail) { build(:transfer_detail, :with_days_not_required) }
+    end
+  end
+
+  describe '#days_claimable?' do
+    context 'when transfer details require days' do
+      subject(:detail) { build(:transfer_detail, :with_days_claimable) }
+      it { is_expected.to be_days_claimable }
+    end
+
+    context 'when transfer details do not require days' do
+      subject(:detail) { build(:transfer_detail, :with_days_not_required) }
+      it { is_expected.to_not be_days_claimable }
+    end
+
+    context 'when transfer details combination are invalid' do
+      subject(:detail) { build(:transfer_detail, :with_invalid_combo) }
+      it { is_expected.to_not be_days_claimable }
+    end
+  end
+
   describe '#transfer_stages' do
     it_behaves_like 'transfer brain delegator', :transfer_stage do
       let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil) }

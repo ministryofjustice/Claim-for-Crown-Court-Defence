@@ -27,8 +27,9 @@
               = t('.distance_calculated')
           = expense.pretty_calculated_distance
           %br/
-      %li
-        = link_to_map t('.view_map_link'), origin: claim.supplier_postcode, destination: expense.location_postcode, target: '_blank'
+      -if expense.show_map_link?
+        %li
+          = link_to_map expense, origin: claim.supplier_postcode, destination: expense.location_postcode, target: '_blank'
 
     - else
       - if expense.distance?

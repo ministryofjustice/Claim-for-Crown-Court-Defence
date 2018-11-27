@@ -27,6 +27,7 @@ en:
       other: 'miles'
   net_amount: &net_amount Net amount
   vat_amount: &vat_amount VAT amount
+  ppe_quantity: &ppe_quantity Total pages of evidence
   rate: &rate Rate
   quantity: &quantity Quantity
   views:
@@ -97,6 +98,10 @@ en:
   general:
     not_provided: *not_provided
     not_applicable: *not_applicable
+  content:
+    graduated_fee_calculators_help: &graduated_fee_calculators_help Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators init</a> for help.
+    how_is_this_calculated_help: &how_is_this_calculated_help How is this calculated?
+
 
   activemodel:
     attributes:
@@ -893,11 +898,13 @@ en:
           additional_information: Additional information
       transfer_fee:
         fields:
-          ppe_total: "PPE total"
-          transfer_fee_section_header: Transfer fee
-          transfer_fee_prompt_text_html: You must enter a total amount for the transfer fee. Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
-          fee_type: Fee type
-          total: Total
+          page_header: Transfer fee
+          page_hint: *fees_vat_prompt
+          actual_trial_length: Total days claimed
+          quantity: *ppe_quantity
+          amount: *net_amount
+          help_how_we_calculate_amount_title: *how_is_this_calculated_help
+          help_how_we_calculate_amount_body: We calculate the amount based upon the fee scheme, transfer details, offence class, days claimed and the total pages of evidence
         detail_fields:
           litigator_type: Litigator type
           elected_case: Was the case elected?
@@ -956,7 +963,7 @@ en:
             quantity_hint: 'Enter a quantity'
             rate: *rate
             amount: Total
-            prompt_text_html: &graduated_fee_prompt_content Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help.
+            prompt_text_html: *graduated_fee_calculators_help
             select_sub_type: "Please select the relevant option"
             date: "Date"
             help_how_we_calculate_rate_title: How is this rate calculated?
@@ -1014,13 +1021,12 @@ en:
           page_header: Graduated fees
           page_hint: *fees_vat_prompt
           actual_trial_length: Actual trial length
-          graduated_fees: Graduated fees
-          graduated_prompt_text: *graduated_fee_prompt_content
+          actual_trial_length_hint: Number of days
           rate: *rate
-          quantity: Total pages of evidence
-          quantity_hint: Enter a quantity
+          quantity: *ppe_quantity
+          quantity_hint: Number of pages
           amount: *net_amount
-          help_how_we_calculate_amount_title: How is this calculated?
+          help_how_we_calculate_amount_title: *how_is_this_calculated_help
           help_how_we_calculate_amount_body: We calculate the amount based upon the fee scheme, case type, offence class, trial length and the total pages of evidence
         summary:
           header: Graduated fees
@@ -1093,7 +1099,7 @@ en:
         fields:
           interim_fees: "Interim fees"
           interim_fees_prompt_text_vat: *fees_vat_prompt
-          interim_fees_prompt_text_html: *graduated_fee_prompt_content
+          interim_fees_prompt_text_html: *graduated_fee_calculators_help
           fee_type: "Fee type"
           ppe_total: "PPE total at the time"
           total: "Total"
@@ -1122,7 +1128,7 @@ en:
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       transfer_fees:
         fields:
-          transfer_fees_prompt_text_html: *graduated_fee_prompt_content
+          transfer_fees_prompt_text_html: *graduated_fee_calculators_help
           transfer_fees: Missing Translation
       fees_shared_header:
         fees: Fees
@@ -1345,7 +1351,7 @@ en:
         date_executed: "Warrant executed"
         total: "Total"
       total: "Total"
-      ppe: Total pages of evidence
+      ppe: *ppe_quantity
       ppe_total: "PPE total at the time"
       effective_pcmh_date: "Effective PCMH"
       trial_start: "Trial start"

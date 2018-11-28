@@ -369,7 +369,7 @@ RSpec.describe 'API claim creation for AGFS' do
       let(:advocate_category) { 'Junior' }
 
       specify 'Case management system creates a valid scheme 10 interim/warrant fee claim' do
-        post ClaimApiEndpoints.for('advocates/interim').create, claim_params.merge(offence_id: offence.id).except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length,:trial_concluded_at), format: :json
+        post ClaimApiEndpoints.for('advocates/interim').create, claim_params.merge(offence_id: offence.id).except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length, :trial_concluded_at), format: :json
         expect(last_response.status).to eql 201
 
         claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)

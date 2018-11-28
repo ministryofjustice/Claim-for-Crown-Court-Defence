@@ -31,6 +31,7 @@ class ApiTestClient
 
   def run
     AdvocateClaimTest.new(client: self).test_creation!
+    AdvocateInterimClaimTest.new(client: self).test_creation!
     FinalClaimTest.new(client: self).test_creation!
     InterimClaimTest.new(client: self).test_creation!
     TransferClaimTest.new(client: self).test_creation!

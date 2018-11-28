@@ -1278,7 +1278,7 @@ en:
       expense: Expense
       expenses:
         caption: &expenses_caption 'Expenses: A detailed list by Type including amount, distance and location where applicable'
-        travel_expense_additional_information: Additional expenses information
+        travel_expense_additional_information: Additional information
         travel_expenses: Travel expenses
         index:
           calculated_distance: Calculated distance

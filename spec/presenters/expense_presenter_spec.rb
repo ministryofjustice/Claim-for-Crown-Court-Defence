@@ -257,6 +257,12 @@ RSpec.describe ExpensePresenter do
 
         it { is_expected.to be true }
       end
+
+      context 'and the calculated_distance is nil' do
+        let(:calculated_distance) { nil }
+
+        it { is_expected.to be false }
+      end
     end
   end
 end

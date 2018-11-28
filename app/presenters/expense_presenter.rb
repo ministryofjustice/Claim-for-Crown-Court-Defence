@@ -70,7 +70,7 @@ class ExpensePresenter < BasePresenter
   end
 
   def show_map_link?
-    if expense.mileage_rate_id.eql?(1) && expense.distance <= expense.calculated_distance
+    if expense.mileage_rate_id&.eql?(1) && expense.distance <= (expense.calculated_distance ||= expense.distance)
       false
     else
       true

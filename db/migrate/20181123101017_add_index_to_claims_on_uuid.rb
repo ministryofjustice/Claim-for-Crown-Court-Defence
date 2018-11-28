@@ -1,4 +1,4 @@
-class AddIndexToClaimsOnUuid < ActiveRecord::Migration
+class AddIndexToClaimsOnUuid < ActiveRecord::Migration[5.0]
   self.disable_ddl_transaction!
 
   def change

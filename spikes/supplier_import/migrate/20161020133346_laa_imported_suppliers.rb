@@ -1,4 +1,4 @@
-class LaaImportedSuppliers < ActiveRecord::Migration
+class LaaImportedSuppliers < ActiveRecord::Migration[4.2]
   def change
     create_table :laa_imported_suppliers do |t|
       t.string :accCode, index: true, null: false

@@ -1055,6 +1055,11 @@ fixed_fee:
       long: 'Enter a valid quantity for the #{fixed_fee}'
       short: *enter_valid_quantity
       api: Enter a valid quantity for the fixed fee
+    # TODO: saf_invalid only required since fixed fee checkboxes - could do with tidying up
+    saf_invalid:
+      long: 'Enter a valid quantity for the #{fixed_fee}'
+      short: *enter_valid_quantity
+      api: Enter a valid quantity for the fixed fee
     integer:
       long: You must specify a whole number for this type of fee
       short: Whole number

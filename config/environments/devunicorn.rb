@@ -19,6 +19,19 @@ Rails.application.configure do
     url: "tmp/dev/reports/:filename"
   }
 
+  # logging
+  jsonlogger = LogStuff.new_logger("#{Rails.root}/log/logstash_development.log", Logger::INFO)
+  config.logstasher.enabled = true
+  config.logstasher.suppress_app_log = false
+  config.logstasher.logger = jsonlogger
+
+  # Need to specifically set the logstasher loglevel since it will overwrite the one set earlier
+  config.logstasher.log_level = Logger::DEBUG
+  config.logstasher.source = 'cccd.development'
+  # Reuse logstasher logger with logstuff
+  LogStuff.setup(:logger => jsonlogger)
+  LogStuff.source = 'cccd.development'
+
   #Removed to allow for remote device testing (Ipad or other tablets)
   #config.action_controller.asset_host = "http://localhost:3000"
 

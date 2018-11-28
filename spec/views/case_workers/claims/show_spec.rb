@@ -137,6 +137,72 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
     end
   end
 
+  context 'calculated travel expense' do
+    let(:claim) { build(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(1)) }
+    let!(:establishment) { create(:establishment, :crown_court, name: 'Basildon', postcode: 'SS14 2EW') }
+
+    before do
+      allow(view).to receive(:current_user_persona_is?).with(CaseWorker).and_return(true)
+
+      claim.save
+      expense.save
+      assign(:claim, claim.reload)
+      render
+    end
+
+    context 'with a lower rate, non increased calculated distance' do
+      let(:expense) { build(:expense, :with_calculated_distance, mileage_rate_id: 1, location: 'Basildon', date: 3.days.ago, claim: claim) }
+
+      it 'does not render a map link' do
+        expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
+      end
+    end
+
+    context 'with a lower rate and a calculated and reduced distance' do
+      let(:expense) { build(:expense, :with_calculated_distance_decreased, mileage_rate_id: 1,location: 'Basildon',date: 3.days.ago, claim: claim) }
+
+      it 'does not render a map link' do
+        expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
+      end
+    end
+
+    context 'with a lower rate and a calculated but increased distance' do
+      let(:expense) { build(:expense, :with_calculated_distance_increased, mileage_rate_id: 1, location: 'Basildon',date: 3.days.ago, claim: claim) }
+
+      it 'renders a map link' do
+        expect(rendered).to have_link_to(/google.*maps.*origin=.*destination=.*/)
+        expect(rendered).to have_link('View car journey')
+      end
+    end
+
+    context 'with a higher rate, non increased calculated distance' do
+      let(:expense) { build(:expense, :with_calculated_distance, mileage_rate_id: 2, location: 'Basildon', date: 3.days.ago, claim: claim) }
+
+      it 'renders a map link' do
+        expect(rendered).to have_link_to(/google.*maps.*origin=.*destination=.*/)
+        expect(rendered).to have_link('View public transport journey')
+      end
+    end
+
+    context 'with a higher rate and a calculated and reduced distance' do
+      let(:expense) { build(:expense, :with_calculated_distance_decreased, mileage_rate_id: 2,location: 'Basildon',date: 3.days.ago, claim: claim) }
+
+      it 'renders a map link' do
+        expect(rendered).to have_link_to(/google.*maps.*origin=.*destination=.*/)
+        expect(rendered).to have_link('View public transport journey')
+      end
+    end
+
+    context 'with a higher rate and a calculated but increased distance' do
+      let(:expense) { build(:expense, :with_calculated_distance_increased, mileage_rate_id: 2, location: 'Basildon',date: 3.days.ago, claim: claim) }
+
+      it 'renders a map link' do
+        expect(rendered).to have_link_to(/www.google.co.uk\/maps/)
+        expect(rendered).to have_link('View public transport journey')
+      end
+    end
+  end
+
   context 'reject/refuse reasons' do
     let(:claim) { create(:allocated_claim) }
 

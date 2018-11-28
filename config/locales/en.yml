@@ -236,6 +236,8 @@ en:
       upload: 'Choose file to upload'
   maat_reference_number: 'MAAT reference'
   maat_reference_number_eg: 'for example 1234567'
+  view_car_journey_link: View car journey
+  view_public_transport_link: View public transport journey
 
   page_headings:
     edit_lgfs_claim: Edit litigator claim
@@ -1276,7 +1278,7 @@ en:
       expense: Expense
       expenses:
         caption: &expenses_caption 'Expenses: A detailed list by Type including amount, distance and location where applicable'
-        travel_expense_additional_information: Additional expenses information
+        travel_expense_additional_information: Additional information
         travel_expenses: Travel expenses
         index:
           calculated_distance: Calculated distance

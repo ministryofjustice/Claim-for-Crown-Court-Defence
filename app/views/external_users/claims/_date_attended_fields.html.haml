@@ -1,7 +1,7 @@
 - if !defined?(hide_remove)
   - hide_remove = false
 
-.extra-data.nested-fields.fee-dates.fee-dates-from
+.extra-data.nested-fields.fee-dates.fee-dates-from.form-group
   - if defined?(parent_model_prefix) && defined?(submodel_count)
     - error_prefix = "#{parent_model_prefix}_date_attended_#{submodel_count}"
   - else
@@ -10,7 +10,7 @@
   - unless hide_remove
     = link_to_remove_association t(".remove"), f, {class: "date-action"}
 
-  .fee-date-from.panel-margin-fix
+  .fee-date-from
     - if defined?(locale_scope)
       - locale_key = f.object.claim.case_type.name.split(' ').collect(&:capitalize).join.underscore
 

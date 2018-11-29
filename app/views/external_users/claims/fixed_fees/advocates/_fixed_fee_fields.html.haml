@@ -15,19 +15,19 @@
 
 -# Panel content
 .panel.panel-border-narrow.js-hidden{:id => to_slug(f.object.description)}
-  .form-section.fixed-fee-group.fx-fee-group.js-block.fx-do-init{data:{type:"fixedFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
+  .fixed-fee-group.fx-fee-group.js-block.fx-do-init{data:{type:"fixedFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
+    = f.hidden_field :fee_type_id
 
-    .form-group
-      = f.hidden_field :fee_type_id
 
     - if f.object.fee_type.case_uplift?
-      = f.adp_text_field :case_numbers,
+      .form-group
+        = f.adp_text_field :case_numbers,
           label: t('.case_numbers'),
           input_classes:'js-fixed-fee-case-numbers',
           hint_text:'Separate by commas',
           errors: @error_presenter
-
-    = f.adp_text_field :quantity,
+    .form-group
+      = f.adp_text_field :quantity,
         label: t('.quantity'),
         hint_text: t('.quantity_hint'),
         hide_hint: true,
@@ -36,7 +36,7 @@
         value: fee.quantity,
         errors: @error_presenter
 
-    .js-fee-calculator-effectee
+    .form-group.js-fee-calculator-effectee
       .calculated-fee
       = f.adp_text_field :rate,
           label: t('.rate'),
@@ -59,11 +59,12 @@
             = t('.help_how_we_calculate_rate_body')
 
     .dates-wrapper.form-group
-      %div
+      .cocoon-insert-wrapper
+        - f.object.dates_attended.build unless f.object.dates_attended.any?
         = f.fields_for :dates_attended do |date_attended|
           = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "fixed_fee_#{@fixed_fee_count}"
 
-      = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', partial: 'date_attended_fields', data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
+      = link_to_add_association t('.add_date_attended'), f, :dates_attended, 'partial' => 'date_attended_fields', data: { 'association-insertion-method' => 'append', 'association-insertion-node' => '.cocoon-insert-wrapper', 'association-insertion-traversal' => 'prev'}
 
     .form-group
       %label.form-label-bold

@@ -1158,7 +1158,7 @@ en:
             case_numbers: *case_numbers
             no_dates: 'No dates currently selected.'
             fee_type: 'Type of fee'
-            add_date_attended: 'Add dates'
+            add_date_attended: 'Add another date'
             remove: 'Remove'
             net_amount: *net_amount
             help_how_we_calculate_rate_title: How is this rate calculated?

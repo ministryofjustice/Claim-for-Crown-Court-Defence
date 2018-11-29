@@ -1,4 +1,8 @@
+require_relative 'debuggable'
+
 class BaseClaimTest
+  include Debuggable
+
   attr_accessor :client, :claim_uuid
 
   # dropdown endpoints

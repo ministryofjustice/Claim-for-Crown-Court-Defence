@@ -14,11 +14,18 @@
 #   end
 # ---------------------------------------
 #
+# To debug any test:
+#
+# debug('my debug statement', :red)
+#
+
 require 'caching/api_request'
 require 'rest-client'
 Dir[File.join(Rails.root, 'spec', 'support', 'api', 'claims', '*.rb')].each { |file| require file }
 
 class ApiTestClient
+  include Debuggable
+
   attr_reader :success, :full_error_messages, :messages
 
   EXTERNAL_USER_PREFIX = 'api/external_users'.freeze
@@ -32,9 +39,9 @@ class ApiTestClient
   def run
     AdvocateClaimTest.new(client: self).test_creation!
     AdvocateInterimClaimTest.new(client: self).test_creation!
-    FinalClaimTest.new(client: self).test_creation!
-    InterimClaimTest.new(client: self).test_creation!
-    TransferClaimTest.new(client: self).test_creation!
+    LitigatorFinalClaimTest.new(client: self).test_creation!
+    LitigatorInterimClaimTest.new(client: self).test_creation!
+    LitigatorTransferClaimTest.new(client: self).test_creation!
   end
 
   def run_debug_session
@@ -47,16 +54,12 @@ class ApiTestClient
 
   def post_to_endpoint(resource, payload, debug = false)
     endpoint = RestClient::Resource.new([api_root_url, EXTERNAL_USER_PREFIX, resource].join('/'))
-    if debug
-      puts ">>> POSTING TO #{endpoint} <<<<<"
-      puts payload
-    end
-    endpoint.post(payload, content_type: :json, accept: :json) do |response, _request, _result|
-      if debug
-        puts "<<< RESPONSE #{response.code} <<<<<"
-        puts "<<< #{response.body} "
-        puts " \n"
-      end
+    debug("POSTING TO #{endpoint}") if debug
+    debug("Payload:\n#{payload}\n") if debug
+
+    endpoint.post(payload.to_json, content_type: :json, accept: :json) do |response, _request, _result|
+      debug("Code: #{response.code}") if debug
+      debug("Body:\n#{response.body}\n") if debug
       handle_response(response, resource)
       response
     end

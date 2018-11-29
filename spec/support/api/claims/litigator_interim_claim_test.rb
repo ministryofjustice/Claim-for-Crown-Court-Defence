@@ -1,6 +1,6 @@
 require_relative 'base_claim_test'
 
-class InterimClaimTest < BaseClaimTest
+class LitigatorInterimClaimTest < BaseClaimTest
   def test_creation!
     puts 'starting'
 

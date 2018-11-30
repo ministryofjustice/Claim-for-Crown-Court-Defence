@@ -846,8 +846,9 @@ en:
           remove: "Remove disbursement"
       expenses:
         textarea_additional_info:
-          additional_info_heading: Additional information (optional)
-          additional_info_label: Provide any information that will help in the assessment of your expenses
+          additional_info_heading: Additional information
+          agfs_additional_info_label: 'Provide any information that will help in the assessment of your expenses. For example, if you claim the private mileage rate on travel expenses, we need to know why.'
+          lgfs_additional_info_label: 'Provide any information that will help in the assessment of your expenses. For example, if you claim the private mileage rate or increase the mileage on travel expenses, we need to know why.'
         expense_fields:
           summary_heading: "How we calculate the distance"
           summary_content: |
@@ -1276,7 +1277,7 @@ en:
       expense: Expense
       expenses:
         caption: &expenses_caption 'Expenses: A detailed list by Type including amount, distance and location where applicable'
-        travel_expense_additional_information: Additional expenses information
+        travel_expense_additional_information: Additional information
         travel_expenses: Travel expenses
         index:
           calculated_distance: Calculated distance

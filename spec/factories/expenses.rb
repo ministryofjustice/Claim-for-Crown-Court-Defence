@@ -34,8 +34,8 @@ FactoryBot.define do
     trait :car_travel do
       expense_type  { build :expense_type, :car_travel }
       distance 27
-      mileage_rate_id 2
-      amount "12.15"
+      mileage_rate_id 1
+      amount "6.75"
     end
 
     trait :with_calculated_distance do

@@ -291,6 +291,13 @@ class Claim::BaseClaimValidator < BaseValidator
     add_error(:retrial_actual_length, 'too_long')
   end
 
+  def validate_travel_expense_additional_information
+    return if @record.from_api?
+    return unless @record.expenses.any?
+    validate_presence(:travel_expense_additional_information, 'higher_rate_travel_claimed') if has_higher_rate_mileage?
+    validate_presence(:travel_expense_additional_information, 'calculated_travel_increased') if increased_travel?
+  end
+
   def actual_length_consistent?(requires_dates, actual_length, start_date, end_date)
     requires_dates &&
       actual_length.present? &&
@@ -348,5 +355,13 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def validate_too_far_in_past(start_attribute)
     validate_on_or_after(Settings.earliest_permitted_date, start_attribute, 'check_not_too_far_in_past')
+  end
+
+  def has_higher_rate_mileage?
+    @record.expenses.map { |s| s.mileage_rate_id.eql?(2) }.any?
+  end
+
+  def increased_travel?
+    @record.expenses.map { |x| x.calculated_distance && (x.distance > x.calculated_distance) }.any?
   end
 end

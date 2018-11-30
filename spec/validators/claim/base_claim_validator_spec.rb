@@ -701,4 +701,182 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       end
     end
   end
+
+  context 'travel expense additional information' do
+      subject { claim.valid? }
+
+      before do
+        claim.expenses.delete_all
+        create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim: claim)
+        claim.reload
+        claim.form_step = :travel_expenses
+      end
+
+      context 'from the web' do
+        context 'when the claim has no additional travel information' do
+          let(:additional_travel_info) { nil }
+
+          context 'when the mileage rate is lower' do
+            let(:mileage_rate) { 1 }
+
+            context 'and the calculated distance is accepted' do
+              let(:calculated_distance) { 27 }
+
+              it { is_expected.to be true }
+            end
+
+            context 'and the calculated distance is reduced' do
+              let(:calculated_distance) { 28 }
+
+              it { is_expected.to be true }
+            end
+
+            context 'and the calculated distance is increased' do
+              let(:calculated_distance) { 26 }
+
+              it { is_expected.to be false }
+            end
+
+            context 'and the calculated distance is nil' do
+              let(:calculated_distance) { nil }
+
+              it { is_expected.to be true  }
+            end
+          end
+
+          context 'when the mileage rate is higher' do
+            let(:mileage_rate) { 2 }
+
+            context 'and the calculated distance is accepted' do
+              let(:calculated_distance) { 27 }
+
+              it { is_expected.to be false }
+            end
+
+            context 'and the calculated distance is reduced' do
+              let(:calculated_distance) { 28 }
+
+              it { is_expected.to be false }
+            end
+
+            context 'and the calculated distance is increased' do
+              let(:calculated_distance) { 26 }
+
+              it { is_expected.to be false }
+            end
+
+            context 'and the calculated distance is nil' do
+              let(:calculated_distance) { nil }
+
+              it { is_expected.to be false }
+            end
+          end
+        end
+        context 'when the claim has additional travel information' do
+          before { claim.travel_expense_additional_information = 'this is info' }
+
+          context 'when the mileage rate is lower' do
+            let(:mileage_rate) { 1 }
+
+            context 'and the calculated distance is accepted' do
+              let(:calculated_distance) { 27 }
+
+              it { is_expected.to be true }
+            end
+
+            context 'and the calculated distance is reduced' do
+              let(:calculated_distance) { 28 }
+
+              it { is_expected.to be true }
+            end
+
+            context 'and the calculated distance is increased' do
+              let(:calculated_distance) { 26 }
+
+              it { is_expected.to be true }
+            end
+
+            context 'and the calculated distance is nil' do
+              let(:calculated_distance) { nil }
+
+              it { is_expected.to be true  }
+            end
+          end
+
+          context 'when the mileage rate is higher' do
+            let(:mileage_rate) { 2 }
+
+            context 'and the calculated distance is accepted' do
+              let(:calculated_distance) { 27 }
+
+              it { is_expected.to be true }
+            end
+
+            context 'and the calculated distance is reduced' do
+              let(:calculated_distance) { 28 }
+
+              it { is_expected.to be true }
+            end
+
+            context 'and the calculated distance is increased' do
+              let(:calculated_distance) { 26 }
+
+              it { is_expected.to be true }
+            end
+          end
+        end
+      end
+
+      context 'from the API' do
+        before { claim.source = 'api' }
+
+        context 'when the claim has no additional travel information' do
+          let(:additional_travel_info) { nil }
+
+          context 'when the mileage rate is lower' do
+            let(:mileage_rate) { 1 }
+
+            context 'and the calculated distance is nil' do
+              let(:calculated_distance) { nil }
+
+              it { is_expected.to be true }
+            end
+          end
+
+          context 'when the mileage rate is higher' do
+            let(:mileage_rate) { 2 }
+
+            context 'and the calculated distance is nil' do
+              let(:calculated_distance) { nil }
+
+              it { is_expected.to be true  }
+            end
+          end
+        end
+
+        context 'when the claim has additional travel information' do
+          before { claim.travel_expense_additional_information = 'this is info' }
+
+          context 'when the mileage rate is lower' do
+            let(:mileage_rate) { 1 }
+
+            context 'and the calculated distance is nil' do
+              let(:calculated_distance) { nil }
+
+              it { is_expected.to be true }
+            end
+          end
+
+          context 'when the mileage rate is higher' do
+            let(:mileage_rate) { 2 }
+
+            context 'and the calculated distance is nil' do
+              let(:calculated_distance) { nil }
+
+              it { is_expected.to be true  }
+            end
+          end
+        end
+      end
+    end
 end

@@ -33,6 +33,7 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
       legal_aid_transfer_date
       total
     ],
+    travel_expenses: %i[travel_expense_additional_information],
     supporting_evidence: []
   }
 

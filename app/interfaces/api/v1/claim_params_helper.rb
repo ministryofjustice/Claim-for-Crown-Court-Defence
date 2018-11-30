@@ -16,6 +16,9 @@ module API
         optional :providers_ref, type: String, desc: 'OPTIONAL: Providers reference number'
         optional :cms_number, type: String, desc: 'OPTIONAL: The CMS number'
         optional :additional_information, type: String, desc: 'OPTIONAL: Any additional information'
+        optional :travel_expense_additional_information,
+                 type: String,
+                 desc: I18n.t('api.v1.common_params.travel_expense_additional_information')
         optional :apply_vat, type: Boolean, desc: 'OPTIONAL: Include VAT (JSON Boolean data type: true or false)'
       end
 

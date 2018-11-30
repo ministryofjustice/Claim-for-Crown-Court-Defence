@@ -11,6 +11,35 @@
 
 %section.api-documentation
   %hr
+  %h2 3rd December 2018
+  %ul.list-bullet
+    %li
+      Adding new travel expense additional information field to claim endpoints
+      %br/
+      %br/
+      An additional field,
+      %code.code
+        travel_expense_additional_information
+      , has been added to all of the claim endpoints in the
+      API.  It is currently optional, but at a future date we will start to enforce validation in line with the web
+      interface.
+      %br/
+      %br/
+      The validation rule that will come into effect on the API in the future is:
+      %br/
+      If any of the travel expenses have their
+      %code.code
+        mileage_rate_id
+      values set to
+      %code.code
+        2
+      then the associated claim must have been created with
+      %code.code
+        travel_expense_additional_information
+      set
+
+%section.api-documentation
+  %hr
   %h2 05 November 2018
   %ul.list-bullet
     %li

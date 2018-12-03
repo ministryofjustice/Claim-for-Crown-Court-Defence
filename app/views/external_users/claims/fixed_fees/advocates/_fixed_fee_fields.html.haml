@@ -2,7 +2,7 @@
 -# Check box input
 .multiple-choice{"data-target" => to_slug(f.object.description), "class" => "fx-hook-#{fee.fee_type_code.downcase}"}
 
-  = f.check_box(:toggle, checked: !f.object.blank?, id: "#{to_slug(f.object.description)}-input", "aria-controls" => to_slug(f.object.description), :name => "graduated_fees_checklist_#{f.object.fee_type_code.downcase}")
+  = f.check_box(:toggle, checked: !f.object.blank?, class: "fx-checkbox-hook", id: "#{to_slug(f.object.description)}-input", "aria-controls" => to_slug(f.object.description), :name => "graduated_fees_checklist_#{f.object.fee_type_code.downcase}")
 
     -#- fixed_fee_types_collection = present_collection(@claim.eligible_fixed_fee_types)
     -#
@@ -16,7 +16,7 @@
 -# Panel content
 .panel.panel-border-narrow.js-hidden{:id => to_slug(f.object.description)}
   .fixed-fee-group.fx-fee-group.js-block.fx-do-init{data:{type:"fixedFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
-    = f.hidden_field :fee_type_id
+    = f.hidden_field :fee_type_id, class: 'js-fee-calculator-fee-type js-fee-type'
 
 
     - if f.object.fee_type.case_uplift?
@@ -26,6 +26,7 @@
           input_classes:'js-fixed-fee-case-numbers',
           hint_text:'Separate by commas',
           errors: @error_presenter
+
     .form-group
       = f.adp_text_field :quantity,
         label: t('.quantity'),

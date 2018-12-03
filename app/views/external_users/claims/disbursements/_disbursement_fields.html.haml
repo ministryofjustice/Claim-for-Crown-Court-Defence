@@ -1,36 +1,37 @@
-%fieldset
-  %legend.visuallyhidden
+.form-section.disbursement-group.nested-fields.fx-fee-group.fx-numberedList-item.js-block.fx-do-init{data:{type:"disbursements", autovat: "false", "block-type": "FeeBlockManualAmounts"}}
+  %h2.bold-medium
     = t('.disbursement')
-  .form-group.disbursement-group.nested-fields.js-block.fx-do-init{data:{"block-type": "FeeBlockManualAmounts", type:"disbursements", autovat: "false"}}
-    .grid-row.js-typeahead
-      .column-half.disbursement-type{class: error_class?(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")}
-        %label.form-label
-          = t('.disbursement_type')
-        %a{id: "disbursement_#{@disbursement_count}_disbursement_type"}
-        = f.collection_select :disbursement_type_id, DisbursementType.active, :id, :name, { include_blank: ''.html_safe }, {class: 'form-control typeahead fixedwidth'}
-        = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")
+    %span.fx-numberedList-number
+    = link_to_remove_association t('.remove'), f, { wrapper_class: 'disbursement-group', class: "header-action" }
 
-      .column-one-quarter.fee-amount
-        = f.adp_text_field :net_amount,
-                            label: t('.net_amount'),
-                            input_classes:'amount',
-                            input_type: 'currency',
-                            value: number_with_precision(f.object.net_amount, precision: 2),
-                            errors: @error_presenter
+  .form-group
+    .disbursement-type.js-typeahead{class: error_class?(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")}
+      %label.form-label-bold
+        = t('.disbursement_type')
+      %a{id: "disbursement_#{@disbursement_count}_disbursement_type"}
+      = f.select :disbursement_type_id,
+        DisbursementType.active.map{ |disbursement| [disbursement.name, disbursement.id]},
+        { include_blank: ''.html_safe },
+        {class: 'form-control typeahead', style: 'width: 100%'}
 
-      .column-one-quarter.fee-vat
-        = f.adp_text_field :vat_amount,
-                            label: t('.vat_amount'),
-                            input_classes:'vat',
-                            input_type: 'currency',
-                            value: number_with_precision(f.object.vat_amount, precision: 2),
-                            errors: @error_presenter
+      = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")
 
-    .grid-row
-      .column-one-quarter.fee-total
-        %label.form-label.pb8
-          = t('.total')
-        %div.total{data: { total: number_to_currency(f.object.total) }}
-          = number_to_currency(f.object.total)
+  .form-group
+    = f.adp_text_field :net_amount,
+      label: t('.net_amount'),
+      input_classes:'amount fee-amount form-input-denote__input form-control-1-4',
+      input_type: 'currency',
+      value: number_with_precision(f.object.net_amount, precision: 2),
+      errors: @error_presenter
 
-    = link_to_remove_association t('.remove'), f, { wrapper_class: 'disbursement-group' }
+    = f.adp_text_field :vat_amount,
+      label: t('.vat_amount'),
+      input_classes:'vat fee-vat form-input-denote__input form-control-1-4',
+      input_type: 'currency',
+      value: number_with_precision(f.object.vat_amount, precision: 2),
+      errors: @error_presenter
+
+    %label.form-label-bold
+      = t('.total')
+    .total{data: { total: number_to_currency(f.object.total) }}
+      = number_to_currency(f.object.total)

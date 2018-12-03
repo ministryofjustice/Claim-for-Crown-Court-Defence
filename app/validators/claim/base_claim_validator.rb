@@ -362,6 +362,6 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def increased_travel?
-    @record.expenses.where('calculated_distance IS NOT NULL AND (distance > calculated_distance)').any?
+    @record.expenses.where('distance > calculated_distance').any?
   end
 end

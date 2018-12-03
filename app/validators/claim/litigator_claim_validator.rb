@@ -16,6 +16,7 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
       offence_details: %i[offence],
       graduated_fees: %i[actual_trial_length total],
       miscellaneous_fees: %i[defendant_uplifts],
+      travel_expenses: %i[travel_expense_additional_information],
       supporting_evidence: []
     }
   end

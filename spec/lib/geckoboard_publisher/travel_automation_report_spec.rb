@@ -34,7 +34,7 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
         {
           date: "2017-03-19",
           accepted: 0,
-          cost_increased: 9,
+          cost_increased: 5,
           cost_reduction: 0,
           increased: 2,
           percent_accepted: 0,
@@ -59,7 +59,7 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
           date: "2017-03-21",
           accepted: 0,
           cost_increased: 0,
-          cost_reduction: 9,
+          cost_reduction: 5,
           increased: 0,
           percent_accepted: 0,
           percent_increased: 0,
@@ -72,8 +72,7 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
 
     before do
       travel_to(Date.parse('19-MAR-2017')) do
-        lgfs_claim = create(:litigator_claim, :submitted)
-
+        lgfs_claim = create(:litigator_claim, :submitted, travel_expense_additional_information: 'explanation')
         create_list(:expense, 2, :with_calculated_distance_increased, date: 3.days.ago, claim: lgfs_claim)
       end
 

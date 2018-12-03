@@ -515,6 +515,17 @@ legal_aid_transfer_date:
     short: Date not allowed
     api: The date Legal Aid was transferred is not allowed
 
+travel_expense_additional_information:
+  _seq: 215
+  higher_rate_travel_claimed:
+    long: 'You should provide details of why you have claimed private mileage rate travel'
+    short: 'Provide details for private mileage rate'
+    api: 'Provide details for private mileage rate'
+  calculated_travel_increased:
+    long: 'You should provide details of why you have increased some of your travel distances'
+    short: 'Provide details for increased travel distance'
+    api: 'Provide details for increased travel distance'
+
 #################################################################################
 #                                                                               #
 #   TRANSFER DETAIL                                                             #

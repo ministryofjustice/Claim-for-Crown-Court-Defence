@@ -184,7 +184,7 @@ moj.Helpers.Blocks = {
     };
 
     this.bindRender = function() {
-      this.$el.on('change', '.amount, .vat', function() {
+      this.$el.on('change keyup', '.amount, .vat', function() {
         self.updateTotals();
         self.render();
       });

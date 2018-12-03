@@ -12,6 +12,7 @@
       %a{id: "fixed_fee_#{@fixed_fee_count}_fee_type"}
 
       - fixed_fee_types_collection = present_collection(@claim.eligible_fixed_fee_types)
+
       = f.select :fee_type_id,
           fixed_fee_types_collection.map { |fee| [fee.description, fee.id, { data: fee.data_attributes }]},
           { include_blank: ''.html_safe },

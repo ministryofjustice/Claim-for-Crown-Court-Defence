@@ -845,12 +845,13 @@ en:
           disbursements: "Disbursements"
           add_disbursement: "Add another disbursement"
         disbursement_fields:
+          page_header: Disbursements
           net_amount: *net_amount
           vat_amount: *vat_amount
-          total: "Total"
-          disbursement_type: "Disbursement type"
-          disbursement: "Disbursement"
-          remove: "Remove disbursement"
+          total: Total
+          disbursement_type: Type of disbursement
+          disbursement: Disbursement
+          remove: Remove
       expenses:
         textarea_additional_info:
           additional_info_heading: Additional information
@@ -1108,22 +1109,29 @@ en:
           lgfs_supplier_number: "LGFS supplier number"
       interim_fee:
         fields:
-          interim_fees: "Interim fees"
-          interim_fees_prompt_text_vat: *fees_vat_prompt
-          interim_fees_prompt_text_html: *graduated_fee_calculators_help
-          fee_type: "Fee type"
-          ppe_total: "PPE total at the time"
-          total: "Total"
-          effective_pcmh: "Effective PCMH"
-          legal_aid_transfer_date: "Legal aid transfer"
-          first_day_of_trial: "Trial start"
-          estimated_trial_length: "Estimated length"
-          trial_concluded_at: "First trial concluded"
-          retrial_started_at: "Re-trial start"
-          retrial_estimated_length: "Estimated length"
-          number_days_hint: "Number of days"
-          warrant_issued: "Warrant issued"
-          warrant_executed: "Warrant executed"
+          page_header: Interim fee
+          page_hint: *fees_vat_prompt
+          interim_fees: Interim fees
+          fee_type: Type of fee
+          ppe_total: PPE total at the time
+          amount: *net_amount
+          effective_pcmh_date: Effective PCMH
+          legal_aid_transfer_date: Legal aid transfer
+          first_day_of_trial: Trial start
+          estimated_trial_length: Estimated length of trial
+          trial_concluded_at: First trial concluded
+          retrial_started_at: Re-trial start
+          retrial_estimated_length: Estimated length of retrial
+          number_days_hint: Number of days
+          warrant_issued: Warrant issued
+          warrant_executed: Warrant executed
+        calculator_help:
+          help_how_we_calculate_amount_title: *how_is_this_calculated_help
+          help_how_we_calculate_amount_body:
+            effective_pcmh: We calculate the amount based upon the fee scheme, offence class, total pages of evidence (at the time) and number of defendants
+            trial_start: We calculate the amount based upon the fee scheme, offence class, estimated length of trial, total pages of evidence (at the time) and number of defendants
+            retrial_start: We calculate the amount based upon the fee scheme, offence class, estimated length of retrial, total pages of evidence (at the time) and number of defendants
+            retrial_new_solicitor: We calculate the amount based upon the fee scheme, offence class, total pages of evidence (at the time) and number of defendants
         header_prompt_text_html: |
           All fees should be entered exclusive of
           <abbr title="Value Added Tax">VAT</abbr>.

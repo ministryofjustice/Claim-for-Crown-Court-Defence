@@ -21,7 +21,11 @@ FactoryBot.define do
     order_for_judicial_apportionment  false
     claim
 
-    representation_orders { [ FactoryBot.create(:representation_order, representation_order_date: 400.days.ago) ] }
+    transient do
+      scheme nil
+    end
+
+    representation_orders { [ FactoryBot.create(:representation_order, representation_order_date: scheme_date_for(scheme)) ] }
 
     trait :without_reporder do
       representation_orders           { [] }

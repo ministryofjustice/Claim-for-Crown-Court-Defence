@@ -1,7 +1,9 @@
 require_relative 'debuggable'
+require_relative '../../test_helpers'
 
 class BaseClaimTest
   include Debuggable
+  include TestHelpers
 
   attr_accessor :client, :claim_uuid
 
@@ -162,18 +164,5 @@ class BaseClaimTest
       "distance": 100.58,
       "mileage_rate_id": 1
     }
-  end
-
-  def scheme_date_for(text)
-    case text.downcase.strip
-      when 'scheme 11' then
-        Settings.agfs_scheme_11_release_date.strftime
-      when 'scheme 10' || 'post agfs reform' then
-        Settings.agfs_fee_reform_release_date.strftime
-      when 'lgfs' then
-        "2016-04-01"
-      else
-        "2016-01-01"
-    end
   end
 end

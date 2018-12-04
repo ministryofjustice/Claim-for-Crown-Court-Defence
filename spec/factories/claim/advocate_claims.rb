@@ -1,6 +1,3 @@
-require_relative 'claim_factory_helpers'
-include ClaimFactoryHelpers
-
 #
 # NOTE: use the :advocate_claim alias when calling this factory to
 # differentiate from other claim types.

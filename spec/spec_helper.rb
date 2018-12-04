@@ -90,5 +90,6 @@ RSpec.configure do |config|
   # Kernel.srand config.seed
 
   config.include TestHelpers
+  config.include FactoryHelpers
   config.include SeedHelpers
 end

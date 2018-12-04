@@ -15,6 +15,7 @@ require 'cucumber/rspec/doubles'
 require 'site_prism'
 require 'sidekiq/testing'
 require_relative '../../spec/vcr_helper'
+require_relative '../../spec/support/factory_helpers'
 
 Capybara.javascript_driver = :poltergeist
 

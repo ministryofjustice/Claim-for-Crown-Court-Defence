@@ -159,6 +159,11 @@ Then(/^the last fixed fee case numbers section should (not )?be visible$/) do |n
   end
 end
 
+Given(/^I choose a fixed fee thing "([^"]*)"$/) do |label|
+  binding.pry
+  puts @claim_form_page.fixed_fees.items_with_labels
+end
+
 Then(/^the last fixed fee should have fee type options\s*'([^']*)'$/) do |fee_type_descriptions|
   fee_type_descriptions = CSV.parse(fee_type_descriptions).flatten
   expect(@claim_form_page.fixed_fees.last.fee_type_descriptions).to match_array(fee_type_descriptions)

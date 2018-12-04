@@ -170,12 +170,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def update
-    ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-    ap "File: #{File.basename(__FILE__)}, Method: #{__method__}, Line: #{__LINE__}"
-    ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-    ap claim_params
-    ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-
     result = if submitting_to_laa?
                Claims::UpdateClaim.call(@claim, params: claim_params)
              else

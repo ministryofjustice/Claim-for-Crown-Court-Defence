@@ -11,6 +11,7 @@ require_relative 'sections/expense_section'
 require_relative 'sections/offence_result_section'
 require_relative 'sections/advocate_category_section'
 require_relative 'sections/evidence_checklist_section'
+require_relative 'sections/fixed_fees_checklist_section'
 
 class ClaimFormPage < SitePrism::Page
   include DropzoneHelper
@@ -60,7 +61,7 @@ class ClaimFormPage < SitePrism::Page
   sections :miscellaneous_fees, TypedFeeSection, "div#misc-fees .misc-fee-group"
   element :add_another_miscellaneous_fee, "div#misc-fees > .form-group > a.add_fields"
 
-  sections :fixed_fees, TypedFeeSection, "div#fixed-fees .fixed-fee-group"
+  sections :fixed_fees, FixedFeesChecklistSection, "div#fixed-fees"
   element :add_another_fixed_fee, "div#fixed-fees > .form-group > a.add_fields"
 
   sections :expenses, ExpenseSection, "div#expenses div.expense-group"

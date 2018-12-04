@@ -18,10 +18,6 @@ class ExternalUsers::Advocates::ClaimsController < ExternalUsers::ClaimsControll
   end
 
   def build_fixed_fees
-    ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-    ap "BUILDING FIXED FEES"
-    ap "<<<<<<<<<<<< LINE #{__LINE__} >>>>>>>>>>>>>>"
-    # @claim.fixed_fees.build if @claim.fixed_fees.none? # builds one empty one
     existing_fixed_fee_fee_type_ids = @claim.fixed_fees.map(&:fee_type_id)
 
     @claim.eligible_fixed_fee_types.each do |eligible_fee_type|

@@ -29,10 +29,13 @@ module Claims
           options[:day] = days.to_i
           options[:ppe] = ppe.to_i
 
-          # In CCCD claiming for defendant uplift is handled as a misc fee.
-          # Defendant uplifts need proper handling as part of the grad fee.
-          # rely on fee calc default now (which assumes one)
-          # options[:number_of_defendants] = 1
+          # For LGFS graduated fee, transfer fee and interim fee types
+          # The number of defendants should be taken from the actual number of
+          # defendants and the misc fee defendant uplift removed
+          #
+          # TODO: retrospectively use actual number of defendants
+          # for transfer and graduated fee calc and remove defendant uplift misc fee
+          options[:number_of_defendants] = defendants.size if interim?
         end
       end
     end

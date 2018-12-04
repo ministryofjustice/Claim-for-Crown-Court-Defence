@@ -12,9 +12,11 @@ module Claims
       delegate  :earliest_representation_order_date,
                 :agfs?,
                 :lgfs?,
+                :interim?,
                 :agfs_reform?,
                 :case_type,
                 :offence,
+                :defendants,
                 to: :claim
 
       attr_reader :claim,
@@ -61,9 +63,7 @@ module Claims
       end
 
       def bill_scenario
-        return claim.transfer_detail.bill_scenario if claim.transfer?
-        return CCLF::CaseTypeAdapter::BILL_SCENARIOS[case_type.fee_type_code.to_sym] if lgfs?
-        CCR::CaseTypeAdapter::BILL_SCENARIOS[case_type.fee_type_code.to_sym]
+        BillScenario.new(claim, fee_type).call
       end
 
       # TODO: consider creating a mapping to fee calculator id's

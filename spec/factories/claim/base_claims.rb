@@ -1,5 +1,4 @@
 FactoryBot.define do
-
   trait :advocate_base_setup do
     form_id SecureRandom.uuid
     court

@@ -8,9 +8,20 @@
     },
 
     bindEvents: function () {
+      this.feeTypeChange();
       this.feeDaysChange();
       this.feePpeChange();
       this.pageLoad();
+    },
+
+    feeTypeChange: function ($el) {
+      var self = this;
+      var $el = $('.js-fee-calculator-fee-type');
+      if ($('.calculated-grad-fee').exists()) {
+        $el.change( function() {
+          self.calculateGraduatedPrice();
+        });
+      }
     },
 
     feeDaysChange: function ($el) {
@@ -34,12 +45,13 @@
     },
 
     setAmount: function(data, context) {
-      var $input = $(context).find('input.fee-amount');
-      var $calculated = $(context).siblings('.js-fee-calculator-success').find('input');
-      $input.val(data.toFixed(2));
-      $input.change();
-      $calculated.val(data > 0);
-      $input.prop('readonly', data > 0);
+      var $amount = $(context).find('input.fee-amount');
+      var $price_calculated = $(context).siblings('.js-fee-calculator-success').find('input');
+
+      $amount.val(data.toFixed(2));
+      $amount.change();
+      $price_calculated.val(data > 0);
+      $amount.prop('readonly', data > 0);
     },
 
     enableAmount: function(context) {
@@ -97,7 +109,7 @@
       data.price_type = 'GraduatedPrice';
       data.fee_type_id = $('.fx-fee-group').find('.js-fee-type').val();
       data.ppe = $('.fx-fee-group').find('input.js-fee-calculator-ppe').val();
-      data.days = $('.fx-fee-group').find('input.js-fee-calculator-days').val();
+      data.days = $('.fx-fee-group').find('input.js-fee-calculator-days:visible').val();
     },
 
     // Calculates the price for a given graduated fee,

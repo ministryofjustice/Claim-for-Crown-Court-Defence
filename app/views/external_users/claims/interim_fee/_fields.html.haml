@@ -4,24 +4,24 @@
     .interim-fee-group.fx-fee-group.js-block.fx-do-init{data:{"type": "interimFees", autovat: @claim.apply_vat? ? "true" : "false"}}
 
       .form-group
-        .fee-type.js-typeahead{class: error_class?(@error_presenter, "interim_fee.fee_type")}
+        .fee-type{class: error_class?(@error_presenter, "interim_fee.fee_type")}
           = inf.label :fee_type, t('.fee_type'), class: 'form-label-bold'
           = inf.anchored_attribute 'fee_type'
 
           - interim_fee_types_collection = present_collection(@claim.eligible_interim_fee_types)
 
-          = inf.select :fee_type_id, interim_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, {include_blank: ''.html_safe}, {class: 'form-control js-fee-type js-interim-fee-type'}
+          = inf.select :fee_type_id, interim_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, {include_blank: ''.html_safe}, {class: 'form-control js-fee-type js-interim-fee-type js-fee-calculator-fee-type '}
 
           = validation_error_message(@error_presenter, 'interim_fee.fee_type')
 
       / TODO: rename js-interim-classes after interim fee descriptions for clarity
       /
       .form-group
-        .js-interim-ppe.visually-hidden
+        .js-interim-ppe.js-fee-calculator-effector.visually-hidden
           = inf.adp_text_field :quantity,
             label: t('.ppe_total'),
             input_type: 'number',
-            input_classes:'quantity fee-quantity js-fee-quantity form-control-1-4',
+            input_classes:'quantity fee-quantity js-fee-calculator-ppe js-fee-quantity form-control-1-4',
             value: fee.quantity, errors: @error_presenter,
             error_key:'interim_fee.quantity'
 
@@ -35,7 +35,8 @@
 
           = f.adp_text_field :retrial_estimated_length,
             label: t('.retrial_estimated_length'),
-            input_classes:'form-control form-control-1-4',
+            input_classes:'form-control form-control-1-4 js-fee-calculator-days',
+            input_type: 'number',
             hint_text: t('.number_days_hint'),
             errors: @error_presenter
 
@@ -45,7 +46,7 @@
 
           = f.adp_text_field :estimated_trial_length,
             label: t('.estimated_trial_length'),
-            input_classes:'form-control form-control-1-4',
+            input_classes:'form-control form-control-1-4 js-fee-calculator-days',
             input_type: 'number',
             hint_text: t('.number_days_hint'),
             errors: @error_presenter
@@ -66,7 +67,8 @@
             = inf.anchored_attribute 'warrant_executed_date'
             = inf.gov_uk_date_field :warrant_executed_date, legend_text: t('.warrant_executed'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_fee.warrant_executed_date')
 
-      .js-interim-feeTotal.visually-hidden
+      .js-interim-feeTotal.js-fee-calculator-effectee.visually-hidden
+        .calculated-grad-fee
         = inf.adp_text_field :amount,
           label: t('.amount'),
           input_classes:'total fee-amount form-input-denote__input form-control-1-4',
@@ -75,8 +77,8 @@
           value: number_with_precision(inf.object.amount, precision: 2),
           errors: @error_presenter
 
-        .js-fee-calculator-success
-          = inf.hidden_field :price_calculated, value: inf.object.price_calculated?
+      .js-fee-calculator-success
+        = inf.hidden_field :price_calculated, value: inf.object.price_calculated?
 
       = render partial: 'external_users/claims/interim_fee/calculator_help'
 

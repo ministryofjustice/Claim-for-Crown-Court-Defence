@@ -37,6 +37,7 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
   it { is_expected.to delegate_method(:agfs_reform?).to(:claim) }
   it { is_expected.to delegate_method(:case_type).to(:claim) }
   it { is_expected.to delegate_method(:offence).to(:claim) }
+  it { is_expected.to delegate_method(:defendants).to(:claim) }
 
   it { is_expected.to respond_to(:claim) }
   it { is_expected.to respond_to(:options) }

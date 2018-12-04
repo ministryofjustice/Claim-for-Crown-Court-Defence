@@ -1,5 +1,3 @@
-include ClaimFactoryHelpers
-
 FactoryBot.define do
   factory :api_advocate_claim, class: Claim::AdvocateClaim do
     # Attempt to create minimal API submitted claims

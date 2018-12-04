@@ -1,6 +1,5 @@
-module ClaimFactoryHelpers
-
-  def add_defendant_and_reporder(claim, representation_order_date = nil)
+module FactoryHelpers
+    def add_defendant_and_reporder(claim, representation_order_date = nil)
     defendant = if representation_order_date
                   create(:defendant, :without_reporder, claim: claim)
                 else
@@ -70,5 +69,27 @@ module ClaimFactoryHelpers
 
   def set_creator(claim)
     claim.creator = claim.external_user
+  end
+
+  def scheme_date_for(text)
+    return 400.days.ago unless text
+
+    case text.downcase.strip
+      when 'scheme 11' then
+        Settings.agfs_scheme_11_release_date.strftime
+      when 'scheme 10' || 'post agfs reform' then
+        Settings.agfs_fee_reform_release_date.strftime
+      when 'lgfs' then
+        "2016-04-01"
+      else
+        "2016-01-01"
+    end
+  end
+end
+
+# FactoryBot::SyntaxRunner can be extended to add helpers
+module FactoryBot
+  class SyntaxRunner
+    include FactoryHelpers
   end
 end

@@ -362,6 +362,6 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def increased_travel?
-    @record.expenses.find { |x| x.calculated_distance && (x.distance > x.calculated_distance) }
+    @record.expenses.find { |x| x.calculated_distance && x.distance && (x.distance > x.calculated_distance) }
   end
 end

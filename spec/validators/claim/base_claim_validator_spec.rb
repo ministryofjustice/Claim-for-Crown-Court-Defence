@@ -879,5 +879,16 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
         end
       end
     end
+
+    context 'with simulation of duplicated car_travel > parking' do
+      before do
+        claim.expenses.delete_all
+        create(:expense, :parking, calculated_distance: 27, distance: nil, date: 3.days.ago, claim: claim)
+        claim.reload
+        claim.form_step = :travel_expenses
+      end
+
+      it { is_expected.to be true  }
+    end
   end
 end

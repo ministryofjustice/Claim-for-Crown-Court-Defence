@@ -703,8 +703,8 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   end
 
   context 'travel expense additional information' do
-      subject { claim.valid? }
-
+    subject { claim.valid? }
+    context 'for car travel' do
       before do
         claim.expenses.delete_all
         create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim: claim)
@@ -879,4 +879,5 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
         end
       end
     end
+  end
 end

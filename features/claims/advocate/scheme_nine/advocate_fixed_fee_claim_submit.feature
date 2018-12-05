@@ -25,10 +25,17 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
 
     And I should see the advocate categories 'Junior alone,Led junior,Leading junior,QC'
     And I select an advocate category of 'Junior alone'
-    And I choose a fixed fee thing "Something something"
-
 
     And the last fixed fee should have fee type options 'Appeals to the crown court against sentence,Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
+
+    # TODO: Check sentence and fill in and save
+    # TODO: Check sentence is not there (backend changes needed for this to work)
+    #
+    # And I goto claim form step 'case details'
+    # And I select a case type of 'Appeal against conviction'
+    # Then I click "Continue" in the claim form
+    # And I goto claim form step 'fixed fees'
+    # And the last fixed fee should have fee type options 'Appeals to the crown court against conviction, Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
 
     # And I add a fixed fee 'Adjourned appeals, committals and breaches'
     # Then the last fixed fee case numbers section should not be visible

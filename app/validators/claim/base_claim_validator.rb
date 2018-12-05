@@ -358,10 +358,10 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def has_higher_rate_mileage?
-    @record.expenses.where(mileage_rate_id: 2).any?
+    @record.expenses.find { |x| x.mileage_rate_id.eql?(2) }
   end
 
   def increased_travel?
-    @record.expenses.where('distance > calculated_distance').any?
+    @record.expenses.find { |x| x.calculated_distance && (x.distance > x.calculated_distance) }
   end
 end

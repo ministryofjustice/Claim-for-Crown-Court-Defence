@@ -43,7 +43,7 @@
   function getOptions(collection, selected) {
     var def = $.Deferred();
     var optionsArray = [];
-    var collectioSize;
+    var collectionSize;
     var option;
     selected = selected || {
       value: 'miss-match'
@@ -74,6 +74,26 @@
   exports.Helpers.FormControls = Module;
 }(moj, jQuery));
 
+// Helpers.FormControls.getGovUkDate
+(function(exports, $) {
+  var Module = exports.Helpers.FormControls || {};
+
+  function getGovUkDate(context) {
+    var dateArray = [];
+    $(context).first('.gov_uk_date:visible').find('input[type=number]').is(function (index, element) {
+      dateArray.push($(element).val());
+    });
+
+    return new Date(dateArray.reverse().join('-'));
+  }
+
+  Module.govUkDate = {
+    getGovUkDate: getGovUkDate
+  };
+
+  exports.Helpers.FormControls = Module;
+}(moj, jQuery));
+
 (function(exports, $) {
   var Module = exports.Helpers.FormControls || {};
 
@@ -84,7 +104,7 @@
     getInput: Module.input.getInput,
     getSelect: Module.select.getSelect,
     getOptions: Module.selectOptions.getOptions,
-
+    getGovUkDate: Module.govUkDate.getGovUkDate
   };
 
   exports.Helpers.FormControls = Module;

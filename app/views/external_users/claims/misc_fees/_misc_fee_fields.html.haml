@@ -13,7 +13,7 @@
       = f.collection_select :fee_type_id,
        @claim.eligible_misc_fee_types, :id, :description,
        {include_blank: ''.html_safe },
-       {class: 'form-control js-misc-fee-type js-fee-type js-fee-calculator-fee-type typeahead', style: 'width:100%'}
+       {class: 'form-control js-misc-fee-type js-fee-type js-fee-calculator-fee-type typeahead fx-misc-fee-calculation', style: 'width:100%'}
 
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 

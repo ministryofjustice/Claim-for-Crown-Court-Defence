@@ -1037,6 +1037,7 @@ fixed_fee:
 
   fee_type:
     _seq: 10
+
     blank:
       long: 'Choose a type for the #{fixed_fee}'
       short: Choose a fee type
@@ -1060,9 +1061,25 @@ fixed_fee:
       long: 'Enter a valid quantity for the #{fixed_fee}'
       short: *enter_valid_quantity
       api: Enter a valid quantity for the fixed fee
+    noc_invalid:
+      long: 'Enter a valid quantity for the #{fixed_fee}'
+      short: *enter_valid_quantity
+      api: Enter a valid quantity for the fixed fee
+    ndr_invalid:
+      long: 'Enter a valid quantity for the #{fixed_fee}'
+      short: *enter_valid_quantity
+      api: Enter a valid quantity for the fixed fee
+    adj_invalid:
+      long: 'Enter a valid quantity for the #{fixed_fee}'
+      short: *enter_valid_quantity
+      api: Enter a valid quantity for the fixed fee
+    cse_invalid:
+      long: 'Enter a valid quantity for the #{fixed_fee}'
+      short: *enter_valid_quantity
+      api: Enter a valid quantity for the fixed fee
     integer:
       long: You must specify a whole number for this type of fee
-      short: Whole number
+      short: Enter a whole number
       api: You must specify a whole number for this type of fee
 
   sub_type:

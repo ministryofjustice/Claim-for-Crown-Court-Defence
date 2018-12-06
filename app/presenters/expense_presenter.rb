@@ -76,4 +76,22 @@ class ExpensePresenter < BasePresenter
       true
     end
   end
+
+  def state
+    if expense.mileage_rate_id&.eql?(1) &&
+       expense.calculated_distance.present? &&
+       (expense.distance <= expense.calculated_distance)
+      'Accepted'
+    else
+      'Unverified'
+    end
+  end
+
+  def distance_label
+    if expense.calculated_distance.present? && (expense.distance <= expense.calculated_distance)
+      '.distance'
+    else
+      '.distance_claimed'
+    end
+  end
 end

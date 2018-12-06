@@ -265,4 +265,103 @@ RSpec.describe ExpensePresenter do
       end
     end
   end
+
+  describe '#state' do
+    subject { presenter.state }
+
+    let(:claim) { create(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(1)) }
+    let(:expense) { create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim: claim) }
+    let(:mileage_rate) { 1 }
+
+    context 'when the expense has public standard mileage rate' do
+      { accepted: { accepted: 27, decreased: 28 }, unverified: { increased: 26, nil: nil } }.each do |expected, values|
+        values.each do |type, value|
+          context "it #{type.eql?('nil') ? 'has not' : 'has'} been calculated and the distance is #{type}" do
+            let(:calculated_distance) { value }
+
+            it { is_expected.to eql expected.to_s.humanize }
+          end
+        end
+      end
+    end
+
+    context 'when the expense has private mileage rate' do
+      let(:mileage_rate) { 2 }
+      { unverified: { accepted: 27, decreased: 28, increased: 26, nil: nil } }.each do |expected, values|
+        values.each do |type, value|
+          context "it #{type.eql?('nil') ? 'has not' : 'has'} been calculated and the distance is #{type}" do
+            let(:calculated_distance) { value }
+
+            it { is_expected.to eql expected.to_s.humanize }
+          end
+        end
+      end
+    end
+  end
+
+  describe '#distance_label' do
+    subject { presenter.distance_label }
+
+    let(:claim) { create(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(1)) }
+    let(:expense) { create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim: claim) }
+    let(:mileage_rate) { 1 }
+
+    context 'when the expense has public standard mileage rate' do
+      context 'when the distance has been calculated' do
+        context 'and has been accepted' do
+          let(:calculated_distance) { 27 }
+
+          it { is_expected.to eql '.distance' }
+        end
+
+        context 'and has been reduced' do
+          let(:calculated_distance) { 28 }
+
+          it { is_expected.to eql '.distance' }
+        end
+
+        context 'and has been increased' do
+          let(:calculated_distance) { 26 }
+
+          it { is_expected.to eql '.distance_claimed' }
+        end
+      end
+      
+      context 'when the distance has not been calculated' do
+        let(:calculated_distance) { nil }
+
+        it { is_expected.to eql '.distance_claimed' }
+      end
+    end
+
+    context 'when the expense has private mileage rate' do
+      let(:mileage_rate) { 2 }
+
+      context 'when the distance has been calculated' do
+        context 'and has been accepted' do
+          let(:calculated_distance) { 27 }
+
+          it { is_expected.to eql '.distance' }
+        end
+
+        context 'and has been reduced' do
+          let(:calculated_distance) { 28 }
+
+          it { is_expected.to eql '.distance' }
+        end
+
+        context 'and has been increased' do
+          let(:calculated_distance) { 26 }
+
+          it { is_expected.to eql '.distance_claimed' }
+        end
+      end
+
+      context 'when the distance has not been calculated' do
+        let(:calculated_distance) { nil }
+
+        it { is_expected.to eql '.distance_claimed' }
+      end
+    end
+  end
 end

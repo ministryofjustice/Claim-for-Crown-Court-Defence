@@ -21,12 +21,19 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
 
     Then I click "Continue" in the claim form
 
-    Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/fixed_fee_calculations'
+    Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/fixed_fee_calculations' and record 'new_episodes'
 
     And I should see the advocate categories 'Junior alone,Led junior,Leading junior,QC'
     And I select an advocate category of 'Junior alone'
 
     And the last fixed fee should have fee type options 'Appeals to the crown court against sentence,Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
+
+    And I toggle the fixed fee "Appeals to the crown court against sentence"
+    And I toggle the fixed fee "Number of cases uplift"
+    And I toggle the fixed fee "Standard appearance fee"
+
+    And I save and open screenshot
+
 
     # TODO: Check sentence and fill in and save
     # TODO: Check sentence is not there (backend changes needed for this to work)

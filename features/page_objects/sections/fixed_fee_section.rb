@@ -8,8 +8,9 @@ class FixedFeeSection < SitePrism::Section
     checklist.map { |item| item.label.text if item.has_label? }
   end
 
+
   def toggle(label)
-    checklist_labels.each do |item|
+    checklist.each do |item|
       item.label.click if item.label.text.match?(Regexp.new(label, true))
     end
   end

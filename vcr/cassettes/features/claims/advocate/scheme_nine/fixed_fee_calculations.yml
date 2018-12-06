@@ -1139,4 +1139,39 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2971,"scenario":6,"advocate_type":"JRALONE","fee_type":29,"offence_class":null,"scheme":1,"unit":"HOUR","fee_per_unit":"39.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
     http_version: 
   recorded_at: Mon, 24 Sep 2018 14:36:55 GMT
+- request:
+    method: post
+    uri: http://127.0.0.1:9516/session/05145f6506ab16b25cae409d065481ce/elements
+    body:
+      encoding: UTF-8
+      string: '{"using":"css selector","value":".advocate-categories"}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '55'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Length:
+      - '216'
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"sessionId":"05145f6506ab16b25cae409d065481ce","status":6,"value":{"message":"no
+        such session\n  (Driver info: chromedriver=2.37.544337 (8c0344a12e552148c185f7d5117db1f28d6c9e85),platform=Mac
+        OS X 10.12.6 x86_64)"}}'
+    http_version: 
+  recorded_at: Thu, 06 Dec 2018 15:19:03 GMT
 recorded_with: VCR 3.0.3

@@ -159,8 +159,13 @@ Then(/^the last fixed fee case numbers section should (not )?be visible$/) do |n
   end
 end
 
-Given(/^I toggle a fixed fee thing "([^"]*)"$/) do |label|
+Given(/^I toggle the fixed fee "([^"]*)"$/) do |label|
   @claim_form_page.fixed_fees.toggle(label)
+  wait_for_ajax
+  sleep 2
+end
+
+Given(/^I binding pry$/) do
 end
 
 Then(/^the last fixed fee should have fee type options\s*'([^']*)'$/) do |fee_type_descriptions|

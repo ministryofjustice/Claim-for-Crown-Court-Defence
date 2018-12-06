@@ -9,7 +9,10 @@
 
     bindEvents: function() {
       this.advocateTypeChange();
-      this.feeTypeChange();
+      this.miscFeeTypeChange();
+
+      this.fixedFeeTypeChange();
+
       this.feeRateChange();
       this.feeQuantityChange();
       this.pageLoad();
@@ -25,11 +28,44 @@
       }
     },
 
-    // needs to be usable by cocoon:after-insert so can bind to one or many elements
-    feeTypeChange: function($el) {
+    fixedFeeTypeChange: function() {
       var self = this;
-      var $els = $el || $('.fx-checkbox-hook');
-      if ($('.calculated-fee:visible').exists()) {
+      var parentId;
+
+      $('#fixed-fees').on('change', '.fx-checkbox-hook', function(e) {
+        // cache the target
+        $el = $(e.target);
+
+        // if the check box is closed
+        // clear out the data
+        if(!$el.is(':checked')){
+          // get the parent and panel id out of data attr
+          parentId = $el.closest('.multiple-choice').data('target');
+          self.clearFixedFee(parentId);
+        }
+
+        // Redo calculation
+        self.calculateUnitPrice();
+      });
+    },
+
+    // clear the fixed fee
+    clearFixedFee: function (elId) {
+      var $el;
+      if(!elId){
+        throw new Error('elId is empty');
+      }
+      $el = $('#'+ elId);
+      $el.find('.quantity').val('');
+      $el.find('.rate').val('');
+      $el.find('.total').html('£0.00');
+    },
+    // needs to be usable by cocoon:after-insert so can bind to one or many elements
+    miscFeeTypeChange: function($el) {
+      var self = this;
+      var $els = $el || $('.fx-misc-fee-calculation');
+
+      if ($('.fx-misc-fee-calculation').exists() && $('.calculated-fee').exists()) {
         $els.change(function() {
           self.calculateUnitPrice();
         });
@@ -181,12 +217,20 @@
     calculateUnitPrice: function() {
       var self = this;
       var data = {};
-      self.buildFeeData(data);
 
-      $('.js-fee-calculator-effectee:visible').each(function(idx) {
-        data.fee_type_id = $(this).closest('.fx-fee-group').find('.js-fee-type').first().val();
-        self.unitPriceAjax(data, this);
+      this.buildFeeData(data);
+
+      $('.js-fee-calculator-effectee').each(function(idx, el) {
+        if ($(el).is(':visible')) {
+          data.fee_type_id = $(this).closest('.fx-fee-group').find('.js-fee-type').first().val();
+          self.unitPriceAjax(data, this);
+        }
       });
+
+      // if everything is hidded - force sidebar recalculate
+      if($('.js-fee-calculator-effectee:visible').length === 0){
+        $('#claim-form').trigger('recalculate');
+      }
     },
 
     pageLoad: function() {

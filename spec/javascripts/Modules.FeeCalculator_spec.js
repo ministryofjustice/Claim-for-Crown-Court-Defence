@@ -19,10 +19,15 @@ describe('Modules.FeeCalculator.js', function() {
         module.bindEvents();
         expect(module.advocateTypeChange).toHaveBeenCalled();
       });
-      it('...should call `this.feeTypeChange`', function() {
-        spyOn(module, 'feeTypeChange');
+      it('...should call `this.miscFeeTypeChange`', function() {
+        spyOn(module, 'miscFeeTypeChange');
         module.bindEvents();
-        expect(module.feeTypeChange).toHaveBeenCalled();
+        expect(module.miscFeeTypeChange).toHaveBeenCalled();
+      });
+      it('...should call `this.fixedFeeTypeChange`', function() {
+        spyOn(module, 'fixedFeeTypeChange');
+        module.bindEvents();
+        expect(module.fixedFeeTypeChange).toHaveBeenCalled();
       });
       it('...should call `this.feeRateChange`', function() {
         spyOn(module, 'feeRateChange');
@@ -41,7 +46,7 @@ describe('Modules.FeeCalculator.js', function() {
       });
     });
     describe('...setHintLabel', function() {
-      it('...should return the input as default', function(){
+      it('...should return the input as default', function() {
         expect(module.setHintLabel()).toEqual('');
       });
       it('...should return the correct `HALFDAY`', function() {

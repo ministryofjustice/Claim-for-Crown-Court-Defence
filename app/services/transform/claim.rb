@@ -48,14 +48,27 @@ module Transform
     class << self
       def call(claim)
         hash = {}
+        @claim = claim
         DUPLICATE.each { |att| hash[att.to_sym] = claim.send(att) }
         COUNT.each { |att, source| hash[att] = claim.send(source[:object]).where(source[:where]).count }
         OBJECT_VALUE.each { |att, source| hash[att] = claim.send(source[:object])&.send(source[:att]) }
         CALCULATIONS.each { |att, sum| hash[att] = (hash[sum[0]] || 0) + (hash[sum[1]] || 0) }
-        hash[:ppe] = claim.fees.find_by(fee_type_id: 11)&.quantity.to_i
+        hash[:ppe] = ppe
         hash[:claim_type] = CLAIM_TYPE_CONVERSIONS[claim.type.to_s]
         hash[:offence_type] = claim.offence&.offence_band&.description || claim.offence&.offence_class&.class_letter
         hash
+      end
+
+      private
+
+      attr_accessor :claim
+
+      def ppe
+        if @claim.agfs?
+          @claim.fees.find_by(fee_type_id: ::Fee::BaseFeeType.find_by_id_or_unique_code('BAPPE'))&.quantity.to_i
+        else
+          @claim.fees.where(type: %w[Fee::GraduatedFee Fee::TransferFee Fee::InterimFee]).first&.quantity.to_i
+        end
       end
     end
   end

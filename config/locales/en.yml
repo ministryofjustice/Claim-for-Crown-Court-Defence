@@ -20,6 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  pages:
+    tandcs:
+      page_title: Terms and conditions for claim for Crown court defence
+
   date: Date
   distance:
     unit:
@@ -1636,6 +1640,9 @@ en:
       interim_claim_info:
         fields: *interim_claim_info_fields
   devise:
+    sessions:
+      new:
+        page_title: Sign in to claim for Crown court defence
     shared:
       links:
         sign_in: Sign in
@@ -1646,8 +1653,13 @@ en:
         didnt_receive_unlock_instructions: Didn't receive unlock instructions?
         sign_in_with: Sign in with
     passwords:
+      new:
+        page_title: Retrieve your password for claim for Crown court defence
       edit:
         prohibited_save: This password change has
+    unlocks:
+      new:
+        page_title: Resend unlock instructions for claim for Crown court defence
   validators:
     advocate:
       category: 'Advocate category must be one of those in the provided list'

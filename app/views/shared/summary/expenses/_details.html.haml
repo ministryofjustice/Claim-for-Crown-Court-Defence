@@ -38,7 +38,7 @@
             = t('.distance')
         = "#{expense.distance} miles"
 
-    %li{ class: ('error' if expense.mileage_rate_id.eql?(2)) }
+    %li{ class: ('error' if current_user_is_caseworker? && expense.mileage_rate_id.eql?(2)) }
       %span.bold
         = succeed ':' do
           = t('.cost')

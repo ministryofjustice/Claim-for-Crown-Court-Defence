@@ -105,6 +105,18 @@ RSpec.describe 'external_users/claims/show.html.haml', type: :view do
         expect(rendered).to have_selector('div', text: 'Litigator account number')
       end
     end
+
+    describe 'Fees, expenses and more information' do
+      context 'when travel expenses have been calculated' do
+        let!(:expense) { create(:expense, :with_calculated_distance_increased, mileage_rate_id: 2, location: 'Basildon',date: 3.days.ago, claim: claim) }
+
+        it 'should not render state labels' do
+          claim.reload
+          render
+          expect(rendered).to_not have_selector('span.state.state-unverified', text: 'Unverified')
+        end
+      end
+    end
   end
 
   context 'Interim claims' do

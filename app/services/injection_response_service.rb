@@ -10,8 +10,8 @@ class InjectionResponseService
     slack.build_injection_payload(@response)
     return failure(action: 'run!', uuid: @response['uuid']) unless @claim
 
-    create_injection_attempt
-    slack.send_message!
+    injection_attempt = create_injection_attempt
+    slack.send_message! unless injection_attempt.succeeded?
     true
   end
 

@@ -46,6 +46,11 @@ end
         run!
         expect(injection_attempt.succeeded).to be_truthy
       end
+
+      it 'does not send a slack message' do
+        run!
+        expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).not_to have_been_made
+      end
     end
 
     context 'when injection failed' do
@@ -55,6 +60,11 @@ end
       it 'marks injection as failed' do
         run!
         expect(injection_attempt.succeeded).to be_falsey
+      end
+
+      it 'sends a slack message' do
+        run!
+        expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).to have_been_made.times(1)
       end
 
       it 'adds error messages from the response' do

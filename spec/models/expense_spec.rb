@@ -194,37 +194,4 @@ RSpec.describe Expense, type: :model do
       it { is_expected.to be nil }
     end
   end
-
-  describe 'establishment_category' do
-    subject { expense.establishment_category }
-
-    context 'when the expense is car travel' do
-      let(:expense) do
-        build(:expense, :car_travel, calculated_distance: calculated_distance, location: location, date: 3.days.ago)
-      end
-
-      context 'when the expense has calculated_distance' do
-        let(:distance) { 235 }
-        let(:calculated_distance) { 235 }
-        let(:establishment) { create(:establishment, :prison) }
-        let(:location) { establishment.name }
-
-        it { is_expected.to eql establishment.category }
-      end
-
-      context 'when the expense does not have calculated_distance' do
-        let(:distance) { 235 }
-        let(:calculated_distance) { nil }
-        let(:location) { 'HMP test prison' }
-
-        it { is_expected.to be nil }
-      end
-    end
-
-    context 'when the expense is not car travel' do
-      let(:expense) { build(:expense, :parking, date: 3.days.ago) }
-
-      it { is_expected.to be nil }
-    end
-  end
 end

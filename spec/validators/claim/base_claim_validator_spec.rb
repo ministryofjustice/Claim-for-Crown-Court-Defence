@@ -707,10 +707,11 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     context 'for car travel' do
       before do
         claim.expenses.delete_all
-        create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim: claim)
+        create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: location, date: 3.days.ago, claim: claim)
         claim.reload
         claim.form_step = :travel_expenses
       end
+      let(:location) { 'Basildon' }
 
       context 'from the web' do
         context 'when the claim has no additional travel information' do
@@ -747,28 +748,92 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
           context 'when the mileage rate is higher' do
             let(:mileage_rate) { 2 }
 
-            context 'and the calculated distance is accepted' do
-              let(:calculated_distance) { 27 }
+            context 'and the location is a Crown Court' do
+              let(:establishment) { create(:establishment, :crown_court) }
+              let(:location) { establishment.name }
 
-              it { is_expected.to be false }
+              context 'and the calculated distance is accepted' do
+                let(:calculated_distance) { 27 }
+
+                it { is_expected.to be false }
+              end
+
+              context 'and the calculated distance is reduced' do
+                let(:calculated_distance) { 28 }
+
+                it { is_expected.to be false }
+              end
+
+              context 'and the calculated distance is increased' do
+                let(:calculated_distance) { 26 }
+
+                it { is_expected.to be false }
+              end
+
+              context 'and the calculated distance is nil' do
+                let(:calculated_distance) { nil }
+
+                it { is_expected.to be false }
+              end
             end
 
-            context 'and the calculated distance is reduced' do
-              let(:calculated_distance) { 28 }
+            context 'and the location is a Prison' do
+              let(:establishment) { create(:establishment, :prison) }
+              let(:location) { establishment.name }
 
-              it { is_expected.to be false }
+              context 'and the calculated distance is accepted' do
+                let(:calculated_distance) { 27 }
+
+                it { is_expected.to be true }
+              end
+
+              context 'and the calculated distance is reduced' do
+                let(:calculated_distance) { 28 }
+
+                it { is_expected.to be true }
+              end
+
+              context 'and the calculated distance is increased' do
+                let(:calculated_distance) { 26 }
+
+                # This is still false because the user increased the distance
+                it { is_expected.to be false }
+              end
+
+              context 'and the calculated distance is nil' do
+                let(:calculated_distance) { nil }
+
+                it { is_expected.to be true }
+              end
             end
+            context 'and the location is a Magistrates court' do
+              let(:establishment) { create(:establishment, :magistrates_court) }
+              let(:location) { establishment.name }
 
-            context 'and the calculated distance is increased' do
-              let(:calculated_distance) { 26 }
+              context 'and the calculated distance is accepted' do
+                let(:calculated_distance) { 27 }
 
-              it { is_expected.to be false }
-            end
+                it { is_expected.to be true }
+              end
 
-            context 'and the calculated distance is nil' do
-              let(:calculated_distance) { nil }
+              context 'and the calculated distance is reduced' do
+                let(:calculated_distance) { 28 }
 
-              it { is_expected.to be false }
+                it { is_expected.to be true }
+              end
+
+              context 'and the calculated distance is increased' do
+                let(:calculated_distance) { 26 }
+
+                # This is still false because the user increased the distance
+                it { is_expected.to be false }
+              end
+
+              context 'and the calculated distance is nil' do
+                let(:calculated_distance) { nil }
+
+                it { is_expected.to be true }
+              end
             end
           end
         end

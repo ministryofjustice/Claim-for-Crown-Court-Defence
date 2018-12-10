@@ -358,7 +358,8 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def has_higher_rate_mileage?
-    @record.expenses.find { |x| x.mileage_rate_id.eql?(2) }
+    destinations = %w[magistrates_court prison]
+    @record.expenses.find { |x| x.mileage_rate_id.eql?(2) && destinations.exclude?(x&.establishment&.category) }
   end
 
   def increased_travel?

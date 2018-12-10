@@ -70,7 +70,7 @@ class ExpensePresenter < BasePresenter
   end
 
   def show_map_link?
-    if expense.mileage_rate_id&.eql?(1) && expense.distance <= (expense.calculated_distance ||= expense.distance)
+    if expense.mileage_rate_id&.eql?(1) && distance_reduced_or_accepted?
       false
     else
       true
@@ -78,9 +78,7 @@ class ExpensePresenter < BasePresenter
   end
 
   def state
-    if expense.mileage_rate_id&.eql?(1) &&
-       expense.calculated_distance.present? &&
-       (expense.distance <= expense.calculated_distance)
+    if expense.mileage_rate_id&.eql?(1) && distance_acceptable?
       'Accepted'
     else
       'Unverified'
@@ -88,10 +86,20 @@ class ExpensePresenter < BasePresenter
   end
 
   def distance_label
-    if expense.calculated_distance.present? && (expense.distance <= expense.calculated_distance)
+    if distance_acceptable?
       '.distance'
     else
       '.distance_claimed'
     end
+  end
+
+  private
+
+  def distance_acceptable?
+    expense.calculated_distance.present? && distance_reduced_or_accepted?
+  end
+
+  def distance_reduced_or_accepted?
+    (expense.distance <= expense.calculated_distance ||= expense.distance)
   end
 end

@@ -29,12 +29,9 @@ module Claims
           options[:day] = days.to_i
           options[:ppe] = ppe.to_i
 
-          # For LGFS graduated fee, transfer fee and interim fee types
-          # The number of defendants should be taken from the actual number of
-          # defendants and the misc fee defendant uplift removed
-          #
           # TODO: retrospectively use actual number of defendants
-          # for transfer and graduated fee calc and remove defendant uplift misc fee
+          # for LGFS transfer and graduated fee calc and remove
+          # defendant uplift misc fee
           options[:number_of_defendants] = defendants.size if interim?
         end
       end

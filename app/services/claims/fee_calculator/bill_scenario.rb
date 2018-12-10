@@ -30,7 +30,7 @@ module Claims
       def bill_scenario
         return transfer_detail.bill_scenario if transfer?
         return find_by_code(fee_type.unique_code) if interim?
-        find_by_code(case_type.fee_type_code) if final?
+        find_by_code(case_type.fee_type_code)
       end
 
       def find_by_code(code)

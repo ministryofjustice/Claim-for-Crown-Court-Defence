@@ -55,12 +55,6 @@
   padding: 0;
 }
 
-// TODO: remove if unused
-/*
-.column-first-child {
-  @include first;
-}
-*/
 .bold-xsmall{
   @include bold-14();
 }

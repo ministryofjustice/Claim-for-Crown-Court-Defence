@@ -18,7 +18,7 @@
       %li{ class: ('error' if expense.distance_gt_calculated?) }
         %span.bold
           = succeed ':' do
-            = expense.distance_gt_calculated? ? t('.distance_claimed') : t('.distance')
+            = t(expense.distance_label)
         = "#{expense.distance} miles"
       - if expense.distance_gt_calculated?
         %li{ class: ('error' if expense.distance_gt_calculated?) }
@@ -38,7 +38,7 @@
             = t('.distance')
         = "#{expense.distance} miles"
 
-    %li
+    %li{ class: ('error' if current_user_is_caseworker? && expense.mileage_rate_id.eql?(2)) }
       %span.bold
         = succeed ':' do
           = t('.cost')

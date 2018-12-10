@@ -138,6 +138,8 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
   end
 
   context 'calculated travel expense' do
+    subject { rendered }
+
     let(:claim) { build(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(1)) }
     let!(:establishment) { create(:establishment, :crown_court, name: 'Basildon', postcode: 'SS14 2EW') }
 
@@ -155,6 +157,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
 
       it 'does not render a map link' do
         expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
+        expect(rendered).to have_content('Accepted')
       end
     end
 
@@ -163,6 +166,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
 
       it 'does not render a map link' do
         expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
+        expect(rendered).to have_content('Accepted')
       end
     end
 
@@ -172,6 +176,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
       it 'renders a map link' do
         expect(rendered).to have_link_to(/google.*maps.*origin=.*destination=.*/)
         expect(rendered).to have_link('View car journey')
+        expect(rendered).to have_content('Unverified')
       end
     end
 
@@ -181,6 +186,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
       it 'renders a map link' do
         expect(rendered).to have_link_to(/google.*maps.*origin=.*destination=.*/)
         expect(rendered).to have_link('View public transport journey')
+        expect(rendered).to have_content('Unverified')
       end
     end
 
@@ -190,6 +196,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
       it 'renders a map link' do
         expect(rendered).to have_link_to(/google.*maps.*origin=.*destination=.*/)
         expect(rendered).to have_link('View public transport journey')
+        expect(rendered).to have_content('Unverified')
       end
     end
 
@@ -199,6 +206,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
       it 'renders a map link' do
         expect(rendered).to have_link_to(/www.google.co.uk\/maps/)
         expect(rendered).to have_link('View public transport journey')
+        expect(rendered).to have_content('Unverified')
       end
     end
   end

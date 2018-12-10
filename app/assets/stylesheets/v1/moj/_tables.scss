@@ -105,7 +105,8 @@ span.state {
   border-width: 2px;
   border-style: solid;
   background: #fff;
-  &.state-authorised {
+  &.state-authorised,
+  &.state-accepted {
     color: #00602b;
     border-color: #00602b;
   }
@@ -118,7 +119,8 @@ span.state {
     border-color: #1d5780;
   }
   &.state-rejected,
-  &.state-refused {
+  &.state-refused,
+  &.state-unverified {
     color: #99181a;
     border-color: #99181a;
   }

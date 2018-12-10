@@ -146,6 +146,15 @@ class Expense < ApplicationRecord
     distance > calculated_distance
   end
 
+  def establishment
+    return unless expense_type.car_travel?
+    Establishment.find_by(name: location)
+  end
+
+  def establishment_category
+    establishment&.category
+  end
+
   private
 
   # we only calculate VAT for AGFS claims for vatable providers.  On LGFS claims, the VAT amount is entered in the form.

@@ -1,3 +1,6 @@
+- content_for :page_title do
+  = t(".page_title_#{current_user.provider.provider_type}")
+
 = render partial: 'layouts/header', locals: {page_heading: t('.title')}
 
 = content_for :search_html_block do

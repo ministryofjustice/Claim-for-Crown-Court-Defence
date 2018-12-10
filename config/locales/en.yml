@@ -430,14 +430,19 @@ en:
           new_user: 'Create a new user'
           search: 'Search for user'
           supplier_number: 'Supplier number'
+          page_title_chamber: Manage users in your chambers
+          page_title_firm: Manage users in your firm
         new:
           error: 'error'
           new_advocate: 'New user'
           prohibited_save: 'This user has'
+          page_title_firm: Add a user to your firm's account
+          page_title_chamber: Add a user to your chambers' account
         edit:
           edit_advocate: 'Edit user'
           error: 'error'
           prohibited_save: 'This user has'
+          page_title: Edit user account details for %{external_user}
         form:
           email: *email
           email_confirmation: *email_confirmation
@@ -455,6 +460,10 @@ en:
           password: *password
           password_confirmation: *password_confirmation
           submit: 'Change password'
+          page_title: Change your password
+        show:
+          page_title: View your account details
+
       providers:
         provider_type: &provider_type 'Provider type'
         provider_name: &provider_name 'Provider name'
@@ -469,6 +478,8 @@ en:
           api_key: *api_key
           lgfs_supplier_numbers: "LGFS supplier numbers"
           firm_agfs_supplier_number: "AGFS supplier number"
+          page_title_firm: Manage your firm's account
+          page_title_chamber: Manage your chambers' account
         edit:
           error: 'error'
           page_heading: Settings
@@ -480,6 +491,8 @@ en:
           api_key: *api_key
           vat_registered: *vat_registered
           form_error_hint: 'Check below for more detail'
+          page_title_firm: Edit your firm's account
+          page_title_chamber: Edit your chambers' account
     all_claims: All claims
     your_claims: Your claims
     claim_heading: Claim for Crown Court fees
@@ -1265,6 +1278,8 @@ en:
       edit:
         page_heading: Settings
         section_heading: Edit provider details
+        page_title_chamber: Edit your chambers' account
+        page_title_firm: Edit your firm's account
       form:
         agfs_supplier_number: AGFS Supplier Number
         cancel_button: Cancel
@@ -1756,3 +1771,8 @@ en:
   faker:
     address:
       postcode: /[A-PR-UWYZ]([A-HK-Y][0-9][ABEHMNPRVWXY0-9]?|[0-9][ABCDEFGHJKPSTUW0-9]?) [0-9][ABD-HJLNP-UW-Z]{2}/
+
+# en.feedback
+  feedback:
+    feedback:
+      page_title: Help us improve this service

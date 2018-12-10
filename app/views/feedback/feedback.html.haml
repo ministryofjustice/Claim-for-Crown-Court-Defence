@@ -1,4 +1,5 @@
-- title 'Feedback'
+- content_for :page_title do
+  = t('.page_title')
 
 = render partial: 'errors/error_summary', locals:{ ep: @feedback, error_summary: 'This feedback has '}
 = render partial: 'layouts/header', locals: {page_heading: t('activemodel.attributes.feedback.heading')}

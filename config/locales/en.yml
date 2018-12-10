@@ -538,9 +538,11 @@ en:
       archived:
         archived_claims: 'Archived claims'
         archived_claim: 'archived claim'
+        page_title: View your claims archive
       authorised:
         authorised_claims: 'Authorised claims for last week'
         with_total_assessed_value_of: 'claims with a total assessed value of'
+        page_title: View your authorised claims
       basic_fees:
         dates_attended:
           add_dates: Add another date
@@ -1060,6 +1062,7 @@ en:
         rejected: Rejected
         submitted: Submitted to LAA
         show_count: 'Showing %{page_count} of %{total} claims'
+        page_title: View your claims list
       interim_claim_info:
         fields: &interim_claim_info_fields
           warrant_fee: Warrant fees
@@ -1074,6 +1077,7 @@ en:
       outstanding:
         heading: Outstanding claims
         claims_value: claims with a total value of
+        page_title: View your outstanding claims
       supporting_documents:
         disk_evidence:
           disk_evidence_title: 'Evidence supplied on disk'
@@ -1657,6 +1661,7 @@ en:
         page_title: Retrieve your password for claim for Crown court defence
       edit:
         prohibited_save: This password change has
+        page_title: Change your password for claim for Crown court defence
     unlocks:
       new:
         page_title: Resend unlock instructions for claim for Crown court defence

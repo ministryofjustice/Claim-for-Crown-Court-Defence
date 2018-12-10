@@ -23,10 +23,6 @@ class LitigatorClaimFormPage < ClaimFormPage
   element :actual_trial_length, "#claim_actual_trial_length"
   section :graduated_fee_date, CommonDateSection, "div.graduated-fee-group"
 
-  element :warrant_fee_total, "#claim_warrant_fee_attributes_amount"
-  section :warrant_fee_issued_date, CommonDateSection, "div.warrant-fee-issued-date-group"
-  section :warrant_fee_executed_date, CommonDateSection, "div.warrant-fee-executed-date-group"
-
   def select_supplier_number(number)
     select number, from: "claim_supplier_number", autocomplete: false
   end

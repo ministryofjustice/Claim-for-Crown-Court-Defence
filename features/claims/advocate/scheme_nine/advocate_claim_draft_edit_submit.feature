@@ -38,7 +38,6 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     And I add a basic fee net amount
     Then I should see "First day of trial"
 
-
     And I add a daily attendance fee with dates attended
 
     Then I click "Continue" in the claim form

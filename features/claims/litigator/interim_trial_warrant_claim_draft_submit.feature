@@ -6,7 +6,6 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     Given I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
-
     And I click 'Start a claim'
     And I select the fee scheme 'Litigator interim fee'
     Then I should be on the litigator new interim claim page
@@ -26,8 +25,8 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     When I click the claim 'A20161234'
     And I edit the claim's defendants
 
-    And I enter defendant, representation order and MAAT reference
-    And I add another defendant, representation order and MAAT reference
+    And I enter defendant, LGFS representation order and MAAT reference
+    And I add another defendant, LGFS representation order and MAAT reference
 
     Then I click "Continue" in the claim form
 
@@ -37,15 +36,16 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     Then I click "Continue" in the claim form
 
     And I select an interim fee type of 'Warrant'
-    And I fill '2016-01-01' as the warrant fee issued date
-    And I enter 250 in the interim fee total field
+    And I enter '2016-01-01' as the warrant issued date
+    And I enter '2016-04-01' as the warrant executed date
+    And I enter '680.39' in the interim fee total field
 
     Then I click "Continue" in the claim form
 
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
-    And I add an expense date for scheme 9
+    And I add an expense date for LGFS
 
     Then I click "Continue" in the claim form
 
@@ -65,4 +65,4 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£284.56'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£714.95'

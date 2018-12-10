@@ -82,6 +82,8 @@
 
       = render partial: 'external_users/claims/interim_fee/calculator_help'
 
-      .form-group
-        .js-interim-disbursements.visually-hidden
-          = render partial: 'external_users/claims/disbursements/fields', locals: { f: f }
+    %hr
+
+    .form-group
+      .js-interim-disbursements.visually-hidden
+        = render partial: 'external_users/claims/disbursements/fields', locals: { f: f }

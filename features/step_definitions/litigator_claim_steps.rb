@@ -68,10 +68,6 @@ Then(/^I fill '(\d+)' as the actual trial length$/) do |length|
   wait_for_ajax
 end
 
-And(/^I fill '(.*)' as the warrant fee total$/) do |total|
-  @litigator_claim_form_page.warrant_fee_total.set total
-end
-
 And(/^I enter the case concluded date\s*(.*?)$/) do |date|
   date = date.present? ? date : "2016-04-01"
   @litigator_claim_form_page.case_concluded_date.set_date date
@@ -92,14 +88,6 @@ end
 
 And(/^I fill '(.*)' as the graduated fee date$/) do |date|
   @litigator_claim_form_page.graduated_fee_date.set_date date
-end
-
-And(/^I fill '(.*)' as the warrant fee issued date$/) do |date|
-  @litigator_claim_form_page.warrant_fee_issued_date.set_date date
-end
-
-And(/^I fill '(.*)' as the warrant fee executed date$/) do |date|
-  @litigator_claim_form_page.warrant_fee_executed_date.set_date date
 end
 
 Then(/^I select an expense type "([^"]*)"$/) do |name|

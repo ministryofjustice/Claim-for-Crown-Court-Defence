@@ -1315,6 +1315,40 @@ en:
         supporting_evidence_form_step:
           page_title: Upload supporting evidence for litigator transfer fees claim
 
+      claims:
+        new:
+          page_title: &lgfs_claims_heading Enter case details for litigator final fees claim
+
+        edit:
+          page_title: *lgfs_claims_heading
+
+        case_details_form_step:
+          page_title: *lgfs_claims_heading
+
+        defendants_form_step:
+          page_title: Enter defendant details for litigator final fees claim
+
+        fixed_fees_form_step:
+          page_title: Enter fixed fees for litigator final fees claim
+
+        offence_details_form_step:
+          page_title: Enter offence details for litigator final fees claim
+
+        graduated_fees_form_step:
+          page_title: Enter graduated fees for litigator final fees claim
+
+        miscellaneous_fees_form_step:
+          page_title: Enter miscellaneous fees for litigator final fees claim
+
+        disbursements_form_step:
+          page_title: Enter disbursements for litigator final fees claim
+
+        travel_expenses_form_step:
+          page_title: Enter travel expenses for litigator final fees claim
+
+        supporting_evidence_form_step:
+          page_title: Upload supporting evidence for litigator final fees claim
+
 
   shared:
     claim_defendant_details:

@@ -606,7 +606,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         it'displays a flash error' do
-          expect(flash[:alert]).to eq 'An error is preventing this claim from being redrafted.  The problem has been logged and is being investigated. To continue please start a new claim.'
+          expect(flash[:alert]).to eq "An error is preventing this claim from being redrafted.\nThe problem has been logged and is being investigated.\nTo continue please start a new claim.\n"
         end
       end
     end

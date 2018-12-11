@@ -1232,13 +1232,13 @@ en:
 
       interim_claims:
         new:
-          page_title: &transfer_claim_heading Enter case details for advocate warrant fees claim
+          page_title: &agfs_interim_claims_heading Enter case details for advocate warrant fees claim
 
         edit:
-          page_title: *transfer_claim_heading
+          page_title: *agfs_interim_claims_heading
 
         case_details_form_step:
-          page_title: *transfer_claim_heading
+          page_title: *agfs_interim_claims_heading
 
         defendants_form_step:
           page_title: Enter defendant details for advocate warrant fees claim
@@ -1259,21 +1259,37 @@ en:
       interim_claims:
         new:
           start_interim_claim_heading: "Start interim claim"
-          page_title: Enter fees for litigator interim fees claim
+          page_title: &lgfs_interim_claims_heading Enter case details for litigator interim fees claim
         edit:
           edit_interim_claim_heading: "Edit interim claim"
+          page_title: *lgfs_interim_claims_heading
+
+        case_details_form_step:
+          page_title: *lgfs_interim_claims_heading
+
+        defendants_form_step:
+          page_title: Enter defendant details for litigator interim fees claim
+
+        offence_details_form_step:
+          page_title: Enter offence details for litigator interim fees claim
+
+        interim_fees_form_step:
           page_title: Enter fees for litigator interim fees claim
+
+        supporting_evidence_form_step:
+          page_title: Enter disbursements for litigator interim fees claim
+
       transfer_claims:
         new:
           start_transfer_claim_heading: "Start transfer claim"
-          page_title: &transfer_claim_heading Enter case details for litigator transfer fees claim
+          page_title: &lgfs_transfer_claim_heading Enter case details for litigator transfer fees claim
 
         edit:
           edit_transfer_claim_heading: "Edit transfer claim"
-          page_title: *transfer_claim_heading
+          page_title: *lgfs_transfer_claim_heading
 
         case_details_form_step:
-          page_title: *transfer_claim_heading
+          page_title: *lgfs_transfer_claim_heading
 
         defendants_form_step:
           page_title: Enter defendant details for litigator transfer fees claim

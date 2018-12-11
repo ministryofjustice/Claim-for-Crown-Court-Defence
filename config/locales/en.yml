@@ -967,7 +967,7 @@ en:
         button_label: *continue_to_certification_button
         heading: Check your claim
         case_details: Case details
-        page_title: View claim summary for litigator transfer fees claim
+        page_title: TODOView claim summary for litigator transfer fees claim
       fee_fields:
         add_date_attended: 'Add dates'
         remove: *remove
@@ -1199,6 +1199,36 @@ en:
             invalid_claim_type: Cannot calculate distance for this type of claim
             missing_origin: Supplier associated with the claim does not have a postcode
             missing_destination: Destination not provided
+    advocates:
+      claims:
+        new:
+          page_title: &transfer_claim_heading Enter case details for advocate final fees claim
+
+        edit:
+          page_title: *transfer_claim_heading
+
+        case_details_form_step:
+          page_title: *transfer_claim_heading
+
+        defendants_form_step:
+          page_title: Enter defendant details for advocate final fees claim
+
+        fixed_fees_form_step:
+          page_title: Enter fixed fees for advocate final fees claim
+
+        basic_fees_form_step:
+          page_title: Enter graduated fees for advocate final fees claim
+
+        miscellaneous_fees_form_step:
+          page_title: Enter miscellaneous fees for advocate final fees claim
+
+        travel_expenses_form_step:
+          page_title: Enter travel expenses for advocate final fees claim
+
+        supporting_evidence_form_step:
+          page_title: Upload supporting evidence for advocate final fees claim
+
+
     litigators:
       interim_claims:
         new:
@@ -1207,7 +1237,6 @@ en:
         edit:
           edit_interim_claim_heading: "Edit interim claim"
           page_title: Enter fees for litigator interim fees claim
-
       transfer_claims:
         new:
           start_transfer_claim_heading: "Start transfer claim"

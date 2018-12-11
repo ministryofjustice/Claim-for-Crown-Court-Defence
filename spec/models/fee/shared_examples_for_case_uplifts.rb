@@ -1,4 +1,4 @@
-shared_examples 'case upliftable' do
+RSpec.shared_examples 'case upliftable' do
   it { is_expected.to respond_to :case_uplift? }
   it { is_expected.to respond_to :orphan_case_uplift? }
   it { is_expected.to respond_to :case_uplift_parent }

@@ -21,6 +21,7 @@
 
 require 'rails_helper'
 require_relative 'shared_examples_for_defendant_uplifts'
+require_relative 'shared_examples_for_duplicable'
 
 RSpec.describe Fee::BasicFee do
   it { should belong_to(:fee_type) }
@@ -28,6 +29,7 @@ RSpec.describe Fee::BasicFee do
   it { should validate_presence_of(:fee_type).with_message('blank') }
 
   include_examples 'defendant uplift delegation'
+  include_examples 'duplicable fee'
 
   describe 'default scope' do
     it 'should order by claim id and fee type id ascending' do

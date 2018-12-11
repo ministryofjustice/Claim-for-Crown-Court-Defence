@@ -2,7 +2,7 @@
   %td{scope: 'row', style: 'width: 20%'}
     %span.bold-normal
       = expense.name
-    - if current_user_is_caseworker?
+    - if current_user_is_caseworker?  && @claim.lgfs?
       %span.state{ class: "state-#{expense.state.downcase}" }
         = expense.state
   %td{scope: 'row', style: 'width: 12%'}

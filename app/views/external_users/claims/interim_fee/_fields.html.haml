@@ -20,6 +20,7 @@
         .js-interim-ppe.js-fee-calculator-effector.visually-hidden
           = inf.adp_text_field :quantity,
             label: t('.ppe_total'),
+            hint_text: t('.ppe_total_hint'),
             input_type: 'number',
             input_classes:'quantity fee-quantity js-fee-calculator-ppe js-fee-quantity form-control-1-4',
             value: fee.quantity, errors: @error_presenter,

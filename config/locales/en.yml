@@ -1113,14 +1113,15 @@ en:
           page_hint: *fees_vat_prompt
           interim_fees: Interim fees
           fee_type: Type of fee
-          ppe_total: PPE total at the time
+          ppe_total: Total pages of evidence
+          ppe_total_hint: At the time the claim is made
           amount: *net_amount
-          effective_pcmh_date: Effective PCMH
-          legal_aid_transfer_date: Legal aid transfer
-          first_day_of_trial: Trial start
+          effective_pcmh_date: Date of effective PCMH
+          legal_aid_transfer_date: Date of legal aid transfer
+          first_day_of_trial: Date trial started
           estimated_trial_length: Estimated length of trial
-          trial_concluded_at: First trial concluded
-          retrial_started_at: Re-trial start
+          trial_concluded_at: Date first trial concluded
+          retrial_started_at: Date retrial started
           retrial_estimated_length: Estimated length of retrial
           number_days_hint: Number of days
           warrant_issued: Warrant issued
@@ -1128,10 +1129,10 @@ en:
         calculator_help:
           help_how_we_calculate_amount_title: *how_is_this_calculated_help
           help_how_we_calculate_amount_body:
-            effective_pcmh: We calculate the amount based upon the fee scheme, offence class, total pages of evidence (at the time) and number of defendants
-            trial_start: We calculate the amount based upon the fee scheme, offence class, estimated length of trial, total pages of evidence (at the time) and number of defendants
-            retrial_start: We calculate the amount based upon the fee scheme, offence class, estimated length of retrial, total pages of evidence (at the time) and number of defendants
-            retrial_new_solicitor: We calculate the amount based upon the fee scheme, offence class, total pages of evidence (at the time) and number of defendants
+            effective_pcmh: We calculate the amount based upon the fee scheme, offence class, total pages of evidence at the time this claim is made, and number of defendants
+            trial_start: We calculate the amount based upon the fee scheme, offence class, estimated length of trial, total pages of evidence at the time this claim is made, and number of defendants
+            retrial_start: We calculate the amount based upon the fee scheme, offence class, estimated length of retrial, total pages of evidence at the time this claim is made, and number of defendants
+            retrial_new_solicitor: We calculate the amount based upon the fee scheme, offence class, total pages of evidence at the time this claim is made, and number of defendants
         header_prompt_text_html: |
           All fees should be entered exclusive of
           <abbr title="Value Added Tax">VAT</abbr>.

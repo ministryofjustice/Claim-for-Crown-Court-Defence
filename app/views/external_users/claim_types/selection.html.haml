@@ -1,4 +1,4 @@
-- content_for :page_title do
+= content_for :page_title  do
   = claim_type_page_header(current_user)
 
 = render partial: 'layouts/header', locals: { page_heading: claim_type_prompt_heading_for(current_user) }

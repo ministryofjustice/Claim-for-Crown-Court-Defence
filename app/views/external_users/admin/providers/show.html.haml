@@ -1,4 +1,4 @@
-- content_for :page_title do
+= content_for :page_title  do
   = t(".page_title_#{@provider.provider_type}")
 
 = render partial: 'layouts/header', locals: {page_heading: 'Manage provider'}

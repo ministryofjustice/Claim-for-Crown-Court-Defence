@@ -1,3 +1,6 @@
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
 = render partial: 'external_users/claims/api_promo_banner', locals: { claim: @claim }
 
 = render partial: 'external_users/claims/transfer_fee/detail_fields', locals: { f: f }

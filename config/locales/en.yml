@@ -967,6 +967,7 @@ en:
         button_label: *continue_to_certification_button
         heading: Check your claim
         case_details: Case details
+        page_title: View claim summary for litigator transfer fees claim
       fee_fields:
         add_date_attended: 'Add dates'
         remove: *remove
@@ -1202,13 +1203,47 @@ en:
       interim_claims:
         new:
           start_interim_claim_heading: "Start interim claim"
+          page_title: Enter fees for litigator interim fees claim
         edit:
           edit_interim_claim_heading: "Edit interim claim"
+          page_title: Enter fees for litigator interim fees claim
+
       transfer_claims:
         new:
           start_transfer_claim_heading: "Start transfer claim"
+          page_title: &transfer_claim_heading Enter case details for litigator transfer fees claim
+
         edit:
           edit_transfer_claim_heading: "Edit transfer claim"
+          page_title: *transfer_claim_heading
+
+        case_details_form_step:
+          page_title: *transfer_claim_heading
+
+        defendants_form_step:
+          page_title: Enter defendant details for litigator transfer fees claim
+
+        offence_details_form_step:
+          page_title: Enter offence details for litigator transfer fees claim
+
+        transfer_fee_details_form_step:
+          page_title: Enter fees for litigator transfer fees claim
+
+        transfer_fees_form_step:
+          page_title: Enter fees for litigator transfer fees claim
+
+        miscellaneous_fees_form_step:
+          page_title: Enter miscellaneous fees for litigator transfer fees claim
+
+        disbursements_form_step:
+          page_title: Enter disbursements for litigator transfer fees claim
+
+        travel_expenses_form_step:
+          page_title: Enter travel expenses for litigator transfer fees claim
+
+        supporting_evidence_form_step:
+          page_title: Upload supporting evidence for litigator transfer fees claim
+
 
   shared:
     claim_defendant_details:

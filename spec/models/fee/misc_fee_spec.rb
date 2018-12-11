@@ -21,6 +21,7 @@
 
 require 'rails_helper'
 require_relative 'shared_examples_for_defendant_uplifts'
+require_relative 'shared_examples_for_duplicable'
 
 RSpec.describe Fee::MiscFee do
   it { should belong_to(:fee_type) }
@@ -29,6 +30,7 @@ RSpec.describe Fee::MiscFee do
 
   include_examples 'defendant uplift delegation'
   include_examples '.defendant_uplift_sums'
+  include_examples 'duplicable fee'
 
   describe '#is_misc?' do
     it 'returns true' do

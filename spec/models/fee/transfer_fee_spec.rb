@@ -20,8 +20,11 @@
 #
 
 require 'rails_helper'
+require_relative 'shared_examples_for_duplicable'
 
 RSpec.describe Fee::TransferFee do
+  include_examples 'duplicable fee'
+
   context 'validations' do
     it { should validate_absence_of(:warrant_issued_date) }
     it { should validate_absence_of(:warrant_executed_date) }

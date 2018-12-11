@@ -34,6 +34,16 @@ module Fee
     it { should belong_to(:claim) }
     it { should have_many(:dates_attended) }
 
+    context 'duplicable' do
+      describe '.duplicate_this' do
+        it 'responds to .duplicate_this' do
+          expect(described_class).to respond_to(:duplicate_this)
+        end
+
+        it { is_expected.to respond_to(:duplicate) }
+      end
+    end
+
     before(:each) { allow(subject).to receive(:quantity_is_decimal?).and_return(false) }
 
     context 'zeroise nulls on save' do

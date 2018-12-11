@@ -21,6 +21,7 @@
 
 require 'rails_helper'
 require_relative 'shared_examples_for_defendant_uplifts'
+require_relative 'shared_examples_for_duplicable'
 
 RSpec.describe Fee::FixedFee do
   it { should belong_to(:fee_type) }
@@ -28,4 +29,5 @@ RSpec.describe Fee::FixedFee do
   it { should validate_presence_of(:fee_type).with_message('blank') }
 
   include_examples 'defendant uplift delegation'
+  include_examples 'duplicable fee'
 end

@@ -43,6 +43,7 @@ module Claims::Cloner
     Fee::BaseFee.class_eval do |klass|
       klass.duplicate_this do
         enable
+        propagate
         nullify :uuid
         clone [:dates_attended]
       end

@@ -1,5 +1,5 @@
 # If you use amoeba (https://github.com/amoeba-rb/amoeba) for cloning your
-# ActiveRecord objects this concern should be useful, it allows you properfly inherit
+# ActiveRecord objects this concern should be useful, it allows you properly inherit
 # associations if you use (Single Table) Inheritance.
 #
 # Just do something like:
@@ -12,8 +12,8 @@
 #   end
 # end
 #
-# see http://www.mariocarrion.com/2015/07/12/amoeba-with-deep-cloning.html
-#
+# TODO: this may no longer be needed at all but provides
+# a wrapper for calling the amoeba block
 
 module Duplicable
   extend ActiveSupport::Concern
@@ -31,24 +31,14 @@ module Duplicable
     def duplicate_this(&block)
       self.amoeba_blocks ||= begin
         blocks = [proc { enable }]
-
-        superclass = nil
-        loop do
-          superclass = self.superclass
-          break if superclass == ApplicationRecord
-
-          blocks.unshift(*superclass.amoeba_blocks)
-        end
-
         blocks << block if block_given?
-
         blocks
       end
 
       blocks = self.amoeba_blocks
 
       amoeba do |config|
-        blocks.each { |db| config.instance_eval(&db) }
+        blocks.each { |blk| config.instance_eval(&blk) }
       end
     end
   end
@@ -57,7 +47,7 @@ module Duplicable
     blocks = self.class.amoeba_blocks || []
 
     self.class.amoeba do |config|
-      blocks.each { |db| config.instance_eval(&db) }
+      blocks.each { |blk| config.instance_eval(&blk) }
     end
 
     amoeba_dup

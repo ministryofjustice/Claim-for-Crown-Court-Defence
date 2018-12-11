@@ -510,6 +510,8 @@ en:
         certified_by_prompt_text: 'Enter full name'
         certification_date: 'Date'
         date: 'Date'
+        page_title_transfer_claim: Certify and submit the litigator transfer fees claim
+        page_title_advocate_claim: advocate claim
     claim_types:
       chosen:
         errors:
@@ -1228,6 +1230,30 @@ en:
         supporting_evidence_form_step:
           page_title: Upload supporting evidence for advocate final fees claim
 
+      interim_claims:
+        new:
+          page_title: &transfer_claim_heading Enter case details for advocate warrant fees claim
+
+        edit:
+          page_title: *transfer_claim_heading
+
+        case_details_form_step:
+          page_title: *transfer_claim_heading
+
+        defendants_form_step:
+          page_title: Enter defendant details for advocate warrant fees claim
+
+        offence_details_form_step:
+          page_title: Enter offence details for advocate warrant fees claim
+
+        interim_fees_form_step:
+          page_title: Enter fees for advocate warrant fees claim
+
+        travel_expenses_form_step:
+          page_title: Enter travel expenses for advocate warrant fees claim
+
+        supporting_evidence_form_step:
+          page_title: Upload supporting evidence for advocate warrant fees claim
 
     litigators:
       interim_claims:

@@ -520,7 +520,10 @@ en:
       hints:
         fees_header_prompt_text_html: &fees_vat_prompt All fees should be entered exclusive of VAT.
       redraft:
-        error_html: 'An error is preventing this claim from being redrafted.  The problem has been logged and is being investigated. To continue please start a new claim.'
+        error_html: |
+          An error is preventing this claim from being redrafted.
+          The problem has been logged and is being investigated.
+          To continue please start a new claim.
       additional_information:
         fields:
           additional_information: 'Additional information'

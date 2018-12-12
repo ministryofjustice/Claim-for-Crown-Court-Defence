@@ -360,8 +360,10 @@ en:
         vat_registered: *vat_registered
         lgfs_supplier_numbers: 'LGFS supplier numbers'
         firm_agfs_supplier_number: 'AGFS supplier number'
+        page_title: "View %{provider_name}'s details"
       index:
         add_a_provider: Add a provider
+        page_title: View providers in claim for Crown court defence
       providers:
         fee_schemes: Fee schemes
         provider_type: *provider_type
@@ -387,6 +389,7 @@ en:
         name: 'Name'
         supplier_number: *supplier_number
         email: 'Email'
+        page_title: "View users in %{provider_name}"
       form:
         error: 'error'
         prohibited_save: 'This user has'
@@ -403,6 +406,7 @@ en:
       find:
         email: *email
         submit: 'Search'
+        page_title: Find a provider by email address
       change_password:
         error: 'error'
         prohibited_save: 'This user password change has'
@@ -410,6 +414,12 @@ en:
         password: *password
         password_confirmation: *password_confirmation
         submit: 'Change password'
+        page_title: "Change %{username}'s password"
+      show:
+        page_title: "View %{username}'s details"
+      edit:
+        page_title: "Edit %{username}'s details"
+        heading: Edit user details
 
 # en.external_users
   external_users:
@@ -858,6 +868,7 @@ en:
         advocate_litigator: *advocate_litigator
         type: "Type"
       confirmation:
+        page_title: ToDO
         thanks: Thank you for submitting your claim
         what_happens_next: What happens next?
         what_happens_next_prompt_html: |
@@ -1266,7 +1277,6 @@ en:
 
         supporting_evidence_form_step:
           page_title: Upload supporting evidence for advocate warrant fees claim
-
     litigators:
       interim_claims:
         new:
@@ -1361,7 +1371,7 @@ en:
         supporting_evidence_form_step:
           page_title: Upload supporting evidence for litigator final fees claim
 
-
+# en.shared
   shared:
     claim_defendant_details:
       caption: 'Defendant: Additional information'
@@ -1431,11 +1441,15 @@ en:
       new:
         page_heading: Settings
         section_heading: Add provider details
+        page_title: Add a provider to claim for Crown court defence
+
       edit:
         page_heading: Settings
         section_heading: Edit provider details
         page_title_chamber: Edit your chambers' account
         page_title_firm: Edit your firm's account
+        page_title: "Edit %{provider_name}'s details"
+
       form:
         agfs_supplier_number: AGFS Supplier Number
         cancel_button: Cancel
@@ -1704,6 +1718,7 @@ en:
       scheme_filter_hint: 'Configure list below by AGFS and LGFS claims'
       scheme_filter: 'Filter list by:'
       scheme_filter_all: 'All'
+
   case_workers:
     table_headings:
       your_claims: Your claims

@@ -30,7 +30,6 @@ Feature: litigator completes transfer fee page using calculator
     And I should be in the 'Defendant details' form page
 
     And I enter defendant, LGFS representation order and MAAT reference
-    And I add another defendant, LGFS representation order and MAAT reference
 
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
@@ -88,6 +87,16 @@ Feature: litigator completes transfer fee page using calculator
     And the transfer fee amount should be populated with '442.91'
     And I fill '41' as the ppe total
     And the transfer fee amount should be populated with '445.57'
+
+    # defendant uplift impact
+    And I goto claim form step 'defendants'
+    And I add another defendant, LGFS representation order and MAAT reference
+
+    Then I click "Continue" in the claim form
+    And I should be in the 'Offence details' form page
+
+    And I goto claim form step 'transfer fees'
+    And the transfer fee amount should be populated with '531.49'
 
     And I eject the VCR cassette
 

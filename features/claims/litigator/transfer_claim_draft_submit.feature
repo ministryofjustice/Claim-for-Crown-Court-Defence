@@ -47,20 +47,19 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Given I insert the VCR cassette 'features/claims/litigator/transfer_fee_calculations'
     And I click "Continue" in the claim form
 
-    Then the transfer fee amount should be populated with '224.23'
+    Then the transfer fee amount should be populated with '269.08'
     And I should not see the days claimed field
     And I should see the ppe field
     And I fill '50' as the ppe total
-    Then the transfer fee amount should be populated with '224.23'
+    Then the transfer fee amount should be populated with '269.08'
     And I fill '51' as the ppe total
-    Then the transfer fee amount should be populated with '228.64'
+    Then the transfer fee amount should be populated with '274.37'
 
     Then I click "Continue" in the claim form
 
     And I eject the VCR cassette
 
     And I add a litigator miscellaneous fee 'Costs judge application'
-    And I add a litigator miscellaneous fee 'Defendant uplift'
 
     Then I click "Continue" in the claim form
 
@@ -93,4 +92,4 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£743.46'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£653.41'

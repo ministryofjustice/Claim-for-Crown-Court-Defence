@@ -56,20 +56,19 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Given I insert the VCR cassette 'features/claims/litigator/graduated_fee_calculations'
     Then I click "Continue" in the claim form
 
-    And the graduated fee amount should be populated with '357.60'
+    And the graduated fee amount should be populated with '429.12'
     And I fill '2018-01-01' as the graduated fee date
     And I fill '1' as the actual trial length
     And I fill '50' as the ppe total
-    Then the graduated fee amount should be populated with '357.60'
+    Then the graduated fee amount should be populated with '429.12'
     And I fill '51' as the ppe total
-    Then the graduated fee amount should be populated with '364.91'
+    Then the graduated fee amount should be populated with '437.89'
 
     Then I click "Continue" in the claim form
 
     And I eject the VCR cassette
 
     And I add a litigator miscellaneous fee 'Costs judge application'
-    And I add a litigator miscellaneous fee 'Defendant uplift'
 
     Then I click "Continue" in the claim form
 
@@ -101,4 +100,4 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£879.73'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£816.93'

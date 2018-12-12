@@ -34,11 +34,7 @@ module Claims
 
           options[:day] = days.to_i
           options[:ppe] = ppe.to_i
-
-          # TODO: retrospectively use actual number of defendants
-          # for LGFS transfer and graduated fee calc and remove
-          # defendant uplift misc fee
-          options[:number_of_defendants] = defendants.size if interim?
+          options[:number_of_defendants] = defendants.size if lgfs?
         end
       end
     end

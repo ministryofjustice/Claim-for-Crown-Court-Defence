@@ -35,7 +35,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I select the offence category 'Handling stolen goods'
     And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
-    Given I insert the VCR cassette 'features/claims/litigator/interim_fee_calculations' and record 'new_episodes'
+    Given I insert the VCR cassette 'features/claims/litigator/interim_fee_calculations'
 
     When I click "Continue" in the claim form
     And I should be in the 'Interim fee' form page

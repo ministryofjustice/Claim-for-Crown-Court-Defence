@@ -1,4 +1,14 @@
 RSpec.shared_examples 'a successful fee calculator response' do |options|
+  before do
+    number_of_defendants = options&.fetch(:number_of_defendants, nil)
+    if number_of_defendants
+      needed = number_of_defendants - claim.defendants.count
+      needed.times do
+        claim.defendants << create(:defendant, scheme: options&.fetch(:scheme))
+      end
+    end
+  end
+
   it 'returns success? true' do
     expect(response.success?).to be true
   end

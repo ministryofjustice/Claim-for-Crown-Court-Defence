@@ -22,7 +22,6 @@ Feature: litigator completes graduated fee page using calculator
     And I should be in the 'Defendant details' form page
 
     And I enter defendant, LGFS representation order and MAAT reference
-    And I add another defendant, LGFS representation order and MAAT reference
 
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
@@ -78,6 +77,18 @@ Feature: litigator completes graduated fee page using calculator
     And the graduated fee amount should be populated with '1720.12'
     And I fill '96' as the ppe total
     And the graduated fee amount should be populated with '1732.86'
+
+    Then I click "Continue" in the claim form
+
+    # defendant uplift impact
+    And I goto claim form step 'defendants'
+    And I add another defendant, LGFS representation order and MAAT reference
+
+    Then I click "Continue" in the claim form
+    And I should be in the 'Offence details' form page
+
+    And I goto claim form step 'graduated fees'
+    And the graduated fee amount should be populated with '2079.43'
 
     And I eject the VCR cassette
 

@@ -51,11 +51,16 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             claim.defendants << create(:defendant, scheme: 'lgfs')
           end
 
-          # TODO: modify once retrospectively using actual number of defendants
-          # for fee calc and defendant uplift misc fee removed
-          context 'price is unaffected' do
-            it_returns 'a successful fee calculator response', amount: 5142.87
+          context 'price is uplifted' do
+            it_returns 'a successful fee calculator response', amount: 6171.44
           end
+        end
+
+        context 'when 2 defendants' do
+          it_returns 'a successful fee calculator response',
+                      number_of_defendants: 2,
+                      scheme: 'lgfs',
+                      amount: 6171.44
         end
       end
 
@@ -81,15 +86,10 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
         it_returns 'a successful fee calculator response', amount: 904.58
 
         context 'when 2 defendants' do
-          before do
-            claim.defendants << create(:defendant, scheme: 'lgfs')
-          end
-
-          # TODO: modify once retrospectively using actual number of defendants
-          # for fee calc and defendant uplift misc fee removed
-          context 'price is unaffected' do
-            it_returns 'a successful fee calculator response', amount: 904.58
-          end
+          it_returns 'a successful fee calculator response',
+                      number_of_defendants: 2,
+                      scheme: 'lgfs',
+                      amount: 1085.50
         end
       end
 
@@ -115,6 +115,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
           let(:params) { { fee_type_id: fee.fee_type.id, days: claim.estimated_trial_length, ppe: fee.quantity } }
 
           it_returns 'a successful fee calculator response', amount: 1799.18
+
+          context 'when 2 defendants' do
+            it_returns 'a successful fee calculator response',
+                        number_of_defendants: 2,
+                        scheme: 'lgfs',
+                        amount: 2159.02
+          end
         end
 
         context 'retrial start', skip: 'temporary skip until error in fee calc api can be sorted out' do

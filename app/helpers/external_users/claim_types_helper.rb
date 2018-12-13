@@ -13,9 +13,9 @@ module ExternalUsers
     end
 
     def claim_type_page_header(user)
-      if user.persona.has_roles?('advocate')
+      if user.persona.has_roles?['advocate']
         t('.page_title_advocate')
-      elsif user.persona.has_roles?('litigator')
+      elsif user.persona.has_roles?['litigator']
         t('.page_title_litigator')
       else
         t('.page_title_generic')

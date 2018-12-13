@@ -560,7 +560,6 @@ en:
         lgfs_final_rb: Litigator final fee
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee
-        page_title: HERERHRE
     claims:
       errors:
         not_editable: 'Can only edit "draft" claims'
@@ -874,7 +873,7 @@ en:
         advocate_litigator: *advocate_litigator
         type: "Type"
       confirmation:
-        page_title: ToDO
+        page_title: Thank you for submitting your claim
         thanks: Thank you for submitting your claim
         what_happens_next: What happens next?
         what_happens_next_prompt_html: |
@@ -998,7 +997,19 @@ en:
         button_label: *continue_to_certification_button
         heading: Check your claim
         case_details: Case details
-        page_title: TODOView claim summary for litigator transfer fees claim
+        agfs:
+          advocate_claim:
+            page_title: View claim summary advocate final fees claim
+          advocate_interim_claim:
+            page_title: View claim summary advocate warrant fees claim
+        lgfs:
+          final_claim:
+            page_title: View claim summary for litigator final fees claim
+          interim_claim:
+            page_title: View claim summary for litigator interim fees claim
+          transfer_claim:
+            page_title: View claim summary for litigator transfer fees claim
+        page_title: View claim summary for litigator transfer fees claim
       fee_fields:
         add_date_attended: 'Add dates'
         remove: *remove
@@ -1389,7 +1400,6 @@ en:
         warrant_fees_form_step:
           page_title: Enter warrant fees for litigator final fees claim
 
-# en.shared
   shared:
     claim_defendant_details:
       caption: 'Defendant: Additional information'

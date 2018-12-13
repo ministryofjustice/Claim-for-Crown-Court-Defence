@@ -90,7 +90,7 @@ reject_refuse_messaging_released_at: <%= DateTime.new(2018, 4, 24, 23, 05, 0).ch
 
 # agfs_fee_reform_release_date: <%= Date.new(2018, 4, 1) %>
 agfs_fee_reform_release_date: <%= ENV["ENV"].in?(['api-sandbox', 'demo', 'development']) ? Date.new(2018, 1, 1) : Date.new(2018, 04, 1) %>
-agfs_scheme_11_release_date: <%= ENV["ENV"].in?(['gamma', 'staging', 'diasaster']) ? Date.new(2018, 31, 12) : Date.new(2018, 12, 01) %>
+agfs_scheme_11_release_date: <%= ENV["ENV"].in?(['gamma', 'staging', 'disaster']) ? Date.new(2018, 12, 31) : Date.new(2018, 12, 1) %>
 
 # number of weeks in one state before automatic transition to archived pending delete
 timed_transition_stale_weeks: 16

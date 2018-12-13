@@ -423,6 +423,12 @@ en:
 
 # en.external_users
   external_users:
+    claim_types_helper:
+      claim_type_page_header:
+        page_title_advocate: Choose a bill type for advocate claim
+        page_title_litigator: Choose a bill type for litigator claim
+        page_title_generic: Choose a bill type for Crown court claim
+
     admin:
       external_users:
         advocates:
@@ -1247,11 +1253,17 @@ en:
         miscellaneous_fees_form_step:
           page_title: Enter miscellaneous fees for advocate final fees claim
 
+        offence_details_form_step:
+          page_title: Enter offence details for advocate final fees claim
+
         travel_expenses_form_step:
           page_title: Enter travel expenses for advocate final fees claim
 
         supporting_evidence_form_step:
           page_title: Upload supporting evidence for advocate final fees claim
+
+        basic_and_fixed_fees_form_step:
+          page_title: Enter fixed fees for advocate final fees claim
 
       interim_claims:
         new:
@@ -1299,7 +1311,10 @@ en:
           page_title: Enter fees for litigator interim fees claim
 
         supporting_evidence_form_step:
-          page_title: Enter disbursements for litigator interim fees claim
+          page_title: Upload supporting evidence for litigator interim fees claim
+
+        travel_expenses_form_step:
+          page_title: Enter travel expenses for litigator interim fees claim
 
       transfer_claims:
         new:
@@ -1370,6 +1385,9 @@ en:
 
         supporting_evidence_form_step:
           page_title: Upload supporting evidence for litigator final fees claim
+
+        warrant_fees_form_step:
+          page_title: Enter warrant fees for litigator final fees claim
 
 # en.shared
   shared:

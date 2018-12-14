@@ -68,6 +68,8 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     And I eject the VCR cassette
 
+    And I should be in the 'Miscellaneous fees' form page
+    And the first miscellaneous fee should have fee types 'Costs judge application,Costs judge preparation,Evidence provision fee,Special preparation fee'
     And I add a litigator miscellaneous fee 'Costs judge application'
 
     Then I click "Continue" in the claim form

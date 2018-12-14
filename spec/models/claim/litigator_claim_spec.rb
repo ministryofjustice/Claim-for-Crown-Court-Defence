@@ -114,36 +114,37 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     end
   end
 
-  context 'eligible misc and fixed fee types' do
-    before(:all) do
-      @bft1 = create :basic_fee_type
-      @bft2 = create :basic_fee_type, :lgfs
-      @mft1 = create :misc_fee_type
-      @mft2 = create :misc_fee_type, :lgfs
-      @fft1 = create :fixed_fee_type
-      @fft2 = create :fixed_fee_type, :lgfs
-      @claim = build :litigator_claim
-    end
-
-    after(:all) do
-      clean_database
-    end
+  context 'eligible basic, misc and fixed fee types' do
+    let(:claim) { build(:litigator_claim) }
 
     describe '#eligible_basic_fee_types' do
-      it 'returns only basic fee types for LGFS' do
-        expect(@claim.eligible_basic_fee_types).to eq([@bft2])
+      subject(:call) { claim.eligible_basic_fee_types }
+
+      it 'calls eligible misc fee type fetch service' do
+        expect(Fee::BasicFeeType).to receive(:lgfs)
+        call
       end
     end
 
     describe '#eligible_misc_fee_types' do
-      it 'returns only misc fee types for LGFS' do
-        expect(@claim.eligible_misc_fee_types).to eq([@mft2])
+      subject(:call) { claim.eligible_misc_fee_types }
+      let(:service) { instance_double(Claims::FetchEligibleMiscFeeTypes) }
+
+      it 'calls eligible misc fee type fetch service' do
+        expect(Claims::FetchEligibleMiscFeeTypes).to receive(:new).and_return service
+        expect(service).to receive(:call)
+        call
       end
     end
 
     describe '#eligible_fixed_fee_types' do
-      it 'returns only fixed fee types for LGFS' do
-        expect(@claim.eligible_fixed_fee_types).to eq([@fft2])
+      subject(:call) { claim.eligible_fixed_fee_types }
+      let(:service) { instance_double(Claims::FetchEligibleFixedFeeTypes) }
+
+      it 'calls eligible fixed fee type fetch service' do
+        expect(Claims::FetchEligibleFixedFeeTypes).to receive(:new).and_return service
+        expect(service).to receive(:call)
+        call
       end
     end
   end

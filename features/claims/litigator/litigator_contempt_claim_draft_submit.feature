@@ -49,6 +49,8 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     Then I click "Continue" in the claim form
 
+    And I should be in the 'Miscellaneous fees' form page
+    And the first miscellaneous fee should have fee types 'Costs judge application,Costs judge preparation,Defendant uplift,Evidence provision fee,Special preparation fee'
     And I add a litigator miscellaneous fee 'Costs judge application'
     And I add a litigator miscellaneous fee 'Defendant uplift'
 

@@ -24,6 +24,8 @@ class ClaimShowPage < SitePrism::Page
     element :input, 'input'
   end
 
+  element :reason_text, '#claim_refuse_reason_text'
+
   section :messages_panel, "#claim-accordion .messages-container" do
     element :enter_your_message, "textarea#message_body"
     element :send, "form#new_message div.submit-column > input.button-secondary"

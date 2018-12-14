@@ -65,12 +65,16 @@ And(/^I select the refusal reason '(.*?)'$/) do |label|
 end
 
 And(/^I enter refusal reason text '(.*?)'$/) do |reason|
-  @case_worker_claim_show_page.reason_text.set reason
+  @case_worker_claim_show_page.refuse_reason_text.set reason
 end
 
 And(/^I select the rejection reason '(.*?)'$/) do |label|
   reason = @case_worker_claim_show_page.rejection_reasons.find { |cbx| cbx.label.text.eql?(label) }
   reason.label.click
+end
+
+And(/^I enter rejection reason text '(.*?)'$/) do |reason|
+  @case_worker_claim_show_page.reject_reason_text.set reason
 end
 
 When(/^I click update$/) do

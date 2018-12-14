@@ -8,7 +8,7 @@
           = t("shared.no_claims_found")
         - else
           = "Showing "
-          #{pluralize(@claims.size, 'claim')} of #{@claims.total_count}
+          #{pluralize(@claims.unscope(:order).size, 'claim')} of #{@claims.total_count}
           - if params[:search].present?
             matching "#{params[:search]}"
     %thead

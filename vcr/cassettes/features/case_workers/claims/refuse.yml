@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=56fa6d24-bbb3-44ac-b72a-c9f313058e18&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=765331cd-93dd-47a5-b040-285e4a789202&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -12,7 +12,7 @@ http_interactions:
       Accept-Encoding:
       - gzip, deflate
       User-Agent:
-      - rest-client/2.0.2 (darwin15.6.0 x86_64) ruby/2.4.2p198
+      - rest-client/2.0.2 (darwin17.4.0 x86_64) ruby/2.5.1p57
       Host:
       - localhost:3001
   response:
@@ -27,24 +27,24 @@ http_interactions:
       Content-Encoding:
       - gzip
       Etag:
-      - W/"1dce9a7b54b01a89d510dc9cbd993e51"
+      - W/"c347f8d0a9cc5f49aadc0e63dbc3ade9"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - c769960c-cb67-466b-92a6-deb7cb83e428
+      - 58a0a7dd-8f09-4fe6-93a0-43cf255c70c5
       X-Runtime:
-      - '0.381666'
+      - '0.543913'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        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
+        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
     http_version: 
-  recorded_at: Mon, 15 Jan 2018 22:16:41 GMT
+  recorded_at: Fri, 14 Dec 2018 21:53:36 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=56fa6d24-bbb3-44ac-b72a-c9f313058e18&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=765331cd-93dd-47a5-b040-285e4a789202&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -54,7 +54,7 @@ http_interactions:
       Accept-Encoding:
       - gzip, deflate
       User-Agent:
-      - rest-client/2.0.2 (darwin15.6.0 x86_64) ruby/2.4.2p198
+      - rest-client/2.0.2 (darwin17.4.0 x86_64) ruby/2.5.1p57
       Host:
       - localhost:3001
   response:
@@ -69,19 +69,19 @@ http_interactions:
       Content-Encoding:
       - gzip
       Etag:
-      - W/"512fd7f939940ec1479794e0e4a6530f"
+      - W/"ff4946e3febd04492943233242b762fe"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 8ef80a99-9df9-41d1-a473-edca12e1dbdb
+      - 836f3db0-f427-4768-bd7d-8ca5e04da6fc
       X-Runtime:
-      - '0.020755'
+      - '0.010936'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAEsoXVoAA6pWKkhMz8xLLMnMz1OyqlZKLi0qSs0riQeKpipZGeooleSXJOaAucVKVgYwfnJ+aV4JmJ+TmZtZEl+WmFMKUm9Qq6OUWZKaC1QbHVsLAAAA//8DAGCLOJhdAAAA
+        H4sIAGImFFwAA6pWKkhMz8xLLMnMz1OyqlZKLi0qSs0riQeKpipZGeooleSXJOaAucVKVgYwfnJ+aV4JmJ+TmZtZEl+WmFMKUm9Qq6OUWZKaC1QbHVsLAAAA//8DAGCLOJhdAAAA
     http_version: 
-  recorded_at: Mon, 15 Jan 2018 22:16:43 GMT
+  recorded_at: Fri, 14 Dec 2018 21:53:38 GMT
 recorded_with: VCR 3.0.3

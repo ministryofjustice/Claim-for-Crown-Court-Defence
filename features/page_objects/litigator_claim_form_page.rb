@@ -3,6 +3,7 @@ require_relative 'sections/disbursement_section'
 require_relative 'sections/typed_fee_amount_section'
 require_relative 'sections/lgfs_graduated_fee_section'
 require_relative 'sections/lgfs_fixed_fee_section'
+require_relative 'sections/lgfs_misc_fee_section'
 
 class LitigatorClaimFormPage < ClaimFormPage
 
@@ -10,7 +11,7 @@ class LitigatorClaimFormPage < ClaimFormPage
 
   section :case_concluded_date, CommonDateSection, 'div.case-concluded-date'
 
-  sections :miscellaneous_fees, TypedFeeAmountSection, "div#misc-fees .misc-fee-group"
+  sections :miscellaneous_fees, LgfsMiscFeeSection, "div#misc-fees .misc-fee-group"
   element :add_another_miscellaneous_fee, "div#misc-fees a.add_fields"
 
   sections :disbursements, DisbursementSection, "div#disbursements .disbursement-group"

@@ -197,7 +197,7 @@ module Claim
     end
 
     def eligible_misc_fee_types
-      Fee::MiscFeeType.lgfs
+      Claims::FetchEligibleMiscFeeTypes.new(self).call
     end
 
     def requires_case_concluded_date?

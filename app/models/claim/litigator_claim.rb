@@ -183,7 +183,7 @@ module Claim
     end
 
     def eligible_misc_fee_types
-      Fee::MiscFeeType.lgfs
+      Claims::FetchEligibleMiscFeeTypes.new(self).call
     end
 
     def eligible_fixed_fee_types

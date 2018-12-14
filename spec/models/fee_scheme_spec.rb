@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe FeeScheme, type: :model do
-  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
-  let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
-  let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
+  before { seed_fee_schemes }
+
+  let(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) }
+  let(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) }
+  let(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) }
 
   it { should validate_presence_of(:start_date) }
   it { should validate_presence_of(:version) }

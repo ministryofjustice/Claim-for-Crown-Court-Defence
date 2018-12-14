@@ -162,6 +162,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   context 'eligible misc and fixed fee types' do
+    let(:claim) { build :unpersisted_claim }
+
     before(:all) do
       @bft1 = create :basic_fee_type, roles: %w[agfs agfs_scheme_9 agfs_scheme_10], description: 'bft1'
       @bft2 = create :basic_fee_type, :lgfs, description: 'bft2'
@@ -173,7 +175,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       @mft3 = create :misc_fee_type, :agfs_scheme_10
       @fft1 = create :fixed_fee_type
       @fft2 = create :fixed_fee_type, :lgfs
-      @claim = build :unpersisted_claim
     end
 
     after(:all) do
@@ -182,7 +183,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#eligible_basic_fee_types' do
       it 'returns only basic fee types for AGFS' do
-        expect(@claim.eligible_basic_fee_types).to match_array([@bft1, @bft3, @bft4])
+        expect(claim.eligible_basic_fee_types).to match_array([@bft1, @bft3, @bft4])
       end
 
       context 'when claim has fee reform scheme' do
@@ -204,30 +205,24 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     describe '#eligible_misc_fee_types' do
-      it 'returns only misc fee types for AGFS scheme 9' do
-        expect(@claim.eligible_misc_fee_types).to eq([@mft1])
-      end
+      subject(:call) { claim.eligible_misc_fee_types }
+      let(:service) { instance_double(Claims::FetchEligibleMiscFeeTypes) }
 
-      context 'when claim has fee reform scheme' do
-        let(:claim) { create(:claim, :agfs_scheme_10) }
-
-        it 'returns only misc fee types for AGFS scheme 10' do
-          expect(claim.eligible_misc_fee_types).to eq([@mft3])
-        end
+      it 'calls eligible misc fee type fetch service' do
+        expect(Claims::FetchEligibleMiscFeeTypes).to receive(:new).and_return service
+        expect(service).to receive(:call)
+        call
       end
     end
 
     describe '#eligible_fixed_fee_types' do
-      subject { @claim.eligible_fixed_fee_types }
-      let(:case_type) { create(:case_type, :appeal_against_conviction) }
-      let!(:fee_type) { create(:fixed_fee_type, :fxacv) }
+      subject(:call) { claim.eligible_fixed_fee_types }
+      let(:service) { instance_double(Claims::FetchEligibleFixedFeeTypes) }
 
-      before do
-        allow(@claim).to receive(:case_type).and_return case_type
-      end
-
-      it 'returns only fixed fee types applicable to the case type' do
-        is_expected.to match_array [fee_type]
+      it 'calls eligible fixed fee type fetch service' do
+        expect(Claims::FetchEligibleFixedFeeTypes).to receive(:new).and_return service
+        expect(service).to receive(:call)
+        call
       end
     end
   end

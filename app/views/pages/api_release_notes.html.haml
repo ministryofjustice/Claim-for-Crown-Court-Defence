@@ -11,6 +11,52 @@
 
 %section.api-documentation
   %hr
+  %h2 20th December 2018
+  %ul.list-bullet
+    %li
+      Deprecation of the LGFS Miscellaneous defendant uplift fee type on all but fixed fee claims.
+      %br/
+      %br/
+      The following fee type should only be used for LGFS final claim fixed fee
+      cases:
+      %pre.code
+        {
+        &nbsp;"id": 90,
+        &nbsp;"type": "Fee::MiscFeeType",
+        &nbsp;"description: "Defendant uplift",
+        &nbsp;"code": "XUPL",
+        &nbsp;"unique_code": "MIUPL",
+        &nbsp;"max_amount": null,
+        &nbsp;"calculated": false,
+        &nbsp;"roles": [
+        &nbsp; "lgfs"
+        &nbsp;],
+        &nbsp;"quantity_is_decimal": false,
+        &nbsp;"case_numbers_required": false
+        }
+      %br/
+      You can get the whole list of LGFS miscellaneous fee types using this query:
+      %pre.code
+        curl -X GET --header 'Accept: application/json' &&
+        'https://api-sandbox-adp.dsd.io/api/fee_types?api_key=[your-api-key]&role=lgfs&category=misc'
+      %br/
+      This is being done as part of fee calculation integration into the CCCD web application. We are applying defendant uplifts to LGFS graduated, transfer and interim
+      fees based on the number of defendants supplied on the claim.
+      %br/
+      %br/
+      As a result the Miscellaneous fee type of Defendant uplift is no longer
+      required and is being removed from the web interface for these fees. It
+      is solely available for use in respect of LGFS final fixed fee claims.
+      %br/
+      %br/
+      API submitted fees of this type will continue to be created, even for inapplicable/ineligible claim types, but could result in double claiming of defendant uplifts and rejection by case workers.
+      %br/
+      %br/
+      API consuming software should apply defendant uplifts as part of the graduated
+      fee amount, transfer fee amount or interim fee amount as applicable.
+
+%section.api-documentation
+  %hr
   %h2 3rd December 2018
   %ul.list-bullet
     %li

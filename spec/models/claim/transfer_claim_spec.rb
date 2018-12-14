@@ -158,11 +158,13 @@ describe Claim::TransferClaim, type: :model do
   end
 
   describe '#eligible_misc_fee_types' do
-    it 'should return only LGFS applicable miscellaneous fee types' do
-      mf1 = create :misc_fee_type, :lgfs
-      mf2 = create :misc_fee_type, :lgfs
-      mf3 = create :misc_fee_type
-      expect(claim.eligible_misc_fee_types.map(&:description)).to match_array([mf1.description,mf2.description])
+    subject(:call) { claim.eligible_misc_fee_types }
+    let(:service) { instance_double(Claims::FetchEligibleMiscFeeTypes) }
+
+    it 'calls eligible misc fee type fetch service' do
+      expect(Claims::FetchEligibleMiscFeeTypes).to receive(:new).and_return service
+      expect(service).to receive(:call)
+      call
     end
   end
 
@@ -185,5 +187,4 @@ describe Claim::TransferClaim, type: :model do
   end
 
   include_examples "common litigator claim attributes"
-
 end

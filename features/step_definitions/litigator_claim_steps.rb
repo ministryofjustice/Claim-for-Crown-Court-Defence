@@ -75,8 +75,14 @@ end
 
 And(/^I add a litigator miscellaneous fee '(.*)'$/) do |name|
   @litigator_claim_form_page.add_misc_fee_if_required
-  @claim_form_page.all('label', text: name).last.click
+  @litigator_claim_form_page.all('label', text: name).last.click
   @litigator_claim_form_page.miscellaneous_fees.last.amount.set "135.78"
+end
+
+Then(/^the first miscellaneous fee should have fee types\s*'([^']*)'$/) do |descriptions|
+  descriptions = descriptions.split(',')
+  expect(@litigator_claim_form_page.miscellaneous_fees.first.fee_type).to be_visible
+  expect(@litigator_claim_form_page.miscellaneous_fees.first.fee_type.radio_labels).to match_array(descriptions)
 end
 
 And(/^I add (?:a|another) disbursement '(.*)' with net amount '(.*)' and vat amount '(.*)'$/) do |name, net_amount, vat_amount|

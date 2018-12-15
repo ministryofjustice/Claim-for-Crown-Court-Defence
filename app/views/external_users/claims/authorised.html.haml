@@ -3,7 +3,7 @@
 .container.sub-header
   .hgroup
     %h2
-      = "#{@claims.size} of #{@claims.total_count}"
+      = "#{@claims.unscope(:order).size} of #{@claims.total_count}"
       = t('.with_total_assessed_value_of')
       %span.numerical-value
         = number_to_currency(@total_value)

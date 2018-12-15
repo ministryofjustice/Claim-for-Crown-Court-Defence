@@ -2,85 +2,86 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=70aff7c8-5665-4063-9632-75214a705d26&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=a55e8a7f-983f-4a42-a829-c9c4f639078b&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
-      - "*/*; q=0.5, application/xml"
+      - "*/*"
       Accept-Encoding:
       - gzip, deflate
       User-Agent:
-      - Ruby
+      - rest-client/2.0.2 (darwin17.4.0 x86_64) ruby/2.5.1p57
+      Host:
+      - localhost:3001
   response:
     status:
       code: 200
-      message: 'OK '
+      message: OK
     headers:
       Content-Type:
       - application/json
-      Content-Length:
-      - '907'
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
       Etag:
-      - W/"8d84012ebb584458da9870b8a8d9e979"
+      - W/"4058cd3b43455f6d16d72970cedc91d5"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - b3b40099-c4e1-4b46-9723-ea0801adadbb
+      - ec7e76b2-01f0-4513-971a-2737a1a64901
       X-Runtime:
-      - '0.054261'
-      Server:
-      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
-      Date:
-      - Thu, 06 Oct 2016 10:52:49 GMT
-      Connection:
-      - Keep-Alive
+      - '0.538588'
+      Transfer-Encoding:
+      - chunked
     body:
-      encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"2d28a1cc-8178-4061-97ec-4b01bd379e20","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-06T10:52:49.034Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"71160a43-8faa-42f8-af07-4c34d99734f9","first_name":"Sanford","last_name":"Gleason"},"defendants":[{"id":1,"uuid":"1360210d-ef9d-40b3-9d05-e994f8f98154","first_name":"Kayley","last_name":"Ziemann"}],"case_type":{"id":1459,"name":"Case
-        Type 8","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIABcvFFwAA2xUTW/jNhD9KwueTYOiqA/6tMEC7ako0ObUxUIYiUOHjUS5FOVsEOS/dyjLjtfxyeY8cj7ee6M3doC98xDd6NnujXVzCOhjQ1Fku2zD4hihX47T1bkbZx+Xc+8GF5sj9HO6L943zEUc6O73N+bMcmWe0x9W1apsBVa8tq3hyuQZ1zZX3GqtAbJOVaVlG9bBhI2fhxYDPXqQIiszmStCpgiRijDo+7Gjv4Zi8fWQQt96cMNu92COC7IcCe1his00t9QiXW+AWmaUsOaZ5Jl6lHKXi53K/2HrXGwntmLDjhAbGE4jLoHxgJ7e2zE0AQ1GDMOFMwv9hBv2ElINTzhMo5+acY7UrzfO7y93jJueGzw6g77DS3TAaUr0nkmlerOnNKa5g+BPKu5JgXlK/NxyrHRdYVdlvM2LxHEnOYis4hkKaWWeV6JCGta6QMR4GBJ3j09zGMCf6VqjvwdEb7E3VIbKDuCIHXbEYBx+pcmGYbvcJMENWvQGfLyneiG07ATW3JYCuNKSVM818LqohLYldYfZ544w4IQ3Hf1GDeErBQ0p3Iy2aV2ITwRkul4VJTDgIb31cZGnGQMNcK8vrXItixJ4WbcVV1hIrgVZspBdVxqVZaUFSjcAeSHQgOGkGavKQtDTtY2Tn4jfjAtNXJyqyEuVXIsqF0vutiY9RMFbYzWHLs9r3WYtdvZelbqqirJQn6tIqvLj/ce6Jif3n4rWotywlapvBH55JPBL4tZNjXU/k3/xw3UB/5tdSN4K0D0TmApNn+EYHLntVzAt4Etz6IanlHLt4vbh7UwxzNdwwHuZw9in03cGezsl/dMPTXsuQ5tgKJef+z59afy/2C0yA+3ecFgMeObmZQzP19J/iKKttEYBWVJJwZWyLSe+DRdSkOgCbKWrW0v+AdSt97eefDAwTFf7MazXtpCArz3Adj8et/PzxRsfDgQohMwrxQUWBVetJlvYFnllLBYW6jLH7raNP3v8tKhu6tMn56oLItFv92v8lyYSOeMc4tk0Ki91Cpll7R7+5skv533rIfb4yv+CVz+GBVnernqzLowvnr2THf8HAAD//wMACqvGbkUGAAA=
     http_version: 
-  recorded_at: Thu, 06 Oct 2016 10:52:49 GMT
+  recorded_at: Fri, 14 Dec 2018 22:30:47 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=70aff7c8-5665-4063-9632-75214a705d26&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=a55e8a7f-983f-4a42-a829-c9c4f639078b&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
-      - "*/*; q=0.5, application/xml"
+      - "*/*"
       Accept-Encoding:
       - gzip, deflate
       User-Agent:
-      - Ruby
+      - rest-client/2.0.2 (darwin17.4.0 x86_64) ruby/2.5.1p57
+      Host:
+      - localhost:3001
   response:
     status:
       code: 200
-      message: 'OK '
+      message: OK
     headers:
       Content-Type:
       - application/json
-      Content-Length:
-      - '93'
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
       Etag:
-      - W/"500b0d951cb8a894fba8adf918e3cbb5"
+      - W/"31b4ba5fff6f4c1e584bc77dde9c2662"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 669b50cb-53ea-419e-9b11-272f53299e77
+      - e839f6ec-69fc-4344-8dad-5eca38774476
       X-Runtime:
-      - '0.022119'
-      Server:
-      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
-      Date:
-      - Thu, 06 Oct 2016 10:52:50 GMT
-      Connection:
-      - Keep-Alive
+      - '0.015298'
+      Transfer-Encoding:
+      - chunked
     body:
-      encoding: UTF-8
-      string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":10},"items":[]}'
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIABsvFFwAA6pWKkhMz8xLLMnMz1OyqlZKLi0qSs0riQeKpipZGeooleSXJOaAucVKVgYwfnJ+aV4JmJ+TmZtZEl+WmFMKUm9Qq6OUWZKaC1QbHVsLAAAA//8DAGCLOJhdAAAA
     http_version: 
-  recorded_at: Thu, 06 Oct 2016 10:52:50 GMT
+  recorded_at: Fri, 14 Dec 2018 22:30:51 GMT
 recorded_with: VCR 3.0.3

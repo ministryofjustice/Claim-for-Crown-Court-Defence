@@ -18,11 +18,13 @@ class ClaimShowPage < SitePrism::Page
     element :label, 'label'
     element :input, 'input'
   end
+  element :reject_reason_text, '#claim_reject_reason_text'
 
   sections :refusal_reasons, '.js-cw-claim-refuse-reasons .multiple-choice' do
     element :label, 'label'
     element :input, 'input'
   end
+  element :refuse_reason_text, '#claim_refuse_reason_text'
 
   section :messages_panel, "#claim-accordion .messages-container" do
     element :enter_your_message, "textarea#message_body"

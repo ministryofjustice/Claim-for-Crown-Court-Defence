@@ -17,8 +17,8 @@ moj.Modules.AmountAssessedBlock = function(selector) {
     refuseReasons: '.js-cw-claim-refuse-reasons',
     otherinput: '.js-reject-reason-text',
     otherRefuseInput: '.js-refuse-reason-text',
-    otherCheckbox: '#_state_reason_other',
-    otherRefuseCheckbox: '#_state_reason_other_refuse',
+    otherCheckbox: '#state_reason_other',
+    otherRefuseCheckbox: '#state_reason_other_refuse',
     action: 'toggle'
   };
 

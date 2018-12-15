@@ -22,6 +22,10 @@ Given(/^there is a redetermination claim allocated to the case worker with case 
   @case_worker.claims << @claim
 end
 
+When(/^I click your claims$/) do
+  @case_worker_claim_show_page.nav.your_claims.click
+end
+
 When(/^I select the claim$/) do
   @case_worker_home_page.claim_for(@claim.case_number).case_number.click
 end
@@ -60,9 +64,17 @@ And(/^I select the refusal reason '(.*?)'$/) do |label|
   reason.label.click
 end
 
+And(/^I enter refusal reason text '(.*?)'$/) do |reason|
+  @case_worker_claim_show_page.refuse_reason_text.set reason
+end
+
 And(/^I select the rejection reason '(.*?)'$/) do |label|
   reason = @case_worker_claim_show_page.rejection_reasons.find { |cbx| cbx.label.text.eql?(label) }
   reason.label.click
+end
+
+And(/^I enter rejection reason text '(.*?)'$/) do |reason|
+  @case_worker_claim_show_page.reject_reason_text.set reason
 end
 
 When(/^I click update$/) do

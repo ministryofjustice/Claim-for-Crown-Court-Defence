@@ -4,14 +4,8 @@
 
   = f.check_box(:toggle, checked: !f.object.blank?, class: "fx-checkbox-hook", id: "#{to_slug(f.object.description)}-input", "aria-controls" => to_slug(f.object.description), :name => "graduated_fees_checklist_#{f.object.fee_type_code.downcase}")
 
-    -#- fixed_fee_types_collection = present_collection(@claim.eligible_fixed_fee_types)
-    -#
-    -#= f.select :fee_type_id,
-    -#    fixed_fee_types_collection.map { |fee| [fee.description, fee.id, { data: fee.data_attributes }]},
-    -#    { include_blank: ''.html_safe },
-    -#    {class: 'form-control js-fixed-fee-type js-fee-type js-fee-calculator-fee-type typeahead', style: 'width:100%'}
-    %label{:for => "#{to_slug(f.object.description)}-input"}
-      = f.object.description
+  %label{:for => "#{to_slug(f.object.description)}-input"}
+    = f.object.description
 
 -# Panel content
 .panel.panel-border-narrow.js-hidden{:id => to_slug(f.object.description)}

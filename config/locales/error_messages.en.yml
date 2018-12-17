@@ -1081,6 +1081,10 @@ fixed_fee:
       long: You must specify a whole number for this type of fee
       short: Enter a whole number
       api: You must specify a whole number for this type of fee
+    defendant_uplifts_fixed_fees_mismatch:
+      long: The quantity of fixed fees defendant uplifts exceeds the number of additional defendants
+      short: Too many defendant uplifts
+      api: Defendant uplift sums must match number of additional defendants
 
   sub_type:
     _seq: 40

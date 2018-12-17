@@ -274,7 +274,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
               expect(response.body).to have_content('Case details')
               claim = assigns(:claim)
               expect(claim.basic_fees.size).to eq 4
-              expect(claim.fixed_fees.size).to eq 1
+              expect(claim.fixed_fees.size).to eq 0
               expect(claim.misc_fees.size).to eq 1
 
               bf1 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 1' }

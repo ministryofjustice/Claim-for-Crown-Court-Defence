@@ -40,6 +40,7 @@ class ErrorPresenter
         short_message = generate_standard_short_message(fieldname, error)
         api_message = generate_standard_api_message(fieldname, error)
       end
+      next if @error_details[fieldname] && @error_details[fieldname][0].long_message.eql?(long_message)
       @error_details[fieldname] = ErrorDetail.new(fieldname,
                                                   long_message,
                                                   short_message,

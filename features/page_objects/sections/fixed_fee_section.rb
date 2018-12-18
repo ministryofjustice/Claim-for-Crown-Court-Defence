@@ -21,7 +21,9 @@ class FixedFeeSection < SitePrism::Section
   end
 
   def set_quantity(fee, value = 1)
-    fee_block_for(fee).quantity.set value
+    fee_block = fee_block_for(fee)
+    fee_block.quantity.set value
+    fee_block.quantity.send_keys(:tab)
   end
 
   def fee_block_for(fee)

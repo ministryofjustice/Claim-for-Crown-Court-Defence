@@ -31,8 +31,6 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I toggle the fixed fee "Number of cases uplift"
     And I toggle the fixed fee "Standard appearance fee"
 
-    And I save and open screenshot
-
     Then the last fixed fee case numbers section should not be visible
     Then the last 'fixed' fee rate should be populated with '250.00'
     And I add a fixed fee 'Number of cases uplift' with case numbers

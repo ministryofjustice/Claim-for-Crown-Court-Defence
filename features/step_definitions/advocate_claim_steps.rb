@@ -126,6 +126,14 @@ Then(/^I add a fixed fee '(.*?)' with case numbers$/) do |name|
   wait_for_ajax
 end
 
+Then(/^I add a '(.*?)' fixed fee with case numbers$/) do |name|
+  @claim_form_page.fixed_fees.toggle(name)
+  wait_for_ajax
+  @claim_form_page.fixed_fees.fee_block_for(name).case_numbers.set "T20170001"
+  @claim_form_page.fixed_fees.set_quantity(name)
+  wait_for_ajax
+end
+
 When(/^I set the last fixed fee value to '(.*?)'$/) do |value|
   @claim_form_page.fixed_fees.last.rate.set value
   wait_for_ajax
@@ -189,6 +197,12 @@ Then(/^the '(.*?)' fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint 
   fee = @claim_form_page.send("#{fee_type}_fees").find { |section| section.select_input.value.eql?(fee) }
   expect(fee.rate.value).to eql rate
   expect(fee.quantity_hint.text).to eql hint if hint.present?
+end
+
+Then(/^the fixed fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee, rate, hint|
+  fee_block = @claim_form_page.fixed_fees.fee_block_for(fee)
+  expect(fee_block.rate.value).to eql rate
+  expect(fee_block.quantity_hint.text).to eql hint if hint.present?
 end
 
 Then(/^the last '(.*?)' fee rate should be populated with '(\d+\.\d+)'$/) do |fee_type, rate|

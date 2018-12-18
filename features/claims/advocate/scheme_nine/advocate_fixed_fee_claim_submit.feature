@@ -26,29 +26,20 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
     And I should see the advocate categories 'Junior alone,Led junior,Leading junior,QC'
     And I select an advocate category of 'Junior alone'
 
-    And the last fixed fee should have fee type options 'Appeals to the crown court against sentence,Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
+    Then the fixed fee checkboxes should consist of 'Appeals to the crown court against sentence,Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
+    And I select the 'Appeals to the crown court against sentence' fixed fee
+    Then the fixed fee 'Appeals to the crown court against sentence' should have a rate of '108.00' and a hint of 'Number of days'
 
-    And I toggle the fixed fee "Appeals to the crown court against sentence"
-    And I toggle the fixed fee "Number of cases uplift"
-    And I toggle the fixed fee "Standard appearance fee"
-
-
-    # TODO: Check sentence and fill in and save
-    # TODO: Check sentence is not there (backend changes needed for this to work)
-    #
     And I goto claim form step 'case details'
     And I select a case type of 'Appeal against conviction'
     Then I click "Continue" in the claim form
     And I goto claim form step 'fixed fees'
-    And the last fixed fee should have fee type options 'Appeals to the crown court against conviction, Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
+    Then the fixed fee checkboxes should consist of 'Appeals to the crown court against conviction,Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
+    And I select the 'Adjourned appeals, committals and breaches' fixed fee
+    Then the fixed fee 'Adjourned appeals, committals and breaches' should have a rate of '108.00' and a hint of 'Number of days'
 
-    And I add a fixed fee 'Adjourned appeals, committals and breaches'
-    Then the last fixed fee case numbers section should not be visible
-    Then the last 'fixed' fee rate should be populated with '108.00'
-
-    And I add a fixed fee 'Number of cases uplift' with case numbers
-    Then the last fixed fee case numbers section should be visible
-    Then the last 'fixed' fee rate should be populated with '21.60'
+    And I add a 'Number of cases uplift' fixed fee with case numbers
+    Then the fixed fee 'Adjourned appeals, committals and breaches' should have a rate of '21.60'
 
     Then I click "Continue" in the claim form
 

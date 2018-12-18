@@ -57,13 +57,37 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     Then I click "Continue" in the claim form
 
-    And I upload 1 document
-    And I check the boxes for the uploaded documents
+    And I upload the document 'indictment.pdf'
     And I check the evidence boxes for 'A copy of the indictment'
     And I add some additional information
 
     And I click Submit to LAA
     Then I should be on the check your claim page
+    And I should see 'Blackfriars'
+    And I should see 'A20161234'
+    And I should see 'Trial'
+
+    And I should see 'Handling stolen goods'
+    And I should see 'G: Other offences of dishonesty between £30,001 and £100,000'
+
+    And I should see 'Interim fees'
+    And I should see 'PPE total at the time'
+    And I should see '51'
+    And I should see 'Effective PCMH'
+    And I should see '01/04/2018'
+    And I should see '£205.78'
+
+    And I should see 'Disbursements'
+    And I should see 'Computer experts'
+    And I should see '£125.40'
+    And I should see '£25.08'
+    And I should see 'Meteorologist'
+    And I should see '£58.22'
+    And I should see '£0.00'
+
+    And I should see 'indictment.pdf'
+    And I should see 'A copy of the indictment'
+    And I should see 'Bish bosh bash'
 
     When I click "Continue"
     Then I should be on the certification page

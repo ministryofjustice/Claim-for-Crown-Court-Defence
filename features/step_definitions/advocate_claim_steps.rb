@@ -224,7 +224,7 @@ Then(/^the '(.*?)' fixed fee rate should be in the calculator error state/) do |
 end
 
 Then(/^I amend the fixed fee '(.*?)' to have a quantity of (\d+)$/) do |fee_type, quantity|
-  fixed_fee = @claim_form_page.fixed_fees.find { |section| section.select_input.value.eql?(fee_type) }
+  fixed_fee = @claim_form_page.fixed_fees.fee_block_for(fee_type)
   fixed_fee.quantity.set(quantity)
   fixed_fee.quantity.send_keys(:tab)
   wait_for_ajax

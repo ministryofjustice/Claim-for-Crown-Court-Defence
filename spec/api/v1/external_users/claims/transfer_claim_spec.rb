@@ -1,7 +1,4 @@
 require 'rails_helper'
-require 'api_spec_helper'
-require 'support/claim_api_endpoints'
-require_relative '../shared_examples_for_all'
 
 RSpec.describe API::V1::ExternalUsers::Claims::TransferClaim do
   include Rack::Test::Methods

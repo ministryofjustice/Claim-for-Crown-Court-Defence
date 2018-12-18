@@ -1,6 +1,4 @@
 require 'rails_helper'
-require 'api_spec_helper'
-require 'support/claim_api_endpoints'
 
 RSpec::Matchers.define :be_valid_api_lgfs_claim do |expected|
   match do |claim|

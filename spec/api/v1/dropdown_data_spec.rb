@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'api_spec_helper'
 
 RSpec.describe API::V1::DropdownData do
   include Rack::Test::Methods

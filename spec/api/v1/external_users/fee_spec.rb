@@ -1,7 +1,4 @@
 require 'rails_helper'
-require 'api_spec_helper'
-require_relative 'shared_examples_for_all'
-require_relative 'shared_examples_for_fees'
 
 RSpec.describe API::V1::ExternalUsers::Fee do
   include Rack::Test::Methods

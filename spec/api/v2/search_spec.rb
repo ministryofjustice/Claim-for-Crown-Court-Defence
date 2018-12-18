@@ -1,8 +1,6 @@
 require 'rails_helper'
-require 'api_spec_helper'
-require 'support/claim_api_endpoints'
 
-describe API::V2::Search do
+RSpec.describe API::V2::Search do
   include Rack::Test::Methods
   include ApiSpecHelper
   include DatabaseHousekeeping

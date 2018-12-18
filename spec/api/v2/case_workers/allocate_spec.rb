@@ -1,7 +1,6 @@
 require 'rails_helper'
-require 'api_spec_helper'
 
-describe API::V2::CaseWorkers::Allocate do
+RSpec.describe API::V2::CaseWorkers::Allocate do
   include Rack::Test::Methods
   include ApiSpecHelper
 

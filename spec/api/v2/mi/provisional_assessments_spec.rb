@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'api_spec_helper'
 
 RSpec.describe API::V2::MI::ProvisionalAssessments do
   include Rack::Test::Methods

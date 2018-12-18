@@ -1,6 +1,4 @@
 require 'rails_helper'
-require 'api_spec_helper'
-require_relative 'shared_examples_for_all'
 
 RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
   include Rack::Test::Methods

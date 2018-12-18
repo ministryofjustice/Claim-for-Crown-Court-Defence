@@ -112,6 +112,7 @@ When(/^I select the '(.*?)' fixed fee$/) do |name|
   @claim_form_page.fixed_fees.toggle(name)
   wait_for_ajax
   @claim_form_page.fixed_fees.set_quantity(name)
+  wait_for_ajax
 end
 
 Then(/^I add a fixed fee '(.*?)' with case numbers$/) do |name|
@@ -131,8 +132,7 @@ When(/^I set the last fixed fee value to '(.*?)'$/) do |value|
 end
 
 When(/^I set the '(.*?)' fixed fee value to '(.*?)'$/) do |name, value|
-  fee_block = @claim_form_page.fixed_fees.fee_block_for(name)
-  fee_block.rate.set value
+  @claim_form_page.fixed_fees.fee_block_for(name).rate.set value
   wait_for_ajax
 end
 

@@ -108,6 +108,12 @@ When(/^I add a fixed fee '(.*?)'$/) do |name|
   wait_for_ajax
 end
 
+When(/^I select the '(.*?)' fixed fee$/) do |name|
+  @claim_form_page.fixed_fees.toggle(name)
+  wait_for_ajax
+  @claim_form_page.fixed_fees.set_quantity(name)
+end
+
 Then(/^I add a fixed fee '(.*?)' with case numbers$/) do |name|
   @claim_form_page.add_fixed_fee_if_required
   @claim_form_page.fixed_fees.last.select_fee_type name
@@ -121,6 +127,12 @@ end
 
 When(/^I set the last fixed fee value to '(.*?)'$/) do |value|
   @claim_form_page.fixed_fees.last.rate.set value
+  wait_for_ajax
+end
+
+When(/^I set the '(.*?)' fixed fee value to '(.*?)'$/) do |name, value|
+  fee_block = @claim_form_page.fixed_fees.fee_block_for(name)
+  fee_block.rate.set value
   wait_for_ajax
 end
 
@@ -188,6 +200,13 @@ Then(/^the last fixed fee rate should be in the calculator error state/) do
   expect(@claim_form_page.fixed_fees.last).to have_rate
   expect(@claim_form_page.fixed_fees.last.rate.value).to be_empty
   expect(@claim_form_page.fixed_fees.last.text).to match /The calculated rate is unavailable, please enter manually/
+end
+
+Then(/^the '(.*?)' fixed fee rate should be in the calculator error state/) do |name|
+  fee_block = @claim_form_page.fixed_fees.fee_block_for(name)
+  expect(fee_block).to have_rate
+  expect(fee_block.rate.value).to be_empty
+  expect(fee_block.text).to match /The calculated rate is unavailable, please enter manually/
 end
 
 Then(/^I amend the fixed fee '(.*?)' to have a quantity of (\d+)$/) do |fee_type, quantity|

@@ -1175,4 +1175,86 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":43685,"scenario":5,"advocate_type":"JUNIOR","fee_type":20,"offence_class":null,"scheme":3,"unit":"DAY","fee_per_unit":"108.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[],"strict_range":false}]}'
     http_version: 
   recorded_at: Mon, 24 Sep 2018 13:57:18 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_STD_APPRNC&limit_from=1&offence_class=17.1&scenario=5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 19 Dec 2018 12:02:28 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '320'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":43671,"scenario":5,"advocate_type":"JUNIOR","fee_type":27,"offence_class":null,"scheme":3,"unit":"DAY","fee_per_unit":"90.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":6,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
+    http_version: 
+  recorded_at: Wed, 19 Dec 2018 12:02:28 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_STD_APPRNC&limit_from=1&offence_class=17.1&scenario=5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 19 Dec 2018 12:02:29 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '320'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":43671,"scenario":5,"advocate_type":"JUNIOR","fee_type":27,"offence_class":null,"scheme":3,"unit":"DAY","fee_per_unit":"90.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":6,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
+    http_version: 
+  recorded_at: Wed, 19 Dec 2018 12:02:29 GMT
 recorded_with: VCR 3.0.3

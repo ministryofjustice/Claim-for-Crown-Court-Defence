@@ -21,21 +21,18 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     Then I click "Continue" in the claim form
 
-    Given I insert the VCR cassette 'features/claims/advocate/scheme_ten/fixed_fee_calculations'
+    Given I insert the VCR cassette 'features/claims/advocate/scheme_ten/fixed_fee_calculations' and record 'new_episodes'
 
     And I should see the advocate categories 'Junior,Leading junior,QC'
     And I select an advocate category of 'Junior'
+    Then the fixed fee checkboxes should consist of 'Appeals to the crown court against conviction,Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
 
-    And the last fixed fee should have fee type options 'Appeals to the crown court against conviction,Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
-     And I toggle the fixed fee "Appeals to the crown court against sentence"
-    And I toggle the fixed fee "Number of cases uplift"
-    And I toggle the fixed fee "Standard appearance fee"
-
-    Then the last fixed fee case numbers section should not be visible
-    Then the last 'fixed' fee rate should be populated with '250.00'
-    And I add a fixed fee 'Number of cases uplift' with case numbers
-    Then the last fixed fee case numbers section should be visible
-    Then the last 'fixed' fee rate should be populated with '50.00'
+    And I select the 'Appeals to the crown court against conviction' fixed fee
+    Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '250.00' and a hint of 'Number of days'
+    And I add a 'Number of cases uplift' fixed fee with case numbers
+    Then the fixed fee 'Number of cases uplift' should have a rate of '50.00'
+    And I select the 'Standard appearance fee' fixed fee
+    Then the fixed fee 'Standard appearance fee' should have a rate of '90.00'
 
     Then I click "Continue" in the claim form
     And I add a calculated miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
@@ -85,4 +82,4 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£531.07'
+    And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£639.07'

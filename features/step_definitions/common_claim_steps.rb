@@ -1,5 +1,4 @@
 When(/^I goto claim form step '(.*)'$/) do |form_step|
-  binding.pry
   form_step = form_step.parameterize.underscore
   uri = Addressable::URI.parse(@claim_form_page.current_url)
   uri.query_values = uri.query_values.merge('step' => form_step)
@@ -101,7 +100,6 @@ When(/^I click "Continue"$/) do
 end
 
 When(/^I click "Continue" in the claim form$/) do
-binding.pry
   sleep 3
   @claim_form_page.continue_button.click
   wait_for_ajax

@@ -9,7 +9,7 @@ RSpec.describe Feedback, type: :model do
     }
   end
 
-  it { should validate_inclusion_of(:type).in_array(%w( feedback bug_report )) }
+  it { is_expected.to validate_inclusion_of(:type).in_array(%w( feedback bug_report )) }
 
   context 'feedback' do
     let(:feedback_params) do
@@ -18,7 +18,7 @@ RSpec.describe Feedback, type: :model do
 
     subject { Feedback.new(feedback_params) }
 
-    it { should validate_inclusion_of(:rating).in_array(('1'..'5').to_a) }
+    it { is_expected.to validate_inclusion_of(:rating).in_array(('1'..'5').to_a) }
 
     describe '#initialize' do
       it 'sets the email' do
@@ -107,10 +107,10 @@ RSpec.describe Feedback, type: :model do
 
     subject { Feedback.new(bug_report_params) }
 
-    it { should_not validate_inclusion_of(:rating).in_array(('1'..'5').to_a) }
-    it { should validate_presence_of(:event) }
-    it { should validate_presence_of(:outcome) }
-    it { should_not validate_presence_of(:case_number) }
+    it { is_expected.to_not validate_inclusion_of(:rating).in_array(('1'..'5').to_a) }
+    it { is_expected.to validate_presence_of(:event) }
+    it { is_expected.to validate_presence_of(:outcome) }
+    it { is_expected.to_not validate_presence_of(:case_number) }
 
     describe '#initialize' do
       it 'sets the email' do

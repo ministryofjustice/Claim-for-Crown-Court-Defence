@@ -1532,6 +1532,7 @@ en:
     admin:
       case_workers:
         index:
+          page_title: Manage caseworkers
           case_workers_list: List of case workers
           surname: Surname
           name: Name
@@ -1551,7 +1552,17 @@ en:
           password: *password
           password_confirmation: *password_confirmation
           submit: 'Change password'
+          page_title: Change your password
+        new:
+          page_title: Add a caseworker
+        edit:
+          page_title: Edit %{caseworker}'s details
+        show:
+          page_title: View %{caseworker}'s details
       allocations:
+        new:
+          page_title_allocation: View the allocation queue
+          page_title_reallocation: View the re-allocation queue
         scheme_filters:
           scheme_types: 'Scheme types'
         allocation:
@@ -1591,6 +1602,7 @@ en:
         generate:
           invalid_report_type: *invalid_report_type
         index:
+          page_title: View management information
           h1_managment_info: Management information
           all_claims_report: 'All claims report'
           report_generated_at: "The latest report was generated at %{time}"
@@ -1617,8 +1629,10 @@ en:
     claims:
       archived:
         archived_claims: Archived claims
+        page_title: View the claim archive
       index:
         your_claims: Your claims
+        page_title: View your allocated claims list
       claims_list:
         type: Type
         advocate_litigator: *advocate_litigator
@@ -1635,6 +1649,8 @@ en:
         search: for example case number, MAAT reference, defendant name, case worker name or email
       interim_claim_info:
         fields: *interim_claim_info_fields
+      show:
+        page_title: View the claim details
   devise:
     shared:
       links:

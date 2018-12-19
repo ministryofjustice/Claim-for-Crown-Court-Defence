@@ -1,3 +1,6 @@
+= content_for :page_title, flush: true do
+  = t('.page_title', caseworker: @case_worker.name)
+
 = render partial: 'errors/error_summary', locals:{ ep: @case_worker, error_summary: 'This case worker has '}
 
 = render partial: 'layouts/header', locals: {page_heading: 'Edit case worker details'}

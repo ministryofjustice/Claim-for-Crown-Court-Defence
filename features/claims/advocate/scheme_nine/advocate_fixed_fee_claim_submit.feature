@@ -2,7 +2,7 @@
 Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
 
   @fee_calc_vcr
-  Scenario: I create a contempt claim, then submit it
+  Scenario: I create an Appeal against sentence claim, then submit it
 
     Given I am a signed in advocate
     And I am on the 'Your claims' page

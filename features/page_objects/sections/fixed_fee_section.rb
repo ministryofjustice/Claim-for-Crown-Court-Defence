@@ -4,7 +4,7 @@ class FixedFeeSection < SitePrism::Section
     element :input, 'input'
   end
 
-  section :adjourned_appeals_committal_breaches, FeeSection, "#adjourned-appeals-committals-and-breaches > .fixed-fee-group"
+  section :adjourned_appeals_committals_and_breaches, FeeSection, "#adjourned-appeals-committals-and-breaches > .fixed-fee-group"
   section :appeals_to_the_crown_court_against_sentence, FeeSection, "#appeals-to-the-crown-court-against-sentence > .fixed-fee-group"
   section :appeals_to_the_crown_court_against_conviction, FeeSection, "#appeals-to-the-crown-court-against-conviction > .fixed-fee-group"
   section :number_of_cases_uplift, FixedFeeCaseNumbersSection, "#number-of-cases-uplift > .fixed-fee-group"
@@ -29,6 +29,6 @@ class FixedFeeSection < SitePrism::Section
   end
 
   def fee_block_for(fee)
-    send(fee.downcase.gsub(/ /, '_').to_sym)
+    send(fee.downcase.gsub(/ /, '_').gsub(/,/, '').to_sym)
   end
 end

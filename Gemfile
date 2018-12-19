@@ -114,7 +114,7 @@ group :test do
   gem 'poltergeist'
   gem 'rails-controller-testing'
   gem 'rspec-mocks'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', '>= 4.0.0.rc1'
   gem 'selenium-webdriver'
   gem 'simplecov',                  require: false
   gem 'simplecov-csv',              require: false

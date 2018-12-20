@@ -1,7 +1,10 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'layouts/header', locals: {page_heading: 'Manage providers'}
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 %p
   = link_to t('.add_a_provider'), new_super_admins_provider_path, class: 'button', role:'button'

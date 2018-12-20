@@ -1,7 +1,15 @@
+
 - unless params[:tab] == 'allocated'
+  = content_for :page_title, flush: true do
+    = t('.page_title_allocation')
+
   .js-allocation-page
     = render partial: 'allocation'
 - else
+
+  = content_for :page_title, flush: true do
+    = t('.page_title_reallocation')
+
   .js-re-allocation-page
     = render partial: 're_allocation'
 

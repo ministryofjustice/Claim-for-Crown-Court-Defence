@@ -1,47 +1,46 @@
 = content_for :page_title, flush: true do
   = t('.page_title', provider_name: @provider.name)
 
-= render partial: 'layouts/header', locals: {page_heading: 'Manage providers'}
-%h2.heading-medium
-  = @provider.name
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
 
-.grid-row
-  .column-one-third
-    %h3
-      = t('.provider_type')
-  .column-one-third
-    = @provider.provider_type.capitalize
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
-.grid-row
-  .column-one-third
-    %h3
-      = t('.fee_schemes')
-  .column-one-third
-    = @provider.roles.map(&:upcase) * ', '
+.form-group
+  %table
+    %caption
+      %h2.heading-medium
+        = @provider.name
+    %tbody
+      %tr
+        %th{scope: "row"}
+          = t('.provider_type')
+        %td
+          = @provider.provider_type.capitalize
 
-- if @provider.lgfs_supplier_numbers.any?
-  .grid-row
-    .column-one-third
-      %h3
-        = t('.lgfs_supplier_numbers')
-    .column-one-third
-      = @provider.lgfs_supplier_numbers.to_sentence
+      %tr
+        %th{scope: "row"}
+          = t('.fee_schemes')
+        %td
+          = @provider.roles.map(&:upcase) * ', '
 
-- if @provider.firm? && @provider.agfs?
-  .grid-row
-    .column-one-third
-      %h3
-        = t('.firm_agfs_supplier_number')
-    .column-one-third
-      = @provider.firm_agfs_supplier_number
+      - if @provider.lgfs_supplier_numbers.any?
+        %th{scope: "row"}
+          = t('.lgfs_supplier_numbers')
+        %td
+          = @provider.lgfs_supplier_numbers.to_sentence
 
-.grid-row
-  .column-one-third
-    %h3
-      =t('.vat_registered')
-  .column-one-third
-    = @provider.vat_registered == true ? 'Yes' : 'No'
+      - if @provider.firm? && @provider.agfs?
+        %th{scope: "row"}
+          = t('.firm_agfs_supplier_number')
+        %td
+          = @provider.firm_agfs_supplier_number
+
+      %th{scope: "row"}
+        = t('.vat_registered')
+      %td
+        = @provider.vat_registered == true ? t('.answer_yes') : t('.answer_no')
 
 - if can? :edit, @provider
-  %p
-    = link_to 'Edit', edit_super_admins_provider_path(@provider), class: 'button'
+  .form-group
+    = link_to t('.edit'), edit_super_admins_provider_path(@provider), class: 'button'

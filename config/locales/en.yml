@@ -327,9 +327,15 @@ en:
         show:
           super_admins: 'Super administrators'
           add_super_admin: 'Add Super administrator'
-          edit: *edit
+          edit: Edit
+          page_heading: Your account
+          change_password: Change password
         edit:
+          page_heading: Edit super administrator details
           edit_super_admin: 'Edit user'
+          page_title: Edit %{super_admin}'s details
+        show:
+          page_title: Change %{super_admin}'s password
         form:
           error: 'error'
           prohibited_save: 'This Super administrator has'
@@ -347,6 +353,8 @@ en:
           password: *password
           password_confirmation: *password_confirmation
           submit: 'Change password'
+          page_title: Change %{super_admin}'s password
+          heading: Change password
     providers:
       provider_type: &provider_type 'Provider type'
       provider_name: &provider_name 'Provider name'
@@ -361,7 +369,12 @@ en:
         lgfs_supplier_numbers: 'LGFS supplier numbers'
         firm_agfs_supplier_number: 'AGFS supplier number'
         page_title: "View %{provider_name}'s details"
+        page_heading: Manage provider
+        edit: Edit
+        answer_yes: "Yes"
+        answer_no:  "No"
       index:
+        page_heading: Manage providers
         add_a_provider: Add a provider
         page_title: View providers in claim for Crown court defence
       providers:
@@ -370,6 +383,7 @@ en:
         provider_name: *provider_name
         supplier_number: *supplier_number
         vat_registered: *vat_registered
+        caption: Provider list
       form:
         cancel_button: Cancel
         error: 'error'
@@ -389,7 +403,37 @@ en:
         name: 'Name'
         supplier_number: *supplier_number
         email: 'Email'
-        page_title: "View users in %{provider_name}"
+        page_title: View users in %{provider_name}
+        caption: Users in %{provider_name}
+        state: State
+        add_provider: Add user to provider
+        page_heading: Manage Users
+        title: Email %{provider}
+        live: Live
+        inactive: Inactive
+      show:
+        caption: User details
+        page_title: View %{external_user}'s details
+        provider: Provider
+        email: *email
+        name: Name
+        supplier_number: *supplier_number
+        vat_registered: VAT registered
+        role: Role
+        edit: Edit
+        change_password: Change password
+        answer_yes: "Yes"
+        answer_no:  "No"
+        manage_user: Manage user
+        page_heading: Manage user
+      edit:
+        page_title: Edit %{external_user}'s details
+        heading: Edit user details
+        page_heading: Manage users
+      new:
+        page_title: Add a user to %{provider_name}
+        heading: New user details for %{provider_name}
+        page_heading: Manage users
       form:
         error: 'error'
         prohibited_save: 'This user has'
@@ -406,7 +450,7 @@ en:
       find:
         email: *email
         submit: 'Search'
-        page_title: Find a provider by email address
+        page_title: Find provider by email
       change_password:
         error: 'error'
         prohibited_save: 'This user password change has'
@@ -414,12 +458,9 @@ en:
         password: *password
         password_confirmation: *password_confirmation
         submit: 'Change password'
-        page_title: "Change %{username}'s password"
-      show:
-        page_title: "View %{username}'s details"
-      edit:
-        page_title: "Edit %{username}'s details"
-        heading: Edit user details
+        page_title: Change %{external_user}'s password
+        heading: Change password for %{external_user}
+        page_heading: Manage users
 
 # en.external_users
   external_users:
@@ -1470,14 +1511,10 @@ en:
         page_heading: Settings
         section_heading: Add provider details
         page_title: Add a provider to claim for Crown court defence
-
       edit:
         page_heading: Settings
         section_heading: Edit provider details
-        page_title_chamber: Edit your chambers' account
-        page_title_firm: Edit your firm's account
         page_title: "Edit %{provider_name}'s details"
-
       form:
         agfs_supplier_number: AGFS Supplier Number
         cancel_button: Cancel
@@ -1754,6 +1791,7 @@ en:
     admin:
       case_workers:
         index:
+          page_title: Manage caseworkers
           case_workers_list: List of case workers
           surname: Surname
           name: Name
@@ -1773,7 +1811,17 @@ en:
           password: *password
           password_confirmation: *password_confirmation
           submit: 'Change password'
+          page_title: Change your password
+        new:
+          page_title: Add a caseworker
+        edit:
+          page_title: Edit %{caseworker}'s details
+        show:
+          page_title: View %{caseworker}'s details
       allocations:
+        new:
+          page_title_allocation: View the allocation queue
+          page_title_reallocation: View the re-allocation queue
         scheme_filters:
           scheme_types: 'Scheme types'
         allocation:
@@ -1813,6 +1861,7 @@ en:
         generate:
           invalid_report_type: *invalid_report_type
         index:
+          page_title: View management information
           h1_managment_info: Management information
           all_claims_report: 'All claims report'
           report_generated_at: "The latest report was generated at %{time}"
@@ -1839,8 +1888,10 @@ en:
     claims:
       archived:
         archived_claims: Archived claims
+        page_title: View the claim archive
       index:
         your_claims: Your claims
+        page_title: View your allocated claims list
       claims_list:
         type: Type
         advocate_litigator: *advocate_litigator
@@ -1857,6 +1908,8 @@ en:
         search: for example case number, MAAT reference, defendant name, case worker name or email
       interim_claim_info:
         fields: *interim_claim_info_fields
+      show:
+        page_title: View the claim details
   devise:
     sessions:
       new:

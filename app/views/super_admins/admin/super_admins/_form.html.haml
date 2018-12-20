@@ -1,28 +1,30 @@
 = form_for [:super_admins, :admin, @super_admin] do |f|
+
   - if @super_admin.errors.any?
-    .validation-summary
-      %h3.heading-small= "#{t('.prohibited_save')} #{pluralize(@super_admin.errors.count, t('.error'))}"
-      %ul
+    .error-summary{"aria-labelledby" => "error-summary-heading", :role => "alert", :tabindex => "-1"}
+      %h2#error-summary-heading.heading-medium.error-summary-heading
+        = "#{t('.prohibited_save')} #{pluralize(@super_admin.errors.count, t('.error'))}"
+      %ul.error-summary-list
         - @super_admin.errors.full_messages.each do |msg|
-          %li= msg
+          %li
+            = msg
 
   = f.fields_for :user do |user_fields|
     %fieldset.user-form
+      .form-group
+        = user_fields.label t('.first_name'), class: 'form-label-bold', for: 'super_admin_user_attributes_first_name'
+        = user_fields.text_field :first_name, class: 'form-control'
 
       .form-group
-        = user_fields.label t(".first_name"), class: "form-label"
-        = user_fields.text_field :first_name, class: "form-control"
+        = user_fields.label t('.last_name'), class: 'form-label-bold', for: 'super_admin_user_attributes_last_name'
+        = user_fields.text_field :last_name, class: 'form-control'
 
       .form-group
-        = user_fields.label t(".last_name"), class: "form-label"
-        = user_fields.text_field :last_name, class: "form-control"
+        = user_fields.label t('.email'), class: 'form-label-bold', for: 'super_admin_user_attributes_email'
+        = user_fields.email_field :email, class: 'form-control'
 
       .form-group
-        = user_fields.label t(".email"), class: "form-label"
-        = user_fields.email_field :email, class: "form-control"
-
-      .form-group
-        = user_fields.label t(".email_confirmation"), class: "form-label"
-        = user_fields.email_field :email_confirmation, class: "form-control"
+        = user_fields.label t('.email_confirmation'), class: 'form-label-bold', for: 'super_admin_user_attributes_email_confirmation'
+        = user_fields.email_field :email_confirmation, class: 'form-control'
 
   = f.submit t('.submit'), class: "button"

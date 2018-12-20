@@ -1,7 +1,7 @@
 = content_for :page_title, flush: true do
-  = t('.page_title', username: @external_user.name)
+  = t('.page_title', external_user: @external_user.name)
 
-= render partial: 'layouts/header', locals: {page_heading:  'Manage users'}
+= render partial: 'layouts/header', locals: {page_heading:  t('.page_heading')}
 
 %h2.heading-medium
   = t('.heading')

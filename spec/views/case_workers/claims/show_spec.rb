@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
-  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
-  let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
-  let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
+  # before { seed_fee_schemes }
 
   before do
     @case_worker = create(:case_worker)

@@ -33,12 +33,18 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I select the offence category 'Handling stolen goods'
     And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
+    Given I insert the VCR cassette 'features/claims/litigator/interim_warrant_fee_calculations'
+
     Then I click "Continue" in the claim form
 
+    And I should be in the 'Interim fee' form page
     And I select an interim fee type of 'Warrant'
+    And the interim fee amount should be populated with ''
     And I enter '2016-01-01' as the warrant issued date
     And I enter '2016-04-01' as the warrant executed date
     And I enter '680.39' in the interim fee total field
+
+    And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
 

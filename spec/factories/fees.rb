@@ -65,6 +65,10 @@ FactoryBot.define do
     trait :fxenp_fee do
       fee_type { Fee::FixedFeeType.find_by(unique_code: 'FXENP') || build(:fixed_fee_type, :fxenp) }
     end
+
+    trait :fxase_fee do
+      fee_type { Fee::FixedFeeType.find_by(unique_code: 'FXASE') || build(:fixed_fee_type, :fxase) }
+    end
   end
 
   factory :misc_fee, class: Fee::MiscFee do

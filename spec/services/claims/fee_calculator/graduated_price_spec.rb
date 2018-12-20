@@ -139,7 +139,10 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
           it_returns 'a successful fee calculator response', amount: 457.64
         end
 
-        # TODO: for now this should return a failed response as warrants need special handling
+        # TODO: this should return a failed response until
+        # - fee calculator amended to have codes for warrant fee scenarios
+        # - CCCD is able to apply the sub category of warrant fee scenario logic
+        #
         context 'warrant' do
           before { claim.retrial_estimated_length = 3 }
           let(:fee) { create(:interim_fee, :warrant, claim: claim) }

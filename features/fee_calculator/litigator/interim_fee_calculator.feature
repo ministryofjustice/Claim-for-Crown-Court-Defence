@@ -71,24 +71,24 @@ Feature: litigator completes interim fee page using calculator
     And I goto claim form step 'interim fees'
     And the interim fee amount should be populated with '715.75'
 
-    # Remove temporarily as fee calculator is returning wrong values
-    # # Trial start scenario, 2 defendants, class B offence
-    # Then I select an interim fee type of 'Trial start'
+    # Trial start scenario, 2 defendants, class B offence, 81 PPE
+    Then I select an interim fee type of 'Trial start'
+    And the interim fee amount should be populated with '0.00'
 
-    # # PPE impact
-    # And I enter 70 in the PPE total field
-    # And the interim fee amount should be populated with '1317.19'
-    # And I enter 71 in the PPE total field
-    # And the interim fee amount should be populated with '1332.56'
+    # Estimate trial length impact (10 days minimum required but fee represents 1 day only)
+    And I enter 9 in the estimated trial length field
+    And the interim fee amount should be populated with '0.00'
+    And I enter 10 in the estimated trial length field
+    And the interim fee amount should be populated with '1486.28'
+    And I enter 100 in the estimated trial length field
+    And the interim fee amount should be populated with '1486.28'
+    And I enter the trial start date '2018-04-01'
 
-    # # Estimate trial length impact (first two days incl. 10 days minimum required)
-    # And I enter 2 in the estimated trial length field
-    # And the interim fee amount should be populated with '1332.56'
-    # And I enter 3 in the estimated trial length field
-    # And the interim fee amount should be populated with '1860.65'
-    # And I enter 10 in the estimated trial length field
-    # And the interim fee amount should be populated with '5204.77'
-    # And I enter the trial start date '2018-04-01'
+    # PPE impact
+    And I enter 70 in the PPE total field
+    And the interim fee amount should be populated with '1317.19'
+    And I enter 71 in the PPE total field
+    And the interim fee amount should be populated with '1332.56'
 
     Then I click "Continue" in the claim form
     And I should be in the 'Evidence supplied on disk' form page
@@ -165,23 +165,23 @@ Feature: litigator completes interim fee page using calculator
     And I goto claim form step 'interim fees'
     And the interim fee amount should be populated with '477.17'
 
-    # # Retrial start scenario, 2 defendants, class B offence
-    # Then I select an interim fee type of 'Retrial start'
+    # Retrial start scenario, 2 defendants, class B offence, 81 PPE
+    Then I select an interim fee type of 'Retrial start'
 
-    # # PPE impact
-    # And I enter 70 in the PPE total field
-    # And the interim fee amount should be populated with '1317.19'
-    # And I enter 71 in the PPE total field
-    # And the interim fee amount should be populated with '1332.56'
+    # Estimated length of retrial impact (10 days minimum required but fee represents 1 day only)
+    And I enter 9 in the estimated retrial length field
+    And the interim fee amount should be populated with '0.00'
+    And I enter 10 in the estimated retrial length field
+    And the interim fee amount should be populated with '1486.28'
+    And I enter 100 in the estimated retrial length field
+    And the interim fee amount should be populated with '1486.28'
+    And I enter the retrial start date '2018-04-01'
 
-    # # Estimated length of retrial impact (first two days incl. 10 days minimum required)
-    # And I enter 2 in the estimated retrial length field
-    # And the interim fee amount should be populated with '1332.56'
-    # And I enter 3 in the estimated retrial length field
-    # And the interim fee amount should be populated with '1860.65'
-    # And I enter 10 in the estimated retrial length field
-    # And the interim fee amount should be populated with '5204.77'
-    # And I enter the retrial start date '2018-04-01'
+    # PPE impact
+    And I enter 70 in the PPE total field
+    And the interim fee amount should be populated with '1317.19'
+    And I enter 71 in the PPE total field
+    And the interim fee amount should be populated with '1332.56'
 
     Then I click "Continue" in the claim form
     And I should be in the 'Evidence supplied on disk' form page

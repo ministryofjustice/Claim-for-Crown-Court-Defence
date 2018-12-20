@@ -2,6 +2,9 @@
 -# = content_for :v2_stylesheets do
 -#   = stylesheet_link_tag "v2/application", media: "all"
 
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
 = render partial: 'layouts/header', locals: {page_heading: your_claims_header}
 = render partial: 'external_users/shared/timed_retention_banner'
 
@@ -24,3 +27,5 @@
 
 = render partial: 'main_claims_list', locals: { claims: @claims }
 = paginate @claims
+
+

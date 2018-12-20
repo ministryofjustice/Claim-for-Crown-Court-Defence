@@ -12,11 +12,17 @@ module Claims
 
       def setup(options)
         @fee_type = Fee::BaseFeeType.find(options[:fee_type_id])
+        exclude_invalid_fee_calc
         @advocate_category = options[:advocate_category] || claim.advocate_category
         @days = options[:days] || 0
         @ppe = options[:ppe] || 0
       rescue StandardError
         raise 'incomplete'
+      end
+
+      def exclude_invalid_fee_calc
+        return unless %w[INRST INTDT].include?(fee_type.unique_code)
+        raise StandardError, 'temporary exclusion of (re)trial start interim fee calc'
       end
 
       def amount

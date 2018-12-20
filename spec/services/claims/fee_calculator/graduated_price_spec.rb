@@ -132,8 +132,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
           it_returns 'a successful fee calculator response', amount: 457.64
         end
 
-        # TODO: these need special handling
+        # TODO: for now this should return a failed response as warrants need special handling
         context 'warrant' do
+          before { claim.retrial_estimated_length = 3 }
+          let(:fee) { create(:interim_fee, :warrant, claim: claim) }
+          let(:params) { { fee_type_id: fee.fee_type.id } }
+
+          it_returns 'a failed fee calculator response', message: /incomplete/i
         end
       end
 

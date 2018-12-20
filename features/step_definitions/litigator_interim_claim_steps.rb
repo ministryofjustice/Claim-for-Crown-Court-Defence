@@ -64,9 +64,9 @@ Then(/^I should see interim fee types applicable to a '(.*?)'$/) do |name|
   expect(@litigator_interim_claim_form_page.interim_fee.fee_type_select_names).to include(*expected_interim_fees_for(name))
 end
 
-Then(/^the interim fee amount should be populated with '(\d+\.\d+)'$/) do |amount|
+Then(/^the interim fee amount should be populated with '(\d+\.\d+)?'$/) do |amount|
   expect(@litigator_interim_claim_form_page.interim_fee).to have_amount
-  expect(@litigator_interim_claim_form_page.interim_fee.amount.value).to eql amount
+  expect(@litigator_interim_claim_form_page.interim_fee.amount.value).to eql amount.to_s
 end
 
 Then(/^the interim fee should have its price_calculated value set to true$/) do

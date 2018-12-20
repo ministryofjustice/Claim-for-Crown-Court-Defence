@@ -1,16 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe FeeScheme, type: :model do
-  before {
-    # ap FeeScheme.agfs.where(version: 10).first
-    # create(:fee_scheme)
-    # create_list(:offence_class, 2, :with_lgfs_offence)
-    # create_list(:offence, 2, :with_fee_scheme)
-    # create_list(:offence, 2, :with_fee_scheme_ten)
-    # seed_fee_schemes
-    seed_fee_schemes
-    # ap FeeScheme.all.map{|fs| [fs.name, fs.version, fs.start_date, fs.end_date] }
-  }
+  before { seed_fee_schemes }
 
   let(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) }
   let(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) }

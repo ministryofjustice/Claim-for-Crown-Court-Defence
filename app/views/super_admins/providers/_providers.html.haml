@@ -3,27 +3,29 @@
     No providers found
 - else
   %table.providers_table.report
+    %caption.heading-medium
+      = t('.caption')
     %thead
-      %th
+      %th{scope: 'col'}
         = t('.provider_name')
-      %th
+      %th{scope: 'col'}
         = t('.provider_type')
-      %th
+      %th{scope: 'col'}
         = t('.fee_schemes')
-      %th
+      %th{scope: 'col'}
         = t('.vat_registered')
-      %th
+      %th{scope: 'col'}
         Users
     %tbody
       - providers.each do |provider|
         %tr{id: dom_id(provider) }
-          %td{'aria-label' => t('.provider_name')}
+          %th{ scope: 'row'}
             = link_to provider.name, super_admins_provider_path(provider)
-          %td{'aria-label' => t('.provider_type')}
+          %td
             = provider.provider_type.humanize
-          %td{'aria-label' => t('.fee_schemes')}
+          %td
             = provider.roles.map(&:upcase) * ', '
-          %td{'aria-label' => t('.vat_registered')}
+          %td
             = provider.vat_registered == true ? 'Yes' : 'No'
-          %td{'aria-label' => 'Users'}
+          %td
             = link_to "Manage users in provider", super_admins_provider_external_users_path(provider)

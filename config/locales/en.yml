@@ -323,9 +323,15 @@ en:
         show:
           super_admins: 'Super administrators'
           add_super_admin: 'Add Super administrator'
-          edit: *edit
+          edit: Edit
+          page_heading: Your account
+          change_password: Change password
         edit:
+          page_heading: Edit super administrator details
           edit_super_admin: 'Edit user'
+          page_title: Edit %{super_admin}'s details
+        show:
+          page_title: Change %{super_admin}'s password
         form:
           error: 'error'
           prohibited_save: 'This Super administrator has'
@@ -343,6 +349,8 @@ en:
           password: *password
           password_confirmation: *password_confirmation
           submit: 'Change password'
+          page_title: Change %{super_admin}'s password
+          heading: Change password
     providers:
       provider_type: &provider_type 'Provider type'
       provider_name: &provider_name 'Provider name'
@@ -356,14 +364,22 @@ en:
         vat_registered: *vat_registered
         lgfs_supplier_numbers: 'LGFS supplier numbers'
         firm_agfs_supplier_number: 'AGFS supplier number'
+        page_title: "View %{provider_name}'s details"
+        page_heading: Manage provider
+        edit: Edit
+        answer_yes: "Yes"
+        answer_no:  "No"
       index:
+        page_heading: Manage providers
         add_a_provider: Add a provider
+        page_title: View providers in claim for Crown court defence
       providers:
         fee_schemes: Fee schemes
         provider_type: *provider_type
         provider_name: *provider_name
         supplier_number: *supplier_number
         vat_registered: *vat_registered
+        caption: Provider list
       form:
         cancel_button: Cancel
         error: 'error'
@@ -383,6 +399,37 @@ en:
         name: 'Name'
         supplier_number: *supplier_number
         email: 'Email'
+        page_title: View users in %{provider_name}
+        caption: Users in %{provider_name}
+        state: State
+        add_provider: Add user to provider
+        page_heading: Manage Users
+        title: Email %{provider}
+        live: Live
+        inactive: Inactive
+      show:
+        caption: User details
+        page_title: View %{external_user}'s details
+        provider: Provider
+        email: *email
+        name: Name
+        supplier_number: *supplier_number
+        vat_registered: VAT registered
+        role: Role
+        edit: Edit
+        change_password: Change password
+        answer_yes: "Yes"
+        answer_no:  "No"
+        manage_user: Manage user
+        page_heading: Manage user
+      edit:
+        page_title: Edit %{external_user}'s details
+        heading: Edit user details
+        page_heading: Manage users
+      new:
+        page_title: Add a user to %{provider_name}
+        heading: New user details for %{provider_name}
+        page_heading: Manage users
       form:
         error: 'error'
         prohibited_save: 'This user has'
@@ -399,6 +446,7 @@ en:
       find:
         email: *email
         submit: 'Search'
+        page_title: Find provider by email
       change_password:
         error: 'error'
         prohibited_save: 'This user password change has'
@@ -406,6 +454,9 @@ en:
         password: *password
         password_confirmation: *password_confirmation
         submit: 'Change password'
+        page_title: Change %{external_user}'s password
+        heading: Change password for %{external_user}
+        page_heading: Manage users
 
 # en.external_users
   external_users:
@@ -1254,9 +1305,11 @@ en:
       new:
         page_heading: Settings
         section_heading: Add provider details
+        page_title: Add a provider to claim for Crown court defence
       edit:
         page_heading: Settings
         section_heading: Edit provider details
+        page_title: "Edit %{provider_name}'s details"
       form:
         agfs_supplier_number: AGFS Supplier Number
         cancel_button: Cancel

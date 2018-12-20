@@ -1,5 +1,9 @@
-= render partial: 'layouts/header', locals: {page_heading:  'Manage users'}
+= content_for :page_title, flush: true do
+  = t('.page_title', external_user: @external_user.name)
 
-%h2 Edit user details
+= render partial: 'layouts/header', locals: {page_heading:  t('.page_heading')}
+
+%h2.heading-medium
+  = t('.heading')
 
 = render 'form'

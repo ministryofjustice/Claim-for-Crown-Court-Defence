@@ -1,30 +1,50 @@
-= render partial: 'layouts/header', locals: {page_heading: 'Manage users'}
+= content_for :page_title, flush: true do
+  = t('.page_title', external_user: @external_user.name)
 
-%h2
-  = @external_user.email
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
 
-%p
-  Provider:
-  = link_to @external_user.provider.name, super_admins_provider_path(@provider)
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
-%p
-  Name:
-  = @external_user.name
+.form-group
+  %table.external_users_table
+    %caption.heading-medium
+      = t('.caption')
+    %tbody
+      %tr
+        %th{scope: 'col'}
+          = t('.provider')
+        %td
+          = link_to @external_user.provider.name, super_admins_provider_path(@provider)
+      %tr
+        %th{scope: 'col'}
+          = t('.email')
+        %td
+          = @external_user.email
+      %tr
+        %th{scope: 'col'}
+          = t('.name')
+        %td
+          = @external_user.name
+      %tr
+        %th{scope: 'col'}
+          = t('.supplier_number')
+        %td
+          = @external_user.supplier_number
+      %tr
+        %th{scope: 'col'}
+          = t('.vat_registered')
+        %td
+          = @external_user.vat_registered? ? t('.answer_yes') : t('.answer_no')
+      %tr
+        %th{scope: 'col'}
+          = t('.role')
+        %td
+          = @external_user.roles.map(&:humanize).join(', ')
 
-%p
-  Supplier number:
-  = @external_user.supplier_number
+.form-group
+  - if can? :edit, @external_user
+    = link_to t('.edit'), edit_super_admins_provider_external_user_path(@provider, @external_user), class: 'button'
 
-%p
-  VAT Registered:
-  = @external_user.vat_registered? ? 'Yes' : 'No'
-
-%p
-  Role:
-  = @external_user.roles.map(&:humanize).join(', ')
-
-- if can? :edit, @external_user
-  = link_to 'Edit', edit_super_admins_provider_external_user_path(@provider, @external_user), class: 'button'
-
-- if can? :change_password, @external_user
-  = link_to 'Change password', change_password_super_admins_provider_external_user_path(@provider, @external_user), class: 'button'
+  - if can? :change_password, @external_user
+    = link_to t('.change_password'), change_password_super_admins_provider_external_user_path(@provider, @external_user), class: 'button'

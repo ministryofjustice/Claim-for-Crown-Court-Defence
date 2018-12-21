@@ -28,7 +28,7 @@ RSpec.shared_examples 'a successful fee calculator response' do |options|
   end
 
   if options&.fetch(:amount, nil)
-    it 'includes expected amount' do
+    it "includes expected amount #{options&.fetch(:amount)}" do
       amount = options&.fetch(:amount)
       expect(response.data.amount).to eq amount
     end

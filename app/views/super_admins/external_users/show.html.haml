@@ -7,37 +7,37 @@
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 .form-group
-  %table.external_users_table
+  %table{summary: t('.table_summary', external_user: @external_user.name)}
     %caption.heading-medium
       = t('.caption')
     %tbody
       %tr
-        %th{scope: 'col'}
+        %th{scope: 'row'}
           = t('.provider')
         %td
-          = link_to @external_user.provider.name, super_admins_provider_path(@provider)
+          = link_to @external_user.provider.name, super_admins_provider_path(@provider), title: "edit the provider"
       %tr
-        %th{scope: 'col'}
+        %th{scope: 'row'}
           = t('.email')
         %td
           = @external_user.email
       %tr
-        %th{scope: 'col'}
+        %th{scope: 'row'}
           = t('.name')
         %td
           = @external_user.name
       %tr
-        %th{scope: 'col'}
+        %th{scope: 'row'}
           = t('.supplier_number')
         %td
           = @external_user.supplier_number
       %tr
-        %th{scope: 'col'}
+        %th{scope: 'row'}
           = t('.vat_registered')
         %td
           = @external_user.vat_registered? ? t('.answer_yes') : t('.answer_no')
       %tr
-        %th{scope: 'col'}
+        %th{scope: 'row'}
           = t('.role')
         %td
           = @external_user.roles.map(&:humanize).join(', ')

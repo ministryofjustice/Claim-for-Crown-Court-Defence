@@ -7,7 +7,7 @@
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 .form-group
-  %table
+  %table{summary: t('.table_summary', provider_name: @provider.name)}
     %caption
       %h2.heading-medium
         = @provider.name

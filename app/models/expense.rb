@@ -64,6 +64,7 @@ class Expense < ApplicationRecord
 
   before_validation do
     self.schema_version ||= 2
+    remove_reason_text_unless_other
     round_quantity
     calculate_vat
   end
@@ -149,6 +150,10 @@ class Expense < ApplicationRecord
   def establishment
     return unless expense_type.car_travel?
     Establishment.find_by(name: location)
+  end
+
+  def remove_reason_text_unless_other
+    self.reason_text = nil unless expense_reason_other?
   end
 
   private

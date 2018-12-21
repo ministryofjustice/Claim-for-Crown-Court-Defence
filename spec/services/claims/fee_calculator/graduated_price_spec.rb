@@ -109,27 +109,40 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
           it_returns 'a successful fee calculator response', amount: 838.94
         end
 
-        context 'trial start', skip: 'temporary skip until error in fee calc api can be sorted out' do
-          before { claim.estimated_trial_length = 3 }
-          let(:fee) { create(:interim_fee, :trial_start, claim: claim, quantity: 100) }
-          let(:params) { { fee_type_id: fee.fee_type.id, days: claim.estimated_trial_length, ppe: fee.quantity } }
+        context 'trial start' do
+          let(:fee) { create(:interim_fee, :trial_start, claim: claim) }
+          let(:params) { { fee_type_id: fee.fee_type.id, days: length, ppe: 80 } }
 
-          it_returns 'a successful fee calculator response', amount: 1799.18
+          TRIAL_LENGTH_BOUNDARIES = { 9 => 0.00, 10 => 1467.58, 11 => 1467.58 }
+
+          TRIAL_LENGTH_BOUNDARIES.each_pair do |length, amount|
+            context "with an estimated length of #{length}" do
+              let(:length){ length }
+              it_returns 'a successful fee calculator response', amount: amount
+            end
+          end
 
           context 'when 2 defendants' do
+            let(:length) { 10 }
             it_returns 'a successful fee calculator response',
                         number_of_defendants: 2,
                         scheme: 'lgfs',
-                        amount: 2159.02
+                        amount: 1761.10
           end
         end
 
-        context 'retrial start', skip: 'temporary skip until error in fee calc api can be sorted out' do
-          before { claim.retrial_estimated_length = 3 }
-          let(:fee) { create(:interim_fee, :retrial_start, claim: claim, quantity: 96) }
-          let(:params) { { fee_type_id: fee.fee_type.id, days: claim.retrial_estimated_length, ppe: fee.quantity } }
+        context 'retrial start' do
+          let(:fee) { create(:interim_fee, :retrial_start, claim: claim) }
+          let(:params) { { fee_type_id: fee.fee_type.id, days: length, ppe: 80 } }
 
-          it_returns 'a successful fee calculator response', amount: 1732.86
+          RETRIAL_LENGTH_BOUNDARIES = { 9 => 0.00, 10 => 1467.58, 11 => 1467.58 }
+
+          RETRIAL_LENGTH_BOUNDARIES.each_pair do |length, amount|
+            context "with an estimated length of #{length}" do
+              let(:length) { length }
+              it_returns 'a successful fee calculator response', amount: amount
+            end
+          end
         end
 
         context 'retrial (new solicitor)' do

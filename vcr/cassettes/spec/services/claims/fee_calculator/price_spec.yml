@@ -23,7 +23,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 16 Nov 2018 10:50:32 GMT
+      - Wed, 02 Jan 2019 11:39:06 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -39,7 +39,7 @@ http_interactions:
       string: '{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
         Fee Scheme 9"}'
     http_version: 
-  recorded_at: Fri, 16 Nov 2018 10:50:32 GMT
+  recorded_at: Wed, 02 Jan 2019 11:39:06 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_CON&scenario=5&unit=DAY
@@ -63,7 +63,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 16 Nov 2018 10:50:32 GMT
+      - Wed, 02 Jan 2019 11:39:06 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -81,7 +81,48 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Fri, 16 Nov 2018 10:50:32 GMT
+  recorded_at: Wed, 02 Jan 2019 11:39:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_DISC_FULL&scenario=5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 02 Jan 2019 11:39:07 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '321'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2368,"scenario":5,"advocate_type":"JRALONE","fee_type":19,"offence_class":null,"scheme":1,"unit":"DAY","fee_per_unit":"238.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
+    http_version: 
+  recorded_at: Wed, 02 Jan 2019 11:39:07 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_FEE&scenario=12&unit=DAY
@@ -105,7 +146,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 16 Nov 2018 10:50:33 GMT
+      - Wed, 02 Jan 2019 11:39:07 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -114,7 +155,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       Content-Length:
-      - '480'
+      - '495'
       Connection:
       - keep-alive
     body:
@@ -143,46 +184,5 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Fri, 16 Nov 2018 10:50:33 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_DISC_FULL&scenario=5
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET, HEAD, OPTIONS
-      Content-Type:
-      - application/json
-      Date:
-      - Fri, 16 Nov 2018 10:50:33 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '321'
-      Connection:
-      - keep-alive
-    body:
-      encoding: ASCII-8BIT
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2368,"scenario":5,"advocate_type":"JRALONE","fee_type":19,"offence_class":null,"scheme":1,"unit":"DAY","fee_per_unit":"238.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
-        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version: 
-  recorded_at: Fri, 16 Nov 2018 10:50:33 GMT
+  recorded_at: Wed, 02 Jan 2019 11:39:07 GMT
 recorded_with: VCR 3.0.3

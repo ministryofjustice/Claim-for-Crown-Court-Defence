@@ -311,20 +311,23 @@ RSpec.describe 'ExpenseValidator', type: :validator do
     end
 
     context 'validates absence when reason ID is other than 5 regardless of the reason set' do
+      subject { expense.valid? }
+
       before do
         expense.reason_id = 3
       end
 
-      it 'reason text is present' do
-        expense.reason_text = 'blah'
-        expense.valid?
-        expect(expense).not_to be_valid
-        expect(expense.errors[:reason_text]).to include('invalid')
+      context 'reason text is present' do
+        before { expense.reason_text = 'blah' }
+
+        it 'removes the reason text before validation' do
+          expect(subject).to be true
+          expect(expense.reason_text).to be nil
+        end
       end
 
-      it 'reason text is not present' do
-        expense.valid?
-        expect(expense).to be_valid
+      context 'reason text is not present' do
+        it { is_expected.to be true }
       end
     end
   end

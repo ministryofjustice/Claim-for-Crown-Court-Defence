@@ -194,4 +194,12 @@ RSpec.describe Expense, type: :model do
       it { is_expected.to be nil }
     end
   end
+
+  describe '#remove_reason_text_unless_other' do
+    subject(:remove_reason_text_unless_other) { expense.remove_reason_text_unless_other }
+
+    let(:expense) { build :expense, reason_id: 4, reason_text: 'My unique reason' }
+
+    it { expect { remove_reason_text_unless_other }.to change { expense.reason_text }.to nil }
+  end
 end

@@ -147,7 +147,7 @@ module Claim
     end
 
     has_many :redeterminations, foreign_key: :claim_id
-    has_many :injection_attempts, foreign_key: :claim_id
+    has_many :injection_attempts, foreign_key: :claim_id, dependent: :destroy
 
     has_one  :certification, foreign_key: :claim_id, dependent: :destroy
 

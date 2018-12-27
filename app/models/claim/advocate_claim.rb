@@ -273,6 +273,10 @@ module Claim
     def destroy_all_invalid_fee_types
       if case_type.present? && case_type.is_fixed_fee?
         basic_fees.map(&:clear) unless basic_fees.empty?
+        applicable_fees = Claims::FetchEligibleFixedFeeTypes.new(self).call
+        fixed_fees.each do |persisted_fee|
+          fixed_fees.delete(persisted_fee) unless applicable_fees.map(&:code).include?(persisted_fee.fee_type_code)
+        end
       else
         fixed_fees.destroy_all unless fixed_fees.empty?
       end

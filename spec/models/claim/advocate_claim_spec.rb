@@ -665,6 +665,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   context 'fees total' do
+    before do
+      seed_case_types
+      seed_fee_types
+    end
+
     let(:misc_fees) { [build(:misc_fee, rate: 0.50)] }
 
     describe '#calculate_fees_total' do
@@ -1062,6 +1067,23 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   describe '#destroy_all_invalid_fee_types' do
     let(:misc_fees) { [build(:misc_fee, rate: 9.99)] }
+
+    context 'when the claim has been created as `Appeal against sentence`' do
+      subject(:claim) { create(:draft_claim, case_type: create(:case_type, :appeal_against_sentence), fixed_fees: fixed_fees) }
+      let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, :with_date_attended, rate: 9.99)] }
+
+      context 'when the user changes the case type to `Appeal against conviction`' do
+        it 'removes the fxase fee' do
+          expect {
+            claim.case_type = build(:case_type, :appeal_against_conviction)
+            claim.save
+          }.to change {
+            claim.fixed_fees.size
+          }.from(1)
+           .to(0)
+        end
+      end
+    end
 
     context 'when the claim is for a case type with fixed fees and is changed to graduated fees' do
       let(:fixed_fees) { [build(:fixed_fee, :with_date_attended, rate: 9.99)] }

@@ -1,0 +1,16 @@
+reports:
+  transactions_by_channel:
+    type: 'test-transactions-by-channel'
+    period: 'weekly'
+    fields:
+      - :channel
+      - :count
+    token: <%= ENV['PERF_PLAT_TBC_TOKEN'] %>
+  digital_take_up:
+    type: 'test-digital-take-up'
+    period: 'weekly'
+    token: <%= ENV["PERF_PLAT_DTU_TOKEN"] %>
+  quarterly_volumes:
+    type: 'quarterly-volumes'
+    period: 'quarter'
+    token: <%= ENV["PERF_PLAT_QV_TOKEN"] %>

@@ -189,6 +189,7 @@ module TimedTransitions
               2.times { @claim.expenses << Expense.new }
               2.times { @claim.disbursements << create(:disbursement, claim: @claim) }
               2.times { @claim.messages << create(:message, claim: @claim) }
+              @claim.injection_attempts << create(:injection_attempt, claim: @claim)
               @claim.expenses.first.dates_attended << DateAttended.new
               @claim.documents << create(:document, claim: @claim, verified: true)
               @claim.certification = create(:certification, claim: @claim)
@@ -214,6 +215,7 @@ module TimedTransitions
               expect(@claim.claim_state_transitions).not_to be_empty
               expect(@claim.determinations).not_to be_empty
               expect(@claim.certification).not_to be_nil
+              expect(@claim.injection_attempts).not_to be_empty
             end
 
             def expect_claim_and_all_associations_to_be_gone
@@ -232,6 +234,7 @@ module TimedTransitions
               expect(ClaimStateTransition.where(claim_id: @claim.id)).to be_empty
               expect(Determination.where(claim_id: @claim.id)).to be_empty
               expect(Certification.where(claim_id: @claim.id)).to be_empty
+              expect(InjectionAttempt.where(claim_id: @claim.id)).to be_empty 
             end
           end
         end

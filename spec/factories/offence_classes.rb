@@ -11,18 +11,18 @@
 
 FactoryBot.define do
   factory :offence_class do
-    sequence(:class_letter)   { generate_random_unused_class_letter }
+    sequence(:class_letter) { generate_random_unused_class_letter }
     description { Faker::Lorem.sentence }
   end
 
   trait :risk_based_bill_class do
-    sequence(:class_letter)   { generate_random_unused_class_letter(%w{ E F H I }) }
+    sequence(:class_letter) { generate_random_unused_class_letter(%w{ E F H I }) }
   end
 
   trait :with_lgfs_offence do
     after(:create) do |record|
       offence = create :offence, :miscellaneous, offence_class: record
-      offence.fee_schemes << (FeeScheme.lgfs.first || create(:fee_scheme, :lgfs_nine))
+      offence.fee_schemes << (FeeScheme.lgfs.first || create(:fee_scheme, :lgfs))
     end
   end
 end

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
   let(:claim_9) { create(:advocate_claim, :agfs_scheme_9) }
   let(:claim_10) { create(:advocate_claim, :agfs_scheme_10) }
-  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
+  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs) }
   let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
   let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
   let(:claim) { claim_9 }

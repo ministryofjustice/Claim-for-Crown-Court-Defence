@@ -89,7 +89,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   it { should delegate_method(:requires_retrial_dates?).to(:case_type) }
   it { should delegate_method(:requires_cracked_dates?).to(:case_type) }
 
-  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
+  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs) }
   let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
   let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
 

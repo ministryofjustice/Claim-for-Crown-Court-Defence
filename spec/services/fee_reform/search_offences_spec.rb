@@ -1,11 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe FeeReform::SearchOffences, type: :service do
-
-  before do
-    create(:fee_scheme, :agfs_nine)
-    create(:fee_scheme, :agfs_ten)
-  end
+  before { seed_fee_schemes }
 
   let!(:scheme_9_offences) {
     [

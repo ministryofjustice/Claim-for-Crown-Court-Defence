@@ -1449,6 +1449,18 @@ en:
           page_title: Enter warrant fees for litigator final fees claim
 
   shared:
+    claim_header:
+      case_number: 'Case number:'
+      status: 'Status:'
+      assessment_date: 'Claim assessed date:'
+      defendant_names: 'Defendant names:'
+      provider_type: 'Firm or Chambers:'
+      actions:  'Actions:'
+      confirm_text: Are you sure?
+      redraft: 'Redraft this claim'
+      archive: Archive
+      unarchive: Unarchive
+
     claim_defendant_details:
       caption: 'Defendant: Additional information'
     evidence_checklist:
@@ -1858,6 +1870,24 @@ en:
           no_of_claims: 'No. of claims'
           case_types: 'Case types'
           allocated_to: 'Allocated To'
+          error_summary: This claim re-allocation has
+          page_heading: Re-allocation
+          filter: Filter
+          legend: Allocate to
+          allocation_pool: Allocation pool
+          case_worker: Case worker
+          re_allocation: Re-allocation
+          re_allocate: Re-allocate
+          select_all: Select all
+          allocated_to: Allocated to
+          disk_evidence: Disk evidence
+          no_claims_allocated: No claims need to be allocated
+          number_of_claims: 'Number of claims:'
+          choose_label: Choose claim number %{case_number}
+          form_hint_html: |
+            To de-allocate claims, choose "Allocation pool".
+            <br/><br/>
+            To re-allocate claims to another case worker, choose "Case worker" and then select their name from the dropdown that appears below.
           hint:
             search: case worker name or email
       management_information:

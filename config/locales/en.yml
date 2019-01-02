@@ -1005,6 +1005,8 @@ en:
         lgfs:
           final_claim:
             page_title: View claim summary for litigator final fees claim
+          litigator_claim:
+            page_title: View claim summary for litigator final fees claim
           interim_claim:
             page_title: View claim summary for litigator interim fees claim
           transfer_claim:

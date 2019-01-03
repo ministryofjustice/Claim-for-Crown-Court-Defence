@@ -1,3 +1,6 @@
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
 - present(@claim) do |claim|
   .confirmation-header
     %h1.page-title.bold-large

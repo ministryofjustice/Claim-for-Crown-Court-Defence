@@ -1,28 +1,30 @@
 = form_for [:super_admins, @provider, @external_user] do |f|
   - if @external_user.errors.any?
-    .validation-summary
-      %h3.heading-small= "#{t('.prohibited_save')} #{pluralize(@external_user.errors.count, t('.error'))}"
-      %ul
+    .error-summary{"aria-labelledby" => "error-summary-heading", :role => "alert", :tabindex => "-1"}
+      %h2#error-summary-heading.heading-medium.error-summary-heading
+        = "#{t('.prohibited_save')} #{pluralize(@external_user.errors.count, t('.error'))}"
+      %ul.error-summary-list
         - @external_user.errors.full_messages.each do |msg|
-          %li= msg
+          %li
+            = msg
 
   = f.fields_for :user do |user_fields|
     %fieldset.user-form
 
       .form-group
-        = user_fields.label t(".first_name"), class: "form-label"
+        = user_fields.label t(".first_name"), class: "form-label-bold", for: "external_user_user_attributes_first_name"
         = user_fields.text_field :first_name, class: "form-control"
 
       .form-group
-        = user_fields.label t(".last_name"), class: "form-label"
+        = user_fields.label t(".last_name"), class: "form-label-bold", for: "external_user_user_attributes_last_name"
         = user_fields.text_field :last_name, class: "form-control"
 
       .form-group
-        = user_fields.label t(".email"), class: "form-label"
+        = user_fields.label t(".email"), class: "form-label-bold", for: "external_user_user_attributes_email"
         = user_fields.email_field :email, class: "form-control"
 
       .form-group
-        = user_fields.label t(".email_confirmation"), class: "form-label"
+        = user_fields.label t(".email_confirmation"), class: "form-label-bold", for: "external_user_user_attributes_email_confirmation"
         = user_fields.email_field :email_confirmation, class: "form-control"
 
     %fieldset.user-form
@@ -43,7 +45,7 @@
               = b.label { (b.value.to_s == 'true' ? 'Yes' : 'No') }
 
         .form-group
-          = f.label t(".supplier_number"), class: "form-label"
+          = f.label t(".supplier_number"), class: "form-label", for: "external_user_supplier_number"
           = f.text_field :supplier_number, class: "form-control"
 
     = f.submit t('.submit'), class: "button"

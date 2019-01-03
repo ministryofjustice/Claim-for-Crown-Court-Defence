@@ -1,3 +1,6 @@
+= content_for :page_title, flush: true do
+  = claim_type_page_header(current_user)
+
 = render partial: 'layouts/header', locals: { page_heading: claim_type_prompt_heading_for(current_user) }
 
 %h2.heading-large

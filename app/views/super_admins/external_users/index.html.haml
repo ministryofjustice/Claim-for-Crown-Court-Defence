@@ -1,28 +1,35 @@
-= render partial: 'layouts/header', locals: {page_heading: 'Manage Users'}
-%h2.heading-medium.left
-  = "Users in #{@provider.name}"
+= content_for :page_title, flush: true do
+  = t('.page_title', provider_name: @provider.name)
+
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 .grid-row.clear-float
-  = link_to "Add user to provider", new_super_admins_provider_external_user_path(@provider), class: 'button right'
+  = link_to t('.add_provider'), new_super_admins_provider_external_user_path(@provider), class: 'button right'
 
 %table.external_users_table
+  %caption
+    %h2.heading-medium.left
+      = t('.caption', provider_name: @provider.name)
   %thead
-    %th
+    %th{scope: 'col'}
       = t('.name')
-    %th
+    %th{scope: 'col'}
       = t('.supplier_number')
-    %th
+    %th{scope: 'col'}
       = t('.email')
-    %th
-      State
+    %th{scope: 'col'}
+      = t('.state')
   %tbody
     - @external_users.each do |advocate|
       %tr
-        %td
+        %td{scope: 'row'}
           = advocate.active? ? link_to(advocate.name, super_admins_provider_external_user_path(@provider, advocate)) : advocate.name
         %td
           = advocate.supplier_number
         %td
-          = mail_to advocate.email, advocate.email, {title: "Email #{advocate.name}"}
+          = mail_to advocate.email, advocate.email, {title: t('.title', provider: advocate.name)}
         %td
-          = advocate.active? ? "Live"  : "Inactive"
+          = advocate.active? ? t('.live')  : t('.inactive')

@@ -43,7 +43,7 @@
         = t(".messages")
     %tbody
       %tr.mobile-sort
-        %td{colspan: 10}
+        %th{colspan: 10}
           Sort by:
           = sortable 'case_number', t(".case_number")
           = sortable 'total_inc_vat', t(".total")
@@ -68,19 +68,19 @@
               = claim.providers_ref
 
           - if current_user.persona.admin?
-            %td{'aria-label' => t(".advocate_litigator")}
+            %td
               = claim.external_user.name
 
-          %td{'aria-label' => t(".defendants")}
+          %td
             = claim.defendant_names
 
-          %td.numeric.claimed-amount{'aria-label' => t(".total")}
+          %td.numeric.claimed-amount
             = claim.total_inc_vat
 
-          %td.numeric{'aria-label' => t(".assessed")}
+          %td.numeric
             = claim.amount_assessed
 
-          %td{scope: 'row', 'aria-label' => t(".status")}
+          %td
             %span.state{class: 'state-' << claim.state.dasherize}
               = claim.state.humanize
 

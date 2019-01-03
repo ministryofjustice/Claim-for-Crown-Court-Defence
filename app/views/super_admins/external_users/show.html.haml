@@ -15,7 +15,7 @@
         %th{scope: 'row'}
           = t('.provider')
         %td
-          = link_to @external_user.provider.name, super_admins_provider_path(@provider), title: "edit the provider"
+          = link_to @external_user.provider.name, super_admins_provider_path(@provider), title: t('.edit_provider')
       %tr
         %th{scope: 'row'}
           = t('.email')

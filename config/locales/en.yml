@@ -431,6 +431,7 @@ en:
         manage_user: Manage user
         page_heading: Manage user
         table_summary: A list of user details for %{external_user}
+        edit_provider: edit the provider
       edit:
         page_title: Edit %{external_user}'s details
         heading: Edit user details
@@ -517,14 +518,25 @@ en:
           submit: 'Create user'
         change_password:
           error: 'error'
-          prohibited_save: 'This user password change has'
+          prohibited_save: This user password change has
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation
-          submit: 'Change password'
+          submit: Change password
           page_title: Change your password
+          change_password: Change password
         show:
           page_title: View your account details
+          table_caption: Your account details
+          name: 'Name:'
+          email: 'Email:'
+          roles: 'Roles:'
+          supplier_number: 'Supplier number:'
+          edit: Edit
+          change_password: Change password
+          page_heading: Your account
+
+
 
       providers:
         provider_type: &provider_type 'Provider type'
@@ -538,10 +550,17 @@ en:
           supplier_number: *supplier_number
           vat_registered: *vat_registered
           api_key: *api_key
+          page_heading: Manage provider
+          page_title: "View %{provider_name}'s details"
           lgfs_supplier_numbers: "LGFS supplier numbers"
           firm_agfs_supplier_number: "AGFS supplier number"
           page_title_firm: Manage your firm's account
           page_title_chamber: Manage your chambers' account
+          table_caption: Provider details
+          provider_name: *provider_name
+          generate_key: Generate new key
+          edit_provider: Edit provider
+          confirmation: "Are you sure?\n\nImportant: the new key will need to be used for all API calls and JSON file claim imports for this provider."
         edit:
           error: 'error'
           page_heading: Settings

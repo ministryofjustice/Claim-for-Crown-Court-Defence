@@ -1,40 +1,41 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'layouts/header', locals: {page_heading: 'Your account'}
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 .body-content
   .table-container.container
     %table
       %caption
-        = 'Your account'
+        = t('.table_caption')
       %colgroup
         %col
         %col
       %tbody
         %tr
           %th{scope:'row'}
-            = 'Name:'
+            = t('.name')
           %td
             = @external_user.name
         %tr
           %th{scope:'row'}
-            = 'Email:'
+            = t('.email')
           %td
             = mail_to @external_user.email, @external_user.email
         %tr
           %th{scope:'row'}
-            = 'Roles:'
+            = t('.roles')
           %td
             = @external_user.roles.map(&:humanize).join(', ')
         %tr
           %th{scope:'row'}
-            = 'Supplier number:'
+            = t('.supplier_number')
           %td
             = @external_user.supplier_number
 
-  - if can? :edit, @external_user
-    = link_to 'Edit', edit_external_users_admin_external_user_path(@external_user), class: 'button-grey-3 btn-spacer-20'
+  .form-group
+    - if can? :edit, @external_user
+      = link_to t('.edit'), edit_external_users_admin_external_user_path(@external_user), class: 'button-grey-3 btn-spacer-20', role: 'button'
 
-  - if can? :change_password, @external_user
-    = link_to 'Change password', change_password_external_users_admin_external_user_path(@external_user), class: 'button-grey-3'
+    - if can? :change_password, @external_user
+      = link_to t('.change_password'), change_password_external_users_admin_external_user_path(@external_user), class: 'button-grey-3', role: 'button'

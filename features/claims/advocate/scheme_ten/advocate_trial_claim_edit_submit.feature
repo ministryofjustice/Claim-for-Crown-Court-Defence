@@ -12,7 +12,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I enter a case number of 'A20181234'
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
-    And I enter trial start and end dates
+    And I enter scheme 10 trial start and end dates
 
     Then I click "Continue" in the claim form
 

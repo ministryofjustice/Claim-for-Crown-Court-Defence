@@ -26,10 +26,11 @@ When(/^I select the advocate offence class '(.*)'$/) do |offence_class|
   @claim_form_page.select_offence_class(offence_class)
 end
 
-When(/I enter trial start and end dates$/) do
+When(/I enter (.*?)trial start and end dates$/) do |scheme_text|
+  strdate = scheme_date_for(scheme_text)
   using_wait_time 3 do
-    @claim_form_page.trial_details.first_day_of_trial.set_date 9.days.ago.to_s
-    @claim_form_page.trial_details.trial_concluded_on.set_date 2.days.ago.to_s
+    @claim_form_page.trial_details.first_day_of_trial.set_date strdate
+    @claim_form_page.trial_details.trial_concluded_on.set_date Date.parse(strdate).next_day(7).strftime
     @claim_form_page.trial_details.estimated_trial_length.set 5
     @claim_form_page.trial_details.actual_trial_length.set 8
   end

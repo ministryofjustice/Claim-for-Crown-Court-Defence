@@ -13,12 +13,12 @@ FactoryBot.define do
 
     trait :agfs_ten do
       start_date Date.new(2018, 04, 01).beginning_of_day
-      end_date Date.new(2018, 12, 31).end_of_day
+      end_date Date.new(2018, 12, 30).end_of_day
       version 10
     end
 
     trait :agfs_eleven do
-      start_date Date.new(2019, 01, 01).beginning_of_day
+      start_date Date.new(2018, 12, 31).beginning_of_day
       end_date nil
       version 11
     end

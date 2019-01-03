@@ -23,7 +23,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:38:50 GMT
+      - Thu, 03 Jan 2019 15:05:14 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -39,7 +39,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:38:50 GMT
+  recorded_at: Thu, 03 Jan 2019 15:05:14 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
@@ -63,7 +63,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:38:51 GMT
+      - Thu, 03 Jan 2019 15:05:14 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -71,8 +71,8 @@ http_interactions:
       - Accept-Encoding
       X-Frame-Options:
       - SAMEORIGIN
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '835'
       Connection:
       - keep-alive
     body:
@@ -122,280 +122,7 @@ http_interactions:
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:38:51 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=1&scenario=22
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Wed, 02 Jan 2019 11:38:51 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '17'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"amount":904.58}'
-    http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:38:51 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=J&ppe=1&scenario=22
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Wed, 02 Jan 2019 11:38:52 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '17'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"amount":1085.5}'
-    http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:38:52 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=J&ppe=1&scenario=4
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Wed, 02 Jan 2019 11:38:53 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '18'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"amount":6171.44}'
-    http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:38:53 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=1&scenario=4
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Wed, 02 Jan 2019 11:38:56 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '18'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"amount":5142.87}'
-    http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:38:56 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=81&scenario=45
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Wed, 02 Jan 2019 11:38:57 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '17'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"amount":457.64}'
-    http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:38:57 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=9&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=46&trial_length=9
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Wed, 02 Jan 2019 11:38:58 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '14'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"amount":0.0}'
-    http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:38:58 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=11&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=46&trial_length=11
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Wed, 02 Jan 2019 11:38:59 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '18'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"amount":1467.58}'
-    http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:38:59 GMT
+  recorded_at: Thu, 03 Jan 2019 15:05:14 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=46&trial_length=10
@@ -419,7 +146,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:39:00 GMT
+      - Thu, 03 Jan 2019 15:05:14 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -434,10 +161,10 @@ http_interactions:
       encoding: UTF-8
       string: '{"amount":1467.58}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:00 GMT
+  recorded_at: Thu, 03 Jan 2019 15:05:14 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=J&ppe=80&scenario=44&trial_length=10
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=11&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=46&trial_length=11
     body:
       encoding: US-ASCII
       string: ''
@@ -458,7 +185,85 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:39:01 GMT
+      - Thu, 03 Jan 2019 15:05:15 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '18'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":1467.58}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:15 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=9&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=46&trial_length=9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 03 Jan 2019 15:05:16 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '14'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":0.0}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:16 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=81&scenario=45
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 03 Jan 2019 15:05:17 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -471,48 +276,9 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"amount":1761.1}'
+      string: '{"amount":457.64}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:01 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=11&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=44&trial_length=11
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Wed, 02 Jan 2019 11:39:02 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '18'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"amount":1467.58}'
-    http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:02 GMT
+  recorded_at: Thu, 03 Jan 2019 15:05:17 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=44&trial_length=10
@@ -536,7 +302,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:39:03 GMT
+      - Thu, 03 Jan 2019 15:05:18 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -551,7 +317,46 @@ http_interactions:
       encoding: UTF-8
       string: '{"amount":1467.58}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:03 GMT
+  recorded_at: Thu, 03 Jan 2019 15:05:18 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=11&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=44&trial_length=11
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 03 Jan 2019 15:05:19 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '18'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":1467.58}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:19 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=9&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=44&trial_length=9
@@ -575,7 +380,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:39:04 GMT
+      - Thu, 03 Jan 2019 15:05:20 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -590,7 +395,46 @@ http_interactions:
       encoding: UTF-8
       string: '{"amount":0.0}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:04 GMT
+  recorded_at: Thu, 03 Jan 2019 15:05:20 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=J&ppe=80&scenario=44&trial_length=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 03 Jan 2019 15:05:21 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '17'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":1761.1}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:21 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=100&scenario=43
@@ -614,7 +458,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:39:05 GMT
+      - Thu, 03 Jan 2019 15:05:22 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -629,10 +473,10 @@ http_interactions:
       encoding: UTF-8
       string: '{"amount":838.94}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:05 GMT
+  recorded_at: Thu, 03 Jan 2019 15:05:22 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/prices/?advocate_type&fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=5
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=1&scenario=22
     body:
       encoding: US-ASCII
       string: ''
@@ -649,30 +493,29 @@ http_interactions:
       message: OK
     headers:
       Allow:
-      - GET, HEAD, OPTIONS
+      - GET
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:39:08 GMT
+      - Thu, 03 Jan 2019 15:05:24 GMT
       Server:
       - nginx/1.15.5
       Vary:
       - Accept, Cookie
-      - Accept-Encoding
       X-Frame-Options:
       - SAMEORIGIN
       Content-Length:
-      - '207'
+      - '17'
       Connection:
       - keep-alive
     body:
-      encoding: ASCII-8BIT
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":58843,"scenario":5,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"349.47000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
+      encoding: UTF-8
+      string: '{"amount":904.58}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:08 GMT
+  recorded_at: Thu, 03 Jan 2019 15:05:24 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/prices/?advocate_type&fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=12
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=J&ppe=1&scenario=22
     body:
       encoding: US-ASCII
       string: ''
@@ -689,29 +532,104 @@ http_interactions:
       message: OK
     headers:
       Allow:
-      - GET, HEAD, OPTIONS
+      - GET
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:39:09 GMT
+      - Thu, 03 Jan 2019 15:05:25 GMT
       Server:
       - nginx/1.15.5
       Vary:
       - Accept, Cookie
-      - Accept-Encoding
       X-Frame-Options:
       - SAMEORIGIN
       Content-Length:
-      - '334'
+      - '17'
       Connection:
       - keep-alive
     body:
-      encoding: ASCII-8BIT
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":58865,"scenario":12,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"330.33000","limit_from":0,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":4,"fixed_percent":"20.00","percent_per_unit":"0.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
-        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":true},{"limit_from":5,"limit_to":null,"fixed_percent":"30.00","percent_per_unit":"0.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
-        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":true}],"strict_range":false}]}'
+      encoding: UTF-8
+      string: '{"amount":1085.5}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:09 GMT
+  recorded_at: Thu, 03 Jan 2019 15:05:25 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=J&ppe=1&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 03 Jan 2019 15:05:27 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '18'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":6171.44}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:27 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=1&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 03 Jan 2019 15:05:30 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '18'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":5142.87}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:30 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2018-03-31&type=AGFS
@@ -735,7 +653,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:39:10 GMT
+      - Thu, 03 Jan 2019 15:14:36 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -751,7 +669,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
         Fee Scheme 9"}]}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:10 GMT
+  recorded_at: Thu, 03 Jan 2019 15:14:36 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
@@ -775,7 +693,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:39:10 GMT
+      - Thu, 03 Jan 2019 15:14:36 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -796,7 +714,7 @@ http_interactions:
         of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
         case not proceeded","code":"AS000014"}]}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:10 GMT
+  recorded_at: Thu, 03 Jan 2019 15:14:36 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_ABS_PRC_HF&limit_from=1&offence_class=K&scenario=5
@@ -820,7 +738,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:39:10 GMT
+      - Thu, 03 Jan 2019 15:14:36 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -837,7 +755,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":1840,"scenario":5,"advocate_type":"JRALONE","fee_type":5,"offence_class":null,"scheme":1,"unit":"HALFDAY","fee_per_unit":"130.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":60,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:11 GMT
+  recorded_at: Thu, 03 Jan 2019 15:14:36 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_CON&limit_from=1&offence_class=K&scenario=5
@@ -861,7 +779,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:39:12 GMT
+      - Thu, 03 Jan 2019 15:14:38 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -879,7 +797,7 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:12 GMT
+  recorded_at: Thu, 03 Jan 2019 15:14:38 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_STD_APPRNC&limit_from=1&offence_class=K&scenario=5
@@ -903,7 +821,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:39:13 GMT
+      - Thu, 03 Jan 2019 15:14:41 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -920,7 +838,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":3260,"scenario":5,"advocate_type":"JRALONE","fee_type":27,"offence_class":null,"scheme":1,"unit":"DAY","fee_per_unit":"87.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:13 GMT
+  recorded_at: Thu, 03 Jan 2019 15:14:41 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_FEE&limit_from=1&offence_class=K&scenario=12
@@ -944,7 +862,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 02 Jan 2019 11:39:16 GMT
+      - Thu, 03 Jan 2019 15:14:43 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -962,5 +880,87 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Wed, 02 Jan 2019 11:39:16 GMT
+  recorded_at: Thu, 03 Jan 2019 15:14:43 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/prices/?advocate_type&fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 03 Jan 2019 15:14:47 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '207'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":58843,"scenario":5,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"349.47000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:14:47 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/prices/?advocate_type&fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=12
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 03 Jan 2019 15:14:48 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '334'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":58865,"scenario":12,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"330.33000","limit_from":0,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":4,"fixed_percent":"20.00","percent_per_unit":"0.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":true},{"limit_from":5,"limit_to":null,"fixed_percent":"30.00","percent_per_unit":"0.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":true}],"strict_range":false}]}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:14:48 GMT
 recorded_with: VCR 3.0.3

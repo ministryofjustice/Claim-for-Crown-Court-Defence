@@ -30,15 +30,18 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     And I select the offence category 'Handling stolen goods'
     And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
-    Then I click "Continue" in the claim form
-
     Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/claim_draft_edit'
 
-    And I select an advocate category of 'Junior alone'
-    And I add a basic fee net amount
-    Then I should see "First day of trial"
+    Then I click "Continue" in the claim form
+    And I should be in the 'Fees' form page
 
-    And I add a daily attendance fee with dates attended
+    And I should see "First day of trial"
+    And the basic fee net amount should be populated with '0.00'
+
+    And I select an advocate category of 'Junior alone'
+    And the basic fee net amount should be populated with '694.00'
+
+    And I add a daily attendance (3 to 40) fee with dates attended
 
     Then I click "Continue" in the claim form
 
@@ -72,4 +75,4 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£441.71'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£1,270.37'

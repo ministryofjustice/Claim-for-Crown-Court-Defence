@@ -875,4 +875,82 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2590,"scenario":4,"advocate_type":"JRALONE","fee_type":20,"offence_class":null,"scheme":1,"unit":"DAY","fee_per_unit":"108.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[],"strict_range":false}]}'
     http_version: 
   recorded_at: Mon, 24 Sep 2018 15:07:54 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type&day=1&fee_type_code=AGFS_FEE&offence_class=B&ppe=0&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 07 Jan 2019 15:24:05 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '14'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":0.0}'
+    http_version: 
+  recorded_at: Mon, 07 Jan 2019 15:24:05 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_FEE&offence_class=B&ppe=0&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 07 Jan 2019 15:24:06 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '17'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"amount":1305.0}'
+    http_version: 
+  recorded_at: Mon, 07 Jan 2019 15:24:06 GMT
 recorded_with: VCR 3.0.3

@@ -37,11 +37,14 @@ Feature: Advocate admin submits a claim for a Trial case
     Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/trial_claim_edit'
 
     Then I click "Continue" in the claim form
+
     And I should see the advocate categories 'Junior alone,Led junior,Leading junior,QC'
-    And I select an advocate category of 'Junior alone'
     And I should see the scheme 9 applicable basic fees
-    And I add a basic fee net amount
-    And I add a number of cases uplift fee with additional case numbers
+    And the basic fee net amount should be populated with '0.00'
+
+    Then I select an advocate category of 'Junior alone'
+    And the basic fee net amount should be populated with '1305.00'
+    Then I add a number of cases uplift fee with additional case numbers
 
     Then I click "Continue" in the claim form
 
@@ -98,4 +101,4 @@ Feature: Advocate admin submits a claim for a Trial case
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£462.01'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£2,023.87'

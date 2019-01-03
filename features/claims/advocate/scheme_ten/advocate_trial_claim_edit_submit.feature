@@ -31,14 +31,18 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     Then I click "Continue" in the claim form
 
     And I search for the scheme 10 offence 'Absconding from lawful custody'
-    Then I select the first search result
 
     Given I insert the VCR cassette 'features/claims/advocate/scheme_ten/trial_claim_edit'
+    Then I select the first search result
+    And I should be in the 'Fees' form page
 
     And I should see the advocate categories 'Junior,Leading junior,QC'
-    And I select an advocate category of 'Junior'
     And I should see the scheme 10 applicable basic fees
-    And I add a basic fee net amount
+
+    And the basic fee net amount should be populated with '0.00'
+
+    And I select an advocate category of 'Junior'
+    And the basic fee net amount should be populated with '550.00'
     And I add a number of cases uplift fee with additional case numbers
 
     Then I click "Continue" in the claim form
@@ -96,4 +100,4 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£462.01'
+    And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£1,117.87'

@@ -1,6 +1,6 @@
 - fee = present(f.object)
 
-.form-group.basic-fee-group.nested-fields.fee-details.js-block.fx-do-init{class: to_slug(fee.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": fee.calculated? ? "FeeBlock" : "FeeBlock"}}
+.form-section.basic-fee-group.fx-fee-group.fee-details.js-block.fx-do-init{class: to_slug(fee.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": fee.calculated? ? "FeeBlock" : "FeeBlock"}}
   %fieldset
     .form-group
       %span.bold
@@ -11,40 +11,30 @@
     .form-group
       = render partial: 'external_users/claims/basic_fees/offence_display', locals: { f: f }
 
-    = f.hidden_field :fee_type_id, value: f.object.fee_type_id
-    = f.hidden_field :quantity, value: 1
-    = f.adp_text_field :rate,
-                          label: t('.net_amount'),
-                          input_classes:'total form-control-1-4 form-input-denote__input',
-                          input_type: 'currency',
-                          value: number_with_precision(f.object.rate, precision: 2),
-                          errors: @error_presenter
+    = f.hidden_field :fee_type_id, value: f.object.fee_type_id, class: 'js-fee-type'
+    = f.text_field :quantity, value: 1, class: 'js-fee-calculator-days visually-hidden'
+    .js-fee-calculator-effectee
+      .calculated-grad-fee
+      = f.adp_text_field :rate,
+        label: t('.net_amount'),
+        input_classes:'total fee-amount form-control-1-4 form-input-denote__input',
+        input_type: 'currency',
+        value: number_with_precision(f.object.rate, precision: 2),
+        errors: @error_presenter
+
+    .help-wrapper.form-group
+      %details
+        %summary
+          %span.summary
+            = t('.help_with_basic_fees.title')
+        .panel.panel-border-narrow
+          - if fee.claim.agfs_reform?
+            = t('.help_with_basic_fees.post_agfs_reform_html')
+          - else
+            = t('.help_with_basic_fees.pre_agfs_reform_html')
+          .fee-calc-help-wrapper.form-group{ style: 'display: none;' }
+            = t('.help_with_basic_fees.how_is_this_rate_calculated_html')
 
     = render partial: 'external_users/claims/basic_fees/first_date_display', locals: { fee: fee }
 
     = render partial: 'external_users/claims/basic_fees/dates_attended', locals: { f: f, fee: fee }
-
-    %details{:role => "group"}
-      %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
-        %span.summary
-          = "Help with basic fees"
-      #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
-        %p
-          Basic fees include:
-        %ul.list.list-bullet
-
-          - if fee.claim.agfs_reform?
-            %li
-              1 daily attendance fee
-
-          - else
-            %li
-              2 daily attendance fees
-            %li
-              4 standard appearance fees
-            %li
-              1 plea and trial preparation hearing (
-              %abbr{:title => "plea and trial preparation hearing"}> PTPH
-              )
-            %li 3 conferences and views
-

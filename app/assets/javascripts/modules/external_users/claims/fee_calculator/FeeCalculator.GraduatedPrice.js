@@ -8,10 +8,20 @@
     },
 
     bindEvents: function () {
+      this.advocateTypeChange();
       this.feeTypeChange();
       this.feeDaysChange();
       this.feePpeChange();
       this.pageLoad();
+    },
+
+    advocateTypeChange: function () {
+      var self = this;
+      if ($('.calculated-grad-fee').exists()) {
+        $('.js-fee-calculator-advocate-type').change( function() {
+          self.calculateGraduatedPrice();
+        });
+      }
     },
 
     feeTypeChange: function ($el) {
@@ -78,7 +88,7 @@
     },
 
     displayHelp: function(context, show) {
-      var $help = $(context).siblings('.help-wrapper.form-group');
+      var $help = $(context).closest('.fx-fee-group').find('.fee-calc-help-wrapper');
       show ? $help.show() : $help.hide();
     },
 
@@ -98,25 +108,29 @@
       .fail(function(response) {
         if (response.responseJSON['errors'][0] != 'incomplete') {
           self.displayError(response, context);
-          self.displayHelp(context, false);
         }
+        self.displayHelp(context, false);
         self.enableAmount(context);
       });
     },
 
-    buildFeeData: function(data, context) {
+    buildFeeData: function(data) {
       data.claim_id = $('#claim-form').data('claimId');
       data.price_type = 'GraduatedPrice';
+      var advocate_category = $('input:radio[name="claim[advocate_category]"]:checked').val();
+      if (advocate_category) {
+        data.advocate_category = advocate_category;
+      }
       data.fee_type_id = $('.fx-fee-group').find('.js-fee-type').val();
       data.ppe = $('.fx-fee-group').find('input.js-fee-calculator-ppe').val();
       data.days = $('.fx-fee-group').find('input.js-fee-calculator-days:visible').val();
     },
 
     // Calculates the price for a given graduated fee,
-    calculateGraduatedPrice: function (context) {
+    calculateGraduatedPrice: function () {
       var self = this;
       var data = {};
-      self.buildFeeData(data, context);
+      self.buildFeeData(data);
       self.graduatedPriceAjax(data, '.js-fee-calculator-effectee');
     },
 

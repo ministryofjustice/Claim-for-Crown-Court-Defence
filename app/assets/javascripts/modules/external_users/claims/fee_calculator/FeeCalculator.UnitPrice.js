@@ -18,7 +18,7 @@
     advocateTypeChange: function () {
       var self = this;
       if ($('.calculated-fee').exists()) {
-        $('.js-fixed-fee-calculator-advocate-type').change( function() {
+        $('.js-fee-calculator-advocate-type').change( function() {
           self.calculateUnitPrice();
         });
       }
@@ -124,7 +124,7 @@
     },
 
     displayHelp: function(context, show) {
-      var $help = $(context).siblings('.help-wrapper.form-group');
+      var $help = $(context).closest('.fx-fee-group').find('.fee-calc-help-wrapper');
       show ? $help.show() : $help.hide();
     },
 
@@ -157,7 +157,7 @@
       data.price_type = 'UnitPrice';
       var advocate_category = $('input:radio[name="claim[advocate_category]"]:checked').val();
       if (advocate_category) {
-        data.advocate_category = advocate_category
+        data.advocate_category = advocate_category;
       }
       // TODO: check if this can be here instead of calculateUnitPrice
       // loop iteration for $('.js-fee-calculator-effectee')

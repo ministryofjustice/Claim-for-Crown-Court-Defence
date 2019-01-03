@@ -116,6 +116,8 @@ en:
         last_name: &last_name 'Last name'
       fees:
         case_numbers: &case_numbers 'Additional case numbers'
+      fee_types:
+        fee_type: &fee_type 'Type of fee'
     not_provided: &not_provided 'Not provided'
     not_applicable: &not_applicable 'n/a'
   general:
@@ -700,6 +702,24 @@ en:
             cracked_before_retrial: Date case cracked on
             guilty_plea: Date plea entered
             discontinuance: Date of discontinuance
+          help_with_basic_fees:
+            title: Help with basic fees
+            pre_agfs_reform_html:
+              <p>Basic fees include:</p>
+              <ul class="list list-bullet">
+              <li>2 daily attendance fees</li>
+              <li>4 standard appearance fees</li>
+              <li>1 plea and trial preparation hearing (<abbr title= "plea and trial preparation hearing">PTPH</abbr>)</li>
+              <li>3 conferences and views</li>
+              </ul>
+            post_agfs_reform_html:
+              <p>Basic fees include:</p>
+              <ul class="list list-bullet">
+              <li>1 daily attendance fee</li>
+              </ul>
+            how_is_this_rate_calculated_html:
+              <p>How is this rate calculated?</p>
+              <p>We calculate the rate based upon the fee scheme, advocate category, offence and case type</p>
         basic_fee_fields_conditional:
           noc:
             case_numbers: Additional case numbers
@@ -804,10 +824,10 @@ en:
           fee_prompt_text: |
             You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
             for help.
-          fee_type: 'Type of fee'
+          fee_type: *fee_type
           quantity: *quantity
           rate: 'Rate'
-          additional_details: Additional details
+          additional_fees: Additional fees
         summary:
           header: Graduated fees
       check_your_claim:
@@ -1156,7 +1176,7 @@ en:
           rate: *rate
           case_numbers: *case_numbers
           no_dates: 'No dates currently selected.'
-          fee_type: 'Type of fee'
+          fee_type: *fee_type
           add_date_attended: 'Add dates'
           remove: 'Remove'
           net_amount: *net_amount
@@ -1165,7 +1185,7 @@ en:
         litigators:
           fields:
             fixed_fees: "Fixed fees"
-            fee_type: Type of fee
+            fee_type: *fee_type
             quantity: *quantity
             quantity_hint: 'Enter a quantity'
             rate: *rate
@@ -1194,7 +1214,7 @@ en:
           net_amount: *net_amount
           quantity: *quantity
           quantity_hint: 'Enter a quantity'
-          fee_type: 'Type of fee'
+          fee_type: *fee_type
           add_date_attended: 'Add dates'
           remove: 'Remove'
           no_dates: 'No dates currently selected.'
@@ -1211,7 +1231,7 @@ en:
               and attach to the claim.
           misc_fee_fields:
             misc_fee: 'Miscellaneous fee'
-            fee_type: "Fee type"
+            fee_type: *fee_type
             case_numbers: *case_numbers
             net_amount: *net_amount
             remove: "Remove"
@@ -1316,7 +1336,7 @@ en:
           page_header: Interim fee
           page_hint: *fees_vat_prompt
           interim_fees: Interim fees
-          fee_type: Type of fee
+          fee_type: *fee_type
           ppe_total: Total pages of evidence
           ppe_total_hint: At the time the claim is made
           amount: *net_amount
@@ -1712,7 +1732,7 @@ en:
       disk_evidence_reference: Reference number
       distance: Distance
       fee_category: Fee category
-      fee_type: Type of fee
+      fee_type: *fee_type
       fee_subtype: Fee subtype
       first_day_of_hearing: First day of hearing
       case_numbers: *case_numbers

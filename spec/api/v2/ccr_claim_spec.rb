@@ -506,8 +506,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:fixed_fees) {
            [
              build(:fixed_fee, :fxcbr_fee, quantity: 1),
-             build(:fixed_fee, :fxnoc_fee, quantity: 2, case_numbers: 'S20170001, S20170002'),
-             build(:fixed_fee, :fxnoc_fee, quantity: 2, case_numbers: 'S20170003, S20170001')
+             build(:fixed_fee, :fxnoc_fee, quantity: 3, case_numbers: 'S20170003, S20170001, S20170002')
            ]
           }
           let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, fixed_fees: fixed_fees) }

@@ -670,11 +670,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       seed_fee_types
     end
 
-    let(:misc_fees) { [build(:misc_fee, rate: 0.50)] }
+    let(:misc_fees) { [build(:misc_fee, :miaph_fee, rate: 0.50)] }
 
     describe '#calculate_fees_total' do
       context 'for a fixed case type' do
-        let(:fixed_fees) { [build(:fixed_fee, rate: 0.50)] }
+        let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
 
         subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees: fixed_fees, misc_fees: misc_fees) }
 
@@ -692,8 +692,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       context 'for a graduated case type' do
         let(:basic_fees) {
           [
-            build(:basic_fee, rate: 4.00),
-            build(:basic_fee, rate: 3.00)
+            build(:basic_fee, :baf_fee, rate: 4.00),
+            build(:basic_fee, :baf_fee, rate: 3.00)
           ]
         }
 
@@ -717,7 +717,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#update_fees_total' do
       context 'for a fixed case type' do
-        let(:fixed_fees) { [build(:fixed_fee, rate: 0.50)] }
+        let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
 
         subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees: fixed_fees, misc_fees: misc_fees) }
 
@@ -726,7 +726,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         end
 
         it 'updates the fees total' do
-          claim.fixed_fees.create attributes_for(:fixed_fee, rate: 2.00)
+          claim.fixed_fees.create attributes_for(:fixed_fee, :fxase_fee, rate: 2.00)
           expect(claim.fees_total).to eq(3.0)
         end
 
@@ -740,8 +740,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       context 'for a graduated case type' do
         let(:basic_fees) {
           [
-            build(:basic_fee, rate: 4.00),
-            build(:basic_fee, rate: 3.00)
+            build(:basic_fee, :baf_fee, rate: 4.00),
+            build(:basic_fee, :baf_fee, rate: 3.00)
           ]
         }
 
@@ -757,7 +757,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
         it 'updates the fees total' do
           expect {
-            claim.basic_fees.create attributes_for(:basic_fee, rate: 2.00)
+            claim.basic_fees.create attributes_for(:basic_fee, :baf_fee, rate: 2.00)
           }.to change { claim.fees_total }.from(7.5).to(9.5)
         end
 
@@ -1066,9 +1066,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#destroy_all_invalid_fee_types' do
-    let(:misc_fees) { [build(:misc_fee, rate: 9.99)] }
+    let(:misc_fees) { [build(:misc_fee, :miaph_fee, rate: 9.99)] }
+
+    before do
+      seed_case_types
+      seed_fee_types
+    end
 
     context 'when the claim has been created as `Appeal against sentence`' do
+      #with_fixed_fee_case
       subject(:claim) { create(:draft_claim, case_type: create(:case_type, :appeal_against_sentence), fixed_fees: fixed_fees) }
       let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, :with_date_attended, rate: 9.99)] }
 
@@ -1086,14 +1092,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'when the claim is for a case type with fixed fees and is changed to graduated fees' do
-      let(:fixed_fees) { [build(:fixed_fee, :with_date_attended, rate: 9.99)] }
+      let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, :with_date_attended, rate: 9.99)] }
 
       subject(:claim) { create(:draft_claim, :with_fixed_fee_case, fixed_fees: fixed_fees, misc_fees: misc_fees) }
 
       it 'removes the fixed fees' do
         expect {
           claim.case_type = build(:case_type, :graduated_fee)
-          claim.basic_fees.build attributes_for(:basic_fee, rate: 8.00)
+          claim.basic_fees.build attributes_for(:basic_fee, :baf_fee, rate: 8.00)
           claim.save
         }.to change {
           [claim.fixed_fees.size, claim.basic_fees.size]
@@ -1104,7 +1110,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       it 'keeps the misc fees' do
         expect {
           claim.case_type = build(:case_type, :graduated_fee)
-          claim.basic_fees.build attributes_for(:basic_fee, rate: 8.00)
+          claim.basic_fees.build attributes_for(:basic_fee, :baf_fee, rate: 8.00)
           claim.save
         }.not_to change { claim.misc_fees.size }.from(1)
       end
@@ -1113,8 +1119,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     context 'when the claim is for a case type with graduated fees and is changed to fixed fees' do
       let(:basic_fees) {
         [
-          build(:basic_fee, :with_date_attended, rate: 4.00),
-          build(:basic_fee, :with_date_attended, rate: 3.00)
+          build(:basic_fee, :baf_fee, :with_date_attended, rate: 4.00),
+          build(:basic_fee, :baf_fee, :with_date_attended, rate: 3.00)
         ]
       }
 
@@ -1127,7 +1133,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       it 'clears basic fees' do
         expect {
           claim.case_type = build(:case_type, :fixed_fee)
-          claim.fixed_fees.build attributes_for(:fixed_fee, rate: 8.00)
+          claim.fixed_fees.build attributes_for(:fixed_fee, :fxase_fee, rate: 8.00)
           claim.save
         }.to change {
           [claim.fixed_fees.size, claim.basic_fees.size]
@@ -1139,7 +1145,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       it 'keeps the misc fees' do
         expect {
           claim.case_type = build(:case_type, :fixed_fee)
-          claim.fixed_fees.build attributes_for(:fixed_fee, rate: 8.00)
+          claim.fixed_fees.build attributes_for(:fixed_fee, :fxase_fee, rate: 8.00)
           claim.save
         }.not_to change { claim.misc_fees.size }.from(1)
       end
@@ -1147,7 +1153,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       it 'destroys basic fee child relations explicitly (dates attended)' do
         expect {
           claim.case_type = build(:case_type, :fixed_fee)
-          claim.fixed_fees.build attributes_for(:fixed_fee, rate: 8.00)
+          claim.fixed_fees.build attributes_for(:fixed_fee, :fxase_fee, rate: 8.00)
           claim.save
         }.to change {
           claim.basic_fees.flat_map(&:dates_attended).size

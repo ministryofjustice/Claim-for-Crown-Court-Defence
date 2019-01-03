@@ -3,11 +3,7 @@ require 'rails_helper'
 RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
   let(:retrial) { create(:case_type, :retrial) }
 
-  before do
-    FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine)
-    FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine)
-    FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme)
-  end
+  before { seed_fee_schemes }
 
   describe '#attendances' do
     subject { described_class.new(claim).attendances }

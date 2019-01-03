@@ -27,7 +27,7 @@ FactoryBot.define do
     trait :with_fee_scheme do
       after(:build) do |offence, evaluator|
         if evaluator.lgfs_fee_scheme
-          fee_scheme = FeeScheme.find_by(name: 'LGFS', version: 9) || build(:fee_scheme, :lgfs_nine)
+          fee_scheme = FeeScheme.find_by(name: 'LGFS', version: 9) || build(:fee_scheme, :lgfs)
         else
           fee_scheme = FeeScheme.find_by(name: 'AGFS', version: 9) || build(:fee_scheme, :agfs_nine)
         end

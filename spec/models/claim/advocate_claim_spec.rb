@@ -66,7 +66,6 @@
 require 'rails_helper'
 
 RSpec.describe Claim::AdvocateClaim, type: :model do
-
   it { should belong_to(:external_user) }
   it { should belong_to(:creator).class_name('ExternalUser').with_foreign_key('creator_id') }
   it { should delegate_method(:provider_id).to(:creator) }
@@ -88,10 +87,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   it { should delegate_method(:requires_trial_dates?).to(:case_type) }
   it { should delegate_method(:requires_retrial_dates?).to(:case_type) }
   it { should delegate_method(:requires_cracked_dates?).to(:case_type) }
-
-  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs_nine) }
-  let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
-  let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
 
   describe 'validates external user and creator with same provider' do
     let(:provider) { create(:provider) }
@@ -187,6 +182,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       context 'when claim has fee reform scheme' do
+        before { seed_fee_schemes }
+
         let(:claim) { create(:claim, :agfs_scheme_10) }
 
         it 'returns only basic fee types for AGFS excluding the ones that are not part of the fee reform' do

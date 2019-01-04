@@ -43,6 +43,7 @@
 
     .js-fee-calculator-success
       = f.hidden_field :price_calculated, value: f.object.price_calculated?
+    = f.hidden_field :_destroy, class: 'destroy', value: !f.object.blank? || true
 
     .help-wrapper.form-group{ style: 'display: none;' }
       %details

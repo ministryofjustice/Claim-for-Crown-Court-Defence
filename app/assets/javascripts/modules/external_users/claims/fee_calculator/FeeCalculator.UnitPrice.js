@@ -59,6 +59,7 @@
       $el.find('.quantity').val('');
       $el.find('.rate').val('');
       $el.find('.total').html('£0.00');
+      $el.find('.destroy').val(true);
     },
     // needs to be usable by cocoon:after-insert so can bind to one or many elements
     miscFeeTypeChange: function($el) {
@@ -96,10 +97,12 @@
     setRate: function(data, context) {
       var $input = $(context).find('input.fee-rate');
       var $calculated = $(context).siblings('.js-fee-calculator-success').find('input');
+      var $destroy = $(context).siblings('.destroy');
       $input.val(data.toFixed(2));
       $input.change();
       $calculated.val(data > 0);
       $input.prop('readonly', data > 0);
+      $destroy.val(false);
     },
 
     setHintLabel: function(data) {

@@ -1,7 +1,7 @@
 %h3.heading-medium
   = local_assigns.has_key?(:header) ? header : t('common.fees')
   - if local_assigns[:editable]
-    = link_to 'Change', edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change'
+    = link_to t('.change'), edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
 -# TODO: Avoid use of these checks and just display info
 -# based on configuration
@@ -39,7 +39,7 @@
         - present_collection(collection.sort_by(&:position)).each.with_index(1) do |fee, index|
           %tr
             %th{ scope: 'row', class: 'bold' }
-              = "#{t('shared.summary.fee')} #{index}"
+              = t('shared.summary.fee_index', index: index)
             %td
               %table.nested-summary
                 %tbody

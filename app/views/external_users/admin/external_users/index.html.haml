@@ -1,7 +1,7 @@
 = content_for :page_title, flush: true do
   = t(".page_title_#{current_user.provider.provider_type}")
 
-= render partial: 'layouts/header', locals: {page_heading: t('.title')}
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 = content_for :search_html_block do
   .form-group
@@ -21,27 +21,27 @@
       = t('.email')
     - if Settings.email_notification_enabled?
       %th
-        = "Email notifications of messages?"
+        = t('.email_confirmation')
     %th
       = t('.actions')
   %tbody
     - @external_users.each do |advocate|
       %tr
-        %td{'aria-label' => t(".last_name")}
+        %td
           = advocate.last_name
-        %td{'aria-label' => t(".first_name")}
+        %td
           = advocate.first_name
-        %td{'aria-label' => t(".supplier_number")}
+        %td
           = advocate.supplier_number ? advocate.supplier_number : '-'
-        %td{'aria-label' => t(".email")}
-          = mail_to advocate.email, advocate.email, {title: "Email #{advocate.name}"}
+        %td
+          = mail_to advocate.email, advocate.email, {title: t('.email_title', external_user: advocate.name)}
         - if Settings.email_notification_enabled?
-          %td{'aria-label' => "Email notifications of messages?"}
-            = advocate.send_email_notification_of_message? ? 'Yes' : 'No'
-        %td.user-controls{'aria-label' => t(".actions")}
+          %td
+            = advocate.send_email_notification_of_message? ? t('.option_yes') : t('.option_no')
+        %td.user-controls
           - if advocate.active?
-            = link_to 'Edit',  edit_external_users_admin_external_user_path(advocate)
+            = link_to t('.edit'),  edit_external_users_admin_external_user_path(advocate)
             = " | "
-            = link_to 'Delete', external_users_admin_external_user_path(advocate), method: :delete, data: { confirm: 'Are you sure?' }
+            = link_to t('.delete'), external_users_admin_external_user_path(advocate), method: :delete, data: { confirm: t('.confirmation') }
           - else
             Inactive

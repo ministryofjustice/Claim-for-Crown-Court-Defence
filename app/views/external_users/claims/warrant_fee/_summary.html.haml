@@ -2,7 +2,7 @@
   %h3.heading-medium
     = t('external_users.claims.warrant_fee.summary.header')
     - if local_assigns[:editable]
-      = link_to 'Change', edit_polymorphic_path(claim, step: :interim_fees, referrer: :summary), class: 'link-change'
+      = link_to t('.change'), edit_polymorphic_path(claim, step: :interim_fees, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
   - if claim.agfs?
     = render partial: 'external_users/claims/advocate_category_summary', locals: { claim: claim }

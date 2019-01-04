@@ -3,7 +3,7 @@
   %h3.heading-medium
     = t('external_users.claims.disbursements.summary.header')
     - if local_assigns[:editable]
-      = link_to 'Change', edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change'
+      = link_to t('.change'), edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
   - if claim.disbursements.empty?
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
@@ -23,7 +23,7 @@
         - present_collection(claim.disbursements).each.with_index(1) do |disbursement, index|
           %tr
             %th{ scope: 'row', class: 'bold' }
-              = "#{t('shared.summary.disbursement')} #{index}"
+              = t('shared.summary.disbursement_index', index: index)
             %td
               %table.nested-summary
                 %tbody

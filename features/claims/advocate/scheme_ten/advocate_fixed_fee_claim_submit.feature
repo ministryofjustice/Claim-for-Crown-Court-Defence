@@ -36,7 +36,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I select the 'Number of defendants uplift' fixed fee
     Then the fixed fee 'Number of defendants uplift' should have a rate of '50.00' and a hint of 'Number of additional defendants'
     Then the summary total should equal '£528.00'
-    Then I toggle the fixed fee "Number of defendants uplift"
+    Then I uncheck the fixed fee "Number of defendants uplift"
     Then the summary total should equal '£468.00'
     Then the 'Number of defendants uplift' entry should be de-selected
 

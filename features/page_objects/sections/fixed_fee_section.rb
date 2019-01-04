@@ -22,6 +22,18 @@ class FixedFeeSection < SitePrism::Section
     end
   end
 
+  def check(label)
+    general_name = label.downcase.gsub(/ /, '-')
+    input_name = "##{general_name}-input"
+    find(input_name, visible: false).set(true)
+  end
+
+  def deselect(label)
+    general_name = label.downcase.gsub(/ /, '-')
+    input_name = "##{general_name}-input"
+    find(input_name, visible: false).set(false)
+  end
+
   def set_quantity(fee, value = 1)
     fee_block = fee_block_for(fee)
     fee_block.quantity.set value

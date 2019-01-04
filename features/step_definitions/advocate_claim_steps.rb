@@ -185,6 +185,18 @@ Given(/^I toggle the fixed fee "([^"]*)"$/) do |label|
   sleep 2
 end
 
+Given(/^I check the fixed fee "([^"]*)"$/) do |label|
+  @claim_form_page.fixed_fees.check(label)
+  wait_for_ajax
+  sleep 2
+end
+
+Given(/^I uncheck the fixed fee "([^"]*)"$/) do |label|
+  @claim_form_page.fixed_fees.deselect(label)
+  wait_for_ajax
+  sleep 2
+end
+
 Given(/^I binding pry$/) do
 end
 

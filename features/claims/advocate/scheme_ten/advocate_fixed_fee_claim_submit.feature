@@ -38,7 +38,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     Then the summary total should equal '£528.00'
     Then I toggle the fixed fee "Number of defendants uplift"
     Then the summary total should equal '£468.00'
-    Then the 'Number of defendants uplift' checkbox should be de-selected
+    Then the 'Number of defendants uplift' entry should be de-selected
 
     Then I click "Continue" in the claim form
     And I add a calculated miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'

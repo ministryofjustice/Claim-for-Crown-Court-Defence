@@ -33,6 +33,12 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     Then the fixed fee 'Number of cases uplift' should have a rate of '50.00'
     And I select the 'Standard appearance fee' fixed fee
     Then the fixed fee 'Standard appearance fee' should have a rate of '90.00'
+    And I select the 'Number of defendants uplift' fixed fee
+    Then the fixed fee 'Number of defendants uplift' should have a rate of '50.00' and a hint of 'Number of additional defendants'
+    Then the summary total should equal '£528.00'
+    Then I toggle the fixed fee "Number of defendants uplift"
+    Then the summary total should equal '£468.00'
+    Then the 'Number of defendants uplift' checkbox should be de-selected
 
     Then I click "Continue" in the claim form
     And I add a calculated miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'

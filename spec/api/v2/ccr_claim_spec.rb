@@ -236,17 +236,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           end
         end
 
-        # TODO: the case type is for fixed fees, which does not support
-        # basic fees by default
-        # context 'when case type does not permit advocate fees' do
-        #   let(:case_type) { create(:case_type, fee_type_code: 'FXCON') }
-        #
-        #   it 'not added to bills array' do
-        #     allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCON' # mock a contempt case type
-        #     expect(response).to have_json_size(0).at_path("bills")
-        #   end
-        # end
-
         context 'bill type' do
           let(:basic_fee) { build(:basic_fee, :baf_fee, quantity: 1, rate: 25) }
 

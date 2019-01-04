@@ -64,6 +64,14 @@ FactoryBot.define do
 
     trait :contempt do
       name 'Contempt'
+      is_fixed_fee true
+      allow_pcmh_fee_type false
+      requires_retrial_dates false
+      requires_maat_reference true
+      requires_cracked_dates false
+      requires_trial_dates false
+      roles %w[agfs lgfs]
+      fee_type_code 'FXCON'
     end
 
     trait :appeal_against_conviction do

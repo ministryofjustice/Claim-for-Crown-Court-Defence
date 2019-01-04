@@ -7,6 +7,7 @@ module Claims
       include Singleton
 
       ADAPTERS = [
+        CCR::Fee::BasicFeeAdapter,
         CCR::Fee::FixedFeeAdapter,
         CCR::Fee::MiscFeeAdapter
       ].freeze

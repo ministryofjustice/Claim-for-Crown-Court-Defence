@@ -14,9 +14,10 @@ RSpec.describe Claims::FeeCalculator::FeeTypeMappings do
   it { is_expected.to respond_to :all }
   it { is_expected.to respond_to :primary_fee_types }
 
+  let(:basic_fee_mappings) { CCR::Fee::BasicFeeAdapter.new.mappings.keys }
   let(:fixed_fee_mappings) { CCR::Fee::FixedFeeAdapter.new.mappings.keys }
   let(:misc_fee_mappings) { CCR::Fee::MiscFeeAdapter.new.mappings.keys }
-  let(:all_fee_mappings) { fixed_fee_mappings + misc_fee_mappings }
+  let(:all_fee_mappings) { basic_fee_mappings + fixed_fee_mappings + misc_fee_mappings }
   let(:primary_fee_types) { %i[FXACV FXASE FXCBR FXCSE FXCON FXENP] }
 
   describe '.reset' do
@@ -38,9 +39,8 @@ RSpec.describe Claims::FeeCalculator::FeeTypeMappings do
   describe '#all' do
     subject { described_class.instance.all }
 
-    let(:fee_mappings) { fixed_fee_mappings + misc_fee_mappings }
     it 'returns all fee type mappings' do
-      expect(subject.keys).to match_array(fee_mappings)
+      expect(subject.keys).to match_array(all_fee_mappings)
     end
   end
 

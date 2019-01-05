@@ -25,4 +25,5 @@ end
 
 VCR.cucumber_tags do |t|
   t.tag '@fee_calc_vcr', match_requests_on: [:method, path_query_matcher]
+  t.tag '@currency_vcr', match_requests_on: [:method, path_query_matcher]
 end

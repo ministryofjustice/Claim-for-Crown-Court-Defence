@@ -21,6 +21,9 @@ module API
                        desc: I18n.t('api.v2.performance_platform.quarterly_volume.value', month: 'third')
             end
             get do
+              # create stats_report record then display it
+              # this can be deleted by a successful post
+              # or replaced by a re-generation of this end point
               results = { key: 'value' }
               present JSON.parse(results.to_json, object_class: OpenStruct)
             end

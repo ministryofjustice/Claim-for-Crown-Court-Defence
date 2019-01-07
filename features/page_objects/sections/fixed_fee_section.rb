@@ -1,7 +1,7 @@
 class FixedFeeSection < SitePrism::Section
   sections :checklist, '.multiple-choice' do
     element :label, 'label'
-    element :input, 'input'
+    element :checkbox, 'input[type="checkbox"]', visible: false
   end
 
   section :adjourned_appeals_committals_and_breaches, FeeSection, "#adjourned-appeals-committals-and-breaches > .fixed-fee-group"
@@ -12,8 +12,18 @@ class FixedFeeSection < SitePrism::Section
   section :standard_appearance_fee, FeeSection, "#standard-appearance-fee > .fixed-fee-group"
   section :elected_case_not_proceeded, FeeSection, "#elected-case-not-proceeded > .fixed-fee-group"
 
+ #  sections :group, '.fixed-fee-group' do
+ #   element :destroy, '.destroy:hidden'
+ # end
+
   def checklist_labels
     checklist.map { |item| item.label.text if item.has_label? }
+  end
+
+  def checklist_item_for(label)
+    checklist.find do |item|
+      item.label.text.match?(Regexp.new(label, true))
+    end
   end
 
   def toggle(label)
@@ -23,15 +33,11 @@ class FixedFeeSection < SitePrism::Section
   end
 
   def check(label)
-    general_name = label.downcase.gsub(/ /, '-')
-    input_name = "##{general_name}-input"
-    find(input_name, visible: false).set(true)
+    page.check checklist_item_for(label).checkbox['id'], visible: false
   end
 
-  def deselect(label)
-    general_name = label.downcase.gsub(/ /, '-')
-    input_name = "##{general_name}-input"
-    find(input_name, visible: false).set(false)
+  def uncheck(label)
+    page.uncheck checklist_item_for(label).checkbox['id'], visible: false
   end
 
   def set_quantity(fee, value = 1)

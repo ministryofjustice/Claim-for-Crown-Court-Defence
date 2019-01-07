@@ -33,34 +33,38 @@
       var parentId;
 
       $('#fixed-fees').on('change', '.fx-checkbox-hook', function(e) {
-        // cache the target
         $el = $(e.target);
 
-        // if the check box is closed
-        // clear out the data
+        parentEl = '#' + $el.closest('.multiple-choice').data('target');
+
         if(!$el.is(':checked')){
-          // get the parent and panel id out of data attr
-          parentId = $el.closest('.multiple-choice').data('target');
-          self.clearFixedFee(parentId);
+          // TODO: if we are going to detroy the fee do we need to clear it?
+          self.clearFixedFee(parentEl);
+          self.markForDestruction(parentEl, true);
+        } else {
+          self.markForDestruction(parentEl, false);
         }
 
-        // Redo calculation
+        // Always redo calculation because of fee calc interdependencies
         self.calculateUnitPrice();
       });
     },
 
+    // TODO: this method should not form part of fee calc logic
+    // It should be a part of the checkbox logic and located in a module
+    // related to that.
+    markForDestruction: function (context, bool) {
+      $(context).find('.destroy').val(bool);
+    },
+
     // clear the fixed fee
-    clearFixedFee: function (elId) {
-      var $el;
-      if(!elId){
-        throw new Error('elId is empty');
-      }
-      $el = $('#'+ elId);
+    clearFixedFee: function (el) {
+      $el = $(el);
       $el.find('.quantity').val('');
       $el.find('.rate').val('');
       $el.find('.total').html('£0.00');
-      $el.find('.destroy').val(true);
     },
+
     // needs to be usable by cocoon:after-insert so can bind to one or many elements
     miscFeeTypeChange: function($el) {
       var self = this;
@@ -97,12 +101,10 @@
     setRate: function(data, context) {
       var $input = $(context).find('input.fee-rate');
       var $calculated = $(context).siblings('.js-fee-calculator-success').find('input');
-      var $destroy = $(context).siblings('.destroy');
       $input.val(data.toFixed(2));
       $input.change();
       $calculated.val(data > 0);
       $input.prop('readonly', data > 0);
-      $destroy.val(false);
     },
 
     setHintLabel: function(data) {

@@ -112,12 +112,3 @@ end
 Then(/^the summary total should equal '(.*)'$/) do |amount|
   expect(page).to have_content(amount)
 end
-
-Then(/^the '(.*)' entry should be de-selected$/) do |text|
-  general_name = text.downcase.gsub(/ /, '-')
-  input_name = "##{general_name}-input"
-  container_name = "##{general_name}"
-  expect(find(input_name, visible: false)).to_not be_checked
-  destroy = find(container_name, visible: false).find('.destroy', visible: false)
-  expect(destroy.value).to eql 'true'
-end

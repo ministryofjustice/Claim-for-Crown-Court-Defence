@@ -38,15 +38,17 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     Then the summary total should equal '£528.00'
     Then I uncheck the fixed fee "Number of defendants uplift"
     Then the summary total should equal '£468.00'
-    Then the 'Number of defendants uplift' entry should be de-selected
 
     Then I click "Continue" in the claim form
+    And I should be in the 'Miscellaneous fees' form page
+
     And I add a calculated miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
     Then the last 'miscellaneous' fee rate should be populated with '108.00'
 
     And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
+    And I should be in the 'Travel expenses' form page
 
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
@@ -54,6 +56,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I add an expense date for scheme 10
 
     Then I click "Continue" in the claim form
+    And I should be in the 'Evidence supplied on disk' form page
 
     And I upload the document 'indictment.pdf'
     And I should see 10 evidence check boxes

@@ -26,12 +26,6 @@ class FixedFeeSection < SitePrism::Section
     end
   end
 
-  def toggle(label)
-    checklist.each do |item|
-      item.label.click if item.label.text.match?(Regexp.new(label, true))
-    end
-  end
-
   def check(label)
     page.check checklist_item_for(label).checkbox['id'], visible: false
   end

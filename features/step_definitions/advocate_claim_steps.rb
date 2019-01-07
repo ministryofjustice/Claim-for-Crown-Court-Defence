@@ -127,7 +127,7 @@ Then(/^I add a fixed fee '(.*?)' with case numbers$/) do |name|
 end
 
 Then(/^I add a '(.*?)' fixed fee with case numbers$/) do |name|
-  @claim_form_page.fixed_fees.toggle(name)
+  @claim_form_page.fixed_fees.check(name)
   wait_for_ajax
   @claim_form_page.fixed_fees.fee_block_for(name).case_numbers.set "T20170001"
   @claim_form_page.fixed_fees.set_quantity(name)
@@ -179,12 +179,6 @@ Then(/^the last fixed fee case numbers section should (not )?be visible$/) do |n
   end
 end
 
-# TODO: replace with check/uncheck calls
-Given(/^I toggle the fixed fee "([^"]*)"$/) do |label|
-  @claim_form_page.fixed_fees.toggle(label)
-  wait_for_ajax
-end
-
 Given(/^I check the fixed fee "([^"]*)"$/) do |label|
   @claim_form_page.fixed_fees.check(label)
   wait_for_ajax
@@ -199,13 +193,6 @@ Then(/^the fixed fee '(.*)' entry should be unchecked$/) do |label|
   checkbox = @claim_form_page.fixed_fees.checklist_item_for(label).checkbox
   expect(checkbox).to_not be_checked
 end
-
-# Then(/^the fixed fee '(.*)' entry should (not )?be marked for destruction$/) do |label, negate|
-#   id = label.downcase.gsub(/ /, '-')
-#   selector = "##{id} .destroy"
-#   destroy_node = find(selector, visible: false)
-#   expect(destroy_node.value).to eql (negate ? 'false' : 'true')
-# end
 
 Then(/^the fixed fee checkboxes should consist of \s*'([^']*)'$/) do |fee_type_descriptions|
   fee_type_descriptions = CSV.parse(fee_type_descriptions).flatten

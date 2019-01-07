@@ -53,7 +53,7 @@
     // It should be a part of the checkbox logic and located in a module
     // related to that.
     markForDestruction: function (context, bool) {
-      $(context).find('.destroy').val(bool);
+      $(context + '-input').siblings('.destroy').val(bool);
     },
 
     // clear the fixed fee

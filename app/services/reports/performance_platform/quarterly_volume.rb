@@ -23,6 +23,7 @@ module Reports
         }
         @pps.add_data_set(@start_date, data)
         @ready_to_send = true
+        @pps.data_sets
       rescue RuntimeError => e
         raise e
       rescue StandardError

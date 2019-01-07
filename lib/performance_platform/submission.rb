@@ -1,5 +1,7 @@
 module PerformancePlatform
   class Submission
+    attr_reader :data_sets
+
     def initialize(report)
       @values = { service: PerformancePlatform.configuration.service }
       @report_opts = report

@@ -32,8 +32,8 @@
       var self = this;
 
       $('#fixed-fees').on('change', '.fx-checkbox-hook', function(e) {
-        $el = $(e.target);
-        parentEl = '#' + $el.closest('.multiple-choice').data('target');
+        var $el = $(e.target);
+        var parentEl = '#' + $el.closest('.multiple-choice').data('target');
 
         if(!$el.is(':checked')){
           // TODO: if we are going to destroy the fee do we need to clear it?
@@ -57,7 +57,7 @@
 
     // clear the fixed fee
     clearFixedFee: function (el) {
-      $el = $(el);
+      var $el = $(el);
       $el.find('.quantity').val('');
       $el.find('.rate').val('');
       $el.find('.total').html('£0.00');

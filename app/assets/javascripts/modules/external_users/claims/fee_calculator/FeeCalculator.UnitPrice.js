@@ -34,11 +34,10 @@
 
       $('#fixed-fees').on('change', '.fx-checkbox-hook', function(e) {
         $el = $(e.target);
-
         parentEl = '#' + $el.closest('.multiple-choice').data('target');
 
         if(!$el.is(':checked')){
-          // TODO: if we are going to detroy the fee do we need to clear it?
+          // TODO: if we are going to destroy the fee do we need to clear it?
           self.clearFixedFee(parentEl);
           self.markForDestruction(parentEl, true);
         } else {

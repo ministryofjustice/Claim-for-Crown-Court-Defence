@@ -30,7 +30,6 @@
 
     fixedFeeTypeChange: function() {
       var self = this;
-      var parentId;
 
       $('#fixed-fees').on('change', '.fx-checkbox-hook', function(e) {
         $el = $(e.target);

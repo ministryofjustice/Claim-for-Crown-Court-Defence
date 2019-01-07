@@ -77,7 +77,7 @@ module ApplicationHelper
     end
   end
 
-  def sortable(column, title = nil)
+  def sortable(column, title = nil, options = {})
     title ||= column.titleize
     title = column == sort_column ? ("#{title} " + column_sort_icon) : title
 
@@ -88,7 +88,7 @@ module ApplicationHelper
     # Right now not sure what they are so using permit! is known to be a BAD workaround
     # non-sanitized request parameters
     query_params = params.except(:page).merge(sort: column, direction: direction, anchor: 'listanchor').permit!
-    html_options = { class: css_class, tabindex: 0 }
+    html_options = options.merge(class: css_class)
 
     link_to [title].join(' ').html_safe, query_params, html_options
   end

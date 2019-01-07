@@ -20,6 +20,25 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  layouts:
+    primary_navigation:
+      add_a_provider: Add a provider
+      allocation: Allocation list
+      api_documentation: API Documentation
+      archive: Archive list
+      error: There was an error
+      find_provider_by_email: Find provider by email
+      manage_provider: Manage provider
+      manage_providers: Manage providers
+      manage_users: Manage users
+      manage_your_settings: Manage your settings
+      manage_case_workers: Manage case workers
+      management_information: Manage information
+      your_claims: Your claims
+      re_allocation: Re-allocation
+      sidekiq_console: Sidekiq console
+      all_claims: All claims list
+      sub_navigation: Sub navigation
   pages:
     tandcs:
       page_title: Terms and conditions for claim for Crown court defence
@@ -580,8 +599,8 @@ en:
           form_error_hint: 'Check below for more detail'
           page_title_firm: Edit your firm's account
           page_title_chamber: Edit your chambers' account
-    all_claims: All claims
-    your_claims: Your claims
+    all_claims: All claims list
+    your_claims: Your claims list
     claim_heading: Claim for Crown Court fees
     agfs_claim_heading: Claim for advocate fees
     agfs_interim_claim_heading: Claim for advocate warrant fees
@@ -652,6 +671,8 @@ en:
         summary:
           header: Additional information
           not_available: No additional information has been provided
+          change: Change
+          change_link_label: Change additional information
       archived:
         archived_claims: 'Archived claims'
         archived_claim: 'archived claim'
@@ -939,6 +960,13 @@ en:
             defendant_reporder: Defendant %{index} representation order %{index}
 
       main_claims_list:
+        amount_assessed_sort_label: 'Sort by: Amount assessed'
+        last_submitted_at_sort_label: 'Sort by: Last submitted at date'
+        total_inc_vat_sort_label: 'Sort by: Claimed amount'
+        advocate_sort_label: 'Sort by: Provider name'
+        case_number_sort_label: 'Sort by: Case number'
+        state_sort_label: 'Sort by: Claim status'
+        case_number_label: "View %{claim_state} Claim, Case number: %{case_number}"
         show_count: 'Showing %{page_count} of %{total} claims'
         table_caption: 'Claims'
         advocate: *advocate
@@ -980,7 +1008,7 @@ en:
         caption: 'Fees: This section contains details of all fees that have been claimed.'
         summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
         change: Change
-        change_link_label: Change graduated fees
+        change_link_label: Change fees
       disbursements:
         summary:
           caption: 'Disbursements: This section contains details of all disbursements that have been claimed.'
@@ -1193,6 +1221,8 @@ en:
         total_authorised: 'Total authorised:'
         view_details_outstanding_html: 'View details <span class="visuallyhidden">for total outstanding</span>'
         view_details_authorised_html: 'View details <span class="visuallyhidden">for total authorised</span>'
+        outstanding_claim_details_label: View outstanding claims details
+        authorised_claim_details_label: View authorised claims details
       graduated_fees:
         fields:
           page_header: Graduated fee
@@ -1875,6 +1905,13 @@ en:
           name: Name
           location: Location
           actions: Manage details
+          confirmation: Are you sure?
+          delete_link_label: "Delete case worker: %{case_worker}"
+          edit_link_label: "Edit case worker: %{case_worker}"
+          caption: Case worker list
+          create_case_worker: Create a new case worker
+          page_heading: Manage case workers
+          summary: A list of case workers, ordered by surname. Edit and delete links in the last column.
           hint:
             search: for example case worker name
         form:

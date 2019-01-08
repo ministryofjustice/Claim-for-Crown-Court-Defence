@@ -16,7 +16,7 @@ RSpec.describe API::V2::PerformancePlatform::QuarterlyVolume do
   let(:value_3) { 3000 }
 
   def do_request
-    get '/api/performance_platform/quarterly_volume', params, format: :json
+    get '/api/performance_platform/quarterly_volume', params
   end
 
   describe 'GET quarterly_volume' do

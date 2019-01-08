@@ -1,6 +1,6 @@
 module Stats
   class QuarterlyVolumeGenerator
-    DEFAULT_FORMAT = 'json'.freeze
+    DEFAULT_FORMAT = 'csv'.freeze
 
     def self.call(options = {})
       new(options).call
@@ -14,7 +14,7 @@ module Stats
 
     def call
       output = generate_new_report
-      Stats::Result.new(output, format)
+      Stats::Result.new(output.as_json.to_s, format)
     end
 
     private

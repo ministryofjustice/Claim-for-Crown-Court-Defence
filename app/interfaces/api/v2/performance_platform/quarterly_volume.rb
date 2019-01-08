@@ -28,7 +28,7 @@ module API
                 month_3: params[:month_3_usd_value]
               }
               results = Stats::QuarterlyVolumeGenerator.call(options)
-              present JSON.parse(results.to_json)['content']
+              present JSON.parse(results.content.gsub(/=>/, ':').gsub(':nil,', ':null,'))
             end
           end
         end

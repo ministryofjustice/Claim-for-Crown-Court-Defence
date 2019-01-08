@@ -28,7 +28,7 @@ module Conversion
     def default_options
       {
         currencies: 'USD,GBP',
-        access_key: ENV['CURRENCY_API_KEY']
+        access_key: Rails.application.secrets.currency_api_key
       }
     end
   end

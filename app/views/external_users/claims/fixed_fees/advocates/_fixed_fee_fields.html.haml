@@ -3,10 +3,11 @@
 .multiple-choice{"data-target" => to_slug(f.object.description), "class" => "fx-hook-#{fee.fee_type_code.downcase}"}
 
   = f.check_box(:toggle, checked: !f.object.blank?, class: "fx-checkbox-hook", id: "#{to_slug(f.object.description)}-input", "aria-controls" => to_slug(f.object.description), :name => "graduated_fees_checklist_#{f.object.fee_type_code.downcase}")
-  = f.hidden_field :_destroy, class: 'destroy', value: f.object.blank?
 
   %label{:for => "#{to_slug(f.object.description)}-input"}
     = f.object.description
+
+  = f.hidden_field :_destroy, class: 'destroy', value: f.object.blank?
 
 -# Panel content
 .panel.panel-border-narrow.js-hidden{:id => to_slug(f.object.description)}

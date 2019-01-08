@@ -20,7 +20,7 @@ end
 
 RSpec.shared_examples 'returns LGFS claim type' do |type|
   subject { last_response.status }
-  let(:case_type_grtrl) { create(:case_type, :grtrl) }
+  let(:case_type_grtrl) { create(:case_type, :trial) }
 
   it "returns #{type.to_s.humanize}s" do
     claim = create_claim(type, :submitted, case_type: case_type_grtrl)
@@ -229,7 +229,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
 
       let(:bills) { JSON.parse(response)['bills'] }
       let(:claim) { create_claim(:litigator_claim, :submitted, :without_fees, case_type: case_type_grtrl) }
-      let(:case_type_grtrl) { create(:case_type, :grtrl) }
+      let(:case_type_grtrl) { create(:case_type, :trial) }
 
       it 'returns empty array if no bills found' do
         is_expected.to have_json_size(0).at_path("bills")

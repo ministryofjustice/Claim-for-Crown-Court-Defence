@@ -5,7 +5,6 @@ require_relative 'fee_case_numbers_section'
 
 class BasicFeeSection < SitePrism::Section
   section :basic_fee, FeeSection, ".basic-fee.fee-details"
-  # section :basic_fee_dates, FeeDatesSection, ".basic-fee.fee-details .fee-dates-row" # needed?
 
   element :number_of_case_uplift_input, ".fx-hook-noc"
   element :daily_attendance_fee_3_to_40_input, ".fx-hook-daf"

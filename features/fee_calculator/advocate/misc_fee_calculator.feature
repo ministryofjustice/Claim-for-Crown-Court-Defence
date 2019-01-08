@@ -29,13 +29,15 @@ Feature: Advocate completes misc fee page using calculator
 
     Then I click "Continue" in the claim form
 
-
     And I add a calculated miscellaneous fee 'Wasted preparation fee'
     And I add a calculated miscellaneous fee 'Hearings relating to disclosure (whole day)' with quantity of '2'
     And I add a calculated miscellaneous fee 'Hearings relating to disclosure (whole day uplift)' with quantity of '2'
-    Then the 'miscellaneous' fee 'Wasted preparation fee' should have a rate of '74.00' and a hint of 'Number of hours'
-    Then the 'miscellaneous' fee 'Hearings relating to disclosure (whole day)' should have a rate of '497.00' and a hint of 'Number of days'
-    Then the 'miscellaneous' fee 'Hearings relating to disclosure (whole day uplift)' should have a rate of '198.80' and a hint of 'Number of additional defendants'
+
+    Then the following fee details should exist:
+      | section | fee_description | rate | hint | help |
+      | miscellaneous | Wasted preparation fee | 74.00 | Number of hours | true |
+      | miscellaneous | Hearings relating to disclosure (whole day) | 497.00 | Number of days | true |
+      | miscellaneous | Hearings relating to disclosure (whole day uplift) | 198.80 | Number of additional defendants | true |
 
     And I eject the VCR cassette
 

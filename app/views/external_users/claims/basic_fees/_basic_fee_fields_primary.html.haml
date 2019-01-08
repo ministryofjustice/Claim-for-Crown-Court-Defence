@@ -22,6 +22,9 @@
         value: number_with_precision(f.object.rate, precision: 2),
         errors: @error_presenter
 
+    .js-fee-calculator-success
+      = f.hidden_field :price_calculated, value: f.object.price_calculated?
+
     .help-wrapper.form-group
       %details
         %summary

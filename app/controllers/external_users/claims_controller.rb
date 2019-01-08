@@ -347,6 +347,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :rate,
         :amount,
         :case_numbers,
+        :price_calculated,
         :_destroy,
         common_dates_attended_attributes
       ],

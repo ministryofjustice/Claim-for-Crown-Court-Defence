@@ -27,6 +27,22 @@ FactoryBot.define do
     roles                       %w{ agfs lgfs }
     uuid SecureRandom.uuid
 
+    trait :agfs_roles do
+      roles %w[agfs]
+    end
+
+    trait :lgfs_roles do
+      roles %w[lgfs]
+    end
+
+    trait :agfs_lgfs_roles do
+      roles %w[agfs lgfs]
+    end
+
+    trait :all_roles do
+      roles %w[agfs lgfs interim]
+    end
+
     trait :fixed_fee do
       name 'Fixed fee'
       is_fixed_fee true
@@ -58,8 +74,8 @@ FactoryBot.define do
       requires_maat_reference true
       requires_cracked_dates false
       requires_trial_dates false
-      roles %w[agfs lgfs]
       fee_type_code 'FXENP'
+      agfs_lgfs_roles
     end
 
     trait :contempt do
@@ -70,8 +86,8 @@ FactoryBot.define do
       requires_maat_reference true
       requires_cracked_dates false
       requires_trial_dates false
-      roles %w[agfs lgfs]
       fee_type_code 'FXCON'
+      agfs_lgfs_roles
     end
 
     trait :appeal_against_conviction do
@@ -82,33 +98,41 @@ FactoryBot.define do
       requires_maat_reference true
       requires_cracked_dates false
       requires_trial_dates false
-      roles %w[agfs lgfs]
       fee_type_code 'FXACV'
+      agfs_lgfs_roles
     end
 
     trait :guilty_plea do
       name 'Guilty plea'
       allow_pcmh_fee_type true
       requires_retrial_dates false
-      roles %w[agfs lgfs]
       fee_type_code 'GRGLT'
+      agfs_lgfs_roles
     end
 
     trait :trial do
       name 'Trial'
       fee_type_code 'GRTRL'
-      roles %w[agfs lgfs interim]
       allow_pcmh_fee_type true
       requires_trial_dates true
+      all_roles
+    end
+
+    trait :discontinuance do
+      name 'Discontinuane'
+      fee_type_code 'GRDIS'
+      requires_retrial_dates false
+      allow_pcmh_fee_type true
+      agfs_lgfs_roles
     end
 
     trait :retrial do
       name 'Retrial'
       fee_type_code 'GRRTR'
-      roles %w[agfs lgfs interim]
       allow_pcmh_fee_type true
       requires_trial_dates true
       requires_retrial_dates true
+      all_roles
     end
 
     trait :cracked_trial do
@@ -116,6 +140,7 @@ FactoryBot.define do
       fee_type_code 'GRRAK'
       requires_cracked_dates true
       allow_pcmh_fee_type true
+      agfs_lgfs_roles
     end
 
     trait :cracked_before_retrial do
@@ -123,6 +148,7 @@ FactoryBot.define do
       fee_type_code 'GRCBR'
       requires_cracked_dates true
       allow_pcmh_fee_type true
+      agfs_lgfs_roles
     end
 
     trait :requires_maat_reference do
@@ -135,23 +161,15 @@ FactoryBot.define do
 
     trait :hsts do
       name 'Hearing subsequent to sentence'
-      roles [ 'lgfs' ]
+      lgfs_roles
     end
 
     trait :cbr do
       name 'Breach of Crown Court order'
       fee_type_code 'FXCBR'
       requires_maat_reference false
-      roles %w[agfs lgfs]
-      is_fixed_fee  true
-    end
-
-    trait :grtrl do
-      name 'Trial'
-      fee_type_code 'GRTRL'
-      allow_pcmh_fee_type true
-      requires_trial_dates true
-      roles %w[agfs lgfs interim]
+      is_fixed_fee true
+      agfs_lgfs_roles
     end
   end
 end

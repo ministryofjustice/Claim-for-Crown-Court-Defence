@@ -20,7 +20,6 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
       let(:claim) do
         create(:draft_claim,
-          create_defendant_and_rep_order: false,
           create_defendant_and_rep_order_for_scheme_9: true,
           case_type: case_type, offence: offence
         )

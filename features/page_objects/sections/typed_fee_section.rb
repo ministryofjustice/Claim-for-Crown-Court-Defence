@@ -3,6 +3,7 @@ class TypedFeeSection < SitePrism::Section
   element :select_input, "input.tt-input", visible: true
   element :quantity, "input.quantity"
   element :quantity_hint, ".quantity_wrapper span.form-hint"
+  element :calc_help_text, ".fee-calc-help-wrapper"
   element :rate, "input.rate"
   element :amount, nil
   element :case_numbers, "input.fx-fee-case-numbers"

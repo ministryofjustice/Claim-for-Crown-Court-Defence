@@ -1,6 +1,7 @@
 @javascript
 Feature: Litigator partially fills out a draft interim claim, then later edits and submits it
 
+  @fee_calc_vcr
   Scenario: I create an interim claim, save it to draft and later complete it
 
     Given I am a signed in litigator

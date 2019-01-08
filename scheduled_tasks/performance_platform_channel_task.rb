@@ -1,6 +1,6 @@
 # https://github.com/ssoroka/scheduler_daemon for help
 class PerformancePlatformChannelTask < Scheduler::SchedulerTask
-  cron '40 3 * * 1,2' # 3:40 on Monday
+  cron '40 3 * * 1,3' # 3:40 on Monday
   class ReportNotActivated < RuntimeError; end
   def run
     raise ReportNotActivated unless ENV['PERF_PLAT_TBC_TOKEN']

@@ -1,0 +1,156 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://apilayer.net/api/historical?access_key=<CURRENCY_API_KEY>&currencies=USD,GBP&date=2018-01-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin16.7.0 x86_64) ruby/2.5.1p57
+      Host:
+      - apilayer.net
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Via:
+      - 1.1 WFRW001
+      Connection:
+      - Keep-Alive
+      Proxy-Connection:
+      - Keep-Alive
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Tue, 08 Jan 2019 10:38:18 GMT
+      Content-Type:
+      - application/json; Charset=UTF-8
+      Etag:
+      - a794c569a513379eeb3285e9656a8922
+      Server:
+      - nginx
+      X-Apilayer-Transaction-Id:
+      - 79de0b8b-af66-4d17-95ec-68d61f65a8a4
+      Access-Control-Allow-Methods:
+      - GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS
+      Last-Modified:
+      - Wed, 31 Jan 2018 23:59:59 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Request-Time:
+      - '0.030'
+    body:
+      encoding: UTF-8
+      string: '{"success":true,"terms":"https:\/\/currencylayer.com\/terms","privacy":"https:\/\/currencylayer.com\/privacy","historical":true,"date":"2018-01-31","timestamp":1517443199,"source":"USD","quotes":{"USDUSD":1,"USDGBP":0.70417}}'
+    http_version: 
+  recorded_at: Tue, 08 Jan 2019 10:38:18 GMT
+- request:
+    method: get
+    uri: http://apilayer.net/api/historical?access_key=<CURRENCY_API_KEY>&currencies=USD,GBP&date=2018-02-28
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin16.7.0 x86_64) ruby/2.5.1p57
+      Host:
+      - apilayer.net
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Via:
+      - 1.1 WFRW001
+      Connection:
+      - Keep-Alive
+      Proxy-Connection:
+      - Keep-Alive
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Tue, 08 Jan 2019 10:38:18 GMT
+      Content-Type:
+      - application/json; Charset=UTF-8
+      Etag:
+      - 33913f9f8e169e478a1a74da318ae631
+      Server:
+      - nginx
+      X-Apilayer-Transaction-Id:
+      - b0208c6b-27b9-4be5-86bf-e840ec2fddb6
+      Access-Control-Allow-Methods:
+      - GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS
+      Last-Modified:
+      - Wed, 28 Feb 2018 23:59:59 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Request-Time:
+      - '0.041'
+    body:
+      encoding: UTF-8
+      string: '{"success":true,"terms":"https:\/\/currencylayer.com\/terms","privacy":"https:\/\/currencylayer.com\/privacy","historical":true,"date":"2018-02-28","timestamp":1519862399,"source":"USD","quotes":{"USDUSD":1,"USDGBP":0.72721}}'
+    http_version: 
+  recorded_at: Tue, 08 Jan 2019 10:38:18 GMT
+- request:
+    method: get
+    uri: http://apilayer.net/api/historical?access_key=<CURRENCY_API_KEY>&currencies=USD,GBP&date=2018-03-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin16.7.0 x86_64) ruby/2.5.1p57
+      Host:
+      - apilayer.net
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Via:
+      - 1.1 WFRW001
+      Connection:
+      - Keep-Alive
+      Proxy-Connection:
+      - Keep-Alive
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Tue, 08 Jan 2019 10:38:18 GMT
+      Content-Type:
+      - application/json; Charset=UTF-8
+      Etag:
+      - e8436ff1cb03cb1cea1b2deaa12aaca2
+      Server:
+      - nginx
+      X-Apilayer-Transaction-Id:
+      - cffbabcc-ff3c-4467-a9c8-293760fe3ab3
+      Access-Control-Allow-Methods:
+      - GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS
+      Last-Modified:
+      - Sat, 31 Mar 2018 23:59:59 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Request-Time:
+      - '0.040'
+    body:
+      encoding: UTF-8
+      string: '{"success":true,"terms":"https:\/\/currencylayer.com\/terms","privacy":"https:\/\/currencylayer.com\/privacy","historical":true,"date":"2018-03-31","timestamp":1522540799,"source":"USD","quotes":{"USDUSD":1,"USDGBP":0.71347}}'
+    http_version: 
+  recorded_at: Tue, 08 Jan 2019 10:38:19 GMT
+recorded_with: VCR 3.0.3

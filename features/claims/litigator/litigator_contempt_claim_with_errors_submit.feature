@@ -66,6 +66,15 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     Then I click "Continue" in the claim form
 
     And I should be on the check your claim page
+    Then I should be on the check your claim page
+    And I should see the field 'Crown court' with value 'Blackfriars'
+    And I should see the field 'Case type' with value 'Contempt'
+    And I should see the field 'Date case concluded' with value '01/04/2018'
+    And I should not see 'First day of trial'
+    And I should not see 'Estimated trial length'
+    And I should not see 'Actual trial length'
+    And I should not see 'Trial concluded on'
+
     When I click "Continue"
     Then I should be on the certification page
     And I click Certify and submit claim

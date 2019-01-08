@@ -98,28 +98,27 @@
             %td
               = claim&.trial_cracked_at_third&.humanize
 
-        - unless claim.lgfs? && claim.interim?
-          - if claim&.requires_trial_dates?
-            %tr
-              %th{ scope: 'row', class: 'bold' }
-                = t("first_day_of_trial", scope: trial_detail_fields)
-              %td
-                = claim&.first_day_of_trial&.strftime(Settings.date_format)
-            %tr
-              %th{ scope: 'row', class: 'bold' }
-                = t("estimated_trial_length", scope: trial_detail_fields)
-              %td
-                = claim&.estimated_trial_length
-            %tr
-              %th{ scope: 'row', class: 'bold' }
-                = t("actual_trial_length", scope: trial_detail_fields)
-              %td
-                = claim&.actual_trial_length
-            %tr
-              %th{ scope: 'row', class: 'bold' }
-                = t("trial_concluded_at", scope: trial_detail_fields)
-              %td
-                = claim&.trial_concluded_at&.strftime(Settings.date_format)
+        - if claim&.requires_trial_dates?
+          %tr
+            %th{ scope: 'row', class: 'bold' }
+              = t("first_day_of_trial", scope: trial_detail_fields)
+            %td
+              = claim&.first_day_of_trial&.strftime(Settings.date_format)
+          %tr
+            %th{ scope: 'row', class: 'bold' }
+              = t("estimated_trial_length", scope: trial_detail_fields)
+            %td
+              = claim&.estimated_trial_length
+          %tr
+            %th{ scope: 'row', class: 'bold' }
+              = t("actual_trial_length", scope: trial_detail_fields)
+            %td
+              = claim&.actual_trial_length
+          %tr
+            %th{ scope: 'row', class: 'bold' }
+              = t("trial_concluded_at", scope: trial_detail_fields)
+            %td
+              = claim&.trial_concluded_at&.strftime(Settings.date_format)
 
           - if claim&.requires_retrial_dates?
             %tr

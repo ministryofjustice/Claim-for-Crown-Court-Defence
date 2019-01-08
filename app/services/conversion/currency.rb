@@ -6,7 +6,7 @@ module Conversion
 
     def initialize(date, value)
       @date = date
-      @value = value.delete(',')
+      @value = value&.delete(',')
     end
 
     def call

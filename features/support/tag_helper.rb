@@ -1,5 +1,5 @@
 Before do |scenario|
-  @scenario_tags = scenario.source_tag_names # instance variable accessible in test
+  @scenario_tags = scenario.source_tag_names
 end
 
 module TagHelper

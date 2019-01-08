@@ -26,13 +26,32 @@ When(/^I select the advocate offence class '(.*)'$/) do |offence_class|
   @claim_form_page.select_offence_class(offence_class)
 end
 
-When(/I enter (.*?)trial start and end dates$/) do |scheme_text|
-  strdate = scheme_date_for(scheme_text)
+When(/I enter (.*?)(retrial|trial) start and end dates(?: with (\d+) day interval)?$/i) do |scheme_text, trial_type, interval|
+  trial_start = Date.parse(scheme_date_for(scheme_text))
+  trial_end = trial_start.next_day(7)
+
   using_wait_time 3 do
-    @claim_form_page.trial_details.first_day_of_trial.set_date strdate
-    @claim_form_page.trial_details.trial_concluded_on.set_date Date.parse(strdate).next_day(7).strftime
+    @claim_form_page.trial_details.first_day_of_trial.set_date trial_start.strftime
+    @claim_form_page.trial_details.trial_concluded_on.set_date trial_end.strftime
     @claim_form_page.trial_details.estimated_trial_length.set 5
     @claim_form_page.trial_details.actual_trial_length.set 8
+
+    if trial_type.downcase.eql?('retrial')
+      retrial_start = trial_end.next_day(interval.to_i)
+      retrial_end = retrial_start.next_day(7)
+      @claim_form_page.retrial_details.retrial_started_at.set_date retrial_start.strftime
+      @claim_form_page.retrial_details.retrial_concluded_at.set_date retrial_end.strftime
+      @claim_form_page.retrial_details.retrial_estimated_length.set 5
+      @claim_form_page.retrial_details.retrial_actual_length.set 8
+    end
+  end
+end
+
+When(/I choose (not )?to apply retrial reduction$/) do |negate|
+  if negate
+    @claim_form_page.retrial_details.retrial_reduction_no.click
+  else
+    @claim_form_page.retrial_details.retrial_reduction_yes.click
   end
 end
 
@@ -48,6 +67,7 @@ Then(/^I select the first search result$/) do
   sleep Capybara.default_max_wait_time
   find(:xpath, '//*[@id="offence-list"]/div[3]/div').hover
   find(:xpath, '//*[@id="offence-list"]/div[3]/div/div[2]/a').click
+  wait_for_ajax
 end
 
 Then(/^the basic fee net amount should be populated with '(\d+\.\d+)'$/) do |total|
@@ -174,7 +194,19 @@ end
 Then(/^the '(.*?)' fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee_type, fee, rate, hint|
   fee = @claim_form_page.send("#{fee_type}_fees").find { |section| section.select_input.value.eql?(fee) }
   expect(fee.rate.value).to eql rate
-  expect(fee.quantity_hint.text).to eql hint if hint.present?
+  expect(fee.quantity_hint).to have_text(hint) if hint.present?
+  expect(fee.calc_help_text).to be_visible
+end
+
+# Alternative data table step for the above
+Then(/^the following fee details should exist:$/) do |table|
+  table.hashes.each do |row|
+    fee = @claim_form_page.send("#{row['section']}_fees").find { |section| section.select_input.value.eql?(row['fee_description']) }
+    expect(fee.rate.value).to eql row['rate']
+    expect(fee.quantity_hint).to have_text(row['hint']) if row.keys.include?('hint')
+    expect(fee.calc_help_text).to be_visible if row.keys.include?('help') && row['help'].eql?('true')
+    expect(fee.calc_help_text).to_not be_visible if row.keys.include?('help') && !row['help'].eql?('true')
+  end
 end
 
 Then(/^the last '(.*?)' fee rate should be populated with '(\d+\.\d+)'$/) do |fee_type, rate|
@@ -204,6 +236,12 @@ end
 Then(/^I should see the (.*) applicable basic fees$/) do |scheme_text|
   additional_fees = scheme_text.match?('scheme 10') ? scheme_10_additional_fees : scheme_9_additional_fees
   expect(@claim_form_page.basic_fees.checklist_labels).to match_array(additional_fees)
+end
+
+Then(/^the basic fee should have its price_calculated value set to true$/) do
+  claim = Claim::BaseClaim.find(@claim_form_page.claim_id)
+  basic_fee = claim.basic_fees.find_by(fee_type_id: Fee::BaseFeeType.find_by(unique_code: 'BABAF').id)
+  expect(basic_fee.price_calculated).to eql true
 end
 
 Then(/^all the fixed fees should have their price_calculated values set to true$/) do

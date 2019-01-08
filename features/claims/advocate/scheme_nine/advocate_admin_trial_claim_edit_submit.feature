@@ -63,7 +63,6 @@ Feature: Advocate admin submits a claim for a Trial case
     And I add an expense location
     And I add an expense date for scheme 9
 
-
     Then I click "Continue" in the claim form
     And I upload the document 'judicial_appointment_order.pdf'
     And I should see 10 evidence check boxes

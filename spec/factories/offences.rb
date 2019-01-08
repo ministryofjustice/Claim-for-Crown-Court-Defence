@@ -43,7 +43,7 @@ FactoryBot.define do
       offence_class nil
       offence_band
       after(:build) do |offence|
-        offence.fee_schemes << (FeeScheme.agfs.where(version: 10).first || build(:fee_scheme))
+        offence.fee_schemes << (FeeScheme.agfs.where(version: 10).first || build(:fee_scheme, :agfs_ten))
       end
     end
 

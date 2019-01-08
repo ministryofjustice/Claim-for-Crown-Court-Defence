@@ -33,8 +33,9 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I search for the scheme 10 offence 'Absconding from lawful custody'
 
     Given I insert the VCR cassette 'features/claims/advocate/scheme_ten/trial_claim_edit'
-    Then I select the first search result
-    And I should be in the 'Fees' form page
+
+    When I select the first search result
+    Then I should be in the 'Fees' form page
 
     And I should see the advocate categories 'Junior,Leading junior,QC'
     And I should see the scheme 10 applicable basic fees

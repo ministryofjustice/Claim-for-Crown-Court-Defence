@@ -7,7 +7,6 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
   # rep order dates) and to allow testing actual amounts "calculated".
   let(:claim) do
     create(:draft_claim,
-      create_defendant_and_rep_order: false,
       create_defendant_and_rep_order_for_scheme_9: true,
       case_type: case_type, offence: offence
     )
@@ -36,6 +35,10 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
   it { is_expected.to delegate_method(:lgfs?).to(:claim) }
   it { is_expected.to delegate_method(:interim?).to(:claim) }
   it { is_expected.to delegate_method(:agfs_reform?).to(:claim) }
+  it { is_expected.to delegate_method(:trial_concluded_at).to(:claim) }
+  it { is_expected.to delegate_method(:retrial_reduction).to(:claim) }
+  it { is_expected.to delegate_method(:retrial_started_at).to(:claim) }
+  it { is_expected.to delegate_method(:trial_cracked_at_third).to(:claim) }
   it { is_expected.to delegate_method(:case_type).to(:claim) }
   it { is_expected.to delegate_method(:offence).to(:claim) }
   it { is_expected.to delegate_method(:defendants).to(:claim) }

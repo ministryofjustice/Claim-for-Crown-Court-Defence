@@ -15,11 +15,20 @@ FactoryBot.define do
     transient do
       create_defendant_and_rep_order true
       create_defendant_and_rep_order_for_scheme_9 false
+      create_defendant_and_rep_order_for_scheme_10 false
+      create_defendant_and_rep_order_for_scheme_11 false
     end
 
     after(:create) do |claim, evaluator|
-      add_defendant_and_reporder(claim) if evaluator.create_defendant_and_rep_order
-      add_defendant_and_reporder(claim, DateTime.parse('2018-03-31')) if evaluator.create_defendant_and_rep_order_for_scheme_9
+      if evaluator.create_defendant_and_rep_order_for_scheme_11
+        add_defendant_and_reporder(claim, scheme_date_for('scheme 11'))
+      elsif evaluator.create_defendant_and_rep_order_for_scheme_10
+        add_defendant_and_reporder(claim, scheme_date_for('scheme 10'))
+      elsif evaluator.create_defendant_and_rep_order_for_scheme_9
+        add_defendant_and_reporder(claim, DateTime.parse('2018-03-31'))
+      elsif evaluator.create_defendant_and_rep_order
+        add_defendant_and_reporder(claim)
+      end
     end
   end
 

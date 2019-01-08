@@ -98,7 +98,6 @@ RSpec.describe Fee::BaseFeeType, type: :model do
       @if1 = create :interim_fee_type, description: 'interim fee type 1'
       @if2 = create :interim_fee_type, description: 'interim fee type 2'
       @tf1 = create :transfer_fee_type, description: 'transfer fee type 1'
-      @tf2 = create :transfer_fee_type, description: 'transfer fee type 2'
     end
 
     after(:all) { clean_database }
@@ -141,7 +140,7 @@ RSpec.describe Fee::BaseFeeType, type: :model do
       end
 
       it '.transfer - returns all transfer fee types' do
-        expect(described_class.transfer).to match_array( [ @tf1, @tf2 ] )
+        expect(described_class.transfer).to match_array( [ @tf1 ] )
       end
     end
   end

@@ -41,6 +41,7 @@ FactoryBot.define do
       description 'Basic Fee'
       code 'BAF'
       unique_code 'BABAF'
+      agfs_all_schemes
     end
 
     trait :dat do
@@ -330,6 +331,7 @@ FactoryBot.define do
     factory :transfer_fee_type, class: Fee::TransferFeeType do
       calculated false
       code 'TRANS'
+      unique_code 'TRANS'
       description 'Transfer'
       roles [ 'lgfs' ]
     end

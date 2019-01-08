@@ -23,34 +23,39 @@ Feature: Advocate completes fixed fee page using calculator
 
     Given I insert the VCR cassette 'features/fee_calculator/advocate/fixed_fee_calculator'
 
-    And I select an advocate category of 'Junior alone'
+    When I select an advocate category of 'Junior alone'
     And I add a fixed fee 'Appeals to the crown court against conviction'
     And I add a fixed fee 'Number of cases uplift' with case numbers
     And I add a fixed fee 'Number of defendants uplift'
     And I add a fixed fee 'Standard appearance fee'
 
-    Then the 'fixed' fee 'Appeals to the crown court against conviction' should have a rate of '130.00' and a hint of 'Number of days'
-    Then the 'fixed' fee 'Number of cases uplift' should have a rate of '26.00' and a hint of 'Number of additional cases'
-    Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '26.00' and a hint of 'Number of additional defendants'
-    Then the 'fixed' fee 'Standard appearance fee' should have a rate of '87.00' and a hint of 'Number of days'
+    Then the following fee details should exist:
+      | section | fee_description | rate | hint | help |
+      | fixed | Appeals to the crown court against conviction | 130.00 | Number of days | true |
+      | fixed | Number of cases uplift | 26.00 | Number of additional cases | true |
+      | fixed | Number of defendants uplift | 26.00 | Number of additional defendants | true |
+      | fixed | Standard appearance fee | 87.00 | Number of days | true |
 
-    And I select an advocate category of 'QC'
-    Then the 'fixed' fee 'Appeals to the crown court against conviction' should have a rate of '260.00'
-    Then the 'fixed' fee 'Number of cases uplift' should have a rate of '52.00'
-    Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '52.00'
-    Then the 'fixed' fee 'Standard appearance fee' should have a rate of '173.00'
+    When I select an advocate category of 'QC'
+    Then the following fee details should exist:
+      | section | fee_description | rate |
+      | fixed | Appeals to the crown court against conviction | 260.00 |
+      | fixed | Number of cases uplift | 52.00 |
+      | fixed | Number of defendants uplift | 52.00 |
+      | fixed | Standard appearance fee | 173.00 |
 
-    Then I amend the fixed fee 'Appeals to the crown court against conviction' to have a quantity of 2
-    Then the 'fixed' fee 'Appeals to the crown court against conviction' should have a rate of '260.00'
-    Then the 'fixed' fee 'Number of cases uplift' should have a rate of '104.00'
-    Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '104.00'
-    Then the 'fixed' fee 'Standard appearance fee' should have a rate of '173.00'
+    When I amend the fixed fee 'Appeals to the crown court against conviction' to have a quantity of 2
+    Then the following fee details should exist:
+      | section | fee_description | rate |
+      | fixed | Appeals to the crown court against conviction | 260.00 |
+      | fixed | Number of cases uplift | 104.00 |
+      | fixed | Number of defendants uplift | 104.00 |
+      | fixed | Standard appearance fee | 173.00 |
 
     And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
     And I am on the miscellaneous fees page
-
 
   @fee_calc_vcr
   Scenario: I create a fixed fee which has a fixed amount calculated value
@@ -79,18 +84,18 @@ Feature: Advocate completes fixed fee page using calculator
   And I add a fixed fee 'Number of cases uplift' with case numbers
   And I add a fixed fee 'Number of defendants uplift'
 
-  Then the 'fixed' fee 'Elected case not proceeded' should have a rate of '194.00'
-  Then the 'fixed' fee 'Number of cases uplift' should have a rate of '38.80'
-  Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '38.80'
+  Then the following fee details should exist:
+    | section | fee_description | rate | hint | help |
+    | fixed | Elected case not proceeded | 194.00 | Number of days | true |
+    | fixed | Number of cases uplift | 38.80 | Number of additional cases | true |
+    | fixed | Number of defendants uplift | 38.80 | Number of additional defendants | true |
 
-  And I select an advocate category of 'QC'
-  Then the 'fixed' fee 'Elected case not proceeded' should have a rate of '194.00'
-  Then the 'fixed' fee 'Number of cases uplift' should have a rate of '38.80'
-  Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '38.80'
-
-  Then I amend the fixed fee 'Elected case not proceeded' to have a quantity of 2
-  Then the 'fixed' fee 'Number of cases uplift' should have a rate of '38.80'
-  Then the 'fixed' fee 'Number of defendants uplift' should have a rate of '38.80'
+  When I select an advocate category of 'QC'
+  Then the following fee details should exist:
+    | section | fee_description | rate | hint | help |
+    | fixed | Elected case not proceeded | 194.00 | Number of days | true |
+    | fixed | Number of cases uplift | 38.80 | Number of additional cases | true |
+    | fixed | Number of defendants uplift | 38.80 | Number of additional defendants | true |
 
   And I eject the VCR cassette
 

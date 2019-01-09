@@ -27,9 +27,9 @@ module Stats
         result.merge!(calculate_gbp_for_(int))
       end
       totals = {
-        total_quarter_cost: @gbp_total,
+        total_quarter_cost: @gbp_total.to_f.round(2),
         claim_count: count_digital_claims,
-        cost_per_transaction_quarter: @gbp_total / count_digital_claims
+        cost_per_transaction_quarter: (@gbp_total / count_digital_claims).to_f.round(2)
       }
       result.merge!(totals)
       result

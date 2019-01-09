@@ -24,7 +24,7 @@ module PerformancePlatform
     def required_keys
       default_keys = %i[_timestamp service period]
       default_keys << :channel if @values.key?(:channel)
-      @values.reject { |key| !default_keys.include?(key.to_sym) }
+      @values.select { |key| default_keys.include?(key.to_sym) }
     end
   end
 end

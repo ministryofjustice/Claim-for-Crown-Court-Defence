@@ -119,6 +119,7 @@ Performance/UnneededSort:
 # Offense count: 2
 Security/Open:
   Exclude:
+    - 'app/interfaces/api/v2/performance_platform/quarterly_volume.rb'
     - 'app/controllers/case_workers/admin/management_information_controller.rb'
     - 'lib/id_sequence_resettable.rb'
 

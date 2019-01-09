@@ -74,6 +74,13 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     And I click Submit to LAA
     Then I should be on the check your claim page
+    And I should see the field 'Crown court' with value 'Blackfriars'
+    And I should see the field 'Case type' with value 'Contempt'
+    And I should see the field 'Date case concluded' with value '01/04/2016'
+    And I should not see 'First day of trial'
+    And I should not see 'Estimated trial length'
+    And I should not see 'Actual trial length'
+    And I should not see 'Trial concluded on'
 
     When I click "Continue"
     Then I should be on the certification page

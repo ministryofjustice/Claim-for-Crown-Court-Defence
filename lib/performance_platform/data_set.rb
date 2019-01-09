@@ -18,15 +18,13 @@ module PerformancePlatform
     end
 
     def required_values
-      required_keys_as_hash.values
-    end
-
-    def required_keys_as_hash
-      required_keys.to_h
+      required_keys.values
     end
 
     def required_keys
-      @values.except(:count)
+      default_keys = %i[_timestamp service period]
+      default_keys << :channel if @values.key?(:channel)
+      @values.reject { |key| !default_keys.include?(key.to_sym) }
     end
   end
 end

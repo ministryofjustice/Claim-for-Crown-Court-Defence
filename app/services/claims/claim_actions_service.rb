@@ -24,6 +24,7 @@ module Claims
 
     def save_claim!(validation)
       claim.class.transaction do
+        clear_destroyed_fixed_fees
         claim.save
         claim.force_validation = validation
 
@@ -37,6 +38,7 @@ module Claims
 
     def save_draft!(validation)
       claim.class.transaction do
+        clear_destroyed_fixed_fees
         claim.force_validation = validation
         rollback! unless claim.save
       end
@@ -62,6 +64,18 @@ module Claims
 
     def set_error_code(code)
       @result = ClaimActionsResult.new(self, success: false, error_code: code)
+    end
+
+    def clear_destroyed_fixed_fees
+      return unless can_parse_params
+      JSON.parse(params.to_json)['fixed_fees_attributes'].each do |array|
+        fixed_fee = array[1]
+        claim.fixed_fees.delete(fixed_fee['id']) if fixed_fee['id'].present? && fixed_fee['_destroy'].true?
+      end
+    end
+
+    def can_parse_params
+      params.present? && params['form_step'].eql?('fixed_fees') && claim.fixed_fees.present? && claim.agfs?
     end
   end
 end

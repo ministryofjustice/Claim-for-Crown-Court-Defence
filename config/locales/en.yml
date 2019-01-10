@@ -987,6 +987,8 @@ en:
         none: 'No messages'
         advocate_litigator: *advocate_litigator
         type: "Type"
+        view_messages_label: "View messages for case number %{case_number}"
+        view_with_messages: "View (%{message_count} new)"
       confirmation:
         page_title: Thank you for submitting your claim
         thanks: Thank you for submitting your claim
@@ -1940,9 +1942,18 @@ en:
         scheme_filters:
           scheme_types: 'Scheme types'
         allocation:
+          clear_filters: Clear filter
+          allocate: Allocate
+          allocation_queue: Allocation queue
+          defendents: Defedants
+          error_summary: 'This claim allocation has '
+          filter_claims: Filter claims
+          page_heading: Allocation
+          submitted: Submitted
+          total: Total
           court: 'Court'
           select: 'Select'
-          case_number: 'Case number'
+          case_number: 'Case #'
           allocated_to: 'Allocated To'
           type: 'Type'
           scheme: Scheme
@@ -1984,6 +1995,8 @@ en:
             To de-allocate claims, choose "Allocation pool".
             <br/><br/>
             To re-allocate claims to another case worker, choose "Case worker" and then select their name from the dropdown that appears below.
+          case_number_label: 'View claim %{case_number}'
+          select_all_label: Select all claims
           hint:
             search: case worker name or email
       management_information:
@@ -2037,6 +2050,18 @@ en:
         submission_date: Date submitted
         messages: Messages
         none: None
+        advocate_sort_label: 'Sort by: Provider name'
+        case_number_sort_label: 'Sort by: Case number'
+        case_type_sort_label: 'Sort by: Case type'
+        last_submitted_at_sort_label: 'Sort by: Last submitted at date'
+        state_sort_label: 'Sort by: Claim state'
+        total_inc_vat_sort_label: 'Sort by: Claimed amount'
+        type_sort_label: 'Sort by: Claim type'
+        number_of_claims: 'Number of claims: '
+        view: *view
+        view_messages_label: "View Messages for Case number %{case_number}"
+        view_with_messages: "View (%{message_count} new)"
+
       hint:
         search: for example case number, MAAT reference, defendant name, case worker name or email
       interim_claim_info:

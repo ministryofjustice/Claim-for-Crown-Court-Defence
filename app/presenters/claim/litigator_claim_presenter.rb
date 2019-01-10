@@ -56,4 +56,8 @@ class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
   def requires_interim_claim_info?
     true
   end
+
+  def requires_trial_dates?
+    false
+  end
 end

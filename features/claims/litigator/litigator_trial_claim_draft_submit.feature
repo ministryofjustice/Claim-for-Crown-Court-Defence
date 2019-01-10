@@ -93,6 +93,17 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     And I click Submit to LAA
     Then I should be on the check your claim page
+    And I should see the field 'Crown court' with value 'Blackfriars' in 'Case details'
+    And I should see the field 'Case type' with value 'Trial' in 'Case details'
+    And I should see the field 'Date case concluded' with value '01/04/2016' in 'Case details'
+    And I should see the field 'Type of fee' with value 'Trial' in 'Graduated fee'
+    And I should see the field 'First day of hearing' with value '01/01/2018' in 'Graduated fee'
+    And I should see the field 'Actual trial length' with value '1' in 'Graduated fee'
+    And I should see the field 'Total pages of evidence' with value '51' in 'Graduated fee'
+    And I should see the field 'Net amount' with value '£437.89' in 'Graduated fee'
+    And I should not see 'First day of trial'
+    And I should not see 'Estimated trial length'
+    And I should not see 'Trial concluded on'
 
     When I click "Continue"
     Then I should be on the certification page

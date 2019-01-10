@@ -158,6 +158,12 @@ Then(/^I should see "([^"]*)"$/) do |arg1|
   expect(page).to have_content(arg1)
 end
 
+And(/^I should see the field '(.*?)' with value '(.*?)' in '(.*?)'$/) do |field, value, section|
+  within(page.find(:css, 'div.form-section', text: section)) do
+    expect(page.find(:css, 'tr', text: field)).to have_content(value)
+  end
+end
+
 # Record modes can be: all, none, new_episodes or once. Default is 'none'.
 # When creating new tests that calls new endpoints, you will need to record the cassette.
 # NOTE: see the README section 'Recording new VCR cassettes' for assistance

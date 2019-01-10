@@ -28,7 +28,7 @@
 
     .grid-row.js-typeahead
       %h2.heading-medium
-        = "Allocate claims"
+        = t('.allocate_claims')
       .form-row.form-group.js-typeahead
         .form-col
           = label_tag :quantity_to_allocate, t('.no_of_claims')
@@ -56,7 +56,7 @@
 
     %h2.heading-medium
       = t('.allocation_queue')
-    %table#dtAllocation
+    %table#dtAllocation{summary: t('.table_summary')}
       %thead
         %tr
           %th

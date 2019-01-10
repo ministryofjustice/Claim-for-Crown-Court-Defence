@@ -1936,12 +1936,25 @@ en:
         show:
           page_title: View %{caseworker}'s details
       allocations:
+        filter_value_bands:
+          all: All
+          value: 'Value :'
+          tier1: less than £25,000
+          tier2: £25,000 - £100,000
+          tier3: £100,000 - £150,000
+          tier4: more than £150,000
         new:
           page_title_allocation: View the allocation queue
           page_title_reallocation: View the re-allocation queue
         scheme_filters:
-          scheme_types: 'Scheme types'
+          scheme_types: Scheme types
+          agfs: AGFS
+          lgfs: LGFS
+          choose_your_scheme: Choose your scheme
+          submit: Submit
         allocation:
+          allocate_claims: Allocate claims
+          table_summary: List of allocated claims
           clear_filters: Clear filter
           allocate: Allocate
           allocation_queue: Allocation queue
@@ -1964,7 +1977,11 @@ en:
           no_of_claims: 'No. of claims'
         orig_scheme_filters:
           scheme_types: 'Scheme types'
+          filter: Filter
+          filter_scheme_label: Filter by scheme %{scheme}
         re_allocation:
+          allocation_pool_label: Allocate to allocation pool
+          case_worker_label: Allocate to a caseworker
           select: 'Select'
           court: 'Court'
           type: 'Type'
@@ -1999,6 +2016,26 @@ en:
           select_all_label: Select all claims
           hint:
             search: case worker name or email
+        filter_status:
+          all: All
+          answer_false: 'False'
+          answer_true: 'True'
+          claims_status: Claim status
+        filter_tasks:
+          all: All
+          awaiting_written_reasons: Awaiting written reasons
+          cracked: Cracked
+          disk_evidence: Disk evidence
+          fixed_fee: Fixed fee
+          graduated_fees: Graduated fees
+          injection_errors: Injection errors
+          interim_disbursements: Interim disbursements
+          interim_fees: Interim fees
+          redetermination: Redetermination
+          risk_based_bills: Risk based bills
+          case_types: Case types
+          trial: trial
+          warrants: warrants
       management_information:
         validate_report_type:
           invalid_report_type: &invalid_report_type The requested report type is not supported

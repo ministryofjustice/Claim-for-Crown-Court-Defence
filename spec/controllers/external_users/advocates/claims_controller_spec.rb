@@ -386,6 +386,22 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
       it 'renders the template' do
         expect(response).to render_template(:edit)
       end
+
+      context 'when the claim has fixed fees' do
+        let(:claim) { create(:advocate_claim, :with_fixed_fee_case, external_user: advocate) }
+
+        before do
+          seed_case_types
+          seed_fee_types
+
+          edit_request.call
+        end
+
+        it 'calls the build_fixed_fees method' do
+          expect(assigns(:claim).fixed_fees).to be_a ActiveRecord::Associations::CollectionProxy
+          expect(assigns(:claim).fixed_fees.length).to eql 5
+        end
+      end
     end
 
     context 'uneditable claim' do

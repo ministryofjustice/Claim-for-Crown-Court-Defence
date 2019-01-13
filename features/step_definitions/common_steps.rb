@@ -172,7 +172,8 @@ end
 #
 And(/^I insert the VCR cassette '(.*?)'(?: and record '(.*?)')?$/) do |name, record|
   # Caching.clear if record
-  record_mode = (record || 'once').to_sym
+  record_mode = ENV['FEE_CALC_VCR_MODE']&.to_sym if fee_calc_vcr_tag?
+  record_mode ||= (record || 'once').to_sym
   VCR.eject_cassette if VCR.current_cassette
   VCR.insert_cassette(name, record: record_mode)
 end

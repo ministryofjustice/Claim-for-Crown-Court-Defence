@@ -135,8 +135,18 @@ Changes to the calling of the LAA fee calculator API will most likely require yo
 It is a good idea to do this when changes occur to the LAA fee calculator API too.
 
 ##### Cucumber
-Some cucumber features require VCR cassettes to stub calls to the LAA fee caclculator API. These features require and are tagged with a `@fee_calc_vcr` tag. To re-record the cassettes delete the existing ones and run the feature again. See
+Some cucumber features require VCR cassettes to stub calls to the LAA fee calculator API. These features require and are tagged with a `@fee_calc_vcr` tag. To re-record the cassettes delete the existing ones and run the feature again. See
 [Create a new VCR cassette](#create-new-vcr-cassette).
+
+For convenience the VCR recording mode for all cucumber scenarios tagged with `@fee_calc_vcr` can be changed by supplying an enviroment variable from the commandline.
+
+```bash
+# delete a bunch of fee calculator features
+$ rm -rf vcr/cassettes/features/fee_calculator/
+
+# run applicable features and set recording mode to 'new_episodes' if the scenario is tagged with @fee_calc_vcr
+$ FEE_CALC_VCR_MODE=new_episodes cucumber features/fee_calculator/
+```
 
 #### Internal API
 Some cucumber feature tests use VCR to record/store mock results the internal API calls (calling our own API) for certain endpoints (case worker claims in particular).

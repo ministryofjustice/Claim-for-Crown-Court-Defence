@@ -18,7 +18,8 @@ class ExternalUsers::Advocates::ClaimsController < ExternalUsers::ClaimsControll
   end
 
   def build_fixed_fees
-    existing_fixed_fee_fee_type_ids = @claim.fixed_fees.map(&:fee_type_id)
+    # NOTE: the `reload` is !important. prevents duplicate fees being created during error flows
+    existing_fixed_fee_fee_type_ids = @claim.fixed_fees.reload.map(&:fee_type_id)
 
     @claim.eligible_fixed_fee_types.each do |eligible_fee_type|
       next if existing_fixed_fee_fee_type_ids.include?(eligible_fee_type.id)

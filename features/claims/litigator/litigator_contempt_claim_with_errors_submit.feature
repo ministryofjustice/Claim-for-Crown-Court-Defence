@@ -55,8 +55,8 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     Then I click "Continue" in the claim form
 
     Then I should see the error 'Expense 1 date invalid date'
-    And I should see in the sidebar total '£232.98'
-    Then I should see in the sidebar vat total '£0.00'
+    Then I should see in the sidebar total '£347.73'
+    Then I should see in the sidebar vat total '£15.50'
 
     And I enter the date for the first expense '2016-04-02'
     Then I click "Continue" in the claim form

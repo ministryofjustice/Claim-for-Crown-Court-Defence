@@ -30,9 +30,7 @@ module Reports
       private
 
       def count_digital_claims
-        first = @start_date.beginning_of_day.to_s(:db)
-        last = (@start_date + 6.days).end_of_day.to_s(:db)
-        Claim::BaseClaim.where(original_submission_date: first..last).count
+        @count_digital_claims ||= Claims::Count.week(@start_date)
       end
     end
   end

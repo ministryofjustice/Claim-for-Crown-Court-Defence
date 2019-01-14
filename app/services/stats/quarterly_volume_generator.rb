@@ -63,9 +63,7 @@ module Stats
     end
 
     def count_digital_claims
-      first = @start_date.beginning_of_day.to_s(:db)
-      last = @start_date.end_of_quarter.end_of_day.to_s(:db)
-      @count_digital_claims ||= Claim::BaseClaim.where(original_submission_date: first..last).count
+      @count_digital_claims ||= Claims::Count.quarter(start_date)
     end
   end
 end

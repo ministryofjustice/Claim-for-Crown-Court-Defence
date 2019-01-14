@@ -1,6 +1,8 @@
 class ErrorPresenter
   SUBMODEL_REGEX = /^(\S+?)(_(\d+)_)(\S+)$/.freeze
 
+  MESSAGES = Struct.new(:long, :short, :api)
+
   def initialize(claim, message_file = nil)
     @claim = claim
     @errors = claim.errors
@@ -34,24 +36,25 @@ class ErrorPresenter
       messages = populate_messages(emt, error, fieldname)
       next if @error_details[fieldname] && @error_details[fieldname][0].long_message.eql?(messages[1])
       @error_details[fieldname] = ErrorDetail.new(fieldname,
-                                                  messages[1],
-                                                  messages[2],
-                                                  messages[0],
+                                                  messages.long,
+                                                  messages.short,
+                                                  messages.api,
                                                   generate_sequence(fieldname))
     end
   end
 
   def populate_messages(emt, error, fieldname)
+    message = MESSAGES.new
     if emt.translation_found?
-      long_message = emt.long_message
-      short_message = emt.short_message
-      api_message = emt.api_message
+      message.long = emt.long_message
+      message.short = emt.short_message
+      message.api = emt.api_message
     else
-      long_message = generate_standard_long_message(fieldname, error)
-      short_message = generate_standard_short_message(fieldname, error)
-      api_message = generate_standard_api_message(fieldname, error)
+      message.long = generate_standard_long_message(fieldname, error)
+      message.short = generate_standard_short_message(fieldname, error)
+      message.api = generate_standard_api_message(fieldname, error)
     end
-    [api_message, long_message, short_message]
+    message
   end
 
   def last_parent_attribute(_translations, key)

@@ -81,7 +81,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
 
         it 'displays expected table headers' do
           within '.fees-summary' do |summary|
-            expect(summary).to include_table_headers('Fee category', 'Fee type', 'PPE', 'Amount')
+            expect(summary).to include_table_headers('Fee category', 'Fee type', 'PPE',  'Actual trial length', 'Amount')
           end
         end
       end
@@ -92,6 +92,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
         it 'displays expected table headers' do
           within '.fees-summary' do |summary|
             expect(summary).to include_table_headers('Fee category', 'Fee type', 'Quantity', 'Rate', 'Amount')
+            expect(summary).to_not include_table_headers('Actual trial length')
           end
         end
       end
@@ -102,6 +103,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
         it 'displays expected table headers' do
           within '.fees-summary' do |summary|
             expect(summary).to include_table_headers('Fee category', 'Fee type', 'Amount')
+            expect(summary).to_not include_table_headers('Actual trial length')
           end
         end
       end
@@ -111,7 +113,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
 
         it 'displays expected table headers' do
           within '.fees-summary' do |summary|
-            expect(summary).to include_table_headers('Fee category', 'Fee type', 'Days', 'PPE', 'Amount')
+            expect(summary).to include_table_headers('Fee category', 'Fee type', 'Days', 'PPE', 'Actual trial length', 'Amount')
           end
         end
       end

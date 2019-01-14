@@ -24,6 +24,9 @@
             - if claim.fixed_fee_case?
               %th.numeric{ scope: 'col' }
                 = t('.rate')
+            - unless claim.interim? || claim.fixed_fee_case?
+              %th.numeric{ scope: 'col' }
+                = t('.actual_trial_length')
             %th.numeric{ scope: 'col' }
               = t('.amount')
         %tbody
@@ -55,6 +58,9 @@
               - if claim.fixed_fee_case?
                 %td.numeric
                   = fee.rate
+              - unless claim.interim? || claim.fixed_fee_case?
+                %td.numeric
+                  = claim&.actual_trial_length
               %td.numeric
                 = fee.amount
 

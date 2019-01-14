@@ -1715,6 +1715,7 @@ en:
       distance: Distance
       fee_category: Fee category
       fee_type: Fee type
+      actual_trial_length: Actual trial length
       fee_subtype: Fee subtype
       case_numbers: *case_numbers
       days_claimed: Days

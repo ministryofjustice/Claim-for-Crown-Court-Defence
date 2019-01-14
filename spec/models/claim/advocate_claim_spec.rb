@@ -1074,7 +1074,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'when the claim has been created as `Appeal against sentence`' do
-      #with_fixed_fee_case
       subject(:claim) { create(:draft_claim, case_type: create(:case_type, :appeal_against_sentence), fixed_fees: fixed_fees) }
       let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, :with_date_attended, rate: 9.99)] }
 
@@ -1091,14 +1090,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
     end
 
-    context 'when the claim is for a case type with fixed fees and is changed to graduated fees' do
-      let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, :with_date_attended, rate: 9.99)] }
-
+    context 'when the claim is for a case type with fixed fees and is changed to one with graduated fees' do
       subject(:claim) { create(:draft_claim, :with_fixed_fee_case, fixed_fees: fixed_fees, misc_fees: misc_fees) }
+      let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, :with_date_attended, rate: 9.99)] }
 
       it 'removes the fixed fees' do
         expect {
-          claim.case_type = build(:case_type, :graduated_fee)
+          claim.case_type = build(:case_type, :trial)
           claim.basic_fees.build attributes_for(:basic_fee, :baf_fee, rate: 8.00)
           claim.save
         }.to change {

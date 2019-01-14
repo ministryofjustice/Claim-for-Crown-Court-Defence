@@ -28,15 +28,7 @@ FactoryBot.define do
     uuid SecureRandom.uuid
 
     trait :fixed_fee do
-      name 'Appeal against sentence'
-      is_fixed_fee true
-      allow_pcmh_fee_type false
-      requires_retrial_dates false
-      requires_maat_reference true
-      requires_cracked_dates false
-      requires_trial_dates false
-      roles %w[agfs lgfs]
-      fee_type_code 'FXASE'
+      appeal_against_sentence
     end
 
     trait :graduated_fee do

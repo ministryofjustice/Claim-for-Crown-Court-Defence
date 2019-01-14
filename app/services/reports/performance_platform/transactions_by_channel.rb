@@ -4,11 +4,11 @@ module Reports
       attr_reader :ready_to_send
 
       def initialize(start_date)
-        raise 'Report must start on a Monday' unless start_date.monday?
-        raise 'Report cannot be in the current week' unless start_date.cweek != Date.today.cweek
-        raise 'Report cannot be in the future' unless start_date < Date.today
-        @pps = ::PerformancePlatform.report('transactions_by_channel')
         @start_date = start_date
+        raise 'Report must start on a Monday' unless @start_date.monday?
+        raise 'Report cannot be in the current week' if @start_date.cweek.eql?(Date.today.cweek)
+        raise 'Report cannot be in the future' if @start_date >= Date.today
+        @pps = ::PerformancePlatform.report('transactions_by_channel')
         @ready_to_send = false
       end
 

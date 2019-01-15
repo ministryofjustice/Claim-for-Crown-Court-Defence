@@ -96,6 +96,7 @@ en:
         middle_name: &middle_name 'Middle name'
         last_name: &last_name 'Last name'
       fees:
+        actual_trial_length: &actual_trial_length Actual trial length
         case_numbers: &case_numbers 'Additional case numbers'
     not_provided: &not_provided 'Not provided'
     not_applicable: &not_applicable 'n/a'
@@ -803,7 +804,7 @@ en:
           transfer_court: Court
           transfer_court_hint: For example Cardiff
         trial_detail_fields:
-          actual_trial_length: 'Actual trial length'
+          actual_trial_length: *actual_trial_length
           actual_trial_length_hint: 'Number of days'
           estimated_trial_length: 'Estimated trial length'
           estimated_trial_length_hint: 'Number of days'
@@ -1145,7 +1146,7 @@ en:
         fields:
           page_header: Graduated fee
           page_hint: *fees_vat_prompt
-          actual_trial_length: Actual trial length
+          actual_trial_length: *actual_trial_length
           actual_trial_length_hint: Number of days
           rate: *rate
           quantity: *ppe_quantity
@@ -1556,7 +1557,7 @@ en:
         dates_attended: Dates attended
         retrial_started_at: Retrial started at
         first_day_of_trial: First day of trial
-      actual_trial_length: Actual trial length
+      actual_trial_length: *actual_trial_length
       mileage_rate: Cost per mile
       expense: Expense
       expenses:
@@ -1715,7 +1716,7 @@ en:
       distance: Distance
       fee_category: Fee category
       fee_type: Fee type
-      actual_trial_length: Actual trial length
+      actual_trial_length: *actual_trial_length
       fee_subtype: Fee subtype
       case_numbers: *case_numbers
       days_claimed: Days

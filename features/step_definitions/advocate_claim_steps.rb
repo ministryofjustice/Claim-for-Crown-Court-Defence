@@ -134,11 +134,6 @@ Then(/^I add a '(.*?)' fixed fee with case numbers$/) do |name|
   wait_for_ajax
 end
 
-When(/^I set the last fixed fee value to '(.*?)'$/) do |value|
-  @claim_form_page.fixed_fees.last.rate.set value
-  wait_for_ajax
-end
-
 When(/^I set the '(.*?)' fixed fee value to '(.*?)'$/) do |name, value|
   @claim_form_page.fixed_fees.fee_block_for(name).rate.set value
   wait_for_ajax

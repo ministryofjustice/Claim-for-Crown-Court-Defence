@@ -61,9 +61,6 @@ class ClaimFormPage < SitePrism::Page
   section :basic_fees, BasicFeeSection, "div#basic-fees"
   section :fixed_fees, FixedFeeSection, "div#fixed-fees"
 
-  # TODO :remove
-  # element :add_another_fixed_fee, "div#fixed-fees > .form-group > a.add_fields"
-
   sections :miscellaneous_fees, TypedFeeSection, "div#misc-fees .misc-fee-group"
   element :add_another_miscellaneous_fee, "div#misc-fees > .form-group > a.add_fields"
 

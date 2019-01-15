@@ -12,10 +12,6 @@ class FixedFeeSection < SitePrism::Section
   section :standard_appearance_fee, FeeSection, "#standard-appearance-fee > .fixed-fee-group"
   section :elected_case_not_proceeded, FeeSection, "#elected-case-not-proceeded > .fixed-fee-group"
 
- #  sections :group, '.fixed-fee-group' do
- #   element :destroy, '.destroy:hidden'
- # end
-
   def checklist_labels
     checklist.map { |item| item.label.text if item.has_label? }
   end

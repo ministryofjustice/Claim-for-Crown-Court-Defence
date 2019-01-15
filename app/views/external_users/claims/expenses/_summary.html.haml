@@ -2,7 +2,7 @@
   %h3.heading-medium
     = t('external_users.claims.expenses.summary.header')
     - if local_assigns[:editable]
-      = link_to 'Change', edit_polymorphic_path(claim, step: :travel_expenses, referrer: :summary), class: 'link-change'
+      = link_to t('.change'), edit_polymorphic_path(claim, step: :travel_expenses, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
   - if claim.expenses.empty?
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
@@ -18,67 +18,67 @@
       %tbody
         - present_collection(claim.expenses).each.with_index(1) do |expense, index|
           %tr
-            %th{ scope: 'row', class: 'bold' }
-              = "#{t('shared.summary.expense')} #{index}"
+            %th{ class: 'bold' }
+              = t('shared.summary.expense', index: index)
             %td
               %table.nested-summary
                 %tbody
                   %tr
-                    %th{ scope: 'row', class: 'bold' }
+                    %th{ class: 'bold' }
                       = t('shared.summary.expense_type')
                     %td
                       = expense.name
                   %tr
-                    %th{ scope: 'row', class: 'bold' }
+                    %th{ class: 'bold' }
                       = t('shared.summary.reason')
                     %td
                       = expense.reason
                   - if expense.location.present?
                     %tr
-                      %th{ scope: 'row', class: 'bold' }
+                      %th{ class: 'bold' }
                         = t('shared.summary.location')
                       %td
                         = expense.location
                   - if expense.distance.present?
                     %tr
-                      %th{ scope: 'row', class: 'bold' }
+                      %th{ class: 'bold' }
                         = t('shared.summary.distance')
                       %td
                         = expense.distance
                   - if expense.date.present?
                     %tr
-                      %th{ scope: 'row', class: 'bold' }
+                      %th{ class: 'bold' }
                         = t('shared.summary.date_of_expense')
                       %td
                         = expense.pretty_date
                     %tr
-                      %th{ scope: 'row', class: 'bold' }
+                      %th{ class: 'bold' }
                         = t('shared.summary.mileage_rate')
                       %td
                         = expense.mileage_rate
                   - if expense.quantity.present?
                     %tr
-                      %th{ scope: 'row', class: 'bold' }
+                      %th{ class: 'bold' }
                         = t('shared.summary.quantity')
                       %td
                         = expense.quantity
                   - if expense.hours.present?
                     %tr
-                      %th{ scope: 'row', class: 'bold' }
+                      %th{ class: 'bold' }
                         = t('shared.summary.quantity_hours')
                       %td
                         = expense.hours
 
                   - if expense.amount.present?
                     %tr
-                      %th{ scope: 'row', class: 'bold' }
+                      %th{ class: 'bold' }
                         = t('shared.summary.amount')
                       %td
                         = expense.amount
 
                   - if claim.lgfs?
                     %tr
-                      %th{ scope: 'row', class: 'bold' }
+                      %th{ class: 'bold' }
                         = t('shared.summary.vat_amount')
                       %td
                         = expense.vat_amount
@@ -90,7 +90,7 @@
           = t('.caption')
       %tbody
         %tr
-          %th{ scope: 'row', class: 'bold', valign: "top" }
+          %th{ class: 'bold', valign: "top" }
             = t('.additional_information')
           %td
             = @claim.travel_expense_additional_information

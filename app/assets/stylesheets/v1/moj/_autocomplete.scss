@@ -1,5 +1,4 @@
 .fx-result{
-  border: red 1px solid;
   padding: 0 $gutter;
   margin: $gutter 0;
 }
@@ -22,12 +21,14 @@
   overflow-y: scroll;
 }
 
-
-
-
 @media (min-width: 641px){
   .tt-menu {
     width: 50%;
+  }
+  .controller-allocations{
+    .tt-menu {
+      width: 100%;
+    }
   }
 
   .js-block, #offence{

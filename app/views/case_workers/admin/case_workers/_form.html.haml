@@ -2,7 +2,7 @@
   = f.fields_for :user do |user_fields|
     %fieldset
       %legend.heading-medium
-        = 'Case worker details'
+        = t('.case_worker_details')
 
       = user_fields.adp_text_field :first_name, label: t('.first_name')
 
@@ -10,12 +10,14 @@
 
       = user_fields.adp_text_field :email, label: t('.email')
 
+      = user_fields.adp_text_field :last_name, label: t('.last_name'), errors: @error_presenter
+
       - if @case_worker.new_record?
         = user_fields.adp_text_field :email_confirmation, label: t('.email_confirmation')
 
       %fieldset.inline
         %legend
-          = 'Location'
+          = t('.location')
         .form-group
           = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
             .multiple-choice
@@ -24,11 +26,11 @@
 
       %fieldset.inline
         %legend
-          = 'Roles'
+          = t('.roles')
         .form-group
           = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
             .multiple-choice
               = b.check_box
               = b.label { b.value.humanize }
 
-    = f.submit 'Save', class: "button"
+    = f.submit t('.save'), class: "button"

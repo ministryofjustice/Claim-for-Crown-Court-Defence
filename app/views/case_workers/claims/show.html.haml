@@ -2,7 +2,7 @@
   = t('.page_title')
 
 - present(@claim) do |claim|
-  = render 'errors/error_summary', ep: @claim, error_summary: 'This claim has '
+  = render 'errors/error_summary', ep: @claim, error_summary: t('.error_summary')
   = render 'errors/injection_error_summary', ep: claim
   = render 'warnings/conference_and_views_summary', claim: claim
 

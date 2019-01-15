@@ -1,14 +1,16 @@
 #allocation-filters.form-group
   %fieldset.inline
     %legend.visuallyhidden
-      Choose your Scheme
+      = t('.choose_your_scheme')
 
     .multiple-choice
-      %input#scheme_agfs{:name => "scheme", :type => "radio", :value => "agfs", :checked => "checked"}/
-      %label.form-label{:for => "scheme_agfs"} AGFS
+      %input#scheme_agfs{:name => 'scheme', :type => 'radio', :value => 'agfs', :checked => 'checked'}/
+      %label.form-label{:for => 'scheme_agfs'}
+        = t('.agfs')
     .multiple-choice
-      %input#scheme_lgfs{:name => "scheme", :type => "radio", :value => "lgfs"}/
-      %label.form-label{:for => "scheme_lgfs"} LGFS
+      %input#scheme_lgfs{:name => 'scheme', :type => 'radio', :value => 'lgfs'}/
+      %label.form-label{:for => 'scheme_lgfs'}
+        = t('.lgfs')
 
     %noscript
-      = submit_tag "Submit"
+      = submit_tag t('.submit')

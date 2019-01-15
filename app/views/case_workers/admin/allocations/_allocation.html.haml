@@ -1,4 +1,4 @@
-= render partial: 'errors/error_summary', locals:{ ep: @allocation, error_summary: 'This claim allocation has '}
+= render partial: 'errors/error_summary', locals:{ ep: @allocation, error_summary: t('.error_summary')}
 
 
 .notice-summary{role: "group", "aria-labelledby": "notice-summary-heading", tabindex:"-1", style: "display: none;"}
@@ -11,7 +11,7 @@
 
 .grid-row#api-key{:data => {api_key: current_user.api_key}}
   .column-two-thirds
-    = render partial: 'layouts/header', locals: {page_heading: 'Allocation'}
+    = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
   .column-one-third.scheme-filters
     -# FORM
     -# AGFS / LGFS Radios
@@ -28,7 +28,7 @@
 
     .grid-row.js-typeahead
       %h2.heading-medium
-        = "Allocate claims"
+        = t('.allocate_claims')
       .form-row.form-group.js-typeahead
         .form-col
           = label_tag :quantity_to_allocate, t('.no_of_claims')
@@ -38,11 +38,11 @@
           = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
 
         .form-col{ style: 'padding: 26px 0 0' }
-          = f.submit 'Allocate', class: 'button allocation-submit'
+          = f.submit t('.allocate'), class: 'button allocation-submit'
 
 
     %h2.heading-medium
-      = "Filter claims"
+      = t('.filter_claims')
     .form-row.form-group
       .form-col.ui-filter
         = render partial: 'filter_tasks'
@@ -52,24 +52,24 @@
 
       .form-col{ style: 'padding: 21px 0 0' }
         %button.clear-filters.button.button-secondary{:type => 'button'}
-          Clear filters
+          = t('.clear_filters')
 
     %h2.heading-medium
-      = "Allocation queue"
-    %table#dtAllocation
+      = t('.allocation_queue')
+    %table#dtAllocation{summary: t('.table_summary')}
       %thead
         %tr
           %th
 
           %th
-            = "Case #"
+            = t('.case_number')
           %th
-            = "Court"
+            = t('.court')
           %th
-            = "Defendents"
+            = t('.defendents')
           %th
-            = "Type"
+            = t('.type')
           %th
-            = "Submitted"
+            = t('.submitted')
           %th
-            = "Total"
+            = t('.total')

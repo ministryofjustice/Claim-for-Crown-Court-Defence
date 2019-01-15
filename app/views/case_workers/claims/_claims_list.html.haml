@@ -4,49 +4,49 @@
       %span.table-caption
         = params[:action] == 'archived' ? t('case_workers.table_headings.archived_claims') : t('case_workers.table_headings.your_claims')
       %span.claim-count
-        = "Number of claims: "
+        = t('.number_of_claims')
         = claims.total_count
     %thead
       %tr
         %th{scope:'col'}
-          = sortable 'type', t('.type')
+          = sortable 'type', t('.type'), 'aria-label': t('.type_sort_label'), tabindex: 0
         %th{scope: 'col'}
-          = sortable 'case_number', t('.case_number')
+          = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), tabindex: 0
         %th{scope: 'col'}
-          = sortable 'advocate', t('.advocate_litigator')
+          = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), tabindex: 0
         %th{scope: 'col'}
           = t(".defendants")
-        %th.numeric{ title:  'Including VAT', scope: 'col' }
-          = sortable 'total_inc_vat', t('.total')
+        %th.numeric{ scope: 'col' }
+          = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), tabindex: 0
         - if params[:action] == 'archived'
           %th{scope: 'col'}
-            = sortable 'state', t('.status')
+            = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), tabindex: 0
         %th{scope: 'col'}
-          = sortable 'case_type', t('.case_type')
+          = sortable 'case_type', t('.case_type'), 'aria-label': t('.case_type_sort_label'), tabindex: 0
         %th.numeric{scope: 'col'}
-          = sortable 'last_submitted_at', t('.submission_date')
+          = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), tabindex: 0
         %th.message-placeholder{scope: 'col'}
           = t('.messages')
     %tbody
       %tr.mobile-sort
         %td{colspan: 10}
           Sort by:
-          = sortable 'case_number', t('.case_number')
-          = sortable 'advocate', t('.advocate_litigator')
-          = sortable 'total_inc_vat', t('.total')
+          = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), tabindex: 0
+          = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), tabindex: 0
+          = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), tabindex: 0
           - if params[:action] == 'archived'
-            = sortable 'state', t('.status')
-          = sortable 'case_type', t('.case_type')
-          = sortable 'last_submitted_at', t('.submission_date')
+            = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), tabindex: 0
+          = sortable 'case_type', t('.case_type'), 'aria-label': t('.case_type_sort_label'), tabindex: 0
+          = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), tabindex: 0
       - present_collection(claims).each do |claim|
         %tr{ class: claim.injection_error ? 'error injection-error' : nil }
-          %td{'aria-label' => t(".type")}
+          %td
             .error-message-container
               = claim.pretty_type
               - claim.injection_error do |message|
                 .error-message
                   = message
-          %td{'aria-label' => t(".case_number")}
+          %td
             = link_to claim.case_number ,
                       case_workers_claim_path(claim),
                       {:class => 'js-test-case-number-link',
@@ -57,29 +57,29 @@
               %span.disk-evidence
                 = "Disk evidence"
 
-          %td{'aria-label' => t(".advocate_litigator")}
+          %td
             = claim.external_user.name
-          %td{'aria-label' => t(".defendants")}
+          %td
             = claim.defendant_names
-          %td.numeric.js-test-total{'aria-label' => t(".total")}
+          %td.numeric.js-test-total
             = claim.total_inc_vat
           - if params[:action] == 'archived'
-            %td{'aria-label' => t(".status")}
+            %td
               %span.state{class: 'state-' << claim.state.dasherize}
                 = claim.state.humanize
-          %td{'aria-label' => t(".case_type")}
+          %td
             = claim.case_type_name
             %br/
             %span.claim-state
               = claim.claim_state
-          %td.numeric{'aria-label' => t(".submission_date")}
+          %td.numeric
             = claim.submitted_at(include_time: false)
-          %td.messages{'aria-label' => t(".messages")}
+          %td.messages
             - if claim.has_messages?
               - if claim.remote?
-                = link_to claim.unread_messages_count > 0 ? "View (#{claim.unread_messages_count} new)" : "View" , "#{case_workers_claim_path(claim, messages: true)}#messages"
+                = link_to claim.unread_messages_count.to_int > 0 ? t('.view_with_messages', message_count: claim.unread_messages_count) : t('.view') , "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
               - else
-                = link_to claim.has_unread_messages_for?(current_user) ? "View (#{claim.unread_messages_for(current_user).count} new)" : "View" , "#{case_workers_claim_path(claim, messages: true)}#messages"
+                = link_to claim.has_unread_messages_for?(current_user) ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view') , "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
             - else
               %span.none
                 = t(".none")

@@ -20,6 +20,25 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  layouts:
+    primary_navigation:
+      add_a_provider: Add a provider
+      allocation: Allocation list
+      api_documentation: API Documentation
+      archive: Archive list
+      error: There was an error
+      find_provider_by_email: Find provider by email
+      manage_provider: Manage provider
+      manage_providers: Manage providers
+      manage_users: Manage users
+      manage_your_settings: Manage your settings
+      manage_case_workers: Manage case workers
+      management_information: Manage information
+      your_claims: Your claims
+      re_allocation: Re-allocation
+      sidekiq_console: Sidekiq console
+      all_claims: All claims list
+      sub_navigation: Sub navigation
   pages:
     tandcs:
       page_title: Terms and conditions for claim for Crown court defence
@@ -373,6 +392,7 @@ en:
         edit: Edit
         answer_yes: "Yes"
         answer_no:  "No"
+        table_summary: The provider type, fee scheme and VAT status for %{provider_name}
       index:
         page_heading: Manage providers
         add_a_provider: Add a provider
@@ -384,6 +404,7 @@ en:
         supplier_number: *supplier_number
         vat_registered: *vat_registered
         caption: Provider list
+        table_summary: A list of providers. Includes links to the provider page and to manage users
       form:
         cancel_button: Cancel
         error: 'error'
@@ -405,12 +426,14 @@ en:
         email: 'Email'
         page_title: View users in %{provider_name}
         caption: Users in %{provider_name}
-        state: State
+        state: Account state
         add_provider: Add user to provider
         page_heading: Manage Users
-        title: Email %{provider}
+        title: Click to email %{provider}
         live: Live
         inactive: Inactive
+        table_summary: A list of user details for %{provider_name}
+        view_details: View details for %{text}
       show:
         caption: User details
         page_title: View %{external_user}'s details
@@ -426,6 +449,8 @@ en:
         answer_no:  "No"
         manage_user: Manage user
         page_heading: Manage user
+        table_summary: A list of user details for %{external_user}
+        edit_provider: edit the provider
       edit:
         page_title: Edit %{external_user}'s details
         heading: Edit user details
@@ -475,6 +500,7 @@ en:
         advocates:
         index:
           title: 'Manage users'
+          page_heading: 'Manage users'
           actions: Manage details
           advocates: 'Users'
           add_advocate: 'Add User'
@@ -489,6 +515,11 @@ en:
           supplier_number: 'Supplier number'
           page_title_chamber: Manage users in your chambers
           page_title_firm: Manage users in your firm
+          option_yes: 'Yes'
+          option_no: 'No'
+          email_title: Email %{external_user}
+          email_confirmation: Email notifications of messages?
+          confirmation: Are you sure?
         new:
           error: 'error'
           new_advocate: 'New user'
@@ -512,14 +543,25 @@ en:
           submit: 'Create user'
         change_password:
           error: 'error'
-          prohibited_save: 'This user password change has'
+          prohibited_save: This user password change has
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation
-          submit: 'Change password'
+          submit: Change password
           page_title: Change your password
+          change_password: Change password
         show:
           page_title: View your account details
+          table_caption: Your account details
+          name: 'Name:'
+          email: 'Email:'
+          roles: 'Roles:'
+          supplier_number: 'Supplier number:'
+          edit: Edit
+          change_password: Change password
+          page_heading: Your account
+
+
 
       providers:
         provider_type: &provider_type 'Provider type'
@@ -533,10 +575,17 @@ en:
           supplier_number: *supplier_number
           vat_registered: *vat_registered
           api_key: *api_key
+          page_heading: Manage provider
+          page_title: "View %{provider_name}'s details"
           lgfs_supplier_numbers: "LGFS supplier numbers"
           firm_agfs_supplier_number: "AGFS supplier number"
           page_title_firm: Manage your firm's account
           page_title_chamber: Manage your chambers' account
+          table_caption: Provider details
+          provider_name: *provider_name
+          generate_key: Generate new key
+          edit_provider: Edit provider
+          confirmation: "Are you sure?\n\nImportant: the new key will need to be used for all API calls and JSON file claim imports for this provider."
         edit:
           error: 'error'
           page_heading: Settings
@@ -550,8 +599,8 @@ en:
           form_error_hint: 'Check below for more detail'
           page_title_firm: Edit your firm's account
           page_title_chamber: Edit your chambers' account
-    all_claims: All claims
-    your_claims: Your claims
+    all_claims: All claims list
+    your_claims: Your claims list
     claim_heading: Claim for Crown Court fees
     agfs_claim_heading: Claim for advocate fees
     agfs_interim_claim_heading: Claim for advocate warrant fees
@@ -622,6 +671,8 @@ en:
         summary:
           header: Additional information
           not_available: No additional information has been provided
+          change: Change
+          change_link_label: Change additional information
       archived:
         archived_claims: 'Archived claims'
         archived_claim: 'archived claim'
@@ -842,6 +893,10 @@ en:
           caption: 'Case Details: This section contains information about the case.'
           header: Case details
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          change: Change
+          change_link_label: Change case details
+          answer_yes: 'Yes'
+          answer_no: 'No'
       offence_details:
         actions:
           clear_selection: Clear selection
@@ -866,6 +921,10 @@ en:
           caption: 'Offence Details: This section contains information about the offence details.'
           header: Offence details
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          answer_yes: 'Yes'
+          answer_no: 'No'
+          change: Change
+          change_link_label: Change offence details
         selected_offence_header: 'You have chosen the following offence details:'
 
       defendants:
@@ -892,7 +951,22 @@ en:
           caption: 'Defendants: This section contains details about each defendant.'
           header: Defendant details
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          change: Change
+          change_link_label: Change defendant details
+          answer_yes: 'Yes'
+          answer_no: 'No'
+          common:
+            defendant_index: Defendant %{index}
+            defendant_reporder: Defendant %{index} representation order %{index}
+
       main_claims_list:
+        amount_assessed_sort_label: 'Sort by: Amount assessed'
+        last_submitted_at_sort_label: 'Sort by: Last submitted at date'
+        total_inc_vat_sort_label: 'Sort by: Claimed amount'
+        advocate_sort_label: 'Sort by: Provider name'
+        case_number_sort_label: 'Sort by: Case number'
+        state_sort_label: 'Sort by: Claim status'
+        case_number_label: "View %{claim_state} Claim, Case number: %{case_number}"
         show_count: 'Showing %{page_count} of %{total} claims'
         table_caption: 'Claims'
         advocate: *advocate
@@ -913,6 +987,8 @@ en:
         none: 'No messages'
         advocate_litigator: *advocate_litigator
         type: "Type"
+        view_messages_label: "View messages for case number %{case_number}"
+        view_with_messages: "View (%{message_count} new)"
       confirmation:
         page_title: Thank you for submitting your claim
         thanks: Thank you for submitting your claim
@@ -933,11 +1009,15 @@ en:
       summary_fees:
         caption: 'Fees: This section contains details of all fees that have been claimed.'
         summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+        change: Change
+        change_link_label: Change fees
       disbursements:
         summary:
           caption: 'Disbursements: This section contains details of all disbursements that have been claimed.'
           header: Disbursements
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          change: Change
+          change_link_label: Change disbursements details
         fields:
           disbursements: "Disbursements"
           add_disbursement: "Add another disbursement"
@@ -1002,6 +1082,8 @@ en:
           header: Travel expenses
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
           additional_information: Additional information
+          change: Change
+          change_link_label: Change expenses
       transfer_fee:
         fields:
           page_header: Transfer fee
@@ -1141,6 +1223,8 @@ en:
         total_authorised: 'Total authorised:'
         view_details_outstanding_html: 'View details <span class="visuallyhidden">for total outstanding</span>'
         view_details_authorised_html: 'View details <span class="visuallyhidden">for total authorised</span>'
+        outstanding_claim_details_label: View outstanding claims details
+        authorised_claim_details_label: View authorised claims details
       graduated_fees:
         fields:
           page_header: Graduated fee
@@ -1202,6 +1286,10 @@ en:
           header: Supporting evidence
           caption: 'Supporting evidence: This section contains information about supporting evidence.'
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          answer_yes: 'Yes'
+          answer_no: 'No'
+          change: Change
+          change_link_label: Change supporting evidence
       supporting_evidence_checklist:
         summary:
           caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'
@@ -1213,6 +1301,8 @@ en:
           caption: 'Warrant Fees: This section contains details of any warrant fees that have been claimed.'
           header: Warrant fees
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          change: Change
+          change_link_label: Change warrant fees
         fields:
           warrant_fee: "Warrant fee"
           date_issued: "Warrant issued"
@@ -1255,11 +1345,15 @@ en:
           caption: 'Interim Fees: This section contains details of any interim fees that have been claimed.'
           header: Interim fees
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          change: Change
+          change_link_label: Change interim fees
       transfer_detail:
         summary:
           caption: 'Transfer Detail: This section contains transfer details.'
           header: Transfer details
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          change: Change
+          change_link_label: Change transfer details
       fees_shared_header:
         fees: Fees
         fees_header_prompt_text_html: *fees_vat_prompt
@@ -1444,6 +1538,18 @@ en:
           page_title: Enter warrant fees for litigator final fees claim
 
   shared:
+    claim_header:
+      case_number: 'Case number:'
+      status: 'Status:'
+      assessment_date: 'Claim assessed date:'
+      defendant_names: 'Defendant names:'
+      provider_type: 'Firm or Chambers:'
+      actions:  'Actions:'
+      confirm_text: Are you sure?
+      redraft: 'Redraft this claim'
+      archive: Archive
+      unarchive: Unarchive
+
     claim_defendant_details:
       caption: 'Defendant: Additional information'
     evidence_checklist:
@@ -1558,7 +1664,7 @@ en:
         first_day_of_trial: First day of trial
       actual_trial_length: Actual trial length
       mileage_rate: Cost per mile
-      expense: Expense
+      expense: Expense %{index}
       expenses:
         caption: &expenses_caption 'Expenses: A detailed list by Type including amount, distance and location where applicable'
         travel_expense_additional_information: Additional information
@@ -1594,12 +1700,14 @@ en:
             one: The distance claimed by the provider is greater than the calculated distance for one expense. Please see the table below for details.
             other: The distance claimed by the provider is greater than the calculated distance for %{count} expenses. Please see the table below for details.
       fee: Fee
+      fee_index: Fee %{index}
       fees:
         caption: 'Fees: A detailed list by Category and Type including amounts'
       amount: Net amount
       vat_amount: *vat_amount
       date: Date
       disbursement: Disbursement
+      disbursement_index: Disbursement %{index}
       disk_evidence: Will you be sending disk evidence for this claim?
       disk_evidence_reference: Reference number
       distance: Distance
@@ -1799,6 +1907,13 @@ en:
           name: Name
           location: Location
           actions: Manage details
+          confirmation: Are you sure?
+          delete_link_label: "Delete case worker: %{case_worker}"
+          edit_link_label: "Edit case worker: %{case_worker}"
+          caption: Case worker list
+          create_case_worker: Create a new case worker
+          page_heading: Manage case workers
+          summary: A list of case workers, ordered by surname. Edit and delete links in the last column.
           hint:
             search: for example case worker name
         form:
@@ -1806,6 +1921,10 @@ en:
           last_name: *last_name
           email: *email
           email_confirmation: *email_confirmation
+          case_worker_details: Case worker details
+          location: Location
+          roles: Roles
+          save: Save
         change_password:
           error: 'error'
           prohibited_save: 'This case worker password change has'
@@ -1821,15 +1940,37 @@ en:
         show:
           page_title: View %{caseworker}'s details
       allocations:
+        filter_value_bands:
+          all: All
+          value: 'Value :'
+          tier1: less than £25,000
+          tier2: £25,000 - £100,000
+          tier3: £100,000 - £150,000
+          tier4: more than £150,000
         new:
           page_title_allocation: View the allocation queue
           page_title_reallocation: View the re-allocation queue
         scheme_filters:
-          scheme_types: 'Scheme types'
+          scheme_types: Scheme types
+          agfs: AGFS
+          lgfs: LGFS
+          choose_your_scheme: Choose your scheme
+          submit: Submit
         allocation:
+          allocate_claims: Allocate claims
+          table_summary: List of allocated claims
+          clear_filters: Clear filter
+          allocate: Allocate
+          allocation_queue: Allocation queue
+          defendents: Defedants
+          error_summary: 'This claim allocation has '
+          filter_claims: Filter claims
+          page_heading: Allocation
+          submitted: Submitted
+          total: Total
           court: 'Court'
           select: 'Select'
-          case_number: 'Case number'
+          case_number: 'Case #'
           allocated_to: 'Allocated To'
           type: 'Type'
           scheme: Scheme
@@ -1840,7 +1981,11 @@ en:
           no_of_claims: 'No. of claims'
         orig_scheme_filters:
           scheme_types: 'Scheme types'
+          filter: Filter
+          filter_scheme_label: Filter by scheme %{scheme}
         re_allocation:
+          allocation_pool_label: Allocate to allocation pool
+          case_worker_label: Allocate to a caseworker
           select: 'Select'
           court: 'Court'
           type: 'Type'
@@ -1853,8 +1998,48 @@ en:
           no_of_claims: 'No. of claims'
           case_types: 'Case types'
           allocated_to: 'Allocated To'
+          error_summary: This claim re-allocation has
+          page_heading: Re-allocation
+          filter: Filter
+          legend: Allocate to
+          allocation_pool: Allocation pool
+          case_worker: Case worker
+          re_allocation: Re-allocation
+          re_allocate: Re-allocate
+          select_all: Select all
+          allocated_to: Allocated to
+          disk_evidence: Disk evidence
+          no_claims_allocated: No claims need to be allocated
+          number_of_claims: 'Number of claims:'
+          choose_label: Choose claim number %{case_number}
+          form_hint_html: |
+            To de-allocate claims, choose "Allocation pool".
+            <br/><br/>
+            To re-allocate claims to another case worker, choose "Case worker" and then select their name from the dropdown that appears below.
+          case_number_label: 'View claim %{case_number}'
+          select_all_label: Select all claims
           hint:
             search: case worker name or email
+        filter_status:
+          all: All
+          answer_false: 'False'
+          answer_true: 'True'
+          claims_status: Claim status
+        filter_tasks:
+          all: All
+          awaiting_written_reasons: Awaiting written reasons
+          cracked: Cracked
+          disk_evidence: Disk evidence
+          fixed_fee: Fixed fee
+          graduated_fees: Graduated fees
+          injection_errors: Injection errors
+          interim_disbursements: Interim disbursements
+          interim_fees: Interim fees
+          redetermination: Redetermination
+          risk_based_bills: Risk based bills
+          case_types: Case types
+          trial: trial
+          warrants: warrants
       management_information:
         validate_report_type:
           invalid_report_type: &invalid_report_type The requested report type is not supported
@@ -1891,6 +2076,18 @@ en:
       archived:
         archived_claims: Archived claims
         page_title: View the claim archive
+      determination_fields:
+        disbursements: Disbursements
+        expenses: Expenses
+        fees: Fees
+        total_excluding_vat: Total excluding VAT
+      determination_lgfs_vat_fields:
+        total_inc_vat: Total (including VAT)
+        vat: VAT
+      determination_agfs_vat_fields:
+        total_inc_vat_rate: 'Total inc VAT rate:'
+        vat_rate: "VAT (%{vat_rate})"
+        vat_rate: "Total (including %{vat_rate} VAT)"
       index:
         your_claims: Your claims
         page_title: View your allocated claims list
@@ -1906,12 +2103,30 @@ en:
         submission_date: Date submitted
         messages: Messages
         none: None
+        advocate_sort_label: 'Sort by: Provider name'
+        case_number_sort_label: 'Sort by: Case number'
+        case_type_sort_label: 'Sort by: Case type'
+        last_submitted_at_sort_label: 'Sort by: Last submitted at date'
+        state_sort_label: 'Sort by: Claim state'
+        total_inc_vat_sort_label: 'Sort by: Claimed amount'
+        type_sort_label: 'Sort by: Claim type'
+        number_of_claims: 'Number of claims: '
+        view: *view
+        view_messages_label: "View Messages for Case number %{case_number}"
+        view_with_messages: "View (%{message_count} new)"
+
       hint:
         search: for example case number, MAAT reference, defendant name, case worker name or email
       interim_claim_info:
         fields: *interim_claim_info_fields
       show:
         page_title: View the claim details
+        error_summary: 'This claim has '
+      nav_tabs:
+        allocated_claims_count: Allocated claims (%{allocated_claims_count})
+        completed_claims_count: Completed claims (%{completed_claims_count})
+        current_claims_count: Allocated claims (%{current_claims_count})
+        unallocated_claims_count: Allocated claims (%{unallocated_claims_count})
   devise:
     sessions:
       new:

@@ -15,7 +15,7 @@
             = hint_text
         = text_field_tag :search, params[:search], class: "form-control"
     .form-group
-      = button_tag(type: 'submit', class: 'button', title: "#{ t('common.search.label') }") do
+      = button_tag(type: 'submit', class: 'button', title: t('common.search.label')) do
         - if local_assigns[:button_text]
           = button_text
         - else

@@ -1,8 +1,6 @@
 class ErrorPresenter
   SUBMODEL_REGEX = /^(\S+?)(_(\d+)_)(\S+)$/.freeze
 
-  MESSAGES = Struct.new(:long, :short, :api)
-
   def initialize(claim, message_file = nil)
     @claim = claim
     @errors = claim.errors
@@ -43,16 +41,16 @@ class ErrorPresenter
     end
   end
 
-  def populate_messages(emt, error, fieldname)
-    message = MESSAGES.new
+  def populate_messages(emt, error, field_name)
+    message = Struct.new(:long, :short, :api).new
     if emt.translation_found?
       message.long = emt.long_message
       message.short = emt.short_message
       message.api = emt.api_message
     else
-      message.long = generate_standard_long_message(fieldname, error)
-      message.short = generate_standard_short_message(fieldname, error)
-      message.api = generate_standard_api_message(fieldname, error)
+      message.long = generate_standard_long_message(field_name, error)
+      message.short = generate_standard_short_message(field_name, error)
+      message.api = generate_standard_api_message(field_name, error)
     end
     message
   end

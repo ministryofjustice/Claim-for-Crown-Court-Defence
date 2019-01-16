@@ -126,6 +126,12 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=100&scenario=43
+=======
+  recorded_at: Thu, 03 Jan 2019 15:05:14 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=46&trial_length=10
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -154,7 +160,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       Content-Length:
-      - '17'
+      - '18'
       Connection:
       - keep-alive
     body:
@@ -165,6 +171,14 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=9&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=46&trial_length=9
+=======
+      string: '{"amount":1467.58}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:14 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=11&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=46&trial_length=11
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -204,6 +218,14 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=46&trial_length=10
+=======
+      string: '{"amount":1467.58}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:15 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=9&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=46&trial_length=9
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -232,7 +254,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       Content-Length:
-      - '18'
+      - '14'
       Connection:
       - keep-alive
     body:
@@ -243,6 +265,14 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=11&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=46&trial_length=11
+=======
+      string: '{"amount":0.0}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:16 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=81&scenario=45
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -271,7 +301,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       Content-Length:
-      - '18'
+      - '17'
       Connection:
       - keep-alive
     body:
@@ -282,6 +312,14 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=11&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=44&trial_length=11
+=======
+      string: '{"amount":457.64}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:17 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=44&trial_length=10
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -321,6 +359,12 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=44&trial_length=10
+=======
+  recorded_at: Thu, 03 Jan 2019 15:05:18 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=11&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=44&trial_length=11
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -360,6 +404,12 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=9&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=44&trial_length=9
+=======
+  recorded_at: Thu, 03 Jan 2019 15:05:19 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=9&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=80&scenario=44&trial_length=9
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -399,6 +449,12 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=10&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=J&ppe=80&scenario=44&trial_length=10
+=======
+  recorded_at: Thu, 03 Jan 2019 15:05:20 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=J&ppe=80&scenario=44&trial_length=10
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -438,6 +494,12 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=81&scenario=45
+=======
+  recorded_at: Thu, 03 Jan 2019 15:05:21 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=100&scenario=43
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -477,6 +539,14 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=10&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=J&ppe=1&scenario=4
+=======
+      string: '{"amount":838.94}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:22 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=1&scenario=22
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -505,7 +575,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       Content-Length:
-      - '18'
+      - '17'
       Connection:
       - keep-alive
     body:
@@ -516,6 +586,14 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=1&scenario=4
+=======
+      string: '{"amount":904.58}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:24 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=J&ppe=1&scenario=22
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -544,7 +622,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       Content-Length:
-      - '18'
+      - '17'
       Connection:
       - keep-alive
     body:
@@ -555,6 +633,14 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=0&scenario=22
+=======
+      string: '{"amount":1085.5}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:25 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=J&ppe=1&scenario=4
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -594,6 +680,14 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=J&ppe=0&scenario=22
+=======
+      string: '{"amount":6171.44}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:27 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=1&scenario=4
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -622,7 +716,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       Content-Length:
-      - '17'
+      - '18'
       Connection:
       - keep-alive
     body:
@@ -633,6 +727,14 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2018-04-01&type=AGFS
+=======
+      string: '{"amount":5142.87}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:05:30 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2018-03-31&type=AGFS
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -673,6 +775,15 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/scenarios/
+=======
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
+        Fee Scheme 9"}]}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:14:36 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -760,47 +871,7 @@ http_interactions:
   recorded_at: Sat, 12 Jan 2019 21:50:52 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2018-03-31&type=AGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET, HEAD, OPTIONS
-      Content-Type:
-      - application/json
-      Date:
-      - Sat, 12 Jan 2019 21:50:53 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '158'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
-        Fee Scheme 9"}]}'
-    http_version: 
-  recorded_at: Sat, 12 Jan 2019 21:50:53 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_ABS_PRC_HF&limit_from=1&offence_class=K&scenario=5
     body:
       encoding: US-ASCII
       string: ''
@@ -830,22 +901,66 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       Content-Length:
-      - '292'
+      - '321'
       Connection:
       - keep-alive
     body:
       encoding: ASCII-8BIT
-      string: '{"count":12,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
-        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
-        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
-        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
-        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
-        case not proceeded","code":"AS000014"}]}'
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":1840,"scenario":5,"advocate_type":"JRALONE","fee_type":5,"offence_class":null,"scheme":1,"unit":"HALFDAY","fee_per_unit":"130.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":60,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
+    http_version: 
+  recorded_at: Sat, 12 Jan 2019 21:50:53 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_CON&limit_from=1&offence_class=K&scenario=5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 12 Jan 2019 21:50:53 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '344'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2064,"scenario":5,"advocate_type":"JRALONE","fee_type":8,"offence_class":null,"scheme":1,"unit":"DAY","fee_per_unit":"130.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
+        of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
   recorded_at: Sat, 12 Jan 2019 21:50:53 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_FEE&offence_class=A&ppe=0&scenario=4
+=======
+  recorded_at: Thu, 03 Jan 2019 15:14:38 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_STD_APPRNC&limit_from=1&offence_class=K&scenario=5
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -885,6 +1000,20 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_FEE&offence_class=A&ppe=0&scenario=11
+=======
+      - '319'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":3260,"scenario":5,"advocate_type":"JRALONE","fee_type":27,"offence_class":null,"scheme":1,"unit":"DAY","fee_per_unit":"87.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:14:41 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_FEE&limit_from=1&offence_class=K&scenario=12
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -924,6 +1053,21 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_FEE&offence_class=A&ppe=0&retrial_interval=1&scenario=11
+=======
+      - '343'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":748,"scenario":12,"advocate_type":"JRALONE","fee_type":34,"offence_class":"K","scheme":1,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"194.00000","limit_from":1,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
+        of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
+        of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:14:43 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/prices/?advocate_type&fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=5
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -963,6 +1107,19 @@ http_interactions:
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/calculate/?advocate_type=JRALONE&day=1&fee_type_code=AGFS_FEE&offence_class=A&ppe=0&retrial_interval=0&scenario=11
+=======
+      - '207'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":58843,"scenario":5,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"349.47000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:14:47 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/prices/?advocate_type&fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=12
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -1524,6 +1681,12 @@ http_interactions:
       Connection:
       - keep-alive
     body:
+=======
+      - '334'
+      Connection:
+      - keep-alive
+    body:
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":58865,"scenario":12,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"330.33000","limit_from":0,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":4,"fixed_percent":"20.00","percent_per_unit":"0.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":true},{"limit_from":5,"limit_to":null,"fixed_percent":"30.00","percent_per_unit":"0.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
@@ -1570,4 +1733,8 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":58843,"scenario":5,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"349.47000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
     http_version: 
   recorded_at: Sat, 12 Jan 2019 21:51:25 GMT
+=======
+    http_version: 
+  recorded_at: Thu, 03 Jan 2019 15:14:48 GMT
+>>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
 recorded_with: VCR 3.0.3

@@ -10,6 +10,8 @@ module API
           def quarterly_report
             data = open(report.document_url).read
             JSON.parse(data.gsub(/=>/, ':').gsub(':nil,', ':null,')).deep_symbolize_keys
+          rescue StandardError
+            error!('No report exists', 400)
           end
         end
 
@@ -52,6 +54,7 @@ module API
                        type: String,
                        desc: I18n.t('api.v2.performance_platform.quarterly_volume.start_date')
             end
+
             desc 'Submit calculated totals for quarterly volume performance platform report'
             post do
               results = quarterly_report

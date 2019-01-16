@@ -225,13 +225,18 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
 
       context 'basic and non-basic fees' do
 
-        let!(:basic_fee_type_1)         { FactoryBot.create :basic_fee_type, description: 'Basic Fee Type 1' }
-        let!(:basic_fee_type_2)         { FactoryBot.create :basic_fee_type, description: 'Basic Fee Type 2' }
-        let!(:basic_fee_type_3)         { FactoryBot.create :basic_fee_type, description: 'Basic Fee Type 3' }
-        let!(:basic_fee_type_4)         { FactoryBot.create :basic_fee_type, description: 'Basic Fee Type 4' }
-        let!(:misc_fee_type_1)          { FactoryBot.create :misc_fee_type, description: 'Miscellaneous Fee Type 1' }
-        let!(:misc_fee_type_2)          { FactoryBot.create :misc_fee_type, description: 'Miscellaneous Fee Type 2' }
-        let!(:fixed_fee_type_1)         { FactoryBot.create :fixed_fee_type, description: 'Fixed Fee Type 1' }
+        before do
+          seed_case_types
+          seed_fee_types
+        end
+
+        let!(:basic_fee_type_1)         { Fee::BasicFeeType.find_by(unique_code: 'BABAF') }
+        let!(:basic_fee_type_2)         { Fee::BasicFeeType.find_by(unique_code: 'BADAF') }
+        let!(:basic_fee_type_3)         { Fee::BasicFeeType.find_by(unique_code: 'BANPW') }
+        let!(:basic_fee_type_4)         { Fee::BasicFeeType.find_by(unique_code: 'BAPCM') }
+        let!(:misc_fee_type_1)          { Fee::MiscFeeType.find_by(unique_code: 'MISPF') }
+        let!(:misc_fee_type_2)          { Fee::MiscFeeType.find_by(unique_code: 'MIAPH') }
+        let!(:fixed_fee_type_1)         { Fee::FixedFeeType.find_by(unique_code: 'FXASE') }
 
         let(:court)                     { create(:court) }
         let(:offence)                   { create(:offence) }
@@ -247,9 +252,8 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
             it 'should create a claim with all basic fees and specified miscellaneous but NOT the fixed fees' do
               post :create, params: { claim: claim_params }
               claim = assigns(:claim)
-
               # one record for every basic fee regardless of whether blank or not
-              expect(claim.basic_fees.size).to eq 4
+              expect(claim.basic_fees.size).to eq 11
               expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f ).to eq 1000
               expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f ).to eq 9000.45
               expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f ).to eq 125.0
@@ -273,23 +277,23 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
               expect(response).to render_template(:new)
               expect(response.body).to have_content('Case details')
               claim = assigns(:claim)
-              expect(claim.basic_fees.size).to eq 4
-              expect(claim.fixed_fees.size).to eq 1
+              expect(claim.basic_fees.size).to eq 11
+              expect(claim.fixed_fees.size).to eq 0
               expect(claim.misc_fees.size).to eq 1
 
-              bf1 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 1' }
+              bf1 = claim.basic_fees.detect{ |f| f.description == basic_fee_type_1.description }
               expect(bf1.quantity).to eq 10
               expect(bf1.amount).to eq 1000
 
-              bf2 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 2' }
+              bf2 = claim.basic_fees.detect{ |f| f.description == basic_fee_type_2.description }
               expect(bf2.quantity).to eq 0
               expect(bf2.amount).to eq 0
 
-              bf3 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 3' }
+              bf3 = claim.basic_fees.detect{ |f| f.description == basic_fee_type_3.description }
               expect(bf3.quantity).to eq 1
               expect(bf3.amount.to_f).to eq 9000.45
 
-              bf4 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 4' }
+              bf4 = claim.basic_fees.detect{ |f| f.description == basic_fee_type_4.description }
               expect(bf4.quantity).to eq 5
               expect(bf4.amount).to eq 125
             end
@@ -299,8 +303,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
         context 'fixed fee case types' do
           context 'valid params' do
             it 'should create a claim with fixed fees ONLY' do
-              create :fixed_fee_type, unique_code: 'ZXY'
-              ct = create :case_type, :fixed_fee,  fee_type_code: 'ZXY'
+              ct = create :case_type, :fixed_fee
               claim_params['case_type_id'] = ct.id
               post :create, params: { claim: claim_params }
               claim = assigns(:claim)
@@ -382,6 +385,22 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
 
       it 'renders the template' do
         expect(response).to render_template(:edit)
+      end
+
+      context 'when the claim has fixed fees' do
+        let(:claim) { create(:advocate_claim, :with_fixed_fee_case, external_user: advocate) }
+
+        before do
+          seed_case_types
+          seed_fee_types
+
+          edit_request.call
+        end
+
+        it 'calls the build_fixed_fees method' do
+          expect(assigns(:claim).fixed_fees).to be_a ActiveRecord::Associations::CollectionProxy
+          expect(assigns(:claim).fixed_fees.length).to eql 5
+        end
       end
     end
 
@@ -513,7 +532,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
   end
 
   def valid_claim_fee_params
-  case_type = FactoryBot.create :case_type
+  case_type = CaseType.find_by(name: 'Guilty plea') || create(:case_type)
 
   {
     "source" => 'web',
@@ -554,8 +573,8 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
    "basic_fees_attributes"=>
     {
       "0"=>{"quantity" => "10", "rate" => "100", "fee_type_id" => basic_fee_type_1.id.to_s},
-      "1"=>{"quantity" => "0", "rate" => "0.00", "fee_type_id" => basic_fee_type_2.id.to_s},
-      "2"=>{"quantity" => "1", "rate" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
+      "1"=>{"quantity" => "0", "amount" => "0.00", "fee_type_id" => basic_fee_type_2.id.to_s},
+      "2"=>{"quantity" => "1", "amount" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
       "3"=>{"quantity" => "5", "rate" => "25", "fee_type_id" => basic_fee_type_4.id.to_s}
       },
     "fixed_fees_attributes"=>

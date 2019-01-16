@@ -261,6 +261,13 @@ FactoryBot.define do
         quantity_is_decimal false
       end
 
+      trait :fxase do
+        description 'Appeal against sentence'
+        code 'ASE'
+        unique_code 'FXASE'
+        quantity_is_decimal false
+      end
+
       trait :fxenp do
         description 'Elected case not proceeded'
         code 'ENP'

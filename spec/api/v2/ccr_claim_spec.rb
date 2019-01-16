@@ -434,7 +434,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         before do
           # TODO: this should probably be using the seeds instead?!
           create(:fixed_fee_type, :fxcbr)
-          create(:fixed_fee_type, :fxcbu)
+          create(:fixed_fee_type, :fxnoc)
           create(:fixed_fee_type, :fxacv)
           create(:fixed_fee_type, :fxndr)
         end
@@ -495,8 +495,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:fixed_fees) {
            [
              build(:fixed_fee, :fxcbr_fee, quantity: 1),
-             build(:fixed_fee, :fxcbu_fee, quantity: 2, case_numbers: 'S20170001, S20170002'),
-             build(:fixed_fee, :fxcbu_fee, quantity: 2, case_numbers: 'S20170003, S20170001')
+             build(:fixed_fee, :fxnoc_fee, quantity: 3, case_numbers: 'S20170003, S20170001, S20170002')
            ]
           }
           let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, fixed_fees: fixed_fees) }
@@ -507,7 +506,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
               is_expected.to have_json_type(String).at_path "bills/0/number_of_cases"
             end
 
-            it 'calculated from the count of UNIQUE additional case numbers for all uplift fees of the applicable variety' do
+            it 'calculated from the count of UNIQUE additional case numbers for all uplift fees of the applicable variety (+1 for "main" case number) ' do
               is_expected.to be_json_eql("4".to_json).at_path "bills/0/number_of_cases"
             end
           end

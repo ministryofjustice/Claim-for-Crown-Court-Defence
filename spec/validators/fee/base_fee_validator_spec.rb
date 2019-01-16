@@ -432,8 +432,10 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
 
       it 'should error if resulting amount (rate * quantity) is greater than the max limit' do
+        fee.fee_type.calculated = false
         fee.rate = 101
         fee.quantity = 2000
+        fee.amount = 203000
         expect(fee).not_to be_valid
         expect(fee.errors[:amount]).not_to be_empty
       end

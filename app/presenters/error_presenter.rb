@@ -31,21 +31,28 @@ class ErrorPresenter
   def generate_messages
     @errors.each do |fieldname, error|
       emt = ErrorMessageTranslator.new(@translations, fieldname, error)
-      if emt.translation_found?
-        long_message = emt.long_message
-        short_message = emt.short_message
-        api_message = emt.api_message
-      else
-        long_message  = generate_standard_long_message(fieldname, error)
-        short_message = generate_standard_short_message(fieldname, error)
-        api_message = generate_standard_api_message(fieldname, error)
-      end
+      messages = populate_messages(emt, error, fieldname)
+      next if @error_details[fieldname] && @error_details[fieldname][0].long_message.eql?(messages.long)
       @error_details[fieldname] = ErrorDetail.new(fieldname,
-                                                  long_message,
-                                                  short_message,
-                                                  api_message,
+                                                  messages.long,
+                                                  messages.short,
+                                                  messages.api,
                                                   generate_sequence(fieldname))
     end
+  end
+
+  def populate_messages(emt, error, field_name)
+    message = Struct.new(:long, :short, :api).new
+    if emt.translation_found?
+      message.long = emt.long_message
+      message.short = emt.short_message
+      message.api = emt.api_message
+    else
+      message.long = generate_standard_long_message(field_name, error)
+      message.short = generate_standard_short_message(field_name, error)
+      message.api = generate_standard_api_message(field_name, error)
+    end
+    message
   end
 
   def last_parent_attribute(_translations, key)

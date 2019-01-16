@@ -3,6 +3,8 @@
   var Modules = exports.Modules.FeeCalculator || {};
 
   Modules.GraduatedPrice = {
+    priceType: 'GraduatedPrice',
+
     init: function () {
       this.bindEvents();
     },
@@ -24,11 +26,12 @@
       }
     },
 
+    // TODO: not used by cocoon, could remove the parameter - only ever one per page atm
     feeTypeChange: function ($el) {
       var self = this;
-      var $el = $('.js-fee-calculator-fee-type');
+      var $els = $el || $('.js-fee-calculator-fee-type');
       if ($('.calculated-grad-fee').exists()) {
-        $el.change( function() {
+        $els.change( function() {
           self.calculateGraduatedPrice();
         });
       }
@@ -54,6 +57,26 @@
       }
     },
 
+    claimId: function() {
+      return $('#claim-form').data('claimId');
+    },
+
+    advocateCategory: function() {
+      return $('input:radio[name="claim[advocate_category]"]:checked').val();
+    },
+
+    feeTypeId: function() {
+      return $('.fx-fee-group').find('.js-fee-type').val();
+    },
+
+    ppe: function() {
+      return $('.fx-fee-group').find('input.js-fee-calculator-ppe').val();
+    },
+
+    days: function() {
+      return $('.fx-fee-group').find('input.js-fee-calculator-days:visible').val();
+    },
+
     setAmount: function(data, context) {
       var $amount = $(context).find('input.fee-amount');
       var $price_calculated = $(context).siblings('.js-fee-calculator-success').find('input');
@@ -73,12 +96,12 @@
       this.clearErrors(context);
       var $label = $(context).find('label');
       var $calculated = $(context).closest('.fx-fee-group').find('.js-fee-calculator-success').find('input');
-      var error_html = '<div class="js-calculate-error form-hint">' + response.responseJSON["message"] + '<div>';
+      var error_html = '<div class="js-calculate-error form-hint">' + response.responseJSON.message + '<div>';
       var new_label = $label.text() + ' ' + error_html;
       var $input = $(context).find('input.fee-amount');
 
       $input.val('');
-      $input.prop("readonly", false);
+      $input.prop('readonly', false);
       $calculated.val(false);
       $label.html(new_label);
     },
@@ -90,6 +113,17 @@
     displayHelp: function(context, show) {
       var $help = $(context).closest('.fx-fee-group').find('.fee-calc-help-wrapper');
       show ? $help.show() : $help.hide();
+    },
+
+    feeData: function() {
+      var data = {};
+      data.claim_id = this.claimId();
+      data.price_type = this.priceType;
+      data.advocate_category = this.advocateCategory();
+      data.fee_type_id = this.feeTypeId();
+      data.ppe = this.ppe();
+      data.days = this.days();
+      return data;
     },
 
     graduatedPriceAjax: function (data, context) {
@@ -106,7 +140,7 @@
         self.displayHelp(context, true);
       })
       .fail(function(response) {
-        if (response.responseJSON['errors'][0] != 'incomplete') {
+        if (response.responseJSON.errors[0] != 'incomplete') {
           self.displayError(response, context);
         }
         self.displayHelp(context, false);
@@ -114,24 +148,10 @@
       });
     },
 
-    buildFeeData: function(data) {
-      data.claim_id = $('#claim-form').data('claimId');
-      data.price_type = 'GraduatedPrice';
-      var advocate_category = $('input:radio[name="claim[advocate_category]"]:checked').val();
-      if (advocate_category) {
-        data.advocate_category = advocate_category;
-      }
-      data.fee_type_id = $('.fx-fee-group').find('.js-fee-type').val();
-      data.ppe = $('.fx-fee-group').find('input.js-fee-calculator-ppe').val();
-      data.days = $('.fx-fee-group').find('input.js-fee-calculator-days:visible').val();
-    },
-
     // Calculates the price for a given graduated fee,
     calculateGraduatedPrice: function () {
       var self = this;
-      var data = {};
-      self.buildFeeData(data);
-      self.graduatedPriceAjax(data, '.js-fee-calculator-effectee');
+      self.graduatedPriceAjax(self.feeData(), '.js-fee-calculator-effectee');
     },
 
     pageLoad: function () {

@@ -60,7 +60,7 @@ module API
               results = quarterly_report
               start_of_quarter = Date.parse(results[:month_one][:date]).beginning_of_month
               qvr = Reports::PerformancePlatform::QuarterlyVolume.new(start_of_quarter)
-              qvr.populate_data(results[:total_quarter_cost])
+              qvr.populate_data(results[:total_quarter_cost], results[:claim_count])
               published = qvr.publish!
               result = { successful_upload: JSON.parse(published)['status'] }
               report.destroy

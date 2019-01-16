@@ -5,6 +5,10 @@ module SearchResultHelpers
     object.fees&.split(',')&.map { |fee| fee.split('~') }
   end
 
+  def claim_has_graduated_fees
+    graduated_fee_codes.present? && object.fee_type_code&.in?(graduated_fee_codes).eql?(true)
+  end
+
   def graduated_fee_codes
     object.graduated_fee_types&.split(',')
   end

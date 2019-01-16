@@ -96,7 +96,7 @@ module API
       end
 
       def graduated_fees
-        ((object.fee_type_code&.in?(graduated_fee_codes).eql?(true) || allocation_type_is_grad?) && is_submitted?).to_i
+        ((claim_has_graduated_fees || allocation_type_is_grad?) && is_submitted?).to_i
       end
 
       def interim_fees

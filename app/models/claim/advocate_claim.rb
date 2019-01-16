@@ -72,7 +72,7 @@ module Claim
              dependent: :destroy,
              inverse_of: :claim,
              validate: proc { |claim| claim.step_validation_required?(:basic_fees) }
-    has_many :fixed_fees, -> { order(:created_at) },
+    has_many :fixed_fees, -> { reorder(:fee_type_id) },
              foreign_key: :claim_id,
              class_name: 'Fee::FixedFee',
              dependent: :destroy,
@@ -272,9 +272,21 @@ module Claim
 
     def destroy_all_invalid_fee_types
       if case_type.present? && case_type.is_fixed_fee?
-        basic_fees.map(&:clear) unless basic_fees.empty?
+        clear_basic_fees
+        destroy_ineligbile_fixed_fees
       else
         fixed_fees.destroy_all unless fixed_fees.empty?
+      end
+    end
+
+    def clear_basic_fees
+      basic_fees.map(&:clear) unless basic_fees.empty?
+    end
+
+    def destroy_ineligbile_fixed_fees
+      eligbile_fees = Claims::FetchEligibleFixedFeeTypes.new(self).call
+      fixed_fees.each do |fee|
+        fixed_fees.delete(fee) unless eligbile_fees.map(&:code).include?(fee.fee_type_code)
       end
     end
 

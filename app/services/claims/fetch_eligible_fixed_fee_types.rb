@@ -30,7 +30,7 @@ module Claims
     end
 
     def eligible_agfs_fixed_fee_types
-      Fee::FixedFeeType.agfs.where(unique_code: AGFS_FIXED_FEE_ELIGIBILITY[case_type&.fee_type_code])
+      Fee::FixedFeeType.agfs.where(unique_code: AGFS_FIXED_FEE_ELIGIBILITY[case_type&.fee_type_code]).reorder(:id)
     end
 
     def eligible_lgfs_fixed_fee_types

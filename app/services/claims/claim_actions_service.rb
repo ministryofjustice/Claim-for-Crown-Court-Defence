@@ -37,8 +37,9 @@ module Claims
 
     def save_draft!(validation)
       claim.class.transaction do
+        claim.save
         claim.force_validation = validation
-        rollback! unless claim.save
+        rollback! unless claim.valid?
       end
     end
 

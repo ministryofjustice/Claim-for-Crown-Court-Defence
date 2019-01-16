@@ -1159,29 +1159,30 @@ en:
         add_date_attended: 'Add dates'
         remove: *remove
       fixed_fees:
-        fields:
-          add_fixed_fee: 'Add another fee'
-          amount: 'Amount'
-          fixed_fees: 'Fixed fees'
-          page_header: 'Fixed fees'
-          page_hint: *fees_vat_prompt
-          page_intro_html: |
-            If needed, please complete
-            <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Special Prep Form">special prep form</a>
-            and attach to the claim.
-        fixed_fee_fields:
-          fixed_fee: "Fixed fee"
-          quantity: *quantity
-          quantity_hint: 'Enter a quantity'
-          rate: *rate
-          case_numbers: *case_numbers
-          no_dates: 'No dates currently selected.'
-          fee_type: *fee_type
-          add_date_attended: 'Add dates'
-          remove: 'Remove'
-          net_amount: *net_amount
-          help_how_we_calculate_rate_title: How is this rate calculated?
-          help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme, case type, advocate category and fee type.
+        advocates:
+          fields:
+            add_fixed_fee: 'Add another fee'
+            amount: 'Amount'
+            fixed_fees: 'Fixed fees'
+            page_header: 'Fixed fees'
+            page_hint: *fees_vat_prompt
+            page_intro_html: |
+              If needed, please complete
+              <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Special Prep Form">special prep form</a>
+              and attach to the claim.
+          fixed_fee_fields:
+            fixed_fee: "Fixed fee"
+            quantity: *quantity
+            quantity_hint: 'Enter a quantity'
+            rate: *rate
+            case_numbers: *case_numbers
+            no_dates: 'No dates currently selected.'
+            fee_type: 'Type of fee'
+            add_date_attended: 'Add another date'
+            remove: 'Remove'
+            net_amount: *net_amount
+            help_how_we_calculate_rate_title: How is this rate calculated?
+            help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme, case type, advocate category and fee type.
         litigators:
           fields:
             fixed_fees: "Fixed fees"

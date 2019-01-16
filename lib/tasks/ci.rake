@@ -7,8 +7,9 @@ namespace :ci do
     Rake::Task['brakeman:run'].invoke
     Rake::Task['jasmine:ci'].invoke
     Rake::Task['spec'].invoke
-    puts 'Info: Sleeping for ten seconds to give CPU time to cool down and perhaps not fail on the cuke tasks because drop down lists aren''t populated fast enough.'.green
-    sleep 10
+    duration = 5
+    puts "Info: Sleeping for #{duration} seconds to give CPU time to cool down and perhaps not fail on the cuke tasks because drop down lists aren't populated fast enough.".green
+    sleep duration
     Rake::Task['cucumber'].invoke
   end
 end

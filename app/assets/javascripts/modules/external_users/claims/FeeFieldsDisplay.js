@@ -1,3 +1,6 @@
+// TODO: Remove if not needed:
+// from AGFS fixed fees AND does not look like
+// required for AGFS misc fees.
 moj.Modules.FeeFieldsDisplay = {
   init: function() {
     this.addFeeChangeEvent($('.fx-fee-group'));

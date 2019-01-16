@@ -27,6 +27,7 @@ create_or_update_by_name(name:                      'Appeal against sentence',
                             requires_trial_dates:   false,
                             requires_retrial_dates: false,
                             allow_pcmh_fee_type:    false,
+                            requires_maat_reference: true,
                             roles:                  %w(agfs lgfs),
                             fee_type_code:          'FXASE',
                             uuid: '2c4bc4a3-9246-4841-9813-a1e03b8d3a05'

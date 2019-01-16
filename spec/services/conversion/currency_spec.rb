@@ -15,4 +15,16 @@ RSpec.describe Conversion::Currency, :currency_vcr do
 
     it { is_expected.to eq 1301.5 }
   end
+
+  context 'when the conversion fails' do
+    let(:date) { 'date' }
+    let(:usd_value) { 'dollars' }
+
+    it 'raises an error' do
+      expect(Rails.logger).to receive(:error).with(/Error converting currency.*/)
+      call
+    end
+
+    it { is_expected.to be nil }
+  end
 end

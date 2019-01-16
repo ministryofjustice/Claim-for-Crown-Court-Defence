@@ -1,4 +1,4 @@
-- locale_scope = 'external_users.claims.fixed_fees.fields'
+- locale_scope = 'external_users.claims.fixed_fees.advocates.fields'
 
 = content_for :page_title, flush: true do
   = t('.page_title')
@@ -10,4 +10,4 @@
 
 = render partial: 'external_users/advocates/claims/advocate_category', locals: { f: f }
 
-= render partial: 'external_users/claims/fixed_fees/fields', locals: { f: f }
+= render partial: 'external_users/claims/fixed_fees/advocates/fields', locals: { f: f }

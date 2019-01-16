@@ -1,0 +1,70 @@
+- fee = present(f.object)
+-# Check box input
+.multiple-choice{"data-target" => to_slug(f.object.description), "class" => "fx-hook-#{fee.fee_type_code.downcase}"}
+
+  = f.check_box(:toggle, checked: !f.object.blank?, class: "fx-checkbox-hook", id: "#{to_slug(f.object.description)}-input", "aria-controls" => to_slug(f.object.description), :name => "graduated_fees_checklist_#{f.object.fee_type_code.downcase}")
+
+  %label{:for => "#{to_slug(f.object.description)}-input"}
+    = f.object.description
+
+  = f.hidden_field :_destroy, class: 'destroy', value: f.object.blank?
+
+-# Panel content
+.panel.panel-border-narrow.js-hidden{:id => to_slug(f.object.description)}
+  .fixed-fee-group.fx-fee-group.js-block.fx-do-init{data:{type:"fixedFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
+    = f.hidden_field :fee_type_id, class: 'js-fee-calculator-fee-type js-fee-type'
+
+
+    - if f.object.fee_type.case_uplift?
+      .form-group
+        = f.adp_text_field :case_numbers,
+          label: t('.case_numbers'),
+          input_classes:'js-fixed-fee-case-numbers',
+          hint_text:'Separate by commas',
+          errors: @error_presenter
+
+    .form-group
+      = f.adp_text_field :quantity,
+        label: t('.quantity'),
+        hint_text: t('.quantity_hint'),
+        hide_hint: true,
+        input_classes:"quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity",
+        input_type: 'number',
+        value: fee.quantity,
+        errors: @error_presenter
+
+    .form-group.js-fee-calculator-effectee
+      .calculated-fee
+      = f.adp_text_field :rate,
+          label: t('.rate'),
+          input_classes:'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
+          input_type: 'currency',
+          errors: @error_presenter,
+          input_readonly: f.object.price_calculated?,
+          value: number_with_precision(f.object.rate, precision: 2)
+
+    .js-fee-calculator-success
+      = f.hidden_field :price_calculated, value: f.object.price_calculated?
+
+    .fee-calc-help-wrapper.form-group{ style: 'display: none;' }
+      %details
+        %summary
+          %span.summary
+            = t('.help_how_we_calculate_rate_title')
+        .panel.panel-border-narrow
+          %p
+            = t('.help_how_we_calculate_rate_body')
+
+    .dates-wrapper.form-group
+      .cocoon-insert-wrapper
+        - f.object.dates_attended.build unless f.object.dates_attended.any?
+        = f.fields_for :dates_attended do |date_attended|
+          = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "fixed_fee_#{@fixed_fee_count}"
+
+      = link_to_add_association t('.add_date_attended'), f, :dates_attended, 'partial' => 'date_attended_fields', data: { 'association-insertion-method' => 'append', 'association-insertion-node' => '.cocoon-insert-wrapper', 'association-insertion-traversal' => 'prev'}
+
+    .form-group
+      %label.form-label-bold
+        = t('.net_amount')
+      .fee-net-amount.total
+        = fee.amount || number_to_currency(0)

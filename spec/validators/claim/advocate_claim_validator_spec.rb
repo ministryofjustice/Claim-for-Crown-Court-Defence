@@ -313,7 +313,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
           end
 
           it 'should error' do
-            should_error_with(claim, :base, 'defendant_uplifts_fixed_fees_mismatch')
+            should_error_with(claim, :fixed_fee_4_quantity, 'defendant_uplifts_fixed_fees_mismatch')
           end
         end
       end

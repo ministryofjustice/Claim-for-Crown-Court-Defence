@@ -7,7 +7,7 @@ describe Claims::UpdateClaim do
   end
 
   context 'claim updating' do
-    let(:claim) { FactoryBot.create :advocate_claim, case_number: 'A20161234' }
+    let(:claim) { create :advocate_claim, case_number: 'A20161234' }
     let(:claim_params) { { case_number: 'A20165555' } }
 
     subject { described_class.new(claim, params: claim_params) }
@@ -47,6 +47,21 @@ describe Claims::UpdateClaim do
         expect(subject.result.success?).to be_truthy
         expect(subject.result.error_code).to be_nil
         expect(subject.claim.case_number).to eq('A20165555')
+      end
+
+      context 'when submitting persisted agfs fixed fees marked for destruction' do
+        let(:claim) { create :advocate_claim, :with_fixed_fee_case, fixed_fees: fixed_fees }
+        let(:claim_params) { {"form_step"=>"fixed_fees", "fixed_fees_attributes": {"0": {"id"=>fixed_fees.first.id.to_s, "fee_type_id"=>"12", "quantity"=>"", "rate"=>"", "price_calculated"=>"true", "_destroy"=>"true" }}} }
+        let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50), build(:fixed_fee, :fxsaf_fee, quantity: 1)] }
+
+        before do
+          seed_case_types
+          seed_fee_types
+        end
+
+        it 'deletes the required fees' do
+          expect { subject.call }.to change { claim.fixed_fees.count }.from(2).to(1)
+        end
       end
     end
 

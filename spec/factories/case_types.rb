@@ -44,8 +44,7 @@ FactoryBot.define do
     end
 
     trait :fixed_fee do
-      name 'Fixed fee'
-      is_fixed_fee true
+      appeal_against_sentence
     end
 
     trait :graduated_fee do
@@ -100,6 +99,18 @@ FactoryBot.define do
       requires_trial_dates false
       fee_type_code 'FXACV'
       agfs_lgfs_roles
+    end
+
+    trait :appeal_against_sentence do
+      name 'Appeal against sentence'
+      is_fixed_fee true
+      allow_pcmh_fee_type false
+      requires_retrial_dates false
+      requires_maat_reference true
+      requires_cracked_dates false
+      requires_trial_dates false
+      roles %w[agfs lgfs]
+      fee_type_code 'FXASE'
     end
 
     trait :guilty_plea do

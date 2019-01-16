@@ -2,7 +2,7 @@
 Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
 
   @fee_calc_vcr
-  Scenario: I create a contempt claim, then submit it
+  Scenario: I create an Appeal against sentence claim, then submit it
 
     Given I am a signed in advocate
     And I am on the 'Your claims' page
@@ -18,22 +18,28 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
 
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
-
     Then I click "Continue" in the claim form
 
     Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/fixed_fee_calculations'
-
-    And I should see the advocate categories 'Junior alone,Led junior,Leading junior,QC'
     And I select an advocate category of 'Junior alone'
-    And the last fixed fee should have fee type options 'Appeals to the crown court against sentence,Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
-    And I add a fixed fee 'Appeals to the crown court against sentence'
-    Then the last fixed fee case numbers section should not be visible
-    Then the last 'fixed' fee rate should be populated with '108.00'
 
-    And I add a fixed fee 'Number of cases uplift' with case numbers
-    Then the last fixed fee case numbers section should be visible
-    Then the last 'fixed' fee rate should be populated with '21.60'
+    Then the fixed fee checkboxes should consist of 'Appeals to the crown court against sentence,Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
+    And I select the 'Appeals to the crown court against sentence' fixed fee
+    Then the fixed fee 'Appeals to the crown court against sentence' should have a rate of '108.00' and a hint of 'Number of days'
+    Then I click "Continue" in the claim form
 
+    And I goto claim form step 'case details'
+    And I select a case type of 'Appeal against conviction'
+    Then I click "Continue" in the claim form
+
+    And I goto claim form step 'fixed fees'
+    Then the fixed fee checkboxes should consist of 'Appeals to the crown court against conviction,Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
+    And I select the 'Appeals to the crown court against conviction' fixed fee
+    Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '130.00' and a hint of 'Number of days'
+    And I select the 'Adjourned appeals, committals and breaches' fixed fee
+    Then the fixed fee 'Adjourned appeals, committals and breaches' should have a rate of '87.00' and a hint of 'Number of days'
+    And I add a 'Number of cases uplift' fixed fee with case numbers
+    Then the fixed fee 'Number of cases uplift' should have a rate of '26.00'
     Then I click "Continue" in the claim form
 
     And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended
@@ -66,4 +72,4 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£243.79'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£379.87'

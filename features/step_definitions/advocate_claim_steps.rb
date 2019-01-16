@@ -135,6 +135,13 @@ When(/^I add a fixed fee '(.*?)'$/) do |name|
   wait_for_ajax
 end
 
+When(/^I select the '(.*?)' fixed fee$/) do |label|
+  @claim_form_page.fixed_fees.check(label)
+  wait_for_ajax
+  @claim_form_page.fixed_fees.set_quantity(label)
+  wait_for_ajax
+end
+
 Then(/^I add a fixed fee '(.*?)' with case numbers$/) do |name|
   @claim_form_page.add_fixed_fee_if_required
   @claim_form_page.fixed_fees.last.select_fee_type name
@@ -146,8 +153,16 @@ Then(/^I add a fixed fee '(.*?)' with case numbers$/) do |name|
   wait_for_ajax
 end
 
-When(/^I set the last fixed fee value to '(.*?)'$/) do |value|
-  @claim_form_page.fixed_fees.last.rate.set value
+Then(/^I add a '(.*?)' fixed fee with case numbers$/) do |name|
+  @claim_form_page.fixed_fees.check(name)
+  wait_for_ajax
+  @claim_form_page.fixed_fees.fee_block_for(name).case_numbers.set "T20170001"
+  @claim_form_page.fixed_fees.set_quantity(name)
+  wait_for_ajax
+end
+
+When(/^I set the '(.*?)' fixed fee value to '(.*?)'$/) do |name, value|
+  @claim_form_page.fixed_fees.fee_block_for(name).rate.set value
   wait_for_ajax
 end
 
@@ -186,9 +201,24 @@ Then(/^the last fixed fee case numbers section should (not )?be visible$/) do |n
   end
 end
 
-Then(/^the last fixed fee should have fee type options\s*'([^']*)'$/) do |fee_type_descriptions|
+Given(/^I check the fixed fee "([^"]*)"$/) do |label|
+  @claim_form_page.fixed_fees.check(label)
+  wait_for_ajax
+end
+
+Given(/^I uncheck the fixed fee "([^"]*)"$/) do |label|
+  @claim_form_page.fixed_fees.uncheck(label)
+  wait_for_ajax
+end
+
+Then(/^the fixed fee '(.*)' entry should be unchecked$/) do |label|
+  checkbox = @claim_form_page.fixed_fees.checklist_item_for(label).checkbox
+  expect(checkbox).to_not be_checked
+end
+
+Then(/^the fixed fee checkboxes should consist of \s*'([^']*)'$/) do |fee_type_descriptions|
   fee_type_descriptions = CSV.parse(fee_type_descriptions).flatten
-  expect(@claim_form_page.fixed_fees.last.fee_type_descriptions).to match_array(fee_type_descriptions)
+  expect(@claim_form_page.fixed_fees.checklist_labels).to match_array(fee_type_descriptions)
 end
 
 Then(/^the '(.*?)' fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee_type, fee, rate, hint|
@@ -209,6 +239,12 @@ Then(/^the following fee details should exist:$/) do |table|
   end
 end
 
+Then(/^the fixed fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee, rate, hint|
+  fee_block = @claim_form_page.fixed_fees.fee_block_for(fee)
+  expect(fee_block.rate.value).to eql rate
+  expect(fee_block.quantity_hint.text).to eql hint if hint.present?
+end
+
 Then(/^the last '(.*?)' fee rate should be populated with '(\d+\.\d+)'$/) do |fee_type, rate|
   expect(@claim_form_page.send("#{fee_type}_fees").last).to have_rate
   expect(@claim_form_page.send("#{fee_type}_fees").last.rate.value).to eql rate
@@ -220,8 +256,15 @@ Then(/^the last fixed fee rate should be in the calculator error state/) do
   expect(@claim_form_page.fixed_fees.last.text).to match /The calculated rate is unavailable, please enter manually/
 end
 
+Then(/^the '(.*?)' fixed fee rate should be in the calculator error state/) do |name|
+  fee_block = @claim_form_page.fixed_fees.fee_block_for(name)
+  expect(fee_block).to have_rate
+  expect(fee_block.rate.value).to be_empty
+  expect(fee_block.text).to match /The calculated rate is unavailable, please enter manually/
+end
+
 Then(/^I amend the fixed fee '(.*?)' to have a quantity of (\d+)$/) do |fee_type, quantity|
-  fixed_fee = @claim_form_page.fixed_fees.find { |section| section.select_input.value.eql?(fee_type) }
+  fixed_fee = @claim_form_page.fixed_fees.fee_block_for(fee_type)
   fixed_fee.quantity.set(quantity)
   fixed_fee.quantity.send_keys(:tab)
   wait_for_ajax

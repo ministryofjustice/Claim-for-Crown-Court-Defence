@@ -22,9 +22,8 @@ Feature: Advocate completes fixed fees, but calculator offline
     Then I click "Continue" in the claim form
 
     And I select an advocate category of 'Junior alone'
-    And I add a fixed fee 'Appeals to the crown court against sentence'
-    Then the last fixed fee case numbers section should not be visible
-    Then the last fixed fee rate should be in the calculator error state
-    When I set the last fixed fee value to '108.00'
+    And I select the 'Appeals to the crown court against sentence' fixed fee
+    Then the 'Appeals to the crown court against sentence' fixed fee rate should be in the calculator error state
+    When I set the 'Appeals to the crown court against sentence' fixed fee value to '108.00'
     Then I click "Continue" in the claim form
     And I am on the miscellaneous fees page

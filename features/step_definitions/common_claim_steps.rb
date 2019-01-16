@@ -108,3 +108,7 @@ end
 Then(/^I am on the miscellaneous fees page$/) do
   expect(@claim_form_page).to have_miscellaneous_fees
 end
+
+Then(/^the summary total should equal '(.*)'$/) do |amount|
+  expect(page).to have_content(amount)
+end

@@ -30,8 +30,9 @@ describe Reports::PerformancePlatform::QuarterlyVolume do
   end
 
   describe '#populate_data' do
-    subject(:populate_data) { report.populate_data(total_cost) }
+    subject(:populate_data) { report.populate_data(total_cost, claim_count) }
     let(:total_cost) { 1234.45 }
+    let(:claim_count) { 1235 }
 
     context 'when the total_cost submitted is valid' do
       context 'when the data is fine' do
@@ -40,7 +41,7 @@ describe Reports::PerformancePlatform::QuarterlyVolume do
       end
 
       context 'when a collation error occurs' do
-        before { allow(report).to receive(:count_digital_claims).and_raise(StandardError)}
+        before { allow(report).to receive(:inputs_numeric?).and_raise(StandardError)}
 
         it { expect(report.ready_to_send).to be false }
         it { expect { populate_data }.not_to change { report.ready_to_send }.from(false) }
@@ -48,10 +49,15 @@ describe Reports::PerformancePlatform::QuarterlyVolume do
     end
 
     context 'when the total_cost submitted is invalid' do
-      before { allow(report).to receive(:count_digital_claims).and_raise(StandardError)}
       let(:total_cost) { '47 pounds' }
 
-      it { expect { populate_data }.to raise_error('Total cost cannot be parsed as a numeric value')}
+      it { expect { populate_data }.to raise_error('Arguments should be numeric')}
+    end
+
+    context 'when the claim_count submitted is invalid' do
+      let(:claim_count) { 'two hundred' }
+
+      it { expect { populate_data }.to raise_error('Arguments should be numeric')}
     end
   end
 
@@ -59,7 +65,7 @@ describe Reports::PerformancePlatform::QuarterlyVolume do
     subject(:publish) { report.publish! }
 
     before do
-      report.populate_data(1234)
+      report.populate_data(1234, 1234)
       stub_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z}).to_return(status: 200, body: "", headers: {})
     end
 

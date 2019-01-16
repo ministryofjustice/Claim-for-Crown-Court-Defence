@@ -11,15 +11,16 @@ module Reports
         @ready_to_send = false
       end
 
-      def populate_data(total_cost)
+      def populate_data(total_cost, claim_count)
         @total_cost = total_cost
-        raise 'Total cost cannot be parsed as a numeric value' unless total_cost_is_numeric?
+        @claim_count = claim_count
+        raise 'Arguments should be numeric' unless inputs_numeric?
         data = {
-          cost_per_transaction_quarter: (@total_cost.to_f / count_digital_claims.to_f).round(2),
+          cost_per_transaction_quarter: (@total_cost.to_f / @claim_count.to_f).round(2),
           start_at: @start_date.beginning_of_day.to_s(:db),
           end_at: @start_date.end_of_quarter.end_of_day.to_s(:db),
           total_cost_quarter: @total_cost.to_f,
-          transactions_per_quarter: count_digital_claims
+          transactions_per_quarter: @claim_count
         }
         @pps.add_data_set(@start_date, data)
         @ready_to_send = true
@@ -36,14 +37,10 @@ module Reports
 
       private
 
-      def total_cost_is_numeric?
-        true if Float(@total_cost)
+      def inputs_numeric?
+        true if Float(@total_cost) && Integer(@claim_count)
       rescue StandardError
         false
-      end
-
-      def count_digital_claims
-        @count_digital_claims ||= Claims::Count.quarter(@start_date)
       end
     end
   end

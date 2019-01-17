@@ -38,7 +38,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
     Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '130.00' and a hint of 'Number of days'
     And I select the 'Adjourned appeals, committals and breaches' fixed fee
     Then the fixed fee 'Adjourned appeals, committals and breaches' should have a rate of '87.00' and a hint of 'Number of days'
-    And I add a 'Number of cases uplift' fixed fee with case numbers
+    And I select the 'Number of cases uplift' fixed fee with case numbers
     Then the fixed fee 'Number of cases uplift' should have a rate of '26.00'
     Then I click "Continue" in the claim form
 

@@ -20,7 +20,7 @@
     advocateTypeChange: function () {
       var self = this;
       if ($('.calculated-grad-fee').exists()) {
-        $('.js-fee-calculator-advocate-type').change( function() {
+        $('.js-fee-calculator-advocate-type').change(function() {
           self.calculateGraduatedPrice();
         });
       }

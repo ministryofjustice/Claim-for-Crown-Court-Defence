@@ -23,7 +23,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:18 GMT
+      - Thu, 17 Jan 2019 12:17:17 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -39,7 +39,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":3,"start_date":"2018-04-01","end_date":"2018-12-30","type":"AGFS","description":"AGFS
         Fee Scheme 10"}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:18 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:17 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/scenarios/
@@ -63,7 +63,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:18 GMT
+      - Thu, 17 Jan 2019 12:17:17 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -88,7 +88,7 @@ http_interactions:
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:18 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:17 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/calculate/?day=1&fee_type_code=AGFS_FEE&offence_class=17.1&ppe=0&scenario=4
@@ -112,7 +112,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:19 GMT
+      - Thu, 17 Jan 2019 12:17:17 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -127,7 +127,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"amount":0.0}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:19 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:17 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2018-04-01&type=AGFS
@@ -151,7 +151,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:19 GMT
+      - Thu, 17 Jan 2019 12:17:17 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -167,7 +167,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":3,"start_date":"2018-04-01","end_date":"2018-12-30","type":"AGFS","description":"AGFS
         Fee Scheme 10"}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:19 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:17 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/scenarios/
@@ -191,7 +191,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:19 GMT
+      - Thu, 17 Jan 2019 12:17:17 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -216,7 +216,7 @@ http_interactions:
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:19 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:17 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/calculate/?advocate_type=JUNIOR&day=1&fee_type_code=AGFS_FEE&offence_class=17.1&ppe=0&scenario=4
@@ -240,7 +240,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:19 GMT
+      - Thu, 17 Jan 2019 12:17:18 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -255,7 +255,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"amount":550.0}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:19 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:18 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2018-04-01&type=AGFS
@@ -279,7 +279,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:23 GMT
+      - Thu, 17 Jan 2019 12:17:24 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -295,7 +295,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":3,"start_date":"2018-04-01","end_date":"2018-12-30","type":"AGFS","description":"AGFS
         Fee Scheme 10"}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:24 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:24 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/scenarios/
@@ -319,7 +319,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:24 GMT
+      - Thu, 17 Jan 2019 12:17:24 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -344,7 +344,7 @@ http_interactions:
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:24 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:24 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_SPCL_PREP&limit_from=1&offence_class=17.1&scenario=4
@@ -368,7 +368,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:24 GMT
+      - Thu, 17 Jan 2019 12:17:25 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -384,7 +384,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":43580,"scenario":4,"advocate_type":"JUNIOR","fee_type":29,"offence_class":null,"scheme":3,"unit":"HOUR","fee_per_unit":"39.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:24 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:25 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2018-04-01&type=AGFS
@@ -408,7 +408,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:24 GMT
+      - Thu, 17 Jan 2019 12:17:25 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -424,7 +424,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":3,"start_date":"2018-04-01","end_date":"2018-12-30","type":"AGFS","description":"AGFS
         Fee Scheme 10"}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:24 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:25 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/scenarios/
@@ -448,7 +448,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:24 GMT
+      - Thu, 17 Jan 2019 12:17:25 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -473,7 +473,7 @@ http_interactions:
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:24 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:26 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_SPCL_PREP&limit_from=1&offence_class=17.1&scenario=4
@@ -497,7 +497,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:24 GMT
+      - Thu, 17 Jan 2019 12:17:26 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -513,7 +513,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":43580,"scenario":4,"advocate_type":"JUNIOR","fee_type":29,"offence_class":null,"scheme":3,"unit":"HOUR","fee_per_unit":"39.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:24 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:26 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2018-04-01&type=AGFS
@@ -537,7 +537,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:26 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -553,7 +553,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":3,"start_date":"2018-04-01","end_date":"2018-12-30","type":"AGFS","description":"AGFS
         Fee Scheme 10"}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:26 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2018-04-01&type=AGFS
@@ -577,7 +577,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:26 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -593,7 +593,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":3,"start_date":"2018-04-01","end_date":"2018-12-30","type":"AGFS","description":"AGFS
         Fee Scheme 10"}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:26 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2018-04-01&type=AGFS
@@ -617,7 +617,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:26 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -633,7 +633,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":3,"start_date":"2018-04-01","end_date":"2018-12-30","type":"AGFS","description":"AGFS
         Fee Scheme 10"}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:26 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/scenarios/
@@ -657,7 +657,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:26 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -682,7 +682,7 @@ http_interactions:
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:26 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/scenarios/
@@ -706,7 +706,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:26 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -731,7 +731,7 @@ http_interactions:
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:26 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/scenarios/
@@ -755,7 +755,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:26 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -780,7 +780,7 @@ http_interactions:
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:26 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_SPCL_PREP&limit_from=1&offence_class=17.1&scenario=4
@@ -804,7 +804,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:26 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -820,7 +820,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":43580,"scenario":4,"advocate_type":"JUNIOR","fee_type":29,"offence_class":null,"scheme":3,"unit":"HOUR","fee_per_unit":"39.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:26 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_SPCL_PREP&limit_from=1&offence_class=17.1&scenario=4
@@ -844,7 +844,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:26 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -860,7 +860,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":43580,"scenario":4,"advocate_type":"JUNIOR","fee_type":29,"offence_class":null,"scheme":3,"unit":"HOUR","fee_per_unit":"39.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:26 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_NOTING_BRF&limit_from=1&offence_class=17.1&scenario=4
@@ -884,7 +884,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:26 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -900,7 +900,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":43565,"scenario":4,"advocate_type":"JUNIOR","fee_type":20,"offence_class":null,"scheme":3,"unit":"DAY","fee_per_unit":"108.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[],"strict_range":false}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:26 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2018-04-01&type=AGFS
@@ -924,7 +924,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:27 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -940,7 +940,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":3,"start_date":"2018-04-01","end_date":"2018-12-30","type":"AGFS","description":"AGFS
         Fee Scheme 10"}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:27 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2018-04-01&type=AGFS
@@ -964,7 +964,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:27 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -980,7 +980,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":3,"start_date":"2018-04-01","end_date":"2018-12-30","type":"AGFS","description":"AGFS
         Fee Scheme 10"}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:27 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/scenarios/
@@ -1004,7 +1004,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:27 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -1029,7 +1029,7 @@ http_interactions:
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:27 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/scenarios/
@@ -1053,7 +1053,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:27 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -1078,47 +1078,7 @@ http_interactions:
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_NOTING_BRF&limit_from=1&offence_class=17.1&scenario=4
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET, HEAD, OPTIONS
-      Content-Type:
-      - application/json
-      Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '215'
-      Connection:
-      - keep-alive
-    body:
-      encoding: ASCII-8BIT
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":43565,"scenario":4,"advocate_type":"JUNIOR","fee_type":20,"offence_class":null,"scheme":3,"unit":"DAY","fee_per_unit":"108.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[],"strict_range":false}]}'
-    http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:27 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_SPCL_PREP&limit_from=1&offence_class=17.1&scenario=4
@@ -1142,7 +1102,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 16 Jan 2019 12:24:25 GMT
+      - Thu, 17 Jan 2019 12:17:27 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -1158,5 +1118,45 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":43580,"scenario":4,"advocate_type":"JUNIOR","fee_type":29,"offence_class":null,"scheme":3,"unit":"HOUR","fee_per_unit":"39.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
     http_version: 
-  recorded_at: Wed, 16 Jan 2019 12:24:25 GMT
+  recorded_at: Thu, 17 Jan 2019 12:17:27 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/3/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_NOTING_BRF&limit_from=1&offence_class=17.1&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Allow:
+      - GET, HEAD, OPTIONS
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 17 Jan 2019 12:17:27 GMT
+      Server:
+      - nginx/1.15.5
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '215'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":43565,"scenario":4,"advocate_type":"JUNIOR","fee_type":20,"offence_class":null,"scheme":3,"unit":"DAY","fee_per_unit":"108.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[],"strict_range":false}]}'
+    http_version: 
+  recorded_at: Thu, 17 Jan 2019 12:17:27 GMT
 recorded_with: VCR 3.0.3

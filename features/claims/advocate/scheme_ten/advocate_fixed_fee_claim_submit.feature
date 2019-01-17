@@ -29,7 +29,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     And I select the 'Appeals to the crown court against conviction' fixed fee
     Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '250.00' and a hint of 'Number of days'
-    And I add a 'Number of cases uplift' fixed fee with case numbers
+    And I select the 'Number of cases uplift' fixed fee with case numbers
     Then the fixed fee 'Number of cases uplift' should have a rate of '50.00'
     And I select the 'Standard appearance fee' fixed fee
     Then the fixed fee 'Standard appearance fee' should have a rate of '90.00'

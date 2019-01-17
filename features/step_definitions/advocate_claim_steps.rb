@@ -125,38 +125,10 @@ Then(/^I check the section heading to be "([^"]*)"$/) do |num|
   expect(@claim_form_page.miscellaneous_fees.last.numbered.text).to have_content(num)
 end
 
-When(/^I add a fixed fee '(.*?)'$/) do |name|
-  @claim_form_page.add_fixed_fee_if_required
-  @claim_form_page.fixed_fees.last.select_fee_type name
-  @claim_form_page.fixed_fees.last.select_input.send_keys(:tab)
-  wait_for_ajax
-  @claim_form_page.fixed_fees.last.quantity.set 1
-  @claim_form_page.fixed_fees.last.quantity.send_keys(:tab)
-  wait_for_ajax
-end
-
-When(/^I select the '(.*?)' fixed fee$/) do |label|
-  @claim_form_page.fixed_fees.check(label)
-  wait_for_ajax
-  @claim_form_page.fixed_fees.set_quantity(label)
-  wait_for_ajax
-end
-
-Then(/^I add a fixed fee '(.*?)' with case numbers$/) do |name|
-  @claim_form_page.add_fixed_fee_if_required
-  @claim_form_page.fixed_fees.last.select_fee_type name
-  @claim_form_page.fixed_fees.last.select_input.send_keys(:tab)
-  wait_for_ajax
-  @claim_form_page.fixed_fees.last.case_numbers.set "T20170001"
-  @claim_form_page.fixed_fees.last.quantity.set 1
-  @claim_form_page.fixed_fees.last.quantity.send_keys(:tab)
-  wait_for_ajax
-end
-
-Then(/^I add a '(.*?)' fixed fee with case numbers$/) do |name|
+Then(/^I select the '(.*?)' fixed fee( with case numbers)?$/) do |name, add_case_numbers|
   @claim_form_page.fixed_fees.check(name)
   wait_for_ajax
-  @claim_form_page.fixed_fees.fee_block_for(name).case_numbers.set "T20170001"
+  @claim_form_page.fixed_fees.fee_block_for(name).case_numbers.set "T20170001" if add_case_numbers
   @claim_form_page.fixed_fees.set_quantity(name)
   wait_for_ajax
 end
@@ -221,21 +193,22 @@ Then(/^the fixed fee checkboxes should consist of \s*'([^']*)'$/) do |fee_type_d
   expect(@claim_form_page.fixed_fees.checklist_labels).to match_array(fee_type_descriptions)
 end
 
-Then(/^the '(.*?)' fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee_type, fee, rate, hint|
-  fee = @claim_form_page.send("#{fee_type}_fees").find { |section| section.select_input.value.eql?(fee) }
-  expect(fee.rate.value).to eql rate
-  expect(fee.quantity_hint).to have_text(hint) if hint.present?
-  expect(fee.calc_help_text).to be_visible
+Then(/^the '(.*?)' fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee_type, description, rate, hint|
+  fee_block = @claim_form_page.fee_block_for(sections: "#{fee_type}_fees", description: description)
+  expect(fee_block.rate.value).to eql rate
+  expect(fee_block.quantity_hint).to have_text(hint) if hint.present?
+  expect(fee_block.calc_help_text).to be_visible
 end
 
 # Alternative data table step for the above
 Then(/^the following fee details should exist:$/) do |table|
   table.hashes.each do |row|
-    fee = @claim_form_page.send("#{row['section']}_fees").find { |section| section.select_input.value.eql?(row['fee_description']) }
-    expect(fee.rate.value).to eql row['rate']
-    expect(fee.quantity_hint).to have_text(row['hint']) if row.keys.include?('hint')
-    expect(fee.calc_help_text).to be_visible if row.keys.include?('help') && row['help'].eql?('true')
-    expect(fee.calc_help_text).to_not be_visible if row.keys.include?('help') && !row['help'].eql?('true')
+    fee_block = @claim_form_page.fee_block_for(sections: "#{row['section']}_fees", description: row['fee_description'])
+
+    expect(fee_block.rate.value).to eql row['rate']
+    expect(fee_block.quantity_hint).to have_text(row['hint']) if row.keys.include?('hint')
+    expect(fee_block).to have_calc_help_text if row.keys.include?('help') && row['help'].eql?('true')
+    expect(fee_block).to_not have_calc_help_text if row.keys.include?('help') && !row['help'].eql?('true')
   end
 end
 

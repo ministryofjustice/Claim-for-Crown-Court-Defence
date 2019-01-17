@@ -23,7 +23,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Sat, 12 Jan 2019 21:53:42 GMT
+      - Thu, 17 Jan 2019 10:07:40 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -39,7 +39,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":1,"start_date":"2012-04-01","end_date":"2018-03-31","type":"AGFS","description":"AGFS
         Fee Scheme 9"}]}'
     http_version: 
-  recorded_at: Sat, 12 Jan 2019 21:53:42 GMT
+  recorded_at: Thu, 17 Jan 2019 10:07:40 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/scenarios/
@@ -63,7 +63,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Sat, 12 Jan 2019 21:53:42 GMT
+      - Thu, 17 Jan 2019 10:07:40 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -84,16 +84,10 @@ http_interactions:
         of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
         case not proceeded","code":"AS000014"}]}'
     http_version: 
-  recorded_at: Sat, 12 Jan 2019 21:53:42 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=1&scenario=4
-=======
-  recorded_at: Thu, 03 Jan 2019 15:16:58 GMT
+  recorded_at: Thu, 17 Jan 2019 10:07:40 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/1/prices/?advocate_type=JRALONE&fee_type_code=AGFS_APPEAL_CON&limit_from=1&offence_class=K&scenario=5
->>>>>>> b8d22ae14... Update the VCR cassettes following the test changes
     body:
       encoding: US-ASCII
       string: ''
@@ -114,7 +108,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Sat, 12 Jan 2019 21:53:42 GMT
+      - Thu, 17 Jan 2019 10:07:40 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -132,7 +126,7 @@ http_interactions:
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
     http_version: 
-  recorded_at: Sat, 12 Jan 2019 21:53:42 GMT
+  recorded_at: Thu, 17 Jan 2019 10:07:40 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
@@ -156,7 +150,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Sat, 12 Jan 2019 21:53:44 GMT
+      - Thu, 17 Jan 2019 10:07:42 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -172,7 +166,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
     http_version: 
-  recorded_at: Sat, 12 Jan 2019 21:53:44 GMT
+  recorded_at: Thu, 17 Jan 2019 10:07:42 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
@@ -196,7 +190,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Sat, 12 Jan 2019 21:53:44 GMT
+      - Thu, 17 Jan 2019 10:07:42 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -204,8 +198,8 @@ http_interactions:
       - Accept-Encoding
       X-Frame-Options:
       - SAMEORIGIN
-      Content-Length:
-      - '835'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
     body:
@@ -255,10 +249,10 @@ http_interactions:
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
     http_version: 
-  recorded_at: Sat, 12 Jan 2019 21:53:44 GMT
+  recorded_at: Thu, 17 Jan 2019 10:07:42 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?advocate_type&day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=1&scenario=4
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&ppe=1&scenario=4
     body:
       encoding: US-ASCII
       string: ''
@@ -279,7 +273,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Sat, 12 Jan 2019 21:53:46 GMT
+      - Thu, 17 Jan 2019 10:07:43 GMT
       Server:
       - nginx/1.15.5
       Vary:
@@ -294,5 +288,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"amount":5142.87}'
     http_version: 
-  recorded_at: Sat, 12 Jan 2019 21:53:46 GMT
+  recorded_at: Thu, 17 Jan 2019 10:07:43 GMT
 recorded_with: VCR 3.0.3

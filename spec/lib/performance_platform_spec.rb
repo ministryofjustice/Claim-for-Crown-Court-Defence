@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe PerformancePlatform do
   subject(:perf_platform) { described_class }
 
-  describe '#report' do
+  describe '.report' do
     subject(:report) { described_class.report(report_name) }
 
     before do
@@ -21,6 +21,22 @@ RSpec.describe PerformancePlatform do
       let(:report_name) { 'non-existent-report' }
 
       it { expect { subject }.to raise_error('non-existent-report is not present in config/performance_platform.yml') }
+    end
+  end
+
+  describe '.reset' do
+    let(:root_url) { 'https://new.pi/endpoint' }
+
+    before do
+      described_class.configure do |config|
+        config.root_url = root_url
+      end
+    end
+
+    it 'resets the configured host' do
+      expect(described_class.configuration.root_url).to eql root_url
+      described_class.reset
+      expect(described_class.configuration.root_url).to eql 'https://www.performance.service.gov.uk/data'
     end
   end
 end

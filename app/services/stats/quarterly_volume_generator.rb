@@ -14,7 +14,8 @@ module Stats
 
     def call
       output = generate_new_report
-      Stats::Result.new(output.as_json.to_s, format)
+      File.open(filename, 'w') { |file| file.write output.as_json }
+      output
     end
 
     private
@@ -56,6 +57,10 @@ module Stats
 
     def number_to_text(value)
       { '1' => 'one', '2' => 'two', '3' => 'three' }[value.to_s]
+    end
+
+    def filename
+      File.join(Rails.root, 'tmp', "#{@start_date.strftime('%Y_%m')}_qv_report.json")
     end
 
     def start_date

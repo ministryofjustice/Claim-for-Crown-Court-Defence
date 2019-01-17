@@ -153,4 +153,60 @@ http_interactions:
       string: '{"success":true,"terms":"https:\/\/currencylayer.com\/terms","privacy":"https:\/\/currencylayer.com\/privacy","historical":true,"date":"2018-03-31","timestamp":1522540799,"source":"USD","quotes":{"USDUSD":1,"USDGBP":0.71347}}'
     http_version: 
   recorded_at: Tue, 08 Jan 2019 10:38:19 GMT
+- request:
+    method: post
+    uri: https://www.performance.service.gov.uk/data//test-quarterly-volumes
+    body:
+      encoding: UTF-8
+      string: '[{"_id":"MjAxOC0wMS0wMVQwMDowMDowMCswMDowMC4ucXVhcnRlcg==","_timestamp":"2018-01-01T00:00:00+00:00","service":null,"period":"quarter","report":"test-quarterly-volumes","cost_per_transaction_quarter":null,"start_at":"2018-01-01
+        00:00:00","end_at":"2018-03-31 22:59:59","total_cost_quarter":0.0,"transactions_per_quarter":0}]'
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin16.7.0 x86_64) ruby/2.5.1p57
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer
+      Content-Length:
+      - '323'
+      Host:
+      - www.performance.service.gov.uk
+  response:
+    status:
+      code: 404
+      message: NOT FOUND
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '162'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 17 Jan 2019 15:48:48 GMT
+      Via:
+      - 1.1 varnish
+      Connection:
+      - keep-alive
+      X-Served-By:
+      - cache-lhr6321-LHR
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1547740128.192387,VS0,VE58
+    body:
+      encoding: UTF-8
+      string: "{\n  \"message\": \"The requested URL was not found on the server.
+        \ If you entered the URL manually please check your spelling and try again.\",
+        \n  \"status\": \"error\"\n}"
+    http_version: 
+  recorded_at: Thu, 17 Jan 2019 15:48:48 GMT
 recorded_with: VCR 3.0.3

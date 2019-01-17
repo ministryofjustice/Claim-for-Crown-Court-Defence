@@ -3,15 +3,15 @@ module API
     module PerformancePlatform
       class QuarterlyVolume < Grape::API
         helpers do
-          def report
-            Stats::StatsReport.most_recent_by_type('quarterly_volume')
-          end
-
-          def quarterly_report
-            data = open(report.document_url).read
+          def quarterly_report_data(filename)
+            data = File.open(filename, 'r').read
             JSON.parse(data.gsub(/=>/, ':').gsub(':nil,', ':null,')).deep_symbolize_keys
           rescue StandardError
             error!('No report exists', 400)
+          end
+
+          def filename(start_date)
+            File.join(Rails.root, 'tmp', "#{start_date.strftime('%Y_%m')}_qv_report.json")
           end
         end
 
@@ -41,8 +41,8 @@ module API
                 month_2: params[:month_2_usd_value],
                 month_3: params[:month_3_usd_value]
               }
-              Stats::StatsReportGenerator.call('quarterly_volume', options)
-
+              # Stats::StatsReportGenerator.call('quarterly_volume', options)
+              quarterly_report = Stats::QuarterlyVolumeGenerator.call(options)
               present quarterly_report
             end
           end
@@ -57,13 +57,14 @@ module API
 
             desc 'Submit calculated totals for quarterly volume performance platform report'
             post do
-              results = quarterly_report
-              start_of_quarter = Date.parse(results[:month_one][:date]).beginning_of_month
+              start_of_quarter = Date.parse(params[:start_date]).beginning_of_month
+              filename = filename(start_of_quarter)
+              results = quarterly_report_data(filename)
               qvr = Reports::PerformancePlatform::QuarterlyVolume.new(start_of_quarter)
               qvr.populate_data(results[:total_quarter_cost], results[:claim_count])
               published = qvr.publish!
               result = { successful_upload: JSON.parse(published)['status'] }
-              report.destroy
+              File.delete(filename)
               present result.as_json
             end
           end

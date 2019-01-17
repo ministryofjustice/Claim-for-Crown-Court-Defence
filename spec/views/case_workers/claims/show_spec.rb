@@ -114,6 +114,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
         it 'displays expected table headers' do
           within '.fees-summary' do |summary|
             expect(summary).to include_table_headers('Fee category', 'Fee type', 'Days', 'PPE', 'Amount')
+            expect(summary).to_not include_table_headers('Actual trial length')
           end
         end
       end

@@ -14,7 +14,7 @@ module PerformancePlatform
     def report(name)
       report = Reports.new.call(name)
       Submission.new(report)
-    rescue NoMethodError
+    rescue RuntimeError
       raise "#{name} is not present in config/performance_platform.yml"
     end
 

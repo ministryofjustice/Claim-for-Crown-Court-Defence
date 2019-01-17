@@ -20,7 +20,7 @@ RSpec.describe PerformancePlatform do
     context 'when passed a report name that is not present in the yaml file' do
       let(:report_name) { 'non-existent-report' }
 
-      it { expect { subject }.to raise_error('non-existent-report is not present in config/performance_platform.yml') }
+      it { expect { report }.to raise_error('non-existent-report is not present in config/performance_platform.yml') }
     end
   end
 

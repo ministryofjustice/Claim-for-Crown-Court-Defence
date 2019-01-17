@@ -15,6 +15,8 @@ RSpec.describe API::V2::PerformancePlatform::QuarterlyVolume do
   let(:value_2) { 2000 }
   let(:value_3) { 3000 }
 
+  after { FileUtils.rm_rf(Dir["#{Rails.root}/tmp/[^.]*_qv_report.json"]) }
+
   def do_post_request
     post '/api/performance_platform/quarterly_volume', post_params
   end
@@ -49,7 +51,10 @@ RSpec.describe API::V2::PerformancePlatform::QuarterlyVolume do
 
   describe 'POST quarterly_volume' do
     context 'when report not previously generated' do
-      before { do_post_request }
+      before do
+        FileUtils.rm_rf(Dir["#{Rails.root}/tmp/[^.]*_qv_report.json"])
+        do_post_request
+      end
 
       let(:api_key) { case_worker_admin.user.api_key }
 

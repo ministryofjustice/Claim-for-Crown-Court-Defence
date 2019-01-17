@@ -42,7 +42,7 @@ module ExternalUsers
     def generate_lgfs_supplier_number
       last_record = SupplierNumber.where("supplier_number LIKE '9X%'").reorder(:supplier_number).last
       return 1 unless last_record
-      /^9X(?<highest_number>^.*)X$/ =~ last_record.supplier_number
+      /^9X(?<highest_number>\d{3})X$/ =~ last_record.supplier_number
       highest_number.to_i + 1
     end
 

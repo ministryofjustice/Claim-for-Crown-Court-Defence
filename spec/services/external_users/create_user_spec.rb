@@ -25,6 +25,19 @@ RSpec.describe ExternalUsers::CreateUser do
       expect(new_external_user.provider).to eq(new_provider)
     end
 
+    context 'when a previous supplier exists' do
+      before do
+        service.call!
+        #simulate calling the service twice
+        service.call!
+      end
+
+      it 'allocates sequential lgfs_supplier_numbers numbers for sandbox users' do
+        second_provider = Provider.order('created_at').last
+        expect(second_provider.lgfs_supplier_numbers.first.supplier_number).to eql '9X002X'
+      end
+    end
+
     context 'when the provider is not created due to some error' do
       before do
         expect(Provider)

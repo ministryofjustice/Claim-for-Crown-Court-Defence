@@ -27,8 +27,8 @@ Feature: Advocate tries to submit a claim for a Fixed fee (Appeal against convic
     And I select an advocate category of 'Junior'
 
     And I select the 'Appeals to the crown court against conviction' fixed fee
-    Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '250.00' and a hint of 'Number of days'
-    Then the summary total should equal '£250.00'
+    Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '330.00' and a hint of 'Number of days'
+    Then the summary total should equal '£330.00'
 
     Then I click "Continue" in the claim form
     And I should be in the 'Miscellaneous fees' form page

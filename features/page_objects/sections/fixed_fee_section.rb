@@ -36,7 +36,7 @@ class FixedFeeSection < SitePrism::Section
     fee_block.quantity.send_keys(:tab)
   end
 
-  def fee_block_for(fee)
-    send(fee.downcase.gsub(/ /, '_').gsub(/,/, '').to_sym)
+  def fee_block_for(label)
+    send(label.downcase.gsub(/ /, '_').gsub(/,/, '').to_sym)
   end
 end

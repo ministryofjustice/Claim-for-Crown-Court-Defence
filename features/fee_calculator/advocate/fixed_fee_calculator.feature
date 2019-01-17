@@ -24,10 +24,10 @@ Feature: Advocate completes fixed fee page using calculator
     Given I insert the VCR cassette 'features/fee_calculator/advocate/fixed_fee_calculator'
 
     When I select an advocate category of 'Junior alone'
-    And I add a fixed fee 'Appeals to the crown court against conviction'
-    And I add a fixed fee 'Number of cases uplift' with case numbers
-    And I add a fixed fee 'Number of defendants uplift'
-    And I add a fixed fee 'Standard appearance fee'
+    And I select the 'Appeals to the crown court against conviction' fixed fee
+    And I select the 'Number of cases uplift' fixed fee with case numbers
+    And I select the 'Number of defendants uplift' fixed fee
+    And I select the 'Standard appearance fee' fixed fee
 
     Then the following fee details should exist:
       | section | fee_description | rate | hint | help |
@@ -81,7 +81,7 @@ Feature: Advocate completes fixed fee page using calculator
 
   And I select an advocate category of 'Junior alone'
   And I select the 'Elected case not proceeded' fixed fee
-  And I add a 'Number of cases uplift' fixed fee with case numbers
+  And I select the 'Number of cases uplift' fixed fee with case numbers
   And I select the 'Number of defendants uplift' fixed fee
 
   Then the following fee details should exist:

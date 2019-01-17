@@ -1,11 +1,11 @@
 require_relative 'sections/common_date_section'
 require_relative 'sections/supplier_numbers_section'
 require_relative 'sections/retrial_section'
-require_relative 'sections/fee_case_numbers_section'
-require_relative 'sections/fixed_fee_case_numbers_section'
 require_relative 'sections/fee_dates_section_condensed'
 require_relative 'sections/fee_dates_section'
 require_relative 'sections/fee_section'
+require_relative 'sections/fee_case_numbers_section'
+require_relative 'sections/fixed_fee_case_numbers_section'
 require_relative 'sections/basic_fee_section'
 require_relative 'sections/fixed_fee_section'
 require_relative 'sections/typed_fee_section'
@@ -128,5 +128,14 @@ class ClaimFormPage < SitePrism::Page
 
   def check_evidence_checklist(count = 1)
     evidence_checklist.items_with_labels[0...count].each { |item| item.label.click }
+  end
+
+  def fee_block_for(sections:, description:)
+    sections = send(sections.to_sym)
+    if sections.map { |section| section.is_a?(TypedFeeSection) }.all?
+      sections.find { |section| section.select_input.value.eql?(description) }
+    else
+      sections.fee_block_for(description)
+    end
   end
 end

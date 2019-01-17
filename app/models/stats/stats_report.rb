@@ -12,7 +12,7 @@
 
 module Stats
   class StatsReport < ApplicationRecord
-    TYPES = %w[management_information provisional_assessment rejections_refusals quarterly_volume].freeze
+    TYPES = %w[management_information provisional_assessment rejections_refusals].freeze
 
     validates :status, inclusion: { in: %w[started completed error] }
 
@@ -24,7 +24,6 @@ module Stats
 
     scope :management_information, -> { not_errored.where(report_name: 'management_information') }
     scope :provisional_assessment, -> { not_errored.where(report_name: 'provisional_assessment') }
-    scope :quarterly_volume, -> { not_errored.where(report_name: 'quarterly_volume') }
 
     has_attached_file :document,
                       { s3_headers: {

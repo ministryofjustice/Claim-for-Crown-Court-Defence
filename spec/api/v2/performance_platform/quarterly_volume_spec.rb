@@ -53,7 +53,7 @@ RSpec.describe API::V2::PerformancePlatform::QuarterlyVolume do
 
       let(:api_key) { case_worker_admin.user.api_key }
 
-      it 'returns a 404 error' do
+      it 'returns a 400 error' do
         expect(last_response.status).to eq 400
       end
 

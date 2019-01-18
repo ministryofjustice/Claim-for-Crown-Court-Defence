@@ -145,6 +145,7 @@ RSpec.configure do |config|
     FileUtils.rm_rf('./public/assets/test/images/')
     # Deletes report files created during the test suite run
     FileUtils.rm_rf("#{Rails.root}/tmp/test/reports/")
+    FileUtils.rm_rf(Dir["#{Rails.root}/tmp/[^.]*documents.zip"])
     VatRate.delete_all
   end
 

@@ -194,7 +194,7 @@ Then(/^the fixed fee checkboxes should consist of \s*'([^']*)'$/) do |fee_type_d
 end
 
 Then(/^the '(.*?)' fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee_type, description, rate, hint|
-  fee_block = @claim_form_page.fee_block_for(sections: "#{fee_type}_fees", description: description)
+  fee_block = @claim_form_page.fee_block_for("#{fee_type}_fees", description)
   expect(fee_block.rate.value).to eql rate
   expect(fee_block.quantity_hint).to have_text(hint) if hint.present?
   expect(fee_block.calc_help_text).to be_visible
@@ -203,7 +203,7 @@ end
 # Alternative data table step for the above
 Then(/^the following fee details should exist:$/) do |table|
   table.hashes.each do |row|
-    fee_block = @claim_form_page.fee_block_for(sections: "#{row['section']}_fees", description: row['fee_description'])
+    fee_block = @claim_form_page.fee_block_for("#{row['section']}_fees", description: row['fee_description'])
 
     expect(fee_block.rate.value).to eql row['rate']
     expect(fee_block.quantity_hint).to have_text(row['hint']) if row.keys.include?('hint')

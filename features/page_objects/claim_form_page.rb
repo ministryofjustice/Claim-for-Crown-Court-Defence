@@ -130,12 +130,15 @@ class ClaimFormPage < SitePrism::Page
     evidence_checklist.items_with_labels[0...count].each { |item| item.label.click }
   end
 
-  def fee_block_for(sections:, description:)
-    sections = send(sections.to_sym)
-    if sections.map { |section| section.is_a?(TypedFeeSection) }.all?
-      sections.find { |section| section.select_input.value.eql?(description) }
+  def fee_block_for(section_or_sections, description)
+    section = send(section_or_sections.to_sym)
+
+    if section.respond_to?(:fee_block_for)
+      section.fee_block_for(description)
+    elsif section.map { |section| section.is_a?(TypedFeeSection) }.all?
+      section.find { |section| section.select_input.value.eql?(description) }
     else
-      sections.fee_block_for(description)
+      raise ArgumentError, 'section(s) specified cannot identify specific fee sub-sections'
     end
   end
 end

@@ -203,7 +203,7 @@ end
 # Alternative data table step for the above
 Then(/^the following fee details should exist:$/) do |table|
   table.hashes.each do |row|
-    fee_block = @claim_form_page.fee_block_for("#{row['section']}_fees", description: row['fee_description'])
+    fee_block = @claim_form_page.fee_block_for("#{row['section']}_fees", row['fee_description'])
 
     expect(fee_block.rate.value).to eql row['rate']
     expect(fee_block.quantity_hint).to have_text(row['hint']) if row.keys.include?('hint')
@@ -239,7 +239,12 @@ end
 Then(/^I amend the fixed fee '(.*?)' to have a quantity of (\d+)$/) do |fee_type, quantity|
   fixed_fee = @claim_form_page.fixed_fees.fee_block_for(fee_type)
   fixed_fee.quantity.set(quantity)
-  fixed_fee.quantity.send_keys(:tab)
+  wait_for_ajax
+end
+
+Then(/^I amend the miscellaneous fee '(.*?)' to have a quantity of (\d+)$/) do |fee_type, quantity|
+  misc_fee = @claim_form_page.fee_block_for(:miscellaneous_fees, fee_type)
+  misc_fee.quantity.set(quantity)
   wait_for_ajax
 end
 

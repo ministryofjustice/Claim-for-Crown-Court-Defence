@@ -19,10 +19,12 @@ VCR.configure do |c|
   c.ignore_request do |request|
     URI(request.uri).path == "/__identify__" ||
     (!URI(request.uri).path.start_with?('/api/') &&
-      !URI(request.uri).path =~ /maps.googleapis.com/)
+      !URI(request.uri).path =~ /maps.googleapis.com/ &&
+      !URI(request.uri).path =~ /apilayer.net/)
   end
 
   c.filter_sensitive_data('<GOOGLE_API_KEY>') { Rails.application.secrets.google_api_key }
+  c.filter_sensitive_data('<CURRENCY_API_KEY>') { Rails.application.secrets.currency_api_key }
 end
 
 # use `VCR_OFF=true rspec` too turn off vcr
@@ -41,7 +43,7 @@ end
 # in the cassette library under a directory structure
 # mirroring the specs'.
 RSpec.configure do |config|
-  config.around(:each, :fee_calc_vcr) do |example|
+  config.around(:each, [:fee_calc_vcr, :currency_vcr]) do |example|
     if VCR.turned_on?
       cassette = Pathname.new(example.metadata[:file_path]).cleanpath.sub_ext('').to_s
       VCR.use_cassette(cassette, :record => :new_episodes, :match_requests_on => [:method, path_query_matcher]) do

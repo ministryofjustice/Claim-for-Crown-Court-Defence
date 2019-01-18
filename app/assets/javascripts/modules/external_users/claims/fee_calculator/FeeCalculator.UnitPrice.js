@@ -80,7 +80,7 @@
       var self = this;
       var $els = $el || $('.js-fee-quantity');
       if ($('.calculated-fee').exists()) {
-        $els.change(function() {
+        $els.on('change keyup', function() {
           self.calculateUnitPrice();
           self.populateNetAmount(this);
         });

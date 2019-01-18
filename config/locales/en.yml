@@ -2257,6 +2257,11 @@ en:
           date_to: "OPTIONAL/REQUIRED: Claims submitted on or before date (YYYY-MM-DD). Required if start date set"
         scheme_ten:
           format: 'OPTIONAL: the format to output the data. DEFAULT: json.  CSV will download automatically'
+      performance_platform:
+        quarterly_volume:
+          start_date: 'REQUIRED: First day of the quarter (YYYY-MM-DD)'
+          value: 'REQUIRED: The hosting cost for the %{month} month in the quarter'
+
   faker:
     address:
       postcode: /[A-PR-UWYZ]([A-HK-Y][0-9][ABEHMNPRVWXY0-9]?|[0-9][ABCDEFGHJKPSTUW0-9]?) [0-9][ABD-HJLNP-UW-Z]{2}/

@@ -1,0 +1,18 @@
+reports:
+  transactions_by_channel:
+    type: 'test-transactions-by-channel'
+    period: 'weekly'
+    fields:
+      - :channel
+      - :count
+    token: <%= ENV['PERF_PLAT_TBC_TOKEN'] %>
+  quarterly_volumes:
+    type: 'test-quarterly-volumes'
+    period: 'quarter'
+    fields:
+      - :cost_per_transaction_quarter
+      - :start_at
+      - :end_at
+      - :total_cost_quarter
+      - :transactions_per_quarter
+    token: <%= ENV["PERF_PLAT_QV_TOKEN"] %>

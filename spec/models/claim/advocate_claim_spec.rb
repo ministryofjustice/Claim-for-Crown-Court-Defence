@@ -1077,6 +1077,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       subject(:claim) { create(:draft_claim, case_type: create(:case_type, :appeal_against_sentence), fixed_fees: fixed_fees) }
       let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, :with_date_attended, rate: 9.99)] }
 
+      before { claim.save }
+
       context 'when the user changes the case type to `Appeal against conviction`' do
         it 'removes the fxase fee' do
           expect {
@@ -1084,6 +1086,16 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
             claim.save
           }.to change {
             claim.fixed_fees.size
+          }.from(1)
+           .to(0)
+        end
+
+        it 'removes the date attended fee associated with the fixed fee' do
+          expect {
+            claim.case_type = build(:case_type, :appeal_against_conviction)
+            claim.save
+          }.to change {
+            claim.fixed_fees.flat_map(&:dates_attended).size
           }.from(1)
            .to(0)
         end

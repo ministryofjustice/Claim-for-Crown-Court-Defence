@@ -273,7 +273,7 @@ module Claim
     def destroy_all_invalid_fee_types
       if case_type.present? && case_type.is_fixed_fee?
         clear_basic_fees
-        destroy_ineligbile_fixed_fees
+        destroy_ineligible_fixed_fees
       else
         fixed_fees.destroy_all unless fixed_fees.empty?
       end
@@ -283,7 +283,7 @@ module Claim
       basic_fees.map(&:clear) unless basic_fees.empty?
     end
 
-    def destroy_ineligbile_fixed_fees
+    def destroy_ineligible_fixed_fees
       eligbile_fees = Claims::FetchEligibleFixedFeeTypes.new(self).call
       fixed_fees.each do |fee|
         fixed_fees.delete(fee) unless eligbile_fees.map(&:code).include?(fee.fee_type_code)

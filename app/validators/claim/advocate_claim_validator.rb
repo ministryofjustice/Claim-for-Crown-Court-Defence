@@ -81,7 +81,8 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   def validate_defendant_uplifts_fixed_fees
     return if @record.from_api? || !@record.fixed_fee_case?
     return unless defendant_uplifts_greater_than?(defendant_uplifts_fixed_fees_counts, number_of_defendants)
-    add_error(:fixed_fee_4_quantity, 'defendant_uplifts_fixed_fees_mismatch')
+    position = @record.fixed_fees.find_index(&:defendant_uplift?) + 1
+    add_error("fixed_fee_#{position}_quantity", 'defendant_uplifts_fixed_fees_mismatch')
   end
 
   def validate_defendant_uplifts_misc_fees

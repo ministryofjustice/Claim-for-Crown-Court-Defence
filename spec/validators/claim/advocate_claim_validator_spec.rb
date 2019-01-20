@@ -295,12 +295,15 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
         let(:claim) { create(:advocate_claim, :with_fixed_fee_case) }
 
         before do
-          create(:fixed_fee, :fxndr_fee, claim: claim, quantity: 1, amount: 21.01)
+          fxsaf = create(:fixed_fee_type, :fxsaf, id: 10000)
+          fxndr = create(:fixed_fee_type, :fxndr, id: 10001)
+          create(:fixed_fee, fee_type: fxsaf, claim: claim, quantity: 1, rate: 21.01)
+          create(:fixed_fee, fee_type: fxndr, claim: claim, quantity: 1, rate: 21.01)
         end
 
         it 'test setup' do
           expect(claim.defendants.size).to eql 1
-          expect(claim.fixed_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[FXNDR])
+          expect(claim.fixed_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[FXNDR FXSAF])
         end
 
         it 'should not error' do
@@ -312,8 +315,9 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
             claim.form_step = :fixed_fees
           end
 
-          it 'should error' do
-            should_error_with(claim, :fixed_fee_4_quantity, 'defendant_uplifts_fixed_fees_mismatch')
+          it 'should error on the uplift fee' do
+            position = claim.fixed_fees.find_index(&:defendant_uplift?) + 1
+            should_error_with(claim, "fixed_fee_#{position}_quantity", 'defendant_uplifts_fixed_fees_mismatch')
           end
         end
       end

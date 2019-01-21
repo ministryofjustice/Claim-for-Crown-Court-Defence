@@ -621,18 +621,12 @@ en:
         date: 'Date'
         page_title_transfer_claim: Certify and submit the litigator transfer fees claim
         page_title_advocate_claim: advocate claim
-        agfs:
-          advocate_claim:
-            page_title: Certify and submit the advocate final fees claim
-          advocate_interim_claim:
-            page_title: Certify and submit the advocate warrant fees claim
-        lgfs:
-          transfer_claim:
-            page_title: Certify and submit the litigator transfer fees claim
-          interim_claim:
-            page_title: Certify and submit the litigator interim fees claim
-          litigator_claim:
-            page_title: Certify and submit the litigator final fees claim
+        page_title:
+          agfs_final: Certify and submit the advocate final fees claim
+          agfs_interim: Certify and submit the advocate warrant fees claim
+          lgfs_final: Certify and submit the litigator final fees claim
+          lgfs_interim: Certify and submit the litigator interim fees claim
+          lgfs_transfer: Certify and submit the litigator transfer fees claim
     claim_types:
       chosen:
         errors:

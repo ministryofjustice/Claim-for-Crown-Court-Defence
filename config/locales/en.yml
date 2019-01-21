@@ -631,7 +631,7 @@ en:
             page_title: Certify and submit the litigator transfer fees claim
           interim_claim:
             page_title: Certify and submit the litigator interim fees claim
-          final_claim:
+          litigator_claim:
             page_title: Certify and submit the litigator final fees claim
     claim_types:
       chosen:

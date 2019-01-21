@@ -16,9 +16,9 @@
               = t('.fee_category')
             %th{ scope: 'col' }
               = t('.fee_type')
-            - if claim.transfer? # could be applied to graduated too
+            - if claim.transfer? || (claim.final? && !claim.fixed_fee_case?)
               %th.numeric{ scope: 'col' }
-                = t('.days_claimed')
+                = claim.transfer? ? t('.days_claimed') : t('.actual_trial_length')
             %th.numeric{ scope: 'col' }
               = claim.fixed_fee_case? ? t('.quantity') : 'PPE'
             - if claim.fixed_fee_case?
@@ -47,7 +47,7 @@
                 - if fee.case_uplift?
                   %br
                   = "(#{t('.case_numbers')}: #{fee.case_numbers})"
-              - if claim.transfer?
+              - if claim.transfer? || (claim.final? && !claim.fixed_fee_case?)
                 %td.numeric{ scope: 'col' }
                   = fee.days_claimed
               %td.numeric

@@ -1,5 +1,5 @@
 = content_for :page_title, flush: true do
-  = t(".#{@claim.fee_scheme.name.underscore}.#{@claim.type.underscore.gsub(/claim\//, '')}.page_title")
+  = t(".#{@claim.fee_scheme&.name&.underscore}.#{@claim.type.underscore.gsub(/claim\//, '')}.page_title")
 
 = render partial: 'errors/error_summary', locals:{ ep: @certification, error_summary: t('.prohibited_save')}
 

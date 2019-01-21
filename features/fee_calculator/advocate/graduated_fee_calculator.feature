@@ -24,29 +24,26 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
 
-    And I select the offence category 'Murder'
-
     Given I insert the VCR cassette 'features/fee_calculator/advocate/graduated_fee_calculator'
-
-    Then I click "Continue" in the claim form
+    When I select the offence category 'Murder'
+    And I click "Continue" in the claim form
     And I should be in the 'Fees' form page
-    And the basic fee net amount should be populated with '0.00'
+    Then the basic fee net amount should be populated with '0.00'
 
     # advocate category impacts "basic" fee
-    Then I select an advocate category of 'Junior alone'
+    When I select an advocate category of 'Junior alone'
     And the basic fee net amount should be populated with '1632.00'
-    Then I select an advocate category of 'QC'
-    And the basic fee net amount should be populated with '2856.00'
+    And I select an advocate category of 'QC'
+    Then the basic fee net amount should be populated with '2856.00'
 
-    Then I click "Continue" in the claim form
-    And I should be in the 'Miscellaneous fees' form page
+    When I click "Continue" in the claim form
+    Then I should be in the 'Miscellaneous fees' form page
 
     # offence impact on "basic" fee
-    And I goto claim form step 'offence details'
+    When I goto claim form step 'offence details'
     And I select the offence category 'Activities relating to opium'
-
-    Then I click "Continue" in the claim form
-    And the basic fee net amount should be populated with '2529.00'
+    And I click "Continue" in the claim form
+    Then the basic fee net amount should be populated with '2529.00'
 
     And I eject the VCR cassette
 
@@ -79,49 +76,45 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
 
-    And I select the offence category 'Murder'
-
     Given I insert the VCR cassette 'features/fee_calculator/advocate/graduated_fee_calculator'
 
-    Then I click "Continue" in the claim form
+    When I select the offence category 'Murder'
+    And I click "Continue" in the claim form
     And I should be in the 'Fees' form page
-    And the basic fee net amount should be populated with '0.00'
+    Then the basic fee net amount should be populated with '0.00'
 
     # advocate category impacts "basic" fee (retrial interval within a month, 30% reduction)
-    Then I select an advocate category of 'Junior alone'
-    And the basic fee net amount should be populated with '1142.40'
-    Then I select an advocate category of 'QC'
-    And the basic fee net amount should be populated with '1999.20'
+    When I select an advocate category of 'Junior alone'
+    Then the basic fee net amount should be populated with '1142.40'
+    When I select an advocate category of 'QC'
+    Then the basic fee net amount should be populated with '1999.20'
 
-    Then I click "Continue" in the claim form
-    And I should be in the 'Miscellaneous fees' form page
+    When I click "Continue" in the claim form
+    Then I should be in the 'Miscellaneous fees' form page
 
     # offence impact on "basic" fee
-    And I goto claim form step 'offence details'
+    When I goto claim form step 'offence details'
     And I select the offence category 'Activities relating to opium'
-
-    Then I click "Continue" in the claim form
-    And the basic fee net amount should be populated with '1770.30'
+    And I click "Continue" in the claim form
+    Then the basic fee net amount should be populated with '1770.30'
 
     # retrial interval impact on "basic" fee (retrial interval greater than a month, 20% reduction)
     When I goto claim form step 'case details'
     And I enter retrial start and end dates with 32 day interval
     And I click "Continue" in the claim form
-
-    Then I goto claim form step 'basic fees'
-    And the basic fee net amount should be populated with '2023.20'
+    And I goto claim form step 'basic fees'
+    Then the basic fee net amount should be populated with '2023.20'
 
     # retrial reduction impact on "basic" fee
-    And I goto claim form step 'case details'
+    When I goto claim form step 'case details'
     And I choose not to apply retrial reduction
-
-    Then I click "Continue" in the claim form
+    And I click "Continue" in the claim form
     And I goto claim form step 'basic fees'
-    And the basic fee net amount should be populated with '2529.00'
+    Then the basic fee net amount should be populated with '2529.00'
 
     And I eject the VCR cassette
 
-    Then I click "Continue" in the claim form
-    And I should be in the 'Miscellaneous fees' form page
+    When I click "Continue" in the claim form
+    Then I should be in the 'Miscellaneous fees' form page
 
     And the basic fee should have its price_calculated value set to true

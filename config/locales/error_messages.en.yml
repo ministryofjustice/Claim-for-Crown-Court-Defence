@@ -273,17 +273,17 @@ retrial_started_at:
     short: *date_not_allowed
     api: Date for retrial concluded at is not allowed
   check_other_date:
-    long: 'Check the date for "First day of retrial"'
+    long: Check the date for "First day of retrial"
     short: Can't be after the date "Retrial concluded"
-    api: 'Check the date for "First day of retrial"'
+    api: Check the date for "First day of retrial"
   check_not_too_far_in_past:
-    long: 'Check the date for First day of retrial"'
+    long: Check the date for First day of retrial"
     short: *too_far_in_past
-    api: 'Check the date for "First day of retrial"'
+    api: Check the date for "First day of retrial"
   check_not_earlier_than_rep_order:
-    long: 'Check the date for "First day of retrial"'
+    long: Check the date for "First day of retrial"
     short: *before_rep_order
-    api: 'Check the date for "First day of retrial"'
+    api: Check the date for "First day of retrial"
   invalid_date:
     long: Enter a valid date for the first day of retrial
     short: *enter_valid_date
@@ -292,6 +292,10 @@ retrial_started_at:
     long: First day of retrial cannot be in future
     short: *enter_valid_date
     api: First day of retrial cannot be in future
+  check_not_earlier_than_trial_concluded:
+    long: Check the date for "First day of retrial"
+    short: Can't be before the "Trial concluded on"
+    api: Check the date for "First day of retrial"
 
 retrial_estimated_length:
   _seq: 120

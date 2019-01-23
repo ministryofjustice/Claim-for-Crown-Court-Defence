@@ -46,7 +46,7 @@ module ValidationHelpers
   end
 
   # checks the translation exists and has expected message
-  def with_expected_error_translation(field, message, options)
+  def with_expected_error_translation(field, message, options = {})
     @translations ||= YAML.load_file("#{Rails.root}/config/locales/error_messages.en.yml") # lazy load translations
     message_type = options[:translated_message_type] || 'short'
     expect(@translations.has_key?(field.to_s)).to eql true
@@ -84,7 +84,7 @@ module ValidationHelpers
     with_expected_error_translation(field, message, options) if options[:translated_message]
   end
 
-  def should_error_if_earlier_than_other_date(record, field, other_field, message, options={})
+  def should_error_if_earlier_than_other_date(record, field, other_field, message, options = {})
     date1 = 365.days.ago
     date2 = date1 + options.fetch(:by, 1.day)
     record.send("#{field}=", date1)

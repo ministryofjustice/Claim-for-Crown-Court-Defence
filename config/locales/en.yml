@@ -637,8 +637,10 @@ en:
         page_title_litigator: Choose a bill type for litigator claim
         page_title_generic: Choose a bill type for Crown court claim
         agfs_rb: Advocate final fee
-        agfs_interim_hint: For warrant fee claims with the earliest representation order dated on or after 1 April 2018
+        agfs_supplementary_rb: Advocate supplementary fee
+        agfs_supplementary_hint: For fees claimed during or after the conclusion of the case
         agfs_interim_rb: Advocate warrant fee
+        agfs_interim_hint: For warrant fee claims with the earliest representation order dated on or after 1 April 2018
         claim_type_prompt_section_heading: 'What would you like to do?'
         choose_claim_type_prompt_text: Choose your bill type
         errors:
@@ -1142,9 +1144,11 @@ en:
         case_details: Case details
         agfs:
           advocate_claim:
-            page_title: View claim summary advocate final fees claim
+            page_title: View claim summary for advocate final fees claim
+          advocate_supplementary_claim:
+            page_title: View claim summary for advocate supplementary fee claim
           advocate_interim_claim:
-            page_title: View claim summary advocate warrant fees claim
+            page_title: View claim summary for advocate warrant fees claim
         lgfs:
           final_claim:
             page_title: View claim summary for litigator final fees claim
@@ -1402,13 +1406,13 @@ en:
     advocates:
       claims:
         new:
-          page_title: &transfer_claim_heading Enter case details for advocate final fees claim
+          page_title: &agfs_final_claim_heading Enter case details for advocate final fees claim
 
         edit:
-          page_title: *transfer_claim_heading
+          page_title: *agfs_final_claim_heading
 
         case_details_form_step:
-          page_title: *transfer_claim_heading
+          page_title: *agfs_final_claim_heading
 
         defendants_form_step:
           page_title: Enter defendant details for advocate final fees claim
@@ -1458,6 +1462,33 @@ en:
 
         supporting_evidence_form_step:
           page_title: Upload supporting evidence for advocate warrant fees claim
+
+      supplementary_claims:
+        new:
+          page_title: &agfs_supplementary_claim_heading Enter case details for advocate supplementary fee claim
+
+        edit:
+          page_title: *agfs_supplementary_claim_heading
+
+        case_details_form_step:
+          page_title: *agfs_supplementary_claim_heading
+
+        defendants_form_step:
+          page_title: Enter defendant details for advocate supplementary fee claim
+
+        # TODO: SUPPLEMENTARY_CLAIM_TODO - whole page not needed?
+        offence_details_form_step:
+          page_title: Enter offence details for advocate supplementary fee claim
+
+        miscellaneous_fees_form_step:
+          page_title: Enter miscellaneous fees for advocate supplementary fee claim
+
+        travel_expenses_form_step:
+          page_title: Enter travel expenses for advocate supplementary fee claim
+
+        supporting_evidence_form_step:
+          page_title: Upload supporting evidence for advocate msupplementary fee claim
+
     litigators:
       interim_claims:
         new:

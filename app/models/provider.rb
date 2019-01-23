@@ -120,7 +120,7 @@ class Provider < ApplicationRecord
   end
 
   def agfs_claim_types
-    [Claim::AdvocateClaim, Claim::AdvocateInterimClaim]
+    [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim]
   end
 
   def lgfs_claim_types

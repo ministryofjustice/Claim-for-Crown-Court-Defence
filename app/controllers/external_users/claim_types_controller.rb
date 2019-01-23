@@ -40,6 +40,7 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
     {
       'agfs' => new_advocates_claim_url,
       'agfs_interim' => new_advocates_interim_claim_url,
+      'agfs_misc' => new_advocates_misc_claim_url,
       'lgfs_final' => new_litigators_claim_url,
       'lgfs_interim' => new_litigators_interim_claim_url,
       'lgfs_transfer' => new_litigators_transfer_claim_url

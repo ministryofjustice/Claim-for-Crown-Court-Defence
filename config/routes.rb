@@ -95,6 +95,7 @@ Rails.application.routes.draw do
   scope module: 'external_users' do
     namespace :advocates do
       resources :claims, only: %i[new create edit update]
+      resources :supplementary_claims, only: %i[new create edit update]
       resources :interim_claims, only: %i[new create edit update]
     end
     namespace :litigators do

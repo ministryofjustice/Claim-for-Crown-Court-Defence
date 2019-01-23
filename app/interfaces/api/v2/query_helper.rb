@@ -8,7 +8,7 @@ module API::V2
           c.id,
           c.uuid,
           CASE
-            WHEN c.type IN ('Claim::AdvocateClaim','Claim::AdvocateInterimClaim') THEN 'agfs'
+            WHEN c.type IN ('Claim::AdvocateClaim','Claim::AdvocateInterimClaim','Claim::AdvocateSupplementaryClaim') THEN 'agfs'
             ELSE 'lgfs'
           END AS scheme,
           CASE
@@ -22,6 +22,7 @@ module API::V2
           CASE
             WHEN ct.name IS NULL THEN
               CASE c.type
+                WHEN 'Claim::AdvocateSupplementaryClaim' THEN 'Supplementary'
                 WHEN 'Claim::AdvocateInterimClaim' THEN 'Warrant'
                 WHEN 'Claim::TransferClaim' THEN 'Transfer'
               END

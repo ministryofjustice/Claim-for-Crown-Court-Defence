@@ -37,6 +37,7 @@ module Claims
       {
         'Claim::AdvocateClaim' => 'agfs',
         'Claim::AdvocateInterimClaim' => 'agfs_interim',
+        'Claim::AdvocateSupplementaryClaim' => 'agfs_supplementary',
         'Claim::LitigatorClaim' => 'lgfs_final',
         'Claim::InterimClaim' => 'lgfs_interim',
         'Claim::TransferClaim' => 'lgfs_transfer'

@@ -269,6 +269,10 @@ module Claim
       false
     end
 
+    def supplementary?
+      false
+    end
+
     def transfer?
       false
     end
@@ -303,7 +307,7 @@ module Claim
     end
 
     def self.agfs_claim_types
-      [Claim::AdvocateClaim, Claim::AdvocateInterimClaim]
+      [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim]
     end
 
     def self.lgfs_claim_types

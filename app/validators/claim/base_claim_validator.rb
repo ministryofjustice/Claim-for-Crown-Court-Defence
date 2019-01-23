@@ -234,6 +234,7 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be before earliest rep order date
   # cannot be more than 5 years in the past
   def validate_retrial_started_at
+    validate_on_or_after(@record.trial_concluded_at, :retrial_started_at, 'check_not_earlier_than_trial_concluded')
     validate_retrial_start_and_end(:retrial_started_at, :retrial_concluded_at, false)
   end
 

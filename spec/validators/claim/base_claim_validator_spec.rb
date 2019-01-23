@@ -678,6 +678,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       it { should_errror_if_later_than_other_date(claim, :retrial_started_at, :retrial_concluded_at, 'check_other_date', translated_message: 'Can\'t be after the date "Retrial concluded"') }
       it { should_error_if_earlier_than_earliest_repo_date(claim, :retrial_started_at, 'check_not_earlier_than_rep_order', translated_message: 'Can\'t be before the earliest rep. order') }
       it { should_error_if_too_far_in_the_past(claim, :retrial_started_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
+      it { should_error_if_earlier_than_other_date(claim, :retrial_started_at, :trial_concluded_at, 'check_not_earlier_than_trial_concluded', translated_message: 'Can\'t be before the "Trial concluded on"') }
 
       it 'shoud NOT error if first day of trial is before the claims earliest rep order' do
         stub_earliest_rep_order(claim, 1.month.ago)

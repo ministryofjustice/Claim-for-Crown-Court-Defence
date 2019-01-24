@@ -671,14 +671,35 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   end
 
   context 'for claims requiring retrial details' do
-    let(:claim) { FactoryBot.create(:claim, case_type: retrial) }
+    subject(:claim) { FactoryBot.create(:claim, case_type: retrial) }
 
     context 'retrial_started_at' do
-      it { should_error_if_not_present(claim, :retrial_started_at, "blank", translated_message: 'Enter a date') }
-      it { should_errror_if_later_than_other_date(claim, :retrial_started_at, :retrial_concluded_at, 'check_other_date', translated_message: 'Can\'t be after the date "Retrial concluded"') }
-      it { should_error_if_earlier_than_earliest_repo_date(claim, :retrial_started_at, 'check_not_earlier_than_rep_order', translated_message: 'Can\'t be before the earliest rep. order') }
-      it { should_error_if_too_far_in_the_past(claim, :retrial_started_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
-      it { should_error_if_earlier_than_other_date(claim, :retrial_started_at, :trial_concluded_at, 'check_not_earlier_than_trial_concluded', translated_message: 'Can\'t be before the "Trial concluded on"') }
+      context 'when not present' do
+        it { should_error_if_not_present(claim, :retrial_started_at, "blank", translated_message: 'Enter a date') }
+      end
+
+      context 'when later than retrial_concluded_at' do
+        it { should_errror_if_later_than_other_date(claim, :retrial_started_at, :retrial_concluded_at, 'check_other_date', translated_message: 'Can\'t be after the date "Retrial concluded"') }
+      end
+
+      context 'when earlier than earliest_representation_order_date' do
+        it { should_error_if_earlier_than_earliest_repo_date(claim, :retrial_started_at, 'check_not_earlier_than_rep_order', translated_message: 'Can\'t be before the earliest rep. order') }
+      end
+
+      context 'when too far in past' do
+        it { should_error_if_too_far_in_the_past(claim, :retrial_started_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
+      end
+
+      context 'when earlier than trial_concluded_at' do
+        it {
+          is_expected.to include_field_error_when(
+            field: :retrial_started_at, other_field: :trial_concluded_at,
+            field_value: 7.days.ago.to_date, other_field_value: 6.days.ago.to_date,
+            message: 'check_not_earlier_than_trial_concluded',
+            translated_message: 'Can\'t be before the "Trial concluded on"'
+          )
+        }
+      end
 
       it 'shoud NOT error if first day of trial is before the claims earliest rep order' do
         stub_earliest_rep_order(claim, 1.month.ago)
@@ -689,10 +710,21 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'retrial_concluded_at' do
-      it { should_error_if_not_present(claim, :retrial_concluded_at, "blank", translated_message: 'Enter a date') }
-      it { should_error_if_earlier_than_other_date(claim, :retrial_concluded_at, :retrial_started_at, 'check_other_date', translated_message: 'Can\'t be before the "First day of retrial"') }
-      it { should_error_if_earlier_than_earliest_repo_date(claim, :retrial_concluded_at, 'check_not_earlier_than_rep_order', translated_message: 'Can\'t be before the earliest rep. order') }
-      it { should_error_if_too_far_in_the_past(claim, :retrial_concluded_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
+      context 'when not present' do
+        it { should_error_if_not_present(claim, :retrial_concluded_at, "blank", translated_message: 'Enter a date') }
+      end
+
+      context 'when earlier than retrial_started_at' do
+        it { should_error_if_earlier_than_other_date(claim, :retrial_concluded_at, :retrial_started_at, 'check_other_date', translated_message: 'Can\'t be before the "First day of retrial"') }
+      end
+
+      context 'when earlier than earliest_representation_order_date' do
+        it { should_error_if_earlier_than_earliest_repo_date(claim, :retrial_concluded_at, 'check_not_earlier_than_rep_order', translated_message: 'Can\'t be before the earliest rep. order') }
+      end
+
+      context 'when to far in past' do
+        it { should_error_if_too_far_in_the_past(claim, :retrial_concluded_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
+      end
 
       it 'shoud NOT error if first day of trial is before the claims earliest rep order' do
         stub_earliest_rep_order(claim, 1.month.ago)

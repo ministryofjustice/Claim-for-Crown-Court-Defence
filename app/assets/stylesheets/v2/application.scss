@@ -57,6 +57,7 @@
 @import 'links';
 @import 'panels';
 @import 'breadcrumbs';
+@import "accessible-autocomplete";
 
 .panel-margin-fix{
   margin-bottom: $gutter !important;

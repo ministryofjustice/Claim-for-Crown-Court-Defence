@@ -37,6 +37,8 @@
 //
 
 @import "datatables.min";
+@import "accessible-autocomplete";
+
 // Phase banner
 .phase-banner {
   @include phase-banner();

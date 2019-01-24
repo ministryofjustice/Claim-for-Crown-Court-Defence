@@ -27,8 +27,8 @@ class RepresentationOrderValidator < BaseValidator
   end
 
   def validate_against_agfs_fee_reform_release_date
-    return unless scheme_ten?
-    validate_on_or_after(Settings.agfs_fee_reform_release_date, :representation_order_date, 'scheme_ten_offence')
+    return unless post_agfs_reform?
+    validate_on_or_after(Settings.agfs_fee_reform_release_date, :representation_order_date, 'agfs_reform_offence')
   end
 
   def validate_against_trial_dates
@@ -82,8 +82,8 @@ class RepresentationOrderValidator < BaseValidator
     add_error(attribute, message) if all_maat_references.count(@record.__send__(attribute)) > 1
   end
 
-  def scheme_ten?
-    claim&.offence&.scheme_ten?
+  def post_agfs_reform?
+    claim&.offence&.post_agfs_reform?
   end
 
   def earliest_permitted

@@ -20,6 +20,10 @@ FactoryBot.define do
       offence { association(:offence, :with_fee_scheme_ten) }
     end
 
+    trait :with_scheme_eleven_offence do
+      offence { association(:offence, :with_fee_scheme_eleven) }
+    end
+
     trait :with_no_offence do
       case_type { association(:case_type, :fixed_fee) }
       offence nil

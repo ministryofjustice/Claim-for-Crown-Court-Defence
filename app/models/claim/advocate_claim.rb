@@ -270,35 +270,8 @@ module Claim
       end
     end
 
-    def destroy_all_invalid_fee_types
-      if case_type.present? && case_type.is_fixed_fee?
-        clear_basic_fees
-        destroy_ineligible_fixed_fees
-      else
-        fixed_fees.destroy_all unless fixed_fees.empty?
-      end
-    end
-
-    def clear_basic_fees
-      basic_fees.map(&:clear) unless basic_fees.empty?
-    end
-
-    def destroy_ineligible_fixed_fees
-      eligbile_fees = Claims::FetchEligibleFixedFeeTypes.new(self).call
-      fixed_fees.each do |fee|
-        fixed_fees.delete(fee) unless eligbile_fees.map(&:code).include?(fee.fee_type_code)
-      end
-    end
-
-    def clear_inapplicable_fields
-      clear_cracked_details if case_type.present? && !requires_cracked_dates?
-    end
-
-    def clear_cracked_details
-      self.trial_fixed_notice_at = nil if trial_fixed_notice_at
-      self.trial_fixed_at = nil if trial_fixed_at
-      self.trial_cracked_at = nil if trial_cracked_at
-      self.trial_cracked_at_third = nil if trial_cracked_at_third
+    def cleaner
+      AdvocateClaimCleaner.new(self)
     end
   end
 end

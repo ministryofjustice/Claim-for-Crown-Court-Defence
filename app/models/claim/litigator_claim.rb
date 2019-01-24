@@ -204,16 +204,8 @@ module Claim
       provider
     end
 
-    def destroy_all_invalid_fee_types
-      return unless case_type.present?
-
-      if case_type.is_fixed_fee?
-        graduated_fee.try(:destroy)
-        self.graduated_fee = nil
-      else
-        fixed_fee.try(:destroy)
-        self.fixed_fee = nil
-      end
+    def cleaner
+      LitigatorClaimCleaner.new(self)
     end
 
     def assign_total_attrs

@@ -119,7 +119,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
 
         before { post_to_create_endpoint(Date.new(2018, 5, 1)) }
 
-        specify { expect_error_response("Representation Order Date is not valid for AGFS scheme ten") }
+        specify { expect_error_response("Representation Order Date and offence are using conflicting fee schemes") }
       end
 
       describe 'and the rep_order_date post-dates the start of the scheme' do

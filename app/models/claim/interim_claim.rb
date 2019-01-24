@@ -153,11 +153,8 @@ module Claim
       provider
     end
 
-    def destroy_all_invalid_fee_types
-      return unless interim_fee&.is_interim_warrant?
-
-      disbursements.destroy_all
-      self.disbursements = []
+    def cleaner
+      InterimClaimCleaner.new(self)
     end
 
     def assign_total_attrs

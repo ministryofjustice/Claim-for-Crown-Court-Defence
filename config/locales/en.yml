@@ -869,6 +869,7 @@ en:
           transfer_court: Court
           transfer_court_hint: For example Cardiff
         trial_detail_fields:
+          trial_detail: Trial details
           actual_trial_length: *actual_trial_length
           actual_trial_length_hint: 'Number of days'
           estimated_trial_length: 'Estimated trial length'
@@ -877,6 +878,7 @@ en:
           trial_concluded_at: 'Trial concluded on'
           days: "Days"
         retrial_detail_fields:
+          retrial_detail: Retrial details
           retrial_actual_length: 'Actual retrial length'
           retrial_actual_length_hint: 'Number of days'
           retrial_estimated_length: 'Estimated retrial length'

@@ -1,8 +1,8 @@
-%fieldset.nested-fields.indent-fieldset#retrial-details
+%fieldset.nested-fields.indent-fieldset#retrial-dates{style: @claim&.case_type&.requires_retrial_dates? ? 'display: block;' : 'display: none;'}
   %legend.visuallyhidden
-    Retrial details
+    = t('.retrial_detail')
   .bold-normal
-    Retrial details
+    = t('.retrial_detail')
   .form-hint.xsmall.zero-vert-margin
     &nbsp;
 

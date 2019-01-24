@@ -1,8 +1,8 @@
-%fieldset.nested-fields.indent-fieldset#trial-details
+%fieldset.nested-fields.indent-fieldset#trial-dates{style: @claim&.case_type&.requires_trial_dates? ? 'display: block;' : 'display: none;'}
   %legend.visuallyhidden
-    Trial details
+    = t('.trial_detail')
   .bold-normal
-    Trial details
+    = t('.trial_detail')
   .form-hint.xsmall.zero-vert-margin
     &nbsp;
 

@@ -1,4 +1,5 @@
 /*global GOVUK*/
+//= require polyfill.object.keys.js
 //= require jquery
 //= require jquery_ujs
 //= require jquery.remotipart

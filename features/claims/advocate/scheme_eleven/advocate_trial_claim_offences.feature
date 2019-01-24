@@ -9,8 +9,11 @@ Feature: Advocate creates a claim for a final fee trial case under scheme 11
     Then I should be on the new claim page
 
     And I enter a case number of 'A20181234'
-    And I select the court 'Blackfriars'
-    And I select a case type of 'Trial'
+
+    And I AUTO select a case type of 'Breach of Crown Court order'
+
+    And I AUTO select the court 'Blackfriars'
+
     And I enter scheme 11 trial start and end dates
 
     Then I click "Continue" in the claim form

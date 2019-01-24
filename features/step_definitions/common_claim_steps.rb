@@ -14,8 +14,19 @@ When(/^I select the court '(.*?)'$/) do |name|
   @claim_form_page.select_court(name)
 end
 
+When(/^I AUTO select the court '(.*?)'$/) do |court_name|
+  @claim_form_page.auto_court.input.send_keys(court_name)
+  @claim_form_page.auto_court.menu.find('li', text:/^#{court_name}$/).click
+end
+
 When(/^I select a case type of '(.*?)'$/) do |name|
   @claim_form_page.select_case_type name
+end
+
+When(/^I AUTO select a case type of '(.*?)'$/) do |case_type|
+  binding.pry
+  @claim_form_page.auto_case_type.input.send_keys(case_type)
+  @claim_form_page.auto_case_type.menu.find('li', text:/^#{case_type}$/).click
 end
 
 When(/^I enter a case number of '(.*?)'$/) do |number|

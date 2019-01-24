@@ -1,7 +1,7 @@
 reports:
   transactions_by_channel:
     type: 'test-transactions-by-channel'
-    period: 'weekly'
+    period: 'week'
     fields:
       - :channel
       - :count

@@ -13,8 +13,8 @@ module Reports
       end
 
       def populate_data
-        data = [{ count: 0, channel: 'paper' }]
-        data << { count: count_digital_claims, channel: 'digital' }
+        data = [{ count: 0, channel: 'Paper' }]
+        data << { count: count_digital_claims, channel: 'Digital' }
         data.each do |hash|
           @pps.add_data_set(@start_date, hash)
         end

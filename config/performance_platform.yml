@@ -15,4 +15,4 @@ reports:
       - :end_at
       - :total_cost_quarter
       - :transactions_per_quarter
-    token: <%= ENV["PERF_PLAT_QV_TOKEN"] %>
+    token: <%= ENV['PERF_PLAT_QV_TOKEN'] %>

@@ -1,4 +1,7 @@
 moj.Modules.CaseTypeCtrl = {
+  activate: function() {
+    return $('#claim_form_step').val() === 'case_details';
+  },
   els: {
     requiresCrackedDates: '#cracked-trial-dates',
     requiresRetrialDates: '#retrial-dates',
@@ -24,19 +27,30 @@ moj.Modules.CaseTypeCtrl = {
 
   init: function() {
     var self = this;
-    $.subscribe('/onConfirm/claim_case_type_id-select/', function(e, data) {
-      // Loop over the data object and fire the
-      // methods as required, passing in the param
-      Object.keys(data).map(function(objectKey, index) {
-        if (typeof self.actions[objectKey] == 'function') {
-          self.actions[objectKey](data[objectKey], self);
-        }
-      });
-    });
+    if (this.activate()) {
 
-    // init the autocomplete elements
-    this.initAutocomplete();
+      // bind events
+      this.bindEvents();
+
+      // init the autocomplete elements
+      this.initAutocomplete();
+    }
   },
+
+  bindEvents: function () {
+    var self = this;
+
+    $.subscribe('/onConfirm/claim_case_type_id-select/', function(e, data) {
+        // Loop over the data object and fire the
+        // methods as required, passing in the param
+        Object.keys(data).map(function(objectKey, index) {
+          if (typeof self.actions[objectKey] == 'function') {
+            self.actions[objectKey](data[objectKey], self);
+          }
+        });
+      });
+  },
+
   initAutocomplete: function() {
     var arr = $(this.els.fxAutocomplete);
 
@@ -46,6 +60,5 @@ moj.Modules.CaseTypeCtrl = {
         autoselect: true
       });
     });
-
   }
 };

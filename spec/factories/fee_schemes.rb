@@ -6,7 +6,7 @@ FactoryBot.define do
     version 10
 
     trait :agfs_nine do
-      start_date Date.new(2012, 04, 01).beginning_of_day
+      start_date Date.new(2016, 01, 01).beginning_of_day
       end_date Date.new(2018, 03, 31).end_of_day
       version 9
     end

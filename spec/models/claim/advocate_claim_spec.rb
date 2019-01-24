@@ -1065,167 +1065,167 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
-  describe '#destroy_all_invalid_fee_types' do
-    let(:misc_fees) { [build(:misc_fee, :miaph_fee, rate: 9.99)] }
-
-    before do
-      seed_case_types
-      seed_fee_types
-    end
-
-    context 'when the claim has been created as `Appeal against sentence`' do
-      subject(:claim) { create(:draft_claim, case_type: create(:case_type, :appeal_against_sentence), fixed_fees: fixed_fees) }
-      let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, :with_date_attended, rate: 9.99)] }
-
-      before { claim.save }
-
-      context 'when the user changes the case type to `Appeal against conviction`' do
-        it 'removes the fxase fee' do
-          expect {
-            claim.case_type = build(:case_type, :appeal_against_conviction)
-            claim.save
-          }.to change {
-            claim.fixed_fees.size
-          }.from(1)
-           .to(0)
-        end
-
-        it 'removes the date attended fee associated with the fixed fee' do
-          expect {
-            claim.case_type = build(:case_type, :appeal_against_conviction)
-            claim.save
-          }.to change {
-            claim.fixed_fees.flat_map(&:dates_attended).size
-          }.from(1)
-           .to(0)
-        end
-      end
-    end
-
-    context 'when the claim is for a case type with fixed fees and is changed to one with graduated fees' do
-      subject(:claim) { create(:draft_claim, :with_fixed_fee_case, fixed_fees: fixed_fees, misc_fees: misc_fees) }
-      let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, :with_date_attended, rate: 9.99)] }
-
-      it 'removes the fixed fees' do
-        expect {
-          claim.case_type = build(:case_type, :trial)
-          claim.basic_fees.build attributes_for(:basic_fee, :baf_fee, rate: 8.00)
-          claim.save
-        }.to change {
-          [claim.fixed_fees.size, claim.basic_fees.size]
-        }.from([1, 0])
-         .to([0, 1])
-      end
-
-      it 'keeps the misc fees' do
-        expect {
-          claim.case_type = build(:case_type, :graduated_fee)
-          claim.basic_fees.build attributes_for(:basic_fee, :baf_fee, rate: 8.00)
-          claim.save
-        }.not_to change { claim.misc_fees.size }.from(1)
-      end
-    end
-
-    context 'when the claim is for a case type with graduated fees and is changed to fixed fees' do
-      let(:basic_fees) {
-        [
-          build(:basic_fee, :baf_fee, :with_date_attended, rate: 4.00),
-          build(:basic_fee, :baf_fee, :with_date_attended, rate: 3.00)
-        ]
-      }
-
-      subject(:claim) {
-        create(:advocate_claim, :with_graduated_fee_case, misc_fees: misc_fees).tap do |c|
-          c.basic_fees = basic_fees
-        end
-      }
-
-      it 'clears basic fees' do
-        expect {
-          claim.case_type = build(:case_type, :fixed_fee)
-          claim.fixed_fees.build attributes_for(:fixed_fee, :fxase_fee, rate: 8.00)
-          claim.save
-        }.to change {
-          [claim.fixed_fees.size, claim.basic_fees.size]
-        }.from([0, 2])
-         .to([1, 2])
-        expect(claim.basic_fees.map(&:amount).sum.to_f).to eq(0.0)
-      end
-
-      it 'keeps the misc fees' do
-        expect {
-          claim.case_type = build(:case_type, :fixed_fee)
-          claim.fixed_fees.build attributes_for(:fixed_fee, :fxase_fee, rate: 8.00)
-          claim.save
-        }.not_to change { claim.misc_fees.size }.from(1)
-      end
-
-      it 'destroys basic fee child relations explicitly (dates attended)' do
-        expect {
-          claim.case_type = build(:case_type, :fixed_fee)
-          claim.fixed_fees.build attributes_for(:fixed_fee, :fxase_fee, rate: 8.00)
-          claim.save
-        }.to change {
-          claim.basic_fees.flat_map(&:dates_attended).size
-        }.from(2).to(0)
-      end
-    end
-  end
-
-  describe 'clears_inapplicable_fields' do
-    context 'cracked trial details' do
-      let(:claim) { build(:draft_claim, case_type: case_type, source: 'api', **cracked_details) }
-
-      let(:cracked_details) {
-        {
-          trial_fixed_notice_at: Date.current - 3.days,
-          trial_fixed_at: Date.current - 1,
-          trial_cracked_at: Date.current,
-          trial_cracked_at_third: 'final_third'
-        }
-      }
-
+  describe '#cleaner' do
+    context 'destroys invalid fee types' do
       before do
-        claim.save!
-        claim.reload
+        seed_case_types
+        seed_fee_types
+        seed_fee_schemes
       end
 
-      context 'when guilty plea claim created via API with cracked case details' do
-        let(:case_type) { create(:case_type, :guilty_plea) }
+      let(:misc_fees) { [build(:misc_fee, :miaph_fee, rate: 9.99)] }
 
-        it 'removes the cracked details' do
-          expect(claim).to have_attributes(
-                              trial_fixed_notice_at: nil,
-                              trial_fixed_at: nil,
-                              trial_cracked_at: nil,
-                              trial_cracked_at_third: nil
-                            )
+      context 'when the claim has been created as `Appeal against sentence`' do
+        subject(:claim) { create(:draft_claim, case_type: create(:case_type, :appeal_against_sentence), fixed_fees: fixed_fees) }
+        let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, :with_date_attended, rate: 9.99)] }
+
+        before { claim.save }
+
+        context 'when the user changes the case type to `Appeal against conviction`' do
+          it 'removes the fxase fee' do
+            expect {
+              claim.case_type = build(:case_type, :appeal_against_conviction)
+              claim.save
+            }.to change {
+              claim.fixed_fees.size
+            }.from(1)
+             .to(0)
+          end
+
+          it 'removes the date attended fee associated with the fixed fee' do
+            expect {
+              claim.case_type = build(:case_type, :appeal_against_conviction)
+              claim.save
+            }.to change {
+              claim.fixed_fees.flat_map(&:dates_attended).size
+            }.from(1)
+             .to(0)
+          end
         end
       end
 
-      context 'when cracked trial claim created via API with cracked case details' do
-        let(:case_type) { create(:case_type, :cracked_trial) }
+      context 'when the claim is for a case type with fixed fees and is changed to one with graduated fees' do
+        subject(:claim) { create(:draft_claim, :with_fixed_fee_case, fixed_fees: fixed_fees, misc_fees: misc_fees) }
+        let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, :with_date_attended, rate: 9.99)] }
 
-        it 'does not remove the cracked details' do
-          expect(claim).to have_attributes(
-                              trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
-                              trial_fixed_at: cracked_details[:trial_fixed_at],
-                              trial_cracked_at: cracked_details[:trial_cracked_at],
-                              trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
-                            )
+        it 'removes the fixed fees' do
+          expect {
+            claim.case_type = build(:case_type, :trial)
+            claim.basic_fees.build attributes_for(:basic_fee, :baf_fee, rate: 8.00)
+            claim.save
+          }.to change {
+            [claim.fixed_fees.size, claim.basic_fees.size]
+          }.from([1, 0])
+           .to([0, 1])
+        end
+
+        it 'keeps the misc fees' do
+          expect {
+            claim.case_type = build(:case_type, :graduated_fee)
+            claim.basic_fees.build attributes_for(:basic_fee, :baf_fee, rate: 8.00)
+            claim.save
+          }.not_to change { claim.misc_fees.size }.from(1)
         end
       end
 
-      context 'when cracked before retrial claim created via API with cracked case details' do
-        let(:case_type) { create(:case_type, :cracked_before_retrial) }
+      context 'when the claim is for a case type with graduated fees and is changed to fixed fees' do
+        let(:basic_fees) {
+          [
+            build(:basic_fee, :baf_fee, :with_date_attended, rate: 4.00),
+            build(:basic_fee, :baf_fee, :with_date_attended, rate: 3.00)
+          ]
+        }
 
-        it 'does not remove the cracked details' do
-          expect(claim).to have_attributes(
-                              trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
-                              trial_fixed_at: cracked_details[:trial_fixed_at],
-                              trial_cracked_at: cracked_details[:trial_cracked_at],
-                              trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
-                            )
+        subject(:claim) {
+          create(:advocate_claim, :with_graduated_fee_case, misc_fees: misc_fees).tap do |c|
+            c.basic_fees = basic_fees
+          end
+        }
+
+        it 'clears basic fees' do
+          expect {
+            claim.case_type = build(:case_type, :fixed_fee)
+            claim.fixed_fees.build attributes_for(:fixed_fee, :fxase_fee, rate: 8.00)
+            claim.save
+          }.to change {
+            [claim.fixed_fees.size, claim.basic_fees.size]
+          }.from([0, 2])
+           .to([1, 2])
+          expect(claim.basic_fees.map(&:amount).sum.to_f).to eq(0.0)
+        end
+
+        it 'keeps the misc fees' do
+          expect {
+            claim.case_type = build(:case_type, :fixed_fee)
+            claim.fixed_fees.build attributes_for(:fixed_fee, :fxase_fee, rate: 8.00)
+            claim.save
+          }.not_to change { claim.misc_fees.size }.from(1)
+        end
+
+        it 'destroys basic fee child relations explicitly (dates attended)' do
+          expect {
+            claim.case_type = build(:case_type, :fixed_fee)
+            claim.fixed_fees.build attributes_for(:fixed_fee, :fxase_fee, rate: 8.00)
+            claim.save
+          }.to change {
+            claim.basic_fees.flat_map(&:dates_attended).size
+          }.from(2).to(0)
+        end
+      end
+    end
+
+    context 'clears inapplicable fields' do
+      context 'for cracked trial details' do
+        let(:claim) { build(:draft_claim, case_type: case_type, source: 'api', **cracked_details) }
+
+        let(:cracked_details) {
+          {
+            trial_fixed_notice_at: Date.current - 3.days,
+            trial_fixed_at: Date.current - 1,
+            trial_cracked_at: Date.current,
+            trial_cracked_at_third: 'final_third'
+          }
+        }
+
+        before { claim.save }
+
+        context 'when guilty plea claim created via API with cracked case details' do
+          let(:case_type) { create(:case_type, :guilty_plea) }
+
+          it 'removes the cracked details' do
+            expect(claim).to have_attributes(
+                                trial_fixed_notice_at: nil,
+                                trial_fixed_at: nil,
+                                trial_cracked_at: nil,
+                                trial_cracked_at_third: nil
+                              )
+          end
+        end
+
+        context 'when cracked trial claim created via API with cracked case details' do
+          let(:case_type) { create(:case_type, :cracked_trial) }
+
+          it 'does not remove the cracked details' do
+            expect(claim).to have_attributes(
+                                trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
+                                trial_fixed_at: cracked_details[:trial_fixed_at],
+                                trial_cracked_at: cracked_details[:trial_cracked_at],
+                                trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
+                              )
+          end
+        end
+
+        context 'when cracked before retrial claim created via API with cracked case details' do
+          let(:case_type) { create(:case_type, :cracked_before_retrial) }
+
+          it 'does not remove the cracked details' do
+            expect(claim).to have_attributes(
+                                trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
+                                trial_fixed_at: cracked_details[:trial_fixed_at],
+                                trial_cracked_at: cracked_details[:trial_cracked_at],
+                                trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
+                              )
+          end
         end
       end
     end

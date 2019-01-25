@@ -1,27 +1,17 @@
-%fieldset.nested-fields.indent-fieldset#cracked-trial-dates{style: @claim&.case_type&.requires_cracked_dates? ? 'display: block;' : 'display: none;'}
-  %legend.visuallyhidden
-    = t('.cracked_trial_detail')
-  .bold-normal
-    = t('.cracked_trial_detail')
-  .form-hint.xsmall.zero-vert-margin
-    &nbsp;
+#cracked-trial-dates{style: @claim&.case_type&.requires_cracked_dates? ? 'display: block;' : 'display: none;'}
+  .form-section.fx-case-details-trial{:style => "display: block;"}
+    %h3#trial-details.heading-medium
+      = t('.cracked_trial_details')
 
-  #cracked-trial-fields
-    .form-row
+    = f.gov_uk_date_field(:trial_fixed_notice_at, legend_text: t('.trial_fixed_notice_at'), legend_class: 'govuk-legend', form_hint_text: t('.date_hint'), id: "trial_fixed_notice_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_fixed_notice_at))
 
-      .form-col.form-col-two-thirds
-        = f.gov_uk_date_field(:trial_fixed_notice_at, legend_text: t('.trial_fixed_notice_at'), legend_class: 'govuk-legend', id: "trial_fixed_notice_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_fixed_notice_at))
-    .form-row
-      .form-col.form-col-two-thirds
-        = f.gov_uk_date_field(:trial_fixed_at, legend_text: t('.trial_fixed_at'), legend_class: 'govuk-legend', id: "trial_fixed_at",error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_fixed_at))
-    .form-row
-      .form-col.form-col-two-thirds
-        = f.gov_uk_date_field(:trial_cracked_at, legend_text: t('.trial_cracked_at'), legend_class: 'govuk-legend', id: "trial_cracked_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_cracked_at))
+    = f.gov_uk_date_field(:trial_fixed_at, legend_text: t('.trial_fixed_at'), legend_class: 'govuk-legend', form_hint_text: t('.date_hint'), id: "trial_fixed_at",error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_fixed_at))
 
+    = f.gov_uk_date_field(:trial_cracked_at, legend_text: t('.trial_cracked_at'), legend_class: 'govuk-legend', form_hint_text: t('.date_hint'), id: "trial_cracked_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_cracked_at))
 
-    %div.form-group
-      %fieldset
-        %legend.govuk-legend
+    .form-group
+      %fieldset{'aria-describedby': 'trial-cracked-hint'}
+        %legend#trial-cracked-hint.form-label-bold
           = t('.trial_cracked_at_third')
 
         = f.collection_radio_buttons(:trial_cracked_at_third, Settings.trial_cracked_at_third, :to_s, :humanize) do |b|

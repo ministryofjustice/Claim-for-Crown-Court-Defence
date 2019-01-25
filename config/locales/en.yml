@@ -839,9 +839,10 @@ en:
         case_concluded_date:
           case_concluded_at: 'Date case concluded'
         cracked_trial_fields:
-          cracked_trial_detail: Cracked trial detail
-          trial_cracked_at: 'Case cracked'
-          trial_cracked_at_third: 'Case cracked in'
+          cracked_trial_details: Cracked trial details
+          trial_cracked_at: Case cracked on
+          trial_cracked_at_third: Case cracked in
+          date_hint: 'For example, 31 3 2017'
           trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
           trial_fixed_at: '1st fixed/warned trial'
         fields:

@@ -6,6 +6,6 @@
 
   = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', form_hint_text: t('.date_hint'), id: "trial_concluded_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_concluded_at))
 
-  = f.adp_text_field :estimated_trial_length, label: t('.estimated_trial_length'), hint_text: t('.estimated_trial_length_hint'), input_classes:' form-control-1-8', input_type: 'number', errors: @error_presenter
+  = f.adp_text_field :estimated_trial_length, label: t('.estimated_trial_length'), hint_text: t('.estimated_trial_length_hint'), input_classes:'form-control-1-8', input_type: 'number', errors: @error_presenter
 
-  = f.adp_text_field :actual_trial_length, label: t('.actual_trial_length'), hint_text: t('.actual_trial_length_hint'), input_classes:' form-control-1-8', input_type: 'number', errors: @error_presenter
+  = f.adp_text_field :actual_trial_length, label: t('.actual_trial_length'), hint_text: t('.actual_trial_length_hint'), input_classes:'form-control-1-8', input_type: 'number', errors: @error_presenter

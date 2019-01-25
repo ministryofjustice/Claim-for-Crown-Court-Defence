@@ -3,7 +3,19 @@ describe('Helpers.Autocomplete.js', function() {
 
   var domFixture = $('<div class="main" />');
   var view = [
-    '<select id="fx-autocomplete"><option>-- please select --</option></select>'
+    '<input value="case_details" type="hidden" id="claim_form_step" />',
+    '<select id="demoselect" class="fx-autocomplete">',
+    '<option>-- please select --</option>',
+    '<option ',
+    'data-is-fixed-fee="true" ',
+    'data-requires-cracked-dates="true" ',
+    'data-requires-retrial-dates="true" ',
+    'data-requires-trial-dates="true" ',
+    'value="1">Appeal against conviction</option>',
+    '</select>',
+    '<div id="cracked-trial-dates">Cracked</div>',
+    '<div id="retrial-dates">Retrial</div>',
+    '<div id="trial-dates">Trial</div>',
   ].join('');
 
 
@@ -17,13 +29,13 @@ describe('Helpers.Autocomplete.js', function() {
   });
 
   it('should exist', function() {
-    helper.new('#fx-autocomplete');
+    helper.new('#demoselect');
     expect(helper).toBeDefined();
   });
 
   describe('..Methods', function() {
     describe('...new', function() {
-      it('should return an error if `element` is missing', function() {
+      it('should return an error if `element` is not passed in', function() {
         expect(function() {
           helper.new();
         }).toThrowError('Param: `element` is missing or not a string');
@@ -35,13 +47,11 @@ describe('Helpers.Autocomplete.js', function() {
         }).toThrowError('Param: `element` is missing or not a string');
       });
 
-      it('should return an error if `element` is missing', function() {
+      it('should return an error if `element` is missing from the page', function() {
         expect(function() {
           helper.new('#shouldError');
         }).toThrowError('No element found. Usage: `#selector`');
       });
-
-
     });
   });
 });

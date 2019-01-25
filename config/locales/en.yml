@@ -877,6 +877,7 @@ en:
           estimated_trial_length_hint: 'Number of days'
           first_day_of_trial: 'First day of trial'
           trial_concluded_at: 'Trial concluded on'
+          date_hint: 'For example, 31 3 2017'
           days: "Days"
         retrial_detail_fields:
           retrial_detail: Retrial details
@@ -887,6 +888,7 @@ en:
           retrial_started_at: 'First day of retrial'
           retrial_concluded_at: 'Retrial concluded on'
           retrial_reduction: 'Apply reduced rate to retrial?'
+          date_hint: 'For example, 31 3 2017'
           retrial_reduction_help_link: 'Help with claiming a reduced rate'
           retrial_reduction_help_html: |
               A reduced rate can be requested if: <br/>

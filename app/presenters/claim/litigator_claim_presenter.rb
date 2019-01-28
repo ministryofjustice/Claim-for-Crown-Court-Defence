@@ -60,4 +60,8 @@ class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
   def requires_trial_dates?
     false
   end
+
+  def display_days?
+    !claim.fixed_fee_case?
+  end
 end

@@ -31,6 +31,7 @@ RSpec.describe Claim::InterimClaimPresenter, type: :presenter do
         let(:interim_fee) { build(:interim_fee, :disbursement) }
 
         specify { expect(presenter.disbursement_only?).to be_truthy }
+        specify { expect(presenter.display_days?).to be false }
       end
     end
   end

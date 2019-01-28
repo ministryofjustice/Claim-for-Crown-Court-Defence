@@ -77,4 +77,8 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   def mandatory_case_details?
     claim.court && claim.case_number && claim.supplier_number
   end
+
+  def display_days?
+    true
+  end
 end

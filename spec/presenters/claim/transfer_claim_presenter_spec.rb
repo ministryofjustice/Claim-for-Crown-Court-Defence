@@ -28,6 +28,7 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
         let(:transfer_fee) { build(:transfer_fee, amount: 42.5) }
 
         specify { expect(presenter.raw_transfer_fees_total).to eq(42.5) }
+        specify { expect(presenter.display_days?).to be true }
       end
     end
   end

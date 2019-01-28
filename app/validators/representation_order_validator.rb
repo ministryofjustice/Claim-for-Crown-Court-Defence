@@ -27,7 +27,7 @@ class RepresentationOrderValidator < BaseValidator
   end
 
   def validate_against_agfs_fee_reform_release_date
-    return unless post_agfs_reform?
+    return unless claim.from_api? && post_agfs_reform?
     validate_on_or_after(Settings.agfs_fee_reform_release_date, :representation_order_date, 'agfs_reform_offence')
   end
 

@@ -704,9 +704,9 @@ representation_order:
       short: 'Check combination of representation order date and case cracked date'
       api: 'Check combination of rep order date and case cracked date'
     agfs_reform_offence:
-      long: Representation Order Date is not valid for AGFS scheme ten
+      long: Check the combination of the representation order date and offence
       short: *check_date
-      api: Representation Order Date is not valid for AGFS scheme ten
+      api: Check the combination of the representation order date and offence
 
   maat_reference:
     _seq: 30

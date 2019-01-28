@@ -43,8 +43,21 @@ RSpec.describe Claim::LitigatorClaimPresenter, type: :presenter do
         let(:fixed_fee) { build(:fixed_fee, amount: 42.5) }
 
         specify { expect(presenter.raw_fixed_fees_total).to eq(42.5) }
-        specify { expect(presenter.display_days?).to be false }
       end
+    end
+  end
+
+  describe '#display_days' do
+    subject { presenter.display_days? }
+
+    context 'for a fixed fee case' do
+      let(:claim) { build(:litigator_claim, :with_fixed_fee_case) }
+      it { is_expected.to be false }
+    end
+
+    context 'for non-fixed fee case' do
+      let(:claim) { build(:litigator_claim, :with_graduated_fee_case) }
+      it { is_expected.to be true }
     end
   end
 

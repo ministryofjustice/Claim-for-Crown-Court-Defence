@@ -349,6 +349,10 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.fees.select { |f| f.fee_type.unique_code.eql?('BACAV') }.any? { |x| x.amount&.nonzero? }
   end
 
+  def display_days?
+    false
+  end
+
   private
 
   # a blank assessment is created when the claim is created,

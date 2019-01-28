@@ -23,8 +23,6 @@ class ClaimFormPage < SitePrism::Page
   set_url "/advocates/claims/new"
 
   element :providers_ref, "#claim_providers_ref"
-  element :court, "#s2id_autogen1"
-  element :case_type, "#s2id_autogen2"
   section :auto_case_type, CommonAutocomplete, "#cc-case-type"
   section :auto_court, CommonAutocomplete, "#cc-court"
   element :case_number, "#claim_case_number"
@@ -91,14 +89,6 @@ class ClaimFormPage < SitePrism::Page
 
   def select_advocate(name)
     select name, from: "claim_external_user_id"
-  end
-
-  def select_court(name)
-    select name, from: "claim_court_id-select"
-  end
-
-  def select_case_type(name)
-    select name, from: "claim_case_type_id-select"
   end
 
   def select_offence_category(name)

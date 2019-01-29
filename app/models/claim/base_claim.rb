@@ -382,9 +382,11 @@ module Claim
     end
 
     def earliest_representation_order
-      representation_orders.sort do |a, b|
-        (a.representation_order_date || 100.years.from_now) <=> (b.representation_order_date || 100.years.from_now)
-      end.first
+      return if defendants.empty?
+      defendants
+        .map(&:earliest_representation_order)
+        .compact
+        .sort_by(&:representation_order_date).first
     end
 
     def earliest_representation_order_date
@@ -651,14 +653,6 @@ module Claim
 
     def fee_scheme
       @fee_scheme ||= FeeScheme.for_claim(self)
-    end
-
-    def earliest_representation_order
-      return if defendants.empty?
-      defendants
-        .map(&:earliest_representation_order)
-        .compact
-        .sort_by(&:representation_order_date).first
     end
 
     def eligible_document_types

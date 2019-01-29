@@ -29,7 +29,6 @@ describe('Helpers.Autocomplete.js', function() {
   });
 
   it('should exist', function() {
-    helper.new('#demoselect');
     expect(helper).toBeDefined();
   });
 
@@ -51,6 +50,21 @@ describe('Helpers.Autocomplete.js', function() {
         expect(function() {
           helper.new('#shouldError');
         }).toThrowError('No element found. Usage: `#selector`');
+      });
+
+      it('should allow options to be passed it', function() {
+        spyOn(accessibleAutocomplete, 'enhanceSelectElement');
+        helper.new('#demoselect', {
+          something: 'goes here',
+          onConfirm: ''
+        });
+
+        expect(accessibleAutocomplete.enhanceSelectElement).toHaveBeenCalledWith({
+          selectElement: $('#demoselect')[0],
+          autoselect: true,
+          onConfirm: '',
+          something: "goes here",
+        });
       });
     });
   });

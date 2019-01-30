@@ -83,13 +83,12 @@ RSpec.describe API::V1::DropdownData do
       results.each do |endpoint, json|
         response = get endpoint, params, format: :json
         expect(response.status).to eq 200
-        expect(JSON.parse(response.body).count).to be > 0
-        expect(JSON.parse(response.body)).to match_array JSON.parse(json)
+        expect(response.body).to be_json_eql(json)
       end
     end
 
     it 'should require an API key' do
-      results.each do |endpoint, expectation|
+      results.each do |endpoint, _|
         params.delete(:api_key)
         get endpoint, params, format: :json
         expect(last_response.status).to eq 401

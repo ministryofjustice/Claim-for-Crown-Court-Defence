@@ -24,7 +24,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
 
-    Given I insert the VCR cassette 'features/fee_calculator/advocate/graduated_fee_calculator'
+    Given I insert the VCR cassette 'features/fee_calculator/advocate/graduated_fee_trial_calculator'
     When I select the offence category 'Murder'
     And I click "Continue" in the claim form
     And I should be in the 'Fees' form page
@@ -76,7 +76,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
 
-    Given I insert the VCR cassette 'features/fee_calculator/advocate/graduated_fee_calculator'
+    Given I insert the VCR cassette 'features/fee_calculator/advocate/graduated_fee_retrial_calculator'
 
     When I select the offence category 'Murder'
     And I click "Continue" in the claim form

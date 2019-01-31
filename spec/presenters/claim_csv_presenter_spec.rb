@@ -113,6 +113,12 @@ RSpec.describe ClaimCsvPresenter do
         it { is_expected.to eq claim.earliest_representation_order.maat_reference }
       end
 
+      describe 'pre_redermination_user' do
+        presenter.present! do |claim_journeys|
+           #kat todo!!!
+        end
+      end
+
       describe 'caseworker name' do
         context 'decision transition doesnt exist' do
           it 'returns nil' do

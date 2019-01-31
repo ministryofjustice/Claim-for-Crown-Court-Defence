@@ -12,6 +12,10 @@ class ClaimCsvPresenter < BasePresenter
     sorted_and_filtered_state_transitions.slice_after { |transition| COMPLETED_STATES.include?(transition.to) }
   end
 
+  def complete_journeys
+    sorted_and_filtered_state_transitions
+  end
+
   def sorted_and_filtered_state_transitions
     claim_state_transitions.sort.reject do |transition|
       %w[draft archived_pending_delete].include?(transition.to) ||
@@ -118,5 +122,15 @@ class ClaimCsvPresenter < BasePresenter
 
   def rejection_reason
     @journey.last.reason_text
+  end
+
+  def previous (next_step)
+    complete_journeys.select { |step| step.to == next_step.from && step.created_at < next_step.created_at }
+  end
+
+  def pre_redetermination_user
+    redetermination_steps = @journey.select { |step| step.to == 'redetermination' }
+    redetermination_steps.present? ? previous_steps = previous( redetermination_steps.last ) : previous_steps = nil
+    previous_steps.present? ? previous_steps.last.author_name : ''
   end
 end

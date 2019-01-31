@@ -1,60 +1,29 @@
 module DatabaseHousekeeping
 	def clean_database
-    models = [
-      CaseType,
-      CaseWorker,
-      CaseWorkerClaim,
-      Certification,
-      CertificationType,
-      ClaimIntention,
-      ClaimStateTransition,
-      Claim::BaseClaim,
-      Claim::TransferDetail,
-      Court,
-      DateAttended,
-      Defendant,
-      Determination,
-      Disbursement,
-      DisbursementType,
-      Document,
-      Establishment,
-      Expense,
-      ExpenseType,
-      ExternalUser,
-      FeeScheme,
-      Fee::BaseFee,
-      Fee::BaseFeeType,
-      InjectionAttempt,
-      InterimClaimInfo,
-      Location,
-      Message,
-      Offence,
-      OffenceClass,
-      OffenceBand,
-      OffenceCategory,
-      OffenceFeeScheme,
-      Provider,
-      RepresentationOrder,
-      Stats::Statistic,
-      Stats::StatsReport,
-      Stats::MIData,
-      SuperAdmin,
-      SupplierNumber,
-      User,
-      UserMessageStatus
-    ]
+    raise 'Warning: do not use in non-test enviroments' unless Rails.env.test?
+    truncate_application_tables
+  end
 
-    models.each do |model|
-      model.delete_all
+  # This excludes non application tables (schema_migrations, ar_internal_metadata)
+  # we exclude vat_rates as they are created/destroyed in a before/after(:suite) hook
+  def application_tables
+    exclusions = %W[vat_rates]
+    ApplicationRecord.descendants.map(&:table_name).uniq.sort - exclusions
+  end
+
+  def truncate_application_tables
+    conn = ActiveRecord::Base.connection
+    conn.disable_referential_integrity do
+      application_tables.each do |table_name|
+        conn.execute("TRUNCATE TABLE \"#{table_name}\" CASCADE")
+      end
     end
   end
 
   def report_record_counts
-    tables = ActiveRecord::Base.connection.tables
-    tables.each do |t|
-      next if t == 'schema_migrations'
-      next if t == 'versions'
-      puts "#{t.classify} #{t.classify.constantize.count}"
+    models = ApplicationRecord.descendants
+    models.each do |model|
+      puts "#{model} count: #{model.count}"
     end
   end
 end

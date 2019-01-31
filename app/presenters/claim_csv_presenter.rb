@@ -124,13 +124,13 @@ class ClaimCsvPresenter < BasePresenter
     @journey.last.reason_text
   end
 
-  def previous (next_step)
+  def previous(next_step)
     complete_journeys.select { |step| step.to == next_step.from && step.created_at < next_step.created_at }
   end
 
   def pre_redetermination_user
     redetermination_steps = @journey.select { |step| step.to == 'redetermination' }
-    redetermination_steps.present? ? previous_steps = previous( redetermination_steps.last ) : previous_steps = nil
+    previous_steps = redetermination_steps.present? ? previous(redetermination_steps.last) : nil
     previous_steps.present? ? previous_steps.last.author_name : ''
   end
 end

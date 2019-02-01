@@ -259,75 +259,72 @@ RSpec.describe ExternalUser, type: :model do
     end
   end
 
-  describe 'available_claim_types' do
+  describe '#available_claim_types' do
+    subject { user.available_claim_types.map(&:to_s) }
+
+    let(:advocate_claim_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim] }
+    let(:litigator_claim_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim] }
+    let(:all_claim_types) { advocate_claim_types | litigator_claim_types }
+
     context 'for users with only an advocate role' do
       let(:user) { build(:external_user, :advocate) }
-
-      it 'returns the list of available advocate claim types' do
-        expect(user.available_claim_types)
-          .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim])
-      end
+      it { is_expected.to match_array(advocate_claim_types) }
     end
 
     context 'for users with only a litigator role' do
       let(:user) { build(:external_user, :litigator) }
-
-      it 'returns the list of available litigator claims types' do
-        expect(user.available_claim_types)
-          .to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
-      end
+      it { is_expected.to match_array(litigator_claim_types) }
     end
 
     context 'for users with an admin role' do
-      let(:user) { build(:external_user, :admin) }
+      let(:user) { build(:external_user, :admin, provider: build(:provider, :agfs)) }
 
-      it 'returns the list of available advocate claim types' do
-        expect(user.available_claim_types)
-          .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
-      end
+      # TODO: i believe this is flawed as an admin should delegate available claim types to the provider)
+      # e.g. an admin in an agfs only provider can only create advocate claims
+      it { is_expected.to match_array(all_claim_types) }
     end
 
-    context 'for users with both an advocate and litigator role' do
+    context 'for users with both an advocate and litigator role in provider with both agfs and lgfs role' do
       let(:user) { build(:external_user, :advocate_litigator) }
-
-      it 'returns the list of claim types available for advocate and litigators' do
-        expect(user.available_claim_types)
-          .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
-      end
+      it { is_expected.to match_array(all_claim_types) }
     end
   end
 
   describe '#available_roles' do
-    let(:advocate)            { create(:external_user, :advocate)           }
-    let(:litigator)           { create(:external_user, :litigator)          }
-    let(:advocate_litigator)  { create(:external_user, :advocate_litigator) }
+    subject { user.available_roles }
+    let(:user) { create(:external_user, :advocate, provider: provider) }
+
+    # Note: there is provider cannot be blank validation - pointless test?
     context 'when the user does not belong to a provider' do
+      let(:provider) { build(:provider) }
+      before { user.provider = nil }
       it 'returns admin' do
-        advocate.provider = nil
-        expect(advocate.available_roles).to eq ['admin']
+        is_expected.to match_array %w[admin]
       end
     end
+
     context 'when the user belongs to a provider that' do
       context 'handles both AGFS and LGFS claims' do
-        it 'returns admin advocate and litigator' do
-          expect(advocate_litigator.available_roles).to eq ['admin', 'advocate', 'litigator']
-        end
+        let(:provider) { build(:provider, :agfs_lgfs) }
+        it { is_expected.to match_array %w[admin advocate litigator] }
       end
+
       context 'handles only AGFS claims' do
-        it 'returns admin and advocate' do
-          expect(advocate.available_roles).to eq ['admin', 'advocate']
-        end
+        let(:provider) { build(:provider, :agfs) }
+        it { is_expected.to match_array %w[admin advocate] }
       end
+
       context 'handles only LGFS claims' do
-        it 'returns admin and litigator' do
-          expect(litigator.available_roles).to eq ['admin', 'litigator']
-        end
+        let(:provider) { build(:provider, :lgfs) }
+        it { is_expected.to match_array %w[admin litigator] }
       end
     end
-    context 'when an invalid fee scheme is used' do
+
+    context 'when an invalid role supplied' do
+      let(:provider) { build(:provider) }
+      before { user.provider.roles = %w[invalid_role] }
       it 'raises an error' do
-        advocate.provider.roles = %w( invalid_role )
-        expect { advocate.available_roles }.to raise_error(RuntimeError)
+        expect { user.available_roles }.to raise_error(RuntimeError)
       end
     end
   end

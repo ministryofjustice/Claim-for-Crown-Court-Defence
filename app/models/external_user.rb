@@ -107,6 +107,8 @@ class ExternalUser < ApplicationRecord
     provider&.chamber? && advocate?
   end
 
+  # TODO: i believe this is flawed (an admin should delegate available claim types to the provider)
+  # e.g. an admin in an agfs provider can only create advocate claims
   def claim_types_for(role)
     {
       'admin' => advocate_claim_types | litigator_claim_types,

@@ -1,4 +1,4 @@
-.form-section
+#miscellaneous-fees-section.form-section
   = render partial: 'summary_fees', locals: { claim: claim, header: t('external_users.claims.misc_fees.summary.header'), collection: claim.misc_fees, editable: editable, section: section, step: :miscellaneous_fees }
 
   - if claim.requires_interim_claim_info?

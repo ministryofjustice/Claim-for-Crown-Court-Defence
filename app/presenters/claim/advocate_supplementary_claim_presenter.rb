@@ -1,11 +1,11 @@
-class Claim::AdvocateMiscClaimPresenter < Claim::BaseClaimPresenter
+class Claim::AdvocateSupplementaryClaimPresenter < Claim::BaseClaimPresenter
   # NOTE: this shows we should probably refactor the template naming
   # to bring some consistency between claim steps and their associated
   # templates
   SUMMARY_SECTIONS = {
     case_details: :case_details,
     defendants: :defendants,
-    offence_details: :offence_details,
+    offence_details: :offence_details, # TODO: SUPPLEMENTARY_CLAIM_TODO - whole page not needed?
     misc_fees: :miscellaneous_fees,
     expenses: :travel_expenses,
     supporting_evidence: :supporting_evidence,
@@ -13,11 +13,11 @@ class Claim::AdvocateMiscClaimPresenter < Claim::BaseClaimPresenter
   }.freeze
 
   def pretty_type
-    'AGFS Miscellaneous'
+    'AGFS Supplementary'
   end
 
   def type_identifier
-    'agfs_misc'
+    'agfs_supplementary'
   end
 
   def can_have_disbursements?

@@ -1,8 +1,8 @@
 module Claim
-  class AdvocateMiscClaim < BaseClaim
-    route_key_name 'advocates_misc_claim'
+  class AdvocateSupplementaryClaim < BaseClaim
+    route_key_name 'advocates_supplementary_claim'
 
-    # TOOD: override base claim relation to enforce ??
+    # TODO: SUPPLEMENTARY_CLAIM_TODO override base claim relation to enforce ??
     # has_many :fees,
     #           foreign_key: :claim_id,
     #           class_name: 'Fee::MiscFee',
@@ -10,12 +10,12 @@ module Claim
     #           inverse_of: :claim,
     #           validate: proc { |claim| claim.step_validation_required?(:miscellaneous_fees) }
 
-    # TODO: check this overrides base claim accepts_nested_attributes_for
+    # TODO: SUPPLEMENTARY_CLAIM_TODO check this overrides base claim accepts_nested_attributes_for
     accepts_nested_attributes_for :misc_fees, reject_if: all_blank_or_zero, allow_destroy: true
 
-    validates_with ::Claim::AdvocateMiscClaimValidator,
+    validates_with ::Claim::AdvocateSupplementaryClaimValidator,
                    unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
-    validates_with ::Claim::AdvocateMiscClaimSubModelValidator
+    validates_with ::Claim::AdvocateSupplementaryClaimSubModelValidator
 
     before_validation do
       set_supplier_number
@@ -67,14 +67,14 @@ module Claim
     end
 
     def final?
-      true
+      false
     end
 
     def interim?
       false
     end
 
-    def miscellaneous?
+    def supplementary?
       true
     end
 

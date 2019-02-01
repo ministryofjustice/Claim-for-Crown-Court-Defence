@@ -1,4 +1,4 @@
-class Claim::AdvocateMiscClaimSubModelValidator < Claim::BaseClaimSubModelValidator
+class Claim::AdvocateSupplementaryClaimSubModelValidator < Claim::BaseClaimSubModelValidator
   def has_one_association_names_for_steps
     {
       case_details: [],

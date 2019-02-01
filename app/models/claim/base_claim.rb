@@ -269,7 +269,7 @@ module Claim
       false
     end
 
-    def miscellaneous?
+    def supplementary?
       false
     end
 
@@ -307,7 +307,7 @@ module Claim
     end
 
     def self.agfs_claim_types
-      [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateMiscClaim]
+      [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim]
     end
 
     def self.lgfs_claim_types

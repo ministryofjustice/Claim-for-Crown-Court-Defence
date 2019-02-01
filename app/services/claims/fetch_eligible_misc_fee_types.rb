@@ -12,7 +12,7 @@ module Claims
 
     private
 
-    AGFS_MISC_CLAIM_ELIGIBILITY = %w[MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU].freeze
+    AGFS_SUPPLEMENTARY_CLAIM_ELIGIBILITY = %w[MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU].freeze
     LGFS_MISC_FEE_ELIGIBILITY = %w[MICJA MICJP MIEVI MISPF].freeze
 
     attr_reader :claim
@@ -29,7 +29,7 @@ module Claims
     end
 
     def eligible_agfs_misc_fee_types
-      return agfs_scheme_scope.where(unique_code: AGFS_MISC_CLAIM_ELIGIBILITY) if claim.miscellaneous?
+      return agfs_scheme_scope.where(unique_code: AGFS_SUPPLEMENTARY_CLAIM_ELIGIBILITY) if claim.supplementary?
       agfs_scheme_scope
     end
 

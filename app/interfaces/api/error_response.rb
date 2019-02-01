@@ -25,7 +25,7 @@ module API
     VALID_MODEL_KLASSES = [
       Fee::GraduatedFee, Fee::InterimFee, Fee::TransferFee, Fee::BasicFee, Fee::MiscFee, Fee::FixedFee,
       Expense, Disbursement, Defendant, DateAttended, RepresentationOrder,
-      Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateMiscClaim,
+      Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim,
       Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim
     ].freeze
 

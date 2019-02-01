@@ -1,61 +1,58 @@
 require 'rails_helper'
 
 RSpec.describe Claims::ContextMapper do
-
   # NOTE: the external user claim controller spec also test this to a degree
   #
-
   describe '#available_claim_types' do
+    subject { context.available_claim_types.map(&:to_s) }
+    let(:context) { Claims::ContextMapper.new(external_user) }
     let(:external_user) { create(:external_user, :advocate_litigator) }
-    let(:advocate)      { create(:external_user, :advocate) }
-    let(:litigator)     { create(:external_user, :litigator) }
 
-    it 'should return advocate claims for users in AGFS only provider' do
-      context = Claims::ContextMapper.new(advocate)
-      expect(context.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim])
+    let(:advocate_claim_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim] }
+    let(:litigator_claim_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim] }
+    let(:all_claim_types) { advocate_claim_types | litigator_claim_types }
+
+    # TODO: i believe this is flawed as an advocate should return only advocate type claims)
+    # e.g. an admin in an agfs only provider can only create advocate claims
+    context 'AGFS only provider' do
+      let(:external_user) { create(:external_user, :advocate, provider: build(:provider, :agfs)) }
+      it { is_expected.to match_array(advocate_claim_types) }
     end
 
-    it 'should return litigator claims for users in LGFS only provider' do
-      context = Claims::ContextMapper.new(litigator)
-      expect(context.available_claim_types).to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+    context 'LGFS only provider' do
+      let(:external_user) { create(:external_user, :litigator, provider: build(:provider, :lgfs)) }
+      it { is_expected.to match_array(litigator_claim_types) }
     end
 
     context 'AGFS and LGFS providers' do
-
       it 'should return litigator claim for a litigators' do
         external_user.roles = ['litigator']
-        context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+        is_expected.to match_array(litigator_claim_types)
       end
 
       it 'should return litigator and advocate claim for a litigator admins' do
         external_user.roles = ['litigator', 'admin']
-        context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+        is_expected.to match_array(all_claim_types)
       end
 
       it 'should return advocate claim for a advocates' do
         external_user.roles = ['advocate']
-        context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to eql [Claim::AdvocateClaim, Claim::AdvocateInterimClaim]
+        is_expected.to match_array(advocate_claim_types)
       end
 
       it 'should return advocate and litigator claim for a advocate admins' do
         external_user.roles = ['advocate', 'admin']
-        context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+        is_expected.to match_array(all_claim_types)
       end
 
       it 'should return advocate AND litigator claims for a admins' do
         external_user.roles = ['admin']
-        context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+        is_expected.to match_array(all_claim_types)
       end
 
       it 'should return advocate AND litigator claims for users with admin, litigator and advocate roles' do
         external_user.roles = ['admin', 'advocate', 'litigator']
-        context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+        is_expected.to match_array(all_claim_types)
       end
     end
   end

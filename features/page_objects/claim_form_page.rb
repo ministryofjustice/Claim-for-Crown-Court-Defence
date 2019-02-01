@@ -57,7 +57,7 @@ class ClaimFormPage < SitePrism::Page
 
   section :advocate_category_radios, AdvocateCategoryRadioSection, '.advocate-categories'
 
-  element :continue_button, 'div.button-holder > input.button.left'
+  element :continue_button, '#save_continue'
 
   section :basic_fees, BasicFeeSection, "div#basic-fees"
   section :fixed_fees, FixedFeeSection, "div#fixed-fees"

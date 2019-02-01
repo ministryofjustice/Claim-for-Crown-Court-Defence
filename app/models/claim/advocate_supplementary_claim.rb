@@ -31,23 +31,16 @@ module Claim
       {
         name: :defendants,
         transitions: [
-          { to_stage: :offence_details }
-        ],
-        dependencies: %i[case_details]
-      },
-      {
-        name: :offence_details,
-        transitions: [
           { to_stage: :miscellaneous_fees }
         ],
-        dependencies: %i[case_details defendants]
+        dependencies: %i[case_details]
       },
       {
         name: :miscellaneous_fees,
         transitions: [
           { to_stage: :travel_expenses }
         ],
-        dependencies: %i[case_details defendants offence_details]
+        dependencies: %i[case_details defendants]
       },
       {
         name: :travel_expenses,

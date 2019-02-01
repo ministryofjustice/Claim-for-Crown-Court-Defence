@@ -16,8 +16,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I enter a case number of 'A20161234'
     And I enter trial start and end dates
 
-    Then I click "Continue" in the claim form
-    And I should be in the 'Defendant details' form page
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, representation order and MAAT reference
 
@@ -68,8 +67,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I enter retrial start and end dates
     And I choose to apply retrial reduction
 
-    Then I click "Continue" in the claim form
-    And I should be in the 'Defendant details' form page
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, representation order and MAAT reference
 

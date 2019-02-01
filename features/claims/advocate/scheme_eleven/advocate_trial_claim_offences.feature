@@ -15,7 +15,7 @@ Feature: Advocate creates a claim for a final fee trial case under scheme 11
 
     And I enter scheme 11 trial start and end dates
 
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, scheme 11 representation order and MAAT reference
     Then I click "Continue" in the claim form

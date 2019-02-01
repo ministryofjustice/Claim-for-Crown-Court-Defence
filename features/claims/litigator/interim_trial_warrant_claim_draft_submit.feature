@@ -14,7 +14,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft
     Then I should see 'Draft claim saved'

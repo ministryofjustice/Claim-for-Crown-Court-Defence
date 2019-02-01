@@ -17,7 +17,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And I select a case type of 'Trial'
     And I enter trial start and end dates
 
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft
     Then I should see 'Draft claim saved'

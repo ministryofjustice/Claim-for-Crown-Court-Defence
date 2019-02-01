@@ -14,7 +14,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I select a case type of 'Trial'
     And I enter scheme 10 trial start and end dates
 
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft
     Then I should see 'Draft claim saved'

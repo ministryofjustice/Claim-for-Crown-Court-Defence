@@ -17,7 +17,7 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2018-04-01'
 
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, LGFS representation order and MAAT reference
     And I add another defendant, LGFS representation order and MAAT reference

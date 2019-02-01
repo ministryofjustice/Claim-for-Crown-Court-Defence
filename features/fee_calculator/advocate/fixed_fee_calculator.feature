@@ -14,7 +14,7 @@ Feature: Advocate completes fixed fee page using calculator
     And I select a case type of 'Appeal against conviction'
     And I enter a case number of 'A20161234'
 
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
@@ -70,7 +70,7 @@ Feature: Advocate completes fixed fee page using calculator
   And I select a case type of 'Elected cases not proceeded'
   And I enter a case number of 'A20161234'
 
-  Then I click "Continue" in the claim form
+  Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
   And I enter defendant, representation order and MAAT reference
   And I add another defendant, representation order and MAAT reference

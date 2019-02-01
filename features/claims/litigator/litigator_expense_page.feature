@@ -16,7 +16,7 @@ Feature: Litigator expense specific page features
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2018-04-01'
 
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft
     Then I should see 'Draft claim saved'

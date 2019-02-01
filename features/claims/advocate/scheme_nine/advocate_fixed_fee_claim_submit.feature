@@ -14,7 +14,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
     And I select a case type of 'Appeal against sentence'
     And I enter a case number of 'A20161234'
 
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
@@ -30,7 +30,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
 
     And I goto claim form step 'case details'
     And I select a case type of 'Appeal against conviction'
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I goto claim form step 'fixed fees'
     Then the fixed fee checkboxes should consist of 'Appeals to the crown court against conviction,Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'

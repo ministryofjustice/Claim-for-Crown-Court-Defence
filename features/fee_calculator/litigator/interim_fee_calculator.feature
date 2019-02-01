@@ -20,8 +20,7 @@ Feature: litigator completes interim fee page using calculator
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
 
-    Then I click "Continue" in the claim form
-    And I should be in the 'Defendant details' form page
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, LGFS representation order and MAAT reference
 
@@ -116,8 +115,7 @@ Feature: litigator completes interim fee page using calculator
     And I select a case type of 'Retrial'
     And I enter a case number of 'A20161234'
 
-    Then I click "Continue" in the claim form
-    And I should be in the 'Defendant details' form page
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, LGFS representation order and MAAT reference
 

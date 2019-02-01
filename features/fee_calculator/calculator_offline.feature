@@ -14,7 +14,7 @@ Feature: Advocate completes fixed fees, but calculator offline
     And I select a case type of 'Appeal against sentence'
     And I enter a case number of 'A20161234'
 
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference

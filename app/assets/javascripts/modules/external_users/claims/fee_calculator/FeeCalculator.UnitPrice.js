@@ -149,12 +149,12 @@
       this.clearErrors(context);
       var $label = $(context).find('label');
       var $calculated = $(context).closest('.fx-fee-group').find('.js-fee-calculator-success').find('input');
-      var error_html = '<div class="js-calculate-error form-hint">' + response.responseJSON["message"] + '<div>';
+      var error_html = '<div class="js-calculate-error form-hint">' + response.responseJSON.message + '<div>';
       var new_label = $label.text() + ' ' + error_html;
       var $input = $(context).find('input.fee-rate');
 
       $input.val('');
-      $input.prop("readonly", false);
+      $input.prop('readonly', false);
       $calculated.val(false);
       $label.html(new_label);
     },
@@ -185,11 +185,11 @@
           self.displayHelp(context, true);
         })
         .fail(function(response) {
-          if (response.responseJSON['errors'][0] != 'incomplete') {
+          if (response.responseJSON.errors[0] != 'incomplete') {
             self.displayError(response, context);
-            self.displayHelp(context, false);
             self.setHint(null, context);
           }
+          self.displayHelp(context, false);
           self.enableRate(context);
         });
     },

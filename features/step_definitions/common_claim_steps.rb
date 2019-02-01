@@ -107,20 +107,9 @@ When(/^I click "Continue" in the claim form$/) do
 end
 
 When(/^I click "Continue" in the claim form and move to the '(.*?)' form page$/) do |page_title|
-  original_header = page.first('h2').text
-  sleep 3
   @claim_form_page.continue_button.click
+  page.has_content?(page_title)
   wait_for_ajax
-  using_wait_time(6) do
-    if page.first('h2').text.eql?(original_header)
-      #clicking again because the first one didn't work
-      @claim_form_page.continue_button.click
-      wait_for_ajax
-    end
-    within('#claim-form') do
-      expect(page.first('h2')).to have_content(page_title)
-    end
-  end
 end
 
 Then(/^I am on the miscellaneous fees page$/) do

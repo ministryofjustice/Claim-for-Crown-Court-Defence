@@ -108,7 +108,9 @@ end
 
 When(/^I click "Continue" in the claim form and move to the '(.*?)' form page$/) do |page_title|
   @claim_form_page.continue_button.click
-  page.has_content?(page_title)
+  using_wait_time(10) do
+    expect(page.first('h2')).to have_content(page_title)
+  end
   wait_for_ajax
 end
 

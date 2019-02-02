@@ -104,6 +104,8 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'capybara-selenium'
+  gem "chromedriver-helper"
   gem 'climate_control'
   gem 'codeclimate-test-reporter',  require: false
   gem 'cucumber-rails',             require: false
@@ -115,7 +117,6 @@ group :test do
   gem 'rails-controller-testing'
   gem 'rspec-mocks'
   gem 'shoulda-matchers', '>= 4.0.0.rc1'
-  gem 'selenium-webdriver'
   gem 'simplecov',                  require: false
   gem 'simplecov-csv',              require: false
   gem 'simplecov-multi',            require: false

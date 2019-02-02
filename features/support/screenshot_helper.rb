@@ -1,12 +1,18 @@
 module ScreenshotHelper
-  # convenience override of default method of the same name to specify
-  # full path and timestamped file name and get full screenshot.
-  #
-  def save_and_open_screenshot(wait: Capybara.default_max_wait_time)
-    sleep wait # give js time to render
+   # selenium headless chrome solution for full screenshot
+  def screenshot_and_open_image
+    window = Capybara.current_session.driver.browser.manage.window
+    window.resize_to(*dimensions)
     file_path = Rails.root.join("tmp/capybara/capybara-screenshot-#{Time.now.utc.iso8601.gsub('-', '').gsub(':', '')}.png").to_s
-    page.save_screenshot(file_path, full: true)
+    save_screenshot(file_path)
     Launchy.open file_path
+  end
+
+  def dimensions
+    driver = Capybara.current_session.driver
+    total_width = driver.execute_script("return document.body.offsetWidth")
+    total_height = driver.execute_script("return document.body.scrollHeight")
+    return [total_width, total_height]
   end
 end
 

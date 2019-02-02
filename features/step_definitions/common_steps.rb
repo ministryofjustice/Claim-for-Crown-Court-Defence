@@ -7,7 +7,7 @@ When(/^I save and open page$/) do
 end
 
 When(/^I save and open screenshot$/) do
-  save_and_open_screenshot
+  screenshot_and_open_image
 end
 
 When(/^I start a claim/) do

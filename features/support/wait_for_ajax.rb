@@ -13,7 +13,18 @@ module WaitForAjax
   end
 
   def finished_all_ajax_requests?
-    page.evaluate_script('jQuery.active').zero?
+    page.evaluate_script(ajax_finished_script)
+  end
+
+  def ajax_finished_script
+    <<~EOS
+    ((typeof window.jQuery === 'undefined')
+     || (typeof window.jQuery.active === 'undefined')
+     || (window.jQuery.active === 0))
+     && ((typeof window.injectedJQueryFromNode === 'undefined')
+         || (typeof window.injectedJQueryFromNode.active === 'undefined')
+         || (window.injectedJQueryFromNode.active === 0))
+    EOS
   end
 end
 

@@ -1,5 +1,3 @@
-
-
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -89,4 +87,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # Disable CSS3 and jQuery animations in test mode for speed, consistency and to avoid timing issues.
+  config.middleware.use Rack::NoAnimations
 end

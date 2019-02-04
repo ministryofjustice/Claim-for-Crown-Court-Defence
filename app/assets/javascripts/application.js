@@ -1,4 +1,5 @@
 /*global GOVUK*/
+//= require polyfill.object.keys.js
 //= require jquery
 //= require jquery_ujs
 //= require jquery.remotipart
@@ -16,6 +17,7 @@
 //= require jsrender.min.js
 //= require jquery.highlight-5.min.js
 //= require jquery.ba-throttle-debounce.js
+//= require accessible-autocomplete.min.js
 //= require_tree ./modules
 //= require_tree ./plugins
 //

@@ -18,8 +18,7 @@ Feature: litigator completes graduated fee page using calculator
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2018-04-01'
 
-    Then I click "Continue" in the claim form
-    And I should be in the 'Defendant details' form page
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, LGFS representation order and MAAT reference
 
@@ -61,7 +60,7 @@ Feature: litigator completes graduated fee page using calculator
     And I goto claim form step 'case details'
     And I select a case type of 'Trial'
 
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
     And I goto claim form step 'graduated fees'
     And the graduated fee amount should be populated with '1467.58'
 

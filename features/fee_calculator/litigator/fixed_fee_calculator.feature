@@ -18,8 +18,7 @@ Feature: litigator completes fixed fee page using calculator
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2018-04-01'
 
-    Then I click "Continue" in the claim form
-    And I should be in the 'Defendant details' form page
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, LGFS representation order and MAAT reference
     And I add another defendant, LGFS representation order and MAAT reference
@@ -41,7 +40,7 @@ Feature: litigator completes fixed fee page using calculator
 
     And I goto claim form step 'case details'
     And I select a case type of 'Hearing subsequent to sentence'
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I goto claim form step 'fixed fees'
     Then the fixed fee rate should be populated with '155.32'
@@ -49,7 +48,7 @@ Feature: litigator completes fixed fee page using calculator
 
     And I goto claim form step 'case details'
     And I select a case type of 'Elected cases not proceeded'
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I goto claim form step 'fixed fees'
     Then the fixed fee rate should be populated with '330.33'

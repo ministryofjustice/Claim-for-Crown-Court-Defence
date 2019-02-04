@@ -1,4 +1,5 @@
 require_relative 'sections/common_date_section'
+require_relative 'sections/common_autocomplete_section'
 require_relative 'sections/supplier_numbers_section'
 require_relative 'sections/retrial_section'
 require_relative 'sections/fee_dates_section_condensed'
@@ -22,18 +23,18 @@ class ClaimFormPage < SitePrism::Page
   set_url "/advocates/claims/new"
 
   element :providers_ref, "#claim_providers_ref"
-  element :court, "#s2id_autogen1"
-  element :case_type, "#s2id_autogen2"
+  section :auto_case_type, CommonAutocomplete, "#cc-case-type"
+  section :auto_court, CommonAutocomplete, "#cc-court"
   element :case_number, "#claim_case_number"
 
-  section :trial_details, "#trial-details" do
+  section :trial_details, "#trial-dates" do
     section :first_day_of_trial, CommonDateSection, '#first_day_of_trial'
     section :trial_concluded_on, CommonDateSection, '#trial_concluded_at'
     element :actual_trial_length, "#claim_actual_trial_length"
     element :estimated_trial_length, '#claim_estimated_trial_length'
   end
 
-  section :retrial_details, RetrialSection, "#retrial-details"
+  section :retrial_details, RetrialSection, "#retrial-dates"
 
   sections :defendants, ".defendant-details" do
     element :first_name, "div.first-name input"
@@ -56,7 +57,7 @@ class ClaimFormPage < SitePrism::Page
 
   section :advocate_category_radios, AdvocateCategoryRadioSection, '.advocate-categories'
 
-  element :continue_button, 'div.button-holder > input.button.left'
+  element :continue_button, '#save_continue'
 
   section :basic_fees, BasicFeeSection, "div#basic-fees"
   section :fixed_fees, FixedFeeSection, "div#fixed-fees"
@@ -88,14 +89,6 @@ class ClaimFormPage < SitePrism::Page
 
   def select_advocate(name)
     select name, from: "claim_external_user_id"
-  end
-
-  def select_court(name)
-    select name, from: "claim_court_id"
-  end
-
-  def select_case_type(name)
-    select name, from: "claim_case_type_id"
   end
 
   def select_offence_category(name)

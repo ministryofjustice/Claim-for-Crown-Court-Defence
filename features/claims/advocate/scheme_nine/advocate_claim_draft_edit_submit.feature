@@ -14,7 +14,7 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     And I enter a case number of 'A20161234'
     And I enter trial start and end dates
 
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
     And I save as draft
 
     Given I am later on the Your claims page

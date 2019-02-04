@@ -12,7 +12,7 @@ Feature: Advocate partially fills out a draft AGFS interim claim for a trial, th
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20181234'
 
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
     And I save as draft
     Then I should see 'Draft claim saved'
 

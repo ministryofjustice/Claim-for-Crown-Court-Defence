@@ -839,9 +839,10 @@ en:
         case_concluded_date:
           case_concluded_at: 'Date case concluded'
         cracked_trial_fields:
-          cracked_trial_detail: Cracked trial detail
-          trial_cracked_at: 'Case cracked'
-          trial_cracked_at_third: 'Case cracked in'
+          cracked_trial_details: Cracked trial details
+          trial_cracked_at: Case cracked on
+          trial_cracked_at_third: Case cracked in
+          date_hint: 'For example, 31 3 2017'
           trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
           trial_fixed_at: '1st fixed/warned trial'
         fields:
@@ -869,14 +870,17 @@ en:
           transfer_court: Court
           transfer_court_hint: For example Cardiff
         trial_detail_fields:
+          trial_detail: Trial details
           actual_trial_length: *actual_trial_length
           actual_trial_length_hint: 'Number of days'
           estimated_trial_length: 'Estimated trial length'
           estimated_trial_length_hint: 'Number of days'
           first_day_of_trial: 'First day of trial'
           trial_concluded_at: 'Trial concluded on'
+          date_hint: 'For example, 31 3 2017'
           days: "Days"
         retrial_detail_fields:
+          retrial_detail: Retrial details
           retrial_actual_length: 'Actual retrial length'
           retrial_actual_length_hint: 'Number of days'
           retrial_estimated_length: 'Estimated retrial length'
@@ -884,6 +888,7 @@ en:
           retrial_started_at: 'First day of retrial'
           retrial_concluded_at: 'Retrial concluded on'
           retrial_reduction: 'Apply reduced rate to retrial?'
+          date_hint: 'For example, 31 3 2017'
           retrial_reduction_help_link: 'Help with claiming a reduced rate'
           retrial_reduction_help_html: |
               A reduced rate can be requested if: <br/>

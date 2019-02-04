@@ -108,7 +108,7 @@ When(/^I click Certify and submit claim$/) do
   @certification_page.certify_and_submit_claim.click
 end
 
-Then(/^I should be on the page showing basic claim information$/) do
+Then(/^I should be on the claim confirmation page$/) do
   expect(@confirmation_page).to be_displayed
 end
 

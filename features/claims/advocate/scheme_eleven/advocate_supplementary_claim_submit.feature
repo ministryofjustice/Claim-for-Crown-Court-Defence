@@ -55,14 +55,8 @@ Feature: Advocate tries to submit a claim for a Miscellaneous fee (only)
 
     When I click "Continue" in the claim form
     And I should be on the check your claim page
-    
-    When I click "Continue"
-    Then I should be on the certification page
 
-    When I check “I attended the main hearing”
-    And I click Certify and submit claim
-    Then I should be on the claim confirmation page
-
+    # TODO: refactor to multiline arg datatable step
     # Then I should be on the check your claim page
     # And I should see 'Blackfriars'
     # And I should see 'A20161234'
@@ -82,6 +76,14 @@ Feature: Advocate tries to submit a claim for a Miscellaneous fee (only)
     # And I should see 'Order in respect of judicial apportionment'
     # And I should see 'Bish bosh bash'
 
+    When I click "Continue"
+    Then I should be on the certification page
+
+    When I check “I attended the main hearing”
+    And I click Certify and submit claim
+    And I save and open screenshot
+    Then I should be on the claim confirmation page
+
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20191234' should be listed with a status of 'Submitted' and a claimed amount of '£2,023.87'
+    And Claim 'A20191234' should be listed with a status of 'Submitted' and a claimed amount of '£466.02'

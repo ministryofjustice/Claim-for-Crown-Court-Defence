@@ -96,7 +96,7 @@ Feature: Advocate admin submits a claim for a Trial case
 
     When I check “I attended the main hearing”
     And I click Certify and submit claim
-    Then I should be on the page showing basic claim information
+    Then I should be on the claim confirmation page
 
     When I click View your claims
     Then I should be on the your claims page

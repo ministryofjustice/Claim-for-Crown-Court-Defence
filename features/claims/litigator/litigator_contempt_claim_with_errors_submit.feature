@@ -69,4 +69,4 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     When I click "Continue"
     Then I should be on the certification page
     And I click Certify and submit claim
-    Then I should be on the page showing basic claim information
+    Then I should be on the claim confirmation page

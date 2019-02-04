@@ -90,7 +90,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Then I should be on the certification page
 
     And I click Certify and submit claim
-    Then I should be on the page showing basic claim information
+    Then I should be on the claim confirmation page
 
     When I click View your claims
     Then I should be on the your claims page

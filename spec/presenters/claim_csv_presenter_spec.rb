@@ -113,12 +113,6 @@ RSpec.describe ClaimCsvPresenter do
         it { is_expected.to eq claim.earliest_representation_order.maat_reference }
       end
 
-      describe 'pre_redermination_user' do
-        presenter.present! do |claim_journeys|
-           #kat todo!!!
-        end
-      end
-
       describe 'caseworker name' do
         context 'decision transition doesnt exist' do
           it 'returns nil' do
@@ -157,6 +151,30 @@ RSpec.describe ClaimCsvPresenter do
           end
         end
 
+      end
+
+      describe 'af1_lf1_processed_by' do
+        context 'an allocated claim' do
+          it 'returns nil' do
+            claim = create :authorised_claim
+            presenter = ClaimCsvPresenter.new(claim, view)
+            presenter.present! do |claim_journeys|
+              expect(presenter.af1_lf1_processed_by).to eq ''
+            end
+          end
+        end
+
+        context 'a redetermined claim' do
+          it 'returns the name of the last caseworker to update before redetermination' do
+            claim = create :authorised_claim
+            case_worker_name = claim.case_workers.first.name
+            claim.redetermine!
+            presenter = ClaimCsvPresenter.new(claim, view)
+            presenter.present! do |claim_journeys|
+              expect(presenter.af1_lf1_processed_by).to eq case_worker_name
+            end
+          end
+        end
       end
 
       context 'and unique values for' do

@@ -1,6 +1,6 @@
 .form-group.js-typeahead{class: error_class?(@error_presenter, :external_user)}
   %a{id: :external_user}
-  %label.form-label{for: 'claim_external_user_id_input'}
+  %label.form-label-bold{for: 'claim_external_user_id_input'}
     = t('.advocate')
 
   - provider_advocates = @provider.advocates.sort_by(&:name_and_number)

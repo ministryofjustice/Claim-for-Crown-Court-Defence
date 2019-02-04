@@ -23,7 +23,6 @@ class Claim::AdvocateSupplementaryClaimValidator < Claim::BaseClaimValidator
         supplier_number
       ],
       defendants: [],
-      offence_details: %i[offence],
       miscellaneous_fees: %i[advocate_category defendant_uplifts_misc_fees],
       travel_expenses: %i[travel_expense_additional_information],
       supporting_evidence: []

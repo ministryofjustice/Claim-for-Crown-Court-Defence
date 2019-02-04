@@ -185,7 +185,7 @@
           self.displayHelp(context, true);
         })
         .fail(function(response) {
-          if (response.responseJSON.errors[0] != 'incomplete') {
+          if (response.hasOwnProperty('responseJSON') && response.responseJSON.errors[0] != 'incomplete') {
             self.displayError(response, context);
             self.setHint(null, context);
           }

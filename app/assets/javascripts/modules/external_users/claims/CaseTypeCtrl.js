@@ -56,8 +56,8 @@ moj.Modules.CaseTypeCtrl = {
 
     $(this.els.fxAutocomplete).is(function(idx, el) {
       moj.Helpers.Autocomplete.new('#' + el.id, {
-        showAllValues: false,
-        autoselect: true
+        showAllValues: true,
+        autoselect: false
       });
     });
   }

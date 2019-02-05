@@ -1,92 +1,18 @@
-#
-# == Schema Information
-#
-# Table name: claims
-#
-#  id                       :integer          not null, primary key
-#  additional_information   :text
-#  apply_vat                :boolean
-#  state                    :string
-#  last_submitted_at        :datetime
-#  case_number              :string
-#  advocate_category        :string
-#  first_day_of_trial       :date
-#  estimated_trial_length   :integer          default(0)
-#  actual_trial_length      :integer          default(0)
-#  fees_total               :decimal(, )      default(0.0)
-#  expenses_total           :decimal(, )      default(0.0)
-#  total                    :decimal(, )      default(0.0)
-#  external_user_id         :integer
-#  court_id                 :integer
-#  offence_id               :integer
-#  created_at               :datetime
-#  updated_at               :datetime
-#  valid_until              :datetime
-#  cms_number               :string
-#  authorised_at            :datetime
-#  creator_id               :integer
-#  evidence_notes           :text
-#  evidence_checklist_ids   :string
-#  trial_concluded_at       :date
-#  trial_fixed_notice_at    :date
-#  trial_fixed_at           :date
-#  trial_cracked_at         :date
-#  trial_cracked_at_third   :string
-#  source                   :string
-#  vat_amount               :decimal(, )      default(0.0)
-#  uuid                     :uuid
-#  case_type_id             :integer
-#  form_id                  :string
-#  original_submission_date :datetime
-#  retrial_started_at       :date
-#  retrial_estimated_length :integer          default(0)
-#  retrial_actual_length    :integer          default(0)
-#  retrial_concluded_at     :date
-#  type                     :string
-#  disbursements_total      :decimal(, )      default(0.0)
-#  case_concluded_at        :date
-#  transfer_court_id        :integer
-#  supplier_number          :string
-#  effective_pcmh_date      :date
-#  legal_aid_transfer_date  :date
-#  allocation_type          :string
-#  transfer_case_number     :string
-#  clone_source_id          :integer
-#  last_edited_at           :datetime
-#  deleted_at               :datetime
-#  providers_ref            :string
-#  disk_evidence            :boolean          default(FALSE)
-#  fees_vat                 :decimal(, )      default(0.0)
-#  expenses_vat             :decimal(, )      default(0.0)
-#  disbursements_vat        :decimal(, )      default(0.0)
-#  value_band_id            :integer
-#  retrial_reduction        :boolean          default(FALSE)
-#
-
 require 'rails_helper'
 
 RSpec.describe Claim::AdvocateClaim, type: :model do
-  it { should belong_to(:external_user) }
-  it { should belong_to(:creator).class_name('ExternalUser').with_foreign_key('creator_id') }
-  it { should delegate_method(:provider_id).to(:creator) }
+  it_behaves_like 'a base claim'
 
-  it { should belong_to(:court) }
-  it { should belong_to(:transfer_court) }
-  it { should belong_to(:offence) }
-  it { should have_many(:fees) }
-  it { should have_many(:fee_types) }
-  it { should have_many(:expenses) }
-  it { should have_many(:defendants) }
-  it { should have_many(:documents) }
-  it { should have_many(:messages) }
-  it { should have_many(:case_worker_claims) }
-  it { should have_many(:case_workers) }
-  it { should have_many(:claim_state_transitions) }
+  it { is_expected.to delegate_method(:requires_cracked_dates?).to(:case_type) }
 
-  it { should delegate_method(:provider_id).to(:creator) }
-  it { should delegate_method(:requires_trial_dates?).to(:case_type) }
-  it { should delegate_method(:requires_retrial_dates?).to(:case_type) }
-  it { should delegate_method(:requires_cracked_dates?).to(:case_type) }
+  it { is_expected.to accept_nested_attributes_for(:basic_fees) }
+  it { is_expected.to accept_nested_attributes_for(:fixed_fees) }
+
+  specify { expect(subject.external_user_type).to eq(:advocate) }
+  specify { expect(subject.requires_case_type?).to be_truthy }
+  specify { expect(subject.agfs?).to be_truthy }
+  specify { expect(subject.final?).to be_truthy }
+  specify { expect(subject.interim?).to be_falsey }
 
   describe 'validates external user and creator with same provider' do
     let(:provider) { create(:provider) }
@@ -115,7 +41,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       expect(subject.reload.errors.messages[:external_user]).not_to be_present
     end
 
-    it 'should not be valid when the external_user and creator are with the same provider' do
+    it 'should not be valid when the external_user and creator are with different providers' do
       subject.external_user_id = external_user.id
       subject.creator_id = other_provider_external_user.id
       subject.save
@@ -156,7 +82,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
-  context 'eligible misc and fixed fee types' do
+  context 'eligible fee types' do
     let(:claim) { build :unpersisted_claim }
 
     before(:all) do
@@ -326,12 +252,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
     end
   end
-
-  it { should accept_nested_attributes_for(:basic_fees) }
-  it { should accept_nested_attributes_for(:fixed_fees) }
-  it { should accept_nested_attributes_for(:misc_fees) }
-  it { should accept_nested_attributes_for(:expenses) }
-  it { should accept_nested_attributes_for(:defendants) }
 
   subject { create(:advocate_claim) }
 
@@ -1369,12 +1289,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
       it 'should be close for redetermination' do
         expect(claim.opened_for_redetermination?).to be_falsey
-      end
-    end
-
-    describe 'requires_case_type?' do
-      it 'returns true' do
-        expect(claim.requires_case_type?).to be true
       end
     end
 

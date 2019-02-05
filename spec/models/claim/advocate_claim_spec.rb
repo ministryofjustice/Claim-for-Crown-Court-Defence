@@ -13,6 +13,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   specify { expect(subject.agfs?).to be_truthy }
   specify { expect(subject.final?).to be_truthy }
   specify { expect(subject.interim?).to be_falsey }
+  specify { expect(subject.supplementary?).to be_falsey }
 
   describe 'validates external user and creator with same provider' do
     let(:provider) { create(:provider) }

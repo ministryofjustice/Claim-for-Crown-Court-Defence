@@ -2,17 +2,6 @@ module Claim
   class AdvocateSupplementaryClaim < BaseClaim
     route_key_name 'advocates_supplementary_claim'
 
-    # TODO: SUPPLEMENTARY_CLAIM_TODO override base claim relation to enforce ??
-    # has_many :fees,
-    #           foreign_key: :claim_id,
-    #           class_name: 'Fee::MiscFee',
-    #           dependent: :destroy,
-    #           inverse_of: :claim,
-    #           validate: proc { |claim| claim.step_validation_required?(:miscellaneous_fees) }
-
-    # TODO: SUPPLEMENTARY_CLAIM_TODO check this overrides base claim accepts_nested_attributes_for
-    accepts_nested_attributes_for :misc_fees, reject_if: all_blank_or_zero, allow_destroy: true
-
     validates_with ::Claim::AdvocateSupplementaryClaimValidator,
                    unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::AdvocateSupplementaryClaimSubModelValidator
@@ -71,14 +60,17 @@ module Claim
       true
     end
 
+    # TODO: SUPPLEMENTARY_CLAIM_TODO to be removed - should not be applicable/required
     def eligible_case_types
       CaseType.agfs
     end
 
+    # TODO: SUPPLEMENTARY_CLAIM_TODO promote or mixin/concern
     def eligible_advocate_categories
       Claims::FetchEligibleAdvocateCategories.for(self)
     end
 
+    # TODO: SUPPLEMENTARY_CLAIM_TODO promote or mixin/concern
     def eligible_misc_fee_types
       Claims::FetchEligibleMiscFeeTypes.new(self).call
     end

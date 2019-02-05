@@ -28,7 +28,7 @@ module Claims
     end
 
     def all_categories
-      (default_categories + agfs_reform_categories).uniq
+      default_categories | agfs_reform_categories
     end
 
     # TODO: remove the Offence check from here as this should already

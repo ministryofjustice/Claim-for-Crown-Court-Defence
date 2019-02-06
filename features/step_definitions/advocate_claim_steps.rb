@@ -212,6 +212,26 @@ Then(/^the following fee details should exist:$/) do |table|
   end
 end
 
+Then(/^the following check your claim details should exist:$/) do |table|
+  table.hashes.each do |row|
+    within @claim_summary_page.find("##{row['section']}") do
+      expect(page).to have_content(row['prompt'])
+      expect(page).to have_content(row['value'])
+    end
+  end
+end
+
+Then(/^the following check your claim fee details should exist:$/) do |table|
+  table.hashes.each do |row|
+    within @claim_summary_page.find("##{row['section']}") do
+      within "table > tbody > tr:nth-child(#{row['row']})" do
+        expect(page).to have_content(row['prompt'])
+        expect(page).to have_content(row['value'])
+      end
+    end
+  end
+end
+
 Then(/^the fixed fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee, rate, hint|
   fee_block = @claim_form_page.fixed_fees.fee_block_for(fee)
   expect(fee_block.rate.value).to eql rate

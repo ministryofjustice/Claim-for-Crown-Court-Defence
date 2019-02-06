@@ -11,6 +11,20 @@
 
 %section.api-documentation
   %hr
+  %h2 30th January 2019
+  %ul.list-bullet
+    %li
+      Validation of retrial and trial dates
+      %br/
+      %br/
+      The `retrial_started_at` date attribute must now contain a date on or after the `trial_concluded_at` date. This impacts advocate final claims for retrials.
+      %br/
+      %br/
+      This is neccessary to prevent "negative retrial intervals" as part of the implementation of fee calculation
+      for AGFS retrial fees.
+
+%section.api-documentation
+  %hr
   %h2 20th December 2018
   %ul.list-bullet
     %li

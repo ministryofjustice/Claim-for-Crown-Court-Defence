@@ -4,6 +4,6 @@
 <% else %>
   $('.offence-class-select').html('<%=j render partial: "external_users/claims/offence_details/offence_select", locals: { offences: @offences } %>');
   $('.offence-class-select').slideDown();
-  moj.Modules.NewClaim.attachToOffenceClassSelect();
+  moj.Modules.OffenceCtrl.attachToOffenceClassSelect();
   $('#offence_class_description').change();
 <% end %>

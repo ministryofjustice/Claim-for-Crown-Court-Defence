@@ -58,7 +58,8 @@ When(/^I select the supplier number '(.*)'$/) do |number|
 end
 
 When(/^I select the offence category '(.*?)'$/) do |offence_cat|
-  @claim_form_page.select_offence_category offence_cat
+  @claim_form_page.auto_offence.choose_autocomplete_option(offence_cat)
+  wait_for_ajax
 end
 
 And(/^I sleep for '(.*?)' second$/) do |num_seconds|

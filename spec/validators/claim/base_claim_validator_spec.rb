@@ -699,6 +699,21 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
             translated_message: 'Can\'t be before the "Trial concluded on"'
           )
         }
+
+        # TODO: This is a temporary removal of this validation to give vendors time to amend their apps - remove by 1st March 2019
+        context 'from API' do
+          before { allow(claim).to receive(:from_api?).and_return true }
+
+          it {
+            is_expected.to_not include_field_error_when(
+              field: :retrial_started_at, other_field: :trial_concluded_at,
+              field_value: 7.days.ago.to_date, other_field_value: 6.days.ago.to_date,
+              message: 'check_not_earlier_than_trial_concluded',
+              translated_message: 'Can\'t be before the "Trial concluded on"'
+            )
+          }
+        end
+
       end
 
       it 'shoud NOT error if first day of trial is before the claims earliest rep order' do

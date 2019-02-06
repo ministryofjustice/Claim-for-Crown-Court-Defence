@@ -15,7 +15,7 @@ module DatabaseHousekeeping
     conn = ActiveRecord::Base.connection
     conn.disable_referential_integrity do
       application_tables.each do |table_name|
-        conn.execute("TRUNCATE TABLE \"#{table_name}\" CASCADE")
+        conn.execute("TRUNCATE TABLE \"#{table_name}\" RESTART IDENTITY CASCADE")
       end
     end
   end

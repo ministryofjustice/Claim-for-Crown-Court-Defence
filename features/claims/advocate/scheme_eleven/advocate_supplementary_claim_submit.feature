@@ -36,25 +36,42 @@ Feature: Advocate tries to submit a claim for a Miscellaneous fee (only)
       | miscellaneous | Confiscation hearings (half day) | 131.00 | Number of half days | true |
       | miscellaneous | Confiscation hearings (half day uplift) | 52.40 | Number of additional defendants | true |
 
-    And I eject the VCR cassette
+   And I eject the VCR cassette
+#
+#     When I click "Continue" in the claim form
+#     Then I should be in the 'Travel expenses' form page
+#
+#     And I select an expense type "Parking"
+#     And I select a travel reason "Court hearing"
+#     And I add an expense date for scheme 11
+#     And I add an expense net amount for "34.56"
+#
+#     Then I click "Continue" in the claim form
+#
+#     When I upload the document 'judicial_appointment_order.pdf'
+#     And I should see 10 evidence check boxes
+#     And I check the evidence boxes for 'Order in respect of judicial apportionment'
+#     And I add some additional information
+#
+#     When I click "Continue" in the claim form
+#     And I should be on the check your claim page
+    And I save as draft
+    Then I should see 'Draft claim saved'
 
-    When I click "Continue" in the claim form
-    Then I should be in the 'Travel expenses' form page
-
-    And I select an expense type "Parking"
-    And I select a travel reason "Court hearing"
-    And I add an expense date for scheme 11
-    And I add an expense net amount for "34.56"
-
-    Then I click "Continue" in the claim form
-
-    When I upload the document 'judicial_appointment_order.pdf'
-    And I should see 10 evidence check boxes
-    And I check the evidence boxes for 'Order in respect of judicial apportionment'
-    And I add some additional information
-
-    When I click "Continue" in the claim form
-    And I should be on the check your claim page
+    Given I am later on the Your claims page
+    When I click the claim 'A20191234'
+    And I save and open screenshot
+    Then the following check your claim details should exist:
+      | section | prompt | value |
+      | case-details-section | Crown court | Caernarfon |
+      | case-details-section | Case number | A20191234 |
+      | case-details-section | Case type | Trial |
+    Then the following check your claim fee details should exist:
+      | section | row | prompt | value |
+      | miscellaneous-fees-section | 1 | Type of fee | Wasted preparation fee |
+      | miscellaneous-fees-section | 1 | Quantity | 1 |
+      | miscellaneous-fees-section | 1 | Rate | 39.39 |
+      | miscellaneous-fees-section | 1 | Net amount | 39.39 |
 
     # TODO: refactor to multiline arg datatable step
     # Then I should be on the check your claim page
@@ -81,7 +98,6 @@ Feature: Advocate tries to submit a claim for a Miscellaneous fee (only)
 
     When I check “I attended the main hearing”
     And I click Certify and submit claim
-    And I save and open screenshot
     Then I should be on the claim confirmation page
 
     When I click View your claims

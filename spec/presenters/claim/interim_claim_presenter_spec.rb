@@ -60,6 +60,15 @@ RSpec.describe Claim::InterimClaimPresenter, type: :presenter do
     end
   end
 
+  describe '#display_days' do
+    subject { presenter.display_days? }
+
+    context 'for transfer case' do
+      let(:claim) { build(:interim_claim, interim_fee: nil) }
+      it { is_expected.to be false }
+    end
+  end
+
   describe '#summary_sections' do
     specify {
       expect(presenter.summary_sections).to eq({

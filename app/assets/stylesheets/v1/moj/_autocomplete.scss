@@ -1,3 +1,9 @@
+@media (min-width: 641px) {
+  .autocomplete__wrapper {
+    width: 50%;
+  }
+}
+
 .fx-result{
   padding: 0 $gutter;
   margin: $gutter 0;

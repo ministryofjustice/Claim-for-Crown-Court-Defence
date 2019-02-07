@@ -1,4 +1,10 @@
-
+@media (min-width: 641px) {
+  #case_details{
+    .autocomplete__wrapper {
+      width: 50%;
+    }
+  }
+}
 
 .fx-result {
   margin: $gutter 0;

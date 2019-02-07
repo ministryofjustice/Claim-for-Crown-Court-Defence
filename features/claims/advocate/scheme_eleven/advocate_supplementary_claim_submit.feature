@@ -37,61 +37,51 @@ Feature: Advocate tries to submit a claim for a Miscellaneous fee (only)
       | miscellaneous | Confiscation hearings (half day uplift) | 52.40 | Number of additional defendants | true |
 
    And I eject the VCR cassette
-#
-#     When I click "Continue" in the claim form
-#     Then I should be in the 'Travel expenses' form page
-#
-#     And I select an expense type "Parking"
-#     And I select a travel reason "Court hearing"
-#     And I add an expense date for scheme 11
-#     And I add an expense net amount for "34.56"
-#
-#     Then I click "Continue" in the claim form
-#
-#     When I upload the document 'judicial_appointment_order.pdf'
-#     And I should see 10 evidence check boxes
-#     And I check the evidence boxes for 'Order in respect of judicial apportionment'
-#     And I add some additional information
-#
-#     When I click "Continue" in the claim form
-#     And I should be on the check your claim page
-    And I save as draft
-    Then I should see 'Draft claim saved'
 
-    Given I am later on the Your claims page
-    When I click the claim 'A20191234'
-    And I save and open screenshot
+    When I click "Continue" in the claim form
+    Then I should be in the 'Travel expenses' form page
+
+    And I select an expense type "Parking"
+    And I select a travel reason "Court hearing"
+    And I add an expense date for scheme 11
+    And I add an expense net amount for "34.56"
+
+    Then I click "Continue" in the claim form
+
+    When I upload the document 'judicial_appointment_order.pdf'
+    And I should see 10 evidence check boxes
+    And I check the evidence boxes for 'Order in respect of judicial apportionment'
+    And I add some additional information
+
+    When I click "Continue" in the claim form
+    And I should be on the check your claim page
     Then the following check your claim details should exist:
       | section | prompt | value |
       | case-details-section | Crown court | Caernarfon |
       | case-details-section | Case number | A20191234 |
       | case-details-section | Case type | Trial |
-    Then the following check your claim fee details should exist:
+
+    And the following check your claim fee details should exist:
       | section | row | prompt | value |
-      | miscellaneous-fees-section | 1 | Type of fee | Wasted preparation fee |
-      | miscellaneous-fees-section | 1 | Quantity | 1 |
-      | miscellaneous-fees-section | 1 | Rate | 39.39 |
-      | miscellaneous-fees-section | 1 | Net amount | 39.39 |
+      | miscellaneous-fees-section | 1 | Type of fee | Confiscation hearings (half day) |
+      | miscellaneous-fees-section | 1 | Quantity | 2 |
+      | miscellaneous-fees-section | 1 | Rate | 131.00 |
+      | miscellaneous-fees-section | 1 | Net amount | 262.00 |
+      | miscellaneous-fees-section | 2 | Type of fee | Confiscation hearings (half day uplift) |
+      | miscellaneous-fees-section | 2 | Quantity | 1 |
+      | miscellaneous-fees-section | 2 | Rate | 52.40 |
+      | miscellaneous-fees-section | 2 | Net amount | 52.40 |
+      | miscellaneous-fees-section | 3 | Type of fee | Wasted preparation fee |
+      | miscellaneous-fees-section | 3 | Quantity | 1 |
+      | miscellaneous-fees-section | 3 | Rate | 39.39 |
+      | miscellaneous-fees-section | 3 | Net amount | 39.39 |
 
-    # TODO: refactor to multiline arg datatable step
-    # Then I should be on the check your claim page
-    # And I should see 'Blackfriars'
-    # And I should see 'A20161234'
-    # And I should see 'Trial'
+    And I should not see 'Offence details'
 
-    # And I should see 'Activities relating to opium'
-    # And I should see 'B: Offences involving serious violence or damage and serious drug offences'
-    # And I should see 'Junior alone'
-
-    # And I should see 'Basic fee'
-    # And I should see 'Number of cases uplift'
-    # And I should see 'Special preparation fee'
-    # And I should see 'Noting brief fee'
-    # And I should see 'Hotel accommodation'
-
-    # And I should see 'judicial_appointment_order.pdf'
-    # And I should see 'Order in respect of judicial apportionment'
-    # And I should see 'Bish bosh bash'
+    Then the following check your claim details should exist:
+      | section | prompt | value |
+      | supporting-evidence-section | Supporting evidence | judicial_appointment_order.pdf |
+      | supporting-evidence-section | Supporting evidence checklist | Order in respect of judicial apportionment |
 
     When I click "Continue"
     Then I should be on the certification page

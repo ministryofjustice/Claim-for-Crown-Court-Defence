@@ -47,7 +47,7 @@ RSpec.describe Claim::LitigatorClaimPresenter, type: :presenter do
     end
   end
 
-  describe '#display_days' do
+  describe '#display_days?' do
     subject { presenter.display_days? }
 
     context 'for a fixed fee case' do

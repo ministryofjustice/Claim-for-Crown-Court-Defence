@@ -34,7 +34,7 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
     end
   end
 
-  describe '#display_days' do
+  describe '#display_days?' do
     subject { presenter.display_days? }
 
     context 'for transfer case' do

@@ -1,8 +1,8 @@
 @javascript
-Feature: Advocate tries to submit a claim for a Miscellaneous fee (only)
+Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (only)
 
   @fee_calc_vcr
-  Scenario: I create a Trial claim but skip the graduated/basic fees, adding only applicable misc fees
+  Scenario: I create a supplementary claim but skip adding only applicable misc fees
 
     Given I am a signed in advocate
     And I am on the 'Your claims' page
@@ -10,10 +10,9 @@ Feature: Advocate tries to submit a claim for a Miscellaneous fee (only)
     And I select the fee scheme 'Advocate supplementary fee'
     Then I should be on the advocate supplementary new claim page
 
+    When I enter a providers reference of 'AGFS supplementary fee test'
     And I select the court 'Caernarfon'
-    And I select a case type of 'Trial'
     And I enter a case number of 'A20191234'
-    And I enter scheme 11 trial start and end dates
 
     Then I click "Continue" in the claim form
 
@@ -59,7 +58,8 @@ Feature: Advocate tries to submit a claim for a Miscellaneous fee (only)
       | section | prompt | value |
       | case-details-section | Crown court | Caernarfon |
       | case-details-section | Case number | A20191234 |
-      | case-details-section | Case type | Trial |
+
+    And I should not see 'Case type'
 
     And the following check your claim fee details should exist:
       | section | row | prompt | value |

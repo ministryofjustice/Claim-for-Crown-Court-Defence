@@ -57,21 +57,6 @@ class Claim::AdvocateSupplementaryClaimValidator < Claim::BaseClaimValidator
     validate_pattern(:supplier_number, supplier_number_regex, 'invalid')
   end
 
-  # TODO: SUPPLEMENTARY_CLAIM_TODO advocate claim validation mixin? does not apply to advocate interim and misc claim but harmless to add?
-  def validate_defendant_uplifts_basic_fees
-    return if @record.from_api? || @record.fixed_fee_case?
-    return unless defendant_uplifts_greater_than?(defendant_uplifts_basic_fees_counts, number_of_defendants)
-    add_error(:base, 'defendant_uplifts_basic_fees_mismatch')
-  end
-
-  # TODO: SUPPLEMENTARY_CLAIM_TODO advocate claim validation mixin? does not apply to advocate interim and misc claim but harmless to add?
-  def validate_defendant_uplifts_fixed_fees
-    return if @record.from_api? || !@record.fixed_fee_case?
-    return unless defendant_uplifts_greater_than?(defendant_uplifts_fixed_fees_counts, number_of_defendants)
-    position = @record.fixed_fees.find_index(&:defendant_uplift?) + 1
-    add_error("fixed_fee_#{position}_quantity", 'defendant_uplifts_fixed_fees_mismatch')
-  end
-
   # TODO: SUPPLEMENTARY_CLAIM_TODO advocate claim validation mixin? does not apply to advocate interim claim but harmless to add?
   def validate_defendant_uplifts_misc_fees
     return if @record.from_api?

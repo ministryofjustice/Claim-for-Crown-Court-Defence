@@ -93,15 +93,16 @@ Rails.application.routes.draw do
   end
 
   scope module: 'external_users' do
+    amend_actions = %i[new create edit update]
     namespace :advocates do
-      resources :claims, only: %i[new create edit update]
-      resources :supplementary_claims, only: %i[new create edit update]
-      resources :interim_claims, only: %i[new create edit update]
+      resources :claims, only: amend_actions
+      resources :supplementary_claims, only: amend_actions
+      resources :interim_claims, only: amend_actions
     end
     namespace :litigators do
-      resources :claims, only: %i[new create edit update]
-      resources :interim_claims, only: %i[new create edit update]
-      resources :transfer_claims, only: %i[new create edit update]
+      resources :claims, only: amend_actions
+      resources :interim_claims, only: amend_actions
+      resources :transfer_claims, only: amend_actions
     end
   end
 

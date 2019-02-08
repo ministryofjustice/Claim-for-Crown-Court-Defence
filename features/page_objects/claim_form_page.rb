@@ -25,6 +25,8 @@ class ClaimFormPage < SitePrism::Page
   element :providers_ref, "#claim_providers_ref"
   section :auto_case_type, CommonAutocomplete, "#cc-case-type"
   section :auto_court, CommonAutocomplete, "#cc-court"
+  section :auto_offence, CommonAutocomplete, "#cc-offence"
+
   element :case_number, "#claim_case_number"
 
   section :trial_details, "#trial-dates" do

@@ -96,6 +96,15 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
         let(:fee) { create(:misc_fee, :miaph_fee, claim: claim, quantity: 1) }
 
         it_returns 'a successful fee calculator response', unit: 'halfday', amount: 130.0
+
+        context 'on (supplementary) claims with no case type' do
+          before do
+            claim.case_type = nil
+            allow(claim).to receive(:supplementary?).and_return true
+          end
+
+          it_returns 'a successful fee calculator response', unit: 'halfday', amount: 130.0
+        end
       end
 
       context 'for a misc fee number of defendants uplift' do

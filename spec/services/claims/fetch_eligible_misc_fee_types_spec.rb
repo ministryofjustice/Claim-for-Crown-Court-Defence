@@ -61,10 +61,8 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
       it { is_expected.to all(be_a(Fee::MiscFeeType)) }
 
       context 'final claim' do
-        let(:claim) { create(:advocate_claim) }
-
         context 'scheme 9 claim' do
-          let(:claim) { create(:claim, :agfs_scheme_9) }
+          let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
 
           it 'returns only misc fee types for AGFS scheme 9' do
             is_expected.to have_at_least(1).items
@@ -73,7 +71,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         end
 
         context 'scheme 10+ claim' do
-          let(:claim) { create(:claim, :agfs_scheme_10) }
+          let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
 
           it 'returns only misc fee types for AGFS scheme 10+' do
             is_expected.to have_at_least(1).items
@@ -86,7 +84,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         subject(:call) { described_class.new(claim).call.map(&:unique_code) }
 
         context 'scheme 9 claim' do
-          let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_9) }
+          let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_9, with_misc_fee: false) }
 
           it 'returns only misc fee types for AGFS scheme 9' do
             is_expected.to match_array %w[MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU]
@@ -94,7 +92,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         end
 
         context 'scheme 10+ claim' do
-          let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_10) }
+          let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_10, with_misc_fee: false) }
 
           it 'returns only misc fee types for AGFS scheme 10+' do
             is_expected.to match_array %w[MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU]

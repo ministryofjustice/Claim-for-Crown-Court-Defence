@@ -2,8 +2,7 @@ class Claim::AdvocateSupplementaryClaimSubModelValidator < Claim::BaseClaimSubMo
   def has_one_association_names_for_steps
     {
       case_details: [],
-      defendants: [],
-      offence_details: []
+      defendants: []
     }
   end
 

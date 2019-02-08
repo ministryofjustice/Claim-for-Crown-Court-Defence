@@ -6,6 +6,7 @@ FactoryBot.define do
 
     after(:build) do |claim|
       claim.creator = claim.external_user
+      add_fee(:misc_fee, claim)
     end
   end
 end

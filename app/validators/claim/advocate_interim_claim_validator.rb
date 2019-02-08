@@ -1,4 +1,6 @@
 class Claim::AdvocateInterimClaimValidator < Claim::BaseClaimValidator
+  include Claim::AdvocateClaimCommonValidations
+
   def self.fields_for_steps
     {
       case_details: %i[
@@ -17,10 +19,6 @@ class Claim::AdvocateInterimClaimValidator < Claim::BaseClaimValidator
 
   private
 
-  def validate_supplier_number
-    validate_pattern(:supplier_number, ExternalUser::SUPPLIER_NUMBER_REGEX, 'invalid')
-  end
-
   def validate_earliest_representation_order
     date = @record.earliest_representation_order&.representation_order_date
     return unless date.present?
@@ -29,11 +27,5 @@ class Claim::AdvocateInterimClaimValidator < Claim::BaseClaimValidator
 
   def validate_offence
     validate_presence(:offence, 'new_blank')
-  end
-
-  def validate_advocate_category
-    validate_presence(:advocate_category, 'blank')
-    return if @record.advocate_category.blank?
-    validate_inclusion(:advocate_category, @record.eligible_advocate_categories, I18n.t('validators.advocate.category'))
   end
 end

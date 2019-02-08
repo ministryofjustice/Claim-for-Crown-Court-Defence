@@ -1,4 +1,4 @@
-RSpec.shared_examples "common advocate litigator validations" do |external_user_type|
+RSpec.shared_examples "common advocate litigator validations" do |external_user_type, options|
 
   context 'external_user' do
     it 'should error if not present, regardless' do
@@ -20,10 +20,12 @@ RSpec.shared_examples "common advocate litigator validations" do |external_user_
     end
   end
 
-  context 'case_type' do
-    it 'should error if not present' do
-      claim.case_type = nil
-      should_error_with(claim, :case_type, "blank")
+  unless options&.fetch(:case_type, nil) == false
+    context 'case_type' do
+      it 'should error if not present' do
+        claim.case_type = nil
+        should_error_with(claim, :case_type, "blank")
+      end
     end
   end
 

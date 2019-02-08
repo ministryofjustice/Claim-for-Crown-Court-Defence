@@ -23,14 +23,22 @@ RSpec.describe Claims::FeeCalculator::BillScenario do
 
   context 'AGFS' do
     subject(:bill_scenario) { described_class.new(claim, fee_type).call }
-    let(:claim) { build(:advocate_claim) }
 
-    before do
-      allow(claim).to receive(:lgfs?).and_return(false)
-      allow(claim).to receive(:case_type).and_return instance_double(CaseType, fee_type_code: 'GRTRL')
+    context 'advocate claim - based on case type' do
+      let(:claim) { build(:advocate_claim) }
+
+      before do
+        expect(claim).to receive(:case_type).and_return instance_double(CaseType, fee_type_code: 'GRGLT')
+      end
+
+      it_returns 'expected bill scenario', scenario: 'AS000002'
     end
 
-    it_returns 'expected bill scenario', scenario: 'AS000004'
+    context 'advocate supplementary claim - defaults to trial case type' do
+      let(:claim) { build(:advocate_supplementary_claim, case_type: nil) }
+
+      it_returns 'expected bill scenario', scenario: 'AS000004'
+    end
   end
 
   context 'LGFS' do

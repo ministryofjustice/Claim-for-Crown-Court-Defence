@@ -10,16 +10,26 @@ module Claim
       private
 
       def validate_defendant_uplifts_basic_fees
-        return if @record.from_api? || @record.fixed_fee_case?
-        return unless defendant_uplifts_greater_than?(defendant_uplifts_basic_fees_counts, number_of_defendants)
+        return unless [
+          !@record.from_api?,
+          !@record.fixed_fee_case?,
+          defendant_uplifts_greater_than?(defendant_uplifts_basic_fees_counts, number_of_defendants)
+        ].all?
         add_error(:base, 'defendant_uplifts_basic_fees_mismatch')
       end
 
-      def validate_defendant_uplifts_fixed_fees
-        return if @record.from_api? || !@record.fixed_fee_case?
-        return unless defendant_uplifts_greater_than?(defendant_uplifts_fixed_fees_counts, number_of_defendants)
+      def fixed_fee_defendant_uplift_quantity_attribute
         position = @record.fixed_fees.find_index(&:defendant_uplift?) + 1
-        add_error("fixed_fee_#{position}_quantity", 'defendant_uplifts_fixed_fees_mismatch')
+        "fixed_fee_#{position}_quantity"
+      end
+
+      def validate_defendant_uplifts_fixed_fees
+        return unless [
+          !@record.from_api?,
+          @record.fixed_fee_case?,
+          defendant_uplifts_greater_than?(defendant_uplifts_fixed_fees_counts, number_of_defendants)
+        ].all?
+        add_error(fixed_fee_defendant_uplift_quantity_attribute, 'defendant_uplifts_fixed_fees_mismatch')
       end
 
       def validate_defendant_uplifts_misc_fees

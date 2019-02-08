@@ -2,23 +2,11 @@ class Claim::AdvocateSupplementaryClaimValidator < Claim::BaseClaimValidator
   def self.fields_for_steps
     {
       case_details: %i[
-        case_type
         court
         case_number
         case_transferred_from_another_court
         transfer_court
         transfer_case_number
-        estimated_trial_length
-        actual_trial_length
-        retrial_estimated_length
-        retrial_actual_length
-        trial_cracked_at_third
-        trial_fixed_notice_at
-        trial_fixed_at
-        trial_cracked_at
-        trial_dates
-        retrial_started_at
-        retrial_concluded_at
         case_concluded_at
         supplier_number
       ],
@@ -54,10 +42,9 @@ class Claim::AdvocateSupplementaryClaimValidator < Claim::BaseClaimValidator
     validate_inclusion(:advocate_category, @record.eligible_advocate_categories, I18n.t('validators.advocate.category'))
   end
 
-  # TODO: SUPPLEMENTARY_CLAIM_TODO advocate claim validation mixin?
+  # NOTE: opposite of advocate claim
   def validate_offence
-    error_message = @record.agfs_reform? ? 'new_blank' : 'blank'
-    validate_presence(:offence, error_message)
+    validate_absence(:offence, 'present')
   end
 
   # TODO: SUPPLEMENTARY_CLAIM_TODO advocate claim validation mixin?

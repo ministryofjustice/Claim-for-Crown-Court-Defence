@@ -60,6 +60,10 @@ module Claim
       true
     end
 
+    def requires_case_type?
+      false
+    end
+
     # TODO: SUPPLEMENTARY_CLAIM_TODO to be removed - should not be applicable/required
     def eligible_case_types
       CaseType.agfs

@@ -4,7 +4,7 @@ RSpec.describe Claim::AdvocateSupplementaryClaim, type: :model do
   it_behaves_like 'a base claim'
 
   specify { expect(subject.external_user_type).to eq(:advocate) }
-  specify { expect(subject.requires_case_type?).to be_falsey } # TODO: SUPPLEMENTARY_CLAIM_TODO to be removed
+  specify { expect(subject.requires_case_type?).to be_falsey }
   specify { expect(subject.agfs?).to be_truthy }
   specify { expect(subject.final?).to be_falsey }
   specify { expect(subject.interim?).to be_falsey }

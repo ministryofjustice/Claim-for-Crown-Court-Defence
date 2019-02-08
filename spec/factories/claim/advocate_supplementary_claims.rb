@@ -2,11 +2,15 @@ FactoryBot.define do
   factory :advocate_supplementary_claim, class: Claim::AdvocateSupplementaryClaim do
     advocate_base_setup
     offence nil
-    # case_type nil # TODO: SUPPLEMENTARY_CLAIM_TODO - should be nil, need to determine if fee calc requires it
+    case_type nil
 
-    after(:build) do |claim|
+    transient do
+      with_misc_fee true
+    end
+
+    after(:build) do |claim, evaluator|
       claim.creator = claim.external_user
-      add_fee(:misc_fee, claim)
+      add_fee(:misc_fee, claim) if evaluator.with_misc_fee
     end
   end
 end

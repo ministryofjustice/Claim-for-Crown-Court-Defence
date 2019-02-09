@@ -5,14 +5,6 @@ RSpec.describe Claim::AdvocateInterimClaimPresenter, type: :presenter do
 
   subject(:presenter) { described_class.new(claim, view) }
 
-  # TODO: Ideally this should have a
-  # it_behaves_like 'a claim presenter'
-  # but the spec for the base claim is quite complex to be able
-  # to change that pattern. Something to address in the near future
-  #
-
-  include_examples 'a claim presenter'
-
   describe '#pretty_type' do
     specify { expect(presenter.pretty_type).to eq('AGFS Warrant') }
   end

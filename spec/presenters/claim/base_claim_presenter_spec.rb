@@ -510,4 +510,9 @@ RSpec.describe Claim::BaseClaimPresenter do
       it { is_expected.to be false }
     end
   end
+
+  describe '#requires_interim_claim_info?' do
+    subject { presenter.requires_interim_claim_info? }
+    it { is_expected.to be_falsey }
+  end
 end

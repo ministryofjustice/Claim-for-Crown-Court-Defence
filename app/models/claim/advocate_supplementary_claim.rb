@@ -64,11 +64,6 @@ module Claim
       false
     end
 
-    # TODO: SUPPLEMENTARY_CLAIM_TODO to be removed - should not be applicable/required
-    def eligible_case_types
-      CaseType.agfs
-    end
-
     # TODO: SUPPLEMENTARY_CLAIM_TODO promote or mixin/concern
     def eligible_advocate_categories
       Claims::FetchEligibleAdvocateCategories.for(self)
@@ -81,6 +76,7 @@ module Claim
 
     private
 
+    # TODO: SUPPLEMENTARY_CLAIM_TODO mixin/conceern Claims::AdvocateClaimProviderDelegation??
     def agfs_supplier_number
       if provider.firm?
         provider.firm_agfs_supplier_number
@@ -91,6 +87,7 @@ module Claim
       nil
     end
 
+    # TODO: SUPPLEMENTARY_CLAIM_TODO mixin/concern Claims::AdvocateClaimProviderDelegation??
     def provider_delegator
       if provider.firm?
         provider
@@ -101,9 +98,14 @@ module Claim
       end
     end
 
+    # TODO: SUPPLEMENTARY_CLAIM_TODO mixin/concern Claims::AdvocateClaimProviderDelegation??
     def set_supplier_number
       supplier_no = agfs_supplier_number
       self.supplier_number = supplier_no if supplier_number != supplier_no
+    end
+
+    def cleaner
+      AdvocateSupplementaryClaimCleaner.new(self)
     end
   end
 end

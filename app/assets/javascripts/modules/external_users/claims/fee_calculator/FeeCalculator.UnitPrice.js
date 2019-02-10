@@ -9,7 +9,8 @@
 
     bindEvents: function() {
       this.advocateTypeChange();
-      this.miscFeeTypeChange();
+      this.miscFeeTypeSelectListChange();
+      this.miscFeeTypeCheckboxChange();
 
       this.fixedFeeTypeChange();
 
@@ -37,7 +38,7 @@
 
         if(!$el.is(':checked')){
           // TODO: if we are going to destroy the fee do we need to clear it?
-          self.clearFixedFee(parentEl);
+          self.clearFee(parentEl);
           self.markForDestruction(parentEl, true);
         } else {
           self.markForDestruction(parentEl, false);
@@ -52,11 +53,13 @@
     // It should be a part of the checkbox logic and located in a module
     // related to that.
     markForDestruction: function (context, bool) {
+      console.log(context);
+      console.log(bool);
       $(context + '-input').siblings('.destroy').val(bool);
     },
 
     // clear the fixed fee
-    clearFixedFee: function (el) {
+    clearFee: function (el) {
       var $el = $(el);
       $el.find('.quantity').val('');
       $el.find('.rate').val('');
@@ -64,7 +67,9 @@
     },
 
     // needs to be usable by cocoon:after-insert so can bind to one or many elements
-    miscFeeTypeChange: function($el) {
+    // needs to handle both select list (advocate final claim)
+    // and checkbox varities (advocate supplementary claim) of misc fees
+    miscFeeTypeSelectListChange: function($el) {
       var self = this;
       var $els = $el || $('.fx-misc-fee-calculation');
 
@@ -73,6 +78,25 @@
           self.calculateUnitPrice();
         });
       }
+    },
+
+    miscFeeTypeCheckboxChange: function() {
+      var self = this;
+
+      $('#misc-fees').on('change', '.fx-checkbox-hook', function(e) {
+        var $el = $(e.target);
+        var parentEl = '#' + $el.closest('.multiple-choice').data('target');
+
+        if(!$el.is(':checked')){
+          self.clearFee(parentEl);
+          self.markForDestruction(parentEl, true);
+        } else {
+          self.markForDestruction(parentEl, false);
+        }
+
+        // Always redo calculation because of fee calc interdependencies
+        self.calculateUnitPrice();
+      });
     },
 
     // needs to be usable by cocoon:after-insert so can bind to one or many elements

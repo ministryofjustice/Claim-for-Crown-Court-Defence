@@ -1,0 +1,11 @@
+#misc-fees.mod-fees.form-section
+  .misc-fee-group-wrapper
+    %h3.heading-medium
+      = t('.misc_fee')
+    .form-group
+      %fieldset
+        %legend.form-label-bold
+          = t('.fee_type')
+        = f.fields_for :misc_fees do |misc_fee_fields|
+          - @misc_fee_count += 1
+          = render 'external_users/claims/misc_fees/advocates/supplementary/misc_fee_fields', f: misc_fee_fields

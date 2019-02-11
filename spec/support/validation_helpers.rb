@@ -20,7 +20,7 @@ module ValidationHelpers
   end
 
   def should_not_error(record, field)
-    expect(record.valid?).to be true
+    record.valid?
     expect(record.errors[field]).to be_empty
   end
 

@@ -180,6 +180,22 @@ FactoryBot.define do
         quantity_is_decimal false
       end
 
+      trait :midth do
+        description 'Confiscation hearings (whole day)'
+        code 'DTW'
+        unique_code 'MIDTW'
+        calculated true
+        quantity_is_decimal false
+      end
+
+      trait :midwu do
+        description 'Confiscation hearings (whole day uplift)'
+        code 'DWU'
+        unique_code 'MIDWU'
+        calculated true
+        quantity_is_decimal false
+      end
+
       trait :miupl do
         lgfs
         description 'Defendant uplift'

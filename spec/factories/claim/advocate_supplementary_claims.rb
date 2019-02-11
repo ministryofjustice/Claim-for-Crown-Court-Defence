@@ -4,9 +4,16 @@ FactoryBot.define do
     offence nil
     # case_type nil # TODO: SUPPLEMENTARY_CLAIM_TODO - should be nil, need to determine if fee calc requires it
 
-    after(:build) do |claim|
-      claim.creator = claim.external_user
-      add_fee(:misc_fee, claim)
+    transient do
+      with_misc_fee true
+    end
+
+    after(:build) do |claim, evaluator|
+      claim.creator = claim.external_user || build(:external_user, :advocate)
+      if evaluator.with_misc_fee
+        fee_type = Fee::MiscFeeType.find_by(unique_code: 'MISPF') || create(:misc_fee_type, :mispf) # persitence needed to prevent ineligible misc fee type deletion
+        claim.misc_fees << build(:misc_fee, fee_type: fee_type, claim: claim)
+      end
     end
   end
 end

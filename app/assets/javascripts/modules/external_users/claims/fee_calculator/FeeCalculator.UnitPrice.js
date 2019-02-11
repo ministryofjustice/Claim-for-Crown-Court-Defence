@@ -9,9 +9,7 @@
 
     bindEvents: function() {
       this.advocateTypeChange();
-      this.miscFeeTypeSelectListChange();
-      this.miscFeeTypeCheckboxChange();
-
+      this.miscFeeTypeChange();
       this.fixedFeeTypeChange();
 
       this.feeRateChange();
@@ -29,10 +27,25 @@
       }
     },
 
-    fixedFeeTypeChange: function() {
+    // clear the fixed fee
+    clearFee: function (el) {
+      var $el = $(el);
+      $el.find('.quantity').val('');
+      $el.find('.rate').val('');
+      $el.find('.total').html('£0.00');
+    },
+
+    // TODO: this method should not form part of fee calc logic
+    // It should be a part of the checkbox logic and located in a module
+    // related to that.
+    markForDestruction: function (context, bool) {
+      $(context + '-input').siblings('.destroy').val(bool);
+    },
+
+    feeTypeCheckboxChange: function(elId) {
       var self = this;
 
-      $('#fixed-fees').on('change', '.fx-checkbox-hook', function(e) {
+      $(elId).on('change', '.fx-checkbox-hook', function(e) {
         var $el = $(e.target);
         var parentEl = '#' + $el.closest('.multiple-choice').data('target');
 
@@ -49,27 +62,16 @@
       });
     },
 
-    // TODO: this method should not form part of fee calc logic
-    // It should be a part of the checkbox logic and located in a module
-    // related to that.
-    markForDestruction: function (context, bool) {
-      console.log(context);
-      console.log(bool);
-      $(context + '-input').siblings('.destroy').val(bool);
+    fixedFeeTypeChange: function() {
+      this.feeTypeCheckboxChange('#fixed-fees');
     },
 
-    // clear the fixed fee
-    clearFee: function (el) {
-      var $el = $(el);
-      $el.find('.quantity').val('');
-      $el.find('.rate').val('');
-      $el.find('.total').html('£0.00');
+    miscFeeTypeCheckboxChange: function() {
+      this.feeTypeCheckboxChange('#misc-fees');
     },
 
     // needs to be usable by cocoon:after-insert so can bind to one or many elements
-    // needs to handle both select list (advocate final claim)
-    // and checkbox varities (advocate supplementary claim) of misc fees
-    miscFeeTypeSelectListChange: function($el) {
+    miscFeeTypesSelectChange: function($el) {
       var self = this;
       var $els = $el || $('.fx-misc-fee-calculation');
 
@@ -80,23 +82,12 @@
       }
     },
 
-    miscFeeTypeCheckboxChange: function() {
-      var self = this;
-
-      $('#misc-fees').on('change', '.fx-checkbox-hook', function(e) {
-        var $el = $(e.target);
-        var parentEl = '#' + $el.closest('.multiple-choice').data('target');
-
-        if(!$el.is(':checked')){
-          self.clearFee(parentEl);
-          self.markForDestruction(parentEl, true);
-        } else {
-          self.markForDestruction(parentEl, false);
-        }
-
-        // Always redo calculation because of fee calc interdependencies
-        self.calculateUnitPrice();
-      });
+    // needs to handle both select list and checboxes
+    // for advocate final and supplementary claims respectively.
+    //
+    miscFeeTypeChange: function() {
+      this.miscFeeTypesSelectChange();
+      this.miscFeeTypeCheckboxChange();
     },
 
     // needs to be usable by cocoon:after-insert so can bind to one or many elements

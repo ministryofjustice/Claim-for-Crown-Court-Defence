@@ -106,6 +106,14 @@ When(/^I click "Continue" in the claim form$/) do
   wait_for_ajax
 end
 
+When(/^I click "Continue" I should see a "([^"]*)" error$/) do |error_message|
+  @claim_form_page.continue_button.click
+  wait_for_ajax
+  within('div.error-summary') do
+    expect(page).to have_content(error_message)
+  end
+end
+
 When(/^I click "Continue" in the claim form and move to the '(.*?)' form page$/) do |page_title|
   original_header = page.first('h2').text
   sleep 3

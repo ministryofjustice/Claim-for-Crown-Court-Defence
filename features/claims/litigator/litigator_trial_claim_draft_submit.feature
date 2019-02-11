@@ -17,7 +17,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2016-04-01'
-    Then I click "Continue" in the claim form and move to the 'Case details' form page
+    When I click "Continue" I should see a "Choose a supplier number" error
 
     When I choose the supplier number '1A222Z'
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page

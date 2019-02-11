@@ -274,7 +274,6 @@ en:
 
   page_headings:
     edit_lgfs_claim: Edit litigator claim
-    edit_agfs_claim: Edit advocate claim
 
 # en.common
   common:
@@ -609,7 +608,6 @@ en:
     claim_heading: Claim for Crown Court fees
     agfs_claim_heading: Claim for advocate fees
     lgfs_claim_heading: Claim for litigator fees
-    start_agfs_claim_heading: Claim for advocate fees
     start_lgfs_final_claim_heading: Claim for litigator fees
     start_lgfs_interim_claim_heading: Claim for litigator interim fees
     start_lgfs_transfer_claim_heading: Claim for litigator transfer fees
@@ -1418,13 +1416,15 @@ en:
     advocates:
       claims:
         new:
-          page_title: &agfs_final_claim_heading Enter case details for advocate final fees claim
+          page_title: &agfs_final_claim_title Enter case details for advocate final fees claim
+          page_heading: &agfs_final_claim_heading Claim for advocate final fees
 
         edit:
-          page_title: *agfs_final_claim_heading
+          page_title: *agfs_final_claim_title
+          page_heading: *agfs_final_claim_heading
 
         case_details_form_step:
-          page_title: *agfs_final_claim_heading
+          page_title: *agfs_final_claim_title
 
         defendants_form_step:
           page_title: Enter defendant details for advocate final fees claim

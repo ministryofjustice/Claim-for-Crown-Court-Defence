@@ -640,7 +640,7 @@ en:
         page_title_generic: Choose a bill type for Crown court claim
         agfs_rb: Advocate final fee
         agfs_supplementary_rb: Advocate supplementary fee
-        agfs_supplementary_hint: For fees claimed during or after the conclusion of the case
+        agfs_supplementary_hint: For miscellaneous fees claimed without a graduated or fixed fee
         agfs_interim_rb: Advocate warrant fee
         agfs_interim_hint: For warrant fee claims with the earliest representation order dated on or after 1 April 2018
         claim_type_prompt_section_heading: 'What would you like to do?'
@@ -1478,13 +1478,15 @@ en:
 
       supplementary_claims:
         new:
-          page_title: &agfs_supplementary_claim_heading Enter case details for advocate supplementary fee claim
+          page_title: &agfs_supplementary_claim_title Enter case details for advocate supplementary fee claim
+          page_heading: &agfs_supplementary_claim_heading Claim for advocate supplementary fees
 
         edit:
-          page_title: *agfs_supplementary_claim_heading
+          page_title: *agfs_supplementary_claim_title
+          page_heading: *agfs_supplementary_claim_heading
 
         case_details_form_step:
-          page_title: *agfs_supplementary_claim_heading
+          page_title: *agfs_supplementary_claim_title
 
         defendants_form_step:
           page_title: Enter defendant details for advocate supplementary fee claim

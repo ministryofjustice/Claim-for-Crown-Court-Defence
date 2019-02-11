@@ -230,6 +230,7 @@ module Claim
 
     private
 
+    # TODO: SUPPLEMENTARY_CLAIM_TODO mixin/concern Claims::AdvocateClaimProviderDelegation??
     def provider_delegator
       if provider.firm?
         provider
@@ -240,6 +241,7 @@ module Claim
       end
     end
 
+    # TODO: SUPPLEMENTARY_CLAIM_TODO mixin/concern Claims::AdvocateClaimProviderDelegation??
     def agfs_supplier_number
       if provider.firm?
         provider.firm_agfs_supplier_number
@@ -250,6 +252,7 @@ module Claim
       nil
     end
 
+    # TODO: SUPPLEMENTARY_CLAIM_TODO mixin/concern Claims::AdvocateClaimProviderDelegation??
     def set_supplier_number
       supplier_no = agfs_supplier_number
       self.supplier_number = supplier_no if supplier_number != supplier_no

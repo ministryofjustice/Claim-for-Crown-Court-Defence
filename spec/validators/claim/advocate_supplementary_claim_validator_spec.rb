@@ -7,7 +7,14 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
 
   let(:claim) { create(:advocate_supplementary_claim) }
 
-  before { seed_fee_schemes }
+  before(:all) do
+    seed_fee_schemes
+    seed_fee_types
+  end
+
+  after(:all) do
+    clean_database
+  end
 
   include_examples "common advocate litigator validations", :advocate, case_type: false
   include_examples 'advocate claim case concluded at'
@@ -47,15 +54,15 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
 
   # TODO: misc fee uplifts can be shared with advocate claim
   context 'defendant uplift fees aggregation validation' do
-    let(:miaph) { create(:misc_fee_type, :miaph) }
-    let(:miahu) { create(:misc_fee_type, :miahu) }
-    let(:midtw) { create(:misc_fee_type, :midtw) }
-    let(:midwu) { create(:misc_fee_type, :midwu) }
-    let(:misc_fee) { claim.misc_fees.find_by(fee_type_id: miaph.id) }
+    let(:midth) { Fee::MiscFeeType.find_by(unique_code: 'MIDTH') }
+    let(:midhu) { Fee::MiscFeeType.find_by(unique_code: 'MIDHU') }
+    let(:midtw) { Fee::MiscFeeType.find_by(unique_code: 'MIDTW') }
+    let(:midwu) { Fee::MiscFeeType.find_by(unique_code: 'MIDWU') }
+    let(:misc_fee) { claim.misc_fees.find_by(fee_type_id: midtw.id) }
 
     before do
       claim.misc_fees.delete_all
-      create(:misc_fee, fee_type: miaph, claim: claim, quantity: 1, rate: 25.1)
+      create(:misc_fee, fee_type: midtw, claim: claim, quantity: 1, rate: 25.1)
       claim.reload
       claim.form_step = :miscellaneous_fees
     end
@@ -63,14 +70,14 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
     it 'test setup' do
       expect(claim.defendants.size).to eql 1
       expect(claim.misc_fees.size).to eql 1
-      expect(claim.misc_fees.first.fee_type).to have_attributes(unique_code: 'MIAPH')
+      expect(claim.misc_fees.first.fee_type).to have_attributes(unique_code: 'MIDTW')
     end
 
     context 'with 1 defendant' do
       context 'when there are 0 uplifts' do
         it 'test setup' do
           expect(claim.defendants.size).to eql 1
-          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }).to eql(%w[MIAPH])
+          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }).to match_array(%w[MIDTW])
         end
 
         it 'should not error' do
@@ -80,12 +87,12 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
 
       context 'when there is 1 miscellanoues fee uplift' do
         before do
-          create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
+          create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
         end
 
         it 'test setup' do
           expect(claim.defendants.size).to eql 1
-          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIAHU MIAPH])
+          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }).to match_array(%w[MIDWU MIDTW])
         end
 
         it 'should error' do
@@ -106,19 +113,19 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
       context 'with 2 defendants' do
         before do
           create(:defendant, claim: claim)
-          create(:misc_fee, fee_type: midtw, claim: claim, quantity: 1, amount: 21.01)
+          create(:misc_fee, fee_type: midth, claim: claim, quantity: 1, amount: 21.01)
           claim.reload
         end
 
         context 'when there are multiple uplifts of 1 per fee type' do
           before do
-            create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
+            create(:misc_fee, fee_type: midhu, claim: claim, quantity: 1, amount: 21.01)
             create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
           end
 
           it 'test setup' do
             expect(claim.defendants.size).to eql 2
-            expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIAHU MIAPH MIDTW MIDWU])
+            expect(claim.misc_fees.map { |f| f.fee_type.unique_code }).to match_array(%w[MIDTH MIDHU MIDTW MIDWU])
           end
 
           it 'should not error' do
@@ -128,13 +135,13 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
 
         context 'when there are multiple uplifts of 2 (or more) per fee type' do
           before do
-            create(:misc_fee, fee_type: miahu, claim: claim, quantity: 2, amount: 21.01)
+            create(:misc_fee, fee_type: midhu, claim: claim, quantity: 2, amount: 21.01)
             create(:misc_fee, fee_type: midwu, claim: claim, quantity: 2, amount: 21.01)
           end
 
           it 'test setup' do
             expect(claim.defendants.size).to eql 2
-            expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIAHU MIAPH MIDTW MIDWU])
+            expect(claim.misc_fees.map { |f| f.fee_type.unique_code }).to match_array(%w[MIDTH MIDHU MIDTW MIDWU])
           end
 
           it 'should add one error only' do
@@ -146,21 +153,21 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
 
       context 'defendant uplifts fee marked for destruction' do
         before do
-          create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
+          create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
         end
 
         it 'test setup' do
           expect(claim.defendants.size).to eql 1
-          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIAHU MIAPH])
+          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }).to match_array(%w[MIDWU MIDTW])
           expect(claim).to be_invalid
         end
 
         it 'are ignored' do
-          miahu_fee = claim.fees.joins(:fee_type).where(fee_types: { unique_code: 'MIAHU' }).first
+          midwu_fee = claim.fees.joins(:fee_type).where(fee_types: { unique_code: 'MIDWU' }).first
           claim.update_attributes(
             :misc_fees_attributes => {
               '0' => {
-                'id' => miahu_fee.id,
+                'id' => midwu_fee.id,
                 '_destroy' => '1'
               }
             }
@@ -172,13 +179,13 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
       context 'defendants marked for destruction' do
         before do
           create(:defendant, claim: claim)
-          create(:misc_fee, fee_type: miahu, claim: claim, quantity: 1, amount: 21.01)
+          create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
           claim.reload
         end
 
         it 'test setup' do
           expect(claim.defendants.size).to eql 2
-          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIAHU MIAPH])
+          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }).to match_array(%w[MIDWU MIDTW])
           expect(claim).to be_valid
         end
 

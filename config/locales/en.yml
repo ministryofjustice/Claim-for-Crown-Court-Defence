@@ -608,7 +608,6 @@ en:
     your_claims: Your claims list
     claim_heading: Claim for Crown Court fees
     agfs_claim_heading: Claim for advocate fees
-    agfs_interim_claim_heading: Claim for advocate warrant fees
     lgfs_claim_heading: Claim for litigator fees
     start_agfs_claim_heading: Claim for advocate fees
     start_lgfs_final_claim_heading: Claim for litigator fees
@@ -1453,13 +1452,15 @@ en:
 
       interim_claims:
         new:
-          page_title: &agfs_interim_claims_heading Enter case details for advocate warrant fees claim
+          page_title: &agfs_interim_claims_title Enter case details for advocate warrant fees claim
+          page_heading: &agfs_interim_claim_heading Claim for advocate warrant fees
 
         edit:
-          page_title: *agfs_interim_claims_heading
+          page_title: *agfs_interim_claims_title
+          page_heading: *agfs_interim_claim_heading
 
         case_details_form_step:
-          page_title: *agfs_interim_claims_heading
+          page_title: *agfs_interim_claims_title
 
         defendants_form_step:
           page_title: Enter defendant details for advocate warrant fees claim

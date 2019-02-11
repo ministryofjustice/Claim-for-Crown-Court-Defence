@@ -155,7 +155,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     before { SupplierNumber.find_by(supplier_number: claim.supplier_number).delete }
 
     describe 'on create' do
-      describe 'the claim is invalid' do
+      describe 'the claim is in draft' do
         let(:claim) { build(:litigator_claim, :fixed_fee, :forced_validation, fixed_fee: build(:fixed_fee, :lgfs)) }
 
         it { is_expected.to be false }
@@ -163,8 +163,8 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     end
 
     describe 'on edit' do
-      describe 'the claim is valid' do
-        let(:claim) { create(:litigator_claim, :fixed_fee, :forced_validation, fixed_fee: build(:fixed_fee, :lgfs)) }
+      describe 'the claim is not in draft' do
+        let(:claim) { create(:litigator_claim, :fixed_fee, :forced_validation, fixed_fee: create(:fixed_fee, :lgfs), state: 'submitted') }
 
         it { is_expected.to be true }
       end

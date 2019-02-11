@@ -67,7 +67,7 @@ module Claim
     route_key_name 'litigators_claim'
 
     validates_with ::Claim::LitigatorClaimValidator, unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
-    validates_with ::Claim::LitigatorSupplierNumberValidator, on: :create
+    validates_with ::Claim::LitigatorSupplierNumberValidator, if: proc { |c| c.draft? }
     validates_with ::Claim::LitigatorClaimSubModelValidator
 
     has_one :fixed_fee,

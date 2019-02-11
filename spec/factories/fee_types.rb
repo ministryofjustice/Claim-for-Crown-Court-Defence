@@ -148,6 +148,15 @@ FactoryBot.define do
         roles ["agfs", "agfs_scheme_9", "agfs_scheme_10", "lgfs"]
       end
 
+      trait :minbr do
+        description 'Noting brief fee'
+        code 'NBR'
+        unique_code 'MINBR'
+        calculated true
+        quantity_is_decimal false
+        agfs_all_schemes
+      end
+
       trait :miaph do
         description 'Abuse of process hearings (half day)'
         code 'APH'

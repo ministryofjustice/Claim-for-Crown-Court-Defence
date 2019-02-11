@@ -106,11 +106,19 @@ When(/^I click "Continue" in the claim form$/) do
   wait_for_ajax
 end
 
-When(/^I click "Continue" I should see a "([^"]*)" error$/) do |error_message|
+When(/^I click "Continue" I should be on the 'Case details' page and see a "([^"]*)" error$/) do |error_message|
+  sleep 3
   @claim_form_page.continue_button.click
   wait_for_ajax
-  within('div.error-summary') do
-    expect(page).to have_content(error_message)
+  using_wait_time(6) do
+    if !page.has_content?(error_message)
+      #clicking again because the first one didn't work
+      @claim_form_page.continue_button.click
+      wait_for_ajax
+    end
+    within('div.error-summary') do
+      expect(page).to have_content(error_message)
+    end
   end
 end
 

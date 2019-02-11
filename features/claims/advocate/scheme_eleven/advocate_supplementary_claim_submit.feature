@@ -26,16 +26,17 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
     And I should see the advocate categories 'Junior,Leading junior,QC'
 
     When I select an advocate category of 'Junior'
-    And I add a calculated miscellaneous fee 'Wasted preparation fee'
-    And I add a calculated miscellaneous fee 'Confiscation hearings (half day)' with quantity of '2'
-    And I add a calculated miscellaneous fee 'Confiscation hearings (half day uplift)' with quantity of '1'
-    Then the following fee details should exist:
+    And I choose the 'Wasted preparation fee' miscellaneous fee with quantity of '1'
+    And I choose the 'Confiscation hearings (half day)' miscellaneous fee with quantity of '2'
+    And I choose the 'Confiscation hearings (half day uplift)' miscellaneous fee with quantity of '1'
+
+    Then the following supplementary fee details should exist:
       | section | fee_description | rate | hint | help |
       | miscellaneous | Wasted preparation fee | 39.39 | Number of hours | true |
       | miscellaneous | Confiscation hearings (half day) | 131.00 | Number of half days | true |
       | miscellaneous | Confiscation hearings (half day uplift) | 52.40 | Number of additional defendants | true |
 
-   And I eject the VCR cassette
+    And I eject the VCR cassette
 
     When I click "Continue" in the claim form
     Then I should be in the 'Travel expenses' form page

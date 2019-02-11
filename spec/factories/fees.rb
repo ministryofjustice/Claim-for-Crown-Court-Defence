@@ -89,15 +89,19 @@ FactoryBot.define do
     end
 
     trait :mispf_fee do
-      fee_type { build :misc_fee_type, :mispf }
+      fee_type { Fee::MiscFeeType.find_by(unique_code: 'MISPF') || build(:misc_fee_type, :mispf) }
     end
 
     trait :miaph_fee do
-      fee_type { Fee::FixedFeeType.find_by(unique_code: 'MIAPH') || build(:misc_fee_type, :miaph) }
+      fee_type { Fee::MiscFeeType.find_by(unique_code: 'MIAPH') || build(:misc_fee_type, :miaph) }
     end
 
     trait :miahu_fee do
-      fee_type { Fee::FixedFeeType.find_by(unique_code: 'MIAHU') || build(:misc_fee_type, :miahu) }
+      fee_type { Fee::MiscFeeType.find_by(unique_code: 'MIAHU') || build(:misc_fee_type, :miahu) }
+    end
+
+    trait :minbr_fee do
+      fee_type { Fee::MiscFeeType.find_by(unique_code: 'MINBR') || build(:misc_fee_type, :minbr) }
     end
   end
 

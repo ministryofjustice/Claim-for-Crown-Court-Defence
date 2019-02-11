@@ -40,6 +40,8 @@ module Claim
       basic_fees.map(&:clear) unless basic_fees.empty?
     end
 
+    # TODO: looping over a collection and deleting from it impacts the looping.
+    # change to collect the ineligble in loop and THEN delete. see misc fee cleaner
     def destroy_ineligible_fixed_fees
       eligbile_fees = Claims::FetchEligibleFixedFeeTypes.new(self).call
       fixed_fees.each do |fee|

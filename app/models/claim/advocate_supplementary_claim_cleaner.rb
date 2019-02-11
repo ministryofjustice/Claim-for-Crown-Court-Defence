@@ -20,9 +20,13 @@ module Claim
     private
 
     def destroy_ineligible_misc_fees
-      eligbile_fees = Claims::FetchEligibleMiscFeeTypes.new(self).call
-      misc_fees.each do |fee|
-        misc_fees.delete(fee) unless eligbile_fees.map(&:code).include?(fee.fee_type_code)
+      misc_fees.delete(ineligible_misc_fees)
+    end
+
+    def ineligible_misc_fees
+      eligbile_fee_types = Claims::FetchEligibleMiscFeeTypes.new(self).call
+      misc_fees.reject do |fee|
+        eligbile_fee_types.map(&:unique_code).include?(fee.fee_type.unique_code)
       end
     end
   end

@@ -183,18 +183,18 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
   end
 
   describe '.transition_reasons' do
-    subject { described_class.transition_reasons }
+    subject(:transition_reasons) { described_class.transition_reasons }
 
-    it 'returns deeply nested hash of string reasons' do
-      is_expected.to be_a(Hash)
-      described_class::TRANSITION_REASON_KEYS.key_paths.each do |path|
-        expect(subject.dig(*path)).to be_a(String)
-      end
+    it { is_expected.to be_a(Hash) }
+
+    it 'returns memoized object' do
+      is_expected.to equal described_class.transition_reasons
     end
 
-    it 'has no missing translations' do
-      expect(subject.all_values_for('short')).not_to include_match('translation missing')
-      expect(subject.all_values_for('long')).not_to include_match('translation missing')
+    it 'returns deeply nested hash of string reasons' do
+      transition_reasons.key_paths.each do |path|
+        expect(transition_reasons.dig(*path)).to be_a(String)
+      end
     end
   end
 end

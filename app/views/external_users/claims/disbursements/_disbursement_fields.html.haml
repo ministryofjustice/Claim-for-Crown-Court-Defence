@@ -12,7 +12,7 @@
       = f.select :disbursement_type_id,
         DisbursementType.active.map{ |disbursement| [disbursement.name, disbursement.id]},
         { include_blank: ''.html_safe },
-        {class: 'form-control typeahead', style: 'width: 100%'}
+        {class: 'form-control fx-autocomplete', style: 'width: 100%'}
 
       = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")
 

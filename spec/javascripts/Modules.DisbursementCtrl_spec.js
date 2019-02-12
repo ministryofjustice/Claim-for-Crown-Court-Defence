@@ -9,6 +9,7 @@ describe("Modules.DisbursementCtrl.js", function() {
     return $([
       '<div id="disbursements-view">',
       '<div id="disbursements">',
+      '<input value="disbursements" type="hidden" id="claim_form_step" />',
       ' <br/>',
       '</div>',
       '</div>'

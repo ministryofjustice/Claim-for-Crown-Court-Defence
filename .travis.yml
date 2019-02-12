@@ -11,7 +11,7 @@ before_install:
   - export TZ=Europe/London
   - sudo apt-get -qq update
   - sudo apt-get install -y pdftk
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml

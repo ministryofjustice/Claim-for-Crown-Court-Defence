@@ -16,10 +16,6 @@ moj.Modules.DisbursementsCtrl = {
     // init the auto complete
     this.initAutocomplete();
 
-    // check the load state
-    // binding events to the dynamic select
-    // this.checkState();
-
     // bind general page events
     this.bindEvents();
   },
@@ -33,6 +29,5 @@ moj.Modules.DisbursementsCtrl = {
         autoselect: false
       });
     });
-
   }
 };

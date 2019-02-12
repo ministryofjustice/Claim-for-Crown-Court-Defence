@@ -88,31 +88,43 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
   end
 
   describe '.refuse_reasons_for' do
-    subject(:refuse_reasons_for) { described_class.refuse_reasons_for(claim) }
+    subject(:refuse_reasons_for) { described_class.refuse_reasons_for(claim).map(&:code) }
 
     context 'for a litigator final claim' do
       let(:claim) { create(:litigator_claim, :fixed_fee, fixed_fee: create(:fixed_fee, :lgfs), state: 'refused') }
 
-      it { expect(subject.count).to eq 2 }
+      it { is_expected.to match_array %w[duplicate_claim other_refuse] }
     end
 
     context 'for a litigator transfer claim' do
       let(:claim) { create(:transfer_claim, transfer_fee: build(:transfer_fee), state: 'refused') }
 
-      it { expect(subject.count).to eq 2 }
+      it { is_expected.to match_array %w[duplicate_claim other_refuse] }
     end
 
     context 'for a litigator interim claim' do
       let(:claim) { create(:interim_claim, interim_fee: build(:interim_fee), state: 'refused') }
 
-      it { expect(subject.count).to eq 5 }
+      it { is_expected.to match_array %w[duplicate_claim no_effective_pcmh no_effective_trial short_trial other_refuse] }
     end
 
     context 'for an advocate final claim' do
       let(:basic_fee) { build(:basic_fee, :baf_fee, quantity: 1, amount: 21.01) }
       let(:claim) { create(:advocate_claim, :with_graduated_fee_case, basic_fees: [basic_fee], state: 'refused') }
 
-      it { expect(subject.count).to eq 3 }
+      it { is_expected.to match_array %w[wrong_ia duplicate_claim other_refuse] }
+    end
+
+    context 'for an advocate interim claim' do
+      let(:claim) { create(:advocate_interim_claim, state: 'refused') }
+
+      it { is_expected.to match_array %w[duplicate_claim no_effective_pcmh no_effective_trial short_trial other_refuse] }
+    end
+
+    context 'for an advocate supplementary claim' do
+      let(:claim) { create(:advocate_supplementary_claim, state: 'refused') }
+
+      it { is_expected.to match_array %w[wrong_ia duplicate_claim other_refuse] }
     end
   end
 
@@ -171,18 +183,18 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
   end
 
   describe '.transition_reasons' do
-    subject { described_class.transition_reasons }
+    subject(:transition_reasons) { described_class.transition_reasons }
 
-    it 'returns deeply nested hash of string reasons' do
-      is_expected.to be_a(Hash)
-      described_class::TRANSITION_REASON_KEYS.key_paths.each do |path|
-        expect(subject.dig(*path)).to be_a(String)
-      end
+    it { is_expected.to be_a(Hash) }
+
+    it 'returns memoized object' do
+      is_expected.to equal described_class.transition_reasons
     end
 
-    it 'has no missing translations' do
-      expect(subject.all_values_for('short')).not_to include_match('translation missing')
-      expect(subject.all_values_for('long')).not_to include_match('translation missing')
+    it 'returns deeply nested hash of string reasons' do
+      transition_reasons.key_paths.each do |path|
+        expect(transition_reasons.dig(*path)).to be_a(String)
+      end
     end
   end
 end

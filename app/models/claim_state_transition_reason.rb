@@ -4,145 +4,6 @@ class ClaimStateTransitionReason
 
   attr_accessor :code, :description, :long_description
 
-  def self.klass_scope
-    [to_s.demodulize.underscore.downcase.to_sym]
-  end
-
-  def self.t(local_scope)
-    I18n.t(local_scope, scope: klass_scope)
-  end
-
-  TRANSITION_REASON_KEYS = {
-    rejected: {
-      no_indictment: {
-        short: '',
-        long: ''
-      },
-      no_rep_order: {
-        short: '',
-        long: ''
-      },
-      time_elapsed: {
-        short: '',
-        long: ''
-      },
-      no_amend_rep_order: {
-        short: '',
-        long: ''
-      },
-      case_still_live: {
-        short: '',
-        long: ''
-      },
-      wrong_case_no: {
-        short: '',
-        long: ''
-      },
-      wrong_maat_ref: {
-        short: '',
-        long: ''
-      },
-      other: {
-        short: '',
-        long: ''
-      }
-    },
-    disbursement: {
-      no_prior_authority: {
-        short: '',
-        long: ''
-      },
-      no_invoice: {
-        short: '',
-        long: ''
-      }
-    },
-    refused_advocate_claims: {
-      wrong_ia: {
-        short: '',
-        long: ''
-      },
-      duplicate_claim: {
-        short: '',
-        long: ''
-      },
-      other_refuse: {
-        short: '',
-        long: ''
-      }
-    },
-    refused_advocate_interim_claims: {
-      duplicate_claim: {
-        short: '',
-        long: ''
-      },
-      no_effective_pcmh: {
-        short: '',
-        long: ''
-      },
-      no_effective_trial: {
-        short: '',
-        long: ''
-      },
-      short_trial: {
-        short: '',
-        long: ''
-      },
-      other_refuse: {
-        short: '',
-        long: ''
-      }
-    },
-    refused_litigator_claims: {
-      duplicate_claim: {
-        short: '',
-        long: ''
-      },
-      other_refuse: {
-        short: '',
-        long: ''
-      }
-    },
-    refused_transfer_claims: {
-      duplicate_claim: {
-        short: '',
-        long: ''
-      },
-      other_refuse: {
-        short: '',
-        long: ''
-      }
-    },
-    refused_interim_claims: {
-      duplicate_claim: {
-        short: '',
-        long: ''
-      },
-      no_effective_pcmh: {
-        short: '',
-        long: ''
-      },
-      no_effective_trial: {
-        short: '',
-        long: ''
-      },
-      short_trial: {
-        short: '',
-        long: ''
-      },
-      other_refuse: {
-        short: '',
-        long: ''
-      }
-    },
-    global: {
-      timed_transition: {
-        short: '',
-        long: ''
-      }
-    }
-  }.with_indifferent_access.freeze
-
   def initialize(code, description, long_description = nil)
     self.code = code
     self.description = description
@@ -166,7 +27,7 @@ class ClaimStateTransitionReason
 
     def reject_reasons_for(claim)
       reasons = reasons_for('rejected')
-      reasons.insert(6, reasons_for(:disbursement)) if claim&.fees&.first&.fee_type&.code.eql?('IDISO')
+      reasons.insert(6, reasons_for(:disbursement)) if disbursement_only?(claim)
       reasons.flatten
     end
 
@@ -176,14 +37,21 @@ class ClaimStateTransitionReason
 
     def transition_reasons
       return @transition_reasons unless @transition_reasons.nil?
-      @transition_reasons ||= TRANSITION_REASON_KEYS.dup # unfreeze
-      @transition_reasons.key_paths.each do |key_path|
-        @transition_reasons.bury(t(key_path.join('.')), *key_path)
-      end
+      translations = YAML.load_file(translations_file)
+      @transition_reasons = translations.dig(I18n.locale.to_s, 'claim_state_transition_reason').with_indifferent_access
       @transition_reasons
     end
 
     private
+
+    def translations_file
+      @translations_file ||=
+        File.join(Rails.root, 'config', 'locales', "claim_state_transition_reason.#{I18n.locale}.yml")
+    end
+
+    def disbursement_only?(claim)
+      claim&.fees&.first&.fee_type&.code.eql?('IDISO')
+    end
 
     def description_for(code, description_type = :short)
       transition_reasons.values.reduce({}, :merge).fetch(code).fetch(description_type)

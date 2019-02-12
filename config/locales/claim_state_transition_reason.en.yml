@@ -51,8 +51,18 @@ en:
         long: We rejected your claim because you didn’t attach the final invoice. Please submit the claim again with the final invoice clearly stating the breakdown of costs and defendant’s name. We cannot accept estimated costs.
     refused_advocate_claims:
       wrong_ia:
-        short: Wrong Instructed Advocate
-        long: We refused your claim because court records show a different advocate was instructed for the case. Please submit the claim again with the correct advocate details or include evidence to support why you think the court records are wrong.
+        short: &wrong_ia_short Wrong Instructed Advocate
+        long: &wrong_ia_long We refused your claim because court records show a different advocate was instructed for the case. Please submit the claim again with the correct advocate details or include evidence to support why you think the court records are wrong.
+      duplicate_claim:
+        short: *duplicate_claim_short
+        long: *duplicate_claim_long
+      other_refuse:
+        short: *other
+        long: *blank
+    refused_advocate_supplementary_claims:
+      wrong_ia:
+        short: *wrong_ia_short
+        long: *wrong_ia_long
       duplicate_claim:
         short: *duplicate_claim_short
         long: *duplicate_claim_long

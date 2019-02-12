@@ -71,6 +71,20 @@ class ClaimStateTransitionReason
         long: ''
       }
     },
+    refused_advocate_supplementary_claims: {
+      wrong_ia: {
+        short: '',
+        long: ''
+      },
+      duplicate_claim: {
+        short: '',
+        long: ''
+      },
+      other_refuse: {
+        short: '',
+        long: ''
+      }
+    },
     refused_advocate_interim_claims: {
       duplicate_claim: {
         short: '',
@@ -166,7 +180,7 @@ class ClaimStateTransitionReason
 
     def reject_reasons_for(claim)
       reasons = reasons_for('rejected')
-      reasons.insert(6, reasons_for(:disbursement)) if claim&.fees&.first&.fee_type&.code.eql?('IDISO')
+      reasons.insert(6, reasons_for(:disbursement)) if disbursement_only?(claim)
       reasons.flatten
     end
 
@@ -184,6 +198,10 @@ class ClaimStateTransitionReason
     end
 
     private
+
+    def disbursement_only?(claim)
+      claim&.fees&.first&.fee_type&.code.eql?('IDISO')
+    end
 
     def description_for(code, description_type = :short)
       transition_reasons.values.reduce({}, :merge).fetch(code).fetch(description_type)

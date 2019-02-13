@@ -11,8 +11,8 @@ moj.Modules.InterimFeeFieldsDisplay = {
       $('#interim-fee').find('select.js-interim-fee-type').each(function() {
         self.showHideInterimFeeFields(this);
       });
+      this.bindEvents();
     }
-    this.bindEvents();
   },
   bindEvents: function() {
     var self = this;

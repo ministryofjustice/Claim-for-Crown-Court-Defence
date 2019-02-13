@@ -87,7 +87,7 @@ end
 
 And(/^I add (?:a|another) disbursement '(.*)' with net amount '(.*)' and vat amount '(.*)'$/) do |name, net_amount, vat_amount|
   @litigator_claim_form_page.add_disbursement_if_required
-  @litigator_claim_form_page.disbursement_select.choose_autocomplete_option(case_type)
+  @litigator_claim_form_page.disbursements.last.disbursement_select.choose_autocomplete_option(name)
   @litigator_claim_form_page.disbursements.last.net_amount.set net_amount
   @litigator_claim_form_page.disbursements.last.vat_amount.set vat_amount
 end

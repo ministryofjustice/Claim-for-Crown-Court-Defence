@@ -2,7 +2,7 @@ class DisbursementSection < SitePrism::Section
   include SelectHelper
 
   element :select_container, "select.typeahead", visible: false
-  section :disbursement_select, CommonAutocomplete, "#disbursements"
+  section :disbursement_select, CommonAutocomplete, ".js-typeahead"
   element :net_amount, "input.amount"
   element :vat_amount, "input.vat"
 

@@ -76,24 +76,36 @@ FactoryBot.define do
       end
     end
 
+    trait :add_basic_fee_if_required do
+      after(:build) do |claim|
+        claim.basic_fees << build(:basic_fee, fee_type: create(:basic_fee_type, :baf), claim: claim) if claim.basic_fees.empty?
+        total = claim.basic_fees.sum {|bf| bf.quantity.to_f * bf.rate.to_f }
+        claim.basic_fees.first.assign_attributes(quantity: 1, rate: 25) if total <= 0
+      end
+    end
+
     #
     # states: initial/default state is draft
     # - alphabetical list
     #
     factory :allocated_claim do
+      add_basic_fee_if_required
       after(:create) { |c| allocate_claim(c); c.reload }
     end
 
     factory :archived_pending_delete_claim do
+      add_basic_fee_if_required
       after(:create) { |c| advance_to_pending_delete(c) }
     end
 
     factory :authorised_claim do
+      add_basic_fee_if_required
       offence { create :offence, :with_fee_scheme, offence_class: create(:offence_class) }
       after(:create) { |c| authorise_claim(c) }
     end
 
     factory :redetermination_claim do
+      add_basic_fee_if_required
       after(:create) do |c|
         Timecop.freeze(Time.now - 3.day) { c.submit! }
         Timecop.freeze(Time.now - 2.day) { c.allocate! }
@@ -103,22 +115,27 @@ FactoryBot.define do
     end
 
     factory :awaiting_written_reasons_claim do
+      add_basic_fee_if_required
       after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.await_written_reasons! }
     end
 
     factory :part_authorised_claim do
+      add_basic_fee_if_required
       after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.authorise_part! }
     end
 
     factory :refused_claim do
+      add_basic_fee_if_required
       after(:create) { |c| c.submit!; c.allocate!; c.refuse! }
     end
 
     factory :rejected_claim do
+      add_basic_fee_if_required
       after(:create) { |c| c.submit!; c.allocate!; c.reject! }
     end
 
     factory :submitted_claim do
+      add_basic_fee_if_required
       after(:create) { |c| publicise_errors(c) { c.submit! } }
 
       trait :with_injection do

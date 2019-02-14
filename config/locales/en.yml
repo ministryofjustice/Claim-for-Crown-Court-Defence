@@ -2100,8 +2100,8 @@ en:
           redetermination: Redetermination
           risk_based_bills: Risk based bills
           case_types: Case types
-          trial: trial
-          warrants: warrants
+          trial: Trial
+          warrants: Warrants
       management_information:
         validate_report_type:
           invalid_report_type: &invalid_report_type The requested report type is not supported

@@ -119,4 +119,15 @@ class ClaimCsvPresenter < BasePresenter
   def rejection_reason
     @journey.last.reason_text
   end
+
+  def previous(next_step)
+    complete_journeys = sorted_and_filtered_state_transitions
+    complete_journeys.select { |step| step.to == next_step.from && step.created_at < next_step.created_at }
+  end
+
+  def af1_lf1_processed_by
+    redetermination_steps = @journey.select { |step| step.to == 'redetermination' }
+    previous_steps = redetermination_steps.present? ? previous(redetermination_steps.last) : nil
+    previous_steps.present? ? previous_steps.last.author_name : ''
+  end
 end

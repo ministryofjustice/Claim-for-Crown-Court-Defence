@@ -234,6 +234,12 @@ alias rake.fast='rake parallel:spec; rake parallel:features'
 
 ## Sidekiq Console
 
+To run Sidekiq
+
+```
+bundle exec sidekiq
+```
+
 To display the current state of the Sidekiq queues, as a logged in superadmin browse to `/sidekiq`
 
 ## Mailer previewing

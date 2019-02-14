@@ -4,6 +4,9 @@ RSpec.describe ClaimCsvPresenter do
 
   let(:claim)               { create(:redetermination_claim) }
   let(:presenter)             { ClaimCsvPresenter.new(claim, view) }
+  let(:previous_user) { create(:user, first_name: 'Thea', last_name: 'Conway') }
+  let(:another_user) { create(:user, first_name: 'Hilda', last_name: 'Rogers') }
+
 
   context '#present!' do
 
@@ -151,6 +154,49 @@ RSpec.describe ClaimCsvPresenter do
           end
         end
 
+      end
+
+      # Case worker name isn't unique - might not be the user who was working on this case just before redetermination
+      # What about when case is marked as redetermination multiple times?
+
+      describe 'af1_lf1_processed_by' do
+        context 'an allocated claim' do
+          it 'returns nil' do
+            claim = create :authorised_claim
+            presenter = ClaimCsvPresenter.new(claim, view)
+            presenter.present! do |claim_journeys|
+              expect(presenter.af1_lf1_processed_by).to eq ''
+            end
+          end
+        end
+
+        context 'a redetermined claim' do
+          it 'returns the name of the last caseworker to update before redetermination' do
+            claim = create :authorised_claim
+            transition = claim.last_decision_transition
+            transition.update_author_id(previous_user.id)
+            claim.redetermine!
+            presenter = ClaimCsvPresenter.new(claim, view)
+            presenter.present! do |claim_journeys|
+              expect(presenter.af1_lf1_processed_by).to eq previous_user.name
+            end
+          end
+        end
+
+        context 'a claim that is redetermined twice' do
+          it 'returns the name of the last caseworker to update before redetermination' do
+            claim = create :redetermination_claim
+            claim.allocate!
+            claim.authorise!
+            transition = claim.last_decision_transition
+            transition.update_author_id(another_user.id)
+            claim.redetermine!
+            presenter = ClaimCsvPresenter.new(claim, view)
+            presenter.present! do |claim_journeys|
+              expect(presenter.af1_lf1_processed_by).to eq another_user.name
+            end
+          end
+        end
       end
 
       context 'and unique values for' do

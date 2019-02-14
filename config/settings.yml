@@ -63,6 +63,7 @@ claim_csv_headers:
   - :disk_evidence_case
   - :main_defendant
   - :maat_reference
+  - :af1_lf1_processed_by
 
 expense_schema_version: 2
 

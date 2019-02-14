@@ -2102,6 +2102,7 @@ en:
           case_types: Case types
           trial: Trial
           warrants: Warrants
+          supplementary: Supplementary
       management_information:
         validate_report_type:
           invalid_report_type: &invalid_report_type The requested report type is not supported

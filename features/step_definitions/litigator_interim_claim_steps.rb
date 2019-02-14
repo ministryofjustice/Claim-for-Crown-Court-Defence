@@ -10,6 +10,7 @@ end
 
 And(/^I enter (\d+) in the PPE total field$/) do |value|
   @litigator_interim_claim_form_page.interim_fee.ppe_total.set value
+  @litigator_interim_claim_form_page.interim_fee.ppe_total.send_keys(:tab)
   wait_for_ajax
 end
 

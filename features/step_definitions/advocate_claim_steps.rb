@@ -245,6 +245,7 @@ end
 Then(/^I amend the miscellaneous fee '(.*?)' to have a quantity of (\d+)$/) do |fee_type, quantity|
   misc_fee = @claim_form_page.fee_block_for(:miscellaneous_fees, fee_type)
   misc_fee.quantity.set(quantity)
+  misc_fee.quantity.send_keys(:tab)
   wait_for_ajax
 end
 

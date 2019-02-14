@@ -26,36 +26,6 @@ module WaitForAjax
          || (window.injectedJQueryFromNode.active === 0))
     EOS
   end
-
-  # Alternative
-  # https://medium.com/doctolib/hunting-flaky-tests-2-waiting-for-ajax-bd76d79d9ee9
-  # 
-  # def wait_for_ajax(wait: Capybara.default_max_wait_time)
-  #   max_time = Capybara::Helpers.monotonic_time + wait
-  #   while Capybara::Helpers.monotonic_time < max_time
-  #     finished = finished_all_ajax_requests?
-  #     if finished
-  #       break
-  #     else
-  #       sleep 0.1
-  #     end
-  #   end
-  #   raise 'wait_for_ajax timeout' unless finished
-  # end
-
-  # def finished_all_ajax_requests?
-  #   page.evaluate_script(<<~EOS
-  # ((typeof window.jQuery === 'undefined')
-  #  || (typeof window.jQuery.active === 'undefined')
-  #  || (window.jQuery.active === 0))
-  # && ((typeof window.injectedJQueryFromNode === 'undefined')
-  #  || (typeof window.injectedJQueryFromNode.active === 'undefined')
-  #  || (window.injectedJQueryFromNode.active === 0))
-  # && ((typeof window.httpClients === 'undefined')
-  #  || (window.httpClients.every(function (client) { return (client.activeRequestCount === 0); })))
-  #   EOS
-  #   )
-  # end
 end
 
 World(WaitForAjax)

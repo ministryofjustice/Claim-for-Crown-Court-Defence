@@ -170,6 +170,13 @@ When(/^I click on a claims row cell$/) do
   page.find('tbody').all('tr')[0].all('td')[1].click()
 end
 
+When(/^I should see the AGFS filters$/) do
+  options = %w(All Fixed\ fee Cracked Trial Guilty\ Plea Redetermination
+               Awaiting\ written\ reasons Disk\ evidence Injection\ errors
+               Warrants Supplementary)
+  expect(page.find('#filter-tasks')).to have_select(options: options)
+end
+
 Then (/^I should see that claims checkbox (ticked|unticked)$/) do | checkbox_state|
   if checkbox_state == 'ticked'
     expect(page.find('tbody').all('tr')[0].all('input[type=checkbox]')[0]).to be_checked

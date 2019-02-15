@@ -13,7 +13,7 @@ And(/^I choose the elected case option '(.*)'$/) do |option|
 end
 
 And(/^I select the transfer stage '(.*)'$/) do |name|
-  @litigator_transfer_claim_form_page.transfer_detail.select_transfer_stage(name)
+  @litigator_transfer_claim_form_page.auto_one.choose_autocomplete_option(name)
 end
 
 And(/^I enter the transfer date '(.*)'$/) do |date_string|
@@ -21,7 +21,7 @@ And(/^I enter the transfer date '(.*)'$/) do |date_string|
 end
 
 And(/^I select a case conclusion of '(.*)'$/) do |name|
-  @litigator_transfer_claim_form_page.transfer_detail.select_case_conclusion(name)
+  @litigator_transfer_claim_form_page.auto_two.choose_autocomplete_option(name)
 end
 
 Then(/^the transfer fee amount should be populated with '(\d+\.\d+)'$/) do |amount|

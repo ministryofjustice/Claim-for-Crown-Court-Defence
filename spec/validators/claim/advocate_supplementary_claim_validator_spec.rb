@@ -215,7 +215,7 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
       supplier_number
     ],
     defendants: [],
-    miscellaneous_fees: %i[advocate_category defendant_uplifts_misc_fees],
+    miscellaneous_fees: %i[advocate_category defendant_uplifts_misc_fees total],
     travel_expenses: %i[travel_expense_additional_information],
     supporting_evidence: []
   }

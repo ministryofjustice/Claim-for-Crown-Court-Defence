@@ -91,38 +91,38 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
     subject(:refuse_reasons_for) { described_class.refuse_reasons_for(claim).map(&:code) }
 
     context 'for a litigator final claim' do
-      let(:claim) { create(:litigator_claim, :fixed_fee, fixed_fee: create(:fixed_fee, :lgfs), state: 'refused') }
+      let(:claim) { create(:litigator_claim, :fixed_fee, fixed_fee: create(:fixed_fee, :lgfs)) }
 
       it { is_expected.to match_array %w[duplicate_claim other_refuse] }
     end
 
     context 'for a litigator transfer claim' do
-      let(:claim) { create(:transfer_claim, transfer_fee: build(:transfer_fee), state: 'refused') }
+      let(:claim) { create(:transfer_claim, transfer_fee: build(:transfer_fee)) }
 
       it { is_expected.to match_array %w[duplicate_claim other_refuse] }
     end
 
     context 'for a litigator interim claim' do
-      let(:claim) { create(:interim_claim, interim_fee: build(:interim_fee), state: 'refused') }
+      let(:claim) { create(:interim_claim, interim_fee: build(:interim_fee)) }
 
       it { is_expected.to match_array %w[duplicate_claim no_effective_pcmh no_effective_trial short_trial other_refuse] }
     end
 
     context 'for an advocate final claim' do
       let(:basic_fee) { build(:basic_fee, :baf_fee, quantity: 1, amount: 21.01) }
-      let(:claim) { create(:advocate_claim, :with_graduated_fee_case, basic_fees: [basic_fee], state: 'refused') }
+      let(:claim) { create(:advocate_claim, :with_graduated_fee_case, basic_fees: [basic_fee]) }
 
       it { is_expected.to match_array %w[wrong_ia duplicate_claim other_refuse] }
     end
 
     context 'for an advocate interim claim' do
-      let(:claim) { create(:advocate_interim_claim, state: 'refused') }
+      let(:claim) { create(:advocate_interim_claim) }
 
       it { is_expected.to match_array %w[duplicate_claim no_effective_pcmh no_effective_trial short_trial other_refuse] }
     end
 
     context 'for an advocate supplementary claim' do
-      let(:claim) { create(:advocate_supplementary_claim, state: 'refused') }
+      let(:claim) { create(:advocate_supplementary_claim) }
 
       it { is_expected.to match_array %w[wrong_ia duplicate_claim other_refuse] }
     end

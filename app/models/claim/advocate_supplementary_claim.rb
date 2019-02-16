@@ -8,6 +8,7 @@ module Claim
 
     before_validation do
       set_supplier_number
+      assign_total_attrs
     end
 
     SUBMISSION_STAGES = [
@@ -39,6 +40,23 @@ module Claim
       },
       { name: :supporting_evidence }
     ].freeze
+
+    def assign_total_attrs
+      return if from_api?
+      assign_fees_total(%i[misc_fees]) if fees_changed?
+      assign_expenses_total if expenses_changed?
+      return unless total_changes_required?
+      assign_total
+      assign_vat
+    end
+
+    def total_changes_required?
+      fees_changed? || expenses_changed?
+    end
+
+    def fees_changed?
+      misc_fees_changed?
+    end
 
     def external_user_type
       :advocate

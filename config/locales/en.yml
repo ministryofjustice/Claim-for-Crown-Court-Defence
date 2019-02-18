@@ -2024,7 +2024,7 @@ en:
           clear_filters: Clear filter
           allocate: Allocate
           allocation_queue: Allocation queue
-          defendents: Defedants
+          defendents: Defendants
           error_summary: 'This claim allocation has '
           filter_claims: Filter claims
           page_heading: Allocation
@@ -2100,8 +2100,9 @@ en:
           redetermination: Redetermination
           risk_based_bills: Risk based bills
           case_types: Case types
-          trial: trial
-          warrants: warrants
+          trial: Trial
+          warrants: Warrants
+          supplementary: Supplementary
       management_information:
         validate_report_type:
           invalid_report_type: &invalid_report_type The requested report type is not supported

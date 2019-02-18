@@ -65,7 +65,8 @@ describe API::Entities::SearchResult do
           interim_disbursements: 0,
           risk_based_bills: 0,
           injection_errored: 0,
-          cav_warning: 0
+          cav_warning: 0,
+          supplementary: 0
         }
       end
 
@@ -156,6 +157,12 @@ describe API::Entities::SearchResult do
       context 'when passed a advocate interim/warrant claim' do
         let(:claim) { OpenStruct.new('id' => '179818', 'uuid' => '887cbd94-3f48-4955-8646-918de4db3617', 'case_type' => 'Warrant', 'state'=>'submitted', 'total' => '667.33', 'fees' => "0.0~Warrant Fee~Fee::WarrantFeeType", 'last_submitted_at' => '07/12/2017  12:58:29', 'class_letter' => nil, 'is_fixed_fee' => nil, 'fee_type_code' => nil, 'graduated_fee_types' => "GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR") }
         before { result.merge!(agfs_warrants: 1) }
+        include_examples 'returns expected JSON filter values'
+      end
+
+      context 'when passed a advocate interim/warrant claim' do
+        let(:claim) { OpenStruct.new('id' => '179818', 'uuid' => '887cbd94-3f48-4955-8646-918de4db3617', 'case_type' => 'Supplementary', 'state'=>'submitted', 'total' => '667.33', 'fees' => "0.0~Warrant Fee~Fee::WarrantFeeType", 'last_submitted_at' => '07/12/2017  12:58:29', 'class_letter' => nil, 'is_fixed_fee' => nil, 'fee_type_code' => nil, 'graduated_fee_types' => "GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR") }
+        before { result.merge!(supplementary: 1) }
         include_examples 'returns expected JSON filter values'
       end
     end

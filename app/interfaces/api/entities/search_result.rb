@@ -36,6 +36,7 @@ module API
         expose :risk_based_bills
         expose :injection_errored
         expose :cav_warning
+        expose :supplementary
       end
 
       private
@@ -125,6 +126,10 @@ module API
 
       def cav_warning
         (last_injection_attempt_succeeded && contains_conference_and_view).to_i
+      end
+
+      def supplementary
+        object.case_type.eql?('Supplementary').to_i
       end
     end
   end

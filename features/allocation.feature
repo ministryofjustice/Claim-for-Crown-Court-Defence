@@ -9,6 +9,7 @@ Feature: Case worker admin allocates claims
 
     And I am a signed in case worker admin
     When I visit the allocation page
+    And I should see the AGFS filters
     And I select claims "T20160001, T20160002"
     And I select case worker "John Smith"
     And I click Allocate

@@ -51,7 +51,7 @@ moj.Modules.TransferDetailFieldsDisplay = {
     if (toggle) {
       $(this.caseConclusionSelect).slideDown();
     } else {
-      $(this.caseConclusionSelect + ' select.typeahead').prop('selectedIndex', 0); // reset actual select list value
+      $(this.caseConclusionSelect + ' select.fx-autocomplete').prop('selectedIndex', 0); // reset actual select list value
       $('#claim_case_conclusion_id_input').val(''); // reset awesomplete displayed value
       $(this.caseConclusionSelect).hide();
     }

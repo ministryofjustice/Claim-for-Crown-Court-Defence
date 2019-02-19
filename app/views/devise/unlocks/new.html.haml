@@ -1,7 +1,7 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'layouts/header', locals: {page_heading: 'Resend unlock instructions'}
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 = simple_form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f|
   - if resource.errors.any?
@@ -16,6 +16,6 @@
     = f.input_field :email, autofocus: true, autocomplete: 'off', class: 'form-control'
 
   %div.form-group
-    = f.button :submit, 'Resend unlock instructions', class: 'button'
+    = f.button :submit, t('.submit'), class: 'button'
 
 = render 'devise/shared/links'

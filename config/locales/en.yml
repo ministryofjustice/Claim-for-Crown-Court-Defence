@@ -37,11 +37,15 @@ en:
       your_claims: Your claims
       re_allocation: Re-allocation
       sidekiq_console: Sidekiq console
-      all_claims: All claims list
+      all_claims: Your claims
       sub_navigation: Sub navigation
   pages:
     tandcs:
       page_title: Terms and conditions for claim for Crown court defence
+      page_heading: Terms and conditions
+    contact_us:
+      page_title: Contact us
+      page_heading: Contact us
 
   date: Date
   distance:
@@ -2213,6 +2217,8 @@ en:
     unlocks:
       new:
         page_title: Resend unlock instructions for claim for Crown court defence
+        page_heading: Resend password reset instructions
+        submit: Resend unlock instructions
   validators:
     advocate:
       category: 'Advocate category must be one of those in the provided list'

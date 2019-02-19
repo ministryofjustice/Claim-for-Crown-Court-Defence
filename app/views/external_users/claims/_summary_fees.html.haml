@@ -19,6 +19,9 @@
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
       = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: step }
+    - else
+      %p
+        = t("shared.summary.no_values.#{section}")
 - else
   - collection = local_assigns.has_key?(:collection) ? collection : claim.fees.select(&:present?)
   - section = local_assigns.has_key?(:section) ? section : :fees

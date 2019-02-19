@@ -1,41 +1,44 @@
-- title 'Bug report'
+= content_for :page_title, flush: true do
+  = t('.page_title')
 
-= render partial: 'errors/error_summary', locals:{ ep: @feedback, error_summary: 'The form you submitted has '}
-= render partial: 'layouts/header', locals: {page_heading: 'Help us improve this service'}
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
 
-.body-content
-  .panel.panel-border-wide
-    %p
-      Tell us about your experience of using this service today. Your answers to the following questions will help us improve the service.
-      = render partial: 'feedback/claim_edit_alert' if referrer_is_claim?(@feedback.referrer)
+= render partial: 'errors/error_summary', locals:{ ep: @feedback, error_summary: t('.error_summary')}
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
-  = form_for @feedback, builder: AdpFormBuilder, url: feedback_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
-    = f.hidden_field :type
-    = f.hidden_field :referrer
+.grid-row
+  .column-two-thirds
+    .panel.panel-border-wide
+      %p
+        = t('.intro')
+        = render partial: 'feedback/claim_edit_alert' if referrer_is_claim?(@feedback.referrer)
 
-    .form-group
-      %fieldset.inline
-        %legend
-          = f.anchored_label 'Case number / Unique ID', :case_number
-        .form-hint.xsmall.zero-vert-margin
-          = 'If your issue is related to a particular claim, provide the case number along with the unique ID you will find next to it (starts with #)'
-        = f.text_field :case_number, class: 'form-control'
-    .form-group
-      %fieldset.inline
-        %legend
-          = f.anchored_label 'What you were doing when the fault occurred?', :event
-        .form-hint.xsmall.zero-vert-margin
-          = 'Include as much information as possible, including the fee scheme (Advocate, Litigator final, Litigator interim or Litigator transfer) and case type'
-        = f.text_area :event, rows: 6, class: 'form-control'
-    .form-group
-      %fieldset.inline
-        %legend
-          = f.anchored_label 'What went wrong?', :outcome
-        .form-hint.xsmall.zero-vert-margin
-          = ''
-        = f.text_area :outcome, rows: 6, class: 'form-control'
+    = form_for @feedback, builder: AdpFormBuilder, url: feedback_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
+      = f.hidden_field :type
+      = f.hidden_field :referrer
 
-    = render partial: 'feedback/anonymous_email_prompt', locals: { f: f } if cannot_identify_user?
+      .form-group
+        %fieldset.inline
+          %legend
+            = f.anchored_label t('.case_number_label'), :case_number, label_attributes: { class: 'form-label-bold' }
+          .form-hint.xsmall.zero-vert-margin
+            = t('.case_number_hint')
+          = f.text_field :case_number, class: 'form-control'
+      .form-group
+        %fieldset.inline
+          %legend
+            = f.anchored_label t('.event_label'), :event, label_attributes: { class: 'form-label-bold' }
+          .form-hint.xsmall.zero-vert-margin
+            = t('.event_hint')
+          = f.text_area :event, rows: 6, class: 'form-control'
+      .form-group
+        %fieldset.inline
+          %legend
+            = f.anchored_label t('.outcome_label'), :outcome, label_attributes: { class: 'form-label-bold' }
+          = f.text_area :outcome, rows: 6, class: 'form-control'
 
-    .button-holder
-      = f.submit 'Send', class: 'button button-primary', id: 'submit-button'
+      = render partial: 'feedback/anonymous_email_prompt', locals: { f: f } if cannot_identify_user?
+
+      .button-holder
+        = f.submit 'Send', class: 'button button-primary', id: 'submit-button'

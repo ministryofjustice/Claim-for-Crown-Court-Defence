@@ -13,6 +13,7 @@ Feature: Advocate creates, saves, edits claims and expenses
     And I select a case type of 'Trial'
     And I enter scheme 10 trial start and end dates
 
+    And I should see a page title "Enter case details for advocate final fees claim"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft
@@ -49,6 +50,7 @@ Feature: Advocate creates, saves, edits claims and expenses
     Then I should see '20p per mile'
     Then I should see 'Other reason'
 
+    And I should see a page title "Enter travel expenses for advocate final fees claim"
     And I save as draft
 
     When I click the claim 'A20181234'

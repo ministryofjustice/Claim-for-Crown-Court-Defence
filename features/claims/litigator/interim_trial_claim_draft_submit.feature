@@ -17,8 +17,10 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
 
+    And I should see a page title "Enter case details for litigator interim fees claim"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
+    And I should see a page title "Enter defendant details for litigator interim fees claim"
     And I save as draft
     Then I should see 'Draft claim saved'
 
@@ -31,6 +33,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I enter defendant, LGFS representation order and MAAT reference
     And I add another defendant, LGFS representation order and MAAT reference
 
+    And I should see a page title "Enter defendant details for litigator interim fees claim"
     Then I click "Continue" in the claim form
 
     And I select the offence category 'Handling stolen goods'
@@ -38,7 +41,9 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     Given I insert the VCR cassette 'features/claims/litigator/interim_fee_calculations'
 
+    And I should see a page title "Enter offence details for litigator interim fees claim"
     When I click "Continue" in the claim form
+
     And I should be in the 'Interim fee' form page
     And I should see interim fee types applicable to a 'Trial'
 
@@ -56,12 +61,14 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     And I eject the VCR cassette
 
-    Then I click "Continue" in the claim form and move to the 'Evidence supplied on disk' form page
+    And I should see a page title "Enter fees for litigator interim fees claim"
+    Then I click "Continue" in the claim form and move to the 'Supporting evidence' form page
 
     And I upload the document 'indictment.pdf'
     And I check the evidence boxes for 'A copy of the indictment'
     And I add some additional information
 
+    And I should see a page title "Upload supporting evidence for litigator interim fees claim"
     And I click Submit to LAA
     Then I should be on the check your claim page
     And I should see 'Blackfriars'
@@ -90,9 +97,11 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I should see 'A copy of the indictment'
     And I should see 'Bish bosh bash'
 
+    And I should see a page title "View claim summary for litigator interim fees claim"
     When I click "Continue"
     Then I should be on the certification page
 
+    And I should see a page title "Certify and submit the litigator interim fees claim"
     And I click Certify and submit claim
     Then I should be on the claim confirmation page
 

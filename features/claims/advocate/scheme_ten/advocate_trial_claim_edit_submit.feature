@@ -14,6 +14,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I select a case type of 'Trial'
     And I enter scheme 10 trial start and end dates
 
+    And I should see a page title "Enter case details for advocate final fees claim"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft
@@ -28,14 +29,14 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I enter defendant, scheme 10 representation order and MAAT reference
     And I add another defendant, scheme 10 representation order and MAAT reference
 
+    And I should see a page title "Enter defendant details for advocate final fees claim"
     Then I click "Continue" in the claim form
 
     And I search for the scheme 10 offence 'Absconding from lawful custody'
-
     Given I insert the VCR cassette 'features/claims/advocate/scheme_ten/trial_claim_edit'
 
     When I select the first search result
-    Then I should be in the 'Fees' form page
+    Then I should be in the 'Graduated fees' form page
 
     And I should see the advocate categories 'Junior,Leading junior,QC'
     And I should see the scheme 10 applicable basic fees
@@ -46,6 +47,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And the basic fee net amount should be populated with '550.00'
     And I add a number of cases uplift fee with additional case numbers
 
+    And I should see a page title "Enter graduated fees for advocate final fees claim"
     Then I click "Continue" in the claim form
 
     And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended '2018-04-01'
@@ -55,6 +57,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
 
     And I eject the VCR cassette
 
+    And I should see a page title "Enter miscellaneous fees for advocate final fees claim"
     Then I click "Continue" in the claim form
 
     And I select an expense type "Hotel accommodation"
@@ -63,6 +66,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I add an expense location
     And I add an expense date for scheme 10
 
+    And I should see a page title "Enter travel expenses for advocate final fees claim"
     Then I click "Continue" in the claim form
 
     And I upload the document 'judicial_appointment_order.pdf'
@@ -70,6 +74,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I check the evidence boxes for 'Order in respect of judicial apportionment,A copy of the indictment'
     And I add some additional information
 
+    And I should see a page title "Upload supporting evidence for advocate final fees claim"
     Then I click Submit to LAA
 
     Then I should be on the check your claim page
@@ -92,12 +97,17 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I should see 'Order in respect of judicial apportionment'
     And I should see 'Bish bosh bash'
 
+    And I should see a page title "View claim summary for advocate final fees claim"
     When I click "Continue"
     Then I should be on the certification page
 
     When I check “I attended the main hearing”
+
+    And I should see a page title "Certify and submit the advocate final fees claim"
     And I click Certify and submit claim
+
     Then I should be on the claim confirmation page
+    And I should see a page title "Thank you for submitting your claim"
 
     When I click View your claims
     Then I should be on the your claims page

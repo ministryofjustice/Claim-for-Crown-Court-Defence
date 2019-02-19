@@ -25,7 +25,7 @@ en:
       add_a_provider: Add a provider
       allocation: Allocation list
       api_documentation: API Documentation
-      archive: Archive list
+      archive: Your claim archive
       error: There was an error
       find_provider_by_email: Find provider by email
       manage_provider: Manage provider
@@ -37,12 +37,31 @@ en:
       your_claims: Your claims
       re_allocation: Re-allocation
       sidekiq_console: Sidekiq console
-      all_claims: All claims list
+      all_claims: Your claims
       sub_navigation: Sub navigation
+  json_template:
+    index:
+      page_heading: Claim for crown court defence API
   pages:
+    api_landing:
+      page_heading: Claim for crown court defence API
+    api_release_notes:
+      page_heading: API release notes
+    servicedown:
+      page_heading: The service is unavailable
+    timed_retention:
+      page_heading: Time-limited retention of claims
     tandcs:
       page_title: Terms and conditions for claim for Crown court defence
-
+      page_heading: Terms and conditions
+    contact_us:
+      page_title: Contact us
+      page_heading: Contact us
+  errors:
+    internal_server_error:
+      page_heading: 500 - internal server error
+    not_found:
+      page_heading: 404 - not found
   date: Date
   distance:
     unit:
@@ -129,8 +148,6 @@ en:
     how_is_this_calculated_help: &how_is_this_calculated_help How is this calculated?
     miscellaneous_fees: &miscellaneous_fees Miscellaneous fees
     miscellaneous_fee: &miscellaneous_fee Miscellaneous fee
-
-
   activemodel:
     attributes:
       feedback:
@@ -251,7 +268,6 @@ en:
             rate:
               blank: Rate cannot be blank
               numericality: Rate must be greater than or equal to 0
-
   requires_external_user_authorisation: 'Must be signed in as an advocate, litigator or admin user'
   requires_case_worker_authorisation: 'Must be signed in as a case worker or case worker admin'
   requires_super_admin_authorisation: 'Must be signed in as a super admininstrator'
@@ -339,7 +355,6 @@ en:
     calculate:
       amount_unavailable: The calculated rate is unavailable, please enter manually.
 
-
 # en.super_admins
   super_admins:
     admin:
@@ -349,7 +364,7 @@ en:
           add_super_admin: 'Add Super administrator'
           edit: Edit
           page_heading: Your account
-          change_password: Change password
+          change_password: &change_password Change password
         edit:
           page_heading: Edit super administrator details
           edit_super_admin: 'Edit user'
@@ -372,9 +387,9 @@ en:
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation
-          submit: 'Change password'
+          submit: *change_password
           page_title: Change %{super_admin}'s password
-          heading: Change password
+          page_heading: Change password
     providers:
       provider_type: &provider_type 'Provider type'
       provider_name: &provider_name 'Provider name'
@@ -445,7 +460,7 @@ en:
         vat_registered: VAT registered
         role: Role
         edit: Edit
-        change_password: Change password
+        change_password: *change_password
         answer_yes: "Yes"
         answer_no:  "No"
         manage_user: Manage user
@@ -476,6 +491,7 @@ en:
       find:
         email: *email
         submit: 'Search'
+        page_heading: Find provider by email
         page_title: Find provider by email
       change_password:
         error: 'error'
@@ -483,25 +499,27 @@ en:
         current_password: Current password
         password: *password
         password_confirmation: *password_confirmation
-        submit: 'Change password'
+        submit: *change_password
         page_title: Change %{external_user}'s password
         heading: Change password for %{external_user}
         page_heading: Manage users
 
 # en.external_users
   external_users:
+    agfs_claim_heading: Claim for advocate fees
+    lgfs_claim_heading: Claim for litigator fees
+    claim_heading: Claim for Crown court fees
     claim_types_helper:
       claim_type_page_header:
         page_title_advocate: Choose a bill type for advocate claim
         page_title_litigator: Choose a bill type for litigator claim
         page_title_generic: Choose a bill type for Crown court claim
-
     admin:
       external_users:
         advocates:
         index:
           title: 'Manage users'
-          page_heading: 'Manage users'
+          page_heading: Manage %{provider_name}'s users
           actions: Manage details
           advocates: 'Users'
           add_advocate: 'Add User'
@@ -523,14 +541,14 @@ en:
           confirmation: Are you sure?
         new:
           error: 'error'
-          new_advocate: 'New user'
-          prohibited_save: 'This user has'
+          page_heading: Add a new user to %{provider_name}
+          error_summary: This user has
           page_title_firm: Add a user to your firm's account
           page_title_chamber: Add a user to your chambers' account
         edit:
-          edit_advocate: 'Edit user'
+          page_heading: Edit %{external_user}'s details
           error: 'error'
-          prohibited_save: 'This user has'
+          error_summary: This user has
           page_title: Edit user account details for %{external_user}
         form:
           email: *email
@@ -544,13 +562,14 @@ en:
           submit: 'Create user'
         change_password:
           error: 'error'
-          prohibited_save: This user password change has
+          error_summary: This user password change has
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation
-          submit: Change password
+          submit: *change_password
           page_title: Change your password
-          change_password: Change password
+          page_heading: *change_password
+          change_password: *change_password
         show:
           page_title: View your account details
           table_caption: Your account details
@@ -559,7 +578,7 @@ en:
           roles: 'Roles:'
           supplier_number: 'Supplier number:'
           edit: Edit
-          change_password: Change password
+          change_password: *change_password
           page_heading: Your account
 
 
@@ -576,7 +595,7 @@ en:
           supplier_number: *supplier_number
           vat_registered: *vat_registered
           api_key: *api_key
-          page_heading: Manage provider
+          page_heading: Manage %{provider_name}
           page_title: "View %{provider_name}'s details"
           lgfs_supplier_numbers: "LGFS supplier numbers"
           firm_agfs_supplier_number: "AGFS supplier number"
@@ -600,23 +619,26 @@ en:
           form_error_hint: 'Check below for more detail'
           page_title_firm: Edit your firm's account
           page_title_chamber: Edit your chambers' account
-    all_claims: All claims list
-    your_claims: Your claims list
+    all_claims: Your claims
+    your_claims: Your claims
     claim_heading: Claim for Crown Court fees
-    agfs_claim_heading: Claim for advocate fees
-    lgfs_claim_heading: Claim for litigator fees
+
     certifications:
       new:
-        prohibited_save: This claim certification has
+        submit: Certify and submit claim
+        return: Return to claim
+        error_summary: This claim certification has
         certified_by: 'Name of person certifying'
         certified_by_prompt_text: 'Enter full name'
         certification_date: 'Date'
         date: 'Date'
         page_title_transfer_claim: Certify and submit the litigator transfer fees claim
         page_title_advocate_claim: advocate claim
+        page_heading: Certification
         page_title:
           agfs_final: Certify and submit the advocate final fees claim
           agfs_interim: Certify and submit the advocate warrant fees claim
+          agfs_supplementary: Certify and submit the advocate supplementary fees claim
           lgfs_final: Certify and submit the litigator final fees claim
           lgfs_interim: Certify and submit the litigator interim fees claim
           lgfs_transfer: Certify and submit the litigator transfer fees claim
@@ -629,6 +651,7 @@ en:
         page_title_advocate: Choose a bill type for advocate claim
         page_title_litigator: Choose a bill type for litigator claim
         page_title_generic: Choose a bill type for Crown court claim
+        page_title_advocate: Claim for advocate fees
         agfs_rb: Advocate final fee
         agfs_supplementary_rb: Advocate supplementary fee
         agfs_supplementary_hint: For miscellaneous fees claimed without a graduated or fixed fee
@@ -659,18 +682,18 @@ en:
       additional_information:
         fields:
           additional_information: 'Additional information'
-          additional_information_prompt_text: 'for example any other information that will help us process your claim'
+          additional_information_prompt_text: Provide any information that will help in the assessment of your claim
         summary:
           header: Additional information
           not_available: No additional information has been provided
           change: Change
           change_link_label: Change additional information
       archived:
-        archived_claims: 'Archived claims'
-        archived_claim: 'archived claim'
+        page_heading: Your claim archive
+        archived_claim: Your claim archive
         page_title: View your claims archive
       authorised:
-        authorised_claims: 'Authorised claims for last week'
+        page_heading: Your authorised claims
         with_total_assessed_value_of: 'claims with a total assessed value of'
         page_title: View your authorised claims
       basic_fees:
@@ -809,8 +832,11 @@ en:
           npw_section_hint: Total number of prosecution witnesses
           total: Total
         fields:
+          page_header: Graduated fees
+          page_hint: All fees should be entered exclusive of VAT.
           amount: 'Amount'
           basic_fees: 'Initial fees'
+          heading: Basic fees
           fee_prompt_text: |
             You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
             for help.
@@ -941,7 +967,6 @@ en:
           change: Change
           change_link_label: Change offence details
         selected_offence_header: 'You have chosen the following offence details:'
-
       defendants:
         defendant_fields:
           first_name: *first_name
@@ -953,10 +978,11 @@ en:
           order_for_judicial_apportionment_help: Judicial apportionment is when the defendant has applied for and received an order confirming they are not required to pay the full amount of their defence costs. If applicable, please ensure you upload a copy of the order to your claim.
           add_another_rep_order: 'Add another representation order'
           remove_defendant: 'Remove defendant'
-          defendant: Defendant details
+          defendant: Defendant
         fields:
           defendants: 'Defendants'
           add_another_defendant: 'Add another defendant'
+          page_heading: Defendant details
         representation_order_fields:
           date: Representation order date
           representation_order: Representation order details
@@ -973,7 +999,6 @@ en:
           common:
             defendant_index: Defendant %{index}
             defendant_reporder: Defendant %{index} representation order %{index}
-
       main_claims_list:
         amount_assessed_sort_label: 'Sort by: Amount assessed'
         last_submitted_at_sort_label: 'Sort by: Last submitted at date'
@@ -1115,7 +1140,7 @@ en:
           transfer_date_default_label_text: Date stopped/started acting
           case_conclusions: How did the case conclude?
         summary:
-          header: Transfer fee
+          header: Transfer fees
           litigator_type: Litigator type
           elected_case: Was the case elected?
           transfer_stage_new: When did you start acting?
@@ -1131,26 +1156,34 @@ en:
         prohibited_save: This claim has
         error: 'error'
         form_error_hint: 'Check below for more detail'
+
       summary:
         button_label: *continue_to_certification_button
-        heading: Check your claim
+        page_heading: Check your claim
         case_details: Case details
         agfs:
           advocate_claim:
             page_title: View claim summary for advocate final fees claim
+            page_heading: Claim for advocate final fee
           advocate_supplementary_claim:
             page_title: View claim summary for advocate supplementary fee claim
+            page_heading: Claim for advocate supplementary fee
           advocate_interim_claim:
             page_title: View claim summary for advocate warrant fees claim
+            page_heading: Claim for advocate interim fee
         lgfs:
           final_claim:
             page_title: View claim summary for litigator final fees claim
+            page_heading: Claim for litigator final fee
           litigator_claim:
             page_title: View claim summary for litigator final fees claim
+            page_heading: Claim for litigator final fee
           interim_claim:
             page_title: View claim summary for litigator interim fees claim
+            page_heading: Claim for litigator interim fee
           transfer_claim:
             page_title: View claim summary for litigator transfer fees claim
+            page_heading: Claim for litigator transfer fee
         page_title: View claim summary for litigator transfer fees claim
       fee_fields:
         add_date_attended: 'Add dates'
@@ -1158,6 +1191,7 @@ en:
       fixed_fees:
         advocates:
           fields:
+            type_of_fee: Type of fee
             add_fixed_fee: 'Add another fee'
             amount: 'Amount'
             fixed_fees: 'Fixed fees'
@@ -1185,7 +1219,7 @@ en:
             fixed_fees: "Fixed fees"
             fee_type: *fee_type
             quantity: *quantity
-            quantity_hint: 'Enter a quantity'
+            quantity_hint: Enter a quantity
             rate: *rate
             amount: Total
             prompt_text_html: *graduated_fee_calculators_help
@@ -1256,7 +1290,7 @@ en:
         authorised_claim_details_label: View authorised claims details
       graduated_fees:
         fields:
-          page_header: Graduated fee
+          page_header: Graduated fees
           page_hint: *fees_vat_prompt
           actual_trial_length: *actual_trial_length
           actual_trial_length_hint: Number of days
@@ -1266,7 +1300,7 @@ en:
           help_how_we_calculate_amount_title: *how_is_this_calculated_help
           help_how_we_calculate_amount_body: We calculate the amount based upon the fee scheme, case type, offence class, trial length, the total pages of evidence, and number of defendants
         summary:
-          header: Graduated fee
+          header: Graduated fees
           actual_trial_length:
             one: 1 day
             other: "%{count} days"
@@ -1278,7 +1312,7 @@ en:
         rejected: Rejected
         submitted: Submitted to LAA
         show_count: 'Showing %{page_count} of %{total} claims'
-        page_title: View your claims list
+        page_title: View your claims
       interim_claim_info:
         fields: &interim_claim_info_fields
           warrant_fee: Warrant fees
@@ -1291,7 +1325,7 @@ en:
       json_document_importer:
         import_claim: Or upload your claims in JSON format
       outstanding:
-        heading: Outstanding claims
+        page_heading: Your outstanding claims
         claims_value: claims with a total value of
         page_title: View your outstanding claims
       supporting_documents:
@@ -1310,6 +1344,10 @@ en:
           choose_file: 'Choose a file'
           file_name: "File name"
           supporting_evidence_docs: 'Upload supporting evidence'
+          supporting_evidence: Supporting evidence
+          file_upload_message: Drag and drop files here
+          legend: Upload supporting evidence
+          or: or
       supporting_evidence:
         summary:
           header: Supporting evidence
@@ -1324,7 +1362,8 @@ en:
           caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'
           header: Supporting evidence
         fields:
-          supporting_evidence_checklist: 'Supporting evidence checklist'
+          supporting_evidence_checklist: Supporting evidence checklist
+          supporting_evidence_checklist_hint: Select all that apply
       warrant_fee:
         summary:
           caption: 'Warrant Fees: This section contains details of any warrant fees that have been claimed.'
@@ -1399,6 +1438,8 @@ en:
         total: 'Total'
         no_fees: 'No fees for this claim'
         no_disbursements: 'No disbursements for this claim'
+      show:
+        page_title: Case details
     expenses:
       distances:
         create:
@@ -1485,6 +1526,7 @@ en:
 
         defendants_form_step:
           page_title: Enter defendant details for advocate supplementary fee claim
+          page_heading: Defendant details
 
         miscellaneous_fees_form_step:
           page_title: Enter miscellaneous fees for advocate supplementary fee claim
@@ -1496,6 +1538,7 @@ en:
           page_title: Upload supporting evidence for advocate msupplementary fee claim
 
     litigators:
+
       interim_claims:
         new:
           page_title: &lgfs_interim_claims_title Enter case details for litigator interim fees claim
@@ -1577,6 +1620,7 @@ en:
 
         fixed_fees_form_step:
           page_title: Enter fixed fees for litigator final fees claim
+          page_header: Fixed fees
 
         offence_details_form_step:
           page_title: Enter offence details for litigator final fees claim
@@ -1598,7 +1642,6 @@ en:
 
         warrant_fees_form_step:
           page_title: Enter warrant fees for litigator final fees claim
-
   shared:
     claim_header:
       case_number: 'Case number:'
@@ -1682,7 +1725,7 @@ en:
         section_heading: Add provider details
         page_title: Add a provider to claim for Crown court defence
       edit:
-        page_heading: Settings
+        page_heading: Edit %{provider_name}'s details
         section_heading: Edit provider details
         page_title: "Edit %{provider_name}'s details"
       form:
@@ -1702,7 +1745,7 @@ en:
             supplier_name: For example, the city or street name
             postcode: For example, SW11 1AA
             supplier_number: For example, 1A234B
-        prohibited_save: 'This provider has'
+        error_summary: 'This provider has'
         provider_name: *provider_name
         provider_name_hint: The trading name of the Chamber or Firm
         provider_type: *provider_type
@@ -1817,6 +1860,7 @@ en:
         defendants: "There are no defendants for this claim"
         disbursements: "There are no disbursements for this claim"
         fixed_fees: "There are no fixed fees for this claim"
+        transfer_fee: "There are no transfer fee for this claim"
         graduated_fees: "There are no graduated fees for this claim"
         interim_fee: "There is no interim fee for this claim"
         misc_fees: "There are no miscellaneous fees for this claim"
@@ -1956,7 +2000,6 @@ en:
       scheme_filter_hint: 'Configure list below by AGFS and LGFS claims'
       scheme_filter: 'Filter list by:'
       scheme_filter_all: 'All'
-
   case_workers:
     table_headings:
       your_claims: Your claims
@@ -1989,8 +2032,10 @@ en:
           roles: Roles
           save: Save
         change_password:
+          change_password: Change password
+          page_heading: Change password
           error: 'error'
-          prohibited_save: 'This case worker password change has'
+          prohibited_save: This case worker password change has
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation
@@ -1998,10 +2043,18 @@ en:
           page_title: Change your password
         new:
           page_title: Add a caseworker
+          error_summary: 'This case worker has '
+          page_heading: New case worker details
         edit:
           page_title: Edit %{caseworker}'s details
+          error_summary: 'This case worker has '
+          page_heading: Edit case worker details
         show:
           page_title: View %{caseworker}'s details
+          change_password: *change_password
+          edit: Edit
+          page_heading: Your account
+          roles: Roles
       allocations:
         filter_value_bands:
           all: All
@@ -2113,7 +2166,7 @@ en:
           invalid_report_type: *invalid_report_type
         index:
           page_title: View management information
-          h1_managment_info: Management information
+          page_heading: Management information
           all_claims_report: 'All claims report'
           report_generated_at: "The latest report was generated at %{time}"
           day: Day
@@ -2138,7 +2191,7 @@ en:
         job_scheduled: 'A background job has been scheduled to regenerate the report. Please refresh this page in a few minutes.'
     claims:
       archived:
-        archived_claims: Archived claims
+        page_heading: Archived claims
         page_title: View the claim archive
       determination_fields:
         disbursements: Disbursements
@@ -2153,32 +2206,32 @@ en:
         vat_rate: "VAT (%{vat_rate})"
         vat_rate: "Total (including %{vat_rate} VAT)"
       index:
-        your_claims: Your claims
+        page_heading: Your claims
         page_title: View your allocated claims list
       claims_list:
-        type: Type
-        advocate_litigator: *advocate_litigator
-        case_number: Case number
         advocate: Advocate
-        defendants: Defendants
+        advocate_litigator: *advocate_litigator
+        advocate_sort_label: 'Sort by: Provider name'
+        case_number: Case number
+        case_number_sort_label: 'Sort by: Case number'
         case_type: Case type
-        total: Claimed
-        status: Status
-        submission_date: Date submitted
+        case_type_sort_label: 'Sort by: Case type'
+        defendants: Defendants
+        disk_evidence: Disk evidence
+        last_submitted_at_sort_label: 'Sort by: Last submitted at date'
         messages: Messages
         none: None
-        advocate_sort_label: 'Sort by: Provider name'
-        case_number_sort_label: 'Sort by: Case number'
-        case_type_sort_label: 'Sort by: Case type'
-        last_submitted_at_sort_label: 'Sort by: Last submitted at date'
-        state_sort_label: 'Sort by: Claim state'
-        total_inc_vat_sort_label: 'Sort by: Claimed amount'
-        type_sort_label: 'Sort by: Claim type'
         number_of_claims: 'Number of claims: '
+        state_sort_label: 'Sort by: Claim state'
+        status: Status
+        submission_date: Date submitted
+        total: Claimed
+        total_inc_vat_sort_label: 'Sort by: Claimed amount'
+        type: Type
+        type_sort_label: 'Sort by: Claim type'
         view: *view
         view_messages_label: "View Messages for Case number %{case_number}"
         view_with_messages: "View (%{message_count} new)"
-
       hint:
         search: for example case number, MAAT reference, defendant name, case worker name or email
       interim_claim_info:
@@ -2191,10 +2244,19 @@ en:
         completed_claims_count: Completed claims (%{completed_claims_count})
         current_claims_count: Allocated claims (%{current_claims_count})
         unallocated_claims_count: Allocated claims (%{unallocated_claims_count})
+      claims_sidebar:
+        advocate_details: Advocate details
+        completed_claims: Completed claims
+        current_claims: Current claims
+        dashboard: Dashboard
+        payments: Payments
+        reporting_tool: Reporting tool
   devise:
     sessions:
       new:
         page_title: Sign in to claim for Crown court defence
+        page_heading: Sign in
+        sign_in: Sign in
     shared:
       links:
         sign_in: Sign in
@@ -2207,12 +2269,20 @@ en:
     passwords:
       new:
         page_title: Retrieve your password for claim for Crown court defence
+        send_button: Send me password reset instructions
+        page_heading: Forgot your password?
       edit:
-        prohibited_save: This password change has
+        change_password: *change_password
+        confirm_your_password: Confirm your password
+        error_summary: 'This password change has '
+        page_heading: Change your password
         page_title: Change your password for claim for Crown court defence
+        new_password: New password
     unlocks:
       new:
+        page_heading: Resend password reset instructions
         page_title: Resend unlock instructions for claim for Crown court defence
+        submit: Resend unlock instructions
   validators:
     advocate:
       category: 'Advocate category must be one of those in the provided list'
@@ -2317,5 +2387,23 @@ en:
 
 # en.feedback
   feedback:
+    bug_report:
+      page_title: Bug report
+      page_heading: Help us improve this service
+      error_summary: 'The form you submitted has '
+      intro: |
+        Tell us about your experience of using this service today. Your answers to the following questions will help us improve the service.
+      case_number_label: Case number / Unique ID
+      case_number_hint: |
+        If your issue is related to a particular claim, provide the case number along with the unique ID you will find next to it (starts with #)
+      event_label: What you were doing when the fault occurred?
+      event_hint: Include as much information as possible, including the fee scheme (Advocate, Litigator final, Litigator interim or Litigator transfer) and case type
+      outcome_label: What went wrong?
     feedback:
       page_title: Help us improve this service
+      error_summary: 'This feedback has '
+      page_heading: 'Help us improve this service'
+      callout: 'We will use your answers to the questions below to help us build a better service.'
+      comment: 'Tell us about your experience of using this service today.'
+      comment_hint: "Don't include any personal or sensitive information."
+      send: Send

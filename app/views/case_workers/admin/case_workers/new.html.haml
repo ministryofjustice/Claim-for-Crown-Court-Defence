@@ -1,8 +1,8 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'errors/error_summary', locals:{ ep: @case_worker, error_summary: 'This case worker has '}
+= render partial: 'errors/error_summary', locals:{ ep: @case_worker, error_summary: t('.error_summary')}
 
-= render partial: 'layouts/header', locals: {page_heading: 'New case worker details'}
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 = render 'form'

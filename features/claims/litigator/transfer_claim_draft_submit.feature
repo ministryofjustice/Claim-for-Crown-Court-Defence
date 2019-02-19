@@ -18,6 +18,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I enter the transfer date '2015-05-21'
     And I select a case conclusion of 'Cracked'
 
+    And I should see a page title "Enter fees for litigator transfer fees claim"
     And I click "Continue" in the claim form
 
     When I choose the supplier number '1A222Z'
@@ -25,8 +26,10 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I enter a case number of 'A20161234'
     And I enter the case concluded date
 
+    And I should see a page title "Enter case details for litigator transfer fees claim"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
+    And I should see a page title "Enter defendant details for litigator transfer fees claim"
     And I save as draft
     Then I should see 'Draft claim saved'
 
@@ -39,12 +42,15 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I enter defendant, LGFS representation order and MAAT reference
     And I add another defendant, LGFS representation order and MAAT reference
 
+    And I should see a page title "Enter defendant details for litigator transfer fees claim"
     And I click "Continue" in the claim form
 
     And I select the offence category 'Handling stolen goods'
     And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
     Given I insert the VCR cassette 'features/claims/litigator/transfer_fee_calculations'
+
+    And I should see a page title "Enter offence details for litigator transfer fees claim"
     And I click "Continue" in the claim form
 
     Then the transfer fee amount should be populated with '269.08'
@@ -55,6 +61,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I fill '51' as the ppe total
     Then the transfer fee amount should be populated with '274.37'
 
+    And I should see a page title "Enter fees for litigator transfer fees claim"
     Then I click "Continue" in the claim form
 
     And I eject the VCR cassette
@@ -63,11 +70,13 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And the first miscellaneous fee should have fee types 'Costs judge application,Costs judge preparation,Evidence provision fee,Special preparation fee'
     And I add a litigator miscellaneous fee 'Costs judge application'
 
+    And I should see a page title "Enter miscellaneous fees for litigator transfer fees claim"
     Then I click "Continue" in the claim form
 
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
 
+    And I should see a page title "Enter disbursements for litigator transfer fees claim"
     Then I click "Continue" in the claim form and move to the 'Travel expenses' form page
 
     And I select an expense type "Parking"
@@ -75,6 +84,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I add an expense net amount for "34.56"
     And I add an expense date for LGFS
 
+    And I should see a page title "Enter travel expenses for litigator transfer fees claim"
     Then I click "Continue" in the claim form
 
     And I upload 1 document
@@ -82,13 +92,16 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I check the evidence boxes for 'A copy of the indictment'
     And I add some additional information
 
+    And I should see a page title "Upload supporting evidence for litigator transfer fees claim"
     Then I click Submit to LAA
     And I should be on the check your claim page
     And I should see 'G: Other offences of dishonesty between £30,001 and £100,000'
 
+    And I should see a page title "View claim summary for litigator transfer fees claim"
     When I click "Continue"
     Then I should be on the certification page
 
+    And I should see a page title "Certify and submit the litigator transfer fees claim"
     And I click Certify and submit claim
     Then I should be on the claim confirmation page
 

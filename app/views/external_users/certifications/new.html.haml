@@ -1,9 +1,9 @@
 = content_for :page_title, flush: true do
   = t(".page_title.#{present(@claim).type_identifier}")
 
-= render partial: 'errors/error_summary', locals:{ ep: @certification, error_summary: t('.prohibited_save')}
+= render partial: 'errors/error_summary', locals:{ ep: @certification, error_summary: t('.error_summary')}
 
-= render partial: 'layouts/header', locals: {page_heading: 'Certification'}
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 = form_for @certification, builder: AdpFormBuilder, url: external_users_claim_certification_path(@claim) do |f|
   %div.certification.normal
@@ -111,5 +111,5 @@
       .column-third
         &nbsp;
     .button-holder
-      = f.submit "Certify and submit claim", class: "button left btn-spacer-20"
-      = link_to 'Return to claim', edit_polymorphic_path(@claim), class: 'button-gray-3 left'
+      = f.submit t('.submit'), class: "button left btn-spacer-20"
+      = link_to t('.return'), edit_polymorphic_path(@claim), class: 'button-gray-3 left'

@@ -26,7 +26,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     Given I insert the VCR cassette 'features/fee_calculator/advocate/graduated_fee_trial_calculator'
     When I select the offence category 'Murder'
     And I click "Continue" in the claim form
-    And I should be in the 'Fees' form page
+    And I should be in the 'Graduated fees' form page
     Then the basic fee net amount should be populated with '0.00'
 
     # advocate category impacts "basic" fee
@@ -78,7 +78,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
 
     When I select the offence category 'Murder'
     And I click "Continue" in the claim form
-    And I should be in the 'Fees' form page
+    And I should be in the 'Graduated fees' form page
     Then the basic fee net amount should be populated with '0.00'
 
     # advocate category impacts "basic" fee (retrial interval within a month, 30% reduction)

@@ -46,7 +46,7 @@ Feature: litigator completes interim fee page using calculator
     And I enter the effective PCMH date '2018-04-01'
 
     Then I click "Continue" in the claim form
-    And I should be in the 'Evidence supplied on disk' form page
+    And I should be in the 'Supporting evidence' form page
 
     # offence impact
     And I goto claim form step 'offence details'
@@ -58,7 +58,7 @@ Feature: litigator completes interim fee page using calculator
     And the interim fee amount should be populated with '596.46'
 
     Then I click "Continue" in the claim form
-    And I should be in the 'Evidence supplied on disk' form page
+    And I should be in the 'Supporting evidence' form page
 
     # defendant uplift impact
     And I goto claim form step 'defendants'
@@ -90,7 +90,7 @@ Feature: litigator completes interim fee page using calculator
     And the interim fee amount should be populated with '1332.56'
 
     Then I click "Continue" in the claim form
-    And I should be in the 'Evidence supplied on disk' form page
+    And I should be in the 'Supporting evidence' form page
 
     And the interim fee should have its price_calculated value set to true
 
@@ -142,7 +142,7 @@ Feature: litigator completes interim fee page using calculator
     And I enter the first trial concluded date '2018-04-01'
 
     Then I click "Continue" in the claim form
-    And I should be in the 'Evidence supplied on disk' form page
+    And I should be in the 'Supporting evidence' form page
 
     # offence impact
     And I goto claim form step 'offence details'
@@ -182,7 +182,7 @@ Feature: litigator completes interim fee page using calculator
     And the interim fee amount should be populated with '1332.56'
 
     Then I click "Continue" in the claim form
-    And I should be in the 'Evidence supplied on disk' form page
+    And I should be in the 'Supporting evidence' form page
 
     And the interim fee should have its price_calculated value set to true
 

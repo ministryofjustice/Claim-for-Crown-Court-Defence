@@ -8,6 +8,6 @@ class LitigatorTransferClaimFormPage < LitigatorClaimFormPage
 
   section :transfer_detail, LgfsTransferDetailSection, "#transfer-detail"
   section :transfer_fee, LgfsTransferFeeSection, "#transfer-fee"
-  section :auto_one, CommonAutocomplete, "#cc-one"
-  section :auto_two, CommonAutocomplete, "#cc-two"
+  section :auto_one, CommonAutocomplete, "#cc-transfer-stage"
+  section :auto_two, CommonAutocomplete, "#cc-case-conclusion"
 end

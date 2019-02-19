@@ -6,7 +6,7 @@ moj.Modules.TransferDetailFieldsDisplay = {
   transferStageSelect: 'select.js-transfer-stage-id',
   caseConclusionSelect: '.js-case-conclusions-select',
   transferStageLabel: '.js-transfer-stage-label',
-  transferDateLabel: '.js-transfer-date-label',
+  transferDateLabel: '.js-transfer-date-label .form-label-bold',
   params: {},
 
   init: function() {
@@ -20,15 +20,15 @@ moj.Modules.TransferDetailFieldsDisplay = {
 
   cacheEls: function() {
     this.params = {
-      litigator_type:{
+      litigator_type: {
         el: this.litigatorTypeRadio,
         selector: ':checked'
       },
-      elected_case:{
+      elected_case: {
         el: this.electedCaseRadio,
         selector: ':checked'
       },
-      transfer_stage_id:{
+      transfer_stage_id: {
         el: this.transferStageSelect,
         selector: ' option:selected'
       }
@@ -38,9 +38,9 @@ moj.Modules.TransferDetailFieldsDisplay = {
   addChangeEvent: function() {
     var self = this;
     var elements = [this.litigatorTypeRadio,
-                    this.electedCaseRadio,
-                    this.transferStageSelect
-                    ].join(',');
+      this.electedCaseRadio,
+      this.transferStageSelect
+    ].join(',');
     this.$tdWrapper.on('change', elements, function() {
       self.callCaseConclusionController();
     });
@@ -49,7 +49,7 @@ moj.Modules.TransferDetailFieldsDisplay = {
   // called by controller js view render
   caseConclusionToggle: function(toggle) {
     if (toggle) {
-      $(this.caseConclusionSelect).slideDown();
+      $(this.caseConclusionSelect).show();
     } else {
       $(this.caseConclusionSelect + ' select.fx-autocomplete').prop('selectedIndex', 0); // reset actual select list value
       $('#claim_case_conclusion_id_input').val(''); // reset awesomplete displayed value
@@ -58,7 +58,7 @@ moj.Modules.TransferDetailFieldsDisplay = {
   },
 
   // called by controller js view render
-  labelTextToggle: function(transfer_stage_label_text,transfer_date_label_text) {
+  labelTextToggle: function(transfer_stage_label_text, transfer_date_label_text) {
     this.$tdWrapper.find(this.transferStageLabel).text(transfer_stage_label_text);
     this.$tdWrapper.find(this.transferDateLabel).text(transfer_date_label_text);
   },
@@ -71,7 +71,7 @@ moj.Modules.TransferDetailFieldsDisplay = {
   constructParams: function() {
     var self = this;
     var params = '';
-    $.each(this.params, function(key){
+    $.each(this.params, function(key) {
       params += self.getParamVal(key);
     });
 

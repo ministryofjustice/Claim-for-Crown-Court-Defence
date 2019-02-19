@@ -3,6 +3,6 @@
 
 = render partial: 'errors/error_summary', locals:{ ep: @external_user.user, error_summary: t('.prohibited_save')}
 
-= render partial: 'layouts/header', locals: {page_heading: t('.new_advocate')}
+= render partial: 'layouts/header', locals: {page_heading: t('.new_advocate', provider_name: "#{current_user.provider.name}")}
 
 = render 'form'

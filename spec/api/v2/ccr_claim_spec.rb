@@ -45,9 +45,11 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
   describe 'GET /ccr/claim/:uuid?api_key=:api_key' do
     let(:dsl) { Grape::DSL::InsideRoute }
 
-    it 'presents advocate claim with CCR advocate claim entity' do
-      expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateClaim), with: API::Entities::CCR::AdvocateClaim )
-      do_request
+    context 'for advocate "final" claims' do
+      it 'presents advocate claim with CCR advocate claim entity' do
+        expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateClaim), with: API::Entities::CCR::AdvocateClaim )
+        do_request
+      end
     end
 
     context 'for advocate interim claims' do
@@ -57,6 +59,15 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
       it 'presents advocate interim claim with CCR advocate interim claim entity' do
         expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateInterimClaim), with: API::Entities::CCR::AdvocateInterimClaim)
+        do_request
+      end
+    end
+
+    context 'for advocate supplementary claims' do
+      let(:claim) { create_claim(:advocate_supplementary_claim, :submitted) }
+
+      it 'presents advocate interim claim with CCR advocate interim claim entity' do
+        expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateSupplementaryClaim), with: API::Entities::CCR::AdvocateSupplementaryClaim)
         do_request
       end
     end
@@ -149,6 +160,38 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       it { is_expected.to expose :case_type }
       it { is_expected.to expose :court }
       it { is_expected.to expose :offence }
+      it { is_expected.to expose :defendants }
+      it { is_expected.not_to expose :retrial_reduction }
+
+      it { is_expected.to expose :actual_trial_Length }
+      it { is_expected.to expose :estimated_trial_length }
+      it { is_expected.to expose :retrial_actual_length }
+      it { is_expected.to expose :retrial_estimated_length }
+
+      it { is_expected.to expose :additional_information }
+      it { is_expected.to expose :bills }
+    end
+
+    context 'advocate supplementary claim' do
+      subject(:response) { do_request.body }
+
+      let(:claim) { create_claim(:advocate_supplementary_claim, :submitted) }
+
+      it { is_expected.to expose :uuid }
+      it { is_expected.to expose :supplier_number }
+      it { is_expected.to expose :case_number }
+      it { is_expected.not_to expose :first_day_of_trial }
+      it { is_expected.not_to expose :trial_fixed_notice_at }
+      it { is_expected.not_to expose :trial_fixed_at }
+      it { is_expected.not_to expose :trial_cracked_at }
+      it { is_expected.not_to expose :retrial_started_at }
+      it { is_expected.not_to expose :trial_cracked_at_third }
+      it { is_expected.to expose :last_submitted_at }
+
+      it { is_expected.to expose :advocate_category }
+      it { is_expected.to expose :case_type }
+      it { is_expected.to expose :court }
+      it { is_expected.not_to expose :offence }
       it { is_expected.to expose :defendants }
       it { is_expected.not_to expose :retrial_reduction }
 

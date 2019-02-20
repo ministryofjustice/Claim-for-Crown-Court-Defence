@@ -56,7 +56,7 @@ module CCR
       end
 
       def charges?
-        [object.amount&.positive? || object.quantity&.positive? || object.rate&.positive?].any?
+        [object.amount&.positive?, object.quantity&.positive?, object.rate&.positive?].any?
       end
     end
   end

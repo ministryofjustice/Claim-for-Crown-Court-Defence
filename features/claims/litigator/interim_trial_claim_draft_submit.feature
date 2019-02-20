@@ -56,7 +56,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     And I eject the VCR cassette
 
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Evidence supplied on disk' form page
 
     And I upload the document 'indictment.pdf'
     And I check the evidence boxes for 'A copy of the indictment'

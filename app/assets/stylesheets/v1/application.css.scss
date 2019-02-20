@@ -7,6 +7,10 @@
 @import "susy";
 @import "moj/config";
 
+// Vendor loaded
+@import "datatables.min";
+@import "accessible-autocomplete";
+
 // // custom mixins & helpers
 @import "moj/helpers";
 
@@ -18,7 +22,6 @@
 @import "moj/tables";
 @import "moj/forms";
 @import "moj/typography";
-@import "moj/autocomplete";
 @import "moj/accordion";
 @import "moj/icons";
 @import "moj/messages";
@@ -29,6 +32,7 @@
 @import "moj/panels";
 @import "moj/spinner";
 @import 'moj/warnings';
+@import "moj/autocomplete";
 
 
 // /////////////////////////////// TODO: KILL THIS ASAP
@@ -36,8 +40,6 @@
 // ///////////////////////////////
 //
 
-@import "datatables.min";
-@import "accessible-autocomplete";
 
 // Phase banner
 .phase-banner {

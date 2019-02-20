@@ -79,7 +79,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
 
-    Then I click "Continue" in the claim form
+    Then I click "Continue" in the claim form and move to the 'Travel expenses' form page
 
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"

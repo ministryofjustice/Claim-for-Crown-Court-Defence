@@ -1,21 +1,34 @@
 moj.Modules.InterimFeeFieldsDisplay = {
-  el: '#interim-fee',
-  typeSelect: 'select.js-interim-fee-type',
-
+  activate: function() {
+    return $('#claim_form_step').val() === 'interim_fees';
+  },
   init: function() {
     var self = this;
 
-    this.addInterimFeeChangeEvent();
+    if (this.activate()) {
+      moj.Modules.CaseTypeCtrl.initAutocomplete();
+      this.addInterimFeeChangeEvent();
+      $('#interim-fee').find('select.js-interim-fee-type').each(function() {
+        self.showHideInterimFeeFields(this);
+      });
+      this.bindEvents();
+    }
+  },
+  bindEvents: function() {
+    var self = this;
 
-    $(this.el).find(this.typeSelect).each(function() {
-      self.showHideInterimFeeFields(this);
+    $('#disbursements').on('cocoon:after-insert', function(e, element) {
+      var elId = $(element).find('.fx-autocomplete').attr('id');
+      moj.Helpers.Autocomplete.new('#' + elId, {
+        showAllValues: true,
+        autoselect: false
+      });
     });
   },
-
   addInterimFeeChangeEvent: function() {
     var self = this;
 
-    $(this.el).on('change', self.typeSelect, function() {
+    $('#interim-fee').on('change', 'select.js-interim-fee-type', function() {
       self.showHideInterimFeeFields(this);
       $(self.el).trigger('recalculate');
     });
@@ -27,6 +40,7 @@ moj.Modules.InterimFeeFieldsDisplay = {
 
     if (elements) {
       $.each(elements, function(name, val) {
+
         if (val) {
           $('.js-interim-' + name).show().removeClass('visually-hidden');
         } else {

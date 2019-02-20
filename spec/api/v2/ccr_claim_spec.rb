@@ -47,7 +47,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
     context 'for advocate "final" claims' do
       it 'presents advocate claim with CCR advocate claim entity' do
-        expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateClaim), with: API::Entities::CCR::AdvocateClaim )
+        expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateClaim), with: API::Entities::CCR::FinalClaim )
         do_request
       end
     end
@@ -58,7 +58,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       let(:claim) { create_claim(:advocate_interim_claim, :without_fees, :submitted, offence: offence, warrant_fee: warrant_fee) }
 
       it 'presents advocate interim claim with CCR advocate interim claim entity' do
-        expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateInterimClaim), with: API::Entities::CCR::AdvocateInterimClaim)
+        expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateInterimClaim), with: API::Entities::CCR::InterimClaim)
         do_request
       end
     end
@@ -67,7 +67,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       let(:claim) { create_claim(:advocate_supplementary_claim, :submitted) }
 
       it 'presents advocate interim claim with CCR advocate interim claim entity' do
-        expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateSupplementaryClaim), with: API::Entities::CCR::AdvocateSupplementaryClaim)
+        expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateSupplementaryClaim), with: API::Entities::CCR::SupplementaryClaim)
         do_request
       end
     end

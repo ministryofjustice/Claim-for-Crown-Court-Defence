@@ -9,9 +9,9 @@ module API
         end
 
         def entity_class
-          return API::Entities::CCR::AdvocateInterimClaim if claim.interim?
-          return API::Entities::CCR::AdvocateSupplementaryClaim if claim.supplementary?
-          API::Entities::CCR::AdvocateClaim
+          return API::Entities::CCR::InterimClaim if claim.interim?
+          return API::Entities::CCR::SupplementaryClaim if claim.supplementary?
+          API::Entities::CCR::FinalClaim
         end
       end
 

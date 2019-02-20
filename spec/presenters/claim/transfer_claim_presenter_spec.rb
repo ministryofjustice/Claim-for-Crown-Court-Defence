@@ -57,4 +57,21 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
       })
     }
   end
+
+  describe '#conclusion_required?' do
+    subject { presenter.conclusion_required? }
+    let(:claim) { build(:transfer_claim, transfer_detail: detail) }
+
+    context 'when acting is set to `Up to and including PCMH transfer`' do
+      let(:detail) { build(:transfer_detail, litigator_type: 'new') }
+
+      specify { is_expected.to eq true }
+    end
+
+    context 'when acting is set to `Transfer after trial and before sentence hearing`' do
+      let(:detail) { build(:transfer_detail, litigator_type: 'new', transfer_stage_id: 40) }
+
+      specify { is_expected.to eq false }
+    end
+  end
 end

@@ -7,12 +7,4 @@ class LgfsTransferDetailSection < SitePrism::Section
   element :elected_case_no, "label[for='claim_elected_case_false']"
 
   section :transfer_date, CommonDateSection, '#transfer_date'
-
-  def select_transfer_stage(name)
-    select name, from: "claim_transfer_stage_id"
-  end
-
-  def select_case_conclusion(name)
-    select name, from: "claim_case_conclusion_id"
-  end
 end

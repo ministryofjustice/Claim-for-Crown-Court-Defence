@@ -81,4 +81,8 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   def display_days?
     true
   end
+
+  def conclusion_required?
+    Claim::TransferBrain.case_conclusion_required?(claim.transfer_detail)
+  end
 end

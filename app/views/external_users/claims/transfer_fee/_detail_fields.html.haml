@@ -9,7 +9,7 @@
     .js-case-conclusion-effectors
       .form-group{class: error_class?(@error_presenter, :litigator_type)}
         %fieldset.inline
-          = f.anchored_label t('.litigator_type'), 'litigator_type', { label_attributes: { class: 'form-label' } }
+          = f.anchored_label t('.litigator_type'), 'litigator_type', { label_attributes: { class: 'form-label-bold' } }
           = f.collection_radio_buttons(:litigator_type, ['original','new'], :to_s, :humanize) do |b|
             .multiple-choice
               = b.radio_button(class: 'js-litigator-type')
@@ -19,7 +19,7 @@
 
       .form-group{class: error_class?(@error_presenter, :elected_case)}
         %fieldset.inline
-          = f.anchored_label t('.elected_case'), 'elected_case', { label_attributes: { class: 'form-label' } }
+          = f.anchored_label t('.elected_case'), 'elected_case', { label_attributes: { class: 'form-label-bold' } }
           = f.collection_radio_buttons(:elected_case, [['Yes','true'],['No','false']], :last, :first ) do |b|
             .multiple-choice
               = b.radio_button(class: 'js-elected-case')
@@ -29,7 +29,7 @@
 
       #cc-transfer-stage.form-group.js-typeahead{class: error_class?(@error_presenter, 'transfer_stage_id')}
         %fieldset
-          = f.anchored_label t('.transfer_stage_default_label_text'), 'transfer_stage_id', { label_attributes: { class: 'js-transfer-stage-label form-label' } }
+          = f.anchored_label t('.transfer_stage_default_label_text'), 'transfer_stage_id', { label_attributes: { class: 'js-transfer-stage-label form-label-bold' } }
           = f.collection_select :transfer_stage_id, Claim::TransferBrain::TRANSFER_STAGES.values, :id, :description, {include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete js-transfer-stage-id'}
           = validation_error_message(@error_presenter, 'transfer_stage_id')
 
@@ -40,6 +40,6 @@
     #cc-case-conclusion.form-group.js-typeahead.js-case-conclusions-select{class: error_class?(@error_presenter, 'case_conclusion_id'), style: claim.conclusion_required? ? 'display: block;' : 'display: none;'}
 
       %fieldset
-        = f.anchored_label t('.case_conclusions'), 'case_conclusion_id', { label_attributes: { class: 'form-label' } }
+        = f.anchored_label t('.case_conclusions'), 'case_conclusion_id', { label_attributes: { class: 'form-label-bold' } }
         = f.collection_select :case_conclusion_id, claim.case_conclusions, :first, :last,{ include_blank: ''.html_safe },{ class: 'form-control fx-autocomplete medium-input'}
         = validation_error_message(@error_presenter, 'case_conclusion_id')

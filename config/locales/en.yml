@@ -1101,7 +1101,7 @@ en:
           change_link_label: Change expenses
       transfer_fee:
         fields:
-          page_header: Transfer fee
+          page_header: Transfer details
           page_hint: *fees_vat_prompt
           actual_trial_length: Total days claimed
           quantity: *ppe_quantity
@@ -1543,6 +1543,7 @@ en:
 
         transfer_fee_details_form_step:
           page_title: Enter fees for litigator transfer fees claim
+          page_header: Transfer details
 
         transfer_fees_form_step:
           page_title: Enter fees for litigator transfer fees claim

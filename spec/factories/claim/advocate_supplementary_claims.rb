@@ -15,5 +15,9 @@ FactoryBot.define do
         claim.misc_fees << build(:misc_fee, fee_type: fee_type, claim: claim)
       end
     end
+
+    trait :submitted do
+      after(:create) { |c| c.submit! }
+    end
   end
 end

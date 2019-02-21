@@ -60,6 +60,8 @@ GEM
     annotate (2.7.2)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 13.0)
+    archive-zip (0.11.0)
+      io-like (~> 0.3.0)
     arel (8.0.0)
     ast (2.4.0)
     auto_strip_attributes (2.4.0)
@@ -99,12 +101,18 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (>= 2.0, < 4.0)
+    capybara-selenium (0.0.6)
+      capybara
+      selenium-webdriver
     case_transform (0.2)
       activesupport
     celluloid (0.16.0)
       timers (~> 4.0.0)
     childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
+    chromedriver-helper (2.1.0)
+      archive-zip (~> 0.10)
+      nokogiri (~> 1.8)
     chronic (0.10.2)
     climate_control (0.2.0)
     cliver (0.3.2)
@@ -335,6 +343,7 @@ GEM
     ice_nine (0.11.2)
     inflection (1.0.0)
     inflecto (0.0.2)
+    io-like (0.3.0)
     jaro_winkler (1.5.1)
     jasmine (2.99.0)
       jasmine-core (>= 2.99.0, < 3.0.0)
@@ -567,9 +576,9 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    selenium-webdriver (3.9.0)
+    selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
-      rubyzip (~> 1.2)
+      rubyzip (~> 1.2, >= 1.2.2)
     sentry-raven (1.2.3)
       faraday (>= 0.7.6, < 0.10.x)
     sexp_processor (4.11.0)
@@ -692,6 +701,8 @@ DEPENDENCIES
   byebug
   cancancan (~> 1.15)
   capybara
+  capybara-selenium
+  chromedriver-helper
   climate_control
   cocoon (~> 1.2.6)
   codeclimate-test-reporter
@@ -769,7 +780,6 @@ DEPENDENCIES
   sass-rails (~> 5.0.7)
   scheduler_daemon!
   sdoc (~> 0.4.0)
-  selenium-webdriver
   sentry-raven (~> 1.2.2)
   shell-spinner (~> 1.0, >= 1.0.4)
   shoulda-matchers (>= 4.0.0.rc1)

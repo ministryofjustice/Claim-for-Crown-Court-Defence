@@ -71,4 +71,4 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£714.95'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£721.86'

@@ -8,8 +8,7 @@ ENV["ENV"] ||= 'test'
 
 require 'capybara'
 require 'capybara/cucumber'
-require 'capybara/poltergeist'
-require 'selenium-webdriver'
+require 'selenium/webdriver'
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'site_prism'
@@ -17,11 +16,18 @@ require 'sidekiq/testing'
 require_relative '../../spec/vcr_helper'
 require_relative '../../spec/support/factory_helpers'
 
-Capybara.javascript_driver = :poltergeist
-
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, js_errors: true)
+Capybara.register_driver :headless_chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: { args: %w(headless disable-gpu window-size=1366,768) }
+  )
+  Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities)
 end
+
+Capybara.configure do |config|
+  config.default_max_wait_time = 10 # seconds
+end
+
+Capybara.javascript_driver = :headless_chrome
 
 if ENV['BROWSER'] == 'chrome'
   Capybara.register_driver :chrome do |app|

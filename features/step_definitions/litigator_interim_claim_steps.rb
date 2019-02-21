@@ -10,6 +10,7 @@ end
 
 And(/^I enter (\d+) in the PPE total field$/) do |value|
   @litigator_interim_claim_form_page.interim_fee.ppe_total.set value
+  @litigator_interim_claim_form_page.interim_fee.ppe_total.send_keys(:tab)
   wait_for_ajax
 end
 
@@ -40,11 +41,13 @@ end
 
 And(/^I enter (\d+) in the estimated trial length field$/) do |value|
   @litigator_interim_claim_form_page.interim_fee.estimated_trial_length.set value
+  @litigator_interim_claim_form_page.interim_fee.estimated_trial_length.send_keys(:tab)
   wait_for_ajax
 end
 
 And(/^I enter (\d+) in the estimated retrial length field$/) do |value|
   @litigator_interim_claim_form_page.interim_fee.retrial_estimated_length.set value
+  @litigator_interim_claim_form_page.interim_fee.retrial_estimated_length.send_keys(:tab)
   wait_for_ajax
 end
 

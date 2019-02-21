@@ -532,7 +532,7 @@ en:
           page_title_firm: Add a user to your firm's account
           page_title_chamber: Add a user to your chambers' account
         edit:
-          edit_advocate: 'Edit user'
+          page_heading: Edit %{external_user}'s details
           error: 'error'
           prohibited_save: 'This user has'
           page_title: Edit user account details for %{external_user}

@@ -18,7 +18,6 @@
 #
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
-
 en:
   layouts:
     primary_navigation:
@@ -133,8 +132,6 @@ en:
     how_is_this_calculated_help: &how_is_this_calculated_help How is this calculated?
     miscellaneous_fees: &miscellaneous_fees Miscellaneous fees
     miscellaneous_fee: &miscellaneous_fee Miscellaneous fee
-
-
   activemodel:
     attributes:
       feedback:
@@ -255,7 +252,6 @@ en:
             rate:
               blank: Rate cannot be blank
               numericality: Rate must be greater than or equal to 0
-
   requires_external_user_authorisation: 'Must be signed in as an advocate, litigator or admin user'
   requires_case_worker_authorisation: 'Must be signed in as a case worker or case worker admin'
   requires_super_admin_authorisation: 'Must be signed in as a super admininstrator'
@@ -1189,7 +1185,7 @@ en:
             fixed_fees: "Fixed fees"
             fee_type: *fee_type
             quantity: *quantity
-            quantity_hint: 'Enter a quantity'
+            quantity_hint: Enter a quantity
             rate: *rate
             amount: Total
             prompt_text_html: *graduated_fee_calculators_help
@@ -1498,8 +1494,8 @@ en:
 
         supporting_evidence_form_step:
           page_title: Upload supporting evidence for advocate msupplementary fee claim
-
     litigators:
+
       interim_claims:
         new:
           page_title: &lgfs_interim_claims_title Enter case details for litigator interim fees claim
@@ -1581,6 +1577,7 @@ en:
 
         fixed_fees_form_step:
           page_title: Enter fixed fees for litigator final fees claim
+          page_header: Fixed fees
 
         offence_details_form_step:
           page_title: Enter offence details for litigator final fees claim

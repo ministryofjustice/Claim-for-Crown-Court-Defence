@@ -57,7 +57,7 @@ module API
 
             desc 'Submit calculated totals for quarterly volume performance platform report'
             post do
-              start_of_quarter = Date.parse(params[:start_date]).beginning_of_month
+              start_of_quarter = Time.parse(params[:start_date]).beginning_of_quarter
               filename = filename(start_of_quarter)
               results = quarterly_report_data(filename)
               qvr = Reports::PerformancePlatform::QuarterlyVolume.new(start_of_quarter)

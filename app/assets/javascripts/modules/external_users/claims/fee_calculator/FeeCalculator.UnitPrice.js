@@ -138,10 +138,12 @@
     },
 
     setHint: function(data, context) {
+      console.log('ssdfdf', data);
       var self = this;
       var $label = $(context).closest('.fx-fee-group').find('.form-group.quantity_wrapper').find('.form-hint');
       var $newLabel = self.setHintLabel(data);
       $label.text($newLabel);
+
       data ? $label.show() : $label.hide();
     },
 

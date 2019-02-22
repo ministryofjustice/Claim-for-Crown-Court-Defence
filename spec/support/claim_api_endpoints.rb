@@ -1,5 +1,4 @@
 class ClaimApiEndpoints
-
   CREATE_URL_PATTERN = '/api/external_users/claims%{type}'
   VALIDATE_URL_PATTERN = '/api/external_users/claims%{type}/validate'
   FORBIDDEN_CLAIM_VERBS = [:get, :put, :patch, :delete]
@@ -31,7 +30,7 @@ class ClaimApiEndpoints
     private
 
     def namespace
-      self.type == :advocate ? '' : "/#{self.type}"
+      self.type.to_sym == :advocate ? '' : "/#{self.type}"
     end
   end
 end

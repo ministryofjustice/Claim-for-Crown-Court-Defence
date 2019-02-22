@@ -9,10 +9,10 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
 
   let(:representation_order_date) { Date.new(2017, 6, 1) }
 
-  let!(:provider)      { create(:provider) }
-  let!(:claim)         { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence: create(:offence, :with_fee_scheme)) }
-  let!(:defendant)     { create(:defendant, :without_reporder, claim: claim).reload }
-  let!(:valid_params)  {
+  let!(:provider) { create(:provider) }
+  let!(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence: create(:offence, :with_fee_scheme)) }
+  let!(:defendant) { create(:defendant, :without_reporder, claim: claim).reload }
+  let!(:valid_params) {
     {
         api_key: provider.api_key,
         defendant_id: defendant.uuid,
@@ -35,7 +35,6 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
   end
 
   describe "POST #{endpoint(:representation_orders)}" do
-
     def post_to_create_endpoint(submission_date = Date.new(2017, 7, 1))
       Timecop.freeze(submission_date) { post endpoint(:representation_orders), valid_params, format: :json }
     end
@@ -84,9 +83,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
     end
 
     context 'when params are invalid' do
-      context 'invalid API key' do
-        include_examples "invalid API key create endpoint"
-      end
+      include_examples "invalid API key create endpoint", exclude: :other_provider
 
       context 'missing defendant id' do
         it 'should return 400 and a JSON error array' do
@@ -131,18 +128,15 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
   end
 
   describe "POST #{endpoint(:representation_orders, :validate)}" do
-
     def post_to_validate_endpoint
       post endpoint(:representation_orders, :validate), valid_params, format: :json
     end
 
-   it 'valid requests should return 200 and String true' do
+    include_examples "invalid API key validate endpoint", exclude: :other_provider
+
+    it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint
       expect_validate_success_response
-    end
-
-    context 'invalid API key' do
-      include_examples "invalid API key validate endpoint"
     end
 
     it 'missing required params should return 400 and a JSON error array' do
@@ -162,7 +156,5 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
       post_to_validate_endpoint
       expect_error_response("representation_order_date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])")
     end
-
   end
-
 end

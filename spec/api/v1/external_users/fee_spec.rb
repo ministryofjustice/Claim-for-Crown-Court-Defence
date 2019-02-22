@@ -15,16 +15,16 @@ RSpec.describe API::V1::ExternalUsers::Fee do
     claim.reload
   end
 
-  let!(:provider)         { create(:provider) }
-
+  let!(:provider){ create(:provider) }
+  let!(:other_provider) { create(:provider) }
   let!(:basic_fee_type) { create(:basic_fee_type) }
   let!(:basic_fee_dat_type) { create(:basic_fee_type, :dat) }
-  let!(:misc_fee_type)      { create(:misc_fee_type) }
+  let!(:misc_fee_type) { create(:misc_fee_type) }
   let!(:misc_fee_xupl_type) { create(:misc_fee_type, :miupl) }
-  let!(:fixed_fee_type)     { create(:fixed_fee_type) }
-  let!(:interim_fee_type)   { create(:interim_fee_type) }
+  let!(:fixed_fee_type) { create(:fixed_fee_type) }
+  let!(:interim_fee_type) { create(:interim_fee_type) }
   let!(:graduated_fee_type) { create(:graduated_fee_type) }
-  let!(:transfer_fee_type)  { create(:transfer_fee_type) }
+  let!(:transfer_fee_type) { create(:transfer_fee_type) }
 
   before { seed_fee_schemes }
 
@@ -398,9 +398,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
     end
 
     context 'when fee params are invalid' do
-      context 'invalid API key' do
-        include_examples "invalid API key create endpoint"
-      end
+      include_examples "invalid API key create endpoint", exclude: :other_provider
 
       context "missing expected params" do
         it "should return a JSON error array with required model attributes" do
@@ -467,6 +465,8 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       post endpoint(:fees, :validate), valid_params, format: :json
     end
 
+    include_examples "invalid API key validate endpoint", exclude: :other_provider
+
     context 'non-basic fees' do
       include_examples "fee validate endpoint"
     end
@@ -474,12 +474,6 @@ RSpec.describe API::V1::ExternalUsers::Fee do
     context 'basic fees' do
       let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, rate: 210.00 } }
       include_examples "fee validate endpoint"
-    end
-
-    context 'when fee params are invalid' do
-      context 'invalid API key' do
-        include_examples "invalid API key validate endpoint"
-      end
     end
   end
 end

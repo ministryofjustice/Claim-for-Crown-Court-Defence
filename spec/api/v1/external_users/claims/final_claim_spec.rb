@@ -49,22 +49,14 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
       post ClaimApiEndpoints.for(:final).validate, valid_params, format: :json
     end
 
+    include_examples "invalid API key validate endpoint"
+
     it 'valid requests should return 200 and String true' do
       expect(vendor.provider).to eql(litigator.provider)
       post_to_validate_endpoint
       expect(last_response.status).to eq(200)
       json = JSON.parse(last_response.body)
       expect(json).to eq({ "valid" => true })
-    end
-
-    context 'invalid API key' do
-      include_examples "invalid API key validate endpoint"
-
-      it "should return 401 and JSON error array when it is an API key from another provider's admin" do
-        valid_params[:api_key] = other_provider.api_key
-        post_to_validate_endpoint
-        expect_unauthorised_error("Creator and advocate/litigator must belong to the provider")
-      end
     end
 
     it 'should return 400 and JSON error array when creator email is invalid' do
@@ -137,15 +129,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
     end
 
     context "when claim params are invalid" do
-      context 'invalid API key' do
-        include_examples "invalid API key create endpoint"
-
-        it "should return 401 and JSON error array when it is an API key from another provider" do
-          valid_params[:api_key] = other_provider.api_key
-          post_to_create_endpoint
-          expect_unauthorised_error("Creator and advocate/litigator must belong to the provider")
-        end
-      end
+      include_examples "invalid API key create endpoint"
 
       context "invalid email input" do
         it "should return 400 and a JSON error array when user email is invalid" do
@@ -153,6 +137,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
           post_to_create_endpoint
           expect_error_response("Litigator email is invalid")
         end
+
         it "should return 400 and a JSON error array when creator email is invalid" do
           valid_params[:creator_email] = "non_existent_creator@bigblackhole.com"
           post_to_create_endpoint

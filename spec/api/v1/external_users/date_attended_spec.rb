@@ -7,11 +7,11 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
   ALL_DATES_ATTENDED_ENDPOINTS = [endpoint(:dates_attended, :validate), endpoint(:dates_attended)]
   FORBIDDEN_DATES_ATTENDED_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:provider)     { create(:provider) }
-  let!(:claim)        { create(:claim, source: 'api') }
-  let!(:fee)          { create(:misc_fee, claim: claim) }
-  let!(:from_date)    { claim.earliest_representation_order_date }
-  let!(:to_date)      { from_date + 2.days }
+  let!(:provider) { create(:provider) }
+  let!(:claim) { create(:claim, source: 'api') }
+  let!(:fee) { create(:misc_fee, claim: claim) }
+  let!(:from_date) { claim.earliest_representation_order_date }
+  let!(:to_date) { from_date + 2.days }
   let!(:valid_params) { { api_key: provider.api_key, attended_item_id: fee.reload.uuid, date: from_date.as_json, date_to: to_date.as_json} }
 
   context 'when sending non-permitted verbs' do
@@ -28,7 +28,6 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
   end
 
   describe "POST #{endpoint(:dates_attended)}" do
-
     def post_to_create_endpoint
       post endpoint(:dates_attended), valid_params, format: :json
     end
@@ -64,9 +63,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
     end
 
     context 'when date_attended params are invalid' do
-      context 'invalid API key' do
-        # include_examples "invalid API key create endpoint"
-      end
+      include_examples "invalid API key create endpoint", exclude: :other_provider
 
       context "missing expected params" do
         it "should return a JSON error array with required model attributes" do
@@ -105,18 +102,15 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
   end
 
   describe "POST #{endpoint(:dates_attended, :validate)}" do
-
     def post_to_validate_endpoint
       post endpoint(:dates_attended, :validate), valid_params, format: :json
     end
 
+    include_examples "invalid API key validate endpoint", exclude: :other_provider
+
      it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint
       expect_validate_success_response
-    end
-
-    context 'invalid API key' do
-        # include_examples "invalid API key validate endpoint"
     end
 
     it 'missing required params should return 400 and a JSON error array' do

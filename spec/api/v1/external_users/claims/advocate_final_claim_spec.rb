@@ -167,15 +167,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
     end
 
     context "when claim params are invalid" do
-      context 'invalid API key' do
-        include_examples "invalid API key create endpoint"
-
-        it "should return 401 and JSON error array when it is an API key from another provider" do
-          valid_params[:api_key] = other_provider.api_key
-          post_to_create_endpoint
-          expect_unauthorised_error("Creator and advocate/litigator must belong to the provider")
-        end
-      end
+      include_examples "invalid API key create endpoint"
 
       context "invalid email input" do
         it "should return 400 and a JSON error array when advocate email is invalid" do

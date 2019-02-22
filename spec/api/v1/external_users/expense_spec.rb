@@ -11,9 +11,9 @@ RSpec.describe API::V1::ExternalUsers::Expense do
   let(:parsed_body) { JSON.parse(last_response.body) }
 
   describe "v2" do
-    let!(:provider)       { create(:provider) }
-    let!(:claim)          { create(:claim, source: 'api').reload }
-    let!(:expense_type)   { create(:expense_type, :car_travel) }
+    let!(:provider) { create(:provider) }
+    let!(:claim) { create(:claim, source: 'api').reload }
+    let!(:expense_type) { create(:expense_type, :car_travel) }
 
     let!(:params) do
       {
@@ -69,7 +69,6 @@ RSpec.describe API::V1::ExternalUsers::Expense do
       include_examples "should NOT be able to amend a non-draft claim"
 
       context 'when expense params are valid' do
-
         it "should create expense, return 201 and expense JSON output including UUID" do
           post_to_create_endpoint
           expect(last_response.status).to eq 201
@@ -117,7 +116,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
       context 'when expense params are invalid' do
         context 'invalid API key' do
           let(:valid_params) { params }
-          include_examples "invalid API key create endpoint"
+          include_examples "invalid API key create endpoint", exclude: :other_provider
         end
 
         context "missing expected params" do
@@ -198,7 +197,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
 
       context 'invalid API key' do
         let(:valid_params) { params }
-        include_examples "invalid API key validate endpoint"
+        include_examples "invalid API key validate endpoint", exclude: :other_provider
       end
 
       context "missing expected params" do

@@ -4,14 +4,13 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  RELATIVE_CLAIM_ENDPOINT = 'advocates/supplementary'.freeze
+  SUPPLEMENTARY_CLAIM_ENDPOINT = 'advocates/supplementary'.freeze
 
   let(:claim_class) { Claim::AdvocateSupplementaryClaim }
   let!(:provider) { create(:provider) }
   let!(:other_provider) { create(:provider) }
   let!(:vendor) { create(:external_user, :admin, provider: provider) }
   let!(:advocate) { create(:external_user, :advocate, provider: provider) }
-  let!(:other_vendor) { create(:external_user, :admin, provider: other_provider) }
   let!(:court) { create(:court)}
   let!(:valid_params) do
     {
@@ -35,7 +34,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
 
   # TODO: to be shared with interim_claim_spec.rb (at least)
   context 'when sending non-permitted verbs' do
-    ClaimApiEndpoints.for(RELATIVE_CLAIM_ENDPOINT).all.each do |endpoint| # for each endpoint
+    ClaimApiEndpoints.for(SUPPLEMENTARY_CLAIM_ENDPOINT).all.each do |endpoint| # for each endpoint
       context "to endpoint #{endpoint}" do
         ClaimApiEndpoints.forbidden_verbs.each do |api_verb|
           it "#{api_verb.upcase} should return a status of 405" do
@@ -48,10 +47,12 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
   end
 
   # TODO: to be shared with interim_claim_spec.rb (at least)
-  describe "POST #{ClaimApiEndpoints.for(RELATIVE_CLAIM_ENDPOINT).validate}" do
+  describe "POST #{ClaimApiEndpoints.for(SUPPLEMENTARY_CLAIM_ENDPOINT).validate}" do
     def post_to_validate_endpoint
-      post ClaimApiEndpoints.for(RELATIVE_CLAIM_ENDPOINT).validate, valid_params, format: :json
+      post ClaimApiEndpoints.for(SUPPLEMENTARY_CLAIM_ENDPOINT).validate, valid_params, format: :json
     end
+
+    include_examples "invalid API key validate endpoint"
 
     it 'valid requests should return 200 and String true' do
       expect(vendor.provider).to eql(advocate.provider)
@@ -59,16 +60,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
       expect(last_response.status).to eq(200)
       json = JSON.parse(last_response.body)
       expect(json).to eq({ "valid" => true })
-    end
-
-    context 'invalid API key' do
-      include_examples "invalid API key validate endpoint"
-
-      it "should return 401 and JSON error array when it is an API key from another provider's admin" do
-        valid_params[:api_key] = other_provider.api_key
-        post_to_validate_endpoint
-        expect_unauthorised_error("Creator and advocate/litigator must belong to the provider")
-      end
     end
 
     it "should return 400 and JSON error array when creator email is invalid" do
@@ -91,9 +82,9 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
   end
 
   # TODO: to be shared with interim_claim_spec.rb (at least)
-  describe "POST #{ClaimApiEndpoints.for(RELATIVE_CLAIM_ENDPOINT).create}" do
+  describe "POST #{ClaimApiEndpoints.for(SUPPLEMENTARY_CLAIM_ENDPOINT).create}" do
     def post_to_create_endpoint
-      post ClaimApiEndpoints.for(RELATIVE_CLAIM_ENDPOINT).create, valid_params, format: :json
+      post ClaimApiEndpoints.for(SUPPLEMENTARY_CLAIM_ENDPOINT).create, valid_params, format: :json
     end
 
     context "when claim params are valid" do
@@ -142,15 +133,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
 
     # TODO: to be shared with interim_claim_spec.rb (at least)
     context "when claim params are invalid" do
-      context 'invalid API key' do
-        include_examples "invalid API key create endpoint"
-
-        it "should return 401 and JSON error array when it is an API key from another provider" do
-          valid_params[:api_key] = other_provider.api_key
-          post_to_create_endpoint
-          expect_unauthorised_error("Creator and advocate/litigator must belong to the provider")
-        end
-      end
+      include_examples "invalid API key create endpoint"
 
       context "invalid email input" do
         it "should return 400 and a JSON error array when advocate email is invalid" do
@@ -158,6 +141,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
           post_to_create_endpoint
           expect_error_response("Advocate email is invalid")
         end
+
         it "should return 400 and a JSON error array when creator email is invalid" do
           valid_params[:creator_email] = "non_existent_creator@bigblackhole.com"
           post_to_create_endpoint

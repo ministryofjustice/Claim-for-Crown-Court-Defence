@@ -9,9 +9,9 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
 
   let(:parsed_body) { JSON.parse(last_response.body) }
 
-  let!(:provider)           { create(:provider) }
-  let!(:claim)              { create(:litigator_claim, source: 'api').reload }
-  let!(:disbursement_type)  { create(:disbursement_type, :forensic) }
+  let!(:provider) { create(:provider) }
+  let!(:claim) { create(:litigator_claim, source: 'api').reload }
+  let!(:disbursement_type) { create(:disbursement_type, :forensic) }
 
   let!(:params) do
     {
@@ -105,7 +105,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
     context 'when disbursement params are invalid' do
       context 'invalid API key' do
         let(:valid_params) { params }
-        include_examples "invalid API key create endpoint"
+        include_examples "invalid API key create endpoint", exclude: :other_provider
       end
 
       context "missing expected params" do
@@ -185,7 +185,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
 
     context 'invalid API key' do
       let(:valid_params) { params }
-      include_examples "invalid API key validate endpoint"
+      include_examples "invalid API key validate endpoint", exclude: :other_provider
     end
 
     context "missing expected params" do

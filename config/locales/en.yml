@@ -18,7 +18,6 @@
 #
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
-
 en:
   layouts:
     primary_navigation:
@@ -144,7 +143,7 @@ en:
     not_provided: *not_provided
     not_applicable: *not_applicable
   content:
-    graduated_fee_calculators_help: &graduated_fee_calculators_help Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators init</a> for help.
+    graduated_fee_calculators_help: &graduated_fee_calculators_help Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fees Calculator">graduated fees calculators init</a> for help.
     how_is_this_calculated_help: &how_is_this_calculated_help How is this calculated?
     miscellaneous_fees: &miscellaneous_fees Miscellaneous fees
     miscellaneous_fee: &miscellaneous_fee Miscellaneous fee
@@ -153,7 +152,7 @@ en:
       feedback:
         heading: 'Help us improve this service'
         callout: 'We will use your answers to the questions below to help us build a better service.'
-        rating: 'Overall, how satisfied were you with this service?'
+
         comment: 'Tell us about your experience of using this service today.'
         comment_hint: "Don't include any personal or sensitive information."
         email: 'What is your email address? (Optional)'
@@ -552,6 +551,7 @@ en:
           page_title: Edit user account details for %{external_user}
         form:
           email: *email
+          email_notification: Get email notifications of caseworker messages on claims you created?
           email_confirmation: *email_confirmation
           password: *password
           password_confirmation: *password_confirmation
@@ -560,6 +560,10 @@ en:
           supplier_number: 'Supplier number'
           roles: *roles
           submit: 'Create user'
+          answer_yes: 'Yes'
+          answer_no: 'No'
+          save: Save
+          vat_registered: VAT registered
         change_password:
           error: 'error'
           error_summary: This user password change has
@@ -648,6 +652,8 @@ en:
           claim_type_choice_incomplete: 'AGFS/LGFS claim type choice incomplete'
           invalid_claim_types: 'Invalid bill type selected'
       selection:
+        continue: Continue
+        cancel: Cancel
         page_title_advocate: Choose a bill type for advocate claim
         page_title_litigator: Choose a bill type for litigator claim
         page_title_generic: Choose a bill type for Crown court claim
@@ -838,7 +844,7 @@ en:
           basic_fees: 'Initial fees'
           heading: Basic fees
           fee_prompt_text: |
-            You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
+            You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fees Calculator">graduated fees calculators</a>
             for help.
           fee_type: *fee_type
           quantity: *quantity
@@ -1164,26 +1170,26 @@ en:
         agfs:
           advocate_claim:
             page_title: View claim summary for advocate final fees claim
-            page_heading: Claim for advocate final fee
+            page_heading: Claim for advocate final fees
           advocate_supplementary_claim:
             page_title: View claim summary for advocate supplementary fee claim
-            page_heading: Claim for advocate supplementary fee
+            page_heading: Claim for advocate supplementary fees
           advocate_interim_claim:
             page_title: View claim summary for advocate warrant fees claim
-            page_heading: Claim for advocate interim fee
+            page_heading: Claim for advocate warrant fees
         lgfs:
           final_claim:
             page_title: View claim summary for litigator final fees claim
-            page_heading: Claim for litigator final fee
+            page_heading: Claim for litigator final fees
           litigator_claim:
             page_title: View claim summary for litigator final fees claim
-            page_heading: Claim for litigator final fee
+            page_heading: Claim for litigator final fees
           interim_claim:
             page_title: View claim summary for litigator interim fees claim
-            page_heading: Claim for litigator interim fee
+            page_heading: Claim for litigator interim fees
           transfer_claim:
             page_title: View claim summary for litigator transfer fees claim
-            page_heading: Claim for litigator transfer fee
+            page_heading: Claim for litigator transfer fees
         page_title: View claim summary for litigator transfer fees claim
       fee_fields:
         add_date_attended: 'Add dates'
@@ -1426,7 +1432,7 @@ en:
         fees: Fees
         fees_header_prompt_text_html: *fees_vat_prompt
         fees_calculator_html: |
-            Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help.
+            Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fees Calculator">graduated fees calculators</a> for help.
       summary_claims_sidebar:
         button_label: *continue_to_certification_button
         continue: 'Continue'
@@ -1536,7 +1542,6 @@ en:
 
         supporting_evidence_form_step:
           page_title: Upload supporting evidence for advocate msupplementary fee claim
-
     litigators:
 
       interim_claims:
@@ -1663,6 +1668,16 @@ en:
     determination:
       caption: 'Total of assessed amounts by category'
       summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows'
+    determinations_form:
+      update: Update
+      assessment_summary: Assessment summary
+      reason_for_refusal: Choose reason for refusal
+      reason_for_rejection: Choose reason for rejection
+      claimed_by: Claimed by
+      reason_text: Reason text
+      reason_hint: These reasons will be displayed to providers
+      update_the_claim_status: Update the claim status
+      reason_text: Reason text
     determinations_table:
       caption: 'This section contains a categorised list of amounts claimed and the amount authorised by the LAA'
       summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
@@ -1994,6 +2009,7 @@ en:
       heading: Claim
     claim_history:
       print_messages: Print all messages
+      status: Status
     assessment:
       claimed_by: "Claimed by %{type}"
     scheme_filters:
@@ -2407,3 +2423,4 @@ en:
       comment: 'Tell us about your experience of using this service today.'
       comment_hint: "Don't include any personal or sensitive information."
       send: Send
+      rating: 'Overall, how satisfied were you with this service?'

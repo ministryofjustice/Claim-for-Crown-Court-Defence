@@ -21,39 +21,43 @@
         = user_fields.email_field :email_confirmation, class: "form-control"
 
     - if Settings.email_notification_enabled?
-      .form-section
-        %fieldset.inline
-          %legend
-            = 'Get email notifications of caseworker messages on claims you created?'
+      .form-group
+        %fieldset.inline{"aria-describedby": "radio-control-legend-email"}
+          %legend#radio-control-legend-email
+            %span.heading-medium
+              = t('.email_notification')
+
           = user_fields.collection_radio_buttons(:email_notification_of_message, [true, false], :to_s, :to_s) do |b|
             .multiple-choice
-              = b.radio_button
-              = b.label { (b.value.to_s == 'true' ? 'Yes' : 'No') }
+              = b.radio_button("aria-labelledby": "radio-control-legend-email #{b.text.to_css_class}")
+              = b.label(id: b.text.to_css_class) { (b.value.to_s == 'true' ? t('.answer_yes') : t('.answer_no')) }
 
     - if current_user.persona.admin?
-      .form-section
-        %fieldset.inline.js-advocate-roles.form-section
-          %legend.heading-medium
-            = 'Roles'
+      .form-group
+        %fieldset.inline.js-advocate-roles{"aria-describedby": "checkbox-control-legend-roles"}
+          %legend#checkbox-control-legend-roles
+            %span.heading-medium
+              = t('.roles')
 
           = f.collection_check_boxes(:roles, @external_user.available_roles, :to_s, :to_s) do |b|
             .multiple-choice
-              = b.check_box
-              = b.label { b.value.humanize }
+              = b.check_box("aria-labelledby": "checkbox-control-legend-roles #{b.text.to_css_class}")
+              = b.label(id: b.text.to_css_class) { b.value.humanize }
 
-        - if current_user.persona.provider.chamber?
-          .js-chamber-advocates-only
-            %fieldset.inline.form-section
-              %legend.heading-medium
-                = "Vat registered"
+    - if current_user.persona.provider.chamber?
+      .form-group.js-chamber-advocates-only
+        %fieldset.inline{"aria-describedby": "checkbox-control-legend-vat"}
+          %legend#checkbox-control-legend-vat
+            = t('.vat_registered')
 
-              = f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
-                .multiple-choice
-                  = b.radio_button
-                  = b.label { (b.value.to_s == 'true' ? 'Yes' : 'No') }
+          = f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
+            .multiple-choice
+              = b.radio_button("aria-labelledby": "checkbox-control-legend-vat #{b.text.to_css_class}")
+              = b.label(id: b.text.to_css_class) { (b.value.to_s == 'true' ? t('.answer_yes') : t('.answer_no')) }
 
-            = f.label :supplier_number, t(".supplier_number"), class: "form-label"
-            = f.text_field :supplier_number, class: "form-control"
+      .form-group
+        = f.label :supplier_number, t('.supplier_number'), class: 'form-label-bold'
+        = f.text_field :supplier_number, class: 'form-control'
 
   .form-group
-    = f.submit 'Save', class: "button"
+    = f.submit t('.save'), class: 'button'

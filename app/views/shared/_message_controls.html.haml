@@ -3,12 +3,16 @@
 
   - if current_user_persona_is?(ExternalUser) && @claim.redeterminable?
     .js-hide-status
-      = f.label t('.update_claim_status'), class: "form-label bold-normal"
-      .form-group.inline.js-test-claim-action
-        = f.collection_radio_buttons(:claim_action, Claims::ExternalUserActions.available_for(@claim), :to_s, :to_s) do |b|
-          .multiple-choice
-            = b.radio_button
-            = b.label { b.value.humanize }
+      %fieldset.inline{"aria-describedby": "radio-control-legend-1"}
+        %legend#radio-control-legend-1
+          %span.form-label-bold
+            = t('.update_claim_status')
+
+        .form-group.inline.js-test-claim-action
+          = f.collection_radio_buttons(:claim_action, Claims::ExternalUserActions.available_for(@claim), :to_s, :to_s) do |b|
+            .multiple-choice
+              = b.radio_button("aria-labelledby": "radio-control-legend-1 #{b.text.to_css_class}")
+              = b.label(id: b.value.to_css_class) { b.value.humanize }
 
   - if messaging_permitted?(message) || current_user_is_caseworker?
     .grid-row.js-test-send-buttons

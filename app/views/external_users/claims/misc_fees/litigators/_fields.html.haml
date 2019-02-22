@@ -2,7 +2,7 @@
   = t('.page_intro_html')
 
 #misc-fees.mod-fees
-  .misc-fee-group-wrapper
+  .misc-fee-group-wrapper.fx-numberedList-wrapper
     = f.fields_for :misc_fees do |misc_fee_fields|
       - @misc_fee_count += 1
       = render partial: 'external_users/claims/misc_fees/litigators/misc_fee_fields', locals: { f: misc_fee_fields }

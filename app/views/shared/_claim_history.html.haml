@@ -11,9 +11,10 @@
   .messages-print-link
     = link_to t('.print_messages'), open_messages_url, target: '_blank'
   .message-status
-    = "Status:"
+    = t('.status')
     %span.message-success
     %span.message-error
+
   - if show_message_controls?(claim)
     .js-controls.message-controls{"data-auth-url" => message_controls_url }
       = render partial: "shared/message_controls", locals: {message: @message }

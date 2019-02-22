@@ -7,9 +7,6 @@
   - if claim.agfs?
     = render partial: 'external_users/claims/advocate_category_summary', locals: { claim: claim }
 
-    %p
-      &nbsp;
-
   - if claim.warrant_fee.nil?
     %p
       There is no warrant fee for this claim

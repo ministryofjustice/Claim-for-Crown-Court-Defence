@@ -5,7 +5,6 @@
         %fieldset
           %legend.form-label-bold
             = t('.type_of_fee')
-            / <span class="form-hint"></span>
           = f.fields_for :fixed_fees do |fixed_fee_fields|
             - @fixed_fee_count += 1
             = render 'external_users/claims/fixed_fees/advocates/fixed_fee_fields', f: fixed_fee_fields

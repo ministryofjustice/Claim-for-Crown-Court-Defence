@@ -1,36 +1,39 @@
 = form_for [:case_workers, :admin, @case_worker], builder: AdpFormBuilder do |f|
   = f.fields_for :user do |user_fields|
-    %fieldset
-      %legend.heading-medium
-        = t('.case_worker_details')
+    %h2.heading-medium
+      = t('.case_worker_details')
 
-      = user_fields.adp_text_field :first_name, label: t('.first_name')
+    = user_fields.adp_text_field :first_name, label: t('.first_name')
 
-      = user_fields.adp_text_field :last_name, label: t('.last_name')
+    = user_fields.adp_text_field :last_name, label: t('.last_name')
 
-      = user_fields.adp_text_field :email, label: t('.email')
+    = user_fields.adp_text_field :email, label: t('.email')
 
-      = user_fields.adp_text_field :last_name, label: t('.last_name'), errors: @error_presenter
+    = user_fields.adp_text_field :last_name, label: t('.last_name'), errors: @error_presenter
 
-      - if @case_worker.new_record?
-        = user_fields.adp_text_field :email_confirmation, label: t('.email_confirmation')
+    - if @case_worker.new_record?
+      = user_fields.adp_text_field :email_confirmation, label: t('.email_confirmation')
 
-      %fieldset.inline
-        %legend
-          = t('.location')
-        .form-group
-          = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
-            .multiple-choice
-              = b.radio_button
-              = b.label { b.object.name }
+    .form-group
+      %fieldset.inline{'aria-describedby': 'radio-control-legend-location'}
+        %legend#radio-control-legend-location
+          %span.form-label-bold
+            = t('.location')
+        = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
+          .multiple-choice
+            = b.radio_button("aria-labelledby": "radio-control-legend-location #{b.text.to_css_class}")
+            = b.label(id: b.text.to_css_class)  { b.object.name }
 
-      %fieldset.inline
-        %legend
-          = t('.roles')
-        .form-group
-          = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
-            .multiple-choice
-              = b.check_box
-              = b.label { b.value.humanize }
 
-    = f.submit t('.save'), class: "button"
+    .form-group
+      %fieldset.inline{'aria-describedby': 'checkbox-control-legend-roles'}
+        %legend#checkbox-control-legend-roles
+          %span.form-label-bold
+            = t('.roles')
+
+        = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
+          .multiple-choice
+            = b.check_box("aria-labelledby": "checkbox-control-legend-roles #{b.text.to_css_class}")
+            = b.label(id: b.text.to_css_class)  { b.value.humanize }
+
+    = f.submit t('.save'), class: 'button'

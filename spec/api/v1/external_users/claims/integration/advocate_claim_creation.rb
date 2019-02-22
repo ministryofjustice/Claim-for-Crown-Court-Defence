@@ -69,7 +69,7 @@ RSpec.describe 'API claim creation for AGFS' do
   let(:daily_attendance_3) { Fee::BaseFeeType.find_by(unique_code: 'BADAF') }
   let(:daily_attendance_2) { Fee::BaseFeeType.find_by(unique_code: 'BADAT') }
   let(:fixed_fee) { Fee::BaseFeeType.find_by(unique_code: 'FXACV') }
-  let(:fixed_uplift) { Fee::BaseFeeType.find_by(unique_code: 'FXACU') }
+  let(:fixed_uplift) { Fee::BaseFeeType.find_by(unique_code: 'FXNOC') }
   let(:miscellaneous_fee) { Fee::BaseFeeType.find_by(unique_code: 'MIAPH') }
   let(:miscellaneous_uplift) { Fee::BaseFeeType.find_by(unique_code: 'MIAHU') }
   let(:expense_car) { ExpenseType.find_by(unique_code: 'CAR') }

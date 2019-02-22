@@ -1,11 +1,17 @@
 require 'rails_helper'
 
-describe API::V1::ExternalUsers::Claim do
+RSpec.describe API::V1::ExternalUsers::Claim do
   include Rack::Test::Methods
 
   CLAIM_ENDPOINTS = %w(
     /api/external_users/claims
     /api/external_users/claims/validate
+
+    /api/external_users/claims/advocates/interim
+    /api/external_users/claims/advocates/interim/validate
+
+    /api/external_users/claims/advocates/supplementary
+    /api/external_users/claims/advocates/supplementary/validate
 
     /api/external_users/claims/final
     /api/external_users/claims/final/validate

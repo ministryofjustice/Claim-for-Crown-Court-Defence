@@ -4,6 +4,9 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
+  RELATIVE_CLAIM_ENDPOINT = 'advocates/interim'.freeze
+
+  let(:claim_class) { Claim::AdvocateInterimClaim }
   let!(:provider)       { create(:provider) }
   let!(:other_provider) { create(:provider) }
   let!(:vendor)         { create(:external_user, :admin, provider: provider) }
@@ -29,7 +32,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
   end
 
   context 'when sending non-permitted verbs' do
-    ClaimApiEndpoints.for('advocates/interim').all.each do |endpoint| # for each endpoint
+    ClaimApiEndpoints.for(RELATIVE_CLAIM_ENDPOINT).all.each do |endpoint| # for each endpoint
       context "to endpoint #{endpoint}" do
         ClaimApiEndpoints.forbidden_verbs.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
           it "#{api_verb.upcase} should return a status of 405" do
@@ -41,9 +44,9 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
     end
   end
 
-  describe "POST #{ClaimApiEndpoints.for('advocates/interim').validate}" do
+  describe "POST #{ClaimApiEndpoints.for(RELATIVE_CLAIM_ENDPOINT).validate}" do
     def post_to_validate_endpoint
-      post ClaimApiEndpoints.for('advocates/interim').validate, valid_params, format: :json
+      post ClaimApiEndpoints.for(RELATIVE_CLAIM_ENDPOINT).validate, valid_params, format: :json
     end
 
     it 'valid requests should return 200 and String true' do
@@ -84,9 +87,9 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
     end
   end
 
-  describe "POST #{ClaimApiEndpoints.for('advocates/interim').create}" do
+  describe "POST #{ClaimApiEndpoints.for(RELATIVE_CLAIM_ENDPOINT).create}" do
     def post_to_create_endpoint
-      post ClaimApiEndpoints.for('advocates/interim').create, valid_params, format: :json
+      post ClaimApiEndpoints.for(RELATIVE_CLAIM_ENDPOINT).create, valid_params, format: :json
     end
 
     context "when claim params are valid" do
@@ -95,7 +98,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
         expect(last_response.status).to eq(201)
         json = JSON.parse(last_response.body)
         expect(json['id']).not_to be_nil
-        expect(Claim::AdvocateInterimClaim.active.find_by(uuid: json['id']).uuid).to eq(json['id'])
+        expect(claim_class.active.find_by(uuid: json['id']).uuid).to eq(json['id'])
       end
 
       it "should exclude API key, creator email and advocate email from response" do
@@ -108,11 +111,11 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
       end
 
       it "should create one new claim" do
-        expect{ post_to_create_endpoint }.to change { Claim::AdvocateInterimClaim.active.count }.by(1)
+        expect{ post_to_create_endpoint }.to change { claim_class.active.count }.by(1)
       end
 
       context "the new claim should" do
-        let(:claim) { Claim::AdvocateInterimClaim.active.last }
+        let(:claim) { claim_class.active.last }
 
         before(:each) {
           post_to_create_endpoint
@@ -166,7 +169,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
         end
 
         it "should not create a new claim" do
-          expect{ post_to_create_endpoint }.not_to change { Claim::AdvocateInterimClaim.active.count }
+          expect{ post_to_create_endpoint }.not_to change { claim_class.active.count }
         end
       end
 
@@ -201,7 +204,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
         end
 
         it "should not create a new claim" do
-          expect{ post_to_create_endpoint }.not_to change { Claim::AdvocateInterimClaim.active.count }
+          expect{ post_to_create_endpoint }.not_to change { claim_class.active.count }
         end
       end
     end

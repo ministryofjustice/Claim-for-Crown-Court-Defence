@@ -4,6 +4,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
+  let(:claim_class) { Claim::AdvocateClaim }
   let!(:provider)       { create(:provider) }
   let!(:other_provider) { create(:provider) }
   let!(:vendor)         { create(:external_user, :admin, provider: provider) }
@@ -32,64 +33,15 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
 
   after(:all) { clean_database }
 
-  describe 'vendor' do
-    it 'should belong to same provider as advocate' do
-      expect(vendor.provider).to eql(advocate.provider)
-    end
-  end
+  include_examples 'test setup'
+  it_behaves_like 'a claim endpoint', relative_endpoint: :advocate
+  it_behaves_like 'an advocate claim validate endpoint', relative_endpoint: :advocate
+  it_behaves_like 'an advocate claim create endpoint', relative_endpoint: :advocate
 
-  context 'when sending non-permitted verbs' do
-    ClaimApiEndpoints.for(:advocate).all.each do |endpoint| # for each endpoint
-      context "to endpoint #{endpoint}" do
-        ClaimApiEndpoints.forbidden_verbs.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
-          it "#{api_verb.upcase} should return a status of 405" do
-            response = send api_verb, endpoint, format: :json
-            expect(response.status).to eq 405
-          end
-        end
-      end
-    end
-  end
-
+  # TODO: write a generic date error handling spec and share
   describe "POST #{ClaimApiEndpoints.for(:advocate).validate}" do
-    def post_to_validate_endpoint
+    subject(:post_to_validate_endpoint) do
       post ClaimApiEndpoints.for(:advocate).validate, valid_params, format: :json
-    end
-
-    it 'valid requests should return 200 and String true' do
-      expect(vendor.provider).to eql(advocate.provider)
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(200)
-      json = JSON.parse(last_response.body)
-      expect(json).to eq({ "valid" => true })
-    end
-
-    context 'invalid API key' do
-      include_examples "invalid API key validate endpoint"
-
-      it "should return 401 and JSON error array when it is an API key from another provider's admin" do
-        valid_params[:api_key] = other_provider.api_key
-        post_to_validate_endpoint
-        expect_unauthorised_error("Creator and advocate/litigator must belong to the provider")
-      end
-    end
-
-    it "should return 400 and JSON error array when creator email is invalid" do
-      valid_params[:creator_email] = "non_existent_admin@bigblackhole.com"
-      post_to_validate_endpoint
-      expect_error_response("Creator email is invalid")
-    end
-
-    it "should return 400 and JSON error array when advocate email is invalid" do
-      valid_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
-      post_to_validate_endpoint
-      expect_error_response("Advocate email is invalid")
-    end
-
-    it 'missing required params should return 400 and a JSON error array' do
-      valid_params.delete(:case_number)
-      post_to_validate_endpoint
-      expect_error_response("Enter a case number")
     end
 
     it 'returns 400 and JSON error when dates are not in acceptable format' do
@@ -113,111 +65,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
         "retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"
       ].each do |error|
         expect(body).to include(error)
-      end
-    end
-  end
-
-  describe "POST #{ClaimApiEndpoints.for(:advocate).create}" do
-    def post_to_create_endpoint
-      post ClaimApiEndpoints.for(:advocate).create, valid_params, format: :json
-    end
-
-    context "when claim params are valid" do
-      it "should create claim, return 201 and claim JSON output including UUID, but not API key" do
-        post_to_create_endpoint
-        expect(last_response.status).to eq(201)
-        json = JSON.parse(last_response.body)
-        expect(json['id']).not_to be_nil
-        expect(Claim::AdvocateClaim.active.find_by(uuid: json['id']).uuid).to eq(json['id'])
-      end
-
-      it "should exclude API key, creator email and advocate email from response" do
-        post_to_create_endpoint
-        expect(last_response.status).to eq(201)
-        json = JSON.parse(last_response.body)
-        expect(json['api_key']).to be_nil
-        expect(json['creator_email']).to be_nil
-        expect(json['advocate_email']).to be_nil
-      end
-
-      it "should create one new claim" do
-        expect{ post_to_create_endpoint }.to change { Claim::AdvocateClaim.active.count }.by(1)
-      end
-
-      context "the new claim should" do
-        let(:claim) { Claim::AdvocateClaim.active.last }
-
-        before(:each) {
-          post_to_create_endpoint
-        }
-
-        it "have the same attributes as described in params" do
-          valid_params.each do |attribute, value|
-            next if [:api_key, :creator_email, :advocate_email].include?(attribute) # because the saved claim record does not have these attribute
-            valid_params[attribute] = value.to_date if claim.send(attribute).class.eql?(Date) # because the saved claim record has Date objects but the param has date strings
-            expect(claim.send(attribute).to_s).to eq valid_params[attribute].to_s # some strings are converted to ints on save
-          end
-        end
-
-        it "belong to the advocate whose email was specified in params" do
-          expected_owner = User.find_by(email: valid_params[:advocate_email])
-          expect(claim.external_user).to eq expected_owner.persona
-        end
-      end
-    end
-
-    context "when claim params are invalid" do
-      include_examples "invalid API key create endpoint"
-
-      context "invalid email input" do
-        it "should return 400 and a JSON error array when advocate email is invalid" do
-          valid_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
-          post_to_create_endpoint
-          expect_error_response("Advocate email is invalid")
-        end
-        it "should return 400 and a JSON error array when creator email is invalid" do
-          valid_params[:creator_email] = "non_existent_creator@bigblackhole.com"
-          post_to_create_endpoint
-          expect_error_response("Creator email is invalid")
-        end
-      end
-
-      context "missing expected params" do
-        it "should return a JSON error array when required model attributes are missing" do
-          valid_params.delete(:case_type_id)
-          valid_params.delete(:case_number)
-          post_to_create_endpoint
-          expect_error_response("Choose a case type",0)
-          expect_error_response("Enter a case number",1)
-        end
-      end
-
-      context "existing but invalid value" do
-        it "should return 400 and JSON error array of model validation BLANK errors" do
-          valid_params[:estimated_trial_length] = -1
-          valid_params[:actual_trial_length] = -1
-          post_to_create_endpoint
-          expect_error_response("Enter a whole number of days for the estimated trial length",0)
-          expect_error_response("Enter a whole number of days for the actual trial length",1)
-        end
-
-        it "should return 400 and JSON error array of model validation INVALID errors" do
-          valid_params[:estimated_trial_length] = nil
-          valid_params[:actual_trial_length] = nil
-          post_to_create_endpoint
-          expect_error_response("Enter an estimated trial length",0)
-          expect_error_response("Enter an actual trial length",1)
-        end
-      end
-
-      context "unexpected error" do
-        it "should return 400 and JSON error array of error message" do
-          allow_any_instance_of(Claim::BaseClaim).to receive(:save!).and_raise(StandardError, 'my unexpected error')
-          post_to_create_endpoint
-          expect(last_response.status).to eq(400)
-          json = JSON.parse(last_response.body)
-          expect_error_response("my unexpected error")
-        end
       end
     end
   end

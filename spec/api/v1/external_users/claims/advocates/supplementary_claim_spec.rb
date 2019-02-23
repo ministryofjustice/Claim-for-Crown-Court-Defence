@@ -25,14 +25,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
 
   after(:all) { clean_database }
 
-  # TODO: to be shared with interim_claim_spec.rb (at least)
-  describe 'vendor' do
-    it 'should belong to same provider as advocate' do
-      expect(vendor.provider).to eql(advocate.provider)
-    end
-  end
-
-  include_examples 'sending non-permitted verbs', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT
-  include_examples 'POST to claim validate endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT
-  include_examples 'POST to claim create endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT
+  include_examples 'test setup'
+  it_behaves_like 'a claim endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT
+  it_behaves_like 'an advocate claim validate endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT
+  it_behaves_like 'an advocate claim create endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT
 end

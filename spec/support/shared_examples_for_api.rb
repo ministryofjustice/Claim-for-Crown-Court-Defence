@@ -87,12 +87,20 @@ RSpec.shared_examples "malformed or not iso8601 compliant dates" do |options|
   end
 end
 
-RSpec.shared_examples 'sending non-permitted verbs' do |options|
+RSpec.shared_examples 'test setup' do
+   describe 'test setup' do
+    it 'vendor should belong to same provider as advocate' do
+      expect(vendor.provider).to eql(advocate.provider)
+    end
+  end
+end
+
+RSpec.shared_examples 'a claim endpoint' do |options|
   context 'when sending non-permitted verbs' do
     ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).all.each do |endpoint|
       context "to endpoint #{endpoint}" do
         ClaimApiEndpoints.forbidden_verbs.each do |api_verb|
-          it "#{api_verb.upcase} should return a status of 405" do
+          it "#{api_verb.upcase} returns a status of 405" do
             response = send api_verb, endpoint, format: :json
             expect(response.status).to eq 405
           end
@@ -102,7 +110,7 @@ RSpec.shared_examples 'sending non-permitted verbs' do |options|
   end
 end
 
-RSpec.shared_examples 'POST to claim validate endpoint' do |options|
+RSpec.shared_examples 'an advocate claim validate endpoint' do |options|
   describe "POST #{ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate}" do
     subject(:post_to_validate_endpoint) do
       post ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate, valid_params, format: :json
@@ -110,7 +118,7 @@ RSpec.shared_examples 'POST to claim validate endpoint' do |options|
 
     include_examples "invalid API key validate endpoint"
 
-    it 'valid requests should return 200 and String true' do
+    it 'valid request returns 200 and String true' do
       expect(vendor.provider).to eql(advocate.provider)
       post_to_validate_endpoint
       expect(last_response.status).to eq(200)
@@ -118,19 +126,19 @@ RSpec.shared_examples 'POST to claim validate endpoint' do |options|
       expect(json).to eq({ "valid" => true })
     end
 
-    it "should return 400 and JSON error array when creator email is invalid" do
+    it "returns 400 and JSON error array when creator email is invalid" do
       valid_params[:creator_email] = "non_existent_admin@bigblackhole.com"
       post_to_validate_endpoint
       expect_error_response("Creator email is invalid")
     end
 
-    it "should return 400 and JSON error array when advocate email is invalid" do
+    it "returns 400 and JSON error array when advocate email is invalid" do
       valid_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
       post_to_validate_endpoint
       expect_error_response("Advocate email is invalid")
     end
 
-    it 'missing required params should return 400 and a JSON error array' do
+    it 'missing required params returns 400 and a JSON error array' do
       valid_params.delete(:case_number)
       post_to_validate_endpoint
       expect_error_response("Enter a case number")
@@ -138,7 +146,7 @@ RSpec.shared_examples 'POST to claim validate endpoint' do |options|
   end
 end
 
-RSpec.shared_examples 'POST to claim create endpoint' do |options|
+RSpec.shared_examples 'an advocate claim create endpoint' do |options|
   describe "POST #{ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).create}" do
     subject(:post_to_create_endpoint) do
       post ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).create, valid_params, format: :json
@@ -192,13 +200,13 @@ RSpec.shared_examples 'POST to claim create endpoint' do |options|
       include_examples "invalid API key create endpoint"
 
       context "invalid email input" do
-        it "should return 400 and a JSON error array when advocate email is invalid" do
+        it "returns 400 and a JSON error array when advocate email is invalid" do
           valid_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
           post_to_create_endpoint
           expect_error_response("Advocate email is invalid")
         end
 
-        it "should return 400 and a JSON error array when creator email is invalid" do
+        it "returns 400 and a JSON error array when creator email is invalid" do
           valid_params[:creator_email] = "non_existent_creator@bigblackhole.com"
           post_to_create_endpoint
           expect_error_response("Creator email is invalid")
@@ -208,7 +216,7 @@ RSpec.shared_examples 'POST to claim create endpoint' do |options|
       context "missing expected params" do
         before { valid_params.delete(:case_number) }
 
-        it "should return a JSON error array when required model attributes are missing" do
+        it "returns a JSON error array when required model attributes are missing" do
           post_to_create_endpoint
           expect_error_response("Enter a case number")
         end
@@ -219,7 +227,7 @@ RSpec.shared_examples 'POST to claim create endpoint' do |options|
       end
 
       context "existing but invalid value" do
-        it "should return 400 and JSON error array of model validation BLANK errors" do
+        it "returns 400 and JSON error array of model validation BLANK errors" do
           valid_params[:court_id] = -1
           valid_params[:case_number] = -1
           post_to_create_endpoint
@@ -227,7 +235,7 @@ RSpec.shared_examples 'POST to claim create endpoint' do |options|
           expect_error_response("The case number must be in the format A20161234", 1)
         end
 
-        it "should return 400 and JSON error array of model validation INVALID errors" do
+        it "returns 400 and JSON error array of model validation INVALID errors" do
           valid_params[:court_id] = nil
           valid_params[:case_number] = nil
           post_to_create_endpoint
@@ -241,7 +249,7 @@ RSpec.shared_examples 'POST to claim create endpoint' do |options|
           allow_any_instance_of(Claim::BaseClaim).to receive(:save!).and_raise(StandardError, 'my unexpected error')
         end
 
-        it "should return 400 and JSON error array of error message" do
+        it "returns 400 and JSON error array of error message" do
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           json = JSON.parse(last_response.body)
@@ -257,21 +265,21 @@ RSpec.shared_examples 'POST to claim create endpoint' do |options|
 end
 
 RSpec.shared_examples "fee validate endpoint" do
-  it 'valid requests should return 200 and String true' do
+  it 'valid request returns 200 and String true' do
     post_to_validate_endpoint
     expect(last_response.status).to eq 200
     json = JSON.parse(last_response.body)
     expect(json).to eq({ "valid" => true })
   end
 
-  it 'missing required params should return 400 and a JSON error array' do
+  it 'missing required params returns 400 and a JSON error array' do
     valid_params.delete(:fee_type_id)
     post_to_validate_endpoint
     expect(last_response.status).to eq 400
     expect(last_response.body).to eq(json_error_response)
   end
 
-  it 'invalid claim id should return 400 and a JSON error array' do
+  it 'invalid claim id returns 400 and a JSON error array' do
     valid_params[:claim_id] = SecureRandom.uuid
     post_to_validate_endpoint
     expect(last_response.status).to eq 400

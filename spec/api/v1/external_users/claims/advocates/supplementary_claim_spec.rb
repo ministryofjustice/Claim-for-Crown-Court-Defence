@@ -16,7 +16,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
     {
       :api_key => provider.api_key,
       :creator_email => vendor.user.email,
-      :advocate_email => advocate.user.email,
+      :user_email => advocate.user.email,
       :case_number => 'T20191234',
       :advocate_category => 'Leading junior',
       :court_id => court.id
@@ -25,8 +25,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
 
   after(:all) { clean_database }
 
-  include_examples 'test setup'
+  include_examples 'advocate claim test setup'
   it_behaves_like 'a claim endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT
-  it_behaves_like 'an advocate claim validate endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT
-  it_behaves_like 'an advocate claim create endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT
+  it_behaves_like 'a claim validate endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT
+  it_behaves_like 'a claim create endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT
 end

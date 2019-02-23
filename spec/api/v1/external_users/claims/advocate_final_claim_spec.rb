@@ -15,7 +15,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
   let!(:valid_params)   { {
       :api_key => provider.api_key,
       :creator_email => vendor.user.email,
-      :advocate_email => advocate.user.email,
+      :user_email => advocate.user.email,
       :case_type_id => FactoryBot.create(:case_type, :retrial).id,
       :case_number => 'A20161234',
       :first_day_of_trial => "2015-01-01",
@@ -33,10 +33,10 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
 
   after(:all) { clean_database }
 
-  include_examples 'test setup'
+  include_examples 'advocate claim test setup'
   it_behaves_like 'a claim endpoint', relative_endpoint: :advocate
-  it_behaves_like 'an advocate claim validate endpoint', relative_endpoint: :advocate
-  it_behaves_like 'an advocate claim create endpoint', relative_endpoint: :advocate
+  it_behaves_like 'a claim validate endpoint', relative_endpoint: :advocate
+  it_behaves_like 'a claim create endpoint', relative_endpoint: :advocate
 
   # TODO: write a generic date error handling spec and share
   describe "POST #{ClaimApiEndpoints.for(:advocate).validate}" do

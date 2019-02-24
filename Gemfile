@@ -6,7 +6,7 @@ gem 'amoeba',                 '~> 3.1.0'
 gem 'auto_strip_attributes',  '~> 2.4.0'
 gem 'aws-sdk',                '~> 2'
 gem 'awesome_print'
-gem 'baby_squeel',            '~> 1.2.0'
+gem 'baby_squeel',            '~> 1.3.1'
 gem 'cancancan',              '~> 1.15'
 gem 'cocoon',                 '~> 1.2.6'
 gem 'devise',                 '~> 4.4.3'
@@ -28,7 +28,7 @@ gem 'grape-swagger-rails',    '~> 0.3.0'
 gem 'haml-rails',             '~> 1.0.0'
 gem 'hashdiff'
 gem 'hashie-forbidden_attributes', '>= 0.1.1'
-gem 'jquery-rails',           '~> 4.3.1'
+gem 'jquery-rails',           '~> 4.3.3'
 gem 'json-schema',            '~> 2.6.2'
 gem 'nokogiri',               '~> 1.8'
 gem 'kaminari',               '~> 0.17.0'
@@ -40,7 +40,7 @@ gem 'paperclip',              '~> 5.3.0'
 gem 'paper_trail',            '~> 9.0.2'
 gem 'pdf-forms'
 gem 'pg',                     '~> 0.18.2'
-gem 'rails',                  '>= 5.1.0', '< 5.2'
+gem 'rails',                  '= 5.2.0'
 gem 'redis',                  '~> 3.3.1'
 gem 'rubyzip'
 gem 'config',                 '~> 1.2' # this gem provides our Settings.xxx mechanism
@@ -74,7 +74,7 @@ end
 
 group :development, :devunicorn do
   gem 'meta_request'
-  gem 'rubocop', '~> 0.50'
+  gem 'rubocop', '~> 0.50', '< 0.66'
 end
 
 group :development, :devunicorn, :test do
@@ -93,7 +93,7 @@ group :development, :devunicorn, :test do
   gem 'rspec-collection_matchers'
   gem 'puma'
   gem 'parallel_tests'
-  gem 'site_prism'
+  gem 'site_prism',         '~> 2.9'
   gem 'guard-jasmine',      '~> 2.0'
   gem 'guard-rspec'
   gem 'guard-rubocop'
@@ -108,7 +108,7 @@ group :test do
   gem "chromedriver-helper"
   gem 'climate_control'
   gem 'codeclimate-test-reporter',  require: false
-  gem 'cucumber-rails',             require: false
+  gem 'cucumber-rails',             '~> 1.6.0', require: false
   gem 'database_cleaner'
   gem 'json_spec'
   gem 'kaminari-rspec'

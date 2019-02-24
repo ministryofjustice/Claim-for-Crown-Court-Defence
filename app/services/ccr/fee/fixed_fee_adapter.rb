@@ -42,7 +42,7 @@ module CCR
         FXASE: zip(%w[AGFS_FEE AGFS_APPEAL_SEN]), # Appeal against sentence
         FXCBR: zip(%w[AGFS_FEE AGFS_ORDER_BRCH]), # Breach of Crown Court order
         FXCSE: zip(%w[AGFS_FEE AGFS_COMMITTAL]), # Committal for Sentence
-        FXENP: zip(%w[AGFS_FEE AGFS_FEE]), # Elected cases not proceeded
+        FXENP: zip(%w[AGFS_FEE AGFS_FEE]) # Elected cases not proceeded
       }.freeze
 
       def claimed?

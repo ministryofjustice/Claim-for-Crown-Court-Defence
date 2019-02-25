@@ -11,6 +11,92 @@
 
 %section.api-documentation
   %hr
+  %h2 28th February 2019
+  %ul.list-bullet
+    %li
+      Addition of Advocate supplementary claim type endpoints
+      %br/
+      %br/
+      In line with the web application interface, new endpoints to facilitate creation of "Advocate supplementary claims" have been added.
+      %br/
+      %br/
+
+      The new endpoints are interactively documented at the links below:
+      %ul.list-bullet
+        %li
+          %a{ href: '/api/documentation?v=1#!/api/postApiExternalUsersClaimsAdvocatesSupplementary', target: '_blank' } advocate supplementary claim creation
+        %li
+          %a{ href: '/api/documentation?v=1#!/api/postApiExternalUsersClaimsAdvocatesSupplementaryValidate', target: '_blank' } advocate supplementary claim validate
+      %br/
+
+      Please note that only the following miscellaneous fees are claimable via this claim type currently:
+      %br/
+      %table
+        %thead
+          %tr
+            %th
+              Unique code
+            %th
+              Description
+        %tbody
+          %tr
+            %td
+              MIWPF
+            %td
+              Wasted preparation fee
+          %tr
+            %td
+              MISPF
+            %td
+              Special preparation fee
+          %tr
+            %td
+              MIDSU
+            %td
+              Deferred sentence hearings uplift
+          %tr
+            %td
+              MIDSE
+            %td
+              Deferred sentence hearings
+          %tr
+            %td
+              MIDTW
+            %td
+              Confiscation hearings (whole day)
+          %tr
+            %td
+              MIDWU
+            %td
+              Confiscation hearings (whole day uplift)
+          %tr
+            %td
+              MIDTH
+            %td
+              Confiscation hearings (half day)
+          %tr
+            %td
+              MIDHU
+            %td
+              Confiscation hearings (half day uplift)
+
+%section.api-documentation
+  %hr
+  %h2 28th February 2019
+  %ul.list-bullet
+    %li
+      Addition of a
+      %code.code='unique_code'
+      filter option to
+      %code.code='api/fee_types'
+      endpoint
+      %br/
+      %br/
+      There is an additional filtering option on the fee types endpoint to faciitate
+      finding a single fee type. Useful for testing.
+
+%section.api-documentation
+  %hr
   %h2 30th January 2019
   %ul.list-bullet
     %li

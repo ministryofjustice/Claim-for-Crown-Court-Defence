@@ -179,6 +179,7 @@ FactoryBot.define do
         unique_code 'MIDTW'
         calculated true
         quantity_is_decimal false
+        agfs_all_schemes
       end
 
       trait :midwu do
@@ -187,22 +188,25 @@ FactoryBot.define do
         unique_code 'MIDWU'
         calculated true
         quantity_is_decimal false
+        agfs_all_schemes
       end
 
       trait :midth do
-        description 'Confiscation hearings (whole day)'
-        code 'DTW'
-        unique_code 'MIDTW'
+        description 'Confiscation hearings (half day)'
+        code 'DTH'
+        unique_code 'MIDTH'
         calculated true
         quantity_is_decimal false
+        agfs_all_schemes
       end
 
-      trait :midwu do
-        description 'Confiscation hearings (whole day uplift)'
-        code 'DWU'
-        unique_code 'MIDWU'
+      trait :midhu do
+        description 'Confiscation hearings (half day uplift)'
+        code 'DHU'
+        unique_code 'MIDHU'
         calculated true
         quantity_is_decimal false
+        agfs_all_schemes
       end
 
       trait :miupl do

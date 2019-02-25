@@ -28,6 +28,10 @@ module API
         def category
           params[:category]&.downcase
         end
+
+        def unique_code
+          params[:unique_code]&.upcase
+        end
       end
 
       after do
@@ -96,15 +100,17 @@ module API
                      default: 'all',
                      values: %w[all basic misc fixed graduated interim transfer warrant],
                      desc: "OPTIONAL: The fee category to filter the results. Can be: #{category_types}. Default: all"
+            optional :unique_code,
+                     type: String,
+                     desc: 'OPTIONAL: The unique identifier of the fee type'
           end
 
-          desc 'Return all AGFS Fee Types (optional category filter).'
+          desc 'Return all AGFS Fee Types (optional category and unique_code filter).'
           get do
-            fee_types = if category.blank? || category == 'all'
-                          Fee::BaseFeeType.__send__(role)
-                        else
-                          Fee::BaseFeeType.__send__(category).__send__(role)
-                        end
+            fee_types = Fee::BaseFeeType
+            fee_types = category.blank? || category.eql?('all') ? fee_types : fee_types.send(category)
+            fee_types = fee_types.send(role)
+            fee_types = fee_types.where(unique_code: unique_code) if unique_code.present?
             present fee_types, with: API::Entities::BaseFeeType
           end
         end

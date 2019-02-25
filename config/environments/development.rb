@@ -82,10 +82,6 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  # TODO: remove as NOT AVAILABLE in rails 5.1+
-  # This will be be default behaviour in next version of activerecord - early opt-in
-  # config.active_record.raise_in_transactional_callbacks = true
-
   # enable the ability to preview devise emails
   # And index of all can, be viewed at:
   # using webrick defaults at http://localhost:3000/rails/mailers

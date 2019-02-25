@@ -34,7 +34,7 @@ RSpec.describe API::V1::DropdownData do
   ]
 
   let(:provider) { create(:provider) }
-  let(:params)   { {api_key: provider.api_key} }
+  let(:params) { {api_key: provider.api_key} }
 
   context 'when sending non-permitted verbs' do
     ALL_DROPDOWN_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -202,6 +202,44 @@ RSpec.describe API::V1::DropdownData do
           it 'returns scheme 10 agfs roles' do
             expect(parsed_body.pluck('id')).to eq([7])
           end
+        end
+      end
+    end
+
+    context 'with unique code filter' do
+      subject do
+        response = get FEE_TYPE_ENDPOINT, params.merge(unique_code: unique_code), format: :json
+        response.body
+      end
+
+      before { create(:misc_fee_type, :midth, id: 8) }
+
+      context 'when unique_code exists' do
+        let(:unique_code) { 'MIDTH' }
+        it 'returns a specific fee type' do
+          is_expected.to have_json_size 1
+          is_expected.to be_json_eql('Confiscation hearings (half day)'.to_json).at_path("0/description")
+        end
+      end
+
+      context 'when unique_code does not exist' do
+        let(:unique_code) { 'MODTH' }
+        it 'returns nil' do
+          is_expected.to have_json_size 0
+        end
+      end
+
+      context 'when unique_code is nil' do
+        let(:unique_code) { nil }
+        it 'returns all' do
+          is_expected.to have_json_size 8
+        end
+      end
+
+      context 'when unique_code is empty string' do
+        let(:unique_code) { '' }
+        it 'returns all' do
+          is_expected.to have_json_size 8
         end
       end
     end

@@ -3,7 +3,7 @@ NON_TRUNCATED_TABLES ||= %w(
   offence_bands offence_categories offence_fee_schemes fee_schemes establishments
 )
 
-Before('~@no-site-prism') do
+Before('not @no-site-prism') do
   @fee_scheme_selector = FeeSchemeSelectorPage.new
   @external_user_claim_show_page = ExternalUserClaimShowPage.new
   @case_worker_claim_show_page = CaseWorkerClaimShowPage.new

@@ -5,10 +5,10 @@ module DatabaseHousekeeping
   end
 
   # This excludes non application tables (schema_migrations, ar_internal_metadata)
-  # we exclude vat_rates as they are created/destroyed in a before/after(:suite) hook
+  # we also exclude vat_rates as they are created/destroyed in a before/after(:suite) hook
   def application_tables
-    exclusions = %W[vat_rates]
-    ApplicationRecord.descendants.map(&:table_name).uniq.sort - exclusions
+    exclusions = %W[schema_migrations ar_internal_metadata vat_rates]
+    ActiveRecord::Base.connection.tables.uniq.sort - exclusions
   end
 
   def truncate_application_tables

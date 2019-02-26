@@ -87,6 +87,9 @@ end
 
 When(/^I sign out as/) do
   click_link "Sign out"
+  using_wait_time 6 do
+    expect(page).to have_text('You have signed out')
+  end
 end
 
 Given(/^I am a signed in case worker admin$/) do

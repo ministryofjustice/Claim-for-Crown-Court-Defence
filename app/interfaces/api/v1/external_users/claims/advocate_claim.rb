@@ -1,3 +1,4 @@
+# DEPRECATED: see advocates/final[/validate] endpoints
 module API::V1::ExternalUsers
   module Claims
     class AdvocateClaim < Grape::API
@@ -22,15 +23,17 @@ module API::V1::ExternalUsers
       end
 
       namespace '/' do
-        desc 'Create an Advocate claim.'
+        desc 'DEPRECATED: Create an Advocate final claim. see advocates/final endpoint'
         post do
+          deprecate(datetime: Time.new(2019, 8, 30), link: "#{request.base_url}/api/release_notes")
           create_resource(::Claim::AdvocateClaim)
           status api_response.status
           api_response.body
         end
 
-        desc 'Validate an Advocate claim.'
+        desc 'DEPRECATED: Validate an Advocate final claim. see advocates/final/validate endpoint'
         post '/validate' do
+          deprecate(datetime: Time.new(2019, 8, 30), link: "#{request.base_url}/api/release_notes")
           validate_resource(::Claim::AdvocateClaim)
           status api_response.status
           api_response.body

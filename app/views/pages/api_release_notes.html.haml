@@ -14,6 +14,40 @@
   %h2 28th February 2019
   %ul.list-bullet
     %li
+      Deprecation of the advocate "final" claim endpoint
+      %em
+        EoL 30/08/2019
+      %br/
+      %br/
+      The endpoint
+      %a{ href: '/api/documentation?v=1#!/api/postApiExternalUsersClaims', target: '_blank' } api/external_users/claims
+      is deprecated in favour of
+      %a{ href: '/api/documentation?v=1#!/api/postApiExternalUsersClaimsAdvocatesFinal', target: '_blank' } api/external_users/advocates/final
+      %br/
+      %br/
+      The endpoints are functionally identical, so you will just need to POST to the new endpoint or its
+      %code.code='../validate'
+      equivalent (if used). The change is for code organization and logical namespacing considerations following the addition of multiple other advocate endpoints. This will ensure all advocate endpoints are under
+      %code.code='api/external_users/advocates/[final|interim|supplementary]'
+      \.
+      %br/
+      %br/
+      To assist the deprecation we have introduced a pattern following the
+      %a{ href: 'https://tools.ietf.org/html/draft-wilde-sunset-header-03', target: '_blank' } IETF Sunset header recommendations
+      \.
+      %br/
+      %br/
+      Responses from any deprecated endpoint will include a
+      %code.code='Sunset'
+      HEADER with a value of the http formatted date of the intended End of Life date. There will also be a related link in the header to point to the release notes. We will be providing 6 months grace period on deprecations so the old endpoint will be
+      %em='removed on or after 30/08/2019'
+      \.
+
+%section.api-documentation
+  %hr
+  %h2 28th February 2019
+  %ul.list-bullet
+    %li
       Addition of Advocate supplementary claim type endpoints
       %br/
       %br/
@@ -92,7 +126,7 @@
       endpoint
       %br/
       %br/
-      There is an additional filtering option on the fee types endpoint to faciitate
+      There is an additional filtering option on the fee types endpoint to facilitate
       finding a single fee type. Useful for testing.
 
 %section.api-documentation

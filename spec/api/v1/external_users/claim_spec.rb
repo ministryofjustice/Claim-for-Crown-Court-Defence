@@ -7,6 +7,9 @@ RSpec.describe API::V1::ExternalUsers::Claim do
     /api/external_users/claims
     /api/external_users/claims/validate
 
+    /api/external_users/claims/advocates/final
+    /api/external_users/claims/advocates/final/validate
+
     /api/external_users/claims/advocates/interim
     /api/external_users/claims/advocates/interim/validate
 
@@ -23,18 +26,17 @@ RSpec.describe API::V1::ExternalUsers::Claim do
     /api/external_users/claims/transfer/validate
   ).freeze
 
-  describe 'Claim endpoints' do
-    before(:all) do
-      @declared_routes = []
-      API::V1::Root.routes.each do |route|
-        path = route.pattern.path
-        @declared_routes << path.sub('(.:format)', '')
-      end
+  let(:api_routes) do
+    API::V1::Root.routes.each_with_object([]) do |route, api_routes|
+      path = route.pattern.path
+      api_routes << path.sub('(.:format)', '')
     end
+  end
 
+  describe 'Claim endpoints' do
     CLAIM_ENDPOINTS.each do |endpoint|
       it "should expose #{endpoint}" do
-        expect(@declared_routes).to include(endpoint)
+        expect(api_routes).to include(endpoint)
       end
     end
   end

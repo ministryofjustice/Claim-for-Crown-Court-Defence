@@ -2123,7 +2123,7 @@ en:
           invalid_report_type: *invalid_report_type
         index:
           page_title: View management information
-          h1_managment_info: Management information
+          page_heading: Management information
           all_claims_report: 'All claims report'
           report_generated_at: "The latest report was generated at %{time}"
           day: Day
@@ -2148,7 +2148,7 @@ en:
         job_scheduled: 'A background job has been scheduled to regenerate the report. Please refresh this page in a few minutes.'
     claims:
       archived:
-        archived_claims: Archived claims
+        page_heading: Archived claims
         page_title: View the claim archive
       determination_fields:
         disbursements: Disbursements
@@ -2163,7 +2163,7 @@ en:
         vat_rate: "VAT (%{vat_rate})"
         vat_rate: "Total (including %{vat_rate} VAT)"
       index:
-        your_claims: Your claims
+        page_heading: Your claims
         page_title: View your allocated claims list
       claims_list:
         advocate: Advocate

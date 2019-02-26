@@ -349,7 +349,7 @@ en:
           add_super_admin: 'Add Super administrator'
           edit: Edit
           page_heading: Your account
-          change_password: Change password
+          change_password: &change_password Change password
         edit:
           page_heading: Edit super administrator details
           edit_super_admin: 'Edit user'
@@ -372,7 +372,7 @@ en:
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation
-          submit: 'Change password'
+          submit: *change_password
           page_title: Change %{super_admin}'s password
           heading: Change password
     providers:
@@ -445,7 +445,7 @@ en:
         vat_registered: VAT registered
         role: Role
         edit: Edit
-        change_password: Change password
+        change_password: *change_password
         answer_yes: "Yes"
         answer_no:  "No"
         manage_user: Manage user
@@ -483,7 +483,7 @@ en:
         current_password: Current password
         password: *password
         password_confirmation: *password_confirmation
-        submit: 'Change password'
+        submit: *change_password
         page_title: Change %{external_user}'s password
         heading: Change password for %{external_user}
         page_heading: Manage users
@@ -495,7 +495,6 @@ en:
         page_title_advocate: Choose a bill type for advocate claim
         page_title_litigator: Choose a bill type for litigator claim
         page_title_generic: Choose a bill type for Crown court claim
-
     admin:
       external_users:
         advocates:
@@ -548,9 +547,9 @@ en:
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation
-          submit: Change password
+          submit: *change_password
           page_title: Change your password
-          change_password: Change password
+          change_password: *change_password
         show:
           page_title: View your account details
           table_caption: Your account details
@@ -559,7 +558,7 @@ en:
           roles: 'Roles:'
           supplier_number: 'Supplier number:'
           edit: Edit
-          change_password: Change password
+          change_password: *change_password
           page_heading: Your account
 
 
@@ -941,7 +940,6 @@ en:
           change: Change
           change_link_label: Change offence details
         selected_offence_header: 'You have chosen the following offence details:'
-
       defendants:
         defendant_fields:
           first_name: *first_name
@@ -973,7 +971,6 @@ en:
           common:
             defendant_index: Defendant %{index}
             defendant_reporder: Defendant %{index} representation order %{index}
-
       main_claims_list:
         amount_assessed_sort_label: 'Sort by: Amount assessed'
         last_submitted_at_sort_label: 'Sort by: Last submitted at date'
@@ -1399,6 +1396,8 @@ en:
         total: 'Total'
         no_fees: 'No fees for this claim'
         no_disbursements: 'No disbursements for this claim'
+      show:
+        page_title: Case details
     expenses:
       distances:
         create:
@@ -1990,8 +1989,10 @@ en:
           roles: Roles
           save: Save
         change_password:
+          change_password: Change password
+          page_heading: Change password
           error: 'error'
-          prohibited_save: 'This case worker password change has'
+          prohibited_save: This case worker password change has
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation
@@ -1999,10 +2000,18 @@ en:
           page_title: Change your password
         new:
           page_title: Add a caseworker
+          error_summary: 'This case worker has '
+          page_heading: New case worker details
         edit:
           page_title: Edit %{caseworker}'s details
+          error_summary: 'This case worker has '
+          page_heading: Edit case worker details
         show:
           page_title: View %{caseworker}'s details
+          change_password: *change_password
+          edit: Edit
+          page_heading: Your account
+          roles: Roles
       allocations:
         filter_value_bands:
           all: All
@@ -2157,29 +2166,29 @@ en:
         your_claims: Your claims
         page_title: View your allocated claims list
       claims_list:
-        type: Type
-        advocate_litigator: *advocate_litigator
-        case_number: Case number
         advocate: Advocate
-        defendants: Defendants
+        advocate_litigator: *advocate_litigator
+        advocate_sort_label: 'Sort by: Provider name'
+        case_number: Case number
+        case_number_sort_label: 'Sort by: Case number'
         case_type: Case type
-        total: Claimed
-        status: Status
-        submission_date: Date submitted
+        case_type_sort_label: 'Sort by: Case type'
+        defendants: Defendants
+        disk_evidence: Disk evidence
+        last_submitted_at_sort_label: 'Sort by: Last submitted at date'
         messages: Messages
         none: None
-        advocate_sort_label: 'Sort by: Provider name'
-        case_number_sort_label: 'Sort by: Case number'
-        case_type_sort_label: 'Sort by: Case type'
-        last_submitted_at_sort_label: 'Sort by: Last submitted at date'
-        state_sort_label: 'Sort by: Claim state'
-        total_inc_vat_sort_label: 'Sort by: Claimed amount'
-        type_sort_label: 'Sort by: Claim type'
         number_of_claims: 'Number of claims: '
+        state_sort_label: 'Sort by: Claim state'
+        status: Status
+        submission_date: Date submitted
+        total: Claimed
+        total_inc_vat_sort_label: 'Sort by: Claimed amount'
+        type: Type
+        type_sort_label: 'Sort by: Claim type'
         view: *view
         view_messages_label: "View Messages for Case number %{case_number}"
         view_with_messages: "View (%{message_count} new)"
-
       hint:
         search: for example case number, MAAT reference, defendant name, case worker name or email
       interim_claim_info:
@@ -2192,6 +2201,13 @@ en:
         completed_claims_count: Completed claims (%{completed_claims_count})
         current_claims_count: Allocated claims (%{current_claims_count})
         unallocated_claims_count: Allocated claims (%{unallocated_claims_count})
+      claims_sidebar:
+        advocate_details: Advocate details
+        completed_claims: Completed claims
+        current_claims: Current claims
+        dashboard: Dashboard
+        payments: Payments
+        reporting_tool: Reporting tool
   devise:
     sessions:
       new:
@@ -2208,13 +2224,19 @@ en:
     passwords:
       new:
         page_title: Retrieve your password for claim for Crown court defence
+        send_button: Send me password reset instructions
+        page_heading: Forgot your password?
       edit:
-        prohibited_save: This password change has
+        change_password: *change_password
+        confirm_your_password: Confirm your password
+        error_summary: 'This password change has '
+        page_heading: Change your password
         page_title: Change your password for claim for Crown court defence
+        new_password: New password
     unlocks:
       new:
-        page_title: Resend unlock instructions for claim for Crown court defence
         page_heading: Resend password reset instructions
+        page_title: Resend unlock instructions for claim for Crown court defence
         submit: Resend unlock instructions
   validators:
     advocate:
@@ -2320,5 +2342,17 @@ en:
 
 # en.feedback
   feedback:
+    bug_report:
+      page_title: Bug report
+      page_heading: Help us improve this service
+      error_summary: 'The form you submitted has '
+      intro: |
+        Tell us about your experience of using this service today. Your answers to the following questions will help us improve the service.
+      case_number_label: Case number / Unique ID
+      case_number_hint: |
+        If your issue is related to a particular claim, provide the case number along with the unique ID you will find next to it (starts with #)
+      event_label: What you were doing when the fault occurred?
+      event_hint: Include as much information as possible, including the fee scheme (Advocate, Litigator final, Litigator interim or Litigator transfer) and case type
+      outcome_label: What went wrong?
     feedback:
       page_title: Help us improve this service

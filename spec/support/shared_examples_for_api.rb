@@ -1,4 +1,10 @@
+RSpec.shared_context 'deactivate deprecation warnings' do
+  before { allow(ActiveSupport::Deprecation).to receive(:warn) }
+end
+
 RSpec.shared_examples "invalid API key validate endpoint" do |options|
+  include_context 'deactivate deprecation warnings'
+
   context 'with invalid API key' do
     it "response 401 and JSON error array when it is not provided" do
       valid_params[:api_key] = nil
@@ -32,6 +38,8 @@ RSpec.shared_examples "invalid API key validate endpoint" do |options|
 end
 
 RSpec.shared_examples "invalid API key create endpoint" do |options|
+  include_context 'deactivate deprecation warnings'
+
   context 'with invalid API key' do
     it "response 401 and JSON error array when it is not provided" do
       valid_params[:api_key] = nil
@@ -65,6 +73,8 @@ RSpec.shared_examples "invalid API key create endpoint" do |options|
 end
 
 RSpec.shared_examples "should NOT be able to amend a non-draft claim" do
+  include_context 'deactivate deprecation warnings'
+
   context 'when claim is not a draft' do
     before(:each) { claim.submit! }
 
@@ -119,6 +129,8 @@ RSpec.shared_examples 'a claim endpoint' do |options|
 end
 
 RSpec.shared_examples 'a claim validate endpoint' do |options|
+  include_context 'deactivate deprecation warnings'
+
   describe "POST #{ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate}" do
     subject(:post_to_validate_endpoint) do
       post ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate, valid_params, format: :json
@@ -158,6 +170,8 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
 end
 
 RSpec.shared_examples 'a claim create endpoint' do |options|
+  include_context 'deactivate deprecation warnings'
+
   describe "POST #{ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).create}" do
     subject(:post_to_create_endpoint) do
       post ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).create, valid_params, format: :json
@@ -278,6 +292,37 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
           expect{ post_to_create_endpoint }.not_to change { claim_class.active.count }
         end
       end
+    end
+  end
+end
+
+RSpec.shared_examples 'a deprecated claim endpoint' do |options|
+  include_context 'deactivate deprecation warnings'
+
+  subject(:headers) do
+    response = post ClaimApiEndpoints.for(options[:relative_endpoint]).
+      send(options[:action]),
+      valid_params,
+      format: :json
+    response.headers
+  end
+
+  context "on #{options[:relative_endpoint]} #{options[:action]}" do
+    it 'response includes Sunset header ' do
+      expect(headers['Sunset']).to eql options[:deprecation_datetime].httpdate
+    end
+
+    it 'response includes Sunset Link header to API release notes' do
+      expect(headers['Link']).to eql '<http://example.org/api/release_notes>; rel="sunset";'
+    end
+
+    it 'logs a deprecation warning' do
+      expect(ActiveSupport::Deprecation).to receive(:warn)
+      subject
+    end
+
+    specify 'deprecation date not exceeded' do
+      expect(Time.current).to be <= options[:deprecation_datetime], 'WARNING: deprecation date exceeded'
     end
   end
 end

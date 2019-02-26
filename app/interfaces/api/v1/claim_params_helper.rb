@@ -83,6 +83,15 @@ module API
       def build_arguments
         declared_params.merge(source: claim_source, creator_id: claim_creator.id, external_user_id: claim_user.id)
       end
+
+      # Add a Sunset/deprecation header into HTTP Response for clients to sniff on
+      # https://tools.ietf.org/html/draft-wilde-sunset-header-03
+      def sunset(datetime:, link: nil)
+        header 'Sunset', datetime.httpdate
+        header 'Link', format('<%{link}>; rel="sunset";', link: link) if link.present?
+        ActiveSupport::Deprecation.warn("deprecated endpoint #{namespace} (sunset date #{datetime.iso8601}) has been called by #{request.headers['User-Agent']}")
+      end
+      alias deprecate sunset
     end
   end
 end

@@ -51,6 +51,11 @@ AfterConfiguration do
   Cucumber::Rails::Database.javascript_strategy = :truncation, { except: NON_TRUNCATED_TABLES }
 end
 
+After do |scenario|
+  name = scenario.location.file.gsub('features/','').gsub(/\.|\//, '-')
+  screenshot_image(name) if scenario.failed?
+end
+
 at_exit do
   #
   # NOTE: ActiveRecord may be interfering with exit codes

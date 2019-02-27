@@ -114,6 +114,8 @@ jobs:
           root: tmp
           paths:
             - codeclimate.backend.json
+      - store_artifacts:
+          path: ./tmp/codeclimate.backend.json
   cucumber-tests:
     <<: *build_container_config
     steps:

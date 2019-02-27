@@ -14,6 +14,7 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
     And I select the court 'Caernarfon'
     And I enter a case number of 'A20191234'
 
+    And I should see a page title "Enter case details for advocate supplementary fee claim"
     Then I click "Continue" in the claim form
 
     And I enter defendant, scheme 11 representation order and MAAT reference
@@ -21,6 +22,7 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
 
     Given I insert the VCR cassette 'features/claims/advocate/scheme_eleven/supplementary_fee_calculations'
 
+    And I should see a page title "Enter defendant details for advocate supplementary fee claim"
     When I click "Continue" in the claim form
     Then I should be in the 'Miscellaneous fees' form page
     And I should see the advocate categories 'Junior,Leading junior,QC'
@@ -38,6 +40,7 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
 
     And I eject the VCR cassette
 
+    And I should see a page title "Enter miscellaneous fees for advocate supplementary fee claim"
     When I click "Continue" in the claim form
     Then I should be in the 'Travel expenses' form page
 
@@ -46,6 +49,7 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
     And I add an expense date for scheme 11
     And I add an expense net amount for "34.56"
 
+    And I should see a page title "Enter travel expenses for advocate supplementary fee claim"
     Then I click "Continue" in the claim form
 
     When I upload the document 'judicial_appointment_order.pdf'
@@ -53,6 +57,7 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
     And I check the evidence boxes for 'Order in respect of judicial apportionment'
     And I add some additional information
 
+    And I should see a page title "Upload supporting evidence for advocate msupplementary fee claim"
     When I click "Continue" in the claim form
     And I should be on the check your claim page
     Then the following check your claim details should exist:
@@ -84,13 +89,17 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
       | supporting-evidence-section | Supporting evidence | judicial_appointment_order.pdf |
       | supporting-evidence-section | Supporting evidence checklist | Order in respect of judicial apportionment |
 
+    And I should see a page title "View claim summary for advocate supplementary fee claim"
     When I click "Continue"
     Then I should be on the certification page
 
     When I check “I attended the main hearing”
+
+    And I should see a page title "Certify and submit the advocate supplementary fees claim"
     And I click Certify and submit claim
     Then I should be on the claim confirmation page
 
+    And I should see a page title "Thank you for submitting your claim"
     When I click View your claims
     Then I should be on the your claims page
     And Claim 'A20191234' should be listed with a status of 'Submitted' and a claimed amount of '£466.02'

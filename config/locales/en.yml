@@ -616,6 +616,7 @@ en:
         page_title:
           agfs_final: Certify and submit the advocate final fees claim
           agfs_interim: Certify and submit the advocate warrant fees claim
+          agfs_supplementary: Certify and submit the advocate supplementary fees claim
           lgfs_final: Certify and submit the litigator final fees claim
           lgfs_interim: Certify and submit the litigator interim fees claim
           lgfs_transfer: Certify and submit the litigator transfer fees claim
@@ -2356,3 +2357,9 @@ en:
       outcome_label: What went wrong?
     feedback:
       page_title: Help us improve this service
+      error_summary: 'This feedback has '
+      page_heading: 'Help us improve this service'
+      callout: 'We will use your answers to the questions below to help us build a better service.'
+      comment: 'Tell us about your experience of using this service today.'
+      comment_hint: "Don't include any personal or sensitive information."
+      send: Send

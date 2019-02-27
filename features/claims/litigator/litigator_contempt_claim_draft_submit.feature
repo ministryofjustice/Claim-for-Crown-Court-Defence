@@ -47,6 +47,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     And I eject the VCR cassette
 
+    And I should see a page title "Enter fixed fees for litigator final fees claim"
     Then I click "Continue" in the claim form
 
     And I should be in the 'Miscellaneous fees' form page
@@ -54,11 +55,13 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I add a litigator miscellaneous fee 'Costs judge application'
     And I add a litigator miscellaneous fee 'Defendant uplift'
 
+    And I should see a page title "Enter miscellaneous fees for litigator final fees claim"
     Then I click "Continue" in the claim form
 
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
 
+    And I should see a page title "Enter disbursements for litigator final fees claim"
     Then I click "Continue" in the claim form and move to the 'Travel expenses' form page
 
     And I select an expense type "Parking"
@@ -66,6 +69,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I add an expense net amount for "34.56"
     And I add an expense date for LGFS
 
+    And I should see a page title "Enter travel expenses for litigator final fees claim"
     Then I click "Continue" in the claim form
 
     And I upload 1 document
@@ -82,9 +86,11 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I should not see 'Actual trial length'
     And I should not see 'Trial concluded on'
 
+    And I should see a page title "View claim summary for litigator final fees claim"
     When I click "Continue"
     Then I should be on the certification page
 
+    And I should see a page title "Certify and submit the litigator final fees claim"
     And I click Certify and submit claim
     Then I should be on the claim confirmation page
 

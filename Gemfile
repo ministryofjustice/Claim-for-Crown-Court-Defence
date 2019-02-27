@@ -92,8 +92,10 @@ group :development, :devunicorn, :test do
   gem 'rspec-collection_matchers'
   gem 'puma'
   gem 'parallel_tests'
-  gem 'site_prism',         '~> 2.9'
-  gem 'guard-jasmine',      '~> 2.0'
+  gem 'site_prism', '~> 2.9'
+  gem 'jasmine', '~> 3.1'
+  gem 'guard-jasmine', '~> 3.0'
+  gem 'jasmine_selenium_runner', require: false
   gem 'guard-rspec'
   gem 'guard-rubocop'
   gem 'guard-cucumber'

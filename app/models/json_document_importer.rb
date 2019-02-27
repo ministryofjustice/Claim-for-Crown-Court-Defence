@@ -10,7 +10,7 @@ class JsonDocumentImporter
   validate :file_conforms_to_basic_json_schema, if: :json_data
 
   BASE_URL                      = GrapeSwaggerRails.options.app_url
-  CLAIM_CREATION                = RestClient::Resource.new BASE_URL + '/api/external_users/claims'
+  CLAIM_CREATION                = RestClient::Resource.new BASE_URL + '/api/external_users/advocates/final'
   DEFENDANT_CREATION            = RestClient::Resource.new BASE_URL + '/api/external_users/defendants'
   REPRESENTATION_ORDER_CREATION = RestClient::Resource.new BASE_URL + '/api/external_users/representation_orders'
   FEE_CREATION                  = RestClient::Resource.new BASE_URL + '/api/external_users/fees'

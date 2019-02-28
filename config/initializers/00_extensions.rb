@@ -45,3 +45,7 @@ end
 class Integer
   include IntegerExtension
 end
+
+class NilClass
+  include NilExtension
+end

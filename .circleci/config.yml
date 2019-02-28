@@ -27,7 +27,7 @@ references:
         sudo apt-get install -y pdftk
 
 jobs:
-  build-test-container:
+  build-test-container: &build-test-container
     <<: *build_container_config
     steps:
       - checkout
@@ -158,7 +158,7 @@ jobs:
           name: Run jasmine tests
           command: bundle exec rake jasmine:ci
   brakeman:
-    <<: *build_container_config
+    <<: *build-test-container
     steps:
       - checkout # special step to check out source code to working directory
 

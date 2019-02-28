@@ -168,9 +168,11 @@ jobs:
       - attach_workspace:
           at: ~/repo/tmp
 
+      - run: ruby --version
+      - run:
       - run:
           name: Run brakeman
-          command: bundle exec brakeman
+          command: bundle exec rake brakeman:run
   upload-coverage:
     <<: *build_container_config
     steps:

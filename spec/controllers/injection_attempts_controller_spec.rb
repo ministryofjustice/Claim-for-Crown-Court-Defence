@@ -18,7 +18,7 @@ RSpec.describe InjectionAttemptsController, type: :controller do
     end
 
     it "returns http success" do
-      expect(response).to have_http_status(200)
+      expect(response).to be_successful
     end
 
     it 'assigns injection attempt to @injection_attempt' do

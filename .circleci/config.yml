@@ -157,6 +157,20 @@ jobs:
       - run:
           name: Run jasmine tests
           command: bundle exec rake jasmine:ci
+  brakeman:
+    <<: *build_container_config
+    steps:
+      - checkout # special step to check out source code to working directory
+
+      - attach_workspace:
+          at: ~/repo/
+
+      - attach_workspace:
+          at: ~/repo/tmp
+
+      - run:
+          name: Run brakeman
+          command: bundle exec brakeman
   upload-coverage:
     <<: *build_container_config
     steps:
@@ -219,9 +233,13 @@ workflows:
       - jasmine-tests:
           requires:
             - build-test-container
+      - brakeman:
+          requires:
+            - build-test-container
       - upload-coverage:
           requires:
             - rspec-tests
             - cucumber-tests
             - jasmine-tests
             - rubocop
+            - brakeman

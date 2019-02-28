@@ -170,7 +170,6 @@ jobs:
 
       - run: ruby --version
       - run:
-      - run:
           name: Run brakeman
           command: bundle exec rake brakeman:run
   upload-coverage:

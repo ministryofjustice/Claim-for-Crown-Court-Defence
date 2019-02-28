@@ -1,0 +1,246 @@
+version: 2
+references:
+  build_containers_config: &build_container_config
+    working_directory: ~/repo
+    docker:
+      - image: circleci/ruby:2.5.3-node-browsers-legacy
+        environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_PATH: vendor/bundle
+          BUNDLE_RETRY: 3
+          CBO_BASE_DATABASE_DATABASE: cccd_test
+          PDFTK_PATH: /usr/bin/pdftk
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          RAILS_ENV: test
+          TZ: Europe/London
+      - image: circleci/postgres:9.6-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: cccd_test
+          POSTGRES_PASSWORD: ""
+
+  install_pdftk: &install_pdftk
+    run:
+      name: Install PDFTK
+      command: |
+        sudo apt-get install -y pdftk
+
+jobs:
+  build-test-container: &build-test-container
+    <<: *build_container_config
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            mkdir -p tmp/
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+            chmod +x ./tmp/cc-test-reporter
+
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - cc-test-reporter
+
+      # Which version of bundler?
+      - run:
+          name: Which bundler?
+          command: bundle -v
+
+      # Restore bundle cache
+      - restore_cache:
+          keys:
+            - cccd-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+
+      # Store bundle cache
+      - save_cache:
+          key: cccd-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - vendor/bundle
+
+  rubocop:
+    <<: *build_container_config
+    steps:
+      - checkout # special step to check out source code to working directory
+
+      - attach_workspace:
+          at: ~/repo/
+
+      - attach_workspace:
+          at: ~/repo/tmp
+
+      - run:
+          name: Run Rubocop
+          command: bundle exec rubocop
+  rspec-tests:
+    <<: *build_container_config
+    parallelism: 2
+    steps:
+      - checkout # special step to check out source code to working directory
+
+      - attach_workspace:
+          at: ~/repo/
+
+      - attach_workspace:
+          at: ~/repo/tmp
+
+      - *install_pdftk
+
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Database setup
+          command: bin/rails db:schema:load --trace
+      - run:
+          name: Run rspec tests
+          command: |
+            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - codeclimate.backend.json
+      - store_artifacts:
+          path: ./tmp/codeclimate.backend.json
+  cucumber-tests:
+    <<: *build_container_config
+    steps:
+      - checkout # special step to check out source code to working directory
+
+      - attach_workspace:
+          at: ~/repo/
+
+      - attach_workspace:
+          at: ~/repo/tmp
+
+      - *install_pdftk
+
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Database setup
+          command: bin/rails db:schema:load --trace
+
+      - run:
+          name: Run cucumber tests
+          command: bundle exec cucumber
+
+      - store_artifacts:
+          path: ./tmp/capybara
+  jasmine-tests:
+    <<: *build_container_config
+    steps:
+      - checkout # special step to check out source code to working directory
+
+      - attach_workspace:
+          at: ~/repo/
+
+      - attach_workspace:
+          at: ~/repo/tmp
+
+      - run:
+          name: Run jasmine tests
+          command: bundle exec rake jasmine:ci
+  brakeman:
+    <<: *build-test-container
+    steps:
+      - checkout # special step to check out source code to working directory
+
+      - attach_workspace:
+          at: ~/repo/
+
+      - attach_workspace:
+          at: ~/repo/tmp
+
+      - run: ruby --version
+      - run:
+          name: Run brakeman
+          command: bundle exec rake brakeman:run
+  upload-coverage:
+    <<: *build_container_config
+    steps:
+      - attach_workspace:
+          at: ~/repo/tmp
+
+      - run:
+          name: Upload coverage results to Code Climate
+          command: |
+            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.backend.json
+
+  build-prod-container:
+    docker:
+      - image: docker:17.03-git
+        environment:
+          DSD_APP_NAME: "advocatedefencepayments"
+          ECR_APP_NAME: "claim-for-crown-court-defence"
+          ECR_DOCKER_IMAGE: "laa-get-paid/claim-crown-court-defence"
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 17.03.0-ce
+          docker_layer_caching: true
+      - run:
+          name: Login to the DSD Docker registry
+          command: |
+            docker login \
+              --username $DOCKER_USER \
+              --password $DOCKER_PASS \
+              --email $DOCKER_EMAIL \
+              $DOCKER_REGISTRY
+      - run:
+          name: Login to the ECR Docker registry
+          command: |
+            apk add --no-cache --no-progress py2-pip
+            pip install awscli
+            ecr_login="$(aws ecr get-login --region eu-west-1 --no-include-email)"
+            ${ecr_login}
+      - run:
+          name: Build docker image
+          command: |
+            docker build --pull -t $ECR_ENDPOINT/$ECR_APP_NAME -f docker/Dockerfile .
+            docker tag $ECR_ENDPOINT/$ECR_APP_NAME $ECR_ENDPOINT/$ECR_APP_NAME:$CIRCLE_BUILD_NUM
+            docker push $ECR_ENDPOINT/$ECR_APP_NAME:$CIRCLE_BUILD_NUM
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build-test-container
+      - rubocop:
+          requires:
+            - build-test-container
+      - rspec-tests:
+          requires:
+            - build-test-container
+      - cucumber-tests:
+          requires:
+            - build-test-container
+      - jasmine-tests:
+          requires:
+            - build-test-container
+      - brakeman:
+          requires:
+            - build-test-container
+      - upload-coverage:
+          requires:
+            - rspec-tests
+            - cucumber-tests
+            - jasmine-tests
+            - rubocop
+            - brakeman

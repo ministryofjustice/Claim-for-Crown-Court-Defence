@@ -13,7 +13,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
       before { get :index }
 
       it 'returns http success' do
-        expect(response).to have_http_status(:success)
+        expect(response).to be_successful
       end
 
       it 'renders the template' do
@@ -34,7 +34,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
           end
 
           it 'returns http success' do
-            expect(response).to have_http_status(:success)
+            expect(response).to be_successful
           end
 
           it 'renders the template' do
@@ -61,7 +61,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
           after { document.close }
 
           it 'returns http success' do
-            expect(response).to have_http_status(:success)
+            expect(response).to be_successful
           end
 
           it 'renders the template' do

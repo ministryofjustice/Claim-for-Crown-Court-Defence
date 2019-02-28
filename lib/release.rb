@@ -2,11 +2,11 @@
 class Release
   class << self
     def reject_refuse_messaging_released_at
-      Time.parse(Settings.reject_refuse_messaging_released_at.to_s).change(offset: '+100')
+      Time.parse(Settings.reject_refuse_messaging_released_at.to_s)
     end
 
     def reject_refuse_messaging_released?
-      reject_refuse_messaging_released_at <= Time.current
+      reject_refuse_messaging_released_at.utc <= Time.current.utc
     end
   end
 end

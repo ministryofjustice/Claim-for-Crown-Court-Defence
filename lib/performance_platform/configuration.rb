@@ -7,9 +7,9 @@ module PerformancePlatform
     attr_accessor :root_url, :service, :group
 
     def initialize
-      @root_url ||= root_url || PERFORMANCE_PLATFORM_ENDPOINT
-      @service ||= service
-      @group ||= group
+      @root_url = root_url || PERFORMANCE_PLATFORM_ENDPOINT
+      @service = service
+      @group = group
     end
   end
 end

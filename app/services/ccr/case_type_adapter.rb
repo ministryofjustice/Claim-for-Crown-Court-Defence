@@ -14,7 +14,7 @@ module CCR
       FXENP: 'AS000014', # Elected cases not proceeded
       GRGLT: 'AS000002', # Guilty plea
       GRRTR: 'AS000011', # Retrial
-      GRTRL: 'AS000004', # Trial
+      GRTRL: 'AS000004'  # Trial
     }.freeze
 
     def initialize(case_type)

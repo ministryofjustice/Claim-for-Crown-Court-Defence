@@ -32,7 +32,7 @@ module DefendantUpliftable
       MISHR: 'MISHU', # Sentence hearings uplift
       MITNP: 'MITNU', # Trial not proceed uplift
       MIUAV1: 'MIUAV3', # Unsuccessful application to vacate a guilty plea (half day uplift)
-      MIUAV2: 'MIUAV4', # Unsuccessful application to vacate a guilty plea (whole day uplift)
+      MIUAV2: 'MIUAV4' # Unsuccessful application to vacate a guilty plea (whole day uplift)
     }.with_indifferent_access.freeze
 
     ORPHAN_DEFENDANT_UPLIFTS = %w[BANDR FXNDR MIUPL].freeze

@@ -28,19 +28,19 @@ module Claims::Sort
   #
 
   def sort_nulls_by(direction)
-    "NULLS #{direction == 'asc' ? 'FIRST' : 'LAST'}"
+    Arel.sql("NULLS #{direction == 'asc' ? 'FIRST' : 'LAST'}")
   end
 
   def sort_field_by(field, direction)
-    "#{field} #{direction.upcase}"
+    "#{Arel.sql(field)} #{Arel.sql(direction.upcase)}"
   end
 
   def sort_field_with_nulls(field, direction)
-    "#{sort_field_by(field, direction)} #{sort_nulls_by(direction)}, claims.id desc"
+    "#{Arel.sql(sort_field_by(field, direction))} #{Arel.sql(sort_nulls_by(direction))}, claims.id desc"
   end
 
   def sort_last_submitted_at(direction)
-    order(sort_field_with_nulls('last_submitted_at', direction))
+    order(Arel.sql(sort_field_with_nulls('last_submitted_at', direction)))
   end
 
   def sort_advocate(direction)

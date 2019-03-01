@@ -11,9 +11,9 @@ module Reports
         @ready_to_send = false
       end
 
-      def populate_data(total_cost, claim_count)
+      def populate_data
         @total_cost = total_cost
-        @claim_count = claim_count
+        @claim_count = count_digital_claims
         raise 'Arguments should be numeric' unless inputs_numeric?
         data = {
           cost_per_transaction_quarter: (@total_cost.to_f / @claim_count.to_f).round(2),
@@ -36,6 +36,54 @@ module Reports
       end
 
       private
+
+      def total_cost
+        usd_costs = extract_aws_costs
+        gbp_costs = usd_costs.results_by_time.map do |month|
+          Conversion::Currency.call(Date.parse(month.time_period.end) - 1.day, month.total['UnblendedCost'].amount)
+        end
+        gbp_costs.sum.to_s
+      end
+
+      def extract_aws_costs
+        client.get_cost_and_usage(
+          time_period: {
+            start: @start_date.to_s(:db),
+            end: (@start_date.end_of_quarter + 1.day).to_s(:db)
+          },
+          granularity: 'MONTHLY',
+          filter: {
+            dimensions: {
+              key: 'LINKED_ACCOUNT',
+              values: [aws_linked_account_name]
+            }
+          },
+          metrics: ['UNBLENDED_COST']
+        )
+      end
+
+      def aws_linked_account_name
+        response = client.get_dimension_values(
+          time_period: {
+            start: @start_date.to_s(:db),
+            end: (@start_date.end_of_quarter + 1.day).to_s(:db)
+          },
+          dimension: 'LINKED_ACCOUNT',
+          context: 'COST_AND_USAGE',
+          search_string: Settings.aws.billing.account
+        )
+        JSON.parse(response.to_json)['dimension_values'].first['value']
+      end
+
+      def count_digital_claims
+        @count_digital_claims ||= Claims::Count.week(@start_date)
+      end
+
+      def client
+        @client ||= Aws::CostExplorer::Client.new(access_key_id: Settings.aws.billing.access,
+                                                  secret_access_key: Settings.aws.billing.secret,
+                                                  region: 'us-east-1')
+      end
 
       def inputs_numeric?
         true if Float(@total_cost) && Integer(@claim_count)

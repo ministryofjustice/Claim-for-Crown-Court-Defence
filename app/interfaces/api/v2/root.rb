@@ -20,7 +20,6 @@ module API
           mount API::V2::MI::InjectionErrors
           mount API::V2::MI::ProvisionalAssessments
           mount API::V2::MI::AdditionalInformationExpenses
-          mount API::V2::PerformancePlatform::QuarterlyVolume
 
           namespace :ccr, desc: 'CCR injection specific claim format' do
             mount API::V2::CCRClaim

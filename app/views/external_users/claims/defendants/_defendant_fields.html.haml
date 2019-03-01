@@ -1,6 +1,7 @@
-.nested-fields.resource-details.defendant-details
-  %h2.heading-large
+.nested-fields.resource-details.defendant-details.fx-numberedList-item
+  %h2.heading-medium
     = t('.defendant')
+    %span.fx-numberedList-number
   .form-group.first-name
     - @representation_order_count = 0
     = f.adp_text_field :first_name, label: t('.first_name'), errors: @error_presenter

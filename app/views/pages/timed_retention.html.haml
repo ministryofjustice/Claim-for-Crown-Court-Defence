@@ -1,4 +1,4 @@
-= render partial: 'layouts/header', locals: {page_heading: 'Time-limited retention of claims'}
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 - stale_weeks    = Settings.timed_transition_stale_weeks
 - archived_weeks = Settings.timed_transition_pending_weeks

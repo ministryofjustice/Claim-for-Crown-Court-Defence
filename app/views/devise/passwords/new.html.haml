@@ -1,6 +1,9 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
@@ -14,7 +17,7 @@
             = "#{attribute.to_s.humanize} #{message}"
 
   %div.form-group
-    = f.label :email, class: "form-label"
+    = f.label :email, class: "form-label-bold"
     = f.input_field :email, autofocus: true, autocomplete: 'off', class: "form-control"
 
   %div.form-group

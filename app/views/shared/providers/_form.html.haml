@@ -2,7 +2,7 @@
   = form_for @provider, url: form_url, builder: AdpFormBuilder, html: { novalidate: true } do |f|
 
     // Error summary
-    = render partial: 'errors/error_summary', locals: { ep: @provider, error_summary: t('.prohibited_save') }
+    = render partial: 'errors/error_summary', locals: { ep: @provider, error_summary: t('.error_summary') }
 
     //Provider name
     = f.adp_text_field :name, id: 'name', label: t('.provider_name'), hint_text: t('.provider_name_hint')

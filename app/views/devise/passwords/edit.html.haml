@@ -1,6 +1,9 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
 = render partial: 'errors/error_summary', locals:{ ep: resource, error_summary: t('.error_summary')}
 
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
@@ -12,11 +15,11 @@
 
   .form-group
     %a{name: 'password'}
-    = f.label :password, t('.new_password'), class: 'form-label'
+    = f.label :password, t('.new_password'), class: 'form-label-bold'
     = f.input_field :password, autofocus: true, class: 'form-control'
   .form-group
     %a{name: 'password_confirmation'}
-    = f.label :password_confirmation, t('.confirm_your_password'), class: 'form-label'
+    = f.label :password_confirmation, t('.confirm_your_password'), class: 'form-label-bold'
     = f.input_field :password_confirmation, class: 'form-control'
 
   .form-group

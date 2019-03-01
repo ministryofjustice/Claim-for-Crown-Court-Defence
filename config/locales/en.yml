@@ -38,14 +38,29 @@ en:
       sidekiq_console: Sidekiq console
       all_claims: Your claims
       sub_navigation: Sub navigation
+  json_template:
+    index:
+      page_heading: Claim for crown court defence API
   pages:
+    api_landing:
+      page_heading: Claim for crown court defence API
+    api_release_notes:
+      page_heading: API release notes
+    servicedown:
+      page_heading: The service is unavailable
+    timed_retention:
+      page_heading: Time-limited retention of claims
     tandcs:
       page_title: Terms and conditions for claim for Crown court defence
       page_heading: Terms and conditions
     contact_us:
       page_title: Contact us
       page_heading: Contact us
-
+  errors:
+    internal_server_error:
+      page_heading: 500 - internal server error
+    not_found:
+      page_heading: 404 - not found
   date: Date
   distance:
     unit:
@@ -339,7 +354,6 @@ en:
     calculate:
       amount_unavailable: The calculated rate is unavailable, please enter manually.
 
-
 # en.super_admins
   super_admins:
     admin:
@@ -374,7 +388,7 @@ en:
           password_confirmation: *password_confirmation
           submit: *change_password
           page_title: Change %{super_admin}'s password
-          heading: Change password
+          page_heading: Change password
     providers:
       provider_type: &provider_type 'Provider type'
       provider_name: &provider_name 'Provider name'
@@ -476,6 +490,7 @@ en:
       find:
         email: *email
         submit: 'Search'
+        page_heading: Find provider by email
         page_title: Find provider by email
       change_password:
         error: 'error'
@@ -522,14 +537,14 @@ en:
           confirmation: Are you sure?
         new:
           error: 'error'
-          new_advocate: Add a new user to %{provider_name}
-          prohibited_save: 'This user has'
+          page_heading: Add a new user to %{provider_name}
+          error_summary: This user has
           page_title_firm: Add a user to your firm's account
           page_title_chamber: Add a user to your chambers' account
         edit:
           page_heading: Edit %{external_user}'s details
           error: 'error'
-          prohibited_save: 'This user has'
+          error_summary: This user has
           page_title: Edit user account details for %{external_user}
         form:
           email: *email
@@ -543,12 +558,13 @@ en:
           submit: 'Create user'
         change_password:
           error: 'error'
-          prohibited_save: This user password change has
+          error_summary: This user password change has
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation
           submit: *change_password
           page_title: Change your password
+          page_heading: *change_password
           change_password: *change_password
         show:
           page_title: View your account details
@@ -600,19 +616,22 @@ en:
           page_title_firm: Edit your firm's account
           page_title_chamber: Edit your chambers' account
     all_claims: Your claims
-    your_claims: Your claims list
+    your_claims: Your claims
     claim_heading: Claim for Crown Court fees
     agfs_claim_heading: Claim for advocate fees
     lgfs_claim_heading: Claim for litigator fees
     certifications:
       new:
-        prohibited_save: This claim certification has
+        submit: Certify and submit claim
+        return: Return to claim
+        error_summary: This claim certification has
         certified_by: 'Name of person certifying'
         certified_by_prompt_text: 'Enter full name'
         certification_date: 'Date'
         date: 'Date'
         page_title_transfer_claim: Certify and submit the litigator transfer fees claim
         page_title_advocate_claim: advocate claim
+        page_heading: Certification
         page_title:
           agfs_final: Certify and submit the advocate final fees claim
           agfs_interim: Certify and submit the advocate warrant fees claim
@@ -666,11 +685,11 @@ en:
           change: Change
           change_link_label: Change additional information
       archived:
-        archived_claims: Your claim archive
+        page_heading: Your claim archive
         archived_claim: Your claim archive
         page_title: View your claims archive
       authorised:
-        authorised_claims: 'Authorised claims for last week'
+        page_heading: Your authorised claims
         with_total_assessed_value_of: 'claims with a total assessed value of'
         page_title: View your authorised claims
       basic_fees:
@@ -1131,7 +1150,7 @@ en:
         form_error_hint: 'Check below for more detail'
       summary:
         button_label: *continue_to_certification_button
-        heading: Check your claim
+        page_heading: Check your claim
         case_details: Case details
         agfs:
           advocate_claim:
@@ -1276,7 +1295,7 @@ en:
         rejected: Rejected
         submitted: Submitted to LAA
         show_count: 'Showing %{page_count} of %{total} claims'
-        page_title: View your claims list
+        page_title: View your claims
       interim_claim_info:
         fields: &interim_claim_info_fields
           warrant_fee: Warrant fees
@@ -1289,7 +1308,7 @@ en:
       json_document_importer:
         import_claim: Or upload your claims in JSON format
       outstanding:
-        heading: Outstanding claims
+        page_heading: Your outstanding claims
         claims_value: claims with a total value of
         page_title: View your outstanding claims
       supporting_documents:
@@ -1599,7 +1618,6 @@ en:
 
         warrant_fees_form_step:
           page_title: Enter warrant fees for litigator final fees claim
-
   shared:
     claim_header:
       case_number: 'Case number:'
@@ -1703,7 +1721,7 @@ en:
             supplier_name: For example, the city or street name
             postcode: For example, SW11 1AA
             supplier_number: For example, 1A234B
-        prohibited_save: 'This provider has'
+        error_summary: 'This provider has'
         provider_name: *provider_name
         provider_name_hint: The trading name of the Chamber or Firm
         provider_type: *provider_type
@@ -1957,7 +1975,6 @@ en:
       scheme_filter_hint: 'Configure list below by AGFS and LGFS claims'
       scheme_filter: 'Filter list by:'
       scheme_filter_all: 'All'
-
   case_workers:
     table_headings:
       your_claims: Your claims
@@ -2213,6 +2230,8 @@ en:
     sessions:
       new:
         page_title: Sign in to claim for Crown court defence
+        page_heading: Sign in
+        sign_in: Sign in
     shared:
       links:
         sign_in: Sign in

@@ -975,6 +975,7 @@ en:
         fields:
           defendants: 'Defendants'
           add_another_defendant: 'Add another defendant'
+          page_heading: Defendant details
         representation_order_fields:
           date: Representation order date
           representation_order: Representation order details

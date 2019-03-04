@@ -1,41 +1,42 @@
-.nested-fields.resource-details.defendant-details.fx-numberedList-item
-  %h2.heading-medium
-    = t('.defendant')
-    %span.fx-numberedList-number
-  .form-group.first-name
-    - @representation_order_count = 0
-    = f.adp_text_field :first_name, label: t('.first_name'), errors: @error_presenter
+%fieldset
+  .nested-fields.resource-details.defendant-details.fx-numberedList-item
+    %h2.heading-medium
+      = t('.defendant')
+      %span.fx-numberedList-number
+    .form-group.first-name
+      - @representation_order_count = 0
+      = f.adp_text_field :first_name, label: t('.first_name'), errors: @error_presenter
 
-  .form-group.last-name
-    = f.adp_text_field :last_name, label: t('.last_name'), errors: @error_presenter
+    .form-group.last-name
+      = f.adp_text_field :last_name, label: t('.last_name'), errors: @error_presenter
 
-  .form-group.dob
-    %a{:id => "defendant_#{@defendant_count+1}_date_of_birth"}
-    = f.gov_uk_date_field(:date_of_birth, legend_text: t('.date_of_birth'), legend_class: 'govuk-legend', id: "defendant_#{@defendant_count+1}_date_of_birth_group", error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count+1}_date_of_birth"))
+    .form-group.dob
+      %a{:id => "defendant_#{@defendant_count+1}_date_of_birth"}
+      = f.gov_uk_date_field(:date_of_birth, legend_text: t('.date_of_birth'), legend_class: 'govuk-legend', id: "defendant_#{@defendant_count+1}_date_of_birth_group", error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count+1}_date_of_birth"))
 
-  - unless @claim.lgfs? && @claim.interim?
-    .form-group
-      %fieldset
-        .multiple-choice
-          = f.check_box :order_for_judicial_apportionment
-          = f.label :order_for_judicial_apportionment, t('.order_for_judicial_apportionment'), class: 'judicial-apportionment-notice'
-          = validation_error_message(@error_presenter, :order_for_judicial_apportionment)
+    - unless @claim.lgfs? && @claim.interim?
+      .form-group
+        %fieldset
+          .multiple-choice
+            = f.check_box :order_for_judicial_apportionment
+            = f.label :order_for_judicial_apportionment, t('.order_for_judicial_apportionment'), class: 'judicial-apportionment-notice'
+            = validation_error_message(@error_presenter, :order_for_judicial_apportionment)
 
-    .form-group
-      %details
-        %summary
-          %span.summary Help with judicial apportionment
-        .panel.panel-border-narrow
-          %p
-            = t('.order_for_judicial_apportionment_help')
+      .form-group
+        %details
+          %summary
+            %span.summary Help with judicial apportionment
+          .panel.panel-border-narrow
+            %p
+              = t('.order_for_judicial_apportionment_help')
 
-  .documents
-    = f.fields_for :representation_orders do |repo_form|
-      = render partial: 'external_users/claims/defendants/representation_order_fields', locals: { f: repo_form }
-  .links
-    = link_to_add_association t('.add_another_rep_order'), f, :representation_orders, partial: 'external_users/claims/defendants/representation_order_fields'
+    .documents
+      = f.fields_for :representation_orders do |repo_form|
+        = render partial: 'external_users/claims/defendants/representation_order_fields', locals: { f: repo_form }
+    .links
+      = link_to_add_association t('.add_another_rep_order'), f, :representation_orders, partial: 'external_users/claims/defendants/representation_order_fields'
 
-  %p
-    = link_to_remove_association t('.remove_defendant'), f if @defendant_count > 0
+    %p
+      = link_to_remove_association t('.remove_defendant'), f if @defendant_count > 0
 
-- @defendant_count += 1
+  - @defendant_count += 1

@@ -1,7 +1,9 @@
 .form-section.defendants.fx-numberedList-wrapper
-  %fieldset
-    = f.fields_for :defendants do |defendant|
-      = render partial: 'external_users/claims/defendants/defendant_fields', locals: { f: defendant }
+  %h2.heading-large
+    = t('.page_heading')
+
+  = f.fields_for :defendants do |defendant|
+    = render partial: 'external_users/claims/defendants/defendant_fields', locals: { f: defendant }
 .form-section.form-actions.defendants-actions
   %hr
   = link_to_add_association t('.add_another_defendant'), f, :defendants, partial: 'external_users/claims/defendants/defendant_fields', class: 'button button-secondary blue', render_options: { }, data: {'association-insertion-method' => 'append', 'association-insertion-node' => '.fx-numberedList-wrapper'}

@@ -72,11 +72,11 @@ module DataMigrator
     end
 
     def contrary
-      @contrary.strip
+      @contrary&.strip
     end
 
     def year_chapter
-      @year_chapter.strip
+      @year_chapter&.strip
     end
 
     def offences_for_scheme

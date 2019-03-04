@@ -165,20 +165,21 @@ namespace :data do
       adder.send(args[:direction])
     end
 
-    task :add_agfs_reforms_other_offences, [:direction]=> :environment do |_task, args|
+    desc 'Add missing AGFS reform "other offences"'
+    task :add_agfs_reform_other_offences, [:direction]=> :environment do |_task, args|
       require "#{Rails.root}/lib/data_migrator/offence_adder.rb"
       args.with_defaults(direction: 'up')
+      attrs = { description: 'Other offences', contrary: nil, year_chapter: nil }
 
-      attrs = {
-        offence_band: args[:offence_band],
-        description: args[:description],
-        contrary: args[:contrary],
-        year_chapter: args[:year_chapter]
-      }
+      fee_schemes = FeeScheme.where(name: 'AGFS', version: 10..11)
+      offence_bands = OffenceBand.all.sort_by { |ob| ob.description.to_f }.map(&:description)
 
-      fee_scheme = FeeScheme.find_by(version: args[:fee_scheme_version], name: args[:fee_scheme_name].upcase)
-      adder = DataMigrator::OffenceAdder.new(attrs.merge(fee_scheme: fee_scheme))
-      adder.send(args[:direction])
+      fee_schemes.each do |fee_scheme|
+        offence_bands.each do |offence_band|
+          adder = DataMigrator::OffenceAdder.new(attrs.merge(fee_scheme: fee_scheme, offence_band: offence_band))
+          adder.send(args[:direction])
+        end
+      end   
     end
 
     namespace :providers do

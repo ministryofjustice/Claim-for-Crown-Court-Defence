@@ -141,28 +141,23 @@ namespace :data do
       Rake::Task['data:migrate:offence_unique_code_scheme_10'].invoke
     end
 
-    # e.g.
-    # rake data:migrate:add_offence["AGFS","10","17.1","Aiding\, abetting\, causing or permitting dangerous driving","Road Traffic Act 1988\, s.2","1988 c. 52"]
-    # rake data:migrate:add_offence["AGFS","11","17.1","Aiding\, abetting\, causing or permitting dangerous driving","Road Traffic Act 1988\, s.2","1988 c. 52"]
-    desc 'Add a new scheme offence with unique code'
-    task :add_offence, [:fee_scheme_name, :fee_scheme_version, :offence_band, :description, :contrary, :year_chapter, :direction]=> :environment do |_task, args|
+    desc 'Add missing AGFS driving offences'
+    task :add_agfs_reform_driving_offences, [:direction]=> :environment do |_task, args|
       require "#{Rails.root}/lib/data_migrator/offence_adder.rb"
 
       args.with_defaults(direction: 'up')
-      unless args.to_h.keys.size >= 6
-        abort 'Usage: [fee_scheme_name, fee_scheme_version, description, offence_band: e.g. "17.1", contrary, year_chapter, direction: "up|down"]'
-      end
-
+      fee_schemes = FeeScheme.where(version: 10..11, name: 'AGFS')
       attrs = {
-        offence_band: args[:offence_band],
-        description: args[:description],
-        contrary: args[:contrary],
-        year_chapter: args[:year_chapter]
+        offence_band: '17.1',
+        description: 'Aiding, abetting, causing or permitting dangerous driving',
+        contrary: 'Road Traffic Act 1988, s.2',
+        year_chapter: '1988 c. 52'
       }
 
-      fee_scheme = FeeScheme.find_by(version: args[:fee_scheme_version], name: args[:fee_scheme_name].upcase)
-      adder = DataMigrator::OffenceAdder.new(attrs.merge(fee_scheme: fee_scheme))
-      adder.send(args[:direction])
+      fee_schemes.each do |fee_scheme|
+        adder = DataMigrator::OffenceAdder.new(attrs.merge(fee_scheme: fee_scheme))
+        adder.send(args[:direction])
+      end
     end
 
     desc 'Add missing AGFS reform "other offences"'
@@ -179,7 +174,14 @@ namespace :data do
           adder = DataMigrator::OffenceAdder.new(attrs.merge(fee_scheme: fee_scheme, offence_band: offence_band))
           adder.send(args[:direction])
         end
-      end   
+      end
+    end
+
+    desc 'Add missing offences - one off task'
+    task :add_missing_offences, [:direction]=> :environment do |_task, args|
+      args.with_defaults(direction: 'up')
+      Rake::Task["data:migrate:add_agfs_reform_driving_offences"].invoke(*args.to_h.values)
+      Rake::Task["data:migrate:add_agfs_reform_other_offences"].invoke(*args.to_h.values)
     end
 
     namespace :providers do

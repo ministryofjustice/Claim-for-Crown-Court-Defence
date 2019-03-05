@@ -36,8 +36,13 @@ moj.Modules.CaseTypeCtrl = {
     }
   },
 
-  bindEvents: function () {
+  bindEvents: function() {
     var self = this;
+
+    $('form').on('submit', function() {
+      return self.autocompletePolyfill();
+    });
+
 
     $.subscribe('/onConfirm/claim_case_type_id-select/', function(e, data) {
       // Loop over the data object and fire the
@@ -49,7 +54,28 @@ moj.Modules.CaseTypeCtrl = {
       });
     });
   },
+  autocompletePolyfill: function () {
+    var courtValue = $('#claim_court_id').val();
+    var caseValue = $('#claim_case_type_id').val();
 
+
+      if (!$('#claim_court_id-select').val() || courtValue !== $('#claim_court_id-select').find(':selected').text()) {
+        $('#claim_court_id-select option').is(function(idx, option) {
+          if (option.text === courtValue) {
+            $(option).prop('selected', true);
+          }
+        });
+      }
+
+      if (!$('#claim_case_type_id-select').val() || caseValue !== $('#claim_case_type_id-select').find(':selected').text()) {
+        $('#claim_case_type_id-select option').is(function(idx, option) {
+          if (option.text === caseValue) {
+            $(option).prop('selected', true);
+          }
+        });
+      }
+      return true;
+  },
   initAutocomplete: function() {
     $(this.els.fxAutocomplete).is(function(idx, el) {
       moj.Helpers.Autocomplete.new('#' + el.id, {

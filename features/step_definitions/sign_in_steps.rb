@@ -74,6 +74,7 @@ Given(/^I am signed in as the case worker$/) do
 end
 
 When(/^I sign in as the advocate$/) do
+  sleep 5
   sign_in(@advocate.user, @password)
 end
 

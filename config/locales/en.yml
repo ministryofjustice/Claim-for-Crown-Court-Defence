@@ -931,7 +931,7 @@ en:
           offence_class_hint: "for example Burglary"
           select_offence_class: "Please select"
         scheme_xor:
-          one_not_both: 'Specify an Offence or an OffenceBand, not both'
+          one_not_both: 'Specify an OffenceClass or an OffenceBand, not both'
         summary:
           caption: 'Offence Details: This section contains information about the offence details.'
           header: Offence details

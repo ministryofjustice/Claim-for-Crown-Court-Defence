@@ -108,34 +108,79 @@ RSpec.describe API::V1::DropdownData do
   end
 
   context 'GET api/offences' do
-    let!(:fee_scheme) { create(:fee_scheme, :agfs_nine) }
-    let!(:offence)                        { create(:offence) }
-    let!(:other_offence)                  { create(:offence) }
-    let!(:misc_offence)                   { create(:offence, :miscellaneous, offence_class: offence.offence_class) }
-    let!(:offence_with_same_description)  { create(:offence, description: offence.description) }
-    let(:exposed_offence_class) { ->(offence_class) { API::Entities::OffenceClass.represent(offence_class).as_json } }
-    let(:exposed_offence) { ->(offence) { API::Entities::Offence.represent(offence).as_json } }
+    subject(:returned_offences) do
+      response = get OFFENCE_ENDPOINT, params
+      JSON.parse(response.body, symbolize_names: true)
+    end
 
     before do
-      create :offence_fee_scheme, offence: offence, fee_scheme: fee_scheme
-      create :offence_fee_scheme, offence: other_offence, fee_scheme: fee_scheme
-      create :offence_fee_scheme, offence: offence_with_same_description, fee_scheme: fee_scheme
+      seed_fee_schemes
     end
 
-    it 'should include the offence class as nested JSON' do
-      response = get OFFENCE_ENDPOINT, params
-      body = JSON.parse(response.body, symbolize_names: true)
-      expect(body.first[:offence_class]).to eq(exposed_offence_class[offence.offence_class])
-    end
+    let!(:scheme_9_offence) { create(:offence, :with_fee_scheme_nine) }
+    let!(:scheme_10_offence) { create(:offence, :with_fee_scheme_ten) }
+    let!(:scheme_11_offence) { create(:offence, :with_fee_scheme_eleven) }
+    let(:exposed_offence) { ->(offence) { API::Entities::Offence.represent(offence).as_json } }
 
-    it 'should only return offences matching description when offence_description param is present' do
-      params.merge!(offence_description: offence.description)
-      response = get OFFENCE_ENDPOINT, params
+    context 'filtering' do
+      context 'by rep order date' do
+        context 'using a scheme 9 date' do
+          it 'returns scheme 9 offences' do
+            params.merge!(rep_order_date: '2016-03-01')
+            is_expected.to match_array([exposed_offence[scheme_9_offence]])
+          end
+        end
 
-      returned_offences = JSON.parse(response.body, symbolize_names: true)
-      expect(returned_offences).to include(exposed_offence[offence], exposed_offence[offence_with_same_description])
-      expect(returned_offences).to_not include(exposed_offence[other_offence])
-      expect(returned_offences.count).to eql 2
+        context 'using a scheme 10 date' do
+          it 'returns scheme 10 offences' do
+            params.merge!(rep_order_date: '2018-04-01')
+            is_expected.to match_array([exposed_offence[scheme_10_offence]])
+          end
+        end
+
+        context 'using a scheme 11 date' do
+          it 'returns scheme 11 offences' do
+            params.merge!(rep_order_date: '2018-12-31')
+            is_expected.to match_array([exposed_offence[scheme_11_offence]])
+          end
+        end
+      end
+
+      context 'by description' do
+        let!(:offence_with_same_description) { create(:offence, :with_fee_scheme_nine, description: scheme_9_offence.description) }
+
+        it 'returns offences matching description' do
+          params.merge!(offence_description: scheme_9_offence.description)
+          is_expected.to match_array([exposed_offence[scheme_9_offence], exposed_offence[offence_with_same_description]])
+        end
+      end
+
+      context 'by unique_code' do
+        context 'scheme 9' do
+          it 'returns matching offence' do
+            params.merge!(unique_code: scheme_9_offence.unique_code)
+            is_expected.to match_array([exposed_offence[scheme_9_offence]])
+          end
+        end
+
+        context 'scheme 10' do
+          let!(:offence) { create(:offence, :with_fee_scheme_ten) }
+
+          it 'returns matching offence' do
+            params.merge!(unique_code: scheme_10_offence.unique_code)
+            is_expected.to match_array([exposed_offence[scheme_10_offence]])
+          end
+        end
+
+        context 'scheme 11' do
+          let!(:offence) { create(:offence, :with_fee_scheme_eleven) }
+
+          it 'returns matching offence' do
+            params.merge!(unique_code: scheme_11_offence.unique_code)
+            is_expected.to match_array([exposed_offence[scheme_11_offence]])
+          end
+        end
+      end
     end
   end
 

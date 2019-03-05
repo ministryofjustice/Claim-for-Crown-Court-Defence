@@ -32,6 +32,6 @@ class OffenceClass < ApplicationRecord
   end
 
   def lgfs_offence_id
-    offences.miscellaneous.first.id
+    offences&.miscellaneous&.first&.id
   end
 end

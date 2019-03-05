@@ -75,17 +75,24 @@ module API
         resource :offences do
           desc 'Return all Offence-ids to be used in advocate claims (see OffenceClasses for Litigator claims).'
           params do
-            optional :offence_description, type: String, desc: 'Offences matching description'
+            optional :offence_description,
+                     type: String,
+                     desc: 'OPTIONAL: Filter by offence description'
             optional :rep_order_date,
                      type: String,
-                     desc: 'OPTIONAL: Date of representation order in YYYY-MM-DD',
+                     desc: 'OPTIONAL: Filter by scheme date based on representation order - format YYYY-MM-DD',
                      standard_json_format: true
+            optional :unique_code,
+                     type: String,
+                     desc: 'OPTIONAL: Filter by offence unique code'
           end
           get do
-            scheme_date = params[:rep_order_date] || '2018-01-01'
+            scheme_date = params[:rep_order_date]
             description = params[:offence_description]
-            offences = FeeScheme.agfs.for(scheme_date).last.offences
+            unique_code = params[:unique_code]
+            offences = scheme_date.present? ? FeeScheme.agfs.for(scheme_date).last.offences : Offence.all
             offences = offences.where(description: description) if description.present?
+            offences = offences.where(unique_code: unique_code) if unique_code.present?
 
             present offences, with: API::Entities::Offence
           end

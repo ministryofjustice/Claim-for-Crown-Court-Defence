@@ -87,7 +87,7 @@ module API
                      desc: 'OPTIONAL: Filter by offence unique code'
           end
           get do
-            scheme_date = params[:rep_order_date]
+            scheme_date = params[:rep_order_date] || '2016-04-01'
             description = params[:offence_description]
             unique_code = params[:unique_code]
             offences = scheme_date.present? ? FeeScheme.agfs.for(scheme_date).last.offences : Offence.all

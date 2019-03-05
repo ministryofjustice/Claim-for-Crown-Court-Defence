@@ -81,6 +81,7 @@ RSpec.describe API::V1::DropdownData do
 
     it "should return a JSON formatted list of the required information" do
       results.each do |endpoint, json|
+        ap "#{endpoint}"
         response = get endpoint, params, format: :json
         expect(response.status).to eq 200
         expect(response.body).to be_json_eql(json)
@@ -125,6 +126,10 @@ RSpec.describe API::V1::DropdownData do
     context 'filtering' do
       context 'by rep order date' do
         context 'using a scheme 9 date' do
+          it 'defaults to scheme 9 offences' do
+            is_expected.to match_array([exposed_offence[scheme_9_offence]])
+          end
+
           it 'returns scheme 9 offences' do
             params.merge!(rep_order_date: '2016-03-01')
             is_expected.to match_array([exposed_offence[scheme_9_offence]])
@@ -157,26 +162,28 @@ RSpec.describe API::V1::DropdownData do
 
       context 'by unique_code' do
         context 'scheme 9' do
+          let(:rep_order_date) { scheme_date_for('scheme 9') }
+
           it 'returns matching offence' do
-            params.merge!(unique_code: scheme_9_offence.unique_code)
+            params.merge!(rep_order_date: rep_order_date, unique_code: scheme_9_offence.unique_code)
             is_expected.to match_array([exposed_offence[scheme_9_offence]])
           end
         end
 
         context 'scheme 10' do
-          let!(:offence) { create(:offence, :with_fee_scheme_ten) }
+          let(:rep_order_date) { scheme_date_for('scheme 10') }
 
           it 'returns matching offence' do
-            params.merge!(unique_code: scheme_10_offence.unique_code)
+            params.merge!(rep_order_date: rep_order_date, unique_code: scheme_10_offence.unique_code)
             is_expected.to match_array([exposed_offence[scheme_10_offence]])
           end
         end
 
         context 'scheme 11' do
-          let!(:offence) { create(:offence, :with_fee_scheme_eleven) }
+          let(:rep_order_date) { scheme_date_for('scheme 11') }
 
           it 'returns matching offence' do
-            params.merge!(unique_code: scheme_11_offence.unique_code)
+            params.merge!(rep_order_date: rep_order_date, unique_code: scheme_11_offence.unique_code)
             is_expected.to match_array([exposed_offence[scheme_11_offence]])
           end
         end

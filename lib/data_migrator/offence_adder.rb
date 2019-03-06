@@ -48,10 +48,8 @@ module DataMigrator
     end
 
     def create_offence!(attrs)
-      attrs.merge!(
-        id: offences_for_scheme.maximum(:id) + 1,
-        unique_code: SecureRandom.uuid
-      )
+      attrs[:id] = offences_for_scheme.maximum(:id) + 1
+      attrs[:unique_code] = SecureRandom.uuid
 
       offence = Offence.create!(attrs)
       OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: fee_scheme)
@@ -94,9 +92,7 @@ module DataMigrator
     def update_unique_code(offence)
       code = generator(offence).code
       modifier = 0
-      until offence.update(unique_code: code)
-        code = generator.code(modifier += 1)
-      end
+      code = generator.code(modifier += 1) until offence.update(unique_code: code)
     end
 
     def generator(offence = nil)

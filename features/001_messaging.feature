@@ -13,7 +13,7 @@ Feature: Case worker messages advocate and advocate responds
     And I select the claim
     And expand the messages section
     And I send a message 'More information please'
-    And I sign out as the case worker
+    And I sign out
     And I sign in as the advocate
     Then the claim should be displayed with a status of 'Allocated'
     And it is displaying 'View (1 new)' in the messages column
@@ -24,7 +24,7 @@ Feature: Case worker messages advocate and advocate responds
     When I enter a message 'Commital bundle provided'
     And I upload a file
     And I click send
-    And I sign out as the advocate
+    And I sign out
     And I sign in as the case worker
     Then the claim should be visible with 1 new message
 

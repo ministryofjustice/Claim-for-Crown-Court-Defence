@@ -101,14 +101,6 @@ Then(/^I should see an Manage advocates link and it should work$/) do
   expect(find('#page-h1')).to have_content('Manage users')
 end
 
-Given(/^I sign out as/) do
-  using_wait_time 20 do
-    click_link "Sign out"
-    expect(page).to have_content('You have signed out')
-    expect(current_path).to eql new_feedback_path
-  end
-end
-
 Given(/^I sign out$/) do
   using_wait_time 20 do
     click_link "Sign out"

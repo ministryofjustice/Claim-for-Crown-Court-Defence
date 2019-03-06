@@ -1,5 +1,4 @@
 @stub_zendesk_request
-
 Feature: A user can provide feedback and report bugs
   Scenario: An advocate is redirected to the feedback page upon sign out and is not prompted for their email
     Given I am a signed in advocate

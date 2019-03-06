@@ -85,16 +85,8 @@ When(/^I attempt to sign in again as the deleted caseworker$/) do
   sign_in(@case_worker.user, 'password')
 end
 
-When(/^I sign out as/) do
-  click_link "Sign out"
-  using_wait_time 6 do
-    expect(page).to have_text('You have signed out')
-  end
-end
-
 Given(/^I am a signed in case worker admin$/) do
   @case_worker = create(:case_worker, :admin)
-  visit new_user_session_path
   sign_in(@case_worker.user, 'password')
 end
 
@@ -109,8 +101,20 @@ Then(/^I should see an Manage advocates link and it should work$/) do
   expect(find('#page-h1')).to have_content('Manage users')
 end
 
+Given(/^I sign out as/) do
+  using_wait_time 20 do
+    click_link "Sign out"
+    expect(page).to have_content('You have signed out')
+    expect(current_path).to eql new_feedback_path
+  end
+end
+
 Given(/^I sign out$/) do
-  click_link 'Sign out' rescue nil
+  using_wait_time 20 do
+    click_link "Sign out"
+    expect(page).to have_content('You have signed out')
+    expect(current_path).to eql new_feedback_path
+  end
 end
 
 When(/^I should be on the Allocation page$/) do

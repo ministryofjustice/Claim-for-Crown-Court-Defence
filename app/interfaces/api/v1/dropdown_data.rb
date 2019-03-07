@@ -77,7 +77,7 @@ module API
           params do
             optional :offence_description,
                      type: String,
-                     desc: 'OPTIONAL: Filter by offence description'
+                     desc: I18n.t('api.v1.dropdown_data.offences.params.description')
             optional :rep_order_date,
                      type: String,
                      default: '2016-04-01',
@@ -85,7 +85,7 @@ module API
                      standard_json_format: true
             optional :unique_code,
                      type: String,
-                     desc: 'OPTIONAL: Filter by offence unique code'
+                     desc: I18n.t('api.v1.dropdown_data.offences.params.unique_code')
           end
           get do
             scheme_date = params[:rep_order_date] || '2016-04-01'

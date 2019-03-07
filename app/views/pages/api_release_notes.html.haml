@@ -11,6 +11,43 @@
 
 %section.api-documentation
   %hr
+  %h2 7th March 2019
+  %ul.list-bullet
+    %li
+      Expose offence
+      %code.code='unique_code'
+      and optional filter on the
+      %a{ href: '/api/documentation?v=1#!/api/getApiOffences', target: '_blank' } api/offences
+      endpoint
+      %br/
+      %br/
+      To facilitate the lookup of offences the unique identifiers that
+      can be relied on not to change (i.e.
+      %code.code='unique_code'
+      ) have been exposed.
+      %br
+      %br
+      .panel
+        Note that an offence's
+        %code.code='id'
+        should not be persisted in consumers and relied on to add a specific offence to a claim. The reason for this is that internal id's could change unexpectedly. We will, however, endeavour to not change these for historical reasons. Instead an offence should be queried on this endpoint using the
+        %code.code='unique_code'
+        identifier (or description, but this too is not ideal) to retrieve its id.
+        %br/
+        %br/
+        An
+        %code.code='id'
+        retrieved by these means can be used to reliably create a claim with that offence.
+
+      In addition a
+      %code.code='unique_code'
+      filter has been added to enable consumers to retrieve a single offence's data.
+      %br/
+      %br/
+
+
+%section.api-documentation
+  %hr
   %h2 6th March 2019
   %ul.list-bullet
     %li

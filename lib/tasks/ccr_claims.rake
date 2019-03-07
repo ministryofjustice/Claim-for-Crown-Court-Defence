@@ -12,7 +12,7 @@ namespace :ccr_claims do
           response = RestClient.get(uri)
           memo << JSON.parse(response)
         rescue => e
-          warn "Error: #{e} for claim #{claim.uuid} on ap #{uri}"
+          warn "Error: #{e} for claim #{claim.uuid} on uri #{uri}"
         end
       end
       puts JSON.pretty_generate(claims_json)

@@ -2225,7 +2225,9 @@ en:
       dropdown_data:
         offences:
           params:
-            rep_order_date: 'OPTIONAL: Filter by scheme date based on representation order - format YYYY-MM-DD - defaults to date for oldest available AGFS and LGFS fee schemes'
+            description: 'OPTIONAL: Filter by offence description'
+            rep_order_date: 'OPTIONAL: Filter by scheme date based on representation order - format YYYY-MM-DD. Default: date suitable for oldest available AGFS and LGFS fee schemes'
+            unique_code: 'OPTIONAL: Filter by offence unique code'
         params:
           role_filter: 'OPTIONAL: The role to filter the results. If not provided, all results are returned.'
       external_users:

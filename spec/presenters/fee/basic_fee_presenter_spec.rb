@@ -9,55 +9,6 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
 
   subject(:presenter) { described_class.new(fee, view) }
 
-  describe '#prompt_text' do
-    context 'when the fee type code does not require a prompt text' do
-      let(:fee) { build(:basic_fee, :daf_fee, claim: claim) }
-
-      specify { expect(presenter.prompt_text).to be_nil }
-    end
-
-    context 'when the fee type code is BAF' do
-      context 'and the claim is under the original fee scheme' do
-        let(:fee) { build(:basic_fee, :baf_fee, claim: claim_9) }
-
-        specify { expect(presenter.prompt_text).to eq("Please include dates for those Standard appearance fees and PTPH's included in the Basic Fee\n") }
-      end
-
-      context 'and the claim is under the fee reform scheme' do
-        let(:fee) { build(:basic_fee, :baf_fee, claim: claim) }
-
-        specify { expect(presenter.prompt_text).to eq("The basic fee for Scheme 10 claims includes the first day of trial and 3 conferences and views. All other hearings must be added in the relevant sections below\n") }
-      end
-    end
-
-    context 'when the fee type code is SAF' do
-      context 'and the claim is under the original fee scheme' do
-        let(:fee) { build(:basic_fee, :saf_fee, claim: claim_9) }
-
-        specify { expect(presenter.prompt_text).to eq("Include any additional PTPH fees under SAF") }
-      end
-      context 'and the claim is under the fee reform scheme' do
-        let(:fee) { build(:basic_fee, :saf_fee, claim: claim) }
-
-        specify { expect(presenter.prompt_text).to be_nil }
-      end
-    end
-
-    context 'when the fee type code is PPE' do
-      context 'and the claim is under the original fee scheme' do
-        let(:fee) { build(:basic_fee, :ppe_fee, claim: claim_9) }
-
-        specify { expect(presenter.prompt_text).to be_nil }
-      end
-
-      context 'and the claim is under the fee reform scheme' do
-        let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }
-
-        specify { expect(presenter.prompt_text).to eq("Please enter the volume of PPE to help the caseworker assess the correct offence band\n") }
-      end
-    end
-  end
-
   describe '#display_amount?' do
     context 'when the associated claim is not under the new fee reform' do
       let(:fee) { build(:basic_fee, :baf_fee, claim: claim_9) }

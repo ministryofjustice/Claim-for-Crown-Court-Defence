@@ -2223,6 +2223,9 @@ en:
         user_email: 'REQUIRED: The ADP account email address that uniquely identifies the advocate/litigator to whom this claim belongs.'
         travel_expense_additional_information: 'OPTIONAL: Any additional information regarding travel expenses, e.g. private mileage rate reasons'
       dropdown_data:
+        offences:
+          params:
+            rep_order_date: 'OPTIONAL: Filter by scheme date based on representation order - format YYYY-MM-DD - defaults to date for oldest available AGFS and LGFS fee schemes'
         params:
           role_filter: 'OPTIONAL: The role to filter the results. If not provided, all results are returned.'
       external_users:

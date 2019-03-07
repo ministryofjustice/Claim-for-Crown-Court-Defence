@@ -80,7 +80,8 @@ module API
                      desc: 'OPTIONAL: Filter by offence description'
             optional :rep_order_date,
                      type: String,
-                     desc: 'OPTIONAL: Filter by scheme date based on representation order - format YYYY-MM-DD',
+                     default: '2016-04-01',
+                     desc: I18n.t('api.v1.dropdown_data.offences.params.rep_order_date'),
                      standard_json_format: true
             optional :unique_code,
                      type: String,

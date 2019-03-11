@@ -98,7 +98,8 @@ module TimedTransitions
                                                       action: 'archive',
                                                       claim_id: @claim.id,
                                                       softly_deleted_on: @claim.deleted_at,
-                                                      dummy_run: false)
+                                                      dummy_run: false,
+                                                      succeeded: true)
               Transitioner.new(@claim).run
             end
 
@@ -272,7 +273,8 @@ module TimedTransitions
                                                       action: 'archive',
                                                       claim_id: @claim.id,
                                                       softly_deleted_on: @claim.deleted_at,
-                                                      dummy_run: true)
+                                                      dummy_run: true,
+                                                      succeeded: nil)
               Transitioner.new(@claim, true).run
             end
 

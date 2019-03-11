@@ -57,14 +57,15 @@ module TimedTransitions
     end
 
     def archive
+      succeeded = @claim.archive_pending_delete!(reason_code: ['timed_transition']) unless is_dummy?
       LogStuff.send(log_level, 'TimedTransitions::Transitioner',
                     action: 'archive',
                     claim_id: @claim.id,
                     softly_deleted_on: @claim.deleted_at,
-                    dummy_run: @dummy) do
+                    dummy_run: @dummy,
+                    succeeded: succeeded) do
                       'Archiving claim'
                     end
-      @claim.archive_pending_delete!(reason_code: ['timed_transition']) unless is_dummy?
       self.success = true
     end
 

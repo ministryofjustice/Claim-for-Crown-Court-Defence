@@ -119,6 +119,10 @@ aws:
   secret: <%= ENV['SECRET_ACCESS_KEY'] %>
   submitted_queue: <%= ENV['AWS_QUEUE_NAME'] %>
   response_queue: <%= ENV['AWS_RESPONSE_QUEUE_NAME'] %>
+  billing:
+    access: 'store-actual-values-in-.env-file'
+    secret: 'store-actual-values-in-.env-file'
+    account: 'store-actual-values-in-.env-file'
 
 slack:
   bot_url: 'slack_bot_url'

@@ -84,13 +84,13 @@
       The endpoint
       %a{ href: '/api/documentation?v=1#!/api/postApiExternalUsersClaims', target: '_blank' } api/external_users/claims
       is deprecated in favour of
-      %a{ href: '/api/documentation?v=1#!/api/postApiExternalUsersClaimsAdvocatesFinal', target: '_blank' } api/external_users/advocates/final
+      %a{ href: '/api/documentation?v=1#!/api/postApiExternalUsersClaimsAdvocatesFinal', target: '_blank' } api/external_users/claims/advocates/final
       %br/
       %br/
       The endpoints are functionally identical, so you will just need to POST to the new endpoint or its
       %code.code='../validate'
       equivalent (if used). The change is for code organization and logical namespacing considerations following the addition of multiple other advocate endpoints. This will ensure all advocate endpoints are under
-      %code.code='api/external_users/advocates/[final|interim|supplementary]'
+      %code.code='api/external_users/claims/advocates/[final|interim|supplementary]'
       \.
       %br/
       %br/

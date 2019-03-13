@@ -1,6 +1,6 @@
 # https://github.com/ssoroka/scheduler_daemon for help
 class PerformancePlatformCostPerTransactionTask < Scheduler::SchedulerTask
-  cron '0 15 4 1 1/3 ? *' # 04:15 on the first of every quarter
+  cron '15 4 1 1/3 *' # 04:15 on the first of every quarter
   class ReportNotActivated < RuntimeError; end
   def run
     raise ReportNotActivated unless ENV['PERF_PLAT_QV_TOKEN']

@@ -832,8 +832,11 @@ en:
           npw_section_hint: Total number of prosecution witnesses
           total: Total
         fields:
+          page_header: Graduated fees
+          page_hint: All fees should be entered exclusive of VAT.
           amount: 'Amount'
           basic_fees: 'Initial fees'
+          heading: Basic fees
           fee_prompt_text: |
             You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
             for help.
@@ -1287,7 +1290,7 @@ en:
         authorised_claim_details_label: View authorised claims details
       graduated_fees:
         fields:
-          page_header: Graduated fee
+          page_header: Graduated fees
           page_hint: *fees_vat_prompt
           actual_trial_length: *actual_trial_length
           actual_trial_length_hint: Number of days
@@ -1297,7 +1300,7 @@ en:
           help_how_we_calculate_amount_title: *how_is_this_calculated_help
           help_how_we_calculate_amount_body: We calculate the amount based upon the fee scheme, case type, offence class, trial length, the total pages of evidence, and number of defendants
         summary:
-          header: Graduated fee
+          header: Graduated fees
           actual_trial_length:
             one: 1 day
             other: "%{count} days"

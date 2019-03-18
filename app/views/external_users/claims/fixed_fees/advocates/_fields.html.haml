@@ -1,12 +1,11 @@
 - if @claim.allows_fixed_fees?
   #fixed-fees.mod-fees.form-section
     .fixed-fee-group-wrapper
-      %h3.heading-medium
-        Fixed fee
       .form-group
         %fieldset
           %legend.form-label-bold
-            Type of fee
+            -# TODO Aria tags will span two templates
+            = t('.type_of_fee')
             / <span class="form-hint"></span>
           = f.fields_for :fixed_fees do |fixed_fee_fields|
             - @fixed_fee_count += 1

@@ -18,6 +18,7 @@
 #
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
+
 en:
   layouts:
     primary_navigation:
@@ -1152,6 +1153,7 @@ en:
         prohibited_save: This claim has
         error: 'error'
         form_error_hint: 'Check below for more detail'
+
       summary:
         button_label: *continue_to_certification_button
         page_heading: Check your claim
@@ -1159,19 +1161,26 @@ en:
         agfs:
           advocate_claim:
             page_title: View claim summary for advocate final fees claim
+            page_heading: Claim for advocate final fee
           advocate_supplementary_claim:
             page_title: View claim summary for advocate supplementary fee claim
+            page_heading: Claim for advocate supplementary fee
           advocate_interim_claim:
             page_title: View claim summary for advocate warrant fees claim
+            page_heading: Claim for advocate interim fee
         lgfs:
           final_claim:
             page_title: View claim summary for litigator final fees claim
+            page_heading: Claim for litigator final fee
           litigator_claim:
             page_title: View claim summary for litigator final fees claim
+            page_heading: Claim for litigator final fee
           interim_claim:
             page_title: View claim summary for litigator interim fees claim
+            page_heading: Claim for litigator interim fee
           transfer_claim:
             page_title: View claim summary for litigator transfer fees claim
+            page_heading: Claim for litigator transfer fee
         page_title: View claim summary for litigator transfer fees claim
       fee_fields:
         add_date_attended: 'Add dates'

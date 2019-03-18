@@ -505,6 +505,9 @@ en:
 
 # en.external_users
   external_users:
+    agfs_claim_heading: Claim for advocate fees
+    lgfs_claim_heading: Claim for litigator fees
+    claim_heading: Claim for Crown court fees
     claim_types_helper:
       claim_type_page_header:
         page_title_advocate: Choose a bill type for advocate claim
@@ -618,8 +621,7 @@ en:
     all_claims: Your claims
     your_claims: Your claims
     claim_heading: Claim for Crown Court fees
-    agfs_claim_heading: Claim for advocate fees
-    lgfs_claim_heading: Claim for litigator fees
+
     certifications:
       new:
         submit: Certify and submit claim
@@ -648,6 +650,7 @@ en:
         page_title_advocate: Choose a bill type for advocate claim
         page_title_litigator: Choose a bill type for litigator claim
         page_title_generic: Choose a bill type for Crown court claim
+        page_title_advocate: Claim for advocate fees
         agfs_rb: Advocate final fee
         agfs_supplementary_rb: Advocate supplementary fee
         agfs_supplementary_hint: For miscellaneous fees claimed without a graduated or fixed fee

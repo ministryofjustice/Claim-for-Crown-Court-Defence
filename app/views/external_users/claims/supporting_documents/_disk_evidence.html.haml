@@ -1,9 +1,8 @@
-.form-row{class: error_class?(@error_presenter, :disk_evidence)}
-  %h2.bold-medium
-    = f.anchored_label t('disk_evidence.header'), 'evidence_upload'
-
+.form-section{class: error_class?(@error_presenter, :disk_evidence)}
   %fieldset
-    = f.anchored_label t('disk_evidence.question'), 'disk_evidence'
+    %legend
+      %span.form-label-bold
+        = t('disk_evidence.question')
     = f.collection_radio_buttons(:disk_evidence, [['Yes','true'],['No','false']], :last, :first ) do |b|
       .multiple-choice{"data-target" => b.text == 'Yes' ? 'evidence-info' : nil}
         = b.radio_button

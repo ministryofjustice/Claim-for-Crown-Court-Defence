@@ -682,7 +682,7 @@ en:
       additional_information:
         fields:
           additional_information: 'Additional information'
-          additional_information_prompt_text: 'for example any other information that will help us process your claim'
+          additional_information_prompt_text: Provide any information that will help in the assessment of your claim
         summary:
           header: Additional information
           not_available: No additional information has been provided
@@ -1188,6 +1188,7 @@ en:
       fixed_fees:
         advocates:
           fields:
+            type_of_fee: Type of fee
             add_fixed_fee: 'Add another fee'
             amount: 'Amount'
             fixed_fees: 'Fixed fees'
@@ -1340,6 +1341,10 @@ en:
           choose_file: 'Choose a file'
           file_name: "File name"
           supporting_evidence_docs: 'Upload supporting evidence'
+          supporting_evidence: Supporting evidence
+          file_upload_message: Drag and drop files here
+          legend: Upload supporting evidence
+          or: or
       supporting_evidence:
         summary:
           header: Supporting evidence
@@ -1354,7 +1359,8 @@ en:
           caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'
           header: Supporting evidence
         fields:
-          supporting_evidence_checklist: 'Supporting evidence checklist'
+          supporting_evidence_checklist: Supporting evidence checklist
+          supporting_evidence_checklist_hint: Select all that apply
       warrant_fee:
         summary:
           caption: 'Warrant Fees: This section contains details of any warrant fees that have been claimed.'

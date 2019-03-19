@@ -1140,7 +1140,7 @@ en:
           transfer_date_default_label_text: Date stopped/started acting
           case_conclusions: How did the case conclude?
         summary:
-          header: Transfer fee
+          header: Transfer fees
           litigator_type: Litigator type
           elected_case: Was the case elected?
           transfer_stage_new: When did you start acting?
@@ -1860,6 +1860,7 @@ en:
         defendants: "There are no defendants for this claim"
         disbursements: "There are no disbursements for this claim"
         fixed_fees: "There are no fixed fees for this claim"
+        transfer_fee: "There are no transfer fee for this claim"
         graduated_fees: "There are no graduated fees for this claim"
         interim_fee: "There is no interim fee for this claim"
         misc_fees: "There are no miscellaneous fees for this claim"

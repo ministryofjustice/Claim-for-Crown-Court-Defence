@@ -249,7 +249,7 @@ table.report{
     }
 
     td:before {
-      content: attr(aria-label);
+      content: attr(data-label);
       float: left;
       font-weight: bold;
       text-transform: uppercase;

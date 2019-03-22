@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe String do
 
-  context '#zero?' do
+  describe '#zero?' do
     context 'for blank values' do
       it 'should be false' do
         expect(''.zero?).to eq(false)
@@ -26,7 +26,7 @@ describe String do
     end
   end
 
-  context 'to_bool' do
+  describe '#to_bool' do
     context 'for blank values' do
       it 'should be false for empty string' do
         expect(''.to_bool).to eq(false)
@@ -54,7 +54,7 @@ describe String do
     end
   end
 
-  context 'alpha?' do
+  describe '#alpha?' do
     context 'for blank values' do
       it 'should be false for empty string' do
         expect(''.alpha?).to eq(false)
@@ -82,7 +82,7 @@ describe String do
     end
   end
 
-  context 'digit?' do
+  describe '#digit?' do
     context 'for blank values' do
       it 'should be false for empty string' do
         expect(''.digit?).to eq(false)
@@ -107,6 +107,13 @@ describe String do
           expect(value.digit?).to eq(false)
         end
       end
+    end
+  end
+
+  describe '#to_css_class' do
+    it "should look right" do
+      expect('Part authorised'.to_css_class).to eq('part-authorised')
+      expect(' Pa_rt authori_s ed'.to_css_class).to eq('pa-rt-authori-s-ed')
     end
   end
 end

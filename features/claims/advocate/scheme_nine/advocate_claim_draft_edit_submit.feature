@@ -33,7 +33,7 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/claim_draft_edit'
 
     Then I click "Continue" in the claim form
-    And I should be in the 'Fees' form page
+    And I should be in the 'Graduated fees' form page
 
     And I should see "First day of trial"
     And the basic fee net amount should be populated with '0.00'

@@ -1,9 +1,12 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'errors/error_summary', locals:{ ep: resource, error_summary: t('.prohibited_save')}
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
 
-= render partial: 'layouts/header', locals: {page_heading: 'Change your password'}
+= render partial: 'errors/error_summary', locals:{ ep: resource, error_summary: t('.error_summary')}
+
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
   %div.form-group
@@ -12,14 +15,14 @@
 
   .form-group
     %a{name: 'password'}
-    = f.label :password, 'New password', class: 'form-label'
+    = f.label :password, t('.new_password'), class: 'form-label-bold'
     = f.input_field :password, autofocus: true, class: 'form-control'
   .form-group
     %a{name: 'password_confirmation'}
-    = f.label :password_confirmation, 'Confirm your password', class: 'form-label'
+    = f.label :password_confirmation, t('.confirm_your_password'), class: 'form-label-bold'
     = f.input_field :password_confirmation, class: 'form-control'
 
   .form-group
-    = f.button :submit, 'Change password', class: 'button'
+    = f.button :submit, t('.change_password'), class: 'button'
 
 = render "devise/shared/links"

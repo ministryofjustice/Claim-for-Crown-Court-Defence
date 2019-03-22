@@ -26,7 +26,7 @@ Feature: litigator completes fixed fee page using calculator
     Given I insert the VCR cassette 'features/fee_calculator/litigator/fixed_fee_calculator'
 
     Then I click "Continue" in the claim form
-    And I should be in the 'Fees' form page
+    And I should be in the 'Fixed fees' form page
 
     And the fixed fee rate should be populated with '349.47'
     And I fill '2018-11-01' as the fixed fee date

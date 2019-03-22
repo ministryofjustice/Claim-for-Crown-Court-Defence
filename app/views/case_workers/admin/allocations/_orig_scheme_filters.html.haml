@@ -1,7 +1,8 @@
-%fieldset.inline.allocation-filter-form
-  .column-half.form-group
+.form-group
+  %fieldset.inline.allocation-filter-form{"aria-describedby": "radio-control-hint"}
     %legend
-      = t('.scheme_types')
+      %span#radio-control-hint.form-label-bold
+        = t('.scheme_types')
     - allocation_scheme_filters.each do | filter_scheme |
       .multiple-choice
         = radio_button_tag :scheme, filter_scheme, params[:scheme].blank? ? filter_scheme == 'agfs' : params[:scheme] == filter_scheme

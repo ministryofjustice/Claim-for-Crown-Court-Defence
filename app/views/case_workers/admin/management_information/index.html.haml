@@ -1,7 +1,7 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'layouts/header', locals: { page_heading: t('.h1_managment_info') }
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
 - @available_report_types.each do |report_type, report|
   - report_name = t(".report_types.#{report_type}")

@@ -9,16 +9,16 @@
   = f.adp_text_field :retrial_estimated_length, label: t('.retrial_estimated_length'), hint_text: t('.retrial_estimated_length_hint'), input_classes:'form-control-1-8', input_type: 'number', errors: @error_presenter
 
   = f.adp_text_field :retrial_actual_length, label: t('.retrial_actual_length'), hint_text: t('.retrial_actual_length_hint'), input_classes:'form-control-1-8', input_type: 'number', errors: @error_presenter
+  .form-group.inline
+    %fieldset{"aria-describedby": "radio-control-legend-retrial"}
+      %legend#radio-control-legend-retrial.form-label-bold
+        %h3.heading-medium
+          = t('.retrial_reduction')
 
-  .form-group
-    %fieldset{'aria-describedby': 'trial-cracked-hint'}
-      %legend#trial-cracked-hint.form-label-bold
-        = t('.retrial_reduction')
-      .form-group.inline
-        = f.collection_radio_buttons(:retrial_reduction, [['Yes','true'],['No','false']], :last, :first ) do |b|
-          .multiple-choice
-            = b.radio_button
-            = b.label { b.text }
+      = f.collection_radio_buttons(:retrial_reduction, [['Yes','true'],['No','false']], :last, :first ) do |b|
+        .multiple-choice
+          = b.radio_button("aria-labelledby": "radio-control-legend-retrial #{b.text.to_css_class}")
+          = b.label(id: b.text.to_css_class) { b.text }
 
   = validation_error_message(@error_presenter, :retrial_reduction)
 

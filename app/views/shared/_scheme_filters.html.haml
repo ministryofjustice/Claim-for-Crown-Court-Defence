@@ -1,15 +1,13 @@
 - if show_claim_list_scheme_filters?(available_schemes)
   .column-half.form-group
-    %fieldset.inline.js-claim-scheme-filter
+    %fieldset.inline.js-claim-scheme-filter{"aria-describedby": "radio-control-hint"}
       %legend
-        = t('.scheme_filter')
-      .form-hint.xsmall.zero-vert-margin
-        = t('.scheme_filter_hint')
+        %span.form-label-bold
+          = t('.scheme_filter')
+        %span#radio-control-hint.form-hint.xsmall.zero-vert-margin
+          = t('.scheme_filter_hint')
       - [:all].concat(available_schemes).each do |filter_scheme|
         .multiple-choice
           = radio_button_tag :scheme, filter_scheme, scheme.blank? ? filter_scheme == :all : scheme == filter_scheme
           = label_tag "scheme_#{filter_scheme}", nil, class: "block-label" do
             = filter_scheme == :all ? t('.scheme_filter_all') : filter_scheme.upcase
-
-
-

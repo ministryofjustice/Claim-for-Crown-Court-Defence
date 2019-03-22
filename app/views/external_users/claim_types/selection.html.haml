@@ -1,13 +1,15 @@
 = content_for :page_title, flush: true do
   = claim_type_page_header(current_user)
 
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
 = render partial: 'layouts/header', locals: { page_heading: claim_type_prompt_heading_for(current_user) }
 
 %h2.heading-large
   = t('.claim_type_prompt_section_heading')
 
-
-= form_tag(types_external_users_claims_path, method: "post") do
+= form_tag(types_external_users_claims_path, method: 'post') do
   .form-section
     .form-group
       %fieldset
@@ -27,5 +29,5 @@
 
   .form-section
     .form-group.form-buttons
-      = submit_tag "Continue", class: "button"
-      = link_to 'Cancel', external_users_root_path, class: 'link-secondary'
+      = submit_tag t('.continue'), class: 'button'
+      = link_to t('.cancel'), external_users_root_path, role: 'button', class: 'link-secondary'

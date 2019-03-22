@@ -4,13 +4,13 @@
       .sidebar-nav.well
         %h3 Menu
         %ul.nav.nav-list
-          %li.selected 
-            = link_to "Dashboard", "/path1"
+          %li.selected
+            = link_to t('.dashboard'), "/path1"
             %ul
               %li{class: ('active' if params[:tab] == 'current' || params[:tab].blank?)}
-                = link_to 'Current claims', case_workers_claims_path(params.merge(tab: 'current'))
+                = link_to t('.current_claims'), case_workers_claims_path(params.merge(tab: 'current'))
               %li{class: ('active' if params[:tab] == 'completed')}
-                = link_to 'Completed claims', case_workers_claims_path(params.merge(tab: 'completed'))
-          %li= link_to "Payments", "/path1"
-          %li= link_to "Advocate details", "/path2"
-          %li= link_to "Reporting tool", "/path3"
+                = link_to t('.completed_claims'), case_workers_claims_path(params.merge(tab: 'completed'))
+          %li= link_to t('.payments'), "/path1"
+          %li= link_to t('.advocate_details'), "/path2"
+          %li= link_to t('.reporting_tool'), "/path3"

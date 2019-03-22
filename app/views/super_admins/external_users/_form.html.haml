@@ -27,25 +27,31 @@
         = user_fields.label t(".email_confirmation"), class: "form-label-bold", for: "external_user_user_attributes_email_confirmation"
         = user_fields.email_field :email_confirmation, class: "form-control"
 
-    %fieldset.user-form
-      = f.label :roles, class: "form-label"
+    %fieldset.inline{"aria-describedby": "checkbox-control-legend-roles"}
+      %legend#checkbox-control-legend-roles
+        %span.form-label-bold
+          = t('.roles')
+
       .form-group.inline.js-advocate-roles
         = f.collection_check_boxes(:roles, @external_user.available_roles, :to_s, :to_s) do |b|
           .multiple-choice
-            = b.check_box
-            = b.label { b.value.humanize }
+            = b.check_box("aria-labelledby": "checkbox-control-legend-roles #{b.text.to_css_class}")
+            = b.label(id: b.value.to_css_class) { b.value.humanize }
+
 
     - if @provider.chamber?
-      .js-chamber-advocates-only
-        = f.label(:vat_registered, t('.apply_vat'), class: "form-label")
-        .form-group.inline
-          = f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
-            .multiple-choice
-              = b.radio_button
-              = b.label { (b.value.to_s == 'true' ? 'Yes' : 'No') }
+      .form-group{"aria-describedby": "radio-control-legend"}
+        %fieldset.inline
+          %legend#radio-control-legend
+            %span.form-label-bold
+              = t('.apply_vat')
+            = f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
+              .multiple-choice
+                = b.radio_button("aria-labelledby": "radio-control-legend #{b.text.to_css_class}")
+                = b.label(id: b.value.to_css_class) { (b.value.to_s == 'true' ? 'Yes' : 'No') }
 
-        .form-group
-          = f.label t(".supplier_number"), class: "form-label", for: "external_user_supplier_number"
-          = f.text_field :supplier_number, class: "form-control"
+      .form-group
+        = f.label t(".supplier_number"), class: "form-label", for: "external_user_supplier_number"
+        = f.text_field :supplier_number, class: "form-control"
 
     = f.submit t('.submit'), class: "button"

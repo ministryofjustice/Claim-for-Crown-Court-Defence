@@ -39,6 +39,10 @@ module StringExtension
     acronym.upcase
   end
 
+  def to_css_class
+    downcase.strip.tr(' _', '--')
+  end
+
   private
 
   def clean_and_split_sentence

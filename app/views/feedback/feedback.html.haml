@@ -1,13 +1,16 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'errors/error_summary', locals:{ ep: @feedback, error_summary: 'This feedback has '}
-= render partial: 'layouts/header', locals: {page_heading: t('activemodel.attributes.feedback.heading')}
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
+= render partial: 'errors/error_summary', locals:{ ep: @feedback, error_summary: t('.error_summary')}
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 .body-content
   .panel.panel-border-wide
     %p
-      = t('activemodel.attributes.feedback.callout')
+      = t('.callout')
       = render partial: 'feedback/claim_edit_alert' if referrer_is_claim?(@feedback.referrer)
 
   = form_for @feedback, url: feedback_index_path(email: params[:email]), html: { novalidate: 'novalidate', class: 'normal'} do |f|
@@ -17,25 +20,27 @@
     - if params[:user_id].present?
       = hidden_field_tag :user_id, params[:user_id]
 
+
     .form-group
-      %fieldset.inline
-        %legend
-          = f.label :comment
-        %p.form-hint
-          = t('activemodel.attributes.feedback.comment_hint')
-        = f.text_area :comment, rows: 5, class: "form-control"
+      %label.form-label-bold{:for => "textarea-e"}
+        = t('.comment')
+        %span.form-hint
+          = t('.comment_hint')
+      = f.text_area :comment, rows: 5, class: "form-control"
 
     = render partial: 'feedback/anonymous_email_prompt', locals: { f: f } if cannot_identify_user?
 
     .form-group
-      %fieldset
-        %legend
-          = f.label :rating
+      %fieldset{"aria-describedby": "radio-control-legend"}
+        %legend#radio-control-legend
+          %span.form-label-bold
+            = t('.rating')
 
         = f.collection_radio_buttons(:rating, Feedback::RATINGS.map {|k,v| [v,k]}, :last, :first) do |b|
           .multiple-choice
-            = b.radio_button
-            = b.label { b.object.first }
+            = b.radio_button("aria-labelledby": "radio-control-legend #{b.text.to_css_class}")
+            = b.label(id: b.text.to_css_class) { b.object.first }
 
     .button-holder
-      = f.submit 'Send', class: 'button button-primary', id: 'submit-button'
+      = f.submit t('.send'), class: 'button button-primary', id: 'submit-button'
+

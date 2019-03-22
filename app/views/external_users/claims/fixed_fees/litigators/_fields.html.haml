@@ -1,8 +1,5 @@
 - if @claim.allows_fixed_fees?
   .form-section.fx-fee-group.fixed-fee-group.js-block.fx-do-init{data:{"type": "fixedFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
-    %h2.bold-medium
-      = t('.fixed_fees')
-
     = f.fields_for :fixed_fee do |ff|
       - fee = present(ff.object)
 

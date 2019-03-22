@@ -1,22 +1,26 @@
-.form-section.misc-fee-group.nested-fields.js-block.fx-do-init.fx-fee-group{data:{"type": "miscFees", autovat: @claim.apply_vat? ? "true" : "false"}}
+.form-section.misc-fee-group.nested-fields.js-block.fx-do-init.fx-fee-group.fx-numberedList-item{data:{"type": "miscFees", autovat: @claim.apply_vat? ? "true" : "false"}}
   %h2.bold-medium
-    = t('.misc_fee')
+    %span#fx-numberedList-heading
+      = t('.misc_fee')
+      %span.fx-numberedList-number
     = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group', class: "header-action" }
 
   .form-group
     .fee-type.js-typeahead{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
-      %label.form-label-bold
-        = t('.fee_type')
-      %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
-      - misc_fee_types_collection = present_collection(@claim.eligible_misc_fee_types)
-      - options = misc_fee_types_collection.length == 1 ? { checked: misc_fee_types_collection.first.id } : {}
-      = f.collection_radio_buttons(:fee_type_id, misc_fee_types_collection, :id, :description, options) do |b|
-        .multiple-choice
-          = b.radio_button
-          - if misc_fee_types_collection.length == 1
-            = b.label(class: 'selected') { b.text }
-          - else
-            = b.label { b.text }
+      %fieldset{"aria-describedby": "radio-control-legend"}
+        %legend#radio-control-legend
+          %span.form-label-bold
+            = t('.fee_type')
+        %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
+        - misc_fee_types_collection = present_collection(@claim.eligible_misc_fee_types)
+        - options = misc_fee_types_collection.length == 1 ? { checked: misc_fee_types_collection.first.id } : {}
+        = f.collection_radio_buttons(:fee_type_id, misc_fee_types_collection, :id, :description, options) do |b|
+          .multiple-choice
+            = b.radio_button("aria-labelledby": "fx-numberedList-heading-#{@misc_fee_count} radio-control-legend #{b.text.to_css_class}")
+            - if misc_fee_types_collection.length == 1
+              = b.label(id: b.text.to_css_class, class: 'selected') { b.text }
+            - else
+              = b.label(id: b.text.to_css_class) { b.text }
 
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 

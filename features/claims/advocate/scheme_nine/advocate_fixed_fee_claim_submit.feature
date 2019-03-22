@@ -40,6 +40,8 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
     Then the fixed fee 'Adjourned appeals, committals and breaches' should have a rate of '87.00' and a hint of 'Number of days'
     And I select the 'Number of cases uplift' fixed fee with case numbers
     Then the fixed fee 'Number of cases uplift' should have a rate of '26.00'
+
+    And I should see a page title "Enter fixed fees for advocate final fees claim"
     Then I click "Continue" in the claim form
 
     And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended
@@ -47,6 +49,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
 
     And I eject the VCR cassette
 
+    And I should see a page title "Enter miscellaneous fees for advocate final fees claim"
     Then I click "Continue" in the claim form
 
     And I select an expense type "Parking"
@@ -54,15 +57,18 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
     And I add an expense net amount for "34.56"
     And I add an expense date for scheme 9
 
+    And I should see a page title "Enter travel expenses for advocate final fees claim"
     Then I click "Continue" in the claim form
 
     And I upload 3 documents
     And I check the boxes for the uploaded documents
     And I add some additional information
 
+    And I should see a page title "Upload supporting evidence for advocate final fees claim"
     Then I click Submit to LAA
     And I should be on the check your claim page
 
+    And I should see a page title "View claim summary for advocate final fees claim"
     When I click "Continue"
     Then I should be on the certification page
 

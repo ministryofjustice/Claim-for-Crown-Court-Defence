@@ -31,11 +31,13 @@ Feature: Advocate admin submits a claim for a Trial case
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
 
+    And I should see a page title "Enter defendant details for advocate final fees claim"
     Then I click "Continue" in the claim form
     And I select the offence category 'Activities relating to opium'
 
     Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/trial_claim_edit'
 
+    And I should see a page title "Enter offence details for advocate final fees claim"
     Then I click "Continue" in the claim form
 
     And I should see the advocate categories 'Junior alone,Led junior,Leading junior,QC'
@@ -46,6 +48,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And the basic fee net amount should be populated with '1305.00'
     Then I add a number of cases uplift fee with additional case numbers
 
+    And I should see a page title "Enter graduated fees for advocate final fees claim"
     Then I click "Continue" in the claim form
 
     And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended
@@ -55,6 +58,7 @@ Feature: Advocate admin submits a claim for a Trial case
 
     And I eject the VCR cassette
 
+    And I should see a page title "Enter miscellaneous fees for advocate final fees claim"
     Then I click "Continue" in the claim form
 
     And I select an expense type "Hotel accommodation"
@@ -63,12 +67,14 @@ Feature: Advocate admin submits a claim for a Trial case
     And I add an expense location
     And I add an expense date for scheme 9
 
+    And I should see a page title "Enter travel expenses for advocate final fees claim"
     Then I click "Continue" in the claim form
     And I upload the document 'judicial_appointment_order.pdf'
     And I should see 10 evidence check boxes
     And I check the evidence boxes for 'Order in respect of judicial apportionment'
     And I add some additional information
 
+    And I should see a page title "Upload supporting evidence for advocate final fees claim"
     Then I click Submit to LAA
     And I should be on the check your claim page
 
@@ -91,10 +97,13 @@ Feature: Advocate admin submits a claim for a Trial case
     And I should see 'Order in respect of judicial apportionment'
     And I should see 'Bish bosh bash'
 
+    And I should see a page title "View claim summary for advocate final fees claim"
     When I click "Continue"
     Then I should be on the certification page
 
     When I check “I attended the main hearing”
+
+    And I should see a page title "Certify and submit the advocate final fees claim"
     And I click Certify and submit claim
     Then I should be on the claim confirmation page
 

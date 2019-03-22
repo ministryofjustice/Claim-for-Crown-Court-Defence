@@ -11,6 +11,7 @@ Feature: Case worker fully authorises claim
 
     When I am signed in as the case worker
     And I select the claim
+    Then I should see a page title "View the claim details"
     And expand the messages section
     And fill out the Fees Total authorised by Laa with the amount of fees claimed
     And do the same with expenses

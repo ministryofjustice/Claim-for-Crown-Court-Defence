@@ -1,13 +1,10 @@
 - if @claim.allows_fixed_fees?
   #fixed-fees.mod-fees.form-section
     .fixed-fee-group-wrapper
-      %h3.heading-medium
-        Fixed fee
       .form-group
         %fieldset
           %legend.form-label-bold
-            Type of fee
-            / <span class="form-hint"></span>
+            = t('.type_of_fee')
           = f.fields_for :fixed_fees do |fixed_fee_fields|
             - @fixed_fee_count += 1
             = render 'external_users/claims/fixed_fees/advocates/fixed_fee_fields', f: fixed_fee_fields

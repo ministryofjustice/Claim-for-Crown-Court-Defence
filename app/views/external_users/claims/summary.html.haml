@@ -1,7 +1,13 @@
 = content_for :page_title, flush: true do
   = t(".#{@claim.agfs? ? 'agfs' : 'lgfs'}.#{@claim.type.underscore.gsub(/claim\//, '')}.page_title")
 
-= render partial: 'layouts/header', locals: { page_heading: t('.heading') }
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
+= render partial: 'layouts/header', locals: { page_heading: t(".#{@claim.agfs? ? 'agfs' : 'lgfs'}.#{@claim.type.underscore.gsub(/claim\//, '')}.page_heading") }
+
+%h2.heading-large
+  = t('.page_heading')
 
 - present(@claim) do |claim|
   .grid-row.grid-sidebar
@@ -14,6 +20,6 @@
 
   .form-section
     .form-group.form-buttons
-      = link_to t('buttons.continue'), new_external_users_claim_certification_path(claim), { class: 'button button-continue', role: 'button', 'aria-label': t('.button_label') }
-      = link_to t('buttons.save_a_draft'), external_users_root_path, { class: 'button button-gray-3', role: 'button' }
+      = link_to t('buttons.continue'), new_external_users_claim_certification_path(claim), { class: 'button left btn-spacer-20', role: 'button', 'aria-label': t('.button_label') }
+      = link_to t('buttons.save_a_draft'), external_users_root_path, { class: 'button-gray-3 left', role: 'button' }
       = link_to t('buttons.delete_draft'), external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'link-delete'

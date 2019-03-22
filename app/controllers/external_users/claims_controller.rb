@@ -394,6 +394,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :claim_id,
         :fee_type_id,
         :amount,
+        :price_calculated,
         date_attributes_for(:warrant_issued_date),
         date_attributes_for(:warrant_executed_date)
       ],

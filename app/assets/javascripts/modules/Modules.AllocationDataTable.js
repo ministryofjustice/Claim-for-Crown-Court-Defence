@@ -315,7 +315,7 @@ moj.Modules.AllocationDataTable = {
 
       quantity_to_allocate = $('#quantity_to_allocate').val() || false;
 
-      allocation_case_worker_id = $('#allocation_case_worker_id').val();
+      allocation_case_worker_id = $('#allocation_case_worker_id-select').val();
 
       if (!allocation_case_worker_id) {
         // console.log('No Caseworker selected');
@@ -352,7 +352,7 @@ moj.Modules.AllocationDataTable = {
         }
       }).success(function(data) {
         self.ui.$msgFail.hide();
-        self.ui.$msgSuccess.find('span').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id_input').val());
+        self.ui.$msgSuccess.find('span').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id').val());
         self.ui.$msgSuccess.show();
         self.reloadScheme({
           scheme: self.searchConfig.scheme

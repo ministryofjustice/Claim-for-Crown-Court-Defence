@@ -1,7 +1,4 @@
 moj.Modules.Allocation = {
-  $AllocationRadioButtons: $('.js-allocation-options'),
-  $CaseWorkerList: $('.js-case-worker-list'),
-
   init: function() {
     var self = this;
 

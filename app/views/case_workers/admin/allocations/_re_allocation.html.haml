@@ -1,3 +1,6 @@
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
 = render partial: 'errors/error_summary', locals:{ ep: @allocation, error_summary: t('.error_summary')}
 
 .grid-row
@@ -22,7 +25,7 @@
       = hidden_field_tag :page, params[:page]
 
       %fieldset.inline
-        %legend.normal
+        %legend.normal.form-label-bold
           = t('.legend')
 
         .form-group
@@ -41,9 +44,10 @@
 
       .case-worker-reallocation.grid-row.form-group.js-typeahead
         .column-one-quarter.js-case-worker-list
-          = f.label :case_worker_id, for: 'allocation_case_worker_id_input'
-          = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
+          = f.label :case_worker_id, for: 'allocation_case_worker_id_input', class: 'form-label-bold'
+          = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead', style: 'width: 100%;' }
         .column-half.margin-spacer-sm
+          %br/
           = f.submit t('.re_allocate'), class: 'button'
 
       - if @claims.any?

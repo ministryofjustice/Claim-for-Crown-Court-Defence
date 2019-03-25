@@ -15,8 +15,8 @@ module Claims
     class UnitPrice < CalculatePrice
       private
 
-      # TODO: retrial basic (basic) fee excluded where retrails starts before trial ends
-      # - we confirm how to handle situations where retrial started before tria concluded
+      # TODO: retrial basic (basic) fee excluded where retrial starts before trial ends
+      # - validation in place to prevent this now
       #
       # TODO: cracked before retrial basic (basic) fee excluded until
       #  - we expose retrial_reduction on these case types
@@ -83,36 +83,12 @@ module Claims
       end
 
       # TODO: refactor share retrial methods with grad price
-      #
-      # Remuneration regulations, Paragraph 2(3), Schedule 1
-      # -1 (retrial start before trial ends) - this applies 0% reduction logic which is TBC
-      # 0 (within 1 calendar month) requires a 30% reduction of equivalent trial fee
-      # 1 (more than 1 calendar month) requires a 20% reduction of equivalent trial fee
-      def retrial_interval
-        return -1 if retrial_started_at < trial_concluded_at
-        retrial_started_at.between?(trial_concluded_at, trial_concluded_at + 1.month) ? 0 : 1
-      end
-
-      # TODO: refactor share retrial methods with grad price
       def retrial_interval_required?
         [
           agfs?,
           case_type&.fee_type_code.eql?('GRRTR'),
           fee_type_code_for(fee_type).eql?('AGFS_FEE'),
           retrial_reduction
-        ].all?
-      end
-
-      # TODO: refactor share retrial methods with grad price
-      def uncalculatable_retrial_reduction_required?
-        retrial_interval_required? && retrial_started_at < trial_concluded_at
-      end
-
-      # TODO: need to expose `retrial_reduction` for claims of this case type and apply here
-      def cracked_before_retrial_interval_required?
-        [
-          agfs?,
-          case_type&.fee_type_code.eql?('GRCBR')
         ].all?
       end
 

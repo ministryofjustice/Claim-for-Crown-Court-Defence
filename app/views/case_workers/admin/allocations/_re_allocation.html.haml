@@ -37,7 +37,6 @@
               = f.radio_button :deallocate, true, checked: false, value: true
               = f.label :deallocate, t('.allocation_pool'), 'aria-label': t('.allocation_pool_label'), value: true
 
-
             .multiple-choice
               = f.radio_button :deallocate, false, checked: true, value: false
               = f.label :deallocate, t('.case_worker'), 'aria-label': t('.case_worker_label'), value: false
@@ -45,7 +44,7 @@
       .case-worker-reallocation.grid-row.form-group.js-typeahead
         .column-one-quarter.js-case-worker-list
           = f.label :case_worker_id, for: 'allocation_case_worker_id_input', class: 'form-label-bold'
-          = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead', style: 'width: 100%;' }
+          = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', style: 'width: 100%;' }
         .column-half.margin-spacer-sm
           %br/
           = f.submit t('.re_allocate'), class: 'button'

@@ -59,6 +59,8 @@
 @import 'breadcrumbs';
 @import 'callout';
 @import 'accessible-autocomplete';
+@import 'datatables';
+@import 'tables';
 
 .panel-margin-fix{
   margin-bottom: $gutter !important;
@@ -76,4 +78,23 @@
 
 tbody th {
   font-weight: 700;
+}
+
+.dataTables_wrapper {
+  .grid-row{
+    margin-bottom: $gutter/2;
+  }
+}
+
+.disk-evidence {
+  color: #b10e1e;
+}
+
+.error .error-message {
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.js-allocation-page #page-h1{
+  margin-bottom: 0;
 }

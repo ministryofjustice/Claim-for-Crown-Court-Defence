@@ -1,5 +1,7 @@
-= render partial: 'errors/error_summary', locals:{ ep: @allocation, error_summary: t('.error_summary')}
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
 
+= render partial: 'errors/error_summary', locals:{ ep: @allocation, error_summary: t('.error_summary')}
 
 .notice-summary{role: "group", "aria-labelledby": "notice-summary-heading", tabindex:"-1", style: "display: none;"}
   %h1.heading-medium.notice-summary-heading{id: "notice-summary-heading"}
@@ -26,31 +28,29 @@
     = hidden_field_tag :page, params[:page]
     = hidden_field_tag :value_band_id, params[:value_band_id] if params[:value_band_id]
 
+    %h2.heading-medium
+      = t('.allocate_claims')
     .grid-row.js-typeahead
-      %h2.heading-medium
-        = t('.allocate_claims')
-      .form-row.form-group.js-typeahead
-        .form-col
-          = label_tag :quantity_to_allocate, t('.no_of_claims')
-          = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}
-        .form-col
-          = f.label :case_worker_id, t('dictionary.models.case_worker'), {for: "allocation_case_worker_id_autocomplete"}
-          = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
-
-        .form-col{ style: 'padding: 26px 0 0' }
-          = f.submit t('.allocate'), class: 'button allocation-submit'
+      .column-one-third.js-typeahead
+        = label_tag :quantity_to_allocate, t('.no_of_claims'), class: 'form-label-bold'
+        = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}
+      .column-one-third
+        = f.label :case_worker_id, t('dictionary.models.case_worker'), for: "allocation_case_worker_id_autocomplete", class: 'form-label-bold'
+        = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' , style: 'width:100%'}
+      .column-one-third
+        %br/
+        = f.submit t('.allocate'), class: 'button allocation-submit'
 
 
     %h2.heading-medium
       = t('.filter_claims')
-    .form-row.form-group
-      .form-col.ui-filter
+    .grid-row
+      .column-one-third.ui-filter
         = render partial: 'filter_tasks'
-
-      .form-col.ui-filter
+      .column-one-third.ui-filter
         = render partial: 'filter_value_bands'
-
-      .form-col{ style: 'padding: 21px 0 0' }
+      .column-one-third
+        %br/
         %button.clear-filters.button.button-secondary{:type => 'button'}
           = t('.clear_filters')
 

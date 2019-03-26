@@ -30,7 +30,7 @@ Feature: Litigator expense specific page features
     And I add an expense net amount for "34.56"
     And I add an expense date for scheme 9
 
-    Then I should see 'Expense 1'
+    Then I should see 'Expense'
     Then I should not see 'Location'
 
     And I select an expense type "Hotel accommodation"

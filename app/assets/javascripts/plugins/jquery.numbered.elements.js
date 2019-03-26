@@ -46,9 +46,12 @@
     },
     updateNumbers: function() {
       var self = this;
-      $(this.settings.wrapper).find(this.settings.item+':visible').each(function(idx, el) {
-        $(el).find(self.settings.number).text(idx+1);
-      });
+      var items = $(this.settings.wrapper).find(this.settings.item + ':visible');
+      if (items.length > 1) {
+        items.each(function(idx, el) {
+          $(el).find(self.settings.number).text(idx + 1);
+        });
+      }
     }
   });
 

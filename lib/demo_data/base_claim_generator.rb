@@ -51,10 +51,11 @@ module DemoData
       add_basic_fees(claim) unless claim.case_type.is_fixed_fee?
       add_fixed_fees(claim) if claim.case_type.is_fixed_fee?
       add_misc_fees(claim)
+      # ap claim.fees
     end
 
     def add_trial_dates(claim)
-      claim.first_day_of_trial     = rand(60..90).days.ago
+      claim.first_day_of_trial     = rand(90..120).days.ago
       claim.estimated_trial_length = rand(4..60)
       claim.trial_concluded_at     = claim.first_day_of_trial + rand(10..30).days
       claim.actual_trial_length    = (claim.trial_concluded_at - claim.first_day_of_trial).to_i

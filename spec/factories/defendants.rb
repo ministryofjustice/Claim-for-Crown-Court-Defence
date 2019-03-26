@@ -12,6 +12,7 @@
 #  updated_at                       :datetime
 #  uuid                             :uuid
 #
+require_relative '../support/factory_helpers'
 
 FactoryBot.define do
   factory :defendant do

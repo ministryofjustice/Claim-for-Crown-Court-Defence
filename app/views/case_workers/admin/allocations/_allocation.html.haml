@@ -35,8 +35,9 @@
         = label_tag :quantity_to_allocate, t('.no_of_claims'), class: 'form-label-bold'
         = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}
       .column-one-third
-        = f.label :case_worker_id, t('dictionary.models.case_worker'), for: "allocation_case_worker_id_autocomplete", class: 'form-label-bold'
-        = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete' , style: 'width:100%'}
+        %div#cc-caseworker
+          = f.label :case_worker_id, t('dictionary.models.case_worker'), for: "allocation_case_worker_id_autocomplete", class: 'form-label-bold'
+          = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete' , style: 'width:100%'}
       .column-one-third
         %br/
         = f.submit t('.allocate'), class: 'button allocation-submit'

@@ -1,11 +1,11 @@
-# Price: Wraps a fee calc API price object to
+# Wraps a fee calc API price object to
 # factor in modifier effects and uplift parent
 # quantities on fee_per_unit or fixed_fee
 # attributes.
 #
 module Claims
   module FeeCalculator
-    # TODO: rename to PriceDecorator? and subclass to Delegator class?
+    # OPTIMIZE: rename to PriceDecorator? and subclass to Delegator class?
     class Price
       attr_reader :price, :unit_modifiers, :parent_quantity
 

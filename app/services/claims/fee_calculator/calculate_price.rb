@@ -5,9 +5,6 @@
 #
 module Claims
   module FeeCalculator
-    Response = Struct.new(:success?, :data, :errors, :message, keyword_init: true)
-    Data = Struct.new(:amount, :unit, keyword_init: true)
-
     class CalculatePrice
       TRIAL_CRACKED_AT_THIRD_MAPPINGS = {
         first_third: 1,
@@ -46,10 +43,13 @@ module Claims
 
       def call
         setup(options)
-        response(true, build_data(amount))
+        Request.new(self).call
       rescue StandardError => err
         Rails.logger.error("error: #{err.message}")
-        response(false, err.message, I18n.t('fee_calculator.calculate.amount_unavailable'))
+        Response.new(success?: false,
+                     data: nil,
+                     errors: [err.message],
+                     message: I18n.t('fee_calculator.calculate.amount_unavailable'))
       end
 
       private
@@ -61,7 +61,7 @@ module Claims
         @current_page_fees = options[:fees].values
         exclusions
       rescue StandardError
-        raise 'insufficient_data'
+        raise Exceptions::InsufficientData
       end
 
       def exclusions
@@ -184,16 +184,6 @@ module Claims
           agfs?,
           case_type&.fee_type_code.eql?('GRCBR')
         ].all?
-      end
-
-      def response(success, data, message = nil)
-        return Response.new(success?: true, data: data, errors: nil, message: message) if success
-        Response.new(success?: false, data: nil, errors: [data], message: message)
-      end
-
-      def build_data(data)
-        return Data.new(amount: data.per_unit, unit: data.unit) if data.is_a?(Price)
-        Data.new(amount: data)
       end
 
       def client

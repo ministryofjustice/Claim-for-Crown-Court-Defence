@@ -104,7 +104,39 @@ module Claims
       # NOTE: In the API AGFS fee scheme prices have a limit_from minimum of 1, while
       # LGFS does not use this attribute and uses 0. github issue TODO?
       def limit_from_default
-        agfs? ? 1 : 0
+        # TODO: add limit_from, limit_to to fee types and populate
+        case fee_type.unique_code
+        when 'BABAF'
+          1
+        when 'BADAF'
+          3
+        when 'BADAH'
+          41
+        when 'BADAJ'
+          51
+        when 'BADAT'
+          2
+        else
+          agfs? ? 1 : 0
+        end
+      end
+
+      def limit_to_default
+        # TODO: add limit_from, limit_to to fee types and populate
+        case fee_type.unique_code
+        when 'BABAF'
+          2
+        when 'BADAF'
+          40
+        when 'BADAH'
+          50
+        when 'BADAJ'
+          9999
+        when 'BADAT'
+          9999
+        else
+          nil
+        end
       end
 
       def fee_type_mappings

@@ -20,7 +20,8 @@ module Claims
           offence_class: offence_class_or_default,
           advocate_type: advocate_type,
           fee_type_code: fee_type_code_for(fee_type),
-          limit_from: limit_from_default
+          limit_from: limit_from_default,
+          limit_to: limit_to_default
         )
         price
       end

@@ -48,7 +48,7 @@ module CCR
       private
 
       def fee_types
-        %w[BABAF BADAF BADAH BADAJ BANOC BANDR BANPW BAPPE]
+        %w[BABAF BADAF BADAH BADAJ BADAT BANOC BANDR BANPW BAPPE]
       end
 
       def filtered_fees

@@ -1,10 +1,10 @@
 - unless @claim.allows_fixed_fees?
   #basic-fees.mod-fees
     - present(f.object.basic_fees, BasicFeesPresenter) do | basic_fees |
-      // Present the primary fee
 
-      %h3.heading-medium
-        = t(".heading")
+      .form-section
+        %h3.heading-medium
+          = t('.heading')
       = f.fields_for :basic_fees, basic_fees.primary_fee do |basic_fee_fields|
         - @basic_fee_count += 1
         - if present(basic_fee_fields.object).should_be_displayed?
@@ -25,10 +25,10 @@
 
             - if present(basic_fee_fields.object).should_be_displayed?
               -# Both calculated and uncalculated fees are now handled in a single view.
-              = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields
+              = render 'external_users/claims/basic_fees/additional_fee_fields', f: basic_fee_fields
 
-      = f.fields_for :basic_fees, basic_fees.extra_fees.sort_by(&:position) do |basic_fee_fields|
+      = f.fields_for :basic_fees, basic_fees.extra_fees.sort_by(&:position) do |extra_fee_fields|
         - @basic_fee_count += 1
-        - if present(basic_fee_fields.object).should_be_displayed?
+        - if present(extra_fee_fields.object).should_be_displayed?
           .form-section
-            = render 'external_users/claims/basic_fees/basic_fee_fields_conditional', f: basic_fee_fields
+            = render 'external_users/claims/basic_fees/extra_fee_fields', f: extra_fee_fields

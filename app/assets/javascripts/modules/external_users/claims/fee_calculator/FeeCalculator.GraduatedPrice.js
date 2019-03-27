@@ -100,7 +100,6 @@
       var new_label = $label.text() + ' ' + error_html;
       var $input = $(context).find('input.fee-amount');
 
-      $input.val('');
       $input.prop('readonly', false);
       $calculated.val(false);
       $label.html(new_label);

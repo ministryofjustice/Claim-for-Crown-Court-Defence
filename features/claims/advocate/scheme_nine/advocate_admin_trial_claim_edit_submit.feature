@@ -15,7 +15,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And I select a case type of 'Retrial'
     Then I should see retrial fields
     And I select a case type of 'Trial'
-    And I enter trial start and end dates
+    And I enter scheme 9 trial start and end dates
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -28,14 +28,14 @@ Feature: Advocate admin submits a claim for a Trial case
     When I click the claim 'A20161234'
     And I edit the claim's defendants
 
-    And I enter defendant, representation order and MAAT reference
-    And I add another defendant, representation order and MAAT reference
+    And I enter defendant, scheme 9 representation order and MAAT reference
+    And I add another defendant, scheme 9 representation order and MAAT reference
 
     And I should see a page title "Enter defendant details for advocate final fees claim"
     Then I click "Continue" in the claim form
     And I select the offence category 'Activities relating to opium'
 
-    Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/trial_claim_edit'
+    Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/advocate_admin_trial_claim_edit_submit'
 
     And I should see a page title "Enter offence details for advocate final fees claim"
     Then I click "Continue" in the claim form
@@ -46,7 +46,7 @@ Feature: Advocate admin submits a claim for a Trial case
 
     Then I select an advocate category of 'Junior alone'
     And the basic fee net amount should be populated with '1305.00'
-    Then I add a number of cases uplift fee with additional case numbers
+    And I select the 'Number of cases uplift' basic fee with quantity of 1 with case numbers
 
     And I should see a page title "Enter graduated fees for advocate final fees claim"
     Then I click "Continue" in the claim form
@@ -108,4 +108,4 @@ Feature: Advocate admin submits a claim for a Trial case
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£2,023.87'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£2,097.07'

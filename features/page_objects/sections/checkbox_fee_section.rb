@@ -1,4 +1,3 @@
-# TODO: use for fixed fee and basic fee checkboxes too if possible
 class CheckboxFeeSection < SitePrism::Section
   sections :checklist, '.multiple-choice' do
     element :label, 'label'
@@ -29,8 +28,11 @@ class CheckboxFeeSection < SitePrism::Section
     fee_block.quantity.send_keys(:tab)
   end
 
+  # NOTE: enforces a standard naming convention for siteprism section names
+  # whereby it should be named after the label but with thte following
+  # translations.
   def fee_block_section(label)
-    label.downcase.tr('(),','').tr(' ','_')
+    label.downcase.tr(' ', '_').tr(',()', '').gsub(/\+/,'_plus')
   end
 
   def fee_block_id(label)

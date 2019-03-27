@@ -47,6 +47,27 @@ When(/I enter (.*?)(retrial|trial) start and end dates(?: with (\d+) day interva
   end
 end
 
+When(/I enter (.*?)(retrial|trial) long start and end dates(?: with (\d+) day interval)?$/i) do |scheme_text, trial_type, interval|
+  trial_start = Date.parse(scheme_date_for(scheme_text))
+  trial_end = trial_start.next_day(52)
+
+  using_wait_time 3 do
+    @claim_form_page.trial_details.first_day_of_trial.set_date trial_start.strftime
+    @claim_form_page.trial_details.trial_concluded_on.set_date trial_end.strftime
+    @claim_form_page.trial_details.estimated_trial_length.set 51
+    @claim_form_page.trial_details.actual_trial_length.set 52
+
+    if trial_type.downcase.eql?('retrial')
+      retrial_start = trial_end.next_day(interval.to_i)
+      retrial_end = retrial_start.next_day(52)
+      @claim_form_page.retrial_details.retrial_started_at.set_date retrial_start.strftime
+      @claim_form_page.retrial_details.retrial_concluded_at.set_date retrial_end.strftime
+      @claim_form_page.retrial_details.retrial_estimated_length.set 51
+      @claim_form_page.retrial_details.retrial_actual_length.set 52
+    end
+  end
+end
+
 When(/I choose (not )?to apply retrial reduction$/) do |negate|
   if negate
     @claim_form_page.retrial_details.retrial_reduction_no.click
@@ -80,33 +101,6 @@ When(/^I select the '(.*?)' basic fee$/) do |label|
   wait_for_ajax
 end
 
-When(/^I add a daily attendance \(3 to 40\) fee with dates attended$/) do
-  using_wait_time 6 do
-    @claim_form_page.basic_fees.daily_attendance_fee_3_to_40_input.click
-    @claim_form_page.basic_fees.daily_attendance_fee_3_to_40.quantity.set "4"
-    @claim_form_page.basic_fees.daily_attendance_fee_3_to_40.rate.set "45.77"
-    @claim_form_page.basic_fees.daily_attendance_fee_3_to_40_dates.from.set_date "2016-01-04"
-  end
-end
-
-When(/^I add a standard appearance fee$/) do
-  using_wait_time 6 do
-    @claim_form_page.basic_fees.standard_appearance_fee_input.click
-    @claim_form_page.basic_fees.standard_appearance_fee.quantity.set "1"
-    @claim_form_page.basic_fees.standard_appearance_fee.rate.set "200.00"
-    @claim_form_page.basic_fees.standard_appearance_fee.case_numbers.set "A20170001"
-  end
-end
-
-When(/^I add a number of cases uplift fee with additional case numbers$/) do
-  using_wait_time 6 do
-    @claim_form_page.basic_fees.number_of_case_uplift_input.click
-    @claim_form_page.basic_fees.number_of_cases_uplift.quantity.set "1"
-    @claim_form_page.basic_fees.number_of_cases_uplift.rate.set "200.00"
-    @claim_form_page.basic_fees.number_of_cases_uplift.case_numbers.set "A20170001"
-  end
-end
-
 When(/^I add a calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')?(?: with dates attended\s*(.*))?$/) do |name, quantity, date|
   quantity = quantity.present? ? quantity : '1'
   @claim_form_page.add_misc_fee_if_required
@@ -130,6 +124,14 @@ Then(/^I select the '(.*?)' fixed fee( with case numbers)?$/) do |name, add_case
   wait_for_ajax
   @claim_form_page.fixed_fees.fee_block_for(name).case_numbers.set "T20170001" if add_case_numbers
   @claim_form_page.fixed_fees.set_quantity(name)
+  wait_for_ajax
+end
+
+Then(/^I select the '(.*?)' basic fee(?: with quantity of (\d+))?( with case numbers)?$/) do |name, quantity, add_case_numbers|
+  @claim_form_page.basic_fees.check(name)
+  wait_for_ajax
+  @claim_form_page.basic_fees.fee_block_for(name).case_numbers.set "T20170001" if add_case_numbers
+  @claim_form_page.basic_fees.set_quantity(name, quantity || 1)
   wait_for_ajax
 end
 
@@ -269,6 +271,15 @@ end
 Then(/^all the fixed fees should have their price_calculated values set to true$/) do
   claim = Claim::BaseClaim.find(@claim_form_page.claim_id)
   expect(claim.fixed_fees.pluck(:price_calculated).all?).to eql true
+end
+
+Then(/^the following fees should have their price_calculated set to true:\s*'([^']*)'$/) do |unique_codes|
+  unique_codes = unique_codes.split(',')
+  fees = Claim::BaseClaim.
+          find(@claim_form_page.claim_id).
+          fees.
+          where(fee_type_id: Fee::BaseFeeType.where(unique_code: unique_codes))
+  expect(fees.map(&:price_calculated).all?).to eql(true), "expected all to be true:\n got: #{fees.each_with_object({}) { |f, memo| memo[f.fee_type.unique_code.to_sym] = f.price_calculated }}"
 end
 
 Then(/^all the misc fees should have their price_calculated values set to true$/) do

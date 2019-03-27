@@ -14,16 +14,18 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I select a case type of 'Trial'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
-    And I enter trial start and end dates
+    And I enter scheme 9 trial long start and end dates
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
-    And I enter defendant, representation order and MAAT reference
+    And I enter defendant, scheme 9 representation order and MAAT reference
+    And I add another defendant, scheme 9 representation order and MAAT reference
 
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
 
     Given I insert the VCR cassette 'features/fee_calculator/advocate/graduated_fee_trial_calculator'
+
     When I select the offence category 'Murder'
     And I click "Continue" in the claim form
     And I should be in the 'Graduated fees' form page
@@ -35,6 +37,26 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I select an advocate category of 'QC'
     Then the basic fee net amount should be populated with '2856.00'
 
+    When I select the 'Daily attendance fee (3 to 40)' basic fee with quantity of 38
+    And I select the 'Daily attendance fee (41 to 50)' basic fee with quantity of 10
+    And I select the 'Daily attendance fee (51+)' basic fee with quantity of 2
+    And I select the 'Standard appearance fee' basic fee with quantity of 1
+    And I select the 'Plea and trial preparation hearing' basic fee with quantity of 1
+    And I select the 'Conferences and views' basic fee with quantity of 1
+    And I select the 'Number of defendants uplift' basic fee with quantity of 1
+    And I select the 'Number of cases uplift' basic fee with quantity of 1 with case numbers
+
+    Then the following fee details should exist:
+      | section | fee_description | rate | hint | help |
+      | basic | Daily attendance fee (3 to 40) | 979.00 | Number of days | true |
+      | basic | Daily attendance fee (41 to 50) | 387.00 | Number of days | true |
+      | basic | Daily attendance fee (51+) | 414.00 | Number of days | true |
+      | basic | Standard appearance fee | 173.00 | Number of days | true |
+      | basic | Plea and trial preparation hearing | 173.00 | Number of additional cases | true |
+      | basic | Conferences and views | 74.00 | Number of hours | true |
+      | basic | Number of defendants uplift | 571.20 | Number of additional defendants | true |
+      | basic | Number of cases uplift | 571.20 | Number of additional cases | true |
+
     When I click "Continue" in the claim form
     Then I should be in the 'Miscellaneous fees' form page
 
@@ -43,13 +65,22 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I select the offence category 'Activities relating to opium'
     And I click "Continue" in the claim form
     Then the basic fee net amount should be populated with '2529.00'
+    Then the following fee details should exist:
+      | section | fee_description | rate | hint | help |
+      | basic | Daily attendance fee (3 to 40) | 857.00 | Number of days | true |
+      | basic | Daily attendance fee (41 to 50) | 387.00 | Number of days | true |
+      | basic | Daily attendance fee (51+) | 414.00 | Number of days | true |
+      | basic | Standard appearance fee | 173.00 | Number of days | true |
+      | basic | Plea and trial preparation hearing | 173.00 | Number of additional cases | true |
+      | basic | Conferences and views | 74.00 | Number of hours | true |
+      | basic | Number of defendants uplift | 505.80 | Number of additional defendants | true |
+      | basic | Number of cases uplift | 505.80 | Number of additional cases | true |
 
     And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
     And I should be in the 'Miscellaneous fees' form page
-
-    And the basic fee should have its price_calculated value set to true
+    And the following fees should have their price_calculated set to true: 'BABAF,BADAF,BADAH,BADAJ,BASAF,BAPCM,BACAV,BANDR,BANOC'
 
   @fee_calc_vcr
   Scenario: I create a scheme 9 AGFS graduated fee Retrial claim using calculated values
@@ -64,12 +95,13 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I select a case type of 'Retrial'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
-    And I enter retrial start and end dates
+    And I enter scheme 9 retrial long start and end dates
     And I choose to apply retrial reduction
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
-    And I enter defendant, representation order and MAAT reference
+    And I enter defendant, scheme 9 representation order and MAAT reference
+    And I add another defendant, scheme 9 representation order and MAAT reference
 
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
@@ -96,12 +128,44 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I click "Continue" in the claim form
     Then the basic fee net amount should be populated with '1770.30'
 
+    When I select the 'Daily attendance fee (3 to 40)' basic fee with quantity of 38
+    And I select the 'Daily attendance fee (41 to 50)' basic fee with quantity of 10
+    And I select the 'Daily attendance fee (51+)' basic fee with quantity of 2
+    And I select the 'Standard appearance fee' basic fee with quantity of 1
+    And I select the 'Plea and trial preparation hearing' basic fee with quantity of 1
+    And I select the 'Conferences and views' basic fee with quantity of 1
+    And I select the 'Number of defendants uplift' basic fee with quantity of 1
+    And I select the 'Number of cases uplift' basic fee with quantity of 1 with case numbers
+
+    # retrial interval impact on "basic" fee (retrial interval <= a month, 30% reduction)
+    Then the following fee details should exist:
+      | section | fee_description | rate | hint | help |
+      | basic | Daily attendance fee (3 to 40) | 599.90 | Number of days | true |
+      | basic | Daily attendance fee (41 to 50) | 387.00 | Number of days | true |
+      | basic | Daily attendance fee (51+) | 414.00 | Number of days | true |
+      | basic | Standard appearance fee | 173.00 | Number of days | true |
+      | basic | Plea and trial preparation hearing | 173.00 | Number of additional cases | true |
+      | basic | Conferences and views | 74.00 | Number of hours | true |
+      | basic | Number of defendants uplift | 354.06 | Number of additional defendants | true |
+      | basic | Number of cases uplift | 354.06 | Number of additional cases | true |
+
     # retrial interval impact on "basic" fee (retrial interval greater than a month, 20% reduction)
-    When I goto claim form step 'case details'
-    And I enter retrial start and end dates with 32 day interval
+    When I click "Continue" in the claim form
+    And I goto claim form step 'case details'
+    And I enter retrial long start and end dates with 32 day interval
     And I click "Continue" in the claim form
     And I goto claim form step 'basic fees'
     Then the basic fee net amount should be populated with '2023.20'
+    And the following fee details should exist:
+      | section | fee_description | rate | hint | help |
+      | basic | Daily attendance fee (3 to 40) | 685.60 | Number of days | true |
+      | basic | Daily attendance fee (41 to 50) | 387.00 | Number of days | true |
+      | basic | Daily attendance fee (51+) | 414.00 | Number of days | true |
+      | basic | Standard appearance fee | 173.00 | Number of days | true |
+      | basic | Plea and trial preparation hearing | 173.00 | Number of additional cases | true |
+      | basic | Conferences and views | 74.00 | Number of hours | true |
+      | basic | Number of defendants uplift | 404.64 | Number of additional defendants | true |
+      | basic | Number of cases uplift | 404.64 | Number of additional cases | true |
 
     # retrial reduction impact on "basic" fee
     When I goto claim form step 'case details'
@@ -109,10 +173,19 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I click "Continue" in the claim form
     And I goto claim form step 'basic fees'
     Then the basic fee net amount should be populated with '2529.00'
+    And the following fee details should exist:
+      | section | fee_description | rate | hint | help |
+      | basic | Daily attendance fee (3 to 40) | 857.00 | Number of days | true |
+      | basic | Daily attendance fee (41 to 50) | 387.00 | Number of days | true |
+      | basic | Daily attendance fee (51+) | 414.00 | Number of days | true |
+      | basic | Standard appearance fee | 173.00 | Number of days | true |
+      | basic | Plea and trial preparation hearing | 173.00 | Number of additional cases | true |
+      | basic | Conferences and views | 74.00 | Number of hours | true |
+      | basic | Number of defendants uplift | 505.80 | Number of additional defendants | true |
+      | basic | Number of cases uplift | 505.80 | Number of additional cases | true |
 
     And I eject the VCR cassette
 
     When I click "Continue" in the claim form
     Then I should be in the 'Miscellaneous fees' form page
-
-    And the basic fee should have its price_calculated value set to true
+    And the following fees should have their price_calculated set to true: 'BABAF,BADAF,BADAH,BADAJ,BASAF,BAPCM,BACAV,BANDR,BANOC'

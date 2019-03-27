@@ -12,7 +12,7 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
-    And I enter trial start and end dates
+    And I enter scheme 9 trial start and end dates
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
     And I save as draft
@@ -22,15 +22,15 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     When I click the claim 'A20161234'
     And I edit the claim's defendants
-    And I enter defendant, representation order and MAAT reference
-    And I add another defendant, representation order and MAAT reference
+    And I enter defendant, scheme 9 representation order and MAAT reference
+    And I add another defendant, scheme 9 representation order and MAAT reference
 
     Then I click "Continue" in the claim form
 
     And I select the offence category 'Handling stolen goods'
     And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
-    Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/claim_draft_edit'
+    Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/advocate_claim_draft_edit_submit'
 
     Then I click "Continue" in the claim form
     And I should be in the 'Graduated fees' form page
@@ -41,7 +41,7 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     And I select an advocate category of 'Junior alone'
     And the basic fee net amount should be populated with '694.00'
 
-    And I add a daily attendance (3 to 40) fee with dates attended
+    And I add 4 daily attendance (3 to 40) fees with dates attended
 
     Then I click "Continue" in the claim form
 
@@ -75,4 +75,4 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£1,270.37'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£2,615.47'

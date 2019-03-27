@@ -13,7 +13,7 @@
 
     = f.hidden_field :fee_type_id, value: f.object.fee_type_id, class: 'js-fee-type'
     = f.text_field :quantity, value: 1, class: 'js-fee-calculator-days visually-hidden'
-    .js-fee-calculator-effectee
+    .js-graduated-price-effectee
       .calculated-grad-fee
       = f.adp_text_field :rate,
         label: t('.net_amount'),

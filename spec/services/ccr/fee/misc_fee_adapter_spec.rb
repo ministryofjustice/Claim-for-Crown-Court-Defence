@@ -92,6 +92,27 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
         end
       end
     end
+
+    context 'mapping exclusions' do
+      context 'for conferences and view - BACAV' do
+        before { allow(fee_type).to receive(:unique_code).and_return 'BACAV' }
+
+        context 'with exclusions (default)' do
+          subject { described_class.new.call(fee).bill_subtype }
+          it { is_expected.to be_nil }
+        end
+
+        context 'with exclusions requested' do
+          subject { described_class.new(exclusions: true).call(fee).bill_subtype }
+          it { is_expected.to be_nil }
+        end
+
+        context 'without exclusions' do
+          subject { described_class.new(exclusions: false).call(fee).bill_subtype }
+          it { is_expected.to eql 'AGFS_CONFERENCE' }
+        end
+      end
+    end
   end
 
   describe '#claimed?' do

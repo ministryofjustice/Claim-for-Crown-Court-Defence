@@ -48,7 +48,11 @@ module CCR
       private
 
       def bill_mappings
-        MISC_FEE_BILL_MAPPINGS.except(*MISC_FEE_BILL_MAPPING_EXCLUSIONS)
+        MISC_FEE_BILL_MAPPINGS.except(*exclusions)
+      end
+
+      def exclusions
+        exclusions? ? MISC_FEE_BILL_MAPPING_EXCLUSIONS : []
       end
 
       def bill_key

@@ -20,7 +20,7 @@ module Claims
 
       def all
         @all ||= ADAPTERS.each_with_object({}) do |adapter, mappings|
-          mappings.merge!(adapter.new.mappings)
+          mappings.merge!(adapter.new(exclusions: false).mappings)
         end
       end
 
@@ -33,7 +33,7 @@ module Claims
       private
 
       def primary_fee_type_codes
-        @primary_fee_type_codes ||= CaseType.pluck(:fee_type_code).compact.map(&:to_sym)
+        @primary_fee_type_codes ||= CaseType.pluck(:fee_type_code).compact.map(&:to_sym).append(:BABAF)
       end
     end
   end

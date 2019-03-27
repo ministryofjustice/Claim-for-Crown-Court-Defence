@@ -12,7 +12,8 @@ module CCR
         Hash[KEYS.zip(bill_types)]
       end
 
-      def initialize
+      def initialize(exclusions: true)
+        @exclusions = exclusions
         @mappings = bill_mappings
       end
 
@@ -20,6 +21,10 @@ module CCR
         @object = object
         @bill_types = OpenStruct.new(mappings[bill_key])
         self
+      end
+
+      def exclusions?
+        @exclusions
       end
 
       def maps?

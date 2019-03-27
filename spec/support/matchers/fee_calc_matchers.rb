@@ -16,7 +16,7 @@ RSpec::Matchers.define :include_fee_calc_error do |expected = nil|
   end
 
   failure_message do |actual|
-    return "expected #{actual.errors&.join || 'nil'} to match #{expected}" if expected
+    return "expected \"#{actual.errors&.join || 'nil'}\" to match #{expected}" if expected
     "expected #{actual.errors || 'nil'} to not be empty"
   end
 end

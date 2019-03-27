@@ -5,6 +5,7 @@ RSpec.shared_examples_for 'a mapping fee adapter' do
     it { is_expected.to respond_to :bill_subtype }
     it { is_expected.to respond_to :object }
     it { is_expected.to respond_to :mappings }
+    it { is_expected.to respond_to :exclusions? }
   end
 
   describe '#mappings' do

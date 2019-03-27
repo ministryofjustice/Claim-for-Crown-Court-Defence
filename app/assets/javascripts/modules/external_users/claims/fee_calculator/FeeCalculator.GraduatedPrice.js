@@ -96,7 +96,7 @@
       this.clearErrors(context);
       var $label = $(context).find('label');
       var $calculated = $(context).closest('.fx-fee-group').find('.js-fee-calculator-success').find('input');
-      var error_html = '<div class="js-calculate-error form-hint">' + response.responseJSON.message + '<div>';
+      var error_html = '<div class="js-calculate-grad-error form-hint">' + response.responseJSON.message + '<div>';
       var new_label = $label.text() + ' ' + error_html;
       var $input = $(context).find('input.fee-amount');
 
@@ -106,7 +106,7 @@
     },
 
     clearErrors: function(context) {
-      $(context).find('.js-calculate-error').remove();
+      $(context).find('.js-calculate-grad-error').remove();
     },
 
     displayHelp: function(context, show) {
@@ -139,7 +139,7 @@
         self.displayHelp(context, true);
       })
       .fail(function(response) {
-        if (response.responseJSON.errors[0] != 'incomplete') {
+        if (response.responseJSON.errors[0] != 'insufficient_data') {
           self.displayError(response, context);
         }
         self.displayHelp(context, false);
@@ -150,7 +150,7 @@
     // Calculates the price for a given graduated fee,
     calculateGraduatedPrice: function () {
       var self = this;
-      self.graduatedPriceAjax(self.feeData(), '.js-fee-calculator-effectee');
+      self.graduatedPriceAjax(self.feeData(), '.js-graduated-price-effectee');
     },
 
     pageLoad: function () {

@@ -10,12 +10,6 @@ module Claims
 
       private
 
-      TRIAL_CRACKED_AT_THIRD_MAPPINGS = {
-        first_third: 1,
-        second_third: 2,
-        final_third: 3
-      }.with_indifferent_access.freeze
-
       def setup(options)
         @fee_type = Fee::BaseFeeType.find(options[:fee_type_id])
         @advocate_category = options[:advocate_category] || claim.advocate_category
@@ -23,7 +17,7 @@ module Claims
         @ppe = options[:ppe] || 0
         exclusions
       rescue StandardError
-        raise 'incomplete'
+        raise 'insufficient_data'
       end
 
       # TODO: warrant fees to be excluded until
@@ -41,9 +35,9 @@ module Claims
       #  - we confirm how to handle situations where retrial started before tria concluded
       #
       def exclusions
-        raise InterimWarrantExclusion if fee_type.unique_code.eql?('INWAR')
-        raise RetrialReductionExclusion if retrial_interval_required? && retrial_started_at < trial_concluded_at
-        raise CrackedBeforeRetrialExclusion if cracked_before_retrial_interval_required?
+        raise Exceptions::InterimWarrantExclusion if fee_type.unique_code.eql?('INWAR')
+        raise Exceptions::RetrialReductionExclusion if uncalculatable_retrial_reduction_required?
+        raise Exceptions::CrackedBeforeRetrialExclusion if cracked_before_retrial_interval_required?
       end
 
       def amount
@@ -77,10 +71,13 @@ module Claims
         defendants.size if lgfs?
       end
 
+      # TODO: refactor share retrial methods with unit price
       def retrial_interval
         _retrial_interval if retrial_interval_required?
       end
 
+      # TODO: refactor share retrial methods with grad price
+      #
       # Remuneration regulations, Paragraph 2(3), Schedule 1
       # -1 (retrial start before trial ends) - this applies 0% reduction logic which is TBC
       # 0 (within 1 calendar month) requires a 30% reduction of equivalent trial fee
@@ -90,12 +87,18 @@ module Claims
         retrial_started_at.between?(trial_concluded_at, trial_concluded_at + 1.month) ? 0 : 1
       end
 
+      # TODO: refactor share retrial methods with grad price
       def retrial_interval_required?
         [
           agfs?,
           case_type&.fee_type_code.eql?('GRRTR'),
           retrial_reduction
         ].all?
+      end
+
+      # TODO: refactor share retrial methods with grad price
+      def uncalculatable_retrial_reduction_required?
+        retrial_interval_required? && retrial_started_at < trial_concluded_at
       end
 
       # TODO: need to expose `retrial_reduction` for claims of this case type and apply here
@@ -107,11 +110,7 @@ module Claims
       end
 
       def third_cracked
-        _third_cracked if third_cracked_required?
-      end
-
-      def _third_cracked
-        TRIAL_CRACKED_AT_THIRD_MAPPINGS[trial_cracked_at_third]
+        super if third_cracked_required?
       end
 
       def third_cracked_required?

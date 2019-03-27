@@ -68,7 +68,7 @@
             = inf.anchored_attribute 'warrant_executed_date'
             = inf.gov_uk_date_field :warrant_executed_date, legend_text: t('.warrant_executed'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_fee.warrant_executed_date')
 
-      .js-interim-feeTotal.js-fee-calculator-effectee.visually-hidden
+      .js-interim-feeTotal.js-graduated-price-effectee.visually-hidden
         .calculated-grad-fee
         = inf.adp_text_field :amount,
           label: t('.amount'),

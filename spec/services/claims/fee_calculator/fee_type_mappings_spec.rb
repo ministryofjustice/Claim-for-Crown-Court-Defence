@@ -16,9 +16,9 @@ RSpec.describe Claims::FeeCalculator::FeeTypeMappings do
 
   let(:basic_fee_mappings) { CCR::Fee::BasicFeeAdapter.new.mappings.keys }
   let(:fixed_fee_mappings) { CCR::Fee::FixedFeeAdapter.new.mappings.keys }
-  let(:misc_fee_mappings) { CCR::Fee::MiscFeeAdapter.new.mappings.keys }
+  let(:misc_fee_mappings) { CCR::Fee::MiscFeeAdapter.new(exclusions: false).mappings.keys }
   let(:all_fee_mappings) { basic_fee_mappings + fixed_fee_mappings + misc_fee_mappings }
-  let(:primary_fee_types) { %i[FXACV FXASE FXCBR FXCSE FXCON FXENP] }
+  let(:primary_fee_types) { %i[FXACV FXASE FXCBR FXCSE FXCON FXENP BABAF] }
 
   describe '.reset' do
     it 'causes memoized data to be cleared/reset' do
@@ -41,6 +41,10 @@ RSpec.describe Claims::FeeCalculator::FeeTypeMappings do
 
     it 'returns all fee type mappings' do
       expect(subject.keys).to match_array(all_fee_mappings)
+    end
+
+    it 'returns fee types excluded by default' do
+      expect(subject.keys).to include(:BACAV)
     end
   end
 

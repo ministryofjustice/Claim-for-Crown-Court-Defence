@@ -1,4 +1,7 @@
 RSpec.shared_examples 'a successful fee calculator response' do |options|
+  # Singleton class requires reset before use
+  before(:all) { Claims::FeeCalculator::FeeTypeMappings.reset }
+
   before do
     number_of_defendants = options&.fetch(:number_of_defendants, nil)
     if number_of_defendants
@@ -44,6 +47,9 @@ RSpec.shared_examples 'a successful fee calculator response' do |options|
 end
 
 RSpec.shared_examples 'a failed fee calculator response' do |options|
+  # Singleton class requires reset before use
+  before(:all) { Claims::FeeCalculator::FeeTypeMappings.reset }
+
   it 'includes success? false' do
     expect(response.success?).to be false
   end

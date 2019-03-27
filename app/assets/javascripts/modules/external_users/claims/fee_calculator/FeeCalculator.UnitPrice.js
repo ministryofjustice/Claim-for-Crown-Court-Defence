@@ -9,18 +9,18 @@
 
     bindEvents: function() {
       this.advocateTypeChange();
-      this.miscFeeTypeChange();
+      this.basicFeeTypeChange();
       this.fixedFeeTypeChange();
-
-      this.feeRateChange();
+      this.miscFeeTypeChange();
       this.feeQuantityChange();
+      this.feeRateChange();
       this.pageLoad();
     },
 
     advocateTypeChange: function() {
       var self = this;
       // TODO: move this to a data-flag
-      if ($('.calculated-fee').exists()) {
+      if ($('.calculated-unit-fee').exists()) {
         $('.js-fee-calculator-advocate-type').change(function() {
           self.calculateUnitPrice();
         });
@@ -62,6 +62,10 @@
       });
     },
 
+    basicFeeTypeChange: function() {
+      this.feeTypeCheckboxChange('#basic-fees');
+    },
+
     fixedFeeTypeChange: function() {
       this.feeTypeCheckboxChange('#fixed-fees');
     },
@@ -75,7 +79,7 @@
       var self = this;
       var $els = $el || $('.fx-misc-fee-calculation');
 
-      if ($('.fx-misc-fee-calculation').exists() && $('.calculated-fee').exists()) {
+      if ($('.fx-misc-fee-calculation').exists() && $('.calculated-unit-fee').exists()) {
         $els.change(function() {
           self.calculateUnitPrice();
         });
@@ -94,7 +98,7 @@
     feeQuantityChange: function($el) {
       var self = this;
       var $els = $el || $('.js-fee-quantity');
-      if ($('.calculated-fee').exists()) {
+      if ($('.calculated-unit-fee').exists()) {
         $els.on('change keyup', function() {
           self.calculateUnitPrice();
           self.populateNetAmount(this);
@@ -114,6 +118,7 @@
     setRate: function(data, context) {
       var $input = $(context).find('input.fee-rate');
       var $calculated = $(context).siblings('.js-fee-calculator-success').find('input');
+
       $input.val(data.toFixed(2));
       $input.change();
       $calculated.val(data > 0);
@@ -123,18 +128,18 @@
     setHintLabel: function(data) {
       var $result = '';
       switch (data) {
-        case 'HALFDAY':
-          $result = 'half day';
-          break;
-        case 'DEFENDANT':
-        case 'CASE':
-          $result = 'additional ' + data;
-          break;
-        default:
-          $result = data;
+      case 'HALFDAY':
+        $result = 'half day';
+        break;
+      case 'DEFENDANT':
+      case 'CASE':
+        $result = 'additional ' + data;
+        break;
+      default:
+        $result = data;
       }
 
-      return (data ? "Number of " + $result.toLowerCase() + 's' : '');
+      return (data ? 'Number of ' + $result.toLowerCase() + 's' : '');
     },
 
     setHint: function(data, context) {
@@ -170,7 +175,6 @@
       var new_label = $label.text() + ' ' + error_html;
       var $input = $(context).find('input.fee-rate');
 
-      $input.val('');
       $input.prop('readonly', false);
       $calculated.val(false);
       $label.html(new_label);
@@ -206,6 +210,7 @@
             self.displayError(response, context);
             self.setHint(null, context);
           }
+
           self.displayHelp(context, false);
           self.enableRate(context);
         });
@@ -218,9 +223,6 @@
       if (advocate_category) {
         data.advocate_category = advocate_category;
       }
-      // TODO: check if this can be here instead of calculateUnitPrice
-      // loop iteration for $('.js-fee-calculator-effectee')
-      // data.fee_type_id = $(this).closest('.fx-fee-group').find('.js-fee-type').first().val();
 
       var fees = data.fees = [];
       $('.fx-fee-group:visible').each(function() {
@@ -258,7 +260,7 @@
       $(document).ready(function() {
         // TODO: this loop is causing multiple init procedures
         // limiting it for now to at least one visible
-        $('.calculated-fee:visible:first').each(function() {
+        $('.calculated-unit-fee:visible:first').each(function() {
           self.calculateUnitPrice();
         });
       });

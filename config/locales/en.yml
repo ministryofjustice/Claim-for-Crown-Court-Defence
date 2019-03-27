@@ -707,7 +707,7 @@ en:
           add_dates: Add another date
         empty_input: &empty_input ''
         number_of_days: &number_of_days Number of days
-        date: &date_attended_heading Date attended
+        date_attended_heading: &date_attended_heading Date attended
         first_date_display:
           first_day_of_trial: First day of trial
           retrial_started_at: Retrial started at
@@ -739,84 +739,57 @@ en:
             how_is_this_rate_calculated_html:
               <p>How is this rate calculated?</p>
               <p>We calculate the rate based upon the fee scheme, advocate category, offence and case type</p>
-        basic_fee_fields_conditional:
-          noc:
-            case_numbers: Additional case numbers
-            quantity: Number of cases
-            quantity_hint: *empty_input
-          ndr:
-            quantity: Number of defendants
-            quantity_hint: *empty_input
-          cav:
-            quantity: Number of conferences and view
-            quantity_hint: *empty_input
-          daf:
-            date: *date_attended_heading
-            quantity: *number_of_days
-            quantity_hint: *empty_input
-          dah:
-            date: *date_attended_heading
-            quantity: *number_of_days
-            quantity_hint: *empty_input
-          daj:
-            date: *date_attended_heading
-            quantity: *number_of_days
-            quantity_hint: *empty_input
-          pcm:
-            date: *date_attended_heading
-            quantity: Number of hearings
-            quantity_hint: *empty_input
-          saf:
-            date: *date_attended_heading
-            quantity: Number of appearances
-            quantity_hint: *empty_input
+        extra_fee_fields:
+          net_amount: *net_amount
           npw:
             heading_html: Prosecution witnesses
-            net_amount: *net_amount
             quantity: Total number of prosecution witnesses
             quantity_hint: *empty_input
-          dat:
-            date: *date_attended_heading
-            net_amount: *net_amount
-            heading_html: Prosecution witnesses
-            quantity: *number_of_days
-            quantity_hint: Include all days attended
           ppe:
-            net_amount: *net_amount
             quantity: Total number of pages
             quantity_hint: Please remove all cover sheets from the total count
             heading_html: |
               Pages of prosecution evidence (<abbr title="pages of prosecution evidence">PPE</abbr>)
             help_text: |
               Please enter the number of pages of prosecution evidence to help the caseworker assess the correct offence class.
-        basic_fee_fields:
-          case_numbers: Case numbers
+        additional_fee_fields:
+          case_numbers: Additional case numbers
           quantity: *quantity
-          add_dates: Add another date
-          net_amount: *net_amount
+          quantity_hint: *empty_input
+          add_date_attended: Add another date
+          no_dates: 'No dates currently selected.'
+          amount: *net_amount
+          remove: *remove
           rate: *rate
+          help_how_we_calculate_rate_title: *how_is_this_calculated_help
+          help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme, case type, offence, advocate category and fee type.
           daf:
             quantity: *number_of_days
+            quantity_hint: *empty_input
           dah:
             quantity: *number_of_days
+            quantity_hint: *empty_input
           daj:
             quantity: *number_of_days
+            quantity_hint: *empty_input
+          dat:
+            quantity: *number_of_days
+            quantity_hint: Include all days attended
           saf:
             quantity: Number of appearances
+            quantity_hint: *empty_input
           pcm:
             quantity: Number of hearings
+            quantity_hint: *empty_input
           cav:
             quantity: Number of conferences and views
-            hint: ''
+            quantity_hint: *empty_input
           ndr:
             quantity: Number of defendants
-            hint: ''
+            quantity_hint: *empty_input
           noc:
             quantity: Number of cases
-            hint: ''
-          no_dates: 'No dates currently selected.'
-          add_date_attended: 'Add dates'
-          remove: *remove
+            quantity_hint: *empty_input
         fields:
           page_header: Graduated fees
           page_hint: All fees should be entered exclusive of VAT.

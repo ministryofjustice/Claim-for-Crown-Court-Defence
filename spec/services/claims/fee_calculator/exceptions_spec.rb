@@ -1,6 +1,14 @@
 RSpec.describe Claims::FeeCalculator::Exceptions do
   let(:message) { 'local message' }
 
+  describe described_class::InsufficientData do
+    subject(:exception) { described_class.new(message) }
+
+    it 'provides its own message' do
+      expect(exception.message).to eql 'insufficient_data'
+    end
+  end
+
   describe described_class::PriceNotFound do
     subject(:exception) { described_class.new(message) }
 

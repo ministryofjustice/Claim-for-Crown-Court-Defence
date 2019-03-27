@@ -1,6 +1,12 @@
 module Claims
   module FeeCalculator
     module Exceptions
+      class InsufficientData < RuntimeError
+        def message
+          'insufficient_data'
+        end
+      end
+
       class PriceError < RuntimeError; end
 
       class PriceNotFound < PriceError

@@ -1,7 +1,5 @@
-# Price: Wraps a fee calc API price object to
-# factor in modifier effects and uplift parent
-# quantities on fee_per_unit or fixed_fee
-# attributes.
+# Wraps a fee calc API modifier object to
+# decorate with additional helper methods.
 #
 module Claims
   module FeeCalculator

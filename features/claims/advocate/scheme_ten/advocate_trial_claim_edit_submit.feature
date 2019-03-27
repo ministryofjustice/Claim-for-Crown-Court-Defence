@@ -45,7 +45,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
 
     And I select an advocate category of 'Junior'
     And the basic fee net amount should be populated with '550.00'
-    And I add a number of cases uplift fee with additional case numbers
+    And I select the 'Number of cases uplift' basic fee with quantity of 1 with case numbers
 
     And I should see a page title "Enter graduated fees for advocate final fees claim"
     Then I click "Continue" in the claim form
@@ -110,4 +110,4 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£1,117.87'
+    And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£1,009.87'

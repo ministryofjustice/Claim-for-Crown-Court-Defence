@@ -40,11 +40,9 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     And I select an advocate category of 'Junior alone'
     And the basic fee net amount should be populated with '694.00'
-
-    And I add 4 daily attendance (3 to 40) fees with dates attended
+    And I select the 'Daily attendance fee (3 to 40)' basic fee with quantity of 4
 
     Then I click "Continue" in the claim form
-
     And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended
     And I add a calculated miscellaneous fee 'Noting brief fee' with dates attended
 

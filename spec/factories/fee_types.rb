@@ -25,6 +25,14 @@ FactoryBot.define do
     quantity_is_decimal false
     unique_code { generate_unique_code }
 
+    trait :lgfs do
+      roles ['lgfs']
+    end
+
+    trait :both_fee_schemes do
+      roles ['lgfs', 'agfs']
+    end
+
     trait :agfs_scheme_9 do
       roles %w[agfs agfs_scheme_9]
     end
@@ -46,27 +54,37 @@ FactoryBot.define do
 
     trait :dat do
       description 'Daily Attendance Fee (2+)'
-      agfs_scheme_10
       code 'DAT'
       unique_code 'BADAT'
+      agfs_scheme_10
     end
 
     trait :daf do
       description 'Daily Attendance Fee (3 to 40)'
       code 'DAF'
       unique_code 'BADAF'
+      agfs_scheme_9
     end
 
     trait :dah do
       description 'Daily Attendance Fee (41 to 50)'
       code 'DAH'
       unique_code 'BADAH'
+      agfs_scheme_9
     end
 
     trait :daj do
       description 'Daily Attendance Fee (50+)'
       code 'DAJ'
       unique_code 'BADAJ'
+      agfs_scheme_9
+    end
+
+    trait :pcm do
+      description 'Plea and Case Management Hearing'
+      code 'PCM'
+      unique_code 'BAPCM'
+      agfs_all_schemes
     end
 
     trait :ppe do
@@ -74,12 +92,7 @@ FactoryBot.define do
       code 'PPE'
       calculated false
       unique_code 'BAPPE'
-    end
-
-    trait :pcm do
-      description 'Plea and Case Management Hearing'
-      code 'PCM'
-      unique_code 'BAPCM'
+      agfs_scheme_9
     end
 
     trait :cav do
@@ -100,25 +113,62 @@ FactoryBot.define do
       description 'Number of cases uplift'
       code 'NOC'
       unique_code 'BANOC'
+      agfs_all_schemes
     end
 
     trait :ndr do
       description 'Number of defendants uplift'
       code 'NDR'
       unique_code 'BANDR'
-    end
-
-    trait :lgfs do
-      roles ['lgfs']
-    end
-
-    trait :both_fee_schemes do
-      roles ['lgfs', 'agfs']
+      agfs_all_schemes
     end
 
     trait :hsts do
       description 'Hearing subsequent to sentence'
       roles [ 'lgfs' ]
+    end
+
+    trait :babaf do
+      baf
+    end
+
+    trait :badat do
+      daf
+    end
+
+    trait :badaf do
+      daf
+    end
+
+    trait :badah do
+      dah
+    end
+
+    trait :badaj do
+      daj
+    end
+
+    trait :basaf do
+      description 'Standard appearance fee'
+      code 'SAF'
+      unique_code 'BASAF'
+      agfs_all_schemes
+    end
+
+    trait :bapcm do
+      pcm
+    end
+
+    trait :bacav do
+      cav
+    end
+
+    trait :bandr do
+      ndr
+    end
+
+    trait :banoc do
+      noc
     end
 
     factory :misc_fee_type, class: Fee::MiscFeeType do

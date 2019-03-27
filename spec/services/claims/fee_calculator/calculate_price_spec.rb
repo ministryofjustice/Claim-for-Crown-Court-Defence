@@ -51,16 +51,27 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
   it { is_expected.to respond_to(:current_page_fees) }
 
   describe '#call' do
-    subject(:response) { described_class.new(claim, params).call }
+    subject(:response) { instance.call }
+    let(:instance) { described_class.new(claim, params) }
 
     it 'returns a response object' do
       is_expected.to be_a Claims::FeeCalculator::Response
     end
 
-    it 'returns a response error message \'implement in subclass\'' do
-      expect(response.errors).to include(a_kind_of(RuntimeError))
-      expect(response.errors.map(&:message)).to include('implement in subclass')
+    it 'returns a response with 1 error message \'insufficient_data\'' do
+      expect(response.errors).to be_an Array
+      expect(response.errors).to contain_exactly('insufficient_data')
     end
+  end
+
+  describe '#exclusions (private)' do
+    subject(:exclusions) { described_class.new(claim, params).send(:exclusions) }
+    it { expect { exclusions }.to raise_error('implement in subclass') }
+  end
+
+  describe '#amount (private)' do
+    subject(:amount) { described_class.new(claim, params).send(:amount) }
+    it { expect { amount }.to raise_error('implement in subclass') }
   end
 
   context 'Subclasses' do
@@ -69,6 +80,10 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
 
       def amount
         1001.00
+      end
+
+      def exclusions
+        nil
       end
     end
 
@@ -104,9 +119,12 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
       context 'when setup fails' do
         before { params.delete(:fee_type_id) }
 
-        it 'returns a response error' do
-          expect(response.errors).to include(a_kind_of(RuntimeError))
-          expect(response.errors.map(&:message)).to include('incomplete')
+        # insufficient_data indicates we have either deactivated fee calc
+        # or insufficient information is available as yet (Advocate
+        # category)
+        it 'returns response error insufficient_data' do
+          expect(response.errors).to be_an Array
+          expect(response.errors).to include('insufficient_data')
         end
       end
     end

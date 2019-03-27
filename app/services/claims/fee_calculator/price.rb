@@ -5,12 +5,13 @@
 #
 module Claims
   module FeeCalculator
+    # TODO: rename to PriceDecorator? and subclass to Delegator class?
     class Price
-      attr_reader :price, :modifier_name, :parent_quantity
+      attr_reader :price, :unit_modifiers, :parent_quantity
 
-      def initialize(price, modifier_name = nil, parent_quantity = 1)
+      def initialize(price, unit_modifiers = [], parent_quantity = 1)
         @price = price
-        @modifier_name = modifier_name
+        @unit_modifiers = unit_modifiers
         @parent_quantity = parent_quantity
       end
 
@@ -19,45 +20,46 @@ module Claims
         fee.round(2)
       end
 
-      def fixed_fee?
-        price.fixed_fee.to_f > price.fee_per_unit.to_f
-      end
-
-      def fixed_fee
-        @fixed_fee ||=
-          price.fixed_fee.to_f * modifier_scale_factor
-      end
-
-      def fee_per_unit
-        @fee_per_unit ||=
-          price.fee_per_unit.to_f * modifier_scale_factor * parent_quantity
-      end
-
       def unit
-        return singular_modifier_name if modifier_name
+        return uplift_modifier_name if uplift_modifier?
         price.unit
       end
 
-      def modifier
-        return nil unless modifier_name
-
-        @modifier ||= price.modifiers.find do |m|
-          m.modifier_type.name.eql?(modifier_name.upcase.to_s)
+      def modifiers
+        @modifiers ||= price.modifiers.each_with_object([]) do |modifier, arr|
+          modifier = ModifierDecorator.new(modifier)
+          arr.append(modifier) if unit_modifiers.any? { |unit_modifier| modifier == unit_modifier }
         end
-
-        raise 'Modifier not found' unless @modifier
-        @modifier
       end
 
       private
 
-      def singular_modifier_name
-        modifier_name.upcase.to_s.singularize.sub(/NUMBER_OF_/, '')
+      def fee_per_unit
+        @fee_per_unit ||= apply_modifiers(price.fee_per_unit.to_f) * parent_quantity
       end
 
-      def modifier_scale_factor
-        return 1 unless modifier
-        modifier.percent_per_unit.to_f / 100
+      def fixed_fee
+        @fixed_fee ||= apply_modifiers(price.fixed_fee.to_f)
+      end
+
+      def apply_modifiers(amount)
+        modifiers.reduce(amount) do |product, modifier|
+          product * modifier.scale_factor
+        end
+      end
+
+      def fixed_fee?
+        price.fixed_fee.to_f.nonzero?
+      end
+
+      UPLIFT_MODIFIERS = %i[number_of_defendants number_of_cases].freeze
+      def uplift_modifier?
+        (unit_modifiers.map(&:name) & UPLIFT_MODIFIERS).present?
+      end
+
+      def uplift_modifier_name
+        uplift_modifier = unit_modifiers.find { |um| UPLIFT_MODIFIERS.include?(um.name) }
+        uplift_modifier.name.upcase.to_s.singularize.sub(/NUMBER_OF_/, '')
       end
     end
   end

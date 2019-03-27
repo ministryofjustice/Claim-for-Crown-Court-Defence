@@ -125,6 +125,8 @@
       $input.prop('readonly', data > 0);
     },
 
+    // TODO: backend should tell front end what to present
+    // in data attributes preferably
     setHintLabel: function(data) {
       var $result = '';
       switch (data) {
@@ -171,7 +173,7 @@
       this.clearErrors(context);
       var $label = $(context).find('label');
       var $calculated = $(context).closest('.fx-fee-group').find('.js-fee-calculator-success').find('input');
-      var error_html = '<div class="js-calculate-error form-hint">' + response.responseJSON.message + '<div>';
+      var error_html = '<div class="js-calculate-unit-error form-hint">' + response.responseJSON.message + '<div>';
       var new_label = $label.text() + ' ' + error_html;
       var $input = $(context).find('input.fee-rate');
 
@@ -181,7 +183,7 @@
     },
 
     clearErrors: function(context) {
-      $(context).find('.js-calculate-error').remove();
+      $(context).find('.js-calculate-unit-error').remove();
     },
 
     displayHelp: function(context, show) {
@@ -206,7 +208,7 @@
           self.displayHelp(context, true);
         })
         .fail(function(response) {
-          if (response.hasOwnProperty('responseJSON') && response.responseJSON.errors[0] != 'incomplete') {
+          if (response.hasOwnProperty('responseJSON') && response.responseJSON.errors[0] != 'insufficient_data') {
             self.displayError(response, context);
             self.setHint(null, context);
           }
@@ -242,7 +244,7 @@
 
       this.buildFeeData(data);
 
-      $('.js-fee-calculator-effectee').each(function(idx, el) {
+      $('.js-unit-price-effectee').each(function(idx, el) {
         if ($(el).is(':visible')) {
           data.fee_type_id = $(this).closest('.fx-fee-group').find('.js-fee-type').first().val();
           self.unitPriceAjax(data, this);
@@ -250,7 +252,7 @@
       });
 
       // if everything is hidded - force sidebar recalculate
-      if($('.js-fee-calculator-effectee:visible').length === 0){
+      if($('.js-unit-price-effectee:visible').length === 0){
         $('#claim-form').trigger('recalculate');
       }
     },

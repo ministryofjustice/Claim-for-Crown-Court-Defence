@@ -9,6 +9,12 @@ module Claims
     Data = Struct.new(:amount, :unit, keyword_init: true)
 
     class CalculatePrice
+      TRIAL_CRACKED_AT_THIRD_MAPPINGS = {
+        first_third: 1,
+        second_third: 2,
+        final_third: 3
+      }.with_indifferent_access.freeze
+
       delegate  :earliest_representation_order_date,
                 :agfs?,
                 :lgfs?,
@@ -22,6 +28,9 @@ module Claims
                 :offence,
                 :defendants,
                 to: :claim
+
+      delegate :limit_from, to: :fee_type_limit
+      delegate :limit_to, to: :fee_type_limit
 
       attr_reader :claim,
                   :options,
@@ -40,7 +49,7 @@ module Claims
         response(true, build_data(amount))
       rescue StandardError => err
         Rails.logger.error("error: #{err.message}")
-        response(false, err, I18n.t('fee_calculator.calculate.amount_unavailable'))
+        response(false, err.message, I18n.t('fee_calculator.calculate.amount_unavailable'))
       end
 
       private
@@ -50,8 +59,13 @@ module Claims
         @advocate_category = options[:advocate_category] || claim.advocate_category
         @quantity = options[:quantity] || 1
         @current_page_fees = options[:fees].values
+        exclusions
       rescue StandardError
-        raise 'incomplete'
+        raise 'insufficient_data'
+      end
+
+      def exclusions
+        raise 'implement in subclass'
       end
 
       def amount
@@ -95,7 +109,7 @@ module Claims
         CCR::AdvocateCategoryAdapter.code_for(advocate_category) if advocate_category
       end
 
-      # TODO: limit_from represents the price based on the quantity "instance"
+      # TODO: limits control the applicable price based on the quantity "instance"
       # e.g. AGFS scheme 10, Contempt scenario, Standard appearance fee
       #      attracts one price per unit/day (180 for a QC) for the first 6 days
       #      then 0.00 price for days 7 onwards. This breaks the "rate" per unit logic
@@ -103,40 +117,9 @@ module Claims
       #      instead, as one solution.
       # NOTE: In the API AGFS fee scheme prices have a limit_from minimum of 1, while
       # LGFS does not use this attribute and uses 0. github issue TODO?
-      def limit_from_default
-        # TODO: add limit_from, limit_to to fee types and populate
-        case fee_type.unique_code
-        when 'BABAF'
-          1
-        when 'BADAF'
-          3
-        when 'BADAH'
-          41
-        when 'BADAJ'
-          51
-        when 'BADAT'
-          2
-        else
-          agfs? ? 1 : 0
-        end
-      end
-
-      def limit_to_default
-        # TODO: add limit_from, limit_to to fee types and populate
-        case fee_type.unique_code
-        when 'BABAF'
-          2
-        when 'BADAF'
-          40
-        when 'BADAH'
-          50
-        when 'BADAJ'
-          9999
-        when 'BADAT'
-          9999
-        else
-          nil
-        end
+      #
+      def fee_type_limit
+        @fee_type_limit ||= FeeTypeLimit.new(fee_type, claim)
       end
 
       def fee_type_mappings
@@ -176,6 +159,10 @@ module Claims
       def defendant_uplift_parent
         return primary_fee_type_on_page if fee_type.orphan_defendant_uplift?
         fee_type.defendant_uplift_parent
+      end
+
+      def third_cracked
+        TRIAL_CRACKED_AT_THIRD_MAPPINGS[trial_cracked_at_third]
       end
 
       def response(success, data, message = nil)

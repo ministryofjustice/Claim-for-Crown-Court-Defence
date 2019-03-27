@@ -150,7 +150,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
           let(:params) { { fee_type_id: fee.fee_type.id } }
 
           context 'fee calculation excluded' do
-            it_returns 'a failed fee calculator response', message: /incomplete/i
+            it_returns 'a failed fee calculator response', message: /insufficient_data/i
           end
         end
       end
@@ -186,7 +186,6 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             context 'retrial' do
               let(:case_type) { create(:case_type, :retrial) }
 
-              # NOTE: statistically ~70% of retrials start BEFORE the trial concludes
               context 'with retrial interval of negative calendar month' do
                 before do
                   trial_end = 3.months.ago.to_date
@@ -198,13 +197,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 context 'with retrial reduction requested' do
                   before { allow(claim).to receive(:retrial_reduction).and_return true }
 
-                  # TODO: CCR Logic - TBC
+                  # TODO: CCR Logic - TBC?? excluded for now
                   # context '0% reduction applies' do
                   #   it_returns 'a successful fee calculator response', amount: 1632.00
                   # end
 
                   context 'fee calculation excluded' do
-                    it_returns 'a failed fee calculator response', message: /incomplete/i
+                    it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
 
@@ -297,7 +296,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                   end
 
                   context 'fee calculation excluded' do
-                    it_returns 'a failed fee calculator response', message: /incomplete/i
+                    it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
 
@@ -307,7 +306,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                   end
 
                   context 'fee calculation excluded' do
-                    it_returns 'a failed fee calculator response', message: /incomplete/i
+                    it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
               end
@@ -327,7 +326,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                   end
 
                   context 'fee calculation excluded' do
-                    it_returns 'a failed fee calculator response', message: /incomplete/i
+                    it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
 
@@ -337,7 +336,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                   end
 
                   context 'fee calculation excluded' do
-                    it_returns 'a failed fee calculator response', message: /incomplete/i
+                    it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
               end
@@ -375,7 +374,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
       context 'because of incomplete parameters' do
         let(:params) { { fee_type_id: nil } }
 
-        it_returns 'a failed fee calculator response', message: /incomplete/i
+        it_returns 'a failed fee calculator response', message: /insufficient_data/i
       end
 
       context 'because resource not found' do

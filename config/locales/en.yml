@@ -764,32 +764,23 @@ en:
           help_how_we_calculate_rate_title: *how_is_this_calculated_help
           help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme, case type, offence, advocate category and fee type.
           daf:
-            quantity: *number_of_days
             quantity_hint: *empty_input
           dah:
-            quantity: *number_of_days
             quantity_hint: *empty_input
           daj:
-            quantity: *number_of_days
             quantity_hint: *empty_input
           dat:
-            quantity: *number_of_days
-            quantity_hint: Include all days attended
+            quantity_hint: *empty_input
           saf:
-            quantity: Number of appearances
             quantity_hint: *empty_input
           pcm:
-            quantity: Number of hearings
             quantity_hint: *empty_input
           cav:
-            quantity: Number of conferences and views
             quantity_hint: *empty_input
           ndr:
-            quantity: Number of defendants
-            quantity_hint: *empty_input
+            quantity_hint: Number of additional defendants
           noc:
-            quantity: Number of cases
-            quantity_hint: *empty_input
+            quantity_hint: Number of additional cases
         fields:
           page_header: Graduated fees
           page_hint: All fees should be entered exclusive of VAT.

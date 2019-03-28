@@ -1,3 +1,6 @@
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
 = render partial: 'errors/error_summary', locals:{ ep: @allocation, error_summary: t('.error_summary')}
 
 .grid-row
@@ -22,7 +25,7 @@
       = hidden_field_tag :page, params[:page]
 
       %fieldset.inline
-        %legend.normal
+        %legend.normal.form-label-bold
           = t('.legend')
 
         .form-group
@@ -34,16 +37,16 @@
               = f.radio_button :deallocate, true, checked: false, value: true
               = f.label :deallocate, t('.allocation_pool'), 'aria-label': t('.allocation_pool_label'), value: true
 
-
             .multiple-choice
               = f.radio_button :deallocate, false, checked: true, value: false
               = f.label :deallocate, t('.case_worker'), 'aria-label': t('.case_worker_label'), value: false
 
       .case-worker-reallocation.grid-row.form-group.js-typeahead
         .column-one-quarter.js-case-worker-list
-          = f.label :case_worker_id, for: 'allocation_case_worker_id_input'
-          = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
+          = f.label :case_worker_id, for: 'allocation_case_worker_id_input', class: 'form-label-bold'
+          = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', style: 'width: 100%;' }
         .column-half.margin-spacer-sm
+          %br/
           = f.submit t('.re_allocate'), class: 'button'
 
       - if @claims.any?
@@ -77,14 +80,14 @@
               = collection_check_boxes :allocation, :claim_ids, @claims, :id, :case_number do |b|
                 - present(b.object) do |claim|
                   %tr{id: dom_id(claim), class: claim.injection_error ? 'error injection-error' : nil }
-                    %td
+                    %td{'data-label' => t('.select')}
                       .error-message-container
                         = b.label(class:'visuallyhidden'){t('.choose_label', case_number: claim.case_number)}
                         = b.check_box
                         - claim.injection_error do |message|
                           .error-message
                             = message
-                    %td
+                    %td{'data-label' => t('.case_number')}
                       %span.js-test-case-number
                         = link_to claim.case_number , case_workers_claim_path(claim), 'aria-label': t('.case_number_label', case_number: claim.case_number)
                         %span.unique-id-small
@@ -92,21 +95,21 @@
                         - if claim.disk_evidence == true
                           %span.disk-evidence
                             = t('.disk_evidence')
-                    %td
+                    %td{'data-label' => t('.court')}
                       = claim.court.name
-                    %td
+                    %td{'data-label' => t('.defendants')}
                       = claim.defendant_names
-                    %td
+                    %td{'data-label' => t('.type')}
                       = claim.case_type_name
                       %br/
                       %span.claim-state
                         = claim.claim_state
-                    %td.numeric
+                    %td.numeric{'data-label' => t('.submitted_date')}
                       = claim.submitted_at_short
-                    %td.numeric
+                    %td.numeric{'data-label' => t('.claim_total')}
                       = claim.total_inc_vat
                     - if params[:tab] == 'allocated'
-                      %td
+                      %td{'data-label' => t('.allocated_to')}
                         = claim.case_workers.map(&:name).join(', ')
 
       - else

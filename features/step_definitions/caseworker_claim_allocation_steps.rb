@@ -24,7 +24,8 @@ When(/^I select claims "(.*?)"$/) do |case_numbers|
 end
 
 When(/^I select case worker "(.*?)"$/) do |name|
-  @allocation_page.select_case_worker(name)
+  @allocation_page.auto_caseworker.choose_autocomplete_option(name)
+  wait_for_ajax
 end
 
 Then(/^claims? "(.*?)" should be allocated to case worker "(.*?)"$/) do |case_numbers, name|

@@ -70,7 +70,7 @@ moj.Modules.AllocationDataTable = {
 
     // dom template with custom wrappers and structure
     // =>/options/dom
-    dom: '<"form-row"<"column-one-half"f><"column-one-half"i>>rt<"grid-row"<"column-one-third"l><"column-two-thirds"p>>',
+    dom: '<"form-group"<"column-one-half"f><"column-one-half"i>>rt<"grid-row"<"column-one-third"l><"column-two-thirds"p>>',
 
     // rowId can be sourced from the row data
     rowId: 'id',
@@ -315,7 +315,7 @@ moj.Modules.AllocationDataTable = {
 
       quantity_to_allocate = $('#quantity_to_allocate').val() || false;
 
-      allocation_case_worker_id = $('#allocation_case_worker_id').val();
+      allocation_case_worker_id = $('#allocation_case_worker_id-select').val();
 
       if (!allocation_case_worker_id) {
         // console.log('No Caseworker selected');
@@ -352,7 +352,7 @@ moj.Modules.AllocationDataTable = {
         }
       }).success(function(data) {
         self.ui.$msgFail.hide();
-        self.ui.$msgSuccess.find('span').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id_input').val());
+        self.ui.$msgSuccess.find('span').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id').val());
         self.ui.$msgSuccess.show();
         self.reloadScheme({
           scheme: self.searchConfig.scheme

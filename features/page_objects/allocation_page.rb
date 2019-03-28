@@ -7,12 +7,10 @@ class AllocationPage < SitePrism::Page
 
   element :allocate, "input.button.allocation-submit"
 
+  section :auto_caseworker, CommonAutocomplete, "#cc-caseworker"
+
   sections :allocations, "table.report > tbody > tr" do
     element :case_number, "td:nth-of-type(2) span.js-test-case-number"
-  end
-
-  def select_case_worker(name)
-    select name, from: "allocation_case_worker_id"
   end
 
   def select_claims(case_numbers)

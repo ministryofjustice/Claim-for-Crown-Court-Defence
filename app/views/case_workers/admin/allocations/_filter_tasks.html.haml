@@ -1,8 +1,8 @@
 .form-group#filter-tasks.dtFilter.dtFilterAGFS{:data => {scheme: 'agfs'}}
   %fieldset.inline
-    %label.form-label{:for => "filterAGFS"}
+    %label.form-label-bold{:for => "filterAGFS"}
       = t('.case_types')
-    %select#filterAGFS.form-control{:name => "tasks"}
+    %select#filterAGFS.form-control{:name => "tasks", :style => "width:100%"}
       %option{:value => ""}
         = t('.all')
       %option{:value => "fixed_fee"}
@@ -29,9 +29,9 @@
 
 .form-group#filter-tasks.dtFilter.dtFilterLGFS{data: {scheme: 'lgfs'}, style: 'display: none;'}
   %fieldset.inline
-    %label.form-label{:for => "filterLGFS"}
+    %label.form-label-bold{:for => "filterLGFS"}
       = t('.case_types')
-    %select#filterLGFS.form-control{:name => "tasks"}
+    %select#filterLGFS.form-control{:name => "tasks", :style => "width:100%"}
       %option{:value => ""}
         = t('.all')
       %option{:value => "fixed_fee"}

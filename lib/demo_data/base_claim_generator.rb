@@ -51,7 +51,6 @@ module DemoData
       add_basic_fees(claim) unless claim.case_type.is_fixed_fee?
       add_fixed_fees(claim) if claim.case_type.is_fixed_fee?
       add_misc_fees(claim)
-      # ap claim.fees
     end
 
     def add_trial_dates(claim)

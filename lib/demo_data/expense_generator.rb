@@ -62,29 +62,5 @@ module DemoData
     def generate_hours(ex)
       ex.travel_time? ? rand(1..8) : nil
     end
-
-    def generate_travel_expense_additional_info
-      [
-        'It was the best of times, it was the worst of times.',
-        'Last night I dreamt of Manderley again.',
-        'It is a truth universally acknowledged, that a single man in possession of a good fortune must be in want of a wife.',
-        'Happy families are all alike; every unhappy family is unhappy in its own way.',
-        'It was a bright cold day in April, and the clocks were striking thirteen.',
-        'I am an invisible man.',
-        'Stately, plump Buck Mulligan came from the stairhead, bearing a bowl of lather on which a mirror and a razor lay crossed.',
-        'All this happened, more or less.',
-        'The moment one learns English, complications set in.',
-        'He was an old man who fished alone in a skiff in the Gulf Stream and he had gone eighty-four days now without taking a fish.',
-        'It was the day my grandmother exploded.',
-        'It was love at first sight. The first time Yossarian saw the chaplain, he fell madly in love with him.',
-        'I have never begun a novel with more misgiving.',
-        'You better not never tell nobody but God.',
-        'The past is a foreign country; they do things differently there.',
-        'He was born with a gift of laughter and a sense that the world was mad.',
-        'In the town, there were two mutes and they were always together.',
-        'The cold passed reluctantly from the earth, and the retiring fogs revealed an army stretched out on the hills, resting.'
-      ].sample
-    end
-
   end
 end

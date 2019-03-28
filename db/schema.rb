@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_23_102020) do
+ActiveRecord::Schema.define(version: 2019_03_28_124551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(version: 2018_11_23_102020) do
     t.integer "value_band_id"
     t.boolean "retrial_reduction", default: false
     t.string "travel_expense_additional_information"
+    t.boolean "prosecution_evidence", default: false
     t.index ["case_number"], name: "index_claims_on_case_number"
     t.index ["cms_number"], name: "index_claims_on_cms_number"
     t.index ["court_id"], name: "index_claims_on_court_id"

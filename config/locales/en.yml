@@ -1466,6 +1466,7 @@ en:
 
         case_details_form_step:
           page_title: *agfs_final_claim_title
+          page_heading: Case details
 
         defendants_form_step:
           page_title: Enter defendant details for advocate final fees claim
@@ -1502,6 +1503,7 @@ en:
 
         case_details_form_step:
           page_title: *agfs_interim_claims_title
+          page_heading: Case details
 
         defendants_form_step:
           page_title: Enter defendant details for advocate warrant fees claim
@@ -1529,6 +1531,7 @@ en:
 
         case_details_form_step:
           page_title: *agfs_supplementary_claim_title
+          page_heading: Case details
 
         defendants_form_step:
           page_title: Enter defendant details for advocate supplementary fee claim
@@ -1555,6 +1558,7 @@ en:
 
         case_details_form_step:
           page_title: *lgfs_interim_claims_title
+          page_heading: Case details
 
         defendants_form_step:
           page_title: Enter defendant details for litigator interim fees claim
@@ -1582,6 +1586,7 @@ en:
 
         case_details_form_step:
           page_title: *lgfs_transfer_claim_title
+          page_heading: Case details
 
         defendants_form_step:
           page_title: Enter defendant details for litigator transfer fees claim
@@ -1619,6 +1624,7 @@ en:
 
         case_details_form_step:
           page_title: *lgfs_claims_title
+          page_heading: Case details
 
         defendants_form_step:
           page_title: Enter defendant details for litigator final fees claim

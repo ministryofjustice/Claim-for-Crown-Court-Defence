@@ -1,6 +1,3 @@
-%h2.heading-large
-  = t('.case_details')
-
 .form-section{id: @claim.form_step}
   - if @claim.agfs? && @external_user.admin?
     = render partial: 'external_users/claims/case_details/advocate_fields', locals: { f: f }

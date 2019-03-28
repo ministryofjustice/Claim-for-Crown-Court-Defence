@@ -51,6 +51,10 @@
         items.each(function(idx, el) {
           $(el).find(self.settings.number).text(idx + 1);
         });
+      } else{
+        items.each(function(idx, el) {
+          $(el).find(self.settings.number).text('');
+        });
       }
     }
   });

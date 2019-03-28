@@ -45,7 +45,7 @@ module DemoData
     def submit(claim)
       add_message(claim, claim.external_user)
       claim.update(last_submitted_at: rand(0..180).days.ago)
-      #workaround as failing here on total numericality
+      # workaround as failing here on total numericality
       if claim.total == 0.0
         claim.total = 1.00
         claim.fees_total = 1.00

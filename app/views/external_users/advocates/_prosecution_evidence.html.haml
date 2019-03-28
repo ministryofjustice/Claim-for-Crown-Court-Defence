@@ -1,0 +1,11 @@
+.form-group
+  %fieldset{"aria-describedby": "radio-control-legend-category"}
+    = f.anchored_without_label t('prosecution_evidence')
+    %legend{:for => "prosecution_evidence"}
+      %h3#radio-control-legend-category.heading-medium
+        = t('Was prosecution evidence served on this case?')
+    .advocate-categories{class: error_class?(@error_presenter, :prosecution_evidence)}
+      = f.collection_radio_buttons(:prosecution_evidence, [true, false], :to_s, :to_s) do |b|
+        .multiple-choice
+          = b.radio_button("aria-labelledby": "checkbox-control-legend-prosection-evidence #{b.text.to_css_class}")
+          = b.label(id: b.text.to_css_class) { (b.value.to_s == 'true' ? t('Yes') : t('No')) }

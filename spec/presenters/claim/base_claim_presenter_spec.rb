@@ -6,6 +6,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   subject(:presenter) { described_class.new(claim, view) }
 
   before do
+    next if claim.remote?
     Timecop.freeze(Time.current)
     @first_defendant = claim.defendants.first
     @first_defendant.first_name = 'Mark'
@@ -161,7 +162,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe 'assessment_fees' do
-    it 'should  return formatted assessment fees' do
+    it 'should return formatted assessment fees' do
       claim.assessment.update_values(1234.56, 0.0, 300.0)
       expect(subject.assessment_fees).to eq '£1,234.56'
     end
@@ -182,7 +183,6 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#retrial' do
-
     it 'returns yes for case types like retrial' do
       claim.case_type = FactoryBot.create :case_type, :retrial
       expect(subject.retrial).to eql 'Yes'
@@ -193,10 +193,13 @@ RSpec.describe Claim::BaseClaimPresenter do
       expect(subject.retrial).to eql 'No'
     end
 
+    it 'returns empty string when no case type' do
+      claim.case_type = nil
+      expect(subject.retrial).to be_blank
+    end
   end
 
   describe '#any_judicial_apportionments' do
-
     it "returns yes if any defendants have an order for judicial apportionment" do
       @first_defendant.update_attribute(:order_for_judicial_apportionment,true)
       expect(subject.any_judicial_apportionments).to eql 'Yes'
@@ -206,7 +209,6 @@ RSpec.describe Claim::BaseClaimPresenter do
       @first_defendant.update_attribute(:order_for_judicial_apportionment,false)
       expect(subject.any_judicial_apportionments).to eql 'No'
     end
-
   end
 
   # TODO: do currency converters need internationalisation??
@@ -514,5 +516,217 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#requires_interim_claim_info?' do
     subject { presenter.requires_interim_claim_info? }
     it { is_expected.to be_falsey }
+  end
+
+  describe '#mandatory_case_details?' do
+    it 'returns truthy when claim has case type, court and case number' do
+      expect(claim).to receive(:case_type).and_return 'a case type'
+      expect(claim).to receive(:court).and_return 'a court'
+      expect(claim).to receive(:case_number).and_return 'a case number'
+      expect(presenter.mandatory_case_details?).to be_truthy
+    end
+
+    it ' returns falsey when claim is missing one of case type, court or case number' do
+      expect(claim).to receive(:case_type).and_return 'a case type'
+      expect(claim).to receive(:court).and_return 'a court'
+      expect(claim).to receive(:case_number).and_return nil
+      expect(presenter.mandatory_case_details?).to be_falsey
+    end
+  end
+
+  describe '#mandatory_supporting_evidence?' do
+    it 'returns truthy when claim has disk evidence, documents or evidence checklist item' do
+      expect(claim).to receive(:disk_evidence).and_return false
+      expect(claim).to receive(:documents).and_return []
+      expect(claim).to receive(:evidence_checklist_ids).and_return [1]
+      expect(presenter.mandatory_supporting_evidence?).to be_truthy
+    end
+
+    it 'returns falsey when claim has NO disk evidence, documents or evidence checklist item' do
+      expect(claim).to receive(:disk_evidence).and_return false
+      expect(claim).to receive(:documents).and_return []
+      expect(claim).to receive(:evidence_checklist_ids).and_return []
+      expect(presenter.mandatory_supporting_evidence?).to be_falsey
+    end
+  end
+
+  RSpec.shared_examples 'last claim state transition reason_text' do
+    let(:mock_claim_state_transitions) do
+      [
+        instance_double(ClaimStateTransition, reason_text: 'first reason'),
+        instance_double(ClaimStateTransition, reason_text: 'another reason'),
+        instance_double(ClaimStateTransition, reason_text: 'last reason')
+      ]
+    end
+
+    before { allow(claim).to receive(:claim_state_transitions).and_return(mock_claim_state_transitions) }
+
+    it 'returns last claim state transition reason text' do
+      is_expected.to eql 'last reason'
+    end
+  end
+
+  describe '#reason_text' do
+    subject { presenter.reason_text }
+    include_examples 'last claim state transition reason_text'
+  end
+
+  describe '#reject_reason_text' do
+    subject { presenter.reject_reason_text }
+    include_examples 'last claim state transition reason_text'
+  end
+
+  describe '#refuse_reason_text' do
+    subject { presenter.refuse_reason_text }
+    include_examples 'last claim state transition reason_text'
+  end
+
+  describe '#claim_state' do
+    subject { presenter.claim_state }
+
+    context 'when opened for redetermination' do
+      before { allow(claim).to receive(:opened_for_redetermination?).and_return true }
+      it { is_expected.to eql 'Redetermination' }
+    end
+
+    context 'when written reasons outstanding' do
+      before { allow(claim).to receive(:written_reasons_outstanding?).and_return true }
+      it { is_expected.to eql 'Awaiting written reasons' }
+    end
+
+    context 'when not opened for redetermination nor written reasons outstanding' do
+      before do
+        allow(claim).to receive(:opened_for_redetermination?).and_return false
+        allow(claim).to receive(:written_reasons_outstanding?).and_return false
+      end
+      it { is_expected.to be_blank }
+    end
+  end
+
+  describe '#submitted_at_short' do
+    subject { presenter.submitted_at_short }
+    it 'returns short date formatted string of #last_submitted_at' do
+      expect(claim).to receive(:last_submitted_at).and_return DateTime.parse("2019-03-31 09:38:00.000000")
+      is_expected.to eql '31/03/19'
+    end
+  end
+
+  describe '#trial_concluded' do
+    subject { presenter.trial_concluded }
+
+    context 'when no claim#trial_concluded_at' do
+      before { allow(claim).to receive(:trial_concluded_at).and_return nil }
+      it 'returns text' do
+        is_expected.to eql 'not specified'
+      end
+    end
+
+    context 'when claim#trial_concluded_at' do
+      before { allow(claim).to receive(:trial_concluded_at).and_return DateTime.parse("2019-03-31 09:38:00.000000") }
+      it 'returns app specific date string format' do
+        is_expected.to eql '31/03/2019'
+      end
+    end
+  end
+
+  describe '#has_messages?' do
+    subject { presenter.has_messages? }
+
+    context 'non-remote claims' do
+      before { allow(claim).to receive(:remote?).and_return false }
+
+      it 'returns true if there are any messages' do
+        expect(claim).to receive(:messages).and_return [instance_double(Message)]
+        is_expected.to be_truthy
+      end
+
+      it 'returns false if there are no messages' do
+        expect(claim).to receive(:messages).and_return []
+        is_expected.to be_falsey
+      end
+    end
+
+    context 'remote claims' do
+      let(:claim) { double(::Remote::Claim, remote?: true) }
+
+      it 'returns true for positive message count' do
+        allow(claim).to receive(:messages_count).and_return 2
+        is_expected.to be_truthy
+      end
+
+      it 'returns false for nil or zero message count' do
+        allow(claim).to receive(:messages_count).and_return nil
+        is_expected.to be_falsey
+      end
+    end
+  end
+
+  describe '#raw_misc_fees_total' do
+    it 'sends message to claim' do
+      expect(claim).to receive(:calculate_fees_total).with(:misc_fees).and_return 101.00
+      expect(presenter.raw_misc_fees_total).to eql 101.00
+    end
+  end
+
+  describe '#raw_expenses_total' do
+    it 'sends message to claim' do
+      expect(claim).to receive(:expenses_total)
+      presenter.raw_expenses_total
+    end
+  end
+
+  describe '#raw_expenses_vat' do
+    it 'sends message to claim' do
+      expect(claim).to receive(:expenses_vat)
+      presenter.raw_expenses_vat
+    end
+  end
+
+  describe '#raw_disbursements_total' do
+    it 'sends message to claim' do
+      expect(claim).to receive(:disbursements_total)
+      presenter.raw_disbursements_total
+    end
+  end
+
+  describe '#raw_disbursements_vat' do
+    it 'sends message to claim' do
+      expect(claim).to receive(:disbursements_vat)
+      presenter.raw_disbursements_vat
+    end
+  end
+
+  describe '#raw_vat_amount' do
+    it 'sends message to claim' do
+      expect(claim).to receive(:vat_amount)
+      presenter.raw_vat_amount
+    end
+  end
+
+  describe '#raw_total_inc' do
+    it 'sends messages to claim' do
+      expect(claim).to receive(:total).and_return 120.00
+      expect(claim).to receive(:vat_amount).and_return 24.00
+      expect(presenter.raw_total_inc).to eql 144.00
+    end
+  end
+
+  describe '#raw_total_excl' do
+    it 'sends message to claim' do
+      expect(claim).to receive(:total)
+      presenter.raw_total_excl
+    end
+  end
+
+  describe '#can_have_expenses?' do
+    specify { expect(presenter.can_have_expenses?).to be_truthy }
+  end
+
+  describe '#can_have_disbursements?' do
+    specify { expect(presenter.can_have_disbursements?).to be_truthy }
+  end
+
+  describe '#display_days?' do
+    specify { expect(presenter.display_days?).to be_falsey }
   end
 end

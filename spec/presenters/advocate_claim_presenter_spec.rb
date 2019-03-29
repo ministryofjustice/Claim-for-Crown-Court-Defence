@@ -25,4 +25,24 @@ RSpec.describe Claim::AdvocateClaimPresenter do
       it { is_expected.to be_truthy }
     end
   end
+
+  describe '#raw_basic_fees_total' do
+    it 'sends message to claim' do
+      expect(claim).to receive(:calculate_fees_total).with(:basic_fees)
+      presenter.raw_basic_fees_total
+    end
+  end
+
+  describe '#raw_fixed_fees_total' do
+    it 'sends message to claim' do
+      expect(claim).to receive(:calculate_fees_total).with(:fixed_fees)
+      presenter.raw_fixed_fees_total
+    end
+  end
+
+  describe '#raw_fixed_fees_combined_total' do
+    it 'sends messages to self' do
+      expect(presenter.raw_fixed_fees_combined_total). to be_kind_of(BigDecimal)
+    end
+  end
 end

@@ -105,6 +105,7 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.authorised_at&.strftime(date_format(options))
   end
 
+  # possible dead code
   def retrial
     claim.case_type.name.match?(/retrial/i) ? 'Yes' : 'No'
   rescue NoMethodError
@@ -115,6 +116,7 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.defendants.map(&:order_for_judicial_apportionment).include?(true) ? 'Yes' : 'No'
   end
 
+  # possible dead code
   def trial_concluded
     claim.trial_concluded_at.blank? ? 'not specified' : claim.trial_concluded_at.strftime(Settings.date_format)
   end

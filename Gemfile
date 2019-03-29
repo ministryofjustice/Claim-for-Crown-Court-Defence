@@ -118,9 +118,10 @@ group :test do
   gem 'rails-controller-testing'
   gem 'rspec-mocks'
   gem 'shoulda-matchers', '>= 4.0.0.rc1'
-  gem 'simplecov',                  require: false
-  gem 'simplecov-csv',              require: false
-  gem 'simplecov-multi',            require: false
+  gem 'simplecov', require: false
+  gem 'simplecov-console', require: false
+  gem 'simplecov-csv', require: false
+  gem 'simplecov-multi', require: false
   gem 'i18n-tasks'
   gem 'timecop'
   gem 'vcr'

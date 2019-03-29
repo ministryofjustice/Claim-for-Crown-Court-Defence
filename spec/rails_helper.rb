@@ -1,31 +1,52 @@
 require 'simplecov'
 
-SimpleCov.start
-SimpleCov.start do
+# coverage formatters - default
+# Usage:
+# ```bash
+# $ rspec
+# $ open coverage/index.html)
+# ```
+#
+SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
+
+# require 'simplecov-csv'
+# SimpleCov.formatter = SimpleCov::Formatter::CSVFormatter
+
+# require 'simplecov-console'
+# SimpleCov.formatter = SimpleCov::Formatter::Console
+
+SimpleCov.configure do
   add_filter '_spec.rb'
   add_filter 'spec/'
   add_filter 'config/'
   add_filter 'db/seeds'
 
   # exclude individual files from test coverage stats
-  add_filter 'lib/demo_data/claim_state_advancer.rb'          # only used for generation of demo data
   add_filter 'app/interfaces/api/helpers/xml_formatter.rb'    # only used for XML export proof of concept (LAA integration)
   add_filter 'app/validators/expense_v1_validator.rb'         # no longer used - can be removed when all claims with v1 expenses deleted (see PT https://www.pivotaltracker.com/story/show/119351871 )
   add_filter 'lib/caching/redis_store.rb'                     # unable to mock a local instance of Redis
   add_filter 'lib/messaging'                                  # all the files used in the proof of concept to export calims to LAA systems
 
+  # exclude patterns from test coverage results
+  add_filter %r{^/lib\/rack/} # only used to prevent feature test flickering
+  add_filter %r{^/lib\/demo_data/} # only used for generation of demo data
+  add_filter %r{^/factories/}
 
+  # group functionality for test coverage report
   add_group 'Models', 'app/models'
   add_group 'Controllers', 'app/controllers'
   add_group 'FormBuilders', 'app/form_builders'
+  add_group 'Mailers', '/app/mailers'
+  add_group 'Validators', 'app/validators'
   add_group 'Helpers', 'app/helpers'
   add_group 'API', 'app/interfaces/api'
   add_group 'Presenters', '/app/presenters'
-
-
-  # add_filter "\/factories\/"
+  add_group 'Services', '/app/services'
 end
 
+SimpleCov.start
+
+# TODO: is this needed, since we are starting simplecov anyway (above)?
 if ENV['CODECLIMATE_REPO_TOKEN']
   require 'simplecov'
   SimpleCov.start

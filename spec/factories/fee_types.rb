@@ -95,18 +95,19 @@ FactoryBot.define do
       agfs_scheme_9
     end
 
-    trait :cav do
-      description 'Conferences and views'
-      code 'CAV'
-      unique_code 'BACAV'
-      quantity_is_decimal true
-    end
-
     trait :npw do
       description 'Number of prosecution witnesses'
       code 'NPW'
       calculated false
       unique_code 'BANPW'
+      agfs_scheme_9
+    end
+
+    trait :cav do
+      description 'Conferences and views'
+      code 'CAV'
+      unique_code 'BACAV'
+      quantity_is_decimal true
     end
 
     trait :noc do
@@ -169,6 +170,14 @@ FactoryBot.define do
 
     trait :banoc do
       noc
+    end
+
+    trait :bappe do
+      ppe
+    end
+
+    trait :npw do
+      npw
     end
 
     factory :misc_fee_type, class: Fee::MiscFeeType do

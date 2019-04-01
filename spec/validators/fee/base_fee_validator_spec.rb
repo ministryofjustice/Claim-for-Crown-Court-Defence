@@ -152,28 +152,16 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         end
       end
     end
-
-    # TODO: max_amount not used in later PR - remove?
-    # context 'fee with max amount' do
-    #   before(:each)       { fee.fee_type.max_amount = 9999 }
-    #   it { should_be_valid_if_equal_to_value(fee, :amount, 9999) }
-    # end
-
-    # context 'fee with no max amount' do
-    #   before(:each)       { fee.fee_type.max_amount = nil }
-    #   it { should_be_valid_if_equal_to_value(fee, :amount, 100_000) }
-    # end
-
   end
 
   describe '#validate_quantity' do
-
     context 'integer / decimal validation' do
       context 'integer' do
         it 'should allow integers' do
           npw_fee.quantity = 44
           expect(npw_fee).to be_valid
         end
+
         it 'should not allow decimals' do
           npw_fee.quantity = 34.57
           expect(npw_fee).not_to be_valid
@@ -186,6 +174,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           spf_fee.quantity = 44
           expect(spf_fee).to be_valid
         end
+
         it 'should allow decimals' do
           spf_fee.quantity = 21.5
           expect(spf_fee).to be_valid
@@ -461,12 +450,12 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
 
       it 'should error if amount greater than zero and quantity is nil, zero or less than zero' do
-        should_error_if_equal_to_value(ppe_fee, :quantity, 0,    'ppe_invalid')
-        should_error_if_equal_to_value(ppe_fee, :quantity, nil,  'ppe_invalid')
-        should_error_if_equal_to_value(ppe_fee, :quantity, -2,   'ppe_invalid')
-        should_error_if_equal_to_value(npw_fee, :quantity, 0,    'npw_invalid')
-        should_error_if_equal_to_value(npw_fee, :quantity, nil,  'npw_invalid')
-        should_error_if_equal_to_value(npw_fee, :quantity, -2,   'npw_invalid')
+        should_error_if_equal_to_value(ppe_fee, :quantity, 0, 'ppe_invalid')
+        should_error_if_equal_to_value(ppe_fee, :quantity, nil, 'ppe_invalid')
+        should_error_if_equal_to_value(ppe_fee, :quantity, -2, 'ppe_invalid')
+        should_error_if_equal_to_value(npw_fee, :quantity, 0, 'npw_invalid')
+        should_error_if_equal_to_value(npw_fee, :quantity, nil, 'npw_invalid')
+        should_error_if_equal_to_value(npw_fee, :quantity, -2, 'npw_invalid')
       end
     end
 

@@ -130,7 +130,7 @@ FactoryBot.define do
     end
 
     trait :discontinuance do
-      name { 'Discontinuane' }
+      name { 'Discontinuance' }
       fee_type_code { 'GRDIS' }
       requires_retrial_dates { false }
       allow_pcmh_fee_type { true }

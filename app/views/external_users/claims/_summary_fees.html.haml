@@ -8,6 +8,9 @@
 - if claim.agfs? && %i[basic_fees fixed_fees].include?(step)
   = render partial: 'external_users/claims/advocate_category_summary', locals: { claim: claim }
 
+  - if claim.display_prosecution_evidence?
+    = render partial: 'external_users/claims/prosecution_evidence_summary', locals: { claim: claim }
+
 - if local_assigns.has_key?(:fee)
   - if fee
     %table{ class: 'summary', summary: t('.summary') }

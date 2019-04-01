@@ -15,6 +15,7 @@
       this.feeDaysChange();
       this.feePpeChange();
       this.feePwChange();
+      this.prosecutionEvidenceChange();
       this.pageLoad();
     },
 
@@ -56,6 +57,16 @@
       }
     },
 
+    prosecutionEvidenceChange: function ($el) {
+      var self = this;
+      var $els = $el || $('.js-fee-calculator-prosecution-evidence');
+      if ($('.calculated-grad-fee').exists()) {
+        $els.on('change keyup', function() {
+          self.calculateGraduatedPrice();
+        });
+      }
+    },
+
     claimId: function() {
       return $('#claim-form').data('claimId');
     },
@@ -85,6 +96,14 @@
         return $(context).find(selector).val();
       }
       return $(context).val();
+    }, 
+
+    pagesOfProsecutingEvidence: function() {
+      if($('input:radio[name="claim[prosecution_evidence]"]:checked').val()=='true'){
+        return 1; 
+      } else {
+        return 0;
+      }
     },
 
     setAmount: function(data, context) {
@@ -132,6 +151,7 @@
       data.days = this.days(context);
       data.ppe = this.ppe(context);
       data.pw = this.pw(context);
+      data.pages_of_prosecuting_evidence = this.pagesOfProsecutingEvidence();
       return data;
     },
 

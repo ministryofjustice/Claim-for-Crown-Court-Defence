@@ -325,6 +325,7 @@ en:
     interim_claim_info: Warrant fees
     interim_fees: "Interim fees"
     transfer_fees: Transfer fees
+    prosecution_evidence: Was prosecution evidence served on this case?
     search:
       label: Search
       legend: Search for a claim using a case number, defendant name or advocate/litigator name

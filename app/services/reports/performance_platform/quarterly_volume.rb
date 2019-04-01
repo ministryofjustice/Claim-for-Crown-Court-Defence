@@ -76,7 +76,7 @@ module Reports
       end
 
       def count_digital_claims
-        @count_digital_claims ||= Claims::Count.week(@start_date)
+        @count_digital_claims ||= Claims::Count.quarter(@start_date)
       end
 
       def client

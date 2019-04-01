@@ -34,6 +34,7 @@ class ExternalUsers::Fees::PricesController < ExternalUsers::ApplicationControll
       :fee_type_id,
       :advocate_category,
       :ppe,
+      :pw,
       :days,
       fees: %i[fee_type_id quantity]
     )

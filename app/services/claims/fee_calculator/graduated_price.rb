@@ -6,7 +6,7 @@
 module Claims
   module FeeCalculator
     class GraduatedPrice < CalculatePrice
-      attr_reader :ppe, :days
+      attr_reader :ppe, :pw, :days
 
       private
 
@@ -15,6 +15,7 @@ module Claims
         @advocate_category = options[:advocate_category] || claim.advocate_category
         @days = options[:days] || 0
         @ppe = options[:ppe] || 0
+        @pw = options[:pw] || 0
         exclusions
       rescue StandardError
         raise 'insufficient_data'
@@ -51,7 +52,8 @@ module Claims
         opts[:advocate_type] = advocate_type
         opts[:fee_type_code] = fee_type_code_for(fee_type)
         opts[:day] = days.to_i
-        opts[:ppe] = ppe.to_i
+        opts[:ppe] = ppe.to_i if ppe.to_i.nonzero?
+        opts[:pw] = pw.to_i if pw.to_i.nonzero?
         opts[:trial_length] = trial_length
         opts[:number_of_defendants] = number_of_defendants
         opts[:retrial_interval] = retrial_interval

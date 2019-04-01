@@ -193,18 +193,16 @@ FactoryBot.define do
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BADAT') || build(:basic_fee_type, :dat) }
     end
 
+    trait :saf_fee do
+      fee_type { build :basic_fee_type, description: 'Standard appearance fee', code: 'SAF', unique_code: 'BASAF' }
+    end
+
     trait :pcm_fee do
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BAPCM') || build(:basic_fee_type, :pcm) }
     end
 
     trait :cav_fee do
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BACAV') || build(:basic_fee_type, :cav) }
-    end
-
-    trait :ppe_fee do
-      rate 0
-      amount 25
-      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BAPPE') || build(:basic_fee_type, :ppe) }
     end
 
     trait :ndr_fee do
@@ -215,14 +213,16 @@ FactoryBot.define do
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BANOC') || build(:basic_fee_type, :noc) }
     end
 
+    trait :ppe_fee do
+      rate 0
+      amount 25
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BAPPE') || build(:basic_fee_type, :ppe) }
+    end
+
     trait :npw_fee do
       rate 0
       amount 25
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BANPW') || build(:basic_fee_type, :npw) }
-    end
-
-    trait :saf_fee do
-      fee_type { build :basic_fee_type, description: 'Standard appearance fee', code: 'SAF', unique_code: 'BASAF' }
     end
   end
 

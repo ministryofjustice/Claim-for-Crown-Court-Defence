@@ -7,6 +7,9 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
   let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
   let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
   let(:claim) { claim_9 }
+  # let(:prosecution_evidence) { true }
+  let(:discontinuance) { create(:case_type, :discontinuance) }
+  let(:claim_discontinuance) { create(:advocate_claim, :agfs_scheme_10, case_type: discontinuance, prosecution_evidence: true) }
 
   subject(:presenter) { described_class.new(claim, view) }
 
@@ -32,6 +35,43 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
       let(:claim) { claim_10 }
 
       specify { expect(presenter.requires_interim_claim_info?).to be_truthy }
+    end
+  end
+
+  describe '#display_prosecution_evidence?' do
+    context 'when claim is not for the AGFS fee reform scheme' do
+
+      specify { expect(presenter.display_prosecution_evidence?).to be false }
+    end
+
+    context 'when claim is for the AGFS fee reform scheme' do
+      let(:claim) { claim_discontinuance }
+      
+      context 'when claim is a discontinuance' do
+        let(:claim) { claim_discontinuance }
+         
+        specify { expect(presenter.display_prosecution_evidence?).to be true }
+      end
+
+      context 'when claim is not a discontinuance' do
+        let(:claim) { claim_10 }
+
+        specify { expect(presenter.display_prosecution_evidence?).to be false }
+      end
+    end
+
+    describe '#prosecution_evidence' do
+      let(:claim) { claim_discontinuance }
+      context 'when display_prosecution_evidence is true' do
+
+        specify{ expect(presenter.any_prosecution_evidence).to eql 'Yes' }
+      end
+  
+      context 'when display_prosecution_evidence is false' do
+        let(:claim) { claim_10 }
+ 
+        specify{ expect(presenter.any_prosecution_evidence).to eql 'No' }
+      end
     end
   end
 

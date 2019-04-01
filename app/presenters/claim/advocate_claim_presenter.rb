@@ -54,4 +54,12 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
   def requires_interim_claim_info?
     claim.agfs_reform?
   end
+
+  def display_prosecution_evidence?
+    claim.case_type.name == 'Discontinuance' && claim.agfs_reform? ? true : false
+  end
+
+  def any_prosecution_evidence
+    claim.prosecution_evidence ? 'Yes' : 'No'
+  end
 end

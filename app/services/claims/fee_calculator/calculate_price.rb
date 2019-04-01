@@ -33,6 +33,7 @@ module Claims
                   :options,
                   :fee_type,
                   :advocate_category,
+                  :pages_of_prosecuting_evidence,
                   :quantity,
                   :current_page_fees
 
@@ -42,6 +43,7 @@ module Claims
       end
 
       def call
+        # binding.pry
         setup(options)
         Request.new(self).call
       rescue StandardError => e
@@ -57,6 +59,7 @@ module Claims
       def setup(options)
         @fee_type = Fee::BaseFeeType.find(options[:fee_type_id])
         @advocate_category = options[:advocate_category] || claim.advocate_category
+        @pages_of_prosecuting_evidence = options[:pages_of_prosecuting_evidence] || claim.prosecution_evidence
         @quantity = options[:quantity] || 1
         @current_page_fees = options[:fees].values
         exclusions

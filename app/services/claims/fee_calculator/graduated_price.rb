@@ -13,6 +13,7 @@ module Claims
       def setup(options)
         @fee_type = Fee::BaseFeeType.find(options[:fee_type_id])
         @advocate_category = options[:advocate_category] || claim.advocate_category
+        @pages_of_prosecuting_evidence = options[:pages_of_prosecuting_evidence] || claim.prosecution_evidence
         @days = options[:days] || 0
         @ppe = options[:ppe] || 0
         @pw = options[:pw] || 0
@@ -50,6 +51,7 @@ module Claims
         opts[:scenario] = scenario.id
         opts[:offence_class] = offence_class_or_default
         opts[:advocate_type] = advocate_type
+        opts[:pages_of_prosecuting_evidence] = pages_of_prosecuting_evidence
         opts[:fee_type_code] = fee_type_code_for(fee_type)
         opts[:day] = days.to_i
         opts[:ppe] = ppe.to_i if ppe.to_i.nonzero?

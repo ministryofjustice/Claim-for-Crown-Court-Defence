@@ -60,6 +60,7 @@
 #  disbursements_vat        :decimal(, )      default(0.0)
 #  value_band_id            :integer
 #  retrial_reduction        :boolean          default(FALSE)
+#  prosecution_evidence     :boolean          default(FALSE)
 #
 
 module Claim

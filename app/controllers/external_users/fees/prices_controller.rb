@@ -36,6 +36,7 @@ class ExternalUsers::Fees::PricesController < ExternalUsers::ApplicationControll
       :ppe,
       :pw,
       :days,
+      :pages_of_prosecuting_evidence,
       fees: %i[fee_type_id quantity]
     )
   end

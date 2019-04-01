@@ -5,7 +5,7 @@ class PerformancePlatformCostPerTransactionTask < Scheduler::SchedulerTask
   def run
     raise ReportNotActivated unless ENV['PERF_PLAT_QV_TOKEN']
     log('Performance Platform - Cost Per Transaction Task started')
-    cpt = Reports::PerformancePlatform::QuarterlyVolume.new(Date.yesterday.beginning_of_quarter)
+    cpt = Reports::PerformancePlatform::QuarterlyVolume.new(Date.today.beginning_of_quarter - 3.months)
     cpt.populate_data
     cpt.publish!
   rescue ReportNotActivated

@@ -117,11 +117,11 @@
 
     setRate: function(data, context) {
       var $input = $(context).find('input.fee-rate');
-      var $calculated = $(context).siblings('.js-fee-calculator-success').find('input');
+      var $price_calculated = $(context).siblings('.js-fee-calculator-success').find('input');
 
       $input.val(data.toFixed(2));
       $input.change();
-      $calculated.val(data > 0);
+      $price_calculated.val(data > 0);
       $input.prop('readonly', data > 0);
     },
 
@@ -172,13 +172,13 @@
       // only some errors will have a JSON response
       this.clearErrors(context);
       var $label = $(context).find('label');
-      var $calculated = $(context).closest('.fx-fee-group').find('.js-fee-calculator-success').find('input');
+      var $price_calculated = $(context).find('.js-fee-calculator-success > input');
       var error_html = '<div class="js-calculate-unit-error form-hint">' + response.responseJSON.message + '<div>';
       var new_label = $label.text() + ' ' + error_html;
       var $input = $(context).find('input.fee-rate');
 
       $input.prop('readonly', false);
-      $calculated.val(false);
+      $price_calculated.val(false);
       $label.html(new_label);
     },
 
@@ -251,7 +251,7 @@
         }
       });
 
-      // if everything is hidded - force sidebar recalculate
+      // if everything is hidden - force sidebar recalculate
       if($('.js-unit-price-effectee:visible').length === 0){
         $('#claim-form').trigger('recalculate');
       }

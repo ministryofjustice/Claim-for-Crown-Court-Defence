@@ -14,6 +14,7 @@
       this.feeTypeChange();
       this.feeDaysChange();
       this.feePpeChange();
+      this.feePwChange();
       this.pageLoad();
     },
 
@@ -21,38 +22,36 @@
       var self = this;
       if ($('.calculated-grad-fee').exists()) {
         $('.js-fee-calculator-advocate-type').change(function() {
-          self.calculateGraduatedPrice();
+          self.calculateAllGraduatedPrices();
         });
       }
     },
 
     // TODO: not used by cocoon, could remove the parameter - only ever one per page atm
     feeTypeChange: function ($el) {
-      var self = this;
       var $els = $el || $('.js-fee-calculator-fee-type');
-      if ($('.calculated-grad-fee').exists()) {
-        $els.change( function() {
-          self.calculateGraduatedPrice();
-        });
-      }
+      this.bindCalculateEvents($els, this, 'change');
     },
 
     feeDaysChange: function ($el) {
-      var self = this;
       var $els = $el || $('.js-fee-calculator-days');
-      if ($('.calculated-grad-fee').exists()) {
-        $els.on('change keyup', function() {
-          self.calculateGraduatedPrice();
-        });
-      }
+      this.bindCalculateEvents($els, this, 'keyup');
     },
 
     feePpeChange: function ($el) {
-      var self = this;
       var $els = $el || $('.js-fee-calculator-ppe');
+      this.bindCalculateEvents($els, this, 'keyup');
+    },
+
+    feePwChange: function ($el) {
+      var $els = $el || $('.js-fee-calculator-pw');
+      this.bindCalculateEvents($els, this, 'keyup');
+    },
+
+    bindCalculateEvents: function(elems, self, eventType) {
       if ($('.calculated-grad-fee').exists()) {
-        $els.on('change keyup', function() {
-          self.calculateGraduatedPrice();
+        elems.on(eventType, function(e) {
+          self.calculateGraduatedPrice(e.currentTarget);
         });
       }
     },
@@ -62,24 +61,35 @@
     },
 
     advocateCategory: function() {
-      return $('input:radio[name="claim[advocate_category]"]:checked').val();
+      return this.getVal('input:radio[name="claim[advocate_category]"]:checked');
     },
 
-    feeTypeId: function() {
-      return $('.fx-fee-group').find('.js-fee-type').val();
+    feeTypeId: function(context) {
+      return this.getVal(context, '.js-fee-type');
     },
 
-    ppe: function() {
-      return $('.fx-fee-group').find('input.js-fee-calculator-ppe').val();
+    ppe: function(context) {
+      return this.getVal(context, 'input.js-fee-calculator-ppe');
     },
 
-    days: function() {
-      return $('.fx-fee-group').find('input.js-fee-calculator-days:visible').val();
+    pw: function(context) {
+      return this.getVal(context, 'input.js-fee-calculator-pw');
+    },
+
+    days: function(context) {
+      return this.getVal(context, 'input.js-fee-calculator-days:visible');
+    },
+
+    getVal: function(context, selector){
+      if(selector) {
+        return $(context).find(selector).val();
+      }
+      return $(context).val();
     },
 
     setAmount: function(data, context) {
       var $amount = $(context).find('input.fee-amount');
-      var $price_calculated = $(context).siblings('.js-fee-calculator-success').find('input');
+      var $price_calculated = $(context).find('.js-fee-calculator-success > input');
 
       $amount.val(data.toFixed(2));
       $amount.change();
@@ -91,17 +101,16 @@
       $(context).find('input.fee-amount').prop('readonly', false);
     },
 
-    displayError: function(response, context) {
-      // only some errors will have a JSON response
+    displayError: function(context, message) {
       this.clearErrors(context);
-      var $label = $(context).find('label');
-      var $calculated = $(context).closest('.fx-fee-group').find('.js-fee-calculator-success').find('input');
-      var error_html = '<div class="js-calculate-grad-error form-hint">' + response.responseJSON.message + '<div>';
+      var $label = $(context).find('.js-graduated-price-effectee > label');
+      var $price_calculated = $(context).find('.js-fee-calculator-success > input');
+      var error_html = '<div class="js-calculate-grad-error form-hint">' + message + '<div>';
       var new_label = $label.text() + ' ' + error_html;
       var $input = $(context).find('input.fee-amount');
 
       $input.prop('readonly', false);
-      $calculated.val(false);
+      $price_calculated.val(false);
       $label.html(new_label);
     },
 
@@ -110,19 +119,27 @@
     },
 
     displayHelp: function(context, show) {
-      var $help = $(context).closest('.fx-fee-group').find('.fee-calc-help-wrapper');
+      var $help = $(context).find('.fee-calc-help-wrapper');
       show ? $help.show() : $help.hide();
     },
 
-    feeData: function() {
+    feeData: function(context) {
       var data = {};
       data.claim_id = this.claimId();
       data.price_type = this.priceType;
       data.advocate_category = this.advocateCategory();
-      data.fee_type_id = this.feeTypeId();
-      data.ppe = this.ppe();
-      data.days = this.days();
+      data.fee_type_id = this.feeTypeId(context);
+      data.days = this.days(context);
+      data.ppe = this.ppe(context);
+      data.pw = this.pw(context);
       return data;
+    },
+
+    responseErrored: function(response) {
+      return Boolean(
+                      response.hasOwnProperty('responseJSON') &&
+                      response.responseJSON.errors[0] != 'insufficient_data'
+                    );
     },
 
     graduatedPriceAjax: function (data, context) {
@@ -139,25 +156,32 @@
         self.displayHelp(context, true);
       })
       .fail(function(response) {
-        if (response.responseJSON.errors[0] != 'insufficient_data') {
-          self.displayError(response, context);
+        if (self.responseErrored(response)) {
+          self.displayError(context, response.responseJSON.message);
         }
         self.displayHelp(context, false);
         self.enableAmount(context);
       });
     },
 
-    // Calculates the price for a given graduated fee,
-    calculateGraduatedPrice: function () {
+    calculateGraduatedPrice: function (target) {
       var self = this;
-      self.graduatedPriceAjax(self.feeData(), '.js-graduated-price-effectee');
+      var context = $(target).closest('.fx-fee-group');
+      self.graduatedPriceAjax(self.feeData(context), context);
+    },
+
+    calculateAllGraduatedPrices: function () {
+      var self = this;
+      $('.js-graduated-price-effectee').each( function() {
+        self.calculateGraduatedPrice(this);
+      });
     },
 
     pageLoad: function () {
       var self = this;
       $(document).ready( function() {
         $('.calculated-grad-fee').each(function() {
-          self.calculateGraduatedPrice(self);
+          self.calculateAllGraduatedPrices(self);
         });
       });
     }

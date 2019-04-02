@@ -23,6 +23,10 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
     !display_help_text?
   end
 
+  def fee_calc_class
+    { BAPPE: 'js-fee-calculator-ppe', BANPW: 'js-fee-calculator-pw' }[unique_code.to_sym]
+  end
+
   private
 
   FEE_CODES_WITH_PROMPT_TEXT = %w[BAF SAF PPE].freeze
@@ -32,6 +36,10 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
 
   def code
     fee.fee_type.code
+  end
+
+  def unique_code
+    fee.fee_type.unique_code
   end
 
   def claim

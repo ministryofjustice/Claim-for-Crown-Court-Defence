@@ -126,4 +126,18 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
       end
     end
   end
+
+  describe '#fee_calc_class' do
+    subject { presenter.fee_calc_class }
+
+    context 'when fee is pages of prosecution evidence (ppe)' do
+      let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }
+      it { is_expected.to eq('js-fee-calculator-ppe') }
+    end
+
+    context 'when fee is number of prosecution witnesses (npw)' do
+      let(:fee) { build(:basic_fee, :npw_fee, claim: claim) }
+      it { is_expected.to eq('js-fee-calculator-pw') }
+    end
+  end
 end

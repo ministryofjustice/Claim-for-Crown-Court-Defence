@@ -741,6 +741,8 @@ en:
               <p>We calculate the rate based upon the fee scheme, advocate category, offence and case type</p>
         extra_fee_fields:
           net_amount: *net_amount
+          help_how_we_calculate_rate_title: *how_is_this_calculated_help
+          help_how_we_calculate_rate_body: We calculate the amount based upon the fee scheme, case type, offence, advocate category and fee type.
           npw:
             heading_html: Prosecution witnesses
             quantity: Total number of prosecution witnesses
@@ -752,6 +754,7 @@ en:
               Pages of prosecution evidence (<abbr title="pages of prosecution evidence">PPE</abbr>)
             help_text: |
               Please enter the number of pages of prosecution evidence to help the caseworker assess the correct offence class.
+
         additional_fee_fields:
           case_numbers: Additional case numbers
           quantity: *quantity

@@ -10,22 +10,36 @@
 
 .form-group
   -# .js-block is conditional
-  .basic-fee-group.fee-details{class: to_slug(f.object.description), class: fee.activate_js_block? ? 'js-block fx-do-init' : '', data:{type:'gradFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': f.object.calculated? ? 'FeeBlockCalculator' : 'FeeBlock'}}
+  .basic-fee-group.fx-fee-group.fee-details{class: to_slug(f.object.description), class: fee.activate_js_block? ? 'js-block fx-do-init' : '', data:{type:'gradFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': f.object.calculated? ? 'FeeBlockCalculator' : 'FeeBlock'}}
     = f.hidden_field :fee_type_id, value: f.object.fee_type_id, class: 'js-fee-type'
 
     = f.adp_text_field :quantity,
       label: t('quantity', scope: locale_scope),
-      input_classes:'quantity form-control-1-4',
+      input_classes: "quantity form-control-1-4 #{fee.fee_calc_class}",
       hint_text: t('quantity_hint', scope: locale_scope),
       input_type: 'number',
       value: fee.quantity,
       errors: @error_presenter
 
     - if fee.display_amount?
-      = f.adp_text_field :amount,
-        label: t('.net_amount'),
-        input_disabled: f.object.calculated? ? true : false,
-        input_classes:'total form-input-denote__input form-control-1-4',
-        value: number_with_precision(f.object.amount, precision: 2),
-        input_type: 'currency',
-        errors: @error_presenter
+      .js-graduated-price-effectee
+        .calculated-grad-fee
+        = f.adp_text_field :amount,
+          label: t('.net_amount'),
+          input_disabled: f.object.calculated? ? true : false,
+          input_classes:'total fee-amount form-input-denote__input form-control-1-4',
+          value: number_with_precision(f.object.amount, precision: 2),
+          input_type: 'currency',
+          errors: @error_presenter
+
+    .js-fee-calculator-success
+      = f.hidden_field :price_calculated, value: f.object.price_calculated?
+
+    .fee-calc-help-wrapper.form-group{ style: 'display: none;' }
+      %details
+        %summary
+          %span.summary
+            = t('.help_how_we_calculate_rate_title')
+        .panel.panel-border-narrow
+          %p
+            = t('.help_how_we_calculate_rate_body')

@@ -20,12 +20,12 @@ module DemoData
     end
 
     def add_misc_fees(claim)
-      FeeGenerator.new(claim, Fee::MiscFeeType, misc_fee_types).generate!
+      FeeGenerator.new(claim, Fee::MiscFeeType, Fee::MiscFeeType.lgfs.where(unique_code: %w[MICJA MICJP MIEVI MISPF])).generate!
     end
 
     # Case uplift requires filling case numbers
     # To simplify this generator we avoid this fee type
-    #
+    
     def misc_fee_types
       Fee::MiscFeeType.lgfs.to_a.reject!{ |ft| ft.case_uplift? }
     end

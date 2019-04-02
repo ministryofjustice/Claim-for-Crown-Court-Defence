@@ -37,11 +37,16 @@
     },
     bindListeners: function() {
       var self = this;
-      $(this.settings.wrapper).on('cocoon:after-insert', function(e) {
+      var el = '#' + $(this.settings.wrapper).attr('id');
+      if(el === "#undefined"){
+        throw Error('This is an error message');
+      }
+
+      $(el).on('cocoon:after-insert', function(e) {
         self.updateNumbers();
       });
 
-      $(this.settings.wrapper).on('cocoon:after-remove', function(e) {
+      $(el).on('cocoon:after-remove', function(e) {
         self.updateNumbers();
       });
     },

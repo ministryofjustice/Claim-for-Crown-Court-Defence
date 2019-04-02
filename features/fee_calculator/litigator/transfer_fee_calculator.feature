@@ -52,9 +52,9 @@ Feature: litigator completes transfer fee page using calculator
     And the transfer fee amount should be populated with '860.06'
 
     # ppe impact for 3 day claimed trial
-    And I fill '95' as the ppe total
+    And I enter '95' in the PPE total graduated fee field
     And the transfer fee amount should be populated with '860.06'
-    And I fill '96' as the ppe total
+    And I enter '96' in the PPE total graduated fee field
     And the transfer fee amount should be populated with '866.43'
 
     # offence impact
@@ -83,9 +83,9 @@ Feature: litigator completes transfer fee page using calculator
     And I should see the ppe field
 
     # ppe impact for guilty plea
-    And I fill '40' as the ppe total
+    And I enter '40' in the PPE total graduated fee field
     And the transfer fee amount should be populated with '442.91'
-    And I fill '41' as the ppe total
+    And I enter '41' in the PPE total graduated fee field
     And the transfer fee amount should be populated with '445.57'
 
     # defendant uplift impact

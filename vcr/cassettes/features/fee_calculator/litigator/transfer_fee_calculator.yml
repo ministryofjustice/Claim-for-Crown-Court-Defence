@@ -10,7 +10,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -18,28 +18,30 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:03 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:06 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '156'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:06 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:03 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
@@ -50,7 +52,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -58,23 +60,25 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:03 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:06 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
@@ -122,10 +126,10 @@ http_interactions:
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:06 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:03 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=0&scenario=25
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=0&pw=0&scenario=25
     body:
       encoding: US-ASCII
       string: ''
@@ -133,7 +137,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -141,27 +145,29 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:04 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:07 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '17'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":733.79}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:07 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:04 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
@@ -172,7 +178,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -180,108 +186,30 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:04 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:08 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '156'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:08 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET, HEAD, OPTIONS
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:08 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '156'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
-        Fee Scheme 2016-04"}]}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:08 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET, HEAD, OPTIONS
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:08 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '156'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
-        Fee Scheme 2016-04"}]}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:08 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:04 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
@@ -292,7 +220,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -300,189 +228,25 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:05 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:08 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
-    body:
-      encoding: ASCII-8BIT
-      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
-        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
-        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
-        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
-        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
-        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
-        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
-        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
-        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
-        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
-        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
-        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
-        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
-        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
-        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
-        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
-        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
-        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
-        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
-        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
-        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
-        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
-        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
-        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
-        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
-        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
-        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
-        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
-        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
-        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
-        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
-        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
-        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
-        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
-        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
-        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
-        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
-        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
-        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
-        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
-        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
-        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
-        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
-        issued - retrial (after trial start)","code":null}]}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:08 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET, HEAD, OPTIONS
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:08 GMT
-      Server:
-      - nginx/1.15.5
       Vary:
       - Accept, Cookie
       - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '835'
-      Connection:
-      - keep-alive
-    body:
-      encoding: ASCII-8BIT
-      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
-        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
-        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
-        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
-        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
-        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
-        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
-        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
-        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
-        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
-        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
-        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
-        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
-        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
-        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
-        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
-        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
-        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
-        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
-        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
-        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
-        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
-        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
-        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
-        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
-        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
-        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
-        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
-        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
-        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
-        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
-        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
-        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
-        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
-        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
-        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
-        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
-        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
-        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
-        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
-        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
-        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
-        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
-        issued - retrial (after trial start)","code":null}]}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:09 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
       Allow:
       - GET, HEAD, OPTIONS
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:09 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
       X-Frame-Options:
       - SAMEORIGIN
-      Content-Length:
-      - '835'
-      Connection:
-      - keep-alive
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
@@ -530,10 +294,10 @@ http_interactions:
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:09 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:05 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=2&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=0&scenario=25
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=2&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=0&pw=0&scenario=25
     body:
       encoding: US-ASCII
       string: ''
@@ -541,7 +305,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -549,105 +313,29 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:05 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:09 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '17'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":733.79}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:09 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=2&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=0&scenario=25
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:09 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '17'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"amount":733.79}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:09 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=2&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=0&scenario=25
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:09 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '17'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"amount":733.79}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:09 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:05 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
@@ -658,7 +346,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -666,108 +354,30 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:06 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:10 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '156'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:10 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET, HEAD, OPTIONS
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:10 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '156'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
-        Fee Scheme 2016-04"}]}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:10 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET, HEAD, OPTIONS
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:10 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '156'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
-        Fee Scheme 2016-04"}]}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:10 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:06 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
@@ -778,7 +388,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -786,23 +396,25 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:06 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:10 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET, HEAD, OPTIONS
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
@@ -850,10 +462,10 @@ http_interactions:
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:10 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:06 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=0&pw=0&scenario=25
     body:
       encoding: US-ASCII
       string: ''
@@ -861,7 +473,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -869,271 +481,29 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:06 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:10 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '835'
-      Connection:
-      - keep-alive
-    body:
-      encoding: ASCII-8BIT
-      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
-        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
-        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
-        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
-        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
-        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
-        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
-        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
-        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
-        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
-        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
-        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
-        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
-        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
-        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
-        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
-        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
-        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
-        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
-        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
-        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
-        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
-        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
-        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
-        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
-        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
-        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
-        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
-        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
-        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
-        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
-        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
-        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
-        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
-        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
-        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
-        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
-        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
-        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
-        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
-        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
-        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
-        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
-        issued - retrial (after trial start)","code":null}]}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:10 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET, HEAD, OPTIONS
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:10 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '835'
-      Connection:
-      - keep-alive
-    body:
-      encoding: ASCII-8BIT
-      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
-        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
-        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
-        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
-        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
-        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
-        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
-        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
-        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
-        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
-        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
-        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
-        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
-        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
-        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
-        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
-        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
-        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
-        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
-        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
-        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
-        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
-        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
-        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
-        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
-        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
-        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
-        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
-        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
-        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
-        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
-        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
-        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
-        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
-        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
-        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
-        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
-        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
-        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
-        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
-        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
-        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
-        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
-        issued - retrial (after trial start)","code":null}]}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:10 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=0&scenario=25
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:10 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '17'
       Connection:
       - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"amount":860.06}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:10 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=0&scenario=25
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:11 GMT
-      Server:
-      - nginx/1.15.5
       Vary:
       - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '17'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"amount":860.06}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:11 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=0&scenario=25
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
       Allow:
       - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:11 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
       X-Frame-Options:
       - SAMEORIGIN
-      Content-Length:
-      - '17'
-      Connection:
-      - keep-alive
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":860.06}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:11 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:06 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
@@ -1144,7 +514,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -1152,28 +522,30 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:07 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:11 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '156'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:11 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:07 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
@@ -1184,7 +556,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -1192,68 +564,30 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:07 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:11 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '156'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET, HEAD, OPTIONS
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:11 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET, HEAD, OPTIONS
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:11 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '156'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
-        Fee Scheme 2016-04"}]}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:11 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:07 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
@@ -1264,7 +598,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -1272,23 +606,25 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:07 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:12 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
@@ -1336,7 +672,7 @@ http_interactions:
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:12 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:07 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
@@ -1347,7 +683,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -1355,106 +691,25 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:07 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:12 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '835'
-      Connection:
-      - keep-alive
-    body:
-      encoding: ASCII-8BIT
-      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
-        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
-        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
-        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
-        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
-        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
-        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
-        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
-        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
-        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
-        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
-        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
-        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
-        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
-        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
-        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
-        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
-        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
-        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
-        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
-        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
-        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
-        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
-        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
-        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
-        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
-        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
-        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
-        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
-        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
-        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
-        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
-        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
-        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
-        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
-        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
-        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
-        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
-        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
-        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
-        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
-        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
-        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
-        issued - retrial (after trial start)","code":null}]}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:12 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET, HEAD, OPTIONS
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:12 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET, HEAD, OPTIONS
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
@@ -1502,10 +757,10 @@ http_interactions:
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:12 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:07 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=95&scenario=25
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=9&pw=0&scenario=25
     body:
       encoding: US-ASCII
       string: ''
@@ -1513,7 +768,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -1521,30 +776,32 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:07 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:12 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '17'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":860.06}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:12 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:07 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=95&scenario=25
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=95&pw=0&scenario=25
     body:
       encoding: US-ASCII
       string: ''
@@ -1552,7 +809,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -1560,66 +817,29 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:08 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:12 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '17'
       Connection:
       - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"amount":860.06}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:12 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=9&scenario=25
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:12 GMT
-      Server:
-      - nginx/1.15.5
       Vary:
       - Accept, Cookie
+      Allow:
+      - GET
       X-Frame-Options:
       - SAMEORIGIN
-      Content-Length:
-      - '17'
-      Connection:
-      - keep-alive
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":860.06}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:12 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:08 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
@@ -1630,7 +850,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -1638,28 +858,30 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:10 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:13 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '156'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET, HEAD, OPTIONS
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:13 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:10 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
@@ -1670,7 +892,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -1678,68 +900,30 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:10 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:13 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '156'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:13 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET, HEAD, OPTIONS
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:13 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '156'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
-        Fee Scheme 2016-04"}]}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:13 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:10 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
@@ -1750,7 +934,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -1758,23 +942,25 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:10 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:13 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
@@ -1822,7 +1008,7 @@ http_interactions:
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:13 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:10 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
@@ -1833,7 +1019,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -1841,23 +1027,25 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:10 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:13 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
@@ -1905,10 +1093,10 @@ http_interactions:
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:13 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:10 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=9&pw=0&scenario=25
     body:
       encoding: US-ASCII
       string: ''
@@ -1916,7 +1104,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -1924,113 +1112,73 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET, HEAD, OPTIONS
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:11 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:13 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
-      Transfer-Encoding:
-      - chunked
-      Connection:
-      - keep-alive
-    body:
-      encoding: ASCII-8BIT
-      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
-        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
-        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
-        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
-        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
-        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
-        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
-        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
-        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
-        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
-        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
-        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
-        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
-        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
-        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
-        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
-        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
-        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
-        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
-        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
-        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
-        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
-        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
-        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
-        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
-        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
-        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
-        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
-        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
-        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
-        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
-        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
-        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
-        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
-        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
-        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
-        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
-        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
-        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
-        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
-        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
-        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
-        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
-        issued - retrial (after trial start)","code":null}]}'
-    http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:13 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=96&scenario=25
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/0.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Allow:
-      - GET
-      Content-Type:
-      - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:14 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '17'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"amount":860.06}'
+    http_version: 
+  recorded_at: Thu, 04 Apr 2019 12:23:11 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=96&pw=0&scenario=25
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:11 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '17'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":866.43}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:14 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:11 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=96&scenario=25
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -2038,7 +1186,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -2046,30 +1194,33 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:14 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:14 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
-      - '17'
+      - '156'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"amount":866.43}'
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
+        Fee Scheme 2016-04"}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:15 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:14 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=3&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=A&ppe=9&scenario=25
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
     body:
       encoding: US-ASCII
       string: ''
@@ -2077,7 +1228,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -2085,30 +1236,76 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:14 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:23:14 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '17'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET, HEAD, OPTIONS
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
-      encoding: UTF-8
-      string: '{"amount":860.06}'
+      encoding: ASCII-8BIT
+      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
+        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
+        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
+        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
+        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
+        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
+        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
+        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
+        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
+        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
+        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
+        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
+        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
+        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
+        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
+        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
+        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
+        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
+        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
+        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
+        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
+        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
+        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
+        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
+        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
+        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
+        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
+        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
+        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
+        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
+        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
+        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
+        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
+        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
+        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
+        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
+        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
+        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
+        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
+        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
+        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
+        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
+        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
+        issued - retrial (after trial start)","code":null}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:23:15 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:14 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=0&scenario=25
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=0&pw=0&scenario=25
     body:
       encoding: US-ASCII
       string: ''
@@ -2116,7 +1313,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -2124,30 +1321,32 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:15 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:38:51 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '16'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":369.8}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:38:51 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:15 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=0&scenario=18
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -2155,7 +1354,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -2163,30 +1362,159 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:16 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:38:53 GMT
-      Server:
-      - nginx/1.15.5
+      Content-Length:
+      - '156'
+      Connection:
+      - keep-alive
       Vary:
       - Accept, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
       X-Frame-Options:
       - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
+        Fee Scheme 2016-04"}]}'
+    http_version: 
+  recorded_at: Thu, 04 Apr 2019 12:23:16 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:16 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
+        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
+        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
+        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
+        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
+        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
+        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
+        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
+        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
+        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
+        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
+        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
+        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
+        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
+        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
+        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
+        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
+        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
+        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
+        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
+        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
+        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
+        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
+        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
+        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
+        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
+        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
+        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
+        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
+        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
+        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
+        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
+        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
+        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
+        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
+        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
+        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
+        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
+        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
+        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
+        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
+        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
+        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
+        issued - retrial (after trial start)","code":null}]}'
+    http_version: 
+  recorded_at: Thu, 04 Apr 2019 12:23:16 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=0&pw=0&scenario=18
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:17 GMT
+      Content-Type:
+      - application/json
       Content-Length:
       - '17'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":442.91}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:38:53 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:17 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=40&scenario=18
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -2194,7 +1522,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -2202,30 +1530,286 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:18 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:38:54 GMT
-      Server:
-      - nginx/1.15.5
+      Content-Length:
+      - '156'
+      Connection:
+      - keep-alive
       Vary:
       - Accept, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
       X-Frame-Options:
       - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
+        Fee Scheme 2016-04"}]}'
+    http_version: 
+  recorded_at: Thu, 04 Apr 2019 12:23:18 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:18 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '156'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
+        Fee Scheme 2016-04"}]}'
+    http_version: 
+  recorded_at: Thu, 04 Apr 2019 12:23:18 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:18 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET, HEAD, OPTIONS
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
+        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
+        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
+        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
+        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
+        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
+        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
+        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
+        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
+        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
+        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
+        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
+        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
+        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
+        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
+        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
+        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
+        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
+        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
+        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
+        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
+        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
+        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
+        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
+        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
+        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
+        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
+        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
+        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
+        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
+        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
+        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
+        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
+        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
+        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
+        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
+        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
+        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
+        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
+        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
+        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
+        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
+        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
+        issued - retrial (after trial start)","code":null}]}'
+    http_version: 
+  recorded_at: Thu, 04 Apr 2019 12:23:18 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:18 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
+        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
+        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
+        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
+        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
+        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
+        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
+        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
+        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
+        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
+        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
+        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
+        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
+        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
+        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
+        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
+        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
+        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
+        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
+        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
+        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
+        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
+        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
+        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
+        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
+        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
+        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
+        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
+        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
+        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
+        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
+        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
+        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
+        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
+        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
+        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
+        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
+        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
+        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
+        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
+        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
+        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
+        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
+        issued - retrial (after trial start)","code":null}]}'
+    http_version: 
+  recorded_at: Thu, 04 Apr 2019 12:23:18 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=4&pw=0&scenario=18
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:18 GMT
+      Content-Type:
+      - application/json
       Content-Length:
       - '17'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":442.91}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:38:54 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:18 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=4&scenario=18
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=40&pw=0&scenario=18
     body:
       encoding: US-ASCII
       string: ''
@@ -2233,7 +1817,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -2241,30 +1825,32 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:19 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:38:54 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '17'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":442.91}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:38:54 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:19 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=40&scenario=18
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -2272,7 +1858,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -2280,30 +1866,286 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:21 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:38:54 GMT
-      Server:
-      - nginx/1.15.5
+      Content-Length:
+      - '156'
+      Connection:
+      - keep-alive
       Vary:
       - Accept, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
       X-Frame-Options:
       - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
+        Fee Scheme 2016-04"}]}'
+    http_version: 
+  recorded_at: Thu, 04 Apr 2019 12:23:21 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:21 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '156'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
+        Fee Scheme 2016-04"}]}'
+    http_version: 
+  recorded_at: Thu, 04 Apr 2019 12:23:21 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:21 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
+        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
+        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
+        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
+        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
+        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
+        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
+        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
+        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
+        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
+        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
+        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
+        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
+        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
+        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
+        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
+        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
+        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
+        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
+        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
+        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
+        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
+        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
+        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
+        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
+        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
+        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
+        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
+        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
+        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
+        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
+        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
+        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
+        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
+        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
+        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
+        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
+        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
+        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
+        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
+        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
+        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
+        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
+        issued - retrial (after trial start)","code":null}]}'
+    http_version: 
+  recorded_at: Thu, 04 Apr 2019 12:23:21 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:21 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET, HEAD, OPTIONS
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
+        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
+        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
+        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
+        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
+        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
+        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
+        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
+        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
+        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
+        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
+        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
+        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
+        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
+        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
+        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
+        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
+        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
+        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
+        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
+        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
+        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
+        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
+        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
+        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
+        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
+        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
+        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
+        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
+        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
+        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
+        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
+        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
+        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
+        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
+        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
+        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
+        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
+        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
+        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
+        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
+        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
+        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
+        issued - retrial (after trial start)","code":null}]}'
+    http_version: 
+  recorded_at: Thu, 04 Apr 2019 12:23:21 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=4&pw=0&scenario=18
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:22 GMT
+      Content-Type:
+      - application/json
       Content-Length:
       - '17'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":442.91}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:38:54 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:22 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=41&scenario=18
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=41&pw=0&scenario=18
     body:
       encoding: US-ASCII
       string: ''
@@ -2311,7 +2153,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -2319,30 +2161,32 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:22 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:38:55 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '17'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":445.57}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:38:55 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:22 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=4&scenario=18
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -2350,7 +2194,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -2358,30 +2202,33 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:27 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:38:55 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
-      - '17'
+      - '156'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"amount":442.91}'
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
+        Fee Scheme 2016-04"}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:38:55 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:27 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=C&ppe=41&scenario=18
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
     body:
       encoding: US-ASCII
       string: ''
@@ -2389,7 +2236,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -2397,30 +2244,76 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:27 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:38:55 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
-      Content-Length:
-      - '17'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      - Accept-Encoding
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
-      encoding: UTF-8
-      string: '{"amount":445.57}'
+      encoding: ASCII-8BIT
+      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
+        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
+        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
+        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
+        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
+        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
+        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
+        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
+        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
+        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
+        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
+        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
+        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
+        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
+        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
+        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
+        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
+        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
+        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
+        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
+        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
+        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
+        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
+        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
+        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
+        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
+        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
+        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
+        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
+        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
+        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
+        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
+        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
+        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
+        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
+        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
+        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
+        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
+        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
+        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
+        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
+        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
+        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
+        issued - retrial (after trial start)","code":null}]}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:38:55 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:27 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=C&ppe=0&scenario=18
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=C&ppe=0&pw=0&scenario=18
     body:
       encoding: US-ASCII
       string: ''
@@ -2428,7 +2321,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/0.2.0
+      - laa-fee-calculator-client/0.2.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -2436,25 +2329,27 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Allow:
-      - GET
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Thu, 04 Apr 2019 12:23:28 GMT
       Content-Type:
       - application/json
-      Date:
-      - Sun, 24 Mar 2019 22:38:59 GMT
-      Server:
-      - nginx/1.15.5
-      Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
       Content-Length:
       - '17'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":531.49}'
     http_version: 
-  recorded_at: Sun, 24 Mar 2019 22:38:59 GMT
+  recorded_at: Thu, 04 Apr 2019 12:23:28 GMT
 recorded_with: VCR 4.0.0

@@ -29,7 +29,8 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     When I select the offence category 'Murder'
     And I click "Continue" in the claim form
     And I should be in the 'Graduated fees' form page
-    Then the basic fee net amount should be populated with '0.00'
+     # Flickers alot (related to page load speed problems??)
+    # Then the basic fee net amount should be populated with '0.00'
 
     # advocate category impacts "basic" fee
     When I select an advocate category of 'Junior alone'
@@ -57,6 +58,16 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
       | basic | Number of defendants uplift | 571.20 | Number of additional defendants | true |
       | basic | Number of cases uplift | 571.20 | Number of additional cases | true |
 
+    When I enter '10' prosecution witnesses
+    Then the prosecution witnesses net amount should be populated with '0.00'
+    When I enter '11' prosecution witnesses
+    Then the prosecution witnesses net amount should be populated with '6.53'
+
+    When I enter '50' pages of prosecution evidence
+    Then the pages of prosecution evidence net amount should be populated with '0.00'
+    When I enter '51' pages of prosecution evidence
+    Then the pages of prosecution evidence net amount should be populated with '1.63'
+
     When I click "Continue" in the claim form
     Then I should be in the 'Miscellaneous fees' form page
 
@@ -75,12 +86,14 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
       | basic | Conferences and views | 74.00 | Number of hours | true |
       | basic | Number of defendants uplift | 505.80 | Number of additional defendants | true |
       | basic | Number of cases uplift | 505.80 | Number of additional cases | true |
+    And the prosecution witnesses net amount should be populated with '6.53'
+    And the pages of prosecution evidence net amount should be populated with '1.63'
 
     And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
     And I should be in the 'Miscellaneous fees' form page
-    And the following fees should have their price_calculated set to true: 'BABAF,BADAF,BADAH,BADAJ,BASAF,BAPCM,BACAV,BANDR,BANOC'
+    And the following fees should have their price_calculated set to true: 'BABAF,BADAF,BADAH,BADAJ,BASAF,BAPCM,BACAV,BANDR,BANOC,BANPW,BAPPE'
 
   @fee_calc_vcr
   Scenario: I create a scheme 9 AGFS graduated fee Retrial claim using calculated values
@@ -149,6 +162,16 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
       | basic | Number of defendants uplift | 354.06 | Number of additional defendants | true |
       | basic | Number of cases uplift | 354.06 | Number of additional cases | true |
 
+    When I enter '10' prosecution witnesses
+    Then the prosecution witnesses net amount should be populated with '0.00'
+    When I enter '11' prosecution witnesses
+    Then the prosecution witnesses net amount should be populated with '4.57'
+
+    When I enter '50' pages of prosecution evidence
+    Then the pages of prosecution evidence net amount should be populated with '0.00'
+    When I enter '51' pages of prosecution evidence
+    Then the pages of prosecution evidence net amount should be populated with '1.14'
+
     # retrial interval impact on "basic" fee (retrial interval greater than a month, 20% reduction)
     When I click "Continue" in the claim form
     And I goto claim form step 'case details'
@@ -167,6 +190,16 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
       | basic | Number of defendants uplift | 404.64 | Number of additional defendants | true |
       | basic | Number of cases uplift | 404.64 | Number of additional cases | true |
 
+    When I enter '10' prosecution witnesses
+    Then the prosecution witnesses net amount should be populated with '0.00'
+    When I enter '11' prosecution witnesses
+    Then the prosecution witnesses net amount should be populated with '5.22'
+
+    When I enter '50' pages of prosecution evidence
+    Then the pages of prosecution evidence net amount should be populated with '0.00'
+    When I enter '51' pages of prosecution evidence
+    Then the pages of prosecution evidence net amount should be populated with '1.30'
+
     # retrial reduction impact on "basic" fee
     When I goto claim form step 'case details'
     And I choose not to apply retrial reduction
@@ -183,9 +216,11 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
       | basic | Conferences and views | 74.00 | Number of hours | true |
       | basic | Number of defendants uplift | 505.80 | Number of additional defendants | true |
       | basic | Number of cases uplift | 505.80 | Number of additional cases | true |
+    And the prosecution witnesses net amount should be populated with '6.53'
+    And the pages of prosecution evidence net amount should be populated with '1.63'
 
     And I eject the VCR cassette
 
     When I click "Continue" in the claim form
     Then I should be in the 'Miscellaneous fees' form page
-    And the following fees should have their price_calculated set to true: 'BABAF,BADAF,BADAH,BADAJ,BASAF,BAPCM,BACAV,BANDR,BANOC'
+    And the following fees should have their price_calculated set to true: 'BABAF,BADAF,BADAH,BADAJ,BASAF,BAPCM,BACAV,BANDR,BANOC,BANPW,BAPPE'

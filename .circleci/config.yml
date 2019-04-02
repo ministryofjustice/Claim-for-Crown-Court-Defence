@@ -139,7 +139,7 @@ jobs:
 
       - run:
           name: Run cucumber tests
-          command: bundle exec cucumber
+          command: bundle exec cucumber --format progress --color
 
       - store_artifacts:
           path: ./tmp/capybara

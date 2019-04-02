@@ -9,8 +9,10 @@
     = t('help_text', scope: locale_scope)
 
 .form-group
-  -# .js-block is conditional
-  .basic-fee-group.fx-fee-group.fee-details{class: to_slug(f.object.description), class: fee.activate_js_block? ? 'js-block fx-do-init' : '', data:{type:'gradFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': f.object.calculated? ? 'FeeBlockCalculator' : 'FeeBlock'}}
+  / .js-block is conditional
+  - classes = to_slug(f.object.description) + ' ' + (fee.activate_js_block? ? 'js-block fx-do-init' : '')
+  .basic-fee-group.fx-fee-group.fee-details{ class: classes, data:{type:'gradFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': f.object.calculated? ? 'FeeBlockCalculator' : 'FeeBlock'}}
+
     = f.hidden_field :fee_type_id, value: f.object.fee_type_id, class: 'js-fee-type'
 
     = f.adp_text_field :quantity,

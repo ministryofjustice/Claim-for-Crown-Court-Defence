@@ -8,10 +8,11 @@ And(/^I select an interim fee type of '(.*)'$/) do |name|
   wait_for_ajax
 end
 
-And(/^I enter (\d+) in the PPE total field$/) do |value|
-  @litigator_interim_claim_form_page.interim_fee.ppe_total.set value
-  @litigator_interim_claim_form_page.interim_fee.ppe_total.send_keys(:tab)
+And(/^I enter '(\d+)' in the PPE total interim fee field$/) do |value|
+  @litigator_interim_claim_form_page.interim_fee.ppe_total.set nil
+  @litigator_interim_claim_form_page.interim_fee.ppe_total.send_keys(value)
   wait_for_ajax
+  sleep 6
 end
 
 And(/^I enter the effective PCMH date\s*(.*?)$/) do |date|
@@ -39,16 +40,18 @@ And(/^I enter the first trial concluded date\s*(.*?)$/) do |date|
   @litigator_interim_claim_form_page.interim_fee.trial_concluded_at.set_date date
 end
 
-And(/^I enter (\d+) in the estimated trial length field$/) do |value|
-  @litigator_interim_claim_form_page.interim_fee.estimated_trial_length.set value
-  @litigator_interim_claim_form_page.interim_fee.estimated_trial_length.send_keys(:tab)
+And("I enter {string} in the estimated trial length field") do |value|
+  @litigator_interim_claim_form_page.interim_fee.estimated_trial_length.set nil
+  @litigator_interim_claim_form_page.interim_fee.estimated_trial_length.send_keys(value)
   wait_for_ajax
+  sleep 6
 end
 
-And(/^I enter (\d+) in the estimated retrial length field$/) do |value|
-  @litigator_interim_claim_form_page.interim_fee.retrial_estimated_length.set value
-  @litigator_interim_claim_form_page.interim_fee.retrial_estimated_length.send_keys(:tab)
+And("I enter {string} in the estimated retrial length field") do |value|
+  @litigator_interim_claim_form_page.interim_fee.retrial_estimated_length.set nil
+  @litigator_interim_claim_form_page.interim_fee.retrial_estimated_length.send_keys(value)
   wait_for_ajax
+  sleep 6
 end
 
 And(/^I enter '(.*)' as the warrant issued date$/) do |date|
@@ -67,9 +70,11 @@ Then(/^I should see interim fee types applicable to a '(.*?)'$/) do |name|
   expect(@litigator_interim_claim_form_page.interim_fee.fee_type_select_names).to include(*expected_interim_fees_for(name))
 end
 
-Then(/^the interim fee amount should be populated with '(\d+\.\d+)?'$/) do |amount|
-  expect(@litigator_interim_claim_form_page.interim_fee).to have_amount
-  expect(@litigator_interim_claim_form_page.interim_fee.amount.value).to eql amount.to_s
+Then("the interim fee amount should be populated with {string}") do |amount|
+  patiently do
+    expect(@litigator_interim_claim_form_page.interim_fee).to have_amount
+    expect(@litigator_interim_claim_form_page.interim_fee.amount.value).to eql amount.to_s
+  end
 end
 
 Then(/^the interim fee should have its price_calculated value set to true$/) do

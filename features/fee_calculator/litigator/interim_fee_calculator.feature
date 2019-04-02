@@ -30,7 +30,7 @@ Feature: litigator completes interim fee page using calculator
     And I select the offence category 'Murder'
     Then the offence class list is set to 'A: Homicide and related grave offences'
 
-    Given I insert the VCR cassette 'features/fee_calculator/litigator/interim_fee_calculator'
+    Given I insert the VCR cassette 'features/fee_calculator/litigator/interim_trial_fee_calculator'
 
     Then I click "Continue" in the claim form
     And I should be in the 'Interim fee' form page
@@ -39,10 +39,8 @@ Feature: litigator completes interim fee page using calculator
     And the interim fee amount should be populated with '678.44'
 
     # PPE impact
-    And I enter 80 in the PPE total field
-    And the interim fee amount should be populated with '678.44'
-    And I enter 81 in the PPE total field
-    And the interim fee amount should be populated with '686.46'
+    When I enter '81' in the PPE total interim fee field
+    Then the interim fee amount should be populated with '686.46'
     And I enter the effective PCMH date '2018-04-01'
 
     Then I click "Continue" in the claim form
@@ -75,19 +73,15 @@ Feature: litigator completes interim fee page using calculator
     And the interim fee amount should be populated with '0.00'
 
     # Estimate trial length impact (10 days minimum required but fee represents 1 day only)
-    And I enter 9 in the estimated trial length field
-    And the interim fee amount should be populated with '0.00'
-    And I enter 10 in the estimated trial length field
-    And the interim fee amount should be populated with '1486.28'
-    And I enter 100 in the estimated trial length field
-    And the interim fee amount should be populated with '1486.28'
+    When I enter '10' in the estimated trial length field
+    Then the interim fee amount should be populated with '1486.28'
     And I enter the trial start date '2018-04-01'
 
     # PPE impact
-    And I enter 70 in the PPE total field
-    And the interim fee amount should be populated with '1317.19'
-    And I enter 71 in the PPE total field
-    And the interim fee amount should be populated with '1332.56'
+    When I enter '70' in the PPE total interim fee field
+    Then the interim fee amount should be populated with '1317.19'
+    When I enter '71' in the PPE total interim fee field
+    Then the interim fee amount should be populated with '1332.56'
 
     Then I click "Continue" in the claim form
     And I should be in the 'Supporting evidence' form page
@@ -125,7 +119,7 @@ Feature: litigator completes interim fee page using calculator
     And I select the offence category 'Murder'
     Then the offence class list is set to 'A: Homicide and related grave offences'
 
-    Given I insert the VCR cassette 'features/fee_calculator/litigator/interim_fee_calculator'
+    Given I insert the VCR cassette 'features/fee_calculator/litigator/interim_retrial_fee_calculator'
 
     Then I click "Continue" in the claim form
     And I should be in the 'Interim fee' form page
@@ -134,9 +128,7 @@ Feature: litigator completes interim fee page using calculator
     And the interim fee amount should be populated with '452.29'
 
     # PPE impact
-    And I enter 80 in the PPE total field
-    And the interim fee amount should be populated with '452.29'
-    And I enter 81 in the PPE total field
+    And I enter '81' in the PPE total interim fee field
     And the interim fee amount should be populated with '457.64'
     And I enter the legal aid transfer date '2018-04-01'
     And I enter the first trial concluded date '2018-04-01'
@@ -167,18 +159,16 @@ Feature: litigator completes interim fee page using calculator
     Then I select an interim fee type of 'Retrial start'
 
     # Estimated length of retrial impact (10 days minimum required but fee represents 1 day only)
-    And I enter 9 in the estimated retrial length field
+    And I enter '9' in the estimated retrial length field
     And the interim fee amount should be populated with '0.00'
-    And I enter 10 in the estimated retrial length field
-    And the interim fee amount should be populated with '1486.28'
-    And I enter 100 in the estimated retrial length field
+    And I enter '10' in the estimated retrial length field
     And the interim fee amount should be populated with '1486.28'
     And I enter the retrial start date '2018-04-01'
 
     # PPE impact
-    And I enter 70 in the PPE total field
+    And I enter '70' in the PPE total interim fee field
     And the interim fee amount should be populated with '1317.19'
-    And I enter 71 in the PPE total field
+    And I enter '71' in the PPE total interim fee field
     And the interim fee amount should be populated with '1332.56'
 
     Then I click "Continue" in the claim form

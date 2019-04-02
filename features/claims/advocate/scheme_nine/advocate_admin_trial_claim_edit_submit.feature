@@ -1,6 +1,7 @@
 @javascript
 Feature: Advocate admin submits a claim for a Trial case
 
+  @fee_calc_vcr
   Scenario: I create a trial claim, then submit it
     Given I am a signed in advocate admin
     And There are other advocates in my provider

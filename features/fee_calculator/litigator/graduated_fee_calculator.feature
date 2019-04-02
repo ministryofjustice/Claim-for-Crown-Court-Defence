@@ -42,9 +42,9 @@ Feature: litigator completes graduated fee page using calculator
     And the graduated fee amount should be populated with '442.91'
 
     # ppe impact for guilty plea
-    And I fill '40' as the ppe total
+    And I enter '40' in the PPE total graduated fee field
     And the graduated fee amount should be populated with '442.91'
-    And I fill '41' as the ppe total
+    And I enter '41' in the PPE total graduated fee field
     And the graduated fee amount should be populated with '445.57'
 
     # offence impact
@@ -72,9 +72,9 @@ Feature: litigator completes graduated fee page using calculator
     And the graduated fee amount should be populated with '1720.12'
 
     # ppe impact for trials
-    And I fill '95' as the ppe total
+    And I enter '95' in the PPE total graduated fee field
     And the graduated fee amount should be populated with '1720.12'
-    And I fill '96' as the ppe total
+    And I enter '96' in the PPE total graduated fee field
     And the graduated fee amount should be populated with '1732.86'
 
     Then I click "Continue" in the claim form

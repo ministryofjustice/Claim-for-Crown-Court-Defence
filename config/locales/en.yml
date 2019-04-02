@@ -929,6 +929,7 @@ en:
           add_another_rep_order: 'Add another representation order'
           remove_defendant: 'Remove defendant'
           defendant: Defendant
+          remove: Remove
         fields:
           defendants: 'Defendants'
           add_another_defendant: 'Add another defendant'
@@ -938,6 +939,7 @@ en:
           representation_order: Representation order details
           maat_reference_number: MAAT reference
           maat_reference_number_eg: 'this should be 7 digits long, starting with at least a 4'
+          remove: Remove
         summary:
           caption: 'Defendants: This section contains details about each defendant.'
           header: Defendant details

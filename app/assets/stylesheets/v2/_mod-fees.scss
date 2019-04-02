@@ -20,3 +20,12 @@
 .expense-group{
   @extend .mod-fees;
 }
+
+
+.defendants{
+  .header-action{
+    float: right;
+    @include core-19;
+    font-weight: 700;
+  }
+}

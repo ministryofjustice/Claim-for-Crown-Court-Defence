@@ -27,8 +27,8 @@ VCR.configure do |c|
   c.filter_sensitive_data('<CURRENCY_API_KEY>') { Rails.application.secrets.currency_api_key }
 end
 
-# use `VCR_OFF=true rspec` too turn off vcr
-VCR.turn_off! if ENV['VCR_OFF']
+# use `VCR_OFF=true cucumber|rspec` too turn off vcr
+VCR.turn_off!(:ignore_cassettes => true) if ENV['VCR_OFF']
 
 # custom VCR request matcher to match request based on
 # path and query but not host because laa-fee-calculator

@@ -157,6 +157,7 @@ And(/^I should be in the '(.*?)' form page$/) do |page_heading|
   within('#claim-form') do
     expect(page.first('h2')).to have_content(page_heading)
   end
+  wait_for_ajax
 end
 
 Then(/^I should see "([^"]*)"$/) do |arg1|
@@ -176,7 +177,6 @@ end
 #       i.e. either cassette must exist, or you explicitly call "and record 'none'"
 #
 And(/^I insert the VCR cassette '(.*?)'(?: and record '(.*?)')?$/) do |name, record|
-  # Caching.clear if record
   record_mode = ENV['FEE_CALC_VCR_MODE']&.to_sym if fee_calc_vcr_tag?
   record_mode ||= (record || 'once').to_sym
   VCR.eject_cassette if VCR.current_cassette

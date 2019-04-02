@@ -56,9 +56,9 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Then the transfer fee amount should be populated with '269.08'
     And I should not see the days claimed field
     And I should see the ppe field
-    And I fill '50' as the ppe total
+    And I enter '50' in the PPE total graduated fee field
     Then the transfer fee amount should be populated with '269.08'
-    And I fill '51' as the ppe total
+    And I enter '51' in the PPE total graduated fee field
     Then the transfer fee amount should be populated with '274.37'
 
     And I should see a page title "Enter fees for litigator transfer fees claim"

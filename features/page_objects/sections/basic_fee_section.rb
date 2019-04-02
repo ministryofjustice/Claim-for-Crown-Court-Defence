@@ -15,4 +15,7 @@ class BasicFeeSection < CheckboxFeeSection
   section :conferences_and_views, FeeSection, ".basic-fee-group.conferences-and-views"
   section :number_of_defendants_uplift, FeeSection, ".basic-fee-group.number-of-defendants-uplift"
   section :number_of_cases_uplift, FeeCaseNumbersSection, ".basic-fee-group.number-of-cases-uplift"
+
+  section :prosecution_witnesses, FeeSection, ".basic-fee-group.number-of-prosecution-witnesses"
+  section :pages_of_prosecution_evidence, FeeSection, ".basic-fee-group.pages-of-prosecution-evidence"
 end

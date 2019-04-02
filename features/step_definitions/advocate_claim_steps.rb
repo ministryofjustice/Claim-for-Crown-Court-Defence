@@ -92,13 +92,41 @@ Then(/^I select the first search result$/) do
 end
 
 Then(/^the basic fee net amount should be populated with '(\d+\.\d+)'$/) do |total|
-  expect(@claim_form_page.basic_fees.basic_fee).to have_total
-  expect(@claim_form_page.basic_fees.basic_fee.total.value).to eql total
+  using_wait_time 6 do
+    expect(@claim_form_page.basic_fees.basic_fee).to have_total
+    expect(@claim_form_page.basic_fees.basic_fee.total.value).to eql total
+  end
 end
 
 When(/^I select the '(.*?)' basic fee$/) do |label|
   @claim_form_page.basic_fees.check(label)
   wait_for_ajax
+end
+
+When("I enter {string} prosecution witnesses") do |quantity|
+  @claim_form_page.basic_fees.prosecution_witnesses.quantity.set nil
+  @claim_form_page.basic_fees.prosecution_witnesses.quantity.send_keys("#{quantity}")
+  wait_for_ajax
+  sleep 4
+end
+
+Then("the prosecution witnesses net amount should be populated with {string}") do |amount|
+  using_wait_time 3 do
+    expect(@claim_form_page.basic_fees.prosecution_witnesses.total.value).to eql amount
+  end
+end
+
+When("I enter {string} pages of prosecution evidence") do |quantity|
+  @claim_form_page.basic_fees.pages_of_prosecution_evidence.quantity.set nil
+  @claim_form_page.basic_fees.pages_of_prosecution_evidence.quantity.send_keys("#{quantity}")
+  sleep 3
+  wait_for_ajax
+end
+
+Then("the pages of prosecution evidence net amount should be populated with {string}") do |amount|
+  using_wait_time 3 do
+    expect(@claim_form_page.basic_fees.pages_of_prosecution_evidence.total.value).to eql amount
+  end
 end
 
 When(/^I add a calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')?(?: with dates attended\s*(.*))?$/) do |name, quantity, date|
@@ -108,6 +136,7 @@ When(/^I add a calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')
   @claim_form_page.miscellaneous_fees.last.select_input.send_keys(:tab)
   wait_for_ajax
   @claim_form_page.miscellaneous_fees.last.quantity.set quantity
+  @claim_form_page.miscellaneous_fees.last.quantity.send_keys(:tab)
   if date.present?
     @claim_form_page.miscellaneous_fees.last.add_dates.click
     @claim_form_page.miscellaneous_fees.last.dates.from.set_date(date)

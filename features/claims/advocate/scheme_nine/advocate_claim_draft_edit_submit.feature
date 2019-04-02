@@ -1,6 +1,7 @@
 @javascript
 Feature: Advocate partially fills out a draft claim for a trial, then later edits and submits it
 
+  @fee_calc_vcr
   Scenario: I create a claim, save it to draft and later complete it
 
     Given I am a signed in advocate

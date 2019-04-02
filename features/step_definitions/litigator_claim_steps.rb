@@ -24,8 +24,8 @@ And(/^I fill '(.*)' as the fixed fee date$/) do |date|
 end
 
 And(/^I fill '(\d+)' as the fixed fee quantity$/) do |quantity|
-  @litigator_claim_form_page.fixed_fee.quantity.set quantity
-  @litigator_claim_form_page.fixed_fee.quantity.send_keys(:tab)
+  @litigator_claim_form_page.fixed_fee.quantity.set nil
+  @litigator_claim_form_page.fixed_fee.quantity.send_keys("#{quantity}")
   wait_for_ajax
 end
 
@@ -48,24 +48,20 @@ Then(/I should see fixed fee total '£?(\d+\.\d+)'$/) do |total_text|
   expect(@litigator_claim_form_page.fixed_fee.total.text).to match(total_text)
 end
 
-# TODO: should use graduated fee section for clarity and isolation,
-# rather than shared methods below
-# Then(/^I fill '(\d+)' as the graduated fee ppe$/) do |quantity|
-#   @litigator_claim_form_page.graduated_fee.quantity.set quantity
-#   @litigator_claim_form_page.graduated_fee.quantity.send_keys(:tab)
-#   wait_for_ajax
-# end
-
-Then(/^I fill '(\d+)' as the ppe total$/) do |total|
-  @litigator_claim_form_page.ppe_total.set total
-  @litigator_claim_form_page.ppe_total.send_keys(:tab)
+# note this covers LGFS grad, interim and transfer quantity fields
+# which are represent PPE.
+Then(/^I enter '(\d+)' in the PPE total graduated fee field$/) do |total|
+  @litigator_claim_form_page.ppe_total.set nil
+  @litigator_claim_form_page.ppe_total.send_keys("#{total}")
   wait_for_ajax
+  sleep 3
 end
 
 Then(/^I fill '(\d+)' as the actual trial length$/) do |length|
-  @litigator_claim_form_page.actual_trial_length.set length
-  @litigator_claim_form_page.actual_trial_length.send_keys(:tab)
+  @litigator_claim_form_page.actual_trial_length.set nil
+  @litigator_claim_form_page.actual_trial_length.send_keys("#{length}")
   wait_for_ajax
+  sleep 3
 end
 
 And(/^I enter the case concluded date\s*(.*?)$/) do |date|

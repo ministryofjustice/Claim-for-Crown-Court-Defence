@@ -3,7 +3,7 @@
     %h2.heading-medium
       = t('.defendant')
       %span.fx-numberedList-number
-      = link_to_remove_association t('.remove'), f, class: "header-action"
+      = link_to_remove_association t('.remove'), f, class: "header-action fx-numberedList-action", style: "display: none;"
 
     .form-group.first-name
       - @representation_order_count = 0

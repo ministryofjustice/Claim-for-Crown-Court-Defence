@@ -12,11 +12,12 @@
 }(function($, undefined) {
   'use strict';
 
-  var pluginName = 'numberedList',
-    defaults = {
-      wrapper: '.fx-' + pluginName + '-wrapper',
-      item: '.fx-' + pluginName + '-item',
-      number: '.fx-' + pluginName + '-number'
+  var pluginName = 'numberedList';
+  var defaults = {
+      wrapper: '.fx-numberedList-wrapper',
+      item: '.fx-numberedList-item',
+      number: '.fx-numberedList-number',
+      action: '.fx-numberedList-action'
     },
     activated = false;
 
@@ -50,10 +51,12 @@
       if (items.length > 1) {
         items.each(function(idx, el) {
           $(el).find(self.settings.number).text(idx + 1);
+          $(el).find(self.settings.action).css('display', 'block');
         });
       } else{
         items.each(function(idx, el) {
           $(el).find(self.settings.number).text('');
+          $(el).find(self.settings.action).css('display', 'none');
         });
       }
     }

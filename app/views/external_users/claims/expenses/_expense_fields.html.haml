@@ -9,7 +9,8 @@
       = t('.expense')
       %span.fx-numberedList-number
       %span.fx-remove-link
-        = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group', class: 'header-action' }
+        = link_to_remove_association t('.remove').html_safe , f, wrapper_class: 'expense-group', class: "header-action fx-numberedList-action", style: "display: none;"
+
 
     %p.fx-general-errors{:style => "display: none;"}
       %span

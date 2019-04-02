@@ -2,7 +2,7 @@
   %h2.bold-medium
     = t('.disbursement')
     %span.fx-numberedList-number
-    = link_to_remove_association t('.remove'), f, { wrapper_class: 'disbursement-group', class: "header-action" }
+    = link_to_remove_association t('.remove'), f, wrapper_class: 'disbursement-group', class: "header-action fx-numberedList-action", style: "display: none;"
 
   .form-group
     .disbursement-type.js-typeahead{class: error_class?(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")}

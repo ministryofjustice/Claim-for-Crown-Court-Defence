@@ -4,7 +4,7 @@
   %h3.heading-medium
     = t('.representation_order')
     %span.fx-numberedList-number_
-    = link_to_remove_association t('.remove'), f, class: "header-action"
+    = link_to_remove_association t('.remove'), f, class: "header-action fx-numberedList-action", style: "display: none;"
   .form-group.ro-date
     = f.gov_uk_date_field(:representation_order_date,
                           legend_text: 'Representation order date',

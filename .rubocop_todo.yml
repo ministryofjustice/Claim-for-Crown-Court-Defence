@@ -13,19 +13,6 @@ Lint/BigDecimalNew:
     - 'app/models/claims/calculations.rb'
 
 # Offense count: 1
-Lint/DuplicateMethods:
-  Exclude:
-    - 'app/models/claim/base_claim.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: Whitelist.
-# Whitelist: present?, blank?, presence, try, try!
-Lint/SafeNavigationConsistency:
-  Exclude:
-    - 'app/models/fee/base_fee.rb'
-
-# Offense count: 1
 # Cop supports --auto-correct.
 Lint/UnneededCopDisableDirective:
   Exclude:

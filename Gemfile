@@ -67,7 +67,7 @@ gem 'laa-fee-calculator-client', '~> 0.2.1'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'
-  gem 'unicorn-rails', '2.2.0'
+  gem 'unicorn-rails', '2.2.1'
   gem 'unicorn-worker-killer', '~> 0.4.4'
 end
 

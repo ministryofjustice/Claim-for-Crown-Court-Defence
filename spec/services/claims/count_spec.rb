@@ -7,7 +7,8 @@ describe Claims::Count do
   let(:period) { :month }
 
   before do
-    travel_to(Date.new(2017, 12, 17)) { create_list(:archived_pending_delete_claim, 3) }
+    travel_to(Date.new(2017, 12, 17)) { create_list(:archived_pending_delete_claim, 2) }
+    travel_to(Date.new(2017, 12, 17)) { create(:redetermination_claim) }
     travel_to(Date.new(2018, 01, 17)) { create_list(:archived_pending_delete_claim, 3) }
     travel_to(Date.new(2018, 02, 17)) { create_list(:archived_pending_delete_claim, 3) }
   end
@@ -19,6 +20,14 @@ describe Claims::Count do
       subject(:call) { claims_count.call }
 
       it { is_expected.to eql 3 }
+    end
+  end
+
+  describe '#call_transitions' do
+    context 'when period and date are set manually' do
+      subject(:call) { claims_count.call_transitions }
+
+      it { is_expected.to eql 3  }
     end
   end
 

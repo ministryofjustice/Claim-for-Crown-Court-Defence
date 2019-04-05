@@ -18,14 +18,14 @@ module Stats
       end
 
       # return a json structure in the format suitable for generating a Geckoboard Line graph widget
-      def to_json
+      def to_json(opts = nil)
         generate_array_of_series
         {
           'x_axis' => {
             'labels' => (@x_axis_labels || make_x_axis_labels)
           },
           'series' => @series
-        }.to_json
+        }.to_json(opts)
       end
 
       def dataset_names

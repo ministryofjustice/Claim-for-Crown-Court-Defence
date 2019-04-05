@@ -9,6 +9,7 @@
 @import 'grid_layout';                            // Basic grid layout mixin
 @import 'typography';                             // Core bold and heading mixins, also external links
 @import 'shims';                                  // Inline block mixin, clearfix placeholder
+@import "susy";
 
 // Mixins to generate components (chunks of UI)
 @import 'design-patterns/alpha-beta';
@@ -62,6 +63,8 @@
 @import 'datatables';
 @import 'tables';
 @import 'claims_importer';
+@import 'navigation';
+
 
 .panel-margin-fix{
   margin-bottom: $gutter !important;
@@ -113,3 +116,9 @@ tbody th {
   border-color: $button-colour;
 
 }
+
+.claim-count {
+  float: right;
+  font-weight: 400;
+}
+

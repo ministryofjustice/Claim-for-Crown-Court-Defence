@@ -44,11 +44,11 @@ module Claims
       def call
         setup(options)
         Request.new(self).call
-      rescue StandardError => err
-        Rails.logger.error("error: #{err.message}")
+      rescue StandardError => e
+        Rails.logger.error("error: #{e.message}")
         Response.new(success?: false,
                      data: nil,
-                     errors: [err.message],
+                     errors: [e.message],
                      message: I18n.t('fee_calculator.calculate.amount_unavailable'))
       end
 

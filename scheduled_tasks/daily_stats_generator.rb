@@ -11,8 +11,8 @@ class DailyStatsGenerator < Scheduler::SchedulerTask
       log("Starting #{klass}")
       begin
         klass.new(date).collect
-      rescue StandardError => err
-        log("ERROR: #{err.class} #{err.message}")
+      rescue StandardError => e
+        log("ERROR: #{e.class} #{e.message}")
       end
     end
     log('Daily stats generation finished')

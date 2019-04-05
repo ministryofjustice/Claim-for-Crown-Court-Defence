@@ -10,8 +10,8 @@ class PollInjectionResponsesTask < Scheduler::SchedulerTask
     return unless queue
     log("Checking for messages on #{queue}")
     MessageQueue::AwsClient.new(queue).poll!
-  rescue StandardError => ex
-    log('There was an error: ' + ex.message)
+  rescue StandardError => e
+    log('There was an error: ' + e.message)
   ensure
     log('Injection import complete')
   end

@@ -112,8 +112,8 @@ class Allocation
     else
       allocate_claim! claim
     end
-  rescue StandardError => err
-    errors.add(:base, "Claim #{claim.case_number} has errors: #{err.message}")
+  rescue StandardError => e
+    errors.add(:base, "Claim #{claim.case_number} has errors: #{e.message}")
   end
 
   def rollback_all_allocations!

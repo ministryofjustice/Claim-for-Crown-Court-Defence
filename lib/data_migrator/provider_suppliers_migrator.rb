@@ -44,8 +44,8 @@ module DataMigrator
       return not_found(row) unless sn
       return not_updated(row) if sn.postcode.present?
       update_record(sn, row)
-    rescue StandardError => exception
-      errored(exception)
+    rescue StandardError => e
+      errored(e)
     ensure
       self.total += 1
     end

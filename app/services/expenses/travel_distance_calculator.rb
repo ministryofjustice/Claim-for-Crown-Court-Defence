@@ -39,8 +39,8 @@ module Expenses
       validate_destination
 
       Success.new(:valid)
-    rescue RuntimeError => err
-      Failure.new(err.message.to_sym)
+    rescue RuntimeError => e
+      Failure.new(e.message.to_sym)
     end
 
     def validate_claim

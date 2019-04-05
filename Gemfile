@@ -106,14 +106,14 @@ end
 group :test do
   gem 'capybara'
   gem 'capybara-selenium'
-  gem "chromedriver-helper"
+  gem "chromedriver-helper", require: false
   gem 'climate_control'
-  gem 'codeclimate-test-reporter',  require: false
-  gem 'cucumber-rails',             '~> 1.6.0', require: false
+  gem 'codeclimate-test-reporter', require: false
+  gem 'cucumber-rails', '~> 1.6.0', require: false
   gem 'database_cleaner'
   gem 'json_spec'
   gem 'kaminari-rspec'
-  gem 'launchy',                    '~> 2.4.3'
+  gem 'launchy', '~> 2.4.3'
   gem 'poltergeist'
   gem 'rails-controller-testing'
   gem 'rspec-mocks'

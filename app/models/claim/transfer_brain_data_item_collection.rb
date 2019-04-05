@@ -26,8 +26,8 @@ module Claim
       @collection_hash
     end
 
-    def to_json
-      @collection_hash.to_json
+    def to_json(opts = nil)
+      @collection_hash.to_json(opts)
     end
 
     def detail_valid?(detail)

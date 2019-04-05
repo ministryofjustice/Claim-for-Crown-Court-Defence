@@ -12,8 +12,8 @@ module Stats
       }
     end
 
-    def to_json
-      @data.to_json
+    def to_json(opts = nil)
+      @data.to_json(opts)
     end
   end
 end

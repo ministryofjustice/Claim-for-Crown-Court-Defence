@@ -39,13 +39,17 @@ Then(/^the fixed fee rate should be populated with '(\d+\.\d+)'$/) do |rate|
 end
 
 Then(/^the graduated fee amount should be populated with '(\d+\.\d+)'$/) do |amount|
-  expect(@litigator_claim_form_page.graduated_fee).to have_amount
-  expect(@litigator_claim_form_page.graduated_fee.amount.value).to eql amount
+  patiently do
+    expect(@litigator_claim_form_page.graduated_fee).to have_amount
+    expect(@litigator_claim_form_page.graduated_fee.amount.value).to eql amount
+  end
 end
 
 Then(/I should see fixed fee total '£?(\d+\.\d+)'$/) do |total_text|
-  expect(@litigator_claim_form_page.fixed_fee).to have_total
-  expect(@litigator_claim_form_page.fixed_fee.total.text).to match(total_text)
+  patiently do
+    expect(@litigator_claim_form_page.fixed_fee).to have_total
+    expect(@litigator_claim_form_page.fixed_fee.total.text).to match(total_text)
+  end
 end
 
 # note this covers LGFS grad, interim and transfer quantity fields

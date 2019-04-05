@@ -25,8 +25,10 @@ And(/^I select a case conclusion of '(.*)'$/) do |name|
 end
 
 Then(/^the transfer fee amount should be populated with '(\d+\.\d+)'$/) do |amount|
-  expect(@litigator_transfer_claim_form_page.transfer_fee).to have_amount
-  expect(@litigator_transfer_claim_form_page.transfer_fee.amount.value).to eql amount
+  patiently do
+    expect(@litigator_transfer_claim_form_page.transfer_fee).to have_amount
+    expect(@litigator_transfer_claim_form_page.transfer_fee.amount.value).to eql amount
+  end
 end
 
 Then(/^I should (not )?see the days claimed field$/) do |negate|

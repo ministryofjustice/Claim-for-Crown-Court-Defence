@@ -92,7 +92,7 @@ Then(/^I select the first search result$/) do
 end
 
 Then(/^the basic fee net amount should be populated with '(\d+\.\d+)'$/) do |total|
-  using_wait_time 6 do
+  patiently do
     expect(@claim_form_page.basic_fees.basic_fee).to have_total
     expect(@claim_form_page.basic_fees.basic_fee.total.value).to eql total
   end
@@ -105,26 +105,28 @@ end
 
 When("I enter {string} prosecution witnesses") do |quantity|
   @claim_form_page.basic_fees.prosecution_witnesses.quantity.set nil
-  @claim_form_page.basic_fees.prosecution_witnesses.quantity.send_keys("#{quantity}")
-  wait_for_ajax
-  sleep 4
+  quantity.chars.each do |char|
+    @claim_form_page.basic_fees.prosecution_witnesses.quantity.send_keys(char)
+    wait_for_ajax
+  end
 end
 
 Then("the prosecution witnesses net amount should be populated with {string}") do |amount|
-  using_wait_time 3 do
+  patiently do
     expect(@claim_form_page.basic_fees.prosecution_witnesses.total.value).to eql amount
   end
 end
 
 When("I enter {string} pages of prosecution evidence") do |quantity|
   @claim_form_page.basic_fees.pages_of_prosecution_evidence.quantity.set nil
-  @claim_form_page.basic_fees.pages_of_prosecution_evidence.quantity.send_keys("#{quantity}")
-  sleep 3
-  wait_for_ajax
+  quantity.chars.each do |char|
+    @claim_form_page.basic_fees.pages_of_prosecution_evidence.quantity.send_keys(char)
+    wait_for_ajax
+  end
 end
 
 Then("the pages of prosecution evidence net amount should be populated with {string}") do |amount|
-  using_wait_time 3 do
+  patiently do
     expect(@claim_form_page.basic_fees.pages_of_prosecution_evidence.total.value).to eql amount
   end
 end

@@ -107,8 +107,8 @@ class Document < ApplicationRecord
       self.file_path = document.path
       self.verified = verified_file_size.positive?
       save!
-    rescue StandardError => err
-      errors[:document] << err.message
+    rescue StandardError => e
+      errors[:document] << e.message
       self.verified = false
     end
     verified

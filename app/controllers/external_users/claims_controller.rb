@@ -100,13 +100,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     end
 
     redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
-  rescue StandardError => error
+  rescue StandardError => e
     LogStuff.send(:error, 'ExternalUsers::ClaimsController',
                   action: 'clone',
                   claim_id: @claim.id,
                   documents: @claim.documents.count,
                   total_size: @claim.documents.sum(:document_file_size),
-                  error: error.message) do
+                  error: e.message) do
       'Redraft failed'
     end
     redirect_to external_users_claims_url, alert: t('external_users.claims.redraft.error_html').html_safe

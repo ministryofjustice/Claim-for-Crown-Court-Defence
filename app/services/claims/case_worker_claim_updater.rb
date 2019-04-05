@@ -26,8 +26,8 @@ module Claims
         add_redetermination if redetermination_params
         claim.send(event, audit_attributes) unless state_not_updateable?
         add_message if transition_reasons.present?
-      rescue StandardError => err
-        @result = validator.add_error(err.message)
+      rescue StandardError => e
+        @result = validator.add_error(e.message)
         raise ActiveRecord::Rollback
       end
     end

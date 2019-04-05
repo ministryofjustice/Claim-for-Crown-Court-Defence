@@ -18,8 +18,8 @@ module Stats
       report_record = Stats::StatsReport.record_start(report_type)
       report_contents = generate_new_report
       report_record.write_report(report_contents)
-    rescue StandardError => err
-      handle_error(err, report_record)
+    rescue StandardError => e
+      handle_error(e, report_record)
       raise
     end
 

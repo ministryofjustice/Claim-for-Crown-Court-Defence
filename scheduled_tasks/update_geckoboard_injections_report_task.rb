@@ -7,8 +7,8 @@ class UpdateGeckoboardInjectionsReportTask < Scheduler::SchedulerTask
   def run
     log('Generating Geckoboard Injections data...')
     GeckoboardPublisher::InjectionsReport.new.publish!
-  rescue StandardError => ex
-    log('There was an error: ' + ex.message)
+  rescue StandardError => e
+    log('There was an error: ' + e.message)
   ensure
     log('Geckboard Injections data generation finished')
   end

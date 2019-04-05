@@ -40,8 +40,8 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
   def notify_legacy_importers
     NotificationQueue::AwsClient.new.send!(@claim)
     Rails.logger.info "Successfully sent #{log_suffix}"
-  rescue StandardError => err
-    Rails.logger.warn "Error: '#{err.message}' while sending #{log_suffix}"
+  rescue StandardError => e
+    Rails.logger.warn "Error: '#{e.message}' while sending #{log_suffix}"
   end
 
   def log_suffix

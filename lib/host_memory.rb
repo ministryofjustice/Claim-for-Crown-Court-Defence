@@ -16,8 +16,8 @@ module HostMemory
 
     def percentage_of_total(percent)
       (total / 100) * percent.to_i
-    rescue StandardError => err
-      puts "Error: #{err}"
+    rescue StandardError => e
+      puts "Error: #{e}"
       nil
     end
 
@@ -26,8 +26,8 @@ module HostMemory
     # use kilobytes explicitly for simplicity (NB: KB is the default for `free`)
     def mem_at_index(index)
       `free -k`.split(' ')[index].to_i
-    rescue StandardError => err
-      puts "Error: #{err}"
+    rescue StandardError => e
+      puts "Error: #{e}"
       nil
     end
   end

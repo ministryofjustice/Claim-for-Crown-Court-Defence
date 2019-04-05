@@ -23,8 +23,8 @@ module API
           model_instance
 
         # unexpected errors could be raised at point of save as well
-        rescue StandardError => ex
-          pop_error_response(ex, api_response)
+        rescue StandardError => e
+          pop_error_response(e, api_response)
         end
 
         # --------------------
@@ -57,8 +57,8 @@ module API
           end
 
           model_instance
-        rescue StandardError => ex
-          pop_error_response(ex, api_response)
+        rescue StandardError => e
+          pop_error_response(e, api_response)
         end
 
         private

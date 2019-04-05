@@ -40,8 +40,8 @@ module Seeds
         establishment = Establishment.find_by(category: 'crown_court', name: name)
         return update_record(establishment, name, attributes) if establishment
         create_record(name, attributes)
-      rescue StandardError => err
-        log "[ERROR] Exception #{err.class} #{err.message}"
+      rescue StandardError => e
+        log "[ERROR] Exception #{e.class} #{e.message}"
        self.total_with_error += 1
       ensure
         self.total += 1

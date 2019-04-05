@@ -10,8 +10,8 @@ class PerformancePlatformCostPerTransactionTask < Scheduler::SchedulerTask
     cpt.publish!
   rescue ReportNotActivated
     log('Performance Platform - Cost Per Transaction Task skipped as `PERF_PLAT_QV_TOKEN` not found in ENV')
-  rescue StandardError => ex
-    log('There was an error: ' + ex.message)
+  rescue StandardError => e
+    log('There was an error: ' + e.message)
   ensure
     log('Performance Platform - Cost Per Transaction Task finished')
   end

@@ -7,8 +7,8 @@ class GeckoboardProviderTask < Scheduler::SchedulerTask
   def run
     log('Geckoboard Provider data generated')
     GeckoboardPublisher::ProvidersReport.new.publish!
-  rescue StandardError => ex
-    log('There was an error: ' + ex.message)
+  rescue StandardError => e
+    log('There was an error: ' + e.message)
   ensure
     log('Geckoboard Provider task finished')
   end

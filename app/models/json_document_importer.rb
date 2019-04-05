@@ -44,10 +44,10 @@ class JsonDocumentImporter
         @schema_validator.validate_full!(claim_hash)
         create_claim_and_associations(claim_hash)
         @imported_claims << Claim::BaseClaim.active.find_by(uuid: @claim_id)
-      rescue ArgumentError => ex
+      rescue ArgumentError => e
         claim_hash['claim']['case_number'] = case_number
         @failed_imports << claim_hash
-        process_errors(case_number, ex)
+        process_errors(case_number, e)
         destroy_claim_if_any
       rescue JSON::Schema::ValidationError => error
         @failed_schema_validation << { case_number: case_number, error: error.message }

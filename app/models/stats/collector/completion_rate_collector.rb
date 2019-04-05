@@ -25,10 +25,10 @@ module Stats
                                    'Claim::BaseClaim',
                                    percentage_completed_e2,
                                    num_completed)
-      rescue StandardError => err
+      rescue StandardError => e
         puts "Error processing for date #{@date}"
-        puts err.class
-        puts err.message
+        puts e.class
+        puts e.message
       end
     end
   end

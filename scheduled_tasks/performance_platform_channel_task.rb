@@ -10,8 +10,8 @@ class PerformancePlatformChannelTask < Scheduler::SchedulerTask
     tbc.publish!
   rescue ReportNotActivated
     log('Performance Platform - Channel Task skipped as `PERF_PLAT_TBC_TOKEN` not found in ENV')
-  rescue StandardError => ex
-    log('There was an error: ' + ex.message)
+  rescue StandardError => e
+    log('There was an error: ' + e.message)
   ensure
     log('Performance Platform - Channel Task finished')
   end

@@ -9,8 +9,8 @@ class GeckoboardTravelAutomationReportTask < Scheduler::SchedulerTask
     gp = GeckoboardPublisher::TravelAutomationReport.new
     gp.publish!
     gp.push!
-  rescue StandardError => ex
-    log('There was an error: ' + ex.message)
+  rescue StandardError => e
+    log('There was an error: ' + e.message)
   ensure
     log('Geckoboard travel automation data generation finished')
   end

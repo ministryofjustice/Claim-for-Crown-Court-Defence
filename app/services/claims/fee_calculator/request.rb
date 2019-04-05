@@ -15,9 +15,9 @@ module Claims
 
       def call
         response(true, data)
-      rescue StandardError => err
-        Rails.logger.error("error: #{err.message}")
-        response(false, nil, [err.message], I18n.t('fee_calculator.calculate.amount_unavailable'))
+      rescue StandardError => e
+        Rails.logger.error("error: #{e.message}")
+        response(false, nil, [e.message], I18n.t('fee_calculator.calculate.amount_unavailable'))
       end
 
       private

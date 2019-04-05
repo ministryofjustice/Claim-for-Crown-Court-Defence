@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - nginx/1.15.8
       Date:
-      - Thu, 04 Apr 2019 12:17:18 GMT
+      - Fri, 05 Apr 2019 15:06:49 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -41,7 +41,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
     http_version: 
-  recorded_at: Thu, 04 Apr 2019 12:17:18 GMT
+  recorded_at: Fri, 05 Apr 2019 15:06:49 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
@@ -63,7 +63,7 @@ http_interactions:
       Server:
       - nginx/1.15.8
       Date:
-      - Thu, 04 Apr 2019 12:17:19 GMT
+      - Fri, 05 Apr 2019 15:06:49 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -126,7 +126,7 @@ http_interactions:
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
     http_version: 
-  recorded_at: Thu, 04 Apr 2019 12:17:19 GMT
+  recorded_at: Fri, 05 Apr 2019 15:06:49 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/prices/?fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=8
@@ -148,7 +148,7 @@ http_interactions:
       Server:
       - nginx/1.15.8
       Date:
-      - Thu, 04 Apr 2019 12:17:19 GMT
+      - Fri, 05 Apr 2019 15:06:49 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -168,7 +168,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":60505,"scenario":8,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"116.49000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
     http_version: 
-  recorded_at: Thu, 04 Apr 2019 12:17:19 GMT
+  recorded_at: Fri, 05 Apr 2019 15:06:49 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
@@ -190,7 +190,7 @@ http_interactions:
       Server:
       - nginx/1.15.8
       Date:
-      - Thu, 04 Apr 2019 12:17:20 GMT
+      - Fri, 05 Apr 2019 15:06:51 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -199,10 +199,10 @@ http_interactions:
       - keep-alive
       Vary:
       - Accept, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
       X-Frame-Options:
       - SAMEORIGIN
+      Allow:
+      - GET, HEAD, OPTIONS
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
@@ -210,7 +210,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
     http_version: 
-  recorded_at: Thu, 04 Apr 2019 12:17:20 GMT
+  recorded_at: Fri, 05 Apr 2019 15:06:51 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/scenarios/
@@ -232,7 +232,7 @@ http_interactions:
       Server:
       - nginx/1.15.8
       Date:
-      - Thu, 04 Apr 2019 12:17:20 GMT
+      - Fri, 05 Apr 2019 15:06:52 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -295,7 +295,7 @@ http_interactions:
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
     http_version: 
-  recorded_at: Thu, 04 Apr 2019 12:17:20 GMT
+  recorded_at: Fri, 05 Apr 2019 15:06:52 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/prices/?fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=8
@@ -317,7 +317,7 @@ http_interactions:
       Server:
       - nginx/1.15.8
       Date:
-      - Thu, 04 Apr 2019 12:17:20 GMT
+      - Fri, 05 Apr 2019 15:06:52 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -337,5 +337,5 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":60505,"scenario":8,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"116.49000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
     http_version: 
-  recorded_at: Thu, 04 Apr 2019 12:17:20 GMT
+  recorded_at: Fri, 05 Apr 2019 15:06:52 GMT
 recorded_with: VCR 4.0.0

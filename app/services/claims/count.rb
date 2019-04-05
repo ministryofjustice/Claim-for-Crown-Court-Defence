@@ -2,7 +2,7 @@ module Claims
   class Count
     class << self
       def quarter(date)
-        new(date, :quarter).call
+        new(date, :quarter).call_transitions
       end
 
       def month(date)
@@ -22,6 +22,10 @@ module Claims
 
     def call
       Claim::BaseClaim.where(original_submission_date: @start..@end).count
+    end
+
+    def call_transitions
+      ClaimStateTransition.where(created_at: @start..@end, to: %w[submitted redetermination]).count
     end
   end
 end

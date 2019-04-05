@@ -110,3 +110,8 @@ a.link-delete {
   margin-right: 10px;
   display: inline-block;
 }
+
+.button-tertiary {
+  @include button ($grey-2);
+}
+

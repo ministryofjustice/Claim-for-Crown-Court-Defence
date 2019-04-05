@@ -1,21 +1,21 @@
--# Example of loading V2 CSS
--# = content_for :v2_stylesheets do
--#   = stylesheet_link_tag "v2/application", media: "all"
-
 = content_for :page_title, flush: true do
   = t('.page_title')
+
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
 
 = render partial: 'layouts/header', locals: {page_heading: your_claims_header}
 = render partial: 'external_users/shared/timed_retention_banner'
 
-.container.sub-header
-  .financial-summary
-    = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
-  .claims-actions
-    = link_to t('link.add_claim'), types_external_users_claims_path, class: 'button button-start', role:'button'
-    - unless scheme == :lgfs
-      .claims-importer#importer
-        = render partial: 'json_document_importer'
+.grid-row
+  = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
+  .column-one-third
+    %h2.heading-large
+      = link_to t('link.add_claim'), types_external_users_claims_path, class: 'button button-start', role:'button'
+
+    .claims-importer#importer
+      = render partial: 'json_document_importer'
 
 .container.search-wrapper#listanchor
   .grid-row
@@ -27,5 +27,3 @@
 
 = render partial: 'main_claims_list', locals: { claims: @claims }
 = paginate @claims
-
-

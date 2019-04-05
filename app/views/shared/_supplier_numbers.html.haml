@@ -3,7 +3,7 @@
 .panel.panel-border-narrow
   .grid-row
     .column-two-thirds
-      .supplier-numbers-wrapper.fx-numberedList-wrapper
+      #supplier-numbering.supplier-numbers-wrapper.fx-numberedList-hook
         - @collection = f.object.lgfs_supplier_numbers.present? ? f.object.lgfs_supplier_numbers : [f.object.lgfs_supplier_numbers.build]
         = f.fields_for :lgfs_supplier_numbers, @collection do |snf|
           = render partial: 'shared/supplier_number_fields', locals: { f: snf, collection: @collection }

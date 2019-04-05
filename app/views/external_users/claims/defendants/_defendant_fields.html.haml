@@ -3,6 +3,8 @@
     %h2.heading-medium
       = t('.defendant')
       %span.fx-numberedList-number
+      = link_to_remove_association t('.remove'), f, class: "header-action fx-numberedList-action", style: "display: none;"
+
     .form-group.first-name
       - @representation_order_count = 0
       = f.adp_text_field :first_name, label: t('.first_name'), errors: @error_presenter
@@ -30,13 +32,10 @@
             %p
               = t('.order_for_judicial_apportionment_help')
 
-    .documents
+    .documents.fx-numberedList-item_
       = f.fields_for :representation_orders do |repo_form|
         = render partial: 'external_users/claims/defendants/representation_order_fields', locals: { f: repo_form }
     .links
       = link_to_add_association t('.add_another_rep_order'), f, :representation_orders, partial: 'external_users/claims/defendants/representation_order_fields'
-
-    %p
-      = link_to_remove_association t('.remove_defendant'), f if @defendant_count > 0
 
   - @defendant_count += 1

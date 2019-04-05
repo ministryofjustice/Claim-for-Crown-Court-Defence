@@ -1,5 +1,8 @@
 moj.Modules.NewClaim = {
   init: function() {
+    $.numberedList({
+      wrapper: ".fx-numberedList-hook"
+    });
     //Attach on submit claim validation
     this.initSubmitValidation();
   },

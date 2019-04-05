@@ -12,11 +12,12 @@
 }(function($, undefined) {
   'use strict';
 
-  var pluginName = 'numberedList',
-    defaults = {
-      wrapper: '.fx-' + pluginName + '-wrapper',
-      item: '.fx-' + pluginName + '-item',
-      number: '.fx-' + pluginName + '-number'
+  var pluginName = 'numberedList';
+  var defaults = {
+      wrapper: '.fx-numberedList-wrapper',
+      item: '.fx-numberedList-item',
+      number: '.fx-numberedList-number',
+      action: '.fx-numberedList-action'
     },
     activated = false;
 
@@ -36,11 +37,16 @@
     },
     bindListeners: function() {
       var self = this;
-      $(this.settings.wrapper).on('cocoon:after-insert', function(e) {
+      var el = '#' + $(this.settings.wrapper).attr('id');
+      if(el === "#undefined"){
+        throw Error('This is an error message');
+      }
+
+      $(el).on('cocoon:after-insert', function(e) {
         self.updateNumbers();
       });
 
-      $(this.settings.wrapper).on('cocoon:after-remove', function(e) {
+      $(el).on('cocoon:after-remove', function(e) {
         self.updateNumbers();
       });
     },
@@ -50,6 +56,12 @@
       if (items.length > 1) {
         items.each(function(idx, el) {
           $(el).find(self.settings.number).text(idx + 1);
+          $(el).find(self.settings.action).css('display', 'block');
+        });
+      } else{
+        items.each(function(idx, el) {
+          $(el).find(self.settings.number).text('');
+          $(el).find(self.settings.action).css('display', 'none');
         });
       }
     }

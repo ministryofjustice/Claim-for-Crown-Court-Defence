@@ -35,23 +35,26 @@ end
 
 And("I enter {string} in the estimated trial length field") do |value|
   @litigator_interim_claim_form_page.interim_fee.estimated_trial_length.set nil
-  @litigator_interim_claim_form_page.interim_fee.estimated_trial_length.send_keys(value)
-  wait_for_ajax
-  sleep 6
+  value.chars.each do |char|
+    @litigator_interim_claim_form_page.interim_fee.estimated_trial_length.send_keys(char)
+    wait_for_ajax
+  end
 end
 
 And("I enter {string} in the estimated retrial length field") do |value|
   @litigator_interim_claim_form_page.interim_fee.retrial_estimated_length.set nil
-  @litigator_interim_claim_form_page.interim_fee.retrial_estimated_length.send_keys(value)
-  wait_for_ajax
-  sleep 6
+  value.chars.each do |char|
+    @litigator_interim_claim_form_page.interim_fee.retrial_estimated_length.send_keys(char)
+    wait_for_ajax
+  end
 end
 
 And("I enter {string} in the PPE total interim fee field") do |value|
   @litigator_interim_claim_form_page.interim_fee.ppe_total.set nil
-  @litigator_interim_claim_form_page.interim_fee.ppe_total.send_keys(value)
-  wait_for_ajax
-  sleep 6
+  value.chars.each do |char|
+    @litigator_interim_claim_form_page.interim_fee.ppe_total.send_keys(char)
+    wait_for_ajax
+  end
 end
 
 And(/^I enter '(.*)' as the warrant issued date$/) do |date|

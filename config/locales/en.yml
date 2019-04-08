@@ -1667,6 +1667,7 @@ en:
       reporders: Representation orders
       submit_date: Claim submitted
       trial_concluded: Trial concluded
+      prosecution_evidence: Prosecution evidence
     claims:
       interim_claim_info:
         fields: *interim_claim_info_fields

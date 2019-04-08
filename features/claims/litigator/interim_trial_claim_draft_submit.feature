@@ -49,7 +49,11 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     When I select an interim fee type of 'Effective PCMH'
     Then the interim fee amount should be populated with '201.81'
+<<<<<<< HEAD
     When I enter '51' in the PPE total interim fee field
+=======
+    And I enter 51 in the PPE total field
+>>>>>>> Fix failing feature tests
     Then the interim fee amount should be populated with '205.78'
 
     And I enter the effective PCMH date '2018-04-01'

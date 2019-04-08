@@ -43,7 +43,6 @@ module Claims
       end
 
       def call
-        # binding.pry
         setup(options)
         Request.new(self).call
       rescue StandardError => e

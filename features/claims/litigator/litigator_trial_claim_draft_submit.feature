@@ -66,7 +66,10 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I should see a page title "Enter graduated fees for litigator final fees claim"
 
     And I fill '2018-01-01' as the graduated fee date
+<<<<<<< HEAD
 
+=======
+>>>>>>> Fix failing feature tests
     When I fill '2' as the actual trial length
     Then the graduated fee amount should be populated with '429.12'
     When I enter '51' in the PPE total graduated fee field

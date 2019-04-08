@@ -39,8 +39,13 @@ Feature: litigator completes interim fee page using calculator
     And the interim fee amount should be populated with '678.44'
 
     # PPE impact
+<<<<<<< HEAD
     When I enter '81' in the PPE total interim fee field
     Then the interim fee amount should be populated with '686.46'
+=======
+    And I enter 81 in the PPE total field
+    And the interim fee amount should be populated with '686.46'
+>>>>>>> Fix failing feature tests
     And I enter the effective PCMH date '2018-04-01'
 
     Then I click "Continue" in the claim form
@@ -73,8 +78,13 @@ Feature: litigator completes interim fee page using calculator
     And the interim fee amount should be populated with '0.00'
 
     # Estimate trial length impact (10 days minimum required but fee represents 1 day only)
+<<<<<<< HEAD
     When I enter '10' in the estimated trial length field
     Then the interim fee amount should be populated with '1486.28'
+=======
+    And I enter 10 in the estimated trial length field
+    And the interim fee amount should be populated with '1486.28'
+>>>>>>> Fix failing feature tests
     And I enter the trial start date '2018-04-01'
 
     # PPE impact

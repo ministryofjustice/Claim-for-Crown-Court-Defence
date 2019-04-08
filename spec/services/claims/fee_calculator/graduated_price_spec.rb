@@ -1062,7 +1062,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
       end
 
       context 'because resource not found' do
-        let(:claim) { instance_double(::Claim::BaseClaim, agfs?: false, advocate_category: 'QC', earliest_representation_order_date: Date.today, case_type: nil, retrial_reduction: false) }
+        let(:claim) { instance_double(::Claim::BaseClaim, agfs?: false, advocate_category: 'QC', prosecution_evidence: false, earliest_representation_order_date: Date.today, case_type: nil, retrial_reduction: false) }
         let(:params) { { fee_type_id: create(:graduated_fee_type, :grtrl).id } }
 
         before do

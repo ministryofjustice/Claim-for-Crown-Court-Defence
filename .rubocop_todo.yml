@@ -38,7 +38,7 @@ Metrics/ClassLength:
 Metrics/LineLength:
   Exclude:
     - app/services/reports/injection_errors.rb
-    - app/services/ccr/fee/misc_fee_adapter.rb
+    # - app/services/ccr/fee/misc_fee_adapter.rb
     - app/services/reports/injection_errors.rb
     - app/interfaces/api/entities/full_claim.rb
     - lib/data_migrator/*rb

@@ -1553,6 +1553,44 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       expect(claim.expenses).to have(1).member
       expect(claim.expenses_total).to eq 40.0
     end
+
+    describe '#agfs_reform_discontinuance?' do
+      let!(:agfs_scheme_nine) { create(:fee_scheme, :agfs_nine) }
+      let!(:agfs_scheme_ten) { create(:fee_scheme, :agfs_ten) }
+      let(:discontinuance) { create(:case_type, :discontinuance) }
+      let(:claim_discontinuance_9) { create(:advocate_claim, :agfs_scheme_9, case_type: discontinuance, prosecution_evidence: true) }
+      let(:claim_9) { create(:advocate_claim, :agfs_scheme_9) }
+      let(:claim_discontinuance_10) { create(:advocate_claim, :agfs_scheme_10, case_type: discontinuance, prosecution_evidence: true) }
+      let(:claim_10) { create(:advocate_claim, :agfs_scheme_10) }
+
+      context 'when claim is not for the AGFS fee reform scheme' do
+        context 'when claim is a discontinuance' do
+          it 'returns false' do 
+            expect(claim_discontinuance_9.agfs_reform_discontinuance?).to be false
+          end
+        end 
+        
+        context 'when claim is not a discontinuance' do
+          it 'returns false' do
+            expect(claim_9.agfs_reform_discontinuance?).to be false
+          end
+        end
+      end
+  
+      context 'when claim is for the AGFS fee reform scheme' do
+        context 'when claim is a discontinuance' do
+          it 'returns true' do
+            expect(claim_discontinuance_10.agfs_reform_discontinuance?).to be true
+          end
+        end
+  
+        context 'when claim is not a discontinuance' do
+          it 'returns true' do
+            expect(claim_10.agfs_reform_discontinuance?).to be false
+          end
+        end
+      end  
+    end
   end
 
 # local helpers

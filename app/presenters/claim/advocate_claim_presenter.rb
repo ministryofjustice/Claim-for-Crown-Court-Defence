@@ -55,10 +55,6 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
     claim.agfs_reform?
   end
 
-  def display_prosecution_evidence?
-    claim.case_type.name == 'Discontinuance' && claim.agfs_reform? ? true : false
-  end
-
   def any_prosecution_evidence
     claim.prosecution_evidence ? 'Yes' : 'No'
   end

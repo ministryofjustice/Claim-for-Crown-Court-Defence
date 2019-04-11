@@ -38,32 +38,6 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
     end
   end
 
-  describe '#display_prosecution_evidence?' do
-    context 'when claim is not for the AGFS fee reform scheme' do
-      context 'when claim is a discontinuance' do
-        let(:claim) { claim_discontinuance_9 }
-        specify { expect(presenter.display_prosecution_evidence?).to be false }
-      end
-      
-      context 'when claim is not a discontinuance' do
-        let(:claim) { claim_9 }
-        specify { expect(presenter.display_prosecution_evidence?).to be false }
-      end
-    end
-
-    context 'when claim is for the AGFS fee reform scheme' do
-      context 'when claim is a discontinuance' do
-        let(:claim) { claim_discontinuance_10 }
-        specify { expect(presenter.display_prosecution_evidence?).to be true }
-      end
-
-      context 'when claim is not a discontinuance' do
-        let(:claim) { claim_10 }
-        specify { expect(presenter.display_prosecution_evidence?).to be false }
-      end
-    end
-  end
-
   describe '#any_prosecution_evidence' do
     context 'when display_prosecution_evidence is true' do
       let(:claim) { claim_discontinuance_10 }

@@ -10,7 +10,7 @@
 
 = render partial: 'external_users/advocates/advocate_category', locals: { f: f }
 
-- if claim.display_prosecution_evidence?
+- if claim.agfs_reform_discontinuance?
   = render partial: 'external_users/advocates/prosecution_evidence', locals: { f: f }
 
 = render partial: 'external_users/claims/basic_fees/fields', locals: { f: f }

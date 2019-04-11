@@ -3,7 +3,7 @@ module API
     module CCR
       class AdaptedBasicFee < AdaptedBaseFee
         with_options(format_with: :string) do
-          expose :ppe
+          expose :adapted_ppe, as: :ppe
           expose :number_of_witnesses
           expose :number_of_cases
           expose :number_of_defendants
@@ -22,8 +22,12 @@ module API
           fee_for(fee_type_unique_code)&.quantity.to_i
         end
 
-        def ppe
-          fee_quantity_for('BAPPE')
+        def adapted_ppe
+          if object.agfs_reform_discontinuance?
+            object.prosecution_evidence == true ? 1 : 0
+          else
+            fee_quantity_for('BAPPE')
+          end
         end
 
         def number_of_witnesses

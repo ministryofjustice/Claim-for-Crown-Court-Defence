@@ -1,7 +1,7 @@
 moj.Modules.CustomFileUpload = {
   el: 'input:file.custom-uploader',
   tpml: {
-    button: ['<button class="button button-secondary external-user-json-export" type="button">Choose file</button>'].join(''),
+    button: ['<button class="button button-tertiary external-user-json-export" type="button">Choose file</button>'].join(''),
     text: ['<p tabindex="0" class="file-upload-name" aria-hidden="true" ><span class="visuallyhidden">File name:</span></p>'].join('')
   },
 

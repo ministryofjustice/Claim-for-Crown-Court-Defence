@@ -733,4 +733,11 @@ describe '#earliest_representation_order' do
       expect(earliest_representation_order).to eq(expected_representation_order)
     end
   end
+
+  describe '#agfs_reform_discontinuance?' do
+    let(:claim) { create :claim }
+    it 'should return false' do
+      expect(claim.agfs_reform_discontinuance?).to be false
+    end
+  end
 end

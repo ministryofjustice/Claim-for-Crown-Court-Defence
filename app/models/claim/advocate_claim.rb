@@ -229,6 +229,10 @@ module Claim
       documents.each { |d| d.update_column(:external_user_id, external_user_id) }
     end
 
+    def agfs_reform_discontinuance?
+      case_type.name == 'Discontinuance' && agfs_reform? ? true : false
+    end
+
     private
 
     # TODO: SUPPLEMENTARY_CLAIM_TODO mixin/concern Claims::AdvocateClaimProviderDelegation??

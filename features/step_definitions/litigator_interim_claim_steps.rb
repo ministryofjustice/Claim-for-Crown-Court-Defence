@@ -8,13 +8,6 @@ And(/^I select an interim fee type of '(.*)'$/) do |name|
   wait_for_ajax
 end
 
-And(/^I enter '(\d+)' in the PPE total interim fee field$/) do |value|
-  @litigator_interim_claim_form_page.interim_fee.ppe_total.set nil
-  @litigator_interim_claim_form_page.interim_fee.ppe_total.send_keys(value)
-  wait_for_ajax
-  sleep 6
-end
-
 And(/^I enter the effective PCMH date\s*(.*?)$/) do |date|
   date = date.present? ? date : "2016-04-01"
   @litigator_interim_claim_form_page.interim_fee.effective_pcmh_date.set_date date
@@ -50,6 +43,13 @@ end
 And("I enter {string} in the estimated retrial length field") do |value|
   @litigator_interim_claim_form_page.interim_fee.retrial_estimated_length.set nil
   @litigator_interim_claim_form_page.interim_fee.retrial_estimated_length.send_keys(value)
+  wait_for_ajax
+  sleep 6
+end
+
+And("I enter {string} in the PPE total interim fee field") do |value|
+  @litigator_interim_claim_form_page.interim_fee.ppe_total.set nil
+  @litigator_interim_claim_form_page.interim_fee.ppe_total.send_keys(value)
   wait_for_ajax
   sleep 6
 end

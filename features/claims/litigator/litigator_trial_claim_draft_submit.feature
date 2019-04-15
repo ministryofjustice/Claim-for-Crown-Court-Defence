@@ -66,12 +66,11 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I should see a page title "Enter offence details for litigator final fees claim"
     Then I click "Continue" in the claim form
 
-    And the graduated fee amount should be populated with '429.12'
     And I fill '2018-01-01' as the graduated fee date
-    And I fill '1' as the actual trial length
-    And I enter '50' in the PPE total graduated fee field
+
+    When I fill '2' as the actual trial length
     Then the graduated fee amount should be populated with '429.12'
-    And I enter '51' in the PPE total graduated fee field
+    When I enter '51' in the PPE total graduated fee field
     Then the graduated fee amount should be populated with '437.89'
 
     And I should see a page title "Enter graduated fees for litigator final fees claim"
@@ -113,7 +112,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I should see the field 'Date case concluded' with value '01/04/2016' in 'Case details'
     And I should see the field 'Type of fee' with value 'Trial' in 'Graduated fee'
     And I should see the field 'First day of hearing' with value '01/01/2018' in 'Graduated fee'
-    And I should see the field 'Actual trial length' with value '1' in 'Graduated fee'
+    And I should see the field 'Actual trial length' with value '2' in 'Graduated fee'
     And I should see the field 'Total pages of evidence' with value '51' in 'Graduated fee'
     And I should see the field 'Net amount' with value '£437.89' in 'Graduated fee'
     And I should not see 'First day of trial'

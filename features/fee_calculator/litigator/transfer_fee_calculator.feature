@@ -14,7 +14,7 @@ Feature: litigator completes transfer fee page using calculator
     When I choose the litigator type option 'New'
     And I choose the elected case option 'No'
     And I select the transfer stage 'During trial transfer'
-    And I enter the transfer date '2015-05-21'
+    And I enter the transfer date '2016-04-01'
     And I select a case conclusion of 'Trial'
 
     And I click "Continue" in the claim form
@@ -41,21 +41,19 @@ Feature: litigator completes transfer fee page using calculator
 
     Then I click "Continue" in the claim form
     And I should be in the 'Transfer details' form page
-    And the transfer fee amount should be populated with '733.79'
     And I should see the days claimed field
     And I should see the ppe field
+    And the transfer fee amount should be populated with '0.00'
 
      # trial length (days) trial - first two days included
-    And I fill '2' as the actual trial length
-    And the transfer fee amount should be populated with '733.79'
-    And I fill '3' as the actual trial length
-    And the transfer fee amount should be populated with '860.06'
+    When I fill '2' as the actual trial length
+    Then the transfer fee amount should be populated with '733.79'
+    When I fill '3' as the actual trial length
+    Then the transfer fee amount should be populated with '860.06'
 
-    # ppe impact for 3 day claimed trial
-    And I enter '95' in the PPE total graduated fee field
-    And the transfer fee amount should be populated with '860.06'
-    And I enter '96' in the PPE total graduated fee field
-    And the transfer fee amount should be populated with '866.43'
+    # ppe impact for 3 day claimed trial (first 95 pages included)
+    When I enter '96' in the PPE total graduated fee field
+    Then the transfer fee amount should be populated with '866.43'
 
     # offence impact
     And I goto claim form step 'offence details'
@@ -64,7 +62,8 @@ Feature: litigator completes transfer fee page using calculator
 
     Then I click "Continue" in the claim form
     And I should be in the 'Transfer details' form page
-    And the transfer fee amount should be populated with '369.80'
+    When I fill '2' as the actual trial length
+    Then the transfer fee amount should be populated with '369.80'
 
     # transfer details impact
     And I goto claim form step 'transfer fee details'
@@ -78,15 +77,13 @@ Feature: litigator completes transfer fee page using calculator
     And I goto claim form step 'transfer fees'
 
     # trial length (days) - no impact for guilty plea
-    And the transfer fee amount should be populated with '442.91'
-    And I should not see the days claimed field
+    Then I should not see the days claimed field
     And I should see the ppe field
+    And the transfer fee amount should be populated with '442.91'
 
     # ppe impact for guilty plea
-    And I enter '40' in the PPE total graduated fee field
-    And the transfer fee amount should be populated with '442.91'
-    And I enter '41' in the PPE total graduated fee field
-    And the transfer fee amount should be populated with '445.57'
+    When I enter '41' in the PPE total graduated fee field
+    Then the transfer fee amount should be populated with '445.57'
 
     # defendant uplift impact
     And I goto claim form step 'defendants'
@@ -96,7 +93,7 @@ Feature: litigator completes transfer fee page using calculator
     And I should be in the 'Offence details' form page
 
     And I goto claim form step 'transfer fees'
-    And the transfer fee amount should be populated with '531.49'
+    Then the transfer fee amount should be populated with '531.49'
 
     And I eject the VCR cassette
 

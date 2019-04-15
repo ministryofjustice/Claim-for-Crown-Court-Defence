@@ -12,11 +12,11 @@ module Claims
 
       def setup(options)
         @fee_type = Fee::BaseFeeType.find(options[:fee_type_id])
-        @advocate_category = options[:advocate_category] || claim.advocate_category
-        @pages_of_prosecuting_evidence = options[:pages_of_prosecuting_evidence] || claim.prosecution_evidence
-        @days = options[:days] || 0
-        @ppe = options[:ppe] || 0
-        @pw = options[:pw] || 0
+        @advocate_category = options.fetch(:advocate_category, claim.advocate_category)
+        @pages_of_prosecuting_evidence = options.fetch(:pages_of_prosecuting_evidence, claim.prosecution_evidence)
+        @days = options.fetch(:days, 0)
+        @ppe = options.fetch(:ppe, 0)
+        @pw = options.fetch(:pw, 0)
         exclusions
       rescue StandardError
         raise 'insufficient_data'

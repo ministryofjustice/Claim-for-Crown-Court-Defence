@@ -1,0 +1,87 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=bfaf2d47-b02a-495d-8a09-4a5ffdcef1dd&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.3p105
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Etag:
+      - W/"c6ae737b37cb6472ccc5074e1d68a569"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - b1136974-e44a-45db-bd77-55e1244e1ea2
+      X-Runtime:
+      - '0.035419'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIACvGtVwAA2xUTY/bNhD9KwueTUOUKJnyKUFQtEEObdAFAjQIhBE5sllLpEtR3iwW+987lD/W6/gkcWY0782bR72wPWysg2i9Y+sXpqcQ0MWGosjWYsGij9DPx/HqrP3k4nzu7WBjc4B+SvXZ64LZiAPVfn9h1swl05ReWCEzLU2R86o2kstqVfI2ryoOlaigU7rrENmCaRixcdPQYqCPPuaZqEReSMqMESKBMOh7r+nVUCw+71PoUw92WK8/msOcmY+U7WGMzTi1RJHKGyDKjBrWPJNcVI8iJ8Zrof5hp7nYOltmC3aA2MBwHHEO+D06+r7zoQloMGIYLpp10I+4YE8hYTjKw+jd2PgpEl9nrNtcaowddw0erEGn8RIdcByTvGdRCW9y1MY0dzL4k8AdbWAakz63Gitdq7yVghuhCi4xz7hSSnKjW4WiNUZUSbXOBhLGwZC0+90HQ4Oc1DoFv9E0iTohDmD7pHqIu3HbY7DuQ+txOywdRkb7NtihM+DivaW3pl4p1ba8rqHlUmWK1woULzoQlRJVXePqltAfEHq4JfR1spsenylqaMGN75rWhriljKjVaaGUDLgPOJKD5+00NBqGe7y6DvJcQcaLlTRcttjyti0yDtKAUKLEclVSuwHICoEGDMeVMZXXUtarE42jnRTPCi5y0uKIkl9QQOlMFKXmsuhWZHkFvEZTcFVoLaSGXCh9D6VUWVmK7BZF8kyw1x+vP0635Gj+I2i5ItiTVp8o+fBIyYdE1I5NZ38m++Kb6QL+N9mQrBVA7yiZgMZf0zFYMtv7ZLp/T81eD9vU8sTi9sPbmWKYrtMB73UOvk+n7ww23ZgMkB407RmGLoKhXm7q+/Sjcf+intcMdPWG/WzAszZPPuyuV/+2FGG6vNYVcigBuMxQ8daA4WWeF0oI0WUV3Fry8y9+/OKx31t3dUEsuOXuGP3QAyw3/rCcdhdXvHmvBuwUFsBLNDWXJUiuACuykCrLStcVzlZ+R+C34CzeUPg74jZcEcBUsxxT9B2BJImfQjxbZSVUiiQl2V9/fuXJJOeWex8wLB6+WWfoqj/QD+zh0Yf99nmumtucFs508E+OvZIf/wcAAP//AwAozypORQYAAA==
+    http_version: 
+  recorded_at: Tue, 16 Apr 2019 12:10:19 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=bfaf2d47-b02a-495d-8a09-4a5ffdcef1dd&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.3p105
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Etag:
+      - W/"18cc09a3945233d815584241d4920f44"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - eec99d73-4f05-4c5b-b9ab-079494c7b1e2
+      X-Runtime:
+      - '0.011915'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIACzGtVwAA6pWKkhMz8xLLMnMz1OyqlZKLi0qSs0riQeKpipZGeooleSXJOaAucVKVgYwfnJ+aV4JmJ+TmZtZEl+WmFMKUm9Qq6OUWZKaC1QbHVsLAAAA//8DAGCLOJhdAAAA
+    http_version: 
+  recorded_at: Tue, 16 Apr 2019 12:10:20 GMT
+recorded_with: VCR 4.0.0

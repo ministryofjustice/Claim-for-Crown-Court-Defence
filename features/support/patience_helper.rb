@@ -55,7 +55,7 @@ module PatienceHelper
     end
   end
 
-  def patiently(seconds = Capybara.default_max_wait_time, &block)
+  def patiently(seconds = 20, &block)
     if page.driver.wait?
       Patiently.new.call(seconds, &block)
     else

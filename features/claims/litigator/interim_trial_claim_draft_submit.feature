@@ -47,12 +47,10 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I should be in the 'Interim fee' form page
     And I should see interim fee types applicable to a 'Trial'
 
-    Then I select an interim fee type of 'Effective PCMH'
-    And the interim fee amount should be populated with '201.81'
-    And I enter '50' in the PPE total interim fee field
-    And the interim fee amount should be populated with '201.81'
-    And I enter '51' in the PPE total interim fee field
-    And the interim fee amount should be populated with '205.78'
+    When I select an interim fee type of 'Effective PCMH'
+    Then the interim fee amount should be populated with '201.81'
+    When I enter '51' in the PPE total interim fee field
+    Then the interim fee amount should be populated with '205.78'
 
     And I enter the effective PCMH date '2018-04-01'
 

@@ -53,19 +53,19 @@ Then(/I should see fixed fee total '£?(\d+\.\d+)'$/) do |total_text|
 end
 
 # note this covers LGFS grad, interim and transfer quantity fields
-# which are represent PPE.
+# whose quantity field represents PPE.
 Then(/^I enter '(\d+)' in the PPE total graduated fee field$/) do |total|
   @litigator_claim_form_page.ppe_total.set nil
   @litigator_claim_form_page.ppe_total.send_keys("#{total}")
   wait_for_ajax
-  sleep 3
+  sleep 6
 end
 
 Then(/^I fill '(\d+)' as the actual trial length$/) do |length|
   @litigator_claim_form_page.actual_trial_length.set nil
   @litigator_claim_form_page.actual_trial_length.send_keys("#{length}")
   wait_for_ajax
-  sleep 3
+  sleep 6
 end
 
 And(/^I enter the case concluded date\s*(.*?)$/) do |date|

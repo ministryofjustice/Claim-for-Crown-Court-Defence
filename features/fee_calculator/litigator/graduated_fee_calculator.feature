@@ -34,16 +34,9 @@ Feature: litigator completes graduated fee page using calculator
     And I should be in the 'Graduated fee' form page
     And the graduated fee amount should be populated with '442.91'
 
-     # trial length (days) has no impact on guilty plea
     And I fill '2018-01-01' as the graduated fee date
-    And I fill '100000' as the actual trial length
-    And the graduated fee amount should be populated with '442.91'
-    And I fill '0' as the actual trial length
-    And the graduated fee amount should be populated with '442.91'
 
     # ppe impact for guilty plea
-    And I enter '40' in the PPE total graduated fee field
-    And the graduated fee amount should be populated with '442.91'
     And I enter '41' in the PPE total graduated fee field
     And the graduated fee amount should be populated with '445.57'
 
@@ -62,20 +55,18 @@ Feature: litigator completes graduated fee page using calculator
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
     And I goto claim form step 'graduated fees'
-    And the graduated fee amount should be populated with '1467.58'
+    And the graduated fee amount should be populated with '0.00'
+    And I fill '2018-01-01' as the graduated fee date
 
     # trial length (days) impact for trials
-    And I fill '2018-01-01' as the graduated fee date
-    And I fill '2' as the actual trial length
-    And the graduated fee amount should be populated with '1467.58'
-    And I fill '3' as the actual trial length
-    And the graduated fee amount should be populated with '1720.12'
+    When I fill '2' as the actual trial length
+    Then the graduated fee amount should be populated with '1467.58'
+    When I fill '3' as the actual trial length
+    Then the graduated fee amount should be populated with '1720.12'
 
-    # ppe impact for trials
-    And I enter '95' in the PPE total graduated fee field
-    And the graduated fee amount should be populated with '1720.12'
-    And I enter '96' in the PPE total graduated fee field
-    And the graduated fee amount should be populated with '1732.86'
+    # ppe impact for trials (boundary 96 plus for 3 day trial)
+    When I enter '96' in the PPE total graduated fee field
+    Then the graduated fee amount should be populated with '1732.86'
 
     Then I click "Continue" in the claim form
 

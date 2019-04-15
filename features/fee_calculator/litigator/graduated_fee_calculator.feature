@@ -37,11 +37,7 @@ Feature: litigator completes graduated fee page using calculator
     And I fill '2018-01-01' as the graduated fee date
 
     # ppe impact for guilty plea
-<<<<<<< HEAD
     And I enter '41' in the PPE total graduated fee field
-=======
-    And I fill '41' as the ppe total
->>>>>>> Fix failing feature tests
     And the graduated fee amount should be populated with '445.57'
 
     # offence impact

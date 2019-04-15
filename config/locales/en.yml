@@ -800,7 +800,6 @@ en:
         summary:
           header: Graduated fees
       check_your_claim:
-        help_text: Check all the information below is correct before submitting your claim at the bottom of the page.
         missing_information:
           header: 'Warning: Missing information'
           help_text: 'You must complete the following sections before submitting the claim:'
@@ -1312,6 +1311,10 @@ en:
           answer_no: 'No'
           change: Change
           change_link_label: Change supporting evidence
+          disk_evidence: Will you be sending disk evidence for this claim?
+          disk_evidence_reference: Reference number
+          supporting_evidence: Supporting evidence
+          supporting_evidence_checklist: Supporting evidence checklist
       supporting_evidence_checklist:
         summary:
           caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'
@@ -1393,6 +1396,9 @@ en:
         total: 'Total'
         no_fees: 'No fees for this claim'
         no_disbursements: 'No disbursements for this claim'
+      summary_claims_content:
+        missing_information_header: 'Warning: Missing information'
+        missing_information_help_text: 'You must complete the following sections before submitting the claim:'
       show:
         page_title: Case details
     expenses:
@@ -1679,7 +1685,6 @@ en:
       cav_warning:
         header: 'Warning: conferences and views were not injected'
         message: 'The provider has claimed conferences and views on this claim, but they have not been injected into CCR. Please enter them manually.'
-
     message_controls:
       update_claim_status: Update your claim status
       upload: "+ Upload"
@@ -1688,7 +1693,6 @@ en:
       accepted_files_help_text: "Files accepted: pdf, doc, rtf, jpeg, png, tiff, bmp: (Max file upload 20MB)"
       remove_file_tool_tip: "Remove the file you have selected to upload"
       remove: Remove
-
     providers:
       new:
         page_heading: Settings
@@ -1783,8 +1787,6 @@ en:
       date: Date
       disbursement: Disbursement
       disbursement_index: Disbursement %{index}
-      disk_evidence: Will you be sending disk evidence for this claim?
-      disk_evidence_reference: Reference number
       distance: Distance
       fee_category: Fee category
       fee_type: *fee_type
@@ -1836,8 +1838,6 @@ en:
         misc_fees: "There are no miscellaneous fees for this claim"
         offence_details: "There are no offence details for this claim"
         supporting_evidence: "There is no supporting evidence for this claim"
-      supporting_evidence: Supporting evidence
-      supporting_evidence_checklist: Supporting evidence checklist
     summary_agfs:
       mileage_rate: Mileage rate
       expenses:

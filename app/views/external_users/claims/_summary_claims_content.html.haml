@@ -1,16 +1,14 @@
-%p
-  = t('external_users.claims.check_your_claim.help_text')
-
 - unless claim.invalid_steps.empty?
   .panel.panel-border-wide
     %h3.heading-small
-      = t('external_users.claims.check_your_claim.missing_information.header')
+      = t('.missing_information_header')
     %p
-      = t('external_users.claims.check_your_claim.missing_information.help_text')
+      = t('.missing_information_help_text')
 
     %ul.list.list-bullet
       - claim.summary_sections.each do |section, associated_step|
         - if claim.invalid_steps.include?(associated_step)
+
           %li
             = t("external_users.claims.#{section}.summary.header")
 

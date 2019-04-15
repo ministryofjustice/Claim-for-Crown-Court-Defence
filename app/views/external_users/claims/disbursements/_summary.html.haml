@@ -22,9 +22,11 @@
       %tbody
         - present_collection(claim.disbursements).each.with_index(1) do |disbursement, index|
           %tr
-            %th{ scope: 'row', class: 'bold' }
-              = t('shared.summary.disbursement_index', index: index)
-            %td
+            - if claim.disbursements.length > 1
+              %th{ scope: 'row', class: 'bold' }
+                = t('shared.summary.disbursement_index', index: index)
+
+            %td{style: 'margin:0; padding:0;'}
               %table.nested-summary
                 %tbody
                   %tr

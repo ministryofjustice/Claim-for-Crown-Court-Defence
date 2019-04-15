@@ -1,6 +1,6 @@
 #supporting-evidence-section.form-section
   %h3.heading-medium
-    = t('external_users.claims.supporting_evidence_checklist.summary.header')
+    = t('.header')
     - if local_assigns[:editable]
       = link_to t('.change'), edit_polymorphic_path(claim, step: :supporting_evidence, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
@@ -12,17 +12,17 @@
       %tbody
         %tr
           %th{ class: 'bold' }
-            = t('shared.summary.disk_evidence')
+            = t('.disk_evidence')
           %td
             = claim.disk_evidence ? t('.answer_yes') : t('.answer_no')
         %tr
           %th{ class: 'bold' }
-            = t('shared.summary.disk_evidence_reference')
+            = t('.disk_evidence_reference')
           %td
             = claim.disk_evidence_reference
         %tr
           %th{ class: 'bold' }
-            = t('shared.summary.supporting_evidence')
+            = t('.supporting_evidence')
           %td
             %ul
               - claim.documents.each do |document|
@@ -33,7 +33,7 @@
                             'aria-label': "Download document: #{document.document_file_name}"
         %tr
           %th{ class: 'bold' }
-            = t('shared.summary.supporting_evidence_checklist')
+            = t('.supporting_evidence_checklist')
           %td
             %ul
               - DocType.find_by_ids(claim.evidence_checklist_ids).each do |dt|

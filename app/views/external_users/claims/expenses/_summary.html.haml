@@ -3,6 +3,12 @@
     = t('external_users.claims.expenses.summary.header')
     - if local_assigns[:editable]
       = link_to t('.change'), edit_polymorphic_path(claim, step: :travel_expenses, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
+  - if @claim.travel_expense_additional_information.present?
+    .panel.panel-border-wide
+      %h3.heading-small
+        = t('.additional_information')
+      %p
+        = @claim.travel_expense_additional_information
 
   - if claim.expenses.empty?
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
@@ -18,9 +24,10 @@
       %tbody
         - present_collection(claim.expenses).each.with_index(1) do |expense, index|
           %tr
-            %th{ class: 'bold' }
-              = t('shared.summary.expense', index: index)
-            %td
+            - if claim.expenses.length > 1
+              %th{ class: 'bold' }
+                = t('shared.summary.expense', index: index)
+            %td{style: 'margin:0; padding: 0;'}
               %table.nested-summary
                 %tbody
                   %tr
@@ -82,15 +89,3 @@
                         = t('shared.summary.vat_amount')
                       %td
                         = expense.vat_amount
-
-  - if @claim.travel_expense_additional_information.present?
-    %table{ class: 'summary', summary: t('.summary') }
-      %caption
-        %span.table-caption.visuallyhidden
-          = t('.caption')
-      %tbody
-        %tr
-          %th{ class: 'bold', valign: "top" }
-            = t('.additional_information')
-          %td
-            = @claim.travel_expense_additional_information

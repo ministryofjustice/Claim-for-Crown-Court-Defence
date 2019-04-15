@@ -21,9 +21,10 @@
       %tbody
         - claim.defendants.order(:created_at).each.with_index(1) do | defendant, index|
           %tr
-            %th{ class: 'bold' }
-              = t('.common.defendant_index', index: index)
-            %td
+            - if claim.defendants.length > 1
+              %th{ class: 'bold' }
+                = t('.common.defendant_index', index: index)
+            %td{style: 'margin: 0; padding: 0;'}
               %table.nested-summary
                 %tbody
                   %tr

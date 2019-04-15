@@ -362,13 +362,19 @@ table.summary, table.nested-summary {
   }
 }
 
-table.nested-summary {
+table.nested-summary.nested {
   tbody {
     th {
       &:first-child {
         width: 50%;
       }
     }
+  }
+}
+
+table.nested-summary {
+  margin-bottom: 0;
+  tbody {
     tr:last-child {
       th, td {
         border-bottom: 0;

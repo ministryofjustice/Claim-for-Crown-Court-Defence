@@ -180,7 +180,11 @@ And(/^I insert the VCR cassette '(.*?)'(?: and record '(.*?)')?$/) do |name, rec
   record_mode = ENV['FEE_CALC_VCR_MODE']&.to_sym if fee_calc_vcr_tag?
   record_mode ||= (record || 'once').to_sym
   VCR.eject_cassette if VCR.current_cassette
-  VCR.insert_cassette(name, record: record_mode)
+  if fee_calc_vcr_tag?
+    VCR.insert_cassette(name, record: record_mode, :match_requests_on => [:method, :path_query_matcher])
+  else
+    VCR.insert_cassette(name, record: record_mode)
+  end
 end
 
 And(/^pause for (\d+) seconds$/) do |seconds|

@@ -1,0 +1,213 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers?api_key=dfea09da-3e44-4e44-b737-b4c00a605556
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.3p105
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Etag:
+      - W/"0a1b754eb218d43c709b45c38537be23"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 1b2972e9-891b-4c77-8805-da51a3fd4a4a
+      X-Runtime:
+      - '0.247181'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAG3FtVwAA2SOyw6CMBBF/6Vr2lBoKePKtS5dGmOmD6RSIBFwY/x3iyQ+dzNn7uTc/Y14S1Y8IdM0D0Tq3FhQloIWKRUKOQVVKepyNC63OS+1JAmp/GUYjx22Lv5s+rqLLOAb7Vo/1pG5Fn2I+zlG2DDDdUBkp/7Kpobck0WfvfTCFlK5zFGnuaEiKwXFAoBCBgBCC2nTfz12nRt/Cmx90GiazwrPGGuWw1eNwwMAAP//AwAw6fyNBwEAAA==
+    http_version: 
+  recorded_at: Tue, 16 Apr 2019 12:07:09 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=dfea09da-3e44-4e44-b737-b4c00a605556&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated&value_band_id=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.3p105
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Etag:
+      - W/"5c5d8f9d54d1baec62f6bb4ea0d57cb3"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 9c0e93e9-8a9f-45b0-9849-e5975a68e774
+      X-Runtime:
+      - '0.382606'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version: 
+  recorded_at: Tue, 16 Apr 2019 12:07:09 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers?api_key=dfea09da-3e44-4e44-b737-b4c00a605556
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.3p105
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Etag:
+      - W/"0a1b754eb218d43c709b45c38537be23"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 9d67604e-b9c0-4073-87cd-ac442b1c6de5
+      X-Runtime:
+      - '0.006445'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAG3FtVwAA2SOyw6CMBBF/6Vr2lBoKePKtS5dGmOmD6RSIBFwY/x3iyQ+dzNn7uTc/Y14S1Y8IdM0D0Tq3FhQloIWKRUKOQVVKepyNC63OS+1JAmp/GUYjx22Lv5s+rqLLOAb7Vo/1pG5Fn2I+zlG2DDDdUBkp/7Kpobck0WfvfTCFlK5zFGnuaEiKwXFAoBCBgBCC2nTfz12nRt/Cmx90GiazwrPGGuWw1eNwwMAAP//AwAw6fyNBwEAAA==
+    http_version: 
+  recorded_at: Tue, 16 Apr 2019 12:07:09 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=dfea09da-3e44-4e44-b737-b4c00a605556&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated&value_band_id=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.3p105
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Etag:
+      - W/"5c5d8f9d54d1baec62f6bb4ea0d57cb3"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - bc1c4f59-08df-43f4-bacf-f026bb59991f
+      X-Runtime:
+      - '0.048928'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version: 
+  recorded_at: Tue, 16 Apr 2019 12:07:09 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=37890fe7-470c-412d-8568-147cc3064a86&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.3p105
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Etag:
+      - W/"ae353508d38a72b667a0f1692e885ab6"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 9ecf0a3e-da40-44a9-abf6-4b9f5d4edd8b
+      X-Runtime:
+      - '0.047321'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAHDFtVwAA+xWwW7jNhD9lQXPZkBSpCj6lGJRoGg3l266QLcIBIocxlpLVEpRzhaL/HtHiu24jrtF0UsPe7I1Q3HezHvz7C/kwd630eZ2iGT9hbgpJYi5xiiQNV+RPGTbLY/jybMbppjJWqxI1/Ztrne2m+bz7GlF2gw9nv3tC2k9WSupV2Sa5q+kgpIJFkrqnLJUchDUyMZRp6HRhVZKe0ZWxNkR6jj1DSR86VYwXjLGOGbGbDOWIbbrBodfPcbyHw9z6G1n2369/s7vlszyiNnOjrkepwZB4vHaImiCFxrKJOXlLRdrptdMfiT7zsiaXbEV2dlc2/65ySUwPEDE98OQ6gQeMqT+OLVguxFW5DHNNSLm7TjEsR6mjHijb+P98Yxvx20Nu9ZDdHCM9jCO84APY8V6U8RrfH0hA5+xeEQOpnGez+spWx/AOigpeO6p9MCpbcqCBigLJqGwxhXYbmgTjibafp7eD8MI9jCufeymzW4DXYdh6G2LoyHednmI127o4Go5hXR7CBC9jfmEc82PaCRnxjHbUClnNA7RVD54iiQIrY12KohzND+3u3Mwb4eua+OIUY/s1kOomzblDWa4qfZsYjLBQ4IRBbxQUw/JQzrBZdQRF/iKW8sVDYEBlYoDNUEIqmXldKkLBW5WV29RCQlbTM+MkUppTPI9kGc1VZQVlAucxqFOeaxjrPGVbIAy16Dmq1JTyxTHOsowLZsQnLtURxpembI6ryMpLsLT3dPdfk2e1X8QQbUih3lh8s0tJt/MUNuxDu3nWb/woroEv09tmrWVrNtici40vk7n1KLa/pqcF/CxfnD9Zr5yj+L8xfOecppO0wku3ZxQWzNjxN6Hme5u/sBuD2VwEzzeFaeum70mfgK3UG1x9/qHRYSH2TwOaXtK/4soVVM4b7SnppGMSm05NTpoisvhoPAFrxp1Lsofh008E+V7dJXNyXp8wiNX4xy87qy9uh92V9OWLFwNU8oHnkqh54hfrvjwPZ0ZOuwhLnuE8c27d2+X8PLefrzEpeExkqejyma6Dw0pq7zXuPMSe5FcBtqURlIleRGUYGUBf++s4puzfs1ZX6ZcGebBK0MrgQsvncEpN7jawVXMO6FV6V8564fXXvY+27Q9kY31QxeGa7dJ7ZhbG9G/tsMOlbj9usmKIzAPzEqrNC1KKam0RYl65o5K8BJECYIX+hzYjU3oqHCG7Z1trG/hv/rsy6+RCeDRUCvaBB5w1Tj6v5Z4kzdcKlVwE+Ql/ytZpVkh/sFnX7gRlheuwv8WXDFDpTBAqypIWgosUwE0srhcR2qtmPx3Pmsu+Kz45rP/O5+tjj578+svVJz6bMq9jZH+NG3ikrjotHdPfwIAAP//AwC02208IAsAAA==
+    http_version: 
+  recorded_at: Tue, 16 Apr 2019 12:07:12 GMT
+recorded_with: VCR 4.0.0

@@ -48,11 +48,11 @@
       this.bindCalculateEvents($els, this, 'keyup');
     },
 
-    bindCalculateEvents: function(elems, self, eventType) {
+    bindCalculateEvents: function(els, self, eventType) {
       if ($('.calculated-grad-fee').exists()) {
-        elems.on(eventType, function(e) {
+        els.on(eventType, $.debounce(290, function(e) {
           self.calculateGraduatedPrice(e.currentTarget);
-        });
+        }));
       }
     },
 

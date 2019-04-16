@@ -151,8 +151,9 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
         it_behaves_like 'a successful non-authorised claim with other as reason', 'refused', ['other_refuse']
       end
 
+      # Not sure what this is testing beyond that covered by above. remove?
       it 'advances the claim to refused when no values are supplied' do
-        params = {'state' => 'refused', 'assessment_attributes' => {'expenses' => ''}}
+        params = { current_user: current_user, 'state' => 'refused', 'state_reason' => %w[wrong_ia duplicate_claim], 'assessment_attributes' => {'expenses' => ''} }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :ok
         expect(updater.claim.state).to eq 'refused'
@@ -378,7 +379,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'advances the claim to refused when no values are supplied' do
-        params = {'state' => 'refused'}
+        params = {current_user: current_user, 'state' => 'refused', 'state_reason' => ['wrong_ia']}
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :ok
         expect(updater.claim.state).to eq 'refused'

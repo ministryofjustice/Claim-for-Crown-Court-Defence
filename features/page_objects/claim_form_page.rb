@@ -14,6 +14,7 @@ require_relative 'sections/expense_section'
 require_relative 'sections/offence_result_section'
 require_relative 'sections/advocate_category_section'
 require_relative 'sections/evidence_checklist_section'
+require_relative 'sections/yes_no_section'
 
 
 class ClaimFormPage < BasePage
@@ -84,6 +85,8 @@ class ClaimFormPage < BasePage
 
   section :lgfs_supplier_number_radios, SupplierNumberRadioSection, '.lgfs-supplier-numbers'
   element :lgfs_supplier_number_select, 'select#claim_supplier_number'
+
+  section :prosecution_evidence, YesNoSection, '.prosecution-evidence'
 
   def claim_id
     find('#claim-form')['data-claim-id']

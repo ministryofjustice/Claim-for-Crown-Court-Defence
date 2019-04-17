@@ -23,7 +23,7 @@ module API
         end
 
         def adapted_ppe
-          if object.agfs_reform_discontinuance?
+          if object.discontinuance?
             object.prosecution_evidence == true ? 1 : 0
           else
             fee_quantity_for('BAPPE')

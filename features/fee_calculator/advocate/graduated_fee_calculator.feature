@@ -224,3 +224,49 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     When I click "Continue" in the claim form
     Then I should be in the 'Miscellaneous fees' form page
     And the following fees should have their price_calculated set to true: 'BABAF,BADAF,BADAH,BADAJ,BASAF,BAPCM,BACAV,BANDR,BANOC,BANPW,BAPPE'
+
+  @fee_calc_vcr
+  Scenario: I create a scheme 9 AGFS graduated discontinuance fee claim using calculated value
+
+    Given I am a signed in advocate
+    And I am on the 'Your claims' page
+    And I click 'Start a claim'
+    And I select the fee scheme 'Advocate final fee'
+    Then I should be on the new claim page
+
+    And I enter a providers reference of 'AGFS test graduated fee calculation'
+    And I select a case type of 'Discontinuance'
+    And I select the court 'Blackfriars'
+    And I enter a case number of 'A20161234'
+
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
+
+    And I enter defendant, scheme 9 representation order and MAAT reference
+    And I add another defendant, scheme 9 representation order and MAAT reference
+
+    Then I click "Continue" in the claim form
+    And I should be in the 'Offence details' form page
+
+    Given I insert the VCR cassette 'features/fee_calculator/advocate/graduated_fee_trial_calculator'
+
+    When I select the offence category 'Murder'
+    And I click "Continue" in the claim form
+    And I should be in the 'Graduated fees' form page
+
+    Then I should not see 'Pages of prosecution evidence (PPE)'
+    And I should not see 'Prosecution witnesses' 
+    And I should see 'Was prosecution evidence served on this case?'
+
+    When I select an advocate category of 'Junior alone'
+    
+    And the basic fee net amount should be populated with '489.50'
+    
+    When I answer 'Yes' to was prosecution evidence served on this case? 
+    And the basic fee net amount should be populated with '979.00'
+
+    When I click "Continue" in the claim form
+    Then I should be in the 'Miscellaneous fees' form page
+
+    And I eject the VCR cassette
+
+    And the following fees should have their price_calculated set to true: 'BABAF'

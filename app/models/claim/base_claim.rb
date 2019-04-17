@@ -599,10 +599,6 @@ module Claim
       Claims::FetchEligibleDocumentTypes.for(self)
     end
 
-    def agfs_reform_discontinuance?
-      false
-    end
-
     private
 
     # called from state_machine before_transition on submit - override in subclass

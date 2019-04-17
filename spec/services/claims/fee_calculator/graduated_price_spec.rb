@@ -178,7 +178,20 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
           context 'discontinuance' do
             let(:case_type) { create(:case_type, :discontinuance) }
-            it_returns 'a successful fee calculator response', amount: 979.00
+
+            context 'with Pages of Prosecution Evidence' do
+              before { claim.update!(prosecution_evidence: true) }
+              context 'the full fee applies' do
+                it_returns 'a successful fee calculator response', amount: 979.00
+              end
+            end
+
+            context 'without Pages of Prosecution Evidence' do
+              before { claim.update!(prosecution_evidence: false) }
+              context 'a %50 reduction applies' do
+                it_returns 'a successful fee calculator response', amount: (979.00 / 2)
+              end
+            end
           end
 
           context 'retrial' do
@@ -1062,7 +1075,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
       end
 
       context 'because resource not found' do
-        let(:claim) { instance_double(::Claim::BaseClaim, agfs?: false, advocate_category: 'QC', prosecution_evidence: false, earliest_representation_order_date: Date.today, case_type: nil, retrial_reduction: false) }
+        let(:claim) { instance_double(::Claim::BaseClaim, agfs?: false, advocate_category: 'QC', prosecution_evidence?: false, earliest_representation_order_date: Date.today, case_type: nil, retrial_reduction: false) }
         let(:params) { { fee_type_id: create(:graduated_fee_type, :grtrl).id } }
 
         before do

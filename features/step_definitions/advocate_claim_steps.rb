@@ -269,16 +269,20 @@ Then(/^the '(.*?)' fixed fee rate should be in the calculator error state/) do |
   expect(fee_block.text).to match /The calculated rate is unavailable, please enter manually/
 end
 
-Then(/^I amend the fixed fee '(.*?)' to have a quantity of (\d+)$/) do |fee_type, quantity|
+
+Then("I amend the fixed fee {string} to have a quantity of {string}") do |fee_type, quantity|
   fixed_fee = @claim_form_page.fixed_fees.fee_block_for(fee_type)
   fixed_fee.quantity.set(quantity)
+  fixed_fee.quantity.send_keys(:tab)
+  wait_for_debounce
   wait_for_ajax
 end
 
-Then(/^I amend the miscellaneous fee '(.*?)' to have a quantity of (\d+)$/) do |fee_type, quantity|
+Then("I amend the miscellaneous fee {string} to have a quantity of {string}") do |fee_type, quantity|
   misc_fee = @claim_form_page.fee_block_for(:miscellaneous_fees, fee_type)
   misc_fee.quantity.set(quantity)
   misc_fee.quantity.send_keys(:tab)
+  wait_for_debounce
   wait_for_ajax
 end
 

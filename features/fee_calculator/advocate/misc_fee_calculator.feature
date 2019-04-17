@@ -39,7 +39,7 @@ Feature: Advocate completes misc fee page using calculator
       | miscellaneous | Hearings relating to disclosure (whole day) | 497.00 | Number of days | true |
       | miscellaneous | Hearings relating to disclosure (whole day uplift) | 198.80 | Number of additional defendants | true |
 
-    When I amend the miscellaneous fee 'Hearings relating to disclosure (whole day)' to have a quantity of 3
+    When I amend the miscellaneous fee 'Hearings relating to disclosure (whole day)' to have a quantity of '3'
     Then the following fee details should exist:
       | section | fee_description | rate | hint | help |
       | miscellaneous | Wasted preparation fee | 74.00 | Number of hours | true |

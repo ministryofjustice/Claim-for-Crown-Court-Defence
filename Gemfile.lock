@@ -268,7 +268,7 @@ GEM
     grape-papertrail (0.2.0)
       loofah (~> 2.2.x)
       nokogiri (~> 1.8, >= 1.8.2)
-    grape-swagger (0.28.0)
+    grape-swagger (0.32.1)
       grape (>= 0.16.2)
     grape-swagger-rails (0.3.1)
       railties (>= 3.2.12)
@@ -739,7 +739,7 @@ DEPENDENCIES
   grape (~> 1.1.0)
   grape-entity (~> 0.7.1)
   grape-papertrail (~> 0.2.0)
-  grape-swagger (~> 0.28.0)
+  grape-swagger (~> 0.32.1)
   grape-swagger-rails (~> 0.3.0)
   guard-cucumber
   guard-jasmine (~> 3.0)

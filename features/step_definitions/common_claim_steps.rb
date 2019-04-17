@@ -75,6 +75,15 @@ When(/^I check the evidence boxes for\s+'([^']*)'$/) do |labels|
   end
 end
 
+# When(/^I answer (.*?) to was prosecution evidence served on this case?$/) do |string|
+#   binding.pry
+#   @claim_form_page.find()
+# end
+
+When("I answer {string} to was prosecution evidence served on this case?") do |string|
+  @claim_form_page.prosecution_evidence.choose(string)
+end
+
 # NOTE: can't use have_items because, at least, LAC1 check box may not have a label/be-hidden
 Then(/^I should see (\d+)\s*evidence check boxes$/) do |count|
   expect(@claim_form_page.evidence_checklist).to be_visible

@@ -5,7 +5,7 @@
       %h3#radio-control-legend-category.heading-medium
         = t("common.prosecution_evidence")
     
-    = f.collection_radio_buttons(:prosecution_evidence, [true, false], :to_s, :to_s) do |b|
+    = f.collection_radio_buttons(:prosecution_evidence, yes_no_options, :last, :first) do |b| 
       .multiple-choice.js-fee-calculator-prosecution-evidence
         = b.radio_button("aria-labelledby": "checkbox-control-legend-prosection-evidence #{b.text.to_css_class}")
-        = b.label(id: b.text.to_css_class) { (b.value.to_s == 'true' ? 'Yes' : 'No') }
+        = b.label(id: b.text.to_css_class) { t((b.value.to_s == true.to_s).class) }

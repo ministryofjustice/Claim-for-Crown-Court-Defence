@@ -4,4 +4,4 @@
       %th{ scope: 'row', class: 'bold' }
         = t("common.prosecution_evidence")
       %td
-        = claim.any_prosecution_evidence
+        = t(claim.prosecution_evidence?.class)

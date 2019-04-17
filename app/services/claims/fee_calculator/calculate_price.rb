@@ -13,6 +13,7 @@ module Claims
       }.with_indifferent_access.freeze
 
       delegate  :earliest_representation_order_date,
+                :advocate_category,
                 :agfs?,
                 :lgfs?,
                 :interim?,
@@ -24,6 +25,7 @@ module Claims
                 :case_type,
                 :offence,
                 :defendants,
+                :prosecution_evidence,
                 to: :claim
 
       delegate :limit_from, to: :fee_type_limit

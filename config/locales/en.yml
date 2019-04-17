@@ -19,6 +19,8 @@
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 en:
+  TrueClass: 'Yes'
+  FalseClass: 'No'
   layouts:
     primary_navigation:
       add_a_provider: Add a provider

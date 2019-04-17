@@ -90,6 +90,10 @@
     days: function(context) {
       return this.getVal(context, 'input.js-fee-calculator-days:visible');
     },
+    
+    prosecutionEvidence: function() {
+      return this.getVal('input:radio[name="claim[prosecution_evidence]"]:checked');
+    },
 
     getVal: function(context, selector){
       if(selector) {
@@ -99,11 +103,7 @@
     }, 
 
     pagesOfProsecutingEvidence: function() {
-      if($('input:radio[name="claim[prosecution_evidence]"]:checked').val()=='true'){
-        return 1; 
-      } else {
-        return 0;
-      }
+      return this.prosecutionEvidence() == 'true' ? 1 : 0;
     },
 
     setAmount: function(data, context) {

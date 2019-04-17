@@ -6,20 +6,26 @@
 module Claims
   module FeeCalculator
     class GraduatedPrice < CalculatePrice
-      attr_reader :ppe, :pw, :days
+      attr_reader :ppe, :pw, :days, :pages_of_prosecuting_evidence
 
       private
 
       def setup(options)
         @fee_type = Fee::BaseFeeType.find(options[:fee_type_id])
-        @advocate_category = options.fetch(:advocate_category, claim.advocate_category)
-        @pages_of_prosecuting_evidence = options.fetch(:pages_of_prosecuting_evidence, claim.prosecution_evidence)
+        @advocate_category = options.fetch(:advocate_category, advocate_category)
+        @pages_of_prosecuting_evidence = options.fetch(:pages_of_prosecuting_evidence, prosecution_evidence)
         @days = options.fetch(:days, 0)
         @ppe = options.fetch(:ppe, 0)
         @pw = options.fetch(:pw, 0)
         exclusions
-      rescue StandardError
+      rescue StandardError => e
+        ap '>>>>>>>>>>>>>>>>>>>>>>>>>>>>> log <<<<<<<<<<<<<<<<<<<<<<<<<<<'
+        ap e
         raise 'insufficient_data'
+      end
+
+      def prosecution_evidence
+        prosecution_evidence? ? 1 : 0
       end
 
       # TODO: warrant fees to be excluded until

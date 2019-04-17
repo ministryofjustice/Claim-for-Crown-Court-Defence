@@ -44,7 +44,7 @@ Feature: Advocate completes fixed fee page using calculator
       | fixed | Number of defendants uplift | 52.00 |
       | fixed | Standard appearance fee | 173.00 |
 
-    When I amend the fixed fee 'Appeals to the crown court against conviction' to have a quantity of 2
+    When I amend the fixed fee 'Appeals to the crown court against conviction' to have a quantity of '2'
     Then the following fee details should exist:
       | section | fee_description | rate |
       | fixed | Appeals to the crown court against conviction | 260.00 |

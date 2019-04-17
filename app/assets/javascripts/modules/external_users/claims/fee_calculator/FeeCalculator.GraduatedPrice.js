@@ -28,6 +28,15 @@
       }
     },
 
+    prosecutionEvidenceChange: function () {
+      var self = this;
+      if ($('.calculated-grad-fee').exists()) {
+        $('.js-fee-calculator-prosecution-evidence').change(function() {
+          self.calculateAllGraduatedPrices();
+        });
+      }
+    },
+
     // TODO: not used by cocoon, could remove the parameter - only ever one per page atm
     feeTypeChange: function ($el) {
       var $els = $el || $('.js-fee-calculator-fee-type');
@@ -54,16 +63,6 @@
         els.on(eventType, $.debounce(290, function(e) {
           self.calculateGraduatedPrice(e.currentTarget);
         }));
-      }
-    },
-
-    prosecutionEvidenceChange: function ($el) {
-      var self = this;
-      var $els = $el || $('.js-fee-calculator-prosecution-evidence');
-      if ($('.calculated-grad-fee').exists()) {
-        $els.on('change', function() {
-          self.calculateGraduatedPrice();
-        });
       }
     },
 
@@ -147,11 +146,11 @@
       data.claim_id = this.claimId();
       data.price_type = this.priceType;
       data.advocate_category = this.advocateCategory();
+      data.pages_of_prosecuting_evidence = this.pagesOfProsecutingEvidence();
       data.fee_type_id = this.feeTypeId(context);
       data.days = this.days(context);
       data.ppe = this.ppe(context);
       data.pw = this.pw(context);
-      data.pages_of_prosecuting_evidence = this.pagesOfProsecutingEvidence();
       return data;
     },
 

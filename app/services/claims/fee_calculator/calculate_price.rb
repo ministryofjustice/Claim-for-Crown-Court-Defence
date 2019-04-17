@@ -25,7 +25,7 @@ module Claims
                 :case_type,
                 :offence,
                 :defendants,
-                :prosecution_evidence,
+                :prosecution_evidence?,
                 to: :claim
 
       delegate :limit_from, to: :fee_type_limit

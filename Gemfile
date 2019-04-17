@@ -93,7 +93,7 @@ group :development, :devunicorn, :test do
   gem 'puma'
   gem 'parallel_tests'
   gem 'site_prism', '~> 2.9'
-  gem 'jasmine', '~> 3.1'
+  gem 'jasmine', '~> 3.4'
   gem 'guard-jasmine', '~> 3.0'
   gem 'jasmine_selenium_runner', require: false
   gem 'guard-rspec'

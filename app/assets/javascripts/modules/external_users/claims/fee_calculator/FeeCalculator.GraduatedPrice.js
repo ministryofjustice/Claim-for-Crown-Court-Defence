@@ -61,7 +61,7 @@
       var self = this;
       var $els = $el || $('.js-fee-calculator-prosecution-evidence');
       if ($('.calculated-grad-fee').exists()) {
-        $els.on('change keyup', function() {
+        $els.on('change', function() {
           self.calculateGraduatedPrice();
         });
       }

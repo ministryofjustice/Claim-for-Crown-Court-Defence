@@ -21,7 +21,7 @@ module Seeds
           process_row(row)
         end
 
-        log "Created: #{total_created} | Updated: #{total_updated} | Error: #{total_with_error} | Processed: #{total}"
+        log "Created: #{total_created} | Updated: #{total_updated} | Error: #{total_with_error} | Processed: #{total}".yellow
       end
 
       protected
@@ -73,7 +73,7 @@ module Seeds
           self.total_created += 1
         end
       rescue => err
-        log "***************** #{err.class}  #{err.message} *********** #{__FILE__}::#{__LINE__} ***********\n"
+        log "***************** #{err.class} #{err.message} *********** #{__FILE__}::#{__LINE__} ***********\n"
         log err.backtrace
         log row
         self.total_with_error += 1

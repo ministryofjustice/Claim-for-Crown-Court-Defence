@@ -99,10 +99,10 @@
       var self = this;
       var $els = $el || $('.js-fee-quantity');
       if ($('.calculated-unit-fee').exists()) {
-        $els.on('change keyup', function() {
+        $els.on('change keyup', $.debounce(290, function() {
           self.calculateUnitPrice();
           self.populateNetAmount(this);
-        });
+        }));
       }
     },
 

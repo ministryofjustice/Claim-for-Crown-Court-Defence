@@ -61,21 +61,23 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
       it { is_expected.to all(be_a(Fee::MiscFeeType)) }
 
       context 'final claim' do
+        subject(:unique_codes) { call.map(&:unique_code) }
+
         context 'scheme 9 claim' do
           let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
 
-          it 'returns only misc fee types for AGFS scheme 9' do
+          it 'returns only misc fee types for AGFS scheme 9 without supplementary-only fee types' do
             is_expected.to have_at_least(1).items
-            is_expected.to match_array Fee::MiscFeeType.agfs_scheme_9s
+            is_expected.to match_array Fee::MiscFeeType.agfs_scheme_9s.without_supplementary_only.map(&:unique_code).reject
           end
         end
 
         context 'scheme 10+ claim' do
           let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
 
-          it 'returns only misc fee types for AGFS scheme 10+' do
+          it 'returns only misc fee types for AGFS scheme 10+ without supplementary-only fee types' do
             is_expected.to have_at_least(1).items
-            is_expected.to match_array Fee::MiscFeeType.agfs_scheme_10s
+            is_expected.to match_array Fee::MiscFeeType.agfs_scheme_10s.without_supplementary_only.map(&:unique_code)
           end
         end
       end
@@ -86,16 +88,16 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         context 'scheme 9 claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_9, with_misc_fee: false) }
 
-          it 'returns only misc fee types for AGFS scheme 9' do
-            is_expected.to match_array %w[MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU]
+          it 'returns only misc fee types for AGFS scheme 9 supplementary claims' do
+            is_expected.to match_array %w[MISAF MISAU MIPCM MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU]
           end
         end
 
         context 'scheme 10+ claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_10, with_misc_fee: false) }
 
-          it 'returns only misc fee types for AGFS scheme 10+' do
-            is_expected.to match_array %w[MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU]
+          it 'returns only misc fee types for AGFS scheme 10+ supplementary claims' do
+            is_expected.to match_array %w[MISAF MISAU MIPCM MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU]
           end
         end
       end

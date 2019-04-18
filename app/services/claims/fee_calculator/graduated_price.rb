@@ -18,7 +18,7 @@ module Claims
         @ppe = options.fetch(:ppe, 0)
         @pw = options.fetch(:pw, 0)
         exclusions
-      rescue StandardError 
+      rescue StandardError
         raise 'insufficient_data'
       end
 

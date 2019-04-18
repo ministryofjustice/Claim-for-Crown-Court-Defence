@@ -3,7 +3,7 @@ ruby '2.5.3'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'active_model_serializers', '~> 0.10.7'
 gem 'amoeba',                 '~> 3.1.0'
-gem 'auto_strip_attributes',  '~> 2.4.0'
+gem 'auto_strip_attributes',  '~> 2.5.0'
 gem 'aws-sdk',                '~> 2'
 gem 'awesome_print'
 gem 'cancancan',              '~> 1.15'

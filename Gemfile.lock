@@ -69,7 +69,7 @@ GEM
       io-like (~> 0.3.0)
     arel (9.0.0)
     ast (2.4.0)
-    auto_strip_attributes (2.4.0)
+    auto_strip_attributes (2.5.0)
       activerecord (>= 4.0)
     awesome_print (1.8.0)
     aws-sdk (2.11.227)
@@ -704,7 +704,7 @@ DEPENDENCIES
   active_model_serializers (~> 0.10.7)
   amoeba (~> 3.1.0)
   annotate
-  auto_strip_attributes (~> 2.4.0)
+  auto_strip_attributes (~> 2.5.0)
   awesome_print
   aws-sdk (~> 2)
   better_errors

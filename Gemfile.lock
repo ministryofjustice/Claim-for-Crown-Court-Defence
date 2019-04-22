@@ -431,7 +431,7 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (5.1.0.344)
     nio4r (2.3.1)
-    nokogiri (1.10.1)
+    nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -767,7 +767,7 @@ DEPENDENCIES
   net-scp
   net-ssh
   newrelic_rpm (~> 5.1.0.344)
-  nokogiri (~> 1.8)
+  nokogiri (~> 1.10)
   paper_trail (~> 9.0.2)
   paperclip (~> 5.3.0)
   parallel_tests

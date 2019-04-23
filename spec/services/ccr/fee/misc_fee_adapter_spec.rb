@@ -17,8 +17,10 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
   MAPPINGS = {
     BACAV: %w[AGFS_MISC_FEES AGFS_CONFERENCE], # Conferences and views (basic fee)
     BAPCM: %w[AGFS_MISC_FEES AGFS_PLEA], # Plea & Case management hearing
+    MIPCM: %w[AGFS_MISC_FEES AGFS_PLEA], # Plea & Case management hearing
     BASAF: %w[AGFS_MISC_FEES AGFS_STD_APPRNC], # Standard appearance fee (basic fee) - *** CCR/Regulations apply same fee to any SAF***
     FXSAF: %w[AGFS_MISC_FEES AGFS_STD_APPRNC], # Standard Appearance fee (fixed fee) - *** CCR/Regulations apply same fee to any SAF***
+    MISAF: %w[AGFS_MISC_FEES AGFS_STD_APPRNC], # Standard Appearance fee (fixed fee) - *** CCR/Regulations apply same fee to any SAF***
     FXCON: %w[AGFS_MISC_FEES AGFS_CONTEMPT], # Contempt (fixed fee)
     MIAPH: %w[AGFS_MISC_FEES AGFS_ABS_PRC_HF], # Abuse of process hearings (half day)
     MIAPW: %w[AGFS_MISC_FEES AGFS_ABS_PRC_WL], # Abuse of process hearings (whole day)

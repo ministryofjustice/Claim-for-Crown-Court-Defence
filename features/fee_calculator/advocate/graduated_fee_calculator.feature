@@ -266,7 +266,11 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
 
     When I click "Continue" in the claim form
     Then I should be in the 'Miscellaneous fees' form page
+    And the following fees should have their price_calculated set to true: 'BABAF'
+
+    When I click "Continue" in the claim form
+    When I click "Continue" in the claim form
+    When I click "Continue" in the claim form
+    Then I should see "Was prosecution evidence served on this case? Yes"
 
     And I eject the VCR cassette
-
-    And the following fees should have their price_calculated set to true: 'BABAF'

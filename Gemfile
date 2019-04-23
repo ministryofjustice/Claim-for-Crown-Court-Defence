@@ -101,6 +101,7 @@ group :development, :devunicorn, :test do
   gem 'guard-cucumber'
   gem 'net-ssh'
   gem 'net-scp'
+  gem 'rubocop-rspec'
 end
 
 group :test do

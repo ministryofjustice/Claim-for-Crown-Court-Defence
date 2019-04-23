@@ -23,7 +23,7 @@ FactoryBot.define do
     end
 
     trait :without_assessment do
-      assessment nil
+      assessment { nil }
     end
 
     trait :without_fees do
@@ -57,7 +57,7 @@ FactoryBot.define do
     end
 
     factory :invalid_claim do
-      case_type     nil
+      case_type     { nil }
     end
 
     factory :draft_claim do

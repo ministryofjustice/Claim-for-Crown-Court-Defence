@@ -1,11 +1,11 @@
 FactoryBot.define do
   factory :advocate_supplementary_claim, class: Claim::AdvocateSupplementaryClaim do
     advocate_base_setup
-    offence nil
-    case_type nil
+    offence { nil }
+    case_type { nil }
 
     transient do
-      with_misc_fee true
+      with_misc_fee { true }
     end
 
     after(:build) do |claim, evaluator|

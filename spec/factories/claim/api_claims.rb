@@ -9,7 +9,7 @@ FactoryBot.define do
     case_type
     offence
     case_number { random_case_number }
-    advocate_category 'QC'
+    advocate_category { 'QC' }
     source { 'api' }
 
     trait :with_scheme_nine_offence do
@@ -26,7 +26,7 @@ FactoryBot.define do
 
     trait :with_no_offence do
       case_type { association(:case_type, :fixed_fee) }
-      offence nil
+      offence { nil }
     end
 
     after(:build) { |claim| set_creator(claim) }

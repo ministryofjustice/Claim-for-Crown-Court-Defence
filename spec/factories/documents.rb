@@ -39,25 +39,25 @@ FactoryBot.define do
     end
 
     trait :docx do
-      document { File.open(Rails.root + 'features/examples/shorter_lorem.docx')}
+      document { File.open(Rails.root + 'features/examples/shorter_lorem.docx') }
       document_content_type { 'application/msword' }
     end
 
     trait :unverified do
-      verified_file_size 0
-      verified false
+      verified_file_size { 0 }
+      verified { false }
     end
 
     trait :verified do
-      verified_file_size 2663
-      file_path Rails.root + 'features/examples/longer_lorem.pdf'
-      verified true
+      verified_file_size { 2663 }
+      file_path { Rails.root + 'features/examples/longer_lorem.pdf' }
+      verified { true }
     end
 
     trait :empty do
-      document nil
-      verified_file_size 0
-      verified false
+      document { nil }
+      verified_file_size { 0 }
+      verified { false }
     end
   end
 end

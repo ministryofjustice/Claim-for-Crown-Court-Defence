@@ -1,8 +1,6 @@
-
 # creates a claim and associated assessment
 #
 FactoryBot.define do
-
   factory :assessment do
     skip_create
 
@@ -18,9 +16,6 @@ FactoryBot.define do
     end
 
     # saving makes sure we update the total
-    after(:create) do |assessment|
-      assessment.save!
-    end
+    after(:create, &:save!)
   end
-
 end

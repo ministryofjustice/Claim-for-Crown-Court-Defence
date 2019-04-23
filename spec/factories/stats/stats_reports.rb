@@ -12,28 +12,28 @@
 
 FactoryBot.define do
   factory :stats_report, class: Stats::StatsReport do
-    report_name 'management_information'
-    report 'report contents'
-    status 'completed'
+    report_name { 'management_information' }
+    report { 'report contents' }
+    status { 'completed' }
     started_at { 2.minutes.ago }
     completed_at { 2.seconds.ago }
 
     trait :with_document do
-      report nil
+      report { nil }
       document { fixture_file_upload "#{Rails.root}/spec/fixtures/files/report.csv", 'text/csv' }
     end
 
     trait :incomplete do
-      status 'started'
-      completed_at nil
+      status { 'started' }
+      completed_at { nil }
     end
 
     trait :error do
-      status 'error'
+      status { 'error' }
     end
 
     trait :other_report do
-      report_name 'other_report'
+      report_name { 'other_report' }
     end
   end
 end

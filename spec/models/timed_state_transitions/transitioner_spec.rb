@@ -1,23 +1,19 @@
 require 'rails_helper'
 
-
 module TimedTransitions
   include DatabaseHousekeeping
 
   describe Transitioner do
-
-    let(:claim)           { double Claim }
+    let(:claim) { double Claim }
 
     describe '.candidate_states' do
-      it 'should return an array of source states for timed transitions' do
-        expect(Transitioner.candidate_states).to eq (
-          [ :draft,
-            :authorised,
-            :part_authorised,
-            :refused,
-            :rejected,
-            :archived_pending_delete
-          ] )
+      it 'returns an array of source states for timed transitions' do
+        expect(Transitioner.candidate_states).to eq %i[draft
+                                                       authorised
+                                                       part_authorised
+                                                       refused
+                                                       rejected
+                                                       archived_pending_delete]
       end
     end
 
@@ -40,7 +36,7 @@ module TimedTransitions
         # This claim will not meet the time scope
         create :advocate_claim
 
-        expected_ids = [ draft_claim.id, authorised_claim.id, archived_claim.id, part_authorised_claim.id, refused_claim.id, rejected_claim.id ].sort
+        expected_ids = [draft_claim.id, authorised_claim.id, archived_claim.id, part_authorised_claim.id, refused_claim.id, rejected_claim.id].sort
         expect(Transitioner.candidate_claims_ids.sort).to eq expected_ids
       end
     end
@@ -56,14 +52,13 @@ module TimedTransitions
         expect(ids).not_to include(claim_b.id)
         expect(ids).to include(claim_a.id)
       end
-
     end
 
     describe '#run' do
       context 'non dummy run' do
         context 'transitioning to archived pending delete' do
           context 'less than 60 days ago' do
-            it 'should not call archive if last state change less than 60 days ago' do
+            it 'does not call archive if last state change less than 60 days ago' do
               claim = double Claim
               expect(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
               expect(claim).to receive(:state).and_return('authorised')
@@ -76,7 +71,7 @@ module TimedTransitions
           end
 
           context 'more than 16 weeks ago' do
-            before(:each) do
+            before do
               Timecop.freeze(17.weeks.ago) do
                 @claim = create :authorised_claim, case_number: 'A20164444'
               end
@@ -88,7 +83,7 @@ module TimedTransitions
               expect(t.success?).to be true
             end
 
-            it 'should call archive if last state change more than 16 weeks ago' do
+            it 'calls archive if last state change more than 16 weeks ago' do
               Transitioner.new(@claim).run
               expect(@claim.reload.state).to eq 'archived_pending_delete'
             end
@@ -103,16 +98,15 @@ module TimedTransitions
               Transitioner.new(@claim).run
             end
 
-
             it 'records the transition in claim state transitions' do
               Transitioner.new(@claim).run
               last_transition = @claim.reload.claim_state_transitions.first
               expect(last_transition.reason_code).to eq(['timed_transition'])
             end
 
-
             context 'when the claim has been invalidated' do
               let(:litigator) { create(:external_user, :litigator) }
+
               before do
                 @claim.creator = litigator
                 Transitioner.new(@claim).run
@@ -129,7 +123,7 @@ module TimedTransitions
           context 'soft-deleted claim more than 16 weeks ago' do
             let(:claim) { create :archived_pending_delete_claim }
 
-            it 'should destroy the claim' do
+            it 'destroys the claim' do
               expect(claim).to receive(:softly_deleted?).and_return(true)
               expect(claim).to receive(:destroy)
               Transitioner.new(claim).run
@@ -138,12 +132,12 @@ module TimedTransitions
             it 'creates an MI version of the record' do
               expect(claim).to receive(:softly_deleted?).and_return(true)
               expect(claim).to receive(:destroy)
-              expect { Transitioner.new(claim).run }.to change { Stats::MIData.count }.by 1 
+              expect { Transitioner.new(claim).run }.to change { Stats::MIData.count }.by 1
             end
           end
 
           context 'less than 60 days ago' do
-            it 'should not call destroy if last state change less than 16 weeks ago' do
+            it 'does not call destroy if last state change less than 16 weeks ago' do
               claim = double Claim
               expect(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
               expect(claim).to receive(:state).and_return('archived_pending_delete')
@@ -155,7 +149,7 @@ module TimedTransitions
           end
 
           context 'more than 16 weeks ago' do
-            before(:each) do
+            before do
               Timecop.freeze(17.weeks.ago) do
                 @claim = create :litigator_claim, :archived_pending_delete, case_number: 'A20164444'
               end
@@ -163,25 +157,24 @@ module TimedTransitions
 
             after(:all) { clean_database }
 
-            it 'should destroy if last state change more than 60 days ago' do
+            it 'destroys if last state change more than 60 days ago' do
               Transitioner.new(@claim).run
               expect(Claim::BaseClaim.where(id: @claim.id)).to be_empty
             end
 
-            it 'should destroy all associated records', delete: true do
+            it 'destroys all associated records', delete: true do
               setup_associations
               Transitioner.new(@claim).run
               expect_claim_and_all_associations_to_be_gone
             end
 
-
             it 'writes to the log file' do
               expect(LogStuff).to receive(:info).with('TimedTransitions::Transitioner',
-                            action: 'destroy',
-                            claim_id: @claim.id,
-                            claim_state: @claim.state,
-                            softly_deleted_on: @claim.deleted_at,
-                            dummy_run: false)
+                                                      action: 'destroy',
+                                                      claim_id: @claim.id,
+                                                      claim_state: @claim.state,
+                                                      softly_deleted_on: @claim.deleted_at,
+                                                      dummy_run: false)
               Transitioner.new(@claim).run
             end
 
@@ -220,7 +213,7 @@ module TimedTransitions
             end
 
             def expect_claim_and_all_associations_to_be_gone
-              expect{ Claim::BaseClaim.find(@claim.id) }.to raise_error ActiveRecord::RecordNotFound, "Couldn't find Claim::BaseClaim with 'id'=#{@claim.id}"
+              expect { Claim::BaseClaim.find(@claim.id) }.to raise_error ActiveRecord::RecordNotFound, "Couldn't find Claim::BaseClaim with 'id'=#{@claim.id}"
               expect(CaseWorkerClaim.where(claim_id: @claim.id)).to be_empty
               expect(Fee::BaseFee.where(claim_id: @claim_id)).to be_empty
               expect(Expense.where(claim_id: @claim_id)).to be_empty
@@ -235,7 +228,7 @@ module TimedTransitions
               expect(ClaimStateTransition.where(claim_id: @claim.id)).to be_empty
               expect(Determination.where(claim_id: @claim.id)).to be_empty
               expect(Certification.where(claim_id: @claim.id)).to be_empty
-              expect(InjectionAttempt.where(claim_id: @claim.id)).to be_empty 
+              expect(InjectionAttempt.where(claim_id: @claim.id)).to be_empty
             end
           end
         end
@@ -244,7 +237,7 @@ module TimedTransitions
       context 'dummy run' do
         context 'transitioning to archived pending delete' do
           context 'less than 60 days ago' do
-            it 'should not call archive if last state change less than 60 days ago' do
+            it 'does not call archive if last state change less than 60 days ago' do
               claim = double Claim
               expect(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
               expect(claim).to receive(:state).and_return('authorised')
@@ -252,12 +245,12 @@ module TimedTransitions
               transitioner = Transitioner.new(claim, true)
               expect(transitioner).not_to receive(:archive)
               expect(LogStuff).not_to receive(:debug)
-              transitioner.run()
+              transitioner.run
             end
           end
 
           context 'more than 16 weeks ago' do
-            before(:each) do
+            before do
               Timecop.freeze(17.weeks.ago) do
                 @claim = create :authorised_claim, case_number: 'A20164444'
               end
@@ -270,14 +263,13 @@ module TimedTransitions
 
             it 'writes to the log file' do
               expect(LogStuff).to receive(:debug).with('TimedTransitions::Transitioner',
-                                                      action: 'archive',
-                                                      claim_id: @claim.id,
-                                                      softly_deleted_on: @claim.deleted_at,
-                                                      dummy_run: true,
-                                                      succeeded: nil)
+                                                       action: 'archive',
+                                                       claim_id: @claim.id,
+                                                       softly_deleted_on: @claim.deleted_at,
+                                                       dummy_run: true,
+                                                       succeeded: nil)
               Transitioner.new(@claim, true).run
             end
-
 
             it 'does not record a timed_transition in claim state transitions' do
               Transitioner.new(@claim, true).run
@@ -288,7 +280,7 @@ module TimedTransitions
 
         context 'destroying' do
           context 'less than 60 days ago' do
-            it 'should not call destroy if last state change less than 16 weeks ago' do
+            it 'does not call destroy if last state change less than 16 weeks ago' do
               claim = double Claim
               expect(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
               expect(claim).to receive(:state).and_return('archived_pending_delete')
@@ -301,31 +293,30 @@ module TimedTransitions
           end
 
           context 'more than 16 weeks ago' do
-            before(:each) do
+            before do
               Timecop.freeze(17.weeks.ago) do
                 @claim = create :litigator_claim, :archived_pending_delete, case_number: 'A20164444'
               end
             end
 
-            it 'should not destroy the claim' do
+            it 'does not destroy the claim' do
               Transitioner.new(@claim, true).run
               expect(Claim::BaseClaim.where(id: @claim.id)).not_to be_empty
             end
 
-            it 'should not destroy all associated records' do
+            it 'does not destroy all associated records' do
               setup_associations
               Transitioner.new(@claim, true).run
               expect_claim_and_all_associations_to_be_present
             end
 
-
             it 'writes to the log file' do
               expect(LogStuff).to receive(:debug).with('TimedTransitions::Transitioner',
-                                                      action: 'destroy',
-                                                      claim_id: @claim.id,
-                                                      claim_state: @claim.state,
-                                                      softly_deleted_on: @claim.deleted_at,
-                                                      dummy_run: true)
+                                                       action: 'destroy',
+                                                       claim_id: @claim.id,
+                                                       claim_state: @claim.state,
+                                                       softly_deleted_on: @claim.deleted_at,
+                                                       dummy_run: true)
               Transitioner.new(@claim, true).run
             end
 
@@ -361,7 +352,7 @@ module TimedTransitions
             end
 
             def expect_claim_and_all_associations_to_be_gone
-              expect{ Claim::BaseClaim.find(@claim.id) }.to raise_error ActiveRecord::RecordNotFound, "Couldn't find Claim::BaseClaim with 'id'=#{@claim.id}"
+              expect { Claim::BaseClaim.find(@claim.id) }.to raise_error ActiveRecord::RecordNotFound, "Couldn't find Claim::BaseClaim with 'id'=#{@claim.id}"
               expect(CaseWorkerClaim.where(claim_id: @claim.id)).to be_empty
               expect(Fee::BaseFee.where(claim_id: @claim.id)).to be_empty
               expect(Expense.where(claim_id: @claim.id)).to be_empty
@@ -396,5 +387,5 @@ module TimedTransitions
         end
       end
     end
-    end
+  end
 end

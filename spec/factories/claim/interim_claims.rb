@@ -3,10 +3,10 @@ FactoryBot.define do
 
     litigator_base_setup
     claim_state_common_traits
-    case_concluded_at nil
+    case_concluded_at { nil }
 
-    transient { estimated_trial_length 2 }
-    transient { effective_pcmh_date 2.days.ago }
+    transient { estimated_trial_length { 2 } }
+    transient { effective_pcmh_date { 2.days.ago } }
   end
 
   trait :interim_trial_start_fee do

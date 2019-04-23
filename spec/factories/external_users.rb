@@ -20,59 +20,58 @@ FactoryBot.define do
     end
 
     provider
-    roles ['advocate']
+    roles { ['advocate'] }
     supplier_number { generate_unique_supplier_number }
 
     trait :advocate do
-      roles ['advocate']
+      roles { ['advocate'] }
       provider { create(:provider, :agfs) }
     end
 
     trait :litigator do
-      roles ['litigator']
-      supplier_number nil
+      roles { ['litigator'] }
+      supplier_number { nil }
       provider { create(:provider, :lgfs) }
     end
 
     trait :advocate_litigator do
-      roles ['advocate', 'litigator']
+      roles { %w[advocate litigator] }
       provider { create(:provider, :agfs_lgfs) }
     end
 
     trait :admin do
-      roles ['admin']
-      supplier_number nil
+      roles { ['admin'] }
+      supplier_number { nil }
     end
 
     trait :advocate_and_admin do
-      roles ['admin', 'advocate']
+      roles { %w[admin advocate] }
     end
 
     trait :litigator_and_admin do
-      supplier_number nil
-      roles ['litigator', 'admin']
+      supplier_number { nil }
+      roles { %w[litigator admin] }
       provider { create(:provider, :lgfs) }
     end
 
     trait :agfs_lgfs_admin do
-      roles ['admin']
+      roles { ['admin'] }
       provider { create(:provider, :agfs_lgfs) }
     end
 
     trait :softly_deleted do
-      deleted_at 10.minutes.ago
+      deleted_at { 10.minutes.ago }
     end
 
     trait :with_settings do
       after(:build) do |a|
         a.user = build(:user,
-                         first_name: Faker::Name.first_name,
-                         last_name: Faker::Name.last_name,
-                         email: Faker::Internet.email,
-                         password: 'password',
-                         password_confirmation: 'password',
-                         settings: {setting1: 'test1', setting2: 'test2'}.to_json
-        )
+                       first_name: Faker::Name.first_name,
+                       last_name: Faker::Name.last_name,
+                       email: Faker::Internet.email,
+                       password: 'password',
+                       password_confirmation: 'password',
+                       settings: { setting1: 'test1', setting2: 'test2' }.to_json)
       end
     end
 
@@ -87,13 +86,12 @@ FactoryBot.define do
         a.save_settings! email_notification_of_message: false
       end
     end
-
   end
 end
 
 def generate_unique_supplier_number
-  alpha_part = ""
-  2.times{alpha_part  << (65 + rand(25)).chr}
+  alpha_part = ''
+  2.times { alpha_part << rand(65..89).chr }
   numeric_part = rand(999)
-  "#{alpha_part}#{sprintf('%03d', numeric_part)}"
+  "#{alpha_part}#{format('%03d', numeric_part)}"
 end

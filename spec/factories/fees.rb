@@ -23,15 +23,15 @@ FactoryBot.define do
   factory :fixed_fee, class: Fee::FixedFee do
     claim { build(:advocate_claim, :with_fixed_fee_case) }
     fee_type { build :fixed_fee_type }
-    quantity 1
-    rate 25
+    quantity { 1 }
+    rate { 25 }
 
     trait :lgfs do
       claim { build(:litigator_claim, :with_fixed_fee_case) }
       fee_type { build :fixed_fee_type, :lgfs }
-      quantity 1
-      rate 25
-      date 3.days.ago
+      quantity { 1 }
+      rate { 25 }
+      date { 3.days.ago }
     end
 
     trait :fxnoc_fee do
@@ -74,14 +74,14 @@ FactoryBot.define do
   factory :misc_fee, class: Fee::MiscFee do
     claim
     fee_type { build :misc_fee_type }
-    quantity 1
-    rate 25
+    quantity { 1 }
+    rate { 25 }
 
     trait :lgfs do
       fee_type { build :misc_fee_type, :lgfs }
-      quantity 0
-      rate 0
-      amount 25
+      quantity { 0 }
+      rate { 0 }
+      amount { 25 }
     end
 
     trait :spf_fee do
@@ -108,8 +108,8 @@ FactoryBot.define do
   factory :warrant_fee, class: Fee::WarrantFee do
     claim
     fee_type { build :warrant_fee_type }
-    warrant_issued_date Fee::WarrantFeeValidator::MINIMUM_PERIOD_SINCE_ISSUED.ago
-    amount 25.01
+    warrant_issued_date { Fee::WarrantFeeValidator::MINIMUM_PERIOD_SINCE_ISSUED.ago }
+    amount { 25.01 }
 
     trait :warrant_executed do
       warrant_exectuted_date { warrant_issued_date + 5.days }
@@ -127,51 +127,51 @@ FactoryBot.define do
   factory :interim_fee, class: Fee::InterimFee do
     claim { build :interim_claim }
     fee_type { build :interim_fee_type }
-    quantity 2
-    amount 245.56
-    uuid SecureRandom.uuid
-    rate nil
+    quantity { 2 }
+    amount { 245.56 }
+    uuid { SecureRandom.uuid }
+    rate { nil }
 
     trait :disbursement do
       claim { build :interim_claim, disbursements: build_list(:disbursement, 1) }
       fee_type { build :interim_fee_type, :disbursement_only }
-      amount nil
-      quantity nil
+      amount { nil }
+      quantity { nil }
     end
 
     trait :warrant do
       fee_type { build :interim_fee_type, :warrant }
-      quantity nil
-      amount 25.02
-      warrant_issued_date 5.days.ago
+      quantity { nil }
+      amount { 25.02 }
+      warrant_issued_date { 5.days.ago }
     end
 
     trait :effective_pcmh do
       fee_type { build :interim_fee_type, :effective_pcmh }
-      quantity nil
+      quantity { nil }
     end
 
     trait :trial_start do
       fee_type { build :interim_fee_type, :trial_start }
-      quantity 1
+      quantity { 1 }
     end
 
     trait :retrial_start do
       fee_type { build :interim_fee_type, :retrial_start }
-      quantity 1
+      quantity { 1 }
     end
 
     trait :retrial_new_solicitor do
       fee_type { build :interim_fee_type, :retrial_new_solicitor }
-      quantity nil
+      quantity { nil }
     end
   end
 
   factory :basic_fee, class: Fee::BasicFee do
     claim
     fee_type { build :basic_fee_type }
-    quantity 1
-    rate 25
+    quantity { 1 }
+    rate { 25 }
 
     trait :baf_fee do
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BABAF') || build(:basic_fee_type, :baf) }
@@ -205,6 +205,12 @@ FactoryBot.define do
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BACAV') || build(:basic_fee_type, :cav) }
     end
 
+    trait :ppe_fee do
+      rate { 0 }
+      amount { 25 }
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BAPPE') || build(:basic_fee_type, :ppe) }
+    end
+
     trait :ndr_fee do
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BANDR') || build(:basic_fee_type, :ndr) }
     end
@@ -213,15 +219,15 @@ FactoryBot.define do
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BANOC') || build(:basic_fee_type, :noc) }
     end
 
-    trait :ppe_fee do
-      rate 0
-      amount 25
-      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BAPPE') || build(:basic_fee_type, :ppe) }
+    trait :npw_fee do
+      rate { 0 }
+      amount { 25 }
+      fee_type { Fee::BasicFeeType.find_by(unique_code: 'BANPW') || build(:basic_fee_type, :npw) }
     end
 
     trait :npw_fee do
-      rate 0
-      amount 25
+      rate { 0 }
+      amount { 25 }
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BANPW') || build(:basic_fee_type, :npw) }
     end
   end
@@ -229,18 +235,18 @@ FactoryBot.define do
   factory :transfer_fee, class: Fee::TransferFee do
     claim { build :transfer_claim }
     fee_type { build :transfer_fee_type }
-    quantity 0
-    rate 0
-    amount 25
+    quantity { 0 }
+    rate { 0 }
+    amount { 25 }
   end
 
   factory :graduated_fee, class: Fee::GraduatedFee do
     claim
     fee_type { build :graduated_fee_type }
-    quantity 1
-    amount 25
-    rate 0
-    date 3.days.ago
+    quantity { 1 }
+    amount { 25 }
+    rate { 0 }
+    date { 3.days.ago }
 
     trait :guilty_plea_fee do
       fee_type { build(:graduated_fee_type, description: 'Guilty plea', code: 'GGLTY') }
@@ -264,8 +270,8 @@ FactoryBot.define do
   end
 
   trait :all_zero do
-    quantity 0
-    rate 0
+    quantity { 0 }
+    rate { 0 }
   end
 
   trait :from_api do

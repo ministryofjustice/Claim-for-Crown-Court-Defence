@@ -1,22 +1,22 @@
 FactoryBot.define do
   trait :advocate_base_setup do
-    form_id SecureRandom.uuid
+    form_id { SecureRandom.uuid }
     court
     case_number { random_case_number }
     external_user
     source { 'web' }
-    apply_vat false
+    apply_vat { false }
     providers_ref { random_providers_ref }
     case_type
     offence
-    advocate_category 'QC'
+    advocate_category { 'QC' }
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
 
     transient do
-      create_defendant_and_rep_order true
-      create_defendant_and_rep_order_for_scheme_9 false
-      create_defendant_and_rep_order_for_scheme_10 false
-      create_defendant_and_rep_order_for_scheme_11 false
+      create_defendant_and_rep_order { true }
+      create_defendant_and_rep_order_for_scheme_9 { false }
+      create_defendant_and_rep_order_for_scheme_10 { false }
+      create_defendant_and_rep_order_for_scheme_11 { false }
     end
 
     after(:create) do |claim, evaluator|
@@ -38,16 +38,16 @@ FactoryBot.define do
     creator             { build :external_user, :litigator }
     external_user       { creator }
     source              { 'web' }
-    apply_vat           false
+    apply_vat           { false }
     offence             { create(:offence, :miscellaneous) } #only miscellaneous offences valid for LGFS
     case_type           { create(:case_type) }
     case_concluded_at   { 5.days.ago }
     supplier_number     { provider.lgfs_supplier_numbers.first.supplier_number }
     providers_ref       { random_providers_ref }
-    disable_for_state_transition nil
+    disable_for_state_transition { nil }
 
     transient do
-      create_defendant_and_rep_order_for_scheme_8 false
+      create_defendant_and_rep_order_for_scheme_8 { false }
     end
 
     after(:create) do |claim, evaluator|

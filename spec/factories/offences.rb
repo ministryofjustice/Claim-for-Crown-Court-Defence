@@ -17,20 +17,20 @@ FactoryBot.define do
     sequence(:unique_code) { |n| "ABCD-#{n}" }
 
     trait :miscellaneous do
-      description 'Miscellaneous/other'
+      description { 'Miscellaneous/other' }
     end
 
     transient do
-      lgfs_fee_scheme false
+      lgfs_fee_scheme { false }
     end
 
     trait :with_fee_scheme do
       after(:build) do |offence, evaluator|
-        if evaluator.lgfs_fee_scheme
-          fee_scheme = FeeScheme.find_by(name: 'LGFS', version: 9) || build(:fee_scheme, :lgfs)
-        else
-          fee_scheme = FeeScheme.find_by(name: 'AGFS', version: 9) || build(:fee_scheme, :agfs_nine)
-        end
+        fee_scheme = if evaluator.lgfs_fee_scheme
+                       FeeScheme.find_by(name: 'LGFS', version: 9) || build(:fee_scheme, :lgfs)
+                     else
+                       FeeScheme.find_by(name: 'AGFS', version: 9) || build(:fee_scheme, :agfs_nine)
+                     end
         offence.fee_schemes << fee_scheme
       end
     end
@@ -40,7 +40,7 @@ FactoryBot.define do
     end
 
     trait :with_fee_scheme_ten do
-      offence_class nil
+      offence_class { nil }
       offence_band
       after(:build) do |offence|
         offence.fee_schemes << (FeeScheme.agfs.where(version: 10).first || build(:fee_scheme, :agfs_ten))
@@ -48,7 +48,7 @@ FactoryBot.define do
     end
 
     trait :with_fee_scheme_eleven do
-      offence_class nil
+      offence_class { nil }
       offence_band
       after(:build) do |offence|
         offence.fee_schemes << (FeeScheme.agfs.where(version: 11).first || build(:fee_scheme, :agfs_eleven))

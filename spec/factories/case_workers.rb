@@ -20,18 +20,18 @@ FactoryBot.define do
 
     location
 
-    roles ['case_worker']
+    roles { ['case_worker'] }
 
     trait :case_worker do
-      roles ['case_worker']
+      roles { ['case_worker'] }
     end
 
     trait :admin do
-      roles ['admin']
+      roles { ['admin'] }
     end
 
     trait :softly_deleted do
-      deleted_at 10.minutes.ago
+      deleted_at { 10.minutes.ago }
     end
   end
 end

@@ -12,6 +12,6 @@ FactoryBot.define do
     provider
     postcode { Faker::Address.postcode }
     supplier_number { [rand(0..9), ('A'..'Z').to_a[rand(0..25)], rand(100..999), ('A'..'Z').to_a[rand(0..25)]].join }
-    name Faker::Company.name
+    name { Faker::Company.name }
   end
 end

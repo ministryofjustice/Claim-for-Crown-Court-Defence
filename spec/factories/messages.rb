@@ -31,7 +31,7 @@ FactoryBot.define do
   end
 
   trait :with_attachment do
-    attachment { File.open(Rails.root + 'features/examples/shorter_lorem.docx')}
+    attachment { File.open(Rails.root + 'features/examples/shorter_lorem.docx') }
     attachment_content_type { 'application/msword' }
   end
 end

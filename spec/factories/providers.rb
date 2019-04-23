@@ -16,13 +16,13 @@
 
 FactoryBot.define do
   factory :provider do
-    provider_type 'chamber'
+    provider_type { 'chamber' }
 
     # NOTE: factory used for demo data and should therefore provide name that can be used to identify it for destruction if necessary
     #       see ClaimDestroyer
     sequence(:name) { |n| "#{Faker::Company.name} (Test-Provider-#{n})" }
 
-    roles ['agfs']
+    roles { ['agfs'] }
 
     after(:build) { |provider| provider.vat_registered = false if provider.lgfs? && provider.vat_registered.nil? }
 
@@ -33,35 +33,35 @@ FactoryBot.define do
     end
 
     trait :agfs do
-      provider_type 'chamber'
-      roles ['agfs']
+      provider_type { 'chamber' }
+      roles { ['agfs'] }
     end
 
     trait :lgfs do
-      provider_type 'firm'
-      firm_agfs_supplier_number nil
-      roles ['lgfs']
-      vat_registered false
+      provider_type { 'firm' }
+      firm_agfs_supplier_number { nil }
+      roles { ['lgfs'] }
+      vat_registered { false }
     end
 
     trait :agfs_lgfs do
-      provider_type 'firm'
-      firm_agfs_supplier_number '123AB'
-      roles ['agfs', 'lgfs']
-      vat_registered false
+      provider_type { 'firm' }
+      firm_agfs_supplier_number { '123AB' }
+      roles { %w[agfs lgfs] }
+      vat_registered { false }
     end
 
     trait :firm do
-      provider_type 'firm'
-      firm_agfs_supplier_number nil
+      provider_type { 'firm' }
+      firm_agfs_supplier_number { nil }
       vat_registered { true }
-      roles ['lgfs']
+      roles { ['lgfs'] }
     end
 
     # does not require supplier number
     trait :chamber do
-      provider_type 'chamber'
-      firm_agfs_supplier_number nil
+      provider_type { 'chamber' }
+      firm_agfs_supplier_number { nil }
     end
 
     trait :with_lgfs_supplier_numbers do

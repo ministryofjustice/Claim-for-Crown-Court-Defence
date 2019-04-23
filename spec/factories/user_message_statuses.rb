@@ -14,10 +14,10 @@ FactoryBot.define do
   factory :user_message_status do
     user
     message
-    read false
+    read { false }
 
     trait :read do
-      read true
+      read { true }
     end
 
     trait :unpersisted do

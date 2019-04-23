@@ -13,14 +13,13 @@
 #
 
 FactoryBot.define do
-
   factory :date_attended do
     attended_item { create(:basic_fee) }
     date    { 12.days.ago }
     date_to { rand(2) == 1 ? 10.days.ago : nil }
 
     factory :single_date_attended do
-      date_to nil
+      date_to { nil }
     end
 
     factory :same_date_attended_to_as_from do
@@ -28,8 +27,7 @@ FactoryBot.define do
     end
 
     factory :date_range_attended do
-      date_to  { 10.days.ago }
+      date_to { 10.days.ago }
     end
   end
-
 end

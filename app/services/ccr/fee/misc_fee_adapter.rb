@@ -7,6 +7,8 @@ module CCR
         BACAV: zip(%w[AGFS_MISC_FEES AGFS_CONFERENCE]), # Conferences and views (basic fee)
         FXCON: zip(%w[AGFS_MISC_FEES AGFS_CONTEMPT]), # Contempt (fixed fee)
         FXSAF: zip(%w[AGFS_MISC_FEES AGFS_STD_APPRNC]), # Standard Appearance fee (fixed fee)
+        MIPCM: zip(%w[AGFS_MISC_FEES AGFS_PLEA]), # Plea & Case management hearing (basic fee)
+        MISAF: zip(%w[AGFS_MISC_FEES AGFS_STD_APPRNC]), # Standard appearance fee (basic fee)
         MIAPH: zip(%w[AGFS_MISC_FEES AGFS_ABS_PRC_HF]), # Abuse of process hearings (half day)
         MIAPW: zip(%w[AGFS_MISC_FEES AGFS_ABS_PRC_WL]), # Abuse of process hearings (whole day)
         FXADJ: zip(%w[AGFS_MISC_FEES AGFS_ADJOURNED]), # Adjourned appeals, committals and breaches

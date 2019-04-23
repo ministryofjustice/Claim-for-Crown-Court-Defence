@@ -66,7 +66,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
     context 'for advocate supplementary claims' do
       let(:claim) { create_claim(:advocate_supplementary_claim, :submitted) }
 
-      it 'presents advocate interim claim with CCR advocate interim claim entity' do
+      it 'presents advocate interim claim with CCR advocate supplementary claim entity' do
         expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateSupplementaryClaim), with: API::Entities::CCR::SupplementaryClaim)
         do_request
       end

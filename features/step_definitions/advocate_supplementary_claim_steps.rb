@@ -9,6 +9,11 @@ Then(/^I choose the '(.*?)' miscellaneous fee(?: with quantity of '(.*?)')?$/) d
   wait_for_ajax
 end
 
+Then("the following miscellaneous fee checkboxes should exist:") do |table|
+  fee_type_descriptions = table.symbolic_hashes.map{ |el| el[:fee_description] }
+  expect(@advocate_supplementary_claim_form_page.miscellaneous_fees.checklist_labels).to match_array(fee_type_descriptions)
+end
+
 Then(/^the following supplementary fee details should exist:$/) do |table|
   table.hashes.each do |row|
     fee_block = @advocate_supplementary_claim_form_page.fee_block_for("#{row['section']}_fees", row['fee_description'])

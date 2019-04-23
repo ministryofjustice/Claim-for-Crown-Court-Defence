@@ -71,14 +71,33 @@ shared_examples 'defendant upliftable' do
     end
   end
 
-  describe '.defendant_uplift_parent_unique_code' do
+  describe '#defendant_uplift_parent_unique_code' do
     subject { fee_type.defendant_uplift_parent_unique_code }
 
-    context 'for non-orphan defendant uplift fees types' do
+    context 'for non-orphan defendant uplift fees types with one parent' do
       before { allow(fee_type).to receive(:unique_code).and_return 'MIAHU' }
 
       it 'returns parent fee type unique code' do
         is_expected.to eql 'MIAPH'
+      end
+    end
+
+    context 'for non-orphan defendant uplift fees types with two parents' do
+      before { allow(fee_type).to receive(:unique_code).and_return 'MISAU' }
+
+      context 'when supplementary claim passed as an arg' do
+        subject { fee_type.defendant_uplift_parent_unique_code(claim) }
+        let(:claim) { instance_double(Claim::AdvocateSupplementaryClaim, supplementary?: true) }
+
+        it 'returns parent miscellaneous fee type unique code' do
+          is_expected.to eql 'MISAF'
+        end
+      end
+
+      context 'when no claim passed as an arg' do
+        it 'returns parent basic fee type unique code' do
+          is_expected.to eql 'BASAF'
+        end
       end
     end
 
@@ -91,7 +110,6 @@ shared_examples 'defendant upliftable' do
       before { allow(fee_type).to receive(:unique_code).and_return 'MIAPH' }
       it { is_expected.to be_nil }
     end
-
   end
 
   describe '::DEFENDANT_UPLIFT_MAPPINGS' do

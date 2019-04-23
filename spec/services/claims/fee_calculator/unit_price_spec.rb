@@ -640,7 +640,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
           end
         end
 
-        context 'for a (defendant) uplift fee' do
+        context 'for a (defendant) uplift fee with one parent' do
           let(:fee) { create(:misc_fee, :miaph_fee, claim: claim, quantity: 1) }
           let(:uplift_fee) { create(:misc_fee, :miahu_fee, claim: claim, quantity: 2) }
 
@@ -650,6 +650,31 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
           end
 
           it_returns 'a successful fee calculator response', unit: 'defendant', amount: 26.0
+        end
+
+        context 'for a (defendant) uplift with two possible parents (standard appearances)' do
+          let(:fee) { create(:misc_fee, :misaf_fee, claim: claim, quantity: 1) }
+
+          before do
+            claim.case_type = nil
+            allow(claim).to receive(:supplementary?).and_return true
+          end
+
+          context 'for a standard appearance fee' do
+            it_returns 'a successful fee calculator response', unit: 'day', amount: 87.0
+          end
+
+          context 'for a standard appearance fee (defendant) uplift on supplementary claim' do
+            let(:fee) { create(:misc_fee, :misaf_fee, claim: claim, quantity: 1) }
+            let(:uplift_fee) { create(:misc_fee, :misau_fee, claim: claim, quantity: 2) }
+
+            before do
+              params.merge!(fee_type_id: uplift_fee.fee_type.id)
+              params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+            end
+
+            it_returns 'a successful fee calculator response', unit: 'defendant', amount: 17.4
+          end
         end
       end
 

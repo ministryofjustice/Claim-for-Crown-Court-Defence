@@ -158,7 +158,7 @@ module Claims
 
       def defendant_uplift_parent
         return primary_fee_type_on_page if fee_type.orphan_defendant_uplift?
-        fee_type.defendant_uplift_parent
+        fee_type.defendant_uplift_parent(claim)
       end
 
       # Remuneration regulations, Paragraph 2(3), Schedule 1

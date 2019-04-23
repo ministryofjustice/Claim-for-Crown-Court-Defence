@@ -13,6 +13,7 @@ module DefendantUpliftable
   class_methods do
     DEFENDANT_UPLIFT_MAPPINGS = {
       BASAF: 'MISAU', # Standard appearance fee uplift
+      MISAF: 'MISAU', # Standard appearance fee uplift (supplementary)
       MIAPH: 'MIAHU', # Abuse of process hearings (half day uplift)
       MIAPW: 'MIAWU', # Abuse of process hearings (whole day uplift)
       MIADC1: 'MIADC3', # Application to dismiss a charge (half day uplift)
@@ -55,12 +56,27 @@ module DefendantUpliftable
       unique_code.in?(self.class.const_get(:ORPHAN_DEFENDANT_UPLIFTS))
     end
 
-    def defendant_uplift_parent_unique_code
-      DEFENDANT_UPLIFT_MAPPINGS.find { |_parent_code, uplift_code| uplift_code.eql?(unique_code) }&.first
+    def defendant_uplift_parent(claim = nil)
+      self.class.find_by(unique_code: defendant_uplift_parent_unique_code(claim))
     end
 
-    def defendant_uplift_parent
-      self.class.find_by(unique_code: defendant_uplift_parent_unique_code)
+    def defendant_uplift_parent_unique_code(claim = nil)
+      return defendant_uplift_parent_unique_codes.first if defendant_uplift_parent_unique_codes.size == 1
+      defendant_uplift_parent_unique_code_for_claim(claim)
+    end
+
+    private
+
+    def defendant_uplift_parent_unique_codes
+      @defendant_uplift_parent_unique_codes ||= DEFENDANT_UPLIFT_MAPPINGS.select do |_parent_code, uplift_code|
+        uplift_code.eql?(unique_code)
+      end&.keys
+    end
+
+    def defendant_uplift_parent_unique_code_for_claim(claim = nil)
+      defendant_uplift_parent_unique_codes.select do |parent_unique_code|
+        claim&.supplementary? ? parent_unique_code.start_with?('MI') : parent_unique_code.start_with?('BA')
+      end&.first
     end
   end
 end

@@ -92,6 +92,14 @@ FactoryBot.define do
       fee_type { Fee::MiscFeeType.find_by(unique_code: 'MISPF') || build(:misc_fee_type, :mispf) }
     end
 
+    trait :misaf_fee do
+      fee_type { Fee::MiscFeeType.find_by(unique_code: 'MISAF') || build(:misc_fee_type, :misaf) }
+    end
+
+    trait :misau_fee do
+      fee_type { Fee::MiscFeeType.find_by(unique_code: 'MISAU') || build(:misc_fee_type, :misau) }
+    end
+
     trait :miaph_fee do
       fee_type { Fee::MiscFeeType.find_by(unique_code: 'MIAPH') || build(:misc_fee_type, :miaph) }
     end

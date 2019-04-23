@@ -206,6 +206,20 @@ FactoryBot.define do
         roles { %w[agfs agfs_scheme_9 agfs_scheme_10 lgfs] }
       end
 
+      trait :misaf do
+        description { 'Standard appearance fee' }
+        code { 'SAF' }
+        unique_code { 'MISAF' }
+        agfs_all_schemes
+      end
+
+      trait :misau do
+        description { 'Standard appearance fee uplift' }
+        code { 'SAU' }
+        unique_code { 'MISAU' }
+        agfs_all_schemes
+      end
+
       trait :minbr do
         description { 'Noting brief fee' }
         code { 'NBR' }

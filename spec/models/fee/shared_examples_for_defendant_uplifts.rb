@@ -116,7 +116,7 @@ shared_examples 'defendant upliftable' do
     subject { described_class::DEFENDANT_UPLIFT_MAPPINGS[code] }
 
     DEFENDANT_UPLIFT_MAPPINGS ||= {
-        BASAF: 'MISAU', # Standard appearance fee uplift
+        MISAF: 'MISAU', # Standard appearance fee uplift (supplementary)
         MIAPH: 'MIAHU', # Abuse of process hearings (half day uplift)
         MIAPW: 'MIAWU', # Abuse of process hearings (whole day uplift)
         MIADC1: 'MIADC3', # Application to dismiss a charge (half day uplift)

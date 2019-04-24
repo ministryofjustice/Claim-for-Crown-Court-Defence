@@ -93,7 +93,7 @@ Performance/ReverseEach:
 
 # Offense count: 5
 # Cop supports --auto-correct.
-Style/UnneededSort:
+Performance/UnneededSort:
   Exclude:
     - 'app/models/claim/base_claim.rb'
     - 'app/models/defendant.rb'

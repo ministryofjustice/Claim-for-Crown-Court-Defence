@@ -175,7 +175,7 @@ FactoryBot.define do
       ppe
     end
 
-    trait :npw do
+    trait :banpw do
       npw
     end
 

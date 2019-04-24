@@ -36,7 +36,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
   let(:case_type) { create(:case_type, :trial) }
   let(:basic_fee) { build(:basic_fee, :baf_fee, quantity: 1) }
   let(:misc_fee) { build(:misc_fee, :mispf_fee, :with_date_attended) }
-  let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, basic_fees: [basic_fee], misc_fees: [misc_fee]) }
+  let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: [basic_fee], misc_fees: [misc_fee]) }
 
   def do_request(claim_uuid: claim.uuid, api_key: case_worker.user.api_key)
     get "/api/ccr/claims/#{claim_uuid}", { api_key: api_key }, { format: :json }
@@ -45,70 +45,69 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
   describe 'GET /ccr/claim/:uuid?api_key=:api_key' do
     let(:dsl) { Grape::DSL::InsideRoute }
 
-    context 'for advocate "final" claims' do
-      it 'presents advocate claim with CCR advocate claim entity' do
-        expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateClaim), with: API::Entities::CCR::FinalClaim )
+    context 'response statuses' do
+      it 'returns 200, success, and JSON response when existing claim exists and api key authorised' do
         do_request
+        expect(last_response.status).to eq 200
+        expect(last_response).to be_valid_ccr_claim_json
       end
-    end
 
-    context 'for advocate interim claims' do
-      let(:warrant_fee) { build(:warrant_fee, :warr_fee) }
-      let(:offence) { create(:offence, :with_fee_scheme_ten) }
-      let(:claim) { create_claim(:advocate_interim_claim, :without_fees, :submitted, offence: offence, warrant_fee: warrant_fee) }
-
-      it 'presents advocate interim claim with CCR advocate interim claim entity' do
-        expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateInterimClaim), with: API::Entities::CCR::InterimClaim)
-        do_request
-      end
-    end
-
-    context 'for advocate supplementary claims' do
-      let(:claim) { create_claim(:advocate_supplementary_claim, :submitted) }
-
-      it 'presents advocate interim claim with CCR advocate supplementary claim entity' do
-        expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateSupplementaryClaim), with: API::Entities::CCR::SupplementaryClaim)
-        do_request
-      end
-    end
-
-    it 'returns 200, success, and JSON response when existing claim exists and api key authorised' do
-      do_request
-      expect(last_response.status).to eq 200
-      expect(last_response).to be_valid_ccr_claim_json
-    end
-
-    it 'returns 406, Not Acceptable, if requested API version (via header) is not supported' do
-      header 'Accept-Version', 'v1'
-      do_request
-      expect(last_response.status).to eq 406
-      expect(last_response.body).to include('The requested version is not supported.')
-    end
-
-    it 'requires an API key' do
-      do_request(api_key: nil)
-      expect(last_response.status).to eq 401
-      expect(last_response.body).to include('Unauthorised')
-    end
-
-    context 'when accessed by an ExternalUser' do
-      before { do_request(api_key: claim.external_user.user.api_key )}
-
-      it 'returns unauthorised' do
+      it 'returns 401 when API key not provided' do
+        do_request(api_key: nil)
         expect(last_response.status).to eq 401
         expect(last_response.body).to include('Unauthorised')
       end
-    end
 
-    context 'claim not found' do
-      it 'respond not found when claim is not found' do
+      it 'returns 401, Unauthorised when api key is for an external user' do
+        do_request(api_key: claim.external_user.user.api_key )
+        expect(last_response.status).to eq 401
+        expect(last_response.body).to include('Unauthorised')
+      end
+
+      it 'returns 404, Claim not found when claim does not exist' do
         do_request(claim_uuid: '123-456-789')
         expect(last_response.status).to eq 404
         expect(last_response.body).to include('Claim not found')
       end
+
+      it 'returns 406, Not Acceptable, if requested API version (via header) is not supported' do
+        header 'Accept-Version', 'v1'
+        do_request
+        expect(last_response.status).to eq 406
+        expect(last_response.body).to include('The requested version is not supported.')
+      end
     end
 
-    context 'advocate claim' do
+    context 'entities' do
+      context 'for advocate "final" claims' do
+        it 'presents claim with CCR advocate claim entity' do
+          expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateClaim), with: API::Entities::CCR::FinalClaim )
+          do_request
+        end
+      end
+
+      context 'for advocate interim claims' do
+        let(:warrant_fee) { build(:warrant_fee, :warr_fee) }
+        let(:offence) { create(:offence, :with_fee_scheme_ten) }
+        let(:claim) { create_claim(:advocate_interim_claim, :without_fees, :submitted, offence: offence, warrant_fee: warrant_fee) }
+
+        it 'presents claim with CCR advocate interim claim entity' do
+          expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateInterimClaim), with: API::Entities::CCR::InterimClaim)
+          do_request
+        end
+      end
+
+      context 'for advocate supplementary claims' do
+        let(:claim) { create_claim(:advocate_supplementary_claim, :submitted) }
+
+        it 'presents claim with CCR advocate supplementary claim entity' do
+          expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateSupplementaryClaim), with: API::Entities::CCR::SupplementaryClaim)
+          do_request
+        end
+      end
+    end
+
+    context 'advocate "final" claims' do
       subject(:response) { do_request.body }
 
       it { is_expected.to expose :uuid }
@@ -208,7 +207,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       subject(:response) { do_request.body }
 
       let(:defendants) { create_list(:defendant, 2) }
-      let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, basic_fees: [basic_fee], misc_fees: [misc_fee], defendants: defendants) }
+      let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: [basic_fee], misc_fees: [misc_fee], defendants: defendants) }
 
       it 'returns multiple defendants' do
         is_expected.to have_json_size(2).at_path('defendants')
@@ -240,7 +239,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       subject(:response) { do_request.body }
       let(:bills) { JSON.parse(response)['bills'] }
 
-      let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type) }
+      let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type) }
 
       it 'returns empty array if no bills found' do
         is_expected.to have_json_size(0).at_path("bills")
@@ -251,22 +250,23 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       context 'advocate fee' do
         before do
           # TODO: Consider using seeds here maybe?
-          create(:basic_fee_type, :baf)
-          create(:basic_fee_type, :pcm)
-          create(:basic_fee_type, :ppe)
-          create(:basic_fee_type, :noc)
-          create(:basic_fee_type, :ndr)
-          create(:basic_fee_type, :npw)
-          create(:basic_fee_type, :daf)
-          create(:basic_fee_type, :dah)
-          create(:basic_fee_type, :daj)
+          create(:basic_fee_type, :babaf)
+          create(:basic_fee_type, :bapcm)
+          create(:basic_fee_type, :bappe)
+          create(:basic_fee_type, :banoc)
+          create(:basic_fee_type, :bandr)
+          create(:basic_fee_type, :banpw)
+          create(:basic_fee_type, :badaf)
+          create(:basic_fee_type, :badah)
+          create(:basic_fee_type, :badaj)
         end
 
-        let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, basic_fees: [basic_fee]) }
+        let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: [basic_fee]) }
 
         it { is_expected.to be_valid_ccr_claim_json }
 
         it 'not added to bills array when no basic fees are being claimed' do
+          claim.reload # test failure without this on individual run???
           allow_any_instance_of(Fee::BasicFee).to receive_messages(rate: 0, quantity: 0, amount: 0)
           is_expected.to have_json_size(0).at_path("bills")
         end
@@ -361,7 +361,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
         context 'number_of_defendants' do
           let(:basic_fees) { [ build(:basic_fee, :baf_fee, quantity: 1) ] }
-          let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, basic_fees: basic_fees, misc_fees: [misc_fee]) }
+          let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: basic_fees, misc_fees: [misc_fee]) }
 
           it 'property included' do
             is_expected.to have_json_path("bills/0/number_of_defendants")
@@ -407,7 +407,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
         context 'daily attendances' do
           let(:basic_fees) { [ build(:basic_fee, :baf_fee, quantity: 1) ] }
-          let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, basic_fees: basic_fees, misc_fees: [misc_fee]) }
+          let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: basic_fees, misc_fees: [misc_fee]) }
 
           it 'includes property' do
             is_expected.to have_json_path("bills/0/daily_attendances")
@@ -423,7 +423,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
                 build(:basic_fee, :daj_fee, quantity: 1, rate: 1.0)
               ]
             }
-            let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, basic_fees: basic_fees, misc_fees: [misc_fee], actual_trial_length: 53) }
+            let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: basic_fees, misc_fees: [misc_fee], actual_trial_length: 53) }
 
             it 'calculated from Daily Attendanance Fee quantities if they exist' do
               is_expected.to be_json_eql("51".to_json).at_path "bills/0/daily_attendances"
@@ -435,7 +435,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
               let(:case_type) { create(:case_type, :trial) }
               let(:actual_trial_length) { 1 }
               let(:trial_concluded_at) { 8.days.ago }
-              let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, basic_fees: basic_fees, misc_fees: [misc_fee], first_day_of_trial: 10.days.ago, trial_concluded_at: trial_concluded_at, estimated_trial_length: 1, actual_trial_length: actual_trial_length) }
+              let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: basic_fees, misc_fees: [misc_fee], first_day_of_trial: 10.days.ago, trial_concluded_at: trial_concluded_at, estimated_trial_length: 1, actual_trial_length: actual_trial_length) }
 
               context 'when no daily attendance fees and trial length is less than 2' do
                 let(:actual_trial_length) { 1 }
@@ -457,7 +457,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
             context 'for retrials' do
               let(:case_type) { create(:case_type, :retrial) }
-              let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, basic_fees: basic_fees, misc_fees: [misc_fee], first_day_of_trial: 10.days.ago, trial_concluded_at: 8.days.ago, estimated_trial_length: 2, actual_trial_length: 2, retrial_started_at: 5.days.ago, retrial_estimated_length: 1, retrial_actual_length: 1, retrial_concluded_at: 0.days.ago) }
+              let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: basic_fees, misc_fees: [misc_fee], first_day_of_trial: 10.days.ago, trial_concluded_at: 8.days.ago, estimated_trial_length: 2, actual_trial_length: 2, retrial_started_at: 5.days.ago, retrial_estimated_length: 1, retrial_actual_length: 1, retrial_concluded_at: 0.days.ago) }
 
               it 'calculated from actual retrial length if no daily attendance fees and retrial length is less than 2' do
                 is_expected.to be_json_eql("1".to_json).at_path "bills/0/daily_attendances"
@@ -470,7 +470,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       context 'fixed fees' do
         let(:case_type) { create(:case_type, :cbr) }
         let(:misc_fee) { build(:misc_fee, :mispf_fee, :with_date_attended) }
-        let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, misc_fees: [misc_fee]) }
+        let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, misc_fees: [misc_fee]) }
 
         subject(:response) { do_request.body }
 
@@ -484,7 +484,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
         context 'when applicable fixed fee claimed' do
           let(:fixed_fee) { build(:fixed_fee, :fxcbr_fee) }
-          let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, fixed_fees: [fixed_fee]) }
+          let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, fixed_fees: [fixed_fee]) }
 
           it { is_expected.to be_valid_ccr_claim_json }
 
@@ -495,7 +495,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
         context 'when no applicable fixed fee claimed' do
           let(:fixed_fee) { build(:fixed_fee, :fxacv_fee, quantity: 13) }
-          let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, fixed_fees: [fixed_fee]) }
+          let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, fixed_fees: [fixed_fee]) }
 
           it 'fee does not impact the bill' do
             is_expected.to have_json_size(1).at_path("bills")
@@ -504,7 +504,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
         context 'when no fixed fee exists' do
-          let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type) }
+          let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type) }
 
           it 'fixed fee matching the case type, with defaults, is added to bills' do
             is_expected.to have_json_size(1).at_path("bills")
@@ -522,7 +522,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
              build(:fixed_fee, :fxcbr_fee, quantity: 2)
            ]
           }
-          let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, fixed_fees: fixed_fees) }
+          let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, fixed_fees: fixed_fees) }
 
           it 'includes property' do
             is_expected.to have_json_path("bills/0/daily_attendances")
@@ -541,7 +541,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
              build(:fixed_fee, :fxnoc_fee, quantity: 3, case_numbers: 'S20170003, S20170001, S20170002')
            ]
           }
-          let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, fixed_fees: fixed_fees) }
+          let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, fixed_fees: fixed_fees) }
 
           context 'number_of_cases' do
             it 'includes property' do
@@ -575,7 +575,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
              build(:fixed_fee, :fxndr_fee, quantity: 1)
            ]
           }
-          let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, fixed_fees: fixed_fees) }
+          let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, fixed_fees: fixed_fees) }
 
           context 'without uplifts' do
             let(:fixed_fees) { [ build(:fixed_fee, :fxcbr_fee, quantity: 1) ] }
@@ -596,7 +596,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         subject(:response) { do_request.body }
 
         let(:misc_fees) { [build(:misc_fee, :miaph_fee)] }
-        let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, misc_fees: misc_fees) }
+        let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, misc_fees: misc_fees) }
 
         context 'when relevant CCCD fees exist' do
           it { is_expected.to be_valid_ccr_claim_json }
@@ -607,7 +607,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
         context 'when no relevant cccd fee exists' do
-          let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type) }
+          let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type) }
 
           it 'not added to bills if it is not a miscellaneous fee' do
             is_expected.to have_json_size(0).at_path("bills")
@@ -617,7 +617,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         context 'when CCCD fee exists but is excluded from injection' do
           context 'Conferences and views cannot be adapted' do
             let(:basic_fees) { [build(:basic_fee, :cav_fee, rate: 1, quantity: 8)] }
-            let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, basic_fees: basic_fees) }
+            let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: basic_fees) }
 
             before do
               # TODO: this should probably be using seeds instead
@@ -634,7 +634,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:rate) { 0 }
           let(:quantity) { 0 }
           let(:basic_fees) { [build(:basic_fee, :pcm_fee, rate: rate, quantity: quantity)] }
-          let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, basic_fees: basic_fees) }
+          let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: basic_fees) }
 
           before do
             # TODO: this should probably be using seeds instead
@@ -708,7 +708,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       context 'expenses' do
         context 'when an expense is claimed' do
           let(:expenses) { [build(:expense, :car_travel)] }
-          let(:claim) { create_claim(:authorised_claim, :without_fees, case_type: case_type, expenses: expenses) }
+          let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, expenses: expenses) }
 
           it { is_expected.to be_valid_ccr_claim_json }
 

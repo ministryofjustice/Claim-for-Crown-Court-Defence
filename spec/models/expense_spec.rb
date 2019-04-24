@@ -46,15 +46,13 @@ RSpec.describe Expense, type: :model do
 
   context 'zeroising nulls on save' do
     it 'zerosise nulls on save' do
-      expense = build :expense, amount: nil, vat_amount: nil
-      expense.save!
+      expense = create :expense, amount: nil, vat_amount: nil
       expect(expense.amount).to eq 0.0
       expect(expense.vat_amount).to eq 0.0
     end
 
     it 'does not zeroise the amount if not null' do
-      expense = build :expense, amount: 100.0, vat_amount: nil
-      expense.save!
+      expense = create :expense, amount: 100.0, vat_amount: nil
       expect(expense.amount).to eq 100.0
       expect(expense.vat_amount).to eq 20.0
     end

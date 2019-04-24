@@ -3,7 +3,7 @@ references:
   build_containers_config: &build_container_config
     working_directory: ~/repo
     docker:
-      - image: circleci/ruby:2.5.5-node-browsers-legacy
+      - image: circleci/ruby:2.5.3-node-browsers-legacy
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_PATH: vendor/bundle

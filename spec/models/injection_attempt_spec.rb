@@ -14,7 +14,7 @@
 require 'rails_helper'
 
 RSpec.describe InjectionAttempt, type: :model do
-  subject(:injection_attempt) { build(:injection_attempt) }
+  subject(:injection_attempt) { create(:injection_attempt) }
 
   context 'validations' do
     subject { injection_attempt }
@@ -25,7 +25,6 @@ RSpec.describe InjectionAttempt, type: :model do
 
     context 'when claim is missing' do
       before { injection_attempt.claim_id = nil }
-
       it { is_expected.to be_invalid }
     end
   end

@@ -3,21 +3,21 @@
   = f.fields_for :user do |user_fields|
     .form-group
       %a{name: 'first_name'}
-      = user_fields.label :first_name, t(".first_name"), class: "form-label"
+      = user_fields.label :first_name, t(".first_name"), class: "form-label-bold"
       = user_fields.text_field :first_name, class: "form-control"
     .form-group
       %a{name: 'last_name'}
-      = user_fields.label :last_name, t(".last_name"), class: "form-label"
+      = user_fields.label :last_name, t(".last_name"), class: "form-label-bold"
       = user_fields.text_field :last_name, class: "form-control"
 
     .form-group
       %a{name: 'email'}
-      = user_fields.label :email, t(".email"), class: "form-label"
+      = user_fields.label :email, t(".email"), class: "form-label-bold"
       = user_fields.email_field :email, class: "form-control"
     - if @external_user.new_record?
       .form-group
         %a{name: 'email_confirmation'}
-        = user_fields.label :email_confirmation, t(".email_confirmation"), class: "form-label"
+        = user_fields.label :email_confirmation, t(".email_confirmation"), class: "form-label-bold"
         = user_fields.email_field :email_confirmation, class: "form-control"
 
     - if Settings.email_notification_enabled?

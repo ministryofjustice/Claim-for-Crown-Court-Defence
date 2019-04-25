@@ -3,6 +3,9 @@
 
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading', provider_name: "#{current_user.provider.name}")}
 
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
 = content_for :search_html_block do
   .form-group
     = link_to t('.new_user'), new_external_users_admin_external_user_path

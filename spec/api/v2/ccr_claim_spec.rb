@@ -251,6 +251,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         before do
           # TODO: Consider using seeds here maybe?
           create(:basic_fee_type, :babaf)
+          create(:basic_fee_type, :basaf)
           create(:basic_fee_type, :bapcm)
           create(:basic_fee_type, :bappe)
           create(:basic_fee_type, :banoc)
@@ -637,7 +638,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: basic_fees) }
 
           before do
-            # TODO: this should probably be using seeds instead
             create(:basic_fee_type, :pcm)
           end
 
@@ -653,6 +653,56 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
           it 'not added to bills if it has no value' do
             is_expected.to have_json_size(0).at_path("bills")
+          end
+        end
+
+        context 'when CCCD fee has a defendant uplift' do
+          context 'advocate final claim standard appearances' do
+            let(:basic_fees) { [ build(:basic_fee, :basaf_fee, rate: 91.0, quantity: 2) ] }
+            let(:misc_fees) { [ build(:misc_fee, :misau_fee, rate: 18.20, quantity: 1) ] }
+            let(:claim) do
+              create_claim(:submitted_claim, :without_fees, case_type: case_type).tap do |claim|
+                claim.basic_fees << basic_fees
+                claim.misc_fees << misc_fees
+              end
+            end
+
+            it 'uplift not added to bill' do
+              is_expected.to have_json_size(1).at_path("bills")
+            end
+
+            it 'uplift\'s parent fee type added to bill' do
+              is_expected.to be_json_eql("AGFS_MISC_FEES".to_json).at_path "bills/0/bill_type"
+              is_expected.to be_json_eql("AGFS_STD_APPRNC".to_json).at_path "bills/0/bill_subtype"
+              is_expected.to be_json_eql("2.0".to_json).at_path "bills/0/quantity"
+            end
+
+            it 'uplift\'s quantity added to number of defendants on the parent' do
+              is_expected.to be_json_eql("2".to_json).at_path "bills/0/number_of_defendants"
+            end
+          end
+
+          context 'advocate supplementary claim standard appearances' do
+            let(:misc_fees) { [ build(:misc_fee, :misaf_fee, rate: 91.0, quantity: 2), build(:misc_fee, :misau_fee, rate: 18.20, quantity: 1) ] }
+            let(:claim) do
+              create_claim(:advocate_supplementary_claim, :submitted, with_misc_fee: false).tap do |claim|
+                claim.misc_fees << misc_fees
+              end
+            end
+
+            it 'uplift not added to bill' do
+              is_expected.to have_json_size(1).at_path("bills")
+            end
+
+            it 'uplift\'s parent fee type added to bill' do
+              is_expected.to be_json_eql("AGFS_MISC_FEES".to_json).at_path "bills/0/bill_type"
+              is_expected.to be_json_eql("AGFS_STD_APPRNC".to_json).at_path "bills/0/bill_subtype"
+              is_expected.to be_json_eql("2.0".to_json).at_path "bills/0/quantity"
+            end
+
+            it 'uplift\'s quantity added to number of defendants on the parent' do
+              is_expected.to be_json_eql("2".to_json).at_path "bills/0/number_of_defendants"
+            end
           end
         end
 

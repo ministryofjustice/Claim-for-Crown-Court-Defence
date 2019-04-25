@@ -1,10 +1,9 @@
 # Advocate Defence Payments
 ### a.k.a Claim for crown court defence
 
-[![Build Status](https://travis-ci.org/ministryofjustice/Claim-for-Crown-Court-Defence.svg?branch=master)](https://travis-ci.org/ministryofjustice/Claim-for-Crown-Court-Defence)
+[![CircleCI](https://circleci.com/gh/ministryofjustice/Claim-for-Crown-Court-Defence/tree/master.svg?style=svg)](https://circleci.com/gh/ministryofjustice/Claim-for-Crown-Court-Defence/tree/master)
 [![Code Climate](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence/badges/gpa.svg)](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence)
 [![Test Coverage](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence/badges/coverage.svg)](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence/coverage)
-[![Dependency Status](https://gemnasium.com/badges/github.com/ministryofjustice/Claim-for-Crown-Court-Defence.svg)](https://gemnasium.com/github.com/ministryofjustice/Claim-for-Crown-Court-Defence)
 
 ## Staging
 [staging-adp.dsd.io](https://staging-adp.dsd.io)

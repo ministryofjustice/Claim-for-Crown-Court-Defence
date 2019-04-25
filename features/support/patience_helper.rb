@@ -11,9 +11,12 @@ module PatienceHelper
     Minitest::Assertion
     Capybara::Poltergeist::ClickFailed
     Capybara::ExpectationNotMet
-    Selenium::WebDriver::Error::StaleElementReferenceError
     Selenium::WebDriver::Error::NoAlertPresentError
+    Selenium::WebDriver::Error::ElementNotInteractableError
     Selenium::WebDriver::Error::ElementNotVisibleError
+    Selenium::WebDriver::Error::ElementNotDisplayedError
+    Selenium::WebDriver::Error::ElementNotEnabledError
+    Selenium::WebDriver::Error::ElementNotSelectableError
     Selenium::WebDriver::Error::NoSuchFrameError
     Selenium::WebDriver::Error::NoAlertPresentError
     Selenium::WebDriver::Error::JavascriptError

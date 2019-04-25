@@ -27,7 +27,10 @@ module Claims
         BADAJ: { from: 51, to: 9999 },
         BASAF: { from: 5, to: 30 },
         BAPCM: { from: 6, to: nil },
-        BACAV: { from: 7, to: 8 }
+        BACAV: { from: 7, to: 8 },
+        MISAF: { from: 5, to: 30 },
+        MISAU: { from: 5, to: 30 }, # needed to take % of parent fee type (MISAF)
+        MIPCM: { from: 6, to: nil }
       }.with_indifferent_access.freeze
 
       AGFS_REFORM_FEE_TYPE_LIMIT_MAPPINGS = {
@@ -35,7 +38,10 @@ module Claims
         BADAT: { from: 2, to: 9999 },
         BASAF: { from: 1, to: 6 },
         BAPCM: { from: 1, to: 6 },
-        BACAV: { from: 7, to: 8 }
+        BACAV: { from: 7, to: 8 },
+        MISAF: { from: 1, to: 6 },
+        MISAU: { from: 1, to: 6 },
+        MIPCM: { from: 1, to: 6 }
       }.with_indifferent_access.freeze
 
       def initialize(fee_type, claim)

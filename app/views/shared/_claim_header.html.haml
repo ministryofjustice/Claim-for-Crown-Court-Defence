@@ -23,15 +23,14 @@
     %h2.heading-large
       %span.heading-secondary
         = t('.defendant_names')
-      %ul
-        %li.case-number-header
-          = claim.defendant_name_and_initial
-        %li
-          = claim.other_defendant_summary
+      = claim.defendant_names
   .column-one-third
     %h2.heading-large
       %span.heading-secondary
-        = t('.provider_type')
+        - if claim.agfs?
+          = t('.provider_type_agfs')
+        - if claim.lgfs?
+          = t('.provider_type_lgfs')
       = claim.provider.name
   .column-one-third.claim-detail-actions
     - if current_user.persona.is_a?(ExternalUser)

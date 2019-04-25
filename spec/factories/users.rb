@@ -30,18 +30,18 @@
 FactoryBot.define do
   factory :user do
     email { Faker::Internet.email }
-    password 'testing123'
-    password_confirmation 'testing123'
+    password { 'testing123' }
+    password_confirmation { 'testing123' }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     api_key { SecureRandom.uuid }
 
     trait :with_settings do
-      settings { {setting1: 'test1', setting2: 'test2'}.to_json }
+      settings { { setting1: 'test1', setting2: 'test2' }.to_json }
     end
 
     trait :softly_deleted do
-      deleted_at 10.minutes.ago
+      deleted_at { 10.minutes.ago }
     end
   end
 end

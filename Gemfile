@@ -11,7 +11,7 @@ gem 'cocoon',                 '~> 1.2.6'
 gem 'devise',                 '~> 4.6.2'
 gem 'dry-monads',             '~> 1.2.0'
 gem 'dropzonejs-rails',       '~> 0.8.2'
-gem 'factory_bot_rails',      '~> 4.8.2'
+gem 'factory_bot_rails',      '~> 5.0.2'
 gem 'faker',                  '~> 1.9.3'
 gem 'googlemaps-services',    '~> 1.5.0'
 gem 'gov_uk_date_fields',     '~> 3.0.0'
@@ -101,6 +101,7 @@ group :development, :devunicorn, :test do
   gem 'guard-cucumber'
   gem 'net-ssh'
   gem 'net-scp'
+  gem 'rubocop-rspec'
 end
 
 group :test do

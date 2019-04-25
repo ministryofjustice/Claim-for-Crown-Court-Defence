@@ -1,3 +1,5 @@
+require: rubocop-rspec
+
 AllCops:
   DisplayCopNames: true
   TargetRubyVersion: 2.5
@@ -17,6 +19,9 @@ AllCops:
 
 Documentation:
   Enabled: false
+
+FactoryBot/AttributeDefinedStatically:
+  Enabled: true
 
 Style/FrozenStringLiteralComment:
   Enabled: false

@@ -14,8 +14,8 @@
 FactoryBot.define do
   factory :certification do
     certification_type
-    certified_by        'Stepriponikas Bonstart'
-    certification_date  Date.today
+    certified_by        { 'Stepriponikas Bonstart' }
+    certification_date  { Date.today }
 
     trait :notified_court do
       certification_type { create(:certification_type, pre_may_2015: true) }

@@ -5,19 +5,19 @@ FactoryBot.define do
     postcode { Faker::Address.postcode }
 
     trait :prison do
-      category 'prison'
+      category { 'prison' }
     end
 
     trait :hospital do
-      category 'hospital'
+      category { 'hospital' }
     end
 
     trait :magistrates_court do
-      category 'magistrates_court'
+      category { 'magistrates_court' }
     end
 
     trait :crown_court do
-      category 'crown_court'
+      category { 'crown_court' }
     end
   end
 end

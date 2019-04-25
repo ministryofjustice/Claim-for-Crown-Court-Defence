@@ -66,7 +66,7 @@ FactoryBot.define do
     end
 
     trait :forced_validation do |claim|
-      claim.force_validation true
+      claim.force_validation { true }
     end
 
     trait :submitted do

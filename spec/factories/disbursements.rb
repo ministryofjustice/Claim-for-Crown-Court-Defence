@@ -17,8 +17,8 @@ FactoryBot.define do
   factory :disbursement do
     disbursement_type
     claim
-    net_amount "9.99"
-    vat_amount "1.99"
+    net_amount { '9.99' }
+    vat_amount { '1.99' }
 
     trait :random_values do
       net_amount { rand(1.0..9.99) }

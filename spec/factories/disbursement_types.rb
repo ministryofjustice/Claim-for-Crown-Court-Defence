@@ -16,8 +16,8 @@ FactoryBot.define do
     sequence(:unique_code) { |n| "XX#{n}" }
 
     trait :forensic do
-      name 'Forensic scientists'
-      unique_code 'FOR'
+      name { 'Forensic scientists' }
+      unique_code { 'FOR' }
     end
   end
 end

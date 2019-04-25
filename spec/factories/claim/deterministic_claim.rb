@@ -29,21 +29,21 @@ FactoryBot.define do
     # ---------------------------------------
 
     transient do
-      rep_order_date Date.new(2016, 1, 10)
+      rep_order_date { Date.new(2016, 1, 10) }
     end
 
     # ---------------------------------------
 
-    uuid SecureRandom.uuid
-    providers_ref 'reference-123'
-    advocate_category 'QC'
-    cms_number 'CMS-12345'
-    additional_information 'This is some important additional information.'
-    evidence_checklist_ids [1,2]
-    apply_vat true
+    uuid { SecureRandom.uuid }
+    providers_ref { 'reference-123' }
+    advocate_category { 'QC' }
+    cms_number { 'CMS-12345' }
+    additional_information { 'This is some important additional information.' }
+    evidence_checklist_ids { [1,2] }
+    apply_vat { true }
 
-    case_number 'T20161234'
-    transfer_case_number 'A20161234'
+    case_number { 'T20161234' }
+    transfer_case_number { 'A20161234' }
 
     court do
       build(:court, code: 'ABC', name: 'Acme Court', court_type: 'crown')

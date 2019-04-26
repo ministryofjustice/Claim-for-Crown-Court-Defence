@@ -54,6 +54,17 @@ end
 After do |scenario|
   name = scenario.location.file.gsub('features/','').gsub(/\.|\//, '-')
   screenshot_image(name) if scenario.failed?
+
+  # Following a local ruby and various dependecy updates cucumber no longer
+  # appears to have been shutting down the chromedriver automatically.
+  # This explicit quit patches the issue for chromedriver, ignoring
+  # Capybara::Rack::Test::Drivers, but hopefully a chromedriver
+  # or selenium webdriver update will make this unecessary in the near
+  # future
+  #
+  Capybara.current_session.driver.tap do |driver|
+    driver.quit if driver.respond_to?(:quit)
+  end
 end
 
 at_exit do

@@ -48,8 +48,8 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
 
     if @record.interim_fee.is_trial_start?
       validate_presence(:first_day_of_trial, 'blank')
-    else
-      validate_absence(:first_day_of_trial, 'present') if @record.errors[:first_day_of_trial].empty?
+    elsif @record.errors[:first_day_of_trial].empty?
+      validate_absence(:first_day_of_trial, 'present')
     end
   end
 

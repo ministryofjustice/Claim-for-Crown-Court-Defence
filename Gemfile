@@ -115,7 +115,6 @@ group :test do
   gem 'json_spec'
   gem 'kaminari-rspec'
   gem 'launchy', '~> 2.4.3'
-  gem 'poltergeist'
   gem 'rails-controller-testing'
   gem 'rspec-mocks'
   gem 'shoulda-matchers', '>= 4.0.0.rc1'

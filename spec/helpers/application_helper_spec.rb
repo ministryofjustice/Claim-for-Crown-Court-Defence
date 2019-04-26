@@ -94,4 +94,38 @@ describe ApplicationHelper do
 
   end
 
+  describe '#cp' do
+    subject(:cp) { helper.cp(path_with_params) }
+
+    let(:path) { 'test' }
+    let(:path_with_params) { path }
+
+    context 'when the current request path matches that passed in' do
+      before { controller.request.path = path }
+
+      it { is_expected.to eql 'current' }
+
+      context 'when then the tab param is set' do
+        before { controller.request.GET[:tab] = 'also_test' }
+
+        context 'and matches' do
+          let(:path_with_params) { 'test?tab=also_test' }
+
+          it { is_expected.to eql 'current' }
+        end
+
+        context 'and does not match' do
+          let(:path_with_params) { 'test?tab=still_not_a_test' }
+
+          it { is_expected.to eql nil }
+        end
+      end
+    end
+
+    context 'when the current request path does not match the one passed in' do
+      before { controller.request.path = 'not_a_test' }
+
+      it { is_expected.to eql nil }
+    end
+  end
 end

@@ -10,17 +10,9 @@ class VatAuditor
   def run
     print_claim_totals
     if @claim.agfs?
-      if @claim.vat_registered?
-        audit_agfs_vat_registered
-      else
-        audit_agfs_vat_free
-      end
+      @claim.vat_registered? ? audit_agfs_vat_registered : audit_agfs_vat_free
     else
-      if @claim.vat_registered?
-        audit_lgfs_vat_registered
-      else
-        audit_lgfs_vat_fee
-      end
+      @claim.vat_registered? ? audit_lgfs_vat_registered : audit_lgfs_vat_fee
     end
     puts @result_string if @verbose
     @result

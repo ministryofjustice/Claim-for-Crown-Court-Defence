@@ -42,12 +42,28 @@ module ApplicationHelper
   # Returns a "current" css class if the path = current_page
   # TODO: this will not work on those routes that are also rooted to for the namespace or which have js that interferes
   def cp(path)
-    tab = extract_uri_param(path, 'tab')
-    if tab.present?
-      'current' if request.path == strip_params(path) && request.GET[:tab] == tab
-    else
-      'current' if request.path == strip_params(path)
-    end
+    'current' if path_matches(path) && tab_check_passes?(path)
+  end
+
+  def path_matches(path)
+    request.path == strip_params(path)
+  end
+
+  def tab_check_passes?(path)
+    tab_can_be_ignored?(path) || tab_matches(path)
+  end
+
+  def tab_can_be_ignored?(path)
+    tab_present(path).blank?
+  end
+
+  def tab_present(path)
+    extract_uri_param(path, 'tab')
+  end
+
+  def tab_matches(path)
+    tab = tab_present(path)
+    request.GET[:tab] == tab
   end
 
   def number_with_precision_or_default(number, options = {})

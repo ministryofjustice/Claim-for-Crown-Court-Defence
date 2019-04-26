@@ -130,7 +130,6 @@ Style/ClassVars:
 # Offense count: 4
 Style/IfInsideElse:
   Exclude:
-    - 'app/helpers/application_helper.rb'
     - 'app/presenters/error_message_translator.rb'
     - 'app/services/vat_auditor.rb'
     - 'app/validators/claim/interim_claim_validator.rb'

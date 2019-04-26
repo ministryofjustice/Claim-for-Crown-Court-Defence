@@ -57,12 +57,10 @@ class ErrorMessageTranslator
     elsif key_refers_to_unnumbered_submodel?(key)
       translation_subset, submodel_key = extract_submodel_attribute(translations, key)
       get_messages(translation_subset, submodel_key, error)
-    else
-      if translation_exists?(translations, key, error)
-        @long_message  = translations[key][error]['long']
-        @short_message = translations[key][error]['short']
-        @api_message   = translations[key][error]['api']
-      end
+    elsif translation_exists?(translations, key, error)
+      @long_message  = translations[key][error]['long']
+      @short_message = translations[key][error]['short']
+      @api_message   = translations[key][error]['api']
     end
   end
 

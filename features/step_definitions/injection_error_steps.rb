@@ -30,7 +30,7 @@ end
 
 And(/^I dismiss the injection error$/) do
   case_worker_claims_show_page.injection_error_summary.dismiss_link.click
-  case_worker_claims_show_page.injection_error_summary.wait_until_header_invisible(10) # uses jQuery slide effect, so takes time
+  case_worker_claims_show_page.injection_error_summary.wait_until_header_invisible(wait: 10) # uses jQuery slide effect, so takes time
 end
 
 Then(/^claim "([^"]*)" does (not )?have an injection error visible$/) do |case_number, negate|

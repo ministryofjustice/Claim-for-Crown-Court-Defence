@@ -1,4 +1,4 @@
-class ClaimSummaryPage < SitePrism::Page
+class ClaimSummaryPage < BasePage
   set_url "/external_users/claims/{claim_id}/summary"
 
   element :continue, ".form-buttons > a.button:nth-of-type(1)"

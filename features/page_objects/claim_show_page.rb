@@ -1,4 +1,4 @@
-class ClaimShowPage < SitePrism::Page
+class ClaimShowPage < BasePage
   section :nav, "div.breadcrumbs > ol" do
     element :your_claims, "li:nth-of-type(1) > a"
     element :archive, "li:nth-of-type(2) > a"

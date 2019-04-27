@@ -1,4 +1,4 @@
-class AllocationPage < SitePrism::Page
+class AllocationPage < BasePage
   include SelectHelper
 
   set_url "/case_workers/admin"

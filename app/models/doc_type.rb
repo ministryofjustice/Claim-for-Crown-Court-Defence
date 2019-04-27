@@ -9,7 +9,7 @@ class DocType
 
   DOCTYPES = [
     DocType.new(1,  500,  'Representation order'),
-    DocType.new(2,  200,  'LAC1 - memo of conviction'),
+    # DocType.new(2,  200,  'LAC1 - memo of conviction'),
     DocType.new(3,  300,  'Committal bundle front sheets'),
     DocType.new(4,  400,  'A copy of the indictment'),
     DocType.new(5,  100,  'Order in respect of judicial apportionment'),
@@ -29,18 +29,6 @@ class DocType
 
   def self.for_fee_reform
     DOCTYPES.select { |doc| FEE_REFORM_DOC_TYPE_IDS.include?(doc.id) }
-  end
-
-  def self.all_first_half
-    DOCTYPES.slice(0, slice_size)
-  end
-
-  def self.all_second_half
-    DOCTYPES.slice(slice_size, slice_size)
-  end
-
-  def self.slice_size
-    (DOCTYPES.size + 1) / 2
   end
 
   # returns a single DocType given its id

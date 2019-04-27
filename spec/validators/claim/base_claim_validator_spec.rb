@@ -467,11 +467,10 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       claim.save!
       dup = Claim::BaseClaim.active.find claim.id
       expect(dup.evidence_checklist_ids).to eq( doc_types )
-
     end
 
     it 'should NOT error if ids are string integers and should exclude blank strings' do
-      claim.evidence_checklist_ids = ['9','2',' ']
+      claim.evidence_checklist_ids = ['6','3',' ']
       should_not_error(claim,:evidence_checklist_ids)
     end
 

@@ -35,18 +35,4 @@ RSpec.describe DocType do
       expect(doctypes).to be_empty
     end
   end
-
-  describe '.all_first_half'do
-    it 'should return the first half of doctypes' do
-      expected = DocType::DOCTYPES[0,6]
-      expect(DocType.all_first_half).to eq expected
-    end
-  end
-
-  describe '.all_second_half'do
-    it 'should return the first half of doctypes' do
-      expected = DocType::DOCTYPES[6, 5]
-      expect(DocType.all_second_half).to eq expected
-    end
-  end
 end

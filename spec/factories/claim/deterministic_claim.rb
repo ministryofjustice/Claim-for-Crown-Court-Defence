@@ -39,7 +39,7 @@ FactoryBot.define do
     advocate_category { 'QC' }
     cms_number { 'CMS-12345' }
     additional_information { 'This is some important additional information.' }
-    evidence_checklist_ids { [1,2] }
+    evidence_checklist_ids { [1,3] }
     apply_vat { true }
 
     case_number { 'T20161234' }

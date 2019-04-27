@@ -28,7 +28,7 @@ gem 'haml-rails',             '~> 2.0.0'
 gem 'hashdiff'
 gem 'hashie-forbidden_attributes', '>= 0.1.1'
 gem 'jquery-rails',           '~> 4.3.3'
-gem 'json-schema',            '~> 2.6.2'
+gem 'json-schema',            '~> 2.8.0'
 gem 'nokogiri',               '~> 1.10'
 gem 'kaminari',               '~> 0.17.0'
 gem 'libreconv',              '~> 0.9.0'
@@ -92,7 +92,7 @@ group :development, :devunicorn, :test do
   gem 'rspec-collection_matchers'
   gem 'puma'
   gem 'parallel_tests'
-  gem 'site_prism', '~> 2.9'
+  gem 'site_prism', '~> 3.0'
   gem 'jasmine', '~> 3.4'
   gem 'guard-jasmine', '~> 3.0'
   gem 'jasmine_selenium_runner', require: false
@@ -105,12 +105,12 @@ group :development, :devunicorn, :test do
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', '~> 3.0'
   gem 'capybara-selenium'
   gem 'webdrivers', '~> 3.0', require: false
   gem 'climate_control'
   gem 'codeclimate-test-reporter', require: false
-  gem 'cucumber-rails', '~> 1.6.0', require: false
+  gem 'cucumber-rails', '~> 1.7.0', require: false
   gem 'database_cleaner'
   gem 'json_spec'
   gem 'kaminari-rspec'

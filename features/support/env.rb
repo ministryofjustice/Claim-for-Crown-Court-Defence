@@ -14,9 +14,14 @@ require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'site_prism'
 require 'sidekiq/testing'
+require_relative '../page_objects/base_page'
 require_relative '../../spec/vcr_helper'
 require_relative '../../spec/support/factory_helpers'
 
+#
+# ActionController::Base.allow_forgery_protection = false
+
+# Activate to view driver detailed output
 # Webdrivers.logger.level = :DEBUG
 # The `webdriver` gem's requests to download drivers is being blocked by Webmock
 # without this.
@@ -30,6 +35,16 @@ allowed_sites = [
   "http://127.0.0.1"
 ]
 WebMock.disable_net_connect!(allow_localhost: true, allow: allowed_sites)
+# WebMock.allow_net_connect!
+
+# set minimum threads to 0 (to allow shutdown?!)
+# and max threads to 5 (duplicate default development
+# settings)
+#
+Capybara.register_server :puma do |app, port, host|
+  require 'rack/handler/puma'
+  Rack::Handler::Puma.run(app, Host: host, Port: port, Threads: "0:5")
+end
 
 Capybara.register_driver :headless_chrome do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
@@ -38,11 +53,12 @@ Capybara.register_driver :headless_chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities)
 end
 
+# use headless chrome for javascript
+Capybara.javascript_driver = :headless_chrome
+
 Capybara.configure do |config|
   config.default_max_wait_time = 10 # seconds
 end
-
-Capybara.javascript_driver = :headless_chrome
 
 if ENV['BROWSER'] == 'chrome'
   Capybara.register_driver :chrome do |app|

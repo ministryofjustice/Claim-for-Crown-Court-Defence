@@ -13,6 +13,7 @@ require 'webdrivers'
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'site_prism'
+require_relative '../page_objects/base_page'
 require 'sidekiq/testing'
 require_relative '../page_objects/base_page'
 require_relative '../../spec/vcr_helper'
@@ -32,7 +33,6 @@ allowed_sites = [
   "https://github.com/mozilla/geckodriver/releases",
   "https://selenium-release.storage.googleapis.com",
   "https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver",
-  "http://127.0.0.1"
 ]
 WebMock.disable_net_connect!(allow_localhost: true, allow: allowed_sites)
 # WebMock.allow_net_connect!
@@ -45,6 +45,10 @@ Capybara.register_server :puma do |app, port, host|
   require 'rack/handler/puma'
   Rack::Handler::Puma.run(app, Host: host, Port: port, Threads: "0:5")
 end
+
+# prevent multi-threading - default for capybara 3.
+# alternative to Rails.application.config.allow_concurreny = false
+Capybara.server = :webrick
 
 Capybara.register_driver :headless_chrome do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(

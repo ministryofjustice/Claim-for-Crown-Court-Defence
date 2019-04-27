@@ -1,4 +1,4 @@
-class FeeSchemeSelectorPage < SitePrism::Page
+class FeeSchemeSelectorPage < BasePage
   set_url "/external_users/claims/types"
 
   element :advocate_final_fee,     "label[for='claim_type_agfs']"

@@ -195,7 +195,7 @@ Given(/^6\+ advocates exist for my provider$/) do
 end
 
 Then(/^I should see retrial fields$/) do
-  @claim_form_page.wait_for_retrial_details
+  # @claim_form_page.wait_until_retrial_details_visible # unneeded as we test below?!
   expect(@claim_form_page).to have_retrial_details
   expect(@claim_form_page.retrial_details).to be_visible
   expect(@claim_form_page.retrial_details).to be_all_there

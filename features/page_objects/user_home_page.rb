@@ -1,4 +1,4 @@
-class UserHomePage < SitePrism::Page
+class UserHomePage < BasePage
   element :start_a_claim, "a.button-start"
   element :your_claims_link, "div.breadcrumbs > ol > li:nth-of-type(1) > a"
 

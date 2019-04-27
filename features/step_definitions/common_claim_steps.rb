@@ -27,7 +27,7 @@ end
 When(/^I enter defendant, (.*?)representation order and MAAT reference$/) do |scheme_text|
     date = scheme_date_for(scheme_text)
     using_wait_time(6) do
-      @claim_form_page.wait_for_defendants
+      @claim_form_page.wait_until_defendants_visible
       @claim_form_page.defendants.first.first_name.set "Bob"
       @claim_form_page.defendants.first.last_name.set "Billiards"
       @claim_form_page.defendants.first.dob.set_date "1955-01-01"
@@ -76,7 +76,7 @@ end
 # NOTE: can't use have_items because, at least, LAC1 check box may not have a label/be-hidden
 Then(/^I should see (\d+)\s*evidence check boxes$/) do |count|
   expect(@claim_form_page.evidence_checklist).to be_visible
-  expect(@claim_form_page.evidence_checklist.labels.count).to eql(count.to_i) if count.present?
+  expect(@claim_form_page.evidence_checklist.labels.count).to eql(count.to_) if count.present?
 end
 
 When(/^I add some additional information$/) do
@@ -89,7 +89,7 @@ When(/^I click Submit to LAA$/) do
 end
 
 Then(/^I should be on the check your claim page$/) do
-  @claim_summary_page.wait_for_continue # Allow summary page to appear
+  # @claim_summary_page.wait_until_continue_visible # Allow summary page to appear
   expect(@claim_summary_page).to be_displayed
 end
 

@@ -16,7 +16,7 @@ require_relative 'sections/advocate_category_section'
 require_relative 'sections/evidence_checklist_section'
 
 
-class ClaimFormPage < SitePrism::Page
+class ClaimFormPage < BasePage
   include DropzoneHelper
   include SelectHelper
 

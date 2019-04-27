@@ -1,4 +1,4 @@
-class CertificationPage < SitePrism::Page
+class CertificationPage < BasePage
   set_url "/external_users/claims/{id}/certification/new"
 
   element :attended_main_hearing, "label.i-attended-the-main-hearing-1st-day-of-trial"

@@ -11,14 +11,14 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I click 'Start a claim'
     And I select the fee scheme 'Litigator transfer fee'
     Then I should be on the litigator new transfer claim page
+    And I should see a page title "Enter fees for litigator transfer fees claim"
 
-    And I choose the litigator type option 'New'
+    Then I choose the litigator type option 'New'
     And I choose the elected case option 'No'
     And I select the transfer stage 'Before trial transfer'
     And I enter the transfer date '2015-05-21'
     And I select a case conclusion of 'Cracked'
 
-    And I should see a page title "Enter fees for litigator transfer fees claim"
     And I click "Continue" in the claim form
 
     When I choose the supplier number '1A222Z'
@@ -77,15 +77,18 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
 
     And I should see a page title "Enter disbursements for litigator transfer fees claim"
-    Then I click "Continue" in the claim form and move to the 'Travel expenses' form page
+    Then I click "Continue" in the claim form
+    And I should see a page title "Enter travel expenses for litigator transfer fees claim"
+    # and move to the 'Travel expenses' form page
 
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
     And I add an expense date for LGFS
 
-    And I should see a page title "Enter travel expenses for litigator transfer fees claim"
-    Then I click "Continue" in the claim form
+    When I click "Continue" in the claim form
+    Then I should be in the 'Supporting evidence' form page
+    And I should see a page title "Upload supporting evidence for litigator transfer fees claim"
 
     And I upload 1 document
     And I check the boxes for the uploaded documents

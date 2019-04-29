@@ -69,14 +69,16 @@ end
 When(/^I check the evidence boxes for\s+'([^']*)'$/) do |labels|
   labels = labels.split(',')
   labels.each do |label|
-    @claim_form_page.evidence_checklist.check(label)
+    patiently do
+      @claim_form_page.evidence_checklist.check(label)
+    end
   end
 end
 
 # NOTE: can't use have_items because, at least, LAC1 check box may not have a label/be-hidden
 Then(/^I should see (\d+)\s*evidence check boxes$/) do |count|
   expect(@claim_form_page.evidence_checklist).to be_visible
-  expect(@claim_form_page.evidence_checklist.labels.count).to eql(count.to_) if count.present?
+  expect(@claim_form_page.evidence_checklist.labels.count).to eql(count.to_i) if count.present?
 end
 
 When(/^I add some additional information$/) do
@@ -85,7 +87,11 @@ end
 
 When(/^I click Submit to LAA$/) do
   allow(Aws::SNS::Client).to receive(:new).and_return Aws::SNS::Client.new(region: 'eu_west_1', stub_responses: true)
-  @claim_form_page.submit_to_laa.click
+  @claim_form_page.wait_until_submit_to_laa_visible
+  patiently do
+    @claim_form_page.submit_to_laa.click
+  end
+  wait_for_ajax
 end
 
 Then(/^I should be on the check your claim page$/) do
@@ -98,11 +104,17 @@ When(/^I save as draft$/) do
 end
 
 When(/^I click "Continue"$/) do
-  @claim_summary_page.continue.click
+  @claim_summary_page.wait_until_continue_visible
+  patiently do
+    @claim_summary_page.continue.click
+  end
 end
 
 When(/^I click "Continue" in the claim form$/) do
-  @claim_form_page.continue_button.click
+  @claim_form_page.wait_until_continue_button_visible
+  patiently do
+    @claim_form_page.continue_button.click
+  end
   wait_for_ajax
 end
 

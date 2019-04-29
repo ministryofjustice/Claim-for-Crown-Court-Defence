@@ -105,15 +105,23 @@ end
 
 When(/^I click Certify and submit claim$/) do
   allow(Aws::SNS::Client).to receive(:new).and_return Aws::SNS::Client.new(region: 'eu_west_1', stub_responses: true)
-  @certification_page.certify_and_submit_claim.click
+  @certification_page.wait_until_certify_and_submit_claim_visible
+  patiently do
+    @certification_page.certify_and_submit_claim.click
+  end
 end
 
 Then(/^I should be on the claim confirmation page$/) do
-  expect(@confirmation_page).to be_displayed
+  patiently do
+    expect(@confirmation_page).to be_displayed
+  end
 end
 
 When(/^I click View your claims$/) do
-  @confirmation_page.view_your_claims.click
+  @confirmation_page.wait_until_view_your_claims_visible
+  patiently do
+    @confirmation_page.view_your_claims.click
+  end
 end
 
 Then(/^My new claim should be displayed$/) do
@@ -121,7 +129,9 @@ Then(/^My new claim should be displayed$/) do
 end
 
 Then(/^I should be on the your claims page$/) do
-  expect(@external_user_home_page).to be_displayed
+  patiently do
+    expect(@external_user_home_page).to be_displayed
+  end
 end
 
 Then(/^Claim '(.*?)' should be listed with a status of '(.*?)'(?: and a claimed amount of '(.*?)')?$/) do |case_number, status, claimed|

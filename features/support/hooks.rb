@@ -52,8 +52,10 @@ AfterConfiguration do
 end
 
 After do |scenario|
-  name = scenario.location.file.gsub('features/','').gsub(/\.|\//, '-')
-  screenshot_image(name) if scenario.failed?
+  # TODO: reactivate when we have all features passing otherwise
+  # can cause other failures
+  # name = scenario.location.file.gsub('features/','').gsub(/\.|\//, '-')
+  # screenshot_image(name) if scenario.failed?
 
   # Following a local ruby and various dependecy updates cucumber no longer
   # appears to have been shutting down the chromedriver automatically.

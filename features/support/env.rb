@@ -19,8 +19,9 @@ require_relative '../page_objects/base_page'
 require_relative '../../spec/vcr_helper'
 require_relative '../../spec/support/factory_helpers'
 
-#
-# ActionController::Base.allow_forgery_protection = false
+# disable forgery protection in feature tests so as not to obscure
+# loss of signed in user
+ActionController::Base.allow_forgery_protection = false
 
 # Activate to view driver detailed output
 # Webdrivers.logger.level = :DEBUG

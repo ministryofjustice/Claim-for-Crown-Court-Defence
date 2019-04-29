@@ -5,15 +5,18 @@ end
 And(/^I choose the litigator type option '(.*)'$/) do |option|
   @litigator_transfer_claim_form_page.transfer_detail.litigator_type_original.click if option.downcase == 'original'
   @litigator_transfer_claim_form_page.transfer_detail.litigator_type_new.click if option.downcase == 'new'
+  wait_for_ajax
 end
 
 And(/^I choose the elected case option '(.*)'$/) do |option|
   @litigator_transfer_claim_form_page.transfer_detail.elected_case_yes.click if option.downcase == 'yes'
   @litigator_transfer_claim_form_page.transfer_detail.elected_case_no.click if option.downcase == 'no'
+  wait_for_ajax
 end
 
 And(/^I select the transfer stage '(.*)'$/) do |name|
   @litigator_transfer_claim_form_page.transfer_stage.choose_autocomplete_option(name)
+  wait_for_ajax
 end
 
 And(/^I enter the transfer date '(.*)'$/) do |date_string|
@@ -21,6 +24,7 @@ And(/^I enter the transfer date '(.*)'$/) do |date_string|
 end
 
 And(/^I select a case conclusion of '(.*)'$/) do |name|
+  @litigator_transfer_claim_form_page.wait_until_case_conclusion_visible
   @litigator_transfer_claim_form_page.case_conclusion.choose_autocomplete_option(name)
 end
 

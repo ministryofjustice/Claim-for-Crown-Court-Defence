@@ -10,7 +10,8 @@ module Remote
                   :written_reasons_outstanding,
                   :messages_count,
                   :unread_messages_count,
-                  :disk_evidence
+                  :disk_evidence,
+                  :prosecution_evidence
 
     has_one :external_user
     has_one :case_type

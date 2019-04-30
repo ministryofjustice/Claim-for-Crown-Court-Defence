@@ -63,3 +63,5 @@ tags
 .env.*
 
 .personal/*
+
+vcr/cassettes/*.log

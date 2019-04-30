@@ -45,27 +45,6 @@ module ApplicationHelper
     'current' if path_matches(path) && tab_check_passes?(path)
   end
 
-  def path_matches(path)
-    request.path == strip_params(path)
-  end
-
-  def tab_check_passes?(path)
-    tab_can_be_ignored?(path) || tab_matches(path)
-  end
-
-  def tab_can_be_ignored?(path)
-    tab_present(path).blank?
-  end
-
-  def tab_present(path)
-    extract_uri_param(path, 'tab')
-  end
-
-  def tab_matches(path)
-    tab = tab_present(path)
-    request.GET[:tab] == tab
-  end
-
   def number_with_precision_or_default(number, options = {})
     default = options.delete(:default) || ''
     if options.key?(:precision)
@@ -162,5 +141,28 @@ module ApplicationHelper
 
   def yes_no_options
     [%w[Yes true], %w[No false]]
+  end
+
+  private
+
+  def path_matches(path)
+    request.path == strip_params(path)
+  end
+
+  def tab_check_passes?(path)
+    tab_can_be_ignored?(path) || tab_matches(path)
+  end
+
+  def tab_can_be_ignored?(path)
+    tab_present(path).blank?
+  end
+
+  def tab_present(path)
+    extract_uri_param(path, 'tab')
+  end
+
+  def tab_matches(path)
+    tab = tab_present(path)
+    request.GET[:tab] == tab
   end
 end

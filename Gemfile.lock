@@ -65,8 +65,6 @@ GEM
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 13.0)
     ansi (1.5.0)
-    archive-zip (0.12.0)
-      io-like (~> 0.3.0)
     arel (9.0.0)
     ast (2.4.0)
     auto_strip_attributes (2.5.0)
@@ -115,9 +113,6 @@ GEM
       timers (~> 4.0.0)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
-    chromedriver-helper (2.1.1)
-      archive-zip (~> 0.10)
-      nokogiri (~> 1.8)
     chronic (0.10.2)
     climate_control (0.2.0)
     cliver (0.3.2)
@@ -352,7 +347,6 @@ GEM
       terminal-table (>= 1.5.1)
     ice_nine (0.11.2)
     inflection (1.0.0)
-    io-like (0.3.0)
     jaro_winkler (1.5.2)
     jasmine (3.4.0)
       jasmine-core (~> 3.4.0)
@@ -685,6 +679,10 @@ GEM
       equalizer (~> 0.0, >= 0.0.9)
     warden (1.2.8)
       rack (>= 2.0.6)
+    webdrivers (3.8.0)
+      nokogiri (~> 1.6)
+      rubyzip (~> 1.0)
+      selenium-webdriver (~> 3.0)
     webmock (3.5.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -718,7 +716,6 @@ DEPENDENCIES
   cancancan (~> 1.15)
   capybara
   capybara-selenium
-  chromedriver-helper
   climate_control
   cocoon (~> 1.2.6)
   codeclimate-test-reporter
@@ -821,6 +818,7 @@ DEPENDENCIES
   unicorn-worker-killer (~> 0.4.4)
   utf8-cleaner (~> 0.2)
   vcr
+  webdrivers (~> 3.0)
   webmock
   zendesk_api (= 1.17.0)
 

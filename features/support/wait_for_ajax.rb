@@ -18,12 +18,15 @@ module WaitForAjax
 
   def ajax_finished_script
     <<~EOS
-    ((typeof window.jQuery === 'undefined')
-     || (typeof window.jQuery.active === 'undefined')
-     || (window.jQuery.active === 0))
-     && ((typeof window.injectedJQueryFromNode === 'undefined')
-         || (typeof window.injectedJQueryFromNode.active === 'undefined')
-         || (window.injectedJQueryFromNode.active === 0))
+    (
+      (typeof window.jQuery === 'undefined')
+      || (typeof window.jQuery.active === 'undefined')
+      || (window.jQuery.active === 0)
+    ) && (
+          (typeof window.injectedJQueryFromNode === 'undefined')
+          || (typeof window.injectedJQueryFromNode.active === 'undefined')
+          || (window.injectedJQueryFromNode.active === 0)
+          )
     EOS
   end
 

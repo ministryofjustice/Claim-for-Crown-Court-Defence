@@ -39,7 +39,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
   it_behaves_like 'a claim endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
   it_behaves_like 'a claim validate endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
   it_behaves_like 'a claim create endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
-
+ 
   # TODO: write a generic date error handling spec and share
   describe "POST #{ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate}" do
     subject(:post_to_validate_endpoint) do

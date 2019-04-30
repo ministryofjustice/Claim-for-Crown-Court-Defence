@@ -18,6 +18,7 @@ module API
                  type: String,
                  desc: I18n.t('api.v1.common_params.travel_expense_additional_information')
         optional :apply_vat, type: Boolean, desc: 'OPTIONAL: Include VAT (JSON Boolean data type: true or false)'
+        optional :prosecution_evidence, type: Boolean, desc: 'OPTIONAL: Pages of prosecution evidence > 0?'
       end
 
       params :common_trial_params do

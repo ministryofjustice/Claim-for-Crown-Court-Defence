@@ -12,6 +12,7 @@ module API
       expose :opened_for_redetermination?, as: :opened_for_redetermination
       expose :written_reasons_outstanding?, as: :written_reasons_outstanding
       expose :disk_evidence
+      expose :prosecution_evidence
 
       expose :messages_count
       expose :unread_messages_count do |_instance, options|

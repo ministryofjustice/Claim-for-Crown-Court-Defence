@@ -258,7 +258,7 @@ module Claim
       lgfs_claim_types.include?(self)
     end
 
-    def self.filter(filter)
+    def self.filter_by(filter)
       case filter.to_s
       when 'redetermination', 'awaiting_written_reasons', 'all'
         send(filter)

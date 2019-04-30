@@ -73,7 +73,7 @@ module API
               ::Claim::BaseClaim
                 .active.__send__(scheme)
                 .submitted_or_redetermination_or_awaiting_written_reasons
-                .filter(filter)
+                .filter_by(filter)
                 .value_band(value_band_id)
             end
 

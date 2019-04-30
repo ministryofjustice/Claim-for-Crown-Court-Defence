@@ -81,7 +81,7 @@ describe JsonDocumentImporter do
         it 'and adds invalid claim hashes to an array' do
           subject.import!
           expect(subject.failed_schema_validation.count).to eq 1
-          expect(subject.failed_schema_validation).to eq([{case_number: "A20161234", error: "The property '#/claim/defendants' of type Hash did not match the following type: array"}])
+          expect(subject.failed_schema_validation).to eq([{case_number: "A20161234", error: "The property '#/claim/defendants' of type object did not match the following type: array"}])
         end
       end
     end

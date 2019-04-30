@@ -21,8 +21,12 @@ Then(/^the message '(.*?)' from the caseworker should be visible$/) do |text|
   expect(@external_user_claim_show_page).to have_content(text)
 end
 
-Then(/^the (last|first|second|third|fourth|fifth) message contains '(.*?)'$/) do |method, text|
-  expect(@external_user_claim_show_page.messages_panel.messages.send(method.to_sym)).to have_text(text)
+Then("message {int} contains {string}") do |position, text|
+  expect(@external_user_claim_show_page.messages_panel.messages[position-1]&.text).to match(text)
+end
+
+Then(/^the (last|first) message contains '(.*?)'$/) do |method, text|
+  expect(@external_user_claim_show_page.messages_panel.messages.send(method.to_sym)&.text).to match(text)
 end
 
 Then(/^the messages should not contain '(.*?)'$/) do |text|

@@ -18,7 +18,7 @@ Feature: Case worker rejects a claim, providing a reason
     And I enter refusal reason text 'Whatever will be will be'
     And I click update
     Then the status at top of page should be Refused
-    Then the third message contains 'Claim refused'
+    Then message 3 contains 'Claim refused'
     Then the last message contains 'Your claim has been refused'
     Then the last message contains 'Duplicate claim'
     Then the last message contains 'Whatever will be will be'
@@ -45,7 +45,7 @@ Feature: Case worker rejects a claim, providing a reason
     And I click update
     Then the status at top of page should be Refused
     Then the messages should not contain 'Total (inc VAT): £0.00'
-    Then the third message contains 'Claim refused'
+    Then message 7 contains 'Claim refused'
     Then the last message contains 'Your claim has been refused'
     Then the last message contains 'Wrong Instructed Advocate'
     Then the last message contains 'Whatever I like'

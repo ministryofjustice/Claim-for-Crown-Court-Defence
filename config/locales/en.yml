@@ -1115,6 +1115,9 @@ en:
         form_error_hint: 'Check below for more detail'
 
       summary:
+        summary_claims_content:
+          missing_information_header: 'Warning: Missing information'
+          missing_information_help_text: 'You must complete the following sections before submitting the claim:'
         button_label: *continue_to_certification_button
         page_heading: Check your claim
         case_details: Case details
@@ -1399,9 +1402,6 @@ en:
         total: 'Total'
         no_fees: 'No fees for this claim'
         no_disbursements: 'No disbursements for this claim'
-      summary_claims_content:
-        missing_information_header: 'Warning: Missing information'
-        missing_information_help_text: 'You must complete the following sections before submitting the claim:'
       show:
         page_title: Case details
     expenses:

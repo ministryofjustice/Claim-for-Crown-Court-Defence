@@ -1,3 +1,4 @@
+// SUMMARY main view
 = content_for :page_title, flush: true do
   = t(".#{@claim.agfs? ? 'agfs' : 'lgfs'}.#{@claim.type.underscore.gsub(/claim\//, '')}.page_title")
 
@@ -13,7 +14,7 @@
   .grid-row.grid-sidebar
     .column-full.first
       .summary-wrapper
-        = render partial: 'external_users/claims/summary_claims_content', locals: { claim: claim }
+        = render partial: 'external_users/claims/summary/summary_claims_content', locals: { claim: claim }
 
   .form-section
     .form-group.form-buttons

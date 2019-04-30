@@ -76,10 +76,6 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     params[:value_band_id] || 0
   end
 
-  def filter_claims
-    @claims = @claims.filter(filter)
-  end
-
   def search_terms
     params[:search]
   end

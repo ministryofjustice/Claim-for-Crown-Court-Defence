@@ -133,12 +133,15 @@ end
 
 When(/^I add a calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')?(?: with dates attended\s*(.*))?$/) do |name, quantity, date|
   quantity = quantity.present? ? quantity : '1'
-  @claim_form_page.add_misc_fee_if_required
+  patiently do
+    @claim_form_page.add_misc_fee_if_required
+  end
   @claim_form_page.miscellaneous_fees.last.select_fee_type name
   @claim_form_page.miscellaneous_fees.last.select_input.send_keys(:tab)
   wait_for_ajax
   @claim_form_page.miscellaneous_fees.last.quantity.set quantity
   @claim_form_page.miscellaneous_fees.last.quantity.send_keys(:tab)
+  wait_for_ajax
   if date.present?
     @claim_form_page.miscellaneous_fees.last.add_dates.click
     @claim_form_page.miscellaneous_fees.last.dates.from.set_date(date)

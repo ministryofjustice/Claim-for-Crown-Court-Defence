@@ -9,13 +9,27 @@ ENV["ENV"] ||= 'test'
 require 'capybara'
 require 'capybara/cucumber'
 require 'selenium/webdriver'
-require 'chromedriver-helper'
+require 'webdrivers'
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'site_prism'
 require 'sidekiq/testing'
 require_relative '../../spec/vcr_helper'
 require_relative '../../spec/support/factory_helpers'
+
+# Webdrivers.logger.level = :DEBUG
+# The `webdriver` gem's requests to download drivers is being blocked by Webmock
+# without this.
+# see https://github.com/titusfortner/webdrivers/wiki/Using-with-VCR-or-WebMock
+# for details
+allowed_sites = [
+  "https://chromedriver.storage.googleapis.com",
+  "https://github.com/mozilla/geckodriver/releases",
+  "https://selenium-release.storage.googleapis.com",
+  "https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver",
+  "http://127.0.0.1"
+]
+WebMock.disable_net_connect!(allow_localhost: true, allow: allowed_sites)
 
 Capybara.register_driver :headless_chrome do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(

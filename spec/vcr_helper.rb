@@ -41,6 +41,18 @@ VCR.configure do |c|
     ].any?
   end
 
+  # The `webdriver` gem's requests to download drivers can be blocked by VCR
+  # without this.
+  # see https://github.com/titusfortner/webdrivers/wiki/Using-with-VCR-or-WebMock
+  # for details
+  #
+  c.ignore_hosts(
+    "chromedriver.storage.googleapis.com",
+    "github.com/mozilla/geckodriver/releases",
+    "selenium-release.storage.googleapis.com",
+    "developer.microsoft.com/en-us/microsoft-edge/tools/webdriver"
+  )
+
   # replace sensitive data in cassettes with placeholder and apply secrets on the fly
   c.filter_sensitive_data('<GOOGLE_API_KEY>') { Rails.application.secrets.google_api_key }
   c.filter_sensitive_data('<CURRENCY_API_KEY>') { Rails.application.secrets.currency_api_key }

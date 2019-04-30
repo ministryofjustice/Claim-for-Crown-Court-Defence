@@ -107,7 +107,7 @@ end
 group :test do
   gem 'capybara'
   gem 'capybara-selenium'
-  gem "chromedriver-helper", require: false
+  gem 'webdrivers', '~> 3.0', require: false
   gem 'climate_control'
   gem 'codeclimate-test-reporter', require: false
   gem 'cucumber-rails', '~> 1.6.0', require: false

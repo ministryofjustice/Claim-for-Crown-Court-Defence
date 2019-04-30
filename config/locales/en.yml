@@ -1614,8 +1614,7 @@ en:
       status: 'Status:'
       assessment_date: 'Claim assessed date:'
       defendant_names: 'Defendant names:'
-      provider_type_agfs: 'Instructed advocate:'
-      provider_type_lgfs: 'Firm:'
+      provider_type: 'Firm or Chambers:'
       actions:  'Actions:'
       confirm_text: Are you sure?
       redraft: 'Redraft this claim'

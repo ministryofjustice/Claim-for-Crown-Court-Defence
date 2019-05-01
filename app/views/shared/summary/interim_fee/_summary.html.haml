@@ -6,7 +6,7 @@
 
   - if claim.interim_fee.nil? || claim.interim_fee.is_disbursement?
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
-      = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :interim_fees }
+      = render partial: 'shared/summary/section_status', locals: { claim: claim, section: section, step: :interim_fees }
     - else
       %p
         = t('shared.summary.no_values.interim_fee')

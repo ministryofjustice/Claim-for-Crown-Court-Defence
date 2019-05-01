@@ -9,7 +9,7 @@
 
   - if claim.defendants.empty?
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
-      = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :defendants }
+      = render partial: 'shared/summary/section_status', locals: { claim: claim, section: section, step: :defendants }
     - else
       %p
         = t('shared.summary.no_values.defendants')

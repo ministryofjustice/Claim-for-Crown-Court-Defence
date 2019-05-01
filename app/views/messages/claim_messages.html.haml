@@ -1,6 +1,13 @@
+// Message print friendly
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
 #show-messages-wrapper
   - present(@claim) do |claim|
-    = render 'shared/claim_header', claim: claim
+    = render 'shared/claim_summary_header', claim: claim
 
     .print-messages-hint.form-hint
       %p This page shows all messages for this claim in an easy to print or save format. If you want to print all messages, you can use the browser print option.

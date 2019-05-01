@@ -148,6 +148,6 @@
                 = claim&.retrial_reduction? ? t('.answer_yes') : t('.answer_no')
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
-      = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :case_details }
+      = render partial: 'shared/summary/section_status', locals: { claim: claim, section: section, step: :case_details }
     - else
       = t("shared.summary.no_values.case_details")

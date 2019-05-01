@@ -17,7 +17,7 @@
             = render partial: 'external_users/claims/offence_details/default_summary', locals: { claim: claim }
     - else
       - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
-        = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :offence_details }
+        = render partial: 'shared/summary/section_status', locals: { claim: claim, section: section, step: :offence_details }
       - else
         %p
           = t("shared.summary.no_values.offence_details")

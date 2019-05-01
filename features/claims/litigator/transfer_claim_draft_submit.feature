@@ -79,7 +79,6 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I should see a page title "Enter disbursements for litigator transfer fees claim"
     Then I click "Continue" in the claim form
     And I should see a page title "Enter travel expenses for litigator transfer fees claim"
-    # and move to the 'Travel expenses' form page
 
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"

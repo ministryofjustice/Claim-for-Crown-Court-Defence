@@ -13,15 +13,14 @@ require 'webdrivers'
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'site_prism'
-require_relative '../page_objects/base_page'
 require 'sidekiq/testing'
 require_relative '../page_objects/base_page'
 require_relative '../../spec/vcr_helper'
 require_relative '../../spec/support/factory_helpers'
 
-# disable forgery protection in feature tests so as not to obscure
+# enable forgery protection in feature tests so as not to obscure
 # loss of signed in user
-ActionController::Base.allow_forgery_protection = false
+ActionController::Base.allow_forgery_protection = true
 
 # Activate to view driver detailed output
 # Webdrivers.logger.level = :DEBUG
@@ -36,7 +35,6 @@ allowed_sites = [
   "https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver",
 ]
 WebMock.disable_net_connect!(allow_localhost: true, allow: allowed_sites)
-# WebMock.allow_net_connect!
 
 # set minimum threads to 0 (to allow shutdown?!)
 # and max threads to 5 (duplicate default development
@@ -46,10 +44,6 @@ Capybara.register_server :puma do |app, port, host|
   require 'rack/handler/puma'
   Rack::Handler::Puma.run(app, Host: host, Port: port, Threads: "0:5")
 end
-
-# prevent multi-threading - default for capybara 3.
-# alternative to Rails.application.config.allow_concurreny = false
-Capybara.server = :webrick
 
 Capybara.register_driver :headless_chrome do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(

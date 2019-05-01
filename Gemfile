@@ -84,7 +84,7 @@ group :development, :devunicorn, :test do
   gem 'byebug'
   gem 'fuubar'
   gem 'guard-livereload',   '>= 2.5.2'
-  gem 'listen',             '~> 2.10.0'
+  gem 'listen',             '~> 3.1.5'
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'rack-livereload',    '~> 0.3.16'

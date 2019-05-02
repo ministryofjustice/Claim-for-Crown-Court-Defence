@@ -105,6 +105,7 @@ group :development, :devunicorn, :test do
 end
 
 group :test do
+  gem 'bullet', '~> 6.0'
   gem 'capybara', '~> 3.0'
   gem 'capybara-selenium'
   gem 'webdrivers', '~> 3.0', require: false

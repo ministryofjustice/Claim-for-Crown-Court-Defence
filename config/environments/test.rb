@@ -89,6 +89,15 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
+  # log N+1 queries, unused eager loading, avoidable count queries
+  # see log/bullet.log
+  #
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    # Bullet.raise = true # raise an error if optimization possible
+  end
+
   # Disable CSS3, jQuery animations and JS popups in test mode for speed, consistency and to avoid timing issues.
   config.middleware.use Rack::NoAnimations
   config.middleware.insert_after(Rack::NoAnimations, Rack::NoPopups)

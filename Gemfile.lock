@@ -95,6 +95,9 @@ GEM
       debug_inspector (>= 0.0.1)
     brakeman (4.5.0)
     builder (3.2.3)
+    bullet (6.0.0)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     byebug (11.0.1)
     callsite (0.0.11)
     cancancan (1.17.0)
@@ -665,6 +668,7 @@ GEM
     unicorn-worker-killer (0.4.4)
       get_process_mem (~> 0)
       unicorn (>= 4, < 6)
+    uniform_notifier (1.12.1)
     utf8-cleaner (0.2.5)
       activesupport
     vcr (4.0.0)
@@ -708,6 +712,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   brakeman
+  bullet (~> 6.0)
   byebug
   cancancan (~> 1.15)
   capybara (~> 3.0)

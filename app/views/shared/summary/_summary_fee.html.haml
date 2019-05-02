@@ -33,14 +33,14 @@
     %th{ scope: 'row', class: 'bold' }
       = t('shared.summary.actual_trial_length')
     %td
-      = t('external_users.claims.graduated_fees.summary.actual_trial_length', count: fee.claim.actual_trial_length)
+      = t('shared.summary.graduated_fees.summary.actual_trial_length', count: fee.claim.actual_trial_length)
 
 - if fee.is_transfer? && fee.claim.actual_trial_length
   %tr
     %th{ scope: 'row', class: 'bold' }
-      = t('external_users.claims.transfer_fee.summary.actual_trial_length')
+      = t('shared.summary.transfer_detail.summary.actual_trial_length')
     %td
-      = t('external_users.claims.transfer_fee.summary.actual_trial_length_value', count: fee.claim.actual_trial_length)
+      = t('shared.summary.transfer_detail.summary.actual_trial_length_value', count: fee.claim.actual_trial_length)
 
 - if fee.calculated? || fee.is_graduated? || fee.is_transfer?
   %tr

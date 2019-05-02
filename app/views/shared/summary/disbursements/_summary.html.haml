@@ -1,7 +1,7 @@
 - step = local_assigns[:step] ? local_assigns[:step] : :disbursements
 .form-section
   %h3.heading-medium
-    = t('external_users.claims.disbursements.summary.header')
+    = t('.header')
     - if local_assigns[:editable]
       = link_to t('.change'), edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 

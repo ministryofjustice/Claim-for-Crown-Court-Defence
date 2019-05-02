@@ -1,6 +1,6 @@
 #expenses-section.form-section
   %h3.heading-medium
-    = t('external_users.claims.expenses.summary.header')
+    = t('.header')
     - if local_assigns[:editable]
       = link_to t('.change'), edit_polymorphic_path(claim, step: :travel_expenses, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
   - if @claim.travel_expense_additional_information.present?

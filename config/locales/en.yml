@@ -692,11 +692,6 @@ en:
         fields:
           additional_information: 'Additional information'
           additional_information_prompt_text: Provide any information that will help in the assessment of your claim
-        summary:
-          header: Additional information
-          not_available: No additional information has been provided
-          change: Change
-          change_link_label: Change additional information
       archived:
         page_heading: Your claim archive
         archived_claim: Your claim archive
@@ -885,14 +880,6 @@ en:
           transfer_date_new: Date started acting
           transfer_date_original: Date stopped acting
           case_conclusion: Case conclusion
-        summary:
-          caption: 'Case Details: This section contains information about the case.'
-          header: Case details
-          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-          change: Change
-          change_link_label: Change case details
-          answer_yes: 'Yes'
-          answer_no: 'No'
       offence_details:
         actions:
           clear_selection: Clear selection
@@ -913,14 +900,6 @@ en:
           select_offence_class: "Please select"
         scheme_xor:
           one_not_both: 'Specify an OffenceClass or an OffenceBand, not both'
-        summary:
-          caption: 'Offence Details: This section contains information about the offence details.'
-          header: Offence details
-          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-          answer_yes: 'Yes'
-          answer_no: 'No'
-          change: Change
-          change_link_label: Change offence details
         selected_offence_header: 'You have chosen the following offence details:'
       defendants:
         defendant_fields:
@@ -945,17 +924,6 @@ en:
           maat_reference_number: MAAT reference
           maat_reference_number_eg: 'this should be 7 digits long, starting with at least a 4'
           remove: Remove
-        summary:
-          caption: 'Defendants: This section contains details about each defendant.'
-          header: Defendant details
-          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-          change: Change
-          change_link_label: Change defendant details
-          answer_yes: 'Yes'
-          answer_no: 'No'
-          common:
-            defendant_index: Defendant %{index}
-            defendant_reporder: Defendant %{index} representation order %{index}
       main_claims_list:
         amount_assessed_sort_label: 'Sort by: Amount assessed'
         last_submitted_at_sort_label: 'Sort by: Last submitted at date'
@@ -1003,18 +971,7 @@ en:
         date_from_full: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
         remove: 'Remove date attended'
-      summary_fees:
-        caption: 'Fees: This section contains details of all fees that have been claimed.'
-        summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-        change: Change
-        change_link_label: Change fees
       disbursements:
-        summary:
-          caption: 'Disbursements: This section contains details of all disbursements that have been claimed.'
-          header: Disbursements
-          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-          change: Change
-          change_link_label: Change disbursements details
         fields:
           disbursements: "Disbursements"
           add_disbursement: "Add another disbursement"
@@ -1074,13 +1031,6 @@ en:
           quantity_hours: 'Hours'
           rate: 'Rate'
           travel_expenses: Travel expenses
-        summary:
-          caption: 'Expenses: This section contains details of all expenses that have been claimed.'
-          header: Travel expenses
-          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-          additional_information: Additional information
-          change: Change
-          change_link_label: Change expenses
       transfer_fee:
         fields:
           page_header: Transfer details
@@ -1096,28 +1046,14 @@ en:
           transfer_stage_default_label_text: When did you stop/start acting?
           transfer_date_default_label_text: Date stopped/started acting
           case_conclusions: How did the case conclude?
-        summary:
-          header: Transfer fees
-          litigator_type: Litigator type
-          elected_case: Was the case elected?
-          transfer_stage_new: When did you start acting?
-          transfer_stage_original: When did you stop acting?
-          transfer_date_new: Date you started acting
-          transfer_date_original: Date you stopped acting
-          case_conclusion: How did the case conclude?
-          actual_trial_length: Total days claimed
-          actual_trial_length_value:
-            one: 1 day
-            other: "%{count} days"
       error_summary:
         prohibited_save: This claim has
         error: 'error'
         form_error_hint: 'Check below for more detail'
 
       summary:
-        summary_claims_content:
-          missing_information_header: 'Warning: Missing information'
-          missing_information_help_text: 'You must complete the following sections before submitting the claim:'
+        missing_information_header: 'Warning: Missing information'
+        missing_information_help_text: 'You must complete the following sections before submitting the claim:'
         button_label: *continue_to_certification_button
         page_heading: Check your claim
         case_details: Case details
@@ -1259,11 +1195,6 @@ en:
           amount: *net_amount
           help_how_we_calculate_amount_title: *how_is_this_calculated_help
           help_how_we_calculate_amount_body: We calculate the amount based upon the fee scheme, case type, offence class, trial length, the total pages of evidence, and number of defendants
-        summary:
-          header: Graduated fees
-          actual_trial_length:
-            one: 1 day
-            other: "%{count} days"
       index:
         claims: Claims
         completed: Completed
@@ -1279,9 +1210,6 @@ en:
           warrant_fee_paid: 'Have you previously been paid for an interim warrant fee?'
           date_issued: Warrant issued date
           date_executed: Warrant executed date
-        summary:
-          caption: 'Warrant fees: This section contains info related to interim claimed warrant fees.'
-          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       json_document_importer:
         import_claim: Or upload your claims in JSON format
       outstanding:
@@ -1308,19 +1236,6 @@ en:
           file_upload_message: Drag and drop files here
           legend: Upload supporting evidence
           or: or
-      supporting_evidence:
-        summary:
-          header: Supporting evidence
-          caption: 'Supporting evidence: This section contains information about supporting evidence.'
-          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-          answer_yes: 'Yes'
-          answer_no: 'No'
-          change: Change
-          change_link_label: Change supporting evidence
-          disk_evidence: Will you be sending disk evidence for this claim?
-          disk_evidence_reference: Reference number
-          supporting_evidence: Supporting evidence
-          supporting_evidence_checklist: Supporting evidence checklist
       supporting_evidence_checklist:
         summary:
           caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'
@@ -1329,12 +1244,6 @@ en:
           supporting_evidence_checklist: Supporting evidence checklist
           supporting_evidence_checklist_hint: Select all that apply
       warrant_fee:
-        summary:
-          caption: 'Warrant Fees: This section contains details of any warrant fees that have been claimed.'
-          header: Warrant fees
-          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-          change: Change
-          change_link_label: Change warrant fees
         fields:
           warrant_fee: "Warrant fee"
           date_issued: "Warrant issued"
@@ -1373,19 +1282,6 @@ en:
           All fees should be entered exclusive of
           <abbr title="Value Added Tax">VAT</abbr>.
         heading: Interim fees
-        summary:
-          caption: 'Interim Fees: This section contains details of any interim fees that have been claimed.'
-          header: Interim fees
-          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-          change: Change
-          change_link_label: Change interim fees
-      transfer_detail:
-        summary:
-          caption: 'Transfer Detail: This section contains transfer details.'
-          header: Transfer details
-          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-          change: Change
-          change_link_label: Change transfer details
       fees_shared_header:
         fees: Fees
         fees_header_prompt_text_html: *fees_vat_prompt
@@ -1612,7 +1508,7 @@ en:
         warrant_fees_form_step:
           page_title: Enter warrant fees for litigator final fees claim
   shared:
-    claim_header:
+    claim_summary_header:
       case_number: 'Case number:'
       status: 'Status:'
       assessment_date: 'Claim assessed date:'
@@ -1742,12 +1638,71 @@ en:
       date_added: Date added
       actions: Actions
     summary:
+      graduated_fees:
+        summary:
+          header: Graduated fees
+          actual_trial_length:
+            one: 1 day
+            other: "%{count} days"
+      transfer_fee:
+        summary:
+          header: Transfer fees
+      transfer_detail:
+        summary:
+          caption: 'Transfer Detail: This section contains transfer details.'
+          header: Transfer details
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          change: Change
+          change_link_label: Change transfer details
+          litigator_type: Litigator type
+          elected_case: Was the case elected?
+          transfer_stage_new: When did you start acting?
+          transfer_stage_original: When did you stop acting?
+          transfer_date_new: Date you started acting
+          transfer_date_original: Date you stopped acting
+          case_conclusion: How did the case conclude?
+          actual_trial_length: Total days claimed
+          actual_trial_length_value:
+            one: 1 day
+            other: "%{count} days"
+      interim_claim_info:
+        summary:
+          caption: 'Warrant fees: This section contains info related to interim claimed warrant fees.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+      case_details:
+        summary:
+          caption: 'Case Details: This section contains information about the case.'
+          header: Case details
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          change: Change
+          change_link_label: Change case details
+          answer_yes: 'Yes'
+          answer_no: 'No'
+      defendants:
+        summary:
+          caption: 'Defendants: This section contains details about each defendant.'
+          header: Defendant details
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          change: Change
+          change_link_label: Change defendant details
+          answer_yes: 'Yes'
+          answer_no: 'No'
+          common:
+            defendant_index: Defendant %{index}
+            defendant_reporder: Defendant %{index} representation order %{index}
       dates_attended:
         dates_attended: Dates attended
         retrial_started_at: Retrial started at
         first_day_of_trial: First day of trial
       actual_trial_length: *actual_trial_length
       mileage_rate: Cost per mile
+      interim_fee:
+        summary:
+          caption: 'Interim Fees: This section contains details of any interim fees that have been claimed.'
+          header: Interim fees
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          change: Change
+          change_link_label: Change interim fees
       expense: Expense %{index}
       expenses:
         caption: &expenses_caption 'Expenses: A detailed list by Type including amount, distance and location where applicable'
@@ -1783,6 +1738,13 @@ en:
           message:
             one: The distance claimed by the provider is greater than the calculated distance for one expense. Please see the table below for details.
             other: The distance claimed by the provider is greater than the calculated distance for %{count} expenses. Please see the table below for details.
+        summary:
+          caption: 'Expenses: This section contains details of all expenses that have been claimed.'
+          header: Travel expenses
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          additional_information: Additional information
+          change: Change
+          change_link_label: Change expenses
       fee: Fee
       fee_index: Fee %{index}
       fees:
@@ -1808,17 +1770,34 @@ en:
       expenses_total: 'Expenses total:'
       claim_total: 'Claim total:'
       reason: Reason for travel
-      additional_information: Additional information
+      additional_information:
+        summary:
+          header: Additional information
+          not_available: No additional information has been provided
+          change: Change
+          change_link_label: Change additional information
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
         type: Type of disbursement
         net_amount: *net_amount
         vat_amount: *vat_amount
         total: "Total"
+        summary:
+          caption: 'Disbursements: This section contains details of all disbursements that have been claimed.'
+          header: Disbursements
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          change: Change
+          change_link_label: Change disbursements details
       warrant_fee:
         date_issued: "Warrant issued"
         date_executed: "Warrant executed"
         total: "Total"
+        summary:
+          caption: 'Warrant Fees: This section contains details of any warrant fees that have been claimed.'
+          header: Warrant fees
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          change: Change
+          change_link_label: Change warrant fees
       total: "Total"
       ppe: *ppe_quantity
       ppe_total: "PPE total at the time"
@@ -1829,6 +1808,33 @@ en:
       estimated_retrial_length: "Re-trial estimated length"
       legal_aid_transfer_date: "Legal aid transfer"
       trial_concluded_at: "First trial concluded"
+      offence_details:
+        summary:
+          caption: 'Offence Details: This section contains information about the offence details.'
+          header: Offence details
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          answer_yes: 'Yes'
+          answer_no: 'No'
+          change: Change
+          change_link_label: Change offence details
+      summary_fees:
+        caption: 'Fees: This section contains details of all fees that have been claimed.'
+        summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+        change: Change
+        change_link_label: Change fees
+      supporting_evidence:
+        summary:
+          header: Supporting evidence
+          caption: 'Supporting evidence: This section contains information about supporting evidence.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+          answer_yes: 'Yes'
+          answer_no: 'No'
+          change: Change
+          change_link_label: Change supporting evidence
+          disk_evidence: Will you be sending disk evidence for this claim?
+          disk_evidence_reference: Reference number
+          supporting_evidence: Supporting evidence
+          supporting_evidence_checklist: Supporting evidence checklist
       no_values:
         basic_fees: "There are no graduated fees for this claim"
         case_details: "There are no case details for this claim"
@@ -2360,7 +2366,9 @@ en:
   faker:
     address:
       postcode: /[A-PR-UWYZ]([A-HK-Y][0-9][ABEHMNPRVWXY0-9]?|[0-9][ABCDEFGHJKPSTUW0-9]?) [0-9][ABD-HJLNP-UW-Z]{2}/
-
+  messages:
+    claim_messages:
+      page_title: Print your messages
 # en.feedback
   feedback:
     bug_report:

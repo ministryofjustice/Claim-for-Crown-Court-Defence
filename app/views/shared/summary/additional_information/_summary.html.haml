@@ -1,6 +1,6 @@
 .form-section
   %h3.heading-medium
-    = t('external_users.claims.additional_information.summary.header')
+    = t('.header')
     - if local_assigns[:editable]
       = link_to t('.change'), edit_polymorphic_path(claim, step: :supporting_evidence, anchor: 'additional_info', referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
@@ -11,4 +11,4 @@
       = render partial: 'shared/summary/section_status', locals: { claim: claim, section: section, step: :supporting_evidence }
     - else
       %p
-        = t('external_users.claims.additional_information.summary.not_available')
+        = t('.not_available')

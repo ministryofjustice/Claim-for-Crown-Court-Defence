@@ -1,6 +1,6 @@
 .form-section
   %h3.heading-medium
-    = t('external_users.claims.interim_fee.summary.header')
+    = t('.header')
     - if local_assigns[:editable]
       = link_to t('.change'), edit_polymorphic_path(claim, step: :interim_fees, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 

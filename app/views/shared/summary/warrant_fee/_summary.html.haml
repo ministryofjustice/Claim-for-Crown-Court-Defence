@@ -5,7 +5,7 @@
       = link_to t('.change'), edit_polymorphic_path(claim, step: :interim_fees, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
   - if claim.agfs?
-    = render partial: 'external_users/claims/advocate_category_summary', locals: { claim: claim }
+    = render partial: 'shared/summary/advocate_category_summary', locals: { claim: claim }
 
   - if claim.warrant_fee.nil?
     %p

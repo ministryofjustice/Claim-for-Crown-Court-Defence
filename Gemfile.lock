@@ -252,7 +252,7 @@ GEM
       rails (>= 4.1.0)
     govuk_template (0.23.1)
       rails (>= 3.1)
-    grape (1.1.0)
+    grape (1.2.3)
       activesupport
       builder
       mustermann-grape (~> 1.0.0)
@@ -733,7 +733,7 @@ DEPENDENCIES
   govuk_frontend_toolkit (~> 7.4.1)
   govuk_notify_rails (~> 2.1.0)
   govuk_template (= 0.23.1)
-  grape (~> 1.1.0)
+  grape (~> 1.2.3)
   grape-entity (~> 0.7.1)
   grape-papertrail (~> 0.2.0)
   grape-swagger (~> 0.32.1)

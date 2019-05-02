@@ -141,25 +141,36 @@ describe JsonDocumentImporter do
 
       context 'and collates errors' do
         # API calls are stubbed to return errors so the only thing that matters here is that the subject is instantiated with a document describing two claims
-        let(:subject) { JsonDocumentImporter.new(json_file: exported_claims, schema_validator: schema_validator, api_key: 'test_key') }
+        subject(:importer) { JsonDocumentImporter.new(json_file: exported_claims, schema_validator: schema_validator, api_key: 'test_key') }
 
-        it 'handles malformed error response gracefully' do
-          allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_return(failed_claim_response)
-          expect(subject).to receive(:create_claim_and_associations).exactly(2).and_raise(ArgumentError, 'Malformed JSON')
-          subject.import!
-          expect(subject.errors.to_hash).to eq({A20161234: [%q{784: unexpected token at 'Malformed JSON'}], A987654321: [%q{784: unexpected token at 'Malformed JSON'}]})
+        context 'handles malformed error response gracefully' do
+          before do
+            allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_return(failed_claim_response)
+            expect(importer).to receive(:create_claim_and_associations).exactly(2).and_raise(ArgumentError, 'Malformed JSON')
+            importer.import!
+          end
+
+          it 'returns case numbers as errors keys' do
+            expect(importer.errors.keys).to match_array([:A20161234, :A987654321])
+          end
+
+          it 'returns raised errors as messages' do
+            importer.errors.each do |_case_number, message|
+              expect(message).to match(/\'Malformed JSON\'/)
+            end
+          end
         end
 
         it 'one Claim model error from each of two claims' do
           allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_return(failed_claim_response)
-          subject.import!
-          expect(subject.errors.to_hash).to eq({A20161234: ['Advocate email is invalid'], A987654321: ['Advocate email is invalid']})
+          importer.import!
+          expect(importer.errors.to_hash).to eq({A20161234: ['Advocate email is invalid'], A987654321: ['Advocate email is invalid']})
         end
 
         it 'multiple Claim model errors from each of two claims' do
           allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_return(failed_claim_response_2)
-          subject.import!
-          expect(subject.errors.to_hash).to eq({
+          importer.import!
+          expect(importer.errors.to_hash).to eq({
             A20161234: [
               'Case type cannot be blank, you must select a case type',
               'Court cannot be blank, you must select a court',
@@ -182,12 +193,10 @@ describe JsonDocumentImporter do
           allow(JsonDocumentImporter::DEFENDANT_CREATION).to receive(:post).and_return(failed_defendant_response)
           expect(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).exactly(2).times # claim creation end point is hit and returns an error
           expect(JsonDocumentImporter::DEFENDANT_CREATION).not_to receive(:post) # defendant creation is, therefore, not hit
-          subject.import!
-          expect(subject.errors.to_hash).to eq({A20161234: ['Advocate email is invalid'], A987654321: ['Advocate email is invalid']}) # claim model errors are received and stored but no error is returned from defendant model
+          importer.import!
+          expect(importer.errors.to_hash).to eq({A20161234: ['Advocate email is invalid'], A987654321: ['Advocate email is invalid']}) # claim model errors are received and stored but no error is returned from defendant model
         end
       end
     end
-
   end
-
 end

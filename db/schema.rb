@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.integer "value_band_id"
     t.boolean "retrial_reduction", default: false
     t.string "travel_expense_additional_information"
-    t.boolean "prosecution_evidence", default: false
+    t.boolean "prosecution_evidence"
     t.index ["case_number"], name: "index_claims_on_case_number"
     t.index ["cms_number"], name: "index_claims_on_cms_number"
     t.index ["court_id"], name: "index_claims_on_court_id"

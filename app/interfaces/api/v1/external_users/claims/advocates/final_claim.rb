@@ -5,12 +5,13 @@ module API::V1::ExternalUsers
         helpers API::V1::ClaimParamsHelper
 
         params do
-          LOCAL_I18N_SCOPE = %i[api v1 external_users claims advocate_claim params].freeze
-
-          def local_t(attribute, scope = LOCAL_I18N_SCOPE)
-            I18n.t(attribute.to_s, scope: scope)
+          def i18n_scope
+            %i[api v1 external_users claims advocate_claim params]
           end
 
+          def local_t(attribute)
+            I18n.t(attribute.to_s, scope: i18n_scope)
+          end
           use :common_params
           use :legacy_agfs_params
           optional :advocate_category,

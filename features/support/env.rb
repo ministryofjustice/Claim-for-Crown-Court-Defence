@@ -42,7 +42,7 @@ WebMock.disable_net_connect!(allow_localhost: true, allow: allowed_sites)
 #
 Capybara.register_server :puma do |app, port, host|
   require 'rack/handler/puma'
-  Rack::Handler::Puma.run(app, Host: host, Port: port, Threads: "0:5")
+  Rack::Handler::Puma.run(app, Host: host, Port: port, Threads: "1:5")
 end
 
 Capybara.register_driver :headless_chrome do |app|

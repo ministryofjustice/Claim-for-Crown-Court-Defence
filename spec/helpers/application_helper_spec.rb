@@ -41,7 +41,7 @@ describe ApplicationHelper do
     end
 
     it 'should return empty string if given BigDecimal zero' do
-      expect(number_with_precision_or_default(BigDecimal.new(0,5))).to eq ''
+      expect(number_with_precision_or_default(BigDecimal(0, 5))).to eq ''
     end
 
     it 'should return empty string if given Float zero' do

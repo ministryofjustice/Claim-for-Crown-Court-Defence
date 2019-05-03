@@ -75,11 +75,6 @@ When(/^I check the evidence boxes for\s+'([^']*)'$/) do |labels|
   end
 end
 
-# When(/^I answer (.*?) to was prosecution evidence served on this case?$/) do |string|
-#   binding.pry
-#   @claim_form_page.find()
-# end
-
 When("I answer {string} to was prosecution evidence served on this case?") do |string|
   @claim_form_page.prosecution_evidence.choose(string)
 end

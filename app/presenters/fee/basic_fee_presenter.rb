@@ -5,6 +5,11 @@ class Fee::BasicFeePresenter < Fee::BaseFeePresenter
     OFFENCE_CATEGORIES_WITHOUT_RESTRICTED_DISPLAY.include?(offence_category_number)
   end
 
+  def display_extra_fees?
+    return false if claim.discontinuance?
+    should_be_displayed?
+  end
+
   def display_amount?
     # TODO: this is not really ideal, but right now I
     # can't see any other way to achieve this specific

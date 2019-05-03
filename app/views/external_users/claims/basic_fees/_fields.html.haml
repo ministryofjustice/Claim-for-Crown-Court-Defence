@@ -28,6 +28,6 @@
 
       = f.fields_for :basic_fees, basic_fees.extra_fees.sort_by(&:position) do |extra_fee_fields|
         - @basic_fee_count += 1
-        - if present(extra_fee_fields.object).should_be_displayed? && !@claim.discontinuance?
+        - if present(extra_fee_fields.object).display_extra_fees?
           .form-section
             = render 'external_users/claims/basic_fees/extra_fee_fields', f: extra_fee_fields

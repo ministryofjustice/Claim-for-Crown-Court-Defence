@@ -38,18 +38,6 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
     end
   end
 
-  describe '#any_prosecution_evidence' do
-    context 'when display_prosecution_evidence is true' do
-      let(:claim) { claim_discontinuance_10 }
-      specify{ expect(presenter.any_prosecution_evidence).to eql 'Yes' }
-    end
-  
-    context 'when display_prosecution_evidence is false' do
-      let(:claim) { claim_10 }
-      specify{ expect(presenter.any_prosecution_evidence).to eql 'No' }
-    end
-  end
-
   specify {
     expect(presenter.summary_sections).to eq({
       case_details: :case_details,

@@ -54,8 +54,4 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
   def requires_interim_claim_info?
     claim.agfs_reform?
   end
-
-  def any_prosecution_evidence
-    claim.prosecution_evidence ? 'Yes' : 'No'
-  end
 end

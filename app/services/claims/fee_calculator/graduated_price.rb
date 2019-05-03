@@ -23,7 +23,7 @@ module Claims
       end
 
       def prosecution_evidence
-        prosecution_evidence? ? 1 : 0
+        prosecution_evidence?.to_i
       end
 
       # TODO: warrant fees to be excluded until

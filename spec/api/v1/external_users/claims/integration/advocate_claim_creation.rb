@@ -155,7 +155,6 @@ RSpec.shared_examples 'scheme 10 advocate final claim' do |options|
 
     specify 'Case management system creates a valid scheme 10 graduated fee claim' do
       post ClaimApiEndpoints.for(options[:relative_endpoint]).create, claim_params.merge(offence_id: offence.id), format: :json
-      ap last_response.body
       expect(last_response.status).to eql 201
 
       claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)

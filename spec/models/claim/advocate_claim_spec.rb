@@ -1565,7 +1565,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
       context 'when claim is scheme 9' do
         context 'when claim is a discontinuance' do
-          it 'returns false' do 
+          it 'returns true' do 
             expect(claim_discontinuance_9.discontinuance?).to be true
           end
         end 

@@ -230,7 +230,7 @@ module Claim
     end
 
     def discontinuance?
-      case_type.name == 'Discontinuance'
+      case_type.fee_type_code.eql?('GRDIS')
     end
 
     private

@@ -81,6 +81,17 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
     end
   end
 
+  describe '#display_extra_fees?' do
+    # method calls #should_be_displayed? after discontinuance 
+    # guard clause test logic other than this is covered.
+    context 'should return false if claim is discontinuance' do
+      let(:discontinuance) { create(:case_type, :discontinuance) }
+      let(:claim_9) { create(:advocate_claim, :agfs_scheme_9, case_type: discontinuance) }
+      let(:fee) { build(:basic_fee, :baf_fee, claim: claim_9) }
+      specify { expect(presenter.display_extra_fees?).to be_falsey }
+    end
+  end
+
   describe '#display_help_text?' do
     context 'when claim is NOT under the reformed fee scheme' do
       let(:claim) { create(:advocate_claim, :agfs_scheme_9) }

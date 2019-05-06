@@ -1507,6 +1507,8 @@ en:
 
         warrant_fees_form_step:
           page_title: Enter warrant fees for litigator final fees claim
+
+# en.shared
   shared:
     claim_summary_header:
       case_number: 'Case number:'
@@ -1520,7 +1522,8 @@ en:
       redraft: 'Redraft this claim'
       archive: Archive
       unarchive: Unarchive
-
+    claim_summary_message:
+      header: Messages and claim status
     claim_defendant_details:
       caption: 'Defendant: Additional information'
     evidence_checklist:

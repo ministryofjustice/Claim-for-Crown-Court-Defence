@@ -47,24 +47,25 @@
 
 
 // Project specific
-@import 'denote';
-@import 'sidebar';
-@import 'buttons';
+@import 'accessible-autocomplete';
 @import 'autocomplete';
-@import 'project-helpers';
-@import 'mod-fees';
-@import 'mod-provider-details';
+@import 'breadcrumbs';
+@import 'buttons';
+@import 'callout';
+@import 'claims_importer';
+@import 'datatables';
+@import 'denote';
 @import 'forms';
 @import 'links';
-@import 'panels';
-@import 'breadcrumbs';
-@import 'callout';
-@import 'accessible-autocomplete';
-@import 'datatables';
-@import 'tables';
-@import 'claims_importer';
-@import 'navigation';
+@import 'mod-fees';
 @import 'mod-offence-list';
+@import 'mod-provider-details';
+@import 'navigation';
+@import 'panels';
+@import 'project-helpers';
+@import 'sidebar';
+@import 'tables';
+@import 'messages';
 
 
 .panel-margin-fix{
@@ -126,4 +127,12 @@ tbody th {
 
 .btn-spacer-20 {
   margin-right: 20px;
+}
+
+.grid-row {
+  &:not(.grid-row-fix) {
+    @include container;
+    margin-top:$gutter-half;
+    margin-bottom:$gutter-half;
+  }
 }

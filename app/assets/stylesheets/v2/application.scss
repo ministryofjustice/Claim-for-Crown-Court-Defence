@@ -64,6 +64,7 @@
 @import 'tables';
 @import 'claims_importer';
 @import 'navigation';
+@import 'mod-offence-list';
 
 
 .panel-margin-fix{
@@ -122,3 +123,7 @@ tbody th {
   font-weight: 400;
 }
 
+
+.btn-spacer-20 {
+  margin-right: 20px;
+}

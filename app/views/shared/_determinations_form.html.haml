@@ -9,8 +9,9 @@
       - if current_user_is_caseworker?
         .js-cw-claim-action
           %fieldset.form-group.inline.spacer{class: error_class?(@error_presenter, :determinations), "aria-describedby": "radio-control-legend"}
-            %legend#radio-control-legend.bold-normal.form-label
-              = t('.update_the_claim_status')
+            %legend#radio-control-legend
+              %span.form-label-bold
+                = t('.update_the_claim_status')
             = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last ) do |b|
               .multiple-choice
                 = b.radio_button(checked: params[:claim].present? && b.value.eql?(params[:claim][:state]&.to_sym), "aria-labelledby": "radio-control-legend #{b.text.to_css_class}")
@@ -18,7 +19,7 @@
             %div
               = validation_error_message(@error_presenter, :determinations)
 
-      %table#determinations.js-cw-claim-assessment{data:{apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db), scheme: claim.agfs? ? 'agfs' : 'lgfs' }}
+      %table#determinations.summary.js-cw-claim-assessment{data:{apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db), scheme: claim.agfs? ? 'agfs' : 'lgfs' }}
         %thead
           %tr{:style => "vertical-align: top;"}
             %th &nbsp;
@@ -55,8 +56,9 @@
           %div
             = validation_error_message(@error_presenter, :rejected_reason)
           %a#rejected_reason
-          %legend.bold-normal.form-label#checkbox-control-legend-1
-            = t('.reason_for_rejection')
+          %legend#checkbox-control-legend-1
+            %span.form-label-bold
+              = t('.reason_for_rejection')
           = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.reject_reasons_for(@claim), :code, :description) do |b|
             .multiple-choice
               = b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value), "aria-labelledby": "checkbox-control-legend-1 #{b.text.to_css_class}")
@@ -77,8 +79,9 @@
           %div
             = validation_error_message(@error_presenter, :refused_reason)
           %a#refused_reason
-          %legend.bold-normal.form-label#checkbox-control-legend-2
-            = t('.reason_for_refusal')
+          %legend#checkbox-control-legend-2
+            %span.form-label-bold
+              = t('.reason_for_refusal')
 
           = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.refuse_reasons_for(@claim), :code, :description) do |b|
             .multiple-choice

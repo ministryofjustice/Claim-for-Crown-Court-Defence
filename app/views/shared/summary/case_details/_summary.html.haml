@@ -2,7 +2,6 @@
 - cracked_trial_fields = %i[external_users claims case_details cracked_trial_fields]
 - trial_detail_fields = %i[external_users claims case_details trial_detail_fields]
 - retrial_detail_fields = %i[external_users claims case_details retrial_detail_fields]
-
 #case-details-section.form-section
   %h3.heading-medium
     = t('.header')
@@ -10,7 +9,113 @@
       = link_to t('.change'), edit_polymorphic_path(claim, step: :case_details, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
   - if claim.mandatory_case_details?
-    %table{ class: 'summary', summary: t('.summary') }
+    = "CASE WORKER TABLE"
+    %table.summary{ summary: t('.summary') }
+      %caption
+        %span.table-caption.visuallyhidden
+          = "This section contains details of the case"
+      %tbody
+        - unless claim.providers_ref.blank?
+          %tr
+            %th{scope: "col"}
+              = 'Provider reference number'
+            %td
+              = claim.providers_ref
+
+        - unless claim.draft?
+          %tr
+            %th{scope: "col"}
+              = "Claim submitted on"
+            %td
+              = claim.submitted_at
+
+        - if claim.case_workers.any? && current_user_is_caseworker? && current_user.persona.admin?
+          %tr
+            %th{scope: "col"}
+              = t ('.assignee')
+            %td
+              = claim.case_worker_names
+
+        - if @claim.lgfs?
+          %tr
+            %th{scope: "col"}
+              = t('common.external_user.claim_creator')
+            %td
+              = claim.creator.name
+
+        - if @claim.agfs?
+          %tr
+            %th{scope: "col"}
+              = t("common.external_user.#{@claim.external_user_type}")
+            %td
+              = claim.external_user.name
+          %tr
+            %th{scope: "col"}
+              = t("common.external_user.category.#{@claim.external_user_type}")
+            %td
+              = claim.advocate_category
+
+        %tr
+          %th{scope: "col"}
+            = t("common.external_user.account_number.#{@claim.external_user_type}")
+          %td
+            = claim.supplier_number
+
+        %tr
+          %th{scope: "col"}
+            = t('common.crown_court')
+          %td
+            = claim.court.name if claim.court
+
+        %tr
+          %th{scope: "col"}
+            =t('.case_num')
+          %td
+            = claim.case_number
+            %span.unique-id-small
+              = claim.unique_id
+
+        - if claim.transfer_court.present?
+          %tr
+            %th{scope: "col"}
+              = t('common.transfer_court')
+            %td
+              = claim.transfer_court.name
+
+          %tr
+            %th{scope: "col"}
+              = t('common.transfer_case_number')
+            %td
+              = claim.transfer_case_number
+
+        - if claim.case_type.try(:name)
+          %tr
+            %th{scope: "col"}
+              = t('.case_type')
+            %td
+              = claim.case_type.try(:name)
+
+        - if claim.agfs? && claim.case_type.present? && claim.requires_cracked_dates?
+          = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
+
+        - if claim.case_type && claim.case_concluded_at
+          = render partial: 'shared/claim_case_concluded_at_details', locals: { claim: claim }
+
+        - if claim.lgfs? && claim.interim? && !claim.interim_fee.nil?
+          = render partial: 'shared/claim_interim_details', locals: { claim: claim }
+
+        - if claim.transfer?
+          = render partial: 'shared/claim_transfer_details', locals: { claim: claim }
+
+        - if claim&.requires_trial_dates?
+          = render partial: 'shared/claim_trial_details', locals: { claim: claim }
+
+        - if claim&.requires_retrial_dates?
+          = render partial: 'shared/claim_retrial_details', locals: { claim: claim }
+
+
+    = "External user TABLE"
+    %table.summary{ summary: t('.summary') }
       %caption
         %span.table-caption.visuallyhidden
           = t('.caption')
@@ -28,6 +133,13 @@
               = t('common.external_user.claim_creator')
             %td
               = claim.creator.name
+
+        - unless claim.draft?
+          %tr
+            %th{scope: "col"}
+              = "Claim submitted on"
+            %td
+              = claim.submitted_at
 
         - if claim.agfs?
           %tr
@@ -146,6 +258,7 @@
                 = t("retrial_reduction", scope: retrial_detail_fields)
               %td
                 = claim&.retrial_reduction? ? t('.answer_yes') : t('.answer_no')
+
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
       = render partial: 'shared/summary/section_status', locals: { claim: claim, section: section, step: :case_details }

@@ -3,7 +3,6 @@
     %h3.heading-medium
       = t('.header')
 
-= "shared/claim_history"
 = render partial: 'shared/claim_history', locals: { claim: claim }
 
 - if claim.opened_for_redetermination?

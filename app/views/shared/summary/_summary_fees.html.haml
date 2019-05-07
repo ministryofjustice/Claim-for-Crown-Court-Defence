@@ -1,4 +1,3 @@
-= "external_users/claims/summary_fees :: Section: #{section}, Step: #{step}"
 %h3.heading-medium
   = local_assigns.has_key?(:header) ? header : t('common.fees')
   - if local_assigns[:editable]
@@ -7,16 +6,13 @@
 -# TODO: Avoid use of these checks and just display info
 -# based on configuration
 - if claim.agfs? && %i[basic_fees fixed_fees].include?(step)
-  = ">> Advocate category"
   = render partial: 'shared/summary/advocate_category_summary', locals: { claim: claim }
 
   - if claim.discontinuance?
     = render partial: 'external_users/claims/prosecution_evidence_summary', locals: { claim: claim }
 
 - if local_assigns.has_key?(:fee)
-  = "LEVEL 1"
   - if fee
-    = "LEVEL 2"
     %table{ class: 'summary', summary: t('.summary') }
       %caption
         %span.table-caption.visuallyhidden
@@ -25,10 +21,8 @@
         = render partial: 'shared/summary/summary_fee', locals: { fee: present(fee) }
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
-      = "LEVEL 3"
       = render partial: 'shared/summary/section_status', locals: { claim: claim, section: section, step: step }
     - else
-      = "LEVEL 4"
       %p
         = t("shared.summary.no_values.#{section}")
 - else
@@ -36,20 +30,16 @@
   - section = local_assigns.has_key?(:section) ? section : :fees
   - if collection.empty? || collection.all?(&:blank?)
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
-      = ">> Dependancies"
       = render partial: 'shared/summary/section_status', locals: { claim: claim, section: section, step: step }
     - else
-      = ">> No user input"
       %p
         = t("shared.summary.no_values.#{section}")
   - else
-    = ">> Display user input"
     %table{ class: 'summary', summary: t('.summary') }
       %caption
         %span.table-caption.visuallyhidden
           = t('.caption')
       %tbody
-        -# The collection of fees
         - present_collection(collection.sort_by(&:position)).each.with_index(1) do |fee, index|
           %tr
             - if collection.length > 1
@@ -58,5 +48,4 @@
             %td{style: 'margin:0;padding:0;'}
               %table.nested-summary
                 %tbody
-                  -# Each instance of a fee
                   = render partial: 'shared/summary/summary_fee', locals: { fee: fee }

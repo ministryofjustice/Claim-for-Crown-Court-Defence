@@ -7,7 +7,7 @@ module FactoryHelpers
                 end
     create(:representation_order,
             defendant: defendant,
-            representation_order_date: representation_order_date || 380.days.ago)
+            representation_order_date: representation_order_date&.to_date || 380.days.ago)
     claim.reload
   end
 

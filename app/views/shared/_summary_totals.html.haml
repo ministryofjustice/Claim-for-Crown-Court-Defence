@@ -1,6 +1,6 @@
 %h3.heading-medium
   = "Summary totals"
-%table.figures
+%table.summary
   %thead
     %tr
       %th
@@ -67,11 +67,11 @@
           = claim.disbursements_without_vat_gross
   %tfoot
     %tr.totals
-      %td
+      %th
         = "Claim Total"
-      %td.numeric
+      %th.numeric
         = claim.total
-      %td.numeric
+      %th.numeric
         = claim.vat_amount
-      %td.numeric
+      %th.numeric
         = claim.total_inc_vat

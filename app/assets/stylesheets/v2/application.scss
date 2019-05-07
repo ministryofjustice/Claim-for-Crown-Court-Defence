@@ -136,3 +136,10 @@ tbody th {
     margin-bottom:$gutter-half;
   }
 }
+
+.grid-row.claim-header-row,
+.grid-row.panel-messages{
+  .column-one-third, .column-one-half{
+    padding: 0;
+  }
+}

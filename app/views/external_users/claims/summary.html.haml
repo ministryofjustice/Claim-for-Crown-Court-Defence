@@ -1,4 +1,6 @@
-// SUMMARY main view
+// This view is PRE submit summary for External users only.
+// Shared across AGFS / LGFS with further nested views specific
+// to each scheme
 = content_for :page_title, flush: true do
   = t(".#{@claim.agfs? ? 'agfs' : 'lgfs'}.#{@claim.type.underscore.gsub(/claim\//, '')}.page_title")
 
@@ -14,7 +16,24 @@
   .grid-row.grid-sidebar
     .column-full.first
       .summary-wrapper
-        = render partial: 'external_users/claims/summary/summary_claims_content', locals: { claim: claim }
+        - unless claim.invalid_steps.empty?
+          .panel.panel-border-wide
+            %h3.heading-small
+              = t('.missing_information_header')
+            %p
+              = t('.missing_information_help_text')
+
+            %ul.list.list-bullet
+              - claim.summary_sections.each do |section, associated_step|
+                - if claim.invalid_steps.include?(associated_step)
+                  %li
+                    = t("external_users.claims.#{section}.summary.header")
+
+        -# = render partial: "shared/summary/wrapper"
+        - claim.summary_sections.each do |section, associated_step|
+          - if claim.accessible_step?(associated_step)
+            = render partial: "shared/summary/#{section}/summary", locals: { claim: claim, step: associated_step, section: section, editable: claim.editable_step?(associated_step) }
+
 
   .form-section
     .form-group.form-buttons

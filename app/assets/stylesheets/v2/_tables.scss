@@ -333,10 +333,12 @@ table.summary, table.nested-summary {
     padding-bottom: $gutter-half/2;
   }
 
-  thead th {
+  thead th, tfoot th {
+    @include core-19();
     padding-top: $gutter-half;
     padding-bottom: $gutter-half;
     vertical-align: bottom;
+    font-weight: 700;
   }
 
   tbody {

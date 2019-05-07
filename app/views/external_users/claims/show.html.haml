@@ -10,9 +10,12 @@
 
   = render partial: 'shared/claim_summary_message', locals: { claim: claim }
 
+  - if claim.certification.present?
+    = render partial: 'shared/certification', locals: { claim: claim }
+
   - claim.summary_sections.each do |section, associated_step|
     - if claim.accessible_step?(associated_step)
-      = "shared/summary/#{section}/summary"
+      -# = "shared/summary/#{section}/summary"
       = render partial: "shared/summary/#{section}/summary", locals: { claim: claim, step: associated_step, section: section, editable: claim.editable_step?(associated_step) }
 
   -# = render partial: 'shared/claim_accordion', locals: { claim: claim, status_disabled: true }

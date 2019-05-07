@@ -80,7 +80,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
       end
 
       context 'valid certification params for submission' do
-        let(:frozen_time) { Time.new(2015, 8, 20, 13, 54, 22) }
+        let(:frozen_time) { Time.new(2018, 8, 20, 13, 54, 22) }
 
         it 'should be a redirect to confirmation' do
           post :create, params: valid_certification_params(claim, certification_type)
@@ -93,7 +93,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
         end
 
         it 'should set the submitted at date' do
-          Timecop.freeze(frozen_time) do
+          travel_to(frozen_time) do
             post :create, params: valid_certification_params(claim, certification_type)
           end
 

@@ -49,11 +49,11 @@ module Stats
       end
 
       def report_day
-        Timecop.freeze(Time.new(2016, 3, 10, 11, 44, 55)) { 5.days.ago }
+        Timecop.freeze(Time.new(2018, 3, 10, 11, 44, 55)) { 5.days.ago }
       end
 
       def create_claim(state, date, attributes = {})
-        Timecop.freeze(date) do
+        travel_to(date) do
           FactoryBot.create(factory_name(state), attributes)
         end
       end

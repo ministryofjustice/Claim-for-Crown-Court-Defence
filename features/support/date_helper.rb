@@ -11,7 +11,7 @@ module DateHelper
   end
 
   def scheme_date_for(text)
-    case text.downcase.strip
+    case text&.downcase&.strip
       when 'scheme 11' then
         Settings.agfs_scheme_11_release_date.strftime
       when 'scheme 10' || 'post agfs reform' then

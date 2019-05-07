@@ -257,8 +257,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   subject { create(:advocate_claim) }
 
   describe '.earliest_representation_order' do
-    let(:claim)         { FactoryBot.build :unpersisted_claim }
-    let(:early_date)    { 2.years.ago.to_date }
+    let(:claim) { FactoryBot.build :unpersisted_claim }
+    let(:early_date) { scheme_date_for(nil).to_date - 10.days }
 
     before(:each) do
       # add a second defendant

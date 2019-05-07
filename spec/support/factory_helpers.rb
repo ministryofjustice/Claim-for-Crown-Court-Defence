@@ -7,7 +7,7 @@ module FactoryHelpers
                 end
     create(:representation_order,
             defendant: defendant,
-            representation_order_date: representation_order_date || 380.days.ago)
+            representation_order_date: representation_order_date&.to_date || 380.days.ago)
     claim.reload
   end
 
@@ -72,9 +72,7 @@ module FactoryHelpers
   end
 
   def scheme_date_for(text)
-    return 400.days.ago unless text
-
-    case text.downcase.strip
+    case text&.downcase&.strip
       when 'scheme 11' then
         Settings.agfs_scheme_11_release_date.strftime
       when 'scheme 10' || 'post agfs reform' then

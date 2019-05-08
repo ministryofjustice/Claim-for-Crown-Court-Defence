@@ -91,8 +91,8 @@ module GeckoboardPublisher
 
     def test_client
       @client.ping
-    rescue Geckoboard::UnauthorizedError => err
-      Rails.logger.warn "#{err} Geckoboard API key is not authorized for #{self.class}"
+    rescue Geckoboard::UnauthorizedError => e
+      Rails.logger.warn "#{e} Geckoboard API key is not authorized for #{self.class}"
       raise
     end
 

@@ -1839,6 +1839,7 @@ en:
           supporting_evidence: Supporting evidence
           supporting_evidence_checklist: Supporting evidence checklist
       no_values:
+        additional_information: "There is no additional information for this claim"
         basic_fees: "There are no graduated fees for this claim"
         case_details: "There are no case details for this claim"
         fees: "There are no fees for this claim"

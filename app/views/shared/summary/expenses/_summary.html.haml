@@ -11,11 +11,13 @@
         = @claim.travel_expense_additional_information
 
   - if claim.expenses.empty?
-    - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
-      = render partial: 'shared/summary/section_status', locals: { claim: claim, section: section, step: :travel_expenses }
-    - else
-      %p
+    - if claim.draft?
+      - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
+        = render partial: 'shared/summary/section_status', locals: { claim: claim, section: section, step: :travel_expenses }
+      - else
         = t('shared.summary.no_values.expenses')
+    - else
+      = t('shared.summary.no_values.expenses')
   - else
     %table{ class: 'summary', summary: t('.summary') }
       %caption

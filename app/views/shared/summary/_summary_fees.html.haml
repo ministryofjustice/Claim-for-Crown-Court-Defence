@@ -29,8 +29,12 @@
   - collection = local_assigns.has_key?(:collection) ? collection : claim.fees.select(&:present?)
   - section = local_assigns.has_key?(:section) ? section : :fees
   - if collection.empty? || collection.all?(&:blank?)
-    - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
-      = render partial: 'shared/summary/section_status', locals: { claim: claim, section: section, step: step }
+    - if claim.draft?
+      - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
+        = render partial: 'shared/summary/section_status', locals: { claim: claim, section: section, step: step }
+      - else
+        %p
+          = t("shared.summary.no_values.#{section}")
     - else
       %p
         = t("shared.summary.no_values.#{section}")

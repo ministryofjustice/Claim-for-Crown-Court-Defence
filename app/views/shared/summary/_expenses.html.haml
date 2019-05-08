@@ -4,13 +4,6 @@
 %h3.heading-medium
   = t('.travel_expenses')
 
-- if claim.travel_expense_additional_information.present?
-  .panel.panel-border-wide
-    %h3.heading-small
-      = t('.travel_expense_additional_information')
-    %p
-      = claim.travel_expense_additional_information
-
 - if claim.expenses.with_vat.any?
   = render template: 'shared/summary/expenses/index', locals: { claim: claim, vat: true }
 

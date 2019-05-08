@@ -1,0 +1,40 @@
+/* --------------------------------------- */
+/* Claim state styles */
+/* --------------------------------------- */
+
+span.status {
+    display: block;
+    text-align: center;
+    padding: 5px;
+    border-width: 2px;
+    border-style: solid;
+    background: #fff;
+}
+span.status.status-authorised {
+    color: #00602b;
+    border-color: #00602b;
+}
+span.status.status-allocated {
+    color: #912b88;
+    border-color: #912b88;
+}
+span.status.status-draft {
+    color: #1d5780;
+    border-color: #1d5780;
+}
+span.status.status-rejected, span.status.status-refused {
+    color: #99181a;
+    border-color: #99181a;
+}
+span.status.status-submitted {
+    color: #52585a;
+    border-color: #52585a;
+}
+span.status.status-redermination {
+    color: #0b0c0c;
+    border-color: #0b0c0c;
+}
+span.status.status-part-authorised {
+    color: #1d5780;
+    border-color: #1d5780;
+}

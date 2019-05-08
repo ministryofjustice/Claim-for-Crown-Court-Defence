@@ -1,7 +1,7 @@
 .table-container
   %h3.heading-small
     = t(".header_#{vat ? 'with_vat' : 'without_vat'}")
-  %table.figures{class: (current_user.case_worker? ? 'expenses-data-table' : nil)}
+  %table.summary{class: (current_user.case_worker? ? 'expenses-data-table' : nil)}
     %caption.visually-hidden
       = t('.caption')
     %thead
@@ -28,12 +28,12 @@
 
     %tfoot
       %tr.totals
-        %td{colspan: 4}
+        %th{colspan: 4}
           = succeed ':' do
             = t(".totals_#{vat ? 'with_vat' : 'without_vat'}")
-        %td.numeric
+        %th.numeric
           = vat ? claim.expenses_with_vat_net : claim.expenses_without_vat_net
-        %td.numeric
+        %th.numeric
           = vat ? claim.expenses_vat : ''
-        %td.numeric
+        %th.numeric
           = vat ? claim.expenses_with_vat_gross : claim.expenses_without_vat_gross

@@ -67,6 +67,8 @@
 @import 'tables';
 @import 'messages';
 @import 'confirmation';
+@import 'claim_state';
+
 
 
 .panel-margin-fix{
@@ -143,4 +145,8 @@ tbody th {
   .column-one-third, .column-one-half{
     padding: 0;
   }
+}
+
+.error {
+  color: $error-colour;
 }

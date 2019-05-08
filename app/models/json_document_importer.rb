@@ -49,8 +49,8 @@ class JsonDocumentImporter
         @failed_imports << claim_hash
         process_errors(case_number, e)
         destroy_claim_if_any
-      rescue JSON::Schema::ValidationError => error
-        @failed_schema_validation << { case_number: case_number, error: error.message }
+      rescue JSON::Schema::ValidationError => e
+        @failed_schema_validation << { case_number: case_number, error: e.message }
       end
     end
   end
@@ -78,8 +78,8 @@ class JsonDocumentImporter
   #
   def file_conforms_to_basic_json_schema
     @schema_validator.validate_basic!(json_data)
-  rescue JSON::Schema::ValidationError => error
-    errors.add(:file, error.message)
+  rescue JSON::Schema::ValidationError => e
+    errors.add(:file, e.message)
   end
 
   def api_key_params
@@ -105,8 +105,8 @@ class JsonDocumentImporter
 
   def process_errors(case_number, error)
     JSON.parse(error.message).each { |error_hash| errors.add(case_number, error_hash['error']) }
-  rescue JSON::ParserError => jpe
-    errors.add(case_number, jpe.message)
+  rescue JSON::ParserError => e
+    errors.add(case_number, e.message)
   end
 
   def destroy_claim_if_any

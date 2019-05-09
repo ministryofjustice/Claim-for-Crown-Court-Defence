@@ -449,7 +449,7 @@ GEM
     pdf-forms (1.2.0)
       cliver (~> 0.3.2)
       safe_shell (>= 1.0.3, < 2.0)
-    pg (0.18.4)
+    pg (1.1.4)
     phantomjs (2.1.1.0)
     posix-spawn (0.3.13)
     pry (0.12.2)
@@ -760,7 +760,7 @@ DEPENDENCIES
   paper_trail (~> 10.3.0)
   paperclip (~> 5.3.0)
   pdf-forms
-  pg (~> 0.18.2)
+  pg (~> 1.1.4)
   posix-spawn (~> 0.3.13)
   pry-byebug
   pry-rails

@@ -275,7 +275,7 @@ namespace :db do
     open(file_name, 'a') do |file|
       yield ->(model) do
         type_caster = model.class.arel_table.send(:type_caster)
-        values = model.send(:arel_attributes_with_values_for_create, model.class.column_names)
+        values = model.send(:attributes_for_create, model.class.column_names)
         values.each do |attribute, value|
           values[attribute] = type_caster.type_cast_for_database(attribute.name, value)
         end

@@ -91,7 +91,6 @@ group :development, :devunicorn, :test do
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
   gem 'puma'
-  gem 'parallel_tests'
   gem 'site_prism', '~> 3.0'
   gem 'jasmine', '~> 3.4'
   gem 'guard-jasmine', '~> 3.0'

@@ -226,11 +226,6 @@ To ping all environments
 alias ping.adp='for i in dev-adp.dsd.io staging-adp.dsd.io demo-adp.dsd.io api-sandbox-adp.dsd.io claim-crown-court-defence.service.gov.uk ; do a="https://${i}/ping.json" ; echo $a; b=`curl --silent $a` ; echo $b; echo; done'
 ```
 
-To run unit and integration tests in parallel
-```
-alias rake.fast='rake parallel:spec; rake parallel:features'
-```
-
 ## Sidekiq Console
 
 To run Sidekiq

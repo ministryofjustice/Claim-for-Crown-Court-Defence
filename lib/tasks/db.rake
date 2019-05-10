@@ -272,30 +272,6 @@ namespace :db do
     end.join(' ')
   end
 
-  def write_to_file(name)
-    file_name = name || 'anonymised_data.sql'
-    open(file_name, 'a') do |file|
-      yield ->(model) do
-        type_caster = model.class.arel_table.send(:type_caster)
-        attributes = model.send(:attributes_for_create, model.class.column_names)
-        values = attributes_with_values(model, attributes)
-        values.each do |attribute, value|
-          values[attribute] = type_caster.type_cast_for_database(attribute.name, value)
-        end
-        file.puts model.class.arel_table.compile_insert(values).to_sql.gsub('"', '') + ';'
-      end
-    end
-  end
-
-  def attributes_with_values(model, attribute_names)
-    attrs = {}
-    arel_table = model.class.arel_table
-
-    attribute_names.each do |name|
-      attrs[arel_table[name]] = model._read_attribute(name)
-    end
-    attrs
-  end
 
   def compress_file(filename)
     shell_working "compressing file #{filename}" do
@@ -325,5 +301,69 @@ namespace :db do
 
   def fake_paragraphs max_paragraph_count=4
     Faker::Lorem.paragraphs(max_paragraph_count).pop(rand(1..max_paragraph_count)).join("\n")
+  end
+
+  def write_to_file(name)
+    sql_file_writer = SqlFileWriter.new(name)
+    yield -> (model) do
+      sql_file_writer.model = model
+      sql_file_writer.write
+    end
+  end
+
+  class SqlFileWriter
+    attr_reader :table, :file_name, :data, :type_caster
+    attr_accessor :model
+    def initialize(file_name)
+      @model = nil
+      @file_name = file_name || 'anonymised_data.sql' 
+    end
+
+    def model=(model)
+      @model = model
+      @table = model.class.arel_table
+      @type_caster = table.send(:type_caster)
+      @data = type_cast(extract_data)
+    end
+
+    def write
+      raise ArgumentError, 'Model is nil, set model before write' if model.nil?
+      open(file_name, 'a') do |file|
+        file.puts prepare_sql
+      end
+    end
+
+    private
+
+    def type_cast(data)
+      data.each do |attribute, value|
+        data[attribute] = type_caster.type_cast_for_database(attribute.name, value)
+      end
+    end
+
+    def extract_data
+      column_names = model.class.column_names
+      attribute_names = extract_attribute_names(column_names)
+      add_values(attribute_names)
+    end 
+
+    def add_values(attribute_names)
+      attrs = {}
+      attribute_names.each do |name|
+        attrs[table[name]] = model._read_attribute(name)
+      end
+      attrs
+    end
+
+    def prepare_sql
+      table.compile_insert(data).to_sql.gsub('"', '') + ';'
+    end
+
+    def extract_attribute_names(column_names)
+      # note attributes_for_creater is a private method
+      # therefore not great to depend on
+      # call to it extracted here for later refactor.
+      model.send(:attributes_for_create, column_names) 
+    end
   end
 end

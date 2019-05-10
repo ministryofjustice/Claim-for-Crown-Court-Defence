@@ -1,3 +1,5 @@
+require 'ostruct'
+
 namespace :db do
 
   namespace :static do
@@ -275,13 +277,24 @@ namespace :db do
     open(file_name, 'a') do |file|
       yield ->(model) do
         type_caster = model.class.arel_table.send(:type_caster)
-        values = model.send(:attributes_for_create, model.class.column_names)
+        attributes = model.send(:attributes_for_create, model.class.column_names)
+        values = attributes_with_values(model, attributes)
         values.each do |attribute, value|
           values[attribute] = type_caster.type_cast_for_database(attribute.name, value)
         end
         file.puts model.class.arel_table.compile_insert(values).to_sql.gsub('"', '') + ';'
       end
     end
+  end
+
+  def attributes_with_values(model, attribute_names)
+    attrs = {}
+    arel_table = model.class.arel_table
+
+    attribute_names.each do |name|
+      attrs[arel_table[name]] = model._read_attribute(name)
+    end
+    attrs
   end
 
   def compress_file(filename)

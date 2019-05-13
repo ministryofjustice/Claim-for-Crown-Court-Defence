@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: cccd-app
-          image: 926803513772.dkr.ecr.eu-west-1.amazonaws.com/laa-get-paid/cccd:app-9488e00dc6e3bcbb8702eee4165ea2c94ea58b76
+          image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-ecfcfa59a0b70fffbe788ff651e57e019025b388
           ports:
             - containerPort: 4567
           #          livenessProbe:

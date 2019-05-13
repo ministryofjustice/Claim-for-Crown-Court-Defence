@@ -1,5 +1,3 @@
-require 'ostruct'
-
 namespace :db do
 
   namespace :static do
@@ -316,7 +314,7 @@ namespace :db do
     attr_accessor :model
     def initialize(file_name)
       @model = nil
-      @file_name = file_name || 'anonymised_data.sql' 
+      @file_name = file_name || 'anonymised_data.sql'
     end
 
     def model=(model)
@@ -345,7 +343,7 @@ namespace :db do
       column_names = model.class.column_names
       attribute_names = extract_attribute_names(column_names)
       add_values(attribute_names)
-    end 
+    end
 
     def add_values(attribute_names)
       attrs = {}
@@ -361,9 +359,9 @@ namespace :db do
 
     def extract_attribute_names(column_names)
       # note attributes_for_creater is a private method
-      # therefore not great to depend on
+      # therefore not great to depend on.
       # call to it extracted here for later refactor.
-      model.send(:attributes_for_create, column_names) 
+      model.send(:attributes_for_create, column_names)
     end
   end
 end

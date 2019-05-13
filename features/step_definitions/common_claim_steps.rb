@@ -44,13 +44,13 @@ When(/^I add another defendant, (.*?)representation order and MAAT reference$/) 
     @claim_form_page.defendants.last.first_name.set "Ned"
     @claim_form_page.defendants.last.last_name.set "Kelly"
     @claim_form_page.defendants.last.dob.set_date "1912-12-12"
-    @claim_form_page.defendants.last.add_another_representation_order.click
-    sleep 1
-    # do it again if the first click failed
-    @claim_form_page.defendants.last.add_another_representation_order.click if @claim_form_page.defendants.last.representation_orders.first.nil?
     @claim_form_page.defendants.last.representation_orders.first.date.set_date date
     @claim_form_page.defendants.last.representation_orders.first.maat_reference.set Random.rand(4000000...9999999)
   end
+end
+
+Then(/^I should see (\d+)\s*representation orders$/) do |count|
+  expect(@claim_form_page).to have_content("Representation order details", count: count)
 end
 
 When(/^I upload (\d+) documents?$/) do |count|

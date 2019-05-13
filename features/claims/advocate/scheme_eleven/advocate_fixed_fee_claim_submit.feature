@@ -20,6 +20,14 @@ Feature: Advocate tries to submit a claim for a Fixed fee (Appeal against convic
     And I add another defendant, scheme 11 representation order and MAAT reference
 
     Then I click "Continue" in the claim form
+    Then I click the link 'Back'
+    And I should be in the 'Defendant details' form page
+
+    Then I should see 'Defendant 1'
+    And I should see 'Defendant 2'
+    And I should see 2 representation orders
+
+    Then I click "Continue" in the claim form
 
     Given I insert the VCR cassette 'features/claims/advocate/scheme_eleven/fixed_fee_calculations'
 

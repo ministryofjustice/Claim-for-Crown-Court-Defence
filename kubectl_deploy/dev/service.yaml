@@ -9,6 +9,6 @@ spec:
   ports:
     - port: 4567
       name: http
-      targetPort: 4567
+      targetPort: 3000
   selector:
     app: cccd

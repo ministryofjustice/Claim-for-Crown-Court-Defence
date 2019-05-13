@@ -1,41 +1,29 @@
-FROM registry.service.dsd.io/ruby:2.6.3
+FROM ruby:2.6.3-alpine3.8
 
-# add official nodejs repo
-RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
-        echo 'deb https://deb.nodesource.com/node jessie main' > /etc/apt/sources.list.d/nodesource.list
+# Install pre-requisites for building nokogiri & pg gems, as well
+# as the packages for converting and generating PDF's
+RUN apk --update add --virtual build_deps \
+    build-base ruby-dev libc-dev linux-headers \
+    libxml2-dev libxslt-dev \
+    postgresql-dev pdftk runit nodejs libreoffice redis git
 
-# install runit, nodejs and libreoffice (used by ADP to generate PDFs)
-# pdftk is used to fill in PDF forms for disc evidence download
-RUN apt-get update && apt-get install -y pdftk runit nodejs libreoffice redis-server && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && rm -fr *Release* *Sources* *Packages* && \
-    truncate -s 0 /var/log/*log
+RUN addgroup -g 1000 -S appgroup && \
+    adduser -u 1000 -S appuser -G appgroup
 
-# SSH proxy settings
-ENV SSH_AUTH_SOCK /tmp/ssh-auth
-ENV SSH_AUTH_PROXY_PORT 1234
+WORKDIR /app
+COPY . .
+RUN mkdir -p /app/tmp
 
-RUN mkdir -p /usr/src/app
 RUN bundle config --global without test:development
-
-WORKDIR /usr/src/app
-
-COPY Gemfile /usr/src/app/
-COPY Gemfile.lock /usr/src/app/
-
-# Hack to install private gems
-#RUN socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork TCP4:$(ip route|awk '/default/ {print $3}'):$SSH_AUTH_PROXY_PORT & bundle install
+RUN gem install bundler -v 1.17.3
 RUN bundle install
 
-COPY . /usr/src/app
-RUN mkdir -p /usr/src/app/public/assets
-
-COPY ./docker/run.sh $APP_HOME/run.sh
-RUN chmod 777 $APP_HOME/run.sh
-
-EXPOSE 80
-
-#SECRET_TOKEN set here because otherwise devise blows up during the precompile.
 RUN bundle exec rake assets:precompile RAILS_ENV=production SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here
 
-CMD "$APP_HOME/run.sh"
+RUN chown -R appuser:appgroup /app/
+RUN chown -R appuser:appgroup /app/tmp/
+RUN chown -R appuser:appgroup /app/log/
+
+USER 1000
+
+CMD "./docker/non_root_run.sh"

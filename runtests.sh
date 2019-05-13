@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -ex
 # set variables. It's presumed the absence of these is causing
 # TRAVIS to fail

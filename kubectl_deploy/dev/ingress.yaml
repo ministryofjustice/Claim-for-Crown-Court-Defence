@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: cccd-app-ingress
+  namespace: cccd-dev
+spec:
+  rules:
+    - host: cccd-dev.apps.cloud-platform-live-0.k8s.integration.dsd.io
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: cccd-app-service
+              servicePort: 4567
+  tls:
+    - hosts:
+      - cccd-dev.apps.cloud-platform-live-0.k8s.integration.dsd.io

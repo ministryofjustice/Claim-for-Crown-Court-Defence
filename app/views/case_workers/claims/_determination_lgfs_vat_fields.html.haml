@@ -1,13 +1,13 @@
-%tr.determination-form-fields
+%tr
   %th
     = t('.vat')
   %td
     = claim.vat_amount
   %td
-    %div.pound-wrapper
-      = f.text_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'form-control js-lgfs-vat-determination', size: 10, maxlength: 8
+    %span.form-input-denote £
+    = f.text_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'form-control form-input-denote__input js-lgfs-vat-determination', size: 10, maxlength: 10
     = validation_error_message(f.object, :vat_amount)
-%tr.determination-form-fields
+%tr
   %th
     = t('.total_inc_vat')
   %td

@@ -1,38 +1,37 @@
 - unless claim.lgfs? && claim.interim? && claim.disbursement_only?
-  %tr.determination-form-fields
+  %tr
     %th
       = t('.fees')
     %td
       %span.currency-symbol
       = claim.fees_total
     %td
-      %div.pound-wrapper
-        = f.text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: 'form-control js-fees', size: 10, maxlength: 10
+      %span.form-input-denote £
+      = f.text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: 'form-control form-input-denote__input js-fees', size: 10, maxlength: 10
       = validation_error_message(f.object, :fees)
 
 - if claim.can_have_expenses?
-  %tr.determination-form-fields
+  %tr
     %th
       = t('.expenses')
     %td
       = claim.expenses_total
     %td
-      %div.pound-wrapper
-        = f.text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: 'form-control js-expenses', size: 10, maxlength: 10
+      %span.form-input-denote £
+      = f.text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: 'form-control form-input-denote__input js-expenses', size: 10, maxlength: 10
       = validation_error_message(f.object, :expenses)
 
 - if claim.can_have_disbursements?
-  %tr.determination-form-fields
+  %tr
     %th
       = t('.disbursements')
     %td
       = claim.disbursements_total
     %td
-      %div.pound-wrapper
-        = f.text_field :disbursements, value: number_with_precision(f.object.disbursements, precision: 2), class: 'form-control js-disbursements', size: 10, maxlength: 10
+      %span.form-input-denote £
+      = f.text_field :disbursements, value: number_with_precision(f.object.disbursements, precision: 2), class: 'form-control form-input-denote__input js-disbursements', size: 10, maxlength: 10
       = validation_error_message(f.object, :disbursements)
-
-%tr.determination-form-fields
+%tr
   %th
     = t('.total_excluding_vat')
   %td

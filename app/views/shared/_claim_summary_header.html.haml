@@ -4,8 +4,9 @@
       %span.heading-secondary
         = t('.case_number')
       = claim.case_number
-      %span.font-xsmall.bold.font-grey
-        = claim.unique_id
+      - if current_user_is_caseworker?
+        %span.font-xsmall.bold.font-grey
+          = claim.unique_id
   .column-one-third
     %h2.heading-large
       %span.heading-secondary
@@ -53,6 +54,7 @@
             = t('.actions')
         %div.action-wrapper
           = button_to t('.redraft'), clone_rejected_external_users_claim_path(claim), method: 'patch', class: 'button resubmit-claim', form: { style: 'display: inline-block;' }
+          %br/
           %br/
           = link_to t('.archive'), external_users_claim_path(claim), method: :delete, data: { confirm: t('.confirm_text') }, class: 'button'
 

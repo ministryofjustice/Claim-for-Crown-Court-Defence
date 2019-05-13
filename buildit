@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ $ENV == "NOT-used" ]];
+if [[ $CONTEXT == "live-1" ]];
 then
   REGION='eu-west-2'
   ECR_PREFIX='754256621582.dkr.ecr.eu-west-2'
@@ -25,6 +25,9 @@ echo '------------------'
 echo $FULL_IMAGE
 echo '------------------'
 ESCAPED_IMAGE=$(echo $FULL_IMAGE | sed "s=/=\\\/=g")
+echo '------------------'
+echo $ESCAPED_IMAGE
+echo '------------------'
 
 $(aws ecr --profile "$AWS_PROFILE" get-login --no-include-email --region "$REGION")
 docker build -t ${TEAM_NAME}/${REPO_NAME}:${COMPONENT} -f docker/Dockerfile .

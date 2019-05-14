@@ -1,4 +1,6 @@
-require: rubocop-rspec
+require:
+  - rubocop-rspec
+  - rubocop-performance
 
 AllCops:
   DisplayCopNames: true
@@ -19,9 +21,6 @@ AllCops:
 
 Documentation:
   Enabled: false
-
-FactoryBot/AttributeDefinedStatically:
-  Enabled: true
 
 Style/FrozenStringLiteralComment:
   Enabled: false

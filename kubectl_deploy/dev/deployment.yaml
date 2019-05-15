@@ -101,6 +101,16 @@ spec:
                 secretKeyRef:
                   name: cccd-dev-secrets
                   key: ADP_BUCKET_NAME
+            - name: ADP_AWS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: ADP_AWS_ACCESS_KEY
+            - name: ADP_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: ADP_SECRET_ACCESS_KEY
             - name: GECKOBOARD_TOKEN
               valueFrom:
                 secretKeyRef:

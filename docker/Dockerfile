@@ -1,41 +1,75 @@
-FROM registry.service.dsd.io/ruby:2.6.3
+FROM ruby:2.6.3-alpine3.8
+MAINTAINER Ministry of Justice <tools@digital.justice.gov.uk>
 
-# add official nodejs repo
-RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
-        echo 'deb https://deb.nodesource.com/node jessie main' > /etc/apt/sources.list.d/nodesource.list
+# fail early and print all commands
+RUN set -ex
 
-# install runit, nodejs and libreoffice (used by ADP to generate PDFs)
-# pdftk is used to fill in PDF forms for disc evidence download
-RUN apt-get update && apt-get install -y pdftk runit nodejs libreoffice redis-server && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && rm -fr *Release* *Sources* *Packages* && \
-    truncate -s 0 /var/log/*log
+# build dependencies:
+# -virtual: create virtual package for later deletion
+# - build-base for alpine fundamentals
+# - ruby-dev/libc-dev for compiling raindrops, at least
+# - libxml2-dev/libxslt-dev for nokogiri, at least
+# - postgres-dev for pg/activerecord gems
+# - git for installing gems referred to use a git:// uri
+#
+# runtime dependencies:
+# - file: for paperclip file type spoofing check
+# - nodejs: for ExecJS and asset compilation
+# - runit for process management (because we have multiple services)
+# - libreoffice/pdftk: for pdf generation
+# - redis: for backend key-value store
+#
+RUN apk --no-cache add --virtual build-dependencies \
+                    build-base \
+                    libxml2-dev \
+                    libxslt-dev \
+                    postgresql-dev \
+                    git \
+&& apk --no-cache add \
+                  file \
+                  nodejs \
+                  linux-headers \
+                  runit \
+                  pdftk \
+                  libreoffice \
+                  redis
 
-# SSH proxy settings
-ENV SSH_AUTH_SOCK /tmp/ssh-auth
-ENV SSH_AUTH_PROXY_PORT 1234
+# add non-root user and group with alpine first available uid, 1000
+RUN addgroup -g 1000 -S appgroup \
+&& adduser -u 1000 -S appuser -G appgroup
 
-RUN mkdir -p /usr/src/app
-RUN bundle config --global without test:development
-
+# create app directory in conventional, existing dir /usr/src
+RUN mkdir -p /usr/src/app && mkdir -p /usr/src/app/tmp
 WORKDIR /usr/src/app
 
-COPY Gemfile /usr/src/app/
-COPY Gemfile.lock /usr/src/app/
+######################
+# DEPENDENCIES START #
+######################
+# Env vars needed for dependency install and asset precompilation
+ENV RAILS_ENV='production'
 
-# Hack to install private gems
-#RUN socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork TCP4:$(ip route|awk '/default/ {print $3}'):$SSH_AUTH_PROXY_PORT & bundle install
-RUN bundle install
+COPY Gemfile* ./
 
-COPY . /usr/src/app
-RUN mkdir -p /usr/src/app/public/assets
+# only install production dependencies,
+# build nokogiri using libxml2-dev, libxslt-dev
+RUN gem install bundler -v 1.17.3 \
+&& bundle config --global without test:development \
+&& bundle config build.nokogiri --use-system-libraries \
+&& bundle install
 
-COPY ./docker/run.sh $APP_HOME/run.sh
-RUN chmod 777 $APP_HOME/run.sh
+####################
+# DEPENDENCIES END #
+####################
+COPY . .
 
-EXPOSE 80
+# precompile assets, silently (as verbose)
+RUN bundle exec rake assets:precompile SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here 2> /dev/null
 
-#SECRET_TOKEN set here because otherwise devise blows up during the precompile.
-RUN bundle exec rake assets:precompile RAILS_ENV=production SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here
+# tidy up installation
+RUN apk del build-dependencies
 
-CMD "$APP_HOME/run.sh"
+# non-root/appuser should own only what they need to
+RUN chown -R appuser:appgroup log tmp db
+
+USER 1000
+CMD "./docker/docker-entrypoint.sh"

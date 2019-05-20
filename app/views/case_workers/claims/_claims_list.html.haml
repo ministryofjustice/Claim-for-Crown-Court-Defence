@@ -40,13 +40,13 @@
           = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), tabindex: 0
       - present_collection(claims).each do |claim|
         %tr{ class: claim.injection_error ? 'error injection-error' : nil }
-          %td
+          %td{'data-label': t('.type')}
             .error-message-container
               = claim.pretty_type
               - claim.injection_error do |message|
                 .error-message
                   = message
-          %td
+          %td{'data-label': t('.case_number')}
             = link_to claim.case_number ,
                       case_workers_claim_path(claim),
                       {:class => 'js-test-case-number-link',
@@ -57,24 +57,24 @@
               %span.disk-evidence
                 = t('.disk_evidence')
 
-          %td
+          %td{'data-label': t('.advocate_litigator')}
             = claim.external_user.name
-          %td
+          %td{'data-label': t('.defendants')}
             = claim.defendant_names
-          %td.numeric.js-test-total
+          %td.numeric.js-test-total{'data-label': t('.total')}
             = claim.total_inc_vat
           - if params[:action] == 'archived'
-            %td
+            %td{'data-label': t('.status')}
               %span.state{class: 'state-' << claim.state.dasherize}
                 = claim.state.humanize
-          %td
+          %td{'data-label': t('.case_type')}
             = claim.case_type_name
             %br/
             %span.claim-state
               = claim.claim_state
-          %td.numeric
+          %td.numeric{'data-label': t('.submission_date')}
             = claim.submitted_at(include_time: false)
-          %td.messages
+          %td.messages{'data-label': t('.messages')}
             - if claim.has_messages?
               - if claim.remote?
                 = link_to claim.unread_messages_count.to_int > 0 ? t('.view_with_messages', message_count: claim.unread_messages_count) : t('.view') , "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)

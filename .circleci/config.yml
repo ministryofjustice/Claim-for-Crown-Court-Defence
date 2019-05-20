@@ -111,7 +111,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-      # - *codeclimate-setup
+      - *codeclimate-setup
       - persist_to_workspace:
           root: tmp
           paths:

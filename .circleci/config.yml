@@ -76,33 +76,33 @@ aliases:
       name: Rubocop
       command: bundle exec rubocop
 
-  _brakeman:
-    run:
-      name: Run brakeman
-      command: bundle exec rake brakeman:run
+  # _brakeman:
+  #   run:
+  #     name: Run brakeman
+  #     command: bundle exec rake brakeman:run
 
-  _jasmine:
-    run:
-      name: Run jasmine tests
-      command: bundle exec rake jasmine:ci
+  # _jasmine:
+  #   run:
+  #     name: Run jasmine tests
+  #     command: bundle exec rake jasmine:ci
 
-  _rspec: &rspec
-    run:
-      name: Run rspec tests
-      command: |
-        bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-        ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json
+  # _rspec: &rspec
+  #   run:
+  #     name: Run rspec tests
+  #     command: |
+  #       bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+  #       ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json
 
-  _cucumber: &cucumber
-    run:
-        name: Run cucumber tests
-        command: bundle exec cucumber --format progress --color
+  # _cucumber: &cucumber
+  #   run:
+  #       name: Run cucumber tests
+  #       command: bundle exec cucumber --format progress --color
 
-  _install_pdftk: &install-pdftk
-    run:
-      name: Install PDFTK
-      command: |
-        sudo apt-get install -y pdftk
+  # _install-pdftk: &install-pdftk
+  #   run:
+  #     name: Install PDFTK
+  #     command: |
+  #       sudo apt-get install -y pdftk
 
 jobs:
   build:
@@ -111,7 +111,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-      - *codeclimate-setup
+      # - *codeclimate-setup
       - persist_to_workspace:
           root: tmp
           paths:
@@ -132,61 +132,61 @@ jobs:
       - *attach-tmp-workspace
       - *rubocop
 
-  rspec-tests:
-    <<: *defaults
-    parallelism: 2
-    steps:
-      - checkout
-      - *attach-repo-workspace
-      - *attach-tmp-workspace
-      - *install_pdftk
-      - *wait-for-db
-      - *load-db
-      - *rspec
-      - persist_to_workspace:
-          root: tmp
-          paths:
-            - codeclimate.backend.json
-      - store_artifacts:
-          path: ./tmp/codeclimate.backend.json
+  # rspec-tests:
+  #   <<: *defaults
+  #   parallelism: 2
+  #   steps:
+  #     - checkout
+  #     - *attach-repo-workspace
+  #     - *attach-tmp-workspace
+  #     - *install_pdftk
+  #     - *wait-for-db
+  #     - *load-db
+  #     - *rspec
+  #     - persist_to_workspace:
+  #         root: tmp
+  #         paths:
+  #           - codeclimate.backend.json
+  #     - store_artifacts:
+  #         path: ./tmp/codeclimate.backend.json
 
-  cucumber-tests:
-    <<: *defaults
-    steps:
-      - checkout
-      - *attach-repo-workspace
-      - *attach-tmp-workspace
-      - *install_pdftk
-      - *wait-for-db
-      - *load-db
-      - *cucumber
-      - store_artifacts:
-          path: ./tmp/capybara
+  # cucumber-tests:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - *attach-repo-workspace
+  #     - *attach-tmp-workspace
+  #     - *install_pdftk
+  #     - *wait-for-db
+  #     - *load-db
+  #     - *cucumber
+  #     - store_artifacts:
+  #         path: ./tmp/capybara
 
-  jasmine-tests:
-    <<: *defaults
-    steps:
-      - checkout
-      - *attach-repo-workspace
-      - *attach-tmp-workspace
-      - *jasmine
+  # jasmine-tests:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - *attach-repo-workspace
+  #     - *attach-tmp-workspace
+  #     - *jasmine
 
-  brakeman:
-    <<: *defaults
-    steps:
-      - checkout
-      - *attach-repo-workspace
-      - *attach-tmp-workspace
-      - *brakeman
+  # brakeman:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - *attach-repo-workspace
+  #     - *attach-tmp-workspace
+  #     - *brakeman
 
-  upload-coverage:
-    <<: *defaults
-    steps:
-      - *attach-tmp-workspace
-      - run:
-          name: Upload coverage results to Code Climate
-          command: |
-            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.backend.json
+  # upload-coverage:
+  #   <<: *defaults
+  #   steps:
+  #     - *attach-tmp-workspace
+  #     - run:
+  #         name: Upload coverage results to Code Climate
+  #         command: |
+  #           ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.backend.json
 
   # build-prod-container:
   #   docker:
@@ -230,22 +230,22 @@ workflows:
       - rubocop:
           requires:
             - build
-      - rspec-tests:
-          requires:
-            - build
-      - cucumber-tests:
-          requires:
-            - build
-      - jasmine-tests:
-          requires:
-            - build
-      - brakeman:
-          requires:
-            - build
-      - upload-coverage:
-          requires:
-            - rspec-tests
-            - cucumber-tests
-            - jasmine-tests
-            - rubocop
-            - brakeman
+      # - rspec-tests:
+      #     requires:
+      #       - build
+      # - cucumber-tests:
+      #     requires:
+      #       - build
+      # - jasmine-tests:
+      #     requires:
+      #       - build
+      # - brakeman:
+      #     requires:
+      #       - build
+      # - upload-coverage:
+      #     requires:
+      #       - rspec-tests
+      #       - cucumber-tests
+      #       - jasmine-tests
+      #       - rubocop
+      #       - brakeman

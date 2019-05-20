@@ -1,183 +1,188 @@
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
 version: 2
-references:
-  build_containers_config: &build_container_config
-    working_directory: ~/repo
-    docker:
-      - image: circleci/ruby:2.6.3-node-browsers
-        environment:
-          BUNDLE_JOBS: 3
-          BUNDLE_PATH: vendor/bundle
-          BUNDLE_RETRY: 3
-          CBO_BASE_DATABASE_DATABASE: cccd_test
-          PDFTK_PATH: /usr/bin/pdftk
-          PGHOST: 127.0.0.1
-          PGUSER: postgres
-          RAILS_ENV: test
-          TZ: Europe/London
-      - image: circleci/postgres:9.6-alpine
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: cccd_test
-          POSTGRES_PASSWORD: ""
 
-  install_pdftk: &install_pdftk
+aliases:
+  _defaults: &defaults
+  working_directory: &working_directory ~/repo
+  docker:
+    - image: circleci/ruby:2.6.3-node-browsers
+      environment:
+        BUNDLE_JOBS: 3
+        BUNDLE_PATH: vendor/bundle
+        BUNDLE_RETRY: 3
+        CBO_BASE_DATABASE_DATABASE: cccd_test
+        PDFTK_PATH: /usr/bin/pdftk
+        PGHOST: 127.0.0.1
+        PGUSER: postgres
+        RAILS_ENV: test
+        TZ: Europe/London
+    - image: circleci/postgres:9.6-alpine
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_DB: cccd_test
+        POSTGRES_PASSWORD: ""
+
+  _restore-cache: &restore-cache
+    restore_cache:
+      keys:
+        - v1-dependencies-{{ checksum "Gemfile.lock" }}
+        # fallback to using the latest cache if no exact match is found
+        - v1-dependencies-
+
+  _install-dependencies: &install-dependencies
+    run:
+      name: install dependencies
+      command: |
+        gem install bundler -v 1.17.3
+        bundle check || bundle _1.17.3_ install --jobs=4 --retry=3 --path vendor/bundle
+
+  _save-cache: &save-cache
+    save_cache:
+      key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      paths:
+        - ./vendor/bundle
+
+  _attach-repo-workspace: &attach-repo-workspace
+    attach_workspace:
+      at: ~/repo/
+
+  _attach-tmp-workspace: &attach-tmp-workspace
+      attach_workspace:
+        at: ~/repo/tmp
+
+  _codeclimate-setup: &codeclimate-setup
+    run:
+      name: Setup Code Climate test-reporter
+      command: |
+        mkdir -p tmp/
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+        chmod +x ./tmp/cc-test-reporter
+
+  _wait-for-db: &wait-for-db
+    run:
+      name: Wait for DB
+      command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+  _load-db: &load-db
+    run:
+      name: Database setup
+      command: bin/rails db:schema:load --trace
+
+  _rubocop: &rubocop
+    run:
+      name: Rubocop
+      command: bundle exec rubocop
+
+  _brakeman:
+    run:
+      name: Run brakeman
+      command: bundle exec rake brakeman:run
+
+  _jasmine:
+    run:
+      name: Run jasmine tests
+      command: bundle exec rake jasmine:ci
+
+  _rspec: &rspec
+    run:
+      name: Run rspec tests
+      command: |
+        bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+        ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json
+
+  _cucumber: &cucumber
+    run:
+        name: Run cucumber tests
+        command: bundle exec cucumber --format progress --color
+
+  _install_pdftk: &install-pdftk
     run:
       name: Install PDFTK
       command: |
         sudo apt-get install -y pdftk
 
 jobs:
-  build-test-container: &build-test-container
-    <<: *build_container_config
+  build:
+    <<: *defaults
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-      - run:
-          name: Setup Code Climate test-reporter
-          command: |
-            mkdir -p tmp/
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
-            chmod +x ./tmp/cc-test-reporter
-
+      - *codeclimate-setup
       - persist_to_workspace:
           root: tmp
           paths:
             - cc-test-reporter
-
-      # Which version of bundler?
-      - run:
-          name: Which bundler?
-          command: bundle -v
-
-      # Restore bundle cache
-      - restore_cache:
-          keys:
-            - cccd-{{ checksum "Gemfile.lock" }}
-
-      - run:
-          name: Bundle Install
-          command: bundle check || bundle install
-
-      # Store bundle cache
-      - save_cache:
-          key: cccd-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-
+      - *restore-cache
+      - *install-dependencies
+      - *save-cache
       - persist_to_workspace:
           root: .
           paths:
             - vendor/bundle
 
   rubocop:
-    <<: *build_container_config
+    <<: *defaults
     steps:
-      - checkout # special step to check out source code to working directory
+      - checkout
+      - *attach-repo-workspace
+      - *attach-tmp-workspace
+      - *rubocop
 
-      - attach_workspace:
-          at: ~/repo/
-
-      - attach_workspace:
-          at: ~/repo/tmp
-
-      - run:
-          name: Run Rubocop
-          command: bundle exec rubocop
   rspec-tests:
-    <<: *build_container_config
+    <<: *defaults
     parallelism: 2
     steps:
-      - checkout # special step to check out source code to working directory
-
-      - attach_workspace:
-          at: ~/repo/
-
-      - attach_workspace:
-          at: ~/repo/tmp
-
+      - checkout
+      - *attach-repo-workspace
+      - *attach-tmp-workspace
       - *install_pdftk
-
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
-
-      - run:
-          name: Database setup
-          command: bin/rails db:schema:load --trace
-      - run:
-          name: Run rspec tests
-          command: |
-            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json
+      - *wait-for-db
+      - *load-db
+      - *rspec
       - persist_to_workspace:
           root: tmp
           paths:
             - codeclimate.backend.json
       - store_artifacts:
           path: ./tmp/codeclimate.backend.json
+
   cucumber-tests:
-    <<: *build_container_config
+    <<: *defaults
     steps:
-      - checkout # special step to check out source code to working directory
-
-      - attach_workspace:
-          at: ~/repo/
-
-      - attach_workspace:
-          at: ~/repo/tmp
-
+      - checkout
+      - *attach-repo-workspace
+      - *attach-tmp-workspace
       - *install_pdftk
-
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
-
-      - run:
-          name: Database setup
-          command: bin/rails db:schema:load --trace
-
-      - run:
-          name: Run cucumber tests
-          command: bundle exec cucumber --format progress --color
-
+      - *wait-for-db
+      - *load-db
+      - *cucumber
       - store_artifacts:
           path: ./tmp/capybara
+
   jasmine-tests:
-    <<: *build_container_config
+    <<: *defaults
     steps:
-      - checkout # special step to check out source code to working directory
+      - checkout
+      - *attach-repo-workspace
+      - *attach-tmp-workspace
+      - *jasmine
 
-      - attach_workspace:
-          at: ~/repo/
-
-      - attach_workspace:
-          at: ~/repo/tmp
-
-      - run:
-          name: Run jasmine tests
-          command: bundle exec rake jasmine:ci
   brakeman:
-    <<: *build-test-container
+    <<: *defaults
     steps:
-      - checkout # special step to check out source code to working directory
+      - checkout
+      - *attach-repo-workspace
+      - *attach-tmp-workspace
+      - *brakeman
 
-      - attach_workspace:
-          at: ~/repo/
-
-      - attach_workspace:
-          at: ~/repo/tmp
-
-      - run: ruby --version
-      - run:
-          name: Run brakeman
-          command: bundle exec rake brakeman:run
   upload-coverage:
-    <<: *build_container_config
+    <<: *defaults
     steps:
-      - attach_workspace:
-          at: ~/repo/tmp
-
+      - *attach-tmp-workspace
       - run:
           name: Upload coverage results to Code Climate
           command: |
@@ -219,24 +224,24 @@ jobs:
 
 workflows:
   version: 2
-  commit:
+  build-and-test:
     jobs:
-      - build-test-container
+      - build
       - rubocop:
           requires:
-            - build-test-container
+            - build
       - rspec-tests:
           requires:
-            - build-test-container
+            - build
       - cucumber-tests:
           requires:
-            - build-test-container
+            - build
       - jasmine-tests:
           requires:
-            - build-test-container
+            - build
       - brakeman:
           requires:
-            - build-test-container
+            - build
       - upload-coverage:
           requires:
             - rspec-tests

@@ -124,6 +124,7 @@ jobs:
           paths:
             - vendor/bundle
 
+
   rubocop:
     <<: *defaults
     steps:

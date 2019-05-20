@@ -1552,6 +1552,18 @@ en:
 
 # en.shared
   shared:
+    summary_totals:
+      heading: Summary totals
+      description: Description
+      disbursements_with_vat: Disbursements with VAT
+      disbursements_without_vat: Disbursements without VAT
+      expenses_with_vat: Expenses with VAT
+      expenses_without_vat: Expenses without VAT
+      fees: Fees
+      gross_amount: Gross amount
+      net_amount: Net amount
+      vat_amount: VAT amount
+      claim_total: Claim total
     claim_summary_header:
       case_number: Case number
       status: Status
@@ -1574,6 +1586,12 @@ en:
     determination:
       caption: 'Total of assessed amounts by category'
       summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows'
+
+    determination_amounts:
+      disbursements: Disbursements
+      expenses: Expenses
+      fees: Fees
+      total_excluding_vat: 'Total (excluding VAT)'
     determinations_form:
       update: Update
       assessment_summary: Assessment summary
@@ -1589,6 +1607,7 @@ en:
       summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       claimed_by: 'Claimed by %{type}'
       laa_heading: 'Total authorised by LAA'
+      assessment_summary: Assessment summary
     help_summary_heading: Help with completing this form
     no_claims_found: 'No claims found'
     certification:

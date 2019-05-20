@@ -13,9 +13,22 @@
   - if claim.certification.present?
     = render partial: 'shared/certification', locals: { claim: claim }
 
+  -# case_details defendants offence_details
   - claim.summary_sections.each do |section, associated_step|
-    - if claim.accessible_step?(associated_step)
-      -# = "shared/summary/#{section}/summary"
-      = render partial: "shared/summary/#{section}/summary", locals: { claim: claim, step: associated_step, section: section, editable: claim.editable_step?(associated_step) }
+    - if %w[case_details defendants offence_details].include?("#{section}")
+      - if claim.accessible_step?(associated_step)
+        = render partial: "shared/summary/#{section}/summary", locals: { claim: claim, step: associated_step, section: section, editable: claim.editable_step?(associated_step) }
+
+  -# FEES
+  - if claim.agfs?
+    = render partial: 'shared/summary_agfs', locals: { claim: claim }
+  - else
+    = render partial: 'shared/summary_lgfs', locals: { claim: claim }
+
+  -# supporting_evidence additional_information
+  - claim.summary_sections.each do |section, associated_step|
+    - if %w[supporting_evidence additional_information].include?("#{section}")
+      - if claim.accessible_step?(associated_step)
+        = render partial: "shared/summary/#{section}/summary", locals: { claim: claim, step: associated_step, section: section, editable: claim.editable_step?(associated_step) }
 
   -# = render partial: 'shared/claim_accordion', locals: { claim: claim, status_disabled: true }

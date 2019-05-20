@@ -1,5 +1,5 @@
 .table-container
-  %h3.heading-small
+  %h3.heading-medium
     = t(".header_#{vat ? 'with_vat' : 'without_vat'}")
   %table.summary{class: (current_user.case_worker? ? 'expenses-data-table' : nil)}
     %caption.visually-hidden

@@ -8,12 +8,12 @@
         = t('shared.summary.no_values.fees')
     - else
       / table does not require summary
-      %table.figures
+      %table.summary
         %caption.visually-hidden
           = t('.fees.caption')
         %thead
           %tr
-            %th.col-fee-cat{ scope: 'col' }
+            %th{ scope: 'col' }
               = t('.fee_category')
             %th{ scope: 'col' }
               = t('.fee_type')
@@ -28,7 +28,7 @@
         %tbody
           - present_collection(claim.fees.select(&:present?).sort_by(&:position)).each do |fee|
             %tr
-              %td
+              %td{style: 'padding-left:0;'}
                 = fee.fee_type&.fee_category_name || 'n/a'
                 %br/
                 - if fee.fee_type.unique_code.eql?('BABAF')
@@ -75,7 +75,7 @@
               %td.numeric
                 = fee.amount
 
-      %table.figures
+      %table.summary
         %thead
           %tr
             %th
@@ -89,7 +89,7 @@
 
         %tbody
           %tr.totals
-            %td
+            %th{scope: 'row'}
               = "Fees Totals:"
             %td.numeric
               = claim.fees_total
@@ -103,7 +103,7 @@
         - if info.warrant_fee_paid?
           %h3.heading-medium
             = t('common.interim_claim_info')
-          %table.table-summary
+          %table.summary
             %caption.hidden
               = t('.fees.caption')
             %tbody

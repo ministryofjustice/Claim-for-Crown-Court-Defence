@@ -1,30 +1,30 @@
 %ul
   %li.fx-seed-interimFees{"data-seed": claim.raw_interim_fees_total, "data-autovat": @claim.apply_vat? ? "true" : "false"}
     %h3
-      = "Interim fees"
+      = t('.interim_fees')
     %span.total-interimFees
       = claim.interim_fees_total
 
   %li.fx-seed-disbursements{"data-seed": claim.raw_disbursements_total, "data-autovat": "false", "data-seed-vat": claim.raw_disbursements_vat}
     %h3
-      = "Disbursements"
+      = t('.disbursements')
     %span.total-disbursements
       = claim.disbursements_total
 
   %li.fx-seed-expenses{"data-seed": claim.raw_expenses_total, "data-autovat": "false", "data-seed-vat": claim.raw_expenses_vat}
     %h3
-      = "Travel expenses"
+      = t('.expenses')
     %span.total-expenses
       = claim.expenses_total
 
   %li.fx-seed{"data-vat-total": claim.raw_vat_amount}
     %h3
-      = "VAT"
+      = t('.vat_amount')
     %span.total-vat
       = claim.vat_amount
 
   %li.fx-seed{"data-total-inc": claim.raw_total_inc}
     %h3
-      = "Total"
+      = t('.total')
     %span.total-grandTotal
       = claim.total_inc

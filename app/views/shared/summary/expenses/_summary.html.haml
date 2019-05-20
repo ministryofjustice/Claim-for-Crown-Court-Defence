@@ -13,8 +13,6 @@
   -# Expenses TABLE View
   - if claim.can_have_expenses?
     - if claim.expenses.empty?
-      %h3.heading-medium
-        = "Expenses"
       %p
         = t('shared.summary.no_values.expenses')
     - else

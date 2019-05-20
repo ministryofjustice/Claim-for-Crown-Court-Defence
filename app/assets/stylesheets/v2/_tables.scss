@@ -341,7 +341,7 @@ table.summary, table.nested-summary {
     font-weight: 700;
   }
 
-  tbody {
+  tbody, thead, tfoot {
     tr:nth-child(odd) {
       background: transparent;
     }
@@ -361,6 +361,15 @@ table.summary, table.nested-summary {
     td {
       @include core-19;
     }
+  }
+}
+
+.totals{
+  text-align: right;
+  @include core-19;
+  font-weight:700;
+  .numeric{
+    font-weight:700;
   }
 }
 

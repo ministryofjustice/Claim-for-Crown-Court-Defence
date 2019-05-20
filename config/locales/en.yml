@@ -675,6 +675,48 @@ en:
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee
     claims:
+      agfs_final_claim_sidebar:
+        expenses: Expenses
+        fixed_fees: Fixed fees
+        graduated_fees: Graduated fees
+        miscellaneous_fees: Miscellaneous fees
+        total: Total
+        vat_amount: VAT
+      agfs_interim_claim_sidebar:
+        expenses: Expenses
+        interim_fees: Interim fees
+        total: Total
+        vat_amount: VAT
+      agfs_supplementary_claim_sidebar:
+        expenses: Expenses
+        miscellaneous_fees: Miscellaneous fees
+        total: Total
+        vat_amount: VAT
+
+      lgfs_final_claim_sidebar:
+        disbursements: Disbursements
+        expenses: Expenses
+        fixed_fees: Fixed fees
+        graduated_fees: Graduated fees
+        miscellaneous_fees: Miscellaneous fees
+        total: Total
+        vat_amount: VAT
+
+      lgfs_interim_claim_sidebar:
+        disbursements: Disbursements
+        expenses: Expenses
+        interim_fees: Interim fees
+        total: Total
+        vat_amount: VAT
+
+      lgfs_transfer_claim_sidebar:
+        disbursements: Disbursements
+        expenses: Expenses
+        miscellaneous_fees: Miscellaneous fees
+        total: Total
+        transfer_fees: Transfer fees
+        vat_amount: VAT
+
       errors:
         not_editable: 'Can only edit "draft" claims'
         dependencies_missing: Claim section cannot be edited. Please fill its dependencies

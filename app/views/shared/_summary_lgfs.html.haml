@@ -6,10 +6,8 @@
       %p
         = t('shared.summary.no_values.fees')
     - else
-      / table does noe require summary
-      %table.figures
+      %table.summary
         %caption.visually-hidden
-          = t('.fees.caption')
         %thead
           %tr
             %th{ scope: 'col' }
@@ -29,7 +27,7 @@
         %tbody
           - present_collection(claim.fees.select(&:present?).sort_by(&:position)).each do |fee|
             %tr
-              %td
+              %th{scope: 'row'}
                 = fee.fee_type&.fee_category_name || fee.not_applicable
                 - if fee.dates_attended.any?
                   %br
@@ -39,7 +37,7 @@
                   %br
                   = t('.date')
                   = fee.date
-              %td{scope: 'row'}
+              %td
                 = fee.fee_type&.description || fee.not_applicable
                 - if fee.sub_type.present?
                   %p
@@ -48,7 +46,7 @@
                   %br
                   = "(#{t('.case_numbers')}: #{fee.case_numbers})"
               - if claim.display_days?
-                %td.numeric{ scope: 'col' }
+                %td.numeric
                   = fee.days_claimed
               %td.numeric
                 = fee.quantity
@@ -67,7 +65,7 @@
         - if info.warrant_fee_paid?
           %h3.heading-medium
             = t('common.interim_claim_info')
-          %table.table-summary
+          %table.summary
             %caption.hidden
               = t('.fees.caption')
             %tbody
@@ -102,7 +100,7 @@
         - if claim.disbursements.with_vat.any?
           %h3.heading-medium
             = "Disbursements with VAT"
-          %table.figures
+          %table.summary
             %caption.visually-hidden
               = t('.disbursements.caption')
             %thead
@@ -140,7 +138,7 @@
         - if claim.disbursements.without_vat.any?
           %h3.heading-medium
             = "Disbursements without VAT"
-          %table.figures
+          %table.summary
             %caption.visually-hidden
               = t('.disbursements.caption')
             %thead

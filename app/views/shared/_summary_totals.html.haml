@@ -1,20 +1,20 @@
 %h3.heading-medium
-  = "Summary totals"
+  = t('.heading')
 %table.summary
   %thead
     %tr
       %th
-        = "Description"
+        = t('.description')
       %th.col-net.numeric{scope: 'col'}
-        = "Net amount"
+        = t('.net_amount')
       %th.col-vat.numeric{scope: 'col'}
-        = "VAT"
+        = t('.vat_amount')
       %th.col-gross.numeric{scope: 'col'}
-        = "Gross amount"
+        = t('.gross_amount')
   %tbody
     %tr
-      %td
-        = "Fees"
+      %th{scope: 'row'}
+        = t('.fees')
       %td.numeric
         = claim.fees_total
       %td.numeric
@@ -24,8 +24,8 @@
 
     - if claim.expenses.with_vat.any?
       %tr
-        %td
-          = "Expenses with VAT"
+        %th{scope: 'row'}
+          = t('.expenses_with_vat')
         %td.numeric
           = claim.expenses_with_vat_net
         %td.numeric
@@ -35,8 +35,8 @@
 
     - if claim.expenses.without_vat.any?
       %tr
-        %td
-          = "Expenses without VAT"
+        %th{scope: 'row'}
+          = t('.expenses_without_vat')
         %td.numeric
           = claim.expenses_without_vat_net
         %td.numeric
@@ -46,8 +46,9 @@
 
     - if claim.disbursements.with_vat.any?
       %tr
-        %td
-          = "Disbursements with VAT"
+        %th{scope: 'row'}
+          = ""
+          = t('.disbursements_with_vat')
         %td.numeric
           = claim.disbursements_with_vat_net
         %td.numeric
@@ -57,8 +58,8 @@
 
     - if claim.disbursements.without_vat.any?
       %tr
-        %td
-          = "Disbursements without VAT"
+        %th{scope: 'row'}
+          = t('.disbursements_without_vat')
         %td.numeric
           = claim.disbursements_without_vat_net
         %td.numeric
@@ -67,8 +68,8 @@
           = claim.disbursements_without_vat_gross
   %tfoot
     %tr.totals
-      %th
-        = "Claim Total"
+      %th{scope: 'row'}
+        = t('.claim_total')
       %th.numeric
         = claim.total
       %th.numeric

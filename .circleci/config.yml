@@ -10,9 +10,6 @@ aliases:
     docker:
       - image: circleci/ruby:2.6.3-node-browsers
         environment:
-          # BUNDLE_JOBS: 3
-          # BUNDLE_PATH: vendor/bundle
-          # BUNDLE_RETRY: 3
           CBO_BASE_DATABASE_DATABASE: cccd_test
           PDFTK_PATH: /usr/bin/pdftk
           PGHOST: 127.0.0.1
@@ -43,11 +40,7 @@ aliases:
     save_cache:
       key: v1-dependencies-{{ checksum "Gemfile.lock" }}
       paths:
-        - ./vendor/bundle
-
-  # _attach-repo-workspace: &attach-repo-workspace
-  #   attach_workspace:
-  #     at: ~/repo/
+        - vendor/bundle
 
   _attach-tmp-workspace: &attach-tmp-workspace
       attach_workspace:
@@ -63,8 +56,8 @@ aliases:
     run:
       name: Install Code Climate test-reporter
       command: |
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
-        chmod +x ./tmp/cc-test-reporter
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > tmp/cc-test-reporter
+        chmod +x tmp/cc-test-reporter
 
   _wait-for-db: &wait-for-db
     run:
@@ -78,7 +71,7 @@ aliases:
 
   _rubocop: &rubocop
     run:
-      name: Rubocop
+      name: Run rubocop
       command: bundle exec rubocop
 
   _brakeman: &brakeman
@@ -88,7 +81,7 @@ aliases:
 
   _jasmine: &jasmine
     run:
-      name: Run jasmine tests
+      name: Run jasmine
       command: bundle exec rake jasmine:ci
 
   _rspec: &rspec
@@ -96,7 +89,7 @@ aliases:
       name: Run rspec tests
       command: |
         bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-        ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json
+        tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json
 
   _cucumber: &cucumber
     run:
@@ -131,7 +124,6 @@ jobs:
     parallelism: 2
     steps:
       - checkout
-      # - *attach-repo-workspace
       - *restore-cache
       - *install-dependencies
       - *save-cache
@@ -145,13 +137,12 @@ jobs:
           paths:
             - codeclimate.backend.json
       - store_artifacts:
-          path: ./tmp/codeclimate.backend.json
+          path: tmp/codeclimate.backend.json
 
   cucumber-tests:
     <<: *defaults
     steps:
       - checkout
-      # - *attach-repo-workspace
       - *restore-cache
       - *install-dependencies
       - *save-cache
@@ -161,7 +152,7 @@ jobs:
       - *attach-tmp-workspace
       - *cucumber
       - store_artifacts:
-          path: ./tmp/capybara
+          path: tmp/capybara
 
   other-tests:
     <<: *defaults
@@ -181,12 +172,7 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            pwd
-            ls -la
-            ls -la tmp/
-            tail -n 100 tmp/codeclimate.backend.json
-            tail -n 100 ./tmp/codeclimate.backend.json
-            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.backend.json
+            tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.backend.json
 
   # build-prod-container:
   #   docker:

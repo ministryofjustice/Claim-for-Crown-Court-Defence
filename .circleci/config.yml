@@ -53,11 +53,16 @@ aliases:
       attach_workspace:
         at: ~/repo/tmp
 
+  # _create-tmp-dir: &create-tmp-dir
+  #   run:
+  #     name: Create workspace temporary directory
+  #     command: |
+  #       mkdir -p tmp/
+
   _codeclimate-setup: &codeclimate-setup
     run:
-      name: Setup Code Climate test-reporter
+      name: Install Code Climate test-reporter
       command: |
-        mkdir -p tmp/
         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
         chmod +x ./tmp/cc-test-reporter
 
@@ -119,26 +124,6 @@ jobs:
       - *restore-cache
       - *install-dependencies
       - *save-cache
-      # - persist_to_workspace:
-      #     root: .
-      #     paths:
-      #       - vendor/bundle
-
-  # rubocop:
-  #   <<: *defaults
-  #   steps:
-  #     - checkout
-  #     - *attach-repo-workspace
-  #     - *attach-tmp-workspace
-  #     - *rubocop
-
-  # brakeman:
-  #   <<: *defaults
-  #   steps:
-  #     - checkout
-  #     - *attach-repo-workspace
-  #     - *attach-tmp-workspace
-  #     - *brakeman
 
   rspec-tests:
     <<: *defaults
@@ -197,6 +182,11 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
+            pwd
+            ls -la
+            ls -la tmp/
+            tail -n 100 tmp/codeclimate.backend.json
+            tail -n 100 ./tmp/codeclimate.backend.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.backend.json
 
   # build-prod-container:

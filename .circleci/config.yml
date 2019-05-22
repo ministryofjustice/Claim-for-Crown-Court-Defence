@@ -119,10 +119,10 @@ jobs:
       - *restore-cache
       - *install-dependencies
       - *save-cache
-      - persist_to_workspace:
-          root: .
-          paths:
-            - vendor/bundle
+      # - persist_to_workspace:
+      #     root: .
+      #     paths:
+      #       - vendor/bundle
 
   # rubocop:
   #   <<: *defaults
@@ -147,6 +147,9 @@ jobs:
       - checkout
       - *attach-repo-workspace
       - *attach-tmp-workspace
+      - *restore-cache
+      - *install-dependencies
+      - *save-cache
       - *install-pdftk
       - *wait-for-db
       - *load-db
@@ -164,6 +167,9 @@ jobs:
       - checkout
       - *attach-repo-workspace
       - *attach-tmp-workspace
+      - *restore-cache
+      - *install-dependencies
+      - *save-cache
       - *install-pdftk
       - *wait-for-db
       - *load-db
@@ -177,6 +183,9 @@ jobs:
       - checkout
       - *attach-repo-workspace
       - *attach-tmp-workspace
+      - *restore-cache
+      - *install-dependencies
+      - *save-cache
       - *rubocop
       - *brakeman
       - *jasmine

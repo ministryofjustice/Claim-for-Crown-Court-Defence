@@ -10,9 +10,9 @@ aliases:
     docker:
       - image: circleci/ruby:2.6.3-node-browsers
         environment:
-          BUNDLE_JOBS: 3
-          BUNDLE_PATH: vendor/bundle
-          BUNDLE_RETRY: 3
+          # BUNDLE_JOBS: 3
+          # BUNDLE_PATH: vendor/bundle
+          # BUNDLE_RETRY: 3
           CBO_BASE_DATABASE_DATABASE: cccd_test
           PDFTK_PATH: /usr/bin/pdftk
           PGHOST: 127.0.0.1
@@ -124,13 +124,21 @@ jobs:
           paths:
             - vendor/bundle
 
-  rubocop:
-    <<: *defaults
-    steps:
-      - checkout
-      - *attach-repo-workspace
-      - *attach-tmp-workspace
-      - *rubocop
+  # rubocop:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - *attach-repo-workspace
+  #     - *attach-tmp-workspace
+  #     - *rubocop
+
+  # brakeman:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - *attach-repo-workspace
+  #     - *attach-tmp-workspace
+  #     - *brakeman
 
   rspec-tests:
     <<: *defaults
@@ -163,21 +171,15 @@ jobs:
       - store_artifacts:
           path: ./tmp/capybara
 
-  jasmine-tests:
+  other-tests:
     <<: *defaults
     steps:
       - checkout
       - *attach-repo-workspace
       - *attach-tmp-workspace
-      - *jasmine
-
-  brakeman:
-    <<: *defaults
-    steps:
-      - checkout
-      - *attach-repo-workspace
-      - *attach-tmp-workspace
+      - *rubocop
       - *brakeman
+      - *jasmine
 
   upload-coverage:
     <<: *defaults
@@ -227,7 +229,7 @@ workflows:
   build-and-test:
     jobs:
       - build
-      - rubocop:
+      - other-tests:
           requires:
             - build
       - rspec-tests:
@@ -236,16 +238,8 @@ workflows:
       - cucumber-tests:
           requires:
             - build
-      - jasmine-tests:
-          requires:
-            - build
-      - brakeman:
-          requires:
-            - build
       - upload-coverage:
           requires:
             - rspec-tests
             - cucumber-tests
-            - jasmine-tests
-            - rubocop
-            - brakeman
+            - other-tests

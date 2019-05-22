@@ -77,7 +77,7 @@ aliases:
   _brakeman: &brakeman
     run:
       name: Run brakeman
-      command: bundle exec rake brakeman:run
+      command: bundle exec brakeman
 
   _jasmine: &jasmine
     run:

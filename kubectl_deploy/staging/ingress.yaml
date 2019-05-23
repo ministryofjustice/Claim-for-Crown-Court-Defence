@@ -5,13 +5,13 @@ metadata:
   namespace: cccd-staging
 spec:
   rules:
-    - host: cccd-staging.apps.cloud-platform-live-0.k8s.integration.dsd.io
+    - host: cccd-staging.apps.live-1.cloud-platform.service.justice.gov.uk
       http:
         paths:
           - path: /
             backend:
               serviceName: cccd-app-service
-              servicePort: 80
+              servicePort: 4567
   tls:
     - hosts:
-      - cccd-staging.apps.cloud-platform-live-0.k8s.integration.dsd.io
+      - cccd-staging.apps.live-1.cloud-platform.service.justice.gov.uk

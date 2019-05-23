@@ -12,9 +12,9 @@ spec:
     spec:
       containers:
         - name: cccd-app
-          image: 926803513772.dkr.ecr.eu-west-1.amazonaws.com/laa-get-paid/cccd:app-new-docker-base
+          image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-snsv9
           ports:
-            - containerPort: 80
+            - containerPort: 4567
 #          livenessProbe:
 #            httpGet:
 #              path: /ping
@@ -31,7 +31,7 @@ spec:
             - name: DB_ENGINE
               value: 'postgres'
             - name: GRAPE_SWAGGER_ROOT_URL
-              value: 'http://127.0.0.1:80'
+              value: 'https://cccd-staging.apps.live-1.cloud-platform.service.justice.gov.uk'
             - name: GA_TRACKER_ID
               value: 'UA-37377084-48'
             - name: PDFTK_PATH
@@ -156,11 +156,22 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: SETTINGS__SLACK__BOT_URL
-            - name: SETTINGS__AWS__SUBMITTED_TOPIC_ARN
+            - name: SETTINGS__AWS__SNS__SUBMITTED_TOPIC_ARN
               valueFrom:
                 secretKeyRef:
                   name: cccd-secrets
                   key: SETTINGS__AWS__SUBMITTED_TOPIC_ARN
+            - name: SETTINGS__AWS__SNS__ACCESS
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-staging-claims-submitted-sns-output
+                  key: access_key_id
+            - name: SETTINGS__AWS__SNS__SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-staging-claims-submitted-sns-output
+                  key: secret_access_key
+>>>>>>> 8b723fb15... Setup kubernetes staging environment in live-1 with SNS
             - name: SETTINGS__GOVUK_NOTIFY__API_KEY
               valueFrom:
                 secretKeyRef:

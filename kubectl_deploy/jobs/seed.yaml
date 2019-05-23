@@ -10,7 +10,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: cccd-app
-          image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-ecfcfa59a0b70fffbe788ff651e57e019025b388
+          image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-latest
           command:
             - bundle
             - exec

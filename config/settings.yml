@@ -115,6 +115,7 @@ advocate_phone_contact: '03002002020'
 litigator_phone_contact: '03002002020'
 
 aws:
+  region: 'eu-west-2'
   access: <%= ENV['AWS_ACCESS_KEY'] %>
   secret: <%= ENV['SECRET_ACCESS_KEY'] %>
   submitted_queue: <%= ENV['AWS_QUEUE_NAME'] %>
@@ -123,7 +124,9 @@ aws:
     access: 'store-actual-values-in-.env-file'
     secret: 'store-actual-values-in-.env-file'
     account: 'store-actual-values-in-.env-file'
-
+  sns:
+    access: <%= ENV['AWS_ACCESS_KEY'] %>
+    secret: <%= ENV['SECRET_ACCESS_KEY'] %>     
 slack:
   bot_url: 'slack_bot_url'
   bot_name: 'bot_name'

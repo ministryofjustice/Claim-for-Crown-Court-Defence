@@ -10,7 +10,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: db-migrate
-          image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-ecfcfa59a0b70fffbe788ff651e57e019025b388
+          image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-kma
           command:
             - bundle
             - exec
@@ -42,125 +42,125 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-rds-output
+                  name: cccd-staging-rds-output
                   key: url
             - name: SECRET_KEY_BASE
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: SECRET_KEY_BASE
             - name: CASE_WORKER_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: CASE_WORKER_PASSWORD
             - name: ADVOCATE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: ADVOCATE_PASSWORD
             - name: ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: ADMIN_PASSWORD
             - name: SUPERADMIN_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: SUPERADMIN_USERNAME
             - name: SUPERADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: SUPERADMIN_PASSWORD
             - name: AWS_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: AWS_ACCESS_KEY
             - name: SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: SECRET_ACCESS_KEY
             - name: AWS_REGION
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: AWS_REGION
             - name: ADP_BUCKET_NAME
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: ADP_BUCKET_NAME
             - name: GECKOBOARD_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: GECKOBOARD_TOKEN
             - name: GOOGLE_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: GOOGLE_API_KEY
             - name: GECKOBOARD_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: GECKOBOARD_API_KEY
             - name: LAA_FEE_CALCULATOR_HOST
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: LAA_FEE_CALCULATOR_HOST
             - name: NEWRELIC_LICENSE_KEY
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: NEWRELIC_LICENSE_KEY
             - name: SETTINGS__SLACK__BOT_URL
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: SETTINGS__SLACK__BOT_URL
             - name: SETTINGS__GOVUK_NOTIFY__API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: SETTINGS__GOVUK_NOTIFY__API_KEY
             - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__MESSAGE_ADDED_EMAIL
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__MESSAGE_ADDED_EMAIL
             - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_USER
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key:  SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_USER
             - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_ADVOCATE_ADMIN
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_ADVOCATE_ADMIN
             - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_LITIGATOR_ADMIN
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_LITIGATOR_ADMIN
             - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__PASSWORD_RESET
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__PASSWORD_RESET
             - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__UNLOCK_INSTRUCTIONS
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__UNLOCK_INSTRUCTIONS
             - name: TEST_CHAMBER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: cccd-dev-secrets
+                  name: cccd-staging-secrets
                   key: TEST_CHAMBER_API_KEY

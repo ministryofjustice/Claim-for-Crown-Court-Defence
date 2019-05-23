@@ -94,7 +94,7 @@ group :development, :devunicorn, :test do
   gem 'puma'
   gem 'site_prism', '~> 3.2'
   gem 'jasmine', '~> 3.4'
-  gem 'guard-jasmine', '~> 3.0'
+  gem 'guard-jasmine', '~> 3.1'
   gem 'jasmine_selenium_runner', require: false
   gem 'guard-rspec'
   gem 'guard-rubocop'

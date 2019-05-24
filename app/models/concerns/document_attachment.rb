@@ -10,7 +10,7 @@ module DocumentAttachment
                         'Expires' => 3.months.from_now.httpdate
                       },
                         s3_permissions: :private,
-                        s3_region: 'eu-west-1' }.merge(PAPERCLIP_STORAGE_OPTIONS)
+                        s3_region: Settings.aws.s3.region }.merge(PAPERCLIP_STORAGE_OPTIONS)
 
     has_attached_file :document,
                       { s3_headers: {
@@ -18,7 +18,7 @@ module DocumentAttachment
                         'Expires' => 3.months.from_now.httpdate
                       },
                         s3_permissions: :private,
-                        s3_region: 'eu-west-1' }.merge(PAPERCLIP_STORAGE_OPTIONS)
+                        s3_region: Settings.aws.s3.region }.merge(PAPERCLIP_STORAGE_OPTIONS)
 
     validates_attachment_content_type :converted_preview_document, content_type: 'application/pdf'
   end

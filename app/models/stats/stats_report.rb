@@ -31,7 +31,7 @@ module Stats
                         'Expires' => 3.months.from_now.httpdate
                       },
                         s3_permissions: :private,
-                        s3_region: 'eu-west-1' }.merge(REPORTS_STORAGE_OPTIONS)
+                        s3_region: Settings.aws.s3.region }.merge(REPORTS_STORAGE_OPTIONS)
 
     validates_attachment_content_type :document, content_type: ['text/csv']
 

@@ -159,23 +159,18 @@ spec:
             - name: SETTINGS__AWS__SNS__SUBMITTED_TOPIC_ARN
               valueFrom:
                 secretKeyRef:
-<<<<<<< HEAD
-                  name: cccd-secrets
-                  key: SETTINGS__AWS__SUBMITTED_TOPIC_ARN
-=======
-                  name: cccd-staging-claims-submitted-sns-output
+                  name: cccd-claims-submitted-output
                   key: topic_arn
             - name: SETTINGS__AWS__SNS__ACCESS
               valueFrom:
                 secretKeyRef:
-                  name: cccd-staging-claims-submitted-sns-output
+                  name: cccd-claims-submitted-output
                   key: access_key_id
             - name: SETTINGS__AWS__SNS__SECRET
               valueFrom:
                 secretKeyRef:
-                  name: cccd-staging-claims-submitted-sns-output
+                  name: cccd-claims-submitted-sns-output
                   key: secret_access_key
->>>>>>> 8b723fb15... Setup kubernetes staging environment in live-1 with SNS
             - name: SETTINGS__GOVUK_NOTIFY__API_KEY
               valueFrom:
                 secretKeyRef:

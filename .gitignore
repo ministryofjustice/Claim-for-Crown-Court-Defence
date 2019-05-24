@@ -65,3 +65,4 @@ tags
 .personal/*
 
 vcr/cassettes/*.log
+kubectl*/**/*secret*.yaml

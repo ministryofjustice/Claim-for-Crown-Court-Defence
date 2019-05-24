@@ -12,6 +12,8 @@
 
 module Stats
   class StatsReport < ApplicationRecord
+    include S3Headers
+
     TYPES = %w[management_information provisional_assessment rejections_refusals].freeze
 
     validates :status, inclusion: { in: %w[started completed error] }
@@ -25,13 +27,7 @@ module Stats
     scope :management_information, -> { not_errored.where(report_name: 'management_information') }
     scope :provisional_assessment, -> { not_errored.where(report_name: 'provisional_assessment') }
 
-    has_attached_file :document,
-                      { s3_headers: {
-                        'x-amz-meta-Cache-Control' => 'no-cache',
-                        'Expires' => 3.months.from_now.httpdate
-                      },
-                        s3_permissions: :private,
-                        s3_region: 'eu-west-1' }.merge(REPORTS_STORAGE_OPTIONS)
+    has_attached_file :document, s3_headers.merge(REPORTS_STORAGE_OPTIONS)
 
     validates_attachment_content_type :document, content_type: ['text/csv']
 

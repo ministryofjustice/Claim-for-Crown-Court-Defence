@@ -1,24 +1,13 @@
 module DocumentAttachment
   extend ActiveSupport::Concern
+  include S3Headers
 
   included do
     attr_accessor :pdf_tmpfile
 
-    has_attached_file :converted_preview_document,
-                      { s3_headers: {
-                        'x-amz-meta-Cache-Control' => 'no-cache',
-                        'Expires' => 3.months.from_now.httpdate
-                      },
-                        s3_permissions: :private,
-                        s3_region: 'eu-west-1' }.merge(PAPERCLIP_STORAGE_OPTIONS)
+    has_attached_file :converted_preview_document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
 
-    has_attached_file :document,
-                      { s3_headers: {
-                        'x-amz-meta-Cache-Control' => 'no-cache',
-                        'Expires' => 3.months.from_now.httpdate
-                      },
-                        s3_permissions: :private,
-                        s3_region: 'eu-west-1' }.merge(PAPERCLIP_STORAGE_OPTIONS)
+    has_attached_file :document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
 
     validates_attachment_content_type :converted_preview_document, content_type: 'application/pdf'
   end

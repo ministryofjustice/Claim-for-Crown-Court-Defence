@@ -27,6 +27,8 @@ RSpec.describe Message, type: :model do
 
   it { should have_attached_file(:attachment) }
 
+  it_behaves_like 'an s3 bucket'
+
   it do
      should validate_attachment_content_type(:attachment).
        allowing('application/pdf',

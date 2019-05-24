@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Stats::StatsReport do
+  it_behaves_like 'an s3 bucket'
+
   context 'management information reports' do
     before(:all) do
       @mi_old = create :stats_report, started_at: 10.days.ago

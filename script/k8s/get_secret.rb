@@ -42,7 +42,7 @@ if options.environment.nil?
 else
   values = YAML.load(`kubectl --context #{options.context} -n cccd-#{options.environment} get secret cccd-#{options.environment}-secrets -o yaml | grep -vE '#{grep_excludes}'`)
   secrets = values
-  values["data"].transform_values! { |v| Base64.decode64(v) } if options.decode
+  values["data"].transform_values! { |v| Base64.decode64(v) unless v.nil? } if options.decode
   if options.output
     File.open(File.join('kubectl_deploy', options.environment, "temp_#{options.environment}_secrets.yaml"), 'w') do |file|
       file.write secrets.to_yaml

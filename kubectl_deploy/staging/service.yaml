@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cccd-app-service
+  namespace: cccd-staging
+  labels:
+    app: cccd-app-service
+spec:
+  ports:
+    - port: 80
+      name: http
+      targetPort: 80
+  selector:
+    app: cccd

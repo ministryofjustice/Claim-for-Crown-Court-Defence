@@ -143,6 +143,21 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: SETTINGS__SLACK__BOT_URL
+            - name: SETTINGS__AWS__SNS__SUBMITTED_TOPIC_ARN
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-claims-submitted-sns
+                  key: topic_arn
+            - name: SETTINGS__AWS__SNS__ACCESS
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-claims-submitted-sns
+                  key: access_key_id
+            - name: SETTINGS__AWS__SNS__SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-claims-submitted-sns
+                  key: secret_access_key
             - name: SETTINGS__GOVUK_NOTIFY__API_KEY
               valueFrom:
                 secretKeyRef:

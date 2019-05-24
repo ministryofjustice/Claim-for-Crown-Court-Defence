@@ -27,7 +27,7 @@ class Message < ApplicationRecord
                       'Expires' => 3.months.from_now.httpdate
                     },
                       s3_permissions: :private,
-                      s3_region: 'eu-west-1' }.merge(PAPERCLIP_STORAGE_OPTIONS)
+                      s3_region: Settings.aws.s3.region }.merge(PAPERCLIP_STORAGE_OPTIONS)
 
   validates_attachment :attachment,
                        size: { in: 0.megabytes..20.megabytes },

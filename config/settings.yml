@@ -119,6 +119,10 @@ aws:
   secret: <%= ENV['SECRET_ACCESS_KEY'] %>
   submitted_queue: <%= ENV['AWS_QUEUE_NAME'] %>
   response_queue: <%= ENV['AWS_RESPONSE_QUEUE_NAME'] %>
+  s3:
+    access: 'actual value in .env file or setup'
+    secret: 'actual value in .env file or setup'
+    bucket: 'actual value in .env file or setup'
   billing:
     access: 'store-actual-values-in-.env-file'
     secret: 'store-actual-values-in-.env-file'

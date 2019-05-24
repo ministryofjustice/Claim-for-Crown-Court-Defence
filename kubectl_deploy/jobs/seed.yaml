@@ -1,0 +1,166 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-seed
+spec:
+  template:
+    metadata:
+      name: db-seed
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: cccd-app
+          image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-ecfcfa59a0b70fffbe788ff651e57e019025b388
+          command:
+            - bundle
+            - exec
+            - rake
+            - db:seed
+          env:
+            - name: RAILS_ENV
+              value: 'production'
+            - name: DB_PORT
+              value: '5432'
+            - name: DB_ENGINE
+              value: 'postgres'
+            - name: GRAPE_SWAGGER_ROOT_URL
+              value: 'http://127.0.0.1:80'
+            - name: GA_TRACKER_ID
+              value: 'UA-37377084-48'
+            - name: PDFTK_PATH
+              value: '/usr/bin/pdftk'
+            - name: SETTINGS__SLACK__BOT_NAME
+              value: 'Injectotron'
+            - name: SETTINGS__SLACK__FAIL_ICON
+              value: ':katyperry:'
+            - name: SETTINGS__SLACK__SUCCESS_ICON
+              value: ':taytay:'
+            - name: SETTINGS__AWS__POLL_MESSAGE_COUNT
+              value: '1'
+            - name: SETTINGS__AWS__POLL_MESSAGE_WAIT_TIME
+              value: '10'
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-rds-output
+                  key: url
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: SECRET_KEY_BASE
+            - name: CASE_WORKER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: CASE_WORKER_PASSWORD
+            - name: ADVOCATE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: ADVOCATE_PASSWORD
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: ADMIN_PASSWORD
+            - name: SUPERADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: SUPERADMIN_USERNAME
+            - name: SUPERADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: SUPERADMIN_PASSWORD
+            - name: AWS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: AWS_ACCESS_KEY
+            - name: SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: SECRET_ACCESS_KEY
+            - name: AWS_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: AWS_REGION
+            - name: ADP_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: ADP_BUCKET_NAME
+            - name: GECKOBOARD_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: GECKOBOARD_TOKEN
+            - name: GOOGLE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: GOOGLE_API_KEY
+            - name: GECKOBOARD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: GECKOBOARD_API_KEY
+            - name: LAA_FEE_CALCULATOR_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: LAA_FEE_CALCULATOR_HOST
+            - name: NEWRELIC_LICENSE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: NEWRELIC_LICENSE_KEY
+            - name: SETTINGS__SLACK__BOT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: SETTINGS__SLACK__BOT_URL
+            - name: SETTINGS__GOVUK_NOTIFY__API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__API_KEY
+            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__MESSAGE_ADDED_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__MESSAGE_ADDED_EMAIL
+            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_USER
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key:  SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_USER
+            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_ADVOCATE_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_ADVOCATE_ADMIN
+            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_LITIGATOR_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_LITIGATOR_ADMIN
+            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__PASSWORD_RESET
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__PASSWORD_RESET
+            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__UNLOCK_INSTRUCTIONS
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__UNLOCK_INSTRUCTIONS
+            - name: TEST_CHAMBER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-dev-secrets
+                  key: TEST_CHAMBER_API_KEY

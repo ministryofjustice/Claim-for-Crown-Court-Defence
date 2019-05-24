@@ -1,0 +1,40 @@
+#!/bin/bash
+if [[ $CONTEXT == "live-1" ]];
+then
+  REGION='eu-west-2'
+  ECR_PREFIX='754256621582.dkr.ecr.eu-west-2'
+  CONTEXT='live-1'
+  AWS_PROFILE='ecr-live1'
+else
+  REGION='eu-west-1'
+  ECR_PREFIX='926803513772.dkr.ecr.eu-west-1'
+  CONTEXT='live-0'
+  AWS_PROFILE='ecr'
+fi
+
+TEAM_NAME=laa-get-paid
+REPO_NAME=cccd 
+ECR=${ECR_PREFIX}.amazonaws.com/${TEAM_NAME}/${REPO_NAME}
+
+COMPONENT=app
+VERSION=$(git rev-parse $(git branch | grep \* | cut -d ' ' -f2))
+CCCD_BUILD_TAG=${COMPONENT}-${VERSION}
+
+FULL_IMAGE=${ECR}:${CCCD_BUILD_TAG}
+echo '------------------'
+echo $FULL_IMAGE
+echo '------------------'
+ESCAPED_IMAGE=$(echo $FULL_IMAGE | sed "s=/=\\\/=g")
+echo '------------------'
+echo $ESCAPED_IMAGE
+echo '------------------'
+
+$(aws ecr --profile "$AWS_PROFILE" get-login --no-include-email --region "$REGION")
+docker build -t ${TEAM_NAME}/${REPO_NAME}:${COMPONENT} -f docker/Dockerfile .
+docker tag ${TEAM_NAME}/${REPO_NAME}:${COMPONENT} ${FULL_IMAGE}
+docker push ${FULL_IMAGE}
+
+#sed -i -e "s/image:.*/image: $ESCAPED_IMAGE/" kubectl_deploy/${ENV}/deployment.yaml
+#kubectl apply -f kubectl_deploy/${ENV} -n cccd-${ENV} --context ${CONTEXT}
+
+kubectl set image -f kubectl_deploy/${ENV}/deployment.yaml cccd-app=$FULL_IMAGE --local -o yaml | kubectl apply -f -

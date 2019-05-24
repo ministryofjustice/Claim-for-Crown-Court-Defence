@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: cccd-app-ingress
+  namespace: cccd-dev
+spec:
+  rules:
+    - host: cccd-dev.apps.live-1.cloud-platform.service.justice.gov.uk
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: cccd-app-service
+              servicePort: 4567
+  tls:
+    - hosts:
+      - cccd-dev.apps.live-1.cloud-platform.service.justice.gov.uk

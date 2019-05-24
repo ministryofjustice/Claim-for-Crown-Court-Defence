@@ -92,4 +92,4 @@ echo "starting sidekiq daemon"
 bundle exec sidekiq -d
 
 echo "launching unicorn"
-bundle exec unicorn -p 80 -c config/unicorn.rb
+bundle exec unicorn -p 3000 -c config/unicorn.rb

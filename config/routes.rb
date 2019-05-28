@@ -178,6 +178,17 @@ Rails.application.routes.draw do
       get 'management_information/download', to: 'management_information#download', as: :management_information_download
       get 'management_information/generate', to: 'management_information#generate', as: :management_information_generate
     end
+
+  end
+
+  namespace :provider_management do
+    root to: 'provider_management/providers#index'
+    resources :providers, except: [:destroy] do
+      resources :external_users, except: [:destroy] do
+        get 'change_password', on: :member
+        patch 'update_password', on: :member
+      end
+    end
   end
 
   namespace :geckoboard_api do

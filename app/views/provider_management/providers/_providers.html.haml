@@ -1,0 +1,32 @@
+- if providers.none?
+  %p
+    No providers found
+- else
+
+  %table{summary: t('.table_summary')}
+    %caption.heading-medium
+      = t('.caption')
+    %thead
+      %th{scope: 'col'}
+        = t('.provider_name')
+      %th{scope: 'col'}
+        = t('.provider_type')
+      %th{scope: 'col'}
+        = t('.fee_schemes')
+      %th{scope: 'col'}
+        = t('.vat_registered')
+      %th{scope: 'col'}
+        Users
+    %tbody
+      - providers.each do |provider|
+        %tr{id: dom_id(provider) }
+          %th{ scope: 'row'}
+            = link_to provider.name, super_admins_provider_path(provider)
+          %td
+            = provider.provider_type.humanize
+          %td
+            = provider.roles.map(&:upcase) * ', '
+          %td
+            = provider.vat_registered == true ? 'Yes' : 'No'
+          %td
+            = link_to "Manage users in provider", super_admins_provider_external_users_path(provider)

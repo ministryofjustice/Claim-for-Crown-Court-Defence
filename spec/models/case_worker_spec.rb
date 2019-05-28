@@ -33,8 +33,8 @@ RSpec.describe CaseWorker, type: :model do
   it { should validate_presence_of(:user).with_message('User cannot be blank') }
 
   describe 'ROLES' do
-    it 'should have "admin" and "case_worker"' do
-      expect(CaseWorker::ROLES).to match_array(%w( admin case_worker ))
+    it 'should have "admin", "case_worker" and "provider_management"' do
+      expect(CaseWorker::ROLES).to match_array(%w( admin case_worker provider_management ))
     end
   end
 

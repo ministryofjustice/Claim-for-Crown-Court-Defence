@@ -30,6 +30,10 @@ FactoryBot.define do
       roles { ['admin'] }
     end
 
+    trait :provider_manager do
+      roles { ['provider_management'] }
+    end
+
     trait :softly_deleted do
       deleted_at { 10.minutes.ago }
     end

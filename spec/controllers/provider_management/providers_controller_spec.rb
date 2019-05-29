@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe ProviderManagement::ProvidersController, type: :controller do
-  let(:super_admin) { create(:super_admin) }
+  let(:case_worker_manager)   { create(:case_worker, :provider_manager) }
   let(:providers)   { create_list(:provider, 5) }
   let(:provider)    { create(:provider, :lgfs, name: 'test 123') }
 
   subject { provider }
 
-  before { sign_in super_admin.user }
+  before { sign_in case_worker_manager.user }
 
   describe "GET #show" do
     before { get :show, params: { id: subject } }
@@ -56,7 +56,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
         expect(firm.lgfs_supplier_numbers).to have(4).items
 
         patch :update, params: { id: firm, provider: { name: firm.name, provider_type: 'chamber', roles: ['agfs', ''], firm_agfs_supplier_number: '', vat_registered: 'true'} }
-        expect(response).to redirect_to(super_admins_provider_path(firm))
+        expect(response).to redirect_to(provider_management_provider_path(firm))
         firm.reload
         expect(firm.roles).to eq(['agfs'])
         expect(firm.firm_agfs_supplier_number).to be_nil
@@ -73,7 +73,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
       end
 
       it 'redirects to providers show page' do
-        expect(response).to redirect_to(super_admins_provider_path(subject))
+        expect(response).to redirect_to(provider_management_provider_path(subject))
       end
     end
 
@@ -129,7 +129,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
         end
 
         it 'redirects to providers show page' do
-          expect(response).to redirect_to(super_admins_provider_path(subject))
+          expect(response).to redirect_to(provider_management_provider_path(subject))
         end
       end
     end
@@ -171,7 +171,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
       end
 
       it 'redirects to index' do
-        expect(response).to redirect_to(super_admins_root_path)
+        expect(response).to redirect_to(provider_management_root_path)
       end
     end
 

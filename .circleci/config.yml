@@ -31,7 +31,7 @@ aliases:
 
   _install-dependencies: &install-dependencies
     run:
-      name: install dependencies
+      name: Install dependencies
       command: |
         gem install bundler -v 1.17.3
         bundle check || bundle _1.17.3_ install --jobs=4 --retry=3 --path vendor/bundle
@@ -48,7 +48,7 @@ aliases:
 
   _create-tmp-dir: &create-tmp-dir
     run:
-      name: Create workspace temporary directoryies
+      name: Create workspace temporary directories
       command: |
         mkdir -p tmp/
         mkdir -p tmp/coverage/
@@ -144,7 +144,6 @@ jobs:
           root: tmp
           paths:
             - coverage/codeclimate.*.json
-
       - store_artifacts:
           path: tmp/coverage
 
@@ -159,7 +158,6 @@ jobs:
       - *install-pdftk
       - *wait-for-db
       - *load-db
-      - *attach-tmp-workspace
       - *cucumber
       - store_artifacts:
           path: tmp/capybara

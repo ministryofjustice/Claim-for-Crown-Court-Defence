@@ -48,7 +48,7 @@
           %li
             = link_to t('.manage_providers'), provider_management_providers_path, class: cp(super_admins_providers_path)
           %li
-            = link_to t('.find_provider_by_email'), super_admins_external_users_find_path, class: cp(new_super_admins_provider_path)
+            = link_to t('.find_provider_by_email'), provider_management_external_users_find_path, class: cp(new_super_admins_provider_path)
 
       - else
         %li

@@ -1,5 +1,5 @@
 FROM ruby:2.6.3-alpine3.8
-MAINTAINER Ministry of Justice <tools@digital.justice.gov.uk>
+MAINTAINER Ministry of Justice, Claim for crown court defence <crowncourtdefence@digital.justice.gov.uk>
 
 # fail early and print all commands
 RUN set -ex

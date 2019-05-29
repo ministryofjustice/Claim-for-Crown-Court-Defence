@@ -1,4 +1,4 @@
-= form_for [:super_admins, @provider, @external_user] do |f|
+= form_for [:provider_management, @provider, @external_user] do |f|
   - if @external_user.errors.any?
     .error-summary{"aria-labelledby" => "error-summary-heading", :role => "alert", :tabindex => "-1"}
       %h2#error-summary-heading.heading-medium.error-summary-heading

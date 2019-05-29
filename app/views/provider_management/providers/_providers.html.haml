@@ -21,7 +21,7 @@
       - providers.each do |provider|
         %tr{id: dom_id(provider) }
           %th{ scope: 'row'}
-            = link_to provider.name, super_admins_provider_path(provider)
+            = link_to provider.name, provider_management_provider_path(provider)
           %td
             = provider.provider_type.humanize
           %td
@@ -29,4 +29,4 @@
           %td
             = provider.vat_registered == true ? 'Yes' : 'No'
           %td
-            = link_to "Manage users in provider", super_admins_provider_external_users_path(provider)
+            = link_to "Manage users in provider", provider_management_provider_external_users_path(provider)

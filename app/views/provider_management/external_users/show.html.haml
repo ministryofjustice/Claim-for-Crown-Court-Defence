@@ -15,7 +15,7 @@
         %th{scope: 'row'}
           = t('.provider')
         %td
-          = link_to @external_user.provider.name, super_admins_provider_path(@provider), title: t('.edit_provider')
+          = link_to @external_user.provider.name, provider_management_provider_path(@provider), title: t('.edit_provider')
       %tr
         %th{scope: 'row'}
           = t('.email')
@@ -44,7 +44,7 @@
 
 .form-group
   - if can? :edit, @external_user
-    = link_to t('.edit'), edit_super_admins_provider_external_user_path(@provider, @external_user), class: 'button', role: 'button'
+    = link_to t('.edit'), edit_provider_management_provider_external_user_path(@provider, @external_user), class: 'button', role: 'button'
 
   - if can? :change_password, @external_user
-    = link_to t('.change_password'), change_password_super_admins_provider_external_user_path(@provider, @external_user), class: 'button', role: 'button'
+    = link_to t('.change_password'), change_password_provider_management_provider_external_user_path(@provider, @external_user), class: 'button', role: 'button'

@@ -7,7 +7,7 @@
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 .grid-row.clear-float
-  = link_to t('.add_provider'), new_super_admins_provider_external_user_path(@provider), class: 'button right'
+  = link_to t('.add_provider'), new_provider_management_provider_external_user_path(@provider), class: 'button right'
 
 %table{summary: t('.table_summary', provider_name: @provider.name)}
   %caption
@@ -26,7 +26,7 @@
     - @external_users.each do |advocate|
       %tr
         %td{scope: 'row'}
-          = advocate.active? ? link_to(advocate.name, super_admins_provider_external_user_path(@provider, advocate), title: t('.view_details', text: advocate.name )) : advocate.name
+          = advocate.active? ? link_to(advocate.name, provider_management_provider_external_user_path(@provider, advocate), title: t('.view_details', text: advocate.name )) : advocate.name
         %td
           = advocate.supplier_number
         %td

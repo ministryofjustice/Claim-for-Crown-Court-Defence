@@ -16,7 +16,7 @@ class ProviderManagement::ProvidersController < ApplicationController
 
   def update
     if @provider.update(provider_params.except(*filtered_params))
-      redirect_to super_admins_provider_path(@provider), notice: 'Provider successfully updated'
+      redirect_to provider_management_provider_path(@provider), notice: 'Provider successfully updated'
     else
       render 'shared/providers/edit'
     end
@@ -25,7 +25,7 @@ class ProviderManagement::ProvidersController < ApplicationController
   def create
     @provider = Provider.new(provider_params)
     if @provider.save
-      redirect_to super_admins_root_path, notice: 'Provider successfully created'
+      redirect_to provider_management_root_path, notice: 'Provider successfully created'
     else
       render 'shared/providers/new'
     end

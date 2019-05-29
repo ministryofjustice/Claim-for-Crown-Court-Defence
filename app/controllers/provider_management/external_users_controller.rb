@@ -23,7 +23,7 @@ class ProviderManagement::ExternalUsersController < ApplicationController
 
     if @external_user.save
       deliver_reset_password_instructions(@external_user.user)
-      redirect_to super_admins_provider_external_user_path(@provider, @external_user),
+      redirect_to provider_management_provider_external_user_path(@provider, @external_user),
                   notice: 'User successfully created'
     else
       render :new
@@ -36,15 +36,15 @@ class ProviderManagement::ExternalUsersController < ApplicationController
 
   def search
     if @external_user&.is_a?(ExternalUser)
-      redirect_to super_admins_provider_external_user_path(@external_user.provider, @external_user)
+      redirect_to provider_management_provider_external_user_path(@external_user.provider, @external_user)
     else
-      redirect_to super_admins_external_users_find_path, alert: 'No provider found with that email'
+      redirect_to provider_management_external_users_find_path, alert: 'No provider found with that email'
     end
   end
 
   def update
     if @external_user.update(external_user_params)
-      redirect_to super_admins_provider_external_user_path(@provider, @external_user),
+      redirect_to provider_management_provider_external_user_path(@provider, @external_user),
                   notice: 'User successfully updated'
     else
       render :edit
@@ -60,7 +60,7 @@ class ProviderManagement::ExternalUsersController < ApplicationController
     user = @external_user.user
 
     if user.update(password_params[:user_attributes])
-      redirect_to super_admins_provider_external_user_path(@provider, @external_user),
+      redirect_to provider_management_provider_external_user_path(@provider, @external_user),
                   notice: 'User password successfully updated'
     else
       render :change_password

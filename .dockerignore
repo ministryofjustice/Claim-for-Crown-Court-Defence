@@ -1,16 +1,36 @@
-# dockerignore doesn't implement recursivity yet
-.idea/*/*/*/
-.idea/*/*/
-.idea/*/
-.idea/
+.idea/**/
 
-/log/*.log
-/log/*.output
-/log/*.pid
+log/*
 
-/tmp/stats/*.csv
-/tmp/*.log
+tmp/stats/*.csv
+tmp/*.log
 
-/coverage/*
+coverage/*
+coverage
+features/*
+features
+vcr/*
+vcr
 
+# Note: We need spec folder for smoke test
+# spec/*
+
+.env
+.env.sample
+.codeclimate.yml
+.rubocop.yml
+.rubocop_todo.yml
+
+.dockerignore
+.git
+.github
+.rspec
+.eslintrc
+.bundle
+.circleci
+.codeclimate.yml
+
+Brewfile
+Guardfile
+README.md
 dump.rdb

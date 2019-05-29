@@ -24,17 +24,10 @@ FULL_IMAGE=${ECR}:${CCCD_BUILD_TAG}
 echo '------------------'
 echo $FULL_IMAGE
 echo '------------------'
-ESCAPED_IMAGE=$(echo $FULL_IMAGE | sed "s=/=\\\/=g")
-echo '------------------'
-echo $ESCAPED_IMAGE
-echo '------------------'
 
 $(aws ecr --profile "$AWS_PROFILE" get-login --no-include-email --region "$REGION")
 docker build -t ${TEAM_NAME}/${REPO_NAME}:${COMPONENT} -f docker/Dockerfile .
 docker tag ${TEAM_NAME}/${REPO_NAME}:${COMPONENT} ${FULL_IMAGE}
 docker push ${FULL_IMAGE}
 
-#sed -i -e "s/image:.*/image: $ESCAPED_IMAGE/" kubectl_deploy/${ENV}/deployment.yaml
-#kubectl apply -f kubectl_deploy/${ENV} -n cccd-${ENV} --context ${CONTEXT}
-
-kubectl set image -f kubectl_deploy/${ENV}/deployment.yaml cccd-app=$FULL_IMAGE --local -o yaml | kubectl apply -f -
+kubectl set image -f kubectl_deploy/${ENV}/deployment.yaml cccd-app=$FULL_IMAGE --local -o yaml | kubectl apply -n cccd-${ENV} --context ${CONTEXT} -f -

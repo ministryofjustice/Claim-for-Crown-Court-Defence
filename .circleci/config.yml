@@ -1,4 +1,5 @@
 version: 2
+
 references:
   build_containers_config: &build_container_config
     working_directory: ~/repo

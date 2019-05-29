@@ -94,7 +94,9 @@ aliases:
   _cucumber: &cucumber
     run:
         name: Run cucumber tests
-        command: bundle exec cucumber --format progress --color
+        command: |
+          FEATURES=$(circleci tests glob "features/**/*.feature" | circleci tests split)
+          bundle exec cucumber ${FEATURES} --format progress --color
 
   _install-pdftk: &install-pdftk
     run:
@@ -141,6 +143,7 @@ jobs:
 
   cucumber-tests:
     <<: *defaults
+    parallelism: 2
     steps:
       - checkout
       - *restore-cache

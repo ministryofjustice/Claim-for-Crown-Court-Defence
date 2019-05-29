@@ -88,7 +88,7 @@ aliases:
     run:
       name: Run rspec tests
       command: |
-        bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+        bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split)
         tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json
 
   _cucumber: &cucumber

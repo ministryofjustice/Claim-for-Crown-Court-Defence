@@ -48,9 +48,10 @@ aliases:
 
   _create-tmp-dir: &create-tmp-dir
     run:
-      name: Create workspace temporary directory
+      name: Create workspace temporary directoryies
       command: |
         mkdir -p tmp/
+        mkdir -p tmp/coverage/
 
   _install-codeclimate: &install-codeclimate
     run:
@@ -58,6 +59,12 @@ aliases:
       command: |
         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > tmp/cc-test-reporter
         chmod +x tmp/cc-test-reporter
+
+  _persist-codeclimate: &persist-codeclimate
+    persist_to_workspace:
+      root: tmp
+      paths:
+        - cc-test-reporter
 
   _wait-for-db: &wait-for-db
     run:
@@ -88,8 +95,10 @@ aliases:
     run:
       name: Run rspec tests
       command: |
-        bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split)
-        tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json
+        tmp/cc-test-reporter before-build
+        TESTS=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split)
+        bundle exec rspec ${TESTS}
+        tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
   _cucumber: &cucumber
     run:
@@ -113,17 +122,14 @@ jobs:
           docker_layer_caching: true
       - *create-tmp-dir
       - *install-codeclimate
-      - persist_to_workspace:
-          root: tmp
-          paths:
-            - cc-test-reporter
+      - *persist-codeclimate
       - *restore-cache
       - *install-dependencies
       - *save-cache
 
   rspec-tests:
     <<: *defaults
-    parallelism: 3
+    parallelism: 4
     steps:
       - checkout
       - *restore-cache
@@ -137,9 +143,10 @@ jobs:
       - persist_to_workspace:
           root: tmp
           paths:
-            - codeclimate.backend.json
+            - coverage/codeclimate.*.json
+
       - store_artifacts:
-          path: tmp/codeclimate.backend.json
+          path: tmp/coverage
 
   cucumber-tests:
     <<: *defaults
@@ -175,8 +182,7 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.backend.json
-
+            tmp/cc-test-reporter sum-coverage --output - --parts 4 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
 
   # TODO: once merged with new alpine build try this out
   #

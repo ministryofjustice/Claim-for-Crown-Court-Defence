@@ -183,6 +183,8 @@ Rails.application.routes.draw do
 
   namespace :provider_management do
     root to: 'provider_management/providers#index'
+    get 'external_users/find', to: 'external_users#find'
+    post 'external_users/find', to: 'external_users#search'
     resources :providers, except: [:destroy] do
       resources :external_users, except: [:destroy] do
         get 'change_password', on: :member

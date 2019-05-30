@@ -42,13 +42,12 @@
             = link_to t('.re_allocation'), case_workers_admin_allocations_path({ tab: :allocated }), 'aria-label': t('.re_allocation'), class: cp(case_workers_admin_allocations_path({ tab: :allocated }))
           %li
             = link_to t('.manage_case_workers'), case_workers_admin_case_workers_path, 'aria-label': t('.manage_case_workers'), class: cp(case_workers_admin_case_workers_path)
-          %li
-            = link_to t('.management_information'), case_workers_admin_management_information_path, 'aria-label': t('.management_information'), class: cp(case_workers_admin_management_information_path)
         - if current_user.persona.provider_management?
           %li
-            = link_to t('.manage_providers'), provider_management_providers_path, class: cp(super_admins_providers_path)
+            = link_to t('.manage_providers'), provider_management_providers_path, 'aria-label': t('.manage_providers'), class: cp(provider_management_providers_path)
+        - if current_user.persona.admin?
           %li
-            = link_to t('.find_provider_by_email'), provider_management_external_users_find_path, class: cp(new_super_admins_provider_path)
+            = link_to t('.management_information'), case_workers_admin_management_information_path, 'aria-label': t('.management_information'), class: cp(case_workers_admin_management_information_path)
 
       - else
         %li

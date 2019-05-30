@@ -6,7 +6,9 @@
 
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
-%p
-  = link_to t('.add_a_provider'), new_provider_management_provider_path, class: 'button', role:'button'
+.form-section
+  .form-group.form-buttons
+    = link_to t('.add_a_provider'), new_provider_management_provider_path, class: 'button', role:'button'
+    = link_to t('.find_provider_by_email'), provider_management_external_users_find_path, class: 'link-secondary'
 
 = render partial: 'providers', locals: { providers: @providers }

@@ -530,6 +530,7 @@ en:
         page_heading: Manage providers
         add_a_provider: Add a provider
         page_title: View providers in claim for Crown court defence
+        find_provider_by_email: Find provider by email
       providers:
         fee_schemes: Fee schemes
         provider_type: *provider_type

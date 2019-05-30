@@ -521,13 +521,13 @@ en:
         lgfs_supplier_numbers: 'LGFS supplier numbers'
         firm_agfs_supplier_number: 'AGFS supplier number'
         page_title: "View %{provider_name}'s details"
-        page_heading: Manage provider
+        page_heading: Providers
         edit: Edit
         answer_yes: "Yes"
         answer_no:  "No"
         table_summary: The provider type, fee scheme and VAT status for %{provider_name}
       index:
-        page_heading: Manage providers
+        page_heading: Providers
         add_a_provider: Add a provider
         page_title: View providers in claim for Crown court defence
         find_provider_by_email: Find provider by email
@@ -2109,7 +2109,7 @@ en:
           edit_link_label: "Edit case worker: %{case_worker}"
           caption: Case worker list
           create_case_worker: Create a new case worker
-          page_heading: Manage case workers
+          page_heading: Case workers
           summary: A list of case workers, ordered by surname. Edit and delete links in the last column.
           hint:
             search: for example case worker name
@@ -2257,7 +2257,7 @@ en:
           invalid_report_type: *invalid_report_type
         index:
           page_title: View management information
-          page_heading: Management information
+          page_heading: Reports
           all_claims_report: 'All claims report'
           report_generated_at: "The latest report was generated at %{time}"
           day: Day
@@ -2282,7 +2282,7 @@ en:
         job_scheduled: 'A background job has been scheduled to regenerate the report. Please refresh this page in a few minutes.'
     claims:
       archived:
-        page_heading: Archived claims
+        page_heading: Your archive
         page_title: View the claim archive
       determination_fields:
         disbursements: Disbursements

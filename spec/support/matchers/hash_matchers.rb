@@ -3,7 +3,7 @@ require 'hashdiff'
 
 RSpec::Matchers.define :match_hash do |expected|
   match do |actual|
-    @diff = HashDiff.diff(actual, expected)
+    @diff = Hashdiff.diff(actual, expected)
     @diff.empty?
   end
 
@@ -13,7 +13,7 @@ RSpec::Matchers.define :match_hash do |expected|
 
   failure_message do
     msg = "expected hashes to match\n"
-    msg += "Diff: (see HashDiff - https://github.com/liufengyun/hashdiff):\n"
+    msg += "Diff: (see Hashdiff - https://github.com/liufengyun/hashdiff):\n"
     msg += format_diff(@diff)
     msg
   end

@@ -64,7 +64,7 @@ module Seeds
           return if current_attributes.eql?(new_attributes)
 
           log "Updating: #{record.description}".yellow
-          log "Attribute Diff: #{HashDiff.diff(current_attributes, new_attributes)}".yellow
+          log "Attribute Diff: #{Hashdiff.diff(current_attributes, new_attributes)}".yellow
           record.update_attributes!(attributes) unless dry_mode
           self.total_updated += 1
         else

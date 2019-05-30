@@ -9,8 +9,6 @@
         %li
           = link_to t('.add_a_provider'), new_super_admins_provider_path, class: cp(new_super_admins_provider_path)
         %li
-          = link_to t('.find_provider_by_email'), super_admins_external_users_find_path, class: cp(new_super_admins_provider_path)
-        %li
           = link_to t('.sidekiq_console'), sidekiq_web_path
       - elsif current_user.persona.is_a?(ExternalUser)
         %li

@@ -71,31 +71,38 @@ module TimedTransitions
           end
 
           context 'more than 16 weeks ago' do
+            subject(:transitioner) { Transitioner.new(@claim) }
+
             before do
-              Timecop.freeze(17.weeks.ago) do
-                @claim = create :authorised_claim, case_number: 'A20164444'
+              travel_to(17.weeks.ago) do
+                @claim = create(:authorised_claim, case_number: 'A20164444')
               end
             end
 
             it 'records success' do
-              t = Transitioner.new(@claim)
-              t.run
-              expect(t.success?).to be true
+              transitioner.run
+              expect(transitioner.success?).to be true
             end
 
             it 'calls archive if last state change more than 16 weeks ago' do
-              Transitioner.new(@claim).run
+              transitioner.run
               expect(@claim.reload.state).to eq 'archived_pending_delete'
             end
 
             it 'writes to the log file' do
-              expect(LogStuff).to receive(:info).with('TimedTransitions::Transitioner',
-                                                      action: 'archive',
-                                                      claim_id: @claim.id,
-                                                      softly_deleted_on: @claim.deleted_at,
-                                                      dummy_run: false,
-                                                      succeeded: true)
-              Transitioner.new(@claim).run
+              freeze_time do
+                expect(LogStuff).to receive(:info)
+                  .with('TimedTransitions::Transitioner',
+                        action: 'archive',
+                        claim_id: @claim.id,
+                        claim_state: 'archived_pending_delete',
+                        softly_deleted_on: @claim.deleted_at,
+                        valid_until: Time.now + 180.days,
+                        dummy_run: false,
+                        error: nil,
+                        succeeded: true)
+                Transitioner.new(@claim).run
+              end
             end
 
             it 'records the transition in claim state transitions' do
@@ -108,11 +115,39 @@ module TimedTransitions
               let(:litigator) { create(:external_user, :litigator) }
 
               before do
-                @claim.creator = litigator
-                Transitioner.new(@claim).run
+                @claim.update_attribute(:creator, litigator)
+                # Transitioner.new(@claim).run
+              end
+
+              it 'claim is invalid' do
+                @claim.valid?
+                expect(@claim.errors.messages).to include(external_user: ["Creator and advocate must belong to the same provider"])
               end
 
               it 'still transitions to archived_pending_delete' do
+                Transitioner.new(@claim).run
+                expect(@claim.reload.state).to eq 'archived_pending_delete'
+              end
+            end
+
+            # trying to duplicate sentry error caused by
+            # "StateMachines::InvalidTransition: Cannot transition state
+            # via :archive_pending_delete from :authorised (Reason(s): Defendant 1
+            # representation order 1 maat reference invalid)"
+            context 'when a claim submodel has been invalidated' do
+              let(:record) { @claim.defendants.first.representation_orders.first }
+              before do
+                record.update_attribute(:maat_reference, '999')
+              end
+
+              it 'submodel is invalid' do
+                record.valid?
+                expect(record.errors.messages).to include(maat_reference: ['invalid'])
+              end
+
+              it 'still transitions to archived_pending_delete' do
+                record.valid?
+                Transitioner.new(@claim).run
                 expect(@claim.reload.state).to eq 'archived_pending_delete'
               end
             end
@@ -169,12 +204,16 @@ module TimedTransitions
             end
 
             it 'writes to the log file' do
-              expect(LogStuff).to receive(:info).with('TimedTransitions::Transitioner',
-                                                      action: 'destroy',
-                                                      claim_id: @claim.id,
-                                                      claim_state: @claim.state,
-                                                      softly_deleted_on: @claim.deleted_at,
-                                                      dummy_run: false)
+              expect(LogStuff).to receive(:info)
+                .with('TimedTransitions::Transitioner',
+                      action: 'destroy',
+                      claim_id: @claim.id,
+                      claim_state: 'archived_pending_delete',
+                      softly_deleted_on: @claim.deleted_at,
+                      valid_until: @claim.valid_until,
+                      dummy_run: false,
+                      error: nil,
+                      succeeded: true)
               Transitioner.new(@claim).run
             end
 
@@ -262,12 +301,16 @@ module TimedTransitions
             end
 
             it 'writes to the log file' do
-              expect(LogStuff).to receive(:debug).with('TimedTransitions::Transitioner',
-                                                       action: 'archive',
-                                                       claim_id: @claim.id,
-                                                       softly_deleted_on: @claim.deleted_at,
-                                                       dummy_run: true,
-                                                       succeeded: nil)
+              expect(LogStuff).to receive(:debug)
+                .with('TimedTransitions::Transitioner',
+                       action: 'archive',
+                       claim_id: @claim.id,
+                       claim_state: 'authorised',
+                       softly_deleted_on: @claim.deleted_at,
+                       valid_until: @claim.valid_until,
+                       dummy_run: true,
+                       error: nil,
+                       succeeded: false)
               Transitioner.new(@claim, true).run
             end
 
@@ -311,12 +354,16 @@ module TimedTransitions
             end
 
             it 'writes to the log file' do
-              expect(LogStuff).to receive(:debug).with('TimedTransitions::Transitioner',
-                                                       action: 'destroy',
-                                                       claim_id: @claim.id,
-                                                       claim_state: @claim.state,
-                                                       softly_deleted_on: @claim.deleted_at,
-                                                       dummy_run: true)
+              expect(LogStuff).to receive(:debug)
+                .with('TimedTransitions::Transitioner',
+                       action: 'destroy',
+                       claim_id: @claim.id,
+                       claim_state: @claim.state,
+                       softly_deleted_on: @claim.deleted_at,
+                       valid_until: @claim.valid_until,
+                       dummy_run: true,
+                       error: nil,
+                       succeeded: false)
               Transitioner.new(@claim, true).run
             end
 

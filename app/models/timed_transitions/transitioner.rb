@@ -57,29 +57,59 @@ module TimedTransitions
     end
 
     def archive
-      succeeded = @claim.archive_pending_delete!(reason_code: ['timed_transition']) unless is_dummy?
-      LogStuff.send(log_level, 'TimedTransitions::Transitioner',
-                    action: 'archive',
-                    claim_id: @claim.id,
-                    softly_deleted_on: @claim.deleted_at,
-                    dummy_run: @dummy,
-                    succeeded: succeeded) do
-                      'Archiving claim'
-                    end
-      self.success = true
+      @claim.archive_pending_delete!(reason_code: ['timed_transition']) unless is_dummy?
+      @claim.reload # not sure if needed
+      log(log_level,
+          action: 'archive',
+          message: 'Archiving claim',
+          succeeded: @claim.archived_pending_delete?)
+      self.success = @claim.archived_pending_delete?
+    rescue StandardError => e
+      log(:error,
+          action: 'archive',
+          message: 'Archiving claim failed!',
+          succeeded: @claim.reload.archived_pending_delete?,
+          error: e.message)
     end
 
     def destroy_claim
-      LogStuff.send(log_level, 'TimedTransitions::Transitioner',
-                    action: 'destroy',
-                    claim_id: @claim.id,
-                    claim_state: @claim.state,
-                    softly_deleted_on: @claim.deleted_at,
-                    dummy_run: @dummy) do
-        'Destroying soft-deleted claim'
-      end
       Stats::MIData.import(@claim) && @claim.destroy unless is_dummy?
-      self.success = true
+      log(log_level,
+          action: 'destroy',
+          message: 'Destroying soft-deleted claim',
+          succeeded: @claim.destroyed?)
+      self.success = @claim.destroyed?
+    rescue StandardError => e
+      log(:error,
+          action: 'destroy',
+          message: 'Destroying soft-deleted claim failed!',
+          succeeded: @claim.destroyed?,
+          error: e.message)
+    end
+
+    # NOTE: at time of writing this class is called
+    # by batch_transitioner which is called by rake
+    # task claims::archive_stale which is called
+    # by a cron job defined in the template deploy
+    # repo (see cron.sls) and which logs to /var/log/archive_stale.log
+    # in the nginx container on ONE INSTANCE ONLY of
+    # gamma and staging boxes only ...OMG!
+    #
+    def log(level = :info, action:, message:, succeeded:, error: nil)
+      LogStuff.send(
+        level.to_sym,
+        'TimedTransitions::Transitioner',
+        action: action,
+        claim_id: @claim.id,
+        claim_state: @claim.state,
+        softly_deleted_on: @claim.deleted_at,
+        valid_until: @claim.valid_until,
+        dummy_run: @dummy,
+        error: error,
+        succeeded: succeeded
+      ) do
+        message
+      end
     end
   end
 end

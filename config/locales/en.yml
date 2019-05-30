@@ -24,17 +24,16 @@ en:
   layouts:
     primary_navigation:
       add_a_provider: Add a provider
-      allocation: Allocation list
+      allocation: Allocation
       api_documentation: API Documentation
-      archive: Your claim archive
+      archive: Your archive
       error: There was an error
-      find_provider_by_email: Find provider by email
-      manage_provider: Manage provider
-      manage_providers: Manage providers
+      manage_provider: Provider
+      manage_providers: Providers
       manage_users: Manage users
       manage_your_settings: Manage your settings
-      manage_case_workers: Manage case workers
-      management_information: Management information
+      manage_case_workers: Case workers
+      management_information: Reports
       your_claims: Your claims
       re_allocation: Re-allocation
       sidekiq_console: Sidekiq console

@@ -12,9 +12,6 @@ SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
 # require 'simplecov-csv'
 # SimpleCov.formatter = SimpleCov::Formatter::CSVFormatter
 
-# require 'simplecov-console'
-# SimpleCov.formatter = SimpleCov::Formatter::Console
-
 SimpleCov.configure do
   add_filter '_spec.rb'
   add_filter 'spec/'

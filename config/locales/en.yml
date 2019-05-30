@@ -605,7 +605,9 @@ en:
         supplier_number: *supplier_number
         apply_vat: "VAT registered"
         roles: *roles
-        submit: 'Create user'
+        submit:
+          edit: Update user
+          new: Create user
       find:
         email: *email
         submit: 'Search'

@@ -71,7 +71,6 @@ Rails.application.routes.draw do
 
   # shared by super_admin and case worker provider managers
   concern :provider_management_routes do
-    root to: 'providers#index'
     get 'external_users/find', to: 'external_users#find'
     post 'external_users/find', to: 'external_users#search'
 
@@ -84,6 +83,7 @@ Rails.application.routes.draw do
   end
 
   namespace :super_admins do
+    root to: 'providers#index'
     concerns :provider_management_routes
 
     namespace :admin do
@@ -97,6 +97,7 @@ Rails.application.routes.draw do
   end
 
   namespace :provider_management do
+    root to: 'provider_management/providers#index'
     concerns :provider_management_routes
   end
 

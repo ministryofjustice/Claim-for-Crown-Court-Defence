@@ -512,7 +512,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    redis (4.1.1)
+    redis (4.1.2)
     regexp_parser (1.5.1)
     remotipart (1.4.3)
     request_store (1.4.1)
@@ -765,7 +765,7 @@ DEPENDENCIES
   rails (~> 5.2.3)
   rails-controller-testing
   rails_12factor (= 0.0.3)
-  redis (~> 4.1.1)
+  redis (~> 4.1.2)
   remotipart (~> 1.4)
   rest-client (~> 2.0)
   rspec-collection_matchers

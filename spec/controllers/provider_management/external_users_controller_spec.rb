@@ -2,10 +2,10 @@ require 'rails_helper'
 require 'json'
 
 RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
-  let(:case_worker_manager)   { create(:case_worker, :provider_manager) }
-  let(:provider)      { create(:provider) }
-  let(:frozen_time)  { 6.months.ago }
-  let(:external_user)   do
+  let(:case_worker_manager) { create(:case_worker, :provider_manager) }
+  let(:provider) { create(:provider) }
+  let(:frozen_time) { 6.months.ago }
+  let(:external_user) do
     Timecop.freeze(frozen_time) { create(:external_user, :admin, provider: provider) }
   end
 
@@ -100,11 +100,9 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     it 'renders the new template' do
       expect(response).to render_template(:new)
     end
-
   end
 
   describe "POST #create" do
-
     def post_to_create_external_user_action(options={})
       post :create, params: {
         provider_id: provider,

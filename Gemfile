@@ -73,7 +73,7 @@ end
 
 group :development, :devunicorn do
   gem 'meta_request'
-  gem 'rubocop', '~> 0.70'
+  gem 'rubocop', '~> 0.71'
   gem 'rubocop-performance'
 end
 

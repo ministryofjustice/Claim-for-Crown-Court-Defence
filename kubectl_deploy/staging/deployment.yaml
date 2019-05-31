@@ -49,28 +49,8 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: cccd-staging-rds-output
+                  name: cccd-rds
                   key: url
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-staging-rds-output
-                  key: database_username
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-staging-rds-output
-                  key: database_password
-            - name: DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-staging-rds-output
-                  key: database_name
-            - name: DB_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-staging-rds-output
-                  key: rds_instance_address
             - name: SECRET_KEY_BASE
               valueFrom:
                 secretKeyRef:
@@ -121,11 +101,21 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: AWS_REGION
-            - name: ADP_BUCKET_NAME
+            - name: SETTINGS__AWS__S3__ACCESS
               valueFrom:
                 secretKeyRef:
-                  name: cccd-secrets
-                  key: ADP_BUCKET_NAME
+                  name: cccd-s3-bucket
+                  key: access_key_id
+            - name: SETTINGS__AWS__S3__SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-s3-bucket
+                  key: secret_access_key
+            - name: SETTINGS__AWS__S3__BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-s3-bucket
+                  key: bucket_name
             - name: GECKOBOARD_TOKEN
               valueFrom:
                 secretKeyRef:

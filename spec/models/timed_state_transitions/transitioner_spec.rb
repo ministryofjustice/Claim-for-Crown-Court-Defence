@@ -115,43 +115,81 @@ RSpec.describe TimedTransitions::Transitioner do
             expect(last_transition.reason_code).to eq(['timed_transition'])
           end
 
-          context 'when the claim has been invalidated' do
-            let(:litigator) { create(:external_user, :litigator) }
+          context 'when claim validation fails' do
+            context 'on StateMachines::InvalidTransition' do
+              before do
+                @claim.errors.add(:base, 'My mocked invalid state transition error message')
+                allow(@claim).to receive(:archive_pending_delete!)
+                  .with(reason_code: ['timed_transition'])
+                  .and_raise invalid_transition
+              end
 
-            before do
-              @claim.update_attribute(:creator, litigator)
+              let(:invalid_transition) do
+                machine = StateMachines::Machine.find_or_create(@claim.class)
+                StateMachines::InvalidTransition.new(@claim, machine, :archive_pending_delete)
+              end
+
+              it 'does not raise error' do
+                expect { described_class.new(@claim).run }.not_to raise_error
+              end
+
+              it 'writes error to log' do
+                freeze_time do
+                  expect(LogStuff).to receive(:error)
+                    .with('TimedTransitions::Transitioner',
+                          action: 'archive',
+                          claim_id: @claim.id,
+                          claim_state: 'authorised',
+                          softly_deleted_on: @claim.deleted_at,
+                          valid_until: nil,
+                          dummy_run: false,
+                          error: "Cannot transition state via :archive_pending_delete from :authorised (Reason(s): My mocked invalid state transition error message)",
+                          succeeded: false)
+                  described_class.new(@claim).run
+                end
+              end
             end
 
-            it 'claim is invalid' do
-              @claim.valid?
-              expect(@claim.errors.messages).to include(external_user: ["Creator and advocate must belong to the same provider"])
+            # not convinced actual tests are picking up claim error scenarios
+            context 'when the claim has been invalidated' do
+              let(:litigator) { create(:external_user, :litigator) }
+
+              before do
+                @claim.update_attribute(:creator, litigator)
+              end
+
+              it 'claim is invalid' do
+                @claim.valid?
+                expect(@claim.errors.messages).to include(external_user: ["Creator and advocate must belong to the same provider"])
+              end
+
+              it 'still transitions to archived_pending_delete' do
+                described_class.new(@claim).run
+                expect(@claim.reload.state).to eq 'archived_pending_delete'
+              end
             end
 
-            it 'still transitions to archived_pending_delete' do
-              described_class.new(@claim).run
-              expect(@claim.reload.state).to eq 'archived_pending_delete'
-            end
-          end
+            # not convinced these tests are picking up claim error scenarios
+            # trying to duplicate sentry error caused by
+            # "StateMachines::InvalidTransition: Cannot transition state
+            # via :archive_pending_delete from :authorised (Reason(s): Defendant 1
+            # representation order 1 maat reference invalid)"
+            context 'when a claim submodel has been invalidated' do
+              let(:record) { @claim.defendants.first.representation_orders.first }
+              before do
+                record.update_attribute(:maat_reference, '999')
+              end
 
-          # trying to duplicate sentry error caused by
-          # "StateMachines::InvalidTransition: Cannot transition state
-          # via :archive_pending_delete from :authorised (Reason(s): Defendant 1
-          # representation order 1 maat reference invalid)"
-          context 'when a claim submodel has been invalidated' do
-            let(:record) { @claim.defendants.first.representation_orders.first }
-            before do
-              record.update_attribute(:maat_reference, '999')
-            end
+              it 'submodel is invalid' do
+                record.valid?
+                expect(record.errors.messages).to include(maat_reference: ['invalid'])
+              end
 
-            it 'submodel is invalid' do
-              record.valid?
-              expect(record.errors.messages).to include(maat_reference: ['invalid'])
-            end
-
-            it 'still transitions to archived_pending_delete' do
-              record.valid?
-              described_class.new(@claim).run
-              expect(@claim.reload.state).to eq 'archived_pending_delete'
+              it 'still transitions to archived_pending_delete' do
+                record.valid?
+                described_class.new(@claim).run
+                expect(@claim.reload.state).to eq 'archived_pending_delete'
+              end
             end
           end
         end

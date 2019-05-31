@@ -46,6 +46,8 @@ spec:
               value: '1'
             - name: SETTINGS__AWS__POLL_MESSAGE_WAIT_TIME
               value: '10'
+            - name: SETTINGS__AWS__S3__REGION
+              value: 'eu-west-2'
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:

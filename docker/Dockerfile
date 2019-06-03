@@ -71,5 +71,15 @@ RUN apk del build-dependencies
 # non-root/appuser should own only what they need to
 RUN chown -R appuser:appgroup log tmp db
 
+# expect ping environment variables
+ARG VERSION_NUMBER
+ARG COMMIT_ID
+ARG BUILD_DATE
+ARG BUILD_TAG
+ENV VERSION_NUMBER=${VERSION_NUMBER}
+ENV COMMIT_ID=${COMMIT_ID}
+ENV BUILD_DATE=${BUILD_DATE}
+ENV BUILD_TAG=${BUILD_TAG}
+
 USER 1000
 CMD "./docker/docker-entrypoint.sh"

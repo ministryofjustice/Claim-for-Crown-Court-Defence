@@ -13,19 +13,56 @@
 #  vat_amount    :float            default(0.0)
 #  disbursements :decimal(, )      default(0.0)
 #
-
 require 'rails_helper'
 
+RSpec.describe Redetermination do
+  let(:claim) { create(:claim) }
 
-describe Redetermination do
-
-  let(:claim)         { FactoryBot.create :claim }
-
- 
   context 'automatic calculation of total' do
     it 'should calculate the total on save' do
-      rd = FactoryBot.create :redetermination
+      rd = create(:redetermination)
       expect(rd.total).to eq(rd.fees + rd.expenses + rd.disbursements)
+    end
+  end
+
+  context 'automatic calculation of VAT' do
+    RSpec.shared_examples 'calculates redetermination VAT' do
+      let(:redetermination) { build(:redetermination, fees: 100, expenses: 100, disbursements: 200, claim: claim) }
+
+      it 'determines rate using VatRate model' do
+        expect(VatRate).to receive(:vat_amount).at_least(:once).and_call_original
+        redetermination.save
+      end
+
+      it 'updates determination\'s vat_amount' do
+        expect { redetermination.save }.to change(redetermination, :vat_amount).from(0).to(80)
+      end
+    end
+
+    describe '#calculate_vat' do
+      context 'advocate claims' do
+        let(:claim) { create(:advocate_claim, apply_vat: true) }
+        include_examples 'calculates redetermination VAT'
+      end
+
+      context 'advocate supplementary claims' do
+        let(:claim) { create(:advocate_supplementary_claim, apply_vat: true) }
+        include_examples 'calculates redetermination VAT'
+      end
+
+      context 'advocate interim claims' do
+        let(:claim) { create(:advocate_interim_claim, apply_vat: true) }
+        include_examples 'calculates redetermination VAT'
+      end
+
+      context 'litigator claims' do
+        let(:claim) { create(:litigator_claim, apply_vat: true) }
+        let(:redetermination) { build(:redetermination, fees: 100.0, expenses: 0, disbursements: 0, claim: claim) }
+
+        it 'should not update/calculate the VAT amount' do
+          expect { redetermination.save }.not_to change(redetermination, :vat_amount)
+        end
+      end
     end
   end
 
@@ -38,7 +75,7 @@ describe Redetermination do
       # Given a number of redeterminations written at various times
       [date_3, date_1, date_2].each do |date|
         Timecop.freeze(date) do
-          FactoryBot.create :redetermination, claim: claim
+          create(:redetermination, claim: claim)
         end
       end
       # when I call claim.redeterminations
@@ -48,7 +85,6 @@ describe Redetermination do
       expect(rds.map(&:created_at).map(&:to_i)).to eq( [ date_1.to_i, date_2.to_i, date_3.to_i ])
     end
   end
-
 
   describe '#to_s' do
     it 'outputs the totals' do
@@ -64,5 +100,4 @@ describe Redetermination do
        expect(rd.to_s).to eq expected
     end
   end
-
 end

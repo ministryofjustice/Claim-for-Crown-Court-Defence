@@ -21,6 +21,9 @@ Before('not @no-site-prism') do
   @certification_page = CertificationPage.new
   @confirmation_page = ConfirmationPage.new
   @allocation_page = AllocationPage.new
+  @provider_index_page = ProviderIndexPage.new
+  @new_provider_page = ProviderPage.new
+  @provider_search_page = ProviderSearchPage.new
 end
 
 Before do

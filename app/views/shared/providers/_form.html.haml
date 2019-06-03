@@ -5,7 +5,7 @@
     = render partial: 'errors/error_summary', locals: { ep: @provider, error_summary: t('.error_summary') }
 
     //Provider name
-    = f.adp_text_field :name, id: 'name', label: t('.provider_name'), hint_text: t('.provider_name_hint')
+    = f.adp_text_field :name, id: 'name', input_classes: 'name', label: t('.provider_name'), hint_text: t('.provider_name_hint')
 
     // Provider type
     .form-group#js-provider-type.jqr-delegate-hook{class: @provider.errors[:provider_type].any? ? "error" : ""}

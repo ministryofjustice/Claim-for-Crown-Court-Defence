@@ -9,6 +9,6 @@
 = form_for(:external_user, url: provider_management_external_users_find_path) do |f|
   .form-group
     = f.label t(".email"), class: "form-label-bold"
-    = f.email_field :email, class: "form-control"
+    = f.email_field :email, class: "form-control email"
 
   = f.submit t('.submit'), class: "button"

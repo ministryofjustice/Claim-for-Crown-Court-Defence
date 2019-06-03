@@ -97,7 +97,7 @@ Rails.application.routes.draw do
   end
 
   namespace :provider_management do
-    root to: 'provider_management/providers#index'
+    root to: 'providers#index'
     concerns :provider_management_routes
   end
 

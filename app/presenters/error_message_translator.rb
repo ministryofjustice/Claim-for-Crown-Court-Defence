@@ -37,7 +37,7 @@ class ErrorMessageTranslator
   # Will convert it to: fixed_fee_0_date_attended_0_date
   #
   def self.association_key(key)
-    return key unless key.index('.').present?
+    return key if key.index('.').blank?
     key.sub('.', '_0_').sub('_1_', '_0_')
   end
 

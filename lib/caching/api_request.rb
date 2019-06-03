@@ -90,7 +90,7 @@ module Caching
     end
 
     def filter_query(query)
-      return nil unless query.present?
+      return if query.blank?
       params = query.split('&').reject { |param| ignore_params.include?(param.split('=')[0]) }
       params.any? ? params.sort.join('&') : nil
     end

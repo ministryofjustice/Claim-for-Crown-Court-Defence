@@ -21,7 +21,7 @@ class Claim::AdvocateInterimClaimValidator < Claim::BaseClaimValidator
 
   def validate_earliest_representation_order
     date = @record.earliest_representation_order&.representation_order_date
-    return unless date.present?
+    return if date.blank?
     add_error(:base, 'unclaimable') unless date >= Date.parse(Settings.agfs_fee_reform_release_date.to_s)
   end
 

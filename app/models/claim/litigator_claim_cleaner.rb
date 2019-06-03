@@ -18,7 +18,7 @@ module Claim
     private
 
     def destroy_all_invalid_fee_types
-      return unless case_type.present?
+      return if case_type.blank?
 
       if case_type.is_fixed_fee?
         graduated_fee&.destroy

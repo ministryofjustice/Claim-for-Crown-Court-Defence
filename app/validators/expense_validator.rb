@@ -35,7 +35,7 @@ class ExpenseValidator < BaseValidator
   end
 
   def validate_location_type
-    return unless @record.location_type.present?
+    return if @record.location_type.blank?
     add_error(:location_type, 'invalid') unless Establishment::CATEGORIES.include?(@record.location_type)
   end
 

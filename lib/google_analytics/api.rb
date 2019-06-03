@@ -3,7 +3,7 @@ require 'rest_client'
 module GoogleAnalytics
   class Api
     def self.event(category, action, label = nil, client_id = fallback_client_id)
-      return unless tracker_id.present?
+      return if tracker_id.blank?
       params = { v: version, tid: tracker_id, cid: client_id, t: 'event', ec: category, ea: action }
       params[:el] = label if label.present?
       begin

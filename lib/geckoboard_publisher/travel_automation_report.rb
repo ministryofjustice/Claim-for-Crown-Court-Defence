@@ -7,7 +7,7 @@ module GeckoboardPublisher
     end
 
     def push!
-      return unless widget_key.present?
+      return if widget_key.blank?
       url = "https://push.geckoboard.com/v1/send/#{widget_key}"
       RestClient.post(url, payload(items.last).to_json, content_type: :json)
     end

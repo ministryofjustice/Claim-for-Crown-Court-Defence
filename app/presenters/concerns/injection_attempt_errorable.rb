@@ -12,7 +12,7 @@ module InjectionAttemptErrorable
 
     def injection_error
       messages = injection_errors
-      return unless messages.present?
+      return if messages.blank?
       message = injection_error_header
       yield(message) if block_given?
       message

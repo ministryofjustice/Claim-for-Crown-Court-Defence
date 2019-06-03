@@ -13,16 +13,12 @@
 #  vat_amount    :float            default(0.0)
 #  disbursements :decimal(, )      default(0.0)
 #
-
 require 'rails_helper'
 
-
-describe Assessment do
-
+RSpec.describe Assessment do
   let(:claim)         { FactoryBot.create :claim }
 
   context 'validations' do
-
     context 'fees' do
       it 'should not accept negative values'  do
         expect {
@@ -76,30 +72,48 @@ describe Assessment do
     end
   end
 
-  context '#calculate_vat' do
-    context 'advocate claims' do
-      it 'should automatically calculate the vat amount based on the total assessed and the claim vat_date' do
-        claim = FactoryBot.create :advocate_claim, apply_vat: true
-        ass = claim.assessment
-        ass.update_values(100.0, 250.0, 0)
-        expect(ass.vat_amount).to eq((ass.total * 0.2).round(2))
-      end
+  RSpec.shared_examples "calculates assessment VAT" do
+    let(:assessment) { claim.assessment }
+
+    it 'determines rate using VatRate model' do
+      expect(VatRate).to receive(:vat_amount).at_least(:once).and_call_original
+      assessment.update_values(150.0, 250.0, 0)
     end
 
-    context 'litigator claims' do
-      it 'should not automatically calculate the VAT amount, instead using manually input vat_amount' do
-        claim = FactoryBot.create :litigator_claim, apply_vat: true
-        ass = claim.assessment
-        ass.vat_amount = 0.33
-        ass.update_values(100.0, 250.0, 150.0)
-        expect(ass.vat_amount).to eql((0.33))
+    it 'updates determination\'s vat_amount' do
+      expect { assessment.update_values(150.0, 250.0, 0) }.to change(assessment, :vat_amount).from(0).to(80)
+    end
+  end
+
+  context 'automatic calculation of VAT' do
+    describe '#calculate_vat' do
+      context 'advocate claims' do
+        let(:claim) { create(:advocate_claim, apply_vat: true) }
+        include_examples 'calculates assessment VAT'
+      end
+
+      context 'advocate supplementary claims' do
+        let(:claim) { create(:advocate_supplementary_claim, apply_vat: true) }
+        include_examples 'calculates assessment VAT'
+      end
+
+      context 'advocate interim claims' do
+        let(:claim) { create(:advocate_interim_claim, apply_vat: true) }
+        include_examples 'calculates assessment VAT'
+      end
+
+      context 'litigator claims' do
+        let(:assessment) { create(:litigator_claim, apply_vat: true).assessment }
+        it 'should not update/calculate the VAT amount' do
+          expect { assessment.update_values(100.0, 250.0, 150.0) }.not_to change(assessment, :vat_amount)
+        end
       end
     end
   end
 
   context '#zeroize!' do
     it 'should zeroize values and save' do
-      assessment = FactoryBot.create :assessment, :random_amounts
+      assessment = create(:assessment, :random_amounts)
       expect(assessment.fees).not_to eq 0
       expect(assessment.expenses).not_to eq 0
       expect(assessment.disbursements).not_to eq 0
@@ -114,16 +128,18 @@ describe Assessment do
     end
   end
 
-  describe '.update' do
-    it 'should raise error if assessment not blank' do
-      assessment = create :assessment, expenses: 1, fees: 2, disbursements: 3
+  describe '#update_values' do
+    let(:assessment) { create(:assessment) }
+
+    it 'raises error if assessment already made' do
+      assessment.update_values(:assessment, 1, 2, 3)
+
       expect {
-        assessment.update_values(100.00, 200.22, 150.00, DateTime.new(2016, 1, 2, 3, 4, 5))
-      }.to raise_error RuntimeError, "Cannot update a non-blank assessment"
+        assessment.update_values(100, 200, 300)
+      }.to raise_error RuntimeError, "Cannot update an assessment that has values"
     end
 
-    it 'should update the fields' do
-      assessment = create :assessment
+    it 'updates the fields' do
       assessment.update_values(888.88, 333.33, 150.00, DateTime.new(2016, 1, 2, 3, 4, 5))
       assessment.reload
       expect(assessment.fees).to eq 888.88
@@ -132,5 +148,4 @@ describe Assessment do
       expect(assessment.created_at).to eq DateTime.new(2016, 1, 2, 3, 4, 5)
     end
   end
-
 end

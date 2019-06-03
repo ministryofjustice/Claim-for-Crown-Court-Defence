@@ -71,12 +71,6 @@ group :production, :devunicorn do
   gem 'unicorn-worker-killer', '~> 0.4.4'
 end
 
-group :development, :devunicorn do
-  gem 'meta_request'
-  gem 'rubocop', '~> 0.71'
-  gem 'rubocop-performance'
-end
-
 group :development, :devunicorn, :test do
   gem 'annotate'
   gem 'brakeman', :require => false
@@ -84,24 +78,28 @@ group :development, :devunicorn, :test do
   gem 'binding_of_caller'
   gem 'byebug'
   gem 'fuubar'
-  gem 'guard-livereload',   '>= 2.5.2'
-  gem 'listen',             '~> 3.1.5'
-  gem 'pry-byebug'
-  gem 'pry-rails'
-  gem 'rack-livereload',    '~> 0.3.16'
-  gem 'rspec-rails'
-  gem 'rspec-collection_matchers'
-  gem 'puma'
-  gem 'site_prism', '~> 3.2'
-  gem 'jasmine', '~> 3.4'
+  gem 'guard-cucumber'
   gem 'guard-jasmine', '~> 3.1'
-  gem 'jasmine_selenium_runner', require: false
+  gem 'guard-livereload', '>= 2.5.2'
   gem 'guard-rspec'
   gem 'guard-rubocop'
-  gem 'guard-cucumber'
+  gem 'jasmine', '~> 3.4'
+  gem 'jasmine_selenium_runner', require: false
+  gem 'listen', '~> 3.1.5'
+  gem 'meta_request'
+  gem 'pry-byebug'
+  gem 'pry-rails'
+  gem 'puma'
+  gem 'rack-livereload', '~> 0.3.16'
+  gem 'rspec-rails'
+  gem 'rspec-collection_matchers'
   gem 'net-ssh'
   gem 'net-scp'
+  gem 'rubocop', '~> 0.71'
   gem 'rubocop-rspec'
+  gem 'rubocop-rails'
+  gem 'rubocop-performance'
+  gem 'site_prism', '~> 3.2'
 end
 
 group :test do

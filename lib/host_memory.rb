@@ -17,7 +17,7 @@ module HostMemory
     def percentage_of_total(percent)
       (total / 100) * percent.to_i
     rescue StandardError => e
-      puts "Error: #{e}"
+      Rails.logger.error("Error: #{e}")
       nil
     end
 
@@ -27,7 +27,7 @@ module HostMemory
     def mem_at_index(index)
       `free -k`.split(' ')[index].to_i
     rescue StandardError => e
-      puts "Error: #{e}"
+      Rails.logger.error("Error: #{e}")
       nil
     end
   end

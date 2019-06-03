@@ -13,7 +13,7 @@ module API
             helpers do
               def date_range
                 hash = { start_date: 1.day.ago.utc.beginning_of_day, end_date: 1.day.ago.utc.end_of_day }
-                return hash unless params[:date].present?
+                return hash if params[:date].blank?
                 hash[:start_date] = params[:date].to_date.beginning_of_day.utc
                 hash[:end_date] = params[:date].to_date.end_of_day.utc
                 hash

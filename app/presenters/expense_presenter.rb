@@ -22,12 +22,12 @@ class ExpensePresenter < BasePresenter
   end
 
   def calculated_distance
-    return unless expense.calculated_distance.present?
+    return if expense.calculated_distance.blank?
     h.number_with_precision(expense.calculated_distance, precision: 2, strip_insignificant_zeros: true)
   end
 
   def pretty_calculated_distance
-    return 'n/a' unless calculated_distance.present?
+    return 'n/a' if calculated_distance.blank?
     "#{calculated_distance} #{t('distance.unit', count: calculated_distance)}"
   end
 

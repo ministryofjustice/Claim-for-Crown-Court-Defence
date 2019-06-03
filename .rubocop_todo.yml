@@ -89,12 +89,6 @@ Rails/ActiveRecordAliases:
   Exclude:
     - 'app/models/user.rb'
 
-# Offense count: 18
-# Cop supports --auto-correct.
-# Configuration parameters: NilOrEmpty, NotPresent, UnlessPresent.
-Rails/Blank:
-  Enabled: false
-
 # Offense count: 34
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: strict, flexible

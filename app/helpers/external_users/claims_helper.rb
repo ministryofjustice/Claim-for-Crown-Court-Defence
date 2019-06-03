@@ -86,7 +86,7 @@ module ExternalUsers::ClaimsHelper
   end
 
   def reasonset_for_expense_type(expense_type)
-    return ExpenseType::REASON_SET_A unless expense_type.present?
+    return ExpenseType::REASON_SET_A if expense_type.blank?
     expense_type.expense_reasons_hash
   end
 end

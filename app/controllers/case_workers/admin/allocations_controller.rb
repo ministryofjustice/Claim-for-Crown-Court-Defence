@@ -81,7 +81,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def search_claims(states = nil)
-    return unless search_terms.present?
+    return if search_terms.blank?
     @claims = @claims.search(search_terms, states, :case_worker_name_or_email)
   end
 

@@ -52,7 +52,7 @@ COPY Gemfile* ./
 
 # only install production dependencies,
 # build nokogiri using libxml2-dev, libxslt-dev
-RUN gem install bundler -v 1.17.3 \
+RUN gem install bundler -v 2.0.1 \
 && bundle config --global without test:development \
 && bundle config build.nokogiri --use-system-libraries \
 && bundle install

@@ -33,8 +33,8 @@ aliases:
     run:
       name: Install dependencies
       command: |
-        gem install bundler -v 1.17.3
-        bundle check || bundle _1.17.3_ install --jobs=4 --retry=3 --path vendor/bundle
+        gem install bundler -v 2.0.1
+        bundle check || bundle _2.0.1_ install --jobs=4 --retry=3 --path vendor/bundle
 
   _save-cache: &save-cache
     save_cache:

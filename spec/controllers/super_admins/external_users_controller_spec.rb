@@ -74,9 +74,9 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
 
   describe "GET #new" do
     let(:external_user) do
-     a = ExternalUser.new(provider: provider)
-     a.build_user
-     a
+      ExternalUser.new(provider: provider).tap do |eu|
+        eu.build_user
+      end
     end
 
     before { get :new, params: { provider_id: provider } }

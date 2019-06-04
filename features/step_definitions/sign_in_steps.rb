@@ -90,6 +90,11 @@ Given(/^I am a signed in case worker admin$/) do
   sign_in(@case_worker.user, 'password')
 end
 
+Given(/^I am a signed in case worker provider manager$/) do
+  @case_worker = create(:case_worker, :provider_manager)
+  sign_in(@case_worker.user, 'password')
+end
+
 Given(/^I am a signed in super admin$/) do
   make_accounts('super admin')
   visit new_user_session_path

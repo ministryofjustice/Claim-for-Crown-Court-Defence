@@ -1,15 +1,15 @@
 require 'rails_helper'
 require 'json'
 
-RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
-  let(:super_admin)   { create(:super_admin) }
-  let(:provider)      { create(:provider) }
-  let(:frozen_time)  { 6.months.ago }
-  let(:external_user)   do
+RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
+  let(:case_worker_manager) { create(:case_worker, :provider_manager) }
+  let(:provider) { create(:provider) }
+  let(:frozen_time) { 6.months.ago }
+  let(:external_user) do
     Timecop.freeze(frozen_time) { create(:external_user, :admin, provider: provider) }
   end
 
-  before { sign_in super_admin.user }
+  before { sign_in case_worker_manager.user }
 
   describe "GET #show" do
     before { get :show, params: { provider_id: provider, id: external_user } }
@@ -56,19 +56,19 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     context 'when the email is for a provider' do
       let(:email) { external_user.email }
 
-      it { is_expected.to redirect_to(super_admins_provider_external_user_path(external_user.provider, external_user)) }
+      it { is_expected.to redirect_to(provider_management_provider_external_user_path(external_user.provider, external_user)) }
     end
 
     context 'when the email is for a non-provider' do
-      let(:email) { super_admin.email }
+      let(:email) { case_worker_manager.email }
 
-      it { is_expected.to redirect_to(super_admins_external_users_find_path) }
+      it { is_expected.to redirect_to(provider_management_external_users_find_path) }
     end
 
     context 'when the email does not exist' do
       let(:email) { 'vail.email@does.not.exist.com' }
 
-      it { is_expected.to redirect_to(super_admins_external_users_find_path) }
+      it { is_expected.to redirect_to(provider_management_external_users_find_path) }
     end
   end
 
@@ -100,11 +100,9 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     it 'renders the new template' do
       expect(response).to render_template(:new)
     end
-
   end
 
   describe "POST #create" do
-
     def post_to_create_external_user_action(options={})
       post :create, params: {
         provider_id: provider,
@@ -128,7 +126,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
 
       it 'redirects to external_users show view' do
         post_to_create_external_user_action
-        expect(response).to redirect_to(super_admins_provider_external_user_path(provider, ExternalUser.last))
+        expect(response).to redirect_to(provider_management_provider_external_user_path(provider, ExternalUser.last))
       end
     end
 
@@ -172,7 +170,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
       end
 
       it 'redirects to external_users index' do
-        expect(response).to redirect_to(super_admins_provider_external_user_path(provider, external_user))
+        expect(response).to redirect_to(provider_management_provider_external_user_path(provider, external_user))
       end
     end
 
@@ -221,7 +219,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
       end
 
       it 'redirects to external_user show action' do
-        expect(response).to redirect_to(super_admins_provider_external_user_path(provider, external_user))
+        expect(response).to redirect_to(provider_management_provider_external_user_path(provider, external_user))
       end
     end
 

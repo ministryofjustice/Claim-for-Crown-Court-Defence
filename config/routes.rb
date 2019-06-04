@@ -69,8 +69,8 @@ Rails.application.routes.draw do
     put :settings, on: :member, action: :update_settings, format: :js
   end
 
-  namespace :super_admins do
-    root to: 'providers#index'
+  # shared by super_admin and case worker provider managers
+  concern :provider_management_routes do
     get 'external_users/find', to: 'external_users#find'
     post 'external_users/find', to: 'external_users#search'
 
@@ -80,6 +80,11 @@ Rails.application.routes.draw do
         patch 'update_password', on: :member
       end
     end
+  end
+
+  namespace :super_admins do
+    root to: 'providers#index'
+    concerns :provider_management_routes
 
     namespace :admin do
       root to: 'providers#index'
@@ -89,7 +94,11 @@ Rails.application.routes.draw do
         patch 'update_password', on: :member
       end
     end
+  end
 
+  namespace :provider_management do
+    root to: 'providers#index'
+    concerns :provider_management_routes
   end
 
   scope module: 'external_users' do
@@ -178,6 +187,7 @@ Rails.application.routes.draw do
       get 'management_information/download', to: 'management_information#download', as: :management_information_download
       get 'management_information/generate', to: 'management_information#generate', as: :management_information_generate
     end
+
   end
 
   namespace :geckoboard_api do

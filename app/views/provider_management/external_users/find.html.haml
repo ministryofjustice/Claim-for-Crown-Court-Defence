@@ -1,0 +1,14 @@
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
+
+= form_for(:external_user, url: provider_management_external_users_find_path) do |f|
+  .form-group
+    = f.label t(".email"), class: "form-label-bold"
+    = f.email_field :email, class: "form-control email"
+
+  = f.submit t('.submit'), class: "button"

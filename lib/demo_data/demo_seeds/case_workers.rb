@@ -15,6 +15,6 @@ SeedHelper.find_or_create_caseworker!(
   last_name: 'Worker-Admin',
   email: 'caseworkeradmin@example.com',
   location: 'Nottingham',
-  roles: ['admin'],
+  roles: ['admin','provider_management'],
   password_env_var: 'ADMIN_PASSWORD'
 )

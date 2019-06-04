@@ -40,7 +40,7 @@ class Ability
     can_manage_self(persona)
   end
 
-  def case_worker_admin(_persona)
+  def case_worker_admin(persona)
     can %i[index show update archived], Claim::BaseClaim
     can %i[show download], Document
     can %i[index new create], CaseWorker
@@ -48,6 +48,7 @@ class Ability
     can %i[new create], Allocation
     can :view, :management_information
     can %i[dismiss], InjectionAttempt
+    provider_management if persona.roles.include?('provider_management')
   end
 
   def case_worker(persona)
@@ -55,9 +56,15 @@ class Ability
     can [:update], Claim::BaseClaim do |claim|
       claim.case_workers.include?(persona)
     end
+    provider_management if persona.roles.include?('provider_management')
     can %i[show download], Document
     can_manage_own_password(persona)
     can %i[dismiss], InjectionAttempt
+  end
+
+  def provider_management
+    can %i[show index new create edit update change_password update_password find search], ExternalUser
+    can %i[show index new create edit update], Provider
   end
 
   def persona_type(persona)

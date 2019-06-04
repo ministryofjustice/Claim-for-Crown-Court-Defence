@@ -1,0 +1,50 @@
+= content_for :page_title, flush: true do
+  = t('.page_title', external_user: @external_user.name)
+
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag "v2/application", media: "all"
+
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
+
+.form-group
+  %table{summary: t('.table_summary', external_user: @external_user.name)}
+    %caption.heading-medium
+      = t('.caption')
+    %tbody
+      %tr
+        %th{scope: 'row'}
+          = t('.provider')
+        %td
+          = link_to @external_user.provider.name, provider_management_provider_path(@provider), title: t('.edit_provider')
+      %tr
+        %th{scope: 'row'}
+          = t('.email')
+        %td
+          = @external_user.email
+      %tr
+        %th{scope: 'row'}
+          = t('.name')
+        %td
+          = @external_user.name
+      %tr
+        %th{scope: 'row'}
+          = t('.supplier_number')
+        %td
+          = @external_user.supplier_number
+      %tr
+        %th{scope: 'row'}
+          = t('.vat_registered')
+        %td
+          = @external_user.vat_registered? ? t('.answer_yes') : t('.answer_no')
+      %tr
+        %th{scope: 'row'}
+          = t('.role')
+        %td
+          = @external_user.roles.map(&:humanize).join(', ')
+
+.form-group
+  - if can? :edit, @external_user
+    = link_to t('.edit'), edit_provider_management_provider_external_user_path(@provider, @external_user), class: 'button', role: 'button'
+
+  - if can? :change_password, @external_user
+    = link_to t('.change_password'), change_password_provider_management_provider_external_user_path(@provider, @external_user), class: 'button', role: 'button'

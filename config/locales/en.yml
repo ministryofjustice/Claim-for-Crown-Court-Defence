@@ -24,17 +24,16 @@ en:
   layouts:
     primary_navigation:
       add_a_provider: Add a provider
-      allocation: Allocation list
+      allocation: Allocation
       api_documentation: API Documentation
-      archive: Your claim archive
+      archive: Your archive
       error: There was an error
-      find_provider_by_email: Find provider by email
       manage_provider: Manage provider
-      manage_providers: Manage providers
+      manage_providers: Providers
       manage_users: Manage users
       manage_your_settings: Manage your settings
-      manage_case_workers: Manage case workers
-      management_information: Management information
+      manage_case_workers: Case workers
+      management_information: Reports
       your_claims: Your claims
       re_allocation: Re-allocation
       sidekiq_console: Sidekiq console
@@ -490,6 +489,125 @@ en:
         apply_vat: "VAT registered"
         roles: *roles
         submit: 'Create user'
+      find:
+        email: *email
+        submit: 'Search'
+        page_heading: Find provider by email
+        page_title: Find provider by email
+      change_password:
+        error: 'error'
+        prohibited_save: 'This user password change has'
+        current_password: Current password
+        password: *password
+        password_confirmation: *password_confirmation
+        submit: *change_password
+        page_title: Change %{external_user}'s password
+        heading: Change password for %{external_user}
+        page_heading: Manage users
+
+# en.provider_management
+  provider_management:
+    providers:
+      provider_type: &provider_type 'Provider type'
+      provider_name: &provider_name 'Provider name'
+      supplier_number: &supplier_number 'Supplier number'
+      vat_registered: &vat_registered 'VAT registered'
+      show:
+        fee_schemes: Fee schemes
+        provider_type: *provider_type
+        provider_name: *provider_name
+        supplier_number: *supplier_number
+        vat_registered: *vat_registered
+        lgfs_supplier_numbers: 'LGFS supplier numbers'
+        firm_agfs_supplier_number: 'AGFS supplier number'
+        page_title: "View %{provider_name}'s details"
+        page_heading: Providers
+        edit: Edit
+        answer_yes: "Yes"
+        answer_no:  "No"
+        table_summary: The provider type, fee scheme and VAT status for %{provider_name}
+      index:
+        page_heading: Providers
+        add_a_provider: Add a provider
+        page_title: View providers in claim for Crown court defence
+        find_provider_by_email: Find provider by email
+      providers:
+        fee_schemes: Fee schemes
+        provider_type: *provider_type
+        provider_name: *provider_name
+        supplier_number: *supplier_number
+        vat_registered: *vat_registered
+        caption: Provider list
+        table_summary: A list of providers. Includes links to the provider page and to manage users
+      form:
+        cancel_button: Cancel
+        error: 'error'
+        prohibited_save: 'This provider has'
+        provider_type: *provider_type
+        fee_schemes: Fee scheme
+        fee_schemes_hint: Please choose all relevant options
+        provider_name: *provider_name
+        provider_name_hint: The trading name of the Chamber or Firm
+        save_button: Save details
+        supplier_number: *supplier_number
+        vat_registered: *vat_registered
+        form_error_hint: 'Check below for more detail'
+        agfs_supplier_number: "AGFS Supplier Number"
+    external_users:
+      index:
+        name: 'Name'
+        supplier_number: *supplier_number
+        email: 'Email'
+        page_title: View users in %{provider_name}
+        caption: Users in %{provider_name}
+        state: Account state
+        add_provider: Add user to provider
+        page_heading: Manage Users
+        title: Click to email %{provider}
+        live: Live
+        inactive: Inactive
+        table_summary: A list of user details for %{provider_name}
+        view_details: View details for %{text}
+      show:
+        caption: User details
+        page_title: View %{external_user}'s details
+        provider: Provider
+        email: *email
+        name: Name
+        supplier_number: *supplier_number
+        vat_registered: VAT registered
+        role: Role
+        edit: Edit
+        change_password: *change_password
+        answer_yes: "Yes"
+        answer_no:  "No"
+        manage_user: Manage user
+        page_heading: Manage user
+        table_summary: A list of user details for %{external_user}
+        edit_provider: edit the provider
+      edit:
+        page_title: Edit %{external_user}'s details
+        heading: Edit user details
+        page_heading: Manage users
+      new:
+        page_title: Add a user to %{provider_name}
+        heading: New user details for %{provider_name}
+        page_heading: Manage users
+      form:
+        error: 'error'
+        prohibited_save: 'This user has'
+        email: *email
+        email_confirmation: *email_confirmation
+        password: *password
+        password_confirmation: *password_confirmation
+        first_name: *first_name
+        last_name: *last_name
+        supplier_number: *supplier_number
+        apply_vat: "VAT registered"
+        roles: *roles
+        submit:
+          edit: Update user
+          new: Create user
       find:
         email: *email
         submit: 'Search'
@@ -1993,7 +2111,7 @@ en:
           edit_link_label: "Edit case worker: %{case_worker}"
           caption: Case worker list
           create_case_worker: Create a new case worker
-          page_heading: Manage case workers
+          page_heading: Case workers
           summary: A list of case workers, ordered by surname. Edit and delete links in the last column.
           hint:
             search: for example case worker name
@@ -2141,7 +2259,7 @@ en:
           invalid_report_type: *invalid_report_type
         index:
           page_title: View management information
-          page_heading: Management information
+          page_heading: Reports
           all_claims_report: 'All claims report'
           report_generated_at: "The latest report was generated at %{time}"
           day: Day
@@ -2166,7 +2284,7 @@ en:
         job_scheduled: 'A background job has been scheduled to regenerate the report. Please refresh this page in a few minutes.'
     claims:
       archived:
-        page_heading: Archived claims
+        page_heading: Your archive
         page_title: View the claim archive
       determination_fields:
         disbursements: Disbursements

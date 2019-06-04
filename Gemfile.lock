@@ -226,7 +226,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     ffi (1.11.1)
     formatador (0.2.5)
-    fuubar (2.3.2)
+    fuubar (2.4.0)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
     geckoboard-ruby (0.4.0)

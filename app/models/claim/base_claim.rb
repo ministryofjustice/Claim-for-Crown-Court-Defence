@@ -278,6 +278,7 @@ module Claim
       end
     end
 
+    # TODO: this appears to only be used by tests
     def update_amount_assessed(options)
       assessment.update_values(options[:fees], options[:expenses], options[:disbursements])
     end

@@ -23,7 +23,7 @@ class VatRate < ApplicationRecord
       rate_for_date(date)
     end
 
-    # Calculate VAT amount for amount_excluding_vat on a given date
+    # Apply past, present or 0% VAT rates
     def vat_amount(amount_excluding_vat, date, calculate: true)
       rate = calculate ? VatRate.for_date(date) : 0
       (amount_excluding_vat * rate / 10_000.0).round(2)

@@ -46,11 +46,15 @@ class Assessment < Determination
     save!
   end
 
+  # TODO: this appears to only be used by update_amount_assessed
+  # which is only used in tests, or tests directly??!
   def update_values(*args)
-    raise 'Cannot update a non-blank assessment' unless blank?
+    raise 'Cannot update an assessment that has values' if present?
     update_values!(*args)
   end
 
+  # TODO: this appears to only be used by update_amount_assessed
+  # which is only used in tests, or tests directly??!
   def update_values!(fees, expenses, disbursements, time = Time.now)
     self.fees = fees unless fees.nil?
     self.expenses = expenses unless expenses.nil?

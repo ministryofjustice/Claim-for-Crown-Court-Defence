@@ -12,7 +12,7 @@ When("I set the provider type to {string}") do |type|
 end
 
 When('I select the {string} fee scheme') do |fee_scheme|
-  @new_provider_page.check(fee_scheme)
+  @new_provider_page.fee_schemes.check(fee_scheme)
 end
 
 When("I click the Save details button") do

@@ -36,7 +36,7 @@ class Determination < ApplicationRecord
   end
 
   def calculate_vat
-    return unless claim.is_a? Claim::AdvocateClaim
+    return unless claim.agfs?
     self.vat_amount = VatRate.vat_amount(total, claim.vat_date, calculate: claim.apply_vat?).round(2)
   end
 

@@ -126,6 +126,6 @@ namespace :claims do
     end
 
     puts "Running TimedTransitions::BatchTransitioner with dummy mode: #{@dummy}"
-    TimedTransitions::BatchTransitioner.new(limit: 5000, dummy: @dummy).run
+    TimedTransitions::BatchTransitioner.new(limit: 10000, dummy: @dummy).run
   end
 end

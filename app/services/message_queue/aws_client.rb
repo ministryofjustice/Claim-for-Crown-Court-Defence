@@ -3,7 +3,7 @@ module MessageQueue
     def initialize(queue)
       @sqs = Aws::SQS::Client.new(access_key_id: Settings.aws.access, secret_access_key: Settings.aws.secret)
       begin
-        @queue_url = @sqs.get_queue_url(queue_name: queue).queue_url
+        @queue_url = queue_url(queue)
       rescue Aws::SQS::Errors::NonExistentQueue
         raise StandardError.new, "Non existing queue: #{queue}."
       end
@@ -26,6 +26,11 @@ module MessageQueue
     end
 
     private
+
+    def queue_url(queue)
+      return queue if queue =~ /\A#{URI::regexp(%w[http https])}\z/
+      @sqs.get_queue_url(queue_name: queue).queue_url
+    end
 
     def messages
       @sqs.receive_message(

@@ -120,8 +120,10 @@ aws:
   submitted_queue: <%= ENV['AWS_QUEUE_NAME'] %>
   response_queue: <%= ENV['AWS_RESPONSE_QUEUE_NAME'] %>
   sqs:
-    submitted_queue_url: 'store-actual-values-in-.env-file'
-    response_queue_url: 'store-actual-values-in-.env-file'
+    # This is deliberately blank - add a SETTINGS__AWS__SQS__RESPONSE_QUEUE_URL
+    # value to .env files or the deployment repo if needed. this allows the `response_queue`
+    # value to override it until it is set in all hosting areas/technologies
+    response_queue_url:
   billing:
     access: 'store-actual-values-in-.env-file'
     secret: 'store-actual-values-in-.env-file'

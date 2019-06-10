@@ -2,7 +2,7 @@ require 'rails_helper'
 
 module MessageQueue
   describe AwsClient, slack_bot: true do
-    subject(:aws_client) { described_class.new(aws_queue_name) }
+    subject(:aws_client) { described_class.new(aws_queue_id) }
 
     let(:client) do
       Aws::SQS::Client.new(
@@ -18,7 +18,7 @@ module MessageQueue
       )
     end
     let(:claim) { create(:advocate_claim) }
-    let(:aws_queue_name) { 'valid_queue_name' }
+    let(:aws_queue_id) { 'valid_queue_name' }
     let(:stub_queue_response) { stub_queue_response_success }
     let(:stub_send_response) {}
     let(:stub_poll_response) {}
@@ -59,12 +59,18 @@ module MessageQueue
     end
 
     context 'when passed a non-existant queue' do
-      let(:aws_queue_name) { 'no_such_queue' }
+      let(:aws_queue_id) { 'no_such_queue' }
       let(:stub_queue_response) { stub_queue_response_failure }
 
       it 'raises an appropriate error' do
         expect{aws_client}.to raise_error(StandardError, 'Non existing queue: no_such_queue.')
       end
+    end
+
+    context 'when passed a valid queue_url' do
+      let(:aws_queue_id) { 'https://aws.queue/name'}
+
+      it { is_expected.to be_a AwsClient }
     end
 
     describe '#send!' do

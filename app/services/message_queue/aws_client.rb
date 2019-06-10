@@ -28,7 +28,7 @@ module MessageQueue
     private
 
     def queue_url(queue)
-      return queue if queue =~ /\A#{URI::regexp(%w[http https])}\z/
+      return queue if queue =~ /\A#{URI.regexp(%w[http https])}\z/
       @sqs.get_queue_url(queue_name: queue).queue_url
     end
 

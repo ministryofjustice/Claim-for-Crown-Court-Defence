@@ -22,8 +22,16 @@ require_relative '../../spec/support/factory_helpers'
 # loss of signed in user
 ActionController::Base.allow_forgery_protection = true
 
-# Activate to view driver detailed output
+# Activate to view chromedriver detailed output
 # Webdrivers.logger.level = :DEBUG
+
+# pin version to 2.46 of chromedriver as latest
+# version (75.0.3770.80) is not running headless.
+# see https://chromedriver.storage.googleapis.com/index.html
+# for usable version numbers and review later.
+#
+Webdrivers::Chromedriver.required_version = '2.46'
+
 # The `webdriver` gem's requests to download drivers is being blocked by Webmock
 # without this.
 # see https://github.com/titusfortner/webdrivers/wiki/Using-with-VCR-or-WebMock

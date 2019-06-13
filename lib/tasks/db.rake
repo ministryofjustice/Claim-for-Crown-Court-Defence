@@ -74,7 +74,7 @@ namespace :db do
 
     shell_working 'exporting unanonymised database data' do
       system (with_config do |_db_name, connection_opts|
-        "PGPASSWORD=$DB_PASSWORD pg_dump -O -x -w #{exclusions} #{connection_opts} -f #{filename}"
+        "PGPASSWORD=$DB_PASSWORD pg_dump -O -x -w #{exclusions} #{connection_opts} -f tmp/#{filename}"
       end)
     end
 
@@ -273,13 +273,13 @@ namespace :db do
 
   def compress_file(filename)
     shell_working "compressing file #{filename}" do
-      system "gzip -3 -f #{filename}"
+      system "gzip -3 -f tmp/#{filename}"
     end
   end
 
   def decompress_file(filename)
     shell_working "decompressing file #{filename}" do
-      system "gunzip -3 -f #{filename}"
+      system "gunzip -3 -f tmp/#{filename}"
     end
   end
 
@@ -326,7 +326,7 @@ namespace :db do
 
     def write
       raise ArgumentError, 'Model is nil, set model before write' if model.nil?
-      open(file_name, 'a') do |file|
+      open(File.join('tmp', file_name), 'a') do |file|
         file.puts prepare_sql
       end
     end

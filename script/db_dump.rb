@@ -40,8 +40,7 @@ def gzip_file_name
 end
 
 def install_postgres(ssh)
-  ssh.exec! 'sudo docker exec advocatedefencepayments apt-get update'
-  ssh.exec! 'sudo docker exec advocatedefencepayments apt-get -y install postgresql-9.6'
+  ssh.exec! 'sudo docker exec -u root advocatedefencepayments apk add postgresql'
 end
 
 def delete_file_question
@@ -76,8 +75,8 @@ begin
 
   ShellSpinner 'Dumping database' do
     puts ssh.exec!("sudo docker exec advocatedefencepayments rake db:dump_anonymised[#{dump_file_name}]")
-    puts ssh.exec!("sudo docker cp advocatedefencepayments:/usr/src/app/#{gzip_file_name} ~/")
-    puts ssh.exec!("sudo docker exec advocatedefencepayments rm /usr/src/app/#{gzip_file_name}") if delete_file?
+    puts ssh.exec!("sudo docker cp advocatedefencepayments:/usr/src/app/tmp/#{gzip_file_name} ~/")
+    puts ssh.exec!("sudo docker exec advocatedefencepayments rm /usr/src/app/tmp/#{gzip_file_name}") if delete_file?
   end
 
   puts 'Downloading dump file %s from host %s' % [gzip_file_name, ssh_address]

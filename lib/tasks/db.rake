@@ -74,7 +74,7 @@ namespace :db do
 
     shell_working 'exporting unanonymised database data' do
       system (with_config do |_db_name, connection_opts|
-        "PGPASSWORD=$DB_PASSWORD pg_dump -O -x -w #{exclusions} #{connection_opts} -f #{filename}"
+        "PGPASSWORD=$DB_PASSWORD pg_dump -O -x -w #{exclusions} #{connection_opts} -f tmp/#{filename}"
       end)
     end
 

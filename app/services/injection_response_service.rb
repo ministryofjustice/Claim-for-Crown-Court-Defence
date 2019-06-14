@@ -11,7 +11,11 @@ class InjectionResponseService
     return failure(action: 'run!', uuid: @response['uuid']) unless @claim
 
     injection_attempt = create_injection_attempt
-    slack.send_message! unless injection_attempt.succeeded?
+    if Settings.aws&.sqs&.response_queue_url
+      slack.send_message!
+    else
+      slack.send_message! unless injection_attempt.succeeded?
+    end
     true
   end
 

@@ -1,7 +1,7 @@
 module S3Headers
   extend ActiveSupport::Concern
 
-  module ClassMethods
+  class_methods do
     def s3_headers
       {
         s3_headers: {

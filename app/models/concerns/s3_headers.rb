@@ -9,8 +9,14 @@ module S3Headers
           'Expires' => 3.months.from_now.httpdate
         },
         s3_permissions: :private,
-        s3_region: Settings.aws.s3.region
+        s3_region: region
       }
+    end
+
+    private
+
+    def region
+      Settings.aws.region || 'eu-west-1'
     end
   end
 end

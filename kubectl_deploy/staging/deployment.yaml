@@ -93,11 +93,6 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: SECRET_ACCESS_KEY
-            - name: AWS_RESPONSE_QUEUE_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: AWS_RESPONSE_QUEUE_NAME
             - name: AWS_REGION
               valueFrom:
                 secretKeyRef:

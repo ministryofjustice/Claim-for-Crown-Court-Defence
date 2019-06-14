@@ -15,19 +15,15 @@
 #
 
 class Message < ApplicationRecord
+  include S3Headers
+
   belongs_to :claim, class_name: 'Claim::BaseClaim', foreign_key: :claim_id
   belongs_to :sender, foreign_key: :sender_id, class_name: 'User', inverse_of: :messages_sent
   has_many :user_message_statuses, dependent: :destroy
 
   attr_accessor :claim_action, :written_reasons_submitted
 
-  has_attached_file :attachment,
-                    { s3_headers: {
-                      'x-amz-meta-Cache-Control' => 'no-cache',
-                      'Expires' => 3.months.from_now.httpdate
-                    },
-                      s3_permissions: :private,
-                      s3_region: Settings.aws.s3.region }.merge(PAPERCLIP_STORAGE_OPTIONS)
+  has_attached_file :attachment, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
 
   validates_attachment :attachment,
                        size: { in: 0.megabytes..20.megabytes },

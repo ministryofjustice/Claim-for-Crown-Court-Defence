@@ -13,7 +13,7 @@
 
 - if local_assigns.has_key?(:fee)
   - if fee
-    %table{ class: 'summary', summary: t('.summary') }
+    %table{ class: 'summary' }
       %caption
         %span.table-caption.visuallyhidden
           = t('.caption')
@@ -36,7 +36,7 @@
       %p
         = t("shared.summary.no_values.#{section}")
   - else
-    %table{ class: 'summary', summary: t('.summary') }
+    %table{ class: 'summary' }
       %caption
         %span.table-caption.visuallyhidden
           = t('.caption')

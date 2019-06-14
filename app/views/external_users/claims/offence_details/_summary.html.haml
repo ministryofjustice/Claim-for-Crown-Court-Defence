@@ -6,7 +6,7 @@
         = link_to t('.change'), edit_polymorphic_path(claim, step: :offence_details, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
     - if claim.offence
-      %table{ class: 'summary', summary: t('.summary') }
+      %table{ class: 'summary' }
         %caption
           %span.table-caption.visuallyhidden
             = t('.caption')

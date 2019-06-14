@@ -1,6 +1,6 @@
 - claim.interim_claim_info && present(claim.interim_claim_info) do |info|
   - if info.warrant_fee_paid?
-    %table{ class: 'summary', summary: t('.summary') }
+    %table{ class: 'summary' }
       %caption
         %span.table-caption.visuallyhidden
           = t('.caption')

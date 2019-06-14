@@ -25,11 +25,11 @@
           %p.bold-normal
             Final fee claims where the representation order was granted on or after 5 May 2015.
 
-          %p
-            I certify that I am the trial advocate as:
+          .form-group
+            %fieldset
+              %legend
+                I certify that I am the trial advocate as:
 
-          .radio-wrapper
-            .form-group.inline
               = f.collection_radio_buttons(:certification_type_id, CertificationType.post_may_2015.agfs, :id, :name, include_hidden: false) do |b|
                 .multiple-choice
                   = b.radio_button
@@ -37,14 +37,14 @@
 
       .grid-row
         .column-two-thirds
-          .bold-normal
-            All other claims:
 
-          %p.normal
-            I certify that I am the instructed advocate as:
+          .form-group
+            %fieldset
+              %legend
+                All other claims
+                %span.form-hint
+                  I certify that I am the instructed advocate as:
 
-          .radio-wrapper
-            .form-group.inline
               = f.collection_radio_buttons(:certification_type_id, CertificationType.pre_may_2015.agfs, :id, :name, include_hidden: false) do |b|
                 .multiple-choice
                   = b.radio_button

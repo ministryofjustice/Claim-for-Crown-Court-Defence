@@ -7,7 +7,7 @@
   %h3.heading-medium
     = "Assessment summary"
 
-  %table#determinations{summary: t('.summary')}
+  %table#determinations
     %caption.visuallyhidden
       = t('.caption')
     %thead
@@ -23,4 +23,3 @@
         = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last }
       - else
         = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.assessment }
-

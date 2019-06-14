@@ -7,8 +7,10 @@
 
   .form-group
     .fee-type.js-typeahead{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
-      %label.form-label-bold
-        = t('.fee_type')
+      = f.label :fee_type_id_input,
+        t('.fee_type'),
+        { class: 'form-label-bold' }
+
       %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
       = f.collection_select :fee_type_id,
        @claim.eligible_misc_fee_types, :id, :description,

@@ -16,10 +16,10 @@ gem 'faker',                  '~> 1.9.3'
 gem 'googlemaps-services',    '~> 1.5.0'
 gem 'gov_uk_date_fields',     '~> 3.0.0'
 gem 'govuk_template',         '= 0.23.1'
-gem 'govuk_frontend_toolkit', '~> 7.4.1'
+gem 'govuk_frontend_toolkit', '~> 8.2.0'
 gem 'govuk_elements_rails',   '~> 3.1.2'
 gem 'govuk_notify_rails',     '~> 2.1.0'
-gem 'grape',                  '~> 1.2.3'
+gem 'grape',                  '~> 1.2.4'
 gem 'grape-entity',           '~> 0.7.1'
 gem 'grape-papertrail',       '~> 0.2.0'
 gem 'grape-swagger',          '~> 0.32.1'
@@ -103,7 +103,7 @@ group :development, :devunicorn, :test do
 end
 
 group :test do
-  gem 'capybara', '~> 3.23'
+  gem 'capybara', '~> 3.24'
   gem 'capybara-selenium'
   gem 'webdrivers', '~> 4.0', require: false
   gem 'climate_control'

@@ -15,6 +15,8 @@
 #
 
 class Message < ApplicationRecord
+  include S3Headers
+
   belongs_to :claim, class_name: 'Claim::BaseClaim', foreign_key: :claim_id
   belongs_to :sender, foreign_key: :sender_id, class_name: 'User', inverse_of: :messages_sent
   has_many :user_message_statuses, dependent: :destroy

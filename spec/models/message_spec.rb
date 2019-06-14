@@ -27,6 +27,8 @@ RSpec.describe Message, type: :model do
 
   it { should have_attached_file(:attachment) }
 
+  it_behaves_like 'an s3 bucket'
+
   it do
      should validate_attachment_content_type(:attachment).
        allowing('application/pdf',
@@ -122,25 +124,6 @@ RSpec.describe Message, type: :model do
       expect(claim.claim_state_transitions.reorder(created_at: :asc).map(&:event)).to eq( [ nil, 'submit', 'allocate', 'authorise_part', 'await_written_reasons', 'authorise_part' ] )
       expect(claim.last_state_transition.author_id).to eq(user.id)
       expect(claim.state).to eq 'part_authorised'
-    end
-  end
-
-  describe '.s3_headers' do
-    subject { described_class.s3_headers[:s3_region] }
-
-    context 'when an aws region has been explicitly recorded in the settings' do
-      let(:fake_aws_region) { 'eu-west-49'}
-
-      before { allow(Settings.aws).to receive(:region).and_return(fake_aws_region) }
-
-      it { is_expected.to eql fake_aws_region }
-    end
-
-    context 'when an aws region has not been set' do
-
-      before { allow(Settings.aws).to receive(:region).and_return(nil) }
-
-      it { is_expected.to eql 'eu-west-1' }
     end
   end
 end

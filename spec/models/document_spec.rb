@@ -41,6 +41,8 @@ RSpec.describe Document, type: :model do
   it { should have_attached_file(:converted_preview_document) }
   it { should validate_attachment_content_type(:converted_preview_document).allowing('application/pdf') }
 
+  it_behaves_like 'an s3 bucket'
+
   it do
     should validate_attachment_content_type(:document).
       allowing('application/pdf',

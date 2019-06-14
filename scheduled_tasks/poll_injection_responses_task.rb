@@ -6,7 +6,7 @@ class PollInjectionResponsesTask < Scheduler::SchedulerTask
   every '1m'
 
   def run
-    queue = Settings.aws.response_queue
+    queue = Settings.aws.sqs.response_queue_url || Settings.aws.response_queue
     return unless queue
     log("Checking for messages on #{queue}")
     MessageQueue::AwsClient.new(queue).poll!

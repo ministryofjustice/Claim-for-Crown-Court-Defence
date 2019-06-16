@@ -118,11 +118,6 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: LAA_FEE_CALCULATOR_HOST
-            - name: NEWRELIC_LICENSE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: NEWRELIC_LICENSE_KEY
             - name: SETTINGS__SLACK__BOT_URL
               valueFrom:
                 secretKeyRef:

@@ -3,16 +3,16 @@ function _k8sdeploy() {
   usage="k8sdeploy -- deploy image from current commit to an environment
   Usage: ./k8sdeploy.sh environment
   Where:
-    environment [dev|staging]"
+    environment [dev|staging|api-sandbox]"
 
-  if [ $# -gt 2 ]
+  if [ $# -gt 1 ]
   then
     echo "$usage"
     return 0
   fi
 
   case "$1" in
-    dev | staging)
+    dev | staging | api-sandbox)
       environment=$1
       ;;
     *)

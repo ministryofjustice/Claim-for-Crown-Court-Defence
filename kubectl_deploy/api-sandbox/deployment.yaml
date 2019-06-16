@@ -13,6 +13,16 @@ spec:
       containers:
         - name: cccd-app
           image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:latest
+          # add this to override 02-limitrange.yaml settings for the namespace
+          # - not needed if 02-limitrange.yaml specifies the same or more.
+          #
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 2Gi
+            requests:
+              cpu: 125m
+              memory: 250Mi
           ports:
             - containerPort: 4567
           #          livenessProbe:
@@ -138,21 +148,6 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: SETTINGS__SLACK__BOT_URL
-            - name: SETTINGS__AWS__SNS__SUBMITTED_TOPIC_ARN
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-messaging
-                  key: topic_arn
-            - name: SETTINGS__AWS__SNS__ACCESS
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-messaging
-                  key: access_key_id
-            - name: SETTINGS__AWS__SNS__SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-messaging
-                  key: secret_access_key
             - name: SETTINGS__GOVUK_NOTIFY__API_KEY
               valueFrom:
                 secretKeyRef:

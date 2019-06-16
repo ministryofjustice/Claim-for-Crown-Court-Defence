@@ -9,31 +9,35 @@ function _k8sbuild() {
 
   team_name=laa-get-paid
   repo_name=cccd
-  ecr_container=754256621582.dkr.ecr.eu-west-2.amazonaws.com
-  docker_registry=${ecr_container}/${team_name}/${repo_name}
+  docker_endpoint=754256621582.dkr.ecr.eu-west-2.amazonaws.com
+  docker_registry=${docker_endpoint}/${team_name}/${repo_name}
 
   component=app
   version=$(git rev-parse $(git branch | grep \* | cut -d ' ' -f2))
   docker_build_tag=${component}-${version}
-  docker_tag=${team_name}/${repo_name}:${component}
+  docker_registry_tag=${docker_registry}:${docker_build_tag}
 
-  docker_image=${docker_registry}:${docker_build_tag}
   echo '------------------------------------------------------------------------'
-  echo "Image: $docker_image"
   echo "Build tag: $docker_build_tag"
-  echo "ECR tag: $docker_tag"
+  echo "Registry tag: $docker_registry_tag"
   echo '------------------------------------------------------------------------'
-
+  printf '\e[33mDocker login to registry (ECR)...\e[0m\n'
   $(aws ecr --profile "$aws_profile" get-login --no-include-email --region "$region")
+
+  printf '\e[33mBuilding app container image locally...\e[0m\n'
   docker build \
-          --build-arg VERSION_NUMBER=$docker_image \
+          --build-arg VERSION_NUMBER=$docker_registry_tag \
           --build-arg BUILD_DATE=$(date +%Y-%m-%dT%H:%M:%S%z) \
           --build-arg COMMIT_ID=$version \
           --build-arg BUILD_TAG=$docker_build_tag \
-          -t ${docker_tag} -f docker/Dockerfile .
-  docker tag ${docker_tag} ${docker_image}
-  docker push ${docker_image}
-  echo "Pushed docker image - Tag: $docker_tag"
+          --pull \
+          --tag ${docker_registry_tag} \
+          --file docker/Dockerfile .
+
+  printf '\e[33m[Pushing app container image to ECR...\e[0m\n'
+  docker push ${docker_registry_tag}
+  printf '\e[33mPushed app container image to ECR...\e[0m\n'
+
 }
 
 _k8sbuild $@

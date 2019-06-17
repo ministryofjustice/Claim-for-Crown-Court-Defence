@@ -42,11 +42,7 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-<<<<<<< HEAD
                   name: cccd-rds
-=======
-                  name: cccd-rds-output
->>>>>>> 8748d391a... re-add SNS code
                   key: url
             - name: SECRET_KEY_BASE
               valueFrom:

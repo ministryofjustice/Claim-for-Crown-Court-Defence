@@ -151,29 +151,17 @@ spec:
             - name: SETTINGS__AWS__SNS__SUBMITTED_TOPIC_ARN
               valueFrom:
                 secretKeyRef:
-<<<<<<< HEAD
                   name: cccd-messaging
-=======
-                  name: cccd-claims-submitted-sns
->>>>>>> bbb33fdce... Update staging sns key name source
                   key: topic_arn
             - name: SETTINGS__AWS__SNS__ACCESS
               valueFrom:
                 secretKeyRef:
-<<<<<<< HEAD
                   name: cccd-messaging
-=======
-                  name: cccd-claims-submitted-sns
->>>>>>> bbb33fdce... Update staging sns key name source
                   key: access_key_id
             - name: SETTINGS__AWS__SNS__SECRET
               valueFrom:
                 secretKeyRef:
-<<<<<<< HEAD
                   name: cccd-messaging
-=======
-                  name: cccd-claims-submitted-sns
->>>>>>> bbb33fdce... Update staging sns key name source
                   key: secret_access_key
             - name: SETTINGS__GOVUK_NOTIFY__API_KEY
               valueFrom:

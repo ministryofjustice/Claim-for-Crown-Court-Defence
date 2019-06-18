@@ -311,7 +311,7 @@ GEM
       haml (>= 4.0.6, < 6.0)
       html2haml (>= 1.0.1)
       railties (>= 5.1)
-    hashdiff (0.4.0)
+    hashdiff (1.0.0.beta1)
     hashie (3.6.0)
     hashie-forbidden_attributes (0.1.1)
       hashie (>= 3.0)
@@ -733,7 +733,7 @@ DEPENDENCIES
   guard-rspec
   guard-rubocop
   haml-rails (~> 2.0.1)
-  hashdiff
+  hashdiff (>= 1.0.0.beta1, < 2.0.0)
   hashie-forbidden_attributes (>= 0.1.1)
   i18n-tasks
   jasmine (~> 3.4)

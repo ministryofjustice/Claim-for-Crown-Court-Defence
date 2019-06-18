@@ -16,7 +16,7 @@ module S3Headers
     private
 
     def region
-      Settings.aws.region || 'eu-west-1'
+      Settings.aws.region
     end
   end
 end

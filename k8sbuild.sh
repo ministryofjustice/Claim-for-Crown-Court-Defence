@@ -13,12 +13,15 @@ function _k8sbuild() {
   docker_registry=${docker_endpoint}/${team_name}/${repo_name}
 
   component=app
-  version=$(git rev-parse $(git branch | grep \* | cut -d ' ' -f2))
-  docker_build_tag=${component}-${version}
+  current_branch=$(git branch | grep \* | cut -d ' ' -f2)
+  current_version=$(git rev-parse $current_branch)
+
+  docker_build_tag=${component}-${current_version}
   docker_registry_tag=${docker_registry}:${docker_build_tag}
 
   echo '------------------------------------------------------------------------'
   echo "Build tag: $docker_build_tag"
+  echo "Branch: $current_branch"
   echo "Registry tag: $docker_registry_tag"
   echo '------------------------------------------------------------------------'
   printf '\e[33mDocker login to registry (ECR)...\e[0m\n'
@@ -34,9 +37,23 @@ function _k8sbuild() {
           --tag ${docker_registry_tag} \
           --file docker/Dockerfile .
 
-  printf '\e[33m[Pushing app container image to ECR...\e[0m\n'
+  printf '\e[33mPushing app container image to ECR...\e[0m\n'
   docker push ${docker_registry_tag}
   printf '\e[33mPushed app container image to ECR...\e[0m\n'
+
+  # tag as latest for branch too
+  case $current_branch in
+    master)
+      latest_tag=${docker_registry}:${component}-latest
+      ;;
+    *)
+      latest_tag=${docker_registry}:${component}-${current_branch}-latest
+      ;;
+  esac
+
+  docker tag $docker_registry_tag $latest_tag
+  docker push $latest_tag
+  printf "\e[33mAlso tagged as ${latest_tag}...\e[0m\n"
 
 }
 

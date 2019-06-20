@@ -13,16 +13,6 @@ spec:
       containers:
         - name: cccd-app
           image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:latest
-          # add this to override 02-limitrange.yaml settings for the namespace
-          # - not needed if 02-limitrange.yaml specifies the same or more.
-          #
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 2Gi
-            requests:
-              cpu: 125m
-              memory: 250Mi
           ports:
             - containerPort: 4567
           #          livenessProbe:

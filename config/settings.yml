@@ -135,12 +135,13 @@ aws:
     # value to override it until it is set in all hosting areas/technologies
     response_queue_url:
   billing:
-    access: 'store-actual-values-in-.env-file'
-    secret: 'store-actual-values-in-.env-file'
-    account: 'store-actual-values-in-.env-file'
+    access: 'store actual value as SETTINGS__AWS__BILLING__ACCESS'
+    secret: 'store actual value as SETTINGS__AWS__BILLING__SECRET'
+    account: 'store actual value as SETTINGS__AWS__BILLING__ACCOUNT'
   sns:
-    access: <%= ENV['AWS_ACCESS_KEY'] %>
-    secret: <%= ENV['SECRET_ACCESS_KEY'] %>
+    access: 'store actual value as SETTINGS__AWS__SNS__ACCESS'
+    secret: 'store actual value as SETTINGS__AWS__SNS__ACCESS'
+    submitted_topic_arn: 'store actual value as SETTINGS__AWS__SNS__SUBMITTED_TOPIC_ARN'
 slack:
   bot_url: 'slack_bot_url'
   bot_name: 'bot_name'

@@ -24,6 +24,8 @@ spec:
 #              path: /healthcheck
 #              port: 4567
           env:
+            - name: ENV
+              value: 'staging'
             - name: RAILS_ENV
               value: 'production'
             - name: DB_PORT

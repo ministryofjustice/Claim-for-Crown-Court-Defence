@@ -1,8 +1,7 @@
 class SuperAdmins::ProvidersController < ApplicationController
   include ProviderAdminConcern
 
-  def index
-  end
+  def index; end
 
   private
 

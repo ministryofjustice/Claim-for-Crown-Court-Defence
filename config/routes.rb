@@ -84,7 +84,6 @@ Rails.application.routes.draw do
 
   namespace :super_admins do
     root to: 'providers#index'
-    concerns :provider_management_routes
 
     namespace :admin do
       root to: 'providers#index'

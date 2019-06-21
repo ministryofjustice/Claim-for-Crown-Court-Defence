@@ -66,5 +66,5 @@ tags
 
 vcr/cassettes/*.log
 
-# kubernetes secrets
-kube*/**/*secret*.y*ml
+# prevent kubernetes temp secrets being git add'ed
+kube*/**/temp*secret*.y*ml

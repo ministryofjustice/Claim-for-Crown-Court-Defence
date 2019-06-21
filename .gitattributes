@@ -1,0 +1,2 @@
+# git-crypt kubernetes secrets
+kube*/**/*secret* filter=git-crypt diff=git-crypt

@@ -5,10 +5,6 @@
     %ol{role: 'navigation', 'aria-labelledby': 'subnav'}
       - if current_user.persona.is_a?(SuperAdmin)
         %li
-          = link_to t('.manage_providers'), super_admins_providers_path, class: cp(super_admins_providers_path)
-        %li
-          = link_to t('.add_a_provider'), new_super_admins_provider_path, class: cp(new_super_admins_provider_path)
-        %li
           = link_to t('.sidekiq_console'), sidekiq_web_path
       - elsif current_user.persona.is_a?(ExternalUser)
         %li

@@ -164,7 +164,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: cccd-messaging
-                  key: sqs_cccd_id
+                  key: sqs_cccd_url
             - name: SETTINGS__GOVUK_NOTIFY__API_KEY
               valueFrom:
                 secretKeyRef:

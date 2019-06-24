@@ -482,5 +482,11 @@ describe Ability do
         it { should_not be_able_to(action, external_user) }
       end
     end
+
+    context 'cannot manage any provider' do
+      [:show, :index, :new, :create, :edit, :update].each do |action|	
+        it { should_not be_able_to(action, provider) }	
+      end	
+    end
   end
 end

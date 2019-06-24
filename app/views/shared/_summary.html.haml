@@ -37,7 +37,7 @@
                   %br
                   = t('.date')
                   = fee.date
-              %td{scope: 'row'}
+              %td
                 = fee.fee_type&.description || 'n/a'
                 - if fee.sub_type.present?
                   %p
@@ -91,7 +91,7 @@
               %tr.no-border
                 %td
                   = expense.pretty_date
-                %td{scope:'row'}
+                %td
                   = expense.name
                   - if expense.distance?
                     (#{expense.mileage_rate})

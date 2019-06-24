@@ -9,7 +9,11 @@
       = t('.expense')
       %span.fx-numberedList-number
       %span.fx-remove-link
-        = link_to_remove_association t('.remove').html_safe , f, wrapper_class: 'expense-group', class: "header-action fx-numberedList-action", style: "display: none;"
+        %a.header-action.fx-numberedList-action.remove_fields.existing{ "href": "#", "style": "display: block;", "data-wrapper-class": "expense-group" }
+          = t('.remove')
+          %span.visuallyhidden
+            = t('.expense')
+            %span.fx-numberedList-number
 
 
     %p.fx-general-errors{:style => "display: none;"}
@@ -19,23 +23,23 @@
       .column-half
         -# SELECT: Expense types
         .form-group.fx-travel-expense-type
-          %fieldset
-            %legend.form-label-bold{:for => "expense-type"}
-              = t('.type_of_expense')
+          = f.label :expense_type_id,
+            t('.type_of_expense'),
+            { class: 'form-label-bold' }
 
-            - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
-            = f.select :expense_type_id, expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}, {include_blank: t('.select_option')}, {class: 'form-control form-control-3-4'}
-            = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
+          - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
+          = f.select :expense_type_id, expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}, {include_blank: t('.select_option')}, {class: 'form-control form-control-3-4'}
+          = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
 
       .column-half
         -# SELECT: Travel reasons
         - error_classes = error_class?(@error_presenter, "expense_#{@expense_count}_reason_id")
         - error_classes += ' form-group-error' if error_classes.present?
         .form-group.fx-travel-reason{:style => "display: none;", class: error_classes }
-          %fieldset
-            %legend.form-label-bold
-              = t('.travel_reason')
-              %a{id: "expense_#{@expense_count}_reason_id"}
+          = f.label :reason_id,
+            t('.travel_reason'),
+            { class: 'form-label-bold' }
+
           = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
           - reasons_collection = present_collection(reasonset_for_expense_type(f.object.expense_type).values, TravelReasonPresenter)
           = f.select :reason_id, reasons_collection.map {|et| [et.reason, et.id, { data: et.data_attributes }]}, {include_blank: t('.select_option')}, {class: 'form-control form-control-3-4'}

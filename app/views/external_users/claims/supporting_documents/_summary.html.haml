@@ -2,7 +2,7 @@
   %h2
     Evidence supplied on disk
 
-  %table{ class: 'summary', summary: t('.summary') }
+  %table.summary
     %caption
       %span.table-caption.visuallyhidden
         = "Evidence supplied on disk"
@@ -16,7 +16,7 @@
 %h2
   Supporting evidence documents
 
-%table{class:'table-summary', summary: t('.summary')}
+%table.summary
   %caption
     %span.table-caption.visuallyhidden
       = t('.caption')
@@ -44,9 +44,8 @@
           - if document.converted_preview_document.present?
             = link_to t('common.view'),
                       document_path(document),
-                      target: '_blank',
                       class: 'view',
-                      'aria-label': "View document: #{document.document_file_name}, Opens in a new window"
+                      'aria-label': "View document: #{document.document_file_name}"
             = " | "
           = link_to t('common.download'),
                     download_document_path(document),

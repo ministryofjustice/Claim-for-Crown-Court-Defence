@@ -3,8 +3,13 @@
   %a{id: "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count}_representation_order_date"}
   %h3.heading-medium
     = t('.representation_order')
-    %span.fx-numberedList-number_
-    = link_to_remove_association t('.remove'), f, class: "header-action fx-numberedList-action_"
+    %span.fx-numberedList-number
+    %a.header-action.fx-numberedList-action.remove_fields.existing{ "href": "#", "style": "display: block;" }
+      = t('.remove')
+      %span.visuallyhidden
+        = t('.representation_order')
+        %span.fx-numberedList-number
+
   .form-group.ro-date
     = f.gov_uk_date_field(:representation_order_date,
                           legend_text: 'Representation order date',
@@ -17,5 +22,3 @@
                         label: t('.maat_reference_number'),
                         hint_text: t('.maat_reference_number_eg'),
                         errors: @error_presenter
-
-

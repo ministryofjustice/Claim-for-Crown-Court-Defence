@@ -3,7 +3,11 @@
     %h2.heading-medium
       = t('.defendant')
       %span.fx-numberedList-number
-      = link_to_remove_association t('.remove'), f, class: "header-action fx-numberedList-action", style: "display: none;"
+      %a.header-action.fx-numberedList-action.remove_fields.existing{ "href": "#", "style": "display: block;" }
+        = t('.remove')
+        %span.visuallyhidden
+          = t('.defendant')
+          %span.fx-numberedList-number
 
     .form-group.first-name
       - @representation_order_count = 0
@@ -31,8 +35,8 @@
           .panel.panel-border-narrow
             %p
               = t('.order_for_judicial_apportionment_help')
-    
-    - unless f.object.representation_orders.any? 
+
+    - unless f.object.representation_orders.any?
       - f.object.representation_orders << RepresentationOrder.new
 
     .documents.fx-numberedList-item_
@@ -40,5 +44,5 @@
         = render partial: 'external_users/claims/defendants/representation_order_fields', locals: { f: repo_form }
     .links
       = link_to_add_association t('.add_another_rep_order'), f, :representation_orders, partial: 'external_users/claims/defendants/representation_order_fields'
-  
+
   - @defendant_count += 1

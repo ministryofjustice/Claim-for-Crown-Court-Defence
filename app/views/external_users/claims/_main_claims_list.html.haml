@@ -43,7 +43,7 @@
         = t(".messages")
     %tbody
       %tr.mobile-sort
-        %th{colspan: 10}
+        %th{scope:'col'}
           Sort by:
           = sortable 'case_number', t(".case_number"), 'aria-label': t('.case_number_sort_label'), tabindex: 0
           = sortable 'total_inc_vat', t(".total"), 'aria-label': t('.total_inc_vat_sort_label'), tabindex: 0
@@ -92,4 +92,3 @@
               = link_to claim.has_unread_messages_for?(current_user) ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view') , "#{external_users_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
             - else
               %span.none= t(".none")
-

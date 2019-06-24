@@ -10,8 +10,8 @@
       %a{:id => "case_type"}
       %label.form-label-bold{:for => "claim_case_type_id"}
         = t('.case_type')
-      .form-hint.xsmall.zero-vert-margin
-        = t('.case_type_hint')
+        .form-hint.xsmall.zero-vert-margin
+          = t('.case_type_hint')
 
       = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?, 'requires-cracked-dates' => ct&.requires_cracked_dates?, 'requires-retrial-dates' => ct&.requires_retrial_dates?, 'requires-trial-dates' => ct&.requires_trial_dates?}}] }, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete' }
       = validation_error_message(@error_presenter, :case_type)
@@ -21,8 +21,8 @@
     %label.form-label-bold{:for => "claim_court_id"}
       = t('.court')
 
-    .form-hint.xsmall.zero-vert-margin
-      = t('.court_hint')
+      .form-hint.xsmall.zero-vert-margin
+        = t('.court_hint')
     = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete' }
 
     %div.clean

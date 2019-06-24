@@ -59,7 +59,7 @@
                 - if fee.date?
                   = t('.date')
                   = fee.date
-              %td{scope: 'row'}
+              %td
                 = fee.fee_type&.description || 'n/a'
                 - if fee.sub_type.present?
                   %p

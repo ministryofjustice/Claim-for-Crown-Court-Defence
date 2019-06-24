@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   end
 
   authenticated :user, -> (u) { u.persona.is_a?(SuperAdmin) } do
-    root to: 'super_admins/home#index', as: :super_admins_home
+    root to: 'super_admins/super_admins#show', as: :super_admins_home
 
     require 'sidekiq/web'
     mount Sidekiq::Web => '/sidekiq'

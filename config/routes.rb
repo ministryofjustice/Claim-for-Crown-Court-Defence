@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   end
 
   authenticated :user, -> (u) { u.persona.is_a?(SuperAdmin) } do
-    root to: 'super_admins/providers#index', as: :super_admins_home
+    root to: 'super_admins/home#index', as: :super_admins_home
 
     require 'sidekiq/web'
     mount Sidekiq::Web => '/sidekiq'
@@ -69,7 +69,7 @@ Rails.application.routes.draw do
     put :settings, on: :member, action: :update_settings, format: :js
   end
 
-  # shared by super_admin and case worker provider managers
+  # shared bycase worker provider managers
   concern :provider_management_routes do
     get 'external_users/find', to: 'external_users#find'
     post 'external_users/find', to: 'external_users#search'
@@ -83,10 +83,10 @@ Rails.application.routes.draw do
   end
 
   namespace :super_admins do
-    root to: 'providers#index'
+    root to: 'super_admins#show'
 
     namespace :admin do
-      root to: 'providers#index'
+      root to: 'super_admins#show'
 
       resources :super_admins, only: [:show, :edit, :update] do
         get 'change_password', on: :member

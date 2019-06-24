@@ -10,8 +10,7 @@ class Ability
     persona = user.persona
 
     if persona.is_a? SuperAdmin
-      # uses symbol as show is used as homepage that is not 
-      # backed by model
+      # uses symbol as show is used as super admins homepage that is not backed by model
       can :show, :super_admin
       can %i[show edit update change_password update_password], SuperAdmin, id: persona.id
       can [:update_settings], User, id: user.id

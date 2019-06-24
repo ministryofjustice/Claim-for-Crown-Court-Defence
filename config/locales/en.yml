@@ -358,6 +358,9 @@ en:
 
 # en.super_admins
   super_admins:
+    super_admins:
+      show:
+        page_title: 'Super Admins Home'
     admin:
       super_admins:
         show:

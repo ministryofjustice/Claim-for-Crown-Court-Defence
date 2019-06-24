@@ -9,7 +9,7 @@
   .messages-list
     = render partial: 'shared/history_items_list', locals: {claim: claim }
   .messages-print-link
-    = link_to t('.print_messages'), open_messages_url, target: '_blank'
+    = link_to t('.print_messages'), open_messages_url
   .message-status
     = t('.status')
     %span.message-success

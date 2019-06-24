@@ -29,7 +29,7 @@
           = t('.messages')
     %tbody
       %tr.mobile-sort
-        %td{colspan: 10}
+        %th{scope:'col'}
           Sort by:
           = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), tabindex: 0
           = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), tabindex: 0

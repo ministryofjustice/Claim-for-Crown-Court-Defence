@@ -6,7 +6,7 @@
       .message-container
         .message-body
           = determination.event
-          %table{summary: t('.summary')}
+          %table
             %caption.visuallyhidden
               = t('.caption')
             - determination.itemise do |item, amount|

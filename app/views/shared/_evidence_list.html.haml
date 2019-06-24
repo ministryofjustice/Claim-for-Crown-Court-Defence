@@ -11,7 +11,7 @@
       = t('.no_documents_uploaded')
 
     - else
-      %table#download-files-report{summary: t('.summary')}
+      %table#download-files-report
         %caption.visually-hidden
           = t('.caption')
         %thead
@@ -38,7 +38,6 @@
                 - if document.converted_preview_document.present?
                   = link_to t('common.view'),
                             document_path(document),
-                            target: '_blank',
                             class: 'view',
                             'aria-label': "Evidence: View document #{document.document_file_name}, opens in new window"
                   = " | "

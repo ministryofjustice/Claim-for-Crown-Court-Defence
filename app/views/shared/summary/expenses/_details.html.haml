@@ -29,7 +29,7 @@
           %br/
       -if expense.show_map_link?
         %li
-          = link_to_map expense, origin: claim.supplier_postcode, destination: expense.location_postcode, target: '_blank'
+          = link_to_map expense, origin: claim.supplier_postcode, destination: expense.location_postcode
 
     - else
       - if expense.distance?

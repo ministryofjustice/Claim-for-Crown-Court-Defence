@@ -39,7 +39,7 @@
                   %br
                   = t('.date')
                   = fee.date
-              %td{scope: 'row'}
+              %td
                 = fee.fee_type&.description || fee.not_applicable
                 - if fee.sub_type.present?
                   %p

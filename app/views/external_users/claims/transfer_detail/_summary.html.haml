@@ -9,7 +9,7 @@
   - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
     = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :transfer_fee_details }
 
-  %table{ class: 'summary', summary: t('.summary') }
+  %table.summary
     %caption
       %span.table-caption.visuallyhidden
         = t('.caption')

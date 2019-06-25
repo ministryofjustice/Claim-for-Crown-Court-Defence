@@ -454,7 +454,9 @@ describe Ability do
     let(:user)              { super_admin.user }
     let(:other_super_admin) { create(:super_admin) }
     let(:provider)          { create(:provider) }
+    let(:other_provider)    { create(:provider) }
     let(:external_user)          { create(:external_user, provider: provider)}
+    let(:other_external_user)    { create(:external_user, provider: other_provider)}
 
     it { should be_able_to(:update_settings, user) }
     it { should_not be_able_to(:update_settings, another_user) }
@@ -465,6 +467,13 @@ describe Ability do
       end
     end
 
+    context 'cannot view, create and change any external_users details' do
+      [:show, :edit, :update, :new, :create, :change_password, :update_password].each do |action|
+        it { should_not be_able_to(action, external_user) }
+        it { should_not be_able_to(action, other_external_user) }
+      end
+    end
+    
     context 'can view and change own details' do
       [:show, :edit, :update, :change_password, :update_password].each do |action|
         it { should be_able_to(action, super_admin) }

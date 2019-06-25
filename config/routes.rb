@@ -69,19 +69,6 @@ Rails.application.routes.draw do
     put :settings, on: :member, action: :update_settings, format: :js
   end
 
-  # shared bycase worker provider managers
-  concern :provider_management_routes do
-    get 'external_users/find', to: 'external_users#find'
-    post 'external_users/find', to: 'external_users#search'
-
-    resources :providers, except: [:destroy] do
-      resources :external_users, except: [:destroy] do
-        get 'change_password', on: :member
-        patch 'update_password', on: :member
-      end
-    end
-  end
-
   namespace :super_admins do
     root to: 'super_admins#show'
 
@@ -97,7 +84,15 @@ Rails.application.routes.draw do
 
   namespace :provider_management do
     root to: 'providers#index'
-    concerns :provider_management_routes
+    get 'external_users/find', to: 'external_users#find'
+    post 'external_users/find', to: 'external_users#search'
+
+    resources :providers, except: [:destroy] do
+      resources :external_users, except: [:destroy] do
+        get 'change_password', on: :member
+        patch 'update_password', on: :member
+      end
+    end
   end
 
   scope module: 'external_users' do

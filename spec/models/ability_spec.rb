@@ -1,6 +1,12 @@
 require 'rails_helper'
 require 'cancan/matchers'
 
+RSpec.shared_examples 'user cannot' do |user, actions|
+  actions.each do |action|	
+    it { should_not be_able_to(action, user) }
+  end
+end
+
 describe Ability do
   subject { Ability.new(user) }
   let(:user) { nil }
@@ -461,17 +467,16 @@ describe Ability do
     it { should be_able_to(:update_settings, user) }
     it { should_not be_able_to(:update_settings, another_user) }
 
+    it_behaves_like 'user cannot', :another_user, [:update_settings]
+
     context 'cannot destroy providers' do
-      [:destroy].each do |action|
-        it { should_not be_able_to(action, provider) }
-      end
+      it_behaves_like 'user cannot', :provider, [:destroy]
     end
 
     context 'cannot view, create and change any external_users details' do
-      [:show, :edit, :update, :new, :create, :change_password, :update_password].each do |action|
-        it { should_not be_able_to(action, external_user) }
-        it { should_not be_able_to(action, other_external_user) }
-      end
+      actions = [:show, :edit, :update, :new, :create, :change_password, :update_password]
+      it_behaves_like 'user cannot', :external_user, actions
+      it_behaves_like 'user cannot', :other_external_user, actions
     end
     
     context 'can view and change own details' do
@@ -481,21 +486,17 @@ describe Ability do
     end
 
     context 'cannot view or change other super admins details' do
-      [:show, :edit, :update, :change_password, :update_password].each do |action|
-        it { should_not be_able_to(action, other_super_admin) }
-      end
+      actions = [:show, :edit, :update, :change_password, :update_password]
+      it_behaves_like 'user cannot', :other_super_admin, actions
     end
 
     context 'cannot destroy external_users' do
-      [:destroy].each do |action|
-        it { should_not be_able_to(action, external_user) }
-      end
+      it_behaves_like 'user cannot', :external_user, [:destroy]
     end
 
-    context 'cannot manage any provider' do
-      [:show, :index, :new, :create, :edit, :update].each do |action|	
-        it { should_not be_able_to(action, provider) }	
-      end	
+    context "cannot manage any provider" do
+      actions = [:show, :index, :new, :create, :edit, :update]
+      it_behaves_like 'user cannot', :provider, actions
     end
   end
 end

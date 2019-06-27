@@ -7,45 +7,42 @@
           = validation_error_message(@error_presenter, :transfer_detail)
 
     .js-case-conclusion-effectors
-      .form-group{class: error_class?(@error_presenter, :litigator_type)}
-        %fieldset.inline{"aria-describedby": "radio-control-legend-type"}
+      .form-group{ class: error_class?(@error_presenter, :litigator_type) }
+        %fieldset.inline{ 'aria-describedby': 'radio-control-legend-type' }
           %legend#radio-control-legend-type
             %span.form-label-bold
               = t('.litigator_type')
           .form-group
             = f.collection_radio_buttons(:litigator_type, ['original','new'], :to_s, :humanize) do |b|
               .multiple-choice
-                = b.radio_button(class: "js-litigator-type", "aria-labelledby": "radio-control-legend-type #{b.text.to_css_class}")
+                = b.radio_button(class: 'js-litigator-type', 'aria-labelledby': "radio-control-legend-type #{b.text.to_css_class}")
                 = b.label(id: b.text.to_css_class) { b.text }
 
         = validation_error_message(@error_presenter, :litigator_type)
 
-      .form-group{class: error_class?(@error_presenter, :elected_case)}
-        %fieldset.inline{"aria-describedby": "radio-control-legend-elected"}
+      .form-group{ class: error_class?(@error_presenter, :elected_case) }
+        %fieldset.inline{ 'aria-describedby': 'radio-control-legend-elected' }
           %legend#radio-control-legend-elected
             %span.form-label-bold
               = t('.elected_case')
           .form-group
             = f.collection_radio_buttons(:elected_case, [['Yes','true'],['No','false']], :last, :first ) do |b|
               .multiple-choice
-                = b.radio_button(class: 'js-elected-case', "aria-labelledby": "radio-control-legend-elected #{b.text.to_css_class}")
+                = b.radio_button(class: 'js-elected-case', 'aria-labelledby': "radio-control-legend-elected #{b.text.to_css_class}")
                 = b.label(id: b.text.to_css_class) { b.text }
 
         = validation_error_message(@error_presenter, :elected_case)
 
-      #cc-transfer-stage.form-group.js-typeahead{class: error_class?(@error_presenter, 'transfer_stage_id')}
-        %fieldset
-          = f.anchored_label t('.transfer_stage_default_label_text'), 'transfer_stage_id', { label_attributes: { class: 'js-transfer-stage-label form-label-bold' } }
-          = f.collection_select :transfer_stage_id, Claim::TransferBrain::TRANSFER_STAGES.values, :id, :description, {include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete js-transfer-stage-id'}
-          = validation_error_message(@error_presenter, 'transfer_stage_id')
+      #cc-transfer-stage.form-group.js-typeahead{ class: error_class?(@error_presenter, 'transfer_stage_id') }
+        = f.anchored_label t('.transfer_stage_default_label_text'), 'transfer_stage_id', { label_attributes: { class: 'js-transfer-stage-label form-label-bold' } }
+        = f.collection_select :transfer_stage_id, Claim::TransferBrain::TRANSFER_STAGES.values, :id, :description, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete js-transfer-stage-id', 'aria-label': t('.transfer_stage_default_label_text') }
+        = validation_error_message(@error_presenter, 'transfer_stage_id')
 
       .form-group
-        = f.gov_uk_date_field(:transfer_date, legend_text: t('.transfer_date_default_label_text'), legend_class: 'govuk-legend js-transfer-date-label', id: "transfer_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, 'transfer_date'))
+        = f.gov_uk_date_field(:transfer_date, legend_text: t('.transfer_date_default_label_text'), legend_class: 'govuk-legend js-transfer-date-label', id: 'transfer_date', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'transfer_date'))
 
 
-    #cc-case-conclusion.form-group.js-typeahead.js-case-conclusions-select{class: error_class?(@error_presenter, 'case_conclusion_id'), style: claim.conclusion_required? ? 'display: block;' : 'display: none;'}
-
-      %fieldset
-        = f.anchored_label t('.case_conclusions'), 'case_conclusion_id', { label_attributes: { class: 'form-label-bold' } }
-        = f.collection_select :case_conclusion_id, claim.case_conclusions, :first, :last,{ include_blank: ''.html_safe },{ class: 'form-control fx-autocomplete medium-input'}
-        = validation_error_message(@error_presenter, 'case_conclusion_id')
+    #cc-case-conclusion.form-group.js-typeahead.js-case-conclusions-select{ class: error_class?(@error_presenter, 'case_conclusion_id'), style: claim.conclusion_required? ? 'display: block;' : 'display: none;' }
+      = f.anchored_label t('.case_conclusions'), 'case_conclusion_id', { label_attributes: { class: 'form-label-bold' } }
+      = f.collection_select :case_conclusion_id, claim.case_conclusions, :first, :last,{ include_blank: ''.html_safe },{ class: 'form-control fx-autocomplete medium-input', 'aria-label': t('.case_conclusions') }
+      = validation_error_message(@error_presenter, 'case_conclusion_id')

@@ -1,7 +1,8 @@
 %h2.heading-medium
   = t('.additional_info_heading')
+
 .form-group{ class: ('field_with_errors form-group-error' if validation_error_message(@error_presenter, 'travel_expense_additional_information').present?) }
-  %label.form-hint{:for => "travel_expense_additional_information"}
+  %label.form-hint{ for: 'travel_expense_additional_information' }
     = t(".#{@claim.agfs? ? 'agfs' : 'lgfs'}_additional_info_label")
     = validation_error_message(@error_presenter, 'travel_expense_additional_information')
   = f.text_area :travel_expense_additional_information, class: 'form-control form-control-full-textarea', id: 'travel_expense_additional_information', rows: 5, 'aria-describedby': 'additional-info-hint'

@@ -77,7 +77,6 @@ group :development, :devunicorn, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'byebug'
-  gem 'fuubar'
   gem 'guard-cucumber'
   gem 'guard-jasmine', '~> 3.1'
   gem 'guard-livereload', '>= 2.5.2'

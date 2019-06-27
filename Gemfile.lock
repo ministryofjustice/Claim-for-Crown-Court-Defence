@@ -228,9 +228,6 @@ GEM
       multipart-post (>= 1.2, < 3)
     ffi (1.11.1)
     formatador (0.2.5)
-    fuubar (2.4.1)
-      rspec-core (~> 3.0)
-      ruby-progressbar (~> 1.4)
     geckoboard-ruby (0.4.0)
     get_process_mem (0.2.3)
     gherkin (5.1.0)
@@ -718,7 +715,6 @@ DEPENDENCIES
   dry-monads (~> 1.2.0)
   factory_bot_rails (~> 5.0.2)
   faker (~> 1.9.6)
-  fuubar
   geckoboard-ruby
   googlemaps-services (~> 1.5.0)
   gov_uk_date_fields (~> 3.0.0)

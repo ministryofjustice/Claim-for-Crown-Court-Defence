@@ -37,7 +37,7 @@
       - if current_user.persona.is_a?(ExternalUser)
         - if claim.editable?
           = t('.actions')
-          %div.action-wrapper
+          .action-wrapper
             = link_to t('buttons.edit_draft'), edit_polymorphic_path(claim), class: 'button edit-claim'
             -if claim.from_api? || claim.api_web_edited?
               = form_for @claim, as: :claim, url:polymorphic_path(claim, anchor: 'evidence_upload'), builder: AdpFormBuilder, multipart: true, authenticity_token: true do |f|
@@ -48,11 +48,11 @@
 
         - if claim.archivable?
           = t('.actions')
-          %div.action-wrapper
+          .action-wrapper
             - if claim.rejected?
               = button_to t('.redraft'), clone_rejected_external_users_claim_path(claim), method: 'patch', class: 'button resubmit-claim', form: { style: 'display: inline-block;' }
             = link_to t('.archive'), external_users_claim_path(claim), method: :delete, data: { confirm: t('.confirm_text') }, class: 'button'
         - if claim.archived_pending_delete?
           = t('.actions')
-          %div.action-wrapper
+          .action-wrapper
             = button_to t('.unarchive'), unarchive_external_users_claim_path(claim), method: 'patch', class: 'button', form: { style: 'display: inline-block;' }

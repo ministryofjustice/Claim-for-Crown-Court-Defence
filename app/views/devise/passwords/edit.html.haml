@@ -2,14 +2,14 @@
   = t('.page_title')
 
 = content_for :v2_stylesheets do
-  = stylesheet_link_tag "v2/application", media: "all"
+  = stylesheet_link_tag 'v2/application', media: 'all'
 
 = render partial: 'errors/error_summary', locals:{ ep: resource, error_summary: t('.error_summary')}
 
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-  %div.form-group
+  .form-group
   = f.hidden_field :reset_password_token
   = f.full_error :reset_password_token
 
@@ -25,4 +25,4 @@
   .form-group
     = f.button :submit, t('.change_password'), class: 'button'
 
-= render "devise/shared/links"
+= render 'devise/shared/links'

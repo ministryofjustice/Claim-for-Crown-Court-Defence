@@ -53,7 +53,7 @@
             = t('.vat_registered_hint')
 
         = f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s, include_hidden: false) do |b|
-          %div.multiple-choice
+          .multiple-choice
             = b.radio_button("aria-labelledby": "radio-control-legend-1 #{b.text.to_css_class}")
             = b.label(id: b.value.to_css_class) { (b.value.to_s == 'true' ? 'Yes' : 'No') }
 

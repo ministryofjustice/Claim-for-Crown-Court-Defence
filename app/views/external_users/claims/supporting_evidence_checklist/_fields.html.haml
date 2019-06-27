@@ -1,7 +1,7 @@
-%fieldset.evidence-checklist{"data-mute-indictment": @claim.allows_fixed_fees? ? "true" : "false"}
+%fieldset.evidence-checklist{ 'data-mute-indictment': @claim.allows_fixed_fees? ? 'true' : 'false' }
   %legend.form-label-bold
     = t('.supporting_evidence_checklist')
     %span.form-hint
-      = t(".supporting_evidence_checklist_hint")
+      = t('.supporting_evidence_checklist_hint')
 
   = render partial: 'external_users/claims/supporting_evidence_checklist/evidence_checklist', locals: { f: f, collection: f.object.eligible_document_types }

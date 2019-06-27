@@ -1,13 +1,15 @@
-%fieldset
-  .nested-fields.resource-details.defendant-details.fx-numberedList-item
-    %h2.heading-medium
-      = t('.defendant')
-      %span.fx-numberedList-number
-      %a.header-action.fx-numberedList-action.remove_fields.existing{ "href": "#", "style": "display: block;" }
-        = t('.remove')
-        %span.visuallyhidden
-          = t('.defendant')
-          %span.fx-numberedList-number
+.nested-fields.resource-details.defendant-details.fx-numberedList-item
+
+  %fieldset
+    %legend
+      %span.heading-medium
+        = t('.defendant')
+        %span.fx-numberedList-number
+        %a.header-action.fx-numberedList-action.remove_fields.existing{ 'href': '#', 'style': 'display: block;' }
+          = t('.remove')
+          %span.visuallyhidden
+            = t('.defendant')
+            %span.fx-numberedList-number
 
     .form-group.first-name
       - @representation_order_count = 0
@@ -17,16 +19,15 @@
       = f.adp_text_field :last_name, label: t('.last_name'), errors: @error_presenter
 
     .form-group.dob
-      %a{:id => "defendant_#{@defendant_count+1}_date_of_birth"}
+      %a{ id: "defendant_#{@defendant_count+1}_date_of_birth" }
       = f.gov_uk_date_field(:date_of_birth, legend_text: t('.date_of_birth'), legend_class: 'govuk-legend', id: "defendant_#{@defendant_count+1}_date_of_birth_group", error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count+1}_date_of_birth"))
 
     - unless @claim.lgfs? && @claim.interim?
       .form-group
-        %fieldset
-          .multiple-choice
-            = f.check_box :order_for_judicial_apportionment
-            = f.label :order_for_judicial_apportionment, t('.order_for_judicial_apportionment'), class: 'judicial-apportionment-notice'
-            = validation_error_message(@error_presenter, :order_for_judicial_apportionment)
+        .multiple-choice
+          = f.check_box :order_for_judicial_apportionment
+          = f.label :order_for_judicial_apportionment, t('.order_for_judicial_apportionment'), class: 'judicial-apportionment-notice'
+          = validation_error_message(@error_presenter, :order_for_judicial_apportionment)
 
       .form-group
         %details

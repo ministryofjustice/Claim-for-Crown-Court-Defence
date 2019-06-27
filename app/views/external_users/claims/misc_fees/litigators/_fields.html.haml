@@ -8,4 +8,4 @@
       = render partial: 'external_users/claims/misc_fees/litigators/misc_fee_fields', locals: { f: misc_fee_fields }
 
   .form-group
-    = link_to_add_association t('.add_misc_fee'), f, :misc_fees, partial: 'external_users/claims/misc_fees/litigators/misc_fee_fields', class: 'button button-secondary blue', data: {'association-insertion-method' => 'append', 'association-insertion-node' => '.misc-fee-group-wrapper'}
+    = link_to_add_association t('.add_misc_fee'), f, :misc_fees, partial: 'external_users/claims/misc_fees/litigators/misc_fee_fields', class: 'button button-secondary blue', data: { 'association-insertion-method' => 'append', 'association-insertion-node' => '.misc-fee-group-wrapper' }

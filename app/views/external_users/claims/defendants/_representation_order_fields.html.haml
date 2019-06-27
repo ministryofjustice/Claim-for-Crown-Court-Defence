@@ -1,21 +1,23 @@
 .nested-fields.ro-details
   - @representation_order_count += 1
-  %a{id: "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count}_representation_order_date"}
-  %h3.heading-medium
-    = t('.representation_order')
-    %span.fx-numberedList-number
-    %a.header-action.fx-numberedList-action.remove_fields.existing{ "href": "#", "style": "display: block;" }
-      = t('.remove')
-      %span.visuallyhidden
+  %a{ id: "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count}_representation_order_date" }
+  %fieldset
+    %legend
+      %span.heading-medium
         = t('.representation_order')
         %span.fx-numberedList-number
+        %a.header-action.fx-numberedList-action.remove_fields.existing{ href: '#', style: 'display: block;' }
+          = t('.remove')
+          %span.visuallyhidden
+            = t('.representation_order')
+            %span.fx-numberedList-number
 
   .form-group.ro-date
     = f.gov_uk_date_field(:representation_order_date,
                           legend_text: 'Representation order date',
                           legend_class: 'govuk-legend',
-                          id: "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_representation_order_date",
-                          error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count + 1}_representation_order_#{@representation_order_count}_representation_order_date"))
+                          id: "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count+1}_representation_order_date",
+                          error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count+1}_representation_order_date"))
 
   .form-group.maat
     = f.adp_text_field :maat_reference,

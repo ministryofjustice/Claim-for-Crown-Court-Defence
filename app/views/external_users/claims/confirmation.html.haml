@@ -14,7 +14,7 @@
     %h2.heading-medium
       = t('.what_happens_next')
 
-    %div.grid-row
+    .grid-row
       = raw t('.what_happens_next_prompt_html', external_users_root_url: external_users_root_url)
 
       - if claim.disk_evidence?

@@ -1,5 +1,5 @@
 - if @claim.allows_fixed_fees?
-  .form-section.fx-fee-group.fixed-fee-group.js-block.fx-do-init{data:{"type": "fixedFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
+  .form-section.fx-fee-group.fixed-fee-group.js-block.fx-do-init{ data: { 'type': 'fixedFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': 'FeeBlockCalculator' } }
     = f.fields_for :fixed_fee do |ff|
       - fee = present(ff.object)
 
@@ -20,17 +20,17 @@
           label: t('.quantity'),
           hint_text: t('.quantity_hint'),
           hide_hint: true,
-          input_classes:"quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity",
+          input_classes: 'quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity',
           input_type: 'number',
           value: fee.quantity,
           errors: @error_presenter,
-          error_key: "fixed_fee.quantity"
+          error_key: 'fixed_fee.quantity'
 
       .js-unit-price-effectee
         .calculated-unit-fee
         = ff.adp_text_field :rate,
             label: t('.rate'),
-            input_classes:'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
+            input_classes: 'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
             input_type: 'currency',
             errors: @error_presenter,
             input_readonly: ff.object.price_calculated?,

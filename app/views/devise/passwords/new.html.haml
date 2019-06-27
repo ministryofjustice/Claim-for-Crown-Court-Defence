@@ -2,7 +2,7 @@
   = t('.page_title')
 
 = content_for :v2_stylesheets do
-  = stylesheet_link_tag "v2/application", media: "all"
+  = stylesheet_link_tag 'v2/application', media: 'all'
 
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
@@ -16,11 +16,11 @@
           %li
             = "#{attribute.to_s.humanize} #{message}"
 
-  %div.form-group
-    = f.label :email, class: "form-label-bold"
-    = f.input_field :email, autofocus: true, autocomplete: 'off', class: "form-control"
+  .form-group
+    = f.label :email, class: 'form-label-bold'
+    = f.input_field :email, autofocus: true, autocomplete: 'off', class: 'form-control'
 
-  %div.form-group
-    = f.button :submit, t('.send_button'), class: "button"
+  .form-group
+    = f.button :submit, t('.send_button'), class: 'button'
 
-= render "devise/shared/links"
+= render 'devise/shared/links'

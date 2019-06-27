@@ -2,9 +2,9 @@
 # so access key and secret are not really used (they will be nil).
 #
 default: &default
-  access_key_id:      <%= ENV['adp_aws_access_key'] %>
-  secret_access_key:  <%= ENV['adp_secret_access_key'] %>
-  bucket: <%= ENV['adp_bucket_name'] || "moj-cbo-documents-#{Rails.env}" %>
+  access_key_id: <%= Settings.aws.s3.access %>
+  secret_access_key: <%= Settings.aws.s3.secret %>
+  bucket: <%= Settings.aws.s3.bucket %>
 
 production:
   <<: *default

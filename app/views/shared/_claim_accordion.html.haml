@@ -17,21 +17,21 @@
   = render partial: 'shared/claim_history', locals: { claim: claim }
   = render partial: 'shared/claim_status', locals: { claim: claim, disabled: status_disabled }
 
-  %div.js-accordion{"data-accordion-prefix-classes": "minimalist-accordion"}
+  .js-accordion{"data-accordion-prefix-classes": "minimalist-accordion"}
 
     %h2.js-accordion__header{"data-accordion-opened": "true"}
       = t(".h2_basic_info")
-    %div.js-accordion__panel
+    .js-accordion__panel
       = render partial: 'shared/claim', locals: { claim: claim, hide_totals: true }
 
     %h2.js-accordion__header
       = t('.h2_evidence')
-    %div.js-accordion__panel
+    .js-accordion__panel
       = render partial: 'shared/evidence_list'
 
     %h2.js-accordion__header
       = t('.h2_summary')
-    %div.js-accordion__panel.fees-summary
+    .js-accordion__panel.fees-summary
       - if claim.agfs?
         = render partial: 'shared/summary_agfs', locals: { claim: claim }
       - else

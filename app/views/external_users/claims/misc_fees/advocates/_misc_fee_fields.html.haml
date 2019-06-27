@@ -56,7 +56,7 @@
     .fee-net-amount.currency-indicator.total
       = fee.amount || number_to_currency(0)
 
-  %div.dates-wrapper.form-group
+  .dates-wrapper.form-group
     %div
       = f.fields_for :dates_attended do |date_attended|
         = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"

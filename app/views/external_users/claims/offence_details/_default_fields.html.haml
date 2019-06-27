@@ -1,9 +1,6 @@
-//
-// Offences PRE fee reform
-//
 - locale_scope = 'external_users.claims.offence_details.fields'
-#cc-offence.form-group{class: error_class?(@error_presenter, :offence_category)}
-  %a{ id: 'offence_category' }
+#cc-offence.form-group{ class: error_class?(@error_presenter, :offence_category) }
+  %a#offence_category
   %label.form-label-bold{ for: 'claim_offence_category_description' }
     = t('offence_category', scope: locale_scope)
     .form-hint
@@ -19,8 +16,9 @@
                         @offence_descriptions,
                         :description, :description,
                         { include_blank: ''.html_safe, selected: selected_offence_category },
-                        { class: 'form-control fx-autocomplete', id: 'claim_offence_category_description' }
+                        { class: 'form-control fx-autocomplete', id: 'claim_offence_category_description', 'aria-label': t('offence_category', scope: locale_scope) }
 
 .offence-class-select.form-group
   = render partial: 'external_users/claims/offence_details/offence_select', locals: { offences: @offences }
+
 = f.hidden_field :offence_id

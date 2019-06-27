@@ -14,29 +14,29 @@
               = "#{selected_offence.offence_category.description} &gt; #{selected_offence.offence_band.description} &gt; #{selected_offence.description}".html_safe
 
         .form-group
-          %input.button.left.btn-spacer-20{:name => "commit_continue", :type => "submit", :value => "Save and continue"}/
-          %a{ href: '#', class: 'fx-clear-selection' }
+          %input.button.left.btn-spacer-20{ name: 'commit_continue', type: 'submit', value: 'Save and continue' }
+          %a.fx-clear-selection{ href: '#' }
             = t('clear_selection', scope: "#{locale_scope}.actions")
 
 .form-group.mod-search-input
-  %label.form-label{:for => "offence"}
-    = "Search for the offence"
+  %label.form-label{ for: 'offence' }
+    = 'Search for the offence'
     %span.form-hint
-      = "For example class, band, offence or act name"
+      = 'For example class, band, offence or act name'
 
-    %a.fx-clear-search{:style => "display:none;",:href => "#noop"} Clear search
+    %a.fx-clear-search{ style: 'display: none;', href: '#noop' } Clear search
 
 
-    %input#offence.form-control.fx-input{:name => "offence-search-input", :type => "input", :autocomplete => "off"}/
+    %input#offence.form-control.fx-input{ name: 'offence-search-input', type: 'input', autocomplete: 'off' }
 
   = f.hidden_field :offence_id, value: valid_offence ? f.object.offence.id : nil, class: 'fx-model'
   = f.hidden_field :fee_scheme, value: [@claim.fee_scheme.name, @claim.fee_scheme.version], class: 'fx-fee-scheme'
 
 .form-group
-  %details{:role => "group"}
-    %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
+  %details{ role: 'group' }
+    %summary{ 'aria-controls': 'details-content-0', 'aria-expanded': 'false', role: 'button' }
       %span.summary Help with the offence classification
-    #details-content-0.panel.panel-border-narrow{"aria-hidden" => "false"}
+    #details-content-0.panel.panel-border-narrow{ 'aria-hidden': 'false' }
       %p
         For more information on offence classification for the
         %br
@@ -45,7 +45,7 @@
         ),
         %br
         please visit the
-        %a{ href: "https://www.gov.uk/government/publications/crown-court-fee-guidance", target: '_blank', "aria-label": "Opens in a new window" } Crown Court fee guidance
+        %a{ href: 'https://www.gov.uk/government/publications/crown-court-fee-guidance', target: '_blank', 'aria-label': 'Opens in a new window' } Crown Court fee guidance
         page on GOV.UK.
 
 .form-group
@@ -54,4 +54,4 @@
       %p
     .fx-filters-display
       %p
-    .fx-results{"aria-live" => "polite", :role => "region"}
+    .fx-results{ 'aria-live': 'polite', role: 'region' }

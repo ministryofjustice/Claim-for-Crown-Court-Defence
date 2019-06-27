@@ -51,8 +51,7 @@ class AdpTextField
 
   def to_html
     result = div_start
-    # this breaks the label & input association
-    # result += anchor
+    result += anchor
     result += label
     result += hint
     result += error_message

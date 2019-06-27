@@ -1,18 +1,17 @@
-.form-section.disbursement-group.nested-fields.fx-fee-group.fx-numberedList-item.js-block.fx-do-init{data:{type:"disbursements", autovat: "false", "block-type": "FeeBlockManualAmounts"}}
+.form-section.disbursement-group.nested-fields.fx-fee-group.fx-numberedList-item.js-block.fx-do-init{ data: { type:'disbursements', autovat: 'false', 'block-type': 'FeeBlockManualAmounts' } }
   %h2.bold-medium
     = t('.disbursement')
     %span.fx-numberedList-number
     = link_to_remove_association t('.remove'), f, wrapper_class: 'disbursement-group', class: "header-action fx-numberedList-action", style: "display: none;"
 
   .form-group
-    .disbursement-type.js-typeahead{class: error_class?(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")}
-      %label.form-label-bold
-        = t('.disbursement_type')
-      %a{id: "disbursement_#{@disbursement_count}_disbursement_type"}
+    .disbursement-type.js-typeahead{ class: error_class?(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type") }
+      %a{ id: "disbursement_#{@disbursement_count+1}_disbursement_type" }
+      = f.label :disbursement_type_id, t('.disbursement_type'), class: 'form-label-bold'
       = f.select :disbursement_type_id,
-        DisbursementType.active.map{ |disbursement| [disbursement.name, disbursement.id]},
+        DisbursementType.active.map{ |disbursement| [disbursement.name, disbursement.id] },
         { include_blank: ''.html_safe },
-        {class: 'form-control fx-autocomplete', style: 'width: 100%'}
+        { class: 'form-control fx-autocomplete', style: 'width: 100%', 'aria-label': t('.disbursement_type') }
 
       = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")
 
@@ -33,5 +32,5 @@
 
     %label.form-label-bold
       = t('.total')
-    .total{data: { total: number_to_currency(f.object.total) }}
+    .total{ data: { total: number_to_currency(f.object.total) } }
       = number_to_currency(f.object.total)

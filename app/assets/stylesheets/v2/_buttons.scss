@@ -7,7 +7,7 @@
   @include button($grey-3);
 
   &.blue {
-    background-color: $link-hover-colour;
+    background-color: $link-colour;
     box-shadow: 0 2px 0 $link-colour;
     color: $page-colour;
   }
@@ -15,7 +15,12 @@
   &.blue:hover {
     background-color: $govuk-blue;
   }
-  &:link, &:link:focus, &:hover, &:focus, &:visited {
+
+  &:link,
+  &:link:focus,
+  &:hover,
+  &:focus,
+  &:visited {
     color: $page-colour;
   }
 }
@@ -114,4 +119,3 @@ a.link-delete {
 .button-tertiary {
   @include button ($grey-2);
 }
-

@@ -11,7 +11,7 @@
           = t('.action')
     %tbody
       - @claim.documents.order(created_at: :asc).each do |document|
-        %tr{id: dom_id(document)}
+        %tr{ id: dom_id(document) }
           %td
             = document.document_file_name
           %td
@@ -19,7 +19,7 @@
                       download_document_path(document),
                       class: 'download',
                       'aria-label': "Download document: #{document.document_file_name}"
-            = " | "
+            = ' | '
             = link_to t('common.remove'),
                       document_path(document),
                       method: :delete,

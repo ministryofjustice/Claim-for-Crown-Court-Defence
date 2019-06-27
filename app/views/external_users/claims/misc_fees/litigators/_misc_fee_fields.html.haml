@@ -1,32 +1,34 @@
-.form-section.misc-fee-group.nested-fields.js-block.fx-do-init.fx-fee-group.fx-numberedList-item{data:{"type": "miscFees", autovat: @claim.apply_vat? ? "true" : "false"}}
+.form-section.misc-fee-group.nested-fields.js-block.fx-do-init.fx-fee-group.fx-numberedList-item{ data: { 'type': 'miscFees', autovat: @claim.apply_vat? ? 'true' : 'false' } }
   %h2.bold-medium
-    %span#fx-numberedList-heading
+    %span
       = t('.misc_fee')
       %span.fx-numberedList-number
-    = link_to_remove_association t('.remove'), f, wrapper_class: 'misc-fee-group', class: "header-action fx-numberedList-action", style: "display: none;"
+    = link_to_remove_association t('.remove'), f, wrapper_class: 'misc-fee-group', class: 'header-action fx-numberedList-action', style: 'display: none;'
 
   .form-group
-    .fee-type.js-typeahead{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
-      %fieldset{"aria-describedby": "radio-control-legend"}
-        %legend#radio-control-legend
+    .fee-type.js-typeahead{ class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count+1}_fee_type") }
+      %fieldset{ 'aria-describedby': "radio-control-legend-#{@misc_fee_count+1}" }
+        %legend{ id: "radio-control-legend-#{@misc_fee_count+1}" }
           %span.form-label-bold
             = t('.fee_type')
-        %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
+
+        %a{ id: "misc_fee_#{@misc_fee_count}_fee_type" }
+
         - misc_fee_types_collection = present_collection(@claim.eligible_misc_fee_types)
         - options = misc_fee_types_collection.length == 1 ? { checked: misc_fee_types_collection.first.id } : {}
         = f.collection_radio_buttons(:fee_type_id, misc_fee_types_collection, :id, :description, options) do |b|
           .multiple-choice
-            = b.radio_button("aria-labelledby": "fx-numberedList-heading-#{@misc_fee_count} radio-control-legend #{b.text.to_css_class}")
+            = b.radio_button('aria-labelledby': "fx-numberedList-heading-#{@misc_fee_count+1} radio-control-legend-#{@misc_fee_count+1} #{b.text.to_css_class}")
             - if misc_fee_types_collection.length == 1
               = b.label(id: b.text.to_css_class, class: 'selected') { b.text }
             - else
               = b.label(id: b.text.to_css_class) { b.text }
 
-      = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
+      = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count+1}_fee_type")
 
   = f.adp_text_field :amount,
                     label: t('.net_amount'),
-                    input_classes:'total fee-rate form-input-denote__input form-control-1-4',
+                    input_classes: 'total fee-rate form-input-denote__input form-control-1-4',
                     input_type: 'currency',
                     errors: @error_presenter,
                     value: number_with_precision(f.object.amount, precision: 2)

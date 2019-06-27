@@ -138,18 +138,18 @@ When(/^I click "Continue" I should be on the 'Case details' page and see a "([^"
 end
 
 When(/^I click "Continue" in the claim form and move to the '(.*?)' form page$/) do |page_title|
-  original_header = page.first('h2').text
+  original_title = page.title
   sleep 3
   @claim_form_page.continue_button.click
   wait_for_ajax
   using_wait_time(6) do
-    if page.first('h2').text.eql?(original_header)
+    if page.title.eql?(original_title)
       #clicking again because the first one didn't work
       @claim_form_page.continue_button.click
       wait_for_ajax
     end
     within('#claim-form') do
-      expect(page.first('h2')).to have_content(page_title)
+      expect(page.title).to have_content(page_title.downcase)
     end
   end
 end

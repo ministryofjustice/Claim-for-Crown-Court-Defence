@@ -1,21 +1,23 @@
-.form-group.lgfs-supplier-numbers.has-select{class: error_class?(@error_presenter, :supplier_number), "aria-describedby": "radio-control-legend-supplier"}
-  = f.anchored_label(t('.lgfs_supplier_number'), 'supplier_number', { label_attributes: {class: 'form-label-bold', id: "radio-control-legend-supplier"} })
-  %div.form-hint
-    = supplier_number_hint
+.form-group.lgfs-supplier-numbers.has-select{ class: error_class?(@error_presenter, :supplier_number), 'aria-describedby': 'radio-control-legend-supplier' }
+  %a#supplier_number
+  %label#radio-control-legend-supplier.form-label-bold{ for: 'claim_supplier_number' }
+    = t('.lgfs_supplier_number')
+    %span.form-hint
+      = supplier_number_hint
 
   - supplier_numbers = present(current_user.persona.provider.lgfs_supplier_numbers, SupplierNumberCollectionPresenter)
   - if current_user.persona.provider.lgfs_supplier_numbers.length >= 6
     -# Select element
-    = f.collection_select :supplier_number, supplier_numbers, :supplier_number, :supplier_label, {prompt: true}, {class: 'form-control'}
+    = f.collection_select :supplier_number, supplier_numbers, :supplier_number, :supplier_label, { prompt: true }, { class: 'form-control' }
 
   - else
     .form-group
       -# Radio element
       = f.collection_radio_buttons(:supplier_number, supplier_numbers, :supplier_number, :supplier_label) do |b|
         .multiple-choice
-          = b.radio_button("aria-labelledby": "radio-control-legend-supplier #{b.text.to_css_class}")
-          - if(current_user.persona.provider.lgfs_supplier_numbers.length == 1)
-            = b.label(class: "selected", id: b.text.to_css_class) { b.text }
+          = b.radio_button('aria-labelledby': "radio-control-legend-supplier #{b.text.to_css_class}")
+          - if current_user.persona.provider.lgfs_supplier_numbers.length == 1
+            = b.label(class: 'selected', id: b.text.to_css_class) { b.text }
           - else
             = b.label(id: b.text.to_css_class) { b.text }
 

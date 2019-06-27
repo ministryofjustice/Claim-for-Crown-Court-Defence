@@ -10,34 +10,34 @@
           %li
             = "#{attribute.to_s.humanize} #{message}"
 
-  %div.form-group
+  .form-group
     = render 'terms_and_conditions'
 
-    = label_tag :terms_and_conditions_acceptance, required: true, class:"form-label", style: 'font-weight: bold;' do
+    = label_tag :terms_and_conditions_acceptance, required: true, class: 'form-label', style: 'font-weight: bold;' do
       = check_box_tag :terms_and_conditions_acceptance
       Accept terms and conditions
 
-  %div.form-group
-    = f.label :first_name, class: "form-label"
-    = f.input_field :first_name, class: "form-control"
+  .form-group
+    = f.label :first_name, class: 'form-label'
+    = f.input_field :first_name, class: 'form-control'
 
-  %div.form-group
-    = f.label :last_name, class: "form-label"
-    = f.input_field :last_name, class: "form-control"
+  .form-group
+    = f.label :last_name, class: 'form-label'
+    = f.input_field :last_name, class: 'form-control'
 
-  %div.form-group
-    = f.label :email, required: true, class: "form-label"
-    = f.input_field :email, class: "form-control"
+  .form-group
+    = f.label :email, required: true, class: 'form-label'
+    = f.input_field :email, class: 'form-control'
 
-  %div.form-group
-    = f.label :password, required: true, class:"form-label"
-    = f.input_field :password, class: "form-control"
+  .form-group
+    = f.label :password, required: true, class: 'form-label'
+    = f.input_field :password, class: 'form-control'
 
-  %div.form-group
-    = f.label :password_confirmation, required: true, class:"form-label"
-    = f.input_field :password_confirmation, class: "form-control"
+  .form-group
+    = f.label :password_confirmation, required: true, class: 'form-label'
+    = f.input_field :password_confirmation, class: 'form-control'
 
-  %div.form-group
-    = f.button :submit, "Sign up", class: "button"
+  .form-group
+    = f.button :submit, 'Sign up', class: 'button'
 
-= render "devise/shared/links"
+= render 'devise/shared/links'

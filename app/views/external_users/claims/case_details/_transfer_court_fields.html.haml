@@ -1,10 +1,11 @@
-.form-group.js-typeahead{class: error_class?(@error_presenter, :transfer_court) ? 'form-group-error dropdown_field_with_errors' : ''}
-  %a{:id => "transfer_court"}
-  %label.form-label-bold{:for => "claim_transfer_court_id"}
+.form-group.js-typeahead{ class: error_class?(@error_presenter, :transfer_court) ? 'form-group-error dropdown_field_with_errors' : '' }
+  %a#transfer_court
+  %label.form-label-bold{ for: 'claim_transfer_court_id' }
     = t('.transfer_court')
-    .form-hint.xsmall.zero-vert-margin
+    %span.form-hint.xsmall.zero-vert-margin
       = t('.transfer_court_hint')
   = validation_error_message(@error_presenter, :transfer_court)
-  = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete' }
-.form-group.js-typeahead{class: error_class?(@error_presenter, :transfer_case_number)}
+  = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', 'aria-label': t('.transfer_court') }
+
+.form-group.js-typeahead{ class: error_class?(@error_presenter, :transfer_case_number) }
   = f.adp_text_field :transfer_case_number, label: t('.transfer_case_number'), hint_text: t('.transfer_case_number_hint'), input_classes: '',  errors: @error_presenter

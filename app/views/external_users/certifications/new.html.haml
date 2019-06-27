@@ -6,7 +6,7 @@
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
 = form_for @certification, builder: AdpFormBuilder, url: external_users_claim_certification_path(@claim) do |f|
-  %div.certification.normal
+  .certification.normal
     - if @claim.agfs?
 
       .grid-row

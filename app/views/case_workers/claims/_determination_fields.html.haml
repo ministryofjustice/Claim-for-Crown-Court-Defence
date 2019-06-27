@@ -6,7 +6,7 @@
       %span.currency-symbol
       = claim.fees_total
     %td
-      %div.pound-wrapper
+      .pound-wrapper
         = f.text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: 'form-control js-fees', size: 10, maxlength: 10
       = validation_error_message(f.object, :fees)
 
@@ -17,7 +17,7 @@
     %td
       = claim.expenses_total
     %td
-      %div.pound-wrapper
+      .pound-wrapper
         = f.text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: 'form-control js-expenses', size: 10, maxlength: 10
       = validation_error_message(f.object, :expenses)
 
@@ -28,7 +28,7 @@
     %td
       = claim.disbursements_total
     %td
-      %div.pound-wrapper
+      .pound-wrapper
         = f.text_field :disbursements, value: number_with_precision(f.object.disbursements, precision: 2), class: 'form-control js-disbursements', size: 10, maxlength: 10
       = validation_error_message(f.object, :disbursements)
 

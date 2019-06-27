@@ -16,9 +16,9 @@ devunicorn:
   <<: *default
 
 test:
-  access_key_id:      xxxxxxxx
-  secret_access_key:  xxxxxxxxxxxxx
-  bucket: <%= ENV['adp_bucket_name'] || "moj-cbo-documents-#{Rails.env}" %>
+  access_key_id: xxxxxxxx
+  secret_access_key: xxxxxxxxxxxxx
+  bucket: <%= Settings.aws.s3.bucket || 'cccd-test-bucket' %>
 
 develop:
   <<: *default

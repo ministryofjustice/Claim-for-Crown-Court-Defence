@@ -119,6 +119,15 @@ aws:
   secret: <%= ENV['SECRET_ACCESS_KEY'] %>
   submitted_queue: <%= ENV['AWS_QUEUE_NAME'] %>
   response_queue: <%= ENV['AWS_RESPONSE_QUEUE_NAME'] %>
+  s3:
+    # NOTE: for TD the access and secret must be blank/empty string!
+    # This is to allow TD to set the access and secret using
+    # a cross-account via Jenkins.
+    # Currently this handled by setting a the environment
+    # variable to `''` explcitly.
+    access: 'store actual value as SETTINGS__AWS__S3__ACCESS'
+    secret: 'store actual value as SETTINGS__AWS__S3__SECRET'
+    bucket: 'store actual value as SETTINGS__AWS__S3__BUCKET'
   sqs:
     # This is deliberately blank - add a SETTINGS__AWS__SQS__RESPONSE_QUEUE_URL
     # value to .env files or the deployment repo if needed. this allows the `response_queue`

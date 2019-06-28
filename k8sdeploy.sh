@@ -49,10 +49,10 @@ function _k8sdeploy() {
   echo "Docker image: $docker_image_tag"
   echo "--------------------------------------------------"
 
-  kubectl set image -f kubectl_deploy/${environment}/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
+  kubectl set image -f kubernetes_deploy/${environment}/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
   kubectl apply \
-    -f kubectl_deploy/${environment}/service.yaml \
-    -f kubectl_deploy/${environment}/ingress.yaml
+    -f kubernetes_deploy/${environment}/service.yaml \
+    -f kubernetes_deploy/${environment}/ingress.yaml
 
 }
 

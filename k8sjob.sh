@@ -44,12 +44,12 @@ function _k8sjob() {
   
   echo "--------------------------------------------------"
   echo "Task: $task"
-  echo "Job: kubectl_deploy/jobs/${task}.yaml"
+  echo "Job: kubernetes_deploy/jobs/${task}.yaml"
   echo "context: $context"
   echo "Environment: $environment"
   echo "Docker image: $docker_image_tag"
   echo "--------------------------------------------------"
-  kubectl set image -f kubectl_deploy/jobs/${task}.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply --context ${context} -n cccd-${environment} -f -
+  kubectl set image -f kubernetes_deploy/jobs/${task}.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply --context ${context} -n cccd-${environment} -f -
   job_pod=$(kubectl get pods --selector=job-name=db-${task} --output=jsonpath='{.items[0].metadata.name}')
   echo "To tail issue command:
     kubectl logs --follow ${job_pod}

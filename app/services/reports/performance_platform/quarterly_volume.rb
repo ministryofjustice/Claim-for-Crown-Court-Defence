@@ -12,14 +12,14 @@ module Reports
       end
 
       def populate_data
-        @total_cost = total_cost
+        @total_cost = total_cost.to_f
         @claim_count = count_digital_claims
         raise 'Arguments should be numeric' unless inputs_numeric?
         data = {
-          cost_per_transaction_quarter: (@total_cost.to_f / @claim_count.to_f).round(2),
+          cost_per_transaction_quarter: @total_cost.fdiv(@claim_count).round(2),
           start_at: @start_date.beginning_of_day.to_s(:db),
           end_at: @start_date.end_of_quarter.end_of_day.to_s(:db),
-          total_cost_quarter: @total_cost.to_f,
+          total_cost_quarter: @total_cost,
           transactions_per_quarter: @claim_count
         }
         @pps.add_data_set(@start_date, data)

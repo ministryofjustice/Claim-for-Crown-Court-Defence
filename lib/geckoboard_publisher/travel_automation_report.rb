@@ -47,9 +47,9 @@ module GeckoboardPublisher
           record[:accepted] = expenses.where('calculated_distance = distance').count
           record[:increased] = expenses.where('calculated_distance < distance').count
           record[:reduced] = expenses.where('calculated_distance > distance').count
-          record[:percent_accepted] = (record[:accepted].to_f / record[:total_calculated].to_f).to_f.round(2)
-          record[:percent_increased] = (record[:increased].to_f / record[:total_calculated].to_f).to_f.round(2)
-          record[:percent_reduced] = (record[:reduced].to_f / record[:total_calculated].to_f).to_f.round(2)
+          record[:percent_accepted] =  record[:accepted].fdiv(record[:total_calculated]).round(2)
+          record[:percent_increased] = record[:increased].fdiv(record[:total_calculated].to_f).round(2)
+          record[:percent_reduced] = record[:reduced].fdiv(record[:total_calculated].to_f).round(2)
           record[:cost_increased] = calculate_cost(expenses.where('calculated_distance < distance'), :increase)
           record[:cost_reduction] = calculate_cost(expenses.where('calculated_distance > distance'), :reduction)
         end

@@ -67,4 +67,4 @@ tags
 vcr/cassettes/*.log
 
 # kubernetes secrets
-kube*/**/*secret*.y*ml
+kube*/**/*secret*.*

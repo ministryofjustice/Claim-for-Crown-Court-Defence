@@ -115,7 +115,7 @@ GEM
     chronic (0.10.2)
     climate_control (0.2.0)
     cliver (0.3.2)
-    cocoon (1.2.13)
+    cocoon (1.2.14)
     codeclimate-test-reporter (1.0.7)
       simplecov
     coderay (1.1.2)
@@ -727,7 +727,7 @@ DEPENDENCIES
   capybara (~> 3.25)
   capybara-selenium
   climate_control
-  cocoon (~> 1.2.13)
+  cocoon (~> 1.2.14)
   codeclimate-test-reporter
   colorize
   config (~> 2.0)

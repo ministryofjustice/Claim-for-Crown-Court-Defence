@@ -1,7 +1,11 @@
 module MessageQueue
   class AwsClient
     def initialize(queue)
-      @sqs = Aws::SQS::Client.new(access_key_id: Settings.aws.access, secret_access_key: Settings.aws.secret)
+      @sqs = Aws::SQS::Client.new(
+        access_key_id: Settings.aws.sns.access,
+        secret_access_key: Settings.aws.sns.secret,
+        region: Settings.aws.region
+      )
       begin
         @queue_url = queue_url(queue)
       rescue Aws::SQS::Errors::NonExistentQueue

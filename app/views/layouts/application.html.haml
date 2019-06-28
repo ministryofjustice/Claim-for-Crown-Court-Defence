@@ -24,6 +24,11 @@
 - content_for :header_class do
   = "with-proposition"
 
+- content_for :body_start do
+  - if GoogleAnalytics::DataTracking.adapter == :gtm
+    %noscript
+      %iframe{ :src => "https://www.googletagmanager.com/ns.html?id=#{ENV['GTM_TRACKED_ID']}", :style => "display:none;visibility:hidden",:height => "0", :width => "0"}
+
 - content_for :proposition_header do
   .header-proposition
     .content

@@ -12,11 +12,13 @@
 # Fix to [Issue #45](https://github.com/AGWA/git-crypt/issues/45)
 #
 
-echo 'Checking for git-crypt warnings...'
+printf 'Checking for git-crypt warnings...'
 
 test -d .git-crypt && git-crypt status &>/dev/null
 if [[ $? -ne 0 ]]; then
-  echo "git-crypt has some warnings"
+  printf "warnings found!"
   git-crypt status -e
   exit 1
+else
+  printf "none found!"
 fi

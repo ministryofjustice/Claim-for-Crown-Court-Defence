@@ -4,7 +4,10 @@ metadata:
   name: claim-for-crown-court-defence
   namespace: cccd-dev
 spec:
-  replicas: 1
+  replicas: 4
+  selector:
+    matchLabels:
+      app: cccd
   template:
     metadata:
       labels:
@@ -135,11 +138,6 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: LAA_FEE_CALCULATOR_HOST
-            - name: NEWRELIC_LICENSE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: NEWRELIC_LICENSE_KEY
             - name: SETTINGS__SLACK__BOT_URL
               valueFrom:
                 secretKeyRef:

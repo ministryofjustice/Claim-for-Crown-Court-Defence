@@ -11,7 +11,7 @@ spec:
           - path: /
             backend:
               serviceName: cccd-app-service
-              servicePort: 4567
+              servicePort: 80
   tls:
     - hosts:
       - cccd-dev.apps.live-1.cloud-platform.service.justice.gov.uk

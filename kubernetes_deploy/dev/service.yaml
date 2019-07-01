@@ -7,7 +7,7 @@ metadata:
     app: cccd-app-service
 spec:
   ports:
-    - port: 4567
+    - port: 80
       name: http
       targetPort: 3000
   selector:

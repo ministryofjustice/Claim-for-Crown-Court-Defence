@@ -4,8 +4,7 @@ metadata:
   name: claim-for-crown-court-defence
   namespace: cccd-dev
 spec:
-  replicas: 4
-  revisionHistoryLimit: 5
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -24,28 +23,28 @@ spec:
           image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:latest
           ports:
             - containerPort: 3000
-          # readinessProbe:
-          #   httpGet:
-          #     path: /ping.json
-          #     port: 3000
-          #     httpHeaders:
-          #       - name: X-Forwarded-Proto
-          #         value: https
-          #       - name: X-Forwarded-Ssl
-          #         value: "on"
-          #     initialDelaySeconds: 15
-          #     periodSeconds: 10
-          # livenessProbe:
-          #   httpGet:
-          #     path: /ping.json
-          #     port: 3000
-          #     httpHeaders:
-          #       - name: X-Forwarded-Proto
-          #         value: https
-          #       - name: X-Forwarded-Ssl
-          #         value: "on"
-          #     initialDelaySeconds: 30
-          #     periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ping.json
+              port: 3000
+              httpHeaders:
+                - name: X-Forwarded-Proto
+                  value: https
+                - name: X-Forwarded-Ssl
+                  value: "on"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /ping.json
+              port: 3000
+              httpHeaders:
+                - name: X-Forwarded-Proto
+                  value: https
+                - name: X-Forwarded-Ssl
+                  value: "on"
+            initialDelaySeconds: 60
+            periodSeconds: 10
           env:
             - name: ENV
               value: 'dev'

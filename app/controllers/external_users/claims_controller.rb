@@ -13,7 +13,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :set_user_and_provider
   before_action :set_claims_context, only: %i[index archived outstanding authorised]
   before_action :set_financial_summary, only: %i[index outstanding authorised]
-  before_action :initialize_json_document_importer, only: [:index]
 
   before_action :set_and_authorize_claim, only: %i[show edit update unarchive clone_rejected destroy summary
                                                    confirmation show_message_controls messages disc_evidence]
@@ -505,10 +504,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def present_errors
     @error_presenter = ErrorPresenter.new(@claim)
-  end
-
-  def initialize_json_document_importer
-    @json_document_importer = JsonDocumentImporter.new
   end
 
   def initialize_submodel_counts

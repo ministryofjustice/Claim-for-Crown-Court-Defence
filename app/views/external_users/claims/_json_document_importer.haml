@@ -1,8 +1,0 @@
-= form_for [:external_users, @json_document_importer], html: {multipart: true}, remote: true do |f|
-  .claim-importer-header
-    = f.label :json_file, t('.import_claim'), class: 'form-hint'
-
-  %input.custom-uploader{ "aria-hidden": "true", "tabindex": "-1", "type": "file", "name": "json_document_importer[json_file]", "id": "json_document_importer_json_file" }
-
-  = f.submit t('common.upload'), class: "external-user-json-export btn-import-file button button-tertiary", 'aria-hidden': true
-  .errors

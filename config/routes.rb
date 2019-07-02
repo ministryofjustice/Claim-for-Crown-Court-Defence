@@ -12,7 +12,6 @@ Rails.application.routes.draw do
 
   get 'vat' => "vat_rates#index"
 
-  get 'json_schema' => 'json_template#index'
   get 'json_schemas/:schema', to: 'json_template#show', as: :json_schemas
 
   get '/404', to: 'errors#not_found', as: :error_404
@@ -111,8 +110,6 @@ Rails.application.routes.draw do
 
   namespace :external_users do
     root to: 'claims#index'
-
-    resources :json_document_importers, only: [:create], format: :js
 
     resources :claims, except: [:new, :create, :edit, :update] do
       get 'confirmation',           on: :member

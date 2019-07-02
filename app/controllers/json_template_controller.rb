@@ -1,11 +1,7 @@
 class JsonTemplateController < ApplicationController
-  skip_load_and_authorize_resource only: %i[index show]
+  skip_load_and_authorize_resource only: %i[show]
 
   before_action :schema, only: :show
-
-  def index
-    @schema = ClaimJsonSchemaValidator.full_schema
-  end
 
   def show
     render json: schema

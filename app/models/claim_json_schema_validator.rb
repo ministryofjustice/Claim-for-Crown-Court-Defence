@@ -1,18 +1,8 @@
 class ClaimJsonSchemaValidator
-  FULL_SCHEMA_FILE = File.join(Rails.root, 'config', 'schemas', 'full_claim_schema.json').freeze
-  BASIC_SCHEMA_FILE = File.join(Rails.root, 'config', 'schemas', 'basic_claim_schema.json').freeze
   CCR_SCHEMA_FILE = File.join(Rails.root, 'config', 'schemas', 'ccr_claim_schema.json').freeze
   CCLF_SCHEMA_FILE = File.join(Rails.root, 'config', 'schemas', 'cclf_claim_schema.json').freeze
 
   class << self
-    def full_schema
-      File.read(FULL_SCHEMA_FILE)
-    end
-
-    def basic_schema
-      File.read(BASIC_SCHEMA_FILE)
-    end
-
     def ccr_schema
       File.read(CCR_SCHEMA_FILE)
     end

@@ -689,7 +689,7 @@ GEM
       equalizer (~> 0.0, >= 0.0.9)
     warden (1.2.8)
       rack (>= 2.0.6)
-    webdrivers (4.0.1)
+    webdrivers (4.1.0)
       nokogiri (~> 1.6)
       rubyzip (~> 1.0)
       selenium-webdriver (>= 3.0, < 4.0)
@@ -826,7 +826,7 @@ DEPENDENCIES
   unicorn-worker-killer (~> 0.4.4)
   utf8-cleaner (~> 0.2)
   vcr
-  webdrivers (~> 4.0)
+  webdrivers (~> 4.1)
   webmock
   zendesk_api (= 1.19.0)
 

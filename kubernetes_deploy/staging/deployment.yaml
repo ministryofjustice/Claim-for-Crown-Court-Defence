@@ -32,7 +32,7 @@ spec:
                   value: https
                 - name: X-Forwarded-Ssl
                   value: "on"
-            initialDelaySeconds: 30
+            initialDelaySeconds: 15
             periodSeconds: 10
           livenessProbe:
             httpGet:
@@ -43,7 +43,7 @@ spec:
                   value: https
                 - name: X-Forwarded-Ssl
                   value: "on"
-            initialDelaySeconds: 60
+            initialDelaySeconds: 30
             periodSeconds: 10
           env:
             - name: ENV

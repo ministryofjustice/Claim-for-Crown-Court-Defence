@@ -1589,7 +1589,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
             expect(claim_10.discontinuance?).to be false
           end
         end
-      end  
+      end
+
+      context 'when the claim has been saved as draft before the case type is set' do
+        let(:claim) { build :advocate_claim, case_type: nil }
+
+        it { expect(claim.discontinuance?). to be false }
+      end
     end
   end
 

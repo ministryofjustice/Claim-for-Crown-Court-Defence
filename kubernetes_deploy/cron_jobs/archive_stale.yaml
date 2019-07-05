@@ -1,0 +1,40 @@
+# kubectl run hello --schedule="*/1 * * * *" --restart=Never --image=busybix -- /bin/sh -c "date; echo Hello from the Kubernetes cluster"
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cccd-archive-stale
+spec:
+  schedule: "5 0 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 7
+  failedJobsHistoryLimit: 3
+  startingDeadlineSeconds: 300
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          labels:
+            tier: worker
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: cronjob-worker
+            image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-not-a-real-tag
+            imagePullPolicy: Always
+            command:
+              - bundle
+              - exec
+              - rake
+              - claims:archive_stale
+            env:
+              - name: DATABASE_URL
+                valueFrom:
+                  secretKeyRef:
+                    name: cccd-rds
+                    key: url
+              - name: SECRET_KEY_BASE
+                valueFrom:
+                  secretKeyRef:
+                    name: cccd-secrets
+                    key: SECRET_KEY_BASE

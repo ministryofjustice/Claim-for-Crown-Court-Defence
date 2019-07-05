@@ -24,6 +24,8 @@ claim_actions:
 
 date_format: "%d/%m/%Y"
 date_time_format: "%d/%m/%Y %H:%M"
+date_format_label: "%d %B %Y"
+datetime_attribute: "%F"
 
 high_value_claim_threshold: 20000
 

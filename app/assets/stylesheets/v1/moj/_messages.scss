@@ -1,44 +1,48 @@
-@mixin normalize-bubble($direction:left){
-  @if $direction == "left"{
+@mixin normalize-bubble($direction:left) {
+  @if $direction=="left" {
     @media print {
       margin-right: 95px;
     }
-    .message-audit{
+
+    .message-audit {
       text-align: left;
       color: $text-colour;
     }
   }
 
-  @if $direction == "right" {
+  @if $direction=="right" {
     @media print {
       margin-left: 95px;
     }
-    .message-audit{
+
+    .message-audit {
       text-align: right;
     }
   }
 
   @media print {
-    .message-audit{
+    .message-audit {
       font-weight: 700;
       color: black;
     }
 
-    .message-body{
+    .message-body {
       background: none;
-      border:1px solid black;
-      &::after{
+      border: 1px solid black;
+
+      &::after {
         border: none;
       }
     }
   }
 }
 
-.messages-container{
+.messages-container {
   border: 1px solid $border-colour;
   margin-top: 1em;
   margin-bottom: 1em;
   overflow: hidden;
+
   .messages-list {
     min-height: 200px;
     max-height: 400px;
@@ -54,48 +58,59 @@
         margin-bottom: 5px;
         margin-right: 1em;
         text-align: right;
+
         strong {
           font-weight: bold;
         }
+
         .message-container,
-        .message-body{
+        .message-body {
           margin-right: 0;
           padding-right: 0;
-          border:0px solid black;
+          border: 0px solid black;
         }
+
         table {
           margin-left: auto;
           width: 50%;
-          .visuallyhidden{
-            display:none;
+
+          .visuallyhidden {
+            display: none;
           }
+
           td {
             border-top: 1px solid $border-colour;
           }
         }
       }
-      .message-right{
-        .message-body{
+
+      .message-right {
+        .message-body {
           background: none;
-          border:0px solid black;
+          border: 0px solid black;
           color: $text-colour;
           text-align: right !important;
+
           &::after {
             border-left: 0em solid #28A197 !important;
           }
-          .message-audit{
+
+          .message-audit {
             color: $text-colour;
             margin-top: 0;
             margin-bottom: 0;
           }
-          p{
-            margin-bottom:0;
+
+          p {
+            margin-bottom: 0;
           }
         }
       }
     }
+
     .single-date {
       text-align: center;
+
       legend {
         text-align: center;
         border: 1px solid $border-colour;
@@ -123,7 +138,8 @@
       margin-bottom: 1em;
       margin-left: 1em;
       margin-right: 1em;
-      .message-body{
+
+      .message-body {
         padding: 10px 20px;
       }
     }
@@ -133,6 +149,7 @@
       color: $page-colour;
       font-weight: bold;
       text-align: left;
+
       .sent {
         padding-right: 1.6em;
         text-align: right;
@@ -145,11 +162,12 @@
       // float: right;
 
       .message-body {
-        background-color: $link-hover-colour;
+        background-color: $link-colour;
         position: relative;
         text-align: left;
         color: $page-colour;
         border-radius: 0.5em 0.5em 0.75em 0.5em;
+
         &::after {
           content: "";
           position: absolute;
@@ -157,16 +175,20 @@
           bottom: 0;
           width: 1.5em;
           height: 1.5em;
-          border-left: 1em solid $link-hover-colour;
+          border-left: 1em solid $link-colour;
           border-bottom-left-radius: 1.75em 1.5em;
         }
-        a{
-          &:link { /* Essentially means a[href], or that the link actually goes somewhere */
+
+        a {
+          &:link {
+            /* Essentially means a[href], or that the link actually goes somewhere */
             color: $page-colour;
           }
+
           &:hover {
             color: $border-colour;
           }
+
           &:active {
             color: $page-colour;
           }
@@ -174,13 +196,15 @@
       }
     }
 
-    .message-left{
+    .message-left {
       @include normalize-bubble('left');
+
       .message-body {
         background-color: $panel-colour;
         position: relative;
         text-align: left;
         border-radius: 0.5em 0.5em 0.5em 0.75em;
+
         &::after {
           content: "";
           position: absolute;
@@ -198,6 +222,7 @@
   .message-controls {
     padding: $gutter-half;
     border-top: 1px solid $border-colour;
+
     .upload-column {
       .upload-button {
         cursor: pointer;
@@ -208,12 +233,14 @@
     }
 
     .message-column {
-      margin:$gutter-half 0;
+      margin: $gutter-half 0;
+
       input[type="text"] {
         width: 50%;
         padding: 2px 5px;
         @include core-19();
       }
+
       textarea {
         resize: vertical;
       }
@@ -227,6 +254,7 @@
         background-color: $link-hover-colour;
         color: $page-colour;
         box-shadow: 0 2px 0 $link-colour;
+
         &:hover {
           background-color: $link-colour;
         }
@@ -237,6 +265,7 @@
       border-top: 1px solid $border-colour;
       padding-top: 15px;
       display: none;
+
       .filename {
         font-weight: bold;
       }

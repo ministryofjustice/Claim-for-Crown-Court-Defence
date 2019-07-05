@@ -40,7 +40,7 @@ Feature: litigator completes transfer fee page using calculator
     Given I insert the VCR cassette 'features/fee_calculator/litigator/transfer_fee_calculator'
 
     Then I click "Continue" in the claim form
-    And I should be in the 'Transfer fees' form page
+    And I should be in the 'Transfer details' form page
     And I should see the days claimed field
     And I should see the ppe field
     And the transfer fee amount should be populated with '0.00'
@@ -61,7 +61,7 @@ Feature: litigator completes transfer fee page using calculator
     Then the offence class list is set to 'C: Lesser offences involving violence or damage and less serious drug offences'
 
     Then I click "Continue" in the claim form
-    And I should be in the 'Transfer fees' form page
+    And I should be in the 'Transfer details' form page
     When I fill '2' as the actual trial length
     Then the transfer fee amount should be populated with '369.80'
 

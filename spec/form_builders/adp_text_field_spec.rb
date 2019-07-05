@@ -30,7 +30,6 @@ RSpec.describe AdpTextField do
       def a100_no_value_no_hint
         html = <<-eos
         <div class="form-group case_number_wrapper">
-          <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
@@ -43,7 +42,6 @@ RSpec.describe AdpTextField do
       def a200_value_no_hint
         html = <<-eos
         <div class="form-group case_number_wrapper">
-          <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
@@ -69,7 +67,6 @@ RSpec.describe AdpTextField do
       def a100_no_value_no_hint
         html = <<-eos
         <div class="form-group case_number_wrapper">
-          <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
@@ -82,7 +79,6 @@ RSpec.describe AdpTextField do
       def a200_value_no_hint
         html = <<-eos
         <div class="form-group case_number_wrapper">
-          <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
@@ -124,7 +120,6 @@ RSpec.describe AdpTextField do
       def a100_no_value_no_hint
         html = <<-eos
         <div class="form-group case_number_wrapper">
-          <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
@@ -138,7 +133,6 @@ RSpec.describe AdpTextField do
       def a200_value_no_hint
         html = <<-eos
         <div class="form-group case_number_wrapper">
-          <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
@@ -152,7 +146,6 @@ RSpec.describe AdpTextField do
       def a200_value_no_hint_disabled
         html = <<-eos
         <div class="form-group case_number_wrapper">
-          <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
@@ -166,7 +159,6 @@ RSpec.describe AdpTextField do
       def a200_value_no_hint_readonly
         html = <<-eos
         <div class="form-group case_number_wrapper">
-          <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
           </label>
@@ -188,7 +180,6 @@ RSpec.describe AdpTextField do
       def b100_with_value_with_hint
         html = <<-eos
         <div class="form-group case_number_wrapper">
-          <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
             <span class="form-hint" >Hint text here</span>
@@ -212,7 +203,6 @@ RSpec.describe AdpTextField do
       def c100_with_value_with_hint_and_error
         html = <<-eos
         <div class="form-group case_number_wrapper field_with_errors form-group-error">
-          <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
             <span class="form-hint" >Hint text here</span>
@@ -243,7 +233,6 @@ RSpec.describe AdpTextField do
       def d100_no_value_hint_shown
         html = <<-eos
         <div class="form-group case_number_wrapper">
-          <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
             <span class="form-hint" >Hint text here</span>
@@ -257,7 +246,6 @@ RSpec.describe AdpTextField do
       def e100_no_value_hint_hidden
         html = <<-eos
         <div class="form-group case_number_wrapper">
-          <a id="case_number"></a>
           <label class="form-label-bold" for="claim_case_number">
             Case number
             <span class="form-hint" style="display: none;">Hint text here</span>

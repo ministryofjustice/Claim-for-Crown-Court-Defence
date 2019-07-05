@@ -6,7 +6,7 @@
       %span.heading-medium
         = t('.representation_order')
         %span.fx-numberedList-number
-        %a.header-action.fx-numberedList-action.remove_fields.existing{ href: '#', style: 'display: block;' }
+        = link_to_remove_association f, class: 'header-action fx-numberedList-action', style: 'display: none;' do
           = t('.remove')
           %span.visuallyhidden
             = t('.representation_order')

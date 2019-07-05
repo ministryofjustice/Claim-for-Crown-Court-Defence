@@ -5,7 +5,7 @@
       %span.heading-medium
         = t('.defendant')
         %span.fx-numberedList-number
-        %a.header-action.fx-numberedList-action.remove_fields.existing{ 'href': '#', 'style': 'display: block;' }
+        = link_to_remove_association f, class: 'header-action fx-numberedList-action', style: 'display: none;' do
           = t('.remove')
           %span.visuallyhidden
             = t('.defendant')
@@ -13,10 +13,10 @@
 
     .form-group.first-name
       - @representation_order_count = 0
-      = f.adp_text_field :first_name, label: t('.first_name'), errors: @error_presenter
+      = f.adp_text_field :first_name, label: t('.first_name'), errors: @error_presenter, id: "defendant_#{@defendant_count+1}_first_name"
 
     .form-group.last-name
-      = f.adp_text_field :last_name, label: t('.last_name'), errors: @error_presenter
+      = f.adp_text_field :last_name, label: t('.last_name'), errors: @error_presenter, id: "defendant_#{@defendant_count+1}_last_name"
 
     .form-group.dob
       %a{ id: "defendant_#{@defendant_count+1}_date_of_birth" }

@@ -2,10 +2,10 @@
   = t('.page_title', provider_name: @provider.name)
 
 = content_for :v2_stylesheets do
-  = stylesheet_link_tag "v2/application", media: "all"
+  = stylesheet_link_tag 'v2/application', media: 'all'
 
 
-= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
 %h2.heading-medium
   = t('.heading', provider_name: @provider.name)

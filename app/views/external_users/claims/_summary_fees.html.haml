@@ -44,7 +44,7 @@
         -# The collection of fees
         - present_collection(collection.sort_by(&:position)).each.with_index(1) do |fee, index|
           %tr
-            %th{ scope: 'row', class: 'bold' }
+            %th{ scope: 'row' }
               = t('shared.summary.fee_index', index: index)
             %td
               %table.nested-summary

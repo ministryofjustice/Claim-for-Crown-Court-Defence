@@ -8,19 +8,19 @@
       - if current_user.persona.is_a?(CaseWorker)
         .other-claims
           - if claim_ids.present? && claim_ids.include?(@claim.id)
-            = "Showing "
+            = 'Showing '
             = claim_position_and_count
-            = "claims"
+            = 'claims'
             - unless last_claim?
               = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
 
   = render partial: 'shared/claim_history', locals: { claim: claim }
   = render partial: 'shared/claim_status', locals: { claim: claim, disabled: status_disabled }
 
-  .js-accordion{"data-accordion-prefix-classes": "minimalist-accordion"}
+  .js-accordion{ 'data-accordion-prefix-classes': 'minimalist-accordion' }
 
-    %h2.js-accordion__header{"data-accordion-opened": "true"}
-      = t(".h2_basic_info")
+    %h2.js-accordion__header{ 'data-accordion-opened': 'true' }
+      = t('.h2_basic_info')
     .js-accordion__panel
       = render partial: 'shared/claim', locals: { claim: claim, hide_totals: true }
 

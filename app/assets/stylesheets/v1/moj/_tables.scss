@@ -1,7 +1,8 @@
 .table-container {
-  margin-top:$gutter-half;
-  margin-bottom:$gutter;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter;
 }
+
 table {
   width: 100%;
   margin-bottom: 1em;
@@ -9,61 +10,76 @@ table {
   border-collapse: collapse;
   // border-bottom: 1px solid $border-colour;
   border-top: 2px solid $border-colour;
+
   caption {
     @include core-19;
-    font-weight:700;
+    font-weight: 700;
     text-align: left;
-    padding-bottom:$gutter-half/2;
+    padding-bottom: $gutter-half/2;
   }
 
   tr {
+
     th,
     td {
-      &:first-child{
-        padding-left:$gutter-half;
+      &:first-child {
+        padding-left: $gutter-half;
       }
-      &:last-child{
-        padding-right:$gutter-half/3;
+
+      &:last-child {
+        padding-right: $gutter-half/3;
       }
     }
+
     &.no-border {
+
       th,
       td {
         border: none;
       }
     }
+
     &.error.injection-error {
       border-left: 5px solid $error-colour;
       color: inherit;
+
       td {
         padding-top: 30px !important;
+
         .error-message-container {
           position: relative;
         }
+
         .error-message {
           position: absolute;
           top: -30px;
           color: $error-colour;
           width: 320px;
+
           @media (max-width: 1018px) {
             width: auto;
           }
         }
       }
     }
+
     &.cav_warning {
       border-left: 5px solid $orange;
+
       td {
         padding-top: 30px !important;
+
         .warning-message-container {
           position: relative;
         }
+
         .warning-message {
           font-weight: bold;
           position: absolute;
           top: -30px;
           color: $orange;
           width: 320px;
+
           @media (max-width: 1018px) {
             width: auto;
           }
@@ -71,67 +87,79 @@ table {
       }
     }
   }
+
   th,
   td {
-    padding:$gutter-half/2 $gutter-half $gutter-half/2 0;
+    padding: $gutter-half/2 $gutter-half $gutter-half/2 0;
     border-right: none;
     border-left: none;
   }
+
   thead th {
-    padding-top:$gutter-half;
-    padding-bottom:$gutter-half;
+    padding-top: $gutter-half;
+    padding-bottom: $gutter-half;
     vertical-align: bottom;
   }
+
   tbody {
     tr:nth-child(odd) {
       background-color: $grey-3;
       background-color: $grey-4;
     }
+
     th {
       @include core-16;
-      font-weight:700;
-      color:$text-colour;
+      font-weight: 700;
+      color: $text-colour;
       background: transparent;
     }
   }
 }
+
 // ================================================================//
 // statuses
 // ================================================================//
 span.state {
   display: block;
   text-align: center;
-  padding:$gutter-half/3;
+  padding: $gutter-half/3;
   border-width: 2px;
   border-style: solid;
   background: #fff;
+
   &.state-authorised,
   &.state-accepted {
     color: #00602b;
     border-color: #00602b;
   }
+
   &.state-allocated {
     color: #912b88;
     border-color: #912b88;
   }
+
   &.state-draft {
     color: #1d5780;
     border-color: #1d5780;
   }
+
   &.state-rejected,
   &.state-refused,
   &.state-unverified {
     color: #99181a;
     border-color: #99181a;
   }
+
   &.state-submitted {
     color: #52585a;
     border-color: #52585a;
   }
+
   &.state-redermination {
     color: #0b0c0c;
     border-color: #0b0c0c;
   }
+
   &.state-part-authorised {
     color: #1d5780;
     border-color: #54592f;
@@ -139,88 +167,104 @@ span.state {
 }
 
 .unique-id-small {
-  color: #8c8e90;
+  color: $grey-1;
   font-size: 12px;
 }
 
 #claim-accordion {
-  .heading-medium{
+  .heading-medium {
     margin-bottom: 0;
   }
-  .table-summary{
-    th, td{
+
+  .table-summary {
+
+    th,
+    td {
       vertical-align: top;
     }
-    tr > th{
+
+    tr>th {
       width: 30%;
     }
   }
 }
 
-tr.mobile-sort{
-  display:none;
+tr.mobile-sort {
+  display: none;
 }
 
-table.report{
-  .select{
+table.report {
+  .select {
     width: 25px;
   }
-  .case-number{
+
+  .case-number {
     width: 100px;
   }
-  .court{
+
+  .court {
     width: 125px;
   }
-  .submit-date{
+
+  .submit-date {
     width: 80px;
   }
-  .defendants{
 
+  .defendants {}
+
+  .claim-total {
+    width: 100px;
   }
-  .claim-total{
-    width:100px;
-  }
-  .type{
+
+  .type {
     width: 200px;
   }
-  .numeric{
 
-  }
-  .allocated{
+  .numeric {}
 
-  }
+  .allocated {}
 }
-@include media($max-width: 1018px){
-    table.report {
+
+@include media($max-width: 1018px) {
+  table.report {
     border: 0;
+
     tr {
       border-bottom: 3px solid #ddd;
       display: block;
       margin-bottom: .625em;
-      td{
+
+      td {
         border-bottom: 1px solid #ddd;
         display: block;
         font-size: .8em;
         text-align: right;
       }
+
       td:last-child {
         border-bottom: 0;
       }
-      th, td {
-        br{
+
+      th,
+      td {
+        br {
           display: none;
         }
+
         padding: $gutter/2;
       }
-      &.mobile-sort{
+
+      &.mobile-sort {
         display: inline-block;
         vertical-align: inherit;
         width: 100%;
         @include clearfix();
-        td{
+
+        td {
           text-align: left;
           background-color: white !important;
-          a{
+
+          a {
             display: inline-block !important;
             margin: ($gutter/6) ($gutter/2 - 3);
           }
@@ -228,10 +272,11 @@ table.report{
       }
     }
 
-    tbody tr td:first-child{
+    tbody tr td:first-child {
       background-color: $border-colour;
       font-weight: 700;
-      a{
+
+      a {
         display: block;
       }
     }
@@ -244,7 +289,8 @@ table.report{
       display: none;
     }
 
-    tbody tr:nth-child(odd), tbody tr:nth-child(even){
+    tbody tr:nth-child(odd),
+    tbody tr:nth-child(even) {
       background-color: none !important;
     }
 
@@ -255,56 +301,68 @@ table.report{
       text-transform: uppercase;
     }
 
-    .unique-id-small{
+    .unique-id-small {
       display: none;
     }
-    .state{
+
+    .state {
       display: inline;
     }
   }
 }
 
-table.figures{
-  th, td{
+table.figures {
+
+  th,
+  td {
     vertical-align: top;
-    &.col-fee-cat{
+
+    &.col-fee-cat {
       width: 190px;
     }
-    &.col-date{
+
+    &.col-date {
       width: 95px;
     }
-    &.col-type{
+
+    &.col-type {
       width: 170px;
     }
-    &.col-deails{
+
+    &.col-deails {
       // width: auto;
     }
-    &.col-net{
+
+    &.col-net {
       width: 110px;
     }
-    &.col-vat{
+
+    &.col-vat {
       width: 100px;
     }
-    &.col-gross{
+
+    &.col-gross {
       width: 110px;
     }
-    .details{
+
+    .details {
       padding-left: 10px;
     }
   }
 
-  tfoot{
-    .totals{
+  tfoot {
+    .totals {
       border: 2px solid $border-colour;
       border-width: 2px 0;
-      td{
+
+      td {
         font-weight: 700;
       }
     }
   }
 }
 
-table{
+table {
 
   th {
     @include bold-16;
@@ -320,7 +378,8 @@ table{
   }
 }
 
-table.summary, table.nested-summary {
+table.summary,
+table.nested-summary {
   width: 100%;
   margin-bottom: 1em;
   background-color: #fff;
@@ -370,8 +429,11 @@ table.nested-summary {
         width: 50%;
       }
     }
+
     tr:last-child {
-      th, td {
+
+      th,
+      td {
         border-bottom: 0;
       }
     }

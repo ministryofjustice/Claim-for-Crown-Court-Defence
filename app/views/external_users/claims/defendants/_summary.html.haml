@@ -21,34 +21,35 @@
       %tbody
         - claim.defendants.order(:created_at).each.with_index(1) do | defendant, index|
           %tr
-            %th{ class: 'bold' }
+            %th
               = t('.common.defendant_index', index: index)
             %td
               %table.nested-summary
                 %tbody
                   %tr
-                    %th{ class: 'bold' }
+                    %th
                       = t('first_name', scope: defendant_fields_scope)
                     %td
                       = defendant.first_name
                   %tr
-                    %th{ class: 'bold' }
+                    %th
                       = t('last_name', scope: defendant_fields_scope)
                     %td
                       = defendant.last_name
 
                   - if defendant.date_of_birth.present?
                     %tr
-                      %th{ class: 'bold' }
+                      %th
                         %span.visuallyhidden
                           = t('.common.defendant_index', index: index)
                         = t('date_of_birth', scope: defendant_fields_scope)
                       %td
-                        = defendant.date_of_birth.strftime('%d/%m/%Y') rescue ''
+                        %time{ 'aria-label': defendant.date_of_birth.strftime(Settings.date_format_label), datetime: defendant.date_of_birth.strftime(Settings.datetime_attribute) }
+                          = defendant.date_of_birth.strftime(Settings.date_format)
 
                   - unless claim.lgfs? && claim.interim?
                     %tr
-                      %th{ class: 'bold' }
+                      %th
                         %span.visuallyhidden
                           = t('.common.defendant_index', index: index)
                         = t('order_for_judicial_apportionment', scope: defendant_fields_scope)
@@ -57,14 +58,15 @@
 
                   - defendant.representation_orders.each.with_index(1) do | representation_order, index|
                     %tr
-                      %th{ class: 'bold' }
+                      %th
                         %span.visuallyhidden
                           = t('.common.defendant_reporder', index: index)
                         = "#{t('date', scope: rep_order_fields_scope)} #{index}"
                       %td
-                        = representation_order.representation_order_date.strftime('%d/%m/%Y') rescue ''
+                        %time{ 'aria-label': representation_order.representation_order_date.strftime(Settings.date_format_label), datetime: representation_order.representation_order_date.strftime(Settings.datetime_attribute) }
+                          = representation_order.representation_order_date.strftime(Settings.date_format)
                     %tr
-                      %th{ class: 'bold' }
+                      %th
                         %span.visuallyhidden
                           = "#{t('common.defendant')} #{index} representation order #{index}"
                         = "#{t('maat_reference_number', scope: rep_order_fields_scope)} #{index}"

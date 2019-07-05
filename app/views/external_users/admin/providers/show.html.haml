@@ -1,7 +1,10 @@
 = content_for :page_title, flush: true do
-  = t(".page_title", provider_name: @provider.name)
+  = t('.page_title', provider_name: @provider.name)
 
-= render partial: 'layouts/header', locals: {page_heading: t('.page_heading', provider_name: @provider.name)}
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag 'v2/application', media: 'all'
+
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading', provider_name: @provider.name) }
 
 .table-container.container
   %table
@@ -10,38 +13,39 @@
         = t('.table_caption')
     %tbody
       %tr
-        %th
+        %th{ scope: 'row' }
           = t('.provider_name')
         %td
           = @provider.name
       %tr
-        %th
+        %th{ scope: 'row' }
           = t('.api_key')
         %td#api-key
           = @provider.api_key
 
       - if @provider.firm?
         %tr
-          %th
+          %th{ scope: 'row' }
             = t('.lgfs_supplier_numbers')
           %td
             = @provider.lgfs_supplier_numbers.to_sentence
         - if @provider.agfs?
           %tr
-            %th
+            %th{ scope: 'row' }
               = t('.firm_agfs_supplier_number')
             %td
               = @provider.firm_agfs_supplier_number
         %tr
-          %th
+          %th{ scope: 'row' }
             = t('.vat_registered')
           %td
             = @provider.vat_registered == true ? 'Yes' : 'No'
 
-.form-group
-  .form-row
-    .form-col.form-col-one-half
-      = button_to t('.generate_key'), regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form' ,data: { confirm: t('.confirmation') }, class: 'button'
-    .form-col.form-col-one-half
+.form-section
+  .grid-row
+    .column-one-half
+      = button_to t('.generate_key'), regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form', data: { confirm: t('.confirmation') }, class: 'button'
+    .column-one-half
       - if can? :edit, @provider
-        = link_to t('.edit_provider'), edit_external_users_admin_provider_path(@provider), class: 'button button-grey-3'
+        = link_to t('.edit_provider'), edit_external_users_admin_provider_path(@provider), class: 'button-gray-3'
+

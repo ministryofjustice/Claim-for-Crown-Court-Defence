@@ -14,14 +14,14 @@ Feature: Advocate tries to submit a claim for a Fixed fee (Appeal against convic
     And I select a case type of 'Appeal against conviction'
     And I enter a case number of 'A20181234'
 
-    Then I click "Continue" in the claim form and move to the 'Defendant' form page
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, scheme 11 representation order and MAAT reference
     And I add another defendant, scheme 11 representation order and MAAT reference
 
     Then I click "Continue" in the claim form
     Then I click the link 'Back'
-    And I should be in the 'Defendant' form page
+    And I should be in the 'Defendant details' form page
 
     Then I should see 'Defendant 1'
     And I should see 'Defendant 2'

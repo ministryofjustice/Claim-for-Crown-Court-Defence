@@ -8,13 +8,11 @@
     %h3.heading-medium
       = t('.expense')
       %span.fx-numberedList-number
-      %span.fx-remove-link
-        %a.header-action.fx-numberedList-action.remove_fields.existing{ 'href': '#', 'style': 'display: block;', 'data-wrapper-class': 'expense-group' }
-          = t('.remove')
-          %span.visuallyhidden
-            = t('.expense')
-            %span.fx-numberedList-number
-
+      = link_to_remove_association f, wrapper_class: 'expense-group', class: 'header-action fx-numberedList-action', style: 'display: none;' do
+        = t('.remove')
+        %span.visuallyhidden
+          = t('.expense')
+          %span.fx-numberedList-number
 
     %p.fx-general-errors{ style: 'display: none;' }
       %span
@@ -28,13 +26,14 @@
             { class: 'form-label-bold' }
 
           - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
-          = f.select :expense_type_id, expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}, { include_blank: t('.select_option') }, { class: 'form-control form-control-3-4' }
+          = f.select :expense_type_id, expense_types_collection.map { |et| [et.name, et.id, { data: et.data_attributes }] }, { include_blank: t('.select_option') }, { class: 'form-control form-control-3-4' }
           = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
 
       .column-half
         -# SELECT: Travel reasons
         - error_classes = error_class?(@error_presenter, "expense_#{@expense_count}_reason_id")
         - error_classes += ' form-group-error' if error_classes.present?
+        %a{ id: "expense_#{@expense_count}_reason_id" }
         .form-group.fx-travel-reason{ style: 'display: none;', class: error_classes }
           = f.label :reason_id,
             t('.travel_reason'),
@@ -42,7 +41,7 @@
 
           = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
           - reasons_collection = present_collection(reasonset_for_expense_type(f.object.expense_type).values, TravelReasonPresenter)
-          = f.select :reason_id, reasons_collection.map {|et| [et.reason, et.id, { data: et.data_attributes }]}, { include_blank: t('.select_option') }, { class: 'form-control form-control-3-4' }
+          = f.select :reason_id, reasons_collection.map { |et| [et.reason, et.id, { data: et.data_attributes }] }, { include_blank: t('.select_option') }, { class: 'form-control form-control-3-4' }
 
         -# INPUT: Other travel reason input
         .form-group.fx-travel-reason-other{ style: f.object.reason_id.eql?(5) ? 'display: block;' : 'display: none;' }
@@ -52,6 +51,7 @@
     .grid-row
       .column-half
         -# INPUT: Location
+        %a{ id: "expense_#{@expense_count}_location" }
         .fx-travel-location{ style: 'display: none;' }
 
           - if @claim.lgfs?
@@ -68,10 +68,11 @@
       .column-half
         -# INPUT: Travel hours
         .form-group.fx-travel-hours{ style: 'display: none;' }
-          = f.adp_text_field :hours, label: t('.hours'), input_classes:'form-control-1-8', input_type: 'number', errors: @error_presenter
+          = f.adp_text_field :hours, label: t('.hours'), input_classes: 'form-control-1-8', input_type: 'number', errors: @error_presenter
 
 
         -# INPUT: Travel Distance
+        %a{ id: "expense_#{@expense_count}_distance" }
         .form-group-compound.fx-travel-distance{ style: 'display: none;' }
           = f.adp_text_field :distance, label: t('.distance'), hint_text: t('.distance_hint'), input_type: 'number', input_classes: 'form-control-1-4', value: number_with_precision(f.object.distance, precision: 0), errors: @error_presenter
           - if @claim.lgfs?
@@ -120,6 +121,7 @@
     .grid-row
       .column-half
         -# INPUT: Net amount
+        %a{ id: "expense_#{@expense_count}_amount" }
         .form-group.fx-travel-net-amount{ style: 'display: none;' }
           = f.adp_text_field :amount,
                             label: t('.net_amount'),

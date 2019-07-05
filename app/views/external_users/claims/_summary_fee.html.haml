@@ -1,26 +1,26 @@
 - unless fee.is_transfer?
   %tr
-    %th{ scope: 'row', class: 'bold' }
+    %th{ scope: 'row' }
       = t('shared.summary.fee_type')
     %td
       = fee.fee_type&.description
 
 - if fee.sub_type.present?
   %tr
-    %th{ scope: 'row', class: 'bold' }
+    %th{ scope: 'row' }
       = t('shared.summary.fee_subtype')
     %td
       = fee.sub_type.description
 - if fee.case_uplift?
   %tr
-    %th{ scope: 'row', class: 'bold' }
+    %th{ scope: 'row' }
       = t('shared.summary.case_numbers')
     %td
       = fee.case_numbers
 
 - if fee.date?
   %tr
-    %th{ scope: 'row', class: 'bold' }
+    %th{ scope: 'row' }
       - if fee.is_graduated?
         = t('shared.summary.first_day_of_hearing')
       - else
@@ -30,21 +30,21 @@
 
 - if fee.is_graduated? && fee.claim.actual_trial_length
   %tr
-    %th{ scope: 'row', class: 'bold' }
+    %th{ scope: 'row' }
       = t('shared.summary.actual_trial_length')
     %td
       = t('external_users.claims.graduated_fees.summary.actual_trial_length', count: fee.claim.actual_trial_length)
 
 - if fee.is_transfer? && fee.claim.actual_trial_length
   %tr
-    %th{ scope: 'row', class: 'bold' }
+    %th{ scope: 'row' }
       = t('external_users.claims.transfer_fee.summary.actual_trial_length')
     %td
       = t('external_users.claims.transfer_fee.summary.actual_trial_length_value', count: fee.claim.actual_trial_length)
 
 - if fee.calculated? || fee.is_graduated? || fee.is_transfer?
   %tr
-    %th{ scope: 'row', class: 'bold' }
+    %th{ scope: 'row' }
       - if fee.is_transfer? || fee.is_graduated?
         = t('shared.summary.ppe')
       - else
@@ -54,14 +54,14 @@
 
 - if fee.calculated?
   %tr
-    %th{ scope: 'row'}
+    %th{ scope: 'row' }
       = t('shared.summary.rate')
     %td
       = fee.rate
 
 - if fee.display_amount?
   %tr
-    %th{ scope: 'row', class: 'bold' }
+    %th{ scope: 'row' }
       = t('shared.summary.amount')
     %td
       = fee.amount
@@ -69,14 +69,14 @@
 - if fee.fee_type.unique_code.eql?('BABAF')
   - if fee.first_day_of_trial
     %tr
-      %th{ scope: 'row', class: 'bold' }
+      %th{ scope: 'row' }
         = t('shared.summary.dates_attended.first_day_of_trial')
       %td
         = fee.first_day_of_trial
 
   - if fee.retrial_started_at
     %tr
-      %th{ scope: 'row', class: 'bold' }
+      %th{ scope: 'row' }
         = t('shared.summary.dates_attended.retrial_started_at')
       %td
         = fee.retrial_started_at
@@ -84,9 +84,9 @@
 - if fee.dates_attended.any?
   -# Guilty plea, discontin, second dates..
   %tr
-    %th{ scope: 'row', class: 'bold' }
+    %th{ scope: 'row' }
       - if fee.fee_type.unique_code.eql?('BABAF')
-        = t(fee.claim.case_type.name.split(' ').collect(&:capitalize).join.underscore, scope: "external_users.claims.basic_fees.basic_fee_fields_primary.date_label")
+        = t(fee.claim.case_type.name.split(' ').collect(&:capitalize).join.underscore, scope: 'external_users.claims.basic_fees.basic_fee_fields_primary.date_label')
       - else
         = t('shared.summary.dates_attended.dates_attended')
     %td

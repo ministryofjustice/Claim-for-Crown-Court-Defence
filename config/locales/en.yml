@@ -611,6 +611,8 @@ en:
         submit:
           edit: Update user
           new: Create user
+          create: 'Create user'
+          update: 'Update user'
       find:
         email: *email
         submit: 'Search'

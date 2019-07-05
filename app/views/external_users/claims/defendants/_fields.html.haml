@@ -1,5 +1,8 @@
 #defendant-numberedList.form-section.defendants.fx-numberedList-hook
 
+  %h2.heading-large
+    = t('.page_heading')
+
   = f.fields_for :defendants do |defendant|
     = render partial: 'external_users/claims/defendants/defendant_fields', locals: { f: defendant }
 

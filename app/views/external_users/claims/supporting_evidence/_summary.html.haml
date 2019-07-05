@@ -11,17 +11,17 @@
           = t('.caption')
       %tbody
         %tr
-          %th{ class: 'bold' }
+          %th
             = t('shared.summary.disk_evidence')
           %td
             = claim.disk_evidence ? t('.answer_yes') : t('.answer_no')
         %tr
-          %th{ class: 'bold' }
+          %th
             = t('shared.summary.disk_evidence_reference')
           %td
             = claim.disk_evidence_reference
         %tr
-          %th{ class: 'bold' }
+          %th
             = t('shared.summary.supporting_evidence')
           %td
             %ul
@@ -32,7 +32,7 @@
                             class: 'download',
                             'aria-label': "Download document: #{document.document_file_name}"
         %tr
-          %th{ class: 'bold' }
+          %th
             = t('shared.summary.supporting_evidence_checklist')
           %td
             %ul
@@ -43,4 +43,4 @@
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
       = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :supporting_evidence }
     - else
-      = t("shared.summary.no_values.supporting_evidence")
+      = t('shared.summary.no_values.supporting_evidence')

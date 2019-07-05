@@ -1,9 +1,9 @@
-= simple_form_for message, remote: !@claim.redeterminable?, authenticity_token: true  do |f|
+= simple_form_for message, remote: !@claim.redeterminable?, authenticity_token: true do |f|
   = f.input :claim_id, value: @claim.id, as: :hidden
 
   - if current_user_persona_is?(ExternalUser) && @claim.redeterminable?
     .js-hide-status
-      %fieldset.inline{"aria-describedby": "radio-control-legend-1"}
+      %fieldset.inline{ 'aria-describedby': 'radio-control-legend-1' }
         %legend#radio-control-legend-1
           %span.form-label-bold
             = t('.update_claim_status')
@@ -16,14 +16,16 @@
 
   - if messaging_permitted?(message) || current_user_is_caseworker?
     .grid-row.js-test-send-buttons
-      Enter a message below and optionally attach a file (maximum 1 file per message).
-      .message-column
-        = f.text_area :body, as: :text, rows: 10, placeholder: t('.message_placeholder'), label: false, class: 'form-control'
+
+      .message-column.form-group
+        = f.label :body, 'Enter a message', class: 'form-label'
+        = f.text_area :body, as: :text, rows: 10, label: false, class: 'form-control'
 
         - if current_user_is_caseworker? && @claim.written_reasons_outstanding?
           .written-reasons-checkbox
             = f.input :written_reasons_submitted, as: :boolean
-      .upload-column
+      .upload-column.form-group
+        = f.label :attachment, 'Optionally attach a file (maximum 1 file per message)', class: 'form-label'
         = f.file_field :attachment
 
     .xsmall.form-hint
@@ -31,8 +33,8 @@
 
     .file-to-be-uploaded
       %span.filename
-      = " | "
-      %a{href:"#", title: t('.remove_file_tool_tip')}
+      = ' | '
+      %a{ href: '#', title: t('.remove_file_tool_tip') }
         = t('.remove')
 
     .submit-column

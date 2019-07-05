@@ -1,9 +1,9 @@
 = content_for :page_title, flush: true do
   = t(".page_title.#{present(@claim).type_identifier}")
 
-= render partial: 'errors/error_summary', locals:{ ep: @certification, error_summary: t('.error_summary')}
+= render partial: 'errors/error_summary', locals: { ep: @certification, error_summary: t('.error_summary') }
 
-= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
 = form_for @certification, builder: AdpFormBuilder, url: external_users_claim_certification_path(@claim) do |f|
   .certification.normal
@@ -20,6 +20,7 @@
           %p
             Please only tick the relevant box.
 
+      %a#base
       .grid-row
         .column-two-thirds
           %p.bold-normal
@@ -111,5 +112,5 @@
       .column-third
         &nbsp;
     .button-holder
-      = f.submit t('.submit'), class: "button left btn-spacer-20"
+      = f.submit t('.submit'), class: 'button left btn-spacer-20'
       = link_to t('.return'), edit_polymorphic_path(@claim), class: 'button-gray-3 left'

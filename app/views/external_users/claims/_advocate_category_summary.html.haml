@@ -1,8 +1,8 @@
 - if claim.agfs? && claim.advocate_category.present?
-  %table{ class: 'summary' }
+  %table.summary
     %tbody
       %tr
-        %th{ scope: 'row', class: 'bold' }
+        %th{ scope: 'row' }
           = t("common.external_user.category.#{claim.external_user_type}")
         %td
           = claim.advocate_category

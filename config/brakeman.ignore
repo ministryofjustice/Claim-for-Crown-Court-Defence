@@ -1,6 +1,26 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "068f21e75ff2347f986c43eed66f00d0be08ce368dc2b5a2927f198e4f519547",
+      "check_name": "MassAssignment",
+      "message": "Parameters should be whitelisted for mass assignment",
+      "file": "app/helpers/application_helper.rb",
+      "line": 85,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.except(:page).merge(:sort => column, :direction => ((\"desc\" or \"asc\")), :anchor => column).permit!",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ApplicationHelper",
+        "method": "sortable"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
       "warning_type": "File Access",
       "warning_code": 16,
       "fingerprint": "8738e8b7994af508882a105d873642c98a284c6139f8c6bcf53ae7e25bf14bfa",
@@ -27,7 +47,7 @@
       "check_name": "SendFile",
       "message": "Model attribute used in file name",
       "file": "app/controllers/external_users/claims_controller.rb",
-      "line": 185,
+      "line": 184,
       "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
       "code": "send_file(DiscEvidenceCoversheetBuilder.new(Claim::BaseClaim.active.find(params[:id])).export, :filename => \"disc_evidence_coversheet.pdf\", :disposition => \"inline\", :type => \"application/pdf\")",
       "render_path": null,
@@ -39,28 +59,8 @@
       "user_input": "Claim::BaseClaim.active.find(params[:id])",
       "confidence": "Weak",
       "note": "This is a false positive because the service called matches the model name"
-    },
-    {
-      "warning_type": "Mass Assignment",
-      "warning_code": 70,
-      "fingerprint": "d674166626545a944b2a9ba0d4a9477253dd5326e40dfabe06a05a3c5621feb5",
-      "check_name": "MassAssignment",
-      "message": "Parameters should be whitelisted for mass assignment",
-      "file": "app/helpers/application_helper.rb",
-      "line": 90,
-      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
-      "code": "params.except(:page).merge(:sort => column, :direction => ((\"desc\" or \"asc\")), :anchor => \"listanchor\").permit!",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ApplicationHelper",
-        "method": "sortable"
-      },
-      "user_input": null,
-      "confidence": "Medium",
-      "note": ""
     }
   ],
-  "updated": "2018-07-31 10:22:55 +0100",
-  "brakeman_version": "4.2.0"
+  "updated": "2019-07-11 10:02:57 +0100",
+  "brakeman_version": "4.5.1"
 }

@@ -1,7 +1,10 @@
 = content_for :page_title, flush: true do
   = t(".page_title_#{current_user.provider.provider_type}")
 
-= render partial: 'layouts/header', locals: {page_heading: t('.page_heading', provider_name: "#{current_user.provider.name}")}
+= content_for :v2_stylesheets do
+  = stylesheet_link_tag 'v2/application', media: 'all'
+
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading', provider_name: "#{current_user.provider.name}") }
 
 = content_for :search_html_block do
   .form-group
@@ -26,21 +29,21 @@
   %tbody
     - @external_users.each do |advocate|
       %tr
-        %td{'data-label': t('.last_name')}
+        %td{ 'data-label': t('.last_name') }
           = advocate.last_name
-        %td{'data-label': t('.first_name')}
+        %td{ 'data-label': t('.first_name') }
           = advocate.first_name
-        %td{'data-label': t('.supplier_number')}
+        %td{ 'data-label': t('.supplier_number') }
           = advocate.supplier_number ? advocate.supplier_number : '-'
-        %td{'data-label': t('.email')}
-          = mail_to advocate.email, advocate.email, {title: t('.email_title', external_user: advocate.name)}
+        %td{ 'data-label': t('.email') }
+          = mail_to advocate.email, advocate.email, { title: t('.email_title', external_user: advocate.name) }
         - if Settings.email_notification_enabled?
-          %td{'data-label': t('.email_confirmation')}
+          %td{ 'data-label': t('.email_confirmation') }
             = advocate.send_email_notification_of_message? ? t('.option_yes') : t('.option_no')
-        %td.user-controls{'data-label': t('.actions')}
+        %td.user-controls{ 'data-label': t('.actions') }
           - if advocate.active?
             = link_to t('.edit'),  edit_external_users_admin_external_user_path(advocate)
-            = " | "
+            = ' | '
             = link_to t('.delete'), external_users_admin_external_user_path(advocate), method: :delete, data: { confirm: t('.confirmation') }
           - else
             Inactive

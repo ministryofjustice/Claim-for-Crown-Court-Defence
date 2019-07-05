@@ -84,7 +84,7 @@
                         = expense.vat_amount
 
   - if @claim.travel_expense_additional_information.present?
-    %table{ class: 'summary' }
+    %table.summary
       %caption
         %span.table-caption.visuallyhidden
           = t('.caption')

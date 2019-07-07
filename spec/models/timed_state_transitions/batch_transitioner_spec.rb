@@ -1,10 +1,7 @@
 require 'rails_helper'
 
-
 module TimedTransitions
-
   describe BatchTransitioner do
-
     let(:claim_ids) { [ 22, 878 ] }
     let(:claim_22) { double'Claim 22', state: 'authorised', last_state_transition_time: 2.days.ago }
     let(:claim_878) { double 'Claim 878', state: 'authorised', last_state_transition_time: 2.days.ago }
@@ -57,6 +54,33 @@ module TimedTransitions
         expect(batch_transitioner).to receive(:increment_counter).once.and_call_original
         batch_transitioner.run
         expect(batch_transitioner.transitions_counter).to eq(1)
+      end
+    end
+
+    context 'logging' do
+      subject(:batch_transitioner) { BatchTransitioner.new(limit: 10000) }
+
+      it 'write to log file using LogStuff' do
+        freeze_time do
+          expect(LogStuff).to receive(:info)
+            .with('TimedTransitions::BatchTransitioner',
+                  environment: 'test',
+                  limit: 10000,
+                  started_at: DateTime.current,
+                  claims_processed: nil,
+                  finished_at: nil,
+                  seconds_taken: nil).exactly(:once)
+
+          expect(LogStuff).to receive(:info)
+            .with('TimedTransitions::BatchTransitioner',
+                  environment: 'test',
+                  limit: 10000,
+                  started_at: DateTime.current,
+                  claims_processed: 0,
+                  finished_at: DateTime.current,
+                  seconds_taken: 0).exactly(:once)
+          batch_transitioner.run
+        end
       end
     end
   end

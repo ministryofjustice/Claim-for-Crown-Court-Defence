@@ -1,4 +1,3 @@
-# kubectl run hello --schedule="*/1 * * * *" --restart=Never --image=busybix -- /bin/sh -c "date; echo Hello from the Kubernetes cluster"
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:

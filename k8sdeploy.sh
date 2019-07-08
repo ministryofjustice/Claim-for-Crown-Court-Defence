@@ -70,11 +70,16 @@ function _k8sdeploy() {
 
   # TODO: check if image exists and if not offer to build or abort
 
+  # apply image specific config
   kubectl set image -f kubernetes_deploy/${environment}/deployment.yaml cccd-app=${docker_image_tag} --local --output yaml | kubectl apply -f -
+  kubectl set image -f kubernetes_deploy/cron_jobs/archive_stale.yaml cronjob-worker=${docker_image_tag} --local --output yaml | kubectl apply -f -
+
+  # apply non-image specific config
   kubectl apply \
     -f kubernetes_deploy/${environment}/service.yaml \
     -f kubernetes_deploy/${environment}/ingress.yaml \
-    -f kubernetes_deploy/${environment}/secrets.yaml
+    -f kubernetes_deploy/${environment}/secrets.yaml \
+    -f kubernetes_deploy/cron_jobs/clean_ecr.yaml
 
   # Forcibly restart the app regardless of whether
   # there are changes to apply new secrets, at least.

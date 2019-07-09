@@ -80,7 +80,7 @@ module GeckoboardPublisher
 
     def calculate_totals(expense)
       user_entered_total = expense.amount + expense.vat_amount
-      mileage_rate = Expense::CAR_MILEAGE_RATES[expense.mileage_rate_id].rate
+      mileage_rate = Expense::MILEAGE_RATES[expense.mileage_rate_id].rate
       calc_amount = (expense.calculated_distance * mileage_rate)
       calc_vat = VatRate.vat_amount(calc_amount, expense.claim.vat_date, calculate: expense.claim.apply_vat?)
       calculated_total = calc_amount + calc_vat

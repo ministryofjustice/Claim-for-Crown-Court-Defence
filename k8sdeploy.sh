@@ -48,17 +48,6 @@ function _k8sdeploy() {
   docker_registry=754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd
   docker_image_tag=${docker_registry}:${component}-${current_version}
 
-  # get latest tag for branch
-  # DOES NOT WORK FOR JUST A DEPLOY WITH NO CHANGES TO deployment.yaml
-  # case $current_branch in
-  #   master)
-  #     docker_image_tag=${docker_registry}:${component}-latest
-  #     ;;
-  #   *)
-  #     docker_image_tag=${docker_registry}:${component}-${current_branch}-latest
-  #     ;;
-  # esac
-
   kubectl config set-context ${context} --namespace=cccd-${environment}
   kubectl config use-context ${context}
 

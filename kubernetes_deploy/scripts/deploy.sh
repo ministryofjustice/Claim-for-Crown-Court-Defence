@@ -1,22 +1,22 @@
 #!/bin/sh
-function _k8sdeploy() {
-  usage="k8sdeploy -- deploy image from current commit to an environment
-  Usage: ./k8sdeploy.sh environment [image-tag]
+function _deploy() {
+  usage="deploy -- deploy image from current commit to an environment
+  Usage: kubernetes_deploy/bin/deploy environment [image-tag]
   Where:
     environment [dev|staging|api-sandbox]
     [image_tag] any valid ECR image tag for app
   Example:
     # deploy image for current commit to dev
-    ./k8sdeploy.sh dev
+    deploy.sh dev
 
     # deploy latest image of master to dev
-    ./k8sdeploy.sh dev latest
+    deploy.sh dev latest
 
     # deploy latest branch image to dev
-    ./k8sdeploy.sh dev <branch-name>-latest
+    deploy.sh dev <branch-name>-latest
 
     # deploy specific image (based on commit sha)
-    ./k8sdeploy.sh dev <commit-sha>
+    deploy.sh dev <commit-sha>
     "
 
   if [ $# -gt 2 ]
@@ -79,4 +79,4 @@ function _k8sdeploy() {
 
 }
 
-_k8sdeploy $@
+_deploy $@

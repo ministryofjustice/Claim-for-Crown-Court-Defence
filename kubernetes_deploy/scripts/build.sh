@@ -1,7 +1,7 @@
 #!/bin/sh
-function _k8sbuild() {
-  usage="k8build -- build, tag and push image to ecr
-  Usage: ./k8sbuild.sh"
+function _build() {
+  usage="build -- build, tag and push image to ecr
+  Usage: build"
 
   region='eu-west-2'
   context='live-1'
@@ -19,11 +19,11 @@ function _k8sbuild() {
   docker_build_tag=${component}-${current_version}
   docker_registry_tag=${docker_registry}:${docker_build_tag}
 
-  echo '------------------------------------------------------------------------'
-  echo "Build tag: $docker_build_tag"
-  echo "Branch: $current_branch"
-  echo "Registry tag: $docker_registry_tag"
-  echo '------------------------------------------------------------------------'
+  printf "\e[33m------------------------------------------------------------------------\e[0m\n"
+  printf "\e[33mBuild tag: $docker_build_tag\e[0m\n"
+  printf "\e[33mBranch: $current_branch\e[0m\n"
+  printf "\e[33mRegistry tag: $docker_registry_tag\e[0m\n"
+  printf "\e[33m------------------------------------------------------------------------\e[0m\n"
   printf '\e[33mDocker login to registry (ECR)...\e[0m\n'
   $(aws ecr --profile "$aws_profile" get-login --no-include-email --region "$region")
 
@@ -57,4 +57,4 @@ function _k8sbuild() {
 
 }
 
-_k8sbuild $@
+_build $@

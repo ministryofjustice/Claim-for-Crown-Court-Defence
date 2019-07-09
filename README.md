@@ -16,17 +16,12 @@
 
 ## S3 for document storage
 
-AWS S3 the **default** document storage mechanism. It is stubbed out
-using webmock for all tests, but active in development mode.
+AWS S3, the **default** document storage mechanism, is stubbed out
+using webmock for all tests, and set to local storage in development mode.
+It is not possible to connect to the s3 buckets from you local machine
+as template-deploy uses AWS access credentials only applied on the server instances.
 
-```
-adp_aws_access_key    = <AWS access key>  # Required
-adp_secret_access_key = <AWS secret key>  # Required
-adp_bucket_name       = <AWS bucket name> # Optional
-```
-
-The bucket name will default to `moj_cbo_documents_#{Rails.env}` if
-`adp_bucket_name` is not set.
+See `config/aws.yaml` and note that because we use the [config](https://github.com/railsconfig/config) gem, secret settings like `Settings.aws.s3.access` require an envvar `SETTINGS__AWS__S3__ACCESS`.
 
 ## Setting up development environment
 
@@ -293,6 +288,26 @@ If true, VAT at the prevailing rate is automatically added to fees and expenses;
 The claim's provider has an attribute 'vat_registered' which governs whether or not VAT is applied.  In this case, VAT is automatically applied to fees.
 
 For both VAT registered and unregistered LGFS providers, a VAT amount field is provided for manual input of VAT
+
+### Kubernetes
+
+Config for kubernetes object can be found under `kubernetes_deploy/`. In addition binaries in `kubernetes_deploy/bin` have been generated from scripts in `kubernetes_deploy/scripts`.
+
+To regenerate binaries from their shell script you can do the following:
+
+```
+brew install shc
+shc -f kubernetes_deploy/scripts/job.sh -o kubernetes_deploy/bin/job
+shc -f kubernetes_deploy/scripts/cronjob.sh -o kubernetes_deploy/bin/cronjob
+shc -f kubernetes_deploy/scripts/build.sh -o kubernetes_deploy/bin/build
+shc -f kubernetes_deploy/scripts/deploy.sh -o kubernetes_deploy/bin/deploy
+```
+
+Binaries can then be used as you would expect (see scripts for details):
+```
+kubernetes_deploy/bin/build
+kubernetes_deploy/bin/deploy dev kubernetes-latest
+```
 
 ## Contributing
 

@@ -1,23 +1,24 @@
 #!/bin/sh
-function _k8scronjob() {
-  usage="_k8scronjob -- apply job in the specified environment
-  Usage: ./k8scronjob.sh job environment
+function _cronjob() {
+  usage="cronjob -- apply job in the specified environment
+  Usage: cronjob job environment [branch]
   Where:
     job [archive_stale|clean_ecr]
     environment [dev|staging|api-sandbox]
     branch [<branchname>-latest|commit-sha]
+
   Example:
     # apply changes to clean_ecr cronjob
-    ./k8scronjob.sh clean_ecr
+    cronjob clean_ecr
 
     # apply changes to archive_stale job in dev AND use pod based on latest master
-    ./k8scronjob.sh archive_stale dev latest
+    cronjob archive_stale dev latest
 
     # apply changes to archive_stale job in dev AND use pod based on latest for branch
-    ./k8scronjob.sh archive_stale staging kubernetes-latest
+    cronjob archive_stale staging kubernetes-latest
 
     # apply changes to archive_stale job in dev AND use pod based on <commit-sha>
-    ./k8scronjob.sh archive_stale dev <commit-sha>
+    cronjob archive_stale dev <commit-sha>
     "
 
   if [ $# -gt 3 ]
@@ -26,13 +27,15 @@ function _k8scronjob() {
     return 0
   fi
 
+  context='live-1'
+
   case "$1" in
     archive_stale)
       job=$1
       ;;
     clean_ecr)
       echo "Setting environment to dev as only this has the ECR secret..."
-      kubectl apply --context ${context} -n cccd-dev -f kubernetes_deploy/cron_jobs/${job}.yaml
+      kubectl apply --context ${context} -n cccd-dev -f kubernetes_deploy/cron_jobs/$1.yaml
       return $?
       ;;
     *)
@@ -59,7 +62,6 @@ function _k8scronjob() {
     current_version=$3
   fi
 
-  context='live-1'
   component=app
   docker_registry=754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd
   docker_image_tag=${docker_registry}:${component}-${current_version}
@@ -75,4 +77,4 @@ function _k8scronjob() {
 
 }
 
-_k8scronjob $@
+_cronjob $@

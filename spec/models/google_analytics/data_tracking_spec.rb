@@ -39,5 +39,49 @@ module GoogleAnalytics
         end
       end
     end
+
+    context '#tag_manager?' do
+      subject(:tag_manager) { described_class.tag_manager? }
+
+      context 'when the adapter is google_tag_manager' do
+        before { allow(described_class).to receive(:adapter_name).and_return(:gtm) }
+
+        it { is_expected.to be true }
+      end
+
+      context 'when the adapter is google_analytics' do
+        before { allow(described_class).to receive(:adapter_name).and_return(:ga) }
+
+        it { is_expected.to be false }
+      end
+
+      context 'when the adapter is nil' do
+        before { allow(described_class).to receive(:adapter).and_return(nil) }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context '#analytics?' do
+      subject(:analytics) { described_class.analytics? }
+
+      context 'when the adapter is google_tag_manager' do
+        before { allow(described_class).to receive(:adapter_name).and_return(:gtm) }
+
+        it { is_expected.to be false }
+      end
+
+      context 'when the adapter is google_analytics' do
+        before { allow(described_class).to receive(:adapter_name).and_return(:ga) }
+
+        it { is_expected.to be true }
+      end
+
+      context 'when the adapter is nil' do
+        before { allow(described_class).to receive(:adapter).and_return(nil) }
+
+        it { is_expected.to be false }
+      end
+    end
   end
 end

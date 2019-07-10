@@ -25,10 +25,10 @@ spec:
                   name: cccd-rds
                   key: url
             - name: SECRET_KEY_BASE
--              valueFrom:
--                secretKeyRef:
--                  name: cccd-secrets
--                  key: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: SECRET_KEY_BASE
             - name: AWS_REGION
               valueFrom:
                 secretKeyRef:

@@ -50,10 +50,6 @@ spec:
               value: 'api-sandbox'
             - name: RAILS_ENV
               value: 'production'
-            - name: DB_PORT
-              value: '5432'
-            - name: DB_ENGINE
-              value: 'postgres'
             - name: GRAPE_SWAGGER_ROOT_URL
               value: 'https://cccd-api-sandbox.apps.live-1.cloud-platform.service.justice.gov.uk'
             - name: GA_TRACKER_ID
@@ -166,7 +162,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: cccd-secrets
-                  key:  SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_USER
+                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_USER
             - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_ADVOCATE_ADMIN
               valueFrom:
                 secretKeyRef:

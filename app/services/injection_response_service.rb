@@ -10,11 +10,11 @@ class InjectionResponseService
     slack.build_injection_payload(@response)
     return failure(action: 'run!', uuid: @response['uuid']) unless @claim
 
-    injection_attempt = create_injection_attempt
+    injection_attempt
     if Settings.aws&.sqs&.response_queue_url
       slack.send_message!
     else
-      slack.send_message! unless injection_attempt.succeeded?
+      slack.send_message! unless ignorable?
     end
     true
   end
@@ -43,5 +43,17 @@ class InjectionResponseService
     InjectionAttempt.create(claim: @claim,
                             succeeded: injected?,
                             error_messages: error_messages)
+  end
+
+  def injection_attempt
+    @injection_attempt ||= create_injection_attempt
+  end
+
+  def ignorable?
+    injection_attempt.succeeded? || has_ignorable_error?
+  end
+
+  def has_ignorable_error?
+    error_messages['errors'].any? { |message| message[:error].include?('already exist') }
   end
 end

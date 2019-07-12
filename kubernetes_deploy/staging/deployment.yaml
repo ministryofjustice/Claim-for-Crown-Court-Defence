@@ -163,6 +163,16 @@ spec:
                 secretKeyRef:
                   name: cccd-messaging
                   key: secret_access_key
+            - name: SETTINGS__AWS__SQS__ACCESS
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-messaging
+                  key: access_key_id
+            - name: SETTINGS__AWS__SQS__SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-messaging
+                  key: secret_access_key
             - name: SETTINGS__AWS__SQS__RESPONSE_QUEUE_URL
               valueFrom:
                 secretKeyRef:

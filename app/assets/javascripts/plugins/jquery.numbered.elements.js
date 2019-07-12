@@ -61,7 +61,7 @@
       } else{
         items.each(function(idx, el) {
           $(el).find(self.settings.number).text('');
-          $(el).find(self.settings.action).css('display', 'none');
+          $(el).find(self.settings.action).css('display', 'block');
         });
       }
     }

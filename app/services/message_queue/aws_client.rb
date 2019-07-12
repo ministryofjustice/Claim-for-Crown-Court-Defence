@@ -2,8 +2,8 @@ module MessageQueue
   class AwsClient
     def initialize(queue)
       @sqs = Aws::SQS::Client.new(
-        access_key_id: Settings.aws.sns.access,
-        secret_access_key: Settings.aws.sns.secret,
+        access_key_id: Settings.aws.sqs.access,
+        secret_access_key: Settings.aws.sqs.secret,
         region: Settings.aws.region
       )
       begin

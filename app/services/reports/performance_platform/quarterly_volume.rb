@@ -72,7 +72,7 @@ module Reports
           context: 'COST_AND_USAGE',
           search_string: Settings.aws.billing.account
         )
-        JSON.parse(response.to_json)['dimension_values'].first['value']
+        JSON.parse(response.data.to_json)['dimension_values'].first['value']
       end
 
       def count_digital_claims

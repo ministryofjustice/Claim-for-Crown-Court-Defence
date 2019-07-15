@@ -26,7 +26,7 @@ module MessageQueue
     let(:stub_queue_response_failure) do
       Aws::SQS::Errors::NonExistentQueue.new(
         double('request'),
-        double('response', :status => 400, :body => '<foo/>')
+        double('response', :status => 400, :body => '<foo/>', :empty? => false)
       )
     end
     let(:body) do

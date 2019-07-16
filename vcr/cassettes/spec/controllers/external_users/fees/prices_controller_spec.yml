@@ -330,4 +330,45 @@ http_interactions:
       string: '{"amount":5142.87}'
     http_version: 
   recorded_at: Tue, 02 Apr 2019 10:19:13 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator-production.apps.cloud-platform-live-0.k8s.integration.dsd.io/api/v1/fee-schemes/2/calculate/?day=10&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=J&pages_of_prosecuting_evidence=0&ppe=1&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/0.2.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.15.8
+      Date:
+      - Tue, 16 Jul 2019 09:50:19 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '18'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Cookie
+      Allow:
+      - GET
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"amount":5142.87}'
+    http_version: 
+  recorded_at: Tue, 16 Jul 2019 09:50:19 GMT
 recorded_with: VCR 4.0.0

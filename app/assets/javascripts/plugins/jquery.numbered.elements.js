@@ -53,12 +53,14 @@
     updateNumbers: function() {
       var self = this;
       var items = $(this.settings.wrapper).find(this.settings.item + ':visible');
+      var removeText = 'Remove';
       if (items.length > 1) {
         items.each(function(idx, el) {
           $(el).find(self.settings.number).text(idx + 1);
+          $(el).find(self.settings.action).text(removeText);
           $(el).find(self.settings.action).css('display', 'block');
         });
-      } else{
+      } else {
         items.each(function(idx, el) {
           $(el).find(self.settings.number).text('');
           $(el).find(self.settings.action).css('display', 'block');

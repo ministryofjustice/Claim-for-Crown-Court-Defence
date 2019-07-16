@@ -29,4 +29,8 @@ class InjectionAttempt < ApplicationRecord
     messages = data&.fetch(:errors)&.map { |child| child[:error] }
     messages || []
   end
+
+  def notification_can_be_skipped?
+    succeeded? || error_messages.any? { |message| message.include?('already exist') }
+  end
 end

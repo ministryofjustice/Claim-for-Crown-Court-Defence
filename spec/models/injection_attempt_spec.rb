@@ -77,5 +77,27 @@ RSpec.describe InjectionAttempt, type: :model do
       expect(subject[:errors]).to eql error_messages['errors']
     end
   end
+
+  describe '#notification_can_be_skipped?' do
+    subject(:notification_can_be_skipped?) { injection_attempt.notification_can_be_skipped? }
+
+    context 'when the injection succeeded' do
+      let(:injection_attempt) { build(:injection_attempt) }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when the injection failed' do
+      let(:injection_attempt) { build(:injection_attempt, :with_errors) }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when the injection failed with ignorable errors' do
+      let(:injection_attempt) { build(:injection_attempt, :with_stat_excluded_errors) }
+
+      it { is_expected.to be true }
+    end
+  end
 end
 

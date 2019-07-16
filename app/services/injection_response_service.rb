@@ -14,7 +14,7 @@ class InjectionResponseService
     if Settings.aws&.sqs&.response_queue_url
       slack.send_message!
     else
-      slack.send_message! unless ignorable?
+      slack.send_message! unless injection_attempt.notification_can_be_skipped?
     end
     true
   end
@@ -47,13 +47,5 @@ class InjectionResponseService
 
   def injection_attempt
     @injection_attempt ||= create_injection_attempt
-  end
-
-  def ignorable?
-    injection_attempt.succeeded? || has_ignorable_error?
-  end
-
-  def has_ignorable_error?
-    error_messages['errors'].any? { |message| message[:error].include?('already exist') }
   end
 end

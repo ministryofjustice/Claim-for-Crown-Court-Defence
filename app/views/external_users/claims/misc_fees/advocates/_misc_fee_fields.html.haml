@@ -1,21 +1,21 @@
 - fee = present(f.object)
-.form-section.misc-fee-group.nested-fields.js-block.fx-do-init.fx-fee-group.fx-numberedList-item{data:{"type": "miscFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
+.form-section.misc-fee-group.nested-fields.js-block.fx-do-init.fx-fee-group.fx-numberedList-item{ data: { 'type': 'miscFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': 'FeeBlockCalculator' } }
   %h2.bold-medium
     = t('.misc_fee')
     %span.fx-numberedList-number
-    = link_to_remove_association t('.remove'), f, wrapper_class: 'misc-fee-group', class: "header-action fx-numberedList-action", style: "display: none;"
+    = link_to_remove_association t('.remove'), f, wrapper_class: 'misc-fee-group', class: 'header-action fx-numberedList-action', style: 'display: none;'
 
   .form-group
-    .fee-type.js-typeahead{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
+    .fee-type.js-typeahead{ class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type") }
       = f.label :fee_type_id_input,
         t('.fee_type'),
         { class: 'form-label-bold' }
 
-      %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
+      %a{ id: "misc_fee_#{@misc_fee_count}_fee_type" }
       = f.collection_select :fee_type_id,
        @claim.eligible_misc_fee_types, :id, :description,
-       {include_blank: ''.html_safe },
-       {class: 'form-control js-misc-fee-type js-fee-type js-fee-calculator-fee-type typeahead fx-misc-fee-calculation', style: 'width:100%'}
+       { include_blank: ''.html_safe },
+       { class: 'form-control js-misc-fee-type js-fee-type js-fee-calculator-fee-type typeahead fx-misc-fee-calculation', style: 'width:100%', 'aria-label': t('.fee_type') }
 
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 
@@ -23,7 +23,7 @@
                           label: t('.quantity'),
                           hint_text: t('.quantity_hint'),
                           hide_hint: true,
-                          input_classes:'quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity',
+                          input_classes: 'quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity',
                           input_type: 'number',
                           value: fee.quantity,
                           errors: @error_presenter
@@ -32,7 +32,7 @@
     .calculated-unit-fee
     = f.adp_text_field :rate,
         label: t('.rate'),
-        input_classes:'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
+        input_classes: 'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
         input_type: 'currency',
         errors: @error_presenter,
         input_readonly: f.object.price_calculated?,
@@ -61,6 +61,6 @@
       = f.fields_for :dates_attended do |date_attended|
         = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
 
-    = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', partial: 'date_attended_fields', data: {'association-insertion-method' => 'append', 'association-insertion-node' => 'div', 'association-insertion-traversal' => 'prev'}
+    = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', partial: 'date_attended_fields', data: { 'association-insertion-method': 'append', 'association-insertion-node': 'div', 'association-insertion-traversal': 'prev' }
 
   %hr/

@@ -1,12 +1,14 @@
-.mod-fees{
+.mod-fees {
   .grid-row {
+
     .column-one-third,
     .column-one-half,
-    .column-one-quarter{
+    .column-one-quarter {
       padding: 0;
     }
   }
 }
+
 select {
   -webkit-appearance: none;
   -webkit-border-radius: 0px;
@@ -16,11 +18,11 @@ select {
 
 }
 
-select::-ms-expand{
-  display:none;
+select::-ms-expand {
+  display: none;
 }
 
-.block-label input{
+.block-label input {
   width: auto;
 }
 
@@ -29,7 +31,8 @@ select::-ms-expand{
   margin-bottom: $gutter-half;
 }
 
-.breadcrumbs{
+.breadcrumbs {
+  margin-bottom: 0.75em;
 
   // Link styles
   a:link {
@@ -48,13 +51,14 @@ select::-ms-expand{
     color: $link-active-colour;
   }
 
-  li{
-    &:first-child{
-    border-left: 0;
-  }
-  background-image: none;
-  margin-left: 1em;
-  padding-left: 1em;
-  border-left: 1px solid black;
+  li {
+    &:first-child {
+      border-left: 0;
+    }
+
+    background-image: none;
+    margin-left: 1em;
+    padding-left: 1em;
+    border-left: 1px solid $black;
   }
 }

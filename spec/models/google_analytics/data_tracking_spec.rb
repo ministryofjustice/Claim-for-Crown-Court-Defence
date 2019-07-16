@@ -41,7 +41,6 @@ module GoogleAnalytics
     end
 
     describe 'type methods' do
-
       before do
         allow(described_class).to receive(:adapter).and_return('Adapter')
         allow(Rails).to receive(:env).and_return('production'.inquiry)

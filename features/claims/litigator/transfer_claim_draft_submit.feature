@@ -7,9 +7,10 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Given I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
-
+    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Litigator transfer fee'
+    Then the page should be accessible within "#content"
     Then I should be on the litigator new transfer claim page
     And I should see a page title "Enter fees for litigator transfer fees claim"
 
@@ -18,6 +19,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I select the transfer stage 'Before trial transfer'
     And I enter the transfer date '2015-05-21'
     And I select a case conclusion of 'Cracked'
+    Then the page should be accessible within "#content"
 
     And I click "Continue" in the claim form
 
@@ -27,6 +29,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I enter the case concluded date
 
     And I should see a page title "Enter case details for litigator transfer fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I should see a page title "Enter defendant details for litigator transfer fees claim"
@@ -43,6 +46,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I add another defendant, LGFS representation order and MAAT reference
 
     And I should see a page title "Enter defendant details for litigator transfer fees claim"
+    Then the page should be accessible within "#content"
     And I click "Continue" in the claim form
 
     And I select the offence category 'Handling stolen goods'
@@ -51,6 +55,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Given I insert the VCR cassette 'features/claims/litigator/transfer_fee_calculations'
 
     And I should see a page title "Enter offence details for litigator transfer fees claim"
+    Then the page should be accessible within "#content"
     And I click "Continue" in the claim form
 
     Then the transfer fee amount should be populated with '269.08'
@@ -62,6 +67,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Then the transfer fee amount should be populated with '274.37'
 
     And I should see a page title "Enter fees for litigator transfer fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     And I eject the VCR cassette
@@ -71,6 +77,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I add a litigator miscellaneous fee 'Costs judge application'
 
     And I should see a page title "Enter miscellaneous fees for litigator transfer fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
@@ -84,6 +91,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
     And I add an expense date for LGFS
+    Then the page should be accessible within "#content"
 
     When I click "Continue" in the claim form
     Then I should be in the 'Supporting evidence' form page
@@ -95,18 +103,23 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I add some additional information
 
     And I should see a page title "Upload supporting evidence for litigator transfer fees claim"
+    Then the page should be accessible within "#content"
     Then I click Submit to LAA
     And I should be on the check your claim page
     And I should see 'G: Other offences of dishonesty between £30,001 and £100,000'
 
     And I should see a page title "View claim summary for litigator transfer fees claim"
+    Then the page should be accessible within "#content"
     When I click "Continue"
     Then I should be on the certification page
 
     And I should see a page title "Certify and submit the litigator transfer fees claim"
+    Then the page should be accessible within "#content"
     And I click Certify and submit claim
     Then I should be on the claim confirmation page
+    Then the page should be accessible within "#content"
 
     When I click View your claims
     Then I should be on the your claims page
     And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£660.32'
+    Then the page should be accessible within "#content"

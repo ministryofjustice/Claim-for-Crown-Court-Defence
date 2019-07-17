@@ -828,6 +828,9 @@ GEM
     aws-sigv2 (1.0.1)
     aws-sigv4 (1.1.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
+    axe-matchers (2.5.0)
+      dumb_delegator (~> 0.8)
+      virtus (~> 1.0)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -955,6 +958,7 @@ GEM
       dry-equalizer (~> 0.2, >= 0.2.2)
       dry-inflector (~> 0.1, >= 0.1.2)
       dry-logic (~> 1.0)
+    dumb_delegator (0.8.0)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -1443,6 +1447,7 @@ DEPENDENCIES
   auto_strip_attributes (~> 2.5.0)
   awesome_print
   aws-sdk (~> 3)
+  axe-matchers (~> 2.5)
   better_errors
   binding_of_caller
   brakeman

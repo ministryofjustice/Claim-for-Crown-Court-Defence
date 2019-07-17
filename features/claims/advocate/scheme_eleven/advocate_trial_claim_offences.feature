@@ -4,8 +4,10 @@ Feature: Advocate creates a claim for a final fee trial case under scheme 11
   Scenario: Successful renders scheme 11 offences
     Given I am a signed in advocate
     And I am on the 'Your claims' page
+    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate final fee'
+    Then the page should be accessible within "#content"
     Then I should be on the new claim page
 
     And I enter a case number of 'A20181234'
@@ -14,10 +16,12 @@ Feature: Advocate creates a claim for a final fee trial case under scheme 11
     And I select the court 'Blackfriars'
 
     And I enter scheme 11 trial start and end dates
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, scheme 11 representation order and MAAT reference
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
 
@@ -35,3 +39,4 @@ Feature: Advocate creates a claim for a final fee trial case under scheme 11
     Then the offence should have moved from 'Band: 17.1' to 'Band: 8.1'
     And I search for a post agfs reform offence 'unauthorised air traffic controllers'
     Then the offence should have moved from 'Band: 17.1' to 'Band: 16.3'
+    Then the page should be accessible within "#content"

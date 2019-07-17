@@ -6,8 +6,10 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     Given I am a signed in advocate
     And I am on the 'Your claims' page
+    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate final fee'
+    Then the page should be accessible within "#content"
     Then I should be on the new claim page
 
     And I select the court 'Caernarfon'
@@ -15,12 +17,14 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I enter a case number of 'A20181234'
 
     And I should see a page title "Enter case details for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, scheme 10 representation order and MAAT reference
     And I add another defendant, scheme 10 representation order and MAAT reference
 
     And I should see a page title "Enter defendant details for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     Given I insert the VCR cassette 'features/claims/advocate/scheme_ten/fixed_fee_calculations'
@@ -42,6 +46,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     Then the summary total should equal '£468.00'
 
     And I should see a page title "Enter fixed fees for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
     And I should be in the 'Miscellaneous fees' form page
 
@@ -51,6 +56,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I eject the VCR cassette
 
     And I should see a page title "Enter miscellaneous fees for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     And I should be in the 'Travel expenses' form page
@@ -60,6 +66,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I add an expense date for scheme 10
 
     And I should see a page title "Enter travel expenses for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     And I should be in the 'Supporting evidence' form page
@@ -69,6 +76,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I add some additional information
 
     And I should see a page title "Upload supporting evidence for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click Submit to LAA
 
     And I should be on the check your claim page
@@ -89,17 +97,21 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I should see 'Bish bosh bash'
 
     And I should see a page title "View claim summary for advocate final fees claim"
+    Then the page should be accessible within "#content"
     When I click "Continue"
     Then I should be on the certification page
 
     When I check “I attended the main hearing”
 
     And I should see a page title "Certify and submit the advocate final fees claim"
+    Then the page should be accessible within "#content"
     And I click Certify and submit claim
 
     And I should see a page title "Thank you for submitting your claim"
     Then I should be on the claim confirmation page
+    Then the page should be accessible within "#content"
 
     When I click View your claims
     Then I should be on the your claims page
     And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£639.07'
+    Then the page should be accessible within "#content"

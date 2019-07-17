@@ -17,6 +17,7 @@ require 'sidekiq/testing'
 require_relative '../page_objects/base_page'
 require_relative '../../spec/vcr_helper'
 require_relative '../../spec/support/factory_helpers'
+require 'axe/cucumber/step_definitions'
 
 # enable forgery protection in feature tests so as not to obscure
 # loss of signed in user

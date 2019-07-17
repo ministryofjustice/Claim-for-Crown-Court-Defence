@@ -6,14 +6,17 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     Given I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
+    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Litigator interim fee'
+    Then the page should be accessible within "#content"
     Then I should be on the litigator new interim claim page
 
     When I choose the supplier number '1A222Z'
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft
@@ -27,11 +30,13 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     And I enter defendant, LGFS representation order and MAAT reference
     And I add another defendant, LGFS representation order and MAAT reference
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
 
     And I select the offence category 'Handling stolen goods'
     And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
+    Then the page should be accessible within "#content"
 
     Given I insert the VCR cassette 'features/claims/litigator/interim_warrant_fee_calculations'
 
@@ -43,6 +48,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I enter '2016-01-01' as the warrant issued date
     And I enter '2016-04-01' as the warrant executed date
     And I enter '680.39' in the interim fee total field
+    Then the page should be accessible within "#content"
 
     And I eject the VCR cassette
 
@@ -52,6 +58,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
     And I add an expense date for LGFS
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
 
@@ -59,6 +66,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I check the boxes for the uploaded documents
     And I check the evidence boxes for 'A copy of the indictment'
     And I add some additional information
+    Then the page should be accessible within "#content"
 
     And I click Submit to LAA
     Then I should be on the check your claim page
@@ -67,8 +75,11 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     Then I should be on the certification page
 
     And I click Certify and submit claim
+    Then the page should be accessible within "#content"
     Then I should be on the claim confirmation page
+    Then the page should be accessible within "#content"
 
     When I click View your claims
     Then I should be on the your claims page
     And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£721.86'
+    Then the page should be accessible within "#content"

@@ -28,4 +28,3 @@ Feature: A user can provide feedback and report bugs
     Then I expect ZendeskSender to receive a description with an email
     And I see confirmation that my 'feedback' was received
     And I should be on the sign in page
-

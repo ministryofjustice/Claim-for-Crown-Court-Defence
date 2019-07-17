@@ -10,3 +10,4 @@ Feature: This feature runs first to sanitize the database.
     Given I visit "/"
     Then I should see 'Sign in'
     Then I should see a page title "Sign in to claim for Crown court defence"
+    Then the page should be accessible within "#content"

@@ -4,8 +4,10 @@ Feature: Advocate creates, saves, edits claims and expenses
   Scenario: Travel expenses page
     Given I am a signed in advocate
     And I am on the 'Your claims' page
+    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate final fee'
+    Then the page should be accessible within "#content"
     Then I should be on the new claim page
 
     And I enter a case number of 'A20181234'
@@ -14,6 +16,7 @@ Feature: Advocate creates, saves, edits claims and expenses
     And I enter scheme 10 trial start and end dates
 
     And I should see a page title "Enter case details for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft
@@ -59,3 +62,4 @@ Feature: Advocate creates, saves, edits claims and expenses
     Then I should see '20p'
     Then I should see '873'
     Then I should see '£174.60'
+    Then the page should be accessible within "#content"

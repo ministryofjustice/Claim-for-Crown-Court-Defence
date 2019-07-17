@@ -7,8 +7,10 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     Given I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
+    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Litigator interim fee'
+    Then the page should be accessible within "#content"
     Then I should be on the litigator new interim claim page
 
     When I choose the supplier number '1A222Z'
@@ -18,6 +20,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I enter a case number of 'A20161234'
 
     And I should see a page title "Enter case details for litigator interim fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I should see a page title "Enter defendant details for litigator interim fees claim"
@@ -34,6 +37,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I add another defendant, LGFS representation order and MAAT reference
 
     And I should see a page title "Enter defendant details for litigator interim fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     And I select the offence category 'Handling stolen goods'
@@ -42,6 +46,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     Given I insert the VCR cassette 'features/claims/litigator/interim_fee_calculations'
 
     And I should see a page title "Enter offence details for litigator interim fees claim"
+    Then the page should be accessible within "#content"
     When I click "Continue" in the claim form
 
     And I should be in the 'Interim fee' form page
@@ -67,6 +72,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I add some additional information
 
     And I should see a page title "Upload supporting evidence for litigator interim fees claim"
+    Then the page should be accessible within "#content"
     And I click Submit to LAA
     Then I should be on the check your claim page
     And I should see 'Blackfriars'
@@ -96,13 +102,17 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I should see 'Bish bosh bash'
 
     And I should see a page title "View claim summary for litigator interim fees claim"
+    Then the page should be accessible within "#content"
     When I click "Continue"
     Then I should be on the certification page
 
     And I should see a page title "Certify and submit the litigator interim fees claim"
+    Then the page should be accessible within "#content"
     And I click Certify and submit claim
     Then I should be on the claim confirmation page
+    Then the page should be accessible within "#content"
 
     When I click View your claims
     Then I should be on the your claims page
     And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£414.48'
+    Then the page should be accessible within "#content"

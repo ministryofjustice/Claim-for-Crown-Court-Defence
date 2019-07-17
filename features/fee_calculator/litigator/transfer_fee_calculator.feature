@@ -7,8 +7,10 @@ Feature: litigator completes transfer fee page using calculator
     Given I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
+    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Litigator transfer fee'
+    Then the page should be accessible within "#content"
     Then I should be on the litigator new transfer claim page
 
     When I choose the litigator type option 'New'
@@ -16,6 +18,7 @@ Feature: litigator completes transfer fee page using calculator
     And I select the transfer stage 'During trial transfer'
     And I enter the transfer date '2016-04-01'
     And I select a case conclusion of 'Trial'
+    Then the page should be accessible within "#content"
 
     And I click "Continue" in the claim form
 
@@ -23,6 +26,7 @@ Feature: litigator completes transfer fee page using calculator
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date
+    Then the page should be accessible within "#content"
 
     And I click "Continue" in the claim form
 
@@ -30,12 +34,14 @@ Feature: litigator completes transfer fee page using calculator
     And I should be in the 'Defendant details' form page
 
     And I enter defendant, LGFS representation order and MAAT reference
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
 
     And I select the offence category 'Murder'
     Then the offence class list is set to 'A: Homicide and related grave offences'
+    Then the page should be accessible within "#content"
 
     Given I insert the VCR cassette 'features/fee_calculator/litigator/transfer_fee_calculator'
 
@@ -59,6 +65,7 @@ Feature: litigator completes transfer fee page using calculator
     And I goto claim form step 'offence details'
     And I select the offence category 'Abandonment of children under two'
     Then the offence class list is set to 'C: Lesser offences involving violence or damage and less serious drug offences'
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
     And I should be in the 'Transfer details' form page
@@ -72,6 +79,7 @@ Feature: litigator completes transfer fee page using calculator
     And I choose the elected case option 'No'
     And I select the transfer stage 'Up to and including PCMH transfer'
     And I select a case conclusion of 'Guilty plea'
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
     And I goto claim form step 'transfer fees'
@@ -84,16 +92,19 @@ Feature: litigator completes transfer fee page using calculator
     # ppe impact for guilty plea
     When I enter '41' in the PPE total graduated fee field
     Then the transfer fee amount should be populated with '445.57'
+    Then the page should be accessible within "#content"
 
     # defendant uplift impact
     And I goto claim form step 'defendants'
     And I add another defendant, LGFS representation order and MAAT reference
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
 
     And I goto claim form step 'transfer fees'
     Then the transfer fee amount should be populated with '531.49'
+    Then the page should be accessible within "#content"
 
     And I eject the VCR cassette
 
@@ -101,3 +112,4 @@ Feature: litigator completes transfer fee page using calculator
     And I should be in the 'Miscellaneous fees' form page
 
     And the transfer fee should have its price_calculated value set to true
+    Then the page should be accessible within "#content"

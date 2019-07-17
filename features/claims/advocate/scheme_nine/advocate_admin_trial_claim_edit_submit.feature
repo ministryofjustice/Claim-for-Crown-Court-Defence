@@ -6,8 +6,10 @@ Feature: Advocate admin submits a claim for a Trial case
     Given I am a signed in advocate admin
     And There are other advocates in my provider
     And I am on the 'Your claims' page
+    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate final fee'
+    Then the page should be accessible within "#content"
     Then I should be on the new claim page
 
     When I choose 'Doe, John (AC135)' as the instructed advocate
@@ -17,6 +19,7 @@ Feature: Advocate admin submits a claim for a Trial case
     Then I should see retrial fields
     And I select a case type of 'Trial'
     And I enter scheme 9 trial start and end dates
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -25,6 +28,7 @@ Feature: Advocate admin submits a claim for a Trial case
 
     Given I am later on the Your claims page
     Then Claim 'A20161234' should be listed with a status of 'Draft'
+    Then the page should be accessible within "#content"
 
     When I click the claim 'A20161234'
     And I edit the claim's defendants
@@ -35,10 +39,12 @@ Feature: Advocate admin submits a claim for a Trial case
     And I should see a page title "Enter defendant details for advocate final fees claim"
     Then I click "Continue" in the claim form
     And I select the offence category 'Activities relating to opium'
+    Then the page should be accessible within "#content"
 
     Given I insert the VCR cassette 'features/claims/advocate/scheme_nine/advocate_admin_trial_claim_edit_submit'
 
     And I should see a page title "Enter offence details for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     And I should see the advocate categories 'Junior alone,Led junior,Leading junior,QC'
@@ -50,6 +56,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And I select the 'Number of cases uplift' basic fee with quantity of 1 with case numbers
 
     And I should see a page title "Enter graduated fees for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended
@@ -59,6 +66,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And I eject the VCR cassette
 
     And I should see a page title "Enter miscellaneous fees for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     And I select an expense type "Hotel accommodation"
@@ -68,6 +76,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And I add an expense date for scheme 9
 
     And I should see a page title "Enter travel expenses for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
     And I upload the document 'judicial_appointment_order.pdf'
     And I should see 10 evidence check boxes
@@ -75,10 +84,11 @@ Feature: Advocate admin submits a claim for a Trial case
     And I add some additional information
 
     And I should see a page title "Upload supporting evidence for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click Submit to LAA
     And I should be on the check your claim page
+    Then the page should be accessible within "#content"
 
-    Then I should be on the check your claim page
     And I should see 'Blackfriars'
     And I should see 'A20161234'
     And I should see 'Trial'
@@ -98,15 +108,19 @@ Feature: Advocate admin submits a claim for a Trial case
     And I should see 'Bish bosh bash'
 
     And I should see a page title "View claim summary for advocate final fees claim"
+    Then the page should be accessible within "#content"
     When I click "Continue"
     Then I should be on the certification page
 
     When I check “I attended the main hearing”
 
     And I should see a page title "Certify and submit the advocate final fees claim"
+    Then the page should be accessible within "#content"
     And I click Certify and submit claim
     Then I should be on the claim confirmation page
+    Then the page should be accessible within "#content"
 
     When I click View your claims
     Then I should be on the your claims page
     And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£2,097.07'
+    Then the page should be accessible within "#content"

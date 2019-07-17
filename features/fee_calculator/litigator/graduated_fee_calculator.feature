@@ -7,8 +7,10 @@ Feature: litigator completes graduated fee page using calculator
     Given I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
+    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Litigator final fee'
+    Then the page should be accessible within "#content"
     Then I should be on the litigator new claim page
 
     When I choose the supplier number '1A222Z'
@@ -17,16 +19,19 @@ Feature: litigator completes graduated fee page using calculator
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2018-04-01'
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, LGFS representation order and MAAT reference
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
 
     And I select the offence category 'Abandonment of children under two'
     Then the offence class list is set to 'C: Lesser offences involving violence or damage and less serious drug offences'
+    Then the page should be accessible within "#content"
 
     Given I insert the VCR cassette 'features/fee_calculator/litigator/graduated_fee_calculator'
 
@@ -44,6 +49,7 @@ Feature: litigator completes graduated fee page using calculator
     And I goto claim form step 'offence details'
     And I select the offence category 'Murder'
     Then the offence class list is set to 'A: Homicide and related grave offences'
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
     And I should be in the 'Graduated fee' form page
@@ -52,6 +58,7 @@ Feature: litigator completes graduated fee page using calculator
     # case type impact
     And I goto claim form step 'case details'
     And I select a case type of 'Trial'
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
     And I goto claim form step 'graduated fees'
@@ -67,18 +74,21 @@ Feature: litigator completes graduated fee page using calculator
     # ppe impact for trials (boundary 96 plus for 3 day trial)
     When I enter '96' in the PPE total graduated fee field
     Then the graduated fee amount should be populated with '1732.86'
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
 
     # defendant uplift impact
     And I goto claim form step 'defendants'
     And I add another defendant, LGFS representation order and MAAT reference
+    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
 
     And I goto claim form step 'graduated fees'
     And the graduated fee amount should be populated with '2079.43'
+    Then the page should be accessible within "#content"
 
     And I eject the VCR cassette
 
@@ -86,3 +96,4 @@ Feature: litigator completes graduated fee page using calculator
     And I should be in the 'Miscellaneous fees' form page
 
     And the graduated fee should have its price_calculated value set to true
+    Then the page should be accessible within "#content"

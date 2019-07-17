@@ -17,6 +17,7 @@ Feature: Case worker fully authorises claim
     And I click the authorised radio button
     And I click update
     Then the status at top of page should be Authorised
+    Then the page should be accessible within "#content"
 
     When I click your claims
     Then the claim I've just updated is no longer in the list

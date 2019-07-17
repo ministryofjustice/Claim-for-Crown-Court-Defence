@@ -102,25 +102,26 @@ group :development, :devunicorn, :test do
 end
 
 group :test do
-  gem 'capybara', '~> 3.29'
+  gem 'axe-matchers', '~> 2.5'
   gem 'capybara-selenium'
-  gem 'webdrivers', '~> 4.1', require: false
+  gem 'capybara', '~> 3.29'
   gem 'climate_control'
   gem 'codeclimate-test-reporter', require: false
   gem 'cucumber-rails', '~> 2.0.0', require: false
   gem 'database_cleaner'
+  gem 'i18n-tasks'
   gem 'json_spec'
   gem 'kaminari-rspec'
   gem 'launchy', '~> 2.4.3'
   gem 'rails-controller-testing'
   gem 'rspec-mocks'
   gem 'shoulda-matchers', '>= 4.0.0.rc1'
-  gem 'simplecov', require: false
   gem 'simplecov-csv', require: false
   gem 'simplecov-multi', require: false
-  gem 'i18n-tasks'
+  gem 'simplecov', require: false
+  gem 'test-prof'
   gem 'timecop'
   gem 'vcr'
+  gem 'webdrivers', '~> 4.1', require: false
   gem 'webmock'
-  gem 'test-prof'
 end

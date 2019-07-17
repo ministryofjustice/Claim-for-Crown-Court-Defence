@@ -5,8 +5,10 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
   Scenario: Successful submission
     Given I am a signed in advocate
     And I am on the 'Your claims' page
+    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate final fee'
+    Then the page should be accessible within "#content"
     Then I should be on the new claim page
 
     And I enter a case number of 'A20181234'
@@ -15,6 +17,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I enter scheme 10 trial start and end dates
 
     And I should see a page title "Enter case details for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft
@@ -34,6 +37,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
 
     And I search for the scheme 10 offence 'Absconding from lawful custody'
     Given I insert the VCR cassette 'features/claims/advocate/scheme_ten/trial_claim_edit'
+    Then the page should be accessible within "#content"
 
     When I select the first search result
     Then I should be in the 'Graduated fees' form page
@@ -48,6 +52,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I select the 'Number of cases uplift' basic fee with quantity of 1 with case numbers
 
     And I should see a page title "Enter graduated fees for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended '2018-04-01'
@@ -66,6 +71,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I add an expense date for scheme 10
 
     And I should see a page title "Enter travel expenses for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     And I upload the document 'judicial_appointment_order.pdf'
@@ -74,6 +80,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I add some additional information
 
     And I should see a page title "Upload supporting evidence for advocate final fees claim"
+    Then the page should be accessible within "#content"
     Then I click Submit to LAA
 
     Then I should be on the check your claim page
@@ -97,17 +104,21 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I should see 'Bish bosh bash'
 
     And I should see a page title "View claim summary for advocate final fees claim"
+    Then the page should be accessible within "#content"
     When I click "Continue"
     Then I should be on the certification page
 
     When I check “I attended the main hearing”
 
     And I should see a page title "Certify and submit the advocate final fees claim"
+    Then the page should be accessible within "#content"
     And I click Certify and submit claim
 
     Then I should be on the claim confirmation page
     And I should see a page title "Thank you for submitting your claim"
+    Then the page should be accessible within "#content"
 
     When I click View your claims
     Then I should be on the your claims page
     And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£1,009.87'
+    Then the page should be accessible within "#content"

@@ -6,8 +6,11 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
 
     Given I am a signed in advocate
     And I am on the 'Your claims' page
+    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate supplementary fee'
+
+    Then the page should be accessible within "#content"
     Then I should be on the advocate supplementary new claim page
 
     When I enter a providers reference of 'AGFS supplementary fee test'
@@ -15,6 +18,7 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
     And I enter a case number of 'A20191234'
 
     And I should see a page title "Enter case details for advocate supplementary fee claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     And I enter defendant, scheme 11 representation order and MAAT reference
@@ -23,22 +27,23 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
     Given I insert the VCR cassette 'features/claims/advocate/scheme_eleven/supplementary_fee_calculations'
 
     And I should see a page title "Enter defendant details for advocate supplementary fee claim"
+    Then the page should be accessible within "#content"
     When I click "Continue" in the claim form
     Then I should be in the 'Miscellaneous fees' form page
     And I should see the advocate categories 'Junior,Leading junior,QC'
     And the following miscellaneous fee checkboxes should exist:
-      | section | fee_description |
-      | miscellaneous | Confiscation hearings (half day uplift) |
-      | miscellaneous | Confiscation hearings (half day) |
+      | section       | fee_description                          |
+      | miscellaneous | Confiscation hearings (half day uplift)  |
+      | miscellaneous | Confiscation hearings (half day)         |
       | miscellaneous | Confiscation hearings (whole day uplift) |
-      | miscellaneous | Confiscation hearings (whole day) |
-      | miscellaneous | Deferred sentence hearings |
-      | miscellaneous | Deferred sentence hearings uplift |
-      | miscellaneous | Plea and trial preparation hearing |
-      | miscellaneous | Special preparation fee |
-      | miscellaneous | Standard appearance fee |
-      | miscellaneous | Standard appearance fee uplift |
-      | miscellaneous | Wasted preparation fee |
+      | miscellaneous | Confiscation hearings (whole day)        |
+      | miscellaneous | Deferred sentence hearings               |
+      | miscellaneous | Deferred sentence hearings uplift        |
+      | miscellaneous | Plea and trial preparation hearing       |
+      | miscellaneous | Special preparation fee                  |
+      | miscellaneous | Standard appearance fee                  |
+      | miscellaneous | Standard appearance fee uplift           |
+      | miscellaneous | Wasted preparation fee                   |
 
     When I select an advocate category of 'Junior'
     And I choose the 'Confiscation hearings (half day uplift)' miscellaneous fee with quantity of '1'
@@ -48,12 +53,13 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
     And I choose the 'Wasted preparation fee' miscellaneous fee with quantity of '1'
 
     Then the following supplementary fee details should exist:
-      | section | fee_description | rate | hint | help |
-      | miscellaneous | Confiscation hearings (half day uplift) | 52.40 | Number of additional defendants | true |
-      | miscellaneous | Confiscation hearings (half day) | 131.00 | Number of half days | true |
-      | miscellaneous | Standard appearance fee | 91.00 | Number of days | true |
-      | miscellaneous | Standard appearance fee uplift | 36.40 | Number of additional defendants | true |
-      | miscellaneous | Wasted preparation fee | 39.39 | Number of hours | true |
+      | section       | fee_description                         | rate   | hint                            | help |
+      | miscellaneous | Confiscation hearings (half day uplift) | 52.40  | Number of additional defendants | true |
+      | miscellaneous | Confiscation hearings (half day)        | 131.00 | Number of half days             | true |
+      | miscellaneous | Standard appearance fee                 | 91.00  | Number of days                  | true |
+      | miscellaneous | Standard appearance fee uplift          | 36.40  | Number of additional defendants | true |
+      | miscellaneous | Wasted preparation fee                  | 39.39  | Number of hours                 | true |
+    Then the page should be accessible within "#content"
 
     And I eject the VCR cassette
 
@@ -67,6 +73,7 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
     And I add an expense net amount for "34.56"
 
     And I should see a page title "Enter travel expenses for advocate supplementary fee claim"
+    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     When I upload the document 'judicial_appointment_order.pdf'
@@ -75,57 +82,62 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
     And I add some additional information
 
     And I should see a page title "Upload supporting evidence for advocate msupplementary fee claim"
+    Then the page should be accessible within "#content"
     When I click "Continue" in the claim form
     And I should be on the check your claim page
 
     Then I should see a page title "View claim summary for advocate supplementary fee claim"
     And the following check your claim details should exist:
-      | section | prompt | value |
+      | section              | prompt      | value      |
       | case-details-section | Crown court | Caernarfon |
-      | case-details-section | Case number | A20191234 |
+      | case-details-section | Case number | A20191234  |
 
     And I should not see 'Case type'
 
     And the following check your claim fee details should exist:
-      | section | row | prompt | value |
-      | miscellaneous-fees-section | 1 | Type of fee | Confiscation hearings (half day) |
-      | miscellaneous-fees-section | 1 | Quantity | 2 |
-      | miscellaneous-fees-section | 1 | Rate | 131.00 |
-      | miscellaneous-fees-section | 1 | Net amount | 262.00 |
-      | miscellaneous-fees-section | 2 | Type of fee | Confiscation hearings (half day uplift) |
-      | miscellaneous-fees-section | 2 | Quantity | 1 |
-      | miscellaneous-fees-section | 2 | Rate | 52.40 |
-      | miscellaneous-fees-section | 2 | Net amount | 52.40 |
-      | miscellaneous-fees-section | 3 | Type of fee | Standard appearance fee uplift|
-      | miscellaneous-fees-section | 3 | Quantity | 1 |
-      | miscellaneous-fees-section | 3 | Rate | 36.40 |
-      | miscellaneous-fees-section | 3 | Net amount | 36.40 |
-      | miscellaneous-fees-section | 4 | Type of fee | Wasted preparation fee |
-      | miscellaneous-fees-section | 4 | Quantity | 1 |
-      | miscellaneous-fees-section | 4 | Rate | 39.39 |
-      | miscellaneous-fees-section | 4 | Net amount | 39.39 |
-      | miscellaneous-fees-section | 5 | Type of fee | Standard appearance fee |
-      | miscellaneous-fees-section | 5 | Quantity | 2 |
-      | miscellaneous-fees-section | 5 | Rate | 91.00 |
-      | miscellaneous-fees-section | 5 | Net amount | 182.00 |
+      | section                    | row | prompt      | value                                   |
+      | miscellaneous-fees-section | 1   | Type of fee | Confiscation hearings (half day)        |
+      | miscellaneous-fees-section | 1   | Quantity    | 2                                       |
+      | miscellaneous-fees-section | 1   | Rate        | 131.00                                  |
+      | miscellaneous-fees-section | 1   | Net amount  | 262.00                                  |
+      | miscellaneous-fees-section | 2   | Type of fee | Confiscation hearings (half day uplift) |
+      | miscellaneous-fees-section | 2   | Quantity    | 1                                       |
+      | miscellaneous-fees-section | 2   | Rate        | 52.40                                   |
+      | miscellaneous-fees-section | 2   | Net amount  | 52.40                                   |
+      | miscellaneous-fees-section | 3   | Type of fee | Standard appearance fee uplift          |
+      | miscellaneous-fees-section | 3   | Quantity    | 1                                       |
+      | miscellaneous-fees-section | 3   | Rate        | 36.40                                   |
+      | miscellaneous-fees-section | 3   | Net amount  | 36.40                                   |
+      | miscellaneous-fees-section | 4   | Type of fee | Wasted preparation fee                  |
+      | miscellaneous-fees-section | 4   | Quantity    | 1                                       |
+      | miscellaneous-fees-section | 4   | Rate        | 39.39                                   |
+      | miscellaneous-fees-section | 4   | Net amount  | 39.39                                   |
+      | miscellaneous-fees-section | 5   | Type of fee | Standard appearance fee                 |
+      | miscellaneous-fees-section | 5   | Quantity    | 2                                       |
+      | miscellaneous-fees-section | 5   | Rate        | 91.00                                   |
+      | miscellaneous-fees-section | 5   | Net amount  | 182.00                                  |
 
     And I should not see 'Offence details'
 
     Then the following check your claim details should exist:
-      | section | prompt | value |
-      | supporting-evidence-section | Supporting evidence | judicial_appointment_order.pdf |
+      | section                     | prompt                        | value                                      |
+      | supporting-evidence-section | Supporting evidence           | judicial_appointment_order.pdf             |
       | supporting-evidence-section | Supporting evidence checklist | Order in respect of judicial apportionment |
 
+    Then the page should be accessible within "#content"
     When I click "Continue"
     Then I should be on the certification page
 
     When I check “I attended the main hearing”
 
     And I should see a page title "Certify and submit the advocate supplementary fees claim"
+    Then the page should be accessible within "#content"
     And I click Certify and submit claim
     Then I should be on the claim confirmation page
 
     And I should see a page title "Thank you for submitting your claim"
+    Then the page should be accessible within "#content"
     When I click View your claims
     Then I should be on the your claims page
     And Claim 'A20191234' should be listed with a status of 'Submitted' and a claimed amount of '£728.10'
+    Then the page should be accessible within "#content"

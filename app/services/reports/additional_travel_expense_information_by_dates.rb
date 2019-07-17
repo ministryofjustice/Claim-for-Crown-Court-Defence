@@ -1,7 +1,7 @@
 module Reports
   class AdditionalTravelExpenseInformationByDates
     NAME = 'additional_travel_expense_information'.freeze
-    COLUMNS = %w[claim_id	travel_expense_additional_information].freeze
+    COLUMNS = %w[claim_id travel_expense_additional_information].freeze
 
     def self.call(options = {})
       new(options).call

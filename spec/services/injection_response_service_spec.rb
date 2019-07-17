@@ -9,7 +9,8 @@ RSpec.describe InjectionResponseService, slack_bot: true do
   let(:invalid_json) { { "errors": [], 'claim_id': '1234567', "messages":[] } }
   let(:valid_json_with_invalid_uuid) { { "from":"external application", "errors":[], "uuid":'b08cfd61-9999-8888-7777-651477183efb', "messages":[{'message':'Claim injected successfully.'}]} }
   let(:valid_json_on_success) { { "from":"external application", "errors":[], "uuid":claim.uuid, "messages":[{'message':'Claim injected successfully.'}]} }
-  let(:valid_json_on_failure) { { "from":"external application", "errors":[ {'error':"No defendant found for Rep Order Number: '123456432'."}, {'error':"Another injection error."} ],"uuid":claim.uuid,"messages":[] } }
+  let(:valid_json_on_failure) { { "from":"external application", "errors":[ {'error':"No defendant found for Rep Order Number: '123456432'."}, {'error':error_message} ],"uuid":claim.uuid,"messages":[] } }
+  let(:error_message) { "Another injection error." }
 
 shared_examples "creates injection attempts" do
   it 'returns true' do
@@ -114,6 +115,14 @@ end
           expect(injection_attempt.error_messages).to be_present
           expect(injection_attempt.error_messages).to be_an Array
           expect(injection_attempt.error_messages).to include("No defendant found for Rep Order Number: '123456432'.","Another injection error.")
+        end
+      end
+
+      context 'with a known, ignorable, error' do
+        let(:error_message) { 'A case already exists for these case details.' }
+
+        it 'does not send a slack message' do
+          expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).not_to have_been_made
         end
       end
     end

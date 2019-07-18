@@ -29,7 +29,7 @@ Feature: Advocate can add and remove miscelleaneous fees
 
     Then I click "Continue" in the claim form
 
-    Given I insert the VCR cassette 'features/claims/advocate/scheme_eleven/fixed_fee_calculations'
+    Given I insert the VCR cassette 'features/claims/advocate/scheme_eleven/misc_fee_removal'
 
     And I should see the advocate categories 'Junior,Leading junior,QC'
     And I select an advocate category of 'Junior'

@@ -271,6 +271,9 @@ Then(/^the '(.*?)' fixed fee rate should be in the calculator error state/) do |
   expect(fee_block.text).to match /The calculated rate is unavailable, please enter manually/
 end
 
+Then("I click last remove link") do
+  @claim_form_page.find_all('.remove_fields').last.click
+end
 
 Then("I amend the fixed fee {string} to have a quantity of {string}") do |fee_type, quantity|
   fixed_fee = @claim_form_page.fixed_fees.fee_block_for(fee_type)

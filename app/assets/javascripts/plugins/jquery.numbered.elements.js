@@ -52,20 +52,17 @@
     },
     updateNumbers: function() {
       var self = this;
+      var number = self.settings.number;
+      var action = self.settings.action;
       var items = $(this.settings.wrapper).find(this.settings.item + ':visible');
-      var removeText = 'Remove';
-      if (items.length > 1) {
-        items.each(function(idx, el) {
-          $(el).find(self.settings.number).text(idx + 1);
-          $(el).find(self.settings.action).text(removeText);
-          $(el).find(self.settings.action).css('display', 'block');
-        });
-      } else {
-        items.each(function(idx, el) {
-          $(el).find(self.settings.number).text('');
-          $(el).find(self.settings.action).css('display', 'block');
-        });
-      }
+
+      items.each(function(idx, el) {
+        $(el).find(action).css('display', 'block');
+        $(el).find(number).text('');
+        if (items.length > 1) {
+          $(el).find(number).text(idx + 1);
+        }
+      });
     }
   });
 

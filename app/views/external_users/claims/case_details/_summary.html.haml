@@ -148,7 +148,7 @@
               %th{ scope: 'row' }
                 = t('retrial_concluded_at', scope: retrial_detail_fields)
               %td
-                %time{ 'aria-label': claim&.retrial_concluded_at&.strftim(Settings.date_format_label), datetime: claim&.retrial_concluded_at&.strftime(Settings.datetime_attribute) }
+                %time{ 'aria-label': claim&.retrial_concluded_at&.strftime(Settings.date_format_label), datetime: claim&.retrial_concluded_at&.strftime(Settings.datetime_attribute) }
                 = claim&.retrial_concluded_at&.strftime(Settings.date_format)
             %tr
               %th{ scope: 'row' }

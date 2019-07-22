@@ -31,7 +31,7 @@ function _build() {
   docker build \
           --build-arg VERSION_NUMBER=$docker_registry_tag \
           --build-arg BUILD_DATE=$(date +%Y-%m-%dT%H:%M:%S%z) \
-          --build-arg COMMIT_ID=$version \
+          --build-arg COMMIT_ID=$current_version \
           --build-arg BUILD_TAG=$docker_build_tag \
           --pull \
           --tag ${docker_registry_tag} \

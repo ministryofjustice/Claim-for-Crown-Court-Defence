@@ -1,4 +1,17 @@
 .idea/**/
+.DS_Store
+
+public/system/documents
+public/paperclip
+public/uploads
+public/assets/test/*
+public/assets/test
+public/assets/dev/*
+public/assets/dev
+
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml
 
 log/*
 
@@ -30,7 +43,11 @@ vcr
 .circleci
 .codeclimate.yml
 
+# dump files
+dump.rdb
+*_dump.psql
+*_dump.psql.gz
+
 Brewfile
 Guardfile
 README.md
-dump.rdb

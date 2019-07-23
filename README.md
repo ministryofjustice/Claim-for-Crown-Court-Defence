@@ -291,22 +291,14 @@ For both VAT registered and unregistered LGFS providers, a VAT amount field is p
 
 ### Kubernetes
 
-Config for kubernetes object can be found under `kubernetes_deploy/`. In addition binaries in `kubernetes_deploy/bin` have been generated from scripts in `kubernetes_deploy/scripts`.
+Config for kubernetes object can be found under `kubernetes_deploy/`. In addition scripts in `kubernetes_deploy/scripts` are available for the most common tasks, namely build, deploy, job, cronjob.
 
-To regenerate binaries from their shell script you can do the following:
+Thes can be used as any script once you have correct access to AWS:
 
 ```
-brew install shc
-shc -f kubernetes_deploy/scripts/job.sh -o kubernetes_deploy/bin/job
-shc -f kubernetes_deploy/scripts/cronjob.sh -o kubernetes_deploy/bin/cronjob
-shc -f kubernetes_deploy/scripts/build.sh -o kubernetes_deploy/bin/build
-shc -f kubernetes_deploy/scripts/deploy.sh -o kubernetes_deploy/bin/deploy
-```
-
-Binaries can then be used as you would expect (see scripts for details):
-```
-kubernetes_deploy/bin/build
-kubernetes_deploy/bin/deploy dev kubernetes-latest
+# build and deploy master to dev
+kubernetes_deploy/scripts/build.sh
+kubernetes_deploy/scripts/deploy.sh dev latest
 ```
 
 ## Contributing

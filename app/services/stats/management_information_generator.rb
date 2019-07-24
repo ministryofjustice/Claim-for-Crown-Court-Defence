@@ -54,7 +54,7 @@ module Stats
 
       rescue StandardError => e
         LogStuff.send(:error, "Report generation error has occured:")
-        LogStuff.send(:error, "#{e.message}")
+        LogStuff.send(:error, "#{e.class} - #{e.message}")
         LogStuff.send(:error, "#{e.backtrace.inspect}")
       end
     end

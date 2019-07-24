@@ -20,6 +20,7 @@ spec:
     spec:
       containers:
         - name: cccd-app
+          imagePullPolicy: Always
           image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-snsv9
           ports:
             - containerPort: 3000

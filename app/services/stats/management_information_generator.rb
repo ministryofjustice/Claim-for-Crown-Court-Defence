@@ -21,36 +21,42 @@ module Stats
 
     attr_reader :format
 
+    def log_error(error)
+      LogStuff.send(:error, 'MI Report generation error has occured:')
+      LogStuff.send(:error, "#{error.class} - #{error.message}")
+      LogStuff.send(:error, error.backtrace.inspect.to_s)
+    end
+
+    def log_info(message)
+      LogStuff.send(:info, message)
+    end
+
+    def headers
+      Settings.claim_csv_headers.map { |header| header.to_s.humanize }
+    end
+
+    def active_non_draft_claims
+      Claim::BaseClaim.active.non_draft
+    end
+
     # TODO: separate data retrieval from exporting the data itself
     # keeping existent behaviour for now
     def generate_new_report
-      LogStuff.send(:info, 'Report generation started...')
+      log_info('Report generation started...')
       CSV.generate do |csv|
-        LogStuff.send(:info, 'Adding CSV headers...')
-        csv << Settings.claim_csv_headers.map { |header| header.to_s.humanize }
-        LogStuff.send(:info, 'Adding CSV headers complete')
-
-        LogStuff.send(:info, 'Adding non-draft claim data to CSV...')
-        Claim::BaseClaim.active.non_draft.find_each do |claim|
-          LogStuff.send(:info, "Adding claim with id: #{claim.id} ...")
+        csv << headers
+        active_non_draft_claims.find_each do |claim|
+          log_info("Adding claim to report with id: #{claim.id} ...")
           ClaimCsvPresenter.new(claim, 'view').present! do |claim_journeys|
             if claim_journeys.any?
-
-              LogStuff.send(:info, "Using ClaimCsvPresenter for claim: #{claim.id} to add journey to csv report.")
-              claim_journeys.each do |claim_journey|
-                csv << claim_journey
-              end
-              LogStuff.send(:info, "claim_journeys for claim: #{claim.id} to added to csv")
-
+              log_info("Adding journey for claim: #{claim.id}")
+              claim_journeys.each { |journey| csv << journey }
             end
           end
-          LogStuff.send(:info, "Adding claim with id: #{claim.id} complete")
         end
       end
     rescue StandardError => e
-      LogStuff.send(:error, 'Report generation error has occured:')
-      LogStuff.send(:error, "#{e.class} - #{e.message}")
-      LogStuff.send(:error, e.backtrace.inspect.to_s)
+      log_error(e)
     end
   end
 end

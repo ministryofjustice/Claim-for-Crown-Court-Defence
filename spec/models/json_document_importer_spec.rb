@@ -147,7 +147,11 @@ describe JsonDocumentImporter do
           allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_return(failed_claim_response)
           expect(subject).to receive(:create_claim_and_associations).exactly(2).and_raise(ArgumentError, 'Malformed JSON')
           subject.import!
-          expect(subject.errors.to_hash).to eq({A20161234: [%q{784: unexpected token at 'Malformed JSON'}], A987654321: [%q{784: unexpected token at 'Malformed JSON'}]})
+          h = subject.errors.to_hash
+          expect(h).to have_key :A20161234
+          expect(h[:A20161234]).to include(/\d+: unexpected token at \'Malformed JSON\'/)
+          expect(h).to have_key :A987654321
+          expect(h[:A987654321]).to include(/\d+: unexpected token at \'Malformed JSON\'/)
         end
 
         it 'one Claim model error from each of two claims' do

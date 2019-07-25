@@ -24,39 +24,33 @@ module Stats
     # TODO: separate data retrieval from exporting the data itself
     # keeping existent behaviour for now
     def generate_new_report
-      begin
-        LogStuff.send(:info, "Report generation started...")
-        CSV.generate do |csv|
-          LogStuff.send(:info, "Adding CSV headers...")
-          csv << Settings.claim_csv_headers.map { |header| header.to_s.humanize }
-          LogStuff.send(:info, "Adding CSV headers complete")
+      LogStuff.send(:info, 'Report generation started...')
+      CSV.generate do |csv|
+        LogStuff.send(:info, 'Adding CSV headers...')
+        csv << Settings.claim_csv_headers.map { |header| header.to_s.humanize }
+        LogStuff.send(:info, 'Adding CSV headers complete')
 
-          LogStuff.send(:info, "Adding non-draft claim data to CSV...")
-          Claim::BaseClaim.active.non_draft.find_each do |claim|
+        LogStuff.send(:info, 'Adding non-draft claim data to CSV...')
+        Claim::BaseClaim.active.non_draft.find_each do |claim|
+          LogStuff.send(:info, "Adding claim with id: #{claim.id} ...")
+          ClaimCsvPresenter.new(claim, 'view').present! do |claim_journeys|
+            if claim_journeys.any?
 
-            LogStuff.send(:info, "Adding claim with id: #{claim.id} ...")
-            ClaimCsvPresenter.new(claim, 'view').present! do |claim_journeys|
-              if claim_journeys.any?
-
-                LogStuff.send(:info, "Using ClaimCsvPresenter for claim: #{claim.id} to add journey to csv report.")
-                claim_journeys.each do |claim_journey|
-                  csv << claim_journey
-                end
-                LogStuff.send(:info, "claim_journeys for claim: #{claim.id} to added to csv")
-
+              LogStuff.send(:info, "Using ClaimCsvPresenter for claim: #{claim.id} to add journey to csv report.")
+              claim_journeys.each do |claim_journey|
+                csv << claim_journey
               end
+              LogStuff.send(:info, "claim_journeys for claim: #{claim.id} to added to csv")
+
             end
-            LogStuff.send(:info, "Adding claim with id: #{claim.id} complete")
-
           end
+          LogStuff.send(:info, "Adding claim with id: #{claim.id} complete")
         end
-        LogStuff.send(:info, "Report generation finished.")
-
-      rescue StandardError => e
-        LogStuff.send(:error, "Report generation error has occured:")
-        LogStuff.send(:error, "#{e.class} - #{e.message}")
-        LogStuff.send(:error, "#{e.backtrace.inspect}")
       end
+    rescue StandardError => e
+      LogStuff.send(:error, 'Report generation error has occured:')
+      LogStuff.send(:error, "#{e.class} - #{e.message}")
+      LogStuff.send(:error, e.backtrace.inspect.to_s)
     end
   end
 end

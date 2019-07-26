@@ -22,9 +22,12 @@ module Stats
     attr_reader :format
 
     def log_error(error)
-      LogStuff.send(:error, 'MI Report generation error has occured:')
-      LogStuff.send(:error, "#{error.class} - #{error.message}")
-      LogStuff.send(:error, error.backtrace.inspect.to_s)
+      LogStuff.send(:error,
+                    self.class.name,
+                    error_message: "#{error.class} - #{error.message}",
+                    error_backtrace: error.backtrace.inspect.to_s) do
+                      'MI Report generation error'
+                    end
     end
 
     def log_info(message)

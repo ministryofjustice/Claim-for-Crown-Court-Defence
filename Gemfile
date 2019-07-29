@@ -102,7 +102,7 @@ group :development, :devunicorn, :test do
 end
 
 group :test do
-  gem 'capybara', '~> 3.26'
+  gem 'capybara', '~> 3.27'
   gem 'capybara-selenium'
   gem 'webdrivers', '~> 4.1', require: false
   gem 'climate_control'

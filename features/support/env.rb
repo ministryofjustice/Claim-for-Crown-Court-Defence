@@ -25,12 +25,15 @@ ActionController::Base.allow_forgery_protection = true
 # Activate to view chromedriver detailed output
 # Webdrivers.logger.level = :DEBUG
 
-# pin version to 2.46 of chromedriver as latest
-# version (75.0.3770.80) is not running headless.
+# pin version to 71.0.3578.137 of chromedriver as
+# version (75.0.3770.80) is not running headless.	# some spec fail in version (2.46) due to
+# "session not created: Chrome version must be between 71 and 75"
 # see https://chromedriver.storage.googleapis.com/index.html
-# for usable version numbers and review later.
+# see https://chromedriver.storage.googleapis.com/index.html
+# for usable version numbers and review later
 #
-Webdrivers::Chromedriver.required_version = '2.46'
+#
+Webdrivers::Chromedriver.required_version = '71.0.3578.137'
 
 # The `webdriver` gem's requests to download drivers is being blocked by Webmock
 # without this.

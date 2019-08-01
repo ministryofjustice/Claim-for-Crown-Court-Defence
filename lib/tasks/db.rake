@@ -192,7 +192,7 @@ namespace :db do
       shell_working "exporting anonymised #{task.name.split(':').last} data" do
         write_to_file(args.file) do |writer|
           Message.find_each(batch_size: batch_size) do |message|
-            message.body = Faker::Lorem.sentence(6, false, 10)
+            message.body = Faker::Lorem.sentence(word_count: 6, supplemental: false, random_words_to_add: 10)
             if message.attachment_file_name.present?
               message.attachment_file_name = fake_file_name(message.attachment_file_name)
             end
@@ -298,7 +298,7 @@ namespace :db do
   end
 
   def fake_paragraphs max_paragraph_count=4
-    Faker::Lorem.paragraphs(max_paragraph_count).pop(rand(1..max_paragraph_count)).join("\n")
+    Faker::Lorem.paragraphs(number: max_paragraph_count).pop(rand(1..max_paragraph_count)).join("\n")
   end
 
   def write_to_file(name)

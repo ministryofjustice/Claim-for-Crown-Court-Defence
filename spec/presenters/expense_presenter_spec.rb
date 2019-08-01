@@ -227,7 +227,7 @@ RSpec.describe ExpensePresenter do
   describe '#show_map_link?' do
     subject { presenter.show_map_link? }
 
-    let(:claim) { create(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(1)) }
+    let(:claim) { create(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1)) }
     let(:expense) { create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim: claim) }
     let(:mileage_rate) { 1 }
 
@@ -269,7 +269,7 @@ RSpec.describe ExpensePresenter do
   describe '#state' do
     subject { presenter.state }
 
-    let(:claim) { create(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(1)) }
+    let(:claim) { create(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1)) }
     let(:expense) { create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim: claim) }
     let(:mileage_rate) { 1 }
 
@@ -302,7 +302,7 @@ RSpec.describe ExpensePresenter do
   describe '#distance_label' do
     subject { presenter.distance_label }
 
-    let(:claim) { create(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(1)) }
+    let(:claim) { create(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1)) }
     let(:expense) { create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim: claim) }
     let(:mileage_rate) { 1 }
 

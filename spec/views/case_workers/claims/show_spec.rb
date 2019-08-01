@@ -140,7 +140,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
     context 'for litigator claims' do
       subject { rendered }
 
-      let(:claim) { build(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(1)) }
+      let(:claim) { build(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1)) }
       let!(:establishment) { create(:establishment, :crown_court, name: 'Basildon', postcode: 'SS14 2EW') }
 
       before do
@@ -214,7 +214,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
     context 'for advocate claims' do
       subject { rendered }
 
-      let(:claim) { build(:advocate_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(1)) }
+      let(:claim) { build(:advocate_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1)) }
       let!(:establishment) { create(:establishment, :crown_court, name: 'Basildon', postcode: 'SS14 2EW') }
 
       before do

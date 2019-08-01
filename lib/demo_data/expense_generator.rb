@@ -30,7 +30,7 @@ module DemoData
       ex.mileage_rate_id = generate_mileage_rate_id(ex)
       ex.date = rand(5..30).days.ago
       ex.hours = generate_hours(ex)
-      @claim.travel_expense_additional_information = Faker::Lorem.paragraph(1)
+      @claim.travel_expense_additional_information = Faker::Lorem.paragraph(number: 1)
       @claim.save
       ex.save!
     end

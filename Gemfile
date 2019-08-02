@@ -98,7 +98,7 @@ group :development, :devunicorn, :test do
   gem 'rubocop-rspec'
   gem 'rubocop-rails'
   gem 'rubocop-performance'
-  gem 'site_prism', '~> 3.3'
+  gem 'site_prism', '~> 3.4'
 end
 
 group :test do

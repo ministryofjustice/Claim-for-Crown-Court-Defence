@@ -140,6 +140,9 @@ $ rm -rf vcr/cassettes/features/fee_calculator/
 
 # run applicable features and set recording mode to 'new_episodes' if the scenario is tagged with @fee_calc_vcr
 $ FEE_CALC_VCR_MODE=new_episodes cucumber features/fee_calculator/
+
+# or run all those tagged with @fee_calc_vcr
+$ FEE_CALC_VCR_MODE=new_episodes cucumber --tag @fee_calc_vcr
 ```
 
 #### Internal API

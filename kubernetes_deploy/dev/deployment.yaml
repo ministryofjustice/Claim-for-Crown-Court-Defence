@@ -69,6 +69,8 @@ spec:
               value: '10'
             - name: SETTINGS__AWS__S3__REGION
               value: 'eu-west-2'
+            - name: LAA_FEE_CALCULATOR_HOST
+              value: https://laa-fee-calculator.service.justice.gov.uk/api/v1
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
@@ -139,11 +141,6 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: GECKOBOARD_API_KEY
-            - name: LAA_FEE_CALCULATOR_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: LAA_FEE_CALCULATOR_HOST
             - name: SETTINGS__SLACK__BOT_URL
               valueFrom:
                 secretKeyRef:

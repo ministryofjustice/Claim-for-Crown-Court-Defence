@@ -1075,13 +1075,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
       end
 
       context 'because resource not found' do
-        let(:claim) { instance_double(::Claim::BaseClaim, agfs?: false, advocate_category: 'QC', prosecution_evidence?: false, earliest_representation_order_date: Date.today, case_type: nil, retrial_reduction: false) }
-        let(:params) { { fee_type_id: create(:graduated_fee_type, :grtrl).id } }
-
         before do
-          stub_request(:get, %r{\Ahttps://laa-fee-calculator(.*).k8s.integration.dsd.io/api/v1/.*\z}).
+          stub_request(:get, %r{\Ahttps://(.*)laa-fee-calculator.(.*).gov.uk/api/v1/.*\z}).
             to_return(status: 404, body: {'error': '"detail": "Not found."'}.to_json, headers: {})
         end
+
+        let(:claim) { instance_double(::Claim::BaseClaim, agfs?: true, advocate_category: 'QC', prosecution_evidence?: false, earliest_representation_order_date: Date.today, case_type: nil, retrial_reduction: false ) }
+        let(:params) { { fee_type_id: create(:graduated_fee_type, :grtrl).id } }
 
         it_returns 'a failed fee calculator response', message: /not found/i
       end

@@ -6,9 +6,9 @@ describe Fee::MiscFeePresenter do
   let(:presenter) { Fee::MiscFeePresenter.new(misc_fee, view) }
 
   context '#rate' do
-    it 'should call not_applicable when belonging to an LGFS claim' do
+    it 'should call not_applicable_html when belonging to an LGFS claim' do
       allow(presenter).to receive(:agfs?).and_return false
-      expect(presenter).to receive(:not_applicable)
+      expect(presenter).to receive(:not_applicable_html)
       presenter.rate
     end
 
@@ -34,9 +34,9 @@ describe Fee::MiscFeePresenter do
       presenter.quantity
     end
 
-    it 'should return not_applicable when belonging to an LGFS claim' do
+    it 'should return not_applicable_html when belonging to an LGFS claim' do
       allow(presenter).to receive(:agfs?).and_return false
-      expect(presenter).to receive(:not_applicable)
+      expect(presenter).to receive(:not_applicable_html)
       presenter.quantity
     end
   end

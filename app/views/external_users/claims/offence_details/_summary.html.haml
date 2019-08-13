@@ -1,20 +1,17 @@
 - unless claim.fixed_fee_case?
   .form-section
-    %h3.heading-medium
+    %h2.heading-large
       = t('external_users.claims.offence_details.summary.header')
       - if local_assigns[:editable]
         = link_to t('.change'), edit_polymorphic_path(claim, step: :offence_details, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
     - if claim.offence
-      %table.summary
-        %caption
-          %span.table-caption.visuallyhidden
-            = t('.caption')
-        %tbody
-          - if claim.agfs_reform?
-            = render partial: 'external_users/claims/offence_details/fee_reform_summary', locals: { claim: claim }
-          - else
-            = render partial: 'external_users/claims/offence_details/default_summary', locals: { claim: claim }
+      %dl.govuk-summary-list
+        - if claim.agfs_reform?
+          = render partial: 'external_users/claims/offence_details/fee_reform_summary', locals: { claim: claim }
+        - else
+          = render partial: 'external_users/claims/offence_details/default_summary', locals: { claim: claim }
+
     - else
       - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
         = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :offence_details }

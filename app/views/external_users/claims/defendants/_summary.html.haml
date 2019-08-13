@@ -1,5 +1,5 @@
 #defendants-section.form-section
-  %h3.heading-medium
+  %h2.heading-large
     = t('external_users.claims.defendants.summary.header')
     - if local_assigns[:editable]
       = link_to t('.change'), edit_polymorphic_path(claim, step: :defendants, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
@@ -14,61 +14,50 @@
       %p
         = t('shared.summary.no_values.defendants')
   - else
-    %table.summary
-      %caption
-        %span.table-caption.visuallyhidden
-          = t('.caption')
-      %tbody
-        - claim.defendants.order(:created_at).each.with_index(1) do | defendant, index|
-          %tr
-            %th
-              = t('.common.defendant_index', index: index)
-            %td
-              %table.nested-summary
-                %tbody
-                  %tr
-                    %th
-                      = t('first_name', scope: defendant_fields_scope)
-                    %td
-                      = defendant.first_name
-                  %tr
-                    %th
-                      = t('last_name', scope: defendant_fields_scope)
-                    %td
-                      = defendant.last_name
+    - claim.defendants.order(:created_at).each.with_index(1) do | defendant, index|
 
-                  - if defendant.date_of_birth.present?
-                    %tr
-                      %th
-                        %span.visuallyhidden
-                          = t('.common.defendant_index', index: index)
-                        = t('date_of_birth', scope: defendant_fields_scope)
-                      %td
-                        %time{ 'aria-label': defendant.date_of_birth.strftime(Settings.date_format_label), datetime: defendant.date_of_birth.strftime(Settings.datetime_attribute) }
-                          = defendant.date_of_birth.strftime(Settings.date_format)
+      - if claim.defendants.count > 1
+        %h3.heading-medium
+          = t('.common.defendant_index', index: index)
 
-                  - unless claim.lgfs? && claim.interim?
-                    %tr
-                      %th
-                        %span.visuallyhidden
-                          = t('.common.defendant_index', index: index)
-                        = t('order_for_judicial_apportionment', scope: defendant_fields_scope)
-                      %td
-                        = defendant.order_for_judicial_apportionment == true ? t('.answer_yes') : t('.answer_no')
+      %dl.govuk-summary-list
+        .govuk-summary-list__row
+          %dt.govuk-summary-list__key
+            = t('first_name', scope: defendant_fields_scope)
+          %dd.govuk-summary-list__value
+            = defendant.first_name
 
-                  - defendant.representation_orders.each.with_index(1) do | representation_order, index|
-                    %tr
-                      %th
-                        %span.visuallyhidden
-                          = t('.common.defendant_reporder', index: index)
-                        = "#{t('date', scope: rep_order_fields_scope)} #{index}"
-                      %td
-                        %time{ 'aria-label': representation_order.representation_order_date.strftime(Settings.date_format_label), datetime: representation_order.representation_order_date.strftime(Settings.datetime_attribute) }
-                          = representation_order.representation_order_date.strftime(Settings.date_format)
-                    %tr
-                      %th
-                        %span.visuallyhidden
-                          = "#{t('common.defendant')} #{index} representation order #{index}"
-                        = "#{t('maat_reference_number', scope: rep_order_fields_scope)} #{index}"
-                      %td
-                        = representation_order.maat_reference
+        .govuk-summary-list__row
+          %dt.govuk-summary-list__key
+            = t('last_name', scope: defendant_fields_scope)
+          %dd.govuk-summary-list__value
+            = defendant.last_name
+
+        - if defendant.date_of_birth.present?
+          .govuk-summary-list__row
+            %dt.govuk-summary-list__key
+              = t('date_of_birth', scope: defendant_fields_scope)
+            %dd.govuk-summary-list__value
+              %time{ 'aria-label': defendant.date_of_birth.strftime(Settings.date_format_label), datetime: defendant.date_of_birth.strftime(Settings.datetime_attribute) }
+                = defendant.date_of_birth.strftime(Settings.date_format)
+
+        - unless claim.lgfs? && claim.interim?
+          .govuk-summary-list__row
+            %dt.govuk-summary-list__key
+              = t('order_for_judicial_apportionment', scope: defendant_fields_scope)
+            %dd.govuk-summary-list__value
+              = defendant.order_for_judicial_apportionment == true ? t('.answer_yes') : t('.answer_no')
+
+        - defendant.representation_orders.each.with_index(1) do | representation_order, index|
+          .govuk-summary-list__row
+            %dt.govuk-summary-list__key
+              = t('date', scope: rep_order_fields_scope)
+            %dd.govuk-summary-list__value
+              %time{ 'aria-label': representation_order.representation_order_date.strftime(Settings.date_format_label), datetime: representation_order.representation_order_date.strftime(Settings.datetime_attribute) }
+                = representation_order.representation_order_date.strftime(Settings.date_format)
+
+          .govuk-summary-list__row
+            %dt.govuk-summary-list__key
+              = t('maat_reference_number', scope: rep_order_fields_scope)
+            %dd.govuk-summary-list__value
+              = representation_order.maat_reference

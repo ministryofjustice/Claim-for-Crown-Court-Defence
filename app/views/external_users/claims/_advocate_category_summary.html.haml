@@ -1,8 +1,9 @@
 - if claim.agfs? && claim.advocate_category.present?
-  %table.summary
-    %tbody
-      %tr
-        %th{ scope: 'row' }
-          = t("common.external_user.category.#{claim.external_user_type}")
-        %td
-          = claim.advocate_category
+  %h3.heading-medium
+    = t('shared.summary.basic_fees')
+  %dl.govuk-summary-list
+    .govuk-summary-list__row
+      %dt.govuk-summary-list__key
+        = t("common.external_user.category.#{claim.external_user_type}")
+      %dd.govuk-summary-list__value
+        = claim.advocate_category

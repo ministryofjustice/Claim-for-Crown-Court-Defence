@@ -668,6 +668,13 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
+  describe '#raw_fixed_fees_total' do
+    it 'sends message to claim' do
+      expect(claim).to receive(:fixed_fees)
+      presenter.raw_fixed_fees_total
+    end
+  end
+
   describe '#raw_expenses_total' do
     it 'sends message to claim' do
       expect(claim).to receive(:expenses_total)
@@ -728,5 +735,55 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#display_days?' do
     specify { expect(presenter.display_days?).to be_falsey }
+  end
+
+  describe 'calculate #misc_fees' do
+    before do
+      allow(presenter).to receive(:raw_misc_fees_total).and_return 10.0
+      allow(claim).to receive(:created_at).and_return Date.today
+      allow(claim).to receive(:apply_vat?).and_return true
+    end
+
+    it '#raw_misc_fees_vat' do
+      expect(presenter.raw_misc_fees_vat).to eq(2.0)
+    end
+
+    it 'returns #raw_misc_fees_gross' do
+      allow(presenter).to receive(:raw_misc_fees_vat).and_return 2.0
+      expect(presenter.raw_misc_fees_gross).to eq(12.0)
+    end
+
+    it 'returns #misc_fees_vat with the associated currency' do
+      expect(presenter.misc_fees_vat).to eq('£2.00')
+    end
+
+    it 'returns #misc_fees_gross with the associated currency' do
+      expect(presenter.misc_fees_gross).to eq('£12.00')
+    end
+  end
+
+  describe 'calculate #fixed_fees' do
+    before do
+      allow(presenter).to receive(:raw_fixed_fees_total).and_return 10.0
+      allow(claim).to receive(:created_at).and_return Date.today
+      allow(claim).to receive(:apply_vat?).and_return true
+    end
+
+    it '#raw_fixed_fees_vat' do
+      expect(presenter.raw_fixed_fees_vat).to eq(2.0)
+    end
+
+    it 'returns #raw_fixed_fees_gross' do
+      allow(presenter).to receive(:raw_fixed_fees_vat).and_return 2.0
+      expect(presenter.raw_fixed_fees_gross).to eq(12.0)
+    end
+
+    it 'returns #fixed_fees_vat with the associated currency' do
+      expect(presenter.fixed_fees_vat).to eq('£2.00')
+    end
+
+    it 'returns #fixed_fees_gross with the associated currency' do
+      expect(presenter.fixed_fees_gross).to eq('£12.00')
+    end
   end
 end

@@ -49,4 +49,20 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
   def mandatory_case_details?
     claim.court && claim.case_number && claim.supplier_number
   end
+
+  def raw_interim_fees_vat
+    VatRate.vat_amount(raw_interim_fees_total, claim.created_at, calculate: claim.apply_vat?)
+  end
+
+  def raw_interim_fees_gross
+    raw_interim_fees_total + raw_interim_fees_vat
+  end
+
+  def interim_fees_vat
+    h.number_to_currency(raw_interim_fees_vat)
+  end
+
+  def interim_fees_gross
+    h.number_to_currency(raw_interim_fees_gross)
+  end
 end

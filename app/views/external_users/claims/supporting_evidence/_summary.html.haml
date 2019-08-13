@@ -1,44 +1,51 @@
 #supporting-evidence-section.form-section
-  %h3.heading-medium
+  %h2.heading-large
     = t('external_users.claims.supporting_evidence_checklist.summary.header')
     - if local_assigns[:editable]
       = link_to t('.change'), edit_polymorphic_path(claim, step: :supporting_evidence, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
   - if claim.mandatory_supporting_evidence?
-    %table.summary
-      %caption
-        %span.table-caption.visuallyhidden
-          = t('.caption')
-      %tbody
-        %tr
-          %th{ scope: 'row' }
-            = t('shared.summary.disk_evidence')
-          %td
-            = claim.disk_evidence ? t('.answer_yes') : t('.answer_no')
-        %tr
-          %th{ scope: 'row' }
-            = t('shared.summary.disk_evidence_reference')
-          %td
-            = claim.disk_evidence_reference
-        %tr
-          %th{ scope: 'row' }
-            = t('shared.summary.supporting_evidence')
-          %td
-            %ul
-              - claim.documents.each do |document|
-                %li
-                  = link_to document.document_file_name,
-                            download_document_path(document),
-                            class: 'download',
-                            'aria-label': "Download document: #{document.document_file_name}"
-        %tr
-          %th{ scope: 'row' }
-            = t('shared.summary.supporting_evidence_checklist')
-          %td
-            %ul
-              - DocType.find_by_ids(claim.evidence_checklist_ids).each do |dt|
-                %li
-                  = dt.name
+    %dl.govuk-summary-list
+      .govuk-summary-list__row
+        %dt.govuk-summary-list__key
+          = t('shared.summary.disk_evidence')
+        %dd.govuk-summary-list__value
+          = claim.disk_evidence ? t('.answer_yes') : t('.answer_no')
+
+      .govuk-summary-list__row
+        %dt.govuk-summary-list__key
+          = t('shared.summary.disk_evidence_reference')
+        %dd.govuk-summary-list__value
+          = claim.disk_evidence_reference
+
+      .govuk-summary-list__row
+        %dt.govuk-summary-list__key
+          = t('shared.summary.supporting_evidence')
+        %dd.govuk-summary-list__value
+          %ul
+            - claim.documents.each do |document|
+              %li
+                = link_to document.document_file_name,
+                          download_document_path(document),
+                          class: 'download',
+                          'aria-label': "Download document: #{document.document_file_name}"
+
+      .govuk-summary-list__row
+        %dt.govuk-summary-list__key
+          = t('shared.summary.supporting_evidence_checklist')
+        %dd.govuk-summary-list__value
+          %ul
+            - DocType.find_by_ids(claim.evidence_checklist_ids).each do |dt|
+              %li
+                = dt.name
+
+      - if claim.additional_information.present?
+        .govuk-summary-list__row
+          %dt.govuk-summary-list__key
+            = t('external_users.claims.additional_information.summary.header')
+          %dd.govuk-summary-list__value
+            = claim.additional_information
+
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
       = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :supporting_evidence }

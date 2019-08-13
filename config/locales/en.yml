@@ -140,6 +140,7 @@ en:
   general:
     not_provided: *not_provided
     not_applicable: *not_applicable
+    not_applicable_html: <span arial-label="not applicable">n/a</span>
   content:
     graduated_fee_calculators_help: &graduated_fee_calculators_help Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fees Calculator">graduated fees calculators init</a> for help.
     how_is_this_calculated_help: &how_is_this_calculated_help How is this calculated?
@@ -327,6 +328,7 @@ en:
     search:
       label: Search
       legend: Search for a claim using a case number, defendant name or advocate/litigator name
+    description: Description
   link:
     add_claim: Start a claim
     back: Back
@@ -923,7 +925,7 @@ en:
         summary:
           header: Graduated fees
       check_your_claim:
-        help_text: Check all the information below is correct before submitting your claim at the bottom of the page.
+        help_text: Check all the information below is correct before submitting your claim.
         missing_information:
           header: 'Warning: Missing information'
           help_text: 'You must complete the following sections before submitting the claim:'
@@ -1237,7 +1239,7 @@ en:
 
       summary:
         button_label: *continue_to_certification_button
-        page_heading: Check your claim
+        page_heading: Cost summary
         case_details: Case details
         agfs:
           advocate_claim:
@@ -1868,6 +1870,7 @@ en:
         caption: &expenses_caption 'Expenses: A detailed list by Type including amount, distance and location where applicable'
         travel_expense_additional_information: Additional information
         travel_expenses: Travel expenses
+        travel_details: Travel details
         index:
           calculated_distance: Calculated distance
           caption: *expenses_caption
@@ -1904,6 +1907,14 @@ en:
         caption: 'Fees: A detailed list by Category and Type including amounts'
       amount: Net amount
       vat_amount: *vat_amount
+      total: Total
+      total_amount: Total amount
+      basic_fees: Basic fees
+      fixed_fees: Fixed fees
+      graduated_fees: Graduated fees
+      miscellaneous_fees: Miscellaneous fees
+      additional_fees: Additional fees
+      vat: VAT
       date: Date
       disbursement: Disbursement
       disbursement_index: Disbursement %{index}
@@ -1920,11 +1931,15 @@ en:
       fees_total: 'Fees total:'
       expense_type: Type of expense
       location: Destination
+      destination_html: <span class='bold-small'>Destination:</span> %{location}
+      distance_html: <span class='bold-small'>Distance:</span> %{distance} miles
+      cost_html: <span class='bold-small'>Cost per mile:</span> %{cost} per mile
       quantity_hours: 'Hours'
       rate: Rate
       expenses_total: 'Expenses total:'
-      claim_total: 'Claim total:'
+      claim_total: 'Claim total'
       reason: Reason for travel
+      cost_summary: Cost summary
       additional_information: Additional information
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
@@ -1962,6 +1977,8 @@ en:
         supporting_evidence: "There is no supporting evidence for this claim"
       supporting_evidence: Supporting evidence
       supporting_evidence_checklist: Supporting evidence checklist
+      dates: Dates
+      rate: Rate
     summary_agfs:
       mileage_rate: Mileage rate
       expenses:

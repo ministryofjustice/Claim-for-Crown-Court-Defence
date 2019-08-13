@@ -118,6 +118,56 @@ RSpec.describe Claim::LitigatorClaimPresenter, type: :presenter do
     specify { expect(presenter.requires_trial_dates?).to be false }
   end
 
+  describe 'calculate #fixed_fees' do
+    before do
+      allow(presenter).to receive(:raw_fixed_fees_total).and_return 10.0
+      allow(claim).to receive(:created_at).and_return Date.today
+      allow(claim).to receive(:apply_vat?).and_return true
+    end
+
+    it '#raw_fixed_fees_vat' do
+      expect(presenter.raw_fixed_fees_vat).to eq(2.0)
+    end
+
+    it 'returns #raw_fixed_fees_gross' do
+      allow(presenter).to receive(:raw_fixed_fees_vat).and_return 2.0
+      expect(presenter.raw_fixed_fees_gross).to eq(12.0)
+    end
+
+    it 'returns #fixed_fees_vat with the associated currency' do
+      expect(presenter.fixed_fees_vat).to eq('£2.00')
+    end
+
+    it 'returns #fixed_fees_gross with the associated currency' do
+      expect(presenter.fixed_fees_gross).to eq('£12.00')
+    end
+  end
+
+  describe 'calculate #warrant_fees' do
+    before do
+      allow(presenter).to receive(:raw_warrant_fees_total).and_return 10.0
+      allow(claim).to receive(:created_at).and_return Date.today
+      allow(claim).to receive(:apply_vat?).and_return true
+    end
+
+    it '#raw_warrant_fees_vat' do
+      expect(presenter.raw_warrant_fees_vat).to eq(2.0)
+    end
+
+    it 'returns #raw_warrant_fees_gross' do
+      allow(presenter).to receive(:raw_warrant_fees_vat).and_return 2.0
+      expect(presenter.raw_warrant_fees_gross).to eq(12.0)
+    end
+
+    it 'returns #warrant_fees_vat with the associated currency' do
+      expect(presenter.warrant_fees_vat).to eq('£2.00')
+    end
+
+    it 'returns #warrant_fees_gross with the associated currency' do
+      expect(presenter.warrant_fees_gross).to eq('£12.00')
+    end
+  end
+
   describe '#summary_sections' do
     specify {
       expect(presenter.summary_sections).to eq({

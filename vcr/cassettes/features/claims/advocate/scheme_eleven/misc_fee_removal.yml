@@ -40,7 +40,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:07 GMT
 - request:
     method: get
@@ -91,7 +91,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:07 GMT
 - request:
     method: get
@@ -135,7 +135,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112835,"scenario":5,"advocate_type":"JUNIOR","fee_type":8,"offence_class":null,"scheme":4,"unit":"DAY","fee_per_unit":"330.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:07 GMT
 - request:
     method: get
@@ -177,7 +177,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:09 GMT
 - request:
     method: get
@@ -228,7 +228,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:09 GMT
 - request:
     method: get
@@ -272,7 +272,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112835,"scenario":5,"advocate_type":"JUNIOR","fee_type":8,"offence_class":null,"scheme":4,"unit":"DAY","fee_per_unit":"330.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:09 GMT
 - request:
     method: get
@@ -314,7 +314,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:10 GMT
 - request:
     method: get
@@ -365,7 +365,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:10 GMT
 - request:
     method: get
@@ -407,7 +407,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:10 GMT
 - request:
     method: get
@@ -450,7 +450,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112851,"scenario":5,"advocate_type":"JUNIOR","fee_type":5,"offence_class":null,"scheme":4,"unit":"HALFDAY","fee_per_unit":"131.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":60,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:10 GMT
 - request:
     method: get
@@ -501,7 +501,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:10 GMT
 - request:
     method: get
@@ -544,7 +544,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112851,"scenario":5,"advocate_type":"JUNIOR","fee_type":5,"offence_class":null,"scheme":4,"unit":"HALFDAY","fee_per_unit":"131.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":60,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:11 GMT
 - request:
     method: get
@@ -586,7 +586,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:11 GMT
 - request:
     method: get
@@ -637,7 +637,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -679,7 +679,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -721,7 +721,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -763,7 +763,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -806,7 +806,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112851,"scenario":5,"advocate_type":"JUNIOR","fee_type":5,"offence_class":null,"scheme":4,"unit":"HALFDAY","fee_per_unit":"131.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":60,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -857,7 +857,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -908,7 +908,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -950,7 +950,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -1001,7 +1001,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -1044,7 +1044,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112851,"scenario":5,"advocate_type":"JUNIOR","fee_type":5,"offence_class":null,"scheme":4,"unit":"HALFDAY","fee_per_unit":"131.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":60,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -1095,7 +1095,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -1138,7 +1138,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112848,"scenario":5,"advocate_type":"JUNIOR","fee_type":19,"offence_class":null,"scheme":4,"unit":"DAY","fee_per_unit":"240.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -1180,7 +1180,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -1223,7 +1223,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112851,"scenario":5,"advocate_type":"JUNIOR","fee_type":5,"offence_class":null,"scheme":4,"unit":"HALFDAY","fee_per_unit":"131.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":60,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:12 GMT
 - request:
     method: get
@@ -1266,7 +1266,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112851,"scenario":5,"advocate_type":"JUNIOR","fee_type":5,"offence_class":null,"scheme":4,"unit":"HALFDAY","fee_per_unit":"131.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":60,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:13 GMT
 - request:
     method: get
@@ -1317,7 +1317,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:13 GMT
 - request:
     method: get
@@ -1360,7 +1360,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112848,"scenario":5,"advocate_type":"JUNIOR","fee_type":19,"offence_class":null,"scheme":4,"unit":"DAY","fee_per_unit":"240.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:13 GMT
 - request:
     method: get
@@ -1402,7 +1402,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:14 GMT
 - request:
     method: get
@@ -1444,7 +1444,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:14 GMT
 - request:
     method: get
@@ -1495,7 +1495,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:14 GMT
 - request:
     method: get
@@ -1546,7 +1546,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:14 GMT
 - request:
     method: get
@@ -1589,7 +1589,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112848,"scenario":5,"advocate_type":"JUNIOR","fee_type":19,"offence_class":null,"scheme":4,"unit":"DAY","fee_per_unit":"240.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:14 GMT
 - request:
     method: get
@@ -1632,7 +1632,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112851,"scenario":5,"advocate_type":"JUNIOR","fee_type":5,"offence_class":null,"scheme":4,"unit":"HALFDAY","fee_per_unit":"131.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":60,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:14 GMT
 - request:
     method: get
@@ -1674,7 +1674,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:15 GMT
 - request:
     method: get
@@ -1716,7 +1716,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:15 GMT
 - request:
     method: get
@@ -1767,7 +1767,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:15 GMT
 - request:
     method: get
@@ -1818,7 +1818,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:15 GMT
 - request:
     method: get
@@ -1861,7 +1861,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112851,"scenario":5,"advocate_type":"JUNIOR","fee_type":5,"offence_class":null,"scheme":4,"unit":"HALFDAY","fee_per_unit":"131.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":60,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:15 GMT
 - request:
     method: get
@@ -1904,7 +1904,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112848,"scenario":5,"advocate_type":"JUNIOR","fee_type":19,"offence_class":null,"scheme":4,"unit":"DAY","fee_per_unit":"240.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:15 GMT
 - request:
     method: get
@@ -1946,7 +1946,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":4,"start_date":"2018-12-31","end_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 11"}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:17 GMT
 - request:
     method: get
@@ -1997,7 +1997,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:17 GMT
 - request:
     method: get
@@ -2040,6 +2040,6 @@ http_interactions:
       encoding: ASCII-8BIT
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":112851,"scenario":5,"advocate_type":"JUNIOR","fee_type":5,"offence_class":null,"scheme":4,"unit":"HALFDAY","fee_per_unit":"131.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":60,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-    http_version:
+    http_version: 
   recorded_at: Mon, 05 Aug 2019 14:01:17 GMT
 recorded_with: VCR 4.0.0

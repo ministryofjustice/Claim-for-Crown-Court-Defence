@@ -11,17 +11,17 @@
           = t('.caption')
       %tbody
         %tr
-          %th{ scope: 'row' }
+          %th
             = t('shared.summary.disk_evidence')
           %td
             = claim.disk_evidence ? t('.answer_yes') : t('.answer_no')
         %tr
-          %th{ scope: 'row' }
+          %th
             = t('shared.summary.disk_evidence_reference')
           %td
             = claim.disk_evidence_reference
         %tr
-          %th{ scope: 'row' }
+          %th
             = t('shared.summary.supporting_evidence')
           %td
             %ul
@@ -32,7 +32,7 @@
                             class: 'download',
                             'aria-label': "Download document: #{document.document_file_name}"
         %tr
-          %th{ scope: 'row' }
+          %th
             = t('shared.summary.supporting_evidence_checklist')
           %td
             %ul

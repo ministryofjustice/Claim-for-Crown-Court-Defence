@@ -1,15 +1,14 @@
 - if @claim.documents.count > 0
-  %table.previously-uploaded
-    %caption
-      = t('.previously_uploaded_docs')
+  %h3.bold-medium
+    = t('.previously_uploaded_docs')
 
+  %table.previously-uploaded
     %thead
       %tr
-        %th{ scope: 'col' }
+        %th
           = t('.file_name')
-        %th{ scope: 'col' }
+        %th
           = t('.action')
-
     %tbody
       - @claim.documents.order(created_at: :asc).each do |document|
         %tr{ id: dom_id(document) }

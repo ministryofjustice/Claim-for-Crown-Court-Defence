@@ -43,7 +43,7 @@
 
       = f.collection_radio_buttons(:case_transferred_from_another_court, yes_no_options.reverse, :last, :first ) do |b|
         .multiple-choice{ 'data-target': b.value.to_bool ? 'transfer-court-details' : nil }
-          = b.radio_button('aria-labelledby': "radio-control-legend-transfer #{b.text.to_css_class}")
+          = b.radio_button("aria-labelledby": "radio-control-legend-transfer #{b.text.to_css_class}")
           = b.label { b.text }
 
         - if b.value.to_bool

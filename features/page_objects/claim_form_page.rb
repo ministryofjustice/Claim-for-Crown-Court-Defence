@@ -18,6 +18,7 @@ require_relative 'sections/yes_no_section'
 
 
 class ClaimFormPage < BasePage
+  include DropzoneHelper
   include SelectHelper
 
   set_url "/advocates/claims/new"
@@ -119,9 +120,7 @@ class ClaimFormPage < BasePage
     count ||= 1
     available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/#{document.gsub('.pdf','')}.pdf"
     available_docs[0...count].each do |path|
-      # element needs to be visible in order to attach_file
-      page.execute_script("$('.dropzone-enhanced [type=file]').css('position','unset')");
-      attach_file("claim_documents", path)
+      drag_and_drop_file("dropzone", path)
     end
   end
 

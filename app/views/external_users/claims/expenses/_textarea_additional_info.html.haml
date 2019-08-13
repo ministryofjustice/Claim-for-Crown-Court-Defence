@@ -5,4 +5,4 @@
   %label.form-hint{ for: 'travel_expense_additional_information' }
     = t(".#{@claim.agfs? ? 'agfs' : 'lgfs'}_additional_info_label")
     = validation_error_message(@error_presenter, 'travel_expense_additional_information')
-  = f.text_area :travel_expense_additional_information, class: 'form-control form-control-full-textarea', id: 'travel_expense_additional_information', rows: 5
+  = f.text_area :travel_expense_additional_information, class: 'form-control form-control-full-textarea', id: 'travel_expense_additional_information', rows: 5, 'aria-describedby': 'additional-info-hint'

@@ -6,8 +6,7 @@
 
 // http://www.sitepoint.com/fixing-the-details-element/
 
-;
-(function () {
+;(function () {
   'use strict'
 
   var NATIVE_DETAILS = typeof document.createElement('details').open === 'boolean'
@@ -16,7 +15,7 @@
 
   // Add event construct for modern browsers or IE
   // which fires the callback with a pre-converted target reference
-  function addEvent(node, type, callback) {
+  function addEvent (node, type, callback) {
     if (node.addEventListener) {
       node.addEventListener(type, function (e) {
         callback(e, e.target)
@@ -29,12 +28,12 @@
   }
 
   // Cross-browser character code / key pressed
-  function charCode(e) {
+  function charCode (e) {
     return (typeof e.which === 'number') ? e.which : e.keyCode
   }
 
   // Cross-browser preventing default action
-  function preventDefault(e) {
+  function preventDefault (e) {
     if (e.preventDefault) {
       e.preventDefault()
     } else {
@@ -43,7 +42,7 @@
   }
 
   // Handle cross-modal click events
-  function addClickEvent(node, callback) {
+  function addClickEvent (node, callback) {
     addEvent(node, 'keypress', function (e, target) {
       // When the key gets pressed - check if it is enter or space
       if (charCode(e) === KEY_ENTER || charCode(e) === KEY_SPACE) {
@@ -77,7 +76,7 @@
   }
 
   // Get the nearest ancestor element of a node that matches a given tag name
-  function getAncestor(node, match) {
+  function getAncestor (node, match) {
     do {
       if (!node || node.nodeName.toLowerCase() === match) {
         break
@@ -93,7 +92,7 @@
   var started = false
 
   // Initialisation function
-  function addDetailsPolyfill(list) {
+  function addDetailsPolyfill (list) {
     // If this has already happened, just return
     // else set the flag so it doesn't happen again
     if (started) {
@@ -144,15 +143,12 @@
 
       // Detect initial open state
       var openAttr = details.getAttribute('open') !== null
-      var links = details.__content.querySelectorAll('a')
-
       if (openAttr === true) {
         details.__summary.setAttribute('aria-expanded', 'true')
         details.__content.setAttribute('aria-hidden', 'false')
       } else {
         details.__summary.setAttribute('aria-expanded', 'false')
         details.__content.setAttribute('aria-hidden', 'true')
-        wcagFocusableElements(links, openAttr)
         if (!NATIVE_DETAILS) {
           details.__content.style.display = 'none'
         }
@@ -180,15 +176,11 @@
       }
     }
 
-
     // Define a statechange function that updates aria-expanded and style.display
     // Also update the arrow position
-    function statechange(summary) {
+    function statechange (summary) {
       var expanded = summary.__details.__summary.getAttribute('aria-expanded') === 'true'
       var hidden = summary.__details.__content.getAttribute('aria-hidden') === 'true'
-      var links = summary.__details.__content.querySelectorAll('a');
-
-      wcagFocusableElements(links, hidden)
 
       summary.__details.__summary.setAttribute('aria-expanded', (expanded ? 'false' : 'true'))
       summary.__details.__content.setAttribute('aria-hidden', (hidden ? 'false' : 'true'))
@@ -219,13 +211,6 @@
       }
       return statechange(summary)
     })
-
-    function wcagFocusableElements(nodeList, state) {
-      nodeList.forEach(function (el) {
-        state === true ? el.setAttribute('tabindex', '0') : el.setAttribute('tabindex', '-1')
-      });
-    }
-
   }
 
   // Bind two load events for modern and older browsers

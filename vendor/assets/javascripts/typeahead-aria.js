@@ -1377,8 +1377,9 @@
             this.$input = $(o.input);
             this.$input.attr({
                 "aria-activedescendant": "",
-                "aria-expanded": "false",
+                "aria-owns": this.$input.attr("id") + "_listbox",
                 role: "combobox",
+                "aria-readonly": "true",
                 "aria-autocomplete": "list"
             });
             $(www.menu).attr("id", this.$input.attr("id") + "_listbox");

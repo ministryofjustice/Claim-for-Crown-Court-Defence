@@ -1,2 +1,25 @@
 #transfer-fees-section.form-section
-  = render partial: 'summary_fees', locals: { claim: claim, header: t('external_users.claims.transfer_fee.summary.header'), fee: claim.transfer_fee, editable: editable, section: section, step: :transfer_fees }
+  %h2.heading-large
+    = t('external_users.claims.transfer_fee.summary.header')
+    - if local_assigns[:editable]
+      = link_to t('external_users.claims.additional_information.summary.change'), edit_polymorphic_path(claim, step: :transfer_fees, referrer: :summary), class: 'link-change', 'aria-label': t('external_users.claims.transfer_detail.summary.change_link_label')
+
+  - if claim.transfer_fee.nil?
+    %p
+      There is no transfer fee for this claim
+
+  - else
+    - fee = present(claim.transfer_fee)
+
+    %dl.govuk-summary-list
+      .govuk-summary-list__row
+        %dt.govuk-summary-list__key
+          = t('external_users.claims.interim_fee.fields.ppe_total')
+        %dd.govuk-summary-list__value
+          = fee.quantity
+
+      .govuk-summary-list__row
+        %dt.govuk-summary-list__key
+          = t('shared.summary.amount')
+        %dd.govuk-summary-list__value
+          = fee.amount

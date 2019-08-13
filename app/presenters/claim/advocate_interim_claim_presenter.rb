@@ -46,4 +46,20 @@ class Claim::AdvocateInterimClaimPresenter < Claim::BaseClaimPresenter
   def mandatory_supporting_evidence?
     claim.documents.any? || claim.evidence_checklist_ids.any?
   end
+
+  def raw_warrant_fees_vat
+    VatRate.vat_amount(raw_warrant_fees_total, claim.created_at, calculate: claim.apply_vat?)
+  end
+
+  def raw_warrant_fees_gross
+    raw_warrant_fees_total + raw_warrant_fees_vat
+  end
+
+  def warrant_fees_vat
+    h.number_to_currency(raw_warrant_fees_vat)
+  end
+
+  def warrant_fees_gross
+    h.number_to_currency(raw_warrant_fees_gross)
+  end
 end

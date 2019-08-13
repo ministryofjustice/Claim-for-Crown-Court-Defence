@@ -2,24 +2,41 @@
   = t(".#{@claim.agfs? ? 'agfs' : 'lgfs'}.#{@claim.type.underscore.gsub(/claim\//, '')}.page_title")
 
 = content_for :v2_stylesheets do
-  = stylesheet_link_tag "v2/application", media: "all"
+  = stylesheet_link_tag 'v2/application', media: 'all'
 
 = render partial: 'layouts/header', locals: { page_heading: t(".#{@claim.agfs? ? 'agfs' : 'lgfs'}.#{@claim.type.underscore.gsub(/claim\//, '')}.page_heading") }
 
-%h2.heading-large
-  = t('.page_heading')
 
 - present(@claim) do |claim|
-  .grid-row.grid-sidebar
-    .column-two-thirds.first
-      .summary-wrapper
-        = render partial: 'external_users/claims/summary_claims_content', locals: { claim: claim }
 
-    .column-one-third.new-claim-sidebar.first
-      = render partial: 'external_users/claims/summary_claims_sidebar', locals: { claim: claim, display_buttons: false }
+  %p
+    = t('external_users.claims.check_your_claim.help_text')
 
-  .form-section
-    .form-group.form-buttons
-      = link_to t('buttons.continue'), new_external_users_claim_certification_path(claim), { class: 'button left btn-spacer-20', role: 'button', 'aria-label': t('.button_label') }
-      = link_to t('buttons.save_a_draft'), external_users_root_path, { class: 'button-gray-3 left', role: 'button' }
-      = link_to t('buttons.delete_draft'), external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'link-delete'
+  - unless claim.invalid_steps.empty?
+    .panel.panel-border-wide
+      %h2.heading-small
+        = t('external_users.claims.check_your_claim.missing_information.header')
+      %p
+        = t('external_users.claims.check_your_claim.missing_information.help_text')
+
+      %ul.list.list-bullet
+        - claim.summary_sections.each do |section, associated_step|
+          - if claim.invalid_steps.include?(associated_step)
+            %li
+              = t("external_users.claims.#{section}.summary.header")
+
+  %h2.heading-large
+    = t('.page_heading')
+
+  .grid-row
+    .column-full
+      = render partial: 'external_users/claims/final_claim_cost_summary', locals: { claim: claim }
+
+      .form-buttons
+        = link_to t('buttons.continue'), new_external_users_claim_certification_path(claim), { class: 'button btn-spacer-20', role: 'button', 'aria-label': t('.button_label') }
+        = link_to t('buttons.save_a_draft'), external_users_root_path, class: 'button-gray-3 btn-spacer-20', role: 'button'
+        = link_to t('buttons.delete_draft'), external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button-warning', role: 'button'
+
+  .grid-row
+    .column-full
+      = render partial: 'external_users/claims/summary_claims_content', locals: { claim: claim }

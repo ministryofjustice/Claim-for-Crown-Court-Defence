@@ -29,6 +29,22 @@ class Fee::BaseFeePresenter < BasePresenter
     h.number_to_currency(fee.amount)
   end
 
+  def raw_vat
+    VatRate.vat_amount(fee.amount, fee.claim.created_at, calculate: fee.claim.apply_vat?)
+  end
+
+  def raw_gross
+    fee.amount + raw_vat
+  end
+
+  def vat
+    h.number_to_currency(raw_vat)
+  end
+
+  def gross
+    h.number_to_currency(raw_gross)
+  end
+
   def section_header(t_scope)
     uncalculated_fee_type_code? ? t(t_scope, '_section_header') : fee.fee_type.description
   end
@@ -84,6 +100,14 @@ class Fee::BaseFeePresenter < BasePresenter
 
   def not_applicable
     hint_tag I18n.t('general.not_applicable')
+  end
+
+  def not_applicable_tag(text)
+    h.content_tag :span, text, aria: { label: 'not applicable' }
+  end
+
+  def not_applicable_html
+    not_applicable_tag I18n.t('general.not_applicable')
   end
 
   def _claim

@@ -1,14 +1,14 @@
 // Settings (variables)
-@import 'colours';                                // Colour variables
-@import 'font_stack';                             // Font family variables
-@import 'measurements';                           // Widths and gutter variables
+@import 'colours'; // Colour variables
+@import 'font_stack'; // Font family variables
+@import 'measurements'; // Widths and gutter variables
 
 // Mixins
-@import 'conditionals';                           // Media query mixin
-@import 'device-pixels';                          // Retina image mixin
-@import 'grid_layout';                            // Basic grid layout mixin
-@import 'typography';                             // Core bold and heading mixins, also external links
-@import 'shims';                                  // Inline block mixin, clearfix placeholder
+@import 'conditionals'; // Media query mixin
+@import 'device-pixels'; // Retina image mixin
+@import 'grid_layout'; // Basic grid layout mixin
+@import 'typography'; // Core bold and heading mixins, also external links
+@import 'shims'; // Inline block mixin, clearfix placeholder
 @import "susy";
 
 // Mixins to generate components (chunks of UI)
@@ -17,33 +17,33 @@
 @import 'design-patterns/breadcrumbs';
 
 // Functions
-@import 'url-helpers';                            // Function to output image-url, or prefixed path (Rails and Compass only)
+@import 'url-helpers'; // Function to output image-url, or prefixed path (Rails and Compass only)
 
 // GOV.UK elements
-@import 'elements/helpers';                       // Helper functions and classes
+@import 'elements/helpers'; // Helper functions and classes
 
 // Generic (normalize/reset.css)
 @import 'elements/reset';
 
 // Objects (unstyled design patterns)
-@import 'elements/layout';                        // Main content container. Grid layout - rows and column widths
+@import 'elements/layout'; // Main content container. Grid layout - rows and column widths
 
 // Components (chunks of UI)
-@import 'elements/elements-typography';           // Typography
-@import 'elements/buttons';                       // Buttons
-@import 'elements/icons';                         // Icons - numbered steps, calendar, search
-@import 'elements/lists';                         // Lists - numbered, bulleted
-@import 'elements/tables';                        // Tables - regular, numeric
-@import 'elements/details';                       // Details summary
-@import 'elements/panels';                        // Panels with a left grey border
-@import 'elements/forms';                         // Form - wrappers, inputs, labels
-@import 'elements/forms/form-multiple-choice';    // Custom radio buttons and checkboxes
-@import 'elements/forms/form-date';               // Date of birth pattern
-@import 'elements/forms/form-validation';         // Errors and validation
-@import 'elements/breadcrumbs';                   // Breadcrumbs
-@import 'elements/phase-banner';                  // Alpha and beta banners and tags
-@import 'elements/components';                    // GOV.UK prefixed styles - blue highlighted box
-@import 'elements/shame';                         // Hacks and workarounds that will go away eventually
+@import 'elements/elements-typography'; // Typography
+@import 'elements/buttons'; // Buttons
+@import 'elements/icons'; // Icons - numbered steps, calendar, search
+@import 'elements/lists'; // Lists - numbered, bulleted
+@import 'elements/tables'; // Tables - regular, numeric
+@import 'elements/details'; // Details summary
+@import 'elements/panels'; // Panels with a left grey border
+@import 'elements/forms'; // Form - wrappers, inputs, labels
+@import 'elements/forms/form-multiple-choice'; // Custom radio buttons and checkboxes
+@import 'elements/forms/form-date'; // Date of birth pattern
+@import 'elements/forms/form-validation'; // Errors and validation
+@import 'elements/breadcrumbs'; // Breadcrumbs
+@import 'elements/phase-banner'; // Alpha and beta banners and tags
+@import 'elements/components'; // GOV.UK prefixed styles - blue highlighted box
+@import 'elements/shame'; // Hacks and workarounds that will go away eventually
 
 
 // Project specific
@@ -65,8 +65,10 @@
 @import 'claims_importer';
 @import 'navigation';
 
+@import 'shame';
 
-.panel-margin-fix{
+
+.panel-margin-fix {
   margin-bottom: $gutter !important;
 }
 
@@ -85,7 +87,7 @@ tbody th {
 }
 
 .dataTables_wrapper {
-  .grid-row{
+  .grid-row {
     margin-bottom: $gutter/2;
   }
 }
@@ -100,18 +102,21 @@ tbody th {
   font-size: 16px;
 }
 
-.js-allocation-page #page-h1{
+.js-allocation-page #page-h1 {
   margin-bottom: 0;
 }
 
-.error-summary,.notice-summary {
-  float:none;
-  h1{
+.error-summary,
+.notice-summary {
+  float: none;
+
+  h1 {
     margin-top: 0;
     margin-bottom: 0;
   }
 }
-.notice-summary{
+
+.notice-summary {
   @extend .error-summary;
   border-color: $button-colour;
 
@@ -121,4 +126,3 @@ tbody th {
   float: right;
   font-weight: 400;
 }
-

@@ -419,6 +419,25 @@ table.nested-summary {
       @include core-19;
     }
   }
+
+  tfoot {
+
+    th,
+    td {
+      @include core-19;
+      font-weight: 700;
+    }
+  }
+
+  tr {
+
+    th,
+    td {
+      &:first-child {
+        padding-left: 0;
+      }
+    }
+  }
 }
 
 table.nested-summary {

@@ -1,5 +1,5 @@
 #expenses-section.form-section
-  %h3.heading-medium
+  %h2.heading-large
     = t('external_users.claims.expenses.summary.header')
     - if local_assigns[:editable]
       = link_to t('.change'), edit_polymorphic_path(claim, step: :travel_expenses, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
@@ -11,86 +11,111 @@
       %p
         = t('shared.summary.no_values.expenses')
   - else
+    %h2.heading-medium
+      = t('shared.summary.cost_summary')
+
     %table.summary
       %caption
-        %span.table-caption.visuallyhidden
+        %span.table-caption.visually-hidden
           = t('.caption')
+
+      %thead
+        %tr
+          %th{ scope: 'col' }
+            = t('shared.summary.expense_type')
+          %th.numeric{ scope: 'col' }
+            = t('shared.summary.quantity')
+          %th.numeric{ scope: 'col' }
+            = t('shared.summary.amount')
+          %th.numeric{ scope: 'col' }
+            = t('shared.summary.vat_amount')
+          %th.numeric{ scope: 'col' }
+            = t('shared.summary.total_amount')
+
       %tbody
         - present_collection(claim.expenses).each.with_index(1) do |expense, index|
           %tr
-            %th{ scope: 'row' }
-              = t('shared.summary.expense', index: index)
             %td
-              %table.nested-summary
-                %tbody
-                  %tr
-                    %th{ scope: 'row' }
-                      = t('shared.summary.expense_type')
-                    %td
-                      = expense.name
-                  %tr
-                    %th{ scope: 'row' }
-                      = t('shared.summary.reason')
-                    %td
-                      = expense.reason
-                  - if expense.location.present?
-                    %tr
-                      %th{ scope: 'row' }
-                        = t('shared.summary.location')
-                      %td
-                        = expense.location
-                  - if expense.distance.present?
-                    %tr
-                      %th{ scope: 'row' }
-                        = t('shared.summary.distance')
-                      %td
-                        = expense.distance
-                  - if expense.date.present?
-                    %tr
-                      %th{ scope: 'row' }
-                        = t('shared.summary.date_of_expense')
-                      %td
-                        = expense.pretty_date
-                    %tr
-                      %th{ scope: 'row' }
-                        = t('shared.summary.mileage_rate')
-                      %td
-                        = expense.mileage_rate
-                  - if expense.quantity.present?
-                    %tr
-                      %th{ scope: 'row' }
-                        = t('shared.summary.quantity')
-                      %td
-                        = expense.quantity
-                  - if expense.hours.present?
-                    %tr
-                      %th{ scope: 'row' }
-                        = t('shared.summary.quantity_hours')
-                      %td
-                        = expense.hours
+              = expense.name
+            %td.numeric
+              = ''
+            %td.numeric
+              = expense.amount.present? ? expense.amount : t('general.not_applicable_html')
+            %td.numeric
+              = expense.vat_amount.present? ? expense.vat_amount : t('general.not_applicable_html')
+            %td.numeric
+              = expense.total.present? ? expense.total : t('general.not_applicable_html')
 
-                  - if expense.amount.present?
-                    %tr
-                      %th{ scope: 'row' }
-                        = t('shared.summary.amount')
-                      %td
-                        = expense.amount
-
-                  - if claim.lgfs?
-                    %tr
-                      %th{ scope: 'row' }
-                        = t('shared.summary.vat_amount')
-                      %td
-                        = expense.vat_amount
-
-  - if @claim.travel_expense_additional_information.present?
-    %table.summary
-      %caption
-        %span.table-caption.visuallyhidden
-          = t('.caption')
-      %tbody
+      %tfoot
         %tr
           %th{ scope: 'row' }
-            = t('.additional_information')
-          %td
-            = @claim.travel_expense_additional_information
+            = t('shared.summary.total')
+          %td.numeric
+            = ''
+          %td.numeric
+            = claim.expenses_total
+          %td.numeric
+            = claim.expenses_vat
+          %td.numeric
+            = claim.expenses_gross
+
+  - if @claim.travel_expense_additional_information.present?
+    %h3.heading-medium
+      = t('.additional_information')
+    %p
+      = @claim.travel_expense_additional_information
+
+  - if claim.expenses.empty?.eql?(false)
+    %h3.heading-medium
+      = t('shared.summary.expenses.travel_details')
+
+    %table.summary
+      %caption.visuallyhidden
+        = t('.additional_information')
+
+      %thead
+        %tr
+          %th{ scope: 'col' }
+            = t('shared.summary.expense_type')
+          %th{ scope: 'col' }
+            = t('shared.summary.reason')
+          %th{ scope: 'col' }
+            = 'Details'
+          %th.numeric{ scope: 'col' }
+            = t('shared.summary.date_of_expense')
+          %th.numeric{ scope: 'col' }
+            = t('shared.summary.amount')
+          %th.numeric{ scope: 'col' }
+            = t('shared.summary.vat_amount')
+          %th.numeric{ scope: 'col' }
+            = t('shared.summary.total_amount')
+
+      %tbody
+        - present_collection(claim.expenses).each.with_index(1) do |expense, index|
+          %tr
+            %td
+              = expense.name
+            %td
+              = expense.reason
+            %td
+              - if expense.location.present? || expense.distance.present? || expense.mileage_rate.present?
+                %ul
+                  - if expense.location.present?
+                    %li
+                      = t('shared.summary.destination_html', location: expense.location)
+                  - if expense.distance.present?
+                    %li
+                      = t('shared.summary.distance_html', distance: expense.distance)
+                  - if expense.mileage_rate_id.present?
+                    %li
+                      = t('shared.summary.cost_html', cost: expense.mileage_rate)
+              - else
+                = t('general.not_applicable_html')
+            %td.numeric
+              = expense.date.present? ? expense.pretty_date : t('general.not_applicable_html')
+            %td.numeric
+              = expense.amount.present? ? expense.amount : t('general.not_applicable_html')
+            %td.numeric
+              = expense.vat_amount.present? ? expense.vat_amount : t('general.not_applicable_html')
+            %td.numeric
+              = expense.total.present? ? expense.total : t('general.not_applicable_html')

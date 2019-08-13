@@ -1,4 +1,4 @@
-%h3.heading-medium
+%h2.heading-large
   = local_assigns.has_key?(:header) ? header : t('common.fees')
   - if local_assigns[:editable]
     = link_to t('.change'), edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
@@ -36,18 +36,50 @@
       %p
         = t("shared.summary.no_values.#{section}")
   - else
+    - if section.to_s.eql?('basic_fees')
+      %h3.heading-medium
+        = t('shared.summary.additional_fees')
+
     %table.summary
-      %caption
-        %span.table-caption.visuallyhidden
-          = t('.caption')
+      %caption.table-caption.visuallyhidden
+        = t('.caption')
+
+      %thead
+        %tr
+          %th{ scope: 'col' }
+            = t('shared.summary.fee_type')
+          %th{ scope: 'col' }
+            = t('shared.summary.dates')
+          %th.numeric{ scope: 'col' }
+            = t('shared.summary.quantity')
+          %th.numeric{ scope: 'col' }
+            = t('shared.summary.rate')
+          %th.numeric{ scope: 'col' }
+            = t('shared.summary.amount')
+          %th.numeric{ scope: 'col' }
+            = t('shared.summary.vat_amount')
+          %th.numeric{ scope: 'col' }
+            = t('shared.summary.total_amount')
+
       %tbody
         -# The collection of fees
         - present_collection(collection.sort_by(&:position)).each.with_index(1) do |fee, index|
-          %tr
-            %th{ scope: 'row' }
-              = t('shared.summary.fee_index', index: index)
-            %td
-              %table.nested-summary
-                %tbody
-                  -# Each instance of a fee
-                  = render partial: 'external_users/claims/summary_fee', locals: { fee: fee }
+          -# Each instance of a fee
+          = render partial: 'external_users/claims/summary_fee', locals: { fee: fee }
+
+      %tfoot
+        %tr
+          %th{ scope: 'row' }
+            = t('shared.summary.total')
+          %td.numeric
+            = ''
+          %td.numeric
+            = ''
+          %td.numeric
+            = ''
+          %td.numeric
+            = section.to_s.eql?('fixed_fees') ? claim.fixed_fees_total : claim.misc_fees_total
+          %td.numeric
+            = section.to_s.eql?('fixed_fees') ? claim.fixed_fees_vat : claim.misc_fees_vat
+          %td.numeric
+            = section.to_s.eql?('fixed_fees') ? claim.fixed_fees_vat : claim.misc_fees_vat

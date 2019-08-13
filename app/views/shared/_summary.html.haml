@@ -66,26 +66,28 @@
         %table
           %caption.visually-hidden
             = t('.expenses.caption')
+
           %thead
             %tr
-              %th{scope: 'col'}
+              %th{ scope: 'col' }
                 = t('.date')
-              %th{scope: 'col'}
+              %th{ scope: 'col' }
                 = t('.expense_type')
-              %th.numeric{scope: 'col'}
+              %th.numeric{ scope: 'col' }
                 = t('.distance')
               - if claim.agfs?
-                %th.numeric{scope: 'col'}
+                %th.numeric{ scope: 'col' }
                   = t('.quantity_hours')
-              %th{scope: 'col'}
+              %th{ scope: 'col' }
                 = t('.location')
-              %th.numeric{scope: 'col'}
+              %th.numeric{ scope: 'col' }
                 = t('.amount')
               - if claim.lgfs?
-                %th.numeric{scope: 'col'}
+                %th.numeric{ scope: 'col' }
                   = t('.vat_amount')
-                %th.numeric{scope: 'col'}
-                  Total amount
+                %th.numeric{ scope: 'col' }
+                  = t('shared.summary.total_amount')
+
           %tbody
             - present_collection(claim.expenses).each do |expense|
               %tr.no-border
@@ -110,7 +112,7 @@
                   %td.numeric
                     = expense.total
               %tr
-                %td{colspan: '7'}
+                %td{ colspan: '7' }
                   .bold-normal
                     = t('.reason')
                   = expense.reason
@@ -129,20 +131,22 @@
         %table
           %caption.visually-hidden
             = t('.disbursements.caption')
+
           %thead
             %tr
-              %th{scope: 'col'}
+              %th{ scope: 'col' }
                 = "Disbursement type"
-              %th.numeric{scope: 'col'}
-                = "Net amount"
-              %th.numeric{scope: 'col'}
-                = "VAT amount"
-              %th.numeric{scope: 'col'}
-                = "Total amount"
+              %th.numeric{ scope: 'col' }
+                = t('shared.summary.amount')
+              %th.numeric{ scope: 'col' }
+                = t('shared.summary.vat_amount')
+              %th.numeric{ scope: 'col' }
+                = t('shared.summary.total_amount')
+
           %tbody
             - present_collection(claim.disbursements).each do |disbursement|
               %tr
-                %td{scope:'row'}
+                %td{ scope: 'row' }
                   = disbursement.name
                 %td.numeric
                   = disbursement.net_amount

@@ -85,4 +85,20 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   def conclusion_required?
     Claim::TransferBrain.case_conclusion_required?(claim.transfer_detail)
   end
+
+  def raw_transfer_fees_vat
+    VatRate.vat_amount(raw_transfer_fees_total, claim.created_at, calculate: claim.apply_vat?)
+  end
+
+  def raw_transfer_fees_gross
+    raw_transfer_fees_total + raw_transfer_fees_vat
+  end
+
+  def transfer_fees_vat
+    h.number_to_currency(raw_transfer_fees_vat)
+  end
+
+  def transfer_fees_gross
+    h.number_to_currency(raw_transfer_fees_gross)
+  end
 end

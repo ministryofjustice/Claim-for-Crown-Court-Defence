@@ -1416,12 +1416,13 @@ en:
           caption: 'Supporting Documents: This section contains a list of all the files that you have uploaded as supporting evidence.'
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
         existing:
-          action: "Action"
+          action: 'Action'
           add_another_doc: 'Add another document'
           file_name: "File name"
           previously_uploaded_docs: 'Previously uploaded documents'
         new:
-          action: "Action"
+          action: 'Action'
+          status: 'Status'
           choose_file: 'Choose a file'
           file_name: "File name"
           supporting_evidence_docs: 'Upload supporting evidence'
@@ -1429,6 +1430,7 @@ en:
           file_upload_message: Drag and drop files here
           legend: Upload supporting evidence
           or: or
+          uploading_docs: 'Documents waiting to be uploaded'
       supporting_evidence:
         summary:
           header: Supporting evidence

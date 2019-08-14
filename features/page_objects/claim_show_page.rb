@@ -1,5 +1,5 @@
 class ClaimShowPage < BasePage
-  section :nav, "div.breadcrumbs > ol" do
+  section :nav, "nav.breadcrumbs > ul" do
     element :your_claims, "li:nth-of-type(1) > a"
     element :archive, "li:nth-of-type(2) > a"
   end

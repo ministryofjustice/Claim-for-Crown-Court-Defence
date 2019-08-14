@@ -10,18 +10,23 @@
 
 .form-group
   %fieldset
-    %legend.form-label-bold
+    %legend
       = t('.legend')
-    .dropzone{ tabindex: '0', data: { 'dz-template': "#{render('shared/dropzone_js').html_safe}" } }
-      .dz-default.dz-message.grid-row
-        .column-one-third.arrow-icon
-          %p
-        .column-one-half
-          %span.normal
-            = t('.file_upload_message')
-          %br
-          %span.bold-normal
-            = t('.or')
-          %br
-          .button-grey-3
-            = t('.choose_file')
+    .dropzone
+      = f.label :documents, 'Upload file', class: 'form-group'
+      = f.file_field :documents, name: 'documents', multiple: true, class: 'form-control'
+
+%table#dropzone-files.files.hidden
+  %caption
+    = t('.uploading_docs')
+
+  %thead
+    %tr
+      %th{ scope: 'col' }
+        = t('.file_name')
+      %th{ scope: 'col' }
+        = t('.status')
+      %th{ scope: 'col' }
+        = t('.action')
+
+  %tbody

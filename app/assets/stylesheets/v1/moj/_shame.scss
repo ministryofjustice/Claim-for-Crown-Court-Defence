@@ -607,85 +607,94 @@ Styling for Claims Messaging
  ######   ######
  Description: Dropzone js styling
 *******************************************/
+
 .dropzone {
-  border: 2px dashed black;
-  padding: 30px;
-  // width: 100%;
-  // min-height: 200px;
-  margin-bottom: 20px;
+  align-items: flex-start;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  max-width: 520px;
+  outline: 2px dashed $secondary-text-colour;
+  padding: 70px 40px 55px;
+  text-align: center;
+  transition: outline-offset .1s ease-in-out, background-color .1s linear;
 
-  .arrow-icon::before {
-    content: asset-data-url('icons/drag-drop-upload-ico.svg');
-    float: right;
-    width: 90px;
-    height: 90px;
+  label {
+    left: -9999em;
+    position: absolute;
   }
+}
 
-  &.dz-drag-hover {
-    border-color: $yellow;
+.dropzone-enhanced {
+  label {
+    appearance: none;
+    background-color: $panel-colour;
+    border: none;
+    color: $text-colour;
+    font-size: 1em;
+    font-weight: normal;
+    left: 0;
+    line-height: 1.5625;
+    padding: 10px 20px;
+    position: static;
 
-    .drag-helptext::before {
-      content: asset-data-url('icons/drag-drop-upload-hover-ico.svg');
-      float: left;
-      width: 90px;
-      height: 90px;
+    @media (min-width: 37.5em) {
+      font-size: 1.125em;
+      line-height: 1.38889;
+    }
+
+    &:hover {
+      background-color: $border-colour;
     }
   }
 
-  .drag-helptext {
-    text-align: center;
-    display: inline-block;
+  [type=file] {
+    left: -9999em;
+    position: absolute;
+  }
+}
 
-    &::before {
-      content: asset-data-url('icons/drag-drop-upload-ico.svg');
-      float: left;
-      width: 90px;
-      height: 90px;
-    }
+.dropzone-dragover {
+  background: $black;
+  outline: 2px dashed $secondary-text-colour;
+  outline-offset: -10px;
+}
+
+.dropzone-focused {
+  box-shadow: 0 0 1px 4px $focus-colour;
+  outline: none;
+}
+
+.files {
+  margin-bottom: 30px;
+  table-layout: fixed;
+
+  .error {
+    color: $error-colour;
+    font-weight: 700;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
-  .button-secondary {
-    margin: 0;
+  .success {
+    color: $green;
+    font-weight: 700;
   }
 
-  .dz-preview {
-    border-top: 1px solid $border-colour;
-    padding-top: $gutter-half;
+  tbody td:first-child,
+  .success {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  progress {
+    margin-top: 4px;
     width: 100%;
-
-    .dz-progress {
-      width: 15em;
-      display: inline-block;
-
-      .dz-upload {
-        background-color: $grass-green;
-        display: inline-block;
-        height: 15px;
-        border-radius: 10px;
-      }
-
-      &.dz-success {
-        .dz-success-mark {
-          position: static;
-        }
-      }
-    }
-  }
-
-  .file-info {
-    font-size: 12px;
-    color: $secondary-text-colour;
   }
 }
 
-
-
-.dz-success.dz-complete {
-  .dz-progress {
-    display: none;
-  }
-}
-
+/*--- Dropzone end ---*/
 
 .btn-spacer-20 {
   margin-right: 20px;

@@ -171,11 +171,11 @@ spec:
                 secretKeyRef:
                   name: cccd-messaging
                   key: secret_access_key
-            - name: SETTINGS__AWS__SQS__RESPONSE_QUEUE_URL
+            - name: AWS_RESPONSE_QUEUE_NAME
               valueFrom:
                 secretKeyRef:
                   name: cccd-messaging
-                  key: sqs_cccd_url
+                  key: sqs_cccd_name
             - name: SETTINGS__GOVUK_NOTIFY__API_KEY
               valueFrom:
                 secretKeyRef:

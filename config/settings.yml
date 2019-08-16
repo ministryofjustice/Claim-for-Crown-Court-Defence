@@ -142,10 +142,6 @@ aws:
   sqs:
     access: 'store actual value as SETTINGS__AWS__SQS__ACCESS'
     secret: 'store actual value as SETTINGS__AWS__SQS__SECRET'
-    # NOTE: This is deliberately blank - add a SETTINGS__AWS__SQS__RESPONSE_QUEUE_URL
-    # value to .env files or the deployment repo if needed. this allows the `response_queue`
-    # value to override it until it is set in all hosting areas/technologies
-    response_queue_url:
 
 slack:
   bot_url: 'slack_bot_url'

@@ -11,7 +11,8 @@ class InjectionResponseService
     return failure(action: 'run!', uuid: @response['uuid']) unless @claim
 
     injection_attempt
-    if Settings.aws&.sqs&.response_queue_url
+    # TEMP: always send slack message for live-1 SQS response queue
+    if Settings.aws&.response_queue&.match?('laa-get-paid')
       slack.send_message!
     else
       slack.send_message! unless injection_attempt.notification_can_be_skipped?

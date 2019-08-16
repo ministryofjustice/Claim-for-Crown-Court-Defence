@@ -12,15 +12,15 @@ RSpec.describe InjectionResponseService, slack_bot: true do
   let(:valid_json_on_failure) { { "from":"external application", "errors":[ {'error':"No defendant found for Rep Order Number: '123456432'."}, {'error':error_message} ],"uuid":claim.uuid,"messages":[] } }
   let(:error_message) { "Another injection error." }
 
-shared_examples "creates injection attempts" do
-  it 'returns true' do
-    is_expected.to be true
-  end
+  shared_examples "creates injection attempts" do
+    it 'returns true' do
+      is_expected.to be true
+    end
 
-  it 'creates an injection attempt' do
-    expect{ run! }.to change(InjectionAttempt, :count).by(1)
+    it 'creates an injection attempt' do
+      expect{ run! }.to change(InjectionAttempt, :count).by(1)
+    end
   end
-end
 
   context 'when initialized with' do
     describe 'valid json' do
@@ -79,7 +79,7 @@ end
     end
 
     context 'when testing kubernetes' do
-      before { allow(Settings.aws.sqs).to receive(:response_queue_url).and_return('http://test.aws.queue') }
+      before { allow(Settings.aws).to receive(:response_queue).and_return('laa-get-paid-test-responses-for-cccd') }
 
       context 'when injection succeeded' do
         let(:json) { valid_json_on_success }

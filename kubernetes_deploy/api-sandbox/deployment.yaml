@@ -21,7 +21,7 @@ spec:
       containers:
         - name: cccd-app
           imagePullPolicy: Always
-          image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:latest
+          image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:set-me
           ports:
             - containerPort: 3000
           readinessProbe:

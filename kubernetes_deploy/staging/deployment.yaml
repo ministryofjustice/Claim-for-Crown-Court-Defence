@@ -21,7 +21,7 @@ spec:
       containers:
         - name: cccd-app
           imagePullPolicy: Always
-          image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-snsv9
+          image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:set-me
           ports:
             - containerPort: 3000
           readinessProbe:
@@ -241,4 +241,18 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: CCLF_CASEWORKER_API_KEY
-
+            - name: CURRENCY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: CURRENCY_API_KEY
+            - name: PERF_PLAT_TBC_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: PERF_PLAT_TBC_TOKEN
+            - name: PERF_PLAT_QV_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: PERF_PLAT_QV_TOKEN

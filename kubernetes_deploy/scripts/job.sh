@@ -4,7 +4,7 @@ function _job() {
   Usage: kubernetes_deploy/bin/job task environment
   Where:
     task [migrate|seed]
-    environment [dev|staging|api-sandbox]
+    environment [dev|staging|api-sandbox|production]
     branch [<branchname>-latest|commit-sha]
     "
 
@@ -25,7 +25,7 @@ function _job() {
   esac
 
   case "$2" in
-    dev | staging | api-sandbox)
+    dev | staging | api-sandbox | production)
       environment=$2
       ;;
     *)

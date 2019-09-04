@@ -11,7 +11,7 @@
         .form-group.inline.js-test-claim-action
           = f.collection_radio_buttons(:claim_action, Claims::ExternalUserActions.available_for(@claim), :to_s, :to_s) do |b|
             .multiple-choice
-              = b.radio_button("aria-labelledby": "radio-control-legend-1 #{b.text.to_css_class}")
+              = b.radio_button('aria-labelledby': "radio-control-legend-1 #{b.text.to_css_class}")
               = b.label(id: b.value.to_css_class) { b.value.humanize }
 
   - if messaging_permitted?(message) || current_user_is_caseworker?

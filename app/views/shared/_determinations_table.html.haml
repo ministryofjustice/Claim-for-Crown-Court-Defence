@@ -5,18 +5,18 @@
   = render partial: 'shared/summary_totals', locals: { claim: claim }
 
   %h3.heading-medium
-    = "Assessment summary"
+    = t('shared.determinations_form.assessment_summary')
 
   %table#determinations
     %caption.visuallyhidden
       = t('.caption')
     %thead
       %tr
-        %th
-
-        %th.numeric{scope: 'col'}
+        %th{ scope: 'col' }
+          = t('common.description')
+        %th.numeric{ scope: 'col' }
           = t('.claimed_by', type: claim.external_user_description)
-        %th.numeric{ scope: 'col'}
+        %th.numeric{ scope: 'col' }
           = t('.laa_heading')
     %tbody
       - if claim.redeterminations.any?

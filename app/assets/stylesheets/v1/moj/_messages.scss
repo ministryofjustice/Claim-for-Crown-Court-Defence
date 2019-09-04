@@ -251,9 +251,9 @@
         margin: 0;
         padding-left: $gutter;
         padding-right: $gutter;
-        background-color: $link-hover-colour;
+        background-color: $govuk-blue;
         color: $page-colour;
-        box-shadow: 0 2px 0 $link-colour;
+        box-shadow: 0 2px 0 $govuk-blue;
 
         &:hover {
           background-color: $link-colour;

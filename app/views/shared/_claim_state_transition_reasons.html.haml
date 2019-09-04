@@ -2,7 +2,7 @@
   .notice
     %i.icon.icon-important
       %span.visuallyhidden
-        = "Warning"
+        = t('common.warning')
     %strong.bold-small
       - present(claim.last_state_transition) do |transition|
         = transition.reason_header

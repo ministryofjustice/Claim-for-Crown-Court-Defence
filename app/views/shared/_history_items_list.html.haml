@@ -1,7 +1,7 @@
 - present(claim, ClaimHistoryPresenter) do |claim|
   - if claim.history_items_by_date.none?
     %span.no-messages
-      No messages found
+      = t('shared.no_message_found')
   - else
     - claim.history_items_by_date.each do |date, history_items|
       %fieldset.single-date
@@ -10,4 +10,4 @@
         .event-date
           = casual_date(date)
         - history_items.each do |history_item|
-          = render partial: 'shared/history_item', locals: {history_item: history_item }
+          = render partial: 'shared/history_item', locals: { history_item: history_item }

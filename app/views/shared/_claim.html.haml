@@ -11,58 +11,58 @@
     %tbody
       - unless claim.providers_ref.blank?
         %tr
-          %th{scope: "col"}
+          %th{ scope: 'row' }
             = 'Provider reference number'
           %td
             = claim.providers_ref
 
       - unless claim.draft?
         %tr
-          %th{scope: "col"}
+          %th{ scope: 'row' }
             = "Claim submitted on"
           %td
             = claim.submitted_at
 
       - if claim.case_workers.any? && current_user_is_caseworker? && current_user.persona.admin?
         %tr
-          %th{scope: "col"}
+          %th{ scope: 'row' }
             = t ('.assignee')
           %td
             = claim.case_worker_names
 
       - if @claim.lgfs?
         %tr
-          %th{scope: "col"}
+          %th{ scope: 'row' }
             = t('common.external_user.claim_creator')
           %td
             = claim.creator.name
 
       - if @claim.agfs?
         %tr
-          %th{scope: "col"}
+          %th{ scope: 'row' }
             = t("common.external_user.#{@claim.external_user_type}")
           %td
             = claim.external_user.name
         %tr
-          %th{scope: "col"}
+          %th{ scope: 'row' }
             = t("common.external_user.category.#{@claim.external_user_type}")
           %td
             = claim.advocate_category
 
       %tr
-        %th{scope: "col"}
+        %th{ scope: 'row' }
           = t("common.external_user.account_number.#{@claim.external_user_type}")
         %td
           = claim.supplier_number
 
       %tr
-        %th{scope: "col"}
+        %th{ scope: 'row' }
           = t('common.crown_court')
         %td
           = claim.court.name if claim.court
 
       %tr
-        %th{scope: "col"}
+        %th{ scope: 'row' }
           =t('.case_num')
         %td
           = claim.case_number
@@ -71,20 +71,20 @@
 
       - if claim.transfer_court.present?
         %tr
-          %th{scope: "col"}
+          %th{ scope: 'row' }
             = t('common.transfer_court')
           %td
             = claim.transfer_court.name
 
         %tr
-          %th{scope: "col"}
+          %th{ scope: 'row' }
             = t('common.transfer_case_number')
           %td
             = claim.transfer_case_number
 
       - if claim.case_type.try(:name)
         %tr
-          %th{scope: "col"}
+          %th{ scope: 'row' }
             = t('.case_type')
           %td
             = claim.case_type.try(:name)

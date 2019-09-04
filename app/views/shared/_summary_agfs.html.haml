@@ -24,7 +24,7 @@
             %th.numeric{ scope: 'col' }
               = t('.rate')
             %th.numeric.col-gross{ scope: 'col' }
-              = "Net amount"
+              = t('shared.net_amount')
         %tbody
           - present_collection(claim.fees.select(&:present?).sort_by(&:position)).each do |fee|
             %tr
@@ -78,19 +78,19 @@
       %table.figures
         %thead
           %tr
-            %th
-              = "&nbsp;".html_safe
-            %th.col-net.numeric
-              = "Net amount"
-            %th.col-vat.numeric
-              = "VAT"
-            %th.col-gross.numeric
-              = "Gross amount"
+            %th{ scope: 'col' }
+              = ''
+            %th.col-net.numeric{ scope: 'col' }
+              = t('shared.net_amount')
+            %th.col-vat.numeric{ scope: 'col' }
+              = t('shared.vat')
+            %th.col-gross.numeric{ scope: 'col' }
+              = t('shared.gross_amount')
 
         %tbody
           %tr.totals
             %td
-              = "Fees Totals:"
+              = t('shared.summary.fees_total')
             %td.numeric
               = claim.fees_total
             %td.numeric
@@ -121,7 +121,7 @@
     - if claim.can_have_expenses?
       - if claim.expenses.empty?
         %h3.heading-medium
-          = "Expenses"
+          = t('common.expenses')
         %p
           = t('shared.summary.no_values.expenses')
       - else

@@ -85,7 +85,7 @@
     - if claim.can_have_expenses?
       - if claim.expenses.empty?
         %h3.heading-medium
-          = "Expenses"
+          = t('common.expenses')
         %p
           = t('shared.summary.no_values.expenses')
       - else
@@ -94,31 +94,31 @@
     - if claim.can_have_disbursements?
       - if claim.disbursements.empty?
         %h3.heading-medium
-          = "Disbursements"
+          = t('common.disbursements')
         %p
           = t('shared.summary.no_values.disbursements')
       - else
         / table does noe require summary
         - if claim.disbursements.with_vat.any?
           %h3.heading-medium
-            = "Disbursements with VAT"
+            = t('shared.disbursements_gross')
           %table.figures
             %caption.visually-hidden
               = t('.disbursements.caption')
             %thead
               %tr
-                %th{scope: 'col'}
-                  = "Disbursement type"
-                %th.col-net.numeric{scope: 'col'}
-                  = "Net amount"
-                %th.col-vat.numeric{scope: 'col'}
-                  = "VAT"
-                %th.col-gross.numeric{scope: 'col'}
-                  = "Gross amount"
+                %th{ scope: 'col' }
+                  = t('shared.disbursement_type')
+                %th.col-net.numeric{ scope: 'col' }
+                  = t('shared.net_amount')
+                %th.col-vat.numeric{ scope: 'col' }
+                  = t('shared.vat')
+                %th.col-gross.numeric{ scope: 'col' }
+                  = t('shared.gross_amount')
             %tbody
               - present_collection(claim.disbursements.with_vat).each do |disbursement|
                 %tr
-                  %td{scope:'row'}
+                  %td{ scope: 'row' }
                     = disbursement.name
                   %td.numeric
                     = disbursement.net_amount
@@ -129,7 +129,7 @@
             %tfoot
               %tr.totals
                 %td
-                  = "Disbursements with VAT total:"
+                  = t('shared.disbursements_gross')
                 %td.numeric
                   = claim.disbursements_with_vat_net
                 %td.numeric
@@ -139,22 +139,22 @@
 
         - if claim.disbursements.without_vat.any?
           %h3.heading-medium
-            = "Disbursements without VAT"
+            = t('shared.disbursements_no_vat')
           %table.figures
             %caption.visually-hidden
               = t('.disbursements.caption')
             %thead
               %tr
-                %th{scope: 'col'}
-                  = "Disbursement type"
-                %th.col-net.numeric{scope: 'col'}
-                  = "Net amount"
-                %th.col-gross.numeric{scope: 'col'}
-                  = "Gross amount"
+                %th{ scope: 'col' }
+                  = t('shared.disbursement_type')
+                %th.col-net.numeric{ scope: 'col' }
+                  = t('shared.net_amount')
+                %th.col-gross.numeric{ scope: 'col'}
+                  = t('shared.gross_amount')
             %tbody
               - present_collection(claim.disbursements.without_vat).each do |disbursement|
                 %tr
-                  %td{scope:'row'}
+                  %td{ scope: 'row' }
                     = disbursement.name
                   %td.numeric
                     = disbursement.net_amount
@@ -163,7 +163,7 @@
             %tfoot
               %tr.totals
                 %td
-                  = "Disbursements without VAT total:"
+                  = t('shared.disbursements_no_vat')
                 %td.numeric
                   = claim.disbursements_without_vat_net
                 %td.numeric

@@ -1,13 +1,11 @@
 %h3.heading-small
   Help with sending the evidence
+  = t('disk_evidence.help_sending_evidence')
 
 %p
-  You have electronic evidence on disk that relates to this claim. It is recommended that you send it by recorded delivery.
+  = t('disk_evidence.hint')
 
 %p
-  Please fill the
-  %a{ href: disc_evidence_external_users_claim_path(@claim), rel: 'external', target: '_blank'}
-    electronic evidence coversheet
-  and include it with your disk(s).
+  = t('disk_evidence.hint_html')
 
 = render partial: 'external_users/claims/supporting_documents/laa_address', locals: { f: f }

@@ -1,21 +1,24 @@
 - trial_detail_translations = 'external_users.claims.case_details.trial_detail_fields'
 %tr
-  %th{scope: "col"}
+  %th{ scope: 'row' }
     = t("#{trial_detail_translations}.first_day_of_trial")
   %td
     = claim.first_day_of_trial.strftime(Settings.date_format) rescue ''
+
 %tr
-  %th{scope: "col"}
+  %th{ scope: 'row' }
     = t("#{trial_detail_translations}.estimated_trial_length")
   %td
     = claim.estimated_trial_length rescue ''
+
 %tr
-  %th{scope: "col"}
+  %th{ scope: 'row' }
     = t("#{trial_detail_translations}.actual_trial_length")
   %td
     = claim.actual_trial_length rescue ''
+
 %tr
-  %th{scope: "col"}
+  %th{ scope: 'row' }
     = t("#{trial_detail_translations}.trial_concluded_at")
   %td
     = claim.trial_concluded_at.strftime(Settings.date_format) rescue ''

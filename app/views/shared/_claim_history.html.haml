@@ -6,8 +6,8 @@
   - message_controls_url = show_message_controls_external_users_claim_path(claim)
 
 .messages-container.no-print
-  .messages-list
-    = render partial: 'shared/history_items_list', locals: {claim: claim }
+  .messages-list{ 'aria-label': t('shared.claim_accordion.h2_messages'), role: 'region', tabindex: 0 }
+    = render partial: 'shared/history_items_list', locals: { claim: claim }
   .messages-print-link
     = link_to t('.print_messages'), open_messages_url
   .message-status
@@ -16,5 +16,5 @@
     %span.message-error
 
   - if show_message_controls?(claim)
-    .js-controls.message-controls{"data-auth-url" => message_controls_url }
-      = render partial: "shared/message_controls", locals: {message: @message }
+    .js-controls.message-controls{ 'data-auth-url': message_controls_url }
+      = render partial: 'shared/message_controls', locals: { message: @message }

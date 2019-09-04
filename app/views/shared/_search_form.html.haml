@@ -9,16 +9,16 @@
         %legend.visuallyhidden
           = t('common.search.legend')
 
-        %label.form-label-bold{:for => "search"}
+        %label.form-label-bold{ for: 'search' }
           = t('common.search.label')
           %span.form-hint
             = hint_text
-        = text_field_tag :search, params[:search], class: "form-control"
+        = text_field_tag :search, params[:search], class: 'form-control'
     .form-group
       = button_tag(type: 'submit', class: 'button', title: t('common.search.label')) do
         - if local_assigns[:button_text]
           = button_text
         - else
-          = "Search"
+          = t('common.search')
 
   = yield :search_html_block

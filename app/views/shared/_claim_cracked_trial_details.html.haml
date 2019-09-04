@@ -1,21 +1,24 @@
 - cracked_trial_detail_translations = 'external_users.claims.case_details.cracked_trial_fields'
 %tr
-  %th{scope: "col"}
+  %th{ scope: 'row' }
     = t("#{cracked_trial_detail_translations}.trial_fixed_notice_at")
   %td
     = claim.trial_fixed_notice_at.strftime(Settings.date_format) rescue ''
+
 %tr
-  %th{scope: "col"}
+  %th{ scope: 'row' }
     = t("#{cracked_trial_detail_translations}.trial_fixed_at")
   %td
     = claim.trial_fixed_at.strftime(Settings.date_format) rescue ''
+
 %tr
-  %th{scope: "col"}
+  %th{ scope: 'row' }
     = t("#{cracked_trial_detail_translations}.trial_cracked_at")
   %td
     =  claim.trial_cracked_at.strftime(Settings.date_format) rescue ''
+
 %tr
-  %th{scope: "col"}
+  %th{ scope: 'row' }
     = t("#{cracked_trial_detail_translations}.trial_cracked_at_third")
   %td
     = claim.trial_cracked_at_third.humanize rescue ''

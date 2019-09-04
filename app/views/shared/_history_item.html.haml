@@ -1,11 +1,11 @@
 - if history_item.is_a? Message
   - present(history_item, MessagePresenter) do |message|
-    = render partial: 'shared/message', locals: {message: message}
+    = render partial: 'shared/message', locals: { message: message }
 
 - elsif history_item.is_a?(PaperTrail::Version) && history_item.item_type == 'Determination'
   - present(history_item, DeterminationPresenter) do |determination|
-    = render partial: 'shared/determination', locals: {determination: determination }
+    = render partial: 'shared/determination', locals: { determination: determination  }
 
 - elsif history_item.is_a?(ClaimStateTransition)
   - present(history_item, ClaimStateTransitionPresenter) do |claim_state_transition|
-    = render partial: 'shared/state_change', locals: {claim_state_transition: claim_state_transition }
+    = render partial: 'shared/state_change', locals: { claim_state_transition: claim_state_transition }

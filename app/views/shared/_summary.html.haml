@@ -155,19 +155,19 @@
                 %td.numeric
                   = disbursement.total
         .totals
-          = 'Disbursements total'
+          = t('shared.disbursements_total')
           = claim.disbursements_total
 
     .totals
-      = 'Claim total (net):'
+      = t('shared.claim_net_total')
       = claim.total
 
     .totals
-      = 'VAT:'
+      = t('shared.vat')
       = claim.vat_amount
 
     .totals
-      = 'Claim total (inc. VAT)'
+      = t('shared.claim_gross_total')
       = claim.total_inc_vat
 
     - if claim.additional_information.present?

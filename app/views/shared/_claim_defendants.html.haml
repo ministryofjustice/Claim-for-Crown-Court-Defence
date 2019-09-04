@@ -3,10 +3,10 @@
 
   .grid-row.defendant-row
     .column-half
-      = render partial: 'shared/claim_defendant_details', locals: {defendant: defendant_left, index: defendant_count += 1 }
+      = render partial: 'shared/claim_defendant_details', locals: { defendant: defendant_left, index: defendant_count += 1 }
 
     .column-half
       - if defendant_right
-        = render partial: 'shared/claim_defendant_details', locals: {defendant: defendant_right, index: defendant_count += 1 }
+        = render partial: 'shared/claim_defendant_details', locals: { defendant: defendant_right, index: defendant_count += 1 }
       - else
         &nbsp;

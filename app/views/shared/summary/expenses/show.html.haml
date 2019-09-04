@@ -1,14 +1,14 @@
 %tr.no-border
-  %td{style: 'width: 20%'}
+  %td
     %span.bold-normal
       = expense.name
-    - if current_user_is_caseworker?  && @claim.lgfs?
+    - if current_user_is_caseworker? && @claim.lgfs?
       %span.state{ class: "state-#{expense.state.downcase}" }
         = expense.state
-  %td{style: 'width: 12%'}
+  %td
     %span.bold-normal
       = expense.reason
-  %td{ style: 'width: 75%'}
+  %td
     = render partial: 'shared/summary/expenses/details', locals: { claim: claim, expense: expense }
   %td
     = expense.pretty_date

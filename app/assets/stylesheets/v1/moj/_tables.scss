@@ -102,11 +102,6 @@ table {
   }
 
   tbody {
-    tr:nth-child(odd) {
-      background-color: $grey-3;
-      background-color: $grey-4;
-    }
-
     th {
       @include core-16;
       font-weight: 700;
@@ -289,11 +284,6 @@ table.report {
       display: none;
     }
 
-    tbody tr:nth-child(odd),
-    tbody tr:nth-child(even) {
-      background-color: none !important;
-    }
-
     td:before {
       content: attr(data-label);
       float: left;
@@ -400,10 +390,6 @@ table.nested-summary {
   }
 
   tbody {
-    tr:nth-child(odd) {
-      background: transparent;
-    }
-
     th {
       @include core-19;
       font-weight: 700;

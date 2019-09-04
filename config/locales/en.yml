@@ -22,6 +22,7 @@ en:
   TrueClass: 'Yes'
   FalseClass: 'No'
   layouts:
+    phase_banner_html: 'This is a new service – your <a href="%{feedback}"><span class="visuallyhidden">Give your </span>feedback</a> will help us to improve it. You can <a href="%{feedback_type}">report a fault here</a>.'
     primary_navigation:
       add_a_provider: Add a provider
       allocation: Allocation
@@ -329,6 +330,7 @@ en:
       label: Search
       legend: Search for a claim using a case number, defendant name or advocate/litigator name
     description: Description
+    warning: 'Warning'
   link:
     add_claim: Start a claim
     back: Back
@@ -351,6 +353,9 @@ en:
   disk_evidence:
     header: 'Evidence supplied on disk'
     question: 'Will you be sending disk evidence for this claim?'
+    help_sending_evidence: 'Help with sending the evidence'
+    hint: 'You have electronic evidence on disk that relates to this claim. It is recommended that you send it by recorded delivery.'
+    hint_html: 'Please fill the <a href="%{link}" rel="external" target="_blank">electronic evidence coversheet</a> and include it with your disk(s).'
   fee_calculator:
     calculate:
       amount_unavailable: The calculated rate is unavailable, please enter manually.
@@ -1894,6 +1899,10 @@ en:
           destination: Destination
           view_map_link: View on a map
           hours: Hours
+          distance_count:
+            one: '1 mile'
+            other: '%{count} miles'
+            zero: 'not applicable'
         distance_warnings:
           title:
             one: There is an error with the travel expenses
@@ -2112,6 +2121,22 @@ en:
       scheme_filter_hint: 'Configure list below by AGFS and LGFS claims'
       scheme_filter: 'Filter list by:'
       scheme_filter_all: 'All'
+    claim_gross_total: 'Claim total (inc. VAT)'
+    claim_net_total: 'Claim total (net)'
+    claim_total: 'Claim total'
+    description: 'Description'
+    disbursement_type: 'Disbursement type'
+    disbursements_gross: 'Disbursements with VAT'
+    disbursements_no_vat: 'Disbursements without VAT'
+    disbursements_total: 'Disbursements total'
+    download_all: 'Download all'
+    expenses_net: 'Expenses without VAT'
+    fees: 'Fees'
+    gross_amount: 'Gross amount'
+    net_amount: 'Net amount'
+    no_message_found: 'No messages found'
+    summary_totals: 'Summary totals'
+    vat: 'VAT'
   case_workers:
     table_headings:
       your_claims: Your claims

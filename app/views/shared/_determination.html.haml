@@ -1,6 +1,6 @@
 .grid-row.history
   .column-third
-    &nbsp;
+    = ''
   .column-two-thirds
     .message-right.event
       .message-container
@@ -11,7 +11,7 @@
               = t('.caption')
             - determination.itemise do |item, amount|
               %tr
-                %th{scope: 'row'}
+                %th{ scope: 'row' }
                   #{item}:
-                %td{scope:'col'}
+                %td
                   #{number_to_currency(amount)}

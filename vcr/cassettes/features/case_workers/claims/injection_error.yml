@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=002e3ee5-e8a5-4145-b4ad-941a5f52d605&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=a59e80d1-4818-47e6-a9c3-9613bde6fe3c&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
       - "*/*"
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
-      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.3p105
+      - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.3p62
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Host:
       - localhost:3001
   response:
@@ -24,37 +24,39 @@ http_interactions:
       - application/json
       Vary:
       - Accept-Encoding
-      Content-Encoding:
-      - gzip
       Etag:
-      - W/"1da502d112c7abebb29fbb8d6a5ecc5e"
+      - W/"a039d226c3c7a44ba1dd889ecf63d0fa"
       Cache-Control:
       - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
       X-Request-Id:
-      - ddf6dfc5-e263-4929-9f1b-4732ce910a90
+      - fb958af8-eb21-406e-9673-f2a07e252241
       X-Runtime:
-      - '0.047307'
+      - '0.053846'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: !binary |-
-        H4sIAC7GtVwAA2xUy3LbOgz9lQzXpoekqJdXfS266Ko3m3s7HQ3Eh8NGolyKdJrJ5N8vKD/iuN7YIg4IHAAHfCE72DoP0U2ebF6ISiEYHzu0GrLhKxKnCMNynC/Oako+LufBjS52exhS9mevK+KiGdH3xwtxenFJKX8QXtiqqIqWqropqNRQ0541mratURa4tdwqsiIKZtP5NPYm4KWPgvGKi0IiMkeImITAMEwKPzXa4vMumz4P4MbN5qPeL8hyRHSAOXZz6pEiuneAlAkGbCmTlFf3XCDjjeD/kWNdZMPWbEX2EDsYDyUuhmlnPN63U+iC0SaaMJ57ZmGYzYo8hZzDIw7z5OduShH5eu389uyj3fzYmb3Txitzto5mnnN7T03FfMljGN3dQMwfTO5xAmnO/Tn0WJx7rEqhdKUaWrVcUlk2lvZ9D/jTMKWsFVZzLNa6gI3xMObefYUwDfrUraPx8zQYNJkRHHaFbJMzGtL2wYT4/GEbQD+vp7AlOG5trPEafLw1cykll7xgtKxAU6mqnvZtpWllpBScFciKXfP5AtghuOaTxtEEiNmuccLdZLvehfiQhdU2x4kiGMwumBklvIynm4I24RaziglRspajBhVQyUDQXjNGW1Fo3beigaLAcCOgFgKWGA4zI3VVF5VgRxoHPTWUFZQL7Mb1PMByo1swFErFqKxz/bovaQ0o64qxRjbNrSxlKwu+EHiXRVLGyevP15/HNTmo/5C0rIsVOXULwbt7BO9ydDd31v3J+jVvqgvmd3IhayuAekQwJ5r/hmNwqLb3YF7Ap26nxocc8sji+uJ1TTGkSziYW5FRifn0g8DWzlkC+Q+rPaXBTdAYy6dhyC+N/2XUMmbA3Rt3RwnOSSmDa6rPYU0IuLqndcrxz1fvFuwub8W1TeTM2gzm9HYsaU+9f5rC46W03obeW2Gaoq3wjUNdSFY2tOVWUwChuSwKbfv6WvSfUohXkv+e/DTYGV+Ti0Xs0W8dzsiHAWC9nfbr9HhW35vGywqFDAWnjZCCSoAqE5G0qVume2C1qJprIve44kvGSyrfwG+xXty2NyZxcVwPJ+gdldykKZd0FGfN22zJsyP/frmnOe1Jqw/BzdGBx6Wl/+CTGSe/4EuAo7iICtOTJ6+o/f8BAAD//wMAl/5sRrIGAAA=
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"d41b8144-e618-41bc-bb23-0bd026c2ca70","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2019-09-06T10:33:04Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":2,"uuid":"49853682-de7b-445c-9fde-8a22bcae5837","first_name":"Kami","last_name":"Deckow","email":"gertrud@rippinpadberg.io"},"defendants":[{"id":1,"uuid":"bfa7fe36-bdd2-4958-aa0d-2bf6d241e753","first_name":"George","last_name":"Raynor","date_of_birth":"1989-09-06","representation_orders":[{"id":1,"uuid":"09300a16-36b9-4968-ab6e-523cfe6d90b3","maat_reference":"7402719","date":"2016-01-01"},{"id":2,"uuid":"a436d03d-8a8a-46fc-85d7-2f9b85379971","maat_reference":"8573907","date":"2018-08-22"}]}],"case_type":{"id":161,"name":"Case
+        Type 8","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[{"succeeded":false,"error_messages":["injection
+        error 1","injection error 2"],"deleted_at":null}],"case_workers":[{"id":2,"uuid":"8be50d3a-c5d9-4d52-8abd-933041e45706","first_name":"Conrad","last_name":"Kuphal","email":"conrad.kuphal@laa.gov.uk"},{"id":1,"uuid":"fa1a8fda-7d43-4ee5-a3af-ec0fa9e30c79","first_name":"Faustino","last_name":"Schneider","email":"faustino.schneider@laa.gov.uk"}],"court":{"id":764,"code":"BFS-8","name":"Nader
+        Inc-8","court_type":"crown"}}]}'
     http_version: 
-  recorded_at: Tue, 16 Apr 2019 12:10:22 GMT
+  recorded_at: Fri, 06 Sep 2019 10:33:05 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=002e3ee5-e8a5-4145-b4ad-941a5f52d605&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=a59e80d1-4818-47e6-a9c3-9613bde6fe3c&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
       - "*/*"
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
-      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.3p105
+      - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.3p62
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Host:
       - localhost:3001
   response:
@@ -66,37 +68,39 @@ http_interactions:
       - application/json
       Vary:
       - Accept-Encoding
-      Content-Encoding:
-      - gzip
       Etag:
-      - W/"1da502d112c7abebb29fbb8d6a5ecc5e"
+      - W/"a039d226c3c7a44ba1dd889ecf63d0fa"
       Cache-Control:
       - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
       X-Request-Id:
-      - a38bac30-fab8-40e7-be5d-9d7fd8b299ba
+      - cc7a7ca8-8ac7-4331-bf30-99edf1c83b5a
       X-Runtime:
-      - '0.036905'
+      - '0.083865'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: !binary |-
-        H4sIAC7GtVwAA2xUy3LbOgz9lQzXpoekqJdXfS266Ko3m3s7HQ3Eh8NGolyKdJrJ5N8vKD/iuN7YIg4IHAAHfCE72DoP0U2ebF6ISiEYHzu0GrLhKxKnCMNynC/Oako+LufBjS52exhS9mevK+KiGdH3xwtxenFJKX8QXtiqqIqWqropqNRQ0541mratURa4tdwqsiIKZtP5NPYm4KWPgvGKi0IiMkeImITAMEwKPzXa4vMumz4P4MbN5qPeL8hyRHSAOXZz6pEiuneAlAkGbCmTlFf3XCDjjeD/kWNdZMPWbEX2EDsYDyUuhmlnPN63U+iC0SaaMJ57ZmGYzYo8hZzDIw7z5OduShH5eu389uyj3fzYmb3Txitzto5mnnN7T03FfMljGN3dQMwfTO5xAmnO/Tn0WJx7rEqhdKUaWrVcUlk2lvZ9D/jTMKWsFVZzLNa6gI3xMObefYUwDfrUraPx8zQYNJkRHHaFbJMzGtL2wYT4/GEbQD+vp7AlOG5trPEafLw1cykll7xgtKxAU6mqnvZtpWllpBScFciKXfP5AtghuOaTxtEEiNmuccLdZLvehfiQhdU2x4kiGMwumBklvIynm4I24RaziglRspajBhVQyUDQXjNGW1Fo3beigaLAcCOgFgKWGA4zI3VVF5VgRxoHPTWUFZQL7Mb1PMByo1swFErFqKxz/bovaQ0o64qxRjbNrSxlKwu+EHiXRVLGyevP15/HNTmo/5C0rIsVOXULwbt7BO9ydDd31v3J+jVvqgvmd3IhayuAekQwJ5r/hmNwqLb3YF7Ap26nxocc8sji+uJ1TTGkSziYW5FRifn0g8DWzlkC+Q+rPaXBTdAYy6dhyC+N/2XUMmbA3Rt3RwnOSSmDa6rPYU0IuLqndcrxz1fvFuwub8W1TeTM2gzm9HYsaU+9f5rC46W03obeW2Gaoq3wjUNdSFY2tOVWUwChuSwKbfv6WvSfUohXkv+e/DTYGV+Ti0Xs0W8dzsiHAWC9nfbr9HhW35vGywqFDAWnjZCCSoAqE5G0qVume2C1qJprIve44kvGSyrfwG+xXty2NyZxcVwPJ+gdldykKZd0FGfN22zJsyP/frmnOe1Jqw/BzdGBx6Wl/+CTGSe/4EuAo7iICtOTJ6+o/f8BAAD//wMAl/5sRrIGAAA=
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"d41b8144-e618-41bc-bb23-0bd026c2ca70","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2019-09-06T10:33:04Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":2,"uuid":"49853682-de7b-445c-9fde-8a22bcae5837","first_name":"Kami","last_name":"Deckow","email":"gertrud@rippinpadberg.io"},"defendants":[{"id":1,"uuid":"bfa7fe36-bdd2-4958-aa0d-2bf6d241e753","first_name":"George","last_name":"Raynor","date_of_birth":"1989-09-06","representation_orders":[{"id":1,"uuid":"09300a16-36b9-4968-ab6e-523cfe6d90b3","maat_reference":"7402719","date":"2016-01-01"},{"id":2,"uuid":"a436d03d-8a8a-46fc-85d7-2f9b85379971","maat_reference":"8573907","date":"2018-08-22"}]}],"case_type":{"id":161,"name":"Case
+        Type 8","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[{"succeeded":false,"error_messages":["injection
+        error 1","injection error 2"],"deleted_at":null}],"case_workers":[{"id":2,"uuid":"8be50d3a-c5d9-4d52-8abd-933041e45706","first_name":"Conrad","last_name":"Kuphal","email":"conrad.kuphal@laa.gov.uk"},{"id":1,"uuid":"fa1a8fda-7d43-4ee5-a3af-ec0fa9e30c79","first_name":"Faustino","last_name":"Schneider","email":"faustino.schneider@laa.gov.uk"}],"court":{"id":764,"code":"BFS-8","name":"Nader
+        Inc-8","court_type":"crown"}}]}'
     http_version: 
-  recorded_at: Tue, 16 Apr 2019 12:10:22 GMT
+  recorded_at: Fri, 06 Sep 2019 10:33:05 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=002e3ee5-e8a5-4145-b4ad-941a5f52d605&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=a59e80d1-4818-47e6-a9c3-9613bde6fe3c&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
       - "*/*"
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
-      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.5.3p105
+      - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.3p62
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Host:
       - localhost:3001
   response:
@@ -108,22 +112,24 @@ http_interactions:
       - application/json
       Vary:
       - Accept-Encoding
-      Content-Encoding:
-      - gzip
       Etag:
-      - W/"607ff203bd27d1194a3db9421799115a"
+      - W/"a95e863480620f45fbd9113af27d9264"
       Cache-Control:
       - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
       X-Request-Id:
-      - 36d29404-db20-4551-ac9c-7586a8019ecf
+      - a02b6cfd-5e2f-4ad5-9901-c7c8528f65ae
       X-Runtime:
-      - '0.035650'
+      - '0.042861'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: !binary |-
-        H4sIAC/GtVwAA2xUyXIjNwz9FRevEVXc1ItOM5k5zCGnxJdkaqoLzUXmuJutsEl7XC7/e8DWYlnRRWrigcAD8MBXsoedD5D8FMj2legcow2pQ6slW74iaUowLMf54qynHNJyHvzoU/cEQy7+7G1FfLIj+n5/Jd4sLjmXD8Klq2QlW6rrRlJloKY9awxtW6sdcOe402RFNMy2C3nsbcRLnwXjFRdSITInSJiEwDBMGj8N2tLLvpi+DODH7fazeVqQ5YjoAHPq5twjRXTvACkTDNhSpiiv7rlAxlvB/yHHusiWrdmKPEHqYDyUuBimvQ14302xi9bYZON47pmDYbYr8hxLjoA4zFOYuykn5BuMD7uzj/HzY2efvLFB27N1tPNc2ntqKubLAcOY7gZif2HygBPIc+nPocfi3GO9EdpUuqFVyxVVm8bRvu8BfxqmtXPCGY7FOh+xMQHG0rtvEKfBnLp1NH6ZBosmO4LHrpBd9tZA3j3YmF4+7SKYl/UUdwTHbayzwUBIt2aulOKKS0Y3FRiqdNXTvq0MraxSgjOJrNg1n6+AHYJrPnkcbYRU7AYn3E2u631MD0VYbXOcKILR7qOdUcLLeLopGhtvMauYEBvWctSgBqoYCNobxmgrpDF9KxqQEsONgFqIWGI8zIzUVS0rwY40DnpqKJOUC+zG9TzAcWtasBQ2mlFVl/pNv6E1oKwrxhrVNLeybFol+ULgQxZFGSdvP95+HNfkoP5D0k0tV+TULQTv7hG8K9H93Dn/q+jXvqsu2n+zj0VbEfQjgiXR/H84RY9q+wiWBXzu9np8KCGPLK4vXteUYr6Eo70VGZVYTt8J7NxcJFD+sNpTGtwEg7FCHoby0oSfVi9jBty9cX+U4Jy1trim5hzWxoire1qnEv989W7B7spWXNtEyWzsYG++HXJ5O+RvjG8ZI+eRPE/x8VJx71ronbCNbCt8+lAuim0a2nJnKIAwXElpXF9f78LvOaarTfgzh2lwMz4yF/vZo986npFPA8B6Nz2t8+NZlO/S31Sob5CcNkIJqgCqQkTRpm6Z6YHVomquidzj5i8ZL6n8AWGH9eISvjNJi+N6OEEfqJQmTaWko2Zr3hZLGSn5++s9LWlPEn6Ifk4eAu4y/Qtf0jSFBV8CHDVHdJyeA3nDlfgPAAD//wMAbhfm9skGAAA=
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"d41b8144-e618-41bc-bb23-0bd026c2ca70","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2019-09-06T10:33:04Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":2,"uuid":"49853682-de7b-445c-9fde-8a22bcae5837","first_name":"Kami","last_name":"Deckow","email":"gertrud@rippinpadberg.io"},"defendants":[{"id":1,"uuid":"bfa7fe36-bdd2-4958-aa0d-2bf6d241e753","first_name":"George","last_name":"Raynor","date_of_birth":"1989-09-06","representation_orders":[{"id":1,"uuid":"09300a16-36b9-4968-ab6e-523cfe6d90b3","maat_reference":"7402719","date":"2016-01-01"},{"id":2,"uuid":"a436d03d-8a8a-46fc-85d7-2f9b85379971","maat_reference":"8573907","date":"2018-08-22"}]}],"case_type":{"id":161,"name":"Case
+        Type 8","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[{"succeeded":false,"error_messages":["injection
+        error 1","injection error 2"],"deleted_at":"2019-09-06T11:33:06+01:00"}],"case_workers":[{"id":2,"uuid":"8be50d3a-c5d9-4d52-8abd-933041e45706","first_name":"Conrad","last_name":"Kuphal","email":"conrad.kuphal@laa.gov.uk"},{"id":1,"uuid":"fa1a8fda-7d43-4ee5-a3af-ec0fa9e30c79","first_name":"Faustino","last_name":"Schneider","email":"faustino.schneider@laa.gov.uk"}],"court":{"id":764,"code":"BFS-8","name":"Nader
+        Inc-8","court_type":"crown"}}]}'
     http_version: 
-  recorded_at: Tue, 16 Apr 2019 12:10:23 GMT
-recorded_with: VCR 4.0.0
+  recorded_at: Fri, 06 Sep 2019 10:33:07 GMT
+recorded_with: VCR 5.0.0

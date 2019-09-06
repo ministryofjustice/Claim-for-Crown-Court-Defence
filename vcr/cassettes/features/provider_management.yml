@@ -12,7 +12,7 @@ http_interactions:
       Accept-Encoding:
       - gzip, deflate
       User-Agent:
-      - rest-client/2.0.2 (darwin17.7.0 x86_64) ruby/2.6.3p62
+      - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.3p62
       Host:
       - localhost:3001
   response:

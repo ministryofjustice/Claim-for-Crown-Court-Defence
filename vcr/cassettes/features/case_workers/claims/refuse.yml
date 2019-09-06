@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=799c9e78-9ea2-4fc6-8ab1-4af045a69b6b&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=7df7aba1-3036-4fd4-9b13-8b9557b9511f&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
       - "*/*"
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.3p62
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Host:
       - localhost:3001
   response:
@@ -24,37 +24,37 @@ http_interactions:
       - application/json
       Vary:
       - Accept-Encoding
-      Content-Encoding:
-      - gzip
       Etag:
-      - W/"da7f0f2f053a177ed587ed1bceff2a4a"
+      - W/"8fe9fcc512cae63487c6e27578f4f822"
       Cache-Control:
       - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
       X-Request-Id:
-      - 25be78fc-c92e-4d1c-98b8-80b7ada6e468
+      - 7cb01f58-9620-4056-a893-e08b668b2b10
       X-Runtime:
-      - '0.034941'
+      - '0.043193'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: !binary |-
-        H4sIADDGtVwAA2xUXW/bOgz9K4Weo8C2ZMnO04o+bM9DgQ13GAxZohqttpTJcrKh6H+/lPPRLs2TLZLiOSQP9UJ26sl5lVzwZPNC9Bwj+NShFcimXJEUkhqW4/TurMPs03Ie3OhSt1fDnOOL1xVxCUaM/fFCnFlC5jn/kFpwLQQ0tNVCUq57oE1pFbUN1C0Xsq0bRlZEqwk6P489RLx0XxWlKCvG0TMllRCEqGEIGn8N2tLfXTY9DMqNm8292S+e5YjeQU2pm+YeKWJ4p5AywYQtLTgtxWNZIeNNxf8jp7rIplgXK7JXqVPjscTFEHbg8b4NsYtgIEEcLz2zaphgRQ4xY3j0qyn4qQtzQr7eOP90iTFueu5g7wx4DRfrCNOU23tuKuLNHtOY7oYH/iC4xwnMU+7Phx6XoJRpa8pswymHvqV9BYwKq3rR95qVvcBirYvYGK/G3Lv7qDQMf8/tOlkfImCNaIRROWwMMWEE7/SnsFVRTXo7D25Ka+dtIDh0Axa8UT7dmjwvmUEqBbVlJSgXDGhfc03bvrS8MEwD6GtWnyHGa07fFAx669BqcMhdsF3vYtqip2yb01DRGWEXYUIVLxPqQjQQb9ESlRFaNj1qkTHKq15ShUwpbyUAFLZqZI3pRoVyiFhfPI6NSC553YgTjaOkGlowWlbYiiNKdUEBsD3TCrlVAii3EosvCovxfVVXddFKY2+hCNEIXsprFE6Lkrz+fP152pTjAhxBa8lX5Dw/dN49ovOuxRRu6qz7kyUMb8KL8Ht2McsLFfCMzgw0fXSn6FBw/zrzDh66nR63OeWJxfXF65pSnN+7I9zKHMOQTz+IerJTFkD+YLVnGFwGg7n8PAz5sfG/QC9jVrh+427R37k3hxCf34/+bSiMsVY20lLBdEV5L0vay6ahRlaCY9urQthrRX7B9+FKj2Gw9t2KbNWwPmTbp0Gp9VPYr+fniyLedAesrFB2BTV1XVLORE+VYZziykst6wI0/7CkjxH2IV7hP5525IyflqB1yuZ/KOSGhDmms1BkVWSLWRbt4TvNEjnl/IovDdx9jmHeLebl3mm+RMdw8OQV5fc/AAAA//8DAGBOsCk4BgAA
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"33e604dc-d166-4213-a433-34baf94420c2","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2019-09-06T10:33:13Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"7da0234d-351b-4cd7-b8e6-6f58cfd22be7","first_name":"Barbara","last_name":"Stanton","email":"rudy@ryan.name"},"defendants":[{"id":1,"uuid":"2962ae65-0bd3-4fd8-9ea3-985aa069e7b1","first_name":"Kenneth","last_name":"Doyle","date_of_birth":"1989-09-06","representation_orders":[{"id":1,"uuid":"d7bb80e7-157a-4b1b-bbc2-43804b04bd3b","maat_reference":"6913820","date":"2016-01-01"},{"id":2,"uuid":"29ab448e-6604-4238-b07f-749ba92050ac","maat_reference":"6361582","date":"2018-08-22"}]}],"case_type":{"id":162,"name":"Case
+        Type 9","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":2,"uuid":"66a4e2d2-5f09-47dc-b66a-c05cf155e6c9","first_name":"Haywood","last_name":"Labadie","email":"haywood.labadie@laa.gov.uk"},{"id":1,"uuid":"61b2ffe1-9b60-43c9-a5e3-1ba5e4389208","first_name":"Del","last_name":"Schumm","email":"del.schumm@laa.gov.uk"}],"court":{"id":765,"code":"ZDA-9","name":"Haag-Sipes-9","court_type":"crown"}}]}'
     http_version: 
-  recorded_at: Tue, 16 Apr 2019 12:10:24 GMT
+  recorded_at: Fri, 06 Sep 2019 10:33:15 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=799c9e78-9ea2-4fc6-8ab1-4af045a69b6b&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=7df7aba1-3036-4fd4-9b13-8b9557b9511f&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
       - "*/*"
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.3p62
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Host:
       - localhost:3001
   response:
@@ -66,22 +66,21 @@ http_interactions:
       - application/json
       Vary:
       - Accept-Encoding
-      Content-Encoding:
-      - gzip
       Etag:
-      - W/"ecdc2388daa47ea612a373eb34d62332"
+      - W/"af05eefd3cf4c0875b60382409d46200"
       Cache-Control:
       - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
       X-Request-Id:
-      - 1404f86d-09f0-43ae-ab75-16a1a72ff14b
+      - 94c4f884-20dd-4b99-980f-dffb8f355f29
       X-Runtime:
-      - '0.011224'
+      - '0.013995'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: !binary |-
-        H4sIADLGtVwAA6pWKkhMz8xLLMnMz1OyqlZKLi0qSs0riQeKpipZGeooleSXJOaAucVKVgYwfnJ+aV4JmJ+TmZtZEl+WmFMKUm9Qq6OUWZKaC1QbHVsLAAAA//8DAGCLOJhdAAAA
+      string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":10},"items":[]}'
     http_version: 
-  recorded_at: Tue, 16 Apr 2019 12:10:26 GMT
-recorded_with: VCR 4.0.0
+  recorded_at: Fri, 06 Sep 2019 10:33:17 GMT
+recorded_with: VCR 5.0.0

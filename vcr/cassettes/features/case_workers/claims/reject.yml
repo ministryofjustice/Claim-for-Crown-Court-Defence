@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=c7a1d3ab-b25b-436f-bb9e-78c4c7017ff5&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=da530c5d-0c13-4631-9010-dc9effa6baee&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
       - "*/*"
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.3p62
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Host:
       - localhost:3001
   response:
@@ -24,37 +24,38 @@ http_interactions:
       - application/json
       Vary:
       - Accept-Encoding
-      Content-Encoding:
-      - gzip
       Etag:
-      - W/"35e9921c0f7025deae87ba810cdfa6f4"
+      - W/"59a6ba1ef50c98d76656779294b4d022"
       Cache-Control:
       - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
       X-Request-Id:
-      - a339993b-77fd-479e-82a5-2ecb1a6b5ab8
+      - bf34d711-bca8-4924-8288-8aaa7927c288
       X-Runtime:
-      - '0.038411'
+      - '0.043879'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: !binary |-
-        H4sIADfGtVwAA2xUTW/jNhD9KwbPpkFKlET7tEEWaIG2h6I57WIhUOTQZiNRLkk5GwT57x3KH3G8PkmcN5yPN2/4RvZq67xKbvRk80b0FAL41KIVyIYvSRqT6udjvDrrcfJpPvducKk9qH7K/ux9SVyCAX2/vxFnZpdpyj+kZKywrKppLVVHhQZB15W01DZF10ne1Vw3ZEm0itD6aegg4KWHgvGaF6VAJCaVMAlRfT9q/DVoS6/7bHrslRs2mwdzmJH5iGivYmrj1GGJ6N4qLJlgwDVlgvL6iRdY8aZk38ipL7JhK7YkB5VaNRxbnA3jHjzet2NoAxhIEIYLZ1b1EZbkJeQcHnEVRx/bcUpYrzfOby8+xsXnFg7OgNdwsQ4QY6b3TCrmmzyGMe0dBH5ico8TmGLm55ZjK0BqzgrKtQAqikZTqauSdp2w67LTha0kNmtdQGK8GjJ3T24YXs9knWy/Y+VogkE5JIUMKri4QzyM0fkvAbArCKsxbAkO3IAFb5RP96YudWdNqUsqZYlTLyusqOwMbXihYV000gh7W9Gj6g/O35T0TwpKPwNaDU64HW3buZB2iPC1PE0UwQD7ABElPI+nHYOBcK8uVjOp6kJTowyjAjSjnQJLgTfcVnpdap7VOCjUQsAGw3FmpBa8Ws+ZzFGNqCdJWUl5gVwcsxQfmm+ENkYXtFHMUsHqgsrGADVV3dmyMHZdwb0souJVPYv+UxZBGSfvP95/nNbkqP5j0qqpl+RCYITFE4ILzjGGi611P7OA4UN2Af6bXMjimnk1bc4Uf4VTcCi3z2DewJd2r4ddDnkq4/bibVMpTNdwgHuRw9jn03eitjZmBeQPtntOg6tgMJaf+j4/Nf5f0POcFS7fsJ8VeCbnZQzP17P/mErFGwE1M7SDUuCW4EukrOyoZF1ptJG60NWtJh982o3+dk8epwFfgm282hV1dFzpE/SlV2q1HQ+r6fkikKv1kCUqTtSUq05SYdYai8JjI22jRWckdL+sx2/q1UPfw+2C6J3KbF/Vsj15ruIJ+1RMJmqcQjorqCmKbMn8kr///EZn7ZyC/zFhquXirzFqfMTcAt+HxVflHfRHtznQSQhEh/HFk3cU6v8AAAD//wMA4KEZWF8GAAA=
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"0e4d6f99-22f3-484f-9a12-303c869ddf24","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2019-09-06T10:33:22Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"015e604d-c843-4f43-8475-432220e28a0d","first_name":"Akiko","last_name":"Grady","email":"roselee@johnstonjohnson.com"},"defendants":[{"id":1,"uuid":"ce690c97-5079-4fe0-919c-e263a5709567","first_name":"Yevette","last_name":"Ruecker","date_of_birth":"1989-09-06","representation_orders":[{"id":1,"uuid":"b602edf8-b9ba-4b59-a1f0-3b37857c41c8","maat_reference":"5316921","date":"2016-01-01"},{"id":2,"uuid":"22a743d8-746c-4bae-a61d-7e0f2545f509","maat_reference":"8747138","date":"2018-08-22"}]}],"case_type":{"id":164,"name":"Case
+        Type 11","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":2,"uuid":"610ed15e-c6b7-4e50-a60b-edebdb070eff","first_name":"Ambrose","last_name":"Prohaska","email":"ambrose.prohaska@laa.gov.uk"},{"id":1,"uuid":"88da5207-7089-461e-877f-81c969f0299d","first_name":"Federico","last_name":"Herzog","email":"federico.herzog@laa.gov.uk"}],"court":{"id":767,"code":"TNO-11","name":"Goodwin,
+        Walsh and Kirlin-11","court_type":"crown"}}]}'
     http_version: 
-  recorded_at: Tue, 16 Apr 2019 12:10:31 GMT
+  recorded_at: Fri, 06 Sep 2019 10:33:24 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=c7a1d3ab-b25b-436f-bb9e-78c4c7017ff5&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=da530c5d-0c13-4631-9010-dc9effa6baee&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
       - "*/*"
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.3p62
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Host:
       - localhost:3001
   response:
@@ -66,22 +67,21 @@ http_interactions:
       - application/json
       Vary:
       - Accept-Encoding
-      Content-Encoding:
-      - gzip
       Etag:
-      - W/"447d2e5ad07ac922304987d00e379723"
+      - W/"b55ab78caf9db9078f755e5225dc06e4"
       Cache-Control:
       - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
       X-Request-Id:
-      - 87bb5262-34f4-4caa-952b-fdb9159fbf92
+      - da3d04dd-bf06-417f-93a4-68c76a74edd3
       X-Runtime:
-      - '0.012274'
+      - '0.014323'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: !binary |-
-        H4sIADnGtVwAA6pWKkhMz8xLLMnMz1OyqlZKLi0qSs0riQeKpipZGeooleSXJOaAucVKVgYwfnJ+aV4JmJ+TmZtZEl+WmFMKUm9Qq6OUWZKaC1QbHVsLAAAA//8DAGCLOJhdAAAA
+      string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":10},"items":[]}'
     http_version: 
-  recorded_at: Tue, 16 Apr 2019 12:10:33 GMT
-recorded_with: VCR 4.0.0
+  recorded_at: Fri, 06 Sep 2019 10:33:26 GMT
+recorded_with: VCR 5.0.0

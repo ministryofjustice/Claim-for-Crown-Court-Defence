@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=5b7dc13b-dc3f-4004-8181-400e8acb5e73&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=787b6244-58fb-40a4-92f9-a693d2c74ac7&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
       - "*/*"
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.3p62
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Host:
       - localhost:3001
   response:
@@ -24,37 +24,38 @@ http_interactions:
       - application/json
       Vary:
       - Accept-Encoding
-      Content-Encoding:
-      - gzip
       Etag:
-      - W/"e2dcf6500c6e9a98ce19b85449db453b"
+      - W/"16e3b1f570728430b4348be7d1ba4801"
       Cache-Control:
       - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
       X-Request-Id:
-      - b6da570a-a5ef-4951-83f6-f760eee78602
+      - 6538c606-ce59-496f-bafc-2dbee70969ad
       X-Runtime:
-      - '0.035414'
+      - '0.066917'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: !binary |-
-        H4sIAB/GtVwAA2xUTY/bNhD9KwHPpkHSlET5lHQPSQu0h2IvbRAII3LkZSxRLkXZKRb73zuUP3bj7snmvCHnzZs3emYH2PkAyY+BbZ+ZnWPEkBqKItvKFUtjgn45Tm/OdpxDWs69H3xqjtDPOV+8rJhPOFDu12fm3ZIyz/kPE6WWFWxablQrudbO8dpAywthSmGNKWRXsBWzMGET5qHFSJc+KSFLqTaakClBoiIM+n609NdRLP17yKGHHvyw3X5yxwVZjoT2MKVmmluiSOkNEGVGD9ZcaC7LR6mI8VaUf7NLX2wr1mLFjpAaGM4tLoHxgIHud2NsIjpMGIebZh30E67YKeYagXCYxjA145yIb3A+7G45zk/7Bo/eYbB4iw44TVneq6hUbw70jGveQfAHFQ80gXnK+txrrOvCFZ10vKxrwXWpJDfOal4X1rjKSG2UoGY7H0mYAEPW7jeIRz9d1boEv4wn7HsK4gCedGF7knXXL819PM12jzHR0dungHEdMDGavMMOg4OQ3ht/C6asUBW8Vmi4bmvFW4Sam0pbhLZySnf31P4YI9wR+wXIGmCfKOyIUjN2TetjeiJI1uYyWQIjHiJOZOVlTM0YHcZ3XSkLo1BXXAJ2XBMRbup2w+sapemEFFWZFRuAPBGpv3ieHaukMmqB3NmV5CvDxYZLRVKcq6hblXIjsVU0kgproCpO8FqTFso6AbQAHZryvSqmVoUS9X0VzYVkL99evl3W5bwF56JFWa7YRawHAj88EvhB0hN+ajr/I/sYX90X8Z/Zx+yxCDRV1+RC0//hFD257mcwL+KpOdjhKT95YXF/8b6nFOe3cMT3Xo5jn09fGey6xZr5h7q9lqGNcPRWmPs+f3HCd7TLmIF2cDgs/rtqcxrj/u3oX4ciattudKG4Vo4+SBUih05aropOy6IE6Ky9d+QDROLW35ny0ff9AOHNuthz3jqdkY89wHo3Htfz/uaOVw/KTVe2lQBuwFZcb0rkrS7Jg07gplTCtXV9T+Rz9BZ7d78ef86Yd/MNk90lcR3P0E9UskjjHNPVPOTqHMnasl8//8WzbV69NPnAf5/pu4BxQZarl7EzG8dTYC/kyv8AAAD//wMA5tx9CVQGAAA=
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"24d1e02d-3c5c-4a4d-be77-e70d3159d376","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2019-09-06T10:32:23Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"7229c4e8-146e-4471-9e53-997d84cfe629","first_name":"Denny","last_name":"Klocko","email":"willy@funkhodkiewicz.biz"},"defendants":[{"id":1,"uuid":"bb8b812f-d8fa-405f-918b-b6c6a296b58e","first_name":"Sonny","last_name":"Nikolaus","date_of_birth":"1989-09-06","representation_orders":[{"id":1,"uuid":"0083a5bb-e3b6-4312-b608-e42c9433b965","maat_reference":"4498196","date":"2016-01-01"},{"id":2,"uuid":"d62dec62-0b63-4b8b-94f5-2f93bec799e4","maat_reference":"6173751","date":"2018-08-22"}]}],"case_type":{"id":154,"name":"Case
+        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":2,"uuid":"584b1fd1-1437-4930-860b-17254750a390","first_name":"Tyrell","last_name":"Mosciski","email":"tyrell.mosciski@laa.gov.uk"},{"id":1,"uuid":"affd9fff-5a3d-4a0d-b040-47adb25e6cf1","first_name":"Cristy","last_name":"Upton","email":"cristy.upton@laa.gov.uk"}],"court":{"id":757,"code":"IEZ-1","name":"Schmeler,
+        Feeney and Okuneva-1","court_type":"crown"}}]}'
     http_version: 
-  recorded_at: Tue, 16 Apr 2019 12:10:07 GMT
+  recorded_at: Fri, 06 Sep 2019 10:32:24 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=5b7dc13b-dc3f-4004-8181-400e8acb5e73&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=787b6244-58fb-40a4-92f9-a693d2c74ac7&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Accept:
       - "*/*"
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.3p62
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Host:
       - localhost:3001
   response:
@@ -66,22 +67,23 @@ http_interactions:
       - application/json
       Vary:
       - Accept-Encoding
-      Content-Encoding:
-      - gzip
       Etag:
-      - W/"2cfebc405dd0099dd03ff58da693a3f1"
+      - W/"db1fe938fa555c8adb1191dfbcad7dd2"
       Cache-Control:
       - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
       X-Request-Id:
-      - e36bf31e-375a-424a-aa54-87cd291cca2f
+      - 0d04cc43-aac0-455d-bf63-3e28b52dbb98
       X-Runtime:
-      - '0.040806'
+      - '0.050765'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: !binary |-
-        H4sIACPGtVwAA2xUwY7bNhD9lYBn0yBpSqJ8SrqHpAXaQ7GXNgiEETnyMitRLkXZKRb77x3K9u5G3ZPNeUPOmzdv9MSOcPABkh8D2z8xO8eIITUURbaXG5bGBP1ynN6c7TiHtJx7P/jUnKCfc7543jCfcKDcr0/MuyVlnvMfJkotK9i13KhWcq2d47WBlhfClMIaU8iuYBtmYcImzEOLkS59UkKWUu00IVOCREUY9P1o6a+jWPr3mEN3Pfhhv//kTguyHAntYUrNNLdEkdIbIMqMHqy50FyW91IR470o/2bXvthebMWGnSA1MFxaXALjEQPd78bYRHSYMA4vmnXQT7hh55hrBMJhGsPUjHMivsH5cHjJcX56bPDkHQaLL9EBpynLexNVkWKBnnHNGiEt8QcVDzSBecr6rDXWdeGKTjpe1rXgulSSG2c1rwtrXGWkNkpQs52PJEyAIWv3G8STn25qXYNfxjP2PQVxAE+6sEeS9dAvzX08z/YRY6Kjtw8B4zZgYjR5hx0GByG9N/4WTFmhKnit0HDd1oq3CDU3lbYIbeWU7tbU/hgjrIj9AmQNsA8UdkSpGbum9TE9ECRrc50sgRGPESey8jKmZowO47uulIVRqCsuATuuiQg3dbvjdY3SdEKKqsyKDUCeiNRfvMyOVVIZtUDu4kryleFix6UiKS5V1EuVciexVTSSCmugKk7wWpMWyjoBtAAdmvK9KqZWhRL1uormQrLnb8/fruty2YJL0aIsN+wq1h2BH+4J/CDpCT81nf+RfYyv7ov4z+xj9lgEmqprcqHp/3CKnlz3M5gX8dwc7fCQn7yyWF9c95Ti/BaO+N7Lcezz6SuDQ7dYM/9Qt7cytBGO3gpz3+cvTviOdhkz0A4Ox8V/N23OY3x8O/rXoYjatjtdKK6Vow9Shcihk5arotOyKAE6a9eOvINI3PqVKe993w8Q3qyLveRt0wX52ANsD+NpOz++uOPVg3LXlW0lgBuwFde7EnmrS/KgE7grlXBtXa+JfI7eYu/W6/HnjHk33zA5XBO38QL9RCWLNM4x3cxDrs6RrC379fNfPNvm1UuTD/z3mb4LGBdkuXodO7NxPAf2TK78DwAA//8DAPeveBtUBgAA
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"24d1e02d-3c5c-4a4d-be77-e70d3159d376","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2019-09-06T10:32:23Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":2,"unread_messages_count":1,"external_user":{"id":1,"uuid":"7229c4e8-146e-4471-9e53-997d84cfe629","first_name":"Denny","last_name":"Klocko","email":"willy@funkhodkiewicz.biz"},"defendants":[{"id":1,"uuid":"bb8b812f-d8fa-405f-918b-b6c6a296b58e","first_name":"Sonny","last_name":"Nikolaus","date_of_birth":"1989-09-06","representation_orders":[{"id":1,"uuid":"0083a5bb-e3b6-4312-b608-e42c9433b965","maat_reference":"4498196","date":"2016-01-01"},{"id":2,"uuid":"d62dec62-0b63-4b8b-94f5-2f93bec799e4","maat_reference":"6173751","date":"2018-08-22"}]}],"case_type":{"id":154,"name":"Case
+        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":2,"uuid":"584b1fd1-1437-4930-860b-17254750a390","first_name":"Tyrell","last_name":"Mosciski","email":"tyrell.mosciski@laa.gov.uk"},{"id":1,"uuid":"affd9fff-5a3d-4a0d-b040-47adb25e6cf1","first_name":"Cristy","last_name":"Upton","email":"cristy.upton@laa.gov.uk"}],"court":{"id":757,"code":"IEZ-1","name":"Schmeler,
+        Feeney and Okuneva-1","court_type":"crown"}}]}'
     http_version: 
-  recorded_at: Tue, 16 Apr 2019 12:10:11 GMT
-recorded_with: VCR 4.0.0
+  recorded_at: Fri, 06 Sep 2019 10:32:29 GMT
+recorded_with: VCR 5.0.0

@@ -24,7 +24,7 @@ RSpec.describe ZendeskSender do
             'Accept'=>'application/json',
             'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
             'Content-Type'=>'application/json',
-            'User-Agent'=> 'ZendeskAPI Ruby 1.19.0'
+            'User-Agent'=> /ZendeskAPI Ruby 1\.\d+\.\d+/
           }
         )
     end

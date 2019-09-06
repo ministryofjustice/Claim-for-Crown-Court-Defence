@@ -44,7 +44,7 @@ gem 'rubyzip'
 gem 'config',                 '~> 2.0' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'
 gem 'rest-client',            '~> 2.1' # needed for scheduled smoke testing plus others
-gem 'sass-rails',             '~> 5.0.7'
+gem 'sass-rails',             '~> 6.0.0'
 gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.git'
 gem 'susy',                   '~> 2.2.14'
 gem 'sentry-raven',           '~> 2.11.1'

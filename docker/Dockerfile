@@ -15,6 +15,7 @@ RUN set -ex
 # runtime dependencies:
 # - file: for paperclip file type spoofing check
 # - nodejs: for ExecJS and asset compilation
+# - supervisor: init system (service/daemon management)
 # - runit for process management (because we have multiple services)
 # - libreoffice/pdftk: for pdf generation
 # - redis: for backend key-value store
@@ -26,6 +27,7 @@ RUN apk --no-cache add --virtual build-dependencies \
                     postgresql-dev \
                     git \
 && apk --no-cache add \
+                  supervisor \
                   file \
                   nodejs \
                   linux-headers \

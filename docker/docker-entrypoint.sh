@@ -44,4 +44,4 @@ fi
 # bundle exec unicorn -p 3000 -c config/unicorn.rb
 
 printf '\e[33mINFO: Starting services \e[0m\n'
-supervisord --nodaemon -c /usr/src/app/docker/supervisord.conf
+supervisord -c /usr/src/app/docker/supervisord.conf

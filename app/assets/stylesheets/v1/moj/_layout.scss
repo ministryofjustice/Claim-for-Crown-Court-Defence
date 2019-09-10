@@ -1,14 +1,9 @@
 html {
-  background:$grey-3;
+  background: $grey-3;
 }
+
 body {
   background: #fff;
-}
-.outer-block {
-  @include outer-block;
-}
-.inner-block{
-  @include inner-block;
 }
 
 .container {
@@ -18,43 +13,51 @@ body {
 #page {
   @extend %site-width-container;
 }
-.body-content{
-    @include span(6 of 12);
-    @include first;
-    float: none;
+
+.body-content {
+  @include span(6 of 12);
+  @include first;
+  float: none;
 }
 
-.grid-sidebar{
-  .column-two-thirds.first{
+.grid-sidebar {
+  .column-two-thirds.first {
     width: 74%;
   }
-  .column-one-third.first{
+
+  .column-one-third.first {
     width: 26%;
   }
 }
 
-.summary-wrapper{
-  h2{
-    font-weight:700;
+.summary-wrapper {
+  h2 {
+    font-weight: 700;
     margin-top: $gutter;
   }
-  .evidence-checklist-read-only{
+
+  .evidence-checklist-read-only {
     margin: $gutter 0;
   }
-  .table-summary{
+
+  .table-summary {
     width: 98%;
-    td{
+
+    td {
       vertical-align: top;
     }
-    .summary-headings{
+
+    .summary-headings {
       width: 35%
     }
-    .summary-desc{
 
-    }
-    tfoot{
-      tr{
-        th, td{
+    .summary-desc {}
+
+    tfoot {
+      tr {
+
+        th,
+        td {
           font-size: 19px;
         }
       }

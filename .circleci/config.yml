@@ -4,8 +4,15 @@
 #
 version: 2
 
-aliases:
-  _defaults: &defaults
+references:
+  cloud_platform_container_config: &cloud_platform_container_config
+    docker:
+    - image: ${ECR_ENDPOINT}/cloud-platform/tools:circleci
+      environment:
+        GITHUB_TEAM_NAME_SLUG: laa-get-paid
+        REPO_NAME: cccd
+
+  build_container_config: &build_container_config
     working_directory: ~/repo
     docker:
       - image: circleci/ruby:2.6.5-node-browsers
@@ -15,11 +22,20 @@ aliases:
           PGUSER: postgres
           RAILS_ENV: test
           TZ: Europe/London
+          GITHUB_TEAM_NAME_SLUG: laa-get-paid
+          REPO_NAME: cccd
       - image: circleci/postgres:9.6-alpine
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: cccd_test
           POSTGRES_PASSWORD: ""
+
+  decrypt_secrets: &decrypt_secrets
+    run:
+      name: Decrypt secrets file
+      command: |
+        echo "${GIT_CRYPT_KEY}" | base64 -d > git-crypt.key
+        git-crypt unlock git-crypt.key
 
   _restore-cache: &restore-cache
     restore_cache:
@@ -113,9 +129,35 @@ aliases:
       command: |
         sudo apt-get update && sudo apt-get -y install wkhtmltopdf
 
+  build-docker-image: &build_docker_image
+    run:
+      name: Build cccd docker image
+      command: |
+        docker build \
+          --build-arg BUILD_DATE=$(date +%Y-%m-%dT%H:%M:%S%z) \
+          --build-arg COMMIT_ID=${CIRCLE_SHA1} \
+          --build-arg BUILD_TAG=${CIRCLE_BRANCH} \
+          --pull \
+          --tag "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}" \
+          --file docker/Dockerfile .
+
+
+  push-docker-image: &push_docker_image
+    run:
+      name: Push cccd docker image
+      command: |
+        sudo apt-get install -y python3-pip
+        sudo pip3 install awscli
+        $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
+        docker push "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}"      
+        if [ "${CIRCLE_BRANCH}" == "master" ]; then
+          docker tag app "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:latest"
+          docker push "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:latest"
+        fi
+
 jobs:
   build:
-    <<: *defaults
+    <<: *build_container_config
     steps:
       - checkout
       - setup_remote_docker:
@@ -128,7 +170,7 @@ jobs:
       - *save-cache
 
   rspec-tests:
-    <<: *defaults
+    <<: *build_container_config
     parallelism: 4
     steps:
       - checkout
@@ -148,7 +190,7 @@ jobs:
           path: tmp/coverage
 
   cucumber-tests:
-    <<: *defaults
+    <<: *build_container_config
     parallelism: 2
     steps:
       - checkout
@@ -163,7 +205,7 @@ jobs:
           path: tmp/capybara
 
   other-tests:
-    <<: *defaults
+    <<: *build_container_config
     steps:
       - checkout
       - *restore-cache
@@ -174,13 +216,113 @@ jobs:
       - *jasmine
 
   upload-coverage:
-    <<: *defaults
+    <<: *build_container_config
     steps:
       - *attach-tmp-workspace
       - run:
           name: Upload coverage results to Code Climate
           command: |
             tmp/cc-test-reporter sum-coverage --output - --parts 4 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
+
+  build-and-push-docker:
+    <<: *build_container_config
+    steps:
+      - checkout
+      - setup_remote_docker
+      - *build_docker_image
+      - *push_docker_image
+
+  deploy-dev:
+    <<: *cloud_platform_container_config
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Kubectl deployment setup dev
+          command: |
+            $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
+            setup-kube-auth
+            kubectl config use-context dev
+      - *decrypt_secrets
+      - deploy:
+          name: Deploy cccd docker image
+          command: |
+            docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}
+            kubectl apply -f kubernetes_deploy/dev/secrets.yaml
+            kubectl set image -f kubernetes_deploy/dev/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
+            kubectl apply \
+            -f kubernetes_deploy/dev/service.yaml \
+            -f kubernetes_deploy/dev/ingress.yaml
+            kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
+
+  deploy-api-sandbox:
+    <<: *cloud_platform_container_config
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Kubectl deployment setup api-sandbox
+          command: |
+            $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
+            setup-kube-auth
+            kubectl config use-context sandbox
+      - *decrypt_secrets
+      - deploy:
+          name: Deploy cccd docker image
+          command: |
+            docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}
+            kubectl apply -f kubernetes_deploy/api-sandbox/secrets.yaml
+            kubectl set image -f kubernetes_deploy/api-sandbox/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
+            kubectl apply \
+            -f kubernetes_deploy/api-sandbox/service.yaml \
+            -f kubernetes_deploy/api-sandbox/ingress.yaml
+            kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
+
+  deploy-staging:
+    <<: *cloud_platform_container_config
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Kubectl deployment setup staging
+          command: |
+            $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
+            setup-kube-auth
+            kubectl config use-context staging
+      - *decrypt_secrets
+      - deploy:
+          name: Deploy cccd docker image
+          command: |
+            docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}
+            kubectl apply -f kubernetes_deploy/staging/secrets.yaml
+            kubectl set image -f kubernetes_deploy/staging/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
+            kubectl apply \
+            -f kubernetes_deploy/staging/service.yaml \
+            -f kubernetes_deploy/staging/ingress.yaml
+            kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
+
+  deploy-production:
+    <<: *cloud_platform_container_config
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Kubectl deployment setup production
+          command: |
+            $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
+            setup-kube-auth
+            kubectl config use-context production
+      - *decrypt_secrets
+      - deploy:
+          name: Deploy cccd docker image
+          command: |
+            docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}
+            kubectl apply -f kubernetes_deploy/production/secrets.yaml
+            kubectl set image -f kubernetes_deploy/production/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
+            kubectl apply \
+            -f kubernetes_deploy/production/service.yaml \
+            -f kubernetes_deploy/production/ingress.yaml
+            kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
 
   # TODO: once merged with new alpine build try this out
   #
@@ -237,3 +379,40 @@ workflows:
             - rspec-tests
             - cucumber-tests
             - other-tests
+      - build-and-push-docker:
+          requires:
+            - upload-coverage
+      - hold-dev:
+          type: approval
+          requires:
+            - build-and-push-docker
+      - deploy-dev:
+          requires:
+            - hold-dev
+      - hold-api-sandbox:
+          type: approval
+          requires:
+            - build-and-push-docker
+      - deploy-api-sandbox:
+          requires:
+            - hold-api-sandbox
+      - hold-staging:
+          type: approval
+          requires:
+            - build-and-push-docker
+      - deploy-staging:
+          requires:
+            - hold-staging
+      - hold-production:
+          type: approval
+          requires:
+            - build-and-push-docker
+          filters:
+            branches:
+              only: master
+      - deploy-production:
+          requires:
+            - hold-production
+          filters:
+            branches:
+              only: master

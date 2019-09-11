@@ -256,3 +256,8 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: PERF_PLAT_QV_TOKEN
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-elasticache-redis
+                  key: url

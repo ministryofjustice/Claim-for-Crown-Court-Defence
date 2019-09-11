@@ -31,7 +31,7 @@ if [ -z ${REDIS_URL+x} ]; then
   printf '\e[33mINFO: Starting redis-server daemon\e[0m\n'
   redis-server --daemonize yes
 else
-  printf '\e[33mINFO: Using remote redis-server\e[0m\n'
+  printf '\e[33mINFO: Using remote redis-server specified in REDIS_URL\e[0m\n'
 fi
 
 printf '\e[33mINFO: Starting sidekiq daemon\e[0m\n'

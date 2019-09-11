@@ -52,7 +52,7 @@ spec:
             - name: RAILS_ENV
               value: 'production'
             - name: GRAPE_SWAGGER_ROOT_URL
-              value: 'https://cccd-dev.apps.live-1.cloud-platform.service.justice.gov.uk'
+              value: 'https://dev.claim-crown-court-defence.service.justice.gov.uk'
             - name: GA_TRACKER_ID
               value: 'UA-37377084-48'
             - name: PDFTK_PATH
@@ -216,3 +216,9 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: TEST_CHAMBER_API_KEY
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-elasticache-redis
+                  key: url
+

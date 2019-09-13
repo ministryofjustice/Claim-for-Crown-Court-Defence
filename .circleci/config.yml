@@ -8,7 +8,7 @@ aliases:
   _defaults: &defaults
     working_directory: ~/repo
     docker:
-      - image: circleci/ruby:2.6.3-node-browsers
+      - image: circleci/ruby:2.6.4-node-browsers
         environment:
           CBO_BASE_DATABASE_DATABASE: cccd_test
           PDFTK_PATH: /usr/bin/pdftk

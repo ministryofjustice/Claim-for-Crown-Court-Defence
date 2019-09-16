@@ -1,19 +1,19 @@
 = content_for :v2_stylesheets do
-  = stylesheet_link_tag "v2/application", media: "all"
+  = stylesheet_link_tag 'v2/application', media: 'all'
 
-= render partial: 'errors/error_summary', locals:{ ep: @allocation, error_summary: t('.error_summary')}
+= render partial: 'errors/error_summary', locals: { ep: @allocation, error_summary: t('.error_summary') }
 
-.notice-summary{role: "group", "aria-labelledby": "notice-summary-heading", tabindex:"-1", style: "display: none;"}
-  %h1.heading-medium.notice-summary-heading{id: "notice-summary-heading"}
+.notice-summary{ role: 'group', 'aria-labelledby': 'notice-summary-heading', tabindex: '-1', style: 'display: none;' }
+  %span.heading-medium.notice-summary-heading{ id: 'notice-summary-heading' }
     %span.msg
 
-.error-summary{role: "group", "aria-labelledby": "error-summary-heading", tabindex: "-1", style: "display: none;"}
-  %h1#error-summary-heading.heading-medium.error-summary-heading
+.error-summary{ role: 'group', 'aria-labelledby': 'error-summary-heading', tabindex: '-1', style: 'display: none;' }
+  %span#error-summary-heading.heading-medium.error-summary-heading
     %span.msg
 
-.grid-row#api-key{:data => {api_key: current_user.api_key}}
+#api-key.grid-row{ data: { api_key: current_user.api_key } }
   .column-two-thirds
-    = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
+    = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
   .column-one-third.scheme-filters
     -# FORM
     -# AGFS / LGFS Radios
@@ -21,30 +21,32 @@
 
 = form_tag case_workers_admin_allocations_path, method: :get do
   = hidden_field_tag :tab, params[:tab]
-  = form_for [:case_workers, :admin, @allocation] do |f|
-    = hidden_field_tag :tab, params[:tab]
-    = hidden_field_tag :scheme, params[:scheme]
-    = hidden_field_tag :filter, params[:filter] if params[:filter]
-    = hidden_field_tag :page, params[:page]
-    = hidden_field_tag :value_band_id, params[:value_band_id] if params[:value_band_id]
+  = hidden_field_tag :scheme, params[:scheme]
+  = hidden_field_tag :filter, params[:filter] if params[:filter]
+  = hidden_field_tag :page, params[:page]
+  = hidden_field_tag :value_band_id, params[:value_band_id] if params[:value_band_id]
 
-    %h2.heading-medium
-      = t('.allocate_claims')
+  %fieldset.inline
+    %legend
+      %span.heading-medium
+        = t('.allocate_claims')
     .grid-row.js-typeahead
       .column-one-third.js-typeahead
         = label_tag :quantity_to_allocate, t('.no_of_claims'), class: 'form-label-bold'
-        = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}
+        = number_field_tag :quantity_to_allocate, nil, { style: 'width: 100%', min: 0, size: 5, class: 'form-control' }
       .column-one-third
         #cc-caseworker
-          = f.label :case_worker_id, t('dictionary.models.case_worker'), for: "allocation_case_worker_id_autocomplete", class: 'form-label-bold'
-          = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete' , style: 'width:100%'}
+          = label_tag :allocation_case_worker_id, t('dictionary.models.case_worker'), class: 'form-label-bold'
+          = collection_select :allocation, :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', style: 'width: 100%' }
       .column-one-third
         %br/
-        = f.submit t('.allocate'), class: 'button allocation-submit'
+        = submit_tag t('.allocate'), class: 'button allocation-submit'
 
 
-    %h2.heading-medium
-      = t('.filter_claims')
+  %fieldset.inline
+    %legend
+      %span.heading-medium
+        = t('.filter_claims')
     .grid-row
       .column-one-third.ui-filter
         = render partial: 'filter_tasks'
@@ -52,25 +54,29 @@
         = render partial: 'filter_value_bands'
       .column-one-third
         %br/
-        %button.clear-filters.button.button-secondary{:type => 'button'}
+        %button.clear-filters.button.button-secondary{ type: 'button' }
           = t('.clear_filters')
 
-    %h2.heading-medium
-      = t('.allocation_queue')
-    %table#dtAllocation{summary: t('.table_summary')}
-      %thead
-        %tr
-          %th
-
-          %th
-            = t('.case_number')
-          %th
-            = t('.court')
-          %th
-            = t('.defendents')
-          %th
-            = t('.type')
-          %th
-            = t('.submitted')
-          %th
-            = t('.total')
+  %h2.heading-medium
+    = t('.allocation_queue')
+  %table#dtAllocation
+    %caption.visually-hidden
+      = t('.table_summary')
+      %noscript
+        = t('shared.not_available')
+    %thead
+      %tr
+        %th{ scope: 'col' }
+          = ''
+        %th{ scope: 'col' }
+          = t('.case_number')
+        %th{ scope: 'col' }
+          = t('.court')
+        %th{ scope: 'col' }
+          = t('.defendents')
+        %th{ scope: 'col' }
+          = t('.type')
+        %th{ scope: 'col' }
+          = t('.submitted')
+        %th{ scope: 'col' }
+          = t('.total')

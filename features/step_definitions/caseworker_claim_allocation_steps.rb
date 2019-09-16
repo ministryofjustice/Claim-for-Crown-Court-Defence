@@ -175,7 +175,7 @@ When(/^I should see the AGFS filters$/) do
   options = %w(All Fixed\ fee Cracked Trial Guilty\ Plea Redetermination
                Awaiting\ written\ reasons Disk\ evidence Injection\ errors
                Warrants Supplementary)
-  expect(page.find('#filter-tasks')).to have_select(options: options)
+  expect(page.find('#filter-tasks-agfs')).to have_select(options: options)
 end
 
 Then (/^I should see that claims checkbox (ticked|unticked)$/) do | checkbox_state|

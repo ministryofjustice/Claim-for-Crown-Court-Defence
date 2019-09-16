@@ -1,4 +1,4 @@
-describe("Modules.AllocationDataTable.js", function() {
+describe("Modules.AllocationDataTable.js", function () {
   var domFixture = ['<div id="dtAllocation">',
     ' <button class="allocation-submit">submit</button>',
     ' <div class="notice-summary">Notice Summary</div>',
@@ -11,11 +11,11 @@ describe("Modules.AllocationDataTable.js", function() {
   var module = moj.Modules.AllocationDataTable;
   var options = module.options;
 
-  it('...should exist', function() {
+  it('...should exist', function () {
     expect(moj.Modules.AllocationDataTable).toBeDefined();
   });
 
-  it('...should have options set', function() {
+  it('...should have options set', function () {
     // dom:
     // defines the semantic structure of the table
     //
@@ -44,23 +44,23 @@ describe("Modules.AllocationDataTable.js", function() {
     expect(options.columns).not.toBeDefined();
   });
 
-  it('...should have a `defaultAllocationLimit` set', function() {
+  it('...should have a `defaultAllocationLimit` set', function () {
     expect(module.defaultAllocationLimit).toEqual(25);
   });
 
-  it('...should have a `defaultScheme` set', function() {
+  it('...should have a `defaultScheme` set', function () {
     expect(module.defaultScheme).toEqual('agfs');
   });
 
-  describe('...Options', function() {
+  describe('...Options', function () {
 
-    it('...should have `order`', function() {
+    it('...should have `order`', function () {
       expect(options.order).toEqual([
         [5, 'asc']
       ]);
     });
 
-    it('...should have a `createdRow` callback defined', function() {
+    it('...should have a `createdRow` callback defined', function () {
       expect(options.createdRow).toBeDefined();
       var row = $('<tr><td></td></tr>');
       var data = {
@@ -73,7 +73,7 @@ describe("Modules.AllocationDataTable.js", function() {
       expect(output[0].outerHTML).toEqual('<tr class="error injection-error"><td><div class="error-message-container"><div class="error-message">I am an error</div></div></td></tr>');
     });
 
-    it('...should have a `createdRow` callback defined for CAV warnings', function() {
+    it('...should have a `createdRow` callback defined for CAV warnings', function () {
       expect(options.createdRow).toBeDefined();
       var row = $('<tr><td></td></tr>');
       var data = {
@@ -85,19 +85,19 @@ describe("Modules.AllocationDataTable.js", function() {
       expect(output[0].outerHTML).toEqual('<tr class="cav_warning"><td><div class="warning-message-container"><div class="warning-message">CAVs not injected</div></div></td></tr>');
     });
 
-    it('...should have `processing`', function() {
+    it('...should have `processing`', function () {
       expect(options.processing).toEqual(true);
     });
 
-    it('...should have `dom`', function() {
+    it('...should have `dom`', function () {
       expect(options.dom).toEqual('<"form-group"<"column-one-half"f><"column-one-half"i>>rt<"grid-row"<"column-one-third"l><"column-two-thirds"p>>');
     });
 
-    it('...should have `rowId`', function() {
+    it('...should have `rowId`', function () {
       expect(options.rowId).toEqual('id');
     });
 
-    it('...should have `language`', function() {
+    it('...should have `language`', function () {
       expect(options.language).toEqual({
         loadingRecords: "",
         zeroRecords: "No matching records found. Try clearing your filter.",
@@ -109,47 +109,47 @@ describe("Modules.AllocationDataTable.js", function() {
       });
     });
 
-    it('...should have `ajax`', function() {
+    it('...should have `ajax`', function () {
       expect(options.ajax).toEqual({
         url: '/api/search/unallocated?api_key={0}&scheme=agfs',
         dataSrc: '' // this is the important setting
       });
     });
 
-    it('...should have `select`', function() {
+    it('...should have `select`', function () {
       expect(options.select).toEqual({
         style: 'multi'
       });
     });
 
-    describe('...options.columnDefs', function() {
+    describe('...options.columnDefs', function () {
       var columnDefs = options.columnDefs;
-      var getColsDefs = function(prop) {
+      var getColsDefs = function (prop) {
         prop = prop || "";
-        return $.map(columnDefs, function(item) {
+        return $.map(columnDefs, function (item) {
           return item[prop];
         });
       };
 
-      var getColsDefsByTarget = function(target) {
-        return $.map(columnDefs, function(item) {
+      var getColsDefsByTarget = function (target) {
+        return $.map(columnDefs, function (item) {
           if (item.targets === target || 0) {
             return item;
           }
         })[0];
       };
 
-      it('...should have `targets` defined', function() {
+      it('...should have `targets` defined', function () {
         expect(getColsDefs("targets")).toEqual([0, 1, 2, 3, 4, 5, 6]);
       });
 
-      it('...should have `data` defined', function() {
-        expect(getColsDefs("data")).toEqual(['id', 'court_name', 'defendants']);
+      it('...should have `data` defined', function () {
+        expect(getColsDefs("data")).toEqual(['court_name', 'defendants']);
       });
 
-      describe('...columnDefs[total]', function() {
+      describe('...columnDefs[total]', function () {
 
-        it('...`render`', function() {
+        it('...`render`', function () {
           var result = getColsDefsByTarget(6);
           expect(result).toEqual({
             targets: 6,
@@ -164,10 +164,10 @@ describe("Modules.AllocationDataTable.js", function() {
         });
       });
 
-      describe('...columnDefs[last_submitted_at]', function() {
+      describe('...columnDefs[last_submitted_at]', function () {
         var result = getColsDefsByTarget(5);
 
-        it('...`render`', function() {
+        it('...`render`', function () {
           expect(result.targets).toEqual(5);
 
           expect(result.data).toEqual(null);
@@ -182,8 +182,8 @@ describe("Modules.AllocationDataTable.js", function() {
   });
 
 
-  describe('...Methods', function() {
-    describe('...init', function() {
+  describe('...Methods', function () {
+    describe('...init', function () {
       it('...should call `this.setAjaxURL`', function () {
         spyOn(module, 'setAjaxURL').and.callThrough();
         spyOn(moj.Modules.AllocationScheme, 'selectedValue').and.callThrough();
@@ -195,8 +195,8 @@ describe("Modules.AllocationDataTable.js", function() {
       });
     });
 
-    describe('...setAjaxURL', function() {
-      beforeAll(function() {
+    describe('...setAjaxURL', function () {
+      beforeAll(function () {
         // mocking the API key on the page
         $('<div/>', {
           id: 'api-key',
@@ -204,19 +204,19 @@ describe("Modules.AllocationDataTable.js", function() {
         }).appendTo('body');
       });
 
-      afterAll(function() {
+      afterAll(function () {
         $('#api-key').remove();
       });
 
-      it('...should have access to String.prototype.supplant', function() {
+      it('...should have access to String.prototype.supplant', function () {
         expect(String.prototype.supplant).toBeDefined();
       });
 
-      it('...should exist', function() {
+      it('...should exist', function () {
         expect(module.setAjaxURL).toBeDefined();
       });
 
-      it('...should use `defaultScheme` as a fallback', function() {
+      it('...should use `defaultScheme` as a fallback', function () {
 
 
         // call init again
@@ -233,28 +233,28 @@ describe("Modules.AllocationDataTable.js", function() {
         expect(module.options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=agfs');
       });
 
-      it('...should set the scheme as passed in', function() {
+      it('...should set the scheme as passed in', function () {
 
         module.setAjaxURL('abcd');
 
         expect(module.options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=abcd');
       });
 
-      it('...should return a string', function() {
+      it('...should return a string', function () {
         expect(typeof module.setAjaxURL()).toBe('string');
       });
 
     });
 
-    xdescribe('...itemsSelected', function() {
+    xdescribe('...itemsSelected', function () {
 
     });
 
-    xdescribe('...registerCustomSearch', function() {
+    xdescribe('...registerCustomSearch', function () {
 
     });
 
-    xdescribe('...bindEvents', function() {
+    xdescribe('...bindEvents', function () {
 
     });
 

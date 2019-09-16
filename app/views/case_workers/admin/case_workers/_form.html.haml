@@ -9,24 +9,22 @@
 
     = user_fields.adp_text_field :email, label: t('.email')
 
-    = user_fields.adp_text_field :last_name, label: t('.last_name'), errors: @error_presenter
-
     - if @case_worker.new_record?
       = user_fields.adp_text_field :email_confirmation, label: t('.email_confirmation')
 
     .form-group
-      %fieldset.inline{'aria-describedby': 'radio-control-legend-location'}
+      %fieldset.inline{ 'aria-describedby': 'radio-control-legend-location' }
         %legend#radio-control-legend-location
           %span.form-label-bold
             = t('.location')
         = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
           .multiple-choice
-            = b.radio_button("aria-labelledby": "radio-control-legend-location #{b.text.to_css_class}")
-            = b.label(id: b.text.to_css_class)  { b.object.name }
+            = b.radio_button('aria-labelledby': "radio-control-legend-location #{b.text.to_css_class}")
+            = b.label(id: b.text.to_css_class) { b.object.name }
 
 
     .form-group
-      %fieldset.inline{'aria-describedby': 'checkbox-control-legend-roles'}
+      %fieldset.inline{ 'aria-describedby': 'checkbox-control-legend-roles' }
         %legend#checkbox-control-legend-roles
           %span.form-label-bold
             = t('.roles')
@@ -34,6 +32,6 @@
         = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
           .multiple-choice
             = b.check_box("aria-labelledby": "checkbox-control-legend-roles #{b.text.to_css_class}")
-            = b.label(id: b.text.to_css_class)  { b.value.humanize }
+            = b.label(id: b.text.to_css_class) { b.value.humanize }
 
     = f.submit t('.save'), class: 'button'

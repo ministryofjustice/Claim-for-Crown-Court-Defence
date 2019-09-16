@@ -3,28 +3,29 @@ moj.Modules.ManagementInformation = {
   download: '#provisional_assessments_date_download',
   disableDownload: true,
 
-  init: function() {
+  init: function () {
     if ($(this.el).length) {
       this.$el = $(this.el);
       this.$download = $(this.download);
+      this.$download.attr('aria-disabled', true);
       this.bindEvents();
     }
   },
 
-  bindEvents: function() {
+  bindEvents: function () {
     this.dateInputEvent();
     this.blockDisabledLinkClick();
   },
 
-  extractDates: function(el) {
+  extractDates: function (el) {
     var start = [];
     var end = [];
 
-    this.$el.find('.fx-start-date input').each(function(a, b) {
+    this.$el.find('.fx-start-date input').each(function (a, b) {
       start.push($(b).val());
     });
 
-    this.$el.find('.fx-end-date input').each(function(a, b) {
+    this.$el.find('.fx-end-date input').each(function (a, b) {
       end.push($(b).val());
     });
     return {
@@ -33,7 +34,7 @@ moj.Modules.ManagementInformation = {
     };
   },
 
-  buildDataArray: function() {
+  buildDataArray: function () {
     var dates = this.extractDates();
     return {
       api_key: $('#user_api_key').val(),
@@ -43,29 +44,33 @@ moj.Modules.ManagementInformation = {
     };
   },
 
-  buildAttributes: function() {
+  buildAttributes: function () {
     var array = [];
     var data = this.buildDataArray();
-    $.each(data, function(key, value) {
+    $.each(data, function (key, value) {
       array.push(key + "=" + value);
     });
     return array.join('&');
   },
 
-  disableDownloadButton: function() {
+  disableDownloadButton: function () {
     if (!this.$download.hasClass('disabled')) {
-      this.$download.addClass('disabled');
+      this.$download
+        .addClass('disabled')
+        .attr('aria-disabled', true);
     }
-    this.$download.removeAttr("href");
+    this.$download
+      .removeAttr("href")
+      .attr('aria-disabled', false);
   },
 
-  enableDownloadButton: function() {
+  enableDownloadButton: function () {
     var url = '/api/mi/provisional_assessments?' + this.buildAttributes();
     this.$download.attr("href", url);
     this.$download.removeClass('disabled');
   },
 
-  activateDownload: function() {
+  activateDownload: function () {
     var regex = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/g;
     var data = this.extractDates();
 
@@ -78,17 +83,17 @@ moj.Modules.ManagementInformation = {
     return false;
   },
 
-  dateInputEvent: function() {
+  dateInputEvent: function () {
     var self = this;
-    this.$el.find('input').on('keyup', function(e) {
+    this.$el.find('input').on('keyup', function (e) {
       self.activateDownload();
     });
   },
 
   // blocking the download link
-  blockDisabledLinkClick: function() {
+  blockDisabledLinkClick: function () {
     var self = this;
-    this.$download.on('click', function(e) {
+    this.$download.on('click', function (e) {
       if (self.$download.hasClass('disabled')) {
         e.preventDefault();
         return false;

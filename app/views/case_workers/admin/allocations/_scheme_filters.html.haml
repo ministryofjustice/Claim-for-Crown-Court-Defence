@@ -4,12 +4,12 @@
       = t('.choose_your_scheme')
 
     .multiple-choice
-      %input#scheme_agfs{:name => 'scheme', :type => 'radio', :value => 'agfs', :checked => 'checked'}/
-      %label.form-label{:for => 'scheme_agfs'}
+      %input#scheme_agfs{ name: 'scheme', type: 'radio', value: 'agfs', checked: 'checked' }
+      %label.form-label{ for: 'scheme_agfs' }
         = t('.agfs')
     .multiple-choice
-      %input#scheme_lgfs{:name => 'scheme', :type => 'radio', :value => 'lgfs'}/
-      %label.form-label{:for => 'scheme_lgfs'}
+      %input#scheme_lgfs{ name: 'scheme', type: 'radio', value: 'lgfs' }
+      %label.form-label{ for: 'scheme_lgfs' }
         = t('.lgfs')
 
     %noscript

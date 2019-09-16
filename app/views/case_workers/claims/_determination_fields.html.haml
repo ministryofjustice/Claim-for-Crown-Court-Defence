@@ -1,9 +1,8 @@
 - unless claim.lgfs? && claim.interim? && claim.disbursement_only?
   %tr.determination-form-fields
-    %th
-      = t('.fees')
     %td
-      %span.currency-symbol
+      = f.label :fees, t('.fees')
+    %td
       = claim.fees_total
     %td
       .pound-wrapper
@@ -12,8 +11,8 @@
 
 - if claim.can_have_expenses?
   %tr.determination-form-fields
-    %th
-      = t('.expenses')
+    %td
+      = f.label :expenses, t('.expenses')
     %td
       = claim.expenses_total
     %td
@@ -23,8 +22,8 @@
 
 - if claim.can_have_disbursements?
   %tr.determination-form-fields
-    %th
-      = t('.disbursements')
+    %td
+      = f.label :disbursements, t('.disbursements')
     %td
       = claim.disbursements_total
     %td
@@ -33,7 +32,7 @@
       = validation_error_message(f.object, :disbursements)
 
 %tr.determination-form-fields
-  %th
+  %td
     = t('.total_excluding_vat')
   %td
     = claim.total

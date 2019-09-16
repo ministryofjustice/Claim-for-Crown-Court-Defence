@@ -2,11 +2,11 @@
   = t('.page_title', caseworker: @case_worker.name)
 
 = content_for :v2_stylesheets do
-  = stylesheet_link_tag "v2/application", media: "all"
+  = stylesheet_link_tag 'v2/application', media: 'all'
 
-= render partial: 'errors/error_summary', locals:{ ep: @case_worker, error_summary: t('.error_summary')}
+= render partial: 'errors/error_summary', locals: { ep: @case_worker, error_summary: t('.error_summary') }
 
-= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
 .main-section.container
   .body-content

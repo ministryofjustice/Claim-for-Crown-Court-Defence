@@ -1,10 +1,7 @@
--# Example of loading V2 CSS
--# = content_for :v2_stylesheets do
--#   = stylesheet_link_tag "v2/application", media: "all"
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
 = content_for :search_html_block do
   = link_to t('.create_case_worker'), new_case_workers_admin_case_worker_path
@@ -16,13 +13,13 @@
     %caption
       = t('.caption')
     %thead
-      %th{scope:'col'}
+      %th{ scope: 'col' }
         = t('.surname')
-      %th{scope:'col'}
+      %th{ scope: 'col' }
         = t('.name')
-      %th{scope:'col'}
+      %th{ scope: 'col' }
         = t('.location')
-      %th{scope:'col'}
+      %th{ scope: 'col' }
         = t('.actions')
     %tbody
       - @case_workers.each do |case_worker|
@@ -36,7 +33,7 @@
           %td.user-controls
             - if case_worker.active?
               = link_to t('common.edit'), edit_case_workers_admin_case_worker_path(case_worker), 'aria-label': t('.edit_link_label', case_worker: case_worker.name)
-              = " | "
-              = link_to t('common.delete'), case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: t('.confirmation')}, 'aria-label': t(".delete_link_label", case_worker: case_worker.name)
+              = ' | '
+              = link_to t('common.delete'), case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: t('.confirmation') }, 'aria-label': t('.delete_link_label', case_worker: case_worker.name)
             - else
               Inactive

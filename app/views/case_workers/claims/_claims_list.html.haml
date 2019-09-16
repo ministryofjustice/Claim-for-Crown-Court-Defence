@@ -39,13 +39,13 @@
       %tr.mobile-sort
         %th{ scope: 'col' }
           Sort by:
-          = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), tabindex: 0, id: 'case_number'
-          = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), tabindex: 0, id: 'advocate'
-          = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), tabindex: 0, id: 'total_inc_vat'
+          = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), tabindex: 0, id: 'case_number_ms'
+          = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), tabindex: 0, id: 'advocate_ms'
+          = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), tabindex: 0, id: 'total_inc_vat_ms'
           - if params[:action] == 'archived'
-            = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), tabindex: 0, id: 'state'
-          = sortable 'case_type', t('.case_type'), 'aria-label': t('.case_type_sort_label'), tabindex: 0, id: 'case_type'
-          = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), tabindex: 0, id: 'last_submitted_at'
+            = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), tabindex: 0, id: 'state_ms'
+          = sortable 'case_type', t('.case_type'), 'aria-label': t('.case_type_sort_label'), tabindex: 0, id: 'case_type_ms'
+          = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), tabindex: 0, id: 'last_submitted_at_ms'
       - present_collection(claims).each do |claim|
         %tr{ class: claim.injection_error ? 'error injection-error' : nil }
           %td
@@ -59,8 +59,7 @@
                       case_workers_claim_path(claim),
                       class: 'js-test-case-number-link',
                       'aria-label': "View #{claim.state.humanize} Claim, Case number: #{claim.case_number}"
-            %span.unique-id-small
-              = claim.unique_id
+
             - if claim.disk_evidence == true
               %span.disk-evidence
                 = t('.disk_evidence')

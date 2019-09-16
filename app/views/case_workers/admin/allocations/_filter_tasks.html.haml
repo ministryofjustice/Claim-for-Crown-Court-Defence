@@ -1,56 +1,56 @@
-.form-group#filter-tasks.dtFilter.dtFilterAGFS{:data => {scheme: 'agfs'}}
-  %fieldset.inline
-    %label.form-label-bold{:for => "filterAGFS"}
-      = t('.case_types')
-    %select#filterAGFS.form-control{:name => "tasks", :style => "width:100%"}
-      %option{:value => ""}
-        = t('.all')
-      %option{:value => "fixed_fee"}
-        = t('.fixed_fee')
-      %option{:value => "cracked"}
-        = t('.cracked')
-      %option{:value => "trial"}
-        = t('.trial')
-      %option{:value => "guilty_plea"}
-        = t('.guilty plea')
-      %option{:value => "redetermination"}
-        = t('.redetermination')
-      %option{:value => "awaiting_written_reasons"}
-        = t('.awaiting_written_reasons')
-      %option{:value => "disk_evidence"}
-        = t('.disk_evidence')
-      %option{:value => "injection_errored"}
-        = t('.injection_errors')
-      %option{:value => "agfs_warrants"}
-        = t('.warrants')
-      %option{:value => "supplementary"}
-        = t('.supplementary')
+#filter-tasks-agfs.form-group.dtFilter.dtFilterAGFS{ data: { scheme: 'agfs' } }
+  %label.form-label-bold{ for: 'filterAGFS' }
+    = t('.case_types')
+
+  %select#filterAGFS.form-control{ name: 'tasks', style: 'width: 100%' }
+    %option{ value: '' }
+      = t('.all')
+    %option{ value: 'fixed_fee' }
+      = t('.fixed_fee')
+    %option{ value: 'cracked' }
+      = t('.cracked')
+    %option{ value: 'trial' }
+      = t('.trial')
+    %option{ value: 'guilty_plea' }
+      = t('.guilty plea')
+    %option{ value: 'redetermination' }
+      = t('.redetermination')
+    %option{ value: 'awaiting_written_reasons' }
+      = t('.awaiting_written_reasons')
+    %option{ value: 'disk_evidence' }
+      = t('.disk_evidence')
+    %option{ value: 'injection_errored' }
+      = t('.injection_errors')
+    %option{ value: 'agfs_warrants' }
+      = t('.warrants')
+    %option{ value: 'supplementary' }
+      = t('.supplementary')
 
 
-.form-group#filter-tasks.dtFilter.dtFilterLGFS{data: {scheme: 'lgfs'}, style: 'display: none;'}
-  %fieldset.inline
-    %label.form-label-bold{:for => "filterLGFS"}
-      = t('.case_types')
-    %select#filterLGFS.form-control{:name => "tasks", :style => "width:100%"}
-      %option{:value => ""}
-        = t('.all')
-      %option{:value => "fixed_fee"}
-        = t('.fixed_fee')
-      %option{:value => "graduated_fees"}
-        = t('.graduated_fees')
-      %option{:value => "interim_fees"}
-        = t('.interim_fees')
-      %option{:value => "lgfs_warrants"}
-        = t('.warrants')
-      %option{:value => "interim_disbursements"}
-        = t('.interim_disbursements')
-      %option{:value => "risk_based_bills"}
-        = t('.risk_based_bills')
-      %option{:value => "redetermination"}
-        = t('.redetermination')
-      %option{:value => "awaiting_written_reasons"}
-        = t('.awaiting_written_reasons')
-      %option{:value => "disk_evidence"}
-        = t('.disk_evidence')
-      %option{:value => "injection_errored"}
-        = t('.injection_errors')
+#filter-tasks-lgfs.form-group.dtFilter.dtFilterLGFS{ data: { scheme: 'lgfs' }, style: 'display: none;' }
+  %label.form-label-bold{ for: 'filterLGFS' }
+    = t('.case_types')
+
+  %select#filterLGFS.form-control{ name: 'tasks', style: 'width: 100%' }
+    %option{ value: '' }
+      = t('.all')
+    %option{ value: 'fixed_fee' }
+      = t('.fixed_fee')
+    %option{ value: 'graduated_fees' }
+      = t('.graduated_fees')
+    %option{ value: 'interim_fees' }
+      = t('.interim_fees')
+    %option{ value: 'lgfs_warrants' }
+      = t('.warrants')
+    %option{ value: 'interim_disbursements' }
+      = t('.interim_disbursements')
+    %option{ value: 'risk_based_bills' }
+      = t('.risk_based_bills')
+    %option{ value: 'redetermination' }
+      = t('.redetermination')
+    %option{ value: 'awaiting_written_reasons' }
+      = t('.awaiting_written_reasons')
+    %option{ value: 'disk_evidence' }
+      = t('.disk_evidence')
+    %option{ value: 'injection_errored' }
+      = t('.injection_errors')

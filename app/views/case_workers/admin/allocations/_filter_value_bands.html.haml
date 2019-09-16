@@ -1,14 +1,15 @@
-.form-group#filter-value-bands.dtFilter
-  %label.form-label-bold{:for => "select-box-filter-value"}
+#filter-value-bands.form-group.dtFilter
+  %label.form-label-bold{ for: 'select-box-filter-value' }
     = t('.value')
-  %select#select-box-filter-value.form-control{:name => "filter_value_bands", :style => "width: 100%;"}
-    %option{:value => ""}
+
+  %select#select-box-filter-value.form-control{ name: 'filter_value_bands', style: 'width: 100%;' }
+    %option{ value: '' }
       = t('.all')
-    %option{:value => "max:25000"}
+    %option{ value: 'max:25000' }
       = t('.tier1')
-    %option{:value => "min:25000.01|max:100000"}
+    %option{ value: 'min:25000.01|max:100000' }
       = t('.tier2')
-    %option{:value => "min:100000.01|max:150000"}
+    %option{ value: 'min:100000.01|max:150000' }
       = t('.tier3')
-    %option{:value => "min:150000.01|max:999999.99"}
+    %option{ value: 'min:150000.01|max:999999.99' }
       = t('.tier4')

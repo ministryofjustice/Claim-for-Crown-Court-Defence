@@ -21,42 +21,44 @@ moj.Modules.ExpensesDataTable = {
       [3, 'asc']
     ],
     columnDefs: [{
-      targets: 0,
-      width: '1%'
-    },
-    {
-      targets: 1,
-      width: '20%'
-    }, {
-      targets: 2,
-      orderable: false,
-      width: '99%'
-    }, {
-      targets: 3,
-      width: '1%'
-    }, {
-      targets: 4,
-      width: '1%'
-    }, {
-      targets: 5,
-      width: '1%'
-    } ],
+        targets: 0,
+        width: '1%'
+      },
+      {
+        targets: 1,
+        width: '20%'
+      }, {
+        targets: 2,
+        orderable: false,
+        width: '20%'
+      }, {
+        targets: 3,
+        width: '1%'
+      }, {
+        targets: 4,
+        width: '1%'
+      }, {
+        targets: 5,
+        orderable: false,
+        width: '1%'
+      }
+    ],
   },
 
-  init: function() {
+  init: function () {
     this.$el = $(this.el);
     this.dataTable = moj.Modules.DataTables._init(this.options, this.el);
     this.bindEvents();
   },
 
-  bindEvents: function() {
+  bindEvents: function () {
     var self = this;
-    self.$el.on('preDraw.dt', function() {
+    self.$el.on('preDraw.dt', function () {
       self.setOrder();
     });
   },
 
-  setOrder: function() {
+  setOrder: function () {
     var order = this.dataTable.order();
     var columnIndex = order[0][0];
     var direction = order[0][1];

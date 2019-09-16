@@ -1,10 +1,11 @@
-.form-group#filter-status.dtFilter
-  %label.form-label{:for => "select-box-filter-status"}
+#filter-status.form-group.dtFilter
+  %label.form-label{ for: 'select-box-filter-status' }
     = t('.claims_status')
-  %select#select-box-filter-status.form-control{:name => "filter_status"}
-    %option{:value => ""}
+
+  %select#select-box-filter-status.form-control{ name: 'filter_status' }
+    %option{ value: '' }
       = t('.all')
-    %option{:value => "true"}
+    %option{ value: 'true' }
       = t('.answer_true')
-    %option{:value => "false"}
+    %option{ value: 'false' }
       = t('.answer_false')

@@ -118,7 +118,7 @@
             %tbody
               - present_collection(claim.disbursements.with_vat).each do |disbursement|
                 %tr
-                  %td{ scope: 'row' }
+                  %td
                     = disbursement.name
                   %td.numeric
                     = disbursement.net_amount
@@ -149,12 +149,12 @@
                   = t('shared.disbursement_type')
                 %th.col-net.numeric{ scope: 'col' }
                   = t('shared.net_amount')
-                %th.col-gross.numeric{ scope: 'col'}
+                %th.col-gross.numeric{ scope: 'col' }
                   = t('shared.gross_amount')
             %tbody
               - present_collection(claim.disbursements.without_vat).each do |disbursement|
                 %tr
-                  %td{ scope: 'row' }
+                  %td
                     = disbursement.name
                   %td.numeric
                     = disbursement.net_amount

@@ -11,7 +11,6 @@ Feature: Case worker messages advocate and advocate responds
 
     When I am signed in as the case worker
     And I select the claim
-    And expand the messages section
     And I send a message 'More information please'
     And I sign out
     And I sign in as the advocate

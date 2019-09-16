@@ -1733,6 +1733,7 @@ en:
         warrant_fees_form_step:
           page_title: Enter warrant fees for litigator final fees claim
   shared:
+    not_available: 'not available'
     claim_header:
       case_number: 'Case number:'
       status: 'Status:'
@@ -1750,6 +1751,9 @@ en:
     evidence_checklist:
       caption: 'Supporting evidence checklist'
       summary: 'Note: To best navigate this table, step down the second column'
+      evidence_address: "Please send evidence to the following address:"
+      evidence_hint: "If you don't provide enough evidence, your claim may be rejected."
+      no_evidence: 'No documentary evidence specified as having been provided.'
     determination:
       caption: 'Total of assessed amounts by category'
       summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows'
@@ -2137,6 +2141,7 @@ en:
     no_message_found: 'No messages found'
     summary_totals: 'Summary totals'
     vat: 'VAT'
+    position_and_count: 'Showing %{position} claims'
   case_workers:
     table_headings:
       your_claims: Your claims
@@ -2191,11 +2196,12 @@ en:
           change_password: *change_password
           edit: Edit
           page_heading: Your account
+          edit_aria_label: 'Edit your account'
           roles: Roles
       allocations:
         filter_value_bands:
           all: All
-          value: 'Value :'
+          value: 'Value'
           tier1: less than £25,000
           tier2: £25,000 - £100,000
           tier3: £100,000 - £150,000
@@ -2231,7 +2237,7 @@ en:
           submitted_date: 'Date submitted'
           claim_total: 'Claim total'
           defendants: Defendants
-          no_of_claims: 'No. of claims'
+          no_of_claims: 'Number of claims'
         orig_scheme_filters:
           scheme_types: 'Scheme types'
           filter: Filter
@@ -2248,7 +2254,7 @@ en:
           submitted_date: 'Date submitted'
           claim_total: 'Claim total'
           defendants: Defendants
-          no_of_claims: 'No. of claims'
+          no_of_claims: 'Number of claims'
           case_types: 'Case types'
           allocated_to: 'Allocated To'
           error_summary: This claim re-allocation has

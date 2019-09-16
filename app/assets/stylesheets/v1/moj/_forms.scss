@@ -1,16 +1,19 @@
 form {
   fieldset {
-    &.error{
+    &.error {
       border-left-width: 3px;
-      .form-control{
+
+      .form-control {
         border-width: 2px;
         border-color: $error-colour;
       }
     }
+
     label {
       margin-top: 0;
     }
-    &.spacer{
+
+    &.spacer {
       margin: 20px 0 !important;
     }
   }
@@ -22,10 +25,11 @@ form {
 }
 
 .expense-group {
-  fieldset{
-    legend{
-      width:100%;
-      .fx-remove-link{
+  fieldset {
+    legend {
+      width: 100%;
+
+      .fx-remove-link {
         float: right;
         font-weight: normal;
       }
@@ -33,45 +37,51 @@ form {
   }
 }
 
-.fx-duplicate-expense{
+.fx-duplicate-expense {
   display: inline-block;
   padding: 5px 15px;
 }
 
-.dz-error-message{
+.dz-error-message {
   color: $error-colour;
 }
+
 //  label
 label {
-  .field_with_errors{
+  .field_with_errors {
     border-left-width: 0;
   }
+
   &.form-label {
     @include clearfix;
     font-weight: 700;
   }
+
   .form-hint {
-    margin-top:0;
+    margin-top: 0;
   }
-  + .form-group.inline {
+
+  +.form-group.inline {
     .block-label {
-      margin-top:0;
+      margin-top: 0;
     }
   }
 }
 
-.case-worker-reallocation{
+.case-worker-reallocation {
   padding-bottom: 30px;
 
-  .margin-spacer-sm{
+  .margin-spacer-sm {
     padding: 0;
     margin: 25px 0 0 25px;
   }
-  .column-one-quarter{
+
+  .column-one-quarter {
     padding: 0;
   }
-  .awesomplete{
-    input{
+
+  .awesomplete {
+    input {
       width: 88%;
     }
   }
@@ -82,35 +92,39 @@ input.form-control[type=text],
 input.form-control[type=email],
 input.form-control[type=tel],
 input.form-control[type=password],
-input.form-control[type=number]
-{
+input.form-control[type=number] {
   // @include span(8 of 12);
   @include first;
   @include core-19();
-  &.short-input{
+
+  &.short-input {
     @include span(4 of 12);
     margin-left: 0;
     float: none;
   }
-  &.medium-input{
+
+  &.medium-input {
     @include span(6 of 12);
     margin-left: 0;
     float: none;
   }
-  &.long-input{
+
+  &.long-input {
     @include span(8 of 12);
     margin-left: 0;
     float: none;
   }
-  &.search{
+
+  &.search {
     @include span(9 of 12);
     @include first;
   }
 }
 
-textarea.form-control{
-  width:100%;
+textarea.form-control {
+  width: 100%;
 }
+
 // Search form
 // button
 button.search {
@@ -127,183 +141,212 @@ input.form-control:read-only {
   @extend .form-control:disabled;
 }
 
-.currency-indicator{
-    display: inline-block;
-    padding: 5px 12px 4px 12px;
-    border-right: 0;
-    background-color: $panel-colour;
-    border-left: 2px solid $border-colour;
-    border-top: 2px solid $border-colour;
-    border-bottom: 2px solid $border-colour;
+.currency-indicator {
+  display: inline-block;
+  padding: 5px 12px 4px 12px;
+  border-right: 0;
+  background-color: $panel-colour;
+  border-left: 2px solid $border-colour;
+  border-top: 2px solid $border-colour;
+  border-bottom: 2px solid $border-colour;
 }
 
-.pb8{
-  padding-bottom:8px;
+.pb8 {
+  padding-bottom: 8px;
 }
+
 select.form-control {
   display: block;
   background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDE2IDE2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnNrZXRjaD0iaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoL25zIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggMy4zLjMgKDEyMDgxKSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5UcmlhbmdsZSAyIENvcHk8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iTWFpbi1mbG93IiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBza2V0Y2g6dHlwZT0iTVNQYWdlIj4KICAgICAgICA8ZyBpZD0iQ2xhaW0tZGV0YWlsLS0tT1BFTiIgc2tldGNoOnR5cGU9Ik1TQXJ0Ym9hcmRHcm91cCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0Ny4wMDAwMDAsIC03NzUuMDAwMDAwKSIgZmlsbD0iIzZGNzc3QiI+CiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJUcmlhbmdsZS0yLUNvcHkiIHNrZXRjaDp0eXBlPSJNU1NoYXBlR3JvdXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE1NS4wMDAwMDAsIDc4My4wMDAwMDApIHJvdGF0ZSgtMTgwLjAwMDAwMCkgdHJhbnNsYXRlKC0xNTUuMDAwMDAwLCAtNzgzLjAwMDAwMCkgIiBwb2ludHM9IjE1NS4zODA5NTIgNzc1IDE2MyA3OTEgMTQ3IDc5MSAiPjwvcG9seWdvbj4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==') no-repeat right 5px center;
   padding-right: 25px;
 }
-.disbursement-group{
-  .fee-vat{
+
+.disbursement-group {
+  .fee-vat {
     text-align: right;
   }
 }
+
 .mod-expenses,
-.mod-fees{
+.mod-fees {
+
   input.rate,
   input.amount,
   input.vat,
-  input.total{
+  input.total {
     width: 65%;
   }
 }
 
-.mod-expenses{
-  .grid-row{
+.mod-expenses {
+  .grid-row {
+
     .column-one-third.js-expense-reason,
     .column-one-third.js-expense-amount {
-      padding-top:47px;
+      padding-top: 47px;
     }
   }
 }
 
 .mod-fees,
-.mod-expenses{
-  .govuk-legend{
-    font-weight:normal;
-  }
-  .expense-cost{
-    display:none;
+.mod-expenses {
+  .govuk-legend {
+    font-weight: normal;
   }
 
-  .column-one-third{
-    padding:0;
+  .expense-cost {
+    display: none;
+  }
+
+  .column-one-third {
+    padding: 0;
     width: 40%;
-    &.condensed{
+
+    &.condensed {
       // border: 1px solid blue;
       width: 20%;
-      input.amount{
-        width:70%;
+
+      input.amount {
+        width: 70%;
       }
     }
   }
-  .dates-wrapper{
-    .column-one-third{
-    padding:0;
-    width: 33.33%;
+
+  .dates-wrapper {
+    .column-one-third {
+      padding: 0;
+      width: 33.33%;
     }
   }
+
   .expense-distance,
   .expense-hours,
   .js-expense-amount,
-  .vat_amount_wrapper{
+  .vat_amount_wrapper {
     text-align: right;
+
     input.form-control[type=text],
     input.form-control[type=email],
     input.form-control[type=tel],
     input.form-control[type=password],
-    input.form-control[type=number]{
+    input.form-control[type=number] {
       float: none;
       text-align: right;
     }
   }
 
-  .js-expense-reason-text{
+  .js-expense-reason-text {
     display: inline-block;
     margin-top: 10px;
   }
 
   .js-expense-reason-text,
   .js-expense-location,
-  .js-expense-distance{
-    .form-group{
+  .js-expense-distance {
+    .form-group {
       margin-bottom: 0;
     }
-    input{
+
+    input {
       width: 90%;
     }
   }
-  select{
-    &.form-control{
-      width:90%;
+
+  select {
+    &.form-control {
+      width: 90%;
       margin-left: 0;
     }
   }
 
-  .form-group-year{
-    input{
+  .form-group-year {
+    input {
       width: 80%;
     }
   }
 }
 
-.misc-fee-group-wrapper{
-  .fee-rate{
+.misc-fee-group-wrapper {
+  .fee-rate {
     float: right;
   }
 }
-.mod-fees{
-  .form-control.js-misc-fee-case-numbers{
-    width:100%;
+
+.mod-fees {
+  .form-control.js-misc-fee-case-numbers {
+    width: 100%;
   }
-  .form-control.js-basic-fee-case-numbers{
-    width:100%;
+
+  .form-control.js-basic-fee-case-numbers {
+    width: 100%;
   }
-  .form-control.js-fixed-fee-case-numbers{
-    width:100%;
+
+  .form-control.js-fixed-fee-case-numbers {
+    width: 100%;
   }
+
   @include clearfix;
-  .fee-dates-row{
+
+  .fee-dates-row {
     margin-top: -65px;
-    .form-label{
+
+    .form-label {
       margin-top: 40px;
     }
+
     .no-dates.form-hint {
       display: inline-block;
     }
   }
-  .awesomplete{
-    input{
+
+  .awesomplete {
+    input {
       width: 100%;
     }
   }
-  .fee-type{
+
+  .fee-type {
     width: 60%;
   }
 
-  .disbursement-type{
+  .disbursement-type {
     width: 50%;
   }
 
   .fee-quantity,
-  .fee-rate{
+  .fee-rate {
     width: 20%;
   }
 
-  .js-interim-trialDates, .js-interim-retrialDates{
-    .estimated_trial_length_wrapper,.retrial_estimated_length_wrapper {
+  .js-interim-trialDates,
+  .js-interim-retrialDates {
+
+    .estimated_trial_length_wrapper,
+    .retrial_estimated_length_wrapper {
       margin-top: 30px;
     }
   }
 
-  .margin-spacer-lg{
+  .margin-spacer-lg {
     margin-top: 50px;
   }
-  .margin-spacer-sm{
+
+  .margin-spacer-sm {
     margin-top: 25px;
   }
-  .js-interim-feeTotal{
-    .amount_wrapper{
+
+  .js-interim-feeTotal {
+    .amount_wrapper {
       margin-top: 50px;
     }
   }
-  .fee-quantity{
-    &.js-interim-ppe{
-      float:right;
+
+  .fee-quantity {
+    &.js-interim-ppe {
+      float: right;
       width: 32%;
-      .form-group{
+
+      .form-group {
         margin-bottom: auto;
       }
     }
@@ -313,64 +356,67 @@ select.form-control {
   .fee-quantity,
   .fee-amount,
   .fee-total,
-  .fee-rate{
+  .fee-rate {
     text-align: right;
+
     input.form-control[type=text],
     input.form-control[type=email],
     input.form-control[type=tel],
     input.form-control[type=password],
-    input.form-control[type=number]{
+    input.form-control[type=number] {
       float: none;
       text-align: right;
     }
   }
 
-  .fee-rate{
-    input.form-control{
+  .fee-rate {
+    input.form-control {
       width: 65%;
     }
   }
 
-  .fee-rate{
-    input.form-control{
+  .fee-rate {
+    input.form-control {
       width: 65%;
     }
   }
 
-  .fee-rate{
-    input.form-control{
+  .fee-rate {
+    input.form-control {
       width: 65%;
     }
   }
 
-  .fee-rate{
-    input.form-control{
+  .fee-rate {
+    input.form-control {
       width: 65%;
     }
   }
 
-  .fee-total{
-    float:right;
+  .fee-total {
+    float: right;
   }
 
-  .dates-wrapper{
+  .dates-wrapper {
     font-size: 16px;
     line-height: 1.25;
-    margin-top:0;
-    .nested-fields{
-      margin-top:0;
+    margin-top: 0;
+
+    .nested-fields {
+      margin-top: 0;
     }
   }
 
-  .fee-date-remove{
+  .fee-date-remove {
     padding-top: 15px !important;
-    text-align:right;
+    text-align: right;
   }
 }
 
 .pound-wrapper {
   padding-left: 35px;
   position: relative;
+
   &:before {
     background-color: $panel-colour;
     border-left: 1px solid $border-colour;
@@ -389,23 +435,30 @@ select.form-control {
   }
 }
 
-#determinations{
-  th, td{
+#determinations {
+
+  th,
+  td {
     text-align: right;
     width: 33.33%;
   }
-  tr th:first-child, tr td:first-child{
+
+  tr th:first-child,
+  tr td:first-child {
     text-align: left;
   }
-  .pound-wrapper{
+
+  .pound-wrapper {
     display: inline-block;
-    input{
-      display:block;
+
+    input {
+      display: block;
       width: 100%;
-      text-align:right;
+      text-align: right;
     }
   }
-  .form-hint{
+
+  .form-hint {
     font-size: inherit;
   }
 }
@@ -430,32 +483,39 @@ label.form-date-spacing {
 }
 
 .expense-group {
-  margin-bottom:$gutter;
+  margin-bottom: $gutter;
 }
 
 .js-case-worker-list {
   .form-control {
-      width: 100%;
-    }
+    width: 100%;
+  }
 }
 
 .form-row {
   @include container;
-  margin-bottom:$gutter;
+  margin-bottom: $gutter;
+
   .form-col {
     @include span(4 of 12);
+
     &.form-col-two-thirds {
       @include span(8 of 12);
     }
+
     &.form-col-one-half {
       @include span(6 of 12);
     }
+
     &.form-col-one-third {
       @include span((4 of 12));
     }
-    &:nth-child(1), &.first-col {
+
+    &:nth-child(1),
+    &.first-col {
       @include first;
     }
+
     .form-control {
       width: 100%;
     }
@@ -463,21 +523,25 @@ label.form-date-spacing {
 }
 
 
-.new-claim-content{
+.new-claim-content {
   @include span(8 of 12);
   @include first;
-  th{
+
+  th {
     width: 50%;
   }
 }
-.new-claim-sidebar{
+
+.new-claim-sidebar {
+
   // @include span(3 at 9 of 12);
   // @include last;
-  a{
+  a {
     display: inline-block;
     margin-bottom: $gutter-half;
   }
-  .total{
+
+  .total {
     border-top: 1px solid $border-colour;
     margin-top: $gutter-half;
     margin-bottom: $gutter-half;
@@ -485,12 +549,14 @@ label.form-date-spacing {
   }
 }
 
-.claim-confirmation{
+.claim-confirmation {
   @include span(8 of 12);
   @include first;
-  .button-holder{
+
+  .button-holder {
     @include clearfix;
   }
+
   float: none;
 }
 
@@ -500,16 +566,12 @@ label.form-date-spacing {
 .currency {
   position: relative;
   padding-left: 1em;
-  .currency-symbol {
-    position: absolute;
-    left: 0;
-  }
 }
 
 .js-enabled {
   select.autocomplete {
     @include visually-hidden;
-    width:1px !important;
+    width: 1px !important;
   }
 }
 
@@ -518,18 +580,19 @@ label.form-date-spacing {
   width: 100%;
 }
 
-.checklist{
-  label.block-label{
+.checklist {
+  label.block-label {
     width: 77%;
   }
 }
 
 
-.field_with_errors, .dropdown_field_with_errors{
+.field_with_errors,
+.dropdown_field_with_errors {
   // border-left: 3px solid $error-colour;
   // padding: 0 0 0 15px;
 
-  .error{
+  .error {
     font-size: 16px;
     line-height: 1.25;
     font-weight: 400;
@@ -537,12 +600,14 @@ label.form-date-spacing {
     display: block;
     color: $error-colour;
     padding-left: 0;
-    border:0;
+    border: 0;
     margin-right: 0;
-    clear:both;
+    clear: both;
   }
 
-  input, select, textarea{
+  input,
+  select,
+  textarea {
     border: 2px solid $error-colour;
   }
 
@@ -551,18 +616,20 @@ label.form-date-spacing {
   }
 }
 
-.form-row .cssfix.field_with_errors{
+.form-row .cssfix.field_with_errors {
   @include span(5 of 12);
-  input.form-control[type=text].medium-input{
+
+  input.form-control[type=text].medium-input {
     @include span(8.5 of 12);
     float: none;
-    margin-left:0;
+    margin-left: 0;
   }
 }
 
-.fee-date-from, .fee-date-to{
-  & > span > div:first-child{
-  display: block;
+.fee-date-from,
+.fee-date-to {
+  &>span>div:first-child {
+    display: block;
   }
 }
 
@@ -575,20 +642,21 @@ label.form-date-spacing {
 }
 
 
-#warrant_fee{
-  .warrant-amount{
+#warrant_fee {
+  .warrant-amount {
     text-align: right;
-    .column-quarter{
+
+    .column-quarter {
       float: right;
     }
   }
 }
 
-.fee-dates .field_with_errors{
+.fee-dates .field_with_errors {
   display: inline-block;
 }
 
 
-.forced-width{
-  width:52% !important;
+.forced-width {
+  width: 52% !important;
 }

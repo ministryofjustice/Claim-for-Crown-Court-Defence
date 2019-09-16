@@ -7,9 +7,9 @@
       %p Press both "Ctrl" + "P" ("Cmd" + "P" on Mac) on your keyboard at the same time as a short-cut or go to "File" on the top menu of your browser, and select "Print".
 
     %h3.heading-medium
-      = "Messages and claim status"
+      = t('shared.claim_accordion.h2_messages')
 
     .panel.no-border
       .messages-container
-        .messages-list
+        .messages-list{ 'aria-label': t('shared.claim_accordion.h2_messages'), role: 'region', tabindex: 0 }
           = render partial: 'shared/history_items_list', locals: { claim: claim }

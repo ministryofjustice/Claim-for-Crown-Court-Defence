@@ -30,10 +30,6 @@ When(/^I select the claim$/) do
   @case_worker_home_page.claim_for(@claim.case_number).case_number.click
 end
 
-When(/^expand the messages section$/) do
-  @case_worker_claim_show_page.messages_tab.click
-end
-
 When(/^fill out the Fees Total authorised by Laa with the amount of fees claimed$/) do
   @case_worker_claim_show_page.fees.set "1.23"
 end

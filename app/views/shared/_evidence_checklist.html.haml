@@ -1,20 +1,20 @@
 .evidence-checklist-read-only.grid-row
   - if @claim.disk_evidence?
     %h3.heading-medium
-      Please send evidence to the following address:
+      = t('.evidence_address')
     = render partial: 'external_users/claims/supporting_documents/laa_address', locals: { f: @claim }
 
   %h3.heading-medium
-    = "Supporting evidence checklist"
+    = t('shared.evidence_checklist.caption')
   - if current_user.persona.is_a? ExternalUser
     %p.form-hint
-      If you don't provide enough evidence, your claim may be rejected.
+      = t('.evidence_hint')
 
   - if @claim.evidence_checklist_ids.empty?
     %p
-      No documentary evidence specified as having been provided.
+      = t('.no_evidence')
   - else
     %ul
-    - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
-      %li
-        = dt.name
+      - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
+        %li
+          = dt.name

@@ -6,11 +6,11 @@
 - @available_report_types.each do |report_type, report|
   - report_name = t(".report_types.#{report_type}")
   .form-section
-    %h2.heading-large{id: "heading-#{report_type}"}
+    %h2.heading-large{ id: "heading-#{report_type}" }
       = report_name
-    %p{role: 'group', "aria-labelledby": "heading-#{report_type}"}
+    %p{ role: 'group', 'aria-labelledby': "heading-#{report_type}" }
       - if report&.started_at
-        = t('.report_generated_at', time: report.started_at.strftime('%a %d %b %Y at %H:%M:%S'))
+        = t('.report_generated_at', time: report.started_at.strftime(Settings.report_date_format))
       - else
         = t('.unavailable_report')
     %p
@@ -20,7 +20,7 @@
 
       = link_to t('.regenerate'), case_workers_admin_management_information_generate_url(report_type: report_type), class: 'button'
 
-.form-section#provisional-assessment-date.fx-dates-chooser
+#provisional-assessment-date.form-section.fx-dates-chooser
   .form-group
     %h2.heading-large
       = t('.provisional_assessments_by_date')
@@ -37,19 +37,22 @@
             = t('.start_date')
           %span.form-hint
             = t('.example_date')
+
         .form-date
           .form-group.form-group-day
-            %label.form-label{:for => "dob-day-1"}
+            %label.form-label{ for: 'dob-day-1' }
               = t('.day')
-            %input#dob-day-1.form-control{:name => "dob-day-1", :pattern => "[0-9]*", :type => "number"}/
+            %input#dob-day-1.form-control{ name: 'dob-day-1', pattern: '[0-9]*', type: 'number' }
+
           .form-group.form-group-month
-            %label.form-label{:for => "dob-month-1"}
+            %label.form-label{ for: 'dob-month-1' }
               = t('.month')
-            %input#dob-month-1.form-control{:name => "dob-month-1", :pattern => "[0-9]*", :type => "number"}/
+            %input#dob-month-1.form-control{ name: 'dob-month-1', pattern: '[0-9]*', type: 'number' }
+
           .form-group.form-group-year
-            %label.form-label{:for => "dob-year-1"}
+            %label.form-label{ for: 'dob-year-1' }
               = t('.year')
-            %input#dob-year-1.form-control{:name => "dob-year-1", :pattern => "[0-9]*", :type => "number"}/
+            %input#dob-year-1.form-control{ name: 'dob-year-1', pattern: '[0-9]*', type: 'number' }
 
     -# GDS End start
     .form-group.fx-end-date
@@ -59,22 +62,26 @@
             = t('.end_date')
           %span.form-hint
             = t('.example_date')
+
         .form-date
           .form-group.form-group-day
-            %label.form-label{:for => "dob-day-2"}
+            %label.form-label{ for: 'dob-day-2' }
               = t('.day')
-            %input#dob-day-2.form-control{:name => "dob-day-2", :pattern => "[0-9]*", :type => "number"}/
+            %input#dob-day-2.form-control{ name: 'dob-day-2', pattern: '[0-9]*', type: 'number' }
+
           .form-group.form-group-month
-            %label.form-label{:for => "dob-month-2"}
+            %label.form-label{ for: 'dob-month-2' }
               = t('.month')
-            %input#dob-month-2.form-control{:name => "dob-month-2", :pattern => "[0-9]*", :type => "number"}/
+            %input#dob-month-2.form-control{ name: 'dob-month-2', pattern: '[0-9]*', type: 'number' }
+
           .form-group.form-group-year
-            %label.form-label{:for => "dob-year-2"}
+            %label.form-label{ for: 'dob-year-2' }
               = t('.year')
-            %input#dob-year-2.form-control{:name => "dob-year-2", :pattern => "[0-9]*", :type => "number"}/
+            %input#dob-year-2.form-control{ name: 'dob-year-2', pattern: '[0-9]*', type: 'number' }
+
 
   .form-group
-    = link_to t('.download'), "", class: 'button disabled', id: 'provisional_assessments_date_download'
+    = link_to t('.download'), '', class: 'button disabled', id: 'provisional_assessments_date_download'
 
 
 %p.panel.panel-border-wide

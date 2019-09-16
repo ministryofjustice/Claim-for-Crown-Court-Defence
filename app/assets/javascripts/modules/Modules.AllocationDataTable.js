@@ -50,7 +50,7 @@ moj.Modules.AllocationDataTable = {
       [5, 'asc']
     ],
     // row callback to add injection errors
-    createdRow: function(row, data, index) {
+    createdRow: function (row, data, index) {
       if (data.filter.injection_errored) {
         $(row).addClass('error injection-error');
         $('td', row).eq(0).wrapInner("<div class='error-message-container'></div>");
@@ -85,10 +85,10 @@ moj.Modules.AllocationDataTable = {
       infoFiltered: "",
       processing: "Table loading, please wait a moment."
     },
-    initComplete: function(settings, json) {
+    initComplete: function (settings, json) {
       // block the row highlight from happening
       // when a link is clicked
-      $('#dtAllocation tbody tr').on('click', 'a', function(e) {
+      $('#dtAllocation tbody tr').on('click', 'a', function (e) {
         e.stopImmediatePropagation();
       });
     },
@@ -112,16 +112,22 @@ moj.Modules.AllocationDataTable = {
     // See: =>/option/columnDefs
     columnDefs: [{
       targets: 0,
-      data: 'id',
-      width: '5%',
+      orderable: false,
       checkboxes: {
         selectRow: true,
         selectAllPages: false
+      },
+      data: null,
+      render: function (data, type, row) {
+        if (type === 'display') {
+          return '<input type="checkbox" class="dt-checkboxes" id="claim-' + data.id + '"><label for="claim-' + data.id + '" class="visually-hidden">Case number ' + data.case_number + '</label>';
+        }
+        return data;
       }
     }, {
       targets: 1,
       data: null,
-      render: function(data, type, full) {
+      render: function (data, type, full) {
         return data.filter.disk_evidence ? '<a href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a><br/><span class="disk-evidence">Disk evidence</span>' : '<a href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a>';
       }
 
@@ -134,7 +140,7 @@ moj.Modules.AllocationDataTable = {
     }, {
       targets: 4,
       data: null,
-      render: function(data, type, full) {
+      render: function (data, type, full) {
         return data.case_type + '<br/><span class="state-display">' + data.state_display + '</span>';
       }
     }, {
@@ -158,7 +164,7 @@ moj.Modules.AllocationDataTable = {
     }]
   },
 
-  init: function() {
+  init: function () {
     this.$el = $('#dtAllocation');
     this.ui.$submit = $('.allocation-submit');
     this.ui.$msgSuccess = $('.notice-summary');
@@ -182,7 +188,7 @@ moj.Modules.AllocationDataTable = {
    * @param {String} scheme 'agfs' or 'lgfs'
    * return {String} the URL string with supplemented values
    */
-  setAjaxURL: function(scheme) {
+  setAjaxURL: function (scheme) {
     this.searchConfig.scheme = scheme || this.defaultScheme;
     this.options.ajax.url = '/api/search/unallocated?api_key={0}&scheme={1}'.supplant([
       this.searchConfig.key,
@@ -195,7 +201,7 @@ moj.Modules.AllocationDataTable = {
    * @return {int} will return 0 or a positive int of the number
    * of rows selected.
    */
-  itemsSelected: function() {
+  itemsSelected: function () {
     return this.dataTable.column(0).checkboxes.selected().length;
   },
 
@@ -209,11 +215,11 @@ moj.Modules.AllocationDataTable = {
    * - Value Bands filter
    *   This method applies a integer range filter
    */
-  registerCustomSearch: function() {
+  registerCustomSearch: function () {
     var self = this;
 
     // TASK FILTERS
-    $.fn.dataTable.ext.search.push(function(settings, searchData, index, rowData, counter) {
+    $.fn.dataTable.ext.search.push(function (settings, searchData, index, rowData, counter) {
       // Return true if task is undefined.
       if (!self.searchConfig.task) {
         return true;
@@ -236,7 +242,7 @@ moj.Modules.AllocationDataTable = {
     });
 
     // VALUE BAND FILTER
-    $.fn.dataTable.ext.search.push(function(settings, searchData, index, rowData, counter) {
+    $.fn.dataTable.ext.search.push(function (settings, searchData, index, rowData, counter) {
       var min = parseInt(self.searchConfig.valueBands.min, 10);
       var max = parseInt(self.searchConfig.valueBands.max, 10);
       var claimAmount = parseFloat(rowData.total) || 0; // use data for the claimAmount column
@@ -252,17 +258,17 @@ moj.Modules.AllocationDataTable = {
     });
   },
 
-  bindEvents: function() {
+  bindEvents: function () {
     var self = this;
 
     // Clear the table before an AJAX call
-    this.$el.on('preXhr.dt', function() {
+    this.$el.on('preXhr.dt', function () {
       self.dataTable.clear().draw('page');
     });
 
     // Subscribe to the schene change
     // event and reload the data
-    $.subscribe('/scheme/change/', function(e, data) {
+    $.subscribe('/scheme/change/', function (e, data) {
       // update the scheme
       self.searchConfig.scheme = data.scheme;
       self.clearFilter();
@@ -270,22 +276,22 @@ moj.Modules.AllocationDataTable = {
     });
 
     // EVENT: Clear all filters & reset table
-    $.subscribe('/filter/clearAll', function(e, data) {
+    $.subscribe('/filter/clearAll', function (e, data) {
       self.clearFilter(e, data);
     });
 
     // EVENT: Task filter
-    $.subscribe('/filter/tasks/', function(e, data) {
+    $.subscribe('/filter/tasks/', function (e, data) {
       self.searchConfig.task = data.data;
       self.clearCheckboxes();
       self.tableDraw();
     });
 
     // EVENT: Value band Filter
-    $.subscribe('/filter/filter_value_bands/', function(e, data) {
+    $.subscribe('/filter/filter_value_bands/', function (e, data) {
       var valueSelected = data.data.split('|');
       self.searchConfig.valueBands = {};
-      valueSelected.forEach(function(data) {
+      valueSelected.forEach(function (data) {
         self.searchConfig.valueBands[data.split(':')[0]] = data.split(':')[1];
       });
       self.clearCheckboxes();
@@ -293,12 +299,12 @@ moj.Modules.AllocationDataTable = {
     });
 
     // EVENT: General clear filter
-    $.subscribe('/general/clear-filters/', function() {
+    $.subscribe('/general/clear-filters/', function () {
       self.clearFilter();
     });
 
     // EVENT: Allocate claims
-    $('.allocation-submit').on('click', function(e) {
+    $('.allocation-submit').on('click', function (e) {
 
       self.ui.$msgFail.find('span').html();
       self.ui.$msgSuccess.hide();
@@ -336,7 +342,7 @@ moj.Modules.AllocationDataTable = {
       }
 
       // get the raw data object
-      data = self.dataTable.rows(filters).data().splice(0, quantity_to_allocate || (self.itemsSelected() ? self.maxAllocationLimit : self.defaultAllocationLimit)).map(function(obj) {
+      data = self.dataTable.rows(filters).data().splice(0, quantity_to_allocate || (self.itemsSelected() ? self.maxAllocationLimit : self.defaultAllocationLimit)).map(function (obj) {
         return obj.id;
       }).join(',');
 
@@ -350,24 +356,24 @@ moj.Modules.AllocationDataTable = {
           case_worker_id: allocation_case_worker_id,
           claim_ids: data
         }
-      }).success(function(data) {
+      }).success(function (data) {
         self.ui.$msgFail.hide();
         self.ui.$msgSuccess.find('span').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id').val());
         self.ui.$msgSuccess.show();
         self.reloadScheme({
           scheme: self.searchConfig.scheme
         });
-      }).error(function(data) {
+      }).error(function (data) {
         self.ui.$msgSuccess.hide();
         self.ui.$msgFail.find('span').html(data.responseJSON.errors.join(''));
         self.ui.$msgFail.show();
-      }).always(function() {
+      }).always(function () {
         self.ui.$submit.prop('disabled', false);
       });
     });
 
     // EVENT: Clear selected checkboxes on search
-    self.dataTable.on('search.dt', function() {
+    self.dataTable.on('search.dt', function () {
       if ($('#dtAllocation thead input').prop('checked')) {
         self.clearCheckboxes();
       }
@@ -375,14 +381,14 @@ moj.Modules.AllocationDataTable = {
   },
 
   // API: draw table
-  tableDraw: function(data) {
+  tableDraw: function (data) {
     this
       .dataTable
       .draw();
   },
 
   // API: clear check boxes
-  clearCheckboxes: function() {
+  clearCheckboxes: function () {
     this.dataTable
       .column(0)
       .checkboxes
@@ -390,7 +396,7 @@ moj.Modules.AllocationDataTable = {
   },
 
   // API: clear search config state
-  clearSearchConfig: function() {
+  clearSearchConfig: function () {
     this.searchConfig = $.extend({}, this.searchConfig, {
       task: null,
       valueBands: {
@@ -401,7 +407,7 @@ moj.Modules.AllocationDataTable = {
   },
 
   // Wrapper to clear search & filters
-  clearFilter: function(e, data) {
+  clearFilter: function (e, data) {
     this.clearCheckboxes();
     this.clearSearchConfig();
     this.dataTable
@@ -415,7 +421,7 @@ moj.Modules.AllocationDataTable = {
    * Reload the data
    * This method will regenerate the URL before each use
    */
-  reloadScheme: function(data) {
+  reloadScheme: function (data) {
     this.dataTable.ajax.url(this.setAjaxURL(data.scheme));
     return this.dataTable.ajax.reload();
   }

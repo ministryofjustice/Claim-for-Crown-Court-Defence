@@ -8,7 +8,7 @@
 @import "moj/config";
 
 // Vendor loaded
-@import "datatables.min";
+@import "datatables";
 @import "accessible-autocomplete";
 
 // // custom mixins & helpers
@@ -34,6 +34,7 @@
 @import 'moj/warnings';
 @import "moj/autocomplete";
 @import "api-documentation";
+@import "moj/lists";
 
 
 // /////////////////////////////// TODO: KILL THIS ASAP

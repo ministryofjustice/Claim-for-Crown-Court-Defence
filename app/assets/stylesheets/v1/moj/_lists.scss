@@ -1,0 +1,113 @@
+.govuk-summary-list {
+  color: $black;
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0 0 20px 0;
+
+  @media (min-width: 641px) {
+    display: table;
+    font-size: 19px;
+    margin-bottom: 30px;
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  @media print {
+    font-size: 14pt;
+  }
+
+  .govuk-summary-list__row {
+    border-bottom: 1px solid $border-colour;
+
+    @media (min-width: 641px) {
+      border: 0;
+      display: table-row;
+      margin-bottom: 15px;
+    }
+
+    .govuk-summary-list__key {
+      font-weight: 700;
+      margin-bottom: 5px;
+
+      @media (min-width: 641px) {
+        width: 30%;
+      }
+    }
+
+    .govuk-summary-list__value {
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      @media (min-width: 641px) {
+        margin-bottom: 15px;
+        width: 50%;
+
+        &:last-child {
+          width: 70%;
+        }
+      }
+
+      p {
+        margin-bottom: 10px;
+      }
+    }
+
+    .govuk-summary-list__key,
+    .govuk-summary-list__value {
+      margin: 0;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+
+    .govuk-summary-list__actions {
+      margin: 0 0 15px 0;
+
+      @media (min-width: 641px) {
+        padding-right: 0;
+        text-align: right;
+        width: 20%;
+      }
+    }
+
+    .govuk-summary-list__key,
+    .govuk-summary-list__value,
+    .govuk-summary-list__actions {
+      @media (min-width: 641px) {
+        display: table-cell;
+        padding: 10px 20px 10px 0;
+        border-bottom: 1px solid $border-colour;
+      }
+    }
+
+  }
+
+  .govuk-summary-list--no-border .govuk-summary-list__row {
+    border: 0;
+  }
+
+  .govuk-summary-list--no-border {
+
+    .govuk-summary-list__key,
+    .govuk-summary-list__value,
+    .govuk-summary-list__actions {
+      @media (min-width: 641px) {
+        padding-bottom: 11px;
+        border: 0;
+      }
+    }
+  }
+
+  .govuk-summary-list__row--no-border {
+    border: 0;
+
+    .govuk-summary-list__key,
+    .govuk-summary-list__value,
+    .govuk-summary-list__actions {
+      @media (min-width: 641px) {
+        padding-bottom: 11px;
+        border: 0;
+      }
+    }
+  }
+}

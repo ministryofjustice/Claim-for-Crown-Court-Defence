@@ -39,7 +39,7 @@ gem 'paper_trail',            '~> 10.3.1'
 gem 'pdf-forms'
 gem 'pg',                     '~> 1.1.4'
 gem 'rails',                  '~> 5.2.3'
-gem 'redis',                  '~> 4.1.2'
+gem 'redis',                  '~> 4.1.3'
 gem 'rubyzip'
 gem 'config',                 '~> 2.0' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'

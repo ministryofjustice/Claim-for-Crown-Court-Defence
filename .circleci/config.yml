@@ -11,7 +11,6 @@ aliases:
       - image: circleci/ruby:2.6.3-node-browsers
         environment:
           CBO_BASE_DATABASE_DATABASE: cccd_test
-          PDFTK_PATH: /usr/bin/pdftk
           PGHOST: 127.0.0.1
           PGUSER: postgres
           RAILS_ENV: test
@@ -108,11 +107,11 @@ aliases:
           FEATURES=$(circleci tests glob "features/**/*.feature" | circleci tests split)
           bundle exec cucumber ${FEATURES} --format progress --color
 
-  _install-pdftk: &install-pdftk
+  _install-wkhtmltopdf: &install-wkhtmltopdf
     run:
-      name: Install PDFTK
+      name: Install wkhtmltopdf
       command: |
-        sudo apt-get install -y pdftk
+        sudo apt-get update && sudo apt-get -y install wkhtmltopdf
 
 jobs:
   build:
@@ -136,7 +135,7 @@ jobs:
       - *restore-cache
       - *install-dependencies
       - *save-cache
-      - *install-pdftk
+      - *install-wkhtmltopdf
       - *wait-for-db
       - *load-db
       - *attach-tmp-workspace
@@ -156,7 +155,7 @@ jobs:
       - *restore-cache
       - *install-dependencies
       - *save-cache
-      - *install-pdftk
+      - *install-wkhtmltopdf
       - *wait-for-db
       - *load-db
       - *cucumber

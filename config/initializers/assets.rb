@@ -7,3 +7,4 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'images')
 Rails.application.config.assets.precompile += %w( adp_swagger_application.js *.png)
 Rails.application.config.assets.precompile += %w( application.test.js ) if Rails.env.test?
+Rails.application.config.assets.precompile += %w( pdf.css )

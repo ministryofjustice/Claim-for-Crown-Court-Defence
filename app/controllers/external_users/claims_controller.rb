@@ -15,7 +15,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :set_financial_summary, only: %i[index outstanding authorised]
 
   before_action :set_and_authorize_claim, only: %i[show edit update unarchive clone_rejected destroy summary
-                                                   confirmation show_message_controls messages disc_evidence]
+                                                   confirmation show_message_controls messages]
   before_action :set_supplier_postcode, only: %i[edit update]
   before_action :set_form_step, only: %i[edit update]
   before_action :redirect_unless_editable, only: %i[edit update]
@@ -176,15 +176,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
              end
 
     render_or_redirect(result)
-  end
-
-  def disc_evidence
-    send_file(
-      DiscEvidenceCoversheetBuilder.new(@claim).export,
-      filename: 'disc_evidence_coversheet.pdf',
-      disposition: 'inline',
-      type: 'application/pdf'
-    )
   end
 
   class << self

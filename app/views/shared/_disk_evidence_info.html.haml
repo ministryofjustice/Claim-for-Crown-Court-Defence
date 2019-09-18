@@ -6,6 +6,6 @@
   = t('disk_evidence.hint')
 
 %p
-  = t('disk_evidence.hint_html', link: disc_evidence_external_users_claim_path(@claim))
+  = t('disk_evidence.hint_html', link: new_external_users_claim_disc_evidence_coversheets_path(@claim))
 
 = render partial: 'external_users/claims/supporting_documents/laa_address', locals: { f: f }

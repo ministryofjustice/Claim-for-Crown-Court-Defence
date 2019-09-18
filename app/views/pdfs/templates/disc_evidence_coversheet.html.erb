@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <%= wicked_pdf_stylesheet_link_tag("pdf", media: 'all') %>
+    <title>
+      <%= "Disc evidence coversheet #{@disc_evidence_coversheet.case_number}" %>
+    </title>
+  </head>
+  <body class='pdf-content'>
+    <table class='pdf-header'>
+      <tbody>
+        <tr>
+          <td>
+            <%= image_tag(wicked_pdf_asset_base64('laa_logo.png'), class: 'pdf-logo') %>
+          </td>
+          <td class='pdf-laa-address'>
+            Legal Aid Agency<br>
+            Fothergill House<br>
+            16 King Street<br>
+            Nottingham<br>
+            NG1 2AS<br>
+            DX 10035
+          </td>
+        </tr>
+        <tr>
+          <td style='width: 60%'>
+            Claim for Crown Court Defence<br>
+            <strong>Electronic Evidence</strong>
+          </td>
+          <td class='pdf-current-date'>
+            Date: <%= @disc_evidence_coversheet.current_date.strftime('%d/%m/%Y') %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class='pdf-form'>
+      <tbody>
+        <tr class='pdf-field-row'>
+          <td class='pdf-field-name'>
+            Fee Scheme
+          </td>
+          <td class='pdf-field-value'>
+            <table>
+              <tr>
+                <td style='width: 10%;'>
+                  <div class='pdf-check-box'>
+                    <%= @disc_evidence_coversheet.agfs? ? '<div class=\'pdf-checked\'></div>'.html_safe : '' %>
+                  </div>
+                </td>
+                <td style='width: 20%;'>
+                  AGFS
+                </td>
+                <td style='width: 10%;'>
+                  <div class='pdf-check-box'>
+                    <%= @disc_evidence_coversheet.lgfs? ? '<div class=\'pdf-checked\'></div>'.html_safe : '' %>
+                  </div>
+                </td>
+                <td style='width: 60%;'>
+                  LGFS
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+         <tr class='pdf-field-row'>
+          <td class='pdf-field-name'>
+            Case number
+          </td>
+          <td class='pdf-field-value'>
+            <div class='pdf-field-border-box'>
+              <%= @disc_evidence_coversheet.case_number %>
+            </div>
+          </td>
+        </tr>
+        <tr class='pdf-field-row'>
+          <td class='pdf-field-name'>
+            Court name
+          </td>
+          <td class='pdf-field-value'>
+            <div class='pdf-field-border-box'>
+              <%= @disc_evidence_coversheet.court_name %>
+            </div>
+          </td>
+        </tr>
+        <tr class='pdf-field-row'>
+          <td class='pdf-field-name'>
+            Date claim submitted
+            <div class='pdf-form-hint'>
+              On CCCD
+            </div>
+          </td>
+          <td class='pdf-field-value'>
+            <div class='pdf-field-border-box'>
+              <%= @disc_evidence_coversheet.claim_submitted_at.strftime('%d/%m/%Y') %>
+            </div>
+          </td>
+        </tr>
+        <tr class='pdf-field-row'>
+          <td class='pdf-field-name'>
+            Defendant name
+            <div class='pdf-form-hint'>
+              For the primary defendant
+            </div>
+          </td>
+          <td class='pdf-field-value'>
+            <div class='pdf-field-border-box'>
+              <%= @disc_evidence_coversheet.defendant_name %>
+            </div>
+          </td>
+        </tr>
+        <tr class='pdf-field-row'>
+          <td class='pdf-field-name'>
+            MAAT reference no.
+            <div class='pdf-form-hint'>
+              For the primary defendant
+            </div>
+          </td>
+          <td class='pdf-field-value'>
+            <div class='pdf-field-border-box'>
+              <%= @disc_evidence_coversheet.maat_reference %>
+            </div>
+          </td>
+        </tr>
+        <tr class='pdf-field-row'>
+          <td class='pdf-field-name'>
+            Provider account no.
+          </td>
+          <td class='pdf-field-value'>
+            <div class='pdf-field-border-box'>
+              <%= @disc_evidence_coversheet.provider_account_no %>
+            </div>
+          </td>
+        </tr>
+        <tr class='pdf-field-row'>
+          <td class='pdf-field-name'>
+            Provider address.
+          </td>
+          <td class='pdf-field-value'>
+            <div class='pdf-field-border-box provider-address'>
+              <%= simple_format(@disc_evidence_coversheet.provider_address) %>
+            </div>
+          </td>
+        </tr>
+        <tr class='pdf-field-row'>
+          <td class='pdf-field-name'>
+            Type of data storage
+            <div class='pdf-form-hint'>
+              For example USB, DVD.
+            </div>
+          </td>
+          <td class='pdf-field-value'>
+            <div class='pdf-field-border-box'>
+              <%= @disc_evidence_coversheet.data_storage_type %>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

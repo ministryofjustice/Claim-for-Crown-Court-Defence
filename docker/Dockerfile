@@ -31,6 +31,7 @@ RUN apk --no-cache add --virtual build-dependencies \
                   linux-headers \
                   runit \
                   pdftk \
+                  ttf-ubuntu-font-family \
                   libreoffice \
                   redis
 

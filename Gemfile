@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 ruby '2.6.3'
-gem 'dotenv-rails', groups: [:development, :test]
 gem 'active_model_serializers', '~> 0.10.10'
 gem 'amoeba',                 '~> 3.1.0'
 gem 'auto_strip_attributes',  '~> 2.5.0'
@@ -77,6 +76,7 @@ group :development, :devunicorn, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'byebug'
+  gem 'dotenv-rails'
   gem 'guard-cucumber'
   gem 'guard-jasmine', '~> 3.1'
   gem 'guard-livereload', '>= 2.5.2'

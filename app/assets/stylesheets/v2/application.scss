@@ -73,11 +73,14 @@
 }
 
 .contact-us-details {
-  li {
-    line-height: 30px;
+  margin-bottom: $gutter;
 
-    &.last-element {
-      margin-bottom: 40px;
+  dt {
+    float: left;
+    margin-right: 5px;
+
+    &:after {
+      content: ":"
     }
   }
 }

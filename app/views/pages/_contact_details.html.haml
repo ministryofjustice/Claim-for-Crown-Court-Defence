@@ -1,20 +1,26 @@
 %p
-  For any queries about your claim, contact the following:
+  = t('pages.contact_us.hint_text')
 
-%ul.contact-us-details
-  %li
-    Advocates’ graduated fee scheme
-  %li
-    Email: #{mail_to Settings.advocates_email, Settings.advocates_email}
-  %li.last-element
-    Phone:
-    %a{ href: "tel:#{Settings.advocate_phone_contact}" }
-      = format_phone_number(Settings.advocate_phone_contact)
-  %li
-    Litigators’ graduated fee scheme
-  %li
-    Email: #{mail_to Settings.litigators_email, Settings.litigators_email}
-  %li
-    Phone:
-    %a{ href: "tel:#{Settings.litigator_phone_contact}" }
-      = format_phone_number(Settings.litigator_phone_contact)
+%p
+  = t('pages.contact_us.advocate_hint')
+%dl.contact-us-details
+  %dt
+    = t('email')
+  %dd
+    = mail_to Settings.advocates_email
+  %dt
+    = t('phone')
+  %dd
+    = link_to format_phone_number(Settings.advocate_phone_contact), "tel:#{Settings.advocate_phone_contact}"
+
+%p
+  = t('pages.contact_us.litigator_hint')
+%dl.contact-us-details
+  %dt
+    = t('email')
+  %dd
+    = mail_to Settings.litigators_email
+  %dt
+    = t('phone')
+  %dd
+    = link_to format_phone_number(Settings.litigator_phone_contact), "tel:#{Settings.litigator_phone_contact}"

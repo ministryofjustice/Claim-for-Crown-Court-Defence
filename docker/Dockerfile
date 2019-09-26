@@ -16,7 +16,8 @@ RUN set -ex
 # - file: for paperclip file type spoofing check
 # - nodejs: for ExecJS and asset compilation
 # - runit for process management (because we have multiple services)
-# - libreoffice/pdftk: for pdf generation
+# - libreoffice/pdftk: for pdf conversion
+# - ttf-ubuntu-font-family: required for libreoffice pdf conversion
 # - redis: for backend key-value store
 #
 RUN apk --no-cache add --virtual build-dependencies \

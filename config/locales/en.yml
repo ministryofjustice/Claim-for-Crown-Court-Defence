@@ -21,6 +21,15 @@
 en:
   global_no: &global_no 'No'
   global_yes: &global_yes 'Yes'
+  # global - contact
+  email: Email
+  phone: Phone
+  # global - states
+  authorised: Authorised
+  draft: Draft
+  part_authorised: Part-authorised
+  refused: Refused
+  rejected: Rejected
 
   TrueClass: *global_yes
   FalseClass: *global_no
@@ -49,15 +58,25 @@ en:
     api_release_notes:
       page_heading: API release notes
     servicedown:
-      page_heading: The service is unavailable
+      page_heading: "The service is unavailable"
+      page_unavailable: "This service is not available right now, but we're working hard to get things up and running again."
+      page_unavailable_html: "You can try again later or email us on <a href='mailto:%{email}'>%{email}</a>"
     timed_retention:
-      page_heading: Time-limited retention of claims
+      page_heading: "Time-limited retention of claims"
+      paragraph_1: "Starting from 19th September 2016, claims will only be retained on the system for a limited period, and not indefinitely."
+      paragraph_2: "Claims that are in one of the following states for %{stale_weeks} weeks, AND have had no messages added to the claim for %{stale_weeks} weeks will have their status changed to archived:"
+      paragraph_3: "Claims in archived state can be viewed by clicking the Archive link at the top of the page from anywhere in the application, and can be unarchived, ie. returned to their original state."
+      paragraph_4: "Claims that have been in archived state for %{archived_weeks} weeks, along with any attached documents, will be deleted from the database and will no longer be retrievable."
+      contact_us_html: "Contact <a href='mailto:%{email}'>%{email}</a> if you have any questions about this policy."
     tandcs:
       page_title: Terms and conditions for claim for Crown court defence
       page_heading: Terms and conditions
     contact_us:
-      page_title: Contact us
-      page_heading: Contact us
+      page_title: "Contact us"
+      page_heading: "Contact us"
+      hint_text: "For any queries about your claim, contact the following:"
+      advocate_hint: "Advocates’ graduated fee scheme"
+      litigator_hint: "Litigators’ graduated fee scheme"
   errors:
     internal_server_error:
       page_heading: 500 - internal server error

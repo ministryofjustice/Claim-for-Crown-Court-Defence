@@ -2,6 +2,10 @@ legend {
   width: 100%;
 }
 
+label.form-label {
+  font-weight: 700;
+}
+
 .form-control:disabled,
 input.form-control:read-only {
   border-color: $grey-3;

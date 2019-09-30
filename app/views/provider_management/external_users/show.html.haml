@@ -8,14 +8,15 @@
 
 .form-group
   %table{ summary: t('.table_summary', external_user: @external_user.name) }
-    %caption.heading-medium
-      = t('.caption')
+    %caption
+      %h2.heading-medium
+        = t('.caption')
     %tbody
       %tr
         %th{ scope: 'row' }
           = t('.provider')
         %td
-          = link_to @external_user.provider.name, provider_management_provider_path(@provider), title: t('.edit_provider')
+          = link_to @external_user.provider.name, provider_management_provider_path(@provider), 'aria-label': t('.edit_provider')
       %tr
         %th{ scope: 'row' }
           = t('.email')

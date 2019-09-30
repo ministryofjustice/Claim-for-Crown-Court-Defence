@@ -6,13 +6,14 @@
 
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
-%div
-  = link_to t('.add_provider'), new_provider_management_provider_external_user_path(@provider), class: 'button right'
+.form-group.form-buttons
+  = link_to t('.add_provider'), new_provider_management_provider_external_user_path(@provider), class: 'button right', role: 'button'
 
 %table{ summary: t('.table_summary', provider_name: @provider.name) }
   %caption
-    %h2.heading-medium.left
+    %h2.heading-medium
       = t('.caption', provider_name: @provider.name)
+
   %thead
     %th{ scope: 'col' }
       = t('.name')
@@ -22,11 +23,12 @@
       = t('.email')
     %th{ scope: 'col' }
       = t('.state')
+
   %tbody
     - @external_users.each do |advocate|
       %tr
         %td
-          = advocate.active? ? link_to(advocate.name, provider_management_provider_external_user_path(@provider, advocate), 'aria-label': t('.view_details', text: advocate.name )) : advocate.name
+          = advocate.active? ? link_to(advocate.name, provider_management_provider_external_user_path(@provider, advocate), 'aria-label': t('.view_details', text: advocate.name)) : advocate.name
         %td
           = advocate.supplier_number
         %td

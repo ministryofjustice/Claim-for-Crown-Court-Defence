@@ -821,6 +821,7 @@ en:
           provider_account_no: Provider account no.
           provider_address: Provider address
           data_storage_type: Type of data storage
+          generate: Create PDF coversheet
     claims:
       errors:
         not_editable: 'Can only edit "draft" claims'

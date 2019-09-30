@@ -36,7 +36,6 @@ class ExternalUsers::DiscEvidenceCoversheetsController < ExternalUsers::Applicat
 
   def disc_evidence_coversheet_params
     params.require(:disc_evidence_coversheet).permit(
-      :claim_id,
       date_attributes_for(:current_date),
       :fee_scheme,
       :case_number,

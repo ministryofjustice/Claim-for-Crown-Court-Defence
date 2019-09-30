@@ -2,13 +2,14 @@ require 'rails_helper'
 require 'cancan/matchers'
 
 RSpec.shared_examples 'user cannot' do |user, actions|
-  actions.each do |action|	
+  actions.each do |action|
     it { should_not be_able_to(action, user) }
   end
 end
 
-describe Ability do
+RSpec.describe Ability do
   subject { Ability.new(user) }
+
   let(:user) { nil }
   let(:another_user) { create(:external_user).user }
 
@@ -19,6 +20,7 @@ describe Ability do
     it { should_not be_able_to(:update, UserMessageStatus.new) }
     it { should_not be_able_to(:create, Document.new) }
     it { should_not be_able_to(:update_settings, User.new) }
+    it { should_not be_able_to(:create, DiscEvidenceCoversheet.new) }
   end
 
   context 'when a signed in user' do
@@ -36,15 +38,17 @@ describe Ability do
 
   context 'external_user advocate' do
     let(:external_user) { create(:external_user, :advocate) }
-    let(:provider)      { external_user.provider }
-    let(:user)          { external_user.user }
+    let(:provider) { external_user.provider }
+    let(:user) { external_user.user }
 
     [:create].each do |action|
       it { should be_able_to(action, ClaimIntention) }
     end
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
-      it { should be_able_to(action, Claim::AdvocateClaim) }
+      [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim].each do |model|
+        it { should be_able_to(action, model) }
+      end
     end
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
@@ -54,27 +58,31 @@ describe Ability do
     end
 
     context 'can manage their own claims' do
-      [:show, :show_message_controls, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy, :disc_evidence].each do |action|
-        it { should be_able_to(action, Claim::AdvocateClaim.new(external_user: external_user)) }
+      [:show, :show_message_controls, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy].each do |action|
+        [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim].each do |model|
+          it { should be_able_to(action, model.new(external_user: external_user)) }
+        end
       end
     end
 
-    context 'cannot manage claims by another external_user' do
-      let(:other_external_user) { create(:external_user) }
+    context 'cannot manage claims by another external_user in the same provider' do
+      let(:other_external_user) { create(:external_user, :advocate, provider: provider) }
 
-      [:show, :show_message_controls, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy, :disc_evidence].each do |action|
-        it { should_not be_able_to(action, Claim::AdvocateClaim.new(external_user: other_external_user)) }
-      end
-    end
-
-    context 'can view/download/destroy their own documents' do
-      [:show, :download, :destroy].each do |action|
-        it { should be_able_to(action, Document.new(external_user: external_user)) }
+      [:show, :show_message_controls, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy].each do |action|
+        [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim].each do |model|
+          it { should_not be_able_to(action, model.new(external_user: other_external_user)) }
+        end
       end
     end
 
     context 'can index and create documents' do
       [:index, :create].each do |action|
+        it { should be_able_to(action, Document.new(external_user: external_user)) }
+      end
+    end
+
+    context 'can view/download/destroy their own documents' do
+      [:show, :download, :destroy].each do |action|
         it { should be_able_to(action, Document.new(external_user: external_user)) }
       end
     end
@@ -87,7 +95,33 @@ describe Ability do
       end
     end
 
-    context 'cannot manage external_user:s' do
+    context 'can new/create their own disc evidence coversheets' do
+      let(:claim) { create(:advocate_claim, external_user: external_user) }
+
+      [:new, :create].each do |action|
+        it { should be_able_to(action, DiscEvidenceCoversheet.new(claim_id: claim.id)) }
+      end
+    end
+
+    context 'cannot new/create another external users disc evidence coversheets in the same provider' do
+      let(:other_external_user) { create(:external_user, provider: provider) }
+      let(:claim) { create(:advocate_claim, external_user: other_external_user, creator: other_external_user) }
+
+      [:new, :create].each do |action|
+        it { should_not be_able_to(action, DiscEvidenceCoversheet.new(claim_id: claim.id)) }
+      end
+    end
+
+    context 'cannot new/create another external users disc evidence coversheets from a different provider' do
+      let(:other_external_user) { create(:external_user) }
+      let(:claim) { create(:advocate_claim, external_user: other_external_user, creator: other_external_user) }
+
+      [:new, :create].each do |action|
+        it { should_not be_able_to(action, DiscEvidenceCoversheet.new(claim_id: claim.id)) }
+      end
+    end
+
+    context 'cannot manage external_user\'s' do
       [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
         it { should_not be_able_to(action, ExternalUser.new(provider: external_user.provider)) }
       end
@@ -112,7 +146,6 @@ describe Ability do
         it { should_not be_able_to(action, other_provider) }
       end
     end
-
   end
 
   context 'external_user admin' do
@@ -125,20 +158,47 @@ describe Ability do
     end
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
-      it { should be_able_to(action, Claim::AdvocateClaim) }
+      [
+        Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim,
+        Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim
+      ].each do |model|
+        it { should be_able_to(action, model) }
+      end
     end
 
     context 'can manage their own claims' do
-      [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :unarchive, :clone_rejected, :destroy, :disc_evidence].each do |action|
-        it { should be_able_to(action, Claim::AdvocateClaim.new(external_user: external_user, creator: external_user)) }
+      [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
+        [
+          Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim,
+          Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim
+        ].each do |model|
+          it { should be_able_to(action, model.new(external_user: external_user, creator: external_user)) }
+        end
       end
     end
 
     context 'can manage claims by another external_user in the same provider' do
       let(:other_external_user) { create(:external_user, provider: provider) }
 
-      [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :unarchive, :clone_rejected, :destroy, :disc_evidence].each do |action|
-        it { should be_able_to(action, Claim::AdvocateClaim.new(external_user: other_external_user, creator: other_external_user)) }
+      [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
+        [
+          Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim,
+          Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim
+        ].each do |model|
+          it { should be_able_to(action, model.new(external_user: other_external_user, creator: external_user)) }
+        end
+      end
+    end
+
+    context 'cannot manage claims by another external_user with a different provider' do
+      let(:other_external_user) { create(:external_user, :advocate) }
+      [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
+          [
+            Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim,
+            Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim
+          ].each do |model|
+          it { should_not be_able_to(action, model.new(external_user: other_external_user, creator: other_external_user)) }
+        end
       end
     end
 
@@ -159,19 +219,19 @@ describe Ability do
     context 'cannot manage claims by another external_user with a different provider' do
       let(:other_external_user) { create(:external_user) }
 
-      [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :unarchive, :clone_rejected, :destroy, :disc_evidence].each do |action|
+      [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         it { should_not be_able_to(action, Claim::AdvocateClaim.new(external_user: other_external_user, creator: other_external_user)) }
-      end
-    end
-
-    context 'can view/download/destroy their own documents' do
-      [:show, :download, :destroy].each do |action|
-        it { should be_able_to(action, Document.new(external_user: external_user)) }
       end
     end
 
     context 'can index and create documents' do
       [:index, :create].each do |action|
+        it { should be_able_to(action, Document.new(external_user: external_user)) }
+      end
+    end
+
+    context 'can view/download/destroy their own documents' do
+      [:show, :download, :destroy].each do |action|
         it { should be_able_to(action, Document.new(external_user: external_user)) }
       end
     end
@@ -184,11 +244,37 @@ describe Ability do
       end
     end
 
-    context 'cannot view/download/destroy another external_user\'s documents' do
+    context 'cannot view/download/destroy another external_user\'s documents from a different provider' do
       let(:other_external_user) { create(:external_user) }
 
       [:show, :download, :destroy].each do |action|
         it { should_not be_able_to(action, Document.new(external_user: other_external_user)) }
+      end
+    end
+
+    context 'can new/create their own disc evidence coversheets' do
+      let(:claim) { create(:advocate_claim, external_user: external_user, creator: external_user) }
+
+      [:new, :create].each do |action|
+        it { should be_able_to(action, DiscEvidenceCoversheet.new(claim_id: claim.id)) }
+      end
+    end
+
+    context 'can new/create another external users disc evidence coversheets from in the same provider' do
+      let(:other_external_user) { create(:external_user, provider: provider) }
+      let(:claim) { create(:advocate_claim, external_user: other_external_user, creator: other_external_user) }
+
+      [:new, :create].each do |action|
+        it { should be_able_to(action, DiscEvidenceCoversheet.new(claim_id: claim.id)) }
+      end
+    end
+
+    context 'cannot new/create another external users disc evidence coversheets from a different provider' do
+      let(:other_external_user) { create(:external_user) }
+      let(:claim) { create(:advocate_claim, external_user: other_external_user, creator: other_external_user) }
+
+      [:new, :create].each do |action|
+        it { should_not be_able_to(action, DiscEvidenceCoversheet.new(claim_id: claim.id)) }
       end
     end
 
@@ -208,7 +294,6 @@ describe Ability do
   end
 
   context 'external_user litigator' do
-
     let(:external_user) { create(:external_user, :litigator) }
     let(:provider)      { external_user.provider }
     let(:user)          { external_user.user }
@@ -223,8 +308,14 @@ describe Ability do
       end
     end
 
+    [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
+      [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim].each do |model|
+        it { should_not be_able_to(action, model) }
+      end
+    end
+
     context 'can manage their own claims' do
-      [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy, :disc_evidence].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
           it { should be_able_to(action, model.new(external_user: external_user)) }
         end
@@ -233,7 +324,7 @@ describe Ability do
 
     context 'cannot manage claims by another external_user with a different provider' do
       let(:other_external_user) { create(:external_user, :litigator) }
-      [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy, :disc_evidence].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
           it { should_not be_able_to(action, model.new(external_user: other_external_user)) }
         end
@@ -269,7 +360,7 @@ describe Ability do
     context 'cannot manage claims by another external_user with a different provider' do
       let(:other_external_user) { create(:external_user, :litigator) }
 
-      [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy, :disc_evidence].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
           it { should_not be_able_to(action, model.new(external_user: other_external_user)) }
         end
@@ -293,7 +384,7 @@ describe Ability do
     end
 
     context 'can manage their own claims' do
-      [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy, :disc_evidence].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
           it { should be_able_to(action, model.new(external_user: external_user, creator: external_user)) }
         end
@@ -303,7 +394,7 @@ describe Ability do
     context 'can manage claims by another external_user in the same provider' do
       let(:other_external_user) { create(:external_user, provider: provider) }
 
-      [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy, :disc_evidence].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
           it { should be_able_to(action, model.new(external_user: other_external_user, creator: external_user)) }
         end
@@ -313,7 +404,7 @@ describe Ability do
     context 'cannot manage claims by another external_user in a different provider' do
       let(:other_external_user) { create(:external_user, :litigator) }
 
-      [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy, :disc_evidence].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
           it { should_not be_able_to(action, model.new(external_user: other_external_user, creator: other_external_user)) }
         end
@@ -455,7 +546,6 @@ describe Ability do
   end
 
   context 'super admin' do
-
     let(:super_admin)       { create(:super_admin) }
     let(:user)              { super_admin.user }
     let(:other_super_admin) { create(:super_admin) }
@@ -467,8 +557,6 @@ describe Ability do
     it { should be_able_to(:update_settings, user) }
     it { should_not be_able_to(:update_settings, another_user) }
 
-    it_behaves_like 'user cannot', :another_user, [:update_settings]
-
     context 'cannot destroy providers' do
       it_behaves_like 'user cannot', :provider, [:destroy]
     end
@@ -478,7 +566,7 @@ describe Ability do
       it_behaves_like 'user cannot', :external_user, actions
       it_behaves_like 'user cannot', :other_external_user, actions
     end
-    
+
     context 'can view and change own details' do
       [:show, :edit, :update, :change_password, :update_password].each do |action|
         it { should be_able_to(action, super_admin) }

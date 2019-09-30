@@ -27,12 +27,13 @@ module GovUk
     end
 
     module InstanceMethods
+      private
+
       def date_from_parts(field)
         instance_variable_set("@#{field}".to_sym, parse_date_from_parts(field))
       rescue ArgumentError
         instance_variable_set("@#{field}".to_sym, nil)
       end
-      private :date_from_parts
 
       def parse_date_from_parts(field)
         yyyy = instance_variable_get("@#{field}_yyyy".to_sym).to_i
@@ -41,18 +42,17 @@ module GovUk
         dd = instance_variable_get("@#{field}_dd".to_sym).to_i
         Date.new(yyyy, mm, dd)
       end
-      private :parse_date_from_parts
 
       def valid_year?(year)
         current_year = Date.current.year
         range = Range.new(current_year - 50, current_year + 50)
         range.include?(year)
       end
-      private :valid_year?
     end
 
     module ClassMethods
       def gov_uk_date_accessor(*date_fields)
+        # rubocop:disable Metrics/BlockLength
         date_fields.each do |field|
           define_method(field) do
             instance_variable_get("@#{field}".to_sym)
@@ -89,6 +89,7 @@ module GovUk
             date_from_parts(field)
           end
         end
+        # rubocop:enable Metrics/BlockLength
       end
     end
   end

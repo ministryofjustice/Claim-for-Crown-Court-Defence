@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   MANAGE_CLAIM_METHODS = %i[show show_message_controls messages edit update summary
-                            unarchive confirmation clone_rejected destroy disc_evidence].freeze
+                            unarchive confirmation clone_rejected destroy].freeze
 
   def initialize(user)
     return if user.nil? || user.persona.nil?
@@ -95,6 +95,10 @@ class Ability
         document.external_user.provider.id == persona.provider.id
       end
     end
+
+    can %i[new create], DiscEvidenceCoversheet do |coversheet|
+      coversheet.external_user&.provider&.id == persona.provider.id
+    end
   end
 
   def can_administer_provider(persona)
@@ -121,12 +125,17 @@ class Ability
 
   def can_manage_own_documents(persona)
     can %i[index create], Document
+
     can %i[show download destroy], Document do |document|
       if document.external_user_id.nil?
         document.creator_id == persona.user.id
       else
         document.external_user_id == persona.id
       end
+    end
+
+    can %i[new create], DiscEvidenceCoversheet do |coversheet|
+      coversheet.external_user&.user&.id == persona.user.id
     end
   end
 

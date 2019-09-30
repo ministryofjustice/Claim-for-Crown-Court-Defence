@@ -14,19 +14,19 @@
         %legend.visually-hidden New user
 
         .form-group
-          = user_fields.label :first_name, t('.first_name'), class: 'form-label-bold'
+          = user_fields.label :first_name, t('.first_name'), class: 'form-label'
           = user_fields.text_field :first_name, class: 'form-control'
 
         .form-group
-          = user_fields.label :last_name, t('.last_name'), class: 'form-label-bold'
+          = user_fields.label :last_name, t('.last_name'), class: 'form-label'
           = user_fields.text_field :last_name, class: 'form-control'
 
         .form-group
-          = user_fields.label :email, t('.email'), class: 'form-label-bold'
+          = user_fields.label :email, t('.email'), class: 'form-label'
           = user_fields.email_field :email, class: 'form-control'
 
         .form-group
-          = user_fields.label :email_confirmation, t('.email_confirmation'), class: 'form-label-bold'
+          = user_fields.label :email_confirmation, t('.email_confirmation'), class: 'form-label'
           = user_fields.email_field :email_confirmation, class: 'form-control'
 
       %fieldset.inline{ 'aria-describedby': 'checkbox-control-legend-roles' }
@@ -53,7 +53,7 @@
                   = b.label(id: b.value.to_css_class) { (b.value.to_s == 'true' ? 'Yes' : 'No') }
 
         .form-group
-          = f.label :supplier_number, t('.supplier_number'), class: 'form-label-bold'
+          = f.label :supplier_number, t('.supplier_number'), class: 'form-label'
           = f.text_field :supplier_number, class: 'form-control'
 
     .form-group

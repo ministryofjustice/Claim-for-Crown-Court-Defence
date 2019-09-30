@@ -19,8 +19,11 @@
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 en:
-  TrueClass: 'Yes'
-  FalseClass: 'No'
+  global_no: &global_no 'No'
+  global_yes: &global_yes 'Yes'
+
+  TrueClass: *global_yes
+  FalseClass: *global_no
   layouts:
     phase_banner_html: 'This is a new service – your <a href="%{feedback}"><span class="visuallyhidden">Give your </span>feedback</a> will help us to improve it. You can <a href="%{feedback_type}">report a fault here</a>.'
     primary_navigation:
@@ -414,8 +417,8 @@ en:
         page_title: "View %{provider_name}'s details"
         page_heading: Manage provider
         edit: Edit
-        answer_yes: "Yes"
-        answer_no:  "No"
+        answer_yes: *global_yes
+        answer_no:  *global_no
         table_summary: The provider type, fee scheme and VAT status for %{provider_name}
       index:
         page_heading: Manage providers
@@ -469,8 +472,8 @@ en:
         role: Role
         edit: Edit
         change_password: *change_password
-        answer_yes: "Yes"
-        answer_no:  "No"
+        answer_yes: *global_yes
+        answer_no:  *global_no
         manage_user: Manage user
         page_heading: Manage user
         table_summary: A list of user details for %{external_user}
@@ -530,8 +533,8 @@ en:
         page_title: "View %{provider_name}'s details"
         page_heading: Providers
         edit: Edit
-        answer_yes: "Yes"
-        answer_no:  "No"
+        answer_yes: *global_yes
+        answer_no:  *global_no
         table_summary: The provider type, fee scheme and VAT status for %{provider_name}
       index:
         page_heading: Providers
@@ -546,6 +549,9 @@ en:
         vat_registered: *vat_registered
         caption: Provider list
         table_summary: A list of providers. Includes links to the provider page and to manage users
+        users: Users
+        manage_user: "Manage users in provider"
+        no_provider: "No providers found"
       form:
         cancel_button: Cancel
         error: 'error'
@@ -586,8 +592,8 @@ en:
         role: Role
         edit: Edit
         change_password: *change_password
-        answer_yes: "Yes"
-        answer_no:  "No"
+        answer_yes: *global_yes
+        answer_no:  *global_no
         manage_user: Manage user
         page_heading: Manage user
         table_summary: A list of user details for %{external_user}
@@ -663,8 +669,8 @@ en:
           supplier_number: 'Supplier number'
           page_title_chamber: Manage users in your chambers
           page_title_firm: Manage users in your firm
-          option_yes: 'Yes'
-          option_no: 'No'
+          option_yes: *global_yes
+          option_no: *global_no
           email_title: Email %{external_user}
           email_confirmation: Email notifications of messages?
           confirmation: Are you sure?
@@ -690,8 +696,8 @@ en:
           supplier_number: 'Supplier number'
           roles: *roles
           submit: 'Create user'
-          answer_yes: 'Yes'
-          answer_no: 'No'
+          answer_yes: *global_yes
+          answer_no: *global_no
           save: Save
           vat_registered: VAT registered
         change_password:
@@ -1019,8 +1025,8 @@ en:
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
           change: Change
           change_link_label: Change case details
-          answer_yes: 'Yes'
-          answer_no: 'No'
+          answer_yes: *global_yes
+          answer_no: *global_no
       offence_details:
         actions:
           clear_selection: Clear selection
@@ -1045,8 +1051,8 @@ en:
           caption: 'Offence Details: This section contains information about the offence details.'
           header: Offence details
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-          answer_yes: 'Yes'
-          answer_no: 'No'
+          answer_yes: *global_yes
+          answer_no: *global_no
           change: Change
           change_link_label: Change offence details
         selected_offence_header: 'You have chosen the following offence details:'
@@ -1079,8 +1085,8 @@ en:
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
           change: Change
           change_link_label: Change defendant details
-          answer_yes: 'Yes'
-          answer_no: 'No'
+          answer_yes: *global_yes
+          answer_no: *global_no
           common:
             defendant_index: Defendant %{index}
             defendant_reporder: Defendant %{index} representation order %{index}
@@ -1438,8 +1444,8 @@ en:
           header: Supporting evidence
           caption: 'Supporting evidence: This section contains information about supporting evidence.'
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
-          answer_yes: 'Yes'
-          answer_no: 'No'
+          answer_yes: *global_yes
+          answer_no: *global_no
           change: Change
           change_link_label: Change supporting evidence
       supporting_evidence_checklist:

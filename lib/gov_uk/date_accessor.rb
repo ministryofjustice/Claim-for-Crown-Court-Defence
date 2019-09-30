@@ -22,7 +22,33 @@
 module GovUk
   module DateAccessor
     def self.included(base)
+      base.include InstanceMethods
       base.extend ClassMethods
+    end
+
+    module InstanceMethods
+      def date_from_parts(field)
+        instance_variable_set("@#{field}".to_sym, parse_date_from_parts(field))
+      rescue ArgumentError
+        instance_variable_set("@#{field}".to_sym, nil)
+      end
+      private :date_from_parts
+
+      def parse_date_from_parts(field)
+        yyyy = instance_variable_get("@#{field}_yyyy".to_sym).to_i
+        raise ArgumentError unless valid_year?(yyyy)
+        mm = instance_variable_get("@#{field}_mm".to_sym).to_i
+        dd = instance_variable_get("@#{field}_dd".to_sym).to_i
+        Date.new(yyyy, mm, dd)
+      end
+      private :parse_date_from_parts
+
+      def valid_year?(year)
+        current_year = Date.current.year
+        range = Range.new(current_year - 50, current_year + 50)
+        range.include?(year)
+      end
+      private :valid_year?
     end
 
     module ClassMethods
@@ -37,11 +63,11 @@ module GovUk
           end
 
           define_method("#{field}_mm") do
-            instance_variable_get("@#{field}".to_sym)&.strftime('%mm')
+            instance_variable_get("@#{field}".to_sym)&.strftime('%m')
           end
 
           define_method("#{field}_yyyy") do
-            instance_variable_get("@#{field}".to_sym)&.strftime('%yyyy')
+            instance_variable_get("@#{field}".to_sym)&.strftime('%Y')
           end
 
           define_method("#{field}=") do |date|
@@ -50,14 +76,17 @@ module GovUk
 
           define_method("#{field}_dd=") do |day|
             instance_variable_set("@#{field}_dd".to_sym, day)
+            date_from_parts(field)
           end
 
           define_method("#{field}_mm=") do |month|
             instance_variable_set("@#{field}_mm".to_sym, month)
+            date_from_parts(field)
           end
 
           define_method("#{field}_yyyy=") do |year|
             instance_variable_set("@#{field}_yyyy".to_sym, year)
+            date_from_parts(field)
           end
         end
       end

@@ -95,7 +95,7 @@
           </td>
           <td class='pdf-field-value'>
             <div class='pdf-field-border-box'>
-              <%= @disc_evidence_coversheet.claim_submitted_at.strftime('%d/%m/%Y') %>
+              <%= @disc_evidence_coversheet.claim_submitted_at&.strftime('%d/%m/%Y') %>
             </div>
           </td>
         </tr>

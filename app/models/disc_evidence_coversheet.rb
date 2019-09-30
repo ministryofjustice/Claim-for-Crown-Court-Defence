@@ -47,7 +47,7 @@ class DiscEvidenceCoversheet
   end
 
   def claim_submitted_at
-    date_from_parts(:claim_submitted_at) || Date.current
+    date_from_parts(:claim_submitted_at)
   end
 
   def defendant_name
@@ -64,13 +64,5 @@ class DiscEvidenceCoversheet
 
   def provider_address
     @provider_address&.strip
-  end
-
-  private
-
-  def date_from_parts(field)
-    Date.new(params["#{field}_yyyy"].to_i, params["#{field}_mm"].to_i, params["#{field}_dd"].to_i)
-  rescue ArgumentError
-    nil
   end
 end

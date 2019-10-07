@@ -815,7 +815,7 @@ en:
           fee_scheme: Fee scheme
           case_number: Case number
           court: Court name
-          claim_submitted_at: Date claimed submitted
+          claim_submitted_at: Date claim submitted
           defendant: Defendant name
           maat_reference: MAAT reference no.
           provider_account_no: Provider account no.

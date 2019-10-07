@@ -55,8 +55,6 @@ spec:
               value: 'https://dev.claim-crown-court-defence.service.justice.gov.uk'
             - name: GA_TRACKER_ID
               value: 'UA-37377084-48'
-            - name: PDFTK_PATH
-              value: '/usr/bin/pdftk'
             - name: SETTINGS__SLACK__BOT_NAME
               value: 'Injectotron'
             - name: SETTINGS__SLACK__FAIL_ICON

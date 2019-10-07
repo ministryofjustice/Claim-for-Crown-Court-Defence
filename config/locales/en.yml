@@ -807,6 +807,21 @@ en:
         lgfs_final_rb: Litigator final fee
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee
+    disc_evidence_coversheets:
+        new:
+          page_title: Disc evidence coversheet
+          page_heading: Disc evidence coversheet
+          current_date: Date on form
+          fee_scheme: Fee scheme
+          case_number: Case number
+          court: Court name
+          claim_submitted_at: Date claim submitted
+          defendant: Defendant name
+          maat_reference: MAAT reference no.
+          provider_account_no: Provider account no.
+          provider_address: Provider address
+          data_storage_type: Type of data storage
+          generate: Create PDF coversheet
     claims:
       errors:
         not_editable: 'Can only edit "draft" claims'

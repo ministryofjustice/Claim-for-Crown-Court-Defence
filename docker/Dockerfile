@@ -1,4 +1,4 @@
-FROM ruby:2.6.3-alpine3.8
+FROM ruby:2.6.3-alpine3.10
 MAINTAINER Ministry of Justice, Claim for crown court defence <crowncourtdefence@digital.justice.gov.uk>
 
 # fail early and print all commands
@@ -10,14 +10,15 @@ RUN set -ex
 # - ruby-dev/libc-dev for compiling raindrops, at least
 # - libxml2-dev/libxslt-dev for nokogiri, at least
 # - postgres-dev for pg/activerecord gems
-# - git for installing gems referred to use a git:// uri
+# - git for installing gems referred to use as git:// uri
 #
 # runtime dependencies:
 # - file: for paperclip file type spoofing check
 # - nodejs: for ExecJS and asset compilation
 # - runit for process management (because we have multiple services)
-# - libreoffice/pdftk: for pdf conversion
-# - ttf-ubuntu-font-family: required for libreoffice pdf conversion
+# - libreoffice: for pdf conversion
+# - ttf-ubuntu-font-family: needed by wkhtmltopdf/wicked_pdf & libreoffice
+# - wkhtmltopdf: for pdf generation from html
 # - redis: for backend key-value store
 #
 RUN apk --no-cache add --virtual build-dependencies \
@@ -31,8 +32,8 @@ RUN apk --no-cache add --virtual build-dependencies \
                   nodejs \
                   linux-headers \
                   runit \
-                  pdftk \
                   ttf-ubuntu-font-family \
+                  wkhtmltopdf \
                   libreoffice \
                   redis
 
@@ -47,8 +48,8 @@ WORKDIR /usr/src/app
 ######################
 # DEPENDENCIES START #
 ######################
-# Env vars needed for dependency install and asset precompilation
-ENV RAILS_ENV='production'
+# Env vars needed for dependency install and asset precompilation?? maybe not
+ENV RAILS_ENV production
 
 COPY Gemfile* ./
 

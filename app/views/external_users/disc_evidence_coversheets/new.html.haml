@@ -1,0 +1,44 @@
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
+
+.main-section.container
+  .body-content
+    = form_with(model: [:external_users, :claim, @disc_evidence_coversheet], format: :pdf, builder: AdpFormBuilder) do |f|
+      = f.hidden_field :claim
+
+      = f.gov_uk_date_field(:current_date, form_hint_text: '', legend_text: t('.current_date'), legend_class: 'govuk-legend', id: 'current_date')
+
+      .form-group
+        %fieldset.inline{ 'aria-describedby': 'radio-control-legend-fee-scheme' }
+          %legend{ for: 'claim_external_user_id_input', id: 'radio-control-legend-fee-scheme' }
+            %span.form-label-bold
+              = t('.fee_scheme')
+
+          = f.collection_radio_buttons(:fee_scheme, ['AGFS','LGFS'], :to_s, :to_s) do |b|
+            .multiple-choice
+              = b.radio_button('aria-labelledby': "radio-control-legend-fee-scheme #{b.text.to_css_class}")
+              = b.label(id: b.text.to_css_class) { b.value }
+
+      = f.adp_text_field :case_number, label: t('.case_number')
+
+      = f.adp_text_field :court_name, label: t('.court')
+
+      = f.gov_uk_date_field(:claim_submitted_at, form_hint_text: 'On CCCD', legend_text: t('.claim_submitted_at'), legend_class: 'govuk-legend', id: 'claim_submitted_at')
+
+
+      = f.adp_text_field :defendant_name, label: t('.defendant'), hint_text: 'For the primary defendant'
+
+      = f.adp_text_field :maat_reference, label: t('.maat_reference'), hint_text: 'For the primary defendant'
+
+      = f.adp_text_field :provider_account_no, label: t('.provider_account_no')
+
+      .form-group
+        = f.label_tag :disc_evidence_coversheet_provider_address, t('.provider_address'),  class: 'form-label-bold'
+        = f.text_area :provider_address, id: :disc_evidence_coversheet_provider_address, rows: 6,class: 'form-control'
+
+      = f.adp_text_field :data_storage_type, label: t('.data_storage_type'), hint_text: 'For example USB, DVD.'
+
+      .form-group
+        = f.submit t('.generate'), class: 'button'

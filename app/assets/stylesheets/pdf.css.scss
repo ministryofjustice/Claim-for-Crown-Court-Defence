@@ -1,0 +1,105 @@
+@mixin scale($property: font-size, $scale: 1) {
+  #{$property}: (23 * $scale) + px;
+}
+
+.pdf-font {
+  @include scale(font-size, 1);
+  font-family: "nta", Arial, sans-serif;
+  font-weight: normal;
+}
+
+body {
+  @extend .pdf-font;
+}
+
+table {
+  border: 0;
+  width: 100%;
+
+  td {
+    border: 0;
+    padding-bottom: 20px;
+  }
+}
+
+.pdf-header {
+  .pdf-logo {
+    border-left: 2px solid #000000;
+    font-size: 0;
+    padding-left: 20px;
+    vertical-align: top;
+    width: 30%;
+  }
+
+  .pdf-laa-address {
+    text-align: right;
+    vertical-align: top;
+  }
+
+  .pdf-current-date {
+    text-align: right;
+    vertical-align: bottom;
+    width: 60%;
+  }
+}
+
+.pdf-form {
+  .pdf-form-hint {
+    @include scale(font-size, 0.8);
+    color: #6F777B;
+  }
+
+  .pdf-field-name {
+    vertical-align: top;
+    width: 40%;
+  }
+
+  .pdf-field-value {
+    padding: 5px;
+    width: 60%;
+  }
+
+  .pdf-field-border-box {
+    @include scale(min-height, 1);
+    border: 2px solid #000000;
+    padding: 5px;
+
+    &.provider-address {
+      @include scale(min-height, 4);
+    }
+  }
+
+  .pdf-check-box {
+    border: 2px solid #000000;
+    height: 34px;
+    padding: 5px;
+    width: 34px;
+
+    /*GDS checkbox style copied from checkbox form element label*/
+    .pdf-checked {
+      -moz-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      -o-transform: rotate(-45deg);
+      -webkit-transform: rotate(-45deg);
+      background: transparent;
+      border: solid;
+      border-top-color: transparent;
+      border-width: 0 0 5px 5px;
+      height: 7px;
+      left: 8px;
+      position: relative;
+      top: 10px;
+      transform: rotate(-45deg);
+      width: 17px;
+      zoom: 1;
+    }
+  }
+}
+
+.visually-hidden {
+  border: 0;
+  height: 1px;
+  left: -9999em;
+  position: absolute;
+  width: 1px;
+}

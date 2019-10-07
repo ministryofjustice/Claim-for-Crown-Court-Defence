@@ -67,22 +67,29 @@ To import JSON claims, or import via the API, you need to run a multi-threaded s
 rails server -e devunicorn
 ```
 
-### Download and install pdftk
+### Install wkhtmltopdf
 
-**Note:** this is the version to install for OSX Sierra, and above, as of 5 Dec 2017, otherwise check the www.pdflabs.com website
+Install [wkhtmltopdf](http://macappstore.org/wkhtmltopdf)
+wkhtmltopdf is used to generate PDFs from html templates. You will need to install this locally.
 
 ```bash
-curl -o ~/Downloads/pdftk_download.pkg https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg
+# for mac osx
+brew cask install wkhtmltopdf
 ```
-After running the package it will, by default, install to `/usr/local/bin/pdftk`, where the server will look for it. If you install to another location add another key to your `.env` files
-```
-PDFTK_PATH='/you/pdftk/location/here'
+or
+```bash
+brew bundle
 ```
 
 ### Install Libreoffice
 
 Libreoffice is used to convert files uploaded in CCCD to PDFs for generating performant, viewable documents of any document type, accessed via a view link. You will need to install this locally.
 
+```bash
+# for mac osx
+brew cask install libreoffice
+```
+or
 ```bash
 # for mac osx
 brew bundle

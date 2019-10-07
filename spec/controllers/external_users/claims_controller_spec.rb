@@ -547,20 +547,6 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     end
   end
 
-  describe 'GET #disc_evidence' do
-    before { get :disc_evidence, params: { id: claim } }
-
-    let(:claim) { create(:claim, external_user: advocate) }
-
-    it 'returns http success' do
-      expect(response).to be_successful
-    end
-
-    it 'returns the pdf mime type' do
-      expect(response.headers['Content-Type']).to eql('application/pdf')
-    end
-  end
-
   describe "PATCH #clone_rejected" do
     context 'from rejected claim' do
       subject { create(:rejected_claim, external_user: advocate) }

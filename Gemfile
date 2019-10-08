@@ -84,7 +84,7 @@ group :development, :devunicorn, :test do
   gem 'guard-rubocop'
   gem 'jasmine', '~> 3.5'
   gem 'jasmine_selenium_runner', require: false
-  gem 'listen', '~> 3.1.5'
+  gem 'listen', '~> 3.2.0'
   gem 'meta_request'
   gem 'pry-byebug'
   gem 'pry-rails'

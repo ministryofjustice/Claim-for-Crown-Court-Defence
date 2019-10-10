@@ -30,7 +30,7 @@ function _deploy_migrator() {
   docker_image_tag=${docker_registry}:${component}-latest
 
   echo "Deleting previous pod..."
-  kubectl delete pod template-deploy-migrator
+  kubectl --context ${context} -n cccd-${environment} delete pod template-deploy-migrator
 
   printf "\e[33m--------------------------------------------------\e[0m\n"
   printf "\e[33mJob: kubernetes_deploy/pods/template_deploy_migrator/pod.yaml\e[0m\n"

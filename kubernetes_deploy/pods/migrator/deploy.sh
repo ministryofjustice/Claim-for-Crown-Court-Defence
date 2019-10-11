@@ -1,8 +1,8 @@
 #!/bin/sh
 function _deploy_migrator() {
-  usage="deploy_migrator -- deploy template-deploy-migrator pod
+  usage="deploy -- deploy template-deploy-migrator pod
   into a namespace.
-  Usage: kubernetes_deploy/bin/deploy_migrator.sh environment
+  Usage: kubernetes_deploy/pods/migrator/deploy.sh environment
   Where:
     environment [dev|staging|api-sandbox|production]
   "
@@ -33,13 +33,13 @@ function _deploy_migrator() {
   kubectl --context ${context} -n cccd-${environment} delete pod template-deploy-migrator
 
   printf "\e[33m--------------------------------------------------\e[0m\n"
-  printf "\e[33mJob: kubernetes_deploy/pods/template_deploy_migrator/pod.yaml\e[0m\n"
+  printf "\e[33mJob: kubernetes_deploy/pods/migrator/pod.yaml\e[0m\n"
   printf "\e[33mcontext: $context\e[0m\n"
   printf "\e[33mEnvironment: $environment\e[0m\n"
   printf "\e[33mDocker image: $docker_image_tag\e[0m\n"
   printf "\e[33m--------------------------------------------------\e[0m\n"
-  kubectl apply --context ${context} -n cccd-${environment} -f kubernetes_deploy/pods/template_deploy_migrator/${environment}/secrets.yaml
-  kubectl apply --context ${context} -n cccd-${environment} -f kubernetes_deploy/pods/template_deploy_migrator/pod.yaml
+  kubectl apply --context ${context} -n cccd-${environment} -f kubernetes_deploy/pods/migrator/${environment}/secrets.yaml
+  kubectl apply --context ${context} -n cccd-${environment} -f kubernetes_deploy/pods/migrator/pod.yaml
 }
 
 _deploy_migrator $@

@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: template-deploy-migrator
+  name: cccd-template-deploy-migrator
   labels:
-    app: template-deploy-migrator
+    app: cccd-template-deploy-migrator
 spec:
   containers:
   - name: cccd-migrator

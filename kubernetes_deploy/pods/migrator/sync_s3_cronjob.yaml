@@ -1,0 +1,60 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cccd-sync-s3-cronjob
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  startingDeadlineSeconds: 300
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          labels:
+            tier: worker
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: cccd-migrator
+            image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:migrator-latest
+            imagePullPolicy: Always
+            command:
+              - bin/migrate
+              - s3
+              - --sync
+              - --yes
+              - --measure
+            env:
+              - name: AWS_REGION
+                valueFrom:
+                  secretKeyRef:
+                    name: cccd-secrets
+                    key: AWS_REGION
+              - name: AWS_ACCESS_KEY_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: cccd-s3-bucket
+                    key: access_key_id
+              - name: AWS_SECRET_ACCESS_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: cccd-s3-bucket
+                    key: secret_access_key
+              - name: DESTINATION_AWS_S3_BUCKET_NAME
+                valueFrom:
+                  secretKeyRef:
+                    name: cccd-s3-bucket
+                    key: bucket_name
+              - name: SOURCE_AWS_REGION
+                valueFrom:
+                  secretKeyRef:
+                    name: cccd-template-deploy-secrets
+                    key: AWS_REGION
+              - name: SOURCE_AWS_S3_BUCKET_NAME
+                valueFrom:
+                  secretKeyRef:
+                    name: cccd-template-deploy-secrets
+                    key: AWS_S3_BUCKET_NAME

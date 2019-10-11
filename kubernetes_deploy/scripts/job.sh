@@ -1,7 +1,7 @@
 #!/bin/sh
 function _job() {
   usage="job -- run job in the specified environment
-  Usage: kubernetes_deploy/bin/job task environment
+  Usage: kubernetes_deploy/script/job task environment
   Where:
     task [migrate|seed]
     environment [dev|staging|api-sandbox|production]

@@ -45,7 +45,7 @@ function _cronjob() {
   esac
 
   case "$2" in
-    dev | staging | api-sandbox)
+    dev | staging | api-sandbox | production)
       environment=$2
       ;;
     *)

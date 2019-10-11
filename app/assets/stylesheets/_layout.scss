@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  background: #fff;
+  background: $white;
 }
 
 .container {
@@ -14,30 +14,10 @@ body {
   @extend %site-width-container;
 }
 
-.body-content {
-  @include span(6 of 12);
-  @include first;
-  float: none;
-}
-
-.grid-sidebar {
-  .column-two-thirds.first {
-    width: 74%;
-  }
-
-  .column-one-third.first {
-    width: 26%;
-  }
-}
-
 .summary-wrapper {
   h2 {
     font-weight: 700;
     margin-top: $gutter;
-  }
-
-  .evidence-checklist-read-only {
-    margin: $gutter 0;
   }
 
   .table-summary {
@@ -50,8 +30,6 @@ body {
     .summary-headings {
       width: 35%
     }
-
-    .summary-desc {}
 
     tfoot {
       tr {
@@ -84,6 +62,47 @@ body {
       max-height: none;
       overflow-y: visible;
       overflow-x: visible;
+    }
+  }
+}
+
+.auto-width {
+  label {
+    display: block;
+    margin: $gutter-half 0 5px;
+  }
+}
+
+td {
+  .auto-width {
+    @include span(4 of 12);
+
+    &:first-child {
+      @include first;
+    }
+
+    &:last-child {
+      @include last;
+      @include post(4 of 12);
+    }
+  }
+}
+
+#trial-details,
+#retrial-details {
+  @include container;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+
+  .auto-width {
+    &:nth-child(odd) {
+      @include span(4 of 12);
+      @include first;
+    }
+
+    &:nth-child(even) {
+      @include span(4 of 12);
+      @include post(4 of 12);
     }
   }
 }

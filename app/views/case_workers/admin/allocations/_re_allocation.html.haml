@@ -1,6 +1,3 @@
-= content_for :v2_stylesheets do
-  = stylesheet_link_tag 'v2/application', media: 'all'
-
 = render partial: 'errors/error_summary', locals: { ep: @allocation, error_summary: t('.error_summary') }
 
 .grid-row
@@ -44,7 +41,7 @@
         .column-one-quarter.js-case-worker-list
           = f.label :case_worker_id, class: 'form-label-bold'
           = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', style: 'width: 100%;', 'aria-label': t('case_workers.admin.allocations.re_allocation.case_worker') }
-        .column-half.margin-spacer-sm
+        .column-one-half.margin-spacer-sm
           %br/
           = f.submit t('.re_allocate'), class: 'button'
 

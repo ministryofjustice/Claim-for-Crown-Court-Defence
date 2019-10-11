@@ -23,12 +23,12 @@
   @media print {
     .message-audit {
       font-weight: 700;
-      color: black;
+      color: $black;
     }
 
     .message-body {
       background: none;
-      border: 1px solid black;
+      border: 1px solid $black;
 
       &::after {
         border: none;
@@ -67,7 +67,7 @@
         .message-body {
           margin-right: 0;
           padding-right: 0;
-          border: 0px solid black;
+          border: 0px solid $black;
         }
 
         table {
@@ -87,12 +87,12 @@
       .message-right {
         .message-body {
           background: none;
-          border: 0px solid black;
+          border: 0;
           color: $text-colour;
-          text-align: right !important;
+          text-align: right;
 
           &::after {
-            border-left: 0em solid #28A197 !important;
+            border-left: 0;
           }
 
           .message-audit {
@@ -158,8 +158,6 @@
 
     .message-right {
       @include normalize-bubble('right');
-      // display: inline-block;
-      // float: right;
 
       .message-body {
         background-color: $link-colour;

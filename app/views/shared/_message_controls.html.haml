@@ -16,17 +16,17 @@
 
   - if messaging_permitted?(message) || current_user_is_caseworker?
     .grid-row.js-test-send-buttons
+      .column-full
+        .message-column.form-group
+          = f.label :body, 'Enter a message', class: 'form-label'
+          = f.text_area :body, as: :text, rows: 10, label: false, class: 'form-control form-control-full'
 
-      .message-column.form-group
-        = f.label :body, 'Enter a message', class: 'form-label'
-        = f.text_area :body, as: :text, rows: 10, label: false, class: 'form-control'
-
-        - if current_user_is_caseworker? && @claim.written_reasons_outstanding?
-          .written-reasons-checkbox
-            = f.input :written_reasons_submitted, as: :boolean
-      .upload-column.form-group
-        = f.label :attachment, 'Optionally attach a file (maximum 1 file per message)', class: 'form-label'
-        = f.file_field :attachment
+          - if current_user_is_caseworker? && @claim.written_reasons_outstanding?
+            .written-reasons-checkbox
+              = f.input :written_reasons_submitted, as: :boolean
+        .upload-column.form-group
+          = f.label :attachment, 'Optionally attach a file (maximum 1 file per message)', class: 'form-label'
+          = f.file_field :attachment
 
     .xsmall.form-hint
       = t('.accepted_files_help_text')

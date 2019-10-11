@@ -1,3 +1,11 @@
+.supplier-numbers-wrapper .panel .form-group,
+.panel .cocoon-insert-wrapper {
+  margin-bottom: $gutter;
+}
+
+
+/*--- Ported from v1 stylesheets ---*/
+
 // Panels
 // ==========================================================================
 
@@ -59,4 +67,3 @@
   margin-top: 10px;
   margin-bottom: 0;
 }
-

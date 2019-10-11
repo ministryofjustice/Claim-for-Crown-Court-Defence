@@ -1,46 +1,45 @@
-%div
-  .defendant-card
-    .b.title
-      = t('common.defendant')
-      = index
-    .grid-row
-      .column-half
-        .full-name.b
-          = t('external_users.claims.defendants.defendant_fields.full_name')
+.defendant-card
+  .b.title
+    = t('common.defendant')
+    = index
+  .grid-row
+    .column-one-half
+      .full-name.b
+        = t('external_users.claims.defendants.defendant_fields.full_name')
+      .xsmall
+        = defendant.name
+    - if defendant.date_of_birth.present?
+      .column-one-half
+        .dob.b
+          = t('external_users.claims.defendants.defendant_fields.date_of_birth')
         .xsmall
-          = defendant.name
-      - if defendant.date_of_birth.present?
-        .column-half
-          .dob.b
-            = t('external_users.claims.defendants.defendant_fields.date_of_birth')
-          .xsmall
-            = defendant.date_of_birth.strftime(Settings.date_format) rescue ''
+          = defendant.date_of_birth.strftime(Settings.date_format) rescue ''
 
-    - unless @claim.lgfs? && @claim.interim?
-      .judical_apportionment
-        %span.b
-          Judicial apportionment:
-        %span.xsmall
-          = defendant.order_for_judicial_apportionment == true ? 'Yes' : 'No'
+  - unless @claim.lgfs? && @claim.interim?
+    .judical_apportionment
+      %span.b
+        Judicial apportionment:
+      %span.xsmall
+        = defendant.order_for_judicial_apportionment == true ? 'Yes' : 'No'
 
-    .rep-orders
-      - if defendant.representation_orders.any?
-        %table
-          %caption.visually-hidden
-            = t('.caption')
-          %thead
+  .rep-orders
+    - if defendant.representation_orders.any?
+      %table
+        %caption.visually-hidden
+          = t('.caption')
+        %thead
+          %tr
+            %th{ scope: 'col' }
+              Representation order
+            %th{ scope: 'col' }
+              MAAT ref no
+        %tbody
+          - defendant.representation_orders.each do | representation_order |
             %tr
-              %th{ scope: 'col' }
-                Representation order
-              %th{ scope: 'col' }
-                MAAT ref no
-          %tbody
-            - defendant.representation_orders.each do |representation_order|
-              %tr
-                %td
-                  = representation_order.representation_order_date.strftime(Settings.date_format) rescue ''
-                %td
-                  = representation_order.maat_reference
-      - else
-        .bold-xsmall
-          = 'No representation orders have been supplied for this defendant.'
+              %td
+                = representation_order.representation_order_date.strftime(Settings.date_format) rescue ''
+              %td
+                = representation_order.maat_reference
+    - else
+      .bold-xsmall
+        = 'No representation orders have been supplied for this defendant.'

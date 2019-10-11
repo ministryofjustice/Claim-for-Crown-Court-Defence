@@ -1,22 +1,21 @@
-.grid-row
-  %h3.heading-medium
-    = t('.certification_box_title')
+%h3.heading-medium
+  = t('.certification_box_title')
 
-  %table.table-summary
-    %caption
-      %span.table-caption.visuallyhidden
-        = t('.certification_caption')
+%table.table-summary
+  %caption
+    %span.table-caption.visuallyhidden
+      = t('.certification_caption')
 
-    %tbody
+  %tbody
+    %tr
+      %th{ scope: 'row' }
+        = t('.instructed_heading')
+      %td
+        = claim.external_user.name
+
+    - if @claim.agfs?
       %tr
         %th{ scope: 'row' }
-          = t('.instructed_heading')
+          = t('.certification_reason')
         %td
-          = claim.external_user.name
-
-      - if @claim.agfs?
-        %tr
-          %th{ scope: 'row' }
-            = t('.certification_reason')
-          %td
-            = claim.certification.certification_type.name rescue ''
+          = claim.certification.certification_type.name rescue ''

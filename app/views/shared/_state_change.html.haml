@@ -1,5 +1,5 @@
 .grid-row.history
-  .column-third
+  .column-one-third
     &nbsp;
   .column-two-thirds
     .message-right
@@ -7,7 +7,7 @@
         .message-body
           %p
             = claim_state_transition.transition_message
-          .grid-row.message-audit
+          .message-audit
             = claim_state_transition.audit_users
             = claim_state_transition.timestamp
 

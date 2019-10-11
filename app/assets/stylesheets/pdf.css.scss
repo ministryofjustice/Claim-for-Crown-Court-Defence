@@ -1,3 +1,7 @@
+/*
+ * Used by the pdf generation tool
+ * Not required by the applications main stylesheet
+ */
 @mixin scale($property: font-size, $scale: 1) {
   #{$property}: (23 * $scale) + px;
 }

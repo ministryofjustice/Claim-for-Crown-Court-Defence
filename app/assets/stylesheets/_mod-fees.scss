@@ -1,0 +1,58 @@
+.mod-fees {
+  .bold-medium {
+    padding-bottom: $gutter;
+  }
+
+  .dates-wrapper {
+    position: relative;
+  }
+
+  .header-action,
+  .date-action {
+    float: right;
+    @include core-19;
+    font-weight: 700;
+  }
+
+  .date-action {
+    position: absolute;
+    right: 40%;
+  }
+
+  /*--- Ported from v1 stylesheets ---*/
+  .grid-row {
+
+    .column-one-third,
+    .column-one-half,
+    .column-one-quarter {
+      padding: 0;
+    }
+  }
+}
+
+.expense-group {
+  @extend .mod-fees;
+
+  /*--- Ported from v1 stylesheets ---*/
+  fieldset {
+    legend {
+      width: 100%;
+
+      .fx-remove-link {
+        float: right;
+        font-weight: normal;
+      }
+    }
+  }
+}
+
+
+/*--- Ported from v1 stylesheets ---*/
+
+.defendants {
+  .header-action {
+    float: right;
+    @include core-19;
+    font-weight: 700;
+  }
+}

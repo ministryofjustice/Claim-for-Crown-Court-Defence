@@ -9,7 +9,7 @@ a.fix {
   border: none;
 
   &:hover {
-    color: #2b8cc4;
+    color: $light-blue;
   }
 }
 
@@ -17,12 +17,11 @@ a.link-change,
 a.link-remove {
   float: right;
   font-size: 19px;
-  /*font-weight: normal !important;*/
   line-height: 1.31579;
   margin: 0px;
 
   &:hover {
-    color: #2b8cc4;
+    color: $light-blue;
   }
 
   @media (max-width: 640px) {
@@ -40,4 +39,11 @@ a.add_fields {
 
 .js-enabled a.add_fields {
   display: inline-block;
+}
+
+
+/*--- Ported from v1 stylesheets ---*/
+
+a.delete-draft {
+  color: $red;
 }

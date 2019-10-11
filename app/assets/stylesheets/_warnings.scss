@@ -1,10 +1,9 @@
 .warning-summary {
-  //@include span(10 of 12);
   @extend .error-summary;
   border-color: $orange;
 }
-.warning-summary-list {
 
+.warning-summary-list {
   a {
     color: $orange;
     font-weight: bold;

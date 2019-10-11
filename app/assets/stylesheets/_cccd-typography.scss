@@ -1,7 +1,28 @@
+/*--- Typography Settings ---*/
+
+.bold-xsmall {
+  @include bold-14();
+}
+
+.bold-normal {
+  @include bold-16();
+}
+
+.unique-id-small {
+  color: $grey-1;
+  display: block;
+  font-size: 12px;
+}
+
+.case-number-header .unique-id-small {
+  display: inline-block;
+}
+
 header.main-header {
   @include container;
-  margin-bottom:$gutter;
-  h1{
+  margin-bottom: $gutter;
+
+  h1 {
     @include span(8 of 12);
     @include first;
     @include heading-48;
@@ -9,117 +30,137 @@ header.main-header {
   }
 
 }
-.sub-header{
+
+.sub-header {
   margin-bottom: $gutter-half;
 }
+
 .hgroup {
-  h2{
+  h2 {
     @include core-24;
-    margin:0;
-    color:$grey-1;
-    font-weight:400;
+    margin: 0;
+    color: $grey-1;
+    font-weight: 400;
   }
-  .numerical-value{
+
+  .numerical-value {
     @include bold-36();
-    display:block;
-    color:$text-colour;
+    display: block;
+    color: $text-colour;
   }
 }
 
-.claim-hgroup{
-  @include clearfix;
-  .column-one-third{
-    padding: 0;
-  }
+.claim-hgroup {
   margin-bottom: 10px;
-  h1{
+
+  h1 {
     @include first;
+
     @include media(desktop) {
       margin-left: 0;
     }
+
     @include core-19;
     padding-top: 0;
     display: inline-block;
     margin-left: 0;
   }
-  .case-number-header{
+
+  .case-number-header {
     @include core-36();
     display: block;
     font-weight: 700;
   }
-  .claim-status{
+
+  .claim-status {
     @include span(7 of 12);
-    @include media(desktop){
-      // @include span(2 at 4 of 12);
-    }
+
     @include core-19;
     display: block;
     margin-bottom: 10px;
-    float:none;
+    float: none;
   }
-  .claim-detail-actions{
+
+  .claim-detail-actions {
     @include last;
-    @include media(mobile){
+
+    @include media(mobile) {
       @include first;
       margin-bottom: 10px;
     }
+
     @include core-19;
-    .button, .button-secondary{
+
+    .button,
+    .button-secondary {
       margin-right: 5px;
     }
 
-    .resubmit-claim{
+    .resubmit-claim {
       width: -moz-calc(216px);
       padding-left: -moz-calc(3px);
     }
 
-    .action-wrapper{
-      a:first-child, .resubmit-claim{
+    .action-wrapper {
+
+      a:first-child,
+      .resubmit-claim {
         margin-right: 20px;
       }
     }
   }
 }
 
-.new-claim-content{
-  h2{
+.new-claim-content {
+  h2 {
     @include core-24;
     font-weight: 800;
     margin-top: $gutter;
   }
-  h2 ~ h2 {
+
+  h2~h2 {
     margin-top: $gutter * 2;
   }
 }
-.new-claim-hgroup{
+
+// --------------------------------------- */
+// Sidebar */
+// --------------------------------------- */
+
+.new-claim-hgroup {
   border-top: 5px solid $link-colour;
   margin-top: 5px;
 
-  h2{
+  h2 {
     @include core-24;
     font-weight: 800;
     margin-top: $gutter-half;
   }
-  h3{
+
+  h3 {
     @include core-19;
     font-weight: 800;
   }
-  .numeric{
+
+  .numeric {
     display: block;
     font-weight: normal;
   }
 }
 
-.error-summary,.notice-summary {
+.error-summary,
+.notice-summary {
   @include span(8 of 12);
   @include first;
-  float:none;
-  h1{
+  float: none;
+
+  h1 {
     margin-top: 0;
     margin-bottom: 0;
   }
 }
-.notice-summary{
+
+.notice-summary {
   @extend .error-summary;
   border-color: $button-colour;
 
@@ -153,8 +194,12 @@ header.main-header {
   font-size: 80%;
 }
 
-a[target="_blank"]:after
-{
+a[target="_blank"]:after {
   content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
   margin: 0 0 0 5px;
+}
+
+p.file-upload-name {
+  margin: 5px 0 0;
+  font-style: italic;
 }

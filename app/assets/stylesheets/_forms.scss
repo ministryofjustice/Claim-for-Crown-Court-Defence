@@ -2,8 +2,32 @@ legend {
   width: 100%;
 }
 
+fieldset {
+  &.error {
+    border-left-width: 3px;
+
+    .form-control {
+      border-width: 2px;
+      border-color: $error-colour;
+    }
+  }
+
+  label {
+    margin-top: 0;
+  }
+
+  &.spacer {
+    margin: 20px 0;
+  }
+}
+
 label.form-label {
   font-weight: 700;
+}
+
+// ie error state fix
+input[type="radio"] {
+  border: none;
 }
 
 .form-control:disabled,
@@ -37,14 +61,6 @@ input.form-control:read-only {
   width: 100%;
 
   @include media(tablet) {
-    width: 75%;
-  }
-}
-
-.form-control-full-textarea {
-  width: 100% !important;
-
-  @include media(tablet) {
-    width: 75%;
+    width: 100%;
   }
 }

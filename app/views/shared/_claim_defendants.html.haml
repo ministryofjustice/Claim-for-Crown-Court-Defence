@@ -2,10 +2,10 @@
 - defendants.each_slice(2) do |(defendant_left, defendant_right)|
 
   .grid-row.defendant-row
-    .column-half
+    .column-one-half
       = render partial: 'shared/claim_defendant_details', locals: { defendant: defendant_left, index: defendant_count += 1 }
 
-    .column-half
+    .column-one-half
       - if defendant_right
         = render partial: 'shared/claim_defendant_details', locals: { defendant: defendant_right, index: defendant_count += 1 }
       - else

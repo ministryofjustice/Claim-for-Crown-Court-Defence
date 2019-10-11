@@ -26,6 +26,8 @@
 }
 
 .button-holder {
+  @include clearfix;
+
   margin-top: $gutter;
 }
 
@@ -116,4 +118,17 @@ form .form-buttons * {
 
 .button-warning {
   @include button($error-colour);
+}
+
+
+/*--- Ported from v1 stylesheets ---*/
+
+.external-user-json-export {
+  margin-bottom: 10px;
+}
+
+.certify-claim {
+  display: block;
+  width: 8.8em;
+  margin: 10px 0;
 }

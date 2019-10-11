@@ -1,47 +1,45 @@
+= render partial: 'shared/evidence_checklist'
 
-%section
-  = render partial: 'shared/evidence_checklist'
-  .grid-row
-    %h3.heading-medium
-      = t('.existing_evidence')
-      - if current_user_persona_is?(CaseWorker) && @claim.documents.any?
-        = link_to t('shared.download_all'), download_zip_case_workers_claim_path(@claim), class: 'font-small', style: 'float: right'
+%h3.heading-medium
+  = t('.existing_evidence')
+  - if current_user_persona_is?(CaseWorker) && @claim.documents.any?
+    = link_to t('shared.download_all'), download_zip_case_workers_claim_path(@claim), class: 'font-small', style: 'float: right'
 
-    - if @claim.documents.none?
-      = t('.no_documents_uploaded')
+- if @claim.documents.none?
+  = t('.no_documents_uploaded')
 
-    - else
-      %table#download-files-report
-        %caption.visually-hidden
-          = t('.caption')
-        %thead
-          %tr
-            %th{ scope: 'col' }
-              = t('.name_of_file')
-            %th{ scope: 'col' }
-              = t('.file_size')
-            %th.numeric{ scope: 'col' }
-              = t('.date_added')
-            %th.numeric{ scope: 'col' }
-              = t('.actions')
+- else
+  %table#download-files-report
+    %caption.visually-hidden
+      = t('.caption')
+    %thead
+      %tr
+        %th{ scope: 'col' }
+          = t('.name_of_file')
+        %th{ scope: 'col' }
+          = t('.file_size')
+        %th.numeric{ scope: 'col' }
+          = t('.date_added')
+        %th.numeric{ scope: 'col' }
+          = t('.actions')
 
-        %tbody
-          - @claim.documents.each do |document|
-            %tr
-              %td
-                = document.document_file_name
-              %td
-                = number_to_human_size(document.document_file_size)
-              %td.numeric
-                = document.created_at.strftime(Settings.date_format)
-              %td.numeric
-                - if document.converted_preview_document.present?
-                  = link_to t('common.view'),
-                            document_path(document),
-                            class: 'view',
-                            'aria-label': "Evidence: View document #{document.document_file_name}, opens in new window"
-                  = ' | '
-                = link_to t('common.download'),
-                          download_document_path(document),
-                          class: 'download',
-                          'aria-label': "Evidence: Download document #{document.document_file_name}"
+    %tbody
+      - @claim.documents.each do |document|
+        %tr
+          %td
+            = document.document_file_name
+          %td
+            = number_to_human_size(document.document_file_size)
+          %td.numeric
+            = document.created_at.strftime(Settings.date_format)
+          %td.numeric
+            - if document.converted_preview_document.present?
+              = link_to t('common.view'),
+                        document_path(document),
+                        class: 'view',
+                        'aria-label': "Evidence: View document #{document.document_file_name}, opens in new window"
+              = ' | '
+            = link_to t('common.download'),
+                      download_document_path(document),
+                      class: 'download',
+                      'aria-label': "Evidence: Download document #{document.document_file_name}"

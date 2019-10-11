@@ -99,18 +99,16 @@
         I certify on behalf of the payee, that the information provided is correct.
 
     .grid-row
-      .column-third
+      .column-one-third
         = f.adp_text_field :certified_by,
                           label: t('.certified_by'),
                           hint_text: t('.certified_by_prompt_text'),
                           input_classes: 'long-input',
                           id: 'certified_by'
 
-      .column-third
+      .column-one-third
         = f.gov_uk_date_field(:certification_date, form_hint_text: '', legend_text: t('.date'), legend_class: 'govuk-legend', id: 'certification_date')
 
-      .column-third
-        &nbsp;
     .button-holder
       = f.submit t('.submit'), class: 'button left btn-spacer-20'
       = link_to t('.return'), edit_polymorphic_path(@claim), class: 'button-gray-3 left'

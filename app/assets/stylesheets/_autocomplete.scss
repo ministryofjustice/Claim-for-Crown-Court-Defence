@@ -1,5 +1,7 @@
 @media (min-width: 641px) {
-  #case_details, #transfer-detail{
+
+  #case_details,
+  #transfer-detail {
     .autocomplete__wrapper {
       width: 50%;
     }
@@ -13,15 +15,7 @@
 
 // scss-lint:disable QualifyingElement, ImportantRule
 .js-enabled select.typeahead {
-  position: absolute;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  width: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  width: auto !important;
+  @include visually-hidden;
 }
 
 .typeahead.fixedwidth {
@@ -38,9 +32,14 @@
 }
 
 @media (min-width: 641px) {
+  .tt-menu {
+    width: 50%;
+  }
+
   // scss-lint:disable IdSelector
   .js-block,
-  #offence {
+  #offence,
+  .controller-allocations {
     .tt-menu {
       width: 100%;
     }
@@ -49,7 +48,7 @@
 
 // scss-lint:disable ImportantRule
 .tt-hint {
-  opacity: .6 !important;
+  opacity: .6;
 }
 
 .tt-suggestion {
@@ -72,7 +71,7 @@
 
 // scss-lint:disable IdSelector
 #offence-list .tt-highlight {
-  background-color: $focus-colour !important;
+  background-color: $focus-colour;
 }
 
 .mod-search-input {

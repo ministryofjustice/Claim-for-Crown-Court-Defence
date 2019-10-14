@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_28_124551) do
+ActiveRecord::Schema.define(version: 2019_10_14_082834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
-  create_table "case_types", force: :cascade do |t|
+  create_table "case_types", id: :serial, force: :cascade do |t|
     t.string "name"
     t.boolean "is_fixed_fee"
     t.datetime "created_at"
@@ -29,9 +29,10 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.string "roles"
     t.string "fee_type_code"
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.string "circle_test"
   end
 
-  create_table "case_worker_claims", force: :cascade do |t|
+  create_table "case_worker_claims", id: :serial, force: :cascade do |t|
     t.integer "case_worker_id"
     t.integer "claim_id"
     t.datetime "created_at"
@@ -40,7 +41,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["claim_id"], name: "index_case_worker_claims_on_claim_id"
   end
 
-  create_table "case_workers", force: :cascade do |t|
+  create_table "case_workers", id: :serial, force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "location_id"
@@ -50,7 +51,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["location_id"], name: "index_case_workers_on_location_id"
   end
 
-  create_table "certification_types", force: :cascade do |t|
+  create_table "certification_types", id: :serial, force: :cascade do |t|
     t.string "name"
     t.boolean "pre_may_2015", default: false
     t.datetime "created_at"
@@ -59,7 +60,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["name"], name: "index_certification_types_on_name"
   end
 
-  create_table "certifications", force: :cascade do |t|
+  create_table "certifications", id: :serial, force: :cascade do |t|
     t.integer "claim_id"
     t.string "certified_by"
     t.date "certification_date"
@@ -68,7 +69,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.integer "certification_type_id"
   end
 
-  create_table "claim_intentions", force: :cascade do |t|
+  create_table "claim_intentions", id: :serial, force: :cascade do |t|
     t.string "form_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -76,7 +77,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["form_id"], name: "index_claim_intentions_on_form_id"
   end
 
-  create_table "claim_state_transitions", force: :cascade do |t|
+  create_table "claim_state_transitions", id: :serial, force: :cascade do |t|
     t.integer "claim_id"
     t.string "namespace"
     t.string "event"
@@ -90,7 +91,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["claim_id"], name: "index_claim_state_transitions_on_claim_id"
   end
 
-  create_table "claims", force: :cascade do |t|
+  create_table "claims", id: :serial, force: :cascade do |t|
     t.text "additional_information"
     t.boolean "apply_vat"
     t.string "state"
@@ -164,7 +165,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["valid_until"], name: "index_claims_on_valid_until"
   end
 
-  create_table "courts", force: :cascade do |t|
+  create_table "courts", id: :serial, force: :cascade do |t|
     t.string "code"
     t.string "name"
     t.string "court_type"
@@ -175,7 +176,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["name"], name: "index_courts_on_name"
   end
 
-  create_table "dates_attended", force: :cascade do |t|
+  create_table "dates_attended", id: :serial, force: :cascade do |t|
     t.date "date"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -186,7 +187,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["attended_item_id", "attended_item_type"], name: "index_dates_attended_on_attended_item_id_and_attended_item_type"
   end
 
-  create_table "defendants", force: :cascade do |t|
+  create_table "defendants", id: :serial, force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.date "date_of_birth"
@@ -198,7 +199,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["claim_id"], name: "index_defendants_on_claim_id"
   end
 
-  create_table "determinations", force: :cascade do |t|
+  create_table "determinations", id: :serial, force: :cascade do |t|
     t.integer "claim_id"
     t.string "type"
     t.decimal "fees", default: "0.0"
@@ -211,7 +212,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["claim_id"], name: "index_determinations_on_claim_id"
   end
 
-  create_table "disbursement_types", force: :cascade do |t|
+  create_table "disbursement_types", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -221,7 +222,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["unique_code"], name: "index_disbursement_types_on_unique_code", unique: true
   end
 
-  create_table "disbursements", force: :cascade do |t|
+  create_table "disbursements", id: :serial, force: :cascade do |t|
     t.integer "disbursement_type_id"
     t.integer "claim_id"
     t.decimal "net_amount"
@@ -234,7 +235,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["disbursement_type_id"], name: "index_disbursements_on_disbursement_type_id"
   end
 
-  create_table "documents", force: :cascade do |t|
+  create_table "documents", id: :serial, force: :cascade do |t|
     t.integer "claim_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -259,7 +260,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["external_user_id"], name: "index_documents_on_external_user_id"
   end
 
-  create_table "establishments", force: :cascade do |t|
+  create_table "establishments", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "category"
     t.string "postcode"
@@ -268,7 +269,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["category"], name: "index_establishments_on_category"
   end
 
-  create_table "expense_types", force: :cascade do |t|
+  create_table "expense_types", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -279,7 +280,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["unique_code"], name: "index_expense_types_on_unique_code", unique: true
   end
 
-  create_table "expenses", force: :cascade do |t|
+  create_table "expenses", id: :serial, force: :cascade do |t|
     t.integer "expense_type_id"
     t.integer "claim_id"
     t.string "location"
@@ -303,7 +304,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["expense_type_id"], name: "index_expenses_on_expense_type_id"
   end
 
-  create_table "external_users", force: :cascade do |t|
+  create_table "external_users", id: :serial, force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "supplier_number"
@@ -316,7 +317,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["supplier_number"], name: "index_external_users_on_supplier_number"
   end
 
-  create_table "fee_schemes", force: :cascade do |t|
+  create_table "fee_schemes", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "version"
     t.datetime "start_date"
@@ -325,7 +326,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "fee_types", force: :cascade do |t|
+  create_table "fee_types", id: :serial, force: :cascade do |t|
     t.string "description"
     t.string "code"
     t.datetime "created_at"
@@ -343,7 +344,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["unique_code"], name: "index_fee_types_on_unique_code", unique: true
   end
 
-  create_table "fees", force: :cascade do |t|
+  create_table "fees", id: :serial, force: :cascade do |t|
     t.integer "claim_id"
     t.integer "fee_type_id"
     t.decimal "quantity"
@@ -363,7 +364,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["fee_type_id"], name: "index_fees_on_fee_type_id"
   end
 
-  create_table "injection_attempts", force: :cascade do |t|
+  create_table "injection_attempts", id: :serial, force: :cascade do |t|
     t.integer "claim_id"
     t.boolean "succeeded"
     t.datetime "created_at"
@@ -373,7 +374,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["claim_id"], name: "index_injection_attempts_on_claim_id"
   end
 
-  create_table "interim_claim_info", force: :cascade do |t|
+  create_table "interim_claim_info", id: :serial, force: :cascade do |t|
     t.boolean "warrant_fee_paid"
     t.date "warrant_issued_date"
     t.date "warrant_executed_date"
@@ -381,14 +382,14 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["claim_id"], name: "index_interim_claim_info_on_claim_id"
   end
 
-  create_table "locations", force: :cascade do |t|
+  create_table "locations", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["name"], name: "index_locations_on_name"
   end
 
-  create_table "messages", force: :cascade do |t|
+  create_table "messages", id: :serial, force: :cascade do |t|
     t.text "body"
     t.integer "claim_id"
     t.integer "sender_id"
@@ -402,7 +403,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
 
-  create_table "mi_data", force: :cascade do |t|
+  create_table "mi_data", id: :serial, force: :cascade do |t|
     t.boolean "disk_evidence"
     t.boolean "retrial_reduction"
     t.date "case_concluded_at"
@@ -465,7 +466,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["ppe"], name: "index_mi_data_on_ppe"
   end
 
-  create_table "offence_bands", force: :cascade do |t|
+  create_table "offence_bands", id: :serial, force: :cascade do |t|
     t.integer "number"
     t.string "description"
     t.integer "offence_category_id"
@@ -474,14 +475,14 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["offence_category_id"], name: "index_offence_bands_on_offence_category_id"
   end
 
-  create_table "offence_categories", force: :cascade do |t|
+  create_table "offence_categories", id: :serial, force: :cascade do |t|
     t.integer "number"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "offence_classes", force: :cascade do |t|
+  create_table "offence_classes", id: :serial, force: :cascade do |t|
     t.string "class_letter"
     t.string "description"
     t.datetime "created_at"
@@ -490,14 +491,14 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["description"], name: "index_offence_classes_on_description"
   end
 
-  create_table "offence_fee_schemes", force: :cascade do |t|
+  create_table "offence_fee_schemes", id: :serial, force: :cascade do |t|
     t.integer "offence_id"
     t.integer "fee_scheme_id"
     t.index ["fee_scheme_id"], name: "index_offence_fee_schemes_on_fee_scheme_id"
     t.index ["offence_id"], name: "index_offence_fee_schemes_on_offence_id"
   end
 
-  create_table "offences", force: :cascade do |t|
+  create_table "offences", id: :serial, force: :cascade do |t|
     t.string "description"
     t.integer "offence_class_id"
     t.datetime "created_at"
@@ -511,7 +512,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["unique_code"], name: "index_offences_on_unique_code", unique: true
   end
 
-  create_table "providers", force: :cascade do |t|
+  create_table "providers", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "firm_agfs_supplier_number"
     t.string "provider_type"
@@ -526,7 +527,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["provider_type"], name: "index_providers_on_provider_type"
   end
 
-  create_table "representation_orders", force: :cascade do |t|
+  create_table "representation_orders", id: :serial, force: :cascade do |t|
     t.integer "defendant_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -536,7 +537,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["defendant_id"], name: "index_representation_orders_on_defendant_id"
   end
 
-  create_table "statistics", force: :cascade do |t|
+  create_table "statistics", id: :serial, force: :cascade do |t|
     t.date "date"
     t.string "report_name"
     t.string "claim_type"
@@ -545,7 +546,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["date", "report_name", "claim_type"], name: "index_statistics_on_date_and_report_name_and_claim_type", unique: true
   end
 
-  create_table "stats_reports", force: :cascade do |t|
+  create_table "stats_reports", id: :serial, force: :cascade do |t|
     t.string "report_name"
     t.string "report"
     t.string "status"
@@ -557,19 +558,19 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.datetime "document_updated_at"
   end
 
-  create_table "super_admins", force: :cascade do |t|
+  create_table "super_admins", id: :serial, force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "supplier_numbers", force: :cascade do |t|
+  create_table "supplier_numbers", id: :serial, force: :cascade do |t|
     t.integer "provider_id"
     t.string "supplier_number"
     t.string "name"
     t.string "postcode"
   end
 
-  create_table "transfer_details", force: :cascade do |t|
+  create_table "transfer_details", id: :serial, force: :cascade do |t|
     t.integer "claim_id"
     t.string "litigator_type"
     t.boolean "elected_case"
@@ -578,7 +579,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.integer "case_conclusion_id"
   end
 
-  create_table "user_message_statuses", force: :cascade do |t|
+  create_table "user_message_statuses", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "message_id"
     t.boolean "read", default: false
@@ -589,7 +590,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["user_id"], name: "index_user_message_statuses_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -617,14 +618,14 @@ ActiveRecord::Schema.define(version: 2019_03_28_124551) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  create_table "vat_rates", force: :cascade do |t|
+  create_table "vat_rates", id: :serial, force: :cascade do |t|
     t.integer "rate_base_points"
     t.date "effective_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "versions", force: :cascade do |t|
+  create_table "versions", id: :serial, force: :cascade do |t|
     t.string "item_type", null: false
     t.integer "item_id", null: false
     t.string "event", null: false

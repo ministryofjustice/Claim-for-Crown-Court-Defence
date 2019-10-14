@@ -150,7 +150,7 @@ references:
         sudo pip3 install awscli
         $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
         docker push "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}"      
-        if [ "${CIRCLE_BRANCH}" == "kubernetes-fix-master-tag-fail" ]; then
+        if [ "${CIRCLE_BRANCH}" == "master" ]; then
           docker tag "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}" "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:latest"
           docker push "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:latest"
         fi

@@ -21,15 +21,24 @@
 en:
   global_no: &global_no 'No'
   global_yes: &global_yes 'Yes'
+
   # global - contact
   email: Email
   phone: Phone
+
   # global - states
   authorised: Authorised
   draft: Draft
   part_authorised: Part-authorised
   refused: Refused
   rejected: Rejected
+
+  # global - layout footer
+  contact: Contact
+  cookies: Cookies
+  footer_feedback: Feedback
+  terms_and_conditions: Terms and Conditions
+  service_owner_html: <span>Built by</span> <a href="%{link}"><abbr title="Ministry of Justice">MOJ Digital Services</abbr></a>
 
   TrueClass: *global_yes
   FalseClass: *global_no
@@ -179,6 +188,7 @@ en:
         comment_hint: "Don't include any personal or sensitive information."
         email: 'What is your email address? (Optional)'
         email_hint: 'We will need your email address to be able to respond to your message.'
+        claim_availability: Your claim is still available on a separate tab.
   activerecord:
     models:
       super_admin: *super_admin

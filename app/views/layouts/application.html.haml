@@ -4,11 +4,11 @@
 - content_for?(:page_title) ? yield(:page_title) : contextual_title
 
 - content_for :head do
-  %meta{:name =>"format-detection", :content => "telephone=no"}
+  %meta{ name: 'format-detection', content: 'telephone=no' }
 
   -# default CSS to v1
   - content_for(:v1_stylesheets) do
-    = stylesheet_link_tag "v1/application", media: "all"
+    = stylesheet_link_tag 'v1/application', media: 'all'
 
   -# Conditionally load CSS
   = content_for?(:v2_stylesheets) ? yield(:v2_stylesheets) : yield(:v1_stylesheets)
@@ -28,13 +28,14 @@
 - content_for :body_start do
   - if GoogleAnalytics::DataTracking.tag_manager?
     %noscript
-      %iframe{ :src => "https://www.googletagmanager.com/ns.html?id=#{ENV['GTM_TRACKED_ID']}", :style => "display:none;visibility:hidden",:height => "0", :width => "0"}
+      %iframe{ src: "https://www.googletagmanager.com/ns.html?id=#{ENV['GTM_TRACKED_ID']}", style: 'display:none;visibility:hidden', height: '0', width: '0' }
 
 - content_for :proposition_header do
   .header-proposition
     .content
-      %a.js-header-toggle.menu{:href => "#proposition-links"}
-        = "Menu"
+      - unless current_user.nil?
+        = link_to 'Menu', '#proposition-links', class: 'js-header-toggle menu'
+
       %nav#proposition-menu
         %a#proposition-name{:href => "/"}
           %span.visuallyhidden

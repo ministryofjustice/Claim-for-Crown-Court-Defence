@@ -128,7 +128,7 @@ moj.Modules.AllocationDataTable = {
       targets: 1,
       data: null,
       render: function (data, type, full) {
-        return data.filter.disk_evidence ? '<a href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a><br/><span class="disk-evidence">Disk evidence</span>' : '<a href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a>';
+        return data.filter.disk_evidence ? '<a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a><br/><span class="disk-evidence">Disk evidence</span>' : '<a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a>';
       }
 
     }, {

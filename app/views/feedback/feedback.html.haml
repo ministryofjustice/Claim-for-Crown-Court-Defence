@@ -2,10 +2,10 @@
   = t('.page_title')
 
 = content_for :v2_stylesheets do
-  = stylesheet_link_tag "v2/application", media: "all"
+  = stylesheet_link_tag 'v2/application', media: 'all'
 
-= render partial: 'errors/error_summary', locals:{ ep: @feedback, error_summary: t('.error_summary')}
-= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
+= render partial: 'errors/error_summary', locals: { ep: @feedback, error_summary: t('.error_summary') }
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
 .body-content
   .panel.panel-border-wide
@@ -16,29 +16,29 @@
   = form_for @feedback, url: feedback_index_path(email: params[:email]), html: { novalidate: 'novalidate', class: 'normal'} do |f|
     = f.hidden_field :type
     = f.hidden_field :referrer
-    = hidden_field_tag 'ga_client_id', '', class:'ga-client-id'
+    = hidden_field_tag 'ga_client_id', '', class: 'ga-client-id'
     - if params[:user_id].present?
       = hidden_field_tag :user_id, params[:user_id]
 
 
     .form-group
-      %label.form-label-bold{:for => "textarea-e"}
+      = f.label :comment, class: 'form-label' do
         = t('.comment')
         %span.form-hint
           = t('.comment_hint')
-      = f.text_area :comment, rows: 5, class: "form-control"
+      = f.text_area :comment, rows: 5, class: 'form-control'
 
     = render partial: 'feedback/anonymous_email_prompt', locals: { f: f } if cannot_identify_user?
 
     .form-group
-      %fieldset{"aria-describedby": "radio-control-legend"}
+      %fieldset{ 'aria-describedby': 'radio-control-legend' }
         %legend#radio-control-legend
           %span.form-label-bold
             = t('.rating')
 
         = f.collection_radio_buttons(:rating, Feedback::RATINGS.map {|k,v| [v,k]}, :last, :first) do |b|
           .multiple-choice
-            = b.radio_button("aria-labelledby": "radio-control-legend #{b.text.to_css_class}")
+            = b.radio_button('aria-labelledby': "radio-control-legend #{b.text.to_css_class}")
             = b.label(id: b.text.to_css_class) { b.object.first }
 
     .button-holder

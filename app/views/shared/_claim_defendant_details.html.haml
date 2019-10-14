@@ -30,12 +30,12 @@
             = t('.caption')
           %thead
             %tr
-              %th
+              %th{ scope: 'col' }
                 Representation order
-              %th
+              %th{ scope: 'col' }
                 MAAT ref no
           %tbody
-            - defendant.representation_orders.each do | representation_order |
+            - defendant.representation_orders.each do |representation_order|
               %tr
                 %td
                   = representation_order.representation_order_date.strftime(Settings.date_format) rescue ''

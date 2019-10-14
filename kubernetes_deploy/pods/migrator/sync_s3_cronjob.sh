@@ -3,7 +3,7 @@ function _sync_s3() {
   usage="sync_s3 -- apply scheduled sync s3 job in the specified environment
   Usage: sync_s3_cronjob environment
   Where:
-    environment [dev|staging|api-sandbox]
+    environment [dev|staging|api-sandbox|production]
 
   Example:
     # apply changes to clean_ecr cronjob
@@ -19,7 +19,7 @@ function _sync_s3() {
   context='live-1'
 
   case "$1" in
-    dev | staging | api-sandbox)
+    dev | staging | api-sandbox | production)
       environment=$1
       ;;
     *)

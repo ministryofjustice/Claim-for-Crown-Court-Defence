@@ -1,12 +1,10 @@
-= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
 %section.api-github-issue
   Any development issues? aside from our
-  %a{href: 'https://laavendorsupport.slack.com', target: '_blank'}
-    vendor support slack channel
+  = link_to 'vendor support slack channel', 'https://laavendorsupport.slack.com'
   you can raise
-  %a{href: 'https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence/issues', target: '_blank'}
-    Github issues
+  = link_to 'Github issues', 'https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence/issues'
   for bugs or other problems.
 
 %section.api-documentation
@@ -126,21 +124,21 @@
   %ul.list-bullet
     %li
       Additional fee scheme 10 and 11 offence codes added
-    %br/
-    The following additional specific offence has been added to both fee scheme 10 and 11:
-    .panel
-      'Aiding, abetting, causing or permitting dangerous driving' in band 17.1
-    %br/
-    The following additional catchall offences have been added to both fee scheme 10 and 11 in every band
-    %br
-    .panel
-      'Other offences' in bands 1.1, 1.2, 1.3, 1.4, 2.1, 2.2, 3.1, 3.2, 3.3, 3.4, 3.5, 4.1, 4.2, 4.3, 5.1, 5.2, 5.3, 6.1, 6.2, 6.3, 6.4, 6.5, 7.1, 7.2, 7.3, 8.1, 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 10.1, 11.1, 11.2, 12.1, 12.2, 12.3, 13.1, 14.1, 15.1, 15.2, 15.3, 16.1, 16.2, 16.3, 17.1
-    %br/
-    You can query all offences on the
-    %a{ href: '/api/documentation?v=1#!/api/getApiOffences', target: '_blank' } api/offences
-    endpoint - note that you will need to provide a
-    %code.code='rep_order_date'
-    parameter that falls within the scheme 10/11 scheme start and end date - start dates are 2018-04-01 and 2018-12-31 respectively
+      %br/
+      The following additional specific offence has been added to both fee scheme 10 and 11:
+      .panel
+        'Aiding, abetting, causing or permitting dangerous driving' in band 17.1
+      %br/
+      The following additional catchall offences have been added to both fee scheme 10 and 11 in every band
+      %br
+      .panel
+        'Other offences' in bands 1.1, 1.2, 1.3, 1.4, 2.1, 2.2, 3.1, 3.2, 3.3, 3.4, 3.5, 4.1, 4.2, 4.3, 5.1, 5.2, 5.3, 6.1, 6.2, 6.3, 6.4, 6.5, 7.1, 7.2, 7.3, 8.1, 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 10.1, 11.1, 11.2, 12.1, 12.2, 12.3, 13.1, 14.1, 15.1, 15.2, 15.3, 16.1, 16.2, 16.3, 17.1
+      %br/
+      You can query all offences on the
+      %a{ href: '/api/documentation?v=1#!/api/getApiOffences', target: '_blank' } api/offences
+      endpoint - note that you will need to provide a
+      %code.code='rep_order_date'
+      parameter that falls within the scheme 10/11 scheme start and end date - start dates are 2018-04-01 and 2018-12-31 respectively
 
 %section.api-documentation
   %hr
@@ -511,51 +509,52 @@
       fixed fee case type. However, certain combinations are not applicable and can result in claims be rejected in full or in part. The web interface has been modifed to ensure that only applicable fixed fees can be claimed, based on the case type selected. The table below summarizes the change.
       %br/
       %br/
-      %table
-        %caption
-          Eligible fixed fee types
-        %thead
-          %tr
-            %th
-              Case type
-            %th
-              Eligible fixed fees
-        %tbody
-          %tr
-            %td
-              Appeal against conviction
-            %td
-              Appeals to the crown court against conviction; Standard appearance fee; Number of cases uplift; Number of defendants uplift
-          %tr
-            %td
-              Appeal against sentence
-            %td
-              Appeals to the crown court against sentence;Standard appearance fee; Number of cases uplift; Number of defendants uplift
-          %tr
-            %td
-              Breach of Crown Court order
-            %td
-              Breach of a crown court order; Standard appearance fee; Number of cases uplift; Number of defendants uplift
-          %tr
-            %td
-              Committal for Sentence
-            %td
-              Committal for sentence hearings; Standard appearance fee; Number of cases uplift; Number of defendants uplift
-          %tr
-            %td
-              Contempt
-            %td
-              Contempt; Standard appearance fee
-          %tr
-            %td
-              Elected cases not proceeded
-            %td
-              Elected case not proceeded; Number of cases uplift; Number of defendants uplift
-        %tfoot
-          %tr
-            %td{ colspan: 4}
-              %em
-                ** see not below
+  %table
+    %caption
+      Eligible fixed fee types
+    %thead
+      %tr
+        %th
+          Case type
+        %th
+          Eligible fixed fees
+    %tbody
+      %tr
+        %td
+          Appeal against conviction
+        %td
+          Appeals to the crown court against conviction; Standard appearance fee; Number of cases uplift; Number of defendants uplift
+      %tr
+        %td
+          Appeal against sentence
+        %td
+          Appeals to the crown court against sentence;Standard appearance fee; Number of cases uplift; Number of defendants uplift
+      %tr
+        %td
+          Breach of Crown Court order
+        %td
+          Breach of a crown court order; Standard appearance fee; Number of cases uplift; Number of defendants uplift
+      %tr
+        %td
+          Committal for Sentence
+        %td
+          Committal for sentence hearings; Standard appearance fee; Number of cases uplift; Number of defendants uplift
+      %tr
+        %td
+          Contempt
+        %td
+          Contempt; Standard appearance fee
+      %tr
+        %td
+          Elected cases not proceeded
+        %td
+          Elected case not proceeded; Number of cases uplift; Number of defendants uplift
+    %tfoot
+      %tr
+        %td{ colspan: 4}
+          %em
+            ** see not below
+  %ul.list-bullet
     %li
       Case type-specific fixed fee case uplifts have been deprecated.
       %br/
@@ -636,8 +635,8 @@
               %em
                 ** see not below
 
-    %em
-      ** API consumer applications that send ineligible fixed fees will NOT error. However, when reviewing the claim's fixed fees in the web interface any ineligible fees will no longer have a type and will need to be amended to apply an eligible type.
+  %em
+    ** API consumer applications that send ineligible fixed fees will NOT error. However, when reviewing the claim's fixed fees in the web interface any ineligible fees will no longer have a type and will need to be amended to apply an eligible type.
 
 
   %hr
@@ -792,7 +791,7 @@
               MIEVI
 
   %hr
-  %h1 01 November 2017
+  %h2 01 November 2017
   %ul.list-bullet
     %li
       The Fee type GET endpoint
@@ -954,7 +953,7 @@
           Note: The API will implement the validation fully on or after 1st April 2018.
 
   %hr
-  %h1 30 November 2016
+  %h2 30 November 2016
   %ul.list-bullet
     %li
       Transfer Stages result set updated
@@ -968,7 +967,7 @@
 
   %p
   %hr
-  %h1 November 2016
+  %h2 November 2016
   %ul.list-bullet
     %li
       The case number validation rules have been changed to match XYYYYNNNN, where:
@@ -979,22 +978,20 @@
       %p
         NNNN is numeric 0001 to 9999
 
-    %p
     %li
       A new alpha-numeric field 'unique_code' has been added to the result hash for the disbursement_types endpoint. This value is
       unique to each record.
-    %p
+
     %li
       The Disbursements endpoint now accepts the above unique code as a parameter called 'disbursement_type_unique_code', which internally will be
       translated to the corresponding 'disbursement_type_id'.
       %p
       disbursement_type_id and disbursement_type_unique_code are mutually exclusive.
 
-    %p
     %li
       A new alpha-numeric field 'unique_code' has been added to the result hash for the expense_types endpoint. This value
       is unique to each record.
-    %p
+
     %li
       The Expenses endpoint now accepts the above unique code as a parameter called 'expense_type_unique_code', which internally will be
       translated to the corresponding 'expense_type_id'.
@@ -1002,13 +999,13 @@
       expense_type_id and expense_type_unique_code are mutually exclusive.
 
   %hr
-  %h1 October 2016
+  %h2 October 2016
   %ul.list-bullet
     %li
       Users of the api-sandbox were having difficulties because the ids of the static data records (expense types, fee types etc) were
       liable to change every time we regenerated the database.  Over the weekend of 8th-9th October, the database was recreated and the ids
       of these records fixed to match those on the live database.  These ids are now static and will not change in future.
-    %p
+
     %li
       An extra field "type" has been added to the result hash for fee types.  This will be one of the following values:
       %ul.list-bullet
@@ -1020,13 +1017,11 @@
         %li Fee::TransferFeeType
         %li Fee::WarrantFeeType
 
-    %p
     %li
       A new alpha-numeric field 'unique_code' has been added to the result hash for the fee_types endpoint.  This value
       is unique to each record (the 'code' field is not unique; it is the code that was printed on the AF1 form and certain codes
       are shared by several fee types).
 
-    %p
     %li
       The Fees endpoint now accepts the above unique code as a parameter called 'fee_type_unique_code', which internally will be
       translated to the corresponding 'fee_type_id'.
@@ -1034,7 +1029,7 @@
       fee_type_id and fee_type_unique_code are mutually exclusive so you can only provide one or the other.
 
   %hr
-  %h1 August 2016
+  %h2 August 2016
 
   %ul.list-bullet
     %li
@@ -1153,7 +1148,7 @@
 
   %ul.list-bullet
     %li
-      Expense Types:  The list of valid expense types has changed completely, and now matches those that
+      Expense Types: The list of valid expense types has changed completely, and now matches those that
       you will see on the website.  A GET request to 'api/expense_types' will return a a JSON response
       detailing all the expense types, including:
 
@@ -1178,7 +1173,7 @@
 
     %li
       API to submit litigator claims: Work on this is starting now and expected to be available for beta testing
-    by the end of June. We will release documentation for litigator claims within the next two weeks.
+      by the end of June. We will release documentation for litigator claims within the next two weeks.
 
     %li
       Submitted dates must conform to ISO 8601, being the time information and time zone offset optional.

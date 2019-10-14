@@ -2,14 +2,14 @@
   = t('.page_title')
 
 = content_for :v2_stylesheets do
-  = stylesheet_link_tag "v2/application", media: "all"
+  = stylesheet_link_tag 'v2/application', media: 'all'
 
-= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
 %section.tandcs
-  %p
-    %h3.heading-medium
-      1. Introduction
+  %h2.heading-medium
+    1. Introduction
+
   %p
     These Terms of Use (“Terms”) apply to you when you use the ‘Claim
     for Crown Court Defence’ (“CCCD”) Application, available at
@@ -31,78 +31,72 @@
     Petty France, London, SW1H 9AJ.In using the Application you agree to be
     bound by these Terms. Please read these Terms carefully and do not use the
     Application if you do not agree with them.
-  %p
-    %h3.heading-medium
-      2. Definitions
+
+  %h2.heading-medium
+    2. Definitions
+
   %p
     In these terms:
-  %p
-    %h4.heading-small Advocate
-    means either a person who is an “authorised person” or an “exempt person”,
-    for the purposes of exercising a “right of audience”, as defined by the
-    provisions of the Legal Services Act 2007 who is instructed by an Authorising
-    Organisation;
 
-  %p
-    %h4.heading-small Application
-    means the CCCD application, available at   
-    = link_to 'https://claim-crown-court-defence.service.gov.uk/', 'https://claim-crown-court-defence.service.gov.uk/'
-    \.
+  %h3.heading-small Advocate
+  means either a person who is an “authorised person” or an “exempt person”,
+  for the purposes of exercising a “right of audience”, as defined by the
+  provisions of the Legal Services Act 2007 who is instructed by an Authorising
+  Organisation;
 
-  %p
-    %h4.heading-small
-      Authorised representative
-    means:
-    %ul
-      %li
-        any employee of an Authorising Organisation; or
-      %li
-        any person, firm or company authorised by an Authorising Organisation to
-        supply services to them in accordance with the Standard Terms and with
-        authority from the Authorising Organisation to accept the Terms on their
-        behalf; and, in each case, who is also an Authorised Signatory; or
-      %li
-        an Advocate; or
-      %li
-        a Litigator.
+  %h3.heading-small Application
+  means the CCCD application, available at   
+  = link_to 'https://claim-crown-court-defence.service.gov.uk/', 'https://claim-crown-court-defence.service.gov.uk/'
+  \.
 
-  %p
-    %h4.heading-small Authorised Signatory
-    means an Authorised Representative of an Authorising Organisation who meets
-    our signatory requirements as set out in the AGFS and, as applicable, LGFS bill
-    submission screens;
+  %h3.heading-small
+    Authorised representative
+  means:
+  %ul
+    %li
+      any employee of an Authorising Organisation; or
+    %li
+      any person, firm or company authorised by an Authorising Organisation to
+      supply services to them in accordance with the Standard Terms and with
+      authority from the Authorising Organisation to accept the Terms on their
+      behalf; and, in each case, who is also an Authorised Signatory; or
+    %li
+      an Advocate; or
+    %li
+      a Litigator.
 
-  %p
-    %h4.heading-small
-      Authorising Organisation
-    means an organisation or person making claims under the Standard Terms, or any
-    other organisation or person who has written authority from us to use the
-    Application in accordance with the Terms;
+  %h3.heading-small Authorised Signatory
+  means an Authorised Representative of an Authorising Organisation who meets
+  our signatory requirements as set out in the AGFS and, as applicable, LGFS bill
+  submission screens;
 
-  %p
-    %h4.heading-small Claim
-    means an AGFS or LGFS claim for payment, correctly made in accordance with the
-    Criminal Legal Aid (Remuneration) Regulations 2013 (as amended);
+  %h3.heading-small
+    Authorising Organisation
+  means an organisation or person making claims under the Standard Terms, or any
+  other organisation or person who has written authority from us to use the
+  Application in accordance with the Terms;
 
-  %p
-    %h4.heading-small
-      Controller
-    means, where Personal Data is being processed for Law Enforcement Purposes,
-    as it is defined in the Law Enforcement Directive (Directive (EU) 2016/680) (LED);
-    and in all other circumstances, as defined in the Data Protection Act 2018 and the
-    General Data Protection Regulation (Regulation (EU) 2016/679) (GDPR);
+  %h3.heading-small Claim
+  means an AGFS or LGFS claim for payment, correctly made in accordance with the
+  Criminal Legal Aid (Remuneration) Regulations 2013 (as amended);
 
-  %p
-    %h4.heading-small
-      Data Loss Event
-    means any event that results, or may result, in unauthorised access to Personal
-    Data held by you, and/or actual or potential loss and/or destruction of Personal
-    Data in breach of these Terms, including any Personal Data Breach;
+  %h3.heading-small
+    Controller
+  means, where Personal Data is being processed for Law Enforcement Purposes,
+  as it is defined in the Law Enforcement Directive (Directive (EU) 2016/680) (LED);
+  and in all other circumstances, as defined in the Data Protection Act 2018 and the
+  General Data Protection Regulation (Regulation (EU) 2016/679) (GDPR);
 
-  %p
-    %h4.heading-small
-      Data Protection Legislation
-    means:
+  %h3.heading-small
+    Data Loss Event
+  means any event that results, or may result, in unauthorised access to Personal
+  Data held by you, and/or actual or potential loss and/or destruction of Personal
+  Data in breach of these Terms, including any Personal Data Breach;
+
+  %h3.heading-small
+    Data Protection Legislation
+  means:
+
   %ul
     %li
       the Data Protection Act 2018
@@ -124,21 +118,19 @@
       practice issued by the Information Commissioner and any generally accepted
       code of good practice.
 
-  %p
-    %h4.heading-small
-      Data Security Requirements
-    means our data security requirements (which can be located on our website)
-    as may be amended by us from time to time;
+  %h3.heading-small
+    Data Security Requirements
+  means our data security requirements (which can be located on our website)
+  as may be amended by us from time to time;
 
-  %p
-    %h4.heading-small
-      GDPR
-    means the General Data Protection Regulation (Regulation (EU) 2016/679);
+  %h3.heading-small
+    GDPR
+  means the General Data Protection Regulation (Regulation (EU) 2016/679);
 
-  %p
-    %h4.heading-small
-      LAA Data 
-    means:
+  %h3.heading-small
+    LAA Data 
+  means:
+
   %ul
     %li
       the data on the Application (including drawings, diagrams, images or
@@ -153,71 +145,61 @@
       any Personal Data for which we are the Controller (but not including
       the Shared Data)
 
-  %p
-    %h4.heading-small
-      Law Enforcement Purposes
-    means as it is defined in the Data Protection Act 2018;
+  %h3.heading-small
+    Law Enforcement Purposes
+  means as it is defined in the Data Protection Act 2018;
 
-  %p
-    %h4.heading-small
-      LED
-    means the Law Enforcement Directive (Directive (EU) 2016/680);
+  %h3.heading-small
+    LED
+  means the Law Enforcement Directive (Directive (EU) 2016/680);
 
-  %p
-    %h4.heading-small
-      Legal Aid Legislation
-    means the Legal Aid, Sentencing and Punishment of Offenders Act 2012 and
-    statutory instruments made under that act that are relevant to the AGFS or LGFS;
+  %h3.heading-small
+    Legal Aid Legislation
+  means the Legal Aid, Sentencing and Punishment of Offenders Act 2012 and
+  statutory instruments made under that act that are relevant to the AGFS or LGFS;
 
-  %p
-    %h4.heading-small
-      Litigator
-    means a solicitor, firm of solicitors or other appropriately qualified
-    person referred to in a representation order as representing an assisted
-    person;
+  %h3.heading-small
+    Litigator
+  means a solicitor, firm of solicitors or other appropriately qualified
+  person referred to in a representation order as representing an assisted
+  person;
 
-  %p
-    %h4.heading-small
-      Personal Data 
-    has the same meaning as the definition in the Data Protection Act 2018 and
-    the GDPR;
+  %h3.heading-small
+    Personal Data 
+  has the same meaning as the definition in the Data Protection Act 2018 and
+  the GDPR;
 
-  %p
-    %h4.heading-small
-      Personal Data Breach
-    means as it is defined in the Data Protection Act 2018 and the GDPR;
+  %h3.heading-small
+    Personal Data Breach
+  means as it is defined in the Data Protection Act 2018 and the GDPR;
 
-  %p
-    %h4.heading-small Process
-    has the same meaning as the definition in the Data Protection Legislation but,
-    for the purposes of these Terms, it shall include both manual and automatic
-    processing;
+  %h3.heading-small Process
+  has the same meaning as the definition in the Data Protection Legislation but,
+  for the purposes of these Terms, it shall include both manual and automatic
+  processing;
 
-  %p
-    %h4.heading-small Processor
-    means, where Personal Data is being Processed for Law Enforcement Purposes, as
-    it is defined in the LED; and in all other circumstances, as it is defined in
-    the Data Protection Act 2018 and the GDPR;
+  %h3.heading-small Processor
+  means, where Personal Data is being Processed for Law Enforcement Purposes, as
+  it is defined in the LED; and in all other circumstances, as it is defined in
+  the Data Protection Act 2018 and the GDPR;
 
-  %p
-    %h4.heading-small Protective Measures
-    means the appropriate technical and organisational measures which may include:
-    pseudonymising and encrypting Personal Data, ensuring confidentiality, integrity,
-    availability and resilience of systems and services, ensuring that availability of
-    and access to Personal Data can be restored in a timely manner after an incident,
-    and regularly assessing and evaluating the effectiveness of the such measures
-    adopted by it;
+  %h3.heading-small Protective Measures
+  means the appropriate technical and organisational measures which may include:
+  pseudonymising and encrypting Personal Data, ensuring confidentiality, integrity,
+  availability and resilience of systems and services, ensuring that availability of
+  and access to Personal Data can be restored in a timely manner after an incident,
+  and regularly assessing and evaluating the effectiveness of the such measures
+  adopted by it;
 
-  %p
-    %h4.heading-small
-      Shared Data
-    means data (including Personal Data) on the Application for which you are the
-    Controller, either alone or jointly with us;
+  %h3.heading-small
+    Shared Data
+  means data (including Personal Data) on the Application for which you are the
+  Controller, either alone or jointly with us;
 
-  %p
-    %h4.heading-small
-      Standard Terms
-    means, as applicable:
+  %h3.heading-small
+    Standard Terms
+  means, as applicable:
+
   %ul
     %li
       the 2010 Standard Civil Contract, the 2010 Standard Crime Contract,
@@ -247,19 +229,20 @@
     and is a reference to any legislation which supersedes it and/or any
     subordinate legislation made under it and includes any new legal aid
     legislation in force on or after the date of these Terms.
-  %p
-    %h4.heading-small
-      We, us, our 
-    means the Lord Chancellor acting through the LAA.
-  %p
-    %h4.heading-small
-      You, your 
-    refers to (unless expressly indicated otherwise) you as an Authorised
-    Representative, whom an Authorising Organisation has authorised to
-    use the Application, an Advocate or a Litigator.
-  %p
-    %h3.heading-medium
-      3. Authorising Organisation and Instructed Counsel
+
+  %h3.heading-small
+    We, us, our 
+  means the Lord Chancellor acting through the LAA.
+
+  %h3.heading-small
+    You, your 
+  refers to (unless expressly indicated otherwise) you as an Authorised
+  Representative, whom an Authorising Organisation has authorised to
+  use the Application, an Advocate or a Litigator.
+
+  %h2.heading-medium
+    3. Authorising Organisation and Instructed Counsel
+
   %p
     To use the application, you must be:
   %ul
@@ -278,39 +261,44 @@
   %p
     If you are an Authorised Representative, Advocate or Litigator, you
     shall comply with these Terms when using the application.
-  %p
-    %h3.heading-medium
-      4. Licence to use the Application
-  %p
-    %h4.heading-small
-      Authorised representatives
+
+  %h2.heading-medium
+    4. Licence to use the Application
+
+  %h3.heading-small
+    Authorised representatives
+
   %p
     Subject to section 13 below, we grant you a non-exclusive, non-transferable
     and revocable licence to use the Application in accordance with the purposes
     set out in the Standard Terms.
-  %p
-    %h4.heading-small Advocates
+
+  %h3.heading-small Advocates
+
   %p
     Subject to section 13 below, we grant you a non-exclusive, non-transferable
     and revocable licence to use the Application to help us fulfil our statutory
     obligations under Part 1 of the Legal Aid, Sentencing and Punishment of Offenders
     Act 2012 relating to the legal aid scheme.
-  %p
-    %h4.heading-small
-      Litigators
+
+  %h3.heading-small
+    Litigators
+
   %p
     Subject to section 13 below, we grant you a non-exclusive, non-transferable and
     revocable licence to use the Application in accordance with the purposes set out
     in the Standard Terms.
-  %p
-    %h3.heading-medium
-      5. Information on the Application
+
+  %h2.heading-medium
+    5. Information on the Application
+
   %p
     You acknowledge that any information and other materials posted on the Application
     are not intended to amount to advice on which reliance should be placed.
-  %p
-    %h3.heading-medium
-      6. Availability of the Application
+
+  %h2.heading-medium
+    6. Availability of the Application
+
   %p
     We will use reasonable endeavours to make sure that the Application is
     available but we will not be liable to you if for any reason it is
@@ -325,9 +313,10 @@
       restrict access to some or all of the Application
     %li
       make changes to the Application and any material on it
-  %p
-    %h3.heading-medium
-      7. Information Submitted Through the Application
+
+  %h2.heading-medium
+    7. Information Submitted Through the Application
+
   %p
     As an authorising organisation, you will make sure that:
   %ul
@@ -361,9 +350,9 @@
     We will use the information you provide through the Application to administer
     your Claims and submissions in accordance with the Legal Aid Legislation, and
     the Standard Terms where appropriate.
-  %p
-    %h3.heading-medium
-      8. Data Protection
+
+  %h2.heading-medium
+    8. Data Protection
 
   %p
     You shall comply with:
@@ -440,19 +429,21 @@
     to have a valid licence to use the Application under section 4, and shall
     continue to apply for a period of six years following termination (howsoever
     caused) of your licence.
-  %p
-    %h3.heading-medium
-      9. Users and Passwords
-  %p
-    %h4.heading-small
-      Advocate user 
+
+  %h2.heading-medium
+    9. Users and Passwords
+
+  %h3.heading-small
+    Advocate user 
+
   %p
     The Advocate user can create, edit, submit, view, manage and delete bills.
     However, the Advocate user can only create, edit, submit, view, manage
     and delete their own bills.
-  %p
-    %h4.heading-small
-      Advocate administrator user
+
+  %h3.heading-small
+    Advocate administrator user
+
   %p
     The Advocate administrator user can create, edit, submit, view, manage
     and delete bills of any Advocates for whom they have been allocated
@@ -486,9 +477,10 @@
     different Authorising Organisations, Advocates or Litigators (as applicable),
     you shall only use each username and password in accordance with the permissions
     and purposes authorised by the issuing Authorising Organisation.
-  %p
-    %h3.heading-medium
-      10. Intellectual Property Rights
+
+  %h2.heading-medium
+    10. Intellectual Property Rights
+
   %p
     We are the owner or the licensee of all intellectual property rights in the
     Application, and in the material published on it. These rights are protected
@@ -511,9 +503,10 @@
     of these Terms, you must, at our option, return or destroy any copies that
     you have made of any materials from the Application and we shall have the
     right to take action in accordance with section 13.
-  %p
-    %h3.heading-medium
-      11. Prohibited Uses
+
+  %h2.heading-medium
+    11. Prohibited Uses
+
   %p
     You may not use the application:
   %ul
@@ -558,18 +551,20 @@
     relevant law enforcement authorities and co-operate with those
     authorities by disclosing your identity. In the event of such a
     breach, your right to use the application will cease immediately.
-  %p
-    %h3.heading-medium
-      12. Links from the Application
+
+  %h2.heading-medium
+    12. Links from the Application
+
   %p
     Where the Application contains links to other websites and resources
     provided by third parties, these links are provided for your
     information only. We have no control over the contents of those
     websites or resources, and accept no responsibility for them or for
     any loss or damage that may arise from your use of them.
-  %p
-    %h3.heading-medium
-      13. Suspension and Termination
+
+  %h2.heading-medium
+    13. Suspension and Termination
+
   %p
     We may revoke the licence granted to you in section 4 and terminate
     these Terms with immediate effect if you breach these Terms.
@@ -602,9 +597,10 @@
     We exclude liability for our actions taken in response to breaches of
     these Terms. The responses described in these Terms are not limited,
     and we may take any other action we reasonably consider appropriate.
-  %p
-    %h3.heading-medium
-      14. Liability
+
+  %h2.heading-medium
+    14. Liability
+
   %p
     In accordance with the Terms, the Authorising Organisation shall be
     responsible for the acts or omissions of the Authorised Representatives
@@ -634,26 +630,29 @@
     data or other proprietary material due to your use of the Application
     or to your downloading of any content on it, or on any website linked
     to it.
-  %p
-    %h3.heading-medium
-      15. Changes to these Terms
+
+  %h2.heading-medium
+    15. Changes to these Terms
+
   %p
     We may amend these Terms from time to time and we will notify you of
     this on our website. Such changes are effective from the date they
     are notified. Your continued use of the Application after this date shows
     your acceptance of such changes.
-  %p
-    %h3.heading-medium
-      16. Information About You and Your Visits to Our Site
-  %p
-    %h4.heading-small
-      Your information
+
+  %h2.heading-medium
+    16. Information About You and Your Visits to Our Site
+
+  %h3.heading-small
+    Your information
+
   %p
     We collect and process your Personal Data (such as your contact details
     and your IP address) in accordance with these Terms. By using the Application,
     you consent to this.
-  %p
-    %h4.heading-small Cookies
+
+  %h3.heading-small Cookies
+
   %p
     We may use information obtained about you from cookies (files that your
     computer or other device sends to us) which we can access when you
@@ -661,56 +660,56 @@
     information about our users, such as names and email addresses.
   %p
     There are different kinds of cookies with different functions:
-  %p
-    %h4.heading-small
-      Session cookies: 
-    these cookies are only stored on your computer during your web session.
-    They are automatically deleted when the browser is closed. They
-    usually store an anonymous session ID, which allows you to browse a
-    website without having to log in to each page. They do not collect
-    any information from your computer.
-  %p
-    %h4.heading-small
-      Persistent cookies: 
-    a persistent cookie is stored as a file on your computer, and it
-    remains there when you close your web browser. The cookie can be read
-    by the website that created it when you visit that website again. We
-    do not use persistent cookies other than for Google Analytics (please
-    see below for information on Google Analytics).
-  %p
-    %h4.heading-small
-      Google Analytics: 
-    The Application uses Google Analytics, a web analytics service provided
-    by Google. Google Analytics uses cookies to analyse how the Application
-    is being used. The information generated by the cookie about your use of
-    the Application (including your IP address) will be transmitted to and stored
-    by Google on servers in the US. Google will use this information to evaluate
-    your use of the Application, compiling reports on the Application activity
-    and internet usage. Google may also transfer this information to third parties
-    where required to do so by law, or where such third parties process the
-    information on Google’s behalf. Google will not associate your IP address
-    with any other data held by Google. By using the Application, you consent
-    to Google processing your Personal Data in the manner and for the purposes
-    set out above.
-  %p
-    %h4.heading-small
-      Deleting cookies: 
-    If you want to delete any cookies that are already on your computer,
-    please read the instructions for your file management software to
-    locate the file or directory that stores cookies. If you want to stop
-    cookies being stored on your computer in future, please refer to your
-    browser manufacturer’s instructions by clicking "Help"
-    in your browser menu. You can find out more about deleting or
-    controlling cookies at
-    = link_to 'www.AboutCookies.org', 'http://www.AboutCookies.org', rel: 'external'
-    \.
-    Please note: if you delete our cookies or disable future cookies you
-    may not be able to access certain areas or features of the
-    Application.
 
-  %p
-    %h3.heading-medium
-      17. Jurisdiction and Applicable Law
+  %h3.heading-small
+    Session cookies: 
+  these cookies are only stored on your computer during your web session.
+  They are automatically deleted when the browser is closed. They
+  usually store an anonymous session ID, which allows you to browse a
+  website without having to log in to each page. They do not collect
+  any information from your computer.
+
+  %h3.heading-small
+    Persistent cookies: 
+  a persistent cookie is stored as a file on your computer, and it
+  remains there when you close your web browser. The cookie can be read
+  by the website that created it when you visit that website again. We
+  do not use persistent cookies other than for Google Analytics (please
+  see below for information on Google Analytics).
+
+  %h3.heading-small
+    Google Analytics: 
+  The Application uses Google Analytics, a web analytics service provided
+  by Google. Google Analytics uses cookies to analyse how the Application
+  is being used. The information generated by the cookie about your use of
+  the Application (including your IP address) will be transmitted to and stored
+  by Google on servers in the US. Google will use this information to evaluate
+  your use of the Application, compiling reports on the Application activity
+  and internet usage. Google may also transfer this information to third parties
+  where required to do so by law, or where such third parties process the
+  information on Google’s behalf. Google will not associate your IP address
+  with any other data held by Google. By using the Application, you consent
+  to Google processing your Personal Data in the manner and for the purposes
+  set out above.
+
+  %h3.heading-small
+    Deleting cookies: 
+  If you want to delete any cookies that are already on your computer,
+  please read the instructions for your file management software to
+  locate the file or directory that stores cookies. If you want to stop
+  cookies being stored on your computer in future, please refer to your
+  browser manufacturer’s instructions by clicking "Help"
+  in your browser menu. You can find out more about deleting or
+  controlling cookies at
+  = link_to 'www.AboutCookies.org', 'http://www.AboutCookies.org', rel: 'external'
+  \.
+  Please note: if you delete our cookies or disable future cookies you
+  may not be able to access certain areas or features of the
+  Application.
+
+  %h2.heading-medium
+    17. Jurisdiction and Applicable Law
+
   %p
     These
     Terms and any disputes or claims arising out of or in connection with
@@ -723,9 +722,9 @@
     of or in connection with these terms or their subject matter or
     formation (including non-contractual disputes or claims).
 
-  %p
-    %h4.heading-small
-      Contact Us
+  %h3.heading-small
+    Contact Us
+
   %p
     You can write to us at: The Legal Aid Agency, 102 Petty France, London,
     SW1H 9AJ. 

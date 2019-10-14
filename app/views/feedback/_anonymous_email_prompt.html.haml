@@ -1,7 +1,6 @@
 .form-group
-  %fieldset.inline
-    %legend
-      = f.label :email, class: 'form-label-bold'
+  = f.label :email, class: 'form-label', id: :email do
+    = t('activemodel.attributes.feedback.email')
     %span.form-hint
       = t('activemodel.attributes.feedback.email_hint')
 

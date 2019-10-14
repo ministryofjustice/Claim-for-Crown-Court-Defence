@@ -2,10 +2,10 @@
   = t('.page_title')
 
 = content_for :v2_stylesheets do
-  = stylesheet_link_tag "v2/application", media: "all"
+  = stylesheet_link_tag 'v2/application', media: 'all'
 
-= render partial: 'errors/error_summary', locals:{ ep: @feedback, error_summary: t('.error_summary')}
-= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
+= render partial: 'errors/error_summary', locals: { ep: @feedback, error_summary: t('.error_summary') }
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
 .grid-row
   .column-two-thirds
@@ -19,24 +19,22 @@
       = f.hidden_field :referrer
 
       .form-group
-        %fieldset.inline
-          %legend
-            = f.anchored_label t('.case_number_label'), :case_number, label_attributes: { class: 'form-label-bold' }
-          .form-hint.xsmall.zero-vert-margin
+        = f.label :case_number, class: 'form-label', id: :case_number do
+          = t('.case_number_label')
+          %span.form-hint
             = t('.case_number_hint')
-          = f.text_field :case_number, class: 'form-control'
+        = f.text_field :case_number, class: 'form-control'
+
       .form-group
-        %fieldset.inline
-          %legend
-            = f.anchored_label t('.event_label'), :event, label_attributes: { class: 'form-label-bold' }
-          .form-hint.xsmall.zero-vert-margin
+        = f.label :event, class: 'form-label', id: :event do
+          = t('.event_label')
+          %span.form-hint
             = t('.event_hint')
-          = f.text_area :event, rows: 6, class: 'form-control'
+        = f.text_area :event, rows: 6, class: 'form-control'
+
       .form-group
-        %fieldset.inline
-          %legend
-            = f.anchored_label t('.outcome_label'), :outcome, label_attributes: { class: 'form-label-bold' }
-          = f.text_area :outcome, rows: 6, class: 'form-control'
+        = f.label :outcome, t('.outcome_label'), class: 'form-label', id: :outcome
+        = f.text_area :outcome, rows: 6, class: 'form-control'
 
       = render partial: 'feedback/anonymous_email_prompt', locals: { f: f } if cannot_identify_user?
 

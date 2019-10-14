@@ -22,10 +22,11 @@
             - if misc_fee_types_collection.length == 1
               = b.label(id: b.text.to_css_class, class: 'selected') { b.text }
             - else
-              = b.label(id: b.text.to_css_class) { b.text }
+              = b.label(id: b.text.to_css_class << "-#{@misc_fee_count}") { b.text }
 
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count+1}_fee_type")
 
+  %a{ id: "misc_fee_#{@misc_fee_count}_amount" }
   = f.adp_text_field :amount,
                     label: t('.net_amount'),
                     input_classes: 'total fee-rate form-input-denote__input form-control-1-4',

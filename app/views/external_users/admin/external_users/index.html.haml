@@ -11,20 +11,21 @@
     = link_to t('.new_user'), new_external_users_admin_external_user_path
 
 = render partial: 'shared/search_form', locals: { search_path: external_users_admin_external_users_path(anchor: 'listanchor'), hint_text: t('hint.search_users'), button_text: t('search.users') }
+
 %table.report
   %thead
-    %th
+    %th{ scope: 'col' }
       = t('.last_name')
-    %th
+    %th{ scope: 'col' }
       = t('.first_name')
-    %th
+    %th{ scope: 'col' }
       = t('.supplier_number')
-    %th
+    %th{ scope: 'col' }
       = t('.email')
     - if Settings.email_notification_enabled?
-      %th
+      %th{ scope: 'col' }
         = t('.email_confirmation')
-    %th
+    %th{ scope: 'col' }
       = t('.actions')
   %tbody
     - @external_users.each do |advocate|

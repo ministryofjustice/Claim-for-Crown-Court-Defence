@@ -24,6 +24,13 @@ reseed)
     ;;
 esac
 
+case ${LIVE1_DB_TASK} in
+migrate)
+    printf '\e[33mINFO: executing rake db:migrate\e[0m\n'
+    bundle exec rake db:migrate
+    ;;
+esac
+
 set -ex
 
 # if REDIS_URL is not set then we start redis-server locally

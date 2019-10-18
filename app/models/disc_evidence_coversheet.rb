@@ -34,7 +34,7 @@ class DiscEvidenceCoversheet
   end
 
   def fee_scheme
-    @fee_scheme || claim.fee_scheme.name.upcase
+    @fee_scheme || defined?(claim.fee_scheme.name)
   end
 
   def agfs?

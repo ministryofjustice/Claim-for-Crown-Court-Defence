@@ -34,15 +34,15 @@ class DiscEvidenceCoversheet
   end
 
   def fee_scheme
-    @fee_scheme || claim.fee_scheme.name.upcase
+    @fee_scheme || claim&.fee_scheme&.name
   end
 
   def agfs?
-    fee_scheme.eql?('AGFS')
+    fee_scheme.casecmp('AGFS').zero?
   end
 
   def lgfs?
-    fee_scheme.eql?('LGFS')
+    fee_scheme.casecmp('LGFS').zero?
   end
 
   def case_number

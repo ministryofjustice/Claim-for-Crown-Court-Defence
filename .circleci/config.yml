@@ -341,11 +341,7 @@ jobs:
             -f kubernetes_deploy/production/service.yaml \
             -f kubernetes_deploy/production/ingress.yaml
             kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
-  
-  smoketest:
-    <<: *cloud_platform_container_config
-    steps:
-      - run: echo "smoketest"
+
       
   # TODO: once merged with new alpine build try this out
   #
@@ -405,6 +401,7 @@ workflows:
             - rspec-tests
             - cucumber-tests
             - other-tests
+            - smoke-test
       - build-and-push-docker:
           requires:
             - upload-coverage
@@ -442,14 +439,14 @@ workflows:
           filters:
             branches:
               only: master
-  mornings:
-    triggers:
-      - schedule:
-          cron: "0 8 * * *"
-          filters:
-            branches:
-              only:
-                - master
-                - kubernetes-smoketest
-    jobs:
-      - smoketest
+  # mornings:
+  #   triggers:
+  #     - schedule:
+  #         cron: "0 8 * * *"
+  #         filters:
+  #           branches:
+  #             only:
+  #               - master
+  #               - kubernetes-smoketest
+  #   jobs:
+  #     - smoke-test

@@ -125,9 +125,9 @@ references:
 
   _smoketest: &smoketest
     run:
-      name: Run smoketest
-      command: |
-        bundle exec rake api:smoke_test
+        name: Run smoketest
+        command: |
+          bundle exec rake api:smoke_test
 
   _install-wkhtmltopdf: &install-wkhtmltopdf
     run:

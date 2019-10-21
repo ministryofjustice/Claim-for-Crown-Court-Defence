@@ -123,6 +123,12 @@ references:
           FEATURES=$(circleci tests glob "features/**/*.feature" | circleci tests split)
           bundle exec cucumber ${FEATURES} --format progress --color
 
+  _smoketest: &smoketest
+    run:
+      name: Run smoketest
+      command: |
+        bundle exec rake api:smoke_test
+
   _install-wkhtmltopdf: &install-wkhtmltopdf
     run:
       name: Install wkhtmltopdf
@@ -215,6 +221,17 @@ jobs:
       - *rubocop
       - *brakeman
       - *jasmine
+
+   smoke-test:
+    <<: *build_container_config
+    steps:
+      - checkout
+      - *restore-cache
+      - *install-dependencies
+      - *save-cache
+      - *wait-for-db
+      - *load-db
+      - *smoketest
 
   upload-coverage:
     <<: *build_container_config
@@ -371,6 +388,9 @@ workflows:
   build-and-test:
     jobs:
       - build
+      - smoke-test:
+          requires:
+            - build
       - other-tests:
           requires:
             - build

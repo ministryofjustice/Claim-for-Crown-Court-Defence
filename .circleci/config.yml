@@ -222,7 +222,7 @@ jobs:
       - *brakeman
       - *jasmine
 
-   smoke-test:
+  smoke-test:
     <<: *build_container_config
     steps:
       - checkout

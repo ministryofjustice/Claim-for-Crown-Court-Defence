@@ -49,7 +49,7 @@ class Message < ApplicationRecord
 
   scope :most_recent_last, -> { includes(:user_message_statuses).order(created_at: :asc) }
 
-  after_create :generate_statuses, :process_claim_action, :process_written_reasons
+  after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required
 
   class << self
     def for(object)
@@ -64,6 +64,13 @@ class Message < ApplicationRecord
   end
 
   private
+
+  def send_email_if_required
+    return unless sender.persona.is_a?(CaseWorker)
+    return unless claim.creator.send_email_notification_of_message?
+    return if claim.creator.softly_deleted?
+    NotifyMailer.message_added_email(claim).deliver_later
+  end
 
   def generate_statuses
     users_for_statuses.each do |user|

@@ -126,4 +126,81 @@ RSpec.describe Message, type: :model do
       expect(claim.state).to eq 'part_authorised'
     end
   end
+
+  context 'send_message_if_required' do
+    let(:claim) { create :allocated_claim  }
+    # let(:creator) { create :external_user }
+    let(:creator) { claim.creator }
+    let(:case_worker) { claim.case_workers.first }
+
+    it { expect(claim.state).to eq 'allocated' }
+
+    let(:message_params) { message_params = { claim_id: claim.id, sender_id: sender.user.id, body: 'lorem ipsum' } }
+
+    context 'when message created by external_user' do
+      let(:sender) { creator }
+
+      before do
+        creator.user.email_notification_of_message = email_notification_of_message
+        creator.save
+      end
+
+      context 'set up to receive mails' do
+        let(:email_notification_of_message) { 'true' }
+
+        it 'does not attempt to send an email' do
+          expect(NotifyMailer).not_to receive(:message_added_email)
+          create(:message, message_params)
+        end
+      end
+
+      context 'NOT set up to receive mails' do
+        let(:email_notification_of_message) { 'false' }
+
+        it 'does not attempt to send an email' do
+          expect(NotifyMailer).not_to receive(:message_added_email)
+          create(:message, message_params)
+        end
+      end
+    end
+
+    context 'when case_worker sends messages' do
+      let(:sender) { case_worker }
+
+      before do
+        creator.user.email_notification_of_message = email_notification_of_message
+      end
+
+      context 'claim creator is set up to receive mails' do
+        let(:email_notification_of_message) { 'true' }
+
+        it 'sends an email' do
+          mock_mail = double 'Mail message'
+          expect(NotifyMailer).to receive(:message_added_email).and_return(mock_mail)
+          expect(mock_mail).to receive(:deliver_later)
+          create(:message, message_params)
+        end
+
+        context 'but has been deleted' do
+          before do
+            claim.creator.soft_delete
+          end
+
+          it 'does not send an email' do
+            expect(NotifyMailer).not_to receive(:message_added_email)
+            create(:message, message_params)
+          end
+        end
+      end
+
+      context 'claim creator is not set up to receive mails' do
+        let(:email_notification_of_message) { 'false' }
+
+        it 'does not attempt to send an email' do
+          expect(NotifyMailer).not_to receive(:message_added_email)
+          create(:message, message_params)
+        end
+      end
+    end
+  end
 end

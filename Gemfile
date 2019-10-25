@@ -45,7 +45,7 @@ gem 'rest-client',            '~> 2.1' # needed for scheduled smoke testing plus
 gem 'sass-rails',             '~> 6.0.0'
 gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.git'
 gem 'susy',                   '~> 2.2.14'
-gem 'sentry-raven',           '~> 2.12.0'
+gem 'sentry-raven',           '~> 2.12.2'
 gem 'simple_form',            '~> 5.0.1'
 gem 'sprockets-rails',        '~> 3.2.1'
 gem 'state_machine',          '~> 1.2.0'

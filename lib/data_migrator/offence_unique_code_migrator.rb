@@ -7,7 +7,10 @@ module DataMigrator
     class InappropriateRelation < StandardError; end
 
     def initialize(relation: nil, stdout: false)
-      raise InappropriateRelation, "Inappropriate relation given: expected #{Offence}, got #{relation.klass}" unless relation.nil? || relation.klass.eql?(Offence)
+      unless relation.nil? || relation.klass.eql?(Offence)
+        raise InappropriateRelation, "Inappropriate relation given: expected #{Offence}, got #{relation.klass}"
+      end
+
       @stdout = stdout
       @offences = relation || Offence.unscoped.order(description: :asc)
       create_offence_set
@@ -70,20 +73,20 @@ module DataMigrator
     end
 
     # rubocop:disable Metrics/CyclomaticComplexity
-    # rubocop:disable Metrics/LineLength
     def output(code, offence, format)
       case format.downcase.to_sym
       when :sql
         puts "UPDATE offences SET unique_code = #{code} WHERE id = #{offence[:id]}".yellow
       when :diff
-        puts offence[:description].concat("\n -#{offence[:unique_code]}".red).concat("\n +#{code} ".green) unless offence[:unique_code].eql?(code)
+        unless offence[:unique_code].eql?(code)
+          puts offence[:description].concat("\n -#{offence[:unique_code]}".red).concat("\n +#{code} ".green)
+        end
       when :csv
         puts [offence[:description], offence[:band] || offence[:class_letter], code].to_csv
       when :text
         puts "-- [would have] updated #{offence[:description]},#{offence[:band] || offence[:class_letter]}".white.concat(" unique_code: #{offence[:unique_code]} --> #{code}".green)
       end
     end
-    # rubocop:enable Metrics/LineLength
     # rubocop:enable Metrics/CyclomaticComplexity
   end
 end

@@ -359,3 +359,10 @@ Style/UnneededSort:
     - 'app/models/defendant.rb'
     - 'app/presenters/claim_csv_presenter.rb'
     - 'spikes/stats/collector/draft_to_submitted_time.rb'
+
+Style/FormatStringToken:
+  Exclude:
+    - 'app/models/vat_rate.rb'
+    - 'app/services/vat_auditor.rb'
+    - 'lib/data_migrator/offence_unique_code_migrator.rb'
+    - 'app/services/external_users/create_user.rb'

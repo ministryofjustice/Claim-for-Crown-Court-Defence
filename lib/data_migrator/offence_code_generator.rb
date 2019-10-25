@@ -2,7 +2,7 @@ class OffenceCodeGenerator
   attr_reader :offence
 
   def initialize(offence)
-    Offence.send(:include, OffenceExtensions)
+    Offence.include OffenceExtensions
     @offence = offence
   end
 

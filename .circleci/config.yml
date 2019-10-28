@@ -244,8 +244,6 @@ jobs:
   push-docker:
     <<: *build_container_config
     steps:
-      - checkout
-      - setup_remote_docker
       - *push_docker_image
 
   deploy-dev:

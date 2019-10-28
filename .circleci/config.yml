@@ -239,11 +239,13 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+          docker_layer_caching: true
       - *build_docker_image
 
   push-docker:
     <<: *build_container_config
     steps:
+      - checkout
       - setup_remote_docker
       - *push_docker_image
 

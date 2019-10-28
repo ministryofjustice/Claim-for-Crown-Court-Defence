@@ -24,10 +24,6 @@
     margin: 25px 0 0 25px;
   }
 
-  .column-one-quarter {
-    padding: 0;
-  }
-
   .awesomplete {
     input {
       width: 88%;
@@ -906,24 +902,6 @@ tbody th {
 .report {
   td {
     vertical-align: top;
-  }
-}
-
-.button-secondary.blue {
-  background-color: $link-hover-colour;
-  color: $page-colour;
-  box-shadow: 0 2px 0 $link-colour;
-
-  &:hover {
-    background-color: $link-colour;
-  }
-
-  &:link,
-  &:link:focus,
-  &:hover,
-  &:focus,
-  &:visited {
-    color: $page-colour;
   }
 }
 

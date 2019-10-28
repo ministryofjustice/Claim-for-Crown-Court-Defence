@@ -61,6 +61,9 @@ en:
       sidekiq_console: Sidekiq console
       all_claims: Your claims
       sub_navigation: Sub navigation
+    navigation:
+      home: "Home"
+      back_to_referrer_html: "Back <span class='visually-hidden'>to referrer page</span>"
   pages:
     api_landing:
       page_heading: Claim for crown court defence API
@@ -103,11 +106,13 @@ en:
   quantity: &quantity Quantity
   views:
     pagination:
-      first: "First"
-      last: "Last"
-      previous: "Previous"
-      next: "Next"
+      title: "Pagination navigation"
+      first_html: "First <span class='visually-hidden'>page</span>"
+      last_html: "Last <span class='visually-hidden'>page</span>"
+      previous_html: "Previous <span class='visually-hidden'>page</span>"
+      next_html: "Next <span class='visually-hidden'>page</span>"
       truncate: "&hellip;"
+      page_html: "<span class='visually-hidden'>Page </span>%{count}"
   helpers:
     page_entries_info:
       one_page:

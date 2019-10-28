@@ -1,9 +1,10 @@
-.form-group.lgfs-supplier-numbers.has-select{ class: error_class?(@error_presenter, :supplier_number), 'aria-describedby': 'radio-control-legend-supplier' }
+.form-group.lgfs-supplier-numbers.has-select{ class: error_class?(@error_presenter, :supplier_number) ? 'form-group-error' : '' , 'aria-describedby': 'radio-control-legend-supplier' }
   %a#supplier_number
   %label#radio-control-legend-supplier.form-label-bold{ for: 'claim_supplier_number' }
     = t('.lgfs_supplier_number')
     %span.form-hint
       = supplier_number_hint
+    = validation_error_message(@error_presenter, :supplier_number)
 
   - supplier_numbers = present(current_user.persona.provider.lgfs_supplier_numbers, SupplierNumberCollectionPresenter)
   - if current_user.persona.provider.lgfs_supplier_numbers.length >= 6
@@ -20,5 +21,3 @@
             = b.label(class: 'selected', id: b.text.to_css_class) { b.text }
           - else
             = b.label(id: b.text.to_css_class) { b.text }
-
-    = validation_error_message(@error_presenter, :supplier_number)

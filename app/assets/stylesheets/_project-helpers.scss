@@ -1,5 +1,10 @@
 // HELPERS
 
+.visually-hidden,
+.visuallyhidden {
+  font-size: 0;
+  position: relative;
+}
 
 @mixin clearfix {
   zoom: 1;

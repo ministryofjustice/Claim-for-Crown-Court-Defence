@@ -1,24 +1,20 @@
-%ul
-  %li.fx-seed-miscFees{"data-seed": claim.raw_misc_fees_total, "data-autovat": @claim.apply_vat? ? "true" : "false"}
-    %h3
-      = "Miscellaneous fees"
-    %span.total-miscFees
-      = claim.misc_fees_total
+%dl
+  %dt.fx-seed-miscFees{ data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
+    = 'Miscellaneous fees'
+  %dd.total-miscFees
+    = claim.misc_fees_total
 
-  %li.fx-seed-expenses{"data-seed": claim.raw_expenses_total, "data-autovat": @claim.apply_vat? ? "true" : "false"}
-    %h3
-      = "Travel expenses"
-    %span.total-expenses
-      = claim.expenses_total
+  %dt.fx-seed-expenses{ data: { seed: claim.raw_expenses_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
+    = 'Travel expenses'
+  %dd.total-expenses
+    = claim.expenses_total
 
-  %li.fx-seed{"data-vat-total": claim.raw_vat_amount}
-    %h3
-      = "VAT"
-    %span.total-vat
-      = claim.vat_amount
+  %dt.fx-seed{ 'data-vat-total': claim.raw_vat_amount }
+    = 'VAT'
+  %dd.total-vat
+    = claim.vat_amount
 
-  %li.fx-seed{"data-total-inc": claim.raw_total_inc}
-    %h3
-      = "Total"
-    %span.total-grandTotal
-      = claim.total_inc
+  %dt.fx-seed{ 'data-total-inc': claim.raw_total_inc }
+    = 'Total'
+  %dd.total-grandTotal
+    = claim.total_inc

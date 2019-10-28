@@ -18,7 +18,7 @@
 
 = content_for :content do
   = csrf_meta_tags
-  #page
+  .site-wrapper
     = render partial: 'shared/phase_banner'
     %main#content
       = render partial: 'layouts/flashes' unless flash.empty?

@@ -13,8 +13,7 @@
   .form-section
     = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', class: 'button button-secondary blue btn-spacer-20', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.js-cocoon-expenses' }
 
-    %a.fx-duplicate-expense.button-gray-3
-      = t('.duplicate')
+    = link_to t('.duplicate'), '', class: 'fx-duplicate-expense button-gray-3'
 
   .form-section.fx-additional-info
     = render 'external_users/claims/expenses/textarea_additional_info', f: f

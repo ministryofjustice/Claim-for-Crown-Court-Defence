@@ -396,7 +396,6 @@ workflows:
             - rspec-tests
             - cucumber-tests
             - other-tests
-            - smoke-test
       - build-docker:
           requires:
             - upload-coverage

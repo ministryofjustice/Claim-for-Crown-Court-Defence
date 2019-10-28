@@ -123,14 +123,14 @@ references:
           FEATURES=$(circleci tests glob "features/**/*.feature" | circleci tests split)
           bundle exec cucumber ${FEATURES} --format progress --color
 
-  _smoketest: &smoketest
-    run:
-        name: Run smoketest
-        command: |
-          export ADMIN_PASSWORD=${SMOKE_TEST_ADMIN_PASSWORD} >> $BASH_ENV
-          export CASE_WORKER_PASSWORD=${SMOKE_TEST_CASE_WORKER_PASSWORD} >> $BASH_ENV
-          export ADVOCATE_PASSWORD=${SMOKE_TEST_ADVOCATE_PASSWORD} >> $BASH_ENV
-          bundle exec rake api:smoke_test
+  # _smoketest: &smoketest
+  #   run:
+  #       name: Run smoketest
+  #       command: |
+  #         export ADMIN_PASSWORD=${SMOKE_TEST_ADMIN_PASSWORD} >> $BASH_ENV
+  #         export CASE_WORKER_PASSWORD=${SMOKE_TEST_CASE_WORKER_PASSWORD} >> $BASH_ENV
+  #         export ADVOCATE_PASSWORD=${SMOKE_TEST_ADVOCATE_PASSWORD} >> $BASH_ENV
+  #         bundle exec rake api:smoke_test
 
   _install-wkhtmltopdf: &install-wkhtmltopdf
     run:
@@ -225,17 +225,6 @@ jobs:
       - *brakeman
       - *jasmine
 
-  smoke-test:
-    <<: *build_container_config
-    steps:
-      - checkout
-      - *restore-cache
-      - *install-dependencies
-      - *save-cache
-      - *wait-for-db
-      - *load-db
-      - *smoketest
-
   upload-coverage:
     <<: *build_container_config
     steps:
@@ -245,12 +234,18 @@ jobs:
           command: |
             tmp/cc-test-reporter sum-coverage --output - --parts 4 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
 
-  build-and-push-docker:
+  build-docker:
     <<: *build_container_config
     steps:
       - checkout
       - setup_remote_docker
       - *build_docker_image
+
+  push-docker:
+    <<: *build_container_config
+    steps:
+      - checkout
+      - setup_remote_docker
       - *push_docker_image
 
   deploy-dev:
@@ -387,9 +382,6 @@ workflows:
   build-and-test:
     jobs:
       - build
-      - smoke-test:
-          requires:
-            - build
       - other-tests:
           requires:
             - build
@@ -405,34 +397,37 @@ workflows:
             - cucumber-tests
             - other-tests
             - smoke-test
-      - build-and-push-docker:
+      - build-docker:
           requires:
             - upload-coverage
+      - push-docker:
+          requires:
+            - build-docker
       - hold-dev:
           type: approval
           requires:
-            - build-and-push-docker
+            - push-docker
       - deploy-dev:
           requires:
             - hold-dev
       - hold-api-sandbox:
           type: approval
           requires:
-            - build-and-push-docker
+            - push-docker
       - deploy-api-sandbox:
           requires:
             - hold-api-sandbox
       - hold-staging:
           type: approval
           requires:
-            - build-and-push-docker
+            - push-docker
       - deploy-staging:
           requires:
             - hold-staging
       - hold-production:
           type: approval
           requires:
-            - build-and-push-docker
+            - push-docker
           filters:
             branches:
               only: master

@@ -127,6 +127,9 @@ references:
     run:
         name: Run smoketest
         command: |
+          export ADMIN_PASSWORD=${SMOKE_TEST_ADMIN_PASSWORD} >> $BASH_ENV
+          export CASE_WORKER_PASSWORD=${SMOKE_TEST_CASE_WORKER_PASSWORD} >> $BASH_ENV
+          export ADVOCATE_PASSWORD=${SMOKE_TEST_ADVOCATE_PASSWORD} >> $BASH_ENV
           bundle exec rake api:smoke_test
 
   _install-wkhtmltopdf: &install-wkhtmltopdf

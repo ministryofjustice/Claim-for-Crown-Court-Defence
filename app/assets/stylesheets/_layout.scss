@@ -10,7 +10,7 @@ body {
   @include container;
 }
 
-#page {
+.site-wrapper {
   @extend %site-width-container;
 }
 

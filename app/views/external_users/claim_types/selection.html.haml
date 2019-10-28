@@ -3,15 +3,12 @@
 
 = render partial: 'layouts/header', locals: { page_heading: claim_type_prompt_heading_for(current_user) }
 
-%h2.heading-large
-  = t('.claim_type_prompt_section_heading')
-
 = form_tag(types_external_users_claims_path, method: 'post') do
   .form-section
     .form-group
       %fieldset
         %legend
-          %h2.heading-medium
+          %h2.heading-large
             = t('.choose_claim_type_prompt_text')
 
         - @available_claim_types.each_with_index do |claim_type, index|

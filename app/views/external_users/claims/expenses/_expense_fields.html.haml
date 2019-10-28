@@ -19,7 +19,7 @@
       %span
 
     .grid-row
-      .column-one-half
+      .column-full
         -# SELECT: Expense types
         .form-group.fx-travel-expense-type
           = f.label :expense_type_id,
@@ -30,17 +30,16 @@
           = f.select :expense_type_id, expense_types_collection.map { |et| [et.name, et.id, { data: et.data_attributes }] }, { include_blank: t('.select_option') }, { class: 'form-control form-control-3-4' }
           = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
 
-      .column-one-half
+      .column-full
         -# SELECT: Travel reasons
         - error_classes = error_class?(@error_presenter, "expense_#{@expense_count}_reason_id")
         - error_classes += ' form-group-error' if error_classes.present?
         %a{ id: "expense_#{@expense_count}_reason_id" }
         .form-group.fx-travel-reason{ style: 'display: none;', class: error_classes }
-          = f.label :reason_id,
-            t('.travel_reason'),
-            { class: 'form-label-bold' }
+          = f.label :reason_id, class: 'form-label-bold' do
+            = t('.travel_reason')
+            = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
 
-          = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
           - reasons_collection = present_collection(reasonset_for_expense_type(f.object.expense_type).values, TravelReasonPresenter)
           = f.select :reason_id, reasons_collection.map { |et| [et.reason, et.id, { data: et.data_attributes }] }, { include_blank: t('.select_option') }, { class: 'form-control form-control-3-4' }
 
@@ -50,30 +49,27 @@
             = f.adp_text_field :reason_text, label: t('.reason_text'), input_classes: '', errors: @error_presenter
 
     .grid-row
-      .column-one-half
+      .column-full
         -# INPUT: Location
-        %a{ id: "expense_#{@expense_count}_location" }
         .fx-travel-location{ style: 'display: none;' }
 
           - if @claim.lgfs?
             - error_classes = error_class?(@error_presenter, "expense_#{@expense_count}_location")
             - error_classes += ' form-group-error' if error_classes.present?
             .form-group.fx-establishment-select.has-select{ style: 'display: none;', class: error_classes }
-              %a{ id: "expense_#{@expense_count}_location" }
-              = f.label :location, nil, class: 'form-label-bold', for: "expense_#{@expense_count}_location"
+              = f.label :location, nil, class: 'form-label-bold'
               = validation_error_message(@error_presenter, "expense_#{@expense_count}_location")
               = f.select :location, {}, {}, { class: 'form-control form-control-3-4', autocomplete: 'off' }
 
-          = f.adp_text_field :location, label: t('.location'), input_classes: 'form-control-3-4 fx-location-model', errors: @error_presenter
+          = f.adp_text_field :location, label: t('.location'), input_classes: 'form-control form-control-3-4 fx-location-model', errors: @error_presenter
 
-      .column-one-half
+      .column-full
         -# INPUT: Travel hours
         .form-group.fx-travel-hours{ style: 'display: none;' }
           = f.adp_text_field :hours, label: t('.hours'), input_classes: 'form-control-1-8', input_type: 'number', errors: @error_presenter
 
 
         -# INPUT: Travel Distance
-        %a{ id: "expense_#{@expense_count}_distance" }
         .form-group-compound.fx-travel-distance{ style: 'display: none;' }
           = f.adp_text_field :distance, label: t('.distance'), hint_text: t('.distance_hint'), input_type: 'number', input_classes: 'form-control-1-4', value: number_with_precision(f.object.distance, precision: 0), errors: @error_presenter
           - if @claim.lgfs?
@@ -86,7 +82,7 @@
                   = t('.summary_content')
 
     .grid-row
-      .column-one-half
+      .column-full
         -# RADIOS: Cost per mile
         .form-group.fx-travel-mileage{ style: 'display: none;' }
           %fieldset
@@ -109,7 +105,7 @@
               = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
 
 
-      .column-one-half
+      .column-full
         -# DATES: Expense date
         .form-group.fx-travel-date{ style: 'display: none;' }
           = f.gov_uk_date_field :date,
@@ -120,9 +116,8 @@
             error_messages: gov_uk_date_field_error_messages(@error_presenter, "expense_#{@expense_count}_date")
 
     .grid-row
-      .column-one-half
+      .column-full
         -# INPUT: Net amount
-        %a{ id: "expense_#{@expense_count}_amount" }
         .form-group.fx-travel-net-amount{ style: 'display: none;' }
           = f.adp_text_field :amount,
                             label: t('.net_amount'),
@@ -131,7 +126,7 @@
                             errors: @error_presenter,
                             value: number_with_precision(f.object.amount || 0, precision: 2)
 
-      .column-one-half
+      .column-full
         -# INPUT: VAT amount
         - if @claim.lgfs?
           .form-group.fx-travel-vat-amount{ style: 'display: none;' }

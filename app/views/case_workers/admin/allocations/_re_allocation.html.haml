@@ -39,10 +39,9 @@
 
       .case-worker-reallocation.grid-row.form-group.js-typeahead
         .column-one-quarter.js-case-worker-list
-          = f.label :case_worker_id, class: 'form-label-bold'
+          = f.label :case_worker_id, class: 'form-label-bold', id: :case_worker_id
           = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', style: 'width: 100%;', 'aria-label': t('case_workers.admin.allocations.re_allocation.case_worker') }
         .column-one-half.margin-spacer-sm
-          %br/
           = f.submit t('.re_allocate'), class: 'button'
 
       - if @claims.any?

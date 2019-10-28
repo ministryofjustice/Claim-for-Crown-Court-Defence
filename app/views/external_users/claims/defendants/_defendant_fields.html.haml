@@ -13,10 +13,10 @@
 
     .form-group.first-name
       - @representation_order_count = 0
-      = f.adp_text_field :first_name, label: t('.first_name'), errors: @error_presenter, id: "defendant_#{@defendant_count+1}_first_name"
+      = f.adp_text_field :first_name, label: t('.first_name'), errors: @error_presenter
 
     .form-group.last-name
-      = f.adp_text_field :last_name, label: t('.last_name'), errors: @error_presenter, id: "defendant_#{@defendant_count+1}_last_name"
+      = f.adp_text_field :last_name, label: t('.last_name'), errors: @error_presenter
 
     .form-group.dob
       %a{ id: "defendant_#{@defendant_count+1}_date_of_birth" }

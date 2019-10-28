@@ -1,7 +1,9 @@
 - if show_contact_us_link?
-  %details
-    %summary
-      %span.summary
-        = t('shared.help_summary_heading')
-    .panel.panel-border-narrow
-      = render partial: 'pages/contact_details'
+  .grid-row
+    .column-full
+      %details
+        %summary
+          %h2.summary
+            = t('shared.help_summary_heading')
+        .panel.panel-border-narrow
+          = render partial: 'pages/contact_details'

@@ -1,6 +1,6 @@
 - fee = present(f.object)
 .form-section.misc-fee-group.nested-fields.js-block.fx-do-init.fx-fee-group.fx-numberedList-item{ data: { 'type': 'miscFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': 'FeeBlockCalculator' } }
-  %h2.bold-medium
+  %span.bold-medium
     = t('.misc_fee')
     %span.fx-numberedList-number
     = link_to_remove_association t('.remove'), f, wrapper_class: 'misc-fee-group', class: 'header-action fx-numberedList-action', style: 'display: none;'
@@ -51,7 +51,7 @@
           = t('.help_how_we_calculate_rate_body')
 
   .form-group
-    %label.form-label-bold
+    %span.form-label-bold
       = t('.net_amount')
     .fee-net-amount.currency-indicator.total
       = fee.amount || number_to_currency(0)

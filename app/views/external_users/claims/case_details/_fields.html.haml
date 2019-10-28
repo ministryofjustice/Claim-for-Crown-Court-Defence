@@ -6,34 +6,31 @@
 
   - if @claim.requires_case_type?
 
-    #cc-case-type.form-group{ class: error_class?(@error_presenter, :case_type) }
+    #cc-case-type.form-group{ class: error_class?(@error_presenter, :case_type) ? 'form-group-error dropdown_field_with_errors' : '' }
       %a#case_type
       %label.form-label-bold{ for: 'claim_case_type_id' }
         = t('.case_type')
         .form-hint.xsmall.zero-vert-margin
           = t('.case_type_hint')
+        = validation_error_message(@error_presenter, :case_type)
 
       = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, { data: { 'is-fixed-fee': ct.is_fixed_fee?, 'requires-cracked-dates': ct&.requires_cracked_dates?, 'requires-retrial-dates': ct&.requires_retrial_dates?, 'requires-trial-dates': ct&.requires_trial_dates? } }] }, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', 'aria-label': t('.case_type') }
-      = validation_error_message(@error_presenter, :case_type)
 
-  #cc-court.form-group{ class: error_class?(@error_presenter, :court) }
+  #cc-court.form-group{ class: error_class?(@error_presenter, :court) ? 'form-group-error dropdown_field_with_errors' : '' }
     %a#court
     %label.form-label-bold{ for: 'claim_court_id' }
       = t('.court')
-
       .form-hint.xsmall.zero-vert-margin
         = t('.court_hint')
-    = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', 'aria-label': t('.court') }
-
-    .clean
       = validation_error_message(@error_presenter, :court)
+
+    = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', 'aria-label': t('.court') }
 
 
   = f.adp_text_field :case_number,
     label: t('.case_number'),
     hint_text: t('.case_number_hint'),
-    errors: @error_presenter,
-    id: 'case_number'
+    errors: @error_presenter
 
   .form-group
     %fieldset{ 'aria-describedby': 'radio-control-legend-transfer' }

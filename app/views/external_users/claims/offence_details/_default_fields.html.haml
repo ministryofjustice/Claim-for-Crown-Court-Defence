@@ -1,10 +1,11 @@
 - locale_scope = 'external_users.claims.offence_details.fields'
-#cc-offence.form-group{ class: error_class?(@error_presenter, :offence_category) }
+#cc-offence.form-group{ class: error_class?(@error_presenter, :offence_category) ? 'form-group-error' : '' }
   %a#offence_category
   %label.form-label-bold{ for: 'claim_offence_category_description' }
     = t('offence_category', scope: locale_scope)
     .form-hint
       = t('offence_category_hint', scope: locale_scope)
+    = validation_error_message(@error_presenter, :offence_category)
 
   - if @claim.new_record?
     - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil

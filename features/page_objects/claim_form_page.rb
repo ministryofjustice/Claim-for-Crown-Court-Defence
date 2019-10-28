@@ -27,7 +27,7 @@ class ClaimFormPage < BasePage
   section :auto_court, CommonAutocomplete, "#cc-court"
   section :auto_offence, CommonAutocomplete, "#cc-offence"
 
-  element :case_number, "#case_number"
+  element :case_number, "#claim_case_number"
 
   section :trial_details, "#trial-dates" do
     section :first_day_of_trial, CommonDateSection, '#first_day_of_trial'

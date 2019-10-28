@@ -9,7 +9,7 @@
 }
 
 .unique-id-small {
-  color: $grey-1;
+  color: $black;
   display: block;
   font-size: 12px;
 }
@@ -145,6 +145,10 @@ header.main-header {
   .numeric {
     display: block;
     font-weight: normal;
+  }
+
+  dl dt {
+    font-weight: 700;
   }
 }
 

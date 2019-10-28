@@ -52,7 +52,7 @@ class AdpTextField
   def to_html
     result = div_start
     # Issue: duplicate id, this breaks the label & input association
-    # result += anchor
+    result += anchor
     result += label
     result += hint
     result += error_message

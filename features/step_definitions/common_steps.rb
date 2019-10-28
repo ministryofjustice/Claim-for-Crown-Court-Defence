@@ -149,13 +149,13 @@ end
 
 And(/^I should see in the sidebar total '(.*?)'$/) do |total|
   within('div.totals-summary') do
-    expect(page.find('span.total-grandTotal')).to have_content(total)
+    expect(page.find('dd.total-grandTotal')).to have_content(total)
   end
 end
 
 And(/^I should see in the sidebar vat total '(.*?)'$/) do |total|
   within('div.totals-summary') do
-    expect(page.find('span.total-vat')).to have_content(total)
+    expect(page.find('dd.total-vat')).to have_content(total)
   end
 end
 

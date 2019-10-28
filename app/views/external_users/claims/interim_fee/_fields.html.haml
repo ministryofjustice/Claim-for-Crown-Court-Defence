@@ -3,16 +3,16 @@
     - fee = present(inf.object)
     .interim-fee-group.fx-fee-group.js-block.fx-do-init{data:{"type": "interimFees", autovat: @claim.apply_vat? ? "true" : "false"}}
 
-      .form-group
-        .fee-type{class: error_class?(@error_presenter, "interim_fee.fee_type")}
-          = inf.label :fee_type, t('.fee_type'), class: 'form-label-bold'
+      .form-group{ class: error_class?(@error_presenter, "interim_fee.fee_type") ? 'form-group-error' : '' }
+        .fee-type
+          = inf.label :fee_type_id, t('.fee_type'), class: 'form-label-bold'
           = inf.anchored_attribute 'fee_type'
+          = validation_error_message(@error_presenter, 'interim_fee.fee_type')
 
           - interim_fee_types_collection = present_collection(@claim.eligible_interim_fee_types)
 
           = inf.select :fee_type_id, interim_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, {include_blank: ''.html_safe}, {class: 'form-control js-fee-type js-interim-fee-type js-fee-calculator-fee-type '}
 
-          = validation_error_message(@error_presenter, 'interim_fee.fee_type')
 
       / TODO: rename js-interim-classes after interim fee descriptions for clarity
       /

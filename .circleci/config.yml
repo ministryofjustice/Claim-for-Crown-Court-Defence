@@ -30,6 +30,23 @@ references:
           POSTGRES_DB: cccd_test
           POSTGRES_PASSWORD: ""
 
+  smoke_test_container_config: &smoke_test_container_config
+    docker:
+      - image: ${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}
+        environment:
+          CBO_BASE_DATABASE_DATABASE: cccd_test
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          RAILS_ENV: test
+          TZ: Europe/London
+          GITHUB_TEAM_NAME_SLUG: laa-get-paid
+          REPO_NAME: cccd
+      - image: circleci/postgres:9.6-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: cccd_test
+          POSTGRES_PASSWORD: ""
+
   decrypt_secrets: &decrypt_secrets
     run:
       name: Decrypt secrets file
@@ -123,14 +140,14 @@ references:
           FEATURES=$(circleci tests glob "features/**/*.feature" | circleci tests split)
           bundle exec cucumber ${FEATURES} --format progress --color
 
-  # _smoketest: &smoketest
-  #   run:
-  #       name: Run smoketest
-  #       command: |
-  #         export ADMIN_PASSWORD=${SMOKE_TEST_ADMIN_PASSWORD} >> $BASH_ENV
-  #         export CASE_WORKER_PASSWORD=${SMOKE_TEST_CASE_WORKER_PASSWORD} >> $BASH_ENV
-  #         export ADVOCATE_PASSWORD=${SMOKE_TEST_ADVOCATE_PASSWORD} >> $BASH_ENV
-  #         bundle exec rake api:smoke_test
+  _smoketest: &smoketest
+     run:
+        name: Run smoketest
+        command: |
+          export ADMIN_PASSWORD=${SMOKE_TEST_ADMIN_PASSWORD} >> $BASH_ENV
+          export CASE_WORKER_PASSWORD=${SMOKE_TEST_CASE_WORKER_PASSWORD} >> $BASH_ENV
+          export ADVOCATE_PASSWORD=${SMOKE_TEST_ADVOCATE_PASSWORD} >> $BASH_ENV
+          # bundle exec rake api:smoke_test
 
   _install-wkhtmltopdf: &install-wkhtmltopdf
     run:
@@ -225,6 +242,13 @@ jobs:
       - *brakeman
       - *jasmine
 
+  smoke-test:
+    <<: *smoke_test_container_config
+    steps:
+      - *wait-for-db
+      - *load-db
+      - *smoketest
+    
   upload-coverage:
     <<: *build_container_config
     steps:
@@ -234,19 +258,12 @@ jobs:
           command: |
             tmp/cc-test-reporter sum-coverage --output - --parts 4 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
 
-  build-docker:
-    <<: *build_container_config
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - *build_docker_image
-
-  push-docker:
+  build-and-push-docker:
     <<: *build_container_config
     steps:
       - checkout
       - setup_remote_docker
+      - *build_docker_image
       - *push_docker_image
 
   deploy-dev:
@@ -397,37 +414,37 @@ workflows:
             - rspec-tests
             - cucumber-tests
             - other-tests
-      - build-docker:
+      - build-and-push-docker:
           requires:
             - upload-coverage
-      - push-docker:
+      - smoke-test:
           requires:
-            - build-docker
+            - build-and-push-docker
       - hold-dev:
           type: approval
           requires:
-            - push-docker
+            - smoke-test
       - deploy-dev:
           requires:
             - hold-dev
       - hold-api-sandbox:
           type: approval
           requires:
-            - push-docker
+            - smoke-test
       - deploy-api-sandbox:
           requires:
             - hold-api-sandbox
       - hold-staging:
           type: approval
           requires:
-            - push-docker
+            - smoke-test
       - deploy-staging:
           requires:
             - hold-staging
       - hold-production:
           type: approval
           requires:
-            - push-docker
+            - smoke-test
           filters:
             branches:
               only: master

@@ -66,10 +66,15 @@ class Message < ApplicationRecord
   private
 
   def send_email_if_required
-    return unless sender.persona.is_a?(CaseWorker)
-    return unless claim.creator.send_email_notification_of_message?
-    return if claim.creator.softly_deleted?
-    NotifyMailer.message_added_email(claim).deliver_later
+    NotifyMailer.message_added_email(claim).deliver_later if send_email?
+  end
+
+  def send_email?
+    [
+      sender.persona.is_a?(CaseWorker),
+      claim.creator.send_email_notification_of_message?,
+      claim.creator.active?
+    ].all?
   end
 
   def generate_statuses

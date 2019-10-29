@@ -327,7 +327,7 @@ module Claim
       defendants
         .map(&:earliest_representation_order)
         .compact
-        .sort_by(&:representation_order_date).first
+        .min_by(&:representation_order_date)
     end
 
     def earliest_representation_order_date

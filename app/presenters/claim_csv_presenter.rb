@@ -46,7 +46,7 @@ class ClaimCsvPresenter < BasePresenter
 
   def claim_state
     if state == 'archived_pending_delete'
-      claim_state_transitions.sort.last.from
+      claim_state_transitions.max.from
     else
       state
     end

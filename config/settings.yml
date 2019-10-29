@@ -78,6 +78,12 @@ api_promo_enabled?: true
 # If enabled, external users will see it, and will have a 'dismiss' link to hide and do not show it again
 timed_retention_banner_enabled?: true
 
+# Feature flag to enable or disable the downtime warning
+# If enabled, all users will see it up until "downtime_warning_date",
+# and will have a 'dismiss' link to hide and not show it again
+downtime_warning_enabled?: true
+downtime_warning_date: <%= Date.new(2019, 11, 20) %>
+
 # Feature flag to enable or disable the scheme filters in the claims list page
 # If enabled, users with proper roles will see scheme radio buttons to filter the list
 scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>

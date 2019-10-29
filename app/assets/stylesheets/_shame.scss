@@ -793,13 +793,57 @@ tbody th {
 .notice-summary {
   @extend .error-summary;
   border-color: $button-colour;
-
 }
 
 .claim-count {
   float: right;
   font-weight: 400;
 }
+
+/*
+* copied from
+* https://moj-design-system.herokuapp.com/components/banner
+*/
+.moj-banner {
+  @extend .error-summary;
+  width: calc(100% - 40px); // 40px is magic number for padding and border
+  border: 5px solid #1d70b8;
+  color: #1d70b8;
+  font-size: 0; // Removes white space when using inline-block on child element.
+
+  .moj-banner__icon {
+    fill: currentColor;
+    float: left;
+    margin-right: 10px;
+  }
+
+  .moj-banner__message {
+    font-size: 19px;
+    font-size: 1.1875rem;
+    line-height: 1.31579;
+  }
+
+  .govuk-heading-m {
+    color: #0b0c0c;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 700;
+    font-size: 18px;
+    display: block;
+    margin-top: 0;
+
+    h2 {
+      display: block;
+      font-size: 1.5em;
+      margin-block-start: 0.83em;
+      margin-block-end: 0.83em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      font-weight: bold;
+    }
+  }
+}
+
 
 
 /*--- Ported from v1 stylesheets ---*/

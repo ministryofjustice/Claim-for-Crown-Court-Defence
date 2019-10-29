@@ -20,12 +20,11 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params.merge(sender_id: current_user.id))
 
-    if @message.save
-      send_email_if_required
-      @notification = { notice: 'Message successfully sent' }
-    else
-      @notification = { alert: 'Message not sent: ' + @message.errors.full_messages.join(', ') }
-    end
+    @notification = if @message.save
+                      { notice: 'Message successfully sent' }
+                    else
+                      { alert: 'Message not sent: ' + @message.errors.full_messages.join(', ') }
+                    end
 
     respond_to do |format|
       format.js
@@ -44,14 +43,7 @@ class MessagesController < ApplicationController
   private
 
   def message
-    @message ||=  Message.find(params[:id])
-  end
-
-  def send_email_if_required
-    return unless current_user.persona.is_a?(CaseWorker)
-    return unless @message.claim.creator.send_email_notification_of_message?
-    return if @message.claim.creator.softly_deleted?
-    NotifyMailer.message_added_email(@message.claim).deliver_later
+    @message ||= Message.find(params[:id])
   end
 
   def redirect_to_url

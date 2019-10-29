@@ -14,7 +14,7 @@ Lint/BigDecimalNew:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Lint/UnneededCopDisableDirective:
+Lint/RedundantCopDisableDirective:
   Exclude:
     - 'app/controllers/application_controller.rb'
 
@@ -350,15 +350,6 @@ Style/OptionalArguments:
 Style/RedundantReturn:
   Exclude:
     - 'app/models/claims/state_machine.rb'
-
-# Offense count: 4
-# Cop supports --auto-correct.
-Style/UnneededSort:
-  Exclude:
-    - 'app/models/claim/base_claim.rb'
-    - 'app/models/defendant.rb'
-    - 'app/presenters/claim_csv_presenter.rb'
-    - 'spikes/stats/collector/draft_to_submitted_time.rb'
 
 Style/FormatStringToken:
   Exclude:

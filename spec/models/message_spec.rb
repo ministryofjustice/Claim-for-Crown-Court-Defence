@@ -127,7 +127,7 @@ RSpec.describe Message, type: :model do
     end
   end
 
-  context 'send_message_if_required' do
+  context 'send_email_if_required' do
     let(:claim) { create :allocated_claim  }
     # let(:creator) { create :external_user }
     let(:creator) { claim.creator }

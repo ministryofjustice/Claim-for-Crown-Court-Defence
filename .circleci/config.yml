@@ -246,11 +246,6 @@ jobs:
     <<: *smoke_test_container_config
     steps:
       - checkout
-      - setup_remote_docker
-      - run:
-          name: ECR login
-          command: |
-            $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
       - *wait-for-db
       - *load-db
       - *smoketest

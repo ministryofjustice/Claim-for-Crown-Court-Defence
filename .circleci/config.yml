@@ -245,8 +245,8 @@ jobs:
   smoke-test:
     <<: *smoke_test_container_config
     steps:
-      - checkout
-      - setup_remote_docker
+      - *restore-cache
+      - *install-dependencies
       - *wait-for-db
       - *load-db
       - *smoketest

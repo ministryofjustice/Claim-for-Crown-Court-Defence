@@ -245,6 +245,7 @@ jobs:
   smoke-test:
     <<: *smoke_test_container_config
     steps:
+      - checkout
       - *restore-cache
       - *install-dependencies
       - *wait-for-db

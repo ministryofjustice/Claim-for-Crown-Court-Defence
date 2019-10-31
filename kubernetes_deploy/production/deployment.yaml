@@ -52,7 +52,7 @@ spec:
             - name: RAILS_ENV
               value: 'production'
             - name: GRAPE_SWAGGER_ROOT_URL
-              value: 'https://cccd-production.apps.live-1.cloud-platform.service.justice.gov.uk'
+              value: 'https://claim-crown-court-defence.service.gov.uk'
             - name: GA_TRACKER_ID
               value: 'UA-37377084-37'
             - name: MAINTENANCE_MODE

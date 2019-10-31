@@ -398,7 +398,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
             valid_params[:fee_type_id] = graduated_fee_type.id
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response("Graduated fee 5 claim cannot be a transfer claim",0)
+            expect(last_response.body).to include("Graduated fee 1 claim cannot be a transfer claim")
           end
         end
       end

@@ -253,6 +253,7 @@ en:
           attributes:
             claim:
               incompatible_case_type: Fixed fee invalid on non-fixed fee case types
+              incompatible_claim_type: cannot be a transfer claim
         supplier_number:
           attributes:
             supplier_number:

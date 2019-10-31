@@ -22,6 +22,13 @@ RSpec.describe Fee::GraduatedFeeValidator, type: :validator do
       end
     end
 
+    context 'when the fee is for a transfer claim' do
+      let(:claim) { build(:transfer_claim) }
+      let(:fee) { build(:graduated_fee, claim: claim) }
+
+      it { expect(fee.valid?).to eql false }
+    end
+
     context 'when the associated claim has no case type defined' do
       let(:claim) { build(:litigator_claim, case_type: nil) }
       let(:fee) { build(:graduated_fee, claim: claim) }

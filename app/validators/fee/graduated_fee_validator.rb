@@ -14,6 +14,7 @@ class Fee::GraduatedFeeValidator < Fee::BaseFeeValidator
 
   def validate_claim
     super
+    add_error(:claim, :incompatible_claim_type) if @record.claim&.transfer?
     return unless @record.claim&.final?
     add_error(:claim, :incompatible_case_type) if @record.claim.case_type&.is_fixed_fee?
   end

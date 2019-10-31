@@ -138,7 +138,7 @@ When(/^I click "Continue" I should be on the 'Case details' page and see a "([^"
 end
 
 When(/^I click "Continue" in the claim form and move to the '(.*?)' form page$/) do |page_title|
-  original_header = page.first('h2').text
+  original_header = page.first('h2.heading-large').text
   sleep 3
   @claim_form_page.continue_button.click
   wait_for_ajax

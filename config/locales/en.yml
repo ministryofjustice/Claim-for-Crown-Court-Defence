@@ -1800,7 +1800,8 @@ en:
       redraft: 'Redraft this claim'
       archive: Archive
       unarchive: Unarchive
-
+    downtime_warning:
+      banner_message: This service will be unavailable between 5:30pm and 11:59pm on %{date_string}
     claim_defendant_details:
       caption: 'Defendant: Additional information'
     evidence_checklist:

@@ -79,8 +79,7 @@ api_promo_enabled?: true
 timed_retention_banner_enabled?: true
 
 # Feature flag to enable or disable the downtime warning
-# If enabled, all users will see it up until "downtime_warning_date",
-# and will have a 'dismiss' link to hide and not show it again
+# If enabled, all users will see it up until "downtime_warning_date"
 downtime_warning_enabled?: true
 downtime_warning_date: <%= Date.new(2019, 11, 20) %>
 

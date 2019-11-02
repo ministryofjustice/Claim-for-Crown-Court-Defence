@@ -29,10 +29,12 @@ function _build() {
 
   printf '\e[33mBuilding app container image locally...\e[0m\n'
   docker build \
-          --build-arg VERSION_NUMBER=$docker_registry_tag \
+          --build-arg VERSION_NUMBER="NOT USED ANYMORE" \
           --build-arg BUILD_DATE=$(date +%Y-%m-%dT%H:%M:%S%z) \
           --build-arg COMMIT_ID=$current_version \
           --build-arg BUILD_TAG=$docker_build_tag \
+          --build-arg APP_BRANCH=$current_branch \
+          --build-arg LIVE1_DB_TASK=migrate \
           --pull \
           --tag ${docker_registry_tag} \
           --file docker/Dockerfile .

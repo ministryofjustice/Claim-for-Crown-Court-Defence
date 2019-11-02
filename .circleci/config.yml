@@ -133,13 +133,16 @@ references:
     run:
       name: Build cccd docker image
       command: |
+        docker_registry_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}"
         docker build \
+          --build-arg VERSION_NUMBER="NOT USED ANYMORE" \
           --build-arg BUILD_DATE=$(date +%Y-%m-%dT%H:%M:%S%z) \
           --build-arg COMMIT_ID=${CIRCLE_SHA1} \
-          --build-arg BUILD_TAG=${CIRCLE_BRANCH} \
+          --build-arg BUILD_TAG="app-${CIRCLE_SHA1}" \
+          --build-arg APP_BRANCH=${CIRCLE_BRANCH} \
           --build-arg LIVE1_DB_TASK=migrate \
           --pull \
-          --tag "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}" \
+          --tag $docker_registry_tag \
           --file docker/Dockerfile .
 
   _push-docker-image: &push_docker_image
@@ -149,10 +152,12 @@ references:
         sudo apt-get install -y python3-pip
         sudo pip3 install awscli
         $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
-        docker push "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}"      
+        docker_registry_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}"
+        docker push $docker_registry_tag
         if [ "${CIRCLE_BRANCH}" == "master" ]; then
-          docker tag "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}" "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-latest"
-          docker push "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-latest"
+          docker_registry_latest_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-latest"
+          docker tag $docker_registry_tag $docker_registry_latest_tag
+          docker push $docker_registry_latest_tag
         fi
 
   _setup-dev: &setup-dev

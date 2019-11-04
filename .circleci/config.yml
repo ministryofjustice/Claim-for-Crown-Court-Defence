@@ -321,9 +321,6 @@ jobs:
       - *decrypt_secrets
       - *deploy-dev
 
-  auto-deploy-dev:
-    <<: *deploy-dev
-
   deploy-api-sandbox:
     <<: *cloud_platform_container_config
     steps:
@@ -350,6 +347,15 @@ jobs:
       - *setup-prod
       - *decrypt_secrets
       - *deploy-prod
+
+  auto-deploy-dev:
+    <<: *cloud_platform_container_config
+    steps:
+      - checkout
+      - setup_remote_docker
+      - *setup-dev
+      - *decrypt_secrets
+      - *deploy-dev
   
   # TODO: once merged with new alpine build try this out
   #

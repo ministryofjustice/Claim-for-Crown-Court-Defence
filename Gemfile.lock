@@ -1426,7 +1426,7 @@ GEM
       activesupport
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zendesk_api (1.20.0)
+    zendesk_api (1.21.0)
       faraday (~> 0.9)
       hashie (>= 3.5.2, < 4.0.0)
       inflection
@@ -1551,7 +1551,7 @@ DEPENDENCIES
   webdrivers (~> 4.1)
   webmock
   wicked_pdf (~> 1.4)
-  zendesk_api (= 1.20.0)
+  zendesk_api (= 1.21.0)
 
 RUBY VERSION
    ruby 2.6.5p114

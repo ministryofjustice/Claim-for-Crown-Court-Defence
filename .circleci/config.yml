@@ -167,7 +167,7 @@ references:
         $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
         setup-kube-auth
         kubectl config use-context dev
-      
+
   _apply-dev: &apply-dev
     deploy:
       name: Deploy cccd docker image to cccd-dev
@@ -187,7 +187,7 @@ references:
         $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
         setup-kube-auth
         kubectl config use-context sandbox
-      
+
   _apply-api-sandbox: &apply-api-sandbox
     deploy:
       name: Deploy cccd docker image to cccd-api-sandbox
@@ -207,7 +207,7 @@ references:
         $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
         setup-kube-auth
         kubectl config use-context staging
-      
+
   _apply-staging: &apply-staging
     deploy:
       name: Deploy cccd docker image to cccd-staging
@@ -227,7 +227,7 @@ references:
         $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
         setup-kube-auth
         kubectl config use-context production
-      
+
   _apply-prod: &apply-prod
     deploy:
       name: Deploy cccd docker image to cccd-prod
@@ -343,7 +343,7 @@ jobs:
       - *setup-staging
       - *decrypt_secrets
       - *apply-staging
- 
+
   deploy-production:
     <<: *cloud_platform_container_config
     steps:
@@ -361,7 +361,7 @@ jobs:
       - *setup-dev
       - *decrypt_secrets
       - *apply-dev
-  
+
   # TODO: once merged with new alpine build try this out
   #
   # build-prod-container:
@@ -420,13 +420,28 @@ workflows:
       - build-and-push-docker:
           requires:
             - upload-coverage
+      - auto-deploy-dev:
+          requires:
+            - build-and-push-docker
+          filters:
+            branches:
+              only:
+                - master
       - hold-dev:
           type: approval
           requires:
             - build-and-push-docker
+          filters:
+            branches:
+              ignore:
+                - master
       - deploy-dev:
           requires:
             - hold-dev
+          filters:
+            branches:
+              ignore:
+                - master
       - hold-api-sandbox:
           type: approval
           requires:
@@ -447,15 +462,8 @@ workflows:
             - build-and-push-docker
           filters:
             branches:
-              only: 
+              only:
                 - master
       - deploy-production:
           requires:
             - hold-production
-      - auto-deploy-dev:
-          requires:
-            - build-and-push-docker
-          filters:
-            branches:
-              only: 
-                - master

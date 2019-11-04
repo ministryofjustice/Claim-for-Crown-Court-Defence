@@ -4,7 +4,7 @@ function _cronjob() {
   Usage: cronjob job environment [branch]
   Where:
     job [archive_stale|clean_ecr]
-    environment [dev|staging|api-sandbox]
+    environment [dev|staging|api-sandbox|production]
     branch [<branchname>-latest|commit-sha]
 
   Example:
@@ -45,7 +45,7 @@ function _cronjob() {
   esac
 
   case "$2" in
-    dev | staging | api-sandbox)
+    dev | staging | api-sandbox | production)
       environment=$2
       ;;
     *)

@@ -205,6 +205,31 @@ You should now commit the cassette to the repo to ensure it is not unneccessaril
 ***When you change a feature test such that you need to re-record its cassette you should delete the existing cassette in the `vcr` folder and proceed as if creating a new cassette, above.***
 
 
+## Maintenance mode
+
+A Conditional catchall routes exists in `routes.rb`. This directs all routes requested to the `pages#servicedown` controller and view. To active the conditional
+routes start the server with MAINTENANCE_MODE=true. Note that dotenv files cannot be used to set maintenance mode locally as the config gem (settings file) is loaded before them.
+
+```bash
+# activate maintenance mode locally
+DOCKER_STATE=maintenance rails s
+```
+
+To deploy the app with maintenance mode enabled works for template-deploy orchestrated environments and kubernetes orchestrated environments:
+
+### template-deploy maintenance mode
+- build the app using Jenkins as normal.
+- deploy the app to an environment specifying the task 'maitenance'
+
+Note that this is a quick fix method that leverages templates-deploy preexisting environment variable `DOCKER_STATE` for purposes it was not intended for.
+
+### kuberentes maintenance mode
+todo
+
+
+To build and deploy an image with maintenance mode enabled you will need to pass
+this environment variable to the container.
+
 ## Javascript Unit Testing
 
 Run it using the `guard` command. Jasmine output available here: [http://localhost:8888](http://localhost:8888)

@@ -87,6 +87,11 @@ scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
 # on their claim
 email_notification_enabled?: true
 
+# Feature flag to enable maintenance mode
+# If enabled all routes mapped to pages#servicedown on startup
+#
+maintenance_mode_enabled?: <%= ENV.fetch('DOCKER_STATE', nil)&.downcase&.eql?('maintenance') %>
+
 feature_flags_enabled?: true
 active_features: []
 

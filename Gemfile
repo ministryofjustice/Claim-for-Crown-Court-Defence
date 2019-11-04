@@ -107,7 +107,7 @@ group :test do
   gem 'webdrivers', '~> 4.1', require: false
   gem 'climate_control'
   gem 'codeclimate-test-reporter', require: false
-  gem 'cucumber-rails', '~> 1.8.0', require: false
+  gem 'cucumber-rails', '~> 2.0.0', require: false
   gem 'database_cleaner'
   gem 'json_spec'
   gem 'kaminari-rspec'

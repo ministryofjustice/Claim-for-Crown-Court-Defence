@@ -38,6 +38,7 @@ module Transform
     }.freeze
 
     CLAIM_TYPE_CONVERSIONS = {
+      'Claim::AdvocateSupplementaryClaim' => 'Advocate supplementary claim',
       'Claim::AdvocateInterimClaim' => 'Advocate interim claim',
       'Claim::AdvocateClaim' => 'Advocate final claim',
       'Claim::InterimClaim' => 'Litigator interim claim',

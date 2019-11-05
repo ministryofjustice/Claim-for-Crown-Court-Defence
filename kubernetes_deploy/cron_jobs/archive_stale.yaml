@@ -27,13 +27,94 @@ spec:
               - rake
               - claims:archive_stale
             env:
-              - name: DATABASE_URL
-                valueFrom:
-                  secretKeyRef:
-                    name: cccd-rds
-                    key: url
-              - name: SECRET_KEY_BASE
-                valueFrom:
-                  secretKeyRef:
-                    name: cccd-secrets
-                    key: SECRET_KEY_BASE
+            - name: ENV
+              value: 'cronjob-worker'
+            - name: RAILS_ENV
+              value: 'production'
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-rds
+                  key: url
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: SECRET_KEY_BASE
+            - name: CASE_WORKER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: CASE_WORKER_PASSWORD
+            - name: ADVOCATE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: ADVOCATE_PASSWORD
+            - name: AWS_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: AWS_REGION
+            - name: SETTINGS__AWS__S3__REGION
+              value: 'eu-west-2'
+            - name: SETTINGS__AWS__S3__ACCESS
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-s3-bucket
+                  key: access_key_id
+            - name: SETTINGS__AWS__S3__SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-s3-bucket
+                  key: secret_access_key
+            - name: SETTINGS__AWS__S3__BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-s3-bucket
+                  key: bucket_name
+            - name: SETTINGS__SLACK__BOT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: SETTINGS__SLACK__BOT_URL
+            - name: SETTINGS__GOVUK_NOTIFY__API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__API_KEY
+            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__MESSAGE_ADDED_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__MESSAGE_ADDED_EMAIL
+            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_USER
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_USER
+            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_ADVOCATE_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_ADVOCATE_ADMIN
+            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_LITIGATOR_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_LITIGATOR_ADMIN
+            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__PASSWORD_RESET
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__PASSWORD_RESET
+            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__UNLOCK_INSTRUCTIONS
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__UNLOCK_INSTRUCTIONS
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-elasticache-redis
+                  key: url

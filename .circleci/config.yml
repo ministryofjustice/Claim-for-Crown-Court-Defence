@@ -172,7 +172,7 @@ references:
     deploy:
       name: Deploy cccd docker image to cccd-dev
       command: |
-        docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}
+        docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
         kubectl apply -f kubernetes_deploy/dev/secrets.yaml
         kubectl set image -f kubernetes_deploy/dev/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
         kubectl apply \
@@ -192,7 +192,7 @@ references:
     deploy:
       name: Deploy cccd docker image to cccd-api-sandbox
       command: |
-        docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}
+        docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
         kubectl apply -f kubernetes_deploy/api-sandbox/secrets.yaml
         kubectl set image -f kubernetes_deploy/api-sandbox/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
         kubectl apply \
@@ -212,7 +212,7 @@ references:
     deploy:
       name: Deploy cccd docker image to cccd-staging
       command: |
-        docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}
+        docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
         kubectl apply -f kubernetes_deploy/staging/secrets.yaml
         kubectl set image -f kubernetes_deploy/staging/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
         kubectl apply \
@@ -232,7 +232,7 @@ references:
     deploy:
       name: Deploy cccd docker image to cccd-prod
       command: |
-        docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${CIRCLE_SHA1}
+        docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
         kubectl apply -f kubernetes_deploy/production/secrets.yaml
         kubectl set image -f kubernetes_deploy/production/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
         kubectl apply \

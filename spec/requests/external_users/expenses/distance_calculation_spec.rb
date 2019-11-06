@@ -13,7 +13,7 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
     it 'returns an unauthorized response' do
       post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
 
-      expect(response.content_type).to eq('application/json')
+      expect(response.media_type).to eq('application/json')
       expect(response).to have_http_status(:unauthorized)
       expect(json_body).to eq('error' => 'Must be signed in as an advocate, litigator or admin user')
     end
@@ -32,7 +32,7 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
       it 'returns an unauthorized response' do
         post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
 
-        expect(response.content_type).to eq('application/json')
+        expect(response.media_type).to eq('application/json')
         expect(response).to have_http_status(:unauthorized)
         expect(json_body).to eq('error' => 'Must be signed in as an advocate, litigator or admin user')
       end
@@ -42,7 +42,7 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
       it 'returns an unprocessable response' do
         post "/external_users/claims/999999/expenses/calculate_distance.json", params: params.to_json, headers: headers
 
-        expect(response.content_type).to eq('application/json')
+        expect(response.media_type).to eq('application/json')
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_body).to eq('error' => 'Cannot calculate distance without a valid claim')
       end
@@ -54,7 +54,7 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
       it 'returns an unprocessable response' do
         post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
 
-        expect(response.content_type).to eq('application/json')
+        expect(response.media_type).to eq('application/json')
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_body).to eq('error' => 'Cannot calculate distance for this type of claim')
       end
@@ -66,7 +66,7 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
       it 'returns an unprocessable response' do
         post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
 
-        expect(response.content_type).to eq('application/json')
+        expect(response.media_type).to eq('application/json')
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_body).to eq('error' => 'Supplier associated with the claim does not have a postcode')
       end
@@ -78,7 +78,7 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
 
         post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
 
-        expect(response.content_type).to eq('application/json')
+        expect(response.media_type).to eq('application/json')
         expect(response).to have_http_status(:ok)
         expect(json_body).to eq('distance' => nil)
       end
@@ -89,7 +89,7 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
 
       post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
 
-      expect(response.content_type).to eq('application/json')
+      expect(response.media_type).to eq('application/json')
       expect(response).to have_http_status(:ok)
       expect(json_body).to eq('distance' => 1694)
     end

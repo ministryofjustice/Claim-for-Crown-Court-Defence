@@ -63,7 +63,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     end
 
     it 'returns a correctly named file' do
-      expect(response.headers['Content-Disposition']).to eq "attachment; filename=\"#{claim.case_number}-documents.zip\""
+      expect(response.headers['Content-Disposition']).to eq "attachment; filename=\"#{claim.case_number}-documents.zip\"; filename*=UTF-8''#{claim.case_number}-documents.zip"
     end
   end
 

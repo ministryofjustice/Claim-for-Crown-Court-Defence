@@ -3,10 +3,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery prepend: true, with: :exception unless ENV['DISABLE_CSRF'] == '1'
 
-  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # Excluding some endpoints due to ELB only talking HTTP on port 80 and not following redirects to https.
-  force_ssl except: %i[ping healthcheck], if: :ssl_enabled?
-
   helper_method :current_user_messages_count
   helper_method :signed_in_user_profile_path
   helper_method :current_user_persona_is?
@@ -69,10 +65,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
-  def ssl_enabled?
-    Rails.env.production?
-  end
 
   def after_sign_in_path_for_super_admin
     super_admins_root_url

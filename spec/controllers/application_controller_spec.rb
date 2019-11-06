@@ -171,22 +171,4 @@ RSpec.describe ApplicationController, type: :controller do
       end
     end
   end
-
-  context 'force_ssl when in production' do
-    controller do
-      def test_endpoint; end
-    end
-
-    before do
-      allow(Rails).to receive(:env).and_return('production'.inquiry)
-    end
-
-    it 'should redirect to https' do
-      routes.draw { get 'test_endpoint' => 'anonymous#test_endpoint' }
-
-      get :test_endpoint
-      expect(response.status).to eq(301)
-      expect(response.location).to start_with('https:')
-    end
-  end
 end

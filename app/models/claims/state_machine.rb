@@ -133,30 +133,30 @@ module Claims
       end
 
       klass.state_machine.states.map(&:name).each do |s|
-        klass.scope s, -> { klass.where(state: s) }
+        klass.scope s, -> { self.where(state: s) }
       end
 
-      klass.scope :non_archived_pending_delete, -> { klass.where.not(state: :archived_pending_delete) }
-      klass.scope :non_draft, -> { klass.where(state: NON_DRAFT_STATES) }
+      klass.scope :non_archived_pending_delete, -> { self.where.not(state: :archived_pending_delete) }
+      klass.scope :non_draft, -> { self.where(state: NON_DRAFT_STATES) }
       klass.scope :submitted_or_redetermination_or_awaiting_written_reasons, lambda {
-        klass.where(state: CASEWORKER_DASHBOARD_UNALLOCATED_STATES)
+        self.where(state: CASEWORKER_DASHBOARD_UNALLOCATED_STATES)
       }
-      klass.scope :external_user_dashboard_draft, -> { klass.where(state: EXTERNAL_USER_DASHBOARD_DRAFT_STATES) }
-      klass.scope :external_user_dashboard_rejected, -> { klass.where(state: EXTERNAL_USER_DASHBOARD_REJECTED_STATES) }
+      klass.scope :external_user_dashboard_draft, -> { self.where(state: EXTERNAL_USER_DASHBOARD_DRAFT_STATES) }
+      klass.scope :external_user_dashboard_rejected, -> { self.where(state: EXTERNAL_USER_DASHBOARD_REJECTED_STATES) }
       klass.scope :external_user_dashboard_submitted, lambda {
-        klass.where(state: EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES)
+        self.where(state: EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES)
       }
       klass.scope :external_user_dashboard_part_authorised, lambda {
-        klass.where(state: EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES)
+        self.where(state: EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES)
       }
       klass.scope :external_user_dashboard_completed, lambda {
-        klass.where(state: EXTERNAL_USER_DASHBOARD_COMPLETED_STATES)
+        self.where(state: EXTERNAL_USER_DASHBOARD_COMPLETED_STATES)
       }
-      klass.scope :caseworker_dashboard_completed, -> { klass.where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES) }
+      klass.scope :caseworker_dashboard_completed, -> { self.where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES) }
       klass.scope :caseworker_dashboard_under_assessment, lambda {
-        klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES)
+        self.where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES)
       }
-      klass.scope :caseworker_dashboard_archived, -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
+      klass.scope :caseworker_dashboard_archived, -> { self.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
     end
     # rubocop:enable Metrics/MethodLength
 

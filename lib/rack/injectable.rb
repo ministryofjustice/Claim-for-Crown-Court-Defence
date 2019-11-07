@@ -17,7 +17,7 @@ module Rack
     private
 
     def html?(headers)
-      headers['Content-Type'] =~ /html/
+      headers['Media-Type'] =~ /html/
     end
 
     # implement in class into which it is included

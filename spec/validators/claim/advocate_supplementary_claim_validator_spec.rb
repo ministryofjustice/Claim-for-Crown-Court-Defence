@@ -164,7 +164,7 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
 
         it 'are ignored' do
           midwu_fee = claim.fees.joins(:fee_type).where(fee_types: { unique_code: 'MIDWU' }).first
-          claim.update_attributes(
+          claim.update(
             :misc_fees_attributes => {
               '0' => {
                 'id' => midwu_fee.id,
@@ -190,7 +190,7 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
         end
 
         it 'are ignored' do
-          claim.update_attributes(
+          claim.update(
             :defendants_attributes => {
               '0' => {
                 'id' => claim.defendants.first.id,

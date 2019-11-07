@@ -144,7 +144,7 @@ describe("Modules.AllocationDataTable.js", function () {
       });
 
       it('...should have `data` defined', function () {
-        expect(getColsDefs("data")).toEqual(['court_name', 'defendants']);
+        expect(getColsDefs("data")).toEqual(['id', 'court_name', 'defendants']);
       });
 
       describe('...columnDefs[total]', function () {

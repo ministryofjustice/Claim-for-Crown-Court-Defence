@@ -10,7 +10,12 @@ class PagesController < ApplicationController
 
   def api_release_notes; end
 
-  def servicedown; end
+  def servicedown
+    respond_to do |format|
+      format.html { render :servicedown, status: 503 }
+      format.json { render json: [{ error: 'Temporarily unavailable' }], status: 503 }
+    end
+  end
 
   def timed_retention; end
 end

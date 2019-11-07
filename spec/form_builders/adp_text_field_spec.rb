@@ -4,7 +4,11 @@ class TestHelper < ActionView::Base; end
 
 RSpec.describe AdpTextField do
   context 'top level text fields' do
-    let(:helper) { TestHelper.new }
+    let(:helper) do TestHelper.new(
+                     lookup_context = ActionView::LookupContext.new([]),
+                     assigns = {},
+                     controller = ActionController::Base.new())
+    end
     let(:resource)  { FactoryBot.create :claim, case_number: nil }
     let(:error_presenter) { ErrorPresenter.new(resource) }
     let(:builder)   { AdpFormBuilder.new(:claim, resource, helper, {} ) }

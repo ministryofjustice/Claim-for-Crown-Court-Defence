@@ -112,17 +112,13 @@ moj.Modules.AllocationDataTable = {
     // See: =>/option/columnDefs
     columnDefs: [{
       targets: 0,
-      orderable: false,
+      data: 'id',
       checkboxes: {
         selectRow: true,
         selectAllPages: false
       },
-      data: null,
       render: function (data, type, row) {
-        if (type === 'display') {
-          return '<input type="checkbox" class="dt-checkboxes" id="claim-' + data.id + '"><label for="claim-' + data.id + '" class="visually-hidden">Case number ' + data.case_number + '</label>';
-        }
-        return data;
+        return '<input type="checkbox" class="dt-checkboxes" id="claim-' + data + '"><label for="claim-' + data + '" class="visually-hidden">claim id ' + data + '</label>';
       }
     }, {
       targets: 1,

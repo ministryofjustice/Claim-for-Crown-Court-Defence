@@ -12,7 +12,7 @@ RSpec.describe 'Servicedown mode', type: :request do
   end
 
   shared_examples 'maintenance page' do
-    it { expect(response).to have_http_status :service_unavailable }
+    it { expect(response).to have_http_status :ok }
     it { expect(response.body).to include('planned maintenance') }
   end
 

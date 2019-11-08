@@ -71,7 +71,7 @@ COPY . .
 RUN bundle exec rake assets:precompile SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here 2> /dev/null
 
 # tidy up installation
-RUN apk del build-dependencies
+RUN apk update && apk del build-dependencies
 
 # non-root/appuser should own only what they need to
 RUN chown -R appuser:appgroup log tmp db

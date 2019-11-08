@@ -9,13 +9,6 @@
   color: $error-colour;
 }
 
-.ui-filter {
-  select {
-    margin: 0;
-    width: $full-width;
-  }
-}
-
 .case-worker-reallocation {
   padding-bottom: $gutter;
 
@@ -30,14 +23,6 @@
     }
   }
 }
-
-.field_with_errors {
-  .field_with_errors {
-    border: none;
-    padding: 0;
-  }
-}
-
 
 #js-provider-roles {
   display: none;
@@ -244,11 +229,7 @@ form {
     }
   }
 
-
-
   input[type="file"] {
-    // TODO: come up with some better colours for this
-
     &.has-file {
       border-color: green;
       color: $ministry-of-justice;
@@ -276,7 +257,6 @@ form {
 .defendants {
   .nested-fields .indent-fieldset {
     padding: 0;
-    padding-left: $gutter-half;
   }
 }
 
@@ -501,12 +481,10 @@ Other Claim Navigation
   text-align: right;
 }
 
-.evidence-checklist-read-only {
-  .selected {
-    width: 16px;
-    height: 16px;
-    margin-right: $gutter-one-third;
-  }
+.evidence-checklist-read-only .selected {
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
 }
 
 .defendant-row {
@@ -682,7 +660,6 @@ Styling for Claims Messaging
   table-layout: fixed;
 
   .error {
-    color: $error-colour;
     font-weight: 700;
     overflow-wrap: break-word;
     word-break: break-word;
@@ -721,10 +698,8 @@ Styling for Claims Messaging
 }
 
 
-.form-date {
-  p {
-    margin-bottom: 0;
-  }
+.form-date p {
+  margin-bottom: 0;
 }
 
 
@@ -732,50 +707,13 @@ Styling for Claims Messaging
   margin-bottom: $gutter;
 }
 
-.contact-us-details {
-  margin-bottom: $gutter;
-
-  dt {
-    float: left;
-    margin-right: $gutter-one-sixth;
-
-    &:after {
-      content: ":"
-    }
-  }
-}
-
-tbody th {
-  font-weight: 700;
-}
-
 .disk-evidence {
-  color: $red;
+  color: $error-colour;
   display: block;
 }
 
 .js-allocation-page #page-h1 {
   margin-bottom: 0;
-}
-
-.error-summary,
-.notice-summary {
-  float: none;
-
-  h1 {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-}
-
-.notice-summary {
-  @extend .error-summary;
-  border-color: $button-colour;
-}
-
-.claim-count {
-  float: right;
-  font-weight: 400;
 }
 
 /*
@@ -829,21 +767,13 @@ tbody th {
   margin-bottom: $gutter-half;
 }
 
-// Phase banner
-.phase-banner {
-  @include phase-banner();
-}
-
 .contactus-link {
   @include core-19;
   @include clearfix;
   margin-top: $gutter * 2;
   margin-bottom: -($gutter * 2);
-}
 
-
-@include media($max-width: 768px) {
-  .contactus-link {
+  @include media($max-width: 768px) {
     margin-top: $gutter-half;
     margin-bottom: $gutter-half;
   }
@@ -854,12 +784,6 @@ tbody th {
 
   .heading-medium {
     margin-top: 0;
-  }
-}
-
-.js-callout-banner {
-  ul.list {
-    margin-top: $gutter;
   }
 }
 
@@ -891,12 +815,6 @@ tbody th {
     }
   }
 
-  #js-agfs-supplier-number {
-    .form-label {
-      font-weight: 700;
-    }
-  }
-
   .remove_fields {
     display: block;
     margin-top: $gutter-one-third;
@@ -923,10 +841,6 @@ tbody th {
   td {
     vertical-align: top;
   }
-}
-
-.disk-evidence {
-  color: $error-colour;
 }
 
 #offence-list {
@@ -985,34 +899,8 @@ tbody th {
   padding: $gutter-half $gutter;
 }
 
-
-.hidden,
-.js-enabled .js-hidden {
-  display: none;
-  visibility: hidden;
-}
-
 .highlight {
   background-color: $yellow;
-}
-
-
-.field_with_errors,
-.dropdown_field_with_errors {
-  .error {
-    font-size: inherit;
-    font-weight: inherit;
-  }
-
-  input,
-  select,
-  textarea {
-    border: 2px solid $error-colour;
-  }
-
-  fieldset.indent-fieldset {
-    border-left: 5px solid $error-colour;
-  }
 }
 
 .error {

@@ -6,18 +6,15 @@
 
 /*--- Ported from v1 stylesheets ---*/
 
-// Panels
-// ==========================================================================
-
 .panel {
   @include box-sizing(border-box);
   @extend %contain-floats;
+
   clear: both;
   border-left-style: solid;
   border-color: $border-colour;
-
-  padding: em(15, 19);
   margin-bottom: em(15, 19);
+  padding: em(15, 19);
 
   :first-child {
     margin-top: 0;

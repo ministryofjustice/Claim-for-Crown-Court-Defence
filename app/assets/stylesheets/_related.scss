@@ -68,10 +68,8 @@
 
 .related .return-to-top {
   @include core-16;
-}
 
-@media (min-width: 769px) {
-  .related .return-to-top {
+  @media (min-width: 769px) {
     position: absolute;
     left: -9999em;
   }

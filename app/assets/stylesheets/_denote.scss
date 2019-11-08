@@ -1,37 +1,23 @@
-// --------------------------------------- */
-// Denote styles */
-// --------------------------------------- */
+/*--- Denote styles ---*/
 
 .form-input-denote {
   position: absolute;
   margin: 2px 0 0 2px;
-  padding: 6px 12px;
+  padding: $gutter-one-sixth $gutter-one-third;
   background-color: $grey-3;
   line-height: 1.1;
 }
 
-@media (min-width: 641px) {
-  .form-input-denote {
-    padding: 7px 12px;
-  }
-}
-
 .form-input-denote__input {
   margin: 0;
-  padding-left: 39px;
+  padding-left: $gutter + $gutter-one-third;
 }
 
 .error .form-input-denote,
 .form-group-error .form-input-denote {
   margin-top: $gutter-one-sixth;
   margin-left: $gutter-one-sixth;
-  padding: 6px 12px;
+  padding: $gutter-one-sixth $gutter-one-third;
   background-color: $error-colour;
   color: $white;
-}
-
-@media (min-width: 641px) {
-  .error .form-input-denote {
-    padding: 8px 12px;
-  }
 }

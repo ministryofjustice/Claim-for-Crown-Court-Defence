@@ -55,6 +55,8 @@ spec:
               value: 'https://staging.claim-crown-court-defence.service.justice.gov.uk'
             - name: GA_TRACKER_ID
               value: 'UA-37377084-48'
+            - name: MAINTENANCE_MODE
+              value: 'false'
             - name: SETTINGS__SLACK__BOT_NAME
               value: 'Injectotron'
             - name: SETTINGS__SLACK__FAIL_ICON

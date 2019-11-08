@@ -394,10 +394,8 @@ table.nested-summary {
 
 table.nested-summary {
   tbody {
-    th {
-      &:first-child {
-        width: $half;
-      }
+    th:first-child {
+      width: $half;
     }
 
     tr:last-child {

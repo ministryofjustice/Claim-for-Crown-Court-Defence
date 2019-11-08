@@ -154,7 +154,6 @@ header.main-header {
 
 .error-summary,
 .notice-summary {
-  @include span(8 of 12);
   @include first;
   float: none;
 
@@ -167,6 +166,19 @@ header.main-header {
 .notice-summary {
   @extend .error-summary;
   border-color: $button-colour;
+}
+
+.contact-us-details {
+  margin-bottom: $gutter;
+
+  dt {
+    float: left;
+    margin-right: $gutter-one-sixth;
+
+    &:after {
+      content: ":"
+    }
+  }
 }
 
 .timed-retention-states {

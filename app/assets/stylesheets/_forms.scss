@@ -1,6 +1,4 @@
-legend {
-  width: $full-width;
-}
+/*--- Form Settings ---*/
 
 fieldset {
   &.error {
@@ -12,6 +10,10 @@ fieldset {
     }
   }
 
+  legend {
+    width: $full-width;
+  }
+
   label {
     margin-top: 0;
   }
@@ -19,10 +21,6 @@ fieldset {
   &.spacer {
     margin: $gutter-two-thirds 0;
   }
-}
-
-label.form-label {
-  font-weight: 700;
 }
 
 // ie error state fix

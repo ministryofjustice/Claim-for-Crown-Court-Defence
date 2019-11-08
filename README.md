@@ -207,7 +207,7 @@ You should now commit the cassette to the repo to ensure it is not unneccessaril
 
 ## Maintenance mode
 
-A Conditional catchall routes exists in `routes.rb`. This directs all routes requested to the `pages#servicedown` controller and view. To activate the conditional route you must provide the app server with either MAINTENANCE_MODE=true (kubernetes) or DOCKER_STATE=maintenance (template-deploy). Note that dotenv files cannot be used to set these envvars locally as the config gem (`settings.yml` file) is loaded before dotenv files.
+A conditional catchall routes exists in `routes.rb`. This directs all routes requested to the `pages#servicedown` controller and view. To activate the conditional route you must provide the app server with either MAINTENANCE_MODE=true (kubernetes) or DOCKER_STATE=maintenance (template-deploy). Note that dotenv files cannot be used to set these envvars locally as the config gem (`settings.yml` file) is loaded before dotenv files.
 
 ```bash
 # activate maintenance mode locally
@@ -218,28 +218,38 @@ You can deploy the app in maintenance mode for both template-deploy orchestrated
 
 ### Template-deploy maintenance mode
 - build the app using Jenkins as normal.
-- deploy the app to an environment selecting `maintenance` for the task option (jenkins string parameter)
+- deploy the app (same/any build) to an environment selecting `maintenance` for the task option (jenkins string parameter)
+- to take site out of maintenance redeploy (same/any build) with `none` for the task
 
 Note that this is a quick fix method that leverages templates-deploy pre-existing environment variable `DOCKER_STATE` for purposes it was not intended for.
 
 ### kubernetes maintenance mode
-You can switch on maintenance mode by deploying either from your local machine or via circleCI. Either
-method requires you to amend the `deployment.yaml` file for the relevant environment, adding `MAINTENANCE_MODE=true`. e.g. `./kubernetes_deploy/dev/deployment.yaml`
+You can switch on maintenance mode by deploying either from your local machine or via circleCI. Either method requires you to amend the `deployment.yaml` file for the relevant environment to add the env var `MAINTENANCE_MODE` with a value `'true'`.
+
+example `deployment.yaml` config:
+```yaml
+env:
+  - name: MAINTENANCE_MODE
+    value: 'true'
+```
 
 To apply via circleCI:
 
 - commit the above change and push to github
 - run through circleCI and deploy to the relevant environment
 - For production environment you will need to merge to master and use its workflow
+- to take site out of maintenance you would have to commit the reverse and redeploy via circleCI
+
 
 To apply via local machine:
 
 - you will need all relevant aws credentials and git-crypted secrets access
-- use the deploy script
+- amend `deployment.yaml`, as above, and run the deploy script, as below.
+- to take site out of maintenance amend `MAINTENANCE_MODE` to `'false'` and run the deploy script again.
 
 ```bash
- # put dev into maintenance mode
- kubernetes_deploy/scripts/deploy.sh dev latest
+# deploying to dev from local machine
+kubernetes_deploy/scripts/deploy.sh dev latest
 ```
 
 ## Javascript Unit Testing

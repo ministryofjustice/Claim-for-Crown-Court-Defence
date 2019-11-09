@@ -11,8 +11,8 @@ RSpec.describe 'Servicedown mode', type: :request do
     Rails.application.reload_routes!
   end
 
-  shared_examples 'maintenance page' do
-    it { expect(response).to have_http_status :ok }
+  shared_examples 'maintenance page' do |options = {}|
+    it { expect(response).to have_http_status(options[:status] || 503) }
     it { expect(response.body).to include('planned maintenance') }
   end
 
@@ -37,38 +37,86 @@ RSpec.describe 'Servicedown mode', type: :request do
     it { expect(response.body).to be_json }
   end
 
-  context 'web page requests (html)' do
-    context 'sign in' do
-      before { get '/users/sign_in' }
-      it_behaves_like 'maintenance page'
+  context 'template-deploy' do
+    before do
+      config_options = double(Config::Options, region: 'eu-west-1')
+      allow(Settings).to receive(:aws).and_return(config_options)
+    end
+
+    context 'web page requests (html)' do
+      context 'sign in' do
+        before { get '/users/sign_in' }
+        it_behaves_like 'maintenance page'
+      end
+
+      context 'caseworker' do
+        before do
+          sign_in(user)
+        end
+
+        let(:user) { create(:case_worker).user }
+          context '/case_workers/claims' do
+          before { get case_workers_home_path }
+          it_behaves_like 'maintenance page'
+        end
+      end
+
+      context 'advocate' do
+        before { sign_in user }
+        let(:user) { create(:external_user, :advocate).user }
+
+        context '/external_user/claims' do
+          before { get external_users_claims_path }
+          it_behaves_like 'maintenance page'
+        end
+
+        context '/advocates/claims/new' do
+          before { get new_advocates_claim_path }
+          it_behaves_like 'maintenance page'
+        end
+      end
+    end
+  end
+
+  context 'kubernetes' do
+    before do
+      config_options = double(Config::Options, region: 'eu-west-2')
+      allow(Settings).to receive(:aws).and_return(config_options)
+    end
+
+    context 'web page requests (html)' do
+      context 'sign in' do
+        before { get '/users/sign_in' }
+        it_behaves_like 'maintenance page', status: 200
+      end
     end
 
     context 'caseworker' do
-      before do
-        sign_in(user)
+        before do
+          sign_in(user)
+        end
+
+        let(:user) { create(:case_worker).user }
+          context '/case_workers/claims' do
+          before { get case_workers_home_path }
+          it_behaves_like 'maintenance page', status: 200
+        end
       end
 
-      let(:user) { create(:case_worker).user }
-        context '/case_workers/claims' do
-        before { get case_workers_home_path }
-        it_behaves_like 'maintenance page'
-      end
-    end
+      context 'advocate' do
+        before { sign_in user }
+        let(:user) { create(:external_user, :advocate).user }
 
-    context 'advocate' do
-      before { sign_in user }
-      let(:user) { create(:external_user, :advocate).user }
+        context '/external_user/claims' do
+          before { get external_users_claims_path }
+          it_behaves_like 'maintenance page', status: 200
+        end
 
-      context '/external_user/claims' do
-        before { get external_users_claims_path }
-        it_behaves_like 'maintenance page'
+        context '/advocates/claims/new' do
+          before { get new_advocates_claim_path }
+          it_behaves_like 'maintenance page', status: 200
+        end
       end
-
-      context '/advocates/claims/new' do
-        before { get new_advocates_claim_path }
-        it_behaves_like 'maintenance page'
-      end
-    end
   end
 
   context 'api requests (json)' do

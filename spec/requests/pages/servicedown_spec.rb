@@ -13,6 +13,7 @@ RSpec.describe 'Servicedown mode', type: :request do
 
   shared_examples 'maintenance page' do |options = {}|
     it { expect(response).to have_http_status(options[:status] || 503) }
+    it { expect(response).to render_template('layouts/basic') }
     it { expect(response.body).to include('planned maintenance') }
   end
 

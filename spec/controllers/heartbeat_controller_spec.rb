@@ -27,12 +27,13 @@ RSpec.describe HeartbeatController, type: :controller do
         ENV['BUILD_DATE']       = nil
         ENV['COMMIT_ID']        = nil
         ENV['BUILD_TAG']        = nil
+        ENV['APP_BRANCH']       = nil
 
         get :ping
       end
 
       it 'returns "Not Available"' do
-        expect(JSON.parse(response.body).values).to eq( ["Not Available", "Not Available", "Not Available", "Not Available"])
+        expect(JSON.parse(response.body).values).to be_all("Not Available")
       end
     end
 
@@ -42,7 +43,8 @@ RSpec.describe HeartbeatController, type: :controller do
           'version_number'  => '123',
           'build_date'      => '20150721',
           'commit_id'       => 'afb12cb3',
-          'build_tag'       => 'test'
+          'build_tag'       => 'test',
+          'app_branch'      => 'test_branch'
         }
       end
 
@@ -51,6 +53,7 @@ RSpec.describe HeartbeatController, type: :controller do
         ENV['BUILD_DATE']       = '20150721'
         ENV['COMMIT_ID']        = 'afb12cb3'
         ENV['BUILD_TAG']        = 'test'
+        ENV['APP_BRANCH']       = 'test_branch'
 
         get :ping
       end

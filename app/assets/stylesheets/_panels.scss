@@ -30,19 +30,19 @@
 }
 
 .panel-border-wide {
-  border-left-width: 10px;
+  border-left-width: $gutter-one-third;
 }
 
 // Used to show the left edge of "toggled" content
 .panel-border-narrow {
-  border-left-width: 5px;
+  border-left-width: $gutter-one-sixth;
 }
 
 // Panels within form groups
 // By default, panels have 15px bottom margin
 .form-group .panel-border-narrow {
   float: left;
-  width: 100%;
+  width: $full-width;
   // Remove the bottom padding as .form-group sets a bottom margin
   padding-bottom: 0;
   // Don't remove the bottom margin for all panels, assume they are often within stacked groups
@@ -52,7 +52,7 @@
 
 // The first panel in a group
 .form-group .panel-border-narrow:first-child {
-  margin-top: 10px;
+  margin-top: $gutter-one-third;
 }
 
 // The last panel in a group
@@ -64,6 +64,6 @@
 // For inline panels
 .inline .panel-border-narrow,
 .inline .panel-border-narrow:last-child {
-  margin-top: 10px;
+  margin-top: $gutter-one-third;
   margin-bottom: 0;
 }

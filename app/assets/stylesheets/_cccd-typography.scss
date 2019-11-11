@@ -51,7 +51,7 @@ header.main-header {
 }
 
 .claim-hgroup {
-  margin-bottom: 10px;
+  margin-bottom: $gutter-one-third;
 
   h1 {
     @include first;
@@ -67,7 +67,7 @@ header.main-header {
   }
 
   .case-number-header {
-    @include core-36();
+    @include core-36;
     display: block;
     font-weight: 700;
   }
@@ -77,7 +77,7 @@ header.main-header {
 
     @include core-19;
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: $gutter-one-third;
     float: none;
   }
 
@@ -86,14 +86,14 @@ header.main-header {
 
     @include media(mobile) {
       @include first;
-      margin-bottom: 10px;
+      margin-bottom: $gutter-one-third;
     }
 
     @include core-19;
 
     .button,
     .button-secondary {
-      margin-right: 5px;
+      margin-right: $gutter-one-sixth;
     }
 
     .resubmit-claim {
@@ -105,7 +105,7 @@ header.main-header {
 
       a:first-child,
       .resubmit-claim {
-        margin-right: 20px;
+        margin-right: $gutter-two-thirds;
       }
     }
   }
@@ -129,7 +129,7 @@ header.main-header {
 
 .new-claim-hgroup {
   border-top: 5px solid $link-colour;
-  margin-top: 5px;
+  margin-top: $gutter-one-sixth;
 
   h2 {
     @include core-24;
@@ -169,25 +169,15 @@ header.main-header {
   border-color: $button-colour;
 }
 
-.contact-us-details {
-  li {
-    line-height: 30px;
-
-    &.last-element {
-      margin-bottom: 40px;
-    }
-  }
-}
-
 .timed-retention-states {
-  padding-left: 20px;
+  padding-left: $gutter-two-thirds;
 
   li {
     list-style: disc inside;
     line-height: 30px;
 
     &.last-element {
-      margin-bottom: 30px;
+      margin-bottom: $gutter;
     }
   }
 }
@@ -199,10 +189,10 @@ header.main-header {
 
 a[target="_blank"]:after {
   content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
-  margin: 0 0 0 5px;
+  margin: 0 0 0 $gutter-one-sixth;
 }
 
 p.file-upload-name {
-  margin: 5px 0 0;
+  margin: $gutter-one-sixth 0 0;
   font-style: italic;
 }

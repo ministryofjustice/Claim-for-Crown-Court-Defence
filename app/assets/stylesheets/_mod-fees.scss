@@ -26,7 +26,7 @@
   /*--- Ported from v1 stylesheets ---*/
   fieldset {
     legend {
-      width: 100%;
+      width: $full-width;
 
       .fx-remove-link {
         float: right;

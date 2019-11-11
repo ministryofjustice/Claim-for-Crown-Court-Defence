@@ -10,32 +10,21 @@
   label {
     @include core-16;
   }
+
   .js-enabled & {
+
     input[type="file"],
     .no-file-selected [type="submit"] {
       @include visually-hidden;
     }
   }
+
   button.button-secondary {
     @include core-19;
   }
+
   .errors {
-    margin-top: 5px;
-    line-height: 1.2;
+    margin-top: $gutter-one-sixth;
     color: $red;
-  }
-}
-
-.importer-results {
-  .results-body {
-    padding: 20px;
-
-    & + .results-body {
-      margin-top: 10px;
-    }
-  }
-
-  .import-success {
-    border: 4px solid $green-50;
   }
 }

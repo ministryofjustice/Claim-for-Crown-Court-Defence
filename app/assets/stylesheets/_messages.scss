@@ -39,8 +39,8 @@
 
 .messages-container {
   border: 1px solid $border-colour;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin-top: $gutter-two-thirds;
+  margin-bottom: $gutter-two-thirds;
   overflow: hidden;
 
   .messages-list {
@@ -48,31 +48,31 @@
     max-height: 400px;
     overflow-y: scroll;
     overflow-x: hidden;
-    padding: 5px;
-    margin-bottom: 1em;
+    padding: $gutter-one-sixth;
+    margin-bottom: $gutter-two-thirds;
 
     .history {
       .event {
         color: $link-visited-colour;
-        padding: 5px 10px;
-        margin-bottom: 5px;
-        margin-right: 1em;
+        padding: $gutter-one-sixth $gutter-one-third;
+        margin-bottom: $gutter-one-sixth;
+        margin-right: $gutter-two-thirds;
         text-align: right;
 
         strong {
-          font-weight: bold;
+          font-weight: 700;
         }
 
         .message-container,
         .message-body {
           margin-right: 0;
           padding-right: 0;
-          border: 0px solid $black;
+          border: 0;
         }
 
         table {
           margin-left: auto;
-          width: 50%;
+          width: $half;
 
           .visuallyhidden {
             display: none;
@@ -116,9 +116,9 @@
         border: 1px solid $border-colour;
         padding-left: $gutter;
         padding-right: $gutter;
-        padding-top: 5px;
+        padding-top: $gutter-one-sixth;
         color: $secondary-text-colour;
-        font-weight: bold;
+        font-weight: 700;
         margin-bottom: $gutter-half;
       }
     }
@@ -130,24 +130,23 @@
       display: inline-block;
       margin-top: $gutter-half;
       margin-bottom: $gutter-half;
-      padding: 5px 10px;
-      font-weight: bold;
+      padding: $gutter-one-sixth $gutter-one-third;
+      font-weight: 700;
     }
 
     .message-container {
-      margin-bottom: 1em;
-      margin-left: 1em;
-      margin-right: 1em;
+      margin-bottom: $gutter-two-thirds;
+      margin-left: $gutter-two-thirds;
+      margin-right: $gutter-two-thirds;
 
       .message-body {
-        padding: 10px 20px;
+        padding: $gutter-one-third $gutter-two-thirds;
       }
     }
 
     .message-audit {
-      font-size: 80%;
+      @include bold-16;
       color: $page-colour;
-      font-weight: bold;
       text-align: left;
 
       .sent {
@@ -234,9 +233,9 @@
       margin: $gutter-half 0;
 
       input[type="text"] {
-        width: 50%;
-        padding: 2px 5px;
-        @include core-19();
+        width: $half;
+        padding: 2px $gutter-one-sixth;
+        @include core-19;
       }
 
       textarea {
@@ -261,18 +260,18 @@
 
     .file-to-be-uploaded {
       border-top: 1px solid $border-colour;
-      padding-top: 15px;
+      padding-top: $gutter-half;
       display: none;
 
       .filename {
-        font-weight: bold;
+        font-weight: 700;
       }
     }
   }
 
   .messages-print-link {
     text-align: right;
-    padding-right: 1em;
+    padding-right: $gutter-two-thirds;
   }
 
   .message-status {
@@ -281,12 +280,12 @@
 
     .message-success {
       color: $green;
-      font-weight: bold;
+      font-weight: 700;
     }
 
     .message-error {
       color: $error-colour;
-      font-weight: bold;
+      font-weight: 700;
     }
   }
 }

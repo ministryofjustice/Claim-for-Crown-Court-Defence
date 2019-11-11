@@ -10,25 +10,25 @@ nav {
 
     a {
       border: none;
-      padding: $gutter/6;
+      padding: $gutter-one-sixth;
     }
 
     span {
       &.page {
-        padding: 0 $gutter/6;
+        padding: 0 $gutter-one-sixth;
       }
 
       &.prev {
-        padding-left: $gutter/6;
+        padding-left: $gutter-one-sixth;
       }
 
       &.next {
-        padding-right: $gutter/6;
+        padding-right: $gutter-one-sixth;
       }
 
       &.current {
         font-weight: 700;
-        padding: $gutter/6;
+        padding: $gutter-one-sixth;
       }
     }
   }
@@ -59,7 +59,7 @@ nav {
 
 .primary-nav-bar {
   a {
-    padding: 0 $gutter-half/2;
+    padding: 0 $gutter-half / 2;
     border-right: 1px solid $grey-3;
   }
 }

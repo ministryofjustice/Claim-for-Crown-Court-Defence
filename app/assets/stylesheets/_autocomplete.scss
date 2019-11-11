@@ -3,7 +3,7 @@
   #case_details,
   #transfer-detail {
     .autocomplete__wrapper {
-      width: 50%;
+      width: $half;
     }
   }
 }
@@ -28,12 +28,12 @@
   border: 1px solid $text-colour;
   max-height: 220px;
   overflow-y: scroll;
-  width: 100%;
+  width: $full-width;
 }
 
 @media (min-width: 641px) {
   .tt-menu {
-    width: 50%;
+    width: $half;
   }
 
   // scss-lint:disable IdSelector
@@ -41,7 +41,7 @@
   #offence,
   .controller-allocations {
     .tt-menu {
-      width: 100%;
+      width: $full-width;
     }
   }
 }
@@ -52,7 +52,7 @@
 }
 
 .tt-suggestion {
-  padding: .5em;
+  padding: $gutter-one-sixth;
 
   &:hover,
   &.tt-cursor {
@@ -62,11 +62,11 @@
 }
 
 .twitter-typeahead {
-  width: 100%;
+  width: $full-width;
 }
 
 .empty-message {
-  padding: .5em;
+  padding: $gutter-one-sixth;
 }
 
 // scss-lint:disable IdSelector
@@ -82,6 +82,6 @@
   .fx-clear-search {
     display: inline-block;
     font-weight: normal;
-    margin: 10px;
+    margin: $gutter-one-third;
   }
 }

@@ -2,7 +2,7 @@
 
 .fx-duplicate-expense {
   display: inline-block;
-  padding: 5px 15px;
+  padding: $gutter-one-sixth $gutter-half;
 }
 
 .dz-error-message {
@@ -12,12 +12,12 @@
 .ui-filter {
   select {
     margin: 0;
-    width: 100%;
+    width: $full-width;
   }
 }
 
 .case-worker-reallocation {
-  padding-bottom: 30px;
+  padding-bottom: $gutter;
 
   .margin-spacer-sm {
     padding: 0;
@@ -167,7 +167,7 @@ a.detail-link {
     display: inline-block;
     height: 24px;
     width: 42px;
-    margin: 0 0 1em 2px;
+    margin: 0 0 $gutter-two-thirds 2px;
 
     &.expanded {
       background-position: 0 0;
@@ -176,8 +176,8 @@ a.detail-link {
 }
 
 .status-indicator {
-  width: 20px;
-  height: 20px;
+  width: $gutter-two-thirds;
+  height: $gutter-two-thirds;
 }
 
 
@@ -197,7 +197,7 @@ form {
   }
 
   h2 {
-    margin-top: 1em;
+    margin-top: $gutter-two-thirds;
   }
 
   fieldset {
@@ -207,12 +207,12 @@ form {
     }
 
     legend {
-      font-weight: bold;
+      font-weight: 700;
     }
   }
 
   textarea {
-    width: 100%;
+    width: $full-width;
     font-size: 1em;
   }
 
@@ -222,7 +222,7 @@ form {
   }
 
   .nested-fields {
-    margin-bottom: 1em;
+    margin-bottom: $gutter-two-thirds;
   }
 
 
@@ -252,14 +252,14 @@ form {
     &.has-file {
       border-color: green;
       color: $ministry-of-justice;
-      font-weight: bold;
+      font-weight: 700;
     }
   }
 }
 
 .warning {
   display: block;
-  padding: 15px;
+  padding: $gutter-half;
   color: red;
 }
 
@@ -269,8 +269,8 @@ form {
 
 .evidence-checklist div {
   float: left;
-  margin-right: 10px;
-  margin-top: 1em;
+  margin-right: $gutter-one-third;
+  margin-top: $gutter-two-thirds;
 }
 
 .defendants {
@@ -296,8 +296,8 @@ form {
   border-left: 5px solid $border-colour;
   border-bottom: 0;
   padding-left: $gutter-half;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: $gutter-one-sixth;
+  padding-bottom: $gutter-one-sixth;
 }
 
 // ================================================================//
@@ -332,7 +332,7 @@ form {
 #messages {
   float: left;
   margin-bottom: 1em;
-  width: 100%;
+  width: $full-width;
 
   .timeline {
     ul.days {
@@ -361,16 +361,16 @@ form {
           }
 
           .time-ago {
+            @include core-14;
             display: inline-block;
-            padding-left: 0.5em;
-            font-size: 0.75em
+            padding-left: $gutter-one-sixth;
           }
         }
 
         li {
           float: left;
-          width: 100%;
-          padding: 15px;
+          width: $full-width;
+          padding: $gutter-half;
 
           &:nth-child(even) {
             background-color: $grey-4;
@@ -389,10 +389,10 @@ form {
 // FLASH-NOTICES MESS
 // ================================================================//
 .flash {
-  width: 66.667%;
+  width: $two-thirds;
   margin: auto;
-  padding: 5px;
-  font-weight: bold;
+  padding: $gutter-one-sixth;
+  font-weight: 700;
 
   &.notice {
     color: green;
@@ -409,11 +409,11 @@ form {
 .tandcs {
 
   .section-title {
-    font-weight: bold;
+    font-weight: 700;
   }
 
   b {
-    font-weight: bold;
+    font-weight: 700;
   }
 
   ul {
@@ -449,7 +449,7 @@ form {
   }
 
   strong {
-    font-weight: bold;
+    font-weight: 700;
   }
 
   .button-holder {
@@ -468,14 +468,14 @@ form {
 
 
 .totals {
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: $gutter-two-thirds;
+  padding-bottom: $gutter-two-thirds;
   text-align: right;
 }
 
 .filter-by-value {
-  margin-left: 0.35em;
-  margin-right: 0.35em;
+  margin-left: $gutter-one-sixth;
+  margin-right: $gutter-one-sixth;
 }
 
 // search result for tables when nothing exists
@@ -509,13 +509,11 @@ Other Claim Navigation
   .selected {
     width: 16px;
     height: 16px;
-    margin-right: 10px;
+    margin-right: $gutter-one-third;
   }
 }
 
 .defendant-row {
-  // margin-left: -30px;
-
   .confirmation-section & {
     margin-left: -$gutter-half;
   }
@@ -523,14 +521,14 @@ Other Claim Navigation
 
 .defendant-card {
   border: 1px solid $border-colour;
-  padding: $gutter-half 10px $gutter-half $gutter-half;
+  padding: $gutter-half $gutter-one-third $gutter-half $gutter-half;
   margin-top: $gutter-half;
   margin-bottom: $gutter-half;
 
   table {
     th {
       @include bold-16();
-      padding: 5px;
+      padding: $gutter-one-sixth;
     }
   }
 
@@ -555,7 +553,7 @@ Styling for Claims Messaging
   .new-message {
     width: 26px;
     height: 26px;
-    margin-left: 5px;
+    margin-left: $gutter-one-sixth;
   }
 
   >* {
@@ -581,18 +579,15 @@ Styling for Claims Messaging
   margin-bottom: $gutter;
 
   .govuk-panel__title {
+    @include core-36;
     color: $page-colour;
-    font-size: 3rem;
     font-weight: 700;
-    margin-bottom: 30px;
-    margin-top: 0;
+    margin-bottom: $gutter;
   }
 
   .govuk-panel__body {
+    @include core-27;
     color: $page-colour;
-    font-size: 2.5rem;
-    font-weight: 400;
-    line-height: 1.11111;
   }
 }
 
@@ -610,9 +605,9 @@ Styling for Claims Messaging
 }
 
 .contact-us-footer {
-  margin-top: 1em;
-  margin-bottom: 1em;
-  padding-top: 1em;
+  margin-top: $gutter-two-thirds;
+  margin-bottom: $gutter-two-thirds;
+  padding-top: $gutter-two-thirds;
   border-top: 1px solid $border-colour;
   clear: both;
 }
@@ -640,14 +635,14 @@ Styling for Claims Messaging
   align-items: flex-start;
   display: flex;
   justify-content: center;
-  margin-bottom: 40px;
-  max-width: 520px;
+  margin-bottom: $gutter + $gutter-one-third;
   outline: 2px dashed $secondary-text-colour;
-  padding: 70px 40px 55px;
+  padding: $gutter * 2;
   text-align: center;
   transition: outline-offset .1s ease-in-out, background-color .1s linear;
 
   label {
+    @include core-19;
     left: -9999em;
     position: absolute;
   }
@@ -659,17 +654,10 @@ Styling for Claims Messaging
     background-color: $panel-colour;
     border: none;
     color: $text-colour;
-    font-size: 1em;
-    font-weight: normal;
     left: 0;
-    line-height: 1.5625;
-    padding: 10px 20px;
+    margin-bottom: 0;
+    padding: $gutter-one-third $gutter-two-thirds;
     position: static;
-
-    @media (min-width: 37.5em) {
-      font-size: 1.125em;
-      line-height: 1.38889;
-    }
 
     &:hover {
       background-color: $border-colour;
@@ -685,7 +673,7 @@ Styling for Claims Messaging
 .dropzone-dragover {
   background: $black;
   outline: 2px dashed $secondary-text-colour;
-  outline-offset: -10px;
+  outline-offset: -$gutter-one-third;
 }
 
 .dropzone-focused {
@@ -694,7 +682,7 @@ Styling for Claims Messaging
 }
 
 .files {
-  margin-bottom: 30px;
+  margin-bottom: $gutter;
   table-layout: fixed;
 
   .error {
@@ -717,15 +705,15 @@ Styling for Claims Messaging
   }
 
   progress {
-    margin-top: 4px;
-    width: 100%;
+    margin-top: $gutter-one-sixth;
+    width: $full-width;
   }
 }
 
 /*--- Dropzone end ---*/
 
 .btn-spacer-20 {
-  margin-right: 20px;
+  margin-right: $gutter-two-thirds;
 }
 
 .b {
@@ -733,8 +721,7 @@ Styling for Claims Messaging
 }
 
 .error .error-message {
-  font-weight: normal;
-  font-size: 16px;
+  @include core-16;
 }
 
 
@@ -754,7 +741,7 @@ Styling for Claims Messaging
 
   dt {
     float: left;
-    margin-right: 5px;
+    margin-right: $gutter-one-sixth;
 
     &:after {
       content: ":"
@@ -769,11 +756,6 @@ tbody th {
 .disk-evidence {
   color: $red;
   display: block;
-}
-
-.error .error-message {
-  font-weight: normal;
-  font-size: 16px;
 }
 
 .js-allocation-page #page-h1 {
@@ -848,7 +830,7 @@ tbody th {
 /*--- Ported from v1 stylesheets ---*/
 
 .grid-row {
-  margin-bottom: $gutter/2;
+  margin-bottom: $gutter-half;
 }
 
 // Phase banner
@@ -857,18 +839,17 @@ tbody th {
 }
 
 .contactus-link {
-  font-size: 19px;
-  line-height: 1.31579;
+  @include core-19;
   @include clearfix;
-  margin-top: 60px;
-  margin-bottom: -60px
+  margin-top: $gutter * 2;
+  margin-bottom: -($gutter * 2);
 }
 
 
 @include media($max-width: 768px) {
   .contactus-link {
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: $gutter-half;
+    margin-bottom: $gutter-half;
   }
 }
 
@@ -882,7 +863,7 @@ tbody th {
 
 .js-callout-banner {
   ul.list {
-    margin-top: 30px;
+    margin-top: $gutter;
   }
 }
 
@@ -896,7 +877,7 @@ tbody th {
 
   .form-group {
     &.supplier_number_wrapper {
-      margin-bottom: $gutter/3;
+      margin-bottom: $gutter-one-third;
     }
   }
 }
@@ -922,7 +903,7 @@ tbody th {
 
   .remove_fields {
     display: block;
-    margin-top: 10px;
+    margin-top: $gutter-one-third;
   }
 }
 
@@ -953,11 +934,11 @@ tbody th {
 }
 
 #offence-list {
-  padding: 0px;
+  padding: 0;
 
   .offence-item {
-    margin: 0px;
-    padding: 10px;
+    margin: 0;
+    padding: $gutter-one-third;
     border-bottom: 1px solid $border-colour;
 
     span.link-grey {
@@ -1005,7 +986,7 @@ tbody th {
 
 .selected-offence {
   background: $grey-4;
-  padding: 15px 30px;
+  padding: $gutter-half $gutter;
 }
 
 
@@ -1017,22 +998,6 @@ tbody th {
 
 .highlight {
   background-color: $yellow;
-}
-
-
-a.link-change {
-  float: right;
-  font-size: 19px;
-  line-height: 1.31579;
-
-  &:hover {
-    color: $link-hover-colour;
-  }
-
-  @media (max-width: 640px) {
-    font-size: 16px;
-    line-height: 1.25;
-  }
 }
 
 

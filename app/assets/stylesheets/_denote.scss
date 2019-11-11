@@ -23,8 +23,8 @@
 
 .error .form-input-denote,
 .form-group-error .form-input-denote {
-  margin-top: 5px;
-  margin-left: 5px;
+  margin-top: $gutter-one-sixth;
+  margin-left: $gutter-one-sixth;
   padding: 6px 12px;
   background-color: $error-colour;
   color: $white;

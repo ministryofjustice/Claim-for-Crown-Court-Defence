@@ -1,7 +1,7 @@
 #claim-accordion {
 
   button {
-    @include core-19();
+    @include core-19;
     margin-top: 0;
     color: $text-colour;
     background-color: $panel-colour;
@@ -9,18 +9,18 @@
     clear: both;
     border-top: 1px solid $border-colour;
     border: 0;
-    padding: 1em;
+    padding: $gutter-two-thirds;
 
     &::before {
       content: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDE2IDE2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnNrZXRjaD0iaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoL25zIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggMy4zLjMgKDEyMDgxKSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5UcmlhbmdsZSAyPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9Ik1haW4tZmxvdyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc2tldGNoOnR5cGU9Ik1TUGFnZSI+CiAgICAgICAgPGcgaWQ9IkNsYWltLWRldGFpbC0tLWNsb3NlZCIgc2tldGNoOnR5cGU9Ik1TQXJ0Ym9hcmRHcm91cCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0Ny4wMDAwMDAsIC00MDQuMDAwMDAwKSIgZmlsbD0iIzZGNzc3QiI+CiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJUcmlhbmdsZS0yIiBza2V0Y2g6dHlwZT0iTVNTaGFwZUdyb3VwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNTUuMDAwMDAwLCA0MTIuMDAwMDAwKSByb3RhdGUoOTAuMDAwMDAwKSB0cmFuc2xhdGUoLTE1NS4wMDAwMDAsIC00MTIuMDAwMDAwKSAiIHBvaW50cz0iMTU1LjM4MDk1MiA0MDQgMTYzIDQyMCAxNDcgNDIwICI+PC9wb2x5Z29uPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+');
       width: 16px;
-      margin-right: 5px;
+      margin-right: $gutter-one-sixth;
       display: inline-block;
     }
 
     &::after {
       content: "Open";
-      color: blue;
+      color: $govuk-blue;
       text-decoration: underline;
       float: right;
     }
@@ -36,7 +36,7 @@
       }
     }
 
-    width: 100%;
+    width: $full-width;
     text-align: left;
   }
 
@@ -45,17 +45,17 @@
   }
 
   .indent-sides {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: $gutter + $gutter-one-third;
+    padding-right: $gutter + $gutter-one-third;
 
     th,
     td {
       &:first-child {
-        padding-left: 40px;
+        padding-left: $gutter + $gutter-one-third;
       }
 
       &:last-child {
-        padding-right: 40px;
+        padding-right: $gutter + $gutter-one-third;
       }
     }
   }
@@ -66,7 +66,7 @@
       line-height: 4;
       text-align: center;
       border: 1px solid $black;
-      margin-top: 1em;
+      margin-top: $gutter-two-thirds;
     }
 
     .actions {
@@ -81,7 +81,7 @@
     padding: 0 0.5rem;
     position: relative;
     top: 1px;
-    margin-right: 1em;
+    margin-right: $gutter-two-thirds;
     font-size: 1em;
     line-height: 1.8;
     text-decoration: none;
@@ -94,7 +94,7 @@
 }
 
 .minimalist-accordion__panel {
-  margin: 10px;
+  margin: $gutter-one-third;
 
   h2 {
     display: none;

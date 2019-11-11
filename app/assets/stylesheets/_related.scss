@@ -1,136 +1,85 @@
 .related-container {
-  padding: 0 15px;
+  padding: 0 $gutter-half;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  margin-top: 40px
+  margin-top: $gutter + $gutter-one-third;
 }
 
 .related {
   border-top: 10px solid $govuk-blue;
-  padding-top: 5px
+  padding-top: $gutter-one-sixth;
 }
 
 .related nav {
-  margin-bottom: 1.25em
+  margin-bottom: $gutter-two-thirds;
 }
 
 .related h2 {
-  font-family: "nta", Arial, sans-serif;
-  font-size: 18px;
-  line-height: 1.2;
-  font-weight: 400;
-  text-transform: none;
-  font-size-adjust: 0.5;
-  font-weight: 600;
-  color: $text-colour;
-  margin-top: 0.3em;
-  margin-bottom: 0.5em;
-  position: relative
-}
-
-@media (min-width: 641px) {
-  .related h2 {
-    font-size: 24px;
-    line-height: 1.25
-  }
-}
-
-@media (max-width: 640px) {
-  .related h2 {
-    font-size: 17px;
-    margin-bottom: 0.625em
-  }
+  @include heading-24;
+  font-weight: 700;
+  margin-top: $gutter-one-sixth;
+  margin-bottom: $gutter-one-sixth;
 }
 
 .related ul {
-  font-family: "nta", Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.14286;
-  font-weight: 400;
-  text-transform: none;
-  font-size-adjust: 0.5;
+  @include core-16;
   list-style: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden
-}
-
-@media (min-width: 641px) {
-  .related ul {
-    font-size: 16px;
-    line-height: 1.25
-  }
+  overflow: hidden;
 }
 
 .related li {
-  margin-bottom: 0.75em;
+  margin-bottom: $gutter-one-third;
   padding-left: 0;
   display: list-item;
 }
 
 .related li.related-topic {
-  list-style: none outside none
+  list-style: none outside none;
 }
 
 .related li.related-topic a {
   display: inline;
-  font-weight: bold
+  font-weight: 700;
 }
 
 .related li a {
   background-position: 0 -287px;
   background-repeat: no-repeat;
   display: block;
-  line-height: 1.25em;
-  orphans: 2
 }
 
 .related li a:hover {
-  background-position: 0 10px
+  background-position: 0 10px;
 }
 
 .related li a.view-all {
-  margin: 10px 0 10px
+  margin: $gutter-one-third 0 $gutter-one-third;
 }
 
 .related li a[rel="external"]:after {
   content: "\A0\A0\A0\A0\A0\A0";
-  background-position: 5px 0
+  background-position: 5px 0;
 }
 
 .related li a[rel="external"]:hover:after {
-  background-position: 5px -388px
+  background-position: 5px -388px;
 }
 
 .related .return-to-top {
-  font-family: "nta", Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.14286;
-  font-weight: 400;
-  text-transform: none;
-  font-size-adjust: 0.5;
-  margin: 0.25em 0 0;
-  padding: 0.75em 0
-}
-
-@media (min-width: 641px) {
-  .related .return-to-top {
-    font-size: 16px;
-    line-height: 1.25
-  }
+  @include core-16;
 }
 
 @media (min-width: 769px) {
   .related .return-to-top {
     position: absolute;
-    left: -9999em
+    left: -9999em;
   }
 }
 
 @media (min-width: 641px) {
   header.page-header div {
-    margin-top: 30px;
-    margin-bottom: 30px
+    margin-top: $gutter;
+    margin-bottom: $gutter;
   }
 }

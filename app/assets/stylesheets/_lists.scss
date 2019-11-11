@@ -5,21 +5,14 @@
  */
 
 .govuk-summary-list {
-  color: $black;
-  font-size: 16px;
-  font-weight: 400;
-  margin: 0 0 20px 0;
+  @include core-19;
+  margin: 0 0 $gutter-two-thirds 0;
 
   @media (min-width: 641px) {
     display: table;
-    font-size: 19px;
-    margin-bottom: 30px;
+    margin-bottom: $gutter;
     table-layout: fixed;
-    width: 100%;
-  }
-
-  @media print {
-    font-size: 14pt;
+    width: $full-width;
   }
 
   .govuk-summary-list__row {
@@ -28,12 +21,12 @@
     @media (min-width: 641px) {
       border: 0;
       display: table-row;
-      margin-bottom: 15px;
+      margin-bottom: $gutter-half;
     }
 
     .govuk-summary-list__key {
       font-weight: 700;
-      margin-bottom: 5px;
+      margin-bottom: $gutter-one-sixth;
 
       @media (min-width: 641px) {
         width: 30%;
@@ -46,8 +39,8 @@
       }
 
       @media (min-width: 641px) {
-        margin-bottom: 15px;
-        width: 50%;
+        margin-bottom: $gutter-half;
+        width: $half;
 
         &:last-child {
           width: 70%;
@@ -55,7 +48,7 @@
       }
 
       p {
-        margin-bottom: 10px;
+        margin-bottom: $gutter-one-third;
       }
     }
 
@@ -67,12 +60,12 @@
     }
 
     .govuk-summary-list__actions {
-      margin: 0 0 15px 0;
+      margin: 0 0 $gutter-half 0;
 
       @media (min-width: 641px) {
         padding-right: 0;
         text-align: right;
-        width: 20%;
+        width: $full-width / 5;
       }
     }
 
@@ -81,7 +74,7 @@
     .govuk-summary-list__actions {
       @media (min-width: 641px) {
         display: table-cell;
-        padding: 10px 20px 10px 0;
+        padding: $gutter-one-third $gutter-two-thirds $gutter-one-third 0;
         border-bottom: 1px solid $border-colour;
       }
     }
@@ -98,7 +91,7 @@
     .govuk-summary-list__value,
     .govuk-summary-list__actions {
       @media (min-width: 641px) {
-        padding-bottom: 11px;
+        padding-bottom: $gutter-one-third + 1;
         border: 0;
       }
     }
@@ -111,7 +104,7 @@
     .govuk-summary-list__value,
     .govuk-summary-list__actions {
       @media (min-width: 641px) {
-        padding-bottom: 11px;
+        padding-bottom: $gutter-one-third + 1;
         border: 0;
       }
     }

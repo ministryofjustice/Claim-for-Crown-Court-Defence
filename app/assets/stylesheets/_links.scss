@@ -5,7 +5,7 @@
 a.link-secondary,
 a.fix {
   position: relative;
-  padding: .526315em 0em .263157em;
+  padding: $gutter-one-third 0 $gutter-one-sixth;
   border: none;
 
   &:hover {
@@ -15,18 +15,12 @@ a.fix {
 
 a.link-change,
 a.link-remove {
+  @include core-19;
   float: right;
-  font-size: 19px;
-  line-height: 1.31579;
-  margin: 0px;
+  font-weight: 700;
 
   &:hover {
-    color: $light-blue;
-  }
-
-  @media (max-width: 640px) {
-    font-size: 16px;
-    line-height: 1.25;
+    color: $link-hover-colour;
   }
 }
 

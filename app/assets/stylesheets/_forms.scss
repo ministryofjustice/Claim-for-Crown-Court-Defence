@@ -1,5 +1,5 @@
 legend {
-  width: 100%;
+  width: $full-width;
 }
 
 fieldset {
@@ -17,7 +17,7 @@ fieldset {
   }
 
   &.spacer {
-    margin: 20px 0;
+    margin: $gutter-two-thirds 0;
   }
 }
 
@@ -58,9 +58,9 @@ input.form-control:read-only {
 }
 
 .form-control-full {
-  width: 100%;
+  width: $full-width;
 
   @include media(tablet) {
-    width: 100%;
+    width: $full-width;
   }
 }

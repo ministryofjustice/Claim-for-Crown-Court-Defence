@@ -36,7 +36,7 @@ body {
 
         th,
         td {
-          font-size: 19px;
+          @include core-19;
         }
       }
     }
@@ -46,7 +46,7 @@ body {
 #show-messages-wrapper {
   .print-messages-hint {
     clear: both;
-    padding-top: 10px;
+    padding-top: $gutter-one-third;
     padding-bottom: 8px;
   }
 
@@ -69,7 +69,7 @@ body {
 .auto-width {
   label {
     display: block;
-    margin: $gutter-half 0 5px;
+    margin: $gutter-half 0 $gutter-one-sixth;
   }
 }
 

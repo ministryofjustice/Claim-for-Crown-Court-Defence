@@ -1,5 +1,5 @@
 .breadcrumbs {
-  margin-bottom: .75em;
+  margin-bottom: $gutter-half;
 
   a:link {
     color: $link-colour;
@@ -23,8 +23,8 @@
     }
 
     background-image: none;
-    margin-left: 1em;
-    padding-left: 1em;
+    margin-left: $gutter-two-thirds;
+    padding-left: $gutter-two-thirds;
     border-left: 1px solid $black;
   }
 }

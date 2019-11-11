@@ -24,13 +24,13 @@
 
   @include media (mobile) {
     text-align: center;
-    width: 100%;
+    width: $full-width;
   }
 }
 
 form .form-buttons * {
   display: inline-block;
-  margin-right: 10px;
+  margin-right: $gutter-one-third;
 }
 
 
@@ -44,7 +44,7 @@ form .form-buttons * {
   @include bold-24;
   background-image: file-url("icon-pointer.png");
   background-repeat: no-repeat;
-  background-position: 100% 50%;
+  background-position: $full-width $half;
   padding: em(7) em(41) em(4) em(16);
 
   @include device-pixel-ratio {
@@ -58,7 +58,7 @@ form .form-buttons * {
 }
 
 .form-buttons * {
-  margin-right: 10px;
+  margin-right: $gutter-one-third;
   display: inline-block;
 }
 
@@ -75,11 +75,11 @@ form .form-buttons * {
 /*--- Ported from v1 stylesheets ---*/
 
 .external-user-json-export {
-  margin-bottom: 10px;
+  margin-bottom: $gutter-one-third;
 }
 
 .certify-claim {
   display: block;
   width: 8.8em;
-  margin: 10px 0;
+  margin: $gutter-one-third 0;
 }

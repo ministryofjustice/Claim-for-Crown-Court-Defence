@@ -56,7 +56,7 @@ spec:
             - name: GA_TRACKER_ID
               value: 'UA-37377084-37'
             - name: MAINTENANCE_MODE
-              value: 'false'
+              value: 'true'
             - name: SETTINGS__SLACK__BOT_NAME
               value: 'Injectotron'
             - name: SETTINGS__SLACK__FAIL_ICON

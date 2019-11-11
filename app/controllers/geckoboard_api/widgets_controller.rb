@@ -1,5 +1,5 @@
 class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
-  layout 'statistics'
+  layout 'basic'
 
   def claims
     respond_payload_from_class(Stats::ClaimPercentageAuthorisedGenerator)

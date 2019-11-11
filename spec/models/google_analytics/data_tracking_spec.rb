@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 module GoogleAnalytics
-
   describe DataTracking do
-    context '#enabled?' do
+    describe '#enabled?' do
+      subject { described_class.enabled? }
       before do
         allow(Rails).to receive(:env).and_return('production'.inquiry)
       end
@@ -13,7 +13,7 @@ module GoogleAnalytics
           allow(described_class).to receive(:adapter).and_return('Adapter')
         end
 
-        %w(staging gamma).each do |host|
+        %w(staging gamma production).each do |host|
           it "returns true when host is #{host}" do
             allow(RailsHost).to receive(:env).and_return(host)
             expect(described_class.enabled?).to be_truthy

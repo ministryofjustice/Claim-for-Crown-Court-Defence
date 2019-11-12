@@ -174,11 +174,11 @@ references:
       command: |
         docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
         kubectl apply -f kubernetes_deploy/dev/secrets.yaml
-        kubectl apply -f kubernetes_deploy/cron_jobs/archive_stale.yaml
         kubectl set image -f kubernetes_deploy/dev/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
         kubectl apply \
         -f kubernetes_deploy/dev/service.yaml \
-        -f kubernetes_deploy/dev/ingress.yaml
+        -f kubernetes_deploy/dev/ingress.yaml \
+        -f kubernetes_deploy/cron_jobs/archive_stale.yaml
         kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
 
   _setup-api-sandbox: &setup-api-sandbox
@@ -198,7 +198,8 @@ references:
         kubectl set image -f kubernetes_deploy/api-sandbox/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
         kubectl apply \
         -f kubernetes_deploy/api-sandbox/service.yaml \
-        -f kubernetes_deploy/api-sandbox/ingress.yaml
+        -f kubernetes_deploy/api-sandbox/ingress.yaml \
+        -f kubernetes_deploy/cron_jobs/archive_stale.yaml
         kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
 
   _setup-staging: &setup-staging
@@ -218,7 +219,8 @@ references:
         kubectl set image -f kubernetes_deploy/staging/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
         kubectl apply \
         -f kubernetes_deploy/staging/service.yaml \
-        -f kubernetes_deploy/staging/ingress.yaml
+        -f kubernetes_deploy/staging/ingress.yaml \
+        -f kubernetes_deploy/cron_jobs/archive_stale.yaml
         kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
 
   _setup-prod: &setup-prod
@@ -238,7 +240,8 @@ references:
         kubectl set image -f kubernetes_deploy/production/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
         kubectl apply \
         -f kubernetes_deploy/production/service.yaml \
-        -f kubernetes_deploy/production/ingress.yaml
+        -f kubernetes_deploy/production/ingress.yaml \
+        -f kubernetes_deploy/cron_jobs/archive_stale.yaml
         kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
 
 jobs:

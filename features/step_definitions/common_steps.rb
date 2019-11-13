@@ -180,6 +180,14 @@ And(/^I should see the field '(.*?)' with value '(.*?)' in '(.*?)'$/) do |field,
   end
 end
 
+Given("the current date is {string}") do |string|
+  travel_to string.to_date
+end
+
+Given("I refresh the page") do
+  page.driver.browser.navigate.refresh
+end
+
 # Record modes can be: all, none, new_episodes or once. Default is 'none'.
 # When creating new tests that calls new endpoints, you will need to record the cassette.
 # NOTE: see the README section 'Recording new VCR cassettes' for assistance

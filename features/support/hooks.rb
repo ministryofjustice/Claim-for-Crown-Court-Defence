@@ -69,6 +69,9 @@ After do |scenario|
     puts browser_logs(driver).red if scenario.failed?
     driver.quit if driver.respond_to?(:quit)
   end
+
+  # undo any time travel set by scenario
+  travel_back
 end
 
 def browser_logs(driver)

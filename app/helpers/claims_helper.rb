@@ -41,4 +41,12 @@ module ClaimsHelper
   def messaging_permitted?(message)
     (current_user_is_external_user? && !message.claim.redeterminable?) || message.claim_action.present?
   end
+
+  def display_downtime_warning?
+    [
+      Settings.downtime_warning_enabled?,
+      Date.current <= Settings.downtime_warning_date.to_date,
+      current_user
+    ].all?
+  end
 end

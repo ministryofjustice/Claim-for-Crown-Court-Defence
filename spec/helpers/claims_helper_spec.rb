@@ -1,11 +1,9 @@
 require "rails_helper"
 
-
-describe ClaimsHelper do
-
+RSpec.describe ClaimsHelper do
   describe '#claim_allocation_checkbox_helper' do
-    let(:case_worker)         { double CaseWorker }
-    let(:claim)               { double Claim }
+    let(:case_worker) { double CaseWorker }
+    let(:claim) { double Claim }
 
     before(:each) do
       allow(claim).to receive(:id).and_return(66)
@@ -23,11 +21,9 @@ describe ClaimsHelper do
       expected_html = %q{<input  id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">}
       expect(claim_allocation_checkbox_helper(claim, case_worker)).to eq expected_html
     end
-
   end
 
 	describe '#includes_state?' do
-
 		let(:only_allocated_claims) { create_list(:allocated_claim, 5) }
 
 		it "returns true if state included as array" do
@@ -44,6 +40,90 @@ describe ClaimsHelper do
 			invalid_states ='draft,submitted'
 			expect(includes_state?(only_allocated_claims,invalid_states)).to eql(false)
 		end
+  end
+
+  describe '#display_downtime_warning?' do
+    subject { helper.display_downtime_warning? }
+
+    before do
+      allow(Settings).to receive(:downtime_warning_enabled?).and_return(downtime_warning_enabled)
+      allow(Settings).to receive(:downtime_warning_date).and_return(downtime_warning_date)
+      allow(helper).to receive(:current_user).and_return(current_user)
+    end
+
+    context 'feature flag enabled' do
+      let(:downtime_warning_enabled) { true }
+
+      around do |example|
+        travel_to(curr_date) do
+          example.run
+        end
+      end
+
+      context 'current date is on or before downtime_warning_date' do
+        let(:curr_date) { Date.parse('2019-11-20') }
+        let(:downtime_warning_date) { '2019-11-20' }
+
+        context 'no current user' do
+          let(:current_user) { nil }
+          it { is_expected.to be false }
+        end
+
+        context 'current user is an external user' do
+          let(:current_user) { create(:external_user, :advocate).user }
+          it { is_expected.to be true }
+        end
+
+        context 'current user is case worker' do
+          let(:current_user) { create(:case_worker).user }
+          it { is_expected.to be true }
+        end
+      end
+
+      context 'current date is after downtime_warning_date' do
+        let(:curr_date) { Date.parse('2019-11-21') }
+        let(:downtime_warning_date) { '2019-11-20' }
+
+        context 'no current user' do
+          let(:current_user) { nil }
+          it { is_expected.to be false }
+        end
+
+        context 'current user is an external user' do
+          let(:current_user) { create(:external_user, :advocate).user }
+          it { is_expected.to be false }
+        end
+
+        context 'current user is case worker' do
+          let(:current_user) { create(:case_worker).user }
+          it { is_expected.to be false }
+        end
+      end
+    end
+
+    context 'feature flag disabled' do
+      let(:downtime_warning_enabled) { false }
+
+      context 'when date is on or before downtime_warning_date' do
+        let(:curr_date) { Date.parse('2019-11-20') }
+        let(:downtime_warning_date) { '2019-11-20' }
+
+        context 'no current user' do
+          let(:current_user) { nil }
+          it { is_expected.to be false }
+        end
+
+        context 'current user is an external user' do
+          let(:current_user) { create(:external_user, :advocate).user }
+          it { is_expected.to be false }
+        end
+
+        context 'current user is case worker' do
+          let(:current_user) { create(:case_worker).user }
+          it { is_expected.to be false }
+        end
+      end
+    end
   end
 
   describe '#show_api_promo_to_user?' do

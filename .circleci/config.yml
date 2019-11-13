@@ -200,8 +200,7 @@ references:
         kubectl set image -f kubernetes_deploy/cron_jobs/archive_stale.yaml cronjob-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
         kubectl apply \
         -f kubernetes_deploy/api-sandbox/service.yaml \
-        -f kubernetes_deploy/api-sandbox/ingress.yaml \
-        -f kubernetes_deploy/cron_jobs/clean_ecr.yaml
+        -f kubernetes_deploy/api-sandbox/ingress.yaml
         kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
 
   _setup-staging: &setup-staging
@@ -222,8 +221,7 @@ references:
         kubectl set image -f kubernetes_deploy/cron_jobs/archive_stale.yaml cronjob-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
         kubectl apply \
         -f kubernetes_deploy/staging/service.yaml \
-        -f kubernetes_deploy/staging/ingress.yaml \
-        -f kubernetes_deploy/cron_jobs/clean_ecr.yaml
+        -f kubernetes_deploy/staging/ingress.yaml
         kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
 
   _setup-prod: &setup-prod
@@ -244,8 +242,7 @@ references:
         kubectl set image -f kubernetes_deploy/cron_jobs/archive_stale.yaml cronjob-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
         kubectl apply \
         -f kubernetes_deploy/production/service.yaml \
-        -f kubernetes_deploy/production/ingress.yaml \
-        -f kubernetes_deploy/cron_jobs/clean_ecr.yaml
+        -f kubernetes_deploy/production/ingress.yaml
         kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
 
 jobs:

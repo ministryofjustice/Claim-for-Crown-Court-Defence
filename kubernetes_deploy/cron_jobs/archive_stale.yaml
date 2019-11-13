@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: cccd-archive-stale
 spec:
-  schedule: "5 10 * * *"
+  schedule: "5 0 * * *"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 7
   failedJobsHistoryLimit: 3

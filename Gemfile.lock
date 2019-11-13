@@ -1324,7 +1324,7 @@ GEM
     selenium-webdriver (3.142.6)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sentry-raven (2.12.2)
+    sentry-raven (2.12.3)
       faraday (>= 0.7.6, < 1.0)
     sexp_processor (4.12.0)
     shell-spinner (1.0.4)
@@ -1526,7 +1526,7 @@ DEPENDENCIES
   rubyzip
   sass-rails (~> 6.0.0)
   scheduler_daemon!
-  sentry-raven (~> 2.12.2)
+  sentry-raven (~> 2.12.3)
   shell-spinner (~> 1.0, >= 1.0.4)
   shoulda-matchers (>= 4.0.0.rc1)
   sidekiq (~> 5.2.7)

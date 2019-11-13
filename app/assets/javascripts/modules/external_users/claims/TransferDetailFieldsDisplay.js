@@ -9,7 +9,7 @@ moj.Modules.TransferDetailFieldsDisplay = {
   transferDateLabel: '.js-transfer-date-label .form-label-bold',
   params: {},
 
-  init: function() {
+  init: function () {
     if ($(this.tdWrapper).length > 0) {
       this.cacheEls();
       this.$tdWrapper = $(this.tdWrapper);
@@ -18,7 +18,7 @@ moj.Modules.TransferDetailFieldsDisplay = {
     }
   },
 
-  cacheEls: function() {
+  cacheEls: function () {
     this.params = {
       litigator_type: {
         el: this.litigatorTypeRadio,
@@ -35,43 +35,43 @@ moj.Modules.TransferDetailFieldsDisplay = {
     };
   },
 
-  addChangeEvent: function() {
+  addChangeEvent: function () {
     var self = this;
     var elements = [this.litigatorTypeRadio,
       this.electedCaseRadio,
       this.transferStageSelect
     ].join(',');
-    this.$tdWrapper.on('change', elements, function() {
+    this.$tdWrapper.on('change', elements, function () {
       self.callCaseConclusionController();
     });
   },
 
   // called by controller js view render
-  caseConclusionToggle: function(toggle) {
+  caseConclusionToggle: function (toggle) {
     if (toggle) {
-      $(this.caseConclusionSelect).show();
+      $(this.caseConclusionSelect).removeClass('hidden');
     } else {
       $(this.caseConclusionSelect + ' select.fx-autocomplete').prop('selectedIndex', 0); // reset actual select list value
       $('#claim_case_conclusion_id_input').val(''); // reset awesomplete displayed value
-      $(this.caseConclusionSelect).hide();
+      $(this.caseConclusionSelect).addClass('hidden');
     }
   },
 
   // called by controller js view render
-  labelTextToggle: function(transfer_stage_label_text, transfer_date_label_text) {
+  labelTextToggle: function (transfer_stage_label_text, transfer_date_label_text) {
     this.$tdWrapper.find(this.transferStageLabel).text(transfer_stage_label_text);
     this.$tdWrapper.find(this.transferDateLabel).text(transfer_date_label_text);
   },
 
-  getParamVal: function(param_key) {
+  getParamVal: function (param_key) {
     var selector = this.params[param_key].el + this.params[param_key].selector;
     return '&' + param_key + '=' + $(this.$tdWrapper.find(selector)).val();
   },
 
-  constructParams: function() {
+  constructParams: function () {
     var self = this;
     var params = '';
-    $.each(this.params, function(key) {
+    $.each(this.params, function (key) {
       params += self.getParamVal(key);
     });
 
@@ -79,7 +79,7 @@ moj.Modules.TransferDetailFieldsDisplay = {
     return params.substr(1);
   },
 
-  callCaseConclusionController: function() {
+  callCaseConclusionController: function () {
     var params = this.constructParams();
     $.getScript('/case_conclusions?' + params);
   }

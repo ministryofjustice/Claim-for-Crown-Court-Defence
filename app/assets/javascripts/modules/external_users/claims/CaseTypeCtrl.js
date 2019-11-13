@@ -1,5 +1,5 @@
 moj.Modules.CaseTypeCtrl = {
-  activate: function() {
+  activate: function () {
     return $('#claim_form_step').val() === 'case_details';
   },
   els: {
@@ -10,22 +10,22 @@ moj.Modules.CaseTypeCtrl = {
   },
 
   actions: {
-    requiresTrialDates: function(param, context) {
+    requiresTrialDates: function (param, context) {
       context.toggle(context.els.requiresTrialDates, param);
     },
-    requiresRetrialDates: function(param, context) {
+    requiresRetrialDates: function (param, context) {
       context.toggle(context.els.requiresRetrialDates, param);
     },
-    requiresCrackedDates: function(param, context) {
+    requiresCrackedDates: function (param, context) {
       context.toggle(context.els.requiresCrackedDates, param);
     }
   },
 
-  toggle: function(element, param) {
-    return $(element).css('display', param ? 'block' : 'none');
+  toggle: function (element, param) {
+    return param ? $(element).removeClass('hidden') : $(element).addClass('hidden');
   },
 
-  init: function() {
+  init: function () {
     if (this.activate()) {
 
       // bind events
@@ -39,10 +39,10 @@ moj.Modules.CaseTypeCtrl = {
   bindEvents: function () {
     var self = this;
 
-    $.subscribe('/onConfirm/claim_case_type_id-select/', function(e, data) {
+    $.subscribe('/onConfirm/claim_case_type_id-select/', function (e, data) {
       // Loop over the data object and fire the
       // methods as required, passing in the param
-      Object.keys(data).map(function(objectKey) {
+      Object.keys(data).map(function (objectKey) {
         if (typeof self.actions[objectKey] == 'function') {
           self.actions[objectKey](data[objectKey], self);
         }
@@ -50,8 +50,8 @@ moj.Modules.CaseTypeCtrl = {
     });
   },
 
-  initAutocomplete: function() {
-    $(this.els.fxAutocomplete).is(function(idx, el) {
+  initAutocomplete: function () {
+    $(this.els.fxAutocomplete).is(function (idx, el) {
       moj.Helpers.Autocomplete.new('#' + el.id, {
         showAllValues: true,
         autoselect: false

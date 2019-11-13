@@ -1,4 +1,4 @@
-#trial-dates.form-section{style: @claim&.case_type&.requires_trial_dates? ? 'display: block;' : 'display: none;', 'aria-labelledby': 'trial-dates-heading'}
+#trial-dates.form-section{ class: @claim&.case_type&.requires_trial_dates? ? '' : 'hidden', 'aria-labelledby': 'trial-dates-heading' }
   %h3#trial-dates-heading.heading-medium
     = t('.trial_detail')
 

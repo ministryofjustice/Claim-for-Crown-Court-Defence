@@ -24,9 +24,6 @@ a.link-remove {
   }
 }
 
-
-/*--- Add new fields ---*/
-
 a.add_fields {
   display: none;
 }
@@ -35,9 +32,11 @@ a.add_fields {
   display: inline-block;
 }
 
-
-/*--- Ported from v1 stylesheets ---*/
-
 a.delete-draft {
   color: $red;
+}
+
+.download-all-link {
+  @extend .font-small;
+  float: right;
 }

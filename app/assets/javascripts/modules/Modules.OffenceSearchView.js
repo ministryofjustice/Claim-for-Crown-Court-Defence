@@ -12,7 +12,7 @@ moj.Modules.OffenceSearchView = {
   pageControls: '.button-holder',
 
   // template for each result
-  template: function() {
+  template: function () {
     return ['<div class="grid-row offence-item fx-result-item">',
       '<div class="column-two-thirds">',
       '<span class="font-xsmall link-grey">',
@@ -38,7 +38,7 @@ moj.Modules.OffenceSearchView = {
   /**
    * init called my moj.init()
    */
-  init: function() {
+  init: function () {
     var self = this;
 
     // cache jQuery referances for each view
@@ -47,33 +47,33 @@ moj.Modules.OffenceSearchView = {
     this.$pageControls = $(this.pageControls);
 
     // Event: search results available to render
-    $.subscribe('/offence/search/results/', function(e, data) {
+    $.subscribe('/offence/search/results/', function (e, data) {
       self.render(data);
       self.$view.show();
       self.$pageControls.toggle(false);
     });
 
     // Event: page control state changes
-    $.subscribe('/office/search/pageControls/', function(e, state){
+    $.subscribe('/office/search/pageControls/', function (e, state) {
       self.$pageControls.toggle(state);
     })
 
     // Event: clear search + results
-    $.subscribe('/offence/search/clear/', function() {
+    $.subscribe('/offence/search/clear/', function () {
 
       self.$view.hide();
       self.$view.find('.fx-results').empty();
       self.$view.find('.fx-filters-display p').empty();
       self.$view.find('.fx-results-found p').empty();
 
-      if(!moj.Modules.OffenceSelectedView.isVisible()){
+      if (!moj.Modules.OffenceSelectedView.isVisible()) {
         self.$pageControls.toggle(true);
       }
 
     });
 
     // Event: create rails model / submit the form
-    $(document.body).on('click', '.set-selection', function(e) {
+    $(document.body).on('click', '.set-selection', function (e) {
       var $element = $(e.target);
       var data = $element.data();
       var field = $(data.field);
@@ -92,11 +92,11 @@ moj.Modules.OffenceSearchView = {
     });
 
     // Event: Apply filter(s)
-    $('.fx-view').on('click', '.fx-filter', function(e) {
+    $('.fx-view').on('click', '.fx-filter', function (e) {
       e.preventDefault();
       var $el = $(this);
       var filter = {};
-      $.each($el.data(), function(key, val) {
+      $.each($el.data(), function (key, val) {
         filter[key + '_id'] = val;
       });
 
@@ -104,7 +104,7 @@ moj.Modules.OffenceSearchView = {
     });
 
     // Event: Remove filters
-    $('.fx-view').on('click', '.fx-clear-filters', function(e) {
+    $('.fx-view').on('click', '.fx-clear-filters', function (e) {
       e.preventDefault()
       $.publish('/offence/search/filter/', {});
     });
@@ -115,7 +115,7 @@ moj.Modules.OffenceSearchView = {
    * @param  {object} options Data to render to the view
    * @return {string}         View content
    */
-  filterResults: function(options) {
+  filterResults: function (options) {
 
     var str = '';
 
@@ -136,7 +136,7 @@ moj.Modules.OffenceSearchView = {
    * render Render the view and attach to DOM
    * @param  {object} options results data
    */
-  render: function(options) {
+  render: function (options) {
 
 
     var tmpl = $.templates(this.template()); // Get compiled template
@@ -151,7 +151,7 @@ moj.Modules.OffenceSearchView = {
     this.$view.find('.fx-filters-display p').append(this.filterResults(options));
 
     this.$view.find('.fx-results-found p').empty();
-    this.$view.find('.fx-results-found p').append('Results found: ' + options.results.length + ' <a href="#noop" class="fx-clear-search">Clear search</a>');
+    this.$view.find('.fx-results-found p').append('Results found: ' + options.results.length + ' <a href="#noop" class="fx-clear-search hidden">Clear search</a>');
 
     this.$view.find('.fx-results').highlight(options.search_offence);
 

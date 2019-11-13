@@ -1,5 +1,5 @@
 moj.Helpers.Blocks = {
-  Base: function(options) {
+  Base: function (options) {
     var _options = {
       type: '_Base',
       vatfactor: 0.2,
@@ -11,7 +11,7 @@ moj.Helpers.Blocks = {
     this.$el = this.config.$el;
     this.el = this.config.el;
 
-    this.setState = function(selector, state) {
+    this.setState = function (selector, state) {
       if (this.$el.find(selector).length) {
         if (this.$el.find(selector).is(':visible') === state) {
           return;
@@ -21,7 +21,7 @@ moj.Helpers.Blocks = {
       throw new Error('Selector did not return an element: ' + selector);
     };
 
-    this.setVal = function(selector, val) {
+    this.setVal = function (selector, val) {
       if (this.$el.find(selector).length) {
         this.$el.find(selector).val(val).change();
         return;
@@ -29,7 +29,7 @@ moj.Helpers.Blocks = {
       throw new Error('Selector did not return an element: ' + selector);
     };
 
-    this.setNumber = function(selector, val, points) {
+    this.setNumber = function (selector, val, points) {
       points = points || '2';
       if (this.$el.find(selector).length) {
         this.$el.find(selector).val(parseFloat(val).toFixed(points)).change();
@@ -38,37 +38,37 @@ moj.Helpers.Blocks = {
       return;
     };
 
-    this.getConfig = function(key) {
+    this.getConfig = function (key) {
       return this.config[key] || undefined;
     };
 
-    this.updateTotals = function() {
+    this.updateTotals = function () {
       return 'This method needs an override';
     };
 
-    this.isVisible = function() {
+    this.isVisible = function () {
       return this.$el.find('.rate').is(':visible') || this.$el.find('.amount').is(':visible') || this.$el.find('.total').is(':visible');
     };
 
-    this.applyVat = function() {
+    this.applyVat = function () {
       if (this.config.autoVAT) {
         this.totals.vat = this.totals.total * this.config.vatfactor;
       }
     };
 
-    this.getVal = function(selector) {
+    this.getVal = function (selector) {
       return parseFloat(this.$el.find(selector + ':visible').val()) || 0;
     };
 
-    this.getDataVal = function(selector, key) {
+    this.getDataVal = function (selector, key) {
       return parseFloat(this.$el.find(selector).data(key)) || false;
     };
 
-    this.getMultipliedVal = function(val1, val2) {
+    this.getMultipliedVal = function (val1, val2) {
       return parseFloat((this.getVal(val1) * this.getVal(val2)).toFixed(2));
     };
   },
-  FeeBlock: function() {
+  FeeBlock: function () {
     var self = this;
     // copy methods over
     moj.Helpers.Blocks.Base.apply(this, arguments);
@@ -80,7 +80,7 @@ moj.Helpers.Blocks = {
       vat: 0
     };
 
-    this.init = function() {
+    this.init = function () {
       this.config.fn = 'FeeBlock';
       this.bindEvents();
       return this;
@@ -90,19 +90,19 @@ moj.Helpers.Blocks = {
       this.bindRecalculate();
     };
 
-    this.bindRecalculate = function() {
-      this.$el.on('change keyup', '.quantity, .rate, .amount, .vat, .total', function(e) {
+    this.bindRecalculate = function () {
+      this.$el.on('change keyup', '.quantity, .rate, .amount, .vat, .total', function (e) {
         self.$el.trigger('recalculate');
       });
     };
 
-    this.reload = function() {
+    this.reload = function () {
       this.updateTotals();
       this.applyVat();
       return this;
     };
 
-    this.setTotals = function() {
+    this.setTotals = function () {
       this.totals = {
         quantity: this.getVal('.quantity'),
         rate: this.getVal('.rate'),
@@ -115,30 +115,30 @@ moj.Helpers.Blocks = {
       return this.totals;
     };
 
-    this.updateTotals = function(a) {
+    this.updateTotals = function (a) {
       if (!this.isVisible()) {
         return this.totals;
       }
       return this.setTotals();
     };
 
-    this.render = function() {
+    this.render = function () {
       this.$el.find('.total').html('&pound;' + moj.Helpers.Blocks.addCommas(this.totals.total.toFixed(2)));
       this.$el.find('.total').data('total', this.totals.total);
     };
   },
-  FeeBlockCalculator: function() {
+  FeeBlockCalculator: function () {
     var self = this;
     moj.Helpers.Blocks.FeeBlock.apply(this, arguments);
 
-    this.init = function() {
+    this.init = function () {
       this.config.fn = 'FeeBlockCalculator';
       this.bindRecalculate();
       this.bindRender();
       return this;
     };
 
-    this.setTotals = function() {
+    this.setTotals = function () {
       this.totals = {
         quantity: this.getVal('.quantity'),
         rate: this.getVal('.rate'),
@@ -151,18 +151,18 @@ moj.Helpers.Blocks = {
       return this.totals;
     };
 
-    this.bindRender = function() {
-      this.$el.on('change keyup', '.quantity, .rate', function() {
+    this.bindRender = function () {
+      this.$el.on('change keyup', '.quantity, .rate', function () {
         self.updateTotals();
         self.render();
       });
     };
   },
-  FeeBlockManualAmounts: function() {
+  FeeBlockManualAmounts: function () {
     var self = this;
     moj.Helpers.Blocks.FeeBlock.apply(this, arguments);
 
-    this.init = function() {
+    this.init = function () {
       this.config.fn = 'FeeBlockManualAmounts';
 
       this.bindRecalculate();
@@ -171,7 +171,7 @@ moj.Helpers.Blocks = {
       return this;
     };
 
-    this.setTotals = function() {
+    this.setTotals = function () {
       this.totals = {
         quantity: this.getVal('.quantity'),
         rate: this.getVal('.rate'),
@@ -183,14 +183,14 @@ moj.Helpers.Blocks = {
       return this.totals;
     };
 
-    this.bindRender = function() {
-      this.$el.on('change keyup', '.amount, .vat', function() {
+    this.bindRender = function () {
+      this.$el.on('change keyup', '.amount, .vat', function () {
         self.updateTotals();
         self.render();
       });
     };
   },
-  PhantomBlock: function() {
+  PhantomBlock: function () {
     var self = this;
     moj.Helpers.Blocks.Base.apply(this, arguments);
     this.totals = {
@@ -201,11 +201,11 @@ moj.Helpers.Blocks = {
       vat: 0
     };
 
-    this.isVisible = function() {
+    this.isVisible = function () {
       return true;
     };
 
-    this.reload = function() {
+    this.reload = function () {
       this.totals.total = (parseFloat(this.$el.data('seed')) || 0);
       this.totals.typeTotal = this.totals.total;
 
@@ -217,7 +217,7 @@ moj.Helpers.Blocks = {
       return this;
     };
 
-    this.init = function() {
+    this.init = function () {
       return this;
     };
   },
@@ -229,7 +229,7 @@ moj.Helpers.Blocks = {
    * - manage the travel reason select
    * - manage the location select
    */
-  ExpenseBlock: function() {
+  ExpenseBlock: function () {
     var self = this;
     var staticdata = moj.Helpers.Blocks.staticdata.expenseBlock;
 
@@ -239,7 +239,7 @@ moj.Helpers.Blocks = {
     this.defaultstate = staticdata.defaultstate;
     this.expenseReasons = staticdata.expenseReasons;
 
-    this.init = function() {
+    this.init = function () {
       this.config.fn = 'ExpenseBlock';
       this.config.featureDistance = $('#expenses').data('featureDistance');
 
@@ -250,21 +250,21 @@ moj.Helpers.Blocks = {
       return this;
     };
 
-    this.bindEvents = function() {
+    this.bindEvents = function () {
       // Bind the core change listener
       this.bindRecalculate();
       // Bind events on the this.$el element
       this.bindListners();
     };
 
-    this.bindListners = function() {
+    this.bindListners = function () {
       var self = this;
 
       /**
        * Listen for the `expense type` change event and
        * pass the event object to the statemanager
        */
-      this.$el.on('change', '.fx-travel-expense-type select', function(e) {
+      this.$el.on('change', '.fx-travel-expense-type select', function (e) {
         e.stopPropagation();
         var $el = $(e.target);
 
@@ -281,7 +281,7 @@ moj.Helpers.Blocks = {
        *   this is used to reset to the correct line in the select box
        *   when the user returns to the page
        */
-      this.$el.on('change', '.fx-travel-reason select', function(e) {
+      this.$el.on('change', '.fx-travel-reason select', function (e) {
         e.stopPropagation();
 
         var $option, state, location_type;
@@ -306,7 +306,7 @@ moj.Helpers.Blocks = {
       // This is used to reset the correct block state and seleted values
       // when the page reloads
       // The change event will also trigger the distance lookup if required
-      this.$el.on('change', '.fx-establishment-select select', function(e) {
+      this.$el.on('change', '.fx-establishment-select select', function (e) {
         e.stopPropagation();
         var $option = $(e.target).find('option:selected');
 
@@ -316,9 +316,9 @@ moj.Helpers.Blocks = {
           self.getDistance({
             claimid: $('#claim-form').data('claimId'),
             destination: $option.data('postcode')
-          }).then(function(number, result) {
+          }).then(function (number, result) {
             self.updateMileageElements(number, false, result);
-          }, function(error) {
+          }, function (error) {
             self.viewErrorHandler(error);
           });
         }
@@ -326,30 +326,30 @@ moj.Helpers.Blocks = {
 
       // Binding to the mileage radio buttons (click and change)
       // to update calculations
-      this.$el.on('change, click', '.fx-travel-mileage input[type=radio]', function(e) {
+      this.$el.on('change, click', '.fx-travel-mileage input[type=radio]', function (e) {
         self.updateMileageElements(self.getRateId(), true);
       });
 
       // Binding to mileage input key up
       // when a user manually enters the distance to update the calculations
-      this.$el.on('keyup', '.fx-travel-distance input', function(e) {
+      this.$el.on('keyup', '.fx-travel-distance input', function (e) {
         var rateId = self.getRateId();
         self.updateMileageElements(rateId, rateId ? true : false);
       });
 
       // Binding to the net amount key up to update the VAT amount field
-      this.$el.on('keyup', '.fx-travel-net-amount input', function(e) {
+      this.$el.on('keyup', '.fx-travel-net-amount input', function (e) {
         self.setNumber('.fx-travel-vat-amount input', e.target.value * self.config.vatfactor);
       });
 
       return this;
     };
 
-    this.getRateId = function() {
+    this.getRateId = function () {
       return this.$el.find('.fx-travel-mileage input[type=radio]:visible:checked').val();
     };
 
-    this.updateMileageElements = function(rateId, calculate, result) {
+    this.updateMileageElements = function (rateId, calculate, result) {
       var factor = (rateId == '3') ? 0.20 : (rateId == '1') ? 0.25 : this.config.mileageFactor;
       if (!result) {
         result = {
@@ -366,10 +366,10 @@ moj.Helpers.Blocks = {
 
     // Call the Distance helper and return the
     // id for the checked ra
-    this.getDistance = function(ajaxConfig) {
+    this.getDistance = function (ajaxConfig) {
       var def = $.Deferred();
       var self = this;
-      moj.Helpers.API.Distance.query(ajaxConfig).then(function(result) {
+      moj.Helpers.API.Distance.query(ajaxConfig).then(function (result) {
         var number = self.$el.find('.fx-travel-mileage input[type=radio]:visible:checked').val();
 
         result.miles = Math.round((result.distance / self.config.metersPerMile));
@@ -377,14 +377,14 @@ moj.Helpers.Blocks = {
 
         def.resolve(number, result);
 
-      }, function(result) {
+      }, function (result) {
         def.reject(result.error);
       });
       return def.promise();
     };
 
     // Setting the view error state and message
-    this.viewErrorHandler = function(message) {
+    this.viewErrorHandler = function (message) {
       var el = this.$el.find('.fx-general-errors');
       el.find('span').text(message);
       el.css('display', 'inline-block');
@@ -392,7 +392,7 @@ moj.Helpers.Blocks = {
 
     // The location elment is an input or a select
     // This method will return the html to append to the dom
-    this.setLocationElement = function(obj) {
+    this.setLocationElement = function (obj) {
       if (!obj) throw new Error('Missing param: obj, cannot build element');
 
       // cache selected value
@@ -411,13 +411,13 @@ moj.Helpers.Blocks = {
     };
 
     // Display the input and hide the select
-    this.displayLocationInput = function() {
+    this.displayLocationInput = function () {
       this.$el.find('.location_wrapper').css('display', 'block');
       this.$el.find('.fx-establishment-select').css('display', 'none');
       return this;
     };
 
-    this.attachSelectWithOptions = function(locationType, selectedValue) {
+    this.attachSelectWithOptions = function (locationType, selectedValue) {
       var self = this;
       var $detachedSelect;
 
@@ -426,7 +426,7 @@ moj.Helpers.Blocks = {
       moj.Helpers.API.Establishments.getAsSelectWithOptions(locationType, {
         prop: 'name',
         value: selectedValue
-      }).then(function(els) {
+      }).then(function (els) {
 
         $detachedSelect = self.$el.find('.fx-establishment-select select').detach();
 
@@ -440,19 +440,19 @@ moj.Helpers.Blocks = {
         self.$el.find('.location_wrapper').css('display', 'none');
         self.$el.find('.fx-travel-location .has-select label').text(staticdata.locationLabel[locationType] || staticdata.locationLabel.default);
 
-      }, function() {
+      }, function () {
         throw new Error('Attach options failed:', arguments);
       });
     };
 
-    this.loadCurrentState = function() {
+    this.loadCurrentState = function () {
       var $select = this.$el.find('.fx-travel-expense-type select');
       if ($select.val()) {
         $select.trigger('change');
       }
     };
 
-    this.setTotals = function() {
+    this.setTotals = function () {
       this.totals = {
         quantity: this.getVal('.quantity'),
         rate: this.getVal('.rate'),
@@ -469,7 +469,7 @@ moj.Helpers.Blocks = {
      * @param  {object} e jQuery event object
      * @return this
      */
-    this.statemanager = function($el) {
+    this.statemanager = function ($el) {
       var self = this;
       var reasons = [];
       var state = {
@@ -489,12 +489,12 @@ moj.Helpers.Blocks = {
         'mileage',
         'reason',
         'vatAmount'
-      ].forEach(function(value, idx) {
+      ].forEach(function (value, idx) {
         $detached.find(self.stateLookup[value]).css('display', (state.config[value] ? 'block' : 'none'));
 
         // Clear out the value for this input
-        if(!state.config[value]){
-          $detached.find(self.stateLookup[value] +' input:not([type=radio])').val('');
+        if (!state.config[value]) {
+          $detached.find(self.stateLookup[value] + ' input:not([type=radio])').val('');
         }
       });
 
@@ -505,7 +505,7 @@ moj.Helpers.Blocks = {
       $detached.find(this.stateLookup.location).css('display', (state.config.location ? 'block' : 'none'));
 
       // remove the location data from the form
-      if(!state.config.location){
+      if (!state.config.location) {
         $detached.find('.fx-location-model').val('');
         $detached.find('.fx-travel-location > .location_wrapper:first input').val('');
         $detached.find('.fx-travel-location > .fx-establishment-select select').prop('selectedIndex', 0);
@@ -532,7 +532,7 @@ moj.Helpers.Blocks = {
       // Looping over the correct reasonset and
       // build the `<options data-attr="" .. />` elements
       // This will handled the selected option as well
-      this.expenseReasons[state.config.reasonSet].forEach(function(obj) {
+      this.expenseReasons[state.config.reasonSet].forEach(function (obj) {
         $option = $(new Option(obj.reason, obj.id));
         $option.attr('data-reason-text', obj.reason_text);
         $option.attr('data-location-type', obj.location_type);
@@ -556,7 +556,7 @@ moj.Helpers.Blocks = {
       // Loading the dynamic `location` data
       // wait for the data is loaded before
       // firing the change event
-      $.subscribe('/API/establishments/loaded/', function() {
+      $.subscribe('/API/establishments/loaded/', function () {
         $detached.find('.fx-travel-reason select').trigger('change');
       });
 
@@ -571,10 +571,10 @@ moj.Helpers.Blocks = {
      * @param state State config object
      * @return $dom return the $dom referance
      */
-    this.radioStateManager = function($dom, state) {
+    this.radioStateManager = function ($dom, state) {
 
       // Clearing the radio buttons if they are not required
-      if(!state.config.mileage){
+      if (!state.config.mileage) {
         $dom.find('.fx-travel-mileage input[type=radio]').is(function () {
           $(this).removeAttr('checked').prop('disabled', true);
         });
@@ -605,17 +605,17 @@ moj.Helpers.Blocks = {
       return $dom;
     };
 
-    this.setRadioState = function($dom, config) {
+    this.setRadioState = function ($dom, config) {
       // Car mileage visibility, radio checked & disabled values
       $dom.find('.fx-travel-mileage-car').css('display', config.car);
-      $dom.find('.fx-travel-mileage-car input').is(function() {
+      $dom.find('.fx-travel-mileage-car input').is(function () {
         $(this).prop('disabled', !config.carModel);
 
       });
 
       // Bike mileage visibility, radio checked & disabled values
       $dom.find('.fx-travel-mileage-bike').css('display', config.bike);
-      $dom.find('.fx-travel-mileage-bike input[type=radio]').is(function() {
+      $dom.find('.fx-travel-mileage-bike input[type=radio]').is(function () {
         $(this).prop('checked', config.bikeModel).prop('disabled', !config.bikeModel).change();
       });
       return $dom;
@@ -729,7 +729,7 @@ moj.Helpers.Blocks = {
       }
     }
   },
-  addCommas: function(nStr) {
+  addCommas: function (nStr) {
     nStr += '';
     var x = nStr.split('.');
     var x1 = x[0];

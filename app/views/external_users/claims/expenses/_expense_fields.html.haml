@@ -9,7 +9,7 @@
       = t('.expense')
       %span.fx-numberedList-number
       %span.fx-remove-link
-      = link_to_remove_association f, wrapper_class: 'expense-group', class: 'header-action fx-numberedList-action', style: 'display: none;' do
+      = link_to_remove_association f, wrapper_class: 'expense-group', class: 'header-action fx-numberedList-action hidden' do
         = t('.remove')
         %span.visuallyhidden
           = t('.expense')

@@ -1,13 +1,13 @@
 // moj.Modules.FeeCalculator.UnitPrice
-(function(exports, $) {
+(function (exports, $) {
   var Modules = exports.Modules.FeeCalculator || {};
 
   Modules.UnitPrice = {
-    init: function() {
+    init: function () {
       this.bindEvents();
     },
 
-    bindEvents: function() {
+    bindEvents: function () {
       this.advocateTypeChange();
       this.basicFeeTypeChange();
       this.fixedFeeTypeChange();
@@ -17,11 +17,11 @@
       this.pageLoad();
     },
 
-    advocateTypeChange: function() {
+    advocateTypeChange: function () {
       var self = this;
       // TODO: move this to a data-flag
       if ($('.calculated-unit-fee').exists()) {
-        $('.js-fee-calculator-advocate-type').change(function() {
+        $('.js-fee-calculator-advocate-type').change(function () {
           self.calculateUnitPrice();
         });
       }
@@ -42,14 +42,14 @@
       $(context + '-input').siblings('.destroy').val(bool);
     },
 
-    feeTypeCheckboxChange: function(elId) {
+    feeTypeCheckboxChange: function (elId) {
       var self = this;
 
-      $(elId).on('change', '.fx-checkbox-hook', function(e) {
+      $(elId).on('change', '.fx-checkbox-hook', function (e) {
         var $el = $(e.target);
         var parentEl = '#' + $el.closest('.multiple-choice').data('target');
 
-        if(!$el.is(':checked')){
+        if (!$el.is(':checked')) {
           // TODO: if we are going to destroy the fee do we need to clear it?
           self.clearFee(parentEl);
           self.markForDestruction(parentEl, true);
@@ -62,25 +62,25 @@
       });
     },
 
-    basicFeeTypeChange: function() {
+    basicFeeTypeChange: function () {
       this.feeTypeCheckboxChange('#basic-fees');
     },
 
-    fixedFeeTypeChange: function() {
+    fixedFeeTypeChange: function () {
       this.feeTypeCheckboxChange('#fixed-fees');
     },
 
-    miscFeeTypeCheckboxChange: function() {
+    miscFeeTypeCheckboxChange: function () {
       this.feeTypeCheckboxChange('#misc-fees');
     },
 
     // needs to be usable by cocoon:after-insert so can bind to one or many elements
-    miscFeeTypesSelectChange: function($el) {
+    miscFeeTypesSelectChange: function ($el) {
       var self = this;
       var $els = $el || $('.fx-misc-fee-calculation');
 
       if ($('.fx-misc-fee-calculation').exists() && $('.calculated-unit-fee').exists()) {
-        $els.change(function() {
+        $els.change(function () {
           self.calculateUnitPrice();
         });
       }
@@ -89,17 +89,17 @@
     // needs to handle both select list and checboxes
     // for advocate final and supplementary claims respectively.
     //
-    miscFeeTypeChange: function() {
+    miscFeeTypeChange: function () {
       this.miscFeeTypesSelectChange();
       this.miscFeeTypeCheckboxChange();
     },
 
     // needs to be usable by cocoon:after-insert so can bind to one or many elements
-    feeQuantityChange: function($el) {
+    feeQuantityChange: function ($el) {
       var self = this;
       var $els = $el || $('.js-fee-quantity');
       if ($('.calculated-unit-fee').exists()) {
-        $els.on('change keyup', $.debounce(290, function(e) {
+        $els.on('change keyup', $.debounce(290, function (e) {
           self.calculateUnitPrice();
           self.populateNetAmount(this);
         }));
@@ -107,15 +107,15 @@
     },
 
     // needs to be usable by cocoon:after-insert so can bind to one or many elements
-    feeRateChange: function($el) {
+    feeRateChange: function ($el) {
       var self = this;
       var $els = $el || $('.js-fee-calculator-rate');
-      $els.change(function() {
+      $els.change(function () {
         self.populateNetAmount(this);
       });
     },
 
-    setRate: function(data, context) {
+    setRate: function (data, context) {
       var $input = $(context).find('input.fee-rate');
       var $price_calculated = $(context).siblings('.js-fee-calculator-success').find('input');
 
@@ -127,24 +127,24 @@
 
     // TODO: backend should tell front end what to present
     // in data attributes preferably
-    setHintLabel: function(data) {
+    setHintLabel: function (data) {
       var $result = '';
       switch (data) {
-      case 'HALFDAY':
-        $result = 'half day';
-        break;
-      case 'DEFENDANT':
-      case 'CASE':
-        $result = 'additional ' + data;
-        break;
-      default:
-        $result = data;
+        case 'HALFDAY':
+          $result = 'half day';
+          break;
+        case 'DEFENDANT':
+        case 'CASE':
+          $result = 'additional ' + data;
+          break;
+        default:
+          $result = data;
       }
 
       return (data ? 'Number of ' + $result.toLowerCase() + 's' : '');
     },
 
-    setHint: function(data, context) {
+    setHint: function (data, context) {
 
       var self = this;
       var $label = $(context).closest('.fx-fee-group').find('.form-group.quantity_wrapper').find('.form-hint');
@@ -154,11 +154,11 @@
       data ? $label.show() : $label.hide();
     },
 
-    enableRate: function(context) {
+    enableRate: function (context) {
       $(context).find('input.fee-rate').prop('readonly', false);
     },
 
-    populateNetAmount: function(context) {
+    populateNetAmount: function (context) {
       var $feeGroup = $(context).closest('.fx-fee-group');
       var $el = $feeGroup.find('.fee-net-amount');
       var rate = $feeGroup.find('input.fee-rate').val();
@@ -168,7 +168,7 @@
       $el.html(text);
     },
 
-    displayError: function(response, context) {
+    displayError: function (response, context) {
       // only some errors will have a JSON response
       this.clearErrors(context);
       var $label = $(context).find('label');
@@ -182,16 +182,16 @@
       $label.html(new_label);
     },
 
-    clearErrors: function(context) {
+    clearErrors: function (context) {
       $(context).find('.js-calculate-unit-error').remove();
     },
 
-    displayHelp: function(context, show) {
+    displayHelp: function (context, show) {
       var $help = $(context).closest('.fx-fee-group').find('.fee-calc-help-wrapper');
-      show ? $help.show() : $help.hide();
+      show ? $help.removeClass('hidden') : $help.addClass('hidden');
     },
 
-    unitPriceAjax: function(data, context) {
+    unitPriceAjax: function (data, context) {
       var self = this;
       var dataobject = {
         type: 'POST',
@@ -201,13 +201,13 @@
       };
 
       $.ajax(dataobject)
-        .done(function(response) {
+        .done(function (response) {
           self.clearErrors(context);
           self.setRate(response.data.amount, context);
           self.setHint(response.data.unit, context);
           self.displayHelp(context, true);
         })
-        .fail(function(response) {
+        .fail(function (response) {
           if (response.hasOwnProperty('responseJSON') && response.responseJSON.errors[0] != 'insufficient_data') {
             self.displayError(response, context);
             self.setHint(null, context);
@@ -218,7 +218,7 @@
         });
     },
 
-    buildFeeData: function(data) {
+    buildFeeData: function (data) {
       data.claim_id = $('#claim-form').data('claimId');
       data.price_type = 'UnitPrice';
       var advocate_category = $('input:radio[name="claim[advocate_category]"]:checked').val();
@@ -227,7 +227,7 @@
       }
 
       var fees = data.fees = [];
-      $('.fx-fee-group:visible').each(function() {
+      $('.fx-fee-group:visible').each(function () {
         fees.push({
           fee_type_id: $(this).find('.js-fee-type').first().val(),
           quantity: $(this).find('input.js-fee-quantity').val()
@@ -238,13 +238,13 @@
     // Calculates the "unit price" for a given fee,
     // including fixed fee case uplift fee types,
     // and misc fee defendant uplifts.
-    calculateUnitPrice: function() {
+    calculateUnitPrice: function () {
       var self = this;
       var data = {};
 
       this.buildFeeData(data);
 
-      $('.js-unit-price-effectee').each(function(idx, el) {
+      $('.js-unit-price-effectee').each(function (idx, el) {
         if ($(el).is(':visible')) {
           data.fee_type_id = $(this).closest('.fx-fee-group').find('.js-fee-type').first().val();
           self.unitPriceAjax(data, this);
@@ -252,17 +252,17 @@
       });
 
       // if everything is hidden - force sidebar recalculate
-      if($('.js-unit-price-effectee:visible').length === 0){
+      if ($('.js-unit-price-effectee:visible').length === 0) {
         $('#claim-form').trigger('recalculate');
       }
     },
 
-    pageLoad: function() {
+    pageLoad: function () {
       var self = this;
-      $(document).ready(function() {
+      $(document).ready(function () {
         // TODO: this loop is causing multiple init procedures
         // limiting it for now to at least one visible
-        $('.calculated-unit-fee:visible:first').each(function() {
+        $('.calculated-unit-fee:visible:first').each(function () {
           self.calculateUnitPrice();
         });
       });

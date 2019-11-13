@@ -3,7 +3,7 @@
     %span
       = t('.misc_fee')
       %span.fx-numberedList-number
-    = link_to_remove_association t('.remove'), f, wrapper_class: 'misc-fee-group', class: 'header-action fx-numberedList-action', style: 'display: none;'
+    = link_to_remove_association t('.remove'), f, wrapper_class: 'misc-fee-group', class: 'header-action fx-numberedList-action hidden'
 
   .form-group
     .fee-type.js-typeahead{ class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count+1}_fee_type") }

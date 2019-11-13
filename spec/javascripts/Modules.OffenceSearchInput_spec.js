@@ -1,7 +1,7 @@
-describe("Modules.OffenceSearchInput.js", function() {
+describe("Modules.OffenceSearchInput.js", function () {
   var module = moj.Modules.OffenceSearchInput;
 
-  var view = function(data) {
+  var view = function (data) {
 
     data = $.extend({}, data, {
       value: '',
@@ -12,7 +12,7 @@ describe("Modules.OffenceSearchInput.js", function() {
       '  <label class="form-label" for="offence">',
       '    Search for the offence',
       '    <span class="form-hint">For example class, band, offence or act name</span>',
-      '    <a class="fx-clear-search" href="#noop">Clear search</a>',
+      '    <a class="fx-clear-search hidden" href="#noop">Clear search</a>',
       '    <input autocomplete="off" class="fx-input" id="offence" name="offence-search-input" type="input" value="' + data.value + '">',
       '  </label>',
       '  <input value="' + data.value + '" class="fx-model" type="hidden" name="claim[offence_id]" id="claim_offence_id" />',
@@ -22,38 +22,38 @@ describe("Modules.OffenceSearchInput.js", function() {
   }
 
 
-  beforeEach(function() {
+  beforeEach(function () {
     $('body .mod-search-input').remove();
     $('body').append(view());
   });
 
-  afterEach(function() {
+  afterEach(function () {
 
   });
 
-  describe('...defaults', function() {
-    it('`this.el`', function() {
+  describe('...defaults', function () {
+    it('`this.el`', function () {
       expect(module.el).toEqual('.mod-search-input')
     });
-    it('`this.input`', function() {
+    it('`this.input`', function () {
       expect(module.input).toEqual('.fx-input')
     });
-    it('`this.model`', function() {
+    it('`this.model`', function () {
       expect(module.model).toEqual('.fx-model')
     });
-    it('`this.feeScheme`', function() {
+    it('`this.feeScheme`', function () {
       expect(module.feeScheme).toEqual('.fx-fee-scheme')
     });
-    it('`this.debouce`', function() {
+    it('`this.debouce`', function () {
       expect(module.debouce).toEqual(500)
     });
-    it('`this.subscribers`', function() {
+    it('`this.subscribers`', function () {
       expect(module.subscribers).toEqual({
         run: '/offence/search/run/',
         filter: '/offence/search/filter/'
       })
     });
-    it('`this.publishers`', function() {
+    it('`this.publishers`', function () {
       expect(module.publishers).toEqual({
         results: '/offence/search/results/'
       })
@@ -61,9 +61,9 @@ describe("Modules.OffenceSearchInput.js", function() {
   });
 
 
-  describe('...Methods', function() {
-    describe('...init', function() {
-      it('should check the dom and `init` if required, caching a `$el` referance ', function() {
+  describe('...Methods', function () {
+    describe('...init', function () {
+      it('should check the dom and `init` if required, caching a `$el` referance ', function () {
         spyOn(module, 'bindEvents');
 
         module.init();
@@ -75,8 +75,8 @@ describe("Modules.OffenceSearchInput.js", function() {
       });
     });
 
-    describe('...bindEvents', function() {
-      it('should bind `clearSearch`', function() {
+    describe('...bindEvents', function () {
+      it('should bind `clearSearch`', function () {
         spyOn(module, 'clearSearch')
         spyOn(module, 'trackUserInput');
         module.init();
@@ -85,8 +85,8 @@ describe("Modules.OffenceSearchInput.js", function() {
       });
     });
 
-    describe('...bindSubscribers', function() {
-      it('should subscribe to the `this.subscribers.run` event', function() {
+    describe('...bindSubscribers', function () {
+      it('should subscribe to the `this.subscribers.run` event', function () {
         spyOn(module, 'runQuery');
         module.init();
 
@@ -96,8 +96,8 @@ describe("Modules.OffenceSearchInput.js", function() {
       });
     });
 
-    describe('...runQuery', function() {
-      it('should construct the `dataOptions` object correctly', function() {
+    describe('...runQuery', function () {
+      it('should construct the `dataOptions` object correctly', function () {
         var deferred = $.Deferred();
         var spy = spyOn(module, 'query').and.returnValue(deferred.promise());
         spyOn($, 'publish');
@@ -143,25 +143,25 @@ describe("Modules.OffenceSearchInput.js", function() {
         });
       });
 
-      it('should show the `clear search` link', function() {
+      it('should show the `clear search` link', function () {
         var deferred = $.Deferred();
         var spy = spyOn(module, 'query').and.returnValue(deferred.promise());
         spyOn($, 'publish');
 
         module.init();
 
-        spyOn(module.$clear, 'show').and.callThrough();
+        spyOn(module.$clear, 'removeClass').and.callThrough();
 
         module.runQuery();
 
-        module.query().then(function() {
-          expect(module.$clear.show).toHaveBeenCalled()
+        module.query().then(function () {
+          expect(module.$clear.removeClass).toHaveBeenCalled()
         });
 
         deferred.resolve({});
       });
 
-      it('should publish the search results', function() {
+      it('should publish the search results', function () {
         var deferred = $.Deferred();
         var spy = spyOn(module, 'query').and.returnValue(deferred.promise());
         var fixtureData = {
@@ -177,7 +177,7 @@ describe("Modules.OffenceSearchInput.js", function() {
 
         module.runQuery();
 
-        module.query().then(function() {
+        module.query().then(function () {
           expect($.publish).toHaveBeenCalledWith('/offence/search/results/', fixtureData)
         });
 
@@ -185,8 +185,8 @@ describe("Modules.OffenceSearchInput.js", function() {
       });
     });
 
-    describe('...trackUserInput', function() {
-      it('should use `$.debounce`', function() {
+    describe('...trackUserInput', function () {
+      it('should use `$.debounce`', function () {
         spyOn($, 'debounce');
         module.$input.val('mudr');
 
@@ -201,8 +201,8 @@ describe("Modules.OffenceSearchInput.js", function() {
       });
     });
 
-    describe('...clearSearch', function() {
-      it('should clear the `this.input` and `this.model` elements', function() {
+    describe('...clearSearch', function () {
+      it('should clear the `this.input` and `this.model` elements', function () {
         spyOn(module, 'clearSearch').and.callThrough();
         $('.fx-input').val('sample query');
         $('.fx-model').val('sample model');
@@ -219,7 +219,7 @@ describe("Modules.OffenceSearchInput.js", function() {
 
       });
 
-      it('should `$.publish` the clear event', function() {
+      it('should `$.publish` the clear event', function () {
         spyOn($, 'publish')
         module.init();
 

@@ -1,12 +1,12 @@
 moj.Modules.AmountAssessed = {
   blocks: [],
-  init: function() {
+  init: function () {
     this.blocks.push(new moj.Modules.AmountAssessedBlock());
   }
 };
 
 
-moj.Modules.AmountAssessedBlock = function(selector) {
+moj.Modules.AmountAssessedBlock = function (selector) {
   var self = this;
 
   this.config = {
@@ -47,7 +47,7 @@ moj.Modules.AmountAssessedBlock = function(selector) {
 
   this.el = this.config.hook;
 
-  this.init = function() {
+  this.init = function () {
     this.$el = $(this.el);
     this.$form = $(this.config.form);
     this.$actions = $(this.config.actions);
@@ -61,62 +61,62 @@ moj.Modules.AmountAssessedBlock = function(selector) {
     this.setInitState();
   };
 
-  this.slider = function(state, el) {
+  this.slider = function (state, el) {
     // open and close slider
     // true: open
     // false: close
-    return state ? $(el).slideDown(0) : $(el).slideUp(0);
+    return state ? $(el).removeClass('hidden') : $(el).addClass('hidden');
   };
 
-  this.bindEvents = function() {
+  this.bindEvents = function () {
     var self = this;
 
-    this.$actions.on('change', function(e) {
+    this.$actions.on('change', function (e) {
       var state = $(e.target).val();
       $.publish('claim.status.change', {
         state: state
       })
     });
 
-    this.$reasons.on('change', function(e) {
+    this.$reasons.on('change', function (e) {
       var reason = self.$otherCheckbox.is(':checked');
       $.publish('claim.reasons.change', {
         reason: reason
       });
     });
 
-    this.$refuseReasons.on('change', function(e) {
+    this.$refuseReasons.on('change', function (e) {
       var reason = self.$otherRefuseCheckbox.is(':checked');
       $.publish('claim.refuseReasons.change', {
         reason: reason
       })
     });
 
-    $.subscribe('claim.reasons.change', function(e, data) {
+    $.subscribe('claim.reasons.change', function (e, data) {
       data.reason ? self.slider(true, self.$otherinput) : self.slider(false, self.$otherinput)
     });
 
-    $.subscribe('claim.refuseReasons.change', function(e, data) {
+    $.subscribe('claim.refuseReasons.change', function (e, data) {
       data.reason ? self.slider(true, self.$otherRefuseInput) : self.slider(false, self.$otherRefuseInput)
     });
 
-    $.subscribe('claim.status.change', function(e, data) {
+    $.subscribe('claim.status.change', function (e, data) {
       var state = self.states[data.state]
-      self.$form.is(function(idx, el) {
+      self.$form.is(function (idx, el) {
         self.slider(state.form, el)
       });
 
-      self.$reasons.is(function(idx, el) {
+      self.$reasons.is(function (idx, el) {
         self.slider(state.reasons, el)
       });
 
-      self.$refuseReasons.is(function(idx, el) {
+      self.$refuseReasons.is(function (idx, el) {
         self.slider(state.refuseReasons, el)
       });
     });
   };
 
-  this.setInitState = function(){
+  this.setInitState = function () {
     this.$actions.find('input:checked').trigger('change');
     this.$reasons.find('input:checked').trigger('change');
     this.$refuseReasons.find('input:checked').trigger('change');

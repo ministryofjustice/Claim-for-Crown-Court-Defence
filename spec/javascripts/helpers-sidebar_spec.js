@@ -1,14 +1,14 @@
-describe('Helpers.Blocks.js', function() {
-  it('should exist with expected constructors', function() {
+describe('Helpers.Blocks.js', function () {
+  it('should exist with expected constructors', function () {
     expect(moj.Helpers.Blocks).toBeDefined();
     expect(moj.Helpers.Blocks.Base).toBeDefined();
     expect(moj.Helpers.Blocks.FeeBlock).toBeDefined();
     expect(moj.Helpers.Blocks.FeeBlockCalculator).toBeDefined();
   });
 
-  describe('Methods', function() {
-    describe('...addCommas', function() {
-      it('should format the numbers correctly', function() {
+  describe('Methods', function () {
+    describe('...addCommas', function () {
+      it('should format the numbers correctly', function () {
         var expected = {
           0: '0.01',
           1: '0.11',
@@ -20,19 +20,19 @@ describe('Helpers.Blocks.js', function() {
           7: '111,111,111.11'
         };
 
-        ['0.01', '0.11', '1.11', '11.11', '111.11', '1111.11', '11111.11', '111111111.11'].forEach(function(val, idx) {
+        ['0.01', '0.11', '1.11', '11.11', '111.11', '1111.11', '11111.11', '111111111.11'].forEach(function (val, idx) {
           expect(expected[idx]).toBe(moj.Helpers.Blocks.addCommas(val));
         });
       });
     });
   });
 
-  describe('Instances', function() {
+  describe('Instances', function () {
     var instance;
-    beforeEach(function() {});
+    beforeEach(function () {});
 
-    describe('Base', function() {
-      it('should have defaults set', function() {
+    describe('Base', function () {
+      it('should have defaults set', function () {
         instance = new moj.Helpers.Blocks.Base();
         expect(instance.config).toEqual({
           type: '_Base',
@@ -43,7 +43,7 @@ describe('Helpers.Blocks.js', function() {
         });
       });
 
-      it('should take an `options` object and overide', function() {
+      it('should take an `options` object and overide', function () {
         instance = new moj.Helpers.Blocks.Base({
           type: 'TYPE',
           vatfactor: 99,
@@ -58,7 +58,7 @@ describe('Helpers.Blocks.js', function() {
         });
       });
 
-      it('should cache referances to the DOM element', function() {
+      it('should cache referances to the DOM element', function () {
         var fixtureDom = ['<div class="js-block fx-do-init">', '<span>hello</span>', '</div>'].join('');
         $('body').append(fixtureDom);
         instance = new moj.Helpers.Blocks.Base({
@@ -70,9 +70,9 @@ describe('Helpers.Blocks.js', function() {
         $('.js-block').remove();
       });
 
-      describe('Methods', function() {
-        describe('...getConfig', function() {
-          it('should return the correct `this.config` prop', function() {
+      describe('Methods', function () {
+        describe('...getConfig', function () {
+          it('should return the correct `this.config` prop', function () {
             instance = new moj.Helpers.Blocks.Base({
               some: 'thing'
             });
@@ -81,15 +81,15 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...updateTotals', function() {
-          it('should return a info message', function() {
+        describe('...updateTotals', function () {
+          it('should return a info message', function () {
             instance = new moj.Helpers.Blocks.Base();
             expect(instance.updateTotals()).toBe('This method needs an override');
           });
         });
 
-        describe('...isVisible', function() {
-          it('should correctly return the `isVisible` status', function() {
+        describe('...isVisible', function () {
+          it('should correctly return the `isVisible` status', function () {
             var fixtureDom = [
               '<div class="js-block fx-do-init">',
               '<span class="rate">rate</span>',
@@ -109,8 +109,8 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...applyVat', function() {
-          it('should not apply 20% VAT by default', function() {
+        describe('...applyVat', function () {
+          it('should not apply 20% VAT by default', function () {
             instance = new moj.Helpers.Blocks.Base();
             instance.totals = {
               vat: 0,
@@ -120,7 +120,7 @@ describe('Helpers.Blocks.js', function() {
             expect(instance.totals.vat).toBe(0);
           });
 
-          it('should not apply VAT if `autoVAT` is false', function() {
+          it('should not apply VAT if `autoVAT` is false', function () {
             instance = new moj.Helpers.Blocks.Base({
               autoVAT: false
             });
@@ -132,7 +132,7 @@ describe('Helpers.Blocks.js', function() {
             expect(instance.totals.vat).toBe(0);
           });
 
-          it('should use a configurable `config.vatfactor`', function() {
+          it('should use a configurable `config.vatfactor`', function () {
             instance = new moj.Helpers.Blocks.Base({
               vatfactor: 0.5,
               autoVAT: true
@@ -146,8 +146,8 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...getVal', function() {
-          beforeEach(function() {
+        describe('...getVal', function () {
+          beforeEach(function () {
             var fixtureDom = [
               '<div class="js-block fx-do-init">',
               '<input class="rate" value="22.22"/>',
@@ -161,23 +161,23 @@ describe('Helpers.Blocks.js', function() {
             });
           });
 
-          afterEach(function() {
+          afterEach(function () {
             $('.js-block').remove();
           });
 
-          it('should return the input value given a selector', function() {
+          it('should return the input value given a selector', function () {
             expect(instance.getVal('.rate')).toBe(22.22);
             expect(instance.getVal('.amount')).toBe(33.33);
           });
 
-          it('should return 0 if no value is found', function() {
+          it('should return 0 if no value is found', function () {
             $('.js-block').find('.amount').remove();
             expect(instance.getVal('.amount')).toBe(0);
           });
         });
 
-        describe('...getDataVal', function() {
-          beforeEach(function() {
+        describe('...getDataVal', function () {
+          beforeEach(function () {
             var fixtureDom = [
               '<div class="js-block fx-do-init">',
               '<input class="total" data-total="44.44" value="44.44"/>',
@@ -190,23 +190,23 @@ describe('Helpers.Blocks.js', function() {
             });
           });
 
-          afterEach(function() {
+          afterEach(function () {
             $('.js-block').remove();
           });
 
-          it('should return the input value given a selector', function() {
+          it('should return the input value given a selector', function () {
             expect(instance.getDataVal('.total', 'total')).toBe(44.44);
           });
 
-          it('should return `false` if no value is found', function() {
+          it('should return `false` if no value is found', function () {
             $('.js-block').find('.total').remove();
             expect(instance.getDataVal('.total', 'total')).toBe(false);
           });
         });
 
         // TO DO
-        describe('...setState', function() {
-          beforeEach(function() {
+        describe('...setState', function () {
+          beforeEach(function () {
             var fixtureDom = [
               '<div class="js-block fx-do-init">',
               '<input class="total" data-total="44.44" value="44.44"/>',
@@ -219,19 +219,19 @@ describe('Helpers.Blocks.js', function() {
             });
           });
 
-          afterEach(function() {
+          afterEach(function () {
             $('.js-block').remove();
           });
 
-          it('should throw an error if no element is found', function() {
+          it('should throw an error if no element is found', function () {
 
-            expect(function() {
+            expect(function () {
               instance.setState('.tal', true);
             }).toThrowError('Selector did not return an element: .tal');
 
           });
 
-          it('should set the visibility of the selector', function() {
+          it('should set the visibility of the selector', function () {
             instance.setState('.total', true);
             expect(instance.$el.find('.total:visible').length).toEqual(1);
 
@@ -240,8 +240,8 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...setVal', function() {
-          beforeEach(function() {
+        describe('...setVal', function () {
+          beforeEach(function () {
             var fixtureDom = [
               '<div class="js-block fx-do-init">',
               '<input class="total" data-total="44.44" value="44.44"/>',
@@ -254,26 +254,26 @@ describe('Helpers.Blocks.js', function() {
             });
           });
 
-          afterEach(function() {
+          afterEach(function () {
             $('.js-block').remove();
           });
 
-          it('should throw an error if no element is found', function() {
+          it('should throw an error if no element is found', function () {
 
-            expect(function() {
+            expect(function () {
               instance.setVal('.tal', 83.333339);
             }).toThrowError('Selector did not return an element: .tal');
 
           });
 
-          it('should set the value of the selector', function() {
+          it('should set the value of the selector', function () {
             instance.setVal('.total', 83.333339);
             expect(instance.$el.find('.total').val()).toEqual('83.333339');
           });
         });
 
-        describe('...setNumber', function() {
-          beforeEach(function() {
+        describe('...setNumber', function () {
+          beforeEach(function () {
             var fixtureDom = [
               '<div class="js-block fx-do-init">',
               '<input class="total" data-total="44.44" value="44.44"/>',
@@ -286,11 +286,11 @@ describe('Helpers.Blocks.js', function() {
             });
           });
 
-          afterEach(function() {
+          afterEach(function () {
             $('.js-block').remove();
           });
 
-          it('should set the value of the selector', function() {
+          it('should set the value of the selector', function () {
             instance.setNumber('.total', 83.333339);
             expect(instance.$el.find('.total').val()).toEqual('83.33');
           });
@@ -298,8 +298,8 @@ describe('Helpers.Blocks.js', function() {
       });
     });
 
-    describe('FeeBlock', function() {
-      it('should apply Base Methods and set config props on the instance', function() {
+    describe('FeeBlock', function () {
+      it('should apply Base Methods and set config props on the instance', function () {
         var fixtureDom = [
           '<div class="js-block fx-do-init">',
           '</div>'
@@ -315,9 +315,9 @@ describe('Helpers.Blocks.js', function() {
         $('.js-block').remove();
       });
 
-      describe('Methods', function() {
+      describe('Methods', function () {
         var fixtureDom;
-        beforeEach(function() {
+        beforeEach(function () {
           fixtureDom = [
             '<div class="js-block fx-do-init">',
             '<input class="quantity" value="11.11"/>',
@@ -334,40 +334,40 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        afterEach(function() {
+        afterEach(function () {
           $('.js-block').remove();
         });
 
-        describe('...init', function() {
-          it('should call `this.bindEvents`', function() {
+        describe('...init', function () {
+          it('should call `this.bindEvents`', function () {
             spyOn(instance, 'bindEvents');
             instance.init();
             expect(instance.bindEvents).toHaveBeenCalled();
           });
 
-          it('should call `this.bindRecalculate`', function() {
+          it('should call `this.bindRecalculate`', function () {
             spyOn(instance, 'bindRecalculate');
             instance.init();
             expect(instance.bindRecalculate).toHaveBeenCalled();
           });
         });
 
-        describe('...bindEvents', function() {
-          it('should call `this.bindRecalculate`', function() {
+        describe('...bindEvents', function () {
+          it('should call `this.bindRecalculate`', function () {
             spyOn(instance, 'bindRecalculate');
             instance.init();
             expect(instance.bindRecalculate).toHaveBeenCalled();
           });
         });
 
-        describe('...bindRecalculate', function() {
-          it('should bind a change event on specific elements', function() {
+        describe('...bindRecalculate', function () {
+          it('should bind a change event on specific elements', function () {
             spyOn(instance.$el, 'on');
             instance.bindRecalculate();
             expect(instance.$el.on).toHaveBeenCalledWith('change keyup', '.quantity, .rate, .amount, .vat, .total', jasmine.any(Function));
           });
 
-          it('should trigger the `recalculate` event when `change` is fired', function() {
+          it('should trigger the `recalculate` event when `change` is fired', function () {
             spyOn(instance.$el, 'trigger');
             instance.bindRecalculate();
             instance.$el.find('.rate').trigger('change');
@@ -375,15 +375,15 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...reload', function() {
-          it('should call `updateTotals`', function() {
+        describe('...reload', function () {
+          it('should call `updateTotals`', function () {
             spyOn(instance, 'updateTotals');
             instance.reload();
 
             expect(instance.updateTotals).toHaveBeenCalled();
           });
 
-          it('should call `applyVat`', function() {
+          it('should call `applyVat`', function () {
             spyOn(instance, 'applyVat');
             instance.reload();
 
@@ -391,9 +391,9 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...setTotals', function() {
+        describe('...setTotals', function () {
 
-          it('should return an updated `this.totals` object', function() {
+          it('should return an updated `this.totals` object', function () {
             instance.$el.find('.rate').val('222.22');
             instance.$el.find('.amount').val('333.33');
             instance.$el.find('.total').data('total', '444.44');
@@ -409,7 +409,7 @@ describe('Helpers.Blocks.js', function() {
             });
           });
 
-          it('should handle missing `data-total` on the element', function() {
+          it('should handle missing `data-total` on the element', function () {
             instance.$el.find('.rate').val('222.22');
             instance.$el.find('.amount').val('333.33');
             instance.$el.find('.total').remove();
@@ -428,18 +428,18 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...updateTotals', function() {
+        describe('...updateTotals', function () {
           var called = false;
 
-          it('should call `this.isVisible`', function() {
-            instance.isVisible = function() {
+          it('should call `this.isVisible`', function () {
+            instance.isVisible = function () {
               called = true;
             };
             instance.updateTotals();
             expect(called).toBe(true);
           });
 
-          it('should return the current `this.totals` when element is hidden', function() {
+          it('should return the current `this.totals` when element is hidden', function () {
             instance.totals = {
               current: 'total'
             };
@@ -449,7 +449,7 @@ describe('Helpers.Blocks.js', function() {
             });
           });
 
-          it('should call `this.setTotals` when `this.isVisible` returns true', function() {
+          it('should call `this.setTotals` when `this.isVisible` returns true', function () {
             instance.totals = {
               current: 'total'
             };
@@ -466,8 +466,8 @@ describe('Helpers.Blocks.js', function() {
       });
     });
 
-    describe('FeeBlockCalculator', function() {
-      it('should apply Base Methods and set config props on the instance', function() {
+    describe('FeeBlockCalculator', function () {
+      it('should apply Base Methods and set config props on the instance', function () {
         var fixtureDom = [
           '<div class="js-block fx-do-init">',
           '</div>'
@@ -485,9 +485,9 @@ describe('Helpers.Blocks.js', function() {
         $('.js-block').remove();
       });
 
-      describe('Methods', function() {
+      describe('Methods', function () {
         var fixtureDom;
-        beforeEach(function() {
+        beforeEach(function () {
           fixtureDom = [
             '<div class="js-block fx-do-init">',
             '<input class="quantity" value="11.11"/>',
@@ -504,28 +504,28 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        afterEach(function() {
+        afterEach(function () {
           $('.js-block').remove();
         });
 
-        describe('...init', function() {
-          it('should call `this.bindRender`', function() {
+        describe('...init', function () {
+          it('should call `this.bindRender`', function () {
             spyOn(instance, 'bindRender');
             instance.init();
             expect(instance.bindRender).toHaveBeenCalled();
           });
         });
 
-        describe('...render', function() {
-          it('should update the view correctly', function() {
+        describe('...render', function () {
+          it('should update the view correctly', function () {
             instance.totals.total = 1234567.89;
             instance.render();
             expect(instance.$el.find('.total').data('total')).toBe(1234567.89);
           });
         });
 
-        describe('...setTotals', function() {
-          it('should set `this.totals` correctly', function() {
+        describe('...setTotals', function () {
+          it('should set `this.totals` correctly', function () {
             instance.totals = {
               quantity: 'changeme',
               rate: 'changeme',
@@ -545,35 +545,35 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...bindRender', function() {
-          it('should bind a change event on specific elements', function() {
+        describe('...bindRender', function () {
+          it('should bind a change event on specific elements', function () {
             spyOn(instance.$el, 'on');
             instance.bindRender();
             expect(instance.$el.on).toHaveBeenCalledWith('change keyup', '.quantity, .rate', jasmine.any(Function));
           });
 
-          it('should call `this.updateTotals` when `change` is fired', function() {
+          it('should call `this.updateTotals` when `change` is fired', function () {
             spyOn(instance, 'updateTotals');
             instance.bindRender();
             instance.$el.find('.rate').trigger('change');
             expect(instance.updateTotals).toHaveBeenCalled();
           });
 
-          it('should call `this.updateTotals` when `keyup` is fired', function() {
+          it('should call `this.updateTotals` when `keyup` is fired', function () {
             spyOn(instance, 'updateTotals');
             instance.bindRender();
             instance.$el.find('.rate').trigger('keyup');
             expect(instance.updateTotals).toHaveBeenCalled();
           });
 
-          it('should call `this.render` when `change` is fired', function() {
+          it('should call `this.render` when `change` is fired', function () {
             spyOn(instance, 'render');
             instance.bindRender();
             instance.$el.find('.rate').trigger('change');
             expect(instance.render).toHaveBeenCalled();
           });
 
-          it('should call `this.render` when `keyup` is fired', function() {
+          it('should call `this.render` when `keyup` is fired', function () {
             spyOn(instance, 'render');
             instance.bindRender();
             instance.$el.find('.rate').trigger('keyup');
@@ -583,13 +583,13 @@ describe('Helpers.Blocks.js', function() {
       });
     });
 
-    describe('ExpenseBlock', function() {
+    describe('ExpenseBlock', function () {
 
-      describe('Defaults', function() {
+      describe('Defaults', function () {
         var fixtureDom;
         var instance;
 
-        beforeEach(function() {
+        beforeEach(function () {
           fixtureDom = [
             '<div class="js-block fx-do-init">',
             '</div>'
@@ -603,16 +603,16 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        afterEach(function() {
+        afterEach(function () {
           $('.js-block').remove();
         });
 
-        it('should apply Base Methods and set config props on the instance', function() {
+        it('should apply Base Methods and set config props on the instance', function () {
           expect(instance.getConfig).toBeDefined();
           expect(instance.getConfig('type')).toEqual('ExpenseBlock');
         });
 
-        it('should have `this.stateLookup` defined', function() {
+        it('should have `this.stateLookup` defined', function () {
           expect(instance.stateLookup).toEqual({
             "vatAmount": ".fx-travel-vat-amount",
             "reason": ".fx-travel-reason",
@@ -627,7 +627,7 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        it('should have `this.defaultstate` defined', function() {
+        it('should have `this.defaultstate` defined', function () {
           expect(instance.defaultstate).toEqual({
             "mileage": false,
             "date": false,
@@ -641,7 +641,7 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        it('should have `this.expenseReasons` defined', function() {
+        it('should have `this.expenseReasons` defined', function () {
           expect(instance.expenseReasons).toEqual({
             "A": [{
               "id": 1,
@@ -718,9 +718,9 @@ describe('Helpers.Blocks.js', function() {
         });
       });
 
-      describe('Methods', function() {
+      describe('Methods', function () {
         var fixtureDom;
-        beforeEach(function() {
+        beforeEach(function () {
           fixtureDom = [
             '<div class="js-block fx-do-init">',
             '<p class="fx-general-errors" style="display: none;"><span></span></p>',
@@ -773,22 +773,22 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        afterEach(function() {
+        afterEach(function () {
           $('#claim-form').remove();
         });
 
-        describe('...init', function() {
-          it('should call `this.bindEvents`', function() {
+        describe('...init', function () {
+          it('should call `this.bindEvents`', function () {
             spyOn(instance, 'bindEvents');
             instance.init();
             expect(instance.bindEvents).toHaveBeenCalled();
           });
-          it('should call `this.loadCurrentState`', function() {
+          it('should call `this.loadCurrentState`', function () {
             spyOn(instance, 'loadCurrentState');
             instance.init();
             expect(instance.loadCurrentState).toHaveBeenCalled();
           });
-          it('should update `this.config.fn`', function() {
+          it('should update `this.config.fn`', function () {
             spyOn(instance, 'bindEvents');
             spyOn(instance, 'loadCurrentState');
 
@@ -798,22 +798,22 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...bindEvents', function() {
-          it('should call `this.bindRecalculate`', function() {
+        describe('...bindEvents', function () {
+          it('should call `this.bindRecalculate`', function () {
             spyOn(instance, 'bindRecalculate');
             instance.init();
             expect(instance.bindRecalculate).toHaveBeenCalled();
           });
 
-          it('should call `this.bindListners`', function() {
+          it('should call `this.bindListners`', function () {
             spyOn(instance, 'bindListners');
             instance.init();
             expect(instance.bindListners).toHaveBeenCalled();
           });
         });
 
-        describe('...bindListners', function() {
-          it('expense type: should bind change listner', function() {
+        describe('...bindListners', function () {
+          it('expense type: should bind change listner', function () {
             var selector = '.fx-travel-expense-type select';
             var spyEvent = spyOnEvent(selector, 'change');
 
@@ -823,7 +823,7 @@ describe('Helpers.Blocks.js', function() {
             expect(spyEvent).toHaveBeenTriggered();
           });
 
-          it('expense type: should handle change event', function() {
+          it('expense type: should handle change event', function () {
             var selector = '.fx-travel-expense-type select';
             instance.bindListners();
             spyOn(instance, 'statemanager');
@@ -832,7 +832,7 @@ describe('Helpers.Blocks.js', function() {
             expect(instance.statemanager).toHaveBeenCalledWith(selector);
           });
 
-          it('travel reason: should bind change listner', function() {
+          it('travel reason: should bind change listner', function () {
             var selector = '.fx-travel-reason select:last';
             var spyEvent = spyOnEvent(selector, 'change');
 
@@ -842,7 +842,7 @@ describe('Helpers.Blocks.js', function() {
             expect(spyEvent).toHaveBeenTriggered();
           });
 
-          it('travel reason: should handle change event', function() {
+          it('travel reason: should handle change event', function () {
             var selector = '.fx-travel-reason select:last';
             spyOn(instance, 'setVal');
             spyOn(instance, 'setLocationElement');
@@ -856,7 +856,7 @@ describe('Helpers.Blocks.js', function() {
             expect(instance.$el.find('.fx-travel-reason-other').is(':visible')).toBe(false);
           });
 
-          it('travel reason: should call `this.setVal` passing params', function() {
+          it('travel reason: should call `this.setVal` passing params', function () {
             var selector = '.fx-travel-reason select:last';
             spyOn(instance, 'setVal');
             spyOn(instance, 'setState');
@@ -872,7 +872,7 @@ describe('Helpers.Blocks.js', function() {
             expect(instance.setVal).toHaveBeenCalledWith('.fx-location-type', 'test-location');
           });
 
-          it('travel reason: should call `this.setState` passing params', function() {
+          it('travel reason: should call `this.setState` passing params', function () {
             var selector = '.fx-travel-reason select:last';
             spyOn(instance, 'setVal');
             spyOn(instance, 'setState');
@@ -887,7 +887,7 @@ describe('Helpers.Blocks.js', function() {
             expect(instance.setState).toHaveBeenCalledWith('.fx-travel-reason-other', false);
           });
 
-          it('travel reason: should call `this.setLocationElement` passing params', function() {
+          it('travel reason: should call `this.setLocationElement` passing params', function () {
             var selector = '.fx-travel-reason select:last';
             spyOn(instance, 'setVal');
             spyOn(instance, 'setState');
@@ -907,7 +907,7 @@ describe('Helpers.Blocks.js', function() {
             });
           });
 
-          it('establishment location: should bind change listner', function() {
+          it('establishment location: should bind change listner', function () {
             var selector = '.fx-establishment-select select:last';
             var spyEvent = spyOnEvent(selector, 'change');
 
@@ -917,7 +917,7 @@ describe('Helpers.Blocks.js', function() {
             expect(spyEvent).toHaveBeenTriggered();
           });
 
-          it('establishment location: should set the `.fx-location-model`', function() {
+          it('establishment location: should set the `.fx-location-model`', function () {
             var selector = '.fx-establishment-select select:last';
 
             instance.bindListners();
@@ -926,7 +926,7 @@ describe('Helpers.Blocks.js', function() {
             expect($('.fx-location-model').val()).toEqual('establishment selected');
           });
 
-          it('establishment location: should call `this.getDistance` if feature is enabled', function() {
+          it('establishment location: should call `this.getDistance` if feature is enabled', function () {
             var deferred = $.Deferred();
             spyOn(instance, 'getDistance').and.returnValue(deferred.promise());
 
@@ -942,7 +942,7 @@ describe('Helpers.Blocks.js', function() {
             });
           });
 
-          it('net amount: should bind keyup listner', function() {
+          it('net amount: should bind keyup listner', function () {
             var selector = '.fx-travel-net-amount input';
             var spyEvent = spyOnEvent(selector, 'keyup');
 
@@ -952,7 +952,7 @@ describe('Helpers.Blocks.js', function() {
             expect(spyEvent).toHaveBeenTriggered();
           });
 
-          it('net amount: should update vat amount on key up', function() {
+          it('net amount: should update vat amount on key up', function () {
             var selector = '.fx-travel-net-amount input';
             spyOn(instance, 'setNumber');
 
@@ -970,18 +970,18 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...setLocationElement', function() {
-          it('should exist as a function', function() {
+        describe('...setLocationElement', function () {
+          it('should exist as a function', function () {
             expect(instance.setLocationElement).toEqual(jasmine.any(Function));
           });
 
-          it('should return an error if no params supplied', function() {
-            expect(function() {
+          it('should return an error if no params supplied', function () {
+            expect(function () {
               instance.setLocationElement();
             }).toThrowError('Missing param: obj, cannot build element');
           });
 
-          it('should call `this.attachSelectWithOptions` if param.locationType is supplied', function() {
+          it('should call `this.attachSelectWithOptions` if param.locationType is supplied', function () {
             spyOn(instance, 'attachSelectWithOptions');
             instance.setLocationElement({
               locationType: 'not empty'
@@ -989,7 +989,7 @@ describe('Helpers.Blocks.js', function() {
             expect(instance.attachSelectWithOptions).toHaveBeenCalledWith('not empty', 'sample');
           });
 
-          it('should call `this.attachSelectWithOptions` with param', function() {
+          it('should call `this.attachSelectWithOptions` with param', function () {
             spyOn(instance, 'attachSelectWithOptions');
             instance.$el.find('.fx-location-model').val('');
             instance.setLocationElement({
@@ -998,7 +998,7 @@ describe('Helpers.Blocks.js', function() {
             expect(instance.attachSelectWithOptions).toHaveBeenCalledWith('not empty', '');
           });
 
-          it('should call `this.displayLocationInput` ', function() {
+          it('should call `this.displayLocationInput` ', function () {
             spyOn(instance, 'displayLocationInput');
             instance.$el.find('.fx-location-model').val('');
             instance.setLocationElement({
@@ -1008,8 +1008,8 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...updateMileageElements', function() {
-          it('...should calculate for 25p', function() {
+        describe('...updateMileageElements', function () {
+          it('...should calculate for 25p', function () {
             instance.init();
 
             // API success callback
@@ -1030,7 +1030,7 @@ describe('Helpers.Blocks.js', function() {
 
           });
 
-          it('...should calculate for 45p', function() {
+          it('...should calculate for 45p', function () {
             instance.init();
 
             // API success callback
@@ -1050,7 +1050,7 @@ describe('Helpers.Blocks.js', function() {
             expect(instance.$el.find('.fx-travel-vat-amount input').val()).toEqual('');
           });
 
-          it('...should calculate for 20p', function() {
+          it('...should calculate for 20p', function () {
             instance.init();
 
             // API success callback
@@ -1072,15 +1072,15 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...getDistance', function() {
-          it('should return the id and augmented distance object...', function() {
+        describe('...getDistance', function () {
+          it('should return the id and augmented distance object...', function () {
             var deferred = $.Deferred();
             spyOn(moj.Helpers.API.Distance, 'query').and.returnValue(deferred.promise());
             instance.$el.find('#mileage_rate_id_1').prop('checked', true);
             instance.getDistance({
               claimid: 2,
               destination: "POSTCODE"
-            }).then(function(number, result) {
+            }).then(function (number, result) {
               expect(moj.Helpers.API.Distance.query).toHaveBeenCalledWith({
                 claimid: 2,
                 destination: 'POSTCODE'
@@ -1098,7 +1098,7 @@ describe('Helpers.Blocks.js', function() {
               distance: 204993
             });
           });
-          it('should populate and return an error ...', function() {
+          it('should populate and return an error ...', function () {
             var deferred = $.Deferred();
             spyOn(moj.Helpers.API.Distance, 'query').and.returnValue(deferred.promise());
             instance.$el.find('#mileage_rate_id_1').prop('checked', true);
@@ -1106,7 +1106,7 @@ describe('Helpers.Blocks.js', function() {
             instance.getDistance({
               claimid: 2,
               destination: "POSTCODE"
-            }).then(undefined, function(result) {
+            }).then(undefined, function (result) {
               expect(moj.Helpers.API.Distance.query).toHaveBeenCalledWith({
                 claimid: 2,
                 destination: 'POSTCODE'
@@ -1122,8 +1122,8 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...displayLocationInput', function() {
-          it('should update the view correctly', function() {
+        describe('...displayLocationInput', function () {
+          it('should update the view correctly', function () {
             instance.init();
             instance.displayLocationInput();
             expect(instance.$el.find('.fx-travel-location label:first').text()).toEqual('Destination');
@@ -1132,16 +1132,16 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...getRateId', function() {
-          it('...should return the correct rateId', function() {
+        describe('...getRateId', function () {
+          it('...should return the correct rateId', function () {
             instance.init();
             instance.$el.find('.fx-travel-mileage input[type=radio]:last').prop('checked', true);
             expect(instance.getRateId()).toEqual('2');
           });
         });
 
-        describe('...viewErrorHandler', function() {
-          it('...should set the correct view state', function() {
+        describe('...viewErrorHandler', function () {
+          it('...should set the correct view state', function () {
             instance.init();
             instance.viewErrorHandler('This is the message');
             expect(instance.$el.find('.fx-general-errors span').text()).toEqual('This is the message');
@@ -1149,21 +1149,21 @@ describe('Helpers.Blocks.js', function() {
           });
         });
 
-        describe('...attachSelectWithOptions', function() {
+        describe('...attachSelectWithOptions', function () {
           var optionsFixture = ['<option value="">Please select</option>',
             '<option value="135" data-postcode="SY23 1AS">Aberystwyth Justice Centre</option>',
             '<option value="136" selected="" data-postcode="GU11 1NY">Aldershot Magistrates\' Court</option>',
             '<option value="137" data-postcode="HP6 5AJ">Amersham Law Courts</option>',
             '<option value="139" data-postcode="HP21 7QZ">Aylesbury Magistrates\' Court and Family Court</option>")'
           ];
-          it('should return an error if no locationType', function() {
+          it('should return an error if no locationType', function () {
             instance.init();
-            expect(function() {
+            expect(function () {
               instance.attachSelectWithOptions();
             }).toThrowError('Missing param: locationType');
           });
 
-          it('should call the Establishments API with the correct params ', function() {
+          it('should call the Establishments API with the correct params ', function () {
             var deferred = $.Deferred();
             spyOn(moj.Helpers.API.Establishments, 'getAsSelectWithOptions').and.returnValue(deferred.promise());
 
@@ -1174,7 +1174,7 @@ describe('Helpers.Blocks.js', function() {
             });
 
           });
-          it('should update the view correctly', function() {
+          it('should update the view correctly', function () {
             var deferred = $.Deferred();
             spyOn(moj.Helpers.API.Establishments, 'getAsSelectWithOptions').and.returnValue(deferred.promise());
             expect(instance.$el.find('.fx-establishment-select').is(':visible')).toEqual(false);

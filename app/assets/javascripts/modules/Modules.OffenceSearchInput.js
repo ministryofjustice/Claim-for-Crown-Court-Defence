@@ -40,7 +40,7 @@ moj.Modules.OffenceSearchInput = {
     filter: '/offence/search/filter/'
   },
 
-  init: function() {
+  init: function () {
     this.$el = $(this.el);
     if (this.$el.length > 0) {
       this.$input = $(this.input);
@@ -51,26 +51,26 @@ moj.Modules.OffenceSearchInput = {
     }
   },
 
-  bindEvents: function() {
+  bindEvents: function () {
     this.clearSearch();
     this.bindSubscribers();
     this.trackUserInput();
   },
 
   // binding subscribers and callbacks
-  bindSubscribers: function() {
+  bindSubscribers: function () {
     var self = this;
 
-    $.subscribe(this.subscribers.run, function() {
+    $.subscribe(this.subscribers.run, function () {
       self.runQuery();
     });
 
-    $.subscribe(this.subscribers.filter, function(e, options) {
+    $.subscribe(this.subscribers.filter, function (e, options) {
       self.runQuery(options);
     });
   },
 
-  runQuery: function(options) {
+  runQuery: function (options) {
     var self = this;
 
     // dataOptions for the api request
@@ -86,16 +86,16 @@ moj.Modules.OffenceSearchInput = {
       // filters are applied
       options);
 
-    this.query(dataOptions).then(function(data) {
+    this.query(dataOptions).then(function (data) {
       // showing the clear search button
-      self.$clear.show();
+      self.$clear.removeClass('hidden');
 
       // publish the response data
       $.publish(self.publishers.results, data);
     });
   },
 
-  query: function(options) {
+  query: function (options) {
     var _options = options;
     var self = this;
     var def = $.Deferred();
@@ -104,11 +104,11 @@ moj.Modules.OffenceSearchInput = {
       url: '/offences',
       data: _options,
       dataType: 'json',
-      success: function(results) {
+      success: function (results) {
         options.results = results || [];
         def.resolve(_options);
       },
-      error: function(req, status, err) {
+      error: function (req, status, err) {
         def.reject(status, err)
       }
     });
@@ -118,9 +118,9 @@ moj.Modules.OffenceSearchInput = {
 
   // Tracking the user inout and calling the API
   // when required. Uses $.debounce to limit calls
-  trackUserInput: function() {
+  trackUserInput: function () {
     var self = this;
-    this.$input.on('keyup', $.debounce(290, function(e) {
+    this.$input.on('keyup', $.debounce(290, function (e) {
       if (self.$input.val().length >= 3) {
         self.runQuery();
       }
@@ -128,11 +128,11 @@ moj.Modules.OffenceSearchInput = {
   },
 
   // clearSearch procedure
-  clearSearch: function() {
+  clearSearch: function () {
     var self = this;
-    this.$el.on('click', '.fx-clear-search', function(e) {
+    this.$el.on('click', '.fx-clear-search', function (e) {
       e.preventDefault();
-      self.$clear.hide();
+      self.$clear.addClass('hidden');
       self.$el.find('.fx-input').val('');
       self.$el.find('.fx-model').val('');
       $.publish('/offence/search/clear/');

@@ -35,7 +35,7 @@
             = t('.help_with_basic_fees.post_agfs_reform_html')
           - else
             = t('.help_with_basic_fees.pre_agfs_reform_html')
-          .fee-calc-help-wrapper.form-group{ style: 'display: none;' }
+          .fee-calc-help-wrapper.form-group.hidden
             = t('.help_with_basic_fees.how_is_this_rate_calculated_html')
 
     = render partial: 'external_users/claims/basic_fees/first_date_display', locals: { fee: fee }

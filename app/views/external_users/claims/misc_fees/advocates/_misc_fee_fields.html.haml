@@ -3,7 +3,7 @@
   %span.bold-medium
     = t('.misc_fee')
     %span.fx-numberedList-number
-    = link_to_remove_association t('.remove'), f, wrapper_class: 'misc-fee-group', class: 'header-action fx-numberedList-action', style: 'display: none;'
+    = link_to_remove_association t('.remove'), f, wrapper_class: 'misc-fee-group', class: 'header-action fx-numberedList-action hidden'
 
   .form-group
     .fee-type.js-typeahead{ class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type") }
@@ -15,7 +15,7 @@
       = f.collection_select :fee_type_id,
        @claim.eligible_misc_fee_types, :id, :description,
        { include_blank: ''.html_safe },
-       { class: 'form-control js-misc-fee-type js-fee-type js-fee-calculator-fee-type typeahead fx-misc-fee-calculation', style: 'width:100%', 'aria-label': t('.fee_type') }
+       { class: 'form-control form-control-full js-misc-fee-type js-fee-type js-fee-calculator-fee-type typeahead fx-misc-fee-calculation', 'aria-label': t('.fee_type') }
 
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 
@@ -41,7 +41,7 @@
   .js-fee-calculator-success
     = f.hidden_field :price_calculated, value: f.object.price_calculated?
 
-  .fee-calc-help-wrapper.form-group{ style: 'display: none;' }
+  .fee-calc-help-wrapper.form-group.hidden
     %details
       %summary
         %span.summary

@@ -1,10 +1,10 @@
 = render partial: 'errors/error_summary', locals: { ep: @allocation, error_summary: t('.error_summary') }
 
-.notice-summary{ role: 'group', 'aria-labelledby': 'notice-summary-heading', tabindex: '-1', style: 'display: none;' }
+.notice-summary.hidden{ role: 'group', 'aria-labelledby': 'notice-summary-heading', tabindex: '-1' }
   %span.heading-medium.notice-summary-heading{ id: 'notice-summary-heading' }
     %span.msg
 
-.error-summary{ role: 'group', 'aria-labelledby': 'error-summary-heading', tabindex: '-1', style: 'display: none;' }
+.error-summary.hidden{ role: 'group', 'aria-labelledby': 'error-summary-heading', tabindex: '-1' }
   %span#error-summary-heading.heading-medium.error-summary-heading
     %span.msg
 
@@ -30,11 +30,11 @@
     .grid-row.js-typeahead
       .column-one-third.js-typeahead
         = label_tag :quantity_to_allocate, t('.no_of_claims'), class: 'form-label-bold'
-        = number_field_tag :quantity_to_allocate, nil, { style: 'width: 100%', min: 0, size: 5, class: 'form-control' }
+        = number_field_tag :quantity_to_allocate, nil, { min: 0, size: 5, class: 'form-control form-control-full' }
       .column-one-third
         #cc-caseworker
           = label_tag :allocation_case_worker_id, t('dictionary.models.case_worker'), class: 'form-label-bold'
-          = collection_select :allocation, :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', style: 'width: 100%' }
+          = collection_select :allocation, :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control form-control-full fx-autocomplete' }
       .column-one-third
         %br/
         = submit_tag t('.allocate'), class: 'button allocation-submit'

@@ -1,5 +1,5 @@
 // moj.Modules.FeeCalculator.GraduatedPrice
-(function(exports, $) {
+(function (exports, $) {
   var Modules = exports.Modules.FeeCalculator || {};
 
   Modules.GraduatedPrice = {
@@ -22,7 +22,7 @@
     advocateTypeChange: function () {
       var self = this;
       if ($('.calculated-grad-fee').exists()) {
-        $('.js-fee-calculator-advocate-type').change(function() {
+        $('.js-fee-calculator-advocate-type').change(function () {
           self.calculateAllGraduatedPrices();
         });
       }
@@ -31,7 +31,7 @@
     prosecutionEvidenceChange: function () {
       var self = this;
       if ($('.calculated-grad-fee').exists()) {
-        $('.js-fee-calculator-prosecution-evidence').change(function() {
+        $('.js-fee-calculator-prosecution-evidence').change(function () {
           self.calculateAllGraduatedPrices();
         });
       }
@@ -58,54 +58,54 @@
       this.bindCalculateEvents($els, this, 'keyup');
     },
 
-    bindCalculateEvents: function(els, self, eventType) {
+    bindCalculateEvents: function (els, self, eventType) {
       if ($('.calculated-grad-fee').exists()) {
-        els.on(eventType, $.debounce(290, function(e) {
+        els.on(eventType, $.debounce(290, function (e) {
           self.calculateGraduatedPrice(e.currentTarget);
         }));
       }
     },
 
-    claimId: function() {
+    claimId: function () {
       return $('#claim-form').data('claimId');
     },
 
-    advocateCategory: function() {
+    advocateCategory: function () {
       return this.getVal('input:radio[name="claim[advocate_category]"]:checked');
     },
 
-    feeTypeId: function(context) {
+    feeTypeId: function (context) {
       return this.getVal(context, '.js-fee-type');
     },
 
-    ppe: function(context) {
+    ppe: function (context) {
       return this.getVal(context, 'input.js-fee-calculator-ppe');
     },
 
-    pw: function(context) {
+    pw: function (context) {
       return this.getVal(context, 'input.js-fee-calculator-pw');
     },
 
-    days: function(context) {
+    days: function (context) {
       return this.getVal(context, 'input.js-fee-calculator-days:visible');
     },
-    
-    prosecutionEvidence: function() {
+
+    prosecutionEvidence: function () {
       return this.getVal('input:radio[name="claim[prosecution_evidence]"]:checked');
     },
 
-    getVal: function(context, selector){
-      if(selector) {
+    getVal: function (context, selector) {
+      if (selector) {
         return $(context).find(selector).val();
       }
       return $(context).val();
-    }, 
+    },
 
-    pagesOfProsecutingEvidence: function() {
+    pagesOfProsecutingEvidence: function () {
       return this.prosecutionEvidence() == 'true' ? 1 : 0;
     },
 
-    setAmount: function(data, context) {
+    setAmount: function (data, context) {
       var $amount = $(context).find('input.fee-amount');
       var $price_calculated = $(context).find('.js-fee-calculator-success > input');
 
@@ -115,11 +115,11 @@
       $amount.prop('readonly', data > 0);
     },
 
-    enableAmount: function(context) {
+    enableAmount: function (context) {
       $(context).find('input.fee-amount').prop('readonly', false);
     },
 
-    displayError: function(context, message) {
+    displayError: function (context, message) {
       this.clearErrors(context);
       var $label = $(context).find('.js-graduated-price-effectee > label');
       var $price_calculated = $(context).find('.js-fee-calculator-success > input');
@@ -132,16 +132,16 @@
       $label.html(new_label);
     },
 
-    clearErrors: function(context) {
+    clearErrors: function (context) {
       $(context).find('.js-calculate-grad-error').remove();
     },
 
-    displayHelp: function(context, show) {
+    displayHelp: function (context, show) {
       var $help = $(context).find('.fee-calc-help-wrapper');
-      show ? $help.show() : $help.hide();
+      show ? $help.removeClass('hidden') : $help.addClass('hidden');
     },
 
-    feeData: function(context) {
+    feeData: function (context) {
       var data = {};
       data.claim_id = this.claimId();
       data.price_type = this.priceType;
@@ -154,33 +154,33 @@
       return data;
     },
 
-    responseErrored: function(response) {
+    responseErrored: function (response) {
       return Boolean(
-                      response.hasOwnProperty('responseJSON') &&
-                      response.responseJSON.errors[0] != 'insufficient_data'
-                    );
+        response.hasOwnProperty('responseJSON') &&
+        response.responseJSON.errors[0] != 'insufficient_data'
+      );
     },
 
     graduatedPriceAjax: function (data, context) {
       var self = this;
       $.ajax({
-        type: 'POST',
-        url: '/external_users/claims/' + data.claim_id + '/fees/calculate_price.json',
-        data: data,
-        dataType: 'json'
-      })
-      .done(function(response) {
-        self.clearErrors(context);
-        self.setAmount(response.data.amount, context);
-        self.displayHelp(context, true);
-      })
-      .fail(function(response) {
-        if (self.responseErrored(response)) {
-          self.displayError(context, response.responseJSON.message);
-        }
-        self.displayHelp(context, false);
-        self.enableAmount(context);
-      });
+          type: 'POST',
+          url: '/external_users/claims/' + data.claim_id + '/fees/calculate_price.json',
+          data: data,
+          dataType: 'json'
+        })
+        .done(function (response) {
+          self.clearErrors(context);
+          self.setAmount(response.data.amount, context);
+          self.displayHelp(context, true);
+        })
+        .fail(function (response) {
+          if (self.responseErrored(response)) {
+            self.displayError(context, response.responseJSON.message);
+          }
+          self.displayHelp(context, false);
+          self.enableAmount(context);
+        });
     },
 
     calculateGraduatedPrice: function (target) {
@@ -191,15 +191,15 @@
 
     calculateAllGraduatedPrices: function () {
       var self = this;
-      $('.js-graduated-price-effectee').each( function() {
+      $('.js-graduated-price-effectee').each(function () {
         self.calculateGraduatedPrice(this);
       });
     },
 
     pageLoad: function () {
       var self = this;
-      $(document).ready( function() {
-        $('.calculated-grad-fee').each(function() {
+      $(document).ready(function () {
+        $('.calculated-grad-fee').each(function () {
           self.calculateAllGraduatedPrices(self);
         });
       });

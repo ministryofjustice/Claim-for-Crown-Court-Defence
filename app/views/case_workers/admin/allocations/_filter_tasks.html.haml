@@ -2,7 +2,7 @@
   %label.form-label-bold{ for: 'filterAGFS' }
     = t('.case_types')
 
-  %select#filterAGFS.form-control{ name: 'tasks', style: 'width: 100%' }
+  %select#filterAGFS.form-control.form-control-full{ name: 'tasks' }
     %option{ value: '' }
       = t('.all')
     %option{ value: 'fixed_fee' }
@@ -27,11 +27,11 @@
       = t('.supplementary')
 
 
-#filter-tasks-lgfs.form-group.dtFilter.dtFilterLGFS{ data: { scheme: 'lgfs' }, style: 'display: none;' }
+#filter-tasks-lgfs.form-group.dtFilter.dtFilterLGFS.hidden{ data: { scheme: 'lgfs' } }
   %label.form-label-bold{ for: 'filterLGFS' }
     = t('.case_types')
 
-  %select#filterLGFS.form-control{ name: 'tasks', style: 'width: 100%' }
+  %select#filterLGFS.form-control.form-control-full{ name: 'tasks' }
     %option{ value: '' }
       = t('.all')
     %option{ value: 'fixed_fee' }

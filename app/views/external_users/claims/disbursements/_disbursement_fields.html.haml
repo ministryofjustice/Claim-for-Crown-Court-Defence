@@ -2,7 +2,7 @@
   %h2.bold-medium
     = t('.disbursement')
     %span.fx-numberedList-number
-    = link_to_remove_association t('.remove'), f, wrapper_class: 'disbursement-group', class: "header-action fx-numberedList-action", style: "display: none;"
+    = link_to_remove_association t('.remove'), f, wrapper_class: 'disbursement-group', class: 'header-action fx-numberedList-action hidden'
 
   .form-group
     .disbursement-type.js-typeahead{ class: error_class?(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type") }
@@ -11,7 +11,7 @@
       = f.select :disbursement_type_id,
         DisbursementType.active.map{ |disbursement| [disbursement.name, disbursement.id] },
         { include_blank: ''.html_safe },
-        { class: 'form-control fx-autocomplete', style: 'width: 100%', 'aria-label': t('.disbursement_type') }
+        { class: 'form-control form-control-full fx-autocomplete', 'aria-label': t('.disbursement_type') }
 
       = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")
 

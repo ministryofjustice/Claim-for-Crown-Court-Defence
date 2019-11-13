@@ -1,4 +1,4 @@
-(function(factory) {
+(function (factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
     define(['jquery'], factory);
@@ -9,7 +9,7 @@
     // Browser globals
     factory(jQuery);
   }
-}(function($, undefined) {
+}(function ($, undefined) {
   'use strict';
 
   var pluginName = 'numberedList';
@@ -29,35 +29,36 @@
 
   // Avoid Plugin.prototype conflicts
   $.extend(Plugin.prototype, {
-    init: function() {
+    init: function () {
       if ($(this.settings.wrapper).length >= 1) {
         this.bindListeners();
         this.updateNumbers();
       }
     },
-    bindListeners: function() {
+    bindListeners: function () {
       var self = this;
       var el = '#' + $(this.settings.wrapper).attr('id');
-      if(el === "#undefined"){
+      if (el === "#undefined") {
         throw Error('This is an error message');
       }
 
-      $(el).on('cocoon:after-insert', function(e) {
+      $(el).on('cocoon:after-insert', function (e) {
         self.updateNumbers();
       });
 
-      $(el).on('cocoon:after-remove', function(e) {
+      $(el).on('cocoon:after-remove', function (e) {
         self.updateNumbers();
       });
     },
-    updateNumbers: function() {
+    updateNumbers: function () {
       var self = this;
       var number = self.settings.number;
       var action = self.settings.action;
       var items = $(this.settings.wrapper).find(this.settings.item + ':visible');
 
-      items.each(function(idx, el) {
-        $(el).find(action).css('display', 'block');
+      items.each(function (idx, el) {
+        // $(el).find(action).css('display', 'block');
+        $(el).find(action).removeClass('hidden');
         $(el).find(number).text('');
         if (items.length > 1) {
           $(el).find(number).text(idx + 1);
@@ -71,7 +72,7 @@
   // multiple times
   if (typeof $[pluginName] === "undefined") {
 
-    $[pluginName] = function(options) {
+    $[pluginName] = function (options) {
 
       if (!activated) {
         new Plugin(options);

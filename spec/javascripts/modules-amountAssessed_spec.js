@@ -1,4 +1,4 @@
-describe("Modules.AmountAssessedBlock.js", function() {
+describe("Modules.AmountAssessedBlock.js", function () {
   var domFixture = $('<div class="main" />');
   var view = [
     '<div class="fx-assesment-hook">',
@@ -26,7 +26,7 @@ describe("Modules.AmountAssessedBlock.js", function() {
   ].join('');
 
 
-  beforeEach(function() {
+  beforeEach(function () {
     domFixture.append($(view));
     $('body').append(domFixture);
 
@@ -35,12 +35,12 @@ describe("Modules.AmountAssessedBlock.js", function() {
     moj.Modules.AmountAssessed.init();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     domFixture.empty();
   });
 
-  describe('Defaults', function() {
-    it('should have `this.config` defined', function() {
+  describe('Defaults', function () {
+    it('should have `this.config` defined', function () {
       var block = moj.Modules.AmountAssessed.blocks[0];
       expect(block.config).toEqual({
         hook: '.fx-assesment-hook',
@@ -56,7 +56,7 @@ describe("Modules.AmountAssessedBlock.js", function() {
       });
     });
 
-    it('should have `this.states` defined', function() {
+    it('should have `this.states` defined', function () {
       var block = moj.Modules.AmountAssessed.blocks[0];
       expect(block.states).toEqual({
         rejected: {
@@ -83,12 +83,12 @@ describe("Modules.AmountAssessedBlock.js", function() {
     });
   });
 
-  describe('Methods..', function() {
-    describe('...slider', function() {
-      it('should call correct $.fn', function(){
+  describe('Methods..', function () {
+    describe('...slider', function () {
+      it('should call correct $.fn', function () {
         var block = moj.Modules.AmountAssessed.blocks[0];
         var x = false;
-        $.fn.slideUp = function(){
+        $.fn.addClass = function () {
           x = true;
         }
         expect(x).toEqual(false)
@@ -100,20 +100,20 @@ describe("Modules.AmountAssessedBlock.js", function() {
   });
 });
 
-describe("Modules.AmountAssessed.js", function() {
-  beforeEach(function() {
+describe("Modules.AmountAssessed.js", function () {
+  beforeEach(function () {
     // reset to default state
     moj.Modules.AmountAssessed.init();
   });
 
-  afterEach(function() {});
+  afterEach(function () {});
 
-  describe('Defaults', function() {
-    it('should have a `blocks` array defined', function() {
+  describe('Defaults', function () {
+    it('should have a `blocks` array defined', function () {
       expect(moj.Modules.AmountAssessed.blocks).toEqual(jasmine.any(Array));
     });
 
-    it('should call `moj.Modules.AmountAssessedBlock` on init', function() {
+    it('should call `moj.Modules.AmountAssessedBlock` on init', function () {
       spyOn(moj.Modules, 'AmountAssessedBlock');
       moj.Modules.AmountAssessed.init();
       expect(moj.Modules.AmountAssessedBlock).toHaveBeenCalled();

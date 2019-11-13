@@ -303,10 +303,10 @@ moj.Modules.AllocationDataTable = {
     $('.allocation-submit').on('click', function (e) {
 
       self.ui.$msgFail.find('span').html();
-      self.ui.$msgSuccess.hide();
+      self.ui.$msgSuccess.addClass('hidden');
 
       self.ui.$msgSuccess.find('span').html('Allocating.. please wait a moment..');
-      self.ui.$msgSuccess.show();
+      self.ui.$msgSuccess.removeClass('hidden');
 
       e.preventDefault();
       self.ui.$submit.prop('disabled', true);
@@ -353,16 +353,16 @@ moj.Modules.AllocationDataTable = {
           claim_ids: data
         }
       }).success(function (data) {
-        self.ui.$msgFail.hide();
+        self.ui.$msgFail.addClass('hidden');
         self.ui.$msgSuccess.find('span').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id').val());
-        self.ui.$msgSuccess.show();
+        self.ui.$msgSuccess.removeClass('hidden');
         self.reloadScheme({
           scheme: self.searchConfig.scheme
         });
       }).error(function (data) {
-        self.ui.$msgSuccess.hide();
+        self.ui.$msgSuccess.addClass('hidden');
         self.ui.$msgFail.find('span').html(data.responseJSON.errors.join(''));
-        self.ui.$msgFail.show();
+        self.ui.$msgFail.removeClass('hidden');
       }).always(function () {
         self.ui.$submit.prop('disabled', false);
       });

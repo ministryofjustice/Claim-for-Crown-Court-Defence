@@ -2,7 +2,7 @@
   %label.form-label-bold{ for: 'select-box-filter-value' }
     = t('.value')
 
-  %select#select-box-filter-value.form-control{ name: 'filter_value_bands', style: 'width: 100%;' }
+  %select#select-box-filter-value.form-control.form-control-full{ name: 'filter_value_bands' }
     %option{ value: '' }
       = t('.all')
     %option{ value: 'max:25000' }

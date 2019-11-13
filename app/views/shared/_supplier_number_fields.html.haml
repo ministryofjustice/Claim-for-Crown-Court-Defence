@@ -4,13 +4,13 @@
     %span.fx-numberedList-number
     - editable = f.object.new_record? || f.object.supplier_number.blank? || !f.object.valid?
     - if editable
-      = link_to_remove_association t('.remove'), f, wrapper_class: 'supplier-number-group', class: "header-action fx-numberedList-action", style: "display: none;"
+      = link_to_remove_association t('.remove'), f, wrapper_class: 'supplier-number-group', class: 'header-action fx-numberedList-action hidden'
     - else
       - if f.object.has_non_archived_claims?
         %span.form-hint
           Cannot remove supplier number while claims are still in progress
       - else
-        = link_to_remove_association t('.remove'), f, wrapper_class: 'supplier-number-group', class: "header-action fx-numberedList-action", style: "display: none;"
+        = link_to_remove_association t('.remove'), f, wrapper_class: 'supplier-number-group', class: 'header-action fx-numberedList-action hidden'
 
   -# adp_text_field does not allow to use rails defaults locales for model attributes :S
   - attributes_scope = 'activerecord.attributes.supplier_number'

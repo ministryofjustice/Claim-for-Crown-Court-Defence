@@ -1,4 +1,4 @@
-#retrial-dates.form-section{style: @claim&.case_type&.requires_retrial_dates? ? 'display: block;' : 'display: none;', 'aria-labelledby': 'retrial-dates-heading'}
+#retrial-dates.form-section{ class: @claim&.case_type&.requires_retrial_dates? ? '' : 'hidden', 'aria-labelledby': 'retrial-dates-heading' }
   %h3#retrial-dates-heading.heading-medium
     = t('.retrial_detail')
 

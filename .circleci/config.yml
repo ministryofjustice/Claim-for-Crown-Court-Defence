@@ -30,13 +30,6 @@ references:
           POSTGRES_DB: cccd_test
           POSTGRES_PASSWORD: ""
 
-  decrypt_secrets: &decrypt_secrets
-    run:
-      name: Decrypt secrets file
-      command: |
-        echo "${GIT_CRYPT_KEY}" | base64 -d > git-crypt.key
-        git-crypt unlock git-crypt.key
-
   _restore-cache: &restore-cache
     restore_cache:
       keys:
@@ -160,90 +153,29 @@ references:
           docker push $docker_registry_latest_tag
         fi
 
-  _setup-dev: &setup-dev
+  _script-deploy-dev: &script-deploy-dev
     run:
-      name: Kubectl deployment setup dev
+      name: deploy to dev
       command: |
-        $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
-        setup-kube-auth
-        kubectl config use-context dev
+        .circleci/deploy.sh dev
 
-  _apply-dev: &apply-dev
-    deploy:
-      name: Deploy cccd docker image to cccd-dev
-      command: |
-        docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
-        kubectl apply -f kubernetes_deploy/dev/secrets.yaml
-        kubectl set image -f kubernetes_deploy/dev/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
-        kubectl set image -f kubernetes_deploy/cron_jobs/archive_stale.yaml cronjob-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
-        kubectl apply \
-        -f kubernetes_deploy/dev/service.yaml \
-        -f kubernetes_deploy/dev/ingress.yaml \
-        -f kubernetes_deploy/cron_jobs/clean_ecr.yaml
-        kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
-
-  _setup-api-sandbox: &setup-api-sandbox
+  _script-deploy-staging: &script-deploy-staging
     run:
-      name: Kubectl deployment setup api-sandbox
+      name: deploy to staging
       command: |
-        $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
-        setup-kube-auth
-        kubectl config use-context sandbox
+        .circleci/deploy.sh staging
 
-  _apply-api-sandbox: &apply-api-sandbox
-    deploy:
-      name: Deploy cccd docker image to cccd-api-sandbox
-      command: |
-        docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
-        kubectl apply -f kubernetes_deploy/api-sandbox/secrets.yaml
-        kubectl set image -f kubernetes_deploy/api-sandbox/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
-        kubectl set image -f kubernetes_deploy/cron_jobs/archive_stale.yaml cronjob-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
-        kubectl apply \
-        -f kubernetes_deploy/api-sandbox/service.yaml \
-        -f kubernetes_deploy/api-sandbox/ingress.yaml
-        kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
-
-  _setup-staging: &setup-staging
+  _script-deploy-api-sandbox: &script-deploy-api-sandbox
     run:
-      name: Kubectl deployment setup staging
+      name: deploy to api-sandbox
       command: |
-        $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
-        setup-kube-auth
-        kubectl config use-context staging
+        .circleci/deploy.sh api-sandbox
 
-  _apply-staging: &apply-staging
-    deploy:
-      name: Deploy cccd docker image to cccd-staging
-      command: |
-        docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
-        kubectl apply -f kubernetes_deploy/staging/secrets.yaml
-        kubectl set image -f kubernetes_deploy/staging/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
-        kubectl set image -f kubernetes_deploy/cron_jobs/archive_stale.yaml cronjob-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
-        kubectl apply \
-        -f kubernetes_deploy/staging/service.yaml \
-        -f kubernetes_deploy/staging/ingress.yaml
-        kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
-
-  _setup-prod: &setup-prod
+  _script-deploy-production: &script-deploy-production
     run:
-      name: Kubectl deployment setup prod
+      name: deploy to production
       command: |
-        $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
-        setup-kube-auth
-        kubectl config use-context production
-
-  _apply-prod: &apply-prod
-    deploy:
-      name: Deploy cccd docker image to cccd-prod
-      command: |
-        docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
-        kubectl apply -f kubernetes_deploy/production/secrets.yaml
-        kubectl set image -f kubernetes_deploy/production/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
-        kubectl set image -f kubernetes_deploy/cron_jobs/archive_stale.yaml cronjob-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
-        kubectl apply \
-        -f kubernetes_deploy/production/service.yaml \
-        -f kubernetes_deploy/production/ingress.yaml
-        kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
+        .circleci/deploy.sh production
 
 jobs:
   build:
@@ -327,81 +259,35 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - *setup-dev
-      - *decrypt_secrets
-      - *apply-dev
+      - *script-deploy-dev
 
   deploy-api-sandbox:
     <<: *cloud_platform_container_config
     steps:
       - checkout
       - setup_remote_docker
-      - *setup-api-sandbox
-      - *decrypt_secrets
-      - *apply-api-sandbox
+      - *script-deploy-api-sandbox
 
   deploy-staging:
     <<: *cloud_platform_container_config
     steps:
       - checkout
       - setup_remote_docker
-      - *setup-staging
-      - *decrypt_secrets
-      - *apply-staging
+      - *script-deploy-staging
 
   deploy-production:
     <<: *cloud_platform_container_config
     steps:
       - checkout
       - setup_remote_docker
-      - *setup-prod
-      - *decrypt_secrets
-      - *apply-prod
+      - *script-deploy-production
 
   auto-deploy-dev:
     <<: *cloud_platform_container_config
     steps:
       - checkout
       - setup_remote_docker
-      - *setup-dev
-      - *decrypt_secrets
-      - *apply-dev
-
-  # TODO: once merged with new alpine build try this out
-  #
-  # build-prod-container:
-  #   docker:
-  #     - image: docker:17.03-git
-  #       environment:
-  #         DSD_APP_NAME: "advocatedefencepayments"
-  #         ECR_APP_NAME: "claim-for-crown-court-defence"
-  #         ECR_DOCKER_IMAGE: "laa-get-paid/claim-crown-court-defence"
-  #   steps:
-  #     - checkout
-  #     - setup_remote_docker:
-  #         version: 17.03.0-ce
-  #         docker_layer_caching: true
-  #     - run:
-  #         name: Login to the DSD Docker registry
-  #         command: |
-  #           docker login \
-  #             --username $DOCKER_USER \
-  #             --password $DOCKER_PASS \
-  #             --email $DOCKER_EMAIL \
-  #             $DOCKER_REGISTRY
-  #     - run:
-  #         name: Login to the ECR Docker registry
-  #         command: |
-  #           apk add --no-cache --no-progress py2-pip
-  #           pip install awscli
-  #           ecr_login="$(aws ecr get-login --region eu-west-1 --no-include-email)"
-  #           ${ecr_login}
-  #     - run:
-  #         name: Build docker image
-  #         command: |
-  #           docker build --pull -t $ECR_ENDPOINT/$ECR_APP_NAME -f docker/Dockerfile .
-  #           docker tag $ECR_ENDPOINT/$ECR_APP_NAME $ECR_ENDPOINT/$ECR_APP_NAME:$CIRCLE_BUILD_NUM
-  #           docker push $ECR_ENDPOINT/$ECR_APP_NAME:$CIRCLE_BUILD_NUM
+      - *script-deploy-dev
 
 workflows:
   version: 2

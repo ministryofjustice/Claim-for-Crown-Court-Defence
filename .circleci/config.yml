@@ -332,3 +332,13 @@ workflows:
       - deploy-production:
           requires:
             - hold-production
+
+  admin-deploy:
+    jobs:
+      - build
+      - hold-admin-deploy:
+          type: approval
+          requires:
+            - build
+          context: cccd-admins
+      

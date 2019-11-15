@@ -74,7 +74,7 @@ function _deploy() {
   # there are changes to apply new secrets, at least.
   # - requires kubectl verion 1.15+
   #
-  kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date) - deploying: $docker_image_tag"
+  kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date) - deploying: $docker_image_tag via local machine"
   kubectl rollout restart deployments/claim-for-crown-court-defence
 
 }

@@ -71,7 +71,7 @@ function _circleci_deploy() {
     kubectl apply -f kubernetes_deploy/cron_jobs/clean_ecr.yaml
   fi
 
-  kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag"
+  kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag via CircleCI"
 }
 
 _circleci_deploy $@

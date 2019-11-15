@@ -12,7 +12,7 @@ references:
         GITHUB_TEAM_NAME_SLUG: laa-get-paid
         REPO_NAME: cccd
 
-  build_container_config: &build_container_config
+  _test-container-config: &test-container-config
     working_directory: ~/repo
     docker:
       - image: circleci/ruby:2.6.5-node-browsers
@@ -178,8 +178,8 @@ references:
         .circleci/deploy.sh production
 
 jobs:
-  build:
-    <<: *build_container_config
+  build-test-container:
+    <<: *test-container-config
     steps:
       - checkout
       - setup_remote_docker:
@@ -192,7 +192,7 @@ jobs:
       - *save-cache
 
   rspec-tests:
-    <<: *build_container_config
+    <<: *test-container-config
     parallelism: 4
     steps:
       - checkout
@@ -212,7 +212,7 @@ jobs:
           path: tmp/coverage
 
   cucumber-tests:
-    <<: *build_container_config
+    <<: *test-container-config
     parallelism: 2
     steps:
       - checkout
@@ -227,7 +227,7 @@ jobs:
           path: tmp/capybara
 
   other-tests:
-    <<: *build_container_config
+    <<: *test-container-config
     steps:
       - checkout
       - *restore-cache
@@ -238,7 +238,7 @@ jobs:
       - *jasmine
 
   upload-coverage:
-    <<: *build_container_config
+    <<: *test-container-config
     steps:
       - *attach-tmp-workspace
       - run:
@@ -247,7 +247,7 @@ jobs:
             tmp/cc-test-reporter sum-coverage --output - --parts 4 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
 
   build-and-push-docker:
-    <<: *build_container_config
+    <<: *test-container-config
     steps:
       - checkout
       - setup_remote_docker
@@ -291,18 +291,18 @@ jobs:
 
 workflows:
   version: 2
-  build-and-test:
+  build-test-deploy:
     jobs:
-      - build
+      - build-test-container
       - other-tests:
           requires:
-            - build
+            - build-test-container
       - rspec-tests:
           requires:
-            - build
+            - build-test-container
       - cucumber-tests:
           requires:
-            - build
+            - build-test-container
       - upload-coverage:
           requires:
             - rspec-tests

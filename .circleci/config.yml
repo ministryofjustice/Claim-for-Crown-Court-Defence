@@ -5,14 +5,14 @@
 version: 2
 
 references:
-  cloud_platform_container_config: &cloud_platform_container_config
+_cloud-platform-container: &cloud-platform-container
     docker:
     - image: ${ECR_ENDPOINT}/cloud-platform/tools:circleci
       environment:
         GITHUB_TEAM_NAME_SLUG: laa-get-paid
         REPO_NAME: cccd
 
-  _test-container-config: &test-container-config
+  _test-container: &test-container
     working_directory: ~/repo
     docker:
       - image: circleci/ruby:2.6.5-node-browsers
@@ -122,7 +122,7 @@ references:
       command: |
         sudo apt-get update && sudo apt-get -y install wkhtmltopdf
 
-  _build-docker-image: &build_docker_image
+  _build-docker-image: &build-docker-image
     run:
       name: Build cccd docker image
       command: |
@@ -138,12 +138,10 @@ references:
           --tag $docker_registry_tag \
           --file docker/Dockerfile .
 
-  _push-docker-image: &push_docker_image
+  _push-docker-image: &push-docker-image
     run:
       name: Push cccd docker image
       command: |
-        sudo apt-get install -y python3-pip
-        sudo pip3 install awscli
         $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
         docker_registry_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}"
         docker push $docker_registry_tag
@@ -179,7 +177,7 @@ references:
 
 jobs:
   build-test-container:
-    <<: *test-container-config
+    <<: *test-container
     steps:
       - checkout
       - setup_remote_docker:
@@ -192,7 +190,7 @@ jobs:
       - *save-cache
 
   rspec-tests:
-    <<: *test-container-config
+    <<: *test-container
     parallelism: 4
     steps:
       - checkout
@@ -212,7 +210,7 @@ jobs:
           path: tmp/coverage
 
   cucumber-tests:
-    <<: *test-container-config
+    <<: *test-container
     parallelism: 2
     steps:
       - checkout
@@ -227,7 +225,7 @@ jobs:
           path: tmp/capybara
 
   other-tests:
-    <<: *test-container-config
+    <<: *test-container
     steps:
       - checkout
       - *restore-cache
@@ -238,7 +236,7 @@ jobs:
       - *jasmine
 
   upload-coverage:
-    <<: *test-container-config
+    <<: *test-container
     steps:
       - *attach-tmp-workspace
       - run:
@@ -247,43 +245,43 @@ jobs:
             tmp/cc-test-reporter sum-coverage --output - --parts 4 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
 
   build-and-push-docker:
-    <<: *test-container-config
+    <<: *cloud-platform-container
     steps:
       - checkout
       - setup_remote_docker
-      - *build_docker_image
-      - *push_docker_image
+      - *build-docker-image
+      - *push-docker-image
 
   deploy-dev:
-    <<: *cloud_platform_container_config
+    <<: *cloud-platform-container
     steps:
       - checkout
       - setup_remote_docker
       - *script-deploy-dev
 
   deploy-api-sandbox:
-    <<: *cloud_platform_container_config
+    <<: *cloud-platform-container
     steps:
       - checkout
       - setup_remote_docker
       - *script-deploy-api-sandbox
 
   deploy-staging:
-    <<: *cloud_platform_container_config
+    <<: *cloud-platform-container
     steps:
       - checkout
       - setup_remote_docker
       - *script-deploy-staging
 
   deploy-production:
-    <<: *cloud_platform_container_config
+    <<: *cloud-platform-container
     steps:
       - checkout
       - setup_remote_docker
       - *script-deploy-production
 
   auto-deploy-dev:
-    <<: *cloud_platform_container_config
+    <<: *cloud-platform-container
     steps:
       - checkout
       - setup_remote_docker

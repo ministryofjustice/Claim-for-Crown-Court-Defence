@@ -59,14 +59,17 @@ function _circleci_deploy() {
 
   docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
 
+  # apply image specific config
   kubectl apply -f kubernetes_deploy/${environment}/secrets.yaml
   kubectl set image -f kubernetes_deploy/${environment}/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
   kubectl set image -f kubernetes_deploy/cron_jobs/archive_stale.yaml cronjob-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
+
+  # apply non-image specific config
   kubectl apply \
   -f kubernetes_deploy/${environment}/service.yaml \
-  -f kubernetes_deploy/${environment}/ingress.yaml \
+  -f kubernetes_deploy/${environment}/ingress.yaml
 
-  # ecr credentials available in cccd-dev env only
+  # only needed in one environment and cccd-dev has credentials
   if [[ ${environment} == 'dev' ]]; then
     kubectl apply -f kubernetes_deploy/cron_jobs/clean_ecr.yaml
   fi

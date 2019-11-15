@@ -5,7 +5,7 @@
 version: 2
 
 references:
-_cloud-platform-container: &cloud-platform-container
+  _cloud-platform-container: &cloud-platform-container
     docker:
     - image: ${ECR_ENDPOINT}/cloud-platform/tools:circleci
       environment:
@@ -122,34 +122,11 @@ _cloud-platform-container: &cloud-platform-container
       command: |
         sudo apt-get update && sudo apt-get -y install wkhtmltopdf
 
-  _build-docker-image: &build-docker-image
+  _script-build-app-container: &script-build-app-container
     run:
-      name: Build cccd docker image
-      command: |
-        docker_registry_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}"
-        docker build \
-          --build-arg VERSION_NUMBER="NOT USED ANYMORE" \
-          --build-arg BUILD_DATE=$(date +%Y-%m-%dT%H:%M:%S%z) \
-          --build-arg COMMIT_ID=${CIRCLE_SHA1} \
-          --build-arg BUILD_TAG="app-${CIRCLE_SHA1}" \
-          --build-arg APP_BRANCH=${CIRCLE_BRANCH} \
-          --build-arg LIVE1_DB_TASK=migrate \
-          --pull \
-          --tag $docker_registry_tag \
-          --file docker/Dockerfile .
-
-  _push-docker-image: &push-docker-image
-    run:
-      name: Push cccd docker image
-      command: |
-        $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
-        docker_registry_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}"
-        docker push $docker_registry_tag
-        if [ "${CIRCLE_BRANCH}" == "master" ]; then
-          docker_registry_latest_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-latest"
-          docker tag $docker_registry_tag $docker_registry_latest_tag
-          docker push $docker_registry_latest_tag
-        fi
+        name: Build and push cccd docker image
+        command: |
+          .circleci/build.sh
 
   _script-deploy-dev: &script-deploy-dev
     run:
@@ -244,13 +221,12 @@ jobs:
           command: |
             tmp/cc-test-reporter sum-coverage --output - --parts 4 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
 
-  build-and-push-docker:
+  build-app-container:
     <<: *cloud-platform-container
     steps:
       - checkout
       - setup_remote_docker
-      - *build-docker-image
-      - *push-docker-image
+      - *script-build-app-container
 
   deploy-dev:
     <<: *cloud-platform-container
@@ -306,12 +282,12 @@ workflows:
             - rspec-tests
             - cucumber-tests
             - other-tests
-      - build-and-push-docker:
+      - build-app-container:
           requires:
             - upload-coverage
       - auto-deploy-dev:
           requires:
-            - build-and-push-docker
+            - build-app-container
           filters:
             branches:
               only:
@@ -319,7 +295,7 @@ workflows:
       - hold-dev:
           type: approval
           requires:
-            - build-and-push-docker
+            - build-app-container
           filters:
             branches:
               ignore:
@@ -334,21 +310,21 @@ workflows:
       - hold-api-sandbox:
           type: approval
           requires:
-            - build-and-push-docker
+            - build-app-container
       - deploy-api-sandbox:
           requires:
             - hold-api-sandbox
       - hold-staging:
           type: approval
           requires:
-            - build-and-push-docker
+            - build-app-container
       - deploy-staging:
           requires:
             - hold-staging
       - hold-production:
           type: approval
           requires:
-            - build-and-push-docker
+            - build-app-container
           filters:
             branches:
               only:

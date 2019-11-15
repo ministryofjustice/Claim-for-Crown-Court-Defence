@@ -3,7 +3,7 @@ function _deploy() {
   usage="deploy -- deploy image from current commit to an environment
   Usage: kubernetes_deploy/bin/deploy environment [image-tag]
   Where:
-    environment [dev|staging|api-sandbox]
+    environment [dev|staging|api-sandbox|production]
     [image_tag] any valid ECR image tag for app
   Example:
     # deploy image for current commit to dev
@@ -60,23 +60,27 @@ function _deploy() {
   # TODO: check if image exists and if not offer to build or abort
 
   # apply image specific config
+  kubectl apply -f kubernetes_deploy/${environment}/secrets.yaml
   kubectl set image -f kubernetes_deploy/${environment}/deployment.yaml cccd-app=${docker_image_tag} --local --output yaml | kubectl apply -f -
   kubectl set image -f kubernetes_deploy/cron_jobs/archive_stale.yaml cronjob-worker=${docker_image_tag} --local --output yaml | kubectl apply -f -
 
   # apply non-image specific config
   kubectl apply \
     -f kubernetes_deploy/${environment}/service.yaml \
-    -f kubernetes_deploy/${environment}/ingress.yaml \
-    -f kubernetes_deploy/${environment}/secrets.yaml \
-    -f kubernetes_deploy/cron_jobs/clean_ecr.yaml
+    -f kubernetes_deploy/${environment}/ingress.yaml
+
+  # only needed in one environment and cccd-dev has credentials
+  if [[ ${environment} == 'dev' ]]; then
+    kubectl apply -f kubernetes_deploy/cron_jobs/clean_ecr.yaml
+  fi
+
+  kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date) - deploying: $docker_image_tag via local machine"
 
   # Forcibly restart the app regardless of whether
   # there are changes to apply new secrets, at least.
   # - requires kubectl verion 1.15+
   #
-  kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date) - deploying: $docker_image_tag"
   kubectl rollout restart deployments/claim-for-crown-court-defence
-
 }
 
 _deploy $@

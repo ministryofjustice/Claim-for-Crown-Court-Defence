@@ -126,7 +126,13 @@ references:
     run:
         name: Build and push cccd docker image
         command: |
-          .circleci/build.sh
+          .circleci/build.sh app
+
+  _script-build-admin-app-container: &script-build-admin-app-container
+    run:
+        name: Build and push cccd docker image
+        command: |
+          .circleci/build.sh admin-app
 
   _script-deploy-dev: &script-deploy-dev
     run:
@@ -227,6 +233,13 @@ jobs:
       - checkout
       - setup_remote_docker
       - *script-build-app-container
+
+  build-admin-app-container:
+    <<: *cloud-platform-container
+    steps:
+      - checkout
+      - setup_remote_docker
+      - *script-build-admin-app-container
 
   deploy-dev:
     <<: *cloud-platform-container
@@ -337,4 +350,7 @@ workflows:
           requires:
             - build-test-container
           context: cccd-admins
+      - build-admin-app-container:
+          requires:
+            - hold-admin-deploy
       

@@ -2,6 +2,8 @@
 
 function _circleci_build() {
   usage="build -- build, tag and push app image for current CircleCI commit to ecr
+  Where:
+    workflow [app|admin-app]
   Usage: build"
 
   if [[ -z "${ECR_ENDPOINT}" ]] || \
@@ -15,8 +17,26 @@ function _circleci_build() {
     return 1
   fi
 
+  if [[ $# -gt 1 ]]
+  then
+    echo "$usage"
+    return 1
+  fi
+
+  # Cloud platforms circle ci solution does not handle hyphenated names
+  case "$1" in
+    app | admin-app)
+      workflow=$1
+      circle_workflow=$workflow
+      ;;
+    *)
+      echo "$usage"
+      return 1
+      ;;
+  esac
+
   # build
-  docker_registry_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}"
+  docker_registry_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${circle_workflow}-${CIRCLE_SHA1}"
 
   printf "\e[33m------------------------------------------------------------------------\e[0m\n"
   printf "\e[33mBranch: $CIRCLE_BRANCH\e[0m\n"
@@ -40,7 +60,7 @@ function _circleci_build() {
   docker push $docker_registry_tag
 
   if [ "${CIRCLE_BRANCH}" == "master" ]; then
-    docker_registry_latest_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-latest"
+    docker_registry_latest_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${circle_workflow}-latest"
     docker tag $docker_registry_tag $docker_registry_latest_tag
     docker push $docker_registry_latest_tag
   fi

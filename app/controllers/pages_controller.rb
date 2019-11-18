@@ -13,7 +13,9 @@ class PagesController < ApplicationController
   def servicedown
     respond_to do |format|
       format.html { render :servicedown, layout: 'basic', status: region_specific_service_unavailable }
-      format.json { render json: [{ error: 'Temporarily unavailable' }], status: 503 }
+      format.json { render json: [{ error: 'Service temporarily unavailable' }], status: 503 }
+      format.js { render json: [{ error: 'Service temporarily unavailable' }], status: 503, content_type: 'text/json' }
+      format.all { render plain: 'error: Service temporarily unavailable', status: 503, content_type: 'text/plain' }
     end
   end
 

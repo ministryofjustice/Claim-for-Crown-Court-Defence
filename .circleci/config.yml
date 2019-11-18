@@ -138,25 +138,31 @@ references:
     run:
       name: deploy to dev
       command: |
-        .circleci/deploy.sh dev
+        .circleci/deploy.sh dev app
+
+  _script-admin-deploy-dev: &script-deploy-dev
+    run:
+      name: deploy to dev
+      command: |
+        .circleci/deploy.sh dev admin-app
 
   _script-deploy-staging: &script-deploy-staging
     run:
       name: deploy to staging
       command: |
-        .circleci/deploy.sh staging
+        .circleci/deploy.sh staging app
 
   _script-deploy-api-sandbox: &script-deploy-api-sandbox
     run:
       name: deploy to api-sandbox
       command: |
-        .circleci/deploy.sh api-sandbox
+        .circleci/deploy.sh api-sandbox app
 
   _script-deploy-production: &script-deploy-production
     run:
       name: deploy to production
       command: |
-        .circleci/deploy.sh production
+        .circleci/deploy.sh production app
 
 jobs:
   build-test-container:
@@ -247,6 +253,13 @@ jobs:
       - checkout
       - setup_remote_docker
       - *script-deploy-dev
+  
+  admin-deploy-dev:
+    <<: *cloud-platform-container
+    steps:
+      - checkout
+      - setup_remote_docker
+      - *script-admin-deploy-dev
 
   deploy-api-sandbox:
     <<: *cloud-platform-container
@@ -353,4 +366,7 @@ workflows:
       - build-admin-app-container:
           requires:
             - hold-admin-deploy
+      - admin-deploy-dev:
+          requires:
+            - build-admin-app-container
       

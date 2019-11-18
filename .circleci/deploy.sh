@@ -4,6 +4,7 @@ function _circleci_deploy() {
   Usage: $0 environment
   Where:
     environment [dev|staging|api-sandbox|production]
+    workflow [app|admin-app]
   Example:
     # deploy image for current circleCI commit to dev
     deploy.sh dev
@@ -20,7 +21,7 @@ function _circleci_deploy() {
     return 1
   fi
 
-  if [[ $# -gt 1 ]]
+  if [[ $# -gt 1 ]] || [[ $# -gt 2 ]]
   then
     echo "$usage"
     return 1
@@ -35,6 +36,17 @@ function _circleci_deploy() {
     api-sandbox)
       environment=$1
       cp_context=sandbox
+      ;;
+    *)
+      echo "$usage"
+      return 1
+      ;;
+  esac
+
+  case "$2" in
+    app | admin-app)
+      workflow=$2
+      circle_workflow=$workflow
       ;;
     *)
       echo "$usage"
@@ -57,7 +69,7 @@ function _circleci_deploy() {
   printf "\e[33mBranch: $CIRCLE_BRANCH\e[0m\n"
   printf "\e[33m--------------------------------------------------\e[0m\n"
 
-  docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
+  docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${circle_workflow}-${CIRCLE_SHA1}
 
   # apply image specific config
   kubectl apply -f kubernetes_deploy/${environment}/secrets.yaml

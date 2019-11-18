@@ -23,7 +23,6 @@ function _circleci_build() {
     return 1
   fi
 
-  # Cloud platforms circle ci solution does not handle hyphenated names
   case "$1" in
     app | admin-app)
       workflow=$1
@@ -49,7 +48,7 @@ function _circleci_build() {
     --build-arg VERSION_NUMBER="NOT USED ANYMORE" \
     --build-arg BUILD_DATE=$(date +%Y-%m-%dT%H:%M:%S%z) \
     --build-arg COMMIT_ID=${CIRCLE_SHA1} \
-    --build-arg BUILD_TAG="app-${CIRCLE_SHA1}" \
+    --build-arg BUILD_TAG="${circle_workflow}-${CIRCLE_SHA1}" \
     --build-arg APP_BRANCH=${CIRCLE_BRANCH} \
     --build-arg LIVE1_DB_TASK=migrate \
     --pull \

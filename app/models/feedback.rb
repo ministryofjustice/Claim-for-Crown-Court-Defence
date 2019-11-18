@@ -43,7 +43,7 @@ class Feedback
 
   def save
     return false unless valid?
-    ZendeskSender.send!(self)
+    ZendeskSender.send!(self) unless self.comment&.empty?
     true
   end
 

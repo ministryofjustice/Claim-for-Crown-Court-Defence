@@ -17,6 +17,13 @@ RSpec.describe 'Servicedown mode', type: :request do
     it { expect(response.body).to include('planned maintenance') }
   end
 
+  shared_examples 'maintenance json' do
+    it { expect(response).to have_http_status :service_unavailable }
+    it { expect(response.content_type).to eql('application/json') }
+    it { expect(response.body).to be_json }
+    it { expect(response.body).to include_json({error: "Service temporarily unavailable"}.to_json) }
+  end
+
   context '/ping' do
     before { get '/ping' }
     it { expect(response).to be_ok }
@@ -125,10 +132,32 @@ RSpec.describe 'Servicedown mode', type: :request do
 
     context '/api/case_types' do
       before { get '/api/case_types', params: { api_key: user.persona.provider.api_key, format: :json } }
+      it_behaves_like 'maintenance json'
+    end
+  end
 
+  context 'formatted responses' do
+    before { get '/', params: { format: mime } }
+
+    context 'html' do
+      let(:mime) { :html }
+      it_behaves_like 'maintenance page', status: 200
+    end
+
+    context 'json' do
+      let(:mime) { :json }
+      it_behaves_like 'maintenance json'
+    end
+
+    context 'js' do
+      let(:mime) { :js }
+      it_behaves_like 'maintenance json'
+    end
+
+    context 'all other' do
+      let(:mime) { :axd }
       it { expect(response).to have_http_status :service_unavailable }
-      it { expect(response.body).to be_json }
-      it { expect(response.body).to include_json({error: "Temporarily unavailable"}.to_json) }
+      it { expect(response.body).to include('Service temporarily unavailable') }
     end
   end
 end

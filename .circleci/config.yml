@@ -152,17 +152,35 @@ references:
       command: |
         .circleci/deploy.sh staging app
 
+  _script-deploy-staging: &script-deploy-staging
+    run:
+      name: deploy to staging
+      command: |
+        .circleci/deploy.sh staging admin
+
   _script-deploy-api-sandbox: &script-deploy-api-sandbox
     run:
       name: deploy to api-sandbox
       command: |
         .circleci/deploy.sh api-sandbox app
 
+  _script-deploy-api-sandbox: &script-deploy-api-sandbox
+    run:
+      name: deploy to api-sandbox
+      command: |
+        .circleci/deploy.sh api-sandbox admin
+
   _script-deploy-production: &script-deploy-production
     run:
       name: deploy to production
       command: |
         .circleci/deploy.sh production app
+
+  _script-deploy-production: &script-deploy-production
+    run:
+      name: deploy to production
+      command: |
+        .circleci/deploy.sh production admin
 
 jobs:
   build-test-container:
@@ -267,6 +285,13 @@ jobs:
       - checkout
       - setup_remote_docker
       - *script-deploy-api-sandbox
+  
+  admin-deploy-api-sandbox:
+    <<: *cloud-platform-container
+    steps:
+      - checkout
+      - setup_remote_docker
+      - *script-admin-deploy-api-sandbox
 
   deploy-staging:
     <<: *cloud-platform-container
@@ -275,12 +300,26 @@ jobs:
       - setup_remote_docker
       - *script-deploy-staging
 
+  admin-deploy-staging:
+    <<: *cloud-platform-container
+    steps:
+      - checkout
+      - setup_remote_docker
+      - *script-admin-deploy-staging
+
   deploy-production:
     <<: *cloud-platform-container
     steps:
       - checkout
       - setup_remote_docker
       - *script-deploy-production
+
+  admin-deploy-production:
+    <<: *cloud-platform-container
+    steps:
+      - checkout
+      - setup_remote_docker
+      - *script-admin-deploy-production
 
   auto-deploy-dev:
     <<: *cloud-platform-container
@@ -358,15 +397,44 @@ workflows:
       - deploy-production:
           requires:
             - hold-production
+    admin:
+      jobs:
       - hold-admin-deploy:
           type: approval
-          requires:
-            - build-test-container
           context: cccd-admins
       - build-admin-app-container:
           requires:
             - hold-admin-deploy
-      - admin-deploy-dev:
+      - hold-admin-dev:
+          type: approval
           requires:
             - build-admin-app-container
+          context: cccd-admins
+      - deploy-admin-dev:
+          requires:
+            - hold-admin-dev
+      - hold-admin-sandbox:
+          type: approval
+          requires:
+            - build-admin-app-container
+          context: cccd-admins
+      - deploy-admin-sandbox:
+          requires:
+            - hold-admin-sandbox
+      - hold-admin-staging:
+          type: approval
+          requires:
+            - build-admin-app-container
+          context: cccd-admins
+      - deploy-admin-staging:
+          requires:
+            - hold-admin-staging
+      - hold-admin-production:
+          type: approval
+          requires:
+            - build-admin-app-container
+          context: cccd-admins
+      - deploy-admin-production:
+          requires:
+            - hold-admin-production
       

@@ -43,9 +43,7 @@ class Feedback
 
   def save
     return false unless valid?
-    # rubocop:disable Style/SafeNavigation
-    ZendeskSender.send!(self) unless comment && comment.empty?
-    # rubocop:enable Style/SafeNavigation
+    ZendeskSender.send!(self) unless is_feedback_with_empty_comment?
     true
   end
 
@@ -61,5 +59,9 @@ class Feedback
 
   def feedback_type_attributes
     FEEDBACK_TYPES[type.to_sym]
+  end
+
+  def is_feedback_with_empty_comment?
+    feedback? && comment.empty?
   end
 end

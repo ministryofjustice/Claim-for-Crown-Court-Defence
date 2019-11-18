@@ -62,6 +62,6 @@ class Feedback
   end
 
   def is_feedback_with_empty_comment?
-    feedback? && comment&.empty?
+    feedback? && comment.to_s.empty?
   end
 end

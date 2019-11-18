@@ -55,6 +55,17 @@ RSpec.describe Feedback, type: :model do
 
         context 'and the comment is nil' do
           let(:feedback_params) do
+            params.merge(type: 'feedback', comment: nil, rating: '4')
+          end
+
+          it 'does not create a zendesk ticket but still returns true' do
+            expect(ZendeskSender).not_to receive(:send!)
+            expect(subject.save).to eq(true)
+          end
+        end
+
+        context 'and the comment is empty' do
+          let(:feedback_params) do
             params.merge(type: 'feedback', comment: '', rating: '4')
           end
 

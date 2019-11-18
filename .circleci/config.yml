@@ -152,7 +152,7 @@ references:
       command: |
         .circleci/deploy.sh staging app
 
-  _script-deploy-staging: &script-deploy-staging
+  _script-admin-deploy-staging: &script-admin-deploy-staging
     run:
       name: deploy to staging
       command: |
@@ -164,7 +164,7 @@ references:
       command: |
         .circleci/deploy.sh api-sandbox app
 
-  _script-deploy-api-sandbox: &script-deploy-api-sandbox
+  _script-admin-deploy-api-sandbox: &script-admin-deploy-api-sandbox
     run:
       name: deploy to api-sandbox
       command: |
@@ -176,7 +176,7 @@ references:
       command: |
         .circleci/deploy.sh production app
 
-  _script-deploy-production: &script-deploy-production
+  _script-admin-deploy-production: &script-admin-deploy-production
     run:
       name: deploy to production
       command: |
@@ -397,7 +397,9 @@ workflows:
       - deploy-production:
           requires:
             - hold-production
+  version: 2
   admin:
+    jobs:
       - hold-admin-deploy:
           type: approval
           context: cccd-admins

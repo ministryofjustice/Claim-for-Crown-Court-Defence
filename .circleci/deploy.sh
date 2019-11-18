@@ -4,7 +4,7 @@ function _circleci_deploy() {
   Usage: $0 environment
   Where:
     environment [dev|staging|api-sandbox|production]
-    workflow [app|admin-app]
+    workflow [app|admin]
   Example:
     # deploy image for current circleCI commit to dev
     deploy.sh dev

@@ -144,7 +144,7 @@ references:
     run:
       name: deploy to dev
       command: |
-        .circleci/deploy.sh dev admin-app
+        .circleci/deploy.sh dev admin
 
   _script-deploy-staging: &script-deploy-staging
     run:

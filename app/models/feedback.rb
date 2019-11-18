@@ -43,7 +43,9 @@ class Feedback
 
   def save
     return false unless valid?
-    ZendeskSender.send!(self) unless self.comment&.empty?
+    # rubocop:disable Style/SafeNavigation
+    ZendeskSender.send!(self) unless comment && comment.empty?
+    # rubocop:enable Style/SafeNavigation
     true
   end
 

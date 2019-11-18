@@ -20,7 +20,7 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
 
-Documentation:
+Style/Documentation:
   Enabled: false
 
 Style/FrozenStringLiteralComment:

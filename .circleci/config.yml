@@ -335,6 +335,6 @@ workflows:
       - hold-admin-deploy:
           type: approval
           requires:
-            - build
+            - build-test-container
           context: cccd-admins
       

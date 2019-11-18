@@ -21,7 +21,7 @@ function _circleci_deploy() {
     return 1
   fi
 
-  if [[ $# -gt 1 ]] || [[ $# -gt 2 ]]
+  if [[ $# -gt 2 ]]
   then
     echo "$usage"
     return 1

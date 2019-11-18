@@ -140,7 +140,7 @@ references:
       command: |
         .circleci/deploy.sh dev app
 
-  _script-admin-deploy-dev: &script-deploy-dev
+  _script-admin-deploy-dev: &script-admin-deploy-dev
     run:
       name: deploy to dev
       command: |

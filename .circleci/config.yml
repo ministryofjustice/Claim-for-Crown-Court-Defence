@@ -398,7 +398,6 @@ workflows:
           requires:
             - hold-production
   admin:
-    jobs:
       - hold-admin-deploy:
           type: approval
           context: cccd-admins

@@ -44,9 +44,8 @@ function _circleci_deploy() {
   esac
 
   case "$2" in
-    app | admin-app)
+    app | admin)
       workflow=$2
-      circle_workflow=$workflow
       ;;
     *)
       echo "$usage"
@@ -69,7 +68,7 @@ function _circleci_deploy() {
   printf "\e[33mBranch: $CIRCLE_BRANCH\e[0m\n"
   printf "\e[33m--------------------------------------------------\e[0m\n"
 
-  docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${circle_workflow}-${CIRCLE_SHA1}
+  docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${workflow}-${CIRCLE_SHA1}
 
   # apply image specific config
   kubectl apply -f kubernetes_deploy/${environment}/secrets.yaml

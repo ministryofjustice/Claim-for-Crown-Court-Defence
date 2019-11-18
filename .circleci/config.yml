@@ -132,7 +132,7 @@ references:
     run:
         name: Build and push cccd docker image
         command: |
-          .circleci/build.sh admin-app
+          .circleci/build.sh admin
 
   _script-deploy-dev: &script-deploy-dev
     run:

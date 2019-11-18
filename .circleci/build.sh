@@ -3,7 +3,7 @@
 function _circleci_build() {
   usage="build -- build, tag and push app image for current CircleCI commit to ecr
   Where:
-    workflow [app|admin-app]
+    workflow [app|admin]
   Usage: build"
 
   if [[ -z "${ECR_ENDPOINT}" ]] || \
@@ -22,11 +22,12 @@ function _circleci_build() {
     echo "$usage"
     return 1
   fi
+ 
+  echo "$1"
 
   case "$1" in
-    app | admin-app)
+    app | admin)
       workflow=$1
-      circle_workflow=$workflow
       ;;
     *)
       echo "$usage"
@@ -34,8 +35,10 @@ function _circleci_build() {
       ;;
   esac
 
+  echo "workflow"
+
   # build
-  docker_registry_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${circle_workflow}-${CIRCLE_SHA1}"
+  docker_registry_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${workflow}-${CIRCLE_SHA1}"
 
   printf "\e[33m------------------------------------------------------------------------\e[0m\n"
   printf "\e[33mBranch: $CIRCLE_BRANCH\e[0m\n"
@@ -48,7 +51,7 @@ function _circleci_build() {
     --build-arg VERSION_NUMBER="NOT USED ANYMORE" \
     --build-arg BUILD_DATE=$(date +%Y-%m-%dT%H:%M:%S%z) \
     --build-arg COMMIT_ID=${CIRCLE_SHA1} \
-    --build-arg BUILD_TAG="${circle_workflow}-${CIRCLE_SHA1}" \
+    --build-arg BUILD_TAG="${workflow}-${CIRCLE_SHA1}" \
     --build-arg APP_BRANCH=${CIRCLE_BRANCH} \
     --build-arg LIVE1_DB_TASK=migrate \
     --pull \
@@ -59,7 +62,7 @@ function _circleci_build() {
   docker push $docker_registry_tag
 
   if [ "${CIRCLE_BRANCH}" == "master" ]; then
-    docker_registry_latest_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${circle_workflow}-latest"
+    docker_registry_latest_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${workflow}-latest"
     docker tag $docker_registry_tag $docker_registry_latest_tag
     docker push $docker_registry_latest_tag
   fi

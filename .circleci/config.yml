@@ -258,7 +258,7 @@ jobs:
       - setup_remote_docker
       - *script-build-app-container
 
-  build-admin-app-container:
+  admin-build-app-container:
     <<: *cloud-platform-container
     steps:
       - checkout

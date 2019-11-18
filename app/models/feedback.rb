@@ -43,7 +43,7 @@ class Feedback
 
   def save
     return false unless valid?
-    ZendeskSender.send!(self)
+    ZendeskSender.send!(self) unless is_feedback_with_empty_comment?
     true
   end
 
@@ -59,5 +59,9 @@ class Feedback
 
   def feedback_type_attributes
     FEEDBACK_TYPES[type.to_sym]
+  end
+
+  def is_feedback_with_empty_comment?
+    feedback? && comment.to_s.empty?
   end
 end

@@ -177,7 +177,7 @@ module Claims
     end
 
     def last_redetermination
-      redeterminations.select(&:valid?).last
+      redeterminations.reverse.find(&:valid?)
     end
 
     def filtered_state_transitions

@@ -397,43 +397,42 @@ workflows:
       - deploy-production:
           requires:
             - hold-production
-  admin:
-      - hold-admin-deploy:
+      - admin-hold-deploy:
           type: approval
           context: cccd-admins
-      - build-admin-app-container:
+      - admin-build-app-container:
           requires:
-            - hold-admin-deploy
-      - hold-admin-dev:
+            - admin-hold-deploy
+      - admin-hold-dev:
           type: approval
           requires:
-            - build-admin-app-container
+            - admin-build-app-container
           context: cccd-admins
-      - deploy-admin-dev:
+      - admin-deploy-dev:
           requires:
-            - hold-admin-dev
-      - hold-admin-sandbox:
+            - admin-hold-dev
+      - admin-hold-sandbox:
           type: approval
           requires:
-            - build-admin-app-container
+            - admin-build-app-container
           context: cccd-admins
-      - deploy-admin-sandbox:
+      - admin-deploy-sandbox:
           requires:
-            - hold-admin-sandbox
-      - hold-admin-staging:
+            - admin-hold-sandbox
+      - admin-hold-staging:
           type: approval
           requires:
-            - build-admin-app-container
+            - admin-build-app-container
           context: cccd-admins
-      - deploy-admin-staging:
+      - admin-deploy-staging:
           requires:
-            - hold-admin-staging
-      - hold-admin-production:
+            - admin-hold-staging
+      - admin-hold-production:
           type: approval
           requires:
-            - build-admin-app-container
+            - admin-build-app-container
           context: cccd-admins
-      - deploy-admin-production:
+      - admin-deploy-production:
           requires:
-            - hold-admin-production
+            - admin-hold-production
       

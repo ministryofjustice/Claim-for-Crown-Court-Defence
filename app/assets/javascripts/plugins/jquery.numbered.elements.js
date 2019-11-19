@@ -42,8 +42,9 @@
         throw Error('This is an error message');
       }
 
-      $(el).on('cocoon:after-insert', function (e) {
+      $(el).on('cocoon:after-insert', function (e, insertedItem) {
         self.updateNumbers();
+        insertedItem.find('.remove_fields:first').focus();
       });
 
       $(el).on('cocoon:after-remove', function (e) {
@@ -57,7 +58,6 @@
       var items = $(this.settings.wrapper).find(this.settings.item + ':visible');
 
       items.each(function (idx, el) {
-        // $(el).find(action).css('display', 'block');
         $(el).find(action).removeClass('hidden');
         $(el).find(number).text('');
         if (items.length > 1) {

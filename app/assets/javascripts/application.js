@@ -97,6 +97,8 @@ if (!String.prototype.supplant) {
     moj.Modules.Autocomplete.typeaheadKickoff(insertedSelect);
     moj.Modules.Autocomplete.typeaheadBindEvents(typeaheadWrapper);
     moj.Modules.FeeFieldsDisplay.addFeeChangeEvent(insertedItem);
+
+    $insertedItem.find('.remove_fields:first').focus();
   });
 
   // Basic fees page

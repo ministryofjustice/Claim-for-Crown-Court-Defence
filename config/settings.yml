@@ -80,7 +80,7 @@ timed_retention_banner_enabled?: true
 
 # Feature flag to enable or disable the downtime warning
 # If enabled, all users will see it up until "downtime_warning_date"
-downtime_warning_enabled?: true
+downtime_warning_enabled?: false
 downtime_warning_date: <%= Date.new(2019, 11, 20) %>
 
 # Feature flag to enable or disable the scheme filters in the claims list page

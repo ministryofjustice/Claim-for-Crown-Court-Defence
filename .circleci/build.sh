@@ -22,8 +22,6 @@ function _circleci_build() {
     echo "$usage"
     return 1
   fi
- 
-  echo "$1"
 
   case "$1" in
     app | admin)
@@ -34,8 +32,6 @@ function _circleci_build() {
       return 1
       ;;
   esac
-
-  echo "workflow"
 
   # build
   docker_registry_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:${workflow}-${CIRCLE_SHA1}"

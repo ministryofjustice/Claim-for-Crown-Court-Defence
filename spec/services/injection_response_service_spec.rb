@@ -39,89 +39,47 @@ RSpec.describe InjectionResponseService, slack_bot: true do
   describe '#run!' do
     subject(:run!) { irs.run! }
 
-    context 'when not testing kubernetes' do
-      context 'when injection succeeded' do
-        let(:json) { valid_json_on_success }
-        include_examples 'creates injection attempts'
+    context 'when injection succeeded' do
+      let(:json) { valid_json_on_success }
+      include_examples 'creates injection attempts'
 
-        it 'marks injection as succeeded' do
-          run!
-          expect(injection_attempt.succeeded).to be_truthy
-        end
-
-        it 'does not send a slack message' do
-          run!
-          expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).not_to have_been_made
-        end
+      it 'marks injection as succeeded' do
+        run!
+        expect(injection_attempt.succeeded).to be_truthy
       end
 
-      context 'when injection failed' do
-        let(:json) { valid_json_on_failure }
-        include_examples 'creates injection attempts'
-
-        it 'marks injection as failed' do
-          run!
-          expect(injection_attempt.succeeded).to be_falsey
-        end
-
-        it 'sends a slack message' do
-          run!
-          expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).to have_been_made.times(1)
-        end
-
-        it 'adds error messages from the response' do
-          run!
-          expect(injection_attempt.error_messages).to be_present
-          expect(injection_attempt.error_messages).to be_an Array
-          expect(injection_attempt.error_messages).to include("No defendant found for Rep Order Number: '123456432'.","Another injection error.")
-        end
+      it 'does not send a slack message' do
+        run!
+        expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).not_to have_been_made
       end
     end
 
-    context 'when testing kubernetes' do
-      before { allow(Settings.aws).to receive(:response_queue).and_return('laa-get-paid-test-responses-for-cccd') }
+    context 'when injection failed' do
+      let(:json) { valid_json_on_failure }
+      include_examples 'creates injection attempts'
 
-      context 'when injection succeeded' do
-        let(:json) { valid_json_on_success }
-        include_examples 'creates injection attempts'
-
-        it 'marks injection as succeeded' do
-          run!
-          expect(injection_attempt.succeeded).to be_truthy
-        end
-
-        it 'sends a slack message' do
-          run!
-          expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).to have_been_made.times(1)
-        end
+      it 'marks injection as failed' do
+        run!
+        expect(injection_attempt.succeeded).to be_falsey
       end
 
-      context 'when injection failed' do
-        let(:json) { valid_json_on_failure }
-        include_examples 'creates injection attempts'
+      it 'sends a slack message' do
+        run!
+        expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).to have_been_made.times(1)
+      end
 
-        it 'marks injection as failed' do
-          run!
-          expect(injection_attempt.succeeded).to be_falsey
-        end
-
-        it 'sends a slack message' do
-          run!
-          expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).to have_been_made.times(1)
-        end
-
-        it 'adds error messages from the response' do
-          run!
-          expect(injection_attempt.error_messages).to be_present
-          expect(injection_attempt.error_messages).to be_an Array
-          expect(injection_attempt.error_messages).to include("No defendant found for Rep Order Number: '123456432'.","Another injection error.")
-        end
+      it 'adds error messages from the response' do
+        run!
+        expect(injection_attempt.error_messages).to be_present
+        expect(injection_attempt.error_messages).to be_an Array
+        expect(injection_attempt.error_messages).to include("No defendant found for Rep Order Number: '123456432'.","Another injection error.")
       end
 
       context 'with a known, ignorable, error' do
-        let(:error_message) { 'A case already exists for these case details.' }
+        let(:error_message) { '<blahblah>already exist<blahblah>' }
 
         it 'does not send a slack message' do
+          run!
           expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).not_to have_been_made
         end
       end

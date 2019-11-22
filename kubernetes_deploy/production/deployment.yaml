@@ -211,6 +211,11 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__UNLOCK_INSTRUCTIONS
+            - name: SETTINGS__GECKOBOARD__WIDGETS__TRAVEL_AUTOMATION
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: SETTINGS__GECKOBOARD__WIDGETS__TRAVEL_AUTOMATION
             - name: TEST_CHAMBER_API_KEY
               valueFrom:
                 secretKeyRef:

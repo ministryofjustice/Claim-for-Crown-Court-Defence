@@ -54,6 +54,8 @@ class ApiTestClient
   end
 
   def post_to_endpoint(resource, payload, debug = false)
+    endpoint_url = [api_root_url, EXTERNAL_USER_PREFIX, resource].join('/')
+    puts endpoint_url
     endpoint = RestClient::Resource.new([api_root_url, EXTERNAL_USER_PREFIX, resource].join('/'))
     debug("POSTING TO #{endpoint}") if debug
     debug("Payload:\n#{payload}\n") if debug

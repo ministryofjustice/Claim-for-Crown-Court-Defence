@@ -22,18 +22,18 @@ class ClaimFormPage < BasePage
 
   set_url "/advocates/claims/new"
 
-  element :providers_ref, "#claim_providers_ref"
+  element :providers_ref, "#providers_ref"
   section :auto_case_type, CommonAutocomplete, "#cc-case-type"
   section :auto_court, CommonAutocomplete, "#cc-court"
   section :auto_offence, CommonAutocomplete, "#cc-offence"
 
-  element :case_number, "#claim_case_number"
+  element :case_number, "#case_number"
 
   section :trial_details, "#trial-dates" do
     section :first_day_of_trial, CommonDateSection, '#first_day_of_trial'
     section :trial_concluded_on, CommonDateSection, '#trial_concluded_at'
-    element :actual_trial_length, "#claim_actual_trial_length"
-    element :estimated_trial_length, '#claim_estimated_trial_length'
+    element :actual_trial_length, "#actual_trial_length"
+    element :estimated_trial_length, '#estimated_trial_length'
   end
 
   section :retrial_details, RetrialSection, "#retrial-dates"

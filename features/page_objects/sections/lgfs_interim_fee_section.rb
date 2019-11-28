@@ -15,11 +15,11 @@ class LgfsInterimFeeSection < SitePrism::Section
   section :effective_pcmh_date, CommonDateSection, '.js-interim-effectivePcmh .gov_uk_date'
 
   # interim trial start fee fields
-  element :estimated_trial_length, 'input#claim_estimated_trial_length'
+  element :estimated_trial_length, 'input#estimated_trial_length'
   section :first_day_of_trial, CommonDateSection, '.js-interim-trialDates .gov_uk_date'
 
   # interim retrial start fee fields
-  element :retrial_estimated_length, 'input#claim_retrial_estimated_length'
+  element :retrial_estimated_length, 'input#retrial_estimated_length'
   section :retrial_started_at, CommonDateSection, '.js-interim-retrialDates .gov_uk_date'
 
   # interim retrial (new solicitor) fee fields

@@ -12,6 +12,7 @@
       = render partial: 'external_users/claims/basic_fees/offence_display', locals: { f: f }
 
     = f.hidden_field :fee_type_id, value: f.object.fee_type_id, class: 'js-fee-type'
+    = f.label :quantity, 'Fee calculator days', class: 'visually-hidden'
     = f.text_field :quantity, value: 1, class: 'js-fee-calculator-days visually-hidden'
     .js-graduated-price-effectee
       .calculated-grad-fee

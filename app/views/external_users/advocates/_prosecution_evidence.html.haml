@@ -1,11 +1,11 @@
 .form-group.prosecution-evidence
-  %fieldset{"aria-describedby": "radio-control-legend-category"}
+  %fieldset{ 'aria-describedby': 'radio-control-evidence' }
     = f.anchored_without_label t('shared.claim.prosecution_evidence')
-    %legend{:for => "prosecution_evidence"}
-      %h3#radio-control-legend-category.heading-medium
-        = t("common.prosecution_evidence")
+    %legend{ for: 'prosecution_evidence' }
+      %h3#radio-control-evidence.heading-medium
+        = t('common.prosecution_evidence')
 
     = f.collection_radio_buttons(:prosecution_evidence, yes_no_options, :last, :first) do |b|
       .multiple-choice.js-fee-calculator-prosecution-evidence
-        = b.radio_button("aria-labelledby": "checkbox-control-legend-prosection-evidence #{b.text.to_css_class}")
+        = b.radio_button('aria-labelledby': "checkbox-control-legend-prosection-evidence #{b.text.to_css_class}")
         = b.label(id: b.text.to_css_class) { t((b.value.to_s == true.to_s).class) }

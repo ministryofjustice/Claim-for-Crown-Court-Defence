@@ -36,27 +36,27 @@ Feature: Advocate completes fixed fee page using calculator
     And I select the 'Standard appearance fee' fixed fee
 
     Then the following fee details should exist:
-      | section | fee_description                               | rate   | hint                            | help |
-      | fixed   | Appeals to the crown court against conviction | 130.00 | Number of days                  | true |
-      | fixed   | Number of cases uplift                        | 26.00  | Number of additional cases      | true |
-      | fixed   | Number of defendants uplift                   | 26.00  | Number of additional defendants | true |
-      | fixed   | Standard appearance fee                       | 87.00  | Number of days                  | true |
+      | section | fee_description | rate | hint | help |
+      | fixed | Appeals to the crown court against conviction | 130.00 | Number of days | true |
+      | fixed | Number of cases uplift | 26.00 | Number of additional cases | true |
+      | fixed | Number of defendants uplift | 26.00 | Number of additional defendants | true |
+      | fixed | Standard appearance fee | 87.00 | Number of days | true |
 
     When I select an advocate category of 'QC'
     Then the following fee details should exist:
-      | section | fee_description                               | rate   |
-      | fixed   | Appeals to the crown court against conviction | 260.00 |
-      | fixed   | Number of cases uplift                        | 52.00  |
-      | fixed   | Number of defendants uplift                   | 52.00  |
-      | fixed   | Standard appearance fee                       | 173.00 |
+      | section | fee_description | rate |
+      | fixed | Appeals to the crown court against conviction | 260.00 |
+      | fixed | Number of cases uplift | 52.00 |
+      | fixed | Number of defendants uplift | 52.00 |
+      | fixed | Standard appearance fee | 173.00 |
 
     When I amend the fixed fee 'Appeals to the crown court against conviction' to have a quantity of '2'
     Then the following fee details should exist:
-      | section | fee_description                               | rate   |
-      | fixed   | Appeals to the crown court against conviction | 260.00 |
-      | fixed   | Number of cases uplift                        | 104.00 |
-      | fixed   | Number of defendants uplift                   | 104.00 |
-      | fixed   | Standard appearance fee                       | 173.00 |
+      | section | fee_description | rate |
+      | fixed | Appeals to the crown court against conviction | 260.00 |
+      | fixed | Number of cases uplift | 104.00 |
+      | fixed | Number of defendants uplift | 104.00 |
+      | fixed | Standard appearance fee | 173.00 |
     Then the page should be accessible within "#content"
 
     And I eject the VCR cassette
@@ -99,17 +99,17 @@ Feature: Advocate completes fixed fee page using calculator
     And I select the 'Number of defendants uplift' fixed fee
 
     Then the following fee details should exist:
-      | section | fee_description             | rate   | hint                            | help |
-      | fixed   | Elected case not proceeded  | 194.00 | Number of days                  | true |
-      | fixed   | Number of cases uplift      | 38.80  | Number of additional cases      | true |
-      | fixed   | Number of defendants uplift | 38.80  | Number of additional defendants | true |
+      | section | fee_description | rate | hint | help |
+      | fixed | Elected case not proceeded | 194.00 | Number of days | true |
+      | fixed | Number of cases uplift | 38.80 | Number of additional cases | true |
+      | fixed | Number of defendants uplift | 38.80 | Number of additional defendants | true |
 
     When I select an advocate category of 'QC'
     Then the following fee details should exist:
-      | section | fee_description             | rate   | hint                            | help |
-      | fixed   | Elected case not proceeded  | 194.00 | Number of days                  | true |
-      | fixed   | Number of cases uplift      | 38.80  | Number of additional cases      | true |
-      | fixed   | Number of defendants uplift | 38.80  | Number of additional defendants | true |
+      | section | fee_description | rate | hint | help |
+      | fixed | Elected case not proceeded | 194.00 | Number of days | true |
+      | fixed | Number of cases uplift | 38.80 | Number of additional cases | true |
+      | fixed | Number of defendants uplift | 38.80 | Number of additional defendants | true |
     Then the page should be accessible within "#content"
 
     And I eject the VCR cassette

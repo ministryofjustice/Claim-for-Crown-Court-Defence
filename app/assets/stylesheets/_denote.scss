@@ -3,9 +3,14 @@
 .form-input-denote {
   position: absolute;
   margin: 2px 0 0 2px;
-  padding: $gutter-one-sixth $gutter-one-third;
+  padding: $gutter-one-sixth + 1 $gutter-one-third + 2;
   background-color: $grey-3;
   line-height: 1.1;
+
+  @media (min-width: 641px) {
+    padding: $gutter-one-sixth + 2 $gutter-one-third + 2;
+  }
+
 }
 
 .form-input-denote__input {
@@ -17,7 +22,11 @@
 .form-group-error .form-input-denote {
   margin-top: $gutter-one-sixth;
   margin-left: $gutter-one-sixth;
-  padding: $gutter-one-sixth $gutter-one-third;
+  padding: $gutter-one-sixth + 1 $gutter-one-third + 2;
   background-color: $error-colour;
   color: $white;
+
+  @media (min-width: 641px) {
+    padding: $gutter-one-sixth + 3 $gutter-one-third + 2;
+  }
 }

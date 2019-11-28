@@ -39,7 +39,7 @@ moj.Modules.CaseTypeCtrl = {
   bindEvents: function () {
     var self = this;
 
-    $.subscribe('/onConfirm/claim_case_type_id-select/', function (e, data) {
+    $.subscribe('/onConfirm/case_type-select/', function (e, data) {
       // Loop over the data object and fire the
       // methods as required, passing in the param
       Object.keys(data).map(function (objectKey) {

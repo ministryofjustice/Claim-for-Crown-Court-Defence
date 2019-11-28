@@ -851,19 +851,6 @@ Styling for Claims Messaging
     padding: $gutter-one-third;
     border-bottom: 1px solid $border-colour;
 
-    span.link-grey {
-      a {
-        color: $grey-1;
-        text-decoration: none;
-      }
-
-      a:hover {
-        text-decoration: underline;
-      }
-
-      color: $grey-1;
-    }
-
     .align-right {
       text-align: right;
     }

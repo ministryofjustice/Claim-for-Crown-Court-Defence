@@ -52,7 +52,7 @@ class AdpTextField
   def to_html
     result = div_start
     # Issue: duplicate id, this breaks the label & input association
-    result += anchor
+    # result += anchor
     result += label
     result += hint
     result += error_message
@@ -161,7 +161,7 @@ class AdpTextField
   end
 
   def label
-    %(<label class="form-label-bold" for="#{@form_field_id}">#{@options[:label]})
+    %(<label class="form-label-bold" for="#{@anchor_id}">#{@options[:label]})
   end
 
   def label_close
@@ -185,7 +185,7 @@ class AdpTextField
     result = %()
     result += %(<span class="currency-indicator form-input-denote">&pound;</span>) if @input_is_currency
     input_part1 = "class=\"form-control #{@input_classes}\" type=\"#{@input_type_string}\""
-    result += %(<input #{input_part1} name="#{@form_field_name}" id="#{@form_field_id}" )
+    result += %(<input #{input_part1} name="#{@form_field_name}" id="#{@anchor_id}" )
     result += %(value="#{strip_tags(@value)}" ) unless @value.nil?
     if @input_is_number
       result += %(min="#{@input_min}" )

@@ -4,16 +4,14 @@
     %span.fx-numberedList-number
     = link_to_remove_association t('.remove'), f, wrapper_class: 'disbursement-group', class: 'header-action fx-numberedList-action hidden'
 
-  .form-group
-    .disbursement-type.js-typeahead{ class: error_class?(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type") }
-      %a{ id: "disbursement_#{@disbursement_count+1}_disbursement_type" }
-      = f.label :disbursement_type_id, t('.disbursement_type'), class: 'form-label-bold'
-      = f.select :disbursement_type_id,
-        DisbursementType.active.map{ |disbursement| [disbursement.name, disbursement.id] },
-        { include_blank: ''.html_safe },
-        { class: 'form-control form-control-full fx-autocomplete', 'aria-label': t('.disbursement_type') }
-
-      = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")
+  .form-group.disbursement-type.js-typeahead{ class: error_class?(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type") ? 'form-group-error dropdown_field_with_errors' : ''  }
+    %a{ id: "disbursement_#{@disbursement_count}_disbursement_type" }
+    = f.label :disbursement_type_id, t('.disbursement_type'), class: 'form-label-bold'
+    = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")
+    = f.select :disbursement_type_id,
+      DisbursementType.active.map{ |disbursement| [disbursement.name, disbursement.id] },
+      { include_blank: ''.html_safe },
+      { class: 'form-control form-control-full fx-autocomplete', 'aria-label': t('.disbursement_type') }
 
   .form-group
     = f.adp_text_field :net_amount,

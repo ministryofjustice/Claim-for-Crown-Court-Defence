@@ -70,7 +70,7 @@ describe('Modules.CaseTypeCtrl', function() {
     });
 
     describe('...bindEvents', function() {
-      it('...should `$.subscribe` to `/onConfirm/claim_case_type_id-select/`', function() {
+      it('...should `$.subscribe` to `/onConfirm/case_type-select/`', function() {
         spyOn($, 'subscribe');
 
         CaseTypeCtrl.init();
@@ -86,7 +86,7 @@ describe('Modules.CaseTypeCtrl', function() {
         spyOn(CaseTypeCtrl.actions, 'requiresRetrialDates');
         spyOn(CaseTypeCtrl.actions, 'requiresCrackedDates');
 
-        $.publish('/onConfirm/claim_case_type_id-select/', {
+        $.publish('/onConfirm/case_type-select/', {
           requiresCrackedDates: true,
           requiresRetrialDates: false,
           requiresTrialDates: true

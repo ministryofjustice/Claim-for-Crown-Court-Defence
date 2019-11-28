@@ -21,7 +21,7 @@ class LitigatorClaimFormPage < ClaimFormPage
   section :fixed_fee, LgfsFixedFeeSection, ".fixed-fee-group"
 
   element :ppe_total, "input.quantity"
-  element :actual_trial_length, "#claim_actual_trial_length"
+  element :actual_trial_length, "#actual_trial_length"
   section :graduated_fee_date, CommonDateSection, "div.graduated-fee-group"
 
   def select_supplier_number(number)

@@ -69,26 +69,46 @@ RSpec.describe HeartbeatController, type: :controller do
       allow(Sidekiq::ProcessSet).to receive(:new).and_return(instance_double(Sidekiq::ProcessSet, size: 1))
       allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::RetrySet, size: 0))
       allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 0))
+      connection = double('connection')
+      allow(connection).to receive(:info).and_return({ redis_version: "5.0.0" })
+      allow(Sidekiq).to receive(:redis).and_yield(connection)
     end
 
-    context 'when failed redis jobs exist' do
-      before do
-        allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 1))
-        get :healthcheck
-      end
-
-      let(:successful_healthcheck) do
+    context 'when failed Sidekiq jobs exist' do
+      let(:failed_job_healthcheck) do
         {
           checks: { database: true, redis: true, sidekiq: true, sidekiq_queue: false, num_claims: 0 }
         }.to_json
       end
 
-      it 'returns ok http status' do
-        expect(response).to have_http_status :ok
+      context 'dead set exists' do
+        before do
+          allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 1))
+          get :healthcheck
+        end
+
+        it 'returns ok http status' do
+          expect(response).to have_http_status :ok
+        end
+
+        it 'returns the expected response report' do
+          expect(response.body).to eq(failed_job_healthcheck)
+        end
       end
 
-      it 'returns the expected response report' do
-        expect(response.body).to eq(successful_healthcheck)
+      context 'retry set exists' do
+        before do
+          allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::RetrySet, size: 1))
+          get :healthcheck
+        end
+
+        it 'returns ok http status' do
+          expect(response).to have_http_status :ok
+        end
+
+        it 'returns the expected response report' do
+          expect(response.body).to eq(failed_job_healthcheck)
+        end
       end
     end
 

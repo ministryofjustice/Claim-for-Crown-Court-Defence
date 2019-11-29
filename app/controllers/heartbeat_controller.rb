@@ -26,7 +26,7 @@ class HeartbeatController < ApplicationController
       num_claims: Claim::BaseClaim.count
     }
 
-    status = :bad_gateway unless checks.values.all?
+    status = :bad_gateway unless checks.except(:sidekiq_queue).values.all?
     render status: status, json: { checks: checks }
   end
 

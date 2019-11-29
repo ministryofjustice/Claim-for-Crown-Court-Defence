@@ -71,11 +71,31 @@ RSpec.describe HeartbeatController, type: :controller do
       allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 0))
     end
 
-    context 'when a problem exists' do
+    context 'when failed redis jobs exist' do
+      before do
+        allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 1))
+        get :healthcheck
+      end
+
+      let(:successful_healthcheck) do
+        {
+          checks: { database: true, redis: true, sidekiq: true, sidekiq_queue: false, num_claims: 0 }
+        }.to_json
+      end
+
+      it 'returns ok http status' do
+        expect(response).to have_http_status :ok
+      end
+
+      it 'returns the expected response report' do
+        expect(response.body).to eq(successful_healthcheck)
+      end
+    end
+
+    context 'when an infrastructure problem exists' do
       before do
         allow(ActiveRecord::Base.connection).to receive(:active?).and_raise(PG::ConnectionBad)
         allow(Sidekiq::ProcessSet).to receive(:new).and_return(instance_double(Sidekiq::ProcessSet, size: 0))
-        allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 1))
 
         connection = double('connection')
         allow(connection).to receive(:info).and_raise(Redis::CannotConnectError)
@@ -84,18 +104,18 @@ RSpec.describe HeartbeatController, type: :controller do
         get :healthcheck
       end
 
-      let(:expected_response) do
+      let(:failed_healthcheck) do
         {
-          checks: { database: false, redis: false, sidekiq: false, sidekiq_queue: false, num_claims: 0 }
+          checks: { database: false, redis: false, sidekiq: false, sidekiq_queue: true, num_claims: 0 }
         }.to_json
       end
 
       it 'returns status bad gateway' do
-        expect(response.status).to eq(502)
+        expect(response).to have_http_status :bad_gateway
       end
 
       it 'returns the expected response report' do
-        expect(response.body).to eq(expected_response)
+        expect(response.body).to eq(failed_healthcheck)
       end
     end
 

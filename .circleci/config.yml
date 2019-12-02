@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@3.4.1
+
 references:
   _cloud-platform-container: &cloud-platform-container
     docker:
@@ -148,6 +151,13 @@ references:
       command: |
         .circleci/deploy.sh production
 
+commands:
+  notify-approval:
+    steps:
+      - slack/approval:
+          color: '#3AA3E3'
+          message: "Deployment pending approval"
+
 jobs:
   build-test-container:
     <<: *test-container
@@ -224,6 +234,11 @@ jobs:
       - setup_remote_docker
       - *script-build-app-container
 
+  hold-notification:
+    <<: *cloud-platform-container
+    steps:
+      - notify-approval
+
   deploy-dev:
     <<: *cloud-platform-container
     steps:
@@ -288,10 +303,13 @@ workflows:
             branches:
               only:
                 - master
+      - hold-notification:
+          requires:
+            - build-app-container
       - hold-dev:
           type: approval
           requires:
-            - build-app-container
+            - hold-notification
           filters:
             branches:
               ignore:
@@ -306,21 +324,21 @@ workflows:
       - hold-api-sandbox:
           type: approval
           requires:
-            - build-app-container
+            - hold-notification
       - deploy-api-sandbox:
           requires:
             - hold-api-sandbox
       - hold-staging:
           type: approval
           requires:
-            - build-app-container
+            - hold-notification
       - deploy-staging:
           requires:
             - hold-staging
       - hold-production:
           type: approval
           requires:
-            - build-app-container
+            - hold-notification
           filters:
             branches:
               only:

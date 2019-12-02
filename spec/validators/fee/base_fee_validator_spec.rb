@@ -119,7 +119,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
     end
 
-    # TODO: this will become default after gamma/private beta claims archived/deleted
+    # TODO: this will become default after production claims archived/deleted
     context 'for fees entered after rate was reintroduced' do
       it 'should require a rate of more than zero' do
         fee.amount = nil

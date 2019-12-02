@@ -87,14 +87,6 @@ module TimedTransitions
           error: e.message)
     end
 
-    # NOTE: at time of writing this class is called
-    # by batch_transitioner which is called by rake
-    # task claims::archive_stale which is called
-    # by a cron job defined in the template deploy
-    # repo (see cron.sls) and which logs to /var/log/archive_stale.log
-    # in the nginx container on ONE INSTANCE ONLY of
-    # gamma and staging boxes only ...OMG!
-    #
     def log(level = :info, action:, message:, succeeded:, error: nil)
       LogStuff.send(
         level.to_sym,

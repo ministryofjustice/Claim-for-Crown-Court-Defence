@@ -1,5 +1,5 @@
 class RailsHost
-  VALID_ENVS = %w[dev demo staging api-sandbox gamma production].freeze
+  VALID_ENVS = %w[dev staging api-sandbox production].freeze
 
   def self.env
     ENV['ENV']

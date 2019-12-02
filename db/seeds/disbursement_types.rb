@@ -42,5 +42,5 @@ disbursement_types.each do |row|
   SeedHelper.find_or_create_disbursement_type!(record_id, unique_code, name, deleted_at)
 end
 
-# This is to ensure API Sandbox and Gamma are in sync regarding the IDs
+# This is to ensure api-sandbox and production are in sync regarding the IDs
 DisbursementType.connection.execute("ALTER SEQUENCE disbursement_types_id_seq restart with #{max_id + 1}")

@@ -252,7 +252,7 @@ namespace :db do
   end
 
   def production_protected
-    raise 'This operation was aborted because the result might destroy production data' if ActiveRecord::Base.connection_config[:database] =~ /gamma/
+    raise 'This operation was aborted because the result might destroy production data' if Rails.host.production?
   end
 
   def with_config

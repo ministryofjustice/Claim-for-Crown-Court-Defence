@@ -5,10 +5,9 @@ require 'uri'
 
 ENVIRONMENTS = {
     'dev' => 'dev-adp.dsd.io',
-    'demo' => 'demo-adp.dsd.io',
     'sandbox' => 'api-sandbox-adp.dsd.io',
     'staging' => 'staging-adp.dsd.io',
-    'gamma' => 'claim-crown-court-defence.service.gov.uk'
+    'production' => 'claim-crown-court-defence.service.gov.uk'
 }
 
 def hostname

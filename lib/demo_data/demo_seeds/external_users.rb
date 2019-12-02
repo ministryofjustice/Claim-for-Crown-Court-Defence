@@ -3,7 +3,7 @@ require Rails.root.join('db','seed_helper')
 # NOTE:
 #   the following provider names can be destroyed using the claims destroyer
 #   and should therefore be used so that we can "clean-up" data on staging
-#   and gamma (be very careful)
+#   and production (be very careful)
 #
 # SAMPLE_PROVIDERS = ['Test chamber','Test firm A', 'Test firm B']
 #

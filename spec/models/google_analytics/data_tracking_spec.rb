@@ -13,7 +13,7 @@ module GoogleAnalytics
           allow(described_class).to receive(:adapter).and_return('Adapter')
         end
 
-        %w(staging gamma production).each do |host|
+        %w(staging production).each do |host|
           it "returns true when host is #{host}" do
             allow(RailsHost).to receive(:env).and_return(host)
             expect(described_class.enabled?).to be_truthy
@@ -26,12 +26,12 @@ module GoogleAnalytics
           allow(described_class).to receive(:adapter).and_return(nil)
         end
 
-        it 'returns false when host is demo' do
-          allow(RailsHost).to receive(:env).and_return('gamma')
+        it 'returns false when host is dev' do
+          allow(RailsHost).to receive(:env).and_return('dev')
           expect(described_class.enabled?).to be_falsey
         end
 
-        it 'raises if not adapter' do
+        it 'raises error if no adapter' do
           allow(described_class).to receive(:enabled?).and_return(true)
           expect{
             described_class.track()

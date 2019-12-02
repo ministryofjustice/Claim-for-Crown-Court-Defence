@@ -175,7 +175,7 @@ govuk_notify:
     new_external_litigator_admin: 'new_external_litigator_admin_template_uuid'
     unlock_instructions: 'unlock_instructions_template_uuid'
 
-notify_report_errors: <%= ENV["ENV"].in?(%w[api-sandbox demo disaster gamma production]) %>
+notify_report_errors: <%= ENV["ENV"].in?(%w[api-sandbox production]) %>
 
 postcode_regexp: !ruby/regexp '/\A([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})\z/'
 

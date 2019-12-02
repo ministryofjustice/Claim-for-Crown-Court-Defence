@@ -95,7 +95,7 @@ email_notification_enabled?: true
 # Feature flag to enable maintenance mode
 # If enabled all routes mapped to pages#servicedown on startup
 #
-maintenance_mode_enabled?: <%= ENV.fetch('DOCKER_STATE', nil)&.downcase&.eql?('maintenance') || ENV.fetch('MAINTENANCE_MODE', nil)&.downcase&.eql?('true') %>
+maintenance_mode_enabled?: <%= ENV.fetch('MAINTENANCE_MODE', nil)&.downcase&.eql?('true') %>
 
 feature_flags_enabled?: true
 active_features: []

@@ -203,24 +203,14 @@ You should now commit the cassette to the repo to ensure it is not unneccessaril
 
 ## Maintenance mode
 
-A conditional catchall routes exists in `routes.rb`. This directs all routes requested to the `pages#servicedown` controller and view. To activate the conditional route you must provide the app server with either MAINTENANCE_MODE=true (kubernetes) or DOCKER_STATE=maintenance (template-deploy). Note that dotenv files cannot be used to set these envvars locally as the config gem (`settings.yml` file) is loaded before dotenv files.
+A conditional catchall routes exists in `routes.rb`. This directs all routes requested to the `pages#servicedown` controller and view. To activate the conditional route you must provide the app server with MAINTENANCE_MODE=true. Note that dotenv files cannot be used to set these envvars locally as the config gem (`settings.yml` file) is loaded before dotenv files.
 
 ```bash
 # activate maintenance mode locally
 MAINTENANCE_MODE=true rails s
 ```
 
-You can deploy the app in maintenance mode for both template-deploy orchestrated environments and kubernetes orchestrated environments:
-
-### Template-deploy maintenance mode
-- build the app using Jenkins as normal.
-- deploy the app (same/any build) to an environment selecting `maintenance` for the task option (jenkins string parameter)
-- to take site out of maintenance redeploy (same/any build) with `none` for the task
-
-Note that this is a quick fix method that leverages templates-deploy pre-existing environment variable `DOCKER_STATE` for purposes it was not intended for.
-
-### kubernetes maintenance mode
-You can switch on maintenance mode by deploying either from your local machine or via circleCI. Either method requires you to amend the `deployment.yaml` file for the relevant environment to add the env var `MAINTENANCE_MODE` with a value `'true'`.
+You can deploy the app in maintenance mode for kubernetes orchestrated environments by deploying either from your local machine or via circleCI. Either method requires you to amend the `deployment.yaml` file for the relevant environment to add the env var `MAINTENANCE_MODE` with a value `'true'`.
 
 example `deployment.yaml` config:
 ```yaml

@@ -2,28 +2,6 @@
 # last modified 17-05-2019
 set +ex
 
-# output gets written to /var/log/upstart/... with template-deploy
-#
-case ${DOCKER_STATE} in
-migrate)
-    printf '\e[33mINFO: executing rake db:migrate\e[0m\n'
-    bundle exec rake db:migrate
-    ;;
-seed)
-    printf '\e[33mINFO: executing rake db:seed\e[0m\n'
-    bundle exec rake db:seed
-    ;;
-reload)
-    printf '\e[33mINFO: executing rake db:create + db:reload\e[0m\n'
-    bundle exec rake db:create
-    bundle exec rake db:reload
-    ;;
-reseed)
-    printf '\e[33mINFO: executing rake db:reseed\e[0m\n'
-    bundle exec rake db:reseed
-    ;;
-esac
-
 case ${LIVE1_DB_TASK} in
 migrate)
     printf '\e[33mINFO: executing rake db:migrate\e[0m\n'

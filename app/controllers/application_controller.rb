@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(_resource, params = {})
-    if Rails.env.development? || Rails.env.devunicorn? || RailsHost.demo? || RailsHost.dev?
+    if Rails.env.development? || Rails.env.devunicorn? || RailsHost.dev?
       new_user_session_url
     else
       new_feedback_url(params.merge(type: 'feedback'))

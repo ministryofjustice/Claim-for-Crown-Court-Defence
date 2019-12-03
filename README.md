@@ -18,8 +18,6 @@
 
 AWS S3, the **default** document storage mechanism, is stubbed out
 using webmock for all tests, and set to local storage in development mode.
-It is not possible to connect to the s3 buckets from you local machine
-as template-deploy uses AWS access credentials only applied on the server instances.
 
 See `config/aws.yaml` and note that because we use the [config](https://github.com/railsconfig/config) gem, secret settings like `Settings.aws.s3.access` require an envvar `SETTINGS__AWS__S3__ACCESS`.
 
@@ -61,7 +59,7 @@ rails server
 rails server -p 3001 -P /tmp/rails3001.pid
 ```
 
-To import JSON claims, or import via the API, you need to run a multi-threaded server like unicorn on port 3000.  This can be done with the following line, but the BetterErrors page will not work correctly if you get an exceptions.
+You can run a multi-process server like unicorn on port 3000. This can be done with the following line, but the BetterErrors page will not work correctly if you get an exceptions.
 
 ```
 rails server -e devunicorn
@@ -97,12 +95,10 @@ brew bundle
 
 ## Architecture
 
-This app was originally written as a single monolithic application, with the ability to import claims
-via a public API, or JSON uploads (AGFS claims only).  A decision was later taken to split the Caseworker
-off into a separate application, using the API to communicate to the main app.  This has only partially been
-done.  The CaseWorker allocation pages use the API to talk to the main application, rather than access the
-database directly.  In the dev environment, it accesses another server running on port 3001, which is why you
-need to start up the second server.
+This app was originally written as a single monolithic application, with the ability to import claims via a public API.  A decision was later taken to split the Caseworker off into a separate application, using the API to communicate to the main app.  This has only partially been
+done.  
+
+The CaseWorker allocation pages use the API to talk to the main application, rather than access the database directly.  In the local development environment, it accesses another server running on port 3001, which is why you need to start up the second server.
 
 ## Testing
 
@@ -112,7 +108,7 @@ To execute unit tests
 bundle exec rspec
 ```
 
-To execute cucumber test scenarios
+To execute cucumber feature tests
 
 ```
 bundle exec cucumber
@@ -207,24 +203,14 @@ You should now commit the cassette to the repo to ensure it is not unneccessaril
 
 ## Maintenance mode
 
-A conditional catchall routes exists in `routes.rb`. This directs all routes requested to the `pages#servicedown` controller and view. To activate the conditional route you must provide the app server with either MAINTENANCE_MODE=true (kubernetes) or DOCKER_STATE=maintenance (template-deploy). Note that dotenv files cannot be used to set these envvars locally as the config gem (`settings.yml` file) is loaded before dotenv files.
+A conditional catchall routes exists in `routes.rb`. This directs all routes requested to the `pages#servicedown` controller and view. To activate the conditional route you must provide the app server with MAINTENANCE_MODE=true. Note that dotenv files cannot be used to set these envvars locally as the config gem (`settings.yml` file) is loaded before dotenv files.
 
 ```bash
 # activate maintenance mode locally
 MAINTENANCE_MODE=true rails s
 ```
 
-You can deploy the app in maintenance mode for both template-deploy orchestrated environments and kubernetes orchestrated environments:
-
-### Template-deploy maintenance mode
-- build the app using Jenkins as normal.
-- deploy the app (same/any build) to an environment selecting `maintenance` for the task option (jenkins string parameter)
-- to take site out of maintenance redeploy (same/any build) with `none` for the task
-
-Note that this is a quick fix method that leverages templates-deploy pre-existing environment variable `DOCKER_STATE` for purposes it was not intended for.
-
-### kubernetes maintenance mode
-You can switch on maintenance mode by deploying either from your local machine or via circleCI. Either method requires you to amend the `deployment.yaml` file for the relevant environment to add the env var `MAINTENANCE_MODE` with a value `'true'`.
+You can deploy the app in maintenance mode for kubernetes orchestrated environments by deploying either from your local machine or via circleCI. Either method requires you to amend the `deployment.yaml` file for the relevant environment to add the env var `MAINTENANCE_MODE` with a value `'true'`.
 
 example `deployment.yaml` config:
 ```yaml
@@ -293,6 +279,8 @@ To display the current state of the Sidekiq queues, as a logged in superadmin br
 With your local rails server running you can browse to ```http://localhost:3000/rails/mailers``` to view a list of current email templates
 
 ## Anonymised Database Dumps/restores
+
+*WARNING:* not tested since hosting migration
 
 In order to copy the live database, anonymising all entries, execute the following command:
 

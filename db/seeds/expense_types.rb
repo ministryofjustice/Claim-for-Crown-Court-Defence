@@ -20,5 +20,5 @@ expense_types.each do |fields|
   SeedHelper.find_or_create_expense_type!(record_id, name, roles, reason_set, code)
 end
 
-# This is to ensure API Sandbox and Gamma are in sync regarding the IDs
+# This is to ensure api-andbox and production are in sync regarding the IDs
 ExpenseType.connection.execute("ALTER SEQUENCE expense_types_id_seq restart with #{max_id + 1}")

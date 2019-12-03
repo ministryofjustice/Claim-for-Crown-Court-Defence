@@ -64,8 +64,8 @@ namespace :redcentric do
   end
 
   def environment_protected
-    raise 'The operation was aborted because the result might destroy production data!' if ActiveRecord::Base.connection_config[:database] =~ /gamma/
-    raise 'The operation was aborted because it is intended only for use in the demo environment!' if ActiveRecord::Base.connection_config[:database] !~ /demo/
+    raise 'The operation was aborted because the result might destroy production data!' if Rails.host.production?
+    raise 'The operation was aborted because it is intended only for use in the dev environment!' unless Rails.host.dev?
   end
 
   def ccr_claim_api uuid:, api_key:

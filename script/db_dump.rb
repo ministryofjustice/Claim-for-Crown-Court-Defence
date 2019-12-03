@@ -10,9 +10,7 @@ ENVIRONMENTS = {
   'dev' => %w(dev adp_dev_new),
   'staging' => %w(staging adp_staging),
   'api-sandbox' => %w(api-sandbox adp_api-sandbox),
-  'demo' => %w(demo adp_demo),
-  'disaster' => %w(disaster adp_disaster),
-  'gamma' => %w(gamma adp_gamma)
+  'production' => %w(production adp_production)
 }
 
 def ssh_user

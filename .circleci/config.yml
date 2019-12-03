@@ -4,31 +4,6 @@ orbs:
   slack: circleci/slack@3.4.1
 
 references:
-  _cloud-platform-container: &cloud-platform-container
-    docker:
-    - image: ${ECR_ENDPOINT}/cloud-platform/tools:circleci
-      environment:
-        GITHUB_TEAM_NAME_SLUG: laa-get-paid
-        REPO_NAME: cccd
-
-  _test-container: &test-container
-    working_directory: ~/repo
-    docker:
-      - image: circleci/ruby:2.6.5-node-browsers
-        environment:
-          CBO_BASE_DATABASE_DATABASE: cccd_test
-          PGHOST: 127.0.0.1
-          PGUSER: postgres
-          RAILS_ENV: test
-          TZ: Europe/London
-          GITHUB_TEAM_NAME_SLUG: laa-get-paid
-          REPO_NAME: cccd
-      - image: circleci/postgres:9.6-alpine
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: cccd_test
-          POSTGRES_PASSWORD: ""
-
   _restore-cache: &restore-cache
     restore_cache:
       keys:
@@ -127,31 +102,52 @@ references:
         command: |
           .circleci/build.sh
 
-  _script-deploy-dev: &script-deploy-dev
-    run:
-      name: deploy to dev
-      command: |
-        .circleci/deploy.sh dev
+executors:
+  cloud-platform-executor:
+    docker:
+    - image: ${ECR_ENDPOINT}/cloud-platform/tools:circleci
+      environment:
+        GITHUB_TEAM_NAME_SLUG: laa-get-paid
+        REPO_NAME: cccd
 
-  _script-deploy-staging: &script-deploy-staging
-    run:
-      name: deploy to staging
-      command: |
-        .circleci/deploy.sh staging
-
-  _script-deploy-api-sandbox: &script-deploy-api-sandbox
-    run:
-      name: deploy to api-sandbox
-      command: |
-        .circleci/deploy.sh api-sandbox
-
-  _script-deploy-production: &script-deploy-production
-    run:
-      name: deploy to production
-      command: |
-        .circleci/deploy.sh production
+  test-executor:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/ruby:2.6.5-node-browsers
+        environment:
+          CBO_BASE_DATABASE_DATABASE: cccd_test
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          RAILS_ENV: test
+          TZ: Europe/London
+          GITHUB_TEAM_NAME_SLUG: laa-get-paid
+          REPO_NAME: cccd
+      - image: circleci/postgres:9.6-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: cccd_test
+          POSTGRES_PASSWORD: ""
 
 commands:
+  build-base:
+    steps:
+      - *restore-cache
+      - *install-dependencies
+      - *save-cache
+
+  deploy-to:
+    parameters:
+      environment:
+        description: destination environment
+        type: string
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: deploy to << parameters.environment >>
+          command: |
+            .circleci/deploy.sh << parameters.environment >>
+
   notify-approval:
     steps:
       - slack/approval:
@@ -160,7 +156,7 @@ commands:
 
 jobs:
   build-test-container:
-    <<: *test-container
+    executor: test-executor
     steps:
       - checkout
       - setup_remote_docker:
@@ -168,18 +164,14 @@ jobs:
       - *create-tmp-dir
       - *install-codeclimate
       - *persist-codeclimate
-      - *restore-cache
-      - *install-dependencies
-      - *save-cache
+      - build-base
 
   rspec-tests:
-    <<: *test-container
+    executor: test-executor
     parallelism: 4
     steps:
       - checkout
-      - *restore-cache
-      - *install-dependencies
-      - *save-cache
+      - build-base
       - *install-wkhtmltopdf
       - *wait-for-db
       - *load-db
@@ -193,13 +185,11 @@ jobs:
           path: tmp/coverage
 
   cucumber-tests:
-    <<: *test-container
+    executor: test-executor
     parallelism: 2
     steps:
       - checkout
-      - *restore-cache
-      - *install-dependencies
-      - *save-cache
+      - build-base
       - *install-wkhtmltopdf
       - *wait-for-db
       - *load-db
@@ -208,18 +198,16 @@ jobs:
           path: tmp/capybara
 
   other-tests:
-    <<: *test-container
+    executor: test-executor
     steps:
       - checkout
-      - *restore-cache
-      - *install-dependencies
-      - *save-cache
+      - build-base
       - *rubocop
       - *brakeman
       - *jasmine
 
   upload-coverage:
-    <<: *test-container
+    executor: test-executor
     steps:
       - *attach-tmp-workspace
       - run:
@@ -228,51 +216,46 @@ jobs:
             tmp/cc-test-reporter sum-coverage --output - --parts 4 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
 
   build-app-container:
-    <<: *cloud-platform-container
+    executor: cloud-platform-executor
     steps:
       - checkout
       - setup_remote_docker
       - *script-build-app-container
 
   hold-notification:
-    <<: *cloud-platform-container
+    executor: cloud-platform-executor
     steps:
       - notify-approval
 
   deploy-dev:
-    <<: *cloud-platform-container
+    executor: cloud-platform-executor
     steps:
-      - checkout
-      - setup_remote_docker
-      - *script-deploy-dev
-
-  deploy-api-sandbox:
-    <<: *cloud-platform-container
-    steps:
-      - checkout
-      - setup_remote_docker
-      - *script-deploy-api-sandbox
+      - deploy-to:
+          environment: dev
 
   deploy-staging:
-    <<: *cloud-platform-container
+    executor: cloud-platform-executor
     steps:
-      - checkout
-      - setup_remote_docker
-      - *script-deploy-staging
+      - deploy-to:
+          environment: staging
+
+  deploy-api-sandbox:
+    executor: cloud-platform-executor
+    steps:
+      - deploy-to:
+          environment: api-sandbox
 
   deploy-production:
-    <<: *cloud-platform-container
+    executor: cloud-platform-executor
     steps:
-      - checkout
-      - setup_remote_docker
-      - *script-deploy-production
+      - deploy-to:
+          environment: production
 
   auto-deploy-dev:
-    <<: *cloud-platform-container
+    executor: cloud-platform-executor
     steps:
-      - checkout
-      - setup_remote_docker
-      - *script-deploy-dev
+      - deploy-to:
+          environment: dev
 
 workflows:
   version: 2

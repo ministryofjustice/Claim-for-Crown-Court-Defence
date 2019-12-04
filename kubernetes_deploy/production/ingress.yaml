@@ -5,13 +5,6 @@ metadata:
   namespace: cccd-production
 spec:
   rules:
-    - host: cccd-production.apps.live-1.cloud-platform.service.justice.gov.uk
-      http:
-        paths:
-          - path: /
-            backend:
-              serviceName: cccd-app-service
-              servicePort: 80
     - host: claim-crown-court-defence.service.gov.uk
       http:
         paths:
@@ -20,8 +13,6 @@ spec:
               serviceName: cccd-app-service
               servicePort: 80
   tls:
-    - hosts:
-      - cccd-production.apps.live-1.cloud-platform.service.justice.gov.uk
     - hosts:
       - claim-crown-court-defence.service.gov.uk
       secretName: cccd-production-cert

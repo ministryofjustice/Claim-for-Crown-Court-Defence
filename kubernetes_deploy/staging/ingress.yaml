@@ -5,13 +5,6 @@ metadata:
   namespace: cccd-staging
 spec:
   rules:
-    - host: cccd-staging.apps.live-1.cloud-platform.service.justice.gov.uk
-      http:
-        paths:
-          - path: /
-            backend:
-              serviceName: cccd-app-service
-              servicePort: 80
     - host: staging.claim-crown-court-defence.service.justice.gov.uk
       http:
         paths:
@@ -20,8 +13,6 @@ spec:
               serviceName: cccd-app-service
               servicePort: 80
   tls:
-    - hosts:
-      - cccd-staging.apps.live-1.cloud-platform.service.justice.gov.uk
     - hosts:
       - staging.claim-crown-court-defence.service.justice.gov.uk
       secretName: cccd-staging-cert

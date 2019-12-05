@@ -102,6 +102,9 @@ references:
         command: |
           .circleci/build.sh
 
+# ------------------
+# EXECUTORS
+# ------------------
 executors:
   cloud-platform-executor:
     docker:
@@ -109,6 +112,33 @@ executors:
       environment:
         GITHUB_TEAM_NAME_SLUG: laa-get-paid
         REPO_NAME: cccd
+
+  smoke-test-executor:
+    working_directory: ~/repo
+    docker:
+      - image: ${ECR_ENDPOINT}/laa-get-paid/cccd:app-latest
+        environment:
+          RAILS_ENV: test
+          CBO_BASE_DATABASE_DATABASE: cccd_smoke_test
+          CBO_BASE_DATABASE_USERNAME: circleci
+          CBO_BASE_DATABASE_PASSWORD: "circleci"
+          CBO_BASE_DATABASE_HOST: localhost
+          ADVOCATE_PASSWORD: just-be-present
+          CASE_WORKER_PASSWORD: just-be-present
+          ADMIN_PASSWORD: just-be-present
+          SECRET_KEY_BASE: just-be-present
+          SUPERADMIN_USERNAME: just-be-present
+          SUPERADMIN_PASSWORD: just-be-present
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          TZ: Europe/London
+          GITHUB_TEAM_NAME_SLUG: laa-get-paid
+          REPO_NAME: cccd
+      - image: circleci/postgres:9.6-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_DB: cccd_smoke_test
+          POSTGRES_PASSWORD: "circleci"
 
   test-executor:
     working_directory: ~/repo
@@ -128,6 +158,9 @@ executors:
           POSTGRES_DB: cccd_test
           POSTGRES_PASSWORD: ""
 
+# ------------------
+# COMMANDS
+# ------------------
 commands:
   build-base:
     steps:
@@ -154,6 +187,9 @@ commands:
           color: '#3AA3E3'
           message: "Deployment pending approval"
 
+# ------------------
+# JOBS
+# ------------------
 jobs:
   build-test-container:
     executor: test-executor
@@ -165,6 +201,20 @@ jobs:
       - *install-codeclimate
       - *persist-codeclimate
       - build-base
+
+  smoke-test:
+    executor: smoke-test-executor
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Run smoke test
+          command: |
+            pwd
+            ls -lha
+            echo "CIRCLE_WORKING_DIRECTORY=$CIRCLE_WORKING_DIRECTORY"
+            ./runtests.sh
 
   rspec-tests:
     executor: test-executor
@@ -219,7 +269,8 @@ jobs:
     executor: cloud-platform-executor
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
       - *script-build-app-container
 
   hold-notification:
@@ -257,6 +308,9 @@ jobs:
       - deploy-to:
           environment: dev
 
+# ------------------
+# WORKFLOWS
+# ------------------
 workflows:
   version: 2
   build-test-deploy:
@@ -329,3 +383,18 @@ workflows:
       - deploy-production:
           requires:
             - hold-production
+
+  # master-smoke-test:
+  #   jobs:
+  #     - pull-app-container
+  #     - smoke-test:
+  #         requires:
+  #           - pull-app-container
+  #         filters:
+  #           branches:
+  #             only:
+  #               - master
+
+  scheduled-smoke-test:
+    jobs:
+      - smoke-test

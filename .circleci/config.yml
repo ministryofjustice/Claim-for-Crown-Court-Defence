@@ -195,8 +195,7 @@ jobs:
     executor: test-executor
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - *create-tmp-dir
       - *install-codeclimate
       - *persist-codeclimate
@@ -206,8 +205,7 @@ jobs:
     executor: smoke-test-executor
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - run:
           name: Run smoke test
           command: |
@@ -269,8 +267,7 @@ jobs:
     executor: cloud-platform-executor
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - *script-build-app-container
 
   hold-notification:

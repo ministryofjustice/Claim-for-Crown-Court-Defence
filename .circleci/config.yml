@@ -114,29 +114,29 @@ executors:
         REPO_NAME: cccd
 
   smoke-test-executor:
-    working_directory: ~/repo
+    working_directory: /usr/src/app
     docker:
       - image: ${ECR_ENDPOINT}/laa-get-paid/cccd:app-latest
+        entrypoint: |
+          docker/docker-entrypoint.sh
         environment:
           RAILS_ENV: test
-          CBO_BASE_DATABASE_DATABASE: cccd_smoke_test
-          CBO_BASE_DATABASE_USERNAME: circleci
-          CBO_BASE_DATABASE_PASSWORD: "circleci"
-          CBO_BASE_DATABASE_HOST: localhost
           ADVOCATE_PASSWORD: just-be-present
           CASE_WORKER_PASSWORD: just-be-present
           ADMIN_PASSWORD: just-be-present
           SECRET_KEY_BASE: just-be-present
-          SUPERADMIN_USERNAME: just-be-present
+          SUPERADMIN_USERNAME: superadmin@circleci.com
           SUPERADMIN_PASSWORD: just-be-present
           PGHOST: 127.0.0.1
           PGUSER: postgres
+          DATABASE_URL: postgres://postgres:circleci@127.0.0.1:5432/cccd_smoke_test
           TZ: Europe/London
           GITHUB_TEAM_NAME_SLUG: laa-get-paid
           REPO_NAME: cccd
+          LIVE1_DB_TASK: none
       - image: circleci/postgres:9.6-alpine
         environment:
-          POSTGRES_USER: circleci
+          POSTGRES_USER: postgres
           POSTGRES_DB: cccd_smoke_test
           POSTGRES_PASSWORD: "circleci"
 
@@ -204,14 +204,9 @@ jobs:
   smoke-test:
     executor: smoke-test-executor
     steps:
-      - checkout
-      - setup_remote_docker
       - run:
           name: Run smoke test
           command: |
-            pwd
-            ls -lha
-            echo "CIRCLE_WORKING_DIRECTORY=$CIRCLE_WORKING_DIRECTORY"
             ./runtests.sh
 
   rspec-tests:
@@ -330,6 +325,13 @@ workflows:
       - build-app-container:
           requires:
             - upload-coverage
+      - smoke-test:
+          requires:
+            - build-app-container
+          filters:
+            branches:
+              only:
+                - master
       - auto-deploy-dev:
           requires:
             - build-app-container
@@ -381,17 +383,13 @@ workflows:
           requires:
             - hold-production
 
-  # master-smoke-test:
-  #   jobs:
-  #     - pull-app-container
-  #     - smoke-test:
-  #         requires:
-  #           - pull-app-container
-  #         filters:
-  #           branches:
-  #             only:
-  #               - master
-
   scheduled-smoke-test:
+    triggers:
+      - schedule:
+          cron: 0,10,20,30 * * * *
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - smoke-test

@@ -6,13 +6,10 @@
 [![Test Coverage](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence/badges/coverage.svg)](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence/coverage)
 
 ## Staging
-[staging-adp.dsd.io](https://staging-adp.dsd.io)
-
-## Demo
-[demo-adp.dsd.io](https://demo-adp.dsd.io)
+[staging.claim-crown-court-defence.service.justice.gov.uk](https://staging.claim-crown-court-defence.service.justice.gov.uk)
 
 ## Dev
-[dev-adp.dsd.io](http://dev-adp.dsd.io)
+[dev.claim-crown-court-defence.service.justice.gov.uk](http://dev.claim-crown-court-defence.service.justice.gov.uk)
 
 ## S3 for document storage
 
@@ -96,7 +93,7 @@ brew bundle
 ## Architecture
 
 This app was originally written as a single monolithic application, with the ability to import claims via a public API.  A decision was later taken to split the Caseworker off into a separate application, using the API to communicate to the main app.  This has only partially been
-done.  
+done.
 
 The CaseWorker allocation pages use the API to talk to the main application, rather than access the database directly.  In the local development environment, it accesses another server running on port 3001, which is why you need to start up the second server.
 

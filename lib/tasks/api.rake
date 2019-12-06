@@ -36,10 +36,7 @@ namespace :api do
       io.puts api_client.full_error_messages.join("\n")
       raise "API Error: ADP RESTful API smoke test failure!"
     end
-
   end
-
-
 
   desc 'Run specific api test to reproduce reported bugs'
   task :debug => :environment do
@@ -78,5 +75,4 @@ namespace :api do
       puts "Only available in development mode"
     end
   end
-
 end

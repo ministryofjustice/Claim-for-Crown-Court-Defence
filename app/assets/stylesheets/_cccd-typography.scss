@@ -97,8 +97,8 @@ header.main-header {
     }
 
     .resubmit-claim {
-      width: -moz-calc(216px);
-      padding-left: -moz-calc(3px);
+      width: $gutter * 7;
+      padding-left: $gutter / 10;
     }
 
     .action-wrapper {

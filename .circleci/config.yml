@@ -180,8 +180,8 @@ commands:
           command: |
             .circleci/deploy.sh << parameters.environment >>
       - slack/status:
-          success_message: ":tada: deploy of `${CIRCLE_BRANCH}` to << parameters.environment >> successful!"
-          failure_message: ":red_circle: deploy of `${CIRCLE_BRANCH}` to << parameters.environment >> failed!"
+          success_message: ":tada: deploy of ${CIRCLE_BRANCH} to << parameters.environment >> successful!"
+          failure_message: ":red_circle: deploy of ${CIRCLE_BRANCH} to << parameters.environment >> failed!"
 
   smoke-test:
      steps:

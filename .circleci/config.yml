@@ -180,8 +180,8 @@ commands:
           command: |
             .circleci/deploy.sh << parameters.environment >>
       - slack/status:
-          success_message: ":tada: deploy of `${CIRCLE_BRANCH}` to << parameters.environment >> successful!"
-          failure_message: ":red_circle: deploy of `${CIRCLE_BRANCH}` to << parameters.environment >> failed!"
+          success_message: ":tada: deploy of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> to << parameters.environment >> successful!"
+          failure_message: ":red_circle: deploy of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> to << parameters.environment >> failed!"
 
   smoke-test:
      steps:
@@ -213,11 +213,11 @@ commands:
           command: |
             if [[ `cat /tmp/smoke_test/success` == "true" ]]; then
               echo "Smoke test succeeded!";
-              echo 'export CUSTOM_SLACK_MESSAGE=":tada: smoke test of $CIRCLE_BRANCH successful!"' >> $BASH_ENV
+              echo 'export CUSTOM_SLACK_MESSAGE=":tada: smoke test of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> successful!"' >> $BASH_ENV
               echo 'export CUSTOM_SLACK_COLOR="#008000"' >> $BASH_ENV
               exit 0
             else
-              echo 'export CUSTOM_SLACK_MESSAGE=":no_smoking: smoke test $CIRCLE_BRANCH failed!"' >> $BASH_ENV
+              echo 'export CUSTOM_SLACK_MESSAGE=":no_smoking: smoke test <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> failed!"' >> $BASH_ENV
               echo 'export CUSTOM_SLACK_COLOR="#FF0000"' >> $BASH_ENV
               echo "Smoke test failed!";
             fi

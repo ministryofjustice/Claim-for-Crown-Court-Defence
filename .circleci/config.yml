@@ -102,6 +102,9 @@ references:
         command: |
           .circleci/build.sh
 
+# ------------------
+# EXECUTORS
+# ------------------
 executors:
   cloud-platform-executor:
     docker:
@@ -110,24 +113,51 @@ executors:
         GITHUB_TEAM_NAME_SLUG: laa-get-paid
         REPO_NAME: cccd
 
+  smoke-test-executor:
+    working_directory: /usr/src/app
+    docker:
+      - image: ${ECR_ENDPOINT}/laa-get-paid/cccd:app-latest
+        entrypoint: |
+          docker/docker-entrypoint.sh
+        environment:
+          BASH: true
+          RAILS_ENV: test
+          ADVOCATE_PASSWORD: just-be-present
+          CASE_WORKER_PASSWORD: just-be-present
+          ADMIN_PASSWORD: just-be-present
+          SECRET_KEY_BASE: just-be-present
+          SUPERADMIN_USERNAME: superadmin@circleci.com
+          SUPERADMIN_PASSWORD: just-be-present
+          DATABASE_URL: postgres://postgres:circleci@127.0.0.1:5432/cccd_smoke_test
+          TZ: Europe/London
+          GITHUB_TEAM_NAME_SLUG: laa-get-paid
+          REPO_NAME: cccd
+          LIVE1_DB_TASK: none
+      - image: circleci/postgres:9.6-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: "circleci"
+          POSTGRES_DB: cccd_smoke_test
+
   test-executor:
     working_directory: ~/repo
     docker:
       - image: circleci/ruby:2.6.5-node-browsers
         environment:
-          CBO_BASE_DATABASE_DATABASE: cccd_test
-          PGHOST: 127.0.0.1
-          PGUSER: postgres
           RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:circleci@127.0.0.1:5432/cccd_test
           TZ: Europe/London
           GITHUB_TEAM_NAME_SLUG: laa-get-paid
           REPO_NAME: cccd
       - image: circleci/postgres:9.6-alpine
         environment:
           POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: "circleci"
           POSTGRES_DB: cccd_test
-          POSTGRES_PASSWORD: ""
 
+# ------------------
+# COMMANDS
+# ------------------
 commands:
   build-base:
     steps:
@@ -136,6 +166,8 @@ commands:
       - *save-cache
 
   deploy-to:
+    description: >
+      Deploy CCCD to the specified environment
     parameters:
       environment:
         description: destination environment
@@ -144,27 +176,83 @@ commands:
       - checkout
       - setup_remote_docker
       - run:
-          name: deploy to << parameters.environment >>
+          name: deploying ${CIRCLE_BRANCH} to << parameters.environment >>
           command: |
             .circleci/deploy.sh << parameters.environment >>
+      - slack/status:
+          success_message: ":tada: deploy of `${CIRCLE_BRANCH}` to << parameters.environment >> successful!"
+          failure_message: ":red_circle: deploy of `${CIRCLE_BRANCH}` to << parameters.environment >> failed!"
 
-  notify-approval:
+  smoke-test:
+     steps:
+      - run:
+          name: Persistence - prepare result storage
+          command: mkdir -p /tmp/smoke_test
+      - run:
+          name: Run smoke test
+          command: |
+            if ./runtests.sh; then
+              echo 'true' > /tmp/smoke_test/success
+            else
+              echo 'false' > /tmp/smoke_test/success
+            fi
+      - run:
+          name: test success storage
+          command: echo `cat /tmp/smoke_test/success`
+      - persist_to_workspace:
+          root: /tmp/smoke_test
+          paths:
+            - success
+
+  smoke-test-notification:
     steps:
-      - slack/approval:
-          color: '#3AA3E3'
-          message: "Deployment pending approval"
+      - attach_workspace:
+          at: /tmp/smoke_test
+      - run:
+          name: Setting - determine success of smoke test
+          command: |
+            if [[ `cat /tmp/smoke_test/success` == "true" ]]; then
+              echo "Smoke test succeeded!";
+              echo 'export CUSTOM_SLACK_MESSAGE=":tada: smoke test of $CIRCLE_BRANCH successful!"' >> $BASH_ENV
+              echo 'export CUSTOM_SLACK_COLOR="#008000"' >> $BASH_ENV
+              exit 0
+            else
+              echo 'export CUSTOM_SLACK_MESSAGE=":no_smoking: smoke test $CIRCLE_BRANCH failed!"' >> $BASH_ENV
+              echo 'export CUSTOM_SLACK_COLOR="#FF0000"' >> $BASH_ENV
+              echo "Smoke test failed!";
+            fi
+      - run:
+          name: test result storage
+          command: |
+             echo `cat /tmp/smoke_test/success`
+      - slack/notify:
+          title: ":smoke_it: Smoke test"
+          message: $CUSTOM_SLACK_MESSAGE
+          color: $CUSTOM_SLACK_COLOR
 
+# ------------------
+# JOBS
+# ------------------
 jobs:
   build-test-container:
     executor: test-executor
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - *create-tmp-dir
       - *install-codeclimate
       - *persist-codeclimate
       - build-base
+
+  smoke-test:
+    executor: smoke-test-executor
+    steps:
+      - smoke-test
+
+  smoke-test-notification:
+    executor: slack/alpine
+    steps:
+      - smoke-test-notification
 
   rspec-tests:
     executor: test-executor
@@ -225,7 +313,9 @@ jobs:
   hold-notification:
     executor: cloud-platform-executor
     steps:
-      - notify-approval
+      - slack/approval:
+          color: '#3AA3E3'
+          message: "Deployment pending approval"
 
   deploy-dev:
     executor: cloud-platform-executor
@@ -257,6 +347,9 @@ jobs:
       - deploy-to:
           environment: dev
 
+# ------------------
+# WORKFLOWS
+# ------------------
 workflows:
   version: 2
   build-test-deploy:
@@ -279,6 +372,13 @@ workflows:
       - build-app-container:
           requires:
             - upload-coverage
+      - smoke-test:
+          requires:
+            - build-app-container
+          filters:
+            branches:
+              only:
+                - master
       - auto-deploy-dev:
           requires:
             - build-app-container
@@ -329,3 +429,17 @@ workflows:
       - deploy-production:
           requires:
             - hold-production
+
+  scheduled-smoke-test:
+    triggers:
+      - schedule:
+          cron: "5 8 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - smoke-test
+      - smoke-test-notification:
+          requires:
+            - smoke-test

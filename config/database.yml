@@ -18,11 +18,7 @@ devunicorn:
 
 test: &test
   <<: *default
-  database: <%= ENV['CBO_BASE_DATABASE_DATABASE'] || 'cbo_test' %>
-
-develop:
-  <<: *default
-  database: cbo_develop
+  database: <%= ENV['CBO_BASE_DATABASE_DATABASE'] || 'cccd_test' %>
 
 production:
   <<: *default

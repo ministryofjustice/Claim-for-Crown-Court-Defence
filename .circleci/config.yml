@@ -431,14 +431,13 @@ workflows:
             - hold-production
 
   scheduled-smoke-test:
-    # triggers:
-    #   - schedule:
-    #       cron: "0,15,30,45 * * * *"
-    #       filters:
-    #         branches:
-    #           only:
-    #             - master
-    #             - scheduled-smoke-test
+    triggers:
+      - schedule:
+          cron: "5 8 * * *"
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - smoke-test
       - smoke-test-notification:

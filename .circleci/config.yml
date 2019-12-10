@@ -306,9 +306,17 @@ jobs:
   hold-notification:
     executor: cloud-platform-executor
     steps:
+      - run:
+          name: Set slack options for branch
+          command: |
+            if [[ $CIRCLE_BRANCH == "master" ]]; then
+              echo 'export CUSTOM_SLACK_COLOR="#FF8C00"' >> $BASH_ENV
+            else
+              echo 'export CUSTOM_SLACK_COLOR="#3AA3E3"' >> $BASH_ENV
+            fi
       - slack/approval:
-          color: '#3AA3E3'
-          message: "Deployment pending approval"
+          color: $CUSTOM_SLACK_COLOR
+          message: "Deployment of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> pending approval"
 
   deploy-dev:
     executor: cloud-platform-executor

@@ -176,7 +176,7 @@ commands:
       - checkout
       - setup_remote_docker
       - run:
-          name: deploying ${CIRCLE_BRANCH} to << parameters.environment >>
+          name: deploying to << parameters.environment >>
           command: |
             .circleci/deploy.sh << parameters.environment >>
       - slack/status:

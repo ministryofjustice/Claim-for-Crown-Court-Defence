@@ -1,4 +1,4 @@
-apiVersion: batch/v1beta1
+apiVersion: cronjobber.hidde.co/v1alpha1
 kind: TZCronJob
 metadata:
   name: cccd-archive-stale

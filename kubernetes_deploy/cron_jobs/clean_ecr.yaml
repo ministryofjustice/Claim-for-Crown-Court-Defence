@@ -1,11 +1,12 @@
 apiVersion: batch/v1beta1
-kind: CronJob
+kind: TZCronJob
 metadata:
   name: ecr-delete-untagged-images-cronjob
   # currently the secret is only available in the cccd-dev namespace
   namespace: cccd-dev
 spec:
   schedule: "0 */6 * * *"
+  timezone: "Europe/London"
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
   suspend: false

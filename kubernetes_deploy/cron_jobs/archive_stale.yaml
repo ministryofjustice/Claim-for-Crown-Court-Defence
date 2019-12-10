@@ -1,9 +1,10 @@
 apiVersion: batch/v1beta1
-kind: CronJob
+kind: TZCronJob
 metadata:
   name: cccd-archive-stale
 spec:
   schedule: "5 0 * * *"
+  timezone: "Europe/London"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 7
   failedJobsHistoryLimit: 3

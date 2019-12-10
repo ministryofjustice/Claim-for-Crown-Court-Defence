@@ -31,22 +31,22 @@ class Document < ApplicationRecord
   belongs_to :creator, foreign_key: 'creator_id', class_name: 'ExternalUser'
   belongs_to :claim, class_name: 'Claim::BaseClaim', foreign_key: :claim_id
 
-  validates_attachment :document,
-                       presence: { message: 'Document must have an attachment' },
-                       size: { in: 0.megabytes..20.megabytes },
-                       content_type: {
-                         content_type: ['application/pdf',
-                                        'application/msword',
-                                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                                        'application/vnd.oasis.opendocument.text',
-                                        'text/rtf',
-                                        'application/rtf',
-                                        'image/jpeg',
-                                        'image/png',
-                                        'image/tiff',
-                                        'image/bmp',
-                                        'image/x-bitmap']
-                       }
+  # validates_attachment :document,
+  #                      presence: { message: 'Document must have an attachment' },
+  #                      size: { in: 0.megabytes..20.megabytes },
+  #                      content_type: {
+  #                        content_type: ['application/pdf',
+  #                                       'application/msword',
+  #                                       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  #                                       'application/vnd.oasis.opendocument.text',
+  #                                       'text/rtf',
+  #                                       'application/rtf',
+  #                                       'image/jpeg',
+  #                                       'image/png',
+  #                                       'image/tiff',
+  #                                       'image/bmp',
+  #                                       'image/x-bitmap']
+  #                      }
 
   alias attachment document # to have a consistent interface to both Document and Message
   delegate :provider_id, to: :external_user
@@ -56,7 +56,7 @@ class Document < ApplicationRecord
   before_save :add_converted_preview_document
   before_save :add_active_storage_converted_preview_document
 
-  validate :documents_count
+  # validate :documents_count
 
   def copy_from(original_doc, verify: false)
     self.document = original_doc.document

@@ -196,9 +196,6 @@ commands:
             else
               echo 'false' > /tmp/smoke_test/success
             fi
-      - run:
-          name: test success storage
-          command: echo `cat /tmp/smoke_test/success`
       - persist_to_workspace:
           root: /tmp/smoke_test
           paths:
@@ -221,10 +218,6 @@ commands:
               echo 'export CUSTOM_SLACK_COLOR="#FF0000"' >> $BASH_ENV
               echo "Smoke test failed!";
             fi
-      - run:
-          name: test result storage
-          command: |
-             echo `cat /tmp/smoke_test/success`
       - slack/notify:
           title: ":smoke_it: Smoke test"
           message: $CUSTOM_SLACK_MESSAGE

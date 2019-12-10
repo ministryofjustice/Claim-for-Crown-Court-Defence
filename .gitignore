@@ -68,3 +68,6 @@ vcr/cassettes/*.log
 
 # prevent kubernetes temp secrets being git add'ed
 kube*/**/temp*secret*.*
+
+# prevent files uploaded locally by active storage being git add'ed
+storage/

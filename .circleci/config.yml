@@ -267,7 +267,7 @@ jobs:
 
   cucumber-tests:
     executor: test-executor
-    parallelism: 2
+    parallelism: 4
     steps:
       - checkout
       - build-base

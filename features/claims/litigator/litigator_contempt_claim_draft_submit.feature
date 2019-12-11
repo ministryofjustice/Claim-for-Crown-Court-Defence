@@ -7,10 +7,8 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Given I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
-    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Litigator final fee'
-    Then the page should be accessible within "#content"
     Then I should be on the litigator new claim page
 
     And I should see 3 supplier number radios
@@ -20,7 +18,6 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2016-04-01'
-    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft
@@ -34,12 +31,10 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I edit the claim's case details
 
     Then I should see a supplier number select list
-    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     And I enter defendant, LGFS representation order and MAAT reference
     And I add another defendant, LGFS representation order and MAAT reference
-    Then the page should be accessible within "#content"
 
     Given I insert the VCR cassette 'features/claims/litigator/fixed_fee_calculations'
     Then I click "Continue" in the claim form
@@ -49,7 +44,6 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I fill '2018-11-01' as the fixed fee date
     And I fill '2' as the fixed fee quantity
     Then I should see fixed fee total '£232.98'
-    Then the page should be accessible within "#content"
 
     And I eject the VCR cassette
 
@@ -76,13 +70,11 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I add an expense date for LGFS
 
     And I should see a page title "Enter travel expenses for litigator final fees claim"
-    Then the page should be accessible within "#content"
     Then I click "Continue" in the claim form
 
     And I upload 1 document
     And I check the boxes for the uploaded documents
     And I add some additional information
-    Then the page should be accessible within "#content"
 
     And I click Submit to LAA
     Then I should be on the check your claim page
@@ -95,17 +87,13 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I should not see 'Trial concluded on'
 
     And I should see a page title "View claim summary for litigator final fees claim"
-    Then the page should be accessible within "#content"
     When I click "Continue"
     Then I should be on the certification page
 
     And I should see a page title "Certify and submit the litigator final fees claim"
-    Then the page should be accessible within "#content"
     And I click Certify and submit claim
     Then I should be on the claim confirmation page
-    Then the page should be accessible within "#content"
 
     When I click View your claims
     Then I should be on the your claims page
     And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£754.71'
-    Then the page should be accessible within "#content"

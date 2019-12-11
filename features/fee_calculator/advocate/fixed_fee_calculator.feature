@@ -6,24 +6,18 @@ Feature: Advocate completes fixed fee page using calculator
 
     Given I am a signed in advocate
     And I am on the 'Your claims' page
-    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate final fee'
-    Then the page should be accessible within "#content"
     Then I should be on the new claim page
-    Then the page should be accessible within "#content"
 
     And I select the court 'Blackfriars'
     And I select a case type of 'Appeal against conviction'
     And I enter a case number of 'A20161234'
-    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
-    Then the page should be accessible within "#content"
 
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
-    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
 
@@ -57,37 +51,29 @@ Feature: Advocate completes fixed fee page using calculator
       | fixed | Number of cases uplift | 104.00 |
       | fixed | Number of defendants uplift | 104.00 |
       | fixed | Standard appearance fee | 173.00 |
-    Then the page should be accessible within "#content"
 
     And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
     And I am on the miscellaneous fees page
-    Then the page should be accessible within "#content"
 
   @fee_calc_vcr
   Scenario: I create a fixed fee which has a fixed amount calculated value
 
     Given I am a signed in advocate
     And I am on the 'Your claims' page
-    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate final fee'
-    Then the page should be accessible within "#content"
     Then I should be on the new claim page
-    Then the page should be accessible within "#content"
 
     And I select the court 'Blackfriars'
     And I select a case type of 'Elected cases not proceeded'
     And I enter a case number of 'A20161234'
-    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
-    Then the page should be accessible within "#content"
 
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
-    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
 
@@ -110,12 +96,10 @@ Feature: Advocate completes fixed fee page using calculator
       | fixed | Elected case not proceeded | 194.00 | Number of days | true |
       | fixed | Number of cases uplift | 38.80 | Number of additional cases | true |
       | fixed | Number of defendants uplift | 38.80 | Number of additional defendants | true |
-    Then the page should be accessible within "#content"
 
     And I eject the VCR cassette
 
     Then I click "Continue" in the claim form
     And I am on the miscellaneous fees page
-    Then the page should be accessible within "#content"
 
     And all the fixed fees should have their price_calculated values set to true

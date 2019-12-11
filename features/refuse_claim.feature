@@ -10,7 +10,6 @@ Feature: Case worker rejects a claim, providing a reason
     And I insert the VCR cassette 'features/case_workers/claims/refuse'
 
     When I am signed in as the case worker
-    Then the page should be accessible within "#content"
     And the reject refuse messaging feature is released
     And I select the claim
     And I click the refused radio button
@@ -23,11 +22,9 @@ Feature: Case worker rejects a claim, providing a reason
     Then the last message contains 'Your claim has been refused'
     Then the last message contains 'Duplicate claim'
     Then the last message contains 'Whatever will be will be'
-    Then the page should be accessible within "#content"
 
     When I click your claims
     Then the claim I've just updated is no longer in the list
-    Then the page should be accessible within "#content"
 
     And I eject the VCR cassette
 
@@ -40,7 +37,6 @@ Feature: Case worker rejects a claim, providing a reason
     And I insert the VCR cassette 'features/case_workers/claims/refuse'
 
     When I am signed in as the case worker
-    Then the page should be accessible within "#content"
     And I select the claim
     And I click the refused radio button
     And I select the refusal reason 'Wrong Instructed Advocate'
@@ -53,10 +49,8 @@ Feature: Case worker rejects a claim, providing a reason
     Then the last message contains 'Your claim has been refused'
     Then the last message contains 'Wrong Instructed Advocate'
     Then the last message contains 'Whatever I like'
-    Then the page should be accessible within "#content"
 
     When I click your claims
     Then the claim I've just updated is no longer in the list
-    Then the page should be accessible within "#content"
 
     And I eject the VCR cassette

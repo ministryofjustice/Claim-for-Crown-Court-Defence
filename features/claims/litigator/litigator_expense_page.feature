@@ -6,10 +6,8 @@ Feature: Litigator expense specific page features
     Given I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
-    Then the page should be accessible within "#content"
     And I click 'Start a claim'
     And I select the fee scheme 'Litigator final fee'
-    Then the page should be accessible within "#content"
     Then I should be on the litigator new claim page
 
     When I choose the supplier number '1A222Z'
@@ -17,13 +15,11 @@ Feature: Litigator expense specific page features
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2018-04-01'
-    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft
     Then I should see 'Draft claim saved'
-    Then the page should be accessible within "#content"
 
     Given I am later on the Your claims page
     When I click the claim 'A20161234'
@@ -54,6 +50,5 @@ Feature: Litigator expense specific page features
     Then I should see 'Cost per mile'
     Then I should see '20p per mile'
     Then I should see 'Other reason'
-    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form

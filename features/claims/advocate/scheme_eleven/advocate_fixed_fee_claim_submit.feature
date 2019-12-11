@@ -6,33 +6,27 @@ Feature: Advocate tries to submit a claim for a Fixed fee (Appeal against convic
 
     Given I am a signed in advocate
     And I am on the 'Your claims' page
-    Then the page should be accessible within "#content"
 
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate final fee'
-    Then the page should be accessible within "#content"
     Then I should be on the new claim page
 
     And I select the court 'Caernarfon'
     And I select a case type of 'Appeal against conviction'
     And I enter a case number of 'A20181234'
-    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I enter defendant, scheme 11 representation order and MAAT reference
     And I add another defendant, scheme 11 representation order and MAAT reference
-    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
-    Then the page should be accessible within "#content"
     Then I click the link 'Back'
     And I should be in the 'Defendant details' form page
 
     Then I should see 'Defendant 1'
     And I should see 'Defendant 2'
     And I should see 2 representation orders
-    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
 
@@ -44,11 +38,9 @@ Feature: Advocate tries to submit a claim for a Fixed fee (Appeal against convic
     And I select the 'Appeals to the crown court against conviction' fixed fee
     Then the fixed fee 'Appeals to the crown court against conviction' should have a rate of '330.00' and a hint of 'Number of days'
     Then the summary total should equal '£330.00'
-    Then the page should be accessible within "#content"
 
     Then I click "Continue" in the claim form
     And I should be in the 'Miscellaneous fees' form page
-    Then the page should be accessible within "#content"
 
     Then I click the link 'Back'
     And I should be in the 'Fixed fees' form page
@@ -57,5 +49,4 @@ Feature: Advocate tries to submit a claim for a Fixed fee (Appeal against convic
     Then I click "Continue" in the claim form
     And I should be in the 'Fixed fees' form page
     And I should see the error 'Total value claimed must be greater than £0.00'
-    Then the page should be accessible within "#content"
     And I eject the VCR cassette

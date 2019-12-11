@@ -13,3 +13,4 @@ Feature: A timed retention banner will appear on the claims list, until the user
     Then The timed retention banner is not visible
     When I click 'Your claims' link
     Then The timed retention banner is not visible
+    Then the page should be accessible within "#content"

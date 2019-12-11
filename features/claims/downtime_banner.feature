@@ -16,3 +16,4 @@ Feature: A downtime warning banner will appear on every page until downtime date
     When the current date is '2019-11-21'
     And I refresh the page
     Then the downtime banner is not displayed
+    Then the page should be accessible within "#content"

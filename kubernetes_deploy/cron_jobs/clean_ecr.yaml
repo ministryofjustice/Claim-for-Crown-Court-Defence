@@ -6,6 +6,7 @@ metadata:
   namespace: cccd-dev
 spec:
   schedule: "0 */6 * * *"
+  startingDeadlineSeconds: 3600
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
   suspend: false
@@ -30,17 +31,45 @@ spec:
 
                 repo_name=laa-get-paid/cccd
                 region=eu-west-2
-                untagged_images=$( aws ecr list-images --region $region --repository-name $repo_name --filter "tagStatus=UNTAGGED" --query 'imageIds[*]' --output json)
+
+                function image_count() {
+                  local image_count=$(aws ecr list-images --region $region --repository-name $repo_name | jq '.imageIds | length')
+                  echo $image_count
+                }
+
+                function delete_images() {
+                  if [[ $# -ne 1 ]]; then echo "$0: wrong number of arguments"; return 1; fi
+                  local response=$(aws ecr batch-delete-image --region $region --repository-name $repo_name --image-ids "$1")
+                  local successes=$(echo $response | jq '.imageIds | length')
+                  local failures=$(echo $response | jq '.failures | length')
+                  echo "Successes: $successes"
+                  echo "Failures: $failures"
+                }
+
+                echo "Images before clean: $(image_count)"
+
+                # delete untagged images
+                untagged_images=$(aws ecr list-images --region $region --repository-name $repo_name --filter "tagStatus=UNTAGGED" --query 'imageIds[*]' --output json)
                 untagged_image_count=$(echo $untagged_images | jq length)
 
-                if [ ${untagged_image_count} -gt 0 ]; then
-                  echo "deleting $untagged_image_count images..."
-                  aws ecr batch-delete-image --region $region --repository-name $repo_name --image-ids "$untagged_images" || true
-                  echo "deleted!"
-                else
-                  echo "No untagged images to delete"
+                echo "untagged images to delete: $untagged_image_count"
+                if [[ ${untagged_image_count} -gt 0 ]]; then
+                  delete_images "$untagged_images"
                 fi
 
+                # delete "historical" images (not `latest` and older than 8 weeks)
+                ago_in_seconds=$((60*60*24*7*8))
+                pushed_at_limit=$(($(date '+%s')-$ago_in_seconds))
+                historical_images=$(aws ecr describe-images --region $region --repository-name $repo_name | jq "{imageDetails: [.imageDetails[] | select(.imageTags | any(match(\"^.*latest$\")) | not) | select(.imagePushedAt<=$pushed_at_limit)]}")
+                historical_images_count=$(echo $historical_images | jq '.imageDetails | length')
+
+                echo "historical images to delete: $historical_images_count"
+                if [[ ${historical_images_count} -gt 0 ]]; then
+                  historical_image_digests=$(echo $historical_images | jq '[{ imageDigest: .imageDetails[].imageDigest }]')
+                  delete_images "$historical_image_digests"
+                fi
+
+                echo "Images after clean: $(image_count)"
             env:
               - name: AWS_DEFAULT_REGION
                 value: eu-west-2

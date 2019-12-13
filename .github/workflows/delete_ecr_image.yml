@@ -1,0 +1,21 @@
+name: Delete ecr image for branch
+on: [delete, push]
+
+jobs:
+  delete-ecr-image:
+    runs-on: ubuntu-latest
+    name: A job to delete ECR image for deleted branch
+    steps:
+    # To use this repository's action, you must check out the repository
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: delete-ecr-image
+      id: ecr-deletion
+      uses: ./.github/actions/delete-ecr-images
+      with:
+        my-input: 'my test input from job arg'
+
+    # Use the output from the `ecr-deletion` step
+    - name: Get the output
+      run: echo "The output was ${{ steps.ecr-deletion.outputs.my-output }}"

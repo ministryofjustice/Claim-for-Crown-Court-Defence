@@ -1,0 +1,18 @@
+name: delete-ecr-image
+description: 'Delete elastic container registry image for a branch'
+branding:
+  icon: trash
+  color: orange
+inputs:
+  my-input: # id of input
+    description: 'my input'
+    required: true
+    default: 'Hey there, this is the default input from the github action.yml'
+outputs:
+  my-output: # id of output
+    description: 'my output from github action'
+runs:
+  using: docker
+  image: ./Dockerfile
+  args:
+    - ${{ inputs.my-input }}

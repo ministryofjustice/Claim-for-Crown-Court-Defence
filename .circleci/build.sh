@@ -42,7 +42,8 @@ function _circleci_build() {
   if [ "${CIRCLE_BRANCH}" == "master" ]; then
     docker_registry_latest_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-latest"
   else
-    docker_registry_latest_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_BRANCH}-latest"
+    branch_name=$(echo $CIRCLE_BRANCH | tr '/\' '-')
+    docker_registry_latest_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${branch_name}-latest"
   fi
 
   docker tag $docker_registry_tag $docker_registry_latest_tag

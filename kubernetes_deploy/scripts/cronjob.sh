@@ -9,16 +9,16 @@ function _cronjob() {
 
   Example:
     # apply changes to clean_ecr cronjob
-    cronjob clean_ecr
+    cronjob.sh clean_ecr
 
     # apply changes to archive_stale job in dev AND use pod based on latest master
-    cronjob archive_stale dev latest
+    cronjob.sh archive_stale dev latest
 
     # apply changes to archive_stale job in dev AND use pod based on latest for branch
-    cronjob archive_stale staging kubernetes-latest
+    cronjob.sh archive_stale staging kubernetes-latest
 
     # apply changes to archive_stale job in dev AND use pod based on <commit-sha>
-    cronjob archive_stale dev <commit-sha>
+    cronjob.sh archive_stale dev <commit-sha>
     "
 
   if [ $# -gt 3 ]

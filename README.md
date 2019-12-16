@@ -343,6 +343,15 @@ kubernetes_deploy/scripts/build.sh
 kubernetes_deploy/scripts/deploy.sh dev latest
 ```
 
+#### Cronjobs
+
+There are two cronjobs, `clean_ecr` and `archive_stale`. Any change to the `archive_stale` jobs config (`kubernetes_deploy/cron_jobs/archive_stale.yml`) are applied as part of the deployment process (because it relies on the app image), but any changes to the standalone `clean_ecr` job need to be applied from the commandline, as below
+
+```
+# apply changes to `kubernetes_deploy/cron_jobs/clean_ecr.yml`
+kubernetes_deploy/scripts/cronjob.sh clean_ecr
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome.

@@ -7,7 +7,14 @@ LABEL "com.github.actions.icon"="activity"
 LABEL "com.github.actions.color"="red"
 
 # install dependencies
-RUN apk --no-cache add git
+
+RUN apk update && \
+  apk --no-cache add git python py-pip
+
+RUN pip install awscli
+
+RUN apk --purge -v del py-pip && \
+  rm /var/cache/apk/*
 
 COPY entrypoint.sh /usr/local/bin/delete-ecr-images
 

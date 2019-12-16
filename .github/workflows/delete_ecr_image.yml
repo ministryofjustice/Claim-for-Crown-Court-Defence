@@ -13,9 +13,15 @@ jobs:
     - name: delete-ecr-image
       id: ecr-deletion
       uses: ./.github/actions/delete-ecr-images
+      env:
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       with:
         my-input: 'my test input from job arg'
 
     # Use the output from the `ecr-deletion` step
     - name: Get the output
-      run: echo "The output was ${{ steps.ecr-deletion.outputs.my-output }}"
+      run: |
+        echo "The output was ${{ steps.ecr-deletion.outputs.my-output }}"
+        echo "and this is a test secret ${{ secrets.TEST_SECRET }}"

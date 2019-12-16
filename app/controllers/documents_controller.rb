@@ -44,12 +44,16 @@ class DocumentsController < ApplicationController
     Rails.logger.info 'paperclip: Saving Document'
 
     @document = Document.new(document_params.merge(creator_id: current_user.id))
+    @document.active_storage_document.attach(params[:document][:document])
+    
+    # need to work out what this is doing...
+    # it makes the active storage document get saved with the wrong key
 
-    if @document.save_and_verify
-      render json: { document: @document.reload }, status: :created
-    else
-      render json: { error: @document.errors[:document].join(', ') }, status: :unprocessable_entity
-    end
+    # if @document.save_and_verify
+    #   render json: { document: @document.reload }, status: :created
+    # else
+    #   render json: { error: @document.errors[:document].join(', ') }, status: :unprocessable_entity
+    # end
   end
 
   def destroy

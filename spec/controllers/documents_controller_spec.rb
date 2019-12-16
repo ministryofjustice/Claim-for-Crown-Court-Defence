@@ -98,6 +98,18 @@ RSpec.describe DocumentsController, type: :controller do
         post :create, params: { document: params }
         expect(JSON.parse(response.body)['document']).to eq(JSON.parse(Document.first.to_json))
       end
+
+      it 'saves the uploaded active storage file attachment' do
+        expect {
+          post :create, params: { document: params }
+        }.to change(ActiveStorage::Attachment, :count).by(1)
+      end
+
+      it 'saves the uploaded active storage file blob' do
+        expect {
+          post :create, params: { document: params }
+        }.to change(ActiveStorage::Blob, :count).by(1)
+      end
     end
 
     context 'when invalid' do

@@ -92,4 +92,7 @@ Rails.application.configure do
   # Disable CSS3, jQuery animations and JS popups in test mode for speed, consistency and to avoid timing issues.
   config.middleware.use Rack::NoAnimations
   config.middleware.insert_after(Rack::NoAnimations, Rack::NoPopups)
+  
+    # Store test files locally.
+    config.active_storage.service = :test
 end

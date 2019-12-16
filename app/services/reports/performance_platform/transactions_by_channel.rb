@@ -5,9 +5,7 @@ module Reports
 
       def initialize(start_date)
         @start_date = start_date
-        raise 'Report must start on a Monday' unless @start_date.monday?
-        raise 'Report cannot be in the current week' if @start_date.cweek.eql?(Date.today.cweek)
-        raise 'Report cannot be in the future' if @start_date >= Date.today
+        validate
         @pps = ::PerformancePlatform.report('transactions_by_channel')
         @ready_to_send = false
       end
@@ -31,6 +29,14 @@ module Reports
 
       def count_digital_claims
         @count_digital_claims ||= Claims::Count.week(@start_date)
+      end
+
+      def validate
+        raise 'Report must start on a Monday' unless @start_date.monday?
+        if @start_date.cweek.eql?(Date.current.cweek) && @start_date.year.eql?(Date.current.year)
+          raise 'Report cannot be in the current week'
+        end
+        raise 'Report cannot be in the future' if @start_date >= Date.current
       end
     end
   end

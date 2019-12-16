@@ -1,15 +1,13 @@
 name: Delete ecr image for branch
-on: [delete, push]
+on: [delete]
 
 jobs:
   delete-ecr-image:
     runs-on: ubuntu-latest
     name: A job to delete ECR image for deleted branch
     steps:
-    # To use this repository's action, you must check out the repository
     - name: Checkout
       uses: actions/checkout@v2
-
     - name: delete-ecr-image
       id: ecr-deletion
       uses: ./.github/actions/delete-ecr-images
@@ -17,11 +15,7 @@ jobs:
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      with:
-        my-input: 'my test input from job arg'
-
-    # Use the output from the `ecr-deletion` step
+        ECR_REPOSITORY_NAME: 'laa-get-paid/cccd'
     - name: Get the output
       run: |
-        echo "The output was ${{ steps.ecr-deletion.outputs.my-output }}"
-        echo "and this is a test secret ${{ secrets.TEST_SECRET }}"
+        echo "${{ steps.ecr-deletion.outputs.deleted-images }}"

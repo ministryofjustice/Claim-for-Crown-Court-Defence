@@ -3,36 +3,36 @@
 This action prints Deletes an ECR image with a tag matching the
 deleted branch
 
-## Inputs
-
-### `my-input`
-
 **Required** Test input. Default `"World"`.
 
 ## Outputs
 
-### `my-output`
+### `deleted-images`
+JSON format list of images that were deleted - response form aws-cli
 
-Test output
-
-## Example usage
+## Example workflow
 
 ```
+name: Delete ecr image for branch
+on: [delete]
+
 jobs:
   delete-ecr-image:
     runs-on: ubuntu-latest
     name: A job to delete ECR image for deleted branch
     steps:
-    # To use this repository's private action, you must check out the repository
     - name: Checkout
-      uses: actions/checkout@v1
-    - uses: ./.github/ # Uses an action in the `.github` dir
+      uses: actions/checkout@v2
     - name: delete-ecr-image
       id: ecr-deletion
-      uses: actions/delete-ecr-images-action@v1
-      with:
-        my-input: 'my test input from job arg'
-    # Use the output from the `ecr-deletion` step
+      uses: ./.github/actions/delete-ecr-images
+      env:
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        ECR_REPOSITORY_NAME: '<ecr-repository-name>'
     - name: Get the output
-      run: echo "The time was ${{ steps.ecr-deletion.outputs.my-output }}"
+      run: |
+        echo "${{ steps.ecr-deletion.outputs.deleted-images }}"
+
 ```

@@ -1,0 +1,125 @@
+#!/usr/bin/env ruby
+
+require 'json'
+require 'open3'
+require 'ostruct'
+
+module ECR
+  def self.repository_name
+    ENV['ECR_REPOSITORY_NAME']
+  end
+
+  class Image
+    def initialize(hash)
+      @object = OpenStruct.new(hash)
+    end
+
+    def delete
+      command = "aws ecr batch-delete-image --repository-name #{ECR.repository_name} --image-ids imageDigest=#{self.imageDigest}"
+      puts "issue command: #{command}"
+      # Open3.popen3(command) do |stdin, stdout, stderr, wait_thr|
+      #   stdout.read
+      # end
+    end
+
+    def method_missing(method_name, *args, &block)
+      if @object.respond_to?(method_name)
+        @object.send(method_name)
+      else
+        super
+      end
+    end
+
+    def respond_to_missing?(method_name, *args)
+      @object.respond_to?(:method_name) || super
+    end
+  end
+
+  class Images
+    include Enumerable
+    attr_reader :raw
+
+    def initialize(json)
+      @raw = json
+      @collection = JSON.parse(json)
+      @collection.map! { |el| Image.new(el) }
+    end
+
+    def each(&block)
+      @collection.each(&block)
+    end
+
+    def delete_all
+      self.each do |image|
+        image.delete
+      end
+    end
+
+    def batch_delete_all
+      digests = self.map { |image| { imageDigest: image.imageDigest } }
+      command = "aws ecr batch-delete-image --repository-name #{ECR.repository_name} --image-ids \"#{digests.to_json}\""
+      puts "issue command: #{command}"
+      # Open3.popen3(command) do |stdin, stdout, stderr, wait_thr|
+      #   stdout.read
+      # end
+    end
+
+    def self.where(tag_name:)
+      command = "aws ecr describe-images --repository-name #{ECR.repository_name} --query \"imageDetails[?contains(imageTags, \'#{tag_name}\')]\""
+      Open3.popen3(command) do |stdin, stdout, stderr, wait_thr|
+        Images.new(stdout.read)
+      end
+    end
+  end
+end
+
+module GithubAction
+  class << self
+    def event_file
+      @event_file ||= ENV['GITHUB_EVENT_PATH']
+    end
+
+    def event
+      @event ||= JSON.parse(File.read(event_file))
+    end
+
+    def branch_name
+      return @branch_name if @branch_name
+      @branch_name = ENV['GITHUB_REF'].dup
+      @branch_name.slice!('refs/heads/').tr!('\/', '-')
+      @branch_name = "app-#{@branch_name}-latest"
+    end
+
+    def set_output(text)
+      system("echo ::set-output name=deleted-images::#{text}")
+    end
+  end
+end
+
+puts "looking for #{GithubAction.branch_name}"
+images = ECR::Images.where(tag_name: GithubAction.branch_name)
+puts '--------- images start ----------'
+images.each do |image|
+  puts "digest: #{image.imageDigest}"
+  puts "tags: #{image.imageTags.join(', ')}"
+end
+puts '---------- images end ---------'
+
+puts '---------- test map delete ---------'
+images.each { |image| image.delete }
+puts '---------- test map delete end ---------'
+
+puts '---------- test map &delete ---------'
+images.map(&:delete)
+puts '---------- test map &delete end ---------'
+
+puts '---------- test delete all ---------'
+images.delete_all
+puts '---------- test delete all end ---------'
+
+puts '---------- test batch delete all ---------'
+images.batch_delete_all
+puts '---------- test batch delete all end ---------'
+
+GithubAction.set_output("Deleted ECR images: #{images.count}")
+

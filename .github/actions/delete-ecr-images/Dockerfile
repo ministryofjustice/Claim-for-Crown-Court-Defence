@@ -16,9 +16,6 @@ RUN pip install awscli
 RUN apk --purge -v del py-pip && \
   rm /var/cache/apk/*
 
-COPY entrypoint.sh /usr/local/bin/delete-ecr-images
-
-RUN set -ex && \
-  chmod +x /usr/local/bin/delete-ecr-images
+COPY entrypoint /usr/local/bin/delete-ecr-images
 
 ENTRYPOINT ["delete-ecr-images"]

@@ -80,14 +80,15 @@ module GithubAction
     end
 
     def event
-      @event ||= JSON.parse(File.read(event_file))
+      @event ||= JSON.parse(File.read(event_file), symbolize_names: true)
+    end
+
+    def tag_name
+      @tag_name ||= "app-#{branch_name.tr('\/', '-')}-latest" if branch_name
     end
 
     def branch_name
-      return @branch_name if @branch_name
-      @branch_name = ENV['GITHUB_REF'].dup
-      @branch_name.slice!('refs/heads/').tr!('\/', '-')
-      @branch_name = "app-#{@branch_name}-latest"
+      @branch_name ||= event[:ref] if event[:ref_type].eql?('branch')
     end
 
     def set_output(text)
@@ -96,8 +97,8 @@ module GithubAction
   end
 end
 
-puts "looking for #{GithubAction.branch_name}"
-images = ECR::Images.where(tag_name: GithubAction.branch_name)
+puts "looking for #{GithubAction.tag_name}"
+images = ECR::Images.where(tag_name: GithubAction.tag_name)
 puts '--------- images start ----------'
 images.each do |image|
   puts "digest: #{image.imageDigest}"

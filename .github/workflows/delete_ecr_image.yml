@@ -8,12 +8,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Output
-      run: |
-          echo '--------JSON START------------'
-          echo $(jq . $GITHUB_EVENT_PATH)
-          echo '--------JSON END------------'
-
     - name: delete-ecr-image
       id: ecr-deletion
       uses: ./.github/actions/delete-ecr-images
@@ -22,7 +16,6 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         ECR_REPOSITORY_NAME: 'laa-get-paid/cccd'
-
-    - name: Final output
+    - name: Delete image count
       run: |
         echo "${{ steps.ecr-deletion.outputs.deleted-images }}"

@@ -16,10 +16,9 @@ module ECR
 
     def delete
       command = "aws ecr batch-delete-image --repository-name #{ECR.repository_name} --image-ids imageDigest=#{imageDigest}"
-      puts "issue command: #{command}"
-      # Open3.popen3(command) do |_stdin, stdout, _stderr, _wait_thr|
-      #   stdout.read
-      # end
+      Open3.popen3(command) do |_stdin, stdout, _stderr, _wait_thr|
+        stdout.read
+      end
     end
 
     def method_missing(method_name, *args, &block)
@@ -56,10 +55,9 @@ module ECR
     def batch_delete_all
       digests = map { |image| { imageDigest: image.imageDigest } }
       command = "aws ecr batch-delete-image --repository-name #{ECR.repository_name} --image-ids \"#{digests.to_json}\""
-      puts "issue command: #{command}"
-      # Open3.popen3(command) do |_stdin, stdout, _stderr, _wait_thr|
-      #   stdout.read
-      # end
+      Open3.popen3(command) do |_stdin, stdout, _stderr, _wait_thr|
+        stdout.read
+      end
     end
 
     def self.where(tag_name:)
@@ -95,26 +93,10 @@ module GithubAction
   end
 end
 
-puts "looking for #{GithubAction.tag_name}"
+puts "Looking for #{GithubAction.tag_name}"
 images = ECR::Images.where(tag_name: GithubAction.tag_name)
-puts '--------- images start ----------'
-images.each do |image|
-  puts "digest: #{image.imageDigest}"
-  puts "tags: #{image.imageTags.join(', ')}"
-end
-puts '---------- images end ---------'
-
-puts '---------- test map &delete ---------'
-images.map(&:delete)
-puts '---------- test map &delete end ---------'
-
-puts '---------- test delete all ---------'
+puts "Found #{images.count} matching images" unless images.empty?
 images.delete_all
-puts '---------- test delete all end ---------'
-
-puts '---------- test batch delete all ---------'
-images.batch_delete_all
-puts '---------- test batch delete all end ---------'
 
 GithubAction.output("Deleted ECR images: #{images.count}")
 

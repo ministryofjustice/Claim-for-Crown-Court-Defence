@@ -15,9 +15,9 @@ module ECR
     end
 
     def delete
-      command = "aws ecr batch-delete-image --repository-name #{ECR.repository_name} --image-ids imageDigest=#{self.imageDigest}"
+      command = "aws ecr batch-delete-image --repository-name #{ECR.repository_name} --image-ids imageDigest=#{imageDigest}"
       puts "issue command: #{command}"
-      # Open3.popen3(command) do |stdin, stdout, stderr, wait_thr|
+      # Open3.popen3(command) do |_stdin, stdout, _stderr, _wait_thr|
       #   stdout.read
       # end
     end
@@ -50,23 +50,21 @@ module ECR
     end
 
     def delete_all
-      self.each do |image|
-        image.delete
-      end
+      each(&:delete)
     end
 
     def batch_delete_all
-      digests = self.map { |image| { imageDigest: image.imageDigest } }
+      digests = map { |image| { imageDigest: image.imageDigest } }
       command = "aws ecr batch-delete-image --repository-name #{ECR.repository_name} --image-ids \"#{digests.to_json}\""
       puts "issue command: #{command}"
-      # Open3.popen3(command) do |stdin, stdout, stderr, wait_thr|
+      # Open3.popen3(command) do |_stdin, stdout, _stderr, _wait_thr|
       #   stdout.read
       # end
     end
 
     def self.where(tag_name:)
       command = "aws ecr describe-images --repository-name #{ECR.repository_name} --query \"imageDetails[?contains(imageTags, \'#{tag_name}\')]\""
-      Open3.popen3(command) do |stdin, stdout, stderr, wait_thr|
+      Open3.popen3(command) do |_stdin, stdout, _stderr, _wait_thr|
         Images.new(stdout.read)
       end
     end
@@ -91,7 +89,7 @@ module GithubAction
       @branch_name ||= event[:ref] if event[:ref_type].eql?('branch')
     end
 
-    def set_output(text)
+    def output(text)
       system("echo ::set-output name=deleted-images::#{text}")
     end
   end
@@ -106,10 +104,6 @@ images.each do |image|
 end
 puts '---------- images end ---------'
 
-puts '---------- test map delete ---------'
-images.each { |image| image.delete }
-puts '---------- test map delete end ---------'
-
 puts '---------- test map &delete ---------'
 images.map(&:delete)
 puts '---------- test map &delete end ---------'
@@ -122,5 +116,5 @@ puts '---------- test batch delete all ---------'
 images.batch_delete_all
 puts '---------- test batch delete all end ---------'
 
-GithubAction.set_output("Deleted ECR images: #{images.count}")
+GithubAction.output("Deleted ECR images: #{images.count}")
 

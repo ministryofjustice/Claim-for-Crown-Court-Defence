@@ -1,7 +1,7 @@
 module API
   module Helpers
     module ApiHelper
-      require Rails.root.join('app', 'interfaces', 'api', 'custom_validations', 'date_format.rb')
+      require_relative '../custom_validations/date_format'
       require_relative '../api_response'
       require_relative '../error_response'
 

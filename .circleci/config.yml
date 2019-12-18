@@ -183,6 +183,26 @@ commands:
           success_message: ":tada: deploy of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> to << parameters.environment >> successful!"
           failure_message: ":red_circle: deploy of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> to << parameters.environment >> failed!"
 
+  hold-notification:
+    description: >
+      Display a slack notification
+    parameters:
+      message:
+        description: slack message
+        type: string
+    steps:
+      - run:
+          name: Set slack notification options
+          command: |
+            if [[ $CIRCLE_BRANCH == "master" ]]; then
+              echo 'export CUSTOM_SLACK_COLOR="#FF8C00"' >> $BASH_ENV
+            else
+              echo 'export CUSTOM_SLACK_COLOR="#3AA3E3"' >> $BASH_ENV
+            fi
+      - slack/approval:
+          color: $CUSTOM_SLACK_COLOR
+          message: << parameters.message >>
+
   smoke-test:
      steps:
       - run:
@@ -303,19 +323,16 @@ jobs:
       - setup_remote_docker
       - *script-build-app-container
 
-  hold-notification:
+  hold-build-notification:
     executor: cloud-platform-executor
     steps:
-      - run:
-          name: Set slack options for branch
-          command: |
-            if [[ $CIRCLE_BRANCH == "master" ]]; then
-              echo 'export CUSTOM_SLACK_COLOR="#FF8C00"' >> $BASH_ENV
-            else
-              echo 'export CUSTOM_SLACK_COLOR="#3AA3E3"' >> $BASH_ENV
-            fi
-      - slack/approval:
-          color: $CUSTOM_SLACK_COLOR
+      - hold-notification:
+          message: "Do you want to build <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH>?"
+
+  hold-deploy-notification:
+    executor: cloud-platform-executor
+    steps:
+      - hold-notification:
           message: "Deployment of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> pending approval"
 
   deploy-dev:
@@ -383,7 +400,7 @@ workflows:
       - auto-deploy-dev:
           requires:
             - smoke-test
-      - hold-notification:
+      - hold-deploy-notification:
           requires:
             - smoke-test
       - hold-api-sandbox:
@@ -432,6 +449,7 @@ workflows:
 
   build-deploy-branch:
     jobs:
+      - hold-build-notification
       - hold-branch-build:
           type: approval
           filters:

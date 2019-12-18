@@ -353,9 +353,13 @@ jobs:
 # ------------------
 workflows:
   version: 2
-  build-test-deploy:
+  test-build-deploy-master:
     jobs:
-      - build-test-container
+      - build-test-container:
+          filters:
+            branches:
+              only:
+                - master
       - other-tests:
           requires:
             - build-test-container
@@ -376,60 +380,88 @@ workflows:
       - smoke-test:
           requires:
             - build-app-container
-          filters:
-            branches:
-              only:
-                - master
       - auto-deploy-dev:
           requires:
-            - build-app-container
-          filters:
-            branches:
-              only:
-                - master
+            - smoke-test
       - hold-notification:
           requires:
-            - build-app-container
-      - hold-dev:
-          type: approval
-          requires:
-            - hold-notification
-          filters:
-            branches:
-              ignore:
-                - master
-      - deploy-dev:
-          requires:
-            - hold-dev
-          filters:
-            branches:
-              ignore:
-                - master
+            - smoke-test
       - hold-api-sandbox:
           type: approval
           requires:
-            - hold-notification
+            - smoke-test
       - deploy-api-sandbox:
           requires:
             - hold-api-sandbox
       - hold-staging:
           type: approval
           requires:
-            - hold-notification
+            - smoke-test
       - deploy-staging:
           requires:
             - hold-staging
       - hold-production:
           type: approval
           requires:
-            - hold-notification
-          filters:
-            branches:
-              only:
-                - master
+            - smoke-test
       - deploy-production:
           requires:
             - hold-production
+
+  test-branch:
+    jobs:
+      - build-test-container:
+          filters:
+            branches:
+              ignore:
+                - master
+      - other-tests:
+          requires:
+            - build-test-container
+      - rspec-tests:
+          requires:
+            - build-test-container
+      - cucumber-tests:
+          requires:
+            - build-test-container
+      - upload-coverage:
+          requires:
+            - rspec-tests
+            - cucumber-tests
+            - other-tests
+
+  build-deploy-branch:
+    jobs:
+      - hold-branch-build:
+          type: approval
+          filters:
+            branches:
+              ignore:
+                - master
+      - build-app-container:
+          requires:
+            - hold-branch-build
+      - hold-dev:
+          type: approval
+          requires:
+            - build-app-container
+      - hold-staging:
+          type: approval
+          requires:
+            - build-app-container
+      - hold-api-sandbox:
+          type: approval
+          requires:
+            - build-app-container
+      - deploy-dev:
+          requires:
+            - hold-dev
+      - deploy-staging:
+          requires:
+            - hold-staging
+      - deploy-api-sandbox:
+          requires:
+            - hold-api-sandbox
 
   scheduled-smoke-test:
     triggers:

@@ -93,9 +93,9 @@ module GithubAction
   end
 end
 
-puts "Looking for #{GithubAction.tag_name}"
+puts "Looking for #{GithubAction.tag_name}!"
 images = ECR::Images.where(tag_name: GithubAction.tag_name)
-puts "Found #{images.count} matching images" unless images.empty?
+puts "Found #{images.count} matching images!"
 images.delete_all
 
 GithubAction.output("Deleted ECR images: #{images.count}")

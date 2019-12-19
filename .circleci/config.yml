@@ -456,6 +456,10 @@ workflows:
                 - master
       - hold-branch-build:
           type: approval
+          filters:
+            branches:
+              ignore:
+                - master
       - build-app-container:
           requires:
             - hold-branch-build

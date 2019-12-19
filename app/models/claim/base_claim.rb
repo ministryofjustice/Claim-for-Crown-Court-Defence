@@ -615,7 +615,7 @@ module Claim
     def find_and_associate_documents
       return if form_id.nil?
 
-      Document.where(form_id: form_id).each do |document|
+      Document.where(form_id: form_id).find_each do |document|
         document.update_column(:claim_id, id)
         document.update_column(:external_user_id, external_user_id)
       end

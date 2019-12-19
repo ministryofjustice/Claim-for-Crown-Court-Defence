@@ -352,8 +352,8 @@ module Claim
       Claims::StateMachine.has_state?(method) || super
     end
 
-    def is_allocated_to_case_worker?(cw)
-      case_workers.include?(cw)
+    def is_allocated_to_case_worker?(case_worker)
+      case_workers.include?(case_worker)
     end
 
     def has_authorised_state?

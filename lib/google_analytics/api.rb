@@ -8,9 +8,9 @@ module GoogleAnalytics
       params[:el] = label if label.present?
       begin
         RestClient.get(endpoint, params: params, timeout: 4, open_timeout: 4)
-        return true
+        true
       rescue RestClient::Exception
-        return false
+        false
       end
     end
 

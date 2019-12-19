@@ -27,10 +27,10 @@ class ClonedClaimRepairer
     candidates = candidates.select { |c| was_rejected?(c) }
     if candidates.empty?
       puts '   Unable to find candidate as clone source'
-      return nil
+      nil
     else
       puts "   Found #{candidates.size} candidates as clone source - picking the latest (claim id #{candidates.last.id}"
-      return candidates.last
+      candidates.last
     end
   end
 

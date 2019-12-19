@@ -14,7 +14,7 @@ Lint/BigDecimalNew:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Lint/UnneededCopDisableDirective:
+Lint/RedundantCopDisableDirective:
   Exclude:
     - 'app/controllers/application_controller.rb'
 
@@ -70,7 +70,7 @@ Naming/PredicateName:
 # Offense count: 4
 # Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
 # AllowedNames: io, id, to, by, on, in, at, ip, db
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   Exclude:
     - 'app/models/claim/base_claim.rb'
     - 'app/models/stats/gecko_widgets/line_graph.rb'
@@ -353,7 +353,7 @@ Style/RedundantReturn:
 
 # Offense count: 4
 # Cop supports --auto-correct.
-Style/UnneededSort:
+Style/RedundantSort:
   Exclude:
     - 'app/models/claim/base_claim.rb'
     - 'app/models/defendant.rb'

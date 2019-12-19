@@ -1,7 +1,7 @@
 require 'grape'
 require 'grape-swagger'
-Dir[File.join(__dir__, 'helpers', '*.rb')].each { |file| require file }
-Dir[File.join(__dir__, 'services', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, 'helpers', '*.rb')].sort.each { |file| require file }
+Dir[File.join(__dir__, 'services', '*.rb')].sort.each { |file| require file }
 
 module API
   class Root < Grape::API

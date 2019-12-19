@@ -135,7 +135,7 @@ class ErrorMessageTranslator
     end
   end
 
-  def to_ordinal_in_words(n)
-    %w[nil first second third fourth fifth sixth seventh eighth ninth tenth][n]
+  def to_ordinal_in_words(nth)
+    %w[nil first second third fourth fifth sixth seventh eighth ninth tenth][nth]
   end
 end

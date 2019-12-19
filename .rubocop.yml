@@ -20,7 +20,7 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
 
-Documentation:
+Style/Documentation:
   Enabled: false
 
 Style/FrozenStringLiteralComment:
@@ -29,7 +29,7 @@ Style/FrozenStringLiteralComment:
 Style/FormatStringToken:
   EnforcedStyle: template
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
   IgnoredPatterns: ['(\A|\s)#','.*\s+ # .*']
   AllowHeredoc: true

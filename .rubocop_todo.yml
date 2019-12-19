@@ -142,18 +142,6 @@ Rails/FilePath:
     - 'lib/extensions/rails_module_extension.rb'
     - 'lib/performance_platform/reports.rb'
 
-# Offense count: 5
-# Cop supports --auto-correct.
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/FindBy:
-  Exclude:
-    - 'app/models/case_type.rb'
-    - 'app/models/fee/fixed_fee_type.rb'
-    - 'app/models/fee/graduated_fee_type.rb'
-    - 'app/models/fee/interim_fee_type.rb'
-    - 'app/models/stats/statistic.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: Include.

@@ -27,6 +27,6 @@ class Fee::FixedFeeType < Fee::BaseFeeType
   end
 
   def self.by_unique_code(code)
-    where(unique_code: code).first
+    find_by(unique_code: code)
   end
 end

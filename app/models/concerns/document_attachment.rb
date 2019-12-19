@@ -5,13 +5,16 @@ module DocumentAttachment
   included do
     attr_accessor :pdf_tmpfile
 
-    has_one_attached :active_storage_document
+    has_one_attached :document
 
-    has_attached_file :converted_preview_document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
+    #todo...
+    # has_one_attached converted_preview_document
 
-    has_attached_file :document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
+    # has_attached_file :converted_preview_document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
 
-    validates_attachment_content_type :converted_preview_document, content_type: 'application/pdf'
+    # has_attached_file :document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
+
+    # validates_attachment_content_type :converted_preview_document, content_type: 'application/pdf'
   end
 
   def generate_pdf_tmpfile

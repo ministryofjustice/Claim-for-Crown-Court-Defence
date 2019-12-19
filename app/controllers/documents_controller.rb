@@ -33,27 +33,21 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    send_file Paperclip.io_adapters.for(document.converted_preview_document).path, view_file_options
+    # send_file Paperclip.io_adapters.for(document.converted_preview_document).path, view_file_options
   end
 
   def download
-    send_file Paperclip.io_adapters.for(document.document).path, download_file_options
+    # send_file Paperclip.io_adapters.for(document.document).path, download_file_options
   end
 
   def create
     Rails.logger.info 'paperclip: Saving Document'
-
     @document = Document.new(document_params.merge(creator_id: current_user.id))
-    @document.active_storage_document.attach(params[:document][:document])
-    
-    # need to work out what this is doing...
-    # it makes the active storage document get saved with the wrong key
-
-    # if @document.save_and_verify
-    #   render json: { document: @document.reload }, status: :created
-    # else
-    #   render json: { error: @document.errors[:document].join(', ') }, status: :unprocessable_entity
-    # end
+    if @document.save
+      render json: { document: @document.reload }, status: :created
+    else
+      render json: { error: @document.errors[:document].join(', ') }, status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -78,16 +72,16 @@ class DocumentsController < ApplicationController
 
   def view_file_options
     {
-      type: @document.converted_preview_document_content_type,
-      filename: @document.converted_preview_document_file_name,
+      type: @document.document.content_type,
+      filename: @document.document.filename,
       disposition: 'inline'
     }
   end
 
   def download_file_options
     {
-      type: @document.document_content_type,
-      filename: @document.document_file_name,
+      type: @document.document.content_type,
+      filename: @document.document.filename,
       x_sendfile: true
     }
   end

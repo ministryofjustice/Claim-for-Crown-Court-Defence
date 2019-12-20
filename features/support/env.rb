@@ -27,9 +27,9 @@ ActionController::Base.allow_forgery_protection = true
 # Webdrivers.logger.level = :DEBUG
 
 # pin version to 71.0.3578.137 of chromedriver as
-# version (75.0.3770.80) is not running headless.	# some spec fail in version (2.46) due to
+# version (75.0.3770.80) is not running headless.
+# some spec fail in version (2.46) due to
 # "session not created: Chrome version must be between 71 and 75"
-# see https://chromedriver.storage.googleapis.com/index.html
 # see https://chromedriver.storage.googleapis.com/index.html
 # for usable version numbers and review later
 #

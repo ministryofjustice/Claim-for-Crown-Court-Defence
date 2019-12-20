@@ -178,7 +178,6 @@ RSpec.describe AdpTextField do
       it 'produces expected output with value' do
         resource.case_number = 'X22334455'
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', hint_text: 'Hint text here', errors: error_presenter)
-        puts atf.to_html
         expect(atf.to_html).to eq b100_with_value_with_hint
       end
 

@@ -79,7 +79,6 @@ GEM
     annotate (3.0.3)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
-    arel (9.0.0)
     ast (2.4.0)
     auto_strip_attributes (2.5.0)
       activerecord (>= 4.0)
@@ -1454,6 +1453,7 @@ GEM
       activesupport
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    zeitwerk (2.2.2)
     zendesk_api (1.24.0)
       faraday (>= 0.9.0, < 1.0.0)
       hashie (>= 3.5.2, < 4.0.0)
@@ -1547,7 +1547,7 @@ DEPENDENCIES
   rest-client (~> 2.1)
   rspec-collection_matchers
   rspec-mocks
-  rspec-rails
+  rspec-rails (~> 4.0.0.beta3)
   rubocop (~> 0.79)
   rubocop-performance
   rubocop-rails

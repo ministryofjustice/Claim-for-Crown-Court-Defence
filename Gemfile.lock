@@ -9,6 +9,17 @@ GIT
       eventmachine (>= 0.12.8)
       rufus-scheduler (~> 2.0.24)
 
+GIT
+  remote: https://github.com/jasmine/jasmine-gem.git
+  revision: f33e6ea2aec2935a0909f487743bc4a0311f0c17
+  branch: master
+  specs:
+    jasmine (3.5.0)
+      jasmine-core (~> 3.5.0)
+      phantomjs
+      rack (>= 1.2.1)
+      rake
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -1116,11 +1127,6 @@ GEM
     ice_nine (0.11.2)
     inflection (1.0.0)
     jaro_winkler (1.5.4)
-    jasmine (3.5.0)
-      jasmine-core (~> 3.5.0)
-      phantomjs
-      rack (>= 1.2.1)
-      rake
     jasmine-core (3.5.0)
     jasmine_selenium_runner (3.0.0)
       jasmine (~> 3.0)
@@ -1514,7 +1520,7 @@ DEPENDENCIES
   hashdiff (>= 1.0.0.beta1, < 2.0.0)
   hashie-forbidden_attributes (>= 0.1.1)
   i18n-tasks
-  jasmine (~> 3.5)
+  jasmine!
   jasmine_selenium_runner
   jquery-rails (~> 4.3.5)
   json-schema (~> 2.8.0)

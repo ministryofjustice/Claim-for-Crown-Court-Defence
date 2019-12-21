@@ -83,7 +83,7 @@ group :development, :devunicorn, :test do
   gem 'guard-livereload', '>= 2.5.2'
   gem 'guard-rspec'
   gem 'guard-rubocop'
-  gem 'jasmine', '~> 3.5'
+  gem 'jasmine', git: 'https://github.com/jasmine/jasmine-gem.git', branch: 'master'
   gem 'jasmine_selenium_runner', require: false
   gem 'listen', '~> 3.2.1'
   gem 'meta_request'

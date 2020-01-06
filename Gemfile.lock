@@ -1198,7 +1198,7 @@ GEM
     parallel (1.19.1)
     parser (2.7.0.0)
       ast (~> 2.4.0)
-    pg (1.2.0)
+    pg (1.2.1)
     phantomjs (2.1.1.0)
     posix-spawn (0.3.13)
     pry (0.12.2)
@@ -1517,7 +1517,7 @@ DEPENDENCIES
   nokogiri (~> 1.10)
   paper_trail (~> 10.3.1)
   paperclip (~> 6.1.0)
-  pg (~> 1.2.0)
+  pg (~> 1.2.1)
   posix-spawn (~> 0.3.13)
   pry-byebug
   pry-rails

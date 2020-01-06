@@ -33,17 +33,20 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    # send_file Paperclip.io_adapters.for(document.converted_preview_document).path, view_file_options
+    send_file Paperclip.io_adapters.for(document.converted_preview_document).path, view_file_options
   end
 
   def download
-    # send_file Paperclip.io_adapters.for(document.document).path, download_file_options
+    send_file Paperclip.io_adapters.for(document.document).path, download_file_options
   end
 
   def create
     Rails.logger.info 'paperclip: Saving Document'
+
     @document = Document.new(document_params.merge(creator_id: current_user.id))
-    if @document.save
+    @document.active_storage_document.attach(params[:document][:document])
+
+    if @document.save_and_verify
       render json: { document: @document.reload }, status: :created
     else
       render json: { error: @document.errors[:document].join(', ') }, status: :unprocessable_entity

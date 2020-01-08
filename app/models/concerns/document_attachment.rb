@@ -53,18 +53,17 @@ module DocumentAttachment
   end
 
   def add_active_storage_converted_preview_document
-    if !active_storage_converted_preview_document.attached?
-      if active_storage_pdf_tmpfile.class < ActiveStorage::Attached
-        self.active_storage_converted_preview_document.attach(
-          active_storage_pdf_tmpfile.blob
-        )
-      else
-        self.active_storage_converted_preview_document.attach(
-          io: File.open(active_storage_pdf_tmpfile.path), 
-          filename: File.basename(active_storage_pdf_tmpfile),
-          content_type: 'application/pdf'
-        )
-      end
-    end 
+    return if active_storage_converted_preview_document.attached?
+    if active_storage_pdf_tmpfile.class < ActiveStorage::Attached
+      active_storage_converted_preview_document.attach(
+        active_storage_pdf_tmpfile.blob
+      )
+    else
+      active_storage_converted_preview_document.attach(
+        io: File.open(active_storage_pdf_tmpfile.path),
+        filename: File.basename(active_storage_pdf_tmpfile),
+        content_type: 'application/pdf'
+      )
+    end
   end
 end

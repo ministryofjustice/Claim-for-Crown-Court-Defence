@@ -1,4 +1,4 @@
-# == Schema Information
+# == Schema Information kma
 #
 # Table name: documents
 #
@@ -99,10 +99,10 @@ RSpec.describe DocumentsController, type: :controller do
         expect(JSON.parse(response.body)['document']).to eq(JSON.parse(Document.first.to_json))
       end
 
-      it 'saves the uploaded active storage file attachment' do
+      it 'saves the uploaded active storage document and converted document' do
         expect {
           post :create, params: { document: params }
-        }.to change(ActiveStorage::Attachment, :count).by(1)
+        }.to change(ActiveStorage::Attachment, :count).by(2)
       end
 
       it 'saves the uploaded active storage file blob' do

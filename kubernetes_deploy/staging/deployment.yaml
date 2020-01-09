@@ -191,6 +191,11 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_USER
+            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_ADMIN
             - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_ADVOCATE_ADMIN
               valueFrom:
                 secretKeyRef:

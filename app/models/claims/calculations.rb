@@ -13,7 +13,7 @@ module Claims::Calculations
     if category.blank?
       calculate_total_for(fees)
     else
-      fees_records = public_send(category)
+      fees_records = public_send(category) if respond_to?(category)
       fees_records.is_a?(Enumerable) ? calculate_total_for(fees_records) : calculate_fee_total(fees_records)
     end
   end

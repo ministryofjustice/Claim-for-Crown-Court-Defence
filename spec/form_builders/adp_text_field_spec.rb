@@ -4,7 +4,11 @@ class TestHelper < ActionView::Base; end
 
 RSpec.describe AdpTextField do
   context 'top level text fields' do
-    let(:helper) { TestHelper.new }
+    let(:helper) do TestHelper.new(
+                     lookup_context = ActionView::LookupContext.new([]),
+                     assigns = {},
+                     controller = ActionController::Base.new())
+    end
     let(:resource)  { FactoryBot.create :claim, case_number: nil }
     let(:error_presenter) { ErrorPresenter.new(resource) }
     let(:builder)   { AdpFormBuilder.new(:claim, resource, helper, {} ) }
@@ -174,7 +178,6 @@ RSpec.describe AdpTextField do
       it 'produces expected output with value' do
         resource.case_number = 'X22334455'
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', hint_text: 'Hint text here', errors: error_presenter)
-        puts atf.to_html
         expect(atf.to_html).to eq b100_with_value_with_hint
       end
 

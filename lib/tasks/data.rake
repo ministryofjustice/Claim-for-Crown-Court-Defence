@@ -44,7 +44,7 @@ namespace :data do
         i += 1
         vbid = Claims::ValueBands.band_id_for_claim(claim)
         if claim.value_band_id != vbid
-          puts ">>>>>>>>>>>>>> updating claim #{claim.id} to value band #{vbid} #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
+          puts "--------------- updating claim #{claim.id} to value band #{vbid} #{__FILE__}:#{__LINE__} ---------------\n"
           claim.update_columns(value_band_id: vbid)
         end
       end

@@ -19,7 +19,6 @@ RSpec.describe 'Servicedown mode', type: :request do
 
   shared_examples 'maintenance json' do
     it { expect(response).to have_http_status :service_unavailable }
-    it { expect(response.content_type).to eql('application/json') }
     it { expect(response.body).to be_json }
     it { expect(response.body).to include_json({error: "Service temporarily unavailable"}.to_json) }
   end
@@ -43,47 +42,6 @@ RSpec.describe 'Servicedown mode', type: :request do
 
     it { expect(response).to be_ok }
     it { expect(response.body).to be_json }
-  end
-
-  context 'template-deploy' do
-    before do
-      config_options = double(Config::Options, region: 'eu-west-1')
-      allow(Settings).to receive(:aws).and_return(config_options)
-    end
-
-    context 'web page requests (html)' do
-      context 'sign in' do
-        before { get '/users/sign_in' }
-        it_behaves_like 'maintenance page'
-      end
-
-      context 'caseworker' do
-        before do
-          sign_in(user)
-        end
-
-        let(:user) { create(:case_worker).user }
-          context '/case_workers/claims' do
-          before { get case_workers_home_path }
-          it_behaves_like 'maintenance page'
-        end
-      end
-
-      context 'advocate' do
-        before { sign_in user }
-        let(:user) { create(:external_user, :advocate).user }
-
-        context '/external_user/claims' do
-          before { get external_users_claims_path }
-          it_behaves_like 'maintenance page'
-        end
-
-        context '/advocates/claims/new' do
-          before { get new_advocates_claim_path }
-          it_behaves_like 'maintenance page'
-        end
-      end
-    end
   end
 
   context 'kubernetes' do
@@ -137,25 +95,23 @@ RSpec.describe 'Servicedown mode', type: :request do
   end
 
   context 'formatted responses' do
-    before { get '/', params: { format: mime } }
-
     context 'html' do
-      let(:mime) { :html }
+      before { get '/', params: { format: :html } }
       it_behaves_like 'maintenance page', status: 200
     end
 
     context 'json' do
-      let(:mime) { :json }
+      before { get '/', params: { format: :json } }
       it_behaves_like 'maintenance json'
     end
 
-    context 'js' do
-      let(:mime) { :js }
+    context 'ajax' do
+      before { get '/', xhr: true, params: { format: :js } }
       it_behaves_like 'maintenance json'
     end
 
     context 'all other' do
-      let(:mime) { :axd }
+      before { get '/', params: { format: :axd } }
       it { expect(response).to have_http_status :service_unavailable }
       it { expect(response.body).to include('Service temporarily unavailable') }
     end

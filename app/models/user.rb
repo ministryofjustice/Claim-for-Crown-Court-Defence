@@ -81,7 +81,7 @@ class User < ApplicationRecord
   end
 
   def save_settings!(data)
-    update_attributes(settings: settings.merge(data).to_json)
+    update(settings: settings.merge(data).to_json)
   end
   alias save_setting! save_settings!
 

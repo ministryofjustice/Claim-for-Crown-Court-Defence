@@ -13,7 +13,7 @@ class PagesController < ApplicationController
   def servicedown
     respond_to do |format|
       format.html do
-        render :servicedown, layout: 'basic', status: region_specific_service_unavailable
+        render :servicedown, layout: 'basic'
       end
       format.json do
         render  json:
@@ -23,21 +23,14 @@ class PagesController < ApplicationController
       format.js do
         render  json:
                 [{ error: 'Service temporarily unavailable' }],
-                status: 503,
-                content_type: 'application/json'
+                status: 503
       end
       format.all do
-        render plain: 'error: Service temporarily unavailable', status: 503, content_type: 'text/plain'
+        render  plain: 'error: Service temporarily unavailable',
+                status: 503
       end
     end
   end
 
   def timed_retention; end
-
-  private
-
-  # live-1 intercepts 503s at nginx level
-  def region_specific_service_unavailable
-    Settings.aws.region.eql?('eu-west-1') ? 503 : 200
-  end
 end

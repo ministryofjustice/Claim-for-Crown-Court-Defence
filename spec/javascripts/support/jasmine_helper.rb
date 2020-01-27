@@ -9,6 +9,12 @@
 #end
 #
 require "jasmine/runners/selenium"
+require 'webdrivers'
+
+# pin chromedriver version to latest compatible found
+# see https://chromedriver.storage.googleapis.com/index.html
+# Webdrivers.logger.level = :DEBUG
+Webdrivers::Chromedriver.required_version = '79.0.3945.36'
 
 Jasmine.configure do |config|
   config.runner = lambda { |formatter, jasmine_server_url|

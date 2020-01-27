@@ -21,9 +21,9 @@ namespace :mail do
     claim.creator.user.email = args[:email_address]
     claim.creator.user.save!
     claim.reload
-    puts ">>>>>>>>>>>>>> delivering mail to #{args[:email_address]} #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
+    puts "--------------- delivering mail to #{args[:email_address]} #{__FILE__}:#{__LINE__} ---------------\n"
     MessageNotificationMailer.notify_message(claim).deliver
-    puts ">>>>>>>>>>>>>> mail delivered #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
+    puts "--------------- mail delivered #{__FILE__}:#{__LINE__} ---------------\n"
     claim.creator.user.email = original_email
     claim.creator.user.save!
   end

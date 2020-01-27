@@ -26,7 +26,7 @@ namespace :audit do
       result = VatAuditor.new(claim).run
       failures << claim.id unless result
     end
-    puts ">>>>>>>>>>>>>> #{failures.size} claims are problematic #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
+    puts "--------------- #{failures.size} claims are problematic #{__FILE__}:#{__LINE__} ---------------\n"
     puts failures.inspect
   end
 end

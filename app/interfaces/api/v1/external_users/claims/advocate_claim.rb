@@ -27,7 +27,7 @@ module API::V1::ExternalUsers
       namespace '/' do
         desc 'DEPRECATED: Create an Advocate final claim. see advocates/final endpoint'
         post do
-          deprecate(datetime: Time.new(2020, 1, 31), link: "#{request.base_url}/api/release_notes")
+          deprecate(datetime: Time.new(2020, 3, 31), link: "#{request.base_url}/api/release_notes")
           create_resource(::Claim::AdvocateClaim)
           status api_response.status
           api_response.body
@@ -35,7 +35,7 @@ module API::V1::ExternalUsers
 
         desc 'DEPRECATED: Validate an Advocate final claim. see advocates/final/validate endpoint'
         post '/validate' do
-          deprecate(datetime: Time.new(2020, 1, 31), link: "#{request.base_url}/api/release_notes")
+          deprecate(datetime: Time.new(2020, 3, 31), link: "#{request.base_url}/api/release_notes")
           validate_resource(::Claim::AdvocateClaim)
           status api_response.status
           api_response.body

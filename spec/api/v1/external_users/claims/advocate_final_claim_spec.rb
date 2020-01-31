@@ -37,8 +37,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
   it_behaves_like 'a claim endpoint', relative_endpoint: :advocate
   it_behaves_like 'a claim validate endpoint', relative_endpoint: :advocate
   it_behaves_like 'a claim create endpoint', relative_endpoint: :advocate
-  it_behaves_like 'a deprecated claim endpoint', relative_endpoint: :advocate, action: :validate, deprecation_datetime: Time.new(2020, 1, 31)
-  it_behaves_like 'a deprecated claim endpoint', relative_endpoint: :advocate, action: :create, deprecation_datetime: Time.new(2020, 1, 31)
+  it_behaves_like 'a deprecated claim endpoint', relative_endpoint: :advocate, action: :validate, deprecation_datetime: Time.new(2020, 3, 31)
+  it_behaves_like 'a deprecated claim endpoint', relative_endpoint: :advocate, action: :create, deprecation_datetime: Time.new(2020, 3, 31)
 
   # TODO: write a generic date error handling spec and share
   describe "POST #{ClaimApiEndpoints.for(:advocate).validate}" do

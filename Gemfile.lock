@@ -1342,7 +1342,7 @@ GEM
     ruby2_keywords (0.0.2)
     ruby_parser (3.13.1)
       sexp_processor (~> 4.9)
-    rubyzip (2.0.0)
+    rubyzip (2.1.0)
     rufus-scheduler (2.0.24)
       tzinfo (>= 0.3.22)
     safe_yaml (1.0.5)

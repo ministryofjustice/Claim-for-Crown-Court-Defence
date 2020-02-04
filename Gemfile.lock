@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://github.com/jasmine/jasmine-gem.git
-  revision: f33e6ea2aec2935a0909f487743bc4a0311f0c17
+  revision: ba05d5fdc6d9652b23fa66b3ec1c0c756a3fa608
   branch: master
   specs:
     jasmine (3.5.0)

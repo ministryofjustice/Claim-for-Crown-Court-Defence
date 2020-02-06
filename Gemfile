@@ -66,7 +66,6 @@ gem 'laa-fee-calculator-client', '~> 1.1'
 gem 'wicked_pdf', '~> 1.4'
 
 group :production, :devunicorn do
-  gem 'rails_12factor', '0.0.3'
   gem 'unicorn-rails', '2.2.1'
   gem 'unicorn-worker-killer', '~> 0.4.4'
 end

@@ -11,10 +11,10 @@ GIT
 
 GIT
   remote: https://github.com/jasmine/jasmine-gem.git
-  revision: f33e6ea2aec2935a0909f487743bc4a0311f0c17
+  revision: e684cb3a69edadd7a149b1b141549a61e3bc52b6
   branch: master
   specs:
-    jasmine (3.5.0)
+    jasmine (3.5.1)
       jasmine-core (~> 3.5.0)
       phantomjs
       rack (>= 1.2.1)

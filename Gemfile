@@ -102,7 +102,7 @@ group :development, :devunicorn, :test do
 end
 
 group :test do
-  gem 'axe-matchers', '~> 2.5'
+  gem 'axe-matchers', '~> 2.6'
   gem 'capybara-selenium'
   gem 'capybara', '~> 3.31'
   gem 'climate_control'

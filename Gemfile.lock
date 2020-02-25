@@ -854,7 +854,7 @@ GEM
     aws-sigv2 (1.0.1)
     aws-sigv4 (1.1.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
-    axe-matchers (2.5.0)
+    axe-matchers (2.6.0)
       dumb_delegator (~> 0.8)
       virtus (~> 1.0)
     axiom-types (0.1.1)
@@ -990,7 +990,7 @@ GEM
       dry-equalizer (~> 0.2)
       dry-initializer (~> 3.0)
       dry-schema (~> 1.0, >= 1.4.3)
-    dumb_delegator (0.8.0)
+    dumb_delegator (0.8.1)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -1476,7 +1476,7 @@ DEPENDENCIES
   autoprefixer-rails (~> 9.7)
   awesome_print
   aws-sdk (~> 3)
-  axe-matchers (~> 2.5)
+  axe-matchers (~> 2.6)
   better_errors
   binding_of_caller
   brakeman

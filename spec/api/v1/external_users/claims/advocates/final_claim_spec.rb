@@ -33,6 +33,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       :offence_id => offence.id,
       :court_id => court.id } }
 
+  subject(:post_to_validate_endpoint) { post ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate, valid_params, format: :json }
+
   after(:all) { clean_database }
 
   include_examples 'advocate claim test setup'
@@ -42,9 +44,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
  
   # TODO: write a generic date error handling spec and share
   describe "POST #{ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate}" do
-    subject(:post_to_validate_endpoint) do
-      post ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate, valid_params, format: :json
-    end
 
     it 'returns 400 and JSON error when dates are not in acceptable format' do
       valid_params[:first_day_of_trial] = '01-01-2015'
@@ -69,5 +68,21 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
         expect(body).to include(error)
       end
     end
+  end
+
+  it 'returns 400 and JSON error when case_number is too long' do
+    valid_params[:case_number] = 'ABCDEFGHIJABCDEFGHIJA'
+    post_to_validate_endpoint
+    expect(last_response.status).to eq(400)
+    body = last_response.body
+    expect(body).to include("The case number must be in the format A20161234")
+  end
+
+  it 'returns 400 and JSON error when case_number contains a special character' do
+    valid_params[:case_number] = 'ABCDEFGHIJABCDEFGHI_'
+    post_to_validate_endpoint
+    expect(last_response.status).to eq(400)
+    body = last_response.body
+    expect(body).to include("The case number must be in the format A20161234")
   end
 end

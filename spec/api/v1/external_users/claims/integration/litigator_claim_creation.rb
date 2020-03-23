@@ -423,5 +423,16 @@ RSpec.describe 'API claim creation for LGFS' do
         expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: nil, total: 349.47, vat_amount: 69.89)
       end
     end
+  
+    context "common platform graduated fee claim" do
+      let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') } # Trial
+      let(:representation_order_date) { Date.new(2018, 03, 31).as_json }
+      let(:case_number) { 'ABCDEFGHIJ1234567890' }
+
+      specify 'Case management system creates a claim with a Common Platform URN' do
+        post ClaimApiEndpoints.for(:final).create, claim_params.merge(offence_id: offence.id, actual_trial_length: 10), format: :json
+        expect(last_response.status).to eql 201
+      end
+    end
   end
 end

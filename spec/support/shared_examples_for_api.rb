@@ -264,7 +264,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
           valid_params[:case_number] = -1
           post_to_create_endpoint
           expect_error_response("Choose a court", 0)
-          expect_error_response("The case number must be in the format A20161234", 1)
+          expect_error_response("The case number should be less than 21 characters and alphanumeric", 1)
         end
 
         it "response 400 and JSON error array of model validation INVALID errors" do

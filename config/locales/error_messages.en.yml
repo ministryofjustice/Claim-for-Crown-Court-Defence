@@ -144,13 +144,13 @@ court:
 case_number:
   _seq: 50
   blank:
-    long: Enter a case number for example A20161234
+    long: The case number should be less than 21 characters and alphanumeric
     short: Enter a case number
-    api: Enter a case number for example A20161234
+    api: The case number should be less than 21 characters and alphanumeric
   invalid:
-    long: The case number must be in the format A20161234
+    long: The case number should be less than 21 characters and alphanumeric
     short: Invalid case number
-    api: The case number must be in the format A20161234
+    api: The case number should be less than 21 characters and alphanumeric
 
 transfer_court:
   _seq: 55
@@ -170,9 +170,9 @@ transfer_case_number:
     short: Enter a transfer case number
     api: Enter a transfer case number for example A20161234
   invalid:
-    long: The transfer case number must be in the format A20161234
+    long: The transfer case number should be less than 21 characters and alphanumeric
     short: Invalid transfer case number
-    api: The transfer case number must be in the format A20161234
+    api: The transfer case number should be less than 21 characters and alphanumeric
 
 first_day_of_trial:
   _seq: 70

@@ -75,7 +75,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
     post_to_validate_endpoint
     expect(last_response.status).to eq(400)
     body = last_response.body
-    expect(body).to include("The case number must be in the format A20161234")
+    expect(body).to include("The case number should be less than 21 characters and alphanumeric")
   end
 
   it 'returns 400 and JSON error when case_number contains a special character' do
@@ -83,6 +83,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
     post_to_validate_endpoint
     expect(last_response.status).to eq(400)
     body = last_response.body
-    expect(body).to include("The case number must be in the format A20161234")
+    expect(body).to include("The case number should be less than 21 characters and alphanumeric")
   end
 end

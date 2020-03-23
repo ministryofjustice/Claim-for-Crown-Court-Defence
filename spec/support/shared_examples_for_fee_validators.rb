@@ -70,6 +70,11 @@ RSpec.shared_examples 'common AGFS number of cases uplift validations' do
       should_not_error(noc_fee, :case_numbers)
     end
 
+    it 'when single valid format of URN entered' do
+      noc_fee.case_numbers = '1234567890AAAAAAAAAA'
+      should_not_error(noc_fee, :case_numbers)
+    end
+
     it 'when quantity and number of additional cases match' do
       noc_fee.quantity = 2
       noc_fee.case_numbers = 'A20161234,T20171234'
@@ -85,11 +90,20 @@ RSpec.shared_examples 'common AGFS number of cases uplift validations' do
     end
 
     it 'when a single invalid format of case number entered' do
-      should_error_if_equal_to_value(noc_fee, :case_numbers, '123', 'invalid')
+      should_error_if_equal_to_value(noc_fee, :case_numbers, 'G20208765', 'invalid')
+    end
+    
+    it 'when a single invalid format of URN entered' do
+      should_error_if_equal_to_value(noc_fee, :case_numbers, '12 3', 'invalid')
     end
 
     it 'when any case number is of invalid format' do
-      noc_fee.case_numbers = 'A20161234,Z123,A20158888'
+      noc_fee.case_numbers = 'A20161234,Z123*,A20158888'
+      should_error_with(noc_fee, :case_numbers, 'invalid')
+    end
+
+    it 'when any URN is of invalid format' do
+      noc_fee.case_numbers = 'ABCDEFGHIJ,Z123*,1234567890'
       should_error_with(noc_fee, :case_numbers, 'invalid')
     end
 

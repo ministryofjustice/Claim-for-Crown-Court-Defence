@@ -223,8 +223,18 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       expect(claim).to be_valid
     end
 
-    it 'should error if invalid' do
-      claim.case_number = 'T87654321'
+    it 'should error if too short' do
+      claim.case_number = 'T2020432'
+      should_error_with(claim, :case_number, 'invalid')
+    end
+
+    it 'should error if too long' do
+      claim.case_number = 'T202043298'
+      should_error_with(claim, :case_number, 'invalid')
+    end
+
+    it 'should error if it doesnt start with BAST or U' do
+      claim.case_number = 'G20204321'
       should_error_with(claim, :case_number, 'invalid')
     end
 
@@ -244,6 +254,25 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
         end
       end
     end
+  end
+
+  context 'with unique reference numbers' do
+    it 'should not error if valid' do
+      claim.case_number = 'ABCDEFGHIJ1234567890'
+      expect(claim).to be_valid
+    end
+
+    it 'is invalid if contains non alphanumeric characters' do
+      %w(_ - * ? ,).each do |character|
+        claim.case_number = 'KLMNOPQRST134456789' + character
+        should_error_with(claim, :case_number, 'invalid')
+      end
+    end
+
+    it 'is invalid if the URN is too long' do
+      claim.case_number = '1234567890UVWXYZABCDE'
+      should_error_with(claim, :case_number, 'invalid')
+    end  
   end
 
   context 'estimated_trial_length' do

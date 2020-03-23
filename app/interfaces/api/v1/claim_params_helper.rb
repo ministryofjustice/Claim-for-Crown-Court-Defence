@@ -10,7 +10,7 @@ module API
         optional :court_id, type: Integer, desc: 'REQUIRED: The unique identifier for this court'
         optional :case_type_id, type: Integer, desc: 'REQUIRED: The unique identifier of the case type'
         optional :offence_id, type: Integer, desc: 'REQUIRED: The unique identifier for this offence.'
-        optional :case_number, type: String, desc: 'REQUIRED: The case number'
+        optional :case_number, type: String, desc: 'REQUIRED: The case number or URN'
         optional :providers_ref, type: String, desc: 'OPTIONAL: Providers reference number'
         optional :cms_number, type: String, desc: 'OPTIONAL: The CMS number'
         optional :additional_information, type: String, desc: 'OPTIONAL: Any additional information'
@@ -40,7 +40,7 @@ module API
         use :user_email
         optional :supplier_number, type: String, desc: 'REQUIRED. The supplier number.'
         optional :transfer_court_id, type: Integer, desc: 'OPTIONAL: The unique identifier for the transfer court.'
-        optional :transfer_case_number, type: String, desc: 'OPTIONAL: The case number for the transfer court.'
+        optional :transfer_case_number, type: String, desc: 'OPTIONAL: The case number or URN for the transfer court.'
       end
 
       params :legacy_agfs_params do

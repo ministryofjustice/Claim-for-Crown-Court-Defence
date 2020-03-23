@@ -85,11 +85,11 @@ RSpec.shared_examples 'common AGFS number of cases uplift validations' do
     end
 
     it 'when a single invalid format of case number entered' do
-      should_error_if_equal_to_value(noc_fee, :case_numbers, '123', 'invalid')
+      should_error_if_equal_to_value(noc_fee, :case_numbers, '12 3', 'invalid')
     end
 
     it 'when any case number is of invalid format' do
-      noc_fee.case_numbers = 'A20161234,Z123,A20158888'
+      noc_fee.case_numbers = 'A20161234,Z123*,A20158888'
       should_error_with(noc_fee, :case_numbers, 'invalid')
     end
 

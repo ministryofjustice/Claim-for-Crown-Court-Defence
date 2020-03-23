@@ -224,7 +224,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     it 'should error if invalid' do
-      claim.case_number = 'T87654321'
+      claim.case_number = 'T87654321?'
       should_error_with(claim, :case_number, 'invalid')
     end
 

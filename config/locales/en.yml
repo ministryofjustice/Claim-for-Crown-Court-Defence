@@ -941,7 +941,7 @@ en:
               Please enter the number of pages of prosecution evidence to help the caseworker assess the correct offence class.
 
         additional_fee_fields:
-          case_numbers: Additional case numbers
+          case_numbers: Additional case numbers or URNs
           quantity: *quantity
           quantity_hint: *empty_input
           add_date_attended: Add another date
@@ -1008,8 +1008,8 @@ en:
           advocate_category: 'Advocate category'
           case_details: 'Case details'
           case_offence: 'Case & offence'
-          case_number: 'Case number'
-          case_number_hint: For example T20170101
+          case_number: 'Case number or URN'
+          case_number_hint: For example T20170101 or 05PP1000915
           case_type: 'Case type'
           case_type_hint: For example Trial
           court: 'Court'
@@ -1024,8 +1024,8 @@ en:
           offence_class: 'Offence class'
           select_offence_class: 'Please select'
         transfer_court_fields:
-          transfer_case_number: Case number
-          transfer_case_number_hint: For example T20170101
+          transfer_case_number: Case number or URN
+          transfer_case_number_hint: For example T20170101 or 05PP1000915
           transfer_court: Court
           transfer_court_hint: For example Cardiff
         trial_detail_fields:

@@ -65,7 +65,7 @@ RSpec.describe Claims::UpdateDraft do
     end
 
     context 'unsuccessful draft updates' do
-      let(:claim_params) { { case_number: '123' } }
+      let(:claim_params) { { case_number: '123/' } }
 
       it 'is unsuccessful' do
         subject.call

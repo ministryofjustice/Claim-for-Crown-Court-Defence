@@ -85,7 +85,7 @@ RSpec.shared_examples "common advocate litigator validations" do |external_user_
     end
 
     it 'should error if wrong format' do
-      claim.transfer_case_number = 'ABC'
+      claim.transfer_case_number = 'ABC_'
       should_error_with(claim, :transfer_case_number, 'invalid')
     end
 
@@ -113,7 +113,7 @@ RSpec.shared_examples "common advocate litigator validations" do |external_user_
 
         context 'and transfer case number has an invalid format' do
           before do
-            claim.transfer_case_number = 'ABC'
+            claim.transfer_case_number = 'ABC_'
           end
 
           it 'contains an invalid error on transfer case number' do

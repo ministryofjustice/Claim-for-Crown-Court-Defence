@@ -144,9 +144,9 @@ court:
 case_number:
   _seq: 50
   blank:
-    long: The case number should be less than 21 characters and alphanumeric
-    short: Enter a case number
-    api: The case number should be less than 21 characters and alphanumeric
+    long: Enter a case number or URN
+    short: Enter a case number or URN
+    api: Enter a case number of URN
   invalid:
     long: The case number should be less than 21 characters and alphanumeric
     short: Invalid case number

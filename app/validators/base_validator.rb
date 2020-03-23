@@ -1,5 +1,5 @@
 class BaseValidator < ActiveModel::Validator
-  CASE_NUMBER_PATTERN ||= /^[BASTU](199|20\d)\d{5}$/i.freeze
+  CASE_NUMBER_PATTERN ||= /^[A-Za-z0-9]{1,20}$/i.freeze
 
   # Override this method in the derived class
   def validate_step_fields; end

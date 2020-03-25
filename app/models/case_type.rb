@@ -32,7 +32,7 @@ class CaseType < ApplicationRecord
   scope :requires_retrial_dates,  -> { where(requires_retrial_dates: true) }
 
   def self.by_type(type)
-    CaseType.where(name: type).first
+    CaseType.find_by(name: type)
   end
 
   def self.ids_by_types(*args)

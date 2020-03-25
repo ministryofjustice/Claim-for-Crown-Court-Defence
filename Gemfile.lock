@@ -1370,7 +1370,7 @@ GEM
       rack (>= 1.5.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
-    simple_form (5.0.1)
+    simple_form (5.0.2)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
     simplecov (0.17.1)
@@ -1565,7 +1565,7 @@ DEPENDENCIES
   shell-spinner (~> 1.0, >= 1.0.4)
   shoulda-matchers (>= 4.0.0.rc1)
   sidekiq (~> 5.2.7)
-  simple_form (~> 5.0.1)
+  simple_form (~> 5.0.2)
   simplecov
   simplecov-csv
   simplecov-multi

@@ -85,4 +85,12 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
     body = last_response.body
     expect(body).to include("The case number should be less than 21 characters and alphanumeric")
   end
+
+  it 'returns 200 and valid when case_number is a valid common platform URN' do
+    valid_params[:case_number] = 'ABCDEFGHIJ1234567890'
+    post_to_validate_endpoint
+    expect(last_response.status).to eq(200)
+    body = last_response.body
+    expect(body).to include("valid")
+  end
 end

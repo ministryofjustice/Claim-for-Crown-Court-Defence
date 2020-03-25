@@ -246,16 +246,6 @@ RSpec.shared_examples 'scheme 10 advocate final claim' do |options|
       expect(claim.expenses.size).to eql 2
     end
   end
-
-  context "common platform graduated fee claim on #{ClaimApiEndpoints.for(options[:relative_endpoint]).create}" do
-    let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') } # Trial
-    let(:case_number) { 'ABCDEFGHIJ1234567890' }
-
-    specify 'Case management system creates a claim with a Common Platform URN' do
-      post ClaimApiEndpoints.for(:advocate).create, claim_params.merge(offence_id: offence.id, case_number: case_number, transfer_case_number: transfer_case_number), format: :json
-      expect(last_response.status).to eql 201
-    end
-  end
 end
 
 RSpec.describe 'API claim creation for AGFS' do

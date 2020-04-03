@@ -40,7 +40,8 @@ module Claims
         'Claim::AdvocateSupplementaryClaim' => 'agfs_supplementary',
         'Claim::LitigatorClaim' => 'lgfs_final',
         'Claim::InterimClaim' => 'lgfs_interim',
-        'Claim::TransferClaim' => 'lgfs_transfer'
+        'Claim::TransferClaim' => 'lgfs_transfer',
+        'Claim::LitigatorHardshipClaim' => 'lgfs_hardship'
       }[claim_type.to_s]
     end
   end

@@ -43,7 +43,8 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
       'agfs_supplementary' => new_advocates_supplementary_claim_url,
       'lgfs_final' => new_litigators_claim_url,
       'lgfs_interim' => new_litigators_interim_claim_url,
-      'lgfs_transfer' => new_litigators_transfer_claim_url
+      'lgfs_transfer' => new_litigators_transfer_claim_url,
+      'lgfs_hardship' => new_litigators_hardship_claim_url
     }[claim_type.to_s]
   end
 

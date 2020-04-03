@@ -124,7 +124,7 @@ class Provider < ApplicationRecord
   end
 
   def lgfs_claim_types
-    [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
+    [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim, Claim::LitigatorHardshipClaim]
   end
 
   def claim_types_for(role)

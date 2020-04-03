@@ -1,0 +1,32 @@
+%dl
+  %dt.fx-seed-hardshipFees{ data: { seed: claim.raw_hardship_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
+    = 'Hardship fees'
+  %dd.total-hardshipFees
+    = claim.hardship_fees_total
+
+  / TODO: add other fee, expenses and disbursement
+
+  %dt.fx-seed-miscFees{ data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
+    = 'Miscellaneous fees'
+  %dd.total-miscFees
+    = claim.misc_fees_total
+
+  %dt.fx-seed-disbursements{ data: { seed: claim.raw_disbursements_total, autovat: 'false', 'seed-vat': claim.raw_disbursements_vat } }
+    = 'Disbursements'
+  %dd.total-disbursements
+    = claim.disbursements_total
+
+  %dt.fx-seed-expenses{ data: { seed: claim.raw_expenses_total, autovat: 'false', 'seed-vat': claim.raw_expenses_vat } }
+    = 'Travel expenses'
+  %dd.total-expenses
+    = claim.expenses_total
+
+  %dt.fx-seed{ 'data-vat-total': claim.raw_vat_amount }
+    = 'VAT'
+  %dd.total-vat
+    = claim.vat_amount
+
+  %dt.fx-seed{ 'data-total-inc': claim.raw_total_inc }
+    = 'Total'
+  %dd.total-grandTotal
+    = claim.total_inc

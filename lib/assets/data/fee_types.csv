@@ -102,3 +102,4 @@ ID,DESCRIPTION,CODE,UNIQUE_CODE,MAX_AMOUNT,CALCULATED,CLASS,ROLES,PARENT_ID,QUAN
 103,Ground rules hearing (half day),GRH,MIGRH,,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_10,,FALSE,
 104,Standard appearance fee,SAF,MISAF,999,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE
 105,Plea and trial preparation hearing,PCM,MIPCM,999,TRUE,Fee::MiscFeeType,agfs;agfs_scheme_9;agfs_scheme_10,,FALSE
+106,Hardship,HARDSHIP,HARDSHIP,,FALSE,Fee::HardshipFeeType,lgfs,,FALSE,

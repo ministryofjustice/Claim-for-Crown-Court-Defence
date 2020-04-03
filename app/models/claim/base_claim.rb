@@ -205,11 +205,11 @@ module Claim
       false
     end
 
-    def supplementary?
+    def hardship?
       false
     end
 
-    def hardship?
+    def supplementary?
       false
     end
 
@@ -254,7 +254,7 @@ module Claim
     end
 
     def self.lgfs_claim_types
-      [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
+      [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim, Claim::LitigatorHardshipClaim]
     end
 
     def self.agfs?

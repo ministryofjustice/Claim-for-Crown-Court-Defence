@@ -848,6 +848,7 @@ en:
         lgfs_final_rb: Litigator final fee
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee
+        lgfs_hardship_rb: Litigator hardship fee
     disc_evidence_coversheets:
         new:
           page_title: Disc evidence coversheet
@@ -1330,6 +1331,9 @@ en:
           final_claim:
             page_title: View claim summary for litigator final fees claim
             page_heading: Claim for litigator final fees
+          litigator_hardship_claim:
+            page_title: View claim summary for litigator hardship fees claim
+            page_heading: Claim for litigator hardship fees
           litigator_claim:
             page_title: View claim summary for litigator final fees claim
             page_heading: Claim for litigator final fees
@@ -1534,6 +1538,18 @@ en:
       supplier_number:
         fields:
           lgfs_supplier_number: "LGFS supplier number"
+      hardship_fee:
+        fields:
+          page_header: Hardship fee
+          page_hint: *fees_vat_prompt
+          quantity: Total pages of evidence
+          quantity_hint: At the time the claim is made
+          amount: *net_amount
+        summary:
+          caption: 'Hardship Fees: This section contains details of any hardship fees that have been claimed.'
+          change: Change
+          change_link_label: Change hardship fees
+          header: Hardship fees
       interim_fee:
         fields:
           page_header: Interim fee
@@ -1833,6 +1849,51 @@ en:
 
         warrant_fees_form_step:
           page_title: Enter warrant fees for litigator final fees claim
+
+      hardship_claims:
+        new:
+          page_title: &lgfs_hardship_claims_title Enter case details for litigator hardship fees claim
+          page_heading: &lgfs_hardship_claim_heading Claim for litigator hardship fees
+
+        edit:
+          page_title: *lgfs_hardship_claims_title
+          page_heading: *lgfs_hardship_claim_heading
+
+        case_details_form_step:
+          page_title: *lgfs_hardship_claims_title
+          page_heading: Case details
+
+        defendants_form_step:
+          page_title: Enter defendant details for litigator hardship fees claim
+
+        # unknown if needed
+        # fixed_fees_form_step:
+        #   page_title: Enter fixed fees for litigator hardship fees claim
+        #   page_header: Fixed fees
+
+        offence_details_form_step:
+          page_title: Enter offence details for litigator hardship fees claim
+
+        # unknown if needed
+        hardship_fees_form_step:
+          page_title: Enter hardship fees for litigator hardship fees claim
+
+        # unknown if needed
+        # graduated_fees_form_step:
+        #   page_title: Enter graduated fees for litigator hardship fees claim
+
+        miscellaneous_fees_form_step:
+          page_title: Enter miscellaneous fees for litigator hardship fees claim
+
+        disbursements_form_step:
+          page_title: Enter disbursements for litigator hardship fees claim
+
+        travel_expenses_form_step:
+          page_title: Enter travel expenses for litigator hardship fees claim
+
+        supporting_evidence_form_step:
+          page_title: Upload supporting evidence for litigator hardship fees claim
+
   shared:
     not_available: 'not available'
     claim_header:
@@ -2087,6 +2148,7 @@ en:
         transfer_fee: "There are no transfer fee for this claim"
         graduated_fees: "There are no graduated fees for this claim"
         interim_fee: "There is no interim fee for this claim"
+        hardship_fee: "There is no hardship fee for this claim"
         misc_fees: "There are no miscellaneous fees for this claim"
         offence_details: "There are no offence details for this claim"
         supporting_evidence: "There is no supporting evidence for this claim"

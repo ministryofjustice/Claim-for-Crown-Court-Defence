@@ -62,9 +62,7 @@
             = t('shared.summary.total_amount')
 
       %tbody
-        -# The collection of fees
         - present_collection(collection.sort_by(&:position)).each.with_index(1) do |fee, index|
-          -# Each instance of a fee
           = render partial: 'external_users/claims/summary_fee', locals: { fee: fee }
 
       %tfoot
@@ -78,8 +76,8 @@
           %td.numeric
             = ''
           %td.numeric
-            = section.to_s.eql?('fixed_fees') ? claim.fixed_fees_total : claim.misc_fees_total
+            = claim.send("#{section}_total")
           %td.numeric
-            = section.to_s.eql?('fixed_fees') ? claim.fixed_fees_vat : claim.misc_fees_vat
+            = claim.send("#{section}_vat")
           %td.numeric
-            = section.to_s.eql?('fixed_fees') ? claim.fixed_fees_vat : claim.misc_fees_vat
+            = claim.send("#{section}_gross")

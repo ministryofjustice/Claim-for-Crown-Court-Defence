@@ -48,6 +48,10 @@ class BaseValidator < ActiveModel::Validator
     add_error(attribute, message) if attr_blank?(attribute)
   end
 
+  def validate_boolean_presence(attribute, message)
+    add_error(attribute, message) if attr_nil?(attribute)
+  end
+
   def validate_max_length(attribute, length, message)
     add_error(attribute, message) if @record.__send__(attribute).to_s.size > length
   end

@@ -70,7 +70,7 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '.agfs_claim_types' do
-    specify { expect(described_class.agfs_claim_types).to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim]) }
+    specify { expect(described_class.agfs_claim_types).to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim, Claim::AdvocateHardshipClaim]) }
   end
 
   describe '.lgfs_claim_types' do

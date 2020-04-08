@@ -1,0 +1,8 @@
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
+= render partial: 'external_users/claims/error_summary', locals: { ep: @error_presenter }
+
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
+
+= render partial: 'external_users/claims/form_layout_wrapper', locals: { claim: @claim, display_buttons: false }

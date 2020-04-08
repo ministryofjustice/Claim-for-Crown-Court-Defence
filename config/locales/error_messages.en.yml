@@ -262,6 +262,13 @@ trial_concluded_at:
     short: *enter_valid_date
     api: 'Trial concluded date cannot be in future'
 
+trial_started:
+  _seq: 105
+  blank:
+    long: Choose an option for "Has the trial started?"
+    short: Choose an option
+    api: Choose an option for "Has the trial started?"
+
 retrial_started_at:
   _seq: 110
   blank:

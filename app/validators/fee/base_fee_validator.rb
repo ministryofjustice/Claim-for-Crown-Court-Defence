@@ -70,7 +70,7 @@ module Fee
     end
 
     def check_for_daily_attendance_error(code, min:, mod:, max:)
-      add_error(:quantity, "#{code.downcase}_qty_mismatch") if daf_trial_length_combination_invalid(min, mod, max)
+      add_error(:quantity, "#{code.downcase}_qty_mismatch") if daily_attendance_trial_length_combo_invalid?(min, mod, max)
     end
 
     def validate_pcm_quantity
@@ -160,17 +160,24 @@ module Fee
       @record&.claim&.trial_length || 0
     end
 
-    def daf_trial_length_combination_invalid(lower_bound, trial_length_modifier, max_quantity = nil)
+    def daily_attendance_trial_length_combo_invalid?(lower_bound, trial_length_modifier, max_quantity = nil)
       raise ArgumentError if trial_length_modifier.positive?
-      return false if daf_retrial_combo_ignorable
+      return false if daily_attendance_retrial_combo_ignorable?
 
       max_quantity = infinity if max_quantity.blank?
-      upper_bound = [max_quantity, @actual_trial_length + trial_length_modifier].min
-      @actual_trial_length < lower_bound || @record.quantity > upper_bound
+      !daily_attendance_bounds_valid?(min: lower_bound, max: max_quantity, mod: trial_length_modifier,)
+    end
+
+    def daily_attendance_bounds_valid?(min: nil, max: nil, mod:)
+      upper_bound = [max, @actual_trial_length + mod].min
+      lower_bound = min
+      upper_bound_valid = @record.quantity < upper_bound
+      lower_bound_valid = @actual_trial_length >= lower_bound
+      upper_bound_valid && lower_bound_valid
     end
 
     # This is required for retrial claims created prior to retrial fields being added.
-    def daf_retrial_combo_ignorable
+    def daily_attendance_retrial_combo_ignorable?
       @record.claim.case_type.requires_retrial_dates? && !@record.claim.editable?
     rescue StandardError
       false

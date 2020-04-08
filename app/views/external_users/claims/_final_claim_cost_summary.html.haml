@@ -28,7 +28,7 @@
       - if claim.respond_to? :basic_fees_total
         %tr.fx-seed-gradFees{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_basic_fees_total } }
           %td
-            = t('shared.summary.graduated_fees')
+            = claim.hardship? ? t('shared.summary.hardship_fees') : t('shared.summary.graduated_fees')
           %td.numeric
             = claim.basic_fees_total
           %td.numeric

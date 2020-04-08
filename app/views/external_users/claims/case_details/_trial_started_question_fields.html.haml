@@ -1,0 +1,11 @@
+.form-group
+  %fieldset{ 'aria-describedby': 'radio-control-legend-trial-started' }
+    %legend#radio-control-legend-transfer
+      %h2.heading-medium
+        = t('.trial_started')
+
+    = f.collection_radio_buttons(:trial_started, yes_no_options.reverse, :last, :first ) do |b|
+      .multiple-choice
+        = b.radio_button('aria-labelledby': "radio-control-legend-trial-started #{b.text.to_css_class}")
+        = b.label { b.text }
+= validation_error_message(@error_presenter, :trial_started)

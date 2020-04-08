@@ -87,6 +87,10 @@ downtime_warning_date: <%= Date.new(2019, 11, 20) %>
 # If enabled, users with proper roles will see scheme radio buttons to filter the list
 scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
 
+# Feature flag to enable or disable hardship claims being available
+# If enabled, providers with proper roles will see hardship claims in the list of advocate claim types
+hardship_claims_enabled?: <%= %w[test development].include?(Rails.env) || ENV['ENV'] == 'staging' %>
+
 # Feature flag to enable ability to set user email notification user preferences.  If true, external
 # users will be able to set preference to say whether they want email notifications of outstanding messages
 # on their claim

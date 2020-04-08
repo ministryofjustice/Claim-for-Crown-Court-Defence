@@ -6,4 +6,4 @@
     = local_assigns.has_key?(:page_hint) ? page_hint : t('.fees_header_prompt_text_html')
 
   %p
-    = t(".fees_calculator_html")
+    = local_assigns.has_key?(:fees_calculator_html) ? fees_calculator_html : t(".fees_calculator_html")

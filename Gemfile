@@ -94,7 +94,7 @@ group :development, :devunicorn, :test do
   gem 'rspec-collection_matchers'
   gem 'net-ssh'
   gem 'net-scp'
-  gem 'rubocop', '~> 0.80'
+  gem 'rubocop', '~> 0.81'
   gem 'rubocop-rspec'
   gem 'rubocop-rails'
   gem 'rubocop-performance'

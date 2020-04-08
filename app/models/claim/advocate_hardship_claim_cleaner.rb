@@ -1,12 +1,14 @@
 module Claim
-  class AdvocateSupplementaryClaimCleaner
+  class AdvocateHardshipClaimCleaner
     attr_accessor :claim
 
     delegate  :misc_fees,
+              :basic_fees,
               :interim?,
               :agfs?,
               :supplementary?,
               :hardship?,
+              :trial_started?,
               :agfs_reform?,
               to: :claim
 
@@ -15,10 +17,15 @@ module Claim
     end
 
     def call
+      destroy_ineligible_basic_fees
       destroy_ineligible_misc_fees
     end
 
     private
+
+    def destroy_ineligible_basic_fees
+      basic_fees.map(&:clear) unless basic_fees.empty? || trial_started?
+    end
 
     def destroy_ineligible_misc_fees
       misc_fees.delete(ineligible_misc_fees)

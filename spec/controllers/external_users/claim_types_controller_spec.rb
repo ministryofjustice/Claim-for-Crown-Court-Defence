@@ -45,7 +45,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       it "assigns bill types based on provider roles" do
         get :selection
-        expect(assigns(:available_claim_types)).to match_array(%w(agfs agfs_interim agfs_supplementary lgfs_final lgfs_interim lgfs_transfer))
+        expect(assigns(:available_claim_types)).to match_array(%w(agfs agfs_interim agfs_supplementary agfs_hardship lgfs_final lgfs_interim lgfs_transfer))
       end
 
       it "renders the bill type options page" do
@@ -59,7 +59,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       it "assigns bill types based on provider roles" do
         get :selection
-        expect(assigns(:available_claim_types)).to match_array(%w(agfs agfs_interim agfs_supplementary))
+        expect(assigns(:available_claim_types)).to match_array(%w(agfs agfs_interim agfs_supplementary agfs_hardship))
       end
 
       it "renders the bill type options page" do

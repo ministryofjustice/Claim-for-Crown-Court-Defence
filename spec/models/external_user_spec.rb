@@ -261,7 +261,7 @@ RSpec.describe ExternalUser, type: :model do
   describe '#available_claim_types' do
     subject { user.available_claim_types.map(&:to_s) }
 
-    let(:advocate_claim_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim] }
+    let(:advocate_claim_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim Claim::AdvocateHardshipClaim] }
     let(:litigator_claim_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim] }
     let(:all_claim_types) { advocate_claim_types | litigator_claim_types }
 

@@ -163,7 +163,7 @@ RSpec.describe Provider, type: :model do
 
       it 'returns the list of available claim types' do
         expect(provider.available_claim_types)
-          .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim])
+          .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim, Claim::AdvocateHardshipClaim])
       end
     end
 
@@ -181,7 +181,7 @@ RSpec.describe Provider, type: :model do
 
       it 'returns the list of available claim types' do
         expect(provider.available_claim_types)
-          .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+          .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim, Claim::AdvocateHardshipClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
       end
     end
   end

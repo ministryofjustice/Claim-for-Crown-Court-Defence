@@ -8,7 +8,7 @@ RSpec.describe Claims::ContextMapper do
     let(:context) { Claims::ContextMapper.new(external_user) }
     let(:external_user) { create(:external_user, :advocate_litigator) }
 
-    let(:advocate_claim_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim] }
+    let(:advocate_claim_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim Claim::AdvocateHardshipClaim] }
     let(:litigator_claim_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim] }
     let(:all_claim_types) { advocate_claim_types | litigator_claim_types }
 

@@ -3,13 +3,9 @@
 .form-section.basic-fee-group.fx-fee-group.fee-details.js-block.fx-do-init{class: to_slug(fee.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": fee.calculated? ? "FeeBlock" : "FeeBlock"}}
   %fieldset
     .form-group
-      %span.bold
-        Case type
-      %p
-        = fee.claim.case_type.name
-
+      = render partial: 'external_users/claims/basic_fees/case_type_display', locals: { claim: @claim }
     .form-group
-      = render partial: 'external_users/claims/basic_fees/offence_display', locals: { f: f }
+      = render partial: 'external_users/claims/basic_fees/offence_display', locals: { claim: @claim }
 
     = f.hidden_field :fee_type_id, value: f.object.fee_type_id, class: 'js-fee-type'
     = f.label :quantity, 'Fee calculator days', class: 'visually-hidden'

@@ -1,0 +1,10 @@
+- locale_scope = 'external_users.hardship_claims.basic_fees.fields'
+
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
+= render partial: 'external_users/claims/fees_shared_header', locals: {page_header: t('page_header', scope: locale_scope), page_hint: t('page_hint', scope: locale_scope), fees_calculator_html: nil}
+
+= render partial: 'external_users/advocates/advocate_category', locals: { f: f }
+
+= render partial: 'external_users/claims/basic_fees/fields', locals: { f: f }

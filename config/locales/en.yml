@@ -158,6 +158,9 @@ en:
       external_user_litigator: &litigator 'Litigator'
       case_worker: &case_worker 'Case worker'
     attributes:
+      claims:
+        case_type: &case_type Case type
+        offence: &offence Offence
       users:
         roles: &roles 'Roles'
         email: &email 'Email'
@@ -326,6 +329,7 @@ en:
 
 # en.common
   common:
+    trial_started: Trial started
     advocate: Advocate
     litigator: Litigator
     external_user:
@@ -812,6 +816,7 @@ en:
         page_title:
           agfs_final: Certify and submit the advocate final fees claim
           agfs_interim: Certify and submit the advocate warrant fees claim
+          agfs_hardship: Certify and submit the advocate hardship fees claim
           agfs_supplementary: Certify and submit the advocate supplementary fees claim
           lgfs_final: Certify and submit the litigator final fees claim
           lgfs_interim: Certify and submit the litigator interim fees claim
@@ -831,6 +836,8 @@ en:
         agfs_rb: Advocate final fee
         agfs_supplementary_rb: Advocate supplementary fee
         agfs_supplementary_hint: For miscellaneous fees claimed without a graduated or fixed fee
+        agfs_hardship_rb: Advocate hardship fee
+        agfs_hardship_hint: How are we going to explain this?
         agfs_interim_rb: Advocate warrant fee
         agfs_interim_hint: For warrant fee claims with the earliest representation order dated on or after 1 April 2018
         claim_type_prompt_section_heading: 'What would you like to do?'
@@ -1029,6 +1036,8 @@ en:
           transfer_court_hint: For example Cardiff
         transfer_court_question_fields:
           case_transferred_from_another_court: 'Was this case transferred from another court?'
+        trial_started_question_fields:
+          trial_started: Has the trial (or retrial) started?
         trial_detail_fields:
           trial_detail: Trial details
           actual_trial_length: *actual_trial_length
@@ -1312,6 +1321,9 @@ en:
           advocate_interim_claim:
             page_title: View claim summary for advocate warrant fees claim
             page_heading: Claim for advocate warrant fees
+          advocate_hardship_claim:
+            page_title: View claim summary for advocate hardship fees claim
+            page_heading: Claim for advocate hardship fees
         lgfs:
           final_claim:
             page_title: View claim summary for litigator final fees claim
@@ -1626,6 +1638,37 @@ en:
 
         basic_and_fixed_fees_form_step:
           page_title: Enter fixed fees for advocate final fees claim
+
+      hardship_claims:
+        new:
+          page_title: &agfs_hardship_claim_title Enter case details for advocate hardship fees claim
+          page_heading: &agfs_hardship_claim_heading Claim for advocate hardship fees
+
+        edit:
+          page_title: *agfs_hardship_claim_title
+          page_heading: *agfs_hardship_claim_heading
+
+        case_details_form_step:
+          page_title: *agfs_hardship_claim_title
+          page_heading: Case details
+
+        defendants_form_step:
+          page_title: Enter defendant details for advocate hardship fees claim
+
+        basic_fees_form_step:
+          page_title: Enter graduated fees for advocate hardship fees claim
+
+        miscellaneous_fees_form_step:
+          page_title: Enter miscellaneous fees for advocate hardship fees claim
+
+        offence_details_form_step:
+          page_title: Enter offence details for advocate hardship fees claim
+
+        travel_expenses_form_step:
+          page_title: Enter travel expenses for advocate hardship fees claim
+
+        supporting_evidence_form_step:
+          page_title: Upload supporting evidence for advocate hardship fees claim
 
       interim_claims:
         new:
@@ -1979,11 +2022,11 @@ en:
       vat_amount: *vat_amount
       total: Total
       total_amount: Total amount
-      basic_fees: Basic fees
+      basic_fees: Basic and additional fees
       fixed_fees: Fixed fees
       graduated_fees: Graduated fees
+      hardship_fees: Hardship fees
       miscellaneous_fees: Miscellaneous fees
-      additional_fees: Additional fees
       vat: VAT
       date: Date
       disbursement: Disbursement

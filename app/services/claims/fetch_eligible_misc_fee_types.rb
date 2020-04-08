@@ -28,6 +28,7 @@ module Claims
     end
 
     def eligible_agfs_misc_fee_types
+      return agfs_scheme_scope if claim.hardship? && !claim.trial_started?
       return agfs_scheme_scope.supplementary if claim.supplementary?
       agfs_scheme_scope.without_supplementary_only
     end

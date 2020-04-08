@@ -133,6 +133,10 @@ case_type:
     long: Choose a case type
     short: Choose a case type
     api: Choose a case type
+  inclusion:
+    long: Choose an eligible case type
+    short: Choose an eligible case type
+    api: Choose an eligible case type
 
 court:
   _seq: 40
@@ -187,6 +191,10 @@ first_day_of_trial:
   check_other_date:
     long: 'Check the date for "First day of trial"'
     short: Can't be after the date "Trial concluded"
+    api: 'Check the date for "First day of trial"'
+  check_not_in_future:
+    long: 'Check the date for "First day of trial"'
+    short: *in_future
     api: 'Check the date for "First day of trial"'
   check_not_too_far_in_past:
     long: 'Check the date for "First day of trial"'

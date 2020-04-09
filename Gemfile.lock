@@ -91,7 +91,7 @@ GEM
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
     ast (2.4.0)
-    auto_strip_attributes (2.5.0)
+    auto_strip_attributes (2.6.0)
       activerecord (>= 4.0)
     autoprefixer-rails (9.7.6)
       execjs
@@ -1414,7 +1414,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.10)
     timecop (0.9.1)
-    tzinfo (1.2.6)
+    tzinfo (1.2.7)
       thread_safe (~> 0.1)
     tzinfo-data (1.2019.3)
       tzinfo (>= 1.0.0)
@@ -1473,7 +1473,7 @@ DEPENDENCIES
   active_model_serializers (~> 0.10.10)
   amoeba (~> 3.1.0)
   annotate
-  auto_strip_attributes (~> 2.5.0)
+  auto_strip_attributes (~> 2.6.0)
   autoprefixer-rails (~> 9.7)
   awesome_print
   aws-sdk (~> 3)

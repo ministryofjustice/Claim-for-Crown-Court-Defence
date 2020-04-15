@@ -1019,7 +1019,6 @@ en:
           offence_class: 'Offence class'
           offence_category: 'Offence category'
           select_category: 'Please select'
-          case_transferred_from_another_court: 'Was this case transferred from another court?'
         offence_select:
           offence_class: 'Offence class'
           select_offence_class: 'Please select'
@@ -1028,6 +1027,8 @@ en:
           transfer_case_number_hint: For example T20170101
           transfer_court: Court
           transfer_court_hint: For example Cardiff
+        transfer_court_question_fields:
+          case_transferred_from_another_court: 'Was this case transferred from another court?'
         trial_detail_fields:
           trial_detail: Trial details
           actual_trial_length: *actual_trial_length

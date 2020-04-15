@@ -30,20 +30,7 @@
     hint_text: t('.case_number_hint'),
     errors: @error_presenter
 
-  .form-group
-    %fieldset{ 'aria-describedby': 'radio-control-legend-transfer' }
-      %legend#radio-control-legend-transfer
-        %h2.heading-medium
-          = t('.case_transferred_from_another_court')
-
-      = f.collection_radio_buttons(:case_transferred_from_another_court, yes_no_options.reverse, :last, :first ) do |b|
-        .multiple-choice{ 'data-target': b.value.to_bool ? 'transfer-court-details' : nil }
-          = b.radio_button('aria-labelledby': "radio-control-legend-transfer #{b.text.to_css_class}")
-          = b.label { b.text }
-
-        - if b.value.to_bool
-          #transfer-court-details.panel.panel-border-narrow.js-hidden
-            = render partial: 'external_users/claims/case_details/transfer_court_fields', locals: { f: f }
+  = render partial: 'external_users/claims/case_details/transfer_court_question_fields', locals: { f: f }
 
 - if @claim.agfs? && !@claim.interim?
   = render partial: 'external_users/claims/case_details/cracked_trial_fields', locals: { f: f }

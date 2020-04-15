@@ -1,11 +1,11 @@
 = render partial: 'errors/error_summary', locals: { ep: @allocation, error_summary: t('.error_summary') }
 
-.notice-summary.hidden{ role: 'group', 'aria-labelledby': 'notice-summary-heading', tabindex: '-1' }
-  %span.heading-medium.notice-summary-heading{ id: 'notice-summary-heading' }
+.notice-summary.hidden{ role: 'group', 'aria-labelledby': 'notice-summary-heading-id', tabindex: '-1' }
+  %span#notice-summary-heading-id.heading-medium.notice-summary-heading
     %span.msg
 
-.error-summary.hidden{ role: 'group', 'aria-labelledby': 'error-summary-heading', tabindex: '-1' }
-  %span#error-summary-heading.heading-medium.error-summary-heading
+.error-summary.hidden{ role: 'group', 'aria-labelledby': 'error-summary-heading-id', tabindex: '-1' }
+  %span#error-summary-heading-id.heading-medium.error-summary-heading
     %span.msg
 
 #api-key.grid-row{ data: { api_key: current_user.api_key } }

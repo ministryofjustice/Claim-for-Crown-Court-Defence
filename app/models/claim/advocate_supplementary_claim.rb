@@ -2,6 +2,8 @@ module Claim
   class AdvocateSupplementaryClaim < BaseClaim
     route_key_name 'advocates_supplementary_claim'
 
+    include ProviderDelegation
+
     validates_with ::Claim::AdvocateSupplementaryClaimValidator,
                    unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::AdvocateSupplementaryClaimSubModelValidator
@@ -93,34 +95,6 @@ module Claim
     end
 
     private
-
-    # TODO: SUPPLEMENTARY_CLAIM_TODO mixin/conceern Claims::AdvocateClaimProviderDelegation??
-    def agfs_supplier_number
-      if provider.firm?
-        provider.firm_agfs_supplier_number
-      else
-        external_user.supplier_number
-      end
-    rescue StandardError
-      nil
-    end
-
-    # TODO: SUPPLEMENTARY_CLAIM_TODO mixin/concern Claims::AdvocateClaimProviderDelegation??
-    def provider_delegator
-      if provider.firm?
-        provider
-      elsif provider.chamber?
-        external_user
-      else
-        raise "Unknown provider type: #{provider.provider_type}"
-      end
-    end
-
-    # TODO: SUPPLEMENTARY_CLAIM_TODO mixin/concern Claims::AdvocateClaimProviderDelegation??
-    def set_supplier_number
-      supplier_no = agfs_supplier_number
-      self.supplier_number = supplier_no if supplier_number != supplier_no
-    end
 
     def cleaner
       AdvocateSupplementaryClaimCleaner.new(self)

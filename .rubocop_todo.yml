@@ -20,7 +20,9 @@ Lint/RedundantCopDisableDirective:
 
 # Offense count: 58
 Metrics/AbcSize:
-  Max: 87
+  Max: 90
+  Exclude:
+    - app/models/claims/state_machine.rb
 
 # Offense count: 23
 # Configuration parameters: CountComments.

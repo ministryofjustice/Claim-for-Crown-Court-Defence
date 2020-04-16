@@ -67,13 +67,6 @@
           %dd.govuk-summary-list__value
             = claim.case_type&.name
 
-      - if claim.hardship?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('common.trial_started')
-          %dd.govuk-summary-list__value
-            = t(claim.trial_started?.class)
-
       - if claim.requires_case_concluded_date?
         .govuk-summary-list__row
           %dt.govuk-summary-list__key
@@ -108,20 +101,6 @@
             = t('trial_cracked_at_third', scope: cracked_trial_fields)
           %dd.govuk-summary-list__value
             = claim&.trial_cracked_at_third&.humanize
-
-      - if claim.hardship? && claim.trial_started?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('first_day_of_trial', scope: trial_detail_fields)
-          %dd.govuk-summary-list__value
-            %time{ 'aria-label': claim&.first_day_of_trial&.strftime(Settings.date_format_label), datetime: claim&.first_day_of_trial&.strftime(Settings.datetime_attribute) }
-              = claim&.first_day_of_trial&.strftime(Settings.date_format)
-
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('estimated_trial_length', scope: trial_detail_fields)
-          %dd.govuk-summary-list__value
-            = claim&.estimated_trial_length
 
       - if claim&.requires_trial_dates?
         .govuk-summary-list__row

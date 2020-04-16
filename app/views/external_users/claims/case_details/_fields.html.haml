@@ -30,9 +30,6 @@
     hint_text: t('.case_number_hint'),
     errors: @error_presenter
 
-  - if @claim.hardship?
-    = render partial: 'external_users/claims/case_details/trial_started_question_fields', locals: { f: f }
-
   = render partial: 'external_users/claims/case_details/transfer_court_question_fields', locals: { f: f }
 
 - if @claim.agfs? && !@claim.interim?

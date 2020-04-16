@@ -3,7 +3,8 @@ class Claim::AdvocateHardshipClaimSubModelValidator < Claim::BaseClaimSubModelVa
     {
       case_details: [],
       defendants: [],
-      offence_details: []
+      offence_details: [],
+      miscellaneous_fees: [{ name: :interim_claim_info }]
     }
   end
 

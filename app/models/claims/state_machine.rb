@@ -19,8 +19,8 @@ module Claims
     VALID_STATES_FOR_DEALLOCATION                   = %w[allocated].freeze
     NON_DRAFT_STATES                                = %w[ allocated authorised part_authorised refused rejected
                                                           submitted awaiting_written_reasons redetermination
-                                                          archived_pending_delete ].freeze
-    NON_VALIDATION_STATES                           = %w[ allocated archived_pending_delete
+                                                          archived_pending_delete archived_pending_review].freeze
+    NON_VALIDATION_STATES                           = %w[ allocated archived_pending_delete archived_pending_review
                                                           authorised awaiting_written_reasons deallocated deleted
                                                           part_authorised redetermination refused rejected ].freeze
     AUTHORISED_STATES                               = EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES +
@@ -58,6 +58,7 @@ module Claims
 
         state :allocated,
               :archived_pending_delete,
+              :archived_pending_review,
               :awaiting_written_reasons,
               :deleted,
               :draft,
@@ -104,7 +105,12 @@ module Claims
         end
 
         event :archive_pending_delete do
-          transition VALID_STATES_FOR_ARCHIVAL.map(&:to_sym) => :archived_pending_delete
+          transition VALID_STATES_FOR_ARCHIVAL.map(&:to_sym) => :archived_pending_delete, unless: :hardship?
+          transition archived_pending_review: :archived_pending_delete, if: :hardship?
+        end
+
+        event :archive_pending_review do
+          transition VALID_STATES_FOR_ARCHIVAL.map(&:to_sym) => :archived_pending_review, if: :hardship?
         end
 
         event :authorise_part do

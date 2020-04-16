@@ -57,19 +57,38 @@ module TimedTransitions
     end
 
     def archive
-      @claim.archive_pending_delete!(reason_code: ['timed_transition']) unless is_dummy?
+      values = @claim.hardship? ? hardship_archive_checks : archive_checks
+      @claim.send(values[:event], reason_code: ['timed_transition']) unless is_dummy?
       @claim.reload # not sure if needed
       log(log_level,
           action: 'archive',
-          message: 'Archiving claim',
-          succeeded: @claim.archived_pending_delete?)
-      self.success = @claim.archived_pending_delete?
+          message: values[:message],
+          succeeded: @claim.send(values[:check]))
+      self.success = @claim.send(values[:check])
     rescue StandardError => e
       log(:error,
           action: 'archive',
-          message: 'Archiving claim failed!',
-          succeeded: @claim.reload.archived_pending_delete?,
+          message: values[:error_message],
+          succeeded: @claim.reload.send(values[:check]),
           error: e.message)
+    end
+
+    def hardship_archive_checks
+      {
+        event: :archive_pending_review!,
+        message: 'Archiving claim pending review',
+        error_message: 'Archiving claim pending review failed!',
+        check: :archived_pending_review?
+      }
+    end
+
+    def archive_checks
+      {
+        event: :archive_pending_delete!,
+        message: 'Archiving claim',
+        error_message: 'Archiving claim failed!',
+        check: :archived_pending_delete?
+      }
     end
 
     def destroy_claim

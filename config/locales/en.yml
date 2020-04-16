@@ -329,7 +329,6 @@ en:
 
 # en.common
   common:
-    trial_started: Trial started
     advocate: Advocate
     litigator: Litigator
     external_user:
@@ -1037,8 +1036,6 @@ en:
           transfer_court_hint: For example Cardiff
         transfer_court_question_fields:
           case_transferred_from_another_court: 'Was this case transferred from another court?'
-        trial_started_question_fields:
-          trial_started: Has the trial (or retrial) started?
         trial_detail_fields:
           trial_detail: Trial details
           actual_trial_length: *actual_trial_length

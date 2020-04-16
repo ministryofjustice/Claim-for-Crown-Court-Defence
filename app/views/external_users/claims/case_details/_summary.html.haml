@@ -67,13 +67,6 @@
           %dd.govuk-summary-list__value
             = claim.case_type&.name
 
-      - if claim.hardship?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('common.trial_started')
-          %dd.govuk-summary-list__value
-            = t(claim.trial_started?.class)
-
       - if claim.requires_case_concluded_date?
         .govuk-summary-list__row
           %dt.govuk-summary-list__key

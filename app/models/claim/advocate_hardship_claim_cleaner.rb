@@ -2,14 +2,12 @@ module Claim
   class AdvocateHardshipClaimCleaner
     attr_accessor :claim
 
-    delegate  :misc_fees,
-              :basic_fees,
-              :interim?,
-              :agfs?,
-              :supplementary?,
-              :hardship?,
-              :trial_started?,
-              :agfs_reform?,
+    delegate  :case_type,
+              :requires_cracked_dates?,
+              :trial_fixed_notice_at,
+              :trial_fixed_at,
+              :trial_cracked_at,
+              :trial_cracked_at_third,
               to: :claim
 
     def initialize(claim)
@@ -17,25 +15,22 @@ module Claim
     end
 
     def call
-      destroy_ineligible_basic_fees
-      destroy_ineligible_misc_fees
+      clear_inapplicable_fields
     end
 
     private
 
-    def destroy_ineligible_basic_fees
-      basic_fees.map(&:clear) unless basic_fees.empty? || trial_started?
+    # TODO: Hardship claim - can be shared with advocate final claims
+    def clear_inapplicable_fields
+      clear_cracked_details if case_type.present? && !requires_cracked_dates?
     end
 
-    def destroy_ineligible_misc_fees
-      misc_fees.delete(ineligible_misc_fees)
-    end
-
-    def ineligible_misc_fees
-      eligbile_fee_types = Claims::FetchEligibleMiscFeeTypes.new(self).call
-      misc_fees.reject do |fee|
-        eligbile_fee_types.map(&:unique_code).include?(fee.fee_type.unique_code)
-      end
+    # TODO: Hardship claim - can be shared with advocate final claims
+    def clear_cracked_details
+      claim.trial_fixed_notice_at = nil if trial_fixed_notice_at
+      claim.trial_fixed_at = nil if trial_fixed_at
+      claim.trial_cracked_at = nil if trial_cracked_at
+      claim.trial_cracked_at_third = nil if trial_cracked_at_third
     end
   end
 end

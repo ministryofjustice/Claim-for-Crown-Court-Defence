@@ -22,7 +22,7 @@ RSpec.describe TimedTransitions::Transitioner do
     subject { described_class.candidate_claims_ids }
 
     it 'returns a list of ids in the target states' do
-      draft_claim = authorised_claim = archived_claim = part_authorised_claim = refused_claim = rejected_claim = nil
+      draft_claim = authorised_claim = archived_claim = part_authorised_claim = refused_claim = rejected_claim = agfs_hardship_claim = nil
 
       travel_to(18.weeks.ago) do
         draft_claim = create :advocate_claim
@@ -34,12 +34,13 @@ RSpec.describe TimedTransitions::Transitioner do
         part_authorised_claim = create :part_authorised_claim
         refused_claim = create :refused_claim
         rejected_claim = create :rejected_claim
+        agfs_hardship_claim = create :advocate_hardship_claim
       end
 
       # This claim will not meet the time scope
       create :advocate_claim
 
-      expected_ids = [draft_claim.id, authorised_claim.id, archived_claim.id, part_authorised_claim.id, refused_claim.id, rejected_claim.id].sort
+      expected_ids = [draft_claim.id, authorised_claim.id, archived_claim.id, part_authorised_claim.id, refused_claim.id, rejected_claim.id, agfs_hardship_claim.id].sort
       is_expected.to match_array(expected_ids)
     end
   end
@@ -48,13 +49,18 @@ RSpec.describe TimedTransitions::Transitioner do
     subject { described_class.softly_deleted_ids }
 
     it 'returns ids of claims that were softly deleted more than 16 weeks ago' do
-      claim_a = claim_b = claim_c = nil
-      travel_to(18.weeks.ago) { claim_a, claim_b, claim_c = create_list(:advocate_claim, 3) }
+      claim_a = claim_b = claim_c = claim_hs = nil
+      travel_to(18.weeks.ago) do
+        claim_a, claim_b, claim_c = create_list(:advocate_claim, 3)
+        claim_hs = create :advocate_hardship_claim
+      end
       travel_to(17.weeks.ago) { claim_a.soft_delete }
+      travel_to(17.weeks.ago) { claim_hs.soft_delete }
       travel_to(15.weeks.ago) { claim_b.soft_delete }
       is_expected.not_to include(claim_c.id)
       is_expected.not_to include(claim_b.id)
       is_expected.to include(claim_a.id)
+      is_expected.to include(claim_hs.id)
     end
   end
 
@@ -91,6 +97,19 @@ RSpec.describe TimedTransitions::Transitioner do
           it 'calls archive if last state change more than 16 weeks ago' do
             transitioner.run
             expect(@claim.reload.state).to eq 'archived_pending_delete'
+          end
+
+          context 'when the case type is a Hardship claim' do
+            before do
+              travel_to(17.weeks.ago) do
+                @claim = create(:advocate_hardship_claim, :authorised , case_number: 'A20164444')
+              end
+            end
+
+            it 'calls archive if last state change more than 16 weeks ago' do
+              transitioner.run
+              expect(@claim.reload.state).to eq 'archived_pending_review'
+            end
           end
 
           it 'writes to the log file' do
@@ -209,6 +228,19 @@ RSpec.describe TimedTransitions::Transitioner do
             expect(claim).to receive(:softly_deleted?).and_return(true)
             expect(claim).to receive(:destroy)
             expect { described_class.new(claim).run }.to change { Stats::MIData.count }.by 1
+          end
+
+          context 'for hardship claims' do
+            let(:claim) { create :advocate_hardship_claim }
+
+            context 'it was soft-deleted 17 weeks ago' do
+              before { travel_to(17.weeks.ago) { claim.soft_delete } }
+
+              it 'deletes the application' do
+                expect(claim).to receive(:destroy)
+                expect { described_class.new(claim).run } .to change { Stats::MIData.count }.by 1
+              end
+            end
           end
         end
 

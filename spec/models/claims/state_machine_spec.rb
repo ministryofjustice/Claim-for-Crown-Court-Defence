@@ -8,6 +8,7 @@ RSpec.describe Claims::StateMachine, type: :model do
       [
         :allocated,
         :archived_pending_delete,
+        :archived_pending_review,
         :awaiting_written_reasons,
         :deleted,
         :draft,
@@ -161,6 +162,23 @@ RSpec.describe Claims::StateMachine, type: :model do
 
       it { expect{ claim.redetermine! }.to change{ claim.state }.to('redetermination') }
       it { expect{ claim.archive_pending_delete! }.to change{ claim.state }.to('archived_pending_delete') }
+      it { expect{ claim.archive_pending_review! }.to raise_error(StateMachines::InvalidTransition) }
+
+      context 'when it is a hardship claim' do
+        subject(:claim) { create(:advocate_hardship_claim) }
+
+        it { expect{ claim.archive_pending_review! }.to change{ claim.state }.to('archived_pending_review') }
+        it { expect{ claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
+
+        context 'that has been archived_pending_review' do
+          subject(:claim) { create(:advocate_hardship_claim) }
+
+          before { claim.archive_pending_review! }
+
+          it { expect(claim.state).to eq 'archived_pending_review' }
+          it { expect{ claim.archive_pending_delete! }.to change{ claim.state }.to('archived_pending_delete') }
+        end
+      end
     end
 
     context 'from part_authorised' do

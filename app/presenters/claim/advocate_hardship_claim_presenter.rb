@@ -57,4 +57,8 @@ class Claim::AdvocateHardshipClaimPresenter < Claim::BaseClaimPresenter
   def mandatory_case_details?
     claim.case_type && claim.court && claim.case_number && claim.external_user
   end
+
+  def requires_interim_claim_info?
+    claim.agfs_reform?
+  end
 end

@@ -133,6 +133,10 @@ case_type:
     long: Choose a case type
     short: Choose a case type
     api: Choose a case type
+  inclusion:
+    long: Choose an eligible case type
+    short: Choose an eligible case type
+    api: Choose an eligible case type
 
 court:
   _seq: 40
@@ -187,6 +191,10 @@ first_day_of_trial:
   check_other_date:
     long: 'Check the date for "First day of trial"'
     short: Can't be after the date "Trial concluded"
+    api: 'Check the date for "First day of trial"'
+  check_not_in_future:
+    long: 'Check the date for "First day of trial"'
+    short: *in_future
     api: 'Check the date for "First day of trial"'
   check_not_too_far_in_past:
     long: 'Check the date for "First day of trial"'
@@ -261,13 +269,6 @@ trial_concluded_at:
     long: 'Trial concluded date cannot be in future'
     short: *enter_valid_date
     api: 'Trial concluded date cannot be in future'
-
-trial_started:
-  _seq: 105
-  blank:
-    long: Choose an option for "Has the trial started?"
-    short: Choose an option
-    api: Choose an option for "Has the trial started?"
 
 retrial_started_at:
   _seq: 110

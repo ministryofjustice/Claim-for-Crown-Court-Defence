@@ -2,27 +2,28 @@ module Claim
   class AdvocateHardshipClaim < BaseClaim
     route_key_name 'advocates_hardship_claim'
 
-    # TODO: need to exclude the "basic" basic fee (i.e the graduated fee)
+    include ProviderDelegation
+
     has_many :basic_fees,
              foreign_key: :claim_id,
              class_name: 'Fee::BasicFee',
              dependent: :destroy,
              inverse_of: :claim,
              validate: proc { |claim| claim.step_validation_required?(:basic_fees) }
+    has_one :interim_claim_info,
+            foreign_key: :claim_id,
+            dependent: :destroy,
+            inverse_of: :claim,
+            validate: proc { |claim| claim.step_validation_required?(:miscellaneous_fees) }
 
     accepts_nested_attributes_for :basic_fees, reject_if: all_blank_or_zero, allow_destroy: true
+    accepts_nested_attributes_for :interim_claim_info, reject_if: :all_blank, allow_destroy: false
 
     validates_with ::Claim::AdvocateHardshipClaimValidator,
                    unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::AdvocateHardshipClaimSubModelValidator
 
-    def requires_trial_dates?
-      false
-    end
-
-    def requires_retrial_dates?
-      false
-    end
+    delegate :requires_cracked_dates?, to: :case_type, allow_nil: true
 
     after_initialize do
       instantiate_basic_fees
@@ -52,14 +53,7 @@ module Claim
       {
         name: :offence_details,
         transitions: [
-          {
-            to_stage: :basic_fees,
-            condition: ->(claim) { claim.trial_started? }
-          },
-          {
-            to_stage: :miscellaneous_fees,
-            condition: ->(claim) { !claim.trial_started? }
-          }
+          { to_stage: :basic_fees }
         ],
         dependencies: %i[case_details defendants]
       },
@@ -110,19 +104,17 @@ module Claim
       basic_fees.any?(&:changed?)
     end
 
-    def fixed_fees_changed?
-      fixed_fees.any?(&:changed?)
-    end
-
     def eligible_case_types
-      CaseType.interims
+      CaseType.agfs.where(is_fixed_fee: false)
     end
 
+    # TODO: Hardship claim - can be shared with advocate final claim
     def eligible_basic_fee_types
       return Fee::BasicFeeType.unscoped.agfs_scheme_10s.order(:position) if agfs_reform?
       Fee::BasicFeeType.agfs_scheme_9s
     end
 
+    # TODO: Hardship claim - can be shared with advocate final claim
     def eligible_misc_fee_types
       Claims::FetchEligibleMiscFeeTypes.new(self).call
     end
@@ -153,13 +145,12 @@ module Claim
     end
     # rubocop:enable Rails/SkipsModelValidations
 
+    # TODO: promote to base_claim (shared with advocate final claim)
     def discontinuance?
       case_type&.fee_type_code.eql?('GRDIS')
     end
 
     private
-
-    include ProviderDelegation
 
     # create a blank fee for every basic fee type not passed to Claim::AdvocateHardshipClaim.new
     def instantiate_basic_fees

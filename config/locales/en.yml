@@ -2398,6 +2398,7 @@ en:
           trial: Trial
           warrants: Warrants
           supplementary: Supplementary
+          hardship: Hardship
       management_information:
         validate_report_type:
           invalid_report_type: &invalid_report_type The requested report type is not supported

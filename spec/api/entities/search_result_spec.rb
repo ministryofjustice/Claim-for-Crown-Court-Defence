@@ -66,7 +66,8 @@ describe API::Entities::SearchResult do
           risk_based_bills: 0,
           injection_errored: 0,
           cav_warning: 0,
-          supplementary: 0
+          supplementary: 0,
+          hardship: 0
         }
       end
 

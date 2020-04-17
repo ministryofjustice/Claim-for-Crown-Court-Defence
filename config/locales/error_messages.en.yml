@@ -129,6 +129,10 @@ advocate_category:
 
 case_type:
   _seq: 30
+  case_stage_blank:
+    long: Choose a case stage
+    short: Choose a case stage
+    api: Choose a case stage
   blank:
     long: Choose a case type
     short: Choose a case type

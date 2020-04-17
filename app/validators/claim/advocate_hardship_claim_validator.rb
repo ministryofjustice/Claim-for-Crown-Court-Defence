@@ -35,7 +35,7 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
   private
 
   def validate_case_type
-    validate_presence(:case_type, 'blank')
+    validate_presence(:case_type, 'case_stage_blank')
     validate_inclusion(:case_type, @record.eligible_case_types, 'inclusion')
   end
 

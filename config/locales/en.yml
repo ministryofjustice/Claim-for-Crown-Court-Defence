@@ -389,10 +389,11 @@ en:
     litigators_html: Complete <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
   disk_evidence:
     header: 'Evidence supplied on disk'
-    question: 'Will you be sending disk evidence for this claim?'
+    question: 'Will you be sending electronic evidence for this claim?'
     help_sending_evidence: 'Help with sending the evidence'
     hint: 'You have electronic evidence on disk that relates to this claim. It is recommended that you send it by recorded delivery.'
     hint_html: 'Please fill the <a href="%{link}" rel="external" target="_blank">electronic evidence coversheet</a> and include it with your disk(s).'
+    sfe_hint_html: 'Log in to <a href="%{link}" rel="external" target="_blank">secure file exchange</a> and upload your files and folders to a workspace.'
   fee_calculator:
     calculate:
       amount_unavailable: The calculated rate is unavailable, please enter manually.

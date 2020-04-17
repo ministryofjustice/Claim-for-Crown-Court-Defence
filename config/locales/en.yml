@@ -1004,6 +1004,11 @@ en:
           help_missing_advocates_summary_heading: Help with missing instructed advocates
         case_concluded_date:
           case_concluded_at: 'Date case concluded'
+        case_type_fields:
+          case_type: Case type
+          case_type_hint: For example Trial
+          stage_type: What stage has the case reached?
+          stage_type_hint: Choose from list
         cracked_trial_fields:
           cracked_trial_details: Cracked trial details
           trial_cracked_at: Case cracked on
@@ -1017,8 +1022,6 @@ en:
           case_offence: 'Case & offence'
           case_number: 'Case number'
           case_number_hint: For example T20170101
-          case_type: 'Case type'
-          case_type_hint: For example Trial
           court: 'Court'
           court_hint: For example Cardiff
           cracked_trial_detail: 'Cracked trial detail'

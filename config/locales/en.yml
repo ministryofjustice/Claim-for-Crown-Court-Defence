@@ -171,10 +171,10 @@ en:
         middle_name: &middle_name 'Middle name'
         last_name: &last_name 'Last name'
       fees:
-        actual_trial_length: &actual_trial_length Actual trial length
+        actual_trial_length: &actual_trial_length Actual trial length (optional)
         case_numbers: &case_numbers 'Additional case numbers'
       fee_types:
-        fee_type: &fee_type 'Type of fee'
+        fee_type: &fee_type 'Type of fee (optional)'
     not_provided: &not_provided 'Not provided'
     not_applicable: &not_applicable 'n/a'
   general:
@@ -341,7 +341,7 @@ en:
         advocate: Advocate account number
         litigator: Litigator account number
       claim_creator: Claim creator
-      providers_ref: Reference number
+      providers_ref: Reference number (optional)
       providers_ref_hint: Your internal reference number for this claim
     court: Court
     crown_court: Crown court
@@ -392,7 +392,7 @@ en:
     litigators_html: Complete <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
   disk_evidence:
     header: 'Evidence supplied on disk'
-    question: 'Will you be sending electronic evidence for this claim?'
+    question: 'Will you be sending electronic evidence for this claim? (optional)'
     help_sending_evidence: 'Help with sending the evidence'
     hint: 'You have electronic evidence on disk that relates to this claim. It is recommended that you send it by recorded delivery.'
     hint_html: 'Please fill the <a href="%{link}" rel="external" target="_blank">electronic evidence coversheet</a> and include it with your disk(s).'
@@ -879,7 +879,7 @@ en:
           To continue please start a new claim.
       additional_information:
         fields:
-          additional_information: 'Additional information'
+          additional_information: 'Additional information (optional)'
           additional_information_prompt_text: Provide any information that will help in the assessment of your claim
         summary:
           header: Additional information
@@ -932,15 +932,15 @@ en:
               <p>How is this rate calculated?</p>
               <p>We calculate the rate based upon the fee scheme, advocate category, offence and case type</p>
         extra_fee_fields:
-          net_amount: *net_amount
+          net_amount: Net amount (optional)
           help_how_we_calculate_rate_title: *how_is_this_calculated_help
           help_how_we_calculate_rate_body: We calculate the amount based upon the fee scheme, case type, offence, advocate category and fee type.
           npw:
             heading_html: Prosecution witnesses
-            quantity: Total number of prosecution witnesses
+            quantity: Total number of prosecution witnesses (optional)
             quantity_hint: *empty_input
           ppe:
-            quantity: Total number of pages
+            quantity: Total number of pages (optional)
             quantity_hint: Please remove all cover sheets from the total count
             heading_html: |
               Pages of prosecution evidence (<abbr title="pages of prosecution evidence">PPE</abbr>)
@@ -1222,7 +1222,7 @@ en:
           remove: Remove
       expenses:
         textarea_additional_info:
-          additional_info_heading: Additional information
+          additional_info_heading: Additional information (optional)
           agfs_additional_info_label: |
             Provide any information that will help in the assessment of your expenses.
             For example, if you claim the private mileage rate on travel expenses, we need to know why.
@@ -1236,7 +1236,7 @@ en:
             We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison
           select_option: Please select
           travel_reason: Travel reason
-          type_of_expense: Type of expense
+          type_of_expense: Type of expense (optional)
           expense: Expense
           cost: Cost per mile
           location: Location
@@ -1499,7 +1499,7 @@ en:
           supporting_evidence_docs: 'Upload supporting evidence'
           supporting_evidence: Supporting evidence
           file_upload_message: Drag and drop files here
-          legend: Upload supporting evidence
+          legend: Upload supporting evidence (optional)
           or: or
           uploading_docs: 'Documents waiting to be uploaded'
       supporting_evidence:
@@ -1516,7 +1516,7 @@ en:
           caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'
           header: Supporting evidence
         fields:
-          supporting_evidence_checklist: Supporting evidence checklist
+          supporting_evidence_checklist: Supporting evidence checklist (optional)
           supporting_evidence_checklist_hint: Select all that apply
       warrant_fee:
         summary:

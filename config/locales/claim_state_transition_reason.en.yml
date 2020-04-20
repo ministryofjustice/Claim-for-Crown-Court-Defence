@@ -115,6 +115,13 @@ en:
       other_refuse:
         short: *other
         long: *blank
+    refused_litigator_hardship_claims:
+      duplicate_claim:
+        short: *duplicate_claim_short
+        long: *duplicate_claim_long
+      other_refuse:
+        short: *other
+        long: *blank
     global:
       timed_transition:
         short: automated transition by system

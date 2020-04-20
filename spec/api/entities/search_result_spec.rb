@@ -66,7 +66,8 @@ describe API::Entities::SearchResult do
           risk_based_bills: 0,
           injection_errored: 0,
           cav_warning: 0,
-          supplementary: 0
+          supplementary: 0,
+          lgfs_hardship: 0
         }
       end
 
@@ -163,6 +164,12 @@ describe API::Entities::SearchResult do
       context 'when passed a advocate supplementary claim' do
         let(:claim) { OpenStruct.new('id' => '179818', 'uuid' => '887cbd94-3f48-4955-8646-918de4db3617', 'case_type' => 'Supplementary', 'state'=>'submitted', 'total' => '667.33', 'fees' => "0.0~Warrant Fee~Fee::WarrantFeeType", 'last_submitted_at' => '07/12/2017  12:58:29', 'class_letter' => nil, 'is_fixed_fee' => nil, 'fee_type_code' => nil, 'graduated_fee_types' => "GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR") }
         before { result.merge!(supplementary: 1) }
+        include_examples 'returns expected JSON filter values'
+      end
+
+      context 'when passed a litigator hardship claim' do
+        let(:claim) { OpenStruct.new('id' => '179819', 'uuid' => 'a142a3ca-df21-462b-8450-ab97d458a44b', 'scheme' => 'lgfs', 'scheme_type' => 'LitigatorHardship', 'case_number' => 'T20202401', 'state' => 'submitted', 'court_name' => 'Croydon', 'case_type' => 'Trial', 'total' => '1200.00', 'disk_evidence' => false, 'external_user' => 'Emmanuelle Olson', 'maat_references' => '5864761', 'defendants' => 'Sadie Keeling', 'fees' => '1000.0~Hardship~Fee::HardshipFeeType', 'last_submitted_at' => '2020-04-22T07:27:59Z', 'class_letter' => 'B', 'is_fixed_fee' => false, 'fee_type_code' => 'GRTRL', 'graduated_fee_types' => 'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR', 'allocation_type' => 'Grad') }
+        before { result.merge!(lgfs_hardship: 1, graduated_fees: 1, trial: 1) }
         include_examples 'returns expected JSON filter values'
       end
     end

@@ -37,6 +37,7 @@ module API
         expose :injection_errored
         expose :cav_warning
         expose :supplementary
+        expose :lgfs_hardship
       end
 
       private
@@ -130,6 +131,10 @@ module API
 
       def supplementary
         object.case_type.eql?('Supplementary').to_i
+      end
+
+      def lgfs_hardship
+        object.scheme_type.eql?('LitigatorHardship').to_i
       end
     end
   end

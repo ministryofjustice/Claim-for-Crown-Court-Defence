@@ -6,7 +6,7 @@ class Claim::LitigatorHardshipClaimSubModelValidator < Claim::BaseClaimSubModelV
       offence_details: [],
       # fixed_fees: [{ name: :fixed_fee }],
       # graduated_fees: [{ name: :graduated_fee }],
-      hardship_fees: [{ name: :hardship_fee, options: { presence: true } }],
+      hardship_fees: [{ name: :hardship_fee, options: { presence: true } }]
     }
   end
 

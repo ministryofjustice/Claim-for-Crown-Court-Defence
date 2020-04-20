@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: cccd-app-ingress
+  namespace: cccd-dev-lgfs
+spec:
+  rules:
+    - host: dev-lgfs.claim-crown-court-defence.service.justice.gov.uk
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: cccd-app-service
+              servicePort: 80
+  tls:
+    - hosts:
+      - dev-lgfs.claim-crown-court-defence.service.justice.gov.uk
+      secretName: cccd-dev-lgfs-cert

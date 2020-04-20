@@ -9,6 +9,7 @@ Before('not @no-site-prism') do
   @case_worker_claim_show_page = CaseWorkerClaimShowPage.new
 
   @claim_form_page = ClaimFormPage.new
+  @advocate_hardship_claim_form_page = AdvocateHardshipClaimFormPage.new
   @advocate_interim_claim_form_page = AdvocateInterimClaimFormPage.new
   @advocate_supplementary_claim_form_page = AdvocateSupplementaryClaimFormPage.new
   @litigator_claim_form_page = LitigatorClaimFormPage.new

@@ -9,6 +9,7 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
         court
         case_number
         case_transferred_from_another_court
+        case_concluded_at
         transfer_court
         transfer_case_number
         trial_details
@@ -51,7 +52,7 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
     validate_numericality(:estimated_trial_length, 'hardship_invalid', 0, nil)
     validate_presence(:first_day_of_trial, 'blank')
     validate_too_far_in_past(:first_day_of_trial)
-    validate_on_or_before(Date.today, :first_day_of_trial, 'check_not_in_future')
+    validate_not_in_future(:first_day_of_trial)
     validate_on_or_before(@record.trial_concluded_at, :first_day_of_trial, 'check_other_date')
     validate_on_or_after(@record.first_day_of_trial, :trial_concluded_at, 'check_other_date')
     validate_on_or_after(earliest_rep_order, :first_day_of_trial, 'check_not_earlier_than_rep_order')
@@ -61,6 +62,7 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
     return unless @record&.case_type&.requires_retrial_dates?
 
     # a retrial should have all trial details
+    validate_not_in_future(:first_day_of_trial)
     validate_trial_start_and_end(:first_day_of_trial, :trial_concluded_at, false)
     validate_trial_start_and_end(:first_day_of_trial, :trial_concluded_at, true)
     validate_presence(:estimated_trial_length, 'blank')
@@ -72,6 +74,7 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
     # plus minimum retrial started
     validate_presence(:retrial_estimated_length, 'blank')
     validate_numericality(:retrial_estimated_length, 'invalid', 0, nil)
+    validate_numericality(:retrial_actual_length, 'invalid', 0, nil)
     validate_presence(:retrial_started_at, 'blank')
     validate_too_far_in_past(:retrial_started_at)
     validate_on_or_before(Date.today, :retrial_started_at, 'check_not_in_future')

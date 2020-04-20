@@ -1,0 +1,91 @@
+// Set a path for your image assets
+// The _url-helpers.scss partial requires that $path is defined in your main application stylesheet.
+$path: '~images/';
+
+// GOV.UK Frontend Toolkit (alphagov/govuk_frontend_toolkit)
+@import '~govuk_frontend_toolkit/stylesheets/colours';
+@import '~govuk_frontend_toolkit/stylesheets/font_stack';
+@import '~govuk_frontend_toolkit/stylesheets/measurements';
+@import '~govuk_frontend_toolkit/stylesheets/conditionals';
+@import '~govuk_frontend_toolkit/stylesheets/device-pixels';
+@import '~govuk_frontend_toolkit/stylesheets/grid_layout';
+@import '~govuk_frontend_toolkit/stylesheets/typography';
+@import '~govuk_frontend_toolkit/stylesheets/shims';
+
+@import '~govuk_frontend_toolkit/stylesheets/design-patterns/alpha-beta';
+@import '~govuk_frontend_toolkit/stylesheets/design-patterns/buttons';
+@import '~govuk_frontend_toolkit/stylesheets/design-patterns/breadcrumbs';
+
+// GOV.UK elements (alphagov/govuk_elements)
+@import '~govuk-elements-sass/public/sass/elements/helpers';
+@import '~govuk-elements-sass/public/sass/elements/reset';
+
+// Base (unclassed HTML elements)
+// These are predefined by govuk_template
+
+// Main content container. Grid layout - rows and column widths
+@import '~govuk-elements-sass/public/sass/elements/layout';
+
+// Components (chunks of UI)
+@import '~govuk-elements-sass/public/sass/elements/elements-typography';
+@import '~govuk-elements-sass/public/sass/elements/buttons';
+@import '~govuk-elements-sass/public/sass/elements/icons';
+@import '~govuk-elements-sass/public/sass/elements/lists';
+@import '~govuk-elements-sass/public/sass/elements/tables';
+@import '~govuk-elements-sass/public/sass/elements/details';
+@import '~govuk-elements-sass/public/sass/elements/panels';
+@import '~govuk-elements-sass/public/sass/elements/forms';
+@import '~govuk-elements-sass/public/sass/elements/forms/form-multiple-choice';
+@import '~govuk-elements-sass/public/sass/elements/forms/form-date';
+@import '~govuk-elements-sass/public/sass/elements/forms/form-validation';
+@import '~govuk-elements-sass/public/sass/elements/breadcrumbs';
+@import '~govuk-elements-sass/public/sass/elements/phase-banner';
+@import '~govuk-elements-sass/public/sass/elements/components';
+@import '~govuk-elements-sass/public/sass/elements/shame';
+
+
+@import '~susy/sass/susy';
+@import '~govuk_frontend_toolkit/stylesheets/url-helpers'; // Function to output image-url, or prefixed path (Rails and Compass only)
+
+
+
+/*
+ * Project specific
+ *
+ * Everything below this comment should be project specific.
+ * If you absolutely need to override gov.uk styles, don't,
+ * instead create new classes or ids with a prefix based on the app name.
+ */
+
+@import 'cccd-measurements';
+@import 'project-helpers';
+@import 'denote';
+@import 'buttons';
+@import 'autocomplete';
+@import 'mod-fees';
+@import 'mod-provider-details';
+@import 'forms';
+@import 'links';
+@import 'panels';
+@import 'breadcrumbs';
+@import 'callout';
+@import '~accessible-autocomplete/src/autocomplete';
+@import 'datatables';
+@import 'tables';
+@import 'claims_importer';
+@import 'navigation';
+
+
+/*--- Ported from v1 stylesheets ---*/
+@import 'layout';
+@import 'cccd-typography';
+@import 'accordion';
+@import 'icons';
+@import 'messages';
+@import 'lists';
+@import 'related';
+@import 'warnings';
+@import 'print';
+
+
+@import 'shame';

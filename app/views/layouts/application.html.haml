@@ -6,7 +6,7 @@
 - content_for :head do
   %meta{ name: 'format-detection', content: 'telephone=no' }
 
-  = stylesheet_link_tag 'application', media: 'all'
+  = stylesheet_pack_tag 'application', media: 'all'
 
   - if GoogleAnalytics::DataTracking.enabled?
     = render partial: 'layouts/analytics', :formats => [:js], locals: { adapter: GoogleAnalytics::DataTracking.adapter_name }

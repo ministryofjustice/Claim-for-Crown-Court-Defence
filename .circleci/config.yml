@@ -341,6 +341,18 @@ jobs:
       - deploy-to:
           environment: dev
 
+  deploy-dev-agfs:
+    executor: cloud-platform-executor
+    steps:
+      - deploy-to:
+          environment: dev-agfs
+
+  deploy-dev-lgfs:
+    executor: cloud-platform-executor
+    steps:
+      - deploy-to:
+          environment: dev-lgfs
+
   deploy-staging:
     executor: cloud-platform-executor
     steps:
@@ -467,6 +479,14 @@ workflows:
           type: approval
           requires:
             - build-app-container
+      - hold-dev-agfs:
+          type: approval
+          requires:
+            - build-app-container
+      - hold-dev-lgfs:
+          type: approval
+          requires:
+            - build-app-container
       - hold-staging:
           type: approval
           requires:
@@ -478,6 +498,12 @@ workflows:
       - deploy-dev:
           requires:
             - hold-dev
+      - deploy-dev-agfs:
+          requires:
+            - hold-dev-agfs
+      - deploy-dev-lgfs:
+          requires:
+            - hold-dev-lgfs
       - deploy-staging:
           requires:
             - hold-staging

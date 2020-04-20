@@ -36,6 +36,10 @@ function _circleci_deploy() {
       environment=$1
       cp_context=sandbox
       ;;
+    dev-agfs | dev-lgfs)
+      environment=$1
+      cp_context=$(echo $1 | tr -d '-')
+      ;;
     *)
       echo "$usage"
       return 1

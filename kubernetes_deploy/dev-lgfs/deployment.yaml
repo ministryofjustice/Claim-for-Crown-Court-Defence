@@ -54,7 +54,7 @@ spec:
             - name: RAILS_SERVE_STATIC_FILES
               value: only-presence-required-to-enable
             - name: GRAPE_SWAGGER_ROOT_URL
-              value: 'https://dev.claim-crown-court-defence.service.justice.gov.uk'
+              value: 'https://dev-lgfs.claim-crown-court-defence.service.justice.gov.uk'
             - name: GA_TRACKER_ID
               value: 'UA-37377084-48'
             - name: MAINTENANCE_MODE

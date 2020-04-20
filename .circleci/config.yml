@@ -18,6 +18,7 @@ references:
         bundler_version=$(cat Gemfile.lock | tail -1 | tr -d " ")
         gem install bundler -v $bundler_version
         bundle check || bundle install --jobs=4 --retry=3 --path vendor/bundle
+        yarn install
 
   _save-cache: &save-cache
     save_cache:

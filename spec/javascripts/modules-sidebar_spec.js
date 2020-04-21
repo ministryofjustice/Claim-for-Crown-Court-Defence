@@ -324,6 +324,7 @@ describe("Modules.SideBar.js", function() {
               interimFees: 0,
               miscFees: 0,
               transferFees: 0,
+              hardshipFees: 0,
               vat: 5.2,
               warrantFees: 0
             });
@@ -340,6 +341,7 @@ describe("Modules.SideBar.js", function() {
               interimFees: 0,
               miscFees: 0,
               transferFees: 0,
+              hardshipFees: 0,
               vat: 5.2,
               warrantFees: 0
             });
@@ -356,6 +358,7 @@ describe("Modules.SideBar.js", function() {
               interimFees: 0,
               miscFees: 0,
               transferFees: 0,
+              hardshipFees: 0,
               vat: 5.2,
               warrantFees: 0
             });

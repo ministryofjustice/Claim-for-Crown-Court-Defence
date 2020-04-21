@@ -9,7 +9,7 @@ RSpec.describe Claims::ContextMapper do
     let(:external_user) { create(:external_user, :advocate_litigator) }
 
     let(:advocate_claim_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim] }
-    let(:litigator_claim_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim] }
+    let(:litigator_claim_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim Claim::LitigatorHardshipClaim] }
     let(:all_claim_types) { advocate_claim_types | litigator_claim_types }
 
     # TODO: i believe this is flawed as an advocate should return only advocate type claims)

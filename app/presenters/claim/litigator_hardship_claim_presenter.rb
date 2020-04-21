@@ -58,7 +58,7 @@ class Claim::LitigatorHardshipClaimPresenter < Claim::BaseClaimPresenter
     h.number_to_currency(raw_hardship_fees_vat)
   end
 
-  def hardsip_fees_gross
+  def hardship_fees_gross
     h.number_to_currency(raw_hardship_fees_gross)
   end
 end

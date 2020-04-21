@@ -14,6 +14,7 @@ Before('not @no-site-prism') do
   @litigator_claim_form_page = LitigatorClaimFormPage.new
   @litigator_interim_claim_form_page = LitigatorInterimClaimFormPage.new
   @litigator_transfer_claim_form_page = LitigatorTransferClaimFormPage.new
+  @litigator_hardship_claim_form_page = LitigatorHardshipClaimFormPage.new
 
   @claim_summary_page = ClaimSummaryPage.new
   @external_user_home_page = ExternalUserHomePage.new

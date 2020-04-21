@@ -74,7 +74,7 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '.lgfs_claim_types' do
-    specify { expect(described_class.lgfs_claim_types).to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]) }
+    specify { expect(described_class.lgfs_claim_types).to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim, Claim::LitigatorHardshipClaim]) }
   end
 
   it 'raises if I try to instantiate a base claim' do

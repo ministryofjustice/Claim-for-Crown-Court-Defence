@@ -45,22 +45,18 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     When I click "Continue" in the claim form
 
     And I should be in the 'Hardship fee' form page
-
-    # unknown
-    # And I should see what fields
-    Then the hardship fee amount should be populated with '205.78'
-
-    # unknown
-    # And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
-    # And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
-
+    When I enter '3000' in the PPE total hardship fee field
+    And I enter '30.00' in the net amount hardship fee field
     And I eject the VCR cassette
 
+    Then I click "Continue" in the claim form and move to the 'Miscellaneous fees' form page
+    Then I click "Continue" in the claim form and move to the 'Disbursements' form page
+    Then I click "Continue" in the claim form and move to the 'Travel expenses' form page
     Then I click "Continue" in the claim form and move to the 'Supporting evidence' form page
 
     And I should see a page title "Upload supporting evidence for litigator hardship fees claim"
     And I upload the document 'hardship.pdf'
-    And I check the evidence boxes for 'A copy of the hardship evidence'
+    And I check the evidence boxes for 'Hardship supporting evidence'
     And I add some additional information
 
     And I click Submit to LAA
@@ -73,22 +69,13 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I should see 'G: Other offences of dishonesty between £30,001 and £100,000'
 
     And I should see 'Hardship fees'
-    And I should see '01/04/2020' # ??
-    And I should see '£205.78' # ??
+    And I should see 'PPE total at the time 3000'
+    And I should see 'Net amount £30.00'
 
-    # unknown
-    # And I should see 'Disbursements'
-    # And I should see 'Computer experts'
-    # And I should see '£125.40'
-    # And I should see '£25.08'
-    # And I should see 'Meteorologist'
-    # And I should see '£58.22'
-    # And I should see '£0.00'
 
     And I should see 'hardship.pdf'
-    And I should see 'A copy of the hardship evidence'
+    And I should see 'Hardship supporting evidence'
     And I should see 'Bish bosh bash'
-
     And I should see a page title "View claim summary for litigator hardship fees claim"
     When I click "Continue"
     Then I should be on the certification page
@@ -99,4 +86,4 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20201234' should be listed with a status of 'Submitted' and a claimed amount of '£414.48'
+    And Claim 'A20201234' should be listed with a status of 'Submitted' and a claimed amount of '£30.00'

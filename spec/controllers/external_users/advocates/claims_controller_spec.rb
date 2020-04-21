@@ -397,9 +397,9 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
           edit_request.call
         end
 
-        it 'calls the build_fixed_fees method' do
-          expect(assigns(:claim).fixed_fees).to be_a ActiveRecord::Associations::CollectionProxy
-          expect(assigns(:claim).fixed_fees.length).to eql 5
+        it 'builds eligible fixed fees' do
+          claim = assigns(:claim)
+          expect(claim.fixed_fees.map(&:fee_type_id)).to match_array(claim.eligible_fixed_fee_types.map(&:id))
         end
       end
     end

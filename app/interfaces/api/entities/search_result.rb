@@ -37,7 +37,7 @@ module API
         expose :injection_errored
         expose :cav_warning
         expose :supplementary
-        expose :hardship
+        expose :agfs_hardship
       end
 
       private
@@ -133,7 +133,7 @@ module API
         object.case_type.eql?('Supplementary').to_i
       end
 
-      def hardship
+      def agfs_hardship
         object.scheme_type.eql?('AdvocateHardship').to_i
       end
     end

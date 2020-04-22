@@ -158,12 +158,14 @@ RSpec.describe Provider, type: :model do
   end
 
   describe 'available_claim_types' do
+    include_context 'claim-types object helpers'
+
     context 'for an AGFS provider' do
       let(:provider) { build :provider, :agfs }
 
       it 'returns the list of available claim types' do
-        expect(provider.available_claim_types)
-          .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim, Claim::AdvocateHardshipClaim])
+        expect(provider.available_claim_types.map(&:to_s))
+          .to match_array(agfs_claim_object_types)
       end
     end
 
@@ -171,17 +173,17 @@ RSpec.describe Provider, type: :model do
       let(:provider) { build :provider, :lgfs }
 
       it 'returns the list of available claim types for LGFS' do
-        expect(provider.available_claim_types)
-          .to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+        expect(provider.available_claim_types.map(&:to_s))
+          .to match_array(lgfs_claim_object_types)
       end
     end
 
     context 'for a AGFS and LGFS provider' do
       let(:provider) { build(:provider, :agfs_lgfs) }
 
-      it 'returns the list of available claim types' do
-        expect(provider.available_claim_types)
-          .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim, Claim::AdvocateHardshipClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+      it 'returns the list of all available claim types' do
+        expect(provider.available_claim_types.map(&:to_s))
+          .to match_array(all_claim_object_types)
       end
     end
   end

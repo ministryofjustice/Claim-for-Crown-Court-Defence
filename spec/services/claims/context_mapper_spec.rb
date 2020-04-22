@@ -14,7 +14,7 @@ RSpec.describe Claims::ContextMapper do
     # e.g. an admin in an agfs only provider can only create advocate claims
     context 'AGFS only provider' do
       let(:external_user) { create(:external_user, :advocate, provider: build(:provider, :agfs)) }
-      it { is_expected.to match_array(advocate_claim_types) }
+      it { is_expected.to match_array(agfs_claim_object_types) }
 
       context 'when hardship claims enabled' do
         before { allow(Settings).to receive(:hardship_claims_enabled?).and_return true }
@@ -31,13 +31,13 @@ RSpec.describe Claims::ContextMapper do
 
     context 'LGFS only provider' do
       let(:external_user) { create(:external_user, :litigator, provider: build(:provider, :lgfs)) }
-      it { is_expected.to match_array(litigator_claim_types) }
+      it { is_expected.to match_array(lgfs_claim_object_types) }
     end
 
     context 'AGFS and LGFS providers' do
       it 'should return litigator claim for a litigators' do
         external_user.roles = ['litigator']
-        is_expected.to match_array(litigator_claim_types)
+        is_expected.to match_array(lgfs_claim_object_types)
       end
 
       it 'should return litigator and advocate claim for a litigator admins' do
@@ -47,7 +47,7 @@ RSpec.describe Claims::ContextMapper do
 
       it 'should return advocate claim for a advocates' do
         external_user.roles = ['advocate']
-        is_expected.to match_array(advocate_claim_types)
+        is_expected.to match_array(agfs_claim_object_types)
       end
 
       it 'should return advocate and litigator claim for a advocate admins' do

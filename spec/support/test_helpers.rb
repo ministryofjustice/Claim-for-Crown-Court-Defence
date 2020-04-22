@@ -19,9 +19,24 @@ module TestHelpers
   end
 
   shared_context 'claim-types object helpers' do
-    let(:advocate_claim_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim Claim::AdvocateHardshipClaim] }
-    let(:litigator_claim_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim] }
-    let(:all_claim_object_types) { advocate_claim_types | litigator_claim_types }
+    let(:agfs_claim_object_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim Claim::AdvocateHardshipClaim] }
+    let(:lgfs_claim_object_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim] }
+    let(:all_claim_object_types) { agfs_claim_object_types | lgfs_claim_object_types }
+
+    # Usable outside examples
+    class << self
+      def agfs_claim_type_objects
+        [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim, Claim::AdvocateHardshipClaim]
+      end
+
+      def lgfs_claim_type_objects
+        [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
+      end
+
+      def all_claim_type_objects
+        agfs_claim_type_objects | lgfs_claim_type_objects
+      end
+    end
   end
 
   def expect_invalid_attribute_with_message(record, attribute, value, message)

@@ -45,6 +45,8 @@ RSpec.describe Claim::BaseClaim do
   let(:agfs_claim) { create(:advocate_claim) }
   let(:lgfs_claim) { create(:litigator_claim) }
 
+  include_context 'claim-types object helpers'
+
   context 'scheme scopes' do
     let!(:agfs_final_claim) { create(:advocate_claim) }
     let!(:agfs_interim_claim) { create(:advocate_interim_claim) }
@@ -70,11 +72,11 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '.agfs_claim_types' do
-    specify { expect(described_class.agfs_claim_types).to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim, Claim::AdvocateHardshipClaim]) }
+    specify { expect(described_class.agfs_claim_types.map(&:to_s)).to match_array(agfs_claim_object_types) }
   end
 
   describe '.lgfs_claim_types' do
-    specify { expect(described_class.lgfs_claim_types).to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]) }
+    specify { expect(described_class.lgfs_claim_types.map(&:to_s)).to match_array(lgfs_claim_object_types) }
   end
 
   it 'raises if I try to instantiate a base claim' do

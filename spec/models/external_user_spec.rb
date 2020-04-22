@@ -265,12 +265,12 @@ RSpec.describe ExternalUser, type: :model do
 
     context 'for users with only an advocate role' do
       let(:user) { build(:external_user, :advocate) }
-      it { is_expected.to match_array(advocate_claim_types) }
+      it { is_expected.to match_array(agfs_claim_object_types) }
     end
 
     context 'for users with only a litigator role' do
       let(:user) { build(:external_user, :litigator) }
-      it { is_expected.to match_array(litigator_claim_types) }
+      it { is_expected.to match_array(lgfs_claim_object_types) }
     end
 
     context 'for users with an admin role' do

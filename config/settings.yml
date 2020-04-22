@@ -54,6 +54,7 @@ claim_csv_headers:
   - :supplier_number
   - :organisation
   - :case_type_name
+  - :bill_type
   - :claim_total
   - :submission_type
   - :submitted_at

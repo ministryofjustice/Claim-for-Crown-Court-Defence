@@ -42,6 +42,48 @@ RSpec.describe Claim::AdvocateHardshipClaimPresenter, type: :presenter do
     end
   end
 
+  describe '#requires_interim_claim_info?' do
+    subject { presenter.requires_interim_claim_info? }
+
+    context 'when claim is scheme 10+' do
+      before { allow(claim).to receive(:agfs_reform?).and_return true }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when claim is scheme 9-' do
+      before { allow(claim).to receive(:agfs_reform?).and_return false }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '#mandatory_case_details?' do
+    subject { presenter.mandatory_case_details? }
+
+    context 'when case_type, court, case number and provider details present' do
+      before do
+        allow(claim).to receive(:case_type).and_return 'a case type'
+        allow(claim).to receive(:court).and_return 'a court'
+        allow(claim).to receive(:case_number).and_return 'a case number'
+        allow(claim).to receive(:external_user).and_return instance_double(ExternalUser)
+      end
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when one of case_type, court, case number and provider details present' do
+      before do
+        allow(claim).to receive(:case_type).and_return nil
+        allow(claim).to receive(:court).and_return 'a court'
+        allow(claim).to receive(:case_number).and_return 'a case number'
+        allow(claim).to receive(:external_user).and_return instance_double(ExternalUser)
+      end
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
   describe '#summary_sections' do
     subject { presenter.summary_sections }
 

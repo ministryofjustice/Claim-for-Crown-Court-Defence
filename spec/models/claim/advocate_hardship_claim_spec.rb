@@ -1,4 +1,6 @@
 RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
+  let(:claim) { build(:advocate_hardship_claim) }
+
   it_behaves_like 'a base claim'
 
   specify { expect(subject.agfs?).to be_truthy }
@@ -13,12 +15,32 @@ RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
   describe '#eligible_case_types' do
     subject { claim.eligible_case_types }
 
-    let(:claim) { described_class.new }
-
     before { seed_case_types }
 
     it { is_expected.to all(be_a(CaseType)) }
     it { is_expected.to all(have_attributes(is_fixed_fee: false)) }
+  end
+
+  # TODO: hardship claim - can be shared with all advocate claim types
+  describe '#eligible_advocate_categories' do
+    let(:categories) { double(:mocked_categories_result) }
+
+    specify {
+      allow(Claims::FetchEligibleAdvocateCategories).to receive(:for).with(claim).and_return(categories)
+      expect(claim.eligible_advocate_categories).to eq(categories)
+    }
+  end
+
+  # TODO: hardship claim - can be shared with all advocate claim types
+  describe '#eligible_misc_fee_types' do
+    subject(:call) { claim.eligible_misc_fee_types }
+    let(:service) { instance_double(Claims::FetchEligibleMiscFeeTypes) }
+
+    it 'calls eligible misc fee type fetch service' do
+      expect(Claims::FetchEligibleMiscFeeTypes).to receive(:new).and_return service
+      expect(service).to receive(:call)
+      call
+    end
   end
 
   describe '#cleaner' do

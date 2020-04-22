@@ -634,6 +634,29 @@ describe '#eligible_document_types' do
   }
 end
 
+describe '#discontinuance?' do
+  subject { claim.discontinuance? }
+
+  let(:claim) { MockBaseClaim.new }
+
+  before { allow(claim).to receive(:case_type).and_return case_type }
+
+  context 'when case type nil' do
+    let(:case_type) { nil }
+    it { is_expected.to be_falsey }
+  end
+
+  context 'when case type not a discontinuance' do
+    let(:case_type) { build(:case_type, :trial) }
+    it { is_expected.to be_falsey }
+  end
+
+  context 'when case type is a discontinuance' do
+    let(:case_type) { build(:case_type, :discontinuance) }
+    it { is_expected.to be_truthy }
+  end
+end
+
 describe '#fee_scheme' do
   let(:claim) { MockBaseClaim.new }
   let(:mock_fee_scheme) { instance_double(FeeScheme) }

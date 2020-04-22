@@ -607,6 +607,10 @@ module Claim
       Claims::FetchEligibleDocumentTypes.for(self)
     end
 
+    def discontinuance?
+      case_type&.fee_type_code.eql?('GRDIS')
+    end
+
     private
 
     # called from state_machine before_transition on submit - override in subclass

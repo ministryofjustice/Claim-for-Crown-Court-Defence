@@ -114,13 +114,9 @@ module Claim
       Fee::BasicFeeType.agfs_scheme_9s
     end
 
-    # TODO: Hardship claim - can be shared with advocate final claim
+    # TODO: Hardship claim - can be shared with all advocate claims
     def eligible_misc_fee_types
       Claims::FetchEligibleMiscFeeTypes.new(self).call
-    end
-
-    def eligible_fixed_fee_types
-      [] # Claims::FetchEligibleFixedFeeTypes.new(self).call
     end
 
     def external_user_type
@@ -135,20 +131,17 @@ module Claim
       true
     end
 
+    # TODO: Hardship claim - can be shared with all advocate claims
     def eligible_advocate_categories
       Claims::FetchEligibleAdvocateCategories.for(self)
     end
 
     # rubocop:disable Rails/SkipsModelValidations
+    # TODO: Hardship claim - can be shared with advocate final claim
     def update_claim_document_owners
       documents.each { |d| d.update_column(:external_user_id, external_user_id) }
     end
     # rubocop:enable Rails/SkipsModelValidations
-
-    # TODO: promote to base_claim (shared with advocate final claim)
-    def discontinuance?
-      case_type&.fee_type_code.eql?('GRDIS')
-    end
 
     private
 

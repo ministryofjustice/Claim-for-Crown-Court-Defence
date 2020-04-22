@@ -3,6 +3,17 @@ class ClaimCsvPresenter < BasePresenter
 
   COMPLETED_STATES = %w[rejected refused authorised part_authorised].freeze
   SUBMITTED_STATES = %w[submitted redetermination awaiting_written_reasons].freeze
+  AGFS_CLAIM_TYPES = %w[
+    Claim::AdvocateClaim
+    Claim::AdvocateInterimClaim
+    Claim::AdvocateSupplementaryClaim
+  ].freeze
+  LGFS_CLAIM_TYPES = %w[
+    Claim::LitigatorClaim
+    Claim::InterimClaim
+    Claim::TransferClaim
+    Claim::LitigatorHardshipClaim
+  ].freeze
 
   def present!
     yield parsed_journeys if block_given?
@@ -61,13 +72,25 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def scheme
-    if %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim].include? type
+    if AGFS_CLAIM_TYPES.include? type
       'AGFS'
-    elsif %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim].include? type
+    elsif LGFS_CLAIM_TYPES.include? type
       'LGFS'
     else
       'Unknown'
     end
+  end
+
+  def bill_type
+    [
+      scheme,
+      type.demodulize
+          .sub('Claim', '')
+          .gsub(/([A-Z])/, ' \1')
+          .gsub(/(Advocate |Litigator )/, '')
+          .gsub(/(Advocate|Litigator)$/, 'Final')
+          .strip
+    ].join(' ')
   end
 
   def disk_evidence_case

@@ -44,15 +44,6 @@ RSpec.describe ClaimCsvPresenter do
 
         context 'AGFS' do
           it 'scheme' do
-            presenter.present! do |claim_journeys|
-              expect(claim_journeys.first).to include('AGFS')
-              expect(claim_journeys.second).to include('AGFS')
-            end
-          end
-        end
-
-        context 'AGFS' do
-          it 'scheme' do
             presenter.update_column(:type, 'Claim::AdvocateInterimClaim')
 
             presenter.present! do |claim_journeys|
@@ -72,6 +63,8 @@ RSpec.describe ClaimCsvPresenter do
         end
 
         context 'LGFS' do
+          let(:claim) { create(:litigator_claim, :redetermination) }
+
           it 'scheme' do
             presenter.update_column(:type, 'Claim::LitigatorClaim')
 
@@ -82,11 +75,11 @@ RSpec.describe ClaimCsvPresenter do
           end
 
           it 'bill_type' do
-            presenter.update_column(:type, 'Claim::LitigatorClaim')
+            presenter.update_column(:type, 'Claim::LitigatorHardshipClaim')
 
             presenter.present! do |claim_journeys|
-              expect(claim_journeys.first).to include('LGFS Final')
-              expect(claim_journeys.second).to include('LGFS Final')
+              expect(claim_journeys.first).to include('LGFS Hardship')
+              expect(claim_journeys.second).to include('LGFS Hardship')
             end
           end
         end

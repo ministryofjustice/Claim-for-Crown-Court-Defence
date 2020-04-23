@@ -3,17 +3,6 @@ class ClaimCsvPresenter < BasePresenter
 
   COMPLETED_STATES = %w[rejected refused authorised part_authorised].freeze
   SUBMITTED_STATES = %w[submitted redetermination awaiting_written_reasons].freeze
-  AGFS_CLAIM_TYPES = %w[
-    Claim::AdvocateClaim
-    Claim::AdvocateInterimClaim
-    Claim::AdvocateSupplementaryClaim
-  ].freeze
-  LGFS_CLAIM_TYPES = %w[
-    Claim::LitigatorClaim
-    Claim::InterimClaim
-    Claim::TransferClaim
-    Claim::LitigatorHardshipClaim
-  ].freeze
 
   def present!
     yield parsed_journeys if block_given?
@@ -72,9 +61,9 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def scheme
-    if AGFS_CLAIM_TYPES.include? type
+    if claim.agfs?
       'AGFS'
-    elsif LGFS_CLAIM_TYPES.include? type
+    elsif claim.lgfs?
       'LGFS'
     else
       'Unknown'

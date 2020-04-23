@@ -40,6 +40,7 @@ class ApiTestClient
     AdvocateClaimTest.new(client: self).test_creation!
     AdvocateInterimClaimTest.new(client: self).test_creation!
     AdvocateSupplementaryClaimTest.new(client: self).test_creation!
+    AdvocateHardshipClaimTest.new(client: self).test_creation!
     LitigatorFinalClaimTest.new(client: self).test_creation!
     LitigatorInterimClaimTest.new(client: self).test_creation!
     LitigatorTransferClaimTest.new(client: self).test_creation!

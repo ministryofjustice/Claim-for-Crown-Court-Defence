@@ -1,0 +1,35 @@
+---
+en:
+  sidebar_common:
+    - &sidebar_fixed_fees Fixed fees
+    - &sidebar_graduated_fees Graduated fees
+    - &sidebar_miscellaneous_fees Miscellaneous fees
+    - &sidebar_travel_expenses Travel expenses
+    - &sidebar_vat VAT
+    - &sidebar_total Total
+  external_users:
+    claims:
+      agfs_final_claim_sidebar:
+        fixed_fees: *sidebar_fixed_fees
+        graduated_fees: *sidebar_graduated_fees
+        miscellaneous_fees: *sidebar_miscellaneous_fees
+        travel_expenses: *sidebar_travel_expenses
+        vat: *sidebar_vat
+        total: *sidebar_total
+      agfs_hardship_claim_sidebar:
+        graduated_fees: Hardship fees
+        miscellaneous_fees: *sidebar_miscellaneous_fees
+        travel_expenses: *sidebar_travel_expenses
+        vat: *sidebar_vat
+        total: *sidebar_total
+      agfs_interim_claim_sidebar:
+        interim_fees: Interim fees
+        miscellaneous_fees: *sidebar_miscellaneous_fees
+        travel_expenses: *sidebar_travel_expenses
+        vat: *sidebar_vat
+        total: *sidebar_total
+      agfs_supplementary_claim_sidebar:
+        miscellaneous_fees: *sidebar_miscellaneous_fees
+        travel_expenses: *sidebar_travel_expenses
+        vat: *sidebar_vat
+        total: *sidebar_total

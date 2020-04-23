@@ -1,32 +1,32 @@
 %dl
   - if claim.fixed_fee_case?
     %dt.fx-seed-fixedFees{ data: { seed: claim.raw_fixed_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
-      = 'Fixed fees'
+      = t('.fixed_fees')
     %dd.total-fixedFees
       = claim.fixed_fees_total
 
   - else
     %dt.fx-seed-gradFees{ data: { seed: claim.raw_basic_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
-      = 'Graduated fees'
+      = t('.graduated_fees')
     %dd.total-gradFees
       = claim.basic_fees_total
 
   %dt.fx-seed-miscFees{ data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
-    = 'Miscellaneous fees'
+    = t('.miscellaneous_fees')
   %dd.total-miscFees
     = claim.misc_fees_total
 
   %dt.fx-seed-expenses{ data: { seed: claim.raw_expenses_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
-    = 'Travel expenses'
+    = t('.travel_expenses')
   %dd.total-expenses
     = claim.expenses_total
 
   %dt.fx-seed{ 'data-vat-total': claim.raw_vat_amount }
-    = 'VAT'
+    = t('.vat')
   %dd.total-vat
     = claim.vat_amount
 
   %dt.fx-seed{ 'data-total-inc': claim.raw_total_inc }
-    = 'Total'
+    = t('.total')
   %dd.total-grandTotal
     = claim.total_inc

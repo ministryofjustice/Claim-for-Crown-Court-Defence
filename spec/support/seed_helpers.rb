@@ -14,7 +14,7 @@ module SeedHelpers
     load_seed 'case_types'
   end
 
-  def seed_case_stage
+  def seed_case_stages
     load_seed 'case_stages'
   end
 

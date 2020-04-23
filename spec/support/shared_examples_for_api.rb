@@ -212,11 +212,12 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
         before { post_to_create_endpoint }
 
         it "has attributes matching the params" do
-          valid_params.each do |attribute, value|
-            next if [:api_key, :creator_email, :user_email].include?(attribute) # because these are used for authentication and authorisation only
-            valid_params[attribute] = value.to_date if claim.send(attribute).class.eql?(Date) # because the saved claim record has Date objects but the param has date strings
-            expect(claim.send(attribute).to_s).to eq valid_params[attribute].to_s # some strings are converted to ints on save
-          end
+           valid_params.each do |attribute, value|
+             next if [:api_key, :creator_email, :user_email].include?(attribute) # because these are used for authentication and authorisation only
+             next if [:case_stage_unique_code].include?(attribute) # used internally for adding case stage to hardship claims only
+             valid_params[attribute] = value.to_date if claim.send(attribute).class.eql?(Date) # because the saved claim record has Date objects but the param has date strings
+             expect(claim.send(attribute).to_s).to eq valid_params[attribute].to_s # some strings are converted to ints on save
+           end
         end
 
         it "belongs to the user whose email was specified in params" do

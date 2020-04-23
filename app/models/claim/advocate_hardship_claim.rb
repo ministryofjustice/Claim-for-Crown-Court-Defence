@@ -123,6 +123,10 @@ module Claim
       :advocate
     end
 
+    def case_stage_unique_code=(code)
+      self.case_stage = CaseStage.find_by!(unique_code: code)
+    end
+
     def agfs?
       self.class.agfs?
     end

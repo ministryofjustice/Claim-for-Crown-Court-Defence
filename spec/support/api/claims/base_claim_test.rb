@@ -19,6 +19,7 @@ class BaseClaimTest
   DISBURSEMENT_TYPE_ENDPOINT  = 'disbursement_types'.freeze
   TRANSFER_STAGES_ENDPOINT    = 'transfer_stages'.freeze
   TRANSFER_CASE_CONCLUSIONS_ENDPOINT = 'transfer_case_conclusions'.freeze
+  CASE_STAGE_ENDPOINT         = 'case_stages'.freeze
 
   ADVOCATE_TEST_EMAIL  = 'advocateadmin@example.com'.freeze
   LITIGATOR_TEST_EMAIL = 'litigatoradmin@example.com'.freeze

@@ -16,6 +16,9 @@ RSpec.describe API::V1::ExternalUsers::Claim do
     /api/external_users/claims/advocates/supplementary
     /api/external_users/claims/advocates/supplementary/validate
 
+    /api/external_users/claims/advocates/hardship
+    /api/external_users/claims/advocates/hardship/validate
+
     /api/external_users/claims/final
     /api/external_users/claims/final/validate
 

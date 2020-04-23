@@ -6,6 +6,7 @@ class ExternalUsers::Litigators::HardshipClaimsController < ExternalUsers::Claim
   private
 
   def build_nested_resources
+    @case_type_stages = CaseType.interims
     @claim.build_hardship_fee if @claim.hardship_fee.nil?
 
     # TODO: TBC what fees, expense and disbursements are available

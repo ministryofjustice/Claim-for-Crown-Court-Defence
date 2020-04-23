@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :litigator_hardship_claim, class: Claim::LitigatorHardshipClaim do
-    advocate_base_setup
+    litigator_base_setup
 
     after(:build) { |claim| post_build_actions_for_draft_final_claim(claim) }
 

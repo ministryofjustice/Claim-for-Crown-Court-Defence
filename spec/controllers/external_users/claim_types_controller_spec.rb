@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: true do
-
   let(:external_user) { create(:external_user, :agfs_lgfs_admin) }
 
   before do
     sign_in(external_user.user)
   end
+
+  include_context 'claim-types helpers'
 
   describe 'GET #selection' do
     context 'when provider has no available claim types' do
@@ -45,7 +46,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       it "assigns bill types based on provider roles" do
         get :selection
-        expect(assigns(:available_claim_types)).to match_array(%w(agfs agfs_interim agfs_supplementary lgfs_final lgfs_interim lgfs_transfer))
+        expect(assigns(:available_claim_types)).to match_array(all_claim_types)
       end
 
       it "renders the bill type options page" do
@@ -59,7 +60,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       it "assigns bill types based on provider roles" do
         get :selection
-        expect(assigns(:available_claim_types)).to match_array(%w(agfs agfs_interim agfs_supplementary))
+        expect(assigns(:available_claim_types)).to match_array(agfs_claim_types)
       end
 
       it "renders the bill type options page" do
@@ -73,7 +74,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       it "assigns bill types based on provider roles" do
         get :selection
-        expect(assigns(:available_claim_types)).to match_array(%w(lgfs_final lgfs_interim lgfs_transfer))
+        expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types)
       end
 
       it "renders bill type selection page" do
@@ -87,7 +88,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
       it "assigns bill types based on external_user roles" do
         get :selection
-        expect(assigns(:available_claim_types)).to match_array(%w(lgfs_final lgfs_interim lgfs_transfer))
+        expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types)
       end
 
       it 'renders the bill type selection page' do

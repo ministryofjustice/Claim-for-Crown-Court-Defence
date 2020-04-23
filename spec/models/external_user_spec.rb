@@ -261,18 +261,16 @@ RSpec.describe ExternalUser, type: :model do
   describe '#available_claim_types' do
     subject { user.available_claim_types.map(&:to_s) }
 
-    let(:advocate_claim_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim] }
-    let(:litigator_claim_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim] }
-    let(:all_claim_types) { advocate_claim_types | litigator_claim_types }
+    include_context 'claim-types object helpers'
 
     context 'for users with only an advocate role' do
       let(:user) { build(:external_user, :advocate) }
-      it { is_expected.to match_array(advocate_claim_types) }
+      it { is_expected.to match_array(agfs_claim_object_types) }
     end
 
     context 'for users with only a litigator role' do
       let(:user) { build(:external_user, :litigator) }
-      it { is_expected.to match_array(litigator_claim_types) }
+      it { is_expected.to match_array(lgfs_claim_object_types) }
     end
 
     context 'for users with an admin role' do
@@ -280,12 +278,12 @@ RSpec.describe ExternalUser, type: :model do
 
       # TODO: i believe this is flawed as an admin should delegate available claim types to the provider)
       # e.g. an admin in an agfs only provider can only create advocate claims
-      it { is_expected.to match_array(all_claim_types) }
+      it { is_expected.to match_array(all_claim_object_types) }
     end
 
     context 'for users with both an advocate and litigator role in provider with both agfs and lgfs role' do
       let(:user) { build(:external_user, :advocate_litigator) }
-      it { is_expected.to match_array(all_claim_types) }
+      it { is_expected.to match_array(all_claim_object_types) }
     end
   end
 

@@ -1,17 +1,10 @@
 require 'rails_helper'
+require_relative 'shared_examples_for_claim_presenters'
 
 RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
   subject(:presenter) { described_class.new(claim, view) }
 
-  let(:claim_9) { create(:advocate_claim, :agfs_scheme_9) }
-  let(:claim_10) { create(:advocate_claim, :agfs_scheme_10) }
-  let!(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) || create(:fee_scheme, :lgfs) }
-  let!(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) || create(:fee_scheme, :agfs_nine) }
-  let!(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) || create(:fee_scheme) }
-  let(:claim) { claim_9 }
-  let(:discontinuance) { create(:case_type, :discontinuance) }
-  let(:claim_discontinuance_9) { create(:advocate_claim, :agfs_scheme_9, case_type: discontinuance, prosecution_evidence: true) }
-  let(:claim_discontinuance_10) { create(:advocate_claim, :agfs_scheme_10, case_type: discontinuance, prosecution_evidence: true) }
+  let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
 
   it { is_expected.to be_kind_of(Claim::BaseClaimPresenter) }
 
@@ -44,13 +37,6 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
     context 'when claim is post agfs reform' do
       let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
       it { is_expected.to be_truthy }
-    end
-  end
-
-  describe '#raw_basic_fees_total' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:calculate_fees_total).with(:basic_fees)
-      presenter.raw_basic_fees_total
     end
   end
 
@@ -92,17 +78,23 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
     end
   end
 
-  specify {
-    expect(presenter.summary_sections).to eq({
-      case_details: :case_details,
-      defendants: :defendants,
-      offence_details: :offence_details,
-      basic_fees: :basic_fees,
-      fixed_fees: :fixed_fees,
-      misc_fees: :miscellaneous_fees,
-      expenses: :travel_expenses,
-      supporting_evidence: :supporting_evidence,
-      additional_information: :supporting_evidence
-    })
-  }
+  describe '#summary_sections' do
+    subject { presenter.summary_sections }
+
+    it {
+      is_expected.to eq({
+        case_details: :case_details,
+        defendants: :defendants,
+        offence_details: :offence_details,
+        basic_fees: :basic_fees,
+        fixed_fees: :fixed_fees,
+        misc_fees: :miscellaneous_fees,
+        expenses: :travel_expenses,
+        supporting_evidence: :supporting_evidence,
+        additional_information: :supporting_evidence
+      })
+    }
+  end
+
+  include_examples 'common basic fees presenters'
 end

@@ -101,6 +101,7 @@ Rails.application.routes.draw do
     namespace :advocates do
       resources :claims, only: amend_actions
       resources :supplementary_claims, only: amend_actions
+      resources :hardship_claims, only: amend_actions, constraints: lambda{ |request| Settings.hardship_claims_enabled? }
       resources :interim_claims, only: amend_actions
     end
     namespace :litigators do

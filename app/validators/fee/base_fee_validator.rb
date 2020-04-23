@@ -162,11 +162,16 @@ module Fee
 
     def daf_trial_length_combination_invalid(lower_bound, trial_length_modifier, max_quantity = nil)
       raise ArgumentError if trial_length_modifier.positive?
-      return false if daf_retrial_combo_ignorable
+      return false if daf_trial_length_ignorable?
 
       max_quantity = infinity if max_quantity.blank?
       upper_bound = [max_quantity, @actual_trial_length + trial_length_modifier].min
       @actual_trial_length < lower_bound || @record.quantity > upper_bound
+    end
+
+    # TODO: allow hardship claims through for now?!
+    def daf_trial_length_ignorable?
+      daf_retrial_combo_ignorable || @record.claim.hardship?
     end
 
     # This is required for retrial claims created prior to retrial fields being added.

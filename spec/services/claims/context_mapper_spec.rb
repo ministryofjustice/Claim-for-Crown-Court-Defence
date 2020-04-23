@@ -8,51 +8,61 @@ RSpec.describe Claims::ContextMapper do
     let(:context) { Claims::ContextMapper.new(external_user) }
     let(:external_user) { create(:external_user, :advocate_litigator) }
 
-    let(:advocate_claim_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim] }
-    let(:litigator_claim_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim] }
-    let(:all_claim_types) { advocate_claim_types | litigator_claim_types }
+    include_context 'claim-types object helpers'
 
     # TODO: i believe this is flawed as an advocate should return only advocate type claims)
     # e.g. an admin in an agfs only provider can only create advocate claims
     context 'AGFS only provider' do
       let(:external_user) { create(:external_user, :advocate, provider: build(:provider, :agfs)) }
-      it { is_expected.to match_array(advocate_claim_types) }
+      it { is_expected.to match_array(agfs_claim_object_types) }
+
+      context 'when hardship claims enabled' do
+        before { allow(Settings).to receive(:hardship_claims_enabled?).and_return true }
+
+        it { is_expected.to include("Claim::AdvocateHardshipClaim") }
+      end
+
+      context 'when hardship claims disabled' do
+        before { allow(Settings).to receive(:hardship_claims_enabled?).and_return false }
+
+        it { is_expected.not_to include("Claim::AdvocateHardshipClaim") }
+      end
     end
 
     context 'LGFS only provider' do
       let(:external_user) { create(:external_user, :litigator, provider: build(:provider, :lgfs)) }
-      it { is_expected.to match_array(litigator_claim_types) }
+      it { is_expected.to match_array(lgfs_claim_object_types) }
     end
 
     context 'AGFS and LGFS providers' do
       it 'should return litigator claim for a litigators' do
         external_user.roles = ['litigator']
-        is_expected.to match_array(litigator_claim_types)
+        is_expected.to match_array(lgfs_claim_object_types)
       end
 
       it 'should return litigator and advocate claim for a litigator admins' do
         external_user.roles = ['litigator', 'admin']
-        is_expected.to match_array(all_claim_types)
+        is_expected.to match_array(all_claim_object_types)
       end
 
       it 'should return advocate claim for a advocates' do
         external_user.roles = ['advocate']
-        is_expected.to match_array(advocate_claim_types)
+        is_expected.to match_array(agfs_claim_object_types)
       end
 
       it 'should return advocate and litigator claim for a advocate admins' do
         external_user.roles = ['advocate', 'admin']
-        is_expected.to match_array(all_claim_types)
+        is_expected.to match_array(all_claim_object_types)
       end
 
       it 'should return advocate AND litigator claims for a admins' do
         external_user.roles = ['admin']
-        is_expected.to match_array(all_claim_types)
+        is_expected.to match_array(all_claim_object_types)
       end
 
       it 'should return advocate AND litigator claims for users with admin, litigator and advocate roles' do
         external_user.roles = ['admin', 'advocate', 'litigator']
-        is_expected.to match_array(all_claim_types)
+        is_expected.to match_array(all_claim_object_types)
       end
     end
   end

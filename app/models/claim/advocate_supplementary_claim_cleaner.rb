@@ -6,6 +6,7 @@ module Claim
               :interim?,
               :agfs?,
               :supplementary?,
+              :hardship?,
               :agfs_reform?,
               to: :claim
 

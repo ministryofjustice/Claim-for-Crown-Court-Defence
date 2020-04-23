@@ -209,6 +209,10 @@ module Claim
       false
     end
 
+    def hardship?
+      false
+    end
+
     def transfer?
       false
     end
@@ -243,7 +247,10 @@ module Claim
     end
 
     def self.agfs_claim_types
-      [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim]
+      [Claim::AdvocateClaim,
+       Claim::AdvocateInterimClaim,
+       Claim::AdvocateSupplementaryClaim,
+       Claim::AdvocateHardshipClaim]
     end
 
     def self.lgfs_claim_types
@@ -598,6 +605,10 @@ module Claim
 
     def eligible_document_types
       Claims::FetchEligibleDocumentTypes.for(self)
+    end
+
+    def discontinuance?
+      case_type&.fee_type_code.eql?('GRDIS')
     end
 
     private

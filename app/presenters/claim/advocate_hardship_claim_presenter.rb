@@ -1,0 +1,64 @@
+class Claim::AdvocateHardshipClaimPresenter < Claim::BaseClaimPresenter
+  present_with_currency :basic_fees_total
+
+  # NOTE: this shows we should probably refactor the template naming
+  # to bring some consistency between claim steps and their associated
+  # templates
+  SUMMARY_SECTIONS = {
+    case_details: :case_details,
+    defendants: :defendants,
+    offence_details: :offence_details,
+    basic_fees: :basic_fees,
+    misc_fees: :miscellaneous_fees,
+    expenses: :travel_expenses,
+    supporting_evidence: :supporting_evidence,
+    additional_information: :supporting_evidence
+  }.freeze
+
+  def pretty_type
+    'AGFS Hardship'
+  end
+
+  def type_identifier
+    'agfs_hardship'
+  end
+
+  def can_have_disbursements?
+    false
+  end
+
+  def raw_basic_fees_total
+    claim.calculate_fees_total(:basic_fees)
+  end
+
+  def raw_basic_fees_vat
+    VatRate.vat_amount(raw_basic_fees_total, claim.created_at, calculate: claim.apply_vat?)
+  end
+
+  def raw_basic_fees_gross
+    raw_basic_fees_total + raw_basic_fees_vat
+  end
+
+  def basic_fees_vat
+    h.number_to_currency(raw_basic_fees_vat)
+  end
+
+  def basic_fees_gross
+    h.number_to_currency(raw_basic_fees_gross)
+  end
+
+  def summary_sections
+    SUMMARY_SECTIONS
+  end
+
+  # NOTE: this is an interim solution for what probably should be
+  # some sort of DSL to describe what fields are required for a given section
+  # for that section to be considered completed
+  def mandatory_case_details?
+    claim.case_type && claim.court && claim.case_number && claim.external_user
+  end
+
+  def requires_interim_claim_info?
+    claim.agfs_reform?
+  end
+end

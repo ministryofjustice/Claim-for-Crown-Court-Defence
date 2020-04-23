@@ -354,6 +354,10 @@ class Claim::BaseClaimValidator < BaseValidator
     validate_too_far_in_past(start_attribute)
   end
 
+  def validate_not_in_future(attribute)
+    validate_on_or_before(Date.today, attribute, 'check_not_in_future')
+  end
+
   def validate_too_far_in_past(start_attribute)
     validate_on_or_after(Settings.earliest_permitted_date, start_attribute, 'check_not_too_far_in_past')
   end

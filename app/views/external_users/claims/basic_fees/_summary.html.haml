@@ -1,3 +1,4 @@
 - unless claim.fixed_fee_case?
-  .form-section
-    = render partial: 'external_users/claims/summary_fees', locals: { claim: claim, header: t('external_users.claims.basic_fees.summary.header'), collection: claim.basic_fees.reject(&:blank?), editable: editable, section: section, step: :basic_fees }
+  - locale_claim_type_context = claim.hardship? ? 'hardship_claims' : 'claims'
+  #basic-fees-section.form-section
+    = render partial: 'external_users/claims/summary_fees', locals: { claim: claim, header: t("external_users.#{locale_claim_type_context}.basic_fees.summary.header"), collection: claim.basic_fees.reject(&:blank?), editable: editable, section: section, step: :basic_fees }

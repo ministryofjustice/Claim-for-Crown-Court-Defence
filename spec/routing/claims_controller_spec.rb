@@ -3,8 +3,7 @@ require 'action_dispatch/routing/polymorphic_routes'
 
 include ActionDispatch::Routing::PolymorphicRoutes
 
-describe ExternalUsers::Advocates::ClaimsController, type: :routing do
-
+RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :routing do
   it { should route(:get,  '/advocates/claims/new').to(action: :new) }
   it { should route(:post, '/advocates/claims').to(action: :create) }
   it { should route(:put,  '/advocates/claims/123').to(action: :update, id: 123) }
@@ -24,8 +23,31 @@ describe ExternalUsers::Advocates::ClaimsController, type: :routing do
   end
 end
 
-describe ExternalUsers::Litigators::ClaimsController, type: :routing do
+RSpec.describe ExternalUsers::Advocates::HardshipClaimsController, type: :routing do
+  context 'when hardship claims enabled' do
+    before do
+      allow(Settings).to receive(:hardship_claims_enabled?).and_return true
+    end
 
+    it { should route(:get, '/advocates/hardship_claims/new').to(action: :new) }
+    it { should route(:post, '/advocates/hardship_claims').to(action: :create) }
+    it { should route(:put, '/advocates/hardship_claims/1').to(action: :update, id: 1) }
+    it { should route(:get, '/advocates/hardship_claims/1/edit').to(action: :edit, id: 1) }
+  end
+
+  context 'when hardship claims disabled' do
+    before do
+      allow(Settings).to receive(:hardship_claims_enabled?).and_return false
+    end
+
+    it { should route(:get, '/advocates/hardship_claims/new').to(controller: 'errors', action: 'not_found', path: 'advocates/hardship_claims/new') }
+    it { should route(:post, '/advocates/hardship_claims').to(controller: 'errors', action: 'not_found', path: 'advocates/hardship_claims') }
+    it { should route(:put, '/advocates/hardship_claims/1').to(controller: 'errors', action: 'not_found', path: 'advocates/hardship_claims/1') }
+    it { should route(:get, '/advocates/hardship_claims/1/edit').to(controller: 'errors', action: 'not_found', path: 'advocates/hardship_claims/1/edit') }
+  end
+end
+
+RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :routing do
   it { should route(:get,  '/litigators/claims/new').to(action: :new) }
   it { should route(:post, '/litigators/claims').to(action: :create) }
   it { should route(:put,  '/litigators/claims/123').to(action: :update, id: 123) }
@@ -45,8 +67,7 @@ describe ExternalUsers::Litigators::ClaimsController, type: :routing do
   end
 end
 
-describe ExternalUsers::Litigators::InterimClaimsController, type: :routing do
-
+RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :routing do
   it { should route(:get,  '/litigators/interim_claims/new').to(action: :new) }
   it { should route(:post, '/litigators/interim_claims').to(action: :create) }
   it { should route(:put,  '/litigators/interim_claims/123').to(action: :update, id: 123) }
@@ -66,8 +87,7 @@ describe ExternalUsers::Litigators::InterimClaimsController, type: :routing do
   end
 end
 
-describe ExternalUsers::Litigators::TransferClaimsController, type: :routing do
-
+RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :routing do
   it { should route(:get,  '/litigators/transfer_claims/new').to(action: :new) }
   it { should route(:post, '/litigators/transfer_claims').to(action: :create) }
   it { should route(:put,  '/litigators/transfer_claims/123').to(action: :update, id: 123) }

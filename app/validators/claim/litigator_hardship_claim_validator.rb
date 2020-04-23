@@ -20,22 +20,14 @@ class Claim::LitigatorHardshipClaimValidator < Claim::BaseClaimValidator
     }
   end
 
-  # def validate_defendant_uplifts
-  #   return if @record.from_api?
-  #   return if defendant_uplifts.all?(&:blank?)
-  #   # no_of_defendants = @record.defendants.reject(&:marked_for_destruction?).size
-  #   # add_error(:base, 'lgfs_defendant_uplifts_mismatch') if defendant_uplifts_greater_than?(no_of_defendants)
-  # end
+  private
 
-  # # we add one because Defendant uplift fees are for "additional" defendants
-  # def defendant_uplifts_greater_than?(no_of_defendants)
-  #   defendant_uplifts.size + 1 > no_of_defendants
-  # end
+  def validate_case_type
+    validate_presence(:case_type, 'case_type_blank')
+    validate_inclusion(:case_type, @record.eligible_case_types, 'inclusion')
+  end
 
-  # def defendant_uplifts
-  #   @record.misc_fees.select do |fee|
-  #     !fee.marked_for_destruction? &&
-  #       fee&.defendant_uplift?
-  #   end
-  # end
+  def validate_offence
+    validate_presence(:offence, 'blank_class') unless fixed_fee_case?
+  end
 end

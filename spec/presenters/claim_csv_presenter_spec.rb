@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ClaimCsvPresenter do
 
-  let(:claim)               { create(:redetermination_claim) }
-  let(:presenter)             { ClaimCsvPresenter.new(claim, view) }
+  let(:claim) { create(:redetermination_claim) }
+  let(:presenter) { ClaimCsvPresenter.new(claim, view) }
   let(:previous_user) { create(:user, first_name: 'Thea', last_name: 'Conway') }
   let(:another_user) { create(:user, first_name: 'Hilda', last_name: 'Rogers') }
 
@@ -44,15 +44,6 @@ RSpec.describe ClaimCsvPresenter do
 
         context 'AGFS' do
           it 'scheme' do
-            presenter.present! do |claim_journeys|
-              expect(claim_journeys.first).to include('AGFS')
-              expect(claim_journeys.second).to include('AGFS')
-            end
-          end
-        end
-
-        context 'AGFS' do
-          it 'scheme' do
             presenter.update_column(:type, 'Claim::AdvocateInterimClaim')
 
             presenter.present! do |claim_journeys|
@@ -60,15 +51,35 @@ RSpec.describe ClaimCsvPresenter do
               expect(claim_journeys.second).to include('AGFS')
             end
           end
+
+          it 'bill_type' do
+            presenter.update_column(:type, 'Claim::AdvocateInterimClaim')
+
+            presenter.present! do |claim_journeys|
+              expect(claim_journeys.first).to include('AGFS Interim')
+              expect(claim_journeys.second).to include('AGFS Interim')
+            end
+          end
         end
 
         context 'LGFS' do
+          let(:claim) { create(:litigator_claim, :redetermination) }
+
           it 'scheme' do
             presenter.update_column(:type, 'Claim::LitigatorClaim')
 
             presenter.present! do |claim_journeys|
               expect(claim_journeys.first).to include('LGFS')
               expect(claim_journeys.second).to include('LGFS')
+            end
+          end
+
+          it 'bill_type' do
+            presenter.update_column(:type, 'Claim::LitigatorHardshipClaim')
+
+            presenter.present! do |claim_journeys|
+              expect(claim_journeys.first).to include('LGFS Hardship')
+              expect(claim_journeys.second).to include('LGFS Hardship')
             end
           end
         end
@@ -273,7 +284,7 @@ RSpec.describe ClaimCsvPresenter do
           it 'the rejection reason code should be reflected in the MI' do
             allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('no_rep_order')
             ClaimCsvPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][11]).to eq('no_rep_order')
+              expect(csv[0][12]).to eq('no_rep_order')
             end
           end
         end
@@ -285,7 +296,7 @@ RSpec.describe ClaimCsvPresenter do
 
           it 'the rejection reason code should be reflected in the MI' do
             ClaimCsvPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][11]).to eq('no_rep_order')
+              expect(csv[0][12]).to eq('no_rep_order')
             end
           end
         end
@@ -297,7 +308,7 @@ RSpec.describe ClaimCsvPresenter do
 
           it 'the rejection reason code should be reflected in the MI' do
             ClaimCsvPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][11]).to eq('no_rep_order, wrong_case_no')
+              expect(csv[0][12]).to eq('no_rep_order, wrong_case_no')
             end
           end
         end
@@ -309,8 +320,8 @@ RSpec.describe ClaimCsvPresenter do
 
           it 'the rejection reason code should be reflected in the MI' do
             ClaimCsvPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][11]).to eq('other')
-              expect(csv[0][12]).to eq('Rejection reason')
+              expect(csv[0][12]).to eq('other')
+              expect(csv[0][13]).to eq('Rejection reason')
             end
           end
         end
@@ -323,7 +334,7 @@ RSpec.describe ClaimCsvPresenter do
           it 'the refusal reason code should be reflected in the MI' do
             allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('no_rep_order')
             ClaimCsvPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][11]).to eq('no_rep_order')
+              expect(csv[0][12]).to eq('no_rep_order')
             end
           end
         end
@@ -335,7 +346,7 @@ RSpec.describe ClaimCsvPresenter do
 
           it 'the refusal reason code should be reflected in the MI' do
             ClaimCsvPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][11]).to eq('no_rep_order')
+              expect(csv[0][12]).to eq('no_rep_order')
             end
           end
         end
@@ -347,7 +358,7 @@ RSpec.describe ClaimCsvPresenter do
 
           it 'the refusal reason code should be reflected in the MI' do
             ClaimCsvPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][11]).to eq('no_rep_order, wrong_case_no')
+              expect(csv[0][12]).to eq('no_rep_order, wrong_case_no')
             end
           end
         end
@@ -359,8 +370,8 @@ RSpec.describe ClaimCsvPresenter do
 
           it 'the rejection reason code should be reflected in the MI' do
             ClaimCsvPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][11]).to eq('other')
-              expect(csv[0][12]).to eq('Rejection reason')
+              expect(csv[0][12]).to eq('other')
+              expect(csv[0][13]).to eq('Rejection reason')
             end
           end
         end

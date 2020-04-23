@@ -83,9 +83,7 @@ class ApplicationController < ActionController::Base
   end
 
   def method_missing(method, *args)
-    # rubocop:disable Performance/RegexpMatch
     raise "Unrecognised user type #{Regexp.last_match(1)}" if method.to_s =~ /^after_sign_in_path_for_(.*)/
-    # rubocop:enable Performance/RegexpMatch
     super
   end
 

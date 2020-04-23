@@ -14,7 +14,7 @@ module TestHelpers
 
   shared_context 'claim-types helpers' do
     let(:agfs_claim_types) { %w[agfs agfs_interim agfs_supplementary agfs_hardship] }
-    let(:lgfs_claim_types) { %w[lgfs_final lgfs_interim lgfs_transfer] }
+    let(:lgfs_claim_types) { %w[lgfs_final lgfs_interim lgfs_transfer lgfs_hardship] }
     let(:all_claim_types) { agfs_claim_types | lgfs_claim_types }
   end
 
@@ -30,7 +30,7 @@ module TestHelpers
       end
 
       def lgfs_claim_type_objects
-        [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
+        [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim, Claim::LitigatorHardshipClaim]
       end
 
       def all_claim_type_objects

@@ -79,10 +79,6 @@ module Claim
       true
     end
 
-    def requires_case_type?
-      false
-    end
-
     # TODO: applicable case types unknown. limiting to trial and retrial for now
     def eligible_case_types
       CaseType.interims

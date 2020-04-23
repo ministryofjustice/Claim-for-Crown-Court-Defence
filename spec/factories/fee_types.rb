@@ -455,6 +455,13 @@ FactoryBot.define do
       end
     end
 
+    factory :hardship_fee_type, class: Fee::HardshipFeeType do
+      description { 'Hardship Fee' }
+      code { 'HARDSHIP' }
+      calculated { false }
+      roles { ['lgfs'] }
+    end
+
     factory :child_fee_type, class: Fee::FixedFeeType do
       description { 'Child' }
       roles { ['lgfs'] }

@@ -20,7 +20,7 @@ module TestHelpers
 
   shared_context 'claim-types object helpers' do
     let(:agfs_claim_object_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim Claim::AdvocateHardshipClaim] }
-    let(:lgfs_claim_object_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim] }
+    let(:lgfs_claim_object_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim Claim::LitigatorHardshipClaim] }
     let(:all_claim_object_types) { agfs_claim_object_types | lgfs_claim_object_types }
 
     # Usable outside examples

@@ -20,19 +20,22 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
 
-Style/Documentation:
+Layout/EmptyLineAfterGuardClause:
   Enabled: false
-
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
-Style/FormatStringToken:
-  EnforcedStyle: template
 
 Layout/LineLength:
   Max: 120
   IgnoredPatterns: ['(\A|\s)#','.*\s+ # .*']
   AllowHeredoc: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
 
 Metrics/BlockLength:
   ExcludedMethods:
@@ -54,7 +57,25 @@ Metrics/ModuleLength:
 Style/DateTime:
   AllowCoercion: true
 
-Layout/EmptyLineAfterGuardClause:
+Style/Documentation:
   Enabled: false
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/FormatStringToken:
+  EnforcedStyle: template
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 inherit_from: .rubocop_todo.yml

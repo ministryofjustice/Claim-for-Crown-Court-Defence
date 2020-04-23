@@ -30,7 +30,7 @@ module TestHelpers
       end
 
       def lgfs_claim_type_objects
-        [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
+        [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim, Claim::LitigatorHardshipClaim]
       end
 
       def all_claim_type_objects

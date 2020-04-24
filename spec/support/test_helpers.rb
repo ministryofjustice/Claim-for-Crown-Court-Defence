@@ -12,13 +12,13 @@ module TestHelpers
 
   include DatabaseHousekeeping
 
-  shared_context 'claim-types helpers' do
+  RSpec.shared_context 'claim-types helpers' do
     let(:agfs_claim_types) { %w[agfs agfs_interim agfs_supplementary agfs_hardship] }
     let(:lgfs_claim_types) { %w[lgfs_final lgfs_interim lgfs_transfer] }
     let(:all_claim_types) { agfs_claim_types | lgfs_claim_types }
   end
 
-  shared_context 'claim-types object helpers' do
+  RSpec.shared_context 'claim-types object helpers' do
     let(:agfs_claim_object_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim Claim::AdvocateHardshipClaim] }
     let(:lgfs_claim_object_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim] }
     let(:all_claim_object_types) { agfs_claim_object_types | lgfs_claim_object_types }

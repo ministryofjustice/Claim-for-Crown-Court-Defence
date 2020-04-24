@@ -3,7 +3,7 @@ require_relative '../../test_helpers'
 
 class BaseClaimTest
   include Debuggable
-  include TestHelpers
+  # include TestHelpers
 
   attr_accessor :client, :claim_uuid
 

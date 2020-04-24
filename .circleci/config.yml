@@ -211,11 +211,14 @@ commands:
       - run:
           name: Run smoke test
           command: |
-            if ./runtests.sh; then
+            ./runtests.sh
+            $retval=$?
+            if [ $retval -eq 0 ]; then
               echo 'true' > /tmp/smoke_test/success
             else
               echo 'false' > /tmp/smoke_test/success
             fi
+            exit $retval
       - persist_to_workspace:
           root: /tmp/smoke_test
           paths:
@@ -475,6 +478,16 @@ workflows:
       - build-app-container:
           requires:
             - hold-branch-build
+      - smoke-test:
+          filters:
+            branches:
+              only:
+                - test-smoke-test
+          requires:
+            - build-app-container
+      - smoke-test-notification:
+          requires:
+            - smoke-test
       - hold-dev:
           type: approval
           requires:

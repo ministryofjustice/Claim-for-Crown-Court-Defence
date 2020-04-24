@@ -14,6 +14,10 @@ module SeedHelpers
     load_seed 'case_types'
   end
 
+  def seed_case_stage
+    load_seed 'case_stages'
+  end
+
   def seed_fee_types
     Seeds::FeeTypes::CsvSeeder.new(dry_mode: false).call
   end

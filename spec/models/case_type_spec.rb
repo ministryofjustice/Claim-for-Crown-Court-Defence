@@ -1,31 +1,13 @@
-# == Schema Information
-#
-# Table name: case_types
-#
-#  id                      :integer          not null, primary key
-#  name                    :string
-#  is_fixed_fee            :boolean
-#  created_at              :datetime
-#  updated_at              :datetime
-#  requires_cracked_dates  :boolean
-#  requires_trial_dates    :boolean
-#  allow_pcmh_fee_type     :boolean          default(FALSE)
-#  requires_maat_reference :boolean          default(FALSE)
-#  requires_retrial_dates  :boolean          default(FALSE)
-#  roles                   :string
-#  fee_type_code           :string
-#  uuid                    :uuid
-#
-
 require 'rails_helper'
 
-describe CaseType do
-
+RSpec.describe CaseType, type: :model do
   it_behaves_like 'roles', CaseType, CaseType::ROLES
 
   after(:all) do
     clean_database
   end
+
+  it { is_expected.to have_many(:case_stages).dependent(:destroy) }
 
   describe 'graduated_fee_type' do
     let!(:grad_fee_type)     { create :graduated_fee_type, unique_code: 'GRAD' }
@@ -64,7 +46,6 @@ describe CaseType do
         expect(fixed_case_type.is_graduated_fee?).to eql false
       end
     end
-
   end
 
   describe 'fixed_fee_type' do

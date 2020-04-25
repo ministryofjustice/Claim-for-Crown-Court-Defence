@@ -1,8 +1,6 @@
 - if claim.certification.present?
   = render partial: 'shared/certification', locals: { claim: claim }
 
--# .grid-row
--#   .column-full
 %h3.heading-medium
   = "Claim and case type"
 %table.table-summary
@@ -83,12 +81,19 @@
         %td
           = claim.transfer_case_number
 
-    - if claim.case_type.try(:name)
+    - if claim.case_stage
+      %tr
+        %th{ scope: 'row' }
+          = t('.case_stage')
+        %td
+          = claim.case_stage&.description
+
+    - if claim.case_type
       %tr
         %th{ scope: 'row' }
           = t('.case_type')
         %td
-          = claim.case_type.try(:name)
+          = claim.case_type&.name
 
     - if claim.agfs? && claim.case_type.present? && claim.requires_cracked_dates?
       = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }

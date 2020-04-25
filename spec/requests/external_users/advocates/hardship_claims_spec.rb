@@ -46,8 +46,8 @@ RSpec.describe 'Hardship claims', type: :request do
         expect(assigns(:claim)).to be_instance_of Claim::AdvocateHardshipClaim
       end
 
-      it 'assigns @case_type_stages' do
-        expect(assigns(:case_type_stages)).to be_an(Array).and all(be_a(CaseStage))
+      it 'assigns @case_stages' do
+        expect(assigns(:case_stages)).to all(be_a(CaseStage))
       end
 
       it 'builds interim claim info' do
@@ -102,8 +102,8 @@ RSpec.describe 'Hardship claims', type: :request do
         expect(assigns(:claim)).to eql claim
       end
 
-      it 'assigns @case_type_stages' do
-        expect(assigns(:case_type_stages)).to be_an(Array).and all(be_a(CaseStage))
+      it 'assigns @case_stages' do
+        expect(assigns(:case_stages)).to all(be_a(CaseStage))
       end
 
       it 'routes to advocates edit hardship claim path' do

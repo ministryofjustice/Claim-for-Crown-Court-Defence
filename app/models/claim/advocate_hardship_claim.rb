@@ -16,6 +16,8 @@ module Claim
             inverse_of: :claim,
             validate: proc { |claim| claim.step_validation_required?(:miscellaneous_fees) }
 
+    delegate :case_type, to: :case_stage, allow_nil: true
+
     accepts_nested_attributes_for :basic_fees, reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :interim_claim_info, reject_if: :all_blank, allow_destroy: false
 
@@ -105,7 +107,11 @@ module Claim
     end
 
     def eligible_case_types
-      CaseType.agfs.where(is_fixed_fee: false)
+      eligible_case_stages.map(&:case_type)
+    end
+
+    def eligible_case_stages
+      CaseStage.agfs
     end
 
     # TODO: Hardship claim - can be shared with advocate final claim

@@ -286,6 +286,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :transfer_case_number,
       :case_number,
       :case_type_id,
+      :case_stage_id,
       :offence_id,
       :travel_expense_additional_information,
       date_attributes_for(:first_day_of_trial),

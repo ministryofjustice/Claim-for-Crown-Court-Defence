@@ -1,14 +1,27 @@
+RSpec.shared_examples 'delegates missing methods to case type' do |*delegated_methods|
+  context 'when methods missing' do
+    delegated_methods.each do |delegated_method|
+      before do
+        allow(case_stage.case_type).to receive(delegated_method.to_sym).and_return 'received'
+      end
+
+      it "delegates #{delegated_method} to case_type" do
+        expect(case_stage.send(delegated_method.to_sym)).to eql('received')
+      end
+    end
+  end
+end
+
 RSpec.describe CaseStage, type: :model do
   subject(:case_stage) { create(:case_stage) }
 
   it { is_expected.to belong_to(:case_type) }
 
-  # should delegate stuff?! to case type
-  # TODO: write custom matcher for delegate_missing_to rails helper or spec individually
-  xit { is_expected.to delegate_method(:requires_trial_dates?).to(:case_type) }
-  xit { is_expected.to delegate_method(:requires_retrial_dates?).to(:case_type) }
-  xit { is_expected.to delegate_method(:requires_cracked_dates?).to(:case_type) }
-  xit { is_expected.to delegate_method(:is_fixed_fee?).to(:case_type) }
+  include_examples 'delegates missing methods to case type',
+    :requires_trial_dates?,
+    :requires_retrial_dates?,
+    :requires_cracked_dates?,
+    :is_fixed_fee?
 
   it_behaves_like 'roles', CaseStage, CaseStage::ROLES
 
@@ -25,11 +38,6 @@ RSpec.describe CaseStage, type: :model do
 
   describe '#case_type' do
     it { expect(case_stage.case_type).to be_a CaseType }
-  end
-
-  describe '#name' do
-    subject { case_stage.name }
-    it { is_expected.to eql case_stage.description }
   end
 
   describe '.chronological' do

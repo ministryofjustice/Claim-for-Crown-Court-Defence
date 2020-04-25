@@ -1,4 +1,4 @@
 %span.bold
-  = t('dictionary.attributes.claims.case_type')
+  = @claim.hardship? ? t('dictionary.attributes.claims.case_stage') :t('dictionary.attributes.claims.case_type')
 %p
-  = claim.case_type.name
+= @claim.hardship? ? claim.case_stage.description : claim.case_type.name

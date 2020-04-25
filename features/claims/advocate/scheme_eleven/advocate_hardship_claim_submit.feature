@@ -15,7 +15,8 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
     When I enter a providers reference of 'AGFS hardship claim test'
     And I select the court 'Caernarfon'
     And I enter a case number of 'A20201234'
-    And I select a case stage of 'Trial started but not concluded or ended not yet sentenced'
+
+    And I select a case stage of 'Trial started but not concluded'
     Then I should see trial fields
 
     And I enter scheme 11 trial start date
@@ -38,6 +39,8 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
     Then I should be in the 'Hardship fees' form page
     And I should see a page title "Enter graduated fees for advocate hardship fees claim"
     And I should see the advocate categories 'Junior,Leading junior,QC'
+    And I should see the case stage 'Trial started but not concluded'
+    And I should see the offence details 'Class : Offences Against the Public Interest, Band : 8.1, Category : Harbouring escaped prisoner'
     And I should see the scheme 11 applicable basic fees
 
     When I select an advocate category of 'Junior'
@@ -69,9 +72,9 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
     When I click "Continue" in the claim form
     Then I should see a page title "Upload supporting evidence for advocate hardship fees claim"
 
-    And I upload the document 'indictment.pdf'
+    And I upload the document 'hardship.pdf'
     And I should see 10 evidence check boxes
-    And I check the evidence boxes for 'A copy of the indictment,Hardship supporting evidence'
+    And I check the evidence boxes for 'Hardship supporting evidence'
     And I add some additional information
 
     When I click "Continue" in the claim form
@@ -83,6 +86,7 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
       | case-details-section | Crown court | Caernarfon |
       | case-details-section | Case number | A20201234 |
       | case-details-section | Case type | Trial |
+      | case-details-section | Case stage | Trial started but not concluded |
       | offence-details-section | Class | Offences Against the Public Interest |
       | offence-details-section | Band | 8.1 |
       | offence-details-section | Category | Harbouring escaped prisoner |
@@ -115,8 +119,7 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
 
     Then the following check your claim details should exist:
       | section | prompt | value |
-      | supporting-evidence-section | Supporting evidence | indictment.pdf |
-      | supporting-evidence-section | Supporting evidence checklist | A copy of the indictment |
+      | supporting-evidence-section | Supporting evidence | hardship.pdf |
       | supporting-evidence-section | Supporting evidence checklist | Hardship supporting evidence |
 
     When I click "Continue"

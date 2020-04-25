@@ -9,37 +9,43 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
 
   before { seed_fee_schemes }
 
-  include_examples "common advocate litigator validations", :advocate, case_type: false
+  include_examples 'common advocate litigator validations', :advocate, case_type: false
   include_examples 'advocate claim case concluded at'
   include_examples 'advocate claim external user role'
   include_examples 'advocate claim creator role'
   include_examples 'advocate claim supplier number'
 
-  context 'case_type' do
-    let(:eligible_case_types) { create_list(:case_type, 2, is_fixed_fee: false) }
-    let(:ineligible_case_type) { create(:case_type, is_fixed_fee: true) }
+  context 'case_type_id' do
+    before { claim.case_type_id = 1 }
+
+    it { should_error_with(claim, :case_type_id, 'present') }
+  end
+
+  context 'case_stage' do
+    let(:eligible_case_stages) { create_list(:case_stage, 2) }
+    let(:ineligible_case_stage) { create(:case_stage, roles: %w[lgfs]) }
 
     before do
-      claim.case_type = nil
-      allow(claim).to receive(:eligible_case_types).and_return(eligible_case_types)
+      claim.case_stage = nil
+      allow(claim).to receive(:eligible_case_stages).and_return(eligible_case_stages)
     end
 
     context 'when not present' do
-      before { claim.case_type = nil }
+      before { claim.case_stage = nil }
 
-      it { should_error_with(claim, :case_type, 'case_stage_blank') }
+      it { should_error_with(claim, :case_stage, 'blank') }
     end
 
     context 'when present but ineligible' do
-      before { claim.case_type = ineligible_case_type }
+      before { claim.case_stage = ineligible_case_stage }
 
-      it { should_error_with(claim, :case_type, 'inclusion') }
+      it { should_error_with(claim, :case_stage, 'inclusion') }
     end
 
     context 'when present and eligible' do
-      before { claim.case_type = eligible_case_types.first }
+      before { claim.case_stage = eligible_case_stages.first }
 
-      it { should_not_error(claim, :case_type) }
+      it { should_not_error(claim, :case_stage) }
     end
   end
 
@@ -253,24 +259,24 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
     before do
       claim.form_step = :offence_details
       claim.offence = nil
-      allow(claim.case_type).to receive(:is_fixed_fee?).and_return(false)
     end
 
-    it 'errors if not present' do
+    it 'should error if not present' do
       should_error_with(claim, :offence, "blank")
     end
 
     context 'when the claim is associated with the new fee reform scheme' do
       let(:claim) { create(:claim, :agfs_scheme_10) }
-        it 'should error if not present' do
-          should_error_with(claim, :offence, 'new_blank')
-        end
+
+      it 'should error if not present' do
+        should_error_with(claim, :offence, 'new_blank')
+      end
     end
   end
 
   # TODO: advocate_hardship_claim
   # - share with advocate_claim (except fixed_fee aspect)??
-  # - asahre with advocate_supplementary claim??
+  # - share with advocate_supplementary claim??
   #
   context 'defendant uplift fees aggregation validation' do
     let(:miaph) { create(:misc_fee_type, :miaph) }
@@ -450,7 +456,8 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
 
   include_examples 'common partial validations', {
     case_details: %i[
-      case_type
+      case_type_id
+      case_stage
       court
       case_number
       case_transferred_from_another_court

@@ -12,9 +12,4 @@ class CaseStage < ApplicationRecord
   validates :description, presence: { message: 'Case stage description must exist' }
 
   scope :chronological, -> { order(position: :asc) }
-
-  def name
-    description
-  end
 end
-

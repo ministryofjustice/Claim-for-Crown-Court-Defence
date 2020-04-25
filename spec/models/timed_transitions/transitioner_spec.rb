@@ -108,7 +108,7 @@ RSpec.describe TimedTransitions::Transitioner do
               end
             end
 
-            it 'amends claim state to archives pending review' do
+            it 'amends claim state to archived pending review' do
               transitioner.run
               expect(@claim.reload.state).to eq 'archived_pending_review'
             end

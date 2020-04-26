@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/database_housekeeping'
+require_relative 'scheme_date_helpers'
 
 module TestHelpers
   # Methods here are exposed globally to all rspec tests, but do not abuse this.
@@ -11,6 +12,7 @@ module TestHelpers
   # file or files that actually need it.
 
   include DatabaseHousekeeping
+  include SchemeDateHelpers
 
   def expect_invalid_attribute_with_message(record, attribute, value, message)
     error_attribute = attribute if error_attribute.nil?

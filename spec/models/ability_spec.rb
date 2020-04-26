@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'cancan/matchers'
+require 'support/shared_examples_for_claim_types'
 
 RSpec.shared_examples 'user cannot' do |user, actions|
   actions.each do |action|

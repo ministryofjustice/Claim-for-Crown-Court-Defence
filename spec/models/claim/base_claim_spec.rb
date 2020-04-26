@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'support/shared_examples_for_claim_types'
 
 class MockBaseClaim < Claim::BaseClaim
   SUBMISSION_STAGES = [

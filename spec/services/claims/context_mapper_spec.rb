@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'support/shared_examples_for_claim_types'
 
 RSpec.describe Claims::ContextMapper do
   # NOTE: the external user claim controller spec also test this to a degree

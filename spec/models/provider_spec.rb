@@ -15,6 +15,7 @@
 #
 
 require 'rails_helper'
+require 'support/shared_examples_for_claim_types'
 
 RSpec.describe Provider, type: :model do
   let(:firm) { create(:provider, :firm) }

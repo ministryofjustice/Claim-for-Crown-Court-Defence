@@ -14,6 +14,7 @@
 #
 
 require 'rails_helper'
+require 'support/shared_examples_for_claim_types'
 
 RSpec.describe ExternalUser, type: :model do
   it_behaves_like 'roles', ExternalUser, ExternalUser::ROLES

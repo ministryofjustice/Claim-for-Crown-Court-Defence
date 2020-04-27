@@ -65,22 +65,24 @@ RSpec.describe TimedTransitions::Transitioner do
   end
 
   describe '#run' do
-    context 'non dummy run' do
-      context 'transitioning to archived pending delete' do
-        context 'less than 60 days ago' do
-          it 'does not call archive if last state change less than 60 days ago' do
-            claim = double Claim
-            expect(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
-            expect(claim).to receive(:state).and_return('authorised')
-            expect(claim).to receive(:softly_deleted?).and_return(false)
-            transitioner = described_class.new(claim)
-            expect(transitioner).not_to receive(:archive)
-            expect(LogStuff).not_to receive(:info)
+    context 'with non-dummy run' do
+      context 'when transitioning to archived pending delete' do
+        context 'when last state transition less than 16 weeks ago' do
+          subject(:transitioner) { described_class.new(@claim) }
+
+          before do
+            travel_to(15.weeks.ago) do
+              @claim = create(:authorised_claim, case_number: 'A20164444')
+            end
+          end
+
+          it 'does not archive the claim' do
             transitioner.run
+            expect(@claim.reload.state).to eq 'authorised'
           end
         end
 
-        context 'more than 16 weeks ago' do
+        context 'when last state change more than 16 weeks ago' do
           subject(:transitioner) { described_class.new(@claim) }
 
           before do
@@ -94,7 +96,7 @@ RSpec.describe TimedTransitions::Transitioner do
             expect(transitioner.success?).to be true
           end
 
-          it 'calls archive if last state change more than 16 weeks ago' do
+          it 'amends claim state to archived pending delete' do
             transitioner.run
             expect(@claim.reload.state).to eq 'archived_pending_delete'
           end
@@ -106,7 +108,7 @@ RSpec.describe TimedTransitions::Transitioner do
               end
             end
 
-            it 'calls archive if last state change more than 16 weeks ago' do
+            it 'amends claim state to archives pending review' do
               transitioner.run
               expect(@claim.reload.state).to eq 'archived_pending_review'
             end
@@ -214,8 +216,8 @@ RSpec.describe TimedTransitions::Transitioner do
         end
       end
 
-      context 'destroying' do
-        context 'soft-deleted claim more than 16 weeks ago' do
+      context 'when destroying' do
+        context 'when claim softly-deleted more than 16 weeks ago' do
           let(:claim) { create :archived_pending_delete_claim }
 
           it 'destroys the claim' do
@@ -233,7 +235,7 @@ RSpec.describe TimedTransitions::Transitioner do
           context 'for hardship claims' do
             let(:claim) { create :advocate_hardship_claim }
 
-            context 'it was soft-deleted 17 weeks ago' do
+            context 'when claim softly-deleted 17 weeks ago' do
               before { travel_to(17.weeks.ago) { claim.soft_delete } }
 
               it 'deletes the application' do
@@ -244,19 +246,23 @@ RSpec.describe TimedTransitions::Transitioner do
           end
         end
 
-        context 'less than 60 days ago' do
-          it 'does not call destroy if last state change less than 16 weeks ago' do
-            claim = double Claim
-            expect(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
-            expect(claim).to receive(:state).and_return('archived_pending_delete')
-            expect(claim).to receive(:softly_deleted?).and_return(false)
-            transitioner = described_class.new(claim)
+        context 'when last state transition less than 16 weeks ago' do
+          subject(:transitioner) { described_class.new(claim) }
+          let(:claim) { double Claim }
+
+          before do
+            allow(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
+            allow(claim).to receive(:state).and_return('archived_pending_delete')
+            allow(claim).to receive(:softly_deleted?).and_return(false)
+          end
+
+          it 'does not call destroy' do
             expect(transitioner).not_to receive(:destroy_claim)
             transitioner.run
           end
         end
 
-        context 'more than 16 weeks ago' do
+        context 'when last state transition more than 16 weeks ago' do
           before do
             travel_to(17.weeks.ago) do
               @claim = create :litigator_claim, :archived_pending_delete, case_number: 'A20164444'
@@ -265,7 +271,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
           after(:all) { clean_database }
 
-          it 'destroys if last state change more than 60 days ago' do
+          it 'destroys the claims' do
             described_class.new(@claim).run
             expect(Claim::BaseClaim.where(id: @claim.id)).to be_empty
           end
@@ -346,22 +352,26 @@ RSpec.describe TimedTransitions::Transitioner do
       end
     end
 
-    context 'dummy run' do
-      context 'transitioning to archived pending delete' do
-        context 'less than 60 days ago' do
-          it 'does not call archive if last state change less than 60 days ago' do
-            claim = double Claim
-            expect(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
-            expect(claim).to receive(:state).and_return('authorised')
-            expect(claim).to receive(:softly_deleted?).and_return(false)
-            transitioner = described_class.new(claim, true)
+    context 'with dummy run' do
+      context 'when transitioning to archived pending delete' do
+        context 'when last state transition less than 16 weeks ago' do
+          subject(:transitioner) { described_class.new(claim) }
+          let(:claim) { double Claim }
+
+          before do
+            allow(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
+            allow(claim).to receive(:state).and_return('authorised')
+            allow(claim).to receive(:softly_deleted?).and_return(false)
+          end
+
+          it 'does not call archive on claim' do
             expect(transitioner).not_to receive(:archive)
             expect(LogStuff).not_to receive(:debug)
             transitioner.run
           end
         end
 
-        context 'more than 16 weeks ago' do
+        context 'when last state transition more than 16 weeks ago' do
           before do
             travel_to(17.weeks.ago) do
               @claim = create :authorised_claim, case_number: 'A20164444'
@@ -394,21 +404,25 @@ RSpec.describe TimedTransitions::Transitioner do
         end
       end
 
-      context 'destroying' do
-        context 'less than 60 days ago' do
-          it 'does not call destroy if last state change less than 16 weeks ago' do
-            claim = double Claim
-            expect(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
-            expect(claim).to receive(:state).and_return('archived_pending_delete')
-            expect(claim).to receive(:softly_deleted?).and_return(false)
-            transitioner = described_class.new(claim, true)
+      context 'when destroying' do
+        context 'when last state transition less than 16 weeks ago' do
+          subject(:transitioner) { described_class.new(claim) }
+          let(:claim) { double Claim }
+
+          before do
+            allow(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
+            allow(claim).to receive(:state).and_return('archived_pending_delete')
+            allow(claim).to receive(:softly_deleted?).and_return(false)
+          end
+
+          it 'does not call archive on claim' do
             expect(transitioner).not_to receive(:destroy_claim)
             expect(LogStuff).not_to receive(:debug)
             transitioner.run
           end
         end
 
-        context 'more than 16 weeks ago' do
+        context 'when last state transition more than 16 weeks ago' do
           before do
             travel_to(17.weeks.ago) do
               @claim = create :litigator_claim, :archived_pending_delete, case_number: 'A20164444'

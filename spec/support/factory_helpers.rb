@@ -1,5 +1,9 @@
+require_relative 'scheme_date_helpers'
+
 module FactoryHelpers
-    def add_defendant_and_reporder(claim, representation_order_date = nil)
+  include SchemeDateHelpers
+
+  def add_defendant_and_reporder(claim, representation_order_date = nil)
     defendant = if representation_order_date
                   create(:defendant, :without_reporder, claim: claim)
                 else

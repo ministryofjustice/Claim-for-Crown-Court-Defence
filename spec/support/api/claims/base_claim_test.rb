@@ -1,9 +1,9 @@
 require_relative 'debuggable'
-require_relative '../../test_helpers'
+require_relative '../../scheme_date_helpers'
 
 class BaseClaimTest
   include Debuggable
-  include TestHelpers
+  include SchemeDateHelpers
 
   attr_accessor :client, :claim_uuid
 

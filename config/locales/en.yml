@@ -1548,6 +1548,8 @@ en:
           quantity: Total pages of evidence
           quantity_hint: At the time the claim is made
           amount: *net_amount
+          help_how_we_calculate_amount_title: *how_is_this_calculated_help
+          help_how_we_calculate_amount_body: We calculate the amount based upon the fee scheme and the total pages of evidence'
         summary:
           caption: 'Hardship Fees: This section contains details of any hardship fees that have been claimed.'
           change: Change

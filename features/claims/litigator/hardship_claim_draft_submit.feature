@@ -1,8 +1,8 @@
 @javascript
-Feature: Litigator partially fills out a draft interim claim, then later edits and submits it
+Feature: Litigator completes a hardship claim
 
   @fee_calc_vcr
-  Scenario: I create a hardship claim, save it to draft and later complete it
+  Scenario: I create a hardship claim
 
     Given I am a signed in litigator
     And My provider has supplier numbers
@@ -17,18 +17,9 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I select a case type of 'Trial'
     And I enter a case number of 'A20201234'
 
-    And I should see a page title "Enter case details for litigator hardship fees claim"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I should see a page title "Enter defendant details for litigator hardship fees claim"
-    And I save as draft
-    Then I should see 'Draft claim saved'
-
-    Given I am later on the Your claims page
-    Then Claim 'A20201234' should be listed with a status of 'Draft'
-
-    When I click the claim 'A20201234'
-    And I edit the claim's defendants
 
     And I enter defendant, LGFS representation order and MAAT reference
     And I add another defendant, LGFS representation order and MAAT reference
@@ -45,8 +36,8 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     When I click "Continue" in the claim form
 
     And I should be in the 'Hardship fee' form page
-    When I enter '3000' in the PPE total hardship fee field
-    And I enter '30.00' in the net amount hardship fee field
+    When I enter '50' in the PPE total hardship fee field
+    Then the hardship fee amount should be populated with '429.12'
     And I eject the VCR cassette
 
     Then I click "Continue" in the claim form and move to the 'Miscellaneous fees' form page
@@ -69,8 +60,8 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I should see 'G: Other offences of dishonesty between £30,001 and £100,000'
 
     And I should see 'Hardship fees'
-    And I should see 'PPE total at the time 3000'
-    And I should see 'Net amount £30.00'
+    And I should see 'PPE total at the time 50'
+    And I should see 'Net amount £429.12'
 
 
     And I should see 'hardship.pdf'
@@ -86,4 +77,4 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20201234' should be listed with a status of 'Submitted' and a claimed amount of '£30.00'
+    And Claim 'A20201234' should be listed with a status of 'Submitted' and a claimed amount of '£429.12'

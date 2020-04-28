@@ -842,6 +842,7 @@ en:
         agfs_hardship_hint: For advance payments in exceptional circumstances
         agfs_interim_rb: Advocate warrant fee
         agfs_interim_hint: For warrant fee claims with the earliest representation order dated on or after 1 April 2018
+        lgfs_hardship_hint_html: For advance payments where PTPH is yet to take place, or has been adjourned for a further PTPH/case management hearing see <a href="#" target="_blank" rel="external" title="COVID 19 Remuneration Regulations">COVID 19 Remuneration Regulations</a> for full details
         claim_type_prompt_section_heading: 'What would you like to do?'
         choose_claim_type_prompt_text: Choose your bill type
         errors:

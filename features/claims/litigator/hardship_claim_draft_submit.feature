@@ -41,8 +41,6 @@ Feature: Litigator completes a hardship claim
     And I eject the VCR cassette
 
     Then I click "Continue" in the claim form and move to the 'Miscellaneous fees' form page
-    Then I click "Continue" in the claim form and move to the 'Disbursements' form page
-    Then I click "Continue" in the claim form and move to the 'Travel expenses' form page
     Then I click "Continue" in the claim form and move to the 'Supporting evidence' form page
 
     And I should see a page title "Upload supporting evidence for litigator hardship fees claim"

@@ -113,7 +113,7 @@
         %td.numeric
           = claim.misc_fees_gross
 
-    - if claim.respond_to? :expenses_total
+    - if claim.respond_to?(:expenses_total) && !claim.hardship?
       %tr.fx-seed-expenses{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_expenses_total, 'seed-vat': claim.raw_expenses_vat } }
         %td
           = t('shared.summary.expenses.travel_expenses')

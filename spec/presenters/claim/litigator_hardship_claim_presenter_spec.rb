@@ -59,8 +59,7 @@ RSpec.describe Claim::LitigatorHardshipClaimPresenter, type: :presenter do
         defendants: :defendants,
         offence_details: :offence_details,
         hardship_fee: :hardship_fees,
-        disbursements: :disbursements,
-        expenses: :travel_expenses,
+        misc_fees: :miscellaneous_fees,
         supporting_evidence: :supporting_evidence,
         additional_information: :supporting_evidence
       })

@@ -4,9 +4,8 @@ class Claim::LitigatorHardshipClaimSubModelValidator < Claim::BaseClaimSubModelV
       case_details: [],
       defendants: [],
       offence_details: [],
-      # fixed_fees: [{ name: :fixed_fee }],
-      # graduated_fees: [{ name: :graduated_fee }],
-      hardship_fees: [{ name: :hardship_fee, options: { presence: true } }]
+      hardship_fees: [{ name: :hardship_fee, options: { presence: true } }],
+      miscellaneous_fees: []
     }
   end
 
@@ -16,8 +15,6 @@ class Claim::LitigatorHardshipClaimSubModelValidator < Claim::BaseClaimSubModelV
       defendants: [{ name: :defendants, options: { presence: true } }],
       offence_details: [],
       miscellaneous_fees: [{ name: :misc_fees }],
-      disbursements: [{ name: :disbursements }],
-      travel_expenses: [{ name: :expenses }],
       supporting_evidence: [{ name: :documents }]
     }
   end

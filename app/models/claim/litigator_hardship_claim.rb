@@ -50,20 +50,6 @@ module Claim
       {
         name: :miscellaneous_fees,
         transitions: [
-          { to_stage: :disbursements }
-        ],
-        dependencies: %i[hardship_fees]
-      },
-      {
-        name: :disbursements,
-        transitions: [
-          { to_stage: :travel_expenses }
-        ],
-        dependencies: %i[hardship_fees]
-      },
-      {
-        name: :travel_expenses,
-        transitions: [
           { to_stage: :supporting_evidence }
         ],
         dependencies: %i[hardship_fees]
@@ -108,8 +94,6 @@ module Claim
       # not impact anything API related
       return if from_api?
       assign_fees_total(%i[hardship_fee misc_fees]) if fees_changed?
-      assign_disbursements_total if disbursements_changed?
-      assign_expenses_total if expenses_changed?
       return unless total_changes_required?
       assign_total
       assign_vat
@@ -118,9 +102,7 @@ module Claim
     def total_changes_required?
       [
         hardship_fee_changed?,
-        misc_fees_changed?,
-        expenses_changed?,
-        disbursements_changed?
+        misc_fees_changed?
       ].any?
     end
 
@@ -130,10 +112,6 @@ module Claim
 
     def hardship_fee_changed?
       hardship_fee&.changed?
-    end
-
-    def disbursements_changed?
-      disbursements.any?(&:changed?)
     end
   end
 end

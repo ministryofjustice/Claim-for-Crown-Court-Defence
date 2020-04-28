@@ -47,7 +47,10 @@ namespace :claims do
 
   desc 'Creates sample users'
   task :sample_users => :environment do
-    load File.join(Rails.root, 'lib', 'demo_data', 'demo_seeds.rb')
+    %w(external_users case_workers).each do |seed|
+      puts "Seeding '#{seed}'..."
+      load File.join(Rails.root, 'lib', 'demo_data', 'demo_seeds', "#{seed}.rb")
+    end
   end
 
   desc 'ADP Task: Loads dummy claims'
@@ -61,11 +64,11 @@ namespace :claims do
     Rake::Task['claims:demo_data:transfers'].invoke(params[:num_claims_per_state], params[:num_external_users])
   end
 
-  namespace  :demo_data do
+  namespace :demo_data do
     desc 'ADP Task: Load seed data and demo external users, providers and case workers [num_claims_per_state=1, num_claims_per_user=1]'
     task :seed do
       Rake::Task['db:seed'].invoke
-      load File.join(Rails.root, 'lib', 'demo_data', 'demo_seeds.rb')
+      Rake::Task['claims:sample_users'].invoke
     end
 
     desc 'ADP Task: Load demo data Advocate Claims [num_claims_per_state=1, num_claims_per_user=1]'

@@ -25,7 +25,7 @@ module Claims
       end
 
       def primary_fee_types
-        @primary_fee_types ||= all.select do |unique_code, _mappinmgs|
+        @primary_fee_types ||= all.select do |unique_code, _mappings|
           primary_fee_type_codes.include?(unique_code)
         end
       end

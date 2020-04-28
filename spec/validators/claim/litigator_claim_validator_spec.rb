@@ -8,7 +8,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
   let(:litigator) { build(:external_user, :litigator) }
   let(:claim) { create(:litigator_claim) }
 
-  include_examples "common advocate litigator validations", :litigator
+  include_examples 'common advocate litigator validations', :litigator
   include_examples "common litigator validations"
 
   include_examples 'common partial validations', {

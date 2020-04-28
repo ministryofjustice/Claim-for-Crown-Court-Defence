@@ -129,10 +129,6 @@ advocate_category:
 
 case_type:
   _seq: 30
-  case_stage_blank:
-    long: Choose a case stage
-    short: Choose a case stage
-    api: Choose a case stage
   blank:
     long: Choose a case type
     short: Choose a case type
@@ -141,6 +137,28 @@ case_type:
     long: Choose an eligible case type
     short: Choose an eligible case type
     api: Choose an eligible case type
+
+case_type_id:
+  _seq: 30
+  present:
+    long: case_type_id not allowed (choose a case stage for hardship claims?)
+    short: case_type_id not allowed
+    api: case_type_id not allowed (choose a case stage for hardship claims?)
+
+case_stage:
+  _seq: 31
+  blank:
+    long: Choose a case stage
+    short: Choose a case stage
+    api: Choose a case stage
+  present:
+    long: Case stage not allowed
+    short: Case stage not allowed
+    api: Case stage not allowed
+  inclusion:
+    long: Choose an eligible case stage
+    short: Choose an eligible case stage
+    api: Choose an eligible case stage
 
 court:
   _seq: 40

@@ -1,5 +1,5 @@
 NON_TRUNCATED_TABLES ||= %w(
-  vat_rates courts offence_classes offences case_types fee_types certification_types expense_types disbursement_types
+  vat_rates courts offence_classes offences case_types case_stages fee_types certification_types expense_types disbursement_types
   offence_bands offence_categories offence_fee_schemes fee_schemes establishments
 )
 
@@ -30,6 +30,7 @@ end
 Before do
   unless ($seed_done ||= false)
 
+    # IMPORTANT - add any seeded tables to list of NON_TRUNCATED_TABLES
     ActiveRecord::Base.connection.reset_pk_sequence!('offences')
     load "#{Rails.root}/db/seeds/courts.rb"
     load "#{Rails.root}/db/seeds/offence_classes.rb"
@@ -37,6 +38,7 @@ Before do
     load "#{Rails.root}/db/seeds/scheme_10.rb"
     load "#{Rails.root}/db/seeds/scheme_11.rb"
     load "#{Rails.root}/db/seeds/case_types.rb"
+    load "#{Rails.root}/db/seeds/case_stages.rb"
     load "#{Rails.root}/db/seeds/fee_types.rb"
     load "#{Rails.root}/db/seeds/certification_types.rb"
     load "#{Rails.root}/db/seeds/disbursement_types.rb"

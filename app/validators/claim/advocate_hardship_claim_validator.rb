@@ -5,7 +5,8 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
   def self.fields_for_steps
     {
       case_details: %i[
-        case_type
+        case_type_id
+        case_stage
         court
         case_number
         case_transferred_from_another_court
@@ -35,9 +36,15 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
 
   private
 
-  def validate_case_type
-    validate_presence(:case_type, 'case_stage_blank')
-    validate_inclusion(:case_type, @record.eligible_case_types, 'inclusion')
+  # NOTE**: case_type is delegated to case_stage for hardship claims
+  # and should not exist directly on the claim
+  def validate_case_type_id
+    validate_absence(:case_type_id, 'present')
+  end
+
+  def validate_case_stage
+    validate_presence(:case_stage, 'blank')
+    validate_inclusion(:case_stage, @record.eligible_case_stages, 'inclusion')
   end
 
   def validate_offence

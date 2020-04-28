@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-shared_examples_for 'roles' do |klass, roles|
-
+RSpec.shared_examples_for 'roles' do |klass, roles|
   let(:factory_name)  { klass.name.demodulize.to_s.underscore.to_sym }
 
   describe 'validation' do
@@ -10,7 +9,8 @@ shared_examples_for 'roles' do |klass, roles|
 
     it 'should be valid when a valid role is present' do
       assigned_roles << roles.first
-      expect(subject).to be_valid
+      subject.valid?
+      expect(subject.errors[:roles]).to be_empty
     end
 
     it 'should not be valid with an invalid role' do

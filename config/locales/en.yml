@@ -160,6 +160,7 @@ en:
     attributes:
       claims:
         case_type: &case_type Case type
+        case_stage: &case_stage Case stage
         offence: &offence Offence
       users:
         roles: &roles 'Roles'
@@ -1008,7 +1009,7 @@ en:
           case_type: Case type
           case_type_hint: For example Trial
           stage_type: What stage has the case reached?
-          stage_type_hint: Choose from list
+          stage_type_hint: For example Trial started but not concluded
         cracked_trial_fields:
           cracked_trial_details: Cracked trial details
           trial_cracked_at: Case cracked on
@@ -1023,6 +1024,7 @@ en:
           case_number: 'Case number'
           case_number_hint: For example T20170101
           case_type: *case_type
+          case_stage: *case_stage
           court: 'Court'
           court_hint: For example Cardiff
           cracked_trial_detail: 'Cracked trial detail'
@@ -1891,7 +1893,8 @@ en:
       case: Case
       case_cracked: Case cracked in
       case_num: Case number
-      case_type: Case type
+      case_type: *case_type
+      case_stage: *case_stage
       case_worker: Case worker
       defendant: Defendant names
       j_a: Judicial apportionment

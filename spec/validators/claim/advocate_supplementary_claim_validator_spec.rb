@@ -16,7 +16,7 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
     clean_database
   end
 
-  include_examples "common advocate litigator validations", :advocate, case_type: false
+  include_examples 'common advocate litigator validations', :advocate, case_type: false
   include_examples 'advocate claim case concluded at'
   include_examples 'advocate claim external user role'
   include_examples 'advocate claim creator role'

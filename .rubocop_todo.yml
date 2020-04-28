@@ -25,7 +25,10 @@ Metrics/AbcSize:
 # Offense count: 24
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 485
+  Max: 302
+  Exclude:
+    - 'app/models/claim/base_claim.rb'
+    - 'app/controllers/external_users/claims_controller.rb'
 
 # Offense count: 68
 # Configuration parameters: CountComments, ExcludedMethods.

@@ -9,7 +9,7 @@ RSpec.describe Claim::AdvocateHardshipClaimSubModelValidator, type: :validator d
       case_details: [],
       defendants: [],
       offence_details: [],
-      miscellaneous_fees: [{ name: :interim_claim_info }],
+      miscellaneous_fees: [],
     },
     has_many: {
       case_details: [],

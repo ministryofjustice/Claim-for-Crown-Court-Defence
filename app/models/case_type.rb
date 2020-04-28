@@ -21,6 +21,8 @@ class CaseType < ApplicationRecord
   ROLES = %w[lgfs agfs interim].freeze
   include Roles
 
+  has_many :case_stages, dependent: :destroy
+
   auto_strip_attributes :name, squish: true, nullify: true
 
   default_scope -> { order(name: :asc) }

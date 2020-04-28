@@ -9,7 +9,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
 
   before { seed_fee_schemes }
 
-  include_examples "common advocate litigator validations", :advocate
+  include_examples 'common advocate litigator validations', :advocate
   include_examples 'advocate claim case concluded at'
   include_examples 'advocate claim external user role'
   include_examples 'advocate claim creator role'

@@ -36,6 +36,7 @@ module Claim
     belongs_to :external_user
     belongs_to :creator, foreign_key: 'creator_id', class_name: 'ExternalUser'
     belongs_to :case_type
+    belongs_to :case_stage
 
     delegate :provider_id, :provider, to: :creator
     delegate :requires_trial_dates?, :requires_retrial_dates?, to: :case_type, allow_nil: true

@@ -50,10 +50,6 @@ RSpec.describe 'Hardship claims', type: :request do
         expect(assigns(:case_stages)).to all(be_a(CaseStage))
       end
 
-      it 'builds interim claim info' do
-        expect(assigns(:claim).interim_claim_info).to be_present
-      end
-
       it 'routes to advocates new hardship claim path' do
         expect(request.path).to eq new_advocates_hardship_claim_path
       end

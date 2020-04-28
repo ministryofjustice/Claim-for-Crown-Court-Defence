@@ -27,35 +27,7 @@ RSpec.describe Claim::AdvocateHardshipClaimPresenter, type: :presenter do
   describe '#requires_interim_claim_info?' do
     subject { presenter.requires_interim_claim_info? }
 
-    before { seed_fee_schemes }
-
-    context 'when claim is pre agfs reform' do
-      let(:claim) { create(:advocate_hardship_claim, :agfs_scheme_9) }
-
-      it { is_expected.to be_falsey }
-    end
-
-    context 'when claim is post agfs reform' do
-      let(:claim) { create(:advocate_hardship_claim, :agfs_scheme_10) }
-
-      it { is_expected.to be_truthy }
-    end
-  end
-
-  describe '#requires_interim_claim_info?' do
-    subject { presenter.requires_interim_claim_info? }
-
-    context 'when claim is scheme 10+' do
-      before { allow(claim).to receive(:agfs_reform?).and_return true }
-
-      it { is_expected.to be_truthy }
-    end
-
-    context 'when claim is scheme 9-' do
-      before { allow(claim).to receive(:agfs_reform?).and_return false }
-
-      it { is_expected.to be_falsey }
-    end
+    it { is_expected.to be_falsey }
   end
 
   describe '#mandatory_case_details?' do

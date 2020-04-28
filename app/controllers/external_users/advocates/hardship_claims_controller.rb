@@ -7,7 +7,6 @@ class ExternalUsers::Advocates::HardshipClaimsController < ExternalUsers::Claims
 
   def build_nested_resources
     @case_stages = @claim.eligible_case_stages.chronological
-    @claim.build_interim_claim_info if @claim.interim_claim_info.nil?
 
     %i[misc_fees expenses].each do |association|
       build_nested_resource(@claim, association)

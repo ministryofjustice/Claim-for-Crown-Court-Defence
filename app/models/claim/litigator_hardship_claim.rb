@@ -84,10 +84,6 @@ module Claim
       provider
     end
 
-    # def cleaner
-    #   LitigatorHardshipClaimCleaner.new(self)
-    # end
-
     def assign_total_attrs
       # TODO: understand if this check is really needed
       # left it here mostly to ensure the new changes do

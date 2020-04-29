@@ -96,6 +96,52 @@ describe ExternalUsers::ClaimsHelper do
     end
   end
 
+  describe '#show_hardship_claims_banner_to_user?' do
+    let(:current_user) { create(:external_user, :advocate).user }
+    let(:user_settings) { {} }
+
+    before do
+      allow(Settings).to receive(:hardship_claims_banner_enabled?).and_return(hardship_claims_banner_enabled)
+      allow(current_user).to receive(:settings).and_return(user_settings)
+      allow(helper).to receive(:current_user).and_return(current_user)
+    end
+
+    context 'feature flag enabled' do
+      let(:hardship_claims_banner_enabled) { true }
+
+      context 'user is not an external user' do
+        let(:current_user) { create(:case_worker).user }
+
+        it 'should return false' do
+          expect(helper.show_hardship_claims_banner_to_user?).to be_falsey
+        end
+      end
+
+      context 'user has not seen yet the promo' do
+        it 'should return true' do
+          expect(helper.show_hardship_claims_banner_to_user?).to be_truthy
+        end
+      end
+
+      context 'user has seen/dismissed the banner' do
+        let(:user_settings) { {hardship_claims_banner_seen: '1'} }
+
+        it 'should return false' do
+          expect(helper.show_hardship_claims_banner_to_user?).to be_falsey
+        end
+      end
+    end
+
+    context 'feature flag disabled' do
+      let(:hardship_claims_banner_enabled) { false }
+
+      it 'should return false regardless of the user setting' do
+        expect(helper).not_to receive(:current_user)
+        expect(helper.show_hardship_claims_banner_to_user?).to be_falsey
+      end
+    end
+  end
+
   describe 'url_for_referrer' do
     let(:claim) { create(:advocate_claim) }
 

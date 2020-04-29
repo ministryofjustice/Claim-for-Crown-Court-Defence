@@ -33,4 +33,6 @@ class PagesController < ApplicationController
   end
 
   def timed_retention; end
+
+  def hardship_claims; end
 end

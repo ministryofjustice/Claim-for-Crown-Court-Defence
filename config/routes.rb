@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get '/tandcs',        to: 'pages#tandcs',           as: :tandcs_page
   get '/contact_us',    to: 'pages#contact_us',       as: :contact_us_page
   get '/timed_retention', to: 'pages#timed_retention', as: :timed_retention_page
+  get '/hardship_claims', to: 'pages#hardship_claims', as: :hardship_claims_page
   get '/api/landing',   to: 'pages#api_landing',      as: :api_landing_page
   get '/api/release_notes',   to: 'pages#api_release_notes', as: :api_release_notes
 

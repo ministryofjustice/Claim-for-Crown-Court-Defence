@@ -60,19 +60,19 @@
           %dd.govuk-summary-list__value
             = claim.transfer_case_number
 
-      - if claim.case_type&.name
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('case_type', scope: claim_fields)
-          %dd.govuk-summary-list__value
-            = claim.case_type&.name
-
-      - if claim.case_stage&.description
+      - if claim.case_stage
         .govuk-summary-list__row
           %dt.govuk-summary-list__key
             = t('case_stage', scope: claim_fields)
           %dd.govuk-summary-list__value
             = claim.case_stage&.description
+
+      - elsif claim.case_type
+        .govuk-summary-list__row
+          %dt.govuk-summary-list__key
+            = t('case_type', scope: claim_fields)
+          %dd.govuk-summary-list__value
+            = claim.case_type&.name
 
       - if claim.requires_case_concluded_date?
         .govuk-summary-list__row

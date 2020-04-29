@@ -85,11 +85,12 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
       | section | prompt | value |
       | case-details-section | Crown court | Caernarfon |
       | case-details-section | Case number | A20201234 |
-      | case-details-section | Case type | Trial |
       | case-details-section | Case stage | Trial started but not concluded |
       | offence-details-section | Class | Offences Against the Public Interest |
       | offence-details-section | Band | 8.1 |
       | offence-details-section | Category | Harbouring escaped prisoner |
+
+    And I should not see 'Case type'
 
     And the following check your claim fee details should exist:
       | section | row | prompt | value |

@@ -1,7 +1,8 @@
 module SeedHelper
   class << self
-    def find_or_create_case_stage!(options)
+    def update_or_create_case_stage!(options)
       stage = CaseStage.find_by(unique_code: options[:unique_code])
+      stage.update!(options) if stage
       stage = CaseStage.create!(options) unless stage
       stage
     end

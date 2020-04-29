@@ -2,19 +2,18 @@
   = f.fields_for :hardship_fee do |hf|
     - fee = present(hf.object)
     .form-section.fx-fee-group.hardship-fee-group.js-block.fx-do-init{data:{"type": "hardshipFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlock"}}
-      -# = hf.hidden_field :fee_type_id, value: Fee::HardshipFeeType.find_by_id_or_unique_code('HARDSHIP').id, class: 'js-fee-type'
-      -# = hf.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id, class: 'js-fee-type'
       = hf.hidden_field :fee_type_id, value: fee.fee_type.id, class: 'js-fee-type'
 
-      .js-fee-calculator-effector
-        = hf.adp_text_field :quantity,
-          label: t('.quantity'),
-          hint_text: t('.quantity_hint'),
-          input_classes:'quantity fee-quantity js-fee-calculator-ppe form-control-1-4',
-          input_type: 'number',
-          value: fee.quantity,
-          errors: @error_presenter,
-          error_key:'hardship_fee.quantity'
+      - if @claim.case_type.is_fixed_fee?
+        .js-fee-calculator-effector
+          = hf.adp_text_field :quantity,
+            label: t('.quantity'),
+            hint_text: t('.quantity_hint'),
+            input_classes:'quantity fee-quantity js-fee-calculator-ppe form-control-1-4',
+            input_type: 'number',
+            value: fee.quantity,
+            errors: @error_presenter,
+            error_key:'hardship_fee.quantity'
 
       .js-graduated-price-effectee
         .calculated-grad-fee

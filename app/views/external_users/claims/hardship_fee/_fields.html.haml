@@ -4,7 +4,7 @@
     .form-section.fx-fee-group.hardship-fee-group.js-block.fx-do-init{data:{"type": "hardshipFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlock"}}
       = hf.hidden_field :fee_type_id, value: fee.fee_type.id, class: 'js-fee-type'
 
-      - if @claim.case_type.is_fixed_fee?
+      - if @claim.case_stage.unique_code.eql?('NOPTPHWPPE')
         .js-fee-calculator-effector
           = hf.adp_text_field :quantity,
             label: t('.quantity'),

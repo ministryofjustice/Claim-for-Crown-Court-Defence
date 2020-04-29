@@ -83,10 +83,20 @@ SeedHelper.update_or_create_case_stage!(
   roles: %w(agfs)
 )
 
-SeedHelper.find_or_create_case_stage!(
-    description: 'PTPH not happened or been adjourned',
-    unique_code: 'PTPHNYC',
-    position: 90,
-    case_type_id: CaseType.find_by(fee_type_code: 'GRTRL').id,
-    roles: %w(lgfs)
+SeedHelper.update_or_create_case_stage!(
+  id:9,
+  description: 'Pre PTPH (evidence served)',
+  unique_code: 'NOPTPHWPPE',
+  position: 90,
+  case_type_id: CaseType.find_by(fee_type_code: 'GRGLT').id,
+  roles: %w(lgfs)
+)
+
+SeedHelper.update_or_create_case_stage!(
+  id: 10,
+  description: 'Pre PTPH (no evidence served)',
+  unique_code: 'NOPTPHNOPPE',
+  position: 100,
+  case_type_id: CaseType.find_by(fee_type_code: 'GRDIS').id,
+  roles: %w(lgfs)
 )

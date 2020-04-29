@@ -21,19 +21,19 @@ http_interactions:
       Server:
       - nginx/1.17.8
       Date:
-      - Wed, 29 Apr 2020 15:11:45 GMT
+      - Wed, 29 Apr 2020 15:16:16 GMT
       Content-Type:
       - application/json
       Content-Length:
       - '156'
       Connection:
       - keep-alive
-      Vary:
-      - Accept, Cookie
       X-Frame-Options:
       - SAMEORIGIN
       Allow:
       - GET, HEAD, OPTIONS
+      Vary:
+      - Accept, Cookie
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
@@ -41,7 +41,7 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
     http_version: null
-  recorded_at: Wed, 29 Apr 2020 15:11:45 GMT
+  recorded_at: Wed, 29 Apr 2020 15:16:16 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator-staging.apps.live-1.cloud-platform.service.justice.gov.uk/api/v1/fee-schemes/2/scenarios/
@@ -63,7 +63,7 @@ http_interactions:
       Server:
       - nginx/1.17.8
       Date:
-      - Wed, 29 Apr 2020 15:11:45 GMT
+      - Wed, 29 Apr 2020 15:16:16 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -126,10 +126,10 @@ http_interactions:
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
     http_version: null
-  recorded_at: Wed, 29 Apr 2020 15:11:45 GMT
+  recorded_at: Wed, 29 Apr 2020 15:16:16 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator-staging.apps.live-1.cloud-platform.service.justice.gov.uk/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=G&pages_of_prosecuting_evidence=0&scenario=2
+    uri: https://laa-fee-calculator-staging.apps.live-1.cloud-platform.service.justice.gov.uk/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=G&pages_of_prosecuting_evidence=0&scenario=1
     body:
       encoding: US-ASCII
       string: ''
@@ -148,24 +148,24 @@ http_interactions:
       Server:
       - nginx/1.17.8
       Date:
-      - Wed, 29 Apr 2020 15:11:45 GMT
+      - Wed, 29 Apr 2020 15:16:16 GMT
       Content-Type:
       - application/json
       Content-Length:
       - '17'
       Connection:
       - keep-alive
-      Allow:
-      - GET
-      X-Frame-Options:
-      - SAMEORIGIN
       Vary:
       - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+      Allow:
+      - GET
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"amount":234.97}'
+      string: '{"amount":117.49}'
     http_version: null
-  recorded_at: Wed, 29 Apr 2020 15:11:45 GMT
+  recorded_at: Wed, 29 Apr 2020 15:16:16 GMT
 recorded_with: VCR 5.1.0

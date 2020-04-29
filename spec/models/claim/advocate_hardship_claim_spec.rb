@@ -1,3 +1,46 @@
+RSpec.shared_examples 'hardship cracked trial' do
+  subject { claim.trial_cracked_at }
+
+  let(:claim) { build(:advocate_hardship_claim, case_stage: case_stage, **cracked_details) }
+
+  let(:cracked_details) do
+    {
+      trial_fixed_notice_at: Date.current - 3.days,
+      trial_fixed_at: Date.current - 1,
+      trial_cracked_at: nil,
+      trial_cracked_at_third: 'final_third'
+    }
+  end
+
+  context 'when the claim is not yet saved' do
+    it { is_expected.to eql nil }
+  end
+
+  context 'when the claim is saved' do
+    before do
+      travel_to(1.week.ago) do
+        claim.save
+      end
+    end
+
+    it 'sets trial_cracked_at to date saved' do
+      is_expected.to eql 1.week.ago.to_date
+    end
+  end
+
+  context 'when they submit the claim' do
+    before do
+      travel_to(1.week.ago) do
+        claim.save
+      end
+    end
+
+    it 'sets trial_cracked_at on submit!' do
+      expect{ claim.submit! }.to change { claim.trial_cracked_at }.from(1.week.ago.to_date).to(Date.today)
+    end
+  end
+end
+
 RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
   let(:claim) { build(:advocate_hardship_claim) }
 
@@ -100,55 +143,18 @@ RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
   end
 
   describe '#assign_trial_cracked_at' do
-    subject { claim.trial_cracked_at }
-
-    let(:claim) { build(:advocate_hardship_claim, case_stage: case_stage, **cracked_details) }
-
-    let(:cracked_details) {
-      {
-        trial_fixed_notice_at: Date.current - 3.days,
-        trial_fixed_at: Date.current - 1,
-        trial_cracked_at: nil,
-        trial_cracked_at_third: 'final_third'
-      }
-    }
-
     context 'with cracked trial (After PTPH before trial)' do
       let(:case_stage) { create(:case_stage, :cracked_trial) }
 
-      context 'when the claim is not yet saved' do
-        it { is_expected.to eql nil }
-      end
-
-      context 'when the claim is saved' do
-        before do
-          travel_to(1.week.ago) do
-            claim.save
-          end
-        end
-
-        it 'sets trial_cracked_at to date saved' do
-          is_expected.to eql 1.week.ago.to_date
-        end
-      end
-
-      context 'when they submit the claim' do
-        before do
-          travel_to(1.week.ago) do
-            claim.save
-          end
-        end
-
-        it 'sets trial_cracked_at on submit!' do
-          expect{ claim.submit! }.to change { claim.trial_cracked_at }.from(1.week.ago.to_date).to(Date.today)
-        end
+      it_behaves_like 'hardship cracked trial' do
+        let(:case_stage) { create(:case_stage, :cracked_trial) }
       end
     end
 
-    xcontext 'with cracked before trial (Retrial listed but not started)' do
-      let(:case_stage) { create(:case_stage, :retrial_not_started) }
-
-      # TODO: same as above
+    context 'with cracked before trial (Retrial listed but not started)' do
+      it_behaves_like 'hardship cracked trial' do
+        let(:case_stage) { create(:case_stage, :retrial_not_started) }
+      end
     end
   end
 end

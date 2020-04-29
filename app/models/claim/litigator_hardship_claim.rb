@@ -13,6 +13,8 @@ module Claim
             inverse_of: :claim,
             validate: proc { |claim| claim.step_validation_required?(:hardship_fees) }
 
+    delegate :case_type, to: :case_stage, allow_nil: true
+
     accepts_nested_attributes_for :hardship_fee, reject_if: :all_blank, allow_destroy: false
 
     before_validation do
@@ -67,7 +69,11 @@ module Claim
 
     # TODO: applicable case types unknown. limiting to trial and retrial for now
     def eligible_case_types
-      CaseType.interims
+      eligible_case_stages.map(&:case_type)
+    end
+
+    def eligible_case_stages
+      CaseStage.lgfs
     end
 
     def eligible_misc_fee_types

@@ -1013,7 +1013,9 @@ en:
         cracked_trial_fields:
           cracked_trial_details: Cracked trial details
           trial_cracked_at: Case cracked on
-          trial_cracked_at_third: Case cracked in
+          trial_cracked_at_third:
+            default: Case cracked in
+            hardship: If the case cracked today, which third would it be?
           date_hint: 'For example, 31 3 2017'
           trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
           trial_fixed_at: '1st fixed/warned trial'

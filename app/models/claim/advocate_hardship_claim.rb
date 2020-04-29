@@ -28,6 +28,7 @@ module Claim
     before_validation do
       set_supplier_number
       assign_total_attrs
+      assign_cracked_details
     end
 
     SUBMISSION_STAGES = [
@@ -158,6 +159,10 @@ module Claim
         next if fee_type_ids.include?(basic_fee_type.id)
         basic_fees.build(fee_type: basic_fee_type, quantity: 0, amount: 0)
       end
+    end
+
+    def assign_cracked_details
+      self.trial_cracked_at = Date.today if requires_cracked_dates?
     end
 
     def cleaner

@@ -105,7 +105,10 @@
 
         .govuk-summary-list__row
           %dt.govuk-summary-list__key
-            = t('trial_cracked_at_third', scope: cracked_trial_fields)
+            - if claim.hardship?
+              = t('trial_cracked_at_third.hardship', scope: cracked_trial_fields)
+            - else
+              = t('trial_cracked_at_third.default', scope: cracked_trial_fields)
           %dd.govuk-summary-list__value
             = claim&.trial_cracked_at_third&.humanize
 

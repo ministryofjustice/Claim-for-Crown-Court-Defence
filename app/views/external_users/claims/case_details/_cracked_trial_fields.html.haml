@@ -6,12 +6,14 @@
 
   = f.gov_uk_date_field(:trial_fixed_at, legend_text: t('.trial_fixed_at'), legend_class: 'govuk-legend', form_hint_text: t('.date_hint'), id: "trial_fixed_at",error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_fixed_at))
 
-  = f.gov_uk_date_field(:trial_cracked_at, legend_text: t('.trial_cracked_at'), legend_class: 'govuk-legend', form_hint_text: t('.date_hint'), id: "trial_cracked_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_cracked_at))
+  - # = TODO: this needs testing
+  - unless @claim.hardship?
+    = f.gov_uk_date_field(:trial_cracked_at, legend_text: t('.trial_cracked_at'), legend_class: 'govuk-legend', form_hint_text: t('.date_hint'), id: "trial_cracked_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_cracked_at))
 
   .form-group
     %fieldset{"aria-describedby": "radio-control-legend-cracked-trial"}
       %legend#radio-control-legend-cracked-trial.form-label-bold
-        = t('.trial_cracked_at_third')
+        = @claim.hardship? ? t('.trial_cracked_at_third.hardship') : t('.trial_cracked_at_third.default')
 
       = f.collection_radio_buttons(:trial_cracked_at_third, Settings.trial_cracked_at_third, :to_s, :humanize) do |b|
         .multiple-choice

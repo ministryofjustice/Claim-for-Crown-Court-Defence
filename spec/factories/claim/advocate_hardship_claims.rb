@@ -4,10 +4,8 @@ FactoryBot.define do
     case_type { nil }
     case_stage
 
-    after(:build) { |claim| post_build_actions_for_draft_final_claim(claim) }
-
-    trait :submitted do
-      after(:create) { |c| c.submit! }
+    after(:build) do |claim|
+      set_creator(claim)
     end
 
     trait :authorised do

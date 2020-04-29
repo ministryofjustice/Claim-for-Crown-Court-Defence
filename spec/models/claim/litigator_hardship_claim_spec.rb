@@ -39,5 +39,5 @@ RSpec.describe Claim::LitigatorHardshipClaim, type: :model do
     end
   end
 
-  include_examples "common litigator claim attributes"
+  include_examples "common litigator claim attributes", :hardship_claim
 end

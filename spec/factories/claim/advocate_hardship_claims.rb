@@ -5,6 +5,7 @@ FactoryBot.define do
     case_stage
 
     after(:build) do |claim|
+      claim.fees << build(:basic_fee, :baf_fee, claim: claim)
       set_creator(claim)
     end
 

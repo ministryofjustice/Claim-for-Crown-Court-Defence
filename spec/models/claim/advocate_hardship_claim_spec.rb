@@ -135,7 +135,6 @@ RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
       context 'when they submit the claim' do
         before do
           travel_to(1.week.ago) do
-            claim.fees << build(:basic_fee, :baf_fee, claim: claim)
             claim.save
           end
         end

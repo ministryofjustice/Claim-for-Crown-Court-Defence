@@ -342,7 +342,7 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
 
         it 'test setup' do
           expect(claim.defendants.size).to eql 1
-          expect(claim.basic_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[BANDR])
+          expect(claim.basic_fees.map { |f| f.fee_type.unique_code }.sort).to include('BANDR')
         end
 
         it 'should not error' do

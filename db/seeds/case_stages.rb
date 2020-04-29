@@ -11,9 +11,8 @@
 
 require Rails.root.join('db','seed_helper')
 
-ActiveRecord::Base.connection.reset_pk_sequence!(:case_stages)
-
-SeedHelper.find_or_create_case_stage!(
+SeedHelper.update_or_create_case_stage!(
+  id: 1,
   description: 'Pre PTPH',
   unique_code: 'PREPTPH',
   position: 10,
@@ -21,7 +20,8 @@ SeedHelper.find_or_create_case_stage!(
   roles: %w(agfs)
 )
 
-SeedHelper.find_or_create_case_stage!(
+SeedHelper.update_or_create_case_stage!(
+  id: 2,
   description: 'After PTPH before trial',
   unique_code: 'AFTPTPH',
   position: 20,
@@ -29,15 +29,17 @@ SeedHelper.find_or_create_case_stage!(
   roles: %w(agfs)
 )
 
-SeedHelper.find_or_create_case_stage!(
+SeedHelper.update_or_create_case_stage!(
+  id: 3,
   description: 'Trial started but not concluded',
   unique_code: 'TRLSBNC',
   position: 30,
   case_type_id: CaseType.find_by(fee_type_code: 'GRTRL').id,
-  roles: %w(agfs lgfs)
+  roles: %w(agfs)
 )
 
-SeedHelper.find_or_create_case_stage!(
+SeedHelper.update_or_create_case_stage!(
+  id: 4,
   description: 'Guilty plea not yet sentenced',
   unique_code: 'GLTNYS',
   position: 40,
@@ -45,7 +47,8 @@ SeedHelper.find_or_create_case_stage!(
   roles: %w(agfs)
 )
 
-SeedHelper.find_or_create_case_stage!(
+SeedHelper.update_or_create_case_stage!(
+  id: 5,
   description: 'Trial ended not yet sentenced',
   unique_code: 'TRLENYS',
   position: 50,
@@ -53,7 +56,8 @@ SeedHelper.find_or_create_case_stage!(
   roles: %w(agfs)
 )
 
-SeedHelper.find_or_create_case_stage!(
+SeedHelper.update_or_create_case_stage!(
+  id: 6,
   description: 'Retrial listed but not started',
   unique_code: 'RTRLBNS',
   position: 60,
@@ -61,7 +65,8 @@ SeedHelper.find_or_create_case_stage!(
   roles: %w(agfs)
 )
 
-SeedHelper.find_or_create_case_stage!(
+SeedHelper.update_or_create_case_stage!(
+  id: 7,
   description: 'Retrial started but not concluded',
   unique_code: 'RTRSBNC',
   position: 70,
@@ -69,7 +74,8 @@ SeedHelper.find_or_create_case_stage!(
   roles: %w(agfs)
 )
 
-SeedHelper.find_or_create_case_stage!(
+SeedHelper.update_or_create_case_stage!(
+  id: 8,
   description: 'Retrial ended not yet sentenced',
   unique_code: 'RTRENYS',
   position: 80,

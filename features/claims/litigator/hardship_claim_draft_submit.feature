@@ -14,7 +14,7 @@ Feature: Litigator completes a hardship claim
     When I choose the supplier number '1A222Z'
     And I enter a providers reference of 'LGFS test hardship fee for covid-19'
     And I select the court 'Blackfriars'
-    And I select a case type of 'Trial'
+    And I select a case type of 'PTPH not happened or been adjourned'
     And I enter a case number of 'A20201234'
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page

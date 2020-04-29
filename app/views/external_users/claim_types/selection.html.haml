@@ -2,6 +2,7 @@
   = claim_type_page_header(current_user)
 
 = render partial: 'layouts/header', locals: { page_heading: claim_type_prompt_heading_for(current_user) }
+= render partial: 'external_users/shared/hardship_claims_banner'
 
 = form_tag(types_external_users_claims_path, method: 'post') do
   .form-section

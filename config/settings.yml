@@ -79,6 +79,10 @@ api_promo_enabled?: true
 # If enabled, external users will see it, and will have a 'dismiss' link to hide and do not show it again
 timed_retention_banner_enabled?: true
 
+# Feature flag to enable or disable the hardship claim banner
+# If enabled, external users will see it, and will have a 'dismiss' link to hide and do not show it again
+hardship_claims_banner_enabled?: <%= ENV['HARDSHIP_ENABLED'] || Rails.env.eql?('test') %>
+
 # Feature flag to enable or disable the downtime warning
 # If enabled, all users will see it up until "downtime_warning_date"
 downtime_warning_enabled?: false

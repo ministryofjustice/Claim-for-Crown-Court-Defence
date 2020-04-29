@@ -26,6 +26,7 @@ module API::V2
                 WHEN 'Claim::AdvocateHardshipClaim' THEN 'Hardship'
                 WHEN 'Claim::AdvocateInterimClaim' THEN 'Warrant'
                 WHEN 'Claim::TransferClaim' THEN 'Transfer'
+                WHEN 'Claim::LitigatorHardshipClaim' THEN 'Hardship'
               END
             ELSE ct.name
           END as case_type,

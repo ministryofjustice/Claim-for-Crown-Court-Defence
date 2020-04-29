@@ -838,7 +838,10 @@ en:
         agfs_supplementary_rb: Advocate supplementary fee
         agfs_supplementary_hint: For miscellaneous fees claimed without a graduated or fixed fee
         agfs_hardship_rb: Advocate hardship fee
-        agfs_hardship_hint: For advance payments in exceptional circumstances. If a trial has commenced and been adjourned you are advised to submit a graduated fee claim. See COVID 19 Remuneration Regulations for full details
+        agfs_hardship_hint_html: |
+          For advance payments in exceptional circumstances. If a trial has commenced and been adjourned you are
+          advised to submit a graduated fee claim.
+          See <a href="#" target="_blank" rel="external" title="COVID 19 Remuneration Regulations">COVID 19 Remuneration Regulations</a> for full details
         agfs_interim_rb: Advocate warrant fee
         agfs_interim_hint: For warrant fee claims with the earliest representation order dated on or after 1 April 2018
         claim_type_prompt_section_heading: 'What would you like to do?'

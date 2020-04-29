@@ -24,7 +24,7 @@ RSpec.describe Claim::LitigatorHardshipClaim, type: :model do
     it { is_expected.to all(have_attributes(is_fixed_fee: false)) }
   end
 
-  context 'eligible basic, misc and fixed fee types' do
+  context 'eligible misc fee types' do
     let(:claim) { build(:litigator_hardship_claim) }
 
     describe '#eligible_misc_fee_types' do
@@ -39,5 +39,5 @@ RSpec.describe Claim::LitigatorHardshipClaim, type: :model do
     end
   end
 
-  include_examples "common litigator claim attributes"
+  include_examples "common litigator claim attributes", :hardship_claim
 end

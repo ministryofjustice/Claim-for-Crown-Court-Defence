@@ -12,31 +12,37 @@ RSpec.describe Claim::LitigatorHardshipClaimValidator, type: :validator do
   include_examples "common advocate litigator validations", :litigator, case_type: false
   include_examples "common litigator validations", :hardship_claim
 
-  context 'case_type' do
-    let(:eligible_case_types) { create_list(:case_type, 2, :all_roles, is_fixed_fee: false) }
-    let(:ineligible_case_type) { create(:case_type, :agfs_roles, is_fixed_fee: true) }
+  context 'case_type_id' do
+    before { claim.case_type_id = 1 }
+
+    it { should_error_with(claim, :case_type_id, 'present') }
+  end
+
+  context 'case_stage' do
+    let(:eligible_case_stages) { create_list(:case_stage, 2) }
+    let(:ineligible_case_stage) { create(:case_stage, roles: %w[lgfs]) }
 
     before do
-      claim.case_type = nil
-      allow(claim).to receive(:eligible_case_types).and_return(eligible_case_types)
+      claim.case_stage = nil
+      allow(claim).to receive(:eligible_case_stages).and_return(eligible_case_stages)
     end
 
     context 'when not present' do
-      before { claim.case_type = nil }
+      before { claim.case_stage = nil }
 
-      it { should_error_with(claim, :case_type, 'case_type_blank') }
+      it { should_error_with(claim, :case_stage, 'blank') }
     end
 
     context 'when present but ineligible' do
-      before { claim.case_type = ineligible_case_type }
+      before { claim.case_stage = ineligible_case_stage }
 
-      it { should_error_with(claim, :case_type, 'inclusion') }
+      it { should_error_with(claim, :case_stage, 'inclusion') }
     end
 
     context 'when present and eligible' do
-      before { claim.case_type = eligible_case_types.first }
+      before { claim.case_stage = eligible_case_stages.first }
 
-      it { should_not_error(claim, :case_type) }
+      it { should_not_error(claim, :case_stage) }
     end
   end
 end

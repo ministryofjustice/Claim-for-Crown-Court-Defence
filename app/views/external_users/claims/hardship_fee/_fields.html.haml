@@ -2,7 +2,9 @@
   = f.fields_for :hardship_fee do |hf|
     - fee = present(hf.object)
     .form-section.fx-fee-group.hardship-fee-group.js-block.fx-do-init{data:{"type": "hardshipFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlock"}}
-      = hf.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id, class: 'js-fee-type'
+      -# = hf.hidden_field :fee_type_id, value: Fee::HardshipFeeType.find_by_id_or_unique_code('HARDSHIP').id, class: 'js-fee-type'
+      -# = hf.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id, class: 'js-fee-type'
+      = hf.hidden_field :fee_type_id, value: fee.fee_type.id, class: 'js-fee-type'
 
       .js-fee-calculator-effector
         = hf.adp_text_field :quantity,

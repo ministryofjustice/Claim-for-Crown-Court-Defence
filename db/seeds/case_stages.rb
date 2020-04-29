@@ -82,3 +82,11 @@ SeedHelper.update_or_create_case_stage!(
   case_type_id: CaseType.find_by(fee_type_code: 'GRRTR').id,
   roles: %w(agfs)
 )
+
+SeedHelper.find_or_create_case_stage!(
+    description: 'PTPH not happened or been adjourned',
+    unique_code: 'PTPHNYC',
+    position: 90,
+    case_type_id: CaseType.find_by(fee_type_code: 'GRTRL').id,
+    roles: %w(lgfs)
+)

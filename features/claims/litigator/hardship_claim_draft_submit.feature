@@ -52,7 +52,7 @@ Feature: Litigator completes hardship claims
     Then I should be on the check your claim page
     And I should see 'Blackfriars'
     And I should see 'A20201234'
-    And I should see 'Guilty plea'
+    And I should see 'Pre PTPH (evidence served)'
 
     And I should see 'Handling stolen goods'
     And I should see 'G: Other offences of dishonesty between £30,001 and £100,000'
@@ -128,7 +128,7 @@ Feature: Litigator completes hardship claims
     Then I should be on the check your claim page
     And I should see 'Blackfriars'
     And I should see 'A20201234'
-    And I should see 'Discontinuance'
+    And I should see 'Pre PTPH (no evidence served)'
 
     And I should see 'Handling stolen goods'
     And I should see 'G: Other offences of dishonesty between £30,001 and £100,000'

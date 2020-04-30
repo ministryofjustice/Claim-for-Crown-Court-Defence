@@ -115,5 +115,9 @@ module Claim
     def hardship_fee_changed?
       hardship_fee&.changed?
     end
+
+    def cleaner
+      LitigatorHardshipClaimCleaner.new(self)
+    end
   end
 end

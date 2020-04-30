@@ -12,14 +12,13 @@ module Claim
              validate: proc { |claim| claim.step_validation_required?(:basic_fees) }
 
     delegate :case_type, to: :case_stage, allow_nil: true
+    delegate :requires_cracked_dates?, to: :case_type, allow_nil: true
 
     accepts_nested_attributes_for :basic_fees, reject_if: all_blank_or_zero, allow_destroy: true
 
     validates_with ::Claim::AdvocateHardshipClaimValidator,
                    unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::AdvocateHardshipClaimSubModelValidator
-
-    delegate :requires_cracked_dates?, to: :case_type, allow_nil: true
 
     after_initialize do
       instantiate_basic_fees
@@ -28,7 +27,7 @@ module Claim
     before_validation do
       set_supplier_number
       assign_total_attrs
-      assign_cracked_details
+      assign_trial_cracked_at
     end
 
     SUBMISSION_STAGES = [
@@ -161,8 +160,14 @@ module Claim
       end
     end
 
-    def assign_cracked_details
-      self.trial_cracked_at = Date.today if requires_cracked_dates?
+    def assign_trial_cracked_at
+      return unless requires_cracked_dates?
+      return unless editable? || being_submitted?
+      self.trial_cracked_at = Date.today
+    end
+
+    def being_submitted?
+      state_change.eql?(%w[draft submitted])
     end
 
     def cleaner

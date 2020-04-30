@@ -1,4 +1,4 @@
-RSpec.shared_examples 'hardship cracked trial' do
+RSpec.shared_examples 'trial_cracked_at assigner' do
   subject { claim.trial_cracked_at }
 
   let(:claim) { build(:advocate_hardship_claim, case_stage: case_stage, **cracked_details) }
@@ -23,7 +23,7 @@ RSpec.shared_examples 'hardship cracked trial' do
       end
     end
 
-    it 'sets trial_cracked_at to date saved' do
+    it 'assigns trial_cracked_at to date saved' do
       is_expected.to eql 1.week.ago.to_date
     end
   end
@@ -35,8 +35,40 @@ RSpec.shared_examples 'hardship cracked trial' do
       end
     end
 
-    it 'sets trial_cracked_at on submit!' do
+    it 'assigns trial_cracked_at to current date' do
       expect{ claim.submit! }.to change { claim.trial_cracked_at }.from(1.week.ago.to_date).to(Date.today)
+    end
+  end
+
+  context 'when case worker processes claim' do
+    before do
+      travel_to(1.week.ago) do
+        claim.save
+        claim.submit!
+      end
+    end
+
+    it { is_expected.to eql(1.week.ago.to_date) }
+
+    context 'when allocated' do
+      it 'does NOT assign trial_cracked_at' do
+        expect{ claim.allocate! }.not_to change { claim.trial_cracked_at }
+      end
+    end
+
+    context 'when assessed' do
+      before { claim.allocate! }
+
+      it 'rejection does NOT assign trial_cracked_at' do
+        expect{ claim.reject! }.not_to change { claim.trial_cracked_at }
+      end
+
+      it 'authorising an amount does NOT assign trial_cracked_at' do
+        expect {
+          claim.update_amount_assessed(fees: random_amount, expenses: random_amount)
+          claim.authorise!
+        }.not_to change { claim.trial_cracked_at }
+      end
     end
   end
 end
@@ -144,15 +176,13 @@ RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
 
   describe '#assign_trial_cracked_at' do
     context 'with cracked trial (After PTPH before trial)' do
-      let(:case_stage) { create(:case_stage, :cracked_trial) }
-
-      it_behaves_like 'hardship cracked trial' do
+      it_behaves_like 'trial_cracked_at assigner' do
         let(:case_stage) { create(:case_stage, :cracked_trial) }
       end
     end
 
     context 'with cracked before trial (Retrial listed but not started)' do
-      it_behaves_like 'hardship cracked trial' do
+      it_behaves_like 'trial_cracked_at assigner' do
         let(:case_stage) { create(:case_stage, :retrial_not_started) }
       end
     end

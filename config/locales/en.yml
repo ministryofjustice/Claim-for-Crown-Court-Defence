@@ -1874,30 +1874,14 @@ en:
         defendants_form_step:
           page_title: Enter defendant details for litigator hardship fees claim
 
-        # unknown if needed
-        # fixed_fees_form_step:
-        #   page_title: Enter fixed fees for litigator hardship fees claim
-        #   page_header: Fixed fees
-
         offence_details_form_step:
           page_title: Enter offence details for litigator hardship fees claim
 
-        # unknown if needed
         hardship_fees_form_step:
           page_title: Enter hardship fees for litigator hardship fees claim
 
-        # unknown if needed
-        # graduated_fees_form_step:
-        #   page_title: Enter graduated fees for litigator hardship fees claim
-
         miscellaneous_fees_form_step:
           page_title: Enter miscellaneous fees for litigator hardship fees claim
-
-        disbursements_form_step:
-          page_title: Enter disbursements for litigator hardship fees claim
-
-        travel_expenses_form_step:
-          page_title: Enter travel expenses for litigator hardship fees claim
 
         supporting_evidence_form_step:
           page_title: Upload supporting evidence for litigator hardship fees claim

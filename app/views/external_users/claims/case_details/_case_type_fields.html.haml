@@ -3,7 +3,7 @@
     %label.form-label-bold{ for: 'case_type' }
       = t('.stage_type')
       .form-hint.xsmall.zero-vert-margin
-        = t('.stage_type_hint')
+        = t(".#{@claim.agfs? ? 'agfs' : 'lgfs'}_stage_type_hint")
       = validation_error_message(@error_presenter, :case_type)
 
     = f.select :case_stage_id, @case_stages.map{ |cs| [cs.description, cs.id, { data: { 'is-fixed-fee': cs.is_fixed_fee?, 'requires-cracked-dates': cs&.requires_cracked_dates?, 'requires-retrial-dates': cs&.requires_retrial_dates?, 'requires-trial-dates': cs&.requires_trial_dates? } }] }, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', id: 'case_type', 'aria-label': t('.stage_type') }

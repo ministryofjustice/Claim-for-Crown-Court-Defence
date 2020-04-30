@@ -1016,7 +1016,8 @@ en:
           case_type: Case type
           case_type_hint: For example Trial
           stage_type: What stage has the case reached?
-          stage_type_hint: For example Trial started but not concluded
+          agfs_stage_type_hint: For example Trial started but not concluded
+          lgfs_stage_type_hint: For example Pre PTPH (evidence served)
         cracked_trial_fields:
           cracked_trial_details: Cracked trial details
           trial_cracked_at: Case cracked on

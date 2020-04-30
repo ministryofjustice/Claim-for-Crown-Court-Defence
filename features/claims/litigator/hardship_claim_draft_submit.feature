@@ -14,7 +14,7 @@ Feature: Litigator completes hardship claims
     When I choose the supplier number '1A222Z'
     And I enter a providers reference of 'LGFS test hardship fee for covid-19'
     And I select the court 'Blackfriars'
-    And I select a case type of 'Pre PTPH (evidence served)'
+    And I select a case stage of 'Pre PTPH (evidence served)'
     And I enter a case number of 'A20201234'
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
@@ -90,7 +90,7 @@ Feature: Litigator completes hardship claims
     When I choose the supplier number '1A222Z'
     And I enter a providers reference of 'LGFS test hardship fee for covid-19'
     And I select the court 'Blackfriars'
-    And I select a case type of 'Pre PTPH (no evidence served)'
+    And I select a case stage of 'Pre PTPH (no evidence served)'
     And I enter a case number of 'A20201234'
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page

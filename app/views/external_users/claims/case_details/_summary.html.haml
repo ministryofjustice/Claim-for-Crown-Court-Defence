@@ -96,16 +96,20 @@
             %time{ 'aria-label': claim&.trial_fixed_at&.strftime(Settings.date_format_label), datetime: claim&.trial_fixed_at&.strftime(Settings.datetime_attribute) }
               = claim&.trial_fixed_at&.strftime(Settings.date_format)
 
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('trial_cracked_at', scope: cracked_trial_fields)
-          %dd.govuk-summary-list__value
-            %time{ 'aria-label': claim&.trial_cracked_at&.strftime(Settings.date_format_label), datetime: claim&.trial_cracked_at&.strftime(Settings.datetime_attribute) }
-              = claim&.trial_cracked_at&.strftime(Settings.date_format)
+        - unless claim.hardship?
+          .govuk-summary-list__row
+            %dt.govuk-summary-list__key
+              = t('trial_cracked_at', scope: cracked_trial_fields)
+            %dd.govuk-summary-list__value
+              %time{ 'aria-label': claim&.trial_cracked_at&.strftime(Settings.date_format_label), datetime: claim&.trial_cracked_at&.strftime(Settings.datetime_attribute) }
+                = claim&.trial_cracked_at&.strftime(Settings.date_format)
 
         .govuk-summary-list__row
           %dt.govuk-summary-list__key
-            = t('trial_cracked_at_third', scope: cracked_trial_fields)
+            - if claim.hardship?
+              = t('trial_cracked_at_third.hardship', scope: cracked_trial_fields)
+            - else
+              = t('trial_cracked_at_third.default', scope: cracked_trial_fields)
           %dd.govuk-summary-list__value
             = claim&.trial_cracked_at_third&.humanize
 

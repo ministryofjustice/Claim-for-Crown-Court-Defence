@@ -50,3 +50,12 @@ Then("I should see the offence details {string}") do |details|
       end
     end
 end
+
+Then("I should see hardship cracked trial fields") do
+  section = @advocate_hardship_claim_form_page.cracked_trial_details
+  expect(section.trial_fixed_notice_at).to be_visible
+  expect(section.trial_fixed_at).to be_visible
+  expect(section).not_to have_trial_cracked_at
+  expect(section).to have_content('If the case cracked today, which third would it be?')
+end
+

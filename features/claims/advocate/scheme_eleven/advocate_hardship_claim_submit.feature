@@ -16,7 +16,13 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
     And I select the court 'Caernarfon'
     And I enter a case number of 'A20201234'
 
-    And I select a case stage of 'Trial started but not concluded'
+    When I select a case stage of 'After PTPH before trial'
+    Then I should see hardship cracked trial fields
+
+    When I select a case stage of 'Retrial listed but not started'
+    Then I should see hardship cracked trial fields
+
+    When I select a case stage of 'Trial started but not concluded'
     Then I should see trial fields
 
     And I enter scheme 11 trial start date

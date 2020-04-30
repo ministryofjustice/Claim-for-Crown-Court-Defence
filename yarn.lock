@@ -1815,6 +1815,10 @@ coa@^2.0.2:
     chalk "^2.4.1"
     q "^1.1.2"
 
+cocoon@nathanvda/cocoon:
+  version "0.0.0"
+  resolved "https://codeload.github.com/nathanvda/cocoon/tar.gz/6364ce5c284e574496e6007f24f5a13843fcb0d2"
+
 code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
@@ -2518,6 +2522,11 @@ dot-prop@^5.2.0:
   integrity sha512-uEUyaDKoSQ1M4Oq8l45hSE26SnTxL6snNnqvK/VWx5wJhmff5z0FUVJDKDanor/6w3kzE3i7XZOk+7wC0EXr1A==
   dependencies:
     is-obj "^2.0.0"
+
+dropzone@^5.5.1:
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/dropzone/-/dropzone-5.7.0.tgz#8d1007f3ebcc6e6d64096823f854d898f7564ef2"
+  integrity sha512-kOltiZXH5cO/72I22JjE+w6BoT6uaVLfWdFMsi1PMKFkU6BZWpqRwjnsRm0o6ANGTBuZar5Piu7m/CbKqRPiYg==
 
 duplexify@^3.4.2, duplexify@^3.6.0:
   version "3.7.1"
@@ -3952,6 +3961,54 @@ jest-worker@^25.1.0:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
+jquery-accessible-accordion-aria@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/jquery-accessible-accordion-aria/-/jquery-accessible-accordion-aria-2.6.1.tgz#8bda19cb27237a540848f647e16663aca1383211"
+  integrity sha512-L0UczIXKQ3JrOx5UKSUOeNdm7Ls13NImdF5/JUhDNJ3QnPAaIhLS8+2gN++9tXQeUp6B7fh9IDZzUA8l/mmyXg==
+  dependencies:
+    jquery ">=1.0.0"
+
+jquery-highlight@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/jquery-highlight/-/jquery-highlight-3.5.0.tgz#354fb3a8b98c594525ec1ccc003fd3d1dc305815"
+  integrity sha512-5gzRomQyy3n/byb2G5zhbavdiXcPZ6rAWXtU5FgdEvguDEn90kMm9/QARY3zdKhH/+tfqqu9GNKocbMGf7ThNg==
+  dependencies:
+    jquery ">= 1.0.0"
+
+jquery-throttle-debounce@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/jquery-throttle-debounce/-/jquery-throttle-debounce-1.0.0.tgz#f27daba459b513b36d07d81cf744252e673cdf49"
+  integrity sha512-pnyuJ6T1MX9VUhwCLZ0i21Ya8HSewM+A8xWsftLS6VjRUChXjtdfc/9YJ0qL8yRTWEVuizcI9n0sK8xmJucT9g==
+
+jquery-ujs@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/jquery-ujs/-/jquery-ujs-1.2.2.tgz#6a8ef1020e6b6dda385b90a4bddc128c21c56397"
+  integrity sha1-ao7xAg5rbdo4W5CkvdwSjCHFY5c=
+  dependencies:
+    jquery ">=1.8.0"
+
+jquery-xpath@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/jquery-xpath/-/jquery-xpath-0.3.1.tgz#9c6e62e618d344364bade3bdb494f0c30df85351"
+  integrity sha1-nG5i5hjTRDZLreO9tJTwww34U1E=
+  dependencies:
+    jquery ">=1.0.0"
+
+jquery.iframe-transport@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/jquery.iframe-transport/-/jquery.iframe-transport-1.0.0.tgz#98abae85beace1cc362645e7a87360ff9418175f"
+  integrity sha1-mKuuhb6s4cw2JkXnqHNg/5QYF18=
+
+jquery@1.12.4:
+  version "1.12.4"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-1.12.4.tgz#01e1dfba290fe73deba77ceeacb0f9ba2fec9e0c"
+  integrity sha1-AeHfuikP5z3rp3zurLD5ui/sngw=
+
+"jquery@>= 1.0.0", jquery@>=1.0.0, jquery@>=1.8.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.0.tgz#9980b97d9e4194611c36530e7dc46a58d7340fc9"
+  integrity sha512-Xb7SVYMvygPxbFMpTFQiHh1J7HClEaThguL15N/Gg37Lri/qKyhRGZYzHRyLH8Stq3Aow0LsHO2O2ci86fCrNQ==
+
 js-base64@^2.1.8:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.5.2.tgz#313b6274dda718f714d00b3330bbae6e38e90209"
@@ -4033,6 +4090,13 @@ jsprim@^1.2.2:
     extsprintf "1.3.0"
     json-schema "0.2.3"
     verror "1.10.0"
+
+jsrender@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/jsrender/-/jsrender-1.0.6.tgz#67bd4290bc1cea97d962971413457a45cdb109e3"
+  integrity sha512-zjuv7qbn1PPSCDpb9axd6Uad9WOJOsCq7hlFgFt3VEyLv/yDL1oFjnSiHnliJHv1AZVZ5j8F37Diy3WN8eqtXw==
+  dependencies:
+    through2 "^3.0.1"
 
 killable@^1.0.1:
   version "1.0.1"
@@ -6090,7 +6154,7 @@ read-pkg@^1.0.0:
     string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
 
-readable-stream@^3.0.6:
+"readable-stream@2 || 3", readable-stream@^3.0.6:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.0.tgz#337bbda3adc0706bd3e024426a286d4b4b2c9198"
   integrity sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==
@@ -7052,6 +7116,11 @@ terser@^4.1.2, terser@^4.4.3:
     source-map "~0.6.1"
     source-map-support "~0.5.12"
 
+throttle-debounce@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/throttle-debounce/-/throttle-debounce-2.1.0.tgz#257e648f0a56bd9e54fe0f132c4ab8611df4e1d5"
+  integrity sha512-AOvyNahXQuU7NN+VVvOOX+uW6FPaWdAOdRP5HfwYxAfCzXTFKRMoIMk+n+po318+ktcChx+F1Dd91G3YHeMKyg==
+
 through2@^2.0.0:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.5.tgz#01c1e39eb31d07cb7d03a96a70823260b23132cd"
@@ -7059,6 +7128,13 @@ through2@^2.0.0:
   dependencies:
     readable-stream "~2.3.6"
     xtend "~4.0.1"
+
+through2@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/through2/-/through2-3.0.1.tgz#39276e713c3302edf9e388dd9c812dd3b825bd5a"
+  integrity sha512-M96dvTalPT3YbYLaKaCuwu+j06D/8Jfib0o/PxbVt6Amhv3dUAtW6rTV1jPgJSBG83I/e04Y6xkVdVhSRhi0ww==
+  dependencies:
+    readable-stream "2 || 3"
 
 thunky@^1.0.2:
   version "1.1.0"

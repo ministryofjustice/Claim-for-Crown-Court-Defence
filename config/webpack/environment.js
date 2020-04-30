@@ -1,6 +1,8 @@
 const { environment } = require('@rails/webpacker')
 const ConcatPlugin = require('webpack-concat-plugin')
 
+
+
 environment.plugins.append('ConcatPlugin', new ConcatPlugin({
   uglify: true,
   sourceMap: true,
@@ -9,25 +11,25 @@ environment.plugins.append('ConcatPlugin', new ConcatPlugin({
   fileName: 'application.bundle.js',
   filesToConcat: [
     './app/javascript/javascripts/vendor/polyfill.object.keys.js',
-    './jquery.js',
-    './jquery_ujs.js',
-    './jquery.iframe-transport.js',
-    './jquery.remotipart.js',
-    './cocoon.js',
-    './dropzone.js',
-    './vendor/polyfills/bind.js',
+    'jquery',
+    'jquery-ujs',
+    'jquery.iframe-transport',
+    './app/javascript/javascripts/vendor/jquery.remotipart.js',
+    'cocoon/app/assets/javascripts/cocoon.js',
+    'dropzone',
+    './app/javascript/javascripts/vendor/polyfills/bind.js',
     'govuk_frontend_toolkit/javascripts/govuk/stick-at-top-when-scrolling.js',
-    'govuk_frontend_toolkit/javascripts/govuk/stop-scrolling-at-footer.js',
+    // 'govuk_frontend_toolkit/javascripts/govuk/stop-scrolling-at-footer.js',
     './app/javascript/javascripts/vendor/moj.js',
     './app/javascript/javascripts/vendor/modules/moj.cookie-message.js',
-    './app/javascript/javascripts/vendor/jquery-accessible-accordion-aria.js',
+    'jquery-accessible-accordion-aria',
     './app/javascript/javascripts/vendor/typeahead-aria.js',
     './app/javascript/javascripts/vendor/jquery.jq-element-revealer.js',
     './app/javascript/javascripts/vendor/jquery.datatables.min.js',
-    './app/javascript/javascripts/vendor/jsrender.min.js',
-    './app/javascript/javascripts/vendor/jquery.highlight-5.min.js',
-    './app/javascript/javascripts/vendor/jquery.ba-throttle-debounce.js',
-    './app/javascript/javascripts/vendor/accessible-autocomplete.min.js',
+    'jsrender',
+    'jquery-highlight',
+    'jquery-throttle-debounce',
+    'accessible-autocomplete',
     'jquery-xpath/jquery.xpath.js',
     './app/javascript/javascripts/modules/Helpers.API.Core.js',
     './app/javascript/javascripts/modules/Helpers.API.Distance.js',

@@ -20,6 +20,11 @@ When(/^I select a case type of '(.*?)'$/) do |case_type|
   wait_for_ajax
 end
 
+When(/^I select a case stage of '(.*?)'$/) do |case_stage|
+  @claim_form_page.auto_case_stage.choose_autocomplete_option(case_stage)
+  wait_for_ajax
+end
+
 When(/^I enter a case number of '(.*?)'$/) do |number|
   @claim_form_page.case_number.set number
 end

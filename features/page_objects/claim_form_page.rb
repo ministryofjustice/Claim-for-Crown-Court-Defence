@@ -24,6 +24,7 @@ class ClaimFormPage < BasePage
 
   element :providers_ref, "#providers_ref"
   section :auto_case_type, CommonAutocomplete, "#cc-case-type"
+  section :auto_case_stage, CommonAutocomplete, "#cc-case-stage"
   section :auto_court, CommonAutocomplete, "#cc-court"
   section :auto_offence, CommonAutocomplete, "#cc-offence"
 

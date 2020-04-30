@@ -1,12 +1,11 @@
 - if @claim.hardship?
   #cc-case-stage.form-group{ class: error_class?(@error_presenter, :case_stage) ? 'form-group-error dropdown_field_with_errors' : '' }
-    %label.form-label-bold{ for: 'case_stage' }
+    %label#case_stage.form-label-bold{ for: 'case_stage' }
       = t('.stage_type')
       .form-hint.xsmall.zero-vert-margin
         = t(".#{@claim.agfs? ? 'agfs' : 'lgfs'}_stage_type_hint")
       = validation_error_message(@error_presenter, :case_stage)
-
-    = f.select :case_stage_id, @case_stages.map{ |cs| [cs.description, cs.id, { data: { 'is-fixed-fee': cs.is_fixed_fee?, 'requires-cracked-dates': cs&.requires_cracked_dates?, 'requires-retrial-dates': cs&.requires_retrial_dates?, 'requires-trial-dates': cs&.requires_trial_dates? } }] }, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', id: 'case_stage', 'aria-label': t('.stage_type') }
+    = f.select :case_stage_id, @case_stages.map{ |cs| [cs.description, cs.id, { data: { 'is-fixed-fee': cs.is_fixed_fee?, 'requires-cracked-dates': cs&.requires_cracked_dates?, 'requires-retrial-dates': cs&.requires_retrial_dates?, 'requires-trial-dates': cs&.requires_trial_dates? } }] }, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', id: 'case_type', 'aria-label': t('.stage_type') }
 - else
   #cc-case-type.form-group{ class: error_class?(@error_presenter, :case_type) ? 'form-group-error dropdown_field_with_errors' : '' }
     %label.form-label-bold{ for: 'case_type' }

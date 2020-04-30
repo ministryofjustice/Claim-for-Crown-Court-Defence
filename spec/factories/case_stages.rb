@@ -27,7 +27,7 @@ FactoryBot.define do
       unique_code { 'TRLSBNC' }
       position { 30 }
       case_type_id { create(:case_type, :trial).id }
-      roles { %w(agfs lgfs) }
+      roles { %w(agfs) }
     end
 
     trait :guilty_plea_not_sentenced do
@@ -68,6 +68,22 @@ FactoryBot.define do
       position { 80 }
       case_type_id { create(:case_type, :retrial).id }
       roles { %w(agfs) }
+    end
+
+    trait :pre_ptph_with_evidence do
+      description { 'Pre PTPH (evidence served)' }
+      unique_code { 'NOPTPHWPPE' }
+      position { 90 }
+      case_type_id { create(:case_type, :guilty_plea).id }
+      roles { %w(lgfs) }
+    end
+
+    trait :pre_ptph_no_evidence do
+      description { 'Pre PTPH (no evidence served)' }
+      unique_code { 'NOPTPHNOPPE' }
+      position { 100 }
+      case_type_id { create(:case_type, :discontinuance).id }
+      roles { %w(lgfs) }
     end
   end
 end

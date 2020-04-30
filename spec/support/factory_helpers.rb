@@ -59,6 +59,12 @@ module FactoryHelpers
     populate_required_fields(claim)
   end
 
+  def post_build_actions_for_draft_hardship_claim(claim)
+    certify_claim(claim)
+    set_creator(claim)
+    populate_required_fields(claim)
+  end
+
   def certify_claim(claim)
     build(:certification, claim: claim)
   end

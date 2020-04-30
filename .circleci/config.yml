@@ -73,7 +73,9 @@ references:
   _jasmine: &jasmine
     run:
       name: Run jasmine
-      command: bundle exec rake jasmine:ci
+      command: |
+        bundle exec rake webpacker:compile
+        bundle exec rake jasmine:ci
 
   _rspec: &rspec
     run:

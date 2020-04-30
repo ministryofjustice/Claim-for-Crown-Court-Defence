@@ -11,7 +11,9 @@
 #   - dist/**/*.js
 #
 src_files:
-  - assets/application.js
+  # - assets/application.js
+  - public/packs/js/application.bundle.js
+  - public/packs-test/js/application.bundle.js
 
 # stylesheets
 #
@@ -25,7 +27,7 @@ src_files:
 #   - stylesheets/*.css
 #
 stylesheets:
-  - assets/application.css
+  # - assets/application.css
 
 # helpers
 #

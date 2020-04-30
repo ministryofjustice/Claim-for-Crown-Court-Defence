@@ -12,9 +12,10 @@ module Claims
     end
 
     def available_claim_types
+      hardship_types = [Claim::AdvocateHardshipClaim, Claim::LitigatorHardshipClaim]
       @available_claim_types ||= @external_user.available_claim_types & @external_user.provider.available_claim_types
       @available_claim_types.tap do |arr|
-        arr.delete_if { |el| el.eql?(Claim::AdvocateHardshipClaim) } unless Settings.hardship_claims_enabled?
+        arr.delete_if { |el| hardship_types.include?(el) } unless Settings.hardship_claims_enabled?
       end
     end
 
@@ -44,7 +45,8 @@ module Claims
         'Claim::AdvocateHardshipClaim' => 'agfs_hardship',
         'Claim::LitigatorClaim' => 'lgfs_final',
         'Claim::InterimClaim' => 'lgfs_interim',
-        'Claim::TransferClaim' => 'lgfs_transfer'
+        'Claim::TransferClaim' => 'lgfs_transfer',
+        'Claim::LitigatorHardshipClaim' => 'lgfs_hardship'
       }[claim_type.to_s]
     end
   end

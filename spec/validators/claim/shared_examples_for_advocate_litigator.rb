@@ -155,7 +155,7 @@ RSpec.shared_examples "common litigator validations" do |*flags|
     before do
       # TODO: refactor shared examples so that things that do not apply to all litigator claims
       # are not set as common/shared examples :/
-      skip('does not apply to an interim claim') if flags.include?(:interim_claim)
+      skip('does not apply to this claim type') if ([:interim_claim, :hardship_claim] & flags).any?
       claim.force_validation = true
     end
 
@@ -210,6 +210,7 @@ RSpec.shared_examples "common litigator validations" do |*flags|
     end
 
     it 'should error if NOT present for case type without fixed fees' do
+      skip('does not apply to this claim type') if ([:hardship_claim] & flags).any?
       claim.case_type.is_fixed_fee = false
       should_error_with(claim, :offence, 'blank_class')
       claim.case_type.is_fixed_fee = true

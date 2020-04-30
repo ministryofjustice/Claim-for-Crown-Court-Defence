@@ -279,6 +279,13 @@ FactoryBot.define do
     end
   end
 
+  factory :hardship_fee, class: Fee::HardshipFee do
+    claim
+    fee_type { build :hardship_fee_type }
+    quantity { 1 }
+    amount { 25 }
+  end
+
   trait :with_date_attended do
     after(:build) do |fee|
       fee.dates_attended << build(:date_attended, attended_item: fee)

@@ -108,6 +108,7 @@ Rails.application.routes.draw do
       resources :claims, only: amend_actions
       resources :interim_claims, only: amend_actions
       resources :transfer_claims, only: amend_actions
+      resources :hardship_claims, only: amend_actions, constraints: lambda{ |request| Settings.hardship_claims_enabled? }
     end
   end
 

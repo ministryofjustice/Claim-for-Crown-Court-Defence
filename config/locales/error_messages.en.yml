@@ -1796,6 +1796,55 @@ interim_fee:
       short: Do not add a warrant
       api: Adding a warrant to this claim is not allowed
 
+#################################################################################
+#                                                                               #
+#   HARDSHIP FEE                                                                 #
+#                                                                               #
+#################################################################################
+
+hardship_fee:
+  _seq: 1200
+  blank:
+    _seq: 5
+    long: Add a hardship fee
+    short: *enter_amount
+    api: Add a hardship fee
+
+  base:
+    uneditable_state:
+      long: You cannot edit a claim that is not in draft state
+      short: You cannot edit this claim
+      api: You cannot edit a claim that is not in draft state
+
+  fee_type:
+    _seq: 10
+    blank:
+      long: Choose a type for the hardship fee
+      short: Choose a fee type
+      api: Choose a type for the hardship fee
+
+  quantity:
+    _seq: 20
+    blank:
+      long: Enter a PPE quantity for the hardship fee
+      short: *enter_quantity
+      api: Enter a PPE quantity for the hardship fee
+    numericality:
+      long: Enter a valid PPE quantity for the hardship fee
+      short: *enter_valid_quantity
+      api: Enter a valid PPE quantity for the hardship fee
+
+  amount:
+    _seq: 30
+    numericality:
+      long: Enter a valid amount for the hardship fee
+      short: *enter_valid_amount
+      api: Enter a valid amount for the hardship fee
+    present:
+      long: Do not enter an amount for the hardship fee
+      short: Do not enter an amount
+      api: Do not enter an amount for the hardship fee
+
 total:
   _seq: 9999
   numericality:

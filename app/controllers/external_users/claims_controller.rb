@@ -390,6 +390,14 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         date_attributes_for(:warrant_issued_date),
         date_attributes_for(:warrant_executed_date)
       ],
+      hardship_fee_attributes: %i[
+        id
+        claim_id
+        fee_type_id
+        amount
+        price_calculated
+        quantity
+      ],
       expenses_attributes: [
         :id,
         :claim_id,

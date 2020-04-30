@@ -82,3 +82,21 @@ SeedHelper.update_or_create_case_stage!(
   case_type_id: CaseType.find_by(fee_type_code: 'GRRTR').id,
   roles: %w(agfs)
 )
+
+SeedHelper.update_or_create_case_stage!(
+  id:9,
+  description: 'Pre PTPH (evidence served)',
+  unique_code: 'NOPTPHWPPE',
+  position: 90,
+  case_type_id: CaseType.find_by(fee_type_code: 'GRGLT').id,
+  roles: %w(lgfs)
+)
+
+SeedHelper.update_or_create_case_stage!(
+  id: 10,
+  description: 'Pre PTPH (no evidence served)',
+  unique_code: 'NOPTPHNOPPE',
+  position: 100,
+  case_type_id: CaseType.find_by(fee_type_code: 'GRDIS').id,
+  roles: %w(lgfs)
+)

@@ -58,6 +58,17 @@
         %td.numeric
           = claim.warrant_fees_gross
 
+    - if claim.respond_to? :hardship_fees_total
+      %tr.fx-seed-hardshipFees{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_hardship_fees_total } }
+        %td
+          = t('common.hardship_fees')
+        %td.numeric
+          = claim.hardship_fees_total
+        %td.numeric
+          = claim.hardship_fees_vat
+        %td.numeric
+          = claim.hardship_fees_gross
+
     - if claim.respond_to? :interim_fees_total
       %tr.fx-seed-interimFees{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_interim_fees_total } }
         %td
@@ -102,7 +113,7 @@
         %td.numeric
           = claim.misc_fees_gross
 
-    - if claim.respond_to? :expenses_total
+    - if claim.respond_to?(:expenses_total) && !claim.hardship?
       %tr.fx-seed-expenses{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_expenses_total, 'seed-vat': claim.raw_expenses_vat } }
         %td
           = t('shared.summary.expenses.travel_expenses')

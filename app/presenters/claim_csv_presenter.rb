@@ -61,13 +61,25 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def scheme
-    if %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim].include? type
+    if claim.agfs?
       'AGFS'
-    elsif %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim].include? type
+    elsif claim.lgfs?
       'LGFS'
     else
       'Unknown'
     end
+  end
+
+  def bill_type
+    [
+      scheme,
+      type.demodulize
+          .sub('Claim', '')
+          .gsub(/([A-Z])/, ' \1')
+          .gsub(/(Advocate |Litigator )/, '')
+          .gsub(/(Advocate|Litigator)$/, 'Final')
+          .strip
+    ].join(' ')
   end
 
   def disk_evidence_case

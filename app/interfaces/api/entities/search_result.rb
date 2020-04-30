@@ -38,6 +38,7 @@ module API
         expose :cav_warning
         expose :supplementary
         expose :agfs_hardship
+        expose :lgfs_hardship
       end
 
       private
@@ -135,6 +136,10 @@ module API
 
       def agfs_hardship
         object.scheme_type.eql?('AdvocateHardship').to_i
+      end
+
+      def lgfs_hardship
+        object.scheme_type.eql?('LitigatorHardship').to_i
       end
     end
   end

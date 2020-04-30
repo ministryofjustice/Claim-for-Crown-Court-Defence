@@ -2,11 +2,6 @@ Then(/^I should be on the advocate hardship new claim page$/) do
   expect(@advocate_hardship_claim_form_page).to be_displayed
 end
 
-When(/^I select a case stage of '(.*?)'$/) do |case_stage|
-  @advocate_hardship_claim_form_page.auto_case_type.choose_autocomplete_option(case_stage)
-  wait_for_ajax
-end
-
 When(/I enter (.*?)(retrial|trial) start date$/i) do |scheme_text, trial_type|
   trial_start = Date.parse(scheme_date_for(scheme_text))
   trial_end = trial_start.next_day(7)

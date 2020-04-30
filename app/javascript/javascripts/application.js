@@ -1,26 +1,4 @@
 /*global GOVUK*/
-//= require polyfill.object.keys.js
-//= require jquery
-//= require jquery_ujs
-//= require jquery.remotipart
-//= require cocoon
-//= require dropzone
-//= require vendor/polyfills/bind
-//= require govuk/stick-at-top-when-scrolling
-//= require govuk/stop-scrolling-at-footer
-//= require moj
-//= require modules/moj.cookie-message.js
-//= require jquery-accessible-accordion-aria.js
-//= require typeahead-aria.js
-//= require jquery.jq-element-revealer.js
-// = require jquery.datatables.min.js
-//= require jsrender.min.js
-//= require jquery.highlight-5.min.js
-//= require jquery.ba-throttle-debounce.js
-//= require accessible-autocomplete.min.js
-//= require_tree ./modules
-//= require_tree ./plugins
-//
 
 // TINY PUBSUB
 // Great little wrapper to easily do pub/sub

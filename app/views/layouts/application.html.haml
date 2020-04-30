@@ -62,7 +62,7 @@
   = render partial: 'layouts/footer'
 
 - content_for :body_end do
-  = javascript_include_tag Rails.env.test? ? 'application.test' : 'application'
+  = javascript_include_tag Rails.env.test? ? '/packs-test/js/application.bundle.js' : '/packs/js/application.bundle.js'
   - if GoogleAnalytics::DataTracking.analytics?
     :javascript
       ga(function(tracker) {

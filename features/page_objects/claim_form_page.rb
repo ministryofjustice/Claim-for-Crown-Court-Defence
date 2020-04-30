@@ -2,6 +2,7 @@ require_relative 'sections/common_date_section'
 require_relative 'sections/common_autocomplete_section'
 require_relative 'sections/supplier_numbers_section'
 require_relative 'sections/retrial_section'
+require_relative 'sections/cracked_trial_section'
 require_relative 'sections/fee_dates_section_condensed'
 require_relative 'sections/fee_dates_section'
 require_relative 'sections/fee_section'
@@ -15,7 +16,6 @@ require_relative 'sections/offence_result_section'
 require_relative 'sections/advocate_category_section'
 require_relative 'sections/evidence_checklist_section'
 require_relative 'sections/yes_no_section'
-
 
 class ClaimFormPage < BasePage
   include SelectHelper
@@ -37,6 +37,7 @@ class ClaimFormPage < BasePage
   end
 
   section :retrial_details, RetrialSection, "#retrial-dates"
+  section :cracked_trial_details, CrackedTrialSection, "#cracked-trial-dates"
 
   sections :defendants, ".defendant-details" do
     element :first_name, "div.first-name input"

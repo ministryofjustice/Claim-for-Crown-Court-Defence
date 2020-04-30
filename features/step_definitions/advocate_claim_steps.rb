@@ -206,6 +206,12 @@ Then(/^I should see retrial fields$/) do
   expect(@claim_form_page.retrial_details).to be_all_there
 end
 
+Then("I should see cracked trial fields") do
+  expect(@claim_form_page).to have_cracked_trial_details
+  expect(@claim_form_page.cracked_trial_details).to be_visible
+  expect(@claim_form_page.cracked_trial_details).to be_all_there
+end
+
 Then(/^the last fixed fee case numbers section should (not )?be visible$/) do |negate|
   if negate
     expect(@claim_form_page.fixed_fees.last).to_not have_case_numbers_section

@@ -6,8 +6,16 @@ FactoryBot.define do
     sequence(:position) { |n| n }
     roles { %w[agfs lgfs] }
 
-    trait :discontinuance do
-      description { 'Pre PTPH' }
+    trait :agfs_pre_ptph_evidence do
+      description { 'Pre PTPH (evidence served)' }
+      unique_code { 'PREPTPHES' }
+      position { 5 }
+      case_type_id { create(:case_type, :guilty_plea).id }
+      roles { %w(agfs) }
+    end
+
+    trait :agfs_pre_ptph_no_evidence do
+      description { 'Pre PTPH (no evidence served)' }
       unique_code { 'PREPTPH' }
       position { 10 }
       case_type_id { create(:case_type, :discontinuance).id }

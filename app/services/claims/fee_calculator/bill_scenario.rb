@@ -8,6 +8,7 @@ module Claims
       delegate  :lgfs?,
                 :interim?,
                 :transfer?,
+                :hardship?,
                 :supplementary?,
                 :transfer_detail,
                 :final?,
@@ -32,6 +33,7 @@ module Claims
         return transfer_detail.bill_scenario if transfer?
         return find_by_code(fee_type.unique_code) if interim?
         return find_by_code('GRTRL') if supplementary?
+        return find_by_code('HARDSHIP') if hardship?
         find_by_code(case_type.fee_type_code)
       end
 

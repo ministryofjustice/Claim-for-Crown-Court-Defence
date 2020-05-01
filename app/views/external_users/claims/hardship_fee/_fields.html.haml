@@ -4,16 +4,15 @@
     .form-section.fx-fee-group.hardship-fee-group.js-block.fx-do-init{data:{"type": "hardshipFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlock"}}
       = hf.hidden_field :fee_type_id, value: fee.fee_type.id, class: 'js-fee-type'
 
-      - if @claim.case_stage.unique_code.eql?('NOPTPHWPPE')
-        .js-fee-calculator-effector
-          = hf.adp_text_field :quantity,
-            label: t('.quantity'),
-            hint_text: t('.quantity_hint'),
-            input_classes:'quantity fee-quantity js-fee-calculator-ppe form-control-1-4',
-            input_type: 'number',
-            value: fee.quantity,
-            errors: @error_presenter,
-            error_key:'hardship_fee.quantity'
+      .js-fee-calculator-effector
+        = hf.adp_text_field :quantity,
+          label: t('.quantity'),
+          hint_text: t('.quantity_hint'),
+          input_classes:'quantity fee-quantity js-fee-calculator-ppe form-control-1-4',
+          input_type: 'number',
+          value: fee.quantity,
+          errors: @error_presenter,
+          error_key:'hardship_fee.quantity'
 
       .js-graduated-price-effectee
         .calculated-grad-fee

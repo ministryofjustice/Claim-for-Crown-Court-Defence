@@ -20,12 +20,11 @@
         %dd.govuk-summary-list__value
           = fee.fee_type.description
 
-      - if @claim.case_stage.unique_code.eql?('NOPTPHWPPE')
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('shared.summary.ppe_total')
-          %dd.govuk-summary-list__value
-            = fee.quantity
+      .govuk-summary-list__row
+        %dt.govuk-summary-list__key
+          = t('shared.summary.ppe_total')
+        %dd.govuk-summary-list__value
+          = fee.quantity
 
       .govuk-summary-list__row
         %dt.govuk-summary-list__key

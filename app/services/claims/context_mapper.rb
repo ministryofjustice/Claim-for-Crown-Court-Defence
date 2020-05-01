@@ -16,6 +16,7 @@ module Claims
       @available_claim_types ||= @external_user.available_claim_types & @external_user.provider.available_claim_types
       @available_claim_types.tap do |arr|
         arr.delete_if { |el| hardship_types.include?(el) } unless Settings.hardship_claims_enabled?
+        arr.delete_if { |el| el.eql?(Claim::LitigatorHardshipClaim) }
       end
     end
 

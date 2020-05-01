@@ -95,7 +95,7 @@ SeedHelper.update_or_create_case_stage!(
 SeedHelper.update_or_create_case_stage!(
   id: 9,
   description: 'Pre PTPH (evidence served)',
-  unique_code: 'NOPTPHWPPE',
+  unique_code: 'OBSOLETE1',
   position: 90,
   case_type_id: CaseType.find_by(fee_type_code: 'GRGLT').id,
   roles: %w(lgfs)
@@ -104,8 +104,17 @@ SeedHelper.update_or_create_case_stage!(
 SeedHelper.update_or_create_case_stage!(
   id: 10,
   description: 'Pre PTPH (no evidence served)',
-  unique_code: 'NOPTPHNOPPE',
+  unique_code: 'OBSOLETE2',
   position: 100,
   case_type_id: CaseType.find_by(fee_type_code: 'GRDIS').id,
+  roles: %w(lgfs)
+)
+
+SeedHelper.update_or_create_case_stage!(
+  id: 12,
+  description: 'Pre PTPH or PTPH adjourned',
+  unique_code: 'PREPTPHADJ',
+  position: 110,
+  case_type_id: CaseType.find_by(fee_type_code: 'GRRAK').id,
   roles: %w(lgfs)
 )

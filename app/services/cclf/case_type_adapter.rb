@@ -22,7 +22,8 @@ module CCLF
       INPCM: 'ST1TS0T0', # Interim Claim - Effective PCMH - Trial only
       INTDT: 'ST1TS1T0', # Interim Claim - Trial start - Trial only
       INRNS: 'ST1TS2T0', # Interim Claim - Retrial New solicitor - Retrial only
-      INRST: 'ST1TS3T0'  # Interim Claim - Retrial start - Retrial only
+      INRST: 'ST1TS3T0', # Interim Claim - Retrial start - Retrial only
+      HARDSHIP: 'ST2TS1T0' # Hardship Claim - up to and including PCMH transfer (org)
     }.freeze
 
     def initialize(claim)

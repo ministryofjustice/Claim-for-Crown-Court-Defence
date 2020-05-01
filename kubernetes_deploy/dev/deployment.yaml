@@ -51,6 +51,8 @@ spec:
               value: 'dev'
             - name: HARDSHIP_ENABLED
               value: 'true'
+            - name: LGFS_HARDSHIP_ENABLED
+              value: 'true'
             - name: RAILS_ENV
               value: 'production'
             - name: RAILS_SERVE_STATIC_FILES

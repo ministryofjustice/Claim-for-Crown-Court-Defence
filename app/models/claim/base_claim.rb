@@ -385,7 +385,7 @@ module Claim
     end
 
     def applicable_for_written_reasons?
-      claim_state_transitions.any? { |x| x.to == 'redetermination' }
+      claim_state_transitions.any? { |x| x.to == 'redetermination' } && !hardship?
     end
 
     def perform_validation?

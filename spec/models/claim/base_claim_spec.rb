@@ -163,6 +163,21 @@ RSpec.describe Claim::BaseClaim do
     end
   end
 
+  describe '.applicable_for_written_reasons?' do
+    subject(:applicable_for_written_reasons?) { claim.applicable_for_written_reasons? }
+
+    context 'when the claim is a Hardship claim' do
+      let(:claim) { create :litigator_hardship_claim, :redetermination }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when the claim is not a Hardship claim' do
+      let(:claim) { create :deterministic_claim, :redetermination }
+
+      it { is_expected.to be true }
+    end
+  end
 
   context 'disbursements' do
     before(:all) do

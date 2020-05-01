@@ -73,7 +73,7 @@ module Claim
     end
 
     def eligible_case_stages
-      CaseStage.lgfs
+      CaseStage.lgfs.where.not("unique_code LIKE 'OBSOLETE%'")
     end
 
     def eligible_misc_fee_types

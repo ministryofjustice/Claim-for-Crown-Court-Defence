@@ -12,8 +12,7 @@
           %h2.heading-large
             = t('.choose_claim_type_prompt_text')
 
-        - hacky_claim_types = @available_claim_types.reject {|ct| eql?(Claim::LitigatorHardshipClaim) && !Settings.lgfs_hardship_claims_enabled? }
-        - hacky_claim_types.each_with_index do |claim_type, index|
+        - @available_claim_types.each_with_index do |claim_type, index|
           .multiple-choice
             = radio_button_tag :claim_type, claim_type, index.zero?
             = label_tag "claim_type_#{claim_type}", nil do

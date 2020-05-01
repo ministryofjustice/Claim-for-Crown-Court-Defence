@@ -96,6 +96,7 @@ scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
 # If enabled, providers with proper roles will see hardship claims in the list of advocate claim types
 hardship_claims_enabled?: <%= ENV['HARDSHIP_ENABLED'] || Rails.env.eql?('test') %>
 
+lgfs_hardship_claims_enabled?: <%= ENV['LGFS_HARDSHIP_ENABLED'] || Rails.env.eql?('test') %>
 # Feature flag to enable ability to set user email notification user preferences.  If true, external
 # users will be able to set preference to say whether they want email notifications of outstanding messages
 # on their claim

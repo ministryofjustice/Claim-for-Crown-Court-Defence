@@ -109,3 +109,12 @@ SeedHelper.update_or_create_case_stage!(
   case_type_id: CaseType.find_by(fee_type_code: 'GRDIS').id,
   roles: %w(lgfs)
 )
+
+SeedHelper.update_or_create_case_stage!(
+  id: 12,
+  description: 'Pre PTPH or PTPH adjourned',
+  unique_code: 'PREPTPHADJ',
+  position: 110,
+  case_type_id: CaseType.find_by(fee_type_code: 'GRRAK').id,
+  roles: %w(lgfs)
+)

@@ -42,11 +42,23 @@ moj.Modules.CaseTypeCtrl = {
     $.subscribe('/onConfirm/case_type-select/', function (e, data) {
       // Loop over the data object and fire the
       // methods as required, passing in the param
-      Object.keys(data).map(function (objectKey) {
-        if (typeof self.actions[objectKey] == 'function') {
-          self.actions[objectKey](data[objectKey], self);
-        }
-      });
+      self.eventCallback(e, data);
+    });
+
+    $.subscribe('/onConfirm/case_stage-select/', function (e, data) {
+      // Loop over the data object and fire the
+      // methods as required, passing in the param
+      self.eventCallback(e, data);
+    });
+  },
+
+  eventCallback: function (e, data) {
+    var self = this;
+
+    Object.keys(data).map(function (objectKey) {
+      if (typeof self.actions[objectKey] == 'function') {
+        self.actions[objectKey](data[objectKey], self);
+      }
     });
   },
 

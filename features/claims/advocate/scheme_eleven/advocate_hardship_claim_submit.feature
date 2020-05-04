@@ -142,3 +142,9 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
     When I click View your claims
     Then I should be on the your claims page
     And Claim 'A20201234' should be listed with a status of 'Submitted' and a claimed amount of '£2,454.41'
+
+    When I click the link 'A20201234'
+    Then I should be in the providers claim summary page
+    And I should see 'Case stage'
+    And I should not see 'Case type'
+

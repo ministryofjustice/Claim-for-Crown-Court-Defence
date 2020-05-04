@@ -111,3 +111,8 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     When I click View your claims
     Then I should be on the your claims page
     And Claim 'A20181234' should be listed with a status of 'Submitted' and a claimed amount of '£1,009.87'
+
+    When I click the link 'A20181234'
+    Then I should be in the providers claim summary page
+    And I should see 'Case type'
+    And I should not see 'Case stage'

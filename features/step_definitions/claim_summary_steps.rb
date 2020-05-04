@@ -17,3 +17,7 @@ Then(/^the following check your claim fee details should exist:$/) do |table|
     end
   end
 end
+
+Then("I should be in the providers claim summary page") do
+  expect(@external_user_claim_show_page).to be_displayed
+end

@@ -75,6 +75,11 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
+  def display_case_type?
+    return false if claim&.case_stage && h.current_user.persona.is_a?(ExternalUser)
+    claim&.case_type.present?
+  end
+
   def case_type_name
     claim.case_type.name
   end

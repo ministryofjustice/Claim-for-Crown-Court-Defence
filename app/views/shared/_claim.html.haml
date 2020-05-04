@@ -88,7 +88,7 @@
         %td
           = claim.case_stage&.description
 
-    - if claim.case_type
+    - if claim.display_case_type?
       %tr
         %th{ scope: 'row' }
           = t('.case_type')

@@ -35,6 +35,8 @@ references:
       command: |
         mkdir -p tmp/
         mkdir -p tmp/coverage/
+        mkdir -p /tmp/test-results/rspec
+        mkdir -p /tmp/test-results/cucumber
 
   _install-codeclimate: &install-codeclimate
     run:
@@ -79,16 +81,16 @@ references:
       name: Run rspec tests
       command: |
         tmp/cc-test-reporter before-build
-        TESTS=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --timings-type=classname)
-        bundle exec rspec ${TESTS} --format progress --format RspecJunitFormatter -o ~/rspec/rspec.xml
+        TESTS=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --timings-type=filename)
+        bundle exec rspec ${TESTS} --format progress --format RspecJunitFormatter -o /tmp/test-results/rspec/rspec.xml
         tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
   _cucumber: &cucumber
     run:
         name: Run cucumber tests
         command: |
-          FEATURES=$(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings)
-          bundle exec cucumber ${FEATURES} --format junit --out ~/cucumber/junit.xml
+          FEATURES=$(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings --timings-type=filename)
+          bundle exec cucumber ${FEATURES} --format junit --out /tmp/test-results/cucumber/junit.xml
 
   _install-wkhtmltopdf: &install-wkhtmltopdf
     run:
@@ -285,7 +287,7 @@ jobs:
       - store_artifacts:
           path: tmp/coverage
       - store_test_results:
-          path: ~/rspec
+          path: /tmp/test-results/rspec
 
   cucumber-tests:
     executor: test-executor
@@ -300,7 +302,7 @@ jobs:
       - store_artifacts:
           path: tmp/capybara
       - store_test_results:
-          path: ~/cucumber
+          path: /tmp/test-results/cucumber
 
   other-tests:
     executor: test-executor

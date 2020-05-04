@@ -742,6 +742,59 @@ RSpec.describe Claim::BaseClaimPresenter do
     specify { expect(presenter.display_days?).to be_falsey }
   end
 
+  describe '#display_case_type?' do
+    subject { presenter.display_case_type? }
+
+    let(:external_user) { build(:external_user) }
+    let(:case_worker) { build(:case_worker) }
+
+    context 'when claim has no case type' do
+      let(:claim) { create(:claim, case_type: nil) }
+
+      context 'when user is caseworker' do
+        before { allow(view).to receive(:current_user).and_return(case_worker.user) }
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when user is external_user' do
+        before { allow(view).to receive(:current_user).and_return(external_user.user) }
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'when claim delegates case type' do
+      let(:claim) { create(:advocate_hardship_claim, case_type: nil, case_stage: build(:case_stage, :trial_not_concluded)) }
+
+      it 'case type is expected to be truthy' do
+        expect(claim.case_type).to be_truthy
+      end
+
+      context 'when user is caseworker' do
+        before { allow(view).to receive(:current_user).and_return(case_worker.user) }
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when user is external_user' do
+        before { allow(view).to receive(:current_user).and_return(external_user.user) }
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'when claim has a non-delegated case type' do
+      let(:claim) { create(:claim, case_type: build(:case_type)) }
+
+      context 'when user is caseworker' do
+        before { allow(view).to receive(:current_user).and_return(case_worker.user) }
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when user is external_user' do
+        before { allow(view).to receive(:current_user).and_return(external_user.user) }
+        it { is_expected.to be_truthy }
+      end
+    end
+  end
+
   describe 'calculate #misc_fees' do
     before do
       allow(presenter).to receive(:raw_misc_fees_total).and_return 10.0

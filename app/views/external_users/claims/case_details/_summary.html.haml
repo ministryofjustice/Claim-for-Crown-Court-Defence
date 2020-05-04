@@ -67,7 +67,7 @@
           %dd.govuk-summary-list__value
             = claim.case_stage&.description
 
-      - elsif claim.case_type
+      - if claim.display_case_type?
         .govuk-summary-list__row
           %dt.govuk-summary-list__key
             = t('case_type', scope: claim_fields)

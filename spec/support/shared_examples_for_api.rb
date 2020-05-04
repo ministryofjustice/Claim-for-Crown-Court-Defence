@@ -137,7 +137,7 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
     end
 
     let(:claim_user_type) do
-      ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate.match?(%r{/claims/(final|interim|transfer)}) ? 'Litigator' : 'Advocate'
+      ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate.match?(%r{/claims/(final|interim|transfer|hardship)}) ? 'Litigator' : 'Advocate'
     end
 
     include_examples 'invalid API key validate endpoint'
@@ -178,7 +178,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
     end
 
     let(:claim_user_type) do
-      ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate.match?(%r{/claims/(final|interim|transfer)}) ? 'Litigator' : 'Advocate'
+      ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate.match?(%r{/claims/(final|interim|transfer|hardship)}) ? 'Litigator' : 'Advocate'
     end
 
     context "when claim params are valid" do
@@ -214,6 +214,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
         it "has attributes matching the params" do
           valid_params.each do |attribute, value|
             next if [:api_key, :creator_email, :user_email].include?(attribute) # because these are used for authentication and authorisation only
+            next if [:case_stage_unique_code].include?(attribute) # used internally for adding case stage to hardship claims only
             valid_params[attribute] = value.to_date if claim.send(attribute).class.eql?(Date) # because the saved claim record has Date objects but the param has date strings
             expect(claim.send(attribute).to_s).to eq valid_params[attribute].to_s # some strings are converted to ints on save
           end

@@ -93,5 +93,13 @@ FactoryBot.define do
       case_type_id { create(:case_type, :discontinuance).id }
       roles { %w(lgfs) }
     end
+
+    trait :pre_ptph_or_ptph_adjourned do
+      description { 'Pre PTPH or PTPH adjourned' }
+      unique_code { 'PREPTPHADJ' }
+      position { 110 }
+      case_type_id { create(:case_type, :cracked_trial).id }
+      roles { %w(lgfs) }
+    end
   end
 end

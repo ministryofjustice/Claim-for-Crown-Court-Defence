@@ -14,6 +14,7 @@ module API
           mount API::V1::ExternalUsers::Claims::FinalClaim
           mount API::V1::ExternalUsers::Claims::InterimClaim
           mount API::V1::ExternalUsers::Claims::TransferClaim
+          mount API::V1::ExternalUsers::Claims::HardshipClaim
         end
       end
     end

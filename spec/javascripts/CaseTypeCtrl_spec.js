@@ -79,6 +79,15 @@ describe('Modules.CaseTypeCtrl', function() {
 
       });
 
+      it('...should `$.subscribe` to `/onConfirm/case_stage-select/`', function() {
+        spyOn($, 'subscribe');
+
+        CaseTypeCtrl.init();
+
+        expect($.subscribe).toHaveBeenCalled();
+
+      });
+
       it('should trigger the `actions` methods', function() {
         CaseTypeCtrl.init();
 
@@ -87,6 +96,25 @@ describe('Modules.CaseTypeCtrl', function() {
         spyOn(CaseTypeCtrl.actions, 'requiresCrackedDates');
 
         $.publish('/onConfirm/case_type-select/', {
+          requiresCrackedDates: true,
+          requiresRetrialDates: false,
+          requiresTrialDates: true
+        });
+
+        expect(CaseTypeCtrl.actions.requiresTrialDates).toHaveBeenCalledWith(true, CaseTypeCtrl);
+        expect(CaseTypeCtrl.actions.requiresRetrialDates).toHaveBeenCalledWith(false, CaseTypeCtrl);
+        expect(CaseTypeCtrl.actions.requiresCrackedDates).toHaveBeenCalledWith(true, CaseTypeCtrl);
+
+      });
+
+      it('should trigger the `actions` methods', function() {
+        CaseTypeCtrl.init();
+
+        spyOn(CaseTypeCtrl.actions, 'requiresTrialDates');
+        spyOn(CaseTypeCtrl.actions, 'requiresRetrialDates');
+        spyOn(CaseTypeCtrl.actions, 'requiresCrackedDates');
+
+        $.publish('/onConfirm/case_stage-select/', {
           requiresCrackedDates: true,
           requiresRetrialDates: false,
           requiresTrialDates: true

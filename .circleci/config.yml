@@ -80,6 +80,7 @@ references:
       command: |
         tmp/cc-test-reporter before-build
         TESTS=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split)
+        echo $TESTS
         bundle exec rspec ${TESTS}
         tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
@@ -269,7 +270,7 @@ jobs:
 
   rspec-tests:
     executor: test-executor
-    parallelism: 4
+    parallelism: 8
     steps:
       - checkout
       - build-base
@@ -314,7 +315,8 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            tmp/cc-test-reporter sum-coverage --output - --parts 4 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
+            echo "move to command and append to rspec job to use CIRCLE_NODE_TOTAL for parts"
+            tmp/cc-test-reporter sum-coverage --output - --parts 8 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
 
   build-app-container:
     executor: cloud-platform-executor

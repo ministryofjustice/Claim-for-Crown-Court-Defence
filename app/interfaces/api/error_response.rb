@@ -26,7 +26,7 @@ module API
       Fee::GraduatedFee, Fee::InterimFee, Fee::TransferFee, Fee::BasicFee, Fee::MiscFee, Fee::FixedFee,
       Expense, Disbursement, Defendant, DateAttended, RepresentationOrder,
       Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim,
-      Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim
+      Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim, Claim::LitigatorHardshipClaim
     ].freeze
 
     def initialize(object)

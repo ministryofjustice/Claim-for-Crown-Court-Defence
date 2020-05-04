@@ -43,6 +43,7 @@ class ApiTestClient
     LitigatorFinalClaimTest.new(client: self).test_creation!
     LitigatorInterimClaimTest.new(client: self).test_creation!
     LitigatorTransferClaimTest.new(client: self).test_creation!
+    LitigatorHardshipClaimTest.new(client: self).test_creation!
   end
 
   def run_debug_session

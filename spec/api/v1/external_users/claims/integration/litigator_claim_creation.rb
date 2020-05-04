@@ -423,5 +423,31 @@ RSpec.describe 'API claim creation for LGFS' do
         expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: nil, total: 349.47, vat_amount: 69.89)
       end
     end
+
+    context 'hardship claim' do
+      let(:case_type) { nil }
+      let(:case_stage) { create(:case_stage, :pre_ptph_or_ptph_adjourned) }
+      let(:representation_order_date) { Date.new(2020, 03, 31).as_json }
+
+      specify "Case management system creates a valid hardship claim" do
+        post ClaimApiEndpoints.for(:hardship).create, claim_params.merge(case_stage_unique_code: case_stage.unique_code, offence_id: offence.id), format: :json
+        expect(last_response.status).to eql 201
+
+        claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
+
+        post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
+        expect(last_response.status).to eql 201
+
+        defendant = Defendant.find_by(uuid: last_response_uuid )
+
+        post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:fees), graduated_fee_params.merge(claim_id: claim.uuid, fee_type_id: graduated_fee_type.id, date: representation_order_date), format: :json
+        expect(last_response.status).to eql 201
+
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: offence, total: 5142.87, vat_amount: 1028.57)
+      end
+    end
   end
 end

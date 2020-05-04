@@ -55,7 +55,7 @@ module API::Helpers
     end
 
     def lgfs_schema?
-      namespace =~ %r{/claims/(final|interim|transfer)}
+      namespace =~ %r{/claims/(final|interim|transfer|hardship)}
     end
 
     def claim_user_email

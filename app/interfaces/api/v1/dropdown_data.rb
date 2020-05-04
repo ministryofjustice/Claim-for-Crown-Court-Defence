@@ -148,6 +148,12 @@ module API
           desc 'Return all Transfer Case Conclusions'
           get { present ::Claim::TransferBrain::CASE_CONCLUSIONS.to_a, with: API::Entities::SimpleKeyValueList }
         end
+
+        resource :case_stages do
+          desc 'Return all Case Stages'
+          params { use :role_filter }
+          get { present CaseStage.__send__(role), with: API::Entities::CaseStage }
+        end
       end
     end
   end

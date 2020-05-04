@@ -9,6 +9,32 @@
 
 %section.api-documentation
   %hr
+  %h2 1st May 2020
+  %ul.list-bullet
+    %li
+      Addition of Litigator hardship type endpoint
+      %br/
+      %br/
+      In line with the web application interface, a new endpoint to facilitate the creation of "Litigator hardship claims" has been added.
+      %br/
+      %br/
+      The new endpoint is interactively documented at the links below:
+      %ul.list-bullet
+        %li
+          %a{ href: '/api/documentation?#!/api/postApiExternalUsersClaimsHardship', target: '_blank' } litigator hardship claim creation
+        %li
+          %a{ href: '/api/documentation?#!/api/documentation#!/api/postApiExternalUsersClaimsHardshipValidate', target: '_blank' } litigator hardship claim validate
+      %br/
+      %br/
+      A list of valid Case Stages (to be used when creating a hardship claim) can be retrieved via:
+      %table
+        %tr
+          %td GET /api/case_stages
+      %br/
+      %br/
+
+%section.api-documentation
+  %hr
   %h2 15th July 2019
   %ul.list-bullet
     %li

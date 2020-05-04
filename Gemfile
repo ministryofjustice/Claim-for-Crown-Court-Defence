@@ -92,6 +92,7 @@ group :development, :devunicorn, :test do
   gem 'rack-livereload', '~> 0.3.16'
   gem 'rspec-rails', '~> 4.0.0'
   gem 'rspec-collection_matchers'
+  gem 'rspec_junit_formatter'
   gem 'net-ssh'
   gem 'net-scp'
   gem 'rubocop', '~> 0.82'

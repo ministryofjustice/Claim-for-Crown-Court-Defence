@@ -79,17 +79,16 @@ references:
       name: Run rspec tests
       command: |
         tmp/cc-test-reporter before-build
-        TESTS=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split)
-        echo $TESTS
-        bundle exec rspec ${TESTS}
+        TESTS=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --timings-type=classname)
+        bundle exec rspec ${TESTS} --format progress --format RspecJunitFormatter -o ~/rspec/rspec.xml
         tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
   _cucumber: &cucumber
     run:
         name: Run cucumber tests
         command: |
-          FEATURES=$(circleci tests glob "features/**/*.feature" | circleci tests split)
-          bundle exec cucumber ${FEATURES} --format progress --color
+          FEATURES=$(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings)
+          bundle exec cucumber ${FEATURES} --format junit --out ~/cucumber/junit.xml
 
   _install-wkhtmltopdf: &install-wkhtmltopdf
     run:
@@ -285,6 +284,8 @@ jobs:
             - coverage/codeclimate.*.json
       - store_artifacts:
           path: tmp/coverage
+      - store_test_results:
+          path: ~/rspec
 
   cucumber-tests:
     executor: test-executor
@@ -298,6 +299,8 @@ jobs:
       - *cucumber
       - store_artifacts:
           path: tmp/capybara
+      - store_test_results:
+          path: ~/cucumber
 
   other-tests:
     executor: test-executor
@@ -315,7 +318,6 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            echo "move to command and append to rspec job to use CIRCLE_NODE_TOTAL for parts"
             tmp/cc-test-reporter sum-coverage --output - --parts 8 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
 
   build-app-container:

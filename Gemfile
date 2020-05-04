@@ -38,7 +38,7 @@ gem 'paperclip',              '~> 6.1.0'
 gem 'paper_trail',            '~> 10.3.1'
 gem 'pg',                     '~> 1.2.3'
 gem 'rails',                  '~> 6.0.1'
-gem 'redis',                  '~> 4.1.3'
+gem 'redis',                  '~> 4.1.4'
 gem 'rubyzip'
 gem 'config',                 '~> 2.2' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'

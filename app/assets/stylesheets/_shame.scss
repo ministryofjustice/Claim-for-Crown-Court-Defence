@@ -670,11 +670,13 @@ Styling for Claims Messaging
     font-weight: 700;
   }
 
-  tbody td:first-child,
-  .success {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  td, th {
+    word-break: break-all;
+  }
+
+  td:first-child,
+  th:first-child {
+    width: 50%;
   }
 
   progress {
@@ -759,6 +761,19 @@ Styling for Claims Messaging
   }
 }
 
+table#download-files-report,
+table.previously-uploaded {
+  td, th {
+    word-break: break-all;
+  }
+}
+
+table#download-files-report {
+  td:first-child,
+  th:first-child {
+    width: 50%;
+  }
+}
 
 
 /*--- Ported from v1 stylesheets ---*/

@@ -114,7 +114,7 @@ class ClaimCsvPresenter < BasePresenter
 
   def completed_at
     completion_steps = @journey.select { |step| COMPLETED_STATES.include?(step.to) }
-    completion_steps.present? ? completion_steps.first.created_at.strftime('%d/%m/%Y') : 'n/a'
+    completion_steps.present? ? completion_steps.first.created_at.strftime('%d/%m/%Y %H:%M') : 'n/a'
   end
 
   def current_or_end_state

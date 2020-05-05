@@ -237,7 +237,7 @@ RSpec.describe ClaimCsvPresenter do
 
         it 'date of last assessment' do
           presenter.present! do |claim_journeys|
-            expect(claim_journeys.first).to include((Time.zone.now - 1.day).strftime('%d/%m/%Y'))
+            expect(claim_journeys.first).to include((Time.zone.now - 1.day).strftime('%d/%m/%Y %H:%M'))
             expect(claim_journeys.second).to include('n/a', 'n/a')
           end
         end

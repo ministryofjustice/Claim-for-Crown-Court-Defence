@@ -95,6 +95,13 @@
         %td
           = claim.case_type&.name
 
+    - if claim.discontinuance?
+      %tr
+        %th{ scope: 'row' }
+          = t('common.prosecution_evidence')
+        %td
+          = t(claim.prosecution_evidence?.class)
+
     - if claim.agfs? && claim.case_type.present? && claim.requires_cracked_dates?
       = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
 

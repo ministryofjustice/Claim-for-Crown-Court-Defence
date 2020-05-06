@@ -9,7 +9,10 @@ module ExternalUsers::ClaimsHelper
   end
 
   def build_dates_attended?(fee)
-    ['discontinuance', 'guilty plea'].include? fee.claim.case_type.name.downcase
+    [
+      ['discontinuance', 'guilty plea'].include?(fee.claim.case_type.name.downcase),
+      !fee.claim.hardship?
+    ].all?
   end
 
   def validation_error_message(error_presenter_or_resource, attribute)

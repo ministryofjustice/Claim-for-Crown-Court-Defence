@@ -1021,7 +1021,6 @@ en:
           case_type_hint: For example Trial
           stage_type: What stage has the case reached?
           agfs_stage_type_hint: For example Trial started but not concluded
-          lgfs_stage_type_hint: For example Pre PTPH or PTPH adjourned
         cracked_trial_fields:
           cracked_trial_details: Cracked trial details
           trial_cracked_at: Case cracked on
@@ -1880,6 +1879,11 @@ en:
         case_details_form_step:
           page_title: *lgfs_hardship_claims_title
           page_heading: Case details
+          case_stage_warning_html: |
+            An LGFS hardship claim can only be made before the PTPH or the PTPH has been adjourned for a further hearing</br>
+            If you think your claim is valid, but it is post PTPH please see
+            <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" target="_blank" rel="external" title="COVID 19 Remuneration Regulations">COVID 19 Remuneration Regulations</a>
+            for guidance
 
         defendants_form_step:
           page_title: Enter defendant details for litigator hardship fees claim

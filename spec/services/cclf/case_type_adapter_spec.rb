@@ -3,12 +3,14 @@ require 'rails_helper'
 RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
   subject { described_class.new(claim).bill_scenario }
   let(:case_type) { instance_double(::CaseType) }
+  let(:case_stage) { instance_double(::CaseStage) }
 
   include TransferBrainHelpers
 
   before do
     allow(claim).to receive(:interim?).and_return false
     allow(claim).to receive(:transfer?).and_return false
+    allow(claim).to receive(:hardship?).and_return false
   end
 
   describe '#bill_scenario' do
@@ -87,6 +89,17 @@ RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
           end
         end
       end
+    end
+
+    context 'hardship claim' do
+      let(:claim) { instance_double(::Claim::LitigatorHardshipClaim) }
+
+      before do
+        allow(claim).to receive(:hardship?).and_return true
+        allow(claim).to receive(:lgfs?).and_return true
+      end
+
+      it { is_expected.to eql 'ST2TS1T0' }
     end
   end
 end

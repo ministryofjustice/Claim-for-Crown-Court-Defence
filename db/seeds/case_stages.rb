@@ -14,7 +14,7 @@ require Rails.root.join('db','seed_helper')
 SeedHelper.update_or_create_case_stage!(
   id: 11,
   description: 'Pre PTPH (evidence served)',
-  unique_code: 'PREPTPHES',
+  unique_code: 'OBSOLETE3',
   position: 5,
   case_type_id: CaseType.find_by(fee_type_code: 'GRGLT').id,
   roles: %w(agfs)
@@ -22,7 +22,7 @@ SeedHelper.update_or_create_case_stage!(
 
 SeedHelper.update_or_create_case_stage!(
   id: 1,
-  description: 'Pre PTPH (no evidence served)',
+  description: 'Pre PTPH',
   unique_code: 'PREPTPH',
   position: 10,
   case_type_id: CaseType.find_by(fee_type_code: 'GRDIS').id,

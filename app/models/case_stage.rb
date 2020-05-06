@@ -12,4 +12,5 @@ class CaseStage < ApplicationRecord
   validates :description, presence: { message: 'Case stage description must exist' }
 
   scope :chronological, -> { order(position: :asc) }
+  scope :active, -> { where.not("unique_code LIKE 'OBSOLETE%'") }
 end

@@ -105,7 +105,7 @@ module Claim
     end
 
     def eligible_case_stages
-      CaseStage.agfs
+      CaseStage.agfs.active
     end
 
     # TODO: Hardship claim - can be shared with advocate final claim

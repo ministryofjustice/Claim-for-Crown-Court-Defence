@@ -82,7 +82,7 @@ references:
       command: |
         tmp/cc-test-reporter before-build
         TESTS=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --timings-type=filename)
-        bundle exec rspec ${TESTS} --format progress --format RspecJunitFormatter -o /tmp/test-results/rspec
+        bundle exec rspec ${TESTS} --format progress --format RspecJunitFormatter -o /tmp/test-results/rspec/rspec.xml
         tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
   _cucumber: &cucumber

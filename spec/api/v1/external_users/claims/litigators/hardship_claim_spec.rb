@@ -1,8 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe API::V1::ExternalUsers::Claims::HardshipClaim do
+RSpec.describe API::V1::ExternalUsers::Claims::Litigators::HardshipClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
+
+  HARDSHIP_CLAIM_ENDPOINT = 'litigators/hardship'.freeze
 
   let(:claim_class) { Claim::LitigatorHardshipClaim }
   let!(:provider) { create(:provider, :lgfs) }
@@ -25,7 +27,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::HardshipClaim do
   after(:all) { clean_database }
 
   include_examples 'litigator claim test setup'
-  it_behaves_like 'a claim endpoint', relative_endpoint: :hardship
-  it_behaves_like 'a claim validate endpoint', relative_endpoint: :hardship
-  it_behaves_like 'a claim create endpoint', relative_endpoint: :hardship
+  it_behaves_like 'a claim endpoint', relative_endpoint: HARDSHIP_CLAIM_ENDPOINT
+  it_behaves_like 'a claim validate endpoint', relative_endpoint: HARDSHIP_CLAIM_ENDPOINT
+  it_behaves_like 'a claim create endpoint', relative_endpoint: HARDSHIP_CLAIM_ENDPOINT
 end

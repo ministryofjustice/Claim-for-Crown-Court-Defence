@@ -5,7 +5,7 @@ class LitigatorHardshipClaimTest < BaseClaimTest
     puts 'starting'
 
     # create a claim
-    response = client.post_to_endpoint('claims/hardship', claim_data)
+    response = client.post_to_endpoint('claims/litigators/hardship', claim_data)
     return if client.failure
 
     self.claim_uuid = id_from_json(response)

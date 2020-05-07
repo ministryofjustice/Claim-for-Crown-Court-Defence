@@ -23,6 +23,7 @@ module CCR
 
     class << self
       def bill_scenario(case_type)
+        return hardship_bill_scenario if hardship_scenario_applicable?
         adapter = new(case_type)
         adapter.bill_scenario
       end

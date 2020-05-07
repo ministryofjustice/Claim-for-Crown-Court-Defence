@@ -11,6 +11,7 @@ module API
         def entity_class
           return API::Entities::CCR::InterimClaim if claim.interim?
           return API::Entities::CCR::SupplementaryClaim if claim.supplementary?
+          return API::Entities::CCR::HardshipClaim if claim.hardship?
           API::Entities::CCR::FinalClaim
         end
       end

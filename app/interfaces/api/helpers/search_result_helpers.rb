@@ -72,6 +72,10 @@ module SearchResultHelpers
     object.scheme_type.eql?('Interim')
   end
 
+  def hardship_claim?
+    object.scheme_type.match?(/hardship/i)
+  end
+
   def is_submitted?
     object.state.eql?('submitted')
   end

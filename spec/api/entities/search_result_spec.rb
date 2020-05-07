@@ -156,13 +156,13 @@ describe API::Entities::SearchResult do
         include_examples 'returns expected JSON filter values'
       end
 
-      context 'when passed a advocate interim/warrant claim' do
+      context 'when passed an advocate interim/warrant claim' do
         let(:claim) { OpenStruct.new('id' => '179818', 'uuid' => '887cbd94-3f48-4955-8646-918de4db3617', 'case_type' => 'Warrant', 'state'=>'submitted', 'total' => '667.33', 'fees' => "0.0~Warrant Fee~Fee::WarrantFeeType", 'last_submitted_at' => '07/12/2017  12:58:29', 'class_letter' => nil, 'is_fixed_fee' => nil, 'fee_type_code' => nil, 'graduated_fee_types' => "GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR") }
         before { result.merge!(agfs_warrants: 1) }
         include_examples 'returns expected JSON filter values'
       end
 
-      context 'when passed a advocate supplementary claim' do
+      context 'when passed an advocate supplementary claim' do
         let(:claim) { OpenStruct.new('id' => '179818', 'uuid' => '887cbd94-3f48-4955-8646-918de4db3617', 'case_type' => 'Supplementary', 'state'=>'submitted', 'total' => '667.33', 'fees' => "0.0~Warrant Fee~Fee::WarrantFeeType", 'last_submitted_at' => '07/12/2017  12:58:29', 'class_letter' => nil, 'is_fixed_fee' => nil, 'fee_type_code' => nil, 'graduated_fee_types' => "GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR") }
         before { result.merge!(supplementary: 1) }
         include_examples 'returns expected JSON filter values'
@@ -170,14 +170,46 @@ describe API::Entities::SearchResult do
 
       context 'when passed an advocate hardship claim' do
         let(:claim) { OpenStruct.new('id'=>'19932', 'uuid'=>'0635210c-7718-4392-9ebd-995394fd9df4', 'scheme'=>'agfs', 'scheme_type'=>'AdvocateHardship', 'case_number'=>'T20160427', 'state'=>'submitted', 'court_name'=>'Newcastle', 'total'=>'426.36', 'disk_evidence'=>false, 'external_user'=>'Theodore Schumm', 'maat_references'=>'2320144', 'defendants'=>'Junius Lesch', 'fees'=>'1.0~Basic fee~Fee::BasicFeeType, 0.0~Standard appearance fee~Fee::BasicFeeType, 0.0~Plea and trial preparation hearing~Fee::BasicFeeType, 0.0~Conferences and views~Fee::BasicFeeType, 0.0~Number of defendants uplift~Fee::BasicFeeType, 0.0~Number of cases uplift~Fee::BasicFeeType, 0.0~Pages of prosecution evidence~Fee::BasicFeeType, 0.0~Daily attendance fee (2+)~Fee::BasicFeeType', 'last_submitted_at'=>'2020-04-21 09:33:30.932017', 'is_fixed_fee'=>false, 'fee_type_code'=>'GRTRL', 'graduated_fee_types'=>'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR') }
-        before { result.merge!(graduated_fees: 1, agfs_hardship: 1) }
-        include_examples 'returns expected JSON filter values'
+
+        context 'with a submitted state' do
+          before do
+            claim.state = 'submitted'
+            result.merge!(graduated_fees: 1, agfs_hardship: 1)
+          end
+
+          include_examples 'returns expected JSON filter values'
+        end
+
+        context 'with a redetermination state' do
+          before do
+            claim.state = 'redetermination'
+            result.merge!(graduated_fees: 0, redetermination: 0, agfs_hardship: 1)
+          end
+
+          include_examples 'returns expected JSON filter values'
+        end
       end
 
       context 'when passed a litigator hardship claim' do
         let(:claim) { OpenStruct.new('id' => '179819', 'uuid' => 'a142a3ca-df21-462b-8450-ab97d458a44b', 'scheme' => 'lgfs', 'scheme_type' => 'LitigatorHardship', 'case_number' => 'T20202401', 'state' => 'submitted', 'court_name' => 'Croydon', 'case_type' => 'Trial', 'total' => '1200.00', 'disk_evidence' => false, 'external_user' => 'Emmanuelle Olson', 'maat_references' => '5864761', 'defendants' => 'Sadie Keeling', 'fees' => '1000.0~Hardship~Fee::HardshipFeeType', 'last_submitted_at' => '2020-04-22T07:27:59Z', 'class_letter' => 'B', 'is_fixed_fee' => false, 'fee_type_code' => 'GRTRL', 'graduated_fee_types' => 'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR', 'allocation_type' => 'Grad') }
-        before { result.merge!(lgfs_hardship: 1, graduated_fees: 1, trial: 1) }
-        include_examples 'returns expected JSON filter values'
+
+        context 'with a submitted state' do
+          before do
+            claim.state = 'submitted'
+            result.merge!(graduated_fees: 1, lgfs_hardship: 1, trial: 1)
+          end
+
+          include_examples 'returns expected JSON filter values'
+        end
+
+        context 'with a redetermination state' do
+          before do
+            claim.state = 'redetermination'
+            result.merge!(redetermination: 0, lgfs_hardship: 1, graduated_fees: 0, trial: 0)
+          end
+
+          include_examples 'returns expected JSON filter values'
+        end
       end
     end
   end

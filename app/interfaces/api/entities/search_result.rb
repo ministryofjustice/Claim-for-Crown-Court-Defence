@@ -75,7 +75,7 @@ module API
       end
 
       def redetermination
-        object.state.eql?('redetermination').to_i
+        (object.state.eql?('redetermination') && !hardship_claim?).to_i
       end
 
       def fixed_fee

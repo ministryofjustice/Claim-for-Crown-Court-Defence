@@ -152,7 +152,7 @@ module API
         resource :case_stages do
           desc 'Return all Case Stages'
           params { use :role_filter }
-          get { present CaseStage.__send__(role), with: API::Entities::CaseStage }
+          get { present CaseStage.active.__send__(role), with: API::Entities::CaseStage }
         end
       end
     end

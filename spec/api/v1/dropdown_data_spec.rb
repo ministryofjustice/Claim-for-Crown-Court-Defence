@@ -66,7 +66,7 @@ RSpec.describe API::V1::DropdownData do
         DISBURSEMENT_TYPE_ENDPOINT => API::Entities::DisbursementType.represent(DisbursementType.active).to_json,
         TRANSFER_STAGES_ENDPOINT => API::Entities::SimpleKeyValueList.represent(Claim::TransferBrain::TRANSFER_STAGES.to_a).to_json,
         TRANSFER_CASE_CONCLUSIONS_ENDPOINT => API::Entities::SimpleKeyValueList.represent(Claim::TransferBrain::CASE_CONCLUSIONS.to_a).to_json,
-        CASE_STAGE_ENDPOINT => API::Entities::CaseStage.represent(CaseStage.all).to_json
+        CASE_STAGE_ENDPOINT => API::Entities::CaseStage.represent(CaseStage.active.all).to_json
       }
     end
 

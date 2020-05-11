@@ -21,6 +21,8 @@ class DocType
   ].sort_by(&:sequence)
 
   FEE_REFORM_DOC_TYPE_IDS = [1, 3, 4, 6].freeze
+  AGFS_HARDSHIP_DOC_TYPE_IDS = [1, 4, 6, 7, 8, 9, 10, 11].freeze
+  LGFS_HARDSHIP_DOC_TYPE_IDS = [1, 4, 7, 9, 10].freeze
 
   def self.all
     DOCTYPES
@@ -28,6 +30,14 @@ class DocType
 
   def self.for_fee_reform
     DOCTYPES.select { |doc| FEE_REFORM_DOC_TYPE_IDS.include?(doc.id) }
+  end
+
+  def self.for_agfs_hardship
+    DOCTYPES.select { |doc| AGFS_HARDSHIP_DOC_TYPE_IDS.include?(doc.id) }
+  end
+
+  def self.for_lgfs_hardship
+    DOCTYPES.select { |doc| LGFS_HARDSHIP_DOC_TYPE_IDS.include?(doc.id) }
   end
 
   # returns a single DocType given its id

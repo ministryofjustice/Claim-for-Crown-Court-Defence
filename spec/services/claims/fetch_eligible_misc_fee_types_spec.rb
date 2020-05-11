@@ -53,6 +53,18 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
           end
         end
       end
+
+      context 'hardship fee claim' do
+        subject { call.map(&:unique_code) }
+
+        let(:claim) do
+          create(:litigator_hardship_claim)
+        end
+
+        it 'returns only non-cost judge LGFS misc fee types' do
+          is_expected.to match_array %w[MIEVI MISPF]
+        end
+      end
     end
 
     context 'AGFS' do

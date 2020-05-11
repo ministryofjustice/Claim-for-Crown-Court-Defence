@@ -13,12 +13,14 @@ module Claims
     private
 
     LGFS_MISC_FEE_ELIGIBILITY = %w[MICJA MICJP MIEVI MISPF].freeze
+    LGFS_HARDSHIP_MISC_FEE_ELIGIBILITY = %w[MIEVI MISPF].freeze
 
     attr_reader :claim
-    delegate :case_type, :agfs?, :lgfs?, :agfs_reform?, to: :claim, allow_nil: true
+    delegate :case_type, :agfs?, :lgfs?, :agfs_reform?, :hardship?, to: :claim, allow_nil: true
 
     def eligible_fee_types
       return eligible_agfs_misc_fee_types if agfs?
+      return elgible_lgfs_hardship_misc_fee_types if lgfs? && hardship?
       return eligible_lgfs_misc_fee_types if lgfs?
     end
 
@@ -30,6 +32,10 @@ module Claims
     def eligible_agfs_misc_fee_types
       return agfs_scheme_scope.supplementary if claim.supplementary?
       agfs_scheme_scope.without_supplementary_only
+    end
+
+    def elgible_lgfs_hardship_misc_fee_types
+      Fee::MiscFeeType.lgfs.where(unique_code: LGFS_HARDSHIP_MISC_FEE_ELIGIBILITY)
     end
 
     def eligible_lgfs_misc_fee_types

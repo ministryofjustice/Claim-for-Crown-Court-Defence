@@ -49,8 +49,6 @@ spec:
           env:
             - name: ENV
               value: 'production'
-            - name: HARDSHIP_ENABLED
-              value: 'true'
             - name: RAILS_ENV
               value: 'production'
             - name: RAILS_SERVE_STATIC_FILES

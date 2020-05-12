@@ -24,27 +24,10 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :routing do
 end
 
 RSpec.describe ExternalUsers::Advocates::HardshipClaimsController, type: :routing do
-  context 'when hardship claims enabled' do
-    before do
-      allow(Settings).to receive(:hardship_claims_enabled?).and_return true
-    end
-
-    it { should route(:get, '/advocates/hardship_claims/new').to(action: :new) }
-    it { should route(:post, '/advocates/hardship_claims').to(action: :create) }
-    it { should route(:put, '/advocates/hardship_claims/1').to(action: :update, id: 1) }
-    it { should route(:get, '/advocates/hardship_claims/1/edit').to(action: :edit, id: 1) }
-  end
-
-  context 'when hardship claims disabled' do
-    before do
-      allow(Settings).to receive(:hardship_claims_enabled?).and_return false
-    end
-
-    it { should route(:get, '/advocates/hardship_claims/new').to(controller: 'errors', action: 'not_found', path: 'advocates/hardship_claims/new') }
-    it { should route(:post, '/advocates/hardship_claims').to(controller: 'errors', action: 'not_found', path: 'advocates/hardship_claims') }
-    it { should route(:put, '/advocates/hardship_claims/1').to(controller: 'errors', action: 'not_found', path: 'advocates/hardship_claims/1') }
-    it { should route(:get, '/advocates/hardship_claims/1/edit').to(controller: 'errors', action: 'not_found', path: 'advocates/hardship_claims/1/edit') }
-  end
+  it { should route(:get, '/advocates/hardship_claims/new').to(action: :new) }
+  it { should route(:post, '/advocates/hardship_claims').to(action: :create) }
+  it { should route(:put, '/advocates/hardship_claims/1').to(action: :update, id: 1) }
+  it { should route(:get, '/advocates/hardship_claims/1/edit').to(action: :edit, id: 1) }
 end
 
 RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :routing do

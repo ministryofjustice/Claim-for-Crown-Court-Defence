@@ -460,5 +460,48 @@ RSpec.describe 'API claim creation for AGFS' do
         expect(claim.expenses.size).to eql 2
       end
     end
+
+    context 'hardship fee claim' do
+      let(:case_type) { nil }
+      let(:case_stage) { create(:case_stage, :trial_not_concluded) }
+      let(:offence) { create(:offence, :with_fee_scheme_ten) }
+      let(:miscellaneous_fee) { Fee::BaseFeeType.find_by(unique_code: 'MIDTH') } # Confiscation hearings (half day)
+      let(:miscellaneous_uplift) { Fee::BaseFeeType.find_by(unique_code: 'MIDHU') } # Confiscation hearings (half day uplift)
+
+      specify 'Case management system creates a valid hardship claim' do
+        post ClaimApiEndpoints.for('advocates/hardship').create, claim_params.merge(offence_id: offence.id, case_stage_unique_code: case_stage.unique_code), format: :json
+        expect(last_response.status).to eql 201
+
+        claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
+
+        post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
+        expect(last_response.status).to eql 201
+
+        defendant = Defendant.find_by(uuid: last_response_uuid )
+
+        post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: basic_fee.id), format: :json
+        expect(last_response.status).to eql 200
+
+        fee = Fee::BaseFee.find_by(uuid: last_response_uuid)
+
+        post endpoint(:dates_attended), date_attended_params.merge(attended_item_id: fee.uuid, date: representation_order_date), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: miscellaneous_uplift.id), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_car.id, distance: 500.38, mileage_rate_id: 1), format: :json
+        expect(last_response.status).to eql 201
+
+        post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
+        expect(last_response.status).to eql 201
+
+        expect(claim).to be_valid_api_agfs_claim(fee_scheme: ['AGFS', 10], offence: offence, total: 1420.2)
+        expect(claim).to be_instance_of Claim::AdvocateHardshipClaim
+      end
+    end
   end
 end

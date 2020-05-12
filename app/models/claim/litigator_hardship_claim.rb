@@ -84,6 +84,10 @@ module Claim
       :litigator
     end
 
+    def case_stage_unique_code=(code)
+      self.case_stage = CaseStage.find_by!(unique_code: code)
+    end
+
     private
 
     def provider_delegator

@@ -15,36 +15,14 @@ RSpec.describe Claims::ContextMapper do
     # e.g. an admin in an agfs only provider can only create advocate claims
     context 'AGFS only provider' do
       let(:external_user) { create(:external_user, :advocate, provider: build(:provider, :agfs)) }
+
       it { is_expected.to match_array(agfs_claim_object_types) }
-
-      context 'when hardship claims enabled' do
-        before { allow(Settings).to receive(:hardship_claims_enabled?).and_return true }
-
-        it { is_expected.to include("Claim::AdvocateHardshipClaim") }
-      end
-
-      context 'when hardship claims disabled' do
-        before { allow(Settings).to receive(:hardship_claims_enabled?).and_return false }
-
-        it { is_expected.not_to include("Claim::AdvocateHardshipClaim") }
-      end
     end
 
     context 'LGFS only provider' do
       let(:external_user) { create(:external_user, :litigator, provider: build(:provider, :lgfs)) }
+
       it { is_expected.to match_array(lgfs_claim_object_types) }
-
-      context 'when hardship claims enabled' do
-        before { allow(Settings).to receive(:hardship_claims_enabled?).and_return true }
-
-        it { is_expected.to include("Claim::LitigatorHardshipClaim") }
-      end
-
-      context 'when hardship claims disabled' do
-        before { allow(Settings).to receive(:hardship_claims_enabled?).and_return false }
-
-        it { is_expected.not_to include("Claim::LitigatorHardshipClaim") }
-      end
     end
 
     context 'AGFS and LGFS providers' do

@@ -26,7 +26,7 @@ Feature: Advocate tries to submit a claim for a Fixed fee (Appeal against convic
 
     Then I should see 'Defendant 1'
     And I should see 'Defendant 2'
-    And I should see 4 representation orders
+    And I should see 2 representation orders
 
     Then I click "Continue" in the claim form
 

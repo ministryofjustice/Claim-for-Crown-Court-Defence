@@ -14,8 +14,7 @@ require 'webdrivers'
 # pin chromedriver version to latest compatible found
 # see https://chromedriver.storage.googleapis.com/index.html
 # Webdrivers.logger.level = :DEBUG
-# Webdrivers::Chromedriver.required_version = '81.0.4044.138' # may work locally too
-Webdrivers::Chromedriver.required_version = '71.0.3578.137'
+Webdrivers::Chromedriver.required_version = '79.0.3945.36'
 
 Jasmine.configure do |config|
   config.runner = lambda { |formatter, jasmine_server_url|

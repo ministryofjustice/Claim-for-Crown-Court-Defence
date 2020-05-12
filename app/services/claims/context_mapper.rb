@@ -12,11 +12,7 @@ module Claims
     end
 
     def available_claim_types
-      hardship_types = [Claim::AdvocateHardshipClaim, Claim::LitigatorHardshipClaim]
       @available_claim_types ||= @external_user.available_claim_types & @external_user.provider.available_claim_types
-      @available_claim_types.tap do |arr|
-        arr.delete_if { |el| hardship_types.include?(el) } unless Settings.hardship_claims_enabled?
-      end
     end
 
     def available_schemes

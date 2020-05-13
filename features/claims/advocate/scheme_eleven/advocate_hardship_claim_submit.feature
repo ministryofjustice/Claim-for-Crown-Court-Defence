@@ -79,7 +79,7 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
     Then I should see a page title "Upload supporting evidence for advocate hardship fees claim"
 
     And I upload the document 'hardship.pdf'
-    And I should see 10 evidence check boxes
+    And I should see 8 evidence check boxes
     And I check the evidence boxes for 'Hardship supporting evidence'
     And I add some additional information
 

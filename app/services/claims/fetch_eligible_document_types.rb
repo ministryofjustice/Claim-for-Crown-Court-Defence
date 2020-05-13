@@ -9,9 +9,16 @@ module Claims
     end
 
     def call
-      return default_doc_types unless claim&.agfs?
-      return fee_reform_doc_types if claim.interim?
-      default_doc_types
+      case claim.type
+      when 'Claim::AdvocateInterimClaim'
+        fee_reform_doc_types
+      when 'Claim::LitigatorHardshipClaim'
+        DocType.for_lgfs_hardship
+      when 'Claim::AdvocateHardshipClaim'
+        DocType.for_agfs_hardship
+      else
+        default_doc_types
+      end
     end
 
     private

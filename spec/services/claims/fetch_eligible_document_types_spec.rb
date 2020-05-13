@@ -26,4 +26,20 @@ RSpec.describe Claims::FetchEligibleDocumentTypes do
       expect(document_types).to eq(DocType.for_fee_reform)
     end
   end
+
+  context 'when claim is for AGFS hardship' do
+    let(:claim) { build(:advocate_hardship_claim) }
+
+    it 'returns the correct subset of document types' do
+      expect(document_types).to eq(DocType.for_agfs_hardship)
+    end
+  end
+
+  context 'when claim is for LGFS hardship' do
+    let(:claim) { build(:litigator_hardship_claim) }
+
+    it 'returns the correct subset of document types' do
+      expect(document_types).to eq(DocType.for_lgfs_hardship)
+    end
+  end
 end

@@ -1,6 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe DocType do
+  describe '#for_agfs_hardship' do
+    subject(:doc_types) { described_class.for_agfs_hardship }
+
+    specify { expect(doc_types.map(&:id)).to match_array([1, 4, 6, 7, 8, 9, 10, 11]) }
+  end
+
+  describe '#for_lgfs_hardship' do
+    subject(:doc_types) { described_class.for_lgfs_hardship }
+
+    specify { expect(doc_types.map(&:id)).to match_array([1, 4, 7, 9, 10]) }
+  end
+
   describe '.for_fee_reform' do
     subject(:doc_types) { described_class.for_fee_reform }
 

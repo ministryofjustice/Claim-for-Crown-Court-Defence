@@ -169,8 +169,8 @@ moj.Modules.Dropzone = {
           tableRow.replaceWith(this.notificationHTML(fileName, 'error', 'The server failed to process your file.'));
           this.status.html('The server failed to process your file.');
         } else {
-          tableRow.replaceWith(this.notificationHTML(fileName, 'error', error));
-          this.status.html(fileName + ' ' + error);
+          tableRow.replaceWith(this.notificationHTML(fileName, 'error', xhr.responseJSON.error));
+          this.status.html(fileName + ' ' + xhr.responseJSON.error);
         }
       }, this),
 

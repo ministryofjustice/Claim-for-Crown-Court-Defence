@@ -48,7 +48,6 @@ Feature: Litigator completes hardship claims
 
     And I should see a page title "Upload supporting evidence for litigator hardship fees claim"
     And I upload the document 'hardship.pdf'
-    And I should see 5 evidence check boxes
     And I check the evidence boxes for 'Hardship supporting evidence'
     And I add some additional information
 

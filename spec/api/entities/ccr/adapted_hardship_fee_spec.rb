@@ -10,11 +10,7 @@ describe API::Entities::CCR::AdaptedHardshipFee, type: :adapter do
     expect(response).to include(
       bill_type: 'AGFS_ADVANCE',
       bill_subtype: 'AGFS_HARDSHIP',
-      ppe: '0',
-      number_of_witnesses: '0',
-      number_of_cases: '1',
-      daily_attendances: '2',
-      case_numbers: nil
+      calculated_fee: {:ex_vat=>"25.0"}
     )
   end
 end

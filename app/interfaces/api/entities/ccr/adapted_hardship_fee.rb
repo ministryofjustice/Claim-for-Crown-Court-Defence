@@ -2,58 +2,15 @@ module API
   module Entities
     module CCR
       class AdaptedHardshipFee < AdaptedBaseFee
+        unexpose :case_numbers
         with_options(format_with: :string) do
-          expose :adapted_ppe, as: :ppe
-          expose :number_of_witnesses
-          expose :number_of_cases
-          expose :number_of_defendants
-          expose :daily_attendances
           expose :calculated_fee, using: API::Entities::CCR::CalculatedFee
         end
-
-        expose :case_numbers
 
         private
 
         def calculated_fee
           AdaptedCalculatedFee.represent(object)
-        end
-
-        def fee_for(fee_type_unique_code)
-          object.fees.find_by(fee_type_id: ::Fee::BaseFeeType.find_by(unique_code: fee_type_unique_code))
-        end
-
-        def fee_quantity_for(fee_type_unique_code)
-          fee_for(fee_type_unique_code)&.quantity.to_i
-        end
-
-        def adapted_ppe
-          if object.discontinuance?
-            object.prosecution_evidence? ? 1 : 0
-          else
-            fee_quantity_for('BAPPE')
-          end
-        end
-
-        def number_of_witnesses
-          fee_quantity_for('BANPW')
-        end
-
-        # every claim is based on one case (i.e. see case number) but may involve others
-        def number_of_cases
-          fee_quantity_for('BANOC') + 1
-        end
-
-        def number_of_defendants
-          fee_quantity_for('BANDR') + 1
-        end
-
-        def case_numbers
-          fee_for('BANOC')&.case_numbers
-        end
-
-        def daily_attendances
-          ::CCR::DailyAttendanceAdapter.attendances_for(object)
         end
       end
     end

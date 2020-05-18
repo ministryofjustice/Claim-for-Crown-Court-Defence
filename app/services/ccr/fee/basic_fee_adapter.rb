@@ -45,7 +45,7 @@ module CCR
         raise ArgumentError, 'Instantiate with claim object to use this method'
       end
 
-      private
+      protected
 
       def fee_types
         %w[BABAF BADAF BADAH BADAJ BADAT BANOC BANDR BANPW BAPPE]

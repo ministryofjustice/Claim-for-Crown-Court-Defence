@@ -1219,7 +1219,7 @@ GEM
       ast (~> 2.4.0)
     pg (1.2.3)
     phantomjs (2.1.1.0)
-    posix-spawn (0.3.13)
+    posix-spawn (0.3.14)
     pry (0.13.0)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -1539,7 +1539,7 @@ DEPENDENCIES
   paper_trail (~> 10.3.1)
   paperclip (~> 6.1.0)
   pg (~> 1.2.3)
-  posix-spawn (~> 0.3.13)
+  posix-spawn (~> 0.3.14)
   pry-byebug
   pry-rails
   puma

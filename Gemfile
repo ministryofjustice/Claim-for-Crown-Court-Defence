@@ -90,7 +90,7 @@ group :development, :devunicorn, :test do
   gem 'pry-rails'
   gem 'puma'
   gem 'rack-livereload', '~> 0.3.16'
-  gem 'rspec-rails', '~> 4.0.0'
+  gem 'rspec-rails', '~> 4.0.1'
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'
   gem 'net-ssh'

@@ -61,7 +61,7 @@ gem 'colorize'
 gem 'shell-spinner', '~> 1.0', '>= 1.0.4'
 gem 'ruby-progressbar'
 gem 'geckoboard-ruby'
-gem 'posix-spawn', '~> 0.3.13'
+gem 'posix-spawn', '~> 0.3.14'
 gem 'laa-fee-calculator-client', '~> 1.1'
 gem 'wicked_pdf', '~> 2.0'
 

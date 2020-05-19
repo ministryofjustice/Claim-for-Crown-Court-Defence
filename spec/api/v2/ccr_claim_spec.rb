@@ -772,7 +772,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
     context 'advocate hardship claims' do
       let(:claim) { create(:advocate_hardship_claim, case_stage: build(:case_stage, :trial_not_concluded)) }
       subject(:response) { do_request.body }
-      # it { is_expected.to be_valid_ccr_claim_json }
+      it { is_expected.to be_valid_ccr_claim_json }
 
       it { is_expected.to expose :uuid }
       it { is_expected.to expose :supplier_number }

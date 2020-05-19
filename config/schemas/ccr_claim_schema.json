@@ -133,6 +133,17 @@
             },
             "type": "array"
           },
+          "calculated_fee": {
+            "id": "/properties/bills/items/properties/calculated_fee",
+            "additionalProperties": false,
+            "properties": {
+              "ex_vat": {
+                "id": "/properties/bills/items/properties/calculated_fee/properties/ex_vat",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
           "type": "array"
         },
         "type": "object"

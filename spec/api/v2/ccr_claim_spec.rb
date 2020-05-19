@@ -798,7 +798,12 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       it { is_expected.to expose :retrial_estimated_length }
   
       it { is_expected.to expose :additional_information }
+      
       it { is_expected.to expose :bills }
+      it { is_expected.to have_json_size(1).at_path('bills') }
+      it { is_expected.to be_json_eql("AGFS_ADVANCE".to_json).at_path "bills/0/bill_type" }
+      it { is_expected.to be_json_eql("AGFS_HARDSHIP".to_json).at_path "bills/0/bill_subtype" }
+      it { is_expected.to have_json_path("bills/0/calculated_fee") }
     end
   end
 end

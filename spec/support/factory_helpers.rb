@@ -46,6 +46,14 @@ module FactoryHelpers
     c.archive_pending_delete!
   end
 
+  def advance_to_pending_review(c)
+    allocate_claim(c)
+    c.reload
+    set_amount_assessed(c)
+    c.authorise!
+    c.archive_pending_review!
+  end
+
   def make_claim_creator_advocate_admin(claim)
     advocate_admin = claim.external_user.provider.external_users.admins.sample
     advocate_admin ||= create(:external_user, :admin, provider: claim.external_user.provider)

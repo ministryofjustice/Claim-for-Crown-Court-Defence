@@ -12,5 +12,9 @@ FactoryBot.define do
     trait :authorised do
       after(:create) { |c| authorise_claim(c) }
     end
+
+    trait :rejected do
+      after(:create) { |c| c.submit!; c.allocate!; c.reject! }
+    end
   end
 end

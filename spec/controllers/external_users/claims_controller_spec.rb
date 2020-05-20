@@ -279,6 +279,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         before do
           create(:draft_claim, external_user: advocate)
           create(:archived_pending_delete_claim, external_user: advocate)
+          create(:hardship_archived_pending_review_claim, external_user: advocate)
           create(:draft_claim, external_user: other_advocate)
         end
 
@@ -290,7 +291,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           end
           it 'should assign claims to archived only' do
             get :archived
-            expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete)
+            expect(assigns(:claims)).to match_array(advocate.claims.where(state: %w[archived_pending_delete archived_pending_review]))
           end
         end
 
@@ -302,7 +303,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           end
           it 'should assign claims to archived only' do
             get :archived
-            expect(assigns(:claims)).to eq(advocate_admin.provider.claims.archived_pending_delete)
+            expect(assigns(:claims)).to match_array(advocate.claims.where(state: %w[archived_pending_delete archived_pending_review]))
           end
         end
       end

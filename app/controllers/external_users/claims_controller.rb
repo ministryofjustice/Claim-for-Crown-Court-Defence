@@ -38,7 +38,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def archived
-    @claims = @claims_context.archived_pending_delete
+    @claims = @claims_context.where(state: %w[archived_pending_delete archived_pending_review])
     search(:archived_pending_delete) if params[:search].present?
     sort_and_paginate(column: 'last_submitted_at', direction: 'desc')
   end

@@ -626,6 +626,16 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
       end
 
+      context 'when non-draft hardship claim in a valid state for archival' do
+        let(:claim) { create(:advocate_hardship_claim, :rejected, external_user: advocate) }
+
+        it "sets the claim's state to 'archived_pending_review'" do
+          expect(Claim::BaseClaim.active.count).to eq(1) 
+          expect(claim.reload.state).to eq 'archived_pending_review'
+          expect(flash[:notice]).to eq 'Claim archived'
+        end
+      end
+
       context 'when non-draft claim in an invalid state for archival' do
         let(:claim) { create(:archived_pending_delete_claim, external_user: advocate) }
 

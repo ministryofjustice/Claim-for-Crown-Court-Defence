@@ -114,7 +114,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def destroy
     message = if @claim.draft?
                 flash_message_for :delete, claim_updater.delete
-              elsif @claim.can_archive_pending_delete?
+              elsif @claim.can_archive_pending_delete? || @claim.can_archive_pending_review?
                 flash_message_for :archive, claim_updater.archive
               else
                 { alert: 'This claim cannot be deleted' }

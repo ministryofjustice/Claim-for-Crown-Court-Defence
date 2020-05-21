@@ -4,7 +4,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  HARDSHIP_CLAIM_ENDPOINT = 'advocates/hardship'.freeze
+  ADVOCATE_HARDSHIP_CLAIM_ENDPOINT = 'advocates/hardship'.freeze
 
   let(:claim_class) { Claim::AdvocateHardshipClaim }
   let!(:provider)       { create(:provider) }
@@ -31,13 +31,13 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
   after(:all) { clean_database }
 
   include_examples 'advocate claim test setup'
-  it_behaves_like 'a claim endpoint', relative_endpoint: HARDSHIP_CLAIM_ENDPOINT
-  it_behaves_like 'a claim validate endpoint', relative_endpoint: HARDSHIP_CLAIM_ENDPOINT
-  it_behaves_like 'a claim create endpoint', relative_endpoint: HARDSHIP_CLAIM_ENDPOINT
+  it_behaves_like 'a claim endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
+  it_behaves_like 'a claim validate endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
+  it_behaves_like 'a claim create endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
 
-  describe "POST #{ClaimApiEndpoints.for(HARDSHIP_CLAIM_ENDPOINT).validate}" do
+  describe "POST #{ClaimApiEndpoints.for(ADVOCATE_HARDSHIP_CLAIM_ENDPOINT).validate}" do
     subject(:post_to_validate_endpoint) do
-      post ClaimApiEndpoints.for(HARDSHIP_CLAIM_ENDPOINT).validate, valid_params, format: :json
+      post ClaimApiEndpoints.for(ADVOCATE_HARDSHIP_CLAIM_ENDPOINT).validate, valid_params, format: :json
     end
   
     it 'returns 200 when parameters that are optional for hardship claims are empty' do

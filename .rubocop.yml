@@ -20,6 +20,9 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
 
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: false
+
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
@@ -29,6 +32,9 @@ Layout/LineLength:
   AllowHeredoc: true
 
 Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/DeprecatedOpenSSLConstant:
   Enabled: true
 
 Lint/RaiseException:
@@ -76,6 +82,9 @@ Style/HashTransformKeys:
   Enabled: true
 
 Style/HashTransformValues:
+  Enabled: true
+
+Style/SlicingWithRange:
   Enabled: true
 
 inherit_from: .rubocop_todo.yml

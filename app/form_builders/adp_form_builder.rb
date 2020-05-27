@@ -29,10 +29,10 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
 
   def anchor_and_label_markup(anchor_name, label, options = {})
     anchor_html = content_tag(:a, nil, { id: anchor_name }.merge(options[:anchor_attributes] || {}))
-    label_html  = nil
+    label_html = nil
 
     if label
-      label_for  = full_anchor_name_for(object, anchor_name)
+      label_for = full_anchor_name_for(object, anchor_name)
       label_html = label_tag(label_for, label, options[:label_attributes])
     end
 
@@ -45,7 +45,7 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
 
   def make_object_name
     klass_name = object.class.to_s
-    klass_name = 'Claim' if klass_name.match?(/^Claim::/)
+    klass_name = 'Claim' if klass_name.start_with?('Claim::')
     klass_name.camelize.downcase
   end
 end

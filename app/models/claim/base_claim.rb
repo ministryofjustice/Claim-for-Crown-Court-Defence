@@ -16,6 +16,7 @@ module Claim
 
     attr_reader :form_step
     alias current_step form_step
+
     attr_accessor :disable_for_state_transition
     attribute :case_transferred_from_another_court, :boolean
 

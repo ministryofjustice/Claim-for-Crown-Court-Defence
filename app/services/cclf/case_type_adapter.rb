@@ -35,6 +35,7 @@ module CCLF
     def bill_scenario
       return interim_bill_scenario if interim_scenario_applicable?
       return transfer_bill_scenario if transfer_scenario_applicable?
+      return hardship_bill_scenario if hardship_scenario_applicable?
       final_bill_scenario
     end
 
@@ -54,6 +55,14 @@ module CCLF
 
     def transfer_bill_scenario
       claim.transfer_detail&.bill_scenario
+    end
+
+    def hardship_scenario_applicable?
+      claim.hardship? && claim.lgfs? && hardship_bill_scenario
+    end
+
+    def hardship_bill_scenario
+      BILL_SCENARIOS[:HARDSHIP]
     end
 
     def final_bill_scenario

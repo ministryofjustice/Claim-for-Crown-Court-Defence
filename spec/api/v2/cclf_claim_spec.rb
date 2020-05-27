@@ -512,6 +512,50 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           end
         end
       end
+
+      context 'hardship claims' do
+        context 'when hardship fee, alone, exists' do
+          let(:claim) { create(:litigator_hardship_claim, :submitted, :with_hardship_fee) }
+          it { is_valid_cclf_json(response) }
+
+          it 'returns array containing 1 bill' do
+            is_expected.to have_json_size(1).at_path("bills")
+          end
+
+          it 'returns a litigator fee bill' do
+            is_expected.to be_json_eql('FEE_ADVANCE'.to_json).at_path("bills/0/bill_type")
+            is_expected.to be_json_eql('HARDSHIP'.to_json).at_path("bills/0/bill_subtype")
+          end
+
+          it 'returns a bill scenario based on transfer details' do
+            is_expected.to be_json_eql('ST2TS1T0'.to_json).at_path("case_type/bill_scenario")
+          end
+        end
+
+        context 'when an additional misc fee exists' do
+          let(:claim) do
+            create(:litigator_hardship_claim, :submitted, :with_hardship_fee).tap do |claim|
+              create(:misc_fee, :lgfs, claim: claim, amount: '45', fee_type: fee_type)
+            end
+          end
+          let(:fee_type) { build(:misc_fee_type, :lgfs, :mievi) }
+
+          it { is_valid_cclf_json(response) }
+
+          it 'returns array containing 2 bills' do
+            is_expected.to have_json_size(2).at_path("bills")
+          end
+
+          it 'returns a litigator fee bill' do
+            is_expected.to be_json_eql('EVID_PROV_FEE'.to_json).at_path("bills/1/bill_type")
+            is_expected.to be_json_eql('EVID_PROV_FEE'.to_json).at_path("bills/1/bill_subtype")
+          end
+
+          it 'returns a bill scenario based on transfer details' do
+            is_expected.to be_json_eql('ST2TS1T0'.to_json).at_path("case_type/bill_scenario")
+          end
+        end
+      end
     end
   end
 end

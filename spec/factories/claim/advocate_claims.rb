@@ -3,7 +3,7 @@
 # differentiate from other claim types.
 #
 FactoryBot.define do
-  factory :claim, aliases: [:advocate_claim], class: Claim::AdvocateClaim do
+  factory :claim, aliases: [:advocate_claim, :advocate_final_claim], class: Claim::AdvocateClaim do
 
     # NOTE: this was introduced because it was the only way to get FactoryBot to set
     # model attributes on initialize (which seems not to be the default behaviour) and

@@ -7,22 +7,20 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
   ALLOCATION_ENDPOINT = '/api/case_workers/allocate'
   FORBIDDEN_ALLOCATION_VERBS = [:get, :put, :patch, :delete]
 
-  let(:case_worker) { create :user, email: 'caseworker@example.com' }
-  let(:case_worker_admin) { create(:case_worker, :admin) }
+  let(:case_worker_user) { create :user, email: 'caseworker@example.com' }
+  let(:case_worker) { create(:case_worker, :admin, user: case_worker_user) }
   let(:external_user) { create(:external_user) }
   let(:valid_base_params) { { api_key: api_key, case_worker_id: case_worker.id } }
-  let(:valid_array_params) { valid_base_params.merge( claim_ids: '1, 2, 3' ) }
-  let(:invalid_array_params) { valid_base_params.merge( claim_ids: %w(1 2 3) ) }
-  let(:api_key) { case_worker_admin.user.api_key }
+  let(:api_key) { case_worker.user.api_key }
 
-  before { case_worker_admin.user = case_worker }
+  before { case_worker.user = case_worker_user }
 
   def do_request
     post ALLOCATION_ENDPOINT, params, format: :json
   end
 
   def configure_params(params)
-    params.except(:api_key).merge(allocating: true, current_user: case_worker).to_h.stringify_keys
+    params.except(:api_key).merge(allocating: true, current_user: case_worker.user).to_h.stringify_keys
   end
 
   context 'when sending non-permitted verbs' do
@@ -37,86 +35,52 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
   end
 
   describe 'POST allocate' do
-    let(:allocation) { double Allocation }
+    before { do_request }
 
-    context 'with valid array params' do
-      let(:params) { valid_array_params }
+    let(:claims) { create_list(:submitted_claim, 3) }
+    let(:claim_ids) { claims.map(&:id).join(', ') }
+    let(:params) { valid_base_params.merge(claim_ids: claim_ids) }
 
-      context 'when accessed by a CaseWorker' do
-        let(:claims) { create_list(:allocated_claim, 3) }
-        let(:error_return) { { base: [] } }
-
-        before do
-          allow(Allocation).to receive(:new).and_return(allocation)
-          allow(allocation).to receive(:save).and_return(true)
-          allow(allocation).to receive(:successful_claims).and_return(claims.to_a)
-          allow(allocation).to receive(:errors).and_return(error_return)
-          do_request
-        end
-
-        it 'should succeed' do
-          expect(last_response.status).to eq 201
-        end
-
-        it 'should return a JSON with the required information' do
-          body = JSON.parse(last_response.body, symbolize_names: true)
-          claim_ids = claims.map(&:id).to_a
-          expected = { result: true, allocated_claims: claim_ids, errors: [] } # TODO: Update this, what should be returned
-
-          expect(body).to eq(expected)
-        end
+    context 'with claim_ids as comma-separated string' do
+      it 'should return http status 201' do
+        expect(last_response.status).to eq 201
       end
 
-      context 'when accessed by a ExternalUser' do
-        let(:api_key) { external_user.user.api_key }
-        before { do_request }
-
-        it 'returns unauthorised' do
-          expect(last_response.status).to eq 401
-          expect(last_response.body).to include('Unauthorised')
-        end
-      end
-
-      context 'when allocating cases where one is already allocated' do
-        let(:claims) do
-          claims = create_list(:submitted_claim, 1)
-          claims << create(:allocated_claim)
-        end
-        let(:errors) do
-          { base:
-              [
-                "NO claims allocated because: ",
-                "Claim T20167325 has already been allocated to Bill Smith"
-              ]
-          }
-        end
-
-        before do
-          allow(Allocation).to receive(:new).and_return(allocation)
-          allow(allocation).to receive(:save).and_return(true)
-          allow(allocation).to receive(:successful_claims).and_return(claims.to_a)
-          allow(allocation).to receive(:errors).and_return(errors)
-          do_request
-        end
-
-        it 'should return a JSON with error messages' do
-          body = JSON.parse(last_response.body, symbolize_names: true)
-
-          expect(body[:errors][1]).to match /Claim .* has already been allocated/
-        end
-
+      it 'should return a JSON with the required information' do
+        body = JSON.parse(last_response.body, symbolize_names: true)
+        expected = { result: true, allocated_claims: claims.map(&:id), errors: [] }
+        expect(body).to eq(expected)
       end
     end
 
-    context 'when a valid user passes invalid parameters' do
-      let(:params) { invalid_array_params }
-      before { do_request }
+    context 'with claim_ids as array of strings' do
+      let(:claim_ids) { claims.map { |c| c.id.to_s } }
 
       it 'should return JSON containing an error description' do
         body = JSON.parse(last_response.body, symbolize_names: true)
         expected = [{:error=>'claim_ids is invalid'}]
-
         expect(body).to eq(expected)
+      end
+    end
+
+    context 'when accessed by a ExternalUser' do
+      let(:api_key) { external_user.user.api_key }
+
+      it 'returns unauthorised' do
+        expect(last_response.status).to eq 401
+        expect(last_response.body).to include('Unauthorised')
+      end
+    end
+
+    context 'when allocating cases where one is already allocated' do
+      let(:claims) do
+        claims = create_list(:submitted_claim, 1)
+        claims << create(:allocated_claim)
+      end
+
+      it 'should return a JSON with error messages' do
+        body = JSON.parse(last_response.body, symbolize_names: true)
+        expect(body[:errors][1]).to match /Claim .* has already been allocated/
       end
     end
   end

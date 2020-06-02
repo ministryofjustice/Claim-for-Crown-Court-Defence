@@ -36,7 +36,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
   let(:case_type) { create(:case_type, :trial) }
   let(:basic_fee) { build(:basic_fee, :baf_fee, quantity: 1) }
   let(:misc_fee) { build(:misc_fee, :mispf_fee, :with_date_attended) }
-  let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: [basic_fee], misc_fees: [misc_fee]) }
+  let(:claim) { create(:submitted_claim, :without_fees, case_type: case_type, basic_fees: [basic_fee], misc_fees: [misc_fee]) }
 
   def do_request(claim_uuid: claim.uuid, api_key: case_worker.user.api_key)
     get "/api/ccr/claims/#{claim_uuid}", { api_key: api_key }, { format: :json }
@@ -79,29 +79,38 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
     end
 
     context 'entities' do
-      context 'for advocate "final" claims' do
-        it 'presents claim with CCR advocate claim entity' do
+      context 'with advocate "final" claims' do
+        it 'presents claim with CCR final claim entity' do
           expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateClaim), with: API::Entities::CCR::FinalClaim )
           do_request
         end
       end
 
-      context 'for advocate interim claims' do
+      context 'with advocate interim claims' do
         let(:warrant_fee) { build(:warrant_fee, :warr_fee) }
         let(:offence) { create(:offence, :with_fee_scheme_ten) }
         let(:claim) { create_claim(:advocate_interim_claim, :without_fees, :submitted, offence: offence, warrant_fee: warrant_fee) }
 
-        it 'presents claim with CCR advocate interim claim entity' do
+        it 'presents claim with CCR interim claim entity' do
           expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateInterimClaim), with: API::Entities::CCR::InterimClaim)
           do_request
         end
       end
 
-      context 'for advocate supplementary claims' do
-        let(:claim) { create_claim(:advocate_supplementary_claim, :submitted) }
+      context 'with advocate supplementary claims' do
+        let(:claim) { create(:advocate_supplementary_claim, :submitted) }
 
-        it 'presents claim with CCR advocate supplementary claim entity' do
+        it 'presents claim with CCR supplementary claim entity' do
           expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateSupplementaryClaim), with: API::Entities::CCR::SupplementaryClaim)
+          do_request
+        end
+      end
+
+      context 'with advocate hardship claims' do
+        let(:claim) { create(:advocate_hardship_claim, :submitted) }
+
+        it 'presents claim with CCR hardship claim entity' do
+          expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateHardshipClaim), with: API::Entities::CCR::HardshipClaim)
           do_request
         end
       end
@@ -201,6 +210,40 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
       it { is_expected.to expose :additional_information }
       it { is_expected.to expose :bills }
+    end
+
+    context 'advocate hardship claims' do
+      subject(:response) { do_request.body }
+
+      let(:claim) { create(:advocate_hardship_claim, case_stage: build(:case_stage, :trial_not_concluded)) }
+
+      it { is_expected.to expose :uuid }
+      it { is_expected.to expose :supplier_number }
+      it { is_expected.to expose :case_number }
+      it { is_expected.to expose :first_day_of_trial }
+      it { is_expected.to expose :trial_fixed_notice_at }
+      it { is_expected.to expose :trial_fixed_at }
+      it { is_expected.to expose :trial_cracked_at }
+      it { is_expected.to expose :retrial_started_at }
+      it { is_expected.to expose :trial_cracked_at_third }
+      it { is_expected.to expose :last_submitted_at }
+
+      it { is_expected.to expose :advocate_category }
+      it { is_expected.to expose :case_type }
+      it { is_expected.to expose :court }
+      it { is_expected.to expose :offence }
+      it { is_expected.to expose :defendants }
+      it { is_expected.to expose :retrial_reduction }
+
+      it { is_expected.to expose :actual_trial_Length }
+      it { is_expected.to expose :estimated_trial_length }
+      it { is_expected.to expose :retrial_actual_length }
+      it { is_expected.to expose :retrial_estimated_length }
+
+      it { is_expected.to expose :additional_information }
+
+      it { is_expected.to expose :bills }
+      it { is_expected.to have_json_size(1).at_path('bills') }
     end
 
     context 'defendants' do
@@ -473,8 +516,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         let(:misc_fee) { build(:misc_fee, :mispf_fee, :with_date_attended) }
         let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, misc_fees: [misc_fee]) }
 
-        subject(:response) { do_request.body }
-
         before do
           # TODO: this should probably be using the seeds instead?!
           create(:fixed_fee_type, :fxcbr)
@@ -594,8 +635,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       end
 
       context 'miscellaneous fees' do
-        subject(:response) { do_request.body }
-
         let(:misc_fees) { [build(:misc_fee, :miaph_fee)] }
         let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, misc_fees: misc_fees) }
 
@@ -752,6 +791,47 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         it 'returns a warrant fee bill' do
           is_expected.to be_json_eql('AGFS_ADVANCE'.to_json).at_path("bills/0/bill_type")
           is_expected.to be_json_eql('AGFS_WARRANT'.to_json).at_path("bills/0/bill_subtype")
+        end
+      end
+
+      context 'hardship fees' do
+        before { seed_fee_schemes }
+
+        let(:claim) { create(:advocate_hardship_claim, :agfs_scheme_9, case_stage: build(:case_stage, :trial_not_concluded)) }
+
+        it { is_expected.to be_valid_ccr_claim_json }
+        it { is_expected.to be_json_eql("AGFS_ADVANCE".to_json).at_path "bills/0/bill_type" }
+        it { is_expected.to be_json_eql("AGFS_HARDSHIP".to_json).at_path "bills/0/bill_subtype" }
+        it { is_expected.to have_json_path("bills/0/amount") }
+
+        context 'with basic fees that map to misc fees exist' do
+          before do
+            claim.basic_fees.find_by(fee_type: Fee::BaseFeeType.find_by(unique_code: 'BABAF')).update(quantity: 1, rate: 10)
+            claim.fees << build(:basic_fee, :daf_fee, quantity: 1, rate: 1, claim: claim) # add to hardship
+            claim.fees << build(:basic_fee, :cav_fee, quantity: 1, rate: 100, claim: claim) # not added to hardship - a CCR misc fee that is NOT injected
+            claim.fees << build(:basic_fee, :saf_fee, quantity: 1, rate: 100, claim: claim) # not added to hardship - a CCR misc fee that IS injected
+            claim.fees << build(:basic_fee, :pcm_fee, quantity: 1, rate: 100, claim: claim) # not added to hardship - a CCR misc fee that IS injected
+          end
+
+          it 'adds CCR hardship fee to bills array' do
+            expect(response).to include("\"bill_type\":\"AGFS_ADVANCE\"").and include("\"bill_subtype\":\"AGFS_HARDSHIP\"")
+          end
+
+          it 'does not add CCR advocate fee to bills array' do
+            expect(response).to_not include("\"bill_subtype\":\"AGFS_FEE\"")
+          end
+
+          it 'converts CCCD BASAF to CCR misc fee AGFS_STD_APPRNC to bills array' do
+            expect(response).to include("\"bill_type\":\"AGFS_MISC_FEES\"").and include("\"bill_subtype\":\"AGFS_STD_APPRNC\"")
+          end
+
+          it 'converts CCCD BAPCM to CCR misc fee AGFS_PLEA to bills array' do
+            expect(response).to include("\"bill_type\":\"AGFS_MISC_FEES\"").and include("\"bill_subtype\":\"AGFS_PLEA\"")
+          end
+
+          it 'ignores CCCD BACAV fee' do
+            expect(response).to_not include("\"bill_subtype\":\"AGFS_CONFERENCE\"")
+          end
         end
       end
 

@@ -1,4 +1,5 @@
 #!/bin/sh
+
 function _circleci_deploy() {
   usage="deploy -- deploy image from current commit to an environment
   Usage: $0 environment

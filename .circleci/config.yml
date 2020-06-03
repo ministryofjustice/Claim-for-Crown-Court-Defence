@@ -100,14 +100,21 @@ references:
 
   _script-build-app-container: &script-build-app-container
     run:
-        name: Build and push cccd docker image
-        command: |
-          .circleci/build.sh
+      name: Build and push cccd docker image
+      command: |
+        .circleci/build.sh
 
 # ------------------
 # EXECUTORS
 # ------------------
 executors:
+  basic-executor:
+    docker:
+      - image: cimg/base:2020.01
+        environment:
+          GITHUB_TEAM_NAME_SLUG: laa-get-paid
+          REPO_NAME: cccd
+
   cloud-platform-executor:
     docker:
     - image: ${ECR_ENDPOINT}/cloud-platform/tools:circleci
@@ -265,7 +272,7 @@ jobs:
       - smoke-test
 
   smoke-test-notification:
-    executor: slack/alpine
+    executor: basic-executor
     steps:
       - smoke-test-notification
 
@@ -330,13 +337,13 @@ jobs:
       - *script-build-app-container
 
   hold-build-notification:
-    executor: cloud-platform-executor
+    executor: basic-executor
     steps:
       - hold-notification:
           message: "Do you want to build <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH>?"
 
   hold-deploy-notification:
-    executor: cloud-platform-executor
+    executor: basic-executor
     steps:
       - hold-notification:
           message: "Deployment of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> pending approval"

@@ -36,12 +36,10 @@ class Claim::BaseClaimPresenter < BasePresenter
 
   present_with_currency :misc_fees_total, :disbursements_total, :total_inc
 
-  # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down
-  #
   def valid_transitions(options = { include_submitted: true })
     states = claim.state_transitions.map(&:to_name) - %i[archived_pending_delete deallocated]
     states -= [:submitted] if options[:include_submitted] == false
-    states.map { |state| [state, state.to_s.humanize] }.to_h
+    states.index_with { |state| state.to_s.humanize }
   end
 
   def valid_transitions_for_detail_form

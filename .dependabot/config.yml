@@ -9,4 +9,4 @@ update_configs:
     # Apply default reviewer and label to created
     # pull requests
     default_reviewers:
-      - "crime-billing-online"
+      - "ministryofjustice/crime-billing-online"

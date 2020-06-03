@@ -281,6 +281,10 @@ Rails/TimeZone:
     - 'app/presenters/claim_csv_presenter.rb'
     - 'lib/release.rb'
 
+Rails/UniqueValidationWithoutIndex:
+  Exclude:
+    - app/models/**/*.rb
+
 # Offense count: 1
 # Configuration parameters: Environments.
 # Environments: development, test, production

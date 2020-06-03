@@ -12,3 +12,7 @@
 //= link govuk-template-print.css
 //= link fonts.css
 //= link application.js
+
+// swagger docs
+//= link grape_swagger_rails/application.css
+//= link grape_swagger_rails/application.js

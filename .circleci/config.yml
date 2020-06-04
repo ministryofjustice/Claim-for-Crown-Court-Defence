@@ -4,28 +4,6 @@ orbs:
   slack: circleci/slack@3.4.1
 
 references:
-  _restore-cache: &restore-cache
-    restore_cache:
-      keys:
-        - v2-dependencies-{{ checksum "Gemfile.lock" }}
-        # fallback to using the latest cache if no exact match is found
-        - v2-dependencies-
-
-  _install-dependencies: &install-dependencies
-    run:
-      name: Install dependencies
-      command: |
-        bundler_version=$(cat Gemfile.lock | tail -1 | tr -d " ")
-        gem install bundler -v $bundler_version
-        bundle check || bundle install --jobs=4 --retry=3 --path vendor/bundle
-        yarn install
-
-  _save-cache: &save-cache
-    save_cache:
-      key: v2-dependencies-{{ checksum "Gemfile.lock" }}
-      paths:
-        - vendor/bundle
-
   _attach-tmp-workspace: &attach-tmp-workspace
       attach_workspace:
         at: ~/repo/tmp
@@ -171,11 +149,48 @@ executors:
 # COMMANDS
 # ------------------
 commands:
+  install-gem-dependencies:
+    description: >
+      Install, or restore from cache, ruby gem dependencies
+    steps:
+      - restore_cache:
+          keys:
+            - v2-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v2-dependencies-
+      - run:
+          name: Install ruby gem dependencies
+          command: |
+            bundler_version=$(cat Gemfile.lock | tail -1 | tr -d " ")
+            gem install bundler -v $bundler_version
+            bundle check || bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - save_cache:
+          key: v2-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+  install-js-dependencies:
+    description: >
+      Install, or restore from cache, javacsript package dependencies
+    steps:
+      - restore_cache:
+          keys:
+            - v1-js-dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-js-dependencies
+      - run:
+          name: Install javascript package dependencies
+          command: |
+            yarn install --frozen-lockfile
+      - save_cache:
+          key: v1-js-dependencies-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+
   build-base:
     steps:
-      - *restore-cache
-      - *install-dependencies
-      - *save-cache
+      - install-gem-dependencies
+      - install-js-dependencies
 
   deploy-to:
     description: >

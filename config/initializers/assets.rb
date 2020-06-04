@@ -7,7 +7,7 @@
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'images')
-Rails.application.config.assets.precompile += %w( adp_swagger_application.js *.png)
-Rails.application.config.assets.precompile += %w( application.test.js ) if Rails.env.test?
-Rails.application.config.assets.precompile += %w( pdf.css )
+# Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'images')
+# Rails.application.config.assets.precompile += %w( adp_swagger_application.js *.png)
+# Rails.application.config.assets.precompile += %w( application.test.js ) if Rails.env.test?
+# Rails.application.config.assets.precompile += %w( pdf.css )

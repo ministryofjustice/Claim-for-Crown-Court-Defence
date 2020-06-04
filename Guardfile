@@ -29,3 +29,8 @@ end
 guard :cucumber, all_on_start: false do
   watch(%r{features/.+\.feature})
 end
+
+guard :webpacker, all_on_start: false do
+  watch('config/webpacker.yml')
+  watch(%r{^config/webpacker/(.+)$})
+end

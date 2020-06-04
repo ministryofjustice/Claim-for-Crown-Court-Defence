@@ -1,6 +1,7 @@
 .idea/**/
 .DS_Store
 
+node_modules
 public/system/documents
 public/paperclip
 public/uploads
@@ -17,6 +18,8 @@ log/*
 
 tmp/stats/*.csv
 tmp/*.log
+tmp/dev/**/*
+tmp/*
 
 coverage/*
 coverage

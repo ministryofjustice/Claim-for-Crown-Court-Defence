@@ -4,14 +4,12 @@
 // and https://github.com/rails/sprockets-rails/blob/v3.2.1/lib/sprockets/railtie.rb#L103-L110
 //
 
-//= link application.css
 //= link govuk-template.css
 //= link govuk-template-ie6.css
 //= link govuk-template-ie7.css
 //= link govuk-template-ie8.css
 //= link govuk-template-print.css
 //= link fonts.css
-//= link application.js
 
 // swagger docs
 //= link grape_swagger_rails/application.css

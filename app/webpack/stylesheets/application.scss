@@ -1,3 +1,7 @@
+// Set a path for your image assets
+// The _url-helpers.scss partial requires that $path is defined in your main application stylesheet.
+$path: '~images/';
+
 // GOV.UK Frontend Toolkit (alphagov/govuk_frontend_toolkit)
 @import '~govuk_frontend_toolkit/stylesheets/colours';
 @import '~govuk_frontend_toolkit/stylesheets/font_stack';

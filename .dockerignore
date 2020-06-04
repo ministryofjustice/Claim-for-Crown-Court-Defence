@@ -9,6 +9,8 @@ public/assets/test/*
 public/assets/test
 public/assets/dev/*
 public/assets/dev
+public/packs/*
+public/packs-test/*
 
 config/settings.local.yml
 config/settings/*.local.yml

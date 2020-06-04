@@ -5,11 +5,19 @@ RSpec.describe NotifyMailer, type: :mailer do
   describe 'message_added_email' do
     let(:template) { '4240bf0e-0000-444e-9c30-0d1bb64a2fb4' }
 
-    let(:user) { instance_double(User, name: 'Test Name', email: 'test@example.com') }
-    let(:creator) { instance_double(User, name: 'Creator Name', email: 'creator@example.com') }
-    let(:external_user) { instance_double(ExternalUser, user: user) }
-    let(:creator_user) { instance_double(ExternalUser, user: creator) }
-    let(:claim) { instance_double(Claim::BaseClaim, external_user: external_user, creator: creator_user, case_number: 'T201600001') }
+    # NOTE: set id explicitly to differentiate external_user.id from user.id
+    # because if left to factories/db it will often set them to the same value
+    # due to sequence resetting.
+    let(:provider) { create(:provider, :agfs)}
+    let(:external_user) { create(:external_user, provider: provider, id: 101) }
+    let(:creator_external_user) { create(:external_user, provider: provider, id: 201) }
+    let(:claim) { create(:advocate_final_claim) }
+
+    before do
+      claim.external_user = external_user
+      claim.creator = creator_external_user
+      claim.save!
+    end
 
     let(:mail) { described_class.message_added_email(claim) }
 
@@ -19,12 +27,14 @@ RSpec.describe NotifyMailer, type: :mailer do
       expect(mail.delivery_method).to be_a(GovukNotifyRails::Delivery)
     end
 
-    it 'sets the recipient' do
-      expect(mail.to).to eq(['creator@example.com'])
-    end
+    context 'when setting recipient' do
+      it 'uses claim creator\'s external user email address' do
+        expect(mail.to).to eq([creator_external_user.email])
+      end
 
-    it 'ignores the external user' do
-      expect(mail.to).to_not eq(['test@example.com'])
+      it 'does not use the claim\'s external user email address' do
+        expect(mail.to).to_not eq([external_user.email])
+      end
     end
 
     it 'sets the body' do
@@ -35,8 +45,28 @@ RSpec.describe NotifyMailer, type: :mailer do
       expect(mail.govuk_notify_template).to eq(template)
     end
 
-    it 'sets the personalisation' do
-      expect(mail.govuk_notify_personalisation.keys.sort).to eq([:claim_case_number, :claim_url, :edit_user_url, :user_name])
+    context 'when setting personalisation' do
+      subject(:personalisation) { mail.govuk_notify_personalisation }
+
+      it 'adds relevant attributes' do
+        expect(personalisation.keys).to match_array %i[claim_case_number claim_url edit_user_url user_name]
+      end
+
+      it 'adds creators name' do
+        expect(personalisation[:user_name]).to eql(creator_external_user.user.name)
+      end
+
+      it 'adds claim case number' do
+        expect(personalisation[:claim_case_number]).to eql(claim.case_number)
+      end
+
+      it 'adds link to claim messages' do
+        expect(personalisation[:claim_url]).to match(%r{.*/external_users/claims/#{claim.id}\?messages=true})
+      end
+
+      it 'adds link to edit creators profile' do
+        expect(personalisation[:edit_user_url]).to match(%r{.*/external_users/admin/external_users/#{creator_external_user.id}/edit})
+      end
     end
   end
 end

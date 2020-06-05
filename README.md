@@ -30,6 +30,12 @@ See `config/aws.yaml` and note that because we use the [config](https://github.c
 brew bundle
 ```
 
+### Install node (using projects version `.nvmrc`)
+
+```
+nvm install
+```
+
 ### Setup
 
 Install gems, set environment files and setup database

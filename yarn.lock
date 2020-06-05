@@ -7113,10 +7113,10 @@ supports-color@^7.0.0:
   dependencies:
     has-flag "^4.0.0"
 
-susy@2.2.14:
-  version "2.2.14"
-  resolved "https://registry.yarnpkg.com/susy/-/susy-2.2.14.tgz#4551690ff063dd2049197dd8885bae5341a969f8"
-  integrity sha512-4I7Cb4Cjw2TF6ZEMxT8W9/Ap35Kn/r6y3LIO+NzaMRBxfbmT+w2KvbrANG/JCqJjlPgqvwLfLF9vmndSMGZuLg==
+susy@3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/susy/-/susy-3.0.5.tgz#92167b47e60d0c03e93569fc8695c6fa2067ea7d"
+  integrity sha512-Adc67mYO0n7eKn0lnyVOMN9lqA3JrHE/NAMfOQQnm2g8yvcZpmcrNfiHjfQXVodXdZE1PyluPnUjPhezaKGztA==
 
 svgo@^1.0.0:
   version "1.3.2"

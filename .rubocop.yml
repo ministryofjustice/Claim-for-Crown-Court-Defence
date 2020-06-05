@@ -15,6 +15,7 @@ AllCops:
     - 'lib/demo_data/**/*'
     - 'lib/tasks/**/*'
     - 'features/**/*'
+    - 'node_modules/**/*'
     - 'old_features/**/*'
     - 'spec/**/*'
     - 'tmp/**/*'

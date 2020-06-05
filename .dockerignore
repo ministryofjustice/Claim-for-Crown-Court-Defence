@@ -1,6 +1,7 @@
 .idea/**/
 .DS_Store
 
+node_modules
 public/system/documents
 public/paperclip
 public/uploads
@@ -8,6 +9,8 @@ public/assets/test/*
 public/assets/test
 public/assets/dev/*
 public/assets/dev
+public/packs/*
+public/packs-test/*
 
 config/settings.local.yml
 config/settings/*.local.yml
@@ -17,6 +20,8 @@ log/*
 
 tmp/stats/*.csv
 tmp/*.log
+tmp/dev/**/*
+tmp/*
 
 coverage/*
 coverage

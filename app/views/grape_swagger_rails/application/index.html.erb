@@ -47,7 +47,7 @@
 
   <meta content='telephone=no' name='format-detection'>
 
-  <%= stylesheet_link_tag 'v1/application', media: 'all' %>
+  <%= stylesheet_pack_tag 'application', media: 'all' %>
 
   <script type="text/javascript">
     $(function () {
@@ -209,7 +209,7 @@
   <!--end footer-->
 
   <!-- do NOT include ADPs application,js as it including jquery twice causes a jquery error in swagger, the impact of which is unclear, but we do not need this js anyway execpt jquery_ujs -->
-  <%= javascript_include_tag "adp_swagger_application" %>
+  <%= javascript_pack_tag "adp_swagger_application" %>
 
 </body>
 

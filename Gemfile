@@ -63,6 +63,7 @@ gem 'ruby-progressbar'
 gem 'geckoboard-ruby'
 gem 'posix-spawn', '~> 0.3.14'
 gem 'laa-fee-calculator-client', '~> 1.1'
+gem 'webpacker', '~> 5.1'
 gem 'wicked_pdf', '~> 2.0'
 
 group :production, :devunicorn do
@@ -82,6 +83,7 @@ group :development, :devunicorn, :test do
   gem 'guard-livereload', '>= 2.5.2'
   gem 'guard-rspec'
   gem 'guard-rubocop'
+  gem 'guard-webpacker', '~> 0.2.1'
   gem 'jasmine', git: 'https://github.com/jasmine/jasmine-gem.git', branch: 'master'
   gem 'jasmine_selenium_runner', require: false
   gem 'listen', '~> 3.2.1'

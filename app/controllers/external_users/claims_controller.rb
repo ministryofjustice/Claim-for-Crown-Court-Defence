@@ -87,7 +87,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def clone_rejected
     draft = nil
-    Timeout.timeout(15) do
+    Timeout.timeout(20) do
       draft = claim_updater.clone_rejected
     end
     LogStuff.send(:info,

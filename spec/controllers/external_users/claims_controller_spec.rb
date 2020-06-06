@@ -548,52 +548,98 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
   end
 
   describe "PATCH #clone_rejected" do
-    context 'from rejected claim' do
-      subject { create(:rejected_claim, external_user: advocate) }
-
-      before do
-        patch :clone_rejected, params: { id: subject }
+    context 'with a rejected claim' do
+      subject(:claim) do
+        create(:rejected_claim, external_user: advocate).tap do |c|
+          c.documents << build_list(:document, 2, :verified, claim: c, document_file_size: 5000000)
+        end
       end
 
-      it 'creates a draft from the rejected claim' do
-        expect(Claim::BaseClaim.active.last).to be_draft
-        expect(Claim::BaseClaim.active.last.case_number).to eq(subject.case_number)
+      context 'when no errors encountered' do
+        before do
+          allow(LogStuff).to receive(:info)
+          patch :clone_rejected, params: { id: claim.id }
+        end
+
+        it 'creates a clone of the rejected claim' do
+          expect(Claim::BaseClaim.active.last.case_number).to eq(claim.case_number)
+        end
+
+        it 'creates claim in draft state' do
+          expect(Claim::BaseClaim.active.last).to be_draft
+        end
+
+        it 'redirects to the draft\'s edit page' do
+          expect(response).to redirect_to(edit_advocates_claim_path(Claim::BaseClaim.active.last))
+        end
+
+        it 'logs success details' do
+          expect(LogStuff).to have_received(:info).with('ExternalUsers::ClaimsController',
+                                                       action: 'clone',
+                                                       claim_id: claim.id,
+                                                       documents: 2,
+                                                       total_size: '9.54 MB')
+        end
+
+        it'displays a flash notice' do
+          expect(flash[:notice]).to eq "Draft created"
+        end
       end
 
-      it 'redirects to the draft\'s edit page' do
-        expect(response).to redirect_to(edit_advocates_claim_path(Claim::BaseClaim.active.last))
+      context 'when cloning execution expired' do
+        before do
+          allow(LogStuff).to receive(:error)
+          allow_any_instance_of(Claims::ExternalUserClaimUpdater).to \
+            receive(:clone_rejected)
+            .and_raise(Timeout::Error, 'execution expired')
+          patch :clone_rejected, params: { id: claim.id }
+        end
+
+        it 'logs an error' do
+          expect(LogStuff).to \
+            have_received(:error).with('ExternalUsers::ClaimsController',
+                                       action: 'clone',
+                                       claim_id: claim.id,
+                                       documents: 2,
+                                       total_size: '9.54 MB',
+                                       error: 'Timeout::Error: execution expired')
+        end
+
+        it'displays a flash alert' do
+          expect(flash[:alert]).to eq "An error is preventing this claim from being redrafted.\nThe problem has been logged and is being investigated.\nTo continue please start a new claim.\n"
+        end
       end
     end
 
-    context 'from non-rejected claim' do
-      subject { create(:submitted_claim, external_user: advocate) }
+    context 'with a non-rejected claim' do
+      subject(:claim) { create(:submitted_claim, external_user: advocate) }
 
-      it 'logs the actual error message' do
-        expect(LogStuff).to receive(:error).with('ExternalUsers::ClaimsController',
-                                                 action: 'clone',
-                                                 claim_id: subject.id,
-                                                 documents: 0,
-                                                 total_size: 0,
-                                                 error: 'Claims::Cloner.clone_rejected_to_new_draft failed with error \'Can only clone claims in state "rejected"\'')
-        patch :clone_rejected, params: { id: subject }
+      before do
+        allow(LogStuff).to receive(:error)
+        patch :clone_rejected, params: { id: claim }
       end
 
-      describe 'the response' do
-        before do
-          patch :clone_rejected, params: { id: subject }
-        end
+      it 'logs an error' do
+        expect(LogStuff).to \
+          have_received(:error)
+          .with('ExternalUsers::ClaimsController',
+                action: 'clone',
+                claim_id: claim.id,
+                documents: 0,
+                total_size: '0 Bytes',
+                error: 'RuntimeError: Claims::Cloner.clone_rejected_to_new_draft failed with error \'Can only clone claims in state "rejected"\'')
+      end
 
-        it 'redirects to advocates dashboard' do
-          expect(response).to redirect_to(external_users_claims_url)
-        end
+      it 'redirects to advocates dashboard' do
+        expect(response).to redirect_to(external_users_claims_url)
+      end
 
-        it 'does not create a draft claim' do
-          expect(Claim::BaseClaim.active.last).to_not be_draft
-        end
+      it 'does not create a draft claim' do
+        expect(Claim::BaseClaim.active.last).to_not be_draft
+      end
 
-        it'displays a flash error' do
-          expect(flash[:alert]).to eq "An error is preventing this claim from being redrafted.\nThe problem has been logged and is being investigated.\nTo continue please start a new claim.\n"
-        end
+      it'displays a flash error' do
+        expect(flash[:alert]).to eq "An error is preventing this claim from being redrafted.\nThe problem has been logged and is being investigated.\nTo continue please start a new claim.\n"
       end
     end
   end

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, focus: true do
-
+RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
   before { sign_in litigator.user }
 
   let!(:litigator)    { create(:external_user, :litigator) }

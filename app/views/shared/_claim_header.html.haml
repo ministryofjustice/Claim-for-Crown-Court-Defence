@@ -52,7 +52,7 @@
             - if claim.rejected?
               = button_to t('.redraft'), clone_rejected_external_users_claim_path(claim), method: 'patch', class: 'button resubmit-claim', form_class: 'inline-form'
             = link_to t('.archive'), external_users_claim_path(claim), method: :delete, data: { confirm: t('.confirm_text') }, class: 'button', role: 'button'
-        - if claim.archived_pending_delete?
+        - if claim.archived_pending_delete? || claim.archived_pending_review?
           = t('.actions')
           .action-wrapper
             = button_to t('.unarchive'), unarchive_external_users_claim_path(claim), method: 'patch', class: 'button', form_class: 'inline-form'

@@ -125,7 +125,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def unarchive
     claim_url = external_users_claim_url(@claim)
-    return redirect_to claim_url, alert: t('.not_archived') unless @claim.archived_pending_delete?
+    return redirect_to claim_url, alert: t('.not_archived') unless unarchive_allowed?
     @claim = PreviousVersionOfClaim.new(@claim).call
     @claim.zeroise_nil_totals!
     @claim.save!(validate: false)
@@ -552,5 +552,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def flash_message_for(event, status)
     status ? { notice: "Claim #{event}d" } : { alert: "Claim could not be #{event}d" }
+  end
+
+  def unarchive_allowed?
+    @claim.archived_pending_delete? || @claim.archived_pending_review?
   end
 end

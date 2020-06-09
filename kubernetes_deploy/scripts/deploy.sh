@@ -26,7 +26,7 @@ function _deploy() {
   fi
 
   case "$1" in
-    dev | dev-agfs | dev-lgfs | staging | api-sandbox | production)
+    dev | dev-lgfs | staging | api-sandbox | production)
       environment=$1
       ;;
     *)

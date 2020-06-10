@@ -1,4 +1,18 @@
 {
+  "name": "claim_for_crown_court_defense",
+  "description": "Claim for Crown Court Defence",
+  "version": "1.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence.git"
+  },
+  "author": "LAA Developers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence/issues"
+  },
+  "homepage": "https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence#readme",
   "dependencies": {
     "@rails/webpacker": "5.1.1",
     "accessible-autocomplete": "^2.0.1",

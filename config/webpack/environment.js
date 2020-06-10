@@ -12,7 +12,7 @@ environment.plugins.append('ConcatPlugin', new ConcatPlugin({
     'jquery-ujs',
     'jquery.iframe-transport',
     './app/webpack/javascripts/vendor/jquery.remotipart.js',
-    'cocoon/app/assets/javascripts/cocoon.js',
+    './app/webpack/javascripts/vendor/cocoon.js',
     'dropzone',
     './app/webpack/javascripts/vendor/bind.js',
     'govuk_frontend_toolkit/javascripts/govuk/stick-at-top-when-scrolling.js',

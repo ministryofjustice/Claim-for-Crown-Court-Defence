@@ -64,8 +64,6 @@ environment.plugins.append('ConcatPlugin', new ConcatPlugin({
     './app/webpack/javascripts/modules/external_users/claims/Dropzone.js',
     './app/webpack/javascripts/modules/external_users/claims/DuplicateExpenseCtrl.js',
     './app/webpack/javascripts/modules/external_users/claims/FeeFieldsDisplay.js',
-    './app/webpack/javascripts/modules/external_users/claims/FeePopulator.js',
-    './app/webpack/javascripts/modules/external_users/claims/FeeSectionDisplay.js',
     './app/webpack/javascripts/modules/external_users/claims/InterimFeeFieldsDisplay.js',
     './app/webpack/javascripts/modules/external_users/claims/NewClaim.js',
     './app/webpack/javascripts/modules/external_users/claims/OffenceCtrl.js',

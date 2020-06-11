@@ -273,6 +273,51 @@ RSpec.describe ClaimCsvPresenter do
         end
       end
 
+      context 'archived_pending_delete' do
+        let(:claim) { create(:archived_pending_delete_claim) }
+       
+        it 'adds a single row to the MI' do
+          ClaimCsvPresenter.new(claim, view).present! do |csv|
+            expect(csv.size).to eql 1
+          end
+        end
+
+        it 'should not be reflected in the MI' do
+          ClaimCsvPresenter.new(claim, view).present! do |csv|
+            expect(csv[0]).not_to include('archived_pending_delete')
+          end
+        end
+
+        it 'and the claim should be reflected as being in the state prior to archive' do
+          ClaimCsvPresenter.new(claim, view).present! do |csv|
+            expect(csv[0]).to include('authorised')
+          end
+        end
+      end
+
+      context 'archived_pending_review' do
+        let(:claim) { create(:hardship_archived_pending_review_claim) }
+
+        it 'adds a single row to the MI' do
+          ClaimCsvPresenter.new(claim, view).present! do |csv|
+            expect(csv.size).to eql 1
+          end
+        end
+        
+        it 'should not be reflected in the MI' do
+          ClaimCsvPresenter.new(claim, view).present! do |csv|
+            expect(csv[0]).not_to include('archived_pending_review')
+          end
+        end
+
+        it 'and the claim should be reflected as being in the state prior to archive' do
+          ClaimCsvPresenter.new(claim, view).present! do |csv|
+            expect(csv[0]).to include('authorised')
+          end
+        end
+      end
+
+
       context 'state transitions reasons' do
         let(:claim) { create(:allocated_claim) }
 

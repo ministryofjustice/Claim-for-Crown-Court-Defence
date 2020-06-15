@@ -7,6 +7,7 @@
   %meta{ name: 'format-detection', content: 'telephone=no' }
 
   = stylesheet_pack_tag 'application', media: 'all'
+  = stylesheet_pack_tag 'govuk-frontend', media: 'all'
 
   - if GoogleAnalytics::DataTracking.enabled?
     = render partial: 'layouts/analytics', :formats => [:js], locals: { adapter: GoogleAnalytics::DataTracking.adapter_name }
@@ -72,5 +73,6 @@
         $('.ga-client-id').val(clientId);
       });
 
+  = javascript_pack_tag 'govuk-frontend'
 
 = render template: 'layouts/govuk_template'

@@ -1287,7 +1287,7 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     redis (4.1.4)
-    regexp_parser (1.7.0)
+    regexp_parser (1.7.1)
     remotipart (1.4.4)
     request_store (1.4.1)
       rack (>= 1.4)
@@ -1336,7 +1336,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 2.0)
     rubocop-ast (0.0.3)
       parser (>= 2.7.0.1)
-    rubocop-performance (1.6.0)
+    rubocop-performance (1.6.1)
       rubocop (>= 0.71.0)
     rubocop-rails (2.5.2)
       activesupport

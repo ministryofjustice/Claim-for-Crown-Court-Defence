@@ -1115,7 +1115,7 @@ GEM
       domain_name (~> 0.5)
     http-form_data (2.1.1)
     http_parser.rb (0.6.0)
-    i18n (1.8.2)
+    i18n (1.8.3)
       concurrent-ruby (~> 1.0)
     i18n-tasks (0.9.31)
       activesupport (>= 4.0.2)
@@ -1470,7 +1470,7 @@ GEM
     websocket-driver (0.7.2)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    wicked_pdf (2.0.2)
+    wicked_pdf (2.1.0)
       activesupport
     xpath (3.2.0)
       nokogiri (~> 1.8)
@@ -1603,7 +1603,7 @@ DEPENDENCIES
   webdrivers (~> 4.4)
   webmock
   webpacker (~> 5.1)
-  wicked_pdf (~> 2.0)
+  wicked_pdf (~> 2.1)
   zendesk_api (= 1.26.0)
 
 RUBY VERSION

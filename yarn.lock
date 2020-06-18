@@ -4072,10 +4072,10 @@ jquery.iframe-transport@^1.0.0:
   resolved "https://registry.yarnpkg.com/jquery.iframe-transport/-/jquery.iframe-transport-1.0.0.tgz#98abae85beace1cc362645e7a87360ff9418175f"
   integrity sha1-mKuuhb6s4cw2JkXnqHNg/5QYF18=
 
-jquery@1.12.4:
-  version "1.12.4"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-1.12.4.tgz#01e1dfba290fe73deba77ceeacb0f9ba2fec9e0c"
-  integrity sha1-AeHfuikP5z3rp3zurLD5ui/sngw=
+jquery@2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-2.2.4.tgz#2c89d6889b5eac522a7eea32c14521559c6cbf02"
+  integrity sha1-LInWiJterFIqfuoywUUhVZxsvwI=
 
 "jquery@>= 1.0.0", jquery@>=1.0.0, jquery@>=1.8.0:
   version "3.5.1"

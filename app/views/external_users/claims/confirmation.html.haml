@@ -2,12 +2,7 @@
   = t('.page_title')
 
 - present(@claim) do |claim|
-  .govuk-panel.govuk-panel--confirmation
-    %h1.govuk-panel__title
-      = t('.thanks')
-
-    .govuk-panel__body
-      = t('.will_be_processed')
+  = govuk_panel t('.thanks'), t('.will_be_processed')
 
   .claim-confirmation
     %h2.heading-medium

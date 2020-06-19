@@ -18,7 +18,7 @@
 
     %p
       When changes occur to the API we will endeavour to
-      = link_to "publish release notes", api_release_notes_path
+      = govuk_link_to "publish release notes", api_release_notes_path
       \.
 
     %h2#documentation.heading-medium
@@ -132,7 +132,7 @@
       You can retrieve the API key assigned to your chamber/firm from the "Manage provider" page.  You can use the key, along with your admin account's email address and another advocate account, to submit claims through the interactive API documentation in the sandbox environment. You can create new advocates from the "Manage users" page.
 
     %p
-      = link_to "Sign up as a software vendor", new_registration_path('user')
+      = govuk_link_to "Sign up as a software vendor", new_registration_path('user')
 
     %h2#desktop-app.heading-medium
       Example Desktop Application
@@ -149,7 +149,7 @@
       The Interactive API button below will take you to our interactive API testing page where you can create claims and their sub-components, retrieve lookup data needed to create components, and view responses from the various API endpoints.
 
     %p
-      = link_to 'Go to the interactive API', grape_swagger_rails_path
+      = govuk_link_to 'Go to the interactive API', grape_swagger_rails_path
 
 
   .column-one-third
@@ -162,31 +162,31 @@
           %nav{ role: 'navigation', 'aria-labelledby': 'parent-subsection' }
             %ul
               %li
-                = link_to 'Overview', '#overview'
+                = govuk_link_to 'Overview', '#overview'
 
               %li
-                = link_to 'Release Notes', '#release-notes'
+                = govuk_link_to 'Release Notes', '#release-notes'
 
               %li
-                = link_to 'Documentation', '#documentation'
+                = govuk_link_to 'Documentation', '#documentation'
 
               %li
-                = link_to 'Authentication', '#authentication'
+                = govuk_link_to 'Authentication', '#authentication'
 
               %li
-                = link_to 'Submitting a claim', '#submit-a-claim'
+                = govuk_link_to 'Submitting a claim', '#submit-a-claim'
 
               %li
-                = link_to 'API versioning', '#api-versioning'
+                = govuk_link_to 'API versioning', '#api-versioning'
 
               %li
-                = link_to 'Sign up as a software vendor', '#vendor-signup'
+                = govuk_link_to 'Sign up as a software vendor', '#vendor-signup'
 
               %li
-                = link_to 'Example Desktop Application', '#desktop-app'
+                = govuk_link_to 'Example Desktop Application', '#desktop-app'
 
               %li
-                = link_to 'API Sandbox - Testing Environment', '#api-sandbox'
+                = govuk_link_to 'API Sandbox - Testing Environment', '#api-sandbox'
 
         .inner.group
-          = link_to 'Return to top ↑', '#content', class: 'return-to-top'
+          = govuk_link_to 'Return to top ↑', '#content', class: 'return-to-top'

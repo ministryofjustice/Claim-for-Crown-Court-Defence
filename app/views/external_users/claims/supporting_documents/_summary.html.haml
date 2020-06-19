@@ -42,12 +42,12 @@
           = t('shared.evidence_list.actions')
         %td
           - if document.converted_preview_document.present?
-            = link_to t('common.view'),
+            = govuk_link_to t('common.view'),
                       document_path(document),
                       class: 'view',
                       'aria-label': "View document: #{document.document_file_name}"
             = " | "
-          = link_to t('common.download'),
+          = govuk_link_to t('common.download'),
                     download_document_path(document),
                     class: 'download',
                     'aria-label': "Download document: #{document.document_file_name}"

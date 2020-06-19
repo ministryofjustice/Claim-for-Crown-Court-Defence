@@ -2,7 +2,7 @@
   %h2.heading-large
     = t('external_users.claims.transfer_fee.summary.header')
     - if local_assigns[:editable]
-      = link_to t('external_users.claims.additional_information.summary.change'), edit_polymorphic_path(claim, step: :transfer_fees, referrer: :summary), class: 'link-change', 'aria-label': t('external_users.claims.transfer_detail.summary.change_link_label')
+      = govuk_link_to t('external_users.claims.additional_information.summary.change'), edit_polymorphic_path(claim, step: :transfer_fees, referrer: :summary), class: 'link-change', 'aria-label': t('external_users.claims.transfer_detail.summary.change_link_label')
 
   - if claim.transfer_fee.nil?
     %p

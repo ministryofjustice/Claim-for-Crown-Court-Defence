@@ -1,7 +1,7 @@
 %h2.heading-large
   = local_assigns.has_key?(:header) ? header : t('common.fees')
   - if local_assigns[:editable]
-    = link_to t('.change'), edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
+    = govuk_link_to t('.change'), edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
 -# TODO: Avoid use of these checks and just display info
 -# based on configuration

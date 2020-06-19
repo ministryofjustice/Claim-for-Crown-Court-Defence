@@ -58,7 +58,7 @@
               = claim.pretty_type
 
           %td{ 'data-label': t('.case_number') }
-            = link_to claim.case_number,
+            = govuk_link_to claim.case_number,
                       external_users_claim_path_for_state(claim),
                       class: 'js-test-case-number-link',
                       'aria-label': t('.case_number_label', claim_state: claim.state.humanize, case_number: claim.case_number)
@@ -91,6 +91,6 @@
 
           %td.messages{ 'data-label': t('.messages') }
             - if claim.messages.any?
-              = link_to claim.has_unread_messages_for?(current_user) ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view'), "#{external_users_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
+              = govuk_link_to claim.has_unread_messages_for?(current_user) ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view'), "#{external_users_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
             - else
               %span.none= t('.none')

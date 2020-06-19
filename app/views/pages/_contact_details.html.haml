@@ -7,11 +7,11 @@
   %dt
     = t('email')
   %dd
-    = mail_to Settings.advocates_email
+    = govuk_mail_to Settings.advocates_email
   %dt
     = t('phone')
   %dd
-    = link_to format_phone_number(Settings.advocate_phone_contact), "tel:#{Settings.advocate_phone_contact}"
+    = govuk_link_to format_phone_number(Settings.advocate_phone_contact), "tel:#{Settings.advocate_phone_contact}"
 
 %p
   = t('pages.contact_us.litigator_hint')
@@ -19,8 +19,8 @@
   %dt
     = t('email')
   %dd
-    = mail_to Settings.litigators_email
+    = govuk_mail_to Settings.litigators_email
   %dt
     = t('phone')
   %dd
-    = link_to format_phone_number(Settings.litigator_phone_contact), "tel:#{Settings.litigator_phone_contact}"
+    = govuk_link_to format_phone_number(Settings.litigator_phone_contact), "tel:#{Settings.litigator_phone_contact}"

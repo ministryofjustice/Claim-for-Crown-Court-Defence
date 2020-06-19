@@ -2,9 +2,9 @@
 
 %section.api-github-issue
   Any development issues? aside from our
-  = link_to 'vendor support slack channel', 'https://laavendorsupport.slack.com'
+  = govuk_link_to 'vendor support slack channel', 'https://laavendorsupport.slack.com'
   you can raise
-  = link_to 'Github issues', 'https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence/issues'
+  = govuk_link_to 'Github issues', 'https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence/issues'
   for bugs or other problems.
 
 %section.api-documentation
@@ -24,7 +24,7 @@
           %a{ href: '/api/documentation?#!/api/postApiExternalUsersClaimsLitigatorsHardship', target: '_blank' } litigator hardship claim creation
         %li
           %a{ href: '/api/documentation?#!/api/documentation#!/api/postApiExternalUsersClaimsLitigatorsHardship', target: '_blank' } litigator hardship claim validate
-        %li  
+        %li
           %a{ href: '/api/documentation?#!/api/postApiExternalUsersClaimsAdvocatesHardship', target: '_blank' } advocate hardship claim creation
         %li
           %a{ href: '/api/documentation?#!/api/documentation#!/api/postApiExternalUsersClaimsAdvocatesHardshipValidate', target: '_blank' } advocate hardship claim validate
@@ -744,7 +744,7 @@
         \/api/external_users/claims/advocates/interim
       and enables a submission of a warrant fee.
       Please see the
-      =link_to 'Crown Court Fee Guidance', 'https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/696617/crown-court-fee-guidance.-post-1-apr-2018.pdf'
+      = govuk_link_to 'Crown Court Fee Guidance', 'https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/696617/crown-court-fee-guidance.-post-1-apr-2018.pdf'
       for details.
       %br/
       %br/
@@ -785,7 +785,7 @@
   %ul.list-bullet
     %li
       The Evidence provision fee is now locked to two values, £45 and £90 as described in the
-      = link_to 'guidance', 'https://www.gov.uk/guidance/claim-the-evidence-provision-fee#lower-and-upper-tiers'
+      = govuk_link_to 'guidance', 'https://www.gov.uk/guidance/claim-the-evidence-provision-fee#lower-and-upper-tiers'
       ='.'
       %br/
       %br/
@@ -1073,7 +1073,7 @@
   %ul.list-bullet
     %li
       Litigator Claims can now be submitted via the API. Please consult the
-      = link_to "interactive documentation", grape_swagger_rails_path
+      = govuk_link_to "interactive documentation", grape_swagger_rails_path
       for further deatils.
       %p
       An overview of which endpoints to use for claim submission is as follows:

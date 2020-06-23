@@ -869,6 +869,8 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
+    bootsnap (1.4.6)
+      msgpack (~> 1.0)
     brakeman (4.8.2)
     builder (3.2.4)
     byebug (11.1.3)
@@ -1187,6 +1189,7 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.1)
+    msgpack (1.3.3)
     multi_json (1.14.1)
     multi_test (0.1.2)
     multipart-post (2.1.1)
@@ -1496,6 +1499,7 @@ DEPENDENCIES
   axe-matchers (~> 2.6)
   better_errors
   binding_of_caller
+  bootsnap
   brakeman
   byebug
   cancancan (~> 3.1)

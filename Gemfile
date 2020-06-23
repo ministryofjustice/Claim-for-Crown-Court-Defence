@@ -6,6 +6,7 @@ gem 'auto_strip_attributes',  '~> 2.6.0'
 gem 'autoprefixer-rails',     '~> 9.7'
 gem 'aws-sdk',                '~> 3'
 gem 'awesome_print'
+gem 'bootsnap', require: false
 gem 'cancancan',              '~> 3.1'
 gem 'cocoon',                 '~> 1.2.13'
 gem 'devise',                 '~> 4.7.1'

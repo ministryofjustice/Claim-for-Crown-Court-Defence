@@ -2678,6 +2678,7 @@ en:
           transfer_claim:
             params:
               case_conclusion_id: 'REQUIRED/UNREQUIRED: Only required for new litigators that transferred onto unelected cases at specific stages.'
+              actual_trial_length: 'REQUIRED/UNREQUIRED: The total days claimed for the transfer fee.'
       defendant:
         params:
           api_key: 'REQUIRED: The API authentication key of the provider'

@@ -20,6 +20,9 @@ module API::V1::ExternalUsers
         optional :case_conclusion_id,
                  type: Integer,
                  desc: I18n.t('api.v1.external_users.claims.transfer_claim.params.case_conclusion_id')
+        optional :actual_trial_length,
+                 type: Integer,
+                 desc: I18n.t('api.v1.external_users.claims.transfer_claim.params.actual_trial_length')
       end
 
       namespace :transfer do

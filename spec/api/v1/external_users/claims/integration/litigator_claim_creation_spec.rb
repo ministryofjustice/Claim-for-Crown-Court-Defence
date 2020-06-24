@@ -355,7 +355,7 @@ RSpec.describe 'API claim creation for LGFS' do
       let(:representation_order_date) { Date.new(2018, 03, 31).as_json }
 
       specify 'Case management system creates a valid scheme 9 transfer fee claim' do
-        post ClaimApiEndpoints.for(:transfer).create, claim_params.merge(offence_id: offence.id, **transfer_detail_params), format: :json
+        post ClaimApiEndpoints.for(:transfer).create, claim_params.merge(offence_id: offence.id, **transfer_detail_params, actual_trial_length: 11), format: :json
         expect(last_response.status).to eql 201
 
         claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
@@ -389,6 +389,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
         expect(last_response.status).to eql 201
         expect(claim.expenses.size).to eql 2
+        expect(claim.actual_trial_length).to eql 11
         expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: offence, total: 1345.25, vat_amount: 269.05)
       end
     end

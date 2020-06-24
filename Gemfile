@@ -107,7 +107,7 @@ end
 group :test do
   gem 'axe-matchers', '~> 2.6'
   gem 'capybara-selenium'
-  gem 'capybara', '~> 3.32'
+  gem 'capybara', '~> 3.33'
   gem 'climate_control'
   gem 'codeclimate-test-reporter', require: false
   gem 'cucumber-rails', '~> 2.0.0', require: false

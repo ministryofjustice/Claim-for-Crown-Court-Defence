@@ -873,7 +873,7 @@ GEM
     builder (3.2.4)
     byebug (11.1.3)
     cancancan (3.1.0)
-    capybara (3.32.2)
+    capybara (3.33.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -1499,7 +1499,7 @@ DEPENDENCIES
   brakeman
   byebug
   cancancan (~> 3.1)
-  capybara (~> 3.32)
+  capybara (~> 3.33)
   capybara-selenium
   climate_control
   cocoon (~> 1.2.13)

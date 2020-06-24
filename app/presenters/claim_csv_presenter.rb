@@ -14,7 +14,7 @@ class ClaimCsvPresenter < BasePresenter
 
   def sorted_and_filtered_state_transitions
     claim_state_transitions.sort.reject do |transition|
-      %w[draft archived_pending_delete].include?(transition.to) ||
+      %w[draft archived_pending_delete archived_pending_review].include?(transition.to) ||
         transition.created_at < Time.now - 6.months
     end
   end

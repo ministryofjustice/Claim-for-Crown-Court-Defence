@@ -279,6 +279,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         before do
           create(:draft_claim, external_user: advocate)
           create(:archived_pending_delete_claim, external_user: advocate)
+          create(:hardship_archived_pending_review_claim, external_user: advocate)
           create(:draft_claim, external_user: other_advocate)
         end
 
@@ -290,7 +291,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
           end
           it 'should assign claims to archived only' do
             get :archived
-            expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete)
+            expect(assigns(:claims)).to match_array(advocate.claims.where(state: %w[archived_pending_delete archived_pending_review]))
           end
         end
 
@@ -302,7 +303,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
           end
           it 'should assign claims to archived only' do
             get :archived
-            expect(assigns(:claims)).to eq(advocate_admin.provider.claims.archived_pending_delete)
+            expect(assigns(:claims)).to match_array(advocate.claims.where(state: %w[archived_pending_delete archived_pending_review]))
           end
         end
       end
@@ -672,6 +673,16 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
       end
 
+      context 'when non-draft hardship claim in a valid state for archival' do
+        let(:claim) { create(:advocate_hardship_claim, :rejected, external_user: advocate) }
+
+        it "sets the claim's state to 'archived_pending_review'" do
+          expect(Claim::BaseClaim.active.count).to eq(1) 
+          expect(claim.reload.state).to eq 'archived_pending_review'
+          expect(flash[:notice]).to eq 'Claim archived'
+        end
+      end
+
       context 'when non-draft claim in an invalid state for archival' do
         let(:claim) { create(:archived_pending_delete_claim, external_user: advocate) }
 
@@ -698,7 +709,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
   end
 
   describe "PATCH #unarchive" do
-    context 'when archived claim' do
+    context 'when archived_pending_delete claim' do
       let(:claim) do
         claim = create(:authorised_claim, external_user: advocate)
         claim.archive_pending_delete!
@@ -714,6 +725,26 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
 
         it 'redirects to external users root url' do
           expect(response).to redirect_to(external_users_claims_url)
+        end
+      end
+
+      context 'when archived_pending_review claim' do
+        let(:claim) do
+          claim = create(:advocate_hardship_claim, :rejected, external_user: advocate)
+          claim.archive_pending_review!
+          claim
+        end
+  
+        context 'when the current version of paper trail is used' do
+          before { patch :unarchive, params: { id: claim } }
+  
+          it 'unarchives the claim and restores to state prior to archiving' do
+            expect(claim.reload).to be_rejected
+          end
+  
+          it 'redirects to external users root url' do
+            expect(response).to redirect_to(external_users_claims_url)
+          end
         end
       end
     end

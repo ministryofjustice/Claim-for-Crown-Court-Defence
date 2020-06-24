@@ -38,7 +38,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def archived
-    @claims = @claims_context.archived_pending_delete
+    @claims = @claims_context.where(state: %w[archived_pending_delete archived_pending_review])
     search(:archived_pending_delete) if params[:search].present?
     sort_and_paginate(column: 'last_submitted_at', direction: 'desc')
   end
@@ -117,7 +117,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def destroy
     message = if @claim.draft?
                 flash_message_for :delete, claim_updater.delete
-              elsif @claim.can_archive_pending_delete?
+              elsif @claim.can_archive_pending_delete? || @claim.can_archive_pending_review?
                 flash_message_for :archive, claim_updater.archive
               else
                 { alert: 'This claim cannot be deleted' }
@@ -128,7 +128,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def unarchive
     claim_url = external_users_claim_url(@claim)
-    return redirect_to claim_url, alert: t('.not_archived') unless @claim.archived_pending_delete?
+    return redirect_to claim_url, alert: t('.not_archived') unless unarchive_allowed?
     @claim = PreviousVersionOfClaim.new(@claim).call
     @claim.zeroise_nil_totals!
     @claim.save!(validate: false)
@@ -555,5 +555,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def flash_message_for(event, status)
     status ? { notice: "Claim #{event}d" } : { alert: "Claim could not be #{event}d" }
+  end
+
+  def unarchive_allowed?
+    @claim.archived_pending_delete? || @claim.archived_pending_review?
   end
 end

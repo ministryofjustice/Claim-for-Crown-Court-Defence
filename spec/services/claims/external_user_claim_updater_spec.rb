@@ -16,15 +16,25 @@ module Claims
     end
 
     describe '#archive' do
-      let(:claim) { create :rejected_claim }
-
+      before { subject.archive }
       after(:each) do
         expect(claim.last_state_transition.author_id).to eq(current_user.id)
       end
 
-      it 'archives the claim' do
-        subject.archive
-        expect(claim.archived_pending_delete?).to be_truthy
+      context 'when the claim is non-hardship' do
+        let(:claim) { create :rejected_claim }
+
+        it 'archives the claim' do
+          expect(claim.archived_pending_delete?).to be_truthy
+        end
+      end
+
+      context 'when the claim is a hardship' do
+        let(:claim) { create :advocate_hardship_claim, :rejected }
+
+        it 'archives the claim' do
+          expect(claim.archived_pending_review?).to be_truthy
+        end
       end
     end
 

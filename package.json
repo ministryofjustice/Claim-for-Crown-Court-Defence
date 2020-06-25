@@ -29,6 +29,7 @@
     "jquery.iframe-transport": "^1.0.0",
     "jsrender": "^1.0.6",
     "susy": "2.2.14",
+    "webpack": "^4.43.0",
     "webpack-concat-plugin": "^3.0.0"
   },
   "devDependencies": {

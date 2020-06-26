@@ -9,7 +9,7 @@ gem 'awesome_print'
 gem 'bootsnap', require: false
 gem 'cancancan',              '~> 3.1'
 gem 'cocoon',                 '~> 1.2.13'
-gem 'devise',                 '~> 4.7.1'
+gem 'devise',                 '~> 4.7.2'
 gem 'dry-monads',             '~> 1.3.5'
 gem 'dropzonejs-rails',       '~> 0.8.2'
 gem 'factory_bot_rails',      '~> 5.2.0'

@@ -118,6 +118,7 @@ group :test do
   gem 'kaminari-rspec'
   gem 'launchy', '~> 2.5.0'
   gem 'rails-controller-testing'
+  gem 'rspec-html-matchers', '~> 0.9.2'
   gem 'rspec-mocks'
   gem 'shoulda-matchers', '>= 4.0.0.rc1'
   gem 'simplecov-csv', require: false

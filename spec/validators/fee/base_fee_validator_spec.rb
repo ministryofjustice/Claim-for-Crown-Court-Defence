@@ -12,6 +12,8 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
   let(:ppe_fee) { build :basic_fee, :ppe_fee, claim: claim }
   let(:npw_fee) { build :basic_fee, :npw_fee, claim: claim }
   let(:spf_fee) { build :misc_fee, :spf_fee, claim: claim }
+  let(:supplementary_claim) { build(:advocate_supplementary_claim) }
+  let(:supplementary_pcm_fee) { build :basic_fee, :pcm_fee, claim: supplementary_claim }
 
   before do
     claim.force_validation = true
@@ -394,6 +396,16 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_not_applicable') }
           it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'pcm_not_applicable') }
         end
+      end
+
+      context 'plea and case management hearing (PCM) for supplementary claims' do
+        before(:each) do
+          supplementary_claim.force_validation = true
+        end
+        it { should_error_if_equal_to_value(supplementary_pcm_fee, :quantity, 0, 'pcm_invalid') }
+        it { should_error_if_equal_to_value(supplementary_pcm_fee, :quantity, 4, 'pcm_numericality') }
+        it { should_be_valid_if_equal_to_value(supplementary_pcm_fee, :quantity, 3) }
+        it { should_be_valid_if_equal_to_value(supplementary_pcm_fee, :quantity, 1) }
       end
 
       context 'number of cases uplift (BANOC)' do

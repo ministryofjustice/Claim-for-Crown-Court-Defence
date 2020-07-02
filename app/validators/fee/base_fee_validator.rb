@@ -74,7 +74,7 @@ module Fee
     end
 
     def validate_pcm_quantity
-      if @record.claim.case_type.try(:allow_pcmh_fee_type?)
+      if @record.claim.supplementary? || @record.claim.case_type.try(:allow_pcmh_fee_type?)
         add_error(:quantity, 'pcm_numericality') if @record.quantity > 3
       else
         add_error(:quantity, 'pcm_not_applicable') unless @record.quantity.zero? || @record.quantity.blank?

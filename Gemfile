@@ -3,7 +3,6 @@ ruby '2.6.5'
 gem 'active_model_serializers', '~> 0.10.10'
 gem 'amoeba',                 '~> 3.1.0'
 gem 'auto_strip_attributes',  '~> 2.6.0'
-gem 'autoprefixer-rails',     '~> 9.7'
 gem 'aws-sdk',                '~> 3'
 gem 'awesome_print'
 gem 'bootsnap', require: false

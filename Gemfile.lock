@@ -93,8 +93,6 @@ GEM
     ast (2.4.1)
     auto_strip_attributes (2.6.0)
       activerecord (>= 4.0)
-    autoprefixer-rails (9.7.6)
-      execjs
     awesome_print (1.8.0)
     aws-eventstream (1.0.3)
     aws-partitions (1.189.0)
@@ -1496,7 +1494,6 @@ DEPENDENCIES
   amoeba (~> 3.1.0)
   annotate
   auto_strip_attributes (~> 2.6.0)
-  autoprefixer-rails (~> 9.7)
   awesome_print
   aws-sdk (~> 3)
   axe-matchers (~> 2.6)

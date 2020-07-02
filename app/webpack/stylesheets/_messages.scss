@@ -141,6 +141,10 @@
 
       .message-body {
         padding: $gutter-one-third $gutter-two-thirds;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
       }
     }
 

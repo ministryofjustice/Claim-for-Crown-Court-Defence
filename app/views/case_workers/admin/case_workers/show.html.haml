@@ -19,4 +19,4 @@
 
 - if can? :change_password, @case_worker
   .form-group
-    = link_to t('.change_password'), change_password_case_workers_admin_case_worker_path(@case_worker)
+    = govuk_link_to t('.change_password'), change_password_case_workers_admin_case_worker_path(@case_worker)

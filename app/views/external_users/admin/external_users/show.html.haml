@@ -21,7 +21,7 @@
           %th{ scope: 'row' }
             = t('.email')
           %td
-            = mail_to @external_user.email, @external_user.email
+            = govuk_mail_to @external_user.email, @external_user.email
         %tr
           %th{ scope: 'row' }
             = t('.roles')

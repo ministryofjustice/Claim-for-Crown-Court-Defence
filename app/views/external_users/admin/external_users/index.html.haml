@@ -5,7 +5,7 @@
 
 = content_for :search_html_block do
   .form-group
-    = link_to t('.new_user'), new_external_users_admin_external_user_path
+    = govuk_link_to t('.new_user'), new_external_users_admin_external_user_path
 
 = render partial: 'shared/search_form', locals: { search_path: external_users_admin_external_users_path(anchor: 'listanchor'), hint_text: t('hint.search_users'), button_text: t('search.users') }
 
@@ -34,14 +34,14 @@
         %td{ 'data-label': t('.supplier_number') }
           = advocate.supplier_number ? advocate.supplier_number : '-'
         %td{ 'data-label': t('.email') }
-          = mail_to advocate.email, advocate.email, { title: t('.email_title', external_user: advocate.name) }
+          = govuk_mail_to advocate.email, advocate.email, { title: t('.email_title', external_user: advocate.name) }
         - if Settings.email_notification_enabled?
           %td{ 'data-label': t('.email_confirmation') }
             = advocate.send_email_notification_of_message? ? t('.option_yes') : t('.option_no')
         %td.user-controls{ 'data-label': t('.actions') }
           - if advocate.active?
-            = link_to t('.edit'),  edit_external_users_admin_external_user_path(advocate)
+            = govuk_link_to t('.edit'),  edit_external_users_admin_external_user_path(advocate)
             = ' | '
-            = link_to t('.delete'), external_users_admin_external_user_path(advocate), method: :delete, data: { confirm: t('.confirmation') }
+            = govuk_link_to t('.delete'), external_users_admin_external_user_path(advocate), method: :delete, data: { confirm: t('.confirmation') }
           - else
             Inactive

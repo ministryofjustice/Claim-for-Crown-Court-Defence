@@ -2,7 +2,7 @@
   %h2.heading-large
     = t('external_users.claims.supporting_evidence_checklist.summary.header')
     - if local_assigns[:editable]
-      = link_to t('.change'), edit_polymorphic_path(claim, step: :supporting_evidence, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
+      = govuk_link_to t('.change'), edit_polymorphic_path(claim, step: :supporting_evidence, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
   - if claim.mandatory_supporting_evidence?
     %dl.govuk-summary-list
@@ -25,7 +25,7 @@
           %ul
             - claim.documents.each do |document|
               %li
-                = link_to document.document_file_name,
+                = govuk_link_to document.document_file_name,
                           download_document_path(document),
                           class: 'download',
                           'aria-label': "Download document: #{document.document_file_name}"

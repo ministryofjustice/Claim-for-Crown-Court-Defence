@@ -7,7 +7,7 @@
   %h2.heading-large
     = t('external_users.claims.case_details.summary.header')
     - if local_assigns[:editable]
-      = link_to t('.change'), edit_polymorphic_path(claim, step: :case_details, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
+      = govuk_link_to t('.change'), edit_polymorphic_path(claim, step: :case_details, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
   - if claim.mandatory_case_details?
     %dl.govuk-summary-list

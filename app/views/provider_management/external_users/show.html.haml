@@ -13,7 +13,7 @@
         %th{ scope: 'row' }
           = t('.provider')
         %td
-          = link_to @external_user.provider.name, provider_management_provider_path(@provider), 'aria-label': t('.edit_provider')
+          = govuk_link_to @external_user.provider.name, provider_management_provider_path(@provider), 'aria-label': t('.edit_provider')
       %tr
         %th{ scope: 'row' }
           = t('.email')

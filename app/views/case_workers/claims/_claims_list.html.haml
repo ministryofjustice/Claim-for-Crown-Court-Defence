@@ -55,7 +55,7 @@
                 .error-message
                   = message
           %td
-            = link_to claim.case_number,
+            = govuk_link_to claim.case_number,
                       case_workers_claim_path(claim),
                       class: 'js-test-case-number-link',
                       'aria-label': "View #{claim.state.humanize} Claim, Case number: #{claim.case_number}"
@@ -84,9 +84,9 @@
           %td.messages
             - if claim.has_messages?
               - if claim.remote?
-                = link_to claim.unread_messages_count.to_int > 0 ? t('.view_with_messages', message_count: claim.unread_messages_count) : t('.view'), "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
+                = govuk_link_to claim.unread_messages_count.to_int > 0 ? t('.view_with_messages', message_count: claim.unread_messages_count) : t('.view'), "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
               - else
-                = link_to claim.has_unread_messages_for?(current_user) ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view'), "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
+                = govuk_link_to claim.has_unread_messages_for?(current_user) ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view'), "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
             - else
               %span.none
                 = t('.none')

@@ -10,7 +10,7 @@
 
     %ul.list
       %li
-        = link_to 'More information', hardship_claims_page_path
+        = govuk_link_to 'More information', hardship_claims_page_path
 
       %li.hide-link
-        = link_to 'Do not show this message again', settings_user_path(current_user.id, hardship_claims_banner_seen: 1), method: :put, remote: true
+        = govuk_link_to 'Do not show this message again', settings_user_path(current_user.id, hardship_claims_banner_seen: 1), method: :put, remote: true

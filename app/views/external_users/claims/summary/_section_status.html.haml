@@ -1,7 +1,7 @@
 - missing_dependencies = claim.missing_dependencies_for(step)
 
 - unless missing_dependencies.empty?
-  .panel.panel-border-wide
+  = govuk_inset_text do
     %h3.heading-small
       = t('external_users.claims.check_your_claim.missing_information.header')
     %p

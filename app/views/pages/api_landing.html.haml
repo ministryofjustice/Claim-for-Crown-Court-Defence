@@ -33,7 +33,7 @@
     %p
       To authenticate a request to any endpoint you will need to provide an API key.  To get an API key, you’ll need to #{link_to "sign up", new_registration_path('user')}.
 
-    .panel.panel-border-wide
+    = govuk_inset_text do
       %p
         %strong.bold-small
           The claim endpoint also requires the following:
@@ -51,7 +51,7 @@
       %li
         Perform a GET operation to retrieve the current set of various object types from their respective endpoints.
 
-        .panel.panel-border-wide
+        = govuk_inset_text do
           %p
             %strong.bold-small
               These GET endpoints are:
@@ -94,7 +94,7 @@
     %p
       The responses of endpoints 2, 3, 5 and 6 above include a universally unique identifier (UUID) as an id attribute that must be used in subsequent calls to create or validate its sub-components (child relations).
 
-    .panel.panel-border-wide
+    = govuk_inset_text do
       %p
         %strong.bold-small
           To summarise:

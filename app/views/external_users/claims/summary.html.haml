@@ -10,7 +10,7 @@
     = t('external_users.claims.check_your_claim.help_text')
 
   - unless claim.invalid_steps.empty?
-    .panel.panel-border-wide
+    = govuk_inset_text do
       %h2.heading-small
         = t('external_users.claims.check_your_claim.missing_information.header')
       %p

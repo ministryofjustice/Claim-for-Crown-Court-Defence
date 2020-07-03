@@ -3,9 +3,9 @@ When(/^I send a message '(.*?)'$/) do |text|
   @case_worker_claim_show_page.messages_panel.send.click
 end
 
-Then(/^the claim should be displayed with a status of 'Allocated'$/) do
+Then(/^the claim should be displayed with a status of (.*)$/) do |text|
   claim = @external_user_home_page.claim_for(@claim.case_number)
-  expect(claim.state.text).to eq("Allocated")
+  expect(claim.state.text).to eq(text.upcase)
 end
 
 Then(/^it is displaying '(.*?)' in the messages column$/) do |text|

@@ -15,7 +15,7 @@ Feature: Case worker messages advocate and advocate responds
     Then the page should be accessible within "#content"
     And I sign out
     And I sign in as the advocate
-    Then the claim should be displayed with a status of 'Allocated'
+    Then the claim should be displayed with a status of Allocated
     And it is displaying 'View (1 new)' in the messages column
 
     When I open up the claim

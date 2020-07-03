@@ -79,8 +79,7 @@
             = claim.amount_assessed
 
           %td{ 'data-label': t('.status') }
-            %span.state{ class: 'state-' << claim.state.dasherize }
-              = claim.state.humanize
+            = govuk_tag claim.state.humanize, class: "app-tag--#{claim.state.dasherize}"
 
           %td.numeric{ 'data-label': t('.submission_date') }
             - if claim.submitted_at.blank?

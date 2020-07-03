@@ -9,8 +9,7 @@
     .column-one-third
       .claim-status{ tabindex: 0 }
         = t('.status')
-        %span{ class: "state state-#{claim.state}" }
-          = claim.state.humanize
+        = govuk_tag claim.state.humanize, class: "app-tag--#{claim.state}"
 
     .column-one-third
       %h2

@@ -73,13 +73,8 @@
         .form-group-compound.fx-travel-distance{ style: 'display: none;' }
           = f.adp_text_field :distance, label: t('.distance'), hint_text: t('.distance_hint'), input_type: 'number', input_classes: 'form-control-1-4', value: number_with_precision(f.object.distance, precision: 0), errors: @error_presenter
           - if @claim.lgfs?
-            %details
-              %summary{ 'aria-controls': 'distance-summary' }
-                %span.summary
-                  = t('.summary_heading')
-              #distance-summary.panel.panel-border-narrow
-                %p
-                  = t('.summary_content')
+            = govuk_detail t('.summary_heading') do
+              = t('.summary_content')
 
     .grid-row
       .column-full

@@ -30,12 +30,8 @@
           = validation_error_message(@error_presenter, :order_for_judicial_apportionment)
 
       .form-group
-        %details
-          %summary
-            %span.summary Help with judicial apportionment
-          .panel.panel-border-narrow
-            %p
-              = t('.order_for_judicial_apportionment_help')
+        = govuk_detail 'Help with judicial apportionment' do
+          = t('.order_for_judicial_apportionment_help')
 
     - unless f.object.representation_orders.any?
       - f.object.representation_orders << RepresentationOrder.new

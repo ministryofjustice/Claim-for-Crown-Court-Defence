@@ -1,35 +1,15 @@
 .js-interim-effectivePcmh.help-wrapper.visually-hidden
-  %details
-    %summary
-      %span.summary
-        = t('.help_how_we_calculate_amount_title')
-    .panel.panel-border-narrow
-      %p
-        = t('.help_how_we_calculate_amount_body.effective_pcmh')
+  = govuk_detail t('.help_how_we_calculate_amount_title') do
+    = t('.help_how_we_calculate_amount_body.effective_pcmh')
 
 .js-interim-trialDates.help-wrapper.visually-hidden
-  %details
-    %summary
-      %span.summary
-        = t('.help_how_we_calculate_amount_title')
-    .panel.panel-border-narrow
-      %p
-        = t('.help_how_we_calculate_amount_body.trial_start')
+  = govuk_detail t('.help_how_we_calculate_amount_title') do
+    = t('.help_how_we_calculate_amount_body.trial_start')
 
 .js-interim-retrialDates.help-wrapper.visually-hidden
-  %details
-    %summary
-      %span.summary
-        = t('.help_how_we_calculate_amount_title')
-    .panel.panel-border-narrow
-      %p
-        = t('.help_how_we_calculate_amount_body.retrial_start')
+  = govuk_detail t('.help_how_we_calculate_amount_title') do
+    = t('.help_how_we_calculate_amount_body.retrial_start')
 
 .js-interim-legalAidTransfer.help-wrapper.visually-hidden
-  %details
-    %summary
-      %span.summary
-        = t('.help_how_we_calculate_amount_title')
-    .panel.panel-border-narrow
-      %p
-        = t('.help_how_we_calculate_amount_body.retrial_new_solicitor')
+  = govuk_detail t('.help_how_we_calculate_amount_title') do
+    = t('.help_how_we_calculate_amount_body.retrial_new_solicitor')

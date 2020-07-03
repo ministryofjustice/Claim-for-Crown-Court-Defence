@@ -8,6 +8,10 @@ module GovukComponent
       ActiveSupport.on_load(:action_view) { include GovukComponent::SharedHelpers }
     end
 
+    initializer 'govuk_component.detail_helpers' do
+      ActiveSupport.on_load(:action_view) { include GovukComponent::DetailHelpers }
+    end
+
     initializer 'govuk_component.link_helpers' do
       ActiveSupport.on_load(:action_view) { include GovukComponent::LinkHelpers }
     end

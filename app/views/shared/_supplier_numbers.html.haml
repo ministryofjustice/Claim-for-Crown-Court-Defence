@@ -12,9 +12,5 @@
         %br/
         = link_to_add_association t('.add_supplier'), f, :lgfs_supplier_numbers, partial: 'shared/supplier_number_fields', render_options: { locals: { collection: @collection } }, class: 'button button-secondary blue', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.supplier-numbers-wrapper' }
 
-      %details{ role: 'group' }
-        %summary{ 'aria-controls': 'details-content-0', role: 'button' }
-          %span.summary
-            = t('.postcode_help.heading')
-        #details-content-0.panel.panel-border-narrow
-          = t('.postcode_help.text_html')
+      = govuk_detail t('.postcode_help.heading') do
+        = t('.postcode_help.text_html')

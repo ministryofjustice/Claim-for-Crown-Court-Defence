@@ -72,7 +72,7 @@ spec:
             - name: SETTINGS__AWS__S3__REGION
               value: 'eu-west-2'
             - name: LAA_FEE_CALCULATOR_HOST
-              value: https://laa-fee-calculator.service.justice.gov.uk/api/v1
+              value: https://dev.laa-fee-calculator.service.justice.gov.uk/api/v1
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:

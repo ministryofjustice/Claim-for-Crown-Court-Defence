@@ -111,6 +111,18 @@ FactoryBot.define do
     trait :minbr_fee do
       fee_type { Fee::MiscFeeType.find_by(unique_code: 'MINBR') || build(:misc_fee_type, :minbr) }
     end
+
+    trait :miphc_fee do
+      fee_type { Fee::MiscFeeType.find_by(unique_code: 'MIPHC') || build(:misc_fee_type, :miphc) }
+    end
+
+    trait :miumu_fee do
+      fee_type { Fee::MiscFeeType.find_by(unique_code: 'MIUMU') || build(:misc_fee_type, :miumu) }
+    end
+
+    trait :miumo_fee do
+      fee_type { Fee::MiscFeeType.find_by(unique_code: 'MIUMO') || build(:misc_fee_type, :miumo) }
+    end
   end
 
   factory :warrant_fee, class: Fee::WarrantFee do

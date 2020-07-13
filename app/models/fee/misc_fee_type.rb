@@ -25,6 +25,7 @@ class Fee::MiscFeeType < Fee::BaseFeeType
 
   scope :without_supplementary_only, -> { where.not(unique_code: AGFS_SUPPLEMENTARY_ONLY_TYPES) }
   scope :supplementary, -> { where(unique_code: AGFS_SUPPLEMENTARY_TYPES) }
+  scope :agfs_scheme_12s, -> { matching_role_query(%w[agfs_scheme_10 agfs_scheme_12], 'OR') }
 
   def fee_category_name
     'Miscellaneous Fees'

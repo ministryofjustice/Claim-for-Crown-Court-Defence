@@ -41,6 +41,10 @@ FactoryBot.define do
       roles { %w[agfs agfs_scheme_10] }
     end
 
+    trait :agfs_scheme_12 do
+      roles { %w[agfs agfs_scheme_12] }
+    end
+
     trait :agfs_all_schemes do
       roles { %w[agfs agfs_scheme_9 agfs_scheme_10] }
     end
@@ -279,6 +283,33 @@ FactoryBot.define do
         calculated { true }
         quantity_is_decimal { false }
         agfs_all_schemes
+      end
+
+      trait :miphc do
+        description { 'Paper heavy case' }
+        code { 'PHC' }
+        unique_code { 'MIPHC' }
+        calculated { true }
+        quantity_is_decimal { true }
+        agfs_scheme_12
+      end
+
+      trait :miumu do
+        description { 'Unused materials (upto 3 hours)' }
+        code { 'UMU' }
+        unique_code { 'MIUMU' }
+        calculated { true }
+        quantity_is_decimal { true }
+        agfs_scheme_12
+      end
+
+      trait :miumo do
+        description { 'Unused materials (over 3 hours)' }
+        code { 'UMO' }
+        unique_code { 'MIUMO' }
+        calculated { true }
+        quantity_is_decimal { true }
+        agfs_scheme_12
       end
 
       trait :miupl do

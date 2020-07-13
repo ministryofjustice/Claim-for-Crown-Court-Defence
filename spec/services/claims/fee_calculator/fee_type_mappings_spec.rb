@@ -38,13 +38,14 @@ RSpec.describe Claims::FeeCalculator::FeeTypeMappings do
 
   describe '#all' do
     subject { described_class.instance.all }
+    let(:exclusions) { %i[BACAV MIPHC MIUMU MIUMO] }
 
     it 'returns all fee type mappings' do
       expect(subject.keys).to match_array(all_fee_mappings)
     end
 
     it 'returns fee types excluded by default' do
-      expect(subject.keys).to include(:BACAV)
+      expect(subject.keys).to include(*exclusions)
     end
   end
 

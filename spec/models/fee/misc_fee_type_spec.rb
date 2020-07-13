@@ -20,23 +20,36 @@ require 'rails_helper'
 RSpec.describe Fee::MiscFeeType do
   let(:fee_type) { build :misc_fee_type }
 
-  context 'scopes' do
-    subject { described_class }
+  context 'when querying using scopes' do
+    it { expect(described_class).to respond_to(:supplementary, :without_supplementary_only, :agfs_scheme_12s) }
 
-    describe 'default' do
+    describe '.all (default scope)' do
+      subject { described_class.all.map(&:description) }
+
       before do
-        create(:misc_fee_type, description: 'Ppppp')
-        create(:misc_fee_type, description: 'Xxxxx')
-        create(:misc_fee_type, description: 'Sssss')
+        create(:misc_fee_type, description: 'A')
+        create(:misc_fee_type, description: 'C')
+        create(:misc_fee_type, description: 'B')
       end
 
       it 'orders by description ascending' do
-        expect(Fee::MiscFeeType.all.map(&:description)).to eq ['Ppppp','Sssss','Xxxxx']
+       is_expected.to eq ['A','B','C']
       end
     end
 
-    it { is_expected.to respond_to(:supplementary) }
-    it { is_expected.to respond_to(:without_supplementary_only) }
+    describe '.agfs_scheme_12s (overidden role scope)' do
+      subject { described_class.agfs_scheme_12s.map(&:description) }
+
+      before do
+        create(:misc_fee_type, description: 'Scheme 10', roles: %w[agfs agfs_scheme_10] )
+        create(:misc_fee_type, description: 'Scheme 12', roles: %w[agfs agfs_scheme_12])
+        create(:misc_fee_type, description: 'Scheme 9', roles: %w[agfs agfs_scheme_9])
+      end
+
+      it 'returns fee types with agfs scheme 10 OR 12 roles' do
+        is_expected.to match_array(['Scheme 10','Scheme 12'])
+      end
+    end
   end
 
   describe '#fee_category_name' do

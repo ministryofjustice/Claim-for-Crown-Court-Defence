@@ -228,8 +228,8 @@ namespace :data do
       desc 'Reseed fee types from changes made to fee_types.csv file'
       task :reseed, [:dry_mode, :stdout]=> :environment do |_task, args|
         args.with_defaults(dry_mode: 'true', stdout: 'true')
-        dry_mode = !args.dry_mode.downcase.eql?('false')
-        stdout = !args.stdout.downcase.eql?('false')
+        dry_mode = !args.dry_mode.to_s.downcase.eql?('false')
+        stdout = !args.stdout.to_s.downcase.eql?('false')
 
         require Rails.root.join('db','seeds', 'fee_types', 'csv_seeder')
         fee_type_seeder = Seeds::FeeTypes::CsvSeeder.new(dry_mode: dry_mode, stdout: stdout)

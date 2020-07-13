@@ -16,7 +16,7 @@ module Claims
     LGFS_HARDSHIP_MISC_FEE_ELIGIBILITY = %w[MIEVI MISPF].freeze
 
     attr_reader :claim
-    delegate :case_type, :agfs?, :lgfs?, :agfs_reform?, :hardship?, to: :claim, allow_nil: true
+    delegate :case_type, :agfs?, :lgfs?, :agfs_reform?, :agfs_scheme_12?, :hardship?, to: :claim, allow_nil: true
 
     def eligible_fee_types
       return eligible_agfs_misc_fee_types if agfs?
@@ -25,6 +25,7 @@ module Claims
     end
 
     def agfs_scheme_scope
+      return Fee::MiscFeeType.agfs_scheme_12s if agfs_scheme_12?
       return Fee::MiscFeeType.agfs_scheme_10s if agfs_reform?
       Fee::MiscFeeType.agfs_scheme_9s
     end

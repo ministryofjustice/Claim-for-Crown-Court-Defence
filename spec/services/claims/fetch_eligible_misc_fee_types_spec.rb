@@ -1,13 +1,29 @@
 require 'rails_helper'
+require "rspec/mocks/standalone" # required for mocking/unmocking in before/after(:all) block
 
 RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
-  before(:all) do
+  before(:all) do |example|
+    allow(Settings).to receive(:agfs_scheme_12_enabled?).and_return true
     seed_fee_schemes
     seed_case_types
     seed_fee_types
   end
 
-  after(:all) { clean_database }
+  after(:all) do
+    clean_database
+    allow(Settings).to receive(:agfs_scheme_12_enabled?).and_call_original
+  end
+
+  context 'with delegations' do
+    subject { described_class.new(nil) }
+
+    it { is_expected.to delegate_method(:case_type).to(:claim).allow_nil }
+    it { is_expected.to delegate_method(:agfs?).to(:claim).allow_nil }
+    it { is_expected.to delegate_method(:lgfs?).to(:claim).allow_nil }
+    it { is_expected.to delegate_method(:agfs_reform?).to(:claim).allow_nil }
+    it { is_expected.to delegate_method(:agfs_scheme_12?).to(:claim).allow_nil }
+    it { is_expected.to delegate_method(:hardship?).to(:claim).allow_nil }
+  end
 
   describe '#call' do
     subject(:call) { described_class.new(claim).call }
@@ -32,7 +48,6 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
       context 'defendant uplift' do
         subject { call.map(&:unique_code) }
 
-        # TODO: keeping defendant uplifts for claims for fixed fees, awaiting BA feedback
         context 'fixed fee claim' do
           let(:claim) do
             create(:litigator_claim, :without_fees, case_type: CaseType.find_by(name: 'Appeal against sentence') )
@@ -90,6 +105,15 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
           it 'returns only misc fee types for AGFS scheme 10+ without supplementary-only fee types' do
             is_expected.to have_at_least(1).items
             is_expected.to match_array Fee::MiscFeeType.agfs_scheme_10s.without_supplementary_only.map(&:unique_code)
+          end
+        end
+
+        context 'scheme 12 claim' do
+          let(:claim) { create(:advocate_claim, :agfs_scheme_12) }
+
+          it 'returns misc fee types for AGFS scheme 10+ plus 12 without supplementary-only fee types' do
+            is_expected.to have_at_least(1).items
+            is_expected.to match_array Fee::MiscFeeType.agfs_scheme_12s.without_supplementary_only.map(&:unique_code)
           end
         end
       end

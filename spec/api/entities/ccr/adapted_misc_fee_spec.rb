@@ -69,4 +69,16 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
       end
     end
   end
+
+  context 'when fee type type is excluded' do
+    let(:misc_fee) { create(:misc_fee, :miphc_fee, claim: claim) }
+
+    it 'exposes bill_type as nil' do
+      expect(response).to include(bill_type: nil)
+    end
+
+    it 'exposes bill_subtype as nil' do
+      expect(response).to include(bill_subtype: nil)
+    end
+  end
 end

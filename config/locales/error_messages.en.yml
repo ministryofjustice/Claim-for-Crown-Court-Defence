@@ -1035,6 +1035,14 @@ misc_fee:
       long: Enter a valid quantity (1 to 3) for plea and case management hearing fees
       short: Enter a valid quantity (1 to 3)
       api: Enter a valid quantity (1 to 3) for plea and case management hearing fees
+    miumu_numericality:
+      long: Enter a valid quantity (1) for unused material (upto 3 hours)
+      short: Must be exactly 1
+      api: Enter a valid quantity (1) for unused material (upto 3 hours)
+    miumo_numericality:
+      long: Enter a valid quantity (3+) for unused material (over 3 hours)
+      short: Must be at least 3
+      api: Enter a valid quantity (3+) for unused material (over 3 hours)
 
   case_numbers:
     _seq: 40

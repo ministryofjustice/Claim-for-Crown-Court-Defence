@@ -3,20 +3,23 @@ require 'rails_helper'
 RSpec.describe Claims::FetchEligibleOffences, type: :service do
   subject(:offences) { described_class.for(claim) }
 
-  before { seed_fee_schemes }
+  before do
+    allow(Settings).to receive(:agfs_scheme_12_enabled?).and_return true
+    seed_fee_schemes
+  end
 
   shared_examples_for 'a claim with default offences' do
-    context 'and the claim has no associated offence' do
+    context 'when the claim has no associated offence' do
       before do
         claim.offence = nil
       end
 
-      it 'returns a list of all available offences' do
+      it 'returns a list of scheme 9 offences' do
         expect(offences).to match_array(Offence.in_scheme_nine)
       end
     end
 
-    context 'and the claim has an associated offence' do
+    context 'when the claim has an associated offence' do
       let(:offence) { create(:offence) }
 
       before do
@@ -36,17 +39,39 @@ RSpec.describe Claims::FetchEligibleOffences, type: :service do
   end
 
   context 'when claim is for AGFS' do
-    context 'and fee scheme for the claim is not the AGFS reform scheme' do
+    context 'with claim fee scheme AGFS 9' do
       let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
 
       include_examples 'a claim with default offences'
     end
 
-    context 'and fee scheme for the claim is the AGFS reform scheme' do
+    context 'with claim fee scheme of AGFS reform (scheme 10)' do
+      before { create(:offence, :with_fee_scheme_ten) }
+
       let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
 
-      it 'returns a list of all available offences for the associated fee scheme' do
+      it 'returns all AGFS 10 offences' do
         expect(offences).to match_array(Offence.in_scheme_ten)
+      end
+    end
+
+    context 'with claim fee scheme of AGFS 11' do
+      before { create(:offence, :with_fee_scheme_eleven) }
+
+      let(:claim) { create(:advocate_claim, :agfs_scheme_11) }
+
+      it 'returns all AGFS 11 offences' do
+        expect(offences).to match_array(Offence.in_scheme_eleven)
+      end
+    end
+
+    context 'with claim fee scheme of AGFS 12' do
+      before { create(:offence, :with_fee_scheme_twelve) }
+
+      let(:claim) { create(:advocate_claim, :agfs_scheme_12) }
+
+      it 'returns all AGFS 12 offences' do
+        expect(offences).to match_array(Offence.in_scheme_twelve)
       end
     end
   end

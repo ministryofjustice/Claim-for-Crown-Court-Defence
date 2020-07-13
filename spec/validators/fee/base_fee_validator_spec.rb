@@ -41,6 +41,50 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
   describe '#validate_fee_type' do
     it { should_error_if_not_present(fee, :fee_type, 'blank') }
+
+    context 'when validating Unused material (upto 3 hours)' do
+      before { create(:misc_fee_type, :miumu) }
+
+      context 'with valid quantity' do
+        let(:fee) { build(:misc_fee, :miumu_fee, quantity: 1) }
+
+        it { expect(fee).to be_valid }
+        it { expect(fee.errors[:quantity]).to be_empty}
+      end
+
+      context 'with invalid quantity' do
+        let(:fee) { build(:misc_fee, :miumu_fee, quantity: 1.01) }
+
+        it { expect(fee).to be_invalid }
+        it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
+        it {
+          fee.valid?
+          expect(fee.errors[:quantity]).to match_array(['miumu_numericality'])
+        }
+      end
+    end
+
+    context 'when validating Unused material (over 3 hours)' do
+      before { create(:misc_fee_type, :miumo) }
+
+      context 'with valid quantity' do
+        let(:fee) { build(:misc_fee, :miumo_fee, quantity: 3.00) }
+
+        it { expect(fee).to be_valid }
+        it { expect(fee.errors[:quantity]).to be_empty}
+      end
+
+      context 'with valid quantity' do
+        let(:fee) { build(:misc_fee, :miumo_fee, quantity: 2.99) }
+
+        it { expect(fee).to be_invalid }
+        it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
+        it {
+          fee.valid?
+          expect(fee.errors[:quantity]).to match_array(['miumo_numericality'])
+        }
+      end
+    end
   end
 
   describe '#validate_date' do

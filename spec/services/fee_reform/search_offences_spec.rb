@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe FeeReform::SearchOffences, type: :service do
-  before { seed_fee_schemes }
+  before do
+    allow(Settings).to receive(:agfs_scheme_12_enabled?).and_return true
+    seed_fee_schemes
+  end
 
   let!(:scheme_9_offences) {
     [
@@ -13,39 +16,84 @@ RSpec.describe FeeReform::SearchOffences, type: :service do
   let!(:scheme_10_offences) {
     [
       create(:offence, :with_fee_scheme_ten, description: 'Offence 10-1', offence_band: create(:offence_band, description: 'OB-A', number: 1, offence_category: create(:offence_category, description: 'OC-A', number: 1))),
-      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-4 paTTern', offence_band: create(:offence_band, description: 'OB-B', number: 2, offence_category: create(:offence_category, description: 'OC-A', number: 1))),
-      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-5', contrary: 'Matches pattERN', offence_band: create(:offence_band, description: 'OB-A', number: 1, offence_category: create(:offence_category, description: 'OC-Z', number: 12))),
-      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-3', offence_band: create(:offence_band, description: 'Bla bla Patterns bla bla', number: 2, offence_category: create(:offence_category, description: 'OC-C', number: 3))),
-      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-2', offence_band: create(:offence_band, description: 'AAA', number: 1, offence_category: create(:offence_category, description: 'PaTterN bla bla', number: 17)))
+      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-2 paTTern', offence_band: create(:offence_band, description: 'OB-B', number: 2, offence_category: create(:offence_category, description: 'OC-A', number: 1))),
+      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-3', contrary: 'Matches pattERN', offence_band: create(:offence_band, description: 'OB-A', number: 1, offence_category: create(:offence_category, description: 'OC-Z', number: 12))),
+      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-4', offence_band: create(:offence_band, description: 'Bla bla Patterns bla bla', number: 2, offence_category: create(:offence_category, description: 'OC-C', number: 3))),
+      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-5', offence_band: create(:offence_band, description: 'AAA', number: 1, offence_category: create(:offence_category, description: 'PaTterN bla bla', number: 17)))
     ]
   }
   let!(:scheme_11_offences) {
     [
       create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-1', offence_band: create(:offence_band, description: 'OB-A', number: 1, offence_category: create(:offence_category, description: 'OC-A', number: 1))),
-      create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-4 paTTern', offence_band: create(:offence_band, description: 'OB-B', number: 2, offence_category: create(:offence_category, description: 'OC-A', number: 1))),
-      create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-5', contrary: 'Matches pattERN', offence_band: create(:offence_band, description: 'OB-A', number: 1, offence_category: create(:offence_category, description: 'OC-Z', number: 12))),
-      create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-3', offence_band: create(:offence_band, description: 'Bla bla Patterns bla bla', number: 2, offence_category: create(:offence_category, description: 'OC-C', number: 3))),
-      create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-2', offence_band: create(:offence_band, description: 'AAA', number: 1, offence_category: create(:offence_category, description: 'PaTterN bla bla', number: 17)))
+      create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-2 paTTern', offence_band: create(:offence_band, description: 'OB-B', number: 2, offence_category: create(:offence_category, description: 'OC-A', number: 1))),
+      create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-3', contrary: 'Matches pattERN', offence_band: create(:offence_band, description: 'OB-A', number: 1, offence_category: create(:offence_category, description: 'OC-Z', number: 12))),
+      create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-4', offence_band: create(:offence_band, description: 'Bla bla Patterns bla bla', number: 2, offence_category: create(:offence_category, description: 'OC-C', number: 3))),
+      create(:offence, :with_fee_scheme_eleven, description: 'Offence 11-5', offence_band: create(:offence_band, description: 'AAA', number: 1, offence_category: create(:offence_category, description: 'PaTterN bla bla', number: 17)))
+    ]
+  }
+  let!(:scheme_12_offences) {
+    [
+      create(:offence, :with_fee_scheme_twelve, description: 'Offence 12-1', offence_band: create(:offence_band, description: 'OB-A', number: 1, offence_category: create(:offence_category, description: 'OC-A', number: 1))),
+      create(:offence, :with_fee_scheme_twelve, description: 'Offence 12-2 paTTern', offence_band: create(:offence_band, description: 'OB-B', number: 2, offence_category: create(:offence_category, description: 'OC-A', number: 1))),
+      create(:offence, :with_fee_scheme_twelve, description: 'Offence 12-3', contrary: 'Matches pattERN', offence_band: create(:offence_band, description: 'OB-A', number: 1, offence_category: create(:offence_category, description: 'OC-Z', number: 12))),
+      create(:offence, :with_fee_scheme_twelve, description: 'Offence 12-4', offence_band: create(:offence_band, description: 'Bla bla Patterns bla bla', number: 2, offence_category: create(:offence_category, description: 'OC-C', number: 3))),
+      create(:offence, :with_fee_scheme_twelve, description: 'Offence 12-5', offence_band: create(:offence_band, description: 'AAA', number: 1, offence_category: create(:offence_category, description: 'PaTterN bla bla', number: 17)))
     ]
   }
 
-  context 'when no search_offence filter is provided' do
-    let(:filters) { { fee_scheme: 'AGFS 10' } }
+  describe '#call' do
+    subject(:results) { described_class.call(filters) }
 
-    it 'returns all existent offences under fee scheme 10' do
-      offences = described_class.call(filters)
-      expect(offences.length).to eq(5)
-      expect(offences.map(&:description)).to eq(['Offence 10-1', 'Offence 10-4 paTTern', 'Offence 10-3', 'Offence 10-5', 'Offence 10-2'])
+    context 'with AGFS 10 fee scheme filter' do
+      let(:scheme_filter) { 'AGFS 10' }
+
+      context 'with no search_offence filter' do
+        let(:filters) { { fee_scheme: scheme_filter } }
+
+        it 'returns all offences for the fee scheme' do
+          expect(results.map(&:description)).to match_array(['Offence 10-1', 'Offence 10-2 paTTern', 'Offence 10-3', 'Offence 10-4', 'Offence 10-5'])
+        end
+      end
     end
-  end
 
-  context 'when search_offence filter is provided' do
-    let(:filters) { { fee_scheme: 'AGFS 11', search_offence: 'pattern' } }
+    context 'with AGFS 11 fee scheme filter' do
+      let(:scheme_filter) { 'AGFS 11' }
 
-    it 'returns all offences under fee scheme 10 that match the provided pattern (including band description and category description)' do
-      offences = described_class.call(filters)
-      expect(offences.length).to eq(4)
-      expect(offences.map(&:description)).to eq(['Offence 11-4 paTTern', 'Offence 11-3', 'Offence 11-5', 'Offence 11-2'])
+      context 'with search_offence filter ' do
+        let(:filters) { { fee_scheme: scheme_filter, search_offence: 'pattern' } }
+
+        it 'returns offences for the fee scheme that match the search pattern (including band description and category description)' do
+          expect(results.map(&:description)).to match_array(['Offence 11-2 paTTern', 'Offence 11-3', 'Offence 11-4', 'Offence 11-5'])
+        end
+      end
+    end
+
+    context 'with AGFS 12 fee scheme filter' do
+      let(:scheme_filter) { 'AGFS 12' }
+
+      context 'with search_offence filter' do
+        let(:filters) { { fee_scheme: scheme_filter, search_offence: 'pattern' } }
+
+        it 'returns offences for the fee scheme that match by description' do
+          expect(results.map(&:description)).to include('Offence 12-2 paTTern')
+        end
+
+        it 'returns offences for the fee scheme that match by "contrary"' do
+          expect(results.map(&:description)).to include('Offence 12-3')
+        end
+
+        it 'returns offences for the fee scheme that match by band' do
+          expect(results.map(&:description)).to include('Offence 12-4')
+        end
+
+        it 'returns offences for the fee scheme that match by category' do
+          expect(results.map(&:description)).to include('Offence 12-5')
+        end
+
+        it 'does not return offences with no matching description, contrary, band or category' do
+          expect(results.map(&:description)).not_to include('Offence 12-1')
+        end
+      end
     end
   end
 end

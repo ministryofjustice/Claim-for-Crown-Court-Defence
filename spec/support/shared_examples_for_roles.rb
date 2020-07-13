@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.shared_examples_for 'roles' do |klass, roles|
-  let(:factory_name)  { klass.name.demodulize.to_s.underscore.to_sym }
+  let(:factory_name) { klass.name.demodulize.to_s.underscore.to_sym }
 
   describe 'validation' do
     let(:assigned_roles) { [] }

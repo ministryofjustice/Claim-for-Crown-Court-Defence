@@ -19,8 +19,14 @@ FactoryBot.define do
 
     trait :agfs_eleven do
       start_date { Date.new(2018, 12, 31).beginning_of_day }
-      end_date { nil }
+      end_date { (Settings.agfs_scheme_12_release_date.end_of_day - 1.day) if Settings.agfs_scheme_12_enabled? }
       version { 11 }
+    end
+
+    trait :agfs_twelve do
+      start_date { Settings.agfs_scheme_12_release_date.beginning_of_day }
+      end_date { nil }
+      version { 12 }
     end
 
     # scheme 8 (default)
@@ -28,7 +34,7 @@ FactoryBot.define do
     # but there are no functional changes that are impacted.
     trait :lgfs do
       name { 'LGFS' }
-      start_date { Date.new(2014, 0o3, 20).beginning_of_day }
+      start_date { Date.new(2014, 03, 20).beginning_of_day }
       version { 9 }
     end
   end

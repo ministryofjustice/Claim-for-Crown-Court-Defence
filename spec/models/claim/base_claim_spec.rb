@@ -689,6 +689,12 @@ describe '#agfs_reform?' do
   specify { expect(claim).to delegate_method(:agfs_reform?).to(:fee_scheme) }
 end
 
+describe '#agfs_scheme_12?' do
+  let(:claim) { MockBaseClaim.new }
+
+  specify { expect(claim).to delegate_method(:agfs_scheme_12?).to(:fee_scheme) }
+end
+
 describe '#vat_registered?' do
   subject { claim.vat_registered? }
 

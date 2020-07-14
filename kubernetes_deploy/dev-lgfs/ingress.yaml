@@ -12,7 +12,15 @@ spec:
             backend:
               serviceName: cccd-app-service
               servicePort: 80
+    - host: dev-clar.claim-crown-court-defence.service.justice.gov.uk
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: cccd-app-service
+              servicePort: 80
   tls:
     - hosts:
       - dev-lgfs.claim-crown-court-defence.service.justice.gov.uk
+      - dev-clar.claim-crown-court-defence.service.justice.gov.uk
       secretName: cccd-dev-lgfs-cert

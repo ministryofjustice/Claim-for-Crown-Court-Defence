@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+module GovukComponent
+  module DetailHelpers
+    def govuk_detail(summary_text = nil, open = false, tag_options = {}, &block)
+      tag_options = prepend_classes('govuk-details', tag_options)
+      tag_options[:data] = { module: 'govuk-details' }
+      tag_options[:open] = '' if open
+
+      summary = tag.span(summary_text, class: 'govuk-details__summary-text')
+      content = capture(&block)
+      tag.details(tag_options) do
+        concat tag.summary(summary, class: 'govuk-details__summary')
+        concat tag.div(content, class: 'govuk-details__text')
+      end
+    end
+  end
+end

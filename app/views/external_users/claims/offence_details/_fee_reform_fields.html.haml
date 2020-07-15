@@ -33,20 +33,17 @@
   = f.hidden_field :fee_scheme, value: [@claim.fee_scheme.name, @claim.fee_scheme.version], class: 'fx-fee-scheme'
 
 .form-group
-  %details{ role: 'group' }
-    %summary{ 'aria-controls': 'details-content-0', 'aria-expanded': 'false', role: 'button' }
-      %span.summary Help with the offence classification
-    #details-content-0.panel.panel-border-narrow{ 'aria-hidden': 'false' }
-      %p
-        For more information on offence classification for the
-        %br
-        Advocates' Graduated Fee Scheme (
-        %abbr{ title: "Advocates' Graduated Fee Scheme" } AGFS
-        ),
-        %br
-        please visit the
-        %a{ href: 'https://www.gov.uk/government/publications/crown-court-fee-guidance', target: '_blank', 'aria-label': 'Opens in a new window' } Crown Court fee guidance
-        page on GOV.UK.
+  = govuk_detail 'Help with the offence classification' do
+    %p
+      For more information on offence classification for the
+      %br
+      Advocates' Graduated Fee Scheme (
+      %abbr{ title: "Advocates' Graduated Fee Scheme" } AGFS
+      ),
+      %br
+      please visit the
+      %a{ href: 'https://www.gov.uk/government/publications/crown-court-fee-guidance', target: '_blank', 'aria-label': 'Opens in a new window' } Crown Court fee guidance
+      page on GOV.UK.
 
 .form-group
   #offence-list.fx-view

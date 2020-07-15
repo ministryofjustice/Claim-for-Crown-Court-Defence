@@ -23,17 +23,13 @@
       = f.hidden_field :price_calculated, value: f.object.price_calculated?
 
     .help-wrapper.form-group
-      %details
-        %summary
-          %span.summary
-            = t('.help_with_basic_fees.title')
-        .panel.panel-border-narrow
-          - if fee.claim.agfs_reform?
-            = t('.help_with_basic_fees.post_agfs_reform_html')
-          - else
-            = t('.help_with_basic_fees.pre_agfs_reform_html')
-          .fee-calc-help-wrapper.form-group.hidden
-            = t('.help_with_basic_fees.how_is_this_rate_calculated_html')
+      = govuk_detail t('.help_with_basic_fees.title') do
+        - if fee.claim.agfs_reform?
+          = t('.help_with_basic_fees.post_agfs_reform_html')
+        - else
+          = t('.help_with_basic_fees.pre_agfs_reform_html')
+        .fee-calc-help-wrapper.form-group.hidden
+          = t('.help_with_basic_fees.how_is_this_rate_calculated_html')
 
     = render partial: 'external_users/claims/basic_fees/first_date_display', locals: { fee: fee }
 

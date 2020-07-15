@@ -44,13 +44,8 @@
       = f.hidden_field :price_calculated, value: f.object.price_calculated?
 
     .fee-calc-help-wrapper.form-group.hidden
-      %details
-        %summary
-          %span.summary
-            = t('.help_how_we_calculate_rate_title')
-        .panel.panel-border-narrow
-          %p
-            = t('.help_how_we_calculate_rate_body')
+      = govuk_detail t('.help_how_we_calculate_rate_title') do
+        = t('.help_how_we_calculate_rate_body')
 
     - if f.object.fee_type.requires_dates_attended?
       .dates-wrapper.form-group

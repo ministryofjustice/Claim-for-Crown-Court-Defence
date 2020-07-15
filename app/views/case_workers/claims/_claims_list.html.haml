@@ -72,8 +72,7 @@
             = claim.total_inc_vat
           - if params[:action] == 'archived'
             %td
-              %span.state{ class: 'state-' << claim.state.dasherize }
-                = claim.state.humanize
+              = govuk_tag claim.state.humanize, class: "app-tag--#{claim.state.dasherize}"
           %td
             = claim.case_type_name
             %br/

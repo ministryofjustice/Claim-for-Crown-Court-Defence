@@ -27,7 +27,7 @@
     "jquery-ujs": "^1.2.2",
     "jquery-xpath": "^0.3.1",
     "jquery.iframe-transport": "^1.0.0",
-    "jsrender": "^1.0.6",
+    "jsrender": "^1.0.7",
     "susy": "2.2.14",
     "webpack": "^4.43.0",
     "webpack-concat-plugin": "^3.0.0"

@@ -5,7 +5,7 @@
   = t('.travel_expenses')
 
 - if claim.travel_expense_additional_information.present?
-  .panel.panel-border-wide
+  = govuk_inset_text do
     %h3.heading-small
       = t('.travel_expense_additional_information')
     %p

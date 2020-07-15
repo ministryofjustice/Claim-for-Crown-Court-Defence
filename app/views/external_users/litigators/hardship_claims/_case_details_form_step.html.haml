@@ -1,9 +1,9 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-.form-group
-  %p.panel.panel-border-wide
-    =t('.case_stage_warning_html')
+
+= govuk_inset_text do
+  =t('.case_stage_warning_html')
 
 %h2.heading-large
   = t('.page_heading')

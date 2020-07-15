@@ -2,8 +2,7 @@ module Claim
   class LitigatorHardshipClaimCleaner
     attr_accessor :claim
 
-    delegate :case_type,
-             to: :claim
+    delegate_missing_to :claim
 
     def initialize(claim)
       @claim = claim

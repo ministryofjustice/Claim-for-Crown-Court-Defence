@@ -2,9 +2,7 @@ module Claim
   class InterimClaimCleaner
     attr_accessor :claim
 
-    delegate  :interim_fee,
-              :disbursements,
-              to: :claim
+    delegate_missing_to :claim
 
     def initialize(claim)
       @claim = claim

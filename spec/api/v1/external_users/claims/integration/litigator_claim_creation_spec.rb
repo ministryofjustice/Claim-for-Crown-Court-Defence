@@ -68,7 +68,7 @@ RSpec.describe 'API claim creation for LGFS' do
   let!(:litigator) { create(:external_user, :litigator, provider: provider) }
   let!(:court) { create(:court)}
   let(:offence_class) { create(:offence_class, class_letter: 'A') }
-  let(:offence) { create(:offence, lgfs_fee_scheme: true, offence_class: offence_class) }
+  let(:offence) { create(:offence, :with_fee_scheme, lgfs_fee_scheme: true, offence_class: offence_class) }
 
   let(:graduated_fee_type) { Fee::BaseFeeType.find_by(unique_code: 'GRTRL') }
   let(:fixed_fee_type) { Fee::BaseFeeType.find_by(unique_code: 'FXACV') }
@@ -430,7 +430,7 @@ RSpec.describe 'API claim creation for LGFS' do
       let(:representation_order_date) { Date.new(2020, 03, 31).as_json }
 
       specify "Case management system creates a valid hardship claim" do
-        post ClaimApiEndpoints.for(:hardship).create, claim_params.merge(case_stage_unique_code: case_stage.unique_code, offence_id: offence.id), format: :json
+        post ClaimApiEndpoints.for('litigators/hardship').create, claim_params.merge(case_stage_unique_code: case_stage.unique_code, offence_id: offence.id), format: :json
         expect(last_response.status).to eql 201
 
         claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)

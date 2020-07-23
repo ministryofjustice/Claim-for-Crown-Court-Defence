@@ -1,13 +1,8 @@
 - if claim.new_record? && show_api_promo_to_user?
 
   .js-callout-banner{'data-setting': 'api_promo_seen'}
-    .notice
-      %i.icon.icon-important
-        %span.visuallyhidden
-          = "Note"
+    = govuk_warning_text 'Do you use a case management system?', 'Note'
 
-      %strong.bold-small
-        = "Do you use a case management system?"
     %p
       = "You may be able to import claims without re-typing. "
       = link_to 'Read more information.', api_landing_page_path

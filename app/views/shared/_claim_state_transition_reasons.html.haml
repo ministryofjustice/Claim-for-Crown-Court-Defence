@@ -1,12 +1,8 @@
-.grid-row
-  .notice
-    %i.icon.icon-important
-      %span.visuallyhidden
-        = t('common.warning')
-    %strong.bold-small
-      - present(claim.last_state_transition) do |transition|
-        = transition.reason_header
-        %ul.timed-retention-states
-          -transition.reason_descriptions do |description|
-            %li
-              = description
+.js-callout-banner
+  - present(claim.last_state_transition) do |transition|
+    = govuk_warning_text transition.reason_header
+
+    %ul.timed-retention-states
+      -transition.reason_descriptions do |description|
+        %li
+          = description

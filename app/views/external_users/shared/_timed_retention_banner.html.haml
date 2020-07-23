@@ -1,13 +1,7 @@
 - if show_timed_retention_banner_to_user?
 
   .js-callout-banner{'data-setting': 'timed_retention_banner_seen'}
-    .notice
-      %i.icon.icon-important
-        %span.visuallyhidden
-          = "Warning"
-
-      %strong.bold-small
-        = "Time-limited retention of claims is being introduced from 19th September 2016."
+    = govuk_warning_text 'Time-limited retention of claims is being introduced from 19th September 2016.'
 
     %ul.list
       %li

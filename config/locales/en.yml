@@ -1021,6 +1021,7 @@ en:
         case_type_fields:
           case_type: Case type
           case_type_hint: For example Trial
+          select_option: Choose a case type
           stage_type: What stage has the case reached?
           agfs_stage_type_hint: For example Trial started but not concluded
         cracked_trial_fields:

@@ -17,4 +17,4 @@
         = t('.case_type_hint')
       = validation_error_message(@error_presenter, :case_type)
 
-    = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, { data: { 'is-fixed-fee': ct.is_fixed_fee?, 'requires-cracked-dates': ct&.requires_cracked_dates?, 'requires-retrial-dates': ct&.requires_retrial_dates?, 'requires-trial-dates': ct&.requires_trial_dates? } }] }, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', id: 'case_type', 'aria-label': t('.case_type') }
+    = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, { data: { 'is-fixed-fee': ct.is_fixed_fee?, 'requires-cracked-dates': ct&.requires_cracked_dates?, 'requires-retrial-dates': ct&.requires_retrial_dates?, 'requires-trial-dates': ct&.requires_trial_dates? } }] }, { include_blank: t('.select_option') }, { class: 'form-control', id: 'case_type', 'aria-label': t('.case_type') }

@@ -39,7 +39,19 @@ moj.Modules.CaseTypeCtrl = {
   bindEvents: function () {
     var self = this;
 
-    $.subscribe('/onConfirm/case_type-select/', function (e, data) {
+    $('#case_type').change(function () {
+      var selectElement = document.querySelector('#case_type');
+      var selectedOption = $(this).find('option:selected');
+      var selectedText = selectedOption.text();
+      var selectedData = selectedOption.data();
+
+      $.publish('/onChange/case_type/', $.extend({
+        query: selectedText,
+        selectElement: selectElement
+      }, selectedData));
+    });
+
+    $.subscribe('/onChange/case_type/', function (e, data) {
       // Loop over the data object and fire the
       // methods as required, passing in the param
       self.eventCallback(e, data);
@@ -66,7 +78,7 @@ moj.Modules.CaseTypeCtrl = {
     $(this.els.fxAutocomplete).is(function (idx, el) {
       moj.Helpers.Autocomplete.new('#' + el.id, {
         showAllValues: true,
-        autoselect: false
+        autoselect: true
       });
     });
   }

@@ -362,10 +362,6 @@ form {
   padding: $gutter-one-sixth;
   font-weight: 700;
 
-  &.notice {
-    color: green;
-  }
-
   &.alert {
     color: red;
   }
@@ -770,11 +766,6 @@ table#download-files-report {
   .heading-medium {
     margin-top: 0;
   }
-}
-
-
-.notice {
-  margin-bottom: $gutter;
 }
 
 .supplier-number-group {

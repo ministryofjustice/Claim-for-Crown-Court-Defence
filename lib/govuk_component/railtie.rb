@@ -31,5 +31,9 @@ module GovukComponent
     initializer 'govuk_component.tag_helpers' do
       ActiveSupport.on_load(:action_view) { include GovukComponent::TagHelpers }
     end
+
+    initializer 'govuk_component.warning_text_helpers' do
+      ActiveSupport.on_load(:action_view) { include GovukComponent::WarningTextHelpers }
+    end
   end
 end

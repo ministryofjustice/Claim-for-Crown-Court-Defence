@@ -1,12 +1,6 @@
 - if show_hardship_claims_banner_to_user?
   .js-callout-banner{'data-setting': 'hardship_claims_banner_seen'}
-    .notice
-      %i.icon.icon-important
-        %span.visuallyhidden
-          = "Information"
-
-      %strong.bold-small
-        = "The amended arrangements for hardship claims are being introduced from 1st May 2020."
+    = govuk_warning_text 'The amended arrangements for hardship claims are being introduced from 1st May 2020.', 'Information'
 
     %ul.list
       %li

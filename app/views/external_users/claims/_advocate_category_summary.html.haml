@@ -1,7 +1,3 @@
 - if claim.agfs? && claim.advocate_category.present?
-  %dl.govuk-summary-list
-    .govuk-summary-list__row
-      %dt.govuk-summary-list__key
-        = t("common.external_user.category.#{claim.external_user_type}")
-      %dd.govuk-summary-list__value
-        = claim.advocate_category
+  = govuk_summary_list do
+    = govuk_summary_list_row( t("common.external_user.category.#{claim.external_user_type}") ) { claim.advocate_category }

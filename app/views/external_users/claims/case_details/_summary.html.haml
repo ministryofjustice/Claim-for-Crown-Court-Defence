@@ -10,168 +10,80 @@
       = govuk_link_to t('.change'), edit_polymorphic_path(claim, step: :case_details, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
   - if claim.mandatory_case_details?
-    %dl.govuk-summary-list
+    = govuk_summary_list do
       - unless claim.providers_ref.blank?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('common.external_user.providers_ref')
-          %dd.govuk-summary-list__value
-            = claim.providers_ref
+        = govuk_summary_list_row( t('common.external_user.providers_ref') ) { claim.providers_ref }
 
       - if claim.lgfs?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('common.external_user.claim_creator')
-          %dd.govuk-summary-list__value
-            = claim.creator.name
+        = govuk_summary_list_row( t('common.external_user.claim_creator') ) { claim.creator.name }
 
       - if claim.agfs?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t("common.external_user.#{claim.external_user_type}")
-          %dd.govuk-summary-list__value
-            = claim.external_user.name
+        = govuk_summary_list_row( t("common.external_user.#{claim.external_user_type}") ) { claim.external_user.name }
 
-      .govuk-summary-list__row
-        %dt.govuk-summary-list__key
-          = t('common.crown_court')
-        %dd.govuk-summary-list__value
-          = claim.court.name if claim.court
+      = govuk_summary_list_row( t('common.crown_court') ) { claim.court.name if claim.court }
 
-      .govuk-summary-list__row
-        %dt.govuk-summary-list__key
-          = t('case_number', scope: claim_fields)
-        %dd.govuk-summary-list__value
-          = claim.case_number
-          .unique-id-small
-            = claim.unique_id
+      = govuk_summary_list_row( t('case_number', scope: claim_fields) ) do
+        = claim.case_number
+        .unique-id-small
+          = claim.unique_id
 
       - if claim.transfer_court.present?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('common.transfer_court')
-          %dd.govuk-summary-list__value
-            = claim.transfer_court.name if claim.transfer_court
+        = govuk_summary_list_row( t('common.transfer_court') ) { claim.transfer_court.name if claim.transfer_court }
 
       - if claim.transfer_case_number.present?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('common.transfer_case_number')
-          %dd.govuk-summary-list__value
-            = claim.transfer_case_number
+        = govuk_summary_list_row( t('common.transfer_case_number') ) { claim.transfer_case_number }
 
       - if claim.case_stage
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('case_stage', scope: claim_fields)
-          %dd.govuk-summary-list__value
-            = claim.case_stage&.description
+        = govuk_summary_list_row( t('case_stage', scope: claim_fields) ) { claim.case_stage&.description }
 
       - if claim.display_case_type?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('case_type', scope: claim_fields)
-          %dd.govuk-summary-list__value
-            = claim.case_type&.name
+        = govuk_summary_list_row( t('case_type', scope: claim_fields) ) { claim.case_type&.name }
 
       - if claim.requires_case_concluded_date?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('external_users.claims.case_details.case_concluded_date.case_concluded_at')
-          %dd.govuk-summary-list__value
-            = claim.case_concluded_at
+        = govuk_summary_list_row( t('external_users.claims.case_details.case_concluded_date.case_concluded_at') ) { claim.case_concluded_at }
 
       - if claim&.case_type && claim.requires_cracked_dates?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('trial_fixed_notice_at', scope: cracked_trial_fields)
-          %dd.govuk-summary-list__value
-            %time{ 'aria-label': claim&.trial_fixed_notice_at&.strftime(Settings.date_format_label), datetime: claim&.trial_fixed_notice_at&.strftime(Settings.datetime_attribute) }
-              = claim&.trial_fixed_notice_at&.strftime(Settings.date_format)
+        = govuk_summary_list_row( t('trial_fixed_notice_at', scope: cracked_trial_fields) ) do
+          %time{ 'aria-label': claim&.trial_fixed_notice_at&.strftime(Settings.date_format_label), datetime: claim&.trial_fixed_notice_at&.strftime(Settings.datetime_attribute) }
+            = claim&.trial_fixed_notice_at&.strftime(Settings.date_format)
 
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('trial_fixed_at', scope: cracked_trial_fields)
-          %dd.govuk-summary-list__value
-            %time{ 'aria-label': claim&.trial_fixed_at&.strftime(Settings.date_format_label), datetime: claim&.trial_fixed_at&.strftime(Settings.datetime_attribute) }
-              = claim&.trial_fixed_at&.strftime(Settings.date_format)
+        = govuk_summary_list_row( t('trial_fixed_at', scope: cracked_trial_fields) ) do
+          %time{ 'aria-label': claim&.trial_fixed_at&.strftime(Settings.date_format_label), datetime: claim&.trial_fixed_at&.strftime(Settings.datetime_attribute) }
+            = claim&.trial_fixed_at&.strftime(Settings.date_format)
 
         - unless claim.hardship?
-          .govuk-summary-list__row
-            %dt.govuk-summary-list__key
-              = t('trial_cracked_at', scope: cracked_trial_fields)
-            %dd.govuk-summary-list__value
-              %time{ 'aria-label': claim&.trial_cracked_at&.strftime(Settings.date_format_label), datetime: claim&.trial_cracked_at&.strftime(Settings.datetime_attribute) }
-                = claim&.trial_cracked_at&.strftime(Settings.date_format)
+          = govuk_summary_list_row( t('trial_cracked_at', scope: cracked_trial_fields) ) do
+            %time{ 'aria-label': claim&.trial_cracked_at&.strftime(Settings.date_format_label), datetime: claim&.trial_cracked_at&.strftime(Settings.datetime_attribute) }
+              = claim&.trial_cracked_at&.strftime(Settings.date_format)
 
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            - if claim.hardship?
-              = t('trial_cracked_at_third.hardship', scope: cracked_trial_fields)
-            - else
-              = t('trial_cracked_at_third.default', scope: cracked_trial_fields)
-          %dd.govuk-summary-list__value
-            = claim&.trial_cracked_at_third&.humanize
+        - trial_cracked_at_third = claim.hardship? ? t('trial_cracked_at_third.hardship', scope: cracked_trial_fields) : t('trial_cracked_at_third.default', scope: cracked_trial_fields)
+        = govuk_summary_list_row( trial_cracked_at_third ) { claim&.trial_cracked_at_third&.humanize }
 
       - if claim&.requires_trial_dates?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('first_day_of_trial', scope: trial_detail_fields)
-          %dd.govuk-summary-list__value
-            %time{ 'aria-label': claim&.first_day_of_trial&.strftime(Settings.date_format_label), datetime: claim&.first_day_of_trial&.strftime(Settings.datetime_attribute) }
-              = claim&.first_day_of_trial&.strftime(Settings.date_format)
+        = govuk_summary_list_row( t('first_day_of_trial', scope: trial_detail_fields) ) do
+          %time{ 'aria-label': claim&.first_day_of_trial&.strftime(Settings.date_format_label), datetime: claim&.first_day_of_trial&.strftime(Settings.datetime_attribute) }
+            = claim&.first_day_of_trial&.strftime(Settings.date_format)
 
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('estimated_trial_length', scope: trial_detail_fields)
-          %dd.govuk-summary-list__value
-            = claim&.estimated_trial_length
+        = govuk_summary_list_row( t('estimated_trial_length', scope: trial_detail_fields) ) { claim&.estimated_trial_length }
+        = govuk_summary_list_row( t('actual_trial_length', scope: trial_detail_fields) ) { claim&.actual_trial_length }
 
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('actual_trial_length', scope: trial_detail_fields)
-          %dd.govuk-summary-list__value
-            = claim&.actual_trial_length
-
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('trial_concluded_at', scope: trial_detail_fields)
-          %dd.govuk-summary-list__value
-            %time{ 'aria-label': claim&.trial_concluded_at&.strftime(Settings.date_format_label), datetime: claim&.trial_concluded_at&.strftime(Settings.datetime_attribute) }
-              = claim&.trial_concluded_at&.strftime(Settings.date_format)
+        = govuk_summary_list_row( t('trial_concluded_at', scope: trial_detail_fields) ) do
+          %time{ 'aria-label': claim&.trial_concluded_at&.strftime(Settings.date_format_label), datetime: claim&.trial_concluded_at&.strftime(Settings.datetime_attribute) }
+            = claim&.trial_concluded_at&.strftime(Settings.date_format)
 
         - if claim&.requires_retrial_dates?
-          .govuk-summary-list__row
-            %dt.govuk-summary-list__key
-              = t('retrial_started_at', scope: retrial_detail_fields)
-            %dd.govuk-summary-list__value
-              %time{ 'aria-label': claim&.retrial_started_at&.strftime(Settings.date_format_label), datetime: claim&.retrial_started_at&.strftime(Settings.datetime_attribute) }
+          = govuk_summary_list_row( t('retrial_started_at', scope: retrial_detail_fields) ) do
+            %time{ 'aria-label': claim&.retrial_started_at&.strftime(Settings.date_format_label), datetime: claim&.retrial_started_at&.strftime(Settings.datetime_attribute) }
               = claim&.retrial_started_at&.strftime(Settings.date_format)
 
-          .govuk-summary-list__row
-            %dt.govuk-summary-list__key
-              = t('retrial_estimated_length', scope: retrial_detail_fields)
-            %dd.govuk-summary-list__value
-              = claim&.retrial_estimated_length
+          = govuk_summary_list_row( t('retrial_estimated_length', scope: retrial_detail_fields) ) { claim&.retrial_estimated_length }
+          = govuk_summary_list_row( t('retrial_actual_length', scope: retrial_detail_fields) ) { claim&.retrial_actual_length }
 
-          .govuk-summary-list__row
-            %dt.govuk-summary-list__key
-              = t('retrial_actual_length', scope: retrial_detail_fields)
-            %dd.govuk-summary-list__value
-              = claim&.retrial_actual_length
-
-          .govuk-summary-list__row
-            %dt.govuk-summary-list__key
-              = t('retrial_concluded_at', scope: retrial_detail_fields)
-            %dd.govuk-summary-list__value
-              %time{ 'aria-label': claim&.retrial_concluded_at&.strftime(Settings.date_format_label), datetime: claim&.retrial_concluded_at&.strftime(Settings.datetime_attribute) }
+          = govuk_summary_list_row( t('retrial_concluded_at', scope: retrial_detail_fields) ) do
+            %time{ 'aria-label': claim&.retrial_concluded_at&.strftime(Settings.date_format_label), datetime: claim&.retrial_concluded_at&.strftime(Settings.datetime_attribute) }
               = claim&.retrial_concluded_at&.strftime(Settings.date_format)
 
-          .govuk-summary-list__row
-            %dt.govuk-summary-list__key
-              = t('retrial_reduction', scope: retrial_detail_fields)
-            %dd.govuk-summary-list__value
-              = claim&.retrial_reduction? ? t('.answer_yes') : t('.answer_no')
+          = govuk_summary_list_row( t('retrial_reduction', scope: retrial_detail_fields) ) { claim&.retrial_reduction? ? t('.answer_yes') : t('.answer_no') }
 
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]

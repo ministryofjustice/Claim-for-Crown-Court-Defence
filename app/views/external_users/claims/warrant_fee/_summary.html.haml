@@ -11,22 +11,9 @@
   - else
     - warrant_fee = present(claim.warrant_fee)
 
-    %dl.govuk-summary-list
+    = govuk_summary_list do
       - if claim.agfs?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t("common.external_user.category.#{claim.external_user_type}")
-          %dd.govuk-summary-list__value
-            = claim.advocate_category
+        = govuk_summary_list_row( t("common.external_user.category.#{claim.external_user_type}") ) { claim.advocate_category }
 
-      .govuk-summary-list__row
-        %dt.govuk-summary-list__key
-          = t('shared.summary.warrant_fee.date_issued')
-        %dd.govuk-summary-list__value
-          = warrant_fee.warrant_issued_date
-
-      .govuk-summary-list__row
-        %dt.govuk-summary-list__key
-          = t('shared.summary.amount')
-        %dd.govuk-summary-list__value
-          = warrant_fee.amount
+      = govuk_summary_list_row( t('shared.summary.warrant_fee.date_issued') ) { warrant_fee.warrant_issued_date }
+      = govuk_summary_list_row( t('shared.summary.amount') ) { warrant_fee.amount }

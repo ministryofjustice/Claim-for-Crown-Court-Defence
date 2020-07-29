@@ -28,6 +28,10 @@ module GovukComponent
       ActiveSupport.on_load(:action_view) { include GovukComponent::PhaseBannerHelpers }
     end
 
+    initializer 'govuk_component.summary_list_helpers' do
+      ActiveSupport.on_load(:action_view) { include GovukComponent::SummaryListHelpers }
+    end
+
     initializer 'govuk_component.tag_helpers' do
       ActiveSupport.on_load(:action_view) { include GovukComponent::TagHelpers }
     end

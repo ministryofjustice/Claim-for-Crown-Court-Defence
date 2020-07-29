@@ -5,46 +5,27 @@
       = govuk_link_to t('.change'), edit_polymorphic_path(claim, step: :supporting_evidence, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
 
   - if claim.mandatory_supporting_evidence?
-    %dl.govuk-summary-list
-      .govuk-summary-list__row
-        %dt.govuk-summary-list__key
-          = t('shared.summary.disk_evidence')
-        %dd.govuk-summary-list__value
-          = claim.disk_evidence ? t('.answer_yes') : t('.answer_no')
+    = govuk_summary_list do
+      = govuk_summary_list_row( t('shared.summary.disk_evidence') ) { claim.disk_evidence ? t('.answer_yes') : t('.answer_no') }
+      = govuk_summary_list_row( t('shared.summary.disk_evidence_reference') ) { claim.disk_evidence_reference }
 
-      .govuk-summary-list__row
-        %dt.govuk-summary-list__key
-          = t('shared.summary.disk_evidence_reference')
-        %dd.govuk-summary-list__value
-          = claim.disk_evidence_reference
+      = govuk_summary_list_row( t('shared.summary.supporting_evidence') ) do
+        %ul
+          - claim.documents.each do |document|
+            %li
+              = govuk_link_to document.document_file_name,
+                        download_document_path(document),
+                        class: 'download',
+                        'aria-label': "Download document: #{document.document_file_name}"
 
-      .govuk-summary-list__row
-        %dt.govuk-summary-list__key
-          = t('shared.summary.supporting_evidence')
-        %dd.govuk-summary-list__value
-          %ul
-            - claim.documents.each do |document|
-              %li
-                = govuk_link_to document.document_file_name,
-                          download_document_path(document),
-                          class: 'download',
-                          'aria-label': "Download document: #{document.document_file_name}"
-
-      .govuk-summary-list__row
-        %dt.govuk-summary-list__key
-          = t('shared.summary.supporting_evidence_checklist')
-        %dd.govuk-summary-list__value
-          %ul
-            - DocType.find_by_ids(claim.evidence_checklist_ids).each do |dt|
-              %li
-                = dt.name
+      = govuk_summary_list_row( t('shared.summary.supporting_evidence_checklist') ) do
+        %ul
+          - DocType.find_by_ids(claim.evidence_checklist_ids).each do |dt|
+            %li
+              = dt.name
 
       - if claim.additional_information.present?
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('external_users.claims.additional_information.summary.header')
-          %dd.govuk-summary-list__value
-            = claim.additional_information
+        = govuk_summary_list_row( t('external_users.claims.additional_information.summary.header') ) { claim.additional_information }
 
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]

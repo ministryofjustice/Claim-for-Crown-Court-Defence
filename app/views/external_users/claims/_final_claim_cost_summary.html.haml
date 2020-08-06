@@ -1,136 +1,85 @@
--# Cost summary
+= govuk_table do
+  = govuk_table_thead do
+    = govuk_table_th { t('common.description') }
+    = govuk_table_th(false, true) { t('shared.summary.amount') }
+    = govuk_table_th(false, true) { t('shared.summary.vat_amount') }
+    = govuk_table_th(false, true) { t('shared.summary.total_amount') }
 
-%table.summary
-  %caption
-  %thead
-    %tr
-      %th{ scope: 'col' }
-        = t('common.description')
-      %th.numeric{ scope: 'col' }
-        = t('shared.summary.amount')
-      %th.numeric{ scope: 'col' }
-        = t('shared.summary.vat_amount')
-      %th.numeric{ scope: 'col' }
-        = t('shared.summary.total_amount')
 
-  %tbody
+  = govuk_table_tbody do
     - if claim.fixed_fee_case?
-      %tr.fx-seed-fixedFees{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_fixed_fees_total } }
-        %td
-          = t('shared.summary.fixed_fees')
-        %td.numeric
-          = claim.fixed_fees_total
-        %td.numeric
-          = claim.fixed_fees_vat
-        %td.numeric
-          = claim.fixed_fees_gross
+      = govuk_table_row(class: 'fx-seed-fixedFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_fixed_fees_total }) do
+        = govuk_table_th(true) { t('shared.summary.fixed_fees') }
+        = govuk_table_td(true) { claim.fixed_fees_total }
+        = govuk_table_td(true) { claim.fixed_fees_vat }
+        = govuk_table_td(true) { claim.fixed_fees_gross }
+
     - else
       - if claim.respond_to? :basic_fees_total
-        %tr.fx-seed-gradFees{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_basic_fees_total } }
-          %td
-            = claim.hardship? ? t('shared.summary.hardship_fees') : t('shared.summary.graduated_fees')
-          %td.numeric
-            = claim.basic_fees_total
-          %td.numeric
-            = claim.basic_fees_vat
-          %td.numeric
-            = claim.basic_fees_gross
+        = govuk_table_row(class: 'fx-seed-gradFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_basic_fees_total }) do
+          = govuk_table_th(true) { claim.hardship? ? t('shared.summary.hardship_fees') : t('shared.summary.graduated_fees') }
+          = govuk_table_td(true) { claim.basic_fees_total }
+          = govuk_table_td(true) { claim.basic_fees_vat }
+          = govuk_table_td(true) { claim.basic_fees_gross }
 
       - if claim.respond_to? :grad_fees_total
-        %tr.fx-seed-gradFees{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_grad_fees_total } }
-          %td
-            = t('shared.summary.graduated_fees')
-          %td.numeric
-            = claim.grad_fees_total
-          %td.numeric
-            = claim.grad_fees_vat
-          %td.numeric
-            = claim.grad_fees_gross
+        = govuk_table_row(class: 'fx-seed-gradFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_grad_fees_total }) do
+          = govuk_table_th(true) { t('shared.summary.graduated_fees') }
+          = govuk_table_td(true) { claim.grad_fees_total }
+          = govuk_table_td(true) { claim.grad_fees_vat }
+          = govuk_table_td(true) { claim.grad_fees_gross }
 
     - if claim.respond_to? :warrant_fees_total
-      %tr.fx-seed-interimFees{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_warrant_fees_total } }
-        %td
-          = t('common.warrant_fees')
-        %td.numeric
-          = claim.warrant_fees_total
-        %td.numeric
-          = claim.warrant_fees_vat
-        %td.numeric
-          = claim.warrant_fees_gross
+      = govuk_table_row(class: 'fx-seed-interimFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_warrant_fees_total }) do
+        = govuk_table_th(true) { t('common.warrant_fees') }
+        = govuk_table_td(true) { claim.warrant_fees_total }
+        = govuk_table_td(true) { claim.warrant_fees_vat }
+        = govuk_table_td(true) { claim.warrant_fees_gross }
 
     - if claim.respond_to? :hardship_fees_total
-      %tr.fx-seed-hardshipFees{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_hardship_fees_total } }
-        %td
-          = t('common.hardship_fees')
-        %td.numeric
-          = claim.hardship_fees_total
-        %td.numeric
-          = claim.hardship_fees_vat
-        %td.numeric
-          = claim.hardship_fees_gross
+      = govuk_table_row(class: 'fx-seed-hardshipFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_hardship_fees_total }) do
+        = govuk_table_th(true) { t('common.hardship_fees') }
+        = govuk_table_td(true) { claim.hardship_fees_total }
+        = govuk_table_td(true) { claim.hardship_fees_vat }
+        = govuk_table_td(true) { claim.hardship_fees_gross }
 
     - if claim.respond_to? :interim_fees_total
-      %tr.fx-seed-interimFees{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_interim_fees_total } }
-        %td
-          = t('common.interim_fees')
-        %td.numeric
-          = claim.interim_fees_total
-        %td.numeric
-          = claim.interim_fees_vat
-        %td.numeric
-          = claim.interim_fees_gross
+      = govuk_table_row(class: 'fx-seed-interimFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_interim_fees_total }) do
+        = govuk_table_th(true) { t('common.interim_fees') }
+        = govuk_table_td(true) { claim.interim_fees_total }
+        = govuk_table_td(true) { claim.interim_fees_vat }
+        = govuk_table_td(true) { claim.interim_fees_gross }
 
     - if claim.respond_to? :transfer_fees_total
-      %tr.fx-seed-transferFees{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_transfer_fees_total } }
-        %td
-          = t('common.transfer_fees')
-        %td.numeric
-          = claim.transfer_fees_total
-        %td.numeric
-          = claim.transfer_fees_vat
-        %td.numeric
-          = claim.transfer_fees_gross
+      = govuk_table_row(class: 'fx-seed-transferFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_transfer_fees_total }) do
+        = govuk_table_th(true) { t('common.transfer_fees') }
+        = govuk_table_td(true) { claim.transfer_fees_total }
+        = govuk_table_td(true) { claim.transfer_fees_vat }
+        = govuk_table_td(true) { claim.transfer_fees_gross }
 
     - if claim.disbursements_total?.eql?(true)
-      %tr.fx-seed-disbursements{ data: { autovat: 'false', seed: claim.raw_disbursements_total, 'seed-vat': claim.raw_disbursements_vat } }
-        %td
-          = t('common.disbursements')
-        %td.numeric
-          = claim.disbursements_total
-        %td.numeric
-          = claim.disbursements_vat
-        %td.numeric
-          = claim.disbursements_gross
+      = govuk_table_row(class: 'fx-seed-disbursements', data: { autovat: 'false', seed: claim.raw_disbursements_total, 'seed-vat': claim.raw_disbursements_vat }) do
+        = govuk_table_th(true) { t('common.disbursements') }
+        = govuk_table_td(true) { claim.disbursements_total }
+        = govuk_table_td(true) { claim.disbursements_vat }
+        = govuk_table_td(true) { claim.disbursements_gross }
 
     - if claim.misc_fees_total.nil?.eql?(false)
-      %tr.fx-seed-miscFees{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_misc_fees_total } }
-        %td
-          = t('shared.summary.miscellaneous_fees')
-        %td.numeric
-          = claim.misc_fees_total
-        %td.numeric
-          = claim.misc_fees_vat
-        %td.numeric
-          = claim.misc_fees_gross
+      = govuk_table_row(class: 'fx-seed-miscFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_misc_fees_total }) do
+        = govuk_table_th(true) { t('shared.summary.miscellaneous_fees') }
+        = govuk_table_td(true) { claim.misc_fees_total }
+        = govuk_table_td(true) { claim.misc_fees_vat }
+        = govuk_table_td(true) { claim.misc_fees_gross }
 
     - if claim.respond_to?(:expenses_total) && !claim.hardship?
-      %tr.fx-seed-expenses{ data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_expenses_total, 'seed-vat': claim.raw_expenses_vat } }
-        %td
-          = t('shared.summary.expenses.travel_expenses')
-        %td.numeric
-          = claim.expenses_total
-        %td.numeric
-          = claim.expenses_vat
-        %td.numeric
-          = claim.expenses_gross
+      = govuk_table_row(class: 'fx-seed-expenses', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_expenses_total, 'seed-vat': claim.raw_expenses_vat }) do
+        = govuk_table_th(true) { t('shared.summary.expenses.travel_expenses') }
+        = govuk_table_td(true) { claim.expenses_total }
+        = govuk_table_td(true) { claim.expenses_vat }
+        = govuk_table_td(true) { claim.expenses_gross }
 
-  %tfoot
-    %tr.fx-seed{ 'data-total-inc': claim.raw_total_inc }
-      %th{ scope: 'row' }
-        = t('shared.summary.claim_total')
-      %td.numeric
-        = claim.total
-      %td.numeric.fx-seed{ 'data-vat-total': claim.raw_vat_amount }
-        = claim.vat_amount
-      %td.numeric
-        = claim.total_inc
+  = govuk_table_tfoot(class: 'fx-seed', 'data-total-inc': claim.raw_total_inc) do
+    = govuk_table_th(true) { t('shared.summary.claim_total') }
+    = govuk_table_td(true) { claim.total }
+    = govuk_table_td(true, class: 'fx-seed', 'data-vat-total': claim.raw_vat_amount) { claim.vat_amount }
+    = govuk_table_td(true) { claim.total_inc }

@@ -32,6 +32,10 @@ module GovukComponent
       ActiveSupport.on_load(:action_view) { include GovukComponent::SummaryListHelpers }
     end
 
+    initializer 'govuk_component.table_helpers' do
+      ActiveSupport.on_load(:action_view) { include GovukComponent::TableHelpers }
+    end
+
     initializer 'govuk_component.tag_helpers' do
       ActiveSupport.on_load(:action_view) { include GovukComponent::TagHelpers }
     end

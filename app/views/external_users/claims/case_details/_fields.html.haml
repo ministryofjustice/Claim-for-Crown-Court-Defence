@@ -16,11 +16,16 @@
 
     = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', id: 'court', 'aria-label': t('.court') }
 
-
-  = f.adp_text_field :case_number,
-    label: t('.case_number'),
-    hint_text: t('.case_number_hint'),
-    errors: @error_presenter
+  - if Settings.urn_enabled?
+    = f.adp_text_field :case_number,
+      label: t('.case_number_or_urn'),
+      hint_text: t('.case_number_or_urn_hint'),
+      errors: @error_presenter
+  - else
+    = f.adp_text_field :case_number,
+      label: t('.case_number'),
+      hint_text: t('.case_number_hint'),
+      errors: @error_presenter
 
   = render partial: 'external_users/claims/case_details/transfer_court_question_fields', locals: { f: f }
 

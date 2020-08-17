@@ -258,14 +258,14 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
           expect{ post_to_create_endpoint }.not_to change { claim_class.active.count }
         end
       end
-
+     
       context "existing but invalid value" do
         it "response 400 and JSON error array of model validation BLANK errors" do
           valid_params[:court_id] = -1
-          valid_params[:case_number] = -1
+          # valid_params[:case_number] = -1
           post_to_create_endpoint
           expect_error_response("Choose a court", 0)
-          expect_error_response("The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)", 1)
+          # expect_error_response("The case number must be in the format A20161234", 1)
         end
 
         it "response 400 and JSON error array of model validation INVALID errors" do
@@ -274,6 +274,30 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
           post_to_create_endpoint
           expect_error_response("Choose a court", 0)
           expect_error_response("Enter a case number", 1)
+        end
+      end
+
+      context 'urn feature flag disabled' do
+        before do
+          allow(Settings).to receive(:urn_enabled?).and_return(false)
+        end
+       
+        it "response 400 and JSON error array of model validation BLANK errors" do
+          valid_params[:case_number] = -1
+          post_to_create_endpoint
+          expect_error_response("The case number must be in the format A20161234", 0)
+        end
+      end
+
+      context 'urn feature flag enabled' do
+        before do
+          allow(Settings).to receive(:urn_enabled?).and_return(true)
+        end
+        
+        it "response 400 and JSON error array of model validation BLANK errors" do
+          valid_params[:case_number] = -1
+          post_to_create_endpoint
+          expect_error_response("The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)", 0)
         end
       end
 

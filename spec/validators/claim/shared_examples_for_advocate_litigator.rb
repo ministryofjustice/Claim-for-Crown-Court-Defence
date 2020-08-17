@@ -80,9 +80,26 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
       should_not_error(claim, :transfer_case_number)
     end
 
-    it 'should error if wrong format' do
-      claim.transfer_case_number = 'ABC_'
-      should_error_with(claim, :transfer_case_number, 'invalid')
+    context 'urn feature flag disabled' do
+      before do
+        allow(Settings).to receive(:urn_enabled?).and_return(false)
+      end
+
+      it 'should error if wrong format' do
+        claim.transfer_case_number = 'ABC_'
+        should_error_with(claim, :transfer_case_number, 'invalid')
+      end
+    end
+
+    context 'urn feature flag enabled' do
+      before do
+        allow(Settings).to receive(:urn_enabled?).and_return(true)
+      end
+
+      it 'should error if wrong format' do
+        claim.transfer_case_number = 'ABC_'
+        should_error_with(claim, :transfer_case_number, 'invalid_case_number_or_urn')
+      end
     end
 
     context 'when case was transferred from another court' do
@@ -112,8 +129,24 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
             claim.transfer_case_number = 'ABC_'
           end
 
-          it 'contains an invalid error on transfer case number' do
-            should_error_with(claim, :transfer_case_number, 'invalid')
+          context 'urn feature flag disabled' do
+            before do
+              allow(Settings).to receive(:urn_enabled?).and_return(false)
+            end
+
+            it 'contains an invalid error on transfer case number' do
+              should_error_with(claim, :transfer_case_number, 'invalid')
+            end
+          end
+
+          context 'urn feature flag enabled' do
+            before do
+              allow(Settings).to receive(:urn_enabled?).and_return(true)
+            end
+
+            it 'contains an invalid error on transfer case number' do
+              should_error_with(claim, :transfer_case_number, 'invalid_case_number_or_urn')
+            end
           end
         end
       end

@@ -64,15 +64,21 @@ RSpec.shared_examples 'common AGFS number of cases uplift validations' do
         should_not_error(noc_fee, :case_numbers)
       end
     end
-
+  
     it 'when single valid format of case number entered' do
-      noc_fee.case_numbers = 'A20161234'
-      should_not_error(noc_fee, :case_numbers)
+        noc_fee.case_numbers = 'A20161234'
+        should_not_error(noc_fee, :case_numbers)
     end
+   
+    context 'urn feature flag enabled' do
+      before do
+        allow(Settings).to receive(:urn_enabled?).and_return(true)
+      end
 
-    it 'when single valid format of URN entered' do
-      noc_fee.case_numbers = '1234567890AAAAAAAAAA'
-      should_not_error(noc_fee, :case_numbers)
+      it 'when single valid format of URN entered' do
+        noc_fee.case_numbers = '1234567890AAAAAAAAAA'
+        should_not_error(noc_fee, :case_numbers)
+      end
     end
 
     it 'when quantity and number of additional cases match' do

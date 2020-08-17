@@ -125,7 +125,7 @@ RSpec.describe FeeScheme, type: :model do
     end
 
     context 'when date is on/after scheme 12 cut over date' do
-      let(:the_date) { Date.new(2020, 07, 01) }
+      let(:the_date) { Date.new(2020, 8, 31) }
 
       it { is_expected.to eq agfs_scheme_twelve }
     end

@@ -199,10 +199,14 @@ transfer_case_number:
     long: Enter a transfer case number for example A20161234
     short: Enter a transfer case number
     api: Enter a transfer case number for example A20161234
-  invalid:  
+  invalid:
+    long: The transfer case number must be in the format A20161234
+    short: Invalid transfer case number
+    api: The transfer case number must be in the format A20161234
+  invalid_case_number_or_urn:  
     long: The transfer case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)
     short: Invalid transfer case number
-    api: The trasfer case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)
+    api: The transfer case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)
 
 first_day_of_trial:
   _seq: 70

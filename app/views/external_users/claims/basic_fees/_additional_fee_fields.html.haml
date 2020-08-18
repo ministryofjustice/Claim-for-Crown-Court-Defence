@@ -13,20 +13,12 @@
     = f.hidden_field :fee_type_id, class: 'js-fee-type'
 
     - if f.object.fee_type.case_uplift?
-      - if Settings.urn_enabled?
-        .form-group
-          = f.adp_text_field :case_numbers,
-            label: t('.case_numbers_or_urns'),
-            input_classes: 'js-basic-fee-case-numbers fx-fee-case-numbers',
-            hint_text: 'Separate by commas',
-            errors: @error_presenter
-      - else
-        .form-group
-          = f.adp_text_field :case_numbers,
-            label: t('.case_numbers'),
-            input_classes: 'js-basic-fee-case-numbers fx-fee-case-numbers',
-            hint_text: 'Separate by commas',
-            errors: @error_presenter
+      .form-group
+        = f.adp_text_field :case_numbers,
+          label: Settings.urn_enabled? ? t('.case_numbers_or_urns') : t('.case_numbers'),
+          input_classes: 'js-basic-fee-case-numbers fx-fee-case-numbers',
+          hint_text: 'Separate by commas',
+          errors: @error_presenter
 
     .form-group
       - fee_type_scope = fee.fee_type_code.downcase

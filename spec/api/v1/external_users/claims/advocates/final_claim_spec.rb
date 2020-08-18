@@ -70,6 +70,52 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
     end
   end
 
+  context 'urn feature flag disabled' do
+    before do
+      allow(Settings).to receive(:urn_enabled?).and_return(false)
+    end
+    
+    it 'returns 400 and JSON error when the case number does not start with a BAST or U' do
+      valid_params[:case_number] = 'G20209876'
+      post_to_validate_endpoint
+      expect(last_response.status).to eq(400)
+      body = last_response.body
+      expect(body).to include("The case number must be in the format A20161234")
+    end
+
+    it 'returns 400 and JSON error when the case number is too long' do
+      valid_params[:case_number] = 'T202098761'
+      post_to_validate_endpoint
+      expect(last_response.status).to eq(400)
+      body = last_response.body
+      expect(body).to include("The case number must be in the format A20161234")
+    end
+
+    it 'returns 400 and JSON error when the case number is too short' do
+      valid_params[:case_number] = 'T2020987'
+      post_to_validate_endpoint
+      expect(last_response.status).to eq(400)
+      body = last_response.body
+      expect(body).to include("The case number must be in the format A20161234")
+    end
+
+    it 'returns 400 and JSON error when the case number is a valid common platform URN' do
+      valid_params[:case_number] = 'ABCDEFGHIJ1234567890'
+      post_to_validate_endpoint
+      expect(last_response.status).to eq(400)
+      body = last_response.body
+      expect(body).to include("The case number must be in the format A20161234")
+    end
+
+    it 'returns 200 and valid when case_number is a valid case number' do
+      valid_params[:case_number] = 'T20202601'
+      post_to_validate_endpoint
+      expect(last_response.status).to eq(200)
+      body = last_response.body
+      expect(body).to include("valid")
+    end
+  end
+
   context 'urn feature flag enabled' do
     before do
       allow(Settings).to receive(:urn_enabled?).and_return(true)

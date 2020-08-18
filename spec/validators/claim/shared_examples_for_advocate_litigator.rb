@@ -85,6 +85,11 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
         allow(Settings).to receive(:urn_enabled?).and_return(false)
       end
 
+      it 'should NOT error if valid case_number' do
+        claim.transfer_case_number = 'A20161234'
+        should_not_error(claim, :transfer_case_number)
+      end
+
       it 'should error if wrong format' do
         claim.transfer_case_number = 'ABC_'
         should_error_with(claim, :transfer_case_number, 'invalid')
@@ -94,6 +99,16 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
     context 'urn feature flag enabled' do
       before do
         allow(Settings).to receive(:urn_enabled?).and_return(true)
+      end
+
+      it 'should NOT error if valid case_number' do
+        claim.transfer_case_number = 'A20161234'
+        should_not_error(claim, :transfer_case_number)
+      end
+
+      it 'should NOT error if valid URN' do
+        claim.transfer_case_number = 'ABCDEFGHIJ1234567890'
+        should_not_error(claim, :transfer_case_number)
       end
 
       it 'should error if wrong format' do

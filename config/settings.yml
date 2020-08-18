@@ -105,7 +105,7 @@ maintenance_mode_enabled?: <%= ENV.fetch('MAINTENANCE_MODE', nil)&.downcase&.eql
 # Feature flag to enable urn
 # If enabled users can enter a urn or case number
 #
-urn_enabled?: true
+urn_enabled?: <%= ENV.fetch('URN_ENABLED', nil)&.downcase&.eql?('true') %>
 
 feature_flags_enabled?: true
 active_features: []

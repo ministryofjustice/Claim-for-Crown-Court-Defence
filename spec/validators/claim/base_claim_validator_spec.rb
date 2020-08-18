@@ -213,43 +213,50 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   end
 
   context 'case_number' do
-    it 'should error if not present' do
-      claim.case_number = nil
-      should_error_with(claim, :case_number, "blank")
-    end
+    context 'urn feature flag disabled' do
 
-    it 'should not error if valid' do
-      claim.case_number = 'T20161234'
-      expect(claim).to be_valid
-    end
+      before do
+        allow(Settings).to receive(:urn_enabled?).and_return(false)
+      end
 
-    it 'should error if too short' do
-      claim.case_number = 'T2020432'
-      should_error_with(claim, :case_number, 'invalid')
-    end
+      it 'should error if not present' do
+        claim.case_number = nil
+        should_error_with(claim, :case_number, "blank")
+      end
 
-    it 'should error if too long' do
-      claim.case_number = 'T202043298'
-      should_error_with(claim, :case_number, 'invalid')
-    end
+      it 'should not error if valid' do
+        claim.case_number = 'T20161234'
+        expect(claim).to be_valid
+      end
 
-    it 'should error if it doesnt start with BAST or U' do
-      claim.case_number = 'G20204321'
-      should_error_with(claim, :case_number, 'invalid')
-    end
+      it 'should error if too short' do
+        claim.case_number = 'T2020432'
+        should_error_with(claim, :case_number, 'invalid')
+      end
 
-    it 'upcases the first letter and does not error' do
-      claim.case_number = 't20161234'
-      expect(claim).to be_valid
-      expect(claim.case_number).to eq 'T20161234'
-    end
+      it 'should error if too long' do
+        claim.case_number = 'T202043298'
+        should_error_with(claim, :case_number, 'invalid')
+      end
 
-    it 'validates against the regex' do
-      %w(A S T U).each do |letter|
-        (1990..2020).each do |year|
-          %w(0001 1111 9999).each do |number|
-            case_number = [letter, year, number].join
-            expect(case_number.match(BaseValidator::CASE_NUMBER_PATTERN)).to be_truthy
+      it 'should error if it doesnt start with BAST or U' do
+        claim.case_number = 'G20204321'
+        should_error_with(claim, :case_number, 'invalid')
+      end
+
+      it 'upcases the first letter and does not error' do
+        claim.case_number = 't20161234'
+        expect(claim).to be_valid
+        expect(claim.case_number).to eq 'T20161234'
+      end
+
+      it 'validates against the regex' do
+        %w(A S T U).each do |letter|
+          (1990..2020).each do |year|
+            %w(0001 1111 9999).each do |number|
+              case_number = [letter, year, number].join
+              expect(case_number.match(BaseValidator::CASE_NUMBER_PATTERN)).to be_truthy
+            end
           end
         end
       end
@@ -259,6 +266,11 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   context 'urn feature flag enabled' do
     before do
       allow(Settings).to receive(:urn_enabled?).and_return(true)
+    end
+
+    it 'should error if not present' do
+      claim.case_number = nil
+      should_error_with(claim, :case_number, "blank")
     end
   
     context 'with unique reference numbers' do
@@ -278,7 +290,46 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
         claim.case_number = '1234567890UVWXYZABCDE'
         should_error_with(claim, :case_number, 'invalid_case_number_or_urn')
       end
-    end  
+    end
+
+    context 'with case numbers' do
+      it 'should not error if valid' do
+        claim.case_number = 'T20161234'
+        expect(claim).to be_valid
+      end
+
+      it 'should error if too short' do
+        claim.case_number = 'T2020432'
+        should_error_with(claim, :case_number, 'invalid')
+      end
+
+      it 'should error if too long' do
+        claim.case_number = 'T202043298'
+        should_error_with(claim, :case_number, 'invalid')
+      end
+
+      it 'should error if it doesnt start with BAST or U' do
+        claim.case_number = 'G20204321'
+        should_error_with(claim, :case_number, 'invalid')
+      end
+
+      it 'upcases the first letter and does not error' do
+        claim.case_number = 't20161234'
+        expect(claim).to be_valid
+        expect(claim.case_number).to eq 'T20161234'
+      end
+
+      it 'validates against the regex' do
+        %w(A S T U).each do |letter|
+          (1990..2020).each do |year|
+            %w(0001 1111 9999).each do |number|
+              case_number = [letter, year, number].join
+              expect(case_number.match(BaseValidator::CASE_NUMBER_PATTERN)).to be_truthy
+            end
+          end
+        end
+      end
+    end 
   end
 
   context 'estimated_trial_length' do

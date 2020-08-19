@@ -4,7 +4,7 @@ class API::Logger < Grape::Middleware::Base
   end
 
   def after
-    log_api_response(@app_response.status) if @app_response
+    log_api_response(@app_response.first.to_s) if @app_response
     @app_response # this must return @app_response or nil
   end
 
@@ -19,9 +19,9 @@ class API::Logger < Grape::Middleware::Base
   end
 
   def response_body
-    JSON.parse(@app_response.body.first)
+    JSON.parse(@app_response[2].first)
   rescue JSON::ParserError
-    Rails.logger.error "JSON::Parser error parsing: \n#{@app_response.body.first}"
+    Rails.logger.error "JSON::Parser error parsing: \n#{@app_response[2].first}"
   end
 
   def log_api(api_type, data)

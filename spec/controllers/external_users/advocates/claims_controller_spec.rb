@@ -538,7 +538,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
     "source" => 'web',
     "case_type_id" => case_type.id.to_s,
     "court_id" => court.id.to_s,
-    "case_number" => "CASE98989",
+    "case_number" => "CASE98989-",
     "advocate_category" => "QC",
     "offence_class_id" => "2",
     "offence_id" => offence.id.to_s,

@@ -59,6 +59,8 @@ spec:
               value: 'UA-37377084-48'
             - name: MAINTENANCE_MODE
               value: 'false'
+            - name: URN_ENABLED
+              value: 'false'
             - name: SETTINGS__SLACK__BOT_NAME
               value: 'Injectotron'
             - name: SETTINGS__SLACK__FAIL_ICON

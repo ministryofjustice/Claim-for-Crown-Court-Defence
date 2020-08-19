@@ -8,4 +8,7 @@
   = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', 'aria-label': t('.transfer_court') }
 
 .form-group.js-typeahead{ class: error_class?(@error_presenter, :transfer_case_number) }
-  = f.adp_text_field :transfer_case_number, label: t('.transfer_case_number'), hint_text: t('.transfer_case_number_hint'), input_classes: '',  errors: @error_presenter
+  = f.adp_text_field :transfer_case_number,
+    label: Settings.urn_enabled? ? t('.transfer_case_number_or_urn') : t('.transfer_case_number'),
+    hint_text: Settings.urn_enabled? ? t('.transfer_case_number_or_urn_hint') : t('.transfer_case_number_hint'),
+    input_classes: '', errors: @error_presenter

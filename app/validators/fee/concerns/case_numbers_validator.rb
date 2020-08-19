@@ -8,8 +8,6 @@
 module Fee
   module Concerns
     module CaseNumbersValidator
-      CASE_NUMBER_PATTERN = BaseValidator::CASE_NUMBER_PATTERN
-
       private
 
       # TODO: At time of writing the AGFS case uplift fee types are
@@ -52,8 +50,21 @@ module Fee
       end
 
       def validate_case_number(case_number)
-        add_error(:case_numbers, 'invalid') unless case_number.match?(CASE_NUMBER_PATTERN)
+        if Settings.urn_enabled?
+          validate_case_number_or_urn_pattern(case_number)
+        else
+          validate_case_number_pattern(case_number)
+        end
         add_error(:case_numbers, 'eqls_claim_case_number') if case_number.casecmp?(claim.case_number)
+      end
+
+      def validate_case_number_or_urn_pattern(case_number)
+        add_error(:case_numbers, 'invalid') unless case_number.match?(BaseValidator::CASE_URN_PATTERN)
+        validate_case_number_pattern(case_number) if case_number.match?(BaseValidator::CASE_NUMBER_OR_URN_PATTERN)
+      end
+
+      def validate_case_number_pattern(case_number)
+        add_error(:case_numbers, 'invalid') unless case_number.match?(BaseValidator::CASE_NUMBER_PATTERN)
       end
     end
   end

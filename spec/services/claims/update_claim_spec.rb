@@ -66,7 +66,7 @@ describe Claims::UpdateClaim do
     end
 
     context 'unsuccessful updates' do
-      let(:claim_params) { { case_number: '123' } }
+      let(:claim_params) { { case_number: '123456789012345678901' } }
 
       it 'is unsuccessful' do
         expect(subject.claim).not_to receive(:update_claim_document_owners)

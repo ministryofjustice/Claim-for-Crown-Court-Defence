@@ -74,6 +74,10 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_case_number
     @record.case_number&.upcase!
     validate_presence(:case_number, 'blank')
+    if Settings.urn_enabled?
+      validate_pattern(:case_number, CASE_URN_PATTERN, 'invalid_case_number_or_urn')
+      return unless looks_like_a_case_number?(:case_number)
+    end
     validate_pattern(:case_number, CASE_NUMBER_PATTERN, 'invalid')
   end
 
@@ -91,6 +95,10 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def validate_transfer_case_number
     return if @record.errors[:transfer_case_number].present?
+    if Settings.urn_enabled?
+      validate_pattern(:transfer_case_number, CASE_URN_PATTERN, 'invalid_case_number_or_urn')
+      return unless looks_like_a_case_number?(:transfer_case_number)
+    end
     validate_pattern(:transfer_case_number, CASE_NUMBER_PATTERN, 'invalid')
   end
 

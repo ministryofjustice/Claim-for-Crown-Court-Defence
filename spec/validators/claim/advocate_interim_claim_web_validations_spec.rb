@@ -95,10 +95,27 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     context 'but case number is invalid' do
       let(:attributes) { valid_attributes.merge(case_number: 'invalid-cn') }
 
-      specify {
-        is_expected.to be_invalid
-        expect(claim.errors[:case_number]).to match_array(['invalid'])
-      }
+      context 'urn feature flag disabled' do
+        before do
+          allow(Settings).to receive(:urn_enabled?).and_return(false)
+        end
+
+        specify {
+          is_expected.to be_invalid
+          expect(claim.errors[:case_number]).to match_array(['invalid'])
+        }
+      end
+
+      context 'urn feature flag enabled' do
+        before do
+          allow(Settings).to receive(:urn_enabled?).and_return(true)
+        end
+
+        specify {
+          is_expected.to be_invalid
+          expect(claim.errors[:case_number]).to match_array(['invalid_case_number_or_urn'])
+        }
+      end
     end
 
     context 'when case was transferred from another court' do
@@ -147,11 +164,28 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       context 'but the transfer case number is invalid' do
         let(:attributes) { valid_attributes.merge(transfer_case_number: 'invalid-tcn') }
+        
+        context 'urn feature flag disabled' do
+          before do
+            allow(Settings).to receive(:urn_enabled?).and_return(false)
+          end
+    
+          specify {
+            is_expected.to be_invalid
+            expect(claim.errors[:transfer_case_number]).to match_array(['invalid'])
+          }
+        end
 
-        specify {
-          is_expected.to be_invalid
-          expect(claim.errors[:transfer_case_number]).to match_array(['invalid'])
-        }
+        context 'urn feature flag enabled' do
+          before do
+            allow(Settings).to receive(:urn_enabled?).and_return(true)
+          end
+    
+          specify {
+            is_expected.to be_invalid
+            expect(claim.errors[:transfer_case_number]).to match_array(['invalid_case_number_or_urn'])
+          }
+        end
       end
     end
   end

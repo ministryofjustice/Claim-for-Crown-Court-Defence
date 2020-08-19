@@ -1,0 +1,68 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: wednesday
+    time: "03:00"
+    timezone: Europe/London
+  open-pull-requests-limit: 10
+  reviewers:
+  - ministryofjustice/crime-billing-online
+  ignore:
+  - dependency-name: govuk_frontend_toolkit
+    versions:
+    - ">= 9.a"
+    - "< 10"
+  - dependency-name: jquery
+    versions:
+    - ">= 3.a"
+    - "< 4"
+  - dependency-name: susy
+    versions:
+    - ">= 3.a"
+    - "< 4"
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: wednesday
+    time: "03:00"
+    timezone: Europe/London
+  open-pull-requests-limit: 10
+  reviewers:
+  - ministryofjustice/crime-billing-online
+  ignore:
+  - dependency-name: govuk_frontend_toolkit
+    versions:
+    - ">= 9.a"
+    - "< 10"
+  - dependency-name: newrelic_rpm
+    versions:
+    - "> 6.3.0.355"
+  - dependency-name: parallel_tests
+    versions:
+    - "> 2.28.0"
+  - dependency-name: sdoc
+    versions:
+    - "> 0.4.2"
+  - dependency-name: sidekiq
+    versions:
+    - ">= 6.0.a"
+    - "< 6.1"
+  - dependency-name: sidekiq
+    versions:
+    - ">= 6.1.a"
+    - "< 6.2"
+  - dependency-name: simplecov
+    versions:
+    - "> 0.17.1"
+    - "< 1"
+  - dependency-name: simplecov-console
+    versions:
+    - "> 0.4.2"
+  - dependency-name: wicked_pdf
+    versions:
+    - ">= 2.1.a"
+    - "< 2.2"

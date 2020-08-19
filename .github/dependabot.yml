@@ -7,7 +7,7 @@ updates:
     day: wednesday
     time: "03:00"
     timezone: Europe/London
-  open-pull-requests-limit: 10
+  open-pull-requests-limit: 5
   reviewers:
   - ministryofjustice/crime-billing-online
   ignore:
@@ -30,7 +30,8 @@ updates:
     day: wednesday
     time: "03:00"
     timezone: Europe/London
-  open-pull-requests-limit: 10
+  open-pull-requests-limit: 5
+  rebase-strategy: "disabled"
   reviewers:
   - ministryofjustice/crime-billing-online
   ignore:

@@ -7,7 +7,7 @@ gem 'aws-sdk',                '~> 3'
 gem 'awesome_print'
 gem 'bootsnap', require: false
 gem 'cancancan',              '~> 3.1'
-gem 'cocoon',                 '~> 1.2.13'
+gem 'cocoon',                 '~> 1.2.14'
 gem 'devise',                 '~> 4.7.2'
 gem 'dotenv-rails'
 gem 'dry-monads',             '~> 1.3.5'

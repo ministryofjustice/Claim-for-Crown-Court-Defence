@@ -890,7 +890,7 @@ GEM
       rake (< 13.0)
     chronic (0.10.2)
     climate_control (0.2.0)
-    cocoon (1.2.13)
+    cocoon (1.2.14)
     codeclimate-test-reporter (1.0.7)
       simplecov
     coderay (1.1.2)
@@ -1504,7 +1504,7 @@ DEPENDENCIES
   capybara (~> 3.33)
   capybara-selenium
   climate_control
-  cocoon (~> 1.2.13)
+  cocoon (~> 1.2.14)
   codeclimate-test-reporter
   colorize
   config (~> 2.2)

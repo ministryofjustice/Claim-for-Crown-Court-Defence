@@ -1,16 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe NotifyMailer, type: :mailer do
-
   describe 'message_added_email' do
     let(:template) { '4240bf0e-0000-444e-9c30-0d1bb64a2fb4' }
-
-    # NOTE: set id explicitly to differentiate external_user.id from user.id
-    # because if left to factories/db it will often set them to the same value
-    # due to sequence resetting.
     let(:provider) { create(:provider, :agfs)}
-    let(:external_user) { create(:external_user, provider: provider, id: 101) }
-    let(:creator_external_user) { create(:external_user, provider: provider, id: 201) }
+    let(:external_user) { create(:external_user, provider: provider) }
+    let(:creator_external_user) { create(:external_user, provider: provider) }
     let(:claim) { create(:advocate_final_claim) }
 
     before do

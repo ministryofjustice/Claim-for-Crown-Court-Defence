@@ -26,6 +26,6 @@ class API::Logger < Grape::Middleware::Base
 
   def log_api(api_type, data)
     api_request = { log_type: api_type, timestamp: Time.now }.merge!(data)
-    Rails.logger.info api_request.to_json
+    LogStuff.send(:info, api_request)
   end
 end

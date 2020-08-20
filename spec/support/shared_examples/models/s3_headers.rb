@@ -28,10 +28,17 @@ RSpec.shared_examples 'an s3 bucket' do
 
     context ':s3_region' do
       subject(:s3_region) { described_class.s3_headers[:s3_region] }
+
+      before { allow(Settings.aws).to receive(:region).and_return(fake_aws_region) }
+
       let(:fake_aws_region) { 'eu-west-49' }
 
-      it 'includes region value from settings' do
-        expect(Settings.aws).to receive(:region).and_return(fake_aws_region)
+      it 'retrieves region from settings' do
+        s3_region
+        expect(Settings.aws).to have_received(:region)
+      end
+
+      it 'includes region value' do
         is_expected.to eql fake_aws_region
       end
     end

@@ -302,50 +302,68 @@ RSpec.describe API::V1::DropdownData do
 
   context 'GET api/advocate_categories[:category]' do
     before do
-      allow(Settings).to receive(:agfs_reform_advocate_categories).and_return(['QC', 'Leading junior', 'Junior'])
-      allow(Settings).to receive(:advocate_categories).and_return(['QC', 'Led junior', 'Leading junior', 'Junior'])
       params.merge!(role: role)
       get ADVOCATE_CATEGORY_ENDPOINT, params, format: :json
+    end
+
+    let(:parsed_response) { JSON.parse(last_response.body) }
+
+    shared_examples 'returns agfs scheme 9 advocate categories' do
+      let(:agfs_scheme_9_advocate_categories) { ['QC', 'Led junior', 'Leading junior', 'Junior alone'] }
+
+      it 'returns agfs scheme 9 advocate categories' do
+        expect(parsed_response).to match_array(agfs_scheme_9_advocate_categories)
+      end
+    end
+
+    shared_examples 'returns agfs scheme 10+ advocate categories' do
+      let(:agfs_scheme_10_plus_advocate_categories) { ['QC', 'Leading junior', 'Junior'] }
+
+      it 'returns agfs scheme 10+ advocate categories' do
+        expect(parsed_response).to match_array(agfs_scheme_10_plus_advocate_categories)
+      end
     end
 
     context 'when role is nil' do
       let(:role) { nil }
 
-      it 'returns 4 options' do
-        expect(JSON.parse(last_response.body).count).to eq 4
+      include_examples 'returns agfs scheme 9 advocate categories'
+    end
+
+    context 'when role is invalid' do
+      let(:role) { :non_existent_role }
+
+      it 'returns error' do
+        expect(parsed_response.first).to have_key('error')
+      end
+
+      it 'returns error message' do
+        expect(parsed_response.first['error']).to match(/not.*valid/)
       end
     end
 
     context 'when role is agfs' do
       let(:role) { 'agfs' }
 
-      it 'returns 4 options' do
-        expect(JSON.parse(last_response.body).count).to eq 4
-      end
+      include_examples 'returns agfs scheme 9 advocate categories'
     end
 
     context 'when role is agfs_scheme_9' do
       let(:role) { 'agfs_scheme_9' }
 
-      it 'returns 4 options' do
-        expect(JSON.parse(last_response.body).count).to eq 4
-      end
+      include_examples 'returns agfs scheme 9 advocate categories'
     end
 
     context 'when role is agfs_scheme_10' do
       let(:role) { 'agfs_scheme_10' }
 
-      it 'returns 3 options' do
-        expect(JSON.parse(last_response.body).count).to eq 3
-      end
+      include_examples 'returns agfs scheme 10+ advocate categories'
     end
 
     context 'when role is lgfs' do
       let(:role) { 'lgfs' }
 
-      it 'returns 4 options' do
-        expect(JSON.parse(last_response.body).count).to eq 4
-      end
+      include_examples 'returns agfs scheme 9 advocate categories'
     end
   end
 

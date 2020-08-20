@@ -102,13 +102,13 @@ module API
 
         resource :fee_types do
           params do
-            category_types = %w[all basic misc fixed graduated interim transfer warrant].to_sentence
+            category_types = %w[all basic misc fixed graduated interim transfer warrant]
             use :scheme_role_filter
             optional :category,
                      type: String,
                      default: 'all',
-                     values: %w[all basic misc fixed graduated interim transfer warrant],
-                     desc: "OPTIONAL: The fee category to filter the results. Can be: #{category_types}. Default: all"
+                     values: category_types,
+                     desc: "OPTIONAL: The fee category to filter the results. Can be: #{category_types.to_sentence}. Default: all"
             optional :unique_code,
                      type: String,
                      desc: 'OPTIONAL: The unique identifier of the fee type'

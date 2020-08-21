@@ -2,6 +2,18 @@ require 'rails_helper'
 require 'support/shared_examples_for_claim_types'
 
 class MockBaseClaim < Claim::BaseClaim
+  def provider_delegator
+    provider
+  end
+
+  def provider
+    creator.provider
+  end
+
+  def creator
+    ExternalUser.new
+  end
+
   SUBMISSION_STAGES = [
     {
       name: :step_1,
@@ -48,6 +60,12 @@ RSpec.describe Claim::BaseClaim do
 
   include_context 'claim-types object helpers'
 
+  it 'raises BaseClaimAbstractClassError when instantiated' do
+    expect {
+      described_class.new(external_user: advocate, creator: advocate)
+    }.to raise_error ::Claim::BaseClaimAbstractClassError, 'Claim::BaseClaim is an abstract class and cannot be instantiated'
+  end
+
   context 'scheme scopes' do
     let!(:agfs_final_claim) { create(:advocate_claim) }
     let!(:agfs_interim_claim) { create(:advocate_interim_claim) }
@@ -78,12 +96,6 @@ RSpec.describe Claim::BaseClaim do
 
   describe '.lgfs_claim_types' do
     specify { expect(described_class.lgfs_claim_types.map(&:to_s)).to match_array(lgfs_claim_object_types) }
-  end
-
-  it 'raises if I try to instantiate a base claim' do
-    expect {
-      described_class.new(external_user: advocate, creator: advocate)
-    }.to raise_error ::Claim::BaseClaimAbstractClassError, 'Claim::BaseClaim is an abstract class and cannot be instantiated'
   end
 
   describe '#agfs?' do
@@ -524,7 +536,7 @@ RSpec.describe Claim::BaseClaim do
   end
 end
 
-describe MockBaseClaim do
+RSpec.describe MockBaseClaim do
   it_behaves_like 'a base claim'
 
   context 'date formatting' do
@@ -563,45 +575,193 @@ describe MockBaseClaim do
       end
     end
   end
-end
 
-describe '#disk_evidence_reference' do
-  context 'when case number is not set' do
-    let(:claim) { MockBaseClaim.new(case_number: nil) }
+  describe '#disk_evidence_reference' do
+    context 'when case number is not set' do
+      let(:claim) { described_class.new(case_number: nil) }
 
-    specify { expect(claim.disk_evidence_reference).to be_nil }
+      specify { expect(claim.disk_evidence_reference).to be_nil }
+    end
+
+    context 'when claim id is not set' do
+      let(:claim) { described_class.new(case_number: 'A20161234', id: nil) }
+
+      specify { expect(claim.disk_evidence_reference).to be_nil }
+    end
+
+    context 'when case number and claim id are set' do
+      let(:claim) { described_class.new(case_number: 'A20161234', id: 9999) }
+
+      specify { expect(claim.disk_evidence_reference).to eq('A20161234/9999') }
+    end
   end
 
-  context 'when claim id is not set' do
-    let(:claim) { MockBaseClaim.new(case_number: 'A20161234', id: nil) }
-
-    specify { expect(claim.disk_evidence_reference).to be_nil }
+  describe '#evidence_doc_types' do
+    it 'returns an array of DocType objects' do
+      claim = described_class.new(evidence_checklist_ids: [1, 5, 10])
+      expect(claim.evidence_doc_types.map(&:class)).to eq( [ DocType, DocType, DocType ] )
+      expect(claim.evidence_doc_types.map(&:name)).to match_array( [ 'Representation order', 'Order in respect of judicial apportionment', 'Special preparation form'])
+    end
   end
 
-  context 'when case number and claim id are set' do
-    let(:claim) { MockBaseClaim.new(case_number: 'A20161234', id: 9999) }
-
-    specify { expect(claim.disk_evidence_reference).to eq('A20161234/9999') }
-  end
-end
-
-describe '#evidence_doc_types' do
-  it 'returns an array of DocType objects' do
-    claim = MockBaseClaim.new(evidence_checklist_ids: [1, 5, 10])
-    expect(claim.evidence_doc_types.map(&:class)).to eq( [ DocType, DocType, DocType ] )
-    expect(claim.evidence_doc_types.map(&:name)).to match_array( [ 'Representation order', 'Order in respect of judicial apportionment', 'Special preparation form'])
-  end
-end
-
-context 'remote_extension_mixin' do
   describe '#remote?' do
     it 'returns false' do
-      claim = MockBaseClaim.new
+      claim = described_class.new
       expect(claim.remote?).to be false
+    end
+  end
+
+  describe '#eligible_document_types' do
+    let(:claim) { described_class.new }
+    let(:mock_doc_types) { double(:doc_types) }
+
+    specify {
+      expect(Claims::FetchEligibleDocumentTypes).to receive(:for).with(claim).and_return(mock_doc_types)
+      expect(claim.eligible_document_types).to eq(mock_doc_types)
+    }
+  end
+
+  describe '#discontinuance?' do
+    subject { claim.discontinuance? }
+
+    let(:claim) { described_class.new }
+
+    before { allow(claim).to receive(:case_type).and_return case_type }
+
+    context 'when case type nil' do
+      let(:case_type) { nil }
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when case type not a discontinuance' do
+      let(:case_type) { build(:case_type, :trial) }
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when case type is a discontinuance' do
+      let(:case_type) { build(:case_type, :discontinuance) }
+      it { is_expected.to be_truthy }
+    end
+  end
+
+  describe '#fee_scheme' do
+    let(:claim) { described_class.new }
+    let(:mock_fee_scheme) { instance_double(FeeScheme) }
+
+    specify {
+      expect(FeeScheme).to receive(:for_claim).with(claim).and_return(mock_fee_scheme)
+      expect(claim.fee_scheme).to eq(mock_fee_scheme)
+    }
+  end
+
+  describe '#agfs_reform?' do
+    let(:claim) { described_class.new }
+
+    specify { expect(claim).to delegate_method(:agfs_reform?).to(:fee_scheme) }
+  end
+
+  describe '#agfs_scheme_12?' do
+    let(:claim) { described_class.new }
+
+    specify { expect(claim).to delegate_method(:agfs_scheme_12?).to(:fee_scheme) }
+  end
+
+  describe '#earliest_representation_order' do
+    subject(:earliest_representation_order) { claim.earliest_representation_order }
+
+    let(:claim) { described_class.new }
+
+    context 'when there are no defendants' do
+      before do
+        claim.defendants = []
+      end
+
+      specify { expect(earliest_representation_order).to be_nil }
+    end
+
+    context 'when there are no earliest representation orders for the defendants' do
+      let(:defendants) { build_list(:defendant, 2) }
+
+      before do
+        claim.defendants = defendants
+      end
+
+      specify {
+        defendants.each do |defendant|
+          expect(defendant).to receive(:earliest_representation_order).and_return(nil)
+        end
+        expect(earliest_representation_order).to be_nil }
+    end
+
+    context 'when some of the defendants have an earliest representation order set' do
+      let(:base_date) { 3.months.ago.to_date }
+      let(:expected_representation_order) {
+        build(:representation_order, representation_order_date: base_date - 2.days)
+      }
+      let(:later_representation_order) {
+        build(:representation_order, representation_order_date: base_date + 3.days)
+      }
+      let(:defendant_with_earliest_representation_date) { build(:defendant) }
+      let(:defendant_with_later_representation_date) { build(:defendant) }
+      let(:defendant_with_no_earliest_representation_date) { build(:defendant) }
+      let(:defendants) {
+        [
+          defendant_with_later_representation_date,
+          defendant_with_earliest_representation_date,
+          defendant_with_no_earliest_representation_date
+        ]
+      }
+
+      before do
+        expect(defendant_with_no_earliest_representation_date).to receive(:earliest_representation_order).and_return(nil)
+        expect(defendant_with_later_representation_date).to receive(:earliest_representation_order).and_return(later_representation_order)
+        expect(defendant_with_earliest_representation_date).to receive(:earliest_representation_order).and_return(expected_representation_order)
+        claim.defendants = defendants
+      end
+
+      it 'returns the earliest representation order out of all the defendants' do
+        expect(earliest_representation_order).to eq(expected_representation_order)
+      end
+    end
+  end
+
+  describe '#vat_registered?' do
+    subject(:registered) { claim.vat_registered? }
+
+    let(:claim) { described_class.new }
+    let(:mock_provider_delegator) { provider_delegator }
+
+    before do
+      allow(claim).to receive(:provider_delegator).and_return(mock_provider_delegator)
+      allow(LogStuff).to receive(:error)
+    end
+
+    context 'when the provider exists' do
+      let(:provider_delegator) { double(:provider_delegator, vat_registered?: true) }
+
+      it 'does not log error' do
+        registered
+        expect(LogStuff).not_to have_received(:error)
+      end
+    end
+
+    context 'when the provider is nil' do
+      # this should never happen but the logger is implemented to trace errors in live
+      let(:provider_delegator) { nil }
+
+      it 'logs error' do
+        expect{ registered }.to raise_error NoMethodError # spy on, call and swallow error
+        expect(LogStuff).to have_received(:error).once
+      end
+
+      it 'raises error' do
+        expect{ registered }.to raise_error NoMethodError
+      end
     end
   end
 end
 
+# TODO: simplify get this working against a MockBaseClaim
 describe '#earliest_representation_order_date' do
   let(:april_1) { Date.new(2016, 4, 1) }
   let(:march_10) { Date.new(2016, 3, 10) }
@@ -637,147 +797,5 @@ describe '#earliest_representation_order_date' do
     claim.reload
     expect(claim.representation_orders.size).to eq 3
     expect(claim.earliest_representation_order_date).to eq march_10
-  end
-end
-
-describe '#eligible_document_types' do
-  let(:claim) { MockBaseClaim.new }
-  let(:mock_doc_types) { double(:doc_types) }
-
-  specify {
-    expect(Claims::FetchEligibleDocumentTypes).to receive(:for).with(claim).and_return(mock_doc_types)
-    expect(claim.eligible_document_types).to eq(mock_doc_types)
-  }
-end
-
-describe '#discontinuance?' do
-  subject { claim.discontinuance? }
-
-  let(:claim) { MockBaseClaim.new }
-
-  before { allow(claim).to receive(:case_type).and_return case_type }
-
-  context 'when case type nil' do
-    let(:case_type) { nil }
-    it { is_expected.to be_falsey }
-  end
-
-  context 'when case type not a discontinuance' do
-    let(:case_type) { build(:case_type, :trial) }
-    it { is_expected.to be_falsey }
-  end
-
-  context 'when case type is a discontinuance' do
-    let(:case_type) { build(:case_type, :discontinuance) }
-    it { is_expected.to be_truthy }
-  end
-end
-
-describe '#fee_scheme' do
-  let(:claim) { MockBaseClaim.new }
-  let(:mock_fee_scheme) { instance_double(FeeScheme) }
-
-  specify {
-    expect(FeeScheme).to receive(:for_claim).with(claim).and_return(mock_fee_scheme)
-    expect(claim.fee_scheme).to eq(mock_fee_scheme)
-  }
-end
-
-describe '#agfs_reform?' do
-  let(:claim) { MockBaseClaim.new }
-
-  specify { expect(claim).to delegate_method(:agfs_reform?).to(:fee_scheme) }
-end
-
-describe '#agfs_scheme_12?' do
-  let(:claim) { MockBaseClaim.new }
-
-  specify { expect(claim).to delegate_method(:agfs_scheme_12?).to(:fee_scheme) }
-end
-
-describe '#vat_registered?' do
-  subject { claim.vat_registered? }
-
-  let(:claim) { create :claim }
-  let(:mock_provider_delegator) { provider_delegator }
-
-  before { allow(claim).to receive(:provider_delegator).and_return(mock_provider_delegator) }
-
-  context 'when the provider exists' do
-    let(:provider_delegator) { double(:provider_delegator, vat_registered?: true) }
-
-    specify {
-      expect(LogStuff).not_to receive(:error)
-      subject
-    }
-  end
-
-  context 'when the provider is nil' do
-    # this shouldn't happen but the logger is implemented to trace errors in live
-    let(:provider_delegator) { nil }
-
-    specify {
-      expect(LogStuff).to receive(:error).once
-      expect{ subject }.to raise_error NoMethodError
-    }
-  end
-end
-
-describe '#earliest_representation_order' do
-  let(:claim) { MockBaseClaim.new }
-
-  subject(:earliest_representation_order) { claim.earliest_representation_order }
-
-  context 'but there are no associated defendants' do
-    before do
-      claim.defendants = []
-    end
-
-    specify { expect(earliest_representation_order).to be_nil }
-  end
-
-  context 'but there are no earliest representation orders for the associated defendants' do
-    let(:defendants) { build_list(:defendant, 2) }
-
-    before do
-      claim.defendants = defendants
-    end
-
-    specify {
-      defendants.each do |defendant|
-        expect(defendant).to receive(:earliest_representation_order).and_return(nil)
-      end
-      expect(earliest_representation_order).to be_nil }
-  end
-
-  context 'and some of the defendants have an earliest representation order set' do
-    let(:base_date) { 3.months.ago.to_date }
-    let(:expected_representation_order) {
-      build(:representation_order, representation_order_date: base_date - 2.days)
-    }
-    let(:later_representation_order) {
-      build(:representation_order, representation_order_date: base_date + 3.days)
-    }
-    let(:defendant_with_earliest_representation_date) { build(:defendant) }
-    let(:defendant_with_later_representation_date) { build(:defendant) }
-    let(:defendant_with_no_earliest_representation_date) { build(:defendant) }
-    let(:defendants) {
-      [
-        defendant_with_later_representation_date,
-        defendant_with_earliest_representation_date,
-        defendant_with_no_earliest_representation_date
-      ]
-    }
-
-    before do
-      expect(defendant_with_no_earliest_representation_date).to receive(:earliest_representation_order).and_return(nil)
-      expect(defendant_with_later_representation_date).to receive(:earliest_representation_order).and_return(later_representation_order)
-      expect(defendant_with_earliest_representation_date).to receive(:earliest_representation_order).and_return(expected_representation_order)
-      claim.defendants = defendants
-    end
-
-    it 'returns the earliest representation order out of all the defendants' do
-      expect(earliest_representation_order).to eq(expected_representation_order)
-    end
   end
 end

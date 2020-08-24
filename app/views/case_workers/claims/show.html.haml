@@ -5,6 +5,7 @@
   = render 'errors/error_summary', ep: @claim, error_summary: t('.error_summary')
   = render 'errors/injection_error_summary', ep: claim
   = render 'warnings/conference_and_views_summary', claim: claim
+  = render 'warnings/scheme_12_fees_summary', claim: claim
 
   = render partial: 'shared/claim_header', locals: { claim: claim }
   = render partial: 'shared/claim_accordion', locals: { claim: claim, status_disabled: false }

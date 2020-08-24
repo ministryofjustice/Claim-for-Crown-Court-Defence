@@ -395,7 +395,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def has_scheme_12_fees?
-    claim.fees.select { |f| f.fee_type.unique_code.in?(['MIPHC', 'MIUMU', 'MIUMO']) }.any? { |x| x.amount&.nonzero? }
+    claim.fees.select { |f| f.fee_type.unique_code.in?(%w[MIPHC MIUMU MIUMO]) }.any? { |x| x.amount&.nonzero? }
   end
 
   private

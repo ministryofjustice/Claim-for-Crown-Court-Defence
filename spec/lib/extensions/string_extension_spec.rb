@@ -110,7 +110,7 @@ describe String do
     end
   end
 
-  fdescribe '#to_css_class' do
+  describe '#to_css_class' do
     it "downcases all chars" do
       expect('part AUTHORISED'.to_css_class).to eq('part-authorised')
     end

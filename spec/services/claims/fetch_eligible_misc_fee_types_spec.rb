@@ -47,7 +47,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         expect(call.map(&:lgfs?)).to be_all true
       end
 
-      fcontext 'fixed fee claim' do
+      context 'fixed fee claim' do
         let(:claim) do
           create(:litigator_claim, :without_fees, case_type: CaseType.find_by(name: 'Appeal against sentence') )
         end

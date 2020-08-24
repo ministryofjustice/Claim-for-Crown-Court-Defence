@@ -12,8 +12,10 @@ module Claims
 
     private
 
-    LGFS_MISC_FEE_ELIGIBILITY = %w[MICJA MICJP MIEVI MISPF].freeze
-    LGFS_HARDSHIP_MISC_FEE_ELIGIBILITY = %w[MIEVI MISPF].freeze
+    LGFS_GENERAL_ELIGIBILITY = %w[MICJA MICJP MIEVI MISPF].freeze
+    LGFS_FIXED_FEE_ELIGIBILITY = (LGFS_GENERAL_ELIGIBILITY + %w[MIUPL]).freeze
+    LGFS_GRADUATED_FEE_ELIGIBILITY = (LGFS_GENERAL_ELIGIBILITY + %w[MIUMU MIUMO]).freeze
+    LGFS_HARDSHIP_FEE_ELIGIBILITY = %w[MIEVI MISPF].freeze
 
     attr_reader :claim
     delegate :case_type, :agfs?, :lgfs?, :agfs_reform?, :agfs_scheme_12?, :hardship?, to: :claim, allow_nil: true
@@ -36,12 +38,20 @@ module Claims
     end
 
     def elgible_lgfs_hardship_misc_fee_types
-      Fee::MiscFeeType.lgfs.where(unique_code: LGFS_HARDSHIP_MISC_FEE_ELIGIBILITY)
+      Fee::MiscFeeType.lgfs.where(unique_code: LGFS_HARDSHIP_FEE_ELIGIBILITY)
     end
 
     def eligible_lgfs_misc_fee_types
-      return Fee::MiscFeeType.lgfs if case_type&.is_fixed_fee?
-      Fee::MiscFeeType.lgfs.where(unique_code: LGFS_MISC_FEE_ELIGIBILITY)
+      return lgfs_fixed_fee_misc_fee_types if case_type&.is_fixed_fee?
+      lgfs_graduated_fee_misc_fee_types
+    end
+
+    def lgfs_fixed_fee_misc_fee_types
+      Fee::MiscFeeType.lgfs.where(unique_code: LGFS_FIXED_FEE_ELIGIBILITY)
+    end
+
+    def lgfs_graduated_fee_misc_fee_types
+      Fee::MiscFeeType.lgfs.where(unique_code: LGFS_GRADUATED_FEE_ELIGIBILITY)
     end
   end
 end

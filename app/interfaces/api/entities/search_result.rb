@@ -39,6 +39,7 @@ module API
         expose :supplementary
         expose :agfs_hardship
         expose :lgfs_hardship
+        expose :scheme_12_warning
       end
 
       private
@@ -140,6 +141,10 @@ module API
 
       def lgfs_hardship
         object.scheme_type.eql?('LitigatorHardship').to_i
+      end
+
+      def scheme_12_warning
+        (last_injection_attempt_succeeded && contains_scheme_12_fees).to_i
       end
     end
   end

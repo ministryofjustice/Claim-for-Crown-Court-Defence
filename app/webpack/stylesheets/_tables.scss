@@ -84,6 +84,30 @@ table {
         }
       }
     }
+
+    &.scheme_12_warning {
+      border-left: 5px solid $orange;
+
+      td {
+        padding-top: $gutter;
+
+        .warning-message-container {
+          position: relative;
+        }
+
+        .warning-message {
+          font-weight: 700;
+          position: absolute;
+          top: -$gutter;
+          color: $orange;
+          width: 320px;
+
+          @media (max-width: 1018px) {
+            width: auto;
+          }
+        }
+      }
+    }
   }
 
   th,

@@ -96,6 +96,10 @@ module SearchResultHelpers
     object&.last_injection_succeeded || false
   end
 
+  def scheme_12_warning
+    (last_injection_attempt_succeeded && contains_scheme_12_fees).to_i
+  end
+
   def contains_scheme_12_fees
     fees&.map do |fee|
       [

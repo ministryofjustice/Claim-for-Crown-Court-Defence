@@ -56,11 +56,11 @@ moj.Modules.AllocationDataTable = {
         $('td', row).eq(0).wrapInner("<div class='error-message-container'></div>");
         $('td .error-message-container', row).eq(0).append("<div class='error-message'>" + data.injection_errors + "</div>");
       } else if (data.filter.cav_warning) {
-        $(row).addClass('cav_warning');
+        $(row).addClass('injection_warning');
         $('td', row).eq(0).wrapInner("<div class='warning-message-container'></div>");
         $('td .warning-message-container', row).eq(0).append("<div class='warning-message'>CAVs not injected</div>");
       } else if (data.filter.scheme_12_fees_warning) {
-        $(row).addClass('scheme_12_warning');
+        $(row).addClass('injection_warning');
         $('td', row).eq(0).wrapInner("<div class='warning-message-container'></div>");
         $('td .warning-message-container', row).eq(0).append("<div class='warning-message'>Scheme 12 fees not injected</div>");
       }

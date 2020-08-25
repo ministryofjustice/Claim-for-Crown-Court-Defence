@@ -1,8 +1,0 @@
-- if claim&.last_injection_attempt&.succeeded && claim.has_scheme_12_fees?
-  .js-callout-scheme-12_fees-warning
-    .warning-summary{ role: 'group', 'aria-labelledby': 'warning-summary-heading', tabindex: '-1' }
-      %h2.heading-medium.warning-summary-heading{ id: 'warning-summary-heading' }
-        = t('shared.injection_errors.scheme_12_fees_warning.header')
-
-      %span.form-hint
-        = t('shared.injection_errors.scheme_12_fees_warning.message')

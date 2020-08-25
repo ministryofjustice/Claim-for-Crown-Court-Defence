@@ -1992,7 +1992,7 @@ en:
       cav_warning:
         header: 'Warning: conferences and views were not injected'
         message: 'The provider has claimed conferences and views on this claim, but they have not been injected into CCR. Please enter them manually.'
-      scheme_12_warning:
+      scheme_12_fees_warning:
         header: 'Warning: scheme 12 fees were not injected'
         message: 'The provider has claimed scheme 12 fees on this claim, but they have not been injected. Please enter them manually.'
 

@@ -45,6 +45,10 @@ FactoryBot.define do
       roles { %w[agfs agfs_scheme_12] }
     end
 
+    trait :lgfs_agfs_scheme_12 do
+      roles { %w[lgfs agfs agfs_scheme_12] }
+    end
+
     trait :agfs_all_schemes do
       roles { %w[agfs agfs_scheme_9 agfs_scheme_10] }
     end
@@ -300,7 +304,7 @@ FactoryBot.define do
         unique_code { 'MIUMU' }
         calculated { true }
         quantity_is_decimal { true }
-        agfs_scheme_12
+        lgfs_agfs_scheme_12
       end
 
       trait :miumo do
@@ -309,7 +313,7 @@ FactoryBot.define do
         unique_code { 'MIUMO' }
         calculated { true }
         quantity_is_decimal { true }
-        agfs_scheme_12
+        lgfs_agfs_scheme_12
       end
 
       trait :miupl do

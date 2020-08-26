@@ -82,7 +82,19 @@ describe("Modules.AllocationDataTable.js", function () {
         }
       };
       var output = options.createdRow(row, data);
-      expect(output[0].outerHTML).toEqual('<tr class="cav_warning"><td><div class="warning-message-container"><div class="warning-message">CAVs not injected</div></div></td></tr>');
+      expect(output[0].outerHTML).toEqual('<tr class="injection_warning"><td><div class="warning-message-container"><div class="warning-message">CAVs not injected</div></div></td></tr>');
+    });
+
+    it('...should have a `createdRow` callback defined for scheme 12 fee warnings', function () {
+      expect(options.createdRow).toBeDefined();
+      var row = $('<tr><td></td></tr>');
+      var data = {
+        "filter": {
+          "scheme_12_fees_warning": 1
+        }
+      };
+      var output = options.createdRow(row, data);
+      expect(output[0].outerHTML).toEqual('<tr class="injection_warning"><td><div class="warning-message-container"><div class="warning-message">Scheme 12 fees not injected</div></div></td></tr>');
     });
 
     it('...should have `processing`', function () {

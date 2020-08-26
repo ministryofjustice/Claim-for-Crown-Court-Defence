@@ -39,7 +39,7 @@ module Fee
     end
 
     def run_base_fee_validators?
-      !@record.claim.lgfs?
+      !@record&.claim&.lgfs?
     end
 
     def validate_evidence_provision_fee

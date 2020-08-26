@@ -17,6 +17,7 @@ class BaseValidator < ActiveModel::Validator
 
   def validate_fields(fields_class_method)
     return unless self.class.respond_to?(fields_class_method)
+
     fields = self.class.__send__(fields_class_method)
     fields.each do |field|
       __send__("validate_#{field}")

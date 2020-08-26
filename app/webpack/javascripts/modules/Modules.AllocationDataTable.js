@@ -59,10 +59,10 @@ moj.Modules.AllocationDataTable = {
         $(row).addClass('injection-warning');
         $('td', row).eq(0).wrapInner("<div class='warning-message-container'></div>");
         $('td .warning-message-container', row).eq(0).append("<div class='warning-message'>CAVs not injected</div>");
-      } else if (data.filter.scheme_12_fees_warning) {
+      } else if (data.filter.clar_fees_warning) {
         $(row).addClass('injection-warning');
         $('td', row).eq(0).wrapInner("<div class='warning-message-container'></div>");
-        $('td .warning-message-container', row).eq(0).append("<div class='warning-message'>Scheme 12 fees not injected</div>");
+        $('td .warning-message-container', row).eq(0).append("<div class='warning-message'>CLAR fees not injected</div>");
       }
       return row;
     },

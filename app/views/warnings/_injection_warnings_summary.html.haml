@@ -7,11 +7,11 @@
       %span.form-hint
         = t('shared.injection_errors.cav_warning.message')
 
-- if claim&.last_injection_attempt&.succeeded && claim.has_scheme_12_fees?
+- if claim&.last_injection_attempt&.succeeded && claim.has_clar_fees?
   .js-callout-injection-warning
     .warning-summary{ role: 'group', 'aria-labelledby': 'warning-summary-heading', tabindex: '-1' }
       %h2.heading-medium.warning-summary-heading{ id: 'warning-summary-heading' }
-        = t('shared.injection_errors.scheme_12_fees_warning.header')
+        = t('shared.injection_errors.clar_fees_warning.header')
 
       %span.form-hint
-        = t('shared.injection_errors.scheme_12_fees_warning.message')
+        = t('shared.injection_errors.clar_fees_warning.message')

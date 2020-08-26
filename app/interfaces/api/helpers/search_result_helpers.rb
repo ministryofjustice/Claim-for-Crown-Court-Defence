@@ -96,11 +96,11 @@ module SearchResultHelpers
     object&.last_injection_succeeded || false
   end
 
-  def scheme_12_fees_warning
-    (last_injection_attempt_succeeded && contains_scheme_12_fees).to_i
+  def clar_fees_warning
+    (last_injection_attempt_succeeded && contains_clar_fees).to_i
   end
 
-  def contains_scheme_12_fees
+  def contains_clar_fees
     fees&.map do |fee|
       [
         fee[2].eql?('Fee::MiscFeeType'),

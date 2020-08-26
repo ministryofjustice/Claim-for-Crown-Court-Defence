@@ -394,7 +394,7 @@ class Claim::BaseClaimPresenter < BasePresenter
     h.number_to_currency(raw_fixed_fees_gross)
   end
 
-  def has_scheme_12_fees?
+  def has_clar_fees?
     claim.fees.select { |f| f.fee_type.unique_code.in?(%w[MIPHC MIUMU MIUMO]) }.any? { |x| x.amount&.nonzero? }
   end
 

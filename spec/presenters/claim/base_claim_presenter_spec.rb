@@ -845,20 +845,20 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
-  describe 'has_scheme_12_fees?' do
-    subject { presenter.has_scheme_12_fees? }
+  describe 'has_clar_fees?' do
+    subject { presenter.has_clar_fees? }
     let!(:fee) { create(:misc_fee, :miphc_fee, claim: claim, quantity: quantity, rate: rate)}
 
     before { claim.reload }
 
-    context 'when the claims scheme 12 fee is populated' do
+    context 'when the claims CLAR fee is populated' do
       let(:rate) { 1 }
       let(:quantity) { 3 }
 
       it { is_expected.to be true }
     end
 
-    context 'when the claims scheme 12 fee is empty' do
+    context 'when the claims CLAR fee is empty' do
       let(:rate) { 0 }
       let(:quantity) { 0 }
 

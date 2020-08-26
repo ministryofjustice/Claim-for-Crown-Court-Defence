@@ -82,7 +82,7 @@ describe("Modules.AllocationDataTable.js", function () {
         }
       };
       var output = options.createdRow(row, data);
-      expect(output[0].outerHTML).toEqual('<tr class="injection_warning"><td><div class="warning-message-container"><div class="warning-message">CAVs not injected</div></div></td></tr>');
+      expect(output[0].outerHTML).toEqual('<tr class="injection-warning"><td><div class="warning-message-container"><div class="warning-message">CAVs not injected</div></div></td></tr>');
     });
 
     it('...should have a `createdRow` callback defined for scheme 12 fee warnings', function () {
@@ -94,7 +94,7 @@ describe("Modules.AllocationDataTable.js", function () {
         }
       };
       var output = options.createdRow(row, data);
-      expect(output[0].outerHTML).toEqual('<tr class="injection_warning"><td><div class="warning-message-container"><div class="warning-message">Scheme 12 fees not injected</div></div></td></tr>');
+      expect(output[0].outerHTML).toEqual('<tr class="injection-warning"><td><div class="warning-message-container"><div class="warning-message">Scheme 12 fees not injected</div></div></td></tr>');
     });
 
     it('...should have `processing`', function () {

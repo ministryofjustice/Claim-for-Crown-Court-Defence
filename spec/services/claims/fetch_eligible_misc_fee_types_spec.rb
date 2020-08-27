@@ -75,18 +75,6 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             is_expected.to match_array %w[MICJA MICJP MIEVI MISPF MIUMU MIUMO]
           end
         end
-
-        # TODO: waiting BA answer on whether unused materials claimable on non-fixed fee types
-        # Cracked before retrial, Discontinuance, Guilty plea, Retrial
-        context 'Guilty plea', skip: '# TODO: waiting BA answer on whether unused materials claimable on non-fixed fee types' do
-          let(:claim) do
-            create(:litigator_claim, :without_fees, case_type: CaseType.find_by(name: 'Trial') )
-          end
-
-          it 'returns all LGFS misc fee types except defendant uplifts' do
-            is_expected.to match_array %w[MICJA MICJP MIEVI MISPF MIUMU MIUMO]
-          end
-        end
       end
 
       context 'hardship fee claim' do

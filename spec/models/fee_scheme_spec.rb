@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe FeeScheme, type: :model do
     before do
-      allow(Settings).to receive(:agfs_scheme_12_enabled?).and_return true
+      allow(Settings).to receive(:clar_enabled?).and_return true
       seed_fee_schemes
     end
 

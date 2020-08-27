@@ -12,6 +12,14 @@ module Fee
 
     private
 
+    def validate_fee_type
+      if run_base_fee_validators?
+        super
+      else
+        validate_presence(:fee_type, 'blank')
+      end
+    end
+
     def validate_quantity
       super if run_base_fee_validators?
     end
@@ -31,7 +39,7 @@ module Fee
     end
 
     def run_base_fee_validators?
-      !@record.claim.lgfs?
+      !@record&.claim&.lgfs?
     end
 
     def validate_evidence_provision_fee

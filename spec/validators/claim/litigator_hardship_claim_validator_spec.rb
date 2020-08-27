@@ -3,14 +3,14 @@ require_relative 'shared_examples_for_advocate_litigator'
 require_relative 'shared_examples_for_step_validators'
 
 RSpec.describe Claim::LitigatorHardshipClaimValidator, type: :validator do
-  include_context "force-validation"
+  include_context 'force-validation'
 
   let(:claim) { create(:litigator_hardship_claim, case_type: create(:case_type, :all_roles, is_fixed_fee: false)) }
 
   before { seed_fee_schemes }
 
-  include_examples "common advocate litigator validations", :litigator, case_type: false
-  include_examples "common litigator validations", :hardship_claim
+  include_examples 'common advocate litigator validations', :litigator, case_type: false
+  include_examples 'common litigator validations', :hardship_claim
 
   context 'case_type_id' do
     before { claim.case_type_id = 1 }

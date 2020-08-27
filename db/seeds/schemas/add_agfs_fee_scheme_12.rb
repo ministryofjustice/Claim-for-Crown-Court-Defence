@@ -24,12 +24,12 @@ module Seeds
           \sAGFS scheme 12 fee_type count: #{scheme_12_fee_type_count}
           \s------------------------------------------------------------
           Status: #{agfs_fee_scheme_12.present? && scheme_12_offence_count > 0 ? 'up' : 'down'}
-          Enabled: #{Settings.agfs_scheme_12_enabled?}
+          Enabled: #{Settings.clar_enabled?}
         STATUS
       end
 
       def up
-        puts 'AGFS scheme 12 is not enabled. You must enable in settings first!'.yellow unless Settings.agfs_scheme_12_enabled?
+        puts 'AGFS scheme 12 is not enabled. You must enable in settings first!'.yellow unless Settings.clar_enabled?
         create_or_update_agfs_scheme_eleven
         create_agfs_scheme_twelve
         create_agfs_scheme_twelve_offences
@@ -88,7 +88,7 @@ module Seeds
       end
 
       def create_or_update_agfs_scheme_eleven
-        return unless Settings.agfs_scheme_12_enabled?
+        return unless Settings.clar_enabled?
 
         print "Finding AGFS scheme 11".yellow
         agfs_fee_scheme_eleven = FeeScheme.find_by(name: 'AGFS', version: 11, start_date: Settings.agfs_scheme_11_release_date.beginning_of_day)
@@ -101,7 +101,7 @@ module Seeds
       end
 
       def create_agfs_scheme_twelve
-        return unless Settings.agfs_scheme_12_enabled?
+        return unless Settings.clar_enabled?
         print "Finding or creating scheme 12 with start date #{Settings.agfs_scheme_12_release_date.beginning_of_day}...".yellow
         print "\n" && return if pretending?
         FeeScheme.find_or_create_by(name: 'AGFS', version: 12, start_date: Settings.agfs_scheme_12_release_date.beginning_of_day)
@@ -109,7 +109,7 @@ module Seeds
       end
 
       def create_agfs_scheme_twelve_offences
-        return unless Settings.agfs_scheme_12_enabled?
+        return unless Settings.clar_enabled?
 
         puts "Scheme 12 offence count before: #{scheme_12_offence_count}".yellow
         copy_scheme_11_offences
@@ -117,7 +117,7 @@ module Seeds
       end
 
       def create_scheme_twelve_fee_types
-        return unless Settings.agfs_scheme_12_enabled?
+        return unless Settings.clar_enabled?
 
         puts "Scheme 12 fee type count before: #{scheme_12_fee_type_count}".yellow
         Rake::Task['data:migrate:fee_types:reseed'].invoke(pretending?)

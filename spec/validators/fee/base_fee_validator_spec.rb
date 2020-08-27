@@ -46,14 +46,14 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       before { create(:misc_fee_type, :miumu) }
 
       context 'with valid quantity' do
-        let(:fee) { build(:misc_fee, :miumu_fee, quantity: 1) }
+        let(:fee) { build(:misc_fee, :miumu_fee, claim: claim, quantity: 1) }
 
         it { expect(fee).to be_valid }
-        it { expect(fee.errors[:quantity]).to be_empty}
+        it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
       end
 
       context 'with invalid quantity' do
-        let(:fee) { build(:misc_fee, :miumu_fee, quantity: 1.01) }
+        let(:fee) { build(:misc_fee, :miumu_fee, claim: claim, quantity: 1.01) }
 
         it { expect(fee).to be_invalid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
@@ -71,10 +71,10 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         let(:fee) { build(:misc_fee, :miumo_fee, quantity: 3.00) }
 
         it { expect(fee).to be_valid }
-        it { expect(fee.errors[:quantity]).to be_empty}
+        it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
       end
 
-      context 'with valid quantity' do
+      context 'with invalid quantity' do
         let(:fee) { build(:misc_fee, :miumo_fee, quantity: 2.99) }
 
         it { expect(fee).to be_invalid }

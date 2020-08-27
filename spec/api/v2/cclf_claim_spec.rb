@@ -277,23 +277,36 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           end
 
           context 'when miscellaneous fees exists' do
-            let(:mispf) { create(:misc_fee_type, :lgfs, :mispf) }
-            let(:misc_fee) { create(:misc_fee, :lgfs, fee_type: mispf) }
             let(:claim) { create_claim(:litigator_claim, :submitted, :without_fees, misc_fees: [misc_fee]) }
+            let(:misc_fee) { build(:misc_fee, :lgfs, fee_type: fee_type) }
 
             before do
               allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
             end
 
-            it { is_valid_cclf_json(response) }
+            context 'with a mappable fee type - Special preparation' do
+              let(:fee_type) { create(:misc_fee_type, :lgfs, :mispf) }
 
-            it 'returns array containing fee bill' do
-              is_expected.to have_json_size(1).at_path("bills")
+              it { is_valid_cclf_json(response) }
+
+              it 'returns array containing fee bill' do
+                is_expected.to have_json_size(1).at_path("bills")
+              end
+
+              it 'returns array containing a special prep fee bill' do
+                is_expected.to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path("bills/0/bill_type")
+                is_expected.to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/0/bill_subtype")
+              end
             end
 
-            it 'returns array containing a special prep fee bill' do
-              is_expected.to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path("bills/0/bill_type")
-              is_expected.to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/0/bill_subtype")
+            context 'with an unmappable fee type - Unused materials (over 3 hours)' do
+              let(:fee_type) { create(:misc_fee_type, :miumo) }
+
+              before { expect(claim.misc_fees.count).to eql 1 }
+
+              it 'returns array containing no fee bill' do
+                is_expected.to have_json_size(0).at_path("bills")
+              end
             end
           end
 

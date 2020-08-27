@@ -3,7 +3,7 @@ require "rspec/mocks/standalone" # required for mocking/unmocking in before/afte
 
 RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
   before(:all) do |example|
-    allow(Settings).to receive(:agfs_scheme_12_enabled?).and_return true
+    allow(Settings).to receive(:clar_enabled?).and_return true
     seed_fee_schemes
     seed_case_types
     seed_fee_types
@@ -11,7 +11,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
 
   after(:all) do
     clean_database
-    allow(Settings).to receive(:agfs_scheme_12_enabled?).and_call_original
+    allow(Settings).to receive(:clar_enabled?).and_call_original
   end
 
   context 'with delegations' do
@@ -37,41 +37,47 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
     # but excluding defendant uplifts since these are catered
     # for by fee calculation.
     context 'LGFS' do
+      subject(:unique_codes) { call.map(&:unique_code) }
+
       let(:claim) { create(:litigator_claim, :without_fees) }
 
-      it { is_expected.to all(be_a(Fee::MiscFeeType)) }
+      it { expect(call).to all(be_a(Fee::MiscFeeType)) }
 
       it 'returns LGFS only misc fee types' do
         expect(call.map(&:lgfs?)).to be_all true
       end
 
-      context 'defendant uplift' do
-        subject { call.map(&:unique_code) }
-
-        context 'fixed fee claim' do
-          let(:claim) do
-            create(:litigator_claim, :without_fees, case_type: CaseType.find_by(name: 'Appeal against sentence') )
-          end
-
-          it 'returns all LGFS misc fee types' do
-            is_expected.to match_array %w[MICJA MICJP MIUPL MIEVI MISPF]
-          end
+      context 'fixed fee claim' do
+        let(:claim) do
+          create(:litigator_claim, :without_fees, case_type: CaseType.find_by(name: 'Appeal against sentence') )
         end
 
-        context 'graduated fee claim' do
+        it 'includes defendant uplift' do
+          is_expected.to include('MIUPL')
+        end
+
+        it 'excludes unused materials' do
+          is_expected.not_to include('MIUMU', 'MIUMO')
+        end
+
+        it 'returns all expected fee types' do
+          is_expected.to match_array %w[MICJA MICJP MIUPL MIEVI MISPF]
+        end
+      end
+
+      context 'graduated fee claim' do
+        context 'Trial' do
           let(:claim) do
             create(:litigator_claim, :without_fees, case_type: CaseType.find_by(name: 'Trial') )
           end
 
           it 'returns all LGFS misc fee types except defendant uplifts' do
-            is_expected.to match_array %w[MICJA MICJP MIEVI MISPF]
+            is_expected.to match_array %w[MICJA MICJP MIEVI MISPF MIUMU MIUMO]
           end
         end
       end
 
       context 'hardship fee claim' do
-        subject { call.map(&:unique_code) }
-
         let(:claim) do
           create(:litigator_hardship_claim)
         end

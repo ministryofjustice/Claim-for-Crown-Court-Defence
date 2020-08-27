@@ -375,7 +375,9 @@ RSpec.describe API::V1::DropdownData do
     context 'when role is lgfs' do
       let(:role) { 'lgfs' }
 
-      include_examples 'returns agfs scheme 9 advocate categories'
+      it 'returns no advocate categories' do
+        expect(parsed_response).to be_empty
+      end
     end
   end
 

@@ -22,6 +22,28 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
 
     describe '#validate_fee_type' do
       it { should_error_if_not_present(fee, :fee_type, 'blank') }
+
+      context 'when validating Unused material (upto 3 hours)' do
+        before { create(:misc_fee_type, :miumu) }
+
+        context 'with zero quantity' do
+          let(:fee) { build(:misc_fee, :miumu_fee, claim: claim, quantity: 0) }
+
+          it { expect(fee).to be_valid }
+          it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
+        end
+      end
+
+      context 'when validating Unused material (over 3 hours)' do
+        before { create(:misc_fee_type, :miumo) }
+
+        context 'with zero quantity' do
+          let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 0) }
+
+          it { expect(fee).to be_valid }
+          it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
+        end
+      end
     end
 
     include_examples 'common LGFS amount validations'

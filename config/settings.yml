@@ -115,7 +115,7 @@ reject_refuse_messaging_released_at: <%= DateTime.new(2018, 4, 24, 23, 05, 0).ch
 agfs_fee_reform_release_date: <%= Date.new(2018, 4, 1) %>
 agfs_scheme_11_release_date: <%= Date.new(2018, 12, 31) %>
 agfs_scheme_12_release_date: <%= Date.new(2020, 10, 1) %>
-agfs_scheme_12_enabled?: <%= ENV.fetch('AGFS_TWELVE_ENABLED', 'false')&.downcase&.eql?('true') %>
+clar_enabled?: <%= ENV.fetch('CLAR_ENABLED', 'false')&.downcase&.eql?('true') %>
 
 # number of weeks in one state before automatic transition to archived pending delete
 timed_transition_stale_weeks: 16

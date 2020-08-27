@@ -19,7 +19,7 @@ FactoryBot.define do
 
     trait :agfs_eleven do
       start_date { Date.new(2018, 12, 31).beginning_of_day }
-      end_date { (Settings.agfs_scheme_12_release_date.end_of_day - 1.day) if Settings.agfs_scheme_12_enabled? }
+      end_date { (Settings.agfs_scheme_12_release_date.end_of_day - 1.day) if Settings.clar_enabled? }
       version { 11 }
     end
 

@@ -4,7 +4,7 @@ RSpec.describe Claims::FetchEligibleOffences, type: :service do
   subject(:offences) { described_class.for(claim) }
 
   before do
-    allow(Settings).to receive(:agfs_scheme_12_enabled?).and_return true
+    allow(Settings).to receive(:clar_enabled?).and_return true
     seed_fee_schemes
   end
 

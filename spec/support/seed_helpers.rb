@@ -8,7 +8,7 @@ module SeedHelpers
     FeeScheme.find_or_create_by(name: 'AGFS', version: 10, start_date: Settings.agfs_fee_reform_release_date.beginning_of_day, end_date: Settings.agfs_scheme_11_release_date - 1.day)
     FeeScheme.find_or_create_by(name: 'AGFS', version: 11, start_date: Settings.agfs_scheme_11_release_date.beginning_of_day)
 
-    if Settings.agfs_scheme_12_enabled?
+    if Settings.clar_enabled?
       FeeScheme.find_by(name: 'AGFS', version: 11).update(end_date: Settings.agfs_scheme_12_release_date.end_of_day - 1.day)
       FeeScheme.find_or_create_by(name: 'AGFS', version: 12, start_date: Settings.agfs_scheme_12_release_date.beginning_of_day)
     end

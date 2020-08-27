@@ -3,7 +3,7 @@ require "rspec/mocks/standalone" # required for mocking/unmocking in before/afte
 
 RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
   before(:all) do |example|
-    allow(Settings).to receive(:agfs_scheme_12_enabled?).and_return true
+    allow(Settings).to receive(:clar_enabled?).and_return true
     seed_fee_schemes
     seed_case_types
     seed_fee_types
@@ -11,7 +11,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
 
   after(:all) do
     clean_database
-    allow(Settings).to receive(:agfs_scheme_12_enabled?).and_call_original
+    allow(Settings).to receive(:clar_enabled?).and_call_original
   end
 
   context 'with delegations' do

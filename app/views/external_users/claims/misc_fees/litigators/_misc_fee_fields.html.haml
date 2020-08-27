@@ -18,17 +18,9 @@
         - options = misc_fee_types_collection.length == 1 ? { checked: misc_fee_types_collection.first.id } : {}
 
         = f.collection_radio_buttons(:fee_type_id, misc_fee_types_collection, :id, :description, options) do |b|
-          .multiple-choice{ data: { target: b.text.to_css_class } }
+          .multiple-choice
             = b.radio_button('aria-labelledby': "fx-numberedList-heading-#{@misc_fee_count} radio-control-legend-#{@misc_fee_count} #{b.text.to_css_class}")
             = b.label(id: b.text.to_css_class << "-#{@misc_fee_count}") { b.text }
-
-            - if b.object.unique_code.eql?('MISPF')
-              .panel.panel-border-narrow.js-hidden{ id: "special-preparation-fee"}
-                = t('.special_preparation_form_html')
-
-            - if b.object.unique_code.eql?('MIUMO')
-              .panel.panel-border-narrow.js-hidden{ id: "unused-materials-over-3-hours"}
-                = t('.unused_materials_form_html')
 
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 

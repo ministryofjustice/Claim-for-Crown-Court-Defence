@@ -1455,14 +1455,6 @@ en:
             case_numbers: *case_numbers
             net_amount: *net_amount
             remove: "Remove"
-            special_preparation_form_html: |
-              You will need to complete a
-              <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Special prep form">Special prep form</a>
-              and attach to the claim.
-            unused_materials_form_html: |
-              You will need to complete an
-              <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Unused materials form">Unused materials form</a>
-              and attach to the claim.
         summary:
           header: *miscellaneous_fees
       financial_summary:

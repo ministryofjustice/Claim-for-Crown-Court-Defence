@@ -39,6 +39,7 @@ module API
         expose :supplementary
         expose :agfs_hardship
         expose :lgfs_hardship
+        expose :clar_fees_warning
       end
 
       private

@@ -95,4 +95,18 @@ module SearchResultHelpers
   def last_injection_attempt_succeeded
     object&.last_injection_succeeded || false
   end
+
+  def clar_fees_warning
+    (last_injection_attempt_succeeded && contains_clar_fees).to_i
+  end
+
+  def contains_clar_fees
+    fees&.map do |fee|
+      [
+        fee[2].eql?('Fee::MiscFeeType'),
+        fee[1].in?(['Paper heavy case', 'Unused materials (upto 3 hours)', 'Unused materials (over 3 hours)']),
+        fee[0].to_i.positive?
+      ].all?
+    end&.any?
+  end
 end

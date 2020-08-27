@@ -1,33 +1,19 @@
-# == Schema Information
-#
-# Table name: representation_orders
-#
-#  id                        :integer          not null, primary key
-#  defendant_id              :integer
-#  created_at                :datetime
-#  updated_at                :datetime
-#  maat_reference            :string
-#  representation_order_date :date
-#  uuid                      :uuid
-#
+RSpec.fdescribe RepresentationOrder do
+  let(:claim) { build(:unpersisted_claim) }
+  let(:defendant) { build(:defendant) }
+  let(:representation_order) { build(:representation_order) }
 
-require 'rails_helper'
-
-describe RepresentationOrder do
-  let(:claim)                       { FactoryBot.build :unpersisted_claim }
-  let(:defendant)                   { FactoryBot.build :defendant }
-  let(:representation_order)        { FactoryBot.build :representation_order }
-
-  before(:each) do
+  before do
     representation_order.defendant = defendant
     representation_order.defendant.claim = claim
     representation_order.defendant.claim.force_validation = true
   end
 
-  context 'maat_reference' do
-
-    context 'case type requires maat reference' do
-      before(:each)       { representation_order.defendant.claim.case_type = FactoryBot.build(:case_type, :requires_maat_reference) }
+  context 'when validating maat_reference' do
+    context 'when case type requires maat reference' do
+      before do
+        representation_order.defendant.claim.case_type = build(:case_type, :requires_maat_reference)
+      end
 
       it 'should error if blank' do
         representation_order.maat_reference = nil
@@ -58,10 +44,10 @@ describe RepresentationOrder do
         expect(representation_order).to be_valid
       end
 
-      context 'our test MAAT reference' do
+      context 'with a test MAAT reference' do
         before { representation_order.maat_reference = '2320006' }
 
-        context 'uses environment configured MAAT regex' do
+        context 'with environment configured MAAT regex' do
           before do
             allow(Settings).to receive(:maat_regexp).and_return /^[4-9][0-9]{6}$/
           end
@@ -71,7 +57,11 @@ describe RepresentationOrder do
           end
         end
 
-        context 'when on a non-live environment' do
+        context 'with no environment configured MAAT regex' do
+          before do
+            allow(Settings).to receive(:maat_regexp).and_call_original
+          end
+
           it 'should be valid' do
             expect(representation_order).to be_valid
           end
@@ -79,8 +69,11 @@ describe RepresentationOrder do
       end
     end
 
-    context 'case type does not require maat reference' do
-      before(:each)       { representation_order.defendant.claim.case_type = FactoryBot.build(:case_type, requires_maat_reference: false) }
+    context 'when case type does not require maat reference' do
+      before do
+        representation_order.defendant.claim.case_type = build(:case_type, requires_maat_reference: false)
+      end
+
       it 'should not error if present' do
         representation_order.maat_reference = '2078352232'
         expect(representation_order).to be_valid
@@ -90,17 +83,13 @@ describe RepresentationOrder do
         representation_order.maat_reference = nil
         expect(representation_order).to be_valid
       end
-
     end
-
   end
 
   context 'reporders for same defendant methods' do
-
-    let(:claim)         { FactoryBot.create :claim }
-    let(:ro1)            { claim.defendants.first.representation_orders.first }
-    let(:ro2)            { claim.defendants.first.representation_orders.last }
-
+    let(:claim) { create(:claim) }
+    let(:ro1) { claim.defendants.first.representation_orders.first }
+    let(:ro2) { claim.defendants.first.representation_orders.last }
 
     describe '#reporders_for_same_defendant' do
       it 'should return an array of representation orders' do
@@ -117,7 +106,7 @@ describe RepresentationOrder do
       end
     end
 
-    describe 'is_first_reporder_for_same_defendant?' do
+    describe '#is_first_reporder_for_same_defendant?' do
       it 'should be true for the first reporder' do
         expect(ro1.is_first_reporder_for_same_defendant?).to be true
       end

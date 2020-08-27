@@ -1442,6 +1442,11 @@ en:
             misc_fees: *miscellaneous_fees
             add_misc_fee: Add another fee
             page_hint: *fees_vat_prompt
+            clar_page_intro_html: |
+              If needed, please complete
+              <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Special Prep Form">special prep form</a>
+              and/or <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Unused materials (over 3 hours) form">Unused materials (over 3 hours) form</a>
+              and attach to the claim.
             page_intro_html: |
               If needed, please complete
               <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Special Prep Form">special prep form</a>

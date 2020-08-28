@@ -5,11 +5,11 @@
 
 = render partial: 'external_users/claims/fees_shared_header', locals: {page_header: t('page_header', scope: locale_scope), page_hint: t('page_hint', scope: locale_scope)}
 
-/ TODO: this may need a link to the unused material form if
-/ supplementary claims are expected to include them aswell.
-/ have left question with BA
 %p
-  = t('page_intro_html', scope: locale_scope)
+  - if Settings.clar_enabled?
+    = t('clar_page_intro_html', scope: locale_scope)
+  - else
+    = t('page_intro_html', scope: locale_scope)
 
 = render partial: 'external_users/advocates/advocate_category', locals: { f: f }
 

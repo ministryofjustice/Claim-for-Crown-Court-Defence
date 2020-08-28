@@ -50,6 +50,33 @@ RSpec.describe Fee::MiscFeeType do
         is_expected.to match_array(['Scheme 10','Scheme 12'])
       end
     end
+
+    describe '.supplementary' do
+      subject { described_class.supplementary.map(&:unique_code) }
+
+      before do
+        create(:misc_fee_type, unique_code: 'NOT_SUPPLEMENTARY' )
+        create(:misc_fee_type, unique_code: 'MISAF')
+        create(:misc_fee_type, unique_code: 'MISAU')
+      end
+
+      it 'returns fee types with unique codes defined in class constants' do
+        is_expected.to match_array(%w[MISAF MISAU])
+      end
+    end
+
+    describe '.without_supplementary_only' do
+      subject { described_class.without_supplementary_only.map(&:unique_code) }
+
+      before do
+        create(:misc_fee_type, unique_code: 'MISAF' )
+        create(:misc_fee_type, unique_code: 'MISAU')
+      end
+
+      it 'returns fee types with unique codes defined in class constants' do
+        is_expected.to match_array(%w[MISAU])
+      end
+    end
   end
 
   describe '#fee_category_name' do

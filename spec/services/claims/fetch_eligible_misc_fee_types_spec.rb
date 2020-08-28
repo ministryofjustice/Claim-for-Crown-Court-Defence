@@ -1,6 +1,37 @@
 require 'rails_helper'
 require "rspec/mocks/standalone" # required for mocking/unmocking in before/after(:all) block
 
+RSpec.shared_examples 'fetches AGFS fee scheme misc fee types excluding supplementary-only' do |claim_factory|
+  subject(:unique_codes) { call.map(&:unique_code) }
+
+  context 'scheme 9 claim' do
+    let(:claim) { create(claim_factory, :agfs_scheme_9) }
+
+    it 'returns only misc fee types for AGFS scheme 9 without supplementary-only fee types' do
+      is_expected.to have_at_least(1).items
+      is_expected.to match_array Fee::MiscFeeType.agfs_scheme_9s.without_supplementary_only.map(&:unique_code).reject
+    end
+  end
+
+  context 'scheme 10+ claim' do
+    let(:claim) { create(claim_factory, :agfs_scheme_10) }
+
+    it 'returns only misc fee types for AGFS scheme 10+ without supplementary-only fee types' do
+      is_expected.to have_at_least(1).items
+      is_expected.to match_array Fee::MiscFeeType.agfs_scheme_10s.without_supplementary_only.map(&:unique_code)
+    end
+  end
+
+  context 'scheme 12 claim' do
+    let(:claim) { create(claim_factory, :agfs_scheme_12) }
+
+    it 'returns misc fee types for AGFS scheme 10+ plus 12 without supplementary-only fee types' do
+      is_expected.to have_at_least(1).items
+      is_expected.to match_array Fee::MiscFeeType.agfs_scheme_12s.without_supplementary_only.map(&:unique_code)
+    end
+  end
+end
+
 RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
   before(:all) do |example|
     allow(Settings).to receive(:clar_enabled?).and_return true
@@ -94,34 +125,11 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
       it { is_expected.to all(be_a(Fee::MiscFeeType)) }
 
       context 'with final claim' do
-        subject(:unique_codes) { call.map(&:unique_code) }
+        include_examples 'fetches AGFS fee scheme misc fee types excluding supplementary-only', :advocate_claim
+      end
 
-        context 'scheme 9 claim' do
-          let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
-
-          it 'returns only misc fee types for AGFS scheme 9 without supplementary-only fee types' do
-            is_expected.to have_at_least(1).items
-            is_expected.to match_array Fee::MiscFeeType.agfs_scheme_9s.without_supplementary_only.map(&:unique_code).reject
-          end
-        end
-
-        context 'scheme 10+ claim' do
-          let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
-
-          it 'returns only misc fee types for AGFS scheme 10+ without supplementary-only fee types' do
-            is_expected.to have_at_least(1).items
-            is_expected.to match_array Fee::MiscFeeType.agfs_scheme_10s.without_supplementary_only.map(&:unique_code)
-          end
-        end
-
-        context 'scheme 12 claim' do
-          let(:claim) { create(:advocate_claim, :agfs_scheme_12) }
-
-          it 'returns misc fee types for AGFS scheme 10+ plus 12 without supplementary-only fee types' do
-            is_expected.to have_at_least(1).items
-            is_expected.to match_array Fee::MiscFeeType.agfs_scheme_12s.without_supplementary_only.map(&:unique_code)
-          end
-        end
+      context 'with hardship claim' do
+        include_examples 'fetches AGFS fee scheme misc fee types excluding supplementary-only', :advocate_hardship_claim
       end
 
       context 'with supplementary claim' do

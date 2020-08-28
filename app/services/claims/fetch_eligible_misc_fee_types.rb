@@ -15,7 +15,7 @@ module Claims
     LGFS_GENERAL_ELIGIBILITY = %w[MICJA MICJP MIEVI MISPF].freeze
     LGFS_FIXED_FEE_ELIGIBILITY = (LGFS_GENERAL_ELIGIBILITY + %w[MIUPL]).freeze
     LGFS_GRADUATED_FEE_ELIGIBILITY = (LGFS_GENERAL_ELIGIBILITY + %w[MIUMU MIUMO]).freeze
-    LGFS_HARDSHIP_FEE_ELIGIBILITY = %w[MIEVI MISPF].freeze
+    LGFS_HARDSHIP_FEE_ELIGIBILITY = %w[MIEVI MISPF MIUMU MIUMO].freeze
 
     attr_reader :claim
     delegate :case_type, :agfs?, :lgfs?, :agfs_reform?, :agfs_scheme_12?, :hardship?, to: :claim, allow_nil: true

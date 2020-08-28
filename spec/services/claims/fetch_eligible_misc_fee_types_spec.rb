@@ -114,7 +114,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         end
 
         it 'returns only non-cost judge LGFS misc fee types' do
-          is_expected.to match_array %w[MIEVI MISPF]
+          is_expected.to match_array %w[MIEVI MISPF MIUMU MIUMO]
         end
       end
     end

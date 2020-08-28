@@ -22,7 +22,7 @@ module Claims
 
     def eligible_fee_types
       return eligible_agfs_misc_fee_types if agfs?
-      return elgible_lgfs_hardship_misc_fee_types if lgfs? && hardship?
+      return eligible_lgfs_hardship_misc_fee_types if lgfs? && hardship?
       return eligible_lgfs_misc_fee_types if lgfs?
     end
 
@@ -37,7 +37,7 @@ module Claims
       agfs_scheme_scope.without_supplementary_only
     end
 
-    def elgible_lgfs_hardship_misc_fee_types
+    def eligible_lgfs_hardship_misc_fee_types
       Fee::MiscFeeType.lgfs.where(unique_code: LGFS_HARDSHIP_FEE_ELIGIBILITY)
     end
 

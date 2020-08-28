@@ -142,6 +142,14 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             is_expected.to match_array %w[MISAF MISAU MIPCM MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU]
           end
         end
+
+        context 'scheme 12 claim' do
+          let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_12, with_misc_fee: false) }
+
+          it 'returns misc fee types for AGFS scheme 10+ plus 12 with supplementary-only fee types' do
+            is_expected.to match_array %w[MISAF MISAU MIPCM MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU MIPHC MIUMU MIUMO]
+          end
+        end
       end
     end
   end

@@ -9,13 +9,13 @@ spec:
   startingDeadlineSeconds: 3600
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
-  ttlSecondsAfterFinished: 250000
   suspend: false
   concurrencyPolicy: Allow
   jobTemplate:
     metadata:
       creationTimestamp: null
     spec:
+      ttlSecondsAfterFinished: 250000
       template:
         metadata:
           creationTimestamp: null

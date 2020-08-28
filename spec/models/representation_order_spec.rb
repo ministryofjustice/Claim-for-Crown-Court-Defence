@@ -1,4 +1,4 @@
-RSpec.fdescribe RepresentationOrder do
+RSpec.describe RepresentationOrder do
   let(:claim) { build(:unpersisted_claim) }
   let(:defendant) { build(:defendant) }
   let(:representation_order) { build(:representation_order) }

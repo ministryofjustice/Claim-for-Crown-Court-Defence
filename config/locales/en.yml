@@ -187,7 +187,7 @@ en:
     not_applicable: *not_applicable
     not_applicable_html: <span arial-label="not applicable">n/a</span>
   content:
-    graduated_fee_calculators_help: &graduated_fee_calculators_help Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external">graduated fees calculators</a> for help.
+    graduated_fee_calculators_help: &graduated_fee_calculators_help Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external">graduated fees calculators <span class="visuallyhidden">opens in new window</span></a> for help.
     how_is_this_calculated_help: &how_is_this_calculated_help How is this calculated?
     miscellaneous_fees: &miscellaneous_fees Miscellaneous fees
     miscellaneous_fee: &miscellaneous_fee Miscellaneous fee
@@ -844,7 +844,7 @@ en:
         agfs_hardship_hint_html: |
           For advance payments in exceptional circumstances. If a trial has commenced and been adjourned you are
           advised to submit a graduated fee claim.
-          See <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" target="_blank" rel="external">COVID 19 Remuneration Regulations</a> for full details
+          See <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" target="_blank" rel="external">COVID 19 Remuneration Regulations <span class="visuallyhidden">opens in new window</span></a> for full details
         agfs_interim_rb: Advocate warrant fee
         agfs_interim_hint: For warrant fee claims with the earliest representation order dated on or after 1 April 2018
         lgfs_hardship_hint_html: If a PTPH has already taken place, it is advisable to submit an interim claim. See <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" target="_blank" rel="external" title="Financial relief for legal aid practitioners">COVID 19 Remuneration Regulations</a> for full details.
@@ -993,7 +993,7 @@ en:
           basic_fees: 'Initial fees'
           heading: Basic fees
           fee_prompt_text: |
-            You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external">graduated fees calculators</a>
+            You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external">graduated fees calculators <span class="visuallyhidden">opens in new window</span></a>
             for help.
           fee_type: *fee_type
           quantity: *quantity
@@ -1624,7 +1624,7 @@ en:
         fees: Fees
         fees_header_prompt_text_html: *fees_vat_prompt
         fees_calculator_html: |
-            Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external">graduated fees calculators</a> for help.
+            Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external">graduated fees calculators <span class="visuallyhidden">opens in new window</span></a> for help.
       summary_claims_sidebar:
         button_label: *continue_to_certification_button
         continue: 'Continue'
@@ -1892,7 +1892,7 @@ en:
           case_stage_warning_html: |
             An LGFS hardship claim can only be made before the PTPH or the PTPH has been adjourned for a further hearing</br>
             If you think your claim is valid, but it is post PTPH please see
-            <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" target="_blank" rel="external">COVID 19 Remuneration Regulations</a>
+            <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" target="_blank" rel="external">COVID 19 Remuneration Regulations <span class="visuallyhidden">opens in new window</span></a>
             for guidance
 
         defendants_form_step:

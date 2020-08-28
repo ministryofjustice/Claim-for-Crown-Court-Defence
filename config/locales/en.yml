@@ -1408,12 +1408,12 @@ en:
         page_hint: *fees_vat_prompt
         clar_page_intro_html: |
           If needed, please complete an
-          <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" target="_blank" rel="external">appropriate special prep form</a>
-          or <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" target="_blank" rel="external">unused materials (over 3 hours) form</a>
+          <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" target="_blank" rel="external">appropriate special prep form <span class="visuallyhidden">opens in new window</span></a>
+          or <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" target="_blank" rel="external">unused materials (over 3 hours) form <span class="visuallyhidden">opens in new window</span></a>
           and attach to the claim.
         page_intro_html: |
           If needed, please complete an
-          <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" target="_blank" rel="external">appropriate special prep form</a>
+          <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" target="_blank" rel="external">appropriate special prep form <span class="visuallyhidden">opens in new window</span></a>
           and attach to the claim.
         advocates:
           fields:
@@ -1449,12 +1449,12 @@ en:
             page_hint: *fees_vat_prompt
             clar_page_intro_html: |
               If needed, please complete
-              <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external">special prep form</a>
-              or <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external">unused materials (over 3 hours) form</a>
+              <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external">special prep form <span class="visuallyhidden">opens in new window</span></a>
+              or <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external">unused materials (over 3 hours) form <span class="visuallyhidden">opens in new window</span></a>
               and attach to the claim.
             page_intro_html: |
               If needed, please complete
-              <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external">special prep form</a>
+              <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external">special prep form <span class="visuallyhidden">opens in new window</span></a>
               and attach to the claim.
           misc_fee_fields:
             misc_fee: *miscellaneous_fee

@@ -94,6 +94,10 @@ class ClaimCsvPresenter < BasePresenter
     earliest_representation_order&.maat_reference
   end
 
+  def rep_order_issued_date
+    earliest_representation_order&.representation_order_date.strftime('%d/%m/%Y')
+  end
+
   def claim_total
     total_including_vat.to_s
   end

@@ -127,6 +127,12 @@ RSpec.describe ClaimCsvPresenter do
         it { is_expected.to eq claim.earliest_representation_order.maat_reference }
       end
 
+      describe 'rep_order_issued_date' do
+        subject { presenter.rep_order_issued_date }
+
+        it { is_expected.to eq claim.earliest_representation_order&.representation_order_date.strftime('%d/%m/%Y') }
+      end
+
       describe 'caseworker name' do
         context 'decision transition doesnt exist' do
           it 'returns nil' do

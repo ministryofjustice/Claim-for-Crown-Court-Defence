@@ -163,6 +163,12 @@ describe API::Entities::SearchResult do
         include_examples 'returns expected JSON filter values'
       end
 
+      context 'when passed a litigator claim with CLAR fees and without an injection attempt error' do
+        let(:claim) { OpenStruct.new('id'=>'19932', 'uuid'=>'aec3900f-3e82-4c4f-a7cd-498ad45f11f8', 'scheme'=>'lgfs', 'scheme_type'=>'Final', 'case_number'=>'T20202401', 'state'=>'submitted', 'court_name'=>'Newcastle', 'case_type'=>'Trial', 'total'=>'1200.00', 'disk_evidence'=>false, 'external_user'=>'Emile Hirsch', 'maat_references'=>'5864761', 'defendants'=>'Junius Leschberg', 'fees'=>'1001.0~Trial~Fee::GraduatedFeeType,59.59~Unused materials (upto 3 hours)~Fee::MiscFeeType', 'last_submitted_at' => '2020-04-22T07:27:59Z', 'class_letter' => 'B', 'is_fixed_fee' => false, 'fee_type_code' => 'GRTRL', 'graduated_fee_types' => 'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR', 'allocation_type' => 'Grad', 'injection_errors'=>'{"errors":[]}', 'last_injection_succeeded'=>'true') }
+        before { result.merge!(trial: 1, graduated_fees: 1, clar_fees_warning: 1) }
+        include_examples 'returns expected JSON filter values'
+      end
+
       context 'when passed an advocate interim/warrant claim' do
         let(:claim) { OpenStruct.new('id' => '179818', 'uuid' => '887cbd94-3f48-4955-8646-918de4db3617', 'case_type' => 'Warrant', 'state'=>'submitted', 'total' => '667.33', 'fees' => "0.0~Warrant Fee~Fee::WarrantFeeType", 'last_submitted_at' => '07/12/2017  12:58:29', 'class_letter' => nil, 'is_fixed_fee' => nil, 'fee_type_code' => nil, 'graduated_fee_types' => "GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR") }
         before { result.merge!(agfs_warrants: 1) }

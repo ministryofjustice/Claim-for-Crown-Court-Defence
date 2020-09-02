@@ -30,6 +30,7 @@ RSpec.shared_examples 'an s3 bucket' do
       subject(:s3_region) { described_class.s3_headers[:s3_region] }
 
       before { allow(Settings.aws).to receive(:region).and_return(fake_aws_region) }
+      after { allow(Settings.aws).to receive(:region).and_call_original }
 
       let(:fake_aws_region) { 'eu-west-49' }
 

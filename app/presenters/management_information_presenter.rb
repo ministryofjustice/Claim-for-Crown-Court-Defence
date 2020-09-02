@@ -1,8 +1,11 @@
-module ClaimCSVHelpers
-  extend ActiveSupport::Concern
+class ManagementInformationPresenter < BasePresenter
+  presents :claim
 
-  COMPLETED_STATES = %w[rejected refused authorised part_authorised].freeze
-  SUBMITTED_STATES = %w[submitted redetermination awaiting_written_reasons].freeze
+  include ManagementInformationReportable
+
+  def present!
+    yield parsed_journeys if block_given?
+  end
 
   def journeys
     sorted_and_filtered_state_transitions.slice_after { |transition| COMPLETED_STATES.include?(transition.to) }
@@ -29,5 +32,18 @@ module ClaimCSVHelpers
       journey.reject! { |transition| transition.event == 'deallocate' }
     end
     journey
+  end
+
+  def claim_state
+    if state == 'archived_pending_delete'
+      claim_state_transitions.claim_state_transitions.sort.last.from
+    else
+      state
+    end
+  end
+
+  def previous(next_step)
+    complete_journeys = sorted_and_filtered_state_transitions
+    complete_journeys.select { |step| step.to == next_step.from && step.created_at < next_step.created_at }
   end
 end

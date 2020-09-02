@@ -130,7 +130,7 @@ RSpec.describe ClaimCsvPresenter do
       describe 'rep_order_issued_date' do
         subject { presenter.rep_order_issued_date }
 
-        it { is_expected.to eq claim.earliest_representation_order&.representation_order_date.strftime('%d/%m/%Y') }
+        it { is_expected.to eq claim.earliest_representation_order&.representation_order_date&.strftime('%d/%m/%Y') }
       end
 
       describe 'caseworker name' do

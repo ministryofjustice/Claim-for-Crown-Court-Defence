@@ -1,38 +1,10 @@
 class ClaimCsvPresenter < BasePresenter
   presents :claim
 
-  COMPLETED_STATES = %w[rejected refused authorised part_authorised].freeze
-  SUBMITTED_STATES = %w[submitted redetermination awaiting_written_reasons].freeze
+  include ClaimCSVHelpers
 
   def present!
     yield parsed_journeys if block_given?
-  end
-
-  def journeys
-    sorted_and_filtered_state_transitions.slice_after { |transition| COMPLETED_STATES.include?(transition.to) }
-  end
-
-  def sorted_and_filtered_state_transitions
-    claim_state_transitions.sort.reject do |transition|
-      %w[draft archived_pending_delete archived_pending_review].include?(transition.to) ||
-        transition.created_at < Time.now - 6.months
-    end
-  end
-
-  def parsed_journeys
-    journeys.map do |journey|
-      @journey = clean_deallocations(journey)
-      Settings.claim_csv_headers.map { |method_call| send(method_call) } if @journey.any?
-    end
-  end
-
-  def clean_deallocations(journey)
-    deallocation = journey.reverse.find { |transition| transition.event == 'deallocate' }
-    if deallocation
-      journey.reject! { |transition| transition.event == 'allocate' && transition.created_at < deallocation.created_at }
-      journey.reject! { |transition| transition.event == 'deallocate' }
-    end
-    journey
   end
 
   def case_worker
@@ -95,7 +67,7 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def rep_order_issued_date
-    earliest_representation_order&.representation_order_date.strftime('%d/%m/%Y')
+    earliest_representation_order&.representation_order_date&.strftime('%d/%m/%Y')
   end
 
   def claim_total
@@ -148,6 +120,6 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def misc_fees
-    claim.misc_fees.map{ |f| f.fee_type.description.tr(',', '') }.join(' ')
+    claim.misc_fees.map { |f| f.fee_type.description.tr(',', '') }.join(' ')
   end
 end

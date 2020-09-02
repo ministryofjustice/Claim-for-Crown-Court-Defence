@@ -84,7 +84,6 @@ module Fee
 
     def validate_any_quantity
       validate_integer_decimal
-      validate_fee_type_rules
       add_error(:quantity, 'invalid') if @record.quantity.negative? || @record.quantity > 99_999
     end
 

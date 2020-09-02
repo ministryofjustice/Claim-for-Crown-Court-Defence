@@ -216,6 +216,12 @@ RSpec.describe ClaimCsvPresenter do
         end
       end
 
+      describe 'misc_fees' do
+        subject { presenter.misc_fees }
+
+        it { is_expected.to eq claim.misc_fees.map{ |f| f.fee_type.description.tr(',', '')}.join(' ') }
+      end
+
       context 'and unique values for' do
         before { Timecop.freeze(Time.now) }
         after  { Timecop.return }

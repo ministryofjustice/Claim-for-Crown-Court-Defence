@@ -69,6 +69,7 @@ claim_csv_headers:
   - :maat_reference
   - :rep_order_issued_date
   - :af1_lf1_processed_by
+  - :misc_fees
 
 expense_schema_version: 2
 

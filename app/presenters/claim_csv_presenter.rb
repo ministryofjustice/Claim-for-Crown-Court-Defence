@@ -146,4 +146,8 @@ class ClaimCsvPresenter < BasePresenter
     previous_steps = redetermination_steps.present? ? previous(redetermination_steps.last) : nil
     previous_steps.present? ? previous_steps.last.author_name : ''
   end
+
+  def misc_fees
+    claim.misc_fees.map{ |f| f.fee_type.description.tr(',', '') }.join(' ')
+  end
 end

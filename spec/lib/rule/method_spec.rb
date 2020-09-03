@@ -126,4 +126,54 @@ RSpec.describe Rule::Method, type: :rule do
       it { is_expected.to be_falsey }
     end
   end
+
+  describe '#inclusion' do
+    subject { instance.inclusion }
+
+    let(:instance) { described_class.new(:irrelevant, src, bound) }
+    let(:bound) { [101, 102] }
+
+    context 'when source is nil' do
+      let(:src) { nil }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when source in bound array' do
+      let(:src) { 101 }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when source not in bound array' do
+      let(:src) { 99 }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '#exclusion' do
+    subject { instance.exclusion }
+
+    let(:instance) { described_class.new(:irrelevant, src, bound) }
+    let(:bound) { [101, 102] }
+
+    context 'when source is nil' do
+      let(:src) { nil }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when source in bound array' do
+      let(:src) { 101 }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when source NOT in bound array' do
+      let(:src) { 99 }
+
+      it { is_expected.to be_truthy }
+    end
+  end
 end

@@ -33,5 +33,13 @@ module Rule
     def equal
       src == bound
     end
+
+    def inclusion
+      bound.include?(src)
+    end
+
+    def exclusion
+      !inclusion
+    end
   end
 end

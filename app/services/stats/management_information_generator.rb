@@ -50,7 +50,7 @@ module Stats
         csv << headers
         active_non_draft_claims.find_each do |claim|
           log_info("Adding claim to report with id: #{claim.id} ...")
-          ClaimCsvPresenter.new(claim, 'view').present! do |claim_journeys|
+          ManagementInformationPresenter.new(claim, 'view').present! do |claim_journeys|
             if claim_journeys.any?
               log_info("Adding journey for claim: #{claim.id}")
               claim_journeys.each { |journey| csv << journey }

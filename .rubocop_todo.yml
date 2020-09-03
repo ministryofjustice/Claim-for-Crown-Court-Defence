@@ -278,7 +278,6 @@ Rails/TimeZone:
     - 'app/models/claims/financial_summary.rb'
     - 'app/models/claims/state_machine.rb'
     - 'app/models/stats/stats_report.rb'
-    - 'app/presenters/claim_csv_presenter.rb'
     - 'lib/release.rb'
 
 Rails/UniqueValidationWithoutIndex:
@@ -344,5 +343,5 @@ Style/RedundantSort:
   Exclude:
     - 'app/models/claim/base_claim.rb'
     - 'app/models/defendant.rb'
-    - 'app/presenters/claim_csv_presenter.rb'
+    - 'app/presenters/management_information_presenter.rb'
     - 'spikes/stats/collector/draft_to_submitted_time.rb'

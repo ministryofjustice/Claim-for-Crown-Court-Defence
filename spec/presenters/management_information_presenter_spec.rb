@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe ClaimCsvPresenter do
+RSpec.describe ManagementInformationPresenter do
 
   let(:claim) { create(:redetermination_claim) }
-  let(:presenter) { ClaimCsvPresenter.new(claim, view) }
+  let(:presenter) { ManagementInformationPresenter.new(claim, view) }
   let(:previous_user) { create(:user, first_name: 'Thea', last_name: 'Conway') }
   let(:another_user) { create(:user, first_name: 'Hilda', last_name: 'Rogers') }
 
@@ -127,12 +127,18 @@ RSpec.describe ClaimCsvPresenter do
         it { is_expected.to eq claim.earliest_representation_order.maat_reference }
       end
 
+      describe 'rep_order_issued_date' do
+        subject { presenter.rep_order_issued_date }
+
+        it { is_expected.to eq claim.earliest_representation_order&.representation_order_date&.strftime('%d/%m/%Y') }
+      end
+
       describe 'caseworker name' do
         context 'decision transition doesnt exist' do
           it 'returns nil' do
             draft_claim = create :advocate_claim
             expect(draft_claim.last_decision_transition).to be_nil
-            presenter = ClaimCsvPresenter.new(claim, view)
+            presenter = ManagementInformationPresenter.new(claim, view)
             expect(presenter.case_worker).to be_nil
           end
         end
@@ -141,7 +147,7 @@ RSpec.describe ClaimCsvPresenter do
           it 'returns nil' do
             transition = claim.last_decision_transition
             transition.update_author_id(nil)
-            presenter = ClaimCsvPresenter.new(claim, view)
+            presenter = ManagementInformationPresenter.new(claim, view)
             expect(presenter.case_worker).to be_nil
           end
         end
@@ -151,7 +157,7 @@ RSpec.describe ClaimCsvPresenter do
             authorised_claim = create :authorised_claim
             transition = authorised_claim.last_decision_transition
             case_worker_name = transition.author.name
-            presenter = ClaimCsvPresenter.new(authorised_claim, view)
+            presenter = ManagementInformationPresenter.new(authorised_claim, view)
             expect(presenter.case_worker).to eq case_worker_name
           end
         end
@@ -160,7 +166,7 @@ RSpec.describe ClaimCsvPresenter do
           it 'returns the name of the caseworker allocated to the claim' do
             allocated_claim = create :allocated_claim
             case_worker_name = allocated_claim.case_workers.first.name
-            presenter = ClaimCsvPresenter.new(allocated_claim, view)
+            presenter = ManagementInformationPresenter.new(allocated_claim, view)
             expect(presenter.case_worker).to eq case_worker_name
           end
         end
@@ -174,7 +180,7 @@ RSpec.describe ClaimCsvPresenter do
         context 'an allocated claim' do
           it 'returns nil' do
             claim = create :authorised_claim
-            presenter = ClaimCsvPresenter.new(claim, view)
+            presenter = ManagementInformationPresenter.new(claim, view)
             presenter.present! do |claim_journeys|
               expect(presenter.af1_lf1_processed_by).to eq ''
             end
@@ -187,7 +193,7 @@ RSpec.describe ClaimCsvPresenter do
             transition = claim.last_decision_transition
             transition.update_author_id(previous_user.id)
             claim.redetermine!
-            presenter = ClaimCsvPresenter.new(claim, view)
+            presenter = ManagementInformationPresenter.new(claim, view)
             presenter.present! do |claim_journeys|
               expect(presenter.af1_lf1_processed_by).to eq previous_user.name
             end
@@ -202,12 +208,18 @@ RSpec.describe ClaimCsvPresenter do
             transition = claim.last_decision_transition
             transition.update_author_id(another_user.id)
             claim.redetermine!
-            presenter = ClaimCsvPresenter.new(claim, view)
+            presenter = ManagementInformationPresenter.new(claim, view)
             presenter.present! do |claim_journeys|
               expect(presenter.af1_lf1_processed_by).to eq another_user.name
             end
           end
         end
+      end
+
+      describe 'misc_fees' do
+        subject { presenter.misc_fees }
+
+        it { is_expected.to eq claim.misc_fees.map{ |f| f.fee_type.description.tr(',', '')}.join(' ') }
       end
 
       context 'and unique values for' do
@@ -261,13 +273,13 @@ RSpec.describe ClaimCsvPresenter do
         }
 
         it 'should not be reflected in the MI' do
-          ClaimCsvPresenter.new(claim, view).present! do |csv|
+          ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv[0]).not_to include('deallocated')
           end
         end
 
         it 'and the claim should be refelcted as being in the state prior to allocation' do
-          ClaimCsvPresenter.new(claim, view).present! do |csv|
+          ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv[0]).to include('submitted')
           end
         end
@@ -277,19 +289,19 @@ RSpec.describe ClaimCsvPresenter do
         let(:claim) { create(:archived_pending_delete_claim) }
        
         it 'adds a single row to the MI' do
-          ClaimCsvPresenter.new(claim, view).present! do |csv|
+          ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv.size).to eql 1
           end
         end
 
         it 'should not be reflected in the MI' do
-          ClaimCsvPresenter.new(claim, view).present! do |csv|
+          ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv[0]).not_to include('archived_pending_delete')
           end
         end
 
         it 'and the claim should be reflected as being in the state prior to archive' do
-          ClaimCsvPresenter.new(claim, view).present! do |csv|
+          ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv[0]).to include('authorised')
           end
         end
@@ -299,19 +311,19 @@ RSpec.describe ClaimCsvPresenter do
         let(:claim) { create(:hardship_archived_pending_review_claim) }
 
         it 'adds a single row to the MI' do
-          ClaimCsvPresenter.new(claim, view).present! do |csv|
+          ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv.size).to eql 1
           end
         end
         
         it 'should not be reflected in the MI' do
-          ClaimCsvPresenter.new(claim, view).present! do |csv|
+          ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv[0]).not_to include('archived_pending_review')
           end
         end
 
         it 'and the claim should be reflected as being in the state prior to archive' do
-          ClaimCsvPresenter.new(claim, view).present! do |csv|
+          ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv[0]).to include('authorised')
           end
         end
@@ -328,7 +340,7 @@ RSpec.describe ClaimCsvPresenter do
 
           it 'the rejection reason code should be reflected in the MI' do
             allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('no_rep_order')
-            ClaimCsvPresenter.new(claim, view).present! do |csv|
+            ManagementInformationPresenter.new(claim, view).present! do |csv|
               expect(csv[0][12]).to eq('no_rep_order')
             end
           end
@@ -340,7 +352,7 @@ RSpec.describe ClaimCsvPresenter do
           end
 
           it 'the rejection reason code should be reflected in the MI' do
-            ClaimCsvPresenter.new(claim, view).present! do |csv|
+            ManagementInformationPresenter.new(claim, view).present! do |csv|
               expect(csv[0][12]).to eq('no_rep_order')
             end
           end
@@ -352,7 +364,7 @@ RSpec.describe ClaimCsvPresenter do
           end
 
           it 'the rejection reason code should be reflected in the MI' do
-            ClaimCsvPresenter.new(claim, view).present! do |csv|
+            ManagementInformationPresenter.new(claim, view).present! do |csv|
               expect(csv[0][12]).to eq('no_rep_order, wrong_case_no')
             end
           end
@@ -364,7 +376,7 @@ RSpec.describe ClaimCsvPresenter do
           end
 
           it 'the rejection reason code should be reflected in the MI' do
-            ClaimCsvPresenter.new(claim, view).present! do |csv|
+            ManagementInformationPresenter.new(claim, view).present! do |csv|
               expect(csv[0][12]).to eq('other')
               expect(csv[0][13]).to eq('Rejection reason')
             end
@@ -378,7 +390,7 @@ RSpec.describe ClaimCsvPresenter do
 
           it 'the refusal reason code should be reflected in the MI' do
             allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('no_rep_order')
-            ClaimCsvPresenter.new(claim, view).present! do |csv|
+            ManagementInformationPresenter.new(claim, view).present! do |csv|
               expect(csv[0][12]).to eq('no_rep_order')
             end
           end
@@ -390,7 +402,7 @@ RSpec.describe ClaimCsvPresenter do
           end
 
           it 'the refusal reason code should be reflected in the MI' do
-            ClaimCsvPresenter.new(claim, view).present! do |csv|
+            ManagementInformationPresenter.new(claim, view).present! do |csv|
               expect(csv[0][12]).to eq('no_rep_order')
             end
           end
@@ -402,7 +414,7 @@ RSpec.describe ClaimCsvPresenter do
           end
 
           it 'the refusal reason code should be reflected in the MI' do
-            ClaimCsvPresenter.new(claim, view).present! do |csv|
+            ManagementInformationPresenter.new(claim, view).present! do |csv|
               expect(csv[0][12]).to eq('no_rep_order, wrong_case_no')
             end
           end
@@ -414,7 +426,7 @@ RSpec.describe ClaimCsvPresenter do
           end
 
           it 'the rejection reason code should be reflected in the MI' do
-            ClaimCsvPresenter.new(claim, view).present! do |csv|
+            ManagementInformationPresenter.new(claim, view).present! do |csv|
               expect(csv[0][12]).to eq('other')
               expect(csv[0][13]).to eq('Rejection reason')
             end

@@ -36,7 +36,6 @@ claim:
     short: You must specify a claim
     api: Claim cannot be blank
 
-# applies to representation order
 defendant:
     _seq: 5
     blank:
@@ -1017,7 +1016,14 @@ misc_fee:
       long: 'Choose a type for the #{misc_fee}'
       short: Choose a fee type
       api: Choose a type for the miscellaneous fee
-
+    case_type_inclusion:
+      long: 'Choose an applicable type for the #{misc_fee}'
+      short: Not applicable to case type
+      api: Fee type is not applicable to this case type
+    offence_category_exclusion:
+      long: 'Choose an applicable type for the #{misc_fee}'
+      short: Not applicable to offence category
+      api: Fee type is not applicable to this offence category
   rate:
     _seq: 20
     invalid:
@@ -1041,14 +1047,14 @@ misc_fee:
       api: Enter a valid quantity for plea and trial preparation hearing
     pcm_numericality:
       long: Enter a valid quantity (1 to 3) for plea and case management hearing fees
-      short: Enter a valid quantity (1 to 3)
+      short: Must be 1 to 3
       api: Enter a valid quantity (1 to 3) for plea and case management hearing fees
     miumu_numericality:
-      long: Enter a valid quantity (1) for unused material (upto 3 hours)
+      long: 'Enter a valid quantity for the #{misc_fee}'
       short: Must be exactly 1
       api: Enter a valid quantity (1) for unused material (upto 3 hours)
     miumo_numericality:
-      long: Enter a valid quantity (3+) for unused material (over 3 hours)
+      long: 'Enter a valid quantity for the #{misc_fee}'
       short: Must be at least 3
       api: Enter a valid quantity (3+) for unused material (over 3 hours)
 

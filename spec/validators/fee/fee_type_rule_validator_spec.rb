@@ -1,67 +1,72 @@
 require 'rails_helper'
 
 RSpec.describe Fee::FeeTypeRuleValidator, type: :validator do
+  let(:test_class) do
+    Class.new do
+      include ActiveModel::Model
+
+      attr_accessor :quantity, :amount
+    end
+  end
+
   describe '#validate' do
-    subject(:validate) { described_class.new(fee, fee_type_rules).validate }
+    let(:object1) { test_class.new() }
+    let(:object2) { test_class.new() }
 
-    before do
-      create(:misc_fee_type, :miumu)
-      create(:misc_fee_type, :miumo)
+    let(:rule_sets) do
+      set1 = Rule::Set.new(object1)
+      set1 << Rule::Struct.new(:quantity, :equal, 1, 'object1_quantity_numericality')
+      set1 << Rule::Struct.new(:amount, :maximum, 1000, 'object1_amount_maximum')
+      set2 = Rule::Set.new(object2)
+      set2 << Rule::Struct.new(:amount, :minimum, 10, 'object2_amount_minimum')
+      [
+        set1,
+        set2
+      ]
     end
 
-    let(:fee_type_rules) { Fee::FeeTypeRules.where(unique_code: fee.fee_type.unique_code) }
+    context 'with one rule set' do
+      subject(:validate) { described_class.new(object, rule_set_1).validate }
 
-    context 'when fee quantity must equal x' do
-      context 'with a valid fee' do
-        let(:fee) { build(:misc_fee, :miumu_fee, quantity: 1) }
+      let(:rule_set_1) { rule_sets.select { |set| set.object == object1 } }
 
-        it { is_expected.to be_truthy }
+      context 'when no rules violated' do
+        let(:object) { test_class.new(quantity: 1, amount: 1000) }
 
-        it 'does not add error to fee' do
-          expect{ validate }.not_to change(fee.errors[:quantity], :count)
-        end
+        it { expect(validate).to be_truthy }
+        it { expect { validate }.to change { object.errors.count }.by(0) }
       end
 
-      context 'with an invalid fee' do
-        let(:fee) { build(:misc_fee, :miumu_fee, quantity: 1.01) }
+      context 'when one rule violated' do
+        let(:object) { test_class.new(quantity: 1, amount: 1001) }
 
-        it { is_expected.to be_falsey }
+        it { expect(validate).to be_falsey }
+        it { expect { validate }.to change { object.errors.count }.by(1) }
+      end
 
-        it 'adds an active record error' do
-          expect { validate }.to change(fee.errors[:quantity], :count).by 1
-        end
+      context 'when more than one rule violated' do
+        let(:object) { test_class.new(quantity: 2, amount: 1001) }
 
-        it 'adds an active record error message' do
-          validate
-          expect(fee.errors[:quantity]).to match_array(['miumu_numericality'])
-        end
+        it { expect(validate).to be_falsey }
+        it { expect { validate }.to change { object.errors.count }.by(2) }
       end
     end
 
-    context 'when fee quantity has a minimum' do
-      context 'with a valid fee' do
-        let(:fee) { build(:misc_fee, :miumo_fee, quantity: 3.0) }
+    context 'with more than one rule set' do
+      subject(:validate) { described_class.new(object, rule_sets).validate }
 
-        it { is_expected.to be_truthy }
+      context 'when no rule sets rule violated' do
+        let(:object) { test_class.new(quantity: 1, amount: 1000) }
 
-        it 'does not add error to fee' do
-          expect{ validate }.not_to change(fee.errors[:quantity], :count)
-        end
+        it { expect(validate).to be_truthy }
+        it { expect { validate }.to change { object.errors.count }.by(0) }
       end
 
-      context 'with an invalid fee' do
-        let(:fee) { build(:misc_fee, :miumo_fee, quantity: 2.99) }
+      context 'when second rule sets rule violated' do
+        let(:object) { test_class.new(quantity: 1, amount: 9) }
 
-        it { is_expected.to be_falsey }
-
-        it 'adds an active record error' do
-          expect { validate }.to change(fee.errors[:quantity], :count).by 1
-        end
-
-        it 'adds an active record error message' do
-          validate
-          expect(fee.errors[:quantity]).to match_array(['miumo_numericality'])
-        end
+        it { expect(validate).to be_falsey }
+        it { expect { validate }.to change { object.errors.count }.by(1) }
       end
     end
   end

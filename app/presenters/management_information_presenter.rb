@@ -34,14 +34,6 @@ class ManagementInformationPresenter < BasePresenter
     journey
   end
 
-  def claim_state
-    if state == 'archived_pending_delete'
-      claim_state_transitions.claim_state_transitions.sort.last.from
-    else
-      state
-    end
-  end
-
   def previous(next_step)
     complete_journeys = sorted_and_filtered_state_transitions
     complete_journeys.select { |step| step.to == next_step.from && step.created_at < next_step.created_at }

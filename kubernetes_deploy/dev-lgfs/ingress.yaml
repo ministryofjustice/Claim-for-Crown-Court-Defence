@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: cccd-app-ingress
   namespace: cccd-dev-lgfs
+  annotations:
+    kubernetes.io/ingress.class: cccd-dev-lgfs
 spec:
   rules:
     - host: dev-lgfs.claim-crown-court-defence.service.justice.gov.uk

@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: cccd-app-ingress
   namespace: cccd-staging
+  annotations:
+    kubernetes.io/ingress.class: cccd-staging
 spec:
   rules:
     - host: staging.claim-crown-court-defence.service.justice.gov.uk

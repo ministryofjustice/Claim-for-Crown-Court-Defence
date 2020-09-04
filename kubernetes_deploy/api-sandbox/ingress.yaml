@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: cccd-app-ingress
   namespace: cccd-api-sandbox
+  annotations:
+    kubernetes.io/ingress.class: cccd-api-sandbox
 spec:
   rules:
     - host: api-sandbox.claim-crown-court-defence.service.justice.gov.uk

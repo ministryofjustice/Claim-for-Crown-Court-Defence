@@ -143,6 +143,11 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
       allow(Settings.geckoboard.widgets).to receive(:travel_automation).and_return(widget_key)
       subject
     end
+
+    after do
+      allow(Settings.geckoboard.widgets).to receive(:travel_automation).and_call_original
+    end
+
     let(:endpoint) { "https://push.geckoboard.com/v1/send/#{Settings.geckoboard.widgets.travel_automation}" }
 
     context 'when the widget key has not been set' do

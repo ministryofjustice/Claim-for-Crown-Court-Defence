@@ -50,7 +50,8 @@ module Fee
          :inclusion,
          CaseType.not_fixed_fee.ids,
          message: 'case_type_inclusion',
-         attribute_for_error: :fee_type]
+         attribute_for_error: :fee_type,
+         allow_nil: true]
     end
   end
 end

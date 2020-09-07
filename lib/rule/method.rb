@@ -2,12 +2,13 @@
 
 module Rule
   class Method
-    attr_reader :rule_method, :src, :bound
+    attr_reader :rule_method, :src, :bound, :options
 
-    def initialize(rule_method, src, bound)
+    def initialize(rule_method, src, bound, options = {})
       @rule_method = rule_method
       @src = src
       @bound = bound
+      @options = options
     end
 
     def met?
@@ -35,11 +36,13 @@ module Rule
     end
 
     def inclusion
+      return true if options[:allow_nil] && src.nil?
       bound.include?(src)
     end
 
     def exclusion
-      !inclusion
+      return options[:allow_nil] if src.nil? && !options[:allow_nil].nil?
+      !bound.include?(src)
     end
   end
 end

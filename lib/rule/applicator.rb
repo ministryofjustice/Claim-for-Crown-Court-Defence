@@ -20,7 +20,8 @@ module Rule
     def rule_for_object
       @rule_for_object ||= Rule::Method.new(rule.rule_method,
                                             rule_attribute_value,
-                                            rule.bound)
+                                            rule.bound,
+                                            rule.options)
     end
 
     def rule_attribute_value

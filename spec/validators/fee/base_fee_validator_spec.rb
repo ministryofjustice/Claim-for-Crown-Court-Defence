@@ -59,6 +59,12 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
         it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
       end
+
+      context 'with nil case type' do
+        let(:case_type) { nil }
+
+        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+      end
     end
 
     let(:case_type) { create(:case_type, :graduated_fee) }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Rule::Validator, type: :validator do
+RSpec.describe Rule::Validator, type: :rule do
   let(:test_class) do
     Class.new do
       include ActiveModel::Model
@@ -15,10 +15,10 @@ RSpec.describe Rule::Validator, type: :validator do
 
     let(:rule_sets) do
       set1 = Rule::Set.new(object1)
-      set1 << Rule::Struct.new(:quantity, :equal, 1, 'object1_quantity_numericality')
-      set1 << Rule::Struct.new(:amount, :maximum, 1000, 'object1_amount_maximum')
+      set1 << Rule::Struct.new(:quantity, :equal, 1, message: 'object1_quantity_numericality')
+      set1 << Rule::Struct.new(:amount, :maximum, 1000, message: 'object1_amount_maximum')
       set2 = Rule::Set.new(object2)
-      set2 << Rule::Struct.new(:amount, :minimum, 10, 'object2_amount_minimum')
+      set2 << Rule::Struct.new(:amount, :minimum, 10, message: 'object2_amount_minimum')
       [
         set1,
         set2

@@ -2,12 +2,12 @@ module Fee
   class FeeTypeRules
     def initialize
       with_set_for_fee_type('MIUMU') do |set|
-        set << add_rule(:quantity, :equal, 1, 'miumu_numericality')
+        set << add_rule(:quantity, :equal, 1, message: 'miumu_numericality')
         set << add_rule(*graduated_fee_type_only_rule)
       end
 
       with_set_for_fee_type('MIUMO') do |set|
-        set << add_rule(:quantity, :min, 3, 'miumo_numericality')
+        set << add_rule(:quantity, :min, 3, message: 'miumo_numericality')
         set << add_rule(*graduated_fee_type_only_rule)
       end
 
@@ -15,7 +15,7 @@ module Fee
         set << add_rule('claim.offence.offence_band.offence_category.number',
                         :exclusion,
                         [1, 6, 9],
-                        'offence_category_exclusion',
+                        message: 'offence_category_exclusion',
                         attribute_for_error: :fee_type)
       end
     end
@@ -49,7 +49,7 @@ module Fee
         ['claim.case_type_id',
          :inclusion,
          CaseType.not_fixed_fee.ids,
-         'case_type_inclusion',
+         message: 'case_type_inclusion',
          attribute_for_error: :fee_type]
     end
   end

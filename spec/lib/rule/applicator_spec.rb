@@ -21,7 +21,7 @@ RSpec.describe Rule::Applicator, type: :rule do
 
     context 'with simple attribute validation' do
       let(:rule) do
-        Rule::Struct.new(:my_numeric_attribute, :equal, 100, 'must be exactly 100')
+        Rule::Struct.new(:my_numeric_attribute, :equal, 100, message: 'must be exactly 100')
       end
 
       context 'when rule is met' do
@@ -29,7 +29,7 @@ RSpec.describe Rule::Applicator, type: :rule do
 
         it { is_expected.to be_truthy }
 
-        it 'does not add error to object' do
+        it 'does not add error to object attribute' do
           met
           expect(object.errors['my_numeric_attribute']).to be_empty
         end
@@ -40,10 +40,20 @@ RSpec.describe Rule::Applicator, type: :rule do
 
         it { is_expected.to be_falsey }
 
-        it 'adds error to object' do
+        it {
           met
           expect(object.errors['my_numeric_attribute']).to include('must be exactly 100')
-        end
+        }
+      end
+
+      context 'when rule is not met without error message specified' do
+        let(:rule) { Rule::Struct.new(:my_numeric_attribute, :equal, 100) }
+        let(:object) { test_class.new(my_numeric_attribute: 101) }
+
+        it {
+          met
+          expect(object.errors['my_numeric_attribute']).to include('my_numeric_attribute is invalid')
+        }
       end
 
       context 'when attribute value is nil' do
@@ -51,21 +61,19 @@ RSpec.describe Rule::Applicator, type: :rule do
 
         it { is_expected.to be_falsey }
 
-        it 'adds error to object' do
+        it {
           met
           expect(object.errors['my_numeric_attribute']).to include('must be exactly 100')
-        end
+        }
       end
 
       context 'when object does not respond to attribute' do
         let(:object) { test_class.new }
         let(:rule) do
-          Rule::Struct.new(:non_existent_attribute, :equal, 100, 'must be exactly 100')
+          Rule::Struct.new(:non_existent_attribute, :equal, 100, message: 'must be exactly 100')
         end
 
-        it 'raises error' do
-          expect { met }.to raise_error NoMethodError
-        end
+        it { expect { met }.to raise_error NoMethodError }
       end
     end
 
@@ -75,7 +83,7 @@ RSpec.describe Rule::Applicator, type: :rule do
           Rule::Struct.new(attribute_under_test,
                            :inclusion,
                            [1, 2],
-                           'nested relation id must be included in...')
+                           message: 'nested relation id must be included in...')
         end
         let(:object) { test_class.new(relation: relation) }
         let(:relation) { double('Relation', nested_relation: nested_relation) }
@@ -83,9 +91,10 @@ RSpec.describe Rule::Applicator, type: :rule do
 
         context 'when rule is met' do
           let(:nested_relation) { double('NestedRelation', id: 1) }
+
           it { is_expected.to be_truthy }
 
-          it 'does not add error to object' do
+          it 'does not add error to nested method chain' do
             met
             expect(object.errors['relation.nested_relation.id']).to be_empty
           end
@@ -96,7 +105,7 @@ RSpec.describe Rule::Applicator, type: :rule do
 
           it { is_expected.to be_falsey }
 
-          it 'adds error to nested object\'s attribute' do
+          it 'adds error to nested method chain' do
             met
             expect(object.errors['relation.nested_relation.id']).to include('nested relation id must be included in...')
           end
@@ -106,7 +115,7 @@ RSpec.describe Rule::Applicator, type: :rule do
               Rule::Struct.new([:relation, :nested_relation, :id],
                                :inclusion,
                                [1, 2],
-                               'nested relation id must be included in...',
+                               message: 'nested relation id must be included in...',
                                attribute_for_error: :my_other_field)
             end
 
@@ -124,7 +133,7 @@ RSpec.describe Rule::Applicator, type: :rule do
 
           it { is_expected.to be_falsey }
 
-          it 'adds error to object' do
+          it 'adds error to nested method chain' do
             met
             expect(object.errors['relation.nested_relation.id']).to include('nested relation id must be included in...')
           end
@@ -133,9 +142,9 @@ RSpec.describe Rule::Applicator, type: :rule do
         context 'when nested object method chain contains undefined method' do
           before { allow(relation).to receive(:nested_relation).and_raise NoMethodError }
 
-          it 'raises error' do
+          it {
             expect { met }.to raise_error NoMethodError
-          end
+          }
         end
       end
     end

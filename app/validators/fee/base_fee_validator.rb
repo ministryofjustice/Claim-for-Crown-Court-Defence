@@ -94,7 +94,7 @@ module Fee
 
     def validate_fee_type_rules
       rule_sets = Fee::FeeTypeRules.where(unique_code: @record.fee_type&.unique_code)
-      fee_type_rule_validator = FeeTypeRuleValidator.new(@record, rule_sets)
+      fee_type_rule_validator = Rule::Validator.new(@record, rule_sets)
       fee_type_rule_validator.validate
     end
 

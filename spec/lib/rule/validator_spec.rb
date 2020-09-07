@@ -1,6 +1,6 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe Fee::FeeTypeRuleValidator, type: :validator do
+RSpec.describe Rule::Validator, type: :validator do
   let(:test_class) do
     Class.new do
       include ActiveModel::Model
@@ -9,7 +9,7 @@ RSpec.describe Fee::FeeTypeRuleValidator, type: :validator do
     end
   end
 
-  describe '#validate' do
+  describe '#met?' do
     let(:object1) { test_class.new() }
     let(:object2) { test_class.new() }
 
@@ -26,7 +26,7 @@ RSpec.describe Fee::FeeTypeRuleValidator, type: :validator do
     end
 
     context 'with one rule set' do
-      subject(:validate) { described_class.new(object, rule_set_1).validate }
+      subject(:validate) { described_class.new(object, rule_set_1).met? }
 
       let(:rule_set_1) { rule_sets.select { |set| set.object == object1 } }
 
@@ -53,7 +53,7 @@ RSpec.describe Fee::FeeTypeRuleValidator, type: :validator do
     end
 
     context 'with more than one rule set' do
-      subject(:validate) { described_class.new(object, rule_sets).validate }
+      subject(:validate) { described_class.new(object, rule_sets).met? }
 
       context 'when no rule sets rule violated' do
         let(:object) { test_class.new(quantity: 1, amount: 1000) }
@@ -68,6 +68,14 @@ RSpec.describe Fee::FeeTypeRuleValidator, type: :validator do
         it { expect(validate).to be_falsey }
         it { expect { validate }.to change { object.errors.count }.by(1) }
       end
+    end
+  end
+
+  describe '#validate' do
+    let(:instance) { described_class.new('object','rule_set') }
+
+    it 'is alias for met?' do
+      expect(instance.method(:validate)).to eq(instance.method(:met?))
     end
   end
 end

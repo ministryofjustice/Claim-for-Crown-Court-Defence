@@ -140,7 +140,7 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
     subject { described_class.new.push! }
 
     before do
-      allow(Settings).to receive_message_chain(:geckoboard, :widgets, :travel_automation).and_return(widget_key)
+      allow(Settings.geckoboard.widgets).to receive(:travel_automation).and_return(widget_key)
       subject
     end
     let(:endpoint) { "https://push.geckoboard.com/v1/send/#{Settings.geckoboard.widgets.travel_automation}" }

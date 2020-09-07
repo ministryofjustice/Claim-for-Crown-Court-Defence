@@ -18,6 +18,10 @@ module SeedHelpers
     load_seed 'case_types'
   end
 
+  def destroy_case_types
+    CaseType.destroy_all
+  end
+
   def seed_case_stages
     load_seed 'case_stages'
   end

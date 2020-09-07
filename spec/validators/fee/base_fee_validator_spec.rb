@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Fee::BaseFeeValidator, type: :validator do
-  let(:claim)   { build :advocate_claim, :with_fixed_fee_case }
-  let(:fee)     { build :fixed_fee, claim: claim }
+  let(:claim) { build :advocate_claim, :with_fixed_fee_case }
+  let(:fee) { build :fixed_fee, claim: claim }
   let(:baf_fee) { build :basic_fee, :baf_fee, claim: claim }
   let(:daf_fee) { build :basic_fee, :daf_fee, claim: claim }
   let(:dah_fee) { build :basic_fee, :dah_fee, claim: claim }
@@ -40,6 +40,35 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
   end
 
   describe '#validate_fee_type' do
+    shared_examples 'fixed-fee-case-type validator' do |options|
+      let(:claim) { build :advocate_claim, case_type: case_type }
+
+      context 'with fixed fee case type' do
+        let(:case_type) { create(:case_type, :fixed_fee) }
+
+        it { expect(fee).to be_invalid }
+        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+        it {
+          fee.valid?
+          expect(fee.errors[:fee_type]).to include(options[:message])
+        }
+      end
+
+      context 'with graduated fee case type' do
+        let(:case_type) { create(:case_type, :graduated_fee) }
+
+        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+      end
+
+      context 'with nil case type' do
+        let(:case_type) { nil }
+
+        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+      end
+    end
+
+    let(:case_type) { create(:case_type, :graduated_fee) }
+
     it { should_error_if_not_present(fee, :fee_type, 'blank') }
 
     context 'when validating Unused material (upto 3 hours)' do
@@ -48,7 +77,6 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       context 'with valid quantity' do
         let(:fee) { build(:misc_fee, :miumu_fee, claim: claim, quantity: 1) }
 
-        it { expect(fee).to be_valid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
       end
 
@@ -59,8 +87,12 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
         it {
           fee.valid?
-          expect(fee.errors[:quantity]).to match_array(['miumu_numericality'])
+          expect(fee.errors[:quantity]).to include('miumu_numericality')
         }
+      end
+
+      it_behaves_like 'fixed-fee-case-type validator', message: 'case_type_inclusion' do
+        let(:fee) { build(:misc_fee, :miumu_fee, claim: claim, quantity: 1) }
       end
     end
 
@@ -68,21 +100,69 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       before { create(:misc_fee_type, :miumo) }
 
       context 'with valid quantity' do
-        let(:fee) { build(:misc_fee, :miumo_fee, quantity: 3.00) }
+        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 3.00) }
 
-        it { expect(fee).to be_valid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
       end
 
       context 'with invalid quantity' do
-        let(:fee) { build(:misc_fee, :miumo_fee, quantity: 2.99) }
+        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 2.99) }
 
         it { expect(fee).to be_invalid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
         it {
           fee.valid?
-          expect(fee.errors[:quantity]).to match_array(['miumo_numericality'])
+          expect(fee.errors[:quantity]).to include('miumo_numericality')
         }
+      end
+
+      it_behaves_like 'fixed-fee-case-type validator', message: 'case_type_inclusion' do
+        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 3.00) }
+      end
+    end
+
+    context 'when validating Paper heavy case' do
+      before { create(:misc_fee_type, :miphc) }
+
+      let(:fee) { build(:misc_fee, :miphc_fee, claim: claim, quantity: 1.0) }
+      let(:claim) { build(:advocate_claim, offence: offence) }
+      let(:offence) { create(:offence, offence_band: offence_band, offence_class: nil) }
+      let(:offence_band) { create(:offence_band, offence_category: offence_category) }
+      let(:offence_category) { create(:offence_category, number: offence_category_number) }
+
+      context 'with a nil offence band' do
+        let(:offence_category_number) { nil }
+        let(:offence) { create(:offence, offence_band: nil) }
+
+        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+      end
+
+      context 'with a nil offence category number' do
+        let(:offence_category_number) { nil }
+
+        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+      end
+
+      context 'with a non-excluded offence category number' do
+        let(:offence_category_number) { 2 }
+
+        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+      end
+
+      context 'with an excluded offence category number' do
+        let(:offence_category_number) { 1 }
+
+        it { expect(fee).to be_invalid }
+        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+
+        [1, 6, 9].each do |cat_number|
+          context "with offence categeory #{cat_number}" do
+            let(:offence_category_number) { cat_number }
+            before { fee.valid? }
+
+            it { expect(fee.errors[:fee_type]).to include('offence_category_exclusion') }
+          end
+        end
       end
     end
   end

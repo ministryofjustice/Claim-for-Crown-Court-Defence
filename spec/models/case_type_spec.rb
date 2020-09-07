@@ -66,4 +66,53 @@ RSpec.describe CaseType, type: :model do
       expect(fixed_case_type_x.fixed_fee_type).to be_nil
     end
   end
+
+  context 'scopes' do
+    before(:all) { seed_case_types }
+    after(:all) { destroy_case_types }
+
+    describe '.fixed_fee' do
+      subject { described_class.fixed_fee }
+
+      it { is_expected.not_to be_empty }
+      it { is_expected.to all(have_attributes(is_fixed_fee: true)) }
+    end
+
+    describe '.not_fixed_fee' do
+      subject { described_class.not_fixed_fee }
+
+      it { is_expected.not_to be_empty }
+      it { is_expected.to all(have_attributes(is_fixed_fee: false)) }
+    end
+
+    describe '.requires_cracked_dates' do
+      subject { described_class.requires_cracked_dates }
+
+      it { is_expected.not_to be_empty }
+      it { is_expected.to all(have_attributes(requires_cracked_dates: true)) }
+    end
+
+    describe '.requires_trial_dates' do
+      subject { described_class.requires_trial_dates }
+
+      it { is_expected.not_to be_empty }
+      it { is_expected.to all(have_attributes(requires_trial_dates: true)) }
+    end
+
+    describe '.requires_retrial_dates' do
+      subject { described_class.requires_retrial_dates }
+
+      it { is_expected.not_to be_empty }
+      it { is_expected.to all(have_attributes(requires_retrial_dates: true)) }
+    end
+
+    describe '.graduated_fees' do
+      subject(:graduated_fees) { described_class.graduated_fees }
+
+      before { create(:graduated_fee_type, :grtrl) }
+
+      it { is_expected.not_to be_empty }
+      it { expect(graduated_fees.map(&:fee_type_code)).to all(be_one_of(%w[GRCBR GRRAK GRDIS GRGLT GRRTR GRTRL])) }
+    end
+  end
 end

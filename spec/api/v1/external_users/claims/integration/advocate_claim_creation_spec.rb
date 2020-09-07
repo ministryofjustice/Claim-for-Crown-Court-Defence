@@ -247,7 +247,9 @@ RSpec.shared_examples 'scheme 10 advocate final claim' do |options|
 end
 
 RSpec.shared_examples 'scheme 12 advocate final claim' do |options|
-  let(:offence) { create(:offence, :with_fee_scheme_twelve) }
+  let(:offence) { create(:offence, :with_fee_scheme_twelve, offence_band: offence_band, offence_class: nil) }
+  let(:offence_band) { create(:offence_band, offence_category: offence_category) }
+  let(:offence_category) { create(:offence_category, number: 2) }
   let(:miscellaneous_fee) { Fee::BaseFeeType.find_by(unique_code: 'MIPHC') }
 
   context "graduated fee claim on #{ClaimApiEndpoints.for(options[:relative_endpoint]).create}" do

@@ -1024,6 +1024,7 @@ misc_fee:
       long: 'Choose an applicable type for the #{misc_fee}'
       short: Not applicable to offence category
       api: Fee type is not applicable to this offence category
+
   rate:
     _seq: 20
     invalid:

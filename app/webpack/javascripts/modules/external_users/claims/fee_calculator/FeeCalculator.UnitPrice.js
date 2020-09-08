@@ -164,7 +164,7 @@
       var rate = $feeGroup.find('input.fee-rate').val();
       var quantity = $feeGroup.find('input.fee-quantity').val();
       var value = (rate * quantity);
-      var text = '&pound;' + moj.Helpers.Blocks.addCommas(value.toFixed(2));
+      var text = moj.Helpers.Blocks.formatNumber(value);
       $el.html(text);
     },
 

@@ -85,7 +85,7 @@ moj.Modules.SideBar = {
     this.sanitzeFeeToFloat();
     $.each(this.totals, function(key, val) {
       selector = '.total-' + key;
-      value = '&pound;' + moj.Helpers.Blocks.addCommas(val.toFixed(2));
+      value = moj.Helpers.Blocks.formatNumber(val);
       $(self.el).find(selector).html(value);
     });
   },

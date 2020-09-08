@@ -7,21 +7,21 @@ describe('Helpers.Blocks.js', function () {
   });
 
   describe('Methods', function () {
-    describe('...addCommas', function () {
+    describe('...formatNumber', function () {
       it('should format the numbers correctly', function () {
         var expected = {
-          0: '0.01',
-          1: '0.11',
-          2: '1.11',
-          3: '11.11',
-          4: '111.11',
-          5: '1,111.11',
-          6: '11,111.11',
-          7: '111,111,111.11'
+          0: '£0.01',
+          1: '£0.11',
+          2: '£1.11',
+          3: '£11.11',
+          4: '£111.11',
+          5: '£1,111.11',
+          6: '£11,111.11',
+          7: '£111,111,111.11'
         };
 
         ['0.01', '0.11', '1.11', '11.11', '111.11', '1111.11', '11111.11', '111111111.11'].forEach(function (val, idx) {
-          expect(expected[idx]).toBe(moj.Helpers.Blocks.addCommas(val));
+          expect(expected[idx]).toBe(moj.Helpers.Blocks.formatNumber(val));
         });
       });
     });

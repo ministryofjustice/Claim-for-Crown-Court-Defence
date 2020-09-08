@@ -9,7 +9,141 @@
 
 %section.api-documentation
   %hr
-  %h2 Date TBC
+  %h2 17th September 2020
+  %ul.list-bullet
+    %li
+      New miscellaneous fee types
+      %br/
+      %br/
+      In line with the
+      %a{ href: 'https://consult.justice.gov.uk/criminal-legal-aid/criminal-legal-aid-review/results/clar-consultation-govt-response.pdf', target: '_blank' } Criminal Legal Aid Review's (CLAR) Accelerated Measures package
+      three new fee types have been added for use on AGFS claims and two for LGFS claims.
+      %br
+      %br
+      These will be available for claims with representation orders issued on or after the implementation date for the
+      %a{ href: 'https://www.legislation.gov.uk/uksi/2020/903/contents/made', target: '_blank' } Accelerated Measures
+      on 17th September 2020.
+      %br
+      %br
+      The fee types will be eligible on AGFS final, supplementary and hardship claims (Paper Heavy and Unused Materials) and LGFS Final, Transfer and Hardship claims (Unused Materials).
+
+      %br
+      %br
+      %table
+        %caption
+          New fee types
+        %thead
+          %tr
+            %th
+              Unique code
+            %th
+              Description
+            %th
+              Scheme
+            %th
+              Claim types
+            %th
+              Validations
+        %tbody
+          %tr
+            %td
+              MIPHC
+            %td
+              Paper heavy case
+            %td
+              AGFS
+            %td
+              AGFS Final, Supplementary and Hardship claims
+            %td
+              Not claimable on claims with offences in Bands 1, 6 and 9
+              %sup{ style: "font-size: 10px"}
+                1
+            %th
+          %tr
+            %td
+              MIUMU
+            %td
+              Unused material (upto 3 hours)
+            %td
+              AGFS, LGFS
+            %td
+              AGFS Final, Supplementary and Hardship claims.
+              %br
+              %br
+              LGFS Final, Transfer and Hardship claims.
+            %td
+              %code
+                quantity
+              of one only (not required for LGFS)
+              %br
+              %br
+              Only claimable on claims with a Graduated case type
+              %sup{ style: "font-size: 10px"}
+                2
+              %br
+              %br
+              Should not be claimed together with Unused material (over 3 hours)
+          %tr
+            %td
+              MIUMO
+            %td
+              Unused material (over 3 hours)
+            %td
+              AGFS, LGFS
+            %td
+              AGFS Final, Supplementary and Hardship claims.
+              %br
+              %br
+              LGFS Final, Transfer and Hardship claims.
+            %td
+              Decimal
+              %code
+                quantity
+              of 3+ only (not required for LGFS)
+              %br
+              %br
+              Only claimable on claims with a Graduated case type
+              %sup{ style: "font-size: 10px"}
+                2
+              %br
+              %br
+              Should not be claimed together with Unused material (upto 3 hours).
+        %tfoot
+          %tr
+            %td{ colspan: 5}
+              %sup{ style: "font-size: 10px"}
+                1
+              %code
+                offence_band.offence_category.number
+              \. See
+              %a{ href: '/api/documentation?v=1#!/api/getApiOffences', target: '_blank' } api/offences
+              %br
+              %sup{ style: "font-size: 10px"}
+                2
+              graduated case types include Trial, Retrial, Cracked Trial and Cracked before retrial. See
+              %a{ href: '/api/documentation#!/api/getApiCaseTypes', target: '_blank' } api/case_types
+    %li
+      New AGFS offence codes
+      %br/
+      %br/
+      As with the introduction of AGFS fee scheme 11 it has been necessary to add an entire set of new offences for the CLAR accelerated measures
+      which we have named, for this app, AGFS fee scheme 12.
+      %br/
+      %br/
+      When creating an AGFS final or hardship claim for AGFS fee scheme 12 via the API you should ensure you are attaching an AGFS scheme 12 offence - this is the only way to ensure the system is aware it is an AGFS fee scheme 12 claim (prior to attaching a defendant with a representation order).
+      This, then, effects eligibility of fee types and validations.
+      %br/
+      %br/
+      You can query the new offences on the
+      %a{ href: '/api/documentation?v=1#!/api/getApiOffences', target: '_blank' } api/offences
+      endpoint - note that you will need to provide a
+      %code.code='rep_order_date'
+      parameter that falls on or after the AGFS fee scheme 12 start date - 2020-09-17
+
+
+%section.api-documentation
+  %hr
+  %h2 TBC
   %ul.list-bullet
     %li
       Case Number modified to also accept URNs

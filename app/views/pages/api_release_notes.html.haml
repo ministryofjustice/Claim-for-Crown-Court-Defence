@@ -12,16 +12,21 @@
   %h2 17th September 2020
   %ul.list-bullet
     %li
-      New miscellaneous fee types for AGFS
+      New miscellaneous fee types
       %br/
       %br/
-      Three new fee types have been added for use on AGFS claims and two for LGFS claims
+      In line with the
+      %a{ href: 'https://consult.justice.gov.uk/criminal-legal-aid/criminal-legal-aid-review/results/clar-consultation-govt-response.pdf', target: '_blank' } Criminal Legal Aid Review's (CLAR) Accelerated Measures package
+      three new fee types have been added for use on AGFS claims and two for LGFS claims.
       %br
       %br
-      These will be available for claims with representation orders issued on or after the Criminal Legal Aid Review (CLAR) implementation date of 17th September 2020.
+      These will be available for claims with representation orders issued on or after the implementation date for the
+      %a{ href: 'https://www.legislation.gov.uk/uksi/2020/903/contents/made', target: '_blank' } Accelerated Measures
+      on 17th September 2020.
       %br
       %br
-      The fee types will be eligible on AGFS final, supplementary and hardship claims (Paper Heavy and Unused Materials) and LGFS Final and Hardship claims (Unused Materials).
+      The fee types will be eligible on AGFS final, supplementary and hardship claims (Paper Heavy and Unused Materials) and LGFS Final, Transfer and Hardship claims (Unused Materials).
+
       %br
       %br
       %table
@@ -65,7 +70,7 @@
               AGFS Final, Supplementary and Hardship claims.
               %br
               %br
-              LGFS Final and Hardship claims.
+              LGFS Final, Transfer and Hardship claims.
             %td
               %code
                 quantity
@@ -89,7 +94,7 @@
               AGFS Final, Supplementary and Hardship claims.
               %br
               %br
-              LGFS Final and Hardship claims.
+              LGFS Final, Transfer and Hardship claims.
             %td
               Decimal
               %code
@@ -121,12 +126,15 @@
       New AGFS offence codes
       %br/
       %br/
-      As with the introduction of AGFS fee scheme 11 it has been necessary to add an entire set of new offences for fee scheme
-      12. When creating an AGFS final or hardship claim for fee scheme 12 via the API you should ensure you are attaching an AGFS
-      scheme 12 offence - this is the only way to ensure the system is aware it is an AGFS fee scheme 12 claim, thereby impacting eligibility of fee types and validations.
+      As with the introduction of AGFS fee scheme 11 it has been necessary to add an entire set of new offences for the CLAR accelerated measures
+      which we have named, for this app, AGFS fee scheme 12.
       %br/
       %br/
-      You can query all offences on the
+      When creating an AGFS final or hardship claim for AGFS fee scheme 12 via the API you should ensure you are attaching an AGFS scheme 12 offence - this is the only way to ensure the system is aware it is an AGFS fee scheme 12 claim (prior to attaching a defendant with a representation order).
+      This, then, effects eligibility of fee types and validations.
+      %br/
+      %br/
+      You can query the new offences on the
       %a{ href: '/api/documentation?v=1#!/api/getApiOffences', target: '_blank' } api/offences
       endpoint - note that you will need to provide a
       %code.code='rep_order_date'

@@ -2,6 +2,7 @@ class Fee::MiscFeeType < Fee::BaseFeeType
   AGFS_SUPPLEMENTARY_ONLY_TYPES = %w[MISAF MIPCM].freeze
   AGFS_SUPPLEMENTARY_SHARED_TYPES = %w[MISAU MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU MIPHC MIUMU MIUMO].freeze
   AGFS_SUPPLEMENTARY_TYPES = (AGFS_SUPPLEMENTARY_ONLY_TYPES + AGFS_SUPPLEMENTARY_SHARED_TYPES).freeze
+  DATES_ATTENDED_APPLICABLE_FEES = %w[BAF DAF DAH DAJ PCM SAF DAT].freeze
 
   default_scope { order(description: :asc) }
 
@@ -10,5 +11,9 @@ class Fee::MiscFeeType < Fee::BaseFeeType
 
   def fee_category_name
     'Miscellaneous Fees'
+  end
+
+  def quantity_required?
+    unique_code.eql?('MIUMU') ? false : true
   end
 end

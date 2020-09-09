@@ -7,7 +7,7 @@ module Fee
       end
 
       with_set_for_fee_type('MIUMO') do |set|
-        set << add_rule(:quantity, :min, 3, message: 'miumo_numericality')
+        set << add_rule(:quantity, :min, 3.01, message: 'miumo_numericality')
         set << add_rule(*graduated_fee_type_only_rule)
       end
 

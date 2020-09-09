@@ -1055,8 +1055,8 @@ misc_fee:
       api: Enter a valid quantity (1) for unused material (upto 3 hours)
     miumo_numericality:
       long: 'Enter a valid quantity for the #{misc_fee}'
-      short: Must be at least 3
-      api: Enter a valid quantity (3+) for unused material (over 3 hours)
+      short: Must be over 3
+      api: Enter a valid quantity (+3) for unused material (over 3 hours)
 
   case_numbers:
     _seq: 40

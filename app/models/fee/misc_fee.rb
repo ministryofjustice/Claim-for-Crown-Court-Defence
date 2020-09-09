@@ -23,7 +23,15 @@ class Fee::MiscFee < Fee::BaseFee
 
   validates_with Fee::MiscFeeValidator
 
+  after_initialize :miumu_quantity
+
   def is_misc?
     true
+  end
+
+  private
+
+  def miumu_quantity
+    self.quantity ||= 1.to_f if fee_type_id==108
   end
 end

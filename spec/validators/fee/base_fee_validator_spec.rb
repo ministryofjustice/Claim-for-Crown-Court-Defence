@@ -100,13 +100,13 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       before { create(:misc_fee_type, :miumo) }
 
       context 'with valid quantity' do
-        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 3.00) }
+        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 3.01) }
 
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
       end
 
       context 'with invalid quantity' do
-        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 2.99) }
+        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 3.00) }
 
         it { expect(fee).to be_invalid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
@@ -117,7 +117,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
 
       it_behaves_like 'fixed-fee-case-type validator', message: 'case_type_inclusion' do
-        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 3.00) }
+        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 3.01) }
       end
     end
 

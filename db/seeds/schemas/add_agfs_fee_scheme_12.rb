@@ -94,17 +94,17 @@ module Seeds
         agfs_fee_scheme_eleven = FeeScheme.find_by(name: 'AGFS', version: 11, start_date: Settings.agfs_scheme_11_release_date.beginning_of_day)
         agfs_fee_scheme_eleven ? print("...found\n".green) : print("...not found\n".red)
 
-        print "Updating AGFS scheme 11 end date to #{Settings.agfs_scheme_12_release_date.end_of_day-1.day}".yellow
+        print "Updating AGFS scheme 11 end date to #{Settings.clar_release_date.end_of_day-1.day}".yellow
         print "\n" && return if pretending?
-        agfs_fee_scheme_eleven.update(end_date: Settings.agfs_scheme_12_release_date.end_of_day-1.day)
+        agfs_fee_scheme_eleven.update(end_date: Settings.clar_release_date.end_of_day-1.day)
         print "...updated\n".green
       end
 
       def create_agfs_scheme_twelve
         return unless Settings.clar_enabled?
-        print "Finding or creating scheme 12 with start date #{Settings.agfs_scheme_12_release_date.beginning_of_day}...".yellow
+        print "Finding or creating scheme 12 with start date #{Settings.clar_release_date.beginning_of_day}...".yellow
         print "\n" && return if pretending?
-        FeeScheme.find_or_create_by(name: 'AGFS', version: 12, start_date: Settings.agfs_scheme_12_release_date.beginning_of_day)
+        FeeScheme.find_or_create_by(name: 'AGFS', version: 12, start_date: Settings.clar_release_date.beginning_of_day)
         print "created\n".green
       end
 

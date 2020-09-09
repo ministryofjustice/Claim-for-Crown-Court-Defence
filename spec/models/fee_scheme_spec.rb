@@ -254,9 +254,9 @@ RSpec.describe FeeScheme, type: :model do
         specify { expect(fee_scheme).to eq agfs_scheme_eleven }
       end
 
-      context 'when the earliest representation order date is on/after the AGFS scheme 12 release date' do
+      context 'when the earliest representation order date is on/after the CLAR (AGFS scheme 12) release date' do
         let(:representation_order) { instance_double(RepresentationOrder) }
-        let(:release_date) { Settings.agfs_scheme_12_release_date }
+        let(:release_date) { Settings.clar_release_date.beginning_of_day }
 
         before do
           expect(claim).to receive(:earliest_representation_order).and_return(representation_order)

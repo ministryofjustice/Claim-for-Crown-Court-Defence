@@ -19,14 +19,12 @@ module Fee
 
       private
 
-      # TODO: change agfs_scheme_12_release_date to clar release date
-      #
       def clar_fee_type_only_rule
         @clar_fee_type_only_rule ||= \
           [
             'claim.earliest_representation_order_date',
             :minimum,
-            Settings.agfs_scheme_12_release_date.beginning_of_day,
+            Settings.clar_release_date.beginning_of_day,
             message: 'fee_scheme_applicability',
             attribute_for_error: :fee_type,
             allow_nil: true

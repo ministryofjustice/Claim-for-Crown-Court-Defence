@@ -9,8 +9,8 @@ module SeedHelpers
     FeeScheme.find_or_create_by(name: 'AGFS', version: 11, start_date: Settings.agfs_scheme_11_release_date.beginning_of_day)
 
     if Settings.clar_enabled?
-      FeeScheme.find_by(name: 'AGFS', version: 11).update(end_date: Settings.agfs_scheme_12_release_date.end_of_day - 1.day)
-      FeeScheme.find_or_create_by(name: 'AGFS', version: 12, start_date: Settings.agfs_scheme_12_release_date.beginning_of_day)
+      FeeScheme.find_by(name: 'AGFS', version: 11).update(end_date: Settings.clar_release_date.end_of_day - 1.day)
+      FeeScheme.find_or_create_by(name: 'AGFS', version: 12, start_date: Settings.clar_release_date.beginning_of_day)
     end
   end
 

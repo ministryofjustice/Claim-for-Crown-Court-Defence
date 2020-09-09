@@ -32,7 +32,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
 
         context "for #{fee_type_trait}" do
           context 'when earliest representation order is before CLAR release' do
-            let(:earliest_rep_order_date) { Settings.agfs_scheme_12_release_date.end_of_day - 1.day }
+            let(:earliest_rep_order_date) { Settings.clar_release_date.end_of_day - 1.day }
 
             it { expect(fee).to be_invalid }
             it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
@@ -43,7 +43,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
           end
 
           context 'when earliest representation order is on CLAR release' do
-            let(:earliest_rep_order_date) { Settings.agfs_scheme_12_release_date.beginning_of_day }
+            let(:earliest_rep_order_date) { Settings.clar_release_date.beginning_of_day }
 
             it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
           end

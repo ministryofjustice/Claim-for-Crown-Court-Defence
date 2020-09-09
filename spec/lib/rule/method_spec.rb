@@ -21,12 +21,6 @@ RSpec.describe Rule::Method, type: :rule do
         expect(instance).to have_received(:maximum)
       end
     end
-
-    context 'with an undefined method' do
-      let(:instance) { described_class.new(:undefined, src, bound) }
-
-      it { expect{ met }.to raise_error NoMethodError, "you need to implement rule method 'undefined'" }
-    end
   end
 
   describe '#unmet?' do
@@ -54,77 +48,154 @@ RSpec.describe Rule::Method, type: :rule do
   end
 
   describe '#maximum' do
-    subject { instance.maximum }
-    let(:instance) { described_class.new(:irrelevant, src, bound) }
-    let(:bound) { 100 }
+    shared_examples 'maximum with bound of' do |bound|
+      context "with bound of #{bound.class}" do
+        subject(:call) { instance.maximum }
 
-    context 'when source greater than bound' do
-      let(:src) { 101 }
+        let(:instance) { described_class.new(:irrelevant, src, bound, options) }
+        let(:options) { {} }
 
-      it { is_expected.to be_falsey }
+        context 'when source greater than bound' do
+          let(:src) { bound + 1 }
+
+          it { is_expected.to be_falsey }
+        end
+
+        context 'when source equal to bound' do
+          let(:src) { bound }
+
+          it { is_expected.to be_truthy }
+        end
+
+        context 'when source less than bound' do
+          let(:src) { bound - 1 }
+
+          it { is_expected.to be_truthy }
+        end
+
+        context 'when source nil' do
+          let(:src) { nil }
+
+          it { expect { call } .to raise_error NoMethodError }
+
+          context 'with allow_nil: true' do
+            let(:options) { { allow_nil: true } }
+
+            it { is_expected.to be_truthy }
+          end
+
+          context 'with allow_nil: false' do
+            let(:options) { { allow_nil: false } }
+
+            it { expect { call } .to raise_error NoMethodError }
+          end
+        end
+      end
     end
 
-    context 'when source equal to bound' do
-      let(:src) { 100 }
-
-      it { is_expected.to be_truthy }
-    end
-
-    context 'when source less than bound' do
-      let(:src) { 99 }
-
-      it { is_expected.to be_truthy }
-    end
+    include_examples 'maximum with bound of', 100
+    include_examples 'maximum with bound of', Date.today
   end
 
   describe '#minimum' do
-    subject { instance.minimum }
+    shared_examples 'minimum with bound of' do |bound|
+      context "with bound of #{bound.class}" do
+        subject(:call) { instance.minimum }
 
-    let(:instance) { described_class.new(:irrelevant, src, bound) }
-    let(:bound) { 100 }
+        let(:instance) { described_class.new(:irrelevant, src, bound, options) }
+        let(:options) { {} }
 
-    context 'when source greater than bound' do
-      let(:src) { 101 }
+        context 'when source greater than bound' do
+          let(:src) { bound + 1 }
 
-      it { is_expected.to be_truthy }
+          it { is_expected.to be_truthy }
+        end
+
+        context 'when source equal to bound' do
+          let(:src) { bound }
+
+          it { is_expected.to be_truthy }
+        end
+
+        context 'when source less than bound' do
+          let(:src) { bound - 1 }
+
+          it { is_expected.to be_falsey }
+        end
+
+        context 'when source nil' do
+          let(:src) { nil }
+
+          it { expect { call } .to raise_error NoMethodError }
+
+          context 'with allow_nil: true' do
+            let(:options) { { allow_nil: true } }
+
+            it { is_expected.to be_truthy }
+          end
+
+          context 'with allow_nil: false' do
+            let(:options) { { allow_nil: false } }
+
+            it { expect { call } .to raise_error NoMethodError }
+          end
+        end
+
+      end
     end
 
-    context 'when source equal to bound' do
-      let(:src) { 100 }
-
-      it { is_expected.to be_truthy }
-    end
-
-    context 'when source less than bound' do
-      let(:src) { 99 }
-
-      it { is_expected.to be_falsey }
-    end
+    include_examples 'minimum with bound of', 100
+    include_examples 'minimum with bound of', Date.today
   end
 
   describe '#equal' do
-    subject { instance.equal }
+    shared_examples 'equal with bound of' do |bound|
+      context "with bound of #{bound.class}" do
+        subject { instance.equal }
 
-    let(:instance) { described_class.new(:irrelevant, src, bound) }
-    let(:bound) { 100 }
+        let(:instance) { described_class.new(:irrelevant, src, bound, options) }
+        let(:options) { {} }
 
-    context 'when source greater than bound' do
-      let(:src) { 101 }
+        context 'when source greater than bound' do
+          let(:src) { bound + 1 }
 
-      it { is_expected.to be_falsey }
+          it { is_expected.to be_falsey }
+        end
+
+        context 'when source equal to bound' do
+          let(:src) { bound }
+
+          it { is_expected.to be_truthy }
+        end
+
+        context 'when source less than bound' do
+          let(:src) { bound - 1 }
+
+          it { is_expected.to be_falsey }
+        end
+
+        context 'when source nil' do
+          let(:src) { nil }
+
+          it { is_expected.to be_falsey }
+
+          context 'with allow_nil: true' do
+            let(:options) { { allow_nil: true } }
+
+            it { is_expected.to be_truthy }
+          end
+
+          context 'with allow_nil: false' do
+            let(:options) { { allow_nil: false } }
+
+            it { is_expected.to be_falsey }
+          end
+        end
+      end
     end
 
-    context 'when source equal to bound' do
-      let(:src) { 100 }
-
-      it { is_expected.to be_truthy }
-    end
-
-    context 'when source less than bound' do
-      let(:src) { 99 }
-
-      it { is_expected.to be_falsey }
-    end
+    include_examples 'equal with bound of', 100
+    include_examples 'equal with bound of', Date.today
   end
 
   describe '#inclusion' do

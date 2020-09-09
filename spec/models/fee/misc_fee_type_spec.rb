@@ -82,4 +82,19 @@ RSpec.describe Fee::MiscFeeType do
       is_expected.to be_falsey
     end
   end
+
+  describe '#quantity_required?' do
+    subject { fee_type.quantity_required? }
+
+    # Only false for Unused materials (upto 3 hours)
+    it 'returns true when fee_type is not Unused materials (upto 3 hours)' do
+      fee_type.unique_code = 'MIUMO'
+      is_expected.to be true
+    end
+
+    it 'returns false when fee_type is not Unused materials (upto 3 hours)' do
+      fee_type.unique_code = 'MIUMU'
+      is_expected.to be false
+    end
+  end  
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Fee
-  module LGFS
+  module Lgfs
     class FeeTypeRules
       include Fee::Concerns::FeeTypeRulesCreator
 

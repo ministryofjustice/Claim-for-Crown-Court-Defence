@@ -11,8 +11,4 @@ class Fee::MiscFeeType < Fee::BaseFeeType
   def fee_category_name
     'Miscellaneous Fees'
   end
-
-  def quantity_required?
-    unique_code.eql?('MIUMU') ? false : true
-  end
 end

@@ -8,6 +8,10 @@ class Fee::MiscFeeTypePresenter < BasePresenter
     }
   end
 
+  def quantity_required?
+    unique_code.eql?('MIUMU') ? false : true
+  end
+
   private
 
   def case_numbers_field?

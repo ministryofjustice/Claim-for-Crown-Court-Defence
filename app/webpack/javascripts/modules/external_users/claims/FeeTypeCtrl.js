@@ -27,12 +27,20 @@ moj.Modules.FeeTypeCtrl = {
   miscFeeTypesSelectChange: function ($el) {
     var self = this;
     var $els = $el || $('.fx-fee-group');
+    alert('here');
 
     if ($('.fx-unused-materials-warning').exists()) {
       $els.change(function () {
+        alert('unused materials');
         self.showHideUnusedMaterialWarning(this, self.getFeeTypeSelectUniqueCode(this));
       });
     }
+    // if ($('.fx-quantity').exists()) {
+    //   $els.change(function () {
+    //     alert('quantity');
+    //     self.showHideQuantity(this, self.getFeeTypeSelectUniqueCode(this));
+    //   });
+    // }
   },
 
   // needs to be usable by cocoon:after-insert so can bind to one or many elements
@@ -51,6 +59,12 @@ moj.Modules.FeeTypeCtrl = {
     show = (unique_code == 'MIUMO');
     var $warning = $(context).closest('.fx-fee-group').find('.fx-unused-materials-warning');
     show ? $warning.removeClass('js-hidden') : $warning.addClass('js-hidden');
+  },
+
+  showHideQuantity: function (context, unique_code) {
+    hide = (unique_code == 'MIUMU');
+    var $quantity = $(context).closest('.fx-fee-group').find('.fx-quantity');
+    hide ? $quantity.addClass('js-hidden') : $quantity.removeClass('js-hidden');
   },
 
   pageLoad: function () {

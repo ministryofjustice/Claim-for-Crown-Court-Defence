@@ -25,14 +25,8 @@
   .form-group.fx-unused-materials-warning.js-hidden
     = render 'warnings/unused_material_over_3_hours'
 
-  = f.adp_text_field :quantity,
-                          label: t('.quantity'),
-                          hint_text: t('.quantity_hint'),
-                          hide_hint: true,
-                          input_classes: 'quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity',
-                          input_type: 'number',
-                          value: fee.quantity,
-                          errors: @error_presenter
+  .form-group.fx-quantity
+    = render 'external_users/claims/misc_fees/advocates/quantity', f: f
 
   .js-unit-price-effectee
     .calculated-unit-fee

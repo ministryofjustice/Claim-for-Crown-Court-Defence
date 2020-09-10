@@ -16,5 +16,17 @@ RSpec.describe Fee::MiscFeeTypePresenter do
         expect(presenter.data_attributes[:case_numbers]).to be_truthy
       end
     end
+
+    context 'quantity_required?' do
+      it 'returns true when fee_type is not Unused materials (upto 3 hours)' do
+        allow(fee_type).to receive(:unique_code).and_return 'MIUMO'
+        expect(presenter.quantity_required?).to be true
+      end
+
+      it 'returns false when fee_type is Unused materials (upto 3 hours)' do
+        allow(fee_type).to receive(:unique_code).and_return 'MIUMU'
+        expect(presenter.quantity_required?).to be false
+      end
+    end
   end
 end

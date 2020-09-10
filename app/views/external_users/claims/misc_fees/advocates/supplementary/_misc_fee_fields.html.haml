@@ -13,7 +13,7 @@
   .misc-fee-group.fx-fee-group.js-block.fx-do-init{data:{type:"miscFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
     = f.hidden_field :fee_type_id, class: 'js-fee-calculator-fee-type js-fee-type'
     
-    - if f.object.fee_type.quantity_required?
+    - if present(f.object.fee_type).quantity_required?
       .form-group
         = f.adp_text_field :quantity,
           label: t('.quantity'),

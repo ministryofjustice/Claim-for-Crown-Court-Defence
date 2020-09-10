@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Fee::MiscFeeValidator, type: :validator do
   include_context 'force-validation'
 
-  let(:fee) { build :misc_fee, claim: claim }
+  let(:fee) { build(:misc_fee, claim: claim) }
   let(:fee_code) { fee.fee_type.code }
 
   # AGFS claims are validated as part of the base_fee_validator_spec
@@ -21,28 +21,72 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
     end
 
     describe '#validate_fee_type' do
+      shared_examples 'fixed-fee-case-type validator' do |fee_type_trait|
+        let(:fee) { build(:misc_fee, fee_type_trait, claim: claim, quantity: 0) }
+        let(:claim) { build(:litigator_claim, case_type: case_type) }
+
+        context "for #{fee_type_trait}" do
+          context 'with fixed fee case type' do
+            let(:case_type) { create(:case_type, :fixed_fee) }
+
+            it { expect(fee).to be_invalid }
+            it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+            it {
+              fee.valid?
+              expect(fee.errors[:fee_type]).to include('case_type_inclusion')
+            }
+          end
+
+          context 'with graduated fee case type' do
+            let(:case_type) { create(:case_type, :graduated_fee) }
+
+            it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+          end
+
+          context 'with nil case type' do
+            let(:case_type) { nil }
+
+            it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+          end
+        end
+      end
+
+      shared_examples 'zero quantity permitter' do |fee_type_trait|
+        context "for #{fee_type_trait}" do
+          let(:fee) { build(:misc_fee, fee_type_trait, claim: claim) }
+
+          context 'with nil quantity' do
+            before { fee.quantity = nil }
+
+            it { expect(fee.quantity).to be_nil }
+            it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
+          end
+
+          context 'with zero quantity' do
+            before { fee.quantity = 0 }
+
+            it { expect(fee.quantity).to be_zero }
+            it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
+          end
+        end
+      end
+
       it { should_error_if_not_present(fee, :fee_type, 'blank') }
 
       context 'when validating Unused material (upto 3 hours)' do
         before { create(:misc_fee_type, :miumu) }
 
-        context 'with zero quantity' do
-          let(:fee) { build(:misc_fee, :miumu_fee, claim: claim, quantity: 0) }
+        it_behaves_like 'zero quantity permitter', :miumu_fee
 
-          it { expect(fee).to be_valid }
-          it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
-        end
+        it_behaves_like 'fixed-fee-case-type validator', :miumu_fee
       end
 
       context 'when validating Unused material (over 3 hours)' do
         before { create(:misc_fee_type, :miumo) }
 
-        context 'with zero quantity' do
-          let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 0) }
+        it_behaves_like 'zero quantity permitter', :miumo_fee
 
-          it { expect(fee).to be_valid }
-          it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
-        end
+        it_behaves_like 'fixed-fee-case-type validator', :miumo_fee
       end
     end
 

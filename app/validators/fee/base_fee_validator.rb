@@ -28,7 +28,12 @@ module Fee
 
     def validate_fee_type
       validate_presence(:fee_type, 'blank')
-      validate_fee_type_rules
+      validate_agfs_fee_type_rules
+    end
+
+    def validate_agfs_fee_type_rules
+      rule_sets = Fee::Agfs::FeeTypeRules.where(unique_code: @record.fee_type&.unique_code)
+      Rule::Validator.new(@record, rule_sets).validate if rule_sets.present?
     end
 
     def validate_date
@@ -90,12 +95,6 @@ module Fee
     def validate_integer_decimal
       return if @record.fee_type.nil? || @record.quantity.nil? || @record.quantity_is_decimal?
       add_error(:quantity, 'integer') unless @record.quantity.frac == 0.0
-    end
-
-    def validate_fee_type_rules
-      rule_sets = Fee::FeeTypeRules.where(unique_code: @record.fee_type&.unique_code)
-      fee_type_rule_validator = Rule::Validator.new(@record, rule_sets)
-      fee_type_rule_validator.validate
     end
 
     def validate_rate

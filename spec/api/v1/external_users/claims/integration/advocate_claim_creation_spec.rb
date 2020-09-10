@@ -603,12 +603,12 @@ RSpec.describe 'API claim creation for AGFS' do
   end
 
   context 'scheme 12' do
-    let(:representation_order_date) { Settings.agfs_scheme_12_release_date.beginning_of_day }
+    let(:representation_order_date) { Settings.clar_release_date.beginning_of_day }
     let(:advocate_category) { 'Junior' }
 
     context 'final fee claims' do
       around do |example|
-        travel_to(Settings.agfs_scheme_12_release_date.beginning_of_day + 5.hours) do
+        travel_to(Settings.clar_release_date.beginning_of_day + 5.hours) do
           example.run
         end
       end

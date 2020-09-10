@@ -17,7 +17,13 @@ module Fee
         super
       else
         validate_presence(:fee_type, 'blank')
+        validate_lgfs_fee_type_rules
       end
+    end
+
+    def validate_lgfs_fee_type_rules
+      rule_sets = Fee::Lgfs::FeeTypeRules.where(unique_code: @record.fee_type&.unique_code)
+      Rule::Validator.new(@record, rule_sets).validate if rule_sets.present?
     end
 
     def validate_quantity

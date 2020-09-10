@@ -39,7 +39,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     it { should_error_if_not_present(fee, :claim, 'blank') }
   end
 
-  describe '#validate_fee_type' do
+  fdescribe '#validate_fee_type' do
     shared_examples 'fixed-fee-case-type validator' do |options|
       let(:claim) { build :advocate_claim, case_type: case_type }
 
@@ -100,24 +100,24 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       before { create(:misc_fee_type, :miumo) }
 
       context 'with valid quantity' do
-        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 3.01) }
+        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 0.01) }
 
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
       end
 
       context 'with invalid quantity' do
-        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 3.00) }
+        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 0) }
 
         it { expect(fee).to be_invalid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
         it {
           fee.valid?
-          expect(fee.errors[:quantity]).to include('miumo_numericality')
+          expect(fee.errors[:quantity]).to include('invalid')
         }
       end
 
       it_behaves_like 'fixed-fee-case-type validator', message: 'case_type_inclusion' do
-        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 3.01) }
+        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 0.01) }
       end
     end
 

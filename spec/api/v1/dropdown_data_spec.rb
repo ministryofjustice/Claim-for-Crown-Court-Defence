@@ -360,12 +360,6 @@ RSpec.describe API::V1::DropdownData do
       include_examples 'returns agfs scheme 10+ advocate categories'
     end
 
-    context 'when role is agfs_scheme_11' do
-      let(:role) { 'agfs_scheme_11' }
-
-      include_examples 'returns agfs scheme 10+ advocate categories'
-    end
-
     context 'when role is agfs_scheme_12' do
       let(:role) { 'agfs_scheme_12' }
 

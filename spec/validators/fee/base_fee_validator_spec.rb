@@ -39,7 +39,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     it { should_error_if_not_present(fee, :claim, 'blank') }
   end
 
-  fdescribe '#validate_fee_type' do
+  describe '#validate_fee_type' do
     shared_examples 'fixed-fee-case-type validator' do |options|
       let(:claim) { build :advocate_claim, case_type: case_type }
 

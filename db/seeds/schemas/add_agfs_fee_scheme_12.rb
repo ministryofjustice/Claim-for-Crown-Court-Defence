@@ -21,7 +21,8 @@ module Seeds
           \sAGFS scheme 12 start date: #{agfs_fee_scheme_12&.start_date || 'nil'}
           \sAGFS scheme 12 fee scheme: #{agfs_fee_scheme_12&.attributes || 'nil'}
           \sAGFS scheme 12 offence count: #{scheme_12_offence_count}
-          \sAGFS scheme 12 fee_type count: #{scheme_12_fee_type_count}
+          \sAGFS scheme 12 total fee_type count: #{scheme_12_fee_type_count}
+          \sAGFS scheme 12 new fee_type count: #{scheme_12_only_fee_types.count}
           \s------------------------------------------------------------
           Status: #{agfs_fee_scheme_12.present? && scheme_12_offence_count > 0 ? 'up' : 'down'}
           Enabled: #{Settings.clar_enabled?}
@@ -39,6 +40,7 @@ module Seeds
       def down
         destroy_agfs_scheme_12_offences
         destroy_scheme_12_only_fee_types
+        remove_scheme_12_fee_type_roles
         destroy_scheme_12_update_11
       end
 
@@ -70,6 +72,22 @@ module Seeds
         else
           deleted_fee_types = scheme_12_only_fee_types.destroy_all
           puts "Deleted #{deleted_fee_types.count} fee_types #{deleted_fee_types.map(&:description).join(', ')}".green
+        end
+      end
+
+      def remove_scheme_12_fee_type_roles
+        scheme_10_fee_types_with_scheme_12_role = Fee::BaseFeeType.agfs_scheme_10s.select { |ft| ft.roles.include?('agfs_scheme_12') }
+
+        if pretending?
+          puts "Would remove agfs_scheme_12 role from #{scheme_10_fee_types_with_scheme_12_role.count} fee_types".yellow
+        else
+          ActiveRecord::Base.transaction do
+            scheme_10_fee_types_with_scheme_12_role.each do |ft|
+              ft.roles.delete('agfs_scheme_12')
+              ft.save!
+            end
+          end
+          puts "Removed agfs scheme 12 role from #{scheme_10_fee_types_with_scheme_12_role.count} fee_types".green
         end
       end
 

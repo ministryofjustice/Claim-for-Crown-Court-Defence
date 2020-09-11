@@ -123,7 +123,7 @@ moj.Helpers.Blocks = {
     };
 
     this.render = function () {
-      this.$el.find('.total').html('&pound;' + moj.Helpers.Blocks.addCommas(this.totals.total.toFixed(2)));
+      this.$el.find('.total').html(moj.Helpers.Blocks.formatNumber(this.totals.total));
       this.$el.find('.total').data('total', this.totals.total);
     };
   },
@@ -729,15 +729,9 @@ moj.Helpers.Blocks = {
       }
     }
   },
-  addCommas: function (nStr) {
-    nStr += '';
-    var x = nStr.split('.');
-    var x1 = x[0];
-    var x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-      x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
-    return x1 + x2;
+  formatNumber: function (nStr) {
+    const option = { style: 'currency', currency: 'GBP', minimumFractionDigits: 2 }
+    const numberFormat = new Intl.NumberFormat('en', option)
+    return numberFormat.format(nStr)
   }
 };

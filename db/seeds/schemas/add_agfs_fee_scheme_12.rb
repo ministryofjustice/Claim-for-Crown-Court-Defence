@@ -38,7 +38,7 @@ module Seeds
 
       def down
         destroy_agfs_scheme_12_offences
-        destroy_scheme_12_fee_types
+        destroy_scheme_12_only_fee_types
         destroy_scheme_12_update_11
       end
 
@@ -55,7 +55,7 @@ module Seeds
       def destroy_agfs_scheme_12_offences
         if pretending?
           puts "Would delete #{scheme_12_offence_count} scheme 12 offences".yellow
-          puts "Would reset offence PK sequence to max id value".yellow
+          puts "Would reset offence PK sequence to max id value: #{Offence.ids.max}".yellow
         else
           scheme_12_offences = Offence.joins(:fee_schemes).merge(FeeScheme.twelve).merge(FeeScheme.agfs).distinct
           before_count = scheme_12_offences.count
@@ -64,19 +64,18 @@ module Seeds
         end
       end
 
-      def destroy_scheme_12_fee_types
+      def destroy_scheme_12_only_fee_types
         if pretending?
-          puts "Would delete #{scheme_12_fee_types.pluck(:id, :description).join(', ')}".yellow
+          puts "Would delete scheme 12 fee types: #{scheme_12_only_fee_types.pluck(:id, :description).join(', ') || 'none to delete'}".yellow
         else
-          before_count = scheme_12_fee_type_count
-          deleted_fee_types = scheme_12_fee_types.destroy_all
-          puts "Deleted #{before_count} fee_types #{deleted_fee_types.map(&:description).join(', ')}".green
+          deleted_fee_types = scheme_12_only_fee_types.destroy_all
+          puts "Deleted #{deleted_fee_types.count} fee_types #{deleted_fee_types.map(&:description).join(', ')}".green
         end
       end
 
       def destroy_scheme_12_update_11
         if pretending?
-          puts "Would delete #{agfs_fee_scheme_12.attributes}".yellow
+          puts "Would delete fee scheme 12: #{agfs_fee_scheme_12&.attributes || 'does not exist'}".yellow
           puts "Would update #{agfs_fee_scheme_11.attributes} end date to nil".yellow
           puts "Would reset fee_schemes PK sequence to max id value".yellow
         else
@@ -129,11 +128,11 @@ module Seeds
       end
 
       def scheme_12_fee_type_count
-        scheme_12_fee_types.count
+        Fee::BaseFeeType.agfs_scheme_12s.count
       end
 
-      def scheme_12_fee_types
-        Fee::BaseFeeType.agfs_scheme_12s
+      def scheme_12_only_fee_types
+        Fee::BaseFeeType.where(unique_code: ['MIUMU', 'MIUMO', 'MIPHC'])
       end
 
       def copy_scheme_11_offences

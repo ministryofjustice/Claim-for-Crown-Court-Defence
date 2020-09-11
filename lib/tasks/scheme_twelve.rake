@@ -16,7 +16,7 @@ namespace :db do
       puts adder.status
     end
 
-    desc 'Create the db structures and records required for AGFS fee scheme 12'
+    desc 'Create the db structures and records required for AGFS fee scheme 12, pass \'true\' to run'
     task :seed, [:not_pretend] => :environment do |_task, args|
 
       # seed['true'] should seed, otherwise pretend
@@ -34,7 +34,7 @@ namespace :db do
       ActiveRecord::Base.logger.level = log_level
     end
 
-    desc 'Destroy the db structures and records required for AGFS fee scheme 12'
+    desc 'Destroy the db structures and records required for AGFS fee scheme 12, pass \'true\' to run'
     task :rollback, [:not_pretend] => :environment do |_task, args|
 
       # rollback['true'] should rollback, otherwise pretend

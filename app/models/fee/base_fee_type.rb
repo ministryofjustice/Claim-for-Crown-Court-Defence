@@ -32,10 +32,6 @@ module Fee
     include CaseUpliftable
     include DefendantUpliftable
 
-    # TODO: update all agfs_scheme_10 fee types to also have agfs_scheme_12 roles
-    # so we do not need this patch - for consistency.
-    scope :agfs_scheme_12s, -> { matching_role_query(%w[agfs_scheme_10 agfs_scheme_12], 'OR') }
-
     self.table_name = 'fee_types'
 
     auto_strip_attributes :code, :description, squish: true, nullify: true

@@ -66,7 +66,7 @@ module Seeds
 
       def destroy_scheme_12_only_fee_types
         if pretending?
-          puts "Would delete scheme 12 fee types: #{scheme_12_only_fee_types.pluck(:id, :description).join(', ') || 'none to delete'}".yellow
+          puts "Would delete scheme 12 fee types: #{scheme_12_only_fee_types.count} #{scheme_12_only_fee_types.pluck(:id, :description).join(', ') || 'none to delete'}".yellow
         else
           deleted_fee_types = scheme_12_only_fee_types.destroy_all
           puts "Deleted #{deleted_fee_types.count} fee_types #{deleted_fee_types.map(&:description).join(', ')}".green
@@ -94,17 +94,22 @@ module Seeds
         agfs_fee_scheme_eleven ? print("...found\n".green) : print("...not found\n".red)
 
         print "Updating AGFS scheme 11 end date to #{Settings.clar_release_date.end_of_day-1.day}".yellow
-        print "\n" && return if pretending?
+        print "...not updated\n".green if pretending?
+        return if pretending?
+
         agfs_fee_scheme_eleven.update(end_date: Settings.clar_release_date.end_of_day-1.day)
         print "...updated\n".green
       end
 
       def create_agfs_scheme_twelve
         return unless Settings.clar_enabled?
+
         print "Finding or creating scheme 12 with start date #{Settings.clar_release_date.beginning_of_day}...".yellow
-        print "\n" && return if pretending?
+        print "...not created\n".green if pretending?
+        return if pretending?
+
         FeeScheme.find_or_create_by(name: 'AGFS', version: 12, start_date: Settings.clar_release_date.beginning_of_day)
-        print "created\n".green
+        print "...created\n".green
       end
 
       def create_agfs_scheme_twelve_offences

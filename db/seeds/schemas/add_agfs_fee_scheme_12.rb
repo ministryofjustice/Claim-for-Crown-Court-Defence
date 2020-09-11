@@ -70,8 +70,9 @@ module Seeds
         if pretending?
           puts "Would delete scheme 12 fee types: #{scheme_12_only_fee_types.count} #{scheme_12_only_fee_types.pluck(:id, :description).join(', ') || 'none to delete'}".yellow
         else
-          deleted_fee_types = scheme_12_only_fee_types.destroy_all
-          puts "Deleted #{deleted_fee_types.count} fee_types #{deleted_fee_types.map(&:description).join(', ')}".green
+          # do not apply callback dependency: :destroy
+          scheme_12_only_fee_types.delete_all
+          puts "Deleted #{scheme_12_only_fee_types.count} fee_types #{scheme_12_only_fee_types.map(&:description).join(', ')}".green
         end
       end
 

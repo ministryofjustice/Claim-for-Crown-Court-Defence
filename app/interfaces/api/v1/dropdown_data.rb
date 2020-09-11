@@ -58,7 +58,7 @@ module API
             case scheme_role
             when :lgfs
               []
-            when :agfs_scheme_10s, :agfs_scheme_11s, :agfs_scheme_12s
+            when :agfs_scheme_10s, :agfs_scheme_12s
               Settings.agfs_reform_advocate_categories
             else
               Settings.advocate_categories

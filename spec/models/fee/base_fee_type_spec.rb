@@ -86,7 +86,7 @@ RSpec.describe Fee::BaseFeeType, type: :model do
     end
   end
 
-  describe 'Specialized fee type methods' do
+  context 'when calling specialized fee type scopes' do
     before(:all) do
       @bf1 = create :basic_fee_type, description: 'basic fee type 1'
       @bf2 = create :basic_fee_type, description: 'basic fee type 2'
@@ -117,34 +117,79 @@ RSpec.describe Fee::BaseFeeType, type: :model do
       end
     end
 
-    describe 'scopes' do
-      it '.basic - returns all basic fee types' do
+    describe '.basic' do
+      it 'returns all basic fee types' do
         expect(described_class.basic).to match_array( [ @bf1, @bf2 ] )
       end
+    end
 
-      it '.misc - returns all misc fee types' do
+    describe '.misc' do
+      it 'returns all misc fee types' do
         expect(described_class.misc).to match_array( [ @mf1, @mf2 ] )
       end
+    end
 
-      it '.fixed - returns all fixed fee types' do
+    describe '.fixed' do
+      it 'returns all fixed fee types' do
         expect(described_class.fixed).to match_array( [ @ff1, @ff2 ] )
       end
+    end
 
-      it '.warrant - returns all warrant fee types' do
+    describe '.warrant' do
+      it 'returns all warrant fee types' do
         expect(described_class.warrant).to match_array( [ @wf1, @wf2 ] )
       end
+    end
 
-      it '.graduated - returns all graduated fee types' do
+    describe '.graduated' do
+      it 'returns all graduated fee types' do
         expect(described_class.graduated).to match_array( [ @gf1, @gf2 ] )
       end
+    end
 
-      it '.interim - returns all interim fee types' do
+    describe '.interim' do
+      it 'returns all interim fee types' do
         expect(described_class.interim).to match_array( [ @if1, @if2 ] )
       end
+    end
 
-      it '.transfer - returns all transfer fee types' do
+    describe '.transfer' do
+      it 'returns all transfer fee types' do
         expect(described_class.transfer).to match_array( [ @tf1 ] )
       end
+    end
+  end
+
+  context 'when calling scheme role scope' do
+    before do
+      create(:basic_fee_type, description: 'Scheme 9, 10 and 12 roles', roles: %w[agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12] )
+      create(:fixed_fee_type, description: 'Scheme 10 and 12 roles', roles: %w[agfs agfs_scheme_10 agfs_scheme_12] )
+      create(:misc_fee_type, description: 'Scheme 12 role only', roles: %w[agfs agfs_scheme_12])
+      create(:misc_fee_type, description: 'Scheme 9 role only', roles: %w[agfs agfs_scheme_9])
+    end
+
+    describe '.agfs_scheme_9s' do
+      subject { described_class.agfs_scheme_9s.map(&:description) }
+
+      it {
+        is_expected.to match_array(['Scheme 9, 10 and 12 roles', 'Scheme 9 role only'])
+      }
+    end
+
+    describe '.agfs_scheme_10s' do
+      subject { described_class.agfs_scheme_10s.map(&:description) }
+
+      it {
+        is_expected.to match_array(['Scheme 9, 10 and 12 roles', 'Scheme 10 and 12 roles'])
+      }
+    end
+
+    describe '.agfs_scheme_12s' do
+      subject { described_class.agfs_scheme_12s.map(&:description) }
+
+      it {
+        is_expected.to match_array(['Scheme 9, 10 and 12 roles', 'Scheme 10 and 12 roles','Scheme 12 role only'])
+      }
     end
   end
 end

@@ -37,20 +37,6 @@ RSpec.describe Fee::MiscFeeType do
       end
     end
 
-    describe '.agfs_scheme_12s (overidden role scope)' do
-      subject { described_class.agfs_scheme_12s.map(&:description) }
-
-      before do
-        create(:misc_fee_type, description: 'Scheme 10', roles: %w[agfs agfs_scheme_10] )
-        create(:misc_fee_type, description: 'Scheme 12', roles: %w[agfs agfs_scheme_12])
-        create(:misc_fee_type, description: 'Scheme 9', roles: %w[agfs agfs_scheme_9])
-      end
-
-      it 'returns fee types with agfs scheme 10 OR 12 roles' do
-        is_expected.to match_array(['Scheme 10','Scheme 12'])
-      end
-    end
-
     describe '.supplementary' do
       subject { described_class.supplementary.map(&:unique_code) }
 

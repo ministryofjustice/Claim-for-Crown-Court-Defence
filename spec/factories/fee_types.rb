@@ -50,7 +50,7 @@ FactoryBot.define do
     end
 
     trait :agfs_all_schemes do
-      roles { %w[agfs agfs_scheme_9 agfs_scheme_10] }
+      roles { %w[agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12] }
     end
 
     trait :baf do

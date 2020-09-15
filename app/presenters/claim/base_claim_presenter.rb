@@ -398,6 +398,16 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.fees.select { |f| f.fee_type.unique_code.in?(%w[MIPHC MIUMU MIUMO]) }.any? { |x| x.amount&.nonzero? }
   end
 
+  def eligible_misc_fee_type_options_for_select
+    claim.eligible_misc_fee_types.map do |fee_type|
+      [
+        fee_type.description,
+        fee_type.id,
+        data: { unique_code: fee_type.unique_code }
+      ]
+    end
+  end
+
   private
 
   # a blank assessment is created when the claim is created,

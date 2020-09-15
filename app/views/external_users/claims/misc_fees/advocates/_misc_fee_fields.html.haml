@@ -1,4 +1,6 @@
 - fee = present(f.object)
+- claim = present(f.object.claim)
+
 .form-section.misc-fee-group.nested-fields.js-block.fx-do-init.fx-fee-group.fx-numberedList-item{ data: { 'type': 'miscFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': 'FeeBlockCalculator' } }
   %span.bold-medium
     = t('.misc_fee')
@@ -13,13 +15,15 @@
 
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 
-      = f.collection_select :fee_type_id,
-       @claim.eligible_misc_fee_types, :id, :description,
-       { include_blank: ''.html_safe },
-       { class: 'form-control form-control-full js-misc-fee-type js-fee-type js-fee-calculator-fee-type typeahead fx-misc-fee-calculation',
-       id: "misc_fee_#{@misc_fee_count}_fee_type",
-       'aria-label': t('.fee_type') }
+      = f.select :fee_type_id,
+        options_for_select(claim.eligible_misc_fee_type_options_for_select, f.object&.fee_type&.id),
+        { include_blank: ''.html_safe },
+        { class: 'new-fee-type form-control form-control-full js-misc-fee-type js-fee-type js-fee-calculator-fee-type typeahead fx-misc-fee-calculation',
+        id: "misc_fee_#{@misc_fee_count}_fee_type",
+        'aria-label': t('.fee_type') }
 
+    .fx-unused-materials-warning.js-hidden
+      = render 'warnings/unused_material_over_3_hours'
 
   = f.adp_text_field :quantity,
                           label: t('.quantity'),

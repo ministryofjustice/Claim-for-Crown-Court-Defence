@@ -25,7 +25,7 @@ module ClaimsHelper
   end
 
   def show_api_promo_to_user?
-    Settings.api_promo_enabled? && current_user.setting?(:api_promo_seen).nil?
+    current_user.setting?(:api_promo_seen).nil?
   end
 
   def show_claim_list_scheme_filters?(available_schemes)

@@ -114,6 +114,7 @@ if (!String.prototype.supplant) {
     var $insertedItem = $(insertedItem);
     moj.Modules.FeeCalculator.UnitPrice.miscFeeTypesSelectChange($insertedItem.find('.fx-misc-fee-calculation'));
     moj.Modules.FeeTypeCtrl.miscFeeTypesSelectChange($insertedItem.find('.js-misc-fee-type'));
+    moj.Modules.FeeTypeCtrl.miscFeeTypesRadioChange($insertedItem.find('.fx-fee-group'));
     moj.Modules.FeeCalculator.UnitPrice.feeQuantityChange($insertedItem.find('.js-fee-calculator-quantity'));
     moj.Modules.FeeCalculator.UnitPrice.feeRateChange($insertedItem.find('.js-fee-calculator-rate'));
   });

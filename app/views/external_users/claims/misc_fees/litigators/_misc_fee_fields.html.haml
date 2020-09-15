@@ -19,7 +19,8 @@
 
         = f.collection_radio_buttons(:fee_type_id, misc_fee_types_collection, :id, :description, options) do |b|
           .multiple-choice
-            = b.radio_button('aria-labelledby': "fx-numberedList-heading-#{@misc_fee_count} radio-control-legend-#{@misc_fee_count} #{b.text.to_css_class}", data: { unique_code: b.object.fee_type.unique_code})
+            = b.radio_button('aria-labelledby': "fx-numberedList-heading-#{@misc_fee_count} radio-control-legend-#{@misc_fee_count} #{b.text.to_css_class}",
+              data: { unique_code: b.object.fee_type.unique_code})
             = b.label(id: b.text.to_css_class << "-#{@misc_fee_count}") { b.text }
 
       .fx-unused-materials-warning.js-hidden{ style: 'padding-top: 20px' }

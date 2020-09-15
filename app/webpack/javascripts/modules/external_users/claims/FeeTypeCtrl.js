@@ -1,7 +1,9 @@
 moj.Modules.FeeTypeCtrl = {
   init: function () {
     console.log('init');
-    this.bindEvents();
+    if ($('#misc-fees').exists()) {
+      this.bindEvents();
+    }
   },
 
   bindEvents: function () {
@@ -25,7 +27,7 @@ moj.Modules.FeeTypeCtrl = {
   miscFeeTypesSelectChange: function ($el) {
     console.log('miscFeeTypesSelectChange');
     var self = this;
-    var $els = $el || $('.js-misc-fee-type');
+    var $els = $el || $('.fx-fee-group');
 
     if ($('.fx-unused-materials-warning').exists()) {
       $els.change(function () {
@@ -56,10 +58,15 @@ moj.Modules.FeeTypeCtrl = {
 
   pageLoad: function () {
     console.log('pageLoad');
+    var $radios = $('.fee-type input[type=radio]');
     var self = this;
+
     $(document).ready(function () {
-      $('.js-fee-type:visible').each(function () {
-        self.showHideUnusedMaterialWarning(this);
+      $radios.each(function () {
+        if ($(this).is(':checked')) {
+          self.showHideUnusedMaterialWarning(this, self.getFeeTypeRadioUniqueCode(this));
+          console.warn(this, self.getFeeTypeRadioUniqueCode(this))
+        }
       });
     });
   }

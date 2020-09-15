@@ -63,8 +63,7 @@ module ExternalUsers::ClaimsHelper
   end
 
   def show_timed_retention_banner_to_user?
-    Settings.timed_retention_banner_enabled? &&
-      current_user_is_external_user? &&
+    current_user_is_external_user? &&
       current_user.setting?(:timed_retention_banner_seen).nil?
   end
 

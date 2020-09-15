@@ -94,11 +94,6 @@ downtime_warning_date: <%= Date.new(2019, 11, 20) %>
 # If enabled, users with proper roles will see scheme radio buttons to filter the list
 scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
 
-# Feature flag to enable ability to set user email notification user preferences.  If true, external
-# users will be able to set preference to say whether they want email notifications of outstanding messages
-# on their claim
-email_notification_enabled?: true
-
 # Feature flag to enable maintenance mode
 # If enabled all routes mapped to pages#servicedown on startup
 #

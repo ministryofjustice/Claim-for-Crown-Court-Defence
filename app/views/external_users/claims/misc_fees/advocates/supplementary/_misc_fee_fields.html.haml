@@ -13,7 +13,7 @@
   .misc-fee-group.fx-fee-group.js-block.fx-do-init{data:{type:"miscFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
     = f.hidden_field :fee_type_id, class: 'js-fee-calculator-fee-type js-fee-type'
 
-    = render 'warnings/unused_material_over_3_hours', fee_type: f.object.fee_type
+    = render 'warnings/unused_material_over_3_hours' if f.object.fee_type.unique_code.eql?('MIUMO')
 
     .form-group
       = f.adp_text_field :quantity,

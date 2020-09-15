@@ -1,4 +1,4 @@
-class SuperAdmins::Admin::SuperAdminsController < SuperAdmins::Admin::ApplicationController
+class SuperAdmins::Admin::SuperAdminsController < ApplicationController
   include PasswordHelpers
 
   before_action :set_super_admin, only: %i[show edit update change_password update_password]

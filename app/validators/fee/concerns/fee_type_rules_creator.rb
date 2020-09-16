@@ -26,7 +26,7 @@ module Fee
           @graduated_fee_type_only_rule ||= \
             ['claim.case_type_id',
              :inclusion,
-             CaseType.not_fixed_fee.ids,
+             CaseType.trial_fees.ids,
              message: 'case_type_inclusion',
              attribute_for_error: :fee_type,
              allow_nil: true]

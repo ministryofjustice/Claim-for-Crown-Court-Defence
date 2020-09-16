@@ -31,7 +31,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
 
     let!(:authorised_claim) do
       claim = create(:authorised_claim)
-      claim.assessment.update_values!(claim.fees_total, claim.expenses_total, claim.disbursements_total)
+      claim.assessment.update!(fees: claim.fees_total, expenses: claim.expenses_total, disbursements: claim.disbursements_total)
       claim
     end
 

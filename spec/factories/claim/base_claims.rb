@@ -188,7 +188,7 @@ def random_case_number
 end
 
 def set_amount_assessed(claim)
-  claim.update_amount_assessed(fees: random_amount, expenses: random_amount)
+  claim.assessment.update!(fees: random_amount, expenses: random_amount)
 end
 
 def random_amount

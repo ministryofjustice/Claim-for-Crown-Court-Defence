@@ -1,7 +1,8 @@
 RSpec.shared_examples 'trial_cracked_at assigner' do
   subject { claim.trial_cracked_at }
 
-  let(:claim) { build(:advocate_hardship_claim, case_stage: case_stage, **cracked_details) }
+  let(:claim) { build(:advocate_hardship_claim, case_stage: case_stage, **cracked_details, assessment: assessment) }
+  let(:assessment) { build(:assessment) }
 
   let(:cracked_details) do
     {
@@ -65,7 +66,7 @@ RSpec.shared_examples 'trial_cracked_at assigner' do
 
       it 'authorising an amount does NOT assign trial_cracked_at' do
         expect {
-          claim.update_amount_assessed(fees: random_amount, expenses: random_amount)
+          claim.assessment.update!(fees: random_amount, expenses: random_amount)
           claim.authorise!
         }.not_to change { claim.trial_cracked_at }
       end

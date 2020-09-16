@@ -840,7 +840,7 @@ def build_sortable_claims_sample(advocate)
       claim.state = 'draft'
       create(:misc_fee, claim: claim, quantity: n*1, rate: n*1)
       claim.state = old_state
-      claim.assessment.update_values!(claim.fees_total, 0, 0) if claim.authorised?
+      claim.assessment.update!(fees: claim.fees_total, expenses: 0, disbursements: 0) if claim.authorised?
     end
   end
 end

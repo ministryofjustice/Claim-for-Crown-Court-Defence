@@ -123,7 +123,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
         context 'when assessment included' do
           it 'raises no errors' do
-            claim.update_amount_assessed(fees: 100.00)
+            claim.assessment.update!(fees: 100.00)
             expect { claim.authorise! }.to_not raise_only_amount_assessed_error
           end
         end
@@ -140,7 +140,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
         context 'when assessment included' do
           it 'raises no errors' do
-            claim.update_amount_assessed(fees: 100.00)
+            claim.assessment.update!(fees: 100.00)
             expect { claim.authorise_part! }.to_not raise_only_amount_assessed_error
           end
         end
@@ -470,7 +470,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     before { claim.submit!; claim.allocate! }
 
     let(:assessed_claim)  do
-      claim.update_amount_assessed(fees: 101.22, expenses: 28.55, disbursements: 92.66)
+      claim.assessment.update!(fees: 101.22, expenses: 28.55, disbursements: 92.66)
       claim
     end
 

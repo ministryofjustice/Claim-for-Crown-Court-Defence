@@ -175,21 +175,21 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe 'assessment_fees' do
     it 'should return formatted assessment fees' do
-      claim.assessment.update_values(1234.56, 0.0, 300.0)
+      claim.assessment.update!(fees: 1234.56, expenses: 0.0, disbursements: 300.0)
       expect(subject.assessment_fees).to eq '£1,234.56'
     end
   end
 
   describe 'assessment_expenses' do
     it 'should return formatted assessment expenses' do
-      claim.assessment.update_values(0.0, 1234.56, 300.0)
+      claim.assessment.update!(fees: 0.0, expenses: 1234.56, disbursements: 300.0)
       expect(subject.assessment_expenses).to eq '£1,234.56'
     end
   end
 
   describe 'assessment_disbursements' do
     it 'should return formatted assessment disbursements' do
-      claim.assessment.update_values(0.0, 0.0, 300.0)
+      claim.assessment.update!(fees: 0.0, expenses: 0.0, disbursements: 300.0)
       expect(subject.assessment_disbursements).to eq '£300.00'
     end
   end
@@ -337,7 +337,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       before do
         claim.submit!
         claim.allocate!
-        claim.assessment.update_values(100, 20.43, 50.45)
+        claim.assessment.update!(fees: 100, expenses: 20.43, disbursements: 50.45)
         claim.authorise!
       end
 

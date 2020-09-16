@@ -30,6 +30,7 @@ class CaseType < ApplicationRecord
   scope :fixed_fee,               -> { where(is_fixed_fee: true) }
   scope :not_fixed_fee,           -> { where(is_fixed_fee: false) }
   scope :graduated_fees,          -> { where(fee_type_code: Fee::GraduatedFeeType.pluck(:unique_code)) }
+  scope :trial_fees,              -> { where(fee_type_code: %w[GRCBR GRRAK GRRTR GRTRL]) }
   scope :requires_cracked_dates,  -> { where(requires_cracked_dates: true) }
   scope :requires_trial_dates,    -> { where(requires_trial_dates: true) }
   scope :requires_retrial_dates,  -> { where(requires_retrial_dates: true) }

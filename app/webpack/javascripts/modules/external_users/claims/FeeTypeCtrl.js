@@ -1,6 +1,10 @@
 moj.Modules.FeeTypeCtrl = {
+  activate: function () {
+    return $('#claim_form_step').val() === 'miscellaneous_fees';
+  },
+
   init: function () {
-    if ($('#misc-fees').exists()) {
+    if (this.activate()) {
       this.bindEvents();
     }
   },
@@ -50,7 +54,6 @@ moj.Modules.FeeTypeCtrl = {
   },
 
   pageLoad: function () {
-    var $radios = $('.fee-type input[type=radio]');
     var self = this;
 
     $(document).ready(function () {
@@ -58,10 +61,8 @@ moj.Modules.FeeTypeCtrl = {
         self.showHideUnusedMaterialWarning(this, self.getFeeTypeSelectUniqueCode(this));
       });
 
-      $radios.each(function () {
-        if ($(this).is(':checked')) {
-          self.showHideUnusedMaterialWarning(this, self.getFeeTypeRadioUniqueCode(this));
-        }
+      $('.fee-type input[type=radio]:checked').each(function() {
+        self.showHideUnusedMaterialWarning(this, self.getFeeTypeRadioUniqueCode(this));
       });
     });
   }

@@ -54,10 +54,13 @@ moj.Modules.FeeTypeCtrl = {
     var self = this;
 
     $(document).ready(function () {
+      $('.js-fee-type:visible').each(function () {
+        self.showHideUnusedMaterialWarning(this, self.getFeeTypeSelectUniqueCode(this));
+      });
+
       $radios.each(function () {
         if ($(this).is(':checked')) {
           self.showHideUnusedMaterialWarning(this, self.getFeeTypeRadioUniqueCode(this));
-          console.warn(this, self.getFeeTypeRadioUniqueCode(this))
         }
       });
     });

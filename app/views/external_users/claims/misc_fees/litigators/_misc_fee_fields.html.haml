@@ -23,10 +23,9 @@
               data: { unique_code: b.object.fee_type.unique_code})
             = b.label(id: b.text.to_css_class << "-#{@misc_fee_count}") { b.text }
 
-      .fx-unused-materials-warning.js-hidden{ style: 'padding-top: 20px' }
-        = render 'warnings/unused_material_over_3_hours'
-
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
+
+  = render 'warnings/unused_material_over_3_hours'
 
   = f.adp_text_field :amount,
                     label: t('.net_amount'),

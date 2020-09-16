@@ -22,8 +22,7 @@
         id: "misc_fee_#{@misc_fee_count}_fee_type",
         'aria-label': t('.fee_type') }
 
-    .fx-unused-materials-warning.js-hidden{ style: 'padding-top: 20px' }
-      = render 'warnings/unused_material_over_3_hours'
+  = render 'warnings/unused_material_over_3_hours'
 
   = f.adp_text_field :quantity,
                           label: t('.quantity'),

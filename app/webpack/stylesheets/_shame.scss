@@ -869,3 +869,8 @@ table#download-files-report {
 .error {
   color: $error-colour;
 }
+
+#unused-materials-over-3-hours .js-hidden {
+  display: block;
+  visibility: visible;
+}

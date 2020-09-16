@@ -24,7 +24,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
       shared_examples 'post CLAR release validator' do |fee_type_trait|
         let(:fee) { build(:misc_fee, fee_type_trait, claim: claim, quantity: 0) }
         let(:claim) { build(:litigator_claim, case_type: case_type) }
-        let(:case_type) { create(:case_type, :graduated_fee) }
+        let(:case_type) { create(:case_type, :trial) }
 
         before do
           allow(claim).to receive(:earliest_representation_order_date).and_return(earliest_rep_order_date)
@@ -56,24 +56,37 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
         end
       end
 
-      shared_examples 'fixed-fee-case-type validator' do |fee_type_trait|
+      shared_examples 'trial-fee-case-type validator' do |fee_type_trait|
         let(:fee) { build(:misc_fee, fee_type_trait, claim: claim, quantity: 0) }
         let(:claim) { build(:litigator_claim, case_type: case_type) }
 
         context "for #{fee_type_trait}" do
-          context 'with fixed fee case type' do
-            let(:case_type) { create(:case_type, :fixed_fee) }
+          context 'with non trial fee case type' do
+            context 'with guilty plea' do
+              let(:case_type) { create(:case_type, :guilty_plea) }
 
-            it { expect(fee).to be_invalid }
-            it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
-            it {
-              fee.valid?
-              expect(fee.errors[:fee_type]).to include('case_type_inclusion')
-            }
+              it { expect(fee).to be_invalid }
+              it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+              it {
+                fee.valid?
+                expect(fee.errors[:fee_type]).to include('case_type_inclusion')
+              }
+            end
+
+            context 'with appeal against sentence' do
+              let(:case_type) { create(:case_type, :appeal_against_sentence) }
+
+              it { expect(fee).to be_invalid }
+              it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+              it {
+                fee.valid?
+                expect(fee.errors[:fee_type]).to include('case_type_inclusion')
+              }
+            end
           end
 
-          context 'with graduated fee case type' do
-            let(:case_type) { create(:case_type, :graduated_fee) }
+          context 'with trial fee case type' do
+            let(:case_type) { create(:case_type, :trial) }
 
             it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
           end
@@ -112,7 +125,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
         before { create(:misc_fee_type, :miumu) }
 
         it_behaves_like 'zero quantity permitter', :miumu_fee
-        it_behaves_like 'fixed-fee-case-type validator', :miumu_fee
+        it_behaves_like 'trial-fee-case-type validator', :miumu_fee
         it_behaves_like 'post CLAR release validator', :miumu_fee
       end
 
@@ -120,7 +133,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
         before { create(:misc_fee_type, :miumo) }
 
         it_behaves_like 'zero quantity permitter', :miumo_fee
-        it_behaves_like 'fixed-fee-case-type validator', :miumo_fee
+        it_behaves_like 'trial-fee-case-type validator', :miumo_fee
         it_behaves_like 'post CLAR release validator', :miumo_fee
       end
     end

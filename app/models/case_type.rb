@@ -21,6 +21,8 @@ class CaseType < ApplicationRecord
   ROLES = %w[lgfs agfs interim].freeze
   include Roles
 
+  TRIAL_FEE_TYPES = %w[GRCBR GRRAK GRRTR GRTRL].freeze
+
   has_many :case_stages, dependent: :destroy
 
   auto_strip_attributes :name, squish: true, nullify: true
@@ -56,5 +58,9 @@ class CaseType < ApplicationRecord
 
   def is_graduated_fee?
     graduated_fee_type.nil? ? false : true
+  end
+
+  def is_trial_fee?
+    TRIAL_FEE_TYPES.include?(fee_type_code)
   end
 end

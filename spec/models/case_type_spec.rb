@@ -67,6 +67,28 @@ RSpec.describe CaseType, type: :model do
     end
   end
 
+  describe 'is_trial_fee?' do
+    subject { case_type.is_trial_fee? }
+
+    context 'with fee_type_code matching "trial" fee case type' do
+      let(:case_type) { create(:case_type, fee_type_code: 'GRTRL') }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'with fee_type_code not matching "trial" fee case type' do
+      let(:case_type) { create(:case_type, fee_type_code: 'GRGLT') }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'with nil fee_type_code' do
+      let(:case_type) { create(:case_type, fee_type_code: nil) }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
   context 'scopes' do
     before(:all) { seed_case_types }
     after(:all) { destroy_case_types }

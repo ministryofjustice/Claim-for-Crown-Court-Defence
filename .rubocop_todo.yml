@@ -29,6 +29,7 @@ Metrics/ClassLength:
   Exclude:
     - 'app/models/claim/base_claim.rb'
     - 'app/controllers/external_users/claims_controller.rb'
+    - 'app/presenters/claim/base_claim_presenter.rb'
 
 # Offense count: 68
 # Configuration parameters: CountComments, ExcludedMethods.

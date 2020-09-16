@@ -1,0 +1,4 @@
+en:
+  fee_types:
+    unused_material_over_3_hours:
+      warning: You need to add a separate "Unused material (upto 3 hours)" fee for the first 3 hours

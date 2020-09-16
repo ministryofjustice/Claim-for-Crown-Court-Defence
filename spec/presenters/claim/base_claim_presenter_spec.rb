@@ -845,7 +845,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
-  describe 'has_clar_fees?' do
+  describe '#has_clar_fees?' do
     subject { presenter.has_clar_fees? }
     let!(:fee) { create(:misc_fee, :miphc_fee, claim: claim, quantity: quantity, rate: rate)}
 
@@ -864,5 +864,22 @@ RSpec.describe Claim::BaseClaimPresenter do
 
       it { is_expected.to be false }
     end
+  end
+
+  describe '#eligible_misc_fee_type_options_for_select' do
+    subject { presenter.eligible_misc_fee_type_options_for_select }
+
+    let!(:mispf_fee_type) { create(:misc_fee_type, :mispf) }
+
+    it { is_expected.to be_a Array}
+    it {
+      is_expected.to include(
+                          [
+                            mispf_fee_type.description,
+                            mispf_fee_type.id,
+                            data: { unique_code: mispf_fee_type.unique_code }
+                          ]
+                        )
+    }
   end
 end

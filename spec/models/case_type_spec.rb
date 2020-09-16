@@ -114,5 +114,12 @@ RSpec.describe CaseType, type: :model do
       it { is_expected.not_to be_empty }
       it { expect(graduated_fees.map(&:fee_type_code)).to all(be_one_of(%w[GRCBR GRRAK GRDIS GRGLT GRRTR GRTRL])) }
     end
+
+    describe '.trial_fees' do
+      subject(:trial_fees) { described_class.trial_fees }
+
+      it { is_expected.not_to be_empty }
+      it { expect(trial_fees.map(&:fee_type_code)).to all(be_one_of(%w[GRCBR GRRAK GRRTR GRTRL])) }
+    end
   end
 end

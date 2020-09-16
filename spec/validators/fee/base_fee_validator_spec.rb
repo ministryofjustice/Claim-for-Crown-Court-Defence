@@ -40,22 +40,35 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
   end
 
   describe '#validate_fee_type' do
-    shared_examples 'fixed-fee-case-type validator' do |options|
+    shared_examples 'trial-fee-case-type validator' do |options|
       let(:claim) { build :advocate_claim, case_type: case_type }
 
-      context 'with fixed fee case type' do
-        let(:case_type) { create(:case_type, :fixed_fee) }
+      context 'with non trial case type' do
+        context 'with guilty plea' do
+          let(:case_type) { create(:case_type, :guilty_plea) }
 
-        it { expect(fee).to be_invalid }
-        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
-        it {
-          fee.valid?
-          expect(fee.errors[:fee_type]).to include(options[:message])
-        }
+          it { expect(fee).to be_invalid }
+          it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+          it {
+            fee.valid?
+            expect(fee.errors[:fee_type]).to include(options[:message])
+          }
+        end
+
+        context 'with appeal against sentence' do
+          let(:case_type) { create(:case_type, :appeal_against_sentence) }
+
+          it { expect(fee).to be_invalid }
+          it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+          it {
+            fee.valid?
+            expect(fee.errors[:fee_type]).to include(options[:message])
+          }
+        end
       end
 
-      context 'with graduated fee case type' do
-        let(:case_type) { create(:case_type, :graduated_fee) }
+      context 'with trial fee case type' do
+        let(:case_type) { create(:case_type, :trial) }
 
         it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
       end
@@ -91,7 +104,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         }
       end
 
-      it_behaves_like 'fixed-fee-case-type validator', message: 'case_type_inclusion' do
+      it_behaves_like 'trial-fee-case-type validator', message: 'case_type_inclusion' do
         let(:fee) { build(:misc_fee, :miumu_fee, claim: claim, quantity: 1) }
       end
     end
@@ -116,7 +129,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         }
       end
 
-      it_behaves_like 'fixed-fee-case-type validator', message: 'case_type_inclusion' do
+      it_behaves_like 'trial-fee-case-type validator', message: 'case_type_inclusion' do
         let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 0.01) }
       end
     end

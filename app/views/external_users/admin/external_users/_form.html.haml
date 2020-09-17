@@ -20,17 +20,16 @@
         = user_fields.label :email_confirmation, t('.email_confirmation'), class: 'form-label-bold'
         = user_fields.email_field :email_confirmation, class: 'form-control'
 
-    - if Settings.email_notification_enabled?
-      .form-group
-        %fieldset.inline{ 'aria-describedby': 'radio-control-legend-email' }
-          %legend#radio-control-legend-email
-            %span.heading-medium
-              = t('.email_notification')
+    .form-group
+      %fieldset.inline{ 'aria-describedby': 'radio-control-legend-email' }
+        %legend#radio-control-legend-email
+          %span.heading-medium
+            = t('.email_notification')
 
-          = user_fields.collection_radio_buttons(:email_notification_of_message, [true, false], :to_s, :to_s) do |b|
-            .multiple-choice
-              = b.radio_button('aria-labelledby': "radio-control-legend-email #{b.text.to_css_class}")
-              = b.label { (b.value.to_s == 'true' ? t('.answer_yes') : t('.answer_no')) }
+        = user_fields.collection_radio_buttons(:email_notification_of_message, [true, false], :to_s, :to_s) do |b|
+          .multiple-choice
+            = b.radio_button('aria-labelledby': "radio-control-legend-email #{b.text.to_css_class}")
+            = b.label { (b.value.to_s == 'true' ? t('.answer_yes') : t('.answer_no')) }
 
     - if current_user.persona.admin?
       .form-group

@@ -19,9 +19,8 @@
       = t('.supplier_number')
     %th{ scope: 'col' }
       = t('.email')
-    - if Settings.email_notification_enabled?
-      %th{ scope: 'col' }
-        = t('.email_confirmation')
+    %th{ scope: 'col' }
+      = t('.email_confirmation')
     %th{ scope: 'col' }
       = t('.actions')
   %tbody
@@ -35,9 +34,8 @@
           = advocate.supplier_number ? advocate.supplier_number : '-'
         %td{ 'data-label': t('.email') }
           = govuk_mail_to advocate.email, advocate.email, { title: t('.email_title', external_user: advocate.name) }
-        - if Settings.email_notification_enabled?
-          %td{ 'data-label': t('.email_confirmation') }
-            = advocate.send_email_notification_of_message? ? t('.option_yes') : t('.option_no')
+        %td{ 'data-label': t('.email_confirmation') }
+          = advocate.send_email_notification_of_message? ? t('.option_yes') : t('.option_no')
         %td.user-controls{ 'data-label': t('.actions') }
           - if advocate.active?
             = govuk_link_to t('.edit'),  edit_external_users_admin_external_user_path(advocate)

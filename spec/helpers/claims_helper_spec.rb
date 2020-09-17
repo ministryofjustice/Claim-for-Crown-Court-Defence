@@ -133,38 +133,21 @@ RSpec.describe ClaimsHelper do
       end
     end
 
-    before do
-      allow(Settings).to receive(:api_promo_enabled?).and_return(api_promo_enabled)
-    end
+    context 'user has not seen yet the promo' do
+      let(:api_promo_seen_setting) { nil }
 
-    context 'feature flag enabled' do
-      let(:api_promo_enabled) { true }
-
-      context 'user has not seen yet the promo' do
-        let(:api_promo_seen_setting) { nil }
-
-        it 'should return true' do
-          expect(show_api_promo_to_user?).to be_truthy
-        end
-      end
-
-      context 'user has seen the promo' do
-        let(:api_promo_seen_setting) { '1' }
-
-        it 'should return false' do
-          expect(show_api_promo_to_user?).to be_falsey
-        end
+      it 'should return true' do
+        expect(show_api_promo_to_user?).to be_truthy
       end
     end
 
-    context 'feature flag disabled' do
-      let(:api_promo_enabled) { false }
+    context 'user has seen the promo' do
+      let(:api_promo_seen_setting) { '1' }
 
-      it 'should return false regardless of the user setting' do
-        expect(helper).not_to receive(:current_user)
+      it 'should return false' do
         expect(show_api_promo_to_user?).to be_falsey
       end
-    end
+    end 
   end
 
   describe '#show_message_controls?' do

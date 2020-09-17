@@ -4,7 +4,6 @@ Feature: An API promotion banner will appear on the create claim page, until the
   Scenario: I go to the create a claim page, should see an API promo banner, dismiss it and do not see it again
 
     Given I am a signed in advocate
-    And The API promo feature flag is enabled
     And I am on the 'Your claims' page
     When I click 'Start a claim'
     And I select the fee scheme 'Advocate final fee'

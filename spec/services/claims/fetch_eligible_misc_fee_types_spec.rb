@@ -32,6 +32,26 @@ RSpec.shared_examples 'fetches AGFS fee scheme misc fee types excluding suppleme
   end
 end
 
+RSpec.shared_context 'pre CLAR rep order date' do
+  let(:pre_clar_date) { Settings.clar_release_date.end_of_day - 1.day }
+
+  before do
+    allow(claim)
+      .to receive(:earliest_representation_order_date)
+      .and_return(pre_clar_date)
+  end
+end
+
+RSpec.shared_context 'post CLAR rep order date' do
+  let(:post_clar_date) { Settings.clar_release_date.beginning_of_day }
+
+  before do
+    allow(claim)
+      .to receive(:earliest_representation_order_date)
+      .and_return(post_clar_date)
+  end
+end
+
 RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
   before(:all) do |example|
     allow(Settings).to receive(:clar_enabled?).and_return true
@@ -64,9 +84,6 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
       it { is_expected.to eq(nil) }
     end
 
-    # LGFS misc fees are those eligible for lgfs (via roles)
-    # but excluding defendant uplifts since these are catered
-    # for by fee calculation.
     fcontext 'with LGFS claim' do
       subject(:unique_codes) { call.map(&:unique_code) }
 
@@ -87,50 +104,41 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
           context 'when appeal against sentence' do
             let(:case_type) { CaseType.find_by(fee_type_code: 'FXASE') }
 
-            it 'includes defendant uplift' do
-              is_expected.to include('MIUPL')
-            end
-
-            it 'returns all expected fee types' do
-              is_expected.to match_array %w[MICJA MICJP MIUPL MIEVI MISPF]
-            end
+            it { is_expected.to include('MIUPL') }
+            it { is_expected.to match_array %w[MICJA MICJP MIUPL MIEVI MISPF] }
           end
         end
 
         context 'with graduated case type fee claim' do
+          context 'with any non-fixed-fee case type' do
+            let(:case_type) { create(:case_type, is_fixed_fee: false) }
+
+            it { is_expected.not_to include('MIUPL') }
+          end
+
           context 'with "trial" fee claim' do
-            context 'when trial' do
-              let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') }
+            let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') }
 
-              it 'includes unused materials' do
-                is_expected.to include(*%w[MIUMU MIUMO])
-              end
+            context 'with rep order pre CLAR' do
+              include_context 'pre CLAR rep order date'
 
-              it 'returns all LGFS misc fee types except defendant uplifts' do
-                is_expected.to match_array %w[MICJA MICJP MIEVI MISPF MIUMU MIUMO]
-              end
+              it { is_expected.to match_array %w[MICJA MICJP MIEVI MISPF] }
             end
 
-            context 'when cracked trial' do
-              let(:case_type) { CaseType.find_by(fee_type_code: 'GRRAK') }
+            context 'with rep order post CLAR' do
+              include_context 'post CLAR rep order date'
 
-              it 'returns all LGFS misc fee types except defendant uplifts' do
-                is_expected.to match_array %w[MICJA MICJP MIEVI MISPF MIUMU MIUMO]
-              end
+              it { is_expected.to match_array %w[MICJA MICJP MIEVI MISPF MIUMU MIUMO] }
             end
           end
 
           context 'with "non-trial" fee claim' do
+            include_context 'post CLAR rep order date'
+
             context 'when case type is Guilty plea' do
               let(:case_type) { CaseType.find_by(fee_type_code: 'GRGLT') }
 
-              it 'excludes unused materials' do
-                is_expected.not_to include(*%w[MIUMU MIUMO])
-              end
-
-              it 'returns all expected fee types' do
-                is_expected.to match_array %w[MICJA MICJP MIEVI MISPF]
-              end
+              it { is_expected.to match_array %w[MICJA MICJP MIEVI MISPF] }
             end
           end
         end
@@ -139,19 +147,43 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
       context 'with hardship fee claim' do
         let(:claim) { create(:litigator_hardship_claim, case_stage: case_stage) }
 
-        context 'with "trial" case stage' do
-          let(:case_stage) { create(:case_stage, :trial_not_sentenced) }
+        context 'when rep order is post CLAR' do
+          include_context 'post CLAR rep order date'
 
-          it 'returns only non-cost judge LGFS misc fee types' do
-            is_expected.to match_array %w[MIEVI MISPF MIUMU MIUMO]
+          context 'with "trial" case stage' do
+            let(:case_stage) { create(:case_stage, :trial_not_sentenced) }
+
+            it 'returns only non-cost-judge LGFS misc fee types' do
+              is_expected.to match_array %w[MIEVI MISPF MIUMU MIUMO]
+            end
+          end
+
+          context 'with "non-trial" case stage' do
+            let(:case_stage) { create(:case_stage, :guilty_plea_not_sentenced) }
+
+            it 'returns only non-cost-judge, non-trial LGFS misc fee types' do
+              is_expected.to match_array %w[MIEVI MISPF]
+            end
           end
         end
 
-        context 'with "non-trial" case stage' do
-          let(:case_stage) { create(:case_stage, :guilty_plea_not_sentenced) }
+        context 'when rep order is pre CLAR' do
+          include_context 'pre CLAR rep order date'
 
-          it 'returns only non-cost, non-trial LGFS misc fee types' do
-            is_expected.to match_array %w[MIEVI MISPF]
+          context 'with "trial" case stage' do
+            let(:case_stage) { create(:case_stage, :trial_not_sentenced) }
+
+            it 'returns only non-cost-judge, non-CLAR LGFS misc fee types' do
+              is_expected.to match_array %w[MIEVI MISPF]
+            end
+          end
+
+          context 'with "non-trial" case stage' do
+            let(:case_stage) { create(:case_stage, :guilty_plea_not_sentenced) }
+
+            it 'returns only non-cost-judge, non-trial LGFS misc fee types' do
+              is_expected.to match_array %w[MIEVI MISPF]
+            end
           end
         end
       end
@@ -159,8 +191,20 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
       context 'with transfer fee claim' do
         let(:claim) { create(:litigator_transfer_claim, case_type: nil) }
 
-        it 'returns all LGFS misc fee types except defendant uplifts' do
-          is_expected.to match_array %w[MICJA MICJP MIEVI MISPF MIUMU MIUMO]
+        context 'with rep order pre CLAR' do
+          include_context 'pre CLAR rep order date'
+
+          it 'returns all LGFS misc fee types except defendant uplifts' do
+            is_expected.to match_array %w[MICJA MICJP MIEVI MISPF]
+          end
+        end
+
+        context 'with rep order post CLAR' do
+          include_context 'post CLAR rep order date'
+
+          it 'returns all LGFS misc fee types except defendant uplifts' do
+            is_expected.to match_array %w[MICJA MICJP MIEVI MISPF MIUMU MIUMO]
+          end
         end
       end
     end

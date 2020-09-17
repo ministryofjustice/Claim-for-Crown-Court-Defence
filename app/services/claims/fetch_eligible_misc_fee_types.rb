@@ -26,6 +26,10 @@ module Claims
     end
 
     def eligible_agfs_misc_fee_types
+      trial_fee_filter(agfs_fee_types_by_claim_type)
+    end
+
+    def agfs_fee_types_by_claim_type
       return agfs_scheme_scope.supplementary if claim.supplementary?
       agfs_scheme_scope.without_supplementary_only
     end

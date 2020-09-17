@@ -35,6 +35,9 @@
   "devDependencies": {
     "webpack-dev-server": "^3.11.0"
   },
+  "resolutions": {
+    "node-forge": "^0.10.0"
+  },
   "@comments": {
     "@dependencies": {
       "jquery": "exact version required due to older API usage within app",

@@ -1422,14 +1422,15 @@ en:
             misc_fee: *miscellaneous_fee
             rate: Rate
             net_amount: *net_amount
-            quantity: *quantity
-            quantity_hint: Enter a quantity
             fee_type: *fee_type
             add_date_attended: Add dates
             remove: Remove
             no_dates: No dates currently selected.
             help_how_we_calculate_rate_title: *how_is_this_calculated_help
             help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme, advocate category and fee type.
+          quantity:
+            quantity: *quantity
+            quantity_hint: Enter a quantity
           supplementary:
             fields:
               fee_type: *fee_type

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :transfer_claim, class: Claim::TransferClaim do
+  factory :transfer_claim, aliases: [:litigator_transfer_claim], class: Claim::TransferClaim do
     litigator_base_setup
     claim_state_common_traits
     case_type { nil }

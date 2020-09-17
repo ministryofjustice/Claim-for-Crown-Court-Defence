@@ -59,8 +59,22 @@ RSpec.describe Fee::MiscFeeType do
         create(:misc_fee_type, unique_code: 'MISAU')
       end
 
-      it 'returns fee types with unique codes defined in class constants' do
+      it 'returns fee types excluding those for only supplementary claims' do
         is_expected.to match_array(%w[MISAU])
+      end
+    end
+
+    describe '.without_trial_fee_only' do
+      subject { described_class.without_trial_fee_only.map(&:unique_code) }
+
+      before do
+        create(:misc_fee_type, unique_code: 'MISPF' )
+        create(:misc_fee_type, unique_code: 'MIUMU')
+        create(:misc_fee_type, unique_code: 'MIUMO')
+      end
+
+      it 'returns fee types excluding those only for "trial" case type claims' do
+        is_expected.to match_array(%w[MISPF])
       end
     end
   end

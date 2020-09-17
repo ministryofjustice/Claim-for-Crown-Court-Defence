@@ -84,7 +84,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
       it { is_expected.to eq(nil) }
     end
 
-    fcontext 'with LGFS claim' do
+    context 'with LGFS claim' do
       subject(:unique_codes) { call.map(&:unique_code) }
 
       context 'with final claim' do

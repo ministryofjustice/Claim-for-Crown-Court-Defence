@@ -32,6 +32,6 @@ class Fee::MiscFee < Fee::BaseFee
   private
 
   def miumu_quantity
-    self.quantity ||= 1.to_f if fee_type_id==108
+    self.quantity ||= 1.to_f if fee_type_id == 108 && rate
   end
 end

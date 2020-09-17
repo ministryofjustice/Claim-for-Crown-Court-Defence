@@ -27,20 +27,17 @@ moj.Modules.FeeTypeCtrl = {
   miscFeeTypesSelectChange: function ($el) {
     var self = this;
     var $els = $el || $('.fx-fee-group');
-    alert('here');
 
     if ($('.fx-unused-materials-warning').exists()) {
       $els.change(function () {
-        alert('unused materials');
         self.showHideUnusedMaterialWarning(this, self.getFeeTypeSelectUniqueCode(this));
       });
     }
-    // if ($('.fx-quantity').exists()) {
-    //   $els.change(function () {
-    //     alert('quantity');
-    //     self.showHideQuantity(this, self.getFeeTypeSelectUniqueCode(this));
-    //   });
-    // }
+    if ($('.fx-quantity').exists()) {
+      $els.change(function () {
+        self.showHideQuantity(this, self.getFeeTypeSelectUniqueCode(this));
+      });
+    }
   },
 
   // needs to be usable by cocoon:after-insert so can bind to one or many elements

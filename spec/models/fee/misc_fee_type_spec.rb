@@ -81,5 +81,5 @@ RSpec.describe Fee::MiscFeeType do
       fee_type.code = 'MIUPL'
       is_expected.to be_falsey
     end
-  end  
+  end
 end

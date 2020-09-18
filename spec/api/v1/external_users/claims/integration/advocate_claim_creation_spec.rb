@@ -350,7 +350,6 @@ RSpec.describe 'API claim creation for AGFS' do
   include ApiSpecHelper
 
   before do
-    allow(Settings).to receive(:clar_enabled?).and_return true
     seed_fee_schemes
     seed_case_types
     seed_fee_types

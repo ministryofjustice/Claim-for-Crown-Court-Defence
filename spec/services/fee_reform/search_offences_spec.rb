@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe FeeReform::SearchOffences, type: :service do
   before do
-    allow(Settings).to receive(:clar_enabled?).and_return true
     seed_fee_schemes
   end
 

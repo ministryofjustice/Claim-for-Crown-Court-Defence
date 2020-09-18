@@ -1,5 +1,4 @@
 require 'rails_helper'
-require "rspec/mocks/standalone" # required for mocking/unmocking in before/after(:all) block
 
 RSpec.shared_context 'pre CLAR rep order date' do
   let(:pre_clar_date) { Settings.clar_release_date.end_of_day - 1.day }
@@ -45,7 +44,6 @@ end
 
 RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
   before(:all) do |example|
-    allow(Settings).to receive(:clar_enabled?).and_return true
     seed_fee_schemes
     seed_case_types
     seed_fee_types
@@ -53,7 +51,6 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
 
   after(:all) do
     clean_database
-    allow(Settings).to receive(:clar_enabled?).and_call_original
   end
 
   let(:trial_only_types) { %w[MIUMU MIUMO] }

@@ -25,12 +25,10 @@ module Seeds
           \sAGFS scheme 12 new fee_type count: #{scheme_12_only_fee_types.count}
           \s------------------------------------------------------------
           Status: #{agfs_fee_scheme_12.present? && scheme_12_offence_count > 0 ? 'up' : 'down'}
-          Enabled: #{Settings.clar_enabled?}
         STATUS
       end
 
       def up
-        puts 'AGFS scheme 12 is not enabled. You must enable in settings first!'.yellow unless Settings.clar_enabled?
         create_or_update_agfs_scheme_eleven
         create_agfs_scheme_twelve
         create_agfs_scheme_twelve_offences
@@ -106,8 +104,6 @@ module Seeds
       end
 
       def create_or_update_agfs_scheme_eleven
-        return unless Settings.clar_enabled?
-
         print "Finding AGFS scheme 11".yellow
         agfs_fee_scheme_eleven = FeeScheme.find_by(name: 'AGFS', version: 11, start_date: Settings.agfs_scheme_11_release_date.beginning_of_day)
         agfs_fee_scheme_eleven ? print("...found\n".green) : print("...not found\n".red)
@@ -121,8 +117,6 @@ module Seeds
       end
 
       def create_agfs_scheme_twelve
-        return unless Settings.clar_enabled?
-
         print "Finding or creating scheme 12 with start date #{Settings.clar_release_date.beginning_of_day}...".yellow
         print "...not created\n".green if pretending?
         return if pretending?
@@ -132,16 +126,12 @@ module Seeds
       end
 
       def create_agfs_scheme_twelve_offences
-        return unless Settings.clar_enabled?
-
         puts "Scheme 12 offence count before: #{scheme_12_offence_count}".yellow
         copy_scheme_11_offences
         puts "Scheme 12 offence count after: #{scheme_12_offence_count}".yellow
       end
 
       def create_scheme_twelve_fee_types
-        return unless Settings.clar_enabled?
-
         puts "Scheme 12 fee type count before: #{scheme_12_fee_type_count}".yellow
         Rake::Task['data:migrate:fee_types:reseed'].invoke(pretending?)
         puts "Scheme 12 fee type count after: #{scheme_12_fee_type_count}".yellow

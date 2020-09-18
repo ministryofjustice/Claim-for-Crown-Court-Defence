@@ -1,0 +1,20 @@
+= content_for :page_title, flush: true do
+  = t('accessibility_statement.page_title')
+
+= render partial: 'layouts/header', locals: { page_heading: t('accessibility_statement.page_heading') }
+
+.govuk-grid-row
+  .govuk-grid-column-two-thirds.govuk-body
+    = t('accessibility_statement.intro_html')
+
+    = t('accessibility_statement.state_html')
+
+    = t('accessibility_statement.reporting_html')
+
+    = t('accessibility_statement.enforcement_html')
+
+    = t('accessibility_statement.technical_html')
+
+    = t('accessibility_statement.testing_html')
+
+    = t('accessibility_statement.improve_html')

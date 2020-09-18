@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/hardship_claims', to: 'pages#hardship_claims', as: :hardship_claims_page
   get '/api/landing',   to: 'pages#api_landing',      as: :api_landing_page
   get '/api/release_notes',   to: 'pages#api_release_notes', as: :api_release_notes
+  get '/accessibility-statement', to: 'pages#accessibility_statement', as: :accessibility_statement
 
   get 'vat' => "vat_rates#index"
 

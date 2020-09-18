@@ -156,7 +156,7 @@ module Seeds
         Offence.transaction do
           agfs_scheme_eleven_offences.each do |offence|
             if pretending?
-              puts "#{offence.unique_code} => #{offence.unique_code.sub('~11','~12')}".yellow
+              puts "[WOULD-COPY] " + "#{offence.unique_code} => #{offence.unique_code.sub('~11','~12')}".yellow
             else
               new_offence = offence.dup
               new_offence.unique_code = new_offence.unique_code.sub('~11','~12')
@@ -171,9 +171,12 @@ module Seeds
       end
 
       def set_offence_pk_sequence(sequence_start)
-        raise StandardError, 'Sequence cannot be set to value less than greatest id in use' if Offence.ids.max > sequence_start
-        return if pretending?
-
+        if pretending?
+          print "Resetting offences sequence to max offence id unless Offence.ids.max > sequence_start (#{Offence.ids.max} > #{sequence_start})...".yellow
+          puts 'not resetting'.green
+          return
+        end
+        raise StandardError, "Sequence cannot be set to value less than greatest id in use - #{Offence.ids.max} > #{sequence_start}" if Offence.ids.max > sequence_start
         ActiveRecord::Base.connection.set_pk_sequence!('offences', sequence_start)
       end
 

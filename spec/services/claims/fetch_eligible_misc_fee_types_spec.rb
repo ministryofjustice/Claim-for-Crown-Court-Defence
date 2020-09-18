@@ -1,5 +1,4 @@
 require 'rails_helper'
-require "rspec/mocks/standalone" # required for mocking/unmocking in before/after(:all) block
 
 RSpec.shared_context 'pre CLAR rep order date' do
   let(:pre_clar_date) { Settings.clar_release_date.end_of_day - 1.day }

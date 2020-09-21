@@ -35,7 +35,7 @@ moj.Modules.FeeTypeCtrl = {
     }
     if ($('.fx-quantity').exists()) {
       $els.change(function () {
-        self.showHideQuantity(this, self.getFeeTypeSelectUniqueCode(this));
+        self.roQuantity(this, self.getFeeTypeSelectUniqueCode(this));
       });
     }
   },
@@ -58,10 +58,17 @@ moj.Modules.FeeTypeCtrl = {
     show ? $warning.removeClass('js-hidden') : $warning.addClass('js-hidden');
   },
 
-  showHideQuantity: function (context, unique_code) {
-    hide = (unique_code == 'MIUMU');
-    var $quantity = $(context).closest('.fx-fee-group').find('.fx-quantity');
-    hide ? $quantity.addClass('js-hidden') : $quantity.removeClass('js-hidden');
+  roQuantity: function (context, unique_code) {
+    ro = (unique_code == 'MIUMU');
+    var defaultQuantity = 1;
+    var $quantity = $(context).closest('.fx-fee-group').find('.fx-quantity input');
+    if(ro){
+      $quantity.attr('readonly', true);
+      $quantity.val(defaultQuantity);
+    } else {
+      $quantity.removeAttr('readonly');
+      $quantity.val(); 
+    }
   },
 
   pageLoad: function () {
@@ -70,6 +77,7 @@ moj.Modules.FeeTypeCtrl = {
     $(document).ready(function () {
       $('.js-fee-type:visible').each(function () {
         self.showHideUnusedMaterialWarning(this, self.getFeeTypeSelectUniqueCode(this));
+        self.roQuantity(this, self.getFeeTypeSelectUniqueCode(this));
       });
 
       $('.fee-type input[type=radio]:checked').each(function() {

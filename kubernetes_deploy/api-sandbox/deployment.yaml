@@ -85,6 +85,11 @@ spec:
                 secretKeyRef:
                   name: cccd-secrets
                   key: SECRET_KEY_BASE
+            - name: SENTRY_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-secrets
+                  key: SENTRY_DSN
             - name: CASE_WORKER_PASSWORD
               valueFrom:
                 secretKeyRef:

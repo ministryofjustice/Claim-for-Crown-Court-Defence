@@ -12,7 +12,6 @@ moj.Modules.FeeTypeCtrl = {
   bindEvents: function () {
     this.miscFeeTypesSelectChange();
     this.miscFeeTypesRadioChange();
-    this.miscFeeTypesCheckboxChange();
     this.pageLoad();
   },
 
@@ -21,10 +20,6 @@ moj.Modules.FeeTypeCtrl = {
   },
 
   getFeeTypeRadioUniqueCode: function (context) {
-    return $(context).closest('.fx-fee-group').find(':checked').data('unique-code');
-  },
-
-  getFeeTypeCheckboxUniqueCode: function (context) {
     return $(context).closest('.fx-fee-group').find(':checked').data('unique-code');
   },
 
@@ -53,17 +48,6 @@ moj.Modules.FeeTypeCtrl = {
     if ($('.fx-unused-materials-warning').exists()) {
       $els.change(function () {
         self.showHideUnusedMaterialWarning(this, self.getFeeTypeRadioUniqueCode(this));
-      });
-    }
-  },
-
-  miscFeeTypesCheckboxChange: function ($el) {
-    var self = this;
-    var $els = $el || $('.fx-fee-group');
-
-    if ($('input.fee-quantity').exists()) {
-      $els.change(function () {
-        self.readOnlyQuantity(this, self.getFeeTypeCheckboxUniqueCode(this));
       });
     }
   },
@@ -99,11 +83,6 @@ moj.Modules.FeeTypeCtrl = {
       $('.fee-type input[type=radio]:checked').each(function() {
         self.showHideUnusedMaterialWarning(this, self.getFeeTypeRadioUniqueCode(this));
       });
-
-      $('.multiple-choice input[type=checkbox]:checked').each(function() {
-        self.showHideUnusedMaterialWarning(this, self.getFeeTypeCheckboxUniqueCode(this));
-      });
-
     });
   }
 };

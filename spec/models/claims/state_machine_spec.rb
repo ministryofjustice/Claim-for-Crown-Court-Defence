@@ -36,6 +36,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
   describe '#around_transition' do
     let(:claim) { create(:submitted_claim) }
+    let(:assessment) { create(:assessment) }
     let(:case_type) { create(:case_type, :cbr) }
 
     context 'sets flag to disable all validations' do
@@ -68,7 +69,7 @@ RSpec.describe Claims::StateMachine, type: :model do
     context 'sets flag to enable only assessment validations' do
       before do
         claim.allocate!
-        claim.update_amount_assessed(fees: 100.00)
+        claim.assessment.update!(fees: 100.00)
       end
 
       %i[authorise! authorise_part!].each do |transition|

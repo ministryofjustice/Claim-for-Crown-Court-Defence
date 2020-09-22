@@ -7,7 +7,7 @@ RSpec.describe AssessmentPresenter do
   context 'currency fields' do
     let(:currency_pattern) { /£\d,\d{3}\.\d{2}/ }
 
-    before { claim.assessment.update_values(1452.33, 2455.77, 1505.24) }
+    before { claim.assessment.update!(fees: 1452.33, expenses: 2455.77, disbursements: 1505.24) }
 
     it 'totals formatted as currency' do
       expect(presenter.fees_total).to match currency_pattern

@@ -77,11 +77,11 @@ RSpec.describe Assessment do
 
     it 'determines rate using VatRate model' do
       expect(VatRate).to receive(:vat_amount).at_least(:once).and_call_original
-      assessment.update_values(150.0, 250.0, 0)
+      assessment.update!(fees: 150.0, expenses: 250.0, disbursements: 0) 
     end
 
     it 'updates determination\'s vat_amount' do
-      expect { assessment.update_values(150.0, 250.0, 0) }.to change(assessment, :vat_amount).from(0).to(80)
+      expect { assessment.update!(fees: 150.0, expenses: 250.0, disbursements: 0)  }.to change(assessment, :vat_amount).from(0).to(80)
     end
   end
 
@@ -105,7 +105,7 @@ RSpec.describe Assessment do
       context 'litigator claims' do
         let(:assessment) { create(:litigator_claim, apply_vat: true).assessment }
         it 'should not update/calculate the VAT amount' do
-          expect { assessment.update_values(100.0, 250.0, 150.0) }.not_to change(assessment, :vat_amount)
+          expect { assessment.update!(fees: 100.0, expenses: 250.0, disbursements: 150.0)  }.not_to change(assessment, :vat_amount)
         end
       end
     end
@@ -125,27 +125,6 @@ RSpec.describe Assessment do
       expect(reloaded_assessment.expenses).to eq 0
       expect(reloaded_assessment.disbursements).to eq 0
       expect(reloaded_assessment.total).to eq 0
-    end
-  end
-
-  describe '#update_values' do
-    let(:assessment) { create(:assessment) }
-
-    it 'raises error if assessment already made' do
-      assessment.update_values(:assessment, 1, 2, 3)
-
-      expect {
-        assessment.update_values(100, 200, 300)
-      }.to raise_error RuntimeError, "Cannot update an assessment that has values"
-    end
-
-    it 'updates the fields' do
-      assessment.update_values(888.88, 333.33, 150.00, DateTime.new(2016, 1, 2, 3, 4, 5))
-      assessment.reload
-      expect(assessment.fees).to eq 888.88
-      expect(assessment.expenses).to eq 333.33
-      expect(assessment.disbursements).to eq 150.00
-      expect(assessment.created_at).to eq DateTime.new(2016, 1, 2, 3, 4, 5)
     end
   end
 end

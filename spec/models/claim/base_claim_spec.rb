@@ -252,17 +252,6 @@ RSpec.describe Claim::BaseClaim do
         is_expected.to have_attributes(fees: 0.0, expenses: 0.0, disbursements: 0.0)
       end
     end
-
-    describe '#update_amount_assessed' do
-      subject { claim.assessment }
-      let(:claim) { create(:advocate_claim) }
-
-      before { claim.update_amount_assessed(fees: 100.0, expenses: 200.0) }
-
-      it 'updates the specified assessment attributes' do
-        is_expected.to have_attributes(fees: 100.0, expenses: 200.0, disbursements: 0.0)
-      end
-    end
   end
 
   describe '#fixed_fee_case?' do

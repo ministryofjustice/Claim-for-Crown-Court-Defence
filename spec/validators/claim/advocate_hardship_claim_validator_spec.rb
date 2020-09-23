@@ -7,14 +7,7 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
 
   let(:claim) { create(:advocate_hardship_claim) }
 
-  before(:all) do
-    seed_fee_schemes
-    seed_fee_types
-  end
-
-  after(:all) do
-    clean_database
-  end
+  before { seed_fee_schemes }
 
   include_examples 'common advocate litigator validations', :advocate, case_type: false
   include_examples 'advocate claim case concluded at'
@@ -282,32 +275,7 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
   end
 
   context 'defendant uplift fees aggregation validation' do
-    include_examples 'common defendant uplift fees aggregation validation', unique_codes: ['MIAPH', 'MIAHU', 'MIDTW', 'MIDWU']
-  
-    context 'when there is 1 basic fee uplift' do
-      before do
-        create(:basic_fee, :ndr_fee, claim: claim, quantity: 1, amount: 21.01)
-      end
-
-      it 'test setup' do
-        expect(claim.defendants.size).to eql 1
-        expect(claim.basic_fees.map { |f| f.fee_type.unique_code }.sort).to include('BANDR')
-      end
-
-      it 'should not error' do
-        should_not_error(claim, :base)
-      end
-
-      context 'and form step is basic fees' do
-        before do
-          claim.form_step = :basic_fees
-        end
-
-        it 'should error' do
-          should_error_with(claim, :base, 'defendant_uplifts_basic_fees_mismatch')
-        end
-      end
-    end
+    include_examples 'common defendant uplift fees aggregation validation', claim_type: 'advocate_hardship_claim'
   end
 
   include_examples 'common partial validations', {

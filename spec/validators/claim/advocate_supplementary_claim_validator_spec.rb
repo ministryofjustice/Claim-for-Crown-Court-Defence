@@ -7,14 +7,7 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
 
   let(:claim) { create(:advocate_supplementary_claim) }
 
-  before(:all) do
-    seed_fee_schemes
-    seed_fee_types
-  end
-
-  after(:all) do
-    clean_database
-  end
+  before { seed_fee_schemes }
 
   include_examples 'common advocate litigator validations', :advocate, case_type: false
   include_examples 'advocate claim case concluded at'
@@ -53,7 +46,7 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
   end
 
   context 'defendant uplift fees aggregation validation' do
-    include_examples 'common defendant uplift fees aggregation validation', unique_codes: ['MIDTW', 'MIDWU', 'MIDHU', 'MIDTH']
+    include_examples 'common defendant uplift fees aggregation validation', claim_type: 'advocate_supplementary_claim'
   end
 
   include_examples 'common partial validations', {

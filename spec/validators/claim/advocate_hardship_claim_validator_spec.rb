@@ -4,10 +4,9 @@ require_relative 'shared_examples_for_step_validators'
 
 RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
   include_context "force-validation"
+  include_context 'seeded fee schemes'
 
   let(:claim) { create(:advocate_hardship_claim) }
-
-  before { seed_fee_schemes }
 
   include_examples 'common advocate litigator validations', :advocate, case_type: false
   include_examples 'advocate claim case concluded at'
@@ -275,7 +274,8 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
   end
 
   context 'defendant uplift fees aggregation validation' do
-    include_examples 'common defendant uplift fees aggregation validation', claim_type: 'advocate_hardship_claim'
+    include_examples 'common defendant uplift fees aggregation validation'
+    include_examples 'common defendant basic fees aggregation validation'
   end
 
   include_examples 'common partial validations', {

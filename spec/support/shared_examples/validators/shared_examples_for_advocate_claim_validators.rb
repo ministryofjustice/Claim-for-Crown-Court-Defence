@@ -107,24 +107,22 @@ RSpec.shared_examples 'advocate claim supplier number' do
   end
 end
 
-RSpec.shared_examples 'common defendant uplift fees aggregation validation' do |options|
-  case options[:claim_type]
-  when 'advocate_claim', 'advocate_hardship_claim'
-    let(:fee_type_1) { create(:misc_fee_type, :miaph) }
-    let(:fee_type_2) { create(:misc_fee_type, :midtw) }
-    let(:uplift_fee_type_1) { create(:misc_fee_type, :miahu) }
-    let(:uplift_fee_type_2) { create(:misc_fee_type, :midwu) }
-  when 'advocate_supplementary_claim'
-    let(:fee_type_1) { create(:misc_fee_type, :midth) }
-    let(:fee_type_2) { create(:misc_fee_type, :midtw) }
-    let(:uplift_fee_type_1) { create(:misc_fee_type, :midhu) }
-    let(:uplift_fee_type_2) { create(:misc_fee_type, :midwu) } 
-  end
+RSpec.shared_context 'seeded fee schemes' do
+  before(:all) { seed_fee_schemes }
+
+  after(:all) { clean_database }
+end
+
+RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
+  let(:midtw) { create(:misc_fee_type, :midtw) }
+  let(:midse) { create(:misc_fee_type, :midse) }
+  let(:midwu) { create(:misc_fee_type, :midwu) }
+  let(:midsu) { create(:misc_fee_type, :midsu) }
   let(:misc_fee) { claim.misc_fees.find_by(fee_type_id: fee_type.id) }
 
   before do
     claim.misc_fees.delete_all
-    create(:misc_fee, fee_type: fee_type_1, claim: claim, quantity: 1, rate: 25.1)
+    create(:misc_fee, fee_type: midtw, claim: claim, quantity: 1, rate: 25.1)
     claim.reload
     claim.form_step = :miscellaneous_fees
   end
@@ -132,14 +130,14 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do |
   it 'test setup' do
     expect(claim.defendants.size).to eql 1
     expect(claim.misc_fees.size).to eql 1
-    expect(claim.misc_fees.first.fee_type).to have_attributes(unique_code: fee_type_1.unique_code)
+    expect(claim.misc_fees.first.fee_type).to have_attributes(unique_code: 'MIDTW')
   end
 
   context 'with 1 defendant' do
     context 'when there are 0 uplifts' do
       it 'test setup' do
         expect(claim.defendants.size).to eql 1
-        expect(claim.misc_fees.map { |f| f.fee_type.unique_code }).to eql([fee_type_1.unique_code])
+        expect(claim.misc_fees.map { |f| f.fee_type.unique_code }).to eql(%w[MIDTW])
       end
 
       it 'should not error' do
@@ -149,12 +147,12 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do |
 
     context 'when there is 1 miscellanoues fee uplift' do
       before do
-        create(:misc_fee, fee_type: uplift_fee_type_1, claim: claim, quantity: 1, amount: 21.01)
+        create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
       end
 
       it 'test setup' do
         expect(claim.defendants.size).to eql 1
-        expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql([fee_type_1.unique_code, uplift_fee_type_1.unique_code].sort)
+        expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIDTW MIDWU])
       end
 
       it 'should error' do
@@ -172,29 +170,33 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do |
       end
     end
 
-    if ['advocate_claim', 'advocate_hardship_claim'].include? options[:claim_type]
-      context 'when there is 1 basic fee uplift' do
+    context 'when there is 1 fixed fee uplift' do
+      let(:claim) { create(:advocate_claim, :with_fixed_fee_case) }
+
+      before do
+        fxsaf = create(:fixed_fee_type, :fxsaf, id: 10000)
+        fxndr = create(:fixed_fee_type, :fxndr, id: 10001)
+        create(:fixed_fee, fee_type: fxsaf, claim: claim, quantity: 1, rate: 21.01)
+        create(:fixed_fee, fee_type: fxndr, claim: claim, quantity: 1, rate: 21.01)
+      end
+
+      it 'test setup' do
+        expect(claim.defendants.size).to eql 1
+        expect(claim.fixed_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[FXNDR FXSAF])
+      end
+
+      it 'should not error' do
+        should_not_error(claim, :base)
+      end
+
+      context 'and form step is fixed fees' do
         before do
-          create(:basic_fee, :ndr_fee, claim: claim, quantity: 1, amount: 21.01)
+          claim.form_step = :fixed_fees
         end
 
-        it 'test setup' do
-          expect(claim.defendants.size).to eql 1
-          expect(claim.basic_fees.map { |f| f.fee_type.unique_code }.sort).to include('BANDR')
-        end
-
-        it 'should not error' do
-          should_not_error(claim, :base)
-        end
-
-        context 'when form step is basic fees' do
-          before do
-            claim.form_step = :basic_fees
-          end
-
-          it 'should error' do
-            should_error_with(claim, :base, 'defendant_uplifts_basic_fees_mismatch')
-          end
+        it 'should error on the uplift fee' do
+          position = claim.fixed_fees.find_index(&:defendant_uplift?) + 1
+          should_error_with(claim, "fixed_fee_#{position}_quantity", 'defendant_uplifts_fixed_fees_mismatch')
         end
       end
     end
@@ -202,19 +204,19 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do |
     context 'with 2 defendants' do
       before do
         create(:defendant, claim: claim)
-        create(:misc_fee, fee_type: fee_type_2, claim: claim, quantity: 1, amount: 21.01)
+        create(:misc_fee, fee_type: midse, claim: claim, quantity: 1, amount: 21.01)
         claim.reload
       end
 
       context 'when there are multiple uplifts of 1 per fee type' do
         before do
-          create(:misc_fee, fee_type: uplift_fee_type_1, claim: claim, quantity: 1, amount: 21.01)
-          create(:misc_fee, fee_type: uplift_fee_type_2, claim: claim, quantity: 1, amount: 21.01)
+          create(:misc_fee, fee_type: midsu, claim: claim, quantity: 1, amount: 21.01)
+          create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
         end
 
         it 'test setup' do
           expect(claim.defendants.size).to eql 2
-          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql([fee_type_1.unique_code, uplift_fee_type_1.unique_code, fee_type_2.unique_code, uplift_fee_type_2.unique_code].sort)
+          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIDSE MIDSU MIDTW MIDWU])
         end
 
         it 'should not error' do
@@ -224,13 +226,13 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do |
 
       context 'when there are multiple uplifts of 2 (or more) per fee type' do
         before do
-          create(:misc_fee, fee_type: uplift_fee_type_1, claim: claim, quantity: 2, amount: 21.01)
-          create(:misc_fee, fee_type: uplift_fee_type_2, claim: claim, quantity: 2, amount: 21.01)
+          create(:misc_fee, fee_type: midsu, claim: claim, quantity: 2, amount: 21.01)
+          create(:misc_fee, fee_type: midwu, claim: claim, quantity: 2, amount: 21.01)
         end
 
         it 'test setup' do
           expect(claim.defendants.size).to eql 2
-          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql([fee_type_1.unique_code, uplift_fee_type_1.unique_code, fee_type_2.unique_code, uplift_fee_type_2.unique_code].sort)
+          expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIDSE MIDSU MIDTW MIDWU])
         end
 
         it 'should add one error only' do
@@ -240,23 +242,23 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do |
       end
     end
 
-    context 'when defendant uplifts fee marked for destruction' do
+    context 'defendant uplifts fee marked for destruction' do
       before do
-        create(:misc_fee, fee_type: uplift_fee_type_1, claim: claim, quantity: 1, amount: 21.01)
+        create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
       end
 
       it 'test setup' do
         expect(claim.defendants.size).to eql 1
-        expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql([fee_type_1.unique_code, uplift_fee_type_1.unique_code].sort)
+        expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIDTW MIDWU])
         expect(claim).to be_invalid
       end
 
       it 'are ignored' do
-        uplift_fee_type_fee = claim.fees.joins(:fee_type).where(fee_types: { unique_code: uplift_fee_type_1.unique_code }).first
+        midwu_fee = claim.fees.joins(:fee_type).where(fee_types: { unique_code: 'MIDWU' }).first
         claim.update(
           :misc_fees_attributes => {
             '0' => {
-              'id' => uplift_fee_type_fee.id,
+              'id' => midwu_fee.id,
               '_destroy' => '1'
             }
           }
@@ -265,16 +267,16 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do |
       end
     end
 
-    context 'when defendants marked for destruction' do
+    context 'defendants marked for destruction' do
       before do
         create(:defendant, claim: claim)
-        create(:misc_fee, fee_type: uplift_fee_type_1, claim: claim, quantity: 1, amount: 21.01)
+        create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
         claim.reload
       end
 
       it 'test setup' do
         expect(claim.defendants.size).to eql 2
-        expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql([fee_type_1.unique_code, uplift_fee_type_1.unique_code].sort)
+        expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIDTW MIDWU])
         expect(claim).to be_valid
       end
 
@@ -288,6 +290,33 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do |
           }
         )
         expect(claim).to be_invalid
+      end
+    end
+  end
+end
+
+RSpec.shared_examples 'common defendant basic fees aggregation validation' do
+  context 'when there is 1 basic fee uplift' do
+    before do
+      create(:basic_fee, :ndr_fee, claim: claim, quantity: 1, amount: 21.01)
+    end
+
+    it 'test setup' do
+      expect(claim.defendants.size).to eql 1
+      expect(claim.basic_fees.map { |f| f.fee_type.unique_code }.sort).to include('BANDR')
+    end
+
+    it 'should not error' do
+      should_not_error(claim, :base)
+    end
+
+    context 'and form step is basic fees' do
+      before do
+        claim.form_step = :basic_fees
+      end
+
+      it 'should error' do
+        should_error_with(claim, :base, 'defendant_uplifts_basic_fees_mismatch')
       end
     end
   end

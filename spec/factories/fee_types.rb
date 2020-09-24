@@ -331,6 +331,22 @@ FactoryBot.define do
         unique_code { 'MIEVI' }
         quantity_is_decimal { false }
       end
+
+      trait :midse do
+        description { 'Deferred sentence hearings' }
+        code { 'DSE' }
+        unique_code { 'MIDSE' }
+        calculated { true }
+        quantity_is_decimal { false }
+      end
+
+      trait :midsu do
+        description { 'Deferred sentence hearings uplift' }
+        code { 'DSU' }
+        unique_code { 'MIDSU' }
+        calculated { true }
+        quantity_is_decimal { false }
+      end
     end
 
     factory :fixed_fee_type, class: Fee::FixedFeeType do

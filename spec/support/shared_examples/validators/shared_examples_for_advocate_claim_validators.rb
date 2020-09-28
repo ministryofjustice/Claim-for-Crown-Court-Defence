@@ -107,7 +107,7 @@ RSpec.shared_examples 'advocate claim supplier number' do
   end
 end
 
-RSpec.shared_context 'seeded fee schemes' do
+RSpec.shared_context 'seed-fee-schemes' do
   before(:all) { seed_fee_schemes }
 
   after(:all) { clean_database }

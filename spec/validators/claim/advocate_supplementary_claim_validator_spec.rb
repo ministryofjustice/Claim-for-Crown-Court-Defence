@@ -4,7 +4,7 @@ require_relative 'shared_examples_for_step_validators'
 
 RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
   include_context "force-validation"
-  include_context 'seeded fee schemes'
+  include_context 'seed-fee-schemes'
 
   let(:claim) { create(:advocate_supplementary_claim) }
 

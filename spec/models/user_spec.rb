@@ -264,4 +264,24 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '#send_devise_notification' do
+    let(:devise_mailer) { instance_double('devise_mailer') }
+    let(:mailer) { instance_double('mailer') }
+
+    before do
+      allow(user).to receive(:devise_mailer).and_return(devise_mailer)
+      allow(devise_mailer).to receive(:send).and_return(mailer)
+      allow(mailer).to receive(:deliver_later)
+      user.send_devise_notification(:my_test_email, :an_arg)
+    end
+
+    it 'passes args through to devise mailer' do
+      expect(devise_mailer).to have_received(:send).with(:my_test_email, user, :an_arg)
+    end
+
+    it 'uses `deliver_later`' do
+      expect(mailer).to have_received(:deliver_later)
+    end
+  end
 end

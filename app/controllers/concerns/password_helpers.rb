@@ -18,13 +18,13 @@ module PasswordHelpers
     end
   end
 
+  # devise mail backgrounding achieved via User#send_devise_notification
   def deliver_reset_password_instructions(user)
     token, enc = Devise.token_generator.generate(user.class, :reset_password_token)
-    user.reset_password_token   = enc
+    user.reset_password_token = enc
     user.reset_password_sent_at = Time.now.utc
     user.save(validate: false)
-    message = DeviseMailer.reset_password_instructions(user, token, current_user.name)
-    message.deliver_later
+    DeviseMailer.reset_password_instructions(user, token, current_user.name)
   rescue StandardError => e
     Rails.logger.error("DEVISE MAILER ERROR: '#{e.message}' while sending reset password mail")
   end

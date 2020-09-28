@@ -1,7 +1,13 @@
 ---
 :logfile: ./log/sidekiq.log
 :queues:
-  - default
-  - mailers
-  - claims
-  - stats_reports
+  - [mailers, 3]
+  - [default, 2]
+  - [claims, 2]
+  - [stats_reports, 1]
+development:
+  :verbose: true
+  :concurrency: 5
+production:
+  :verbose: true
+  :concurrency: 10

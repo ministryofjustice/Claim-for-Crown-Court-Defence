@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: claim-for-crown-court-defence
-  namespace: cccd-staging
+  name: claim-for-crown-court-defence-worker
+  namespace: cccd-production
 spec:
-  replicas: 4
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -13,39 +13,28 @@ spec:
   selector:
     matchLabels:
       app: cccd
+      tier: worker
   template:
     metadata:
       labels:
         app: cccd
+        tier: worker
     spec:
       containers:
-        - name: cccd-app
+        - name: cccd-worker
           imagePullPolicy: Always
           image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:set-me
-          ports:
-            - containerPort: 3000
+          command: ['bundle', 'exec', 'sidekiq']
           readinessProbe:
-            httpGet:
-              path: /ping.json
-              port: 3000
-              httpHeaders:
-                - name: X-Forwarded-Proto
-                  value: https
-                - name: X-Forwarded-Ssl
-                  value: "on"
+            exec:
+              command: ['bundle', 'exec', 'rake', 'worker:healthcheck']
             initialDelaySeconds: 15
-            periodSeconds: 30
+            periodSeconds: 10
           livenessProbe:
-            httpGet:
-              path: /ping.json
-              port: 3000
-              httpHeaders:
-                - name: X-Forwarded-Proto
-                  value: https
-                - name: X-Forwarded-Ssl
-                  value: "on"
+            exec:
+              command: ['bundle', 'exec', 'rake', 'worker:healthcheck']
             initialDelaySeconds: 30
-            periodSeconds: 60
+            periodSeconds: 30
 
           # configMapRef: non-secret env vars defined in `app-config.yaml`
           # secretRef: secret env vars defined by app secrets
@@ -57,6 +46,8 @@ spec:
             - secretRef:
                 name: cccd-secrets
 
+          # secret env vars defined by infrastructure/terraform
+          # WHERE env var name does not match key name
           env:
             - name: DATABASE_URL
               valueFrom:

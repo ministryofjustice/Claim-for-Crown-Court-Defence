@@ -42,9 +42,9 @@ moj.Modules.InterimFeeFieldsDisplay = {
       $.each(elements, function(name, val) {
 
         if (val) {
-          $('.js-interim-' + name).show().removeClass('visually-hidden');
+          $('.js-interim-' + name).show().removeClass('js-hidden');
         } else {
-          $('.js-interim-' + name).hide().find('input, select, textarea').each(function(i, e) {
+          $('.js-interim-' + name).hide().addClass('js-hidden').find('input, select, textarea').each(function(i, e) {
             $(this).val('').prop('checked', false);
           });
         }

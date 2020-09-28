@@ -17,7 +17,7 @@
       / TODO: rename js-interim-classes after interim fee descriptions for clarity
       /
       .form-group
-        .js-interim-ppe.js-fee-calculator-effector.visually-hidden
+        .js-interim-ppe.js-fee-calculator-effector.js-hidden
           = inf.adp_text_field :quantity,
             label: t('.ppe_total'),
             hint_text: t('.ppe_total_hint'),
@@ -26,11 +26,11 @@
             value: fee.quantity, errors: @error_presenter,
             error_key:'interim_fee.quantity'
 
-        .js-interim-effectivePcmh.visually-hidden
+        .js-interim-effectivePcmh.js-hidden
           = f.anchored_without_label 'effective_pcmh_date'
           = f.gov_uk_date_field(:effective_pcmh_date, legend_text: t('.effective_pcmh_date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :effective_pcmh_date))
 
-        .js-interim-retrialDates.visually-hidden
+        .js-interim-retrialDates.js-hidden
           = f.anchored_without_label 'retrial_started_at'
           = f.gov_uk_date_field(:retrial_started_at, legend_text: t('.retrial_started_at'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :retrial_started_at))
 
@@ -41,7 +41,7 @@
             hint_text: t('.number_days_hint'),
             errors: @error_presenter
 
-        .js-interim-trialDates.visually-hidden
+        .js-interim-trialDates.js-hidden
           = f.anchored_without_label 'first_day_of_trial'
           = f.gov_uk_date_field(:first_day_of_trial, legend_text: t('.first_day_of_trial'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :first_day_of_trial))
 
@@ -52,14 +52,14 @@
             hint_text: t('.number_days_hint'),
             errors: @error_presenter
 
-        .js-interim-legalAidTransfer.visually-hidden
+        .js-interim-legalAidTransfer.js-hidden
           = f.anchored_without_label 'legal_aid_transfer_date'
           = f.gov_uk_date_field(:legal_aid_transfer_date, legend_text: t('.legal_aid_transfer_date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :legal_aid_transfer_date))
 
           = f.anchored_without_label 'trial_concluded_at'
           = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_concluded_at))
 
-        .js-interim-warrant.visually-hidden
+        .js-interim-warrant.js-hidden
           .warrant-fee-issued-date-group
             = inf.anchored_attribute 'warrant_issued_date'
             = inf.gov_uk_date_field :warrant_issued_date, legend_text: t('.warrant_issued'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_fee.warrant_issued_date')
@@ -68,7 +68,7 @@
             = inf.anchored_attribute 'warrant_executed_date'
             = inf.gov_uk_date_field :warrant_executed_date, legend_text: t('.warrant_executed'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_fee.warrant_executed_date')
 
-      .js-interim-feeTotal.js-graduated-price-effectee.visually-hidden
+      .js-interim-feeTotal.js-graduated-price-effectee.js-hidden
         .calculated-grad-fee
         = inf.adp_text_field :amount,
           label: t('.amount'),
@@ -86,5 +86,5 @@
     %hr
 
     #disbursements.form-group
-      .js-interim-disbursements.visually-hidden
+      .js-interim-disbursements.js-hidden
         = render partial: 'external_users/claims/disbursements/fields', locals: { f: f }

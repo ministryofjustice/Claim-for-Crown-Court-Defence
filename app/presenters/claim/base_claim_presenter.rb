@@ -132,6 +132,10 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.case_number.blank? ? 'N/A' : claim.case_number
   end
 
+  def formatted_case_number
+    claim.case_number.blank? ? 'N/A' : claim.case_number.scan(/.{1,3}/).join(' ')
+  end
+
   def unique_id
     "##{claim.id}"
   end

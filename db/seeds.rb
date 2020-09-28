@@ -26,6 +26,7 @@ SEED_FILES = %w[
   offences
   scheme_10
   scheme_11
+  scheme_12
   super_admins
   supplier_numbers
   vat_rates

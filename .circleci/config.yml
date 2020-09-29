@@ -57,22 +57,6 @@ references:
         bundle exec rake webpacker:compile
         bundle exec rake jasmine:ci
 
-  _rspec: &rspec
-    run:
-      name: Run rspec tests
-      command: |
-        tmp/cc-test-reporter before-build
-        TESTS=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --timings-type=filename)
-        bundle exec rspec ${TESTS} --format progress --format RspecJunitFormatter -o /tmp/test-results/rspec/rspec.xml
-        tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
-
-  _cucumber: &cucumber
-    run:
-        name: Run cucumber tests
-        command: |
-          FEATURES=$(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings --timings-type=filename)
-          bundle exec cucumber ${FEATURES} --format junit --out /tmp/test-results/cucumber
-
   _install-wkhtmltopdf: &install-wkhtmltopdf
     run:
       name: Install wkhtmltopdf
@@ -149,6 +133,55 @@ executors:
 # COMMANDS
 # ------------------
 commands:
+  run-rspec:
+    description: >
+      Run rspec tests and store results
+    steps:
+      - *attach-tmp-workspace
+      - run:
+          name: Run rspec tests
+          command: |
+            tmp/cc-test-reporter before-build
+            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --timings-type=filename)
+
+            bundle exec rspec --format progress \
+            --format RspecJunitFormatter \
+            -o /tmp/test-results/rspec/rspec.xml \
+            -- ${TESTFILES}
+
+            tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - coverage/codeclimate.*.json
+      - store_artifacts:
+          path: tmp/coverage
+      - store_test_results:
+          path: /tmp/test-results/rspec
+
+  run-cucumber:
+    description: >
+      Run cucumber tests and store results
+    steps:
+      - run:
+          name: Make cucumber test storage dir
+          command: |
+            mkdir -p /tmp/test-results/cucumber
+      - run:
+          name: Run cucumber tests
+          command: |
+            TESFILES=$(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings --timings-type=filename)
+
+            RUBYOPT='-W0' bundle exec cucumber \
+            --format pretty \
+            --format json \
+            --out /tmp/test-results/cucumber/tests.cucumber \
+            -- ${TESFILES}
+      - store_artifacts:
+          path: ~/capybara
+      - store_test_results:
+          path: /tmp/test-results/cucumber
+
   install-gem-dependencies:
     description: >
       Install, or restore from cache, ruby gem dependencies
@@ -303,16 +336,7 @@ jobs:
       - *install-wkhtmltopdf
       - *wait-for-db
       - *load-db
-      - *attach-tmp-workspace
-      - *rspec
-      - persist_to_workspace:
-          root: tmp
-          paths:
-            - coverage/codeclimate.*.json
-      - store_artifacts:
-          path: tmp/coverage
-      - store_test_results:
-          path: /tmp/test-results/rspec
+      - run-rspec
 
   cucumber-tests:
     executor: test-executor
@@ -323,11 +347,7 @@ jobs:
       - *install-wkhtmltopdf
       - *wait-for-db
       - *load-db
-      - *cucumber
-      - store_artifacts:
-          path: tmp/capybara
-      - store_test_results:
-          path: /tmp/test-results/cucumber
+      - run-cucumber
 
   other-tests:
     executor: test-executor

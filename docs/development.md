@@ -1,6 +1,12 @@
 ## Development
 
-### Setting up development environment
+- [Setting up development environment](#setting-up-development-environment)
+- [Sidekiq Console](#sidekiq-console)
+- [Mailer previewing](#mailer-previewing)
+- [Anonymised Database Dumps and restores](#anonymised-database-dumps-and-restores)
+- [A note on architecture](#a-note-on-architecture)
+
+## Setting up development environment
 
 - Install dependencies
 
@@ -79,7 +85,14 @@ See `config/aws.yaml` and note that because we use the [config](https://github.c
 
 ## Sidekiq Console
 
-To run Sidekiq
+To process sidekiq jobs in the *foreground*, in development only, you can set `INLINE_SIDEKIQ` env var to process sidekiq jobs in the foreground. This will output job results (including mail content) to the rails server terminal.
+
+```
+# .env.development
+INLINE_SIDEKIQ=true
+```
+
+To process sidekiq jobs in the *background*, similarly to production, run Sidekiq in a separate terminal.
 
 ```
 bundle exec sidekiq
@@ -91,7 +104,7 @@ To display the current state of the Sidekiq queues, as a logged in superadmin br
 
 With your local rails server running you can browse to ```http://localhost:3000/rails/mailers``` to view a list of current email templates
 
-## Anonymised Database Dumps/restores
+## Anonymised Database Dumps and restores
 
 *WARNING: not working since hosting migration*
 

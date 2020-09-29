@@ -10,3 +10,12 @@
 # https://github.com/mperham/sidekiq/wiki/Using-Redis
 
 Sidekiq.default_worker_options = { retry: 5 }
+
+# Perform Sidekiq jobs immediately in development,
+# so you don't have to run a separate process.
+# You'll also benefit from code reloading.
+if ENV['INLINE_SIDEKIQ'].eql?('true')
+  raise 'Sidekiq must be run using redis in production' unless Rails.env.development?
+  require 'sidekiq/testing'
+  Sidekiq::Testing.inline!
+end

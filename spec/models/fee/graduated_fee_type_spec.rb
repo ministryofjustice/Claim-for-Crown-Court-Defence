@@ -1,18 +1,18 @@
-# == Schema Information
-#
-# Table name: fee_types
-#
-#  id                  :integer          not null, primary key
-#  description         :string
-#  code                :string
-#  created_at          :datetime
-#  updated_at          :datetime
-#  max_amount          :decimal(, )
-#  calculated          :boolean          default(TRUE)
-#  type                :string
-#  roles               :string
-#  parent_id           :integer
-#  quantity_is_decimal :boolean          default(FALSE)
-#  unique_code         :string
-#
+require 'rails_helper'
 
+RSpec.describe Fee::GraduatedFeeType, type: :model do
+  describe '.by_unique_code' do
+    subject { described_class.by_unique_code(fee_type.unique_code) }
+
+    let(:fee_type) { create(:graduated_fee_type, :grtrl) }
+
+    it { is_expected.to eql fee_type }
+
+  end
+
+  describe '#fee_category_name' do
+    subject { described_class.new.fee_category_name }
+
+    it { is_expected.to eql 'Graduated Fees' }
+  end
+end

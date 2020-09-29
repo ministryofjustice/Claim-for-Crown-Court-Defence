@@ -34,8 +34,7 @@ kubernetes_deploy/scripts/cronjob.sh clean_ecr
 
 #### Configuration and secrets
 
-Environment specific configuration and secrets are handled by environment variables. Environment variables and theere values are defined in one of three
-three categories.
+Environment specific configuration and secrets are handled by environment variables. Environment variables and their values fall into one of three categories:
 
 - Non-secret app configuration
 - Secret app configuration

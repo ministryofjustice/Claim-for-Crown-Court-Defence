@@ -11,7 +11,7 @@ RSpec.describe GovukComponent::DetailHelpers, type: :helper do
     end
 
     it 'adds detail without open attribute' do
-      is_expected.not_to have_tag(:details, with: { 'open': 'open' })
+      is_expected.to have_tag(:details, without: { 'open': 'open' })
     end
 
     it 'adds detail govuk data-module' do
@@ -55,7 +55,7 @@ RSpec.describe GovukComponent::DetailHelpers, type: :helper do
     end
 
     context 'with open true' do
-      subject(:markup) { helper.govuk_detail('My detail summary text', true) { 'my content' } }
+      subject(:markup) { helper.govuk_detail('My detail summary text', open: true) { 'my content' } }
 
       it 'adds detail with open attribute' do
         is_expected.to have_tag(:details, with: { 'open': 'open' })
@@ -64,7 +64,7 @@ RSpec.describe GovukComponent::DetailHelpers, type: :helper do
 
     context 'with custom classes' do
       subject(:markup) do
-        helper.govuk_detail('My detail summary text', false, class: 'my-custom-class1 my-custom-class2') do
+        helper.govuk_detail('My detail summary text', class: 'my-custom-class1 my-custom-class2') do
           'my content'
         end
       end

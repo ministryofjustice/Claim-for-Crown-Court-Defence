@@ -9,29 +9,29 @@
     %thead
       %tr
         %th{ scope: 'col' }
-          = sortable 'type', t('.type'), 'aria-label': t('.type_sort_label'), tabindex: 0, id: 'type'
+          = sortable 'type', t('.type'), 'aria-label': t('.type_sort_label'), id: 'type'
 
         %th{ scope: 'col' }
-          = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), tabindex: 0, id: 'case_number'
+          = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), id: 'case_number'
 
         %th{ scope: 'col' }
-          = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), tabindex: 0, id: 'advocate'
+          = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), id: 'advocate'
 
         %th{ scope: 'col' }
           = t('.defendants')
 
         %th.numeric{ scope: 'col' }
-          = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), tabindex: 0, id: 'total_inc_vat'
+          = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), id: 'total_inc_vat'
 
         - if params[:action] == 'archived'
           %th{ scope: 'col' }
-            = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), tabindex: 0, id: 'state'
+            = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), id: 'state'
 
         %th{ scope: 'col' }
-          = sortable 'case_type', t('.case_type'), 'aria-label': t('.case_type_sort_label'), tabindex: 0, id: 'case_type'
+          = sortable 'case_type', t('.case_type'), 'aria-label': t('.case_type_sort_label'), id: 'case_type'
 
         %th.numeric{ scope: 'col' }
-          = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), tabindex: 0, id: 'last_submitted_at'
+          = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), id: 'last_submitted_at'
 
         %th.message-placeholder{ scope: 'col' }
           = t('.messages')
@@ -39,13 +39,13 @@
       %tr.mobile-sort
         %th{ scope: 'col' }
           Sort by:
-          = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), tabindex: 0, id: 'case_number_ms'
-          = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), tabindex: 0, id: 'advocate_ms'
-          = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), tabindex: 0, id: 'total_inc_vat_ms'
+          = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), id: 'case_number_ms'
+          = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), id: 'advocate_ms'
+          = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), id: 'total_inc_vat_ms'
           - if params[:action] == 'archived'
-            = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), tabindex: 0, id: 'state_ms'
-          = sortable 'case_type', t('.case_type'), 'aria-label': t('.case_type_sort_label'), tabindex: 0, id: 'case_type_ms'
-          = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), tabindex: 0, id: 'last_submitted_at_ms'
+            = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), id: 'state_ms'
+          = sortable 'case_type', t('.case_type'), 'aria-label': t('.case_type_sort_label'), id: 'case_type_ms'
+          = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), id: 'last_submitted_at_ms'
       - present_collection(claims).each do |claim|
         %tr{ class: claim.injection_error ? 'error injection-error' : nil }
           %td

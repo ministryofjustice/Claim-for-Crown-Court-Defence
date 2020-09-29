@@ -7,9 +7,11 @@
     .form-group
       = render partial: 'external_users/claims/basic_fees/offence_display', locals: { claim: @claim }
 
-    = f.hidden_field :fee_type_id, value: f.object.fee_type_id, class: 'js-fee-type'
-    = f.label :quantity, 'Fee calculator days', class: 'visually-hidden'
-    = f.text_field :quantity, value: 1, class: 'js-fee-calculator-days visually-hidden'
+    .form-group.visually-hidden{ 'aria-hidden': 'true' }
+      = f.hidden_field :fee_type_id, value: f.object.fee_type_id, class: 'js-fee-type'
+      = f.label :quantity, 'Fee calculator days', class: 'form-label-bold'
+      = f.text_field :quantity, value: 1, class: 'form-control js-fee-calculator-days', readonly: true, tabindex: -1
+
     .js-graduated-price-effectee
       .calculated-grad-fee
       = f.adp_text_field :rate,

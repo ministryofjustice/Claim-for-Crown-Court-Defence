@@ -1,5 +1,10 @@
 ## Build and Deploy
 
+- [circleCI](#circleci)
+- [Kubernetes](#kubernetes)
+- [Cronjobs](#cronjobs)
+- [Container configuration and secrets](#container-configuration-and-secrets)
+
 ### CircleCI
 
 CircleCI is configured such that:
@@ -32,7 +37,7 @@ There are two cronjobs, `clean_ecr` and `archive_stale`. Any change to the `arch
 kubernetes_deploy/scripts/cronjob.sh clean_ecr
 ```
 
-#### Configuration and secrets
+#### Container configuration and secrets
 
 Environment specific configuration and secrets are handled by environment variables. Environment variables and their values fall into one of three categories:
 

@@ -4,9 +4,9 @@ require 'net/https'
 require 'uri'
 
 ENVIRONMENTS = {
-    'dev' => 'dev-adp.dsd.io',
-    'sandbox' => 'api-sandbox-adp.dsd.io',
-    'staging' => 'staging-adp.dsd.io',
+    'dev' => 'dev.claim-crown-court-defence.service.justice.gov.uk',
+    'sandbox' => 'api-sandbox.claim-crown-court-defence.service.justice.gov.uk',
+    'staging' => 'staging.claim-crown-court-defence.service.justice.gov.uk',
     'production' => 'claim-crown-court-defence.service.gov.uk'
 }
 

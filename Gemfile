@@ -8,7 +8,7 @@ gem 'awesome_print'
 gem 'bootsnap', require: false
 gem 'cancancan',              '~> 3.1'
 gem 'cocoon',                 '~> 1.2.15'
-gem 'devise',                 '~> 4.7.2'
+gem 'devise',                 '~> 4.7.3'
 gem 'dotenv-rails'
 gem 'dry-monads',             '~> 1.3.5'
 gem 'factory_bot_rails',      '~> 6.1.0'

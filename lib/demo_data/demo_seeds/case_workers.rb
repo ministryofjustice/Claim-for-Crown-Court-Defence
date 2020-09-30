@@ -1,3 +1,9 @@
+# frozen_string_literal: true
+
+# eager loading in test env could load this file
+# should probably be more fine grained with eager_load_paths
+return if Rails.env.test?
+
 require 'csv'
 require Rails.root.join('db','seed_helper')
 

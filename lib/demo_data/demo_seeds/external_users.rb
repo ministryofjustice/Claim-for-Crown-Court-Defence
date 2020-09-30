@@ -1,3 +1,9 @@
+# frozen_string_literal: true
+
+# eager loading in test env could load this file
+# should probably be more fine grained with eager_load_paths
+return if Rails.env.test?
+
 require Rails.root.join('db','seed_helper')
 
 # NOTE:
@@ -27,8 +33,8 @@ if User.find_by(email: 'advocate@example.com').blank?
     first_name: 'Barry',
     last_name: 'Stir',
     email: 'advocate@example.com',
-    password: ENV['ADVOCATE_PASSWORD'],
-    password_confirmation: ENV['ADVOCATE_PASSWORD'],
+    password: ENV.fetch('ADVOCATE_PASSWORD'),
+    password_confirmation: ENV.fetch('ADVOCATE_PASSWORD'),
   )
 
   external_user = ExternalUser.new(roles: ['advocate'], supplier_number: '11AAA', provider_id: provider.id)
@@ -41,8 +47,8 @@ if User.find_by(email: 'advocateadmin@example.com').blank?
     first_name: 'Advo',
     last_name: 'Kate-Admin',
     email: 'advocateadmin@example.com',
-    password: ENV['ADMIN_PASSWORD'],
-    password_confirmation: ENV['ADMIN_PASSWORD']
+    password: ENV.fetch('ADMIN_PASSWORD'),
+    password_confirmation: ENV.fetch('ADMIN_PASSWORD')
   )
 
   external_user = ExternalUser.new(roles: ['admin'], provider_id: provider.id)

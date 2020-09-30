@@ -52,7 +52,13 @@ Rails.application.configure do
   # Do not eager load code on boot. This avoids loading your whole application
   # just for the purpose of running a single test. If you are using a tool that
   # preloads Rails for running tests, you may have to set it to true.
-  config.eager_load = false
+  # ----------------------------------------------------------------
+  # Setting to true to avoid LoadError problems for which i can find
+  # no other solution. Specifically the cucumber test suite encounters
+  # `<LoadError: Unable to autoload constant ExternalUsers::Fees::PricesController...`
+  # if not eagerloaded. Need to look at excluding some lib folders and ensuring
+  # we are using Zeitwork mode really.
+  config.eager_load = true
 
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true

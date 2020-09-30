@@ -70,16 +70,11 @@ After do |scenario|
   # future
   #
   Capybara.current_session.driver.tap do |driver|
-    puts browser_logs(driver).red if scenario.failed?
     driver.quit if driver.respond_to?(:quit)
   end
 
   # undo any time travel set by scenario
   travel_back
-end
-
-def browser_logs(driver)
-  "Browser logs:\n" << driver.browser.manage.logs.get(:browser).map(&:to_s).join("\n")
 end
 
 at_exit do

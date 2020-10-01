@@ -74,6 +74,7 @@ references:
 # ------------------
 executors:
   basic-executor:
+    resource_class: small
     docker:
       - image: cimg/base:2020.01
         environment:
@@ -81,6 +82,7 @@ executors:
           REPO_NAME: cccd
 
   cloud-platform-executor:
+    resource_class: small
     docker:
     - image: ${ECR_ENDPOINT}/cloud-platform/tools:circleci
       environment:
@@ -88,6 +90,7 @@ executors:
         REPO_NAME: cccd
 
   smoke-test-executor:
+    resource_class: medium
     working_directory: /usr/src/app
     docker:
       - image: ${ECR_ENDPOINT}/laa-get-paid/cccd:app-latest
@@ -329,8 +332,8 @@ jobs:
 
   rspec-tests:
     executor: test-executor
+    resource_class: large
     parallelism: 6
-    resource_class: medium+
     steps:
       - checkout
       - build-base
@@ -341,6 +344,7 @@ jobs:
 
   cucumber-tests:
     executor: test-executor
+    resource_class: medium
     parallelism: 4
     steps:
       - checkout
@@ -352,6 +356,7 @@ jobs:
 
   other-tests:
     executor: test-executor
+    resource_class: small
     steps:
       - checkout
       - build-base
@@ -361,6 +366,7 @@ jobs:
 
   upload-coverage:
     executor: test-executor
+    resource_class: small
     steps:
       - *attach-tmp-workspace
       - run:

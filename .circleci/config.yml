@@ -330,6 +330,7 @@ jobs:
   rspec-tests:
     executor: test-executor
     parallelism: 6
+    resource_class: medium+
     steps:
       - checkout
       - build-base

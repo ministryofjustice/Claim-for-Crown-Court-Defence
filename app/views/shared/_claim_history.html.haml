@@ -8,12 +8,13 @@
 .messages-container.no-print
   .messages-list{ 'aria-label': t('shared.claim_accordion.h2_messages'), role: 'region', tabindex: 0 }
     = render partial: 'shared/history_items_list', locals: { claim: claim }
+
   .messages-print-link
     = govuk_link_to t('.print_messages'), open_messages_url
-  .message-status
-    = t('.status')
-    %span.message-success
-    %span.message-error
+
+  .govuk-grid-row.message-status{ class: 'govuk-!-margin-0', role: 'status' }
+    .govuk-grid-column-full.message-success
+    .govuk-grid-column-full.message-error
 
   - if show_message_controls?(claim)
     .js-controls.message-controls{ 'data-auth-url': message_controls_url }

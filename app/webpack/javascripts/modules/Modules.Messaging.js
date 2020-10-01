@@ -28,7 +28,6 @@ moj.Modules.Messaging = {
     if(status === true){
       $('.message-success').text(rorData.statusMessage);
       adpMsg.clearErrorMsg();
-      adpMsg.toggleStatusBar();
 
       adpMsg.clearUserMessageBody();
       $('.no-messages').hide();
@@ -39,24 +38,9 @@ moj.Modules.Messaging = {
     }else{
       $('.message-error').text(rorData.statusMessage);
       adpMsg.clearSuccessMsg();
-      adpMsg.toggleStatusBar();
     }
   },
-  /**********************************
-   Toggles the show/hide of Message status
-   **********************************/
-  //toggleStatusBar
-  toggleStatusBar : function(){
-    //Slide in the status
-    $('.message-status')
-        .animate({left:'0px'},{
-          complete : function(){
-            setTimeout(function(){
-              $('.message-status').animate({left: '-9999px'});
-            },5000);
-          }
-        });
-  },
+
   /**********************************
    Clear the User message so they can
    input another message

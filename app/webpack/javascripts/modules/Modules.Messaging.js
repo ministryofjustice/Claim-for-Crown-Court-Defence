@@ -26,9 +26,13 @@ moj.Modules.Messaging = {
 
     //if successful
     if(status === true){
-      $('.message-success').text(rorData.statusMessage);
-      adpMsg.clearErrorMsg();
-      adpMsg.toggleStatusBar();
+      $('.message-column').removeClass('govuk-form-group--error');
+      $('.govuk-textarea').removeClass('govuk-textarea--error');
+
+      $('.message-status p')
+        .removeClass()
+        .addClass('message-success')
+        .text(rorData.statusMessage);
 
       adpMsg.clearUserMessageBody();
       $('.no-messages').hide();
@@ -37,26 +41,16 @@ moj.Modules.Messaging = {
       this.messagesList.html(rorData.sentMessage).scrollTop(this.messagesList.prop('scrollHeight'));
     //If there was an error
     }else{
-      $('.message-error').text(rorData.statusMessage);
-      adpMsg.clearSuccessMsg();
-      adpMsg.toggleStatusBar();
+      $('.message-column').addClass('govuk-form-group--error');
+      $('.govuk-textarea').addClass('govuk-textarea--error');
+
+      $('.message-status p')
+        .removeClass()
+        .addClass('message-error')
+        .text(rorData.statusMessage);
     }
   },
-  /**********************************
-   Toggles the show/hide of Message status
-   **********************************/
-  //toggleStatusBar
-  toggleStatusBar : function(){
-    //Slide in the status
-    $('.message-status')
-        .animate({left:'0px'},{
-          complete : function(){
-            setTimeout(function(){
-              $('.message-status').animate({left: '-9999px'});
-            },5000);
-          }
-        });
-  },
+
   /**********************************
    Clear the User message so they can
    input another message
@@ -64,18 +58,7 @@ moj.Modules.Messaging = {
   clearUserMessageBody : function(){
     $('#message_body').val('');
   },
-  /*********************************
-   Clear Error Message
-   *********************************/
-  clearErrorMsg : function(){
-    $('.message-error').text('');
-  },
-  /*********************************
-   Clear success Message
-   *********************************/
-  clearSuccessMsg : function(){
-    $('.message-success').text('');
-  },
+
   /********************************
    Upload button functionality
    ********************************/

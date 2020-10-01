@@ -36,6 +36,8 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
       | miscellaneous | Deferred sentence hearings |
       | miscellaneous | Deferred sentence hearings uplift |
       | miscellaneous | Plea and trial preparation hearing |
+      | miscellaneous | Sentence hearings |
+      | miscellaneous | Sentence hearings uplift |
       | miscellaneous | Special preparation fee |
       | miscellaneous | Standard appearance fee |
       | miscellaneous | Standard appearance fee uplift |

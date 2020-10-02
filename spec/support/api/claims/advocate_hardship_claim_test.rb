@@ -42,7 +42,7 @@ class AdvocateHardshipClaimTest < BaseClaimTest
     advocate_category = json_value_at_index(client.get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT, api_key))
     offence_id = json_value_at_index(client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key), 'id')
     court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
-   
+
     {
       "api_key": api_key,
       "creator_email": 'advocateadmin@example.com',
@@ -53,7 +53,11 @@ class AdvocateHardshipClaimTest < BaseClaimTest
       "first_day_of_trial": '2020-04-01',
       "estimated_trial_length": 1,
       "actual_trial_length": 1,
-      "trial_concluded_at": '2020-04-02',
+      "trial_concluded_at": '2020-04-20',
+      "trial_fixed_notice_at": '2020-04-02',
+      "trial_fixed_at": '2020-04-04',
+      "trial_cracked_at": '2020-04-06',
+      "trial_cracked_at_third": 'first_third',
       "advocate_category": advocate_category,
       "offence_id": offence_id,
       "court_id": court_id,

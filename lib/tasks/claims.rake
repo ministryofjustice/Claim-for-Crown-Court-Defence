@@ -47,10 +47,12 @@ namespace :claims do
 
   desc 'Creates sample users'
   task :sample_users => :environment do
-    %w(external_users case_workers).each do |seed|
-      puts "Seeding '#{seed}'..."
-      load File.join(Rails.root, 'lib', 'demo_data', 'demo_seeds', "#{seed}.rb")
-    end
+    require File.join(Rails.root, 'lib', 'demo_data', 'external_user_seeder')
+    require File.join(Rails.root, 'lib', 'demo_data', 'case_worker_seeder')
+    print 'Seeding sample users...'
+    DemoData::ExternalUserSeeder.run
+    DemoData::CaseWorkerSeeder.run
+    puts 'done'.green
   end
 
   desc 'ADP Task: Loads dummy claims'

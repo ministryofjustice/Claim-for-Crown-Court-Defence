@@ -562,7 +562,9 @@ moj.Helpers.Blocks = {
 
       $detached = this.radioStateManager($detached, state);
 
-      return $parent.append($detached);
+      $parent.append($detached);
+
+      return $parent.find('.fx-travel-expense-type select').focus();
     };
 
     /**

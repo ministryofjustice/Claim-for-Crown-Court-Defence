@@ -38,8 +38,8 @@
           = advocate.send_email_notification_of_message? ? t('.option_yes') : t('.option_no')
         %td.user-controls{ 'data-label': t('.actions') }
           - if advocate.active?
-            = govuk_link_to t('.edit'),  edit_external_users_admin_external_user_path(advocate)
+            = govuk_link_to t('.edit_html', context: advocate.name), edit_external_users_admin_external_user_path(advocate)
             = ' | '
-            = govuk_link_to t('.delete'), external_users_admin_external_user_path(advocate), method: :delete, data: { confirm: t('.confirmation') }
+            = govuk_link_to t('.delete_html', context: advocate.name), external_users_admin_external_user_path(advocate), method: :delete, data: { confirm: t('.confirmation') }
           - else
             Inactive

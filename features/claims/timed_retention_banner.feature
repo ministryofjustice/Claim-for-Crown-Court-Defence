@@ -8,7 +8,7 @@ Feature: A timed retention banner will appear on the claims list, until the user
 
     Then The timed retention banner is visible
     Then the page should be accessible within "#content"
-    When I click the link 'Do not show this message again'
+    When I click the link 'Do not show time-limited retention information again'
     Then The timed retention banner is not visible
     When I click 'Your claims' link
     Then The timed retention banner is not visible

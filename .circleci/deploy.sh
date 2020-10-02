@@ -10,6 +10,10 @@ function _circleci_deploy() {
     deploy.sh dev
     "
 
+  # exit when any command fails
+  set -e
+  trap 'echo command at lineno $LINENO completed with exit code $?.' EXIT
+
   if [[ -z "${ECR_ENDPOINT}" ]] || \
       [[ -z "${GIT_CRYPT_KEY}" ]] || \
       [[ -z "${AWS_DEFAULT_REGION}" ]] || \
@@ -85,6 +89,10 @@ function _circleci_deploy() {
 
   kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag via CircleCI"
   kubectl annotate deployments/claim-for-crown-court-defence-worker kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag via CircleCI"
+
+  # wait for rollout to succeed or fail/timeout
+  kubectl rollout status deployments/claim-for-crown-court-defence
+  kubectl rollout status deployments/claim-for-crown-court-defence-worker
 }
 
 _circleci_deploy $@

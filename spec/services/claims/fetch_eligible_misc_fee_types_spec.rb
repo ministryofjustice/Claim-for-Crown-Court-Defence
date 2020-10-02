@@ -269,11 +269,17 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
       context 'with supplementary claim' do
         subject(:call) { described_class.new(claim).call.map(&:unique_code) }
 
+        let(:supplementary_fee_types) do
+          %w[MISAF MISAU MIPCM MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU MISHR MISHU]
+        end
+
+        let(:clar_fee_types) { %w[MIPHC MIUMU MIUMO] }
+
         context 'when scheme 9 claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_9, with_misc_fee: false) }
 
           it 'returns only misc fee types for AGFS scheme 9 supplementary claims' do
-            is_expected.to match_array %w[MISAF MISAU MIPCM MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU]
+            is_expected.to match_array supplementary_fee_types
           end
         end
 
@@ -281,15 +287,15 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_10, with_misc_fee: false) }
 
           it 'returns only misc fee types for AGFS scheme 10+ supplementary claims' do
-            is_expected.to match_array %w[MISAF MISAU MIPCM MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU]
+            is_expected.to match_array supplementary_fee_types
           end
         end
 
-        context 'when scheme 12 claim' do
+        context 'when CLAR scheme 12 claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_12, with_misc_fee: false, case_type: nil) }
 
-          it 'returns misc fee types for AGFS scheme 12 with supplementary-only fee types' do
-            is_expected.to match_array %w[MISAF MISAU MIPCM MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU MIPHC MIUMU MIUMO]
+          it 'returns misc fee types for AGFS scheme 12 supplementary claims' do
+            is_expected.to match_array(supplementary_fee_types + clar_fee_types)
           end
         end
       end

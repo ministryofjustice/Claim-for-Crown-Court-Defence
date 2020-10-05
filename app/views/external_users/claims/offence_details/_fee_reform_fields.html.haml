@@ -15,7 +15,7 @@
 
         .form-group
           %input.button.left.btn-spacer-20{ name: 'commit_continue', type: 'submit', value: 'Save and continue' }
-          %a.fx-clear-selection{ href: '#' }
+          %a.fx-clear-selection{ href: '#', 'aria-label': t('clear_offence_details', scope: "#{locale_scope}.actions") }
             = t('clear_selection', scope: "#{locale_scope}.actions")
 
 .form-group.mod-search-input

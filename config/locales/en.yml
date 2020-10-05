@@ -701,8 +701,10 @@ en:
           advocates: 'Users'
           add_advocate: 'Add User'
           edit: *edit
+          edit_html: Edit <span class="govuk-visually-hidden">user %{context}</span>
           email: 'Email'
           delete: *delete
+          delete_html: Delete <span class="govuk-visually-hidden">user %{context}</span>
           confirm_delete: 'Are you sure?'
           first_name: 'Name'
           last_name: 'Surname'
@@ -1111,6 +1113,7 @@ en:
           answer_no: *global_no
       offence_details:
         actions:
+          clear_offence_details: Clear offence details
           clear_selection: Clear selection
         fields:
           offence_band: Band
@@ -2728,3 +2731,17 @@ en:
       comment_hint: "Don't include any personal or sensitive information."
       send: Send
       rating: 'Overall, how satisfied were you with this service?'
+
+  callout_banner:
+    api_promo_hide_banner: Do not show API information again
+    api_promo_information_html:
+      You may be able to create claims without re-typing. <a class="govuk-link" href="%{href}">Read more on API information</a>.
+    api_promo_warning_text: Do you use a case management system?
+
+    hardship_hide_banner: Do not show hardship claims information again
+    hardship_information: More information on hardship claims
+    hardship_warning_text: The amended arrangements for hardship claims are being introduced from 1st May 2020.
+
+    time_retention_hide_banner: Do not show time-limited retention information again
+    time_retention_information: More information on time-limited retention
+    time_retention_warning_text: Time-limited retention of claims is being introduced from 19th September 2016.

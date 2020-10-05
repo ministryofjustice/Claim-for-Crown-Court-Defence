@@ -11,7 +11,7 @@ Feature: A hardship claims banner will appear on the claims list, until the user
     Then The hardship claims banner is visible
     And the page should be accessible within "#content"
 
-    When I click the link 'Do not show this message again'
+    When I click the link 'Do not show hardship claims information again'
     Then The hardship claims banner is not visible
 
     When I click the link 'Home'

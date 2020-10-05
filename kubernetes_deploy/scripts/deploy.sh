@@ -19,6 +19,12 @@ function _deploy() {
     deploy.sh dev <commit-sha>
     "
 
+  # exit when any command fails, keep track of the last for output
+  # https://intoli.com/blog/exit-on-errors-in-bash-scripts/
+  set -e
+  trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
+  trap 'echo "\"${last_command}\" command completed with exit code $?."' EXIT
+
   if [ $# -gt 2 ]
   then
     echo "$usage"
@@ -87,6 +93,10 @@ function _deploy() {
   #
   kubectl rollout restart deployments/claim-for-crown-court-defence
   kubectl rollout restart deployments/claim-for-crown-court-defence-worker
+
+  # wait for rollout to succeed or fail/timeout
+  kubectl rollout status deployments/claim-for-crown-court-defence --timeout=600s
+  kubectl rollout status deployments/claim-for-crown-court-defence-worker --timeout=600s
 }
 
 _deploy $@

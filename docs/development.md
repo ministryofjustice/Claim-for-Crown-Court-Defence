@@ -2,6 +2,7 @@
 
 - [Setting up development environment](#setting-up-development-environment)
 - [Sidekiq Console](#sidekiq-console)
+- [Scheduler daemon](#scheduler-daemon)
 - [Mailer previewing](#mailer-previewing)
 - [Anonymised Database Dumps and restores](#anonymised-database-dumps-and-restores)
 - [A note on architecture](#a-note-on-architecture)
@@ -99,6 +100,17 @@ bundle exec sidekiq
 ```
 
 To display the current state of the Sidekiq queues, as a logged in superadmin browse to `/sidekiq`
+
+## Scheduler daemon
+
+To process scheduler daemon jobs in development run the scheduler in a terminal and set the relevant scheduler "task" to run regularly (see [scheduled_tasks](../scheduled_tasks) directory)
+
+see [schedular_daemon](https://github.com/ssoroka/scheduler_daemon) for details.
+
+```
+# run scheduler daemon in console mode
+bundle exec scheduler_daemon run
+```
 
 ## Mailer previewing
 

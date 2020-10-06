@@ -5,9 +5,10 @@ class ManagementInformationGenerationTask < Scheduler::SchedulerTask
   every '1d', first_at: Chronic.parse('next 3 am')
 
   def run
-    log('Management Information Generation started')
+    LogStuff.info { 'Management Information Generation started' }
     Stats::StatsReportGenerator.call('management_information')
+    LogStuff.info { 'Management Information Generation finished' }
   rescue StandardError => e
-    log('Management Information Generation error: ' + e.message)
+    LogStuff.error { 'Management Information Generation error: ' + e.message }
   end
 end

@@ -37,9 +37,7 @@ module Stats
         csv << headers
         active_non_draft_claims.find_each do |claim|
           ManagementInformationPresenter.new(claim, 'view').present! do |claim_journeys|
-            if claim_journeys.any?
-              claim_journeys.each { |journey| csv << journey }
-            end
+            claim_journeys.each { |journey| csv << journey } if claim_journeys.any?
           end
         end
       end
@@ -51,15 +49,15 @@ module Stats
 
     def log_error(error)
       LogStuff.error(class: self.class.name,
-                     action: caller_locations(1,1)[0].label,
+                     action: caller_locations(1, 1)[0].label,
                      error_message: "#{error.class} - #{error.message}",
                      error_backtrace: error.backtrace.inspect.to_s) do
-                      'MI Report generation error'
-                    end
+                       'MI Report generation error'
+                     end
     end
 
     def log_info(message)
-      LogStuff.info(class: self.class.name, action: caller_locations(1,1)[0].label) { message }
+      LogStuff.info(class: self.class.name, action: caller_locations(1, 1)[0].label) { message }
     end
   end
 end

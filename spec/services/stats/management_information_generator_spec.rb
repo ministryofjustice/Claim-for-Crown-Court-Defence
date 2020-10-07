@@ -26,7 +26,7 @@ RSpec.describe Stats::ManagementInformationGenerator do
                           'AF1/LF1 processed by',
                           'Misc fees'] }
 
-  context 'data generation' do
+  context 'when generating data' do
     subject(:contents) { result.content.split("\n")}
 
     let!(:valid_claims) {
@@ -48,25 +48,25 @@ RSpec.describe Stats::ManagementInformationGenerator do
     end
   end
 
-  context 'logging' do
-    let!(:error) { StandardError.new('test error') }
+  context 'For logging' do
+    let(:error) { StandardError.new('test error') }
 
-    it 'can log info using LogStuff' do
-      expect(LogStuff).to receive(:send)
-      .with(:info, 'Report generation started...')
-      described_class.call
+    context 'when successful' do
+      it 'uses LogStuff to log start and end' do
+        expect(LogStuff).to receive(:info).twice
+        described_class.call
+      end
     end
 
-    it 'can log errors with LogStuff' do
-      expect(LogStuff).to receive(:send)
-      .with(
-        :error,
-        'Stats::ManagementInformationGenerator',
-        error_message: "#{error.class} - #{error.message}",
-        error_backtrace: error.backtrace.inspect.to_s) do
-          'MI Report generation error'
-        end
-      described_class.new.send(:log_error, error)
+    context 'when error raised' do
+      before do
+        allow(CSV).to receive(:generate).and_raise error
+      end
+
+      it 'uses LogStuff to log error' do
+        expect(LogStuff).to receive(:error).once
+        described_class.call
+      end
     end
   end
 end

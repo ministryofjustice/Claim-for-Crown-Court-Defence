@@ -71,7 +71,7 @@ module Caching
     end
 
     def save!(response)
-      ttl = (response.ttl || default_ttl).to_i
+      ttl = (response.headers[:cache_control]=='no-cache' ? 0 : default_ttl)
       body = response.body
       payload = [now, ttl, body].join(';')
 

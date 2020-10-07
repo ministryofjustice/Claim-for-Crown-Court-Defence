@@ -38,30 +38,30 @@ RSpec.describe Stats::ManagementInformationGenerator do
     }
     let!(:draft_claim) { create(:draft_claim) }
     let!(:non_active_claim) { Timecop.freeze(frozen_time) { create(:allocated_claim) } }
-    
+
     it 'returns CSV content with a header and a row for all active non-draft claims' do
       expect(contents.size).to eq(valid_claims.size + 1)
     end
-    
+
     it 'has expected columns' do
       expect(contents.first.split(',')).to match_array(report_columns)
     end
   end
-  
+
   context 'logging' do
     let!(:error) { StandardError.new('test error') }
 
     it 'can log info using LogStuff' do
       expect(LogStuff).to receive(:send)
       .with(:info, 'Report generation started...')
-      described_class.call 
+      described_class.call
     end
-    
+
     it 'can log errors with LogStuff' do
       expect(LogStuff).to receive(:send)
       .with(
-        :error, 
-        'Stats::ManagementInformationGenerator', 
+        :error,
+        'Stats::ManagementInformationGenerator',
         error_message: "#{error.class} - #{error.message}",
         error_backtrace: error.backtrace.inspect.to_s) do
           'MI Report generation error'
@@ -69,5 +69,4 @@ RSpec.describe Stats::ManagementInformationGenerator do
       described_class.new.send(:log_error, error)
     end
   end
-  
 end

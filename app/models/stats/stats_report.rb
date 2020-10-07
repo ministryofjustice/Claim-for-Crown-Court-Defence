@@ -53,7 +53,7 @@ module Stats
     end
 
     def write_report(report_result)
-      log(:info, :write_report, "start writing report #{report_name}...")
+      log(:info, :write_report, "Writing report #{report_name} to DB...")
       update(
         document: StringIO.new(report_result.content),
         document_file_name: "#{report_name}_#{started_at.to_s(:number)}.#{report_result.format}",
@@ -76,7 +76,6 @@ module Stats
     end
 
     def download_filename
-      # TODO: set the appropriate format as required
       "#{report_name}_#{started_at.to_s(:number)}.csv"
     end
 

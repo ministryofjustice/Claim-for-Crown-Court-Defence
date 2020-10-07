@@ -38,7 +38,7 @@ Rails.application.configure do
   # log to stdout
   # config.logstasher.logger_path = config.logstasher.logger = Logger.new(STDOUT)
 
-  jsonlogger = LogStuff.new_logger("#{Rails.root}/log/logstash_development.log", Logger::INFO)
+  jsonlogger = LogStuff.new_logger("#{Rails.root}/log/logstash_test.log", Logger::INFO)
   config.logstasher.source = 'ccd_test'
   # Reuse logstasher logger with logstuff
   LogStuff.setup(:logger => jsonlogger)

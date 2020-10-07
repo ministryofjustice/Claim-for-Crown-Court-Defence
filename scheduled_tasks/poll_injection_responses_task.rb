@@ -2,7 +2,7 @@ require 'chronic'
 
 # https://github.com/ssoroka/scheduler_daemon
 class PollInjectionResponsesTask < Scheduler::SchedulerTask
-  environments :production, :demo
+  environments :production
   every '1m'
 
   def run

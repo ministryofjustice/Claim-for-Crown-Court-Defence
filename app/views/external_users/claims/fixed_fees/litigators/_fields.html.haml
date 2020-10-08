@@ -43,8 +43,10 @@
         = govuk_detail t('.help_how_we_calculate_rate_title') do
           = t('.help_how_we_calculate_rate_body')
 
-      .form-group
-        %label.form-label-bold
-          = t('.amount')
-        .fee-net-amount.total
-          = fee.amount || number_to_currency(0)
+      .cccd-summary-list
+        %dl.govuk-summary-list
+          .govuk-summary-list__row
+            %dt.govuk-summary-list__key
+              = t('.amount')
+            %dd.govuk-summary-list__value.fee-net-amount.total
+              = fee.amount || number_to_currency(0)

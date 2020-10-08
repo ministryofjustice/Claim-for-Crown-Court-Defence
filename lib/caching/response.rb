@@ -16,7 +16,7 @@ module Caching
     end
 
     def ttl
-      cache_control[/max-age=([0-9]+)/, 1]
+      cache_control[/max-age=([0-9]+)/, 1] || 0 if cache_control == 'no-cache'
     end
 
     private

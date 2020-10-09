@@ -16,10 +16,14 @@ module Caching
     end
 
     def ttl
-      cache_control[/max-age=([0-9]+)/, 1] || 0 if cache_control == 'no-cache'
+      max_age.to_i
     end
 
     private
+
+    def max_age
+      cache_control[/max-age=([0-9]+)/, 1] || 0
+    end
 
     def cache_control
       headers[:cache_control] || ''

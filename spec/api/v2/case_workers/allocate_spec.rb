@@ -83,5 +83,11 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
         expect(body[:errors][1]).to match /Claim .* has already been allocated/
       end
     end
+
+    context 'caching' do
+      it 'should not cache response' do
+        expect(last_response.headers['Cache-Control'][/max-age=([0-9]+)/, 1]).to eq '0'
+      end
+    end
   end
 end

@@ -16,6 +16,7 @@ module Caching
     end
 
     def ttl
+      return 0 if cache_control.match?('no-cache')
       cache_control[/max-age=([0-9]+)/, 1]
     end
 
